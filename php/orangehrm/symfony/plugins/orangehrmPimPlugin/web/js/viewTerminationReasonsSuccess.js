@@ -52,6 +52,10 @@ function executeLoadtimeActions() {
     $('table.data-table tbody tr:odd').addClass('odd');
     $('table.data-table tbody tr:even').addClass('even');
     
+    if (recordsCount == 0) {
+        $('#recordsListTable td.check').hide();
+    }    
+    
 }
 
 function loadCheckboxBehavior() {
@@ -128,7 +132,10 @@ function loadEditForm() {
         $('#'+recordKeyId).val(row.find('input.checkbox:first').val());
         
         _clearErrorMessages();
-        
+
+        $('#recordsListTable td.check').hide();
+        $('#listActions').hide();
+
     });
     
 } 
@@ -142,6 +149,12 @@ function loadCancelButtonBehavior() {
         $('#recordsListTable td.check').show();
         
         _addRecordLinks();
+
+        $('#listActions').show();
+        
+        if (recordsCount == 0) {
+            $('#recordsListTable td.check').hide();
+        }         
         
     });
     

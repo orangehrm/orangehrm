@@ -93,6 +93,14 @@
                     
                     <?php endforeach; ?>
                     
+                    <?php if (count($records) == 0) : ?>
+                    <tr>
+                        <td>
+                            <?php echo __('No records to display'); ?>
+                        </td>
+                    </tr>
+                    <?php endif; ?>
+                    
                 </tbody>
             </table>
         </form>
