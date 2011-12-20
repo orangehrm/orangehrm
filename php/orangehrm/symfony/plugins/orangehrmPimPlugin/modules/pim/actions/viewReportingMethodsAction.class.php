@@ -73,16 +73,25 @@ class viewReportingMethodsAction extends sfAction {
 		}
         
     }
-
+    
     protected function _checkDuplicateEntry() {
 
         $id = $this->form->getValue('id');
-
-        if (empty($id) && $this->getReportingMethodService()->isExistingReportingMethodName($this->form->getValue('name'))) {
+        $object = $this->getReportingMethodService()->getReportingMethodByName($this->form->getValue('name'));
+        
+        if ($object instanceof ReportingMethod) {
+            
+            if (!empty($id) && $id == $object->getId()) {
+                return false;
+            }
+            
             $this->getUser()->setFlash('templateMessage', array('WARNING', __('Reporting Method Name Exists')));
-            $this->redirect('pim/viewReportingMethods');
+            $this->redirect('pim/viewReportingMethods');            
+            
         }
+        
+        return false;
 
-    }
+    }    
     
 }

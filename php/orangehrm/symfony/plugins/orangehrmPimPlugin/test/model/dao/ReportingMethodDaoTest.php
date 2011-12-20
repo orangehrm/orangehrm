@@ -115,4 +115,27 @@ class ReportingMethodDaoTest extends PHPUnit_Framework_TestCase {
         
     }
     
+    public function testGetReportingMethodByName() {
+        
+        $object = $this->reportingMethodDao->getReportingMethodByName('Indirect');
+        $this->assertTrue($object instanceof ReportingMethod);
+        $this->assertEquals(1, $object->getId());
+        
+        $object = $this->reportingMethodDao->getReportingMethodByName('INDIRECT');
+        $this->assertTrue($object instanceof ReportingMethod);
+        $this->assertEquals(1, $object->getId());
+        
+        $object = $this->reportingMethodDao->getReportingMethodByName('indirect');
+        $this->assertTrue($object instanceof ReportingMethod);
+        $this->assertEquals(1, $object->getId());
+
+        $object = $this->reportingMethodDao->getReportingMethodByName('  Indirect  ');
+        $this->assertTrue($object instanceof ReportingMethod);
+        $this->assertEquals(1, $object->getId());
+        
+        $object = $this->reportingMethodDao->getReportingMethodByName('Supervisor');
+        $this->assertFalse($object);        
+        
+    }      
+    
 }

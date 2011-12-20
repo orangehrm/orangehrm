@@ -63,6 +63,19 @@ class ReportingMethodService extends BaseService {
     public function getReportingMethodById($id) {
         return $this->getReportingMethodDao()->getReportingMethodById($id);
     }
+    
+    /**
+     * Retrieves a reporting method by name
+     * 
+     * Case insensitive
+     * 
+     * @version 2.6.12 
+     * @param string $name 
+     * @return ReportingMethod An instance of ReportingMethod or false
+     */    
+    public function getReportingMethodByName($name) {
+        return $this->getReportingMethodDao()->getReportingMethodByName($name);
+    }     
   
     /**
      * Retrieves all reportingMethods ordered by name
