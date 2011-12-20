@@ -77,12 +77,21 @@ class viewLicensesAction extends sfAction {
     protected function _checkDuplicateEntry() {
 
         $id = $this->form->getValue('id');
-
-        if (empty($id) && $this->getLicenseService()->isExistingLicenseName($this->form->getValue('name'))) {
+        $object = $this->getLicenseService()->getLicenseByName($this->form->getValue('name'));
+        
+        if ($object instanceof License) {
+            
+            if (!empty($id) && $id == $object->getId()) {
+                return false;
+            }
+            
             $this->getUser()->setFlash('templateMessage', array('WARNING', __('License Name Exists')));
-            $this->redirect('admin/viewLicenses');
+            $this->redirect('admin/viewLicenses');            
+            
         }
+        
+        return false;
 
-    }
+    }    
     
 }

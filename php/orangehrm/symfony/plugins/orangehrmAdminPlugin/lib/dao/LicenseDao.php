@@ -39,6 +39,22 @@ class LicenseDao extends BaseDao {
         
     }
     
+    public function getLicenseByName($name) {
+        
+        try {
+            
+            $q = Doctrine_Query::create()
+                                ->from('License')
+                                ->where('name = ?', trim($name));
+            
+            return $q->fetchOne();
+            
+        } catch (Exception $e) {
+            throw new DaoException($e->getMessage(), $e->getCode(), $e);
+        }
+        
+    }    
+    
     public function getLicenseList() {
         
         try {

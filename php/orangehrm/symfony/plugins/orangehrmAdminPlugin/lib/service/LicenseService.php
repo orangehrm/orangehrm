@@ -63,6 +63,19 @@ class LicenseService extends BaseService {
     public function getLicenseById($id) {
         return $this->getLicenseDao()->getLicenseById($id);
     }
+    
+    /**
+     * Retrieves a license by name
+     * 
+     * Case insensitive
+     * 
+     * @version 2.6.12 
+     * @param string $name 
+     * @return License An instance of License or false
+     */    
+    public function getLicenseByName($name) {
+        return $this->getLicenseDao()->getLicenseByName($name);
+    }     
   
     /**
      * Retrieves all licenses ordered by name

@@ -115,4 +115,27 @@ class LicenseDaoTest extends PHPUnit_Framework_TestCase {
         
     }
     
+    public function testGetLicenseByName() {
+        
+        $object = $this->licenseDao->getLicenseByName('Ship Captain');
+        $this->assertTrue($object instanceof License);
+        $this->assertEquals(1, $object->getId());
+        
+        $object = $this->licenseDao->getLicenseByName('SHIP CAPTAIN');
+        $this->assertTrue($object instanceof License);
+        $this->assertEquals(1, $object->getId());
+        
+        $object = $this->licenseDao->getLicenseByName('ship captain');
+        $this->assertTrue($object instanceof License);
+        $this->assertEquals(1, $object->getId());
+
+        $object = $this->licenseDao->getLicenseByName('  Ship Captain  ');
+        $this->assertTrue($object instanceof License);
+        $this->assertEquals(1, $object->getId());
+        
+        $object = $this->licenseDao->getLicenseByName('Bike Riding');
+        $this->assertFalse($object);        
+        
+    }        
+    
 }
