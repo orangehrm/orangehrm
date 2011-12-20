@@ -127,4 +127,27 @@ class TerminationReasonDaoTest extends PHPUnit_Framework_TestCase {
         
     }
     
+    public function testGetTerminationReasonByName() {
+        
+        $object = $this->terminationReasonDao->getTerminationReasonByName('Resigned');
+        $this->assertTrue($object instanceof TerminationReason);
+        $this->assertEquals(1, $object->getId());
+        
+        $object = $this->terminationReasonDao->getTerminationReasonByName('RESIGNED');
+        $this->assertTrue($object instanceof TerminationReason);
+        $this->assertEquals(1, $object->getId());
+        
+        $object = $this->terminationReasonDao->getTerminationReasonByName('resigned');
+        $this->assertTrue($object instanceof TerminationReason);
+        $this->assertEquals(1, $object->getId());
+
+        $object = $this->terminationReasonDao->getTerminationReasonByName('  Resigned  ');
+        $this->assertTrue($object instanceof TerminationReason);
+        $this->assertEquals(1, $object->getId());
+        
+        $object = $this->terminationReasonDao->getTerminationReasonByName('Fired');
+        $this->assertFalse($object);        
+        
+    }       
+    
 }

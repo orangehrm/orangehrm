@@ -77,12 +77,21 @@ class viewTerminationReasonsAction extends sfAction {
     protected function _checkDuplicateEntry() {
 
         $id = $this->form->getValue('id');
-
-        if (empty($id) && $this->getTerminationReasonService()->isExistingTerminationReasonName($this->form->getValue('name'))) {
+        $object = $this->getTerminationReasonService()->getTerminationReasonByName($this->form->getValue('name'));
+        
+        if ($object instanceof TerminationReason) {
+            
+            if (!empty($id) && $id == $object->getId()) {
+                return false;
+            }
+            
             $this->getUser()->setFlash('templateMessage', array('WARNING', __('Termination Reason Name Exists')));
-            $this->redirect('pim/viewTerminationReasons');
+            $this->redirect('pim/viewTerminationReasons');            
+            
         }
+        
+        return false;
 
-    }
+    }    
     
 }

@@ -63,6 +63,19 @@ class TerminationReasonService extends BaseService {
     public function getTerminationReasonById($id) {
         return $this->getTerminationReasonDao()->getTerminationReasonById($id);
     }
+    
+    /**
+     * Retrieves a termination reason by name
+     * 
+     * Case insensitive
+     * 
+     * @version 2.6.12 
+     * @param string $name 
+     * @return TerminationReason An instance of TerminationReason or false
+     */    
+    public function getTerminationReasonByName($name) {
+        return $this->getTerminationReasonDao()->getTerminationReasonByName($name);
+    }      
   
     /**
      * Retrieves all termination reasons ordered by name
