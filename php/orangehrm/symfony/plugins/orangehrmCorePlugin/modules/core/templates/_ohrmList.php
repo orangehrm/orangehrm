@@ -306,6 +306,13 @@ function printButtonEventBindings($buttons) {
 
 <?php renderActionBar($buttons, $buttonsPosition === ohrmListConfigurationFactory::AFTER_TABLE); ?>
                     <br class="clear" />
+<?php if ($pager->haveToPaginate()) { ?>
+            <div class="navigationHearder">
+                <div class="pagingbar"><?php include_partial('global/paging_links_js', array('pager' => $pager)); ?></div>
+                <br class="clear" />
+            </div>
+<?php } ?>
+
                 </form>
 
             </div>
