@@ -54,6 +54,10 @@ function executeLoadtimeActions() {
     $('table.data-table tbody tr:odd').addClass('odd');
     $('table.data-table tbody tr:even').addClass('even');
     
+    if (recordsCount == 0) {
+        $('#recordsListTable td.check').hide();
+    }    
+    
 }
 
 function loadCheckboxBehavior() {
@@ -92,7 +96,6 @@ function loadAddForm() {
         $('#saveFormHeading').text(lang_addFormHeading);
         
         $('#recordsListTable td.check').hide();
-        $('#messageBalloon_success').hide(); // TODO: Check again
         
         for (i in saveFormFieldIds) {
             $('#'+saveFormFieldIds[i]).val('');
@@ -116,8 +119,7 @@ function loadEditForm() {
         
         $('#saveFormDiv').show();
         $('#saveFormHeading').text(lang_editFormHeading);
-        $('#messageBalloon_success').hide(); // TODO: Check again 
-
+        
         var row = $(this).closest("tr");
         
         var i=0;
@@ -154,16 +156,16 @@ function loadCancelButtonBehavior() {
 
         $('#listActions').show();
         
+        if (recordsCount == 0) {
+            $('#recordsListTable td.check').hide();
+        }         
+        
     });
     
 } 
 
-function loadDeleteButtonBehavior() {
-
-    if($(".checkbox").length == 1) {
-        $('#btnDel').attr('disabled','disabled');
-    }
-
+function loadDeleteButtonBehavior() {   
+    
     if ($(".checkbox:checked").length == 0) {
         $('#btnDel').attr('disabled', 'disabled');
     } 
