@@ -48,8 +48,8 @@
     <mkdir dir="${apidocs.dir}" />
     <touch file="release-revision-${svn.revision}.txt" />
   </target>
-
-  <target name="build" depends="prepare,clear.symfony.cache">
+ 
+  <target name="build" depends="clean,prepare,symfony.publish.assets">
     <echo>Copying files...</echo>
     <copy todir="${package.dir}">
         <fileset dir="${project.dir}">
@@ -84,6 +84,8 @@
             <exclude name="symfony/config/databases.yml"/>
             <exclude name="symfony/web/orangehrm_dev.php"/>
             <exclude name="symfony/test/**"/>
+            <exclude name="symfony/cache/*/**"/>
+            <exclude name="symfony/log/*"/>
             <exclude name="symfony/lib/vendor/symfony/test/**"/>
         </fileset>
     </copy>
@@ -146,8 +148,11 @@
     <exec command="makensis ${dist.dir}/installer-tmp/SPEC/main.nsi" checkreturn="true" />
   </target>
 
-  <target name="clear.symfony.cache">
+  <target name="symfony.clear.cache">
       <exec command="./symfony cc" dir="${project.dir}/symfony" />
+  </target>
+  <target name="symfony.publish.assets">
+      <exec command="./symfony orangehrm:publish-assets" dir="${project.dir}/symfony" />
   </target>
 
   <target name="dist.win" depends="build">
@@ -169,7 +174,7 @@
     <include name="release-revision-*.txt" />
   </fileset>
 
-  <target name="clean" depends="clear.symfony.cache">
+  <target name="clean" depends="symfony.clear.cache">
     <echo msg="Cleaning up..."/>
     <delete dir="${dist.dir}"/>
     <delete dir="${reports.dir}" />
@@ -266,5 +271,8 @@
 		checkreturn="true" dir="${project.basedir}" passthru="true"/>
   </target>
 
-
+  <target name="reset-install">
+      <exec command="php devTools/general/reset-installation.php" passthru="true" dir="${project.dir}"
+        />
+  </target>
 </project>
