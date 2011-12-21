@@ -200,6 +200,14 @@ use_javascript('../../../scripts/jquery/jquery.autocomplete.js');
 
                 </tbody>
             </table>
+
+<?php if ($pager->haveToPaginate()): ?>
+<div class="navigationHearder">
+    <div class="pagingbar"><?php include_partial('global/paging_links', array('pager' => $pager, 'url' => '@employee_list')); ?></div>
+    <br class="clear" />
+</div>
+<?php endif; ?>
+
         </form>
     </div>
 
