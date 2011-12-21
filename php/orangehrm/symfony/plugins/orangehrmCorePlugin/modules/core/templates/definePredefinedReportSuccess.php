@@ -60,15 +60,34 @@ use_javascript('orangehrm.datepicker.js');
             <fieldset id="criteria_fieldset">
                 <legend><?php echo __("Selected Criteria"); ?></legend>
                 <ul id="filter_fields">
+                    
                     <?php
-                    foreach ($form->selectedFilterWidgets as $filterName => $label) {
+                    
+                    $requiredFilterNames = array();
+
+                    foreach ($form->requiredFilterWidgets as $widget) {
 
                         $formField = $form[$filterName];
-                        echo "<li id='li_" . $filterName . "' ><a href='#'>X</a>" . $formField->renderLabel() .
+                        echo "<li id='li_" . $filterName . "' class='requiredFilter'>" . $formField->renderLabel() .
                         $formField->render() .
                         $formField->renderError() .
                         "</li>";
+                        $requiredFilterNames[] = $filterName;
                     }
+                    
+                    foreach ($form->selectedFilterWidgets as $filterName => $label) {
+
+                        if (!in_array($filterName, $requiredFilterNames)) {
+                        
+                            $formField = $form[$filterName];
+                            echo "<li id='li_" . $filterName . "' ><a href='#'>X</a>" . $formField->renderLabel() .
+                            $formField->render() .
+                            $formField->renderError() .
+                            "</li>";
+                        
+                        }
+                    }
+                    
                     ?>
                 </ul>                
             </fieldset>
@@ -197,6 +216,10 @@ use_javascript('orangehrm.datepicker.js');
             display: inline-block;
             float: none;
             margin-left: 10px;
+        }
+        
+        ul#filter_fields li.requiredFilter {
+            padding-left: 18px;
         }
 
         div#defineReportContainer {

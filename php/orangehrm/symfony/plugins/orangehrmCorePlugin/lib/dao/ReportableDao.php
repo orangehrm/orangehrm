@@ -315,6 +315,22 @@ class ReportableDao {
             throw new DaoException($ex->getMessage());
         }
     }
+    
+    public function getRequiredFilterFieldsForReportGroup($reportGroupId) {
+        try {
+
+            $query = Doctrine_Query::create()
+                            ->from("FilterField")
+                            ->where("report_group_id = ?", $reportGroupId)
+                            ->andWhere("required = 'true'");
+
+            $results = $query->execute();
+
+            return $results;
+        } catch (Exception $ex) {
+            throw new DaoException($ex->getMessage());
+        }
+    }    
 
     public function executeSql($sql) {
 

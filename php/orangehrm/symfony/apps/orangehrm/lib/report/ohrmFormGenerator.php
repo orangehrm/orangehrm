@@ -49,6 +49,7 @@ class ohrmFormGenerator {
                 array('required' => __('Report name is required'))));
         $form->setWidget('report_id', new sfWidgetFormInputHidden(array('default' => $reportId)));       
         $form->setValidator('report_id', new sfValidatorString(array('required' => false)));
+        $criteriaChoices = array();
         
         // Add filter widgets
         foreach ($filterFields as $filterField) {
@@ -70,10 +71,14 @@ class ohrmFormGenerator {
                 $widget->embedWidgetIntoForm($form);
                 
                 $form->filterWidgets[$name] = $form->getWidgetSchema()->getLabel($name);
+                if (!$required) {
+                    $criteriaChoices[$name] = $form->getWidgetSchema()->getLabel($name);;
+                }
+                
             }
         }
         
-        $criteriaSelectionWidget = new sfWidgetFormChoice(array('choices' => $form->filterWidgets));
+        $criteriaSelectionWidget = new sfWidgetFormChoice(array('choices' => $criteriaChoices));
         $form->setWidget('criteria_list', $criteriaSelectionWidget);
         $form->setValidator('criteria_list', new sfValidatorString(array('required' => false)));
         

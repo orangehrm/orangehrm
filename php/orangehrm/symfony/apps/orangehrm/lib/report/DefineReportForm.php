@@ -4,6 +4,7 @@ class DefineReportForm extends sfForm {
 
     public $displayFieldGroups = array();
     public $filterWidgets = array();
+    public $requiredFilterWidgets = array();
     public $selectedFilterWidgets = array();
     public $selectedDisplayFieldGroups = array();
     public $selectedDisplayFields = array();

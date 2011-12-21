@@ -162,6 +162,12 @@ class ReportableService {
         return $filterFields;
     }
     
+    public function getRequiredFilterFieldsForReportGroup($reportGroupId) {
+        
+        return $this->getReportableDao()->getRequiredFilterFieldsForReportGroup($reportGroupId);
+
+    }    
+    
     /**
      * Executes the query and return the results as an array.
      * @param string $sql

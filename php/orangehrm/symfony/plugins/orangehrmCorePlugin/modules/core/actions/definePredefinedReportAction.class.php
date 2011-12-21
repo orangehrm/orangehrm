@@ -44,6 +44,7 @@ class definePredefinedReportAction extends sfAction {
         }
         $ohrmFormGenerator = new ohrmFormGenerator();
         $this->form = $ohrmFormGenerator->generatePredefinedForm($filterWidgets, $displayFieldGroups, $reportId, $reportName);
+        $this->form->requiredFilterWidgets = $reportableService->getRequiredFilterFieldsForReportGroup($this->reportGroup);
 
         if ($request->isMethod('post')) {
             $this->form->bind($request->getParameter($this->form->getName()));

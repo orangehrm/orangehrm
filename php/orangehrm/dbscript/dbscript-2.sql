@@ -772,7 +772,7 @@ INSERT INTO `ohrm_filter_field` (`filter_field_id`, `report_group_id`, `name`, `
     (19, 3, 'gender', 'hs_hr_employee.emp_gender', 'ohrmReportWidgetGenderDropDown', 1, null),
     (20, 3, 'location', 'ohrm_location.id', 'ohrmReportWidgetLocationDropDown', 1, null),
     (21, 1, 'is_deleted', 'ohrm_project_activity.is_deleted', '', 2, null),
-    (22, 3, 'included_employees', 'hs_hr_employee.termination_id', 'ohrmReportWidgetIncludedEmployeesDropDown', 1, null);
+    (22, 3, 'include', 'hs_hr_employee.termination_id', 'ohrmReportWidgetIncludedEmployeesDropDown', 1, 'true');
 
 INSERT INTO `ohrm_display_field_group`(`id`, `report_group_id`, `name`, `is_list`) VALUES
     (1, 3, 'Personal', false),
