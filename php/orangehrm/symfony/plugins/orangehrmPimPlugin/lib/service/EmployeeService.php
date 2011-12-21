@@ -444,9 +444,13 @@ class EmployeeService extends BaseService {
      * 
      * @todo Rename EmployeeEducation to EmpEducation for consistancty
      */
-    public function getEducation($empNumber, $eduCode = null) {
-        return $this->getEmployeeDao()->getEducation($empNumber, $eduCode);
+    public function getEducation($id) {
+        return $this->getEmployeeDao()->getEducation($id);
     }
+    
+    public function getEmployeeEducationList($empNumber, $educationId=null) {
+        return $this->getEmployeeDao()->getEmployeeEducationList($empNumber, $educationId);
+    }   
 
     /**
      * Delete given education entries for given employee

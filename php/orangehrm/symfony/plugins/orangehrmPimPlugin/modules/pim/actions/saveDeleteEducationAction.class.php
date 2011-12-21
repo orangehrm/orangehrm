@@ -71,13 +71,15 @@ class saveDeleteEducationAction extends basePimAction {
 
     private function getEducation(sfForm $form) {
 
-        $post = $form->getValues();
-
-        $education = $this->getEmployeeService()->getEducation($post['emp_number'], $post['code']);
-
+        $post = $form->getValues(); 
+        
+        if (!empty($post['id'])) {
+            $education = $this->getEmployeeService()->getEducation($post['id']);
+        } 
+        
         if(!$education instanceof EmployeeEducation) {
             $education = new EmployeeEducation();
-        }
+        }        
 
         $education->empNumber = $post['emp_number'];
         $education->educationId = $post['code'];
@@ -87,7 +89,7 @@ class saveDeleteEducationAction extends basePimAction {
         $education->score = $post['gpa'];
         $education->startDate = $post['start_date'];
         $education->endDate = $post['end_date'];
-
+        
         return $education;
     }
 }

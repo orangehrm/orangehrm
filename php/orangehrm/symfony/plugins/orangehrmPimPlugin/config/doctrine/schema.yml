@@ -746,12 +746,14 @@ EmployeeWorkShift:
 EmployeeEducation:
   tableName: ohrm_emp_education
   columns:
+    id:
+      type: integer
+      primary: true
+      autoincrement: true
     emp_number as empNumber:
       type: integer
-      primary: true
     education_id as educationId:
       type: integer
-      primary: true
     institute: string(100)  
     major: string(100)
     year: decimal(4)

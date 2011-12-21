@@ -25,6 +25,7 @@ if (($section == 'education') && isset($message) && isset($messageType)) {
         <form id="frmEducation" action="<?php echo url_for('pim/saveDeleteEducation?empNumber=' . $empNumber . "&option=save"); ?>" method="post">
 
             <?php echo $form['_csrf_token']; ?>
+            <?php echo $form['id']->render(); ?>
             <?php echo $form['emp_number']->render(); ?>
 
             <?php echo $form['code']->renderLabel(__('Level') . ' <span class="required">*</span>'); ?>
@@ -80,7 +81,7 @@ if (($section == 'education') && isset($message) && isset($messageType)) {
                 </thead>
                 <tbody>
                     <?php
-                    $educations = $form->empEducationList; //var_dump($educations->toArray());die;
+                    $educations = $form->empEducationList;
                     $row = 0;
 
                     foreach ($educations as $education) {
@@ -90,16 +91,17 @@ if (($section == 'education') && isset($message) && isset($messageType)) {
                         $eduDesc = htmlspecialchars($education->Education->name);
                     ?>
                         <tr class="<?php echo $cssClass; ?>">
-                            <td class="check"><input type="hidden" id="code_<?php echo $education->educationId; ?>" value="<?php echo htmlspecialchars($education->educationId); ?>" />
-                                <input type="hidden" id="code_desc_<?php echo $education->educationId; ?>" value="<?php echo $eduDesc; ?>" />
-                                <input type="hidden" id="institute_<?php echo $education->educationId; ?>" value="<?php echo htmlspecialchars($education->institute); ?>" />
-                                <input type="hidden" id="major_<?php echo $education->educationId; ?>" value="<?php echo htmlspecialchars($education->major); ?>" />
-                                <input type="hidden" id="year_<?php echo $education->educationId; ?>" value="<?php echo htmlspecialchars($education->year); ?>" />
-                                <input type="hidden" id="gpa_<?php echo $education->educationId; ?>" value="<?php echo htmlspecialchars($education->score); ?>" />
-                                <input type="hidden" id="start_date_<?php echo $education->educationId; ?>" value="<?php echo $startDate; ?>" />
-                                <input type="hidden" id="end_date_<?php echo $education->educationId; ?>" value="<?php echo $endDate; ?>" />
+                            <td class="check"><input type="hidden" id="code_<?php echo $education->id; ?>" value="<?php echo htmlspecialchars($education->educationId); ?>" />
+                                <input type="hidden" id="id_<?php echo $education->id; ?>" value="<?php echo $education->id; ?>" />
+                                <input type="hidden" id="code_desc_<?php echo $education->id; ?>" value="<?php echo $eduDesc; ?>" />
+                                <input type="hidden" id="institute_<?php echo $education->id; ?>" value="<?php echo htmlspecialchars($education->institute); ?>" />
+                                <input type="hidden" id="major_<?php echo $education->id; ?>" value="<?php echo htmlspecialchars($education->major); ?>" />
+                                <input type="hidden" id="year_<?php echo $education->id; ?>" value="<?php echo htmlspecialchars($education->year); ?>" />
+                                <input type="hidden" id="gpa_<?php echo $education->id; ?>" value="<?php echo htmlspecialchars($education->score); ?>" />
+                                <input type="hidden" id="start_date_<?php echo $education->id; ?>" value="<?php echo $startDate; ?>" />
+                                <input type="hidden" id="end_date_<?php echo $education->id; ?>" value="<?php echo $endDate; ?>" />
 
-                                <input type="checkbox" class="chkbox" value="<?php echo $education->educationId; ?>" name="delEdu[]"/></td>
+                                <input type="checkbox" class="chkbox" value="<?php echo $education->id; ?>" name="delEdu[]"/></td>
                             <td class="program"><a href="#" class="edit"><?php echo $eduDesc; ?></a></td>
                             <td><?php echo htmlspecialchars($education->year); ?></td>
                             <td><?php echo htmlspecialchars($education->score); ?></td>
@@ -185,9 +187,9 @@ if (($section == 'education') && isset($message) && isset($messageType)) {
             //hiding action button section
             $("#actionEducation").hide();
 
+            $("#education_id").val("");
             $('#static_education_code').hide().val("");
             $("#education_code").show().val("");
-            $("#education_code option[class='added']").remove();
             $("#education_institute").val("");
             $("#education_major").val("");
             $("#education_year").val("");
@@ -279,7 +281,6 @@ if (($section == 'education') && isset($message) && isset($messageType)) {
             $("#educationCheckAll").show();
         
             // remove any options already in use
-            $("#education_code option[class='added']").remove();
             $('#static_education_code').hide().val("");
 
         });
@@ -301,19 +302,12 @@ if (($section == 'education') && isset($message) && isset($messageType)) {
             //show add form
             $("#changeEducation").show();
             var code = $(this).closest("tr").find('input.chkbox:first').val();
-        
+            
             $('#static_education_code').text($("#code_desc_" + code).val()).show();
 
-            // remove any options already in use
-            $("#education_code option[class='added']").remove();
+            $('#education_code').val($("#code_" + code).val()).hide();
 
-            $('#education_code').hide().
-                append($("<option class='added'></option>").
-                attr("value", code).
-                text($("#code_desc_" + code).val()));
-
-            $('#education_code').val(code);
-
+            $("#education_id").val(code);
             $("#education_institute").val($("#institute_" + code).val());
             $("#education_major").val($("#major_" + code).val());
             $("#education_year").val($("#year_" + code).val());

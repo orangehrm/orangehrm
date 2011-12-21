@@ -363,22 +363,37 @@ class EmployeeDao extends BaseDao {
      * @returns Collection/Education
      * @throws DaoException
      */
-    public function getEducation($empNumber, $eduCode = null) {
+    public function getEducation($id) {
         try {
             $q = Doctrine_Query::create()
                             ->from('EmployeeEducation w')
-                            ->where('w.emp_number = ?', $empNumber);
+                            ->where('w.id = ?', $id);
 
-            if (!is_null($eduCode)) {
-                $q->andwhere('w.educationId = ?', $eduCode);
-                return $q->fetchOne();
-            }
-
-            return $q->execute();
+            return $q->fetchOne();
+                
         } catch (Exception $e) {
             throw new DaoException($e->getMessage());
         }
     }
+    
+    public function getEmployeeEducationList($empNumber, $educationId=null) {
+
+        try {
+            $q = Doctrine_Query::create()
+                            ->from('EmployeeEducation ee')
+                            ->where('ee.emp_number = ?', $empNumber);
+            
+            if (!empty($educationId)) {
+                $q->addWhere('ee.education_id = ?', $educationId);
+            }
+
+            return $q->execute();
+                
+        } catch (Exception $e) {
+            throw new DaoException($e->getMessage());
+        }
+        
+    }   
 
     /**
      * save Education

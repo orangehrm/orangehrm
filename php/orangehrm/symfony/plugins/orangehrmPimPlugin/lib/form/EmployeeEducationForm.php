@@ -49,10 +49,11 @@ class EmployeeEducationForm extends sfForm {
         $employee = $this->getEmployeeService()->getEmployee($empNumber);
         $this->fullName = $employee->getFullName();
 
-        $this->empEducationList = $this->getEmployeeService()->getEducation($empNumber);
+        $this->empEducationList = $this->getEmployeeService()->getEmployeeEducationList($empNumber);
 
         //initializing the components
         $this->widgets = array(
+            'id' => new sfWidgetFormInputHidden(),
             'emp_number' => new sfWidgetFormInputHidden(),
             'code' => new sfWidgetFormSelect(array('choices' => $this->_getEducationList())),
             'institute' => new sfWidgetFormInputText(),
@@ -68,6 +69,7 @@ class EmployeeEducationForm extends sfForm {
 
         $inputDatePattern = sfContext::getInstance()->getUser()->getDateFormat();
         
+        $this->setValidator('id', new sfValidatorString(array('required' => false)));
         $this->setValidator('emp_number', new sfValidatorString(array('required' => false)));
         $this->setValidator('code', new sfValidatorString(array('required' => true,
             'max_length' => 13)));
@@ -99,12 +101,6 @@ class EmployeeEducationForm extends sfForm {
             $list[$education->getId()] = $education->getName();
         }
         
-        // Clear already used education items
-        foreach ($this->empEducationList as $empEdu) {
-            if (isset($list[$empEdu->educationId])) {
-                unset($list[$empEdu->educationId]);
-            }
-        }
         return $list;
     }
 }

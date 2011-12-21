@@ -220,6 +220,7 @@ create table `hs_hr_emp_picture` (
 
 
 create table `ohrm_emp_education` (
+  `id` int not null auto_increment,
   `emp_number` int not null,
   `education_id` int not null,
   `institute` varchar(100) default null,
@@ -228,7 +229,7 @@ create table `ohrm_emp_education` (
   `score` varchar(25) default null,
   `start_date` date default null,
   `end_date` date default null,
-  primary key  (`emp_number`, `education_id`)
+  primary key  (`id`)
 ) engine=innodb default charset=utf8;
 
 

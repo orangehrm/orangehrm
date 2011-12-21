@@ -293,28 +293,41 @@ class EmployeeDaoTest extends PHPUnit_Framework_TestCase {
         $this->assertTrue($result);
     }
 
-    /**
-     * Test for get education returns EmployeeEducation doctrine collection
-     */
-    public function testGetEducationWithNullEduCode() {
+    public function testGetEducation() {
 
-        $empNumber = 1;
-
-        $education = $this->employeeDao->getEducation($empNumber);
-        $this->assertTrue($education[0] instanceof EmployeeEducation);
+        $education = $this->employeeDao->getEducation(1);
+        $this->assertTrue($this->employeeDao->getEducation(1) instanceof EmployeeEducation);
+        
     }
-
-    /**
-     * Test for get education returns EmployeeEducation doctrine object
-     */
-    public function testGetEducationWithEduCode() {
-
-        $empNumber = 1;
-        $eduCode = 2;
-
-        $education = $this->employeeDao->getEducation($empNumber, $eduCode);
-        $this->assertTrue($education instanceof EmployeeEducation);
+    
+    public function testGetEmployeeEducationListWithOnlyEmpNumber() {
+        
+        $eduList = $this->employeeDao->getEmployeeEducationList(1);
+        
+        foreach ($eduList as $item) {
+            $this->assertTrue($item instanceof EmployeeEducation);
+        }
+        
+        $this->assertEquals(2, count($eduList));
+        
+        /* Checking the order */
+        $this->assertEquals('ENG', $eduList[0]->getMajor());
+        $this->assertEquals('ENG1', $eduList[1]->getMajor());
+        
     }
+    
+    public function testGetEmployeeEducationListWithEmpNumberAndEduId() {
+        
+        $eduList = $this->employeeDao->getEmployeeEducationList(1, 2);
+        
+        $this->assertTrue($eduList[0] instanceof EmployeeEducation);
+        
+        $this->assertEquals(1, count($eduList));
+        
+        /* Checking values */
+        $this->assertEquals('ENG1', $eduList[0]->getMajor());
+        
+    }    
 
     /**
      * Test for save education expierence returns boolean

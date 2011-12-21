@@ -681,27 +681,24 @@ class EmployeeServiceTest extends PHPUnit_Framework_TestCase {
      * Testing getEducation
      */
     public function testGetEducation() {
-        $empNumber = 121;
-        $eduCode = 1;
         
         $education = new EmployeeEducation();
-        $education->setEmpNumber($empNumber);
+        $education->setId(1);
+        $education->setEmpNumber(121);
         $education->setEducationId(1);
         $education->setMajor('Engineering');
         $education->setYear('2000');
         $education->setScore('3.2');  
         
-        $isEss = true;
-        
         $mockDao = $this->getMock('EmployeeDao');
         $mockDao->expects($this->once())
                  ->method('getEducation')
-                 ->with($empNumber, $eduCode)
+                 ->with(1)
                  ->will($this->returnValue($education));
         
         $this->employeeService->setEmployeeDao($mockDao);
         
-        $result = $this->employeeService->getEducation($empNumber, $eduCode);
+        $result = $this->employeeService->getEducation(1);
         $this->assertEquals($education, $result);              
     } 
     
