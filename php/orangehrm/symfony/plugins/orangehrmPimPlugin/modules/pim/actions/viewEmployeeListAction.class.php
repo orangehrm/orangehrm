@@ -83,7 +83,8 @@ class viewEmployeeListAction extends basePimAction {
 
         $sort = $this->sorter->getSort();
         $filters = $this->getFilters();
-
+        $filters['employee_name'] = str_replace(' (' . __('Past Employee') . ')', '', $filters['employee_name']);        
+        
         $this->filterApply = !empty($filters);
 
 

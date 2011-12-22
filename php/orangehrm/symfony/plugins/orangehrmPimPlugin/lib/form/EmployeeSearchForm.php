@@ -87,7 +87,7 @@ class EmployeeSearchForm extends BaseForm {
         $employeeService->setEmployeeDao(new EmployeeDao());
 
         if ($this->userType == 'Admin') {
-            $employeeList = $employeeService->getEmployeeList();
+            $employeeList = $employeeService->getEmployeeList('empNumber', 'ASC', true);
         } elseif ($this->userType == 'Supervisor') {
 
             $employeeList = $employeeService->getSupervisorEmployeeChain($this->loggedInUserId, true);
@@ -98,11 +98,10 @@ class EmployeeSearchForm extends BaseForm {
 
             if (!isset($employeeUnique[$employee->getEmpNumber()])) {
 
-                $name = $employee->getFirstName() . " " . $employee->getMiddleName();
-                $name = trim(trim($name) . " " . $employee->getLastName());
-
+                $name = $employee->getFullName();
                 $employeeUnique[$employee->getEmpNumber()] = $name;
                 $jsonArray[] = array('name' => $name, 'id' => $employee->getEmpNumber());
+                
             }
         }
 
