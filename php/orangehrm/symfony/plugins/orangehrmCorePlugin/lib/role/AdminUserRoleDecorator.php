@@ -206,7 +206,7 @@ class AdminUserRoleDecorator extends UserRoleDecorator {
 	 */
 	public function getEmployeeList() {
 
-		$employeeList = $this->getEmployeeService()->getEmployeeList();
+		$employeeList = $this->getEmployeeService()->getEmployeeList('empNumber', 'ASC', true);
 
 
 		if ($employeeList[0]->getEmpNumber() == null) {

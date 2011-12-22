@@ -148,13 +148,13 @@ class SupervisorUserRoleDecorator extends UserRoleDecorator {
 
 	public function getEmployeeList() {
 
-		$employeeList = $this->getEmployeeService()->getSupervisorEmployeeChain($this->getEmployeeNumber());
+		$employeeList = $this->getEmployeeService()->getSupervisorEmployeeChain($this->getEmployeeNumber(), true);
 		return $employeeList;
 	}
 
 	public function getEmployeeListForAttendanceTotalSummaryReport() {
 
-		$employeeList = $this->getEmployeeService()->getSupervisorEmployeeChain($this->getEmployeeNumber());
+		$employeeList = $this->getEmployeeService()->getSupervisorEmployeeChain($this->getEmployeeNumber(), true);
 		return $employeeList;
 	}
 

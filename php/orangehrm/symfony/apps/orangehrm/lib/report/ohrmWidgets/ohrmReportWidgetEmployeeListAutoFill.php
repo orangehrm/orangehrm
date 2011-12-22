@@ -180,11 +180,10 @@ EOF
 
             if (!isset($employeeUnique[$employee->getEmpNumber()])) {
 
-                $name = $employee->getFirstName() . " " . $employee->getMiddleName();
-                $name = trim(trim($name) . " " . $employee->getLastName());
-
+                $name = $employee->getFullName();
                 $employeeUnique[$employee->getEmpNumber()] = $name;
                 $jsonArray[] = array('name' => $name, 'id' => $employee->getEmpNumber());
+                
             }
         }
 
