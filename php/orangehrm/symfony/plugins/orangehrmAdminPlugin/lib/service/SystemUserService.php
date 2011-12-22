@@ -48,16 +48,20 @@ class SystemUserService extends BaseService{
      * @param SystemUser $systemUser 
      * @return void
      */
-    public function saveSystemUser( SystemUser $systemUser,$changePassword = false){
+    public function saveSystemUser(SystemUser $systemUser,$changePassword = false){
+        
         try {
-            if( $changePassword ){
-                
-                $systemUser->setUserPassword( md5($systemUser->getUserPassword()));
+            
+            if ($changePassword) {
+                $systemUser->setUserPassword(md5($systemUser->getUserPassword()));
             }
-            $this->getSystemUserDao()->saveSystemUser( $systemUser );
+
+            $this->getSystemUserDao()->saveSystemUser($systemUser);
+            
         } catch (Exception $e) {
             throw new ServiceException($e->getMessage(),$e->getCode(),$e);
         }
+        
     }
     
     /**
@@ -154,6 +158,22 @@ class SystemUserService extends BaseService{
         } catch (Exception $e) {
             throw new ServiceException($e->getMessage(),$e->getCode(),$e);
         }
+     }
+     
+     public function isCurrentPassword($userId, $password) {
+         
+         $systemUser = $this->getSystemUserDao()->getSystemUser($userId);
+         
+         if (!($systemUser instanceof SystemUser)) {
+             return false;
+         }
+         
+         if ($systemUser->getUserPassword() == md5($password)) {
+             return true;
+         }
+         
+         return false;
+         
      }
     
 }

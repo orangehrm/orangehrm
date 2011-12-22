@@ -988,6 +988,50 @@
                 <source>Salary should be a number with two decimals. No spaces are allowed</source>
                 <target>FR_Salary should be a number with two decimals. No spaces are allowed</target>
             </trans-unit>
+            <trans-unit id="246">
+                <source>Change Password</source>
+                <target>FR_Change Password</target>
+            </trans-unit>
+            <trans-unit id="247">
+                <source>Current Password</source>
+                <target>FR_Current Password</target>
+            </trans-unit>
+            <trans-unit id="248">
+                <source>New Password</source>
+                <target>FR_New Password</target>
+            </trans-unit>
+            <trans-unit id="249">
+                <source>Confirm New Password</source>
+                <target>FR_Confirm New Password</target>
+            </trans-unit>
+            <trans-unit id="250">
+                <source>Current Password is required</source>
+                <target>FR_Current Password is required</target>
+            </trans-unit>
+            <trans-unit id="251">
+                <source>New Password is required</source>
+                <target>FR_New Password is required</target>
+            </trans-unit>
+            <trans-unit id="252">
+                <source>Confirm New Password is required</source>
+                <target>FR_Confirm New Password is required</target>
+            </trans-unit>
+            <trans-unit id="253">
+                <source>Password should have at least 4 characters</source>
+                <target>FR_Password should have at least 4 characters</target>
+            </trans-unit>
+            <trans-unit id="254">
+                <source>Cannot exceed 20 charactors</source>
+                <target>FR_Cannot exceed 20 charactors</target>
+            </trans-unit>            
+            <trans-unit id="255">
+                <source>Current Password Is Wrong</source>
+                <target>FR_Current Password Is Wrong</target>
+            </trans-unit> 
+            <trans-unit id="256">
+                <source>Password Changed Successfully</source>
+                <target>FR_Password Changed Successfully</target>
+            </trans-unit>             
         </body>
     </file>
 </xliff>
