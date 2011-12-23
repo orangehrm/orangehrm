@@ -1,3 +1,16 @@
+New & Changed Features for OrangeHRM ver  2.6.12.1
+
+    Bug Fixes
+    ---------
+    3464295 - Add/edit/delete permissions for salary tab
+    3464296 - Cannot add two salary records with same currency
+    3462360 - error displayed when clicked on "Change Password"
+    3460746 - Terminate filter should be provided in PIM & Time reports
+    3460742 - Ability to add same education level multiple times
+    3460741 - Remove Add/Delete buttons from Mini lists
+    3460725 - PIM > Data Import help text should be changed
+    3460722 - Have pagination in the bottom of lists too 
+
 New & Changed Features for OrangeHRM ver  2.6.12
 
      New Features
@@ -5,7 +18,7 @@ New & Changed Features for OrangeHRM ver  2.6.12
      Admin module usability improvements with conversion to Symfony framework
 
      Bug Fixes
-     --------
+     ---------
      Time->Reports->Employee Reports: Fixed issue with Employee field changing value when "View" button is clicked.
      Properly escape $_GET parameters
 
