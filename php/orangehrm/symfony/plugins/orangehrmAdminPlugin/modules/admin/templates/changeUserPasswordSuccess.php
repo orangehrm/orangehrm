@@ -25,8 +25,10 @@ use_javascript('../../../scripts/jquery/jquery.autocomplete.js');
             <?php echo $form->renderHiddenFields(); ?>
             <br class="clear"/>
 
+            <div id="usernameValue">
             <label><?php echo __('Username'); ?></label>
-            <span id="usernameValue"><?php echo $username; ?></span>
+            <label class="valueHolder"><?php echo $username; ?></label>
+            </div>
             <div class="errorHolder"></div>
             <br class="clear"/>
             
