@@ -776,7 +776,7 @@ if (isset($_SESSION['ladpUser']) && $_SESSION['ladpUser'] && $_SESSION['isAdmin'
     $optionMenu = array();
 } else {
     $optionMenu[] = new MenuItem("changepassword", $lang_index_ChangePassword,
-                    "./lib/controllers/CentralController.php?mtcode=CPW&capturemode=updatemode&id={$_SESSION['user']}");
+                    "./symfony/web/index.php/admin/changeUserPassword");
 }
 
 $optionMenu[] = new MenuItem("logout", $lang_index_Logout, './symfony/web/index.php/auth/logout', '_parent');
