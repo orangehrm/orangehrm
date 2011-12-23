@@ -36,10 +36,10 @@ class viewSalaryListAction extends basePimAction {
         $this->ownRecords = ($loggedInEmpNum == $empNumber)?true:false;
 
         $adminMode = $this->getUser()->hasCredential(Auth::ADMIN_ROLE);
-        $supervisorMode = $this->isSupervisor($loggedInEmpNum, $empNumber);
+        $this->isSupervisor = $this->isSupervisor($loggedInEmpNum, $empNumber);
 
         $this->essMode = false;
-        if (!$supervisorMode && !$adminMode) {
+        if (!$this->isSupervisor && !$adminMode) {
             if ($empNumber == $loggedInEmpNum) {
                 $this->essMode = true;
             } else {

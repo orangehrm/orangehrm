@@ -34,7 +34,7 @@
                             </div>
 
 
-                            <?php if (!$essUserMode): ?>
+                            <?php if (!$essUserMode && !$isSupervisor): ?>
                                 <div id="changeSalary" class="outerbox" >
                                     <div class="mainHeading"><h2 id="headchangeSalary"><?php echo __('Add Salary Component'); ?></h2></div>
                                     <form id="frmSalary" action="<?php echo url_for('pim/viewSalaryList?empNumber=' . $empNumber); ?>" method="post">
@@ -134,7 +134,7 @@
 
                             <?php endif; ?>
 
-                            <?php if (count($salaryList) > 0) {
+                            <?php if (count($salaryList) > 0 && !$isSupervisor) {
  ?>
                                                 <div class="outerbox">
                                                     <div class="mainHeading"><h2><?php echo __('Assigned Salary Components'); ?></h2></div>
@@ -433,7 +433,10 @@
 <?php } ?>
 
     //hiding the data table if records are not available
-    if ($("div#tblSalary table.data-table .chkbox").length == 0) {
+    
+    var salaryListCount = <?php echo count($salaryList); ?>;
+    
+    if (salaryListCount == 0) {
         $("#tblSalary").hide();
         $("#editSalary").hide();
         $("#delSalary").hide();
