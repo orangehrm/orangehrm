@@ -96,7 +96,20 @@ EmployeeWorkShift:
     0: {workShiftId: 1, emp_number: 1}
 
 PayGrade:
-    0: {id: 1, name: 'Salary Grade A'}    
+    0: {id: 1, name: 'Salary Grade A'}   
+    1: {id: 2, name: 'Salary Grade B'}   
+    
+CurrencyType:
+    0: {code: 1, currency_id : 'LKR', currency_name : 'Srilankan rupees'}
+    1: {code: 2, currency_id : 'USD', currency_name : 'Dollers'}
+    2: {code: 3, currency_id : 'YEN', currency_name : 'Japaneese '}
+    
+PayGradeCurrency:
+    0: {pay_grade_id : 1, currency_id: 'LKR', min_salary: '20000', max_salary: '3000000' }
+    1: {pay_grade_id : 1, currency_id: 'USD', min_salary: '2000', max_salary: '30000' }
+    2: {pay_grade_id : 2, currency_id: 'YEN', min_salary: '2000', max_salary: '30000' }
 
 EmpBasicsalary:
     0: {id: 1, emp_number: 1, sal_grd_code: 1, currency_id: 'LKR', ebsal_basic_salary: '10000.00'}
+    1: {id: 2, emp_number: 1, sal_grd_code: 1, currency_id: 'USD', ebsal_basic_salary: '20000.00'}
+

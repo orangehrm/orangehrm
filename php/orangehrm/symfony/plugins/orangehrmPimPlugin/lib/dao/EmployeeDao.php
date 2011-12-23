@@ -1399,5 +1399,28 @@ class EmployeeDao extends BaseDao {
             throw new DaoException($e->getMessage());
         }
     }
+    
+     /**
+     * Retrieve assigned Currency List
+     * @param String $salaryGrade
+     * @param boolean $asArray
+     * @returns Collection
+     * @throws DaoException
+     */
+    public function getAssignedCurrencyList($salaryGrade, $asArray = false) {
+        try {
+            $hydrateMode = ($asArray) ? Doctrine :: HYDRATE_ARRAY : Doctrine :: HYDRATE_RECORD;
+            $q = Doctrine_Query :: create()->select('c.currency_id, c.currency_name')
+                            ->from('CurrencyType c')
+                            ->leftJoin('c.PayGradeCurrency s')
+                            ->where('s.pay_grade_id = ?', $salaryGrade);
+
+            return $q->execute(array(), $hydrateMode);
+        } catch (Exception $e) {
+            throw new DaoException($e->getMessage());
+        }
+    }
+    
+    
 
 }

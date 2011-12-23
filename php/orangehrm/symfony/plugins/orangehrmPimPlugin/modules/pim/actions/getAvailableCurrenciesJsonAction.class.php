@@ -69,7 +69,7 @@ class getAvailableCurrenciesJsonAction extends basePimAction {
            $employeeService = $this->getEmployeeService();
 
            // TODO: call method that returns data in array format (or pass parameter)
-           $currencies = $employeeService->getUnAssignedCurrencyList($empNumber, $payGrade, true);
+           $currencies = $employeeService->getAssignedCurrencyList($payGrade, true);
        } else {
            
            // 

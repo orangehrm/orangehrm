@@ -1149,7 +1149,7 @@ class EmployeeService extends BaseService {
             throw new PIMServiceException($e->getMessage());
         }
     }
-
+    
     /**
      * Retrieve non-assigned Currency List for given employee for the given salary grade
      * 
@@ -1166,6 +1166,25 @@ class EmployeeService extends BaseService {
     public function getUnAssignedCurrencyList($empNumber, $salaryGrade, $asArray = false) {
         try {
             return $this->getEmployeeDao()->getUnAssignedCurrencyList($empNumber, $salaryGrade, $asArray);
+        } catch (Exception $e) {
+            throw new PIMServiceException($e->getMessage());
+        }
+    }
+
+    /**
+     * Retrieve assigned Currency List for the given salary grade
+     * 
+     * @version 2.6.11
+     * @param string $salaryGrade Salary Grade
+     * @param boolean $asArray
+     * @return Doctrine_Collection/Array Returns Doctrine_Collection of CurrencyType objects
+     *  if $asArray is false, otherwise returns an array
+     * @throws PIMServiceException     
+     * 
+     */
+    public function getAssignedCurrencyList($salaryGrade, $asArray = false) {
+        try {
+            return $this->getEmployeeDao()->getAssignedCurrencyList($salaryGrade, $asArray);
         } catch (Exception $e) {
             throw new PIMServiceException($e->getMessage());
         }
