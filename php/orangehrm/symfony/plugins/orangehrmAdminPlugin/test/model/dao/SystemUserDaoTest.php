@@ -115,5 +115,16 @@ class SystemUserDaoTest extends PHPUnit_Framework_TestCase {
             $this->assertEquals(3, $this->systemUserDao->getAdminUserCount(false, false));
             
         }
+        
+        public function testUpdatePassword() {
+            
+            $this->assertEquals(1, $this->systemUserDao->updatePassword(1, 'samantha2'));
+            
+            $userObject = TestDataService::fetchObject('SystemUser', 1);
+            
+            $this->assertEquals('samantha2', $userObject->getUserPassword());
+            
+        }
+        
 }
 ?>

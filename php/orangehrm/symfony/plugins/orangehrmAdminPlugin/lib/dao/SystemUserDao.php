@@ -200,7 +200,22 @@ class SystemUserDao extends BaseDao {
         return $q->count();
         
     }
+    
+    public function updatePassword($userId, $password) {
+        
+        try {
+            
+            $q = Doctrine_Query::create()
+                               ->update('SystemUser')
+                               ->set('user_password', '?', $password)
+                               ->where('id = ?', $userId);
+            
+            return $q->execute();
+            
+        } catch (Exception $e) {
+            throw new DaoException($e->getMessage(), $e->getCode(), $e);
+        }
+        
+    }
 
 }
-
-?>

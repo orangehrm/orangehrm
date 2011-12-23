@@ -175,7 +175,16 @@ class SystemUserService extends BaseService{
          return false;
          
      }
+     
+     /**
+      * Updates the password of given user
+      * 
+      * @param int $userId User ID of the user
+      * @param string $password Non-encrypted password
+      * @return int 
+      */     
+     public function updatePassword($userId, $password) {
+         return $this->getSystemUserDao()->updatePassword($userId, md5($password));
+     }
     
 }
-
-?>

@@ -47,9 +47,7 @@ class changeUserPasswordAction extends sfAction {
                     
                 }
                 
-                $systemUser = $systemUserService->getSystemUser($this->userId);
-                $systemUser->setUserPassword($this->form->getValue('newPassword'));
-                $systemUserService->saveSystemUser($systemUser, true);
+                $systemUserService->updatePassword($this->userId, $this->form->getValue('newPassword'));
                 
                 $this->getUser()->setFlash('templateMessage', array('SUCCESS', __('Password Changed Successfully')));
                 $this->redirect('admin/changeUserPassword'); 
