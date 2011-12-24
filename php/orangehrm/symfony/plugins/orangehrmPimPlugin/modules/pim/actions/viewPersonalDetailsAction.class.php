@@ -76,10 +76,13 @@ class viewPersonalDetailsAction extends basePimAction {
                 $this->form->bind($request->getParameter($this->form->getName()));
                 if ($this->form->isValid()) {
 
+                    $this->_checkWhetherEmployeeIdExists($this->form->getValue('txtEmployeeId'), $empNumber);
+
                     $employee = $this->form->getEmployee();
                     $this->getEmployeeService()->savePersonalDetails($employee, $essMode);
                     $this->getUser()->setFlash('templateMessage', array('success', __('Personal Details Saved Successfully')));
                     $this->redirect('pim/viewPersonalDetails?empNumber='. $empNumber);
+
                 }
             }
         } catch( Exception $e) {
@@ -99,6 +102,21 @@ class viewPersonalDetailsAction extends basePimAction {
         }
 
         $_SESSION['leavePeriodDefined'] = $flag;
+    }
+
+    protected function _checkWhetherEmployeeIdExists($employeeId, $empNumber) {
+
+        if (!empty($employeeId)) {
+
+            $employee = $this->getEmployeeService()->getEmployeeByEmployeeId($employeeId);
+
+            if ($employee instanceof Employee) {
+                $this->getUser()->setFlash('templateMessage', array('warning', __('Employee Id Exists')));
+                $this->redirect('pim/viewPersonalDetails?empNumber='. $empNumber);
+            }
+
+        }
+
     }
 
 }

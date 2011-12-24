@@ -1420,6 +1420,22 @@ class EmployeeDao extends BaseDao {
             throw new DaoException($e->getMessage());
         }
     }
+
+    public function getEmployeeByEmployeeId($employeeId) {
+
+        try {
+
+            $q = Doctrine_Query::create()
+                               ->from('Employee')
+                               ->where('employeeId = ?', $employeeId);
+
+            return $q->fetchOne();
+
+        } catch (Exception $e) {
+            throw new DaoException($e->getMessage(), $e->getCode(), $e);
+        }
+
+    }
     
     
 

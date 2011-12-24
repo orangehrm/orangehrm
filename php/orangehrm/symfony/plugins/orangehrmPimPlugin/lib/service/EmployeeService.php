@@ -104,6 +104,17 @@ class EmployeeService extends BaseService {
     }
 
     /**
+     * Get an employee by employee ID
+     *
+     * @version 2.6.12.1
+     * @param string $employeeId Employee ID
+     * @return Employee Employee instance if found or false
+     */
+    public function getEmployeeByEmployeeId($employeeId) {
+        return $this->getEmployeeDao()->getEmployeeByEmployeeId($employeeId);
+    }
+
+    /**
      * Get the default employee id to be used for next employee being
      * added to the system.
      * 

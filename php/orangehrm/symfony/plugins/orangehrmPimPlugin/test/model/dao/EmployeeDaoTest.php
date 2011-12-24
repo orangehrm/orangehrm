@@ -906,6 +906,32 @@ class EmployeeDaoTest extends PHPUnit_Framework_TestCase {
 
         $this->assertTrue(in_array('LKR', $assignedCurrencies[0]));
         $this->assertTrue(in_array('USD', $assignedCurrencies[1]));
-    }    
+    }
+
+    public function testGetEmployeeByEmployeeIdWithCorrectId() {
+
+        $employee = $this->employeeDao->getEmployeeByEmployeeId('E001');
+        $this->assertTrue($employee instanceof Employee);
+        $this->assertEquals('Kayla', $employee->getFirstName());
+
+        $employee = $this->employeeDao->getEmployeeByEmployeeId('e001');
+        $this->assertTrue($employee instanceof Employee);
+        $this->assertEquals('Kayla', $employee->getFirstName());
+
+        $employee = $this->employeeDao->getEmployeeByEmployeeId(  'E001'  );
+        $this->assertTrue($employee instanceof Employee);
+        $this->assertEquals('Kayla', $employee->getFirstName());
+
+    }
+
+    public function testGetEmployeeByEmployeeIdWithWrongId() {
+
+        $employee = $this->employeeDao->getEmployeeByEmployeeId('abcd');
+        $this->assertFalse($employee);
+
+        $employee = $this->employeeDao->getEmployeeByEmployeeId('');
+        $this->assertFalse($employee);
+
+    }
     
 }

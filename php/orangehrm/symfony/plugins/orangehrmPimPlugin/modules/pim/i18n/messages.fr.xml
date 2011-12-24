@@ -1232,6 +1232,10 @@
                 <source>Multiple import files may be required</source>
                 <target>FR_Multiple import files may be required</target>
             </trans-unit>
+            <trans-unit id="311">
+                <source>Employee Id Exists</source>
+                <target>FR_Employee Id Exists</target>
+            </trans-unit>
         </body>
     </file>
 </xliff>

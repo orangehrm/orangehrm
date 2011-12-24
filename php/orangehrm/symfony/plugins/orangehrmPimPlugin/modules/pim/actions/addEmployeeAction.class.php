@@ -104,6 +104,8 @@ class addEmployeeAction extends basePimAction {
             
             //if everything seems ok save employee and create a user account
             if ($this->form->isValid()) {
+
+                $this->_checkWhetherEmployeeIdExists($this->form->getValue('employeeId'));
                 
                 try {
 
@@ -201,5 +203,21 @@ class addEmployeeAction extends basePimAction {
 
         return $this->userService;
     }
+
+    protected function _checkWhetherEmployeeIdExists($employeeId) {
+
+        if (!empty($employeeId)) {
+
+            $employee = $this->getEmployeeService()->getEmployeeByEmployeeId($employeeId);
+
+            if ($employee instanceof Employee) {
+                $this->getUser()->setFlash('templateMessage', array('warning', __('Employee Id Exists')));
+                $this->redirect('pim/addEmployee');
+            }
+
+        }
+
+    }
+
 }
 
