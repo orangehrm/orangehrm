@@ -131,8 +131,8 @@ class EmployeeSalaryForm extends BaseForm {
                 $error = new sfValidatorError($validator, $message);
                 throw new sfValidatorErrorSchema($validator, array('' => $error));
 
-            } else if ( (!is_null($salaryDetail->minSalary) && ($salary < $salaryDetail->minSalary)) ||
-                        (!is_null($salaryDetail->maxSalary) && ($salary > $salaryDetail->maxSalary)) ) {
+            } else if ( (!empty($salaryDetail->minSalary) && ($salary < $salaryDetail->minSalary)) ||
+                        (!empty($salaryDetail->maxSalary) && ($salary > $salaryDetail->maxSalary)) ) {
 
                 $message = sfContext::getInstance()->getI18N()->__('Salary should be within min and max');
                 $error = new sfValidatorError($validator, $message);

@@ -556,13 +556,13 @@
         var max = parseFloat($('#maxSalary').val());
         var amount = parseFloat($('#salary_basic_salary').val().trim());
         
-        if (!isNaN(amount)) {
+        if (!isNaN(amount) && (min != 0 || max != 0)) {
             
             if (!isNaN(min) && (amount < min)) {
                 valid = false;
             }
             
-            if (!isNaN(max) && (amount > max)) {
+            if (!isNaN(max) && max != 0 && (amount > max)) {
                 valid = false;
             }
         }

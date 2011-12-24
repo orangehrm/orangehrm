@@ -112,7 +112,6 @@ class viewSalaryListAction extends basePimAction {
                         $validationMsg .= $widgetName . ' ' . __($this->form[$widgetName]->getError()->getMessageFormat());
                     }
                 }
-                $validationMsg .= $this->form->getWidgetSchema()->renderGlobalErrors();
 
                 $this->getUser()->setFlash('templateMessage', array('warning', $validationMsg));
             }
