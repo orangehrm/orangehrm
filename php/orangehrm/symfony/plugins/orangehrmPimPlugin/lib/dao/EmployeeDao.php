@@ -1427,7 +1427,7 @@ class EmployeeDao extends BaseDao {
 
             $q = Doctrine_Query::create()
                                ->from('Employee')
-                               ->where('employeeId = ?', $employeeId);
+                               ->where('employeeId = ?', trim($employeeId));
 
             return $q->fetchOne();
 
