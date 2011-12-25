@@ -49,9 +49,9 @@
     <touch file="release-revision-${svn.revision}.txt" />
   </target>
  
-  <target name="build" depends="clean,prepare,symfony.publish.assets">
+  <target name="build" depends="prepare,symfony.publish.assets,clean">
     <echo>Copying files...</echo>
-    <copy todir="${package.dir}">
+    <copy todir="${package.dir}" includeemptydirs="true">
         <fileset dir="${project.dir}">
             <include name="**"/>
             <include name="**/*.htaccess"/>
@@ -84,8 +84,8 @@
             <exclude name="symfony/config/databases.yml"/>
             <exclude name="symfony/web/orangehrm_dev.php"/>
             <exclude name="symfony/test/**"/>
-            <exclude name="symfony/cache/*/**"/>
-            <exclude name="symfony/log/*"/>
+            <!-- <exclude name="symfony/cache/*/**"/> -->
+            <!-- <exclude name="symfony/log/*"/> -->
             <exclude name="symfony/lib/vendor/symfony/test/**"/>
         </fileset>
     </copy>
@@ -179,6 +179,14 @@
     <delete dir="${dist.dir}"/>
     <delete dir="${reports.dir}" />
     <delete><fileset refid="deleteFiles" /></delete>
+    <delete includeemptydirs="true" failonerror="true">
+            <fileset dir="${project.dir}/symfony/log">
+               <include name="*" />
+            </fileset>
+            <fileset dir="${project.dir}/symfony/cache">
+               <include name="**/**" />
+            </fileset>
+    </delete>
   </target>
 
   <!-- Target run by continuous integration server -->
