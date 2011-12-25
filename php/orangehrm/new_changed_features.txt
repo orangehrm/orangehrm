@@ -9,7 +9,8 @@ New & Changed Features for OrangeHRM ver  2.6.12.1
     3460742 - Ability to add same education level multiple times
     3460741 - Remove Add/Delete buttons from Mini lists
     3460725 - PIM > Data Import help text should be changed
-    3460722 - Have pagination in the bottom of lists too 
+    3460722 - Have pagination in the bottom of lists too
+    Preventing duplicate employee IDs
 
 New & Changed Features for OrangeHRM ver  2.6.12
 
