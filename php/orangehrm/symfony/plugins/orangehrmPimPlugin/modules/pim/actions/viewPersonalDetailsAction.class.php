@@ -110,7 +110,7 @@ class viewPersonalDetailsAction extends basePimAction {
 
             $employee = $this->getEmployeeService()->getEmployeeByEmployeeId($employeeId);
 
-            if ($employee instanceof Employee) {
+            if (($employee instanceof Employee) && trim($employee->getEmpNumber()) != trim($empNumber)) {
                 $this->getUser()->setFlash('templateMessage', array('warning', __('Employee Id Exists')));
                 $this->redirect('pim/viewPersonalDetails?empNumber='. $empNumber);
             }
