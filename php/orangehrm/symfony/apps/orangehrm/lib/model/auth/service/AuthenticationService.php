@@ -72,10 +72,8 @@ class AuthenticationService extends BaseService {
 
             if ($user->getIsAdmin() == 'No' && $user->getEmpNumber() == '') {
                 throw new AuthenticationServiceException('Employee not assigned');
-
-            } elseif (!is_null ($user->getEmployee()->getTerminationId())) {
+            } elseif (!is_null($user->getEmployee()->getTerminationId())) {
                 throw new AuthenticationServiceException('Employee is terminated');
-
             } elseif ($user->getStatus() == 0) {
                 throw new AuthenticationServiceException('Account disabled');
             }
@@ -111,11 +109,10 @@ class AuthenticationService extends BaseService {
         $sfUser->setAttribute('auth.userId', $user->getId());
         $sfUser->setAttribute('auth.userGroup', $user->getUsergId());
         $sfUser->setAttribute('auth.isAdmin', $user->getIsAdmin());
-         $sfUser->setAttribute('auth.isAdmin',true);
+        $sfUser->setAttribute('auth.isAdmin', true);
         $sfUser->setAttribute('auth.empId', $user->getEmployee()->getEmployeeId());
         $sfUser->setAttribute('auth.empNumber', $user->getEmpNumber());
-       // $sfUser->setAttribute('auth.firstName', $user->getFirstName());
-        $sfUser->setAttribute('auth.firstName', $user->getName()); 
+        $sfUser->setAttribute('auth.firstName', $user->getName());
     }
 
     /**
@@ -126,11 +123,11 @@ class AuthenticationService extends BaseService {
     protected function setBasicUserAttributesToSession(SystemUser $user) {
         $_SESSION['user'] = $user->getId();
         $_SESSION['userGroup'] = $user->getUsergId();
-         $_SESSION['isAdmin'] = $user->getIsAdmin();
+        $_SESSION['isAdmin'] = $user->getIsAdmin();
         /* In the base product, this session variable is assigned with the value
-           employee number (emp_number field), left padded with zeros. The session
-           variable does not contain the value of actual employee id (employee_id 
-           field) */
+          employee number (emp_number field), left padded with zeros. The session
+          variable does not contain the value of actual employee id (employee_id
+          field) */
         $padLength = 4; // This should be taken from sysConf of the base product
         $_SESSION['empID'] = str_pad($user->getEmployee()->getEmpNumber(), $padLength, '0', STR_PAD_LEFT);
 
