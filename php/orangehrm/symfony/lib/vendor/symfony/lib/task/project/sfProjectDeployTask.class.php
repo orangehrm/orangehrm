@@ -14,7 +14,7 @@
  * @package    symfony
  * @subpackage task
  * @author     Fabien Potencier <fabien.potencier@symfony-project.com>
- * @version    SVN: $Id: sfProjectDeployTask.class.php 23922 2009-11-14 14:58:38Z fabien $
+ * @version    SVN: $Id: sfProjectDeployTask.class.php 33125 2011-10-08 21:02:31Z fabien $
  */
 class sfProjectDeployTask extends sfBaseTask
 {
@@ -142,14 +142,14 @@ EOF;
     else
     {
       $parameters = $options['rsync-options'];
-      if (file_exists($options['rsync-dir'].'/rsync_exclude.txt'))
-      {
-        $parameters .= sprintf(' --exclude-from=%s/rsync_exclude.txt', $options['rsync-dir']);
-      }
-
       if (file_exists($options['rsync-dir'].'/rsync_include.txt'))
       {
         $parameters .= sprintf(' --include-from=%s/rsync_include.txt', $options['rsync-dir']);
+      }
+
+      if (file_exists($options['rsync-dir'].'/rsync_exclude.txt'))
+      {
+        $parameters .= sprintf(' --exclude-from=%s/rsync_exclude.txt', $options['rsync-dir']);
       }
 
       if (file_exists($options['rsync-dir'].'/rsync.txt'))

@@ -14,7 +14,7 @@
  * @package    symfony
  * @subpackage validator
  * @author     Fabien Potencier <fabien.potencier@symfony-project.com>
- * @version    SVN: $Id: sfValidatorFile.class.php 23951 2009-11-14 20:44:22Z FabianLange $
+ * @version    SVN: $Id: sfValidatorFile.class.php 32836 2011-07-27 07:15:58Z fabien $
  */
 class sfValidatorFile extends sfValidatorBase
 {
@@ -263,7 +263,7 @@ class sfValidatorFile extends sfValidatorBase
     }
     $type = trim(ob_get_clean());
 
-    if (!preg_match('#^([a-z0-9\-]+/[a-z0-9\-]+)#i', $type, $match))
+    if (!preg_match('#^([a-z0-9\-]+/[a-z0-9\-.]+)#i', $type, $match))
     {
       // it's not a type, but an error message
       return null;

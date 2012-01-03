@@ -10,7 +10,7 @@
 
 require_once(dirname(__FILE__).'/../../bootstrap/unit.php');
 
-$t = new lime_test(71);
+$t = new lime_test(72);
 
 class myRequest extends sfWebRequest
 {
@@ -367,3 +367,11 @@ $request = new myRequest($dispatcher);
 $_SERVER['CONTENT_TYPE'] = 'text/html; charset=UTF-8';
 $t->is($request->getContentType(), 'text/html', '->getContentType() strips the charset information by default');
 $t->is($request->getContentType(false), 'text/html; charset=UTF-8', '->getContentType() does not strip the charset information by defaultif you pass false as the first argument');
+
+// ->getHost()
+$t->diag('->getHost()');
+
+$request = new myRequest($dispatcher);
+$_SERVER['HTTP_X_FORWARDED_HOST'] = 'example1.com, example2.com, example3.com';
+$t->is($request->getHost(), 'example3.com', '->getHost() returns the last forwarded host');
+unset($_SERVER['HTTP_X_FORWARDED_HOST']);

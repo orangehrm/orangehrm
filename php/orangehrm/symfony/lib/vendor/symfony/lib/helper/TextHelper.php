@@ -16,7 +16,7 @@
  * @subpackage helper
  * @author     Fabien Potencier <fabien.potencier@symfony-project.com>
  * @author     David Heinemeier Hansson
- * @version    SVN: $Id: TextHelper.php 29417 2010-05-12 06:53:36Z fabien $
+ * @version    SVN: $Id: TextHelper.php 33022 2011-09-15 05:27:12Z fabien $
  */
 
 /**
@@ -234,7 +234,7 @@ if (!defined('SF_AUTO_LINK_RE'))
       (?::\d+)?                # port
       (?:/(?:(?:[\~\w\+%-]|(?:[,.;:][^\s$]))+)?)* # path
       (?:\?[\w\+%&=.;-]+)?     # query string
-      (?:\#[\w\-]*)?           # trailing anchor
+      (?:\#[\w\-/\?!=]*)?        # trailing anchor
     )
     ([[:punct:]]|\s|<|$)    # trailing text
    ~x');
@@ -283,5 +283,10 @@ function _auto_link_urls($text, $href_options = array(), $truncate = false, $tru
  */
 function _auto_link_email_addresses($text)
 {
-  return preg_replace('/([\w\.!#\$%\-+.]+@[A-Za-z0-9\-]+(\.[A-Za-z0-9\-]+)+)/', '<a href="mailto:\\1">\\1</a>', $text);
+  // Taken from http://snippets.dzone.com/posts/show/6156
+  return preg_replace("#(^|[\n ])([a-z0-9&\-_\.]+?)@([\w\-]+\.([\w\-\.]+\.)*[\w]+)#i", "\\1<a href=\"mailto:\\2@\\3\">\\2@\\3</a>", $text);
+
+  // Removed since it destroys already linked emails 
+  // Example:   <a href="mailto:me@example.com">bar</a> gets <a href="mailto:me@example.com">bar</a> gets <a href="mailto:<a href="mailto:me@example.com">bar</a>
+  //return preg_replace('/([\w\.!#\$%\-+.]+@[A-Za-z0-9\-]+(\.[A-Za-z0-9\-]+)+)/', '<a href="mailto:\\1">\\1</a>', $text);
 }

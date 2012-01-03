@@ -12,7 +12,7 @@
  * @package    symfony
  * @subpackage i18n
  * @author     Fabien Potencier <fabien.potencier@symfony-project.com>
- * @version    SVN: $Id: sfI18nModuleExtract.class.php 7691 2008-02-29 16:56:22Z fabien $
+ * @version    SVN: $Id: sfI18nModuleExtract.class.php 31248 2010-10-26 13:54:12Z fabien $
  */
 class sfI18nModuleExtract extends sfI18nExtract
 {
@@ -30,7 +30,9 @@ class sfI18nModuleExtract extends sfI18nExtract
 
     $this->module = $this->parameters['module'];
 
-    $this->i18n->setMessageSource($this->i18n->getConfiguration()->getI18NDirs($this->module), $this->culture);
+    $options = $this->i18n->getOptions();
+    $dirs = $this->i18n->isMessageSourceFileBased($options['source']) ? $this->i18n->getConfiguration()->getI18NDirs($this->module) : null;
+    $this->i18n->setMessageSource($dirs, $this->culture);
   }
 
   /**

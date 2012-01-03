@@ -21,7 +21,7 @@
  * @subpackage storage
  * @author     Fabien Potencier <fabien.potencier@symfony-project.com>
  * @author     Sean Kerr <sean@code-box.org>
- * @version    SVN: $Id: sfSessionStorage.class.php 23810 2009-11-12 11:07:44Z Kris.Wallsmith $
+ * @version    SVN: $Id: sfSessionStorage.class.php 31471 2010-11-22 19:32:02Z fabien $
  */
 class sfSessionStorage extends sfStorage
 {
@@ -60,7 +60,7 @@ class sfSessionStorage extends sfStorage
       'session_cookie_domain'   => $cookieDefaults['domain'],
       'session_cookie_secure'   => $cookieDefaults['secure'],
       'session_cookie_httponly' => isset($cookieDefaults['httponly']) ? $cookieDefaults['httponly'] : false,
-      'session_cache_limiter'   => 'none',
+      'session_cache_limiter'   => null,
     ), $options);
 
     // initialize parent

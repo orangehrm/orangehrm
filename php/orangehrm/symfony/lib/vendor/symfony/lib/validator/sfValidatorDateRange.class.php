@@ -14,7 +14,7 @@
  * @package    symfony
  * @subpackage validator
  * @author     Fabien Potencier <fabien.potencier@symfony-project.com>
- * @version    SVN: $Id: sfValidatorDateRange.class.php 15966 2009-03-03 17:29:06Z hartym $
+ * @version    SVN: $Id: sfValidatorDateRange.class.php 32810 2011-07-21 05:18:56Z fabien $
  */
 class sfValidatorDateRange extends sfValidatorBase
 {
@@ -35,7 +35,7 @@ class sfValidatorDateRange extends sfValidatorBase
    */
   protected function configure($options = array(), $messages = array())
   {
-    $this->addMessage('invalid', 'The begin date must be before the end date.');
+    $this->setMessage('invalid', 'The begin date must be before the end date.');
 
     $this->addRequiredOption('from_date');
     $this->addRequiredOption('to_date');

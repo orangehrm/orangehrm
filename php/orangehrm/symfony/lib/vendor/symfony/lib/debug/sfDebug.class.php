@@ -14,7 +14,7 @@
  * @package    symfony
  * @subpackage debug
  * @author     Fabien Potencier <fabien.potencier@symfony-project.com>
- * @version    SVN: $Id: sfDebug.class.php 22118 2009-09-18 07:02:26Z fabien $
+ * @version    SVN: $Id: sfDebug.class.php 31250 2010-10-26 14:18:26Z fabien $
  */
 class sfDebug
 {
@@ -161,11 +161,22 @@ class sfDebug
       return array();
     }
 
-    return array(
+    $data = array(
       'options'         => $user->getOptions(),
       'attributeHolder' => self::flattenParameterHolder($user->getAttributeHolder(), true),
       'culture'         => $user->getCulture(),
     );
+
+    if ($user instanceof sfSecurityUser)
+    {
+      $data = array_merge($data, array(
+          'authenticated'   => $user->isAuthenticated(),
+          'credentials'     => $user->getCredentials(),
+          'lastRequest'     => $user->getLastRequestTime(),
+      ));
+    }
+
+    return $data;
   }
 
   /**

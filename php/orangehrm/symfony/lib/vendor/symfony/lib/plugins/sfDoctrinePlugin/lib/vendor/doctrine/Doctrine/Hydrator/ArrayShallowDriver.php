@@ -1,6 +1,6 @@
 <?php
 /*
- *  $Id: Timestamp.php 3884 2008-02-22 18:26:35Z jwage $
+ *  $Id$
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
  * "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
@@ -20,48 +20,25 @@
  */
 
 /**
- * Doctrine_Validator_Timestamp
- *
+ * Extended version of Doctrine_Hydrator_ScalarDriver, passes its _gatherRowData function a value of false for $aliasPrefix in order to cause it to generate the sorts of array keys one would see in a HYDRATE_ARRAY type return.
+ * Note: This hydrator will have issues with fields in the return that have the same name (such as 2 fields each called id) -- the second field value will overwrite the first field.
  * @package     Doctrine
- * @subpackage  Validator
+ * @subpackage  Hydrate
  * @license     http://www.opensource.org/licenses/lgpl-license.php LGPL
  * @link        www.doctrine-project.org
- * @since       1.0
- * @version     $Revision: 3884 $
- * @author      Mark Pearson <mark.pearson0@googlemail.com>
+ * @since       1.2.3
+ * @version     $Revision$
+ * @author      Will Ferrer
  */
-class Doctrine_Validator_Timestamp extends Doctrine_Validator_Driver
+class Doctrine_Hydrator_ArrayShallowDriver extends Doctrine_Hydrator_ScalarDriver
 {
-    /**
-     * checks if given value is a valid timestamp
-     * ISO-8601 timestamp (YYYY-MM-DDTHH:MM:SS+00:00) or (YYYY-MM-DD HH:MM:SS)
-     *
-     * @param mixed $value
-     * @return boolean
-     */
-    public function validate($value)
+    public function hydrateResultSet($stmt)
     {
-        if (is_null($value)) {
-            return true;
+        $cache = array();
+        $result = array();
+        while ($data = $stmt->fetch(Doctrine_Core::FETCH_ASSOC)) {
+            $result[] = $this->_gatherRowData($data, $cache, false);
         }
-
-        $splitChar = false !== strpos($value, 'T') ? 'T' : ' ';
-
-        $e = explode($splitChar, trim($value));
-        $date = isset($e[0]) ? $e[0] : null;
-        $time = isset($e[1]) ? $e[1] : null;
-
-        $dateValidator = Doctrine_Validator::getValidator('date');
-        $timeValidator = Doctrine_Validator::getValidator('time');
-
-        if ( ! $dateValidator->validate($date)) {
-            return false;
-        }
-
-        if ( ! $timeValidator->validate($time)) {
-            return false;
-        } 
-
-        return true;
+        return $result;
     }
 }

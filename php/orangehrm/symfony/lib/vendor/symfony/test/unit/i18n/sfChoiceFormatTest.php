@@ -10,7 +10,7 @@
 
 require_once(dirname(__FILE__).'/../../bootstrap/unit.php');
 
-$t = new lime_test(89);
+$t = new lime_test(90);
 
 $n = new sfChoiceFormat();
 
@@ -96,6 +96,9 @@ $t->is($n->format($strings[0][0], 4), false, '->format() returns the string that
 $t->is($n->format($strings[4][0], 0), $strings[4][1][1][0], '->format() returns the string that match the number');
 $t->is($n->format($strings[4][0], 1), $strings[4][1][1][1], '->format() returns the string that match the number');
 $t->is($n->format($strings[4][0], 12), $strings[4][1][1][2], '->format() returns the string that match the number');
+
+// test strings with some set notation
+$t->is($n->format("[0]Some text|[1,Inf] Some text (10)", 12), 'Some text (10)', '->format() does not take into account ranges that are not prefixed with |');
 
 // test set notation
 // tests adapted from Prado unit test suite

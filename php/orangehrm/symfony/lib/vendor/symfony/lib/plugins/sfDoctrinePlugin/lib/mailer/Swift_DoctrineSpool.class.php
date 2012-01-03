@@ -21,7 +21,7 @@
  * @package    symfony
  * @subpackage mailer
  * @author     Fabien Potencier <fabien.potencier@symfony-project.com>
- * @version    SVN: $Id: Swift_DoctrineSpool.class.php 23810 2009-11-12 11:07:44Z Kris.Wallsmith $
+ * @version    SVN: $Id: Swift_DoctrineSpool.class.php 31249 2010-10-26 13:57:10Z fabien $
  */
 class Swift_DoctrineSpool extends Swift_ConfigurableSpool
 {
@@ -84,6 +84,8 @@ class Swift_DoctrineSpool extends Swift_ConfigurableSpool
 
     $object->{$this->column} = serialize($message);
     $object->save();
+    
+    $object->free(true);
   }
 
   /**

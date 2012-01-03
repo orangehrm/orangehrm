@@ -16,7 +16,7 @@
  * @package    symfony
  * @subpackage response
  * @author     Fabien Potencier <fabien.potencier@symfony-project.com>
- * @version    SVN: $Id: sfWebResponse.class.php 28347 2010-03-02 17:47:14Z fabien $
+ * @version    SVN: $Id: sfWebResponse.class.php 31399 2010-11-15 16:48:22Z fabien $
  */
 class sfWebResponse extends sfResponse
 {
@@ -795,6 +795,10 @@ class sfWebResponse extends sfResponse
     $this->stylesheets = $response->getStylesheets(self::RAW);
     $this->javascripts = $response->getJavascripts(self::RAW);
     $this->slots       = $response->getSlots();
+
+    // HTTP protocol must be from the current request
+    // this fix is not nice but that's the only way to fix it and keep BC (see #9254)
+    $this->options['http_protocol'] = isset($_SERVER['SERVER_PROTOCOL']) ? $_SERVER['SERVER_PROTOCOL'] : 'HTTP/1.0';
   }
 
   /**

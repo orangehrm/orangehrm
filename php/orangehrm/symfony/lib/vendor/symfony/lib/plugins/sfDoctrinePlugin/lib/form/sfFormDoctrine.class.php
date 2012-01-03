@@ -18,7 +18,7 @@
  * @subpackage form
  * @author     Fabien Potencier <fabien.potencier@symfony-project.com>
  * @author     Jonathan H. Wage <jonwage@gmail.com>
- * @version    SVN: $Id: sfFormDoctrine.class.php 29643 2010-05-27 15:52:21Z Jonathan.Wage $
+ * @version    SVN: $Id: sfFormDoctrine.class.php 32740 2011-07-09 09:24:03Z fabien $
  */
 abstract class sfFormDoctrine extends sfFormObject
 {
@@ -415,7 +415,7 @@ abstract class sfFormDoctrine extends sfFormObject
 
     if (!$table->hasRelation($alias))
     {
-      throw new InvalidArgumentException(sprintf('The "%s" model has to "%s" relation.', $this->getModelName(), $alias));
+      throw new InvalidArgumentException(sprintf('The "%s" model has no "%s" relation.', $this->getModelName(), $alias));
     }
 
     $relation = $table->getRelation($alias);

@@ -14,7 +14,7 @@
  * @package    symfony
  * @subpackage helper
  * @author     Fabien Potencier <fabien.potencier@symfony-project.com>
- * @version    SVN: $Id: I18NHelper.php 29597 2010-05-24 06:00:11Z fabien $
+ * @version    SVN: $Id: I18NHelper.php 31894 2011-01-24 18:12:37Z fabien $
  */
 
 function __($text, $args = array(), $catalogue = 'messages')
@@ -43,6 +43,23 @@ function __($text, $args = array(), $catalogue = 'messages')
   }
 }
 
+/**
+ * Format a string according to a number.
+ *
+ * Every segment is separated with |
+ * Each segment defines an intervale and a value.
+ *
+ * For example :
+ *
+ * * [0]Nobody is logged|[1]There is 1 person logged|(1,+Inf]There are %number persons logged
+ *
+ * @param string $text      Text used for different number values
+ * @param array  $args      Arguments to replace in the string
+ * @param int    $number    Number to use to determine the string to use
+ * @param string $catalogue Catalogue for translation
+ *
+ * @return string Result of the translation
+ */
 function format_number_choice($text, $args = array(), $number, $catalogue = 'messages')
 {
   $translated = __($text, $args, $catalogue);

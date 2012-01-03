@@ -17,7 +17,7 @@
  * @subpackage config
  * @author     Fabien Potencier <fabien.potencier@symfony-project.com>
  * @author     Sean Kerr <sean@code-box.org>
- * @version    SVN: $Id: sfFactoryConfigHandler.class.php 23810 2009-11-12 11:07:44Z Kris.Wallsmith $
+ * @version    SVN: $Id: sfFactoryConfigHandler.class.php 33226 2011-11-23 17:29:18Z fabien $
  */
 class sfFactoryConfigHandler extends sfYamlConfigHandler
 {
@@ -163,7 +163,7 @@ class sfFactoryConfigHandler extends sfYamlConfigHandler
 
           $instances[] = sprintf("  \$class = sfConfig::get('sf_factory_routing', '%s');\n".
                            "  %s\n".
-                           "\$this->factories['routing'] = new \$class(\$this->dispatcher, \$cache, array_merge(array('auto_shutdown' => false, 'context' => \$this->factories['request']->getRequestContext()), sfConfig::get('sf_factory_routing_parameters', %s)));\n".
+                           "\$this->factories['routing'] = new \$class(\$this->dispatcher, \$cache, sfToolkit::arrayDeepMerge(array('auto_shutdown' => false, 'context' => \$this->factories['request']->getRequestContext()), sfConfig::get('sf_factory_routing_parameters', %s)));\n".
                            "if (\$parameters = \$this->factories['routing']->parse(\$this->factories['request']->getPathInfo()))\n".
                            "{\n".
                            "  \$this->factories['request']->addRequestParameters(\$parameters);\n".

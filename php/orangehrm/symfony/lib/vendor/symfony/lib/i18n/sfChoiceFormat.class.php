@@ -13,7 +13,7 @@
  * {@link http://prado.sourceforge.net/}
  *
  * @author     Wei Zhuo <weizhuo[at]gmail[dot]com>
- * @version    $Id: sfChoiceFormat.class.php 23810 2009-11-12 11:07:44Z Kris.Wallsmith $
+ * @version    $Id: sfChoiceFormat.class.php 33251 2011-12-12 16:30:59Z fabien $
  * @package    symfony
  * @subpackage i18n
  */
@@ -65,7 +65,7 @@ class sfChoiceFormat
   /**
    * The pattern to parse the formatting string.
    */
-  protected $parse = '/\s*\|?([\(\[\{]([-Inf\d:\s]+,?[\+Inf\d\s:\?\-=!><%\|&\(\)]*)+[\)\]\}])\s*/';
+  protected $parse = '/(?:^\s*|\s*\|)([\(\[\{]([-Inf\d:\s]+,?[\+Inf\d\s:\?\-=!><%\|&\(\)]*)+[\)\]\}])\s*/';
 
   /**
    * The value for positive infinity.

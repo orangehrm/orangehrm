@@ -10,6 +10,8 @@
 
 require_once(dirname(__FILE__).'/../../bootstrap/unit.php');
 
+$year = date('Y');
+
 $t = new lime_test(43);
 
 $w = new sfWidgetFormDate();
@@ -21,7 +23,7 @@ $dom->validateOnParse = true;
 $t->diag('->render()');
 
 foreach (array(
-  '2005-10-15' => array('year' => 2005, 'month' => 10, 'day' => 15),
+  $year.'-10-15' => array('year' => $year, 'month' => 10, 'day' => 15),
   time() => array('year' => date('Y'), 'month' => date('m'), 'day' => date('d')),
   'tomorrow' => array('year' => date('Y', time() + 86400), 'month' => date('m', time() + 86400), 'day' => date('d', time() + 86400)),
 ) as $date => $values)
@@ -48,7 +50,7 @@ $t->is($css->matchSingle('#foo_day option[value="15"][selected="selected"]')->ge
 
 // date as an array
 $t->diag('date as an array');
-$values = array('year' => 2005, 'month' => 10, 'day' => 15);
+$values = array('year' => $year, 'month' => 10, 'day' => 15);
 $dom->loadHTML($w->render('foo', $values));
 $css = new sfDomCssSelector($dom);
 $t->is($css->matchSingle('#foo_year option[value="'.$values['year'].'"][selected="selected"]')->getValue(), $values['year'], '->render() renders a select tag for the year');
@@ -71,7 +73,7 @@ $t->is($css->matchSingle('#foo_day option[selected="selected"]')->getValue(), ''
 
 // number of options in each select
 $t->diag('number of options in each select');
-$dom->loadHTML($w->render('foo', '2005-10-15'));
+$dom->loadHTML($w->render('foo', $year.'-10-15'));
 $css = new sfDomCssSelector($dom);
 $t->is(count($css->matchAll('#foo_year option')->getNodes()), 12, '->render() renders a select tag for the 10 years around the current one');
 $t->is(count($css->matchAll('#foo_month option')->getNodes()), 13, '->render() renders a select tag for the 12 months in a year');
@@ -80,7 +82,7 @@ $t->is(count($css->matchAll('#foo_day option')->getNodes()), 32, '->render() ren
 // can_be_empty option
 $t->diag('can_be_empty option');
 $w->setOption('can_be_empty', false);
-$dom->loadHTML($w->render('foo', '2005-10-15'));
+$dom->loadHTML($w->render('foo', $year.'-10-15'));
 $css = new sfDomCssSelector($dom);
 $t->is(count($css->matchAll('#foo_year option')->getNodes()), 11, '->render() renders a select tag for the 10 years around the current one');
 $t->is(count($css->matchAll('#foo_month option')->getNodes()), 12, '->render() renders a select tag for the 12 months in a year');
@@ -90,7 +92,7 @@ $w->setOption('can_be_empty', true);
 // empty_values
 $t->diag('empty_values option');
 $w->setOption('empty_values', array('year' => 'YEAR', 'month' => 'MONTH', 'day' => 'DAY'));
-$dom->loadHTML($w->render('foo', '2005-10-15'));
+$dom->loadHTML($w->render('foo', $year.'-10-15'));
 $css = new sfDomCssSelector($dom);
 $t->is($css->matchSingle('#foo_year option')->getNode()->nodeValue, 'YEAR', '->configure() can change the empty values');
 $t->is($css->matchSingle('#foo_month option')->getNode()->nodeValue, 'MONTH', '->configure() can change the empty values');
@@ -103,13 +105,13 @@ $t->is($css->matchSingle('#foo_day')->getNode()->nextSibling->nodeValue, '/', '-
 $t->like($css->matchSingle('#foo_month')->getNode()->nextSibling->nodeValue, '#^/#', '->render() renders 3 selects with a default / as a separator');
 
 $w->setOption('format', '%month%#%day%#%year%');
-$dom->loadHTML($w->render('foo', '2005-10-15'));
+$dom->loadHTML($w->render('foo', $year.'-10-15'));
 $css = new sfDomCssSelector($dom);
 $t->is($css->matchSingle('#foo_day')->getNode()->nextSibling->nodeValue, '#', '__construct() can change the default date format');
 $t->like($css->matchSingle('#foo_month')->getNode()->nextSibling->nodeValue, '/^#/', '__construct() can change the default date format');
 
 $w->setOption('format', '%day%/%month%/%year%');
-$dom->loadHTML($w->render('foo', '2005-10-15'));
+$dom->loadHTML($w->render('foo', $year.'-10-15'));
 $css = new sfDomCssSelector($dom);
 $t->is($css->matchSingle('select')->getNode()->getAttribute('name'), 'foo[day]', '__construct() can change the default date format');
 
@@ -118,7 +120,7 @@ $t->diag('days / months / years options');
 $w->setOption('years', array(1998 => 1998, 1999 => 1999, 2000 => 2000, 2001 => 2001));
 $w->setOption('months', array(1 => 1, 2 => 2, 3 => 3));
 $w->setOption('days', array(1 => 1, 2 => 2));
-$dom->loadHTML($w->render('foo', '2005-10-15'));
+$dom->loadHTML($w->render('foo', $year.'-10-15'));
 $css = new sfDomCssSelector($dom);
 $t->is(count($css->matchAll('#foo_year option')->getNodes()), 5, '__construct() can change the default array used for years');
 $t->is(count($css->matchAll('#foo_month option')->getNodes()), 4, '__construct() can change the default array used for months');
@@ -126,11 +128,11 @@ $t->is(count($css->matchAll('#foo_day option')->getNodes()), 3, '__construct() c
 
 // attributes
 $t->diag('attributes');
-$dom->loadHTML($w->render('foo', '2005-10-15', array('disabled' => 'disabled')));
+$dom->loadHTML($w->render('foo', $year.'-10-15', array('disabled' => 'disabled')));
 $t->is(count($css->matchAll('select[disabled="disabled"]')->getNodes()), 3, '->render() takes the attributes into account for all the three embedded widgets');
 
 $w->setAttribute('disabled', 'disabled');
-$dom->loadHTML($w->render('foo', '2005-10-15'));
+$dom->loadHTML($w->render('foo', $year.'-10-15'));
 $t->is(count($css->matchAll('select[disabled="disabled"]')->getNodes()), 3, '->render() takes the attributes into account for all the three embedded widgets');
 
 // id_format

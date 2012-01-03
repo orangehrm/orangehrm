@@ -163,7 +163,7 @@
         <target><![CDATA["%value%" ist kein Integer.]]></target>
       </trans-unit>
       <trans-unit>
-        <source><![CDATA["%value%" is not an number.]]></source>
+        <source><![CDATA["%value%" is not a number.]]></source>
         <target><![CDATA["%value%" ist keine Nummer.]]></target>
       </trans-unit>
       <trans-unit>
@@ -178,6 +178,14 @@
         <source><![CDATA[CSRF attack detected.]]></source>
         <target><![CDATA[CSRF Attacke erkannt.]]></target>
       </trans-unit>
-    </body>
+      <trans-unit>
+        <source>Checked</source>
+        <target>Ausgewählt</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Are you sure?</source>
+        <target>Sind Sie sicher?</target>
+      </trans-unit>
+     </body>
   </file>
 </xliff>

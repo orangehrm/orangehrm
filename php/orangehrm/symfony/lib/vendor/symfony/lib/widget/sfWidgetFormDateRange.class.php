@@ -14,7 +14,7 @@
  * @package    symfony
  * @subpackage widget
  * @author     Fabien Potencier <fabien.potencier@symfony-project.com>
- * @version    SVN: $Id: sfWidgetFormDateRange.class.php 30762 2010-08-25 12:33:33Z fabien $
+ * @version    SVN: $Id: sfWidgetFormDateRange.class.php 33053 2011-09-20 15:31:20Z fabien $
  */
 class sfWidgetFormDateRange extends sfWidgetForm
 {
@@ -55,7 +55,7 @@ class sfWidgetFormDateRange extends sfWidgetForm
    */
   public function render($name, $value = null, $attributes = array(), $errors = array())
   {
-    $values = array_merge(array('from' => '', 'to' => '', 'is_empty' => ''), is_array($value) ? $value : array());
+    $value = array_merge(array('from' => '', 'to' => ''), is_array($value) ? $value : array());
 
     return strtr($this->translate($this->getOption('template')), array(
       '%from_date%'      => $this->getOption('from_date')->render($name.'[from]', $value['from']),

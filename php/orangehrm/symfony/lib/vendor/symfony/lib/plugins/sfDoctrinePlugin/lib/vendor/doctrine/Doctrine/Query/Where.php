@@ -66,7 +66,7 @@ class Doctrine_Query_Where extends Doctrine_Query_Condition
             if (strpos($leftExpr, "'") === false && strpos($leftExpr, '(') === false) {
                 // normal field reference found
                 $a = explode('.', $leftExpr);
-                array_pop($a); // Discard the field name (not needed!)
+                $fieldname = array_pop($a); // Discard the field name (not needed!)
                 $reference = implode('.', $a);
 
                 if (empty($reference)) {
@@ -75,6 +75,23 @@ class Doctrine_Query_Where extends Doctrine_Query_Condition
                 } else {
                     $map = $this->query->load($reference, false);
                     $alias = $this->query->getSqlTableAlias($reference);
+                }
+                
+                // DC-843 Modifiy operator for MSSQL
+                // @TODO apply database dependent parsing
+                //       list($leftExpr, $operator, $rightExpr) = $conn->modifyWhereCondition($leftExpr, $operator, $rightExpr); 
+                $driverName = strtolower($conn->getDriverName());
+                if ($driverName == 'mssql' && !empty($reference)) {
+                    $cmp = $this->query->getQueryComponent($reference);
+                    $table = $cmp['table'];
+                
+                    /* @var $table Doctrine_Table */
+                    $column = $table->getColumnName($fieldname);
+                    $columndef = $table->getColumnDefinition($column);
+
+                    if ($columndef['type'] == 'string' && ($columndef['length'] == NULL || $columndef['length'] > $conn->varchar_max_length)) {
+                        $operator = 'LIKE';
+                    }
                 }
             }
 

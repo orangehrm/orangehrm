@@ -184,7 +184,7 @@
         <target>"%value%" は数値でありません。</target>
       </trans-unit>
       <trans-unit>
-        <source>"%value%" is not an number.</source>
+        <source>"%value%" is not a number.</source>
         <target>"%value%" は数字でありません。</target>
       </trans-unit>
       <trans-unit>

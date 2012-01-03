@@ -14,7 +14,7 @@
  * @package    symfony
  * @subpackage helper
  * @author     Fabien Potencier <fabien.potencier@symfony-project.com>
- * @version    SVN: $Id: PartialHelper.php 27755 2010-02-08 20:51:02Z Kris.Wallsmith $
+ * @version    SVN: $Id: PartialHelper.php 33122 2011-10-07 12:42:49Z fabien $
  */
 
 /**
@@ -135,6 +135,8 @@ function get_component($moduleName, $componentName, $vars = array())
 {
   $context = sfContext::getInstance();
   $actionName = '_'.$componentName;
+
+  require($context->getConfigCache()->checkConfig('modules/'.$moduleName.'/config/module.yml'));
 
   $class = sfConfig::get('mod_'.strtolower($moduleName).'_partial_view_class', 'sf').'PartialView';
   $view = new $class($context, $moduleName, $actionName, '');

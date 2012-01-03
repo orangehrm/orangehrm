@@ -1,6 +1,6 @@
 <?php
 /*
- *  $Id: Pgsql.php 7641 2010-06-08 14:50:30Z jwage $
+ *  $Id: Pgsql.php 7689 2010-08-25 23:50:42Z jwage $
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
  * "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
@@ -26,7 +26,7 @@
  * @author      Konsta Vesterinen <kvesteri@cc.hut.fi>
  * @author      Paul Cooper <pgc@ucecom.com>
  * @author      Lukas Smith <smith@pooteeweet.org> (PEAR MDB2 library)
- * @version     $Revision: 7641 $
+ * @version     $Revision: 7689 $
  * @link        www.doctrine-project.org
  * @since       1.0
  */
@@ -98,7 +98,6 @@ class Doctrine_Import_Pgsql extends Doctrine_Import
                                                      column_name as field,
                                                      udt_name as type,
                                                      data_type as complete_type,
-                                                     t.typtype AS typtype,
                                                      is_nullable as isnotnull,
                                                      column_default as default,
                                                      (
@@ -108,7 +107,6 @@ class Doctrine_Import_Pgsql extends Doctrine_Import
                                                          AND a.attnum > 0 AND a.attrelid = c.oid AND a.atttypid = t.oid
                                                          AND c.oid = pg_index.indrelid AND a.attnum = ANY (pg_index.indkey)
                                                          AND pg_index.indisprimary = 't'
-                                                         AND format_type(a.atttypid, a.atttypmod) NOT LIKE 'information_schema%%'
                                                      ) as pri,
                                                      character_maximum_length as length
                                                    FROM information_schema.COLUMNS

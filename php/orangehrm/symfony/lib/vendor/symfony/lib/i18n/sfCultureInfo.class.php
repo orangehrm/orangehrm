@@ -13,7 +13,7 @@
  * {@link http://prado.sourceforge.net/}
  *
  * @author     Wei Zhuo <weizhuo[at]gmail[dot]com>
- * @version    $Id: sfCultureInfo.class.php 23810 2009-11-12 11:07:44Z Kris.Wallsmith $
+ * @version    $Id: sfCultureInfo.class.php 32741 2011-07-09 09:41:59Z fabien $
  * @package    symfony
  * @subpackage i18n
  */
@@ -723,7 +723,15 @@ class sfCultureInfo
    */
   public function getCountries($countries = null)
   {
-    $allCountries = $this->findInfo('Countries', true);
+    // remove integer keys as they do not represent countries
+    $allCountries = array();
+    foreach ($this->findInfo('Countries', true) as $key => $value)
+    {
+      if (!is_int($key))
+      {
+        $allCountries[$key] = $value;
+      }
+    }
 
     // restrict countries to a sub-set
     if (null !== $countries)

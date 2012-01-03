@@ -1,6 +1,6 @@
 <?php
 /*
- *  $Id: Mssql.php 7659 2010-06-08 18:16:17Z jwage $
+ *  $Id: Mssql.php 7690 2010-08-31 17:11:24Z jwage $
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
  * "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
@@ -27,7 +27,7 @@
  * @license     http://www.opensource.org/licenses/lgpl-license.php LGPL
  * @author      Konsta Vesterinen <kvesteri@cc.hut.fi>
  * @author      Lukas Smith <smith@pooteeweet.org> (PEAR MDB2 library)
- * @version     $Revision: 7659 $
+ * @version     $Revision: 7690 $
  * @link        www.doctrine-project.org
  * @since       1.0
  */
@@ -140,98 +140,152 @@ class Doctrine_Connection_Mssql extends Doctrine_Connection_Common
      * @link http://lists.bestpractical.com/pipermail/rt-devel/2005-June/007339.html
      * @return string
      */
-    public function modifyLimitQuery($query, $limit = false, $offset = false, $isManip = false, $isSubQuery = false)
+    public function modifyLimitQuery($query, $limit = false, $offset = false, $isManip = false, $isSubQuery = false, Doctrine_Query $queryOrigin = null)
     {
-        if ($limit > 0) {
-            $count = intval($limit);
-            $offset = intval($offset);
+        if ($limit === false || !($limit > 0)) {
+            return $query; 
+        }
 
-            if ($offset < 0) {
-                throw new Doctrine_Connection_Exception("LIMIT argument offset=$offset is not valid");
+        $orderby = stristr($query, 'ORDER BY');
+
+        if ($offset !== false && $orderby === false) {
+            throw new Doctrine_Connection_Exception("OFFSET cannot be used in MSSQL without ORDER BY due to emulation reasons.");
+        }
+        
+        $count = intval($limit);
+        $offset = intval($offset);
+
+        if ($offset < 0) {
+            throw new Doctrine_Connection_Exception("LIMIT argument offset=$offset is not valid");
+        }
+
+        $orderbySql = $queryOrigin->getSqlQueryPart('orderby');
+        $orderbyDql = $queryOrigin->getDqlPart('orderby');
+
+        if ($orderby !== false) {
+            $orders = $this->parseOrderBy(implode(', ', $queryOrigin->getDqlPart('orderby')));
+
+            for ($i = 0; $i < count($orders); $i++) {
+                $sorts[$i] = (stripos($orders[$i], ' desc') !== false) ? 'DESC' : 'ASC';
+                $orders[$i] = trim(preg_replace('/\s+(ASC|DESC)$/i', '', $orders[$i]));
+
+                list($fieldAliases[$i], $fields[$i]) = strstr($orders[$i], '.') ? explode('.', $orders[$i]) : array('', $orders[$i]);
+                $columnAlias[$i] = $queryOrigin->getSqlTableAlias($queryOrigin->getExpressionOwner($orders[$i]));
+
+                $cmp = $queryOrigin->getQueryComponent($queryOrigin->getExpressionOwner($orders[$i]));
+                $tables[$i] = $cmp['table'];
+                $columns[$i] = $cmp['table']->getColumnName($fields[$i]);
+
+                // TODO: This sould be refactored as method called Doctrine_Table::getColumnAlias(<column name>).
+                $aliases[$i] = $columnAlias[$i] . '__' . $columns[$i];
             }
+        }
 
-            $orderby = stristr($query, 'ORDER BY');
+        // Ticket #1259: Fix for limit-subquery in MSSQL
+        $selectRegExp = 'SELECT\s+';
+        $selectReplace = 'SELECT ';
+
+        if (preg_match('/^SELECT(\s+)DISTINCT/i', $query)) {
+            $selectRegExp .= 'DISTINCT\s+';
+            $selectReplace .= 'DISTINCT ';
+        }
+
+        $fields_string = substr($query, strlen($selectReplace), strpos($query, ' FROM ') - strlen($selectReplace));
+        $field_array = explode(',', $fields_string);
+        $field_array = array_shift($field_array);
+        $aux2 = preg_split('/ as /i', $field_array);
+        $aux2 = explode('.', end($aux2));
+        $key_field = trim(end($aux2));
+
+        $query = preg_replace('/^'.$selectRegExp.'/i', $selectReplace . 'TOP ' . ($count + $offset) . ' ', $query);
+
+        if ($isSubQuery === true) {
+            $query = 'SELECT TOP ' . $count . ' ' . $this->quoteIdentifier('inner_tbl') . '.' . $key_field . ' FROM (' . $query . ') AS ' . $this->quoteIdentifier('inner_tbl');
+        } else {
+            $query = 'SELECT * FROM (SELECT TOP ' . $count . ' * FROM (' . $query . ') AS ' . $this->quoteIdentifier('inner_tbl');
+        }
+
+        if ($orderby !== false) {
+            $query .= ' ORDER BY '; 
+
+            for ($i = 0, $l = count($orders); $i < $l; $i++) { 
+                if ($i > 0) { // not first order clause 
+                    $query .= ', '; 
+                } 
+
+                $query .= $this->modifyOrderByColumn($tables[$i], $columns[$i], $this->quoteIdentifier('inner_tbl') . '.' . $this->quoteIdentifier($aliases[$i])) . ' '; 
+                $query .= (stripos($sorts[$i], 'asc') !== false) ? 'DESC' : 'ASC';
+            }
+        }
+
+        if ($isSubQuery !== true) {
+            $query .= ') AS ' . $this->quoteIdentifier('outer_tbl');
 
             if ($orderby !== false) {
-                // Ticket #1835: Fix for ORDER BY alias
-                // Ticket #2050: Fix for multiple ORDER BY clause
-                $order = str_ireplace('ORDER BY', '', $orderby);
-                $orders = explode(',', $order);
+                $query .= ' ORDER BY ';
 
-                for ($i = 0; $i < count($orders); $i++) {
-                    $sorts[$i] = (stripos($orders[$i], ' desc') !== false) ? 'DESC' : 'ASC';
-                    $orders[$i] = trim(preg_replace('/\s+(ASC|DESC)$/i', '', $orders[$i]));
-
-                    // find alias in query string
-                    $helper_string = stristr($query, $orders[$i]);
-
-                    $from_clause_pos = strpos($helper_string, ' FROM ');
-                    $fields_string = substr($helper_string, 0, $from_clause_pos + 1);
-
-                    $field_array = explode(',', $fields_string);
-                    $field_array = array_shift($field_array);
-                    $aux2 = spliti(' as ', $field_array);
-                    $aux2 = explode('.', end($aux2));
-
-                    $aliases[$i] = trim(end($aux2));
-                }
-            }
-
-            // Ticket #1259: Fix for limit-subquery in MSSQL
-            $selectRegExp = 'SELECT\s+';
-            $selectReplace = 'SELECT ';
-
-            if (preg_match('/^SELECT(\s+)DISTINCT/i', $query)) {
-                $selectRegExp .= 'DISTINCT\s+';
-                $selectReplace .= 'DISTINCT ';
-            }
-
-            $fields_string = substr($query, strlen($selectReplace), strpos($query, ' FROM ') - strlen($selectReplace));
-            $field_array = explode(',', $fields_string);
-            $field_array = array_shift($field_array);
-            $aux2 = spliti(' as ', $field_array);
-            $aux2 = explode('.', end($aux2));
-            $key_field = trim(end($aux2));
-
-            $query = preg_replace('/^'.$selectRegExp.'/i', $selectReplace . 'TOP ' . ($count + $offset) . ' ', $query);
-
-            if ($isSubQuery === true) {
-                $query = 'SELECT TOP ' . $count . ' ' . $this->quoteIdentifier('inner_tbl') . '.' . $key_field . ' FROM (' . $query . ') AS ' . $this->quoteIdentifier('inner_tbl');
-            } else {
-                $query = 'SELECT * FROM (SELECT TOP ' . $count . ' * FROM (' . $query . ') AS ' . $this->quoteIdentifier('inner_tbl');
-            }
-
-            if ($orderby !== false) {
-                $query .= ' ORDER BY '; 
-
-                for ($i = 0, $l = count($orders); $i < $l; $i++) { 
-                    if ($i > 0) { // not first order clause 
-                        $query .= ', '; 
-                    } 
-
-                    $query .= $this->quoteIdentifier('inner_tbl') . '.' . $aliases[$i] . ' '; 
-                    $query .= (stripos($sorts[$i], 'asc') !== false) ? 'DESC' : 'ASC';
-                }
-            }
-
-            if ($isSubQuery !== true) {
-                $query .= ') AS ' . $this->quoteIdentifier('outer_tbl');
-
-                if ($orderby !== false) {
-                    $query .= ' ORDER BY ';
-
-                    for ($i = 0, $l = count($orders); $i < $l; $i++) {
-                        if ($i > 0) { // not first order clause
-                            $query .= ', ';
-                        }
-
-                        $query .= $this->quoteIdentifier('outer_tbl') . '.' . $aliases[$i] . ' ' . $sorts[$i];
+                for ($i = 0, $l = count($orders); $i < $l; $i++) {
+                    if ($i > 0) { // not first order clause
+                        $query .= ', ';
                     }
+
+                    $query .= $this->modifyOrderByColumn($tables[$i], $columns[$i], $this->quoteIdentifier('outer_tbl') . '.' . $this->quoteIdentifier($aliases[$i])) . ' ' . $sorts[$i];
                 }
             }
         }
 
         return $query;
+    }
+
+    /**
+     * Parse an OrderBy-Statement into chunks 
+     * 
+     * @param string $orderby
+     */
+    private function parseOrderBy($orderby)
+    {
+        $matches = array();
+        $chunks  = array();
+        $tokens  = array();
+        $parsed  = str_ireplace('ORDER BY', '', $orderby);
+
+        preg_match_all('/(\w+\(.+?\)\s+(ASC|DESC)),?/', $orderby, $matches);
+        
+        $matchesWithExpressions = $matches[1];
+
+        foreach ($matchesWithExpressions as $match) {
+            $chunks[] = $match;
+            $parsed = str_replace($match, '##' . (count($chunks) - 1) . '##', $parsed);
+        }
+        
+        $tokens = preg_split('/,/', $parsed);
+        
+        for ($i = 0, $iMax = count($tokens); $i < $iMax; $i++) {
+            $tokens[$i] = trim(preg_replace('/##(\d+)##/e', "\$chunks[\\1]", $tokens[$i]));
+        }
+
+        return $tokens;
+    }
+    
+    /**
+     * Order and Group By are not possible on columns from type text.
+     * This method fix this issue by wrap the given term (column) into a CAST directive. 
+     * 
+     * @see DC-828
+     * @param Doctrine_Table $table
+     * @param string $field
+     * @param string $term The term which will changed if it's necessary, depending to the field type. 
+     * @return string
+     */
+    public function modifyOrderByColumn(Doctrine_Table $table, $field, $term)
+    {
+        $def = $table->getDefinitionOf($field);
+
+        if ($def['type'] == 'string' && $def['length'] === NULL) {
+            $term = 'CAST(' . $term . ' AS varchar(8000))';
+        }
+        
+        return $term;
     }
 
     /**
@@ -347,18 +401,12 @@ class Doctrine_Connection_Mssql extends Doctrine_Connection_Common
     protected function replaceBoundParamsWithInlineValuesInQuery($query, array $params) {
 
         foreach($params as $key => $value) {
-            if(is_null($value)) {
-                $value = 'NULL';
-            }
-            else {
-                $value = $this->quote($value);
-            }
-
-            $re = '/([=,\(][^\\\']*)(\?)/iU';
-
-            $query = preg_replace($re, "\\1 {$value}", $query, 1);
-
+            $re = '/(?<=WHERE|VALUES|SET|JOIN)(.*?)(\?)/';
+            $query = preg_replace($re, "\\1##{$key}##", $query, 1);
         }
+        
+        $replacement = 'is_null($value) ? \'NULL\' : $this->quote($params[\\1])';
+        $query = preg_replace('/##(\d+)##/e', $replacement, $query);
 
         return $query;
 

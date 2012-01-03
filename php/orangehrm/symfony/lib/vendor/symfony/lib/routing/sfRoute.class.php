@@ -14,7 +14,7 @@
  * @package    symfony
  * @subpackage routing
  * @author     Fabien Potencier <fabien.potencier@symfony-project.com>
- * @version    SVN: $Id: sfRoute.class.php 27183 2010-01-26 11:52:46Z FabianLange $
+ * @version    SVN: $Id: sfRoute.class.php 32939 2011-08-22 13:40:06Z fabien $
  */
 class sfRoute implements Serializable
 {
@@ -232,7 +232,7 @@ class sfRoute implements Serializable
     {
       // replace variables
       $variables = $this->variables;
-      uasort($variables, create_function('$a, $b', 'return strlen($a) < strlen($b);'));
+      uasort($variables, array('sfRoute', 'generateCompareVarsByStrlen'));
       foreach ($variables as $variable => $value)
       {
         $url = str_replace($value, urlencode($tparams[$variable]), $url);
@@ -257,6 +257,11 @@ class sfRoute implements Serializable
     }
 
     return $url;
+  }
+
+  static private function generateCompareVarsByStrlen($a, $b)
+  {
+    return strlen($a) < strlen($b);
   }
 
   /**
@@ -533,7 +538,7 @@ class sfRoute implements Serializable
     // a route is an array of (separator + variable) or (separator + text) segments
     while (strlen($buffer))
     {
-      if (false !== $this->tokenizeBufferBefore($buffer, $tokens, $afterASeparator, $currentSeparator))
+      if (false !== $this->tokenizeBufferBefore($buffer, $this->tokens, $afterASeparator, $currentSeparator))
       {
         // a custom token
         $this->customToken = true;
@@ -565,7 +570,7 @@ class sfRoute implements Serializable
         $buffer = substr($buffer, strlen($match[0]));
         $afterASeparator = true;
       }
-      else if (false !== $this->tokenizeBufferAfter($buffer, $tokens, $afterASeparator, $currentSeparator))
+      else if (false !== $this->tokenizeBufferAfter($buffer, $this->tokens, $afterASeparator, $currentSeparator))
       {
         // a custom token
         $this->customToken = true;
@@ -840,12 +845,12 @@ class sfRoute implements Serializable
     // always serialize compiled routes
     $this->compile();
     // sfPatternRouting will always re-set defaultParameters, so no need to serialize them
-    return serialize(array($this->tokens, $this->defaultOptions, $this->options, $this->pattern, $this->staticPrefix, $this->regex, $this->variables, $this->defaults, $this->requirements, $this->suffix));
+    return serialize(array($this->tokens, $this->defaultOptions, $this->options, $this->pattern, $this->staticPrefix, $this->regex, $this->variables, $this->defaults, $this->requirements, $this->suffix, $this->customToken));
   }
 
   public function unserialize($data)
   {
-    list($this->tokens, $this->defaultOptions, $this->options, $this->pattern, $this->staticPrefix, $this->regex, $this->variables, $this->defaults, $this->requirements, $this->suffix) = unserialize($data);
+    list($this->tokens, $this->defaultOptions, $this->options, $this->pattern, $this->staticPrefix, $this->regex, $this->variables, $this->defaults, $this->requirements, $this->suffix, $this->customToken) = unserialize($data);
     $this->compiled = true;
   }
 }

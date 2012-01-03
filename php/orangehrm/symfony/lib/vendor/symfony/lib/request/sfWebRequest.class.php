@@ -18,7 +18,7 @@
  * @subpackage request
  * @author     Fabien Potencier <fabien.potencier@symfony-project.com>
  * @author     Sean Kerr <sean@code-box.org>
- * @version    SVN: $Id: sfWebRequest.class.php 30900 2010-09-13 17:31:37Z Kris.Wallsmith $
+ * @version    SVN: $Id: sfWebRequest.class.php 32729 2011-07-05 15:23:04Z www-data $
  */
 class sfWebRequest extends sfRequest
 {
@@ -355,7 +355,16 @@ class sfWebRequest extends sfRequest
   {
     $pathArray = $this->getPathInfoArray();
 
-    return isset($pathArray['HTTP_X_FORWARDED_HOST']) ? $pathArray['HTTP_X_FORWARDED_HOST'] : (isset($pathArray['HTTP_HOST']) ? $pathArray['HTTP_HOST'] : '');
+    if (isset($pathArray['HTTP_X_FORWARDED_HOST']))
+    {
+      $elements = explode(',', $pathArray['HTTP_X_FORWARDED_HOST']);
+
+      return trim($elements[count($elements) - 1]);
+    }
+    else
+    {
+      return isset($pathArray['HTTP_HOST']) ? $pathArray['HTTP_HOST'] : '';
+    }
   }
 
   /**

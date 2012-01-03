@@ -14,7 +14,7 @@
  * @package    symfony
  * @subpackage widget
  * @author     Fabien Potencier <fabien.potencier@symfony-project.com>
- * @version    SVN: $Id: sfWidgetFormChoice.class.php 30762 2010-08-25 12:33:33Z fabien $
+ * @version    SVN: $Id: sfWidgetFormChoice.class.php 32835 2011-07-27 07:07:00Z fabien $
  */
 class sfWidgetFormChoice extends sfWidgetFormChoiceBase
 {
@@ -127,6 +127,18 @@ class sfWidgetFormChoice extends sfWidgetFormChoiceBase
       $class = sprintf('sfWidgetFormSelect%s', ucfirst($type));
     }
 
-    return new $class(array_merge(array('choices' => new sfCallable(array($this, 'getChoices'))), $this->options['renderer_options']), $this->getAttributes());
+    $options = $this->options['renderer_options'];
+    $options['choices'] = new sfCallable(array($this, 'getChoices'));
+
+    $renderer = new $class($options, $this->getAttributes());
+
+    // choices returned by the callback will already be translated (so we need to avoid double-translation)
+    if ($renderer->hasOption('translate_choices')) {
+        $renderer->setOption('translate_choices', false);
+    }
+
+    $renderer->setParent($this->getParent());
+
+    return $renderer;
   }
 }

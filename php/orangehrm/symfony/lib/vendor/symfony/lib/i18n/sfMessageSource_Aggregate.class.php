@@ -14,7 +14,7 @@
  * @package    symfony
  * @subpackage i18n
  * @author     Fabien Potencier <fabien.potencier@symfony-project.com>
- * @version    SVN: $Id: sfMessageSource_Aggregate.class.php 13401 2008-11-27 11:18:39Z fabien $
+ * @version    SVN: $Id: sfMessageSource_Aggregate.class.php 33249 2011-12-12 15:50:45Z fabien $
  */
 class sfMessageSource_Aggregate extends sfMessageSource
 {
@@ -51,7 +51,10 @@ class sfMessageSource_Aggregate extends sfMessageSource
     $lastModified = time();
     foreach ($sources as $source)
     {
-      $lastModified = min($lastModified, $source[0]->getLastModified($source[1]));
+      if (0 !== $sourceLastModified = $source[0]->getLastModified($source[1]))
+      {
+        $lastModified = min($lastModified, $sourceLastModified);
+      }
     }
 
     return $lastModified;

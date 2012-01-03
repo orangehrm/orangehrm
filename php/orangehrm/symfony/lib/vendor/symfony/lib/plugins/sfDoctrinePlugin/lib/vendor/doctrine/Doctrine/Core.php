@@ -35,7 +35,7 @@ class Doctrine_Core
     /**
      * VERSION
      */
-    const VERSION                   = '1.2.3';
+    const VERSION                   = '1.2.4';
 
     /**
      * ERROR CONSTANTS
@@ -372,6 +372,11 @@ class Doctrine_Core
      * HYDRATE_RECORD_HIERARCHY     
      */
     const HYDRATE_RECORD_HIERARCHY  = 9;
+
+    /**
+     * HYDRATE_ARRAY_SHALLOW
+     */
+    const HYDRATE_ARRAY_SHALLOW     = 10;
 
     /**
      * VALIDATION CONSTANTS

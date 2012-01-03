@@ -16,7 +16,7 @@
  * @package    symfony
  * @subpackage validator
  * @author     Fabien Potencier <fabien.potencier@symfony-project.com>
- * @version    SVN: $Id: sfValidatorBase.class.php 23922 2009-11-14 14:58:38Z fabien $
+ * @version    SVN: $Id: sfValidatorBase.class.php 32653 2011-06-15 18:32:02Z fabien $
  */
 abstract class sfValidatorBase
 {
@@ -168,7 +168,7 @@ abstract class sfValidatorBase
    */
   public function setMessages($values)
   {
-    $this->messages = $values;
+    $this->messages = array_merge(array('required' => self::$globalDefaultMessages['required'], 'invalid' => self::$globalDefaultMessages['invalid']), $values);
 
     return $this;
   }
@@ -251,7 +251,7 @@ abstract class sfValidatorBase
    */
   public function setOptions($values)
   {
-    $this->options = $values;
+    $this->options = array_merge(array('required' => true, 'trim' => false, 'empty_value' => null), $values);
 
     return $this;
   }

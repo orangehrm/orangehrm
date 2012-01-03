@@ -16,7 +16,7 @@
  * @package    symfony
  * @subpackage routing
  * @author     Fabien Potencier <fabien.potencier@symfony-project.com>
- * @version    SVN: $Id: sfPatternRouting.class.php 29418 2010-05-12 07:36:59Z fabien $
+ * @version    SVN: $Id: sfPatternRouting.class.php 32845 2011-07-28 11:50:48Z fabien $
  */
 class sfPatternRouting extends sfRouting
 {
@@ -318,7 +318,7 @@ class sfPatternRouting extends sfRouting
     else
     {
       // find a matching route
-      if (false === $route = $this->getRouteThatMatchesParameters($params, $this->options['context']))
+      if (false === $route = $this->getRouteThatMatchesParameters($params))
       {
         throw new sfConfigurationException(sprintf('Unable to find a matching route to generate url for params "%s".', is_object($params) ? 'Object('.get_class($params).')' : str_replace("\n", '', var_export($params, true))));
       }

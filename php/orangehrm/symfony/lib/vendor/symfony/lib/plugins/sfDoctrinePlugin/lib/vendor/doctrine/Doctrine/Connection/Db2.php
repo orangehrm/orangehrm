@@ -46,7 +46,7 @@ class Doctrine_Connection_Db2 extends Doctrine_Connection_Common
             return $query;
 
         if ($offset == 0) {
-            return $query . ' FETCH FIRST '. $limit .' ROWS ONLY';
+            return $query . ' FETCH FIRST '. (int)$limit .' ROWS ONLY';
         } else {
             $sqlPieces = explode('from', $query);
             $select = $sqlPieces[0];
@@ -56,8 +56,8 @@ class Doctrine_Connection_Db2 extends Doctrine_Connection_Common
 
             $sql = 'WITH OFFSET AS(' . $select . ', ROW_NUMBER() ' .
                'OVER(ORDER BY ' . $col[1] . ') AS doctrine_rownum FROM ' . $table . ')' .
-               $select . 'FROM OFFSET WHERE doctrine_rownum BETWEEN ' . $offset .
-                   'AND ' . ($offset + $limit - 1);
+               $select . 'FROM OFFSET WHERE doctrine_rownum BETWEEN ' . (int)$offset .
+                   'AND ' . ((int)$offset + (int)$limit - 1);
             return $sql;
         }
     }

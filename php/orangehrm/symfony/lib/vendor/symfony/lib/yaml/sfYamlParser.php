@@ -60,7 +60,7 @@ class sfYamlParser
     if (function_exists('mb_internal_encoding') && ((int) ini_get('mbstring.func_overload')) & 2)
     {
       $mbEncoding = mb_internal_encoding();
-      mb_internal_encoding('ASCII');
+      mb_internal_encoding('UTF-8');
     }
 
     $data = array();
@@ -78,9 +78,9 @@ class sfYamlParser
       }
 
       $isRef = $isInPlace = $isProcessed = false;
-      if (preg_match('#^\-(\s+(?P<value>.+?))?\s*$#', $this->currentLine, $values))
+      if (preg_match('#^\-(\s+(?P<value>.+?))?\s*$#u', $this->currentLine, $values))
       {
-        if (isset($values['value']) && preg_match('#^&(?P<ref>[^ ]+) *(?P<value>.*)#', $values['value'], $matches))
+        if (isset($values['value']) && preg_match('#^&(?P<ref>[^ ]+) *(?P<value>.*)#u', $values['value'], $matches))
         {
           $isRef = $matches['ref'];
           $values['value'] = $matches['value'];
@@ -96,7 +96,7 @@ class sfYamlParser
         }
         else
         {
-          if (preg_match('/^([^ ]+)\: +({.*?)$/', $values['value'], $matches))
+          if (preg_match('/^([^ ]+)\: +({.*?)$/u', $values['value'], $matches))
           {
             $data[] = array($matches[1] => sfYamlInline::load($matches[2]));
           }
@@ -106,7 +106,7 @@ class sfYamlParser
           }
         }
       }
-      else if (preg_match('#^(?P<key>'.sfYamlInline::REGEX_QUOTED_STRING.'|[^ ].*?) *\:(\s+(?P<value>.+?))?\s*$#', $this->currentLine, $values))
+      else if (preg_match('#^(?P<key>'.sfYamlInline::REGEX_QUOTED_STRING.'|[^ \{\[].*?) *\:(\s+(?P<value>.+?))?\s*$#u', $this->currentLine, $values))
       {
         $key = sfYamlInline::parseScalar($values['key']);
 
@@ -155,13 +155,13 @@ class sfYamlParser
             else
             {
               // Associative array, merge
-              $merged = array_merge($merge, $parsed);
+              $merged = array_merge($merged, $parsed);
             }
 
             $isProcessed = $merged;
           }
         }
-        else if (isset($values['value']) && preg_match('#^&(?P<ref>[^ ]+) *(?P<value>.*)#', $values['value'], $matches))
+        else if (isset($values['value']) && preg_match('#^&(?P<ref>[^ ]+) *(?P<value>.*)#u', $values['value'], $matches))
         {
           $isRef = $matches['ref'];
           $values['value'] = $matches['value'];
@@ -432,7 +432,7 @@ class sfYamlParser
       return '';
     }
 
-    if (!preg_match('#^(?P<indent>'.($indentation ? str_repeat(' ', $indentation) : ' +').')(?P<text>.*)$#', $this->currentLine, $matches))
+    if (!preg_match('#^(?P<indent>'.($indentation ? str_repeat(' ', $indentation) : ' +').')(?P<text>.*)$#u', $this->currentLine, $matches))
     {
       $this->moveToPreviousLine();
 
@@ -447,7 +447,7 @@ class sfYamlParser
     {
       $this->moveToNextLine();
 
-      if (preg_match('#^(?P<indent> {'.strlen($textIndent).',})(?P<text>.+)$#', $this->currentLine, $matches))
+      if (preg_match('#^(?P<indent> {'.strlen($textIndent).',})(?P<text>.+)$#u', $this->currentLine, $matches))
       {
         if (' ' == $separator && $previousIndent != $matches['indent'])
         {
@@ -571,16 +571,28 @@ class sfYamlParser
 
     // strip YAML header
     $count = 0;
-    $value = preg_replace('#^\%YAML[: ][\d\.]+.*\n#s', '', $value, -1, $count);
+    $value = preg_replace('#^\%YAML[: ][\d\.]+.*\n#su', '', $value, -1, $count);
     $this->offset += $count;
 
-    // remove leading comments and/or ---
-    $trimmedValue = preg_replace('#^((\#.*?\n)|(\-\-\-.*?\n))*#s', '', $value, -1, $count);
+    // remove leading comments
+    $trimmedValue = preg_replace('#^(\#.*?\n)+#s', '', $value, -1, $count);
     if ($count == 1)
     {
       // items have been removed, update the offset
       $this->offset += substr_count($value, "\n") - substr_count($trimmedValue, "\n");
       $value = $trimmedValue;
+    }
+
+    // remove start of the document marker (---)
+    $trimmedValue = preg_replace('#^\-\-\-.*?\n#s', '', $value, -1, $count);
+    if ($count == 1)
+    {
+      // items have been removed, update the offset
+      $this->offset += substr_count($value, "\n") - substr_count($trimmedValue, "\n");
+      $value = $trimmedValue;
+
+      // remove end of the document marker (...)
+      $value = preg_replace('#\.\.\.\s*$#s', '', $value);
     }
 
     return $value;

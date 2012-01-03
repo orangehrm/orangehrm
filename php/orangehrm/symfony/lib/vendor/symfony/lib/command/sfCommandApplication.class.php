@@ -14,7 +14,7 @@
  * @package    symfony
  * @subpackage command
  * @author     Fabien Potencier <fabien.potencier@symfony-project.com>
- * @version    SVN: $Id: sfCommandApplication.class.php 23218 2009-10-20 20:59:02Z FabianLange $
+ * @version    SVN: $Id: sfCommandApplication.class.php 33151 2011-10-24 08:55:03Z fabien $
  */
 abstract class sfCommandApplication
 {
@@ -519,7 +519,15 @@ abstract class sfCommandApplication
 
   protected function strlen($string)
   {
-    return function_exists('mb_strlen') ? mb_strlen($string) : strlen($string);
+    if (!function_exists('mb_strlen')) {
+        return strlen($string);
+    }
+
+    if (false === $encoding = mb_detect_encoding($string)) {
+        return strlen($string);
+    }
+
+    return mb_strlen($string, $encoding);
   }
 
   /**

@@ -280,14 +280,14 @@ abstract class Doctrine_Record_Generator extends Doctrine_Record_Abstract
     {
         $fk = array();
 
-        foreach ((array) $table->getIdentifier() as $column) {
-            $def = $table->getDefinitionOf($column);
+        foreach ((array) $table->getIdentifier() as $field) {
+            $def = $table->getDefinitionOf($field);
 
             unset($def['autoincrement']);
             unset($def['sequence']);
             unset($def['primary']);
 
-            $col = $column;
+            $col = $table->hasColumn($field) ? $field : $table->getColumnName($field) . ' as ' . $field;
 
             $def['primary'] = true;
             $fk[$col] = $def;
@@ -431,7 +431,7 @@ abstract class Doctrine_Record_Generator extends Doctrine_Record_Abstract
         $definition['columns'] = $table->getColumns();
         $definition['tableName'] = $table->getTableName();
         $definition['actAs'] = $table->getTemplates();
-      
+
         return $this->generateClass($definition);
     }
 

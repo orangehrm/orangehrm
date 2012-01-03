@@ -14,7 +14,7 @@
  * @package    symfony
  * @subpackage config
  * @author     Fabien Potencier <fabien.potencier@symfony-project.com>
- * @version    SVN: $Id: sfApplicationConfiguration.class.php 29526 2010-05-19 13:06:40Z fabien $
+ * @version    SVN: $Id: sfApplicationConfiguration.class.php 33214 2011-11-19 13:47:24Z fabien $
  */
 abstract class sfApplicationConfiguration extends ProjectConfiguration
 {
@@ -150,9 +150,9 @@ abstract class sfApplicationConfiguration extends ProjectConfiguration
     $this->initializePlugins();
 
     // compress output
-    if (!self::$coreLoaded)
+    if (!self::$coreLoaded && sfConfig::get('sf_compressed'))
     {
-      ob_start(sfConfig::get('sf_compressed') ? 'ob_gzhandler' : '');
+      ob_start('ob_gzhandler');
     }
 
     self::$coreLoaded = true;

@@ -161,7 +161,7 @@ $t->is($v->getOption('foobar'), 'foo', '->addOption() adds a new option to a val
 // ->getOptions() ->setOptions()
 $t->diag('->getOptions() ->setOptions()');
 $v->setOptions(array('required' => true, 'trim' => false));
-$t->is($v->getOptions(), array('required' => true, 'trim' => false), '->setOptions() changes all options');
+$t->is($v->getOptions(), array('required' => true, 'trim' => false, 'empty_value' => null), '->setOptions() changes all options');
 
 // ->getMessages()
 $t->diag('->getMessages()');
@@ -197,8 +197,8 @@ catch (InvalidArgumentException $e)
 
 // ->setMessages()
 $t->diag('->setMessages()');
-$v->setMessages(array('required' => 'This is required.'));
-$t->is($v->getMessages(), array('required' => 'This is required.'), '->setMessages() changes all error messages');
+$v->setMessages(array('required' => 'This is required!'));
+$t->is($v->getMessages(), array('invalid' => 'Invalid.', 'required' => 'This is required!'), '->setMessages() changes all error messages');
 
 // ->addMessage()
 $t->diag('->addMessage()');

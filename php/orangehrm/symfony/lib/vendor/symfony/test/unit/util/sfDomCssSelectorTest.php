@@ -10,7 +10,7 @@
 
 require_once(dirname(__FILE__).'/../../bootstrap/unit.php');
 
-$t = new lime_test(71);
+$t = new lime_test(72);
 
 $html = <<<EOF
 <html>
@@ -108,6 +108,8 @@ $t->is($c->matchAll('.foobar')->getValues(), array('multi-classes'), '->matchAll
 $t->is($c->matchAll('ul#mylist ul li')->getValues(), array('element 3', 'element 4'), '->matchAll() supports searching html elements by several selectors');
 
 $t->is($c->matchAll('#nonexistant')->getValues(), array(), '->matchAll() returns an empty array if the id does not exist');
+
+$t->is($c->matchAll('.bar1-foo1')->getValues(), array('link', 'another link'), 'Hyphenated class names are matched correctly');
 
 $t->diag('attribute selectors');
 $t->is($c->matchAll('ul#list li a[href]')->getValues(), array('link'), '->matchAll() supports checking attribute existence');

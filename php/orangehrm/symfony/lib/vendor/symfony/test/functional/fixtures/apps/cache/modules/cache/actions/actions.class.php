@@ -6,7 +6,7 @@
  * @package    project
  * @subpackage cache
  * @author     Fabien Potencier <fabien.potencier@symfony-project.com>
- * @version    SVN: $Id: actions.class.php 28625 2010-03-19 19:00:53Z Kris.Wallsmith $
+ * @version    SVN: $Id: actions.class.php 31928 2011-01-29 16:02:51Z Kris.Wallsmith $
  */
 class cacheActions extends sfActions
 {
@@ -30,6 +30,7 @@ class cacheActions extends sfActions
 
   public function executeMulti()
   {
+    $this->getResponse()->setTitle('Param: '.$this->getRequestParameter('param'));
   }
 
   public function executeMultiBis()

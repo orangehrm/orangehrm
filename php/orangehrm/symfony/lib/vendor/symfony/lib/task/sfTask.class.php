@@ -14,7 +14,7 @@
  * @package    symfony
  * @subpackage task
  * @author     Fabien Potencier <fabien.potencier@symfony-project.com>
- * @version    SVN: $Id: sfTask.class.php 30773 2010-08-27 19:27:41Z Kris.Wallsmith $
+ * @version    SVN: $Id: sfTask.class.php 33151 2011-10-24 08:55:03Z fabien $
  */
 abstract class sfTask
 {
@@ -651,6 +651,14 @@ abstract class sfTask
 
    protected function strlen($string)
    {
-     return function_exists('mb_strlen') ? mb_strlen($string) : strlen($string);
+     if (!function_exists('mb_strlen')) {
+         return strlen($string);
+     }
+
+     if (false === $encoding = mb_detect_encoding($string)) {
+         return strlen($string);
+     }
+
+     return mb_strlen($string, $encoding);
    }
 }

@@ -182,7 +182,7 @@
         <target><![CDATA["%value%" non è un intero.]]></target>
       </trans-unit>
       <trans-unit>
-        <source><![CDATA["%value%" is not an number.]]></source>
+        <source><![CDATA["%value%" is not a number.]]></source>
         <target><![CDATA["%value%" non è un numero.]]></target>
       </trans-unit>
       <trans-unit>

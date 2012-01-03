@@ -18,7 +18,7 @@
  * @subpackage generator
  * @author     Fabien Potencier <fabien.potencier@symfony-project.com>
  * @author     Jonathan H. Wage <jonwage@gmail.com>
- * @version    SVN: $Id: sfDoctrineFormGenerator.class.php 29661 2010-05-28 16:56:42Z Kris.Wallsmith $
+ * @version    SVN: $Id: sfDoctrineFormGenerator.class.php 32892 2011-08-05 07:53:57Z fabien $
  */
 class sfDoctrineFormGenerator extends sfGenerator
 {
@@ -167,10 +167,14 @@ class sfDoctrineFormGenerator extends sfGenerator
             if ($reflection->isSubClassOf($parent))
             {
               $this->pluginModels[$modelName] = $pluginName;
-              $generators = Doctrine_Core::getTable($modelName)->getGenerators();
-              foreach ($generators as $generator)
+              
+              if ($reflection->isInstantiable())
               {
-                $this->pluginModels[$generator->getOption('className')] = $pluginName;
+                $generators = Doctrine_Core::getTable($modelName)->getGenerators();
+                foreach ($generators as $generator)
+                {
+                  $this->pluginModels[$generator->getOption('className')] = $pluginName;
+                }  
               }
             }
           }

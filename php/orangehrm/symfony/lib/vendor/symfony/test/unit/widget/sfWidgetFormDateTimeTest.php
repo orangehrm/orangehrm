@@ -10,6 +10,8 @@
 
 require_once(dirname(__FILE__).'/../../bootstrap/unit.php');
 
+$year = date('Y');
+
 $t = new lime_test(64);
 
 $dom = new DomDocument('1.0', 'utf-8');
@@ -21,7 +23,7 @@ $w = new sfWidgetFormDateTime(array('with_time' => true, 'time' => array('with_s
 $t->diag('->render()');
 
 foreach (array(
-  '2005-10-15 12:30:35' => array('year' => 2005, 'month' => 10, 'day' => 15, 'hour' => 12, 'minute' => 30, 'second' => 35),
+  $year.'-10-15 12:30:35' => array('year' => $year, 'month' => 10, 'day' => 15, 'hour' => 12, 'minute' => 30, 'second' => 35),
   time() => array('year' => date('Y'), 'month' => date('m'), 'day' => date('d'), 'hour' => date('G'), 'minute' => date('i'), 'second' => date('s')),
   'tomorrow 12:30:35' => array('year' => date('Y', time() + 86400), 'month' => date('m', time() + 86400), 'day' => date('d', time() + 86400), 'hour' => 12, 'minute' => 30, 'second' => 35),
 ) as $date => $values)
@@ -40,7 +42,7 @@ foreach (array(
 
 // selected date / time
 $t->diag('selected date / time');
-$values = array('year' => 2005, 'month' => 10, 'day' => 15, 'hour' => 12, 'minute' => 30, 'second' => 35);
+$values = array('year' => $year, 'month' => 10, 'day' => 15, 'hour' => 12, 'minute' => 30, 'second' => 35);
 $dom->loadHTML($w->render('foo', $values));
 $css = new sfDomCssSelector($dom);
 $t->is($css->matchSingle('#foo_year option[value="'.$values['year'].'"][selected="selected"]')->getValue(), $values['year'], '->render() renders a select tag for the year');
@@ -73,7 +75,7 @@ $t->is($css->matchSingle('#foo_second option[selected="selected"]')->getValue(),
 
 // number of options in each select
 $t->diag('number of options in each select');
-$dom->loadHTML($w->render('foo', '2005-10-15 12:30:35'));
+$dom->loadHTML($w->render('foo', $year.'-10-15 12:30:35'));
 $css = new sfDomCssSelector($dom);
 $t->is(count($css->matchAll('#foo_year option')->getNodes()), 12, '->render() renders a select tag for the 10 years around the current one');
 $t->is(count($css->matchAll('#foo_month option')->getNodes()), 13, '->render() renders a select tag for the 12 months in a year');
@@ -92,7 +94,7 @@ $t->is($css->matchSingle('#foo_minute')->getNode()->nextSibling->nodeValue, ':',
 $t->diag('change date and time format option');
 $w->setOption('date', array('format' => '%month%-%day%-%year%'));
 $w->setOption('time', array('format' => '%hour%!%minute%!%second%', 'with_seconds' => true));
-$dom->loadHTML($w->render('foo', '2005-10-15 12:30:35'));
+$dom->loadHTML($w->render('foo', $year.'-10-15 12:30:35'));
 $css = new sfDomCssSelector($dom);
 $t->is($css->matchSingle('#foo_day')->getNode()->nextSibling->nodeValue, '-', '__construct() can change the default format');
 $t->like($css->matchSingle('#foo_month')->getNode()->nextSibling->nodeValue, '/^-/', '__construct() can change the default format');
@@ -103,7 +105,7 @@ $t->is($css->matchSingle('#foo_minute')->getNode()->nextSibling->nodeValue, '!',
 $t->diag('with_time option');
 
 $w = new sfWidgetFormDateTime(array('with_time' => false));
-$dom->loadHTML($w->render('foo', '2005-10-15 12:30:35'));
+$dom->loadHTML($w->render('foo', $year.'-10-15 12:30:35'));
 $css = new sfDomCssSelector($dom);
 $t->is(count($css->matchAll('#foo_hour')->getNodes()), 0, '->render() does not render the time if the with_time option is disabled');
 
@@ -123,12 +125,12 @@ catch (InvalidArgumentException $e)
 // attributes
 $t->diag('attributes');
 $w = new sfWidgetFormDateTime();
-$dom->loadHTML($w->render('foo', '2005-10-15 12:30:35', array('date' => array('disabled' => 'disabled'), 'time' => array('disabled' => 'disabled'))));
+$dom->loadHTML($w->render('foo', $year.'-10-15 12:30:35', array('date' => array('disabled' => 'disabled'), 'time' => array('disabled' => 'disabled'))));
 $t->is(count($css->matchAll('select[disabled="disabled"]')->getNodes()), 5, '->render() takes the attributes into account for all the five embedded widgets');
 
 $w->setAttribute('date', array('disabled' => 'disabled'));
 $w->setAttribute('time', array('disabled' => 'disabled'));
-$dom->loadHTML($w->render('foo', '2005-10-15 12:30:35'));
+$dom->loadHTML($w->render('foo', $year.'-10-15 12:30:35'));
 $t->is(count($css->matchAll('select[disabled="disabled"]')->getNodes()), 5, '->render() takes the attributes into account for all the five embedded widgets');
 
 // id_format
