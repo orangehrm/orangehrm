@@ -59,7 +59,7 @@ class ConfigServiceTest extends PHPUnit_Framework_TestCase {
      * Test isLeavePeriodDefined()
      */
     public function testIsLeavePeriodDefined() {
-        $value = 'Yes';
+        $value = true;
         
         $mockDao = $this->getMock('ConfigDao');
         $mockDao->expects($this->once())
