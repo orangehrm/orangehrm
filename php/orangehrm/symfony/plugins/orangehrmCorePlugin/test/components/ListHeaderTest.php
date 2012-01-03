@@ -89,7 +89,7 @@ class ListHeaderTest extends PHPUnit_Framework_TestCase {
     }
 
     /**
-     * @expectedException Exception
+     * @expectedException ListHeaderException
      */
     public function testSetSortOrder_Invalid() {
         $sortOrder = 'abc';
@@ -109,14 +109,14 @@ class ListHeaderTest extends PHPUnit_Framework_TestCase {
     }
     
     /**
-     * @expectedException Exception
+     * @expectedException ListHeaderException
      */
     public function testSetSortField_Numeric() {
         $this->object->setSortField(123.12);
     }
 
     /**
-     * @expectedException Exception
+     * @expectedException ListHeaderException
      */
     public function testSetSortField_IvalidString() {
         $this->object->setSortField(123);
@@ -137,7 +137,7 @@ class ListHeaderTest extends PHPUnit_Framework_TestCase {
     }
 
     /**
-     * @expectedException Exception
+     * @expectedException ListHeaderException
      */
     public function testSetElementType_UnsupportedType() {
         $elementType = 'circle';
@@ -211,7 +211,7 @@ class ListHeaderTest extends PHPUnit_Framework_TestCase {
     }
 
     /**
-     * @expectedException Exception
+     * @expectedException ListHeaderException
      */
     public function testSetWidth_Invalid_Chars() {
         $width = 'abcd';
@@ -219,7 +219,7 @@ class ListHeaderTest extends PHPUnit_Framework_TestCase {
     }
 
     /**
-     * @expectedException Exception
+     * @expectedException ListHeaderException
      */
     public function testSetWidth_Invalid_MixedAlphaNumeric() {
         $width = '10cd';
@@ -227,7 +227,7 @@ class ListHeaderTest extends PHPUnit_Framework_TestCase {
     }
 
     /**
-     * @expectedException Exception
+     * @expectedException ListHeaderException
      */
     public function testSetWidth_Invalid_PercentageFormat() {
         $width = '10&';
@@ -304,7 +304,7 @@ class ListHeaderTest extends PHPUnit_Framework_TestCase {
     }
 
     /**
-     * @expectedException Exception
+     * @expectedException ListHeaderException
      */
     public function testSetTextAlignmentStyle_UnsupportedType() {
         $textAlignmentStyle = 'bottom';

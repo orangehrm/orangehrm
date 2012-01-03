@@ -55,7 +55,7 @@ class ListHeader extends ComponentProperty {
         if (preg_match('/(A|DE)SC/', $sortOrder)) {
             $this->sortOrder = $sortOrder;
         } else {
-            throw new Exception('Tried to assign an invalid sort order');
+            throw new ListHeaderException('Tried to assign an invalid sort order');
         }
     }
 
@@ -65,7 +65,7 @@ class ListHeader extends ComponentProperty {
 
     public function setSortField($sortField) {
         if (is_numeric($sortField)) {
-            throw new Exception('Tried to assign a numeric value to sort field');
+            throw new ListHeaderException('Tried to assign a numeric value to sort field');
         }
         $this->sortField = $sortField;
     }
@@ -78,7 +78,7 @@ class ListHeader extends ComponentProperty {
         if (in_array($elementType, $this->elementTypes)) {
             $this->elementType = $elementType;
         } else {
-            throw new Exception('Tried to assign an unsupported element type');
+            throw new ListHeaderException('Tried to assign an unsupported element type');
         }
     }
 
@@ -98,7 +98,7 @@ class ListHeader extends ComponentProperty {
         if (preg_match('/\d{1,}(%{0,1})$/', $width)) {
             $this->width = $width;
         } else {
-            throw new Exception('Tried to assign an invalid width');
+            throw new ListHeaderException('Tried to assign an invalid width');
         }
     }
 
@@ -119,7 +119,7 @@ class ListHeader extends ComponentProperty {
         if (in_array($textAlignmentStyle, $this->textAlignmentStyles)) {
             $this->textAlignmentStyle = $textAlignmentStyle;
         } else {
-            throw new Exception('Tried to assign an unsupported text alignment style');
+            throw new ListHeaderException('Tried to assign an unsupported text alignment style');
         }
     }
 
@@ -128,7 +128,7 @@ class ListHeader extends ComponentProperty {
         if (in_array($textAlignmentStyleForHeader, $this->textAlignmentStyles)) {
             $this->textAlignmentStyleForHeader = $textAlignmentStyleForHeader;
         } else {
-            throw new Exception('Tried to assign an unsupported text alignment style');
+            throw new ListHeaderException('Tried to assign an unsupported text alignment style');
         }
     }
 
