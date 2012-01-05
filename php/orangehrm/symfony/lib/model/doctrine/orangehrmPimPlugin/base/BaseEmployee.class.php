@@ -90,7 +90,6 @@
  * @property Doctrine_Collection $JobInterviewInterviewer
  * @property Doctrine_Collection $CandidateHistory
  * @property Doctrine_Collection $EmpChildren
- * @property Doctrine_Collection $Users
  * @property Doctrine_Collection $PerformanceReview
  * @property Doctrine_Collection $PerformanceReviewComment
  * 
@@ -179,7 +178,6 @@
  * @method Doctrine_Collection getJobInterviewInterviewer()  Returns the current record's "JobInterviewInterviewer" collection
  * @method Doctrine_Collection getCandidateHistory()         Returns the current record's "CandidateHistory" collection
  * @method Doctrine_Collection getEmpChildren()              Returns the current record's "EmpChildren" collection
- * @method Doctrine_Collection getUsers()                    Returns the current record's "Users" collection
  * @method Doctrine_Collection getPerformanceReview()        Returns the current record's "PerformanceReview" collection
  * @method Doctrine_Collection getPerformanceReviewComment() Returns the current record's "PerformanceReviewComment" collection
  * @method Employee            setEmpNumber()                Sets the current record's "empNumber" value
@@ -267,7 +265,6 @@
  * @method Employee            setJobInterviewInterviewer()  Sets the current record's "JobInterviewInterviewer" collection
  * @method Employee            setCandidateHistory()         Sets the current record's "CandidateHistory" collection
  * @method Employee            setEmpChildren()              Sets the current record's "EmpChildren" collection
- * @method Employee            setUsers()                    Sets the current record's "Users" collection
  * @method Employee            setPerformanceReview()        Sets the current record's "PerformanceReview" collection
  * @method Employee            setPerformanceReviewComment() Sets the current record's "PerformanceReviewComment" collection
  * 
@@ -644,10 +641,6 @@ abstract class BaseEmployee extends sfDoctrineRecord
              'foreign' => 'performedBy'));
 
         $this->hasMany('EmpChildren', array(
-             'local' => 'emp_number',
-             'foreign' => 'emp_number'));
-
-        $this->hasMany('Users', array(
              'local' => 'emp_number',
              'foreign' => 'emp_number'));
 

@@ -19,6 +19,7 @@
  * @property Employee $Employee
  * @property UserRole $UserRole
  * @property Doctrine_Collection $TimesheetActionLog
+ * @property Doctrine_Collection $PerformanceReview
  * 
  * @method integer             getId()                 Returns the current record's "id" value
  * @method integer             getUserRoleId()         Returns the current record's "user_role_id" value
@@ -34,6 +35,7 @@
  * @method Employee            getEmployee()           Returns the current record's "Employee" value
  * @method UserRole            getUserRole()           Returns the current record's "UserRole" value
  * @method Doctrine_Collection getTimesheetActionLog() Returns the current record's "TimesheetActionLog" collection
+ * @method Doctrine_Collection getPerformanceReview()  Returns the current record's "PerformanceReview" collection
  * @method SystemUser          setId()                 Sets the current record's "id" value
  * @method SystemUser          setUserRoleId()         Sets the current record's "user_role_id" value
  * @method SystemUser          setEmpNumber()          Sets the current record's "emp_number" value
@@ -48,6 +50,7 @@
  * @method SystemUser          setEmployee()           Sets the current record's "Employee" value
  * @method SystemUser          setUserRole()           Sets the current record's "UserRole" value
  * @method SystemUser          setTimesheetActionLog() Sets the current record's "TimesheetActionLog" collection
+ * @method SystemUser          setPerformanceReview()  Sets the current record's "PerformanceReview" collection
  * 
  * @package    orangehrm
  * @subpackage model
@@ -118,5 +121,9 @@ abstract class BaseSystemUser extends sfDoctrineRecord
         $this->hasMany('TimesheetActionLog', array(
              'local' => 'id',
              'foreign' => 'performed_by'));
+
+        $this->hasMany('PerformanceReview', array(
+             'local' => 'id',
+             'foreign' => 'creatorId'));
     }
 }

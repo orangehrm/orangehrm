@@ -19,7 +19,7 @@
  * @property string $kpis
  * @property Employee $Employee
  * @property Employee $Reviewer
- * @property Users $Creator
+ * @property SystemUser $Creator
  * @property Doctrine_Collection $PerformanceReviewComment
  * @property JobTitle $JobTitle
  * @property Subunit $SubDivision
@@ -38,7 +38,7 @@
  * @method string              getKpis()                     Returns the current record's "kpis" value
  * @method Employee            getEmployee()                 Returns the current record's "Employee" value
  * @method Employee            getReviewer()                 Returns the current record's "Reviewer" value
- * @method Users               getCreator()                  Returns the current record's "Creator" value
+ * @method SystemUser          getCreator()                  Returns the current record's "Creator" value
  * @method Doctrine_Collection getPerformanceReviewComment() Returns the current record's "PerformanceReviewComment" collection
  * @method JobTitle            getJobTitle()                 Returns the current record's "JobTitle" value
  * @method Subunit             getSubDivision()              Returns the current record's "SubDivision" value
@@ -132,7 +132,7 @@ abstract class BasePerformanceReview extends sfDoctrineRecord
              'local' => 'reviewerId',
              'foreign' => 'emp_number'));
 
-        $this->hasOne('Users as Creator', array(
+        $this->hasOne('SystemUser as Creator', array(
              'local' => 'creatorId',
              'foreign' => 'id'));
 

@@ -11,25 +11,22 @@
  * @property integer $editing
  * @property integer $deletion
  * @property integer $viewing
- * @property UserGroup $UserGroup
  * @property Module $Module
  * 
- * @method string       getUsergId()   Returns the current record's "userg_id" value
- * @method string       getModId()     Returns the current record's "mod_id" value
- * @method integer      getAddition()  Returns the current record's "addition" value
- * @method integer      getEditing()   Returns the current record's "editing" value
- * @method integer      getDeletion()  Returns the current record's "deletion" value
- * @method integer      getViewing()   Returns the current record's "viewing" value
- * @method UserGroup    getUserGroup() Returns the current record's "UserGroup" value
- * @method Module       getModule()    Returns the current record's "Module" value
- * @method ModuleRights setUsergId()   Sets the current record's "userg_id" value
- * @method ModuleRights setModId()     Sets the current record's "mod_id" value
- * @method ModuleRights setAddition()  Sets the current record's "addition" value
- * @method ModuleRights setEditing()   Sets the current record's "editing" value
- * @method ModuleRights setDeletion()  Sets the current record's "deletion" value
- * @method ModuleRights setViewing()   Sets the current record's "viewing" value
- * @method ModuleRights setUserGroup() Sets the current record's "UserGroup" value
- * @method ModuleRights setModule()    Sets the current record's "Module" value
+ * @method string       getUsergId()  Returns the current record's "userg_id" value
+ * @method string       getModId()    Returns the current record's "mod_id" value
+ * @method integer      getAddition() Returns the current record's "addition" value
+ * @method integer      getEditing()  Returns the current record's "editing" value
+ * @method integer      getDeletion() Returns the current record's "deletion" value
+ * @method integer      getViewing()  Returns the current record's "viewing" value
+ * @method Module       getModule()   Returns the current record's "Module" value
+ * @method ModuleRights setUsergId()  Sets the current record's "userg_id" value
+ * @method ModuleRights setModId()    Sets the current record's "mod_id" value
+ * @method ModuleRights setAddition() Sets the current record's "addition" value
+ * @method ModuleRights setEditing()  Sets the current record's "editing" value
+ * @method ModuleRights setDeletion() Sets the current record's "deletion" value
+ * @method ModuleRights setViewing()  Sets the current record's "viewing" value
+ * @method ModuleRights setModule()   Sets the current record's "Module" value
  * 
  * @package    orangehrm
  * @subpackage model
@@ -80,10 +77,6 @@ abstract class BaseModuleRights extends sfDoctrineRecord
     public function setUp()
     {
         parent::setUp();
-        $this->hasOne('UserGroup', array(
-             'local' => 'userg_id',
-             'foreign' => 'userg_id'));
-
         $this->hasOne('Module', array(
              'local' => 'mod_id',
              'foreign' => 'mod_id'));
