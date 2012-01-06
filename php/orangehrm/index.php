@@ -754,7 +754,6 @@ if ($_SESSION['isAdmin'] != 'Yes') {
 /* Start help menu */
 $menuItem = new MenuItem("help", $lang_Menu_Help, '#');
 $subs = array();
-$subs[] = new MenuItem("help", $lang_Menu_HelpContents, "help.php", '_blank');
 $subs[] = new MenuItem("support", $lang_Menu_Home_Support, "http://www.orangehrm.com/support-plans.php?utm_source=application_support&utm_medium=app_url&utm_campaign=orangeapp", '_blank');
 $subs[] = new MenuItem("forum", $lang_Menu_Home_Forum, "http://www.orangehrm.com/forum/", '_blank');
 $subs[] = new MenuItem("blog", $lang_Menu_Home_Blog, "http://www.orangehrm.com/blog/", '_blank');
