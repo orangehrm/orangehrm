@@ -20,7 +20,6 @@
 
 require_once ROOT_PATH . '/lib/dao/MySQLClass.php';
 require_once ROOT_PATH . '/lib/confs/Conf.php';
-require_once ROOT_PATH . '/lib/common/authorize.php';
 
 class DMLFunctions {
 
@@ -36,7 +35,7 @@ class DMLFunctions {
 	 */
 	public function __construct() {
 		$this->conf = new Conf();
-		$this->dbObject = new MySQLClass($this->conf, authorize::getCurrentUserId());
+		$this->dbObject = new MySQLClass($this->conf);
 	}
 
 	/**

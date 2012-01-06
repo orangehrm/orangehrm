@@ -22,8 +22,6 @@ require_once ROOT_PATH.'/lib/dao/DMLFunctions.php';
 require_once ROOT_PATH.'/lib/dao/SQLQBuilder.php';
 require_once ROOT_PATH.'/lib/common/Config.php';
 require_once ROOT_PATH.'/lib/common/Config.php';
-require_once ROOT_PATH.'/lib/models/eimadmin/EmployStat.php';
-require_once ROOT_PATH.'/lib/models/hrfunct/EmpInfo.php';
 
 class Hsp {
 
@@ -388,9 +386,9 @@ class Hsp {
 
 		$selectTable = "`hs_hr_employee` a";
 
-		$selectFields[0] = "a.`emp_status`";
+		$selectFields[0] = "a.`termination_id`";
 
-		$selectConditions[0] = "a.`employee_id`= $employeeId";
+		$selectConditions[0] = "a.`emp_number`= $employeeId";
 
 		$sqlBuilder = new SQLQBuilder();
 
@@ -400,10 +398,14 @@ class Hsp {
 
 		$result = $dbConnection->executeQuery($query);
 
-		$employeeStatus = mysql_fetch_array($result, MYSQL_NUM);
+		$status = mysql_fetch_array($result, MYSQL_NUM);
+        
+        if (!empty($status[0])) {
+            return true;
+        }
+        
+        return false;
 
-		return ($employeeStatus[0] === EmploymentStatus::EMPLOYMENT_STATUS_ID_TERMINATED);
-	
 	}
 
 }

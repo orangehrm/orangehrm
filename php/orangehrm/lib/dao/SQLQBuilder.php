@@ -20,9 +20,6 @@
 require_once ROOT_PATH . '/lib/confs/Conf.php';
 require_once ROOT_PATH . '/lib/dao/DMLFunctions.php';
 require_once ROOT_PATH . '/lib/exception/ExceptionHandler.php';
-require_once ROOT_PATH . '/lib/confs/sysConf.php';
-require_once ROOT_PATH . '/lib/models/eimadmin/encryption/KeyHandlerOld.php';
-require_once ROOT_PATH . '/lib/dao/CryptoQuery.php';
 
 class SQLQBuilder {
 
@@ -223,9 +220,8 @@ class SQLQBuilder {
             $SQL1 = $SQL1. ' ORDER BY '. $arrayFieldList[$sortField].' '.$sortOrder;// Sort order is ASC or DESC as passed by the arguement. Default ASC.
 
             if($page!=0) {
-       			$sysConst = new sysConf();
 
-            	$SQL1 = $SQL1 . ' LIMIT ' .(($page-1) * $sysConst->itemsPerPage) . ',' .$sysConst->itemsPerPage;
+            	$SQL1 = $SQL1 . ' LIMIT ' .(($page-1) * 50) . ',50';
             }
 			//$exception_handler = new ExceptionHandler();
 	  	 	//$exception_handler->logW($SQL1);
@@ -268,9 +264,7 @@ class SQLQBuilder {
             $SQL1 = $SQL1. ' ORDER BY '. $arrayFieldList[0];
 
             if($page!=0) {
-       			$sysConst = new sysConf();
-
-            	$SQL1 = $SQL1 . ' LIMIT ' .(($page-1) * $sysConst->itemsPerPage) . ',' .$sysConst->itemsPerPage;
+            	$SQL1 = $SQL1 . ' LIMIT ' .(($page-1) * 50) . ',50';
             }
 			//$exception_handler = new ExceptionHandler();
 	  	 	//$exception_handler->logW($SQL1);
@@ -309,13 +303,6 @@ class SQLQBuilder {
 */
 
 	function addNewRecordFeature1($quoteCorrect = true) {
-		
-		/* For Encryption : Begins */
-		$encOn = KeyHandlerOld::KeyExists();
-		if ($encOn && CryptoQuery::isEncTable($this->table_name)) {
-    		$this->arr_insert = CryptoQuery::prepareEncryptFields($this->arr_insertfield, $this->arr_insert);
-		}
-		/* For Encryption : Ends */
 		
 		if ($this->flg_insert == 'true') { // check whether the flg_insert is 'True'
 
@@ -372,13 +359,6 @@ class SQLQBuilder {
 				$arrayRecordList = $this->quoteCorrect($arrayRecordList);
 			}
 
-			/* For Encryption : Begins */
-			$encOn = KeyHandlerOld::KeyExists();
-			if ($encOn && CryptoQuery::isEncTable($this->table_name)) {
-				$arrayRecordList = CryptoQuery::prepareEncryptFields($arrayFieldList, $arrayRecordList);
-			}
-			/* For Encryption : Ends */
-					
             if ($insertIgnore) {
                 $SQL1 = 'INSERT IGNORE INTO ';
             } else {
@@ -514,13 +494,6 @@ class SQLQBuilder {
 
 			$arrayFieldList = $this->arr_select; //assign the sql_format->arr_select instance variable to arrayFieldList
 			
-			/* For Encryption : Begins */
-			$encOn = KeyHandlerOld::KeyExists();
-			if ($encOn && CryptoQuery::isEncTable($this->table_name)) {
-				$arrayFieldList = CryptoQuery::prepareDecryptFields($arrayFieldList);
-			}
-			/* For Encryption : Ends */	
-			
 			$countArrSize = count($arrayFieldList); // check the array size
 			$SQL1 = 'SELECT ';
 			for ($i=0;$i<count($arrayFieldList); $i++) {
@@ -649,13 +622,6 @@ function filterNotEqualRecordSet($filID) {
 				$arrayRecordSet = $this->quoteCorrect($arrayRecordSet);
 			}
 			
-			/* For Encryption : Begins */
-			$encOn = KeyHandlerOld::KeyExists();
-			if ($encOn && CryptoQuery::isEncTable($this->table_name)) {
-				$arrayRecordSet = CryptoQuery::prepareEncryptFields($arrayFieldList, $arrayRecordSet);
-			}
-			/* For Encryption : Ends */	
-				
 			$SQL1 = 'UPDATE ' . strtolower($this->table_name) . ' SET ';
 
 			for ($i = $num + 1; $i<count($arrayFieldList); $i++) {
@@ -768,9 +734,7 @@ function filterNotEqualRecordSet($filID) {
 
 		$SQL1 = $SQL1 . ' GROUP BY a.'. $arrayFieldList[0];
             if($page!=0) {
-       			$sysConst = new sysConf();
-
-            	$SQL1 = $SQL1 . ' LIMIT ' .(($page-1) * $sysConst->itemsPerPage) . ',' .$sysConst->itemsPerPage;
+            	$SQL1 = $SQL1 . ' LIMIT ' .(($page-1) * 50) . ',50';
             }
 
 			//$exception_handler = new ExceptionHandler();
@@ -837,10 +801,7 @@ function filterNotEqualRecordSet($filID) {
 
             if($page!=0) {
 
-       			$sysConst = new sysConf();
-
-            	$SQL1 .= ' LIMIT ' .(($page-1) * $sysConst->itemsPerPage) . ',';
-            	$SQL1 .= $sysConst->itemsPerPage;
+            	$SQL1 .= ' LIMIT ' .(($page-1) * 50) . ',50';
 
             }
 			//$exception_handler = new ExceptionHandler();
@@ -907,9 +868,7 @@ function filterNotEqualRecordSet($filID) {
 //	  	 	$exception_handler->logW($SQL1);
 
             if($page!=0) {
-       			$sysConst = new sysConf();
-
-            	$SQL1 = $SQL1 . ' LIMIT ' .(($page-1) * $sysConst->itemsPerPage) . ',' .$sysConst->itemsPerPage;
+            	$SQL1 = $SQL1 . ' LIMIT ' .(($page-1) * 50) . ',50';
             }
 		$SQL1=strtolower($SQL1);
 		return $SQL1;
@@ -1001,9 +960,7 @@ function listReports($userGroup, $page, $str = '' ,$mode = -1) {
 		$SQL1 = $SQL1 . " GROUP BY a.REP_CODE";
 
             if($page!=0) {
-       			$sysConst = new sysConf();
-
-            	$SQL1 = $SQL1 . ' LIMIT ' .(($page-1) * $sysConst->itemsPerPage) . ',' .$sysConst->itemsPerPage;
+            	$SQL1 = $SQL1 . ' LIMIT ' .(($page-1) * 50) . ',50';
             }
 		$SQL1=strtolower($SQL1);
 
@@ -1172,13 +1129,6 @@ function getCurrencyAssigned($salgrd) {
 				$query = $this->addNewRecordFeature1('true');
 			}
 		} else {
-			/* For Encryption : Begins */
-			$encOn = KeyHandlerOld::KeyExists();
-			if ($encOn && CryptoQuery::isEncTable($this->table_name)) {
-	    		$insertFields = CryptoQuery::prepareEncryptFields($insertFields, $insertValues);
-			}
-			/* For Encryption : Ends */
-
 			$query = "INSERT INTO $insertTable ";
 			if ($insertFields) {
 				$query .= "({$this->_buildList($insertFields, " , ")}) ";
@@ -1199,26 +1149,12 @@ function getCurrencyAssigned($salgrd) {
 			$changeValues = $this->quoteCorrect($changeValues);
 		}
 
-		/* For Encryption : Begins */
-		$encOn = KeyHandlerOld::KeyExists();
-		if ($encOn && CryptoQuery::isEncTable($updateTable)) {
-                    $changeValues = CryptoQuery::prepareEncryptFields($changeFields, $changeValues);
-		}
-		/* For Encryption : Ends */	
-
 		$query = "UPDATE $updateTable ".$this->_buildSet($changeFields, $changeValues).$this->_buildWhere($updateConditions);
 
 		return $query;
 	}
 
 	function simpleSelect($selectTable, $selectFields, $selectConditions=null, $selectOrderBy=null, $selectOrder = null, $selectLimit=null) {
-
-		/* For Encryption : Begins */
-		$encOn = KeyHandlerOld::KeyExists();
-		if ($encOn && CryptoQuery::isEncTable($this->table_name)) {
-	    	$selectFields = CryptoQuery::prepareDecryptFields($selectFields);
-		}
-		/* For Encryption : Ends */
 
 		$query=$this->_buildSelect($selectFields)." FROM $selectTable ";
 
