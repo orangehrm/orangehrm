@@ -246,7 +246,6 @@ if (!$authorizeObj->isAdmin() && $authorizeObj->isESS()) {
         $timeHomePage = './symfony/web/index.php/time/defineTimesheetPeriod';
     }
 
-    $timesheetPage = 'javascript: location.href = \'' . $_SESSION['WPATH'] . '/lib/controllers/CentralController.php?timecode=Time&action=View_Current_Timesheet&clientTimezoneOffset=\' + escape((new Date()).getTimezoneOffset() * -1);';
 } else {
     if ($_SESSION['timePeriodSet'] == 'Yes') {
         $timeHomePage = './symfony/web/index.php/time/viewEmployeeTimesheet';
@@ -254,7 +253,6 @@ if (!$authorizeObj->isAdmin() && $authorizeObj->isESS()) {
         $timeHomePage = './symfony/web/index.php/time/defineTimesheetPeriod';
     }
 
-    $timesheetPage = 'lib/controllers/CentralController.php?timecode=Time&action=View_Select_Employee';
 }
 
 if (!$authorizeObj->isAdmin() && $authorizeObj->isESS()) {
@@ -432,7 +430,6 @@ if (($_SESSION['isAdmin'] == 'Yes' || $_SESSION['isSupervisor']) && $arrAllRight
         $subs[] = $sub;
     }
 
-    //$subs[] = new MenuItem("emplist", $lang_pim_EmployeeList, "./lib/controllers/CentralController.php?reqcode=EMP&VIEW=MAIN&sortField=0&sortOrder0=ASC", "rightMenu");
     $subs[] = new MenuItem("emplist", $lang_pim_EmployeeList, "./symfony/web/index.php/pim/viewEmployeeList/reset/1", "rightMenu");
     if ($arrAllRights[PIM]['add']) {
         $subs[] = new MenuItem("empadd", $lang_pim_AddEmployee, "./symfony/web/index.php/pim/addEmployee", "rightMenu");
@@ -764,7 +761,7 @@ $subs[] = new MenuItem("blog", $lang_Menu_Home_Blog, "http://www.orangehrm.com/b
 $subs[] = new MenuItem("support", $lang_Menu_Home_Training, "http://www.orangehrm.com/training.php?utm_source=application_traning&utm_medium=app_url&utm_campaign=orangeapp", '_blank');
 $subs[] = new MenuItem("support", $lang_Menu_Home_AddOns, "http://www.orangehrm.com/addon-plans.shtml?utm_source=application_addons&utm_medium=app_url&utm_campaign=orangeapp", '_blank');
 $subs[] = new MenuItem("support", $lang_Menu_Home_Customizations, "http://www.orangehrm.com/customizations.php?utm_source=application_cus&utm_medium=app_url&utm_campaign=orangeapp", '_blank');
-$subs[] = new MenuItem("bug", "Bug Tracker", "./index.php?menu_no_top=bug");
+$subs[] = new MenuItem("bug", "Bug Tracker", "http://sourceforge.net/tracker/?group_id=156477&atid=799942", '_blank');
 
 $menuItem->setSubMenuItems($subs);
 $menu[] = $menuItem;
@@ -792,7 +789,6 @@ if (($_GET['menu_no_top'] == "eim") && ($arrRights['view'] || $allowAdminView)) 
         $uri = (substr($_GET['uri'], 0, 11) == 'performance') ? $_GET['uri'] : 'performance/viewReview/mode/new';
         $home = './symfony/web/index.php/' . $uri;
     } else {
-//        $home = "./lib/controllers/CentralController.php?uniqcode={$uniqcode}&amp;VIEW=MAIN{$isAdmin}{$pageNo}";
         $home = "./symfony/web/index.php/admin/viewOrganizationGeneralInformation"; //TODO: Use this after fully converted to Symfony
     }
 } elseif (($_GET['menu_no_top'] == "hr") && $arrRights['view']) {
@@ -803,11 +799,6 @@ if (($_GET['menu_no_top'] == "eim") && ($arrRights['view'] || $allowAdminView)) 
     } elseif (isset($_GET['id'])) {
         $home = "./symfony/web/index.php/pim/viewPersonalDetails?empNumber=" . $_GET['id'];
     }
-} else if ($_GET['menu_no_top'] == "bug") {
-    $home = "./lib/controllers/CentralController.php?mtcode=BUG&amp;capturemode=addmode";
-} elseif ($_GET['menu_no_top'] == "rep") {
-    $repcode = isset($_GET['repcode']) ? $_GET['repcode'] : 'EMPVIEW';
-    $home = "./lib/controllers/CentralController.php?repcode={$repcode}&amp;VIEW=MAIN";
 } elseif ($_GET['menu_no_top'] == "ess") {
     $home = './symfony/web/index.php/pim/viewPersonalDetails?empNumber=' . $_SESSION['empID'];
 } elseif ($_GET['menu_no_top'] == "leave") {
