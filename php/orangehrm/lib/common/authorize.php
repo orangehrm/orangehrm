@@ -19,7 +19,10 @@
  *
  *
  */
+require_once ROOT_PATH . '/lib/models/hrfunct/EmpRepTo.php';
 require_once ROOT_PATH . '/lib/models/hrfunct/EmpInfo.php';
+require_once ROOT_PATH . '/lib/models/eimadmin/JobTitle.php';
+require_once ROOT_PATH . '/lib/models/eimadmin/ProjectAdminGateway.php';
 
 /**
  * Assigns roles at login tells the rest
@@ -115,6 +118,11 @@ class authorize {
         } else {
             $roles[$this->roleAdmin] = false;
         }
+
+        $roles[$this->roleSupervisor] = $this->_checkIsSupervisor();
+        $roles[$this->roleProjectAdmin] = $this->_checkIsProjectAdmin();
+        $roles[$this->roleHiringManager] = $this->_checkIsHiringManager();
+        $roles[$this->roleInterviewer] = $this->_checkIsInterviewer();
 
         if (!empty($empId)) {
             $roles[$this->roleESS] = true;
