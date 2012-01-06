@@ -20,7 +20,7 @@
  */
 
 /**
- * Description of CompanyService
+ * Description of CountryService
  *
  * @author orange
  */

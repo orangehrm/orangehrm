@@ -111,8 +111,8 @@ class EmployeeTable extends PluginEmployeeTable {
                 $employeeStatus->setName($row['employeeStatus']);
                 $employee->setEmployeeStatus($employeeStatus);
 
-                $workStation = new CompanyStructure();
-                $workStation->setTitle($row['subDivision']);
+                $workStation = new SubUnit();
+                $workStation->setName($row['subDivision']);
                 $workStation->setId($row['subDivisionId']);
                 $employee->setSubDivision($workStation);
 

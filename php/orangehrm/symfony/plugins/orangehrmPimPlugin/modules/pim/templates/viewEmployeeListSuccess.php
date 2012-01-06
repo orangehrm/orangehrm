@@ -193,7 +193,7 @@ use_javascript('../../../scripts/jquery/jquery.autocomplete.js');
                         $nameDeleted = ($job->getIsDeleted() == JobTitle::DELETED) ? $job->getJobTitleName()." (Deleted)" : $job->getJobTitleName();
                         echo $nameDeleted ?></td>
                         <td><?php echo $employee->getEmployeeStatus()->getName() ?></td>
-                        <td><?php echo $employee->getSubDivision()->getTitle() ?></td>
+                        <td><?php echo $employee->getSubDivision()->getName() ?></td>
                         <td><?php echo $employee->getSupervisorNames() ?></td>
                     </tr>
 <?php endforeach; ?>
