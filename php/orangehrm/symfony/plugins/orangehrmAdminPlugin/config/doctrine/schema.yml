@@ -228,6 +228,38 @@ Location:
       refClass: EmpLocations
       foreignAlias: locations
 
+AdminRegion:
+  tableName: ohrm_admin_region
+  columns:
+    id:
+      type: integer(4)
+      autoincrement: true
+      primary: true
+    name:
+      type: string(45)
+      notnull: true
+    admin_region_type: string(10)
+  relations:
+    Locations:
+      foreignAlias: Locations
+      class: Location
+      refClass: AdminRegionLocation
+
+AdminRegionLocation:
+  tableName: ohrm_admin_region_location
+  columns:
+    admin_region_id:
+      type: integer(4)
+      primary: true
+    location_id:
+      type: integer(4)
+      primary: true
+  relations:
+    AdminRegion:
+      foreignAlias: AdminRegionLocations
+    Location:
+      foreignAlias: AdminRegionLocations
+
 EmploymentStatus:
   tableName: ohrm_employment_status
   columns:
