@@ -40,6 +40,8 @@
         </tr>
         </table>
 
+        <?php include_component('core', 'ohrmPluginPannel', array('location' => 'define-leave-type-extra-fields')); ?>
+            
         <div class="formbuttons paddingLeft">
             <input type="button" id="saveButton" value="<?php echo __('Save'); ?>" class="savebutton" />
             <input type="reset"  id="resetButton" value="<?php echo __('Reset'); ?>" class="savebutton" />
