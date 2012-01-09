@@ -346,6 +346,30 @@ create table `ohrm_location` (
   primary key  (`id`)
 ) engine=innodb default charset=utf8;
 
+CREATE  TABLE IF NOT EXISTS `ohrm_admin_region` (
+  `id` INT UNSIGNED NOT NULL AUTO_INCREMENT ,
+  `name` VARCHAR(45) NOT NULL ,
+  `admin_region_type` VARCHAR(10) NULL DEFAULT NULL ,
+  PRIMARY KEY (`id`) )
+ENGINE = InnoDB;
+
+CREATE  TABLE IF NOT EXISTS `ohrm_admin_region_location` (
+  `admin_region_id` INT UNSIGNED NOT NULL ,
+  `location_id` INT(11) NOT NULL ,
+  INDEX `fk_ohrm_admin_region_location_ohrm_admin_region1` (`admin_region_id` ASC) ,
+  INDEX `fk_ohrm_admin_region_location_ohrm_location1` (`location_id` ASC) ,
+  CONSTRAINT `fk_ohrm_admin_region_location_ohrm_admin_region1`
+    FOREIGN KEY (`admin_region_id` )
+    REFERENCES `orangehrm`.`ohrm_admin_region` (`id` )
+    ON DELETE CASCADE
+    ON UPDATE CASCADE,
+  CONSTRAINT `fk_ohrm_admin_region_location_ohrm_location1`
+    FOREIGN KEY (`location_id` )
+    REFERENCES `orangehrm`.`ohrm_location` (`id` )
+    ON DELETE CASCADE
+    ON UPDATE CASCADE)
+ENGINE = InnoDB;
+
 create table `hs_hr_module` (
   `mod_id` varchar(36) not null default '',
   `name` varchar(45) default null,
