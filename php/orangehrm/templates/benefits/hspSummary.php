@@ -76,6 +76,8 @@ if (isset($errorFlag)) {
    	}
 
 ?>
+<link href="../../themes/orange/css/jquery/jquery.autocomplete.css" rel="stylesheet" type="text/css"/>
+
 <style>
 #employeeSearchAC {
     width:15em; /* set width here */
@@ -108,6 +110,11 @@ if (isset($errorFlag)) {
 	text-align:center;
 }
 </style>
+<script type="text/javascript" src="../../scripts/jquery/jquery.js"></script>
+<script type="text/javascript" src="../../scripts/jquery/jquery.autocomplete.js"></script>
+
+
+
 <script>
 	function nextPage() {
 		i=document.hspFullSummary.pageNo.value;
@@ -129,7 +136,7 @@ if (isset($errorFlag)) {
 		document.hspFullSummary.submit();
 	}
 
-	function markEmpNumber(empName) {
+/*	function markEmpNumber(empName) {
 		empNoField = document.getElementById("hidEmpNo");
 		for(i in employees) {
 			if (employees[i].toLowerCase() == empName.toLowerCase()) {
@@ -140,18 +147,20 @@ if (isset($errorFlag)) {
 			}
 		}
 	}
-
-        var employees = new Array();
-        var ids = new Array();
+*/
 
 	<?php
+        $empAutoCompleteArray = array();
 	$employees = $records[6];
 	for ($i=0;$i<count($employees);$i++) {
-		echo "employees[" . $i . "] = '" . CommonFunctions::escapeForJavascript($employees[$i][1] . " " . $employees[$i][2]) . "';\n";
-		echo "ids[" . $i . "] = \"" . $employees[$i][0] . "\";\n";
+            $empAutoCompleteArray[] = array('name' => CommonFunctions::escapeForJavascript($employees[$i][1] . " " . $employees[$i][2]),
+                                            'id' => $employees[$i][0]);
 	}
+        
+        $employeeJson = json_encode($empAutoCompleteArray);
 	?>
-
+        var employees = <?php echo $employeeJson;?>;
+        
 	function edit() {
 		with (document.hspFullSummary) {
 			for (var i=0; i < elements.length; i++) {
@@ -305,7 +314,7 @@ if (isset($errorFlag)) {
 
 </script>
 <div class="outerbox" style="width:96%;">
-<?php include ROOT_PATH."/lib/common/autocomplete.php"; ?>
+<?php //include ROOT_PATH."/lib/common/autocomplete.php"; ?>
 <div class="mainHeading"><h2><?php
 if (isset($oneEmployee)) {
 	echo "{$lang_Benefits_Summary_Employee_Heading} {$hspSummary[0]->getEmployeeName()} - {$year}";
@@ -341,30 +350,8 @@ if (isset($successMessage)) {  ?>
     <div class="searchbox">
     <?php if ($adminUser) { ?>
         <label for="txtEmployeeSearch"><?php echo $lang_Admin_Users_Employee?></label>
-        <div class="yui-ac" id="employeeSearchAC">
-          <input autocomplete="off" class="yui-ac-input" id="txtEmployeeSearch" type="text" name="txtEmployeeSearchName" value="<?php echo $lang_Common_TypeHereForHints; ?>" onfocus="showAutoSuggestTip(this)" style="color: #999999" />
-          <div class="yui-ac-container" id="employeeSearchACContainer">
-            <div style="display: none; width: 159px; height: 0px; left: 100em" class="yui-ac-content">
-              <div style="display: none;" class="yui-ac-hd"></div>
-              <div class="yui-ac-bd">
-                <ul>
-                  <li style="display: none;"></li>
-                  <li style="display: none;"></li>
-                  <li style="display: none;"></li>
-                  <li style="display: none;"></li>
-                  <li style="display: none;"></li>
-                  <li style="display: none;"></li>
-                  <li style="display: none;"></li>
-                  <li style="display: none;"></li>
-                  <li style="display: none;"></li>
-                  <li style="display: none;"></li>
-                </ul>
-              </div>
-              <div style="display: none;" class="yui-ac-ft"></div>
-            </div>
-            <div style="width: 0pt; height: 0pt;" class="yui-ac-shadow"></div>
-          </div>
-        </div>
+        <input id="txtEmployeeSearch" type="text" name="txtEmployeeSearchName" value="" />
+
     <?php } ?>
 
     <select name="year" id="select">
@@ -395,7 +382,7 @@ if (isset($successMessage)) {  ?>
 
         if (isset($oneEmployee) && $oneEmployee) {
             $pdfName = 'Personal-HSP-Summary';
-            $empNoQueryStr = '&empId=' . $_POST['hidEmpNo'];
+            $empNoQueryStr = '&empId=' . $hspSummary[0]->getEmployeeId();
         } else {
             $pdfName = 'All-Employees-HSP-Summary';
             $empNoQueryStr = '';
@@ -614,24 +601,38 @@ if (($i%2) == 0) {
 
 <?php if ($_SESSION['isAdmin'] == 'Yes') { ?>
 <script type="text/javascript">
-YAHOO.OrangeHRM.autocomplete.ACJSArray = new function() {
-   	// Instantiate first JS Array DataSource
-   	this.oACDS = new YAHOO.widget.DS_JSArray(employees);
+    
+    var lang_typeHint = "<?php echo $lang_Common_TypeHereForHints; ?>";
+    
+    $(document).ready(function() {
+        
+        if ($("#txtEmployeeSearch").val() == "" || $("#txtEmployeeSearch").val() == lang_typeHint) {
+            $("#txtEmployeeSearch").addClass("inputFormatHint").val(lang_typeHint);
+        }
+        
+        $("#txtEmployeeSearch").one('focus', function() {
+            if ($(this).hasClass("inputFormatHint")) {
+                $(this).val("");
+                $(this).removeClass("inputFormatHint");
+            }
+        });
 
-   	// Instantiate AutoComplete for txtEmployeeSearch
-   	this.oAutoComp = new YAHOO.widget.AutoComplete('txtEmployeeSearch','employeeSearchACContainer', this.oACDS);
-   	this.oAutoComp.prehighlightClassName = "yui-ac-prehighlight";
-   	this.oAutoComp.typeAhead = false;
-   	this.oAutoComp.useShadow = true;
-   	this.oAutoComp.minQueryLength = 1;
-   	this.oAutoComp.textboxFocusEvent.subscribe(function(){
-   	    var sInputValue = YAHOO.util.Dom.get('txtEmployeeSearch').value;
-   	    if(sInputValue.length === 0) {
-   	        var oSelf = this;
-   	        setTimeout(function(){oSelf.sendQuery(sInputValue);},0);
-   	    }
-   	});
-};
+        /* Clearing auto-fill fields */
+        $('#txtEmployeeSearch').click(function(){
+            $(this).attr('value', '');
+            $("#hidEmpNo").attr('value', 0);
+        });
+    
+        /* Auto completion of employees */
+        $('#txtEmployeeSearch').autocomplete(employees, {
+            formatItem: function(item) {
+                return item.name;
+            }, 
+            matchContains:true
+        }).result(function(event, item) {
+            $('#hidEmpNo').val(item.id);
+        });    
+    });                    
 </script>
 <?php } ?>
 </div>
