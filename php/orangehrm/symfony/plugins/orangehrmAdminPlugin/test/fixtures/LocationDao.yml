@@ -4,7 +4,11 @@ Employee:
   2: {empNumber: 3, firstName: 'Renukshan', lastName: 'Saputhanthri'}
   3: {empNumber: 4, firstName: 'Chaturanga', lastName: 'Namal'}
   4: {empNumber: 5, firstName: 'Indiran', lastName: 'Nadarajah'}
-  
+
+Country:
+  0: {cou_code: 'LK', name: 'SRI LANKA', cou_name: 'Sri Lanka', iso3: 'LKA', numcode: 144}
+  1: {cou_code: 'US', name: 'UNITED STATES', cou_name: 'United States', iso3: 'USA', numcode: 840}
+
 Location:
   0: {id: 1, name: 'location 1', country_code: 'LK', province: 'province 1', city: 'city 1', address: 'address 1', zip_code: 'zip001', phone: '0777000001', fax: '0112000001', notes: 'note 1' }
   1: {id: 2, name: 'location 2', country_code: 'LK', province: 'province 2', city: 'city 2', address: 'address 2', zip_code: 'zip002', phone: '0777000002', fax: '0112000002', notes: 'note 2' }

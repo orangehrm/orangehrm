@@ -39,8 +39,8 @@ class LocationDaoTest extends PHPUnit_Framework_TestCase {
 	
 	public function testGetLocationById(){
 		$result = $this->locationDao->getLocationById(1);
-		$this->assertEquals($result->getName(), 'location 1');
 		$this->assertTrue($result instanceof Location);
+                $this->assertEquals($result->getName(), 'location 1');
 	}
 	
 	public function testGetNumberOfEmplyeesForLocation(){
