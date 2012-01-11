@@ -12,6 +12,10 @@ class ohrmListComponent extends sfComponent {
 
     public static $pageNumber = 0;
 
+    /**
+     *
+     * @param sfRequest $request 
+     */
     public function execute($request) {
         $this->setTemplateVariables();
 
@@ -58,51 +62,98 @@ class ohrmListComponent extends sfComponent {
         $this->makePluginCalls();
     }
 
+    /**
+     *
+     * @param ListConfigurationFactory $configurationFactory 
+     */
     public static function setConfigurationFactory(ListConfigurationFactory $configurationFactory) {
         self::$configurationFactory = $configurationFactory;
     }
 
+    /**
+     *
+     * @return mixed
+     */
     public static function getListData() {
         return self::$listData;
     }
     
+    /**
+     *
+     * @param mixed $data 
+     */
     public static function setListData($data) {
         self::$listData = $data;
     }
 
+    /**
+     *
+     * @param string $partial 
+     */
     public static function setHeaderPartial($partial) {
         self::$headerPartial = $partial;
     }
 
+    /**
+     *
+     * @param int $items 
+     */
     public static function setItemsPerPage($items) {
         self::$itemsPerPage = $items;
     }
 
-    public static function setNumberOfRecords ($count) {
+    /**
+     *
+     * @param int $count 
+     */
+    public static function setNumberOfRecords($count) {
         self::$numberOfRecords = $count;
     }
     
+    /**
+     *
+     * @param int $pageNumber 
+     */
     public static function setPageNumber ($pageNumber) {
         self::$pageNumber = $pageNumber;
     }
     
-    
+    /**
+     *
+     * @return string
+     */
     public static function getDefinitionsPath() {
         return self::$definitionsPath;
     }
     
+    /**
+     *
+     * @param string $path 
+     */
     public static function setDefinitionsPath($path) {
         self::$definitionsPath = $path;
     }
     
+    /**
+     *
+     * @return string
+     */
     public static function getActivePlugin() {
         return self::$activePlugin;
     }
     
+    /**
+     *
+     * @param string $pluginName 
+     */
     public static function setActivePlugin($pluginName) {
         self::$activePlugin = $pluginName;
     }
 
+    /**
+     *
+     * @return array
+     */
     protected function getDefinitions() {
         $className = self::$configurationFactory->getClassName();
 
@@ -111,6 +162,10 @@ class ohrmListComponent extends sfComponent {
         return $definitionParams;
     }
     
+    /**
+     *
+     * @return array
+     */
     protected function loadDefinitions() {
         
         if (empty(self::$definitionsPath)) {
@@ -124,10 +179,17 @@ class ohrmListComponent extends sfComponent {
         return sfYaml::load(self::$definitionsPath);
     }
 
+    /**
+     *
+     * @return array 
+     */
     protected function getDefinitionsFromPlugins() {
         return PluginConfigurationManager::instance()->getExternalConfigurations('ohrmListComponent');
     }
 
+    /**
+     * @return void
+     */
     protected function setTemplateVariables() {
         $definitions = $this->getDefinitions();
         $definitionsFromPlugins = $this->getDefinitionsFromPlugins();
@@ -144,6 +206,9 @@ class ohrmListComponent extends sfComponent {
         }
     }
 
+    /**
+     * @return void
+     */
     protected function makePluginCalls() {
         $definitionsFromPlugins = $this->getDefinitionsFromPlugins();
         $calls = isset($definitionsFromPlugins['calls']) ? $definitionsFromPlugins['calls'] : '';
@@ -157,6 +222,9 @@ class ohrmListComponent extends sfComponent {
         }
     }
 
+    /**
+     * @return void
+     */
     protected function applyRuntimeDefinitions() {
         $runtimeDefinitions = self::$configurationFactory->getRuntimeDefinitions();
         foreach ($runtimeDefinitions as $key => $value) {
