@@ -346,18 +346,12 @@ create table `ohrm_location` (
   primary key  (`id`)
 ) engine=innodb default charset=utf8;
 
-CREATE  TABLE IF NOT EXISTS `ohrm_admin_region` (
+CREATE  TABLE `ohrm_operational_country` (
   `id` INT UNSIGNED NOT NULL AUTO_INCREMENT ,
-  `name` VARCHAR(45) NOT NULL ,
-  `admin_region_type` VARCHAR(10) NULL DEFAULT NULL ,
+  `name` VARCHAR(100) NOT NULL ,
+  `code` VARCHAR(2) NULL DEFAULT NULL ,
   PRIMARY KEY (`id`) )
 ENGINE = InnoDB;
-
-CREATE  TABLE IF NOT EXISTS `ohrm_admin_region_location` (
-  `admin_region_id` INT UNSIGNED NOT NULL ,
-  `location_id` INT(11) NOT NULL ,
-  PRIMARY KEY (`admin_region_id`, `location_id`)
-) ENGINE = InnoDB;
 
 create table `hs_hr_module` (
   `mod_id` varchar(36) not null default '',
@@ -1595,15 +1589,3 @@ alter table `ohrm_user`
 alter table `ohrm_user`
     add constraint foreign key (`emp_number`)
         references hs_hr_employee(`emp_number`) on delete cascade;
-
-ALTER TABLE `ohrm_admin_region_location`
-    ADD CONSTRAINT `fk_ohrm_admin_region_location_ohrm_admin_region1`
-        FOREIGN KEY (`admin_region_id` )
-        REFERENCES `ohrm_admin_region` (`id` )
-        ON DELETE CASCADE
-        ON UPDATE CASCADE,
-    ADD CONSTRAINT `fk_ohrm_admin_region_location_ohrm_location1`
-        FOREIGN KEY (`location_id` )
-        REFERENCES `ohrm_location` (`id` )
-        ON DELETE CASCADE
-        ON UPDATE CASCADE;
