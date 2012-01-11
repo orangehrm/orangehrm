@@ -1261,5 +1261,3 @@ INSERT INTO `ohrm_email_notification` (`id`, `name`, `is_enable`) VALUES
 #(6, 'HSP Notifications', 0),
 (7, 'Performance Review Submissions', 0);
 
-INSERT INTO `ohrm_admin_region` (`name`, `admin_region_type`) VALUES
-('Default Region', 'default');
