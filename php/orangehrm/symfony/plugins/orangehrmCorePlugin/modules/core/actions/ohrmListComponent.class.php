@@ -2,11 +2,14 @@
 
 class ohrmListComponent extends sfComponent {
 
-    private static $configurationFactory;
-    private static $listData;
-    private static $itemsPerPage;
-    private static $headerPartial;
-    private static $numberOfRecords;
+    protected static $configurationFactory;
+    protected static $listData;
+    protected static $itemsPerPage;
+    protected static $headerPartial;
+    protected static $numberOfRecords;
+    protected static $definitionsPath;
+    protected static $activePlugin;
+
     public static $pageNumber = 0;
 
     public function execute($request) {
@@ -82,13 +85,43 @@ class ohrmListComponent extends sfComponent {
     public static function setPageNumber ($pageNumber) {
         self::$pageNumber = $pageNumber;
     }
+    
+    
+    public static function getDefinitionsPath() {
+        return self::$definitionsPath;
+    }
+    
+    public static function setDefinitionsPath($path) {
+        self::$definitionsPath = $path;
+    }
+    
+    public static function getActivePlugin() {
+        return self::$activePlugin;
+    }
+    
+    public static function setActivePlugin($pluginName) {
+        self::$activePlugin = $pluginName;
+    }
 
     protected function getDefinitions() {
         $className = self::$configurationFactory->getClassName();
 
-        $definitions = sfYaml::load(sfConfig::get('sf_root_dir') . '/plugins/orangehrmCorePlugin/config/list_component.yml');
+        $definitions = $this->loadDefinitions();
         $definitionParams = array_key_exists($className, $definitions) ? $definitions[$className] : $definitions['Default'];
         return $definitionParams;
+    }
+    
+    protected function loadDefinitions() {
+        
+        if (empty(self::$definitionsPath)) {
+            if (empty(self::$activePlugin)) {
+                self::$definitionsPath = sfConfig::get('sf_plugins_dir') . '/orangehrmCorePlugin/config/list_component.yml';
+            } else {
+                self::$definitionsPath = sfConfig::get('sf_plugins_dir') . '/' . self::$activePlugin . '/config/list_component.yml';;    
+            }
+        }
+        
+        return sfYaml::load(self::$definitionsPath);
     }
 
     protected function getDefinitionsFromPlugins() {
