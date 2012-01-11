@@ -85,15 +85,20 @@ class LeaveTypeDao extends BaseDao {
 
     /**
      * Get Leave Type list
+     * @param mixed $operationalCountryId 
      * @return LeaveType Collection
      */
-    public function getLeaveTypeList() {
+    public function getLeaveTypeList($operationalCountryId = null) {
         try {
             $q = Doctrine_Query::create()
                             ->from('LeaveType lt')
                             ->where('lt.availableFlag = 1')
                             ->orderBy('lt.leaveTypeId');
-
+            
+            if (!is_null($operationalCountryId)) {
+                $q->andWhere('lt.operationalCountryId = ? ', $operationalCountryId);
+            }
+            
             $leaveTypeList = $q->execute();
 
             return $leaveTypeList;
@@ -103,13 +108,17 @@ class LeaveTypeDao extends BaseDao {
         }
     }
 
-    public function getDeletedLeaveTypeList() {
+    public function getDeletedLeaveTypeList($operationalCountryId = null) {
         try {
             $q = Doctrine_Query::create()
                             ->from('LeaveType lt')
                             ->where('lt.availableFlag = 0')
                             ->orderBy('lt.leaveTypeId');
 
+            if (!is_null($operationalCountryId)) {
+                $q->andWhere('lt.operationalCountryId = ? ', $operationalCountryId);
+            }
+            
             $leaveTypeList = $q->execute();
 
             return $leaveTypeList;

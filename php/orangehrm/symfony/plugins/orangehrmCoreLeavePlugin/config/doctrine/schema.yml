@@ -140,7 +140,15 @@ LeaveType:
     available_flag:
       name: available_flag as availableFlag
       type: integer(2)
-
+    operational_country_id: 
+      name: operational_country_id as operationalCountryId
+      type: integer
+  relations:
+    OperationalCountry:
+      local: operational_country_id
+      foreign: id
+      type: one
+      
 WorkWeek:
   tableName: hs_hr_weekends
   columns:

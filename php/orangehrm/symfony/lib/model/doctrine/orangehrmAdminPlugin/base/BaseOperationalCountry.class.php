@@ -8,13 +8,16 @@
  * @property integer $id
  * @property string $name
  * @property string $code
+ * @property Doctrine_Collection $LeaveType
  * 
- * @method integer            getId()   Returns the current record's "id" value
- * @method string             getName() Returns the current record's "name" value
- * @method string             getCode() Returns the current record's "code" value
- * @method OperationalCountry setId()   Sets the current record's "id" value
- * @method OperationalCountry setName() Sets the current record's "name" value
- * @method OperationalCountry setCode() Sets the current record's "code" value
+ * @method integer             getId()        Returns the current record's "id" value
+ * @method string              getName()      Returns the current record's "name" value
+ * @method string              getCode()      Returns the current record's "code" value
+ * @method Doctrine_Collection getLeaveType() Returns the current record's "LeaveType" collection
+ * @method OperationalCountry  setId()        Sets the current record's "id" value
+ * @method OperationalCountry  setName()      Sets the current record's "name" value
+ * @method OperationalCountry  setCode()      Sets the current record's "code" value
+ * @method OperationalCountry  setLeaveType() Sets the current record's "LeaveType" collection
  * 
  * @package    orangehrm
  * @subpackage model
@@ -46,6 +49,8 @@ abstract class BaseOperationalCountry extends sfDoctrineRecord
     public function setUp()
     {
         parent::setUp();
-        
+        $this->hasMany('LeaveType', array(
+             'local' => 'id',
+             'foreign' => 'operational_country_id'));
     }
 }

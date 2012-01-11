@@ -469,6 +469,7 @@ create table `hs_hr_leavetype` (
   `leave_type_id` varchar(13) not null,
   `leave_type_name` varchar(50) default null,
   `available_flag` smallint(6) default null,
+  `operational_country_id` int unsigned default null,
   primary key  (`leave_type_id`)
 ) engine=innodb default charset=utf8;
 
@@ -1546,6 +1547,10 @@ alter table hs_hr_leave
 		add foreign key (leave_request_id,leave_type_id,employee_id)
 							references hs_hr_leave_requests
 									(leave_request_id,leave_type_id,employee_id) on delete cascade;
+
+alter table hs_hr_leavetype
+    add foreign key (operational_country_id)
+        references ohrm_operational_country(id) on delete set null;
 
 alter table hs_hr_mailnotifications
        add constraint foreign key (user_id)

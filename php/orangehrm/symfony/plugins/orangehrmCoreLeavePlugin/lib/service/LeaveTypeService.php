@@ -64,9 +64,9 @@ class LeaveTypeService extends BaseService {
      *
      * @return LeaveType Collection
      */
-    public function getLeaveTypeList() {
+    public function getLeaveTypeList($operationalCountryId = null) {
 
-        return $this->getLeaveTypeDao()->getLeaveTypeList();
+        return $this->getLeaveTypeDao()->getLeaveTypeList($operationalCountryId);
     }
 
     /**
@@ -88,9 +88,9 @@ class LeaveTypeService extends BaseService {
         return $this->getLeaveTypeDao()->undeleteLeaveType($leaveTypeId);
     }
 
-    public function getDeletedLeaveTypeList() {
+    public function getDeletedLeaveTypeList($operationalCountryId = null) {
 
-        return $this->getLeaveTypeDao()->getDeletedLeaveTypeList();
+        return $this->getLeaveTypeDao()->getDeletedLeaveTypeList($operationalCountryId);
     }
 
 }

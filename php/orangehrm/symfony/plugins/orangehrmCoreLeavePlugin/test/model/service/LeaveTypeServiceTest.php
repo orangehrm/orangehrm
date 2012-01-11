@@ -60,6 +60,26 @@
 
     }
 
+    public function testGetLeaveTypeListWithOperationalCountryId() {
+
+        $leaveTypeList = TestDataService::loadObjectList('LeaveType', $this->fixture, 'set1');
+
+        $leaveTypeDao = $this->getMock('LeaveTypeDao', array('getLeaveTypeList'));
+        $leaveTypeDao->expects($this->once())
+                     ->method('getLeaveTypeList')
+                     ->with($this->equalTo(2))
+                     ->will($this->returnValue($leaveTypeList));
+
+        $this->leaveTypeService->setLeaveTypeDao($leaveTypeDao);
+        $returnedLeaveTypeList = $this->leaveTypeService->getLeaveTypeList(2);
+        
+        $this->assertEquals(5, count($returnedLeaveTypeList));
+        
+        foreach ($returnedLeaveTypeList as $leaveType) {
+            $this->assertTrue($leaveType instanceof LeaveType);
+        }            
+    }
+    
     /* Tests for saveLeaveType() */
 
     public function testSaveLeaveType() {
