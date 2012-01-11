@@ -240,7 +240,6 @@ OperationalCountry:
       notnull: true
     code: string(3)
 
-
 EmploymentStatus:
   tableName: ohrm_employment_status
   columns:
