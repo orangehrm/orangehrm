@@ -349,49 +349,6 @@ class leaveActions extends sfActions {
         $this->forward('leave', 'viewHolidayList');
     }
 
-    public function executeGetHolidayAjax(sfWebRequest $request) {
-
-        $year = $request->getParameter("year");
-
-        $holidayList = $this->getHolidayService()->getFullHolidayList();
-
-        $dates = "";
-        foreach ($holidayList as $holiday) {
-            $htype = $holiday->getLength() == 0 ? 'f' : 'h';
-            $dates .= "[" . str_replace("-", ",", $holiday->getdate()) . ", '" . $htype . "', " . $holiday->getRecurring() . "],";
-        }
-
-        $dates = rtrim($dates, ",");
-
-        echo "[";
-        echo $dates;
-        echo "]";
-        exit;
-    }
-
-    public function executeGetWorkWeekAjax(sfWebRequest $request) {
-
-        $workWeekList = $this->getWorkWeekService()->getWorkWeekList();
-
-        $dates = "";
-        foreach ($workWeekList as $workWeek) {
-            $htype = $workWeek->getLength();
-            $day = (int) $workWeek->getDay();
-            if ($htype == 8) {
-                $dates .= "[" . ( $day ) . ", 'w'],";
-            } elseif ($htype == 4) {
-                $dates .= "[" . ( $day ) . ", 'h'],";
-            }
-        }
-
-        $dates = rtrim($dates, ",");
-
-        echo "[";
-        echo $dates;
-        echo "]";
-        exit;
-    }
-
     /**
      * Display a list of leaves for HR Admins, supervisors and ESS users
      */
