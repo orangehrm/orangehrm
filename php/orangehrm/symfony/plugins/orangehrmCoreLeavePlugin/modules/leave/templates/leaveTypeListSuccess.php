@@ -72,7 +72,7 @@
     		<!--<input type='checkbox' class='checkbox' name='chkLeaveTypeID[]' value='LTY001' />-->
     	</td> 
         <td>
-            <a href="#" class="leaveTypeNames"><?php echo $leaveType->getLeaveTypeName(); ?></a>
+            <?php echo link_to($leaveType->getLeaveTypeName(), 'leave/defineLeaveType?id=' . $leaveType->getLeaveTypeId());?>
         </td> 
         
         <?php $rowClass = $rowClass=='odd'?'even':'odd'; ?>
@@ -170,15 +170,6 @@
 		    }
 
 		});
-
-        $('.leaveTypeNames').live('click', function(){
-
-            $('#hdnEditId').val($(this).parent().siblings().children(':checkbox').val());
-            $('#frmLeaveTypeList').attr('method', 'get');
-            $('#frmLeaveTypeList').attr('action', '<?php echo url_for('leave/defineLeaveType'); ?>');
-            $('#frmLeaveTypeList').submit();
-
-        });
 		
 		/* Checkbox behavior */
 		$("#allCheck").click(function() {

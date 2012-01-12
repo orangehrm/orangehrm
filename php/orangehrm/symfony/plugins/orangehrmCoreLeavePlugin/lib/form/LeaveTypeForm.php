@@ -1,45 +1,56 @@
 <?php
+/**
+ * OrangeHRM is a comprehensive Human Resource Management (HRM) System that captures
+ * all the essential functionalities required for any enterprise.
+ * Copyright (C) 2006 OrangeHRM Inc., http://www.orangehrm.com
+ *
+ * OrangeHRM is free software; you can redistribute it and/or modify it under the terms of
+ * the GNU General Public License as published by the Free Software Foundation; either
+ * version 2 of the License, or (at your option) any later version.
+ *
+ * OrangeHRM is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY;
+ * without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+ * See the GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License along with this program;
+ * if not, write to the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
+ * Boston, MA  02110-1301, USA
+ */
 
 class LeaveTypeForm extends orangehrmForm {
 
-    const SAVING_MODE_NEW = "new";
-    const SAVING_MODE_UPDATE = "update";
-
+    private $updateMode = false;
     private $leaveTypeService;
 
     public function configure() {
 
-        $this->loadInitialWidgets();
+        sfContext::getInstance()->getConfiguration()->loadHelpers('I18N');
+        
+        $this->setWidgets(array(
+            'txtLeaveTypeName' => new sfWidgetFormInput(array(), array('size' => 30)),
+            'hdnOriginalLeaveTypeName' => new sfWidgetFormInputHidden(),
+            'hdnLeaveTypeId' => new sfWidgetFormInputHidden()
+        ));
+        
+        $this->setValidators(array(
+            'txtLeaveTypeName' => 
+                new sfValidatorString(array(
+                        'required' => true,
+                        'max_length' => 30
+                    ),
+                    array(
+                        'required' => __('Leave type name is required'),
+                        'max_length' => __('Leave type name should be less than 30 characters')
+                    )),
+            'hdnOriginalLeaveTypeName' => new sfValidatorString(array('required' => false)),
+            'hdnLeaveTypeId' => new sfValidatorString(array('required' => false))          
+        ));
         $this->widgetSchema->setNameFormat('leaveType[%s]');
-    }
-
-    protected function loadInitialWidgets() {
-
-        $this->setWidget('txtLeaveTypeName', new sfWidgetFormInput(array(), array('size' => 30)));
-        $this->setValidator('txtLeaveTypeName', new sfValidatorString(array(
-                            'min_length' => 2,
-                            'max_length' => 30
-                            ),
-                            array(
-                            'min_length' => 'Leave type name should be at least 2 characters',
-                            'max_length' => 'Leave type name should be less than 30 characters'
-                            )));
-
-
-        $this->setWidget('hdnSavingMode', new sfWidgetFormInputHidden(array('default' => self::SAVING_MODE_NEW)));
-        $this->setValidator('hdnSavingMode', new sfValidatorPass());
-
-        $this->setWidget('hdnOriginalLeaveTypeName', new sfWidgetFormInputHidden());
-        $this->setValidator('hdnOriginalLeaveTypeName', new sfValidatorString(array('required' => false)));
-
-        $this->setWidget('hdnLeaveTypeId', new sfWidgetFormInputHidden());
-        $this->setValidator('hdnLeaveTypeId', new sfValidatorString(array('required' => false)));
     }
 
     public function setDefaultValues($leaveTypeId) {
 
         $leaveTypeService = $this->getLeaveTypeService();
-
         $leaveTypeObject = $leaveTypeService->readLeaveType($leaveTypeId);
 
         if ($leaveTypeObject instanceof LeaveType) {
@@ -50,19 +61,20 @@ class LeaveTypeForm extends orangehrmForm {
         }
     }
 
-    public function setNewMode() {
-        $this->setDefault('hdnSavingMode', self::SAVING_MODE_NEW);
-    }
     public function setUpdateMode() {
-        $this->setDefault('hdnSavingMode', self::SAVING_MODE_UPDATE);
+        $this->updateMode = true;
     }    
 
+    public function isUpdateMode() {
+        return $this->updateMode;
+    }
+    
     public function getLeaveTypeObject() {
         
-        $savingMode = $this->getValue('hdnSavingMode');
+        $leaveTypeId = $this->getValue('hdnLeaveTypeId');
         
-        if ($savingMode == self::SAVING_MODE_UPDATE) {
-            $leaveType = $this->getLeaveTypeService()->readLeaveType($this->getValue('hdnLeaveTypeId'));
+        if (!empty($leaveTypeId)) {
+            $leaveType = $this->getLeaveTypeService()->readLeaveType($leaveTypeId);
         } else {
             $leaveType = new LeaveType();
             $leaveType->setAvailableFlag(LeaveType::AVAILABLE);
@@ -73,7 +85,7 @@ class LeaveTypeForm extends orangehrmForm {
         return $leaveType;        
     }
     
-    public function getDeletedLeaveTypesAsJsonArray() {
+    public function getDeletedLeaveTypesJsonArray() {
 
         $leaveTypeService = $this->getLeaveTypeService();
         $deletedLeaveTypes = $leaveTypeService->getDeletedLeaveTypeList();
@@ -117,6 +129,3 @@ class LeaveTypeForm extends orangehrmForm {
     }
 }
 
-
-
-?>
