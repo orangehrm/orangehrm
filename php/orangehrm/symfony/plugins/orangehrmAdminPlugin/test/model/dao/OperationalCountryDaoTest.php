@@ -48,6 +48,55 @@ class OperationalCountryDaoTest extends PHPUnit_Framework_TestCase {
             $this->assertEquals($sampleData[$i]['code'], $operationalCountry->getCode());
         }
     }
+    
+    /**
+     * @covers OperationalCountryDao::getOperationalCountryList
+     * @expectedException DaoException
+     */
+    public function testGetOperationalCountryList_WithException() {
+        $this->markTestIncomplete();
+    }
+    
+    /**
+     * @covers OperationalCountryDao::getLocationsMappedToOperationalCountry
+     */
+    public function testGetLocationsMappedToOperationalCountry_Successful() {
+        $sampleData = sfYaml::load($this->fixture);
+        $sampleData = $sampleData['Location'];
+        
+        $result = $this->dao->getLocationsMappedToOperationalCountry('LK');
+        
+        $this->assertTrue($result instanceof Doctrine_Collection);
+        $this->assertEquals(2, $result->count());
+        
+        $sampleDataIndices = array(0, 1);
+        foreach ($result as $i => $location) {
+            $index = $sampleDataIndices[$i];
+            $this->assertTrue($location instanceof Location);
+            $this->assertEquals($sampleData[$index]['id'], $location->getId());
+            $this->assertEquals($sampleData[$index]['name'], $location->getName());
+        }
+        
+        $result = $this->dao->getLocationsMappedToOperationalCountry('US');
+        $this->assertTrue($result instanceof Doctrine_Collection);
+        $this->assertEquals(1, $result->count());
+        
+        $sampleDataIndices = array(2);
+        foreach ($result as $i => $location) {
+            $index = $sampleDataIndices[$i];
+            $this->assertTrue($location instanceof Location);
+            $this->assertEquals($sampleData[$index]['id'], $location->getId());
+            $this->assertEquals($sampleData[$index]['name'], $location->getName());
+        }
+    }
+    
+    /**
+     * @covers OperationalCountryDao::getOperationalCountryList
+     * @expectedException DaoException
+     */
+    public function testGetLocationsMappedToOperationalCountry_WithException() {
+        $this->markTestIncomplete();
+    }
 
 }
 
