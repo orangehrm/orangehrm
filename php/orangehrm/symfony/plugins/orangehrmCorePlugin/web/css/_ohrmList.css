@@ -22,3 +22,10 @@ table.valueListCell td {
 table.data-table tbody tr.trHover td {
     background-color: #CCC;
 }
+
+div.formbuttons {
+    float: left;
+    margin-top: 0;
+    padding: 6px;
+    border-top: medium none white;
+}
