@@ -3,6 +3,7 @@
 class leaveTypeListAction extends orangehrmAction {
 
     public function execute($request) {
+        
         //authentication
         if(!isset($_SESSION['isAdmin']) || $_SESSION['isAdmin']!='Yes') {
             $this->forward('leave', 'viewMyLeaveList');
@@ -11,9 +12,8 @@ class leaveTypeListAction extends orangehrmAction {
         $message = $this->getUser()->getFlash('templateMessage');
         $this->messageType = (isset($message[0]))?strtolower($message[0]):"";
         $this->message = (isset($message[1]))?$message[1]:"";
-        $this->leaveTypeList = $this->getLeaveTypeList();
         
-        $this->_setListComponent($this->leaveTypeList);
+        $this->_setListComponent($this->getLeaveTypeList());
     }
 
     protected function getLeaveTypeList() {
@@ -26,9 +26,10 @@ class leaveTypeListAction extends orangehrmAction {
 
     }
 
-    private function _setListComponent($leaveTypeList) {
+    protected function _setListComponent($leaveTypeList) {
 
-        $configurationFactory = new LeaveTypeListConfigurationFactory();
+        $configurationFactory = $this->getListConfigurationFactory();
+        
         ohrmListComponent::setActivePlugin('orangehrmCoreLeavePlugin');
         ohrmListComponent::setConfigurationFactory($configurationFactory);
         ohrmListComponent::setListData($leaveTypeList);
@@ -36,6 +37,10 @@ class leaveTypeListAction extends orangehrmAction {
         $numRecords = count($leaveTypeList);
         ohrmListComponent::setItemsPerPage($numRecords);
         ohrmListComponent::setNumberOfRecords($numRecords);
+    }
+    
+    protected function getListConfigurationFactory() {
+        return new LeaveTypeListConfigurationFactory();
     }
 
 }

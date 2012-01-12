@@ -11,42 +11,24 @@ class deleteLeaveTypeAction extends orangehrmAction {
      */
     public function execute($request) {
 
+        //authentication
+        if (!isset($_SESSION['isAdmin']) || $_SESSION['isAdmin']!='Yes') {
+            $this->forward('leave', 'viewMyLeaveList');
+        }
+        
         if ($request->isMethod('post')) {
 
-            if (count($request->getParameter('chkLeaveType')) == 0) {
+            if (count($request->getParameter('chkSelectRow')) == 0) {
                 $this->getUser()->setFlash('templateMessage', array('NOTICE', __('Please Select at Least One Leave Type to Delete')));
-                $this->redirect('leave/leaveTypeList');
+            } else {
+
+                $leaveTypeService = $this->getLeaveTypeService();
+                $leaveTypeService->deleteLeaveType($request->getParameter('chkSelectRow'));
+                $this->getUser()->setFlash('templateMessage', array('SUCCESS', __('Leave Type Successfully Deleted')));
             }
-
-            $leaveTypeService = $this->getLeaveTypeService();
-            $leaveTypeService->setLeaveTypeDao(new LeaveTypeDao());
-
-            $leaveTypeService->deleteLeaveType($request->getParameter('chkLeaveType'));
-
-            $this->getUser()->setFlash('templateMessage', array('SUCCESS', __('Leave Type Successfully Deleted')));
+            
             $this->redirect('leave/leaveTypeList');
         }
-    }
-
-    protected function saveLeaveType($form) {
-
-        $leaveType = new LeaveType();
-        $leaveType->setLeaveTypeName($form->getValue('txtLeaveTypeName'));
-        $leaveType->setAvailableFlag(1); // TODO: Replace 1 with a constant
-        $this->getLeaveTypeService()->saveLeaveType($leaveType);
-        $this->form->setMessage('success', __('Leave Type Successfully Saved'));
-        
-    }
-
-    protected function updateLeaveType() {}
-
-    protected function undeleteLeaveType() {}   
-
-
-    protected function getLeaveTypeForm() {
-
-        return new LeaveTypeForm();
-
     }
 
     protected function getLeaveTypeService() {
@@ -56,7 +38,6 @@ class deleteLeaveTypeAction extends orangehrmAction {
         }
 
         return $this->leaveTypeService;
-
     }
 
 

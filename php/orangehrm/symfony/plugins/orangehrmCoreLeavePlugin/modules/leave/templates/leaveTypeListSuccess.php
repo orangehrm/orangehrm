@@ -18,35 +18,42 @@
  */
 ?>
 
-<?php if(!empty($messageType))  {?>
-<div id="messagebar" class="messageBalloon_<?php echo $messageType;?>" style="margin-left: 16px;width: 470px;">
-	<span style="font-weight: bold;"><?php echo $message; ?></span>
+<?php
+use_stylesheet('../../../themes/orange/css/ui-lightness/jquery-ui-1.7.2.custom.css');
+use_javascript('../../../scripts/jquery/ui/ui.core.js');
+use_javascript('../../../scripts/jquery/ui/ui.draggable.js');
+use_javascript('../../../scripts/jquery/ui/ui.resizable.js');
+use_javascript('../../../scripts/jquery/ui/ui.dialog.js');
+
+use_stylesheet('../orangehrmCoreLeavePlugin/css/leaveTypeListSuccess');
+use_javascript('../orangehrmCoreLeavePlugin/js/leaveTypeListSuccess');
+
+?>
+<div id="messagebar" class="messageBalloon_<?php echo $messageType; ?>" >
+    <span>
+<?php 
+    if (!empty($messageType)) {
+       echo $message; 
+    }
+?>
+    </span>
 </div>
-<?php } ?>
-<div id="errorDiv"></div>
 
-<div style="width:500px;"> 
+<div id="mainDiv"> 
     <?php include_component('core', 'ohrmList'); ?>	
-</div> <!-- End of outerbox -->
+</div> 
 
-<script type="text/javascript"> 
+<div id="deleteConfirmation" title="<?php echo __('OrangeHRM - Confirmation Required'); ?>" style="display: none;">
+    <?php echo __("Are you sure you want to delete selected leave type(s)") . "?"; ?>
+    <div class="dialogButtons">
+        <input type="button" id="dialogDeleteBtn" class="savebutton" value="<?php echo __('Delete'); ?>" />
+        <input type="button" id="dialogCancelBtn" class="savebutton" value="<?php echo __('Cancel'); ?>" />
+    </div>
+</div>
 
-	$(document).ready(function() {
-		
-		
-		
-		// Add button
-		$('#btnAdd').click(function(){
-			window.location.href = '<?php echo url_for('leave/defineLeaveType'); ?>';
-		});
-		
-		/* Delete button */
-		$('#btnDel').click(function(){
-			$('#frmLeaveTypeList').attr('action', '<?php echo url_for('leave/deleteLeaveType'); ?>');
-			$('#frmLeaveTypeList').submit();
-		});
-		
-		
-	}); // ready():Ends
-
+<script type="text/javascript">
+    //<![CDATA[
+    var defineLeaveTypeUrl = '<?php echo url_for('leave/defineLeaveType'); ?>';    
+    var lang_SelectLeaveTypeToDelete = '<?php echo __('Please Select at Least One Leave Type to Delete'); ?>';  
+    //]]>
 </script>

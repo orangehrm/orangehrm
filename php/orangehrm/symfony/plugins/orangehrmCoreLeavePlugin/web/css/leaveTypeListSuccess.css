@@ -1,0 +1,12 @@
+div#mainDiv {
+    width: 500px;
+}
+
+div#messagebar {
+    margin-left: 16px;
+    width: 440px;
+}
+
+div#messagebar span {
+    font-weight: bold;
+}
