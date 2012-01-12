@@ -1,0 +1,5 @@
+OperationalCountry:
+  0: { id: 1, name: 'Sri Lanka', code: 'LK' }
+  1: { id: 2, name: 'United States of America', code: 'US' }
+  2: { id: 3, name: 'Singapore', code: 'SG' }
+  3: { id: 4, name: 'Brazil', code: 'BR' }

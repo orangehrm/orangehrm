@@ -23,7 +23,6 @@ class orangehrmAdminPluginAllTests {
     }
 
     public static function suite() {
-
         $suite = new PHPUnit_Framework_TestSuite('orangehrmCoreLeavePluginAllTest');
 
         /* Dao Test Cases */
@@ -35,6 +34,7 @@ class orangehrmAdminPluginAllTests {
         $suite->addTestFile(dirname(__FILE__) . '/model/dao/JobTitleDaoTest.php');
         $suite->addTestFile(dirname(__FILE__) . '/model/dao/CustomerDaoTest.php');
         $suite->addTestFile(dirname(__FILE__) . '/model/dao/LocationDaoTest.php');
+        $suite->addTestFile(dirname(__FILE__) . '/model/dao/OperationalCountryDaoTest.php');
         $suite->addTestFile(dirname(__FILE__) . '/model/dao/EmploymentStatusDaoTest.php');
         $suite->addTestFile(dirname(__FILE__) . '/model/dao/SkillDaoTest.php');
         $suite->addTestFile(dirname(__FILE__) . '/model/dao/LanguageDaoTest.php');
@@ -55,18 +55,15 @@ class orangehrmAdminPluginAllTests {
         $suite->addTestFile(dirname(__FILE__) . '/model/service/CustomerServiceTest.php');
         $suite->addTestFile(dirname(__FILE__) . '/model/service/ProjectServiceTest.php');
         $suite->addTestFile(dirname(__FILE__) . '/model/service/LocationServiceTest.php');
+        $suite->addTestFile(dirname(__FILE__) . '/model/service/OperationalCountryServiceTest.php');
         $suite->addTestFile(dirname(__FILE__) . '/model/service/EmploymentStatusServiceTest.php');
         $suite->addTestFile(dirname(__FILE__) . '/model/service/MembershipServiceTest.php');
         $suite->addTestFile(dirname(__FILE__) . '/model/service/NationalityServiceTest.php');
         $suite->addTestFile(dirname(__FILE__) . '/model/service/PayGradeServiceTest.php');
         $suite->addTestFile(dirname(__FILE__) . '/model/service/JobCategoryServiceTest.php');
         $suite->addTestFile(dirname(__FILE__) . '/model/service/WorkShiftServiceTest.php');
-
-
-
         
         return $suite;
-
     }
 
     public static function main() {
