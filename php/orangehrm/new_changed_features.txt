@@ -1,3 +1,5 @@
+New & Changed Features for OrangeHRM ver  2.6.12.2
+
 New & Changed Features for OrangeHRM ver  2.6.12.1
 
     Bug Fixes
