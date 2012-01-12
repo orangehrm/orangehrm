@@ -1,6 +1,6 @@
 <?php
 
-class OperationalCountryService {
+class OperationalCountryService extends BaseService {
 
     protected $operationalCountryDao;
 
