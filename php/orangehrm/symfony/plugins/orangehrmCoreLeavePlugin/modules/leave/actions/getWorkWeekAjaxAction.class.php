@@ -49,7 +49,7 @@ class getWorkWeekAjaxAction extends sfAction {
     }
     
     public function execute( $request ){
-        $workWeekList = $this->getWorkWeekService()->getWorkWeekList();
+        $workWeekList = $this->getWorkWeekList();
 
         $dates = "";
         foreach ($workWeekList as $workWeek) {
@@ -68,6 +68,10 @@ class getWorkWeekAjaxAction extends sfAction {
         echo $dates;
         echo "]";
         exit;
+    }
+    
+    public function getWorkWeekList(){
+        return $this->getWorkWeekService()->getWorkWeekList();
     }
     
     

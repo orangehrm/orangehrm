@@ -47,10 +47,14 @@ class getHolidayAjaxAction extends sfAction {
         $this->holidayService = $holidayService;
     }
     
+    /**
+     *
+     * @param type $request 
+     */
     public function execute( $request ){
         $year = $request->getParameter("year");
 
-        $holidayList = $this->getHolidayService()->getFullHolidayList();
+        $holidayList = $this->getHolidayList();
 
         $dates = "";
         foreach ($holidayList as $holiday) {
@@ -66,6 +70,13 @@ class getHolidayAjaxAction extends sfAction {
         exit;
     }
     
+    /**
+     * 
+     * @return Holiday List 
+     */
+    public function getHolidayList(){
+        return $this->getHolidayService()->getFullHolidayList();
+    }
     
 
 }
