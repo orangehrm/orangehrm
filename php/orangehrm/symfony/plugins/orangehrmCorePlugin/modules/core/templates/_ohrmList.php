@@ -1,4 +1,4 @@
-<?php echo stylesheet_tag('../orangehrmCorePlugin/css/_ohrmList.css'); ?>
+<?php echo use_stylesheet('../orangehrmCorePlugin/css/_ohrmList.css'); ?>
 <?php
 if ($tableWidth == 'auto') {
     $outboxWidth = 0;
@@ -92,7 +92,7 @@ function printButtonEventBindings($buttons) {
 
     include_component('core', 'ohrmPluginPannel', array('location' => 'list-component-before-table-action-bar'));
 ?>
-        <div id="helpText"class="helpText"></div>
+        <div id="helpText" class="helpText"></div>
         <?php if ($pager->haveToPaginate()) {
  ?>
             <div class="navigationHearder">
