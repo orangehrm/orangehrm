@@ -1,17 +1,20 @@
 <?php
 
-class OperationalCountryService  {
-    
+class OperationalCountryService {
+
     protected $operationalCountryDao;
-    
+
     /**
      *
      * @return OperationalCountryDao
      */
     public function getOperationalCountryDao() {
+        if (!($this->operationalCountryDao instanceof OperationalCountryDao)) {
+            $this->operationalCountryDao = new OperationalCountryDao();
+        }
         return $this->operationalCountryDao;
     }
-    
+
     /**
      *
      * @param OperationalCountryDao $dao 
@@ -25,6 +28,11 @@ class OperationalCountryService  {
      * @return Doctrine_Collection
      */
     public function getOperationalCountryList() {
-        
+        try {
+            return $this->getOperationalCountryDao()->getOperationalCountryList();
+        } catch (Exception $e) {
+            throw new ServiceException($e->getMessage());
+        }
     }
+
 }
