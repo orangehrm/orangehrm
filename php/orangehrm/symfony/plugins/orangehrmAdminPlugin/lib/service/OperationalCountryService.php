@@ -1,6 +1,6 @@
 <?php
 
-class OperationalCountryService extends BaseService {
+class OperationalCountryService  {
 
     protected $operationalCountryDao;
 
@@ -19,7 +19,7 @@ class OperationalCountryService extends BaseService {
      *
      * @param OperationalCountryDao $dao 
      */
-    public function getOperationalCountryDao(OperationalCountryDao $dao) {
+    public function setOperationalCountryDao(OperationalCountryDao $dao) {
         $this->operationalCountryDao = $dao;
     }
 
