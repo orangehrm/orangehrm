@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE xliff PUBLIC "-//XLIFF//DTD XLIFF//EN" "http://www.oasis-open.org/committees/xliff/documents/xliff.dtd">
+<xliff version="1.0">
+ <header/>
+ <file source-language="en_US" target-language="fr_CA" datatype="plaintext" original="messages" date="2012-01-12T12:57:24Z" product-name="messages">
+  <body>
+   <trans-unit id="1">
+    <source>Latest Jobs</source>
+    <target>CA_Latest Jobs</target>
+
+   </trans-unit>
+   <trans-unit id="2">
+    <source>Expand all</source>
+    <target>CA_Expand all</target>
+   </trans-unit>
+   <trans-unit id="3">
+    <source>Collapse all</source>
+
+    <target>CA_Collapse all</target>
+   </trans-unit>
+   <trans-unit id="4">
+    <source>Applying Job vacancy Failed. Resume Size Exceeded 1MB</source>
+    <target>CA_Applying Job vacancy Failed. Resume Size Exceeded 1MB</target>
+   </trans-unit>
+   <trans-unit id="5">
+
+    <source>Apply</source>
+    <target>CA_Apply</target>
+   </trans-unit>
+   <trans-unit id="6">
+    <source>E-Mail</source>
+    <target>CA_E-Mail</target>
+   </trans-unit>
+
+   <trans-unit id="7">
+    <source>Apply for</source>
+    <target>CA_Apply for</target>
+   </trans-unit>
+   <trans-unit id="8">
+    <source>First Name</source>
+    <target>CA_First Name</target>
+
+   </trans-unit>
+   <trans-unit id="9">
+    <source>Middle Name</source>
+    <target>CA_Middle Name</target>
+   </trans-unit>
+   <trans-unit id="10">
+    <source>Last Name</source>
+
+    <target>CA_Last Name</target>
+   </trans-unit>
+   <trans-unit id="11">
+    <source>Contact No</source>
+    <target>CA_Contact No</target>
+   </trans-unit>
+   <trans-unit id="12">
+
+    <source>Resume</source>
+    <target>CA_Resume</target>
+   </trans-unit>
+   <trans-unit id="13">
+    <source>Keywords</source>
+    <target>CA_Keywords</target>
+   </trans-unit>
+
+   <trans-unit id="14">
+    <source>Notes</source>
+    <target>CA_Notes</target>
+   </trans-unit>
+   <trans-unit id="15">
+    <source>Submit</source>
+    <target>CA_Submit</target>
+
+   </trans-unit>
+   <trans-unit id="16">
+    <source>Back to Job List</source>
+    <target>CA_Back to Job List</target>
+   </trans-unit>
+   <trans-unit id="17">
+    <source>Error Occurred - Invalid File Type</source>
+
+    <target>CA_Error Occurred - Invalid File Type</target>
+   </trans-unit>
+   <trans-unit id="18">
+    <source>Enter comma separated words...</source>
+    <target>CA_Enter comma separated words...</target>
+   </trans-unit>
+   <trans-unit id="19">
+
+    <source>First name is required</source>
+    <target>CA_First name is required</target>
+   </trans-unit>
+   <trans-unit id="20">
+    <source>Last name is required</source>
+    <target>CA_Last name is required</target>
+   </trans-unit>
+
+   <trans-unit id="21">
+    <source>E-mail is required</source>
+    <target>CA_E-mail is required</target>
+   </trans-unit>
+   <trans-unit id="22">
+    <source>Email address should contain at least one '.' and one '@' Example:user@example.com</source>
+    <target>CA_Email address should contain at least one '.' and one '@' Example:user@example.com</target>
+
+   </trans-unit>
+   <trans-unit id="23">
+    <source>Please enter no more than 30 characters</source>
+    <target>CA_Please enter no more than 30 characters</target>
+   </trans-unit>
+   <trans-unit id="24">
+    <source>Enter a valid contact number</source>
+
+    <target>CA_Enter a valid contact number</target>
+   </trans-unit>
+   <trans-unit id="25">
+    <source>Please enter no more than 255 characters</source>
+    <target>CA_Please enter no more than 255 characters</target>
+   </trans-unit>
+   <trans-unit id="26">
+
+    <source>Please attach your resume</source>
+    <target>CA_Please attach your resume</target>
+   </trans-unit>
+   <trans-unit id="27">
+    <source>Enter comma separated words...</source>
+    <target>CA_Enter comma separated words...</target>
+   </trans-unit>
+
+   <trans-unit id="28">
+    <source>Vacancy Apply Form</source>
+    <target>CA_Vacancy Apply Form</target>
+   </trans-unit>
+   <trans-unit id="29">
+    <source>Your Application for the Position of Associate QA Was Received</source>
+    <target>CA_Your Application for the Position of Associate QA Was Received</target>
+
+   </trans-unit>
+   <trans-unit id="30">
+    <source>Error Occurred - Invalid File Type</source>
+    <target>CA_Error Occurred - Invalid File Type</target>
+   </trans-unit>
+  </body>
+ </file>
+</xliff>
