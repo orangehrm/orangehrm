@@ -21,7 +21,8 @@ use_stylesheet('../orangehrmCoreLeavePlugin/css/defineLeaveTypeSuccess');
                 <?php echo __(' Leave Type'); ?></h2>
         </div>
 
-        <form name="frmLeaveType" id="frmLeaveType" action="defineLeaveType" method="post">
+        <form name="frmLeaveType" id="frmLeaveType" 
+              action="<?php echo url_for('leave/defineLeaveType');?>" method="post">
         
         <?php echo $form['hdnLeaveTypeId']->render(); ?>
         <?php echo $form['hdnOriginalLeaveTypeName']->render(); ?>
@@ -77,7 +78,8 @@ use_stylesheet('../orangehrmCoreLeavePlugin/css/defineLeaveTypeSuccess');
     </div>
 </div> <!-- undeleteDialog -->
 
-<form name="frmUndeleteLeaveType" id="frmUndeleteLeaveType" action="undeleteLeaveType" method="post">
+<form name="frmUndeleteLeaveType" id="frmUndeleteLeaveType" 
+      action="<?php echo url_for('leave/undeleteLeaveType');?>" method="post">
     <?php echo $undeleteForm;?>
 </form>
 
