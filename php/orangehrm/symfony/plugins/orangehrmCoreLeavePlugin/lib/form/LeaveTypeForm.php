@@ -127,5 +127,21 @@ class LeaveTypeForm extends orangehrmForm {
     public function setLeaveTypeService($leaveTypeService) {
         $this->leaveTypeService = $leaveTypeService;
     }
+    
+    public function getJavaScripts() {
+        $javaScripts = parent::getJavaScripts();
+        $javaScripts[] = '/orangehrmCoreLeavePlugin/js/defineLeaveTypeSuccess.js';
+        
+        return $javaScripts;
+    }
+    
+    public function getStylesheets() {
+        parent::getStylesheets();
+        
+        $styleSheets = parent::getStylesheets();
+        $styleSheets['/orangehrmCoreLeavePlugin/css/defineLeaveTypeSuccess.css'] = 'screen';
+        
+        return $styleSheets;        
+    }
 }
 

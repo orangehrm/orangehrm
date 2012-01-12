@@ -6,8 +6,9 @@ use_javascript('../../../scripts/jquery/ui/ui.draggable.js');
 use_javascript('../../../scripts/jquery/ui/ui.resizable.js');
 use_javascript('../../../scripts/jquery/ui/ui.dialog.js');
 
-use_javascript('../orangehrmCoreLeavePlugin/js/defineLeaveTypeSuccess');
-use_stylesheet('../orangehrmCoreLeavePlugin/css/defineLeaveTypeSuccess');
+use_javascripts_for_form($form);
+use_stylesheets_for_form($form);
+
 ?>
 
 <div class="formpage">
