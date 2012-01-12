@@ -35,4 +35,17 @@ class OperationalCountryService extends BaseService {
         }
     }
 
+    /**
+     *
+     * @param OperationalCountry $country 
+     * @return Doctrine_Collection
+     */
+    public function getLocationsMappedToOperationalCountry(OperationalCountry $country) {
+        try {
+            return $this->getOperationalCountryDao()->getLocationsMappedToOperationalCountry($country->getCode());
+        } catch (Exception $e) {
+            throw new ServiceException($e->getMessage());
+        }
+    }
+
 }

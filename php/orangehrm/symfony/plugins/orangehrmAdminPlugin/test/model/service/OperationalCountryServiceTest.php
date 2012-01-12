@@ -82,6 +82,46 @@ class OperationalCountryServiceTest extends PHPUnit_Framework_TestCase {
         
         $this->service->getOperationalCountryList();
     }
+    
+    /**
+     * @covers OperationalCountryService::getLocationsMappedToOperationalCountry
+     */
+    public function testGetLocationsMappedToOperationalCountry_Success() {
+        $locationList = array();
+        $locationList[] = new Location();
+        $locationList[] = new Location();
+        $locationList[] = new Location();
+        
+        $operationalCountry = new OperationalCountry();
+        $operationalCountry->setId(1);
+        $operationalCountry->setName('Sri Lanka');
+        $operationalCountry->setCode('LK');
+        
+        $operationalCountryDaoMock = $this->getMock('OperationalCountryDao', array('getLocationsMappedToOperationalCountry'));
+        $operationalCountryDaoMock->expects($this->once())
+                ->method('getLocationsMappedToOperationalCountry')
+                ->will($this->returnValue($locationList));
+        $result = $this->service->setOperationalCountryDao($operationalCountryDaoMock);
+        
+        $result = $this->service->getLocationsMappedToOperationalCountry($operationalCountry);
+        $this->assertEquals($locationList, $result);
+    }
+    
+    /**
+     * @covers OperationalCountryService::getLocationsMappedToOperationalCountry
+     * @expectedException ServiceException
+     */
+    public function testGetLocationsMappedToOperationalCountry_WithException() {
+        $operationalCountry = new OperationalCountry();
+        
+        $operationalCountryDaoMock = $this->getMock('OperationalCountryDao', array('getLocationsMappedToOperationalCountry'));
+        $operationalCountryDaoMock->expects($this->once())
+                ->method('getLocationsMappedToOperationalCountry')
+                ->will($this->throwException(new DaoException));
+        $result = $this->service->setOperationalCountryDao($operationalCountryDaoMock);
+        
+        $this->service->getLocationsMappedToOperationalCountry($operationalCountry);
+    }
 
 }
 
