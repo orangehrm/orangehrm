@@ -4,19 +4,13 @@ class LeaveTypeForm extends orangehrmForm {
 
     const SAVING_MODE_NEW = "new";
     const SAVING_MODE_UPDATE = "update";
-    const SAVING_MODE_UNDELETE = "undelete";
 
-    public $activeTypesArray;
-    public $deletedTypesArray;
+    private $leaveTypeService;
 
     public function configure() {
 
         $this->loadInitialWidgets();
         $this->widgetSchema->setNameFormat('leaveType[%s]');
-
-        /* These functions should be called when this class is initiated */
-        $this->_createActiveLeaveTypesJsArray();
-        $this->_createDeletedLeaveTypesJsArray();
     }
 
     protected function loadInitialWidgets() {
@@ -40,16 +34,11 @@ class LeaveTypeForm extends orangehrmForm {
 
         $this->setWidget('hdnLeaveTypeId', new sfWidgetFormInputHidden());
         $this->setValidator('hdnLeaveTypeId', new sfValidatorString(array('required' => false)));
-
-        $this->setWidget('hdnUndeleteId', new sfWidgetFormInputHidden());
-        $this->setValidator('hdnUndeleteId', new sfValidatorString(array('required' => false)));
-
     }
 
     public function setDefaultValues($leaveTypeId) {
 
-        $leaveTypeService = new LeaveTypeService();
-        $leaveTypeService->setLeaveTypeDao(new LeaveTypeDao());
+        $leaveTypeService = $this->getLeaveTypeService();
 
         $leaveTypeObject = $leaveTypeService->readLeaveType($leaveTypeId);
 
@@ -66,46 +55,66 @@ class LeaveTypeForm extends orangehrmForm {
     }
     public function setUpdateMode() {
         $this->setDefault('hdnSavingMode', self::SAVING_MODE_UPDATE);
+    }    
+
+    public function getLeaveTypeObject() {
+        
+        $savingMode = $this->getValue('hdnSavingMode');
+        
+        if ($savingMode == self::SAVING_MODE_UPDATE) {
+            $leaveType = $this->getLeaveTypeService()->readLeaveType($this->getValue('hdnLeaveTypeId'));
+        } else {
+            $leaveType = new LeaveType();
+            $leaveType->setAvailableFlag(LeaveType::AVAILABLE);
+        }        
+        
+        $leaveType->setLeaveTypeName($this->getValue('txtLeaveTypeName'));
+
+        return $leaveType;        
     }
-    public function setUndeleteMode() {
-        $this->setDefault('hdnSavingMode', self::SAVING_MODE_UNDELETE);
-    }
+    
+    public function getDeletedLeaveTypesAsJsonArray() {
 
-    private function _createDeletedLeaveTypesJsArray() {
-
-        $leaveTypeService = new LeaveTypeService();
-        $leaveTypeService->setLeaveTypeDao(new LeaveTypeDao());
-
+        $leaveTypeService = $this->getLeaveTypeService();
         $deletedLeaveTypes = $leaveTypeService->getDeletedLeaveTypeList();
 
         $deletedTypesArray = array();
-        $count = count($deletedLeaveTypes);
 
-        for ($i = 0; $i < $count; $i++) {
-            $deletedTypesArray[$i]['id'] = $deletedLeaveTypes[$i]->getLeaveTypeId();
-            $deletedTypesArray[$i]['name'] = $deletedLeaveTypes[$i]->getLeaveTypeName();
+        foreach ($deletedLeaveTypes as $deletedLeaveType) {
+            $deletedTypesArray[] = array('id' => $deletedLeaveType->getLeaveTypeId(),
+                                         'name' => $deletedLeaveType->getLeaveTypeName());
         }
 
-        $this->deletedTypesArray = $deletedTypesArray;
+        return json_encode($deletedTypesArray);
     }
 
-    private function _createActiveLeaveTypesJsArray() {
+    public function getActiveLeaveTypesJsonArray() {
 
-        $leaveTypeService = new LeaveTypeService();
-        $leaveTypeService->setLeaveTypeDao(new LeaveTypeDao());
-
-        $ativeLeaveTypes = $leaveTypeService->getLeaveTypeList();
+        $leaveTypeService = $this->getLeaveTypeService();
+        $activeLeaveTypes = $leaveTypeService->getLeaveTypeList();
 
         $activeTypesArray = array();
-        $count = count($ativeLeaveTypes);
 
-        for ($i = 0; $i < $count; $i++) {
-            $activeTypesArray[$i] = $ativeLeaveTypes[$i]->getLeaveTypeName();
+        foreach ($activeLeaveTypes as $activeLeaveType) {
+            $activeTypesArray[] = $activeLeaveType->getLeaveTypeName();
         }
 
-        $this->activeTypesArray = $activeTypesArray;
+        return json_encode($activeTypesArray);
     }
 
+    public function getLeaveTypeService() {
+
+        if(is_null($this->leaveTypeService)) {
+            $this->leaveTypeService = new LeaveTypeService();
+        }
+
+        return $this->leaveTypeService;
+
+    }    
+    
+    public function setLeaveTypeService($leaveTypeService) {
+        $this->leaveTypeService = $leaveTypeService;
+    }
 }
 
 

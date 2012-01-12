@@ -12,5 +12,10 @@
  */
 abstract class PluginLeaveType extends BaseLeaveType
 {
+    const AVAILABLE = 1;
+    const UNAVAILABLE = 0;
 
+    public function getDescriptiveLeaveTypeName() {
+        return $this->getLeaveTypeName() ." ". (($this->getAvailableFlag() == self::AVAILABLE) ? '' : '(deleted)');
+    }
 }

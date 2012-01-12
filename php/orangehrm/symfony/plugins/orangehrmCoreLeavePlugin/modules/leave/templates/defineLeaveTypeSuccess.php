@@ -19,7 +19,6 @@
         
         <?php echo $form['hdnLeaveTypeId']->render(); ?>
         <?php echo $form['hdnOriginalLeaveTypeName']->render(); ?>
-        <?php echo $form['hdnUndeleteId']->render(); ?>
 
             <table class="outerMost">
         <tr valign="top">
@@ -66,6 +65,17 @@
 <input type="button" id="undeleteCancel" class="savebutton" value="<?php echo __('Cancel');?>" />
 </div>
 </div> <!-- undeleteDialog -->
+
+<form name="frmUndeleteLeaveType" id="frmUndeleteLeaveType" action="undeleteLeaveType" method="post">
+    <?php echo $undeleteForm;?>
+</form>
+
+<script type="text/javascript">
+//<![CDATA[
+    var activeLeaveTypes = <?php echo $form->getActiveLeaveTypesJsonArray(); ?>;
+    var deletedLeaveTypes = <?php echo $form->getDeletedLeaveTypesAsJsonArray(); ?>;
+//]]>
+</script>
 
 <script type="text/javascript">
 //<![CDATA[
@@ -151,18 +161,6 @@ $(document).ready(function(){
         window.location.href = '<?php echo url_for('leave/leaveTypeList'); ?>';
     });
 
-    /* Populating available leave types array */
-
-    var activeLeaveTypes = new Array();
-
-    <?php
-
-    for ($i=0; $i<count($form->activeTypesArray); $i++) {
-        echo "activeLeaveTypes[$i] = '". escapeForJavascript($form->activeTypesArray[$i]) ."';";
-    }
-
-    ?>
-
     /* Removing current leave type name in edit mode
      * Othersie, can't edit and save a leave type */
 
@@ -191,22 +189,10 @@ $(document).ready(function(){
         
         return leaveTypeExists;
     }
-
-    if (leaveTypeExists) {
-
-    }    
+    
 
     /* Checking for deleted leave types: Begins */
 
-    var deletedTypeIds = new Array();
-    var deletedTypeNames = new Array();
-
-    <?php
-    for ($i = 0; $i < count($form->deletedTypesArray); $i++) {
-        echo "deletedTypeIds[$i] = '" . $form->deletedTypesArray[$i]['id'] . "';";
-        echo "deletedTypeNames[$i] = '" . escapeForJavascript($form->deletedTypesArray[$i]['name']) . "';";
-    }
-    ?>
 
     function isDeletedLeaveType() {
 
@@ -217,9 +203,9 @@ $(document).ready(function(){
             return false;
         }
 
-        for (i=0; i<deletedTypeNames.length; i++) {
-            if (deletedTypeNames[i].toLowerCase() == $.trim($('#leaveType_txtLeaveTypeName').val()).toLowerCase()) {
-                return deletedTypeIds[i];
+        for (i=0; i < deletedLeaveTypes.length; i++) {
+            if (deletedLeaveTypes[i].name.toLowerCase() == $.trim($('#leaveType_txtLeaveTypeName').val()).toLowerCase()) {
+                return deletedLeaveTypes[i].id;
             }
         }
         return false;
@@ -235,14 +221,11 @@ $(document).ready(function(){
     });
 
     $("#undeleteYes").click(function(){
-        $('#leaveType_hdnUndeleteId').val(isDeletedLeaveType());
-        $('#leaveType_hdnSavingMode').val('undelete');
-        $('#leaveType_txtLeaveTypeName').attr('disabled', false);
-        $('#frmLeaveType').submit();
+        $('#undeleteLeaveType_undeleteId').val(isDeletedLeaveType());
+        $('#frmUndeleteLeaveType').submit();
     });
 
     $("#undeleteNo").click(function(){
-        $('#leaveType_hdnUndeleteId').val('');
         $('#leaveType_txtLeaveTypeName').attr('disabled', false);
         $('#frmLeaveType').submit();
     });
