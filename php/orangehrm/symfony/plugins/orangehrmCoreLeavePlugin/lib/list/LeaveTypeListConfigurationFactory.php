@@ -16,37 +16,37 @@
  * if not, write to the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
  * Boston, MA  02110-1301, USA
  */
+
+/**
+ * Description of LeaveTypeListConfigurationFactory
+ *
+ */
+class LeaveTypeListConfigurationFactory extends ohrmListConfigurationFactory {
+
+    protected function init() {
+
+        $header = new ListHeader();
+
+        $header->populateFromArray(array(
+            'name' => 'Leave Type',
+            'width' => '99%',
+            'isSortable' => false,
+            'sortField' => null,
+            'elementType' => 'link',
+            'elementProperty' => array(
+                'labelGetter' => 'getLeaveTypeName',
+                'placeholderGetters' => array('id' => 'getLeaveTypeId'),
+                'urlPattern' => 'index.php/leave/defineLeaveType?id={id}'),
+        ));
+
+
+        $this->headers = array($header);
+    }
+
+    public function getClassName() {
+        return 'LeaveTypeList';
+    }
+
+}
+
 ?>
-
-<?php if(!empty($messageType))  {?>
-<div id="messagebar" class="messageBalloon_<?php echo $messageType;?>" style="margin-left: 16px;width: 470px;">
-	<span style="font-weight: bold;"><?php echo $message; ?></span>
-</div>
-<?php } ?>
-<div id="errorDiv"></div>
-
-<div style="width:500px;"> 
-    <?php include_component('core', 'ohrmList'); ?>	
-</div> <!-- End of outerbox -->
-
-<script type="text/javascript"> 
-
-	$(document).ready(function() {
-		
-		
-		
-		// Add button
-		$('#btnAdd').click(function(){
-			window.location.href = '<?php echo url_for('leave/defineLeaveType'); ?>';
-		});
-		
-		/* Delete button */
-		$('#btnDel').click(function(){
-			$('#frmLeaveTypeList').attr('action', '<?php echo url_for('leave/deleteLeaveType'); ?>');
-			$('#frmLeaveTypeList').submit();
-		});
-		
-		
-	}); // ready():Ends
-
-</script>
