@@ -499,6 +499,20 @@ create table `hs_hr_weekends` (
   unique key `day` (`day`)
 ) engine=innodb default charset=utf8;
 
+CREATE  TABLE IF NOT EXISTS `ohrm_work_week` (
+  `id` INT UNSIGNED NOT NULL AUTO_INCREMENT ,
+  `operational_country_id` INT(10) UNSIGNED NULL DEFAULT NULL ,
+  `mon` TINYINT UNSIGNED NOT NULL DEFAULT 0 ,
+  `tue` TINYINT UNSIGNED NOT NULL DEFAULT 0 ,
+  `wed` TINYINT UNSIGNED NOT NULL DEFAULT 0 ,
+  `thu` TINYINT UNSIGNED NOT NULL DEFAULT 0 ,
+  `fri` TINYINT UNSIGNED NOT NULL DEFAULT 0 ,
+  `sat` TINYINT UNSIGNED NOT NULL DEFAULT 0 ,
+  `sun` TINYINT UNSIGNED NOT NULL DEFAULT 0 ,
+  PRIMARY KEY (`id`)
+)
+ENGINE = InnoDB;
+
 create table `hs_hr_mailnotifications` (
 	`user_id` int(20) not null,
 	`notification_type_id` int not null ,
@@ -1594,3 +1608,10 @@ alter table `ohrm_user`
 alter table `ohrm_user`
     add constraint foreign key (`emp_number`)
         references hs_hr_employee(`emp_number`) on delete cascade;
+  
+ALTER TABLE `ohrm_work_week`
+ADD CONSTRAINT `fk_ohrm_work_week_ohrm_operational_country`
+    FOREIGN KEY (`operational_country_id` )
+    REFERENCES `orangehrm`.`ohrm_operational_country` (`id` )
+    ON DELETE CASCADE
+    ON UPDATE CASCADE;
