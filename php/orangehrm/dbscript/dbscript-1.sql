@@ -348,10 +348,9 @@ create table `ohrm_location` (
 
 CREATE  TABLE `ohrm_operational_country` (
   `id` INT UNSIGNED NOT NULL AUTO_INCREMENT ,
-  `name` VARCHAR(100) NOT NULL ,
-  `code` VARCHAR(2) NULL DEFAULT NULL ,
-  PRIMARY KEY (`id`) )
-ENGINE = InnoDB;
+  `country_code` CHAR(2) DEFAULT NULL,
+  PRIMARY KEY (`id`)    
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8;
 
 create table `hs_hr_module` (
   `mod_id` varchar(36) not null default '',
@@ -1601,10 +1600,17 @@ alter table `ohrm_user`
 alter table `ohrm_user`
     add constraint foreign key (`emp_number`)
         references hs_hr_employee(`emp_number`) on delete cascade;
-  
+
+ALTER TABLE `ohrm_operational_country`
+ADD CONSTRAINT `fk_ohrm_operational_country_hs_hr_country`
+    FOREIGN KEY (`country_code`)
+    REFERENCES `hs_hr_country` (`cou_code`)
+    ON DELETE CASCADE
+    ON UPDATE CASCADE;
+
 ALTER TABLE `ohrm_work_week`
 ADD CONSTRAINT `fk_ohrm_work_week_ohrm_operational_country`
-    FOREIGN KEY (`operational_country_id` )
-    REFERENCES `orangehrm`.`ohrm_operational_country` (`id` )
+    FOREIGN KEY (`operational_country_id`)
+    REFERENCES `ohrm_operational_country` (`id`)
     ON DELETE CASCADE
     ON UPDATE CASCADE;
