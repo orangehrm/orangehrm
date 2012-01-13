@@ -2,7 +2,7 @@
 <!DOCTYPE xliff PUBLIC "-//XLIFF//DTD XLIFF//EN" "http://www.oasis-open.org/committees/xliff/documents/xliff.dtd">
 <xliff version="1.0">
  <header/>
- <file source-language="EN" target-language="ja" datatype="plaintext" original="messages" date="2012-01-11T15:30:40Z" product-name="messages">
+ <file source-language="en_US" target-language="ja_JP" datatype="plaintext" original="messages" date="2012-01-11T15:30:40Z" product-name="messages">
   <body>
    <trans-unit id="1">
     <source>Personal</source>
