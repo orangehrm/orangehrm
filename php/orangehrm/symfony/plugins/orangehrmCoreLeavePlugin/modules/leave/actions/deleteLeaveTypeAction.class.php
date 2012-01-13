@@ -4,17 +4,18 @@ class deleteLeaveTypeAction extends orangehrmAction {
 
     protected $leaveTypeService;
 
+    public function preExecute() {
+        if ($this->getUser()->getAttribute('auth.isAdmin') != 'Yes') {
+            $this->redirect('leave/viewMyLeaveList');
+        }
+    }
+    
     /**
      * Executes deleteLeaveType action
      *
      * @param sfRequest $request A request object
      */
     public function execute($request) {
-
-        //authentication
-        if (!isset($_SESSION['isAdmin']) || $_SESSION['isAdmin']!='Yes') {
-            $this->forward('leave', 'viewMyLeaveList');
-        }
         
         if ($request->isMethod('post')) {
 
