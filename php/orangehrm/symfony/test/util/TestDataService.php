@@ -1,4 +1,5 @@
 <?php
+
 /*
  *
  * OrangeHRM is a comprehensive Human Resource Management (HRM) System that captures
@@ -26,22 +27,21 @@ class TestDataService {
     private static $tableNames;
     private static $lastFixture = null;
     private static $insertQueryCache = null;
-    
+
     public static function populate($fixture) {
-        
+
         self::_populateUsingPdoTransaction($fixture);
         //self::_populateUsingDoctrineObjects($fixture);
-
     }
-    
+
     private static function _populateUsingDoctrineObjects($fixture) {
- 
-        self::_setData($fixture);       
+
+        self::_setData($fixture);
 
         self::_disableConstraints();
 
         self::_truncateTables();
-        
+
         foreach (self::$data as $tableName => $tableData) {
 
             $count = 0;
@@ -53,112 +53,102 @@ class TestDataService {
                 $rowObject->save();
 
                 $count++;
-
             }
 
             if ($count > 0) {
                 self::adjustUniqueId($tableName, $count, true);
             }
-
         }
 
-        self::_enableConstraints();        
-        
+        self::_enableConstraints();
     }
 
     private static function _populateUsingPdoTransaction($fixture) {
-        
+
         // Don't reload already loaded fixtures
         $useCache = true;
         if (self::$lastFixture != $fixture) {
-            
+
             self::_setData($fixture);
             self::$lastFixture = $fixture;
             $useCache = false;
             self::$insertQueryCache = NULL;
-        }         
+        }
 
         self::_disableConstraints();
 
-        self::_truncateTables();        
-        
+        self::_truncateTables();
+
         $pdo = self::_getDbConnection();
         $query = "";
         try {
-            
+
             $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
             $pdo->beginTransaction();
-            
+
             if ($useCache) {
                 foreach (self::$insertQueryCache as $query) {
                     $pdo->exec($query);
                 }
             } else {
                 self::$insertQueryCache = array();
-                
+
                 foreach (self::$data as $tableName => $tableData) {
 
                     $queryArray = self::_generatePdoInsertQueryArray($tableName, $tableData);
                     self::$insertQueryCache = array_merge(self::$insertQueryCache, $queryArray);
-                    
-                    foreach ($queryArray as $query) { 
+
+                    foreach ($queryArray as $query) {
                         $pdo->exec($query);
                     }
-
-                }       
+                }
             }
-            
+
             $pdo->commit();
-            
         } catch (Exception $e) {
-            
+
             $pdo->rollBack();
-            echo __FILE__ .  ':' . __LINE__ . "\n Transaction failed: " . $e->getMessage() .
-             "\nQuery: [" . $query . "]\n" . "Fixture: " . $fixture . "\n\n";
-            
+            echo __FILE__ . ':' . __LINE__ . "\n Transaction failed: " . $e->getMessage() .
+            "\nQuery: [" . $query . "]\n" . "Fixture: " . $fixture . "\n\n";
         }
-        
-        self::_enableConstraints();        
-       
+
+        self::_enableConstraints();
     }
-    
+
     private static function _generatePdoInsertQueryArray($tableAlias, $tableData) {
-        
-       return self::_generateMultipleInsertQueryArray($tableAlias, $tableData);
-       
-       /* Multiple inserts have to be used since some fixtures contains different no
-        * of columns for same data set */
-        
-    } 
-    
+
+        return self::_generateMultipleInsertQueryArray($tableAlias, $tableData);
+
+        /* Multiple inserts have to be used since some fixtures contains different no
+         * of columns for same data set */
+    }
+
     public static function _generateMultipleInsertQueryArray($tableAlias, $tableData) {
-        
+
         $tableObject = self::_getTableObject($tableAlias);
         $tableName = $tableObject->getTableName();
         $queryArray = array();
-        
+
         foreach ($tableData as $item) {
-            
+
             $columnString = self::_generateInsetQueryColumnString($item, $tableObject);
             $queryArray[] = "INSERT INTO `$tableName` $columnString VALUES ('" . implode("', '", $item) . "')";
-
         }
 
         $queryArray[] = "UPDATE `hs_hr_unique_id` SET `last_id` = " . count($tableData) . " WHERE `table_name` = '$tableName'";
-        
-        return $queryArray;     
-        
-    }    
-    
+
+        return $queryArray;
+    }
+
     private static function _generateInsetQueryColumnString($dataArray, $tableObject) {
-        
+
         $columnString = "(";
-        
+
         $count = count($dataArray);
         $i = 1;
-        
+
         foreach ($dataArray as $key => $value) {
-            
+
             $columnName = $tableObject->getColumnName($key);
 
             /* Had to remove backtick (`) since hs_hr_config's "key" column contains them */
@@ -167,22 +157,19 @@ class TestDataService {
             } else {
                 $columnString .= "$columnName";
             }
-            
+
             $i++;
-            
-        }        
-        
+        }
+
         $columnString .= ")";
-        
+
         return $columnString;
-        
     }
-    
+
     private static function _getTableObject($tableAlias) {
 
         $ormObject = new $tableAlias;
         return $ormObject->getTable();
-        
     }
 
     public static function adjustUniqueId($tableName, $count, $isAlias = false) {
@@ -192,8 +179,8 @@ class TestDataService {
         }
 
         $q = Doctrine_Query::create()
-        ->from('UniqueId ui')
-        ->where('ui.table_name = ?', $tableName);
+                ->from('UniqueId ui')
+                ->where('ui.table_name = ?', $tableName);
 
         $uniqueIdObject = $q->fetchOne();
 
@@ -201,13 +188,11 @@ class TestDataService {
 
             $uniqueIdObject->setLastId($count);
             $uniqueIdObject->save();
-            
         }
-
     }
 
     private static function _setData($fixture) {
-        
+
         self::$data = sfYaml::load($fixture);
         self::_setTableNames();
     }
@@ -220,23 +205,20 @@ class TestDataService {
             if (!empty($table)) {
                 self::$tableNames[] = $table;
             } else {
-                echo __FILE__ .  ':' .__LINE__ . ") Skipping unknown table alias: " . $alias . 
-                        "\n" . "Fixture: " . self::$lastFixture . "\n\n"; 
-            }            
+                echo __FILE__ . ':' . __LINE__ . ") Skipping unknown table alias: " . $alias .
+                "\n" . "Fixture: " . self::$lastFixture . "\n\n";
+            }
         }
-
     }
 
     private static function _disableConstraints() {
 
         // ToDo: disable database constraints
-    
     }
 
     private static function _enableConstraints() {
 
         // ToDo: enable database constraints
-    
     }
 
     private static function _truncateTables() {
@@ -245,29 +227,28 @@ class TestDataService {
             $pdo = self::_getDbConnection();
             self::_disableConstraints();
             $query = '';
-            
+
             try {
 
                 $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
                 $pdo->beginTransaction();
 
                 foreach (self::$tableNames as $tableName) {
-                    $query = 'DELETE FROM ' .  $tableName;
-                    $pdo->query($query); 
+                    $query = 'DELETE FROM ' . $tableName;
+                    $pdo->query($query);
                 }
 
-                $query = "UPDATE hs_hr_unique_id SET last_id = 0 WHERE table_name in ('" . 
-                        implode("','", self::$tableNames) ."')";
+                $query = "UPDATE hs_hr_unique_id SET last_id = 0 WHERE table_name in ('" .
+                        implode("','", self::$tableNames) . "')";
                 $pdo->exec($query);
-                
+
                 $pdo->commit();
-            
             } catch (Exception $e) {
                 $pdo->rollBack();
-                echo __FILE__ .  ':' . __LINE__ . "\n Transaction failed: " . $e->getMessage() . 
-                        "\nQuery: [" . $query . "]\n" . "Fixture: " . self::$lastFixture . "\n\n";
-            }            
-            
+                echo __FILE__ . ':' . __LINE__ . "\n Transaction failed: " . $e->getMessage() .
+                "\nQuery: [" . $query . "]\n" . "Fixture: " . self::$lastFixture . "\n\n";
+            }
+
             self::_enableConstraints();
         }
     }
@@ -277,21 +258,18 @@ class TestDataService {
      * @return PDO 
      */
     private static function _getDbConnection() {
-        
-        if (empty(self::$dbConnection)) {
-            
-            self::$dbConnection = Doctrine_Manager::getInstance()
-                                                    ->getCurrentConnection()
-                                                    ->getDbh();
-            
-            return self::$dbConnection;
 
+        if (empty(self::$dbConnection)) {
+
+            self::$dbConnection = Doctrine_Manager::getInstance()
+                    ->getCurrentConnection()
+                    ->getDbh();
+
+            return self::$dbConnection;
         } else {
 
             return self::$dbConnection;
-
         }
-
     }
 
     public static function truncateTables($aliasArray) {
@@ -306,7 +284,6 @@ class TestDataService {
         }
 
         self::_truncateTables();
-
     }
 
     public static function fetchLastInsertedRecords($alias, $count) {
@@ -315,28 +292,25 @@ class TestDataService {
         $offset = $wholeCount - $count;
 
         $q = Doctrine_Query::create()
-             ->from("$alias a")
-             ->offset($offset)
-             ->limit($count);
+                ->from("$alias a")
+                ->offset($offset)
+                ->limit($count);
 
         return $q->execute();
-
     }
-    
+
     public static function fetchLastInsertedRecord($alias, $orderBy) {
 
         $q = Doctrine_Query::create()
-             ->from("$alias a")
-             ->orderBy("$orderBy DESC");
+                ->from("$alias a")
+                ->orderBy("$orderBy DESC");
 
         return $q->fetchOne();
-
-    }    
+    }
 
     public static function fetchObject($alias, $primaryKey) {
 
         return Doctrine::getTable($alias)->find($primaryKey);
-
     }
 
     public static function loadObjectList($alias, $fixture, $key) {
@@ -351,13 +325,11 @@ class TestDataService {
         }
 
         return $objectList;
-
     }
-    
+
     public static function getRecords($query) {
         return self::_getDbConnection()->query($query)->fetchAll(PDO::FETCH_ASSOC);
     }
 
 }
-
 
