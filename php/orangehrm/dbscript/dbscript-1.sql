@@ -493,12 +493,6 @@ create table `hs_hr_holidays` (
   unique key `holiday_id` (`holiday_id`)
 ) engine=innodb default charset=utf8;
 
-create table `hs_hr_weekends` (
-  `day` int(2) not null,
-  `length` int(2) not null,
-  unique key `day` (`day`)
-) engine=innodb default charset=utf8;
-
 CREATE  TABLE IF NOT EXISTS `ohrm_work_week` (
   `id` INT UNSIGNED NOT NULL AUTO_INCREMENT ,
   `operational_country_id` INT(10) UNSIGNED NULL DEFAULT NULL ,
@@ -510,8 +504,7 @@ CREATE  TABLE IF NOT EXISTS `ohrm_work_week` (
   `sat` TINYINT UNSIGNED NOT NULL DEFAULT 0 ,
   `sun` TINYINT UNSIGNED NOT NULL DEFAULT 0 ,
   PRIMARY KEY (`id`)
-)
-ENGINE = InnoDB;
+) ENGINE = InnoDB;
 
 create table `hs_hr_mailnotifications` (
 	`user_id` int(20) not null,

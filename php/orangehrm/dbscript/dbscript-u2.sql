@@ -14,12 +14,6 @@ INSERT IGNORE INTO `hs_hr_versions` VALUES ('VER001','Release 1','2006-03-15 00:
 
 DELETE FROM `hs_hr_module` WHERE mod_id = 'MOD003';
 
-INSERT IGNORE INTO `hs_hr_weekends` VALUES (1, 0);
-INSERT IGNORE INTO `hs_hr_weekends` VALUES (2, 0);
-INSERT IGNORE INTO `hs_hr_weekends` VALUES (3, 0);
-INSERT IGNORE INTO `hs_hr_weekends` VALUES (4, 0);
-INSERT IGNORE INTO `hs_hr_weekends` VALUES (5, 0);
-INSERT IGNORE INTO `hs_hr_weekends` VALUES (6, 8);
-INSERT IGNORE INTO `hs_hr_weekends` VALUES (7, 8);
+INSERT INTO `ohrm_work_week` VALUES (1, NULL, 0, 0, 0, 0, 0, 8, 8);
 
 INSERT IGNORE INTO `hs_hr_timesheet_submission_period` VALUES (1, 'week', 7, 1, 1, 7, 'Weekly');

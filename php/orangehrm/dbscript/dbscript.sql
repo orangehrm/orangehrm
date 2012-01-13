@@ -624,11 +624,18 @@ create table `hs_hr_holidays` (
   unique key `holiday_id` (`holiday_id`)
 ) engine=innodb default charset=utf8;
 
-create table `hs_hr_weekends` (
-  `day` int(2) not null,
-  `length` int(2) not null,
-  unique key `day` (`day`)
-) engine=innodb default charset=utf8;
+CREATE  TABLE IF NOT EXISTS `ohrm_work_week` (
+  `id` INT UNSIGNED NOT NULL AUTO_INCREMENT ,
+  `operational_country_id` INT(10) UNSIGNED NULL DEFAULT NULL ,
+  `mon` TINYINT UNSIGNED NOT NULL DEFAULT 0 ,
+  `tue` TINYINT UNSIGNED NOT NULL DEFAULT 0 ,
+  `wed` TINYINT UNSIGNED NOT NULL DEFAULT 0 ,
+  `thu` TINYINT UNSIGNED NOT NULL DEFAULT 0 ,
+  `fri` TINYINT UNSIGNED NOT NULL DEFAULT 0 ,
+  `sat` TINYINT UNSIGNED NOT NULL DEFAULT 0 ,
+  `sun` TINYINT UNSIGNED NOT NULL DEFAULT 0 ,
+  PRIMARY KEY (`id`)
+) ENGINE = InnoDB;
 
 create table `hs_hr_mailnotifications` (
 	`user_id` varchar(36) not null,
@@ -1785,13 +1792,7 @@ INSERT INTO `hs_hr_users` VALUES ('USR001','demo','fe01ce2a7fbac8fafaed7c982a04e
 INSERT INTO `hs_hr_leavetype` VALUES ('LTY001', 'Casual', 1);
 INSERT INTO `hs_hr_leavetype` VALUES ('LTY002', 'Medical', 1);
 
-INSERT INTO `hs_hr_weekends` VALUES (1, 0);
-INSERT INTO `hs_hr_weekends` VALUES (2, 0);
-INSERT INTO `hs_hr_weekends` VALUES (3, 0);
-INSERT INTO `hs_hr_weekends` VALUES (4, 0);
-INSERT INTO `hs_hr_weekends` VALUES (5, 0);
-INSERT INTO `hs_hr_weekends` VALUES (6, 8);
-INSERT INTO `hs_hr_weekends` VALUES (7, 8);
+INSERT INTO `ohrm_work_week` VALUES (1, NULL, 0, 0, 0, 0, 0, 8, 8);
 
 INSERT INTO `hs_hr_timesheet_submission_period` VALUES (1, 'week', 7, 1, 0, 6, 'Weekly');
 

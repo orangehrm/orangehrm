@@ -486,13 +486,7 @@ INSERT INTO `hs_hr_rights` ( `userg_id` , `mod_id` , `addition` , `editing` , `d
  	 	('USG001', 'MOD008', '1', '1', '1', '1'),
  	 	('USG001', 'MOD009', '1', '1', '1', '1');
 
-INSERT INTO `hs_hr_weekends`(`day`, `length`) VALUES (1, 0),
-    (2, 0),
-    (3, 0),
-    (4, 0),
-    (5, 0),
-    (6, 8),
-    (7, 8);
+INSERT INTO `ohrm_work_week` VALUES (1, NULL, 0, 0, 0, 0, 0, 8, 8);
 
 INSERT INTO `hs_hr_payperiod`(payperiod_code, payperiod_name) VALUES (1, 'Weekly'),
     (2, 'Bi Weekly'),
