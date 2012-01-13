@@ -1,4 +1,5 @@
 <?php
+
 /*
  *
  * OrangeHRM is a comprehensive Human Resource Management (HRM) System that captures
@@ -17,24 +18,21 @@
  * if not, write to the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
  * Boston, MA  02110-1301, USA
  *
-*/
-class WorkWeekDao extends BaseDao
-{
+ */
+
+class WorkWeekDao extends BaseDao {
 
     /**
      * Add and Update WorkWeek
      * @param Weekends $dayOff
      * @return boolean
      */
-    public function saveWorkWeek( WorkWeek $workWeek)
-    {
-        try
-        {
+    public function saveWorkWeek(WorkWeek $workWeek) {
+        try {
             $workWeek->save();
             return $workWeek;
-        } catch ( Exception $e )
-        {
-            throw new DaoException ( $e->getMessage () );
+        } catch (Exception $e) {
+            throw new DaoException($e->getMessage());
         }
     }
 
@@ -43,16 +41,13 @@ class WorkWeekDao extends BaseDao
      * @param $day
      * @return WorkWeek
      */
-    public function readWorkWeek($day)
-    {
-        try
-        {
-            $workWeek = Doctrine::getTable ( 'WorkWeek' )
-                    ->find ( $day );
+    public function readWorkWeek($day) {
+        try {
+            $workWeek = Doctrine::getTable('WorkWeek')
+                    ->find($day);
             return $workWeek;
-        } catch ( Exception $e )
-        {
-            throw new DaoException ( $e->getMessage () );
+        } catch (Exception $e) {
+            throw new DaoException($e->getMessage());
         }
     }
 
@@ -61,23 +56,19 @@ class WorkWeekDao extends BaseDao
      * @param $day
      * @return boolean
      */
-    public function deleteWorkWeek($day)
-    {
-        try
-        {
-            $q = Doctrine_Query::create ()
-                    ->delete ( 'WorkWeek' )
-                    ->whereIn ( 'day', $day );
-            $holidayDeleted = $q->execute ();
+    public function deleteWorkWeek($day) {
+        try {
+            $q = Doctrine_Query::create()
+                    ->delete('WorkWeek')
+                    ->whereIn('day', $day);
+            $holidayDeleted = $q->execute();
 
-            if($holidayDeleted > 0){
+            if ($holidayDeleted > 0) {
                 return true;
             }
             return false;
-
-        } catch ( Exception $e )
-        {
-            throw new DaoException ( $e->getMessage () );
+        } catch (Exception $e) {
+            throw new DaoException($e->getMessage());
         }
     }
 
@@ -85,10 +76,8 @@ class WorkWeekDao extends BaseDao
      * Get WorkWeek List
      * @return WorkWeek Collection
      */
-    public function getWorkWeekList( $offset=0,$limit=10)
-    {
-        try
-        {
+    public function getWorkWeekList($offset=0, $limit=10) {
+        try {
             $q = Doctrine_Query::create()
                     ->from('WorkWeek')
                     ->orderBy('day');
@@ -96,49 +85,42 @@ class WorkWeekDao extends BaseDao
             $q->offset($offset)->limit($limit);
 
             $WorkWeekList = $q->execute();
-            return  $WorkWeekList ;
-
-        }catch( Exception $e)
-        {
-            throw new DaoException ( $e->getMessage () );
+            return $WorkWeekList;
+        } catch (Exception $e) {
+            throw new DaoException($e->getMessage());
         }
     }
-    
+
     /**
-	 * Check whether the given date is a weekend.
-	 * @param date $date
-	 * @return bool true on success and false on failiure
-	 */
-    public function isWeekend( $day,$fullDay = true){
-        try
-        {
+     * Check whether the given date is a weekend.
+     * @param date $date
+     * @return bool true on success and false on failiure
+     */
+    public function isWeekend($day, $fullDay = true) {
+        try {
             $dayNumber = date('N', strtotime($day));
-           
-        	$q = Doctrine_Query::create()
-                    ->from('WorkWeek')
-                    ->where('day=?',$dayNumber);
-			
-            
-            $workWeek = $q->fetchOne();
-			if($fullDay){
-				
-	            if($workWeek->getLength()==WorkWeek::WORKWEEK_LENGTH_WEEKEND)
-                  return true;
-	            else
-	            	return false;
-			}else{
-				if($workWeek->getLength()==WorkWeek::WORKWEEK_LENGTH_HALF_DAY)
-	            	return true;
-	            else
-	            	return false;
-			}
 
-        }catch( Exception $e)
-        {
-            throw new DaoException ( $e->getMessage () );
+            $q = Doctrine_Query::create()
+                    ->from('WorkWeek')
+                    ->where('day=?', $dayNumber);
+
+
+            $workWeek = $q->fetchOne();
+            if ($fullDay) {
+
+                if ($workWeek->getLength() == WorkWeek::WORKWEEK_LENGTH_WEEKEND)
+                    return true;
+                else
+                    return false;
+            } else {
+                if ($workWeek->getLength() == WorkWeek::WORKWEEK_LENGTH_HALF_DAY)
+                    return true;
+                else
+                    return false;
+            }
+        } catch (Exception $e) {
+            throw new DaoException($e->getMessage());
         }
     }
-    
-   
 
 }
