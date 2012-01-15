@@ -34,6 +34,10 @@ class SystemUserService extends BaseService{
         
     }
 
+    /**
+     *
+     * @return SystemUserDao
+     */
     public function getSystemUserDao() {
         return $this->systemUserDao;
     }
