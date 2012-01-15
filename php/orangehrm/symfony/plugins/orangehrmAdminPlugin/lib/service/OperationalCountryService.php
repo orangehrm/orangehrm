@@ -42,7 +42,7 @@ class OperationalCountryService extends BaseService {
      */
     public function getLocationsMappedToOperationalCountry(OperationalCountry $country) {
         try {
-            return $this->getOperationalCountryDao()->getLocationsMappedToOperationalCountry($country->getCode());
+            return $this->getOperationalCountryDao()->getLocationsMappedToOperationalCountry($country->getCountryCode());
         } catch (Exception $e) {
             throw new ServiceException($e->getMessage());
         }

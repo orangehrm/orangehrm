@@ -10,7 +10,9 @@
  * @author     ##NAME## <##EMAIL##>
  * @version    SVN: $Id: Builder.php 7490 2010-03-29 19:53:27Z jwage $
  */
-abstract class PluginOperationalCountry extends BaseOperationalCountry
-{
+abstract class PluginOperationalCountry extends BaseOperationalCountry {
 
+    public function getName() {
+        return $this->getCountry()->getCouName();
+    }
 }

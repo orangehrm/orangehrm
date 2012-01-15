@@ -92,10 +92,13 @@ class OperationalCountryServiceTest extends PHPUnit_Framework_TestCase {
         $locationList[] = new Location();
         $locationList[] = new Location();
         
+        $sriLanka = new Country();
+        $sriLanka->setName('Sri Lanka');
+        
         $operationalCountry = new OperationalCountry();
         $operationalCountry->setId(1);
-        $operationalCountry->setName('Sri Lanka');
-        $operationalCountry->setCode('LK');
+        $operationalCountry->setCountry($sriLanka);
+        $operationalCountry->setCountryCode('LK');
         
         $operationalCountryDaoMock = $this->getMock('OperationalCountryDao', array('getLocationsMappedToOperationalCountry'));
         $operationalCountryDaoMock->expects($this->once())

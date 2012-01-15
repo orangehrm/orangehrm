@@ -235,10 +235,13 @@ OperationalCountry:
       type: integer(4)
       autoincrement: true
       primary: true
-    name:
-      type: string(100)
-      notnull: true
-    code: string(3)
+    country_code: string(3)
+  relations:
+    Country:
+      class: Country
+      local: country_code
+      foreign: cou_code
+      type: one
 
 EmploymentStatus:
   tableName: ohrm_employment_status

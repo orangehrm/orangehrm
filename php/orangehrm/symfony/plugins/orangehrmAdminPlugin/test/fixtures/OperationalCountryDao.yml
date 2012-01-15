@@ -1,17 +1,15 @@
-OperationalCountry:
-  0: { id: 1, name: 'Sri Lanka', code: 'LK' }
-  1: { id: 2, name: 'United States of America', code: 'US' }
-  2: { id: 3, name: 'Singapore', code: 'SG' }
-  3: { id: 4, name: 'Brazil', code: 'BR' }
-  
 Country:
   0: {cou_code: 'LK', name: 'SRI LANKA', cou_name: 'Sri Lanka', iso3: 'LKA', numcode: 144 }
   1: {cou_code: 'US', name: 'UNITED STATES', cou_name: 'United States', iso3: 'USA', numcode: 840 }
-  2: {cou_code: 'IE', name: 'IRELAND', cou_name: 'Ireland', iso3: 'IRL', numcode: 372 }
-  3: {cou_code: 'JP', name: 'JAPAN', cou_name: 'Japan', iso3: 'JPN', numcode: 392 }
-  4: {cou_code: 'SG', name: 'SINGAPORE', cou_name: 'Singapore', iso3: 'SGP', numcode: 702 }
-  5: {cou_code: 'FJ', name: 'FIJI', cou_name: 'Fiji', iso3: 'FJI', numcode: 242 }
-  6: {cou_code: 'BR', name: 'BRAZIL', cou_name: 'Brazil', iso3: 'BRA', numcode: 076 }
+  2: {cou_code: 'SG', name: 'SINGA2PORE', cou_name: 'Singapore', iso3: 'SGP', numcode: 702 }
+  3: {cou_code: 'BR', name: 'BRAZIL', cou_name: 'Brazil', iso3: 'BRA', numcode: 076 }
+  4: {cou_code: 'JP', name: 'JAPAN', cou_name: 'Japan', iso3: 'JPN', numcode: 392 }
+
+OperationalCountry:
+  0: { id: 1, country_code: 'LK' }
+  1: { id: 2, country_code: 'US' }
+  2: { id: 3, country_code: 'SG' }
+  3: { id: 4, country_code: 'BR' }
 
 Location:
   0: {id: 1, name: 'location 1', country_code: 'LK', province: 'province 1', city: 'city 1', address: 'address 1', zip_code: 'zip001', phone: '0777000001', fax: '0112000001', notes: 'note 1' }

@@ -40,12 +40,16 @@ class OperationalCountryDaoTest extends PHPUnit_Framework_TestCase {
         $this->assertEquals(4, $result->count());
         
         $sampleData = sfYaml::load($this->fixture);
-        $sampleData = $sampleData['OperationalCountry'];
+        $sampleOperationalCountries = $sampleData['OperationalCountry'];
+        $sampleCountries = $sampleData['Country'];
+
         foreach ($result as $i => $operationalCountry) {
+            $index = ((int) $operationalCountry->getId()) - 1;
+
             $this->assertTrue($operationalCountry instanceof OperationalCountry);
-            $this->assertEquals($sampleData[$i]['id'], $operationalCountry->getId());
-            $this->assertEquals($sampleData[$i]['name'], $operationalCountry->getName());
-            $this->assertEquals($sampleData[$i]['code'], $operationalCountry->getCode());
+            $this->assertEquals($sampleOperationalCountries[$index]['id'], $operationalCountry->getId());
+            $this->assertEquals($sampleCountries[$index]['cou_name'], $operationalCountry->getName());
+            $this->assertEquals($sampleOperationalCountries[$index]['country_code'], $operationalCountry->getCountryCode());
         }
     }
     
