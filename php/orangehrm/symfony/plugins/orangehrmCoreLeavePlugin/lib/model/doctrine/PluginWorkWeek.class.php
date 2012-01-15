@@ -8,6 +8,7 @@ abstract class PluginWorkWeek extends BaseWorkWeek
     const WORKWEEK_LENGTH_FULL_DAY 	= 0;
     const WORKWEEK_LENGTH_HALF_DAY 	= 4;
     const WORKWEEK_LENGTH_WEEKEND 	= 8;
+    const DEFAULT_WORK_WEEK_ID          = 1;
 
     private $daysList = array(1=>'Monday', 2=>'Tuesday', 3=>'Wednesday', 4=>'Thursday', 5=>'Friday', 6=>'Saturday', 7=>'Sunday');
 
