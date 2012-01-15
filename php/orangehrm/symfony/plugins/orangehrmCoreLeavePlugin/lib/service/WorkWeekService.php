@@ -1,4 +1,5 @@
 <?php
+
 /*
  *
  * OrangeHRM is a comprehensive Human Resource Management (HRM) System that captures
@@ -17,20 +18,22 @@
  * if not, write to the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
  * Boston, MA  02110-1301, USA
  *
-*/
-class WorkWeekService extends BaseService
-{
+ */
 
-    private $WorkWeekDao ;
+class WorkWeekService extends BaseService {
+
+    private $workWeekDao;
 
     /**
      * Get the WorkWeek Service
      *
      * @return DayOffDao
      */
-    public function getWorkWeekDao()
-    {
-        return $this->WorkWeekDao;
+    public function getWorkWeekDao() {
+        if (!($this->workWeekDao instanceof WorkWeekDao)) {
+            $this->workWeekDao = new WorkWeekDao();
+        }
+        return $this->workWeekDao;
     }
 
     /**
@@ -39,9 +42,8 @@ class WorkWeekService extends BaseService
      * @param DayOffDao $DayOffDao
      * @return void
      */
-    public function setWorkWeekDao( WorkWeekDao $workWeekDao)
-    {
-        $this->WorkWeekDao = $workWeekDao;
+    public function setWorkWeekDao(WorkWeekDao $workWeekDao) {
+        $this->workWeekDao = $workWeekDao;
     }
 
     /**
@@ -49,11 +51,8 @@ class WorkWeekService extends BaseService
      * @param DayOff $dayOff
      * @return boolean
      */
-    public function saveWorkWeek( WorkWeek $workWeek)
-    {
-
-        return $this->getWorkWeekDao()->saveWorkWeek( $workWeek );
-
+    public function saveWorkWeek(WorkWeek $workWeek) {
+        return $this->getWorkWeekDao()->saveWorkWeek($workWeek);
     }
 
     /**
@@ -61,11 +60,8 @@ class WorkWeekService extends BaseService
      * @param Integer $day
      * @return boolean
      */
-    public function deleteWorkWeek( $day )
-    {
-
-        return $this->getWorkWeekDao()->deleteWorkWeek( $day );
-
+    public function deleteWorkWeek($day) {
+        return $this->getWorkWeekDao()->deleteWorkWeek($day);
     }
 
     /**
@@ -73,18 +69,14 @@ class WorkWeekService extends BaseService
      * @param $day
      * @return $workWeek DayOff
      */
-    public function readWorkWeek($day)
-    {
-
+    public function readWorkWeek($day) {
         $workWeek = $this->getWorkWeekDao()->readWorkWeek($day);
 
-        if(!$workWeek instanceof WorkWeek)
-        {
+        if (!$workWeek instanceof WorkWeek) {
             $workWeek = new WorkWeek();
         }
 
         return $workWeek;
-
     }
 
     /**
@@ -93,12 +85,9 @@ class WorkWeekService extends BaseService
      * @param integer $limit
      * @return attay Array of WorkWeek Objects
      */
-    public function getWorkWeekList($offset=0,$limit=10)
-    {
-
+    public function getWorkWeekList($offset=0, $limit=10) {
         $workWeekList = $this->getWorkWeekDao()->getWorkWeekList($offset, $limit);
         return $workWeekList;
-
     }
 
     /**
@@ -106,11 +95,8 @@ class WorkWeekService extends BaseService
      * @param $day
      * @return boolean
      */
-    public function isWeekend( $day,$fullDay )
-    {
-
-        return $this->getWorkWeekDao()->isWeekend( $day ,$fullDay );
-
+    public function isWeekend($day, $fullDay) {
+        return $this->getWorkWeekDao()->isWeekend($day, $fullDay);
     }
 
 }
