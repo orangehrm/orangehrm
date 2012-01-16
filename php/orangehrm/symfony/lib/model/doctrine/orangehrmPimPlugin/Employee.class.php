@@ -448,4 +448,17 @@ class Employee extends PluginEmployee {
         }
         return false;
     }
+    
+    /**
+     * get operational Country of Employee 
+     * @return type 
+     */
+    public function getOperationalCountry(){
+        $employeeLocations  = $this->getLocations();
+        if( $employeeLocations[0] instanceof Location){
+            $operationalCountry = $employeeLocations[0]->getCountry()->getOperationalCountry();
+            return $operationalCountry;
+        }
+        return null;
+    }
 }
