@@ -12,6 +12,7 @@ abstract class PluginWorkWeek extends BaseWorkWeek {
     private $daysList = array(1 => 'Monday', 2 => 'Tuesday', 3 => 'Wednesday', 4 => 'Thursday', 5 => 'Friday', 6 => 'Saturday', 7 => 'Sunday');
     private $daysLengthList = array(0 => 'Full Day', 4 => 'Half Day', 8 => 'Non-working Day');
     private $yesNoList = array(0 => 'No', 1 => 'Yes');
+    private $dayColumns = array(1 => 'mon', 2 => 'tue', 3 => 'wed', 4 => 'thu', 5 => 'fri', 6 => 'sat', 7 => 'sun');
 
     /**
      * Return Possible Days List
@@ -54,6 +55,20 @@ abstract class PluginWorkWeek extends BaseWorkWeek {
      */
     public function getYesNoList() {
         return $this->yesNoList;
+    }
+    
+    /**
+     * Returns the length of non-working hours of the passed day
+     * @param int $day ISO-8601 numeric representation of the day of the week (1 for Monday through 7 for Sunday)
+     * @return int
+     */
+    public function getLength($day) {
+        if (array_key_exists($day, $this->dayColumns)) {
+            $dayColumnIndex = $this->dayColumns[$day];
+            return $this->_data[$dayColumnIndex];;
+        } else {
+            throw new LeaveServiceException('Invalid Day');
+        }
     }
 
 }

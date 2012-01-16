@@ -18,62 +18,51 @@
  */
 ?>
 <div id="messageBalloonContainer" style="width:380px;">
-    <?php echo isset($templateMessage)?templateMessage($templateMessage):''; ?>
+    <?php echo isset($templateMessage) ? templateMessage($templateMessage) : ''; ?>
 </div>
 <div class="formpageNarrow">
     <div class="outerbox">
         <div class="mainHeading"><h2><?php echo __('Work Week'); ?></h2></div>
 
         <div id="errorDiv"> </div>
-        <?php if($form->hasErrors())
-        {?>
-            <?php echo $form['select_1']->renderError() ?>
-            <?php echo $form['select_2']->renderError() ?>
-            <?php echo $form['select_3']->renderError() ?>
-            <?php echo $form['select_4']->renderError() ?>
-            <?php echo $form['select_5']->renderError() ?>
-            <?php echo $form['select_6']->renderError() ?>
-            <?php echo $form['select_7']->renderError() ?>
-    <?php }?>
-
-        <?php
-        // check whether allowed to edit work week
-        $disabled = "";
-
-?>
+        <?php if ($workWeekForm->hasErrors()) { ?>
+            <?php echo $workWeekForm['day_length_Monday']->renderError() ?>
+            <?php echo $workWeekForm['day_length_Tuesday']->renderError() ?>
+            <?php echo $workWeekForm['day_length_Wednesday']->renderError() ?>
+            <?php echo $workWeekForm['day_length_Thursday']->renderError() ?>
+            <?php echo $workWeekForm['day_length_Friday']->renderError() ?>
+            <?php echo $workWeekForm['day_length_Saturday']->renderError() ?>
+            <?php echo $workWeekForm['day_length_Sunday']->renderError() ?>
+        <?php } ?>
 
         <form id="frmWorkWeek" name="frmWorkWeek" method="post" action="<?php echo url_for('leave/defineWorkWeek') ?>" >
-<?php echo $form['_csrf_token']->render()?>
-            <?php echo $form['select_1']->renderLabel(); ?>
-<?php echo $form['select_1']->render(array("class" => "formSelect")); ?>
+            <?php echo $workWeekForm['_csrf_token']->render() ?>
+            <?php echo $workWeekForm['day_length_Monday']->renderLabel(); ?>
+            <?php echo $workWeekForm['day_length_Monday']->render(); ?>
             <br class="clear"/>
 
-            <?php echo $form['select_2']->renderLabel(); ?>
-<?php echo $form['select_2']->render(array("class" => "formSelect")); ?>
+            <?php echo $workWeekForm['day_length_Tuesday']->renderLabel(); ?>
+            <?php echo $workWeekForm['day_length_Tuesday']->render(); ?>
             <br class="clear"/>
 
-            <?php echo $form['select_3']->renderLabel(); ?>
-<?php echo $form['select_3']->render(array("class" => "formSelect")); ?>
+            <?php echo $workWeekForm['day_length_Wednesday']->renderLabel(); ?>
+            <?php echo $workWeekForm['day_length_Wednesday']->render(); ?>
             <br class="clear"/>
 
-            <?php echo $form['select_4']->renderLabel(); ?>
-
-<?php echo $form['select_4']->render(array("class" => "formSelect")); ?>
+            <?php echo $workWeekForm['day_length_Thursday']->renderLabel(); ?>
+            <?php echo $workWeekForm['day_length_Thursday']->render(); ?>
             <br class="clear"/>
 
-            <?php echo $form['select_5']->renderLabel(); ?>
-
-<?php echo $form['select_5']->render(array("class" => "formSelect")); ?>
+            <?php echo $workWeekForm['day_length_Friday']->renderLabel(); ?>
+            <?php echo $workWeekForm['day_length_Friday']->render(); ?>
             <br class="clear"/>
 
-            <?php echo $form['select_6']->renderLabel(); ?>
-
-<?php echo $form['select_6']->render(array("class" => "formSelect")); ?>
+            <?php echo $workWeekForm['day_length_Saturday']->renderLabel(); ?>
+            <?php echo $workWeekForm['day_length_Saturday']->render(); ?>
             <br class="clear"/>
 
-            <?php echo $form['select_7']->renderLabel(); ?>
-
-<?php echo $form['select_7']->render(array("class" => "formSelect")); ?>
+            <?php echo $workWeekForm['day_length_Sunday']->renderLabel(); ?>
+            <?php echo $workWeekForm['day_length_Sunday']->render(); ?>
             <br class="clear"/>
 
 

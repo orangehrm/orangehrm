@@ -1,8 +1,16 @@
+Country:
+  0: {cou_code: 'LK', name: 'SRI LANKA', cou_name: 'Sri Lanka', iso3: 'LKA', numcode: 144 }
+  1: {cou_code: 'US', name: 'UNITED STATES', cou_name: 'United States', iso3: 'USA', numcode: 840 }
+  2: {cou_code: 'SG', name: 'SINGA2PORE', cou_name: 'Singapore', iso3: 'SGP', numcode: 702 }
+  3: {cou_code: 'BR', name: 'BRAZIL', cou_name: 'Brazil', iso3: 'BRA', numcode: 076 }
+  4: {cou_code: 'JP', name: 'JAPAN', cou_name: 'Japan', iso3: 'JPN', numcode: 392 }
+
+OperationalCountry:
+  0: { id: 1, country_code: 'LK' }
+  1: { id: 2, country_code: 'US' }
+  2: { id: 3, country_code: 'SG' }
+  3: { id: 4, country_code: 'BR' }
+
 WorkWeek:
-  0: {day: 1, length: 0}
-  1: {day: 2, length: 0}
-  2: {day: 3, length: 8}
-  3: {day: 4, length: 0}
-  4: {day: 5, length: 0}
-  5: {day: 6, length: 4}
-  6: {day: 7, length: 8}
+  0: { id: 1, operational_country_id: 1, mon: 0, tue: 0, wed: 0, thu: 0, fri: 0, sat: 8, sun: 8 }
+  0: { id: 2, operational_country_id: 1, mon: 0, tue: 0, wed: 0, thu: 0, fri: 0, sat: 4, sun: 8 }

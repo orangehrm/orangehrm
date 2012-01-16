@@ -150,14 +150,40 @@ LeaveType:
       type: one
       
 WorkWeek:
-  tableName: hs_hr_weekends
+  tableName: ohrm_work_week
   columns:
-    day:
+    id:
       type: integer(4)
       primary: true
-    length:
+    operational_country_id:
+      type: integer(4)
+      notnull: false
+    mon:
       type: integer(4)
       notnull: true
+    tue:
+      type: integer(4)
+      notnull: true
+    wed:
+      type: integer(4)
+      notnull: true
+    thu:
+      type: integer(4)
+      notnull: true
+    fri:
+      type: integer(4)
+      notnull: true
+    sat:
+      type: integer(4)
+      notnull: true
+    sun:
+      type: integer(4)
+      notnull: true
+  relations:
+    OperationalCountry:
+      local: operational_country_id
+      foreign: id
+      type: one
 
 Holiday:
   tableName: hs_hr_holidays

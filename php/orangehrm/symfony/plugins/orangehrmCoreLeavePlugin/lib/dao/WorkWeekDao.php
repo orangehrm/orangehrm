@@ -41,10 +41,14 @@ class WorkWeekDao extends BaseDao {
      * @param $day
      * @return WorkWeek
      */
-    public function readWorkWeek($day) {
+    public function readWorkWeek($operationalCountryId = null) {
         try {
-            $workWeek = Doctrine::getTable('WorkWeek')
-                    ->find($day);
+            $query = Doctrine_Query::create()
+                    ->from('WorkWeek');
+            $query = $this->addOperationalCountryFilter($query, $operationalCountryId);
+
+            $workWeek = $query->execute()->get(0);
+
             return $workWeek;
         } catch (Exception $e) {
             throw new DaoException($e->getMessage());
@@ -53,20 +57,18 @@ class WorkWeekDao extends BaseDao {
 
     /**
      * Delete WorkWeek
-     * @param $day
+     * @param int $id
      * @return boolean
      */
-    public function deleteWorkWeek($day) {
+    public function deleteWorkWeek($id) {
         try {
             $q = Doctrine_Query::create()
                     ->delete('WorkWeek')
-                    ->whereIn('day', $day);
-            $holidayDeleted = $q->execute();
+                    ->where('id', $id);
+            
+            $affectedRecords = $q->execute();
 
-            if ($holidayDeleted > 0) {
-                return true;
-            }
-            return false;
+            return ($affectedRecords > 0);
         } catch (Exception $e) {
             throw new DaoException($e->getMessage());
         }
@@ -76,15 +78,14 @@ class WorkWeekDao extends BaseDao {
      * Get WorkWeek List
      * @return WorkWeek Collection
      */
-    public function getWorkWeekList($offset=0, $limit=10) {
+    public function getWorkWeekList($offset = 0, $limit = 10) {
         try {
-            $q = Doctrine_Query::create()
+            $query = Doctrine_Query::create()
                     ->from('WorkWeek')
-                    ->orderBy('day');
+                    ->offset($offset)
+                    ->limit($limit);
 
-            $q->offset($offset)->limit($limit);
-
-            $WorkWeekList = $q->execute();
+            $WorkWeekList = $query->execute();
             return $WorkWeekList;
         } catch (Exception $e) {
             throw new DaoException($e->getMessage());
@@ -94,33 +95,68 @@ class WorkWeekDao extends BaseDao {
     /**
      * Check whether the given date is a weekend.
      * @param date $date
+     * @param bool $isFullDay
+     * @param int $operationalCountryId
      * @return bool true on success and false on failiure
      */
-    public function isWeekend($day, $fullDay = true) {
+    public function isWeekend($date, $isFullDay = true, $operationalCountryId = null) {
         try {
-            $dayNumber = date('N', strtotime($day));
+            $query = Doctrine_Query::create()
+                    ->from('WorkWeek');
 
-            $q = Doctrine_Query::create()
-                    ->from('WorkWeek')
-                    ->where('day=?', $dayNumber);
+            $query = $this->addOperationalCountryFilter($query, $operationalCountryId);
 
+            $workWeek = $query->execute()->get(0);
 
-            $workWeek = $q->fetchOne();
-            if ($fullDay) {
+            $dayNumber = date('N', strtotime($date));
 
-                if ($workWeek->getLength() == WorkWeek::WORKWEEK_LENGTH_WEEKEND)
-                    return true;
-                else
-                    return false;
+            if ($isFullDay) {
+                return ($workWeek->getLength($dayNumber) == WorkWeek::WORKWEEK_LENGTH_WEEKEND);
             } else {
-                if ($workWeek->getLength() == WorkWeek::WORKWEEK_LENGTH_HALF_DAY)
-                    return true;
-                else
-                    return false;
+                return ($workWeek->getLength($dayNumber) == WorkWeek::WORKWEEK_LENGTH_HALF_DAY);
             }
         } catch (Exception $e) {
             throw new DaoException($e->getMessage());
         }
+    }
+
+    /**
+     *
+     * @param int $operationalCountryId
+     * @return WorkWeek
+     */
+    public function searchWorkWeek($searchParams = array()) {
+        try {
+            $query = Doctrine_Query::create()
+                    ->from('WorkWeek');
+            
+            foreach ($searchParams as $field => $value) {
+                if ($field == 'operational_country_id') {
+                    $query = $this->addOperationalCountryFilter($query, $value);
+                } else {
+                    $query->addWhere($field, $value);
+                }
+            }
+
+            return $query->execute();
+        } catch (Exception $e) {
+            throw new DaoException($e->getMessage());
+        }
+    }
+
+    /**
+     *
+     * @param type $operationalCountryId 
+     * @return Doctrine_Query
+     */
+    protected function addOperationalCountryFilter(Doctrine_Query $query, $operationalCountryId) {
+        if (is_null($operationalCountryId)) {
+            $query->addWhere('id', WorkWeek::DEFAULT_WORK_WEEK_ID);
+        } else {
+            $query->where('operational_country_id', $operationalCountryId);
+        }
+        
+        return $query;
     }
 
 }

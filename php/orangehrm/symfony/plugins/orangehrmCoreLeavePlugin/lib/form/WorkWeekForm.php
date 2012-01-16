@@ -1,4 +1,5 @@
 <?php
+
 /**
  * OrangeHRM is a comprehensive Human Resource Management (HRM) System that captures
  * all the essential functionalities required for any enterprise.
@@ -23,58 +24,41 @@ class WorkWeekForm extends sfForm {
     private $workWeekEntity;
 
     /**
-     * Set method for Work Week Service
-     *
+     * Sets WorkWeekService
+     * @param WorkWeekService $service
      */
-    public function setWorkWeekService(){
-
-        $this->workWeekService = new WorkWeekService();
-        $this->workWeekService->setWorkWeekDao(new WorkWeekDao());
-        
+    public function setWorkWeekService(WorkWeekService $service) {
+        $this->workWeekService = $service;
     }
 
     /**
-     * Get method for work week Service
-     *
-     * @return WorkWeekService workWeekService
+     * Getter for WorkWeekService
+     * @return WorkWeekService
      */
-
-    public function getWorkWeekService(){
-
+    public function getWorkWeekService() {
+        if (!($this->workWeekService instanceof WorkWeekService)) {
+            $this->workWeekService = new WorkWeekService();
+        }
         return $this->workWeekService;
-        
     }
 
     /**
-     * Set method for work week Entity
-     *
+     * Getter method for WorkWeek Entity
+     * @return WorkWeek
      */
-    public function setWorkWeekEntity(){
-
-        $this->workWeekEntity = new WorkWeek();
-        
-    }
-
-    /**
-     * Get method for work week Entity
-     *
-     * @return WorkWeek workWeekEntity
-     */
-
-    public function getWorkWeekEntity(){
-
+    public function getWorkWeekEntity() {
+        if (!($this->workWeekEntity instanceof WorkWeek)) {
+            $this->workWeekEntity = new WorkWeek();
+        }
         return $this->workWeekEntity;
-
     }
 
-
     /**
-     * Setup method of the form
+     * Sets the WorkWeek Entity
+     * @param WorkWeek $workWeek
      */
-
-    public function setUp(){
-        $this->setWorkWeekService(); // set work week Service
-        $this->setWorkWeekEntity();  // set work week Entity
+    public function setWorkWeekEntity(WorkWeek $workWeek) {
+        $this->workWeekEntity = $workWeek;
     }
 
     /**
@@ -82,69 +66,39 @@ class WorkWeekForm extends sfForm {
      */
     public function configure() {
 
-        $formWidgets = array();
-        $formValidators = array();
-        $formDefaults = array();
-        $formLabels = array();
+        $this->setWorkWeekEntity($this->getDefault('workWeekEntity'));
 
-        //making compatible with i18n
-        $workWeekList = $this->getWorkWeekService()->getWorkWeekList(0,7); // only 7 days a week
-        $dayLength = $this->getWorkWeekEntity()->getDaysLengthList();
-        foreach($dayLength as $k => $v) {
-            $dayLength[$k] = __($v);
-        }
+        $this->setValidators($this->getDayLengthValidators());
+        $this->setWidgets($this->getDayLengthWidgets());
+        $this->setDefaults($this->getDayLengthDefaults());
 
-        foreach ($workWeekList as $key => $workWeek) {
-
-            // set form widget Array
-            $formWidgets["select_" . $workWeek->getDay()] = new sfWidgetFormSelect( array('choices' => $dayLength) );
-
-            // set form validation array
-            $formValidators["select_" .$workWeek->getDay()] = new sfValidatorChoice( array('choices'=>array_keys( $this->getWorkWeekEntity()->getDaysLengthList())), array('invalid'=> "Invalid work week for ". $this->getWorkWeekEntity()->getDayById($workWeek->getDay()) ) );
-
-            // set Default Values
-            $formDefaults["select_" . $workWeek->getDay()] = $workWeek->getLength();
-
-            // set Label texts
-            $formLabels["select_" . $workWeek->getDay()] = __($this->getWorkWeekEntity()->getDayById($workWeek->getDay()));
-
-        }
-
-        $this->setValidators($formValidators);
-        $this->setWidgets($formWidgets);
-        $this->setDefaults($formDefaults);
-
-        $this->widgetSchema->setLabels($formLabels);
+        $this->widgetSchema->setLabels($this->getDayLengthLabels());
         $this->widgetSchema->setNameFormat('WorkWeek[%s]');
-        $this->validatorSchema->setPostValidator(new sfValidatorCallback(array('callback' => array($this, 'validateWorkWeekValue'))));
 
+        $this->validatorSchema->setPostValidator(new sfValidatorCallback(array('callback' => array($this, 'validateWorkWeekValue'))));
     }
 
     /**
      * Read WorkWeek Objects
-     *
      * @param string $data
-     *
      * @return array Array of WorkWeek objects
-     * 
      */
     public function getWorkWeekObjects($data) {
 
         $daysList = $this->getWorkWeekEntity()->getDaysList();
         $workWeekList = array();
 
-        foreach($data as $day => $length) { 
+        foreach ($data as $day => $length) {
             $fday = substr($day, -1); // strip "select_" in the day param
-            if(array_key_exists($fday, $daysList)) {
+            if (array_key_exists($fday, $daysList)) {
                 $workWeek = $this->getWorkWeekService()->readWorkWeek($fday);
                 $workWeek->setLength($length);
-                $workWeekList[] =  $workWeek; // this will return only allowed work week objects
-            }else {
+                $workWeekList[] = $workWeek; // this will return only allowed work week objects
+            } else {
                 throw new LeaveServiceException("Invaid Day");
             }
         }
         return $workWeekList;
-
     }
 
     /**
@@ -159,18 +113,89 @@ class WorkWeekForm extends sfForm {
         $daysList = $this->getWorkWeekEntity()->getDaysList();
         $workWeekList = array();
 
-        foreach($values as $day => $length) {
-            if(preg_match("/select_[1-7]{1}$/",$day) ) {
-                $fday = substr($day, -1); // strip "select_" in the day param
-                if(!array_key_exists($fday, $daysList)) {
-                    $error = new sfValidatorError($validator, 'Invalid WorkWeek!' );
+        foreach ($values as $day => $length) {
+
+            if (preg_match('/day_length_(Mon|Tues|Wednes|Thurs|Fri|Sat|Sun)day$/', $day)) {
+                $dayTerm = str_replace('day_length_', '', $day);
+
+                if (!in_array($dayTerm, $daysList)) {
+                    $error = new sfValidatorError($validator, 'Invalid WorkWeek!');
                     throw new sfValidatorErrorSchema($validator, array($day => $error));
                 }
-
             }
         }
-        return $values;
         
+        return $values;
+    }
+
+    /**
+     *
+     * @return sfWidgetFormSelect[]
+     */
+    protected final function getDayLengthWidgets() {
+        $dayLengths = $this->getWorkWeekEntity()->getDaysLengthList();
+
+        /* Making compatible with i18n */
+        foreach ($dayLengths as $dayLength => $dayLengthTerm) {
+            $dayLengths[$dayLength] = __($dayLengthTerm);
+        }
+        
+        $formWidgets = array();
+        $daysOfWeek = $this->getWorkWeekEntity()->getDaysList();
+
+        foreach ($daysOfWeek as $day) {
+            $formWidgets['day_length_' . $day] = new sfWidgetFormSelect(
+                    array('choices' => $dayLengths),
+                    array('class' => 'formSelect')
+            );
+        }
+
+        return $formWidgets;
+    }
+
+    protected final function getDayLengthLabels() {
+        $formLabels = array();
+        $daysOfWeek = $this->getWorkWeekEntity()->getDaysList();
+
+        foreach ($daysOfWeek as $day) {
+            $formLabels['day_length_' . $day] = __($day);
+        }
+
+        return $formLabels;
+    }
+    
+    protected final function getDayLengthValidators() {
+        $formValidators = array();
+        
+        $daysOfWeek = $this->getWorkWeekEntity()->getDaysList();
+        $choices = array_keys($this->getWorkWeekEntity()->getDaysLengthList());
+        
+        foreach ($daysOfWeek as $day) {
+
+            $validator = new sfValidatorChoice(
+                            array(
+                                'choices' => $choices,
+                            ),
+                            array(
+                                'invalid' => 'Invalid work week for ' . $day,
+                            )
+            );
+            
+            $formValidators['day_length_' . $day] = $validator;
+        }
+        
+        return $formValidators;
+    }
+    
+    protected final function getDayLengthDefaults() {
+        $formDefaults = array();
+        $daysOfWeek = $this->getWorkWeekEntity()->getDaysList();
+
+        foreach ($daysOfWeek as $isoValue => $day) {
+            $formDefaults['day_length_' . $day] = $this->getWorkWeekEntity()->getLength($isoValue);
+        }
+
+        return $formDefaults;
     }
 
 }

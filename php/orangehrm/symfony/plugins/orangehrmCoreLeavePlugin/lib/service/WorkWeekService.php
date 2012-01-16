@@ -26,8 +26,7 @@ class WorkWeekService extends BaseService {
 
     /**
      * Get the WorkWeek Service
-     *
-     * @return DayOffDao
+     * @return WorkWeekDao
      */
     public function getWorkWeekDao() {
         if (!($this->workWeekDao instanceof WorkWeekDao)) {
@@ -85,7 +84,7 @@ class WorkWeekService extends BaseService {
      * @param integer $limit
      * @return attay Array of WorkWeek Objects
      */
-    public function getWorkWeekList($offset=0, $limit=10) {
+    public function getWorkWeekList($offset = 0, $limit = 10) {
         $workWeekList = $this->getWorkWeekDao()->getWorkWeekList($offset, $limit);
         return $workWeekList;
     }
@@ -97,6 +96,19 @@ class WorkWeekService extends BaseService {
      */
     public function isWeekend($day, $fullDay) {
         return $this->getWorkWeekDao()->isWeekend($day, $fullDay);
+    }
+    
+    /**
+     *
+     * @param int $workWeekId 
+     * @return WorkWeek
+     */
+    public function getWorkWeekOfOperationalCountry($operationalCountryId) {
+        try {
+            return $this->getWorkWeekDao()->searchWorkWeek(array('operational_country_id' => $operationalCountryId))->get(0);
+        } catch (Exception $e) {
+            throw new LeaveServiceException($e->getMessage());
+        }
     }
 
 }

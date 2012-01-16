@@ -1,4 +1,5 @@
 <?php
+
 /*
  *
  * OrangeHRM is a comprehensive Human Resource Management (HRM) System that captures
@@ -17,23 +18,22 @@
  * if not, write to the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
  * Boston, MA  02110-1301, USA
  *
-*/
+ */
 
 /**
  * @group CoreLeave 
  */
-class DayOffDaoTest extends PHPUnit_Framework_TestCase {
+class WorkWeekDaoTest extends PHPUnit_Framework_TestCase {
 
-    private $workWeekDao ;
+    private $workWeekDao;
     private $testCases;
 
     protected function setUp() {
 
         $this->testCases = sfYaml::load(sfConfig::get('sf_plugins_dir') . '/orangehrmCoreLeavePlugin/test/fixtures/WorkWeekDao.yml');
-        $this->workWeekDao	=	new WorkWeekDao();
+        $this->workWeekDao = new WorkWeekDao();
 
         TestDataService::populate(sfConfig::get('sf_plugins_dir') . '/orangehrmCoreLeavePlugin/test/fixtures/WorkWeekDao.yml');
-
     }
 
     /**
@@ -42,36 +42,32 @@ class DayOffDaoTest extends PHPUnit_Framework_TestCase {
      */
     public function testIsWeekend() {
 
-        $result	=	$this->workWeekDao->isWeekend('2010-08-15');
+        $result = $this->workWeekDao->isWeekend('2010-08-15');
         $this->assertTrue($result);
-
     }
 
     /* test whether half day weekend */
 
     public function testHalfDayIsWeekend() {
 
-        $result	=	$this->workWeekDao->isWeekend('2010-08-14');
+        $result = $this->workWeekDao->isWeekend('2010-08-14');
         $this->assertFalse($result);
-
     }
 
     /* test whether half day is weekend not full day */
 
     public function testHalfDayIsWeekendNotFullDay() {
 
-        $result	=	$this->workWeekDao->isWeekend('2010-08-14', false);
+        $result = $this->workWeekDao->isWeekend('2010-08-14', false);
         $this->assertTrue($result);
-
     }
 
-    /* test whether weekend not full day*/
+    /* test whether weekend not full day */
 
     public function testIsWeekendNotFullDay() {
 
-        $result	=	$this->workWeekDao->isWeekend('2010-08-15', false);
+        $result = $this->workWeekDao->isWeekend('2010-08-15', false);
         $this->assertFalse($result);
-
     }
 
     /* Tests for getWorkWeekList() */
@@ -83,48 +79,36 @@ class DayOffDaoTest extends PHPUnit_Framework_TestCase {
         foreach ($daysList as $day) {
             $this->assertTrue($day instanceof WorkWeek);
         }
-
     }
 
-    /* Tests for counts getWorkWeekList*/
+    /* Tests for counts getWorkWeekList */
 
     public function testGetWorkWeekListCount() {
-
         $daysList = $this->workWeekDao->getWorkWeekList();
-
-        $this->assertEquals(7, count($daysList));
-
+        $this->assertEquals(1, count($daysList));
     }
 
     public function testGetWorkWeekListValuesAndOrder() {
-
         $daysList = $this->workWeekDao->getWorkWeekList();
 
-        $this->assertEquals(1, $daysList[0]->getDay());
-        $this->assertEquals(0, $daysList[0]->getLength());
-
-        $this->assertEquals(3, $daysList[2]->getDay());
-        $this->assertEquals(8, $daysList[2]->getLength());
-
-        $this->assertEquals(6, $daysList[5]->getDay());
-        $this->assertEquals(4, $daysList[5]->getLength());
-
+        $this->assertEquals(0, $daysList[0]->getLength(1));
+        $this->assertEquals(8, $daysList[0]->getLength(7));
+        $this->assertEquals(4, $daysList[0]->getLength(6));
     }
 
     /* Tests for saveWorkWeek */
 
     public function testSaveWorkWeek() {
 
-        $day     = 2;
-        $length  = 8;
+        $day = 2;
+        $length = 8;
 
         $workWeek = TestDataService::fetchObject('WorkWeek', $day);
-        $workWeek->setLength($length);
+        $workWeek->setTue($length);
 
         $this->workWeekDao->saveWorkWeek($workWeek);
         $savedWorkWeek = TestDataService::fetchObject('WorkWeek', $day);
-        $this->assertEquals($length, $savedWorkWeek->getLength());
-
+        $this->assertEquals($length, $savedWorkWeek->getLength(2));
     }
 
     /**
@@ -136,30 +120,25 @@ class DayOffDaoTest extends PHPUnit_Framework_TestCase {
         $workWeek->expects($this->once())
                 ->method('save')
                 ->will($this->throwException(new Exception()));
-        
-        $this->workWeekDao->saveWorkWeek($workWeek);
 
+        $this->workWeekDao->saveWorkWeek($workWeek);
     }
 
     /* Tests for readWorkWeek */
 
     public function testReadWorkWeek() {
 
-        $workWeek = $this->workWeekDao->readWorkWeek($this->testCases['WorkWeek'][0]['day']);
+        $workWeek = $this->workWeekDao->readWorkWeek($this->testCases['WorkWeek'][0]['id']);
 
         $this->assertTrue($workWeek instanceof WorkWeek);
-        $this->assertEquals($this->testCases['WorkWeek'][0]['length'], $workWeek->getLength());
-
+        $this->assertEquals($this->testCases['WorkWeek'][0]['mon'], $workWeek->getLength(1));
     }
 
     /* Tests for deleteWorkWeek */
 
     public function testDeleteWorkWeek() {
-
-        $this->assertTrue($this->workWeekDao->deleteWorkWeek(array(7)));
-
-        $this->assertFalse(TestDataService::fetchObject('WorkWeek', 7) instanceof WorkWeek);
-
+        $this->assertTrue($this->workWeekDao->deleteWorkWeek(2));
+        $this->assertFalse(TestDataService::fetchObject('WorkWeek', 2) instanceof WorkWeek);
     }
 
 }
