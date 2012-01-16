@@ -14,6 +14,10 @@ TerminationReason:
 EmpTermination:
   0: {id: 1, reasonId: 1, date: '2011-11-20'}
 
+Country:
+  0: {cou_code: 'US', name: 'UNITED STATES', cou_name: 'United States', iso3: 'USA', numcode: 840 }
+  1: {cou_code: 'GB', name: 'GREAT BRITAIN', cou_name: 'Great Britain', iso3: 'GBR', numcode: 826 }
+
 Location:
   0: {id: 1, name: 'Houston', country_code: 'US', address: 'Houston', zip_code: 1234}
   1: {id: 2, name: 'London', country_code: 'GB', address: 'London', zip_code: 9874}
