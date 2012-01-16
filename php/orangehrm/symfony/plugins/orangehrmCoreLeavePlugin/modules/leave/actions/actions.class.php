@@ -158,37 +158,6 @@ class leaveActions extends sfActions {
     }
 
     /**
-     * Add Work Week
-     * @param sfWebRequest $request
-     */
-    public function executeDefineWorkWeek(sfWebRequest $request) {
-
-        $this->setForm(new WorkWeekForm()); // get the Work Week form object
-        $workWeekService = $this->getWorkWeekService(); // workweek service object
-
-        //authentication
-        if(!isset($_SESSION['isAdmin']) || $_SESSION['isAdmin']!='Yes') {
-            $this->forward('leave', 'viewMyLeaveList');
-        }
-
-        if ($request->isMethod('post')) {
-            $this->form->bind($request->getParameter($this->form->getName()));
-            if ($this->form->isValid()) {
-
-                // read all the WorkWeek objects from Post Data
-                $workWeekList = $this->form->getWorkWeekObjects($this->form->getValues());
-
-                // save WorkWeeks
-                foreach ($workWeekList as $workWeek) {
-                    $workWeekService->saveWorkWeek($workWeek);
-                }
-
-                $this->templateMessage = array('SUCCESS', __('Work Week Successfully Saved'));
-            }
-        }
-    }
-
-    /**
      * view Holiday list
      * @param sfWebRequest $request
      */
