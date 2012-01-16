@@ -11,7 +11,7 @@
  * @property string $iso3
  * @property integer $numcode
  * @property Doctrine_Collection $Location
- * @property Doctrine_Collection $OperationalCountry
+ * @property OperationalCountry $OperationalCountry
  * 
  * @method string              getCouCode()            Returns the current record's "cou_code" value
  * @method string              getName()               Returns the current record's "name" value
@@ -19,14 +19,14 @@
  * @method string              getIso3()               Returns the current record's "iso3" value
  * @method integer             getNumcode()            Returns the current record's "numcode" value
  * @method Doctrine_Collection getLocation()           Returns the current record's "Location" collection
- * @method Doctrine_Collection getOperationalCountry() Returns the current record's "OperationalCountry" collection
+ * @method OperationalCountry  getOperationalCountry() Returns the current record's "OperationalCountry" value
  * @method Country             setCouCode()            Sets the current record's "cou_code" value
  * @method Country             setName()               Sets the current record's "name" value
  * @method Country             setCouName()            Sets the current record's "cou_name" value
  * @method Country             setIso3()               Sets the current record's "iso3" value
  * @method Country             setNumcode()            Sets the current record's "numcode" value
  * @method Country             setLocation()           Sets the current record's "Location" collection
- * @method Country             setOperationalCountry() Sets the current record's "OperationalCountry" collection
+ * @method Country             setOperationalCountry() Sets the current record's "OperationalCountry" value
  * 
  * @package    orangehrm
  * @subpackage model
@@ -74,7 +74,7 @@ abstract class BaseCountry extends sfDoctrineRecord
              'local' => 'cou_code',
              'foreign' => 'country_code'));
 
-        $this->hasMany('OperationalCountry', array(
+        $this->hasOne('OperationalCountry', array(
              'local' => 'cou_code',
              'foreign' => 'country_code'));
     }

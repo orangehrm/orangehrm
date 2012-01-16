@@ -242,6 +242,7 @@ OperationalCountry:
       local: country_code
       foreign: cou_code
       type: one
+      foreignType: one
 
 EmploymentStatus:
   tableName: ohrm_employment_status
