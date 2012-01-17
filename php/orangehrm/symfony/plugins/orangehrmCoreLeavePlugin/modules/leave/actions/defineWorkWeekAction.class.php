@@ -29,11 +29,6 @@ class defineWorkWeekAction extends baseLeaveAction {
                     $workWeek->setSat($this->workWeekForm->getValue('day_length_Saturday'));
                     $workWeek->setSun($this->workWeekForm->getValue('day_length_Sunday'));
                     
-                    //If the country based leave plugin is enabled
-                    if($this->workWeekForm->isCountryEnabled()) {
-                        $workWeek->setOperationalCountryId($this->workWeekForm->getValue('operational_country'));
-                    }
-                    
                     $this->getWorkWeekService()->saveWorkWeek($workWeek);
                     $this->templateMessage = array('SUCCESS', __('Work Week Successfully Saved'));
                 } catch (Exception $e) {
