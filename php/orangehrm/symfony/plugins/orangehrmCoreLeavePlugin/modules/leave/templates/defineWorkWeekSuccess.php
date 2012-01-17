@@ -24,8 +24,17 @@
     <div class="outerbox">
         <div class="mainHeading"><h2><?php echo __('Work Week'); ?></h2></div>
 
-        <div id="errorDiv"> </div>
-        <?php if ($workWeekForm->hasErrors()) { ?>
+        <div id="errorDiv"></div>
+        <?php
+        if ($workWeekForm->hasErrors()) { 
+
+            $widgets = $workWeekForm->getWidgetSchema()->getFields();
+
+            foreach ($widgets as $identifier => $wisget) {
+                echo $workWeekForm[$identifier]->renderError();
+            }
+        }
+            ?>
             <?php echo $workWeekForm['day_length_Monday']->renderError() ?>
             <?php echo $workWeekForm['day_length_Tuesday']->renderError() ?>
             <?php echo $workWeekForm['day_length_Wednesday']->renderError() ?>
@@ -33,38 +42,11 @@
             <?php echo $workWeekForm['day_length_Friday']->renderError() ?>
             <?php echo $workWeekForm['day_length_Saturday']->renderError() ?>
             <?php echo $workWeekForm['day_length_Sunday']->renderError() ?>
-        <?php } ?>
+        <?php  ?>
 
-        <form id="frmWorkWeek" name="frmWorkWeek" method="post" action="<?php echo url_for('leave/defineWorkWeek') ?>" >
-            <?php echo $workWeekForm['_csrf_token']->render() ?>
-            <?php echo $workWeekForm['day_length_Monday']->renderLabel(); ?>
-            <?php echo $workWeekForm['day_length_Monday']->render(); ?>
+        <form id="frmWorkWeek" name="frmWorkWeek" method="post" action="<?php echo url_for('leave/defineWorkWeek') ?>" >            
+            <?php echo $workWeekForm->render() ?>
             <br class="clear"/>
-
-            <?php echo $workWeekForm['day_length_Tuesday']->renderLabel(); ?>
-            <?php echo $workWeekForm['day_length_Tuesday']->render(); ?>
-            <br class="clear"/>
-
-            <?php echo $workWeekForm['day_length_Wednesday']->renderLabel(); ?>
-            <?php echo $workWeekForm['day_length_Wednesday']->render(); ?>
-            <br class="clear"/>
-
-            <?php echo $workWeekForm['day_length_Thursday']->renderLabel(); ?>
-            <?php echo $workWeekForm['day_length_Thursday']->render(); ?>
-            <br class="clear"/>
-
-            <?php echo $workWeekForm['day_length_Friday']->renderLabel(); ?>
-            <?php echo $workWeekForm['day_length_Friday']->render(); ?>
-            <br class="clear"/>
-
-            <?php echo $workWeekForm['day_length_Saturday']->renderLabel(); ?>
-            <?php echo $workWeekForm['day_length_Saturday']->render(); ?>
-            <br class="clear"/>
-
-            <?php echo $workWeekForm['day_length_Sunday']->renderLabel(); ?>
-            <?php echo $workWeekForm['day_length_Sunday']->render(); ?>
-            <br class="clear"/>
-
 
             <div class="formbuttons">
                 <input type="button" class="savebutton" id="saveBtn" value="<?php echo __('Edit'); ?>" />

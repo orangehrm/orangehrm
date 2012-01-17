@@ -76,6 +76,8 @@ class WorkWeekForm extends sfForm {
         $this->widgetSchema->setNameFormat('WorkWeek[%s]');
 
         $this->validatorSchema->setPostValidator(new sfValidatorCallback(array('callback' => array($this, 'validateWorkWeekValue'))));
+        
+        $this->getWidgetSchema()->setFormFormatterName('BreakTags');
     }
 
     /**
