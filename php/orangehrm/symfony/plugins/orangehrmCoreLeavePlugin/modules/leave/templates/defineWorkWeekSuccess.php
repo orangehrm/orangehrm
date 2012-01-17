@@ -37,13 +37,6 @@
 
         <form id="frmWorkWeek" name="frmWorkWeek" method="post" action="<?php echo url_for('leave/defineWorkWeek') ?>" >
             <?php echo $workWeekForm['_csrf_token']->render() ?>
-            <br class="clear"/>
-            <?php if ($workWeekForm->isCountryEnabled()) { ?>
-                <?php echo $workWeekForm['operational_country']->renderLabel(__("Country ") . "<span class=\"required\">*</span>"); ?>
-                <?php echo $workWeekForm['operational_country']->render(); ?>
-                <br class="clear"/>
-            <?php } ?>
-
             <?php echo $workWeekForm['day_length_Monday']->renderLabel(); ?>
             <?php echo $workWeekForm['day_length_Monday']->render(); ?>
             <br class="clear"/>
@@ -105,39 +98,15 @@
                         $('#messageBalloonContainer').empty();
                         $('#messageBalloonContainer').append("<div class=\"messageBalloon_warning\"><?php echo __("At Least One Day Should Be a Working Day") ?></div>");
                         $('.messageBalloon_warning').css('padding-left', '10px');
-                    } else {                        
-                         <?php if ($workWeekForm->isCountryEnabled()) { ?>
-                                if($("#frmWorkWeek").validate()) {
-                                   $("#frmWorkWeek").submit();  
-                                   return; 
-                                }
-                         <?php }else {?>                        
-                                  $("#frmWorkWeek").submit();
-                                  $(".formSelect").attr("disabled", "disabled");
-                                  return; 
-                           <?php } ?>                             
+                    } else {
+                        $("#frmWorkWeek").submit();
+                        $(".formSelect").attr("disabled", "disabled");
+                        return;                    
                     }
                     
                 }
-            });
-            
-          <?php if ($workWeekForm->isCountryEnabled()) { ?>
-            $.validator.addMethod('selectCountry', function(value, element) { 
-               
-                return (element.value != '0');
-            }
-        );
-
-            $("#frmWorkWeek").validate({
-                rules: {
-                    'WorkWeek[operational_country]': { selectCountry: true }
-                },
-                messages: {
-                    'WorkWeek[operational_country]': { selectCountry:'<?php echo __('Select a country') ?> '}
-                }
-            });
-         <?php }?>
-     
+            });            
+          
         });
         //]]>
     </script>
