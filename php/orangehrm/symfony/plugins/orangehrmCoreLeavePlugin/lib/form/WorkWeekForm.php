@@ -150,6 +150,10 @@ class WorkWeekForm extends sfForm {
             );
         }
 
+         //If the country based leave plugin is enabled
+        if($this->isCountryEnabled()) {
+            $formWidgets['operational_country'] = new ohrmWidgetOperationalCounrtyList(array(), array('id' => 'operational_country','class' => 'formSelect',));
+        }
         return $formWidgets;
     }
 
@@ -159,6 +163,11 @@ class WorkWeekForm extends sfForm {
 
         foreach ($daysOfWeek as $day) {
             $formLabels['day_length_' . $day] = __($day);
+        }
+        
+         //If the country based leave plugin is enabled
+        if($this->isCountryEnabled()) {
+            $formLabels['operational_country'] = "Country";
         }
 
         return $formLabels;
@@ -184,6 +193,11 @@ class WorkWeekForm extends sfForm {
             $formValidators['day_length_' . $day] = $validator;
         }
         
+         //If the country based leave plugin is enabled
+        if($this->isCountryEnabled()) {
+         $formValidators['operational_country'] = new sfValidatorNumber(array('required' => true));
+        }
+        
         return $formValidators;
     }
     
@@ -195,7 +209,27 @@ class WorkWeekForm extends sfForm {
             $formDefaults['day_length_' . $day] = $this->getWorkWeekEntity()->getLength($isoValue);
         }
 
+         //If the country based leave plugin is enabled
+        if($this->isCountryEnabled()) {
+            $formDefaults['operational_country'] = $this->getWorkWeekEntity()->getOperationalCountryId();
+        }
+        
         return $formDefaults;
     }
+    
+    /* Check the Operational Counrty is Enabled
+     * @return boolean
+     */
+    public function isCountryEnabled() {
+        
+        $countryBasedConfigService = new CountryBasedConfigService();
+        
+        if($countryBasedConfigService->isCountryBasedEnabled()) {
+            return true;
+        }else {
+            return false;
+        }
+    }
+   
 
 }
