@@ -1,4 +1,5 @@
 <?php
+
 /*
  *
  * OrangeHRM is a comprehensive Human Resource Management (HRM) System that captures
@@ -17,38 +18,31 @@
  * if not, write to the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
  * Boston, MA  02110-1301, USA
  *
-*/
-class HolidayDao extends BaseDao
-{
+ */
+
+class HolidayDao extends BaseDao {
 
     /**
      * Add and Update Holiday
      * @param Holiday $holiday
      * @return boolean
      */
+    public function saveHoliday(Holiday $holiday) {
 
-    public function saveHoliday(Holiday $holiday)
-    {
+        try {
 
-        try
-        {
-
-            if ($holiday->getHolidayId() == '')
-            {
+            if ($holiday->getHolidayId() == '') {
                 // genarate new ID for the Holiday Object
                 $idGenService = new IDGeneratorService();
                 $idGenService->setEntity($holiday);
-                $holiday->setHolidayId( $idGenService->getNextID());
+                $holiday->setHolidayId($idGenService->getNextID());
             }
 
             $holiday->save();
             return $holiday;
-
-        } catch ( Exception $e )
-        {
-            throw new DaoException ( $e->getMessage () );
+        } catch (Exception $e) {
+            throw new DaoException($e->getMessage());
         }
-
     }
 
     /**
@@ -56,18 +50,14 @@ class HolidayDao extends BaseDao
      * @param $holidayId
      * @return Holiday
      */
-    public function readHoliday($holidayId)
-    {
-        try
-        {
+    public function readHoliday($holidayId) {
+        try {
             $holiday = Doctrine::getTable('Holiday')
-                    ->find ($holidayId);
+                    ->find($holidayId);
 
             return $holiday;
-            
-        } catch (Exception $e)
-        {
-            throw new DaoException ($e->getMessage());
+        } catch (Exception $e) {
+            throw new DaoException($e->getMessage());
         }
     }
 
@@ -76,24 +66,18 @@ class HolidayDao extends BaseDao
      * @param $date
      * @return Holiday
      */
-    public function readHolidayByDate($date)
-    {
-        try
-        {
+    public function readHolidayByDate($date) {
+        try {
 
             $q = Doctrine_Query::create()
                     ->from("Holiday")
-                    ->where("date = ? OR (recurring=1 AND MONTH(date)=? AND DAY(date)=?)",array($date,date('m',strtotime($date)),date('d',strtotime($date))));
-					
-            
-				
-			$result = $q->fetchOne();
-            
-            return $result;
+                    ->where("date = ? OR (recurring=1 AND MONTH(date)=? AND DAY(date)=?)", array($date, date('m', strtotime($date)), date('d', strtotime($date))));
 
-        } catch ( Exception $e )
-        {
-            throw new DaoException ( $e->getMessage () );
+            $result = $q->fetchOne();
+
+            return $result;
+        } catch (Exception $e) {
+            throw new DaoException($e->getMessage());
         }
     }
 
@@ -102,24 +86,18 @@ class HolidayDao extends BaseDao
      * @param $holidayId
      * @return none
      */
-    public function deleteHoliday($holiday)
-    {
-        try
-        {
-            $q = Doctrine_Query::create ()
-                    ->delete ( 'Holiday' )
-                    ->whereIn ( 'holiday_id', $holiday );
-            $holidayDeleted = $q->execute ();
-            if($holidayDeleted > 0)
-            {
-                return true ;
+    public function deleteHoliday($holiday) {
+        try {
+            $q = Doctrine_Query::create()
+                    ->delete('Holiday')
+                    ->whereIn('holiday_id', $holiday);
+            $holidayDeleted = $q->execute();
+            if ($holidayDeleted > 0) {
+                return true;
             }
             return false;
-
-
-        } catch ( Exception $e )
-        {
-            throw new DaoException ( $e->getMessage () );
+        } catch (Exception $e) {
+            throw new DaoException($e->getMessage());
         }
     }
 
@@ -127,13 +105,10 @@ class HolidayDao extends BaseDao
      * Get Holiday List
      * @return Holiday Collection
      */
-    public function getHolidayList($year=null, $offset=0,$limit=10)
-    {
+    public function getHolidayList($year=null, $offset=0, $limit=10) {
 
-        try
-        {
-            if(!isset($year))
-            {
+        try {
+            if (!isset($year)) {
                 $year = date("Y");
             }
             $q = Doctrine_Query::create()
@@ -145,32 +120,30 @@ class HolidayDao extends BaseDao
 
             $q->offset($offset)->limit($limit);
             $holidayList = $q->execute();
-            return  $holidayList ;
-
-        }catch( Exception $e)
-        {
-            throw new DaoException ( $e->getMessage () );
+            return $holidayList;
+        } catch (Exception $e) {
+            throw new DaoException($e->getMessage());
         }
     }
 
     public function searchHolidays($startDate = null, $endDate = null) {
 
-        $startDateTimeStamp = (is_null($startDate))?strtotime(date("Y-m-d")):strtotime($startDate);
-        $endDateTimeStamp = (is_null($endDate))?strtotime(date("Y-m-d")):strtotime($endDate);
+        $startDateTimeStamp = (is_null($startDate)) ? strtotime(date("Y-m-d")) : strtotime($startDate);
+        $endDateTimeStamp = (is_null($endDate)) ? strtotime(date("Y-m-d")) : strtotime($endDate);
 
         try {
             $q = Doctrine_Query::create()
-                ->select('*')
-                ->addSelect("IF( h.recurring=1 && YEAR(h.date) <= " . date("Y", $startDateTimeStamp)
-                        . ", DATE_FORMAT(h.date, '" . date("Y", $startDateTimeStamp) . "-%m-%d'), h.date ) fdate")
-                ->from('Holiday h')
-                ->where("h.recurring = 1 OR h.date BETWEEN '" . date("Y-m-d", $startDateTimeStamp) . "' AND '" . date("Y-m-d", $endDateTimeStamp) . "'")
-                ->orderBy('fdate ASC');
+                    ->select('*')
+                    ->addSelect("IF( h.recurring=1 && YEAR(h.date) <= " . date("Y", $startDateTimeStamp)
+                            . ", DATE_FORMAT(h.date, '" . date("Y", $startDateTimeStamp) . "-%m-%d'), h.date ) fdate")
+                    ->from('Holiday h')
+                    ->where("h.recurring = 1 OR h.date BETWEEN '" . date("Y-m-d", $startDateTimeStamp) . "' AND '" . date("Y-m-d", $endDateTimeStamp) . "'")
+                    ->orderBy('fdate ASC');
 
             $holidayList = $q->execute();
-            return  $holidayList ;
-        } catch(Exception $e) {
-            throw new DaoException ( $e->getMessage () );
+            return $holidayList;
+        } catch (Exception $e) {
+            throw new DaoException($e->getMessage());
         }
     }
 
@@ -178,11 +151,9 @@ class HolidayDao extends BaseDao
      * Get Full Holiday List
      * @return Holiday Collection
      */
-    public function getFullHolidayList()
-    {
+    public function getFullHolidayList() {
 
-        try
-        {
+        try {
 
             $q = Doctrine_Query::create()
                     ->select('*')
@@ -190,11 +161,9 @@ class HolidayDao extends BaseDao
                     ->orderBy('date ASC');
 
             $holidayList = $q->execute();
-            return  $holidayList ;
-
-        }catch( Exception $e)
-        {
-            throw new DaoException ( $e->getMessage () );
+            return $holidayList;
+        } catch (Exception $e) {
+            throw new DaoException($e->getMessage());
         }
     }
 
