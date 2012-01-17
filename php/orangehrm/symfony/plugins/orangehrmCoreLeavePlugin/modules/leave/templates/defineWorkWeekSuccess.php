@@ -39,7 +39,7 @@
             <?php echo $workWeekForm['_csrf_token']->render() ?>
             <br class="clear"/>
             <?php if ($workWeekForm->isCountryEnabled()) { ?>
-                <?php echo $workWeekForm['operational_country']->renderLabel(); ?>
+                <?php echo $workWeekForm['operational_country']->renderLabel(__("Country ") . "<span class=\"required\">*</span>"); ?>
                 <?php echo $workWeekForm['operational_country']->render(); ?>
                 <br class="clear"/>
             <?php } ?>
@@ -105,18 +105,25 @@
                         $('#messageBalloonContainer').empty();
                         $('#messageBalloonContainer').append("<div class=\"messageBalloon_warning\"><?php echo __("At Least One Day Should Be a Working Day") ?></div>");
                         $('.messageBalloon_warning').css('padding-left', '10px');
-                    } else {
-                        $("#frmWorkWeek").submit();
-                        $(".formSelect").attr("disabled", "disabled");
-                        return;                    
+                    } else {                        
+                         <?php if ($workWeekForm->isCountryEnabled()) { ?>
+                                if($("#frmWorkWeek").validate()) {
+                                   $("#frmWorkWeek").submit();  
+                                   return; 
+                                }
+                         <?php }else {?>                        
+                                  $("#frmWorkWeek").submit();
+                                  $(".formSelect").attr("disabled", "disabled");
+                                  return; 
+                           <?php } ?>                             
                     }
                     
                 }
             });
             
           <?php if ($workWeekForm->isCountryEnabled()) { ?>
-            $.validator.addMethod('selectCountry', function(value, element) {  
-                
+            $.validator.addMethod('selectCountry', function(value, element) { 
+               
                 return (element.value != '0');
             }
         );
