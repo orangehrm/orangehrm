@@ -38,12 +38,12 @@
         <form id="frmWorkWeek" name="frmWorkWeek" method="post" action="<?php echo url_for('leave/defineWorkWeek') ?>" >
             <?php echo $workWeekForm['_csrf_token']->render() ?>
             <br class="clear"/>
-            <?php if($workWeekForm->isCountryEnabled()){ ?>
-            <?php echo $workWeekForm['operational_country']->renderLabel(); ?>
-            <?php echo $workWeekForm['operational_country']->render(); ?>
-            <br class="clear"/>
+            <?php if ($workWeekForm->isCountryEnabled()) { ?>
+                <?php echo $workWeekForm['operational_country']->renderLabel(); ?>
+                <?php echo $workWeekForm['operational_country']->render(); ?>
+                <br class="clear"/>
             <?php } ?>
-            
+
             <?php echo $workWeekForm['day_length_Monday']->renderLabel(); ?>
             <?php echo $workWeekForm['day_length_Monday']->render(); ?>
             <br class="clear"/>
@@ -113,6 +113,24 @@
                     
                 }
             });
+            
+          <?php if ($workWeekForm->isCountryEnabled()) { ?>
+            $.validator.addMethod('selectCountry', function(value, element) {  
+                
+                return (element.value != '0');
+            }
+        );
+
+            $("#frmWorkWeek").validate({
+                rules: {
+                    'WorkWeek[operational_country]': { selectCountry: true }
+                },
+                messages: {
+                    'WorkWeek[operational_country]': { selectCountry:'<?php echo __('Select a country') ?> '}
+                }
+            });
+         <?php }?>
+     
         });
         //]]>
     </script>
