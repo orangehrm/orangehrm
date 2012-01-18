@@ -1,4 +1,5 @@
 <?php
+
 /*
  *
  * OrangeHRM is a comprehensive Human Resource Management (HRM) System that captures
@@ -17,9 +18,10 @@
  * if not, write to the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
  * Boston, MA  02110-1301, USA
  *
-*/
-class HolidayService extends BaseService
-{
+ */
+
+class HolidayService extends BaseService {
+
     // Holiday Data Access Object
     private $holidayDao;
 
@@ -39,8 +41,7 @@ class HolidayService extends BaseService
      * @param HolidayDao $HolidayDao
      * @return void
      */
-    public function setHolidayDao( HolidayDao $HolidayDao)
-    {
+    public function setHolidayDao(HolidayDao $HolidayDao) {
         $this->holidayDao = $HolidayDao;
     }
 
@@ -49,11 +50,9 @@ class HolidayService extends BaseService
      * @param Holiday $holiday
      * @return boolean
      */
-    public function saveHoliday( Holiday $holiday)
-    {
+    public function saveHoliday(Holiday $holiday) {
 
-        return $this->getHolidayDao()->saveHoliday( $holiday );
-
+        return $this->getHolidayDao()->saveHoliday($holiday);
     }
 
     /**
@@ -61,11 +60,9 @@ class HolidayService extends BaseService
      * @param int $holidayId
      * @return boolean
      */
-    public function deleteHoliday( $holidayId )
-    {
+    public function deleteHoliday($holidayId) {
 
-        return $this->getHolidayDao()->deleteHoliday( $holidayId );
-
+        return $this->getHolidayDao()->deleteHoliday($holidayId);
     }
 
     /**
@@ -73,19 +70,15 @@ class HolidayService extends BaseService
      * @param int $holidayId
      * @return Holiday $Holiday
      */
-    public function readHoliday($holidayId)
-    {
+    public function readHoliday($holidayId) {
 
         $holiday = $this->getHolidayDao()->readHoliday($holidayId);
 
-        if(!$holiday instanceof Holiday)
-        {
+        if (!$holiday instanceof Holiday) {
             $holiday = new Holiday();
-
         }
 
         return $holiday;
-
     }
 
     /**
@@ -93,19 +86,15 @@ class HolidayService extends BaseService
      * @param int $holidayId
      * @return Holiday $holiday
      */
-    public function readHolidayByDate($date)
-    {
+    public function readHolidayByDate($date) {
 
         $holiday = $this->getHolidayDao()->readHolidayByDate($date);
 
-        if(!$holiday instanceof Holiday)
-        {
+        if (!$holiday instanceof Holiday) {
             $holiday = new Holiday();
-
         }
-        
-        return $holiday;
 
+        return $holiday;
     }
 
     /**
@@ -114,11 +103,9 @@ class HolidayService extends BaseService
      * @param int $limit
      * @return Holidays $holidayList
      */
-    public function getHolidayList($year = null,$offset=0,$limit=50)
-    {
-        $holidayList = $this->getHolidayDao()->getHolidayList($year,$offset, $limit);
+    public function getHolidayList($year = null, $offset=0, $limit=50) {
+        $holidayList = $this->getHolidayDao()->getHolidayList($year, $offset, $limit);
         return $holidayList;
-
     }
 
     /**
@@ -138,17 +125,15 @@ class HolidayService extends BaseService
      * @return boolean
      * 
      */
-    public function isHoliday($day)
-    {
+    public function isHoliday($day) {
 
-        $holiday =  $this->getHolidayDao()->readHolidayByDate($day);
+        $holiday = $this->getHolidayDao()->readHolidayByDate($day);
 
-        if($holiday != null && $holiday->getLength() == WorkWeek::WORKWEEK_LENGTH_FULL_DAY) {
-           return true;
+        if ($holiday != null && $holiday->getLength() == WorkWeek::WORKWEEK_LENGTH_FULL_DAY) {
+            return true;
         }
-        
-        return false;
 
+        return false;
     }
 
     /**
@@ -159,47 +144,41 @@ class HolidayService extends BaseService
      */
     public function isHalfDay($day) {
 
-        $holiday =  $this->getHolidayDao()->readHolidayByDate($day);
+        $holiday = $this->getHolidayDao()->readHolidayByDate($day);
 
-        if($holiday != null && $holiday->getLength() >= WorkWeek::WORKWEEK_LENGTH_HALF_DAY && $holiday->getLength() < WorkShift::DEFAULT_WORK_SHIFT_LENGTH) {
+        if ($holiday != null && $holiday->getLength() >= WorkWeek::WORKWEEK_LENGTH_HALF_DAY && $holiday->getLength() < WorkShift::DEFAULT_WORK_SHIFT_LENGTH) {
             return true;
         }
 
         return false;
-
     }
-   /**
+
+    /**
      * check whether the given date is a holiday
      *
      * @param date $day
      * @return boolean
      * 
      */
-    public function isHalfdayHoliday($day)
-    {
+    public function isHalfdayHoliday($day) {
 
-        $holiday =  $this->getHolidayDao()->readHolidayByDate($day);
+        $holiday = $this->getHolidayDao()->readHolidayByDate($day);
 
-        if($holiday != null && $holiday->getLength() == Holiday::HOLIDAY_HALF_DAY_LENGTH) {
+        if ($holiday != null && $holiday->getLength() == Holiday::HOLIDAY_HALF_DAY_LENGTH) {
             return true;
         } else {
             return false;
         }
-
     }
-    
 
     /**
      * Get Holiday full holiday list
      * @return Holidays $holidayList
      */
-    public function getFullHolidayList()
-    {
+    public function getFullHolidayList() {
 
         $holidayList = $this->getHolidayDao()->getFullHolidayList();
         return $holidayList;
-
     }
-
 
 }
