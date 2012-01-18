@@ -134,7 +134,7 @@ class HolidayForm extends sfForm
         if ($holidayObject instanceof Holiday)
         {
 
-            $this->setDefault('hdnHolidayId', $holidayObject->getHolidayId());
+            $this->setDefault('hdnHolidayId', $holidayObject->getId());
             $this->setDefault('txtDescription', $holidayObject->getDescription());
 
             sfContext::getInstance()->getConfiguration()->loadHelpers('OrangeDate');

@@ -112,13 +112,13 @@
 
                 <tr class="<?php echo $rowClass; ?>">
                     <td>
-                        <input type="checkbox" class="innercheckbox" name="chkHolidayId[]" value="<?php echo $holiday->getHolidayId(); ?>" />
+                        <input type="checkbox" class="innercheckbox" name="chkHolidayId[]" value="<?php echo $holiday->getId(); ?>" />
                     </td>
                     <td>
-                       <a href="<?php echo url_for('leave/defineHoliday/?hdnEditId=' . $holiday->getHolidayId());?>"><?php echo $holiday->getDescription(); ?></a>
+                       <a href="<?php echo url_for('leave/defineHoliday/?hdnEditId=' . $holiday->getId());?>"><?php echo $holiday->getDescription(); ?></a>
                     </td>
                     <td>
-                            <?php echo set_datepicker_date_format($holiday->getFdate()); ?>
+                            <?php echo set_datepicker_date_format($holiday->getDate()); ?>
                     </td>
 
                     <td>
