@@ -49,25 +49,24 @@ class getWorkWeekAjaxAction extends sfAction {
     }
     
     public function execute( $request ){
-        $workWeekList = $this->getWorkWeekList();
+        
+        $workWeek = $this->getWorkWeekList()->getFirst();
 
-        $dates = "";
-        foreach ($workWeekList as $workWeek) {
-            $htype = $workWeek->getLength();
-            $day = (int) $workWeek->getDay();
-            if ($htype == 8) {
-                $dates .= "[" . ( $day ) . ", 'w'],";
-            } elseif ($htype == 4) {
-                $dates .= "[" . ( $day ) . ", 'h'],";
+        $dates = array();
+        for ($day = 1; $day <= 7; $day++) {
+            if ($workWeek->getLength($day) == 8) {
+                $dates[] = array($day, 'w');
+            } elseif ($workWeek->getLength($day) == 4) {
+                $dates[] = array($day, 'h');
+            } else {
+                // TODO: Warn
             }
         }
 
-        $dates = rtrim($dates, ",");
 
-        echo "[";
-        echo $dates;
-        echo "]";
-        exit;
+        echo json_encode($dates);
+        
+        return sfView::NONE;
     }
     
     public function getWorkWeekList(){
