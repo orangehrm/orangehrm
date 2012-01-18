@@ -186,14 +186,21 @@ WorkWeek:
       type: one
 
 Holiday:
-  tableName: hs_hr_holidays
+  tableName: ohrm_holiday
   columns:
-    holiday_id:
+    id:
       type: integer(4)
       primary: true
+      autoincrement: true
     recurring:
       type: integer(1)
       default: '0'
     description: string(2147483647)
     date: date(25)
     length: integer(4)
+    operational_country_id: integer(4)
+  relations:
+    OperationalCountry:
+      local: operational_country_id
+      foreign: id
+      type: one

@@ -98,7 +98,7 @@ class HolidayDaoTest extends PHPUnit_Framework_TestCase {
         $holiday->setDate("2010-05-30");
 
         $this->holidayDao->saveHoliday($holiday);
-        $savedHoliday = TestDataService::fetchObject('Holiday', $holiday->getHolidayId());
+        $savedHoliday = TestDataService::fetchObject('Holiday', $holiday->getId());
 
         $this->assertEquals($holiday->getLength(), $savedHoliday->getLength());
         $this->assertEquals($holiday->getRecurring(), $savedHoliday->getRecurring());
@@ -115,13 +115,9 @@ class HolidayDaoTest extends PHPUnit_Framework_TestCase {
         $holiday->setLength(4);
         $holiday->setDescription("for dummies");
 
-        $this->holidayDao->saveHoliday($holiday);
+        $savedHoliday = $this->holidayDao->saveHoliday($holiday);
 
-        $savedHoliday = TestDataService::fetchObject('Holiday', 5);
-
-        $this->assertEquals(5, $savedHoliday->getHolidayId());
-        $this->assertEquals(4, $savedHoliday->getLength());
-        $this->assertEquals($holiday->getDescription(), $savedHoliday->getDescription());
+        $this->assertEquals($holiday, $savedHoliday);
     }
 
     /* test deleteHoliday */

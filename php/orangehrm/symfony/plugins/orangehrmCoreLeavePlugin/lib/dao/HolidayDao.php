@@ -30,14 +30,6 @@ class HolidayDao extends BaseDao {
     public function saveHoliday(Holiday $holiday) {
 
         try {
-
-            if ($holiday->getHolidayId() == '') {
-                // genarate new ID for the Holiday Object
-                $idGenService = new IDGeneratorService();
-                $idGenService->setEntity($holiday);
-                $holiday->setHolidayId($idGenService->getNextID());
-            }
-
             $holiday->save();
             return $holiday;
         } catch (Exception $e) {
@@ -90,7 +82,7 @@ class HolidayDao extends BaseDao {
         try {
             $q = Doctrine_Query::create()
                     ->delete('Holiday')
-                    ->whereIn('holiday_id', $holiday);
+                    ->whereIn('id', $holiday);
             $holidayDeleted = $q->execute();
             if ($holidayDeleted > 0) {
                 return true;
