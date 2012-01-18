@@ -105,7 +105,7 @@ class WorkWeekService extends BaseService {
      */
     public function getWorkWeekOfOperationalCountry($operationalCountryId) {
         try {
-            return $this->getWorkWeekDao()->searchWorkWeek(array('operational_country_id' => $operationalCountryId))->get(0);
+            return $this->getWorkWeekDao()->searchWorkWeek(array('operational_country_id' => $operationalCountryId));
         } catch (Exception $e) {
             throw new LeaveServiceException($e->getMessage());
         }
