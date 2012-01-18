@@ -26,7 +26,6 @@ class UniqueIDGeneratorTest extends PHPUnit_Framework_TestCase {
 							array("ohrm_job_category", "eec_code", "EEC"),
 							array("hs_hr_employee", "emp_number", null),
 							array("hs_hr_ethnic_race", "ethnic_race_code", "ETH"),
-							array("hs_hr_holidays", "holiday_id", null),
 							array("hs_hr_job_title", "jobtit_code", "JOB"),
 							array("hs_hr_leave", "leave_id", null),
 							array("hs_hr_leave_requests", "leave_request_id", null),

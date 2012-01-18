@@ -615,14 +615,15 @@ create table `hs_hr_employee_leave_quota` (
   primary key  (`leave_type_id`,`employee_id`, `year`)
 ) engine=innodb default charset=utf8;
 
-create table `hs_hr_holidays` (
-  `holiday_id` int(11) not null,
-  `description` text default null,
-  `date` date default '0000-00-00',
-  `recurring` tinyint(1) default '0',
-  `length` int(2) default null,
-  unique key `holiday_id` (`holiday_id`)
-) engine=innodb default charset=utf8;
+CREATE TABLE `ohrm_holiday` (
+  `id` INT UNSIGNED AUTO_INCREMENT,
+  `description` TEXT DEFAULT NULL,
+  `date` DATE DEFAULT NULL,
+  `recurring` TINYINT UNSIGNED DEFAULT 0,
+  `length` INT UNSIGNED DEFAULT NULL,
+  `operational_country_id` INT UNSIGNED DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=UTF8;
 
 CREATE  TABLE IF NOT EXISTS `ohrm_work_week` (
   `id` INT UNSIGNED NOT NULL AUTO_INCREMENT ,
@@ -1828,7 +1829,6 @@ INSERT INTO `hs_hr_unique_id`(last_id, table_name, field_name) VALUES(0, 'ohrm_p
 INSERT INTO `hs_hr_unique_id`(last_id, table_name, field_name) VALUES(0, 'hs_hr_empreport', 'rep_code');
 INSERT INTO `hs_hr_unique_id`(last_id, table_name, field_name) VALUES(0, 'hs_hr_leave', 'leave_id');
 INSERT INTO `hs_hr_unique_id`(last_id, table_name, field_name) VALUES(2, 'hs_hr_leavetype', 'leave_type_id');
-INSERT INTO `hs_hr_unique_id`(last_id, table_name, field_name) VALUES(0, 'hs_hr_holidays', 'holiday_id');
 INSERT INTO `hs_hr_unique_id`(last_id, table_name, field_name) VALUES(0, 'ohrm_project', 'project_id');
 INSERT INTO `hs_hr_unique_id`(last_id, table_name, field_name) VALUES(0, 'hs_hr_timesheet', 'timesheet_id');
 INSERT INTO `hs_hr_unique_id`(last_id, table_name, field_name) VALUES(0, 'hs_hr_timesheet_submission_period', 'timesheet_period_id');

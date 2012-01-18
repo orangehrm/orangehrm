@@ -175,7 +175,6 @@ class UniqueIDGenerator {
 		    new IDField("hs_hr_empreport", "rep_code", "REP"),
 		    new IDField("hs_hr_employee", "emp_number"),
 		    new IDField("hs_hr_leave", "leave_id"),
-		    new IDField("hs_hr_holidays", "holiday_id"),
 		    new IDField("hs_hr_leavetype", "leave_type_id", "LTY"),
 		    new IDField("hs_hr_leave_requests", "leave_request_id"),
 		    new IDField("hs_hr_custom_export", "export_id"),

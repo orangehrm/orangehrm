@@ -483,14 +483,15 @@ create table `hs_hr_employee_leave_quota` (
    primary key  (`leave_type_id`,`employee_id`,`leave_period_id`)
 ) engine=innodb default charset=utf8;
 
-create table `hs_hr_holidays` (
-  `holiday_id` int(11) not null,
-  `description` text default null,
-  `date` date null default null,
-  `recurring` tinyint(1) default '0',
-  `length` int(2) default null,
-  unique key `holiday_id` (`holiday_id`)
-) engine=innodb default charset=utf8;
+CREATE TABLE `ohrm_holiday` (
+  `id` INT UNSIGNED AUTO_INCREMENT,
+  `description` TEXT DEFAULT NULL,
+  `date` DATE DEFAULT NULL,
+  `recurring` TINYINT UNSIGNED DEFAULT 0,
+  `length` INT UNSIGNED DEFAULT NULL,
+  `operational_country_id` INT UNSIGNED DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=UTF8;
 
 CREATE  TABLE IF NOT EXISTS `ohrm_work_week` (
   `id` INT UNSIGNED NOT NULL AUTO_INCREMENT ,
@@ -1610,6 +1611,13 @@ ADD CONSTRAINT `fk_ohrm_operational_country_hs_hr_country`
 
 ALTER TABLE `ohrm_work_week`
 ADD CONSTRAINT `fk_ohrm_work_week_ohrm_operational_country`
+    FOREIGN KEY (`operational_country_id`)
+    REFERENCES `ohrm_operational_country` (`id`)
+    ON DELETE CASCADE
+    ON UPDATE CASCADE;
+
+ALTER TABLE `ohrm_holiday`
+ADD CONSTRAINT `fk_ohrm_holiday_ohrm_operational_country`
     FOREIGN KEY (`operational_country_id`)
     REFERENCES `ohrm_operational_country` (`id`)
     ON DELETE CASCADE
