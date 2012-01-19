@@ -94,13 +94,11 @@ class viewHolidayListAction extends sfAction {
      */ 
     public function execute($request) {
 
+        $this->searchForm = $this->getSearchForm();
         $leavePeriodService = $this->getLeavePeriodService();
 
         //retrieve current leave period id
         $leavePeriodId = (!$leavePeriodService->getCurrentLeavePeriod() instanceof LeavePeriod)?0:$leavePeriodService->getCurrentLeavePeriod()->getLeavePeriodId();
-
-        //generating leave period lists for display in dropdown
-        $this->leavePeriods = $leavePeriodService->getLeavePeriodList();
 
         $startDate = date("Y-m-d");
         $endDate = date("Y-m-d");
@@ -110,11 +108,16 @@ class viewHolidayListAction extends sfAction {
         }
 
         if($request->isMethod('post')) {
-            $leavePeriodId = $request->getParameter("leavePeriod");
-            $leavePeriod = $leavePeriodService->readLeavePeriod($leavePeriodId);
-            if($leavePeriod instanceof LeavePeriod) {
-                $startDate = $leavePeriod->getStartDate();
-                $endDate = $leavePeriod->getEndDate();
+            
+            $this->searchForm->bind($request->getParameter($this->searchForm->getName()));
+            
+            if ($this->searchForm->isValid()) {
+                $leavePeriodId = $this->searchForm->getValue('leave_period');
+                $leavePeriod = $leavePeriodService->readLeavePeriod($leavePeriodId);
+                if($leavePeriod instanceof LeavePeriod) {
+                    $startDate = $leavePeriod->getStartDate();
+                    $endDate = $leavePeriod->getEndDate();
+                }
             }
         }
 
@@ -131,6 +134,10 @@ class viewHolidayListAction extends sfAction {
             $this->templateMessage = $this->getUser()->getFlash('templateMessage');
             $this->getUser()->setFlash('templateMessage', array());
         }
+    }
+    
+    protected function getSearchForm() {
+        return new HolidayListSearchForm(array(), array(), true);
     }
 
 }

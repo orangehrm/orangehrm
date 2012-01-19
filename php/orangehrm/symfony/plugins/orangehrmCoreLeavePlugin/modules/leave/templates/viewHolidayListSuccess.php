@@ -17,55 +17,39 @@
  * Boston, MA  02110-1301, USA
  */
 ?>
-<?php echo stylesheet_tag('../orangehrmCoreLeavePlugin/css/viewHolidayListSuccess'); ?>
+<?php use_stylesheet('../orangehrmCoreLeavePlugin/css/viewHolidayListSuccess'); ?>
 
 <?php use_stylesheet('../../../themes/orange/css/ui-lightness/jquery-ui-1.7.2.custom.css'); ?>
 <?php use_javascript('../../../scripts/jquery/ui/ui.core.js'); ?>
 <?php use_javascript('../../../scripts/jquery/ui/ui.dialog.js'); ?>
 
 <div id="flash_message_wrapper" style="width: 630px;">
-    <?php echo isset($templateMessage)?templateMessage($templateMessage):''; ?>
+    <?php //echo isset($templateMessage)?templateMessage($templateMessage):''; ?>
 </div>
 <div id="errorDiv"></div>
+<?php
+    if ($searchForm->hasErrors()) { 
 
-<div id="errorDiv"></div>
+        $widgets = $searchForm->getWidgetSchema()->getFields();
+
+        foreach ($widgets as $identifier => $wisget) {
+            //echo $searchForm[$identifier]->renderError();
+        }
+    }
+?>
 
 <div class="outerbox" style="width: 600px;">
     <div class="mainHeading"><h2><?php echo __('Holidays'); ?></h2></div>
-    <form method="post" name="frmHolidaySearch" id="frmHolidaySearch" action="<?php echo url_for('leave/viewHolidayList'); ?>">
-        <table border="0" id="holidaySearch">
-            <tr>
-                <td class="labelText"><?php echo __('Leave Period'); ?></td>
-                <td>
-                    <select name="leavePeriod">
-                        <?php 
-                            if (empty($leavePeriods)) {                            
-                        ?>
-                        <option value="0"><?php echo __('No Leave Periods');?></option>
-                        <?php                       
-                            } else {
+    
+    <form id="frmHolidaySearch" name="frmHolidaySearch" method="post" action="<?php echo url_for('leave/viewHolidayList') ?>" >            
+        <?php echo $searchForm->render() ?>
+        <br class="clear"/>
 
-                            foreach($leavePeriods as $leavePeriod) {
-                                $id = $leavePeriod->getLeavePeriodId();
-                                $selected = ($id == $leavePeriodId) ? 'selected="selected"' : '';
-                        ?>
-
-                        <option value="<?php echo $id;?>" <?php echo $selected;?>>
-                            <?php echo set_datepicker_date_format($leavePeriod->getStartDate()) . " " . __("to") . " " . set_datepicker_date_format($leavePeriod->getEndDate());?>
-                        </option>
-
-                        <?php
-                            }
-                        }
-                        ?>
-                    </select>
-                </td>
-            </tr>
-        </table>
+        <div class="formbuttons paddingLeft">
+        <input type="button" name="btnSearch" id="btnSearch" value="<?php echo __("Search") ?>" class="savebutton" />
+        </div>
     </form>
-    <div class="formbuttons paddingLeft">
-    <input type="button" name="btnSearch" id="btnSearch" value="<?php echo __("Search") ?>" class="savebutton" />
-    </div>
+
 </div>
 
 <div class="outerbox">
@@ -77,7 +61,6 @@
             <div class="actionbuttons">
 
                 <input type="button" class="addbutton" name="btnAdd" id="btnAdd" value="<?php echo __('Add'); ?>" />
-                <!--<input type="button" class="editbutton" name="btnEdit" id="btnEdit" value="<?php echo __('Edit'); ?>" />-->
                 <input type="button" class="delbutton" name="btnDel" id="btnDel" value="<?php echo __('Delete'); ?>" />
                 <input type="hidden" name="hdnEditId" id="hdnEditId" value="" />
             </div> <!-- End of actionbuttons -->
@@ -187,46 +170,6 @@
             $("#deleteConfirmation").dialog("close");
         });
 
-        /* Edit button */
-        $('#btnEdit').click(function(){
-            var holidayId = '';
-            var checkedCount = 0;
-            var errorCount = 0;
-            var errorMessage = '';
-
-            $('.innercheckbox').each(function(){
-
-                if ($(this).attr('checked')) {
-                    holidayId = $(this).val();
-                    checkedCount++;
-                }
-
-            });
-            if (checkedCount == 0) {
-                errorCount++;
-                errorMessage = '<?php echo __('Please select at least one holiday to edit'); ?>';
-            }
-
-            if (checkedCount > 1) {
-                errorCount++;
-                errorMessage = '<?php echo __('Please select only one holiday to edit'); ?>';
-            }
-
-            if (errorCount > 0) {
-                $("#flash_message_wrapper").html('');
-                $('#errorDiv').attr('class', 'messageBalloon_warning');
-                $('#errorDiv').empty();
-                $('#errorDiv').append('<ul><li>'+errorMessage+'</li></ul>');
-            }
-
-            if (checkedCount == 1) {
-                $('#hdnEditId').val(holidayId);
-                $('#frmHolidayList').attr('method', 'get');
-                $('#frmHolidayList').attr('action', '<?php echo url_for('leave/defineHoliday'); ?>');
-                $('#frmHolidayList').submit();
-            }
-
-        });
 
         /* Checkbox behavior */
         $("#allCheck").click(function() {
