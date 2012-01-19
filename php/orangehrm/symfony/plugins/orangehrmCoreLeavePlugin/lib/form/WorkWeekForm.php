@@ -181,6 +181,7 @@ class WorkWeekForm extends sfForm {
                             ),
                             array(
                                 'invalid' => 'Invalid work week for ' . $day,
+                                'required' => 'Value for ' . $day . ' is required',
                             )
             );
             
