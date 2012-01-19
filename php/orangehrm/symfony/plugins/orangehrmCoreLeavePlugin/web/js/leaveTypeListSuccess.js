@@ -10,7 +10,7 @@ $(document).ready(function() {
 
         $("#messagebar").text("").attr('class', "");
 
-        // Confirm if multiple employees selected.
+        // Confirm if multiple leave types selected.
         if (checked >= 1) {
             $('#deleteConfirmation').dialog('open');
         } else {
