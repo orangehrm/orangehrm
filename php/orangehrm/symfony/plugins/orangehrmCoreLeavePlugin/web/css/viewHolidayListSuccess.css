@@ -1,16 +1,3 @@
-#holidaySearch {
-    width: 80%;
-    margin-top: 10px;
-    margin-left: 10px;
-}
-
-.labelText {
-    width: 100px;
-}
-
-.paddingLeft {
-    padding-left: 10px;
-}
 #deleteConfirmation  {  
     min-height: 75px !important;
 

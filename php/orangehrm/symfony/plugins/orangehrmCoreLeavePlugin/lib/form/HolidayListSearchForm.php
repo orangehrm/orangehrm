@@ -98,5 +98,12 @@ class HolidayListSearchForm extends sfForm {
         
         return $leavePeriodChoices;
     }
+    
+    public function getJavaScripts() {
+        $javaScripts = parent::getJavaScripts();
+        $javaScripts[] = '/orangehrmCoreLeavePlugin/js/viewHolidayListSuccessSearch.js';
+        
+        return $javaScripts;
+    }    
 }
 

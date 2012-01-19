@@ -17,11 +17,16 @@
  * Boston, MA  02110-1301, USA
  */
 ?>
-<?php use_stylesheet('../orangehrmCoreLeavePlugin/css/viewHolidayListSuccess'); ?>
+<?php 
 
-<?php use_stylesheet('../../../themes/orange/css/ui-lightness/jquery-ui-1.7.2.custom.css'); ?>
-<?php use_javascript('../../../scripts/jquery/ui/ui.core.js'); ?>
-<?php use_javascript('../../../scripts/jquery/ui/ui.dialog.js'); ?>
+
+use_stylesheet('../../../themes/orange/css/ui-lightness/jquery-ui-1.7.2.custom.css');
+use_javascript('../../../scripts/jquery/ui/ui.core.js');
+use_javascript('../../../scripts/jquery/ui/ui.dialog.js');
+
+use_javascripts_for_form($searchForm);
+use_stylesheets_for_form($searchForm);
+?>
 
 <div id="flash_message_wrapper" style="width: 630px;">
     <?php echo isset($templateMessage)?templateMessage($templateMessage):''; ?>
@@ -39,11 +44,10 @@
     
     <form id="frmHolidaySearch" name="frmHolidaySearch" method="post" action="<?php echo url_for('leave/viewHolidayList') ?>" >            
         <?php echo $searchForm->render() ?>
-        <br class="clear"/>
 
-        <div class="formbuttons paddingLeft">
+        <div class="formbuttons">
         <input type="button" name="btnSearch" id="btnSearch" value="<?php echo __("Search") ?>" class="savebutton" />
-        </div>
+        </div>        
     </form>
 
 </div>
@@ -67,47 +71,7 @@
 <script type="text/javascript"> 
 //<![CDATA[    
     var defineHolidayUrl = '<?php echo url_for('leave/defineHoliday'); ?>';
+    var lang_SelectHolidayToDelete = '<?php echo __('Please Select at Least One Holiday to Delete'); ?>';      
 //]]>    
 </script>
     
-<script type="text/javascript"> 
-//<![CDATA[ 
-    $(document).ready(function() {
-
-        $("#btnSearch").click(function(){
-            $("#frmHolidaySearch").submit();
-        });
-
-        // Add button
-        $('#btnAdd').click(function(){
-            window.location.href = defineHolidayUrl;
-        });
-
-        /* Delete button */
-        $('#btnDel').click(function(){
-
-            $('#deleteConfirmation').dialog('open');
-            return false;
-
-        });
-        $("#deleteConfirmation").dialog({
-            autoOpen: false,
-            modal: true,
-            width: 325,
-            height: 20,
-            position: 'middle',
-            open: function() {
-                $('#dialogCancelBtn').focus();
-            }
-        });
-        $('#dialogDeleteBtn').click(function() {
-            document.frmList_ohrmListComponent.submit();
-        });
-        $('#dialogCancelBtn').click(function() {    
-            $("#deleteConfirmation").dialog("close");
-        });
-
-    }); // ready():Ends
-
-//]]>
-</script>
