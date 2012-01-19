@@ -135,8 +135,17 @@ class HolidayDaoTest extends PHPUnit_Framework_TestCase {
 
     public function testReadHolidayByDate() {
 
-        $readHoliday = $this->holidayDao->readHolidayByDate("2010-05-27");
-        $this->assertTrue($readHoliday instanceof Holiday);
+        $matchedHoliday = $this->holidayDao->readHolidayByDate('2010-05-27');
+        $this->assertTrue($matchedHoliday instanceof Holiday);
+        $this->assertEquals(1, $matchedHoliday->getId());
+
+        $sriLanka = new OperationalCountry();
+        $sriLanka->setId(1);
+        $sriLanka->setCountryCode('LK');
+
+        $matchedHoliday = $this->holidayDao->readHolidayByDate('2010-05-28', $sriLanka);
+        $this->assertTrue($matchedHoliday instanceof Holiday);
+        $this->assertEquals(2, $matchedHoliday->getId());
 
     }
 

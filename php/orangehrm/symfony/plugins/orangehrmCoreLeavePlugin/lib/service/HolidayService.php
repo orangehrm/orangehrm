@@ -86,9 +86,9 @@ class HolidayService extends BaseService {
      * @param int $holidayId
      * @return Holiday $holiday
      */
-    public function readHolidayByDate($date) {
+    public function readHolidayByDate($date, OperationalCountry $operationalCountry = null) {
 
-        $holiday = $this->getHolidayDao()->readHolidayByDate($date);
+        $holiday = $this->getHolidayDao()->readHolidayByDate($date, $operationalCountry);
 
         if (!$holiday instanceof Holiday) {
             $holiday = new Holiday();

@@ -58,12 +58,16 @@ class HolidayDao extends BaseDao {
      * @param $date
      * @return Holiday
      */
-    public function readHolidayByDate($date) {
+    public function readHolidayByDate($date, OperationalCountry $operationalCountry = null) {
         try {
 
             $q = Doctrine_Query::create()
                     ->from("Holiday")
                     ->where("date = ? OR (recurring=1 AND MONTH(date)=? AND DAY(date)=?)", array($date, date('m', strtotime($date)), date('d', strtotime($date))));
+
+            if (!is_null($operationalCountry)) {
+                $q->addWhere('operational_country_id = ?', $operationalCountry->getId());
+            }
 
             $result = $q->fetchOne();
 
