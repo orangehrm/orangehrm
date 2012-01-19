@@ -50,7 +50,7 @@ class getWorkWeekAjaxAction extends sfAction {
     
     public function execute( $request ){
         
-        $workWeek = $this->getWorkWeekList()->getFirst();
+        $workWeek = $this->getWorkWeekList();
 
         $dates = array();
         for ($day = 1; $day <= 7; $day++) {
@@ -70,7 +70,7 @@ class getWorkWeekAjaxAction extends sfAction {
     }
     
     public function getWorkWeekList(){
-        return $this->getWorkWeekService()->getWorkWeekList();
+        return $this->getWorkWeekService()->getWorkWeekOfOperationalCountry(null);
     }
     
     
