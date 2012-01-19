@@ -26,12 +26,12 @@
 class HolidayDaoTest extends PHPUnit_Framework_TestCase {
 
     private $holidayDao;
+    private $fixture;
 
     protected function setUp() {
-
         $this->holidayDao = new HolidayDao();
-
-        TestDataService::populate(sfConfig::get('sf_plugins_dir') . '/orangehrmCoreLeavePlugin/test/fixtures/HolidayDao.yml');
+        $this->fixture = sfConfig::get('sf_plugins_dir') . '/orangehrmCoreLeavePlugin/test/fixtures/HolidayDao.yml';
+        TestDataService::populate($this->fixture);
     }
 
     /* test readHoliday */
@@ -45,14 +45,65 @@ class HolidayDaoTest extends PHPUnit_Framework_TestCase {
         $this->assertEquals("2010-05-27", $holiday->getDate());
     }
 
-    /* test getHolidayList */
+    /**
+     * @cover getHolidayList()
+     */
+    public function testGetHolidayList_RecurringHolidays() {
 
-    public function testGetHolidayList() {
+        $holidayList = $this->holidayDao->getHolidayList(2011);
 
-        $holidayList = $this->holidayDao->getHolidayList(date('Y'));
-        foreach ($holidayList as $holiday) {
+        $this->assertTrue($holidayList instanceof Doctrine_Collection);
+        $this->assertEquals(2, $holidayList->count());
+
+        $holiday1 = $holidayList->get(0);
+        $this->assertTrue($holiday1 instanceof Holiday);
+        $this->assertEquals(1, $holiday1->getId());
+        $this->assertEquals('Public Holiday', $holiday1->getDescription());
+
+        $holiday1 = $holidayList->get(1);
+        $this->assertTrue($holiday1 instanceof Holiday);
+        $this->assertEquals(3, $holiday1->getId());
+        $this->assertEquals('Home Holiday', $holiday1->getDescription());
+    }
+
+    /**
+     * @cover getHolidayList()
+     */
+    public function testGetHolidayList_NonRecurringHolidays() {
+
+        $holidayList = $this->holidayDao->getHolidayList(2010);
+
+        $this->assertTrue($holidayList instanceof Doctrine_Collection);
+        $this->assertEquals(4, $holidayList->count());
+
+        $sampleData = sfYaml::load($this->fixture);
+        $sampleData = $sampleData['Holiday'];
+
+        foreach ($holidayList as $index => $holiday) {
             $this->assertTrue($holiday instanceof Holiday);
+            $this->assertEquals($sampleData[$index]['id'], $holiday->getId());
+            $this->assertEquals($sampleData[$index]['date'], $holiday->getDate());
+            $this->assertEquals($sampleData[$index]['length'], $holiday->getLength());
         }
+    }
+
+    /**
+     * @cover getHolidayList()
+     */
+    public function testGetHolidayList_WithOperationalCountryFilter() {
+        $sriLanka = new OperationalCountry();
+        $sriLanka->setId(1);
+        $sriLanka->setCountryCode('LK');
+
+        $holidayList = $this->holidayDao->getHolidayList(2010, $sriLanka);
+
+        $this->assertTrue($holidayList instanceof Doctrine_Collection);
+        $this->assertEquals(1, $holidayList->count());
+
+        $holiday1 = $holidayList->get(0);
+        $this->assertTrue($holiday1 instanceof Holiday);
+        $this->assertEquals(2, $holiday1->getId());
+        $this->assertEquals('Fullmoon Day', $holiday1->getDescription());
     }
 
     /* test getHolidayList without passing year */
@@ -60,10 +111,19 @@ class HolidayDaoTest extends PHPUnit_Framework_TestCase {
     public function testGetHolidayListWithoutPassingYear() {
 
         $holidayList = $this->holidayDao->getHolidayList();
-        foreach ($holidayList as $holiday) {
 
-            $this->assertTrue($holiday instanceof Holiday);
-        }
+        $this->assertTrue($holidayList instanceof Doctrine_Collection);
+        $this->assertEquals(2, $holidayList->count());
+
+        $holiday1 = $holidayList->get(0);
+        $this->assertTrue($holiday1 instanceof Holiday);
+        $this->assertEquals(1, $holiday1->getId());
+        $this->assertEquals('Public Holiday', $holiday1->getDescription());
+
+        $holiday1 = $holidayList->get(1);
+        $this->assertTrue($holiday1 instanceof Holiday);
+        $this->assertEquals(3, $holiday1->getId());
+        $this->assertEquals('Home Holiday', $holiday1->getDescription());
     }
 
     /* count getHolidayList */

@@ -101,18 +101,22 @@ class HolidayDao extends BaseDao {
      * Get Holiday List
      * @return Holiday Collection
      */
-    public function getHolidayList($year=null, $offset=0, $limit=10) {
+    public function getHolidayList($year = null, OperationalCountry $operationalCountry = null, $offset = 0, $limit = 10) {
 
         try {
             if (!isset($year)) {
-                $year = date("Y");
+                $year = date('Y');
             }
             $q = Doctrine_Query::create()
                     ->select('*')
-                    ->addSelect("IF( h.recurring=1 && YEAR(h.date) <= $year, DATE_FORMAT(h.date, '$year-%m-%d'), h.date ) fdate")
+                    ->addSelect("IF( h.recurring=1 && YEAR(h.date) <= {$year}, DATE_FORMAT(h.date, '{$year}-%m-%d'), h.date ) fdate")
                     ->from('Holiday h')
-                    ->where('h.recurring = ? OR h.date >=?', array(1, "$year-01-01"))
+                    ->where('h.recurring = ? OR h.date >=?', array(1, "{$year}-01-01"))
                     ->orderBy('fdate ASC');
+                    
+            if (!is_null($operationalCountry)) {
+                $q->addWhere('operational_country_id = ?', $operationalCountry->getId());
+            }
 
             $q->offset($offset)->limit($limit);
             $holidayList = $q->execute();

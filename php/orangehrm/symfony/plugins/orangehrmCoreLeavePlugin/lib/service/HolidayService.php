@@ -103,8 +103,8 @@ class HolidayService extends BaseService {
      * @param int $limit
      * @return Holidays $holidayList
      */
-    public function getHolidayList($year = null, $offset=0, $limit=50) {
-        $holidayList = $this->getHolidayDao()->getHolidayList($year, $offset, $limit);
+    public function getHolidayList($year = null, OperationalCountry $operationalCountry = null, $offset = 0, $limit = 50) {
+        $holidayList = $this->getHolidayDao()->getHolidayList($year, $operationalCountry, $offset, $limit);
         return $holidayList;
     }
 
