@@ -102,6 +102,8 @@ function templateMessage($errors) {
 							break;
 			case 'WARNING':	$class = 'messageBalloon_warning';
 							break;
+			case 'FAILURE':	$class = 'messageBalloon_failure';
+							break;
 		    
 		} 
 
