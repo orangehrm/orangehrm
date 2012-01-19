@@ -58,7 +58,7 @@ class deleteHolidayAction extends sfAction {
      */ 
     public function execute($request) {
 
-        $holidayIds = $request->getPostParameter('chkHolidayId[]');
+        $holidayIds = $request->getPostParameter('chkSelectRow[]');
 
         if (!empty($holidayIds)) {
 
@@ -72,7 +72,7 @@ class deleteHolidayAction extends sfAction {
         }
 
 
-        $this->forward('leave', 'viewHolidayList');
+        $this->redirect('leave/viewHolidayList');
     }
 
 }
