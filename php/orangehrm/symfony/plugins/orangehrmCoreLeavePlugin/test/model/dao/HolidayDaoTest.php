@@ -1,4 +1,5 @@
 <?php
+
 /*
  *
  * OrangeHRM is a comprehensive Human Resource Management (HRM) System that captures
@@ -17,18 +18,18 @@
  * if not, write to the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
  * Boston, MA  02110-1301, USA
  *
-*/
+ */
 
 /**
  * @group CoreLeave 
  */
 class HolidayDaoTest extends PHPUnit_Framework_TestCase {
 
-    private $holidayDao ;
+    private $holidayDao;
 
     protected function setUp() {
 
-        $this->holidayDao	=	new HolidayDao();
+        $this->holidayDao = new HolidayDao();
 
         TestDataService::populate(sfConfig::get('sf_plugins_dir') . '/orangehrmCoreLeavePlugin/test/fixtures/HolidayDao.yml');
     }
@@ -42,21 +43,16 @@ class HolidayDaoTest extends PHPUnit_Framework_TestCase {
         $this->assertTrue($holiday instanceof Holiday);
         $this->assertEquals(1, $holiday->getRecurring());
         $this->assertEquals("2010-05-27", $holiday->getDate());
-
     }
-
 
     /* test getHolidayList */
 
     public function testGetHolidayList() {
 
-        $holidayList = $this->holidayDao->getHolidayList(date("Y"));
-        foreach($holidayList as $holiday) {
-
+        $holidayList = $this->holidayDao->getHolidayList(date('Y'));
+        foreach ($holidayList as $holiday) {
             $this->assertTrue($holiday instanceof Holiday);
-
         }
-
     }
 
     /* test getHolidayList without passing year */
@@ -64,10 +60,9 @@ class HolidayDaoTest extends PHPUnit_Framework_TestCase {
     public function testGetHolidayListWithoutPassingYear() {
 
         $holidayList = $this->holidayDao->getHolidayList();
-        foreach($holidayList as $holiday) {
+        foreach ($holidayList as $holiday) {
 
             $this->assertTrue($holiday instanceof Holiday);
-
         }
     }
 
@@ -75,16 +70,14 @@ class HolidayDaoTest extends PHPUnit_Framework_TestCase {
 
     public function testCountGetHolidayListWithYear() {
 
-        $holidayList = $this->holidayDao->getHolidayList($year="2010");
+        $holidayList = $this->holidayDao->getHolidayList($year = "2010");
         $this->assertEquals(4, count($holidayList));
-
     }
 
     public function testCountGetHolidayListWithoutYear() {
 
         $holidayList = $this->holidayDao->getHolidayList();
         $this->assertEquals(2, count($holidayList));
-
     }
 
     /* test saveHoliday */
@@ -103,11 +96,9 @@ class HolidayDaoTest extends PHPUnit_Framework_TestCase {
         $this->assertEquals($holiday->getLength(), $savedHoliday->getLength());
         $this->assertEquals($holiday->getRecurring(), $savedHoliday->getRecurring());
         $this->assertEquals($holiday->getDate(), $savedHoliday->getDate());
-
     }
 
-
-    /* test saveHoliday without an Id*/
+    /* test saveHoliday without an Id */
 
     public function testSaveHolidayWithNoId() {
 
@@ -124,11 +115,10 @@ class HolidayDaoTest extends PHPUnit_Framework_TestCase {
 
     public function testDeleteHoliday() {
 
-        $this->assertTrue($this->holidayDao->deleteHoliday(array(1,2)));
+        $this->assertTrue($this->holidayDao->deleteHoliday(array(1, 2)));
         $holiday = TestDataService::fetchObject('Holiday', 2);
 
         $this->assertFalse($holiday instanceof Holiday);
-
     }
 
     /* test readHolidayByDate */
@@ -146,7 +136,6 @@ class HolidayDaoTest extends PHPUnit_Framework_TestCase {
         $matchedHoliday = $this->holidayDao->readHolidayByDate('2010-05-28', $sriLanka);
         $this->assertTrue($matchedHoliday instanceof Holiday);
         $this->assertEquals(2, $matchedHoliday->getId());
-
     }
 
     /* test getFullHolidayList */
@@ -154,20 +143,19 @@ class HolidayDaoTest extends PHPUnit_Framework_TestCase {
     public function testGetFullHolidayList() {
 
         $holidayList = $this->holidayDao->getFullHolidayList();
-        foreach($holidayList as $holiday) {
+        foreach ($holidayList as $holiday) {
 
             $this->assertTrue($holiday instanceof Holiday);
-
         }
     }
-    
 
     /* test SearchHolidays */
 
     public function testSearchHolidays() {
         $holidayList = $this->holidayDao->searchHolidays('2010-01-01', '2010-12-31');
-        foreach($holidayList as $holiday) {
+        foreach ($holidayList as $holiday) {
             $this->assertTrue($holiday instanceof Holiday);
         }
     }
+
 }
