@@ -9,10 +9,10 @@ abstract class PluginWorkWeek extends BaseWorkWeek {
     const WORKWEEK_LENGTH_WEEKEND = 8;
     const DEFAULT_WORK_WEEK_ID = 1;
 
-    private $daysList = array(1 => 'Monday', 2 => 'Tuesday', 3 => 'Wednesday', 4 => 'Thursday', 5 => 'Friday', 6 => 'Saturday', 7 => 'Sunday');
-    private $daysLengthList = array(0 => 'Full Day', 4 => 'Half Day', 8 => 'Non-working Day');
-    private $yesNoList = array(0 => 'No', 1 => 'Yes');
-    private $dayColumns = array(1 => 'mon', 2 => 'tue', 3 => 'wed', 4 => 'thu', 5 => 'fri', 6 => 'sat', 7 => 'sun');
+    private static $daysList = array(1 => 'Monday', 2 => 'Tuesday', 3 => 'Wednesday', 4 => 'Thursday', 5 => 'Friday', 6 => 'Saturday', 7 => 'Sunday');
+    private static $daysLengthList = array(0 => 'Full Day', 4 => 'Half Day', 8 => 'Non-working Day');
+    private static $yesNoList = array(0 => 'No', 1 => 'Yes');
+    private static $dayColumns = array(1 => 'mon', 2 => 'tue', 3 => 'wed', 4 => 'thu', 5 => 'fri', 6 => 'sat', 7 => 'sun');
 
     /**
      * Return Possible Days List
@@ -20,8 +20,8 @@ abstract class PluginWorkWeek extends BaseWorkWeek {
      * @return array $daysList
      * 
      */
-    public function getDaysList() {
-        return $this->daysList;
+    public static function getDaysList() {
+        return self::$daysList;
     }
 
     /**
@@ -30,8 +30,8 @@ abstract class PluginWorkWeek extends BaseWorkWeek {
      * @return array $daysLengthList
      * 
      */
-    public function getDaysLengthList() {
-        return $this->daysLengthList;
+    public static function getDaysLengthList() {
+        return self::$daysLengthList;
     }
 
     /**
@@ -40,9 +40,9 @@ abstract class PluginWorkWeek extends BaseWorkWeek {
      * @return string
      * 
      */
-    public function getDayById($id) {
-        if (array_key_exists($id, $this->daysList)) {
-            return $this->daysList[$id];
+    public static function getDayById($id) {
+        if (array_key_exists($id, self::$daysList)) {
+            return self::$daysList[$id];
         } else {
             throw new LeaveServiceException('Invalid Day');
         }
@@ -53,8 +53,8 @@ abstract class PluginWorkWeek extends BaseWorkWeek {
      * @return array yesNoList
      * 
      */
-    public function getYesNoList() {
-        return $this->yesNoList;
+    public static function getYesNoList() {
+        return self::$yesNoList;
     }
     
     /**

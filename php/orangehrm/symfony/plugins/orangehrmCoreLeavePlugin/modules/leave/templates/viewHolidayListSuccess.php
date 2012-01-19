@@ -51,6 +51,8 @@
     </form>
 
 </div>
+   <br class="clear" />
+<?php include_component('core', 'ohrmList'); ?>
 
 <div class="outerbox">
 
@@ -67,8 +69,11 @@
 
         </div> <!-- End of actionbar -->
 
-        <br class="clear" />
 
+    
+        <br class="clear" />
+ 
+        
         <table border="0" cellpadding="0" cellspacing="0" class="data-table">
 
             <thead>
@@ -119,7 +124,6 @@
             </tbody>
             
         </table>
-
     </form>
     
 </div> <!-- End of outerbox -->

@@ -87,7 +87,8 @@ class WorkWeekForm extends sfForm {
      */
     public function getWorkWeekObjects($data) {
 
-        $daysList = $this->getWorkWeekEntity()->getDaysList();
+        $daysList = WorkWeek::getDaysList();
+        
         $workWeekList = array();
 
         foreach ($data as $day => $length) {
@@ -112,7 +113,7 @@ class WorkWeekForm extends sfForm {
      */
     public function validateWorkWeekValue($validator, $values) {
 
-        $daysList = $this->getWorkWeekEntity()->getDaysList();
+        $daysList = WorkWeek::getDaysList();
         $workWeekList = array();
 
         foreach ($values as $day => $length) {
@@ -135,7 +136,7 @@ class WorkWeekForm extends sfForm {
      * @return sfWidgetFormSelect[]
      */
     protected final function getDayLengthWidgets() {
-        $dayLengths = $this->getWorkWeekEntity()->getDaysLengthList();
+        $dayLengths = WorkWeek::getDaysLengthList();
 
         /* Making compatible with i18n */
         foreach ($dayLengths as $dayLength => $dayLengthTerm) {
@@ -143,7 +144,7 @@ class WorkWeekForm extends sfForm {
         }
         
         $formWidgets = array();
-        $daysOfWeek = $this->getWorkWeekEntity()->getDaysList();
+        $daysOfWeek = WorkWeek::getDaysList();
 
         foreach ($daysOfWeek as $day) {
             $formWidgets['day_length_' . $day] = new sfWidgetFormSelect(
@@ -157,7 +158,7 @@ class WorkWeekForm extends sfForm {
 
     protected final function getDayLengthLabels() {
         $formLabels = array();
-        $daysOfWeek = $this->getWorkWeekEntity()->getDaysList();
+        $daysOfWeek = WorkWeek::getDaysList();
 
         foreach ($daysOfWeek as $day) {
             $formLabels['day_length_' . $day] = __($day);
@@ -169,8 +170,8 @@ class WorkWeekForm extends sfForm {
     protected final function getDayLengthValidators() {
         $formValidators = array();
         
-        $daysOfWeek = $this->getWorkWeekEntity()->getDaysList();
-        $choices = array_keys($this->getWorkWeekEntity()->getDaysLengthList());
+        $daysOfWeek = WorkWeek::getDaysList();
+        $choices = array_keys(WorkWeek::getDaysLengthList());
         
         foreach ($daysOfWeek as $day) {
 
@@ -191,7 +192,7 @@ class WorkWeekForm extends sfForm {
     
     protected final function getDayLengthDefaults() {
         $formDefaults = array();
-        $daysOfWeek = $this->getWorkWeekEntity()->getDaysList();
+        $daysOfWeek = WorkWeek::getDaysList();
 
         foreach ($daysOfWeek as $isoValue => $day) {
             $formDefaults['day_length_' . $day] = $this->getWorkWeekEntity()->getLength($isoValue);

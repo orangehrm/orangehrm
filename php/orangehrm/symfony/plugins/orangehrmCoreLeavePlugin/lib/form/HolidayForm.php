@@ -117,7 +117,7 @@ class HolidayForm extends sfForm
      */
     public function getDaysLengthList()
     {
-        $fullDaysLengthList = $this->getWorkWeekEntity()->getDaysLengthList();
+        $fullDaysLengthList = WorkWeek::getDaysLengthList();
         unset($fullDaysLengthList[8]);
         return $fullDaysLengthList;
     }

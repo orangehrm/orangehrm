@@ -122,10 +122,12 @@ class viewHolidayListAction extends sfAction {
         }
 
         $this->leavePeriodId = $leavePeriodId;
-        $this->daysLenthList = $this->getWorkWeekEntity()->getDaysLengthList();
-        $this->yesNoList = $this->getWorkWeekEntity()->getYesNoList();
+        $this->daysLenthList = WorkWeek::getDaysLengthList();
+        $this->yesNoList = WorkWeek::getYesNoList();
         $this->holidayList = $this->getHolidayService()->searchHolidays($startDate, $endDate);
 
+        $this->setListComponent($this->holidayList);
+        
         if($request->isMethod('post') && count($this->holidayList) == 0) {
             $this->getUser()->setFlash('templateMessage', array('NOTICE', __('No Records Found')));
         }
@@ -139,5 +141,22 @@ class viewHolidayListAction extends sfAction {
     protected function getSearchForm() {
         return new HolidayListSearchForm(array(), array(), true);
     }
+    
+    protected function setListComponent($holidayList) {
+
+        $configurationFactory = $this->getListConfigurationFactory();
+        
+        ohrmListComponent::setActivePlugin('orangehrmCoreLeavePlugin');
+        ohrmListComponent::setConfigurationFactory($configurationFactory);
+        ohrmListComponent::setListData($holidayList);
+        ohrmListComponent::setPageNumber(0);
+        $numRecords = count($holidayList);
+        ohrmListComponent::setItemsPerPage($numRecords);
+        ohrmListComponent::setNumberOfRecords($numRecords);
+    }
+    
+    protected function getListConfigurationFactory() {
+        return new HolidayListConfigurationFactory();
+    }    
 
 }
