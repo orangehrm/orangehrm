@@ -39,6 +39,8 @@ class defineWorkWeekAction extends baseLeaveAction {
                 } catch (Exception $e) {
                     $this->templateMessage = array('FAILURE', __('Failed to Save Work Week'));
                 }
+            } else {
+                $this->templateMessage = array('FAILURE', __('Please correct the following errors'));
             }
         }
     }
