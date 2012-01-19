@@ -83,7 +83,8 @@ class HolidayService extends BaseService {
 
     /**
      * Read Holiday by given Date
-     * @param int $holidayId
+     * @param date $date
+     * @param OperationalCountry $operationalCountry
      * @return Holiday $holiday
      */
     public function readHolidayByDate($date, OperationalCountry $operationalCountry = null) {
@@ -99,6 +100,8 @@ class HolidayService extends BaseService {
 
     /**
      * Get Holiday list
+     * @param int $year
+     * @param OperationalCountry $operationalCountry
      * @param int $offset
      * @param int $limit
      * @return Holidays $holidayList
