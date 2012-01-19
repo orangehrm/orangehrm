@@ -2,17 +2,24 @@
 
 class defineWorkWeekAction extends baseLeaveAction {
 
+    public function preExecute() {
+        parent::preExecute();
+        if ($this->getUser()->getAttribute('auth.isAdmin') != 'Yes') {
+            $this->redirect('leave/viewMyLeaveList');
+        }        
+    }
+    
     public function execute($request) {
 
-        $operationalCountryId = $request->getParameter('operationalCountryId', null);
-        $workWeek = $this->getWorkWeekService()->getWorkWeekOfOperationalCountry($operationalCountryId);
-
-        $this->workWeekForm = new WorkWeekForm(array('workWeekEntity' => $workWeek));        
-
-        /* authentication */
-        if (!isset($_SESSION['isAdmin']) || $_SESSION['isAdmin'] != 'Yes') {
-            $this->forward('leave', 'viewMyLeaveList');
+        $workWeek = $this->getWorkWeekService()->getWorkWeekOfOperationalCountry(null);
+        
+        if (empty($workWeek)) {
+            $workWeek = new WorkWeek();
+        } else {
+            $workWeek = $workWeek->get(0);
         }
+                
+        $this->workWeekForm = new WorkWeekForm(array('workWeekEntity' => $workWeek));
 
         if ($request->isMethod(sfRequest::POST)) {
             $workWeekService = $this->getWorkWeekService();

@@ -63,8 +63,8 @@ abstract class PluginWorkWeek extends BaseWorkWeek {
      * @return int
      */
     public function getLength($day) {
-        if (array_key_exists($day, $this->dayColumns)) {
-            $dayColumnIndex = $this->dayColumns[$day];
+        if (array_key_exists($day, self::$dayColumns)) {
+            $dayColumnIndex = self::$dayColumns[$day];
             return $this->_data[$dayColumnIndex];;
         } else {
             throw new LeaveServiceException('Invalid Day');
