@@ -15,8 +15,6 @@ class defineWorkWeekAction extends baseLeaveAction {
         
         if (empty($workWeek)) {
             $workWeek = new WorkWeek();
-        } else {
-            $workWeek = $workWeek->get(0);
         }
                 
         $this->workWeekForm = new WorkWeekForm(array('workWeekEntity' => $workWeek));
