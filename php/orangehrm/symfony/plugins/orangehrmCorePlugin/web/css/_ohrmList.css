@@ -23,7 +23,7 @@ table.data-table tbody tr.trHover td {
     background-color: #CCC;
 }
 
-div.formbuttons {
+form#frmList_ohrmListComponent div.formbuttons {
     float: left;
     margin-top: 0;
     padding: 6px;
