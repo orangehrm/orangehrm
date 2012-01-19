@@ -105,5 +105,14 @@ class HolidayListSearchForm extends sfForm {
         
         return $javaScripts;
     }    
+    
+    public function getStylesheets() {
+        parent::getStylesheets();
+        
+        $styleSheets = parent::getStylesheets();
+        $styleSheets['/orangehrmCoreLeavePlugin/css/viewHolidayListSuccessSearch.css'] = 'screen';
+        
+        return $styleSheets;        
+    }    
 }
 

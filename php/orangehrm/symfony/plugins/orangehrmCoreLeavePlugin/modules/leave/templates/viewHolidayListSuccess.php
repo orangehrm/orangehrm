@@ -28,9 +28,16 @@ use_javascripts_for_form($searchForm);
 use_stylesheets_for_form($searchForm);
 ?>
 
-<div id="flash_message_wrapper" style="width: 630px;">
-    <?php echo isset($templateMessage)?templateMessage($templateMessage):''; ?>
+<div id="messagebar" class="messageBalloon_<?php echo $messageType; ?>" >
+    <span>
+<?php 
+    if (!empty($messageType)) {
+       echo $message; 
+    }
+?>
+    </span>
 </div>
+
 <div id="errorDiv">
 <?php
     if ($searchForm->hasErrors()) { 
@@ -39,7 +46,7 @@ use_stylesheets_for_form($searchForm);
 ?>
 </div>
 
-<div class="outerbox" style="width: 600px;">
+<div class="outerbox" id="searchDiv">
     <div class="mainHeading"><h2><?php echo __('Holidays'); ?></h2></div>
     
     <form id="frmHolidaySearch" name="frmHolidaySearch" method="post" action="<?php echo url_for('leave/viewHolidayList') ?>" >            
@@ -52,8 +59,9 @@ use_stylesheets_for_form($searchForm);
 
 </div>
    <br class="clear" />
-<?php include_component('core', 'ohrmList'); ?>
-
+   <div id="listDiv">   
+        <?php include_component('core', 'ohrmList'); ?>
+    </div>
    <!--
                                <?php //echo set_datepicker_date_format($holiday->getDate()); ?>
                             <?php //echo __($daysLenthList[$holiday->getLength()]); ?>

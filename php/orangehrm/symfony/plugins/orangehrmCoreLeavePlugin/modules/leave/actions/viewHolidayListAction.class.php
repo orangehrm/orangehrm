@@ -127,10 +127,11 @@ class viewHolidayListAction extends sfAction {
         $this->holidayList = $this->getHolidayService()->searchHolidays($startDate, $endDate);
 
         $this->setListComponent($this->holidayList);
+
+        $message = $this->getUser()->getFlash('templateMessage');        
+        $this->messageType = (isset($message[0]))?strtolower($message[0]):"";
+        $this->message = (isset($message[1]))?$message[1]:"";
         
-        if($request->isMethod('post') && count($this->holidayList) == 0) {
-            $this->getUser()->setFlash('templateMessage', array('NOTICE', __('No Records Found')));
-        }
 
         if ($this->getUser()->hasFlash('templateMessage')) {
             $this->templateMessage = $this->getUser()->getFlash('templateMessage');

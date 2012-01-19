@@ -46,13 +46,13 @@ class defineLeaveTypeAction extends orangehrmAction {
     }
 
     protected function getForm() {
-        $form = new LeaveTypeForm();
+        $form = new LeaveTypeForm(array(), array(), true);
         $form->setLeaveTypeService($this->getLeaveTypeService());
         return $form;
     }
     
     protected function getUndeleteForm() {
-        return new UndeleteLeaveTypeForm();
+        return new UndeleteLeaveTypeForm(array(), array(), true);
     }
 
     protected function getLeaveTypeService() {
