@@ -1,0 +1,31 @@
+.right{
+    text-align: right;
+}
+
+.left{
+    text-align: left;
+}
+
+.center{
+    text-align: center;
+}
+
+.headerCell {
+    color: #444444;
+    font-size: 11px;
+}
+
+table.valueListCell td {
+    white-space: nowrap;
+}
+
+table.data-table tbody tr.trHover td {
+    background-color: #CCC;
+}
+
+form#frmList_ohrmListComponent div.formbuttons {
+    float: left;
+    margin-top: 0;
+    padding: 6px;
+    border-top: medium none white;
+}

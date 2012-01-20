@@ -1,0 +1,110 @@
+
+root { 
+    display: block;
+}
+
+#messageBar {
+    margin: 5px 15px 5px 15px;
+    width: 600px
+}
+
+#addJobVacancy, #attachmentDiv {
+    width: 800px;
+}
+
+form#frmAddJobVacancy label {
+    /*    position: relative;*/
+    margin-top: 6px;
+    width: 150px
+}
+
+/*form#frmAddJobVacancy label label.error {
+    width:270px !important;  Need to overide important in messages.css 
+    padding-left:150px;
+}*/
+
+.paddingLeftRequired {
+    padding-left: 15px;
+    padding-top: 5px;
+    font-size: 8pt;
+}
+
+.drpDown {
+    margin-top: 5px;
+/*    width: 270px;*/
+}
+
+form input.formInput {
+    width: 260px;
+    height:14px;
+    margin-top: 5px;
+}
+
+#addJobVacancy_noOfPositions{
+    width: 60px;
+    height:14px;
+    margin-top: 5px;
+}
+
+textarea.formInputText {
+    margin-top: 5px;
+    width: 500px;
+}
+
+#btnSave{
+    margin-left: 10px;
+}
+
+html body div#addJobVacancy div.outerbox div.maincontent form#frmAddJobVacancy div.formbuttons {
+    margin-left: 10px;
+    margin-right: 10px;
+}
+
+h3#attachmentSubHeading {
+    display:block;
+    float:left;
+    color: #000000;
+    margin-left: 10px;
+}
+
+div#attachmentSubHeadingDiv {
+    display:block;
+    float:left;
+    clear:both;
+}
+
+span#attachmentEditNote {
+    display: block;
+    float: left;
+    margin-top:18px;
+    padding-left: 5px;
+}
+
+label.error{
+    width:270px !important;
+    padding-left:170px !important;
+}
+
+.publishJobVacancy {    
+    margin: auto auto auto 170px;
+    padding-bottom: 10px;
+    padding-top: 10px;
+}
+
+.publishJobVacancySeparator {
+    margin: 15px 10px 10px 10px; 
+    border: medium none;
+    height: 1px;
+    background-color: #FAD163;
+}
+
+form#frmAddJobVacancy div.publishJobVacancy label {
+    width: 300px;
+    margin-top: 4px;
+    padding-left: 10px;
+}
+
+div.messageBalloon_success {
+    width: 720px;
+    text-align: left;
+}

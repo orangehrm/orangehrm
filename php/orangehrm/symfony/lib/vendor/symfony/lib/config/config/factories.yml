@@ -1,0 +1,114 @@
+default:
+  controller:
+    class: sfFrontWebController
+
+  request:
+    class: sfWebRequest
+    param:
+      logging:           %SF_LOGGING_ENABLED%
+      path_info_array:   SERVER
+      path_info_key:     PATH_INFO
+      relative_url_root: ~
+      formats:
+        txt:  text/plain
+        js:   [application/javascript, application/x-javascript, text/javascript]
+        css:  text/css
+        json: [application/json, application/x-json]
+        xml:  [text/xml, application/xml, application/x-xml]
+        rdf:  application/rdf+xml
+        atom: application/atom+xml
+
+  response:
+    class: sfWebResponse
+    param:
+      logging:           %SF_LOGGING_ENABLED%
+      charset:           %SF_CHARSET%
+      send_http_headers: true
+
+  user:
+    class: myUser
+    param:
+      timeout:         1800
+      logging:         %SF_LOGGING_ENABLED%
+      use_flash:       true
+      default_culture: %SF_DEFAULT_CULTURE%
+
+  storage:
+    class: sfSessionStorage
+    param:
+      session_name: symfony
+
+  view_cache_manager:
+    class: sfViewCacheManager
+    param:
+      cache_key_use_vary_headers: true
+      cache_key_use_host_name:    true
+
+  view_cache:
+    class: sfFileCache
+    param:
+      automatic_cleaning_factor: 0
+      cache_dir:                 %SF_TEMPLATE_CACHE_DIR%
+      lifetime:                  86400
+      prefix:                    %SF_APP_DIR%/template
+
+  i18n:
+    class: sfI18N
+    param:
+      source:               XLIFF
+      debug:                false
+      untranslated_prefix:  "[T]"
+      untranslated_suffix:  "[/T]"
+      cache:
+        class: sfFileCache
+        param:
+          automatic_cleaning_factor: 0
+          cache_dir:                 %SF_I18N_CACHE_DIR%
+          lifetime:                  31556926
+          prefix:                    %SF_APP_DIR%/i18n
+
+  routing:
+    class: sfPatternRouting
+    param:
+      load_configuration:               true
+      suffix:                           ''
+      default_module:                   default
+      default_action:                   index
+      debug:                            %SF_DEBUG%
+      logging:                          %SF_LOGGING_ENABLED%
+      generate_shortest_url:            false
+      extra_parameters_as_query_string: false
+      cache:                            ~
+
+  logger:
+    class: sfAggregateLogger
+    param:
+      level: debug
+      loggers:
+        sf_web_debug:
+          class: sfWebDebugLogger
+          param:
+            level: debug
+            condition:       %SF_WEB_DEBUG%
+            xdebug_logging:  false
+            web_debug_class: sfWebDebug
+        sf_file_debug:
+          class: sfFileLogger
+          param:
+            level: debug
+            file: %SF_LOG_DIR%/%SF_APP%_%SF_ENVIRONMENT%.log
+
+  mailer:
+    class: sfMailer
+    param:
+      logging:           %SF_LOGGING_ENABLED%
+      charset:           %SF_CHARSET%
+      delivery_strategy: realtime
+      transport:
+        class: Swift_SmtpTransport
+        param:
+          host:       localhost
+          port:       25
+          encryption: ~
+          username:   ~
+          password:   ~

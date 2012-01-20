@@ -1,0 +1,5 @@
+languages:
+  0: {key: 'en_US', value: 'US English'}
+  1: {key: 'fr_FR', value: 'French - France'}
+  2: {key: 'fr_CA', value: 'French - Canada'}
+  3: {key: 'ja_JP', value: 'Japanese'}

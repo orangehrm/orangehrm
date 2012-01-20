@@ -1,0 +1,21 @@
+default:
+  http_metas:
+    content-type: text/html
+
+  metas:
+    #title:        symfony project
+    #description:  symfony project
+    #keywords:     symfony, project
+    #language:     en
+    #robots:       index, follow
+
+  stylesheets:    [main.css,module.report.css]
+
+  javascripts:    [orangehrm.core.js, orangehrm.admin.js, orangehrm.validate.js]
+
+  has_layout:     true
+  layout:         layout
+
+viewJobsSuccess:
+   javascripts:    [-*]
+   stylesheets:    [-*]

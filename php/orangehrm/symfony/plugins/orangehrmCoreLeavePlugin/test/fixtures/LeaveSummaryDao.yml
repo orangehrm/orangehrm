@@ -1,0 +1,72 @@
+Subunit:
+  0: {id: 1, name: 'Organization'}
+  1: {id: 2, name: 'XYZCompany'}
+  2: {id: 3, name: 'Marketing'}
+  3: {id: 4, name: 'Production'}
+  4: {id: 5, name: 'HR'}
+
+EmploymentStatus:
+  0: {id: 1, name: 'Full Time'}
+
+TerminationReason:
+  0: {id: 1, name: 'Resign'}
+
+EmpTermination:
+  0: {id: 1, reasonId: 1, date: '2011-11-20'}
+
+Country:
+  0: {cou_code: 'US', name: 'UNITED STATES', cou_name: 'United States', iso3: 'USA', numcode: 840 }
+  1: {cou_code: 'GB', name: 'GREAT BRITAIN', cou_name: 'Great Britain', iso3: 'GBR', numcode: 826 }
+
+Location:
+  0: {id: 1, name: 'Houston', country_code: 'US', address: 'Houston', zip_code: 1234}
+  1: {id: 2, name: 'London', country_code: 'GB', address: 'London', zip_code: 9874}
+
+JobTitle:
+  0: {id: 1, jobTitleName: 'Marketing Executive', jobDescription: 'ME'}
+  1: {id: 2, jobTitleName: 'Production Manager', jobDescription: 'PM'}
+
+LeaveType:
+  0: {leaveTypeId: 'LTY001', leaveTypeName: 'Casual', availableFlag: 1}
+  1: {leaveTypeId: 'LTY002', leaveTypeName: 'Medical', availableFlag: 1}
+  2: {leaveTypeId: 'LTY003', leaveTypeName: 'Company', availableFlag: 0}
+
+Employee:
+  0: {empNumber: 1, firstName: 'Kayla', lastName: 'Abbey', work_station: 2, job_title_code: 1, termination_id: 1}
+  1: {empNumber: 2, firstName: 'Ashley', lastName: 'Abel', work_station: 2}
+  2: {empNumber: 3, firstName: 'Tyler', lastName: 'Abraham', work_station: 3, job_title_code: 2, emp_status: 1}
+  3: {empNumber: 4, firstName: 'Landon', lastName: 'Abrahams'}
+  4: {empNumber: 5, firstName: 'James', lastName: 'Abrahamson', job_title_code: 1}
+
+EmpLocations:
+  0: {empNumber: 1, locationId: 1}
+  1: {empNumber: 4, locationId: 1}
+  2: {empNumber: 5, locationId: 2}
+
+ReportingMethod:
+  0: {id: '1', name: 'reportingMethodName1'}
+
+ReportTo:
+  0: {supervisorId: 1, subordinateId: 2, reportingMethodId: 1}
+  1: {supervisorId: 1, subordinateId: 5, reportingMethodId: 1}
+  2: {supervisorId: 3, subordinateId: 4, reportingMethodId: 1}
+
+LeavePeriod:
+  0: {leave_period_id: 1, leave_period_start_date: '2011-01-01', leave_period_end_date: '2011-12-31'}
+  
+EmployeeLeaveEntitlement:
+  0: {leave_type_id: 'LTY001', employee_id: 1, leave_period_id: 1, no_of_days_allotted: 0, leave_taken: 0, leave_brought_forward: 0, leave_carried_forward: 0}
+  1: {leave_type_id: 'LTY001', employee_id: 2, leave_period_id: 1, no_of_days_allotted: 0, leave_taken: 0, leave_brought_forward: 0, leave_carried_forward: 0}
+  2: {leave_type_id: 'LTY001', employee_id: 3, leave_period_id: 1, no_of_days_allotted: 0, leave_taken: 0, leave_brought_forward: 0, leave_carried_forward: 0}
+  3: {leave_type_id: 'LTY001', employee_id: 4, leave_period_id: 1, no_of_days_allotted: 0, leave_taken: 0, leave_brought_forward: 0, leave_carried_forward: 0}
+  4: {leave_type_id: 'LTY001', employee_id: 5, leave_period_id: 1, no_of_days_allotted: 0, leave_taken: 0, leave_brought_forward: 0, leave_carried_forward: 0}
+  5: {leave_type_id: 'LTY002', employee_id: 1, leave_period_id: 1, no_of_days_allotted: 0, leave_taken: 0, leave_brought_forward: 0, leave_carried_forward: 0}
+  6: {leave_type_id: 'LTY002', employee_id: 2, leave_period_id: 1, no_of_days_allotted: 0, leave_taken: 0, leave_brought_forward: 0, leave_carried_forward: 0}
+  7: {leave_type_id: 'LTY002', employee_id: 3, leave_period_id: 1, no_of_days_allotted: 0, leave_taken: 0, leave_brought_forward: 0, leave_carried_forward: 0}
+  8: {leave_type_id: 'LTY002', employee_id: 4, leave_period_id: 1, no_of_days_allotted: 0, leave_taken: 0, leave_brought_forward: 0, leave_carried_forward: 0}
+  9: {leave_type_id: 'LTY002', employee_id: 5, leave_period_id: 1, no_of_days_allotted: 0, leave_taken: 0, leave_brought_forward: 0, leave_carried_forward: 0}
+  10: {leave_type_id: 'LTY003', employee_id: 1, leave_period_id: 1, no_of_days_allotted: 0, leave_taken: 0, leave_brought_forward: 0, leave_carried_forward: 0}
+  11: {leave_type_id: 'LTY003', employee_id: 2, leave_period_id: 1, no_of_days_allotted: 0, leave_taken: 0, leave_brought_forward: 0, leave_carried_forward: 0}
+  12: {leave_type_id: 'LTY003', employee_id: 3, leave_period_id: 1, no_of_days_allotted: 0, leave_taken: 0, leave_brought_forward: 0, leave_carried_forward: 0}
+  13: {leave_type_id: 'LTY003', employee_id: 4, leave_period_id: 1, no_of_days_allotted: 0, leave_taken: 0, leave_brought_forward: 0, leave_carried_forward: 0}
+  14: {leave_type_id: 'LTY003', employee_id: 5, leave_period_id: 1, no_of_days_allotted: 0, leave_taken: 0, leave_brought_forward: 0, leave_carried_forward: 0}

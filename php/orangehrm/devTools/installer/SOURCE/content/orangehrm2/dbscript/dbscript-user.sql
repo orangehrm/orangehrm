@@ -1,0 +1,1 @@
+INSERT INTO `hs_hr_users` VALUES ('USR001','?UserName','?PasswordHash','Admin','',null,'','Yes','1','','0000-00-00 00:00:00','0000-00-00 00:00:00',null,null,'','','','','','','','','','Enabled','','','','','','',0,'','USG001');

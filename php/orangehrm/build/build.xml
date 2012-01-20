@@ -1,0 +1,286 @@
+<?xml version="1.0" ?>
+<!--
+/**
+ * OrangeHRM is a comprehensive Human Resource Management (HRM) System that captures
+ * all the essential functionalities required for any enterprise.
+ * Copyright (C) 2006 OrangeHRM Inc., http://www.orangehrm.com
+ *
+ * OrangeHRM is free software; you can redistribute it and/or modify it under the terms of
+ * the GNU General Public License as published by the Free Software Foundation; either
+ * version 2 of the License, or (at your option) any later version.
+ *
+ * OrangeHRM is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY;
+ * without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+ * See the GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License along with this program;
+ * if not, write to the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
+ * Boston, MA  02110-1301, USA
+ *
+ * @copyright 2006 OrangeHRM Inc., http://www.orangehrm.com
+ */
+-->
+<project name="OrangeHRM" basedir="." default="dist">
+
+  <property name="version" value="2.6.12.1"/>
+  <property name="package.name" value="orangehrm-${version}"/>
+  <resolvepath propertyName="project.dir" file=".."/>
+  <resolvepath propertyName="dist.dir" file="dist"/>
+  <property name="package.dir" value="${dist.dir}/${package.name}"/>
+  <property name="reports.dir" value="${project.basedir}/reports"/>
+  <property name="test.reports.dir" value="${reports.dir}/tests"/>
+  <property name="test.coverage.dir" value="${reports.dir}/coverage"/>
+  <property name="apidocs.dir" value="${dist.dir}/apidocs"/>
+  <property name="xampp.dir" value="../../xampp"/>
+
+  <svnlastrevision workingcopy="${project.dir}" propertyname="svn.revision"/>
+  <property name="base.name" value="${package.name}.${svn.revision}"/>
+
+  <target name="prepare">
+    <echo msg="Preparing build..." />
+    <mkdir dir="${dist.dir}" />
+    <mkdir dir="${package.dir}" />
+    <mkdir dir="${reports.dir}" />
+    <mkdir dir="${test.reports.dir}" />
+    <mkdir dir="${test.coverage.dir}" />
+    <mkdir dir="${test.coverage.dir}/symfony" />
+    <mkdir dir="${test.coverage.dir}/lib" />
+    <mkdir dir="${apidocs.dir}" />
+    <touch file="release-revision-${svn.revision}.txt" />
+  </target>
+ 
+  <target name="build" depends="prepare,symfony.publish.assets,clean">
+    <echo>Copying files...</echo>
+    <copy todir="${package.dir}" includeemptydirs="true">
+        <fileset dir="${project.dir}">
+            <include name="**"/>
+            <include name="**/*.htaccess"/>
+            <include name="build/fix-ids.php"/>
+            <include name="build/verify-constraints.sh"/>
+            <include name="build/testConf.php"/>
+            <exclude name="build/dist/**"/>
+            <exclude name="build/reports/**"/>
+            <exclude name="build/report-styles/**"/>
+            <exclude name="build/build.xml"/>
+            <exclude name="devDocs/**"/>
+            <exclude name="devTools/**"/>
+            <exclude name="lib/**/testConf.php"/>
+            <exclude name="lib/confs/Conf.php"/>
+            <exclude name="lib/confs/cryptokeys/key.ohrm"/>
+            <exclude name="lib/confs/mailConf.php"/>
+            <exclude name="installer/log.txt"/>
+            <exclude name="lib/logs/logDB.txt"/>
+            <exclude name="lib/logs/notification_mails.log"/>
+            <exclude name="upgrade.php"/>
+            <exclude name="upgrader/**"/>
+            <exclude name="**/test.bat"/>
+            <exclude name="EmployeeDataGenerator.php"/>
+            <exclude name="change-version-numbers.php"/>
+            <exclude name="reset-installation.php"/>
+            <exclude name="Emp5000.php"/>
+            <exclude name="Emp5000.txt"/>
+            <exclude name="orangehrm-quick-start-guide.html"/>
+            <exclude name="build/myconf.php"/>
+            <exclude name="symfony/config/databases.yml"/>
+            <exclude name="symfony/web/orangehrm_dev.php"/>
+            <exclude name="symfony/test/**"/>
+            <!-- <exclude name="symfony/cache/*/**"/> -->
+            <!-- <exclude name="symfony/log/*"/> -->
+            <exclude name="symfony/lib/vendor/symfony/test/**"/>
+        </fileset>
+    </copy>
+	<copy todir="${dist.dir}">
+		<fileset dir="${project.dir}">
+			<include name="orangehrm-quick-start-guide.html"/>
+		</fileset>
+	</copy>
+  </target>
+
+  <target name="dist" depends="build">
+    <echo message="Creating archives ..." />
+
+    <zip destfile="${dist.dir}/${base.name}.zip">
+        <fileset dir="${dist.dir}">
+            <include name="${package.name}/**"/>
+            <include name="orangehrm-quick-start-guide.html"/>
+            <exclude name="*.zip"/>
+            <exclude name="*.tar.gz"/>
+            <exclude name="apidocs"/>
+        </fileset>
+    </zip>
+    <tar destfile="${dist.dir}/${base.name}.tar.gz" compression="gzip">
+    	<fileset dir="${dist.dir}">
+            <include name="${package.name}/**"/>
+    	    <include name="orangehrm-quick-start-guide.html"/>
+            <exclude name="*.zip"/>
+            <exclude name="*.tar.gz"/>
+            <exclude name="apidocs"/>
+        </fileset>
+    </tar>
+  </target>
+
+  <target name="dist.major">
+  	<phingcall target="dist" />
+  	<phingcall target="dist.bin.win" />
+  </target>
+
+  <target name="dist.bin.win">
+  	<echo message="Preparing to build the Windows installer..." />
+  	<echo message="Copying XAMPP files..." />
+    <copy todir="${dist.dir}/installer-tmp/SOURCE/xampp">
+    	<fileset dir="${xampp.dir}" >
+    		<include name="**"/>
+    	</fileset>
+    </copy>
+    <echo message="Copying the package..." />
+    <copy todir="${dist.dir}/installer-tmp/SOURCE/${package.name}">
+    	<fileset dir="${package.dir}" >
+    		<include name="**"/>
+    	</fileset>
+    </copy>
+    <echo message="Copying altered XAMPP files..." />
+    <copy todir="${dist.dir}/installer-tmp/">
+    	<fileset dir="${project.dir}/devTools/installer" >
+    		<include name="**"/>
+    	</fileset>
+    </copy>
+    <echo message="Creating the installer..." />
+    <exec command="makensis ${dist.dir}/installer-tmp/SPEC/main.nsi" checkreturn="true" />
+  </target>
+
+  <target name="symfony.clear.cache">
+      <exec command="./symfony cc" dir="${project.dir}/symfony" />
+  </target>
+  <target name="symfony.publish.assets">
+      <exec command="./symfony orangehrm:publish-assets" dir="${project.dir}/symfony" />
+  </target>
+
+  <target name="dist.win" depends="build">
+  	<phingcall target="dist.bin.win" />
+  </target>
+
+  <target name="dist.bin.linux">
+  	<echo message="Preparing to build the rpm..." />
+  	<echo message="Copying spec file..." />
+  	<copy todir="${dist.dir}/rpm-tmp/">
+    	<fileset dir="${project.dir}/devTools/rpm/" >
+    		<include name="**"/>
+    	</fileset>
+    </copy>
+  	<echo message="Creating the directories..." />
+  </target>
+  
+  <fileset dir="./" id="deleteFiles">
+    <include name="release-revision-*.txt" />
+  </fileset>
+
+  <target name="clean" depends="symfony.clear.cache">
+    <echo msg="Cleaning up..."/>
+    <delete dir="${dist.dir}"/>
+    <delete dir="${reports.dir}" />
+    <delete><fileset refid="deleteFiles" /></delete>
+    <delete includeemptydirs="true" failonerror="true">
+            <fileset dir="${project.dir}/symfony/log">
+               <include name="*" />
+            </fileset>
+            <fileset dir="${project.dir}/symfony/cache">
+               <include name="**/**" />
+            </fileset>
+    </delete>
+  </target>
+
+  <!-- Target run by continuous integration server -->
+  <target name="build-ci" depends="clean, coverage-symfony">
+  </target>
+
+  <target name="test" depends="test-lib,test-symfony">
+  </target>
+
+  <!-- Unit Tests for old classes -->
+  <target name="test-lib" depends="prepare">
+      <exec command="phpunit ${project.dir}/lib/AllTests.php"
+		checkreturn="true" dir="${project.basedir}" passthru="true"/>
+        <phingcall target="fix-ids"/>
+  </target>
+
+  <!-- Unit Tests for symfony classes -->
+  <target name="test-symfony" depends="prepare">
+      <exec command="phpunit symfony/test/AllTests.php"
+		checkreturn="true" dir="${project.dir}" passthru="true"/>
+        <phingcall target="fix-ids"/>
+  </target>
+
+ 
+  <!-- Coverage task that uses phpunit's built in coverage feature -->
+  <target name="coverage" depends="coverage-lib, coverage-symfony">
+  </target>
+
+  <!-- Test coverage for old classes -->
+  <target name="coverage-lib" depends="prepare">
+      <exec command="phpunit --coverage-html ${test.coverage.dir}/lib ${project.dir}/lib/AllTests.php"
+		checkreturn="true" dir="${project.basedir}" passthru="true"/>
+        <phingcall target="fix-ids"/>
+  </target>
+
+  <!-- Test coverage for symfony classes -->
+  <target name="coverage-symfony" depends="prepare">
+      <exec command="phpunit --configuration ${project.basedir}/phpunit.xml --log-junit ${test.reports.dir}/junit.xml --coverage-clover ${test.coverage.dir}/symfony/clover.xml --coverage-html ${test.coverage.dir}/symfony symfony/test/AllTests.php"
+		checkreturn="true" dir="${project.dir}" passthru="true"/>
+        <phingcall target="fix-ids"/>
+  </target>
+
+  <!-- Copies the default language files to the en directory -->
+  <target name="en.lang">
+      <copy todir="${project.dir}/language/en" overwrite="true">
+          <mapper type="regexp" from="^(.*)_default_(.*)$" to="\1_en_\2"/>
+          <fileset dir="${project.dir}/language/default/">
+              <include name="*.php"/>
+          </fileset>
+      </copy>
+  </target>
+
+  <!-- Copies the en language files to the default directory -->
+  <target name="default.lang">
+      <copy todir="${project.dir}/language/default" overwrite="true">
+          <mapper type="regexp" from="^(.*)_en_(.*)$" to="\1_default_\2"/>
+          <fileset dir="${project.dir}/language/en/">
+              <include name="*.php"/>
+          </fileset>
+      </copy>
+  </target>
+
+  <target name="phpdoc" depends="prepare">
+      <phpdoc title="OrangeHRM API Documentation" destdir="${apidocs.dir}"
+          output="HTML:Smarty:PHP">
+              <fileset dir="${project.dir}/symfony/plugins/orangehrmPimPlugin/lib/service">
+                    <include name="EmployeeService.php" />
+              </fileset>
+          </phpdoc>
+  </target>
+
+  <target name="lint" depends="prepare">
+      <phplint>
+          <fileset dir="${project.dir}/lib">
+              <include name="**/*.php"/>
+          </fileset>
+          <fileset dir="${project.dir}/templates">
+              <include name="**/*.php"/>
+          </fileset>
+      </phplint>
+  </target>
+
+
+  <target name="fix-ids" depends="prepare">
+      <exec command="php fix-ids.php" checkreturn="true" dir="${project.basedir}" passthru="true"/>
+  </target>
+
+  <target name="verify-constraints" depends="prepare">
+	<exec command="phpunit --filter testAllConstraintsSet ConstraintHandlerTest ${project.dir}/lib/AllTests.php"
+		checkreturn="true" dir="${project.basedir}" passthru="true"/>
+  </target>
+
+  <target name="reset-install">
+      <exec command="php devTools/general/reset-installation.php" passthru="true" dir="${project.dir}"
+        />
+  </target>
+</project>

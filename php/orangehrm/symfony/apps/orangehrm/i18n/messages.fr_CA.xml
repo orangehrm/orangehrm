@@ -1,0 +1,914 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE xliff PUBLIC "-//XLIFF//DTD XLIFF//EN" "http://www.oasis-open.org/committees/xliff/documents/xliff.dtd">
+<xliff version="1.0">
+ <header/>
+ <file source-language="en_US" target-language="fr_CA" datatype="plaintext" original="messages" date="2012-01-12T18:07:05Z" product-name="messages">
+  <body>
+   <trans-unit id="1">
+    <source>Edit</source>
+    <target>CA_Edit</target>
+
+   </trans-unit>
+   <trans-unit id="2">
+    <source>Save</source>
+    <target>CA_Save</target>
+   </trans-unit>
+   <trans-unit id="3">
+    <source>Reset</source>
+
+    <target>CA_Reset</target>
+   </trans-unit>
+   <trans-unit id="4">
+    <source>Search</source>
+    <target>CA_Search</target>
+   </trans-unit>
+   <trans-unit id="5">
+
+    <source>Add</source>
+    <target>CA_Add</target>
+   </trans-unit>
+   <trans-unit id="6">
+    <source>Delete</source>
+    <target>CA_Delete</target>
+   </trans-unit>
+
+   <trans-unit id="7">
+    <source>Back</source>
+    <target>CA_Back</target>
+   </trans-unit>
+   <trans-unit id="8">
+    <source>All</source>
+    <target>CA_All</target>
+
+   </trans-unit>
+   <trans-unit id="9">
+    <source>From</source>
+    <target>CA_From</target>
+   </trans-unit>
+   <trans-unit id="10">
+    <source>To</source>
+
+    <target>CA_To</target>
+   </trans-unit>
+   <trans-unit id="11">
+    <source>Fields marked with an asterisk</source>
+    <target>CA_Fields marked with an asterisk</target>
+   </trans-unit>
+   <trans-unit id="12">
+
+    <source>are required.</source>
+    <target>CA_are required.</target>
+   </trans-unit>
+   <trans-unit id="13">
+    <source>Full Time Contract</source>
+    <target>CA_Full Time Contract</target>
+   </trans-unit>
+
+   <trans-unit id="14">
+    <source>Full Time Internship</source>
+    <target>CA_Full Time Internship</target>
+   </trans-unit>
+   <trans-unit id="15">
+    <source>Full Time Permanent</source>
+    <target>CA_Full Time Permanent</target>
+
+   </trans-unit>
+   <trans-unit id="16">
+    <source>Part Time Contract</source>
+    <target>CA_Part Time Contract</target>
+   </trans-unit>
+   <trans-unit id="17">
+    <source>Part Time Internship</source>
+
+    <target>CA_Part Time Internship</target>
+   </trans-unit>
+   <trans-unit id="18">
+    <source>Part Time Permanent</source>
+    <target>CA_Part Time Permanent</target>
+   </trans-unit>
+   <trans-unit id="19">
+
+    <source>Eligible</source>
+    <target>CA_Eligible</target>
+   </trans-unit>
+   <trans-unit id="20">
+    <source>Not Eligible</source>
+    <target>CA_Not Eligible</target>
+   </trans-unit>
+
+   <trans-unit id="21">
+    <source>Help</source>
+    <target>CA_Help</target>
+   </trans-unit>
+   <trans-unit id="22">
+    <source>Full Name</source>
+    <target>CA_Full Name</target>
+
+   </trans-unit>
+   <trans-unit id="23">
+    <source>Male</source>
+    <target>CA_Male</target>
+   </trans-unit>
+   <trans-unit id="24">
+    <source>Female</source>
+
+    <target>CA_Female</target>
+   </trans-unit>
+   <trans-unit id="25">
+    <source>Select</source>
+    <target>CA_Select</target>
+   </trans-unit>
+   <trans-unit id="26">
+
+    <source>Country</source>
+    <target>CA_Country</target>
+   </trans-unit>
+   <trans-unit id="27">
+    <source>Cancel</source>
+    <target>CA_Cancel</target>
+   </trans-unit>
+
+   <trans-unit id="28">
+    <source>Select at least One Record to Delete</source>
+    <target>CA_Select at least One Record to Delete</target>
+   </trans-unit>
+   <trans-unit id="29">
+    <source>Month</source>
+    <target>CA_Month</target>
+
+   </trans-unit>
+   <trans-unit id="30">
+    <source>Date</source>
+    <target>CA_Date</target>
+   </trans-unit>
+   <trans-unit id="31">
+    <source>January</source>
+
+    <target>CA_January</target>
+   </trans-unit>
+   <trans-unit id="32">
+    <source>February</source>
+    <target>CA_February</target>
+   </trans-unit>
+   <trans-unit id="33">
+
+    <source>March</source>
+    <target>CA_March</target>
+   </trans-unit>
+   <trans-unit id="34">
+    <source>April</source>
+    <target>CA_April</target>
+   </trans-unit>
+
+   <trans-unit id="35">
+    <source>May</source>
+    <target>CA_May</target>
+   </trans-unit>
+   <trans-unit id="36">
+    <source>June</source>
+    <target>CA_June</target>
+
+   </trans-unit>
+   <trans-unit id="37">
+    <source>July</source>
+    <target>CA_July</target>
+   </trans-unit>
+   <trans-unit id="38">
+    <source>August</source>
+
+    <target>CA_August</target>
+   </trans-unit>
+   <trans-unit id="39">
+    <source>September</source>
+    <target>CA_September</target>
+   </trans-unit>
+   <trans-unit id="40">
+
+    <source>October</source>
+    <target>CA_October</target>
+   </trans-unit>
+   <trans-unit id="41">
+    <source>November</source>
+    <target>CA_November</target>
+   </trans-unit>
+
+   <trans-unit id="42">
+    <source>December</source>
+    <target>CA_December</target>
+   </trans-unit>
+   <trans-unit id="43">
+    <source>to</source>
+    <target>CA_to</target>
+
+   </trans-unit>
+   <trans-unit id="44">
+    <source>Monday</source>
+    <target>CA_Monday</target>
+   </trans-unit>
+   <trans-unit id="45">
+    <source>Tuesday</source>
+
+    <target>CA_Tuesday</target>
+   </trans-unit>
+   <trans-unit id="46">
+    <source>Wednesday</source>
+    <target>CA_Wednesday</target>
+   </trans-unit>
+   <trans-unit id="47">
+
+    <source>Thursday</source>
+    <target>CA_Thursday</target>
+   </trans-unit>
+   <trans-unit id="48">
+    <source>Friday</source>
+    <target>CA_Friday</target>
+   </trans-unit>
+
+   <trans-unit id="49">
+    <source>Saturday</source>
+    <target>CA_Saturday</target>
+   </trans-unit>
+   <trans-unit id="50">
+    <source>Sunday</source>
+    <target>CA_Sunday</target>
+
+   </trans-unit>
+   <trans-unit id="51">
+    <source>Yes</source>
+    <target>CA_Yes</target>
+   </trans-unit>
+   <trans-unit id="52">
+    <source>No</source>
+
+    <target>CA_No</target>
+   </trans-unit>
+   <trans-unit id="53">
+    <source>Name</source>
+    <target>CA_Name</target>
+   </trans-unit>
+   <trans-unit id="54">
+
+    <source>Successfully Deleted</source>
+    <target>CA_Successfully Deleted</target>
+   </trans-unit>
+   <trans-unit id="55">
+    <source>No Records Found</source>
+    <target>CA_No Records Found</target>
+   </trans-unit>
+
+   <trans-unit id="56">
+    <source>Employee</source>
+    <target>CA_Employee</target>
+   </trans-unit>
+   <trans-unit id="57">
+    <source>Type for hints</source>
+    <target>CA_Type for hints</target>
+
+   </trans-unit>
+   <trans-unit id="58">
+    <source>Job Title</source>
+    <target>CA_Job Title</target>
+   </trans-unit>
+   <trans-unit id="59">
+    <source>Job Title</source>
+
+    <target>CA_Job Title</target>
+   </trans-unit>
+   <trans-unit id="60">
+    <source>Sub Unit</source>
+    <target>CA_Sub Unit</target>
+   </trans-unit>
+   <trans-unit id="61">
+
+    <source>Records Per Page</source>
+    <target>CA_Records Per Page</target>
+   </trans-unit>
+   <trans-unit id="62">
+    <source>Location</source>
+    <target>CA_Location</target>
+   </trans-unit>
+
+   <trans-unit id="63">
+    <source>Employee Name</source>
+    <target>CA_Employee Name</target>
+   </trans-unit>
+   <trans-unit id="64">
+    <source>Days</source>
+    <target>CA_Days</target>
+
+   </trans-unit>
+   <trans-unit id="65">
+    <source>Status</source>
+    <target>CA_Status</target>
+   </trans-unit>
+   <trans-unit id="66">
+    <source>Comments</source>
+
+    <target>CA_Comments</target>
+   </trans-unit>
+   <trans-unit id="67">
+    <source>Date format should be YYYY-MM-DD</source>
+    <target>CA_Date format should be YYYY-MM-DD</target>
+   </trans-unit>
+   <trans-unit id="68">
+
+    <source>Please enter a valid date in %format% format</source>
+    <target>CA_Please enter a valid date in %format% format</target>
+   </trans-unit>
+   <trans-unit id="69">
+    <source>Edit Immigration</source>
+    <target>CA_Edit Immigration</target>
+   </trans-unit>
+
+   <trans-unit id="70">
+    <source>Leave Summary</source>
+    <target>CA_Leave Summary</target>
+   </trans-unit>
+   <trans-unit id="71">
+    <source>Leave List</source>
+    <target>CA_Leave List</target>
+
+   </trans-unit>
+   <trans-unit id="72">
+    <source>OrangeHRM - Confirmation Required</source>
+    <target>CA_OrangeHRM - Confirmation Required</target>
+   </trans-unit>
+   <trans-unit id="73">
+    <source>Date is required</source>
+
+    <target>CA_Date is required</target>
+   </trans-unit>
+   <trans-unit id="74">
+    <source>Date should be in the format: %format%</source>
+    <target>CA_Date should be in the format: %format%</target>
+   </trans-unit>
+   <trans-unit id="75">
+
+    <source>Name is required</source>
+    <target>CA_Name is required</target>
+   </trans-unit>
+   <trans-unit id="76">
+    <source>Name should be less than %length% characters</source>
+    <target>CA_Name should be less than %length% characters</target>
+   </trans-unit>
+
+   <trans-unit id="77">
+    <source>Enabled</source>
+    <target>CA_Enabled</target>
+   </trans-unit>
+   <trans-unit id="78">
+    <source>Disabled</source>
+    <target>CA_Disabled</target>
+
+   </trans-unit>
+   <trans-unit id="79">
+    <source>Id</source>
+    <target>CA_Id</target>
+   </trans-unit>
+   <trans-unit id="80">
+    <source>Employment Status</source>
+
+    <target>CA_Employment Status</target>
+   </trans-unit>
+   <trans-unit id="81">
+    <source>Supervisor</source>
+    <target>CA_Supervisor</target>
+   </trans-unit>
+   <trans-unit id="82">
+
+    <source>Supervisor Name</source>
+    <target>CA_Supervisor Name</target>
+   </trans-unit>
+   <trans-unit id="83">
+    <source>Type for hints</source>
+    <target>CA_Type for hints</target>
+   </trans-unit>
+
+   <trans-unit id="84">
+    <source>Type Employee Id</source>
+    <target>CA_Type Employee Id</target>
+   </trans-unit>
+   <trans-unit id="85">
+    <source>First</source>
+    <target>CA_First</target>
+
+   </trans-unit>
+   <trans-unit id="86">
+    <source>Middle</source>
+    <target>CA_Middle</target>
+   </trans-unit>
+   <trans-unit id="87">
+    <source>Previous</source>
+
+    <target>CA_Previous</target>
+   </trans-unit>
+   <trans-unit id="88">
+    <source>Next</source>
+    <target>CA_Next</target>
+   </trans-unit>
+   <trans-unit id="89">
+
+    <source>Last</source>
+    <target>CA_Last</target>
+   </trans-unit>
+   <trans-unit id="90">
+    <source>Terminated</source>
+    <target>CA_Terminated</target>
+   </trans-unit>
+
+   <trans-unit id="91">
+    <source>Dimensions</source>
+    <target>CA_Dimensions</target>
+   </trans-unit>
+   <trans-unit id="92">
+    <source>Program</source>
+    <target>CA_Program</target>
+
+   </trans-unit>
+   <trans-unit id="93">
+    <source>Skill</source>
+    <target>CA_Skill</target>
+   </trans-unit>
+   <trans-unit id="94">
+    <source>Years of Experience</source>
+
+    <target>CA_Years of Experience</target>
+   </trans-unit>
+   <trans-unit id="95">
+    <source>Year</source>
+    <target>CA_Year</target>
+   </trans-unit>
+   <trans-unit id="96">
+
+    <source>Language</source>
+    <target>CA_Language</target>
+   </trans-unit>
+   <trans-unit id="97">
+    <source>Fluency</source>
+    <target>CA_Fluency</target>
+   </trans-unit>
+
+   <trans-unit id="98">
+    <source>Start Date</source>
+    <target>CA_Start Date</target>
+   </trans-unit>
+   <trans-unit id="99">
+    <source>Competency</source>
+    <target>CA_Competency</target>
+
+   </trans-unit>
+   <trans-unit id="100">
+    <source>End Date</source>
+    <target>CA_End Date</target>
+   </trans-unit>
+   <trans-unit id="101">
+    <source>License Type</source>
+
+    <target>CA_License Type</target>
+   </trans-unit>
+   <trans-unit id="102">
+    <source>License Number</source>
+    <target>CA_License Number</target>
+   </trans-unit>
+   <trans-unit id="103">
+
+    <source>License Type</source>
+    <target>CA_License Type</target>
+   </trans-unit>
+   <trans-unit id="104">
+    <source>License Number</source>
+    <target>CA_License Number</target>
+   </trans-unit>
+
+   <trans-unit id="105">
+    <source>Add Attachment</source>
+    <target>CA_Add Attachment</target>
+   </trans-unit>
+   <trans-unit id="106">
+    <source>Select File</source>
+    <target>CA_Select File</target>
+
+   </trans-unit>
+   <trans-unit id="107">
+    <source>1M Max, any larger attachments will be ignored</source>
+    <target>CA_1M Max, any larger attachments will be ignored</target>
+   </trans-unit>
+   <trans-unit id="108">
+    <source>Program is required</source>
+
+    <target>CA_Program is required</target>
+   </trans-unit>
+   <trans-unit id="109">
+    <source>Skill is required</source>
+    <target>CA_Skill is required</target>
+   </trans-unit>
+   <trans-unit id="110">
+
+    <source>Language is required</source>
+    <target>CA_Language is required</target>
+   </trans-unit>
+   <trans-unit id="111">
+    <source>Fluency is required</source>
+    <target>CA_Fluency is required</target>
+   </trans-unit>
+
+   <trans-unit id="112">
+    <source>Competency is required</source>
+    <target>CA_Competency is required</target>
+   </trans-unit>
+   <trans-unit id="113">
+    <source>License Type is required</source>
+    <target>CA_License Type is required</target>
+
+   </trans-unit>
+   <trans-unit id="114">
+    <source>Please select a file</source>
+    <target>CA_Please select a file</target>
+   </trans-unit>
+   <trans-unit id="115">
+    <source>Attachment Updated Successfully</source>
+
+    <target>CA_Attachment Updated Successfully</target>
+   </trans-unit>
+   <trans-unit id="116">
+    <source>Attachment(s) Deleted Successfully</source>
+    <target>CA_Attachment(s) Deleted Successfully</target>
+   </trans-unit>
+   <trans-unit id="117">
+
+    <source>Edit Attachment :</source>
+    <target>CA_Edit Attachment :</target>
+   </trans-unit>
+   <trans-unit id="118">
+    <source>Replace file</source>
+    <target>CA_Replace file</target>
+   </trans-unit>
+
+   <trans-unit id="119">
+    <source>with new file</source>
+    <target>CA_with new file</target>
+   </trans-unit>
+   <trans-unit id="120">
+    <source>Please Select At Least One Attachment To Delete</source>
+    <target>CA_Please Select At Least One Attachment To Delete</target>
+
+   </trans-unit>
+   <trans-unit id="121">
+    <source>Comment cannot exceed 200 characters in length</source>
+    <target>CA_Comment cannot exceed 200 characters in length</target>
+   </trans-unit>
+   <trans-unit id="122">
+    <source>Comment length cannot exceed 200 characters</source>
+
+    <target>CA_Comment length cannot exceed 200 characters</target>
+   </trans-unit>
+   <trans-unit id="123">
+    <source>Issued date should be before expiry date</source>
+    <target>CA_Issued date should be before expiry date</target>
+   </trans-unit>
+   <trans-unit id="124">
+
+    <source>Year should be a number</source>
+    <target>CA_Year should be a number</target>
+   </trans-unit>
+   <trans-unit id="125">
+    <source>Comment length cannot exceed 100 characters</source>
+    <target>CA_Comment length cannot exceed 100 characters</target>
+   </trans-unit>
+
+   <trans-unit id="126">
+    <source>Years of Experience should be a number</source>
+    <target>CA_Years of Experience should be a number</target>
+   </trans-unit>
+   <trans-unit id="127">
+    <source>Years of Experience should be less than 100</source>
+    <target>CA_Years of Experience should be less than 100</target>
+
+   </trans-unit>
+   <trans-unit id="128">
+    <source>Upload File</source>
+    <target>CA_Upload File</target>
+   </trans-unit>
+   <trans-unit id="129">
+    <source>Save Comment Only</source>
+
+    <target>CA_Save Comment Only</target>
+   </trans-unit>
+   <trans-unit id="130">
+    <source>File Name</source>
+    <target>CA_File Name</target>
+   </trans-unit>
+   <trans-unit id="131">
+
+    <source>Description</source>
+    <target>CA_Description</target>
+   </trans-unit>
+   <trans-unit id="132">
+    <source>Size</source>
+    <target>CA_Size</target>
+   </trans-unit>
+
+   <trans-unit id="133">
+    <source>Type</source>
+    <target>CA_Type</target>
+   </trans-unit>
+   <trans-unit id="134">
+    <source>Date Added</source>
+    <target>CA_Date Added</target>
+
+   </trans-unit>
+   <trans-unit id="135">
+    <source>Added By</source>
+    <target>CA_Added By</target>
+   </trans-unit>
+   <trans-unit id="136">
+    <source>Job Specification</source>
+
+    <target>CA_Job Specification</target>
+   </trans-unit>
+   <trans-unit id="137">
+    <source>Job Category</source>
+    <target>CA_Job Category</target>
+   </trans-unit>
+   <trans-unit id="138">
+
+    <source>Joined Date</source>
+    <target>CA_Joined Date</target>
+   </trans-unit>
+   <trans-unit id="139">
+    <source>View Details</source>
+    <target>CA_View Details</target>
+   </trans-unit>
+
+   <trans-unit id="140">
+    <source>Keep Current</source>
+    <target>CA_Keep Current</target>
+   </trans-unit>
+   <trans-unit id="141">
+    <source>Delete Current</source>
+    <target>CA_Delete Current</target>
+
+   </trans-unit>
+   <trans-unit id="142">
+    <source>Upload New</source>
+    <target>CA_Upload New</target>
+   </trans-unit>
+   <trans-unit id="143">
+    <source>Duties</source>
+
+    <target>CA_Duties</target>
+   </trans-unit>
+   <trans-unit id="144">
+    <source>Hide Details</source>
+    <target>CA_Hide Details</target>
+   </trans-unit>
+   <trans-unit id="145">
+
+    <source>Start date should be before end date</source>
+    <target>CA_Start date should be before end date</target>
+   </trans-unit>
+   <trans-unit id="146">
+    <source>Invalid From Date</source>
+    <target>CA_Invalid From Date</target>
+   </trans-unit>
+
+   <trans-unit id="147">
+    <source>Invalid To Date</source>
+    <target>CA_Invalid To Date</target>
+   </trans-unit>
+   <trans-unit id="148">
+    <source>State</source>
+    <target>CA_State</target>
+
+   </trans-unit>
+   <trans-unit id="149">
+    <source>Home telephone can contain only space, numbers, "+", and "-"</source>
+    <target>CA_Home telephone can contain only space, numbers, "+", and "-"</target>
+   </trans-unit>
+   <trans-unit id="150">
+    <source>Mobile can contain only space, numbers, "+", and "-"</source>
+
+    <target>CA_Mobile can contain only space, numbers, "+", and "-"</target>
+   </trans-unit>
+   <trans-unit id="151">
+    <source>Work telephone can contain only space, numbers, "+", and "-"</source>
+    <target>CA_Work telephone can contain only space, numbers, "+", and "-"</target>
+   </trans-unit>
+   <trans-unit id="152">
+
+    <source>Attachment Size Exceeded.</source>
+    <target>CA_Attachment Size Exceeded.</target>
+   </trans-unit>
+   <trans-unit id="153">
+    <source>Individual</source>
+    <target>CA_Individual</target>
+   </trans-unit>
+
+   <trans-unit id="154">
+    <source>Field</source>
+    <target>CA_Field</target>
+   </trans-unit>
+   <trans-unit id="155">
+    <source>Fields</source>
+    <target>CA_Fields</target>
+
+   </trans-unit>
+   <trans-unit id="156">
+    <source>will be deleted from all employees' records. Do you want to continue?</source>
+    <target>CA_will be deleted from all employees' records. Do you want to continue?</target>
+   </trans-unit>
+   <trans-unit id="157">
+    <source>Not Defined</source>
+
+    <target>CA_Not Defined</target>
+   </trans-unit>
+   <trans-unit id="158">
+    <source>Replace Current</source>
+    <target>CA_Replace Current</target>
+   </trans-unit>
+   <trans-unit id="159">
+
+    <source>Direct</source>
+    <target>CA_Direct</target>
+   </trans-unit>
+   <trans-unit id="160">
+    <source>Indirect</source>
+    <target>CA_Indirect</target>
+   </trans-unit>
+
+   <trans-unit id="161">
+    <source>Pay Frequency</source>
+    <target>CA_Pay Frequency</target>
+   </trans-unit>
+   <trans-unit id="162">
+    <source>Amount</source>
+    <target>CA_Amount</target>
+
+   </trans-unit>
+   <trans-unit id="163">
+    <source>Currency is required</source>
+    <target>CA_Currency is required</target>
+   </trans-unit>
+   <trans-unit id="164">
+    <source>Amount is required</source>
+
+    <target>CA_Amount is required</target>
+   </trans-unit>
+   <trans-unit id="165">
+    <source>Account Number is required</source>
+    <target>CA_Account Number is required</target>
+   </trans-unit>
+   <trans-unit id="166">
+
+    <source>Add Salary Component</source>
+    <target>CA_Add Salary Component</target>
+   </trans-unit>
+   <trans-unit id="167">
+    <source>Edit Salary Component</source>
+    <target>CA_Edit Salary Component</target>
+   </trans-unit>
+
+   <trans-unit id="168">
+    <source>Assigned Salary Components</source>
+    <target>CA_Assigned Salary Components</target>
+   </trans-unit>
+   <trans-unit id="169">
+    <source>Routing Number</source>
+    <target>CA_Routing Number</target>
+
+   </trans-unit>
+   <trans-unit id="170">
+    <source>Edit Salary Component</source>
+    <target>CA_Edit Salary Component</target>
+   </trans-unit>
+   <trans-unit id="171">
+    <source>Direct Deposit Details</source>
+
+    <target>CA_Direct Deposit Details</target>
+   </trans-unit>
+   <trans-unit id="172">
+    <source>Salary Component(s) Deleted Successfully</source>
+    <target>CA_Salary Component(s) Deleted Successfully</target>
+   </trans-unit>
+   <trans-unit id="173">
+
+    <source>Salary Details Updated Successfully</source>
+    <target>CA_Salary Details Updated Successfully</target>
+   </trans-unit>
+   <trans-unit id="174">
+    <source>Please Select At Least One Salary Component To Delete</source>
+    <target>CA_Please Select At Least One Salary Component To Delete</target>
+   </trans-unit>
+
+   <trans-unit id="175">
+    <source>Routing Number should only contain digits</source>
+    <target>CA_Routing Number should only contain digits</target>
+   </trans-unit>
+   <trans-unit id="176">
+    <source>Amount should be a number</source>
+    <target>CA_Amount should be a number</target>
+
+   </trans-unit>
+   <trans-unit id="177">
+    <source>Savings</source>
+    <target>CA_Savings</target>
+   </trans-unit>
+   <trans-unit id="178">
+    <source>Checking</source>
+
+    <target>CA_Checking</target>
+   </trans-unit>
+   <trans-unit id="179">
+    <source>Show Direct Deposit Details</source>
+    <target>CA_Show Direct Deposit Details</target>
+   </trans-unit>
+   <trans-unit id="180">
+
+    <source>Please specify other account type</source>
+    <target>CA_Please specify other account type</target>
+   </trans-unit>
+   <trans-unit id="181">
+    <source>Issued date should be less than expiry date</source>
+    <target>CA_Issued date should be less than expiry date</target>
+   </trans-unit>
+
+   <trans-unit id="182">
+    <source>Amount should be less than 999999999.99</source>
+    <target>CA_Amount should be less than 999999999.99</target>
+   </trans-unit>
+   <trans-unit id="183">
+    <source>Comments cannot exceed 255 characters in length</source>
+    <target>CA_Comments cannot exceed 255 characters in length</target>
+
+   </trans-unit>
+   <trans-unit id="184">
+    <source>No records to display</source>
+    <target>CA_No records to display</target>
+   </trans-unit>
+   <trans-unit id="185">
+    <source>Leave Entitled (Days)</source>
+
+    <target>CA_Leave Entitled (Days)</target>
+   </trans-unit>
+   <trans-unit id="186">
+    <source>Leave Scheduled (Days)</source>
+    <target>CA_Leave Scheduled (Days)</target>
+   </trans-unit>
+   <trans-unit id="187">
+
+    <source>Leave Taken (Days)</source>
+    <target>CA_Leave Taken (Days)</target>
+   </trans-unit>
+   <trans-unit id="188">
+    <source>Leave Balance (Days)</source>
+    <target>CA_Leave Balance (Days)</target>
+   </trans-unit>
+
+   <trans-unit id="189">
+    <source>First</source>
+    <target>CA_First</target>
+   </trans-unit>
+   <trans-unit id="190">
+    <source>Current Status</source>
+    <target>CA_Current Status</target>
+
+   </trans-unit>
+   <trans-unit id="191">
+    <source>Notes</source>
+    <target>CA_Notes</target>
+   </trans-unit>
+   <trans-unit id="192">
+    <source>Time</source>
+
+    <target>CA_Time</target>
+   </trans-unit>
+   <trans-unit id="193">
+    <source>Include</source>
+    <target>CA_Include</target>
+   </trans-unit>
+   <trans-unit id="194">
+
+    <source>Current Employees Only</source>
+    <target>CA_Current Employees Only</target>
+   </trans-unit>
+   <trans-unit id="195">
+    <source>Current and Past Employees</source>
+    <target>CA_Current and Past Employees</target>
+   </trans-unit>
+
+   <trans-unit id="196">
+    <source>Past Employees Only</source>
+    <target>CA_Past Employees Only</target>
+   </trans-unit>
+   <trans-unit id="197">
+    <source>Include Past Employees</source>
+    <target>CA_Include Past Employees</target>
+
+   </trans-unit>
+   <trans-unit id="198">
+    <source>Name exists</source>
+    <target>CA_Name exists</target>
+   </trans-unit>
+  </body>
+ </file>
+</xliff>

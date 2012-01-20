@@ -1,0 +1,13 @@
+PayGrade:
+  0: { id: 1, name: 'Pay Grade 1' }
+  1: { id: 2, name: 'Pay Grade 2' }
+  2: { id: 3, name: 'Pay Grade 3' }
+
+CurrencyType:
+  0: {code: 1, currency_id : 'USD', currency_name : 'United States Dollar'}
+  1: {code: 2, currency_id : 'AUD', currency_name : 'Australian Dollar'}
+  
+PayGradeCurrency:
+  0: { pay_grade_id: 1, currency_id: 'USD', min_salary: 5000, max_salary: 10000}
+  1: { pay_grade_id: 1, currency_id: 'AUD', min_salary: 2000, max_salary: 5000}
+  2: { pay_grade_id: 2, currency_id: 'AUD', min_salary: 3000, max_salary: 5000}

@@ -1,0 +1,8 @@
+Hi #firstName,
+
+Human Resources have completed your Health Savings Plan request to receive a reimbursement. Please click below link to view the completed request:
+
+#link
+
+Best Regards,
+OrangeHRM

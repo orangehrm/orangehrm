@@ -1,0 +1,94 @@
+@CHARSET "UTF-8";
+/*
+******************** CONTENT STYLE ********************/
+#content {
+	padding:1em 1em 0 1em;
+	overflow:hidden;
+	line-height:1.4em;
+}
+
+#contentContainer {
+	width: 700px;
+}
+
+#errorContainer {
+	width: 700px;
+}
+
+div.navigationHearder {
+	padding: 5px 0px 5px 8px;
+	width:auto;
+	border:0;
+	background-color: #FAD163;
+	
+}
+
+.buttonWrapper {
+	padding: 5px 0px 4px 8px;
+	width:auto;
+	border:0;
+	background-color: #FAD163;
+        margin: 10px 0 0 0;
+}
+
+.formHeading {
+	padding: 5px 0px 5px 8px;
+	width:auto;
+	border:0;
+	background-color: #FAD163;
+	color: black;
+	text-align:left;
+}
+.formWrapper{
+	padding: 0;
+	}
+.tableWrapper{
+	padding: 3px 0px 0px 0px;
+	}
+	
+/*
+******************** FORM STYLE ********************/
+
+#formWrapper input[type="text"]	{
+	border-bottom:1px solid #888888;
+	border-left: 1px solid #888888;
+	border-right: 1px solid #888888;
+	border-top: 1px solid #888888;
+}
+
+#formWrapper .detail{
+	margin: 10px 0px 2px 0px;
+	width:500px;
+	}
+
+#formWrapper .detailHearder{
+	font-weight:bold;
+	}
+
+#formWrapper .kpiTable{
+	padding: 3px 10px 10px 10px;
+	}
+/*
+******************** LIST STYLE ********************/
+#tableWrapper .tdcheckbox{
+	padding: 2px 0px 0px 5px;
+	
+}
+#tableWrapper .smallInput{
+	width: 30px;
+	margin: 2px 0px 2px 0px;
+	
+	
+}
+
+
+/*
+******************Performance Module***************/
+#performanceError{
+	margin-right: 10px;
+	margin-bottom: 3px;
+}
+
+#performanceReviewcontentContainer {
+	width: 950px;
+}

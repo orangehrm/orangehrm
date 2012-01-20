@@ -1,0 +1,36 @@
+## YAML Template.
+---
+
+ReportGroup:
+  0: {report_group_id: 1, name: 'timesheet', core_sql: 'core join'}
+
+Report:
+  0: {report_id: 1, name: 'project report', report_group_id: 1, use_filter_field: 1, type: 'Runtime'}
+  1: {report_id: 2, name: 'employee report', report_group_id: 1, use_filter_field: 1, type: 'Runtime'}
+
+FilterField:
+  0: {filter_field_id: 1, report_group_id: 1, name: 'project_name', where_clause_part: 'ohrm_project.project_id', filter_field_widget: 'ohrmWidgetProjectList', condition_no: 2, required: 'false'}
+  1: {filter_field_id: 2, report_group_id: 1, name: 'activity_show_deleted', where_clause_part: 'ohrm_project_activity.is_deleted', filter_field_widget: 'ohrmWidgetInputCheckbox', condition_no: 2, required: 'false'}
+
+SelectedFilterField:
+  0: {report_id: 1, filter_field_id: 1, filter_field_order: 1, value1: '3000', where_condition: '>', type: 'Runtime'}
+  1: {report_id: 1, filter_field_id: 2, filter_field_order: 2, value1: 'computer science', where_condition: '=', type: 'Runtime'}
+
+DisplayField:
+  0: {display_field_id: 1, report_group_id: 1, name: 'ohrm_project.name', label: 'Project Name', field_alias: 'projectname', is_sortable: 'true', sort_order: 'ASC', sort_field: 'projectname', element_type: 'label', element_property: '<xml><getter>projectname</getter></xml>', width: 200, is_exportable: 0, text_alignment_style: false, is_value_list: 0, default_value: '', is_encrypted: 0}
+  1: {display_field_id: 2, report_group_id: 1, name: 'ohrm_project_activity.name', label: 'Activity Name', field_alias: 'activityname', is_sortable: 'false', element_type: 'label', element_property: '<xml><getter>activityname</getter></xml>', width: 200, is_exportable: 0, text_alignment_style: false, is_value_list: 0, default_value: '', is_encrypted: 0}
+
+SelectedDisplayField:
+  0: {id: 1, display_field_id: 1, report_id: 1}
+  1: {id: 2, display_field_id: 2, report_id: 1}
+
+GroupField:
+  0: {group_field_id: 1, name: 'activity id', group_by_clause: 'GROUP BY ohrm_project_activity.activity_id'}
+
+SummaryDisplayField:
+  0: {summary_display_field_id: 1, function: 'ROUND(COALESCE(sum(duration)/3600, 0),2)', label: 'Time (hours)', field_alias: 'totalduration', is_sortable: 'false', element_type: 'label', element_property: '<xml><getter>totalduration</getter></xml>', width: 100, is_exportable: 'false', text_alignment_style: 'right', is_value_list: 0}
+
+SelectedGroupField:
+  0: {group_field_id: 1, summary_display_field_id: 1, report_id: 1}
+
+

@@ -1,0 +1,55 @@
+h3#attachmentSubHeading {
+    display:block;
+    float:left;
+    color: #000000;
+    margin-left: 10px;
+}
+
+div#attachmentSubHeadingDiv {
+    display:block;
+    float:left;
+    clear:both;
+}
+span#attachmentEditNote {
+    display: block;
+    float: left;    
+    margin-top:18px;
+    padding-left: 5px;
+}
+
+/* Using !important to override !important in IE_Only css */
+input#btnCommentOnly {
+    width:150px!important;
+}
+
+div#parentPaneAttachments td.comments {
+    max-width: 200px;
+}
+
+div#parentPaneAttachments table.data-table tbody tr td {
+    vertical-align: top;
+    padding-top: 5px;
+    padding-bottom: 3px;
+    height: 16px;
+}
+div#parentPaneAttachments table.data-table tr td.check {
+    width: 30px;
+    padding: 2px 1px;
+}
+
+div#parentPaneAttachments table.data-table input.checkbox {
+    margin-left: 4px;
+    margin-right: 3px;
+}
+
+form#frmEmpAttachment label {
+    margin-top: 5px;
+}
+
+form#frmEmpAttachment #txtAttDesc {
+    margin-top: 5px;
+}
+
+div#addPaneAttachments div.input_container label.error {
+    margin-left: 0px;
+}

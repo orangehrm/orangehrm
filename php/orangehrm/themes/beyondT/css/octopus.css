@@ -1,0 +1,59 @@
+    label,select,input,textarea {
+        display: block;  /* block float the labels to left column, set a width */
+        width: 150px;
+        float: left;
+        margin: 10px 0px 2px 0px; /* set top margin same as form input - textarea etc. elements */
+    }
+
+    /* this is needed because otherwise, hidden fields break the alignment of the other fields */
+    input[type=hidden] {
+        display: none;
+        border: none;
+        background-color: red;
+    }
+
+    label {
+        text-align: left;
+        width: 75px;
+        padding-left: 10px;
+    }
+
+    select,input,textarea {
+        margin-left: 10px;
+    }
+
+    input,textarea {
+        padding-left: 4px;
+        padding-right: 4px;
+    }
+
+    textarea {
+        width: 250px;
+    }
+
+    form {
+        min-width: 550px;
+        max-width: 600px;
+    }
+
+    br {
+        clear: left;
+    }
+
+    .version_label {
+        display: block;
+        float: left;
+        width: 150px;
+        font-weight: bold;
+        margin-left: 10px;
+        margin-top: 10px;
+    }
+
+    .roundbox {
+        margin-top: 50px;
+        margin-left: 0px;
+    }
+
+    .roundbox_content {
+        padding:15px;
+    }

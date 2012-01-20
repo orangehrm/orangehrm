@@ -1,0 +1,46 @@
+root {
+    display: block;
+}
+
+html body div#messagebar {
+    margin: 5px 15px 5px 15px;
+    width: 600px
+}
+
+#localization {
+    width: 600px;
+}
+
+.paddingLeftRequired {
+    padding-left: 15px;
+    padding-top: 5px;
+    font-size: 8pt;
+}
+
+.drpDown {
+    margin-top: 5px;
+    width: 240px;
+}
+
+form#frmLocalization label {
+    /*    position: relative;*/
+    margin-top: 6px;
+    width: 150px
+}
+
+#chkBrowserLang{
+    padding-left: 170px;
+    padding-top: 8px;
+    padding-bottom: 3px;
+}
+div#chkBrowserLang label{
+    width: 350px;
+    margin-top: 4px;
+    padding-left: 5px;
+}
+
+div.dialogButtons {
+    margin-top: 20px;
+    text-align: right;
+    vertical-align: bottom;
+}

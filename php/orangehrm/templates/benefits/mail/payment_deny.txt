@@ -1,0 +1,13 @@
+Hi #firstName,
+
+The HSP Payment Request posted on #dateInquired has been denied. The details of the request are as follows:
+
+Expense Description - #expenseDesc
+Person Incurring Expense - #personInquiring
+Amount - #amount
+
+For further details, please log-in to OrangeHRM and view your benefit information.
+
+Thanks,
+
+OrangeHRM

@@ -1,0 +1,9 @@
+employee_list:
+  url:   /pim/viewEmployeeList/*
+  param: { module:pim, action: viewEmployeeList }
+  with_wildcard_routes: true
+
+customfield_list:
+  url:   /pim/listCustomFields/*  
+  param: { module:pim, action: listCustomFields }
+  with_wildcard_routes: true

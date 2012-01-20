@@ -1,0 +1,14 @@
+EmployeeLeaveEntitlement:
+  0: {leave_type_id: 1, employee_id: '0001', leave_period_id: 2, no_of_days_allotted: 20, leave_taken: 2, leave_brought_forward: 2, leave_carried_forward: 1}
+  1: {leave_type_id: 1, employee_id: '0002', leave_period_id: 2, no_of_days_allotted: 20, leave_taken: 1, leave_brought_forward: 1, leave_carried_forward: 1}
+  2: {leave_type_id: 2, employee_id: '0003', leave_period_id: 2, no_of_days_allotted: 20, leave_taken: 3, leave_brought_forward: 2, leave_carried_forward: 0}
+
+Leave:
+  0: {leave_id: 1, leave_length_hours: 8, leave_length_days: 1, leave_request_id: 1, leave_type_id: 1, employee_id: '0001', leave_date: '2010-09-07', leave_status: 1}
+  1: {leave_id: 2, leave_length_hours: 8, leave_length_days: 1, leave_request_id: 2, leave_type_id: 1, employee_id: '0002', leave_date: '2010-09-08', leave_status: 1}
+  2: {leave_id: 3, leave_length_hours: 8, leave_length_days: 1, leave_request_id: 3, leave_type_id: 1, employee_id: '0003', leave_date: '2010-09-10', leave_status: 2}
+
+LeaveRequest:
+  0: {leave_request_id: 1, leave_period_id: 1, leave_type_id: 1, date_applied: '2010-09-07', employee_id: '0001'}
+  1: {leave_request_id: 2, leave_period_id: 1, leave_type_id: 1, date_applied: '2010-09-08', employee_id: '0002'}
+  2: {leave_request_id: 3, leave_period_id: 1, leave_type_id: 1, date_applied: '2010-09-09', employee_id: '0003'}

@@ -1,0 +1,1077 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE xliff PUBLIC "-//XLIFF//DTD XLIFF//EN" "http://www.oasis-open.org/committees/xliff/documents/xliff.dtd">
+<xliff version="1.0">
+    <file source-language="en_US" target-language="fr_FR" datatype="plaintext" original="messages" date="2009-12-08T13:58:35Z" product-name="messages">
+        <header/>
+        <body>
+            <trans-unit id="1">
+                <source>Localization</source>
+                <target>FR_Localization</target>
+            </trans-unit>
+            <trans-unit id="2">
+                <source>Date Format</source>
+                <target>FR_Date Format</target>
+            </trans-unit>
+            <trans-unit id="3">
+                <source>Use browser language if set</source>
+                <target>FR_Use browser language if set</target>
+            </trans-unit>
+            <trans-unit id="4">
+                <source>Language Details Successfully Saved</source>
+                <target>FR_Language Details Successfully Saved</target>
+            </trans-unit>
+            <trans-unit id="5">
+                <source>Ok</source>
+                <target>FR_Ok</target>
+            </trans-unit>
+            <trans-unit id="6">
+                <source>Supported Languages</source>
+                <target>FR_Supported Languages</target>
+            </trans-unit>
+            <trans-unit id="7">
+                <source>Following languages are supported by OrangeHRM</source>
+                <target>FR_Following languages are supported by OrangeHRM</target>
+            </trans-unit>
+            <trans-unit id="8">
+                <source>Customer</source>
+                <target>FR_Customer</target>
+            </trans-unit>
+            <trans-unit id="9">
+                <source>CSV Data Import</source>
+                <target>FR_CSV Data Import</target>
+            </trans-unit>
+            <trans-unit id="10">
+                <source>Column order should not be changed</source>
+                <target>FR_Column order should not be changed</target>
+            </trans-unit>
+            <trans-unit id="11">
+                <source>First Name and Last Name is compulsory</source>
+                <target>FR_First Name and Last Name is compulsory</target>
+            </trans-unit>
+            <trans-unit id="12">
+                <source>All date fields should be in YYYY-mm-dd format</source>
+                <target>FR_All date fields should be in YYYY-mm-dd format</target>
+            </trans-unit>
+            <trans-unit id="13">
+                <source>Upload</source>
+                <target>FR_Upload</target>
+            </trans-unit>
+            <trans-unit id="14">
+                <source>Sample csv file </source>
+                <target>FR_Sample csv file </target>
+            </trans-unit>
+            <trans-unit id="15">
+                <source>Download</source>
+                <target>FR_Download</target>
+            </trans-unit>
+            <trans-unit id="16">
+                <source>File Required</source>
+                <target>FR_File Required</target>
+            </trans-unit>
+            <trans-unit id="17">
+                <source>Employee Record(s) Imported Successfully</source>
+                <target>FR_Employee Record(s) Imported Successfully</target>
+            </trans-unit>
+            <trans-unit id="18">
+                <source>Failed. File Size Exceeded 1MB</source>
+                <target>FR_Failed. File Size Exceeded 1MB</target>
+            </trans-unit>
+            <trans-unit id="19">
+                <source>Error Occurred - Invalid File Type</source>
+                <target>FR_Error Occurred - Invalid File Type</target>
+            </trans-unit>
+            <trans-unit id="20">
+                <source>If gender is specified, value should be either %male or %female</source>
+                <target>FR_If gender is specified, value should be either %male or %female</target>
+            </trans-unit>
+            <trans-unit id="21">
+                <source>Include not more than 100 records in the file</source>
+                <target>FR_Include not more than 100 records in the file</target>
+            </trans-unit>            
+            <trans-unit id="22">
+                <source>Customers</source>
+                <target>FR_Customers</target>
+            </trans-unit>            
+            <trans-unit id="23">
+                <source>Customer name is required</source>
+                <target>FR_Customer name is required</target>
+            </trans-unit>            
+            <trans-unit id="24">
+                <source>Cannot exceed 255 charactors</source>
+                <target>FR_Cannot exceed 255 charactors</target>
+            </trans-unit>            
+            <trans-unit id="25">
+                <source>Customer added Successfully</source>
+                <target>FR_Customer added Successfully</target>
+            </trans-unit>            
+            <trans-unit id="26">
+                <source>All the projects under selected Customer will also be deleted</source>
+                <target>FR_All the projects under selected Customer will also be deleted</target>
+            </trans-unit>            
+            <trans-unit id="27">
+                <source>Customer Added Successfully</source>
+                <target>FR_Customer Added Successfully</target>
+            </trans-unit>            
+            <trans-unit id="28">
+                <source>Customer Updated Successfully</source>
+                <target>FR_Customer Updated Successfully</target>
+            </trans-unit>            
+            <trans-unit id="29">
+                <source>Organization Name</source>
+                <target>FR_Organization Name</target>
+            </trans-unit>
+            <trans-unit id="30">
+                <source>Tax ID</source>
+                <target>FR_Tax ID</target>
+            </trans-unit>
+            <trans-unit id="31">
+                <source>Registration Number</source>
+                <target>FR_Registration Number</target>
+            </trans-unit>
+            <trans-unit id="32">
+                <source>Phone</source>
+                <target>FR_Phone</target>
+            </trans-unit>
+            <trans-unit id="33">
+                <source>Fax</source>
+                <target>FR_Fax</target>
+            </trans-unit>
+            <trans-unit id="34">
+                <source>Email</source>
+                <target>FR_Email</target>
+            </trans-unit>
+            <trans-unit id="35">
+                <source>Address Street 1</source>
+                <target>FR_Address Street 1</target>
+            </trans-unit>
+            <trans-unit id="36">
+                <source>Address Street 2</source>
+                <target>FR_Address Street 2</target>
+            </trans-unit>
+            <trans-unit id="37">
+                <source>City</source>
+                <target>FR_City</target>
+            </trans-unit>
+            <trans-unit id="38">
+                <source>Note</source>
+                <target>FR_Note</target>
+            </trans-unit>
+            <trans-unit id="39">
+                <source>General Information</source>
+                <target>FR_General Information</target>
+            </trans-unit>
+            <trans-unit id="40">
+                <source>State/Province</source>
+                <target>FR_State/Province</target>
+            </trans-unit>
+            <trans-unit id="41">
+                <source>Zip/Postal Code</source>
+                <target>FR_Zip/Postal Code</target>
+            </trans-unit>
+            <trans-unit id="42">
+                <source>Organization name required</source>
+                <target>FR_Organization name required</target>
+            </trans-unit>
+            <trans-unit id="43">
+                <source>Phone number can contain only space, numbers, "+", and "-"</source>
+                <target>FR_Phone number can contain only space, numbers, "+", and "-"</target>
+            </trans-unit>
+            <trans-unit id="44">
+                <source>Fax can contain only space, numbers, "+", and "-"</source>
+                <target>FR_Fax can contain only space, numbers, "+", and "-"</target>
+            </trans-unit>
+            <trans-unit id="45">
+                <source>Email address should contain at least one \".\" and one \"@\" Example:user@example.com</source>
+                <target>FR_Email address should contain at least one \".\" and one \"@\" Example:user@example.com</target>
+            </trans-unit>
+            <trans-unit id="46">
+                <source>General Information Saved Successfully</source>
+                <target>FR_General Information Saved Successfully</target>
+            </trans-unit>
+            <trans-unit id="47">
+                <source>Customer Name</source>
+                <target>FR_Customer Name</target>
+            </trans-unit>            
+            <trans-unit id="48">
+                <source>Project Admins</source>s
+                <target>FR_Project Admins</target>
+            </trans-unit>            
+            <trans-unit id="49">
+                <source>Project</source>
+                <target>FR_Project</target>
+            </trans-unit>            
+            <trans-unit id="50">
+                <source>Selected Project(s) Deleted Successfully</source>
+                <target>FR_Selected Project(s) Deleted Successfully</target>
+            </trans-unit>            
+            <trans-unit id="51">
+                <source>Project Admin</source>
+                <target>FR_Project Admin</target>
+            </trans-unit>            
+            <trans-unit id="52">
+                <source>Add Customer</source>
+                <target>FR_Add Customer</target>
+            </trans-unit>            
+            <trans-unit id="53">
+                <source>Add Another</source>
+                <target>FR_Add Another</target>
+            </trans-unit>            
+            <trans-unit id="54">
+                <source>Enter a valid customer name</source>
+                <target>FR_Enter a valid customer name</target>
+            </trans-unit>            
+            <trans-unit id="55">
+                <source>Project name is required</source>
+                <target>FR_Project name is required</target>
+            </trans-unit>            
+            <trans-unit id="56">
+                <source>Enter a valid employee name</source>
+                <target>FR_Enter a valid employee name</target>
+            </trans-unit>            
+            <trans-unit id="57">
+                <source>Cannot exceed 50 charactors</source>
+                <target>FR_Cannot exceed 50 charactors</target>
+            </trans-unit>            
+            <trans-unit id="58">
+                <source>Project Added Successfully</source>
+                <target>FR_Project Added Successfully</target>
+            </trans-unit>            
+            <trans-unit id="59">
+                <source>Project Name</source>
+                <target>FR_Project Name</target>
+            </trans-unit>            
+            <trans-unit id="60">
+                <source>Copy Activity</source>
+                <target>FR_Copy Activity</target>
+            </trans-unit>            
+            <trans-unit id="61">
+                <source>Copy</source>
+                <target>FR_Copy</target>
+            </trans-unit>            
+            <trans-unit id="62">
+                <source>Copy From</source>
+                <target>FR_Copy From</target>
+            </trans-unit>            
+            <trans-unit id="63">
+                <source>Activity name is required</source>
+                <target>FR_Activity name is required</target>
+            </trans-unit>            
+            <trans-unit id="64">
+                <source>Cannot exceed 100 charactors</source>
+                <target>FR_Cannot exceed 100 charactors</target>
+            </trans-unit>            
+            <trans-unit id="65">
+                <source>Add Project Activity</source>
+                <target>FR_Add Project Activity</target>
+            </trans-unit>            
+            <trans-unit id="66">
+                <source>Activity Name</source>
+                <target>FR_Activity Name</target>
+            </trans-unit>            
+            <trans-unit id="67">
+                <source>No assigned activities</source>
+                <target>FR_No assigned activities</target>
+            </trans-unit>            
+            <trans-unit id="68">
+                <source>No activities selected</source>
+                <target>FR_No activities selected</target>
+            </trans-unit>            
+            <trans-unit id="69">
+                <source>Activity Copy Successfully</source>
+                <target>FR_Activity Copy Successfully</target>
+            </trans-unit>            
+            <trans-unit id="70">
+                <source>Edit Customer</source>
+                <target>FR_Edit Customer</target>
+            </trans-unit>            
+            <trans-unit id="71">
+                <source>Company Structure</source>
+                <target>FR_Company Structure</target>
+            </trans-unit>
+            <trans-unit id="72">
+                <source>Done</source>
+                <target>FR_Done</target>
+            </trans-unit>
+            <trans-unit id="73">
+                <source>Add Unit</source>
+                <target>FR_Add Unit</target>
+            </trans-unit>
+            <trans-unit id="74">
+                <source>Edit Unit</source>
+                <target>FR_Edit Unit</target>
+            </trans-unit>
+            <trans-unit id="75">
+                <source>This unit will be added under</source>
+                <target>FR_This unit will be added under</target>
+            </trans-unit>
+            <trans-unit id="76">
+                <source>and all the subunits under it will be permanantly deleted</source>
+                <target>FR_and all the subunits under it will be permanantly deleted</target>
+            </trans-unit>
+            <trans-unit id="77">
+                <source>Subunit Deleted Successfully</source>
+                <target>FR_Subunit Deleted Successfully</target>
+            </trans-unit>
+            <trans-unit id="78">
+                <source>Subunit Saved Successfully</source>
+                <target>FR_Subunit Saved Successfully</target>
+            </trans-unit>
+            <trans-unit id="79">
+                <source>Maximum allowed character limit is</source>
+                <target>FR_Maximum allowed character limit is</target>
+            </trans-unit>
+            <trans-unit id="80">
+                <source>Maximum allowed character limit is</source>
+                <target>FR_Maximum allowed character limit is</target>
+            </trans-unit>
+            <trans-unit id="81">
+                <source>Name is required</source>
+                <target>FR_Name is required</target>
+            </trans-unit>
+            <trans-unit id="82">
+                <source>Description is not specified</source>
+                <target>FR_Description is not specified</target>
+            </trans-unit>
+            <trans-unit id="83">
+                <source>Number of Employees</source>
+                <target>FR_Number of Employees</target>
+            </trans-unit>
+            <trans-unit id="84">
+                <source>Unit Id</source>
+                <target>FR_Unit Id</target>
+            </trans-unit>
+            <trans-unit id="85">
+                <source>Name already exist</source>
+                <target>FR_Name already exist</target>
+            </trans-unit>
+            <trans-unit id="86">
+                <source>Add Project</source>
+                <target>FR_Add Project</target>
+            </trans-unit>
+            <trans-unit id="87">
+                <source>Edit Project</source>
+                <target>FR_Edit Project</target>
+            </trans-unit>
+            <trans-unit id="88">
+                <source>Subunit Name Cannot be Duplicated</source>
+                <target>FR_Subunit Name Cannot be Duplicated</target>
+            </trans-unit>
+            <trans-unit id="89">
+                <source>Projects</source>
+                <target>FR_Projects</target>
+            </trans-unit>
+            <trans-unit id="90">
+                <source>Activities</source>
+                <target>FR_Activities</target>
+            </trans-unit>
+            <trans-unit id="91">
+                <source>Project Activity Added Successfully</source>
+                <target>FR_Project Activity Added Successfully</target>
+            </trans-unit>
+            <trans-unit id="92">
+                <source>Selected Project Activities Deleted Successfully</source>
+                <target>FR_Selected Project Activities Deleted Successfully</target>
+            </trans-unit>
+            <trans-unit id="93">
+                <source>Cannot Have Duplicate Activities</source>
+                <target>FR_Cannot Have Duplicate Activities</target>
+            </trans-unit>
+            <trans-unit id="94">
+                <source>Project Activity Updated Successfully</source>
+                <target>FR_Project Activity Updated Successfully</target>
+            </trans-unit>
+            <trans-unit id="95">
+                <source>Project Updated Successfully</source>
+                <target>FR_Project Updated Successfully</target>
+            </trans-unit>
+            <trans-unit id="96">
+                <source>Job Description</source>
+                <target>FR_Job Description</target>
+            </trans-unit>
+            <trans-unit id="97">
+                <source>Job Titles</source>
+                <target>FR_Job Titles</target>
+            </trans-unit>
+            <trans-unit id="98">
+                <source>Job Title Updated Successfully</source>
+                <target>FR_Job Title Updated Successfully</target>
+            </trans-unit>
+            <trans-unit id="99">
+                <source>Job Title Added Successfully</source>
+                <target>FR_Job Title Added Successfully</target>
+            </trans-unit>
+            <trans-unit id="100">
+                <source>Add Job Title</source>
+                <target>FR_Add Job Title</target>
+            </trans-unit>
+            <trans-unit id="101">
+                <source>Edit Job Title</source>
+                <target>FR_Edit Job Title</target>
+            </trans-unit>
+            <trans-unit id="102">
+                <source>Job Specification Size Exceeded 1MB</source>
+                <target>FR_Job Specification Size Exceeded 1MB</target>
+            </trans-unit>
+            <trans-unit id="103">
+                <source>Selected job title(s) will be deleted</source>
+                <target>FR_Selected job title(s) will be deleted</target>
+            </trans-unit>
+            <trans-unit id="104">
+                <source>Selected customer(s) will be deleted</source>
+                <target>FR_Selected customer(s) will be deleted</target>
+            </trans-unit>
+            <trans-unit id="105">
+                <source>Selected project(s) will be deleted</source>
+                <target>FR_Selected project(s) will be deleted</target>
+            </trans-unit>
+            <trans-unit id="106">
+                <source>Job Title is required</source>
+                <target>FR_Job Title is required</target>
+            </trans-unit>
+            <trans-unit id="107">
+                <source>Selected Job Title(s) Deleted Successfully</source>
+                <target>FR_Selected Job Title(s) Deleted Successfully</target>
+            </trans-unit>
+            <trans-unit id="108">
+                <source>Cannot exceed 400 charactors</source>
+                <target>FR_Cannot exceed 400 charactors</target>
+            </trans-unit>
+            <trans-unit id="109">
+                <source>Locations</source>
+                <target>FR_Locations</target>
+            </trans-unit>
+            <trans-unit id="110">
+                <source>Location Name</source>
+                <target>FR_Location Name</target>
+            </trans-unit>
+            <trans-unit id="111">
+                <source>Location Added Successfully</source>
+                <target>FR_Location Added Successfully</target>
+            </trans-unit>
+            <trans-unit id="112">
+                <source>Location Added Successfully</source>
+                <target>FR_Location Added Successfully</target>
+            </trans-unit>
+            <trans-unit id="113">
+                <source>Selected Location(s) Deleted Successfully</source>
+                <target>FR_Selected Location(s) Deleted Successfully</target>
+            </trans-unit>
+            <trans-unit id="114">
+                <source>Add Location</source>
+                <target>FR_Add Location</target>
+            </trans-unit>
+            <trans-unit id="115">
+                <source>Location name is required</source>
+                <target>FR_Location name is required</target>
+            </trans-unit>
+            <trans-unit id="116">
+                <source>Country is required</source>
+                <target>FR_Country is required</target>
+            </trans-unit>
+            <trans-unit id="117">
+                <source>Cannot exceed 30 charactors</source>
+                <target>FR_Cannot exceed 30 charactors</target>
+            </trans-unit>
+            <trans-unit id="118">
+                <source>Address</source>
+                <target>FR_Address</target>
+            </trans-unit>
+            <trans-unit id="119">
+                <source>Zip Code</source>
+                <target>FR_Zip Code</target>
+            </trans-unit>
+            <trans-unit id="120">
+                <source>Edit Location</source>
+                <target>FR_Edit Location</target>
+            </trans-unit>
+            <trans-unit id="121">
+                <source>Location Updated Successfully</source>
+                <target>FR_Location Updated Successfully</target>
+            </trans-unit>
+            <trans-unit id="122">
+                <source>Status name is required</source>
+                <target>FR_Status name is required</target>
+            </trans-unit>
+            <trans-unit id="123">
+                <source>Employment Status Saved Successfully</source>
+                <target>FR_Employment Status Saved Successfully</target>
+            </trans-unit>
+            <trans-unit id="124">
+                <source>Add Employment Status</source>
+                <target>FR_Add Employment Status</target>
+            </trans-unit>
+            <trans-unit id="125">
+                <source>Edit Employment Status</source>
+                <target>FR_Edit Employment Status</target>
+            </trans-unit>
+            <trans-unit id="126">
+                <source>Selected employment status(es) will be deleted</source>
+                <target>FR_Selected employment status(es) will be deleted</target>
+            </trans-unit>
+            <trans-unit id="125">
+                <source>Selected Employment Status(es) Deleted Successfully</source>
+                <target>FR_Selected Employment Status(es) Deleted Successfully</target>
+            </trans-unit>
+            <trans-unit id="126">
+                <source>Job Title already exists</source>
+                <target>FR_Job Title already exists</target>
+            </trans-unit>
+            <trans-unit id="127">
+                <source>Skills</source>
+                <target>FR_Skills</target>
+            </trans-unit>   
+            <trans-unit id="128">
+                <source>Add Skill</source>
+                <target>FR_Add Skill</target>
+            </trans-unit> 
+            <trans-unit id="129">
+                <source>Edit Skill</source>
+                <target>FR_Edit Skill</target>
+            </trans-unit> 
+            <trans-unit id="130">
+                <source>Description length should not exceed 250 characters</source>
+                <target>FR_Description length should not exceed 250 characters</target>
+            </trans-unit> 
+            <trans-unit id="131">
+                <source>Skill Saved Successfully</source>
+                <target>FR_Skill Saved Successfully</target>
+            </trans-unit> 
+            <trans-unit id="132">
+                <source>Skill Updated Successfully</source>
+                <target>FR_Skill Updated Successfully</target>
+            </trans-unit>
+            <trans-unit id="133">
+                <source>Skill(s) Deleted Successfully</source>
+                <target>FR_Skill(s) Deleted Successfully</target>
+            </trans-unit>  
+            <trans-unit id="134">
+                <source>Memberships</source>
+                <target>FR_Memberships</target>
+            </trans-unit>
+            <trans-unit id="135">
+                <source>Add Membership</source>
+                <target>FR_Add Membership</target>
+            </trans-unit>
+            <trans-unit id="136">
+                <source>Membership Saved Successfully</source>
+                <target>FR_Membership Saved Successfully</target>
+            </trans-unit>
+            <trans-unit id="137">
+                <source>Edit Membership</source>
+                <target>FR_Edit Membership</target>
+            </trans-unit>
+            <trans-unit id="138">
+                <source>Selected membership(s) will be deleted</source>
+                <target>FR_Selected membership(s) will be deleted</target>
+            </trans-unit>
+            <trans-unit id="139">
+                <source>Selected Membership(s) Deleted Successfully</source>
+                <target>FR_Selected Membership(s) Deleted Successfully</target>
+            </trans-unit>
+            <trans-unit id="140">
+                <source>Pay Grades</source>
+                <target>FR_Pay Grades</target>
+            </trans-unit>
+            <trans-unit id="141">
+                <source>Pay Grade</source>
+                <target>FR_Pay Grade</target>
+            </trans-unit>
+            <trans-unit id="142">
+                <source>Currency</source>
+                <target>FR_Currency</target>
+            </trans-unit>
+            <trans-unit id="143">
+                <source>Add Pay Grade</source>
+                <target>FR_Add Pay Grade</target>
+            </trans-unit>
+            <trans-unit id="144">
+                <source>Pay Grade name is required</source>
+                <target>FR_Pay Grade name is required</target>
+            </trans-unit>
+            <trans-unit id="145">
+                <source>Pay Grade Saved Successfully</source>
+                <target>FR_Pay Grade Saved Successfully</target>
+            </trans-unit>
+            <trans-unit id="146">
+                <source>Assigned Currencies</source>
+                <target>FR_Assigned Currencies</target>
+            </trans-unit>
+            <trans-unit id="147">
+                <source>Minimum Salary</source>
+                <target>FR_Minimum Salary</target>
+            </trans-unit>
+            <trans-unit id="148">
+                <source>Maximum Salary</source>
+                <target>FR_Maximum Salary</target>
+            </trans-unit>
+            <trans-unit id="149">
+                <source>Invalid salary range</source>
+                <target>FR_Invalid salary range</target>
+            </trans-unit>
+            <trans-unit id="150">
+                <source>Salary should be a number. No spaces are allowed</source>
+                <target>FR_Salary should be a number. No spaces are allowed</target>
+            </trans-unit>
+            <trans-unit id="151">
+                <source>Selected pay grade(s) will be deleted</source>
+                <target>FR_Selected pay grade(s) will be deleted</target>
+            </trans-unit>
+            <trans-unit id="152">
+                <source>Selected Pay Grade(s) Deleted Successfully</source>
+                <target>FR_Selected Pay Grade(s) Deleted Successfully</target>
+            </trans-unit>
+            <trans-unit id="153">
+                <source>Edit Pay Grade</source>
+                <target>FR_Edit Pay Grade</target>
+            </trans-unit>
+            <trans-unit id="154">
+                <source>Edit Currency</source>
+                <target>FR_Edit Currency</target>
+            </trans-unit>
+            <trans-unit id="155">
+                <source>Add Currency</source>
+                <target>FR_Add Currency</target>
+            </trans-unit>
+            <trans-unit id="156">
+                <source>Enter a valid currency</source>
+                <target>FR_Enter a valid currency</target>
+            </trans-unit>
+            <trans-unit id="157">
+                <source>Pay Grade Currency Deleted Successfully</source>
+                <target>FR_Pay Grade Currency Deleted Successfully</target>
+            </trans-unit>
+            <trans-unit id="158">
+                <source>Pay Grade Currencies Deleted Successfully</source>
+                <target>FR_Pay Grade Currencies Deleted Successfully</target>
+            </trans-unit>
+            <trans-unit id="159">
+                <source>Name is already exist</source>
+                <target>FR_Name is already exist</target>
+            </trans-unit>
+            <trans-unit id="160">
+                <source>Nationalities</source>
+                <target>FR_Nationalities</target>
+            </trans-unit>
+            <trans-unit id="162">
+                <source>Nationality</source>
+                <target>FR_Nationality</target>
+            </trans-unit>
+            <trans-unit id="162">
+                <source>Add Nationality</source>
+                <target>FR_Add Nationality</target>
+            </trans-unit>
+            <trans-unit id="163">
+                <source>Nationality Saved Successfully</source>
+                <target>FR_Nationality Saved Successfully</target>
+            </trans-unit>
+            <trans-unit id="164">
+                <source>Edit Nationality</source>
+                <target>FR_Edit Nationality</target>
+            </trans-unit>
+            <trans-unit id="165">
+                <source>Selected nationality(ies) will be deleted</source>
+                <target>FR_Selected nationality(ies) will be deleted</target>
+            </trans-unit>
+            <trans-unit id="166">
+                <source>Selected Nationality(ies) Deleted Successfully</source>
+                <target>FR_Selected Nationality(ies) Deleted Successfully</target>
+            </trans-unit>
+            <trans-unit id="167">
+                <source>Job Category Saved Successfully</source>
+                <target>FR_Job Category Saved Successfully</target>
+            </trans-unit>
+            <trans-unit id="168">
+                <source>Selected job category(s) will be deleted</source>
+                <target>FR_Selected job category(s) will be deleted</target>
+            </trans-unit>
+            <trans-unit id="169">
+                <source>Selected Job Category(s) Deleted Successfully</source>
+                <target>FR_Selected Job Category(s) Deleted Successfully</target>
+            </trans-unit>
+            <trans-unit id="170">
+                <source>Edit Job Category</source>
+                <target>FR_Edit Job Category</target>
+            </trans-unit>
+            <trans-unit id="171">
+                <source>Add Job Category</source>
+                <target>FR_Add Job Category</target>
+            </trans-unit>
+            <trans-unit id="172">
+                <source>Languages</source>
+                <target>FR_Languages</target>
+            </trans-unit>   
+            <trans-unit id="173">
+                <source>Add Language</source>
+                <target>FR_Add Language</target>
+            </trans-unit>   
+            <trans-unit id="174">
+                <source>Edit Language</source>
+                <target>FR_Edit Language</target>
+            </trans-unit> 
+            <trans-unit id="175">
+                <source>Language Saved Successfully</source>
+                <target>FR_Language Saved Successfully</target>
+            </trans-unit>   
+            <trans-unit id="176">
+                <source>Language Updated Successfully</source>
+                <target>FR_Language Updated Successfully</target>
+            </trans-unit>       
+            <trans-unit id="177">
+                <source>Language(s) Deleted Successfully</source>
+                <target>FR_Language(s) Deleted Successfully</target>
+            </trans-unit>    
+           <trans-unit id="178">
+                <source>System Users</source>
+                <target>FR_System Users</target>
+            </trans-unit>      
+           <trans-unit id="179">
+                <source>Username</source>
+                <target>FR_Username</target>
+            </trans-unit>     
+           <trans-unit id="180">
+                <source>User Type</source>
+                <target>FR_User Type</target>
+            </trans-unit> 
+           <trans-unit id="181">
+                <source>Employee Name</source>
+                <target>FR_Employee Name</target>
+            </trans-unit> 	
+          <trans-unit id="182">
+                <source>Add User</source>
+                <target>FR_Add User</target>
+            </trans-unit> 	
+          <trans-unit id="183">
+                <source>Username already taken</source>
+                <target>FR_Username already taken</target>
+            </trans-unit>		
+          <trans-unit id="184">
+                <source>Password</source>
+                <target>FR_Password</target>
+            </trans-unit>	
+          <trans-unit id="185">
+                <source>Edit User</source>
+                <target>FR_Edit User</target>
+            </trans-unit>				
+		  <trans-unit id="186">
+                <source>User Added Successfully</source>
+                <target>FR_User Added Successfully</target>
+            </trans-unit>	
+		  <trans-unit id="187">
+                <source>System User(s) Deleted Successfully</source>
+                <target>FR_System User(s) Deleted Successfully</target>
+            </trans-unit>	
+		  <trans-unit id="188">
+                <source>Pay Grade Currency Saved Successfully</source>
+                <target>FR_Pay Grade Currency Saved Successfully</target>
+          </trans-unit>	
+		  <trans-unit id="189">
+                <source>Employee name is required</source>
+                <target>FR_Employee name is required</target>
+          </trans-unit>	
+		  <trans-unit id="190">
+                <source>Username is required</source>
+                <target>FR_Username is required</target>
+          </trans-unit>	
+		  <trans-unit id="192">
+                <source>Passwords do not match</source>
+                <target>FR_Passwords do not match</target>
+          </trans-unit>	
+		  <trans-unit id="193">
+                <source>Select valid employee</source>
+                <target>FR_Select valid employee</target>
+          </trans-unit>			  		
+		  <trans-unit id="194">
+                <source>User Name should have at least 5 characters</source>
+                <target>FR_User Name should have at least 5 characters</target>
+          </trans-unit>		
+		  <trans-unit id="195">
+                <source>Confirm Password</source>
+                <target>FR_Confirm Password</target>
+          </trans-unit>				  
+            <trans-unit id="196">
+                <source>Licenses</source>
+                <target>FR_Licenses</target>
+            </trans-unit>   
+            <trans-unit id="197">
+                <source>Add License</source>
+                <target>FR_Add License</target>
+            </trans-unit>   
+            <trans-unit id="198">
+                <source>Edit License</source>
+                <target>FR_Edit License</target>
+            </trans-unit> 
+            <trans-unit id="199">
+                <source>License Saved Successfully</source>
+                <target>FR_License Saved Successfully</target>
+            </trans-unit>   
+            <trans-unit id="200">
+                <source>License Updated Successfully</source>
+                <target>FR_License Updated Successfully</target>
+            </trans-unit>       
+            <trans-unit id="201">
+                <source>License(s) Deleted Successfully</source>
+                <target>FR_License(s) Deleted Successfully</target>
+            </trans-unit>             
+            <trans-unit id="202">
+                <source>Email Notification</source>
+                <target>FR_Email Notification</target>
+            </trans-unit>
+            <trans-unit id="203">
+                <source>Notification Type</source>
+                <target>FR_Notification Type</target>
+            </trans-unit>
+            <trans-unit id="204">
+                <source>Subscriber(s)</source>
+                <target>FR_Subscriber(s)</target>
+            </trans-unit>
+            <trans-unit id="205">
+                <source>Selected Notifications Saved Successfully</source>
+                <target>FR_Selected Notifications Saved Successfully</target>
+            </trans-unit>
+            <trans-unit id="206">
+                <source>Subscribers</source>
+                <target>FR_Subscribers</target>
+            </trans-unit>
+            <trans-unit id="207">
+                <source>Add Subscriber</source>
+                <target>FR_Add Subscriber</target>
+            </trans-unit>
+            <trans-unit id="208">
+                <source>Edit Subscriber</source>
+                <target>FR_Edit Subscriber</target>
+            </trans-unit>
+            <trans-unit id="209">
+                <source>Click on a notification type to add subscribers</source>
+                <target>FR_Click on a notification type to add subscribers</target>
+            </trans-unit>
+            <trans-unit id="210">
+                <source>Subscriber Saved Successfully</source>
+                <target>FR_Subscriber Saved Successfully</target>
+            </trans-unit>
+            <trans-unit id="211">
+                <source>Selected subscriber(s) will be deleted</source>
+                <target>FR_Selected subscriber(s) will be deleted</target>
+            </trans-unit>
+            <trans-unit id="212">
+                <source>Selected Subscriber(s) Deleted Successfully</source>
+                <target>FR_Selected Subscriber(s) Deleted Successfully</target>
+            </trans-unit>
+            <trans-unit id="213">
+                <source>Email is required</source>
+                <target>FR_Email is required</target>
+            </trans-unit>
+            <trans-unit id="214">
+                <source>Email already exist</source>
+                <target>FR_Email already exist</target>
+            </trans-unit>
+            <trans-unit id="215">
+                <source>Email address should contain at least one '.' and one '@' Example:user@example.com</source>
+                <target>FR_Email address should contain at least one '.' and one '@' Example:user@example.com</target>
+            </trans-unit>
+            <trans-unit id="216">
+                <source>Education</source>
+                <target>FR_Education</target>
+            </trans-unit>   
+            <trans-unit id="217">
+                <source>Add Education</source>
+                <target>FR_Add Education</target>
+            </trans-unit>   
+            <trans-unit id="218">
+                <source>Edit Education</source>
+                <target>FR_Edit Education</target>
+            </trans-unit> 
+            <trans-unit id="219">
+                <source>Education Saved Successfully</source>
+                <target>FR_Education Saved Successfully</target>
+            </trans-unit>   
+            <trans-unit id="220">
+                <source>Education Updated Successfully</source>
+                <target>FR_Education Updated Successfully</target>
+            </trans-unit>       
+            <trans-unit id="221">
+                <source>Education Record(s) Deleted Successfully</source>
+                <target>FR_Education Record(s) Deleted Successfully</target>
+            </trans-unit>             
+            <trans-unit id="222">
+                <source>Level is required</source>
+                <target>FR_Level is required</target>
+            </trans-unit>         
+            <trans-unit id="223">
+                <source>Level</source>
+                <target>FR_Level</target>
+            </trans-unit>               
+            <trans-unit id="224">
+                <source>Work Shifts</source>
+                <target>FR_Work Shifts</target>
+            </trans-unit>
+            <trans-unit id="225">
+                <source>Shift Name</source>
+                <target>FR_Shift Name</target>
+            </trans-unit>
+            <trans-unit id="226">
+                <source>Hours Per Day</source>
+                <target>FR_Hours Per Day</target>
+            </trans-unit>
+            <trans-unit id="227">
+                <source>Available Employees</source>
+                <target>FR_Available Employees</target>
+            </trans-unit>
+            <trans-unit id="228">
+                <source>Assigned Employees</source>
+                <target>FR_Assigned Employees</target>
+            </trans-unit>
+            <trans-unit id="229">
+                <source>Remove</source>
+                <target>FR_Remove</target>
+            </trans-unit>
+            <trans-unit id="230">
+                <source>Add Work Shift</source>
+                <target>FR_Add Work Shift</target>
+            </trans-unit>
+            <trans-unit id="231">
+                <source>Shift Name is required</source>
+                <target>FR_Shift Name is required</target>
+            </trans-unit>
+            <trans-unit id="232">
+                <source>Hour per day is required</source>
+                <target>FR_Hour per day is required</target>
+            </trans-unit>
+            <trans-unit id="233">
+                <source>Work Shift Saved Successfully</source>
+                <target>FR_Work Shift Saved Successfully</target>
+            </trans-unit>
+            <trans-unit id="234">
+                <source>Selected work shift(s) will be deleted</source>
+                <target>FR_Selected work shift(s) will be deleted</target>
+            </trans-unit>
+            <trans-unit id="235">
+                <source>Selected Work Shift(s) Deleted Successfully</source>
+                <target>FR_Selected Work Shift(s) Deleted Successfully</target>
+            </trans-unit>
+            <trans-unit id="236">
+                <source>Enter a valid number</source>
+                <target>FR_Enter a valid number</target>
+            </trans-unit>
+            <trans-unit id="237">
+                <source>Value should be a possitive number</source>
+                <target>FR_Value should be a possitive number</target>
+            </trans-unit>
+            <trans-unit id="238">
+                <source>Value should be less than 24</source>
+                <target>FR_Value should be less than 24</target>
+            </trans-unit>
+            <trans-unit id="239">
+                <source>Edit Work Shift</source>
+                <target>FR_Edit Work Shift</target>
+            </trans-unit>
+            <trans-unit id="240">
+                <source>Skill Name Exists</source>
+                <target>FR_Skill Name Exists</target>
+            </trans-unit>
+            <trans-unit id="241">
+                <source>Language Name Exists</source>
+                <target>FR_Language Name Exists</target>
+            </trans-unit>
+            <trans-unit id="242">
+                <source>License Name Exists</source>
+                <target>FR_License Name Exists</target>
+            </trans-unit>
+            <trans-unit id="243">
+                <source>Education Level Exists</source>
+                <target>FR_Education Level Exists</target>
+            </trans-unit>
+            <trans-unit id="244">
+                <source>Selected system user(s) will be deleted</source>
+                <target>FR_Selected system user(s) will be deleted</target>
+            </trans-unit>
+            <trans-unit id="245">
+                <source>Salary should be a number with two decimals. No spaces are allowed</source>
+                <target>FR_Salary should be a number with two decimals. No spaces are allowed</target>
+            </trans-unit>
+            <trans-unit id="246">
+                <source>Change Password</source>
+                <target>FR_Change Password</target>
+            </trans-unit>
+            <trans-unit id="247">
+                <source>Current Password</source>
+                <target>FR_Current Password</target>
+            </trans-unit>
+            <trans-unit id="248">
+                <source>New Password</source>
+                <target>FR_New Password</target>
+            </trans-unit>
+            <trans-unit id="249">
+                <source>Confirm New Password</source>
+                <target>FR_Confirm New Password</target>
+            </trans-unit>
+            <trans-unit id="250">
+                <source>Current Password is required</source>
+                <target>FR_Current Password is required</target>
+            </trans-unit>
+            <trans-unit id="251">
+                <source>New Password is required</source>
+                <target>FR_New Password is required</target>
+            </trans-unit>
+            <trans-unit id="252">
+                <source>Confirm New Password is required</source>
+                <target>FR_Confirm New Password is required</target>
+            </trans-unit>
+            <trans-unit id="253">
+                <source>Password should have at least 4 characters</source>
+                <target>FR_Password should have at least 4 characters</target>
+            </trans-unit>
+            <trans-unit id="254">
+                <source>Cannot exceed 20 charactors</source>
+                <target>FR_Cannot exceed 20 charactors</target>
+            </trans-unit>            
+            <trans-unit id="255">
+                <source>Current Password Is Wrong</source>
+                <target>FR_Current Password Is Wrong</target>
+            </trans-unit> 
+            <trans-unit id="256">
+                <source>Password Changed Successfully</source>
+                <target>FR_Password Changed Successfully</target>
+            </trans-unit>
+            <trans-unit id="257">
+                <source>Module Configuration</source>
+                <target>FR_Module Configuration</target>
+            </trans-unit>
+            <trans-unit id="258">
+                <source>Enable Admin module</source>
+                <target>FR_Enable Admin module</target>
+            </trans-unit>
+            <trans-unit id="259">
+                <source>Enable PIM module</source>
+                <target>FR_Enable PIM module</target>
+            </trans-unit>
+            <trans-unit id="260">
+                <source>Enable Leave module</source>
+                <target>FR_Enable Leave module</target>
+            </trans-unit>
+            <trans-unit id="261">
+                <source>Enable Time module</source>
+                <target>FR_Enable Time module</target>
+            </trans-unit>            
+            <trans-unit id="262">
+                <source>Enable Recruitment module</source>
+                <target>FR_Enable Recruitment module</target>
+            </trans-unit>
+            <trans-unit id="263">
+                <source>Enable Performance module</source>
+                <target>FR_Enable Performance module</target>
+            </trans-unit>
+            <trans-unit id="264">
+                <source>Enable Benefits module</source>
+                <target>FR_Enable Benefits module</target>
+            </trans-unit>
+            <trans-unit id="265">
+                <source>Admin and PIM are compulsory modules</source>
+                <target>FR_Admin and PIM are compulsory modules</target>
+            </trans-unit>
+            <trans-unit id="266">
+                <source>Module Configuration Saved Successfully</source>
+                <target>FR_Module Configuration Saved Successfully</target>
+            </trans-unit>            
+        </body>
+    </file>
+</xliff>

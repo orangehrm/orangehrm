@@ -1,0 +1,17 @@
+Country:
+  0: {cou_code: 'LK', name: 'SRI LANKA', cou_name: 'Sri Lanka', iso3: 'LKA', numcode: 144 }
+  1: {cou_code: 'US', name: 'UNITED STATES', cou_name: 'United States', iso3: 'USA', numcode: 840 }
+  
+OperationalCountry:
+  0: {id: 1, country_code: 'LK'}
+  1: {id: 2, country_code: 'US'}  
+  
+LeaveType:
+  0: {leaveTypeId: 'LTY001', leaveTypeName: 'Casual', availableFlag: 1, operational_country_id: 1}
+  1: {leaveTypeId: 'LTY002', leaveTypeName: 'Medical', availableFlag: 1, operational_country_id: 2}
+  2: {leaveTypeId: 'LTY003', leaveTypeName: 'Company', availableFlag: 0, operational_country_id: 2}
+  3: {leaveTypeId: 'LTY004', leaveTypeName: 'Annual', availableFlag: 1, operational_country_id: 1}
+  4: {leaveTypeId: 'LTY005', leaveTypeName: 'Lesure', availableFlag: 0}
+  5: {leaveTypeId: 'LTY006', leaveTypeName: 'Wesak', availableFlag: 1}
+  6: {leaveTypeId: 'LTY007', leaveTypeName: 'Christmas', availableFlag: 1, operational_country_id: 2}
+  

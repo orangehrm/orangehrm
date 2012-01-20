@@ -1,0 +1,549 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE xliff PUBLIC "-//XLIFF//DTD XLIFF//EN" "http://www.oasis-open.org/committees/xliff/documents/xliff.dtd">
+<xliff version="1.0">
+ <header/>
+ <file source-language="en_US" target-language="ja_JP" datatype="plaintext" original="messages" date="2012-01-11T15:24:59Z" product-name="messages">
+  <body>
+   <trans-unit id="1">
+    <source>Leave Period</source>
+    <target>期間を残す</target>
+
+   </trans-unit>
+   <trans-unit id="2">
+    <source>For Leap Years</source>
+    <target>うるう年の</target>
+   </trans-unit>
+   <trans-unit id="3">
+    <source>Start Date</source>
+
+    <target>日付を開始</target>
+   </trans-unit>
+   <trans-unit id="4">
+    <source>End Date</source>
+    <target>エンド日</target>
+   </trans-unit>
+   <trans-unit id="5">
+
+    <source>For Non-Leap Years</source>
+    <target>非うるう年の</target>
+   </trans-unit>
+   <trans-unit id="6">
+    <source>Current Leave Period</source>
+    <target>現在の休業期間</target>
+   </trans-unit>
+
+   <trans-unit id="7">
+    <source>Following Year</source>
+    <target>次の年</target>
+   </trans-unit>
+   <trans-unit id="8">
+    <source>Leave Period Saved Successfully</source>
+    <target>休業期間は正常に保存されました</target>
+
+   </trans-unit>
+   <trans-unit id="9">
+    <source>Work Week</source>
+    <target>ワークウィーク</target>
+   </trans-unit>
+   <trans-unit id="10">
+    <source>Full Day</source>
+
+    <target>完全日</target>
+   </trans-unit>
+   <trans-unit id="11">
+    <source>Half Day</source>
+    <target>半日</target>
+   </trans-unit>
+   <trans-unit id="12">
+
+    <source>Non-working Day</source>
+    <target>非稼働日</target>
+   </trans-unit>
+   <trans-unit id="13">
+    <source>Work Week Successfully Saved</source>
+    <target>作業ウィークは正常に保存されました</target>
+   </trans-unit>
+
+   <trans-unit id="14">
+    <source>Holidays</source>
+    <target>休日</target>
+   </trans-unit>
+   <trans-unit id="15">
+    <source>Name of Holiday</source>
+    <target>ホリデーの名前</target>
+
+   </trans-unit>
+   <trans-unit id="16">
+    <source>Name of Holiday</source>
+    <target>ホリデーの名前</target>
+   </trans-unit>
+   <trans-unit id="17">
+    <source>Repeats Annually</source>
+
+    <target>毎年繰り返される</target>
+   </trans-unit>
+   <trans-unit id="18">
+    <source>Holiday</source>
+    <target>ホテル</target>
+   </trans-unit>
+   <trans-unit id="19">
+
+    <source>Holiday Successfully Updated</source>
+    <target>休日は正常に更新されました</target>
+   </trans-unit>
+   <trans-unit id="20">
+    <source>Holiday Successfully Saved</source>
+    <target>休日は正常に保存されました</target>
+   </trans-unit>
+
+   <trans-unit id="21">
+    <source>The Date Is Already Assigned to Another Holiday</source>
+    <target>日はすでに別の休日に割り当てられています</target>
+   </trans-unit>
+   <trans-unit id="22">
+    <source>Please Select at Least One Holiday to Delete</source>
+    <target>削除するには、少なくとも1つのホテルを選択してください</target>
+
+   </trans-unit>
+   <trans-unit id="23">
+    <source>No Results Found for This Criteria</source>
+    <target>結果は、この基準のためには見つかりませんでした</target>
+   </trans-unit>
+   <trans-unit id="24">
+    <source>Leave Summary</source>
+
+    <target>まとめを残す</target>
+   </trans-unit>
+   <trans-unit id="25">
+    <source>Leave Type</source>
+    <target>タイプを残す</target>
+   </trans-unit>
+   <trans-unit id="26">
+
+    <source>Leave Entitlements Successfully Saved</source>
+    <target>正常に保存さエンタイトルメントを残す</target>
+   </trans-unit>
+   <trans-unit id="27">
+    <source>Leave Entitled</source>
+    <target>と題さ残す</target>
+   </trans-unit>
+
+   <trans-unit id="28">
+    <source>Leave Scheduled</source>
+    <target>スケジュールされたままに</target>
+   </trans-unit>
+   <trans-unit id="29">
+    <source>Leave Taken</source>
+    <target>撮影残す</target>
+
+   </trans-unit>
+   <trans-unit id="30">
+    <source>Leave Balance</source>
+    <target>バランスを残す</target>
+   </trans-unit>
+   <trans-unit id="31">
+    <source>Enter a Positive Number Less Than 365 with Two Decimal Places</source>
+
+    <target>小数点以下2桁までの365未満の正数を入力してください</target>
+   </trans-unit>
+   <trans-unit id="32">
+    <source>Leave List</source>
+    <target>リストを残す</target>
+   </trans-unit>
+   <trans-unit id="33">
+
+    <source>Show Leave with Status</source>
+    <target>ステータスと一緒に出国を表示</target>
+   </trans-unit>
+   <trans-unit id="34">
+    <source>Rejected</source>
+    <target>拒否</target>
+   </trans-unit>
+
+   <trans-unit id="35">
+    <source>Canceled</source>
+    <target>キャンセル</target>
+   </trans-unit>
+   <trans-unit id="36">
+    <source>Pending Approval</source>
+    <target>承認待ち</target>
+
+   </trans-unit>
+   <trans-unit id="37">
+    <source>Scheduled</source>
+    <target>予定</target>
+   </trans-unit>
+   <trans-unit id="38">
+    <source>Taken</source>
+
+    <target>撮影</target>
+   </trans-unit>
+   <trans-unit id="39">
+    <source>Number of Days</source>
+    <target>日の数</target>
+   </trans-unit>
+   <trans-unit id="40">
+
+    <source>Actions</source>
+    <target>アクション</target>
+   </trans-unit>
+   <trans-unit id="41">
+    <source>Go to Detailed View</source>
+    <target>詳細ビューに移動します</target>
+   </trans-unit>
+
+   <trans-unit id="42">
+    <source>Approve</source>
+    <target>承認する</target>
+   </trans-unit>
+   <trans-unit id="43">
+    <source>Reject</source>
+    <target>拒絶する</target>
+
+   </trans-unit>
+   <trans-unit id="44">
+    <source>Cancel</source>
+    <target>キャンセル</target>
+   </trans-unit>
+   <trans-unit id="45">
+    <source>deleted</source>
+
+    <target>削除</target>
+   </trans-unit>
+   <trans-unit id="46">
+    <source>Leave Comment</source>
+    <target>コメントを残しましょう​​！</target>
+   </trans-unit>
+   <trans-unit id="47">
+
+    <source>Comment length should be less than 250 characters</source>
+    <target>コメントの長さは250文字未満にしてください</target>
+   </trans-unit>
+   <trans-unit id="48">
+    <source>Comment Successfully Saved</source>
+    <target>正常に保存コメント</target>
+   </trans-unit>
+
+   <trans-unit id="49">
+    <source>Confirmation Required</source>
+    <target>必須確認</target>
+   </trans-unit>
+   <trans-unit id="50">
+    <source>Non Working Day</source>
+    <target>非就業日</target>
+
+   </trans-unit>
+   <trans-unit id="51">
+    <source>Leave Request</source>
+    <target>リクエストのまま</target>
+   </trans-unit>
+   <trans-unit id="52">
+    <source>Duration</source>
+
+    <target>期間</target>
+   </trans-unit>
+   <trans-unit id="53">
+    <source>Hours</source>
+    <target>時間</target>
+   </trans-unit>
+   <trans-unit id="54">
+
+    <source>My Leave List</source>
+    <target>私の脱退リスト</target>
+   </trans-unit>
+   <trans-unit id="55">
+    <source>My Leave Details</source>
+    <target>私の休暇の詳細</target>
+   </trans-unit>
+
+   <trans-unit id="56">
+    <source>The following leave requests are on the same day as the current leave request. Please cancel the existing leave requests and submit again or change the leave period if needed.</source>
+    <target>以下の休暇申請は、現在の脱退要求と同じ日になります。既存の休暇申請をキャンセルし、再度送信するか、必要に応じて休暇期間を変更してください。</target>
+   </trans-unit>
+   <trans-unit id="57">
+    <source>No of Hours</source>
+    <target>時間のない</target>
+
+   </trans-unit>
+   <trans-unit id="58">
+    <source>Assign Leave</source>
+    <target>ままに割り当てる</target>
+   </trans-unit>
+   <trans-unit id="59">
+    <source>From Date</source>
+
+    <target>日から</target>
+   </trans-unit>
+   <trans-unit id="60">
+    <source>To Date</source>
+    <target>日付へ</target>
+   </trans-unit>
+   <trans-unit id="61">
+
+    <source>Total Hours</source>
+    <target>合計時間</target>
+   </trans-unit>
+   <trans-unit id="62">
+    <source>Assign</source>
+    <target>割り当て</target>
+   </trans-unit>
+
+   <trans-unit id="63">
+    <source>Employee Does Not Exist</source>
+    <target>従業員が存在しない</target>
+   </trans-unit>
+   <trans-unit id="64">
+    <source>Employee Does Not Exist</source>
+    <target>従業員が存在しない</target>
+
+   </trans-unit>
+   <trans-unit id="65">
+    <source>Leave Successfully Assigned</source>
+    <target>正常に割り当て残す</target>
+   </trans-unit>
+   <trans-unit id="66">
+    <source>Leave Period Does Not Exist</source>
+
+    <target>休業期間は存在しない</target>
+   </trans-unit>
+   <trans-unit id="67">
+    <source>Make Sure Leave Request Contain Work Days</source>
+    <target>リクエストは、勤務日含む残しておくようにする</target>
+   </trans-unit>
+   <trans-unit id="68">
+
+    <source>No Eligible Leave Types to Assign Leave, Please contact HR Admin</source>
+    <target>適格な休暇の種類がままを割り当てていないために、人事管理者にお問い合わせください</target>
+   </trans-unit>
+   <trans-unit id="69">
+    <source>Select a Leave Type</source>
+    <target>休暇の種類を選択します。</target>
+   </trans-unit>
+
+   <trans-unit id="70">
+    <source>Comment</source>
+    <target>コメント</target>
+   </trans-unit>
+   <trans-unit id="71">
+    <source>Employee Name is required</source>
+    <target>従業員の名前が必要です。</target>
+
+   </trans-unit>
+   <trans-unit id="72">
+    <source>Leave Type is required</source>
+    <target>タイプが要求されるままに</target>
+   </trans-unit>
+   <trans-unit id="73">
+    <source>From Date is required</source>
+
+    <target>日から要求される</target>
+   </trans-unit>
+   <trans-unit id="74">
+    <source>From Date should be filled in YYYY-MM-DD format</source>
+    <target>日からYYYY - MM - DD形式で入力されているはず</target>
+   </trans-unit>
+   <trans-unit id="75">
+
+    <source>Invalid from date</source>
+    <target>日付から無効</target>
+   </trans-unit>
+   <trans-unit id="76">
+    <source>From date should be before to date</source>
+    <target>日付から日付への前でなければなりません</target>
+   </trans-unit>
+
+   <trans-unit id="77">
+    <source>From date should be before to date</source>
+    <target>日付から日付への前でなければなりません</target>
+   </trans-unit>
+   <trans-unit id="78">
+    <source>To Date is required</source>
+    <target>日に必要とされ</target>
+
+   </trans-unit>
+   <trans-unit id="79">
+    <source>To Date should be filled in YYYY-MM-DD format</source>
+    <target>日にYYYY - MM - DD形式で入力されているはず</target>
+   </trans-unit>
+   <trans-unit id="80">
+    <source>Invalid to date</source>
+
+    <target>日付に無効な</target>
+   </trans-unit>
+   <trans-unit id="81">
+    <source>Comment length should be less than 250 characters</source>
+    <target>コメントの長さは250文字未満にしてください</target>
+   </trans-unit>
+   <trans-unit id="82">
+
+    <source>Total time is a numeric value</source>
+    <target>合計時間は、数値です。</target>
+   </trans-unit>
+   <trans-unit id="83">
+    <source>Total time should be greater than 0.01</source>
+    <target>合計時間は、0.01より大きくする必要があります</target>
+   </trans-unit>
+
+   <trans-unit id="84">
+    <source>Total time should be lesser than 24</source>
+    <target>合計時間は、24より少ないはずです</target>
+   </trans-unit>
+   <trans-unit id="85">
+    <source>Invalid total time</source>
+    <target>無効な合計時間</target>
+
+   </trans-unit>
+   <trans-unit id="86">
+    <source>Total time is greater than the shift length</source>
+    <target>合計時間は、シフトの長さより大きい</target>
+   </trans-unit>
+   <trans-unit id="87">
+    <source>From time should be lesser than To time</source>
+
+    <target>時々より小さいはずです</target>
+   </trans-unit>
+   <trans-unit id="88">
+    <source>Apply Leave</source>
+    <target>まま適用されます。</target>
+   </trans-unit>
+   <trans-unit id="89">
+
+    <source>From Time</source>
+    <target>時間から</target>
+   </trans-unit>
+   <trans-unit id="90">
+    <source>To Time</source>
+    <target>時間に</target>
+   </trans-unit>
+
+   <trans-unit id="91">
+    <source>Apply</source>
+    <target>適用</target>
+   </trans-unit>
+   <trans-unit id="92">
+    <source>This is a deleted leave type. Reactivate it?</source>
+    <target>これは、削除された休暇のタイプです。それを再アクティブ化する？</target>
+
+   </trans-unit>
+   <trans-unit id="93">
+    <source>Leave type will be undeleted</source>
+    <target>タイプが削除されずにされるままに</target>
+   </trans-unit>
+   <trans-unit id="94">
+    <source>A new leave type will be created with same name</source>
+
+    <target>新しい休暇の種類は、同じ名前で作成されます。</target>
+   </trans-unit>
+   <trans-unit id="95">
+    <source>Please provide a leave type name</source>
+    <target>休暇の種類の名前を入力してください</target>
+   </trans-unit>
+   <trans-unit id="96">
+
+    <source>This leave type exists</source>
+    <target>この休暇の種類が存在する</target>
+   </trans-unit>
+   <trans-unit id="97">
+    <source>Leave type name should be less than 30 characters</source>
+    <target>タイプ名が30文字未満でなければならない残す</target>
+   </trans-unit>
+
+   <trans-unit id="98">
+    <source>Leave Type Successfully Saved</source>
+    <target>正常に保存タイプを残す</target>
+   </trans-unit>
+   <trans-unit id="99">
+    <source>Leave Type "%1%" Successfully Updated</source>
+    <target>正常に更新タイプ"％1％を"残す</target>
+
+   </trans-unit>
+   <trans-unit id="100">
+    <source>Leave Type "%1%" Successfully Undeleted</source>
+    <target>種類が"％1％が"正常に削除されずに残す</target>
+   </trans-unit>
+   <trans-unit id="101">
+    <source>Define Leave Type</source>
+
+    <target>残すタイプを定義する</target>
+   </trans-unit>
+   <trans-unit id="102">
+    <source>Please Select at Least One Leave Type to Delete</source>
+    <target>削除するには、少なくとも1つの休暇の種類を選択してください</target>
+   </trans-unit>
+   <trans-unit id="103">
+
+    <source>Leave Type Successfully Deleted</source>
+    <target>正常に削除タイプを残す</target>
+   </trans-unit>
+   <trans-unit id="104">
+    <source>Successfully Leave Type Updated</source>
+    <target>成功タイプが更新さまま</target>
+   </trans-unit>
+
+   <trans-unit id="105">
+    <source>Successfully Leave Type Saved</source>
+    <target>成功タイプが保存されたまま</target>
+   </trans-unit>
+   <trans-unit id="106">
+    <source>Leave Types</source>
+    <target>種類を残す</target>
+
+   </trans-unit>
+   <trans-unit id="107">
+    <source>Select Action</source>
+    <target>アクションを選択してください</target>
+   </trans-unit>
+   <trans-unit id="108">
+    <source>No Eligible Leave Types to Apply for Leave</source>
+
+    <target>休暇を適用する対象休暇タイプなし</target>
+   </trans-unit>
+   <trans-unit id="109">
+    <source>Leave Request Successfully Submitted</source>
+    <target>リクエストが正常に送信残す</target>
+   </trans-unit>
+   <trans-unit id="110">
+
+    <source>Leave Period is Not Defined Yet. Please Notify the Hr Admin to Define the Leave Period in Order to Access This Module</source>
+    <target>期間がまだ定義されていないまま。このモジュールにアクセスするために休業期間を定義するための人事管理者に連絡してください</target>
+   </trans-unit>
+   <trans-unit id="111">
+    <source>Start month is required</source>
+    <target>開始月が必要です。</target>
+   </trans-unit>
+
+   <trans-unit id="112">
+    <source>Start month for non-leap year is required</source>
+    <target>非うるう年の月が要求される開始</target>
+   </trans-unit>
+   <trans-unit id="113">
+    <source>Do you want to delete the specific holiday(s)</source>
+    <target>あなたは、特定の休日（s）を削除しますか</target>
+
+   </trans-unit>
+   <trans-unit id="114">
+    <source>At Least One Day Should Be a Working Day</source>
+    <target>少なくとも一日は仕事日である必要があります。</target>
+   </trans-unit>
+   <trans-unit id="115">
+    <source>Total Leave Requests for the Day Exceed Workshift Length</source>
+
+    <target>日の総休暇申請はWorkshift長さを超えない</target>
+   </trans-unit>
+   <trans-unit id="116">
+    <source>Leve Request Exceeds Leave Balance</source>
+    <target>Leveリクエストは、バランスを残す突破</target>
+   </trans-unit>
+   <trans-unit id="117">
+
+    <source>With Terminated Employees</source>
+    <target>解雇された従業員と</target>
+   </trans-unit>
+   <trans-unit id="118">
+    <source>No Leave Types with Leave Balance</source>
+    <target>脱退バランスとの休暇の種類なし</target>
+   </trans-unit>
+
+  </body>
+ </file>
+</xliff>

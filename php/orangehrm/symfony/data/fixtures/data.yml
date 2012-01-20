@@ -1,0 +1,57 @@
+EmployeeDefineKpi:
+  EmployeeDefineKpi_123123:
+    jobtitlecode: asd123
+    description: good
+    minrate: '1'
+    maxrate: '4'
+    defaultscale: '2'
+  EmployeeDefineKpi_2:
+    jobtitlecode: asd122
+    description: bad
+    minrate: '1'
+    maxrate: '5'
+    defaultscale: '2'
+  EmployeeDefineKpi_3:
+    jobtitlecode: asd111
+    description: never
+    minrate: '1'
+    maxrate: '1'
+    defaultscale: '1'
+JobTitle:
+  JobTitle_asd111:
+    name: developer
+    description: developer
+    comments: developer
+    salaryGradeId: '2'
+    jobspecId: '2'
+  JobTitle_asd122:
+    name: programmer
+    description: programmer
+    comments: programmer
+    salaryGradeId: '3'
+    jobspecId: '2'
+  JobTitle_asd123:
+    name: 'project manager'
+    description: 'project manager'
+    comments: assss
+    salaryGradeId: '1111'
+    jobspecId: '1'
+KeyPerformanceIndicator:
+  KeyPerformanceIndicator_123123:
+    jobtitlecode: asd123
+    description: good
+    minrate: '1'
+    maxrate: '4'
+    defaultscale: '2'
+  KeyPerformanceIndicator_2:
+    jobtitlecode: asd122
+    description: bad
+    minrate: '1'
+    maxrate: '5'
+    defaultscale: '2'
+  KeyPerformanceIndicator_3:
+    jobtitlecode: asd111
+    description: never
+    minrate: '1'
+    maxrate: '1'
+    defaultscale: '1'

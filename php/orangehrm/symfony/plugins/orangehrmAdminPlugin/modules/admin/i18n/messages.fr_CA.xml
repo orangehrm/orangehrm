@@ -1,0 +1,1184 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE xliff PUBLIC "-//XLIFF//DTD XLIFF//EN" "http://www.oasis-open.org/committees/xliff/documents/xliff.dtd">
+<xliff version="1.0">
+ <header/>
+ <file source-language="en_US" target-language="fr_CA" datatype="plaintext" original="messages" date="2012-01-12T12:41:33Z" product-name="messages">
+  <body>
+   <trans-unit id="1">
+    <source>Localization</source>
+    <target>CA_Localization</target>
+
+   </trans-unit>
+   <trans-unit id="2">
+    <source>Date Format</source>
+    <target>CA_Date Format</target>
+   </trans-unit>
+   <trans-unit id="3">
+    <source>Use browser language if set</source>
+
+    <target>CA_Use browser language if set</target>
+   </trans-unit>
+   <trans-unit id="4">
+    <source>Language Details Successfully Saved</source>
+    <target>CA_Language Details Successfully Saved</target>
+   </trans-unit>
+   <trans-unit id="5">
+
+    <source>Ok</source>
+    <target>CA_Ok</target>
+   </trans-unit>
+   <trans-unit id="6">
+    <source>Supported Languages</source>
+    <target>CA_Supported Languages</target>
+   </trans-unit>
+
+   <trans-unit id="7">
+    <source>Following languages are supported by OrangeHRM</source>
+    <target>CA_Following languages are supported by OrangeHRM</target>
+   </trans-unit>
+   <trans-unit id="8">
+    <source>Customer</source>
+    <target>CA_Customer</target>
+
+   </trans-unit>
+   <trans-unit id="9">
+    <source>CSV Data Import</source>
+    <target>CA_CSV Data Import</target>
+   </trans-unit>
+   <trans-unit id="10">
+    <source>Column order should not be changed</source>
+
+    <target>CA_Column order should not be changed</target>
+   </trans-unit>
+   <trans-unit id="11">
+    <source>First Name and Last Name is compulsory</source>
+    <target>CA_First Name and Last Name is compulsory</target>
+   </trans-unit>
+   <trans-unit id="12">
+
+    <source>All date fields should be in YYYY-mm-dd format</source>
+    <target>CA_All date fields should be in YYYY-mm-dd format</target>
+   </trans-unit>
+   <trans-unit id="13">
+    <source>Upload</source>
+    <target>CA_Upload</target>
+   </trans-unit>
+
+   <trans-unit id="14">
+    <source>Sample csv file</source>
+    <target>CA_Sample csv file</target>
+   </trans-unit>
+   <trans-unit id="15">
+    <source>Download</source>
+    <target>CA_Download</target>
+
+   </trans-unit>
+   <trans-unit id="16">
+    <source>File Required</source>
+    <target>CA_File Required</target>
+   </trans-unit>
+   <trans-unit id="17">
+    <source>Employee Record(s) Imported Successfully</source>
+
+    <target>CA_Employee Record(s) Imported Successfully</target>
+   </trans-unit>
+   <trans-unit id="18">
+    <source>Failed. File Size Exceeded 1MB</source>
+    <target>CA_Failed. File Size Exceeded 1MB</target>
+   </trans-unit>
+   <trans-unit id="19">
+
+    <source>Error Occurred - Invalid File Type</source>
+    <target>CA_Error Occurred - Invalid File Type</target>
+   </trans-unit>
+   <trans-unit id="20">
+    <source>If gender is specified, value should be either %male or %female</source>
+    <target>CA_If gender is specified, value should be either %male or %female</target>
+   </trans-unit>
+
+   <trans-unit id="21">
+    <source>Include not more than 100 records in the file</source>
+    <target>CA_Include not more than 100 records in the file</target>
+   </trans-unit>
+   <trans-unit id="22">
+    <source>Customers</source>
+    <target>CA_Customers</target>
+
+   </trans-unit>
+   <trans-unit id="23">
+    <source>Customer name is required</source>
+    <target>CA_Customer name is required</target>
+   </trans-unit>
+   <trans-unit id="24">
+    <source>Cannot exceed 255 charactors</source>
+
+    <target>CA_Cannot exceed 255 charactors</target>
+   </trans-unit>
+   <trans-unit id="25">
+    <source>Customer added Successfully</source>
+    <target>CA_Customer added Successfully</target>
+   </trans-unit>
+   <trans-unit id="26">
+
+    <source>All the projects under selected Customer will also be deleted</source>
+    <target>CA_All the projects under selected Customer will also be deleted</target>
+   </trans-unit>
+   <trans-unit id="27">
+    <source>Customer Added Successfully</source>
+    <target>CA_Customer Added Successfully</target>
+   </trans-unit>
+
+   <trans-unit id="28">
+    <source>Customer Updated Successfully</source>
+    <target>CA_Customer Updated Successfully</target>
+   </trans-unit>
+   <trans-unit id="29">
+    <source>Organization Name</source>
+    <target>CA_Organization Name</target>
+
+   </trans-unit>
+   <trans-unit id="30">
+    <source>Tax ID</source>
+    <target>CA_Tax ID</target>
+   </trans-unit>
+   <trans-unit id="31">
+    <source>Registration Number</source>
+
+    <target>CA_Registration Number</target>
+   </trans-unit>
+   <trans-unit id="32">
+    <source>Phone</source>
+    <target>CA_Phone</target>
+   </trans-unit>
+   <trans-unit id="33">
+
+    <source>Fax</source>
+    <target>CA_Fax</target>
+   </trans-unit>
+   <trans-unit id="34">
+    <source>Email</source>
+    <target>CA_Email</target>
+   </trans-unit>
+
+   <trans-unit id="35">
+    <source>Address Street 1</source>
+    <target>CA_Address Street 1</target>
+   </trans-unit>
+   <trans-unit id="36">
+    <source>Address Street 2</source>
+    <target>CA_Address Street 2</target>
+
+   </trans-unit>
+   <trans-unit id="37">
+    <source>City</source>
+    <target>CA_City</target>
+   </trans-unit>
+   <trans-unit id="38">
+    <source>Note</source>
+
+    <target>CA_Note</target>
+   </trans-unit>
+   <trans-unit id="39">
+    <source>General Information</source>
+    <target>CA_General Information</target>
+   </trans-unit>
+   <trans-unit id="40">
+
+    <source>State/Province</source>
+    <target>CA_State/Province</target>
+   </trans-unit>
+   <trans-unit id="41">
+    <source>Zip/Postal Code</source>
+    <target>CA_Zip/Postal Code</target>
+   </trans-unit>
+
+   <trans-unit id="42">
+    <source>Organization name required</source>
+    <target>CA_Organization name required</target>
+   </trans-unit>
+   <trans-unit id="43">
+    <source>Phone number can contain only space, numbers, "+", and "-"</source>
+    <target>CA_Phone number can contain only space, numbers, "+", and "-"</target>
+
+   </trans-unit>
+   <trans-unit id="44">
+    <source>Fax can contain only space, numbers, "+", and "-"</source>
+    <target>CA_Fax can contain only space, numbers, "+", and "-"</target>
+   </trans-unit>
+   <trans-unit id="45">
+    <source>Email address should contain at least one \".\" and one \"@\" Example:user@example.com</source>
+
+    <target>CA_Email address should contain at least one \".\" and one \"@\" Example:user@example.com</target>
+   </trans-unit>
+   <trans-unit id="46">
+    <source>General Information Saved Successfully</source>
+    <target>CA_General Information Saved Successfully</target>
+   </trans-unit>
+   <trans-unit id="47">
+
+    <source>Customer Name</source>
+    <target>CA_Customer Name</target>
+   </trans-unit>
+   <trans-unit id="48">
+    <source>Project Admins</source>
+    <target>CA_Project Admins</target>
+   </trans-unit>
+
+   <trans-unit id="49">
+    <source>Project</source>
+    <target>CA_Project</target>
+   </trans-unit>
+   <trans-unit id="50">
+    <source>Selected Project(s) Deleted Successfully</source>
+    <target>CA_Selected Project(s) Deleted Successfully</target>
+
+   </trans-unit>
+   <trans-unit id="51">
+    <source>Project Admin</source>
+    <target>CA_Project Admin</target>
+   </trans-unit>
+   <trans-unit id="52">
+    <source>Add Customer</source>
+
+    <target>CA_Add Customer</target>
+   </trans-unit>
+   <trans-unit id="53">
+    <source>Add Another</source>
+    <target>CA_Add Another</target>
+   </trans-unit>
+   <trans-unit id="54">
+
+    <source>Enter a valid customer name</source>
+    <target>CA_Enter a valid customer name</target>
+   </trans-unit>
+   <trans-unit id="55">
+    <source>Project name is required</source>
+    <target>CA_Project name is required</target>
+   </trans-unit>
+
+   <trans-unit id="56">
+    <source>Enter a valid employee name</source>
+    <target>CA_Enter a valid employee name</target>
+   </trans-unit>
+   <trans-unit id="57">
+    <source>Cannot exceed 50 charactors</source>
+    <target>CA_Cannot exceed 50 charactors</target>
+
+   </trans-unit>
+   <trans-unit id="58">
+    <source>Project Added Successfully</source>
+    <target>CA_Project Added Successfully</target>
+   </trans-unit>
+   <trans-unit id="59">
+    <source>Project Name</source>
+
+    <target>CA_Project Name</target>
+   </trans-unit>
+   <trans-unit id="60">
+    <source>Copy Activity</source>
+    <target>CA_Copy Activity</target>
+   </trans-unit>
+   <trans-unit id="61">
+
+    <source>Copy</source>
+    <target>CA_Copy</target>
+   </trans-unit>
+   <trans-unit id="62">
+    <source>Copy From</source>
+    <target>CA_Copy From</target>
+   </trans-unit>
+
+   <trans-unit id="63">
+    <source>Activity name is required</source>
+    <target>CA_Activity name is required</target>
+   </trans-unit>
+   <trans-unit id="64">
+    <source>Cannot exceed 100 charactors</source>
+    <target>CA_Cannot exceed 100 charactors</target>
+
+   </trans-unit>
+   <trans-unit id="65">
+    <source>Add Project Activity</source>
+    <target>CA_Add Project Activity</target>
+   </trans-unit>
+   <trans-unit id="66">
+    <source>Activity Name</source>
+
+    <target>CA_Activity Name</target>
+   </trans-unit>
+   <trans-unit id="67">
+    <source>No assigned activities</source>
+    <target>CA_No assigned activities</target>
+   </trans-unit>
+   <trans-unit id="68">
+
+    <source>No activities selected</source>
+    <target>CA_No activities selected</target>
+   </trans-unit>
+   <trans-unit id="69">
+    <source>Activity Copy Successfully</source>
+    <target>CA_Activity Copy Successfully</target>
+   </trans-unit>
+
+   <trans-unit id="70">
+    <source>Edit Customer</source>
+    <target>CA_Edit Customer</target>
+   </trans-unit>
+   <trans-unit id="71">
+    <source>Company Structure</source>
+    <target>CA_Company Structure</target>
+
+   </trans-unit>
+   <trans-unit id="72">
+    <source>Done</source>
+    <target>CA_Done</target>
+   </trans-unit>
+   <trans-unit id="73">
+    <source>Add Unit</source>
+
+    <target>CA_Add Unit</target>
+   </trans-unit>
+   <trans-unit id="74">
+    <source>Edit Unit</source>
+    <target>CA_Edit Unit</target>
+   </trans-unit>
+   <trans-unit id="75">
+
+    <source>This unit will be added under</source>
+    <target>CA_This unit will be added under</target>
+   </trans-unit>
+   <trans-unit id="76">
+    <source>and all the subunits under it will be permanantly deleted</source>
+    <target>CA_and all the subunits under it will be permanantly deleted</target>
+   </trans-unit>
+
+   <trans-unit id="77">
+    <source>Subunit Deleted Successfully</source>
+    <target>CA_Subunit Deleted Successfully</target>
+   </trans-unit>
+   <trans-unit id="78">
+    <source>Subunit Saved Successfully</source>
+    <target>CA_Subunit Saved Successfully</target>
+
+   </trans-unit>
+   <trans-unit id="79">
+    <source>Maximum allowed character limit is</source>
+    <target>CA_Maximum allowed character limit is</target>
+   </trans-unit>
+   <trans-unit id="80">
+    <source>Maximum allowed character limit is</source>
+
+    <target>CA_Maximum allowed character limit is</target>
+   </trans-unit>
+   <trans-unit id="81">
+    <source>Name is required</source>
+    <target>CA_Name is required</target>
+   </trans-unit>
+   <trans-unit id="82">
+
+    <source>Description is not specified</source>
+    <target>CA_Description is not specified</target>
+   </trans-unit>
+   <trans-unit id="83">
+    <source>Number of Employees</source>
+    <target>CA_Number of Employees</target>
+   </trans-unit>
+
+   <trans-unit id="84">
+    <source>Unit Id</source>
+    <target>CA_Unit Id</target>
+   </trans-unit>
+   <trans-unit id="85">
+    <source>Name already exist</source>
+    <target>CA_Name already exist</target>
+
+   </trans-unit>
+   <trans-unit id="86">
+    <source>Add Project</source>
+    <target>CA_Add Project</target>
+   </trans-unit>
+   <trans-unit id="87">
+    <source>Edit Project</source>
+
+    <target>CA_Edit Project</target>
+   </trans-unit>
+   <trans-unit id="88">
+    <source>Subunit Name Cannot be Duplicated</source>
+    <target>CA_Subunit Name Cannot be Duplicated</target>
+   </trans-unit>
+   <trans-unit id="89">
+
+    <source>Projects</source>
+    <target>CA_Projects</target>
+   </trans-unit>
+   <trans-unit id="90">
+    <source>Activities</source>
+    <target>CA_Activities</target>
+   </trans-unit>
+
+   <trans-unit id="91">
+    <source>Project Activity Added Successfully</source>
+    <target>CA_Project Activity Added Successfully</target>
+   </trans-unit>
+   <trans-unit id="92">
+    <source>Selected Project Activities Deleted Successfully</source>
+    <target>CA_Selected Project Activities Deleted Successfully</target>
+
+   </trans-unit>
+   <trans-unit id="93">
+    <source>Cannot Have Duplicate Activities</source>
+    <target>CA_Cannot Have Duplicate Activities</target>
+   </trans-unit>
+   <trans-unit id="94">
+    <source>Project Activity Updated Successfully</source>
+
+    <target>CA_Project Activity Updated Successfully</target>
+   </trans-unit>
+   <trans-unit id="95">
+    <source>Project Updated Successfully</source>
+    <target>CA_Project Updated Successfully</target>
+   </trans-unit>
+   <trans-unit id="96">
+
+    <source>Job Description</source>
+    <target>CA_Job Description</target>
+   </trans-unit>
+   <trans-unit id="97">
+    <source>Job Titles</source>
+    <target>CA_Job Titles</target>
+   </trans-unit>
+
+   <trans-unit id="98">
+    <source>Job Title Updated Successfully</source>
+    <target>CA_Job Title Updated Successfully</target>
+   </trans-unit>
+   <trans-unit id="99">
+    <source>Job Title Added Successfully</source>
+    <target>CA_Job Title Added Successfully</target>
+
+   </trans-unit>
+   <trans-unit id="100">
+    <source>Add Job Title</source>
+    <target>CA_Add Job Title</target>
+   </trans-unit>
+   <trans-unit id="101">
+    <source>Edit Job Title</source>
+
+    <target>CA_Edit Job Title</target>
+   </trans-unit>
+   <trans-unit id="102">
+    <source>Job Specification Size Exceeded 1MB</source>
+    <target>CA_Job Specification Size Exceeded 1MB</target>
+   </trans-unit>
+   <trans-unit id="103">
+
+    <source>Selected job title(s) will be deleted</source>
+    <target>CA_Selected job title(s) will be deleted</target>
+   </trans-unit>
+   <trans-unit id="104">
+    <source>Selected customer(s) will be deleted</source>
+    <target>CA_Selected customer(s) will be deleted</target>
+   </trans-unit>
+
+   <trans-unit id="105">
+    <source>Selected project(s) will be deleted</source>
+    <target>CA_Selected project(s) will be deleted</target>
+   </trans-unit>
+   <trans-unit id="106">
+    <source>Job Title is required</source>
+    <target>CA_Job Title is required</target>
+
+   </trans-unit>
+   <trans-unit id="107">
+    <source>Selected Job Title(s) Deleted Successfully</source>
+    <target>CA_Selected Job Title(s) Deleted Successfully</target>
+   </trans-unit>
+   <trans-unit id="108">
+    <source>Cannot exceed 400 charactors</source>
+
+    <target>CA_Cannot exceed 400 charactors</target>
+   </trans-unit>
+   <trans-unit id="109">
+    <source>Locations</source>
+    <target>CA_Locations</target>
+   </trans-unit>
+   <trans-unit id="110">
+
+    <source>Location Name</source>
+    <target>CA_Location Name</target>
+   </trans-unit>
+   <trans-unit id="111">
+    <source>Location Added Successfully</source>
+    <target>CA_Location Added Successfully</target>
+   </trans-unit>
+
+   <trans-unit id="112">
+    <source>Location Added Successfully</source>
+    <target>CA_Location Added Successfully</target>
+   </trans-unit>
+   <trans-unit id="113">
+    <source>Selected Location(s) Deleted Successfully</source>
+    <target>CA_Selected Location(s) Deleted Successfully</target>
+
+   </trans-unit>
+   <trans-unit id="114">
+    <source>Add Location</source>
+    <target>CA_Add Location</target>
+   </trans-unit>
+   <trans-unit id="115">
+    <source>Location name is required</source>
+
+    <target>CA_Location name is required</target>
+   </trans-unit>
+   <trans-unit id="116">
+    <source>Country is required</source>
+    <target>CA_Country is required</target>
+   </trans-unit>
+   <trans-unit id="117">
+
+    <source>Cannot exceed 30 charactors</source>
+    <target>CA_Cannot exceed 30 charactors</target>
+   </trans-unit>
+   <trans-unit id="118">
+    <source>Address</source>
+    <target>CA_Address</target>
+   </trans-unit>
+
+   <trans-unit id="119">
+    <source>Zip Code</source>
+    <target>CA_Zip Code</target>
+   </trans-unit>
+   <trans-unit id="120">
+    <source>Edit Location</source>
+    <target>CA_Edit Location</target>
+
+   </trans-unit>
+   <trans-unit id="121">
+    <source>Location Updated Successfully</source>
+    <target>CA_Location Updated Successfully</target>
+   </trans-unit>
+   <trans-unit id="122">
+    <source>Status name is required</source>
+
+    <target>CA_Status name is required</target>
+   </trans-unit>
+   <trans-unit id="123">
+    <source>Employment Status Saved Successfully</source>
+    <target>CA_Employment Status Saved Successfully</target>
+   </trans-unit>
+   <trans-unit id="124">
+
+    <source>Add Employment Status</source>
+    <target>CA_Add Employment Status</target>
+   </trans-unit>
+   <trans-unit id="125">
+    <source>Edit Employment Status</source>
+    <target>CA_Edit Employment Status</target>
+   </trans-unit>
+
+   <trans-unit id="126">
+    <source>Selected employment status(es) will be deleted</source>
+    <target>CA_Selected employment status(es) will be deleted</target>
+   </trans-unit>
+   <trans-unit id="127">
+    <source>Selected Employment Status(es) Deleted Successfully</source>
+    <target>CA_Selected Employment Status(es) Deleted Successfully</target>
+
+   </trans-unit>
+   <trans-unit id="128">
+    <source>Job Title already exists</source>
+    <target>CA_Job Title already exists</target>
+   </trans-unit>
+   <trans-unit id="129">
+    <source>Skills</source>
+
+    <target>CA_Skills</target>
+   </trans-unit>
+   <trans-unit id="130">
+    <source>Add Skill</source>
+    <target>CA_Add Skill</target>
+   </trans-unit>
+   <trans-unit id="131">
+
+    <source>Edit Skill</source>
+    <target>CA_Edit Skill</target>
+   </trans-unit>
+   <trans-unit id="132">
+    <source>Description length should not exceed 250 characters</source>
+    <target>CA_Description length should not exceed 250 characters</target>
+   </trans-unit>
+
+   <trans-unit id="133">
+    <source>Skill Saved Successfully</source>
+    <target>CA_Skill Saved Successfully</target>
+   </trans-unit>
+   <trans-unit id="134">
+    <source>Skill Updated Successfully</source>
+    <target>CA_Skill Updated Successfully</target>
+
+   </trans-unit>
+   <trans-unit id="135">
+    <source>Skill(s) Deleted Successfully</source>
+    <target>CA_Skill(s) Deleted Successfully</target>
+   </trans-unit>
+   <trans-unit id="136">
+    <source>Memberships</source>
+
+    <target>CA_Memberships</target>
+   </trans-unit>
+   <trans-unit id="137">
+    <source>Add Membership</source>
+    <target>CA_Add Membership</target>
+   </trans-unit>
+   <trans-unit id="138">
+
+    <source>Membership Saved Successfully</source>
+    <target>CA_Membership Saved Successfully</target>
+   </trans-unit>
+   <trans-unit id="139">
+    <source>Edit Membership</source>
+    <target>CA_Edit Membership</target>
+   </trans-unit>
+
+   <trans-unit id="140">
+    <source>Selected membership(s) will be deleted</source>
+    <target>CA_Selected membership(s) will be deleted</target>
+   </trans-unit>
+   <trans-unit id="141">
+    <source>Selected Membership(s) Deleted Successfully</source>
+    <target>CA_Selected Membership(s) Deleted Successfully</target>
+
+   </trans-unit>
+   <trans-unit id="142">
+    <source>Pay Grades</source>
+    <target>CA_Pay Grades</target>
+   </trans-unit>
+   <trans-unit id="143">
+    <source>Pay Grade</source>
+
+    <target>CA_Pay Grade</target>
+   </trans-unit>
+   <trans-unit id="144">
+    <source>Currency</source>
+    <target>CA_Currency</target>
+   </trans-unit>
+   <trans-unit id="145">
+
+    <source>Add Pay Grade</source>
+    <target>CA_Add Pay Grade</target>
+   </trans-unit>
+   <trans-unit id="146">
+    <source>Pay Grade name is required</source>
+    <target>CA_Pay Grade name is required</target>
+   </trans-unit>
+
+   <trans-unit id="147">
+    <source>Pay Grade Saved Successfully</source>
+    <target>CA_Pay Grade Saved Successfully</target>
+   </trans-unit>
+   <trans-unit id="148">
+    <source>Assigned Currencies</source>
+    <target>CA_Assigned Currencies</target>
+
+   </trans-unit>
+   <trans-unit id="149">
+    <source>Minimum Salary</source>
+    <target>CA_Minimum Salary</target>
+   </trans-unit>
+   <trans-unit id="150">
+    <source>Maximum Salary</source>
+
+    <target>CA_Maximum Salary</target>
+   </trans-unit>
+   <trans-unit id="151">
+    <source>Invalid salary range</source>
+    <target>CA_Invalid salary range</target>
+   </trans-unit>
+   <trans-unit id="152">
+
+    <source>Salary should be a number. No spaces are allowed</source>
+    <target>CA_Salary should be a number. No spaces are allowed</target>
+   </trans-unit>
+   <trans-unit id="153">
+    <source>Selected pay grade(s) will be deleted</source>
+    <target>CA_Selected pay grade(s) will be deleted</target>
+   </trans-unit>
+
+   <trans-unit id="154">
+    <source>Selected Pay Grade(s) Deleted Successfully</source>
+    <target>CA_Selected Pay Grade(s) Deleted Successfully</target>
+   </trans-unit>
+   <trans-unit id="155">
+    <source>Edit Pay Grade</source>
+    <target>CA_Edit Pay Grade</target>
+
+   </trans-unit>
+   <trans-unit id="156">
+    <source>Edit Currency</source>
+    <target>CA_Edit Currency</target>
+   </trans-unit>
+   <trans-unit id="157">
+    <source>Add Currency</source>
+
+    <target>CA_Add Currency</target>
+   </trans-unit>
+   <trans-unit id="158">
+    <source>Enter a valid currency</source>
+    <target>CA_Enter a valid currency</target>
+   </trans-unit>
+   <trans-unit id="159">
+
+    <source>Pay Grade Currency Deleted Successfully</source>
+    <target>CA_Pay Grade Currency Deleted Successfully</target>
+   </trans-unit>
+   <trans-unit id="160">
+    <source>Pay Grade Currencies Deleted Successfully</source>
+    <target>CA_Pay Grade Currencies Deleted Successfully</target>
+   </trans-unit>
+
+   <trans-unit id="161">
+    <source>Name is already exist</source>
+    <target>CA_Name is already exist</target>
+   </trans-unit>
+   <trans-unit id="162">
+    <source>Nationalities</source>
+    <target>CA_Nationalities</target>
+
+   </trans-unit>
+   <trans-unit id="163">
+    <source>Nationality</source>
+    <target>CA_Nationality</target>
+   </trans-unit>
+   <trans-unit id="164">
+    <source>Add Nationality</source>
+
+    <target>CA_Add Nationality</target>
+   </trans-unit>
+   <trans-unit id="165">
+    <source>Nationality Saved Successfully</source>
+    <target>CA_Nationality Saved Successfully</target>
+   </trans-unit>
+   <trans-unit id="166">
+
+    <source>Edit Nationality</source>
+    <target>CA_Edit Nationality</target>
+   </trans-unit>
+   <trans-unit id="167">
+    <source>Selected nationality(ies) will be deleted</source>
+    <target>CA_Selected nationality(ies) will be deleted</target>
+   </trans-unit>
+
+   <trans-unit id="168">
+    <source>Selected Nationality(ies) Deleted Successfully</source>
+    <target>CA_Selected Nationality(ies) Deleted Successfully</target>
+   </trans-unit>
+   <trans-unit id="169">
+    <source>Job Category Saved Successfully</source>
+    <target>CA_Job Category Saved Successfully</target>
+
+   </trans-unit>
+   <trans-unit id="170">
+    <source>Selected job category(s) will be deleted</source>
+    <target>CA_Selected job category(s) will be deleted</target>
+   </trans-unit>
+   <trans-unit id="171">
+    <source>Selected Job Category(s) Deleted Successfully</source>
+
+    <target>CA_Selected Job Category(s) Deleted Successfully</target>
+   </trans-unit>
+   <trans-unit id="172">
+    <source>Edit Job Category</source>
+    <target>CA_Edit Job Category</target>
+   </trans-unit>
+   <trans-unit id="173">
+
+    <source>Add Job Category</source>
+    <target>CA_Add Job Category</target>
+   </trans-unit>
+   <trans-unit id="174">
+    <source>Languages</source>
+    <target>CA_Languages</target>
+   </trans-unit>
+
+   <trans-unit id="175">
+    <source>Add Language</source>
+    <target>CA_Add Language</target>
+   </trans-unit>
+   <trans-unit id="176">
+    <source>Edit Language</source>
+    <target>CA_Edit Language</target>
+
+   </trans-unit>
+   <trans-unit id="177">
+    <source>Language Saved Successfully</source>
+    <target>CA_Language Saved Successfully</target>
+   </trans-unit>
+   <trans-unit id="178">
+    <source>Language Updated Successfully</source>
+
+    <target>CA_Language Updated Successfully</target>
+   </trans-unit>
+   <trans-unit id="179">
+    <source>Language(s) Deleted Successfully</source>
+    <target>CA_Language(s) Deleted Successfully</target>
+   </trans-unit>
+   <trans-unit id="180">
+
+    <source>System Users</source>
+    <target>CA_System Users</target>
+   </trans-unit>
+   <trans-unit id="181">
+    <source>Username</source>
+    <target>CA_Username</target>
+   </trans-unit>
+
+   <trans-unit id="182">
+    <source>User Type</source>
+    <target>CA_User Type</target>
+   </trans-unit>
+   <trans-unit id="183">
+    <source>Employee Name</source>
+    <target>CA_Employee Name</target>
+
+   </trans-unit>
+   <trans-unit id="184">
+    <source>Add User</source>
+    <target>CA_Add User</target>
+   </trans-unit>
+   <trans-unit id="185">
+    <source>Username already taken</source>
+
+    <target>CA_Username already taken</target>
+   </trans-unit>
+   <trans-unit id="186">
+    <source>Password</source>
+    <target>CA_Password</target>
+   </trans-unit>
+   <trans-unit id="187">
+
+    <source>Edit User</source>
+    <target>CA_Edit User</target>
+   </trans-unit>
+   <trans-unit id="188">
+    <source>User Added Successfully</source>
+    <target>CA_User Added Successfully</target>
+   </trans-unit>
+
+   <trans-unit id="189">
+    <source>System User(s) Deleted Successfully</source>
+    <target>CA_System User(s) Deleted Successfully</target>
+   </trans-unit>
+   <trans-unit id="190">
+    <source>Pay Grade Currency Saved Successfully</source>
+    <target>CA_Pay Grade Currency Saved Successfully</target>
+
+   </trans-unit>
+   <trans-unit id="191">
+    <source>Employee name is required</source>
+    <target>CA_Employee name is required</target>
+   </trans-unit>
+   <trans-unit id="192">
+    <source>Username is required</source>
+
+    <target>CA_Username is required</target>
+   </trans-unit>
+   <trans-unit id="193">
+    <source>Passwords do not match</source>
+    <target>CA_Passwords do not match</target>
+   </trans-unit>
+   <trans-unit id="194">
+
+    <source>Select valid employee</source>
+    <target>CA_Select valid employee</target>
+   </trans-unit>
+   <trans-unit id="195">
+    <source>User Name should have at least 5 characters</source>
+    <target>CA_User Name should have at least 5 characters</target>
+   </trans-unit>
+
+   <trans-unit id="196">
+    <source>Confirm Password</source>
+    <target>CA_Confirm Password</target>
+   </trans-unit>
+   <trans-unit id="197">
+    <source>Licenses</source>
+    <target>CA_Licenses</target>
+
+   </trans-unit>
+   <trans-unit id="198">
+    <source>Add License</source>
+    <target>CA_Add License</target>
+   </trans-unit>
+   <trans-unit id="199">
+    <source>Edit License</source>
+
+    <target>CA_Edit License</target>
+   </trans-unit>
+   <trans-unit id="200">
+    <source>License Saved Successfully</source>
+    <target>CA_License Saved Successfully</target>
+   </trans-unit>
+   <trans-unit id="201">
+
+    <source>License Updated Successfully</source>
+    <target>CA_License Updated Successfully</target>
+   </trans-unit>
+   <trans-unit id="202">
+    <source>License(s) Deleted Successfully</source>
+    <target>CA_License(s) Deleted Successfully</target>
+   </trans-unit>
+
+   <trans-unit id="203">
+    <source>Email Notification</source>
+    <target>CA_Email Notification</target>
+   </trans-unit>
+   <trans-unit id="204">
+    <source>Notification Type</source>
+    <target>CA_Notification Type</target>
+
+   </trans-unit>
+   <trans-unit id="205">
+    <source>Subscriber(s)</source>
+    <target>CA_Subscriber(s)</target>
+   </trans-unit>
+   <trans-unit id="206">
+    <source>Selected Notifications Saved Successfully</source>
+
+    <target>CA_Selected Notifications Saved Successfully</target>
+   </trans-unit>
+   <trans-unit id="207">
+    <source>Subscribers</source>
+    <target>CA_Subscribers</target>
+   </trans-unit>
+   <trans-unit id="208">
+
+    <source>Add Subscriber</source>
+    <target>CA_Add Subscriber</target>
+   </trans-unit>
+   <trans-unit id="209">
+    <source>Edit Subscriber</source>
+    <target>CA_Edit Subscriber</target>
+   </trans-unit>
+
+   <trans-unit id="210">
+    <source>Click on a notification type to add subscribers</source>
+    <target>CA_Click on a notification type to add subscribers</target>
+   </trans-unit>
+   <trans-unit id="211">
+    <source>Subscriber Saved Successfully</source>
+    <target>CA_Subscriber Saved Successfully</target>
+
+   </trans-unit>
+   <trans-unit id="212">
+    <source>Selected subscriber(s) will be deleted</source>
+    <target>CA_Selected subscriber(s) will be deleted</target>
+   </trans-unit>
+   <trans-unit id="213">
+    <source>Selected Subscriber(s) Deleted Successfully</source>
+
+    <target>CA_Selected Subscriber(s) Deleted Successfully</target>
+   </trans-unit>
+   <trans-unit id="214">
+    <source>Email is required</source>
+    <target>CA_Email is required</target>
+   </trans-unit>
+   <trans-unit id="215">
+
+    <source>Email already exist</source>
+    <target>CA_Email already exist</target>
+   </trans-unit>
+   <trans-unit id="216">
+    <source>Email address should contain at least one '.' and one '@' Example:user@example.com</source>
+    <target>CA_Email address should contain at least one '.' and one '@' Example:user@example.com</target>
+   </trans-unit>
+
+   <trans-unit id="217">
+    <source>Education</source>
+    <target>CA_Education</target>
+   </trans-unit>
+   <trans-unit id="218">
+    <source>Add Education</source>
+    <target>CA_Add Education</target>
+
+   </trans-unit>
+   <trans-unit id="219">
+    <source>Edit Education</source>
+    <target>CA_Edit Education</target>
+   </trans-unit>
+   <trans-unit id="220">
+    <source>Education Saved Successfully</source>
+
+    <target>CA_Education Saved Successfully</target>
+   </trans-unit>
+   <trans-unit id="221">
+    <source>Education Updated Successfully</source>
+    <target>CA_Education Updated Successfully</target>
+   </trans-unit>
+   <trans-unit id="222">
+
+    <source>Education Record(s) Deleted Successfully</source>
+    <target>CA_Education Record(s) Deleted Successfully</target>
+   </trans-unit>
+   <trans-unit id="223">
+    <source>Level is required</source>
+    <target>CA_Level is required</target>
+   </trans-unit>
+
+   <trans-unit id="224">
+    <source>Level</source>
+    <target>CA_Level</target>
+   </trans-unit>
+   <trans-unit id="225">
+    <source>Work Shifts</source>
+    <target>CA_Work Shifts</target>
+
+   </trans-unit>
+   <trans-unit id="226">
+    <source>Shift Name</source>
+    <target>CA_Shift Name</target>
+   </trans-unit>
+   <trans-unit id="227">
+    <source>Hours Per Day</source>
+
+    <target>CA_Hours Per Day</target>
+   </trans-unit>
+   <trans-unit id="228">
+    <source>Available Employees</source>
+    <target>CA_Available Employees</target>
+   </trans-unit>
+   <trans-unit id="229">
+
+    <source>Assigned Employees</source>
+    <target>CA_Assigned Employees</target>
+   </trans-unit>
+   <trans-unit id="230">
+    <source>Remove</source>
+    <target>CA_Remove</target>
+   </trans-unit>
+
+   <trans-unit id="231">
+    <source>Add Work Shift</source>
+    <target>CA_Add Work Shift</target>
+   </trans-unit>
+   <trans-unit id="232">
+    <source>Shift Name is required</source>
+    <target>CA_Shift Name is required</target>
+
+   </trans-unit>
+   <trans-unit id="233">
+    <source>Hour per day is required</source>
+    <target>CA_Hour per day is required</target>
+   </trans-unit>
+   <trans-unit id="234">
+    <source>Work Shift Saved Successfully</source>
+
+    <target>CA_Work Shift Saved Successfully</target>
+   </trans-unit>
+   <trans-unit id="235">
+    <source>Selected work shift(s) will be deleted</source>
+    <target>CA_Selected work shift(s) will be deleted</target>
+   </trans-unit>
+   <trans-unit id="236">
+
+    <source>Selected Work Shift(s) Deleted Successfully</source>
+    <target>CA_Selected Work Shift(s) Deleted Successfully</target>
+   </trans-unit>
+   <trans-unit id="237">
+    <source>Enter a valid number</source>
+    <target>CA_Enter a valid number</target>
+   </trans-unit>
+
+   <trans-unit id="238">
+    <source>Value should be a possitive number</source>
+    <target>CA_Value should be a possitive number</target>
+   </trans-unit>
+   <trans-unit id="239">
+    <source>Value should be less than 24</source>
+    <target>CA_Value should be less than 24</target>
+
+   </trans-unit>
+   <trans-unit id="240">
+    <source>Edit Work Shift</source>
+    <target>CA_Edit Work Shift</target>
+   </trans-unit>
+   <trans-unit id="241">
+    <source>Skill Name Exists</source>
+
+    <target>CA_Skill Name Exists</target>
+   </trans-unit>
+   <trans-unit id="242">
+    <source>Language Name Exists</source>
+    <target>CA_Language Name Exists</target>
+   </trans-unit>
+   <trans-unit id="243">
+
+    <source>License Name Exists</source>
+    <target>CA_License Name Exists</target>
+   </trans-unit>
+   <trans-unit id="244">
+    <source>Education Level Exists</source>
+    <target>CA_Education Level Exists</target>
+   </trans-unit>
+
+   <trans-unit id="245">
+    <source>Selected system user(s) will be deleted</source>
+    <target>CA_Selected system user(s) will be deleted</target>
+   </trans-unit>
+   <trans-unit id="246">
+    <source>Salary should be a number with two decimals. No spaces are allowed</source>
+    <target>CA_Salary should be a number with two decimals. No spaces are allowed</target>
+
+   </trans-unit>
+   <trans-unit id="247">
+    <source>Change Password</source>
+    <target>CA_Change Password</target>
+   </trans-unit>
+   <trans-unit id="248">
+    <source>Current Password</source>
+
+    <target>CA_Current Password</target>
+   </trans-unit>
+   <trans-unit id="249">
+    <source>New Password</source>
+    <target>CA_New Password</target>
+   </trans-unit>
+   <trans-unit id="250">
+
+    <source>Confirm New Password</source>
+    <target>CA_Confirm New Password</target>
+   </trans-unit>
+   <trans-unit id="251">
+    <source>Current Password is required</source>
+    <target>CA_Current Password is required</target>
+   </trans-unit>
+
+   <trans-unit id="252">
+    <source>New Password is required</source>
+    <target>CA_New Password is required</target>
+   </trans-unit>
+   <trans-unit id="253">
+    <source>Confirm New Password is required</source>
+    <target>CA_Confirm New Password is required</target>
+
+   </trans-unit>
+   <trans-unit id="254">
+    <source>Password should have at least 4 characters</source>
+    <target>CA_Password should have at least 4 characters</target>
+   </trans-unit>
+   <trans-unit id="255">
+    <source>Cannot exceed 20 charactors</source>
+
+    <target>CA_Cannot exceed 20 charactors</target>
+   </trans-unit>
+   <trans-unit id="256">
+    <source>Current Password Is Wrong</source>
+    <target>CA_Current Password Is Wrong</target>
+   </trans-unit>
+   <trans-unit id="257">
+
+    <source>Password Changed Successfully</source>
+    <target>CA_Password Changed Successfully</target>
+   </trans-unit>
+  </body>
+ </file>
+</xliff>

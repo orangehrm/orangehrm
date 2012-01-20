@@ -1,0 +1,10 @@
+set1:
+  0: {leaveTypeId: 'LTY001', leaveTypeName: 'Casual', availableFlag: 1}
+  1: {leaveTypeId: 'LTY002', leaveTypeName: 'Medical', availableFlag: 1}
+  2: {leaveTypeId: 'LTY003', leaveTypeName: 'Annual', availableFlag: 1}
+  3: {leaveTypeId: 'LTY004', leaveTypeName: 'Wesak', availableFlag: 1}
+  4: {leaveTypeId: 'LTY005', leaveTypeName: 'Christmas', availableFlag: 1}
+
+set2:
+  0: {leaveTypeId: 'LTY001', leaveTypeName: 'Company', availableFlag: 0}
+  1: {leaveTypeId: 'LTY002', leaveTypeName: 'Lesure', availableFlag: 0}

@@ -1,0 +1,22 @@
+.formFields label {
+    width: 160px;
+}
+
+div .error {
+    padding-left: 20px;
+}
+
+.helpText {
+   font-size: 8pt;
+   color:#888888;
+   padding-left: 20px;
+}
+
+label {
+    margin: 2px;
+}
+
+.duplexBox {
+    border: 1px solid #888888;
+    width: 220px;
+}

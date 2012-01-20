@@ -1,0 +1,9 @@
+EmailNotification:
+  0: { id: 1, name: 'Leave Applications', isEnable: 0 }
+  1: { id: 2, name: 'Leave Assignments', isEnable: 0 }
+  2: { id: 3, name: 'Leave Approvals', isEnable: 1 }
+
+EmailSubscriber:
+  0: { id: 1, name: 'Kayla Abbey', notificationId: 1, email: 'kayla@gmail.com' }
+  1: { id: 2, name: 'John Kent', notificationId: 1, email: 'john@gmail.com'  }
+  2: { id: 3, name: 'Peter', notificationId: 2, email: 'peter@gmail.com'  }

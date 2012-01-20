@@ -1,0 +1,220 @@
+/* 
+    Document   : viewTimesheetSuccess.css
+    Created on : Apr 28, 2011, 9:06:54 AM
+    Author     : orangehrm
+    Description:
+        Purpose of the stylesheet follows.
+*/
+
+/* 
+   TODO customize this sample style
+   Syntax recommendation http://www.w3.org/TR/REC-CSS2/
+*/
+
+root { 
+    display: block;
+}
+
+
+.data-table{
+    border-collapse:collapse;
+}
+
+table.data-table thead td{
+    text-align: center;
+    width: 500px;
+}
+
+.data-table td{
+    border-collapse:collapse;
+    width: 500px;
+
+}
+
+hr {
+    border: 1px solid #DDDDDD;
+    height: 1px;
+
+}
+hr #1{
+
+}
+
+#noRecordsColumn{
+    text-align:center;
+
+}
+#totalHorizontal,#totalVertical,#total{
+    font-weight: bold;
+
+}
+#totalVerticalValue{
+    text-align: center;
+    width: 500px;
+    font-weight: bold;
+}
+
+#projectColumn,#activityColumn{
+
+    padding-left: 40px;
+    text-align: left;
+
+
+}
+
+.actionLog-table{
+    border-collapse:collapse;
+
+}
+
+.actionLog-table td{
+    border-collapse:collapse;
+    width: 1000px;
+    text-align: center;
+
+
+}
+table.actionLog-table thead td {
+    color: #444444;
+    font-size: 13px;
+    font-weight: bold;
+    padding-bottom: 4px;
+    padding-top: 4px;
+    background-color: #FAD163;
+}
+
+.actionLog-table tr:hover { 
+
+    background-color: #DDDDDD;
+
+
+}
+
+.commentIcon {
+
+    width: 5px;
+    text-align: left;
+
+}
+
+.duration{
+    text-align: center;
+    width: 500px;
+}
+
+#totalVertical,#projectColumn,#activityColumn{
+
+    width: 6500px;
+}
+
+#totalVertical{
+
+    padding-left: 20px;
+
+}
+
+
+#total{
+    text-align: right;
+    padding-right: 15px;
+}
+
+#comments{
+    text-align: left;
+    font-size: 12px;
+
+}
+
+#headingTable{
+
+    width: 100%;
+    padding-right: 15px;
+    padding-left: 15px;
+
+}
+
+#headingText{
+
+    font-size: 20px;
+    font-weight: bold;
+    width: auto;
+}
+
+#startingDates{
+    text-align: left;
+
+}
+
+#timesheetStatus{
+
+    text-align: right;
+    font-size: 16px;
+    font-weight: bold;
+
+}
+
+#actionLogComment{
+
+    text-align: left;
+
+}
+#actionLogDate{
+    text-align: left;
+    width: 15%;
+}
+
+#actionlogStatus{
+    text-align: left;
+    padding-left: 25px;
+    width: 15%;
+}
+
+#actionlogPerform{
+    text-align: left;
+    width: 15%;
+}
+
+.commentHeading{
+    font-weight: bold;
+    font-size: 14px;
+}
+
+.outerbox{
+    min-width: 98%;
+    padding-right: 10px;
+}
+
+#startDates{
+
+    vertical-align: middle;
+}
+
+#columnName{
+
+    padding-left: 20px;
+}
+
+.resetButton,#btnAddTimesheet{
+
+    background: none repeat scroll 0 0 #999966 !important;
+    border-color: #CCCC99 #666633 #666633 #CCCC99 !important;
+    border-style: solid !important;
+    border-width: 1px !important;
+    color: #FFFFFF !important;
+    cursor: default;
+    font-size: 11px;
+    font-weight: bold !important;
+    min-width: 75px;
+    width: auto;
+}
+
+label, span.formLabel, span.wideFormLabel {
+    padding-left: 20px;
+    text-align: left;
+    width: 200px;
+    margin-top: 2px;
+}
+
+#time_date{
+    width: 120px;
+}

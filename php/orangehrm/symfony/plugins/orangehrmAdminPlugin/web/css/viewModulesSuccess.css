@@ -1,0 +1,27 @@
+.outerbox {
+    width: 350px;
+    margin-top: 20px;
+}
+
+/* Form CSS */
+
+label {
+    margin-top: 10px;
+    width: 280px;
+}
+
+input.checkbox {
+    margin-top: 10px;
+}
+
+.helpText {
+    padding-left: 15px;
+    padding-top: 5px;
+    font-size: 8pt;
+}
+
+/* Message bar CSS */
+#messageBalloon_success, #messageBalloon_warning {
+    width: 320px;
+    margin-left: 15px;
+}

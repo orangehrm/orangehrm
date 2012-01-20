@@ -1,0 +1,44 @@
+.outerbox{
+    width: 600px;
+}
+
+#helpText1{
+    padding-left: 15px;
+}
+
+.csvFileLabel{
+    padding-left: 15px;
+    margin-top: 4px;
+}
+#download{
+    text-decoration: underline;
+    cursor: pointer;
+}
+.error{
+    padding-left: 135px !important;
+}
+.hrLine {
+    border-top: 1px solid #FAD163;
+    display: block;
+    margin-left: 5px;
+    margin-top: 2px;
+    margin-bottom: 10px;
+    width: 98%;
+}
+#messagebar{
+    width: 540px;
+}
+
+span.boldText {
+    font-weight: bold;
+}
+
+ul#ulInstructions {
+    list-style-type: square !important;
+    margin-left: 30px;
+}
+
+ul#ulInstructions li {
+    list-style-type: square !important;
+    margin-bottom: 2px;
+}

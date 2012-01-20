@@ -1,0 +1,12 @@
+<PUBLIC:ATTACH EVENT="onmouseover" ONEVENT="doHover()" />
+<PUBLIC:ATTACH EVENT="onmouseout"  ONEVENT="restoreHover()" />
+<SCRIPT LANGUAGE="JScript">
+function doHover() { 
+	element.className += ' hover';    
+}
+
+function restoreHover() { 
+	element.className = element.className.replace(/\shover\b/,'');
+}
+
+</SCRIPT>

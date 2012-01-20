@@ -1,0 +1,80 @@
+
+div.searchbox label {
+    font-weight: normal;
+}
+div.searchbox label.error {
+    width:168px !important;
+    color: red;
+    padding-left: 122px;
+}
+div.formbuttons {
+    background-color: white;
+    float: left;
+    padding: 3px;
+    width: 35%;
+    border-top:white;
+    margin-top:3px;
+    text-align:left;
+    margin-left: 5px;
+    margin-bottom: 3px;
+    
+}
+div.actionbuttons {
+    background-color: white;
+    float: left;
+    padding: 3px;
+    width: 35%;
+    margin-top:3px;
+    margin-left: 5px;
+    margin-bottom: 3px;
+}
+.null {
+    font-size: 12px !important;
+}
+
+.headerCell {
+    font-size: 12px !important;
+}
+
+.outerbox {
+    width: 98% !important;
+}
+
+.trHover{
+    cursor: auto;
+}
+
+
+div.searchbox div.actionbar {
+    border-top: 1px solid #FAD163;
+    margin-top: 3px;
+}
+
+div.searchbox {
+    border-bottom: 0px;
+    padding-bottom: 0px;
+}
+
+form#search_form div#formcontent select,
+form#search_form div#formcontent input {
+    padding-left:4px;
+    padding-right:0px;
+    padding-top: 1px;
+    padding-bottom: 1px;
+    width:150px;
+    margin-bottom: 5px;
+}
+
+form#search_form div#formcontent label {
+    width: 100px;
+    margin-bottom: 5px;
+}
+
+form#search_form div#formcontent select {
+    width:156px;
+}
+
+input#empsearch_employee_name,
+input#empsearch_supervisor_name {
+    width: 250px;
+}

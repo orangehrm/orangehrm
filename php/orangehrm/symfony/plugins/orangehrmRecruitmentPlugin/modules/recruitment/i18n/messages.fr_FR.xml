@@ -1,0 +1,693 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE xliff PUBLIC "-//XLIFF//DTD XLIFF//EN" "http://www.oasis-open.org/committees/xliff/documents/xliff.dtd">
+<xliff version="1.0">
+    <file source-language="en_US" target-language="fr_FR" datatype="plaintext" original="messages" date="2009-12-08T13:58:35Z" product-name="messages">
+        <header/>
+        <body>
+            <trans-unit id="1">
+                <source>Candidates</source>
+                <target>FR_Candidates</target>
+            </trans-unit>
+            <trans-unit id="2">
+                <source>Vacancy</source>
+                <target>FR_Vacancy</target>
+            </trans-unit>
+            <trans-unit id="3">
+                <source>Hiring Manager</source>
+                <target>FR_Hiring Manager</target>
+            </trans-unit>
+            <trans-unit id="4">
+                <source>Candidate Name</source>
+                <target>FR_Candidate Name</target>
+            </trans-unit>
+            <trans-unit id="5">
+                <source>Keywords</source>
+                <target>FR_Keywords</target>
+            </trans-unit>
+            <trans-unit id="6">
+                <source>Method of Application</source>
+                <target>FR_Method of Application</target>
+            </trans-unit>
+            <trans-unit id="7">
+                <source>Date of Application</source>
+                <target>FR_Date of Application</target>
+            </trans-unit>
+            <trans-unit id="8">
+                <source>Enter comma separated words</source>
+                <target>FR_Enter comma separated words</target>
+            </trans-unit>
+            <trans-unit id="9">
+                <source>From date should be less than To date</source>
+                <target>FR_From date should be less than To date</target>
+            </trans-unit>
+            <trans-unit id="10">
+                <source>Candidate</source>
+                <target>FR_Candidate</target>
+            </trans-unit>
+            <trans-unit id="11">
+                <source>Vacancy Name</source>
+                <target>FR_Vacancy Name</target>
+            </trans-unit>
+            <trans-unit id="12">
+                <source>Number of Positions</source>
+                <target>FR_Number of Positions</target>
+            </trans-unit>
+            <trans-unit id="13">
+                <source>Active</source>
+                <target>FR_Active</target>
+            </trans-unit>
+            <trans-unit id="14">
+                <source>Number of positions should be a positive integer</source>
+                <target>FR_Number of positions should be a positive integer</target>
+            </trans-unit>
+            <trans-unit id="15">
+                <source>Job Title is required</source>
+                <target>FR_Job Title is required</target>
+            </trans-unit>
+            <trans-unit id="16">
+                <source>Vacancy name is required</source>
+                <target>FR_Vacancy name is required</target>
+            </trans-unit>
+            <trans-unit id="17">
+                <source>Enter a valid employee name</source>
+                <target>FR_Enter a valid employee name</target>
+            </trans-unit>
+            <trans-unit id="18">
+                <source>Manual</source>
+                <target>FR_Manual</target>
+            </trans-unit>
+            <trans-unit id="19">
+                <source>Online</source>
+                <target>FR_Online</target>
+            </trans-unit>
+            <trans-unit id="20">
+                <source>This vacancy already exists</source>
+                <target>FR_This vacancy already exists</target>
+            </trans-unit>
+            <trans-unit id="21">
+                <source>Add Job Vacancy</source>
+                <target>FR_Add Job Vacancy</target>
+            </trans-unit>
+            <trans-unit id="22">
+                <source>Job Vacancy Saved Successfully</source>
+                <target>FR_Job Vacancy Saved Successfully</target>
+            </trans-unit>
+            <trans-unit id="23">
+                <source>Description length cannot exceed 250 characters</source>
+                <target>FR_Description length cannot exceed 250 characters</target>
+            </trans-unit>
+            <trans-unit id="24">
+                <source>Enter valid candidate name</source>
+                <target>FR_Enter valid candidate name</target>
+            </trans-unit>
+            <trans-unit id="25">
+                <source>Application Initiated</source>
+                <target>FR_Application Initiated</target>
+            </trans-unit>
+            <trans-unit id="26">
+                <source>Shortlisted</source>
+                <target>FR_Shortlisted</target>
+            </trans-unit>
+            <trans-unit id="27">
+                <source>Interview Scheduled</source>
+                <target>FR_Interview Scheduled</target>
+            </trans-unit>
+            <trans-unit id="28">
+                <source>Interview Failed</source>
+                <target>FR_Interview Failed</target>
+            </trans-unit>
+            <trans-unit id="29">
+                <source>Interview Passed</source>
+                <target>FR_Interview Passed</target>
+            </trans-unit>
+            <trans-unit id="30">
+                <source>Rejected</source>
+                <target>FR_Rejected</target>
+            </trans-unit>
+            <trans-unit id="31">
+                <source>Job Offered</source>
+                <target>FR_Job Offered</target>
+            </trans-unit>
+            <trans-unit id="32">
+                <source>Offer Declined</source>
+                <target>FR_Offer Declined</target>
+            </trans-unit>
+            <trans-unit id="33">
+                <source>Hired</source>
+                <target>FR_Hired</target>
+            </trans-unit>
+            <trans-unit id="34">
+                <source>Number of positions should be less than 99</source>
+                <target>FR_Number of positions should be less than 99</target>
+            </trans-unit>
+            <trans-unit id="35">
+                <source>First Name</source>
+                <target>FR_First Name</target>
+            </trans-unit>
+            <trans-unit id="36">
+                <source>Middle Name</source>
+                <target>FR_Middle Name</target>
+            </trans-unit>
+            <trans-unit id="37">
+                <source>Last Name</source>
+                <target>FR_Last Name</target>
+            </trans-unit>
+            <trans-unit id="38">
+                <source>Contact No</source>
+                <target>FR_Contact No</target>
+            </trans-unit>
+            <trans-unit id="39">
+                <source>Job Vacancy</source>
+                <target>FR_Job Vacancy</target>
+            </trans-unit>
+            <trans-unit id="40">
+                <source>E-Mail</source>
+                <target>FR_E-Mail</target>
+            </trans-unit>
+            <trans-unit id="41">
+                <source>-- Select --</source>
+                <target>FR_-- Select --</target>
+            </trans-unit>
+            <trans-unit id="42">
+                <source>Add another</source>
+                <target>FR_Add another</target>
+            </trans-unit>
+            <trans-unit id="43">
+                <source>Remove</source>
+                <target>FR_Remove</target>
+            </trans-unit>
+            <trans-unit id="44">
+                <source>Resume</source>
+                <target>FR_Resume</target>
+            </trans-unit>
+            <trans-unit id="45">
+                <source>.docx, .doc, .odt, .pdf, .rtf, or .txt with maximum file size of 1MB</source>
+                <target>FR_.docx, .doc, .odt, .pdf, .rtf, or .txt with maximum file size of 1MB</target>
+            </trans-unit>
+            <trans-unit id="46">
+                <source>Enter comma separated words...</source>
+                <target>FR_Enter comma separated words...</target>
+            </trans-unit>
+            <trans-unit id="47">
+                <source>Comment</source>
+                <target>FR_Comment</target>
+            </trans-unit>
+            <trans-unit id="48">
+                <source>First name is required</source>
+                <target>FR_First name is required</target>
+            </trans-unit>
+            <trans-unit id="49">
+                <source>Last name is required</source>
+                <target>FR_Last name is required</target>
+            </trans-unit>
+            <trans-unit id="50">
+                <source>Please enter no more than 30 characters</source>
+                <target>FR_Please enter no more than 30 characters</target>
+            </trans-unit>
+            <trans-unit id="51">
+                <source>Please enter no more than 255 characters</source>
+                <target>FR_Please enter no more than 255 characters</target>
+            </trans-unit>
+            <trans-unit id="52">
+                <source>Date of Application should be less than current date</source>
+                <target>FR_Date of Application should be less than current date</target>
+            </trans-unit>
+            <trans-unit id="53">
+                <source>Cannot assign same vacancy twice</source>
+                <target>FR_Cannot assign same vacancy twice</target>
+            </trans-unit>
+            <trans-unit id="54">
+                <source>Please select a vacancy</source>
+                <target>FR_Please select a vacancy</target>
+            </trans-unit>
+            <trans-unit id="55">
+                <source>Enter a valid E-mail</source>
+                <target>FR_Enter a valid E-mail</target>
+            </trans-unit>
+            <trans-unit id="56">
+                <source>E-mail is require</source>
+                <target>FR_E-mail is require</target>
+            </trans-unit>
+            <trans-unit id="57">
+                <source>Add Candidate</source>
+                <target>FR_Add Candidate</target>
+            </trans-unit>
+            <trans-unit id="58">
+                <source>Enter a valid contact number</source>
+                <target>FR_Enter a valid contact number</target>
+            </trans-unit>
+            <trans-unit id="59">
+                <source>Adding Candidate Failed - Invalid File Type</source>
+                <target>FR_Adding Candidate Failed - Invalid File Type</target>
+            </trans-unit>
+            <trans-unit id="60">
+                <source>Job Candidate Saved Successfully</source>
+                <target>FR_Job Candidate Saved Successfully</target>
+            </trans-unit>
+            <trans-unit id="61">
+                <source>Adding Candidate Failed. Resume Size Exceeded 1MB</source>
+                <target>FR_Adding Candidate Failed. Resume Size Exceeded 1MB</target>
+            </trans-unit>
+            <trans-unit id="62">
+                <source>Email address should contain at least one '.' and one '@' Example:user@example.com</source>
+                <target>FR_Email address should contain at least one '.' and one '@' Example:user@example.com</target>
+            </trans-unit>
+            <trans-unit id="63">
+                <source>Vacancies</source>
+                <target>FR_Vacancies</target>
+            </trans-unit>
+            <trans-unit id="64">
+                <source>No records to display</source>
+                <target>FR_No records to display</target>
+            </trans-unit>
+            <trans-unit id="65">
+                <source>Edit Job Vacancy</source>
+                <target>FR_Edit Job Vacancy</target>
+            </trans-unit>
+            <trans-unit id="66">
+                <source>Attachments</source>
+                <target>FR_Attachments</target>
+            </trans-unit>
+            <trans-unit id="67">
+                <source>Comment should be less than 200 characters</source>
+                <target>FR_Comment should be less than 200 characters</target>
+            </trans-unit>
+            <trans-unit id="68">
+                <source>Adding Attachment Failed. Attachment Size Exceeded 1MB</source>
+                <target>FR_Adding Attachment Failed. Attachment Size Exceeded 1MB</target>
+            </trans-unit>
+            <trans-unit id="69">
+                <source>Closed</source>
+                <target>FR_Closed</target>
+            </trans-unit>
+            <trans-unit id="70">
+                <source>Action</source>
+                <target>FR_Action</target>
+            </trans-unit>
+            <trans-unit id="71">
+                <source>Are you sure you want to delete selected job vacancies</source>
+                <target>FR_Are you sure you want to delete selected job vacancies</target>
+            </trans-unit>
+            <trans-unit id="72">
+                <source>Edit Candidate</source>
+                <target>FR_Edit Candidate</target>
+            </trans-unit>
+            <trans-unit id="73">
+                <source>Are you sure you want to remove job vacancy of the candidate</source>
+                <target>FR_Are you sure you want to remove job vacancy of the candidate</target>
+            </trans-unit>
+            <trans-unit id="74">
+                <source>Candidate's History</source>
+                <target>FR_Candidate's History</target>
+            </trans-unit>
+            <trans-unit id="75">
+                <source>Current State</source>
+                <target>FR_Current State</target>
+            </trans-unit>
+            <trans-unit id="76">
+                <source>Performed By</source>
+                <target>FR_Performed By</target>
+            </trans-unit>
+            <trans-unit id="77">
+                <source>Performed Date</source>
+                <target>FR_Performed Date</target>
+            </trans-unit>
+            <trans-unit id="78">
+                <source>Details</source>
+                <target>FR_Details</target>
+            </trans-unit>
+            <trans-unit id="79">
+                <source>View link</source>
+                <target>FR_View link</target>
+            </trans-unit>
+            <trans-unit id="80">
+                <source>Enter a valid date in YYYY-MM-DD format</source>
+                <target>FR_Enter a valid date in YYYY-MM-DD format</target>
+            </trans-unit>
+            <trans-unit id="81">
+                <source>Shortlist</source>
+                <target>FR_Shortlist</target>
+            </trans-unit>
+            <trans-unit id="82">
+                <source>Current Status</source>
+                <target>FR_Current Status</target>
+            </trans-unit>
+            <trans-unit id="83">
+                <source>Notes</source>
+                <target>FR_Notes</target>
+            </trans-unit>
+            <trans-unit id="84">
+                <source>E-mail is required</source>
+                <target>FR_E-mail is required</target>
+            </trans-unit>
+            <trans-unit id="85">
+                <source>candidateName</source>
+                <target>FR_candidateName</target>
+            </trans-unit>
+            <trans-unit id="86">
+                <source>View</source>
+                <target>FR_View</target>
+            </trans-unit>
+            <trans-unit id="87">
+                <source>Error Occurred - Invalid File Type</source>
+                <target>FR_Error Occurred - Invalid File Type</target>
+            </trans-unit>
+            <trans-unit id="88">
+                <source>Active Job Vacancies</source>
+                <target>FR_Active Job Vacancies</target>
+            </trans-unit>
+            <trans-unit id="89">
+                <source>Expand all</source>
+                <target>FR_Expand all</target>
+            </trans-unit>
+            <trans-unit id="90">
+                <source>Collapse all</source>
+                <target>FR_Collapse all</target>
+            </trans-unit>
+            <trans-unit id="91">
+                <source>No active job vacancies to display</source>
+                <target>FR_No active job vacancies to display</target>
+            </trans-unit>
+            <trans-unit id="92">
+                <source>Download</source>
+                <target>FR_Download</target>
+            </trans-unit>
+            <trans-unit id="93">
+                <source>RSS Feed URL</source>
+                <target>FR_RSS Feed URL</target>
+            </trans-unit>
+            <trans-unit id="94">
+                <source>Web Page URL</source>
+                <target>FR_Web Page URL</target>
+            </trans-unit>
+            <trans-unit id="95">
+                <source>Publish in RSS feed(1) and web page(2)</source>
+                <target>FR_Publish in RSS feed(1) and web page(2)</target>
+            </trans-unit>
+            <trans-unit id="96">
+                <source>Select Action</source>
+                <target>FR_Select Action</target>
+            </trans-unit>
+            <trans-unit id="97">
+                <source>Continue</source>
+                <target>FR_Continue</target>
+            </trans-unit>
+            <trans-unit id="98">
+                <source>This action will remove the vacancy from the candidate</source>
+                <target>FR_This action will remove the vacancy from the candidate</target>
+            </trans-unit>
+            <trans-unit id="99">
+                <source>Applying Job vacancy Failed. Resume Size Exceeded 1MB</source>
+                <target>FR_Applying Job vacancy Failed. Resume Size Exceeded 1MB</target>
+            </trans-unit>
+            <trans-unit id="100">
+                <source>Editing Candidate</source>
+                <target>FR_Editing Candidate</target>
+            </trans-unit>
+            <trans-unit id="101">
+                <source>Adding Candidate</source>
+                <target>FR_Adding Candidate</target>
+            </trans-unit>
+            <trans-unit id="102">
+                <source>Failed. Resume Size Exceeded 1MB</source>
+                <target>FR_ Failed. Resume Size Exceeded 1MB</target>
+            </trans-unit>
+            <trans-unit id="103">
+                <source>Schedule Interview</source>
+                <target>FR_Schedule Interview</target>
+            </trans-unit>
+            <trans-unit id="104">
+                <source>Interview Title</source>
+                <target>FR_Interview Title</target>
+            </trans-unit>
+            <trans-unit id="105">
+                <source>Interviewer Name</source>
+                <target>FR_Interviewer Name</target>
+            </trans-unit>
+            <trans-unit id="106">
+                <source>Interview Title is required</source>
+                <target>FR_Interview Title is required</target>
+            </trans-unit>
+            <trans-unit id="107">
+                <source>Time is required</source>
+                <target>FR_Time is required</target>
+            </trans-unit>
+            <trans-unit id="108">
+                <source>Please enter no more than 98 characters</source>
+                <target>FR_Please enter no more than 98 characters</target>
+            </trans-unit>
+            <trans-unit id="109">
+                <source>Please enter no more than 18 characters</source>
+                <target>FR_Please enter no more than 18 characters</target>
+            </trans-unit>
+            <trans-unit id="110">
+                <source>Enter a valid employee name</source>
+                <target>FR_Enter a valid employee name</target>
+            </trans-unit>
+            <trans-unit id="111">
+                <source>Valid Time Required</source>
+                <target>FR_Valid Time Required</target>
+            </trans-unit>
+            <trans-unit id="112">
+                <source>Cannot assign same interviewer twice</source>
+                <target>FR_Cannot assign same interviewer twice</target>
+            </trans-unit>
+            <trans-unit id="113">
+                <source>Reject</source>
+                <target>FR_Reject</target>
+            </trans-unit>
+            <trans-unit id="114">
+                <source>Click on a candidate to perform actions</source>
+                <target>FR_Click on a candidate to perform actions</target>
+            </trans-unit>
+            <trans-unit id="115">
+                <source>Delete selected record(s)?</source>
+                <target>FR_Delete selected record(s)?</target>
+            </trans-unit>
+            <trans-unit id="116">
+                <source>Mark Interview Passed</source>
+                <target>FR_Mark Interview Passed</target>
+            </trans-unit>
+            <trans-unit id="117">
+                <source>Mark Interview Failed</source>
+                <target>FR_Mark Interview Failed</target>
+            </trans-unit>
+            <trans-unit id="118">
+                <source>View Action History</source>
+                <target>FR_View Action History</target>
+            </trans-unit>
+            <trans-unit id="120">
+                <source>Offer Job</source>
+                <target>FR_Offer Job</target>
+            </trans-unit>
+            <trans-unit id="121">
+                <source>Interview Passed</source>
+                <target>FR_Interview Passed</target>
+            </trans-unit>
+            <trans-unit id="122">
+                <source>Interview Failed</source>
+                <target>FR_Interview Failed</target>
+            </trans-unit>
+            <trans-unit id="123">
+                <source>Decline Offer</source>
+                <target>FR_Decline Offer</target>
+            </trans-unit>
+            <trans-unit id="124">
+                <source>Job Offered</source>
+                <target>FR_Job Offered</target>
+            </trans-unit>
+            <trans-unit id="126">
+                <source>Hire</source>
+                <target>FR_Hire</target>
+            </trans-unit>
+            <trans-unit id="127">
+                <source>Hired</source>
+                <target>FR_Hired</target>
+            </trans-unit>
+            <trans-unit id="128">
+                <source>Shortlisted</source>
+                <target>FR_Shortlisted</target>
+            </trans-unit>
+            <trans-unit id="129">
+                <source>Interview Scheduled</source>
+                <target>FR_Interview Scheduled</target>
+            </trans-unit>
+            <trans-unit id="130">
+                <source>Offer Declined</source>
+                <target>FR_Offer Declined</target>
+            </trans-unit>
+            <trans-unit id="131">
+                <source>added</source>
+                <target>FR_added</target>
+            </trans-unit>
+            <trans-unit id="132">
+                <source>scheduled</source>
+                <target>FR_scheduled</target>
+            </trans-unit>
+            <trans-unit id="133">
+                <source>assigned the job vacancy</source>
+                <target>FR_assigned the job vacancy</target>
+            </trans-unit>
+            <trans-unit id="134">
+                <source>with</source>
+                <target>FR_with</target>
+            </trans-unit>
+            <trans-unit id="135">
+                <source>on</source>
+                <target>FR_on</target>
+            </trans-unit>
+            <trans-unit id="136">
+                <source>Application Initiated</source>
+                <target>FR_Application Initiated</target>
+            </trans-unit>
+            <trans-unit id="137">
+                <source>marked</source>
+                <target>FR_marked</target>
+            </trans-unit>
+            <trans-unit id="138">
+                <source>as passed</source>
+                <target>FR_as passed</target>
+            </trans-unit>
+            <trans-unit id="139">
+                <source>offred the job</source>
+                <target>FR_offred the job</target>
+            </trans-unit>
+            <trans-unit id="140">
+                <source>as failed</source>
+                <target>FR_as failed</target>
+            </trans-unit>
+            <trans-unit id="141">
+                <source>rejected</source>
+                <target>FR_rejected</target>
+            </trans-unit>
+            <trans-unit id="142">
+                <source>from the vacancy</source>
+                <target>FR_from the vacancy</target>
+            </trans-unit>
+            <trans-unit id="143">
+                <source>declined the offer</source>
+                <target>FR_declined the offer</target>
+            </trans-unit>
+            <trans-unit id="144">
+                <source>hired</source>
+                <target>FR_hired</target>
+            </trans-unit>
+            <trans-unit id="145">
+                <source>Apply</source>
+                <target>FR_Apply</target>
+            </trans-unit>
+            <trans-unit id="147">
+                <source>Apply for</source>
+                <target>FR_Apply for</target>
+            </trans-unit>
+            <trans-unit id="148">
+                <source>Submit</source>
+                <target>FR_Submit</target>
+            </trans-unit>
+            <trans-unit id="149">
+                <source>E-mail</source>
+                <target>FR_E-mail</target>
+            </trans-unit>
+            <trans-unit id="150">
+                <source>Candidate's History</source>
+                <target>FR_Candidate's History</target>
+            </trans-unit>
+            <trans-unit id="151">
+                <source>Performed Action</source>
+                <target>FR_Performed Action</target>
+            </trans-unit>
+            <trans-unit id="152">
+                <source>Delete selected record(s)</source>
+                <target>FR_Delete selected record(s)</target>
+            </trans-unit>
+            <trans-unit id="153">
+                <source>Back to Job List</source>
+                <target>FR_Back to Job List</target>
+            </trans-unit>
+            <trans-unit id="154">
+                <source>View Interview Details</source>
+                <target>FR_View Interview Details</target>
+            </trans-unit>
+            <trans-unit id="155">
+                <source>Edit Interview Details</source>
+                <target>FR_Edit Interview Details</target>
+            </trans-unit>
+            <trans-unit id="156">
+                <source>Cancel</source>
+                <target>FR_Cancel</target>
+            </trans-unit>
+            <trans-unit id="154">
+                <source>Selected Candidate(s) Deleted Successfully</source>
+                <target>FR_Selected Candidate(s) Deleted Successfully</target>
+            </trans-unit>
+            <trans-unit id="155">
+                <source>Selected candidate(s) will be deleted</source>
+                <target>FR_Selected candidate(s) will be deleted</target>
+            </trans-unit>
+            <trans-unit id="156">
+                <source>Candidate Shortlisted Successfully</source>
+                <target>FR_Candidate Shortlisted Successfully</target>
+            </trans-unit>
+            <trans-unit id="157">
+                <source>Candidate Rejected Successfully</source>
+                <target>FR_Candidate Rejected Successfully</target>
+            </trans-unit>
+            <trans-unit id="158">
+                <source>Interview Status Updated Successfully</source>
+                <target>FR_Interview Status Updated Successfully</target>
+            </trans-unit>
+            <trans-unit id="159">
+                <source>Job Offered Successfully</source>
+                <target>FR_Job Offered Successfully</target>
+            </trans-unit>
+            <trans-unit id="160">
+                <source>Job offer Marked as Declined Successfully</source>
+                <target>FR_Job offer Marked as Declined Successfully</target>
+            </trans-unit>
+            <trans-unit id="161">
+                <source>Candidate Hired Successfully</source>
+                <target>FR_Candidate Hired Successfully</target>
+            </trans-unit>
+            <trans-unit id="162">
+                <source>Interview Scheduled Successfully</source>
+                <target>FR_Interview Scheduled Successfully</target>
+            </trans-unit>
+            <trans-unit id="163">
+                <source>Interview Details Updated Successfully</source>
+                <target>FR_Interview Details Updated Successfully</target>
+            </trans-unit>
+            <trans-unit id="164">
+                <source>Action History Details Saved Successfully</source>
+                <target>FR_Action History Details Saved Successfully</target>
+            </trans-unit>
+            <trans-unit id="165">
+                <source>Archived</source>
+                <target>FR_Archived</target>
+            </trans-unit>
+            <trans-unit id="166">
+                <source>from the</source>
+                <target>FR_from the</target>
+            </trans-unit>
+            <trans-unit id="167">
+                <source>for</source>
+                <target>FR_for</target>
+            </trans-unit>
+            <trans-unit id="168">
+                <source>applied for the</source>
+                <target>FR_applied for the</target>
+            </trans-unit>
+			<trans-unit id="169">
+                <source>Shortlisted for</source>
+                <target>FR_Shortlisted for</target>
+            </trans-unit>
+			<trans-unit id="170">
+                <source>by</source>
+                <target>FR_by</target>
+            </trans-unit>
+			<trans-unit id="171">
+                <source>Admin removed</source>
+                <target>FR_Admin removed</target>
+            </trans-unit>
+        </body>
+    </file>
+</xliff>

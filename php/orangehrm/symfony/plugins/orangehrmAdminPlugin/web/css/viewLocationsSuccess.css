@@ -1,0 +1,56 @@
+div.formbuttons {
+    background-color: white;
+    float: left;
+    padding: 3px;
+    width: 35%;
+    border-top:white;
+    margin-top:0px;
+    text-align:left;
+}
+.null {
+    font-size: 12px !important;
+}
+
+.headerCell {
+    font-size: 12px !important;
+}
+
+.outerbox {
+    width: 98% !important;
+}
+
+form#frmSearchLocation label{
+    margin-top: 2px;
+    width: 100px;
+}
+
+form#frmSearchLocation .txtBox{
+    margin-top: 1px;
+    width: 60%;
+}
+
+form#frmSearchLocation .actionbuttons{
+    padding: 6px;
+    padding-left: 8px;
+    width: 35%;
+}
+
+form#frmSearchLocation .contentDiv{
+    float: left;
+    padding-left: 20px;
+    width: 30%;
+}
+.trHover{
+    cursor: auto;
+}
+#city label{
+    width: 40px !important;
+}
+
+#country label{
+    width: 60px !important;
+}
+
+form#frmList_ohrmListComponent table.data-table tbody td{
+    vertical-align: top;
+}

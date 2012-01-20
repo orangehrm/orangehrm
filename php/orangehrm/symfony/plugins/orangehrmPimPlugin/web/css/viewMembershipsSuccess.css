@@ -1,0 +1,106 @@
+root { 
+    display: block;
+}
+
+div.messageBar {
+    margin: 5px 15px 5px 15px;
+
+}
+
+
+form#frmEmpMembership label {
+    position: relative;
+    margin-top: 6px;
+    width: 200px
+}
+
+form#frmEmpMembership label label.error {
+    width:270px !important; /* Need to overide important in messages.css */
+    padding-left:200px;
+}
+
+.paddingLeftRequired {
+    padding-left: 15px;
+    padding-top: 5px;
+    font-size: 8pt;
+}
+
+.drpDown {
+    margin-top: 5px;
+    width: 320px;
+}
+
+form input.formDateInput {
+    width: 168px;
+    height:14px;
+    margin-top: 5px;
+}
+
+.formInputM{
+    width: 310px;
+    height:14px;
+    margin-top: 5px;
+}
+
+form input.formInput {
+    width: 310px;
+    height:14px;
+    margin-top: 5px;
+}
+
+
+form input.txtBox {
+    border: 1px solid #888888;
+    width: 168px;
+    vertical-align:middle;
+    height:14px;
+    margin-top: 5px;
+}
+
+div.formpage2col {
+    width: 1000px;
+}
+
+table#mem_list td.check {
+    width: 30px;
+    vertical-align: top;
+    padding-top: 6px;
+}
+
+table#mem_list td {
+    padding-left: 6px;
+    padding-right: 6px;
+    text-align:left;
+    vertical-align: text-top
+}
+
+table#mem_list td.memship {
+    text-align: left;
+}
+
+table#mem_list td.memshipAmount1 {
+    padding-right: 40px;
+    text-align: right;
+    
+}
+
+table#mem_list td.memshipCode {
+    padding-top: 6px;
+    text-align: left;
+}
+
+.checkboxMem, .radio {
+ background-color: #FFFFFF;
+    border: 1px solid #888888;
+    font-size: 11px;
+    padding-left: 4px;
+    padding-right: 4px;
+    background-color: transparent;
+    border: 0 none;
+    margin: 0;
+    vertical-align: bottom;
+}
+
+table#mem_list td.memshipAmount {
+    text-align: center;
+}

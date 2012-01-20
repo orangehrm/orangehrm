@@ -1,0 +1,1184 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE xliff PUBLIC "-//XLIFF//DTD XLIFF//EN" "http://www.oasis-open.org/committees/xliff/documents/xliff.dtd">
+<xliff version="1.0">
+ <header/>
+ <file source-language="en_US" target-language="ja_JP" datatype="plaintext" original="messages" date="2012-01-11T15:16:55Z" product-name="messages">
+  <body>
+   <trans-unit id="1">
+    <source>Localization</source>
+    <target>ローカライゼーション</target>
+
+   </trans-unit>
+   <trans-unit id="2">
+    <source>Date Format</source>
+    <target>日付の表示形式</target>
+   </trans-unit>
+   <trans-unit id="3">
+    <source>Use browser language if set</source>
+
+    <target>設定した場合、ブラウザの言語を使用</target>
+   </trans-unit>
+   <trans-unit id="4">
+    <source>Language Details Successfully Saved</source>
+    <target>言語の詳細は、正常に保存されました</target>
+   </trans-unit>
+   <trans-unit id="5">
+
+    <source>Ok</source>
+    <target>[OK]</target>
+   </trans-unit>
+   <trans-unit id="6">
+    <source>Supported Languages</source>
+    <target>サポートされている言語</target>
+   </trans-unit>
+
+   <trans-unit id="7">
+    <source>Following languages are supported by OrangeHRM</source>
+    <target>次の言語はOrangeHRMでサポートされています。</target>
+   </trans-unit>
+   <trans-unit id="8">
+    <source>Customer</source>
+    <target>お客様</target>
+
+   </trans-unit>
+   <trans-unit id="9">
+    <source>CSV Data Import</source>
+    <target>CSVデータのインポート</target>
+   </trans-unit>
+   <trans-unit id="10">
+    <source>Column order should not be changed</source>
+
+    <target>列の順序は変更しないでください</target>
+   </trans-unit>
+   <trans-unit id="11">
+    <source>First Name and Last Name is compulsory</source>
+    <target>ファーストネームとラストネームが必須です</target>
+   </trans-unit>
+   <trans-unit id="12">
+
+    <source>All date fields should be in YYYY-mm-dd format</source>
+    <target>すべての日付フィールドは、YYYY - MM - DDの形式である必要があります</target>
+   </trans-unit>
+   <trans-unit id="13">
+    <source>Upload</source>
+    <target>アップロード</target>
+   </trans-unit>
+
+   <trans-unit id="14">
+    <source>Sample csv file</source>
+    <target>サンプルCSVファイル</target>
+   </trans-unit>
+   <trans-unit id="15">
+    <source>Download</source>
+    <target>ダウンロード</target>
+
+   </trans-unit>
+   <trans-unit id="16">
+    <source>File Required</source>
+    <target>必要なファイル</target>
+   </trans-unit>
+   <trans-unit id="17">
+    <source>Employee Record(s) Imported Successfully</source>
+
+    <target>従業員レコード（s）は正常にインポート</target>
+   </trans-unit>
+   <trans-unit id="18">
+    <source>Failed. File Size Exceeded 1MB</source>
+    <target>失敗した。ファイルサイズは1MBを超過</target>
+   </trans-unit>
+   <trans-unit id="19">
+
+    <source>Error Occurred - Invalid File Type</source>
+    <target>エラーが発生しました - 無効なファイルタイプを</target>
+   </trans-unit>
+   <trans-unit id="20">
+    <source>If gender is specified, value should be either %male or %female</source>
+    <target>性別が指定されている場合、値は％の男性または％のメスのどちらかでなければなりません</target>
+   </trans-unit>
+
+   <trans-unit id="21">
+    <source>Include not more than 100 records in the file</source>
+    <target>ファイル内の100を超えるレコードではないが含まれています</target>
+   </trans-unit>
+   <trans-unit id="22">
+    <source>Customers</source>
+    <target>お客さま</target>
+
+   </trans-unit>
+   <trans-unit id="23">
+    <source>Customer name is required</source>
+    <target>顧客名が必要です。</target>
+   </trans-unit>
+   <trans-unit id="24">
+    <source>Cannot exceed 255 charactors</source>
+
+    <target>255 charactorsを超えることはできません。</target>
+   </trans-unit>
+   <trans-unit id="25">
+    <source>Customer added Successfully</source>
+    <target>顧客の追加が完了しました。</target>
+   </trans-unit>
+   <trans-unit id="26">
+
+    <source>All the projects under selected Customer will also be deleted</source>
+    <target>選択した顧客の下にすべてのプロジェクトも同時に削除されます</target>
+   </trans-unit>
+   <trans-unit id="27">
+    <source>Customer Added Successfully</source>
+    <target>顧客の追加が完了しました。</target>
+   </trans-unit>
+
+   <trans-unit id="28">
+    <source>Customer Updated Successfully</source>
+    <target>顧客は正常に更新</target>
+   </trans-unit>
+   <trans-unit id="29">
+    <source>Organization Name</source>
+    <target>組織名</target>
+
+   </trans-unit>
+   <trans-unit id="30">
+    <source>Tax ID</source>
+    <target>税のID</target>
+   </trans-unit>
+   <trans-unit id="31">
+    <source>Registration Number</source>
+
+    <target>登録番号</target>
+   </trans-unit>
+   <trans-unit id="32">
+    <source>Phone</source>
+    <target>携帯電話</target>
+   </trans-unit>
+   <trans-unit id="33">
+
+    <source>Fax</source>
+    <target>ファックス</target>
+   </trans-unit>
+   <trans-unit id="34">
+    <source>Email</source>
+    <target>メール</target>
+   </trans-unit>
+
+   <trans-unit id="35">
+    <source>Address Street 1</source>
+    <target>ストリート1番地</target>
+   </trans-unit>
+   <trans-unit id="36">
+    <source>Address Street 2</source>
+    <target>住所ストリート2</target>
+
+   </trans-unit>
+   <trans-unit id="37">
+    <source>City</source>
+    <target>市</target>
+   </trans-unit>
+   <trans-unit id="38">
+    <source>Note</source>
+
+    <target>（注）</target>
+   </trans-unit>
+   <trans-unit id="39">
+    <source>General Information</source>
+    <target>一般情報</target>
+   </trans-unit>
+   <trans-unit id="40">
+
+    <source>State/Province</source>
+    <target>州/地方</target>
+   </trans-unit>
+   <trans-unit id="41">
+    <source>Zip/Postal Code</source>
+    <target>郵便番号/郵便番号</target>
+   </trans-unit>
+
+   <trans-unit id="42">
+    <source>Organization name required</source>
+    <target>組織名は必須</target>
+   </trans-unit>
+   <trans-unit id="43">
+    <source>Phone number can contain only space, numbers, "+", and "-"</source>
+    <target>" - "電話番号は、スペース、数字、"+"、およびを含めることができます。</target>
+
+   </trans-unit>
+   <trans-unit id="44">
+    <source>Fax can contain only space, numbers, "+", and "-"</source>
+    <target>" - "ファックスはスペース、数字、"+"、およびを含めることができます。</target>
+   </trans-unit>
+   <trans-unit id="45">
+    <source>Email address should contain at least one \".\" and one \"@\" Example:user@example.com</source>
+
+    <target>"。\"メールアドレスは、少なくとも1つ\つ\"@ \"の例が含まれている必要があります。user@example.com</target>
+   </trans-unit>
+   <trans-unit id="46">
+    <source>General Information Saved Successfully</source>
+    <target>一般的な情報は正常に保存されました</target>
+   </trans-unit>
+   <trans-unit id="47">
+
+    <source>Customer Name</source>
+    <target>顧客名</target>
+   </trans-unit>
+   <trans-unit id="48">
+    <source>Project Admins</source>
+    <target>プロジェクト管理者</target>
+   </trans-unit>
+
+   <trans-unit id="49">
+    <source>Project</source>
+    <target>プロジェクト</target>
+   </trans-unit>
+   <trans-unit id="50">
+    <source>Selected Project(s) Deleted Successfully</source>
+    <target>選択したプロジェクト（s）は正常に削除</target>
+
+   </trans-unit>
+   <trans-unit id="51">
+    <source>Project Admin</source>
+    <target>プロジェクト管理者</target>
+   </trans-unit>
+   <trans-unit id="52">
+    <source>Add Customer</source>
+
+    <target>顧客を追加して下さい</target>
+   </trans-unit>
+   <trans-unit id="53">
+    <source>Add Another</source>
+    <target>もう一つを追加</target>
+   </trans-unit>
+   <trans-unit id="54">
+
+    <source>Enter a valid customer name</source>
+    <target>有効な顧客名を入力してください</target>
+   </trans-unit>
+   <trans-unit id="55">
+    <source>Project name is required</source>
+    <target>プロジェクト名は必須です</target>
+   </trans-unit>
+
+   <trans-unit id="56">
+    <source>Enter a valid employee name</source>
+    <target>有効な従業員の名前を入力します。</target>
+   </trans-unit>
+   <trans-unit id="57">
+    <source>Cannot exceed 50 charactors</source>
+    <target>50 charactorsを超えることはできません</target>
+
+   </trans-unit>
+   <trans-unit id="58">
+    <source>Project Added Successfully</source>
+    <target>プロジェクトが正常に追加されました</target>
+   </trans-unit>
+   <trans-unit id="59">
+    <source>Project Name</source>
+
+    <target>プロジェクト名</target>
+   </trans-unit>
+   <trans-unit id="60">
+    <source>Copy Activity</source>
+    <target>コピーアクティビティ</target>
+   </trans-unit>
+   <trans-unit id="61">
+
+    <source>Copy</source>
+    <target>コピー</target>
+   </trans-unit>
+   <trans-unit id="62">
+    <source>Copy From</source>
+    <target>コピー元</target>
+   </trans-unit>
+
+   <trans-unit id="63">
+    <source>Activity name is required</source>
+    <target>アクティビティ名が必要です</target>
+   </trans-unit>
+   <trans-unit id="64">
+    <source>Cannot exceed 100 charactors</source>
+    <target>100 charactorsを超えることはできません。</target>
+
+   </trans-unit>
+   <trans-unit id="65">
+    <source>Add Project Activity</source>
+    <target>プロジェクト活動を追加します。</target>
+   </trans-unit>
+   <trans-unit id="66">
+    <source>Activity Name</source>
+
+    <target>活動の名称</target>
+   </trans-unit>
+   <trans-unit id="67">
+    <source>No assigned activities</source>
+    <target>いいえ割り当てられた活動なし</target>
+   </trans-unit>
+   <trans-unit id="68">
+
+    <source>No activities selected</source>
+    <target>ない活動が選択されていません</target>
+   </trans-unit>
+   <trans-unit id="69">
+    <source>Activity Copy Successfully</source>
+    <target>成功のアクティビティのコピー</target>
+   </trans-unit>
+
+   <trans-unit id="70">
+    <source>Edit Customer</source>
+    <target>お客様を編集</target>
+   </trans-unit>
+   <trans-unit id="71">
+    <source>Company Structure</source>
+    <target>企業構造</target>
+
+   </trans-unit>
+   <trans-unit id="72">
+    <source>Done</source>
+    <target>行わ</target>
+   </trans-unit>
+   <trans-unit id="73">
+    <source>Add Unit</source>
+
+    <target>ユニットを追加します。</target>
+   </trans-unit>
+   <trans-unit id="74">
+    <source>Edit Unit</source>
+    <target>ユニットを編集</target>
+   </trans-unit>
+   <trans-unit id="75">
+
+    <source>This unit will be added under</source>
+    <target>このユニットは下に追加されます。</target>
+   </trans-unit>
+   <trans-unit id="76">
+    <source>and all the subunits under it will be permanantly deleted</source>
+    <target>そしてその下のすべてのサブユニットが恒久的に削除されます</target>
+   </trans-unit>
+
+   <trans-unit id="77">
+    <source>Subunit Deleted Successfully</source>
+    <target>サブユニットが正常に削除されました</target>
+   </trans-unit>
+   <trans-unit id="78">
+    <source>Subunit Saved Successfully</source>
+    <target>サブユニットは正常に保存されました</target>
+
+   </trans-unit>
+   <trans-unit id="79">
+    <source>Maximum allowed character limit is</source>
+    <target>最大許容文字数の制限はあります</target>
+   </trans-unit>
+   <trans-unit id="80">
+    <source>Maximum allowed character limit is</source>
+
+    <target>最大許容文字数の制限はあります</target>
+   </trans-unit>
+   <trans-unit id="81">
+    <source>Name is required</source>
+    <target>名前は必須です</target>
+   </trans-unit>
+   <trans-unit id="82">
+
+    <source>Description is not specified</source>
+    <target>説明が指定されていない</target>
+   </trans-unit>
+   <trans-unit id="83">
+    <source>Number of Employees</source>
+    <target>就業者数</target>
+   </trans-unit>
+
+   <trans-unit id="84">
+    <source>Unit Id</source>
+    <target>ユニットID</target>
+   </trans-unit>
+   <trans-unit id="85">
+    <source>Name already exist</source>
+    <target>名前はすでに存在している</target>
+
+   </trans-unit>
+   <trans-unit id="86">
+    <source>Add Project</source>
+    <target>プロジェクトを追加します。</target>
+   </trans-unit>
+   <trans-unit id="87">
+    <source>Edit Project</source>
+
+    <target>プロジェクトを編集します。</target>
+   </trans-unit>
+   <trans-unit id="88">
+    <source>Subunit Name Cannot be Duplicated</source>
+    <target>サブユニットの名前は複製できません</target>
+   </trans-unit>
+   <trans-unit id="89">
+
+    <source>Projects</source>
+    <target>プロジェクト</target>
+   </trans-unit>
+   <trans-unit id="90">
+    <source>Activities</source>
+    <target>活動</target>
+   </trans-unit>
+
+   <trans-unit id="91">
+    <source>Project Activity Added Successfully</source>
+    <target>プロジェクトの活動を正常に追加</target>
+   </trans-unit>
+   <trans-unit id="92">
+    <source>Selected Project Activities Deleted Successfully</source>
+    <target>選択されたプロジェクト活動が正常に削除されました</target>
+
+   </trans-unit>
+   <trans-unit id="93">
+    <source>Cannot Have Duplicate Activities</source>
+    <target>重複した活動を持つことはできません</target>
+   </trans-unit>
+   <trans-unit id="94">
+    <source>Project Activity Updated Successfully</source>
+
+    <target>プロジェクト活動が正常に更新されました</target>
+   </trans-unit>
+   <trans-unit id="95">
+    <source>Project Updated Successfully</source>
+    <target>プロジェクトが正常に更新されました</target>
+   </trans-unit>
+   <trans-unit id="96">
+
+    <source>Job Description</source>
+    <target>仕事の内容</target>
+   </trans-unit>
+   <trans-unit id="97">
+    <source>Job Titles</source>
+    <target>仕事のタイトル</target>
+   </trans-unit>
+
+   <trans-unit id="98">
+    <source>Job Title Updated Successfully</source>
+    <target>ジョブタイトルが正常に更新されました</target>
+   </trans-unit>
+   <trans-unit id="99">
+    <source>Job Title Added Successfully</source>
+    <target>ジョブタイトルを正常に追加</target>
+
+   </trans-unit>
+   <trans-unit id="100">
+    <source>Add Job Title</source>
+    <target>ジョブタイトルを追加します。</target>
+   </trans-unit>
+   <trans-unit id="101">
+    <source>Edit Job Title</source>
+
+    <target>ジョブタイトルを編集</target>
+   </trans-unit>
+   <trans-unit id="102">
+    <source>Job Specification Size Exceeded 1MB</source>
+    <target>ジョブ仕様のサイズは1MBを超過</target>
+   </trans-unit>
+   <trans-unit id="103">
+
+    <source>Selected job title(s) will be deleted</source>
+    <target>選択したジョブのタイトル（s）は削除されます。</target>
+   </trans-unit>
+   <trans-unit id="104">
+    <source>Selected customer(s) will be deleted</source>
+    <target>選択した顧客（s）は削除されます。</target>
+   </trans-unit>
+
+   <trans-unit id="105">
+    <source>Selected project(s) will be deleted</source>
+    <target>選択したプロジェクト（s）は削除されます。</target>
+   </trans-unit>
+   <trans-unit id="106">
+    <source>Job Title is required</source>
+    <target>ジョブタイトルが必要です。</target>
+
+   </trans-unit>
+   <trans-unit id="107">
+    <source>Selected Job Title(s) Deleted Successfully</source>
+    <target>選択したジョブのタイトル（s）は正常に削除</target>
+   </trans-unit>
+   <trans-unit id="108">
+    <source>Cannot exceed 400 charactors</source>
+
+    <target>400 charactorsを超えることはできません</target>
+   </trans-unit>
+   <trans-unit id="109">
+    <source>Locations</source>
+    <target>場所</target>
+   </trans-unit>
+   <trans-unit id="110">
+
+    <source>Location Name</source>
+    <target>場所の名前</target>
+   </trans-unit>
+   <trans-unit id="111">
+    <source>Location Added Successfully</source>
+    <target>場所の追加が完了しました。</target>
+   </trans-unit>
+
+   <trans-unit id="112">
+    <source>Location Added Successfully</source>
+    <target>場所の追加が完了しました。</target>
+   </trans-unit>
+   <trans-unit id="113">
+    <source>Selected Location(s) Deleted Successfully</source>
+    <target>選択した場所（s）は正常に削除</target>
+
+   </trans-unit>
+   <trans-unit id="114">
+    <source>Add Location</source>
+    <target>場所を追加します。</target>
+   </trans-unit>
+   <trans-unit id="115">
+    <source>Location name is required</source>
+
+    <target>ロケーション名が必要です</target>
+   </trans-unit>
+   <trans-unit id="116">
+    <source>Country is required</source>
+    <target>国が必要です</target>
+   </trans-unit>
+   <trans-unit id="117">
+
+    <source>Cannot exceed 30 charactors</source>
+    <target>30 charactorsを超えることはできません。</target>
+   </trans-unit>
+   <trans-unit id="118">
+    <source>Address</source>
+    <target>住所</target>
+   </trans-unit>
+
+   <trans-unit id="119">
+    <source>Zip Code</source>
+    <target>ZIPコード</target>
+   </trans-unit>
+   <trans-unit id="120">
+    <source>Edit Location</source>
+    <target>場所を編集</target>
+
+   </trans-unit>
+   <trans-unit id="121">
+    <source>Location Updated Successfully</source>
+    <target>場所は、正常に更新されました</target>
+   </trans-unit>
+   <trans-unit id="122">
+    <source>Status name is required</source>
+
+    <target>ステータス名が必要です</target>
+   </trans-unit>
+   <trans-unit id="123">
+    <source>Employment Status Saved Successfully</source>
+    <target>雇用の状況は正常に保存されました</target>
+   </trans-unit>
+   <trans-unit id="124">
+
+    <source>Add Employment Status</source>
+    <target>雇用状況を追加します。</target>
+   </trans-unit>
+   <trans-unit id="125">
+    <source>Edit Employment Status</source>
+    <target>雇用状況を編集する</target>
+   </trans-unit>
+
+   <trans-unit id="126">
+    <source>Selected employment status(es) will be deleted</source>
+    <target>選択された雇用状況（es）は削除されます。</target>
+   </trans-unit>
+   <trans-unit id="127">
+    <source>Selected Employment Status(es) Deleted Successfully</source>
+    <target>選択された就業構造（ES）が正常に削除</target>
+
+   </trans-unit>
+   <trans-unit id="128">
+    <source>Job Title already exists</source>
+    <target>ジョブタイトルはすでに存在しています</target>
+   </trans-unit>
+   <trans-unit id="129">
+    <source>Skills</source>
+
+    <target>スキル</target>
+   </trans-unit>
+   <trans-unit id="130">
+    <source>Add Skill</source>
+    <target>スキルを追加します。</target>
+   </trans-unit>
+   <trans-unit id="131">
+
+    <source>Edit Skill</source>
+    <target>スキルを編集</target>
+   </trans-unit>
+   <trans-unit id="132">
+    <source>Description length should not exceed 250 characters</source>
+    <target>説明の長さが250文字を超えないようにしてください</target>
+   </trans-unit>
+
+   <trans-unit id="133">
+    <source>Skill Saved Successfully</source>
+    <target>スキルは正常に保存されました</target>
+   </trans-unit>
+   <trans-unit id="134">
+    <source>Skill Updated Successfully</source>
+    <target>スキルが正常に更新されました</target>
+
+   </trans-unit>
+   <trans-unit id="135">
+    <source>Skill(s) Deleted Successfully</source>
+    <target>スキル（S）は正常に削除</target>
+   </trans-unit>
+   <trans-unit id="136">
+    <source>Memberships</source>
+
+    <target>メンバーシップ</target>
+   </trans-unit>
+   <trans-unit id="137">
+    <source>Add Membership</source>
+    <target>メンバーシップを追加します。</target>
+   </trans-unit>
+   <trans-unit id="138">
+
+    <source>Membership Saved Successfully</source>
+    <target>会員は、正常に保存されました</target>
+   </trans-unit>
+   <trans-unit id="139">
+    <source>Edit Membership</source>
+    <target>メンバーシップを編集する</target>
+   </trans-unit>
+
+   <trans-unit id="140">
+    <source>Selected membership(s) will be deleted</source>
+    <target>選択したメンバーシップ（s）は削除されます。</target>
+   </trans-unit>
+   <trans-unit id="141">
+    <source>Selected Membership(s) Deleted Successfully</source>
+    <target>選択したメンバーシップ（s）は正常に削除</target>
+
+   </trans-unit>
+   <trans-unit id="142">
+    <source>Pay Grades</source>
+    <target>グレードを支払う</target>
+   </trans-unit>
+   <trans-unit id="143">
+    <source>Pay Grade</source>
+
+    <target>グレードを支払う</target>
+   </trans-unit>
+   <trans-unit id="144">
+    <source>Currency</source>
+    <target>通貨</target>
+   </trans-unit>
+   <trans-unit id="145">
+
+    <source>Add Pay Grade</source>
+    <target>グレード有料追加</target>
+   </trans-unit>
+   <trans-unit id="146">
+    <source>Pay Grade name is required</source>
+    <target>支払いグレード名が必要です</target>
+   </trans-unit>
+
+   <trans-unit id="147">
+    <source>Pay Grade Saved Successfully</source>
+    <target>支払いグレードは正常に保存されました</target>
+   </trans-unit>
+   <trans-unit id="148">
+    <source>Assigned Currencies</source>
+    <target>割り当てられた通貨</target>
+
+   </trans-unit>
+   <trans-unit id="149">
+    <source>Minimum Salary</source>
+    <target>最低給与</target>
+   </trans-unit>
+   <trans-unit id="150">
+    <source>Maximum Salary</source>
+
+    <target>給与の上限</target>
+   </trans-unit>
+   <trans-unit id="151">
+    <source>Invalid salary range</source>
+    <target>無効な給与の範囲</target>
+   </trans-unit>
+   <trans-unit id="152">
+
+    <source>Salary should be a number. No spaces are allowed</source>
+    <target>給与は数値でなければなりません。スペースは許可されません</target>
+   </trans-unit>
+   <trans-unit id="153">
+    <source>Selected pay grade(s) will be deleted</source>
+    <target>選択された賃金等級（s）は削除されます。</target>
+   </trans-unit>
+
+   <trans-unit id="154">
+    <source>Selected Pay Grade(s) Deleted Successfully</source>
+    <target>選択されたペイグレード（s）は正常に削除</target>
+   </trans-unit>
+   <trans-unit id="155">
+    <source>Edit Pay Grade</source>
+    <target>グレードコム編集</target>
+
+   </trans-unit>
+   <trans-unit id="156">
+    <source>Edit Currency</source>
+    <target>通貨を編集</target>
+   </trans-unit>
+   <trans-unit id="157">
+    <source>Add Currency</source>
+
+    <target>通貨を追加</target>
+   </trans-unit>
+   <trans-unit id="158">
+    <source>Enter a valid currency</source>
+    <target>有効な通貨を入力してください</target>
+   </trans-unit>
+   <trans-unit id="159">
+
+    <source>Pay Grade Currency Deleted Successfully</source>
+    <target>正常に削除グレード通貨を支払う</target>
+   </trans-unit>
+   <trans-unit id="160">
+    <source>Pay Grade Currencies Deleted Successfully</source>
+    <target>正常に削除グレード通貨を支払う</target>
+   </trans-unit>
+
+   <trans-unit id="161">
+    <source>Name is already exist</source>
+    <target>名前は既に存在している</target>
+   </trans-unit>
+   <trans-unit id="162">
+    <source>Nationalities</source>
+    <target>国籍</target>
+
+   </trans-unit>
+   <trans-unit id="163">
+    <source>Nationality</source>
+    <target>国籍</target>
+   </trans-unit>
+   <trans-unit id="164">
+    <source>Add Nationality</source>
+
+    <target>国籍を追加</target>
+   </trans-unit>
+   <trans-unit id="165">
+    <source>Nationality Saved Successfully</source>
+    <target>国籍は正常に保存されました</target>
+   </trans-unit>
+   <trans-unit id="166">
+
+    <source>Edit Nationality</source>
+    <target>国籍を編集</target>
+   </trans-unit>
+   <trans-unit id="167">
+    <source>Selected nationality(ies) will be deleted</source>
+    <target>選択された国籍（IES）は削除されます。</target>
+   </trans-unit>
+
+   <trans-unit id="168">
+    <source>Selected Nationality(ies) Deleted Successfully</source>
+    <target>選択された国籍（IES）は、正常に削除</target>
+   </trans-unit>
+   <trans-unit id="169">
+    <source>Job Category Saved Successfully</source>
+    <target>ジョブカテゴリは正常に保存されました</target>
+
+   </trans-unit>
+   <trans-unit id="170">
+    <source>Selected job category(s) will be deleted</source>
+    <target>選択したジョブのカテゴリ（s）は削除されます。</target>
+   </trans-unit>
+   <trans-unit id="171">
+    <source>Selected Job Category(s) Deleted Successfully</source>
+
+    <target>選択したジョブのカテゴリ（s）は正常に削除</target>
+   </trans-unit>
+   <trans-unit id="172">
+    <source>Edit Job Category</source>
+    <target>ジョブカテゴリを編集</target>
+   </trans-unit>
+   <trans-unit id="173">
+
+    <source>Add Job Category</source>
+    <target>ジョブカテゴリを追加</target>
+   </trans-unit>
+   <trans-unit id="174">
+    <source>Languages</source>
+    <target>言語</target>
+   </trans-unit>
+
+   <trans-unit id="175">
+    <source>Add Language</source>
+    <target>言語を追加する</target>
+   </trans-unit>
+   <trans-unit id="176">
+    <source>Edit Language</source>
+    <target>言語を編集</target>
+
+   </trans-unit>
+   <trans-unit id="177">
+    <source>Language Saved Successfully</source>
+    <target>言語は正常に保存されました</target>
+   </trans-unit>
+   <trans-unit id="178">
+    <source>Language Updated Successfully</source>
+
+    <target>言語が正常に更新されました</target>
+   </trans-unit>
+   <trans-unit id="179">
+    <source>Language(s) Deleted Successfully</source>
+    <target>正常に削除する言語（複数可）</target>
+   </trans-unit>
+   <trans-unit id="180">
+
+    <source>System Users</source>
+    <target>システムのユーザー</target>
+   </trans-unit>
+   <trans-unit id="181">
+    <source>Username</source>
+    <target>ユーザー名</target>
+   </trans-unit>
+
+   <trans-unit id="182">
+    <source>User Type</source>
+    <target>ユーザーのタイプ</target>
+   </trans-unit>
+   <trans-unit id="183">
+    <source>Employee Name</source>
+    <target>従業員の名前</target>
+
+   </trans-unit>
+   <trans-unit id="184">
+    <source>Add User</source>
+    <target>ユーザの追加</target>
+   </trans-unit>
+   <trans-unit id="185">
+    <source>Username already taken</source>
+
+    <target>ユーザ名は既に取ら</target>
+   </trans-unit>
+   <trans-unit id="186">
+    <source>Password</source>
+    <target>パスワード</target>
+   </trans-unit>
+   <trans-unit id="187">
+
+    <source>Edit User</source>
+    <target>ユーザー編集</target>
+   </trans-unit>
+   <trans-unit id="188">
+    <source>User Added Successfully</source>
+    <target>ユーザーの追加が完了しました。</target>
+   </trans-unit>
+
+   <trans-unit id="189">
+    <source>System User(s) Deleted Successfully</source>
+    <target>システムユーザー（s）は正常に削除</target>
+   </trans-unit>
+   <trans-unit id="190">
+    <source>Pay Grade Currency Saved Successfully</source>
+    <target>支払いグレード通貨は正常に保存されました</target>
+
+   </trans-unit>
+   <trans-unit id="191">
+    <source>Employee name is required</source>
+    <target>従業員の名前が必要です</target>
+   </trans-unit>
+   <trans-unit id="192">
+    <source>Username is required</source>
+
+    <target>ユーザ名が必要です。</target>
+   </trans-unit>
+   <trans-unit id="193">
+    <source>Passwords do not match</source>
+    <target>パスワードが一致しません</target>
+   </trans-unit>
+   <trans-unit id="194">
+
+    <source>Select valid employee</source>
+    <target>有効な従業員を選択する</target>
+   </trans-unit>
+   <trans-unit id="195">
+    <source>User Name should have at least 5 characters</source>
+    <target>ユーザー名は5文字以上が必要です</target>
+   </trans-unit>
+
+   <trans-unit id="196">
+    <source>Confirm Password</source>
+    <target>パスワードを確認</target>
+   </trans-unit>
+   <trans-unit id="197">
+    <source>Licenses</source>
+    <target>ライセンス</target>
+
+   </trans-unit>
+   <trans-unit id="198">
+    <source>Add License</source>
+    <target>ライセンスを追加します。</target>
+   </trans-unit>
+   <trans-unit id="199">
+    <source>Edit License</source>
+
+    <target>[編集]ライセンス</target>
+   </trans-unit>
+   <trans-unit id="200">
+    <source>License Saved Successfully</source>
+    <target>ライセンスが正常に保存されました</target>
+   </trans-unit>
+   <trans-unit id="201">
+
+    <source>License Updated Successfully</source>
+    <target>ライセンスが正常に更新されました</target>
+   </trans-unit>
+   <trans-unit id="202">
+    <source>License(s) Deleted Successfully</source>
+    <target>ライセンス（s）は正常に削除</target>
+   </trans-unit>
+
+   <trans-unit id="203">
+    <source>Email Notification</source>
+    <target>Eメール通知</target>
+   </trans-unit>
+   <trans-unit id="204">
+    <source>Notification Type</source>
+    <target>通知タイプ</target>
+
+   </trans-unit>
+   <trans-unit id="205">
+    <source>Subscriber(s)</source>
+    <target>加入者（複数可）</target>
+   </trans-unit>
+   <trans-unit id="206">
+    <source>Selected Notifications Saved Successfully</source>
+
+    <target>選択された通知は正常に保存されました</target>
+   </trans-unit>
+   <trans-unit id="207">
+    <source>Subscribers</source>
+    <target>加入者</target>
+   </trans-unit>
+   <trans-unit id="208">
+
+    <source>Add Subscriber</source>
+    <target>サブスクライバの追加</target>
+   </trans-unit>
+   <trans-unit id="209">
+    <source>Edit Subscriber</source>
+    <target>サブスクライバの編集</target>
+   </trans-unit>
+
+   <trans-unit id="210">
+    <source>Click on a notification type to add subscribers</source>
+    <target>加入者を追加するには、通知の種類をクリックしてください</target>
+   </trans-unit>
+   <trans-unit id="211">
+    <source>Subscriber Saved Successfully</source>
+    <target>加入者は正常に保存されました</target>
+
+   </trans-unit>
+   <trans-unit id="212">
+    <source>Selected subscriber(s) will be deleted</source>
+    <target>選択した加入者（s）は削除されます。</target>
+   </trans-unit>
+   <trans-unit id="213">
+    <source>Selected Subscriber(s) Deleted Successfully</source>
+
+    <target>選択されたサブスクライバ（s）は正常に削除</target>
+   </trans-unit>
+   <trans-unit id="214">
+    <source>Email is required</source>
+    <target>メールアドレスが必要です</target>
+   </trans-unit>
+   <trans-unit id="215">
+
+    <source>Email already exist</source>
+    <target>電子メールは既に存在している</target>
+   </trans-unit>
+   <trans-unit id="216">
+    <source>Email address should contain at least one '.' and one '@' Example:user@example.com</source>
+    <target>メールアドレスは、少なくとも1つ含まれている必要があります"を。"と一つの'@'例：user@example.com</target>
+   </trans-unit>
+
+   <trans-unit id="217">
+    <source>Education</source>
+    <target>教育</target>
+   </trans-unit>
+   <trans-unit id="218">
+    <source>Add Education</source>
+    <target>教育を追加</target>
+
+   </trans-unit>
+   <trans-unit id="219">
+    <source>Edit Education</source>
+    <target>[編集]教育</target>
+   </trans-unit>
+   <trans-unit id="220">
+    <source>Education Saved Successfully</source>
+
+    <target>教育は正常に保存されました</target>
+   </trans-unit>
+   <trans-unit id="221">
+    <source>Education Updated Successfully</source>
+    <target>教育が正常に更新されました</target>
+   </trans-unit>
+   <trans-unit id="222">
+
+    <source>Education Record(s) Deleted Successfully</source>
+    <target>教育レコード（s）は正常に削除</target>
+   </trans-unit>
+   <trans-unit id="223">
+    <source>Level is required</source>
+    <target>レベルが必要です</target>
+   </trans-unit>
+
+   <trans-unit id="224">
+    <source>Level</source>
+    <target>レベル</target>
+   </trans-unit>
+   <trans-unit id="225">
+    <source>Work Shifts</source>
+    <target>勤務シフト</target>
+
+   </trans-unit>
+   <trans-unit id="226">
+    <source>Shift Name</source>
+    <target>シフト名</target>
+   </trans-unit>
+   <trans-unit id="227">
+    <source>Hours Per Day</source>
+
+    <target>日あたりの時間</target>
+   </trans-unit>
+   <trans-unit id="228">
+    <source>Available Employees</source>
+    <target>利用できる従業員</target>
+   </trans-unit>
+   <trans-unit id="229">
+
+    <source>Assigned Employees</source>
+    <target>割り当てられた従業員</target>
+   </trans-unit>
+   <trans-unit id="230">
+    <source>Remove</source>
+    <target>削除</target>
+   </trans-unit>
+
+   <trans-unit id="231">
+    <source>Add Work Shift</source>
+    <target>作業シフトを追加</target>
+   </trans-unit>
+   <trans-unit id="232">
+    <source>Shift Name is required</source>
+    <target>シフト名が必要です。</target>
+
+   </trans-unit>
+   <trans-unit id="233">
+    <source>Hour per day is required</source>
+    <target>一日あたりの時間が必要です</target>
+   </trans-unit>
+   <trans-unit id="234">
+    <source>Work Shift Saved Successfully</source>
+
+    <target>働くシフトは正常に保存されました</target>
+   </trans-unit>
+   <trans-unit id="235">
+    <source>Selected work shift(s) will be deleted</source>
+    <target>選択した作業シフト（s）は削除されます。</target>
+   </trans-unit>
+   <trans-unit id="236">
+
+    <source>Selected Work Shift(s) Deleted Successfully</source>
+    <target>選択したワークシフト（s）は正常に削除</target>
+   </trans-unit>
+   <trans-unit id="237">
+    <source>Enter a valid number</source>
+    <target>有効な数値を入力してください</target>
+   </trans-unit>
+
+   <trans-unit id="238">
+    <source>Value should be a possitive number</source>
+    <target>値はpossitive数値である必要があります</target>
+   </trans-unit>
+   <trans-unit id="239">
+    <source>Value should be less than 24</source>
+    <target>値は24未満でなければなりません</target>
+
+   </trans-unit>
+   <trans-unit id="240">
+    <source>Edit Work Shift</source>
+    <target>作業シフトを編集する</target>
+   </trans-unit>
+   <trans-unit id="241">
+    <source>Skill Name Exists</source>
+
+    <target>スキル名が存在</target>
+   </trans-unit>
+   <trans-unit id="242">
+    <source>Language Name Exists</source>
+    <target>言語名が存在</target>
+   </trans-unit>
+   <trans-unit id="243">
+
+    <source>License Name Exists</source>
+    <target>ライセンスの名前があ​​ります</target>
+   </trans-unit>
+   <trans-unit id="244">
+    <source>Education Level Exists</source>
+    <target>教育レベルが存在する</target>
+   </trans-unit>
+
+   <trans-unit id="245">
+    <source>Selected system user(s) will be deleted</source>
+    <target>選択したシステムのユーザ（s）は削除されます。</target>
+   </trans-unit>
+   <trans-unit id="246">
+    <source>Salary should be a number with two decimals. No spaces are allowed</source>
+    <target>給与は、小数点以下2桁を持つ数値でなければなりません。スペースは許可されません</target>
+
+   </trans-unit>
+   <trans-unit id="247">
+    <source>Change Password</source>
+    <target>パスワードを変更する</target>
+   </trans-unit>
+   <trans-unit id="248">
+    <source>Current Password</source>
+
+    <target>現在のパスワード</target>
+   </trans-unit>
+   <trans-unit id="249">
+    <source>New Password</source>
+    <target>新しいパスワード</target>
+   </trans-unit>
+   <trans-unit id="250">
+
+    <source>Confirm New Password</source>
+    <target>新しいパスワードの確認</target>
+   </trans-unit>
+   <trans-unit id="251">
+    <source>Current Password is required</source>
+    <target>現在のパスワードが必要です</target>
+   </trans-unit>
+
+   <trans-unit id="252">
+    <source>New Password is required</source>
+    <target>新しいパスワードが必要です</target>
+   </trans-unit>
+   <trans-unit id="253">
+    <source>Confirm New Password is required</source>
+    <target>新しいパスワードが必要とされていることを確認</target>
+
+   </trans-unit>
+   <trans-unit id="254">
+    <source>Password should have at least 4 characters</source>
+    <target>パスワードは4文字以上で指定している必要があります</target>
+   </trans-unit>
+   <trans-unit id="255">
+    <source>Cannot exceed 20 charactors</source>
+
+    <target>20 charactorsを超えることはできません</target>
+   </trans-unit>
+   <trans-unit id="256">
+    <source>Current Password Is Wrong</source>
+    <target>現在のパスワードが間違っています</target>
+   </trans-unit>
+   <trans-unit id="257">
+
+    <source>Password Changed Successfully</source>
+    <target>パスワードが正常に変更</target>
+   </trans-unit>
+  </body>
+ </file>
+</xliff>

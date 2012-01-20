@@ -1,0 +1,19 @@
+rendering: ~
+security:  ~
+
+# insert your own filters here
+exceptionCatcherFilter:
+  class: ExceptionCatcherFilter
+i18nFilter:
+  class: OrangeI18NFilter
+sessionInfoFetcherFilter:
+  class: SessionInfoFetcherFilter
+moduleFilter:
+  class: ModuleFilter  
+postExecutionFilter:
+  class: orangehrmPostExecutionFilter
+
+cache:     ~
+common:
+  class: sfCommonFilter
+execution: ~

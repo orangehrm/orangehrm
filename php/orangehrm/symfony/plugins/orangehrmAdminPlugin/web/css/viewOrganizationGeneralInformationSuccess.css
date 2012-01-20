@@ -1,0 +1,77 @@
+.paddingLeftRequired {
+    padding-left: 15px;
+    padding-top: 5px;
+    font-size: 8pt;
+}
+
+.hrLine {
+    width: 98%;
+    border-top:1px solid #FAD163;
+    display:block;
+    margin-left: 5px;
+    margin-right: 5px;
+}
+
+form input.txtBox {
+    border: 1px solid #888888;
+    width:200px;
+    vertical-align:middle;
+    height:14px;
+    margin-top: 5px;
+}
+
+.drpDown {
+    margin-top: 5px;
+    width: 210px;
+}
+
+label.error {
+    clear: both;
+    color: red;
+    display: block;
+    font-size: 11px;
+    margin-top: 5px;
+    padding-left: 140px;
+    width: 200px !important;
+}
+
+label {
+    margin-top: 5px;
+    padding-left: 15px;
+    text-align: left;
+    width: 140px;
+}
+
+.txtArea{
+    margin-top: 5px;
+    width:200px;
+    height: 90px;
+}
+
+#numOfEmployees{
+    margin-top: 5px;
+}
+
+#messagebar{
+    width: 800px;
+    font-weight: bold;
+}
+
+#genInfo{
+    width: 800px;
+}
+
+.leftDiv{
+    float: left;
+    width: 380px;
+}
+
+.rightDiv{
+    float: left;
+    width: 380px;
+}
+
+div.errorHolder label.error{
+     padding-left: 155px;
+}
+

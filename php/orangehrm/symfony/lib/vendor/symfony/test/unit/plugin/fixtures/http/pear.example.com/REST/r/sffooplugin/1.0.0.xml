@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="iso-8859-1" ?>
+<r xmlns="http://pear.php.net/dtd/rest.release" xsi:schemaLocation="http://pear.php.net/dtd/rest.release http://pear.php.net/dtd/rest.release.xsd">
+ <p xlink:href="/REST/p/sffooplugin">sfFooPlugin</p>
+ <c>pear.example.com</c>
+ <v>1.0.0</v>
+ <st>stable</st>
+ <l>MIT license</l>
+ <m>Fabien Potencier</m>
+ <s>The sfFooPlugin is a fake plugin for testing purpose</s>
+ <d>The sfFooPlugin is a fake plugin for testing purpose</d>
+ <da>2007-09-11</da>
+ <n>-</n>
+ <f>1910892</f>
+ <g>http://pear.example.com/get/sfFooPlugin/sfFooPlugin-1.0.0</g>
+ <x xlink:href="package.1.0.0.xml"/>
+</r>

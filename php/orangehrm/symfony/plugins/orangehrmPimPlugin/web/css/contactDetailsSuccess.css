@@ -1,0 +1,52 @@
+.paddingLeftRequired {
+    padding-left: 15px;
+    padding-top: 5px;
+    font-size: 8pt;
+}
+
+.helpText {
+   font-size: 8pt;
+   color:#888888;
+   padding-left: 40px;
+}
+
+.hrLine {
+    width: 98%;
+    border-top:1px solid #FAD163;
+    display:block;
+    margin-left: 5px;
+    margin-right: 5px;
+}
+
+form input.txtBox {
+  border: 1px solid #888888;
+  width:240px;
+  vertical-align:middle;
+  height:14px;
+  margin-top: 5px;
+}
+
+form input.txtBoxSmall {
+  border: 1px solid #888888;
+  width:70px;
+  vertical-align:middle;
+  height:14px;
+  margin-top: 5px;
+}
+
+.drpDown {
+  margin-top: 5px;
+  width: 250px;
+}
+
+label.error {
+    display:block;
+}
+
+br.clear1 {
+	clear:left;
+}
+
+label {
+    margin-top: 5px;
+}

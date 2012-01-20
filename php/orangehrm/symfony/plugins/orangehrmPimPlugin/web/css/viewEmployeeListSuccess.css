@@ -1,0 +1,94 @@
+.hoverOverEmp {
+    background-color: #ccc;
+    cursor: pointer;
+}
+div.searchbox div.actionbar {
+    border-top: 1px solid #FAD163;
+    margin-top: 3px;
+}
+
+div.searchbox {
+    border-bottom: 0px;
+    padding-bottom: 0px;
+}
+
+form#search_form div#formcontent select,
+form#search_form div#formcontent input {
+    padding-left:0px;
+    padding-right:0px;
+    padding-top: 1px;
+    padding-bottom: 1px;
+    width:11.1%;
+    margin-bottom: 5px;
+}
+
+form#search_form div#formcontent label {
+    width: 7.4%;
+    margin-bottom: 5px;
+    padding-left: 2px;
+}
+
+form#search_form div#formcontent select {
+    width:11.3%;
+}
+
+input#empsearch_employee_name,
+input#empsearch_supervisor_name {
+    width: 250px;
+}
+
+/* Move to style.css */
+table.data-table thead td {
+    font-weight: bold;
+    font-size: 13px;
+    height: 26px;
+    padding-left:1px;
+    padding-right:1px;
+}
+
+table.data-table thead td a {
+    font-weight: bold;
+    font-size: 13px;
+    height: 26px;
+}
+
+table.data-table tbody td {
+    font-size: 12px;
+    height: 24px;
+}
+table.data-table tbody td a {
+    font-size: 12px;
+}
+
+table.data-table tbody td input.checkbox,
+table.data-table thead td input.checkbox{
+    margin-left:5px;
+}
+
+table.data-table td.emp_check {
+    width: 50px;
+}
+
+table.data-table td.emp_id {
+    width: 50px;
+}
+
+table.data-table td.emp_first {
+    min-width: 150px;
+}
+
+table.data-table td.emp_last {
+    min-width: 100px;
+}
+
+form#frmDelete table#emp_list.data-table thead tr td.emp_id{
+    width: 80px;
+}
+
+form#search_form div#formcontent label{
+    font-weight: normal;
+}
+
+html body div.outerbox div.maincontent div.searchbox form#search_form div#formcontent select#empsearch_termination{
+       width:15.5%;
+}

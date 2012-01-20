@@ -1,0 +1,4 @@
+LeavePeriod:
+  0: { leavePeriodId: 1, startDate: '2008-02-01', endDate: '2009-01-31' }
+  1: { leavePeriodId: 2, startDate: '2009-02-01', endDate: '2010-01-31' }
+  2: { leavePeriodId: 3, startDate: '2010-02-01', endDate: '2011-01-31' }

@@ -1,0 +1,9 @@
+Human Resources,
+
+#employee has made a request to halt his/her Health Saving Plan on #haltedDate. 
+
+#link
+
+Thanks,
+
+OrangeHRM

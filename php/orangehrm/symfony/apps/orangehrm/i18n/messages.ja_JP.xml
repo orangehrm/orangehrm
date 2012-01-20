@@ -1,0 +1,914 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE xliff PUBLIC "-//XLIFF//DTD XLIFF//EN" "http://www.oasis-open.org/committees/xliff/documents/xliff.dtd">
+<xliff version="1.0">
+ <header/>
+ <file source-language="en_US" target-language="ja_JP" datatype="plaintext" original="messages" date="2012-01-11T15:12:18Z" product-name="messages">
+  <body>
+   <trans-unit id="1">
+    <source>Edit</source>
+    <target>[編集]</target>
+
+   </trans-unit>
+   <trans-unit id="2">
+    <source>Save</source>
+    <target>保存</target>
+   </trans-unit>
+   <trans-unit id="3">
+    <source>Reset</source>
+
+    <target>リセット</target>
+   </trans-unit>
+   <trans-unit id="4">
+    <source>Search</source>
+    <target>検索する</target>
+   </trans-unit>
+   <trans-unit id="5">
+
+    <source>Add</source>
+    <target>追加</target>
+   </trans-unit>
+   <trans-unit id="6">
+    <source>Delete</source>
+    <target>削除</target>
+   </trans-unit>
+
+   <trans-unit id="7">
+    <source>Back</source>
+    <target>戻る</target>
+   </trans-unit>
+   <trans-unit id="8">
+    <source>All</source>
+    <target>すべて</target>
+
+   </trans-unit>
+   <trans-unit id="9">
+    <source>From</source>
+    <target>からの</target>
+   </trans-unit>
+   <trans-unit id="10">
+    <source>To</source>
+
+    <target>への</target>
+   </trans-unit>
+   <trans-unit id="11">
+    <source>Fields marked with an asterisk</source>
+    <target>アスタリスク付きのフィールド</target>
+   </trans-unit>
+   <trans-unit id="12">
+
+    <source>are required.</source>
+    <target>必要です。</target>
+   </trans-unit>
+   <trans-unit id="13">
+    <source>Full Time Contract</source>
+    <target>フルタイムの契約</target>
+   </trans-unit>
+
+   <trans-unit id="14">
+    <source>Full Time Internship</source>
+    <target>フルタイムのインターンシップ</target>
+   </trans-unit>
+   <trans-unit id="15">
+    <source>Full Time Permanent</source>
+    <target>永久フルタイム</target>
+
+   </trans-unit>
+   <trans-unit id="16">
+    <source>Part Time Contract</source>
+    <target>パートタイム契約</target>
+   </trans-unit>
+   <trans-unit id="17">
+    <source>Part Time Internship</source>
+
+    <target>パートタイムのインターンシップ</target>
+   </trans-unit>
+   <trans-unit id="18">
+    <source>Part Time Permanent</source>
+    <target>パーマネントパートタイム</target>
+   </trans-unit>
+   <trans-unit id="19">
+
+    <source>Eligible</source>
+    <target>対象</target>
+   </trans-unit>
+   <trans-unit id="20">
+    <source>Not Eligible</source>
+    <target>対象ではない</target>
+   </trans-unit>
+
+   <trans-unit id="21">
+    <source>Help</source>
+    <target>ヘルプ</target>
+   </trans-unit>
+   <trans-unit id="22">
+    <source>Full Name</source>
+    <target>完全な名前</target>
+
+   </trans-unit>
+   <trans-unit id="23">
+    <source>Male</source>
+    <target>男性</target>
+   </trans-unit>
+   <trans-unit id="24">
+    <source>Female</source>
+
+    <target>メス</target>
+   </trans-unit>
+   <trans-unit id="25">
+    <source>Select</source>
+    <target>選択して</target>
+   </trans-unit>
+   <trans-unit id="26">
+
+    <source>Country</source>
+    <target>国</target>
+   </trans-unit>
+   <trans-unit id="27">
+    <source>Cancel</source>
+    <target>キャンセル</target>
+   </trans-unit>
+
+   <trans-unit id="28">
+    <source>Select at least One Record to Delete</source>
+    <target>削除するために少なくとも1つのレコードを選択します。</target>
+   </trans-unit>
+   <trans-unit id="29">
+    <source>Month</source>
+    <target>月</target>
+
+   </trans-unit>
+   <trans-unit id="30">
+    <source>Date</source>
+    <target>日</target>
+   </trans-unit>
+   <trans-unit id="31">
+    <source>January</source>
+
+    <target>月</target>
+   </trans-unit>
+   <trans-unit id="32">
+    <source>February</source>
+    <target>月</target>
+   </trans-unit>
+   <trans-unit id="33">
+
+    <source>March</source>
+    <target>月</target>
+   </trans-unit>
+   <trans-unit id="34">
+    <source>April</source>
+    <target>月</target>
+   </trans-unit>
+
+   <trans-unit id="35">
+    <source>May</source>
+    <target>5月</target>
+   </trans-unit>
+   <trans-unit id="36">
+    <source>June</source>
+    <target>月</target>
+
+   </trans-unit>
+   <trans-unit id="37">
+    <source>July</source>
+    <target>月</target>
+   </trans-unit>
+   <trans-unit id="38">
+    <source>August</source>
+
+    <target>月</target>
+   </trans-unit>
+   <trans-unit id="39">
+    <source>September</source>
+    <target>月</target>
+   </trans-unit>
+   <trans-unit id="40">
+
+    <source>October</source>
+    <target>月</target>
+   </trans-unit>
+   <trans-unit id="41">
+    <source>November</source>
+    <target>11月</target>
+   </trans-unit>
+
+   <trans-unit id="42">
+    <source>December</source>
+    <target>月</target>
+   </trans-unit>
+   <trans-unit id="43">
+    <source>to</source>
+    <target>への</target>
+
+   </trans-unit>
+   <trans-unit id="44">
+    <source>Monday</source>
+    <target>月</target>
+   </trans-unit>
+   <trans-unit id="45">
+    <source>Tuesday</source>
+
+    <target>火曜日</target>
+   </trans-unit>
+   <trans-unit id="46">
+    <source>Wednesday</source>
+    <target>水曜日</target>
+   </trans-unit>
+   <trans-unit id="47">
+
+    <source>Thursday</source>
+    <target>木曜日</target>
+   </trans-unit>
+   <trans-unit id="48">
+    <source>Friday</source>
+    <target>金曜日</target>
+   </trans-unit>
+
+   <trans-unit id="49">
+    <source>Saturday</source>
+    <target>土曜日</target>
+   </trans-unit>
+   <trans-unit id="50">
+    <source>Sunday</source>
+    <target>日曜日</target>
+
+   </trans-unit>
+   <trans-unit id="51">
+    <source>Yes</source>
+    <target>はい</target>
+   </trans-unit>
+   <trans-unit id="52">
+    <source>No</source>
+
+    <target>なし</target>
+   </trans-unit>
+   <trans-unit id="53">
+    <source>Name</source>
+    <target>の名前</target>
+   </trans-unit>
+   <trans-unit id="54">
+
+    <source>Successfully Deleted</source>
+    <target>正常に削除</target>
+   </trans-unit>
+   <trans-unit id="55">
+    <source>No Records Found</source>
+    <target>関連する情報はありません</target>
+   </trans-unit>
+
+   <trans-unit id="56">
+    <source>Employee</source>
+    <target>従業</target>
+   </trans-unit>
+   <trans-unit id="57">
+    <source>Type for hints</source>
+    <target>ヒントの種類</target>
+
+   </trans-unit>
+   <trans-unit id="58">
+    <source>Job Title</source>
+    <target>仕事のタイトル</target>
+   </trans-unit>
+   <trans-unit id="59">
+    <source>Job Title</source>
+
+    <target>仕事のタイトル</target>
+   </trans-unit>
+   <trans-unit id="60">
+    <source>Sub Unit</source>
+    <target>サブユニット</target>
+   </trans-unit>
+   <trans-unit id="61">
+
+    <source>Records Per Page</source>
+    <target>ページあたりのレコード</target>
+   </trans-unit>
+   <trans-unit id="62">
+    <source>Location</source>
+    <target>場所</target>
+   </trans-unit>
+
+   <trans-unit id="63">
+    <source>Employee Name</source>
+    <target>従業員の名前</target>
+   </trans-unit>
+   <trans-unit id="64">
+    <source>Days</source>
+    <target>日</target>
+
+   </trans-unit>
+   <trans-unit id="65">
+    <source>Status</source>
+    <target>ステータス</target>
+   </trans-unit>
+   <trans-unit id="66">
+    <source>Comments</source>
+
+    <target>コメント</target>
+   </trans-unit>
+   <trans-unit id="67">
+    <source>Date format should be YYYY-MM-DD</source>
+    <target>日付フォーマットはYYYY - MM - DDにする必要があります</target>
+   </trans-unit>
+   <trans-unit id="68">
+
+    <source>Please enter a valid date in %format% format</source>
+    <target>％フォーマットの％の形式で有効な日付を入力してください。</target>
+   </trans-unit>
+   <trans-unit id="69">
+    <source>Edit Immigration</source>
+    <target>[編集]移民</target>
+   </trans-unit>
+
+   <trans-unit id="70">
+    <source>Leave Summary</source>
+    <target>まとめを残す</target>
+   </trans-unit>
+   <trans-unit id="71">
+    <source>Leave List</source>
+    <target>リストを残す</target>
+
+   </trans-unit>
+   <trans-unit id="72">
+    <source>OrangeHRM - Confirmation Required</source>
+    <target>OrangeHRM - 確認必要</target>
+   </trans-unit>
+   <trans-unit id="73">
+    <source>Date is required</source>
+
+    <target>日付が必要です</target>
+   </trans-unit>
+   <trans-unit id="74">
+    <source>Date should be in the format: %format%</source>
+    <target>日付のフォーマットを使用する必要があります：％書式％</target>
+   </trans-unit>
+   <trans-unit id="75">
+
+    <source>Name is required</source>
+    <target>名前は必須です</target>
+   </trans-unit>
+   <trans-unit id="76">
+    <source>Name should be less than %length% characters</source>
+    <target>名前は、％の長さの％文字未満にしてください</target>
+   </trans-unit>
+
+   <trans-unit id="77">
+    <source>Enabled</source>
+    <target>有効</target>
+   </trans-unit>
+   <trans-unit id="78">
+    <source>Disabled</source>
+    <target>無効になって</target>
+
+   </trans-unit>
+   <trans-unit id="79">
+    <source>Id</source>
+    <target>ID</target>
+   </trans-unit>
+   <trans-unit id="80">
+    <source>Employment Status</source>
+
+    <target>雇用の状況</target>
+   </trans-unit>
+   <trans-unit id="81">
+    <source>Supervisor</source>
+    <target>スーパーバイザ</target>
+   </trans-unit>
+   <trans-unit id="82">
+
+    <source>Supervisor Name</source>
+    <target>スーパーバイザ名</target>
+   </trans-unit>
+   <trans-unit id="83">
+    <source>Type for hints</source>
+    <target>ヒントの種類</target>
+   </trans-unit>
+
+   <trans-unit id="84">
+    <source>Type Employee Id</source>
+    <target>型の従業員ID</target>
+   </trans-unit>
+   <trans-unit id="85">
+    <source>First</source>
+    <target>初</target>
+
+   </trans-unit>
+   <trans-unit id="86">
+    <source>Middle</source>
+    <target>中東</target>
+   </trans-unit>
+   <trans-unit id="87">
+    <source>Previous</source>
+
+    <target>前</target>
+   </trans-unit>
+   <trans-unit id="88">
+    <source>Next</source>
+    <target>次のページ</target>
+   </trans-unit>
+   <trans-unit id="89">
+
+    <source>Last</source>
+    <target>最後の</target>
+   </trans-unit>
+   <trans-unit id="90">
+    <source>Terminated</source>
+    <target>終了</target>
+   </trans-unit>
+
+   <trans-unit id="91">
+    <source>Dimensions</source>
+    <target>寸法</target>
+   </trans-unit>
+   <trans-unit id="92">
+    <source>Program</source>
+    <target>プログラム</target>
+
+   </trans-unit>
+   <trans-unit id="93">
+    <source>Skill</source>
+    <target>スキル</target>
+   </trans-unit>
+   <trans-unit id="94">
+    <source>Years of Experience</source>
+
+    <target>長年の経験</target>
+   </trans-unit>
+   <trans-unit id="95">
+    <source>Year</source>
+    <target>年</target>
+   </trans-unit>
+   <trans-unit id="96">
+
+    <source>Language</source>
+    <target>言語</target>
+   </trans-unit>
+   <trans-unit id="97">
+    <source>Fluency</source>
+    <target>流ちょうさ</target>
+   </trans-unit>
+
+   <trans-unit id="98">
+    <source>Start Date</source>
+    <target>日付を開始</target>
+   </trans-unit>
+   <trans-unit id="99">
+    <source>Competency</source>
+    <target>コンピテンシー</target>
+
+   </trans-unit>
+   <trans-unit id="100">
+    <source>End Date</source>
+    <target>エンド日</target>
+   </trans-unit>
+   <trans-unit id="101">
+    <source>License Type</source>
+
+    <target>ライセンスの種類</target>
+   </trans-unit>
+   <trans-unit id="102">
+    <source>License Number</source>
+    <target>ライセンス番号</target>
+   </trans-unit>
+   <trans-unit id="103">
+
+    <source>License Type</source>
+    <target>ライセンスの種類</target>
+   </trans-unit>
+   <trans-unit id="104">
+    <source>License Number</source>
+    <target>ライセンス番号</target>
+   </trans-unit>
+
+   <trans-unit id="105">
+    <source>Add Attachment</source>
+    <target>添付ファイルを追加します。</target>
+   </trans-unit>
+   <trans-unit id="106">
+    <source>Select File</source>
+    <target>[ファイル]を選択します</target>
+
+   </trans-unit>
+   <trans-unit id="107">
+    <source>1M Max, any larger attachments will be ignored</source>
+    <target>1Mマックス、どんな大きな添付ファイルは無視されます。</target>
+   </trans-unit>
+   <trans-unit id="108">
+    <source>Program is required</source>
+
+    <target>プログラムが必要です</target>
+   </trans-unit>
+   <trans-unit id="109">
+    <source>Skill is required</source>
+    <target>スキルが必要です</target>
+   </trans-unit>
+   <trans-unit id="110">
+
+    <source>Language is required</source>
+    <target>言語が必要です</target>
+   </trans-unit>
+   <trans-unit id="111">
+    <source>Fluency is required</source>
+    <target>流暢さが必要です</target>
+   </trans-unit>
+
+   <trans-unit id="112">
+    <source>Competency is required</source>
+    <target>能力が必要です</target>
+   </trans-unit>
+   <trans-unit id="113">
+    <source>License Type is required</source>
+    <target>ライセンスの種類が必要です。</target>
+
+   </trans-unit>
+   <trans-unit id="114">
+    <source>Please select a file</source>
+    <target>ファイルを選択してください</target>
+   </trans-unit>
+   <trans-unit id="115">
+    <source>Attachment Updated Successfully</source>
+
+    <target>添付ファイルが正常に更新されました</target>
+   </trans-unit>
+   <trans-unit id="116">
+    <source>Attachment(s) Deleted Successfully</source>
+    <target>正常に削除添付ファイル（複数可）</target>
+   </trans-unit>
+   <trans-unit id="117">
+
+    <source>Edit Attachment :</source>
+    <target>添付ファイルを編集します。</target>
+   </trans-unit>
+   <trans-unit id="118">
+    <source>Replace file</source>
+    <target>ファイルを交換</target>
+   </trans-unit>
+
+   <trans-unit id="119">
+    <source>with new file</source>
+    <target>新しいファイルと</target>
+   </trans-unit>
+   <trans-unit id="120">
+    <source>Please Select At Least One Attachment To Delete</source>
+    <target>削除する1つ以上の添付ファイルを選択してください</target>
+
+   </trans-unit>
+   <trans-unit id="121">
+    <source>Comment cannot exceed 200 characters in length</source>
+    <target>コメントの長さは200文字を超えることはできません。</target>
+   </trans-unit>
+   <trans-unit id="122">
+    <source>Comment length cannot exceed 200 characters</source>
+
+    <target>コメントの長さが200文字を超えることはできません。</target>
+   </trans-unit>
+   <trans-unit id="123">
+    <source>Issued date should be before expiry date</source>
+    <target>発行された日付が有効期限前にしてください</target>
+   </trans-unit>
+   <trans-unit id="124">
+
+    <source>Year should be a number</source>
+    <target>今年は数値である必要があります</target>
+   </trans-unit>
+   <trans-unit id="125">
+    <source>Comment length cannot exceed 100 characters</source>
+    <target>コメントの長さが100文字を超えることはできません。</target>
+   </trans-unit>
+
+   <trans-unit id="126">
+    <source>Years of Experience should be a number</source>
+    <target>長年の経験では、数値である必要があります</target>
+   </trans-unit>
+   <trans-unit id="127">
+    <source>Years of Experience should be less than 100</source>
+    <target>長年の経験では100未満でなければなりません</target>
+
+   </trans-unit>
+   <trans-unit id="128">
+    <source>Upload File</source>
+    <target>ファイルのアップロード</target>
+   </trans-unit>
+   <trans-unit id="129">
+    <source>Save Comment Only</source>
+
+    <target>コメントのみ保存</target>
+   </trans-unit>
+   <trans-unit id="130">
+    <source>File Name</source>
+    <target>ファイル名</target>
+   </trans-unit>
+   <trans-unit id="131">
+
+    <source>Description</source>
+    <target>説明</target>
+   </trans-unit>
+   <trans-unit id="132">
+    <source>Size</source>
+    <target>サイズ</target>
+   </trans-unit>
+
+   <trans-unit id="133">
+    <source>Type</source>
+    <target>タイプ</target>
+   </trans-unit>
+   <trans-unit id="134">
+    <source>Date Added</source>
+    <target>日付が追加されました</target>
+
+   </trans-unit>
+   <trans-unit id="135">
+    <source>Added By</source>
+    <target>で追加</target>
+   </trans-unit>
+   <trans-unit id="136">
+    <source>Job Specification</source>
+
+    <target>ジョブ仕様</target>
+   </trans-unit>
+   <trans-unit id="137">
+    <source>Job Category</source>
+    <target>ジョブカテゴリ</target>
+   </trans-unit>
+   <trans-unit id="138">
+
+    <source>Joined Date</source>
+    <target>登録日</target>
+   </trans-unit>
+   <trans-unit id="139">
+    <source>View Details</source>
+    <target>詳細を見る</target>
+   </trans-unit>
+
+   <trans-unit id="140">
+    <source>Keep Current</source>
+    <target>最新の状態に保つ</target>
+   </trans-unit>
+   <trans-unit id="141">
+    <source>Delete Current</source>
+    <target>現在の削除</target>
+
+   </trans-unit>
+   <trans-unit id="142">
+    <source>Upload New</source>
+    <target>新規のアップロード</target>
+   </trans-unit>
+   <trans-unit id="143">
+    <source>Duties</source>
+
+    <target>職務</target>
+   </trans-unit>
+   <trans-unit id="144">
+    <source>Hide Details</source>
+    <target>詳細を隠す</target>
+   </trans-unit>
+   <trans-unit id="145">
+
+    <source>Start date should be before end date</source>
+    <target>開始日が終了日より前でなければなりません</target>
+   </trans-unit>
+   <trans-unit id="146">
+    <source>Invalid From Date</source>
+    <target>日付から無効</target>
+   </trans-unit>
+
+   <trans-unit id="147">
+    <source>Invalid To Date</source>
+    <target>日付に無効な</target>
+   </trans-unit>
+   <trans-unit id="148">
+    <source>State</source>
+    <target>の状態</target>
+
+   </trans-unit>
+   <trans-unit id="149">
+    <source>Home telephone can contain only space, numbers, "+", and "-"</source>
+    <target>" - "自宅の電話は、スペース、数字、"+"、およびを含めることができます。</target>
+   </trans-unit>
+   <trans-unit id="150">
+    <source>Mobile can contain only space, numbers, "+", and "-"</source>
+
+    <target>" - "携帯電話はスペース、数字、"+"、およびを含めることができます。</target>
+   </trans-unit>
+   <trans-unit id="151">
+    <source>Work telephone can contain only space, numbers, "+", and "-"</source>
+    <target>" - "仕事の電話は、スペース、数字、"+"、およびを含めることができます。</target>
+   </trans-unit>
+   <trans-unit id="152">
+
+    <source>Attachment Size Exceeded.</source>
+    <target>添付ファイルのサイズを超えました。</target>
+   </trans-unit>
+   <trans-unit id="153">
+    <source>Individual</source>
+    <target>個々の</target>
+   </trans-unit>
+
+   <trans-unit id="154">
+    <source>Field</source>
+    <target>フィールドは</target>
+   </trans-unit>
+   <trans-unit id="155">
+    <source>Fields</source>
+    <target>フィールド</target>
+
+   </trans-unit>
+   <trans-unit id="156">
+    <source>will be deleted from all employees' records. Do you want to continue?</source>
+    <target>すべての従業員のレコードから削除されます。続行しますか？</target>
+   </trans-unit>
+   <trans-unit id="157">
+    <source>Not Defined</source>
+
+    <target>定義なし</target>
+   </trans-unit>
+   <trans-unit id="158">
+    <source>Replace Current</source>
+    <target>現在交換してください</target>
+   </trans-unit>
+   <trans-unit id="159">
+
+    <source>Direct</source>
+    <target>ダイレクト</target>
+   </trans-unit>
+   <trans-unit id="160">
+    <source>Indirect</source>
+    <target>間接</target>
+   </trans-unit>
+
+   <trans-unit id="161">
+    <source>Pay Frequency</source>
+    <target>周波数を支払う</target>
+   </trans-unit>
+   <trans-unit id="162">
+    <source>Amount</source>
+    <target>量は</target>
+
+   </trans-unit>
+   <trans-unit id="163">
+    <source>Currency is required</source>
+    <target>通貨が必要です</target>
+   </trans-unit>
+   <trans-unit id="164">
+    <source>Amount is required</source>
+
+    <target>量が必要です</target>
+   </trans-unit>
+   <trans-unit id="165">
+    <source>Account Number is required</source>
+    <target>口座番号が必要です。</target>
+   </trans-unit>
+   <trans-unit id="166">
+
+    <source>Add Salary Component</source>
+    <target>給与のコンポーネントを追加します。</target>
+   </trans-unit>
+   <trans-unit id="167">
+    <source>Edit Salary Component</source>
+    <target>給与のコンポーネントを編集する</target>
+   </trans-unit>
+
+   <trans-unit id="168">
+    <source>Assigned Salary Components</source>
+    <target>割り当てられている給与のコンポーネント</target>
+   </trans-unit>
+   <trans-unit id="169">
+    <source>Routing Number</source>
+    <target>ルーティング番号</target>
+
+   </trans-unit>
+   <trans-unit id="170">
+    <source>Edit Salary Component</source>
+    <target>給与のコンポーネントを編集する</target>
+   </trans-unit>
+   <trans-unit id="171">
+    <source>Direct Deposit Details</source>
+
+    <target>ダイレクト入金の詳細</target>
+   </trans-unit>
+   <trans-unit id="172">
+    <source>Salary Component(s) Deleted Successfully</source>
+    <target>給与のコンポーネント（s）は正常に削除</target>
+   </trans-unit>
+   <trans-unit id="173">
+
+    <source>Salary Details Updated Successfully</source>
+    <target>給与の詳細は、正常に更新</target>
+   </trans-unit>
+   <trans-unit id="174">
+    <source>Please Select At Least One Salary Component To Delete</source>
+    <target>削除には、少なくとも1つの給与のコンポーネントを選択してください</target>
+   </trans-unit>
+
+   <trans-unit id="175">
+    <source>Routing Number should only contain digits</source>
+    <target>ルーティング番号は数字のみが含まれています。</target>
+   </trans-unit>
+   <trans-unit id="176">
+    <source>Amount should be a number</source>
+    <target>量は数値である必要があります</target>
+
+   </trans-unit>
+   <trans-unit id="177">
+    <source>Savings</source>
+    <target>節約</target>
+   </trans-unit>
+   <trans-unit id="178">
+    <source>Checking</source>
+
+    <target>点検</target>
+   </trans-unit>
+   <trans-unit id="179">
+    <source>Show Direct Deposit Details</source>
+    <target>銀行振込の詳細を表示する</target>
+   </trans-unit>
+   <trans-unit id="180">
+
+    <source>Please specify other account type</source>
+    <target>他のアカウントの種類を指定してください</target>
+   </trans-unit>
+   <trans-unit id="181">
+    <source>Issued date should be less than expiry date</source>
+    <target>発行された日付が有効期限よりも小さくする必要があります</target>
+   </trans-unit>
+
+   <trans-unit id="182">
+    <source>Amount should be less than 999999999.99</source>
+    <target>量が999999999.99未満でなければなりません</target>
+   </trans-unit>
+   <trans-unit id="183">
+    <source>Comments cannot exceed 255 characters in length</source>
+    <target>コメントの長さは255文字を超えることはできません。</target>
+
+   </trans-unit>
+   <trans-unit id="184">
+    <source>No records to display</source>
+    <target>表示するレコードなし</target>
+   </trans-unit>
+   <trans-unit id="185">
+    <source>Leave Entitled (Days)</source>
+
+    <target>（日）と題されたままに</target>
+   </trans-unit>
+   <trans-unit id="186">
+    <source>Leave Scheduled (Days)</source>
+    <target>（日）スケジュールされたままに</target>
+   </trans-unit>
+   <trans-unit id="187">
+
+    <source>Leave Taken (Days)</source>
+    <target>撮影のまま（日）</target>
+   </trans-unit>
+   <trans-unit id="188">
+    <source>Leave Balance (Days)</source>
+    <target>バランスを残す（日）</target>
+   </trans-unit>
+
+   <trans-unit id="189">
+    <source>First</source>
+    <target>初</target>
+   </trans-unit>
+   <trans-unit id="190">
+    <source>Current Status</source>
+    <target>現在のステータス</target>
+
+   </trans-unit>
+   <trans-unit id="191">
+    <source>Notes</source>
+    <target>ノート</target>
+   </trans-unit>
+   <trans-unit id="192">
+    <source>Time</source>
+
+    <target>タイム</target>
+   </trans-unit>
+   <trans-unit id="193">
+    <source>Include</source>
+    <target>含まれています</target>
+   </trans-unit>
+   <trans-unit id="194">
+
+    <source>Current Employees Only</source>
+    <target>現在の従業員のみ</target>
+   </trans-unit>
+   <trans-unit id="195">
+    <source>Current and Past Employees</source>
+    <target>現在と過去の従業員</target>
+   </trans-unit>
+
+   <trans-unit id="196">
+    <source>Past Employees Only</source>
+    <target>過去の従業員のみ</target>
+   </trans-unit>
+   <trans-unit id="197">
+    <source>Include Past Employees</source>
+    <target>過去の従業員を含める</target>
+
+   </trans-unit>
+   <trans-unit id="198">
+    <source>Name exists</source>
+    <target>名前が存在する</target>
+   </trans-unit>
+  </body>
+ </file>
+</xliff>

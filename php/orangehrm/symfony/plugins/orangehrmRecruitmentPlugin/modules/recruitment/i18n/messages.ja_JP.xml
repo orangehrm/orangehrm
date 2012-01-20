@@ -1,0 +1,791 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE xliff PUBLIC "-//XLIFF//DTD XLIFF//EN" "http://www.oasis-open.org/committees/xliff/documents/xliff.dtd">
+<xliff version="1.0">
+ <header/>
+ <file source-language="en_US" target-language="ja_JP" datatype="plaintext" original="messages" date="2012-01-11T15:34:04Z" product-name="messages">
+  <body>
+   <trans-unit id="1">
+    <source>Candidates</source>
+    <target>候補</target>
+
+   </trans-unit>
+   <trans-unit id="2">
+    <source>Vacancy</source>
+    <target>欠員</target>
+   </trans-unit>
+   <trans-unit id="3">
+    <source>Hiring Manager</source>
+
+    <target>採用マネージャー</target>
+   </trans-unit>
+   <trans-unit id="4">
+    <source>Candidate Name</source>
+    <target>候補の名前</target>
+   </trans-unit>
+   <trans-unit id="5">
+
+    <source>Keywords</source>
+    <target>キーワード</target>
+   </trans-unit>
+   <trans-unit id="6">
+    <source>Method of Application</source>
+    <target>アプリケーションの方法</target>
+   </trans-unit>
+
+   <trans-unit id="7">
+    <source>Date of Application</source>
+    <target>アプリケーションの日付</target>
+   </trans-unit>
+   <trans-unit id="8">
+    <source>Enter comma separated words</source>
+    <target>カンマで区切られた単語を入力してください</target>
+
+   </trans-unit>
+   <trans-unit id="9">
+    <source>From date should be less than To date</source>
+    <target>日付から日付へ未満でなければなりません</target>
+   </trans-unit>
+   <trans-unit id="10">
+    <source>Candidate</source>
+
+    <target>候補</target>
+   </trans-unit>
+   <trans-unit id="11">
+    <source>Vacancy Name</source>
+    <target>空の名前</target>
+   </trans-unit>
+   <trans-unit id="12">
+
+    <source>Number of Positions</source>
+    <target>ポジション数</target>
+   </trans-unit>
+   <trans-unit id="13">
+    <source>Active</source>
+    <target>アクティブ</target>
+   </trans-unit>
+
+   <trans-unit id="14">
+    <source>Number of positions should be a positive integer</source>
+    <target>ポジションの数は正の整数でなければなりません</target>
+   </trans-unit>
+   <trans-unit id="15">
+    <source>Job Title is required</source>
+    <target>ジョブタイトルが必要です。</target>
+
+   </trans-unit>
+   <trans-unit id="16">
+    <source>Vacancy name is required</source>
+    <target>欠員の名前が必要です</target>
+   </trans-unit>
+   <trans-unit id="17">
+    <source>Enter a valid employee name</source>
+
+    <target>有効な従業員の名前を入力します。</target>
+   </trans-unit>
+   <trans-unit id="18">
+    <source>Manual</source>
+    <target>マニュアル</target>
+   </trans-unit>
+   <trans-unit id="19">
+
+    <source>Online</source>
+    <target>オンライン</target>
+   </trans-unit>
+   <trans-unit id="20">
+    <source>This vacancy already exists</source>
+    <target>この欠員がすでに存在します</target>
+   </trans-unit>
+
+   <trans-unit id="21">
+    <source>Add Job Vacancy</source>
+    <target>求人を追加します。</target>
+   </trans-unit>
+   <trans-unit id="22">
+    <source>Job Vacancy Saved Successfully</source>
+    <target>求人は正常に保存されました</target>
+
+   </trans-unit>
+   <trans-unit id="23">
+    <source>Description length cannot exceed 250 characters</source>
+    <target>説明の長さが250文字を超えることはできません。</target>
+   </trans-unit>
+   <trans-unit id="24">
+    <source>Enter valid candidate name</source>
+
+    <target>有効な候補者名を入力してください</target>
+   </trans-unit>
+   <trans-unit id="25">
+    <source>Application Initiated</source>
+    <target>アプリケーションが開始する</target>
+   </trans-unit>
+   <trans-unit id="26">
+
+    <source>Shortlisted</source>
+    <target>最終選考に</target>
+   </trans-unit>
+   <trans-unit id="27">
+    <source>Interview Scheduled</source>
+    <target>スケジュールされたインタビュー</target>
+   </trans-unit>
+
+   <trans-unit id="28">
+    <source>Interview Failed</source>
+    <target>面接に失敗しました</target>
+   </trans-unit>
+   <trans-unit id="29">
+    <source>Interview Passed</source>
+    <target>面接に合格</target>
+
+   </trans-unit>
+   <trans-unit id="30">
+    <source>Rejected</source>
+    <target>拒否</target>
+   </trans-unit>
+   <trans-unit id="31">
+    <source>Job Offered</source>
+
+    <target>提供される仕事</target>
+   </trans-unit>
+   <trans-unit id="32">
+    <source>Offer Declined</source>
+    <target>オファーは拒否</target>
+   </trans-unit>
+   <trans-unit id="33">
+
+    <source>Hired</source>
+    <target>雇わ</target>
+   </trans-unit>
+   <trans-unit id="34">
+    <source>Number of positions should be less than 99</source>
+    <target>ポジションの数は99未満でなければなりません</target>
+   </trans-unit>
+
+   <trans-unit id="35">
+    <source>First Name</source>
+    <target>最初の名前</target>
+   </trans-unit>
+   <trans-unit id="36">
+    <source>Middle Name</source>
+    <target>ミドルネーム</target>
+
+   </trans-unit>
+   <trans-unit id="37">
+    <source>Last Name</source>
+    <target>最後の名前</target>
+   </trans-unit>
+   <trans-unit id="38">
+    <source>Contact No</source>
+
+    <target>いいえへお問い合わせください</target>
+   </trans-unit>
+   <trans-unit id="39">
+    <source>Job Vacancy</source>
+    <target>求人</target>
+   </trans-unit>
+   <trans-unit id="40">
+
+    <source>E-Mail</source>
+    <target>E -メール</target>
+   </trans-unit>
+   <trans-unit id="41">
+    <source>-- Select --</source>
+    <target>- 選択 -</target>
+   </trans-unit>
+
+   <trans-unit id="42">
+    <source>Add another</source>
+    <target>他を追加</target>
+   </trans-unit>
+   <trans-unit id="43">
+    <source>Remove</source>
+    <target>削除</target>
+
+   </trans-unit>
+   <trans-unit id="44">
+    <source>Resume</source>
+    <target>再開する</target>
+   </trans-unit>
+   <trans-unit id="45">
+    <source>.docx, .doc, .odt, .pdf, .rtf, or .txt with maximum file size of 1MB</source>
+
+    <target>1MBのファイルの最大サイズを持つ。docxファイル、。DOC、。ODT、PDFファイル、。rtfファイル、または。TXT</target>
+   </trans-unit>
+   <trans-unit id="46">
+    <source>Enter comma separated words...</source>
+    <target>カンマで区切られた単語を入力してください...</target>
+   </trans-unit>
+   <trans-unit id="47">
+
+    <source>Comment</source>
+    <target>コメント</target>
+   </trans-unit>
+   <trans-unit id="48">
+    <source>First name is required</source>
+    <target>最初の名前が必要です。</target>
+   </trans-unit>
+
+   <trans-unit id="49">
+    <source>Last name is required</source>
+    <target>姓は必須です</target>
+   </trans-unit>
+   <trans-unit id="50">
+    <source>Please enter no more than 30 characters</source>
+    <target>30文字以内で入力してください</target>
+
+   </trans-unit>
+   <trans-unit id="51">
+    <source>Please enter no more than 255 characters</source>
+    <target>255文字以下を入力してください</target>
+   </trans-unit>
+   <trans-unit id="52">
+    <source>Date of Application should be less than current date</source>
+
+    <target>アプリケーションの日付は、現在の日付よりも小さくする必要があります</target>
+   </trans-unit>
+   <trans-unit id="53">
+    <source>Cannot assign same vacancy twice</source>
+    <target>二度同じ欠員を割り当てることができます。</target>
+   </trans-unit>
+   <trans-unit id="54">
+
+    <source>Please select a vacancy</source>
+    <target>欠員を選択してください</target>
+   </trans-unit>
+   <trans-unit id="55">
+    <source>Enter a valid E-mail</source>
+    <target>有効なメールアドレスを入力してください</target>
+   </trans-unit>
+
+   <trans-unit id="56">
+    <source>E-mail is require</source>
+    <target>電子メールは必要です。</target>
+   </trans-unit>
+   <trans-unit id="57">
+    <source>Add Candidate</source>
+    <target>候補を追加します。</target>
+
+   </trans-unit>
+   <trans-unit id="58">
+    <source>Enter a valid contact number</source>
+    <target>有効な連絡先の番号を入力してください</target>
+   </trans-unit>
+   <trans-unit id="59">
+    <source>Adding Candidate Failed - Invalid File Type</source>
+
+    <target>候補を追加すると失敗 - 無効なファイルタイプを</target>
+   </trans-unit>
+   <trans-unit id="60">
+    <source>Job Candidate Saved Successfully</source>
+    <target>求職者は正常に保存されました</target>
+   </trans-unit>
+   <trans-unit id="61">
+
+    <source>Adding Candidate Failed. Resume Size Exceeded 1MB</source>
+    <target>候補を追加すると失敗しました。サイズが1MBを超過再開</target>
+   </trans-unit>
+   <trans-unit id="62">
+    <source>Email address should contain at least one '.' and one '@' Example:user@example.com</source>
+    <target>メールアドレスは、少なくとも1つ含まれている必要があります"を。"と一つの'@'例：user@example.com</target>
+   </trans-unit>
+
+   <trans-unit id="63">
+    <source>Vacancies</source>
+    <target>欠員</target>
+   </trans-unit>
+   <trans-unit id="64">
+    <source>No records to display</source>
+    <target>表示するレコードなし</target>
+
+   </trans-unit>
+   <trans-unit id="65">
+    <source>Edit Job Vacancy</source>
+    <target>求人を編集する</target>
+   </trans-unit>
+   <trans-unit id="66">
+    <source>Attachments</source>
+
+    <target>添付ファイル</target>
+   </trans-unit>
+   <trans-unit id="67">
+    <source>Comment should be less than 200 characters</source>
+    <target>コメントは200文字未満にしてください</target>
+   </trans-unit>
+   <trans-unit id="68">
+
+    <source>Adding Attachment Failed. Attachment Size Exceeded 1MB</source>
+    <target>添付ファイルを追加すると失敗しました。添付ファイルのサイズが1MBを超過</target>
+   </trans-unit>
+   <trans-unit id="69">
+    <source>Closed</source>
+    <target>閉じ</target>
+   </trans-unit>
+
+   <trans-unit id="70">
+    <source>Action</source>
+    <target>処置</target>
+   </trans-unit>
+   <trans-unit id="71">
+    <source>Are you sure you want to delete selected job vacancies</source>
+    <target>あなたが選択した求人情報を削除してよろしいです</target>
+
+   </trans-unit>
+   <trans-unit id="72">
+    <source>Edit Candidate</source>
+    <target>候補を編集</target>
+   </trans-unit>
+   <trans-unit id="73">
+    <source>Are you sure you want to remove job vacancy of the candidate</source>
+
+    <target>あなたが候補の求人を削除してよろしいです</target>
+   </trans-unit>
+   <trans-unit id="74">
+    <source>Candidate's History</source>
+    <target>候補者の歴史</target>
+   </trans-unit>
+   <trans-unit id="75">
+
+    <source>Current State</source>
+    <target>現在の状態</target>
+   </trans-unit>
+   <trans-unit id="76">
+    <source>Performed By</source>
+    <target>によって実行さ</target>
+   </trans-unit>
+
+   <trans-unit id="77">
+    <source>Performed Date</source>
+    <target>実行日</target>
+   </trans-unit>
+   <trans-unit id="78">
+    <source>Details</source>
+    <target>詳細</target>
+
+   </trans-unit>
+   <trans-unit id="79">
+    <source>View link</source>
+    <target>リンクの表示</target>
+   </trans-unit>
+   <trans-unit id="80">
+    <source>Enter a valid date in YYYY-MM-DD format</source>
+
+    <target>YYYY - MM - DDの形式で有効な日付を入力してください</target>
+   </trans-unit>
+   <trans-unit id="81">
+    <source>Shortlist</source>
+    <target>ショートリスト</target>
+   </trans-unit>
+   <trans-unit id="82">
+
+    <source>Current Status</source>
+    <target>現在のステータス</target>
+   </trans-unit>
+   <trans-unit id="83">
+    <source>Notes</source>
+    <target>ノート</target>
+   </trans-unit>
+
+   <trans-unit id="84">
+    <source>E-mail is required</source>
+    <target>E -メールが必要です。</target>
+   </trans-unit>
+   <trans-unit id="85">
+    <source>candidateName</source>
+    <target>candidateName</target>
+
+   </trans-unit>
+   <trans-unit id="86">
+    <source>View</source>
+    <target>見る</target>
+   </trans-unit>
+   <trans-unit id="87">
+    <source>Error Occurred - Invalid File Type</source>
+
+    <target>エラーが発生しました - 無効なファイルタイプを</target>
+   </trans-unit>
+   <trans-unit id="88">
+    <source>Active Job Vacancies</source>
+    <target>アクティブな求人情報</target>
+   </trans-unit>
+   <trans-unit id="89">
+
+    <source>Expand all</source>
+    <target>すべてを展開</target>
+   </trans-unit>
+   <trans-unit id="90">
+    <source>Collapse all</source>
+    <target>すべて折りたたむ</target>
+   </trans-unit>
+
+   <trans-unit id="91">
+    <source>No active job vacancies to display</source>
+    <target>表示するには、アクティブな求人情報なし</target>
+   </trans-unit>
+   <trans-unit id="92">
+    <source>Download</source>
+    <target>ダウンロード</target>
+
+   </trans-unit>
+   <trans-unit id="93">
+    <source>RSS Feed URL</source>
+    <target>RSSフィードのURL</target>
+   </trans-unit>
+   <trans-unit id="94">
+    <source>Web Page URL</source>
+
+    <target>WebページのURL</target>
+   </trans-unit>
+   <trans-unit id="95">
+    <source>Publish in RSS feed(1) and web page(2)</source>
+    <target>RSSフィード（1）およびWebページ（2）で公開する</target>
+   </trans-unit>
+   <trans-unit id="96">
+
+    <source>Select Action</source>
+    <target>アクションを選択してください</target>
+   </trans-unit>
+   <trans-unit id="97">
+    <source>Continue</source>
+    <target>継続</target>
+   </trans-unit>
+
+   <trans-unit id="98">
+    <source>This action will remove the vacancy from the candidate</source>
+    <target>このアクションは、候補者から欠員が削除されます</target>
+   </trans-unit>
+   <trans-unit id="99">
+    <source>Applying Job vacancy Failed. Resume Size Exceeded 1MB</source>
+    <target>求人を適用すると失敗しました。サイズが1MBを超過再開</target>
+
+   </trans-unit>
+   <trans-unit id="100">
+    <source>Editing Candidate</source>
+    <target>候補の編集</target>
+   </trans-unit>
+   <trans-unit id="101">
+    <source>Adding Candidate</source>
+
+    <target>候補を追加する</target>
+   </trans-unit>
+   <trans-unit id="102">
+    <source>Failed. Resume Size Exceeded 1MB</source>
+    <target>失敗した。サイズが1MBを超過再開</target>
+   </trans-unit>
+   <trans-unit id="103">
+
+    <source>Schedule Interview</source>
+    <target>スケジュールのインタビュー</target>
+   </trans-unit>
+   <trans-unit id="104">
+    <source>Interview Title</source>
+    <target>インタビュータイトル</target>
+   </trans-unit>
+
+   <trans-unit id="105">
+    <source>Interviewer Name</source>
+    <target>インタビュアーの名前</target>
+   </trans-unit>
+   <trans-unit id="106">
+    <source>Interview Title is required</source>
+    <target>インタビューのタイトルが必要です。</target>
+
+   </trans-unit>
+   <trans-unit id="107">
+    <source>Time is required</source>
+    <target>時間が必要です</target>
+   </trans-unit>
+   <trans-unit id="108">
+    <source>Please enter no more than 98 characters</source>
+
+    <target>以上98文字以下を入力してください</target>
+   </trans-unit>
+   <trans-unit id="109">
+    <source>Please enter no more than 18 characters</source>
+    <target>以上18以下の文字を入力してください</target>
+   </trans-unit>
+   <trans-unit id="110">
+
+    <source>Enter a valid employee name</source>
+    <target>有効な従業員の名前を入力します。</target>
+   </trans-unit>
+   <trans-unit id="111">
+    <source>Valid Time Required</source>
+    <target>有効な所要時間</target>
+   </trans-unit>
+
+   <trans-unit id="112">
+    <source>Cannot assign same interviewer twice</source>
+    <target>二度同じ面接官を割り当てることができます。</target>
+   </trans-unit>
+   <trans-unit id="113">
+    <source>Reject</source>
+    <target>拒絶する</target>
+
+   </trans-unit>
+   <trans-unit id="114">
+    <source>Click on a candidate to perform actions</source>
+    <target>アクションを実行するために候補者をクリックしてください</target>
+   </trans-unit>
+   <trans-unit id="115">
+    <source>Delete selected record(s)?</source>
+
+    <target>選択したレコード（複数可）を削除しますか？</target>
+   </trans-unit>
+   <trans-unit id="116">
+    <source>Mark Interview Passed</source>
+    <target>マークのインタビューは、合格</target>
+   </trans-unit>
+   <trans-unit id="117">
+
+    <source>Mark Interview Failed</source>
+    <target>マークのインタビューは失敗しました</target>
+   </trans-unit>
+   <trans-unit id="118">
+    <source>View Action History</source>
+    <target>アクション履歴を見る</target>
+   </trans-unit>
+
+   <trans-unit id="119">
+    <source>Offer Job</source>
+    <target>仕事を提供</target>
+   </trans-unit>
+   <trans-unit id="120">
+    <source>Interview Passed</source>
+    <target>面接に合格</target>
+
+   </trans-unit>
+   <trans-unit id="121">
+    <source>Interview Failed</source>
+    <target>面接に失敗しました</target>
+   </trans-unit>
+   <trans-unit id="122">
+    <source>Decline Offer</source>
+
+    <target>衰退のオファー</target>
+   </trans-unit>
+   <trans-unit id="123">
+    <source>Job Offered</source>
+    <target>提供される仕事</target>
+   </trans-unit>
+   <trans-unit id="124">
+
+    <source>Hire</source>
+    <target>雇う</target>
+   </trans-unit>
+   <trans-unit id="125">
+    <source>Hired</source>
+    <target>雇わ</target>
+   </trans-unit>
+
+   <trans-unit id="126">
+    <source>Shortlisted</source>
+    <target>最終選考に</target>
+   </trans-unit>
+   <trans-unit id="127">
+    <source>Interview Scheduled</source>
+    <target>スケジュールされたインタビュー</target>
+
+   </trans-unit>
+   <trans-unit id="128">
+    <source>Offer Declined</source>
+    <target>オファーは拒否</target>
+   </trans-unit>
+   <trans-unit id="129">
+    <source>added</source>
+
+    <target>追加</target>
+   </trans-unit>
+   <trans-unit id="130">
+    <source>scheduled</source>
+    <target>スケジュール</target>
+   </trans-unit>
+   <trans-unit id="131">
+
+    <source>assigned the job vacancy</source>
+    <target>求人を割り当て</target>
+   </trans-unit>
+   <trans-unit id="132">
+    <source>with</source>
+    <target>と</target>
+   </trans-unit>
+
+   <trans-unit id="133">
+    <source>on</source>
+    <target>の</target>
+   </trans-unit>
+   <trans-unit id="134">
+    <source>Application Initiated</source>
+    <target>アプリケーションが開始する</target>
+
+   </trans-unit>
+   <trans-unit id="135">
+    <source>marked</source>
+    <target>マーク</target>
+   </trans-unit>
+   <trans-unit id="136">
+    <source>as passed</source>
+
+    <target>として渡される</target>
+   </trans-unit>
+   <trans-unit id="137">
+    <source>offred the job</source>
+    <target>仕事をoffred</target>
+   </trans-unit>
+   <trans-unit id="138">
+
+    <source>as failed</source>
+    <target>として失敗しました。</target>
+   </trans-unit>
+   <trans-unit id="139">
+    <source>rejected</source>
+    <target>拒否</target>
+   </trans-unit>
+
+   <trans-unit id="140">
+    <source>from the vacancy</source>
+    <target>欠員から</target>
+   </trans-unit>
+   <trans-unit id="141">
+    <source>declined the offer</source>
+    <target>断った</target>
+
+   </trans-unit>
+   <trans-unit id="142">
+    <source>hired</source>
+    <target>雇わ</target>
+   </trans-unit>
+   <trans-unit id="143">
+    <source>Apply</source>
+
+    <target>適用</target>
+   </trans-unit>
+   <trans-unit id="144">
+    <source>Apply for</source>
+    <target>に応募する</target>
+   </trans-unit>
+   <trans-unit id="145">
+
+    <source>Submit</source>
+    <target>提出する</target>
+   </trans-unit>
+   <trans-unit id="146">
+    <source>E-mail</source>
+    <target>E -メール</target>
+   </trans-unit>
+
+   <trans-unit id="147">
+    <source>Candidate's History</source>
+    <target>候補者の歴史</target>
+   </trans-unit>
+   <trans-unit id="148">
+    <source>Performed Action</source>
+    <target>実行アクション</target>
+
+   </trans-unit>
+   <trans-unit id="149">
+    <source>Delete selected record(s)</source>
+    <target>選択したレコード（複数可）を削除します。</target>
+   </trans-unit>
+   <trans-unit id="150">
+    <source>Back to Job List</source>
+
+    <target>バックジョブリストへ</target>
+   </trans-unit>
+   <trans-unit id="151">
+    <source>View Interview Details</source>
+    <target>インタビューの詳細を見る</target>
+   </trans-unit>
+   <trans-unit id="152">
+
+    <source>Edit Interview Details</source>
+    <target>インタビューの詳細を編集</target>
+   </trans-unit>
+   <trans-unit id="153">
+    <source>Cancel</source>
+    <target>キャンセル</target>
+   </trans-unit>
+
+   <trans-unit id="154">
+    <source>Selected Candidate(s) Deleted Successfully</source>
+    <target>選択された候補（s）は正常に削除</target>
+   </trans-unit>
+   <trans-unit id="155">
+    <source>Selected candidate(s) will be deleted</source>
+    <target>選択された候補者（s）は削除されます。</target>
+
+   </trans-unit>
+   <trans-unit id="156">
+    <source>Candidate Shortlisted Successfully</source>
+    <target>成功候補者選考</target>
+   </trans-unit>
+   <trans-unit id="157">
+    <source>Candidate Rejected Successfully</source>
+
+    <target>候補者が正常に拒否される</target>
+   </trans-unit>
+   <trans-unit id="158">
+    <source>Interview Status Updated Successfully</source>
+    <target>インタビューのステータスが正常に更新されました</target>
+   </trans-unit>
+   <trans-unit id="159">
+
+    <source>Job Offered Successfully</source>
+    <target>ジョブが正常に提供されました</target>
+   </trans-unit>
+   <trans-unit id="160">
+    <source>Job offer Marked as Declined Successfully</source>
+    <target>としてマーク求人が正常に拒否</target>
+   </trans-unit>
+
+   <trans-unit id="161">
+    <source>Candidate Hired Successfully</source>
+    <target>候補者が正常に雇わ</target>
+   </trans-unit>
+   <trans-unit id="162">
+    <source>Interview Scheduled Successfully</source>
+    <target>インタビューでは、正常にスケジュール</target>
+
+   </trans-unit>
+   <trans-unit id="163">
+    <source>Interview Details Updated Successfully</source>
+    <target>インタビューの詳細は、正常に更新</target>
+   </trans-unit>
+   <trans-unit id="164">
+    <source>Action History Details Saved Successfully</source>
+
+    <target>アクションの履歴の詳細は、正常に保存されました</target>
+   </trans-unit>
+   <trans-unit id="165">
+    <source>Archived</source>
+    <target>アーカイブ</target>
+   </trans-unit>
+   <trans-unit id="166">
+
+    <source>from the</source>
+    <target>からの</target>
+   </trans-unit>
+   <trans-unit id="167">
+    <source>for</source>
+    <target>の</target>
+   </trans-unit>
+
+   <trans-unit id="168">
+    <source>applied for the</source>
+    <target>に適用</target>
+   </trans-unit>
+   <trans-unit id="169">
+    <source>Shortlisted for</source>
+    <target>の最終選考に</target>
+
+   </trans-unit>
+   <trans-unit id="170">
+    <source>by</source>
+    <target>で</target>
+   </trans-unit>
+   <trans-unit id="171">
+    <source>Admin removed</source>
+
+    <target>管理者削除</target>
+   </trans-unit>
+  </body>
+ </file>
+</xliff>

@@ -1,0 +1,86 @@
+table#customFieldList input#check {
+    margin-left: 2px;
+}
+
+span#fieldsleft {
+    font-size: 12px;
+    padding-left: 20px;   
+}
+
+/* Move to style.css */
+table.data-table thead td {
+    font-weight: bold;
+    font-size: 13px;
+    height: 26px;
+    padding-left:1px;
+    padding-right:1px;
+}
+
+table.data-table thead td.fieldCheck {
+    width: 30px;
+}
+
+table.data-table td.fieldName {
+    padding-left: 8px;
+}
+
+table.data-table thead td a {
+    font-weight: bold;
+    font-size: 13px;
+    height: 26px;
+}
+
+table.data-table tbody td {
+    font-size: 12px;
+    height: 24px;
+}
+table.data-table tbody td a {
+    font-size: 12px;
+}
+
+div.dialogButtons {
+    margin-top: 20px;
+    text-align: center;
+    vertical-align: bottom;
+}
+
+div.actionbuttons {
+    width: auto;
+}
+
+div#customFieldsOuter {
+    width: 800px;
+}
+
+div#actionbar {
+    clear: both;
+    float: none;
+}
+
+div.requiredNote {
+    margin-left: 15px;
+    margin-top: 5px;
+}
+
+form#frmCustomField label {
+    margin-top: 5px;
+    width: 120px;
+}
+
+form#frmCustomField div.error {
+    padding-left: 140px;
+}
+
+div.fieldHint {
+    margin-top: 5px;
+    padding-top: 1px;
+}
+
+form#frmCustomField input[type=text] {
+    width: 320px;
+}
+
+form#frmCustomField select {
+    width: 330px;
+    font-size: 12px;
+}

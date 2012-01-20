@@ -1,0 +1,8 @@
+LeaveTypes:
+  0: {leaveTypeId: 'LTY001', leaveTypeName: 'Casual', availableFlag: 1}
+  1: {leaveTypeId: 'LTY002', leaveTypeName: 'Medical', availableFlag: 1}
+  2: {leaveTypeId: 'LTY003', leaveTypeName: 'Annual', availableFlag: 1}
+
+Leave:
+  0: {leave_id: 1, leave_length_hours: 8, leave_length_days: 1, leave_request_id: 1, leave_type_id: 'LTY001', employee_id: 1, leave_date: '2010-11-23', leave_status: 1}
+  1: {leave_id: 2, leave_length_hours: 8, leave_length_days: 1, leave_request_id: 1, leave_type_id: 'LTY001', employee_id: 1, leave_date: '2010-11-24', leave_status: 1}

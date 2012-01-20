@@ -1,0 +1,481 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE xliff PUBLIC "-//XLIFF//DTD XLIFF//EN" "http://www.oasis-open.org/committees/xliff/documents/xliff.dtd">
+<xliff version="1.0">
+  <file source-language="en_US" target-language="fr_FR" datatype="plaintext" original="messages" date="2009-12-08T13:58:35Z" product-name="messages">
+    <header/>
+    <body>
+      <trans-unit id="1">
+        <source>Leave Period</source>
+        <target>FR_Leave Period</target>
+      </trans-unit>
+      <trans-unit id="2">
+        <source>For Leap Years</source>
+        <target>FR_For Leap Years</target>
+      </trans-unit>
+      <trans-unit id="3">
+        <source>Start Date</source>
+        <target>FR_Start Date</target>
+      </trans-unit>
+      <trans-unit id="4">
+        <source>End Date</source>
+        <target>FR_End Date</target>
+      </trans-unit>
+      <trans-unit id="5">
+        <source>For Non-Leap Years</source>
+        <target>FR_For Non-Leap Years</target>
+      </trans-unit>
+      <trans-unit id="6">
+        <source>Current Leave Period</source>
+        <target>FR_Current Leave Period</target>
+      </trans-unit>
+      <trans-unit id="25">
+        <source>Following Year</source>
+        <target>FR_Following Year</target>
+      </trans-unit>
+      <trans-unit id="26">
+        <source>Leave Period Saved Successfully</source>
+        <target>FR_Leave Period Saved Successfully</target>
+      </trans-unit>
+      <trans-unit id="28">
+        <source>Work Week</source>
+        <target>FR_Work Week</target>
+      </trans-unit>
+      <trans-unit id="36">
+        <source>Full Day</source>
+        <target>FR_Full Day</target>
+      </trans-unit>
+      <trans-unit id="37">
+        <source>Half Day</source>
+        <target>FR_Half Day</target>
+      </trans-unit>
+      <trans-unit id="38">
+        <source>Non-working Day</source>
+        <target>FR_Non-working Day</target>
+      </trans-unit>
+      <trans-unit id="39">
+        <source>Work Week Successfully Saved</source>
+        <target>FR_Work Week Successfully Saved</target>
+      </trans-unit>
+      <trans-unit id="40">
+        <source>Holidays</source>
+        <target>FR_Holidays</target>
+      </trans-unit>
+      <trans-unit id="44">
+        <source>Name of Holiday</source>
+        <target>FR_Name of Holiday</target>
+      </trans-unit>
+      <trans-unit id="45">
+        <source>Name of Holiday</source>
+        <target>FR_Name of Holiday</target>
+      </trans-unit>
+      <trans-unit id="46">
+        <source>Repeats Annually</source>
+        <target>FR_Repeats Annually</target>
+      </trans-unit>
+      <trans-unit id="49">
+        <source>Holiday</source>
+        <target>FR_Holiday</target>
+      </trans-unit>
+      <trans-unit id="52">
+        <source>Holiday Successfully Updated</source>
+        <target>FR_Holiday Successfully Updated</target>
+      </trans-unit>
+      <trans-unit id="53">
+        <source>Holiday Successfully Saved</source>
+        <target>FR_Holiday Successfully Saved</target>
+      </trans-unit>
+      <trans-unit id="54">
+        <source>The Date Is Already Assigned to Another Holiday</source>
+        <target>FR_The Date Is Already Assigned to Another Holiday</target>
+      </trans-unit>
+      <trans-unit id="57">
+        <source>Please Select at Least One Holiday to Delete</source>
+        <target>FR_Please Select at Least One Holiday to Delete</target>
+      </trans-unit>
+      <trans-unit id="59">
+        <source>No Results Found for This Criteria</source>
+        <target>FR_No Results Found for This Criteria</target>
+      </trans-unit>
+      <trans-unit id="60">
+        <source>Leave Summary</source>
+        <target>FR_Leave Summary</target>
+      </trans-unit>
+      <trans-unit id="61">
+        <source>Leave Type</source>
+        <target>FR_Leave Type</target>
+      </trans-unit>
+      <trans-unit id="71">
+        <source>Leave Entitlements Successfully Saved</source>
+        <target>FR_Leave Entitlements Successfully Saved</target>
+      </trans-unit>
+      <trans-unit id="73">
+        <source>Leave Entitled</source>
+        <target>FR_Leave Entitled</target>
+      </trans-unit>
+      <trans-unit id="75">
+        <source>Leave Scheduled</source>
+        <target>FR_Leave Scheduled</target>
+      </trans-unit>
+      <trans-unit id="76">
+        <source>Leave Taken</source>
+        <target>FR_Leave Taken</target>
+      </trans-unit>
+      <trans-unit id="77">
+        <source>Leave Balance</source>
+        <target>FR_Leave Balance</target>
+      </trans-unit>
+      <trans-unit id="86">
+        <source>Enter a Positive Number Less Than 365 with Two Decimal Places</source>
+        <target>FR_Enter a Positive Number Less Than 365 with Two Decimal Places</target>
+      </trans-unit>
+      <trans-unit id="87">
+        <source>Leave List</source>
+        <target>FR_Leave List</target>
+      </trans-unit>
+      <trans-unit id="90">
+        <source>Show Leave with Status</source>
+        <target>FR_Show Leave with Status</target>
+      </trans-unit>
+      <trans-unit id="91">
+        <source>Rejected</source>
+        <target>FR_Rejected</target>
+      </trans-unit>
+      <trans-unit id="92">
+        <source>Canceled</source>
+        <target>FR_Canceled</target>
+      </trans-unit>
+      <trans-unit id="93">
+        <source>Pending Approval</source>
+        <target>FR_Pending Approval</target>
+      </trans-unit>
+      <trans-unit id="94">
+        <source>Scheduled</source>
+        <target>FR_Scheduled</target>
+      </trans-unit>
+      <trans-unit id="95">
+        <source>Taken</source>
+        <target>FR_Taken</target>
+      </trans-unit>
+      <trans-unit id="96">
+        <source>Number of Days</source>
+        <target>FR_Number of Days</target>
+      </trans-unit>
+      <trans-unit id="99">
+        <source>Actions</source>
+        <target>FR_Actions</target>
+      </trans-unit>
+      <trans-unit id="100">
+        <source>Go to Detailed View</source>
+        <target>FR_Go to Detailed View</target>
+      </trans-unit>
+      <trans-unit id="101">
+        <source>Approve</source>
+        <target>FR_Approve</target>
+      </trans-unit>
+      <trans-unit id="102">
+        <source>Reject</source>
+        <target>FR_Reject</target>
+      </trans-unit>
+      <trans-unit id="103">
+        <source>Cancel</source>
+        <target>FR_Cancel</target>
+      </trans-unit>
+      <trans-unit id="104">
+        <source>deleted</source>
+        <target>FR_deletedl</target>
+      </trans-unit>
+      <trans-unit id="105">
+        <source>Leave Comment</source>
+        <target>FR_Leave Comment</target>
+      </trans-unit>
+      <trans-unit id="106">
+        <source>Comment length should be less than 250 characters</source>
+        <target>FR_Comment length should be less than 250 characters</target>
+      </trans-unit>
+      <trans-unit id="107">
+        <source>Comment Successfully Saved</source>
+        <target>FR_Comment Successfully Saved</target>
+      </trans-unit>
+      <trans-unit id="108">
+        <source>Confirmation Required</source>
+        <target>FR_Confirmation Required</target>
+      </trans-unit>
+      <trans-unit id="111">
+        <source>Non Working Day</source>
+        <target>FR_Non Working Day</target>
+      </trans-unit>
+      <trans-unit id="112">
+        <source>Leave Request</source>
+        <target>FR_Leave Request</target>
+      </trans-unit>
+      <trans-unit id="113">
+        <source>Duration</source>
+        <target>FR_Duration</target>
+      </trans-unit>
+      <trans-unit id="114">
+        <source>Hours</source>
+        <target>FR_Hours</target>
+      </trans-unit>
+      <trans-unit id="115">
+        <source>My Leave List</source>
+        <target>FR_My Leave List</target>
+      </trans-unit>
+      <trans-unit id="116">
+        <source>My Leave Details</source>
+        <target>FR_My Leave Details</target>
+      </trans-unit>
+      <trans-unit id="117">
+        <source>The following leave requests are on the same day as the current leave request. Please cancel the existing leave requests and submit again  or change the leave period if needed.</source>
+        <target>FR_The following leave requests are on the same day as the current leave request. Please cancel the existing leave requests and submit again  or change the leave period if needed.</target>
+      </trans-unit>
+      <trans-unit id="118">
+        <source>No of Hours</source>
+        <target>FR_No of Hours</target>
+      </trans-unit>
+      <trans-unit id="119">
+        <source>Assign Leave</source>
+        <target>FR_Assign Leave</target>
+      </trans-unit>
+      <trans-unit id="120">
+        <source>From Date</source>
+        <target>FR_From Date</target>
+      </trans-unit>
+      <trans-unit id="121">
+        <source>To Date</source>
+        <target>FR_To Date</target>
+      </trans-unit>
+      <trans-unit id="122">
+        <source>Total Hours</source>
+        <target>FR_Total Hours</target>
+      </trans-unit>
+      <trans-unit id="123">
+        <source>Assign</source>
+        <target>FR_Assign</target>
+      </trans-unit>
+      <trans-unit id="124">
+        <source>Employee Does Not Exist</source>
+        <target>FR_Employee Does Not Exist</target>
+      </trans-unit>
+      <trans-unit id="125">
+        <source>Employee Does Not Exist</source>
+        <target>FR_Employee Does Not Exist</target>
+      </trans-unit>
+      <trans-unit id="126">
+        <source>Leave Successfully Assigned</source>
+        <target>FR_Leave Successfully Assigned</target>
+      </trans-unit>
+      <trans-unit id="127">
+        <source>Leave Period Does Not Exist</source>
+        <target>FR_Leave Period Does Not Exist</target>
+      </trans-unit>
+      <trans-unit id="128">
+        <source>Make Sure Leave Request Contain Work Days</source>
+        <target>FR_Make Sure Leave Request Contain Work Days</target>
+      </trans-unit>
+      <trans-unit id="129">
+        <source>No Eligible Leave Types to Assign Leave, Please contact HR Admin</source>
+        <target>FR_No Eligible Leave Types to Assign Leave, Please contact HR Admin</target>
+      </trans-unit>
+      <trans-unit id="129">
+        <source>Select a Leave Type</source>
+        <target>FR_Select a Leave Type</target>
+      </trans-unit>
+      <trans-unit id="130">
+        <source>Comment</source>
+        <target>FR_Comment</target>
+      </trans-unit>
+      <trans-unit id="131">
+        <source>Employee Name is required</source>
+        <target>FR_Employee Name is required</target>
+      </trans-unit>
+      <trans-unit id="132">
+        <source>Leave Type is required</source>
+        <target>FR_Leave Type is required</target>
+      </trans-unit>
+      <trans-unit id="133">
+        <source>From Date is required</source>
+        <target>FR_From Date is required</target>
+      </trans-unit>
+      <trans-unit id="134">
+        <source>From Date should be filled in YYYY-MM-DD format</source>
+        <target>FR_From Date should be filled in YYYY-MM-DD format</target>
+      </trans-unit>
+      <trans-unit id="135">
+        <source>Invalid from date</source>
+        <target>FR_Invalid from date</target>
+      </trans-unit>
+      <trans-unit id="136">
+        <source>From date should be before to date</source>
+        <target>FR_From date should be before to date</target>
+      </trans-unit>
+      <trans-unit id="137">
+        <source>From date should be before to date</source>
+        <target>FR_From date should be before to date</target>
+      </trans-unit>
+      <trans-unit id="138">
+        <source>To Date is required</source>
+        <target>FR_To Date is required</target>
+      </trans-unit>
+      <trans-unit id="139">
+        <source>To Date should be filled in YYYY-MM-DD format</source>
+        <target>FR_To Date should be filled in YYYY-MM-DD format</target>
+      </trans-unit>
+      <trans-unit id="140">
+        <source>Invalid to date</source>
+        <target>FR_Invalid to date</target>
+      </trans-unit>
+      <trans-unit id="141">
+        <source>Comment length should be less than 250 characters</source>
+        <target>FR_Comment length should be less than 250 characters</target>
+      </trans-unit>
+      <trans-unit id="142">
+        <source>Total time is a numeric value</source>
+        <target>FR_Total time is a numeric value</target>
+      </trans-unit>
+      <trans-unit id="143">
+        <source>Total time should be greater than 0.01</source>
+        <target>FR_Total time should be greater than 0.01</target>
+      </trans-unit>
+      <trans-unit id="144">
+        <source>Total time should be lesser than 24</source>
+        <target>FR_Total time should be lesser than 24</target>
+      </trans-unit>
+      <trans-unit id="145">
+        <source>Invalid total time</source>
+        <target>FR_Invalid total time</target>
+      </trans-unit>
+      <trans-unit id="146">
+        <source>Total time is greater than the shift length</source>
+        <target>FR_Total time is greater than the shift length</target>
+      </trans-unit>
+      <trans-unit id="147">
+        <source>From time should be lesser than To time</source>
+        <target>FR_From time should be lesser than To time</target>
+      </trans-unit>
+      <trans-unit id="148">
+        <source>Apply Leave</source>
+        <target>FR_Apply Leave</target>
+      </trans-unit>
+      <trans-unit id="149">
+        <source>From Time</source>
+        <target>FR_From Time</target>
+      </trans-unit>
+      <trans-unit id="150">
+        <source>To Time</source>
+        <target>FR_To Time</target>
+      </trans-unit>
+      <trans-unit id="151">
+        <source>Apply</source>
+        <target>FR_Apply</target>
+      </trans-unit>
+      <trans-unit id="152">
+        <source>This is a deleted leave type. Reactivate it?</source>
+        <target>FR_This is a deleted leave type. Reactivate it?</target>
+      </trans-unit>
+      <trans-unit id="153">
+        <source>Leave type will be undeleted</source>
+        <target>FR_Leave type will be undeleted</target>
+      </trans-unit>
+      <trans-unit id="154">
+        <source>A new leave type will be created with same name</source>
+        <target>FR_A new leave type will be created with same name</target>
+      </trans-unit>
+      <trans-unit id="155">
+        <source>Please provide a leave type name</source>
+        <target>FR_Please provide a leave type name</target>
+      </trans-unit>
+      <trans-unit id="156">
+        <source>This leave type exists</source>
+        <target>FR_This leave type exists</target>
+      </trans-unit>
+      <trans-unit id="157">
+        <source>Leave type name should be less than 30 characters</source>
+        <target>FR_Leave type name should be less than 30 characters</target>
+      </trans-unit>
+      <trans-unit id="158">
+        <source>Leave Type Successfully Saved</source>
+        <target>FR_Leave Type Successfully Saved</target>
+      </trans-unit>
+      <trans-unit id="159">
+        <source>Leave Type "%1%" Successfully Updated</source>
+        <target>FR_Leave Type "%1%" Successfully Updated</target>
+      </trans-unit>
+      <trans-unit id="160">
+        <source>Leave Type "%1%" Successfully Undeleted</source>
+        <target>FR_Leave Type "%1%" Successfully Undeleted</target>
+      </trans-unit>
+      <trans-unit id="161">
+        <source>Define Leave Type</source>
+        <target>FR_Define Leave Type</target>
+      </trans-unit>
+      <trans-unit id="209">
+        <source>Please Select at Least One Leave Type to Delete</source>
+        <target>FR_Please Select at Least One Leave Type to Delete</target>
+      </trans-unit>
+      <trans-unit id="210">
+        <source>Leave Type Successfully Deleted</source>
+        <target>FR_Leave Type Successfully Deleted</target>
+      </trans-unit>
+      <trans-unit id="211">
+        <source>Successfully Leave Type Updated</source>
+        <target>FR_Successfully Leave Type Updated</target>
+      </trans-unit>
+      <trans-unit id="212">
+        <source>Successfully Leave Type Saved</source>
+        <target>FR_Successfully Leave Type Saved</target>
+      </trans-unit>
+      <trans-unit id="213">
+        <source>Leave Types</source>
+        <target>FR_Leave Types</target>
+      </trans-unit>
+      <trans-unit id="214">
+        <source>Select Action</source>
+        <target>FR_Select Action</target>
+      </trans-unit>
+      <trans-unit id="215">
+        <source>No Eligible Leave Types to Apply for Leave</source>
+        <target>FR_No Eligible Leave Types to Apply for Leave</target>
+      </trans-unit>
+      <trans-unit id="216">
+        <source>Leave Request Successfully Submitted</source>
+        <target>FR_Leave Request Successfully Submitted</target>
+      </trans-unit>
+      <trans-unit id="217">
+        <source>Leave Period is Not Defined Yet. Please Notify the Hr Admin to Define the Leave Period in Order to Access This Module</source>
+        <target>FR_Leave Period is Not Defined Yet. Please Notify the Hr Admin to Define the Leave Period in Order to Access This Module</target>
+      </trans-unit>
+      <trans-unit id="218">
+        <source>Start month is required</source>
+        <target>FR_Start month is required</target>
+      </trans-unit>
+      <trans-unit id="219">
+        <source>Start month for non-leap year is required</source>
+        <target>FR_Start month for non-leap year is required</target>
+      </trans-unit>
+      <trans-unit id="220">
+        <source>Do you want to delete the specific holiday(s)</source>
+        <target>FR_Do you want to delete the specific holiday(s)</target>
+      </trans-unit>
+      <trans-unit id="220">
+        <source>At Least One Day Should Be a Working Day</source>
+        <target>FR_At Least One Day Should Be a Working Day</target>
+      </trans-unit>
+      <trans-unit id="221">
+        <source>Total Leave Requests for the Day Exceed Workshift Length</source>
+        <target>FR_Total Leave Requests for the Day Exceed Workshift Length</target>
+      </trans-unit>
+      <trans-unit id="222">
+        <source>Leve Request Exceeds Leave Balance</source>
+        <target>FR_Leve Request Exceeds Leave Balance</target>
+      </trans-unit>
+      <trans-unit id="223">
+        <source>With Terminated Employees</source>
+        <target>FR_With Terminated Employees</target>
+      </trans-unit>
+      <trans-unit id="224">
+        <source>No Leave Types with Leave Balance</source>
+        <target>FR_No Leave Types with Leave Balance</target>
+      </trans-unit>
+    </body>
+  </file>
+</xliff>

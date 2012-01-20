@@ -1,0 +1,45 @@
+/* 
+    Document   : viewUsTaxExemptionsSuccess
+    Created on : May 20, 2011, 11:18:08 AM
+    Author     : orangehrm
+    Description:
+        Purpose of the stylesheet follows.
+*/
+
+/* 
+   TODO customize this sample style
+   Syntax recommendation http://www.w3.org/TR/REC-CSS2/
+*/
+
+root { 
+    display: block;
+}
+
+.label{
+    padding-left: 10px;
+    font-weight: bold;
+    font-size: 13px;
+}
+
+label {
+    margin-top: 6px;
+    width: 140px
+}
+
+.drpDown {
+    margin-top: 5px;
+    width: 228px;
+}
+
+form input.txtBox {
+    border: 1px solid #888888;
+    width: 218px;
+    vertical-align:middle;
+    height:14px;
+    margin-top: 5px;
+}
+
+label.error {
+    margin-top: 5px;
+    width: 200px !important;
+}

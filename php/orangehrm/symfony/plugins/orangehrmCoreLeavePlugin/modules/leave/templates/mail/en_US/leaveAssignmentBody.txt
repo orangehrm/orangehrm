@@ -1,0 +1,8 @@
+Hi %recipientFirstName%,
+
+%performerFullName% assigned you the following days of leave:
+
+%leaveDetails%
+Thank you.
+
+This is an automated notification.

@@ -1,0 +1,24 @@
+div.formbuttons {
+    background-color: white;
+    float: left;
+    padding: 6px;
+    width: 35%;
+    border-top:white;
+    margin-top:0px;
+    text-align:left;
+}
+
+.null {
+    font-size: 12px !important;
+}
+
+.headerCell {
+    font-size: 12px !important;
+}
+.trHover{
+    cursor: auto;
+}
+
+form#frmList_ohrmListComponent table.data-table tbody td{
+    vertical-align: top;
+}

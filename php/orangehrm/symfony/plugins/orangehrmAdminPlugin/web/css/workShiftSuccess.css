@@ -1,0 +1,54 @@
+.outerbox {
+    width: 600px!important;
+}
+
+label{
+    margin-top: 2px;
+}
+.errorHolder{
+    width: 250px;
+}
+label.error {
+    width:168px !important;
+}
+#messagebar{
+    width: 540px;
+}
+.paddingLeftRequired {
+    padding-left: 15px;
+    padding-top: 5px;
+    font-size: 8pt;
+}
+
+.formInput{
+    width: 150px;
+}
+div.formbuttons {
+    background-color: white;
+    float: left;
+    padding: 6px;
+    width: 35%;
+    border-top:white;
+    margin-top:0px;
+    text-align:left;
+}
+
+div.actionbuttons {
+    border-top:1px solid #FAD163;
+    display:block;
+    float:none;
+    height:auto;
+    margin-left:5px;
+    margin-right:5px;
+    margin-top:15px;
+    padding-bottom:10px;
+    padding-top:10px;
+    text-align:left;
+    width:auto;
+}
+.selectMany{
+    width: 150px;
+}
+#selectManyTable{
+    margin-left: 15px;
+}

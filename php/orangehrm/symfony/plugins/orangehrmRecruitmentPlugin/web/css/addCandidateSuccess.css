@@ -1,0 +1,235 @@
+#btnSave {
+    margin-left: 15px;
+}
+
+.helpText {
+    font-size: 8pt;
+    color:#888888;
+    padding-left: 45px;
+}
+
+label {
+    margin-top: 8px;
+}
+
+div.outerbox {
+    width: 800px;
+}
+
+.paddingLeftRequired {
+    padding-left: 15px;
+    padding-top: 5px;
+    font-size: 8pt;
+}
+
+.hrLine {
+    width: 98%;
+    border-top:1px solid #FAD163;
+    display:block;
+    margin-left: 5px;
+    margin-top: 10px;
+}
+
+.vacancyDrop{
+    width: 240px;
+    margin-top: 1px;
+}
+
+.duplexBox {
+    margin-top: 15px;
+    border: 1px solid #888888;
+
+}
+
+.keyWords{
+    /*	width: 271px;*/
+    margin-top: 12px;
+}
+
+textarea.formInputText {
+    margin-top: 12px;
+    width: 271px;
+
+}
+
+.contactNoLable{
+    padding-left: 1px;
+}
+.contactNo{
+    margin-top: 6px;
+    text-align: left;
+    width: 150px;
+}
+
+.jobVacancy{
+    margin-top: 2px;
+}
+
+.resume{
+    margin-top: 18px;
+}
+
+.keywrd{
+    margin-top: 14px;
+}
+
+.comment{
+    margin-top: 14px;
+}
+
+.appDate{
+    margin-top: 17px;
+}
+
+#addCandidate_appliedDate{
+    margin-top: 15px;
+    width: 150px;
+}
+
+input.calendarBtn, input.calendarBtn[type="button"] {
+    margin-top: 15px;
+}
+
+#jobLable{
+    margin-top: 10px;
+}
+
+#cvHelp{
+    padding-left: 140px;
+}
+
+.addText{
+    color: #363636;
+    text-decoration: underline;
+    /*	padding-left: 140px;*/
+    float: left;
+    cursor: pointer;
+}
+
+.removeText{
+    color: #363636;
+    text-decoration: underline;
+    padding-left: 128px;
+    cursor: pointer;
+    float: left;
+
+}
+.formDateInput hasDatepicker{
+    width: 100px;
+}
+
+label.error{
+    width:170px !important;
+    padding-left: 1px;
+}
+
+div .column {
+    float:left;
+    width:25%;
+}
+
+div .newColumn{
+    float:left;
+    width:45%;
+}
+
+div .nameColumn{
+    float:left;
+    width:140px;;
+}
+
+label #addCandidate_email{
+    padding-left: 100px;
+}
+
+div.below {
+    padding-left: 140px;
+}
+
+div.cntact{
+    padding-left: 120px;
+}
+
+.vacancyErr{
+    padding-left: 140px;
+    color: red;
+    font-size: 10px;
+    margin-top: 3px;
+    font-family: sans-serif;
+}
+
+ul.radio_list { list-style: none; margin-left: 135px; }
+ul.radio_list li { display: inline; }
+ul.radio_list li label { display: inline; padding-left:5px; width:100px; margin-top: 5px;}
+ul.radio_list li input { float:left; margin-top:5px; }
+
+table.data-table tbody tr td {
+    padding: 2px 8px;
+}
+table.data-table th {
+    padding: 2px 8px;
+}
+.actionDrpDown{
+    width: 150px;
+    -moz-border-radius:3px 3px 3px 3px;
+    background-color: #CDCDCD !important;
+    border-color:#CCCCCC #BBBBBB #A0A0A0;
+    border-left:1px solid #BBBBBB;
+    border-right:1px solid #BBBBBB;
+    border-style:solid;
+    border-width:1px;
+    color:#000000;
+    cursor:pointer;
+    font:98% arial,sans-serif;
+    margin:0 8px 0 0;
+    outline:medium none;
+    padding:3px 8px;
+    text-align:left;
+    vertical-align:middle;
+    white-space:nowrap;
+}
+
+#textBoxesGroup {
+    float:left;
+    width:250px;
+}
+div.messageBalloon_warning {
+    width: 640px;
+    text-align: left;
+}
+
+div.messageBalloon_success {
+    width: 740px;
+    text-align: left;
+}
+
+.trHover{
+    cursor: auto;
+}
+#fileLink{
+    margin-top: 10px;
+    padding-top: 8px;
+}
+
+#addCandidate_vacancy{
+    width: 210px;
+    margin-top: 14px;
+}
+
+.vacancyDrpLabel{
+    margin-top: 15px;
+}
+
+.outerbox{
+    width: 800px;
+}
+
+#candidateHistoryResults{
+    width: 830px;
+}
+
+form#frmAddCandidate div label.appDate label.error{
+    padding-left: 120px;
+}
+
+

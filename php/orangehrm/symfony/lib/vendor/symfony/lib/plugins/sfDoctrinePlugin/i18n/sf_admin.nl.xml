@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE xliff PUBLIC "-//XLIFF//DTD XLIFF//EN" "http://www.oasis-open.org/committees/xliff/documents/xliff.dtd" >
+<xliff version="1.0">
+  <file original="global" source-language="en" datatype="plaintext">
+    <header />
+    <body>
+      <!-- Actions -->
+      <trans-unit>
+        <source>New</source>
+        <target>Nieuw</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Edit</source>
+        <target>Wijzig</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Delete</source>
+        <target>Verwijder</target>
+      </trans-unit>
+      <trans-unit>
+        <source>List</source>
+        <target>Lijst</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Save</source>
+        <target>Opslaan</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Save and add</source>
+        <target>Opslaan en Doorgaan</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Cancel</source>
+        <target>Annuleren</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Choose an action</source>
+        <target>Kies een optie</target>
+      </trans-unit>
+      <trans-unit>
+        <source>go</source>
+        <target>ok</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Back to list</source>
+        <target>Terug naar lijst</target>
+      </trans-unit>
+
+      <!-- Filters -->
+      <trans-unit>
+        <source>Reset</source>
+        <target>Herstellen</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Filter</source>
+        <target>Filteren</target>
+      </trans-unit>
+
+      <!-- List -->
+      <trans-unit>
+        <source>No result</source>
+        <target>Geen resultaat</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Actions</source>
+        <target>Acties</target>
+      </trans-unit>
+      <trans-unit>
+        <source>(page %%page%%/%%nb_pages%%)</source>
+        <target>(pagina %%page%%/%%nb_pages%%)</target>
+      </trans-unit>
+      <trans-unit>
+        <source>asc</source>
+        <target>opl</target>
+      </trans-unit>
+      <trans-unit>
+        <source>desc</source>
+        <target>afl</target>
+      </trans-unit>
+      <trans-unit>
+        <source>[0] no result|[1] 1 result|(1,+Inf] %1% results</source> 
+        <target>[0] geen resultaat|[1] 1 resultaat|(1,+Inf] %1% resultaten</target>
+      </trans-unit>
+
+      <!-- Pagination -->
+      <trans-unit>
+        <source>First page</source>
+        <target>Eerste pagina</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Previous page</source>
+        <target>Vorige pagina</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Next page</source>
+        <target>Volgende pagina</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Last page</source>
+        <target>Laatste pagina</target>
+      </trans-unit>
+
+      <!-- Form -->
+      <trans-unit>
+        <source>The item was created successfully.</source>
+        <target>Het item is succesvol aangemaakt.</target>
+      </trans-unit>
+      <trans-unit>
+        <source>The item was updated successfully.</source>
+        <target>Het item is succesvol gewijzigd.</target>
+      </trans-unit>
+      <trans-unit>
+        <source>The item was created successfully. You can add another one below.</source>
+        <target>Het items is succesvol aangemaakt. Hieronder kan je nog een item toevoegen.</target>
+      </trans-unit>
+      <trans-unit>
+        <source>The item was updated successfully. You can add another one below.</source>
+        <target>Het item is succesvol gewijzigd. Hieronder kan je nog een item toevoegen.</target>
+      </trans-unit>
+      <trans-unit>
+        <source>The item has not been saved due to some errors.</source>
+        <target>Het item is niet opgeslagen vanwege fouten.</target>
+      </trans-unit>
+      <trans-unit>
+        <source>The item was deleted successfully.</source>
+        <target>Het item is succesvol verwijderd</target>
+      </trans-unit>
+    </body>
+  </file>
+</xliff>

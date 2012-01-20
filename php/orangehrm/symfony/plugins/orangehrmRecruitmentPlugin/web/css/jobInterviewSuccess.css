@@ -1,0 +1,120 @@
+root { 
+    display: block;
+}
+
+#messageBar {
+    margin: 5px 15px 5px 15px;
+    width: 600px
+}
+
+#jobInterview {
+    width: 50%;
+}
+
+form#frmJobInterview label {
+    /*    position: relative;*/
+    padding-left: 12px;
+    margin-top: 8px;
+    width: 150px
+}
+form#frmJobInterview .firstLabel {
+    /*    position: relative;*/
+    padding-left: 12px;
+    margin-top: 6px;
+    width: 150px
+}
+form#frmJobInterview .secondLabel {
+    /*    position: relative;*/
+    padding-left: 0px;
+    margin-top: 6px;
+    width: 250px
+}
+
+form input.formInput {
+    height:14px;
+    margin-top: 5px;
+}
+form input.formInputInterviewer {
+    height:14px;
+    margin-top: 5px;
+    width: 260px;
+}
+
+textarea.formInputText {
+    margin-top: 5px;
+    width: 400px;
+}
+
+form#frmJobInterview label .hhmm {
+    padding-left: 6px;
+}
+
+.addText{
+    color: #363636;
+    text-decoration: underline;
+    padding-left: 163px;
+    cursor: pointer;
+}
+
+.removeText{
+    color: #363636;
+    text-decoration: underline;
+    padding-left: 1px;
+    cursor: pointer;
+}
+
+div .interviewer{
+    padding-left: 162px;
+}
+
+#interviewerNameError {
+    color: red;
+    font-family: sans-serif;
+    font-size: 10px;
+    margin-top: 3px;
+    padding-left: 162px;
+}
+
+#jobInterview_name{
+    width: 260px;
+}
+
+label.error {
+    padding-left: 50px;
+    width: 240px !important;
+    margin-left: 150px;
+}
+
+div.interviwerErrors {
+    margin-left: -162px;
+}
+
+#frmJobInterview inpu {
+    margin-top: 8px;
+}
+
+.paddingLeftRequired {
+    padding-left: 15px;
+    padding-top: 5px;
+    font-size: 8pt;
+}
+div.messageBalloon_success{
+    width: 600px;
+}
+
+div.outerbox{
+    width: 680px;
+}
+
+h3{
+    color:#000000;
+    padding-left: 10px;
+}
+
+#attachmentSubHeadingDiv{
+    float: left;
+}
+
+form#frmJobInterview label label.error{
+    padding-left: 0px;
+}
