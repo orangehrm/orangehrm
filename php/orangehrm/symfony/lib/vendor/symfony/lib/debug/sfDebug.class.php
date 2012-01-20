@@ -167,8 +167,9 @@ class sfDebug
       'culture'         => $user->getCulture(),
     );
 
-    if ($user instanceof sfSecurityUser)
+    if ($user instanceof sfBasicSecurityUser)
     {
+
       $data = array_merge($data, array(
           'authenticated'   => $user->isAuthenticated(),
           'credentials'     => $user->getCredentials(),
