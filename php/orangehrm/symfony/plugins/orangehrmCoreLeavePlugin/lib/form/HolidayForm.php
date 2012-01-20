@@ -1,4 +1,5 @@
 <?php
+
 /**
  * OrangeHRM is a comprehensive Human Resource Management (HRM) System that captures
  * all the essential functionalities required for any enterprise.
@@ -16,107 +17,69 @@
  * if not, write to the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
  * Boston, MA  02110-1301, USA
  */
-
-class HolidayForm extends sfForm
-{
+class HolidayForm extends sfForm {
 
     private $workWeekEntity;
     private $holidayService;
-
     public $editMode = false;
-
-    /**
-     * Setting up the Holiday Form
-     */
-    public function setup()
-    {
-        $this->setWorkWeekEntity();
-        $this->setHolidayService();
-    }
 
     /**
      * Holiday form configuration
      */
-    public function configure()
-    {
+    public function configure() {
 
-        $this->setWidgets(array(
-                'hdnHolidayId' => new sfWidgetFormInputHidden(),
-                'txtDescription' => new sfWidgetFormInput(),
-                'txtDate' => new ohrmWidgetDatePickerNew(array(), array('id' => 'holiday_txtDate')),
-                'chkRecurring' => new sfWidgetFormInputCheckbox(),
-                'selLength' => new sfWidgetFormSelect( array('choices'=>$this->getDaysLengthList()), array('add_empty'=>false)),
-
-        ));
-
-        $inputDatePattern = sfContext::getInstance()->getUser()->getDateFormat();
-
-        $this->setValidators(array(
-                'hdnHolidayId' => new sfValidatorString(array('required' => false)),
-                'chkRecurring' => new sfValidatorString(array('required' => false)),
-                'txtDescription' => new sfValidatorString(array('required' => true, 'max_length'=>200),array('required'=>'Holiday Name is required', 'max_length'=>'Name of Holiday length exceeded')),
-                'txtDate' => new ohrmDateValidator(array('date_format'=>$inputDatePattern, 'required'=>true),
-                                                   array('required'=>'Date field is required', 'invalid'=>'Date format should be '.$inputDatePattern)),
-
-                'selLength' => new sfValidatorChoice(array('choices' => array_keys($this->getDaysLengthList())))
-        ));
-
-        $this->validatorSchema->setOption('allow_extra_fields', true);
-        //$this->validatorSchema->setPostValidator(new sfValidatorCallback(array('callback' => array($this, 'checkHolidayRules'))));
+        $this->setWidgets($this->getFormWidgets());
+        $this->setValidators($this->getFormValidators());
         
-        $this->widgetSchema->setNameFormat('holiday[%s]');
+        $this->getValidatorSchema()->setOption('allow_extra_fields', true);
 
+        $this->getWidgetSchema()->setLabels($this->getFormLabels());
+        $this->getWidgetSchema()->setNameFormat('holiday[%s]');
+        $this->getWidgetSchema()->setFormFormatterName('BreakTags');
     }
 
     /**
      * Set method for Work Week Entity
-     *
+     * @param WorkWeek $workWeek
      */
-    public function setWorkWeekEntity(){
-
-        $this->workWeekEntity = new WorkWeek();
-
+    public function setWorkWeekEntity(WorkWeek $workWeek) {
+        $this->workWeekEntity = $workWeek;
     }
 
     /**
      * Get method for Work Week Entity
-     *
      * @return WorkWeek workWeekEntity
      */
-
-    public function getWorkWeekEntity(){
-
+    public function getWorkWeekEntity() {
+        if (!($this->workWeekEntity instanceof WorkWeek)) {
+            $this->workWeekEntity = new WorkWeek();
+        }
         return $this->workWeekEntity;
-
     }
-
 
     /**
      * Set method for Holiday Service
-     *
+     * @param HolidayService $holidayService
      */
-    public function setHolidayService(){
-        $this->holidayService = new HolidayService();
+    public function setHolidayService(HolidayService $holidayService) {
+        $this->holidayService = $holidayService;
     }
 
     /**
      * Get method for Holiday Service
-     *
-     * @return HolidayService holidayService
+     * @return HolidayService
      */
-
-    public function getHolidayService(){
-
+    public function getHolidayService() {
+        if (!($this->holidayService instanceof HolidayService)) {
+            $this->holidayService = new HolidayService();
+        }
         return $this->holidayService;
-
     }
 
-
     /**
-     * get required days Length List ignore "Weekend"
+     * Get required days Length List ignore "Weekend"
      */
-    public function getDaysLengthList()
-    {
+    public function getDaysLengthList() {
         $fullDaysLengthList = WorkWeek::getDaysLengthList();
         unset($fullDaysLengthList[8]);
         return $fullDaysLengthList;
@@ -126,25 +89,20 @@ class HolidayForm extends sfForm
      * Set the default values for sfWidgetForm Elements
      * @param integer $holidayId
      */
-    public function setDefaultValues($holidayId)
-    {
+    public function setDefaultValues($holidayId) {
 
         $holidayObject = $this->getholidayService()->readHoliday($holidayId);
 
-        if ($holidayObject instanceof Holiday)
-        {
-
-            $this->setDefault('hdnHolidayId', $holidayObject->getId());
-            $this->setDefault('txtDescription', $holidayObject->getDescription());
-
+        if ($holidayObject instanceof Holiday) {
             sfContext::getInstance()->getConfiguration()->loadHelpers('OrangeDate');
-            $this->setDefault('txtDate', set_datepicker_date_format($holidayObject->getDate()));
-            $chkRecurring = $holidayObject->getRecurring()=='1'?true:false;
-            $this->setDefault('chkRecurring', $chkRecurring);
-            $this->setDefault('selLength', $holidayObject->getLength());
+            $chkRecurring = $holidayObject->getRecurring() == '1' ? true : false;
 
+            $this->setDefault('id', $holidayObject->getId());
+            $this->setDefault('description', $holidayObject->getDescription());
+            $this->setDefault('date', set_datepicker_date_format($holidayObject->getDate()));
+            $this->setDefault('recurring', $chkRecurring);
+            $this->setDefault('length', $holidayObject->getLength());
         }
-
     }
 
     /**
@@ -153,40 +111,109 @@ class HolidayForm extends sfForm
      * @param sfValidatorCallback $validator
      * @param array $values
      */
-    public function checkHolidayRules($validator, $values)
-    {
-        $date = $values['txtDate'];
+    public function checkHolidayRules($validator, $values) {
+        $date = $values['date'];
 
-        $hid = $values['hdnHolidayId'];
-        // read the holiday by date
+        $holidayId = $values['id'];
         $holidayObjectDate = $this->getHolidayService()->readHolidayByDate($date);
 
         $allowToAdd = true;
 
-        if($this->editMode)
-        {
-            $holidayObject = $this->getHolidayService()->readHoliday($hid);
-            // if the selected date is already in a holiday not allow to add
-            if($holidayObject->getDate() != $date && $date == $holidayObjectDate->getDate() )
-            {
+        if ($this->editMode) {
+            $holidayObject = $this->getHolidayService()->readHoliday($holidayId);
+            /* If the selected date is already in a holiday not allow to add */
+            if ($holidayObject->getDate() != $date && $date == $holidayObjectDate->getDate()) {
                 $allowToAdd = false;
             }
-        }else{
-            // days already added can not be selected to add
-            if($date == $holidayObjectDate->getDate()){
+        } else {
+            /* Days already added can not be selected to add */
+            if ($date == $holidayObjectDate->getDate()) {
                 $allowToAdd = false;
             }
         }
-        
-        // Error will not return if the date if not in the correct format
-        if(!$allowToAdd && !is_null($date))
-        {
-            $error = new sfValidatorError($validator, 'Holiday date is in use' );
-            throw new sfValidatorErrorSchema($validator, array('txtDate' => $error));
-            
+
+        /* Error will not return if the date if not in the correct format */
+        if (!$allowToAdd && !is_null($date)) {
+            $error = new sfValidatorError($validator, 'Holiday date is in use');
+            throw new sfValidatorErrorSchema($validator, array('date' => $error));
         }
         return $values;
     }
 
+    /**
+     *
+     * @return array
+     */
+    protected function getFormWidgets() {
+        $widgets = array();
+        $widgets['id'] = new sfWidgetFormInputHidden();
+        $widgets['description'] = new sfWidgetFormInput(array(), array(
+                    'class' => 'formInputText',
+                ));
+        $widgets['date'] = new ohrmWidgetDatePickerNew(array(), array(
+                    'id' => 'holiday_date',
+                    'class' => 'formDateInput'
+                ));
+        $widgets['recurring'] = new sfWidgetFormInputCheckbox(array(), array(
+                    'class' => 'formCheckbox',
+                ));
+        $widgets['length'] = new sfWidgetFormSelect(array(
+                    'choices' => $this->getDaysLengthList(),
+                        ), array(
+                    'add_empty' => false,
+                    'class' => 'formSelect',
+                ));
+
+        return $widgets;
+    }
+
+    /**
+     *
+     * @return array
+     */
+    protected function getFormValidators() {
+        $validators = array();
+
+        $inputDatePattern = sfContext::getInstance()->getUser()->getDateFormat();
+
+        $validators['id'] = new sfValidatorString(array('required' => false));
+        $validators['recurring'] = new sfValidatorString(array('required' => false));
+        $validators['description'] = new sfValidatorString(array(
+                    'required' => true,
+                    'max_length' => 200,
+                        ), array(
+                    'required' => 'Holiday Name is required',
+                    'max_length' => 'Name of Holiday length exceeded',
+                ));
+        $validators['date'] = new ohrmDateValidator(
+                        array('date_format' => $inputDatePattern,
+                            'required' => true)
+                        , array(
+                    'required' => 'Date field is required',
+                    'invalid' => 'Date format should be ' . $inputDatePattern,
+                ));
+        $validators['length'] = new sfValidatorChoice(array('choices' => array_keys($this->getDaysLengthList())));
+
+        return $validators;
+    }
+
+    /**
+     *
+     * @return array
+     */
+    protected function getFormLabels() {
+        $labels = array();
+        
+        sfContext::getInstance()->getConfiguration()->loadHelpers('Tag');
+
+        $requiredLabel = content_tag('span', '*', array('class' => 'required'));
+        
+        $labels['description'] = __('Name %s', array('%s' => $requiredLabel));
+        $labels['date'] = __('Date %s', array('%s' => $requiredLabel));
+        $labels['recurring'] = __('Repeats Annually');
+        $labels['length'] = __('Full Day/Half Day');
+        
+        return $labels;
+    }
 }
 

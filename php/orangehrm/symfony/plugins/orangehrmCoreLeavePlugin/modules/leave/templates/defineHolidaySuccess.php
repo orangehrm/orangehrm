@@ -34,43 +34,11 @@
         <div class="mainHeading"><h2><?php echo ($editMode) ? __('Edit') . " " . __('Holiday') : __('Add') . " " . __('Holiday'); ?></h2></div>
 
         <div id="errorDiv"> </div>
-        <?php if ($form->hasErrors()) {
-        ?>
-        <?php echo $form['hdnHolidayId']->renderError(); ?>
-        <?php echo $form['txtDescription']->renderError(); ?>
-        <?php echo $form['txtDate']->renderError(); ?>
-        <?php echo $form['chkRecurring']->renderError(); ?>
-        <?php echo $form['selLength']->renderError(); ?>
-        <?php } ?>
 
+        <form id="frmHoliday" name="frmHoliday" method="post" action="<?php echo url_for('leave/defineHoliday') ?>">
+            <?php echo $form->render(); ?>
 
-        <form id="frmHoliday" name="frmHoliday" method="post" action="<?php echo url_for('leave/defineHoliday') ?>" >
-            <?php echo $form['_csrf_token'] ?>
-            <?php if ($editMode) {
-            ?>
-                <input type="hidden" name="hdnEditMode" id="hdnEditMode" value="yes" />
-            <?php } else {
-            ?>
-                <input type="hidden" name="hdnEditMode" id="hdnEditMode" value="no" />
-            <?php } ?>
-            <?php echo $form['hdnHolidayId']->render(); ?>
-            <?php echo $form['txtDescription']->renderLabel(__('Name') . ' <span class="required">*</span>'); ?>
-            <?php echo $form['txtDescription']->render(array("class" => "formInputText")); ?>
-            <div class="errorContainer"></div>
-            <br class="clear"/>
-
-            <?php echo $form['txtDate']->renderLabel(__('Date') . ' <span class="required">*</span>'); ?>
-            <?php echo $form['txtDate']->render(array("class" => "formDateInput")); ?>
-            <div class="errorContainer"></div>
-            <br class="clear"/>
-
-            <?php echo $form['chkRecurring']->renderLabel(__('Repeats Annually')); ?>
-            <?php echo $form['chkRecurring']->render(array('class' => 'formCheckbox')); ?>
-            <br class="clear"/>
-
-            <?php echo $form['selLength']->renderLabel(__('Full Day') . '/' . __('Half Day')); ?>
-            <?php echo $form['selLength']->render(array("class" => "formSelect")); ?>
-            <br class="clear"/>
+            <input type="hidden" name="hdnEditMode" id="hdnEditMode" value="<?php echo ($editMode) ? 'yes' : 'no'; ?>" />
 
             <div class="formbuttons">
                 <input type="button" class="savebutton" id="saveBtn" value="<?php echo __('Save'); ?>" />
@@ -79,11 +47,21 @@
             </div>
         </form>
     </div>
-    <div class="requirednotice"><?php echo __('Fields marked with an asterisk') ?> <span class="required">*</span> <?php echo __('are required.') ?></div>
+    <div class="requirednotice"><?php echo __('Fields marked with an asterisk %asterisk are required.', array('%asterisk' => '<span class="required">*</span>')) ?></div>
 </div>
 <style type="text/css">
     label label.error{
         padding-left: 120px;
+    }
+    
+    .maincontent span ul.error_list {
+        margin-left: 20px;
+        margin-top: 10px;
+        font-size: 11px;
+    }
+    .maincontent ul.error_list {
+        margin-left: 140px;
+        font-size: 11px;
     }
 </style>
 
@@ -102,26 +80,26 @@
         //Validation
         $("#frmHoliday").validate({
             rules: {
-                'holiday[txtDate]': {
+                'holiday[date]': {
                     required: true,
                     valid_date: function(){ return {format:datepickerDateFormat} }
                 },
-                'holiday[txtDescription]': {required: true, maxlength: 200}
+                'holiday[description]': {required: true, maxlength: 200}
             },
             messages: {
-                'holiday[txtDate]':{
+                'holiday[date]':{
                     required:  lang_DateIsRequired,
                     valid_date: lang_DateFormatIsWrong
                 },
-                'holiday[txtDescription]':{
+                'holiday[description]':{
                     required: lang_NameIsRequired,
                     maxlength: lang_NameIsOverLimit
                 }
             },
             errorPlacement: function(error, element) {
                 error.appendTo(element.prev('label'));
-                error.appendTo(element.next().next(".errorContainer"));
-                error.appendTo(element.next(".errorContainer"));
+                error.appendTo(element.next().next('.errorContainer'));
+                error.appendTo(element.next('.errorContainer'));
             },
             invalidHandler: function(form, validator) {
                 clearTemplateMessages();
@@ -145,8 +123,6 @@
         });
 
     }); 
-
-
 
     //]]>
 </script>
