@@ -250,7 +250,7 @@ function printButtonEventBindings($buttons) {
                                 }
                                 
                                 $verticalStyle = '';
-                                if ($properties['isValueList']) {
+                                if (isset($properties['isValueList']) && $properties['isValueList']) {
                                     $verticalStyle = "style='vertical-align:top;'";
                                 }
                     ?>
