@@ -6,7 +6,9 @@ abstract class Cell implements PopulatableFromArray {
 
     protected $properties;
     protected $dataObject;
+    protected $header;    
     private $dataSourceType = self::DATASOURCE_TYPE_OBJECT;
+
 
     public function populateFromArray(array $properties) {
         PropertyPopulator::populateFromArray($this, $properties);
@@ -39,6 +41,19 @@ abstract class Cell implements PopulatableFromArray {
 
         $this->dataObject = ($dataObject instanceof sfOutputEscaperArrayDecorator) ? $dataObject->getRawValue() : $dataObject;
     }
+    
+    public function setHeader($header) {
+        
+        if ($header instanceof sfOutputEscaperObjectDecorator) {
+            $header = $header->getRawValue();
+        }
+
+        $this->header = $header;
+    }
+    
+    public function getHeader() {
+        return $this->header;
+    }
 
     public function toValue() {
         return $this->getValue();
@@ -60,6 +75,23 @@ abstract class Cell implements PopulatableFromArray {
             return $default;
         }
 
+        $value = $this->filterValue($value);
+        
+        return $value;
+    }
+    
+    /**
+     * Filters given value using all filters set in the header.
+     * 
+     * @param String $value
+     * @return String Filtered value
+     */
+    protected function filterValue($value) {
+
+        if (isset($this->header)) {
+            $value = $this->header->filterValue($value);
+        }
+        
         return $value;
     }
 

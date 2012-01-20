@@ -243,6 +243,7 @@ function printButtonEventBindings($buttons) {
                                 $cell = new $cellClass;
                                 $cell->setProperties($properties);
                                 $cell->setDataObject($object);
+                                $cell->setHeader($header);
 
                                 if ($hasSummary && $header->getName() == $summary['summaryField']) {
                                     ohrmListSummaryHelper::collectValue($cell->toValue(), $summary['summaryFunction']);

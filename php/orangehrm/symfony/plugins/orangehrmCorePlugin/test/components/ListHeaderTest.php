@@ -310,6 +310,86 @@ class ListHeaderTest extends PHPUnit_Framework_TestCase {
         $textAlignmentStyle = 'bottom';
         $this->object->setTextAlignmentStyle($textAlignmentStyle);
     }
+    
+    public function testSetFilters() {
+        
+        // set invalid value, check that it is not set        
+        $this->object->setFilters("test");
+        $this->assertEquals(array(), $this->object->getFilters());
+        
+        $this->object->setFilters(null);
+        $this->assertEquals(array(), $this->object->getFilters());
+
+        $filters = array('EnumCellFilter' => array(), 'I18nCellFilter' => array());
+        
+        $this->object->setFilters($filters);
+        $this->assertEquals($filters, $this->object->getFilters());
+        
+        // verify that setFilters overwrites existing filters:
+        $this->object->setFilters(null);
+        $this->assertEquals(array(), $this->object->getFilters());
+        
+    }
+    
+    public function testFilterValue() {
+        
+        // No filters
+        $srcValue = 'test value';
+        
+        $this->assertEquals($srcValue, $this->object->filterValue($srcValue));  
+        
+        $this->object->setFilters(array());        
+        $this->assertEquals($srcValue, $this->object->filterValue($srcValue));        
+                        
+        $x = new ucTestCellFilter;
+        
+        // one filter        
+        $this->object->setFilters(array('ucTestCellFilter' => array()));
+        $this->assertEquals('TEST VALUE', $this->object->filterValue($srcValue));
+                
+        // two filters
+        $this->object->setFilters(array('ucTestCellFilter' => array(), 
+                                        'reverseTestCellFilter' => array()));
+        $this->assertEquals('EULAV TSET', $this->object->filterValue($srcValue));        
+        
+        // three filters, one using properties
+        $this->object->setFilters(array('ucTestCellFilter' => array(), 
+                                        'constTestCellFilter' => array('const' => 'XyZ'),
+                                        'reverseTestCellFilter' => array()));
+        $this->assertEquals('ZyXEULAV TSET', $this->object->filterValue($srcValue)); 
+        
+    }
 
 }
-?>
+
+class ucTestCellFilter extends ohrmCellFilter {
+    
+    public function filter($value) {
+        return strtoupper($value);
+    }
+    
+}
+
+class reverseTestCellFilter extends ohrmCellFilter {
+    
+    public function filter($value) {
+        
+        return strrev($value);
+    }
+    
+}
+
+class constTestCellFilter extends ohrmCellFilter {
+    
+    private $const = "";
+    
+    public function filter($value) {
+        
+        return $value . $this->const;
+    }
+    
+    public function setConst($const) {
+        $this->const = $const;
+    }
+    
+}

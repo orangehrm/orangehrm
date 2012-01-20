@@ -30,7 +30,7 @@ class HolidayListConfigurationFactory extends ohrmListConfigurationFactory {
 
         $header1->populateFromArray(array(
             'name' => 'Name',
-            'width' => '50%',
+            'width' => '40%',
             'isSortable' => false,
             'sortField' => null,
             'elementType' => 'link',
@@ -44,9 +44,10 @@ class HolidayListConfigurationFactory extends ohrmListConfigurationFactory {
 
         $header2->populateFromArray(array(
             'name' => 'Date',
-            'width' => '15%',
+            'width' => '25%',
             'isSortable' => false,
             'sortField' => null,
+            'filters' => array('DateCellFilter' => array()),            
             'elementType' => 'label',
             'textAlignmentStyle' => 'left',
             'elementProperty' => array('getter' => 'getDate'),
@@ -59,11 +60,16 @@ class HolidayListConfigurationFactory extends ohrmListConfigurationFactory {
             'width' => '20%',
             'isSortable' => false,
             'sortField' => null,
+            'filters' => array('EnumCellFilter' => array(
+                                                    'enum' => PluginWorkWeek::getDaysLengthList(), 
+                                                    'default' => ''),
+                               'I18nCellFilter' => array()
+                              ),
             'elementType' => 'label',
             'textAlignmentStyle' => 'left',
             'elementProperty' => array('getter' => 'getLength'),
         ));
-        
+
         $header4 = new ListHeader();
 
         $header4->populateFromArray(array(
@@ -71,6 +77,11 @@ class HolidayListConfigurationFactory extends ohrmListConfigurationFactory {
             'width' => '15%',
             'isSortable' => false,
             'sortField' => null,
+            'filters' => array('EnumCellFilter' => array(
+                                                    'enum' => PluginWorkWeek::getYesNoList(), 
+                                                    'default' => ''),
+                               'I18nCellFilter' => array()
+                              ),            
             'elementType' => 'label',
             'textAlignmentStyle' => 'left',
             'elementProperty' => array('getter' => 'getRecurring'),

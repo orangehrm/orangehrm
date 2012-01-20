@@ -37,6 +37,9 @@ class orangehrmCorePluginAllTests {
         $suite->addTestFile(dirname(__FILE__) . '/components/ListHeaderTest.php');
         $suite->addTestFile(dirname(__FILE__) . '/components/CheckboxTest.php');
         $suite->addTestFile(dirname(__FILE__) . '/components/HeaderCellTest.php');
+        $suite->addTestFile(dirname(__FILE__) . '/components/ohrmCellFilterTest.php');
+        $suite->addTestFile(dirname(__FILE__) . '/components/EnumCellFilterTest.php');
+        $suite->addTestFile(dirname(__FILE__) . '/components/CellTest.php');
         
         /* Dao Test Cases */
         $suite->addTestFile(dirname(__FILE__) . '/dao/ConfigDaoTest.php');

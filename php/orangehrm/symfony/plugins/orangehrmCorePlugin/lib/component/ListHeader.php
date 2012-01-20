@@ -30,6 +30,9 @@ class ListHeader extends ComponentProperty {
     protected $isExportable = true;
     protected $textAlignmentStyle = "left";
     protected $textAlignmentStyleForHeader = "left";
+    protected $filters = array();
+    
+    protected $filterObjects;
 
     public function getName() {
         return $this->name;
@@ -139,6 +142,52 @@ class ListHeader extends ComponentProperty {
     public function getTextAlignmentStyleForHeader() {
 
         return $this->textAlignmentStyleForHeader;
+    }
+    
+    public function setFilters($filters) {
+        
+        if (is_array($filters)) {
+            $this->filters = $filters;
+        } else {
+            $this->filters = array();
+        }
+        
+        $this->createFilterObjects();
+        
+    }
+    
+    public function getFilters() {
+        return $this->filters;
+    }        
+    
+    protected function createFilterObjects() {
+        
+        $this->filterObjects = array();
+
+        foreach($this->filters as $filterClass => $properties) {
+
+            $filterObject = new $filterClass;
+            if (is_array($properties)) {
+                $filterObject->populateFromArray($properties);
+            }
+            $this->filterObjects[] = $filterObject;
+        }
+    }
+    
+    public function filterValue($value) {
+        
+        if (is_null($this->filterObjects)) {
+            $this->createFilterObjects();  
+        }
+
+        foreach ($this->filterObjects as $filter) {
+
+            if ($filter instanceof ohrmCellFilter) {
+                $value = $filter->filter($value);
+            }
+        }
+        
+        return ($value);      
     }
 
 }
