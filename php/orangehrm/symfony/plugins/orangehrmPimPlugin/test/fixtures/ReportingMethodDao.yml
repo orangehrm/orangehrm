@@ -1,4 +1,0 @@
-ReportingMethod:
-  0: {id: 1, name: 'Indirect'}
-  1: {id: 2, name: 'Direct'}
-  2: {id: 3, name: 'HR'}

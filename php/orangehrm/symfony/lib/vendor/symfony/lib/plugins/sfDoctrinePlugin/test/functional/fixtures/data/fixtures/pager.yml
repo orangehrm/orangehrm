@@ -1,6 +1,0 @@
-Article:
-  # <?php for ($i = 0; $i < 50; $i++): ?> #
-  article<?php echo $i ?>:
-    title: "Article <?php echo $i ?>"
-    is_on_homepage: <?php echo sprintf("%d\n", $i % 2); ?>
-  # <?php endfor; ?> #

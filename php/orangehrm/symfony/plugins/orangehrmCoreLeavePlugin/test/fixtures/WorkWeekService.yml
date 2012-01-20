@@ -1,8 +1,0 @@
-WorkWeek:
-  0: {day: 1, length: 0}
-  1: {day: 2, length: 0}
-  2: {day: 3, length: 8}
-  3: {day: 4, length: 0}
-  4: {day: 5, length: 0}
-  5: {day: 6, length: 4}
-  6: {day: 7, length: 8}

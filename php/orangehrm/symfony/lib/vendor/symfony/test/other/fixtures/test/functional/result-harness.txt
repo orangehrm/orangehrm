@@ -1,8 +1,0 @@
-articleInitAdminActionsTest..........................................ok
-articleInitCrudActionsTest...........................................ok
-fooActionsTest.......................................................not ok
-    Failed tests: 4
-Failed Test                     Stat  Total   Fail  Errors  List of Failed
---------------------------------------------------------------------------
-fooActionsTest                     0      4      1      0  4
-Failed 1/3 test scripts, 66.67% okay. 1/12 subtests failed, 91.67% okay.

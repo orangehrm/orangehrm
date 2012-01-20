@@ -1,5 +1,0 @@
-## YAML Template.
----
-Config:
-  0: {`key`: 'timesheet_period_set', value: 'Yes'}
-  1: {`key`: 'timesheet_period_and_start_date', value: '<TimesheetPeriod><PeriodType>Weekly</PeriodType><ClassName>WeeklyTimesheetPeriod</ClassName><StartDate>1</StartDate><Heading>Week</Heading></TimesheetPeriod>'}

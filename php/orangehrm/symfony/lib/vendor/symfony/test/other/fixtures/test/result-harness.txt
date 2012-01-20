@@ -1,9 +1,0 @@
-functional/frontend/articleInitAdminActionsTest......................ok
-functional/frontend/articleInitCrudActionsTest.......................ok
-functional/frontend/fooActionsTest...................................not ok
-    Failed tests: 4
-unit/testTest........................................................ok
-Failed Test                     Stat  Total   Fail  Errors  List of Failed
---------------------------------------------------------------------------
-tional/frontend/fooActionsTest     0      4      1      0  4
-Failed 1/4 test scripts, 75.00% okay. 1/13 subtests failed, 92.31% okay.

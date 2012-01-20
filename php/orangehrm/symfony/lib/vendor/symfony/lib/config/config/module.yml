@@ -1,3 +1,0 @@
-default:
-  enabled:          true
-  view_class:       sfPHP
