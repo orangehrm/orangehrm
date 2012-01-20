@@ -20,18 +20,12 @@
  *
  */
 
-/**
- * Displaying viewLeaveSummary UI
- *
- * @author sujith
- */
 class viewLeaveSummaryAction extends sfAction implements ohrmExportableAction {
 
-    private $employeeService;
+    protected $employeeService;
 
     /**
      * @param sfForm $form
-     * @return
      */
     public function setForm(sfForm $form) {
         if (is_null($this->form)) {
@@ -70,6 +64,7 @@ class viewLeaveSummaryAction extends sfAction implements ohrmExportableAction {
 
     public function execute($request) {
         $userDetails = $this->getLoggedInUserDetails();
+        
         $searchParam = array();
         $searchParam['employeeId'] = (trim($request->getParameter("employeeId")) != "") ? trim($request->getParameter("employeeId")) : null;
         if (!is_null($searchParam['employeeId'])) {
@@ -81,7 +76,7 @@ class viewLeaveSummaryAction extends sfAction implements ohrmExportableAction {
         $params = array_merge($searchParam, $userDetails);
 
         $this->setForm($this->getFormInstance(array(), $params, true));
-        $this->_setLeaveSummaryRecordsLimit($request);
+        $this->setLeaveSummaryRecordsLimit($request);
         $this->form->setRecordsLimitDefaultValue();
 
         if ($request->isMethod('post')) {
@@ -123,17 +118,32 @@ class viewLeaveSummaryAction extends sfAction implements ohrmExportableAction {
         $listData = $leaveSummaryService->fetchRawLeaveSummaryRecords($clues, $offset, $noOfRecords);
         $totalRecordsCount = $leaveSummaryService->fetchRawLeaveSummaryRecordsCount($clues);
 
-        ohrmListComponent::setConfigurationFactory($configurationFactory);
-        ohrmListComponent::setListData($listData);
-        ohrmListComponent::setItemsPerPage($noOfRecords);
-        ohrmListComponent::setNumberOfRecords($totalRecordsCount);
-        ohrmListComponent::$pageNumber = $pageNo;
-
-        $this->initilizeDataRetriever($configurationFactory, $leaveSummaryService, 'fetchRawLeaveSummaryRecords',
-                array($this->form->getSearchClues(),
-                    0,
-                    $totalRecordsCount
+        $listComponentParameters = new ListCompnentParameterHolder();
+        $listComponentParameters->populateByArray(array(
+            'configurationFactory' => $configurationFactory,
+            'listData' => $listData,
+            'noOfRecords' => $noOfRecords,
+            'totalRecordsCount' => $totalRecordsCount,
+            'pageNumber' => $pageNo,
         ));
+        $this->initializeListComponent($listComponentParameters);
+
+        $this->initilizeDataRetriever($configurationFactory, $leaveSummaryService, 'fetchRawLeaveSummaryRecords', array($this->form->getSearchClues(),
+            0,
+            $totalRecordsCount
+        ));
+    }
+
+    /**
+     *
+     * @param ListCompnentParameterHolder $parameters
+     */
+    protected function initializeListComponent(ListCompnentParameterHolder $parameters) {
+        ohrmListComponent::setConfigurationFactory($parameters->getConfigurationFactory());
+        ohrmListComponent::setListData($parameters->getListData());
+        ohrmListComponent::setItemsPerPage($parameters->getNoOfRecords());
+        ohrmListComponent::setNumberOfRecords($parameters->getTotalRecordsCount());
+        ohrmListComponent::$pageNumber = $parameters->getPageNumber();
     }
 
     /**
@@ -164,7 +174,7 @@ class viewLeaveSummaryAction extends sfAction implements ohrmExportableAction {
         return $userDetails;
     }
 
-    protected function _setLeaveSummaryRecordsLimit($request) {
+    protected function setLeaveSummaryRecordsLimit($request) {
 
         $params = $request->getParameter('leaveSummary');
 
