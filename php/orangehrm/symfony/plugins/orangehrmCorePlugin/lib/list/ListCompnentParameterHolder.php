@@ -87,5 +87,19 @@ final class ListCompnentParameterHolder {
     public function setPageNumber($pageNumber) {
         $this->pageNumber = $pageNumber;
     }
+    
+    /**
+     *
+     * @param array $values 
+     */
+    public function populateByArray(array $values) {
+        foreach ($values as $property => $value) {
+            if (property_exists($this, $property)) {
+                $this->$property = $value;
+            } else {
+                throw new Exception('The property ' . $property . ' does not exist');
+            }
+        }
+    }
 
 }
