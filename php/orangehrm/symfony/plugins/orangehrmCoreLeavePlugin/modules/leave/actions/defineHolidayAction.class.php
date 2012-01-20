@@ -1,4 +1,5 @@
 <?php
+
 /*
  *
  * OrangeHRM is a comprehensive Human Resource Management (HRM) System that captures
@@ -24,9 +25,8 @@
  */
 class defineHolidayAction extends sfAction {
 
-    private $holidayService;
-    private $leavePeriodService; 
-           
+    protected $holidayService;
+    protected $leavePeriodService;
 
     /**
      * Returns Leave Period
@@ -42,14 +42,14 @@ class defineHolidayAction extends sfAction {
 
         return $this->leavePeriodService;
     }
-    
+
     /**
      * Returns Leave Period
      * @return LeavePeriodService
      */
     public function setLeavePeriodService($leavePeriodService) {
         $this->leavePeriodService = $leavePeriodService;
-    }    
+    }
 
     /**
      * get Method for Holiday Service
@@ -70,30 +70,30 @@ class defineHolidayAction extends sfAction {
     public function setHolidayService(HolidayService $holidayService) {
         $this->holidayService = $holidayService;
     }
-    
+
     public function preExecute() {
         if ($this->getUser()->getAttribute('auth.isAdmin') != 'Yes') {
             $this->redirect('leave/viewMyLeaveList');
         }
-    }    
-    
+    }
+
     /**
      * Add Holiday
      * @param sfWebRequest $request
      */
     public function execute($request) {
 
-        $this->form = $this->getForm();
+        $this->form = new HolidayForm();
         $editId = $request->getParameter('hdnEditId');
 
-        $this->editMode = false; // pass edit mode for teh view
-        $this->form->editMode = false; // pass edit mode for form
+        $this->editMode = false; // Pass edit mode for teh view
+        $this->form->editMode = false; // Pass edit mode for form
 
-        if ($editId && $editId != "") {
+        if ($editId && $editId != '') {
             $this->form->setDefaultValues($editId);
         }
 
-        if (($editId && $editId != "") || $request->getParameter('hdnEditMode') == 'yes') {
+        if (($editId && $editId != '') || $request->getParameter('hdnEditMode') == 'yes') {
             $this->editMode = true;
             $this->form->editMode = true;
         }
@@ -103,70 +103,69 @@ class defineHolidayAction extends sfAction {
             $this->form->bind($request->getParameter($this->form->getName()));
             if ($this->form->isValid()) {
                 $post = $this->form->getValues();
-                // save holiday
+                /* Save holiday */
 
-                if ($post['hdnHolidayId'] != "") {
+                if ($post['id'] != '') {
                     $this->getUser()->setFlash('templateMessage', array('SUCCESS', __('Holiday Successfully Updated')));
                 } else {
                     $this->getUser()->setFlash('templateMessage', array('SUCCESS', __('Holiday Successfully Saved')));
                 }
 
-                $date = $post['txtDate'];
-                $hid  = $post['hdnHolidayId'];
-                
-                // read the holiday by date
+                $date = $post['date'];
+                $holidayId = $post['id'];
+
+                /* Read the holiday by date */
                 $holidayObjectDate = $this->getHolidayService()->readHolidayByDate($date);
 
                 $allowToAdd = true;
 
-                if($this->editMode) {
-                    $holidayObject = $this->getHolidayService()->readHoliday($hid);
-                    // if the selected date is already in a holiday not allow to add
-                    /*if(($holidayObject->getDate() != $date && $date == $holidayObjectDate->getDate()) || $holidayObjectDate->getRecurring() == 1) {
-                      $allowToAdd = false;
-                    }*/
-                    if($date != $holidayObjectDate->getDate() && $holidayObjectDate->getRecurring()) {
+                if ($this->editMode) {
+                    $holidayObject = $this->getHolidayService()->readHoliday($holidayId);
+
+                    if ($date != $holidayObjectDate->getDate() && $holidayObjectDate->getRecurring()) {
                         $allowToAdd = false;
                     }
                 } else {
-                    // days already added can not be selected to add
-                    if($date == $holidayObjectDate->getDate() || $holidayObjectDate->getRecurring() == 1) {
+                    /* Days already added can not be selected to add */
+                    if ($date == $holidayObjectDate->getDate() || $holidayObjectDate->getRecurring() == 1) {
                         $allowToAdd = false;
                     }
-
                 }
 
-                // Error will not return if the date if not in the correct format
-                if(!$allowToAdd && !is_null($date)) {
+                /* Error will not return if the date if not in the correct format */
+                if (!$allowToAdd && !is_null($date)) {
                     $this->templateMessage = array('WARNING', __('The Date Is Already Assigned to Another Holiday'));
                 } else {
 
                     //first creating the leave period if the date belongs to next leave period
-                    if($this->getLeavePeriodService()->isWithinNextLeavePeriod(strtotime($post['txtDate']))) {
-                        $this->getLeavePeriodService()->createNextLeavePeriod($post['txtDate']);
+                    if ($this->getLeavePeriodService()->isWithinNextLeavePeriod(strtotime($post['date']))) {
+                        $this->getLeavePeriodService()->createNextLeavePeriod($post['date']);
                     }
 
-                    $holidayObject = $this->getHolidayService()->readHoliday($post['hdnHolidayId']);
-                    $holidayObject->setDescription($post['txtDescription']);
-                    $holidayObject->setDate($post['txtDate']);
+                    $holidayObject = $this->getHolidayService()->readHoliday($post['id']);
+                    $holidayObject->setDescription($post['description']);
+                    $holidayObject->setDate($post['date']);
 
-                    $recurringValue = $post['chkRecurring'] == 'on' ? 1 : 0;
+                    $recurringValue = $post['recurring'] == 'on' ? 1 : 0;
                     $holidayObject->setRecurring($recurringValue);
 
-                    $holidayObject->setLength($post['selLength']);
+                    $holidayObject->setLength($post['length']);
                     $this->getHolidayService()->saveHoliday($holidayObject);
                     $this->redirect('leave/viewHolidayList');
                 }
             }
         }
     }
-    
+
     /**
      * Get form object 
      * @return
      */
     public function getForm() {
-        return new HolidayForm();
-    }    
+        if (!($this->form instanceof HolidayForm)) {
+            $this->form = new HolidayForm();
+        }
+        return $this->form;
+    }
 
 }
