@@ -82,6 +82,32 @@ if (isset($_GET['reqcode']) && 	($_GET['reqcode'] === "ESS") && (isset($_GET['id
 	trigger_error("Authorization Failed: You are not allowed to view this page", E_USER_ERROR);
 }
 
+/* Loading disabled modules: Begins */
+
+require_once ROOT_PATH . '/lib/common/ModuleManager.php';
+
+$disabledModules = array();
+
+if (isset($_SESSION['admin.disabledModules'])) {
+    
+    $disabledModules = $_SESSION['admin.disabledModules'];
+    
+} else {
+    
+    $moduleManager = new ModuleManager();    
+    $disabledModules = $moduleManager->getDisabledModuleList();
+    $_SESSION['admin.disabledModules'] = $disabledModules;    
+    
+}
+
+if (in_array('benefits', $disabledModules) && isset($_GET['benefitcode'])) {
+    header("HTTP/1.0 404 Not Found");
+    die;
+}
+
+
+/* Loading disabled modules: Ends */        
+
 include ROOT_PATH.'/lib/controllers/Benefits.inc.php';
 
 

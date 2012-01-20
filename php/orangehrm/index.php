@@ -94,6 +94,26 @@ if (isset($_GET['ACT']) && $_GET['ACT'] == 'logout') {
     exit();
 }
 
+/* Loading disabled modules: Begins */
+
+require_once ROOT_PATH . '/lib/common/ModuleManager.php';
+
+$disabledModules = array();
+
+if (isset($_SESSION['admin.disabledModules'])) {
+    
+    $disabledModules = $_SESSION['admin.disabledModules'];
+    
+} else {
+    
+    $moduleManager = new ModuleManager();    
+    $disabledModules = $moduleManager->getDisabledModuleList();
+    $_SESSION['admin.disabledModules'] = $disabledModules;    
+    
+}
+
+/* Loading disabled modules: Ends */
+
 define('Admin', 'MOD001');
 define('PIM', 'MOD002');
 define('MT', 'MOD003');
@@ -377,6 +397,7 @@ if ($_SESSION['isAdmin'] == 'Yes' || $arrAllRights[Admin]['view']) {
     $sub = new MenuItem("configuration", "Configuration", "#");
     $subsubs = array();
     $subsubs[] = new MenuItem("configuration", "Localization", "./symfony/web/index.php/admin/localization");
+    $subsubs[] = new MenuItem("configuration", "Modules", "./symfony/web/index.php/admin/viewModules");
     $sub->setSubMenuItems($subsubs);
     $subs[] = $sub;
 
@@ -765,6 +786,20 @@ $subs[] = new MenuItem("bug", "Bug Tracker", "http://sourceforge.net/tracker/?gr
 $menuItem->setSubMenuItems($subs);
 $menu[] = $menuItem;
 /* End of main menu definition */
+
+/* Checking for disabled modules: Begins */
+
+$count = count($menu);
+
+for ($i=0; $i<$count; $i++) {
+
+    if (in_array(strtolower($menu[$i]->getMenuText()), $disabledModules)) {
+        unset($menu[$i]);
+    }
+    
+}
+
+/* Checking for disabled modules: Ends */
 
 $welcomeMessage = preg_replace('/#username/', ((isset($_SESSION['fname'])) ? $_SESSION['fname'] : ''), $lang_index_WelcomeMes);
 

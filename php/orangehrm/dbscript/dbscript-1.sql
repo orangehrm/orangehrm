@@ -1180,6 +1180,13 @@ create table `ohrm_email_subscriber` (
   primary key  (`id`)
 ) engine=innodb default charset=utf8;
 
+create table `ohrm_module` (
+  `id` int not null auto_increment,
+  `name` varchar(120) default null,
+  `status` tinyint default 1,
+  primary key  (`id`)
+) engine=innodb default charset=utf8;
+
 alter table ohrm_email_subscriber
        add constraint foreign key (notification_id)
                              references ohrm_email_notification(id) on delete cascade;

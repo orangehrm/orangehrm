@@ -456,7 +456,7 @@ if($empNumber == $_SESSION['empID']) {
         </li>
 
         <!-- start of leave section -->
-        <?php if(isset ($_SESSION['leavePeriodDefined']) && $_SESSION['leavePeriodDefined'] == 1) { ?>
+        <?php if(isset ($_SESSION['leavePeriodDefined']) && $_SESSION['leavePeriodDefined'] == 1 && !in_array('leave', $_SESSION['admin.disabledModules'])) { ?>
         <li class="l1 parent">
             <a href="#" class="expanded" onclick="showHideSubMenu(this);"><span><?php echo __("Leave");?></span></a>
             <ul class="l2">

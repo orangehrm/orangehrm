@@ -458,3 +458,13 @@ Education:
       local: id
       foreign: educationId
       type: many      
+
+Module:
+  tableName: ohrm_module
+  columns:
+    id:
+      type: integer
+      primary: true
+      autoincrement: true
+    name: string(120)
+    status: integer

@@ -1031,7 +1031,47 @@
             <trans-unit id="256">
                 <source>Password Changed Successfully</source>
                 <target>FR_Password Changed Successfully</target>
-            </trans-unit>             
+            </trans-unit>
+            <trans-unit id="257">
+                <source>Module Configuration</source>
+                <target>FR_Module Configuration</target>
+            </trans-unit>
+            <trans-unit id="258">
+                <source>Enable Admin module</source>
+                <target>FR_Enable Admin module</target>
+            </trans-unit>
+            <trans-unit id="259">
+                <source>Enable PIM module</source>
+                <target>FR_Enable PIM module</target>
+            </trans-unit>
+            <trans-unit id="260">
+                <source>Enable Leave module</source>
+                <target>FR_Enable Leave module</target>
+            </trans-unit>
+            <trans-unit id="261">
+                <source>Enable Time module</source>
+                <target>FR_Enable Time module</target>
+            </trans-unit>            
+            <trans-unit id="262">
+                <source>Enable Recruitment module</source>
+                <target>FR_Enable Recruitment module</target>
+            </trans-unit>
+            <trans-unit id="263">
+                <source>Enable Performance module</source>
+                <target>FR_Enable Performance module</target>
+            </trans-unit>
+            <trans-unit id="264">
+                <source>Enable Benefits module</source>
+                <target>FR_Enable Benefits module</target>
+            </trans-unit>
+            <trans-unit id="265">
+                <source>Admin and PIM are compulsory modules</source>
+                <target>FR_Admin and PIM are compulsory modules</target>
+            </trans-unit>
+            <trans-unit id="266">
+                <source>Module Configuration Saved Successfully</source>
+                <target>FR_Module Configuration Saved Successfully</target>
+            </trans-unit>            
         </body>
     </file>
 </xliff>

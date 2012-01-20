@@ -46,6 +46,7 @@ class orangehrmAdminPluginAllTests {
         $suite->addTestFile(dirname(__FILE__) . '/model/dao/JobCategoryDaoTest.php');
         $suite->addTestFile(dirname(__FILE__) . '/model/dao/EmailNotificationDaoTest.php');
         $suite->addTestFile(dirname(__FILE__) . '/model/dao/WorkShiftDaoTest.php');
+        $suite->addTestFile(dirname(__FILE__) . '/model/dao/ModuleDaoTest.php');
 
         /* Service Test Cases */
         $suite->addTestFile(dirname(__FILE__) . '/model/service/LocalizationServiceTest.php');
