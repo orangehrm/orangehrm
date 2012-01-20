@@ -148,21 +148,14 @@ class viewLeaveSummaryAction extends sfAction implements ohrmExportableAction {
 
     /**
      * Returns Logged in user details
+     * @return array
      */
     protected function getLoggedInUserDetails() {
         $userDetails['userType'] = 'ESS';
 
-        if (!empty($_SESSION['empNumber'])) {
-            $userDetails['loggedUserId'] = $_SESSION['empNumber'];
-        } else {
-            $userDetails['loggedUserId'] = 0; // Means default admin
-        }
-
-        if (!empty($_SESSION['empID'])) {
-            $userDetails['empId'] = $_SESSION['empID'];
-        } else {
-            $userDetails['empId'] = 0; // Means default admin
-        }
+        /* Value 0 is assigned for default admin */
+        $userDetails['loggedUserId'] = (empty($_SESSION['empNumber'])) ? 0 : $_SESSION['empNumber'];
+        $userDetails['empId'] = (empty($_SESSION['empID'])) ? 0 : $_SESSION['empID'];
 
         if ($_SESSION['isSupervisor']) {
             $userDetails['userType'] = 'Supervisor';
@@ -171,6 +164,7 @@ class viewLeaveSummaryAction extends sfAction implements ohrmExportableAction {
         if (isset($_SESSION['isAdmin']) && $_SESSION['isAdmin'] == 'Yes') {
             $userDetails['userType'] = 'Admin';
         }
+        
         return $userDetails;
     }
 
