@@ -1,7 +1,7 @@
 Country:
   0: {cou_code: 'LK', name: 'SRI LANKA', cou_name: 'Sri Lanka', iso3: 'LKA', numcode: 144 }
   1: {cou_code: 'US', name: 'UNITED STATES', cou_name: 'United States', iso3: 'USA', numcode: 840 }
-  2: {cou_code: 'SG', name: 'SINGA2PORE', cou_name: 'Singapore', iso3: 'SGP', numcode: 702 }
+  2: {cou_code: 'SG', name: 'SINGAPORE', cou_name: 'Singapore', iso3: 'SGP', numcode: 702 }
   3: {cou_code: 'BR', name: 'BRAZIL', cou_name: 'Brazil', iso3: 'BRA', numcode: 076 }
   4: {cou_code: 'JP', name: 'JAPAN', cou_name: 'Japan', iso3: 'JPN', numcode: 392 }
 
