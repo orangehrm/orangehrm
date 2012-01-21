@@ -20,11 +20,6 @@
  * 
  */
 
-/**
- * Description of Country Dao
- *
- * @author Samantha Jayasinghe
- */
 class CountryDao extends BaseDao {
 
     /**
@@ -65,6 +60,21 @@ class CountryDao extends BaseDao {
             $provinceList = $q->execute();
 
             return $provinceList;
+        } catch (Exception $e) {
+            throw new DaoException($e->getMessage());
+        }
+    }
+
+    public function searchCountries(array $searchParams) {
+        try {
+            $query = Doctrine_Query::create()
+                    ->from('Country c');
+            
+            foreach ($searchParams as $field => $filterValue) {
+                $query->addWhere($field . ' = ?', $filterValue);
+            }
+            
+            return $query->execute();
         } catch (Exception $e) {
             throw new DaoException($e->getMessage());
         }

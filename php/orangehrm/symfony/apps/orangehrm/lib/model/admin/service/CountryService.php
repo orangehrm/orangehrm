@@ -21,7 +21,27 @@
  */
 
 class CountryService extends BaseService {
-    //put your code here
+
+    protected $countryDao;
+
+    /**
+     * 
+     * @return CountryDao
+     */
+    public function getCountryDao() {
+        if (!($this->countryDao instanceof CountryDao)) {
+            $this->countryDao = new CountryDao();
+        }
+        return $this->countryDao;
+    }
+
+    /**
+     *
+     * @param CountryDao $dao 
+     */
+    public function setCountryDao(CountryDao $dao) {
+        $this->countryDao = $dao;
+    }
 
     /**
      * Get Country list
@@ -56,6 +76,18 @@ class CountryService extends BaseService {
             return $provinceList;
         } catch (Exception $e) {
             throw new AdminServiceException($e->getMessage());
+        }
+    }
+
+    /**
+     *
+     * @param array $searchParams 
+     */
+    public function searchCountries(array $searchParams) {
+        try {
+            return $this->getCountryDao()->searchCountries($searchParams);
+        } catch (Exception $e) {
+            throw new ServiceException($e->getMessage());
         }
     }
 
