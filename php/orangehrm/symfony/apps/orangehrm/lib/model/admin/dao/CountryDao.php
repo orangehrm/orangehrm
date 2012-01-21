@@ -1,5 +1,6 @@
 <?php
-/* 
+
+/*
  * 
  * OrangeHRM is a comprehensive Human Resource Management (HRM) System that captures
  * all the essential functionalities required for any enterprise.
@@ -25,49 +26,48 @@
  * @author Samantha Jayasinghe
  */
 class CountryDao extends BaseDao {
-	
-	/**
-	 * Get Country list
-	 * @return Country
-	 */
-	public function getCountryList( ) {
-		try{
-			$q = Doctrine_Query::create()
-			    ->from('Country c')
-			    ->orderBy('c.name');
-			    
-			$countryList	=	$q->execute();
-			
-			return $countryList ;
-		}catch( Exception $e){
-			throw new DaoException( $e->getMessage());	
-		}
-	}
-	
-	/**
-	 * Fetch list of provinces
+
+    /**
+     * Get Country list
+     * @return Country
+     */
+    public function getCountryList() {
+        try {
+            $q = Doctrine_Query::create()
+                    ->from('Country c')
+                    ->orderBy('c.name');
+
+            $countryList = $q->execute();
+
+            return $countryList;
+        } catch (Exception $e) {
+            throw new DaoException($e->getMessage());
+        }
+    }
+
+    /**
+     * Fetch list of provinces
      *
      * @param String $countryCode Country code - defaults to null
-	 * @return Province
-	 */
-	public function getProvinceList($countryCode = NULL) {
-		try{
-			$q = Doctrine_Query::create()
-			    ->from('Province p');
+     * @return Province
+     */
+    public function getProvinceList($countryCode = NULL) {
+        try {
+            $q = Doctrine_Query::create()
+                    ->from('Province p');
 
             if (!empty($countryCode)) {
                 $q->where('cou_code = ?', $countryCode);
             }
-            
-			$q->orderBy('p.province_name');
-			    
-			$provinceList	=	$q->execute();
-			
-			return $provinceList ;
-		}catch( Exception $e){
-			throw new DaoException( $e->getMessage());	
-		}
-	}
 
-    
+            $q->orderBy('p.province_name');
+
+            $provinceList = $q->execute();
+
+            return $provinceList;
+        } catch (Exception $e) {
+            throw new DaoException($e->getMessage());
+        }
+    }
+
 }

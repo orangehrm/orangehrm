@@ -1,5 +1,6 @@
 <?php
-/* 
+
+/*
  * 
  * OrangeHRM is a comprehensive Human Resource Management (HRM) System that captures
  * all the essential functionalities required for any enterprise.
@@ -19,53 +20,43 @@
  * 
  */
 
-/**
- * Description of CountryService
- *
- * @author orange
- */
 class CountryService extends BaseService {
     //put your code here
 
-	/**
-	 * Get Country list
-	 * @return Country
-	 */
-	public function getCountryList( )
-	{
-		try
-		{
-			$q = Doctrine_Query::create()
-			    ->from('Country c')
-			    ->orderBy('c.name');
-			    
-			$countryList	=	$q->execute();
-			
-			return $countryList ;
-		}catch( Exception $e)
-		{
-			throw new AdminServiceException( $e->getMessage());	
-		}
-	}
+    /**
+     * Get Country list
+     * @return Country
+     */
+    public function getCountryList() {
+        try {
+            $q = Doctrine_Query::create()
+                    ->from('Country c')
+                    ->orderBy('c.name');
 
-	/**
-	 * 
-	 * @return Province
-	 */
-	public function getProvinceList()
-	{
-		try
-		{
-			$q = Doctrine_Query::create()
-			    ->from('Province p')
-			    ->orderBy('p.province_name');
-			    
-			$provinceList	=	$q->execute();
-			
-			return $provinceList ;
-		}catch( Exception $e)
-		{
-			throw new AdminServiceException( $e->getMessage());	
-		}
-	}
+            $countryList = $q->execute();
+
+            return $countryList;
+        } catch (Exception $e) {
+            throw new AdminServiceException($e->getMessage());
+        }
+    }
+
+    /**
+     * 
+     * @return Province
+     */
+    public function getProvinceList() {
+        try {
+            $q = Doctrine_Query::create()
+                    ->from('Province p')
+                    ->orderBy('p.province_name');
+
+            $provinceList = $q->execute();
+
+            return $provinceList;
+        } catch (Exception $e) {
+            throw new AdminServiceException($e->getMessage());
+        }
+    }
+
 }
