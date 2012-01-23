@@ -134,7 +134,7 @@ class WorkWeekDao extends BaseDao {
                 if ($field == 'operational_country_id') {
                     $query = $this->addOperationalCountryFilter($query, $value);
                 } else {
-                    $query->addWhere($field, $value);
+                    $query->addWhere("{$field} = ?", $value);
                 }
             }
 
