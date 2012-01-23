@@ -28,7 +28,6 @@ class undeleteLeaveTypeAction extends orangehrmAction {
     }
     
     public function execute($request) {
-        
         $this->form = $this->getForm();
 
         if ($request->isMethod('post')) {
@@ -37,7 +36,12 @@ class undeleteLeaveTypeAction extends orangehrmAction {
 
             if ($this->form->isValid()) {
                 $undeleteId = $this->form->getValue('undeleteId');
+                
                 $this->undeleteLeaveType($undeleteId);
+            } else {
+                // Since this form does not have any user data entry fields,
+                // this is a error.
+                $this->getLoggerInstance()->error($this->form);
             }
         }
         $this->redirect("leave/leaveTypeList");        
@@ -58,7 +62,7 @@ class undeleteLeaveTypeAction extends orangehrmAction {
 
 
     protected function getForm() {
-        $form = new UndeleteLeaveTypeForm();
+        $form = new UndeleteLeaveTypeForm(array(), array(), true);
         return $form;
     }
 
@@ -70,5 +74,18 @@ class undeleteLeaveTypeAction extends orangehrmAction {
 
         return $this->leaveTypeService;
     }
+    
+    /**
+     * Get Logger instance. Creates if not already created.
+     *
+     * @return Logger
+     */
+    protected function getLoggerInstance() {
+        if (is_null($this->logger)) {
+            $this->logger = Logger::getLogger('leave.undeleteLeaveTypeAction');
+        }
+
+        return($this->logger);
+    }    
 
 }
