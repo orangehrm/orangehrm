@@ -152,6 +152,36 @@ class WorkWeekServiceTest extends PHPUnit_Framework_TestCase
       $this->assertTrue($this->workWeekService->deleteWorkWeek(array(1, 2)));
 
     }
+    
+    public function testGetWorkWeekOfOperationalCountry() {
+        
+        $defaultWorkWeek = new WorkWeek();
+        $defaultWorkWeek->setId(1);
+        
+        $workWeek = new WorkWeek();
+        $workWeek->setId(2);
+        
+        $recordsMock = $this->getMock('Doctrine_Collection', array('getFirst'), array('WorkWeek'));
+        $recordsMock->expects($this->exactly(3))
+                ->method('getFirst')
+                ->will($this->onConsecutiveCalls($defaultWorkWeek, $defaultWorkWeek, $workWeek));
+        
+        $workWeekDaoMock = $this->getMock('WorkWeekDao', array('searchWorkWeek'));
+        $workWeekDaoMock->expects($this->any())
+                ->method('searchWorkWeek')
+                ->will($this->returnValue($recordsMock));
+        
+        $this->workWeekService->setWorkWeekDao($workWeekDaoMock);
+        
+        $result = $this->workWeekService->getWorkWeekOfOperationalCountry(null);
+        $this->assertEquals($defaultWorkWeek, $result);
+        
+        $result = $this->workWeekService->getWorkWeekOfOperationalCountry(1);
+        $this->assertEquals($defaultWorkWeek, $result);
+        
+        $result = $this->workWeekService->getWorkWeekOfOperationalCountry(2);
+        $this->assertEquals($workWeek, $result);
+    }
 
 }
 
