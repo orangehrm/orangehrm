@@ -140,5 +140,94 @@ class WorkWeekDaoTest extends PHPUnit_Framework_TestCase {
         $this->assertTrue($this->workWeekDao->deleteWorkWeek(2));
         $this->assertFalse(TestDataService::fetchObject('WorkWeek', 2) instanceof WorkWeek);
     }
+    
+    public function testSearchWorkWeek_AllResults() {
+        $result = $this->workWeekDao->searchWorkWeek();
+        
+        $this->assertTrue($result instanceof Doctrine_Collection);
+        $this->assertEquals(2, $result->count());
+        
+        foreach ($result as $index => $workWeek) {
+            $this->assertTrue($workWeek instanceof WorkWeek);
+            $this->assertEquals($this->testCases['WorkWeek'][$index]['id'], $workWeek->getId());
+            $this->assertEquals($this->testCases['WorkWeek'][$index]['operational_country_id'], $workWeek->getOperationalCountryId());
+            $this->assertEquals($this->testCases['WorkWeek'][$index]['mon'], $workWeek->getMon());
+            $this->assertEquals($this->testCases['WorkWeek'][$index]['tue'], $workWeek->getTue());
+            $this->assertEquals($this->testCases['WorkWeek'][$index]['wed'], $workWeek->getWed());
+            $this->assertEquals($this->testCases['WorkWeek'][$index]['thu'], $workWeek->getThu());
+            $this->assertEquals($this->testCases['WorkWeek'][$index]['fri'], $workWeek->getFri());
+            $this->assertEquals($this->testCases['WorkWeek'][$index]['sat'], $workWeek->getSat());
+            $this->assertEquals($this->testCases['WorkWeek'][$index]['sun'], $workWeek->getSun());
+        }
+    }
+    
+    public function testSearchWorkWeek_SearchByWorkWeekId() {
+        $result = $this->workWeekDao->searchWorkWeek(array('id' => 2));
+        
+        $this->assertTrue($result instanceof Doctrine_Collection);
+        $this->assertEquals(1, $result->count());
+        
+        $workWeek = $result->getFirst();
+        $this->assertTrue($workWeek instanceof WorkWeek);
+        $this->assertEquals($this->testCases['WorkWeek'][1]['id'], $workWeek->getId());
+        $this->assertEquals($this->testCases['WorkWeek'][1]['operational_country_id'], $workWeek->getOperationalCountryId());
+        $this->assertEquals($this->testCases['WorkWeek'][1]['mon'], $workWeek->getMon());
+        $this->assertEquals($this->testCases['WorkWeek'][1]['tue'], $workWeek->getTue());
+        $this->assertEquals($this->testCases['WorkWeek'][1]['wed'], $workWeek->getWed());
+        $this->assertEquals($this->testCases['WorkWeek'][1]['thu'], $workWeek->getThu());
+        $this->assertEquals($this->testCases['WorkWeek'][1]['fri'], $workWeek->getFri());
+        $this->assertEquals($this->testCases['WorkWeek'][1]['sat'], $workWeek->getSat());
+        $this->assertEquals($this->testCases['WorkWeek'][1]['sun'], $workWeek->getSun());
+        
+        $result = $this->workWeekDao->searchWorkWeek(array('id' => -1));
+        
+        $this->assertTrue($result instanceof Doctrine_Collection);
+        $this->assertEquals(0, $result->count());
+    }
+    
+    public function testSearchWorkWeek_SearchByOperationalCountry_DefaultResultset() {
+        $result = $this->workWeekDao->searchWorkWeek(array('operational_country_id' => null));
+        
+        $this->assertTrue($result instanceof Doctrine_Collection);
+        $this->assertEquals(1, $result->count());
+        
+        $workWeek = $result->getFirst();
+        $this->assertTrue($workWeek instanceof WorkWeek);
+        $this->assertEquals($this->testCases['WorkWeek'][0]['id'], $workWeek->getId());
+        $this->assertEquals($this->testCases['WorkWeek'][0]['operational_country_id'], $workWeek->getOperationalCountryId());
+        $this->assertEquals($this->testCases['WorkWeek'][0]['mon'], $workWeek->getMon());
+        $this->assertEquals($this->testCases['WorkWeek'][0]['tue'], $workWeek->getTue());
+        $this->assertEquals($this->testCases['WorkWeek'][0]['wed'], $workWeek->getWed());
+        $this->assertEquals($this->testCases['WorkWeek'][0]['thu'], $workWeek->getThu());
+        $this->assertEquals($this->testCases['WorkWeek'][0]['fri'], $workWeek->getFri());
+        $this->assertEquals($this->testCases['WorkWeek'][0]['sat'], $workWeek->getSat());
+        $this->assertEquals($this->testCases['WorkWeek'][0]['sun'], $workWeek->getSun());
+    }
+    
+    public function testSearchWorkWeek_SearchByOperationalCountry_ExactMatch() {
+        $result = $this->workWeekDao->searchWorkWeek(array('operational_country_id' => 2));
+        
+        $this->assertTrue($result instanceof Doctrine_Collection);
+        $this->assertEquals(1, $result->count());
+        
+        $workWeek = $result->getFirst();
+        $this->assertTrue($workWeek instanceof WorkWeek);
+        $this->assertEquals($this->testCases['WorkWeek'][1]['id'], $workWeek->getId());
+        $this->assertEquals($this->testCases['WorkWeek'][1]['operational_country_id'], $workWeek->getOperationalCountryId());
+        $this->assertEquals($this->testCases['WorkWeek'][1]['mon'], $workWeek->getMon());
+        $this->assertEquals($this->testCases['WorkWeek'][1]['tue'], $workWeek->getTue());
+        $this->assertEquals($this->testCases['WorkWeek'][1]['wed'], $workWeek->getWed());
+        $this->assertEquals($this->testCases['WorkWeek'][1]['thu'], $workWeek->getThu());
+        $this->assertEquals($this->testCases['WorkWeek'][1]['fri'], $workWeek->getFri());
+        $this->assertEquals($this->testCases['WorkWeek'][1]['sat'], $workWeek->getSat());
+        $this->assertEquals($this->testCases['WorkWeek'][1]['sun'], $workWeek->getSun());
+    }
+    
+    public function testSearchWorkWeek_SearchByOperationalCountry_NoMatch() {
+        $result = $this->workWeekDao->searchWorkWeek(array('operational_country_id' => 3));
+        
+        $this->assertTrue($result instanceof Doctrine_Collection);
+        $this->assertEquals(0, $result->count());
+    }
 
 }
