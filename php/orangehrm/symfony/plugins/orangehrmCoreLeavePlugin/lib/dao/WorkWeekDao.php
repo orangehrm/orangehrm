@@ -151,9 +151,9 @@ class WorkWeekDao extends BaseDao {
      */
     protected function addOperationalCountryFilter(Doctrine_Query $query, $operationalCountryId) {
         if (is_null($operationalCountryId)) {
-            $query->addWhere('id', WorkWeek::DEFAULT_WORK_WEEK_ID);
+            $query->addWhere('id = ?', WorkWeek::DEFAULT_WORK_WEEK_ID);
         } else {
-            $query->where('operational_country_id', $operationalCountryId);
+            $query->where('operational_country_id = ?', $operationalCountryId);
         }
         
         return $query;
