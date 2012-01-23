@@ -29,7 +29,7 @@ $(document).ready(function(){
         $("#frmLeaveType").validate({
         rules: {
             'leaveType[txtLeaveTypeName]': {required: true, 
-                                            maxlength: 30,
+                                            maxlength: 50,
                                             uniqueLeaveType: true}
         },
         messages: {

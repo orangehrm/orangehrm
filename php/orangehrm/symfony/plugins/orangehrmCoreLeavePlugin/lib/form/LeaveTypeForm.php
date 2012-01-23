@@ -36,11 +36,11 @@ class LeaveTypeForm extends orangehrmForm {
             'txtLeaveTypeName' => 
                 new sfValidatorString(array(
                         'required' => true,
-                        'max_length' => 30
+                        'max_length' => 50
                     ),
                     array(
                         'required' => __('Leave type name is required'),
-                        'max_length' => __('Leave type name should be less than 30 characters')
+                        'max_length' => __('Leave type name should be 50 characters or less in length')
                     )),
             'hdnOriginalLeaveTypeName' => new sfValidatorString(array('required' => false)),
             'hdnLeaveTypeId' => new sfValidatorString(array('required' => false))          

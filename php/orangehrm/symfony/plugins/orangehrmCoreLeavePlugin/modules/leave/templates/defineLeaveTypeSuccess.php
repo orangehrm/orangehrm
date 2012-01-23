@@ -91,7 +91,7 @@ use_stylesheets_for_form($form);
     
     var lang_LeaveTypeNameRequired = '<?php echo __('Please provide a leave type name'); ?>';
     var lang_LeaveTypeExists = '<?php echo __('This leave type exists'); ?>';
-    var lang_LeaveTypeNameTooLong = '<?php echo __("Leave type name should be less than 30 characters"); ?>'; 
+    var lang_LeaveTypeNameTooLong = '<?php echo __("Leave type name should be 50 characters or less in length"); ?>'; 
     
     var backButtonUrl = '<?php echo url_for('leave/leaveTypeList'); ?>';
 
