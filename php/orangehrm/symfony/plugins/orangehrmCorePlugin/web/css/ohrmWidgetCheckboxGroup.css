@@ -1,0 +1,14 @@
+div.checkbox_group label {
+    display: inline;
+    float: none;
+    margin: 4px 6px 4px 0;
+    padding-left: 0;
+}
+
+div.checkbox_group input {
+    margin: 0 30px 0 0;
+    vertical-align: middle;
+}
+
+
+
