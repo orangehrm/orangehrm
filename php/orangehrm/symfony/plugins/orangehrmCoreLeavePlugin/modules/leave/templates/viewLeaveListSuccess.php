@@ -4,6 +4,10 @@ $statusFilters = $form->getStatusFilters();
 $messageType = empty($messageType) ? '' : "messageBalloon_{$messageType}";
 $leaveData = $form->getList();
 $searchActionButtons = $form->getSearchActionButtons();
+
+use_javascripts_for_form($form);
+use_stylesheets_for_form($form);
+
 ?>
 
 <?php $isDefaultPageView = !empty($isDefaultPage) ? $isDefaultPage : 0; ?>
@@ -40,11 +44,15 @@ $searchActionButtons = $form->getSearchActionButtons();
 <?php echo $form['calToDate']->render(); ?>
             <br class="clear" />
 
-            <label class="mainLabel"><?php echo __("Show Leave with Status"); ?></label>
+            <!-- <label class="mainLabel"><?php //echo __("Show Leave with Status"); ?></label> -->
             <?php foreach ($statusFilters as $filter) {
  ?>
-            <?php echo $filter->render($filter->getName()) ?>
+            <?php //echo $filter->render($filter->getName()) ?>
             <?php } ?>
+            <?php 
+            echo $form['chkSearchFilter']->renderLabel();
+            echo $form['chkSearchFilter']->render();
+            ?>
 <?php if (isset($form['txtEmployee'])) {
 ?>
                 <br class="clear" />
@@ -213,7 +221,7 @@ $searchActionButtons = $form->getSearchActionButtons();
                 var lang_typeHint = "<?php echo __("Type for hints"); ?>" + "...";
                 var isInitialPage = "<?php echo $isDefaultPageView; ?>";
 
-                var isMyLeaveListDefaultView = <?php echo $isMyLeaveListDefaultView ? 'true' : 'false'; ?>;
+                var isMyLeaveListDefaultView = <?php echo isset($isMyLeaveListDefaultView) && $isMyLeaveListDefaultView ? 'true' : 'false'; ?>;
 
                 if(isInitialPage == 1){
                     $('#chkSearchFilter_1').attr('checked', 'checked');

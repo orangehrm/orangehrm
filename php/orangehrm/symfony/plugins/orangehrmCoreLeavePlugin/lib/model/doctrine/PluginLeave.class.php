@@ -12,7 +12,7 @@ abstract class PluginLeave extends BaseLeave {
     const LEAVE_STATUS_LEAVE_WEEKEND = 4;
     const LEAVE_STATUS_LEAVE_HOLIDAY = 5;
 
-    private $leaveStatusText = array(
+    private static $leaveStatusText = array(
         self::LEAVE_STATUS_LEAVE_REJECTED => 'Rejected',
         self::LEAVE_STATUS_LEAVE_CANCELLED => 'Canceled',
         self::LEAVE_STATUS_LEAVE_PENDING_APPROVAL => 'Pending Approval',
@@ -25,16 +25,16 @@ abstract class PluginLeave extends BaseLeave {
     );
 
     public function getTextLeaveStatus() {
-        if (array_key_exists($this->getLeaveStatus(), $this->leaveStatusText)) {
-            $status = $this->getLeaveStatus();
-            return $this->leaveStatusText[$status];
+        $status = $this->getLeaveStatus();
+        if (array_key_exists($status, self::$leaveStatusText)) {            
+            return self::$leaveStatusText[$status];
         }
 
         return '';
     }
 
-    public function getStatusTextList() {
-        return $this->leaveStatusText;
+    public static function getStatusTextList() {
+        return self::$leaveStatusText;
     }
 
     public function canApprove() {

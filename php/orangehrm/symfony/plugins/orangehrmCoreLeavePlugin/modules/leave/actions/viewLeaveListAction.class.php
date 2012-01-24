@@ -42,6 +42,29 @@ class viewLeaveListAction extends sfAction implements ohrmExportableAction {
         $this->employeeService = $service;
     }
     
+    /**
+     *
+     * @return LeaveRequestService
+     */
+    public function getLeaveRequestService() {
+        if (is_null($this->leaveRequestService)) {
+            $leaveRequestService = new LeaveRequestService();
+            $leaveRequestService->setLeaveRequestDao(new LeaveRequestDao());
+            $this->leaveRequestService = $leaveRequestService;
+        }
+
+        return $this->leaveRequestService;
+    }
+
+    /**
+     *
+     * @param LeaveRequestService $leaveRequestService
+     * @return void
+     */
+    public function setLeaveRequestService(LeaveRequestService $leaveRequestService) {
+        $this->leaveRequestService = $leaveRequestService;
+    }
+    
     public function execute($request) {
 
         sfContext::getInstance()->getConfiguration()->loadHelpers('Url');
@@ -297,29 +320,6 @@ class viewLeaveListAction extends sfAction implements ohrmExportableAction {
             $this->userType = 'Admin';
         }
 
-    }
-
-    /**
-     *
-     * @return LeaveRequestService
-     */
-    public function getLeaveRequestService() {
-        if (is_null($this->leaveRequestService)) {
-            $leaveRequestService = new LeaveRequestService();
-            $leaveRequestService->setLeaveRequestDao(new LeaveRequestDao());
-            $this->leaveRequestService = $leaveRequestService;
-        }
-
-        return $this->leaveRequestService;
-    }
-
-    /**
-     *
-     * @param LeaveRequestService $leaveRequestService
-     * @return void
-     */
-    public function setLeaveRequestService(LeaveRequestService $leaveRequestService) {
-        $this->leaveRequestService = $leaveRequestService;
     }
 
     private function getEmployeeListAsJson() {
