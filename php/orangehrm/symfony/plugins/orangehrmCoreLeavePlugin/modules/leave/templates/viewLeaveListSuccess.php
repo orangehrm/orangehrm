@@ -43,16 +43,17 @@ use_stylesheets_for_form($form);
             <label class="mainLabel"><?php echo __("To"); ?></label>
 <?php echo $form['calToDate']->render(); ?>
             <br class="clear" />
-
-            <!-- <label class="mainLabel"><?php //echo __("Show Leave with Status"); ?></label> -->
-            <?php foreach ($statusFilters as $filter) {
- ?>
-            <?php //echo $filter->render($filter->getName()) ?>
-            <?php } ?>
-            <?php 
+<?php if (isset($form['chkSearchFilter'])) {
             echo $form['chkSearchFilter']->renderLabel();
             echo $form['chkSearchFilter']->render();
-            ?>
+      } else { ?>
+            <label class="mainLabel"><?php echo __("Show Leave with Status"); ?></label>
+            <?php foreach ($statusFilters as $filter) {
+ ?>
+            <?php echo $filter->render($filter->getName()) ?>
+            <?php } ?>
+<?php  }   ?>
+            
 <?php if (isset($form['txtEmployee'])) {
 ?>
                 <br class="clear" />
