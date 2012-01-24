@@ -17,6 +17,8 @@
  * Boston, MA  02110-1301, USA
  */
 ?>
+<?php use_javascripts_for_form($form); ?>
+
 <link href="<?php echo public_path('../../themes/orange/css/ui-lightness/jquery-ui-1.7.2.custom.css') ?>" rel="stylesheet" type="text/css"/>
 
 <script type="text/javascript" src="<?php echo public_path('../../scripts/jquery/ui/ui.core.js') ?>"></script>
