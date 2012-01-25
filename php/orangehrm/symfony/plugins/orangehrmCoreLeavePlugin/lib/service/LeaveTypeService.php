@@ -25,11 +25,9 @@ class LeaveTypeService extends BaseService {
     private $leaveTypeDao;
 
     public function getLeaveTypeDao() {
-
-        if (is_null($this->leaveTypeDao)) {
+        if (!($this->leaveTypeDao instanceof LeaveTypeDao)) {
             $this->leaveTypeDao = new LeaveTypeDao();
         }
-
         return $this->leaveTypeDao;
     }
 
