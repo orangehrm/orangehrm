@@ -33,6 +33,9 @@ class LocationService extends BaseService {
 	 * @return <type>
 	 */
 	public function getLocationDao() {
+            if (!($this->locationDao instanceof LocationDao)) {
+                $this->locationDao = new LocationDao();
+            }
 		return $this->locationDao;
 	}
 
