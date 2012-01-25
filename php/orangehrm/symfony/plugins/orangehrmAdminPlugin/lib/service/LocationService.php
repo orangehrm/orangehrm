@@ -19,84 +19,84 @@
  */
 class LocationService extends BaseService {
 
-	private $locationDao;
+    private $locationDao;
 
-	/**
-	 * Construct
-	 */
-	public function __construct() {
-		$this->locationDao = new LocationDao();
-	}
+    /**
+     * Construct
+     */
+    public function __construct() {
+        $this->locationDao = new LocationDao();
+    }
 
-	/**
-	 *
-	 * @return <type>
-	 */
-	public function getLocationDao() {
-            if (!($this->locationDao instanceof LocationDao)) {
-                $this->locationDao = new LocationDao();
-            }
-		return $this->locationDao;
-	}
+    /**
+     *
+     * @return <type>
+     */
+    public function getLocationDao() {
+        if (!($this->locationDao instanceof LocationDao)) {
+            $this->locationDao = new LocationDao();
+        }
+        return $this->locationDao;
+    }
 
-	/**
-	 *
-	 * @param LocationDao $locationDao 
-	 */
-	public function setLocationDao(LocationDao $locationDao) {
-		$this->locationDao = $locationDao;
-	}
+    /**
+     *
+     * @param LocationDao $locationDao 
+     */
+    public function setLocationDao(LocationDao $locationDao) {
+        $this->locationDao = $locationDao;
+    }
 
-	/**
-	 * Get Location by id
-	 * 
-	 * @param type $locationId
-	 * @return type 
-	 */
-	public function getLocationById($locationId) {
-		return $this->locationDao->getLocationById($locationId);
-	}
+    /**
+     * Get Location by id
+     * 
+     * @param type $locationId
+     * @return type 
+     */
+    public function getLocationById($locationId) {
+        return $this->locationDao->getLocationById($locationId);
+    }
 
-	/**
-	 * 
-	 * Search location by project name, city and country.
-	 * 
-	 * @param type $srchClues
-	 * @return type 
-	 */
-	public function searchLocations($srchClues) {
-		return $this->locationDao->searchLocations($srchClues);
-	}
+    /**
+     * 
+     * Search location by project name, city and country.
+     * 
+     * @param type $srchClues
+     * @return type 
+     */
+    public function searchLocations($srchClues) {
+        return $this->locationDao->searchLocations($srchClues);
+    }
 
-	/**
-	 *
-	 * Get location count of the search results.
-	 *
-	 * @param type $srchClues
-	 * @return type 
-	 */
-	public function getSearchLocationListCount($srchClues) {
-		return $this->locationDao->getSearchLocationListCount($srchClues);
-	}
-	
-	/**
-	 * Get total number of employees in a location.
-	 * 
-	 * @param type $locationId
-	 * @return type 
-	 */
-	public function getNumberOfEmplyeesForLocation($locationId) {
-		return $this->locationDao->getNumberOfEmplyeesForLocation($locationId);
-	}
-	
-	/**
-	 * Get all locations
-	 * 
-	 * @return type 
-	 */
-	public function getLocationList() {
-		return $this->locationDao->getLocationList();
-	}
+    /**
+     *
+     * Get location count of the search results.
+     *
+     * @param type $srchClues
+     * @return type 
+     */
+    public function getSearchLocationListCount($srchClues) {
+        return $this->locationDao->getSearchLocationListCount($srchClues);
+    }
+
+    /**
+     * Get total number of employees in a location.
+     * 
+     * @param type $locationId
+     * @return type 
+     */
+    public function getNumberOfEmplyeesForLocation($locationId) {
+        return $this->locationDao->getNumberOfEmplyeesForLocation($locationId);
+    }
+
+    /**
+     * Get all locations
+     * 
+     * @return type 
+     */
+    public function getLocationList() {
+        return $this->locationDao->getLocationList();
+    }
 
 }
 
