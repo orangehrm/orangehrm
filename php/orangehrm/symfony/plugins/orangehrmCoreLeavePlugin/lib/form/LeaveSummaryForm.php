@@ -122,7 +122,11 @@ class LeaveSummaryForm extends sfForm {
 
         $this->setWidgets($this->formWidgets);
         $this->setValidators($this->formValidators);
-        $this->widgetSchema->setNameFormat('leaveSummary[%s]');
+        
+        $this->getWidgetSchema()->setNameFormat('leaveSummary[%s]');
+        $this->getWidgetSchema()->setLabels($this->getFormLabels());
+
+        $this->getWidgetSchema()->setFormFormatterName('BreakTags');
     }
 
     public function setEmployeeService(EmployeeService $employeeService) {
@@ -201,12 +205,12 @@ class LeaveSummaryForm extends sfForm {
     }
 
     public function getLocationService() {
-		if (is_null($this->locationService)) {
-			$this->locationService = new LocationService();
-			$this->locationService->setLocationDao(new LocationDao());
-		}
-		return $this->locationService;
-	}
+        if (is_null($this->locationService)) {
+            $this->locationService = new LocationService();
+            $this->locationService->setLocationDao(new LocationDao());
+        }
+        return $this->locationService;
+    }
 
     public function setCompanyService(CompanyService $companyService) {
         $this->companyService = $companyService;
@@ -248,7 +252,7 @@ class LeaveSummaryForm extends sfForm {
 
         foreach ($tree as $node) {
             if ($node->getId() != 1) {
-                $subUnitList[$node->getId()] = str_repeat('&nbsp;&nbsp;', $node['level'] -1) . $node['name'];
+                $subUnitList[$node->getId()] = str_repeat('&nbsp;&nbsp;', $node['level'] - 1) . $node['name'];
             }
         }
         $this->formWidgets['cmbSubDivision'] = new sfWidgetFormChoice(array('choices' => $subUnitList));
@@ -384,9 +388,7 @@ class LeaveSummaryForm extends sfForm {
 
             $leavePeriodId = empty($hdnLeavePeriodId[$i]) ? $leaveSummaryData['hdnSubjectedLeavePeriod'] : $hdnLeavePeriodId[$i];
 
-            $leaveEntitlementService->saveEmployeeLeaveEntitlement($hdnEmpId[$i],
-                    $hdnLeaveTypeId[$i], $leavePeriodId, $txtLeaveEntitled[$i],
-                    true);
+            $leaveEntitlementService->saveEmployeeLeaveEntitlement($hdnEmpId[$i], $hdnLeaveTypeId[$i], $leavePeriodId, $txtLeaveEntitled[$i], true);
         }
 
         $this->saveSuccess = true;
@@ -498,6 +500,22 @@ class LeaveSummaryForm extends sfForm {
      */
     public function setLeavePeriodService(LeavePeriodService $leavePeriodService) {
         $this->leavePeriodService = $leavePeriodService;
+    }
+    
+    
+    protected function getFormLabels() {
+        $labels = array(
+            'cmbLeavePeriod' => __('Leave Period'),
+            'cmbLeaveType' => __('Leave Type'),
+            'cmbRecordsCount' => __('Records Per Page'),
+            'cmbLocation' => __('Location'),
+            'cmbJobTitle' => __('Job Title'),
+            'cmbSubDivision' => __('Sub Unit'),
+            'cmbWithTerminated' => __('Include Past Employees'),
+            'txtEmpName' => __('Employee'),
+        );
+        
+        return $labels;
     }
 
 }
