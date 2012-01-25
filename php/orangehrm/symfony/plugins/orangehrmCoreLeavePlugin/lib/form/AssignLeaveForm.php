@@ -427,7 +427,8 @@ class AssignLeaveForm extends sfForm {
 
         $employeeUnique = array();
         foreach ($employeeList as $employee) {
-            $workShiftLength = 0;
+            $workShiftLength    =   0;
+            $employeeCountry    =   null;
             $terminationId = $employee->getTerminationId();
              if (!isset($employeeUnique[$employee->getEmpNumber()]) && empty($terminationId)) {
                 $employeeWorkShift = $employeeService->getWorkShift($employee->getEmpNumber());
@@ -436,12 +437,15 @@ class AssignLeaveForm extends sfForm {
                 } else
                     $workShiftLength = WorkShift :: DEFAULT_WORK_SHIFT_LENGTH;
 
-
+                $operatinalCountry = $employee->getOperationalCountry();
+                if($employee->getOperationalCountry() instanceof OperationalCountry){
+                    $employeeCountry = $operatinalCountry->getId();
+                }
 
                 $name = $employee->getFullName();
 
                 $employeeUnique[$employee->getEmpNumber()] = $name;
-                $jsonArray[] = array('name' => $name, 'id' => $employee->getEmpNumber(), 'workShift' => $workShiftLength);
+                $jsonArray[] = array('name' => $name, 'id' => $employee->getEmpNumber(), 'workShift' => $workShiftLength,'country'=>$employeeCountry);
             }
         }
 
