@@ -26,6 +26,9 @@ class JobTitleService extends BaseService {
     }
 
     public function getJobTitleDao() {
+        if (!($this->jobTitleDao instanceof JobTitleDao)) {
+            $this->jobTitleDao = new JobTitleDao();
+        }
         return $this->jobTitleDao;
     }
 
