@@ -21,6 +21,17 @@ class LeaveSummaryForm extends sfForm {
 
     private $formWidgets = array();
     private $formValidators = array();
+    private $leavePeriodService;
+    private $searchParam = array();
+    private $empId;
+    private $employeeService;
+    private $leaveTypeService;
+    private $companyService;
+    private $leaveSummaryService;
+    private $leaveEntitlementService;
+    private $companyStructureService;
+    private $jobTitleService;
+
     public $leaveSummaryEditMode = false;
     public $pageNo = 1;
     public $pager;
@@ -32,16 +43,6 @@ class LeaveSummaryForm extends sfForm {
     public $loggedUserId;
     public $subordinatesList;
     public $currentLeavePeriodId;
-    private $leavePeriodService;
-    private $searchParam = array();
-    private $empId;
-    private $employeeService;
-    private $leaveTypeService;
-    private $companyService;
-    private $leaveSummaryService;
-    private $leaveEntitlementService;
-    private $companyStructureService;
-    private $jobTitleService;
 
     public function getJobTitleService() {
         if (is_null($this->jobTitleService)) {
