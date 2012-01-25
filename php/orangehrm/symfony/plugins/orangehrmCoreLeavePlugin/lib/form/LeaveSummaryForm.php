@@ -91,7 +91,7 @@ class LeaveSummaryForm extends sfForm {
         }
 
         $this->setWidgets($this->getFormWidgets());
-        $this->setValidators($this->formValidators);
+        $this->setValidators($this->getFormValidators());
 
         $this->getWidgetSchema()->setNameFormat('leaveSummary[%s]');
         $this->getWidgetSchema()->setLabels($this->getFormLabels());
