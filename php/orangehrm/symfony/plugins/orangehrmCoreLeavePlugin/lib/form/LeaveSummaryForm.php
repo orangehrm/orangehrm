@@ -19,7 +19,6 @@
  */
 class LeaveSummaryForm extends sfForm {
 
-    private $formWidgets = array();
     private $formValidators = array();
     private $leavePeriodService;
     private $searchParam = array();
@@ -31,6 +30,11 @@ class LeaveSummaryForm extends sfForm {
     private $leaveEntitlementService;
     private $companyStructureService;
     private $jobTitleService;
+
+    protected $locationChoices = null;
+    protected $jobTitleChoices = null;
+    protected $subDivisionChoices = null;
+    protected $leaveTypeChoices = null;
 
     public $leaveSummaryEditMode = false;
     public $pageNo = 1;
@@ -45,9 +49,8 @@ class LeaveSummaryForm extends sfForm {
     public $currentLeavePeriodId;
 
     public function getJobTitleService() {
-        if (is_null($this->jobTitleService)) {
+        if (!($this->jobTitleService instanceof JobTitleService)) {
             $this->jobTitleService = new JobTitleService();
-            $this->jobTitleService->setJobTitleDao(new JobTitleDao());
         }
         return $this->jobTitleService;
     }
@@ -65,40 +68,7 @@ class LeaveSummaryForm extends sfForm {
         $formWidgets = array();
         $formValidators = array();
 
-        /* Setting leave periods */
-        $this->_setLeavePeriodWidgets();
-
-        /* Setting leave types */
-        $this->_setLeaveTypeWidgets();
-
-        /* Setting records count */
-        $this->_setRecordsCountWidgets();
-
         if ($this->userType == 'Admin' || $this->userType == 'Supervisor') {
-
-            /* Setting locations */
-            $this->_setLocationWidgets();
-
-            /* Setting job titles */
-            $this->_setJobTitleWidgets();
-
-            /* Setting sub divisions */
-            $this->_setSubDivisionWidgets();
-
-            /* Setting terminated employee */
-            $this->_setTerminatedEmployeeWidgets();
-
-            /* Setting txtEmpName */
-            $this->formWidgets['txtEmpName'] = new sfWidgetFormInput();
-            $this->formValidators['txtEmpName'] = new sfValidatorString(array('required' => false));
-
-            /* Setting cmbEmpId */
-            $this->formWidgets['cmbEmpId'] = new sfWidgetFormInputHidden();
-            $this->formValidators['cmbEmpId'] = new sfValidatorString(array('required' => false));
-
-            /* Setting subjectedLeavePeriod */
-            $this->formWidgets['hdnSubjectedLeavePeriod'] = new sfWidgetFormInputHidden();
-            $this->formValidators['hdnSubjectedLeavePeriod'] = new sfValidatorString(array('required' => false));
 
             $employeeId = 0;
             $empName = "";
@@ -120,9 +90,9 @@ class LeaveSummaryForm extends sfForm {
             }
         }
 
-        $this->setWidgets($this->formWidgets);
+        $this->setWidgets($this->getFormWidgets());
         $this->setValidators($this->formValidators);
-        
+
         $this->getWidgetSchema()->setNameFormat('leaveSummary[%s]');
         $this->getWidgetSchema()->setLabels($this->getFormLabels());
 
@@ -145,27 +115,27 @@ class LeaveSummaryForm extends sfForm {
         $this->setDefault('cmbRecordsCount', $this->recordsLimit);
     }
 
-    private function _setLeavePeriodWidgets() {
+    private function getLeavePeriodChoices() {
 
-        $leavePeriodService = $this->getLeavePeriodService();
-        $leavePeriodList = $leavePeriodService->getLeavePeriodList();
-        $choices = array();
+        if (is_null($this->leavePeriodChoices)) {
+            $leavePeriodList = $this->getLeavePeriodService()->getLeavePeriodList();
 
-        sfContext::getInstance()->getConfiguration()->loadHelpers('OrangeDate');
+            $this->leavePeriodChoices = array();
 
-        foreach ($leavePeriodList as $leavePeriod) {
+            sfContext::getInstance()->getConfiguration()->loadHelpers('OrangeDate');
 
-            $choices[$leavePeriod->getLeavePeriodId()] = set_datepicker_date_format($leavePeriod->getStartDate())
-                    . " " . __('to') . " "
-                    . set_datepicker_date_format($leavePeriod->getEndDate());
+            foreach ($leavePeriodList as $leavePeriod) {
+                $this->leavePeriodChoices[$leavePeriod->getLeavePeriodId()] = set_datepicker_date_format($leavePeriod->getStartDate())
+                        . ' ' . __('to') . ' '
+                        . set_datepicker_date_format($leavePeriod->getEndDate());
+            }
+
+            if (empty($this->leavePeriodChoices)) {
+                $this->leavePeriodChoices = array('0' => 'No Leave Periods');
+            }
         }
 
-        if (empty($choices)) {
-            $choices = array('0' => 'No Leave Periods');
-        }
-
-        $this->formWidgets['cmbLeavePeriod'] = new sfWidgetFormChoice(array('choices' => $choices));
-        $this->formValidators['cmbLeavePeriod'] = new sfValidatorChoice(array('choices' => array_keys($choices)));
+        return $this->leavePeriodChoices;
     }
 
     public function setLeaveTypeService(LeaveTypeService $leaveTypeService) {
@@ -173,41 +143,41 @@ class LeaveSummaryForm extends sfForm {
     }
 
     public function getLeaveTypeService() {
-        if (is_null($this->leaveTypeService)) {
+        if (!($this->leaveTypeService instanceof LeaveTypeService)) {
             $this->leaveTypeService = new LeaveTypeService();
-            $this->leaveTypeService->setLeaveTypeDao(new LeaveTypeDao());
         }
         return $this->leaveTypeService;
     }
 
-    private function _setLeaveTypeWidgets() {
+    /**
+     * 
+     * @return array
+     */
+    private function getLeaveTypeChoices() {
+        if (!($this->leaveTypeChoices)) {
+            $leaveTypeList = $this->getLeaveTypeService()->getLeaveTypeList();
 
-        $leaveTypeService = $this->getLeaveTypeService();
-        $leaveTypeService->setLeaveTypeDao(new LeaveTypeDao());
-        $leaveTypeList = $leaveTypeService->getLeaveTypeList();
-        $choices = array('0' => __('All'));
+            $this->leaveTypeChoices = array('0' => __('All'));
 
-        foreach ($leaveTypeList as $leaveType) {
-
-            $choices[$leaveType->getLeaveTypeId()] = $leaveType->getLeaveTypeName();
+            foreach ($leaveTypeList as $leaveType) {
+                $this->leaveTypeChoices[$leaveType->getLeaveTypeId()] = $leaveType->getLeaveTypeName();
+            }
         }
 
-        $this->formWidgets['cmbLeaveType'] = new sfWidgetFormChoice(array('choices' => $choices));
-        $this->formValidators['cmbLeaveType'] = new sfValidatorChoice(array('choices' => array_keys($choices)));
+        return $this->leaveTypeChoices;
     }
 
-    private function _setRecordsCountWidgets() {
-
-        $choices = array('20' => 20, '50' => 50, '100' => 100, '200' => 200);
-
-        $this->formWidgets['cmbRecordsCount'] = new sfWidgetFormChoice(array('choices' => $choices));
-        $this->formValidators['cmbRecordsCount'] = new sfValidatorChoice(array('choices' => array_keys($choices)));
+    /**
+     *
+     * @return array
+     */
+    private function getRecordsPerPageChoices() {
+        return array('20' => 20, '50' => 50, '100' => 100, '200' => 200);
     }
 
     public function getLocationService() {
-        if (is_null($this->locationService)) {
+        if (!($this->locationService instanceof LocationService)) {
             $this->locationService = new LocationService();
-            $this->locationService->setLocationDao(new LocationDao());
         }
         return $this->locationService;
     }
@@ -216,19 +186,19 @@ class LeaveSummaryForm extends sfForm {
         $this->companyService = $companyService;
     }
 
-    private function _setLocationWidgets() {
+    protected function getLocationChoices() {
 
-        $locationService = $this->getLocationService();
-        $locationList = $locationService->getLocationList();
-        $choices = array('0' => __('All'));
+        if (is_null($this->locationChoices)) {
+            $locationList = $this->getLocationService()->getLocationList();
 
-        foreach ($locationList as $location) {
+            $this->locationChoices = array('0' => __('All'));
 
-            $choices[$location->getId()] = $location->getName();
+            foreach ($locationList as $location) {
+                $this->locationChoices[$location->getId()] = $location->getName();
+            }
         }
 
-        $this->formWidgets['cmbLocation'] = new sfWidgetFormChoice(array('choices' => $choices));
-        $this->formValidators['cmbLocation'] = new sfValidatorChoice(array('choices' => array_keys($choices)));
+        return $this->locationChoices;
     }
 
     public function getCompanyStructureService() {
@@ -243,39 +213,46 @@ class LeaveSummaryForm extends sfForm {
         $this->companyStructureService = $companyStructureService;
     }
 
-    private function _setSubDivisionWidgets() {
+    /**
+     * 
+     * @return array
+     */
+    private function getSubDivisionChoices() {
 
-        $subUnitList = array(0 => __("All"));
-        $treeObject = $this->getCompanyStructureService()->getSubunitTreeObject();
+        if (is_null($this->subDivisionChoices)) {
+            $this->subDivisionChoices = array(0 => __('All'));
 
-        $tree = $treeObject->fetchTree();
+            $treeObject = $this->getCompanyStructureService()->getSubunitTreeObject();
 
-        foreach ($tree as $node) {
-            if ($node->getId() != 1) {
-                $subUnitList[$node->getId()] = str_repeat('&nbsp;&nbsp;', $node['level'] - 1) . $node['name'];
+            $tree = $treeObject->fetchTree();
+
+            foreach ($tree as $node) {
+                if ($node->getId() != 1) {
+                    $this->subDivisionChoices[$node->getId()] = str_repeat('&nbsp;&nbsp;', $node['level'] - 1) . $node['name'];
+                }
             }
         }
-        $this->formWidgets['cmbSubDivision'] = new sfWidgetFormChoice(array('choices' => $subUnitList));
-        $this->formValidators['cmbSubDivision'] = new sfValidatorChoice(array('choices' => array_keys($subUnitList)));
+
+        return $this->subDivisionChoices;
     }
 
-    private function _setTerminatedEmployeeWidgets() {
+    /**
+     *
+     * @return array
+     */
+    private function getJobTitleChoices() {
 
-        $this->formWidgets['cmbWithTerminated'] = new sfWidgetFormInputCheckbox(array('value_attribute_value' => 'on'));
-        $this->formValidators['cmbWithTerminated'] = new sfValidatorString(array('required' => false));
-    }
+        if (is_null($this->jobTitleChoices)) {
+            $jobTitleList = $this->getJobTitleService()->getJobTitleList();
 
-    private function _setJobTitleWidgets() {
+            $this->jobTitleChoices = array('0' => __('All'));
 
-        $jobTitleList = $this->getJobTitleService()->getJobTitleList();
-        $choices = array('0' => __('All'));
-
-        foreach ($jobTitleList as $job) {
-            $choices[$job->getId()] = $job->getJobTitleName();
+            foreach ($jobTitleList as $jobTitle) {
+                $this->jobTitleChoices[$jobTitle->getId()] = $jobTitle->getJobTitleName();
+            }
         }
 
-        $this->formWidgets['cmbJobTitle'] = new sfWidgetFormChoice(array('choices' => $choices));
-        $this->formValidators['cmbJobTitle'] = new sfValidatorChoice(array('choices' => array_keys($choices)));
+        return $this->jobTitleChoices;
     }
 
     /**
@@ -489,7 +466,6 @@ class LeaveSummaryForm extends sfForm {
     public function getLeavePeriodService() {
         if (is_null($this->leavePeriodService)) {
             $this->leavePeriodService = new LeavePeriodService();
-            $this->leavePeriodService->setLeavePeriodDao(new LeavePeriodDao());
         }
         return $this->leavePeriodService;
     }
@@ -501,8 +477,11 @@ class LeaveSummaryForm extends sfForm {
     public function setLeavePeriodService(LeavePeriodService $leavePeriodService) {
         $this->leavePeriodService = $leavePeriodService;
     }
-    
-    
+
+    /**
+     *
+     * @return array
+     */
     protected function getFormLabels() {
         $labels = array(
             'cmbLeavePeriod' => __('Leave Period'),
@@ -514,8 +493,55 @@ class LeaveSummaryForm extends sfForm {
             'cmbWithTerminated' => __('Include Past Employees'),
             'txtEmpName' => __('Employee'),
         );
-        
+
         return $labels;
+    }
+
+    /**
+     *
+     * @return array 
+     */
+    protected function getFormWidgets() {
+        $widgets = array();
+
+
+        $widgets['cmbLeavePeriod'] = new sfWidgetFormChoice(array('choices' => $this->getLeavePeriodChoices()));
+        $widgets['cmbLeaveType'] = new sfWidgetFormChoice(array('choices' => $this->getLeaveTypeChoices()));
+        $widgets['cmbRecordsCount'] = new sfWidgetFormChoice(array('choices' => $this->getRecordsPerPageChoices()));
+
+
+        $widgets['cmbLocation'] = new sfWidgetFormChoice(array('choices' => $this->getLocationChoices()));
+        $widgets['cmbJobTitle'] = new sfWidgetFormChoice(array('choices' => $this->getJobTitleChoices()));
+        $widgets['cmbSubDivision'] = new sfWidgetFormChoice(array('choices' => $this->getSubDivisionChoices()));
+        $widgets['cmbWithTerminated'] = new sfWidgetFormInputCheckbox(array('value_attribute_value' => 'on'));
+        $widgets['txtEmpName'] = new sfWidgetFormInput(array(), array('class' => ''));
+        $widgets['cmbEmpId'] = new sfWidgetFormInputHidden();
+        $widgets['hdnSubjectedLeavePeriod'] = new sfWidgetFormInputHidden();
+
+        return $widgets;
+    }
+
+    /**
+     *
+     * @return array 
+     */
+    protected function getFormValidators() {
+        $validators = array();
+
+        $validators['cmbLeavePeriod'] = new sfValidatorChoice(array('choices' => array_keys($this->getLeavePeriodChoices())));
+        $validators['cmbLeaveType'] = new sfValidatorChoice(array('choices' => array_keys($this->getLeaveTypeChoices())));
+        $validators['cmbRecordsCount'] = new sfValidatorChoice(array('choices' => array_keys($this->getRecordsPerPageChoices())));
+
+        $validators['cmbLocation'] = new sfValidatorChoice(array('choices' => array_keys($this->getLocationChoices())));
+        ;
+        $validators['cmbJobTitle'] = new sfValidatorChoice(array('choices' => array_keys($this->getJobTitleChoices())));
+        $validators['cmbSubDivision'] = new sfValidatorChoice(array('choices' => array_keys($this->getSubDivisionChoices())));
+        $validators['cmbWithTerminated'] = new sfValidatorString(array('required' => false));
+        $validators['txtEmpName'] = new sfValidatorString(array('required' => false));
+        $validators['cmbEmpId'] = new sfValidatorString(array('required' => false));
+        $validators['hdnSubjectedLeavePeriod'] = new sfValidatorString(array('required' => false));
+
+        return $validators;
     }
 
 }
