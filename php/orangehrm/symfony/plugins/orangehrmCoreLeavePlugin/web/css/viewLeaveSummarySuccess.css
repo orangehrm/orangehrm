@@ -1,14 +1,3 @@
-#tblSearchCriteria {
-    width: 800px;
-    margin-top: 10px;
-    margin-left: 10px;
-}
-
-#tblSearchCriteria td {
-    padding: 2px;
-    vertical-align:text-top;
-}
-
 table.data-table thead tr td,
 table.data-table thead tr th {  
     padding: 7px 10px 7px 8px;
@@ -20,7 +9,7 @@ table.data-table tbody tr td {
     padding: 7px 10px 7px 8px;
 }
 
-input[type="text"] {
+table.data-table tbody tr td input[type="text"] {
     width: 50px;
     text-align: right;
 }
@@ -28,10 +17,6 @@ input[type="text"] {
 .errorHolder {
     margin: 10px 0 0 0;
     color: #ff0000;
-}
-
-#leaveSummary_txtEmpName {
-    width: 150px;
 }
 
 .typeHint {
@@ -66,9 +51,30 @@ div.navigationHearder {
     text-align: right;
 }
 
-table#tblSearchCriteria tbody tr td select{
+#frmLeaveSummarySearch select {
     width: 200px;
+    display: block;
+    float: left;
+    margin-top: 8px;
 }
-table#tblSearchCriteria tbody tr td input#leaveSummary_txtEmpName.ac_input{
+
+#leaveSummary_txtEmpName {
     width: 190px;
+    display: block;
+    float: left;
+    margin-top: 8px;
+}
+
+#leaveSummary_cmbWithTerminated {
+    margin-top: 8px;
+}
+
+#frmLeaveSummarySearch label {
+    width: 150px;
+    display: block;
+    float: left;
+}
+
+br {
+    clear: both;
 }

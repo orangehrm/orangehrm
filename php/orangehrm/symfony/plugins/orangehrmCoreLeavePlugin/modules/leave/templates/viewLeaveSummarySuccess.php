@@ -27,78 +27,31 @@
 <div class="messageBalloon_notice" style="width:730px;"><?php echo __('No Results Found for This Criteria'); ?></div>
 <?php } ?>
 
+<!--[if IE]>
+<style type="text/css">
+    #leaveSummary_txtEmpName {
+        width: 195px;
+    }
+</style>
+<![endif]-->
+
 <form id="frmLeaveSummarySearch" name="frmLeaveSummarySearch" method="post" action="<?php echo url_for('leave/viewLeaveSummary'); ?>">
 <div class="outerbox" style="width: 850px;">
 <div class="mainHeading"><h2><?php echo __('Leave Summary') ?></h2></div>
+    <div class="searchbar">
+        <?php echo $form->render(); ?>
+        <br class="clear" />
 
-<div class="searchbar">
-<?php if ($form->userType == 'Admin' || $form->userType == 'Supervisor') { ?>
-    <?php echo $form['hdnSubjectedLeavePeriod']->render(); ?>
-<table id="tblSearchCriteria" border="0">
-<tr>
-    <td><?php echo __('Leave Period'); ?></td>
-    <td><?php echo $form['cmbLeavePeriod']->render(); ?></td>
-    <td><?php echo __('Leave Type'); ?></td>
-    <td><?php echo $form['cmbLeaveType']->render(); ?></td>
-</tr>
-<tr>
-    <td><?php echo __('Employee'); ?></td>
-    <td><?php echo $form['txtEmpName']->render(array('style' => 'text-align:left')); ?>
-        <?php echo $form['cmbEmpId']->render(); ?>
-    </td>
-    <td><?php echo __('Job Title'); ?></td>
-    <td><?php echo $form['cmbJobTitle']->render(); ?></td>
-</tr>
-<tr>
-    <td><?php echo __('Location'); ?></td>
-    <td><?php echo $form['cmbLocation']->render(); ?></td>
-    <td><?php echo __('Sub Unit'); ?></td>
-    <td><?php echo $form['cmbSubDivision']->render(); ?></td>
-</tr>
-<tr>
-    <td><?php echo __('Records Per Page'); ?></td>
-    <td colspan="3"><?php echo $form['cmbRecordsCount']->render(); ?></td>
-</tr>
-<tr>
-    <td><?php echo __('Include Past Employees'); ?></td>
-    <td colspan="3"><?php echo $form['cmbWithTerminated']->render(); ?></td>
-</tr>
-</table>
-    <div class="formbuttons">
-    <input type="hidden" name="pageNo" id="pageNo" value="<?php echo $form->pageNo; ?>" />
-    <input type="hidden" name="hdnAction" id="hdnAction" value="search" />
-    <input type="button" name="btnSearch" id="btnSearch" value="<?php echo __('Search') ?>" class="savebutton" />
-    <input type="reset" id="btnReset" value="<?php echo __('Reset') ?>" class="savebutton" />
+        <div class="formbuttons">
+            <input type="hidden" name="pageNo" id="pageNo" value="<?php echo $form->pageNo; ?>" />
+            <input type="hidden" name="hdnAction" id="hdnAction" value="search" />
+            <input type="button" name="btnSearch" id="btnSearch" value="<?php echo __('Search') ?>" class="savebutton" />
+            <?php if ($form->userType == 'Admin' || $form->userType == 'Supervisor') { ?>
+            <input type="reset" id="btnReset" value="<?php echo __('Reset') ?>" class="savebutton" />
+            <?php } ?>
         </div>
-<?php } elseif ($form->userType == 'ESS') { ?>
-    <table id="tblSearchCriteria" border="0">
-<tr>
-    <td width="75"><?php echo __('Leave Period'); ?></td>
-    <td width="170"><?php echo $form['cmbLeavePeriod']->render(); ?></td>
-    <td width="60"><?php echo __('Leave Type'); ?></td>
-    <td width="75"><?php echo $form['cmbLeaveType']->render(); ?></td>
-</tr>
-<tr>
-    <td><?php echo __('Records Per Page'); ?></td>
-    <td colspan="3"><?php echo $form['cmbRecordsCount']->render(); ?></td>
-</tr>
-</table>
-<div class="formbuttons">
-    <input type="hidden" name="pageNo" id="pageNo" value="<?php echo $form->pageNo; ?>" />
-    <input type="hidden" name="hdnAction" id="hdnAction" value="search" />
-    <input type="button" name="btnSearch" id="btnSearch" value="<?php echo __('Search') ?>" class="savebutton" />
-        </div>
-<?php } // Search criteria table ?>
-
-<?php echo $form['_csrf_token']; ?>
-
-<!--</form>--> <!-- End of frmLeaveSummarySearch -->
-
-</div> <!-- End of searchbar -->
-</div> <!-- End of outerbox -->
-
-
-
+    </div>
+</div>
 
 <?php if ($form->saveSuccess) { ?>
 <div class="messageBalloon_success"><?php echo __('Leave Entitlements Successfully Saved'); ?></div>
