@@ -65,6 +65,10 @@
         margin-left: 140px;
         font-size: 11px;
     }
+    
+    br {
+        clear: both;
+    }
 </style>
 
 <script type="text/javascript">
