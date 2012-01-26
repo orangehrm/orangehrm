@@ -96,6 +96,7 @@ class LeaveSummaryForm extends sfForm {
         $this->getWidgetSchema()->setNameFormat('leaveSummary[%s]');
         $this->getWidgetSchema()->setLabels($this->getFormLabels());
 
+        sfWidgetFormSchemaFormatterBreakTags::setNoOfColumns(2);
         $this->getWidgetSchema()->setFormFormatterName('BreakTags');
     }
 
@@ -506,17 +507,23 @@ class LeaveSummaryForm extends sfForm {
 
 
         $widgets['cmbLeavePeriod'] = new sfWidgetFormChoice(array('choices' => $this->getLeavePeriodChoices()));
+        $widgets['hdnSubjectedLeavePeriod'] = new sfWidgetFormInputHidden();
         $widgets['cmbLeaveType'] = new sfWidgetFormChoice(array('choices' => $this->getLeaveTypeChoices()));
+
+        if ($this->hasAdministrativeFilters()) {
+            $widgets['txtEmpName'] = new sfWidgetFormInput(array(), array('class' => ''));
+            $widgets['cmbEmpId'] = new sfWidgetFormInputHidden();
+            $widgets['cmbJobTitle'] = new sfWidgetFormChoice(array('choices' => $this->getJobTitleChoices()));
+            $widgets['cmbLocation'] = new sfWidgetFormChoice(array('choices' => $this->getLocationChoices()));
+            $widgets['cmbSubDivision'] = new sfWidgetFormChoice(array('choices' => $this->getSubDivisionChoices()));
+        }
+
         $widgets['cmbRecordsCount'] = new sfWidgetFormChoice(array('choices' => $this->getRecordsPerPageChoices()));
 
+        if ($this->hasAdministrativeFilters()) {
+            $widgets['cmbWithTerminated'] = new sfWidgetFormInputCheckbox(array('value_attribute_value' => 'on'));
+        }
 
-        $widgets['cmbLocation'] = new sfWidgetFormChoice(array('choices' => $this->getLocationChoices()));
-        $widgets['cmbJobTitle'] = new sfWidgetFormChoice(array('choices' => $this->getJobTitleChoices()));
-        $widgets['cmbSubDivision'] = new sfWidgetFormChoice(array('choices' => $this->getSubDivisionChoices()));
-        $widgets['cmbWithTerminated'] = new sfWidgetFormInputCheckbox(array('value_attribute_value' => 'on'));
-        $widgets['txtEmpName'] = new sfWidgetFormInput(array(), array('class' => ''));
-        $widgets['cmbEmpId'] = new sfWidgetFormInputHidden();
-        $widgets['hdnSubjectedLeavePeriod'] = new sfWidgetFormInputHidden();
 
         return $widgets;
     }
@@ -530,18 +537,28 @@ class LeaveSummaryForm extends sfForm {
 
         $validators['cmbLeavePeriod'] = new sfValidatorChoice(array('choices' => array_keys($this->getLeavePeriodChoices())));
         $validators['cmbLeaveType'] = new sfValidatorChoice(array('choices' => array_keys($this->getLeaveTypeChoices())));
-        $validators['cmbRecordsCount'] = new sfValidatorChoice(array('choices' => array_keys($this->getRecordsPerPageChoices())));
 
-        $validators['cmbLocation'] = new sfValidatorChoice(array('choices' => array_keys($this->getLocationChoices())));
-        ;
-        $validators['cmbJobTitle'] = new sfValidatorChoice(array('choices' => array_keys($this->getJobTitleChoices())));
-        $validators['cmbSubDivision'] = new sfValidatorChoice(array('choices' => array_keys($this->getSubDivisionChoices())));
-        $validators['cmbWithTerminated'] = new sfValidatorString(array('required' => false));
-        $validators['txtEmpName'] = new sfValidatorString(array('required' => false));
-        $validators['cmbEmpId'] = new sfValidatorString(array('required' => false));
+        if ($this->hasAdministrativeFilters()) {
+            $validators['cmbLocation'] = new sfValidatorChoice(array('choices' => array_keys($this->getLocationChoices())));
+            $validators['cmbJobTitle'] = new sfValidatorChoice(array('choices' => array_keys($this->getJobTitleChoices())));
+            $validators['cmbSubDivision'] = new sfValidatorChoice(array('choices' => array_keys($this->getSubDivisionChoices())));
+            $validators['cmbWithTerminated'] = new sfValidatorString(array('required' => false));
+            $validators['txtEmpName'] = new sfValidatorString(array('required' => false));
+            $validators['cmbEmpId'] = new sfValidatorString(array('required' => false));
+        }
+
+        $validators['cmbRecordsCount'] = new sfValidatorChoice(array('choices' => array_keys($this->getRecordsPerPageChoices())));
         $validators['hdnSubjectedLeavePeriod'] = new sfValidatorString(array('required' => false));
 
         return $validators;
+    }
+    
+    /**
+     *
+     * @return bool
+     */
+    protected function hasAdministrativeFilters() {
+        return ($this->userType == 'Admin' || $this->userType == 'Supervisor');
     }
 
 }
