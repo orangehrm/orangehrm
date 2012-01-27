@@ -34,6 +34,8 @@ class LeaveSummaryForm extends sfForm {
     protected $jobTitleChoices = null;
     protected $subDivisionChoices = null;
     protected $leaveTypeChoices = null;
+    protected $leavePeriodChoices;
+    protected $locationService;
 
     public $leaveSummaryEditMode = false;
     public $pageNo = 1;
