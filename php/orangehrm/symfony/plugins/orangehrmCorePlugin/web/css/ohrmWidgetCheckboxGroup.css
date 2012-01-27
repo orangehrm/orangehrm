@@ -10,5 +10,7 @@ div.checkbox_group input {
     vertical-align: middle;
 }
 
-
+div.checkbox_group {
+    margin-top: 10px;
+}
 

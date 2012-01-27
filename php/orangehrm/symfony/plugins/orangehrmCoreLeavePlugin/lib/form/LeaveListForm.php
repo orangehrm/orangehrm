@@ -71,10 +71,19 @@ class LeaveListForm extends sfForm {
         $this->setWidgets(array(
             'calFromDate' => new ohrmWidgetDatePickerNew(array(), array('id' => 'calFromDate')),
             'calToDate' => new ohrmWidgetDatePickerNew(array(), array('id' => 'calToDate')),
-        ));
-        
+        ));        
+            
+        $leaveStatusChoices = Leave::getStatusTextList();        
+        $this->setWidget('chkSearchFilter', new ohrmWidgetCheckboxGroup(array('choices' => $leaveStatusChoices,
+                                                                  'show_all_option' => true)));
+            
+            
+        $this->getWidgetSchema()->setLabel('chkSearchFilter', __('Show Leave with Status'));
+            
         $startDate = $this->_getFilterParam('calFromDate');
         $endDate = $this->_getFilterParam('calToDate');
+        
+        
 
         if (empty($startDate) && empty($endDate)) {
 
@@ -106,16 +115,8 @@ class LeaveListForm extends sfForm {
             }
 
             $this->setWidget('cmbSubunit', new sfWidgetFormSelect(array('choices' => $subUnitList, 'default' => $this->_getFilterParam('cmbSubunit')), array('id' => 'cmbSubunit')));
-            $this->setWidget('txtEmpID', new sfWidgetFormInputHidden(array('default' => $employeeId)));
+            $this->setWidget('txtEmpID', new sfWidgetFormInputHidden(array('default' => $employeeId)));            
             
-            $leaveStatusChoices = Leave::getStatusTextList();
-            
-            $this->setWidget('chkSearchFilter', new ohrmWidgetCheckboxGroup(array('choices' => $leaveStatusChoices,
-                                                                  'show_all_option' => true)));
-            
-            $this->getWidgetSchema()->setLabel('chkSearchFilter', __('Show Leave with Status'));
-            
-
             if (is_null($this->_getFilterParam('cmbWithTerminated'))) {
                 $this->setWidget('cmbWithTerminated', new sfWidgetFormInputCheckbox());
             } else if ($this->_getFilterParam('cmbWithTerminated') == 'on') {
@@ -175,42 +176,6 @@ class LeaveListForm extends sfForm {
             'btnSearch' => new ohrmWidgetButton('btnSearch', 'Search', array('class' => 'searchbutton')),
             'btnReset' => new ohrmWidgetButton('btnReset', 'Reset', array('class' => 'clearbutton')),
         );
-    }
-
-
-    /**
-     * Returns the set of status filters used for searching leave requests
-     *
-     * @return array Array of checkboxes as instances of ohrmWidgetCheckbox class
-     */
-    public function getStatusFilters() {
-
-        $filterControls = array();
-
-        $statusList = Leave::getStatusTextList();
-
-        $postStatuses = $this->_getFilterParam('chkSearchFilter');
-        $postStatuses = (trim($this->_getFilterParam('status') != "")) ? array($this->_getFilterParam('status')) : $postStatuses;
-        $postStatuses = is_array($postStatuses) ? $postStatuses : array();
-
-        foreach ($statusList as $status => $text) {
-            $attributes = (in_array($status, $postStatuses) ? array('checked' => 'checked') : array());
-            $attributes['class'] = 'checkbox';
-            $filterControls[] = new ohrmWidgetCheckbox('chkSearchFilter', $status, array('content' => __($text), 'class' => 'subLabelNew'), $attributes);
-        }
-
-        if (count($statusList) > 1) {
-
-            $isAllChecked = $this->_getFilterParam('allCheck');
-            $isAllChecked = (!empty($isAllChecked) && $isAllChecked[0] == 'all');
-
-            $attributes = ($isAllChecked) ? array('checked' => 'checked') : array();
-            $attributes['class'] = 'checkbox';
-            $attributes['id'] = 'checkAll';
-            array_unshift($filterControls, new ohrmWidgetCheckbox('allCheck', 'all', array('content' => __("All"), 'class' => 'subLabelNew'), $attributes));
-        }
-
-        return $filterControls;
     }
 
     public function setList($list) {
