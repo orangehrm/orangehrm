@@ -61,6 +61,7 @@ function handleEditButton() {
         var flag = validateInput();
         if(flag) {
             $('#hdnAction').val('save');
+            $('#frmLeaveSummarySearch').attr('action', '../leave/saveLeaveEntitlements');
             $('#frmLeaveSummarySearch').submit();
         } else {
             $('#validationMsg').attr('class', 'messageBalloon_failure');

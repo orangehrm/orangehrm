@@ -52,19 +52,13 @@
         </div>
     </div>
 </div>
+<?php echo templateMessage($templateMessage); ?>
 
-<?php if ($form->saveSuccess) { ?>
-<div class="messageBalloon_success"><?php echo __('Leave Entitlements Successfully Saved'); ?></div>
-<?php } ?>
 <div id="validationMsg"></div>
-<?php //if ($form->recordsCount > 0) { ?>
 
 <?php include_component('core', 'ohrmList'); ?>
 
-</form> <!-- End of frmLeaveSummarySearch -->
-
-<?php //} // End of if ($recordsCount > 0) ?>
-
+</form>
 <script type="text/javascript">
     
     var lang_typeHint = "<?php echo __("Type for hints");?>" + "...";

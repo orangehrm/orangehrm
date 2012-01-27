@@ -65,6 +65,8 @@ class viewLeaveSummaryAction extends sfAction implements ohrmExportableAction {
     public function execute($request) {
         $userDetails = $this->getLoggedInUserDetails();
         
+        $this->templateMessage = $this->getUser()->getFlash('templateMessage', array());
+        
         $searchParam = array();
         $searchParam['employeeId'] = (trim($request->getParameter("employeeId")) != "") ? trim($request->getParameter("employeeId")) : null;
         if (!is_null($searchParam['employeeId'])) {
@@ -79,18 +81,15 @@ class viewLeaveSummaryAction extends sfAction implements ohrmExportableAction {
         $this->setLeaveSummaryRecordsLimit($request);
         $this->form->setRecordsLimitDefaultValue();
 
-        if ($request->isMethod('post')) {
+        if ($request->isMethod(sfRequest::POST)) {
             $this->searchFlag = 1;
             $this->form->bind($request->getParameter($this->form->getName()));
-
-            if ($this->form->isValid()) {
-
-                if ($request->getParameter('hdnAction') == 'save') {
-                    $this->form->saveEntitlements($request);
-                }
-            }
         }
 
+        if (isset($form->recordsCount) && $form->recordsCount == 0 && isset($this->searchFlag) && $this->searchFlag == 1) {
+            array('NOTICE', __('No Results Found for This Criteria'));
+        }
+        
         $this->form->recordsCount = $this->form->getLeaveSummaryRecordsCount();
         $this->form->setPager($request);
 

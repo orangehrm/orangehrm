@@ -19,8 +19,6 @@
  */
 class LeaveSummaryForm extends sfForm {
 
-    private $formValidators = array();
-    private $leavePeriodService;
     private $searchParam = array();
     private $empId;
     private $employeeService;
@@ -31,6 +29,7 @@ class LeaveSummaryForm extends sfForm {
     private $companyStructureService;
     private $jobTitleService;
 
+    protected $leavePeriodService;
     protected $locationChoices = null;
     protected $jobTitleChoices = null;
     protected $subDivisionChoices = null;
@@ -63,7 +62,7 @@ class LeaveSummaryForm extends sfForm {
         $this->searchParam['cmbWithTerminated'] = $this->getOption('cmbWithTerminated');
         $this->empId = $this->getOption('empId');
 
-        $this->_setCurrentLeavePeriodId(); // This should be called before _setLeavePeriodWidgets()
+        $this->setCurrentLeavePeriodId(); // This should be called before _setLeavePeriodWidgets()
 
         $formWidgets = array();
         $formValidators = array();
@@ -351,32 +350,10 @@ class LeaveSummaryForm extends sfForm {
         return $this->leaveEntitlementService;
     }
 
-    public function saveEntitlements($request) {
-
-        $hdnEmpId = $request->getParameter('hdnEmpId');
-        $hdnLeaveTypeId = $request->getParameter('hdnLeaveTypeId');
-        $hdnLeavePeriodId = $request->getParameter('hdnLeavePeriodId');
-        $txtLeaveEntitled = $request->getParameter('txtLeaveEntitled');
-        $count = count($txtLeaveEntitled);
-
-        $leaveEntitlementService = $this->getLeaveEntitlementService();
-        $leaveSummaryData = $request->getParameter('leaveSummary');
-
-        for ($i = 0; $i < $count; $i++) {
-
-            $leavePeriodId = empty($hdnLeavePeriodId[$i]) ? $leaveSummaryData['hdnSubjectedLeavePeriod'] : $hdnLeavePeriodId[$i];
-
-            $leaveEntitlementService->saveEmployeeLeaveEntitlement($hdnEmpId[$i], $hdnLeaveTypeId[$i], $leavePeriodId, $txtLeaveEntitled[$i], true);
-        }
-
-        $this->saveSuccess = true;
-    }
-
     public function getSearchClues() {
 
         if ($this->getValues()) {
-
-            return $this->_adjustSearchClues($this->getValues());
+            return $this->adjustSearchClues($this->getValues());
         } else {
 
             $clues['cmbLeavePeriod'] = $this->currentLeavePeriodId;
@@ -391,23 +368,20 @@ class LeaveSummaryForm extends sfForm {
             $clues['cmbJobTitle'] = 0;
             $clues['cmbWithTerminated'] = 0;
 
-            return $this->_adjustSearchClues($clues);
+            return $this->adjustSearchClues($clues);
         }
     }
 
-    private function _adjustSearchClues($clues) {
+    protected function adjustSearchClues($clues) {
 
         if ($this->userType == 'Admin') {
-
             $clues['userType'] = 'Admin';
             return $clues;
         } elseif ($this->userType == 'Supervisor') {
-
             $clues['userType'] = 'Supervisor';
             $clues['subordinates'] = $this->_getSubordinatesIds();
             return $clues;
         } else {
-
             $clues['userType'] = 'ESS';
             $clues['cmbEmpId'] = $this->loggedUserId;
             return $clues;
@@ -454,7 +428,7 @@ class LeaveSummaryForm extends sfForm {
         }
     }
 
-    private function _setCurrentLeavePeriodId() {
+    protected final function setCurrentLeavePeriodId() {
 
         $leavePeriodService = $this->getLeavePeriodService();
         $this->currentLeavePeriodId = (!$leavePeriodService->getCurrentLeavePeriod() instanceof LeavePeriod) ? 0 : $leavePeriodService->getCurrentLeavePeriod()->getLeavePeriodId();
@@ -465,7 +439,7 @@ class LeaveSummaryForm extends sfForm {
      * @return LeavePeriodService
      */
     public function getLeavePeriodService() {
-        if (is_null($this->leavePeriodService)) {
+        if (!($this->leavePeriodService instanceof LeavePeriodService)) {
             $this->leavePeriodService = new LeavePeriodService();
         }
         return $this->leavePeriodService;
@@ -552,7 +526,7 @@ class LeaveSummaryForm extends sfForm {
 
         return $validators;
     }
-    
+
     /**
      *
      * @return bool
