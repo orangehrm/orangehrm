@@ -802,12 +802,12 @@ class EmployeeDao extends BaseDao {
      * @returns Collection
      * @throws DaoException
      */
-    public function getEmployeeList($orderField = 'empNumber', $orderBy = 'ASC', $withoutTerminatedEmployees = false) {
+    public function getEmployeeList($orderField = 'empNumber', $orderBy = 'ASC', $includeTerminatedEmployees = false) {
         try {
             $q = Doctrine_Query :: create()->from('Employee');
             $q->orderBy($orderField . ' ' . $orderBy);
 
-            if ($withoutTerminatedEmployees == false) {
+            if (!$includeTerminatedEmployees) {
                 $q->andwhere("termination_id IS NULL");
             }
 

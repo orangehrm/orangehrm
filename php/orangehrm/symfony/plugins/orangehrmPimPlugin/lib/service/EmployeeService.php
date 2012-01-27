@@ -711,16 +711,15 @@ class EmployeeService extends BaseService {
      * @version 2.6.11
      * @param String $orderField Order Field, default is empNumber
      * @param String $orderBy Order By, Default is ASC
-     * @param boolean 
+     * @param boolean $includeTerminatedEmployees 
      * @return Doctrine_Collection/Array Returns Doctrine_Collection of Employee objects
      * @throws PIMServiceException
      * 
-     * @TODO: Change parameter $withoutTerminatedEmployees = false to $includeTerminatedEmployees = true
      * @TODO: Change default $orderField to last name
      */
-    public function getEmployeeList($orderField = 'empNumber', $orderBy = 'ASC', $withoutTerminatedEmployees = false) {
+    public function getEmployeeList($orderField = 'empNumber', $orderBy = 'ASC', $includeTerminatedEmployees = false) {
         try {
-            return $this->getEmployeeDao()->getEmployeeList($orderField, $orderBy, $withoutTerminatedEmployees);
+            return $this->getEmployeeDao()->getEmployeeList($orderField, $orderBy, $includeTerminatedEmployees);
         } catch (Exception $e) {
             throw new PIMServiceException($e->getMessage());
         }
