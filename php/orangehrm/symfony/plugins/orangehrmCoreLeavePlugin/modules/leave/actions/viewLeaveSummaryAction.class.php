@@ -65,7 +65,7 @@ class viewLeaveSummaryAction extends sfAction implements ohrmExportableAction {
     public function execute($request) {
         $userDetails = $this->getLoggedInUserDetails();
         
-        $this->templateMessage = $this->getUser()->getFlash('templateMessage', array());
+        $this->templateMessage = $this->getUser()->getFlash('templateMessage', array('', ''));
         
         $searchParam = array();
         $searchParam['employeeId'] = (trim($request->getParameter("employeeId")) != "") ? trim($request->getParameter("employeeId")) : null;
