@@ -23,10 +23,6 @@
 
 <?php echo stylesheet_tag('../orangehrmCoreLeavePlugin/css/viewLeaveSummarySuccess');?>
 
-<?php if (isset($form->recordsCount) && $form->recordsCount == 0 && isset($searchFlag) && $searchFlag == 1) { ?>
-<div class="messageBalloon_notice" style="width:730px;"><?php echo __('No Results Found for This Criteria'); ?></div>
-<?php } ?>
-
 <!--[if IE]>
 <style type="text/css">
     #leaveSummary_txtEmpName {
