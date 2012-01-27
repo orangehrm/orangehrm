@@ -18,7 +18,4 @@
  */
 abstract class PluginEmployee extends BaseEmployee
 {
-    
-    const EMPLOYEE_STATUS_TERMINATED = 'EST000';
-
 }

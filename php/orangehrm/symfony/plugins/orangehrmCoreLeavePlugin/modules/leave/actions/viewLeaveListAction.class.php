@@ -81,7 +81,6 @@ class viewLeaveListAction extends sfAction implements ohrmExportableAction {
         $mode = empty($id) ? LeaveListForm::MODE_DEFAULT_LIST : LeaveListForm::MODE_HR_ADMIN_DETAILED_LIST;
 
         if ($this->_isRequestFromLeaveSummary($request)) {
-            
             $filters = $request->getGetParameters();            
             $empId = $request->getGetParameter('txtEmpID');
             
@@ -116,10 +115,6 @@ class viewLeaveListAction extends sfAction implements ohrmExportableAction {
         $page = $this->_getPage($mode);
         if (empty($page)) {
             $page = 1;
-        }
-        
-        if($request->getParameter('EmpStatus') == Employee::EMPLOYEE_STATUS_TERMINATED) {
-            $filters['cmbWithTerminated'] = 'on';
         }
         
         $localizationService = new LocalizationService();
@@ -223,7 +218,7 @@ class viewLeaveListAction extends sfAction implements ohrmExportableAction {
             $recordCount = '';
         }
 
-        $leaveListForm = $this->getLeaveListForm($mode, $leavePeriod, $employee, $filters, $this->loggedUserId, $leaveRequest);
+        $leaveListForm = $this->getLeaveListForm($mode, $leavePeriod, $employee, $filters, $leaveRequest);
 
         $list = (count($list)==0)?null:$list;
         $leaveListForm->setList($list);
@@ -297,8 +292,8 @@ class viewLeaveListAction extends sfAction implements ohrmExportableAction {
         $this->initilizeDataRetriever($configurationFactory, $this->getLeaveRequestService(), $retrievalMethod, $retrievalParams);
     }
 
-    protected function getLeaveListForm($mode, $leavePeriod, $employee, $filters, $loggedInUserId, $leaveRequest) {
-        $this->form = new LeaveListForm($mode, $leavePeriod, $employee, $filters, $loggedInUserId, $leaveRequest);
+    protected function getLeaveListForm($mode, $leavePeriod, $employee, $filters, $leaveRequest) {
+        $this->form = new LeaveListForm($mode, $leavePeriod, $employee, $filters, $leaveRequest);
         return $this->form;
     }
 

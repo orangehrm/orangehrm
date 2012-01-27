@@ -19,7 +19,6 @@ class LeaveListForm extends sfForm {
     private $filters = null;
     private $showBackButton = false;
 
-    private $loggedUserId;
     private $leaveRequest;
     private $empJson;
     private $leavePeriodService;
@@ -60,7 +59,6 @@ class LeaveListForm extends sfForm {
         $this->employee = $employee;
         $this->actionButtons = array();
         $this->filters = $filters;
-        $this->loggedUserId = $loggedUserId;
         $this->leaveRequest = $leaveRequest;
         
         parent::__construct(array(), array());
@@ -72,19 +70,9 @@ class LeaveListForm extends sfForm {
             'calFromDate' => new ohrmWidgetDatePickerNew(array(), array('id' => 'calFromDate')),
             'calToDate' => new ohrmWidgetDatePickerNew(array(), array('id' => 'calToDate')),
         ));        
-            
-        $leaveStatusChoices = Leave::getStatusTextList();        
-        $this->setWidget('chkSearchFilter', new ohrmWidgetCheckboxGroup(array('choices' => $leaveStatusChoices,
-                                                                  'show_all_option' => true)));
-            
-            
-        $this->getWidgetSchema()->setLabel('chkSearchFilter', __('Show Leave with Status'));
-            
-        $startDate = $this->_getFilterParam('calFromDate');
-        $endDate = $this->_getFilterParam('calToDate');
-        
-        
-
+                        
+        //$startDate = $this->_getFilterParam('calFromDate');
+        //$endDate = $this->_getFilterParam('calToDate');
         if (empty($startDate) && empty($endDate)) {
 
             if ($this->leavePeriod instanceof LeavePeriod) {
@@ -95,26 +83,25 @@ class LeaveListForm extends sfForm {
 
         $this->getWidget('calFromDate')->setDefault($startDate);
         $this->getWidget('calToDate')->setDefault($endDate);
+        
+        $defaultStatuses = $this->_getFilterParam('chkSearchFilter');
+        $leaveStatusChoices = Leave::getStatusTextList();        
+        $this->setWidget('chkSearchFilter', new ohrmWidgetCheckboxGroup(array('choices' => $leaveStatusChoices,
+                                                                  'show_all_option' => true,
+                                                                  'default' => $defaultStatuses)));
+            
+        $this->getWidgetSchema()->setLabel('chkSearchFilter', __('Show Leave with Status'));
+
 
         if ($this->mode != self::MODE_MY_LEAVE_LIST && $this->mode != self::MODE_MY_LEAVE_DETAILED_LIST) {
-            $subUnitList = array(0 => "All");
-
-            $treeObject = $this->getCompanyStructureService()->getSubunitTreeObject();
-
-            $tree = $treeObject->fetchTree();
-
-            foreach ($tree as $node) {
-                if ($node->getId() != 1) {
-                    $subUnitList[$node->getId()] = str_repeat('&nbsp;&nbsp;', $node['level'] - 1) . $node['name'];
-                }
-            }
-
+            
+            $this->setWidget('cmbSubunit', new ohrmWidgetSubUnitDropDown(array('choices' => $subUnitList, 'default' => $this->_getFilterParam('cmbSubunit')), array('id' => 'cmbSubunit')));            
             $employeeId = trim($this->_getFilterParam('txtEmpId'));
             if ($employeeId == "" && $this->employee instanceof Employee) {
                 $employeeId = $this->employee->getEmpNumber();
             }
 
-            $this->setWidget('cmbSubunit', new sfWidgetFormSelect(array('choices' => $subUnitList, 'default' => $this->_getFilterParam('cmbSubunit')), array('id' => 'cmbSubunit')));
+
             $this->setWidget('txtEmpID', new sfWidgetFormInputHidden(array('default' => $employeeId)));            
             
             if (is_null($this->_getFilterParam('cmbWithTerminated'))) {
