@@ -41,7 +41,7 @@ class LeaveSummaryForm extends sfForm {
     public $pageNo = 1;
     public $pager;
     public $offset = 0;
-    public $recordsCount;
+    public $recordsCount = 0;
     public $recordsLimit = 20;
     public $saveSuccess;
     public $userType;
