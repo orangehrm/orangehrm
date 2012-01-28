@@ -2,11 +2,11 @@
 
 class saveLeaveEntitlementsAction extends baseLeaveAction {
 
-    public function execute($request) {
-        $formDefaults = array();
-        $formOptions = $this->getLoggedInUserDetails();
+    protected $form;
 
-        $form = new LeaveSummaryForm($formDefaults, $formOptions, true);
+    public function execute($request) {
+
+        $form = $this->getForm();
         $saveSuccess = true;
 
         if ($request->isMethod(sfRequest::POST)) {
@@ -41,6 +41,28 @@ class saveLeaveEntitlementsAction extends baseLeaveAction {
 
             $this->forward('leave', 'viewLeaveSummary');
         }
+    }
+
+    /**
+     *
+     * @return LeaveSummaryForm 
+     */
+    protected function getForm() {
+        if (!($this->form instanceof LeaveSummaryForm)) {
+            $formDefaults = array();
+            $formOptions = $this->getLoggedInUserDetails();
+            $this->form = new LeaveSummaryForm($formDefaults, $formOptions, true);
+        }
+        
+        return $this->form;
+    }
+    
+    /**
+     *
+     * @param LeaveSummaryForm $form 
+     */
+    protected function setForm(LeaveSummaryForm $form) {
+        $this->form = $form;
     }
 
 }
