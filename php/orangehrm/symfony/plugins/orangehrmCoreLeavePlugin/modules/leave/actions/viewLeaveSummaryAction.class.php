@@ -64,9 +64,9 @@ class viewLeaveSummaryAction extends sfAction implements ohrmExportableAction {
 
     public function execute($request) {
         $userDetails = $this->getLoggedInUserDetails();
-        
+
         $this->templateMessage = $this->getUser()->getFlash('templateMessage', array('', ''));
-        
+
         $searchParam = array();
         $searchParam['employeeId'] = (trim($request->getParameter("employeeId")) != "") ? trim($request->getParameter("employeeId")) : null;
         if (!is_null($searchParam['employeeId'])) {
@@ -85,7 +85,7 @@ class viewLeaveSummaryAction extends sfAction implements ohrmExportableAction {
             $this->searchFlag = 1;
             $this->form->bind($request->getParameter($this->form->getName()));
         }
-        
+
         $this->form->recordsCount = $this->form->getLeaveSummaryRecordsCount();
         $this->form->setPager($request);
 
@@ -106,6 +106,7 @@ class viewLeaveSummaryAction extends sfAction implements ohrmExportableAction {
                 $clues['cmbWithTerminated'] = 'on';
             }
         }
+
         $noOfRecords = isset($clues['cmbRecordsCount']) ? (int) $clues['cmbRecordsCount'] : $this->form->recordsLimit;
         $pageNo = $request->getParameter('hdnAction') == 'search' ? 1 : $request->getParameter('pageNo', 1);
         $offset = ($pageNo - 1) * $noOfRecords;
@@ -127,7 +128,7 @@ class viewLeaveSummaryAction extends sfAction implements ohrmExportableAction {
             0,
             $totalRecordsCount
         ));
-        
+
         if (isset($this->form->recordsCount) && $this->form->recordsCount == 0 && isset($this->searchFlag) && $this->searchFlag == 1) {
             $this->templateMessage = array('NOTICE', __('No Results Found for This Criteria'));
         }
