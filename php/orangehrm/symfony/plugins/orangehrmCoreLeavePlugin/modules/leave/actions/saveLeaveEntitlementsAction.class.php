@@ -2,7 +2,7 @@
 
 class saveLeaveEntitlementsAction extends baseLeaveAction {
 
-    protected $form;
+    public $form;
 
     public function execute($request) {
 
