@@ -5,3 +5,12 @@
 div#listDiv {
     width: 800px;
 }
+
+.outerbox {
+    width: 700px;
+}
+
+#holidayList_operational_country {
+    min-width: 160px;
+    width: auto;
+}
