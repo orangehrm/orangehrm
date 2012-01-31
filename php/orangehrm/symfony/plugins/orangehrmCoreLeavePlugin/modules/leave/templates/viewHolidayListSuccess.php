@@ -21,6 +21,7 @@
 
 
 use_stylesheet('../../../themes/orange/css/ui-lightness/jquery-ui-1.7.2.custom.css');
+use_stylesheet('../orangehrmCoreLeavePlugin/css/common.css');
 use_javascript('../../../scripts/jquery/ui/ui.core.js');
 use_javascript('../../../scripts/jquery/ui/ui.dialog.js');
 
