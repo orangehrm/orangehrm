@@ -20,6 +20,8 @@
 
 <?php use_stylesheet('../orangehrmCoreLeavePlugin/css/defineWorkWeekSuccess'); ?>
 <?php use_javascripts_for_form($workWeekForm); ?>
+<?php use_stylesheets_for_form($workWeekForm); ?>
+
 <div id="messageBalloonContainer" style="width:380px;">
     <?php echo isset($templateMessage) ? templateMessage($templateMessage) : ''; ?>
 </div>
