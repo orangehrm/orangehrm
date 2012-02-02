@@ -18,6 +18,7 @@
  */
 ?>
 <?php use_javascripts_for_form($form); ?>
+<?php use_stylesheets_for_form($form); ?>
 
 <link href="<?php echo public_path('../../themes/orange/css/ui-lightness/jquery-ui-1.7.2.custom.css') ?>" rel="stylesheet" type="text/css"/>
 
