@@ -136,8 +136,6 @@ class LeaveTypeForm extends orangehrmForm {
     }
     
     public function getStylesheets() {
-        parent::getStylesheets();
-        
         $styleSheets = parent::getStylesheets();
         $styleSheets['/orangehrmCoreLeavePlugin/css/defineLeaveTypeSuccess.css'] = 'screen';
         
