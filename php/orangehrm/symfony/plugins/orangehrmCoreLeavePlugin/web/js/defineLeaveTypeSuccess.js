@@ -60,27 +60,6 @@ $(document).ready(function(){
         window.location.href = backButtonUrl;
     });
 
-    /**
-     * Checks if current leave type name value matches a deleted leave type.
-     * 
-     * @return Leave Type ID if it matches a deleted leave type else false.
-     */
-    function isDeletedLeaveType() {
-
-        if ($.trim($("#leaveType_hdnOriginalLeaveTypeName").val()) ==
-                $.trim($("#leaveType_txtLeaveTypeName").val())) {
-            return false;
-        }
-
-        for (var i = 0; i < deletedLeaveTypes.length; i++) {
-            if (deletedLeaveTypes[i].name.toLowerCase() == 
-                $.trim($('#leaveType_txtLeaveTypeName').val()).toLowerCase()) {
-                return deletedLeaveTypes[i].id;
-            }
-        }
-        return false;
-    }
-
     // undeleteDialog
     $("#undeleteDialog").dialog({
         autoOpen: false,
@@ -108,3 +87,23 @@ $(document).ready(function(){
 
 });
 
+    /**
+     * Checks if current leave type name value matches a deleted leave type.
+     * 
+     * @return Leave Type ID if it matches a deleted leave type else false.
+     */
+    function isDeletedLeaveType() {
+
+        if ($.trim($("#leaveType_hdnOriginalLeaveTypeName").val()) ==
+                $.trim($("#leaveType_txtLeaveTypeName").val())) {
+            return false;
+        }
+
+        for (var i = 0; i < deletedLeaveTypes.length; i++) {
+            if (deletedLeaveTypes[i].name.toLowerCase() == 
+                $.trim($('#leaveType_txtLeaveTypeName').val()).toLowerCase()) {
+                return deletedLeaveTypes[i].id;
+            }
+        }
+        return false;
+    }
