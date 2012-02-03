@@ -6,6 +6,7 @@ abstract class baseLeaveAction extends sfAction {
     
     protected $workWeekService;
     protected $leaveEntitlementService;
+    protected $leaveTypeService;
     
     /**
      *
@@ -45,6 +46,25 @@ abstract class baseLeaveAction extends sfAction {
         $this->leaveEntitlementService = $service;
     }
     
+    /**
+     *
+     * @return LeaveTypeService
+     */
+    protected function getLeaveTypeService() {
+        if (!($this->leaveTypeService instanceof LeaveTypeService)) {
+            $this->leaveTypeService = new LeaveTypeService();
+        }
+        return $this->leaveTypeService;
+    }
+    
+    /**
+     *
+     * @param LeaveTypeService $service 
+     */
+    protected function setLeaveTypeService(LeaveTypeService $service) {
+        $this->leaveTypeService = $service;
+    }
+
     /**
      * Returns Logged in user details
      * @return array
