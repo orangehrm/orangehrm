@@ -90,5 +90,22 @@ class LeaveTypeService extends BaseService {
 
         return $this->getLeaveTypeDao()->getDeletedLeaveTypeList($operationalCountryId);
     }
+    
+    /**
+     *
+     * @return array
+     */
+    public function getActiveLeaveTypeNamesArray() {
+
+        $activeLeaveTypes = $this->getLeaveTypeList();
+
+        $activeTypeNamesArray = array();
+
+        foreach ($activeLeaveTypes as $activeLeaveType) {
+            $activeTypeNamesArray[] = $activeLeaveType->getLeaveTypeName();
+        }
+
+        return $activeTypeNamesArray;
+    }
 
 }
