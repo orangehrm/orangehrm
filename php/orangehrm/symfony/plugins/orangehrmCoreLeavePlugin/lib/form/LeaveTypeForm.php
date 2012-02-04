@@ -100,20 +100,6 @@ class LeaveTypeForm extends orangehrmForm {
         return json_encode($deletedTypesArray);
     }
 
-    public function getActiveLeaveTypesJsonArray() {
-
-        $leaveTypeService = $this->getLeaveTypeService();
-        $activeLeaveTypes = $leaveTypeService->getLeaveTypeList();
-
-        $activeTypesArray = array();
-
-        foreach ($activeLeaveTypes as $activeLeaveType) {
-            $activeTypesArray[] = $activeLeaveType->getLeaveTypeName();
-        }
-
-        return json_encode($activeTypesArray);
-    }
-
     public function getLeaveTypeService() {
 
         if(is_null($this->leaveTypeService)) {
