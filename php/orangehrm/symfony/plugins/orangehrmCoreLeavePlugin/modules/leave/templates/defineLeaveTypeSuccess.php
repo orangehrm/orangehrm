@@ -86,9 +86,10 @@ use_stylesheets_for_form($form);
 
 <script type="text/javascript">
 //<![CDATA[
-    var activeLeaveTypes = <?php echo $form->getActiveLeaveTypesJsonArray(); ?>;
-    var deletedLeaveTypes = <?php echo $form->getDeletedLeaveTypesJsonArray(); ?>;
-    
+
+    var activeLeaveTypes = [];
+    var deletedLeaveTypes = [];
+
     var lang_LeaveTypeNameRequired = '<?php echo __('Please provide a leave type name'); ?>';
     var lang_LeaveTypeExists = '<?php echo __('This leave type exists'); ?>';
     var lang_LeaveTypeNameTooLong = '<?php echo __("Leave type name should be 50 characters or less in length"); ?>'; 

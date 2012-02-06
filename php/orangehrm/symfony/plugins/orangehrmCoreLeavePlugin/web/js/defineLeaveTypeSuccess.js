@@ -87,23 +87,40 @@ $(document).ready(function(){
 
 });
 
-    /**
-     * Checks if current leave type name value matches a deleted leave type.
-     * 
-     * @return Leave Type ID if it matches a deleted leave type else false.
-     */
-    function isDeletedLeaveType() {
+/**
+ * Checks if current leave type name value matches a deleted leave type.
+ * 
+ * @return Leave Type ID if it matches a deleted leave type else false.
+ */
+function isDeletedLeaveType() {
 
-        if ($.trim($("#leaveType_hdnOriginalLeaveTypeName").val()) ==
-                $.trim($("#leaveType_txtLeaveTypeName").val())) {
-            return false;
-        }
-
-        for (var i = 0; i < deletedLeaveTypes.length; i++) {
-            if (deletedLeaveTypes[i].name.toLowerCase() == 
-                $.trim($('#leaveType_txtLeaveTypeName').val()).toLowerCase()) {
-                return deletedLeaveTypes[i].id;
-            }
-        }
+    if ($.trim($("#leaveType_hdnOriginalLeaveTypeName").val()) ==
+            $.trim($("#leaveType_txtLeaveTypeName").val())) {
         return false;
     }
+
+    for (var i = 0; i < deletedLeaveTypes.length; i++) {
+        if (deletedLeaveTypes[i].name.toLowerCase() == 
+            $.trim($('#leaveType_txtLeaveTypeName').val()).toLowerCase()) {
+            return deletedLeaveTypes[i].id;
+        }
+    }
+    return false;
+}
+
+function loadActiveLeaveTypes() {
+    var url = './index.php/leave/loadActiveLeaveTypes';
+    
+    $.getJSON(url, function(data) {
+        alert(data);
+        activeLeaveTypes = data;
+    });
+}
+
+function loadDeletedLeaveTypes() {
+    var url = './index.php/leave/loadDeletedLeaveTypes';
+    
+    $.getJSON(url, function(data) {
+        deletedLeaveTypes = data;
+    });
+}
