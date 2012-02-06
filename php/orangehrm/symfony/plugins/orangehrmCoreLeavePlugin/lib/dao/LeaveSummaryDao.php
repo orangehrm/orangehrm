@@ -49,7 +49,7 @@ class LeaveSummaryDao extends BaseDao {
         }
 
         if (!empty($clues['cmbSubDivision'])) {
-            $where[] = "a.work_station = '{$clues['cmbSubDivision']}'";
+            $where[] = "a.work_station IN ({$clues['cmbSubDivision']})";
         }
 
         if (!empty($clues['cmbJobTitle'])) {
@@ -101,7 +101,7 @@ class LeaveSummaryDao extends BaseDao {
         }
 
         if (!empty($clues['cmbSubDivision'])) {
-            $where[] = "a.work_station = '{$clues['cmbSubDivision']}'";
+            $where[] = "a.work_station IN ({$clues['cmbSubDivision']})";
         }
 
         if (!empty($clues['cmbJobTitle'])) {
