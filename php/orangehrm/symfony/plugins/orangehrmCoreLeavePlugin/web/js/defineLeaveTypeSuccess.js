@@ -110,9 +110,8 @@ function isDeletedLeaveType() {
 
 function loadActiveLeaveTypes() {
     var url = './index.php/leave/loadActiveLeaveTypes';
-    
+
     $.getJSON(url, function(data) {
-        alert(data);
         activeLeaveTypes = data;
     });
 }
