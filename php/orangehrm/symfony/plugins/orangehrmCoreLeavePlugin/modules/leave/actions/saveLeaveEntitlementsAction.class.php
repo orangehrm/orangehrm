@@ -36,8 +36,12 @@ class saveLeaveEntitlementsAction extends baseLeaveAction {
                 $this->getUser()->setFlash('templateMessage', array('FAILURE', __('Failed to Save Leave Entitlements')), false);
             }
 
-            $this->forward('leave', 'viewLeaveSummary');
+            $this->forwardToLeaveSummary();
         }
+    }
+    
+    protected function forwardToLeaveSummary() {
+        $this->forward('leave', 'viewLeaveSummary');
     }
 
     /**
