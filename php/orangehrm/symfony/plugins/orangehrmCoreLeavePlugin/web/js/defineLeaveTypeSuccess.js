@@ -26,22 +26,25 @@ $(document).ready(function(){
     });
     
     var validator = 
-        $("#frmLeaveType").validate({
+    $("#frmLeaveType").validate({
         rules: {
-            'leaveType[txtLeaveTypeName]': {required: true, 
-                                            maxlength: 50,
-                                            uniqueLeaveType: true}
+            'leaveType[txtLeaveTypeName]': {
+                required: true, 
+                maxlength: 50,
+                uniqueLeaveType: true
+            }
         },
         messages: {
-            'leaveType[txtLeaveTypeName]': { required: lang_LeaveTypeNameRequired,
-                                             maxlength: lang_LeaveTypeNameTooLong,
-                                             uniqueLeaveType: lang_LeaveTypeExists
-                                             }
+            'leaveType[txtLeaveTypeName]': {
+                required: lang_LeaveTypeNameRequired,
+                maxlength: lang_LeaveTypeNameTooLong,
+                uniqueLeaveType: lang_LeaveTypeExists
+            }
         },
         submitHandler: function(form) {
             
-           var deletedId = isDeletedLeaveType();
-           if (deletedId) {
+            var deletedId = isDeletedLeaveType();
+            if (deletedId) {
                 $('#undeleteLeaveType_undeleteId').val(deletedId);               
                 $("#undeleteDialog").dialog("open");
             } else {
@@ -82,7 +85,7 @@ $(document).ready(function(){
         $("#undeleteDialog").dialog("close");
     });
 
-    /* Checking for deleted leave types: Ends */
+/* Checking for deleted leave types: Ends */
 
 
 });
@@ -95,7 +98,7 @@ $(document).ready(function(){
 function isDeletedLeaveType() {
 
     if ($.trim($("#leaveType_hdnOriginalLeaveTypeName").val()) ==
-            $.trim($("#leaveType_txtLeaveTypeName").val())) {
+        $.trim($("#leaveType_txtLeaveTypeName").val())) {
         return false;
     }
 
