@@ -62,6 +62,9 @@ class orangehrmCorePluginAllTests {
         /* BaseService Test Cases */
         $suite->addTestFile(dirname(__FILE__) . '/model/service/BaseServiceTest.php');
         $suite->addTestFile(dirname(__FILE__) . '/model/service/BaseServiceDataTest.php');
+        
+        /* form validators */
+        $suite->addTestFile(dirname(__FILE__) . '/form/validate/ohrmValidatorSchemaCompareTest.php');
 
         return $suite;
     }
