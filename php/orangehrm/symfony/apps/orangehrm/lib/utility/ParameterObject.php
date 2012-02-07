@@ -11,8 +11,8 @@ class ParameterObject {
         $this->parameters[$name] = $value;
     }
 
-    public function getParameter($name) {
-        return array_key_exists($name, $this->parameters) ? $this->parameters[$name] : null;
+    public function getParameter($name, $default = null) {
+        return array_key_exists($name, $this->parameters) ? $this->parameters[$name] : $default;
     }
 
 }
