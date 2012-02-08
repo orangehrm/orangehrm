@@ -8,21 +8,14 @@ class LeaveListForm extends sfForm {
     const MODE_HR_ADMIN_DETAILED_LIST = 'detailed_hr_admin_list';
     const MODE_MY_LEAVE_LIST = 'my_leave_list';
     const MODE_MY_LEAVE_DETAILED_LIST = 'my_leave_detailed_list';
-    const MODE_TAKEN_LEAVE_LIST = 'my_taken_leave_list';
-    const MODE_DEFAULT_LIST = 'default_list';
+    const MODE_ADMIN_LIST = 'default_list';
+    const MODE_SUPERVISOR_LIST = 'supervisor_list';
 
     private $mode;
-    private $leavePeriod = null;
-    private $employee = null;
-    private $actionButtons = array();
     private $list = null;
-    private $filters = null;
-    private $showBackButton = false;
 
-    private $leaveRequest;
     private $empJson;
     private $leavePeriodService;
-    public $pageNo;
     private $companyStructureService;
 
     public function getCompanyStructureService() {
@@ -47,76 +40,110 @@ class LeaveListForm extends sfForm {
         return $this->leavePeriodService;
     }
     
-    public function __construct($mode = null, $leavePeriod = null, $employee = null, 
-            $filters = null, $loggedUserId = null, $leaveRequest = null) {
+    public function __construct($mode) {
 
-        if (empty($mode)) {
-            $mode = self::MODE_DEFAULT_LIST;
-        }
-
-        $this->mode = $mode;
-        $this->leavePeriod = $leavePeriod;
-        $this->employee = $employee;
-        $this->actionButtons = array();
-        $this->filters = $filters;
-        $this->leaveRequest = $leaveRequest;
-        
+        $this->mode = $mode;        
         parent::__construct(array(), array());
     }
 
     public function configure() {
 
-        $this->setWidgets(array(
-            'calFromDate' => new ohrmWidgetDatePickerNew(array(), array('id' => 'calFromDate')),
-            'calToDate' => new ohrmWidgetDatePickerNew(array(), array('id' => 'calToDate')),
-        ));        
-                        
-        //$startDate = $this->_getFilterParam('calFromDate');
-        //$endDate = $this->_getFilterParam('calToDate');
-        if (empty($startDate) && empty($endDate)) {
-
-            if ($this->leavePeriod instanceof LeavePeriod) {
-                $startDate = set_datepicker_date_format($this->leavePeriod->getStartDate());
-                $endDate = set_datepicker_date_format($this->leavePeriod->getEndDate());
-            }
-        }
-
-        $this->getWidget('calFromDate')->setDefault($startDate);
-        $this->getWidget('calToDate')->setDefault($endDate);
+        $widgets = array();
+        $labels = array();
+        $validators = array();
+        $defaults = array();
         
-        $defaultStatuses = $this->_getFilterParam('chkSearchFilter');
-        $leaveStatusChoices = Leave::getStatusTextList();        
-        $this->setWidget('chkSearchFilter', new ohrmWidgetCheckboxGroup(array('choices' => $leaveStatusChoices,
-                                                                  'show_all_option' => true,
-                                                                  'default' => $defaultStatuses)));
+        sfContext::getInstance()->getConfiguration()->loadHelpers(array('I18N', 'OrangeDate'));
+        $inputDatePattern = sfContext::getInstance()->getUser()->getDateFormat();
+        
+        // From and To Date
+        $widgets['calFromDate'] = new ohrmWidgetDatePickerNew(array(), array('id' => 'calFromDate'));
+        $labels['calFromDate'] = __('From');
+        
+        $widgets['calToDate'] = new ohrmWidgetDatePickerNew(array(), array('id' => 'calToDate'));
+        $labels['calToDate'] = __('To');        
+        
+        // Set default from/to to current leave period.
+        $leavePeriod = $this->getLeavePeriodService()->getCurrentLeavePeriod();
+        $defaults['calFromDate'] = set_datepicker_date_format($leavePeriod->getStartDate());
+        $defaults['calToDate'] = set_datepicker_date_format($leavePeriod->getEndDate());
+        
+        $validators['calFromDate'] = new ohrmDateValidator(       
+                array('date_format' => $inputDatePattern, 'required' => false),
+                array('invalid'=>'Date format should be'. $inputDatePattern));
+        
+        $validators['calToDate'] = new ohrmDateValidator(       
+                array('date_format' => $inputDatePattern, 'required' => false),
+                array('invalid'=>'Date format should be'. $inputDatePattern)); 
+        
+               
+        
+        // Leave Statuses
+        $leaveStatusChoices = Leave::getStatusTextList();     
+        
+        if ($this->mode == self::MODE_MY_LEAVE_LIST) {
+            $defaultStatuses = array_keys($leaveStatusChoices);
+        } else {
+            $defaultStatuses = array(Leave::LEAVE_STATUS_LEAVE_PENDING_APPROVAL);
+        }
+        
+        $widgets['chkSearchFilter'] = new ohrmWidgetCheckboxGroup(
+                array('choices' => $leaveStatusChoices,
+                      'show_all_option' => true,
+                      'default' => $defaultStatuses));
             
-        $this->getWidgetSchema()->setLabel('chkSearchFilter', __('Show Leave with Status'));
+        $labels['chkSearchFilter'] = 'Show Leave with Status';
+        $defaults['chkSearchFilter'] = $defaultStatuses;
+
+        $validators['chkSearchFilter'] = new sfValidatorChoice(
+                array('choices' => array_keys($leaveStatusChoices), 
+                      'required' => true, 'multiple' => true));
 
 
-        if ($this->mode != self::MODE_MY_LEAVE_LIST && $this->mode != self::MODE_MY_LEAVE_DETAILED_LIST) {
+        if ($this->mode != self::MODE_MY_LEAVE_LIST) {
+
+            // TODO: Populate employee name in auto complete box
             
-            $this->setWidget('cmbSubunit', new ohrmWidgetSubUnitDropDown(array('choices' => $subUnitList, 'default' => $this->_getFilterParam('cmbSubunit')), array('id' => 'cmbSubunit')));            
-            $employeeId = trim($this->_getFilterParam('txtEmpId'));
-            if ($employeeId == "" && $this->employee instanceof Employee) {
-                $employeeId = $this->employee->getEmpNumber();
-            }
+            $widgets['txtEmpID'] = new sfWidgetFormInputHidden(); 
+            $validators['txtEmpID'] = new sfValidatorInteger(array('required' => false, 'min' => 0));
 
-
-            $this->setWidget('txtEmpID', new sfWidgetFormInputHidden(array('default' => $employeeId)));            
             
-            if (is_null($this->_getFilterParam('cmbWithTerminated'))) {
-                $this->setWidget('cmbWithTerminated', new sfWidgetFormInputCheckbox());
-            } else if ($this->_getFilterParam('cmbWithTerminated') == 'on') {
-                $this->setWidget('cmbWithTerminated', new sfWidgetFormInputCheckbox(array('value_attribute_value' => 'on', 'default' => true)));
-            }
-
-            $employeeName = trim($this->_getFilterParam('txtEmployee'));
-            if ($employeeName == "" && $this->employee instanceof Employee) {
-                $employeeName = $this->employee->getFirstName() . " " . $this->employee->getMiddleName() . " " . $this->employee->getLastName();
-            }
-            $this->setWidget('txtEmployee', new sfWidgetFormInput(array('default' => $employeeName)));
-        }        
+            //if ($employeeName == "" && $this->employee instanceof Employee) {
+            //    $employeeName = $this->employee->getFirstName() . " " . $this->employee->getMiddleName() . " " . $this->employee->getLastName();
+            //}
+            
+            $widgets['txtEmployee'] = new sfWidgetFormInput();
+            $labels['txtEmployee'] = __('Employee');
+            $validators['txtEmployee'] = new sfValidatorString(array('required' => false, 'trim' => true));
+            
+            $widgets['cmbSubunit'] = new ohrmWidgetSubUnitDropDown();    
+            $labels['cmbSubunit'] = __('Sub Unit');
+            $subUnitChoices = $widgets['cmbSubunit']->getValidValues();
+            $validators['cmbSubunit'] = new sfValidatorChoice(array('choices'=> $subUnitChoices, 'required' => false));
+            
+            // TODO check cmbWithTerminated if searching for terminated employee
+            $widgets['cmbWithTerminated'] = new sfWidgetFormInputCheckbox(array('value_attribute_value' => 'on'));
+            $labels['cmbWithTerminated'] =  __('Include Past Employees');
+            $validators['cmbWithTerminated'] =  new sfValidatorBoolean(array('true_values' => array('on'), 'required' => false));                        
+        }       
+        
+        $this->setWidgets($widgets);
+        $this->getWidgetSchema()->setLabels($labels);
+        $this->setvalidators($validators);
+        $this->setDefaults($defaults);
+        
+        $this->getWidgetSchema()->setNameFormat('leaveList[%s]');
+        sfWidgetFormSchemaFormatterBreakTags::setNoOfColumns(1);
+        $this->getWidgetSchema()->setFormFormatterName('BreakTags');  
+        
+        // Validate that if both from and to date are given, form date is before to date.
+        $this->getValidatorSchema()->setPostValidator(
+                new ohrmValidatorSchemaCompare('calFromDate', sfValidatorSchemaCompare::LESS_THAN_EQUAL, 'calToDate',
+                        array('throw_global_error' => true,
+                              'skip_if_one_empty' => true),
+                        array('invalid' => 'The from date ("%left_field%") must be before the to date ("%right_field%")')));         
     }
+    
 
     /**
      * Formats the title of the leave list according to the mode
@@ -125,32 +152,13 @@ class LeaveListForm extends sfForm {
      */
     public function getTitle() {
 
-        if ($this->mode === self::MODE_SUPERVISOR_DETAILED_LIST) {
-            $title = 'Approve Leave Request for %s';
-            $replacements = array($this->employee->getFullName());
-        } elseif ($this->mode === self::MODE_HR_ADMIN_DETAILED_LIST) {
-            $str = "";
-            if ($this->leaveRequest instanceof LeaveRequest) {
-                $str .= "(" . $this->getLeaveDateRange($this->leaveRequest->getLeaveRequestId()) . ") - ";
-            }
-            $str .= $this->employee->getFullName();
-            $title = __('Leave Request') . ' %s';
-            $replacements = array($str);
-        } elseif ($this->mode === self::MODE_TAKEN_LEAVE_LIST) {
-            $title = 'Leave Taken by %s in %s';
-            $replacements = array($this->employee->getFullName(), $this->leavePeriod->getDescription());
-        } elseif ($this->mode === self::MODE_MY_LEAVE_LIST) {
+        if ($this->mode === self::MODE_MY_LEAVE_LIST) {
             $title = __('My Leave List');
-            $replacements = null;
-        } elseif ($this->mode === self::MODE_MY_LEAVE_DETAILED_LIST) {
-            $title = __('My Leave Details');
-            $replacements = null;
         } else {
             $title = 'Leave List';
-            $replacements = null;
         }
 
-        return vsprintf(__($title), $replacements);
+        return $title;
     }
 
     /**
@@ -173,18 +181,6 @@ class LeaveListForm extends sfForm {
         return $this->list;
     }
 
-    public function isPaginated() {
-        return ($this->mode == self::MODE_DEFAULT_LIST || $this->mode == self::MODE_MY_LEAVE_LIST);
-    }
-
-    public function isDetailed() {
-        return!($this->mode == self::MODE_DEFAULT_LIST || $this->mode == self::MODE_MY_LEAVE_LIST);
-    }
-
-    public function setShowBackButton($value) {
-        $this->showBackButton = $value;
-    }
-
     public function getEmployeeListAsJson() {
         return $this->empJson;
     }
@@ -195,126 +191,13 @@ class LeaveListForm extends sfForm {
 
     public function getActionButtons() {
 
-        if ((!empty($this->list)) && ($this->mode !== self::MODE_TAKEN_LEAVE_LIST)) {
-            $this->actionButtons['btnSave'] = new ohrmWidgetButton('btnSave', "Save", array('class' => 'savebutton'));
+        $actionButtons = array();
+        
+        if (!empty($this->list)) {
+            $actionButtons['btnSave'] = new ohrmWidgetButton('btnSave', "Save", array('class' => 'savebutton'));
         }
 
-        // showing back button only on details
-        if ($this->isDetailed()) {
-            $this->actionButtons['btnBack'] = new ohrmWidgetButton('btnBack', "Back", array('class' => 'backbutton'));
-        }
-
-        return $this->actionButtons;
-    }
-
-    public function getLeaveDateRange($leaveRequestId) {
-
-        sfContext::getInstance()->getConfiguration()->loadHelpers('OrangeDate');
-
-        $leaveRequestService = new LeaveRequestService();
-        $leaveRequestService->setLeaveRequestDao(new LeaveRequestDao());
-
-        $leaveList = $leaveRequestService->searchLeave($leaveRequestId);
-        $count = count($leaveList);
-
-        if ($count == 1) {
-
-            return set_datepicker_date_format($leaveList[0]->getLeaveDate());
-        } else {
-
-            $range = set_datepicker_date_format($leaveList[0]->getLeaveDate());
-            $range .= " " . __('to') . " ";
-            $range .= set_datepicker_date_format($leaveList[$count - 1]->getLeaveDate());
-
-            return $range;
-        }
-    }
-
-    protected function _isOverQuotaAllowed($leaveTypeId) {
-
-        $leaveTypeService = new LeaveTypeService();
-        $leaveTypeService->setLeaveTypeDao(new LeaveTypeDao());
-        $leaveType = $leaveTypeService->readLeaveType($leaveTypeId);
-
-        if (!$leaveType instanceof LeaveType) {
-            return false;
-        }
-
-        return true;
-    }
-
-    public function getQuotaClass($leaveTypeId) {
-
-        if ($this->_isOverQuotaAllowed($leaveTypeId)) {
-            return '';
-        } else {
-            return ' quotaSelect';
-        }
-    }
-
-    public function getQuotaArray($leaveRequestList) {
-
-        $quotaArray = array();
-
-        if ($leaveRequestList[0] instanceof LeaveRequest) {
-
-            foreach ($leaveRequestList as $request) {
-
-                $employeeId = $request->getEmpNumber();
-                $leaveTypeId = $request->getLeaveTypeId();
-                $leavePeriodId = $request->getLeavePeriodId();
-
-                if (!$this->_isOverQuotaAllowed($leaveTypeId)) {
-
-                    $key = $employeeId . '-';
-                    $key .= $leaveTypeId . '-';
-                    $key .= $leavePeriodId;
-
-                    $leaveEntitlementService = new LeaveEntitlementService();
-                    $leaveEntitlementService->setLeaveEntitlementDao(
-                            new LeaveEntitlementDao());
-
-                    $leaveBalance = $leaveEntitlementService->getLeaveBalance(
-                                    $employeeId,
-                                    $leaveTypeId,
-                                    $leavePeriodId);
-
-                    $quotaArray[$key] = $leaveBalance;
-                }
-            }
-        } elseif ($leaveRequestList[0] instanceof Leave) {
-
-            $employeeId = $leaveRequestList[0]->getEmployeeId();
-            $leaveTypeId = $leaveRequestList[0]->getLeaveTypeId();
-            $leavePeriodId = $leaveRequestList[0]->getLeaveRequest()
-                            ->getLeavePeriodId();
-
-            $key = $employeeId . '-';
-            $key .= $leaveTypeId . '-';
-            $key .= $leavePeriodId;
-
-            $leaveEntitlementService = new LeaveEntitlementService();
-            $leaveEntitlementService->setLeaveEntitlementDao(
-                    new LeaveEntitlementDao());
-
-            $leaveBalance = $leaveEntitlementService->getLeaveBalance(
-                            $employeeId, $leaveTypeId,
-                            $leavePeriodId);
-
-            $quotaArray[$key] = $leaveBalance;
-        }
-
-        return $quotaArray;
-    }
-
-    private function _getFilterParam($paramName) {
-        $value = null;
-
-        if (isset($this->filters[$paramName])) {
-            $value = $this->filters[$paramName];
-        }
-
-        return $value;
+        return $actionButtons;
     }
 
 }

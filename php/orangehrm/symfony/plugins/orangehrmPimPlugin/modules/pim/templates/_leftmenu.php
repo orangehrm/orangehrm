@@ -494,13 +494,13 @@ if($empNumber == $_SESSION['empID']) {
                     input.setAttribute("type", "hidden");
 
                     if(redirect == "leaveList") {
-                        //frm.action = "../leave/viewLeaveList";
-                        frm.action = "<?php echo url_for('leave/viewLeaveList');?>";
-
+    
                         //any user tries accesses his own information
 <?php if(isset($_SESSION['empID']) && $_SESSION['empID'] == $empNumber) {?>
-                            frm.action = "<?php echo url_for('leave/viewMyLeaveList');?>";
-    <?php }?>
+                            frm.action = "<?php echo url_for('leave/viewMyLeaveList?reset=1');?>";
+<?php } else { ?>
+                            frm.action = "<?php echo url_for('leave/viewLeaveList?reset=1');?>";    
+<?php } ?>        
                             input.setAttribute("name", "txtEmpID");
                         }
 

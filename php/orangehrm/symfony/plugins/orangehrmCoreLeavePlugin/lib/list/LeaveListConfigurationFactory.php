@@ -24,7 +24,7 @@ class LeaveListConfigurationFactory extends ohrmListConfigurationFactory {
             'elementProperty' => array(
                 'labelGetter' => array('getLeaveDateRange'),
                 'placeholderGetters' => array('id' => 'getLeaveRequestId'),
-                'urlPattern' => public_path('index.php/leave/viewLeaveList/id/{id}'),
+                'urlPattern' => public_path('index.php/leave/viewLeaveRequest/id/{id}'),
             ),
         ));
 
@@ -68,7 +68,7 @@ class LeaveListConfigurationFactory extends ohrmListConfigurationFactory {
             'elementProperty' => array(
                 'labelGetter' => array('getStatus'),
                 'placeholderGetters' => array('id' => 'getLeaveRequestId'),
-                'urlPattern' => public_path('index.php/leave/viewLeaveList/id/{id}'),
+                'urlPattern' => public_path('index.php/leave/viewLeaveRequest/id/{id}'),
             ),
         ));
 

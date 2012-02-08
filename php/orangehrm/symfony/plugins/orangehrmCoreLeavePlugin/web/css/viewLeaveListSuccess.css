@@ -3,12 +3,6 @@ input.checkbox {
     margin-right: 30px;
 }
 
-input#calFromDate,input#calToDate {
-    float: none;
-    display: inline;
-    margin-right: -10px;
-}
-
 label.mainLabel {
     font-weight: normal;
     float: none;
@@ -69,9 +63,7 @@ label.subLabelNew {
     padding-left: 0px;
 }
 
-input.calendarBtn{
-    margin-left: 15px !important;
-}
+
 
 #overQuotaDialog {
     display: none;
@@ -135,18 +127,52 @@ form#frmFilterLeave label.mainLabel label.error{
     font-weight: normal;
 }
 
-form#frmFilterLeave select#cmbSubunit{
+
+form#frmFilterLeave input#leaveList_txtEmployee{
+    width: 190px;
+    margin-top: 9px;
+}
+
+form#frmFilterLeave input.ohrm_datepicker{
+    width: 190px;
+    display:block;
+    float: left;
+    margin-top: 9px;
+}
+
+form#frmFilterLeave input.calendarBtn{
+    margin-left: 15px !important;
+    display:block;
+    float: left;  
+    margin-top: 9px;
+}
+
+form#frmFilterLeave select {
+    display:block;
+    float: left;      
+    margin-top: 9px;
     width: 200px;
 }
 
-form#frmFilterLeave input#txtEmployee{
-    width: 190px;
+form#frmFilterLeave input#leaveList_cmbWithTerminated {
+    display:block;
+    float: left;      
+    margin-top: 9px;
+    margin-left: 0;
 }
 
-form#frmFilterLeave input#calFromDate.ohrm_datepicker{
-    width: 190px;
+form#frmFilterLeave br {
+    clear: both;
 }
 
-form#frmFilterLeave input#calToDate.ohrm_datepicker{
-    width: 190px;
+form#frmFilterLeave label {
+    width: 160px;
+}
+
+form#frmFilterLeave label {
+    width: 160px;
+}
+
+form#frmFilterLeave div label {
+    width: 120px;
 }
