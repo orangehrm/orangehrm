@@ -172,7 +172,13 @@ EOF;
                 'label' => $this->renderContentTag('label', $allCheckboxLabel, array('for' => $allCheckboxId)),
             );
 
-            $inputs[$allCheckboxId] = $allCheckbox;
+            $allOptionFirst = $this->getOption('all_option_first');
+            
+            if ($allOptionFirst) {
+                $inputs = array($allCheckboxId => $allCheckbox) + $inputs;
+            } else {
+                $inputs[$allCheckboxId] = $allCheckbox;
+            }
         }
 
         return call_user_func($this->getOption('formatter'), $this, $inputs);
@@ -185,7 +191,6 @@ EOF;
         $labelFirst = $this->getOption('label_first');
         $itemContainer = $this->getOption('item_container');
         $widgetContainer = $this->getOption('widget_container');
-        $showAllOption = $this->getOption('show_all_option');
 
         if (empty($widgetContainer)) {
             $widgetContainer = 'div';
