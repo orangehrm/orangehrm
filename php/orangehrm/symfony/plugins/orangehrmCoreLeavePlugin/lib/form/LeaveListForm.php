@@ -199,5 +199,19 @@ class LeaveListForm extends sfForm {
 
         return $actionButtons;
     }
+    
+    public function getJavaScripts() {
+        $javaScripts = parent::getJavaScripts();
+        $javaScripts[] = '/orangehrmCoreLeavePlugin/js/viewLeaveListSuccess.js';
+        
+        return $javaScripts;
+    }
+    
+    public function getStylesheets() {
+        $styleSheets = parent::getStylesheets();
+        $styleSheets['/orangehrmCoreLeavePlugin/css/viewLeaveListSuccess.css'] = 'all';
+        
+        return $styleSheets;        
+    }    
 
 }
