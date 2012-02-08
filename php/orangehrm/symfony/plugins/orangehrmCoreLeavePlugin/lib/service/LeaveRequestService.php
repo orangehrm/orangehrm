@@ -410,7 +410,7 @@ class LeaveRequestService extends BaseService {
      */
     public function searchLeaveRequests($searchParameters, $page = 1, $isCSVPDFExport = false, $isMyLeaveList = false) {
         $result = $this->leaveRequestDao->searchLeaveRequests($searchParameters, $page, $isCSVPDFExport, $isMyLeaveList);
-        return empty($selectionIndex) ? $result : $result[$selectionIndex];
+        return $result;
 
     }
 
