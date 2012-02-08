@@ -283,11 +283,31 @@ class LeaveRequestDao extends BaseDao {
     }
 
     /**
-     *
-     * @param DateRange $dateRange
-     * @param array $status
-     * @param int $page
-     * @return array
+     * Search Leave Requests.
+     * 
+     * Valid Search Parameter values
+     *    * 'noOfRecordsPerPage' (int) - Number of records per page. If not available, 
+     *                                   sfConfig::get('app_items_per_page') will be used.
+     *    * 'dateRange' (DateRange)    -
+     *    * 'statuses' (array)
+     *    * 'employeeFilter'
+     *    * 'leavePeriod'
+     *    * 'leaveType'
+     *    * 'cmbWithTerminated'
+     *    * 'subUnit'                  - Only return leave requests for employees in given subunit 
+     *                                   (or subunit below that in the org structure).
+     *    * 'locations' (array)        - Only return leave requests for employees in given locations.
+     *    * 'employeeName' (string)    - Match employee name (Wildcard match against full name).
+     * 
+     * @param ParameterObject $searchParameters Search Parameters
+     * @param int $page $status Page Number
+     * @param bool $isCSVPDFExport If true, returns all results (ignores paging) as an array
+     * @param bool $isMyLeaveList If true, ignores setting to skip terminated employees.
+     * 
+     * @return array Returns results and record count in the following format:
+     *               array('list' => results, 'meta' => array('record_count' => count)
+     * 
+     *               If $isCSVPDFExport is true, returns just an array of results.
      */
     public function searchLeaveRequests($searchParameters, $page = 1, $isCSVPDFExport = false, $isMyLeaveList = false) {
         $this->_markApprovedLeaveAsTaken();
@@ -302,28 +322,31 @@ class LeaveRequestDao extends BaseDao {
                 ->from('LeaveRequest lr')
                 ->leftJoin('lr.Leave l');
 
-        $dateRange = $searchParameters->getParameter('dateRange');
+        $dateRange = $searchParameters->getParameter('dateRange', new DateRange());
         $statuses = $searchParameters->getParameter('statuses');
         $employeeFilter = $searchParameters->getParameter('employeeFilter');
         $leavePeriod = $searchParameters->getParameter('leavePeriod');
         $leaveType = $searchParameters->getParameter('leaveType');
-        $withTerminatedEmployee = $searchParameters->getParameter('cmbWithTerminated');
+        $includeTerminatedEmployees = $searchParameters->getParameter('cmbWithTerminated');
+        $subUnit = $searchParameters->getParameter('subUnit');
+        $locations = $searchParameters->getParameter('locations');
+        $employeeName = $searchParameters->getParameter('employeeName');
 
         $fromDate = $dateRange->getFromDate();
         $toDate = $dateRange->getToDate();
 
-        if ((!empty($fromDate) && !empty($toDate)) || !empty($statuses)) {
-
-            if (!empty($fromDate) && !empty($toDate)) {
-                $q->andWhere("l.leave_date >= '{$fromDate}'");
-                $q->andWhere("l.leave_date <= '{$toDate}'");
-            }
-
-            if (!empty($statuses)) {
-                $q->whereIn("l.leave_status", $statuses);
-            }
+        if (!empty($fromDate)) {
+            $q->andWhere("l.leave_date >= '{$fromDate}'");
+        }
+        
+        if (!empty($toDate)) {
+            $q->andWhere("l.leave_date <= '{$toDate}'");
         }
 
+        if (!empty($statuses)) {
+            $q->whereIn("l.leave_status", $statuses);
+        }
+        
         if (!empty($employeeFilter)) {
             if (is_numeric($employeeFilter) && $employeeFilter > 0) {
                 $q->andWhere('lr.empNumber = ?', (int) $employeeFilter);
@@ -341,7 +364,7 @@ class LeaveRequestDao extends BaseDao {
                 $q->andWhere('lr.empNumber = ?', -1);
             }
         }
-
+        
         if (trim($fromDate) == "" && trim($toDate) == "" && !empty($leavePeriod)) {
             $leavePeriodId = ($leavePeriod instanceof LeavePeriod) ? $leavePeriod->getLeavePeriodId() : $leavePeriod;
             $q->andWhere('lr.leave_period_id = ?', (int) $leavePeriodId);
@@ -351,12 +374,52 @@ class LeaveRequestDao extends BaseDao {
             $leaveTypeId = ($leaveType instanceof LeaveType) ? $leaveType->getLeaveTypeId() : $leaveType;
             $q->andWhere('lr.leave_type_id = ?', $leaveTypeId);
         }
-        if (!$isMyLeaveList) {
-            if (empty($withTerminatedEmployee)) {
-                $q->leftJoin('lr.Employee em')
-                        ->andWhere("em.termination_id IS NULL");
-            }
+        
+        if ($isMyLeaveList) {
+            $includeTerminatedEmployees = true;
         }
+        
+        if (!empty($subUnit) || empty($includeTerminatedEmployees) || !empty($locations)
+                || !empty($employeeName)) {
+            $q->leftJoin('lr.Employee em');
+        }
+        
+        // Search by employee name
+        if (!empty($employeeName)) {
+            // Replace multiple spaces in string with wildcards
+            $employeeName = preg_replace('!\s+!', '%', $employeeName);
+            
+            // Surround with wildcard character
+            $employeeName = '%' . $employeeName . '%';
+                        
+            $q->andWhere('CONCAT_WS(\' \', em.emp_firstname, em.emp_middle_name, em.emp_lastname) LIKE ?', $employeeName);
+        }
+        
+        if (!empty($subUnit)) {
+
+            $subUnitIds = array($subUnit);
+            $subUnitObj = Doctrine::getTable('Subunit')->find($subUnit);
+            
+            if (!empty($subUnitObj)) {
+                $descendents = $subUnitObj->getNode()->getDescendants();
+                foreach($descendents as $descendent) {
+                    $subUnitIds[] = $descendent->id;
+                }
+                
+            }
+            
+            $q->andWhereIn('em.work_station', $subUnitIds);
+        }
+        
+        if (empty($includeTerminatedEmployees)) {
+            $q->andWhere("em.termination_id IS NULL");
+        }
+        
+        if (!empty($locations)) {
+            $q->leftJoin('em.locations loc');
+            $q->andWhereIn('loc.id', $locations);
+        }
+
         $q->orderBy('l.leave_date DESC');
 
         $count = $q->count();

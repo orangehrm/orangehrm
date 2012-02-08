@@ -914,7 +914,154 @@
 
     }
 
+    /**
+     * Test funtion to verify searching for leave requests of an employee
+     * in a particular subunit.
+     */
+    public function testSearchLeaveRequestsByEmployeeSubUnit() {
 
+        $searchParameters = new ParameterObject();
+        
+        // Employees under engineering, and sales (2,5) : employees 2,5,6
+        $searchParameters->setParameter('subUnit', 2);
+        $leaveFixture = $this->fixture['LeaveRequest'];
+        $expected = array($leaveFixture[18], $leaveFixture[19], $leaveFixture[16],
+                          $leaveFixture[13], $leaveFixture[12], $leaveFixture[11],
+                          $leaveFixture[15], $leaveFixture[17]);
+  
+        $searchResult = $this->leaveRequestDao->searchLeaveRequests($searchParameters);
+        $requestList = $searchResult['list'];
+        $requestCount = $searchResult['meta']['record_count'];
+
+        /* Checking type */
+
+        foreach ($requestList as $request) {
+            $this->assertTrue($request instanceof LeaveRequest);
+        }
+
+        /* Checking count */
+
+        $this->assertEquals(count($expected), count($requestList));
+        $this->assertEquals(count($expected), $requestCount);
+
+        /* Checking values and order */
+        $this->compareLeaveRequests($expected, $requestList);
+    }
+
+    /**
+     * Test funtion to verify searching for leave requests of an employee
+     * in a particular location
+     */
+    public function testSearchLeaveRequestsByLocation() {
+
+        $searchParameters = new ParameterObject();
+        
+        // Location 1: employees 1
+        $searchParameters->setParameter('locations', array(1));
+        
+        // need to include terminated since employee 1 is terminated.
+        $searchParameters->setParameter('cmbWithTerminated', true);
+        $leaveFixture = $this->fixture['LeaveRequest'];
+        $expected = array($leaveFixture[7], $leaveFixture[6], $leaveFixture[5],
+                          $leaveFixture[4], $leaveFixture[3], $leaveFixture[2],
+                          $leaveFixture[1], $leaveFixture[0], $leaveFixture[10],
+                          $leaveFixture[9], $leaveFixture[8]);
+            
+        $searchResult = $this->leaveRequestDao->searchLeaveRequests($searchParameters);
+        $requestList = $searchResult['list'];
+        $requestCount = $searchResult['meta']['record_count'];
+
+        /* Checking type */
+
+        foreach ($requestList as $request) {
+            $this->assertTrue($request instanceof LeaveRequest);
+        }
+
+        /* Checking count */
+
+        $this->assertEquals(count($expected), count($requestList));
+        $this->assertEquals(count($expected), $requestCount);
+
+        /* Checking values and order */
+        $this->compareLeaveRequests($expected, $requestList);                
+    }
+
+    /**
+     * Test funtion to verify searching for leave requests of an employee
+     * in a multiple locations
+     */
+    public function testSearchLeaveRequestsByMultipleLocations() {
+
+        $searchParameters = new ParameterObject();
+        
+        // Location 3,4: employees 5,6
+        $searchParameters->setParameter('locations', array(3,4));
+
+        $leaveFixture = $this->fixture['LeaveRequest'];
+        $expected = array($leaveFixture[18], $leaveFixture[19], $leaveFixture[16],
+                          $leaveFixture[15], $leaveFixture[17]);
+            
+        $searchResult = $this->leaveRequestDao->searchLeaveRequests($searchParameters);
+        $requestList = $searchResult['list'];
+        $requestCount = $searchResult['meta']['record_count'];
+
+        /* Checking type */
+
+        foreach ($requestList as $request) {
+            $this->assertTrue($request instanceof LeaveRequest);
+        }
+
+        /* Checking count */
+
+        $this->assertEquals(count($expected), count($requestList));
+        $this->assertEquals(count($expected), $requestCount);
+
+        /* Checking values and order */
+        $this->compareLeaveRequests($expected, $requestList);                
+    }
+
+    /**
+     * Test funtion to verify searching for leave requests of by
+     * Employee Name.
+     */
+    public function testSearchLeaveRequestsByEmployeeName() {
+
+        $leaveFixture = $this->fixture['LeaveRequest'];
+        $ashleyLeave = array($leaveFixture[13], $leaveFixture[12], $leaveFixture[11]);
+
+        $tylorLandonJamesLeave = array($leaveFixture[18], $leaveFixture[16], $leaveFixture[15],
+                                       $leaveFixture[14], $leaveFixture[17]);
+
+        $names = array('Ashley Aldis Abel', 'Aldis', 'ldis', 'Aldis', 'Abr');
+        $expectedArray = array($ashleyLeave, $ashleyLeave, $ashleyLeave, $ashleyLeave, $tylorLandonJamesLeave);
+
+        for ($i = 0; $i < count($names); $i++) {
+            $name = $names[$i];
+            $expected = $expectedArray[$i];
+            
+            $searchParameters = new ParameterObject();
+            $searchParameters->setParameter('employeeName', $name);
+
+            $searchResult = $this->leaveRequestDao->searchLeaveRequests($searchParameters);
+            $requestList = $searchResult['list'];
+            $requestCount = $searchResult['meta']['record_count'];
+
+            /* Checking type */
+
+            foreach ($requestList as $request) {
+                $this->assertTrue($request instanceof LeaveRequest);
+            }
+
+            /* Checking count */
+
+            $this->assertEquals(count($expected), count($requestList));
+            $this->assertEquals(count($expected), $requestCount);
+
+            /* Checking values and order */
+            $this->compareLeaveRequests($expected, $requestList);             
+        }               
+    }
+    
     /**
      * Test the readLeave() function
      */
@@ -992,7 +1139,112 @@
         $this->assertEquals($origAsArray, $savedAsArray);        
     }
 
+    public function testGetEmployeesInSubUnits() {
+        
+        $this->assertEquals(array(2, 6), $this->getEmployeesInSubUnits(array(2)));
+        
+        $this->assertEquals(array(1, 2, 3, 4, 5, 6), $this->getEmployeesInSubUnits(array(1,2,3,4,5)));
+        
+        $this->assertEquals(array(5), $this->getEmployeesInSubUnits(array(5)));
+    }
     
+    /**
+     * Get Employees under given subunit 
+     * @param array $subUnits array of subunit ids
+     * 
+     * @return array Array of employee numbers.
+     */
+    protected function getEmployeesInSubUnits(array $subUnits) {
+        $empNumbers = array();
+        $employees = $this->fixture['Employee'];
+        
+        foreach($employees as $employee) {
+            if (isset($employee['work_station']) &&
+                    in_array($employee['work_station'], $subUnits)) {
+                $empNumbers[] = $employee['empNumber'];
+            }
+        }
+        
+        return $empNumbers;
+    }
+    
+    public function testGetLeaveRequestsForEmployees() {
+        $this->assertEquals(range(1, 11), 
+                $this->getLeaveRequestIds($this->getLeaveRequestsForEmployees(array(1))));
+        
+        $this->assertEquals(range(1, 14), 
+                $this->getLeaveRequestIds($this->getLeaveRequestsForEmployees(array(1, 2))));
+
+        $this->assertEquals(array(20), 
+                $this->getLeaveRequestIds($this->getLeaveRequestsForEmployees(array(6))));
+        
+        $this->assertEquals(range(16, 19),
+                $this->getLeaveRequestIds($this->getLeaveRequestsForEmployees(array(5))));        
+        
+    }
+    
+    protected function getLeaveRequestsForEmployees($empNumbers) {
+        
+        $leaveRequests = array();
+        $allLeaveRequests = $this->fixture['LeaveRequest'];
+        
+        foreach($allLeaveRequests as $request) {
+            if (in_array($request['empNumber'], $empNumbers)) {
+                $leaveRequests[] = $request;
+            }
+        }
+        
+        return $leaveRequests;
+    }
+    
+    protected function getLeaveRequestIds($leaveRequests) {
+        $ids = array();
+        foreach ($leaveRequests as $request) {
+            $ids[] = $request['leave_request_id'];
+        }
+        
+        return $ids;
+    }
+    
+    protected function compareLeaveRequests($expected, $requestList) {
+        $this->assertEquals(count($expected), count($requestList));
+
+        for ($i = 0; $i < count($expected); $i++) {
+            
+            $item = $expected[$i];
+            $result = $requestList[$i];
+
+            $this->assertEquals($item['leave_request_id'], $result->getLeaveRequestId());
+            $this->assertEquals($item['leave_period_id'], $result->getLeavePeriodId());
+            $this->assertEquals($item['leave_type_id'], $result->getLeaveTypeId());
+            $this->assertEquals($item['leave_type_name'], $result->getLeaveTypeName());
+            $this->assertEquals($item['date_applied'], $result->getDateApplied());
+            $this->assertEquals($item['empNumber'], $result->getEmpNumber());
+            $this->assertEquals($item['leave_comments'], $result->getLeaveComments());
+        }
+    }
+    
+    protected function sortLeaveRequestsByDate($leaveRequests) {
+        $this->assertTrue(usort($leaveRequests, array($this, 'compareByDate')));
+        return $leaveRequests;
+    }
+    
+    protected function compareByDate($request1, $request2) {
+        $date1 = $request1['date_applied'];
+        $date2 = $request2['date_applied'];
+        
+        $time1 = strtotime($date1);
+        $time2 = strtotime($date2);
+        
+        $cmp = 0;
+        if ($time1 < $time2) {
+            $cmp = -1;
+        } else if ($time1 > $time2) {
+            $cmp = 1;
+        }
+        
+        return $cmp;
+    }
  }
 
 
