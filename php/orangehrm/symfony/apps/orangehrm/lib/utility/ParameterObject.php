@@ -2,9 +2,8 @@
 class ParameterObject {
     private $parameters;
 
-    public function __construct($parameters) {
-    	
-        $this->parameters = empty($parameters) ? array() : $parameters;
+    public function __construct($parameters = array()) {    	        
+        $this->parameters = is_array($parameters) ? $parameters : array();
     }
 
     public function setParameter($name, $value) {
