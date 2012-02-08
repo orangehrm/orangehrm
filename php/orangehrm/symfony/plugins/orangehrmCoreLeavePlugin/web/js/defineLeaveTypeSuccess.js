@@ -53,7 +53,6 @@ $(document).ready(function(){
         },
         errorElement: 'div'
     });
-    
 
     $("#resetButton").click(function() {
         validator.resetForm();
@@ -85,9 +84,8 @@ $(document).ready(function(){
         $("#undeleteDialog").dialog("close");
     });
 
-/* Checking for deleted leave types: Ends */
-
-
+    loadActiveLeaveTypes();
+    loadDeletedLeaveTypes();
 });
 
 /**
@@ -112,7 +110,7 @@ function isDeletedLeaveType() {
 }
 
 function loadActiveLeaveTypes() {
-    var url = './index.php/leave/loadActiveLeaveTypes';
+    var url = './loadActiveLeaveTypesJson';
 
     $.getJSON(url, function(data) {
         activeLeaveTypes = data;
@@ -120,7 +118,7 @@ function loadActiveLeaveTypes() {
 }
 
 function loadDeletedLeaveTypes() {
-    var url = './index.php/leave/loadDeletedLeaveTypes';
+    var url = './loadDeletedLeaveTypesJson';
     
     $.getJSON(url, function(data) {
         deletedLeaveTypes = data;

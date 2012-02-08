@@ -95,9 +95,9 @@ class LeaveTypeService extends BaseService {
      *
      * @return array
      */
-    public function getActiveLeaveTypeNamesArray() {
+    public function getActiveLeaveTypeNamesArray($operationalCountryId = null) {
 
-        $activeLeaveTypes = $this->getLeaveTypeList();
+        $activeLeaveTypes = $this->getLeaveTypeList($operationalCountryId);
 
         $activeTypeNamesArray = array();
 
@@ -106,6 +106,23 @@ class LeaveTypeService extends BaseService {
         }
 
         return $activeTypeNamesArray;
+    }
+    
+    public function getDeletedLeaveTypeNamesArray($operationalCountryId = null) {
+
+        $deletedLeaveTypes = $this->getDeletedLeaveTypeList($operationalCountryId);
+
+        $deletedTypeNamesArray = array();
+
+        foreach ($deletedLeaveTypes as $deletedLeaveType) {
+
+            $deletedLeaveTypeObject = new stdClass();
+            $deletedLeaveTypeObject->id = $deletedLeaveType->getLeaveTypeId();
+            $deletedLeaveTypeObject->name = $deletedLeaveType->getLeaveTypeName();
+            $deletedTypeNamesArray[] = $deletedLeaveTypeObject;
+        }
+
+        return $deletedTypeNamesArray;
     }
 
 }
