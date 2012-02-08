@@ -290,7 +290,7 @@ class LeaveRequestDao extends BaseDao {
      *                                   sfConfig::get('app_items_per_page') will be used.
      *    * 'dateRange' (DateRange)    -
      *    * 'statuses' (array)
-     *    * 'employeeFilter'
+     *    * 'employeeFilter' (array)   - Filter by given employees. If an empty array(), does not match any employees.
      *    * 'leavePeriod'
      *    * 'leaveType'
      *    * 'cmbWithTerminated'
@@ -318,9 +318,11 @@ class LeaveRequestDao extends BaseDao {
         $list = array();
 
         $q = Doctrine_Query::create()
-                ->select('lr.*')
+                ->select('lr.*, em.firstName, em.lastName, em.middleName, em.termination_id, lt.*')
                 ->from('LeaveRequest lr')
-                ->leftJoin('lr.Leave l');
+                ->leftJoin('lr.Leave l')
+                ->leftJoin('lr.Employee em')
+                ->leftJoin('lr.LeaveType lt');
 
         $dateRange = $searchParameters->getParameter('dateRange', new DateRange());
         $statuses = $searchParameters->getParameter('statuses');
@@ -360,6 +362,7 @@ class LeaveRequestDao extends BaseDao {
                 $q->whereIn('lr.empNumber', $empNumbers);
             }
         } else {
+            // empty array does not match any results.
             if (is_array($employeeFilter)) {
                 $q->andWhere('lr.empNumber = ?', -1);
             }
@@ -381,7 +384,7 @@ class LeaveRequestDao extends BaseDao {
         
         if (!empty($subUnit) || empty($includeTerminatedEmployees) || !empty($locations)
                 || !empty($employeeName)) {
-            $q->leftJoin('lr.Employee em');
+            
         }
         
         // Search by employee name
@@ -397,6 +400,7 @@ class LeaveRequestDao extends BaseDao {
         
         if (!empty($subUnit)) {
 
+            // Get given subunit's descendents as well.
             $subUnitIds = array($subUnit);
             $subUnitObj = Doctrine::getTable('Subunit')->find($subUnit);
             
@@ -404,8 +408,7 @@ class LeaveRequestDao extends BaseDao {
                 $descendents = $subUnitObj->getNode()->getDescendants();
                 foreach($descendents as $descendent) {
                     $subUnitIds[] = $descendent->id;
-                }
-                
+                }                
             }
             
             $q->andWhereIn('em.work_station', $subUnitIds);
