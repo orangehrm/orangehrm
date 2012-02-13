@@ -332,7 +332,7 @@ use_javascript('../../../scripts/jquery/ui/ui.dialog.js');
                         $performedBy = $row->getUsers()->getEmployee()->getFullName();
                         
                         if (empty($performedBy) && $row->getUsers()->getIsAdmin() == 'Yes') {
-                            $performedBy = "Admin";
+                            $performedBy = __("Admin");
                         }
                         
                         ?>
@@ -340,7 +340,7 @@ use_javascript('../../../scripts/jquery/ui/ui.dialog.js');
                         <tr>
             <!--                    <td id="actionlogStatusAlignment"> </td>-->
                             <td id="actionlogStatus"><?php echo __(ucfirst(strtolower($row->getAction()))); ?></td>
-                            <td id="actionlogPerform"><?php echo __($performedBy); ?></td>
+                            <td id="actionlogPerform"><?php echo $performedBy; ?></td>
                             <td id="actionLogDate"><?php echo set_datepicker_date_format($row->getDateTime()); ?></td>
                             <td id="actionLogComment"><?php echo $row->getComment(); ?></td>
                         </tr>
