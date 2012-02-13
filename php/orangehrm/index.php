@@ -69,6 +69,10 @@ if (file_exists('symfony/config/databases.yml')) {
         $attendanceMenus = $decoratedUser->getAccessibleAttendanceSubMenus();
         $reportsMenus = $decoratedUser->getAccessibleReportSubMenus();
         $recruitHomePage = './symfony/web/index.php/recruitment/viewCandidates';
+        
+        $i18n = $context->getI18N();
+        $cultureElements = explode('_', $context->getUser()->getCulture()); // Used in <html> tag
+                
     }
 }
 
@@ -328,97 +332,97 @@ $menu = array();
 
 /* View for Admin users */
 if ($_SESSION['isAdmin'] == 'Yes' || $arrAllRights[Admin]['view']) {
-    $menuItem = new MenuItem("admin", $lang_Menu_Admin, "./index.php?menu_no_top=eim");
+    $menuItem = new MenuItem("admin", $i18n->__("Admin"), "./index.php?menu_no_top=eim");
     $menuItem->setCurrent($_GET['menu_no_top'] == "eim");
 
     $subs = array();
 
-    $sub = new MenuItem("companyinfo", "Organization", "#");
+    $sub = new MenuItem("companyinfo", $i18n->__("Organization"), "#");
     $subsubs = array();
-    $subsubs[] = new MenuItem("companyinfo", "General Information", "./symfony/web/index.php/admin/viewOrganizationGeneralInformation");
-    $subsubs[] = new MenuItem("companyinfo", "Locations", "./symfony/web/index.php/admin/viewLocations");
-    $subsubs[] = new MenuItem("companyinfo", "Structure", "./symfony/web/index.php/admin/viewCompanyStructure");
+    $subsubs[] = new MenuItem("companyinfo", $i18n->__("General Information"), "./symfony/web/index.php/admin/viewOrganizationGeneralInformation");
+    $subsubs[] = new MenuItem("companyinfo", $i18n->__("Locations"), "./symfony/web/index.php/admin/viewLocations");
+    $subsubs[] = new MenuItem("companyinfo", $i18n->__("Structure"), "./symfony/web/index.php/admin/viewCompanyStructure");
 
     $sub->setSubMenuItems($subsubs);
 
 
     $subs[] = $sub;
 
-    $sub = new MenuItem("job", $lang_Menu_Admin_Job, "#");
+    $sub = new MenuItem("job", $i18n->__("Job"), "#");
     $subsubs = array();
-    $subsubs[] = new MenuItem("job", "Job Titles", "./symfony/web/index.php/admin/viewJobTitleList");
-    $subsubs[] = new MenuItem("job", $lang_Menu_Admin_Job_PayGrades, "./symfony/web/index.php/admin/viewPayGrades");
-    $subsubs[] = new MenuItem("job", $lang_Menu_Admin_Job_EmpStatus, "./symfony/web/index.php/admin/employmentStatus");
-    $subsubs[] = new MenuItem("job", "Job Categories", "./symfony/web/index.php/admin/jobCategory");
-    $subsubs[] = new MenuItem("job", $lang_Menu_Admin_Job_WorkShifts, "./symfony/web/index.php/admin/workShift");
+    $subsubs[] = new MenuItem("job", $i18n->__("Job Titles"), "./symfony/web/index.php/admin/viewJobTitleList");
+    $subsubs[] = new MenuItem("job", $i18n->__("Pay Grades"), "./symfony/web/index.php/admin/viewPayGrades");
+    $subsubs[] = new MenuItem("job", $i18n->__("Employment Status"), "./symfony/web/index.php/admin/employmentStatus");
+    $subsubs[] = new MenuItem("job", $i18n->__("Job Categories"), "./symfony/web/index.php/admin/jobCategory");
+    $subsubs[] = new MenuItem("job", $i18n->__("Work Shifts"), "./symfony/web/index.php/admin/workShift");
     $sub->setSubMenuItems($subsubs);
     $subs[] = $sub;
 
-    $sub = new MenuItem("qualifications", $lang_Menu_Admin_Quali, "#");
+    $sub = new MenuItem("qualifications", $i18n->__("Qualification"), "#");
     $subsubs = array();
-    $subsubs[] = new MenuItem("qualifications", $lang_Menu_Admin_Skills_Skills, "./symfony/web/index.php/admin/viewSkills");
-    $subsubs[] = new MenuItem("qualifications", $lang_Menu_Admin_Quali_Education, "./symfony/web/index.php/admin/viewEducation");
-    $subsubs[] = new MenuItem("qualifications", $lang_Menu_Admin_Quali_Licenses, "./symfony/web/index.php/admin/viewLicenses");
-    $subsubs[] = new MenuItem("qualifications", $lang_Menu_Admin_Skills_Languages, "./symfony/web/index.php/admin/viewLanguages");
+    $subsubs[] = new MenuItem("qualifications", $i18n->__("Skills"), "./symfony/web/index.php/admin/viewSkills");
+    $subsubs[] = new MenuItem("qualifications", $i18n->__("Education"), "./symfony/web/index.php/admin/viewEducation");
+    $subsubs[] = new MenuItem("qualifications", $i18n->__("Licenses"), "./symfony/web/index.php/admin/viewLicenses");
+    $subsubs[] = new MenuItem("qualifications", $i18n->__("Languages"), "./symfony/web/index.php/admin/viewLanguages");
     $sub->setSubMenuItems($subsubs);
     $subs[] = $sub;
 
-    $sub = new MenuItem("memberships", $lang_Menu_Admin_Memberships, "./symfony/web/index.php/admin/membership", "rightMenu");
+    $sub = new MenuItem("memberships", $i18n->__("Memberships"), "./symfony/web/index.php/admin/membership", "rightMenu");
     $subs[] = $sub;
 
-    $sub = new MenuItem("nationalities", "Nationalities", "./symfony/web/index.php/admin/nationality", "rightMenu");
+    $sub = new MenuItem("nationalities", $i18n->__("Nationalities"), "./symfony/web/index.php/admin/nationality", "rightMenu");
     $subs[] = $sub;
 
-    $sub = new MenuItem("users", $lang_Menu_Admin_Users, "./symfony/web/index.php/admin/viewSystemUsers", "rightMenu");
+    $sub = new MenuItem("users", $i18n->__("Users"), "./symfony/web/index.php/admin/viewSystemUsers", "rightMenu");
     $subsubs = array();
 
     if (is_dir(ROOT_PATH . '/symfony/plugins/orangehrmSecurityAuthenticationPlugin') && $arrAllRights[Admin]['edit']) {
-        $subsubs[] = new MenuItem('users', 'Configure Security Authentication', './symfony/web/index.php/securityAuthentication/securityAuthenticationConfigure', 'rightMenu');
+        $subsubs[] = new MenuItem('users', $i18n->__("Configure Security Authentication"), './symfony/web/index.php/securityAuthentication/securityAuthenticationConfigure', 'rightMenu');
     }
 
     $sub->setSubMenuItems($subsubs);
     $subs[] = $sub;
 
-    $sub = new MenuItem("email", $lang_Menu_Admin_EmailNotifications, "#");
+    $sub = new MenuItem("email", $i18n->__("Email Notifications"), "#");
     $subsubs = array();
-    $subsubs[] = new MenuItem("email", $lang_Menu_Admin_EmailConfiguration, "./symfony/web/index.php/admin/listMailConfiguration");
-    $subsubs[] = new MenuItem("email", $lang_Menu_Admin_EmailSubscribe, "./symfony/web/index.php/admin/viewEmailNotification");
+    $subsubs[] = new MenuItem("email", $i18n->__("Configuration"), "./symfony/web/index.php/admin/listMailConfiguration");
+    $subsubs[] = new MenuItem("email", $i18n->__("Subscribe"), "./symfony/web/index.php/admin/viewEmailNotification");
     $sub->setSubMenuItems($subsubs);
     $subs[] = $sub;
 
-    $sub = new MenuItem("project", $lang_Menu_Admin_ProjectInfo, "#");
+    $sub = new MenuItem("project", $i18n->__("Project Info"), "#");
     $subsubs = array();
-    $subsubs[] = new MenuItem("project", __("Customers"), "./symfony/web/index.php/admin/viewCustomers");
-    $subsubs[] = new MenuItem("project", __("Projects"), "./symfony/web/index.php/admin/viewProjects");
+    $subsubs[] = new MenuItem("project", $i18n->__("Customers"), "./symfony/web/index.php/admin/viewCustomers");
+    $subsubs[] = new MenuItem("project", $i18n->__("Projects"), "./symfony/web/index.php/admin/viewProjects");
 
     $sub->setSubMenuItems($subsubs);
     $subs[] = $sub;
 
-    $sub = new MenuItem("configuration", "Configuration", "#");
+    $sub = new MenuItem("configuration", $i18n->__("Configuration"), "#");
     $subsubs = array();
-    $subsubs[] = new MenuItem("configuration", "Localization", "./symfony/web/index.php/admin/localization");
-    $subsubs[] = new MenuItem("configuration", "Modules", "./symfony/web/index.php/admin/viewModules");
+    $subsubs[] = new MenuItem("configuration", $i18n->__("Localization"), "./symfony/web/index.php/admin/localization");
+    $subsubs[] = new MenuItem("configuration", $i18n->__("Modules"), "./symfony/web/index.php/admin/viewModules");
     $sub->setSubMenuItems($subsubs);
     $subs[] = $sub;
 
     if (is_dir(ROOT_PATH . '/symfony/plugins/orangehrmAuditTrailPlugin') && $arrAllRights[Admin]['view']) {
-        $subs[] = new MenuItem('audittrail', 'Audit Trail', './symfony/web/index.php/audittrail/viewAuditTrail', 'rightMenu');
+        $subs[] = new MenuItem('audittrail', $i18n->__("Audit Trail"), './symfony/web/index.php/audittrail/viewAuditTrail', 'rightMenu');
     }
 
     if (is_dir(ROOT_PATH . '/symfony/plugins/orangehrmLDAPAuthenticationPlugin') && $arrAllRights[Admin]['edit']) {
-        $subs[] = new MenuItem('ldap', 'LDAP Configuration', './symfony/web/index.php/ldapAuthentication/configureLDAPAuthentication', 'rightMenu');
+        $subs[] = new MenuItem('ldap', $i18n->__("LDAP Configuration"), './symfony/web/index.php/ldapAuthentication/configureLDAPAuthentication', 'rightMenu');
     }
 
     $menuItem->setSubMenuItems($subs);
     $menu[] = $menuItem;
 } else if ($_SESSION['isProjectAdmin'] && !$_SESSION['isSupervisor']) {
-    $menuItem = new MenuItem("admin", $lang_Menu_Admin, './symfony/web/index.php/admin/viewProjects', 'rightMenu');
+    $menuItem = new MenuItem("admin", $i18n->__("Admin"), './symfony/web/index.php/admin/viewProjects', 'rightMenu');
     $menuItem->setCurrent($_GET['menu_no_top'] == "eim");
-    $subs[] = new MenuItem("project", "Projects", "./symfony/web/index.php/admin/viewProjects", 'rightMenu');
+    $subs[] = new MenuItem("project", $i18n->__("Projects"), "./symfony/web/index.php/admin/viewProjects", 'rightMenu');
     $menuItem->setSubMenuItems($subs);
     $menu[] = $menuItem;
 } else if ($_SESSION['isSupervisor'] && $_SESSION['isProjectAdmin']) {
-    $menuItem = new MenuItem("admin", $lang_Menu_Admin, './symfony/web/index.php/admin/viewProjects', 'rightMenu');
+    $menuItem = new MenuItem("admin", $i18n->__("Admin"), './symfony/web/index.php/admin/viewProjects', 'rightMenu');
     $menuItem->setCurrent($_GET['menu_no_top'] == "eim");
     $subs[] = new MenuItem("project", __("Projects"), "./symfony/web/index.php/admin/viewProjects", 'rightMenu');
     $menuItem->setSubMenuItems($subs);
@@ -431,7 +435,7 @@ $_SESSION['PIM_MENU_TYPE'] = PIM_MENU_TYPE;
 /* PIM menu start */
 if (($_SESSION['isAdmin'] == 'Yes' || $_SESSION['isSupervisor']) && $arrAllRights[PIM]['view']) {
 
-    $menuItem = new MenuItem("pim", $lang_Menu_Pim, "./index.php?menu_no_top=hr&reset=1");
+    $menuItem = new MenuItem("pim", $i18n->__("PIM"), "./index.php?menu_no_top=hr&reset=1");
     $menuItem->setCurrent($_GET['menu_no_top'] == "hr");
     $enablePimMenu = false;
     if ((isset($_GET['menu_no_top'])) && ($_GET['menu_no_top'] == "hr") && isset($_GET['reqcode']) && $arrRights['view']) {
@@ -440,69 +444,26 @@ if (($_SESSION['isAdmin'] == 'Yes' || $_SESSION['isSupervisor']) && $arrAllRight
     $subs = array();
     if ($_SESSION['isAdmin'] == 'Yes') {
 
-        $sub = new MenuItem("configure", "Configuration", "#");
+        $sub = new MenuItem("configure", __("Configuration"), "#");
         $subsubs = array();
-        $subsubs[] = new MenuItem("pimconfig", "Optional Fields", "./symfony/web/index.php/pim/configurePim", "rightMenu");
-        $subsubs[] = new MenuItem("customfields", $lang_Menu_Admin_CustomFields, "./symfony/web/index.php/pim/listCustomFields");
-        $subsubs[] = new MenuItem("customfields", "Data Import", "./symfony/web/index.php/admin/pimCsvImport");
-        $subsubs[] = new MenuItem("customfields", "Reporting Methods", "./symfony/web/index.php/pim/viewReportingMethods");
-        $subsubs[] = new MenuItem("customfields", "Termination Reasons", "./symfony/web/index.php/pim/viewTerminationReasons");
+        $subsubs[] = new MenuItem("pimconfig", $i18n->__("Optional Fields"), "./symfony/web/index.php/pim/configurePim", "rightMenu");
+        $subsubs[] = new MenuItem("customfields", $i18n->__("Custom Fields"), "./symfony/web/index.php/pim/listCustomFields");
+        $subsubs[] = new MenuItem("customfields", $i18n->__("Data Import"), "./symfony/web/index.php/admin/pimCsvImport");
+        $subsubs[] = new MenuItem("customfields", $i18n->__("Reporting Methods"), "./symfony/web/index.php/pim/viewReportingMethods");
+        $subsubs[] = new MenuItem("customfields", $i18n->__("Termination Reasons"), "./symfony/web/index.php/pim/viewTerminationReasons");
         $sub->setSubMenuItems($subsubs);
         $subs[] = $sub;
     }
 
-    $subs[] = new MenuItem("emplist", $lang_pim_EmployeeList, "./symfony/web/index.php/pim/viewEmployeeList/reset/1", "rightMenu");
+    $subs[] = new MenuItem("emplist", $i18n->__("Employee List"), "./symfony/web/index.php/pim/viewEmployeeList/reset/1", "rightMenu");
     if ($arrAllRights[PIM]['add']) {
-        $subs[] = new MenuItem("empadd", $lang_pim_AddEmployee, "./symfony/web/index.php/pim/addEmployee", "rightMenu");
+        $subs[] = new MenuItem("empadd", $i18n->__("Add Employee"), "./symfony/web/index.php/pim/addEmployee", "rightMenu");
     }
 
     if ($_SESSION['isAdmin'] == 'Yes') {
-        $subs[] = new MenuItem("reports", $lang_Menu_Reports, "./symfony/web/index.php/core/viewDefinedPredefinedReports/reportGroup/3/reportType/PIM_DEFINED", "rightMenu");
+        $subs[] = new MenuItem("reports", $i18n->__("Reports"), "./symfony/web/index.php/core/viewDefinedPredefinedReports/reportGroup/3/reportType/PIM_DEFINED", "rightMenu");
     }
 
-    if (PIM_MENU_TYPE == 'dropdown') {
-        $sub = new MenuItem("personal", $lang_pim_tabs_Personal, "#", null, $enablePimMenu);
-        $subsubs = array();
-        $subsubs[] = new MenuItem("personal", $lang_pim_PersonalDetails, "javascript:parent.rightMenu.displayLayer(1)", null, $enablePimMenu);
-        $subsubs[] = new MenuItem("personal", $lang_pim_tabs_Contact, "javascript:parent.rightMenu.displayLayer(4)", null, $enablePimMenu);
-        $subsubs[] = new MenuItem("personal", $lang_pim_tabs_EmergencyContacts, "javascript:parent.rightMenu.displayLayer(5)", null, $enablePimMenu);
-        $subsubs[] = new MenuItem("personal", $lang_pim_tabs_Dependents, "javascript:parent.rightMenu.displayLayer(3)", null, $enablePimMenu);
-        $subsubs[] = new MenuItem("personal", $lang_pim_tabs_Immigration, "javascript:parent.rightMenu.displayLayer(10)", null, $enablePimMenu);
-        $sub->setSubMenuItems($subsubs);
-        $subs[] = $sub;
-
-        $sub = new MenuItem("employment", $lang_pim_Employment, "#", null, $enablePimMenu);
-        $subsubs = array();
-
-        $subsubs[] = new MenuItem("employment", $lang_pim_tabs_Job, "javascript:parent.rightMenu.displayLayer(2)", null, $enablePimMenu);
-        $subsubs[] = new MenuItem("employment", $lang_pim_tabs_Payments, "javascript:parent.rightMenu.displayLayer(14)", null, $enablePimMenu);
-        $subsubs[] = new MenuItem("employment", $lang_pim_tabs_Tax, "javascript:parent.rightMenu.displayLayer(18)", null, $enablePimMenu);
-        $subsubs[] = new MenuItem("employment", $lang_pim_tabs_DirectDebit, "javascript:parent.rightMenu.displayLayer(19)", null, $enablePimMenu);
-        $subsubs[] = new MenuItem("employment", $lang_pim_tabs_ReportTo, "javascript:parent.rightMenu.displayLayer(15)", null, $enablePimMenu);
-        $sub->setSubMenuItems($subsubs);
-        $subs[] = $sub;
-
-        $sub = new MenuItem("pimqualifications", $lang_pim_Qualifications, "#", null, $enablePimMenu);
-        $subsubs = array();
-        $subsubs[] = new MenuItem("pimqualifications", $lang_pim_tabs_WorkExperience, "javascript:parent.rightMenu.displayLayer(17)", null, $enablePimMenu);
-        $subsubs[] = new MenuItem("pimqualifications", $lang_pim_tabs_Education, "javascript:parent.rightMenu.displayLayer(9)", null, $enablePimMenu);
-        $subsubs[] = new MenuItem("pimqualifications", $lang_pim_tabs_Skills, "javascript:parent.rightMenu.displayLayer(16)", null, $enablePimMenu);
-        $subsubs[] = new MenuItem("pimqualifications", $lang_pim_tabs_Languages, "javascript:parent.rightMenu.displayLayer(11)", null, $enablePimMenu);
-        $subsubs[] = new MenuItem("pimqualifications", $lang_pim_tabs_License, "javascript:parent.rightMenu.displayLayer(12)", null, $enablePimMenu);
-        $sub->setSubMenuItems($subsubs);
-        $subs[] = $sub;
-
-        $subs[] = new MenuItem("pimmemberships", $lang_pim_tabs_Membership, "javascript:parent.rightMenu.displayLayer(13)", null, $enablePimMenu);
-        $subs[] = new MenuItem("attachments", $lang_pim_tabs_Attachments, "javascript:parent.rightMenu.displayLayer(6)", null, $enablePimMenu);
-        $subs[] = new MenuItem("custom", $lang_pim_tabs_Custom, "javascript:parent.rightMenu.displayLayer(20)", null, $enablePimMenu);
-    } else if (PIM_MENU_TYPE == 'mixed') {
-        $subs[] = new MenuItem("personal", $lang_pim_tabs_Personal, "javascript:parent.rightMenu.displayLayer(1)", null, $enablePimMenu);
-        $subs[] = new MenuItem("employment", $lang_pim_Employment, "javascript:parent.rightMenu.displayLayer(2)", null, $enablePimMenu);
-        $subs[] = new MenuItem("pimqualifications", $lang_pim_Qualifications, "javascript:parent.rightMenu.displayLayer(17)", null, $enablePimMenu);
-        $subs[] = new MenuItem("pimmemberships", $lang_pim_tabs_Membership, "javascript:parent.rightMenu.displayLayer(13)", null, $enablePimMenu);
-        $subs[] = new MenuItem("attachments", $lang_pim_tabs_Attachments, "javascript:parent.rightMenu.displayLayer(6)", null, $enablePimMenu);
-        $subs[] = new MenuItem("custom", $lang_pim_tabs_Custom, "javascript:parent.rightMenu.displayLayer(20)", null, $enablePimMenu);
-    }
     $menuItem->setSubMenuItems($subs);
 
     $menu[] = $menuItem;
@@ -510,7 +471,7 @@ if (($_SESSION['isAdmin'] == 'Yes' || $_SESSION['isSupervisor']) && $arrAllRight
 
 /* Start leave menu */
 if (($_SESSION['empID'] != null) || $arrAllRights[Leave]['view']) {
-    $menuItem = new MenuItem("leave", $lang_Menu_Leave, "./index.php?menu_no_top=leave&reset=1");
+    $menuItem = new MenuItem("leave", $i18n->__("Leave"), "./index.php?menu_no_top=leave&reset=1");
     $menuItem->setCurrent($_GET['menu_no_top'] == "leave");
 
     $subs = array();
@@ -518,37 +479,37 @@ if (($_SESSION['empID'] != null) || $arrAllRights[Leave]['view']) {
 
     if ($authorizeObj->isAdmin() && $arrAllRights[Leave]['view']) {
 
-        $sub = new MenuItem("leavesummary", $lang_Common_Configure, "#");
+        $sub = new MenuItem("leavesummary", $i18n->__("Configure"), "#");
 
-        $subsubs[] = new MenuItem("leaveperiod", $lang_Menu_Leave_DefineLeavePeriod, './symfony/web/index.php/leave/defineLeavePeriod', 'rightMenu');
-        $subsubs[] = new MenuItem("leavetypes", $lang_Menu_Leave_LeaveTypes, './symfony/web/index.php/leave/leaveTypeList');
-        $subsubs[] = new MenuItem("daysoff", $lang_Menu_Leave_WorkWeek, "./symfony/web/index.php/leave/defineWorkWeek");
-        $subsubs[] = new MenuItem("daysoff", $lang_Menu_Leave_Holidays, "./symfony/web/index.php/leave/viewHolidayList");
+        $subsubs[] = new MenuItem("leaveperiod", $i18n->__("Leave Period"), './symfony/web/index.php/leave/defineLeavePeriod', 'rightMenu');
+        $subsubs[] = new MenuItem("leavetypes", $i18n->__("Leave Types"), './symfony/web/index.php/leave/leaveTypeList');
+        $subsubs[] = new MenuItem("daysoff", $i18n->__("Work Week"), "./symfony/web/index.php/leave/defineWorkWeek");
+        $subsubs[] = new MenuItem("daysoff", $i18n->__("Holidays"), "./symfony/web/index.php/leave/viewHolidayList");
 
         $sub->setSubMenuItems($subsubs);
         $subs[] = $sub;
     }
 
-    $subs[] = new MenuItem("leavesummary", $lang_Menu_Leave_LeaveSummary, "./symfony/web/index.php/leave/viewLeaveSummary", 'rightMenu');
+    $subs[] = new MenuItem("leavesummary", $i18n->__("Leave Summary"), "./symfony/web/index.php/leave/viewLeaveSummary", 'rightMenu');
 
     if ($authorizeObj->isSupervisor() && !$authorizeObj->isAdmin()) {
-        $subs[] = new MenuItem("leavelist", $lang_Leave_all_emplyee_leaves, './symfony/web/index.php/leave/viewLeaveList/reset/1', 'rightMenu');
+        $subs[] = new MenuItem("leavelist", $i18n->__("Leave List"), './symfony/web/index.php/leave/viewLeaveList/reset/1', 'rightMenu');
     }
     if ($authorizeObj->isAdmin() && $arrAllRights[Leave]['view']) {
-        $subs[] = new MenuItem("leavelist", $lang_Leave_all_emplyee_leaves, './symfony/web/index.php/leave/viewLeaveList/reset/1', 'rightMenu');
+        $subs[] = new MenuItem("leavelist", $i18n->__("Leave List"), './symfony/web/index.php/leave/viewLeaveList/reset/1', 'rightMenu');
     }
 
     if (($authorizeObj->isAdmin() && $arrAllRights[Leave]['add']) || $authorizeObj->isSupervisor()) {
-        $subs[] = new MenuItem("assignleave", $lang_Menu_Leave_Assign, "./symfony/web/index.php/leave/assignLeave", 'rightMenu');
+        $subs[] = new MenuItem("assignleave", $i18n->__("Assign Leave"), "./symfony/web/index.php/leave/assignLeave", 'rightMenu');
     }
 
     if ($authorizeObj->isESS()) {
-        $subs[] = new MenuItem("leavelist", $lang_Menu_Leave_MyLeave, './symfony/web/index.php/leave/viewMyLeaveList/reset/1', 'rightMenu');
-        $subs[] = new MenuItem("applyLeave", $lang_Menu_Leave_Apply, "./symfony/web/index.php/leave/applyLeave", 'rightMenu');
+        $subs[] = new MenuItem("leavelist", $i18n->__("My Leave"), './symfony/web/index.php/leave/viewMyLeaveList/reset/1', 'rightMenu');
+        $subs[] = new MenuItem("applyLeave", $i18n->__("Apply"), "./symfony/web/index.php/leave/applyLeave", 'rightMenu');
     }
 
     if (file_exists('symfony/plugins/orangehrmLeaveCalendarPlugin/config/orangehrmLeaveCalendarPluginConfiguration.class.php')) {//if plugin is installed
-        $subs[] = new MenuItem("leavelist", $plugin_leave_Calendar, './symfony/web/index.php/leavecalendar/showLeaveCalendar', 'rightMenu');
+        $subs[] = new MenuItem("leavelist", $i18n->__("Leave Calendar"), './symfony/web/index.php/leavecalendar/showLeaveCalendar', 'rightMenu');
     }
     /* Emptying the leave menu items if leave period is not defined */
     if (!$leavePeriodDefined) {
@@ -561,7 +522,7 @@ if (($_SESSION['empID'] != null) || $arrAllRights[Leave]['view']) {
 
 /* Start time menu */
 if (($_SESSION['empID'] != null) || $arrAllRights[TimeM]['view']) {
-    $menuItem = new MenuItem("time", $lang_Menu_Time, "./index.php?menu_no_top=time");
+    $menuItem = new MenuItem("time", $i18n->__("Time"), "./index.php?menu_no_top=time");
     $menuItem->setCurrent($_GET['menu_no_top'] == "time");
 
     /* Only show rest of menu if time period set */
@@ -576,13 +537,13 @@ if (($_SESSION['empID'] != null) || $arrAllRights[TimeM]['view']) {
         if ($accessibleTimeMenuItems != null) {
             foreach ($accessibleTimeMenuItems as $ttt) {
 
-                $sub = new MenuItem("timesheets", $ttt->getDisplayName(), $ttt->getLink(), 'rightMenu');
+                $sub = new MenuItem("timesheets", __($ttt->getDisplayName()), $ttt->getLink(), 'rightMenu');
 
                 if ($ttt->getDisplayName() == "Timesheets") {
 
                     foreach ($accessibleTimeSubMenuItems as $ctm) {
 
-                        $subsubs[] = new MenuItem("timesheets", $ctm->getDisplayName(), $ctm->getLink());
+                        $subsubs[] = new MenuItem("timesheets", __($ctm->getDisplayName()), $ctm->getLink());
                     }
 
                     $sub->setSubMenuItems($subsubs);
@@ -590,7 +551,7 @@ if (($_SESSION['empID'] != null) || $arrAllRights[TimeM]['view']) {
                 if ($ttt->getDisplayName() == "Attendance") {
 
                     foreach ($attendanceMenus as $ptm) {
-                        $subsubs0[] = new MenuItem("timesheets", $ptm->getDisplayName(), $ptm->getLink());
+                        $subsubs0[] = new MenuItem("timesheets", __($ptm->getDisplayName()), $ptm->getLink());
                     }
 
                     $sub->setSubMenuItems($subsubs0);
@@ -599,7 +560,7 @@ if (($_SESSION['empID'] != null) || $arrAllRights[TimeM]['view']) {
                 if ($ttt->getDisplayName() == "Reports") {
 
                     foreach ($reportsMenus as $ptm) {
-                        $subsubs1[] = new MenuItem("timesheets", $ptm->getDisplayName(), $ptm->getLink());
+                        $subsubs1[] = new MenuItem("timesheets", __($ptm->getDisplayName()), $ptm->getLink());
                     }
 
                     $sub->setSubMenuItems($subsubs1);
@@ -619,7 +580,7 @@ if (($_SESSION['empID'] != null) || $arrAllRights[TimeM]['view']) {
 if ($arrAllRights[Recruit]['view']) {
 
 
-    $menuItem = new MenuItem("recruit", $lang_Menu_Recruit, "./index.php?menu_no_top=recruit");
+    $menuItem = new MenuItem("recruit", $i18n->__("Recruitment"), "./index.php?menu_no_top=recruit");
     $menuItem->setCurrent($_GET['menu_no_top'] == "recruit");
 
     if (file_exists('symfony/config/databases.yml')) {
@@ -634,7 +595,7 @@ if ($arrAllRights[Recruit]['view']) {
 
 /* Performance menu start */
 
-$menuItem = new MenuItem("perform", $lang_Menu_Perform, "index.php?uniqcode=KPI&menu_no_top=performance&uri=performance/viewReview/mode/new");
+$menuItem = new MenuItem("perform", $i18n->__("Performance"), "index.php?uniqcode=KPI&menu_no_top=performance&uri=performance/viewReview/mode/new");
 $menuItem->setCurrent($_GET['menu_no_top'] == "perform");
 $enablePerformMenu = false;
 if ((isset($_GET['menu_no_top'])) && ($_GET['menu_no_top'] == "perform") && isset($_GET['reqcode']) && $arrRights['view']) {
@@ -643,13 +604,13 @@ if ((isset($_GET['menu_no_top'])) && ($_GET['menu_no_top'] == "perform") && isse
 $subs = array();
 
 if ($arrAllRights[Perform]['add'] && ($_SESSION['isAdmin'] == 'Yes')) {
-    $subs[] = new MenuItem('definekpi', $lang_Menu_Define_Kpi, "index.php?uniqcode=KPI&menu_no_top=performance&uri=performance/listDefineKpi");
-    $subs[] = new MenuItem('definekpi', 'Add KPI', "index.php?uniqcode=KPI&menu_no_top=performance&uri=performance/saveKpi");
-    $subs[] = new MenuItem('definekpi', 'Copy KPI', "index.php?uniqcode=KPI&menu_no_top=performance&uri=performance/copyKpi");
-    $subs[] = new MenuItem('definekpi', 'Add Review', "index.php?uniqcode=KPI&menu_no_top=performance&uri=performance/saveReview");
+    $subs[] = new MenuItem('definekpi', $i18n->__("KPI List"), "index.php?uniqcode=KPI&menu_no_top=performance&uri=performance/listDefineKpi");
+    $subs[] = new MenuItem('definekpi', $i18n->__("Add KPI"), "index.php?uniqcode=KPI&menu_no_top=performance&uri=performance/saveKpi");
+    $subs[] = new MenuItem('definekpi', $i18n->__("Copy KPI"), "index.php?uniqcode=KPI&menu_no_top=performance&uri=performance/copyKpi");
+    $subs[] = new MenuItem('definekpi', $i18n->__("Add Review"), "index.php?uniqcode=KPI&menu_no_top=performance&uri=performance/saveReview");
 }
 
-$subs[] = new MenuItem('definekpi', 'Reviews', "index.php?uniqcode=KPI&menu_no_top=performance&uri=performance/viewReview/mode/new");
+$subs[] = new MenuItem('definekpi', $i18n->__("Reviews"), "index.php?uniqcode=KPI&menu_no_top=performance&uri=performance/viewReview/mode/new");
 
 $menuItem->setSubMenuItems($subs);
 
@@ -657,58 +618,13 @@ $menu[] = $menuItem;
 
 /* Start ESS menu */
 if ($_SESSION['isAdmin'] != 'Yes') {
-    $menuItem = new MenuItem("ess", $lang_Menu_Ess, './symfony/web/index.php/pim/viewPersonalDetails?empNumber=' . $_SESSION['empID'], "rightMenu");
+    $menuItem = new MenuItem("ess", $i18n->__($lang_Menu_Ess), './symfony/web/index.php/pim/viewPersonalDetails?empNumber=' . $_SESSION['empID'], "rightMenu");
 
     $menuItem->setCurrent($_GET['menu_no_top'] == "ess");
     $enableEssMenu = false;
     if ($_GET['menu_no_top'] == "ess") {
         $enableEssMenu = true;
     }
-    $subs = array();
-    if (PIM_MENU_TYPE == 'dropdown') {
-        $sub = new MenuItem("personal", $lang_pim_tabs_Personal, "#", null, $enableEssMenu);
-        $subsubs = array();
-        $subsubs[] = new MenuItem("personal", $lang_pim_PersonalDetails, "javascript:parent.rightMenu.displayLayer(1)", null, $enableEssMenu);
-        $subsubs[] = new MenuItem("personal", $lang_pim_tabs_Contact, "javascript:parent.rightMenu.displayLayer(4)", null, $enableEssMenu);
-        $subsubs[] = new MenuItem("personal", $lang_pim_tabs_EmergencyContacts, "javascript:parent.rightMenu.displayLayer(5)", null, $enableEssMenu);
-        $subsubs[] = new MenuItem("personal", $lang_pim_tabs_Dependents, "javascript:parent.rightMenu.displayLayer(3)", null, $enableEssMenu);
-        $subsubs[] = new MenuItem("personal", $lang_pim_tabs_Immigration, "javascript:parent.rightMenu.displayLayer(10)", null, $enableEssMenu);
-        $sub->setSubMenuItems($subsubs);
-        $subs[] = $sub;
-
-        $sub = new MenuItem("employment", $lang_pim_Employment, "#", null, $enableEssMenu);
-        $subsubs = array();
-
-        $subsubs[] = new MenuItem("employment", $lang_pim_tabs_Job, "javascript:parent.rightMenu.displayLayer(2)", null, $enableEssMenu);
-        $subsubs[] = new MenuItem("employment", $lang_pim_tabs_Payments, "javascript:parent.rightMenu.displayLayer(14)", null, $enableEssMenu);
-        $subsubs[] = new MenuItem("employment", $lang_pim_tabs_Tax, "javascript:parent.rightMenu.displayLayer(18)", null, $enableEssMenu);
-        $subsubs[] = new MenuItem("employment", $lang_pim_tabs_DirectDebit, "javascript:parent.rightMenu.displayLayer(19)", null, $enableEssMenu);
-        $subsubs[] = new MenuItem("employment", $lang_pim_tabs_ReportTo, "javascript:parent.rightMenu.displayLayer(15)", null, $enableEssMenu);
-        $sub->setSubMenuItems($subsubs);
-        $subs[] = $sub;
-
-        $sub = new MenuItem("pimqualifications", $lang_pim_Qualifications, "#", null, $enableEssMenu);
-        $subsubs = array();
-        $subsubs[] = new MenuItem("pimqualifications", $lang_pim_tabs_WorkExperience, "javascript:parent.rightMenu.displayLayer(17)", null, $enableEssMenu);
-        $subsubs[] = new MenuItem("pimqualifications", $lang_pim_tabs_Education, "javascript:parent.rightMenu.displayLayer(9)", null, $enableEssMenu);
-        $subsubs[] = new MenuItem("pimqualifications", $lang_pim_tabs_Skills, "javascript:parent.rightMenu.displayLayer(16)", null, $enableEssMenu);
-        $subsubs[] = new MenuItem("pimqualifications", $lang_pim_tabs_Languages, "javascript:parent.rightMenu.displayLayer(11)", null, $enableEssMenu);
-        $subsubs[] = new MenuItem("pimqualifications", $lang_pim_tabs_License, "javascript:parent.rightMenu.displayLayer(12)", null, $enableEssMenu);
-        $sub->setSubMenuItems($subsubs);
-        $subs[] = $sub;
-
-        $subs[] = new MenuItem("pimmemberships", $lang_pim_tabs_Membership, "javascript:parent.rightMenu.displayLayer(13)", null, $enableEssMenu);
-        $subs[] = new MenuItem("attachments", $lang_pim_tabs_Attachments, "javascript:parent.rightMenu.displayLayer(6)", null, $enableEssMenu);
-        $subs[] = new MenuItem("custom", $lang_pim_tabs_Custom, "javascript:parent.rightMenu.displayLayer(20)", null, $enableEssMenu);
-    } else if (PIM_MENU_TYPE == 'mixed') {
-        $subs[] = new MenuItem("personal", $lang_pim_tabs_Personal, "javascript:parent.rightMenu.displayLayer(1)", null, $enablePimMenu);
-        $subs[] = new MenuItem("employment", $lang_pim_Employment, "javascript:parent.rightMenu.displayLayer(2)", null, $enablePimMenu);
-        $subs[] = new MenuItem("pimqualifications", $lang_pim_Qualifications, "javascript:parent.rightMenu.displayLayer(17)", null, $enablePimMenu);
-        $subs[] = new MenuItem("pimmemberships", $lang_pim_tabs_Membership, "javascript:parent.rightMenu.displayLayer(13)", null, $enablePimMenu);
-        $subs[] = new MenuItem("attachments", $lang_pim_tabs_Attachments, "javascript:parent.rightMenu.displayLayer(6)", null, $enablePimMenu);
-        $subs[] = new MenuItem("custom", $lang_pim_tabs_Custom, "javascript:parent.rightMenu.displayLayer(20)", null, $enablePimMenu);
-    }
-    $menuItem->setSubMenuItems($subs);
 
     $menu[] = $menuItem;
 }
@@ -772,15 +688,15 @@ if (($_SESSION['empID'] != null) || $arrAllRights[Benefits]['view']) {
 }
 
 /* Start help menu */
-$menuItem = new MenuItem("help", $lang_Menu_Help, '#');
+$menuItem = new MenuItem("help", $i18n->__("Help"), '#');
 $subs = array();
-$subs[] = new MenuItem("support", $lang_Menu_Home_Support, "http://www.orangehrm.com/support-plans.php?utm_source=application_support&utm_medium=app_url&utm_campaign=orangeapp", '_blank');
-$subs[] = new MenuItem("forum", $lang_Menu_Home_Forum, "http://www.orangehrm.com/forum/", '_blank');
-$subs[] = new MenuItem("blog", $lang_Menu_Home_Blog, "http://www.orangehrm.com/blog/", '_blank');
-$subs[] = new MenuItem("support", $lang_Menu_Home_Training, "http://www.orangehrm.com/training.php?utm_source=application_traning&utm_medium=app_url&utm_campaign=orangeapp", '_blank');
-$subs[] = new MenuItem("support", $lang_Menu_Home_AddOns, "http://www.orangehrm.com/addon-plans.shtml?utm_source=application_addons&utm_medium=app_url&utm_campaign=orangeapp", '_blank');
-$subs[] = new MenuItem("support", $lang_Menu_Home_Customizations, "http://www.orangehrm.com/customizations.php?utm_source=application_cus&utm_medium=app_url&utm_campaign=orangeapp", '_blank');
-$subs[] = new MenuItem("bug", "Bug Tracker", "http://sourceforge.net/tracker/?group_id=156477&atid=799942", '_blank');
+$subs[] = new MenuItem("support", $i18n->__("Support"), "http://www.orangehrm.com/support-plans.php?utm_source=application_support&utm_medium=app_url&utm_campaign=orangeapp", '_blank');
+$subs[] = new MenuItem("forum", $i18n->__("Forum"), "http://www.orangehrm.com/forum/", '_blank');
+$subs[] = new MenuItem("blog", $i18n->__("Blog"), "http://www.orangehrm.com/blog/", '_blank');
+$subs[] = new MenuItem("support", $i18n->__("Training"), "http://www.orangehrm.com/training.php?utm_source=application_traning&utm_medium=app_url&utm_campaign=orangeapp", '_blank');
+$subs[] = new MenuItem("support", $i18n->__("Add-Ons"), "http://www.orangehrm.com/addon-plans.shtml?utm_source=application_addons&utm_medium=app_url&utm_campaign=orangeapp", '_blank');
+$subs[] = new MenuItem("support", $i18n->__("Customizations"), "http://www.orangehrm.com/customizations.php?utm_source=application_cus&utm_medium=app_url&utm_campaign=orangeapp", '_blank');
+$subs[] = new MenuItem("bug", $i18n->__("Bug Tracker"), "http://sourceforge.net/tracker/?group_id=156477&atid=799942", '_blank');
 
 $menuItem->setSubMenuItems($subs);
 $menu[] = $menuItem;
@@ -789,10 +705,12 @@ $menu[] = $menuItem;
 /* Checking for disabled modules: Begins */
 
 $count = count($menu);
-
+foreach ($disabledModules as $key => $module) {
+        $disabledModules[$key] = __(ucwords($module));
+}
 for ($i=0; $i<$count; $i++) {
 
-    if (in_array(strtolower($menu[$i]->getMenuText()), $disabledModules)) {
+    if (in_array($menu[$i]->getMenuText(), $disabledModules)) {
         unset($menu[$i]);
     }
     
@@ -800,16 +718,16 @@ for ($i=0; $i<$count; $i++) {
 
 /* Checking for disabled modules: Ends */
 
-$welcomeMessage = preg_replace('/#username/', ((isset($_SESSION['fname'])) ? $_SESSION['fname'] : ''), $lang_index_WelcomeMes);
+$welcomeMessage = preg_replace('/#username/', ((isset($_SESSION['fname'])) ? $_SESSION['fname'] : ''), $i18n->__($lang_index_WelcomeMes));
 
 if (isset($_SESSION['ladpUser']) && $_SESSION['ladpUser'] && $_SESSION['isAdmin'] != "Yes") {
     $optionMenu = array();
 } else {
-    $optionMenu[] = new MenuItem("changepassword", $lang_index_ChangePassword,
+    $optionMenu[] = new MenuItem("changepassword", $i18n->__($lang_index_ChangePassword),
                     "./symfony/web/index.php/admin/changeUserPassword");
 }
 
-$optionMenu[] = new MenuItem("logout", $lang_index_Logout, './symfony/web/index.php/auth/logout', '_parent');
+$optionMenu[] = new MenuItem("logout", __($lang_index_Logout), './symfony/web/index.php/auth/logout', '_parent');
 
 // Decide on home page
 if (($_GET['menu_no_top'] == "eim") && ($arrRights['view'] || $allowAdminView)) {
@@ -861,9 +779,15 @@ if (($_GET['menu_no_top'] == "eim") && ($arrRights['view'] || $allowAdminView)) 
         $home = "";
     }
 }
+
+if (isset($_SESSION['load.admin.viewModules'])) {
+    $home = "./symfony/web/index.php/admin/viewModules";
+    unset($_SESSION['load.admin.viewModules']);
+}
+
 ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="<?php echo $cultureElements[0]; ?>" lang="<?php echo $cultureElements[0]; ?>">
     <head>
         <title>OrangeHRM</title>
         <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
@@ -894,8 +818,8 @@ if($xml = @simplexml_load_file("http://www.orangehrm.com/global_update/orangehrm
 		{
 			echo "<div style='width: auto; float:right; margin: 12px 2px 0px 0px;'>
 				<table border='0'>
-					<tr><td><a href='".$data[$i]."' target='_blank' style='text-decoration:none;'><font style='color:green; font-weight:bold; font-size:12px;'>".$data[$i+1]."</font>&nbsp;&nbsp;</td></tr>
-					<tr><td align='center'><a href='".$data[$i]."' target='_blank' style='text-decoration:none;'><font style='font-size:10px; font-weight:bold;'>".$data[$i+2]."</font></a></td></tr>
+					<tr><td><a href='".$data[$i]."' target='_blank' style='text-decoration:none;'><font style='color:green; font-weight:bold; font-size:12px;'>".$i18n->__($data[$i+1])."</font>&nbsp;&nbsp;</td></tr>
+					<tr><td align='center'><a href='".$data[$i]."' target='_blank' style='text-decoration:none;'><font style='font-size:10px; font-weight:bold;'>".$i18n->__($data[$i+2])."</font></a></td></tr>
 				</table>
 			      </div>";
 		}
