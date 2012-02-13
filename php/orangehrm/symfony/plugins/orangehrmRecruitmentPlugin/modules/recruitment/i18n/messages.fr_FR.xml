@@ -4,10 +4,7 @@
     <file source-language="en_US" target-language="fr_FR" datatype="plaintext" original="messages" date="2009-12-08T13:58:35Z" product-name="messages">
         <header/>
         <body>
-            <trans-unit id="1">
-                <source>Candidates</source>
-                <target>FR_Candidates</target>
-            </trans-unit>
+
             <trans-unit id="2">
                 <source>Vacancy</source>
                 <target>FR_Vacancy</target>
@@ -252,10 +249,7 @@
                 <source>Email address should contain at least one '.' and one '@' Example:user@example.com</source>
                 <target>FR_Email address should contain at least one '.' and one '@' Example:user@example.com</target>
             </trans-unit>
-            <trans-unit id="63">
-                <source>Vacancies</source>
-                <target>FR_Vacancies</target>
-            </trans-unit>
+
             <trans-unit id="64">
                 <source>No records to display</source>
                 <target>FR_No records to display</target>
@@ -536,10 +530,6 @@
                 <source>on</source>
                 <target>FR_on</target>
             </trans-unit>
-            <trans-unit id="136">
-                <source>Application Initiated</source>
-                <target>FR_Application Initiated</target>
-            </trans-unit>
             <trans-unit id="137">
                 <source>marked</source>
                 <target>FR_marked</target>
@@ -676,17 +666,33 @@
                 <source>applied for the</source>
                 <target>FR_applied for the</target>
             </trans-unit>
-			<trans-unit id="169">
+            <trans-unit id="169">
                 <source>Shortlisted for</source>
                 <target>FR_Shortlisted for</target>
             </trans-unit>
-			<trans-unit id="170">
+            <trans-unit id="170">
                 <source>by</source>
                 <target>FR_by</target>
             </trans-unit>
-			<trans-unit id="171">
+            <trans-unit id="171">
                 <source>Admin removed</source>
                 <target>FR_Admin removed</target>
+            </trans-unit>
+            <trans-unit id="5000">
+                <source>Selected Vacancies Deleted Successfully</source>
+                <target>FR_Selected Vacancies Deleted Successfully</target>
+            </trans-unit>
+            <trans-unit id="5001">
+                <source>No Actions</source>
+                <target>FR_No Actions</target>
+            </trans-unit>
+            <trans-unit id="5002">
+                <source>removed</source>
+                <target>FR_removed</target>
+            </trans-unit>
+            <trans-unit id="5003">
+                <source>marked the offer as declined</source>
+                <target>FR_marked the offer as declined</target>
             </trans-unit>
         </body>
     </file>

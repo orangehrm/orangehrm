@@ -87,7 +87,7 @@ class ohrmTreeViewComponent extends ohrmComponent {
         }
 
         $listContent = '';
-        $nodeName = isset($node['name']) ? $node['name'] : $node->getName();
+        $nodeName = isset($node['name']) ? __($node['name']) : __($node->getName());
         $nodeUnitId = $node->getUnitId();
         $displayNodeName = (!empty($nodeUnitId)) ? $nodeUnitId." : ".$nodeName : $nodeName;
         $displayNodeName = escape_once($displayNodeName);

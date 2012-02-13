@@ -112,19 +112,19 @@ class AdminUserRoleDecorator extends UserRoleDecorator {
 		$topMenuItemArray = $this->user->getAccessibleTimeMenus();
 
 		$topMenuItem = new TopMenuItem();
-		$topMenuItem->setDisplayName(__("Timesheets"));
+		$topMenuItem->setDisplayName("Timesheets");
 		$topMenuItem->setLink(AdminUserRoleDecorator::VIEW_EMPLOYEE_TIMESHEET);
 
 		$topMenuItemArray = $this->__chkAndPutItemsToArray($topMenuItemArray, $topMenuItem);
 
 		$topMenuItem = new TopMenuItem();
-		$topMenuItem->setDisplayName(__("Attendance"));
+		$topMenuItem->setDisplayName("Attendance");
 		$topMenuItem->setLink(AdminUserRoleDecorator::VIEW_ATTENDANCE_RECORD_LINK);
 
 		$topMenuItemArray = $this->__chkAndPutItemsToArray($topMenuItemArray, $topMenuItem);
 
 		$topMenuItem = new TopMenuItem();
-		$topMenuItem->setDisplayName(__("Reports"));
+		$topMenuItem->setDisplayName("Reports");
 		$topMenuItem->setLink(AdminUserRoleDecorator::PROJECT_REPORT_LINK);
 
 		$topMenuItemArray = $this->__chkAndPutItemsToArray($topMenuItemArray, $topMenuItem);

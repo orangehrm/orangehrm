@@ -11,6 +11,8 @@ class EmailNotificationHeaderFactory extends ohrmListConfigurationFactory {
             'name' => 'Notification Type',
             'width' => '49%',
             'isSortable' => false,
+            'filters' => array('I18nCellFilter' => array()
+                              ),
             'elementType' => 'link',
             'elementProperty' => array(
                 'labelGetter' => 'getName',

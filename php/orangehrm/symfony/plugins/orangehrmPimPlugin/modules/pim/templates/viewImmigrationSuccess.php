@@ -142,7 +142,7 @@
                                                 <td class="check"><input type='checkbox' class='checkbox' name='chkImmigration[]' value='<?php echo $passport->seqno;?>' /></td>
                                                 <td class="document"><a href="#"><?php echo ($passport->type_flag == EmpPassPort::TYPE_PASSPORT)? __("Passport"):__("Visa");?></a></td>
                                                 <td><?php echo $passport->number;?></td>
-                                                <td><?php echo empty($passport->country)?'':$countries[$passport->country]; ?></td>
+                                                <td><?php echo empty($passport->country)?'':__($countries[$passport->country]); ?></td>
                                                 <td><?php echo $passport_issue_date;?></td>
                                                 <td><?php echo $passport_expire_date;?></td>
                                             </tr>

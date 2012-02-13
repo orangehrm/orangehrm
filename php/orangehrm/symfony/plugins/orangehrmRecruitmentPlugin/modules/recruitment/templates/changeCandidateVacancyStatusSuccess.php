@@ -44,14 +44,14 @@
             <label class="secondLabel"><?php echo $form->hiringManagerName; ?></label>
             <br class="clear" />
             <label class="firstLabel"><?php echo __('Current Status'); ?></label>
-            <label class="secondLabel"><?php echo $form->currentStatus; ?></label>
+            <label class="secondLabel"><?php echo __($form->currentStatus); ?></label>
             <?php if ($form->id > 0): ?>
                 <br class="clear" />
                 <label class="firstLabel"><?php echo __('Performed Action'); ?></label>
-                <label class="secondLabel"><?php echo $form->performedActionName; ?></label>
+                <label class="secondLabel"><?php echo __($form->performedActionName); ?></label>
                 <br class="clear" />
                 <label class="firstLabel"><?php echo __('Performed By'); ?></label>
-                <label class="secondLabel"><?php echo $form->performedBy; ?></label>
+                <label class="secondLabel"><?php echo __($form->performedBy); ?></label>
                 <br class="clear" />
                 <label class="firstLabel"><?php echo __('Performed Date'); ?></label>
                 <label class="secondLabel"><?php echo $form->performedDate; ?></label>

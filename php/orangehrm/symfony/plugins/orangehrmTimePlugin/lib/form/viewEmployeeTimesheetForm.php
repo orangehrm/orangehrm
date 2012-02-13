@@ -34,10 +34,10 @@ class viewEmployeeTimesheetForm extends sfFormSymfony {
 
         $this->setDefault('employeeId', '23');
         $this->widgetSchema->setNameFormat('time[%s]');
-        $this->setDefault('employeeName', 'Type for hints...');
+        $this->setDefault('employeeName', __('Type for hints').'...');
 
         $this->setValidators(array(
-            'employeeName' => new sfValidatorString(array(), array('required' => 'Enter Employee Name')),
+            'employeeName' => new sfValidatorString(array(), array('required' => __('Enter Employee Name'))),
             'employeeId' => new sfValidatorString(),
         ));
     }

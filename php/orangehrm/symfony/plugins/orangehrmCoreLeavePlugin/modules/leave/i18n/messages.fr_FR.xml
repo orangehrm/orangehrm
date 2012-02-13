@@ -4,10 +4,7 @@
   <file source-language="en_US" target-language="fr_FR" datatype="plaintext" original="messages" date="2009-12-08T13:58:35Z" product-name="messages">
     <header/>
     <body>
-      <trans-unit id="1">
-        <source>Leave Period</source>
-        <target>FR_Leave Period</target>
-      </trans-unit>
+
       <trans-unit id="2">
         <source>For Leap Years</source>
         <target>FR_For Leap Years</target>
@@ -36,10 +33,7 @@
         <source>Leave Period Saved Successfully</source>
         <target>FR_Leave Period Saved Successfully</target>
       </trans-unit>
-      <trans-unit id="28">
-        <source>Work Week</source>
-        <target>FR_Work Week</target>
-      </trans-unit>
+
       <trans-unit id="36">
         <source>Full Day</source>
         <target>FR_Full Day</target>
@@ -56,10 +50,7 @@
         <source>Work Week Successfully Saved</source>
         <target>FR_Work Week Successfully Saved</target>
       </trans-unit>
-      <trans-unit id="40">
-        <source>Holidays</source>
-        <target>FR_Holidays</target>
-      </trans-unit>
+
       <trans-unit id="44">
         <source>Name of Holiday</source>
         <target>FR_Name of Holiday</target>
@@ -96,10 +87,7 @@
         <source>No Results Found for This Criteria</source>
         <target>FR_No Results Found for This Criteria</target>
       </trans-unit>
-      <trans-unit id="60">
-        <source>Leave Summary</source>
-        <target>FR_Leave Summary</target>
-      </trans-unit>
+
       <trans-unit id="61">
         <source>Leave Type</source>
         <target>FR_Leave Type</target>
@@ -128,10 +116,7 @@
         <source>Enter a Positive Number Less Than 365 with Two Decimal Places</source>
         <target>FR_Enter a Positive Number Less Than 365 with Two Decimal Places</target>
       </trans-unit>
-      <trans-unit id="87">
-        <source>Leave List</source>
-        <target>FR_Leave List</target>
-      </trans-unit>
+
       <trans-unit id="90">
         <source>Show Leave with Status</source>
         <target>FR_Show Leave with Status</target>
@@ -181,8 +166,8 @@
         <target>FR_Cancel</target>
       </trans-unit>
       <trans-unit id="104">
-        <source>deleted</source>
-        <target>FR_deletedl</target>
+        <source>Deleted</source>
+        <target>FR_Deleted</target>
       </trans-unit>
       <trans-unit id="105">
         <source>Leave Comment</source>
@@ -232,10 +217,7 @@
         <source>No of Hours</source>
         <target>FR_No of Hours</target>
       </trans-unit>
-      <trans-unit id="119">
-        <source>Assign Leave</source>
-        <target>FR_Assign Leave</target>
-      </trans-unit>
+
       <trans-unit id="120">
         <source>From Date</source>
         <target>FR_From Date</target>
@@ -364,10 +346,7 @@
         <source>To Time</source>
         <target>FR_To Time</target>
       </trans-unit>
-      <trans-unit id="151">
-        <source>Apply</source>
-        <target>FR_Apply</target>
-      </trans-unit>
+
       <trans-unit id="152">
         <source>This is a deleted leave type. Reactivate it?</source>
         <target>FR_This is a deleted leave type. Reactivate it?</target>
@@ -424,10 +403,7 @@
         <source>Successfully Leave Type Saved</source>
         <target>FR_Successfully Leave Type Saved</target>
       </trans-unit>
-      <trans-unit id="213">
-        <source>Leave Types</source>
-        <target>FR_Leave Types</target>
-      </trans-unit>
+
       <trans-unit id="214">
         <source>Select Action</source>
         <target>FR_Select Action</target>
@@ -475,6 +451,46 @@
       <trans-unit id="224">
         <source>No Leave Types with Leave Balance</source>
         <target>FR_No Leave Types with Leave Balance</target>
+      </trans-unit>
+      <trans-unit id="225">
+        <source>Please enter a valid date in</source>
+        <target>FR_Please enter a valid date in</target>
+      </trans-unit>
+      <trans-unit id="226">
+        <source>format</source>
+        <target>FR_format</target>
+      </trans-unit>
+      <trans-unit id="227">
+        <source>Name should be less than</source>
+        <target>FR_Name should be less than</target>
+      </trans-unit>
+      <trans-unit id="228">
+        <source>characters</source>
+        <target>FR_characters</target>
+      </trans-unit>
+      <trans-unit id="229">
+        <source>Date format should be</source>
+        <target>FR_Date format should be</target>
+      </trans-unit>
+      <trans-unit id="230">
+        <source>Duration (hours)</source>
+        <target>FR_Duration (hours)</target>
+      </trans-unit>
+      <trans-unit id="231">
+        <source>Leave Successfully Changed</source>
+        <target>FR_Leave Successfully Changed</target>
+      </trans-unit>
+      <trans-unit id="5000">
+        <source>To date should be after the From date</source>
+        <target>FR_To date should be after the From date</target>
+      </trans-unit>
+      <trans-unit id="5001">
+        <source>No Records Found</source>
+        <target>FR_No Records Found</target>
+      </trans-unit>
+      <trans-unit id="5002">
+        <source>Will take no action</source>
+        <target>FR_Will take no action</target>
       </trans-unit>
     </body>
   </file>

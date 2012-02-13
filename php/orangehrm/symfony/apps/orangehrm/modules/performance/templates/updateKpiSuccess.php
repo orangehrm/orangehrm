@@ -10,7 +10,7 @@
                      <select name="txtJobTitle" id="txtJobTitle" class="formSelect" tabindex="1" >
                      	<option value=""><?php echo __('Select Job Title')?></option>
 	                     <?php foreach($listJobTitle as $jobTitle){?>
-                        <option value="<?php echo $jobTitle->getId()?>" <?php if($kpi->getJobtitlecode() ==  $jobTitle->getId()){ echo "selected";}?>><?php echo htmlspecialchars_decode($jobTitle->getJobTitleName())?><?php echo ($jobTitle->getIsDeleted()==JobTitle::DELETED)?' (Deleted)':''?></option>
+                        <option value="<?php echo $jobTitle->getId()?>" <?php if($kpi->getJobtitlecode() ==  $jobTitle->getId()){ echo "selected";}?>><?php echo htmlspecialchars_decode($jobTitle->getJobTitleName())?><?php echo ($jobTitle->getIsDeleted()==JobTitle::DELETED)?' ('.__('Deleted').')':''?></option>
 	                     <?php }?>
                      </select>
                    <br class="clear"/>
@@ -30,10 +30,10 @@
              	</div>
 				<div id="buttonWrapper" class="formbuttons">
                     <input type="button" class="savebutton" id="saveBtn"
-                        value="Save" tabindex="6" />
+                        value="<?php echo __('Save')?>" tabindex="6" />
                         
                      <input type="button" class="savebutton" id="resetBtn"
-                        value="Reset" tabindex="7" />
+                        value="<?php echo __('Reset')?>" tabindex="7" />
                     
                 </div>  
               

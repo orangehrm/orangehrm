@@ -11,7 +11,7 @@ use_javascript('orangehrm.datepicker.js');
 ?>
 <div id="defineReportContainer">
     <div id="messagebar" class="<?php echo isset($messageType) ? "messageBalloon_{$messageType}" : ''; ?>" >
-        <span style="font-weight: bold;"><?php echo isset($message) ? $message : ''; ?></span>
+        <span style="font-weight: bold;"><?php echo isset($message) ? __($message) : ''; ?></span>
     </div>
     <div class="outerbox">
         <div class="maincontent">
@@ -64,7 +64,7 @@ use_javascript('orangehrm.datepicker.js');
                     <?php
                     
                     $requiredFilterNames = array();
-
+                    
                     foreach ($form->requiredFilterWidgets as $widget) {
 
                         $formField = $form[$filterName];
@@ -166,10 +166,14 @@ use_javascript('orangehrm.datepicker.js');
                 </form>
             </div>
         </div>
-        <div class="paddingLeftRequired">Fields marked with an asterisk <span class="required"> * </span> are required.</div>
+        <div class="paddingLeftRequired"><?php echo __('Fields marked with an asterisk'); ?> <span class="required"> * </span> <?php echo __('are required'); ?>.</div>
     </div>
 
     <style type="text/css">
+        label {
+            width: 220px;
+        }
+        
         ul#display_groups li {
             display: list-item;
         }
@@ -177,7 +181,7 @@ use_javascript('orangehrm.datepicker.js');
         ul#display_groups li label {
             display: inline-block;
             float: none;
-            width: 200px;
+            width: 270px;
         }
 
         ul#display_groups li ul {

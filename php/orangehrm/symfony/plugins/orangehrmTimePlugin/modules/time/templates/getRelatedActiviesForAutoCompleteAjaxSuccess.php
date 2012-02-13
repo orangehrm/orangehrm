@@ -1,7 +1,7 @@
 
 <?php $i = 0; ?>
 <option value="-1">
-    <?php echo "Select an Activity..."; ?>
+    <?php echo __("Select an Activity..."); ?>
 </option>
 <?php foreach ($activityList as $activity): ?>
         <option value="<?php echo $activity->getActivityId(); ?>">

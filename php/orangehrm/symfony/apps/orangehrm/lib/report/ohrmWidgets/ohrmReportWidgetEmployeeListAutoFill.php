@@ -158,7 +158,7 @@ EOF
                         $this->getEmployeeListAsJson(sfContext::getInstance()->getUser()->getAttribute("user")->getEmployeeList()),
                         $this->attributes['id'],
                         $this->attributes['id'],
-                        "Type for hints ...",
+                        __("Type for hints")." ...",
                         $this->attributes['id'],
                         $this->attributes['id'],
                         $this->attributes['id'],
@@ -200,7 +200,7 @@ EOF
 
         $widgetSchema = $form->getWidgetSchema();
         $widgetSchema[$this->attributes['id']] = $this;
-        $label = ucwords(str_replace("_", " ", $this->attributes['id']));
+        $label = __(ucwords(str_replace("_", " ", $this->attributes['id'])));
         $required = false;
         
         $required = false;

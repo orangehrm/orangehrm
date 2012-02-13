@@ -46,7 +46,7 @@
 	    <div>
 		<?php echo $form['ufile']->renderLabel(__('Select File') . ' <span class="required">*</span>'); ?>
                 <?php echo $form['ufile']->render(array("class" => "atachment", "size" =>28)); ?><br class="clear"/>
-		<span class="helpText"><?php echo __("[1M Max, any larger attachments will be ignored]") ?></span>
+		<span class="helpText"><?php echo '['.__("1M Max, any larger attachments will be ignored").']' ?></span>
 
                 <br class="clear"/>
 		<br class="clear"/>

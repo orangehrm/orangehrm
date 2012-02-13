@@ -49,8 +49,8 @@
                 <target>FR_Fields marked with an asterisk</target>
             </trans-unit>
             <trans-unit id="10">
-                <source>are required.</source>
-                <target>FR_are required.</target>
+                <source>are required</source>
+                <target>FR_are required</target>
             </trans-unit>
             <trans-unit id="173">
                 <source>Full Time Contract</source>
@@ -734,7 +734,7 @@
             </trans-unit>
             <trans-unit id="212">
                 <source>Comments cannot exceed 255 characters in length</source>
-                <target>Comments cannot exceed 255 characters in length</target>
+                <target>FR_Comments cannot exceed 255 characters in length</target>
             </trans-unit>
             <trans-unit id="213">
                 <source>No records to display</source>
@@ -795,6 +795,4472 @@
             <trans-unit id="227">
                 <source>Name exists</source>
                 <target>FR_Name exists</target>
+            </trans-unit>
+            <trans-unit id="228">
+                <source>Admin</source>
+                <target>FR_Admin</target>
+            </trans-unit>
+            <trans-unit id="229">
+                <source>Level</source>
+                <target>FR_Level</target>
+            </trans-unit>
+            <trans-unit id="230">
+                <source>Past Employee</source>
+                <target>FR_Past Employee</target>
+            </trans-unit>
+            <trans-unit id="231">
+                <source>or</source>
+                <target>FR_or</target>
+            </trans-unit>
+            <trans-unit id="232">
+                <source>Please specify select options</source>
+                <target>FR_Please specify select options</target>
+            </trans-unit>
+            <trans-unit id="233">
+                <source>Sort in Ascending Order</source>
+                <target>FR_Sort in Ascending Order</target>
+            </trans-unit>
+            <trans-unit id="234">
+                <source>Sort in Descending Order</source>
+                <target>FR_Sort in Descending Order</target>
+            </trans-unit>
+            <trans-unit id="235">
+                <source>Writing</source>
+                <target>FR_Writing</target>
+            </trans-unit>
+            <trans-unit id="236">
+                <source>Speaking</source>
+                <target>FR_Speaking</target>
+            </trans-unit>
+            <trans-unit id="237">
+                <source>Reading</source>
+                <target>FR_Reading</target>
+            </trans-unit>
+            <trans-unit id="238">
+                <source>Poor</source>
+                <target>FR_Poor</target>
+            </trans-unit>
+            <trans-unit id="239">
+                <source>Basic</source>
+                <target>FR_Basic</target>
+            </trans-unit>
+            <trans-unit id="240">
+                <source>Good</source>
+                <target>FR_Good</target>
+            </trans-unit>
+            <trans-unit id="241">
+                <source>Mother Tongue</source>
+                <target>FR_Mother Tongue</target>
+            </trans-unit>
+            <trans-unit id="242">
+            <source>Contract Not Renewed</source>
+            <target>FR_Contract Not Renewed</target>
+
+            </trans-unit>
+            <trans-unit id="243">
+            <source>Deceased</source>
+            <target>FR_Deceased</target>
+            </trans-unit>
+            <trans-unit id="244">
+            <source>Dismissed</source>
+
+            <target>FR_Dismissed</target>
+            </trans-unit>
+            <trans-unit id="245">
+            <source>Layed off</source>
+            <target>FR_Layed off</target>
+            </trans-unit>
+            <trans-unit id="246">
+
+            <source>Other</source>
+            <target>FR_Other</target>
+            </trans-unit>
+            <trans-unit id="247">
+            <source>Physically Disabled/Compensated</source>
+            <target>FR_Physically Disabled/Compensated</target>
+            </trans-unit>
+
+            <trans-unit id="248">
+            <source>Resigned</source>
+            <target>FR_Resigned</target>
+            </trans-unit>
+            <trans-unit id="249">
+            <source>Resigned - Company Requested</source>
+            <target>FR_Resigned - Company Requested</target>
+
+            </trans-unit>
+            <trans-unit id="250">
+            <source>Resigned - Self Proposed</source>
+            <target>FR_Resigned - Self Proposed</target>
+            </trans-unit>
+            <trans-unit id="251">
+            <source>Retired</source>
+
+            <target>FR_Retired</target>
+            </trans-unit>
+            <trans-unit id="252">
+            <source>Afghanistan</source>
+            <target>FR_Afghanistan</target>
+
+            <note>A country name</note>
+            </trans-unit>
+            <trans-unit id="253">
+            <source>Albania</source>
+            <target>FR_Albania</target>
+            <note>A country name</note>
+            </trans-unit>
+
+            <trans-unit id="254">
+            <source>Algeria</source>
+            <target>FR_Algeria</target>
+            <note>A country name</note>
+            </trans-unit>
+            <trans-unit id="255">
+            <source>American Samoa</source>
+
+            <target>FR_American Samoa</target>
+            <note>A country name</note>
+            </trans-unit>
+            <trans-unit id="256">
+            <source>Andorra</source>
+            <target>FR_Andorra</target>
+            <note>A country name</note>
+
+            </trans-unit>
+            <trans-unit id="257">
+            <source>Angola</source>
+            <target>FR_Angola</target>
+            <note>A country name</note>
+            </trans-unit>
+            <trans-unit id="258">
+
+            <source>Anguilla</source>
+            <target>FR_Anguilla</target>
+            <note>A country name</note>
+            </trans-unit>
+            <trans-unit id="259">
+            <source>Antarctica</source>
+            <target>FR_Antarctica</target>
+
+            <note>A country name</note>
+            </trans-unit>
+            <trans-unit id="260">
+            <source>Antigua and Barbuda</source>
+            <target>FR_Antigua and Barbuda</target>
+            <note>A country name</note>
+            </trans-unit>
+
+            <trans-unit id="261">
+            <source>Argentina</source>
+            <target>FR_Argentina</target>
+            <note>A country name</note>
+            </trans-unit>
+            <trans-unit id="262">
+            <source>Armenia</source>
+
+            <target>FR_Armenia</target>
+            <note>A country name</note>
+            </trans-unit>
+            <trans-unit id="263">
+            <source>Aruba</source>
+            <target>FR_Aruba</target>
+            <note>A country name</note>
+
+            </trans-unit>
+            <trans-unit id="264">
+            <source>Australia</source>
+            <target>FR_Australia</target>
+            <note>A country name</note>
+            </trans-unit>
+            <trans-unit id="265">
+
+            <source>Austria</source>
+            <target>FR_Austria</target>
+            <note>A country name</note>
+            </trans-unit>
+            <trans-unit id="266">
+            <source>Azerbaijan</source>
+            <target>FR_Azerbaijan</target>
+
+            <note>A country name</note>
+            </trans-unit>
+            <trans-unit id="267">
+            <source>Bahamas</source>
+            <target>FR_Bahamas</target>
+            <note>A country name</note>
+            </trans-unit>
+
+            <trans-unit id="268">
+            <source>Bahrain</source>
+            <target>FR_Bahrain</target>
+            <note>A country name</note>
+            </trans-unit>
+            <trans-unit id="269">
+            <source>Bangladesh</source>
+
+            <target>FR_Bangladesh</target>
+            <note>A country name</note>
+            </trans-unit>
+            <trans-unit id="270">
+            <source>Barbados</source>
+            <target>FR_Barbados</target>
+            <note>A country name</note>
+
+            </trans-unit>
+            <trans-unit id="271">
+            <source>Belarus</source>
+            <target>FR_Belarus</target>
+            <note>A country name</note>
+            </trans-unit>
+            <trans-unit id="272">
+
+            <source>Belgium</source>
+            <target>FR_Belgium</target>
+            <note>A country name</note>
+            </trans-unit>
+            <trans-unit id="273">
+            <source>Belize</source>
+            <target>FR_Belize</target>
+
+            <note>A country name</note>
+            </trans-unit>
+            <trans-unit id="274">
+            <source>Benin</source>
+            <target>FR_Benin</target>
+            <note>A country name</note>
+            </trans-unit>
+
+            <trans-unit id="275">
+            <source>Bermuda</source>
+            <target>FR_Bermuda</target>
+            <note>A country name</note>
+            </trans-unit>
+            <trans-unit id="276">
+            <source>Bhutan</source>
+
+            <target>FR_Bhutan</target>
+            <note>A country name</note>
+            </trans-unit>
+            <trans-unit id="277">
+            <source>Bolivia</source>
+            <target>FR_Bolivia</target>
+            <note>A country name</note>
+
+            </trans-unit>
+            <trans-unit id="278">
+            <source>Bosnia and Herzegovina</source>
+            <target>FR_Bosnia and Herzegovina</target>
+            <note>A country name</note>
+            </trans-unit>
+            <trans-unit id="279">
+
+            <source>Botswana</source>
+            <target>FR_Botswana</target>
+            <note>A country name</note>
+            </trans-unit>
+            <trans-unit id="280">
+            <source>Bouvet Island</source>
+            <target>FR_Bouvet Island</target>
+
+            <note>A country name</note>
+            </trans-unit>
+            <trans-unit id="281">
+            <source>Brazil</source>
+            <target>FR_Brazil</target>
+            <note>A country name</note>
+            </trans-unit>
+
+            <trans-unit id="282">
+            <source>British Indian Ocean Territory</source>
+            <target>FR_British Indian Ocean Territory</target>
+            <note>A country name</note>
+            </trans-unit>
+            <trans-unit id="283">
+            <source>Brunei Darussalam</source>
+
+            <target>FR_Brunei Darussalam</target>
+            <note>A country name</note>
+            </trans-unit>
+            <trans-unit id="284">
+            <source>Bulgaria</source>
+            <target>FR_Bulgaria</target>
+            <note>A country name</note>
+
+            </trans-unit>
+            <trans-unit id="285">
+            <source>Burkina Faso</source>
+            <target>FR_Burkina Faso</target>
+            <note>A country name</note>
+            </trans-unit>
+            <trans-unit id="286">
+
+            <source>Burundi</source>
+            <target>FR_Burundi</target>
+            <note>A country name</note>
+            </trans-unit>
+            <trans-unit id="287">
+            <source>Cambodia</source>
+            <target>FR_Cambodia</target>
+
+            <note>A country name</note>
+            </trans-unit>
+            <trans-unit id="288">
+            <source>Cameroon</source>
+            <target>FR_Cameroon</target>
+            <note>A country name</note>
+            </trans-unit>
+
+            <trans-unit id="289">
+            <source>Canada</source>
+            <target>FR_Canada</target>
+            <note>A country name</note>
+            </trans-unit>
+            <trans-unit id="290">
+            <source>Cape Verde</source>
+
+            <target>FR_Cape Verde</target>
+            <note>A country name</note>
+            </trans-unit>
+            <trans-unit id="291">
+            <source>Cayman Islands</source>
+            <target>FR_Cayman Islands</target>
+            <note>A country name</note>
+
+            </trans-unit>
+            <trans-unit id="292">
+            <source>Central African Republic</source>
+            <target>FR_Central African Republic</target>
+            <note>A country name</note>
+            </trans-unit>
+            <trans-unit id="293">
+
+            <source>Chad</source>
+            <target>FR_Chad</target>
+            <note>A country name</note>
+            </trans-unit>
+            <trans-unit id="294">
+            <source>Chile</source>
+            <target>FR_Chile</target>
+
+            <note>A country name</note>
+            </trans-unit>
+            <trans-unit id="295">
+            <source>China</source>
+            <target>FR_China</target>
+            <note>A country name</note>
+            </trans-unit>
+
+            <trans-unit id="296">
+            <source>Christmas Island</source>
+            <target>FR_Christmas Island</target>
+            <note>A country name</note>
+            </trans-unit>
+            <trans-unit id="297">
+            <source>Cocos (Keeling) Islands</source>
+
+            <target>FR_Cocos (Keeling) Islands</target>
+            <note>A country name</note>
+            </trans-unit>
+            <trans-unit id="298">
+            <source>Colombia</source>
+            <target>FR_Colombia</target>
+            <note>A country name</note>
+
+            </trans-unit>
+            <trans-unit id="299">
+            <source>Comoros</source>
+            <target>FR_Comoros</target>
+            <note>A country name</note>
+            </trans-unit>
+            <trans-unit id="300">
+
+            <source>Congo</source>
+            <target>FR_Congo</target>
+            <note>A country name</note>
+            </trans-unit>
+            <trans-unit id="301">
+            <source>Congo, the Democratic Republic of the</source>
+            <target>FR_Congo, the Democratic Republic of the</target>
+
+            <note>A country name</note>
+            </trans-unit>
+            <trans-unit id="302">
+            <source>Cook Islands</source>
+            <target>FR_Cook Islands</target>
+            <note>A country name</note>
+            </trans-unit>
+
+            <trans-unit id="303">
+            <source>Costa Rica</source>
+            <target>FR_Costa Rica</target>
+            <note>A country name</note>
+            </trans-unit>
+            <trans-unit id="304">
+            <source>Cote D'Ivoire</source>
+
+            <target>FR_Cote D'Ivoire</target>
+            <note>A country name</note>
+            </trans-unit>
+            <trans-unit id="305">
+            <source>Croatia</source>
+            <target>FR_Croatia</target>
+            <note>A country name</note>
+
+            </trans-unit>
+            <trans-unit id="306">
+            <source>Cuba</source>
+            <target>FR_Cuba</target>
+            <note>A country name</note>
+            </trans-unit>
+            <trans-unit id="307">
+
+            <source>Cyprus</source>
+            <target>FR_Cyprus</target>
+            <note>A country name</note>
+            </trans-unit>
+            <trans-unit id="308">
+            <source>Czech Republic</source>
+            <target>FR_Czech Republic</target>
+
+            <note>A country name</note>
+            </trans-unit>
+            <trans-unit id="309">
+            <source>Denmark</source>
+            <target>FR_Denmark</target>
+            <note>A country name</note>
+            </trans-unit>
+
+            <trans-unit id="310">
+            <source>Djibouti</source>
+            <target>FR_Djibouti</target>
+            <note>A country name</note>
+            </trans-unit>
+            <trans-unit id="311">
+            <source>Dominica</source>
+
+            <target>FR_Dominica</target>
+            <note>A country name</note>
+            </trans-unit>
+            <trans-unit id="312">
+            <source>Dominican Republic</source>
+            <target>FR_Dominican Republic</target>
+            <note>A country name</note>
+
+            </trans-unit>
+            <trans-unit id="313">
+            <source>Ecuador</source>
+            <target>FR_Ecuador</target>
+            <note>A country name</note>
+            </trans-unit>
+            <trans-unit id="314">
+
+            <source>Egypt</source>
+            <target>FR_Egypt</target>
+            <note>A country name</note>
+            </trans-unit>
+            <trans-unit id="315">
+            <source>El Salvador</source>
+            <target>FR_El Salvador</target>
+
+            <note>A country name</note>
+            </trans-unit>
+            <trans-unit id="316">
+            <source>Equatorial Guinea</source>
+            <target>FR_Equatorial Guinea</target>
+            <note>A country name</note>
+            </trans-unit>
+
+            <trans-unit id="317">
+            <source>Eritrea</source>
+            <target>FR_Eritrea</target>
+            <note>A country name</note>
+            </trans-unit>
+            <trans-unit id="318">
+            <source>Estonia</source>
+
+            <target>FR_Estonia</target>
+            <note>A country name</note>
+            </trans-unit>
+            <trans-unit id="319">
+            <source>Ethiopia</source>
+            <target>FR_Ethiopia</target>
+            <note>A country name</note>
+
+            </trans-unit>
+            <trans-unit id="320">
+            <source>Falkland Islands (Malvinas)</source>
+            <target>FR_Falkland Islands (Malvinas)</target>
+            <note>A country name</note>
+            </trans-unit>
+            <trans-unit id="321">
+
+            <source>Faroe Islands</source>
+            <target>FR_Faroe Islands</target>
+            <note>A country name</note>
+            </trans-unit>
+            <trans-unit id="322">
+            <source>Fiji</source>
+            <target>FR_Fiji</target>
+
+            <note>A country name</note>
+            </trans-unit>
+            <trans-unit id="323">
+            <source>Finland</source>
+            <target>FR_Finland</target>
+            <note>A country name</note>
+            </trans-unit>
+
+            <trans-unit id="324">
+            <source>France</source>
+            <target>FR_France</target>
+            <note>A country name</note>
+            </trans-unit>
+            <trans-unit id="325">
+            <source>French Guiana</source>
+
+            <target>FR_French Guiana</target>
+            <note>A country name</note>
+            </trans-unit>
+            <trans-unit id="326">
+            <source>French Polynesia</source>
+            <target>FR_French Polynesia</target>
+            <note>A country name</note>
+
+            </trans-unit>
+            <trans-unit id="327">
+            <source>French Southern Territories</source>
+            <target>FR_French Southern Territories</target>
+            <note>A country name</note>
+            </trans-unit>
+            <trans-unit id="328">
+
+            <source>Gabon</source>
+            <target>FR_Gabon</target>
+            <note>A country name</note>
+            </trans-unit>
+            <trans-unit id="329">
+            <source>Gambia</source>
+            <target>FR_Gambia</target>
+
+            <note>A country name</note>
+            </trans-unit>
+            <trans-unit id="330">
+            <source>Georgia</source>
+            <target>FR_Georgia</target>
+            <note>A country name</note>
+            </trans-unit>
+
+            <trans-unit id="331">
+            <source>Germany</source>
+            <target>FR_Germany</target>
+            <note>A country name</note>
+            </trans-unit>
+            <trans-unit id="332">
+            <source>Ghana</source>
+
+            <target>FR_Ghana</target>
+            <note>A country name</note>
+            </trans-unit>
+            <trans-unit id="333">
+            <source>Gibraltar</source>
+            <target>FR_Gibraltar</target>
+            <note>A country name</note>
+
+            </trans-unit>
+            <trans-unit id="334">
+            <source>Greece</source>
+            <target>FR_Greece</target>
+            <note>A country name</note>
+            </trans-unit>
+            <trans-unit id="335">
+
+            <source>Greenland</source>
+            <target>FR_Greenland</target>
+            <note>A country name</note>
+            </trans-unit>
+            <trans-unit id="336">
+            <source>Grenada</source>
+            <target>FR_Grenada</target>
+
+            <note>A country name</note>
+            </trans-unit>
+            <trans-unit id="337">
+            <source>Guadeloupe</source>
+            <target>FR_Guadeloupe</target>
+            <note>A country name</note>
+            </trans-unit>
+
+            <trans-unit id="338">
+            <source>Guam</source>
+            <target>FR_Guam</target>
+            <note>A country name</note>
+            </trans-unit>
+            <trans-unit id="339">
+            <source>Guatemala</source>
+
+            <target>FR_Guatemala</target>
+            <note>A country name</note>
+            </trans-unit>
+            <trans-unit id="340">
+            <source>Guinea</source>
+            <target>FR_Guinea</target>
+            <note>A country name</note>
+
+            </trans-unit>
+            <trans-unit id="341">
+            <source>Guinea-Bissau</source>
+            <target>FR_Guinea-Bissau</target>
+            <note>A country name</note>
+            </trans-unit>
+            <trans-unit id="342">
+
+            <source>Guyana</source>
+            <target>FR_Guyana</target>
+            <note>A country name</note>
+            </trans-unit>
+            <trans-unit id="343">
+            <source>Haiti</source>
+            <target>FR_Haiti</target>
+
+            <note>A country name</note>
+            </trans-unit>
+            <trans-unit id="344">
+            <source>Heard Island and Mcdonald Islands</source>
+            <target>FR_Heard Island and Mcdonald Islands</target>
+            <note>A country name</note>
+            </trans-unit>
+
+            <trans-unit id="345">
+            <source>Holy See (Vatican City State)</source>
+            <target>FR_Holy See (Vatican City State)</target>
+            <note>A country name</note>
+            </trans-unit>
+            <trans-unit id="346">
+            <source>Honduras</source>
+
+            <target>FR_Honduras</target>
+            <note>A country name</note>
+            </trans-unit>
+            <trans-unit id="347">
+            <source>Hong Kong</source>
+            <target>FR_Hong Kong</target>
+            <note>A country name</note>
+
+            </trans-unit>
+            <trans-unit id="348">
+            <source>Hungary</source>
+            <target>FR_Hungary</target>
+            <note>A country name</note>
+            </trans-unit>
+            <trans-unit id="349">
+
+            <source>Iceland</source>
+            <target>FR_Iceland</target>
+            <note>A country name</note>
+            </trans-unit>
+            <trans-unit id="350">
+            <source>India</source>
+            <target>FR_India</target>
+
+            <note>A country name</note>
+            </trans-unit>
+            <trans-unit id="351">
+            <source>Indonesia</source>
+            <target>FR_Indonesia</target>
+            <note>A country name</note>
+            </trans-unit>
+
+            <trans-unit id="352">
+            <source>Iran, Islamic Republic of</source>
+            <target>FR_Iran, Islamic Republic of</target>
+            <note>A country name</note>
+            </trans-unit>
+            <trans-unit id="353">
+            <source>Iraq</source>
+
+            <target>FR_Iraq</target>
+            <note>A country name</note>
+            </trans-unit>
+            <trans-unit id="354">
+            <source>Ireland</source>
+            <target>FR_Ireland</target>
+            <note>A country name</note>
+
+            </trans-unit>
+            <trans-unit id="355">
+            <source>Israel</source>
+            <target>FR_Israel</target>
+            <note>A country name</note>
+            </trans-unit>
+            <trans-unit id="356">
+
+            <source>Italy</source>
+            <target>FR_Italy</target>
+            <note>A country name</note>
+            </trans-unit>
+            <trans-unit id="357">
+            <source>Jamaica</source>
+            <target>FR_Jamaica</target>
+
+            <note>A country name</note>
+            </trans-unit>
+            <trans-unit id="358">
+            <source>Japan</source>
+            <target>FR_Japan</target>
+            <note>A country name</note>
+            </trans-unit>
+
+            <trans-unit id="359">
+            <source>Jordan</source>
+            <target>FR_Jordan</target>
+            <note>A country name</note>
+            </trans-unit>
+            <trans-unit id="360">
+            <source>Kazakhstan</source>
+
+            <target>FR_Kazakhstan</target>
+            <note>A country name</note>
+            </trans-unit>
+            <trans-unit id="361">
+            <source>Kenya</source>
+            <target>FR_Kenya</target>
+            <note>A country name</note>
+
+            </trans-unit>
+            <trans-unit id="362">
+            <source>Kiribati</source>
+            <target>FR_Kiribati</target>
+            <note>A country name</note>
+            </trans-unit>
+            <trans-unit id="363">
+
+            <source>Korea, Democratic People's Republic of</source>
+            <target>FR_Korea, Democratic People's Republic of</target>
+            <note>A country name</note>
+            </trans-unit>
+            <trans-unit id="364">
+            <source>Korea, Republic of</source>
+            <target>FR_Korea, Republic of</target>
+
+            <note>A country name</note>
+            </trans-unit>
+            <trans-unit id="365">
+            <source>Kuwait</source>
+            <target>FR_Kuwait</target>
+            <note>A country name</note>
+            </trans-unit>
+
+            <trans-unit id="366">
+            <source>Kyrgyzstan</source>
+            <target>FR_Kyrgyzstan</target>
+            <note>A country name</note>
+            </trans-unit>
+            <trans-unit id="367">
+            <source>Lao People's Democratic Republic</source>
+
+            <target>FR_Lao People's Democratic Republic</target>
+            <note>A country name</note>
+            </trans-unit>
+            <trans-unit id="368">
+            <source>Latvia</source>
+            <target>FR_Latvia</target>
+            <note>A country name</note>
+
+            </trans-unit>
+            <trans-unit id="369">
+            <source>Lebanon</source>
+            <target>FR_Lebanon</target>
+            <note>A country name</note>
+            </trans-unit>
+            <trans-unit id="370">
+
+            <source>Lesotho</source>
+            <target>FR_Lesotho</target>
+            <note>A country name</note>
+            </trans-unit>
+            <trans-unit id="371">
+            <source>Liberia</source>
+            <target>FR_Liberia</target>
+
+            <note>A country name</note>
+            </trans-unit>
+            <trans-unit id="372">
+            <source>Libyan Arab Jamahiriya</source>
+            <target>FR_Libyan Arab Jamahiriya</target>
+            <note>A country name</note>
+            </trans-unit>
+
+            <trans-unit id="373">
+            <source>Liechtenstein</source>
+            <target>FR_Liechtenstein</target>
+            <note>A country name</note>
+            </trans-unit>
+            <trans-unit id="374">
+            <source>Lithuania</source>
+
+            <target>FR_Lithuania</target>
+            <note>A country name</note>
+            </trans-unit>
+            <trans-unit id="375">
+            <source>Luxembourg</source>
+            <target>FR_Luxembourg</target>
+            <note>A country name</note>
+
+            </trans-unit>
+            <trans-unit id="376">
+            <source>Macao</source>
+            <target>FR_Macao</target>
+            <note>A country name</note>
+            </trans-unit>
+            <trans-unit id="377">
+
+            <source>Macedonia, the Former Yugoslav Republic of</source>
+            <target>FR_Macedonia, the Former Yugoslav Republic of</target>
+            <note>A country name</note>
+            </trans-unit>
+            <trans-unit id="378">
+            <source>Madagascar</source>
+            <target>FR_Madagascar</target>
+
+            <note>A country name</note>
+            </trans-unit>
+            <trans-unit id="379">
+            <source>Malawi</source>
+            <target>FR_Malawi</target>
+            <note>A country name</note>
+            </trans-unit>
+
+            <trans-unit id="380">
+            <source>Malaysia</source>
+            <target>FR_Malaysia</target>
+            <note>A country name</note>
+            </trans-unit>
+            <trans-unit id="381">
+            <source>Maldives</source>
+
+            <target>FR_Maldives</target>
+            <note>A country name</note>
+            </trans-unit>
+            <trans-unit id="382">
+            <source>Mali</source>
+            <target>FR_Mali</target>
+            <note>A country name</note>
+
+            </trans-unit>
+            <trans-unit id="383">
+            <source>Malta</source>
+            <target>FR_Malta</target>
+            <note>A country name</note>
+            </trans-unit>
+            <trans-unit id="384">
+
+            <source>Marshall Islands</source>
+            <target>FR_Marshall Islands</target>
+            <note>A country name</note>
+            </trans-unit>
+            <trans-unit id="385">
+            <source>Martinique</source>
+            <target>FR_Martinique</target>
+
+            <note>A country name</note>
+            </trans-unit>
+            <trans-unit id="386">
+            <source>Mauritania</source>
+            <target>FR_Mauritania</target>
+            <note>A country name</note>
+            </trans-unit>
+
+            <trans-unit id="387">
+            <source>Mauritius</source>
+            <target>FR_Mauritius</target>
+            <note>A country name</note>
+            </trans-unit>
+            <trans-unit id="388">
+            <source>Mayotte</source>
+
+            <target>FR_Mayotte</target>
+            <note>A country name</note>
+            </trans-unit>
+            <trans-unit id="389">
+            <source>Mexico</source>
+            <target>FR_Mexico</target>
+            <note>A country name</note>
+
+            </trans-unit>
+            <trans-unit id="390">
+            <source>Micronesia, Federated States of</source>
+            <target>FR_Micronesia, Federated States of</target>
+            <note>A country name</note>
+            </trans-unit>
+            <trans-unit id="391">
+
+            <source>Moldova, Republic of</source>
+            <target>FR_Moldova, Republic of</target>
+            <note>A country name</note>
+            </trans-unit>
+            <trans-unit id="392">
+            <source>Monaco</source>
+            <target>FR_Monaco</target>
+
+            <note>A country name</note>
+            </trans-unit>
+            <trans-unit id="393">
+            <source>Mongolia</source>
+            <target>FR_Mongolia</target>
+            <note>A country name</note>
+            </trans-unit>
+
+            <trans-unit id="394">
+            <source>Montserrat</source>
+            <target>FR_Montserrat</target>
+            <note>A country name</note>
+            </trans-unit>
+            <trans-unit id="395">
+            <source>Morocco</source>
+
+            <target>FR_Morocco</target>
+            <note>A country name</note>
+            </trans-unit>
+            <trans-unit id="396">
+            <source>Mozambique</source>
+            <target>FR_Mozambique</target>
+            <note>A country name</note>
+
+            </trans-unit>
+            <trans-unit id="397">
+            <source>Myanmar</source>
+            <target>FR_Myanmar</target>
+            <note>A country name</note>
+            </trans-unit>
+            <trans-unit id="398">
+
+            <source>Namibia</source>
+            <target>FR_Namibia</target>
+            <note>A country name</note>
+            </trans-unit>
+            <trans-unit id="399">
+            <source>Nauru</source>
+            <target>FR_Nauru</target>
+
+            <note>A country name</note>
+            </trans-unit>
+            <trans-unit id="400">
+            <source>Nepal</source>
+            <target>FR_Nepal</target>
+            <note>A country name</note>
+            </trans-unit>
+
+            <trans-unit id="401">
+            <source>Netherlands</source>
+            <target>FR_Netherlands</target>
+            <note>A country name</note>
+            </trans-unit>
+            <trans-unit id="402">
+            <source>Netherlands Antilles</source>
+
+            <target>FR_Netherlands Antilles</target>
+            <note>A country name</note>
+            </trans-unit>
+            <trans-unit id="403">
+            <source>New Caledonia</source>
+            <target>FR_New Caledonia</target>
+            <note>A country name</note>
+
+            </trans-unit>
+            <trans-unit id="404">
+            <source>New Zealand</source>
+            <target>FR_New Zealand</target>
+            <note>A country name</note>
+            </trans-unit>
+            <trans-unit id="405">
+
+            <source>Nicaragua</source>
+            <target>FR_Nicaragua</target>
+            <note>A country name</note>
+            </trans-unit>
+            <trans-unit id="406">
+            <source>Niger</source>
+            <target>FR_Niger</target>
+
+            <note>A country name</note>
+            </trans-unit>
+            <trans-unit id="407">
+            <source>Nigeria</source>
+            <target>FR_Nigeria</target>
+            <note>A country name</note>
+            </trans-unit>
+
+            <trans-unit id="408">
+            <source>Niue</source>
+            <target>FR_Niue</target>
+            <note>A country name</note>
+            </trans-unit>
+            <trans-unit id="409">
+            <source>Norfolk Island</source>
+
+            <target>FR_Norfolk Island</target>
+            <note>A country name</note>
+            </trans-unit>
+            <trans-unit id="410">
+            <source>Northern Mariana Islands</source>
+            <target>FR_Northern Mariana Islands</target>
+            <note>A country name</note>
+
+            </trans-unit>
+            <trans-unit id="411">
+            <source>Norway</source>
+            <target>FR_Norway</target>
+            <note>A country name</note>
+            </trans-unit>
+            <trans-unit id="412">
+
+            <source>Oman</source>
+            <target>FR_Oman</target>
+            <note>A country name</note>
+            </trans-unit>
+            <trans-unit id="413">
+            <source>Pakistan</source>
+            <target>FR_Pakistan</target>
+
+            <note>A country name</note>
+            </trans-unit>
+            <trans-unit id="414">
+            <source>Palau</source>
+            <target>FR_Palau</target>
+            <note>A country name</note>
+            </trans-unit>
+
+            <trans-unit id="415">
+            <source>Palestinian Territory, Occupied</source>
+            <target>FR_Palestinian Territory, Occupied</target>
+            <note>A country name</note>
+            </trans-unit>
+            <trans-unit id="416">
+            <source>Panama</source>
+
+            <target>FR_Panama</target>
+            <note>A country name</note>
+            </trans-unit>
+            <trans-unit id="417">
+            <source>Papua New Guinea</source>
+            <target>FR_Papua New Guinea</target>
+            <note>A country name</note>
+
+            </trans-unit>
+            <trans-unit id="418">
+            <source>Paraguay</source>
+            <target>FR_Paraguay</target>
+            <note>A country name</note>
+            </trans-unit>
+            <trans-unit id="419">
+
+            <source>Peru</source>
+            <target>FR_Peru</target>
+            <note>A country name</note>
+            </trans-unit>
+            <trans-unit id="420">
+            <source>Philippines</source>
+            <target>FR_Philippines</target>
+
+            <note>A country name</note>
+            </trans-unit>
+            <trans-unit id="421">
+            <source>Pitcairn</source>
+            <target>FR_Pitcairn</target>
+            <note>A country name</note>
+            </trans-unit>
+
+            <trans-unit id="422">
+            <source>Poland</source>
+            <target>FR_Poland</target>
+            <note>A country name</note>
+            </trans-unit>
+            <trans-unit id="423">
+            <source>Portugal</source>
+
+            <target>FR_Portugal</target>
+            <note>A country name</note>
+            </trans-unit>
+            <trans-unit id="424">
+            <source>Puerto Rico</source>
+            <target>FR_Puerto Rico</target>
+            <note>A country name</note>
+
+            </trans-unit>
+            <trans-unit id="425">
+            <source>Qatar</source>
+            <target>FR_Qatar</target>
+            <note>A country name</note>
+            </trans-unit>
+            <trans-unit id="426">
+
+            <source>Reunion</source>
+            <target>FR_Reunion</target>
+            <note>A country name</note>
+            </trans-unit>
+            <trans-unit id="427">
+            <source>Romania</source>
+            <target>FR_Romania</target>
+
+            <note>A country name</note>
+            </trans-unit>
+            <trans-unit id="428">
+            <source>Russian Federation</source>
+            <target>FR_Russian Federation</target>
+            <note>A country name</note>
+            </trans-unit>
+
+            <trans-unit id="429">
+            <source>Rwanda</source>
+            <target>FR_Rwanda</target>
+            <note>A country name</note>
+            </trans-unit>
+            <trans-unit id="430">
+            <source>Saint Helena</source>
+
+            <target>FR_Saint Helena</target>
+            <note>A country name</note>
+            </trans-unit>
+            <trans-unit id="431">
+            <source>Saint Kitts and Nevis</source>
+            <target>FR_Saint Kitts and Nevis</target>
+            <note>A country name</note>
+
+            </trans-unit>
+            <trans-unit id="432">
+            <source>Saint Lucia</source>
+            <target>FR_Saint Lucia</target>
+            <note>A country name</note>
+            </trans-unit>
+            <trans-unit id="433">
+
+            <source>Saint Pierre and Miquelon</source>
+            <target>FR_Saint Pierre and Miquelon</target>
+            <note>A country name</note>
+            </trans-unit>
+            <trans-unit id="434">
+            <source>Saint Vincent and the Grenadines</source>
+            <target>FR_Saint Vincent and the Grenadines</target>
+
+            <note>A country name</note>
+            </trans-unit>
+            <trans-unit id="435">
+            <source>Samoa</source>
+            <target>FR_Samoa</target>
+            <note>A country name</note>
+            </trans-unit>
+
+            <trans-unit id="436">
+            <source>San Marino</source>
+            <target>FR_San Marino</target>
+            <note>A country name</note>
+            </trans-unit>
+            <trans-unit id="437">
+            <source>Sao Tome and Principe</source>
+
+            <target>FR_Sao Tome and Principe</target>
+            <note>A country name</note>
+            </trans-unit>
+            <trans-unit id="438">
+            <source>Saudi Arabia</source>
+            <target>FR_Saudi Arabia</target>
+            <note>A country name</note>
+
+            </trans-unit>
+            <trans-unit id="439">
+            <source>Senegal</source>
+            <target>FR_Senegal</target>
+            <note>A country name</note>
+            </trans-unit>
+            <trans-unit id="440">
+
+            <source>Serbia and Montenegro</source>
+            <target>FR_Serbia and Montenegro</target>
+            <note>A country name</note>
+            </trans-unit>
+            <trans-unit id="441">
+            <source>Seychelles</source>
+            <target>FR_Seychelles</target>
+
+            <note>A country name</note>
+            </trans-unit>
+            <trans-unit id="442">
+            <source>Sierra Leone</source>
+            <target>FR_Sierra Leone</target>
+            <note>A country name</note>
+            </trans-unit>
+
+            <trans-unit id="443">
+            <source>Singapore</source>
+            <target>FR_Singapore</target>
+            <note>A country name</note>
+            </trans-unit>
+            <trans-unit id="444">
+            <source>Slovakia</source>
+
+            <target>FR_Slovakia</target>
+            <note>A country name</note>
+            </trans-unit>
+            <trans-unit id="445">
+            <source>Slovenia</source>
+            <target>FR_Slovenia</target>
+            <note>A country name</note>
+
+            </trans-unit>
+            <trans-unit id="446">
+            <source>Solomon Islands</source>
+            <target>FR_Solomon Islands</target>
+            <note>A country name</note>
+            </trans-unit>
+            <trans-unit id="447">
+
+            <source>Somalia</source>
+            <target>FR_Somalia</target>
+            <note>A country name</note>
+            </trans-unit>
+            <trans-unit id="448">
+            <source>South Africa</source>
+            <target>FR_South Africa</target>
+
+            <note>A country name</note>
+            </trans-unit>
+            <trans-unit id="449">
+            <source>South Georgia and the South Sandwich Islands</source>
+            <target>FR_South Georgia and the South Sandwich Islands</target>
+            <note>A country name</note>
+            </trans-unit>
+
+            <trans-unit id="450">
+            <source>Spain</source>
+            <target>FR_Spain</target>
+            <note>A country name</note>
+            </trans-unit>
+            <trans-unit id="451">
+            <source>Sri Lanka</source>
+
+            <target>FR_Sri Lanka</target>
+            <note>A country name</note>
+            </trans-unit>
+            <trans-unit id="452">
+            <source>Sudan</source>
+            <target>FR_Sudan</target>
+            <note>A country name</note>
+
+            </trans-unit>
+            <trans-unit id="453">
+            <source>Suriname</source>
+            <target>FR_Suriname</target>
+            <note>A country name</note>
+            </trans-unit>
+            <trans-unit id="454">
+
+            <source>Svalbard and Jan Mayen</source>
+            <target>FR_Svalbard and Jan Mayen</target>
+            <note>A country name</note>
+            </trans-unit>
+            <trans-unit id="455">
+            <source>Swaziland</source>
+            <target>FR_Swaziland</target>
+
+            <note>A country name</note>
+            </trans-unit>
+            <trans-unit id="456">
+            <source>Sweden</source>
+            <target>FR_Sweden</target>
+            <note>A country name</note>
+            </trans-unit>
+
+            <trans-unit id="457">
+            <source>Switzerland</source>
+            <target>FR_Switzerland</target>
+            <note>A country name</note>
+            </trans-unit>
+            <trans-unit id="458">
+            <source>Syrian Arab Republic</source>
+
+            <target>FR_Syrian Arab Republic</target>
+            <note>A country name</note>
+            </trans-unit>
+            <trans-unit id="459">
+            <source>Taiwan</source>
+            <target>FR_Taiwan</target>
+            <note>A country name</note>
+
+            </trans-unit>
+            <trans-unit id="460">
+            <source>Tajikistan</source>
+            <target>FR_Tajikistan</target>
+            <note>A country name</note>
+            </trans-unit>
+            <trans-unit id="461">
+
+            <source>Tanzania, United Republic of</source>
+            <target>FR_Tanzania, United Republic of</target>
+            <note>A country name</note>
+            </trans-unit>
+            <trans-unit id="462">
+            <source>Thailand</source>
+            <target>FR_Thailand</target>
+
+            <note>A country name</note>
+            </trans-unit>
+            <trans-unit id="463">
+            <source>Timor-Leste</source>
+            <target>FR_Timor-Leste</target>
+            <note>A country name</note>
+            </trans-unit>
+
+            <trans-unit id="464">
+            <source>Togo</source>
+            <target>FR_Togo</target>
+            <note>A country name</note>
+            </trans-unit>
+            <trans-unit id="465">
+            <source>Tokelau</source>
+
+            <target>FR_Tokelau</target>
+            <note>A country name</note>
+            </trans-unit>
+            <trans-unit id="466">
+            <source>Tonga</source>
+            <target>FR_Tonga</target>
+            <note>A country name</note>
+
+            </trans-unit>
+            <trans-unit id="467">
+            <source>Trinidad and Tobago</source>
+            <target>FR_Trinidad and Tobago</target>
+            <note>A country name</note>
+            </trans-unit>
+            <trans-unit id="468">
+
+            <source>Tunisia</source>
+            <target>FR_Tunisia</target>
+            <note>A country name</note>
+            </trans-unit>
+            <trans-unit id="469">
+            <source>Turkey</source>
+            <target>FR_Turkey</target>
+
+            <note>A country name</note>
+            </trans-unit>
+            <trans-unit id="470">
+            <source>Turkmenistan</source>
+            <target>FR_Turkmenistan</target>
+            <note>A country name</note>
+            </trans-unit>
+
+            <trans-unit id="471">
+            <source>Turks and Caicos Islands</source>
+            <target>FR_Turks and Caicos Islands</target>
+            <note>A country name</note>
+            </trans-unit>
+            <trans-unit id="472">
+            <source>Tuvalu</source>
+
+            <target>FR_Tuvalu</target>
+            <note>A country name</note>
+            </trans-unit>
+            <trans-unit id="473">
+            <source>Uganda</source>
+            <target>FR_Uganda</target>
+            <note>A country name</note>
+
+            </trans-unit>
+            <trans-unit id="474">
+            <source>Ukraine</source>
+            <target>FR_Ukraine</target>
+            <note>A country name</note>
+            </trans-unit>
+            <trans-unit id="475">
+
+            <source>United Arab Emirates</source>
+            <target>FR_United Arab Emirates</target>
+            <note>A country name</note>
+            </trans-unit>
+            <trans-unit id="476">
+            <source>United Kingdom</source>
+            <target>FR_United Kingdom</target>
+
+            <note>A country name</note>
+            </trans-unit>
+            <trans-unit id="477">
+            <source>United States</source>
+            <target>FR_United States</target>
+            <note>A country name</note>
+            </trans-unit>
+
+            <trans-unit id="478">
+            <source>United States Minor Outlying Islands</source>
+            <target>FR_United States Minor Outlying Islands</target>
+            <note>A country name</note>
+            </trans-unit>
+            <trans-unit id="479">
+            <source>Uruguay</source>
+
+            <target>FR_Uruguay</target>
+            <note>A country name</note>
+            </trans-unit>
+            <trans-unit id="480">
+            <source>Uzbekistan</source>
+            <target>FR_Uzbekistan</target>
+            <note>A country name</note>
+
+            </trans-unit>
+            <trans-unit id="481">
+            <source>Vanuatu</source>
+            <target>FR_Vanuatu</target>
+            <note>A country name</note>
+            </trans-unit>
+            <trans-unit id="482">
+
+            <source>Venezuela</source>
+            <target>FR_Venezuela</target>
+            <note>A country name</note>
+            </trans-unit>
+            <trans-unit id="483">
+            <source>Viet Nam</source>
+            <target>FR_Viet Nam</target>
+
+            <note>A country name</note>
+            </trans-unit>
+            <trans-unit id="484">
+            <source>Virgin Islands, British</source>
+            <target>FR_Virgin Islands, British</target>
+            <note>A country name</note>
+            </trans-unit>
+
+            <trans-unit id="485">
+            <source>Virgin Islands, U.s.</source>
+            <target>FR_Virgin Islands, U.s.</target>
+            <note>A country name</note>
+            </trans-unit>
+            <trans-unit id="486">
+            <source>Wallis and Futuna</source>
+
+            <target>FR_Wallis and Futuna</target>
+            <note>A country name</note>
+            </trans-unit>
+            <trans-unit id="487">
+            <source>Western Sahara</source>
+            <target>FR_Western Sahara</target>
+            <note>A country name</note>
+
+            </trans-unit>
+            <trans-unit id="488">
+            <source>Yemen</source>
+            <target>FR_Yemen</target>
+            <note>A country name</note>
+            </trans-unit>
+            <trans-unit id="489">
+
+            <source>Zambia</source>
+            <target>FR_Zambia</target>
+            <note>A country name</note>
+            </trans-unit>
+            <trans-unit id="490">
+            <source>Zimbabwe</source>
+            <target>FR_Zimbabwe</target>
+
+            <note>A country name</note>
+            </trans-unit>
+            <trans-unit id="491">
+            <source>Alabama</source>
+            <target>FR_Alabama</target>
+
+            <note>A US state name</note>
+            </trans-unit>
+            <trans-unit id="492">
+            <source>Alaska</source>
+            <target>FR_Alaska</target>
+            <note>A US state name</note>
+            </trans-unit>
+
+            <trans-unit id="493">
+            <source>Arizona</source>
+            <target>FR_Arizona</target>
+            <note>A US state name</note>
+            </trans-unit>
+            <trans-unit id="494">
+            <source>Arkansas</source>
+
+            <target>FR_Arkansas</target>
+            <note>A US state name</note>
+            </trans-unit>
+            <trans-unit id="495">
+            <source>Armed Forces Middle East</source>
+            <target>FR_Armed Forces Middle East</target>
+            <note>A US state name</note>
+
+            </trans-unit>
+            <trans-unit id="496">
+            <source>Armed Forces Americas (except Canada)</source>
+            <target>FR_Armed Forces Americas (except Canada)</target>
+            <note>A US state name</note>
+            </trans-unit>
+            <trans-unit id="497">
+
+            <source>Armed Forces Pacific</source>
+            <target>FR_Armed Forces Pacific</target>
+            <note>A US state name</note>
+            </trans-unit>
+            <trans-unit id="498">
+            <source>California</source>
+            <target>FR_California</target>
+
+            <note>A US state name</note>
+            </trans-unit>
+            <trans-unit id="499">
+            <source>Colorado</source>
+            <target>FR_Colorado</target>
+            <note>A US state name</note>
+            </trans-unit>
+
+            <trans-unit id="500">
+            <source>Connecticut</source>
+            <target>FR_Connecticut</target>
+            <note>A US state name</note>
+            </trans-unit>
+            <trans-unit id="501">
+            <source>Delaware</source>
+
+            <target>FR_Delaware</target>
+            <note>A US state name</note>
+            </trans-unit>
+            <trans-unit id="502">
+            <source>District of Columbia</source>
+            <target>FR_District of Columbia</target>
+            <note>A US state name</note>
+
+            </trans-unit>
+            <trans-unit id="503">
+            <source>Federated States of Micronesia</source>
+            <target>FR_Federated States of Micronesia</target>
+            <note>A US state name</note>
+            </trans-unit>
+            <trans-unit id="504">
+
+            <source>Florida</source>
+            <target>FR_Florida</target>
+            <note>A US state name</note>
+            </trans-unit>
+            <trans-unit id="505">
+            <source>Hawaii</source>
+            <target>FR_Hawaii</target>
+
+            <note>A US state name</note>
+            </trans-unit>
+            <trans-unit id="506">
+            <source>Idaho</source>
+            <target>FR_Idaho</target>
+            <note>A US state name</note>
+            </trans-unit>
+
+            <trans-unit id="507">
+            <source>Illinois</source>
+            <target>FR_Illinois</target>
+            <note>A US state name</note>
+            </trans-unit>
+            <trans-unit id="508">
+            <source>Indiana</source>
+
+            <target>FR_Indiana</target>
+            <note>A US state name</note>
+            </trans-unit>
+            <trans-unit id="509">
+            <source>Iowa</source>
+            <target>FR_Iowa</target>
+            <note>A US state name</note>
+
+            </trans-unit>
+            <trans-unit id="510">
+            <source>Kansas</source>
+            <target>FR_Kansas</target>
+            <note>A US state name</note>
+            </trans-unit>
+            <trans-unit id="511">
+
+            <source>Kentucky</source>
+            <target>FR_Kentucky</target>
+            <note>A US state name</note>
+            </trans-unit>
+            <trans-unit id="512">
+            <source>Louisiana</source>
+            <target>FR_Louisiana</target>
+
+            <note>A US state name</note>
+            </trans-unit>
+            <trans-unit id="513">
+            <source>Maine</source>
+            <target>FR_Maine</target>
+            <note>A US state name</note>
+            </trans-unit>
+
+            <trans-unit id="514">
+            <source>Maryland</source>
+            <target>FR_Maryland</target>
+            <note>A US state name</note>
+            </trans-unit>
+            <trans-unit id="515">
+            <source>Massachusetts</source>
+
+            <target>FR_Massachusetts</target>
+            <note>A US state name</note>
+            </trans-unit>
+            <trans-unit id="516">
+            <source>Michigan</source>
+            <target>FR_Michigan</target>
+            <note>A US state name</note>
+
+            </trans-unit>
+            <trans-unit id="517">
+            <source>Minnesota</source>
+            <target>FR_Minnesota</target>
+            <note>A US state name</note>
+            </trans-unit>
+            <trans-unit id="518">
+
+            <source>Mississippi</source>
+            <target>FR_Mississippi</target>
+            <note>A US state name</note>
+            </trans-unit>
+            <trans-unit id="519">
+            <source>Missouri</source>
+            <target>FR_Missouri</target>
+
+            <note>A US state name</note>
+            </trans-unit>
+            <trans-unit id="520">
+            <source>Montana</source>
+            <target>FR_Montana</target>
+            <note>A US state name</note>
+            </trans-unit>
+
+            <trans-unit id="521">
+            <source>Nebraska</source>
+            <target>FR_Nebraska</target>
+            <note>A US state name</note>
+            </trans-unit>
+            <trans-unit id="522">
+            <source>Nevada</source>
+
+            <target>FR_Nevada</target>
+            <note>A US state name</note>
+            </trans-unit>
+            <trans-unit id="523">
+            <source>New Hampshire</source>
+            <target>FR_New Hampshire</target>
+            <note>A US state name</note>
+
+            </trans-unit>
+            <trans-unit id="524">
+            <source>New Jersey</source>
+            <target>FR_New Jersey</target>
+            <note>A US state name</note>
+            </trans-unit>
+            <trans-unit id="525">
+
+            <source>New Mexico</source>
+            <target>FR_New Mexico</target>
+            <note>A US state name</note>
+            </trans-unit>
+            <trans-unit id="526">
+            <source>New York</source>
+            <target>FR_New York</target>
+
+            <note>A US state name</note>
+            </trans-unit>
+            <trans-unit id="527">
+            <source>North Carolina</source>
+            <target>FR_North Carolina</target>
+            <note>A US state name</note>
+            </trans-unit>
+
+            <trans-unit id="528">
+            <source>North Dakota</source>
+            <target>FR_North Dakota</target>
+            <note>A US state name</note>
+            </trans-unit>
+            <trans-unit id="529">
+            <source>Ohio</source>
+
+            <target>FR_Ohio</target>
+            <note>A US state name</note>
+            </trans-unit>
+            <trans-unit id="530">
+            <source>Oklahoma</source>
+            <target>FR_Oklahoma</target>
+            <note>A US state name</note>
+
+            </trans-unit>
+            <trans-unit id="531">
+            <source>Oregon</source>
+            <target>FR_Oregon</target>
+            <note>A US state name</note>
+            </trans-unit>
+            <trans-unit id="532">
+
+            <source>Pennsylvania</source>
+            <target>FR_Pennsylvania</target>
+            <note>A US state name</note>
+            </trans-unit>
+            <trans-unit id="533">
+            <source>Rhode Island</source>
+            <target>FR_Rhode Island</target>
+
+            <note>A US state name</note>
+            </trans-unit>
+            <trans-unit id="534">
+            <source>South Carolina</source>
+            <target>FR_South Carolina</target>
+            <note>A US state name</note>
+            </trans-unit>
+
+            <trans-unit id="535">
+            <source>South Dakota</source>
+            <target>FR_South Dakota</target>
+            <note>A US state name</note>
+            </trans-unit>
+            <trans-unit id="536">
+            <source>Tennessee</source>
+
+            <target>FR_Tennessee</target>
+            <note>A US state name</note>
+            </trans-unit>
+            <trans-unit id="537">
+            <source>Texas</source>
+            <target>FR_Texas</target>
+            <note>A US state name</note>
+
+            </trans-unit>
+            <trans-unit id="538">
+            <source>Utah</source>
+            <target>FR_Utah</target>
+            <note>A US state name</note>
+            </trans-unit>
+            <trans-unit id="539">
+
+            <source>Vermont</source>
+            <target>FR_Vermont</target>
+            <note>A US state name</note>
+            </trans-unit>
+            <trans-unit id="540">
+            <source>Virgin Islands</source>
+            <target>FR_Virgin Islands</target>
+
+            <note>A US state name</note>
+            </trans-unit>
+            <trans-unit id="541">
+            <source>Virginia</source>
+            <target>FR_Virginia</target>
+            <note>A US state name</note>
+            </trans-unit>
+
+            <trans-unit id="542">
+            <source>Washington</source>
+            <target>FR_Washington</target>
+            <note>A US state name</note>
+            </trans-unit>
+            <trans-unit id="543">
+            <source>West Virginia</source>
+
+            <target>FR_West Virginia</target>
+            <note>A US state name</note>
+            </trans-unit>
+            <trans-unit id="544">
+            <source>Wisconsin</source>
+            <target>FR_Wisconsin</target>
+            <note>A US state name</note>
+
+            </trans-unit>
+            <trans-unit id="545">
+            <source>Wyoming</source>
+            <target>FR_Wyoming</target>
+            <note>A US state name</note>
+            </trans-unit>
+            <trans-unit id="546">
+            <source>Afghan</source>
+            <target>FR_Afghan</target>
+
+            <note>A nationality name</note>
+            </trans-unit>
+            <trans-unit id="547">
+            <source>Albanian</source>
+            <target>FR_Albanian</target>
+            <note>A nationality name</note>
+            </trans-unit>
+
+            <trans-unit id="548">
+            <source>Algerian</source>
+            <target>FR_Algerian</target>
+            <note>A nationality name</note>
+            </trans-unit>
+            <trans-unit id="549">
+            <source>American</source>
+
+            <target>FR_American</target>
+            <note>A nationality name</note>
+            </trans-unit>
+            <trans-unit id="550">
+            <source>Andorran</source>
+            <target>FR_Andorran</target>
+            <note>A nationality name</note>
+
+            </trans-unit>
+            <trans-unit id="551">
+            <source>Angolan</source>
+            <target>FR_Angolan</target>
+            <note>A nationality name</note>
+            </trans-unit>
+            <trans-unit id="552">
+
+            <source>Antiguans</source>
+            <target>FR_Antiguans</target>
+            <note>A nationality name</note>
+            </trans-unit>
+            <trans-unit id="553">
+            <source>Argentinean</source>
+            <target>FR_Argentinean</target>
+
+            <note>A nationality name</note>
+            </trans-unit>
+            <trans-unit id="554">
+            <source>Armenian</source>
+            <target>FR_Armenian</target>
+            <note>A nationality name</note>
+            </trans-unit>
+
+            <trans-unit id="555">
+            <source>Australian</source>
+            <target>FR_Australian</target>
+            <note>A nationality name</note>
+            </trans-unit>
+            <trans-unit id="556">
+            <source>Austrian</source>
+
+            <target>FR_Austrian</target>
+            <note>A nationality name</note>
+            </trans-unit>
+            <trans-unit id="557">
+            <source>Azerbaijani</source>
+            <target>FR_Azerbaijani</target>
+            <note>A nationality name</note>
+
+            </trans-unit>
+            <trans-unit id="558">
+            <source>Bahamian</source>
+            <target>FR_Bahamian</target>
+            <note>A nationality name</note>
+            </trans-unit>
+            <trans-unit id="559">
+
+            <source>Bahraini</source>
+            <target>FR_Bahraini</target>
+            <note>A nationality name</note>
+            </trans-unit>
+            <trans-unit id="560">
+            <source>Bangladeshi</source>
+            <target>FR_Bangladeshi</target>
+
+            <note>A nationality name</note>
+            </trans-unit>
+            <trans-unit id="561">
+            <source>Barbadian</source>
+            <target>FR_Barbadian</target>
+            <note>A nationality name</note>
+            </trans-unit>
+
+            <trans-unit id="562">
+            <source>Barbudans</source>
+            <target>FR_Barbudans</target>
+            <note>A nationality name</note>
+            </trans-unit>
+            <trans-unit id="563">
+            <source>Batswana</source>
+
+            <target>FR_Batswana</target>
+            <note>A nationality name</note>
+            </trans-unit>
+            <trans-unit id="564">
+            <source>Belarusian</source>
+            <target>FR_Belarusian</target>
+            <note>A nationality name</note>
+
+            </trans-unit>
+            <trans-unit id="565">
+            <source>Belgian</source>
+            <target>FR_Belgian</target>
+            <note>A nationality name</note>
+            </trans-unit>
+            <trans-unit id="566">
+
+            <source>Belizean</source>
+            <target>FR_Belizean</target>
+            <note>A nationality name</note>
+            </trans-unit>
+            <trans-unit id="567">
+            <source>Beninese</source>
+            <target>FR_Beninese</target>
+
+            <note>A nationality name</note>
+            </trans-unit>
+            <trans-unit id="568">
+            <source>Bhutanese</source>
+            <target>FR_Bhutanese</target>
+            <note>A nationality name</note>
+            </trans-unit>
+
+            <trans-unit id="569">
+            <source>Bolivian</source>
+            <target>FR_Bolivian</target>
+            <note>A nationality name</note>
+            </trans-unit>
+            <trans-unit id="570">
+            <source>Bosnian</source>
+
+            <target>FR_Bosnian</target>
+            <note>A nationality name</note>
+            </trans-unit>
+            <trans-unit id="571">
+            <source>Brazilian</source>
+            <target>FR_Brazilian</target>
+            <note>A nationality name</note>
+
+            </trans-unit>
+            <trans-unit id="572">
+            <source>British</source>
+            <target>FR_British</target>
+            <note>A nationality name</note>
+            </trans-unit>
+            <trans-unit id="573">
+
+            <source>Bruneian</source>
+            <target>FR_Bruneian</target>
+            <note>A nationality name</note>
+            </trans-unit>
+            <trans-unit id="574">
+            <source>Bulgarian</source>
+            <target>FR_Bulgarian</target>
+
+            <note>A nationality name</note>
+            </trans-unit>
+            <trans-unit id="575">
+            <source>Burkinabe</source>
+            <target>FR_Burkinabe</target>
+            <note>A nationality name</note>
+            </trans-unit>
+
+            <trans-unit id="576">
+            <source>Burmese</source>
+            <target>FR_Burmese</target>
+            <note>A nationality name</note>
+            </trans-unit>
+            <trans-unit id="577">
+            <source>Burundian</source>
+
+            <target>FR_Burundian</target>
+            <note>A nationality name</note>
+            </trans-unit>
+            <trans-unit id="578">
+            <source>Cambodian</source>
+            <target>FR_Cambodian</target>
+            <note>A nationality name</note>
+
+            </trans-unit>
+            <trans-unit id="579">
+            <source>Cameroonian</source>
+            <target>FR_Cameroonian</target>
+            <note>A nationality name</note>
+            </trans-unit>
+            <trans-unit id="580">
+
+            <source>Canadian</source>
+            <target>FR_Canadian</target>
+            <note>A nationality name</note>
+            </trans-unit>
+            <trans-unit id="581">
+            <source>Cape Verdean</source>
+            <target>FR_Cape Verdean</target>
+
+            <note>A nationality name</note>
+            </trans-unit>
+            <trans-unit id="582">
+            <source>Central African</source>
+            <target>FR_Central African</target>
+            <note>A nationality name</note>
+            </trans-unit>
+
+            <trans-unit id="583">
+            <source>Chadian</source>
+            <target>FR_Chadian</target>
+            <note>A nationality name</note>
+            </trans-unit>
+            <trans-unit id="584">
+            <source>Chilean</source>
+
+            <target>FR_Chilean</target>
+            <note>A nationality name</note>
+            </trans-unit>
+            <trans-unit id="585">
+            <source>Chinese</source>
+            <target>FR_Chinese</target>
+            <note>A nationality name</note>
+
+            </trans-unit>
+            <trans-unit id="586">
+            <source>Colombian</source>
+            <target>FR_Colombian</target>
+            <note>A nationality name</note>
+            </trans-unit>
+            <trans-unit id="587">
+
+            <source>Comoran</source>
+            <target>FR_Comoran</target>
+            <note>A nationality name</note>
+            </trans-unit>
+            <trans-unit id="588">
+            <source>Congolese</source>
+            <target>FR_Congolese</target>
+
+            <note>A nationality name</note>
+            </trans-unit>
+            <trans-unit id="589">
+            <source>Costa Rican</source>
+            <target>FR_Costa Rican</target>
+            <note>A nationality name</note>
+            </trans-unit>
+
+            <trans-unit id="590">
+            <source>Croatian</source>
+            <target>FR_Croatian</target>
+            <note>A nationality name</note>
+            </trans-unit>
+            <trans-unit id="591">
+            <source>Cuban</source>
+
+            <target>FR_Cuban</target>
+            <note>A nationality name</note>
+            </trans-unit>
+            <trans-unit id="592">
+            <source>Cypriot</source>
+            <target>FR_Cypriot</target>
+            <note>A nationality name</note>
+
+            </trans-unit>
+            <trans-unit id="593">
+            <source>Czech</source>
+            <target>FR_Czech</target>
+            <note>A nationality name</note>
+            </trans-unit>
+            <trans-unit id="594">
+
+            <source>Danish</source>
+            <target>FR_Danish</target>
+            <note>A nationality name</note>
+            </trans-unit>
+            <trans-unit id="595">
+            <source>Djibouti</source>
+            <target>FR_FR_Djibouti</target>
+
+            <note>A nationality name</note>
+            </trans-unit>
+            <trans-unit id="596">
+            <source>Dominican</source>
+            <target>FR_Dominican</target>
+            <note>A nationality name</note>
+            </trans-unit>
+
+            <trans-unit id="597">
+            <source>Dutch</source>
+            <target>FR_Dutch</target>
+            <note>A nationality name</note>
+            </trans-unit>
+            <trans-unit id="598">
+            <source>East Timorese</source>
+
+            <target>FR_East Timorese</target>
+            <note>A nationality name</note>
+            </trans-unit>
+            <trans-unit id="599">
+            <source>Ecuadorean</source>
+            <target>FR_Ecuadorean</target>
+            <note>A nationality name</note>
+
+            </trans-unit>
+            <trans-unit id="600">
+            <source>Egyptian</source>
+            <target>FR_Egyptian</target>
+            <note>A nationality name</note>
+            </trans-unit>
+            <trans-unit id="601">
+
+            <source>Emirian</source>
+            <target>FR_Emirian</target>
+            <note>A nationality name</note>
+            </trans-unit>
+            <trans-unit id="602">
+            <source>Equatorial Guinean</source>
+            <target>FR_Equatorial Guinean</target>
+
+            <note>A nationality name</note>
+            </trans-unit>
+            <trans-unit id="603">
+            <source>Eritrean</source>
+            <target>FR_Eritrean</target>
+            <note>A nationality name</note>
+            </trans-unit>
+
+            <trans-unit id="604">
+            <source>Estonian</source>
+            <target>FR_Estonian</target>
+            <note>A nationality name</note>
+            </trans-unit>
+            <trans-unit id="605">
+            <source>Ethiopian</source>
+
+            <target>FR_Ethiopian</target>
+            <note>A nationality name</note>
+            </trans-unit>
+            <trans-unit id="606">
+            <source>Fijian</source>
+            <target>FR_Fijian</target>
+            <note>A nationality name</note>
+
+            </trans-unit>
+            <trans-unit id="607">
+            <source>Filipino</source>
+            <target>FR_Filipino</target>
+            <note>A nationality name</note>
+            </trans-unit>
+            <trans-unit id="608">
+
+            <source>Finnish</source>
+            <target>FR_Finnish</target>
+            <note>A nationality name</note>
+            </trans-unit>
+            <trans-unit id="609">
+            <source>French</source>
+            <target>FR_French</target>
+
+            <note>A nationality name</note>
+            </trans-unit>
+            <trans-unit id="610">
+            <source>Gabonese</source>
+            <target>FR_Gabonese</target>
+            <note>A nationality name</note>
+            </trans-unit>
+
+            <trans-unit id="611">
+            <source>Gambian</source>
+            <target>FR_Gambian</target>
+            <note>A nationality name</note>
+            </trans-unit>
+            <trans-unit id="612">
+            <source>Georgian</source>
+
+            <target>FR_Georgian</target>
+            <note>A nationality name</note>
+            </trans-unit>
+            <trans-unit id="613">
+            <source>German</source>
+            <target>FR_German</target>
+            <note>A nationality name</note>
+
+            </trans-unit>
+            <trans-unit id="614">
+            <source>Ghanaian</source>
+            <target>FR_Ghanaian</target>
+            <note>A nationality name</note>
+            </trans-unit>
+            <trans-unit id="615">
+
+            <source>Greek</source>
+            <target>FR_Greek</target>
+            <note>A nationality name</note>
+            </trans-unit>
+            <trans-unit id="616">
+            <source>Grenadian</source>
+            <target>FR_Grenadian</target>
+
+            <note>A nationality name</note>
+            </trans-unit>
+            <trans-unit id="617">
+            <source>Guatemalan</source>
+            <target>FR_Guatemalan</target>
+            <note>A nationality name</note>
+            </trans-unit>
+
+            <trans-unit id="618">
+            <source>Guinea-Bissauan</source>
+            <target>FR_Guinea-Bissauan</target>
+            <note>A nationality name</note>
+            </trans-unit>
+            <trans-unit id="619">
+            <source>Guinean</source>
+
+            <target>FR_Guinean</target>
+            <note>A nationality name</note>
+            </trans-unit>
+            <trans-unit id="620">
+            <source>Guyanese</source>
+            <target>FR_Guyanese</target>
+            <note>A nationality name</note>
+
+            </trans-unit>
+            <trans-unit id="621">
+            <source>Haitian</source>
+            <target>FR_Haitian</target>
+            <note>A nationality name</note>
+            </trans-unit>
+            <trans-unit id="622">
+
+            <source>Herzegovinian</source>
+            <target>FR_Herzegovinian</target>
+            <note>A nationality name</note>
+            </trans-unit>
+            <trans-unit id="623">
+            <source>Honduran</source>
+            <target>FR_Honduran</target>
+
+            <note>A nationality name</note>
+            </trans-unit>
+            <trans-unit id="624">
+            <source>Hungarian</source>
+            <target>FR_Hungarian</target>
+            <note>A nationality name</note>
+            </trans-unit>
+
+            <trans-unit id="625">
+            <source>I-Kiribati</source>
+            <target>FR_I-Kiribati</target>
+            <note>A nationality name</note>
+            </trans-unit>
+            <trans-unit id="626">
+            <source>Icelander</source>
+
+            <target>FR_Icelander</target>
+            <note>A nationality name</note>
+            </trans-unit>
+            <trans-unit id="627">
+            <source>Indian</source>
+            <target>FR_Indian</target>
+            <note>A nationality name</note>
+
+            </trans-unit>
+            <trans-unit id="628">
+            <source>Indonesian</source>
+            <target>FR_Indonesian</target>
+            <note>A nationality name</note>
+            </trans-unit>
+            <trans-unit id="629">
+
+            <source>Iranian</source>
+            <target>FR_Iranian</target>
+            <note>A nationality name</note>
+            </trans-unit>
+            <trans-unit id="630">
+            <source>Iraqi</source>
+            <target>FR_Iraqi</target>
+
+            <note>A nationality name</note>
+            </trans-unit>
+            <trans-unit id="631">
+            <source>Irish</source>
+            <target>FR_Irish</target>
+            <note>A nationality name</note>
+            </trans-unit>
+
+            <trans-unit id="632">
+            <source>Israeli</source>
+            <target>FR_Israeli</target>
+            <note>A nationality name</note>
+            </trans-unit>
+            <trans-unit id="633">
+            <source>Italian</source>
+
+            <target>FR_Italian</target>
+            <note>A nationality name</note>
+            </trans-unit>
+            <trans-unit id="634">
+            <source>Ivorian</source>
+            <target>FR_Ivorian</target>
+            <note>A nationality name</note>
+
+            </trans-unit>
+            <trans-unit id="635">
+            <source>Jamaican</source>
+            <target>FR_Jamaican</target>
+            <note>A nationality name</note>
+            </trans-unit>
+            <trans-unit id="636">
+
+            <source>Japanese</source>
+            <target>FR_Japanese</target>
+            <note>A nationality name</note>
+            </trans-unit>
+            <trans-unit id="637">
+            <source>Jordanian</source>
+            <target>FR_Jordanian</target>
+
+            <note>A nationality name</note>
+            </trans-unit>
+            <trans-unit id="638">
+            <source>Kazakhstani</source>
+            <target>FR_Kazakhstani</target>
+            <note>A nationality name</note>
+            </trans-unit>
+
+            <trans-unit id="639">
+            <source>Kenyan</source>
+            <target>FR_Kenyan</target>
+            <note>A nationality name</note>
+            </trans-unit>
+            <trans-unit id="640">
+            <source>Kittian and Nevisian</source>
+
+            <target>FR_Kittian and Nevisian</target>
+            <note>A nationality name</note>
+            </trans-unit>
+            <trans-unit id="641">
+            <source>Kuwaiti</source>
+            <target>FR_Kuwaiti</target>
+            <note>A nationality name</note>
+
+            </trans-unit>
+            <trans-unit id="642">
+            <source>Kyrgyz</source>
+            <target>FR_Kyrgyz</target>
+            <note>A nationality name</note>
+            </trans-unit>
+            <trans-unit id="643">
+
+            <source>Laotian</source>
+            <target>FR_Laotian</target>
+            <note>A nationality name</note>
+            </trans-unit>
+            <trans-unit id="644">
+            <source>Latvian</source>
+            <target>FR_Latvian</target>
+
+            <note>A nationality name</note>
+            </trans-unit>
+            <trans-unit id="645">
+            <source>Lebanese</source>
+            <target>FR_Lebanese</target>
+            <note>A nationality name</note>
+            </trans-unit>
+
+            <trans-unit id="646">
+            <source>Liberian</source>
+            <target>FR_Liberian</target>
+            <note>A nationality name</note>
+            </trans-unit>
+            <trans-unit id="647">
+            <source>Libyan</source>
+
+            <target>FR_Libyan</target>
+            <note>A nationality name</note>
+            </trans-unit>
+            <trans-unit id="648">
+            <source>Liechtensteiner</source>
+            <target>FR_Liechtensteiner</target>
+            <note>A nationality name</note>
+
+            </trans-unit>
+            <trans-unit id="649">
+            <source>Lithuanian</source>
+            <target>FR_Lithuanian</target>
+            <note>A nationality name</note>
+            </trans-unit>
+            <trans-unit id="650">
+
+            <source>Luxembourger</source>
+            <target>FR_Luxembourger</target>
+            <note>A nationality name</note>
+            </trans-unit>
+            <trans-unit id="651">
+            <source>Macedonian</source>
+            <target>FR_Macedonian</target>
+
+            <note>A nationality name</note>
+            </trans-unit>
+            <trans-unit id="652">
+            <source>Malagasy</source>
+            <target>FR_Malagasy</target>
+            <note>A nationality name</note>
+            </trans-unit>
+
+            <trans-unit id="653">
+            <source>Malawian</source>
+            <target>FR_Malawian</target>
+            <note>A nationality name</note>
+            </trans-unit>
+            <trans-unit id="654">
+            <source>Malaysian</source>
+
+            <target>FR_Malaysian</target>
+            <note>A nationality name</note>
+            </trans-unit>
+            <trans-unit id="655">
+            <source>Maldivan</source>
+            <target>FR_Maldivan</target>
+            <note>A nationality name</note>
+
+            </trans-unit>
+            <trans-unit id="656">
+            <source>Malian</source>
+            <target>FR_Malian</target>
+            <note>A nationality name</note>
+            </trans-unit>
+            <trans-unit id="657">
+
+            <source>Maltese</source>
+            <target>FR_Maltese</target>
+            <note>A nationality name</note>
+            </trans-unit>
+            <trans-unit id="658">
+            <source>Marshallese</source>
+            <target>FR_Marshallese</target>
+
+            <note>A nationality name</note>
+            </trans-unit>
+            <trans-unit id="659">
+            <source>Mauritanian</source>
+            <target>FR_Mauritanian</target>
+            <note>A nationality name</note>
+            </trans-unit>
+
+            <trans-unit id="660">
+            <source>Mauritian</source>
+            <target>FR_Mauritian</target>
+            <note>A nationality name</note>
+            </trans-unit>
+            <trans-unit id="661">
+            <source>Mexican</source>
+
+            <target>FR_Mexican</target>
+            <note>A nationality name</note>
+            </trans-unit>
+            <trans-unit id="662">
+            <source>Micronesian</source>
+            <target>FR_Micronesian</target>
+            <note>A nationality name</note>
+
+            </trans-unit>
+            <trans-unit id="663">
+            <source>Moldovan</source>
+            <target>FR_Moldovan</target>
+            <note>A nationality name</note>
+            </trans-unit>
+            <trans-unit id="664">
+
+            <source>Monacan</source>
+            <target>FR_Monacan</target>
+            <note>A nationality name</note>
+            </trans-unit>
+            <trans-unit id="665">
+            <source>Mongolian</source>
+            <target>FR_Mongolian</target>
+
+            <note>A nationality name</note>
+            </trans-unit>
+            <trans-unit id="666">
+            <source>Moroccan</source>
+            <target>FR_Moroccan</target>
+            <note>A nationality name</note>
+            </trans-unit>
+
+            <trans-unit id="667">
+            <source>Mosotho</source>
+            <target>FR_Mosotho</target>
+            <note>A nationality name</note>
+            </trans-unit>
+            <trans-unit id="668">
+            <source>Motswana</source>
+
+            <target>FR_Motswana</target>
+            <note>A nationality name</note>
+            </trans-unit>
+            <trans-unit id="669">
+            <source>Mozambican</source>
+            <target>FR_Mozambican</target>
+            <note>A nationality name</note>
+
+            </trans-unit>
+            <trans-unit id="670">
+            <source>Namibian</source>
+            <target>FR_Namibian</target>
+            <note>A nationality name</note>
+            </trans-unit>
+            <trans-unit id="671">
+
+            <source>Nauruan</source>
+            <target>FR_Nauruan</target>
+            <note>A nationality name</note>
+            </trans-unit>
+            <trans-unit id="672">
+            <source>Nepalese</source>
+            <target>FR_Nepalese</target>
+
+            <note>A nationality name</note>
+            </trans-unit>
+            <trans-unit id="673">
+            <source>New Zealander</source>
+            <target>FR_New Zealander</target>
+            <note>A nationality name</note>
+            </trans-unit>
+
+            <trans-unit id="674">
+            <source>Nicaraguan</source>
+            <target>FR_Nicaraguan</target>
+            <note>A nationality name</note>
+            </trans-unit>
+            <trans-unit id="675">
+            <source>Nigerian</source>
+
+            <target>FR_Nigerian</target>
+            <note>A nationality name</note>
+            </trans-unit>
+            <trans-unit id="676">
+            <source>Nigerien</source>
+            <target>FR_Nigerien</target>
+            <note>A nationality name</note>
+
+            </trans-unit>
+            <trans-unit id="677">
+            <source>North Korean</source>
+            <target>FR_North Korean</target>
+            <note>A nationality name</note>
+            </trans-unit>
+            <trans-unit id="678">
+
+            <source>Northern Irish</source>
+            <target>FR_Northern Irish</target>
+            <note>A nationality name</note>
+            </trans-unit>
+            <trans-unit id="679">
+            <source>Norwegian</source>
+            <target>FR_Norwegian</target>
+
+            <note>A nationality name</note>
+            </trans-unit>
+            <trans-unit id="680">
+            <source>Omani</source>
+            <target>FR_Omani</target>
+            <note>A nationality name</note>
+            </trans-unit>
+
+            <trans-unit id="681">
+            <source>Pakistani</source>
+            <target>FR_Pakistani</target>
+            <note>A nationality name</note>
+            </trans-unit>
+            <trans-unit id="682">
+            <source>Palauan</source>
+
+            <target>FR_Palauan</target>
+            <note>A nationality name</note>
+            </trans-unit>
+            <trans-unit id="683">
+            <source>Panamanian</source>
+            <target>FR_Panamanian</target>
+            <note>A nationality name</note>
+
+            </trans-unit>
+            <trans-unit id="684">
+            <source>Papua New Guinean</source>
+            <target>FR_Papua New Guinean</target>
+            <note>A nationality name</note>
+            </trans-unit>
+            <trans-unit id="685">
+
+            <source>Paraguayan</source>
+            <target>FR_Paraguayan</target>
+            <note>A nationality name</note>
+            </trans-unit>
+            <trans-unit id="686">
+            <source>Peruvian</source>
+            <target>FR_Peruvian</target>
+
+            <note>A nationality name</note>
+            </trans-unit>
+            <trans-unit id="687">
+            <source>Polish</source>
+            <target>FR_Polish</target>
+            <note>A nationality name</note>
+            </trans-unit>
+
+            <trans-unit id="688">
+            <source>Portuguese</source>
+            <target>FR_Portuguese</target>
+            <note>A nationality name</note>
+            </trans-unit>
+            <trans-unit id="689">
+            <source>Qatari</source>
+
+            <target>FR_Qatari</target>
+            <note>A nationality name</note>
+            </trans-unit>
+            <trans-unit id="690">
+            <source>Romanian</source>
+            <target>FR_Romanian</target>
+            <note>A nationality name</note>
+
+            </trans-unit>
+            <trans-unit id="691">
+            <source>Russian</source>
+            <target>FR_Russian</target>
+            <note>A nationality name</note>
+            </trans-unit>
+            <trans-unit id="692">
+
+            <source>Rwandan</source>
+            <target>FR_Rwandan</target>
+            <note>A nationality name</note>
+            </trans-unit>
+            <trans-unit id="693">
+            <source>Saint Lucian</source>
+            <target>FR_Saint Lucian</target>
+
+            <note>A nationality name</note>
+            </trans-unit>
+            <trans-unit id="694">
+            <source>Salvadoran</source>
+            <target>FR_Salvadoran</target>
+            <note>A nationality name</note>
+            </trans-unit>
+
+            <trans-unit id="695">
+            <source>Samoan</source>
+            <target>FR_Samoan</target>
+            <note>A nationality name</note>
+            </trans-unit>
+            <trans-unit id="696">
+            <source>San Marinese</source>
+
+            <target>FR_San Marinese</target>
+            <note>A nationality name</note>
+            </trans-unit>
+            <trans-unit id="697">
+            <source>Sao Tomean</source>
+            <target>FR_Sao Tomean</target>
+            <note>A nationality name</note>
+
+            </trans-unit>
+            <trans-unit id="698">
+            <source>Saudi</source>
+            <target>FR_Saudi</target>
+            <note>A nationality name</note>
+            </trans-unit>
+            <trans-unit id="699">
+
+            <source>Scottish</source>
+            <target>FR_Scottish</target>
+            <note>A nationality name</note>
+            </trans-unit>
+            <trans-unit id="700">
+            <source>Senegalese</source>
+            <target>FR_Senegalese</target>
+
+            <note>A nationality name</note>
+            </trans-unit>
+            <trans-unit id="701">
+            <source>Serbian</source>
+            <target>FR_Serbian</target>
+            <note>A nationality name</note>
+            </trans-unit>
+
+            <trans-unit id="702">
+            <source>Seychellois</source>
+            <target>FR_Seychellois</target>
+            <note>A nationality name</note>
+            </trans-unit>
+            <trans-unit id="703">
+            <source>Sierra Leonean</source>
+
+            <target>FR_Sierra Leonean</target>
+            <note>A nationality name</note>
+            </trans-unit>
+            <trans-unit id="704">
+            <source>Singaporean</source>
+            <target>FR_Singaporean</target>
+            <note>A nationality name</note>
+
+            </trans-unit>
+            <trans-unit id="705">
+            <source>Slovakian</source>
+            <target>FR_Slovakian</target>
+            <note>A nationality name</note>
+            </trans-unit>
+            <trans-unit id="706">
+
+            <source>Slovenian</source>
+            <target>FR_Slovenian</target>
+            <note>A nationality name</note>
+            </trans-unit>
+            <trans-unit id="707">
+            <source>Solomon Islander</source>
+            <target>FR_Solomon Islander</target>
+
+            <note>A nationality name</note>
+            </trans-unit>
+            <trans-unit id="708">
+            <source>Somali</source>
+            <target>FR_Somali</target>
+            <note>A nationality name</note>
+            </trans-unit>
+
+            <trans-unit id="709">
+            <source>South African</source>
+            <target>FR_South African</target>
+            <note>A nationality name</note>
+            </trans-unit>
+            <trans-unit id="710">
+            <source>South Korean</source>
+
+            <target>FR_South Korean</target>
+            <note>A nationality name</note>
+            </trans-unit>
+            <trans-unit id="711">
+            <source>Spanish</source>
+            <target>FR_Spanish</target>
+            <note>A nationality name</note>
+
+            </trans-unit>
+            <trans-unit id="712">
+            <source>Sri Lankan</source>
+            <target>FR_Sri Lankan</target>
+            <note>A nationality name</note>
+            </trans-unit>
+            <trans-unit id="713">
+
+            <source>Sudanese</source>
+            <target>FR_Sudanese</target>
+            <note>A nationality name</note>
+            </trans-unit>
+            <trans-unit id="714">
+            <source>Surinamer</source>
+            <target>FR_Surinamer</target>
+
+            <note>A nationality name</note>
+            </trans-unit>
+            <trans-unit id="715">
+            <source>Swazi</source>
+            <target>FR_Swazi</target>
+            <note>A nationality name</note>
+            </trans-unit>
+
+            <trans-unit id="716">
+            <source>Swedish</source>
+            <target>FR_Swedish</target>
+            <note>A nationality name</note>
+            </trans-unit>
+            <trans-unit id="717">
+            <source>Swiss</source>
+
+            <target>FR_Swiss</target>
+            <note>A nationality name</note>
+            </trans-unit>
+            <trans-unit id="718">
+            <source>Syrian</source>
+            <target>FR_Syrian</target>
+            <note>A nationality name</note>
+
+            </trans-unit>
+            <trans-unit id="719">
+            <source>Taiwanese</source>
+            <target>FR_Taiwanese</target>
+            <note>A nationality name</note>
+            </trans-unit>
+            <trans-unit id="720">
+
+            <source>Tajik</source>
+            <target>FR_Tajik</target>
+            <note>A nationality name</note>
+            </trans-unit>
+            <trans-unit id="721">
+            <source>Tanzanian</source>
+            <target>FR_Tanzanian</target>
+
+            <note>A nationality name</note>
+            </trans-unit>
+            <trans-unit id="722">
+            <source>Thai</source>
+            <target>FR_Thai</target>
+            <note>A nationality name</note>
+            </trans-unit>
+
+            <trans-unit id="723">
+            <source>Togolese</source>
+            <target>FR_Togolese</target>
+            <note>A nationality name</note>
+            </trans-unit>
+            <trans-unit id="724">
+            <source>Tongan</source>
+
+            <target>FR_Tongan</target>
+            <note>A nationality name</note>
+            </trans-unit>
+            <trans-unit id="725">
+            <source>Trinidadian or Tobagonian</source>
+            <target>FR_Trinidadian or Tobagonian</target>
+            <note>A nationality name</note>
+
+            </trans-unit>
+            <trans-unit id="726">
+            <source>Tunisian</source>
+            <target>FR_Tunisian</target>
+            <note>A nationality name</note>
+            </trans-unit>
+            <trans-unit id="727">
+
+            <source>Turkish</source>
+            <target>FR_Turkish</target>
+            <note>A nationality name</note>
+            </trans-unit>
+            <trans-unit id="728">
+            <source>Tuvaluan</source>
+            <target>FR_Tuvaluan</target>
+
+            <note>A nationality name</note>
+            </trans-unit>
+            <trans-unit id="729">
+            <source>Ugandan</source>
+            <target>FR_Ugandan</target>
+            <note>A nationality name</note>
+            </trans-unit>
+
+            <trans-unit id="730">
+            <source>Ukrainian</source>
+            <target>FR_Ukrainian</target>
+            <note>A nationality name</note>
+            </trans-unit>
+            <trans-unit id="731">
+            <source>Uruguayan</source>
+
+            <target>FR_Uruguayan</target>
+            <note>A nationality name</note>
+            </trans-unit>
+            <trans-unit id="732">
+            <source>Uzbekistani</source>
+            <target>FR_Uzbekistani</target>
+            <note>A nationality name</note>
+
+            </trans-unit>
+            <trans-unit id="733">
+            <source>Venezuelan</source>
+            <target>FR_Venezuelan</target>
+            <note>A nationality name</note>
+            </trans-unit>
+            <trans-unit id="734">
+
+            <source>Vietnamese</source>
+            <target>FR_Vietnamese</target>
+            <note>A nationality name</note>
+            </trans-unit>
+            <trans-unit id="735">
+            <source>Welsh</source>
+            <target>FR_Welsh</target>
+
+            <note>A nationality name</note>
+            </trans-unit>
+            <trans-unit id="736">
+            <source>Yemenite</source>
+            <target>FR_Yemenite</target>
+            <note>A nationality name</note>
+            </trans-unit>
+
+            <trans-unit id="737">
+            <source>Zambian</source>
+            <target>FR_Zambian</target>
+            <note>A nationality name</note>
+            </trans-unit>
+            <trans-unit id="738">
+            <source>Zimbabwean</source>
+
+            <target>FR_Zimbabwean</target>
+            <note>A nationality name</note>
+            </trans-unit>
+            <trans-unit id="739">
+            <source>Afghanistan Afghani</source>
+            <target>FR_Afghanistan Afghani</target>
+
+            <note>A currency name</note>
+            </trans-unit>
+            <trans-unit id="740">
+            <source>Albanian Lek</source>
+            <target>FR_Albanian Lek</target>
+            <note>A currency name</note>
+            </trans-unit>
+
+            <trans-unit id="741">
+            <source>Algerian Dinar</source>
+            <target>FR_Algerian Dinar</target>
+            <note>A currency name</note>
+            </trans-unit>
+            <trans-unit id="742">
+            <source>Angolan New Kwanza</source>
+
+            <target>FR_Angolan New Kwanza</target>
+            <note>A currency name</note>
+            </trans-unit>
+            <trans-unit id="743">
+            <source>Argentina Pesos</source>
+            <target>FR_Argentina Pesos</target>
+            <note>A currency name</note>
+
+            </trans-unit>
+            <trans-unit id="744">
+            <source>Argentine Peso</source>
+            <target>FR_Argentine Peso</target>
+            <note>A currency name</note>
+            </trans-unit>
+            <trans-unit id="745">
+
+            <source>Aruban Florin</source>
+            <target>FR_Aruban Florin</target>
+            <note>A currency name</note>
+            </trans-unit>
+            <trans-unit id="746">
+            <source>Australian Dollar</source>
+            <target>FR_Australian Dollar</target>
+
+            <note>A currency name</note>
+            </trans-unit>
+            <trans-unit id="747">
+            <source>Bahamian Dollar</source>
+            <target>FR_Bahamian Dollar</target>
+            <note>A currency name</note>
+            </trans-unit>
+
+            <trans-unit id="748">
+            <source>Bahraini Dinar</source>
+            <target>FR_Bahraini Dinar</target>
+            <note>A currency name</note>
+            </trans-unit>
+            <trans-unit id="749">
+            <source>Bangladeshi Taka</source>
+
+            <target>FR_Bangladeshi Taka</target>
+            <note>A currency name</note>
+            </trans-unit>
+            <trans-unit id="750">
+            <source>Barbados Dollar</source>
+            <target>FR_Barbados Dollar</target>
+            <note>A currency name</note>
+
+            </trans-unit>
+            <trans-unit id="751">
+            <source>Belize Dollar</source>
+            <target>FR_Belize Dollar</target>
+            <note>A currency name</note>
+            </trans-unit>
+            <trans-unit id="752">
+
+            <source>Bermudian Dollar</source>
+            <target>FR_Bermudian Dollar</target>
+            <note>A currency name</note>
+            </trans-unit>
+            <trans-unit id="753">
+            <source>Bhutan Ngultrum</source>
+            <target>FR_Bhutan Ngultrum</target>
+
+            <note>A currency name</note>
+            </trans-unit>
+            <trans-unit id="754">
+            <source>Bolivian Boliviano</source>
+            <target>FR_Bolivian Boliviano</target>
+            <note>A currency name</note>
+            </trans-unit>
+
+            <trans-unit id="755">
+            <source>Botswana Pula</source>
+            <target>FR_Botswana Pula</target>
+            <note>A currency name</note>
+            </trans-unit>
+            <trans-unit id="756">
+            <source>Brazilian Real</source>
+
+            <target>FR_Brazilian Real</target>
+            <note>A currency name</note>
+            </trans-unit>
+            <trans-unit id="757">
+            <source>Brunei Dollar</source>
+            <target>FR_Brunei Dollar</target>
+            <note>A currency name</note>
+
+            </trans-unit>
+            <trans-unit id="758">
+            <source>Bulgarian Lev</source>
+            <target>FR_Bulgarian Lev</target>
+            <note>A currency name</note>
+            </trans-unit>
+            <trans-unit id="759">
+
+            <source>Burundi Franc</source>
+            <target>FR_Burundi Franc</target>
+            <note>A currency name</note>
+            </trans-unit>
+            <trans-unit id="760">
+            <source>Canadian Dollar</source>
+            <target>FR_Canadian Dollar</target>
+
+            <note>A currency name</note>
+            </trans-unit>
+            <trans-unit id="761">
+            <source>Cape Verde Escudo</source>
+            <target>FR_Cape Verde Escudo</target>
+            <note>A currency name</note>
+            </trans-unit>
+
+            <trans-unit id="762">
+            <source>Cayman Islands Dollar</source>
+            <target>FR_Cayman Islands Dollar</target>
+            <note>A currency name</note>
+            </trans-unit>
+            <trans-unit id="763">
+            <source>CFA Franc BCEAO</source>
+
+            <target>FR_CFA Franc BCEAO</target>
+            <note>A currency name</note>
+            </trans-unit>
+            <trans-unit id="764">
+            <source>CFA Franc BEAC</source>
+            <target>FR_CFA Franc BEAC</target>
+            <note>A currency name</note>
+
+            </trans-unit>
+            <trans-unit id="765">
+            <source>Chilean Peso</source>
+            <target>FR_Chilean Peso</target>
+            <note>A currency name</note>
+            </trans-unit>
+            <trans-unit id="766">
+
+            <source>Chinese Yuan Renminbi</source>
+            <target>FR_Chinese Yuan Renminbi</target>
+            <note>A currency name</note>
+            </trans-unit>
+            <trans-unit id="767">
+            <source>Colombian Peso</source>
+            <target>FR_Colombian Peso</target>
+
+            <note>A currency name</note>
+            </trans-unit>
+            <trans-unit id="768">
+            <source>Comoros Franc</source>
+            <target>FR_Comoros Franc</target>
+            <note>A currency name</note>
+            </trans-unit>
+
+            <trans-unit id="769">
+            <source>Costa Rican Colon</source>
+            <target>FR_Costa Rican Colon</target>
+            <note>A currency name</note>
+            </trans-unit>
+            <trans-unit id="770">
+            <source>Croatian Kuna</source>
+
+            <target>FR_Croatian Kuna</target>
+            <note>A currency name</note>
+            </trans-unit>
+            <trans-unit id="771">
+            <source>Cuban Peso</source>
+            <target>FR_Cuban Peso</target>
+            <note>A currency name</note>
+
+            </trans-unit>
+            <trans-unit id="772">
+            <source>Cyprus Pound</source>
+            <target>FR_Cyprus Pound</target>
+            <note>A currency name</note>
+            </trans-unit>
+            <trans-unit id="773">
+
+            <source>Czech Koruna</source>
+            <target>FR_Czech Koruna</target>
+            <note>A currency name</note>
+            </trans-unit>
+            <trans-unit id="774">
+            <source>Danish Krona</source>
+            <target>FR_Danish Krona</target>
+
+            <note>A currency name</note>
+            </trans-unit>
+            <trans-unit id="775">
+            <source>Djibouti Franc</source>
+            <target>FR_Djibouti Franc</target>
+            <note>A currency name</note>
+            </trans-unit>
+
+            <trans-unit id="776">
+            <source>Dominican Peso</source>
+            <target>FR_Dominican Peso</target>
+            <note>A currency name</note>
+            </trans-unit>
+            <trans-unit id="777">
+            <source>Eastern Caribbean Dollars</source>
+
+            <target>FR_Eastern Caribbean Dollars</target>
+            <note>A currency name</note>
+            </trans-unit>
+            <trans-unit id="778">
+            <source>Ecuador Sucre</source>
+            <target>FR_Ecuador Sucre</target>
+            <note>A currency name</note>
+
+            </trans-unit>
+            <trans-unit id="779">
+            <source>Egyptian Pound</source>
+            <target>FR_Egyptian Pound</target>
+            <note>A currency name</note>
+            </trans-unit>
+            <trans-unit id="780">
+
+            <source>El Salvador Colon</source>
+            <target>FR_El Salvador Colon</target>
+            <note>A currency name</note>
+            </trans-unit>
+            <trans-unit id="781">
+            <source>Estonian Krona</source>
+            <target>FR_Estonian Krona</target>
+
+            <note>A currency name</note>
+            </trans-unit>
+            <trans-unit id="782">
+            <source>Ethiopian Birr</source>
+            <target>FR_Ethiopian Birr</target>
+            <note>A currency name</note>
+            </trans-unit>
+
+            <trans-unit id="783">
+            <source>Euro</source>
+            <target>FR_Euro</target>
+            <note>A currency name</note>
+            </trans-unit>
+            <trans-unit id="784">
+            <source>Falkland Islands Pound</source>
+
+            <target>FR_Falkland Islands Pound</target>
+            <note>A currency name</note>
+            </trans-unit>
+            <trans-unit id="785">
+            <source>Fiji Dollar</source>
+            <target>FR_Fiji Dollar</target>
+            <note>A currency name</note>
+
+            </trans-unit>
+            <trans-unit id="786">
+            <source>Franc des Comptoirs franÃƒÂ§ais du Pacifique</source>
+            <target>FR_Franc des Comptoirs franÃƒÂ§ais du Pacifique</target>
+            <note>A currency name</note>
+            </trans-unit>
+            <trans-unit id="787">
+
+            <source>Gambian Dalasi</source>
+            <target>FR_Gambian Dalasi</target>
+            <note>A currency name</note>
+            </trans-unit>
+            <trans-unit id="788">
+            <source>Ghanaian Cedi</source>
+            <target>FR_Ghanaian Cedi</target>
+
+            <note>A currency name</note>
+            </trans-unit>
+            <trans-unit id="789">
+            <source>Gibraltar Pound</source>
+            <target>FR_Gibraltar Pound</target>
+            <note>A currency name</note>
+            </trans-unit>
+
+            <trans-unit id="790">
+            <source>Gold (oz.)</source>
+            <target>FR_Gold (oz.)</target>
+            <note>A currency name</note>
+            </trans-unit>
+            <trans-unit id="791">
+            <source>Guatemalan Quetzal</source>
+
+            <target>FR_Guatemalan Quetzal</target>
+            <note>A currency name</note>
+            </trans-unit>
+            <trans-unit id="792">
+            <source>Guinea Franc</source>
+            <target>FR_Guinea Franc</target>
+            <note>A currency name</note>
+
+            </trans-unit>
+            <trans-unit id="793">
+            <source>Guyanan Dollar</source>
+            <target>FR_Guyanan Dollar</target>
+            <note>A currency name</note>
+            </trans-unit>
+            <trans-unit id="794">
+
+            <source>Haitian Gourde</source>
+            <target>FR_Haitian Gourde</target>
+            <note>A currency name</note>
+            </trans-unit>
+            <trans-unit id="795">
+            <source>Honduran Lempira</source>
+            <target>FR_Honduran Lempira</target>
+
+            <note>A currency name</note>
+            </trans-unit>
+            <trans-unit id="796">
+            <source>Hong Kong Dollar</source>
+            <target>FR_Hong Kong Dollar</target>
+            <note>A currency name</note>
+            </trans-unit>
+
+            <trans-unit id="797">
+            <source>Hungarian Forint</source>
+            <target>FR_Hungarian Forint</target>
+            <note>A currency name</note>
+            </trans-unit>
+            <trans-unit id="798">
+            <source>Iceland Krona</source>
+
+            <target>FR_Iceland Krona</target>
+            <note>A currency name</note>
+            </trans-unit>
+            <trans-unit id="799">
+            <source>IMF Special Drawing Right</source>
+            <target>FR_IMF Special Drawing Right</target>
+            <note>A currency name</note>
+
+            </trans-unit>
+            <trans-unit id="800">
+            <source>Indian Rupee</source>
+            <target>FR_Indian Rupee</target>
+            <note>A currency name</note>
+            </trans-unit>
+            <trans-unit id="801">
+
+            <source>Indonesian Rupiah</source>
+            <target>FR_Indonesian Rupiah</target>
+            <note>A currency name</note>
+            </trans-unit>
+            <trans-unit id="802">
+            <source>Iranian Rial</source>
+            <target>FR_Iranian Rial</target>
+
+            <note>A currency name</note>
+            </trans-unit>
+            <trans-unit id="803">
+            <source>Iraqi Dinar</source>
+            <target>FR_Iraqi Dinar</target>
+            <note>A currency name</note>
+            </trans-unit>
+
+            <trans-unit id="804">
+            <source>Israeli New Shekel</source>
+            <target>FR_Israeli New Shekel</target>
+            <note>A currency name</note>
+            </trans-unit>
+            <trans-unit id="805">
+            <source>Jamaican Dollar</source>
+
+            <target>FR_Jamaican Dollar</target>
+            <note>A currency name</note>
+            </trans-unit>
+            <trans-unit id="806">
+            <source>Japanese Yen</source>
+            <target>FR_Japanese Yen</target>
+            <note>A currency name</note>
+
+            </trans-unit>
+            <trans-unit id="807">
+            <source>Jordanian Dinar</source>
+            <target>FR_Jordanian Dinar</target>
+            <note>A currency name</note>
+            </trans-unit>
+            <trans-unit id="808">
+
+            <source>Kampuchean Riel</source>
+            <target>FR_Kampuchean Riel</target>
+            <note>A currency name</note>
+            </trans-unit>
+            <trans-unit id="809">
+            <source>Kazakhstan Tenge</source>
+            <target>FR_Kazakhstan Tenge</target>
+
+            <note>A currency name</note>
+            </trans-unit>
+            <trans-unit id="810">
+            <source>Kenyan Shilling</source>
+            <target>FR_Kenyan Shilling</target>
+            <note>A currency name</note>
+            </trans-unit>
+
+            <trans-unit id="811">
+            <source>Korean Won</source>
+            <target>FR_Korean Won</target>
+            <note>A currency name</note>
+            </trans-unit>
+            <trans-unit id="812">
+            <source>Kuwaiti Dinar</source>
+
+            <target>FR_Kuwaiti Dinar</target>
+            <note>A currency name</note>
+            </trans-unit>
+            <trans-unit id="813">
+            <source>Lao Kip</source>
+            <target>FR_Lao Kip</target>
+            <note>A currency name</note>
+
+            </trans-unit>
+            <trans-unit id="814">
+            <source>Latvian Lats</source>
+            <target>FR_Latvian Lats</target>
+            <note>A currency name</note>
+            </trans-unit>
+            <trans-unit id="815">
+
+            <source>Lebanese Pound</source>
+            <target>FR_Lebanese Pound</target>
+            <note>A currency name</note>
+            </trans-unit>
+            <trans-unit id="816">
+            <source>Lesotho Loti</source>
+            <target>FR_Lesotho Loti</target>
+
+            <note>A currency name</note>
+            </trans-unit>
+            <trans-unit id="817">
+            <source>Liberian Dollar</source>
+            <target>FR_Liberian Dollar</target>
+            <note>A currency name</note>
+            </trans-unit>
+
+            <trans-unit id="818">
+            <source>Libyan Dinar</source>
+            <target>FR_Libyan Dinar</target>
+            <note>A currency name</note>
+            </trans-unit>
+            <trans-unit id="819">
+            <source>Lithuanian Litas</source>
+
+            <target>FR_Lithuanian Litas</target>
+            <note>A currency name</note>
+            </trans-unit>
+            <trans-unit id="820">
+            <source>Macau Pataca</source>
+            <target>FR_Macau Pataca</target>
+            <note>A currency name</note>
+
+            </trans-unit>
+            <trans-unit id="821">
+            <source>Malagasy Franc</source>
+            <target>FR_Malagasy Franc</target>
+            <note>A currency name</note>
+            </trans-unit>
+            <trans-unit id="822">
+
+            <source>Malawi Kwacha</source>
+            <target>FR_Malawi Kwacha</target>
+            <note>A currency name</note>
+            </trans-unit>
+            <trans-unit id="823">
+            <source>Malaysian Ringgit</source>
+            <target>FR_Malaysian Ringgit</target>
+
+            <note>A currency name</note>
+            </trans-unit>
+            <trans-unit id="824">
+            <source>Maldive Rufiyaa</source>
+            <target>FR_Maldive Rufiyaa</target>
+            <note>A currency name</note>
+            </trans-unit>
+
+            <trans-unit id="825">
+            <source>Maltese Lira</source>
+            <target>FR_Maltese Lira</target>
+            <note>A currency name</note>
+            </trans-unit>
+            <trans-unit id="826">
+            <source>Mauritanian Ouguiya</source>
+
+            <target>FR_Mauritanian Ouguiya</target>
+            <note>A currency name</note>
+            </trans-unit>
+            <trans-unit id="827">
+            <source>Mauritius Rupee</source>
+            <target>FR_Mauritius Rupee</target>
+            <note>A currency name</note>
+
+            </trans-unit>
+            <trans-unit id="828">
+            <source>Mexican New Peso</source>
+            <target>FR_Mexican New Peso</target>
+            <note>A currency name</note>
+            </trans-unit>
+            <trans-unit id="829">
+
+            <source>Mexican Peso</source>
+            <target>FR_Mexican Peso</target>
+            <note>A currency name</note>
+            </trans-unit>
+            <trans-unit id="830">
+            <source>Mongolian Tugrik</source>
+            <target>FR_Mongolian Tugrik</target>
+
+            <note>A currency name</note>
+            </trans-unit>
+            <trans-unit id="831">
+            <source>Moroccan Dirham</source>
+            <target>FR_Moroccan Dirham</target>
+            <note>A currency name</note>
+            </trans-unit>
+
+            <trans-unit id="832">
+            <source>Mozambique Metical</source>
+            <target>FR_Mozambique Metical</target>
+            <note>A currency name</note>
+            </trans-unit>
+            <trans-unit id="833">
+            <source>Myanmar Kyat</source>
+
+            <target>FR_Myanmar Kyat</target>
+            <note>A currency name</note>
+            </trans-unit>
+            <trans-unit id="834">
+            <source>Namibia Dollar</source>
+            <target>FR_Namibia Dollar</target>
+            <note>A currency name</note>
+
+            </trans-unit>
+            <trans-unit id="835">
+            <source>Nepalese Rupee</source>
+            <target>FR_Nepalese Rupee</target>
+            <note>A currency name</note>
+            </trans-unit>
+            <trans-unit id="836">
+
+            <source>New Zaire</source>
+            <target>FR_New Zaire</target>
+            <note>A currency name</note>
+            </trans-unit>
+            <trans-unit id="837">
+            <source>New Zealand Dollar</source>
+            <target>FR_New Zealand Dollar</target>
+
+            <note>A currency name</note>
+            </trans-unit>
+            <trans-unit id="838">
+            <source>Nicaraguan Cordoba Oro</source>
+            <target>FR_Nicaraguan Cordoba Oro</target>
+            <note>A currency name</note>
+            </trans-unit>
+
+            <trans-unit id="839">
+            <source>Nigerian Naira</source>
+            <target>FR_Nigerian Naira</target>
+            <note>A currency name</note>
+            </trans-unit>
+            <trans-unit id="840">
+            <source>NL Antillian Guilder</source>
+
+            <target>FR_NL Antillian Guilder</target>
+            <note>A currency name</note>
+            </trans-unit>
+            <trans-unit id="841">
+            <source>North Korean Won</source>
+            <target>FR_North Korean Won</target>
+            <note>A currency name</note>
+
+            </trans-unit>
+            <trans-unit id="842">
+            <source>Norwegian Krona</source>
+            <target>FR_Norwegian Krona</target>
+            <note>A currency name</note>
+            </trans-unit>
+            <trans-unit id="843">
+
+            <source>Omani Rial</source>
+            <target>FR_Omani Rial</target>
+            <note>A currency name</note>
+            </trans-unit>
+            <trans-unit id="844">
+            <source>Pakistan Rupee</source>
+            <target>FR_Pakistan Rupee</target>
+
+            <note>A currency name</note>
+            </trans-unit>
+            <trans-unit id="845">
+            <source>Palladium (oz.)</source>
+            <target>FR_Palladium (oz.)</target>
+            <note>A currency name</note>
+            </trans-unit>
+
+            <trans-unit id="846">
+            <source>Panamanian Balboa</source>
+            <target>FR_Panamanian Balboa</target>
+            <note>A currency name</note>
+            </trans-unit>
+            <trans-unit id="847">
+            <source>Papua New Guinea Kina</source>
+
+            <target>FR_Papua New Guinea Kina</target>
+            <note>A currency name</note>
+            </trans-unit>
+            <trans-unit id="848">
+            <source>Paraguay Guarani</source>
+            <target>FR_Paraguay Guarani</target>
+            <note>A currency name</note>
+
+            </trans-unit>
+            <trans-unit id="849">
+            <source>Peruvian Nuevo Sol</source>
+            <target>FR_Peruvian Nuevo Sol</target>
+            <note>A currency name</note>
+            </trans-unit>
+            <trans-unit id="850">
+
+            <source>Philippine Peso</source>
+            <target>FR_Philippine Peso</target>
+            <note>A currency name</note>
+            </trans-unit>
+            <trans-unit id="851">
+            <source>Platinum (oz.)</source>
+            <target>FR_Platinum (oz.)</target>
+
+            <note>A currency name</note>
+            </trans-unit>
+            <trans-unit id="852">
+            <source>Polish Zloty</source>
+            <target>FR_Polish Zloty</target>
+            <note>A currency name</note>
+            </trans-unit>
+
+            <trans-unit id="853">
+            <source>Pound Sterling</source>
+            <target>FR_Pound Sterling</target>
+            <note>A currency name</note>
+            </trans-unit>
+            <trans-unit id="854">
+            <source>Qatari Rial</source>
+
+            <target>FR_Qatari Rial</target>
+            <note>A currency name</note>
+            </trans-unit>
+            <trans-unit id="855">
+            <source>Romanian Leu</source>
+            <target>FR_Romanian Leu</target>
+            <note>A currency name</note>
+
+            </trans-unit>
+            <trans-unit id="856">
+            <source>Russia Rubles</source>
+            <target>FR_Russia Rubles</target>
+            <note>A currency name</note>
+            </trans-unit>
+            <trans-unit id="857">
+
+            <source>Russian Rouble</source>
+            <target>FR_Russian Rouble</target>
+            <note>A currency name</note>
+            </trans-unit>
+            <trans-unit id="858">
+            <source>Samoan Tala</source>
+            <target>FR_Samoan Tala</target>
+
+            <note>A currency name</note>
+            </trans-unit>
+            <trans-unit id="859">
+            <source>Sao Tome/Principe Dobra</source>
+            <target>FR_Sao Tome/Principe Dobra</target>
+            <note>A currency name</note>
+            </trans-unit>
+
+            <trans-unit id="860">
+            <source>Saudi Arabia Riyal</source>
+            <target>FR_Saudi Arabia Riyal</target>
+            <note>A currency name</note>
+            </trans-unit>
+            <trans-unit id="861">
+            <source>Seychelles Rupee</source>
+
+            <target>FR_Seychelles Rupee</target>
+            <note>A currency name</note>
+            </trans-unit>
+            <trans-unit id="862">
+            <source>Sierra Leone Leone</source>
+            <target>FR_Sierra Leone Leone</target>
+            <note>A currency name</note>
+
+            </trans-unit>
+            <trans-unit id="863">
+            <source>Silver (oz.)</source>
+            <target>FR_Silver (oz.)</target>
+            <note>A currency name</note>
+            </trans-unit>
+            <trans-unit id="864">
+
+            <source>Singapore Dollar</source>
+            <target>FR_Singapore Dollar</target>
+            <note>A currency name</note>
+            </trans-unit>
+            <trans-unit id="865">
+            <source>Slovak Koruna</source>
+            <target>FR_Slovak Koruna</target>
+
+            <note>A currency name</note>
+            </trans-unit>
+            <trans-unit id="866">
+            <source>Solomon Islands Dollar</source>
+            <target>FR_Solomon Islands Dollar</target>
+            <note>A currency name</note>
+            </trans-unit>
+
+            <trans-unit id="867">
+            <source>Somali Shilling</source>
+            <target>FR_Somali Shilling</target>
+            <note>A currency name</note>
+            </trans-unit>
+            <trans-unit id="868">
+            <source>South African Rand</source>
+
+            <target>FR_South African Rand</target>
+            <note>A currency name</note>
+            </trans-unit>
+            <trans-unit id="869">
+            <source>Sri Lanka Rupee</source>
+            <target>FR_Sri Lanka Rupee</target>
+            <note>A currency name</note>
+
+            </trans-unit>
+            <trans-unit id="870">
+            <source>St. Helena Pound</source>
+            <target>FR_St. Helena Pound</target>
+            <note>A currency name</note>
+            </trans-unit>
+            <trans-unit id="871">
+
+            <source>Sudanese Dinar</source>
+            <target>FR_Sudanese Dinar</target>
+            <note>A currency name</note>
+            </trans-unit>
+            <trans-unit id="872">
+            <source>Sudanese Pound</source>
+            <target>FR_Sudanese Pound</target>
+
+            <note>A currency name</note>
+            </trans-unit>
+            <trans-unit id="873">
+            <source>Surinamese Dollar</source>
+            <target>FR_Surinamese Dollar</target>
+            <note>A currency name</note>
+            </trans-unit>
+
+            <trans-unit id="874">
+            <source>Swaziland Lilangeni</source>
+            <target>FR_Swaziland Lilangeni</target>
+            <note>A currency name</note>
+            </trans-unit>
+            <trans-unit id="875">
+            <source>Swedish Krona</source>
+
+            <target>FR_Swedish Krona</target>
+            <note>A currency name</note>
+            </trans-unit>
+            <trans-unit id="876">
+            <source>Swiss Franc</source>
+            <target>FR_Swiss Franc</target>
+            <note>A currency name</note>
+
+            </trans-unit>
+            <trans-unit id="877">
+            <source>Syrian Pound</source>
+            <target>FR_Syrian Pound</target>
+            <note>A currency name</note>
+            </trans-unit>
+            <trans-unit id="878">
+
+            <source>Taiwan Dollar</source>
+            <target>FR_Taiwan Dollar</target>
+            <note>A currency name</note>
+            </trans-unit>
+            <trans-unit id="879">
+            <source>Tanzanian Shilling</source>
+            <target>FR_Tanzanian Shilling</target>
+
+            <note>A currency name</note>
+            </trans-unit>
+            <trans-unit id="880">
+            <source>Thai Baht</source>
+            <target>FR_Thai Baht</target>
+            <note>A currency name</note>
+            </trans-unit>
+
+            <trans-unit id="881">
+            <source>Tongan Pa'anga</source>
+            <target>FR_Tongan Pa'anga</target>
+            <note>A currency name</note>
+            </trans-unit>
+            <trans-unit id="882">
+            <source>Trinidad/Tobago Dollar</source>
+
+            <target>FR_Trinidad/Tobago Dollar</target>
+            <note>A currency name</note>
+            </trans-unit>
+            <trans-unit id="883">
+            <source>Tunisian Dinar</source>
+            <target>FR_Tunisian Dinar</target>
+            <note>A currency name</note>
+
+            </trans-unit>
+            <trans-unit id="884">
+            <source>Turkish Lira</source>
+            <target>FR_Turkish Lira</target>
+            <note>A currency name</note>
+            </trans-unit>
+            <trans-unit id="885">
+
+            <source>Uganda Shilling</source>
+            <target>FR_Uganda Shilling</target>
+            <note>A currency name</note>
+            </trans-unit>
+            <trans-unit id="886">
+            <source>Ukraine Hryvnia</source>
+            <target>FR_Ukraine Hryvnia</target>
+
+            <note>A currency name</note>
+            </trans-unit>
+            <trans-unit id="887">
+            <source>United States Dollar</source>
+            <target>FR_United States Dollar</target>
+            <note>A currency name</note>
+            </trans-unit>
+
+            <trans-unit id="888">
+            <source>Uruguayan Peso</source>
+            <target>FR_Uruguayan Peso</target>
+            <note>A currency name</note>
+            </trans-unit>
+            <trans-unit id="889">
+            <source>Utd. Arab Emir. Dirham</source>
+
+            <target>FR_Utd. Arab Emir. Dirham</target>
+            <note>A currency name</note>
+            </trans-unit>
+            <trans-unit id="890">
+            <source>Vanuatu Vatu</source>
+            <target>FR_Vanuatu Vatu</target>
+            <note>A currency name</note>
+
+            </trans-unit>
+            <trans-unit id="891">
+            <source>Venezuelan Bolivar</source>
+            <target>FR_Venezuelan Bolivar</target>
+            <note>A currency name</note>
+            </trans-unit>
+            <trans-unit id="892">
+
+            <source>Vietnamese Dong</source>
+            <target>FR_Vietnamese Dong</target>
+            <note>A currency name</note>
+            </trans-unit>
+            <trans-unit id="893">
+            <source>Yemeni Riyal</source>
+            <target>FR_Yemeni Riyal</target>
+
+            <note>A currency name</note>
+            </trans-unit>
+            <trans-unit id="894">
+            <source>Yugoslav Dinar</source>
+            <target>FR_Yugoslav Dinar</target>
+            <note>A currency name</note>
+            </trans-unit>
+
+            <trans-unit id="895">
+            <source>Yugoslavian Dinar</source>
+            <target>FR_Yugoslavian Dinar</target>
+            <note>A currency name</note>
+            </trans-unit>
+            <trans-unit id="896">
+            <source>Zambian Kwacha</source>
+
+            <target>FR_Zambian Kwacha</target>
+            <note>A currency name</note>
+            </trans-unit>
+            <trans-unit id="897">
+            <source>Zimbabwe Dollar</source>
+            <target>FR_Zimbabwe Dollar</target>
+            <note>A currency name</note>
+
+            </trans-unit>
+            <trans-unit id="898">
+                <source>Employee Reports</source>
+                <target>FR_Employee Reports</target>
+            </trans-unit>
+            <trans-unit id="899">
+                <source>Report Name</source>
+                <target>FR_Report Name</target>
+            </trans-unit>
+            <trans-unit id="900">
+                <source>Run</source>
+                <target>FR_Run</target>
+            </trans-unit>
+            <trans-unit id="901">
+                <source>Define Report</source>
+                <target>FR_Define Report</target>
+            </trans-unit>
+            <trans-unit id="902">
+                <source>Selection Criteria</source>
+                <target>FR_Selection Criteria</target>
+            </trans-unit>
+            <trans-unit id="903">
+                <source>Selected Criteria</source>
+                <target>FR_Selected Criteria</target>
+            </trans-unit>
+            <trans-unit id="904">
+                <source>Display Field Groups</source>
+                <target>FR_Display Field Groups</target>
+            </trans-unit>
+            <trans-unit id="905">
+                <source>Work Experience</source>
+                <target>FR_Work Experience</target>
+            </trans-unit>
+            <trans-unit id="906">
+                <source>Defined Custom Fields</source>
+                <target>FR_Defined Custom Fields</target>
+            </trans-unit>
+            <trans-unit id="907">
+                <source>Custom Fields</source>
+                <target>FR_Custom Fields</target>
+            </trans-unit> 
+            <trans-unit id="908">
+                <source>Duration</source>
+                <target>FR_Duration</target>
+            </trans-unit>
+            <trans-unit id="908">
+                <source>Display Fields</source>
+                <target>FR_Display Fields</target>
+            </trans-unit>
+            <trans-unit id="909">
+                <source>Personal</source>
+                <target>FR_Personal</target>
+            </trans-unit>
+            <trans-unit id="910">
+                <source>Include Header</source>
+                <target>FR_Include Header</target>
+            </trans-unit>
+            <trans-unit id="911">
+                <source>Employee Id</source>
+                <target>FR_Employee Id</target>
+            </trans-unit>
+            <trans-unit id="912">
+                <source>Employee Last Name</source>
+                <target>FR_Employee Last Name</target>
+            </trans-unit>
+            <trans-unit id="913">
+                <source>Employee First Name</source>
+                <target>FR_Employee First Name</target>
+            </trans-unit>
+            <trans-unit id="914">
+                <source>Employee Middle Name</source>
+                <target>FR_Employee Middle Name</target>
+            </trans-unit>
+            <trans-unit id="915">
+                <source>Date of Birth</source>
+                <target>FR_Date of Birth</target>
+            </trans-unit>
+            <trans-unit id="916">
+                <source>Nationality</source>
+                <target>FR_Nationality</target>
+            </trans-unit>
+            <trans-unit id="917">
+                <source>Gender</source>
+                <target>FR_Gender</target>
+            </trans-unit>
+            <trans-unit id="918">
+                <source>Marital Status</source>
+                <target>FR_Marital Status</target>
+            </trans-unit>
+            <trans-unit id="919">
+                <source>License Expiry Date</source>
+                <target>FR_License Expiry Date</target>
+            </trans-unit>
+            <trans-unit id="920">
+                <source>Other Id</source>
+                <target>FR_Other Id</target>
+            </trans-unit> 
+            <trans-unit id="921">
+                <source>Contact Details</source>
+                <target>FR_Contact Details</target>
+            </trans-unit>
+            <trans-unit id="922">
+                <source>Address</source>
+                <target>FR_Address</target>
+            </trans-unit>
+            <trans-unit id="923">
+                <source>Home Telephone</source>
+                <target>FR_Home Telephone</target>
+            </trans-unit>
+            <trans-unit id="924">
+                <source>Mobile</source>
+                <target>FR_Mobile</target>
+            </trans-unit>
+            <trans-unit id="925">
+                <source>Work Telephone</source>
+                <target>FR_Work Telephone</target>
+            </trans-unit>
+            <trans-unit id="926">
+                <source>Work Email</source>
+                <target>FR_Work Email</target>
+            </trans-unit>
+            <trans-unit id="927">
+                <source>Other Email</source>
+                <target>FR_Other Email</target>
+            </trans-unit>
+            <trans-unit id="928">
+                <source>Emergency Contacts</source>
+                <target>FR_Emergency Contacts</target>
+            </trans-unit>
+            <trans-unit id="929">
+                <source>Relationship</source>
+                <target>FR_Relationship</target>
+            </trans-unit>
+            <trans-unit id="930">
+                <source>Dependents</source>
+                <target>FR_Dependents</target>
+            </trans-unit>
+            <trans-unit id="931">
+                <source>Memberships</source>
+                <target>FR_Memberships</target>
+            </trans-unit>
+            <trans-unit id="932">
+                <source>Membership</source>
+                <target>FR_Membership</target>
+            </trans-unit>
+            <trans-unit id="933">
+                <source>Subscription Paid By</source>
+                <target>FR_Subscription Paid By</target>
+            </trans-unit>
+            <trans-unit id="934">
+                <source>Subscription Amount</source>
+                <target>FR_Subscription Amount</target>
+            </trans-unit>
+            <trans-unit id="935">
+                <source>Currency</source>
+                <target>FR_Currency</target>
+            </trans-unit>
+            <trans-unit id="936">
+                <source>Subscription Commence Date</source>
+                <target>FR_Subscription Commence Date</target>
+            </trans-unit>
+            <trans-unit id="937">
+                <source>Subscription Renewal Date</source>
+                <target>FR_Subscription Renewal Date</target>
+            </trans-unit>
+            <trans-unit id="938">
+                <source>Company</source>
+                <target>FR_Company</target>
+            </trans-unit>
+            <trans-unit id="939">
+                <source>Comment</source>
+                <target>FR_Comment</target>
+            </trans-unit>
+            <trans-unit id="940">
+                <source>Score</source>
+                <target>FR_Score</target>
+            </trans-unit>
+            <trans-unit id="941">
+                <source>Skills</source>
+                <target>FR_Skills</target>
+            </trans-unit>
+            <trans-unit id="942">
+                <source>Languages</source>
+                <target>FR_Languages</target>
+            </trans-unit>
+            <trans-unit id="943">
+                <source>License</source>
+                <target>FR_License</target>
+            </trans-unit>
+            <trans-unit id="944">
+                <source>Issued Date</source>
+                <target>FR_Issued Date</target>
+            </trans-unit>
+            <trans-unit id="955">
+                <source>Expiry Date</source>
+                <target>FR_Expiry Date</target>
+            </trans-unit>
+            <trans-unit id="956">
+                <source>Driver's License Number</source>
+                <target>FR_Driver's License Number</target>
+            </trans-unit>
+            <trans-unit id="957">
+                <source>Supervisors</source>
+                <target>FR_Supervisors</target>
+            </trans-unit>
+            <trans-unit id="958">
+                <source>First Name</source>
+                <target>FR_First Name</target>
+            </trans-unit>
+            <trans-unit id="959">
+                <source>Middle Name</source>
+                <target>FR_Middle Name</target>
+            </trans-unit>
+            <trans-unit id="960">
+                <source>Last Name</source>
+                <target>FR_Last Name</target>
+            </trans-unit>
+            <trans-unit id="961">
+                <source>Reporting Method</source>
+                <target>FR_Reporting Method</target>
+            </trans-unit>
+            <trans-unit id="962">
+                <source>Subordinates</source>
+                <target>FR_Subordinates</target>
+            </trans-unit>
+            <trans-unit id="963">
+                <source>Salary</source>
+                <target>FR_Salary</target>
+            </trans-unit>
+            <trans-unit id="964">
+                <source>Pay Grade</source>
+                <target>FR_Pay Grade</target>
+            </trans-unit>
+            <trans-unit id="965">
+                <source>Salary Component</source>
+                <target>FR_Salary Component</target>
+            </trans-unit>
+            <trans-unit id="966">
+                <source>Direct Deposit Account Number</source>
+                <target>FR_Direct Deposit Account Number</target>
+            </trans-unit>
+            <trans-unit id="967">
+                <source>Direct Deposit Routing Number</source>
+                <target>FR_Direct Deposit Routing Number</target>
+            </trans-unit>
+            <trans-unit id="968">
+                <source>Direct Deposit Amount</source>
+                <target>FR_Direct Deposit Amount</target>
+            </trans-unit>
+            <trans-unit id="969">
+                <source>Job</source>
+                <target>FR_Job</target>
+            </trans-unit>
+            <trans-unit id="970">
+                <source>Contract Start Date</source>
+                <target>FR_Contract Start Date</target>
+            </trans-unit>
+            <trans-unit id="971">
+                <source>Contract End Date</source>
+                <target>FR_Contract End Date</target>
+            </trans-unit>
+            <trans-unit id="972">
+                <source>Immigration</source>
+                <target>FR_Immigration</target>
+            </trans-unit>
+            <trans-unit id="973">
+                <source>Direct Deposit Account Type</source>
+                <target>FR_Direct Deposit Account Type</target>
+            </trans-unit>
+            <trans-unit id="974">
+                <source>Number</source>
+                <target>FR_Number</target>
+            </trans-unit>
+            <trans-unit id="975">
+                <source>Eligible Review Date</source>
+                <target>FR_Eligible Review Date</target>
+            </trans-unit>
+            <trans-unit id="976">
+                <source>Eligible Status</source>
+                <target>FR_Eligible Status</target>
+            </trans-unit>
+            <trans-unit id="977">
+                <source>Issued By</source>
+                <target>FR_Issued By</target>
+            </trans-unit>
+            <trans-unit id="978">
+                <source>Issued By</source>
+                <target>FR_Issued By</target>
+            </trans-unit>
+            <trans-unit id="979">
+                <source>Document Type</source>
+                <target>FR_Document Type</target>
+            </trans-unit>
+            <trans-unit id="980">
+                <source>Education</source>
+                <target>FR_Education</target>
+            </trans-unit>
+            <trans-unit id="981">
+                <source>Service Period</source>
+                <target>FR_Service Period</target>
+            </trans-unit>
+            <trans-unit id="982">
+                <source>Age Group</source>
+                <target>FR_Age Group</target>
+            </trans-unit>
+            <trans-unit id="983">
+                <source>Select Salary Grade</source>
+                <target>FR_Select Salary Grade</target>
+            </trans-unit>
+            <trans-unit id="984">
+                <source>Please Correct The Following Errors</source>
+                <target>FR_Please Correct The Following Errors</target>
+            </trans-unit>
+            <trans-unit id="985">
+                <source>Please select an employee</source>
+                <target>FR_Please select an employee</target>
+            </trans-unit>
+            <trans-unit id="986">
+                <source>Pay grade is required</source>
+                <target>FR_Pay grade is required</target>
+            </trans-unit>
+            <trans-unit id="987">
+                <source>Education is required</source>
+                <target>FR_Education is required</target>
+            </trans-unit>
+            <trans-unit id="988">
+                <source>Less Than</source>
+                <target>FR_Less Than</target>
+            </trans-unit>
+            <trans-unit id="989">
+                <source>Greater Than</source>
+                <target>FR_Greater Than</target>
+            </trans-unit>
+            <trans-unit id="990">
+                <source>Range</source>
+                <target>FR_Range</target>
+            </trans-unit>
+            <trans-unit id="991">
+                <source>Select Comparison</source>
+                <target>FR_Select Comparison</target>
+            </trans-unit>
+            <trans-unit id="992">
+                <source>Please select comparison</source>
+                <target>FR_Please select comparison</target>
+            </trans-unit>
+            <trans-unit id="993">
+                <source>Organization</source>
+                <target>FR_Organization</target>
+            </trans-unit>
+            <trans-unit id="39">
+                <source>General Information</source>
+                <target>FR_General Information</target>
+            </trans-unit>
+            <trans-unit id="109">
+                <source>Locations</source>
+                <target>FR_Locations</target>
+            </trans-unit>
+            <trans-unit id="71">
+                <source>Structure</source>
+                <target>FR_Structure</target>
+            </trans-unit>
+            <trans-unit id="97">
+                <source>Job Titles</source>
+                <target>FR_Job Titles</target>
+            </trans-unit>
+            <trans-unit id="140">
+                <source>Pay Grades</source>
+                <target>FR_Pay Grades</target>
+            </trans-unit>
+            <trans-unit id="140">
+                <source>Job Categories</source>
+                <target>FR_Job Categories</target>
+            </trans-unit> 
+            <trans-unit id="224">
+                <source>Work Shifts</source>
+                <target>FR_Work Shifts</target>
+            </trans-unit>      
+            <trans-unit id="224">
+                <source>Qualification</source>
+                <target>FR_Qualification</target>
+            </trans-unit>
+            <trans-unit id="196">
+                <source>Licenses</source>
+                <target>FR_Licenses</target>
+            </trans-unit>
+            <trans-unit id="160">
+                <source>Nationalities</source>
+                <target>FR_Nationalities</target>
+            </trans-unit>
+           <trans-unit id="178">
+                <source>Users</source>
+                <target>FR_Users</target>
+            </trans-unit> 
+           <trans-unit id="178">
+                <source>Configure Security Authentication</source>
+                <target>FR_Configure Security Authentication</target>
+            </trans-unit> 
+           <trans-unit id="178">
+                <source>Email Notifications</source>
+                <target>FR_Email Notifications</target>
+            </trans-unit>
+           <trans-unit id="178">
+                <source>Configuration</source>
+                <target>FR_Configuration</target>
+            </trans-unit> 
+            <trans-unit id="204">
+                <source>Subscribe</source>
+                <target>FR_Subscribe</target>
+            </trans-unit>
+            <trans-unit id="204">
+                <source>Project Info</source>
+                <target>FR_Project Info</target>
+            </trans-unit> 
+            <trans-unit id="22">
+                <source>Customers</source>
+                <target>FR_Customers</target>
+            </trans-unit>
+            <trans-unit id="89">
+                <source>Projects</source>
+                <target>FR_Projects</target>
+            </trans-unit>
+            <trans-unit id="1">
+                <source>Localization</source>
+                <target>FR_Localization</target>
+            </trans-unit>
+            <trans-unit id="204">
+                <source>Modules</source>
+                <target>FR_Modules</target>
+            </trans-unit>
+            <trans-unit id="204">
+                <source>Audit Trail</source>
+                <target>FR_Audit Trail</target>
+            </trans-unit>
+            <trans-unit id="204">
+                <source>Audit Trail</source>
+                <target>FR_Audit Trail</target>
+            </trans-unit>
+            <trans-unit id="204">
+                <source>Audit Trail</source>
+                <target>FR_Audit Trail</target>
+            </trans-unit>
+            <trans-unit id="204">
+                <source>PIM</source>
+                <target>FR_PIM</target>
+            </trans-unit> 
+            <trans-unit id="204">
+                <source>Optional Fields</source>
+                <target>FR_Optional Fields</target>
+            </trans-unit>
+            <trans-unit id="204">
+                <source>Data Import</source>
+                <target>FR_Data Import</target>
+            </trans-unit>
+            <trans-unit id="204">
+                <source>Reporting Methods</source>
+                <target>FR_Reporting Methods</target>
+            </trans-unit>
+            <trans-unit id="204">
+                <source>Termination Reasons</source>
+                <target>FR_Termination Reasons</target>
+            </trans-unit>
+            <trans-unit id="326">
+                <source>Employee List</source>
+                <target>FR_Employee List</target>
+            </trans-unit> 
+            <trans-unit id="136">
+                <source>Add Employee</source>
+                <target>FR_Add Employee</target>
+            </trans-unit>
+            <trans-unit id="136">
+                <source>Reports</source>
+                <target>FR_Reports</target>
+            </trans-unit>
+          <trans-unit id="76">
+            <source>Leave</source>
+            <target>FR_Leave</target>
+          </trans-unit>
+          <trans-unit id="76">
+            <source>Configure</source>
+            <target>FR_Configure</target>
+          </trans-unit>
+          <trans-unit id="1">
+            <source>Leave Period</source>
+            <target>FR_Leave Period</target>
+          </trans-unit>
+      <trans-unit id="213">
+        <source>Leave Types</source>
+        <target>FR_Leave Types</target>
+      </trans-unit>
+      <trans-unit id="28">
+        <source>Work Week</source>
+        <target>FR_Work Week</target>
+      </trans-unit>
+      <trans-unit id="40">
+        <source>Holidays</source>
+        <target>FR_Holidays</target>
+      </trans-unit>
+      <trans-unit id="60">
+        <source>Leave Summary</source>
+        <target>FR_Leave Summary</target>
+      </trans-unit>
+      <trans-unit id="87">
+        <source>Leave List</source>
+        <target>FR_Leave List</target>
+      </trans-unit>
+      <trans-unit id="119">
+        <source>Assign Leave</source>
+        <target>FR_Assign Leave</target>
+      </trans-unit> 
+      <trans-unit id="87">
+        <source>My Leave</source>
+        <target>FR_My Leave</target>
+      </trans-unit>
+      <trans-unit id="151">
+        <source>Apply</source>
+        <target>FR_Apply</target>
+      </trans-unit> 
+      <trans-unit id="151">
+        <source>Leave Calendar</source>
+        <target>FR_Leave Calendar</target>
+      </trans-unit>
+      <trans-unit id="151">
+        <source>Timesheets</source>
+        <target>FR_Timesheets</target>
+      </trans-unit>
+      <trans-unit id="151">
+        <source>Employee Timesheets</source>
+        <target>FR_Employee Timesheets</target>
+      </trans-unit> 
+      <trans-unit id="151">
+        <source>Attendance</source>
+        <target>FR_Attendance</target>
+      </trans-unit> 
+      <trans-unit id="151">
+        <source>Employee Records</source>
+        <target>FR_Employee Records</target>
+      </trans-unit> 
+            <trans-unit id="5001">
+                <source>Candidates</source>
+                <target>FR_Candidates</target>
+            </trans-unit> 
+            <trans-unit id="5002">
+                <source>Vacancies</source>
+                <target>FR_Vacancies</target>
+            </trans-unit>
+            <trans-unit id="5003">
+                <source>Performance</source>
+                <target>FR_Performance</target>
+            </trans-unit> 
+            <trans-unit id="5004">
+                <source>KPI List</source>
+                <target>FR_KPI List</target>
+            </trans-unit> 
+            <trans-unit id="5005">
+                <source>Add KPI</source>
+                <target>FR_Add KPI</target>
+            </trans-unit> 
+            <trans-unit id="5006">
+                <source>Copy KPI</source>
+                <target>FR_Copy KPI</target>
+            </trans-unit> 
+            <trans-unit id="5007">
+                <source>Add Review</source>
+                <target>FR_Add Review</target>
+            </trans-unit> 
+            <trans-unit id="5008">
+                <source>Reviews</source>
+                <target>FR_Reviews</target>
+            </trans-unit> 
+            <trans-unit id="5009">
+                <source>Recruitment</source>
+                <target>FR_Recruitment</target>
+            </trans-unit> 
+            <trans-unit id="5010">
+                <source>Help</source>
+                <target>FR_Help</target>
+            </trans-unit> 
+            <trans-unit id="5011">
+                <source>Support</source>
+                <target>FR_Support</target>
+            </trans-unit> 
+            <trans-unit id="5012">
+                <source>Forum</source>
+                <target>FR_Forum</target>
+            </trans-unit> 
+            <trans-unit id="5013">
+                <source>Blog</source>
+                <target>FR_Blog</target>
+            </trans-unit> 
+            <trans-unit id="5014">
+                <source>Training</source>
+                <target>FR_Training</target>
+            </trans-unit> 
+            <trans-unit id="5015">
+                <source>Add-Ons</source>
+                <target>FR_Add-Ons</target>
+            </trans-unit> 
+            <trans-unit id="5016">
+                <source>Customizations</source>
+                <target>FR_Customizations</target>
+            </trans-unit> 
+            <trans-unit id="5017">
+                <source>Bug Tracker</source>
+                <target>FR_Bug Tracker</target>
+            </trans-unit>
+            <trans-unit id="5018">
+                <source>Join the OrangeHRM User Community</source>
+                <target>FR_Join the OrangeHRM User Community</target>
+            </trans-unit>
+            <trans-unit id="5019">
+                <source>Win Exciting OrangeHRM Goodies</source>
+                <target>FR_Win Exciting OrangeHRM Goodies</target>
+            </trans-unit>
+            <trans-unit id="5020">
+                <source>Change Password</source>
+                <target>FR_Change Password</target>
+            </trans-unit>
+            <trans-unit id="5021">
+                <source>Welcome #username</source>
+                <target>FR_Welcome #username</target>
+            </trans-unit>
+            <trans-unit id="5022">
+                <source>Logout</source>
+                <target>FR_Logout</target>
+            </trans-unit>
+            <trans-unit id="5023">
+                <source>ESS</source>
+                <target>FR_ESS</target>
+            </trans-unit>
+            <trans-unit id="5024">
+                <source>Project Reports</source>
+                <target>FR_Project Reports</target>
+            </trans-unit>
+            <trans-unit id="5025">
+                <source>Attendance Summary</source>
+                <target>FR_Attendance Summary</target>
+            </trans-unit>
+            <trans-unit id="5026">
+                <source>Select</source>
+                <target>FR_Select</target>
+            </trans-unit>
+            <trans-unit id="5027">
+                <source>No Projects</source>
+                <target>FR_No Projects</target>
+            </trans-unit>
+            <trans-unit id="5028">
+                <source>Project name is required</source>
+                <target>FR_Project name is required</target>
+            </trans-unit>
+            <trans-unit id="5029">
+                <source>Project Date Range</source>
+                <target>FR_Project Date Range</target>
+            </trans-unit>
+            <trans-unit id="5030">
+                <source>Only Inlclude Approved Timesheets</source>
+                <target>FR_Only Inlclude Approved Timesheets</target>
+            </trans-unit>
+            <trans-unit id="5031">
+                <source>To date should be after the from date</source>
+                <target>FR_To date should be after the from date</target>
+            </trans-unit>
+            <trans-unit id="5032">
+                <source>My Timesheets</source>
+                <target>FR_My Timesheets</target>
+            </trans-unit>
+            <trans-unit id="5033">
+                <source>My Records</source>
+                <target>FR_My Records</target>
+            </trans-unit>
+            <trans-unit id="5034">
+                <source>Punch In/Out</source>
+                <target>FR_Punch In/Out</target>
             </trans-unit>
         </body>
     </file>

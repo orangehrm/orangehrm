@@ -64,11 +64,11 @@ class ohrmWidgetProjectListWithAllOption extends sfWidgetForm implements ohrmEmb
         $projectList = $projectService->getActiveProjectList();
         if ($projectList != null) {
             foreach ($projectList as $project) {
-                $projectNameList[-1] = "All";
+                $projectNameList[-1] = __("All");
                 $projectNameList[$project->getProjectId()] = $project->getCustomer()->getName() . " - " . $project->getName();
             }
         } else {
-            $projectNameList[null] = "--No Projects--";
+            $projectNameList[null] = "--".__("No Projects")."--";
         }
         return $projectNameList;
     }
@@ -81,7 +81,7 @@ class ohrmWidgetProjectListWithAllOption extends sfWidgetForm implements ohrmEmb
 
         $widgetSchema = $form->getWidgetSchema();
         $widgetSchema[$this->attributes['id']] = $this;
-        $label = ucwords(str_replace("_", " ", $this->attributes['id']));
+        $label = __(ucwords(str_replace("_", " ", $this->attributes['id'])));
         $validator = new sfValidatorString(array('required' => false));
         if ($this->attributes['required'] == "true") {
             $label .= "<span class='required'> * </span>";

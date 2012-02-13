@@ -69,7 +69,7 @@ use_javascript('../../../scripts/jquery/jquery.autocomplete.js');
             var lang_dateError = '<?php echo __("To date should be after the from date") ?>';
             var lang_validDateMsg = '<?php echo __("Please enter a valid date in %format% format", array('%format%' => get_datepicker_date_format($sf_user->getDateFormat()))) ?>'
             var lang_required = '<?php echo __("Project name is required") ?>';
-
+            var lang_empNamerequired = '<?php echo __("Employee is required") ?>';
         $(document).ready(function() {
 
 
@@ -81,6 +81,9 @@ use_javascript('../../../scripts/jquery/jquery.autocomplete.js');
         var validator = $("#reportForm").validate({
 
             rules: {
+            'time[employee][empId]' : {
+                required:true
+            },
                 'time[project_date_range][from]' : {
                     valid_date: function() {
                         return {
@@ -104,6 +107,9 @@ use_javascript('../../../scripts/jquery/jquery.autocomplete.js');
                 }
             },
             messages: {
+                'time[employee][empId]' : {
+                    required: lang_empNamerequired
+                },
                 'time[project_date_range][from]' : {
                     valid_date: lang_validDateMsg
                 },

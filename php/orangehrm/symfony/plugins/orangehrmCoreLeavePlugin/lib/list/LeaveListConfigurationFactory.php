@@ -64,6 +64,8 @@ class LeaveListConfigurationFactory extends ohrmListConfigurationFactory {
             'width' => '10%',
             'isSortable' => false,
             'elementType' => 'link',
+            'filters' => array('I18nCellFilter' => array()
+                              ),
             'textAlignmentStyle' => 'left',
             'elementProperty' => array(
                 'labelGetter' => array('getStatus'),

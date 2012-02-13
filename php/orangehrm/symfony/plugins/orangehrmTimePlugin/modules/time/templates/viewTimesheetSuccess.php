@@ -52,7 +52,7 @@ use_javascript('../../../scripts/jquery/ui/ui.dialog.js');
         <tr>
 
             <?php if (isset($employeeName)): ?>
-                <td id="headingText"><?php echo __('Timesheet for ') . $employeeName . __(' for') . " " . $headingText . " ";
+                <td id="headingText"><?php echo __('Timesheet for')." " . $employeeName . " ".__('for') . " " . __($headingText) . " ";
         echo $dateForm['startDates']->render(array('onchange' => 'clicked(event)')); ?>
                     <?php if (in_array(WorkflowStateMachine::TIMESHEET_ACTION_CREATE, $sf_data->getRaw('allowedToCreateTimesheets'))): ?>
                         <input type="button" class="addTimesheetbutton" name="button" id="btnAddTimesheet"
@@ -62,7 +62,7 @@ use_javascript('../../../scripts/jquery/ui/ui.dialog.js');
                 </td>
 
             <?php else: ?>
-                <td id="headingText"><?php echo __('Timesheet for ') . " " . $headingText . " ";
+                <td id="headingText"><?php echo __('Timesheet for') . " " . __($headingText) . " ";
         echo $dateForm['startDates']->render(array('onchange' => 'clicked(event)')); ?>
                     <?php if (in_array(WorkflowStateMachine::TIMESHEET_ACTION_CREATE, $sf_data->getRaw('allowedToCreateTimesheets'))): ?>
                         <input type="button" class="addTimesheetbutton" name="button" id="btnAddTimesheet"
@@ -239,7 +239,7 @@ use_javascript('../../../scripts/jquery/ui/ui.dialog.js');
 
                 <div class="formbuttons">
 
-                    <div><h4><?php echo __('Status: ') ?><?php echo ucwords(strtolower($timesheet->getState())); ?></h4></div>
+                    <div><h4><?php echo __('Status: ') ?><?php echo __(ucwords(strtolower($timesheet->getState()))); ?></h4></div>
                     <br class="clear">
 
                     <?php if (in_array(WorkflowStateMachine::TIMESHEET_ACTION_MODIFY, $sf_data->getRaw('allowedActions'))) : ?>
@@ -339,8 +339,8 @@ use_javascript('../../../scripts/jquery/ui/ui.dialog.js');
 
                         <tr>
             <!--                    <td id="actionlogStatusAlignment"> </td>-->
-                            <td id="actionlogStatus"><?php echo ucfirst(strtolower($row->getAction())); ?></td>
-                            <td id="actionlogPerform"><?php echo $performedBy; ?></td>
+                            <td id="actionlogStatus"><?php echo __(ucfirst(strtolower($row->getAction()))); ?></td>
+                            <td id="actionlogPerform"><?php echo __($performedBy); ?></td>
                             <td id="actionLogDate"><?php echo set_datepicker_date_format($row->getDateTime()); ?></td>
                             <td id="actionLogComment"><?php echo $row->getComment(); ?></td>
                         </tr>

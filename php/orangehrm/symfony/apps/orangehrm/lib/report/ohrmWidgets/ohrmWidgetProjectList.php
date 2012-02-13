@@ -64,13 +64,13 @@ class ohrmWidgetProjectList extends sfWidgetForm implements ohrmEmbeddableWidget
 
         if ($projectList != null) {
 
-            $projectNameList[null] = "--Select--";
+            $projectNameList[null] = "--".__("Select")."--";
             foreach ($projectList as $project) {
 
                 $projectNameList[$project->getProjectId()] = $project->getCustomer()->getName() . " - " . $project->getName();
             }
         } else {
-            $projectNameList[null] = "--No Projects--";
+            $projectNameList[null] = "--".__("No Projects")."--";
         }
 
         return $projectNameList;
@@ -84,15 +84,15 @@ class ohrmWidgetProjectList extends sfWidgetForm implements ohrmEmbeddableWidget
 
         $userObj = sfContext::getInstance()->getUser()->getAttribute("user");
         $projectList = $userObj->getActiveProjectList();
-        $requiredMess = 'Select a project';
+        $requiredMess = __('Select a project');
 
         if ($projectList == null) {
-            $requiredMess = "No Projects Defined";
+            $requiredMess = __("No Projects Defined");
         }
 
         $widgetSchema = $form->getWidgetSchema();
         $widgetSchema[$this->attributes['id']] = $this;
-        $label = ucwords(str_replace("_", " ", $this->attributes['id']));
+        $label = __(ucwords(str_replace("_", " ", $this->attributes['id'])));
         $validator = new sfValidatorString();
         if ($this->attributes['required'] == "true") {
             $label .= "<span class='required'> * </span>";

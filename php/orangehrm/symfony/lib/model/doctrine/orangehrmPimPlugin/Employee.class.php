@@ -59,7 +59,7 @@ class Employee extends PluginEmployee {
         $fullName = trim( trim($fullName) . " " . trim($this->lastName) );
 
         $terminationId = $this->termination_id;
-        $fullName = (!empty($terminationId)) ? $fullName." (Past Employee)" : $fullName;
+        $fullName = (!empty($terminationId)) ? $fullName." (" . __('Past Employee') . ")" : $fullName;
 
         return $fullName;
     }
@@ -74,7 +74,7 @@ class Employee extends PluginEmployee {
         $fullName = trim($this->firstName) . " " . trim($this->lastName);
 
         $terminationId = $this->termination_id;
-        $fullName = (!empty($terminationId)) ? $fullName." (Past Employee)" : $fullName;
+        $fullName = (!empty($terminationId)) ? $fullName." (" . __('Past Employee') . ")" : $fullName;
 
         return $fullName;
 

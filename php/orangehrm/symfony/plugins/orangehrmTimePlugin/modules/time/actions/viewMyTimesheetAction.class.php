@@ -210,7 +210,7 @@ class viewMyTimesheetAction extends sfAction {
     protected function getlatestStartDate($dateOptions) {
         if ($dateOptions != null) {
             $temp = $dateOptions[0];
-            $tempArray = explode(" to ", $temp);
+            $tempArray = explode(" ", $temp);
             return $tempArray[0];
         } else {
             return null;
@@ -220,7 +220,7 @@ class viewMyTimesheetAction extends sfAction {
     protected function getAcessibleTimesheetStartDates($dateOptions) {
         if ($dateOptions != null) {
             for ($i = 0; $i < sizeof($dateOptions); $i++) {
-                $options = explode(" to ", $dateOptions[$i]);
+                $options = explode(" ", $dateOptions[$i]);
                 $datesArray[$i] = $options[0];
             }
             return $datesArray;

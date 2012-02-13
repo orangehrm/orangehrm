@@ -156,6 +156,18 @@
                 <source>Invalid Employee Name</source>
                 <target>FR_Invalid Employee Name</target>
             </trans-unit>
+            <trans-unit id="39">
+                <source>You are not allowed to view this page</source>
+                <target>FR_You are not allowed to view this page</target>
+            </trans-unit>
+            <trans-unit id="40">
+                <source>Add Attendance Records</source>
+                <target>FR_Add Attendance Records</target>
+            </trans-unit>
+            <trans-unit id="41">
+                <source>No Employees Available in System</source>
+                <target>FR_No Employees Available in System</target>
+            </trans-unit>
         </body>
     </file>
 </xliff>

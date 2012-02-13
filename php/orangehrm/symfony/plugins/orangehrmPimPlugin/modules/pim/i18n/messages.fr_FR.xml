@@ -4,30 +4,16 @@
     <file source-language="en_US" target-language="fr_FR" datatype="plaintext" original="messages" date="2009-12-08T13:58:35Z" product-name="messages">
         <header/>
         <body>
-            <trans-unit id="1">
-                <source>Personal</source>
-                <target>FR_Personal</target>
-            </trans-unit>
             <trans-unit id="2">
                 <source>Personal Details</source>
                 <target>FR_Personal Details</target>
-            </trans-unit>
-            <trans-unit id="3">
-                <source>Contact Details</source>
-                <target>FR_Contact Details</target>
             </trans-unit>
             <trans-unit id="4">
                 <source>Emergency Contact(s)</source>
                 <target>FR_Emergency Contact(s)</target>
             </trans-unit>
-            <trans-unit id="5">
-                <source>Dependents</source>
-                <target>FR_Dependents</target>
-            </trans-unit>
-            <trans-unit id="6">
-                <source>Immigration</source>
-                <target>FR_Immigration</target>
-            </trans-unit>
+
+
             <trans-unit id="7">
                 <source>Photograph</source>
                 <target>FR_Photograph</target>
@@ -36,14 +22,8 @@
                 <source>Employment</source>
                 <target>FR_Employment</target>
             </trans-unit>
-            <trans-unit id="9">
-                <source>Job</source>
-                <target>FR_Job</target>
-            </trans-unit>
-            <trans-unit id="10">
-                <source>Salary</source>
-                <target>FR_Salary</target>
-            </trans-unit>
+
+
             <trans-unit id="11">
                 <source>Tax Exemptions</source>
                 <target>FR_Tax Exemptions</target>
@@ -64,22 +44,9 @@
                 <source>Work experience</source>
                 <target>FR_Work experience</target>
             </trans-unit>
-            <trans-unit id="16">
-                <source>Education</source>
-                <target>FR_Education</target>
-            </trans-unit>
-            <trans-unit id="17">
-                <source>Skills</source>
-                <target>FR_Skills</target>
-            </trans-unit>
-            <trans-unit id="18">
-                <source>Languages</source>
-                <target>FR_Languages</target>
-            </trans-unit>
-            <trans-unit id="19">
-                <source>License</source>
-                <target>FR_License</target>
-            </trans-unit>
+
+
+
             <trans-unit id="20">
                 <source>Membership</source>
                 <target>FR_Membership</target>
@@ -92,66 +59,21 @@
                 <source>Custom</source>
                 <target>FR_Custom</target>
             </trans-unit>
-            <trans-unit id="23">
-                <source>First Name</source>
-                <target>FR_First Name</target>
-            </trans-unit>
-            <trans-unit id="24">
-                <source>Middle Name</source>
-                <target>FR_Middle Name</target>
-            </trans-unit>
-            <trans-unit id="25">
-                <source>Last Name</source>
-                <target>FR_Last Name</target>
-            </trans-unit>
-            <trans-unit id="26">
-                <source>Employee Id</source>
-                <target>FR_Employee Id</target>
-            </trans-unit>
             <trans-unit id="27">
                 <source>SSN Number</source>
                 <target>FR_SSN Number</target>
             </trans-unit>
-            <trans-unit id="28">
-                <source>Other Id</source>
-                <target>FR_Other Id</target>
-            </trans-unit>
+
             <trans-unit id="29">
                 <source>SIN Number</source>
                 <target>FR_SIN Number</target>
             </trans-unit>
-            <trans-unit id="30">
-                <source>Driver's License Number</source>
-                <target>FR_Driver's License Number</target>
-            </trans-unit>
-            <trans-unit id="31">
-                <source>Driver's License Number</source>
-                <target>FR_Driver's License Number</target>
-            </trans-unit>
-            <trans-unit id="32">
-                <source>License Expiry Date</source>
-                <target>FR_License Expiry Date</target>
-            </trans-unit>
-            <trans-unit id="33">
-                <source>Gender</source>
-                <target>FR_Gender</target>
-            </trans-unit>
-            <trans-unit id="34">
-                <source>Marital Status</source>
-                <target>FR_Marital Status</target>
-            </trans-unit>
-            <trans-unit id="35">
-                <source>Nationality</source>
-                <target>FR_Nationality</target>
-            </trans-unit>
+
             <trans-unit id="36">
                 <source>Ethinical Race</source>
                 <target>FR_Ethinical Race</target>
             </trans-unit>
-            <trans-unit id="37">
-                <source>Date of Birth</source>
-                <target>FR_Date of Birth</target>
-            </trans-unit>
+
             <trans-unit id="38">
                 <source>Nick Name</source>
                 <target>FR_Nick Name</target>
@@ -224,14 +146,8 @@
                 <source>Document No</source>
                 <target>FR_Document No</target>
             </trans-unit>
-            <trans-unit id="57">
-                <source>Issued By</source>
-                <target>FR_Issued By</target>
-            </trans-unit>
-            <trans-unit id="58">
-                <source>Issued Date</source>
-                <target>FR_Issued Date</target>
-            </trans-unit>
+
+
             <trans-unit id="59">
                 <source>Date of Expiry</source>
                 <target>FR_Date of Expiry</target>
@@ -252,14 +168,7 @@
                 <source>Issued date is required</source>
                 <target>FR_Issued date is required</target>
             </trans-unit>
-            <trans-unit id="65">
-                <source>Eligible Review Date</source>
-                <target>FR_Eligible Review Date</target>
-            </trans-unit>
-            <trans-unit id="66">
-                <source>Eligible Status</source>
-                <target>FR_Eligible Status</target>
-            </trans-unit>
+
             <trans-unit id="67">
                 <source>Immigration Details Deleted Successfully</source>
                 <target>FR_Immigration Details Deleted Successfully</target>
@@ -332,26 +241,6 @@
                 <source>Zip/Postal Code</source>
                 <target>FR_Zip/Postal Code</target>
             </trans-unit>
-            <trans-unit id="87">
-                <source>Home Telephone</source>
-                <target>FR_Home Telephone</target>
-            </trans-unit>
-            <trans-unit id="88">
-                <source>Mobile</source>
-                <target>FR_Mobile</target>
-            </trans-unit>
-            <trans-unit id="89">
-                <source>Work Telephone</source>
-                <target>FR_Work Telephone</target>
-            </trans-unit>
-            <trans-unit id="90">
-                <source>Work Email</source>
-                <target>FR_Work Email</target>
-            </trans-unit>
-            <trans-unit id="91">
-                <source>Other Email</source>
-                <target>FR_Other Email</target>
-            </trans-unit>
             <trans-unit id="92">
                 <source>Home telephone can contains only space, numbers, "+", and "-"</source>
                 <target>FR_Home telephone can contains only space, numbers, "+", and "-"</target>
@@ -376,18 +265,12 @@
                 <source>Contact Details Saved Successfully</source>
                 <target>FR_Contact Details Saved Successfully</target>
             </trans-unit>
-            <trans-unit id="98">
-                <source>Emergency Contacts</source>
-                <target>FR_Emergency Contacts</target>
-            </trans-unit>
+
             <trans-unit id="99">
                 <source>Add Emergency Contact</source>
                 <target>FR_Add Emergency Contact</target>
             </trans-unit>
-            <trans-unit id="100">
-                <source>Relationship</source>
-                <target>FR_Relationship</target>
-            </trans-unit>
+
             <trans-unit id="101">
                 <source>Emergency Contact Saved Successfully</source>
                 <target>FR_Emergency Contact Saved Successfully</target>
@@ -428,10 +311,7 @@
                 <source>Immigration Details Deleted Successfully</source>
                 <target>FR_Immigration Details Deleted Successfully</target>
             </trans-unit>
-            <trans-unit id="111">
-                <source>Number</source>
-                <target>FR_Number</target>
-            </trans-unit>
+
             <trans-unit id="112">
                 <source>Add Dependent</source>
                 <target>FR_Add Dependent</target>
@@ -484,10 +364,6 @@
                 <source>Child</source>
                 <target>FR_Child</target>
             </trans-unit>
-            <trans-unit id="125">
-                <source>Expiry Date</source>
-                <target>FR_Expiry Date</target>
-            </trans-unit>
             <trans-unit id="126">
                 <source>Create Login Details</source>
                 <target>FR_Create Login Details</target>
@@ -528,10 +404,7 @@
                 <source>Adding Employee Failed. User Name Already Exists</source>
                 <target>FR_Adding Employee Failed. User Name Already Exists</target>
             </trans-unit>
-            <trans-unit id="136">
-                <source>Add Employee</source>
-                <target>FR_Add Employee</target>
-            </trans-unit>
+
             <trans-unit id="137">
                 <source>Employee Photograph Uploaded Successfully</source>
                 <target>FR_Employee Photograph Uploaded Successfully</target>
@@ -568,34 +441,14 @@
                 <source>Invalid File Type</source>
                 <target>FR_Invalid File Type</target>
             </trans-unit>
-            <trans-unit id="146">
-                <source>Work Experience</source>
-                <target>FR_Work Experience</target>
-            </trans-unit>
             <trans-unit id="147">
                 <source>Add Work Experience</source>
                 <target>FR_Add Work Experience</target>
             </trans-unit>
-            <trans-unit id="148">
-                <source>Company</source>
-                <target>FR_Company</target>
-            </trans-unit>
-            <trans-unit id="149">
-                <source>Job Title</source>
-                <target>FR_Job Title</target>
-            </trans-unit>
-            <trans-unit id="150">
-                <source>From</source>
-                <target>FR_From</target>
-            </trans-unit>
-            <trans-unit id="151">
-                <source>To</source>
-                <target>FR_To</target>
-            </trans-unit>
-            <trans-unit id="152">
-                <source>Comment</source>
-                <target>FR_Comment</target>
-            </trans-unit>
+
+
+
+
             <trans-unit id="153">
                 <source>Edit Work Experience</source>
                 <target>FR_Edit Work Experience</target>
@@ -808,26 +661,8 @@
                 <source>Membership Type</source>
                 <target>FR_Membership Type</target>
             </trans-unit>
-            <trans-unit id="206">
-                <source>Subscription Paid By</source>
-                <target>FR_Subscription Paid By</target>
-            </trans-unit>
-            <trans-unit id="207">
-                <source>Subscription Amount</source>
-                <target>FR_Subscription Amount</target>
-            </trans-unit>
-            <trans-unit id="208">
-                <source>Currency</source>
-                <target>FR_Currency</target>
-            </trans-unit>
-            <trans-unit id="209">
-                <source>Subscription Commence Date</source>
-                <target>FR_Subscription Commence Date</target>
-            </trans-unit>
-            <trans-unit id="210">
-                <source>Subscription Renewal Date</source>
-                <target>FR_Subscription Renewal Date</target>
-            </trans-unit>
+
+
             <trans-unit id="211">
                 <source>Add Membership Details</source>
                 <target>FR_Add Membership Details</target>
@@ -980,10 +815,6 @@
                 <source>Subordinate</source>
                 <target>FR_Subordinate</target>
             </trans-unit>
-            <trans-unit id="248">
-                <source>Reporting Method</source>
-                <target>FR_Reporting Method</target>
-            </trans-unit>
             <trans-unit id="249">
                 <source>Assigned Supervisors</source>
                 <target>FR_Assigned Supervisors</target>
@@ -1048,10 +879,6 @@
                 <source>Amount should be a positive number</source>
                 <target>FR_Amount should be a positive number</target>
             </trans-unit>
-            <trans-unit id="265">
-                <source>Salary Component</source>
-                <target>FR_Salary Component</target>
-            </trans-unit>
             <trans-unit id="266">
                 <source>Add Direct Deposit Details</source>
                 <target>FR_Add Direct Deposit Details</target>
@@ -1072,10 +899,7 @@
                 <source>Please specify other account type</source>
                 <target>FR_Please specify other account type</target>
             </trans-unit>
-            <trans-unit id="271">
-                <source>Pay Grade</source>
-                <target>FR_Pay Grade</target>
-            </trans-unit>
+
             <trans-unit id="272">
                 <source>Account Number</source>
                 <target>FR_Account Number</target>
@@ -1164,10 +988,6 @@
                 <source>Institute cannot exceed 100 characters in length</source>
                 <target>FR_Institute cannot exceed 100 characters in length</target>
             </trans-unit>
-            <trans-unit id="294">
-                <source>Reporting Methods</source>
-                <target>FR_Reporting Methods</target>
-            </trans-unit>
             <trans-unit id="295">
                 <source>Add Reporting Method</source>
                 <target>FR_Add Reporting Method</target>
@@ -1192,10 +1012,7 @@
                 <source>Reporting Method Name Exists</source>
                 <target>FR_Reporting Method Name Exists</target>
             </trans-unit>            
-            <trans-unit id="301">
-                <source>Termination Reasons</source>
-                <target>FR_Termination Reasons</target>
-            </trans-unit>
+
             <trans-unit id="302">
                 <source>Add Termination Reason</source>
                 <target>FR_Add Termination Reason</target>
@@ -1224,17 +1041,62 @@
                 <source>Termination Reason(s) in Use</source>
                 <target>FR_Termination Reason(s) in Use</target>
             </trans-unit>
-            <trans-unit id="309">
-                <source>Each import file should be configured for 100 records or less</source>
-                <target>FR_Each import file should be configured for 100 records or less</target>
-            </trans-unit>
-            <trans-unit id="310">
-                <source>Multiple import files may be required</source>
-                <target>FR_Multiple import files may be required</target>
-            </trans-unit>
             <trans-unit id="311">
                 <source>Employee Id Exists</source>
                 <target>FR_Employee Id Exists</target>
+            </trans-unit>
+ 
+            <trans-unit id="313">
+                <source>Custom Fields Updated Successfully</source>
+                <target>FR_Custom Fields Updated Successfully</target>
+            </trans-unit>
+            <trans-unit id="314">
+                <source>Renewal date should be after the commence date</source>
+                <target>FR_Renewal date should be after the commence date</target>
+            </trans-unit>       
+            <trans-unit id="315">
+                <source>Expiry date should be after the issued date</source>
+                <target>FR_Expiry date should be after the issued date</target>
+            </trans-unit>   
+            <trans-unit id="316">
+                <source>End date should be after the start date</source>
+                <target>FR_End date should be after the start date</target>
+            </trans-unit>
+            <trans-unit id="317">
+                <source>Contract Details File Size Exceeded</source>
+                <target>FR_Contract Details File Size Exceeded</target>
+            </trans-unit>
+            <trans-unit id="319">
+                <source>Amount should be within Min/Max values</source>
+                <target>FR_Amount should be within Min/Max values</target>
+            </trans-unit>
+            <trans-unit id="320">
+                <source>Min</source>
+                <target>FR_Min</target>
+            </trans-unit>
+            <trans-unit id="321">
+                <source>Max</source>
+                <target>FR_Max</target>
+            </trans-unit>
+            <trans-unit id="323">
+                <source>N/A</source>
+                <target>FR_N/A</target>
+            </trans-unit>
+            <trans-unit id="324">
+                <source>To date should be after From date</source>
+                <target>FR_To date should be after From date</target>
+            </trans-unit>
+            <trans-unit id="325">
+                <source>Text or Number</source>
+                <target>FR_Text or Number</target>
+            </trans-unit>
+            <trans-unit id="326">
+                <source>Drop Down</source>
+                <target>FR_Drop Down</target>
+            </trans-unit>
+            <trans-unit id="5000">
+                <source>Deleted</source>
+                <target>FR_Deleted</target>
             </trans-unit>
         </body>
     </file>

@@ -67,7 +67,7 @@ use_javascript('../../../scripts/jquery/jquery.autocomplete.js');
     $(document).ready(function() {
 
         if(<?php echo $lastEmpNumber; ?> == '-1'){
-            $("#employee_name").val('All');
+            $("#employee_name").val('<?php echo __('All')?>');
             $('#attendanceTotalSummary_employeeId').val('-1');
         }else{
             if ($("#employee_name").val() == '') {
@@ -199,7 +199,7 @@ use_javascript('../../../scripts/jquery/jquery.autocomplete.js');
             errorMsge = "Please Select an Employee";
             return false;
         }else{
-            errorMsge = "Invalid Employee Name";
+            errorMsge = '<?php echo __("Invalid Employee Name");?>';
             return false;
         }
     }

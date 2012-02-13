@@ -71,5 +71,5 @@ use_javascript('../../../scripts/jquery/jquery.autocomplete.js');
     var lang_save                   = "<?php echo __("Save"); ?>";
     var lang_edit                   = "<?php echo __("Edit"); ?>";
     var lang_UserPasswordLength     =   "<?php echo __("Password should have at least 4 characters"); ?>";
-
+    var password_user               =   "<?php echo __("Very Weak").",".__("Weak").",".__("Better").",".__("Medium").",".__("Strong").",".__("Strongest")?>";
 </script>

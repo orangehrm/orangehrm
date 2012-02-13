@@ -108,7 +108,7 @@ class viewTimesheetAction extends sfAction {
 
                     $state = $request->getParameter('state');
                     if (isset($state)) {
-                        $this->successMessage = array('SUCCESS', __("Timesheet Successfully") . " " . ucwords(strtolower($state)));
+                        $this->successMessage = array('SUCCESS', __("Timesheet Successfully") . " " . __(ucwords(strtolower($state))));
                     }
                     $comment = $request->getParameter('Comment');
                     $this->timesheet->setState($state);
@@ -182,7 +182,7 @@ class viewTimesheetAction extends sfAction {
     public function getStartDate($dateOptions) {
 
         $temp = $dateOptions[0];
-        $tempArray = explode(" to ", $temp);
+        $tempArray = explode(" ", $temp);
         return $tempArray[0];
     }
 

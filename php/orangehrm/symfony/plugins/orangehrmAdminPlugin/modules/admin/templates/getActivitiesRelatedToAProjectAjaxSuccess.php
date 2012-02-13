@@ -3,25 +3,25 @@
 
 <?php if ($activityList == "All"): ?> 
 <option value="-1">
-    <?php echo "All"; ?>
+    <?php echo __("All"); ?>
 </option>
 <?php else:?>
 
 <?php if ($noProjectActivity == "yes"):?>
 
 <option value=<?php echo null?>>
-    <?php echo "--No Project Activities--"; ?>
+    <?php echo "--".__("No Project Activities")."--"; ?>
 </option>
 
 <?php else:?>
 
 <?php if($activityList == null):?>
 <option value="-1">
-    <?php echo "All"; ?>
+    <?php echo __("All"); ?>
 </option>
 <?php else:?>
 <option value="-1">
-    <?php echo "All"; ?>
+    <?php echo __("All"); ?>
 </option>
 <?php foreach ($activityList as $activity): ?>
             <option value="<?php echo $activity->getActivityId(); ?>">

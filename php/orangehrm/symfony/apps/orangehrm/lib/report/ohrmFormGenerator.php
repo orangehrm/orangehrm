@@ -94,7 +94,7 @@ class ohrmFormGenerator {
                 // TODO: Check if $group->name is empty -> default group which should not be selectable.
                 $groupId = 'display_group_' . $group->id;
                 
-                $widget = new ohrmWidgetReportDisplayGroup(array('label' => $group->name . ' (Include Header) ',
+                $widget = new ohrmWidgetReportDisplayGroup(array('label' => __($group->name) . ' (' . __('Include Header') . ') ',
                                                                  'value_attribute_value' => $group->id), 
                                                            array('id' => $groupId,
                                                                  'name' => 'display_groups[]'));

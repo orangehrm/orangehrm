@@ -8,6 +8,8 @@ class NationalityHeaderFactory extends ohrmListConfigurationFactory {
         $header1->populateFromArray(array(
             'name' => 'Nationality',
             'elementType' => 'link',
+            'filters' => array('I18nCellFilter' => array()
+                              ),
             'elementProperty' => array(
                 'labelGetter' => 'getName',
                 'urlPattern' => 'javascript:'),

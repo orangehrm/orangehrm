@@ -117,12 +117,20 @@
                 <target>FR_Vacancy Apply Form</target>
             </trans-unit>
 			<trans-unit id="29">
-                <source>Your Application for the Position of Associate QA Was Received</source>
-                <target>FR_Your Application for the Position of Associate QA Was Received</target>
+                <source>Your Application for the Position of %name% Was Received</source>
+                <target>FR_Your Application for the Position of %name% Was Received</target>
             </trans-unit>
 			<trans-unit id="30">
                 <source>Error Occurred - Invalid File Type</source>
                 <target>FR_Error Occurred - Invalid File Type</target>
+            </trans-unit>
+            <trans-unit id="5000">
+                <source>Active Job Vacancies</source>
+                <target>FR_Active Job Vacancies</target>
+            </trans-unit>
+            <trans-unit id="5001">
+                <source>.docx, .doc, .odt, .pdf, .rtf, or .txt with maximum file size of 1MB</source>
+                <target>FR_.docx, .doc, .odt, .pdf, .rtf, or .txt with maximum file size of 1MB</target>
             </trans-unit>
         </body>
     </file>

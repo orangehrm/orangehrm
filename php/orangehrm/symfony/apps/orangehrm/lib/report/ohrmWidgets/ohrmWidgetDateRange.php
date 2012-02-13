@@ -29,7 +29,7 @@ class ohrmWidgetDateRange extends sfWidgetForm implements ohrmEmbeddableWidget {
         $this->addOption($this->id . '_' . 'to_date', new ohrmWidgetDatePickerNew(array(), array('id' => $this->id . '_' . 'to_date')));
 
 
-        $this->addOption('template', 'From &nbsp %from_date% &nbsp&nbsp&nbsp&nbsp&nbsp To &nbsp %to_date%');
+        $this->addOption('template', __('From').' &nbsp %from_date% &nbsp&nbsp&nbsp&nbsp&nbsp '.__('To').' &nbsp %to_date%');
     }
 
     public function render($name, $value = null, $attributes = array(), $errors = array()) {
@@ -52,7 +52,7 @@ class ohrmWidgetDateRange extends sfWidgetForm implements ohrmEmbeddableWidget {
         $validatorSchema = $form->getValidatorSchema();
 
         $widgetSchema[$this->attributes['id']] = $this;
-        $widgetSchema[$this->attributes['id']]->setLabel(ucwords(str_replace("_", " ", $this->attributes['id'])));
+        $widgetSchema[$this->attributes['id']]->setLabel(__(ucwords(str_replace("_", " ", $this->attributes['id']))));
 
         $validatorSchema[$this->attributes['id']] = new ohrmValidatorDateRange(array(), array("invalid" => "Insert a correct date"));
     }

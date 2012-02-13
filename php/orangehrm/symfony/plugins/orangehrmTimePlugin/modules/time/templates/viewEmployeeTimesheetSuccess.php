@@ -49,7 +49,7 @@ use_javascript('../../../scripts/jquery/jquery.autocomplete.js');
 				<?php foreach ($sf_data->getRaw('pendingApprovelTimesheets') as $pendingApprovelTimesheet): ?>
 							<tr>
 								<td><?php echo $pendingApprovelTimesheet['employeeFirstName'] . " " . $pendingApprovelTimesheet['employeeLastName']; ?></td>
-                                                                <td><?php echo set_datepicker_date_format($pendingApprovelTimesheet['timesheetStartday']). " to " . set_datepicker_date_format($pendingApprovelTimesheet['timesheetEndDate']) ?></td>
+                                                                <td><?php echo set_datepicker_date_format($pendingApprovelTimesheet['timesheetStartday']). " ".__("to")." " . set_datepicker_date_format($pendingApprovelTimesheet['timesheetEndDate']) ?></td>
 								<td><input type="hidden" name="timesheetId" value="<?php echo $pendingApprovelTimesheet['timesheetId']; ?>" /></td>
 								<td><input type="hidden" name="employeeId" value="<?php echo $pendingApprovelTimesheet['employeeId']; ?>" /></td>
 								<td><input type="hidden" name="startDate" value="<?php echo $pendingApprovelTimesheet['timesheetStartday']; ?>" /></td>
@@ -69,7 +69,7 @@ use_javascript('../../../scripts/jquery/jquery.autocomplete.js');
 								var employees = <?php echo str_replace('&#039;', "'", $form->getEmployeeListAsJson()) ?> ;
 	var employeesArray = eval(employees);
 	var errorMsge;
-       var lang_typeForHints = "Type for hints...";
+       var lang_typeForHints = '<?php echo __("Type for hints").'...';?>';
 	$(document).ready(function() {
        
 

@@ -19,14 +19,14 @@
                      <select name="txtJobTitle" id="txtJobTitle" class="formSelect" tabindex="1" >
                      	<option value="all"><?php echo __('All')?></option>
 	                     <?php foreach($listJobTitle as $jobTitle){?>
-                        <option value="<?php echo $jobTitle->getId()?>" <?php if(isset($searchJobTitle) && $jobTitle->getId()== $searchJobTitle->getId()){ echo 'selected';}?>><?php echo htmlspecialchars_decode($jobTitle->getJobTitleName()); if(!$jobTitle->getIsDeleted() == JobTitle::ACTIVE) { echo " (Deleted)"; } ?></option>
+                        <option value="<?php echo $jobTitle->getId()?>" <?php if(isset($searchJobTitle) && $jobTitle->getId()== $searchJobTitle->getId()){ echo 'selected';}?>><?php echo htmlspecialchars_decode($jobTitle->getJobTitleName()); if(!$jobTitle->getIsDeleted() == JobTitle::ACTIVE) { echo ' ('.__('Deleted').')'; } ?></option>
 	                     <?php }?>
                      </select>
                    <br class="clear"/>
                 </div>
 				<div id="buttonWrapper" class="formbuttons">
                     <input type="button" class="savebutton" id="searchBtn"
-                        value="Search" tabindex="2" />
+                        value="<?php echo __('Search')?>" tabindex="2" />
                 </div>  
               
             </form>
@@ -40,7 +40,7 @@
    
    	<div id="contentContainer">
 	   <div  class="outerbox">
-	   			<div id="formHeading" class="mainHeading"><h2><?php echo __("Key Performance Indicators for Job Title:")?> <?php if(isset($searchJobTitle) ){ echo htmlspecialchars_decode($searchJobTitle->getJobTitleName());}?></h2></div>
+	   			<div id="formHeading" class="mainHeading"><h2><?php echo __("Key Performance Indicators for Job Title")?>: <?php if(isset($searchJobTitle) ){ echo htmlspecialchars_decode($searchJobTitle->getJobTitleName());}?></h2></div>
 				<div class="navigationHearder">
 	                   <?php if ($pager->haveToPaginate()) { ?>
 
@@ -52,13 +52,13 @@
 						<?php } ?> 
 	                    <input type="button" class="savebutton" id="addKpiBut"
 	                       
-	                        value="Add" tabindex="2" />
+	                        value="<?php echo __('Add')?>" tabindex="2" />
 	                        <?php if($hasKpi){?>
 	                    <input type="button" class="clearbutton"  id="deleteKpiBut"
-	                         value="Delete" tabindex="3" />
+	                         value="<?php echo __('Delete')?>" tabindex="3" />
 	                         
 						<input type="button" class="clearbutton"  id="copyKpiBut"
-	                         value="Copy" tabindex="4" />
+	                         value="<?php echo __('Copy')?>" tabindex="4" />
 	                        <?php }?>
 	                        
 	                      
@@ -124,7 +124,7 @@
 				 			</td>
 				 			<td class="">
 				 			
-				 				<?php echo  ($kpi->getDefault()==1)?'Yes':'-'?>
+				 				<?php echo  ($kpi->getDefault()==1)?__('Yes'):'-'?>
 				 			</td>
 				 	</tr>
 				 	<?php }?>
@@ -172,7 +172,7 @@
 				}else
 				{
 					
-					showError('messageBalloon_success','Select records to delete');
+					showError('messageBalloon_success','<?php echo __('Select records to delete'); ?>' );
 				}
 			});
 
@@ -183,7 +183,7 @@
 				 	txtJobTitle: { required: true }
 			 	 },
 			 	 messages: {
-			 		txtJobTitle: "Job Title is required"
+			 		txtJobTitle: '<?php echo __("Job Title is required")?>'
 			 	 }
 			 });
 

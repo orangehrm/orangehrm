@@ -155,7 +155,7 @@ class LeaveListForm extends sfForm {
         if ($this->mode === self::MODE_MY_LEAVE_LIST) {
             $title = __('My Leave List');
         } else {
-            $title = 'Leave List';
+            $title = __('Leave List');
         }
 
         return $title;

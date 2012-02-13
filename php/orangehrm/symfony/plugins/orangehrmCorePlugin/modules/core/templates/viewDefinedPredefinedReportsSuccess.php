@@ -8,7 +8,7 @@ use_javascript('../../../scripts/jquery/jquery.autocomplete.js');
 ?>
 <div id="predefinedReportsOuter">
 <div id="messagebar" class="<?php echo isset($messageType) ? "messageBalloon_{$messageType}" : ''; ?>" >
-    <span style="font-weight: bold;"><?php echo isset($message) ? $message : ''; ?></span>
+    <span style="font-weight: bold;"><?php echo isset($message) ? __($message) : ''; ?></span>
 </div>
     <div class="outerbox" style="width: 590px;">
     <div class="maincontent">
@@ -18,7 +18,7 @@ use_javascript('../../../scripts/jquery/jquery.autocomplete.js');
         <br class="clear">
         <form action="<?php echo url_for("core/viewDefinedPredefinedReports"); ?>" id="searchForm" method="post">
             <div class="searchbox">
-                <label for="search_search"><?php echo __('Report Name:') ?></label>
+                <label for="search_search"><?php echo __('Report Name') . ' :' ?></label>
                 <?php echo $searchForm['search']->render(); ?>
                 <input type="submit" class="searchButton" value="<?php echo __('Search') ?>" />
                 <input type="button" class="resetButton" value="<?php echo __('Reset') ?>" />

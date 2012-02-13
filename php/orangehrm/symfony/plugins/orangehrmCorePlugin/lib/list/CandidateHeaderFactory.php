@@ -48,6 +48,8 @@ class CandidateHeaderFactory extends ohrmListConfigurationFactory {
 		$headerList[5]->populateFromArray(array(
 		    'name' => 'Status',
 		    'isSortable' => true,
+		     'filters' => array('I18nCellFilter' => array()
+                              ),
 		    'sortField' => 'jcv.status',
 		    'elementType' => 'label',
 		    'elementProperty' => array('getter' => 'getStatusName'),

@@ -37,13 +37,13 @@ class EssUserRoleDecorator extends UserRoleDecorator {
 		$topMenuItemArray = $this->user->getAccessibleTimeMenus();
 
 		$topMenuItem = new TopMenuItem();
-		$topMenuItem->setDisplayName(__("Timesheets"));
+		$topMenuItem->setDisplayName("Timesheets");
 		$topMenuItem->setLink(EssUserRoleDecorator::VIEW_MY_TIMESHEET);
 
 		$topMenuItemArray = $this->__chkAndPutItemsToArray($topMenuItemArray, $topMenuItem);
 
 		$topMenuItem = new TopMenuItem();
-		$topMenuItem->setDisplayName(__("Attendance"));
+		$topMenuItem->setDisplayName("Attendance");
 		$topMenuItem->setLink(EssUserRoleDecorator::PUNCH_ATTENDANCE_RECORD);
 
 		$topMenuItemArray = $this->__chkAndPutItemsToArray($topMenuItemArray, $topMenuItem);

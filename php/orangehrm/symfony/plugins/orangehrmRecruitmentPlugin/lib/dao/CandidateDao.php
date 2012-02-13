@@ -111,7 +111,7 @@ class CandidateDao extends BaseDao {
                 $param->setVacancyId($candidate['vacancyId']);
                 $param->setCandidateName($candidate['first_name'] . " " . $candidate['middle_name'] . " " . $candidate['last_name'] . $this->_getCandidateNameSuffix($candidate['candidateStatus']));
                 $employeeName = $candidate['emp_firstname'] . " " . $candidate['emp_middle_name'] . " " . $candidate['emp_lastname'];
-                $hmName = (!empty($candidate['termination_id'])) ? $employeeName." (Past Employee)" : $employeeName;
+                $hmName = (!empty($candidate['termination_id'])) ? $employeeName." (".__("Past Employee").")" : $employeeName;
                 $param->setHiringManagerName($hmName);
                 $param->setDateOfApplication($candidate['date_of_application']);
                 $param->setAttachmentId($candidate['attachmentId']);

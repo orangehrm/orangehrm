@@ -4,10 +4,7 @@
     <file source-language="en_US" target-language="fr_FR" datatype="plaintext" original="messages" date="2009-12-08T13:58:35Z" product-name="messages">
         <header/>
         <body>
-            <trans-unit id="1">
-                <source>Localization</source>
-                <target>FR_Localization</target>
-            </trans-unit>
+
             <trans-unit id="2">
                 <source>Date Format</source>
                 <target>FR_Date Format</target>
@@ -45,8 +42,8 @@
                 <target>FR_Column order should not be changed</target>
             </trans-unit>
             <trans-unit id="11">
-                <source>First Name and Last Name is compulsory</source>
-                <target>FR_First Name and Last Name is compulsory</target>
+                <source>First Name and Last Name are compulsory</source>
+                <target>FR_First Name and Last Name are compulsory</target>
             </trans-unit>
             <trans-unit id="12">
                 <source>All date fields should be in YYYY-mm-dd format</source>
@@ -81,17 +78,14 @@
                 <target>FR_Error Occurred - Invalid File Type</target>
             </trans-unit>
             <trans-unit id="20">
-                <source>If gender is specified, value should be either %male or %female</source>
-                <target>FR_If gender is specified, value should be either %male or %female</target>
+                <source>If gender is specified, value should be either</source>
+                <target>FR_If gender is specified, value should be either</target>
             </trans-unit>
             <trans-unit id="21">
                 <source>Include not more than 100 records in the file</source>
                 <target>FR_Include not more than 100 records in the file</target>
             </trans-unit>            
-            <trans-unit id="22">
-                <source>Customers</source>
-                <target>FR_Customers</target>
-            </trans-unit>            
+            
             <trans-unit id="23">
                 <source>Customer name is required</source>
                 <target>FR_Customer name is required</target>
@@ -156,10 +150,7 @@
                 <source>Note</source>
                 <target>FR_Note</target>
             </trans-unit>
-            <trans-unit id="39">
-                <source>General Information</source>
-                <target>FR_General Information</target>
-            </trans-unit>
+
             <trans-unit id="40">
                 <source>State/Province</source>
                 <target>FR_State/Province</target>
@@ -356,10 +347,7 @@
                 <source>Subunit Name Cannot be Duplicated</source>
                 <target>FR_Subunit Name Cannot be Duplicated</target>
             </trans-unit>
-            <trans-unit id="89">
-                <source>Projects</source>
-                <target>FR_Projects</target>
-            </trans-unit>
+
             <trans-unit id="90">
                 <source>Activities</source>
                 <target>FR_Activities</target>
@@ -388,10 +376,7 @@
                 <source>Job Description</source>
                 <target>FR_Job Description</target>
             </trans-unit>
-            <trans-unit id="97">
-                <source>Job Titles</source>
-                <target>FR_Job Titles</target>
-            </trans-unit>
+
             <trans-unit id="98">
                 <source>Job Title Updated Successfully</source>
                 <target>FR_Job Title Updated Successfully</target>
@@ -436,10 +421,7 @@
                 <source>Cannot exceed 400 charactors</source>
                 <target>FR_Cannot exceed 400 charactors</target>
             </trans-unit>
-            <trans-unit id="109">
-                <source>Locations</source>
-                <target>FR_Locations</target>
-            </trans-unit>
+
             <trans-unit id="110">
                 <source>Location Name</source>
                 <target>FR_Location Name</target>
@@ -516,10 +498,6 @@
                 <source>Job Title already exists</source>
                 <target>FR_Job Title already exists</target>
             </trans-unit>
-            <trans-unit id="127">
-                <source>Skills</source>
-                <target>FR_Skills</target>
-            </trans-unit>   
             <trans-unit id="128">
                 <source>Add Skill</source>
                 <target>FR_Add Skill</target>
@@ -544,10 +522,7 @@
                 <source>Skill(s) Deleted Successfully</source>
                 <target>FR_Skill(s) Deleted Successfully</target>
             </trans-unit>  
-            <trans-unit id="134">
-                <source>Memberships</source>
-                <target>FR_Memberships</target>
-            </trans-unit>
+
             <trans-unit id="135">
                 <source>Add Membership</source>
                 <target>FR_Add Membership</target>
@@ -568,14 +543,7 @@
                 <source>Selected Membership(s) Deleted Successfully</source>
                 <target>FR_Selected Membership(s) Deleted Successfully</target>
             </trans-unit>
-            <trans-unit id="140">
-                <source>Pay Grades</source>
-                <target>FR_Pay Grades</target>
-            </trans-unit>
-            <trans-unit id="141">
-                <source>Pay Grade</source>
-                <target>FR_Pay Grade</target>
-            </trans-unit>
+
             <trans-unit id="142">
                 <source>Currency</source>
                 <target>FR_Currency</target>
@@ -648,10 +616,7 @@
                 <source>Name is already exist</source>
                 <target>FR_Name is already exist</target>
             </trans-unit>
-            <trans-unit id="160">
-                <source>Nationalities</source>
-                <target>FR_Nationalities</target>
-            </trans-unit>
+
             <trans-unit id="162">
                 <source>Nationality</source>
                 <target>FR_Nationality</target>
@@ -696,10 +661,6 @@
                 <source>Add Job Category</source>
                 <target>FR_Add Job Category</target>
             </trans-unit>
-            <trans-unit id="172">
-                <source>Languages</source>
-                <target>FR_Languages</target>
-            </trans-unit>   
             <trans-unit id="173">
                 <source>Add Language</source>
                 <target>FR_Add Language</target>
@@ -788,10 +749,7 @@
                 <source>Confirm Password</source>
                 <target>FR_Confirm Password</target>
           </trans-unit>				  
-            <trans-unit id="196">
-                <source>Licenses</source>
-                <target>FR_Licenses</target>
-            </trans-unit>   
+   
             <trans-unit id="197">
                 <source>Add License</source>
                 <target>FR_Add License</target>
@@ -868,10 +826,6 @@
                 <source>Email address should contain at least one '.' and one '@' Example:user@example.com</source>
                 <target>FR_Email address should contain at least one '.' and one '@' Example:user@example.com</target>
             </trans-unit>
-            <trans-unit id="216">
-                <source>Education</source>
-                <target>FR_Education</target>
-            </trans-unit>   
             <trans-unit id="217">
                 <source>Add Education</source>
                 <target>FR_Add Education</target>
@@ -896,14 +850,7 @@
                 <source>Level is required</source>
                 <target>FR_Level is required</target>
             </trans-unit>         
-            <trans-unit id="223">
-                <source>Level</source>
-                <target>FR_Level</target>
-            </trans-unit>               
-            <trans-unit id="224">
-                <source>Work Shifts</source>
-                <target>FR_Work Shifts</target>
-            </trans-unit>
+
             <trans-unit id="225">
                 <source>Shift Name</source>
                 <target>FR_Shift Name</target>
@@ -1071,7 +1018,207 @@
             <trans-unit id="266">
                 <source>Module Configuration Saved Successfully</source>
                 <target>FR_Module Configuration Saved Successfully</target>
-            </trans-unit>            
+            </trans-unit>
+            <trans-unit id="267">
+                <source>Each import file should be configured for 100 records or less</source>
+                <target>FR_Each import file should be configured for 100 records or less</target>
+            </trans-unit>
+            <trans-unit id="268">
+                <source>Multiple import files may be required</source>
+                <target>FR_Multiple import files may be required</target>
+            </trans-unit>
+            <trans-unit id="5000">
+                <source>Phone can contain only space, numbers, "+", and "-"</source>
+                <target>FR_Phone can contain only space, numbers, "+", and "-"</target>
+            </trans-unit>
+            <trans-unit id="5001">
+                <source>Selected locations(s) will be deleted</source>
+                <target>FR_Selected locations(s) will be deleted</target>
+            </trans-unit>
+            <trans-unit id="5002">
+                <source>Organization</source>
+                <target>FR_Organization</target>
+            </trans-unit>
+            <trans-unit id="5003">
+                <source>Currency already exists</source>
+                <target>FR_Currency already exists</target>
+            </trans-unit>
+            <trans-unit id="5004">
+                <source>Not Allowed to Delete Customer(s) Which Have Time Logged Against</source>
+                <target>FR_Not Allowed to Delete Customer(s) Which Have Time Logged Against</target>
+            </trans-unit>
+            <trans-unit id="5004">
+                <source>Selected Customer(s) Deleted Successfully</source>
+                <target>FR_Selected Customer(s) Deleted Successfully</target>
+            </trans-unit>
+            <trans-unit id="5005">
+                <source>Cannot assign same employee twice</source>
+                <target>FR_Cannot assign same employee twice</target>
+            </trans-unit>
+            <trans-unit id="5006">
+                <source>Edit Project Activity</source>
+                <target>FR_Edit Project Activity</target>
+            </trans-unit>
+            <trans-unit id="5007">
+                <source>Not Allowed to Delete Project Activites Which Have Time Logged Against</source>
+                <target>FR_Not Allowed to Delete Project Activites Which Have Time Logged Against</target>
+            </trans-unit>
+            <trans-unit id="5008">
+                <source>Mail Configuration</source>
+                <target>FR_Mail Configuration</target>
+            </trans-unit>
+            <trans-unit id="5009">
+                <source>Mail Sent As</source>
+                <target>FR_Mail Sent As</target>
+            </trans-unit>
+            <trans-unit id="5010">
+                <source>Path to Sendmail</source>
+                <target>FR_Path to Sendmail</target>
+            </trans-unit>
+            <trans-unit id="5011">
+                <source>Send Test Email</source>
+                <target>FR_Send Test Email</target>
+            </trans-unit>
+            <trans-unit id="5012">
+                <source>Sending Method</source>
+                <target>FR_Sending Method</target>
+            </trans-unit>
+            <trans-unit id="5013">
+                <source>Test Email Address</source>
+                <target>FR_Test Email Address</target>
+            </trans-unit>
+            <trans-unit id="5014">
+                <source>E-mail is required</source>
+                <target>FR_E-mail is required</target>
+            </trans-unit>
+            <trans-unit id="5015">
+                <source>Use SMTP Authentication</source>
+                <target>FR_Use SMTP Authentication</target>
+            </trans-unit>
+            <trans-unit id="5016">
+                <source>SMTP User</source>
+                <target>FR_SMTP User</target>
+            </trans-unit>
+            <trans-unit id="5017">
+                <source>SMTP Port</source>
+                <target>FR_SMTP Port</target>
+            </trans-unit>
+            <trans-unit id="5018">
+                <source>SMTP Password</source>
+                <target>FR_SMTP Password</target>
+            </trans-unit>
+            <trans-unit id="5019">
+                <source>User Secure Connection</source>
+                <target>FR_User Secure Connection</target>
+            </trans-unit>
+            <trans-unit id="5020">
+                <source>SSL</source>
+                <target>FR_SSL</target>
+            </trans-unit>
+            <trans-unit id="5021">
+                <source>TLS</source>
+                <target>FR_TLS</target>
+            </trans-unit>
+            <trans-unit id="5022">
+                <source>Leave Applications</source>
+                <target>FR_Leave Applications</target>
+            </trans-unit>
+            <trans-unit id="5023">
+                <source>Leave Assignments</source>
+                <target>FR_Leave Assignments</target>
+            </trans-unit>
+            <trans-unit id="5024">
+                <source>Leave Approvals</source>
+                <target>FR_Leave Approvals</target>
+            </trans-unit>
+            <trans-unit id="5025">
+                <source>Leave Cancellations</source>
+                <target>FR_Leave Cancellations</target>
+            </trans-unit>
+            <trans-unit id="5026">
+                <source>Leave Rejections</source>
+                <target>FR_Leave Rejections</target>
+            </trans-unit>
+            <trans-unit id="5027">
+                <source>Performance Review Submissions</source>
+                <target>FR_Performance Review Submissions</target>
+            </trans-unit>
+            <trans-unit id="5028">
+                <source>ESS</source>
+                <target>FR_ESS</target>
+            </trans-unit>
+            <trans-unit id="5029">
+                <source>Password is required</source>
+                <target>FR_Password is required</target>
+            </trans-unit>
+            <trans-unit id="5030">
+                <source>User Updated Successfully</source>
+                <target>FR_User Updated Successfully</target>
+            </trans-unit>
+            <trans-unit id="5031">
+                <source>Selected nationality record(s) will be deleted</source>
+                <target>FR_Selected nationality record(s) will be deleted</target>
+            </trans-unit>
+            <trans-unit id="5032">
+                <source>Selected Nationality Record(s) Deleted Successfully</source>
+                <target>FR_Selected Nationality Record(s) Deleted Successfully</target>
+            </trans-unit>
+            <trans-unit id="5033">
+                <source>Selected job category record(s) will be deleted</source>
+                <target>FR_Selected job category record(s) will be deleted</target>
+            </trans-unit>
+            <trans-unit id="5034">
+                <source>Selected Job Category Record(s) Deleted Successfully</source>
+                <target>FR_Selected Job Category Record(s) Deleted Successfully</target>
+            </trans-unit>
+            <trans-unit id="5035">
+                <source>Value should be a positive number</source>
+                <target>FR_Value should be a positive number</target>
+            </trans-unit>
+            <trans-unit id="5036">
+                <source>Supported languages</source>
+                <target>FR_Supported languages</target>
+            </trans-unit>
+            <trans-unit id="5037">
+                <source>Email configuration was saved. Test email couldn't be sent</source>
+                <target>FR_Email configuration was saved. Test email couldn't be sent</target>
+            </trans-unit>
+            <trans-unit id="5038">
+                <source>Email configuration was saved. Test email was sent</source>
+                <target>FR_Email configuration was saved. Test email was sent</target>
+            </trans-unit>
+            <trans-unit id="5039">
+                <source>Type for hints</source>
+                <target>FR_Type for hints</target>
+            </trans-unit>
+            <trans-unit id="5040">
+                <source>Very Weak</source>
+                <target>FR_Very Weak</target>
+            </trans-unit>
+            <trans-unit id="5041">
+                <source>Weak</source>
+                <target>FR_Weak</target>
+            </trans-unit>
+            <trans-unit id="5042">
+                <source>Better</source>
+                <target>FR_Better</target>
+            </trans-unit>
+            <trans-unit id="5043">
+                <source>Medium</source>
+                <target>FR_Medium</target>
+            </trans-unit>
+            <trans-unit id="5044">
+                <source>Strong</source>
+                <target>FR_Strong</target>
+            </trans-unit>
+            <trans-unit id="5045">
+                <source>Strongest</source>
+                <target>FR_Strongest</target>
+            </trans-unit>
+            <trans-unit id="5046">
+                <source>Test e-mail address is required</source>
+                <target>FR_Test e-mail address is required</target>
+            </trans-unit>
         </body>
     </file>
 </xliff>

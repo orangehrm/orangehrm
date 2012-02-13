@@ -26,14 +26,14 @@ class displayAttendanceSummaryReportCriteriaAction extends sfAction {
         $hasRight = false;
 
         foreach ($accessibleMenus as $menu) {
-            if ($menu->getDisplayName() === "Attendance Summary") {
+            if ($menu->getDisplayName() === __("Attendance Summary")) {
                 $hasRight = true;
                 break;
             }
         }
 
         if (!$hasRight) {
-            return $this->renderText("You are not allowed to view this page!");
+            return $this->renderText(__("You are not allowed to view this page").'!');
         }
 
         $this->reportId = $request->getParameter("reportId");

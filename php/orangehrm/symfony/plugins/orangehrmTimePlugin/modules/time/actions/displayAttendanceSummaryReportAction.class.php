@@ -56,7 +56,7 @@ class displayAttendanceSummaryReportAction extends displayReportAction {
                 $employee = $employeeService->getEmployee($empNumber);
                 $empName = $employee->getFirstAndLastNames();
             } else {
-                $empName = "All";
+                $empName = __("All");
             }
             $this->getRequest()->setParameter('empName', $empName);
         }

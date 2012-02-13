@@ -163,12 +163,12 @@
                                             <?php 
                                             $supervisor = $sup->getSupervisor();
                                             $terminationId = $supervisor->getTerminationId();
-                                            $suffix = (!empty($terminationId)) ? " (Past Employee)" : "";
+                                            $suffix = (!empty($terminationId)) ? " (".__('Past Employee').")" : "";
                                             $supName = $supervisor->getFirstName() . " " . $supervisor->getLastName() . $suffix; ?>
                                             <?php $supReportingMethodName = $sup->getReportingMethod()->getName(); ?>
                                             <td class="supName" valign="top"><a href="#"><?php echo $supName; ?></a></td>
                                         <?php
-                                                echo "<td  class='supReportMethod' valigh='top'>" . $supReportingMethodName . "</td>";
+                                                echo "<td  class='supReportMethod' valigh='top'>" . __($supReportingMethodName) . "</td>";
                                                 echo '</tr>';
                                                 $subRow++;
                                             }
@@ -226,12 +226,12 @@
                                             <?php 
                                             $subordinate = $sub->getSubordinate();
                                             $terminationId = $subordinate->getTerminationId();
-                                            $suffix = (!empty($terminationId)) ? " (Past Employee)" : "";
+                                            $suffix = (!empty($terminationId)) ? " (".__("Past Employee").")" : "";
                                             $subName = $subordinate->getFirstName() . " " . $subordinate->getLastName() . $suffix; ?>
                                             <?php $subReportingMethodName = $sub->getReportingMethod()->getName(); ?>
                                             <td class="subName" valign="top"><a href="#"><?php echo $subName; ?></a></td>
                                         <?php
-                                                echo "<td  class='subReportMethod' valigh='top'>" . $subReportingMethodName . "</td>";
+                                                echo "<td  class='subReportMethod' valigh='top'>" . __($subReportingMethodName) . "</td>";
                                                 echo '</tr>';
                                                 $subRow++;
                                             }

@@ -20,7 +20,7 @@ abstract class PluginPayGrade extends BasePayGrade
 		$temp = array();
 		
 		foreach ($currencyList as $currency) {
-			$temp[] = $currency->getCurrencyType()->getCurrencyName();
+			$temp[] = __($currency->getCurrencyType()->getCurrencyName());
 		}
 		return implode(',', $temp);
 	}

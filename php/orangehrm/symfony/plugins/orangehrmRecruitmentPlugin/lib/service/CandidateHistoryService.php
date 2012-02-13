@@ -100,7 +100,7 @@ class CandidateHistoryService {
 
     /** Description generator block begins * */
     public function getDescriptionForAdd($object) {
-        return $object->getPerformerName() . " " . __("added") . " " . $object->getJobCandidate()->getFullName();
+        return __($object->getPerformerName()) . " " . __("added") . " " . $object->getJobCandidate()->getFullName();
     }
 
     public function getDescriptionForApply($object) {
@@ -108,63 +108,63 @@ class CandidateHistoryService {
     }
 
     public function getDescriptionForRemove($object) {
-        return $object->getPerformerName() . " " . __("removed") . " " . $object->getJobCandidate()->getFullName() . " " . __("from the")." ".$object->getCandidateVacancyName();
+        return __($object->getPerformerName()) . " " . __("removed") . " " . $object->getJobCandidate()->getFullName() . " " . __("from the")." ".$object->getCandidateVacancyName();
     }
 
     public function getDescriptionForAttachVacancy($object) {
-        return $object->getPerformerName() . " " . __("assigned the job vacancy")." ".$object->getCandidateVacancyName();
+        return __($object->getPerformerName()) . " " . __("assigned the job vacancy")." ".$object->getCandidateVacancyName();
     }
 
     public function getDescriptionForShortList($object) {
-        return __("Shortlisted for")." ".$object->getCandidateVacancyName(). " " . __("by") . " " . $object->getPerformerName();
+        return __("Shortlisted for")." ".$object->getCandidateVacancyName(). " " . __("by") . " " . __($object->getPerformerName());
     }
 
     public function getDescriptionForReject($object) {
-        return $object->getPerformerName() . " " . __("rejected") . " " . $object->getJobCandidate()->getFullName() . " " . __("from the")." ".$object->getCandidateVacancyName();
+        return __($object->getPerformerName()) . " " . __("rejected") . " " . $object->getJobCandidate()->getFullName() . " " . __("from the")." ".$object->getCandidateVacancyName();
     }
 
     public function getDescriptionForScheduleInterview($object) {
 
         $interviewId = $object->getInterviewId();
         $jobInterview = $this->getInterviewService()->getInterviewById($interviewId);
-	$interviewers = $object->getInterviewers();
-	$interviewers = explode("_", $interviewers);
+    $interviewers = $object->getInterviewers();
+    $interviewers = explode("_", $interviewers);
         if ($jobInterview->getInterviewTime() == '00:00:00') {
             $time = "";
         } else {
             $time = __("at") . " " . date('H:i', strtotime($jobInterview->getInterviewTime())) . " ";
         }
         $interviewersNameList = array();
-	$employeeService = new EmployeeService();
+    $employeeService = new EmployeeService();
         for($i=0; $i < sizeof($interviewers)-1; $i++){
             $interviewersNameList[] = $employeeService->getEmployee($interviewers[$i])->getFullName();
         }
-        return $object->getPerformerName() . " " . __("scheduled") . " " . $jobInterview->getInterviewName() . " " . __("on") . " " . set_datepicker_date_format($jobInterview->getInterviewDate())
+        return __($object->getPerformerName()) . " " . __("scheduled") . " " . $jobInterview->getInterviewName() . " " . __("on") . " " . set_datepicker_date_format($jobInterview->getInterviewDate())
         . " " . $time . __("with") . " " . implode(", ", $interviewersNameList)." ".__("for")." ".$object->getCandidateVacancyName();
     }
 
     public function getDescriptionForMarkInterviewPassed($object) {
         $interviewId = $object->getInterviewId();
         $jobInterview = $this->getInterviewService()->getInterviewById($interviewId);
-        return $object->getPerformerName() . " " . __("marked") . " " . $jobInterview->getInterviewName() . " " . __("as passed")." ".__("for")." ".$object->getCandidateVacancyName();
+        return __($object->getPerformerName()) . " " . __("marked") . " " . $jobInterview->getInterviewName() . " " . __("as passed")." ".__("for")." ".$object->getCandidateVacancyName();
     }
 
     public function getDescriptionForMarkInterviewFailed($object) {
         $interviewId = $object->getInterviewId();
         $jobInterview = $this->getInterviewService()->getInterviewById($interviewId);
-        return $object->getPerformerName() . " " . __("marked") . " " . $jobInterview->getInterviewName() . " " . __("as failed")." ".__("for")." ".$object->getCandidateVacancyName();
+        return __($object->getPerformerName()) . " " . __("marked") . " " . $jobInterview->getInterviewName() . " " . __("as failed")." ".__("for")." ".$object->getCandidateVacancyName();
     }
 
     public function getDescriptionForOfferJob($object) {
-        return $object->getPerformerName() . " " . __("offred the job")." ".__("for")." ".$object->getCandidateVacancyName();
+        return __($object->getPerformerName()) . " " . __("offred the job")." ".__("for")." ".$object->getCandidateVacancyName();
     }
 
     public function getDescriptionForDeclineOffer($object) {
-        return $object->getPerformerName() . " " . __("marked the offer as declined")." ".__("for")." ".$object->getCandidateVacancyName();
+        return __($object->getPerformerName()) . " " . __("marked the offer as declined")." ".__("for")." ".$object->getCandidateVacancyName();
     }
 
     public function getDescriptionForHire($object) {
-        return $object->getPerformerName() . " " . __("hired") . " " . $object->getJobCandidate()->getFullName()." ".__("for")." ".$object->getCandidateVacancyName();
+        return __($object->getPerformerName()) . " " . __("hired") . " " . $object->getJobCandidate()->getFullName()." ".__("for")." ".$object->getCandidateVacancyName();
     }
 
     public function getInterviewService() {

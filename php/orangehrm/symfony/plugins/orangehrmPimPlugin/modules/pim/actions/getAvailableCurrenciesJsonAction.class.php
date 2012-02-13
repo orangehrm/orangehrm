@@ -78,8 +78,12 @@ class getAvailableCurrenciesJsonAction extends basePimAction {
            $currencyService = $this->getCurrencyService();
            $currencies = $currencyService->getCurrencyList(true);           
        }
-
-       return $this->renderText(json_encode($currencies));
+       $currencyArray = array();
+       foreach ($currencies as $currency) {
+           $currency['currency_name'] = __($currency['currency_name']);
+           $currencyArray[] = $currency;
+       }
+       return $this->renderText(json_encode($currencyArray));
     }
 
 }

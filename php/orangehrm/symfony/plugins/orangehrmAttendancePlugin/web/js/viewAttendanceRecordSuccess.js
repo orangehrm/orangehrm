@@ -171,7 +171,7 @@ function validateEmployee(){
         
     if(empCount==0){
             
-        errorMsge = "No Employees Available in System";
+        errorMsge = noEmployees;
         return false;
     }
     for (i=0; i < empCount; i++) {
@@ -186,11 +186,11 @@ function validateEmployee(){
     }
     if(temp){
         return true;
-    }else if(empName == "" || empName == $.trim("Type for hints...").toLowerCase()){
-        errorMsge = "Please Select an Employee";
+    }else if(empName == "" || empName == $.trim(typeForHints).toLowerCase()){
+        errorMsge = employeeSelect;
         return false;
     }else{
-        errorMsge = "Invalid Employee Name";
+        errorMsge = invalidEmpName;
         return false;
     }
 }

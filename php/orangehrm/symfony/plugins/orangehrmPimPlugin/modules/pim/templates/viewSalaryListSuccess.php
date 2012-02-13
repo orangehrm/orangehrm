@@ -175,7 +175,7 @@
                                                     $payPeriodCode = empty($period) ? '' : htmlspecialchars($period->getCode());
 
                                                     $currency = $salary->getCurrencyType();
-                                                    $currencyName = empty($currency) ? '' : htmlspecialchars($currency->getCurrencyName());
+                                                    $currencyName = empty($currency) ? '' : __(htmlspecialchars($currency->getCurrencyName()));
                                                     $currencyId = empty($currency) ? '' : htmlspecialchars($currency->getCurrencyId());
                                                     $amount = $salary->getBasicSalary();
                                                     $comments = htmlspecialchars($salary->getComments());
@@ -214,7 +214,7 @@
                                                             <?php } ?>
                                                         </td>
                                                             
-                                                        <td><?php echo $payPeriodName; ?></td>
+                                                        <td><?php echo __($payPeriodName); ?></td>
                                                         <td class="currency"><?php echo $currencyName; ?></td>
                                                         <td class="amount"><?php echo $amount; ?></td>
                                                         <td class="comments"><?php echo $comments; ?></td>
@@ -308,7 +308,7 @@
     var lang_currencyRequired = "<?php echo __("Currency is required"); ?>";
     var lang_componentRequired = "<?php echo __("Component is required"); ?>";
     var lang_amountRequired = "<?php echo __("Amount is required"); ?>";
-    var lang_invalidAmount = "<?php echo __("Amount should be within Man/Max values"); ?>";
+    var lang_invalidAmount = "<?php echo __("Amount should be within Min/Max values"); ?>";
     var lang_negativeAmount = "<?php echo __("Amount should be a positive number"); ?>";
     var lang_tooLargeAmount = "<?php echo __("Amount should be less than 999999999.99"); ?>";
     var lang_amountShouldBeNumber = "<?php echo __("Amount should be a number"); ?>";
@@ -329,7 +329,7 @@
 //]]>
 </script>
 
-<script type="text/javascript">
+<script type="text/javascript"><!--
 //<![CDATA[
     function clearMessageBar() {
         $("#messagebar").text("").attr('class', "");
@@ -399,9 +399,6 @@
 
             // If editing a currency, add that currency to list
             if (currencyId && currencyName) {
-                $('#salary_currency_id').append($("<option></option>").
-                    attr("value", currencyId).
-                    text(currencyName));
                 $('#salary_currency_id').val(currencyId);
                 getMinMax(payGrade, currencyId);
             } else {
@@ -760,4 +757,4 @@
     });
 });
 //]]>
-</script>
+--></script>

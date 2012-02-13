@@ -168,7 +168,7 @@ function clicked(dropdown){
 
     var selectedIndex = document.getElementById('startDates').value;
     var dateString = document.getElementById('startDates').options[selectedIndex].text;
-    var dates = dateString.split(" to ");
+    var dates = dateString.split(" ");
     var parsedDate = $.datepicker.parseDate(datepickerDateFormat, dates[0])
 
     location.href = linkForViewTimesheet+"?timesheetStartDateFromDropDown="+$.datepicker.formatDate('yy-mm-dd', parsedDate)+"&selectedIndex="+selectedIndex+"&employeeId="+employeeId;

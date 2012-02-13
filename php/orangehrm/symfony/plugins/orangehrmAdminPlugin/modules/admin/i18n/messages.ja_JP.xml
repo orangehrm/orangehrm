@@ -208,7 +208,7 @@
    <trans-unit id="45">
     <source>Email address should contain at least one \".\" and one \"@\" Example:user@example.com</source>
 
-    <target>"。\"メールアドレスは、少なくとも1つ\つ\"@ \"の例が含まれている必要があります。user@example.com</target>
+    <target>。\"メールアドレスは、少なくとも1つ\つ\"@ \"の例が含まれている必要があります。user@example.com</target>
    </trans-unit>
    <trans-unit id="46">
     <source>General Information Saved Successfully</source>

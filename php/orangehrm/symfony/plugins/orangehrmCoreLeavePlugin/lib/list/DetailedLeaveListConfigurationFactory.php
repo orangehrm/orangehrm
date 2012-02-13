@@ -49,10 +49,12 @@ class DetailedLeaveListConfigurationFactory extends ohrmListConfigurationFactory
             'width' => '10%',
             'isSortable' => false,
             'elementType' => 'label',
+            'filters' => array('I18nCellFilter' => array()
+                              ),
             'textAlignmentStyle' => 'left',
             'elementProperty' => array(
                 'getter' => array('getTextLeaveStatus'),
-                'default' => 'Non Working Day',
+                'default' => __('Non Working Day'),
                 'hasHiddenField' => true,
                 'hiddenFieldName' => 'leave[{id}]',
                 'hiddenFieldId' => 'leave-{id}',

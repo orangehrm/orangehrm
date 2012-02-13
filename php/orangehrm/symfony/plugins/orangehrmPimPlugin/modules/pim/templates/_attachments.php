@@ -140,7 +140,14 @@ $locRights['delete'] = true;
                     <td><?php echo add_si_unit($attachment->size); ?></td>
                     <td><?php echo $attachment->file_type; ?></td>
                     <td><?php echo set_datepicker_date_format($attachment->attached_time); ?></td>
-                    <td><?php echo $attachment->attached_by_name; ?></td>
+                    <?php
+                    $performedBy = $attachment->attached_by_name;
+                    
+                    if ($performedBy == 'Admin') {
+                        $performedBy = __($performedBy);
+                    }                    
+                    ?>
+                    <td><?php echo $performedBy; ?></td>
                     <td><a href="#" class="editLink"><?php echo __("Edit"); ?></a></td>
                 </tr>
             <?php   $row++;

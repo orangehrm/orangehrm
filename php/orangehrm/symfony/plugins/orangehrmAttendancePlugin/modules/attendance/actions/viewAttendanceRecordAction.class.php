@@ -43,14 +43,14 @@ class viewAttendanceRecordAction extends sfAction {
         $hasRight = false;
 
         foreach ($accessibleMenus as $menu) {
-            if ($menu->getDisplayName() === "Employee Records") {
+            if ($menu->getDisplayName() === __("Employee Records")) {
                 $hasRight = true;
                 break;
             }
         }
 
         if (!$hasRight) {
-            return $this->renderText("You are not allowed to view this page!");
+            return $this->renderText(__("You are not allowed to view this page")."!");
         }
 
         $this->trigger = $request->getParameter('trigger');

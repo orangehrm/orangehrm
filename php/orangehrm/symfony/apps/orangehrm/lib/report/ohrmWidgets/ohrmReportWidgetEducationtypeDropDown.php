@@ -87,7 +87,7 @@ class ohrmReportWidgetEducationtypeDropDown extends sfWidgetForm implements ohrm
             $label .= "<span class='required'> * </span>";            
         }
         
-        $requiredMess = $label. ' is required.';
+        $requiredMess = $label. ' is required';
         $validator = new sfValidatorString(array('required' => $required), array('required' => $requiredMess));
         $widgetSchema[$this->attributes['id']]->setLabel($label);
         $form->setValidator($this->attributes['id'], $validator);

@@ -128,9 +128,9 @@ EOF
         $activityList = $timesheetDao->getProjectActivitiesByPorjectId($projectId);
 
         if ($activityList != null) {
-            $activityNameList[-1] = "All";
+            $activityNameList[-1] = __("All");
         } else {
-            $activityNameList[null] = "--No Project Activities--";
+            $activityNameList[null] = "--".__("No Project Activities")."--";
         }
 
         return $activityNameList;
@@ -144,11 +144,11 @@ EOF
 
         $widgetSchema = $form->getWidgetSchema();
         $widgetSchema[$this->attributes['id']] = $this;
-        $label = ucwords(str_replace("_", " ", $this->attributes['id']));
+        $label = __(ucwords(str_replace("_", " ", $this->attributes['id'])));
         $validator = new sfValidatorString(array('required' => false));
         if ($this->attributes['required'] == "true") {
             $label .= "<span class='required'> * </span>";
-            $validator = new sfValidatorString(array('required' => true), array('required' => 'Add an activiy to view'));
+            $validator = new sfValidatorString(array('required' => true), array('required' => __('Add an activiy to view')));
         }
         $widgetSchema[$this->attributes['id']]->setLabel($label);
         $form->setValidator($this->attributes['id'], $validator);

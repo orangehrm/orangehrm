@@ -13,7 +13,9 @@ function executeLoadtimeActions() {
    });
    
    if (reloadParent) {
+       window.setTimeout(function() {
        parent.location.reload();
+           }, 500);
    }
     
 }

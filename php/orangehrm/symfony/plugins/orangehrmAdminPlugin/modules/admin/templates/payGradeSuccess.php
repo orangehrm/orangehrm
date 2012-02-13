@@ -111,7 +111,7 @@
                                    <tr class="<?php echo $cssClass; ?>">
                                        <td class="check"><input type='checkbox' class='checkboxCurr' name='delCurrencies[]'
                                                                 value="<?php echo $currency->currency_id; ?>"/></td>
-                                       <td><a href="#" class="editLink"><?php echo $currency->getCurrencyType()->getCurrencyName(); ?></a></td>
+                                       <td><a href="#" class="editLink"><?php echo __($currency->getCurrencyType()->getCurrencyName()); ?></a></td>
                                        <td class="salary"><?php echo number_format($currency->minSalary, 2, '.', ','); ?></td>
                                        <td class="salary"><?php echo number_format($currency->maxSalary, 2, '.', ','); ?></td>
                                    </tr>

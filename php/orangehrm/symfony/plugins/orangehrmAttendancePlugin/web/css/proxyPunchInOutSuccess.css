@@ -32,7 +32,7 @@ root {
 form#punchTimeForm label {
     position: relative;
     margin-top: 6px;
-    width: 30px
+    width: 50px
 }
 
 .punchTable td{

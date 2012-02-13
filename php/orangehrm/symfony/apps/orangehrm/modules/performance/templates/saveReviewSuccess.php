@@ -22,9 +22,9 @@
 
                 <div id="formWrapper">
 
-                    <label for="txtEmpName-0">Employee Name <span class="required">*</span></label>
+                    <label for="txtEmpName-0"><?php echo __('Employee Name')?> <span class="required">*</span></label>
                     <input id="txtEmpName-0" name="txtEmpName-0" type="text" class="formInputText"
-                           value="<?php echo isset($clues['empName']) ? $clues['empName'] : 'Type for hints...' ?>" tabindex="1" <?php if (isset($clues['id'])) { ?>style="display:none;"<?php } ?> />
+                           value="<?php echo isset($clues['empName']) ? $clues['empName'] : __('Type for hints').'...' ?>" tabindex="1" <?php if (isset($clues['id'])) { ?>style="display:none;"<?php } ?> />
                            <?php if (isset($clues['id'])) {
                            ?>
                         <label style="width:auto;"><?php echo $clues['empName']; ?></label>
@@ -34,29 +34,29 @@
                            <div class="errorDiv"></div>
                            <br class="clear"/>
 
-                           <label for="txtReviewerName-0">Reviewer Name <span class="required">*</span></label>
+                           <label for="txtReviewerName-0"><?php echo __('Reviewer Name')?> <span class="required">*</span></label>
                            <input id="txtReviewerName-0" name="txtReviewerName-0" type="text" class="formInputText"
-                                  value="<?php echo isset($clues['reviewerName']) ? $clues['reviewerName'] : 'Type for hints...' ?>" tabindex="2" />
+                                  value="<?php echo isset($clues['reviewerName']) ? $clues['reviewerName'] : __('Type for hints').'...' ?>" tabindex="2" />
                            <input type="text" name="hdnReviewerId-0" id="hdnReviewerId-0"
                                   value="<?php echo isset($clues['reviewerId']) ? $clues['reviewerId'] : '0' ?>" style="display:none;" />
                            <div class="errorDiv"></div>
                            <br class="clear"/>
 
-                           <label for="txtPeriodFromDate-0">From <span class="required">*</span></label>
+                           <label for="txtPeriodFromDate-0"><?php echo __('From')?> <span class="required">*</span></label>
                            <input id="txtPeriodFromDate-0" name="txtPeriodFromDate-0" type="text" class="formInputText"
                                   value="<?php echo isset($clues['from']) ? set_datepicker_date_format($clues['from']) : ''; ?>" tabindex="3" />
                            <input id="fromButton" name="fromButton" class="calendarBtn" type="button" value="   " />
                            <div class="errorDiv"></div>
                            <br class="clear"/>
 
-                           <label for="txtPeriodToDate-0">To <span class="required">*</span></label>
+                           <label for="txtPeriodToDate-0"><?php echo __('To')?> <span class="required">*</span></label>
                            <input id="txtPeriodToDate-0" name="txtPeriodToDate-0" type="text" class="formInputText"
                                   value="<?php echo isset($clues['to']) ? set_datepicker_date_format($clues['to']) : ''; ?>" tabindex="4" />
                            <input id="toButton" name="toButton" class="calendarBtn" type="button" value="   " />
                            <div class="errorDiv"></div>
                            <br class="clear"/>
 
-                           <label for="txtDueDate-0">Due Date <span class="required">*</span></label>
+                           <label for="txtDueDate-0"><?php echo __('Due Date')?> <span class="required">*</span></label>
                            <input id="txtDueDate-0" name="txtDueDate-0" type="text" class="formInputText"
                                   value="<?php echo isset($clues['due']) ? set_datepicker_date_format($clues['due']) : ''; ?>" tabindex="5" />
                            <input id="dueButton" name="dueButton" class="calendarBtn" type="button" value="   " />
@@ -69,13 +69,13 @@
                        </div>
 
                        <div id="buttonWrapper" class="formbuttons">
-                           <input type="button" class="savebutton" id="saveBtn" value="Save" tabindex="6" />
+                           <input type="button" class="savebutton" id="saveBtn" value="<?php echo __('Save')?>" tabindex="6" />
 
                            <input type="button" class="savebutton" id="resetBtn" value="<?php
                            if (isset($clues['id'])) {
-                               echo 'Reset';
+                               echo __('Reset');
                            } else {
-                               echo 'Clear';
+                               echo __('Clear');
                            }
                     ?>" tabindex="7" />
 
@@ -93,7 +93,7 @@
 
     var datepickerDateFormat = '<?php echo get_datepicker_date_format($sf_user->getDateFormat()); ?>';
     var lang_dateError = '<?php echo __("To date should be after the From date") ?>';
-    var lang_invalidDate = '<?php echo __("Please enter a valid date in %format% format", array('%format%' => get_datepicker_date_format($sf_user->getDateFormat()))) ?>'
+    var lang_invalidDate = '<?php echo __("Please enter a valid date in").' '.get_datepicker_date_format($sf_user->getDateFormat()).' '.__('format') ?>';
 
     function autoFill(selector, filler, data) {
         jQuery.each(data, function(index, item){
@@ -245,12 +245,12 @@
             },
             messages: {
                 'txtEmpName-0':{
-                    required:"Employee Name is required",
-                    empIdSet:"Please select an employee"
+                    required: '<?php echo __("Employee Name is required")?>',
+                    empIdSet:'<?php echo __("Please select an employee")?>'
                 },
                 'txtReviewerName-0':{
-                    required:"Reviewer Name is required",
-                    reviewerIdSet:"Please select a reviewer"
+                    required:'<?php echo __("Reviewer Name is required")?>',
+                    reviewerIdSet:'<?php echo __("Please select a reviewer")?>'
                 },
                 'txtPeriodFromDate-0':{
                     required: lang_invalidDate,

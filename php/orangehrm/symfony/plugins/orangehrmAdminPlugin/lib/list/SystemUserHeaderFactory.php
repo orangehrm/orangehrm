@@ -25,6 +25,8 @@ class SystemUserHeaderFactory extends ohrmListConfigurationFactory {
 		    'name' => 'User Type',
 		    'width' => '33%',
 		    'isSortable' => true,
+		    'filters' => array('I18nCellFilter' => array()
+                              ),
 		    'sortField' => 'user_role_id',
 		    'elementType' => 'label',
 		    'elementProperty' => array('getter' => array('getUserRole','getName')),
@@ -32,7 +34,7 @@ class SystemUserHeaderFactory extends ohrmListConfigurationFactory {
 		));
 
 		$header3->populateFromArray(array(
-		    'name' => 'Employee Name ',
+		    'name' => 'Employee Name',
 		    'width' => '33%',
 		    'isSortable' => true,
 		    'sortField' => 'u.Employee.emp_firstname',
@@ -45,6 +47,8 @@ class SystemUserHeaderFactory extends ohrmListConfigurationFactory {
 		    'name' => 'Status',
 		    'width' => '33%',
 		    'isSortable' => true,
+            'filters' => array('I18nCellFilter' => array()
+                              ),
 		    'sortField' => 'status',
 		    'elementType' => 'label',
 		    'elementProperty' => array('getter' => 'getTextStatus'),

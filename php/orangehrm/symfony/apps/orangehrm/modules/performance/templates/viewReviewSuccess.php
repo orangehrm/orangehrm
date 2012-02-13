@@ -23,29 +23,29 @@ $formatData['newSeparater'] = '/';
 
         <div class="outerbox">
 
-            <div id="formHeading" class="mainHeading"><h2>Search Performance Reviews</h2></div>
+            <div id="formHeading" class="mainHeading"><h2><?php echo __('Search Performance Reviews')?></h2></div>
 
             <form method="post" action="#" id="frmSearch" name="frmSearch" class="content_inner">
 
                 <div id="formWrapper">
 
-                    <label for="txtPeriodFromDate">From </label>
+                    <label for="txtPeriodFromDate"><?php echo __('From')?> </label>
                     <input id="txtPeriodFromDate" name="txtPeriodFromDate" type="text" class="date-pick formInputText"
                            value="<?php echo isset($clues['from']) ? set_datepicker_date_format($clues['from']) : ''; ?>" tabindex="1" />
                     <input id="fromButton" name="fromButton" class="calendarBtn" type="button" value="   " />
                     <div class="errorDiv"></div>
                     <br class="clear"/>
 
-                    <label for="txtPeriodToDate">To </label>
+                    <label for="txtPeriodToDate"><?php echo __('To')?> </label>
                     <input id="txtPeriodToDate" name="txtPeriodToDate" type="text" class="date-pick formInputText"
                            value="<?php echo isset($clues['to']) ? set_datepicker_date_format($clues['to']) : ''; ?>" tabindex="2" />
                     <input id="toButton" name="toButton" class="calendarBtn" type="button" value="   " />
                     <div class="errorDiv"></div>
                     <br class="clear"/>
 
-                    <label for="txtJobTitleCode">Job Title</label>
+                    <label for="txtJobTitleCode"><?php echo __('Job Title')?></label>
                     <select id="txtJobTitleCode" name="txtJobTitleCode" class="formSelect" tabindex="3">
-                        <option value="0">All</option>
+                        <option value="0"><?php echo __('All')?></option>
                         <?php
                         foreach ($jobList as $job) {
 
@@ -67,9 +67,9 @@ $formatData['newSeparater'] = '/';
                     </select>
                     <br class="clear"/>
 
-                    <label for="txtSubDivisionId">Sub Division</label>
+                    <label for="txtSubDivisionId"><?php echo __('Sub Division')?></label>
                     <select id="txtSubDivisionId" name="txtSubDivisionId" class="formSelect" tabindex="4">
-                        <option value="0">All</option>
+                        <option value="0"><?php echo __('All')?></option>
                         <?php
                         foreach ($tree as $node) {
                             if ($node->getId() != 1) {
@@ -87,9 +87,9 @@ $formatData['newSeparater'] = '/';
 
                     <?php if ($loggedAdmin || $loggedReviewer) {
  ?>
-                            <label for="txtEmpName">Employee</label>
+                            <label for="txtEmpName"><?php echo __('Employee')?></label>
                             <input id="txtEmpName" name="txtEmpName" type="text" class="formInputText"
-                                   value="<?php echo isset($clues['empName']) ? $clues['empName'] : 'Type for hints...' ?>" tabindex="5" onblur="autoFill('txtEmpName', 'hdnEmpId', <?php echo str_replace('&#039;', "'", $empJson) ?>);"/>
+                                   value="<?php echo isset($clues['empName']) ? $clues['empName'] : __('Type for hints').'...' ?>" tabindex="5" onblur="autoFill('txtEmpName', 'hdnEmpId', <?php echo str_replace('&#039;', "'", $empJson) ?>);"/>
                             <input type="text" name="hdnEmpId" id="hdnEmpId"
                                    value="<?php echo isset($clues['empId']) ? $clues['empId'] : '0' ?>" style="visibility:hidden;">
                             <div class="errorDiv"></div>
@@ -97,9 +97,9 @@ $formatData['newSeparater'] = '/';
 <?php } // $loggedAdmin || $loggedReviewer:Ends   ?>
 
                     <?php if ($loggedAdmin) { ?>
-                            <label for="txtReviewerName">Reviewer</label>
+                            <label for="txtReviewerName"><?php echo __('Reviewer')?></label>
                             <input id="txtReviewerName"  name="txtReviewerName" type="text" class="formInputText"
-                                   value="<?php echo isset($clues['reviewerName']) ? $clues['reviewerName'] : 'Type for hints...' ?>" tabindex="6" onblur="autoFill('txtReviewerName', 'hdnReviewerId', <?php echo str_replace('&#039;', "'", $empJson) ?>);"/>
+                                   value="<?php echo isset($clues['reviewerName']) ? $clues['reviewerName'] : __('Type for hints').'...' ?>" tabindex="6" onblur="autoFill('txtReviewerName', 'hdnReviewerId', <?php echo str_replace('&#039;', "'", $empJson) ?>);"/>
                             <input type="text" name="hdnReviewerId" id="hdnReviewerId"
                                    value="<?php echo isset($clues['reviewerId']) ? $clues['reviewerId'] : '0' ?>" style="visibility:hidden;">
                             <div class="errorDiv"></div>
@@ -109,8 +109,8 @@ $formatData['newSeparater'] = '/';
                     </div> <!-- formWrapper:Ends -->
 
                     <div id="buttonWrapper" class="formbuttons">
-                        <input type="button" class="savebutton" id="searchButton" value="Search" tabindex="7" />
-                        <input type="button" class="savebutton" id="clearBtn" value="Clear" tabindex="8" />
+                        <input type="button" class="savebutton" id="searchButton" value="<?php echo __('Search')?>" tabindex="7" />
+                        <input type="button" class="savebutton" id="clearBtn" value="<?php echo __('Clear')?>" tabindex="8" />
                     </div>
 
                 </form>
@@ -137,9 +137,9 @@ $formatData['newSeparater'] = '/';
                             <div class="navigationHearder">
                 <?php if ($loggedAdmin) {
                 ?>
-                                <input type="button" class="savebutton" id="addReview" value="Add" tabindex="9" />
-                                <input type="submit" class="savebutton" name="editReview" id="editReview" value="Edit" tabindex="10" disabled />
-                                <input type="button" class="clearbutton" id="deleteReview" value="Delete" tabindex="11" disabled />
+                                <input type="button" class="savebutton" id="addReview" value="<?php echo __('Add')?>" tabindex="9" />
+                                <input type="submit" class="savebutton" name="editReview" id="editReview" value="<?php echo __('Edit')?>" tabindex="10" disabled />
+                                <input type="button" class="clearbutton" id="deleteReview" value="<?php echo __('Delete')?>" tabindex="11" disabled />
                 <?php } ?>
 
                 <?php if ($pager->haveToPaginate()) {
@@ -162,27 +162,27 @@ $formatData['newSeparater'] = '/';
                                         </td>
 
                                         <td scope="col">
-                                                                                                							Employee
+                                                                                                							<?php echo __('Employee')?>
                                         </td>
 
                                         <td scope="col">
-                                                                                                							Job Title
+                                                                                                							<?php echo __('Job Title')?>
                                         </td>
 
                                         <td scope="col">
-                                                                                                							Review Period
+                                                                                                							<?php echo __('Review Period')?>
                                         </td>
 
                                         <td scope="col">
-                                                                                                							Due Date
+                                                                                                							<?php echo __('Due Date')?>
                                         </td>
 
                                         <td scope="col">
-                                                                                                							Status
+                                                                                                							<?php echo __('Status')?>
                                         </td>
 
                                         <td scope="col">
-                                                                                                							Reviewer
+                                                                                                							<?php echo __('Reviewer')?>
                                         </td>
 
                                     </tr>
@@ -232,7 +232,7 @@ $formatData['newSeparater'] = '/';
                                            echo $empName;
                                        }
                                        if (trim($empName) == "") {
-                                           echo "<font color='red'>Not Available</font>";
+                                           echo "<font color='red'>".__('Not Available')."</font>";
                                        }
                                 ?>
                                    </td>
@@ -250,14 +250,14 @@ $formatData['newSeparater'] = '/';
                                    </td>
 
                                    <td class="">
-                                <?php echo $review->getTextStatus(); ?>
+                                <?php echo __($review->getTextStatus()); ?>
                                    </td>
 
                                    <td class="">
                                 <?php
                                        $reviewer = $review->getReviewer()->getFirstName() . ' ' . $review->getReviewer()->getLastName();
                                        if (trim($reviewer) == "") {
-                                           $reviewer = "<font color='red'>Not Available</font>";
+                                           $reviewer = "<font color='red'>".__('Not Available')."</font>";
                                        }
                                        echo $reviewer;
                                 ?>
@@ -311,7 +311,7 @@ $formatData['newSeparater'] = '/';
 
                                var datepickerDateFormat = '<?php echo get_datepicker_date_format($sf_user->getDateFormat()); ?>';
                                var lang_dateError = '<?php echo __("To date should be after the From date") ?>';
-                               var lang_invalidDate = '<?php echo __("Please enter a valid date in %format% format", array('%format%' => get_datepicker_date_format($sf_user->getDateFormat()))) ?>'
+                               var lang_invalidDate = '<?php echo __("Please enter a valid date in")." " .get_datepicker_date_format($sf_user->getDateFormat())." ". __("format") ?>'
 
                                function autoFill(selector, filler, data) {
                                    jQuery.each(data, function(index, item){
@@ -382,7 +382,7 @@ $formatData['newSeparater'] = '/';
                            var autoHidden = "hdnEmpId";
 
 <?php if ($loggedAdmin || $loggedReviewer) { ?>
-                               if ($('#txtEmpName').val() == 'Type for hints...') {
+                               if ($('#txtEmpName').val() == '<?php echo __('Type for hints').'...'?>') {
                                $('#txtEmpName').val('');
                                }
 <?php } // $loggedAdmin || $loggedReviewer:Ends         ?>
@@ -390,7 +390,7 @@ $formatData['newSeparater'] = '/';
 <?php if ($loggedAdmin) { ?>
                                autoFields = autoFields + "|txtReviewerName";
                                autoHidden = autoHidden + "|hdnReviewerId";
-                               if ($('#txtReviewerName').val() == 'Type for hints...') {
+                               if ($('#txtReviewerName').val() == '<?php echo __('Type for hints').'...'?>') {
                                $('#txtReviewerName').val('');
                                }
 <?php } // $loggedAdmin:Ends         ?>

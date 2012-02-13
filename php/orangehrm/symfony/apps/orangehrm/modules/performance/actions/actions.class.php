@@ -227,7 +227,7 @@ class performanceActions extends sfActions {
 
                     $kpiService->saveKpi($defineKpi);
 
-                    $this->setMessage('SUCCESS', array('Successfully Added <a href="listDefineKpi"> View KPI List</a>'));
+                    $this->setMessage('SUCCESS', array(__('Successfully Added').'<a href="listDefineKpi">'.__('View KPI List').'</a>'));
                     $this->redirect('performance/saveKpi');
                 } catch (Doctrine_Validator_Exception $e) {
 
@@ -277,7 +277,7 @@ class performanceActions extends sfActions {
             }
 
             $kpiService->saveKpi($kpi);
-            $this->setMessage('SUCCESS', array('Successfully Updated'));
+            $this->setMessage('SUCCESS', array(__('Successfully Updated')));
             $this->redirect('performance/listDefineKpi');
         }
     }
@@ -315,7 +315,7 @@ class performanceActions extends sfActions {
 
                     $kpiService->copyKpi($toJobTitle, $fromJobTitle);
 
-                    $this->setMessage('SUCCESS', array('Successfully Copied'));
+                    $this->setMessage('SUCCESS', array(__('Successfully Copied')));
                     $this->redirect('performance/listDefineKpi');
                 } else {
 
@@ -343,7 +343,7 @@ class performanceActions extends sfActions {
                 $kpiService = $this->getKpiService();
                 $kpiService->deleteKpi($request->getParameter('chkKpiID'));
 
-                $this->setMessage('SUCCESS', array('Successfully Deleted'));
+                $this->setMessage('SUCCESS', array(__('Successfully Deleted')));
             }
         }
 
@@ -504,7 +504,7 @@ class performanceActions extends sfActions {
             /* Showing update form: Begins */
 
             if ($request->getParameter('editReview') && count($request->getParameter('chkReview')) == 0) {
-                $this->getUser()->setFlash('templateMessage', array('WARNING', 'Please select a review to edit.'));
+                $this->getUser()->setFlash('templateMessage', array('WARNING', __('Please select a review to edit')));
                 $this->redirect('performance/viewReview');
             }
 
@@ -513,7 +513,7 @@ class performanceActions extends sfActions {
                 $reviewIds = $request->getParameter('chkReview');
 
                 if (count($reviewIds) > 1) {
-                    $this->getUser()->setFlash('templateMessage', array('WARNING', 'Please select only one review at a time for editing.'));
+                    $this->getUser()->setFlash('templateMessage', array('WARNING', __('Please select only one review at a time for editing')));
                     $this->redirect('performance/viewReview');
                 }
 
@@ -544,13 +544,13 @@ class performanceActions extends sfActions {
 
                 /* Checking whether wrong employee */
                 if (!$this->_isCorrectEmployee($this->clues['empId'], $this->clues['empName'])) {
-                    $this->templateMessage = array('WARNING', 'No employee exists with this name.');
+                    $this->templateMessage = array('WARNING', __('No employee exists with this name'));
                     return;
                 }
 
                 /* Checking whether wrong reviewer */
                 if (!$this->_isCorrectEmployee($this->clues['reviewerId'], $this->clues['reviewerName'])) {
-                    $this->templateMessage = array('WARNING', 'No reviewer exists with this name.');
+                    $this->templateMessage = array('WARNING', __('No reviewer exists with this name'));
                     return;
                 }
 
@@ -558,7 +558,7 @@ class performanceActions extends sfActions {
 
                     if (trim($request->getParameter("hdnId-0")) == "") {
 
-                        $this->templateMessage = array('WARNING', 'Employee is not assigned a job title, cannot add a performance review');
+                        $this->templateMessage = array('WARNING', __('Employee is not assigned a job title, cannot add a performance review'));
                         return;
                     }
 
@@ -571,7 +571,7 @@ class performanceActions extends sfActions {
 
                 if (count($kpiList) == 0) {
 
-                    $this->templateMessage = array('WARNING', 'No Key Performance Indicators were found for the job title of this employee. <a href="saveKpi">Define now</a>');
+                    $this->templateMessage = array('WARNING', __('No Key Performance Indicators were found for the job title of this employee')." ". '<a href="saveKpi">'.__("Define Now").'</a>');
                     return;
                 }
 
@@ -604,8 +604,8 @@ class performanceActions extends sfActions {
 
                 $this->getUser()->setFlash('prClues', $clues);
 
-                $actionResult = ($request->getParameter("hdnId-0")) ? 'updated' : 'added';
-                $this->templateMessage = array('SUCCESS', 'Successfully ' . $actionResult . ' review of ' . $this->clues['empName'] . '. <a href="viewReview">View</a>');
+                $actionResult = ($request->getParameter("hdnId-0")) ? __('updated') : __('added');
+                $this->templateMessage = array('SUCCESS', __('Successfully')." ". $actionResult . ' '.__('review of') .' ' . $this->clues['empName'] . '. <a href="viewReview">' .__('View').'</a>');
             }
         }
     }
@@ -683,7 +683,7 @@ class performanceActions extends sfActions {
         if ((!$this->_isCorrectEmployee($this->clues['empId'], $this->clues['empName'])) ||
                 (!$this->_isCorrectEmployee($this->clues['reviewerId'], $this->clues['reviewerName']))
         ) {
-            $this->templateMessage = array('WARNING', 'No reviews were found on given criteria');
+            $this->templateMessage = array('WARNING', __('No reviews were found on given criteria'));
             return;
         }
 
@@ -714,7 +714,7 @@ class performanceActions extends sfActions {
         if ($this->getUser()->hasFlash('templateMessage')) {
             $this->templateMessage = $this->getUser()->getFlash('templateMessage');
         } elseif (count($this->reviews) == 0) {
-            $this->templateMessage = array('WARNING', 'No reviews were found on given criteria');
+            $this->templateMessage = array('WARNING', __('No reviews were found on given criteria'));
         }
     }
 
@@ -740,7 +740,7 @@ class performanceActions extends sfActions {
         $this->getUser()->setFlash('prClues', $clues);
 
         if (empty($delReviews)) {
-            $this->getUser()->setFlash('templateMessage', array('WARNING', 'Please select reviews to delete.'));
+            $this->getUser()->setFlash('templateMessage', array('WARNING', __('Please select reviews to delete')));
             $this->redirect('performance/viewReview');
         }
 
@@ -752,7 +752,7 @@ class performanceActions extends sfActions {
 
                 $performanceReviewService = $this->getPerformanceReviewService();
                 $performanceReviewService->deletePerformanceReview($request->getParameter('chkReview'));
-                $this->getUser()->setFlash('templateMessage', array('SUCCESS', 'Successfully deleted'));
+                $this->getUser()->setFlash('templateMessage', array('SUCCESS', __('Successfully deleted')));
             }
         }
 

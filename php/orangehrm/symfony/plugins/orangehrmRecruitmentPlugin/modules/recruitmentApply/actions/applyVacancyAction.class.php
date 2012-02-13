@@ -99,7 +99,7 @@ class applyVacancyAction extends sfAction {
                         $this->candidateId = $result['candidateId'];
 			if(!empty ($this->candidateId)){
 			    $this->messageType = 'success';
-                            $this->message = __('Your Application for the Position of ' . $this->name . ' Was Received');
+                            $this->message = __('Your Application for the Position of %name% Was Received', array('%name%' => $this->name));
 			}
 			
                         //$this->getUser()->setFlash('templateMessage', array('success', __('Your Application for the Position of ' . $this->name . ' Was Received')));

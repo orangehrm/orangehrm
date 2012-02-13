@@ -45,8 +45,8 @@
                 <target>FR_Actions performed on the timesheet :</target>
             </trans-unit>
             <trans-unit id="11">
-                <source>Timesheet for </source>
-                <target>FR_Timesheet for </target>
+                <source>Timesheet for</source>
+                <target>FR_Timesheet for</target>
             </trans-unit>
             <trans-unit id="12">
                 <source>Total</source>
@@ -276,6 +276,79 @@
                 <source>There is no timesheet to view</source>
                 <target>FR_There is no timesheet to view</target>
             </trans-unit>
+            <trans-unit id="69">
+                <source>Edit Timesheet for</source>
+                <target>FR_Edit Timesheet for</target>
+            </trans-unit>
+            <trans-unit id="70">
+                <source>Edit Timesheet for Week</source>
+                <target>FR_Edit Timesheet for Week</target>
+            </trans-unit>
+            <trans-unit id="71">
+                <source>Edit Timesheet for</source>
+                <target>FR_Edit Timesheet for</target>
+            </trans-unit>
+            <trans-unit id="72">
+                <source>for Month starting on</source>
+                <target>FR_for Month starting on</target>
+            </trans-unit>
+            <trans-unit id="73">
+                <source>Edit Timesheet for Month</source>
+                <target>FR_Edit Timesheet for Month</target>
+            </trans-unit>
+            <trans-unit id="74">
+                <source>Time Sheet Records Duplicated</source>
+                <target>FR_Time Sheet Records Duplicated</target>
+            </trans-unit>
+            <trans-unit id="75">
+                <source>Invalid Date</source>
+                <target>FR_Invalid Date</target>
+            </trans-unit>
+            <trans-unit id="76">
+                <source>Approved</source>
+                <target>FR_Approved</target>
+            </trans-unit>
+            <trans-unit id="77">
+                <source>Submitted</source>
+                <target>FR_Submitted</target>
+            </trans-unit>
+            <trans-unit id="78">
+                <source>Rejected</source>
+                <target>FR_Rejected</target>
+            </trans-unit>
+            <trans-unit id="79">
+                <source>Not Submitted</source>
+                <target>FR_Not Submitted</target>
+            </trans-unit>
+            <trans-unit id="80">
+                <source>for</source>
+                <target>FR_for</target>
+            </trans-unit>
+            <trans-unit id="81">
+                <source>Week</source>
+                <target>FR_Week</target>
+            </trans-unit>
+            <trans-unit id="82">
+                <source>Employee Report</source>
+                <target>FR_Employee Report</target>
+            </trans-unit>
+            <trans-unit id="83">
+                <source>Time (hours)</source>
+                <target>FR_Time (hours)</target>
+            </trans-unit>
+            <trans-unit id="84">
+                <source>Employee</source>
+                <target>FR_Employee</target>
+            </trans-unit>
+            <trans-unit id="85">
+                <source>Employee is required</source>
+                <target>FR_Employee is required</target>
+            </trans-unit>
+            <trans-unit id="86">
+                <source>Attendance Total Summary Report</source>
+                <target>FR_Attendance Total Summary Report</target>
+            </trans-unit>
+            
         </body>
     </file>
 </xliff>

@@ -51,8 +51,8 @@ class startDaysListForm extends sfFormSymfony {
 
             if (in_array(WorkflowStateMachine::TIMESHEET_ACTION_VIEW, $allowedActions)) {
 
-                $dateOptions[$i] = $timesheet->getStartDate(). " to " . $timesheet->getEndDate();
-                $dateOptionsToDrpDwn[$i] = set_datepicker_date_format($timesheet->getStartDate() ). " to " . set_datepicker_date_format($timesheet->getEndDate());
+                $dateOptions[$i] = $timesheet->getStartDate(). " ".__("to")." " . $timesheet->getEndDate();
+                $dateOptionsToDrpDwn[$i] = set_datepicker_date_format($timesheet->getStartDate() ). " ".__("to")." "  . set_datepicker_date_format($timesheet->getEndDate());
                 $i++;
             }
         }
@@ -68,7 +68,7 @@ class startDaysListForm extends sfFormSymfony {
         $i = 0;
 
         foreach ($datesArray as $startDate) {
-	 $tempArray = explode(" to ", $startDate);
+	 $tempArray = explode(" ", $startDate);
             if ($tempArray[0] == $enteredStartDate) {
                 return $i;
             }

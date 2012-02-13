@@ -87,7 +87,7 @@
                             <input type="checkbox" class="checkbox" name="chkListRecord[]" value="<?php echo $record->getId(); ?>" />
                         </td>
                         <td class="tdName tdValue">
-                            <a href="#"><?php echo $record->getName(); ?></a>
+                            <a href="#"><?php echo __($record->getName()); ?></a>
                         </td>
                     </tr>
                     

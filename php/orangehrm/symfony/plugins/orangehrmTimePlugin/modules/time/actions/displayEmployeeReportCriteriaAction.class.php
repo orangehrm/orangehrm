@@ -25,14 +25,14 @@ class displayEmployeeReportCriteriaAction extends displayReportCriteriaAction {
         $hasRight = false;
 
         foreach ($accessibleMenus as $menu) {
-            if ($menu->getDisplayName() === "Employee Reports") {
+            if ($menu->getDisplayName() === __("Employee Reports")) {
                 $hasRight = true;
                 break;
             }
         }
 
         if (!$hasRight) {
-            return $this->renderText("You are not allowed to view this page!");
+            return $this->renderText(__("You are not allowed to view this page")."!");
         }
         parent::execute($request);
     }

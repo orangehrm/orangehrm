@@ -25,19 +25,19 @@
                 <div id="formWrapper">
                     <label for="txtLocationCode"><?php echo __("Copy From") ?><span class="required">*</span></label>
                     <select name="txtJobTitle" id="txtJobTitle" class="formSelect" tabindex="1">
-                        <option value=""><?php echo __("--Select Job Title--") ?></option>
+                        <option value="">--<?php echo __("Select Job Title") ?>--</option>
 <?php foreach ($listAllJobTitle as $jobTitle) { ?>
                         <option value="<?php echo $jobTitle->getId() ?>" <?php
                         if ($fromJobTitle == $jobTitle->getId()) {
                             print("selected");
                         }
-?>><?php echo htmlspecialchars_decode($jobTitle->getJobTitleName()) ?><?php echo ($jobTitle->getIsDeleted() == JobTitle::DELETED) ? ' (Deleted)' : '' ?></option>
+?>><?php echo htmlspecialchars_decode($jobTitle->getJobTitleName()) ?><?php echo ($jobTitle->getIsDeleted() == JobTitle::DELETED) ? ' ('.__('Deleted').')' : '' ?></option>
 <?php } ?>
                     </select>
                     <br class="clear"/>
                     <label for="txtLocationCode"><?php echo __("Copy To") ?><span class="required">*</span></label>
                     <select name="txtCopyJobTitle" id="txtCopyJobTitle" class="formSelect" tabindex="1">
-                        <option value=""><?php echo __("--Select Job Title--") ?></option>
+                        <option value="">--<?php echo __("Select Job Title") ?>--</option>
                                 <?php foreach ($listJobTitle as $jobTitle) {
  ?>
                             <option value="<?php echo $jobTitle->getId() ?>" <?php
@@ -52,10 +52,10 @@
                 </div>
                 <div id="buttonWrapper" class="formbuttons">
                     <input type="button" class="savebutton" id="saveBtn"
-                           value="Save" tabindex="6" />
+                           value="<?php echo __('Save')?>" tabindex="6" />
 
                     <input type="button" class="savebutton" id="resetBtn"
-                           value="Reset" tabindex="7" />
+                           value="<?php echo __('Reset')?>" tabindex="7" />
 
                 </div>
 
@@ -93,7 +93,7 @@
                 },
                 messages: {
                     txtJobTitle: "<?php echo __("Job Title is required") ?>",
-                    txtDescription: "<?php echo __("Copy Job Title is required") ?>"
+                    txtCopyJobTitle: "<?php echo __("Copy Job Title is required") ?>"
 			 		
                 }
             });

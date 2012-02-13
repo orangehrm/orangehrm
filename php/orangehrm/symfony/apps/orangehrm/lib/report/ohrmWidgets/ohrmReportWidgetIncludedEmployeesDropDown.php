@@ -59,9 +59,9 @@ class ohrmReportWidgetIncludedEmployeesDropDown extends sfWidgetForm implements 
     
     private function _getIncludedEmployeeOptions() {
         
-        $options['1'] = "Current Employees Only";
-        $options['2'] = "Current and Past Employees";
-        $options['3'] = "Past Employees Only";
+        $options['1'] = __("Current Employees Only");
+        $options['2'] = __("Current and Past Employees");
+        $options['3'] = __("Past Employees Only");
         
         return $options;
         
@@ -77,7 +77,7 @@ class ohrmReportWidgetIncludedEmployeesDropDown extends sfWidgetForm implements 
 
         $widgetSchema = $form->getWidgetSchema();
         $widgetSchema[$this->attributes['id']] = $this;
-        $label = ucwords(str_replace("_", " ", $this->attributes['id']));
+        $label = __(ucwords(str_replace("_", " ", $this->attributes['id'])));
         
         $required = false;
         

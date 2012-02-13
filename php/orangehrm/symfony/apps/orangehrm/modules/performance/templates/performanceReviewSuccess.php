@@ -28,7 +28,7 @@
                                      <label class="detail"><?php echo set_datepicker_date_format($performanceReview->getPeriodFrom())?>-<?php echo set_datepicker_date_format($performanceReview->getPeriodTo())?></label>
                    <br class="clear"/>
 					 <label class="detailHearder"><?php echo __("Status")?></label>
-                     <label class="detail"><?php echo $performanceReview->getTextStatus()?> </label>
+                     <label class="detail"><?php echo __($performanceReview->getTextStatus())?> </label>
                    <br class="clear"/>
 					 <?php if( count($performanceReview->getPerformanceReviewComment()) > 0){?>
 					 <label class="detailHearder"><?php echo __("Notes")?></label>
@@ -45,7 +45,7 @@
 	                     <?php foreach( $performanceReview->getPerformanceReviewComment() as $comment){?>
 	                     	<tr>
                                     <td ><?php echo set_datepicker_date_format($comment->getCreateDate())?></td>
-	                     		<td ><?php echo ($comment->getEmployee()->getFullName() != '')? $comment->getEmployee()->getFullName():'Admin'?></td>
+	                     		<td ><?php echo ($comment->getEmployee()->getFullName() != '')? $comment->getEmployee()->getFullName():__('Admin')?></td>
 	                     		<td ><?php echo $comment->getComment()?></td>
 	                     	</tr>
 
@@ -145,7 +145,7 @@
                         value="<?php echo __("Approve")?>"  />
                       <?php }?>
 
-                      <input type="button" class="savebutton" id="backBtn" value="Back" />
+                      <input type="button" class="savebutton" id="backBtn" value="<?php echo __("Back");?>" />
 
                 </div>
 
@@ -212,7 +212,7 @@
 			  }
 		  });
 		  if( !valid ){
-			  msg	=	'Please enter a numeric KPI rating within the defined Minimum and Maximum value';
+			  msg	=	'<?php echo __('Please enter a numeric KPI rating within the defined Minimum and Maximum value');?>';
 			  $("#messageBalloon_failure ul").html('<li>'+msg+'</li>');
 			  $("#performanceError").show();
 		  }
@@ -249,7 +249,7 @@
 			  }
 		  });
 		  if( !valid ){
-			  msg	=	'Please enter a numeric Key Performance I rating within the defined Minimum and Maximum value';
+			  msg	=	'<?php echo __('Please enter a numeric Key Performance I rating within the defined Minimum and Maximum value');?>';
 			  $("#messageBalloon_failure ul").html('<li>'+msg+'</li>');
 			  $("#performanceError").show();
 		  }
@@ -316,7 +316,7 @@
 
 				 	 },
 				 	 messages: {
-				 		txtMainCommet: "<?php echo __('Comments length exceed')?>",
+				 		txtMainComment: "<?php echo __('Comments length exceed')?>",
 				 		validRate: ""
 				 	 }
 				 });
@@ -349,7 +349,7 @@
 								if( (rate > max) || (rate <min) ){
 									$(this).css('background-color', '#ffeeee');
 									$(this).css('border', 'solid 1px #ffdddd');
-									msg = 'Please enter a numeric KPI rating within the defined Minimum and Maximum value';
+									msg = '<?php echo __('Please enter a numeric KPI rating within the defined Minimum and Maximum value')?>';
 									error = true;
 
 								}else{
@@ -359,7 +359,7 @@
 							}else{
 								$(this).css('background-color', '#ffeeee');
 								$(this).css('border', 'solid 1px #ffdddd');
-								msg = 'Please enter a numeric KPI rating within the defined Minimum and Maximum value';
+								msg = '<?php echo __('Please enter a numeric KPI rating within the defined Minimum and Maximum value')?>';
 								error = true;
 							}
 						});
@@ -400,7 +400,7 @@
 						});
 
 						if(error){
-							$("#messageBalloon_failure ul").html('<li>Please make sure that the comment contains less than 2000 characters</li>');
+							$("#messageBalloon_failure ul").html('<li><?php echo __('Please make sure that the comment contains less than 2000 characters');?></li>');
 							$("#performanceError").show();
 							$('#validRate').val('0');
 						}else{

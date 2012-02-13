@@ -8,7 +8,7 @@
 		<?php }?>
 		<?php echo message()?>
         <div class="outerbox">
-            <div id="formHeading" class="mainHeading"><h2>Add Key Performance Indicator</h2></div>
+            <div id="formHeading" class="mainHeading"><h2><?php echo __("Add Key Performance Indicator") ?></h2></div>
 			
 			<form action="#" id="frmSave" class="content_inner" method="post">
 
@@ -39,10 +39,10 @@
              	</div>
 				<div id="buttonWrapper" class="formbuttons">
                     <input type="button" class="savebutton" id="saveBtn"
-                        value="Save" tabindex="6" />
+                        value="<?php echo __('Save')?>" tabindex="6" />
                         
                      <input type="button" class="savebutton" id="resetBtn"
-                        value="Reset" tabindex="7" />
+                        value="<?php echo __('Reset')?>" tabindex="7" />
                     
                 </div>  
               

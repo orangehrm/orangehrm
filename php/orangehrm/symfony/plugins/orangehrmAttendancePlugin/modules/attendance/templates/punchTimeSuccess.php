@@ -88,10 +88,10 @@
 
         <?php if (in_array(PluginWorkflowStateMachine::ATTENDANCE_ACTION_PUNCH_OUT, $sf_data->getRaw('allowedActions'))) : ?>
         <?php $dateTimeArray = explode(" ", $punchInTime) ?>
-                                        <div>&nbsp; <?php echo __("Last punch in time : "); ?><?php echo set_datepicker_date_format($dateTimeArray[0]) . " " . $dateTimeArray[1]; ?></div>
+                                        <div>&nbsp; <?php echo __("Last punch in time")." : "; ?><?php echo set_datepicker_date_format($dateTimeArray[0]) . " " . $dateTimeArray[1]; ?></div>
         <?php if (!empty($punchInNote)): ?>
                                             <br class="clear">
-                                            <div style="width:40px; padding-left: 5px; float:left"><?php echo __("Note : "); ?></div><div style="float:left"><?php echo $punchInNote; ?></div>
+                                            <div style="width:60px; padding-left: 5px; float:left"><?php echo __("Note")." : "; ?></div><div style="float:left"><?php echo $punchInNote; ?></div>
         <?php endif; ?>
         <?php endif; ?><br class="clear">
                                         </div>

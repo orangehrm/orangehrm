@@ -2098,9 +2098,9 @@ class adminActions extends sfActions {
             $result = $emailService->sendTestEmail($request->getParameter('txtTestEmail'));
 
             if ($result) {
-                $this->getUser()->setFlash('templateMessage', array('SUCCESS', 'Email configuration was saved. Test email was sent.'));
+                $this->getUser()->setFlash('templateMessage', array('SUCCESS', __('Email configuration was saved. Test email was sent')));
             } else {
-                $this->getUser()->setFlash('templateMessage', array('WARNING', "Email configuration was saved. Test email couldn't be sent."));
+                $this->getUser()->setFlash('templateMessage', array('WARNING', __("Email configuration was saved. Test email couldn't be sent")));
             }
         }
 

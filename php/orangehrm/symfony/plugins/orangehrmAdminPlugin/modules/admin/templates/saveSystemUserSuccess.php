@@ -33,7 +33,7 @@ use_javascript('../../../scripts/jquery/jquery.autocomplete.js');
 
             <?php echo $form['employeeName']->renderLabel(__('Employee Name') . ' <span class="required">*</span>'); ?>
             <?php if (!$form->edited) {
-                echo $form['employeeName']->render(array("class" => "formInputText inputFormatHint", "maxlength" => 200, "value" => __("Type for hints...")));
+                echo $form['employeeName']->render(array("class" => "formInputText inputFormatHint", "maxlength" => 200, "value" => __("Type for hints")."..."));
             } else {
                 echo $form['employeeName']->render(array("class" => "formInputText", "maxlength" => 200));
             } ?>
@@ -97,11 +97,12 @@ use_javascript('../../../scripts/jquery/jquery.autocomplete.js');
     var user_edit                   = "<?php echo __("Edit"); ?>";
     var employees                   = <?php echo str_replace('&#039;', "'", $form->getEmployeeListAsJson()) ?> ;
     var employeesArray              = eval(employees);
-    var user_typeForHints           = "Type for hints...";
+    var user_typeForHints           = "<?php echo __("Type for hints").'...';?>";
     var user_name_alrady_taken      =   "<?php echo __("Username already taken"); ?>";
     var isUniqueUserUrl             = '<?php echo url_for('admin/isUniqueUserJson'); ?>';
     var viewSystemUserUrl             = '<?php echo url_for('admin/viewSystemUsers'); ?>';
     var user_UserNameLength         =   "<?php echo __("User Name should have at least 5 characters"); ?>";
     var user_UserPasswordLength     =   "<?php echo __("Password should have at least 4 characters"); ?>";
+    var password_user               =   "<?php echo __("Very Weak").",".__("Weak").",".__("Better").",".__("Medium").",".__("Strong").",".__("Strongest")?>";
 
 </script>

@@ -51,6 +51,9 @@ class viewModulesAction extends sfAction {
 
 			if ($this->form->isValid()) {
                 $this->_resetModulesSavedInSession();
+                // Flag index.php to load module configuration
+                $_SESSION['load.admin.viewModules'] = true;
+                
 				$templateMessage = $this->form->save();
 				$this->getUser()->setFlash('templateMessage', $templateMessage);                
                 $this->redirect('admin/viewModules');

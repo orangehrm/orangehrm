@@ -24,7 +24,7 @@ $(document).ready(function() {
 
     $(".project").click(function(){
         element = $(this)
-        if($(element).val() == 'Type for hints...'){
+        if($(element).val() == typeForHints){
             this.value = "";
             $(this).removeClass("inputFormatHint");
         }
@@ -35,7 +35,7 @@ $(document).ready(function() {
 
     $(".project").each(function(){
         element = $(this)
-        if($(element).val() == 'Type for hints...'){
+        if($(element).val() == typeForHints){
             $(element).addClass("inputFormatHint");
         }
 	$(element).val($(element).val().replace("##", ""));
@@ -241,8 +241,9 @@ $(document).ready(function() {
                 var temp=parseFloat($("#initialRows_"+j+"_"+id).val());
             
                 total=total+temp;
-            }
-            else{
+            } else if ($("#initialRows_"+j+"_"+id).val() == '') {
+            	total=total;
+            } else{
                 var temp = $("#initialRows_"+j+"_"+id).val().split(":");
                 temp[0]= parseFloat(temp[0]);
                 temp[1]= parseFloat(temp[1])

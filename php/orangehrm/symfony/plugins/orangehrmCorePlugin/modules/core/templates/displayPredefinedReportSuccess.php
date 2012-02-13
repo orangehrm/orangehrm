@@ -1,10 +1,11 @@
-<div style="width: 100%;text-align: center;padding-top: 10px;font-size: 18px;"> Report Name : <?php echo $report->getName(); ?> </div>
+<div style="width: 100%;text-align: center;padding-top: 10px;font-size: 18px;"> <?php echo __('Report Name'); ?> : <?php echo $report->getName(); ?> </div>
 <?php include_component('core', 'ohrmList', $parmetersForListComponent); ?>
 
 <style type="text/css">
     th{
         border: 1px solid #BBBBBB;
         background-color: #FFFFFF;
+        vertical-align: top;
     }
 
     .outerbox .top .middle{

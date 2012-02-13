@@ -24,7 +24,7 @@ class ViewDefinedPredefinedReportsConfigurationFactory extends ohrmListConfigura
             'elementType' => 'link',
             'textAlignmentStyle' => 'left',
             'elementProperty' => array(
-                'label' => 'Run',
+                'label' => __('Run'),
                 'placeholderGetters' => array('id' => 'getReportId'),
                 'urlPattern' => url_for('core/displayPredefinedReport') .  '?reportId={id}'
 
@@ -39,7 +39,7 @@ class ViewDefinedPredefinedReportsConfigurationFactory extends ohrmListConfigura
             'elementType' => 'link',
             'textAlignmentStyle' => 'left',
             'elementProperty' => array(
-                'label' => 'Edit',
+                'label' => __('Edit'),
                 'placeholderGetters' => array('id' => 'getReportId'),
                 'urlPattern' => url_for('core/definePredefinedReport') .  '?reportId={id}'
 
