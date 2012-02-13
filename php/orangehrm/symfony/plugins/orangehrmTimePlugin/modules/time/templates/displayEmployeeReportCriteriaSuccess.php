@@ -70,6 +70,7 @@ use_javascript('../../../scripts/jquery/jquery.autocomplete.js');
             var lang_validDateMsg = '<?php echo __("Please enter a valid date in %format% format", array('%format%' => get_datepicker_date_format($sf_user->getDateFormat()))) ?>'
             var lang_required = '<?php echo __("Project name is required") ?>';
             var lang_empNamerequired = '<?php echo __("Employee is required") ?>';
+            var lang_activityRequired = '<?php echo __('Add an activiy to view')?>';
         $(document).ready(function() {
 
 
@@ -82,6 +83,9 @@ use_javascript('../../../scripts/jquery/jquery.autocomplete.js');
 
             rules: {
             'time[employee][empId]' : {
+                required:true
+            },
+            'time[activity_name]' : {
                 required:true
             },
                 'time[project_date_range][from]' : {
@@ -109,6 +113,9 @@ use_javascript('../../../scripts/jquery/jquery.autocomplete.js');
             messages: {
                 'time[employee][empId]' : {
                     required: lang_empNamerequired
+                },
+                'time[activity_name]' : {
+                    required: lang_activityRequired
                 },
                 'time[project_date_range][from]' : {
                     valid_date: lang_validDateMsg

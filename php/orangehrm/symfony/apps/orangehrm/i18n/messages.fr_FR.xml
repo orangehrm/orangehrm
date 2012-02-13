@@ -5262,6 +5262,10 @@
                 <source>Punch In/Out</source>
                 <target>FR_Punch In/Out</target>
             </trans-unit>
+            <trans-unit id="5035">
+                <source>No Project Activities</source>
+                <target>FR_No Project Activities</target>
+            </trans-unit>
         </body>
     </file>
 </xliff>
