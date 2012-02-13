@@ -93,9 +93,9 @@ class viewLeaveListAction extends sfAction {
 
     public function execute($request) {
 
-        $mode = $this->getMode();
+        $this->mode = $mode = $this->getMode();
 
-        $this->form = new LeaveListForm($mode);
+        $this->form = $this->getLeaveListForm($mode);
         $values = array();
         $page = 1;
         
@@ -173,7 +173,8 @@ class viewLeaveListAction extends sfAction {
                     'employeeName' => $employeeName
                 ));
 
-        $result = $this->getLeaveRequestService()->searchLeaveRequests($searchParams, $page);
+        
+        $result = $this->searchLeaveRequests($searchParams, $page);
         $list = $result['list'];
         $recordCount = $result['meta']['record_count'];
 
@@ -185,8 +186,7 @@ class viewLeaveListAction extends sfAction {
         $list = empty($list) ? null : $list;
         $this->form->setList($list);
         $this->form->setEmployeeListAsJson($this->getEmployeeListAsJson());
-
-        $this->mode = $mode;
+        
         $this->message = $message;
         $this->messageType = $messageType;
         $this->baseUrl = $mode == LeaveListForm::MODE_MY_LEAVE_LIST ? 'leave/viewMyLeaveList' : 'leave/viewLeaveList';
@@ -196,6 +196,11 @@ class viewLeaveListAction extends sfAction {
         $this->setListComponent($list, $recordCount, $page);
 
         $this->setTemplate('viewLeaveList');
+    }
+    
+    protected function searchLeaveRequests($searchParams, $page) {
+        $result = $this->getLeaveRequestService()->searchLeaveRequests($searchParams, $page);
+        return $result;
     }
     
     protected function setListComponent($leaveList, $count, $page) {
