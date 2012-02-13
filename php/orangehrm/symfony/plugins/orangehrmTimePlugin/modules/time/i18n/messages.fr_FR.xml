@@ -364,6 +364,10 @@
                 <source>Add an activiy to view</source>
                 <target>FR_Add an activiy to view</target>
             </trans-unit>
+            <trans-unit id="5037">
+                <source>To date should be after the From date</source>
+                <target>FR_To date should be after the From date</target>
+            </trans-unit>
         </body>
     </file>
 </xliff>

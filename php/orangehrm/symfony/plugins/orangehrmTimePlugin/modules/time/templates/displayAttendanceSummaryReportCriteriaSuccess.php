@@ -24,7 +24,7 @@ use_javascript('../../../scripts/jquery/jquery.autocomplete.js');
             <table  border="0" cellpadding="5" cellspacing="0" id="attendanceSummaryReportForm">
                 <tr>
                     <td><?php echo __('Employee Name') ?><span class="required">*</span></td>
-                    <td><?php echo $form['empName']->renderError() ?><?php echo $form['empName']->render(); ?></td>
+                    <td><?php echo $form['empName']->render(); ?><div class="errorContainer"></div></td>
                 </tr>
                 <tr>
                     <td><?php echo __('Job Title') ?></td>
@@ -57,7 +57,7 @@ use_javascript('../../../scripts/jquery/jquery.autocomplete.js');
     var datepickerDateFormat = '<?php echo get_datepicker_date_format($sf_user->getDateFormat()); ?>';
     var lang_dateError = '<?php echo __("To date should be after the From date") ?>';
     var lang_invalidDate = '<?php echo __("Please enter a valid date in %format% format", array('%format%' => get_datepicker_date_format($sf_user->getDateFormat()))) ?>'
-
+    var lang_emptyEmployee = '<?php echo __('Please Select an Employee')?>';
 
     var employees = <?php echo str_replace('&#039;', "'", $form->getEmployeeListAsJson()) ?> ;
     var employeesArray = eval(employees);
@@ -113,6 +113,9 @@ use_javascript('../../../scripts/jquery/jquery.autocomplete.js');
         //Validation
         $("#attendanceTotalSummaryReportForm").validate({
             rules: {
+                'attendanceTotalSummary[empName]': {
+                    required:true
+                },
                 'attendanceTotalSummary[fromDate]':{
                     valid_date: function() {
                         return {
@@ -137,6 +140,9 @@ use_javascript('../../../scripts/jquery/jquery.autocomplete.js');
                 }
             },
             messages: {
+                'attendanceTotalSummary[empName]': {
+                    required: lang_emptyEmployee
+                },
                 'attendanceTotalSummary[fromDate]': {
                     valid_date: lang_invalidDate
                 },
@@ -146,7 +152,7 @@ use_javascript('../../../scripts/jquery/jquery.autocomplete.js');
                 }
             },
             errorPlacement: function(error, element) {
-                error.appendTo(element.next().next().next(".errorContainer"));
+                error.appendTo(element.siblings(".errorContainer"));
             }
         });
 
@@ -180,7 +186,7 @@ use_javascript('../../../scripts/jquery/jquery.autocomplete.js');
 
         if(empDateCount==0){
 
-            errorMsge = "No Employees Available in System";
+            errorMsge = '<?php echo __("No Employees Available in System");?>';
             return false;
         }
         for (i=0; i < empDateCount; i++) {
@@ -196,7 +202,7 @@ use_javascript('../../../scripts/jquery/jquery.autocomplete.js');
         if(temp){
             return true;
         }else if(empName == "" || empName == $.trim("Type for hints...").toLowerCase()){
-            errorMsge = "Please Select an Employee";
+            errorMsge = '<?php echo __("Please Select an Employee");?>';
             return false;
         }else{
             errorMsge = '<?php echo __("Invalid Employee Name");?>';
