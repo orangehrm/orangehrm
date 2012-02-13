@@ -348,7 +348,22 @@
                 <source>Attendance Total Summary Report</source>
                 <target>FR_Attendance Total Summary Report</target>
             </trans-unit>
-            
+            <trans-unit id="87">
+                <source>Project Activity Details Report</source>
+                <target>FR_Project Activity Details Report</target>
+            </trans-unit>
+            <trans-unit id="88">
+                <source>hours</source>
+                <target>FR_hours</target>
+            </trans-unit>
+            <trans-unit id="89">
+                <source>Deleted Employee</source>
+                <target>FR_Deleted Employee</target>
+            </trans-unit>
+            <trans-unit id="5036">
+                <source>Add an activiy to view</source>
+                <target>FR_Add an activiy to view</target>
+            </trans-unit>
         </body>
     </file>
 </xliff>
