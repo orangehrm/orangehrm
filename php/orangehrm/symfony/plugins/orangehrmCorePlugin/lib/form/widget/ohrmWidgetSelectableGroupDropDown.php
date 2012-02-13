@@ -71,7 +71,7 @@ class ohrmWidgetSelectableGroupDropDown extends sfWidgetFormSelect {
         $this->addOption('show_all_option', true);
         $this->addOption('all_option_label', __('All'));
         
-        $this->addOption('show_select_option', true);
+        $this->addOption('show_select_option', false);
         $this->addOption('select_option_label', '-- ' . __('Select') . ' --');
         $this->addOption('select_option_value', -1);
         
@@ -166,7 +166,7 @@ class ohrmWidgetSelectableGroupDropDown extends sfWidgetFormSelect {
         return $options;
     }
     
-    protected function getAllKeys($choices) {
+    public function getAllKeys($choices) {
         $keys = array();
         
         foreach($choices as $key => $value) {
