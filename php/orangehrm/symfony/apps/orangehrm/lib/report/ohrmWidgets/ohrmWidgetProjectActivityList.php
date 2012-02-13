@@ -56,10 +56,6 @@ class ohrmWidgetProjectActivityList extends sfWidgetForm implements ohrmEmbeddab
 $(document).ready(function() {
      var getActivitiesLink = '%s';
 
-     if($('#time_project_name').val() == -1){
-        $('#time_activity_name').html("<option value='-1'> All </option>");
-     }
-
      $('#time_project_name').change(function() {
         
         var projectId = $('#time_project_name').val();

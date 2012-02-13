@@ -150,7 +150,7 @@ class AttendanceTotalSummaryReportForm extends sfForm {
 
                 $name = $employee->getFullName();
                 $employeeUnique[$employee->getEmpNumber()] = $name;
-                $jsonArray[] = array('name' => $name, 'id' => $employee->getEmpNumber());
+                $jsonArray[] = array('name' => __($name), 'id' => $employee->getEmpNumber());
                 
             }
         }
