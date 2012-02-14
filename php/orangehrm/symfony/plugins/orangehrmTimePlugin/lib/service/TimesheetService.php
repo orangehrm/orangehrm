@@ -23,6 +23,9 @@ class TimesheetService {
     private $timesheetDao;
     private $employeeDao;
     private $timesheetPeriodService;
+    
+    // Cache timesheet time format for better performance.
+    private static $timesheetTimeFormat = null;
 
     /**
      * Get the Timesheet Data Access Object
@@ -259,8 +262,10 @@ class TimesheetService {
     }
 
     public function getTimesheetTimeFormat() {
-
-        return $this->getTimesheetDao()->getTimesheetTimeFormat();
+        if (is_null(self::$timesheetTimeFormat)) {
+            self::$timesheetTimeFormat = $this->getTimesheetDao()->getTimesheetTimeFormat();
+        }
+        return self::$timesheetTimeFormat;
     }
 
     public function convertDurationToHours($durationInSecs) {
