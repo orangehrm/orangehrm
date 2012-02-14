@@ -127,10 +127,10 @@
     //<![CDATA[
     var edit = "<?php echo __("Edit"); ?>";
     var save = "<?php echo __("Save"); ?>";
-    var nameRequired = '<?php echo __('Organization name required'); ?>';
-    var invalidPhoneNumber = '<?php echo __('Phone number can contain only space, numbers, "+", and "-"'); ?>';
-    var invalidFaxNumber = '<?php echo __('Fax can contain only space, numbers, "+", and "-"'); ?>';
-    var incorrectEmail = "<?php echo __('Email address should contain at least one \".\" and one \"@\" Example:user@example.com'); ?>";
-    var lang_exceed255Chars = '<?php echo __("Cannot exceed 255 charactors"); ?>';
+    var nameRequired = '<?php echo __(ValidationMessages::REQUIRED); ?>';
+    var invalidPhoneNumber = '<?php echo __(ValidationMessages::TP_NUMBER_INVALID); ?>';
+    var invalidFaxNumber = '<?php echo __(ValidationMessages::TP_NUMBER_INVALID); ?>';
+    var incorrectEmail = '<?php echo __(ValidationMessages::EMAIL_INVALID); ?>';
+    var lang_exceed255Chars = '<?php echo __(ValidationMessages::TEXT_LENGTH_EXCEEDS, array('%amount%' => 250)); ?>';
     //]]>
 </script>

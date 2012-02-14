@@ -16,12 +16,12 @@
     var invalidHomePhoneNumber = '<?php echo __(ValidationMessages::TP_NUMBER_INVALID); ?>';
     var invalidMobilePhoneNumber = '<?php echo __(ValidationMessages::TP_NUMBER_INVALID); ?>';
     var invalidWorkPhoneNumber = '<?php echo __(ValidationMessages::TP_NUMBER_INVALID); ?>';
-    var incorrectWorkEmail = "<?php echo __(ValidationMessages::EMAIL_INVALID); ?>";
-    var incorrectOtherEmail = "<?php echo __(ValidationMessages::EMAIL_INVALID); ?>";
+    var incorrectWorkEmail = '<?php echo __(ValidationMessages::EMAIL_INVALID); ?>';
+    var incorrectOtherEmail = '<?php echo __(ValidationMessages::EMAIL_INVALID); ?>';
     var fileModified = 0;
     var emails = <?php echo json_encode($form->getEmailList()); ?>;
     var emailList =eval(emails);
-    var lang_emailExistmsg = "<?php echo __(ValidationMessages::ALREADY_EXISTS); ?>";
+    var lang_emailExistmsg = '<?php echo __(ValidationMessages::ALREADY_EXISTS); ?>';
     
     <?php if (isset($empNumber)) { ?>
                     var empNumber = '<?php echo $empNumber; ?>';

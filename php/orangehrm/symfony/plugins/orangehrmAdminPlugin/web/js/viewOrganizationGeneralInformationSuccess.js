@@ -17,7 +17,7 @@ $(document).ready(function() {
                 email: true
             },
             'organization[note]' : {
-                maxlength: 255
+                maxlength: 250
             }
         },
         messages: {
