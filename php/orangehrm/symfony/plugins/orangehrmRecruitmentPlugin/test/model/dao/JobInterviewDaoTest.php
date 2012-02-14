@@ -109,11 +109,17 @@ class JobInterviewDaoTest extends PHPUnit_Framework_TestCase {
 	}
 
 	public function testSaveJobInterviewForNullId() {
+            
+            TestDataService::truncateTables(array(
+                'JobInterview',
+                'JobInterviewInterviewer',
+                'JobInterviewAttachment',
+            ));
 
 		$interview = new JobInterview();
-		$interview->id = null;
-		$interview->interviewName = '1st Interview';
-		$interview->interviewDate = '2011-05-05';
+		$interview->setId(null);
+		$interview->setInterviewName('1st Interview');
+		$interview->setInterviewDate('2011-05-05');
 
 		$return = $this->jobInterviewDao->saveJobInterview($interview);
 		$this->assertTrue($return);
@@ -131,6 +137,6 @@ class JobInterviewDaoTest extends PHPUnit_Framework_TestCase {
 		$result = $this->jobInterviewDao->updateJobInterview($interview);
 		$this->assertEquals($result, 1);
 	}
-
+        
 }
 
