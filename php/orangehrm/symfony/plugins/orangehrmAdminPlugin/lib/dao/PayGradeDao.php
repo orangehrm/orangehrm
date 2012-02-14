@@ -56,8 +56,10 @@ class PayGradeDao extends BaseDao {
 
 		try {
 			$q = Doctrine_Query :: create()
-				->from('PayGradeCurrency')
-				->where('pay_grade_id = ?', $payGradeId);
+				->from('PayGradeCurrency pgc')
+                                ->leftJoin('pgc.CurrencyType ct')
+				->where('pgc.pay_grade_id = ?', $payGradeId)
+                                ->orderBy('ct.currency_name ASC');
 			return $q->execute();
 		} catch (Exception $e) {
 			throw new DaoException($e->getMessage());
