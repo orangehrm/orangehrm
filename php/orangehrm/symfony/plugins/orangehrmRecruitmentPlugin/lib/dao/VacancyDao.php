@@ -139,7 +139,8 @@ class VacancyDao extends BaseDao {
             $q = Doctrine_Query :: create()
                             ->from('JobVacancy')
                             ->where('published_in_feed = ? ', JobVacancy::PUBLISHED)
-                            ->andWhere('status = ?', JobVacancy::ACTIVE);
+                            ->andWhere('status = ?', JobVacancy::ACTIVE)
+                            ->orderBy('name ASC');
             return $q->execute();
         } catch (Exception $e) {
             throw new DaoException($e->getMessage());
