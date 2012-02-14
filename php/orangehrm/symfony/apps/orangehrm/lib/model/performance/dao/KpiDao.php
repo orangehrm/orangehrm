@@ -93,7 +93,7 @@ class KpiDao extends BaseDao {
     	try{
 	    	$q = Doctrine_Query::create()
 			    ->from('DefineKpi kpi')
-			    ->orderBy('kpi.jobtitlecode');
+			    ->orderBy('kpi.desc');
 			
 			$q->offset($offset)->limit($limit);
 			
