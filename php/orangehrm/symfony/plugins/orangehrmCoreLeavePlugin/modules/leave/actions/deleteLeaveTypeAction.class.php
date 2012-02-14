@@ -25,7 +25,7 @@ class deleteLeaveTypeAction extends orangehrmAction {
 
                 $leaveTypeService = $this->getLeaveTypeService();
                 $leaveTypeService->deleteLeaveType($request->getParameter('chkSelectRow'));
-                $this->getUser()->setFlash('templateMessage', array('SUCCESS', __('Leave Type Successfully Deleted')));
+                $this->getUser()->setFlash('templateMessage', array('SUCCESS', __(TopLevelMessages::DELETE_SUCCESS)));
             }
             
             $this->redirect('leave/leaveTypeList');

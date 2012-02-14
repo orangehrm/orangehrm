@@ -46,7 +46,7 @@ class deleteEducationAction extends sfAction {
             $result = $this->getEducationService()->deleteEducations($toDeleteIds);
             
             if ($result) {
-                $this->getUser()->setFlash('templateMessage', array('SUCCESS', __('Education Record(s) Deleted Successfully'))); 
+                $this->getUser()->setFlash('templateMessage', array('SUCCESS', __(TopLevelMessages::DELETE_SUCCESS))); 
                 $this->redirect('admin/viewEducation');
             }            
             

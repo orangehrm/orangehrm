@@ -44,7 +44,7 @@ class deleteJobVacancyAction extends baseRecruitmentAction {
 
         $isDeletionSucceeded = $this->getVacancyService()->deleteVacancies($toBeDeletedVacancyIds);
 
-            $this->getUser()->setFlash('vacancyDeletionMessageItems', array('success', __('Selected Vacancies Deleted Successfully')));
+            $this->getUser()->setFlash('vacancyDeletionMessageItems', array('success', __(TopLevelMessages::DELETE_SUCCESS)));
        
         $this->redirect('recruitment/viewJobVacancy');
     }

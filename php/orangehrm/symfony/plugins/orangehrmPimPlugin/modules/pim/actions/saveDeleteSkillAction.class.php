@@ -61,7 +61,7 @@ class saveDeleteSkillAction extends basePimAction {
 
                 if(count($deleteIds) > 0) {
                     $this->getEmployeeService()->deleteSkill($empNumber, $request->getParameter('delSkill'));
-                    $this->getUser()->setFlash('templateMessage', array('success', __('Skill Detail(s) Deleted Successfully')));
+                    $this->getUser()->setFlash('templateMessage', array('success', __(TopLevelMessages::DELETE_SUCCESS)));
                 }
             }
         }

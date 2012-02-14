@@ -40,7 +40,7 @@ class deleteWorkShiftsAction extends sfAction {
 				$shift = $this->getWorkShiftService()->getWorkShiftById($toBeDeletedShiftId);
 				$shift->delete();
 			}
-			$this->getUser()->setFlash('templateMessage', array('success', __('Selected Work Shift(s) Deleted Successfully')));
+			$this->getUser()->setFlash('templateMessage', array('success', __(TopLevelMessages::DELETE_SUCCESS)));
 		}
 
 		$this->redirect('admin/workShift');

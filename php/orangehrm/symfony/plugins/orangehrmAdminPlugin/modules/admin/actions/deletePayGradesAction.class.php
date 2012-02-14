@@ -41,7 +41,7 @@ class deletePayGradesAction extends sfAction {
 				$payGrade = $this->getPayGradeService()->getPayGradeById($toBeDeletedPayGradeId);
 				$payGrade->delete();
 			}
-			$this->getUser()->setFlash('templateMessage', array('success', __('Selected Pay Grade(s) Deleted Successfully')));
+			$this->getUser()->setFlash('templateMessage', array('success', __(TopLevelMessages::DELETE_SUCCESS)));
 		}
 
 		$this->redirect('admin/viewPayGrades');

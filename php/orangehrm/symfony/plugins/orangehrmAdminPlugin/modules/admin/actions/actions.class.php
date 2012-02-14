@@ -161,7 +161,7 @@ class adminActions extends sfActions {
             if (count($request->getParameter('chkLocID')) > 0) {
                 $companyService = new CompanyService();
                 $companyService->deleteCompanyLocation($request->getParameter('chkLocID'));
-                $this->setMessage('SUCCESS', array('Successfully Deleted'));
+                $this->setMessage('SUCCESS', array(TopLevelMessages::DELETE_SUCCESS));
             }else
                 $this->setMessage('NOTICE', array('Select at least one record to delete'));
 
@@ -258,7 +258,7 @@ class adminActions extends sfActions {
                     if (count($request->getParameter('chkLocID')) > 0) {
                         $companyService = new CompanyService();
                         $companyService->deleteCompanyProperty($request->getParameter('chkLocID'));
-                        $this->setMessage('SUCCESS', array('Successfully Deleted'));
+                        $this->setMessage('SUCCESS', array(TopLevelMessages::DELETE_SUCCESS));
                     }else
                         $this->setMessage('NOTICE', array('Select at least one record to delete'));
 
@@ -316,7 +316,7 @@ class adminActions extends sfActions {
         if (count($request->getParameter('chkLocID')) > 0) {
             $jobService = new JobService();
             $jobService->deleteJobCategory($request->getParameter('chkLocID'));
-            $this->setMessage('SUCCESS', array('Successfully Deleted'));
+            $this->setMessage('SUCCESS', array(TopLevelMessages::DELETE_SUCCESS));
         }else
             $this->setMessage('NOTICE', array('Select at least one record to delete'));
 
@@ -463,7 +463,7 @@ class adminActions extends sfActions {
         if (count($request->getParameter('chkdel')) > 0) {
             $jobService = new JobService();
             $jobService->deleteSalleryGradeCurrency($saleryGradeId, $request->getParameter('chkdel'));
-            $this->setMessage('SUCCESS', array('Successfully Deleted'));
+            $this->setMessage('SUCCESS', array(TopLevelMessages::DELETE_SUCCESS));
         }else
             $this->setMessage('NOTICE', array('Select at least one record to delete'));
 
@@ -479,7 +479,7 @@ class adminActions extends sfActions {
         if (count($request->getParameter('chkLocID')) > 0) {
             $jobService = new JobService();
             $jobService->deleteSaleryGrade($request->getParameter('chkLocID'));
-            $this->setMessage('SUCCESS', array('Successfully Deleted'));
+            $this->setMessage('SUCCESS', array(TopLevelMessages::DELETE_SUCCESS));
         }else
             $this->setMessage('NOTICE', array('Select at least one record to delete'));
 
@@ -560,7 +560,7 @@ class adminActions extends sfActions {
             $jobService = new JobService();
             $jobService->deleteEmployeeStatus($request->getParameter('chkLocID'));
 
-            $this->setMessage('SUCCESS', array('Successfully Deleted'));
+            $this->setMessage('SUCCESS', array(TopLevelMessages::DELETE_SUCCESS));
         }else
             $this->setMessage('NOTICE', array('Select at least one record to delete'));
 
@@ -646,7 +646,7 @@ class adminActions extends sfActions {
         if (count($request->getParameter('chkLocID')) > 0) {
             $jobService = new JobService();
             $jobService->deleteJobSpecifications($request->getParameter('chkLocID'));
-            $this->setMessage('SUCCESS', array('Successfully Deleted'));
+            $this->setMessage('SUCCESS', array(TopLevelMessages::DELETE_SUCCESS));
         } else {
             $this->setMessage('NOTICE', array('Select at least one record to delete'));
         }
@@ -757,7 +757,7 @@ class adminActions extends sfActions {
         if (count($request->getParameter('chkLocID')) > 0) {
             $jobService = new JobService();
             $jobService->deleteJobTitle($request->getParameter('chkLocID'));
-            $this->setMessage('SUCCESS', array('Successfully Deleted'));
+            $this->setMessage('SUCCESS', array(TopLevelMessages::DELETE_SUCCESS));
         } else {
             $this->setMessage('NOTICE', array('Select at least one record to delete'));
         }
@@ -843,7 +843,7 @@ class adminActions extends sfActions {
         if (count($request->getParameter('chkLocID')) > 0) {
             $educationService = new EducationService();
             $educationService->deleteEducation($request->getParameter('chkLocID'));
-            $this->setMessage('SUCCESS', array('Successfully Deleted'));
+            $this->setMessage('SUCCESS', array(TopLevelMessages::DELETE_SUCCESS));
         } else {
             $this->setMessage('NOTICE', array('Select at least one record to delete'));
         }
@@ -926,7 +926,7 @@ class adminActions extends sfActions {
         if (count($request->getParameter('chkLocID')) > 0) {
             $educationService = new EducationService();
             $educationService->deleteLicenses($request->getParameter('chkLocID'));
-            $this->setMessage('SUCCESS', array('Successfully Deleted'));
+            $this->setMessage('SUCCESS', array(TopLevelMessages::DELETE_SUCCESS));
         } else {
             $this->setMessage('NOTICE', array('Select at least one record to delete'));
         }
@@ -1012,7 +1012,7 @@ class adminActions extends sfActions {
         if (count($request->getParameter('chkLocID')) > 0) {
             $skillService = new SkillService();
             $skillService->deleteSkill($request->getParameter('chkLocID'));
-            $this->setMessage('SUCCESS', array('Successfully Deleted'));
+            $this->setMessage('SUCCESS', array(TopLevelMessages::DELETE_SUCCESS));
         }else
             $this->setMessage('NOTICE', array('Select at least one record to delete'));
 
@@ -1092,7 +1092,7 @@ class adminActions extends sfActions {
         if (count($request->getParameter('chkLocID')) > 0) {
             $skillService = new SkillService();
             $skillService->deleteLanguage($request->getParameter('chkLocID'));
-            $this->setMessage('SUCCESS', array('Successfully Deleted'));
+            $this->setMessage('SUCCESS', array(TopLevelMessages::DELETE_SUCCESS));
         } else {
             $this->setMessage('NOTICE', array('Select at least one record to delete'));
         }
@@ -1174,7 +1174,7 @@ class adminActions extends sfActions {
         if (count($request->getParameter('chkLocID')) > 0) {
             $membershipService = new MembershipService();
             $membershipService->deleteMembershipType($request->getParameter('chkLocID'));
-            $this->setMessage('SUCCESS', array('Successfully Deleted'));
+            $this->setMessage('SUCCESS', array(TopLevelMessages::DELETE_SUCCESS));
         }else
             $this->setMessage('NOTICE', array('Select at least one record to delete'));
 
@@ -1261,7 +1261,7 @@ class adminActions extends sfActions {
         if (count($request->getParameter('chkLocID')) > 0) {
             $membershipService = new MembershipService();
             $membershipService->deleteMembership($request->getParameter('chkLocID'));
-            $this->setMessage('SUCCESS', array('Successfully Deleted'));
+            $this->setMessage('SUCCESS', array(TopLevelMessages::DELETE_SUCCESS));
         }else
             $this->setMessage('NOTICE', array('Select at least one record to delete'));
 
@@ -1342,7 +1342,7 @@ class adminActions extends sfActions {
         if (count($request->getParameter('chkLocID')) > 0) {
             $nationalityService = new NationalityService();
             $nationalityService->deleteNationality($request->getParameter('chkLocID'));
-            $this->setMessage('SUCCESS', array('Successfully Deleted'));
+            $this->setMessage('SUCCESS', array(TopLevelMessages::DELETE_SUCCESS));
         }else
             $this->setMessage('NOTICE', array('Select at least one record to delete'));
 
@@ -1422,7 +1422,7 @@ class adminActions extends sfActions {
         if (count($request->getParameter('chkLocID')) > 0) {
             $nationalityService = new NationalityService();
             $nationalityService->deleteEthnicRace($request->getParameter('chkLocID'));
-            $this->setMessage('SUCCESS', array('Successfully Deleted'));
+            $this->setMessage('SUCCESS', array(TopLevelMessages::DELETE_SUCCESS));
         } else {
             $this->setMessage('NOTICE', array('Select at least one record to delete'));
         }
@@ -1504,7 +1504,7 @@ class adminActions extends sfActions {
         if (count($request->getParameter('chkLocID')) > 0) {
             $customerService = new CustomerService();
             $customerService->deleteCustomer($request->getParameter('chkLocID'));
-            $this->setMessage('SUCCESS', array('Successfully Deleted'));
+            $this->setMessage('SUCCESS', array(TopLevelMessages::DELETE_SUCCESS));
         } else {
             $this->setMessage('NOTICE', array('Select at least one record to delete'));
         }
@@ -1600,7 +1600,7 @@ class adminActions extends sfActions {
         if (count($request->getParameter('chkLocID')) > 0) {
             $projectService = new ProjectService();
             $projectService->deleteProject($request->getParameter('chkLocID'));
-            $this->setMessage('SUCCESS', array('Successfully Deleted'));
+            $this->setMessage('SUCCESS', array(TopLevelMessages::DELETE_SUCCESS));
         }else
             $this->setMessage('NOTICE', array('Select at least one record to delete'));
 
@@ -1632,7 +1632,7 @@ class adminActions extends sfActions {
 
             $projectService = new ProjectService();
             $projectService->deleteProjectAdmin($projectId, $request->getParameter('chkLocID'));
-            $this->setMessage('SUCCESS', array('Successfully Deleted'));
+            $this->setMessage('SUCCESS', array(TopLevelMessages::DELETE_SUCCESS));
         }else
             $this->setMessage('NOTICE', array('Select at least one record to delete'));
         $this->redirect('admin/updateProject?id=' . $projectId);
@@ -1687,7 +1687,7 @@ class adminActions extends sfActions {
 
             $projectService = new ProjectService();
             $projectService->deleteProjectActivities($request->getParameter('chkLocID'));
-            $this->setMessage('SUCCESS', array('Successfully Deleted'));
+            $this->setMessage('SUCCESS', array(TopLevelMessages::DELETE_SUCCESS));
         }else
             $this->setMessage('NOTICE', array('Select at least one record to delete'));
 
@@ -1767,7 +1767,7 @@ class adminActions extends sfActions {
         if (count($request->getParameter('chkLocID')) > 0) {
             $customFieldsService = new CustomFieldsService();
             $customFieldsService->deleteCustomField($request->getParameter('chkLocID'));
-            $this->setMessage('SUCCESS', array('Successfully Deleted'));
+            $this->setMessage('SUCCESS', array(TopLevelMessages::DELETE_SUCCESS));
         }else
             $this->setMessage('NOTICE', array('Select at least one record to delete'));
 
@@ -1847,7 +1847,7 @@ class adminActions extends sfActions {
         if (count($request->getParameter('chkLocID')) > 0) {
             $userService = new UserService();
             $userService->deleteUserGroup($request->getParameter('chkLocID'));
-            $this->setMessage('SUCCESS', array('Successfully Deleted'));
+            $this->setMessage('SUCCESS', array(TopLevelMessages::DELETE_SUCCESS));
         }else
             $this->setMessage('NOTICE', array('Select at least one record to delete'));
 
@@ -1998,7 +1998,7 @@ class adminActions extends sfActions {
         if (count($request->getParameter('chkLocID')) > 0) {
             $userService = new UserService();
             $userService->deleteUser($request->getParameter('chkLocID'));
-            $this->setMessage('SUCCESS', array('Successfully Deleted'));
+            $this->setMessage('SUCCESS', array(TopLevelMessages::DELETE_SUCCESS));
         }else
             $this->setMessage('NOTICE', array('Select at least one record to delete'));
 

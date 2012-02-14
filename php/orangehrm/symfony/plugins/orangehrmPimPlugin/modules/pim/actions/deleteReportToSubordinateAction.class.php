@@ -49,7 +49,7 @@ class deleteReportToSubordinateAction extends basePimAction {
 
                 $service = new EmployeeService();
                 $count = $service->deleteReportToObject($subToDelete);
-                $this->getUser()->setFlash('templateMessage', array('success', __('Subordinate(s) Deleted Successfully')));
+                $this->getUser()->setFlash('templateMessage', array('success', __(TopLevelMessages::DELETE_SUCCESS)));
             }
         }
 

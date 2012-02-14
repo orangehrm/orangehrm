@@ -50,7 +50,7 @@ class deleteCustomerAction extends sfAction {
 
 					$customer = $this->getCustomerService()->deleteCustomer($toBeDeletedCustomerId);
 				}
-				$this->getUser()->setFlash('templateMessage', array('success', __('Selected Customer(s) Deleted Successfully')));
+				$this->getUser()->setFlash('templateMessage', array('success', __(TopLevelMessages::DELETE_SUCCESS)));
 			} else {
 				$this->getUser()->setFlash('templateMessage', array('failure', __('Not Allowed to Delete Customer(s) Which Have Time Logged Against')));
 			}

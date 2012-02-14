@@ -62,7 +62,7 @@ class deleteCustomFieldsAction extends sfAction {
                 if (count($request->getParameter('chkLocID')) > 0) {
                     $customFieldsService = $this->getCustomFieldService();
                     $customFieldsService->deleteCustomField($request->getParameter('chkLocID'));
-                    $this->getUser()->setFlash('templateMessage', array('success', __('Custom Field(s) Deleted Successfully')));
+                    $this->getUser()->setFlash('templateMessage', array('success', __(TopLevelMessages::DELETE_SUCCESS)));
                 } else {
                     $this->getUser()->setFlash('templateMessage', array('notice', __('Please Select At Least One Custom Field To Delete')));
                 }

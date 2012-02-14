@@ -43,7 +43,7 @@ class deleteSubunitAction extends sfAction {
 
             if ($result) {
                 $object->messageType = 'success';
-                $object->message = __('Subunit Deleted Successfully');
+                $object->message = __(TopLevelMessages::DELETE_SUCCESS);
             } else {
                 $object->messageType = 'failure';
                 $object->message = __('Failed to Delete Subunit');

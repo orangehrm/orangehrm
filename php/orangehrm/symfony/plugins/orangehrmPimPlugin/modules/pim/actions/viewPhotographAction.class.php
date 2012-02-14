@@ -141,7 +141,7 @@ class viewPhotographAction extends sfAction {
             $this->newHeight = 176;
 
             $this->messageType = "success";
-            $this->message = __('Employee Photograph Deleted Successfully');
+            $this->message = __(TopLevelMessages::DELETE_SUCCESS);
         }
     }
 

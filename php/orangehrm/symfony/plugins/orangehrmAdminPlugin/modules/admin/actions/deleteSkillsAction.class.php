@@ -46,7 +46,7 @@ class deleteSkillsAction extends sfAction {
             $result = $this->getSkillService()->deleteSkills($toDeleteIds);
             
             if ($result) {
-                $this->getUser()->setFlash('templateMessage', array('SUCCESS', __('Skill(s) Deleted Successfully'))); 
+                $this->getUser()->setFlash('templateMessage', array('SUCCESS', __(TopLevelMessages::DELETE_SUCCESS))); 
                 $this->redirect('admin/viewSkills');
             }            
             

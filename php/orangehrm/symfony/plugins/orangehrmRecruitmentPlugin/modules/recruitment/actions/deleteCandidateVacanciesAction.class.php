@@ -40,7 +40,7 @@ class deleteCandidateVacanciesAction extends sfAction {
         $isDeleteSuccess = $this->getCandidateService()->deleteCandidate($toBeDeletedCandiates);
         
         if($isDeleteSuccess) {
-            $this->getUser()->setFlash('candidateListMessageItems', array('success', __('Selected Candidate(s) Deleted Successfully')));
+            $this->getUser()->setFlash('candidateListMessageItems', array('success', __(TopLevelMessages::DELETE_SUCCESS)));
         }
         $this->redirect('recruitment/viewCandidates');
     }

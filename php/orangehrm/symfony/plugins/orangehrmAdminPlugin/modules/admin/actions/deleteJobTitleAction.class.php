@@ -35,7 +35,7 @@ class deleteJobTitleAction extends sfAction {
 
         if (!empty($toBeDeletedJobTitleIds)) {
             $this->getJobTitleService()->deleteJobTitle($toBeDeletedJobTitleIds);
-            $this->getUser()->setFlash('templateMessage', array('success', __('Selected Job Title(s) Deleted Successfully')));
+            $this->getUser()->setFlash('templateMessage', array('success', __(TopLevelMessages::DELETE_SUCCESS)));
             $this->redirect('admin/viewJobTitleList');
         }
     }

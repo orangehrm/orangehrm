@@ -61,7 +61,7 @@ class saveDeleteLicenseAction extends basePimAction {
 
                 if(count($deleteIds) > 0) {
                     $this->getEmployeeService()->deleteLicense($empNumber, $request->getParameter('delLicense'));
-                    $this->getUser()->setFlash('templateMessage', array('success', __('License Detail(s) Deleted Successfully')));
+                    $this->getUser()->setFlash('templateMessage', array('success', __(TopLevelMessages::DELETE_SUCCESS)));
                 }
             }
         }

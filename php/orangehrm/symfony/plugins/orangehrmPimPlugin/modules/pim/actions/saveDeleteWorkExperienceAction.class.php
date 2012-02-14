@@ -64,7 +64,7 @@ class saveDeleteWorkExperienceAction extends basePimAction {
                 if(count($deleteIds) > 0) {
                     $this->setOperationName('DELETE WORK EXPERIENCE');
                     $this->getEmployeeService()->deleteWorkExperience($empNumber, $request->getParameter('delWorkExp'));
-                    $this->getUser()->setFlash('templateMessage', array('success', __('Work Experience(s) Deleted Successfully')));
+                    $this->getUser()->setFlash('templateMessage', array('success', __(TopLevelMessages::DELETE_SUCCESS)));
                 }
             }
         }

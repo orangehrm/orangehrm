@@ -45,7 +45,7 @@ class deleteProjectActivityAction extends sfAction {
 
 					$customer = $this->getProjectService()->deleteProjectActivities($toBeDeletedActivityId);
 				}
-				$this->getUser()->setFlash('templateMessageAct', array('success', __('Selected Project Activities Deleted Successfully')));
+				$this->getUser()->setFlash('templateMessageAct', array('success', __(TopLevelMessages::DELETE_SUCCESS)));
 			} else {
 				$this->getUser()->setFlash('templateMessageAct', array('failure', __('Not Allowed to Delete Project Activites Which Have Time Logged Against')));
 			}

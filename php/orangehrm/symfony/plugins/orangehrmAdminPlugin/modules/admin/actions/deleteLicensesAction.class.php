@@ -46,7 +46,7 @@ class deleteLicensesAction extends sfAction {
             $result = $this->getLicenseService()->deleteLicenses($toDeleteIds);
             
             if ($result) {
-                $this->getUser()->setFlash('templateMessage', array('SUCCESS', __('License(s) Deleted Successfully'))); 
+                $this->getUser()->setFlash('templateMessage', array('SUCCESS', __(TopLevelMessages::DELETE_SUCCESS))); 
                 $this->redirect('admin/viewLicenses');
             }            
             

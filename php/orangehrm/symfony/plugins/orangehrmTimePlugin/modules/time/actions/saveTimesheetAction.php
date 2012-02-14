@@ -44,7 +44,7 @@ class saveTimesheetAction extends sfAction {
                     $this->redirect('time/editTimesheet');
                 } else {
                     $this->getTimesheetService()->deleteTimesheetItems($request->getParameter('initialRows'), $this->employeeId, $this->timesheetId);
-                    $this->messageData = array('SUCCESS', __('Successfully Deleted'));
+                    $this->messageData = array('SUCCESS', __(TopLevelMessages::DELETE_SUCCESS));
                     $this->redirect('time/editTimesheet');
                 }
             }

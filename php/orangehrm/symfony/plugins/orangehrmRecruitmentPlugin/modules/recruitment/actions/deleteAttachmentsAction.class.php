@@ -38,7 +38,7 @@ class deleteAttachmentsAction extends sfAction {
                     $attachment = $service->getAttachment($attachmentsToDelete[$i],$this->form->screen);
                     $attachment->delete();
                 }
-                $this->getUser()->setFlash('attachmentMessage', array('success', __('Attachment(s) Deleted Successfully')));
+                $this->getUser()->setFlash('attachmentMessage', array('success', __(TopLevelMessages::DELETE_SUCCESS)));
             }
         }
 

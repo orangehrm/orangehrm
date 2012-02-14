@@ -343,7 +343,7 @@ class performanceActions extends sfActions {
                 $kpiService = $this->getKpiService();
                 $kpiService->deleteKpi($request->getParameter('chkKpiID'));
 
-                $this->setMessage('SUCCESS', array(__('Successfully Deleted')));
+                $this->setMessage('SUCCESS', array(__(TopLevelMessages::DELETE_SUCCESS)));
             }
         }
 

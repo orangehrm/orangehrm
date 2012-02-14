@@ -48,11 +48,8 @@ class deletePayGradeCurrencyAction extends sfAction {
 					$currency->delete();
 				}				
 			}
-			if(sizeof($currenciesToDelete) == 1){
-				$this->getUser()->setFlash('templateMessage', array('success', __('Pay Grade Currency Deleted Successfully')));
-			} else {
-				$this->getUser()->setFlash('templateMessage', array('success', __('Pay Grade Currencies Deleted Successfully')));
-			}
+
+            $this->getUser()->setFlash('templateMessage', array('success', __(TopLevelMessages::DELETE_SUCCESS)));
 			
 		}
 

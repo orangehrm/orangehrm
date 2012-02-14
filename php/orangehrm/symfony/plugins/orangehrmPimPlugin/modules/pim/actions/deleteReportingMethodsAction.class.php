@@ -46,7 +46,7 @@ class deleteReportingMethodsAction extends sfAction {
             $result = $this->getReportingMethodService()->deleteReportingMethods($toDeleteIds);
             
             if ($result) {
-                $this->getUser()->setFlash('templateMessage', array('SUCCESS', __('Reporting Method(s) Deleted Successfully'))); 
+                $this->getUser()->setFlash('templateMessage', array('SUCCESS', __(TopLevelMessages::DELETE_SUCCESS))); 
                 $this->redirect('pim/viewReportingMethods');
             }            
             
