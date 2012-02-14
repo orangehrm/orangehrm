@@ -8,6 +8,6 @@ class TopLevelMessages {
     const SAVE_FAILURE = "Failed to Save";
     const INVALID_FILE_TYPE = "Invalid File Type";
     const NO_RECORDS_FOUND = "No Records Found";
-    
+    const SELECT_RECORDS = "Select Records to Delete";
 }
 

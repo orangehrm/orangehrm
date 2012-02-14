@@ -47,7 +47,7 @@ class deleteEmergencyContactsAction extends basePimAction {
                 if ($emergencyContactsToDelete) {
                     $service = new EmployeeService();
                     $count = $service->deleteEmergencyContacts($empNumber, $emergencyContactsToDelete);
-                    $this->getUser()->setFlash('templateMessage', array('success', __('Emergency Contact/s Deleted Successfully')));
+                    $this->getUser()->setFlash('templateMessage', array('success', __(TopLevelMessages::DELETE_SUCCESS)));
                 }
         }
 

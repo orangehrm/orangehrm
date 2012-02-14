@@ -171,9 +171,9 @@ $locRights['delete'] = true;
     var lang_AddAttachmentHeading = "<?php echo __("Add Attachment"); ?>";
     var lang_EditAttachmentReplaceFile = "<?php echo __("Replace file");?>";
     var lang_EditAttachmentWithNewFile = "<?php echo __("with new file");?>";
-    var lang_PleaseSelectAFile = "<?php echo __("Please select a file");?>";
-    var lang_CommentsMaxLength = "<?php echo __("Comment should be less than 200 characters");?>";
-    var lang_SelectAtLeastOneAttachment = "<?php echo __("Please Select At Least One Attachment To Delete"); ?>";  
+    var lang_PleaseSelectAFile = "<?php echo __(ValidationMessages::REQUIRED);?>";
+    var lang_CommentsMaxLength = "<?php echo __(ValidationMessages::TEXT_LENGTH_EXCEEDS, array('%amount%' => 250));?>";
+    var lang_SelectAtLeastOneAttachment = "<?php echo __(TopLevelMessages::SELECT_RECORDS); ?>";  
 
     var clearAttachmentMessages = true;
     

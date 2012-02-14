@@ -158,7 +158,7 @@ var fileModified = 0;
         </table>
     </form>
 </div>
-<div class="paddingLeftRequired"><?php echo __('Fields marked with an asterisk')?> <span class="required">*</span> <?php echo __('are required.')?></div>
+<div class="paddingLeftRequired"><span class="required">* <?php echo __(CommonMessages::REQUIRED_FIELD)?></span></div>
 <?php echo include_component('pim', 'customFields', array('empNumber'=>$empNumber, 'screen' => 'emergency'));?>
 <?php echo include_component('pim', 'attachments', array('empNumber'=>$empNumber, 'screen' => 'emergency'));?>
     
@@ -301,26 +301,26 @@ var fileModified = 0;
             },
             messages: {
                 'emgcontacts[name]': {
-                    required:'<?php echo __("Name is required") ?>',
-                    maxlength: '<?php echo __('Maximum character limit exceeded for') ?> <?php echo __('Name') ?>'
+                    required:'<?php echo __(ValidationMessages::REQUIRED); ?>',
+                    maxlength: '<?php echo __(ValidationMessages::TEXT_LENGTH_EXCEEDS,array('%amount%' => 100)); ?>'
                 },
                 'emgcontacts[relationship]': {
-                    required:'<?php echo __("Relationship is required") ?>',
-                    maxlength: '<?php echo __('Maximum character limit exceeded for') ?> <?php echo __('Relationship') ?>'
+                    required:'<?php echo __(ValidationMessages::REQUIRED); ?>',
+                    maxlength: '<?php echo __(ValidationMessages::TEXT_LENGTH_EXCEEDS,array('%amount%' => 100)); ?>'
                 },
                 'emgcontacts[homePhone]' : {
-                    phone:'<?php echo __('Home telephone can contain only space, numbers, "+", and "-"'); ?>',
-                    validContactPhone:'<?php echo __("Please specify at least one phone number"); ?>',
-                    maxlength: '<?php echo __('Maximum character limit exceeded for') ?> <?php echo __('Home Telephone') ?>'
+                    phone:'<?php echo __(ValidationMessages::TP_NUMBER_INVALID); ?>',
+                    validContactPhone:'<?php echo __('At least one phone number is required'); ?>',
+                    maxlength: '<?php echo __(ValidationMessages::TEXT_LENGTH_EXCEEDS,array('%amount%' => 100)); ?>'
                 },
                 'emgcontacts[mobilePhone]' : {
-                    phone:'<?php echo __('Mobile can contain only space, numbers, "+", and "-"'); ?>',
-                    maxlength: '<?php echo __('Maximum character limit exceeded for') ?> <?php echo __('Mobile') ?>'
+                	phone:'<?php echo __(ValidationMessages::TP_NUMBER_INVALID); ?>',
+                	maxlength: '<?php echo __(ValidationMessages::TEXT_LENGTH_EXCEEDS,array('%amount%' => 100)); ?>'
 
                 },
                 'emgcontacts[workPhone]' : {
-                    phone:'<?php echo __('Work telephone can contain only space, numbers, "+", and "-"'); ?>',
-                    maxlength: '<?php echo __('Maximum character limit exceeded for') ?> <?php echo __('Work Telephone') ?>'
+                	phone:'<?php echo __(ValidationMessages::TP_NUMBER_INVALID); ?>',
+                	maxlength: '<?php echo __(ValidationMessages::TEXT_LENGTH_EXCEEDS,array('%amount%' => 100)); ?>'
                 }
             },
             errorPlacement: function(error, element) {
@@ -336,7 +336,7 @@ var fileModified = 0;
 
             if (checked == 0) {
                 $("#messagebar").attr("class", "messageBalloon_notice");
-                $("#messagebar").text("<?php echo __("Select at least One Record to Delete"); ?>");
+                $("#messagebar").text("<?php echo __(TopLevelMessages::SELECT_RECORDS); ?>");
             } else {
                 $('#frmEmpDelEmgContacts').submit();
             }

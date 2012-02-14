@@ -270,11 +270,6 @@
                 <source>Add Emergency Contact</source>
                 <target>FR_Add Emergency Contact</target>
             </trans-unit>
-
-            <trans-unit id="101">
-                <source>Emergency Contact Saved Successfully</source>
-                <target>FR_Emergency Contact Saved Successfully</target>
-            </trans-unit>
             <trans-unit id="102">
                 <source>Assigned Emergency Contacts</source>
                 <target>FR_Assigned Emergency Contacts</target>
@@ -282,14 +277,6 @@
             <trans-unit id="103">
                 <source>Edit Emergency Contact</source>
                 <target>FR_Edit Emergency Contact</target>
-            </trans-unit>
-            <trans-unit id="104">
-                <source>Name is required</source>
-                <target>FR_Name is required</target>
-            </trans-unit>
-            <trans-unit id="105">
-                <source>Emergency Contact/s Deleted Successfully</source>
-                <target>FR_Emergency Contact/s Deleted Successfully</target>
             </trans-unit>
             <trans-unit id="106">
                 <source>Add Immigration</source>
@@ -351,10 +338,6 @@
             <trans-unit id="121">
                 <source>Dependent/s Deleted Successfully</source>
                 <target>FR_Dependent/s Deleted Successfully</target>
-            </trans-unit>
-            <trans-unit id="122">
-                <source>Please specify at least one phone number</source>
-                <target>FR_Please specify at least one phone number</target>
             </trans-unit>
             <trans-unit id="123">
                 <source>Comment length cannot exceed 250 characters</source>
@@ -932,10 +915,6 @@
                 <source>Hourly</source>
                 <target>FR_Hourly</target>
             </trans-unit>
-            <trans-unit id="280">
-                <source>Comment should be less than 200 characters</source>
-                <target>FR_Comment should be less than 200 characters</target>
-            </trans-unit>
             <trans-unit id="281">
                 <source>Reason is required</source>
                 <target>FR_Reason is required</target>
@@ -1097,6 +1076,10 @@
             <trans-unit id="5000">
                 <source>Deleted</source>
                 <target>FR_Deleted</target>
+            </trans-unit>
+            <trans-unit id="5001">
+                <source>At least one phone number is required</source>
+                <target>FR_At least one phone number is required</target>
             </trans-unit>
         </body>
     </file>
