@@ -68,16 +68,16 @@ class updateReportToDetailAction extends basePimAction {
                 $value = $this->form->save();
                 if ($value[0] == ReportTo::SUPERVISOR) {
                     if ($value[1]) {
-                        $this->getUser()->setFlash('templateMessage', array('success', __('Supervisor Updated Successfully')));
+                        $this->getUser()->setFlash('templateMessage', array('success', __(TopLevelMessages::UPDATE_SUCCESS)));
                     } else {
-                        $this->getUser()->setFlash('templateMessage', array('success', __('Supervisor Added Successfully')));
+                        $this->getUser()->setFlash('templateMessage', array('success', __(TopLevelMessages::ADD_SUCCESS)));
                     }
                 }
                 if ($value[0] == ReportTo::SUBORDINATE) {
                     if ($value[1]) {
-                        $this->getUser()->setFlash('templateMessage', array('success', __('Subordinate Updated Successfully')));
+                        $this->getUser()->setFlash('templateMessage', array('success', __(TopLevelMessages::UPDATE_SUCCESS)));
                     } else {
-                        $this->getUser()->setFlash('templateMessage', array('success', __('Subordinate Added Successfully')));
+                        $this->getUser()->setFlash('templateMessage', array('success', __(TopLevelMessages::ADD_SUCCESS)));
                     }
                 }
             }

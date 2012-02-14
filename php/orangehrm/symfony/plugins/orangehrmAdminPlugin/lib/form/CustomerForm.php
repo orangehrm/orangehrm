@@ -68,11 +68,11 @@ class CustomerForm extends BaseForm {
 			$service = $this->getCustomerService();
 			$customer = $service->getCustomerById($customerId);
 			$this->resultArray['messageType'] = 'success';
-			$this->resultArray['message'] = __('Customer Updated Successfully');
+			$this->resultArray['message'] = __(TopLevelMessages::UPDATE_SUCCESS);
 		} else {
 			$customer = new Customer();
 			$this->resultArray['messageType'] = 'success';
-			$this->resultArray['message'] = __('Customer Added Successfully');
+			$this->resultArray['message'] = __(TopLevelMessages::ADD_SUCCESS);
 		}
 
 		$customer->setName(trim($this->getValue('customerName')));

@@ -42,7 +42,7 @@ class updateAttachmentAction extends sfAction {
 
             if ($this->form->isValid()) {
                 $this->form->save();
-                $this->getUser()->setFlash('attachmentMessage', array('success', __('Attachment Updated Successfully')));
+                $this->getUser()->setFlash('attachmentMessage', array('success', __(TopLevelMessages::UPDATE_SUCCESS)));
             }
         }
         $this->redirect($this->getRequest()->getReferer() . '#attachments');

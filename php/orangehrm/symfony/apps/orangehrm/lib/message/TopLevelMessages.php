@@ -3,6 +3,7 @@
 class TopLevelMessages {
     
     const SAVE_SUCCESS = "Successfully Saved";
+    const ADD_SUCCESS = "Successfully Added";
     const UPDATE_SUCCESS = "Successfully Updated";
     const DELETE_SUCCESS = "Successfully Deleted";
     const SAVE_FAILURE = "Failed to Save";

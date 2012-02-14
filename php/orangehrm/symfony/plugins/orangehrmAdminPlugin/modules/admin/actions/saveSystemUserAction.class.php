@@ -54,9 +54,9 @@ class saveSystemUserAction extends sfAction {
                 $this->form->save();
 
                 if ($this->form->edited) {
-                    $this->getUser()->setFlash('templateMessage', array('success', __('User Updated Successfully')));
+                    $this->getUser()->setFlash('templateMessage', array('success', __(TopLevelMessages::UPDATE_SUCCESS)));
                 } else {
-                    $this->getUser()->setFlash('templateMessage', array('success', __('User Added Successfully')));
+                    $this->getUser()->setFlash('templateMessage', array('success', __(TopLevelMessages::ADD_SUCCESS)));
                 }
                 $this->redirect('admin/viewSystemUsers');
             }

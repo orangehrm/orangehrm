@@ -52,9 +52,9 @@ class updateCustomFieldsAction extends basePimAction {
                 // save data
 
                 $this->form->save();
-                $this->getUser()->setFlash('customFieldsMessage', array('success', __('Custom Fields Updated Successfully')));                
+                $this->getUser()->setFlash('customFieldsMessage', array('success', __(TopLevelMessages::UPDATE_SUCCESS)));                
             } else {
-                $this->getUser()->setFlash('customFieldsMessage', array('warning', __('Custom Fields Form Validation Failed.')));
+                $this->getUser()->setFlash('customFieldsMessage', array('warning', __('Custom Fields Form Validation Failed')));
             }
         }                    
 

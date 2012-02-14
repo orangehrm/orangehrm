@@ -51,9 +51,9 @@ class locationAction extends sfAction {
 			if ($this->form->isValid()) {
 				$locationId = $this->form->save();
 				if ($this->form->edited) {
-					$this->getUser()->setFlash('templateMessage', array('success', __('Location Updated Successfully')));
+					$this->getUser()->setFlash('templateMessage', array('success', __(TopLevelMessages::UPDATE_SUCCESS)));
 				} else {
-					$this->getUser()->setFlash('templateMessage', array('success', __('Location Added Successfully')));
+					$this->getUser()->setFlash('templateMessage', array('success', __(TopLevelMessages::ADD_SUCCESS)));
 				}
 				$this->redirect('admin/viewLocations');
 			}

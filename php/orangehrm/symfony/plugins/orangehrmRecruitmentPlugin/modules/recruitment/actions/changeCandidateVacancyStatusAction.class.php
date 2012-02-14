@@ -126,25 +126,25 @@ class changeCandidateVacancyStatusAction extends sfAction {
         switch ($action) {
 
             case WorkflowStateMachine::RECRUITMENT_APPLICATION_ACTION_SHORTLIST:
-                $message = __("Candidate Shortlisted Successfully");
+                $message = __("Successfully Shortlisted");
                 break;
             case WorkflowStateMachine::RECRUITMENT_APPLICATION_ACTION_REJECT:
-                $message = __("Candidate Rejected Successfully");
+                $message = __("Successfully Rejected");
                 break;
             case WorkflowStateMachine::RECRUITMENT_APPLICATION_ACTION_MARK_INTERVIEW_PASSED:
-                $message = __("Interview Status Updated Successfully");
+                $message = __(TopLevelMessages::UPDATE_SUCCESS);
                 break;
             case WorkflowStateMachine::RECRUITMENT_APPLICATION_ACTION_MARK_INTERVIEW_FAILED:
-                $message = __("Interview Status Updated Successfully");
+                $message = __(TopLevelMessages::UPDATE_SUCCESS);
                 break;
             case WorkflowStateMachine::RECRUITMENT_APPLICATION_ACTION_OFFER_JOB:
-                $message = __("Job Offered Successfully");
+                $message = __("Successfully Offered");
                 break;
             case WorkflowStateMachine::RECRUITMENT_APPLICATION_ACTION_DECLINE_OFFER:
-                $message = __("Job offer Marked as Declined Successfully");
+                $message = __("Successfully Marked as Declined");
                 break;
             case WorkflowStateMachine::RECRUITMENT_APPLICATION_ACTION_HIRE:
-                $message = __("Candidate Hired Successfully");
+                $message = __("Successfully Hired");
                 break;
         }
         return $message;

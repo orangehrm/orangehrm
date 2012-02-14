@@ -76,7 +76,7 @@ class viewJobDetailsAction extends basePimAction {
                 $this->form->updateAttachment();
                 
                 
-                $this->getUser()->setFlash('templateMessage', array('success', __('Job Details Updated Successfully')));  
+                $this->getUser()->setFlash('templateMessage', array('success', __(TopLevelMessages::UPDATE_SUCCESS)));  
             } else {
                 $validationMsg = '';
                 foreach($this->form->getWidgetSchema()->getPositions() as $widgetName) {

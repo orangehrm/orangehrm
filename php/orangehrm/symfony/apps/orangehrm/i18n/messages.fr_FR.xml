@@ -5267,6 +5267,10 @@
                 <source>Should be a number</source>
                 <target>FR_Should be a number</target>
             </trans-unit>
+            <trans-unit id="8008">
+                <source>Successfully Added</source>
+                <target>FR_Successfully Added</target>
+            </trans-unit>            
             
         </body>
     </file>

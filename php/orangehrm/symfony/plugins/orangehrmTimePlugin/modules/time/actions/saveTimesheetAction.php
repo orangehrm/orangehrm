@@ -30,7 +30,7 @@ class saveTimesheetAction extends sfAction {
             if ($request->getParameter('btnSave')) {
                 if ($this->numberOfRows == null) {
                     $this->getTimesheetService()->saveTimesheetItems($request->getParameter('initialRows'), 1, 1, $this->currentWeekDates, $this->totalRows);
-                    $this->messageData = array('SUCCESS', __('Successfully Added'));
+                    $this->messageData = array('SUCCESS', __(TopLevelMessages::ADD_SUCCESS));
                     $this->redirect('time/editTimesheet');
                 } else {
                     $this->getTimesheetService()->saveTimesheetItems($request->getParameter('initialRows'), $this->employeeId, $this->timesheetId, $this->currentWeekDates, $this->totalRows);
@@ -40,7 +40,7 @@ class saveTimesheetAction extends sfAction {
             }
             if ($request->getParameter('btnRemoveRows')) {
                 if ($this->numberOfRows == null) {
-                    $this->messageData = array('WARNING', __("You can't delete an empty row"));
+                    $this->messageData = array('WARNING', __("Can not delete an empty row"));
                     $this->redirect('time/editTimesheet');
                 } else {
                     $this->getTimesheetService()->deleteTimesheetItems($request->getParameter('initialRows'), $this->employeeId, $this->timesheetId);

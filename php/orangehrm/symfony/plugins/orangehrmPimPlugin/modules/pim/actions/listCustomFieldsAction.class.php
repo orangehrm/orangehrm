@@ -63,7 +63,7 @@ class listCustomFieldsAction extends sfAction {
                 
                 if ($message == 'UPDATE_SUCCESS') {
                     $this->messageType = 'success';
-                    $this->message = __('Custom Field Successfully Updated');
+                    $this->message = __(TopLevelMessages::UPDATE_SUCCESS);
                 }
             }
             

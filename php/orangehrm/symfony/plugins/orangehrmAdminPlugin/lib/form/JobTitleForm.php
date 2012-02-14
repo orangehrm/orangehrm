@@ -90,11 +90,11 @@ class JobTitleForm extends BaseForm {
                 $attachment->delete();
             }
             $resultArray['messageType'] = 'success';
-            $resultArray['message'] = __('Job Title Updated Successfully');
+            $resultArray['message'] = __(TopLevelMessages::UPDATE_SUCCESS);
         } else {
             $jobTitleObj = new JobTitle();
             $resultArray['messageType'] = 'success';
-            $resultArray['message'] = __('Job Title Added Successfully');
+            $resultArray['message'] = __(TopLevelMessages::ADD_SUCCESS);
         }
 
         $jobTitleObj->setJobTitleName($jobTitle);

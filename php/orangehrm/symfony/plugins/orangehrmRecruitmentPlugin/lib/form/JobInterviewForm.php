@@ -186,7 +186,7 @@ class JobInterviewForm extends BaseForm {
         if (!empty($this->interviewId)) {
             $this->getInterviewService()->updateJobInterview($newJobInterview);
             $this->resultArray['messageType'] = 'success';
-            $this->resultArray['message'] = __('Interview Details Updated Successfully');
+            $this->resultArray['message'] = __(TopLevelMessages::UPDATE_SUCCESS);
         } else {
             $newJobInterview->save();
         }

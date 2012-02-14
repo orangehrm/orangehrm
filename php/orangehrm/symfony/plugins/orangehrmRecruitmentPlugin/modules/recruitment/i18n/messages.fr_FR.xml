@@ -694,6 +694,26 @@
                 <source>marked the offer as declined</source>
                 <target>FR_marked the offer as declined</target>
             </trans-unit>
+            <trans-unit id="5002">
+                <source>Successfully Shortlisted</source>
+                <target>FR_Successfully Shortlisted</target>
+            </trans-unit>
+            <trans-unit id="5002">
+                <source>Successfully Rejected</source>
+                <target>FR_Successfully Rejected</target>
+            </trans-unit>
+            <trans-unit id="5002">
+                <source>Successfully Offered</source>
+                <target>FR_Successfully Offered</target>
+            </trans-unit>
+            <trans-unit id="5002">
+                <source>Successfully Marked as Declined</source>
+                <target>FR_Successfully Marked as Declined</target>
+            </trans-unit> 
+            <trans-unit id="5002">
+                <source>Successfully Hired</source>
+                <target>FR_Successfully Hired</target>
+            </trans-unit>             
         </body>
     </file>
 </xliff>

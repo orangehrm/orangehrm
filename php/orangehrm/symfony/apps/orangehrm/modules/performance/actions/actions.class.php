@@ -227,7 +227,7 @@ class performanceActions extends sfActions {
 
                     $kpiService->saveKpi($defineKpi);
 
-                    $this->setMessage('SUCCESS', array(__('Successfully Added').'<a href="listDefineKpi">'.__('View KPI List').'</a>'));
+                    $this->setMessage('SUCCESS', array(__(TopLevelMessages::ADD_SUCCESS).'<a href="listDefineKpi">'.__('View KPI List').'</a>'));
                     $this->redirect('performance/saveKpi');
                 } catch (Doctrine_Validator_Exception $e) {
 
@@ -277,7 +277,7 @@ class performanceActions extends sfActions {
             }
 
             $kpiService->saveKpi($kpi);
-            $this->setMessage('SUCCESS', array(__('Successfully Updated')));
+            $this->setMessage('SUCCESS', array(__(TopLevelMessages::UPDATE_SUCCESS)));
             $this->redirect('performance/listDefineKpi');
         }
     }
