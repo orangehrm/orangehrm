@@ -18,6 +18,7 @@ class Cryptographer {
             return $value;
         }
 
+        self::init();
         $encrypt = self::$cryptographicScheme->encrypt($value);
         $encrypt = strtoupper(bin2hex($encrypt));
         return $encrypt;
