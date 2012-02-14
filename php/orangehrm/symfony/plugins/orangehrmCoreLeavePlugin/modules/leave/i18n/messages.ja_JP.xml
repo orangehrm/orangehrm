@@ -531,8 +531,8 @@
     <target>日の総休暇申請はWorkshift長さを超えない</target>
    </trans-unit>
    <trans-unit id="116">
-    <source>Leve Request Exceeds Leave Balance</source>
-    <target>Leveリクエストは、バランスを残す突破</target>
+    <source>Leave Request Exceeds Leave Balance</source>
+    <target>要求のままにバランスを残す超える</target>
    </trans-unit>
    <trans-unit id="117">
 

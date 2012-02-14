@@ -185,8 +185,8 @@
     <target>FR_Leave type will be undeleted</target>
    </trans-unit>
    <trans-unit id="46">
-    <source>Leve Request Exceeds Leave Balance</source>
-    <target>FR_Leve Request Exceeds Leave Balance</target>
+    <source>Leave Request Exceeds Leave Balance</source>
+    <target>FR_Leave Request Exceeds Leave Balance</target>
    </trans-unit>
    <trans-unit id="47">
     <source>Make Sure Leave Request Contain Work Days</source>

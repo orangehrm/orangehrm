@@ -531,8 +531,8 @@
     <target>CA_Total Leave Requests for the Day Exceed Workshift Length</target>
    </trans-unit>
    <trans-unit id="116">
-    <source>Leve Request Exceeds Leave Balance</source>
-    <target>CA_Leve Request Exceeds Leave Balance</target>
+    <source>Leave Request Exceeds Leave Balance</source>
+    <target>CA_Leave Request Exceeds Leave Balance</target>
    </trans-unit>
    <trans-unit id="117">
 

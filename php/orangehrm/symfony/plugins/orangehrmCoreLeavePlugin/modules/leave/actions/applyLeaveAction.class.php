@@ -398,7 +398,7 @@ class applyLeaveAction extends sfAction {
     protected function isLeaveRequestNotExceededLeaveBalance( $requestedLeaveDays, $leaveRequest){
         
         if (!$this->getLeaveEntitlementService()->isLeaveRequestNotExceededLeaveBalance($requestedLeaveDays, $leaveRequest)) {
-            $this->templateMessage = array('WARNING', __('Leve Request Exceeds Leave Balance'));
+            $this->templateMessage = array('WARNING', __('Leave Request Exceeds Leave Balance'));
             return false;
         }
         return true;
