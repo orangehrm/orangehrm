@@ -36,7 +36,8 @@ class AttendanceDaoTest extends PHPUnit_Framework_TestCase {
     }
 
     public function testSaveNewPunchRecord() {
-
+        TestDataService::truncateSpecificTables(array('AttendanceRecord'));
+        
         $punchRecord = new AttendanceRecord();
 
         $punchRecord->setState("PUNCHED IN");
