@@ -11,10 +11,10 @@
     //we write javascript related stuff here, but if the logic gets lengthy should use a seperate js file
     var edit = "<?php echo __("Edit"); ?>";
     var save = "<?php echo __("Save"); ?>";
-    var lang_firstNameRequired = "<?php echo __("First Name is required"); ?>";
-    var lang_lastNameRequired = "<?php echo __("Last Name is required"); ?>";
-    var lang_selectGender = "<?php echo __("Select a gender"); ?>";
-    var lang_invalidDate = '<?php echo __("Please enter a valid date in %format% format", array('%format%' => get_datepicker_date_format($sf_user->getDateFormat()))) ?>'
+    var lang_firstNameRequired = "<?php echo __(ValidationMessages::REQUIRED); ?>";
+    var lang_lastNameRequired = "<?php echo __(ValidationMessages::REQUIRED); ?>";
+    var lang_selectGender = "<?php echo __(ValidationMessages::REQUIRED); ?>";
+    var lang_invalidDate = '<?php echo __(ValidationMessages::DATE_FORMAT_INVALID, array('%format%' => get_datepicker_date_format($sf_user->getDateFormat()))) ?>';
     var datepickerDateFormat = '<?php echo get_datepicker_date_format($sf_user->getDateFormat()); ?>';
     var readonlyFlag = 0;
     <?php if($essMode) { ?>
@@ -150,7 +150,7 @@
                                 </form>
                             </div>
                         </div>
-                        <div class="paddingLeftRequired"><?php echo __('Fields marked with an asterisk')?> <span class="required">*</span> <?php echo __('are required.')?></div>
+                        <div class="paddingLeftRequired"><span class="required">* <?php echo __(CommonMessages::REQUIRED_FIELD)?></span></div>
                         <?php echo include_component('pim', 'customFields', array('empNumber'=>$empNumber, 'screen' => 'personal'));?>
                         <?php echo include_component('pim', 'attachments', array('empNumber'=>$empNumber, 'screen' => 'personal'));?>
                         

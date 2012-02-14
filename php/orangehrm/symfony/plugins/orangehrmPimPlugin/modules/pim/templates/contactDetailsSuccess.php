@@ -13,15 +13,15 @@
     //we write javascript related stuff here, but if the logic gets lengthy should use a seperate js file
     var edit = "<?php echo __("Edit"); ?>";
     var save = "<?php echo __("Save"); ?>";
-    var invalidHomePhoneNumber = '<?php echo __('Home telephone can contain only space, numbers, "+", and "-"'); ?>';
-    var invalidMobilePhoneNumber = '<?php echo __('Mobile can contain only space, numbers, "+", and "-"'); ?>';
-    var invalidWorkPhoneNumber = '<?php echo __('Work telephone can contain only space, numbers, "+", and "-"'); ?>';
-    var incorrectWorkEmail = "<?php echo __('Work email address should contain at least one \".\" and one \"@\" Example:user@example.com');?>";
-    var incorrectOtherEmail = "<?php echo __('Other email address should contain at least one \".\" and one \"@\" Example:user@example.com');?>";
+    var invalidHomePhoneNumber = '<?php echo __(ValidationMessages::TP_NUMBER_INVALID); ?>';
+    var invalidMobilePhoneNumber = '<?php echo __(ValidationMessages::TP_NUMBER_INVALID); ?>';
+    var invalidWorkPhoneNumber = '<?php echo __(ValidationMessages::TP_NUMBER_INVALID); ?>';
+    var incorrectWorkEmail = "<?php echo __(ValidationMessages::EMAIL_INVALID); ?>";
+    var incorrectOtherEmail = "<?php echo __(ValidationMessages::EMAIL_INVALID); ?>";
     var fileModified = 0;
     var emails = <?php echo json_encode($form->getEmailList()); ?>;
     var emailList =eval(emails);
-    var lang_emailExistmsg = "<?php echo __("This email already exists"); ?>";
+    var lang_emailExistmsg = "<?php echo __(ValidationMessages::ALREADY_EXISTS); ?>";
     
     <?php if (isset($empNumber)) { ?>
                     var empNumber = '<?php echo $empNumber; ?>';

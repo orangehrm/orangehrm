@@ -5274,6 +5274,59 @@
                 <source>PIM Sample Report</source>
                 <target>FR_PIM Sample Report</target>
             </trans-unit>
+            
+            <trans-unit id="6037">
+                <source>required field</source>
+                <target>FR_required field</target>
+            </trans-unit>
+            <trans-unit id="6037">
+                <source>Successfully Saved</source>
+                <target>FR_Successfully Saved</target>
+            </trans-unit>
+            <trans-unit id="6037">
+                <source>Successfully Updated</source>
+                <target>FR_Successfully Updated</target>
+            </trans-unit>
+            <trans-unit id="6037">
+                <source>Successfully Deleted</source>
+                <target>FR_Successfully Deleted</target>
+            </trans-unit>
+            <trans-unit id="6037">
+                <source>Failed to Save</source>
+                <target>FR_Failed to Save</target>
+            </trans-unit>
+            <trans-unit id="6037">
+                <source>Invalid File Type</source>
+                <target>FR_Invalid File Type</target>
+            </trans-unit>
+            <trans-unit id="6037">
+                <source>No Records Found</source>
+                <target>FR_No Records Found</target>
+            </trans-unit>
+            <trans-unit id="6037">
+                <source>Required</source>
+                <target>FR_Required</target>
+            </trans-unit>
+            <trans-unit id="6037">
+                <source>Should be a valid date in %format% format</source>
+                <target>FR_Should be a valid date in %format% format</target>
+            </trans-unit>
+            <trans-unit id="6037">
+                <source>Expected format: admin@example.com</source>
+                <target>FR_Expected format: admin@example.com</target>
+            </trans-unit>            
+            <trans-unit id="6037">
+                <source>Allows numbers and only + - / ( )</source>
+                <target>FR_Allows numbers and only + - / ( )</target>
+            </trans-unit>
+            <trans-unit id="6037">
+                <source>Already exists</source>
+                <target>FR_Already exists</target>
+            </trans-unit>            
+
+        
+        
+        
         </body>
     </file>
 </xliff>
