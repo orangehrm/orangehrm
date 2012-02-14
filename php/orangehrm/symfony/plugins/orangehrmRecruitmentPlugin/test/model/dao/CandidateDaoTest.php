@@ -1,6 +1,5 @@
 <?php
 
-
 /**
  * OrangeHRM is a comprehensive Human Resource Management (HRM) System that captures
  * all the essential functionalities required for any enterprise.
@@ -502,6 +501,7 @@ class CandidateDaoTest extends PHPUnit_Framework_TestCase {
     }
 
     public function testSaveCandidateForNullId() {
+        TestDataService::truncateTables(array('JobCandidate'));
 
         $candidate = new JobCandidate();
         $candidate->id = null;
@@ -524,6 +524,7 @@ class CandidateDaoTest extends PHPUnit_Framework_TestCase {
      * 
      */
     public function testSaveCandidateVacancy() {
+        TestDataService::truncateSpecificTables(array('JobCandidateVacancy'));
 
         $candidateVacancy = new JobCandidateVacancy();
         $candidateVacancy->candidateId = 1;
@@ -558,6 +559,8 @@ class CandidateDaoTest extends PHPUnit_Framework_TestCase {
     }
 
     public function testSaveCandidateHistory() {
+        TestDataService::truncateSpecificTables(array('CandidateHistory'));
+
         $candidateHistory = new CandidateHistory();
         $candidateHistory->vacancyId = 2;
         $candidateHistory->candidateId = 1;
