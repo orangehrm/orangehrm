@@ -456,14 +456,6 @@
                 <source>with new file</source>
                 <target>FR_with new file</target>
             </trans-unit>
-            <trans-unit id="151">
-                <source>Comment cannot exceed 200 characters in length</source>
-                <target>FR_Comment cannot exceed 200 characters in length</target>
-            </trans-unit>
-            <trans-unit id="152">
-                <source>Comment length cannot exceed 200 characters</source>
-                <target>FR_Comment length cannot exceed 200 characters</target>
-            </trans-unit>
             <trans-unit id="153">
                 <source>Issued date should be before expiry date</source>
                 <target>FR_Issued date should be before expiry date</target>

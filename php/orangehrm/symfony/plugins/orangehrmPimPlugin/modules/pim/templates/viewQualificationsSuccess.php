@@ -12,14 +12,14 @@
     var fileModified = 0;
     var lang_addWorkExperience = "<?php echo __('Add Work Experience');?>";
     var lang_editWorkExperience = "<?php echo __('Edit Work Experience');?>";
-    var lang_companyRequired = "<?php echo __("Company is required");?>";
-    var lang_jobTitleRequired = "<?php echo __("Job Title is required");?>";
-    var lang_invalidDate = '<?php echo __("Please enter a valid date in %format% format", array('%format%' => get_datepicker_date_format($sf_user->getDateFormat()))); ?>';
-    var lang_commentLength = "<?php echo __('Comment length cannot exceed 200 characters');?>";
+    var lang_companyRequired = "<?php echo __(ValidationMessages::REQUIRED);?>";
+    var lang_jobTitleRequired = "<?php echo __(ValidationMessages::REQUIRED);?>";
+    var lang_invalidDate = '<?php echo __(ValidationMessages::DATE_FORMAT_INVALID, array('%format%' => get_datepicker_date_format($sf_user->getDateFormat()))); ?>';
+    var lang_commentLength = "<?php echo __(ValidationMessages::TEXT_LENGTH_EXCEEDS, array('%amount%' => 250));?>";
     var lang_fromDateLessToDate = "<?php echo __('To date should be after From date');?>";
-    var lang_selectWrkExprToDelete = "<?php echo __('Select Work Experience From The List To Delete');?>";
-    var lang_jobTitleMaxLength = "<?php echo __('Job Title length cannot exceed 120 characters');?>";
-    var lang_companyMaxLength = "<?php echo __('Job Title length cannot exceed 100 characters');?>";
+    var lang_selectWrkExprToDelete = "<?php echo __(TopLevelMessages::SELECT_RECORDS);?>";
+    var lang_jobTitleMaxLength = "<?php echo __(ValidationMessages::TEXT_LENGTH_EXCEEDS, array('%amount%' => 100));?>";
+    var lang_companyMaxLength = "<?php echo __(ValidationMessages::TEXT_LENGTH_EXCEEDS, array('%amount%' => 100));?>";
 
     var datepickerDateFormat = '<?php echo get_datepicker_date_format($sf_user->getDateFormat()); ?>';
     //]]>
@@ -94,7 +94,7 @@
                                             <br class="clear"/>
 
                                             <?php echo $workExperienceForm['jobtitle']->renderLabel(__('Job Title') . ' <span class="required">*</span>'); ?>
-                                            <?php echo $workExperienceForm['jobtitle']->render(array("class" => "formInputText", "maxlength" => 120)); ?>
+                                            <?php echo $workExperienceForm['jobtitle']->render(array("class" => "formInputText", "maxlength" => 100)); ?>
                                             <br class="clear"/>
 
                                             <?php echo $workExperienceForm['from_date']->renderLabel(__('From')); ?>

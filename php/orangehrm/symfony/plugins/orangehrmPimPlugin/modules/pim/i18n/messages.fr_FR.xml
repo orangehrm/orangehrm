@@ -391,14 +391,6 @@
                 <source>Edit Work Experience</source>
                 <target>FR_Edit Work Experience</target>
             </trans-unit>
-            <trans-unit id="154">
-                <source>Company is required</source>
-                <target>FR_Company is required</target>
-            </trans-unit>
-            <trans-unit id="155">
-                <source>Job Title is required</source>
-                <target>FR_Job Title is required</target>
-            </trans-unit>
             <trans-unit id="156">
                 <source>Work Experience Details Saved Successfully</source>
                 <target>FR_Work Experience Details Saved Successfully</target>
@@ -410,10 +402,6 @@
             <trans-unit id="158">
                 <source>From date should be before to date</source>
                 <target>FR_From date should be before to date</target>
-            </trans-unit>
-            <trans-unit id="159">
-                <source>Select Work Experience From The List To Delete</source>
-                <target>FR_Select Work Experience From The List To Delete</target>
             </trans-unit>
             <trans-unit id="160">
                 <source>Create Login Details</source>

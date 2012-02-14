@@ -106,7 +106,7 @@ $(document).ready(function() {
             },
             'experience[jobtitle]': {
                 required: true,
-                maxlength: 120
+                maxlength: 100
             },
             'experience[from_date]': {
                 valid_date: function(){
