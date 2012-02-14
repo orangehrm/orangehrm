@@ -58,5 +58,5 @@
     var lang_noFutureTimesheets= "<?php echo __("It is Not Possible to Create Future Timesheets"); ?>";
     var lang_overlappingTimesheets= "<?php echo __("Timesheet Overlaps with Existing Timesheets"); ?>";
     var lang_timesheetExists= "<?php echo __("Timesheet Already Exists"); ?>";
-    var lang_invalidDate= '<?php echo __("Please enter a valid date in %format% format", array('%format%' => get_datepicker_date_format($sf_user->getDateFormat()))); ?>';
+    var lang_invalidDate= '<?php echo __(ValidationMessages::DATE_FORMAT_INVALID, array('%format%' => get_datepicker_date_format($sf_user->getDateFormat()))) ?>';
 </script>

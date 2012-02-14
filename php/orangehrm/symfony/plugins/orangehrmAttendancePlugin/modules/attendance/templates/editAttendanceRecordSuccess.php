@@ -168,7 +168,7 @@
     var nonEditableOutDate = <?php echo json_encode($editAttendanceForm->nonEditableOutDate); ?>;
     var updateCommentlink='<?php echo url_for('attendance/updatePunchInOutNote'); ?>'
     var errorForInvalidTime='<?php echo __('Punch out time should be higher than the punch in time'); ?>';
-    var errorForInvalidFormat='<?php echo __("Please enter a valid date in %format% format", array('%format%' => get_datepicker_date_format($sf_user->getDateFormat()))); ?>';
+    var errorForInvalidFormat = '<?php echo __(ValidationMessages::DATE_FORMAT_INVALID, array('%format%' => get_datepicker_date_format($sf_user->getDateFormat()))) ?>';
     var errorForInvalidTimeFormat='<?php echo __('Invalid Time') ?>';
     var getCurrentTimeLink='<?php echo url_for('attendance/getCurrentTime') ?>';
     var errorForInvalidDateFormat='<?php echo __('Invalid Date') ?>';

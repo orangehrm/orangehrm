@@ -121,7 +121,7 @@
     </div>
     <script type="text/javascript">
         var datepickerDateFormat = '<?php echo get_datepicker_date_format($sf_user->getDateFormat()); ?>';
-        var lang_invalidDate = '<?php echo __("Please enter a valid date in %format% format", array('%format%' => get_datepicker_date_format($sf_user->getDateFormat()))) ?>'
+        var lang_invalidDate = '<?php echo __(ValidationMessages::DATE_FORMAT_INVALID, array('%format%' => get_datepicker_date_format($sf_user->getDateFormat()))) ?>';
         var lang_dateError = '<?php echo __("To date should be after the From date") ?>';
         $(document).ready(function() {
 

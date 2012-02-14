@@ -129,7 +129,7 @@ if (($section == 'education') && isset($message) && isset($messageType)) {
     var lang_addEducation = "<?php echo __('Add Education'); ?>";
     var lang_editEducation = "<?php echo __('Edit Education'); ?>";
     var lang_educationRequired = "<?php echo __("Program is required"); ?>";
-    var lang_invalidDate = '<?php echo __("Please enter a valid date in %format% format", array('%format%' => get_datepicker_date_format($sf_user->getDateFormat()))); ?>';
+    var lang_invalidDate = '<?php echo __(ValidationMessages::DATE_FORMAT_INVALID, array('%format%' => get_datepicker_date_format($sf_user->getDateFormat()))) ?>';
     var lang_EndDateBeforeSatrtDate = "<?php echo __('End date should be after the start date'); ?>";
     var lang_selectEducationToDelete = "<?php echo __(TopLevelMessages::SELECT_RECORDS); ?>";
     var lang_instituteMaxLength = "<?php echo __('Institute cannot exceed 100 characters in length'); ?>";

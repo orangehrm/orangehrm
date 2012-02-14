@@ -184,7 +184,7 @@ foreach($form->getWidgetSchema()->getPositions() as $widgetName) {
                     var editMembershipDetail = '<?php echo __("Edit Membership Detail"); ?>';
                     var getMembershipsUrl = "<?php echo url_for('pim/getMemberships')?>";
                     var selectAMembership = '<?php echo __("Membership is required"); ?>';
-                    var validDateMsg = '<?php echo __("Please enter a valid date in %format% format", array('%format%' => get_datepicker_date_format($sf_user->getDateFormat()))) ?>'
+                    var validDateMsg = '<?php echo __(ValidationMessages::DATE_FORMAT_INVALID, array('%format%' => get_datepicker_date_format($sf_user->getDateFormat()))) ?>';
                     var validNumberMsg = '<?php echo __("Enter a valid number"); ?>';
                     var dateError = '<?php echo __("Renewal date should be after the commence date"); ?>';
                     var lang_negativeAmount = "<?php echo __("Amount should be a positive number"); ?>";
