@@ -773,14 +773,6 @@
                 <source>Supervisors(s) Deleted Successfully</source>
                 <target>FR_Supervisors(s) Deleted Successfully</target>
             </trans-unit>
-            <trans-unit id="255">
-                <source>Reporting method is required</source>
-                <target>FR_Reporting method is required</target>
-            </trans-unit>
-            <trans-unit id="256">
-                <source>Reporting method type is required</source>
-                <target>FR_Reporting method type is required</target>
-            </trans-unit>
             <trans-unit id="257">
                 <source>Add Supervisor</source>
                 <target>FR_Add Supervisor</target>
@@ -796,10 +788,6 @@
             <trans-unit id="260">
                 <source>Edit Subordinate</source>
                 <target>FR_Edit Subordinate</target>
-            </trans-unit>
-            <trans-unit id="261">
-                <source>Valid name is required</source>
-                <target>FR_Valid name is required</target>
             </trans-unit>
             <trans-unit id="262">
                 <source>Supervisor Updated Successfully</source>

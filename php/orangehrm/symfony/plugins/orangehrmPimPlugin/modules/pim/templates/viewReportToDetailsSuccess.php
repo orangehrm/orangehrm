@@ -112,7 +112,7 @@
                                 </form>
                             </div>
 
-                  <div class="paddingLeftRequired"><?php echo __('Fields marked with an asterisk') ?> <span class="required">*</span> <?php echo __('are required.') ?></div>
+                  <div class="paddingLeftRequired"><span class="required">* <?php echo __(CommonMessages::REQUIRED_FIELD)?></span></div>
 
                         </div>
                 <?php endif; ?>
@@ -265,12 +265,12 @@
                                 var employeesArray = eval(employees);
                                 var addSupervisor = '<?php echo __("Add Supervisor"); ?>';
                                 var addSubordinate = '<?php echo __("Add Subordinate"); ?>';
-                                var deleteWarning = '<?php echo __("Select at least One Record to Delete"); ?>';
+                                var deleteWarning = '<?php echo __(TopLevelMessages::SELECT_RECORDS); ?>';
                                 var editSupervisor = '<?php echo __("Edit Supervisor"); ?>';
                                 var editSubordinate = '<?php echo __("Edit Subordinate"); ?>';
-                                var nameIsRequired = '<?php echo __("Valid name is required"); ?>';
-                                var reportingMethodIsRequired = '<?php echo __("Reporting method is required"); ?>';
-                                var reportingMethodTypeIsRequired = '<?php echo __("Reporting method type is required"); ?>';
+                                var nameIsRequired = '<?php echo __(ValidationMessages::REQUIRED); ?>';
+                                var reportingMethodIsRequired = '<?php echo __(ValidationMessages::REQUIRED); ?>';
+                                var reportingMethodTypeIsRequired = '<?php echo __(ValidationMessages::REQUIRED); ?>';
                                 var essMode = '<?php echo $essUserMode; ?>';
     //]]>
 </script>
