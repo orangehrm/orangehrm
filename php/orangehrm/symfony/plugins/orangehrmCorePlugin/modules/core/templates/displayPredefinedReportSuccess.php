@@ -1,4 +1,4 @@
-<div style="width: 100%;text-align: center;padding-top: 10px;font-size: 18px;"> <?php echo __('Report Name'); ?> : <?php echo $report->getName(); ?> </div>
+<div style="width: 100%;text-align: center;padding-top: 10px;font-size: 18px;"> <?php echo __('Report Name'); ?> : <?php echo $report->getName() == 'PIM Sample Report' ? __($report->getName()) : $report->getName(); ?> </div>
 <?php include_component('core', 'ohrmList', $parmetersForListComponent); ?>
 
 <style type="text/css">
