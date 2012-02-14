@@ -44,7 +44,13 @@ class VacancyDaoTest extends PHPUnit_Framework_TestCase {
 	public function testGetHiringManagersListWithNullJobTilteAndNullVacancyId() {
 
 		$hiringMangersList = $this->vacancyDao->getHiringManagersList("", "");
-		$this->assertEquals($hiringMangersList, array(array('id' => 1, 'name' => "Kayla Abbey"), array('id' => 2, 'name' => "Ashley Abel"), array('id' => 3, 'name' => "Renukshan Saputhanthri"), array('id' => 4, 'name' => "Chaturanga Namal")));
+                
+                // Expected (ordered by last name ASC)
+                $expected = array(array('id' => 1, 'name' => "Kayla Abbey"), 
+                                  array('id' => 2, 'name' => "Ashley Abel"), 
+                                  array('id' => 4, 'name' => "Chaturanga Namal"),
+                                  array('id' => 3, 'name' => "Renukshan Saputhanthri"));
+		$this->assertEquals($expected, $hiringMangersList);
 	}
 
 	/**
@@ -91,9 +97,11 @@ class VacancyDaoTest extends PHPUnit_Framework_TestCase {
 
 		$jobTitle = 2;
 		$allowedVacancyList = array(2,3);
-		$readList = array(array('id' => 2, 'name' => 'Software Architect 2011', 'status'=>1), array('id' => 3, 'name' => 'Software Architect 2010', 'status'=>1));
+		$expected = array(array('id' => 3, 'name' => 'Software Architect 2010', 'status'=>1),
+                                  array('id' => 2, 'name' => 'Software Architect 2011', 'status'=>1)
+                                  );
 		$vacancyList = $this->vacancyDao->getVacancyListForJobTitle($jobTitle, $allowedVacancyList, true);
-		$this->assertEquals($vacancyList, $readList);
+		$this->assertEquals($expected, $vacancyList);
 	}
 
 	/**
@@ -103,9 +111,13 @@ class VacancyDaoTest extends PHPUnit_Framework_TestCase {
 
 		$jobTitle = '';
 		$allowedVacancyList = array(1,2,3,4);
-		$readList = array(array('id' => 1, 'name' => 'Software Engineer 2011', 'status'=>1), array('id' => 2, 'name' => 'Software Architect 2011', 'status'=>1), array('id' => 3, 'name' => 'Software Architect 2010', 'status'=>1), array('id' => 4, 'name' => 'Software Architect 2012', 'status'=>2));
+		$expected = array(array('id' => 3, 'name' => 'Software Architect 2010', 'status'=>1), 
+                                  array('id' => 2, 'name' => 'Software Architect 2011', 'status'=>1),                                   
+                                  array('id' => 4, 'name' => 'Software Architect 2012', 'status'=>2),
+                                  array('id' => 1, 'name' => 'Software Engineer 2011', 'status'=>1));
+                
 		$vacancyList = $this->vacancyDao->getVacancyListForJobTitle($jobTitle, $allowedVacancyList, true);
-		$this->assertEquals($vacancyList, $readList);
+		$this->assertEquals($expected, $vacancyList);
 	}
 
 	/**
