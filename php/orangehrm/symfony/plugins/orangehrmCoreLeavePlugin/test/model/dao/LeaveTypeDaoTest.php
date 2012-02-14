@@ -180,24 +180,23 @@ class LeaveTypeDaoTest extends PHPUnit_Framework_TestCase{
 
         $leaveTypeList = $this->leaveTypeDao->getLeaveTypeList();
 
-        $this->assertEquals('LTY001', $leaveTypeList[0]->getLeaveTypeId());
-        $this->assertEquals('Casual', $leaveTypeList[0]->getLeaveTypeName());
+        $this->assertEquals('LTY004', $leaveTypeList[0]->getLeaveTypeId());
+        $this->assertEquals('Annual', $leaveTypeList[0]->getLeaveTypeName());
 
-        $this->assertEquals('LTY007', $leaveTypeList[4]->getLeaveTypeId());
-        $this->assertEquals('Christmas', $leaveTypeList[4]->getLeaveTypeName());
-
+        $this->assertEquals('LTY006', $leaveTypeList[4]->getLeaveTypeId());
+        $this->assertEquals('Wesak', $leaveTypeList[4]->getLeaveTypeName());  
     }
     
     public function testGetLeaveTypeListForOperationalCountry() {
          $leaveTypeList = $this->leaveTypeDao->getLeaveTypeList(1);
          $this->assertEquals(2, count($leaveTypeList));
-         $this->assertEquals('LTY001', $leaveTypeList[0]->getLeaveTypeId());
-         $this->assertEquals('LTY004', $leaveTypeList[1]->getLeaveTypeId());
+         $this->assertEquals('LTY004', $leaveTypeList[0]->getLeaveTypeId());
+         $this->assertEquals('LTY001', $leaveTypeList[1]->getLeaveTypeId());
          
          $leaveTypeList = $this->leaveTypeDao->getLeaveTypeList(2);
          $this->assertEquals(2, count($leaveTypeList));
-         $this->assertEquals('LTY002', $leaveTypeList[0]->getLeaveTypeId());
-         $this->assertEquals('LTY007', $leaveTypeList[1]->getLeaveTypeId()); 
+         $this->assertEquals('LTY007', $leaveTypeList[0]->getLeaveTypeId());
+         $this->assertEquals('LTY002', $leaveTypeList[1]->getLeaveTypeId()); 
         
     }
 
@@ -325,7 +324,7 @@ class LeaveTypeDaoTest extends PHPUnit_Framework_TestCase{
         $leaveTypeList = $this->leaveTypeDao->getLeaveTypeList();
 
         $this->assertEquals(6, count($leaveTypeList));
-        $this->assertEquals('Company', $leaveTypeList[2]->getLeaveTypeName());
+        $this->assertEquals('Company', $leaveTypeList[3]->getLeaveTypeName());
 
     }
 

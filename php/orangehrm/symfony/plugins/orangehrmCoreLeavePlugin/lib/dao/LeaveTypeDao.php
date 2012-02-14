@@ -93,7 +93,7 @@ class LeaveTypeDao extends BaseDao {
             $q = Doctrine_Query::create()
                             ->from('LeaveType lt')
                             ->where('lt.availableFlag = 1')
-                            ->orderBy('lt.leaveTypeId');
+                            ->orderBy('lt.leaveTypeName');
             
             if (!is_null($operationalCountryId)) {
                 $q->andWhere('lt.operationalCountryId = ? ', $operationalCountryId);

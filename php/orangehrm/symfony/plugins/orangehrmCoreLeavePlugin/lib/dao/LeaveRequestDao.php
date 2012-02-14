@@ -381,12 +381,7 @@ class LeaveRequestDao extends BaseDao {
         if ($isMyLeaveList) {
             $includeTerminatedEmployees = true;
         }
-        
-        if (!empty($subUnit) || empty($includeTerminatedEmployees) || !empty($locations)
-                || !empty($employeeName)) {
-            
-        }
-        
+                
         // Search by employee name
         if (!empty($employeeName)) {
             // Replace multiple spaces in string with wildcards
@@ -423,7 +418,7 @@ class LeaveRequestDao extends BaseDao {
             $q->andWhereIn('loc.id', $locations);
         }
 
-        $q->orderBy('l.leave_date DESC');
+        $q->orderBy('l.leave_date DESC, em.emp_lastname ASC, em.emp_firstname ASC');
 
         $count = $q->count();
 

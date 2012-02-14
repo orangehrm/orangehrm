@@ -57,7 +57,7 @@ class LeaveSummaryDaoTest extends PHPUnit_Framework_TestCase {
             $rows[] = $row;
         }
         $this->assertEquals(15, count($rows));
-
+  
         $this->assertEquals(1, $rows[0]['empNumber']);
         $this->assertEquals('Kayla', $rows[0]['empFirstName']);
         $this->assertEquals('Abbey', $rows[0]['empLastName']);
@@ -67,8 +67,8 @@ class LeaveSummaryDaoTest extends PHPUnit_Framework_TestCase {
         $this->assertEquals(2, $rows[5]['empNumber']);
         $this->assertEquals('Ashley', $rows[5]['empFirstName']);
         $this->assertEquals('Abel', $rows[5]['empLastName']);
-        $this->assertEquals('LTY003', $rows[5]['leaveTypeId']);
-        $this->assertEquals('Company', $rows[5]['leaveTypeName']);
+        $this->assertEquals('LTY002', $rows[5]['leaveTypeId']);
+        $this->assertEquals('Medical', $rows[5]['leaveTypeName']);
 
     }
 
@@ -141,8 +141,8 @@ class LeaveSummaryDaoTest extends PHPUnit_Framework_TestCase {
         $this->assertEquals(1, $rows[1]['empNumber']);
         $this->assertEquals('Kayla', $rows[1]['empFirstName']);
         $this->assertEquals('Abbey', $rows[1]['empLastName']);
-        $this->assertEquals('LTY002', $rows[1]['leaveTypeId']);
-        $this->assertEquals('Medical', $rows[1]['leaveTypeName']);
+        $this->assertEquals('LTY003', $rows[1]['leaveTypeId']);
+        $this->assertEquals('Company', $rows[1]['leaveTypeName']);
 
     }
 

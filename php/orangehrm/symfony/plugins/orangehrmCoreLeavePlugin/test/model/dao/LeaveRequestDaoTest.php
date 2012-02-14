@@ -926,9 +926,9 @@
         $searchParameters->setParameter('subUnit', 2);
         $leaveFixture = $this->fixture['LeaveRequest'];
         $expected = array($leaveFixture[18], $leaveFixture[19], $leaveFixture[16],
-                          $leaveFixture[13], $leaveFixture[12], $leaveFixture[15],
-                          $leaveFixture[11], $leaveFixture[17]);
-    
+                          $leaveFixture[13], $leaveFixture[12], $leaveFixture[11],
+                          $leaveFixture[15], $leaveFixture[17]);
+        
         $searchResult = $this->leaveRequestDao->searchLeaveRequests($searchParameters);
         $requestList = $searchResult['list'];
         $requestCount = $searchResult['meta']['record_count'];

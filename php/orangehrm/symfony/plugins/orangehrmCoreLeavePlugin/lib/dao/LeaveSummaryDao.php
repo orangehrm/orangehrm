@@ -66,7 +66,7 @@ class LeaveSummaryDao extends BaseDao {
             $q .= ' WHERE '.implode(' AND ',$where);
         }
 
-        $q .= " ORDER By a.emp_number, b.leave_type_id";
+        $q .= " ORDER By a.emp_lastname, a.emp_firstname, b.leave_type_name";
 
         $q .= " LIMIT $offset,$limit";
 
