@@ -114,7 +114,8 @@ class RecruitmentAttachmentDao extends BaseDao {
         try {
             $q = Doctrine_Query :: create()
                             ->from('JobVacancyAttachment')
-                            ->where('vacancyId =?', $vacancyId);
+                            ->where('vacancyId =?', $vacancyId)
+                            ->orderBy('fileName ASC');
             return $q->execute();
         } catch (Exception $e) {
             throw new DaoException($e->getMessage());
@@ -131,7 +132,8 @@ class RecruitmentAttachmentDao extends BaseDao {
         try {
             $q = Doctrine_Query :: create()
                             ->from('JobInterviewAttachment')
-                            ->where('interview_id =?', $interviewId);
+                            ->where('interview_id =?', $interviewId)
+                            ->orderBy('fileName ASC');
             return $q->execute();
         } catch (Exception $e) {
             throw new DaoException($e->getMessage());

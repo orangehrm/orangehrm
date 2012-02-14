@@ -20,7 +20,6 @@
 class viewCandidatesAction extends sfAction {
 
     private $candidateService;
-    private $addAndDelete;
 
     /**
      * Get CandidateService

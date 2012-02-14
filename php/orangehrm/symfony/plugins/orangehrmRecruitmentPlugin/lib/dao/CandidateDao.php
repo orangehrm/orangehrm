@@ -469,9 +469,11 @@ class CandidateDao extends BaseDao {
         $sortQuery = '';
 
         if ($sortField == 'jc.first_name') {
-            $sortQuery = 'jc.first_name ' . $sortOrder . ', ' . 'jc.last_name ' . $sortOrder;
+            $sortQuery = 'jc.last_name ' . $sortOrder . ', ' . 'jc.first_name ' . $sortOrder;
         } elseif ($sortField == 'e.emp_firstname') {
-            $sortQuery = 'e.emp_firstname ' . $sortOrder . ', ' . 'e.emp_lastname ' . $sortOrder;
+            $sortQuery = 'e.emp_lastname ' . $sortOrder . ', ' . 'e.emp_firstname ' . $sortOrder;
+        } elseif ($sortField == 'jc.date_of_application') {
+            $sortQuery = 'jc.date_of_application ' . $sortOrder . ', ' . 'jc.last_name ASC, jc.first_name ASC';
         } else {
             $sortQuery = $sortField . " " . $sortOrder;
         }
