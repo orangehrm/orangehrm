@@ -45,7 +45,7 @@
 <script type="text/javascript">
 	var customers = <?php echo str_replace('&#039;', "'", $form->getCustomerListAsJson()) ?> ;
         var customerList = eval(customers);
-	var lang_customerNameRequired = "<?php echo __("Customer name is required"); ?>";
+	var lang_customerNameRequired = '<?php echo __(ValidationMessages::REQUIRED); ?>';
 	var lang_exceed50Charactors = "<?php echo __("Cannot exceed 50 charactors"); ?>";
 	var lang_exceed255Charactors = "<?php echo __("Cannot exceed 255 charactors"); ?>";
 	var lang_editCustomer = "<?php echo __("Edit Customer"); ?>";

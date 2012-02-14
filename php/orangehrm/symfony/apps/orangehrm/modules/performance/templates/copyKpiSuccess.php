@@ -92,8 +92,8 @@
                     txtCopyJobTitle: { required: true }
                 },
                 messages: {
-                    txtJobTitle: "<?php echo __("Job Title is required") ?>",
-                    txtCopyJobTitle: "<?php echo __("Copy Job Title is required") ?>"
+                    txtJobTitle: '<?php echo __(ValidationMessages::REQUIRED); ?>',
+                    txtCopyJobTitle: '<?php echo __(ValidationMessages::REQUIRED); ?>'
 			 		
                 }
             });

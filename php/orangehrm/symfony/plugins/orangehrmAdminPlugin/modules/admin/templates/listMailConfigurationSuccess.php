@@ -114,7 +114,7 @@
 			 	txtMailAddress: { required: true }
 		 	 },
 		 	 messages: {
-		 		txtMailAddress: "<?php echo __("E-mail is required")?>"
+		 		txtMailAddress: '<?php echo __(ValidationMessages::REQUIRED); ?>'
 		 	 }
 		 });
 		$("#chkSendTestEmail").click(function() {
@@ -123,7 +123,7 @@
 		              required: true,
 		              email: true,
 		             messages: {
-					   required: "<?php echo __("Test e-mail address is required")?>",
+					   required: '<?php echo __(ValidationMessages::REQUIRED); ?>',
 					   email: '<?php echo __(ValidationMessages::EMAIL_INVALID); ?>'
 		             }
 		         });

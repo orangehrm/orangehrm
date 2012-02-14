@@ -84,11 +84,11 @@ use_javascript('../../../scripts/jquery/jquery.autocomplete.js');
 
 <script type="text/javascript">
 	
-    var user_UserNameRequired       = "<?php echo __("Username is required"); ?>";
-    var user_EmployeeNameRequired   = "<?php echo __("Employee name is required"); ?>";
+    var user_UserNameRequired       = '<?php echo __(ValidationMessages::REQUIRED); ?>';
+    var user_EmployeeNameRequired   = '<?php echo __(ValidationMessages::REQUIRED); ?>';
     var user_ValidEmployee          = "<?php echo __("Select valid employee"); ?>";
-    var user_UserPaswordRequired    = "<?php echo __("Password is required"); ?>";
-    var user_UserConfirmPassword    = "<?php echo __("Confirm password is required"); ?>";
+    var user_UserPaswordRequired    = '<?php echo __(ValidationMessages::REQUIRED); ?>';
+    var user_UserConfirmPassword    = '<?php echo __(ValidationMessages::REQUIRED); ?>';
     var user_samePassword           = "<?php echo __("Passwords do not match"); ?>";
     var user_Max20Chars             = "<?php echo __("Cannot exceed 20 charactors"); ?>";
     var user_editLocation           = "<?php echo __("Edit User"); ?>";

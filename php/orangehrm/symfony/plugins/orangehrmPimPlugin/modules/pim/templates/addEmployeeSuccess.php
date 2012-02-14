@@ -5,8 +5,8 @@
     //we write javascript related stuff here, but if the logic gets lengthy should use a seperate js file
     var edit = "<?php echo __("Edit"); ?>";
     var save = "<?php echo __("Save"); ?>";
-    var lang_firstNameRequired = "<?php echo __("First Name is required"); ?>";
-    var lang_lastNameRequired = "<?php echo __("Last Name is required"); ?>";
+    var lang_firstNameRequired = '<?php echo __(ValidationMessages::REQUIRED); ?>';
+    var lang_lastNameRequired = '<?php echo __(ValidationMessages::REQUIRED); ?>';
     var lang_userNameRequired = "<?php echo __("User Name should have at least 5 characters"); ?>";
     var lang_passwordRequired = "<?php echo __("Password should have at least 4 characters"); ?>";
     var lang_unMatchingPassword = "<?php echo __("Password and confirm password should be same"); ?>";

@@ -95,12 +95,12 @@
 				
 				 rules: {
 				 	cmbCustomerId: { required: true },
-				 	txtName: { required: true },
+				 	txtName: { required: true }
 				 	
 			 	 },
 			 	 messages: {
-			 		cmbCustomerId: "<?php echo __("Customer Name is required")?>",
-				 		txtName: "<?php echo __("Name is required")?>",
+			 		cmbCustomerId: '<?php echo __(ValidationMessages::REQUIRED); ?>',
+				 		txtName: '<?php echo __(ValidationMessages::REQUIRED); ?>'
 			 		
 			 	 }
 			 });
@@ -113,7 +113,7 @@
 				 	
 			 	 },
 			 	 messages: {
-			 		txtEmpId: "<?php echo __("Employee is required")?>"
+			 		txtEmpId: '<?php echo __(ValidationMessages::REQUIRED); ?>'
 			 		
 			 	 }
 			 });

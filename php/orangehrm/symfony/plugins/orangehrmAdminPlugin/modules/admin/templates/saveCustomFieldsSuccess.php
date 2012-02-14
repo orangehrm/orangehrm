@@ -58,7 +58,7 @@
 				 	
 			 	 },
 			 	 messages: {
-			 		txtMembershipInfoDesc: "<?php echo __("Field Name is required")?>"
+			 		txtMembershipInfoDesc: '<?php echo __(ValidationMessages::REQUIRED); ?>'
 			 		
 			 	 }
 			 });

@@ -40,7 +40,7 @@ class TimesheetRowForm extends sfForm {
 
 	$validatorsArray = array(
 	    'toDelete' => new sfValidatorPass(array('required' => false)),
-            'projectName' => new sfValidatorString(array('required' => true), array('required' => __('The Project Name is required'))),
+            'projectName' => new sfValidatorString(array('required' => true), array('required' => __('Required'))),
             'projectId' => new sfValidatorInteger(array('required' => true)),
             'projectActivityName' => new sfValidatorPass(array('required' => false)),
             'projectActivityId' => new sfValidatorInteger(array('required' => false))

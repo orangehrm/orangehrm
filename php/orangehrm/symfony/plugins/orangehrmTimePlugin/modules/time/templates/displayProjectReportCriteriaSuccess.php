@@ -53,7 +53,7 @@
         var datepickerDateFormat = '<?php echo get_datepicker_date_format($sf_user->getDateFormat()); ?>';
         var lang_dateError = '<?php echo __("To date should be after the from date") ?>';
         var lang_validDateMsg = '<?php echo __(ValidationMessages::DATE_FORMAT_INVALID, array('%format%' => get_datepicker_date_format($sf_user->getDateFormat()))) ?>';
-        var lang_required = '<?php echo __("Project name is required") ?>';
+        var lang_required = '<?php echo __(ValidationMessages::REQUIRED); ?>';
     $(document).ready(function() {
         $('#viewbutton').click(function() {
 //            if($('#project_date_range_from_date').val() == datepickerDateFormat){

@@ -94,16 +94,6 @@
 			}
 		});
 
-		//Validate the form
-//		 $("#frmSave").validate({
-//			
-//			 rules: {
-//			 	txtMailAddress_1: { required: true }
-//		 	 },
-//		 	 messages: {
-//		 		txtMailAddress: "<?php echo __("E-mail is required")?>"
-//		 	 }
-//		 });
 
 		//When click reset buton 
 			$("#resetBtn").click(function() {

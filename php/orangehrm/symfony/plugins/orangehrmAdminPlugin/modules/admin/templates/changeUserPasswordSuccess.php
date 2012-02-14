@@ -63,9 +63,9 @@ use_javascript('../../../scripts/jquery/jquery.autocomplete.js');
 
 <script type="text/javascript">
 	
-    var lang_currentPasswordRequired       = "<?php echo __("Current Password is required"); ?>";
-    var lang_newPasswordRequired       = "<?php echo __("New Password is required"); ?>";
-    var lang_confirmNewPasswordRequired       = "<?php echo __("Confirm New Password is required"); ?>";
+    var lang_currentPasswordRequired       = '<?php echo __(ValidationMessages::REQUIRED); ?>';
+    var lang_newPasswordRequired       = '<?php echo __(ValidationMessages::REQUIRED); ?>';
+    var lang_confirmNewPasswordRequired       = '<?php echo __(ValidationMessages::REQUIRED); ?>';
     var lang_passwordMissMatch           = "<?php echo __("Passwords do not match"); ?>";
     var lang_maxLengthExceeds             = "<?php echo __("Cannot exceed 20 charactors"); ?>";
     var lang_save                   = "<?php echo __("Save"); ?>";

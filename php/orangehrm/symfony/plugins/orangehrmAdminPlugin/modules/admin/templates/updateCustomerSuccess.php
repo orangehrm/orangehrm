@@ -46,7 +46,7 @@
 					 txtName: { required: true }
 			 	 },
 			 	 messages: {
-			 		txtName: "<?php echo __("Name is required")?>"
+			 		txtName: '<?php echo __(ValidationMessages::REQUIRED); ?>'
 			 	 }
 			 });
 

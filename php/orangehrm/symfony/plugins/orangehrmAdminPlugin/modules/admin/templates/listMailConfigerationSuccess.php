@@ -95,7 +95,7 @@
 			 	txtMailAddress: { required: true }
 		 	 },
 		 	 messages: {
-		 		txtMailAddress: "<?php echo __("E-mail is required")?>"
+		 		txtMailAddress: '<?php echo __(ValidationMessages::REQUIRED); ?>'
 		 	 }
 		 });
 

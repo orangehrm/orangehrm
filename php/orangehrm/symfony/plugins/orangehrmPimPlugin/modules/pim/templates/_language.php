@@ -111,9 +111,9 @@ if (($section == 'language') && isset($message) && isset($messageType)) {
     var fileModified = 0;
     var lang_addLanguage = "<?php echo __('Add Language');?>";
     var lang_editLanguage = "<?php echo __('Edit Language');?>";
-    var lang_languageRequired = "<?php echo __("Language is required");?>";
-    var lang_languageTypeRequired = "<?php echo __("Fluency is required");?>";
-    var lang_competencyRequired = "<?php echo __("Competency is required");?>";
+    var lang_languageRequired = '<?php echo __(ValidationMessages::REQUIRED); ?>';
+    var lang_languageTypeRequired = '<?php echo __(ValidationMessages::REQUIRED); ?>';
+    var lang_competencyRequired = '<?php echo __(ValidationMessages::REQUIRED); ?>';
     var lang_selectLanguageToDelete = "<?php echo __(TopLevelMessages::SELECT_RECORDS);?>";
     var lang_commentsMaxLength = "<?php echo __('Comment length cannot exceed 100 characters');?>";
     //]]>

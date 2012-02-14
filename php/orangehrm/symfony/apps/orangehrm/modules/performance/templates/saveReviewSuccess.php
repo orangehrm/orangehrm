@@ -245,11 +245,11 @@
             },
             messages: {
                 'txtEmpName-0':{
-                    required: '<?php echo __("Employee Name is required")?>',
+                    required: '<?php echo __(ValidationMessages::REQUIRED); ?>',
                     empIdSet:'<?php echo __("Please select an employee")?>'
                 },
                 'txtReviewerName-0':{
-                    required:'<?php echo __("Reviewer Name is required")?>',
+                    required:'<?php echo __(ValidationMessages::REQUIRED); ?>',
                     reviewerIdSet:'<?php echo __("Please select a reviewer")?>'
                 },
                 'txtPeriodFromDate-0':{

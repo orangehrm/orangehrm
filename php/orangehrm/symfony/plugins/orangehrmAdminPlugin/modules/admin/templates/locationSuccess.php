@@ -86,8 +86,8 @@
 <script type="text/javascript">
 	var locations = <?php echo str_replace('&#039;', "'", $form->getLocationListAsJson()) ?> ;
         var locationList = eval(locations);
-	var lang_LocNameRequired = "<?php echo __("Location name is required"); ?>";
-	var lang_CountryRequired = "<?php echo __("Country is required"); ?>";
+	var lang_LocNameRequired = '<?php echo __(ValidationMessages::REQUIRED); ?>';
+	var lang_CountryRequired = '<?php echo __(ValidationMessages::REQUIRED); ?>';
 	var lang_ValidCountry = "<?php echo __("Enter a valid country"); ?>";
 	var lang_validPhoneNo = '<?php echo __('Phone can contain only space, numbers, "+", and "-"'); ?>';
 	var lang_validFaxNo = '<?php echo __('Fax can contain only space, numbers, "+", and "-"'); ?>';

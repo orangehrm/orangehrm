@@ -333,17 +333,17 @@
         eraseErrorMessages();
 
 		if ($('#leaveperiod_cmbStartMonth').val() == '0') {
-			placeError('<?php echo __('Start month is required'); ?>');
+			placeError('<?php echo __(ValidationMessages::REQUIRED); ?>');
             return false;
 		}
 
 		if ($('#leaveperiod_cmbStartDate').val() == '0') {
-			placeError('<?php echo __('Start date is required'); ?>');
+			placeError('<?php echo __(ValidationMessages::REQUIRED); ?>');
             return false;
 		}
 
         if($('#leaveperiod_cmbStartMonth').val() == 2 && $("#leaveperiod_cmbStartMonthForNonLeapYears").val() == 0) {
-            $("#inlineErrorHolder2").append("Start month for non-leap year is required");
+            $("#inlineErrorHolder2").append('<?php echo __(ValidationMessages::REQUIRED); ?>');
             return false;
         }
 

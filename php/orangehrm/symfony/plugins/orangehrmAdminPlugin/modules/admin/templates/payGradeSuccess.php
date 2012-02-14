@@ -136,7 +136,7 @@
                            var payGradeList = eval(payGrades);
                            var assignedCurrencies = <?php echo str_replace('&#039;', "'", $form->getAssignedCurrencyListAsJson($payGradeId)); ?>;
                            var assignedCurrencyList = eval(assignedCurrencies);
-                           var lang_NameRequired = "<?php echo __("Pay Grade name is required"); ?>";
+                           var lang_NameRequired = '<?php echo __(ValidationMessages::REQUIRED); ?>';
                            var lang_exceed50Charactors = "<?php echo __("Cannot exceed 50 charactors"); ?>";
                            var lang_exceed12Charactors = "<?php echo __("Cannot exceed 12 charactors"); ?>";
                            var payGradeId = "<?php echo $payGradeId; ?>";
@@ -144,7 +144,7 @@
                            var lang_save = "<?php echo __("Save"); ?>";
                            var lang_editPayGrade = "<?php echo __("Edit Pay Grade"); ?>";
                            var lang_addPayGrade = "<?php echo __("Add Pay Grade"); ?>";
-                           var lang_currencyRequired = "<?php echo __("Currency is required"); ?>";
+                           var lang_currencyRequired = '<?php echo __(ValidationMessages::REQUIRED); ?>';
                            var lang_salaryShouldBeNumeric = "<?php echo __("Salary should be a number with two decimals. No spaces are allowed"); ?>";
                            var lang_validCurrency = "<?php echo __("Enter a valid currency"); ?>";
                            var lang_currencyAlreadyExist = "<?php echo __("Currency already exists"); ?>";

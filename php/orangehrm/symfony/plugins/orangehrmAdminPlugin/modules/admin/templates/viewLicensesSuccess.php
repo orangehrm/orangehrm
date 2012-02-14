@@ -125,7 +125,7 @@
     var lang_addFormHeading = "<?php echo __('Add License'); ?>";
     var lang_editFormHeading = "<?php echo __('Edit License'); ?>";
     
-    var lang_nameIsRequired = "<?php echo __('Name is required'); ?>";
+    var lang_nameIsRequired = '<?php echo __(ValidationMessages::REQUIRED); ?>';
     var lang_nameExists = "<?php echo __('Name exists'); ?>";
     
 //]]>	

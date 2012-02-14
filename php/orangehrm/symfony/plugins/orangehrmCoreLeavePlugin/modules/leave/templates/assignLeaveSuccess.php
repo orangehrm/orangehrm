@@ -247,10 +247,10 @@
                 },
                 messages: {
                     'assignleave[txtEmployee]':{
-                        required:"<?php echo __('Employee Name is required'); ?>"
+                        required:'<?php echo __(ValidationMessages::REQUIRED); ?>'
                     },
                     'assignleave[txtLeaveType]':{
-                        required:"<?php echo __('Leave Type is required'); ?>"
+                        required:'<?php echo __(ValidationMessages::REQUIRED); ?>'
                     },
                     'assignleave[txtFromDate]':{
                         required:lang_invalidDate,

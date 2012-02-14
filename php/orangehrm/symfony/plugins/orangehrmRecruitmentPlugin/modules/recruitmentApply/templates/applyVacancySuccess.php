@@ -134,9 +134,9 @@
     var description	= '<?php $description; ?>';
     var vacancyId	= '<?php echo $vacancyId; ?>';
     var candidateId	= '<?php echo ($candidateId !="") ? $candidateId : 0;?>';
-    var lang_firstNameRequired = "<?php echo __("First name is required"); ?>";
-    var lang_lastNameRequired = "<?php echo __("Last name is required"); ?>";
-    var lang_emailRequired = "<?php echo __("E-mail is required"); ?>";
+    var lang_firstNameRequired = '<?php echo __(ValidationMessages::REQUIRED); ?>';
+    var lang_lastNameRequired = '<?php echo __(ValidationMessages::REQUIRED); ?>';
+    var lang_emailRequired = '<?php echo __(ValidationMessages::REQUIRED); ?>';
     var lang_validEmail = '<?php echo __(ValidationMessages::EMAIL_INVALID); ?>';
     var lang_tooLargeInput = "<?php echo __("Please enter no more than 30 characters"); ?>";
     var lang_commaSeparated = "<?php echo __("Enter comma separated words..."); ?>";

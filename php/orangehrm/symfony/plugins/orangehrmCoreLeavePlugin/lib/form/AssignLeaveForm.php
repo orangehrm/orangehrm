@@ -55,7 +55,7 @@ class AssignLeaveForm extends sfForm {
 
         $this->setValidators(array(
             'txtEmpID' => new sfValidatorString(array('required' => false)),
-            'txtEmployee' => new sfValidatorString(array('required' => true), array('required' => 'Employee name is required')),
+            'txtEmployee' => new sfValidatorString(array('required' => true), array('required' => __(ValidationMessages::REQUIRED))),
             'txtEmpWorkShift' => new sfValidatorString(array('required' => false)),
             'txtLeaveType' => new sfValidatorChoice(array('choices' => array_keys($this->leaveTypeList))),
             'txtFromDate' => new ohrmDateValidator(array('date_format' => $inputDatePattern, 'required' => true),

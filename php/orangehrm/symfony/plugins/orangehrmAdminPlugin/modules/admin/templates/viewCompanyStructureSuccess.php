@@ -42,7 +42,7 @@ $form->printRequiredFieldsNotice(); ?></div>
     var lang_editUnit = "<?php echo "OrangeHRM - ".__("Edit Unit"); ?>";
     var lang_confirmationPart2 = "<?php echo __("and all the subunits under it will be permanantly deleted"); ?>";
     var lang_addNote = "<?php echo __("This unit will be added under"); ?>";
-    var lang_nameRequired = "<?php echo __("Name is required"); ?>";
+    var lang_nameRequired = '<?php echo __(ValidationMessages::REQUIRED); ?>';
     var lang_max = "<?php echo __("Maximum allowed character limit is") . " "; ?>";
     var lang_noDescriptionSpecified = "<?php echo __("Description is not specified"); ?>";
     var deleteSubunitUrl = '<?php echo public_path('index.php/admin/deleteSubunit'); ?>';

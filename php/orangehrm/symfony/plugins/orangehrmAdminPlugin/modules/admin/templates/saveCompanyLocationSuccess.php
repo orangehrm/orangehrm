@@ -77,10 +77,10 @@
 				 	txtZipCode: { required: true }
 			 	 },
 			 	 messages: {
-			 		txtName: "<?php echo __("Name is required")?>", 
-			 		cmbCountry: "<?php echo __("Country is required")?>",
-			 		txtAddress: "<?php echo __("Address is required")?>", 
-			 		txtZipCode: "<?php echo __("Zip Code is required")?>"
+			 		txtName: '<?php echo __(ValidationMessages::REQUIRED); ?>', 
+			 		cmbCountry: '<?php echo __(ValidationMessages::REQUIRED); ?>',
+			 		txtAddress: '<?php echo __(ValidationMessages::REQUIRED); ?>', 
+			 		txtZipCode: '<?php echo __(ValidationMessages::REQUIRED); ?>'
 			 	 }
 			 });
 

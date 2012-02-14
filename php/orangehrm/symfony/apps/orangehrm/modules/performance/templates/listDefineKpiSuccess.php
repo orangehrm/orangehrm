@@ -183,7 +183,7 @@
 				 	txtJobTitle: { required: true }
 			 	 },
 			 	 messages: {
-			 		txtJobTitle: '<?php echo __("Job Title is required")?>'
+			 		txtJobTitle: '<?php echo __(ValidationMessages::REQUIRED); ?>'
 			 	 }
 			 });
 

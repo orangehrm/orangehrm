@@ -83,9 +83,9 @@
 				 	txtMaxRate: { number: true,minmax:true ,maxlength: 5}
 			 	 },
 			 	 messages: {
-			 		txtJobTitle: "<?php echo __('Job Title is required')?>", 
+			 		txtJobTitle: '<?php echo __(ValidationMessages::REQUIRED); ?>', 
 			 		txtDescription:{ 
-			 			required:"<?php echo __('Key Performance Indicator is required')?>",
+			 			required:'<?php echo __(ValidationMessages::REQUIRED); ?>',
 			 			maxlength:"<?php echo __('Key Performance Indicator length exceeded')?>"
 			 		},
 			 		txtMinRate:{ 

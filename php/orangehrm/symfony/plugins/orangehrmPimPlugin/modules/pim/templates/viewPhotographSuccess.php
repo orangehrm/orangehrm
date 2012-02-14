@@ -10,7 +10,7 @@
 
     var edit = "<?php echo __("Edit"); ?>";
     var save = "<?php echo __("Save"); ?>";
-    var lang_photoRequired = "<?php echo __('Photograph is required');?>";
+    var lang_photoRequired = '<?php echo __(ValidationMessages::REQUIRED); ?>';
     var deleteUrl = "<?php echo url_for('pim/viewPhotograph?option=delete&empNumber=' . $empNumber); ?>";
     var showDeteleButton = "<?php echo $showDeleteButton; ?>";
     var fileModified = "<?php echo $fileModify;?>";

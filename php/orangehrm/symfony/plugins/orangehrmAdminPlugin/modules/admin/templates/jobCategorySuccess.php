@@ -59,7 +59,7 @@
 <script type="text/javascript">
 	var jobCatrgories = <?php echo str_replace('&#039;', "'", $form->getJobCategoryListAsJson()) ?> ;
         var jobCatList = eval(jobCatrgories);
-	var lang_NameRequired = "<?php echo __("Name is required"); ?>";
+	var lang_NameRequired = '<?php echo __(ValidationMessages::REQUIRED); ?>';
 	var lang_exceed50Charactors = "<?php echo __("Cannot exceed 50 charactors"); ?>";
 	var jobCatInfoUrl = "<?php echo url_for("admin/getJobCategoryJson?id="); ?>";
 	var lang_editJobCat = "<?php echo __("Edit Job Category"); ?>";

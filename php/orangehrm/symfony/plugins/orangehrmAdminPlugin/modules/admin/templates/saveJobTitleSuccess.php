@@ -99,7 +99,7 @@
     //we write javascript related stuff here, but if the logic gets lengthy should use a seperate js file
     var lang_edit = "<?php echo __("Edit"); ?>";
     var lang_save = "<?php echo __("Save"); ?>";
-    var lang_jobTitleRequired = "<?php echo __("Job Title is required"); ?>";
+    var lang_jobTitleRequired = '<?php echo __(ValidationMessages::REQUIRED); ?>';
     var viewJobTitleListUrl = '<?php echo url_for('admin/viewJobTitleList?jobTitleId='.$form->jobTitleId); ?>';
     var jobTitleId = '<?php echo $form->jobTitleId; ?>';
     var lang_exceed400Chars = '<?php echo __("Cannot exceed 400 charactors"); ?>';

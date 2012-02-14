@@ -129,7 +129,7 @@
 			 	
 		 	 },
 		 	 messages: {
-		 		activityName: "<?php echo __("Activity is required")?>"
+		 		activityName: '<?php echo __(ValidationMessages::REQUIRED); ?>'
 		 		
 		 	 }
 		 });

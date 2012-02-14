@@ -110,7 +110,7 @@ if (($section == 'license') && isset($message) && isset($messageType)) {
     var fileModified = 0;
     var lang_addLicense = "<?php echo __('Add License');?>";
     var lang_editLicense = "<?php echo __('Edit License');?>";
-    var lang_licenseRequired = "<?php echo __("License Type is required");?>";
+    var lang_licenseRequired = '<?php echo __(ValidationMessages::REQUIRED); ?>';
     var lang_invalidDate = '<?php echo __(ValidationMessages::DATE_FORMAT_INVALID, array('%format%' => get_datepicker_date_format($sf_user->getDateFormat()))) ?>';
     var lang_startDateAfterEndDate = "<?php echo __('Expiry date should be after the issued date');?>";
     var lang_selectLicenseToDelete = "<?php echo __(TopLevelMessages::SELECT_RECORDS);?>";

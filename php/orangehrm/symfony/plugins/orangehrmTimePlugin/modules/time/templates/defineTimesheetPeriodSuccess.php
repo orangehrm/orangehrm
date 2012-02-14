@@ -58,6 +58,6 @@
     <script type="text/javascript">
 
     var linkTodefineTimesheetPeriod="<?php echo url_for('time/defineTimesheetPeriod')?>";
-    var required_msge = '<?php echo __('First day of week is required'); ?>';
+    var required_msge = '<?php echo __(ValidationMessages::REQUIRED); ?>';
 
 </script>

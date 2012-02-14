@@ -226,7 +226,7 @@
                 },
                 messages: {
                     'applyleave[txtLeaveType]':{
-                        required:"<?php echo __('Leave Type is required'); ?>"
+                        required:'<?php echo __(ValidationMessages::REQUIRED); ?>'
                     },
                     'applyleave[txtFromDate]':{
                         required:lang_invalidDate,

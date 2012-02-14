@@ -61,7 +61,7 @@
 <script type="text/javascript">
 	var nationalities = <?php echo str_replace('&#039;', "'", $form->getNationalityListAsJson()) ?> ;
         var nationalityList = eval(nationalities);
-	var lang_NameRequired = "<?php echo __("Name is required"); ?>";
+	var lang_NameRequired = '<?php echo __(ValidationMessages::REQUIRED); ?>';
 	var lang_exceed50Charactors = "<?php echo __("Cannot exceed 100 charactors"); ?>";
 	var nationalityInfoUrl = "<?php echo url_for("admin/getNationalityJson?id="); ?>";
 	var lang_editNationality = "<?php echo __("Edit Nationality"); ?>";

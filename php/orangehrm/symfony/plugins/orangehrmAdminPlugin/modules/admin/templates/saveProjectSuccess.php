@@ -173,10 +173,10 @@
 	    <?php } ?>
             var numberOfProjectAdmins = <?php echo $form->numberOfProjectAdmins; ?>;
             var lang_typeHint = '<?php echo __("Type for hints") . "..."; ?>';
-            var lang_nameRequired = '<?php echo __("Customer name is required"); ?>';
-            var lang_activityNameRequired = '<?php echo __("Activity name is required"); ?>';
+            var lang_nameRequired = '<?php echo __(ValidationMessages::REQUIRED); ?>';
+            var lang_activityNameRequired = '<?php echo __(ValidationMessages::REQUIRED); ?>';
             var lang_validCustomer = '<?php echo __("Enter a valid customer name"); ?>';
-            var lang_projectRequired = '<?php echo __("Project name is required"); ?>';
+            var lang_projectRequired = '<?php echo __(ValidationMessages::REQUIRED); ?>';
             var lang_exceed50Chars = '<?php echo __("Cannot exceed 50 charactors"); ?>';
             var lang_exceed255Chars = '<?php echo __("Cannot exceed 255 charactors"); ?>';
             var lang_exceed100Chars = '<?php echo __("Cannot exceed 100 charactors"); ?>';

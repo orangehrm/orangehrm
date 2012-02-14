@@ -137,7 +137,7 @@
     var lang_addFormHeading = "<?php echo __('Add Skill'); ?>";
     var lang_editFormHeading = "<?php echo __('Edit Skill'); ?>";
     
-    var lang_nameIsRequired = "<?php echo __('Name is required'); ?>";
+    var lang_nameIsRequired = '<?php echo __(ValidationMessages::REQUIRED); ?>';
     var lang_descLengthExceeded = "<?php echo __('Description length should not exceed 250 characters'); ?>";
     var lang_nameExists = "<?php echo __('Name exists'); ?>";
     

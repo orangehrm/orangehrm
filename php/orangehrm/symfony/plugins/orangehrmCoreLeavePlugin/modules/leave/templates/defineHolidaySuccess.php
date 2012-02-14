@@ -79,9 +79,9 @@
         
         var datepickerDateFormat = '<?php echo get_datepicker_date_format($sf_user->getDateFormat()); ?>';
 
-        var lang_DateIsRequired = "<?php echo __("Date is required"); ?>";
+        var lang_DateIsRequired = '<?php echo __(ValidationMessages::REQUIRED); ?>';
         var lang_DateFormatIsWrong = '<?php echo __(ValidationMessages::DATE_FORMAT_INVALID, array('%format%' => get_datepicker_date_format($sf_user->getDateFormat()))) ?>';
-        var lang_NameIsRequired = "<?php echo __("Name is required"); ?>";
+        var lang_NameIsRequired = '<?php echo __(ValidationMessages::REQUIRED); ?>';
         var lang_NameIsOverLimit = "<?php echo __("Name should be less than")." 200 ".__("characters");?>";
 
         //Validation

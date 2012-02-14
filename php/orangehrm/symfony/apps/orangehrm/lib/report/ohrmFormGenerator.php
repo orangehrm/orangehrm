@@ -46,7 +46,7 @@ class ohrmFormGenerator {
 
         $form->setWidget('report_name', new sfWidgetFormInputText(array('default' => $reportName)));
         $form->setValidator('report_name', new sfValidatorString(array('required' => true, 'max_length' => 255),
-                array('required' => __('Report name is required'))));
+                array('required' => __('Required'))));
         $form->setWidget('report_id', new sfWidgetFormInputHidden(array('default' => $reportId)));       
         $form->setValidator('report_id', new sfValidatorString(array('required' => false)));
         $criteriaChoices = array();

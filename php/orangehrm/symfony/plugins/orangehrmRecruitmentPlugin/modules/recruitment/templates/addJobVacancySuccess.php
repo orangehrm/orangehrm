@@ -131,8 +131,8 @@
 		    var lang_typeForHints = '<?php echo __("Type for hints") . "..."; ?>';
                     var lang_negativeAmount = "<?php echo __("Number of positions should be a positive integer"); ?>";
                     var lang_tooLargeAmount = "<?php echo __("Number of positions should be less than 99"); ?>";
-                    var lang_jobTitleRequired = '<?php echo __("Job Title is required") ?>';
-                    var lang_vacancyNameRequired = "<?php echo __("Vacancy name is required"); ?>";
+                    var lang_jobTitleRequired = '<?php echo __(ValidationMessages::REQUIRED); ?>';
+                    var lang_vacancyNameRequired = '<?php echo __(ValidationMessages::REQUIRED); ?>';
                     var lang_enterAValidEmployeeName = "<?php echo __("Enter a valid employee name"); ?>";
                     var lang_nameExistmsg = "<?php echo __("This vacancy already exists"); ?>";
                     var vacancyNames = <?php echo $form->getVacancyList(); ?>;
