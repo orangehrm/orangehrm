@@ -789,6 +789,30 @@ class EmployeeServiceTest extends PHPUnit_Framework_TestCase {
     }
     
     /**
+     * Testing getSalary
+     */
+    public function testGetSalary() {
+        $empNumber = 121;
+        $id = 1;
+        
+        $salary = new EmpBasicsalary();
+        $salary->setEmpNumber($empNumber);
+        $salary->setId($id);
+        $salary->setSalaryComponent('Travel Expenses');
+        
+        $mockDao = $this->getMock('EmployeeDao');
+        $mockDao->expects($this->once())
+                 ->method('getSalary')
+                 ->with($empNumber, $id)
+                 ->will($this->returnValue($salary));
+        
+        $this->employeeService->setEmployeeDao($mockDao);
+        
+        $result = $this->employeeService->getSalary($empNumber, $id);
+        $this->assertEquals($salary, $result);              
+    } 
+    
+    /**
      * Testing saveLanguage
      */
     public function testSaveLanguage() {

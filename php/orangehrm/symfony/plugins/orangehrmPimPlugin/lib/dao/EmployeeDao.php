@@ -174,7 +174,8 @@ class EmployeeDao extends BaseDao {
 
         try {
             $q = Doctrine_Query:: create()->from('EmpEmergencyContact ec')
-                            ->where('ec.emp_number = ?', $empNumber);
+                            ->where('ec.emp_number = ?', $empNumber)
+                            ->orderBy('ec.name ASC');
             return $q->execute();
         } catch (Exception $e) {
             throw new DaoException($e->getMessage());
@@ -300,6 +301,7 @@ class EmployeeDao extends BaseDao {
                 return $q->fetchOne();
             }
 
+            $q->orderBy('w.employer ASC, w.jobtitle ASC');
             return $q->execute();
         } catch (Exception $e) {
             throw new DaoException($e->getMessage());
@@ -381,12 +383,13 @@ class EmployeeDao extends BaseDao {
         try {
             $q = Doctrine_Query::create()
                             ->from('EmployeeEducation ee')
+                            ->leftJoin('ee.Education as edu')
                             ->where('ee.emp_number = ?', $empNumber);
             
             if (!empty($educationId)) {
                 $q->addWhere('ee.education_id = ?', $educationId);
             }
-
+            $q->orderBy('edu.name ASC');
             return $q->execute();
                 
         } catch (Exception $e) {
@@ -443,21 +446,22 @@ class EmployeeDao extends BaseDao {
     public function getLanguage($empNumber, $langCode = null, $langType = null) {
         try {
             $q = Doctrine_Query::create()
-                            ->from('EmployeeLanguage l')
-                            ->where('l.emp_number = ?', $empNumber);
-            $fetchOne = false;
+                            ->from('EmployeeLanguage el')
+                            ->leftJoin('el.Language l')
+                            ->where('el.emp_number = ?', $empNumber);
 
             if (!is_null($langCode)) {
-                $q->andwhere('l.lang_id = ?', $langCode);
+                $q->andwhere('el.lang_id = ?', $langCode);
             }
 
             if (!is_null($langType)) {
-                $q->andwhere('l.fluency = ?', $langType);
+                $q->andwhere('el.fluency = ?', $langType);
             }
 
             if (!is_null($langCode) && !is_null($langType)) {
                 return $q->fetchOne();
             } else {
+                $q->orderBy('l.name ASC');
                 return $q->execute();
             }
         } catch (Exception $e) {
@@ -517,13 +521,15 @@ class EmployeeDao extends BaseDao {
     public function getSkill($empNumber, $skillCode = null) {
         try {
             $q = Doctrine_Query::create()
-                            ->from('EmployeeSkill w')
-                            ->where('w.emp_number = ?', $empNumber);
+                            ->from('EmployeeSkill es')
+                            ->leftJoin('es.Skill s')
+                            ->where('es.emp_number = ?', $empNumber);
 
             if (!is_null($skillCode)) {
-                $q->andwhere('w.skill_id = ?', $skillCode);
+                $q->andwhere('es.skill_id = ?', $skillCode);
                 return $q->fetchOne();
             }
+            $q->orderBy('s.name ASC');
 
             return $q->execute();
         } catch (Exception $e) {
@@ -579,14 +585,15 @@ class EmployeeDao extends BaseDao {
     public function getLicense($empNumber, $licenseCode = null) {
         try {
             $q = Doctrine_Query::create()
-                            ->from('EmployeeLicense l')
-                            ->where('l.emp_number = ?', $empNumber);
+                            ->from('EmployeeLicense el')
+                            ->leftJoin('el.License l')
+                            ->where('el.emp_number = ?', $empNumber);
 
             if (!is_null($licenseCode)) {
-                $q->andwhere('l.license_id = ?', $licenseCode);
+                $q->andwhere('el.license_id = ?', $licenseCode);
                 return $q->fetchOne();
             }
-
+            $q->orderBy('l.name ASC');
             return $q->execute();
         } catch (Exception $e) {
             throw new DaoException($e->getMessage());
@@ -641,7 +648,8 @@ class EmployeeDao extends BaseDao {
             $q = Doctrine_Query:: create()
                             ->from('EmployeeAttachment a')
                             ->where('a.emp_number = ?', $empNumber)
-                            ->andWhere('a.screen = ?', $screen);
+                            ->andWhere('a.screen = ?', $screen)
+                            ->orderBy('a.filename ASC');
             return $q->execute();
         } catch (Exception $e) {
             throw new PIMServiceException($e->getMessage());
@@ -696,7 +704,8 @@ class EmployeeDao extends BaseDao {
     public function getDependents($empNumber) {
         try {
             $q = Doctrine_Query:: create()->from('EmpDependent ed')
-                            ->where('ed.emp_number = ?', $empNumber);
+                            ->where('ed.emp_number = ?', $empNumber)
+                            ->orderBy('ed.name ASC');
             return $q->execute();
         } catch (Exception $e) {
             throw new PIMServiceException($e->getMessage());
@@ -1138,8 +1147,11 @@ class EmployeeDao extends BaseDao {
     public function getMembershipDetails($empNumber) {
 
         try {
-            $q = Doctrine_Query::create()->from('EmployeeMemberDetail emd')
-                            ->where('emd.emp_number =?', $empNumber);
+            $q = Doctrine_Query::create()
+                    ->from('EmployeeMemberDetail emd')
+                    ->leftJoin('emd.Membership m')
+                    ->where('emd.emp_number =?', $empNumber)
+                    ->orderBy('m.name ASC');
             return $q->execute();
         } catch (Exception $e) {
             throw new DaoException($e->getMessage());
@@ -1252,6 +1264,40 @@ class EmployeeDao extends BaseDao {
             throw new DaoException($e->getMessage());
         }
     }
+    
+    /**
+     * Get Salary Record(s) for given employee
+     * 
+     * @version 2.6.11
+     * @param int $empNumber Employee number
+     * @param int $empSalaryId Employee Basic Salary ID
+     * 
+     * @return Collection/EmbBasicsalary  If $empSalaryId is given returns matching 
+     * EmbBasicsalary or false if not found. If $empSalaryId is not given, returns 
+     * EmbBasicsalary collection. (Empty collection if no records available)
+     * @throws DaoException
+     * 
+     * @todo Exceptions should preserve previous exception
+     */
+    public function getSalary($empNumber, $empSalaryId = null) {
+        try {
+            $q = Doctrine_Query::create()
+                ->from('EmpBasicsalary s')
+                ->leftJoin('s.currencyType c')
+                ->where('s.emp_number = ?', $empNumber);
+
+            if (!is_null($empSalaryId)) {
+                $q->andwhere('s.id = ?', $empSalaryId);
+                return $q->fetchOne();
+            }
+
+            $q->orderBy('s.salary_component ASC');
+            return $q->execute();
+            
+        } catch (Exception $e) {
+            throw new DaoException($e->getMessage());
+        }
+    }     
 
     /**
      * get supervisor list
@@ -1261,8 +1307,13 @@ class EmployeeDao extends BaseDao {
     public function getSupervisorListForEmployee($empNumber) {
 
         try {
-            $q = Doctrine_Query :: create()->from('ReportTo rt')
-                            ->where('rt.erep_sub_emp_number =?', $empNumber);
+            $q = Doctrine_Query :: create()
+                            ->select('rt.*, s.firstName, s.lastName, s.middleName, rm.*')
+                            ->from('ReportTo rt')
+                            ->leftJoin('rt.supervisor as s')
+                            ->leftJoin('rt.ReportingMethod as rm')
+                            ->where('rt.erep_sub_emp_number =?', $empNumber)
+                            ->orderBy('s.lastName ASC, s.firstName ASC');
             return $q->execute();
         } catch (Exception $e) {
             throw new DaoException($e->getMessage());
@@ -1278,7 +1329,11 @@ class EmployeeDao extends BaseDao {
 
         try {
             $q = Doctrine_Query :: create()->from('ReportTo rt')
-                            ->where('rt.erep_sup_emp_number =?', $empNumber);
+                            ->select('rt.*, s.empNumber, s.firstName, s.lastName, s.middleName, rm.*')
+                            ->leftJoin('rt.subordinate as s')
+                            ->leftJoin('rt.ReportingMethod as rm')                    
+                            ->where('rt.erep_sup_emp_number =?', $empNumber)
+                            ->orderBy('s.lastName ASC, s.firstName ASC');
             return $q->execute();
         } catch (Exception $e) {
             throw new DaoException($e->getMessage());

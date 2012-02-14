@@ -117,7 +117,7 @@ class viewSalaryListAction extends basePimAction {
             }
             $this->redirect('pim/viewSalaryList?empNumber=' . $empNumber);
         } else {        
-            $this->salaryList = $employee->getSalary();            
+            $this->salaryList = $this->getEmployeeService()->getSalary($empNumber);            
         }
 
     }

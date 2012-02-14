@@ -185,7 +185,7 @@ class EmployeeDaoTest extends PHPUnit_Framework_TestCase {
 
         $subordinateReportToList = $this->employeeDao->getSubordinateListForEmployee(3);
         $this->assertTrue($subordinateReportToList[0] instanceof ReportTo);
-        $this->assertEquals($subordinateReportToList[0]->subordinateId, 1);
+        $this->assertEquals($subordinateReportToList[0]->subordinateId, 2);
         $this->assertTrue($subordinateReportToList[0]->getSubordinate() instanceof Employee);
     }
 
@@ -882,6 +882,35 @@ class EmployeeDaoTest extends PHPUnit_Framework_TestCase {
         $result = $this->employeeDao->deleteSalary($empNumber, array('SAL001'));
         $this->assertEquals(1, count($result));       
     }
+    
+    public function testGetSalary() {
+        
+        // Get all salaries
+        $empNumber = 1;
+        $result = $this->employeeDao->getSalary($empNumber);        
+        $this->assertEquals(2, count($result));
+        $this->assertEquals(2, $result[0]->id); // Allowance
+        $this->assertEquals('Allowance', $result[0]->getSalaryComponent());
+        $this->assertEquals(1, $result[1]->id); // Main Salary
+        $this->assertEquals('Main Salary', $result[1]->getSalaryComponent());
+        
+        // Get one salary
+        $result = $this->employeeDao->getSalary($empNumber, 1);
+        $result = $this->employeeDao->getSalary($empNumber, 1);        
+        $this->assertTrue($result instanceof EmpBasicsalary);
+        $this->assertEquals(1, $result->id);
+        $this->assertEquals('Main Salary', $result->getSalaryComponent());
+        
+        //        
+        // None existing salary
+        $result = $this->employeeDao->getSalary($empNumber, 12);
+        $this->assertFalse($result);
+        
+        // employee with no salaries
+        $result = $this->employeeDao->getSalary(3);
+        $this->assertEquals(0, count($result));
+    }
+    
     public function testGetUnassignedCurrencyList() {
         $empNumber = 1;
         

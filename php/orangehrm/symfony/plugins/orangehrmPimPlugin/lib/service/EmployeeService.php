@@ -1241,6 +1241,24 @@ class EmployeeService extends BaseService {
             throw new PIMServiceException($e->getMessage());
         }
     }
+    
+    /**
+     * Get Salary Record(s) for given employee
+     * 
+     * @version 2.6.11
+     * @param int $empNumber Employee number
+     * @param int $empSalaryId Employee Basic Salary ID
+     * 
+     * @return Collection/EmbBasicsalary  If $empSalaryId is given returns matching 
+     * EmbBasicsalary or false if not found. If $empSalaryId is not given, returns 
+     * EmbBasicsalary collection. (Empty collection if no records available)
+     * @throws DaoException
+     * 
+     * @todo Exceptions should preserve previous exception
+     */
+    public function getSalary($empNumber, $empSalaryId = null) {
+        return $this->getEmployeeDao()->getSalary($empNumber, $empSalaryId);
+    }   
 
     /**
      * Retrieves supervisors of an employee
