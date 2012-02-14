@@ -86,14 +86,6 @@
                 <source>Military Service</source>
                 <target>FR_Military Service</target>
             </trans-unit>
-            <trans-unit id="41">
-                <source>First Name is required</source>
-                <target>FR_First Name is required</target>
-            </trans-unit>
-            <trans-unit id="42">
-                <source>Last Name is required</source>
-                <target>FR_Last Name is required</target>
-            </trans-unit>
             <trans-unit id="43">
                 <source>Other</source>
                 <target>FR_Other</target>
@@ -203,10 +195,6 @@
             <trans-unit id="79">
                 <source>Personal Details Saved Successfully</source>
                 <target>FR_Personal Details Saved Successfully</target>
-            </trans-unit>
-            <trans-unit id="80">
-                <source>Select a gender</source>
-                <target>FR_Select a gender</target>
             </trans-unit>
             <trans-unit id="81">
                 <source>Should be a valid date in the format: %format%</source>
@@ -753,10 +741,6 @@
                 <source>Terminated Reason</source>
                 <target>FR_Terminated Reason</target>
             </trans-unit>
-            <trans-unit id="245">
-                <source>Maximum character limit for terminated reason is 256</source>
-                <target>FR_Maximum character limit for terminated reason is 256</target>
-            </trans-unit>
             <trans-unit id="246">
                 <source>Add Supervisor/Subordinate</source>
                 <target>FR_Add Supervisor/Subordinate</target>
@@ -882,10 +866,6 @@
                 <source>Hourly</source>
                 <target>FR_Hourly</target>
             </trans-unit>
-            <trans-unit id="281">
-                <source>Reason is required</source>
-                <target>FR_Reason is required</target>
-            </trans-unit>
             <trans-unit id="282">
                 <source>Activate Employement</source>
                 <target>FR_Activate Employement</target>
@@ -921,10 +901,6 @@
             <trans-unit id="290">
                 <source>Confirm</source>
                 <target>FR_Confirm</target>
-            </trans-unit>
-            <trans-unit id="291">
-                <source>Maximum character limit for terminated note is 255</source>
-                <target>FR_Maximum character limit for terminated note is 255</target>
             </trans-unit>
             <trans-unit id="292">
                 <source>Institute</source>
@@ -999,10 +975,6 @@
             <trans-unit id="314">
                 <source>Renewal date should be after the commence date</source>
                 <target>FR_Renewal date should be after the commence date</target>
-            </trans-unit>
-            <trans-unit id="316">
-                <source>End date should be after the start date</source>
-                <target>FR_End date should be after the start date</target>
             </trans-unit>
             <trans-unit id="317">
                 <source>Contract Details File Size Exceeded</source>

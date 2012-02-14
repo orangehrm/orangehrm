@@ -5292,10 +5292,13 @@
                 <target>FR_Should be less than %amount% characters</target>
             </trans-unit>
             <trans-unit id="8002">
-                <source>Expiry date should be after the issued date</source>
-                <target>FR_Expiry date should be after the issued date</target>
+                <source>Expiry date should be after issued date</source>
+                <target>FR_Expiry date should be after issued date</target>
             </trans-unit>
-        
+            <trans-unit id="8003">
+                <source>End date should be after start date</source>
+                <target>FR_End date should be after start date</target>
+            </trans-unit>
         </body>
     </file>
 </xliff>

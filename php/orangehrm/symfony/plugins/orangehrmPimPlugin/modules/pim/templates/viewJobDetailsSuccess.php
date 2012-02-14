@@ -13,16 +13,13 @@
     //we write javascript related stuff here, but if the logic gets lengthy should use a seperate js file
     var edit = "<?php echo __("Edit"); ?>";
     var save = "<?php echo __("Save"); ?>";
-    var lang_firstNameRequired = "<?php echo __("First Name is required"); ?>";
-    var lang_lastNameRequired = "<?php echo __("Last Name is required"); ?>";
-    var lang_selectGender = "<?php echo __("Select a gender"); ?>";
-    var lang_invalidDate = '<?php echo __("Please enter a valid date in %format% format", array('%format%' => get_datepicker_date_format($sf_user->getDateFormat()))) ?>'
-    var lang_startDateAfterEndDate = "<?php echo __('End date should be after the start date'); ?>";
+    var lang_invalidDate = '<?php echo __(ValidationMessages::DATE_FORMAT_INVALID, array('%format%' => get_datepicker_date_format($sf_user->getDateFormat()))) ?>'
+    var lang_startDateAfterEndDate = "<?php echo __('End date should be after start date'); ?>";
     var lang_View_Details =  "<?php echo __('View Details'); ?>";
     var lang_Hide_Details =  "<?php echo __('Hide Details'); ?>";
-    var lang_max_char_terminated_reason =  "<?php echo __('Maximum character limit for terminated reason is 256'); ?>";
-    var  lang_max_char_terminated_note =  "<?php echo __('Maximum character limit for terminated note is 255'); ?>";
-    var lang_terminatedReasonRequired = "<?php echo __("Reason is required"); ?>";
+    var lang_max_char_terminated_reason =  "<?php echo __(ValidationMessages::TEXT_LENGTH_EXCEEDS, array('%amount%' => 250)); ?>";
+    var  lang_max_char_terminated_note =  "<?php echo __(ValidationMessages::TEXT_LENGTH_EXCEEDS, array('%amount%' => 250)); ?>";
+    var lang_terminatedReasonRequired = "<?php echo __(ValidationMessages::REQUIRED); ?>";
     var lang_activateEmployement = "<?php echo __("Activate Employement"); ?>";
     var lang_terminateEmployement = "<?php echo __("Terminate Employement"); ?>";
     var lang_editTerminateEmployement = "<?php echo __("Edit Employement Termination"); ?>";
@@ -217,7 +214,7 @@
                                               <input type="button" id="dialogConfirm" class="savebutton" value="<?php echo __('Confirm'); ?>" />
                                               <input type="button" id="dialogCancel" class="savebutton" value="<?php echo __('Cancel'); ?>" />
                                           </div>
-                                          <div class="paddingLeftRequired"><?php echo __('Fields marked with an asterisk') ?> <span class="required">*</span> <?php echo __('are required.') ?></div>
+                                          <div class="paddingLeftRequired"><span class="required">* <?php echo __(CommonMessages::REQUIRED_FIELD)?></span></div>
                                       </div>
 
 
@@ -326,7 +323,7 @@
                                               $("#frmEmpJobDetails").validate({
                                                   rules: {
                                                       'job[terminated_date]': { required: false, valid_date: function(){ return {format:datepickerDateFormat, required:false} } },
-                                                      'job[termination_reason]': { maxlength: 256 },
+                                                      'job[termination_reason]': { maxlength: 250 },
                                                       'job[joined_date]': { required: false, valid_date: function(){ return {format:datepickerDateFormat, required:false} } },
                                                       'job[contract_start_date]': { required: false, valid_date: function(){ return {format:datepickerDateFormat, required:false}}},
                                                       'job[contract_end_date]': { required: false, valid_date: function(){ return {format:datepickerDateFormat, required:false} }, date_range: function() {return {format:datepickerDateFormat, fromDate:stratDate}}}
@@ -336,7 +333,7 @@
                                                       'job[termination_reason]': { maxlength: lang_max_char_terminated_reason },
                                                       'job[joined_date]': { valid_date: lang_invalidDate },
                                                       'job[contract_start_date]': { valid_date: lang_invalidDate},
-                                                      'job[contract_end_date]': { valid_date: lang_invalidDate, date_range:'<?php echo __('End date should be after the start date'); ?>'}
+                                                      'job[contract_end_date]': { valid_date: lang_invalidDate, date_range:lang_startDateAfterEndDate}
                                                   },
                                                   errorElement : 'div',
                                                   errorPlacement: function(error, element) {
