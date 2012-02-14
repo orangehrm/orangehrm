@@ -6,7 +6,7 @@
 <script type="text/javascript">
     //<![CDATA[
     var lang_numberRequired = "<?php echo __(ValidationMessages::REQUIRED);?>";
-    var lang_issuedGreaterExpiry = "<?php echo __('Expiry date should be after the issued date'); ?>";
+    var lang_issuedGreaterExpiry = "<?php echo __('Expiry date should be after issued date'); ?>";
     var lang_editImmigrationHeading = "<?php echo __('Edit Immigration');?>";
     var lang_addImmigrationHeading = "<?php echo __('Add Immigration');?>";
     var lang_commentLength = "<?php echo __(ValidationMessages::TEXT_LENGTH_EXCEEDS, array('%amount%' => 250));?>";
