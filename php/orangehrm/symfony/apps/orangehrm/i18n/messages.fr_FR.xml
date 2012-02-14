@@ -612,18 +612,6 @@
                 <source>Amount</source>
                 <target>FR_Amount</target>
             </trans-unit>
-            <trans-unit id="192">
-                <source>Currency is required</source>
-                <target>FR_Currency is required</target>
-            </trans-unit>
-            <trans-unit id="193">
-                <source>Amount is required</source>
-                <target>FR_Amount is required</target>
-            </trans-unit>
-            <trans-unit id="194">
-                <source>Account Number is required</source>
-                <target>FR_Account Number is required</target>
-            </trans-unit>
             <trans-unit id="195">
                 <source>Add Salary Component</source>
                 <target>FR_Add Salary Component</target>
@@ -656,18 +644,6 @@
                 <source>Salary Details Updated Successfully</source>
                 <target>FR_Salary Details Updated Successfully</target>
             </trans-unit>
-            <trans-unit id="203">
-                <source>Please Select At Least One Salary Component To Delete</source>
-                <target>FR_Please Select At Least One Salary Component To Delete</target>
-            </trans-unit>
-            <trans-unit id="204">
-                <source>Routing Number should only contain digits</source>
-                <target>FR_Routing Number should only contain digits</target>
-            </trans-unit>
-            <trans-unit id="205">
-                <source>Amount should be a number</source>
-                <target>FR_Amount should be a number</target>
-            </trans-unit>
             <trans-unit id="206">
                 <source>Savings</source>
                 <target>FR_Saving</target>
@@ -680,21 +656,9 @@
                 <source>Show Direct Deposit Details</source>
                 <target>FR_Show Direct Deposit Details</target>
             </trans-unit>
-            <trans-unit id="209">
-                <source>Please specify other account type</source>
-                <target>FR_Please specify other account type</target>
-            </trans-unit>
             <trans-unit id="210">
                 <source>Issued date should be less than expiry date</source>
                 <target>FR_Issued date should be less than expiry date</target>
-            </trans-unit>
-            <trans-unit id="211">
-                <source>Amount should be less than 999999999.99</source>
-                <target>FR_Amount should be less than 999999999.99</target>
-            </trans-unit>
-            <trans-unit id="212">
-                <source>Comments cannot exceed 255 characters in length</source>
-                <target>FR_Comments cannot exceed 255 characters in length</target>
             </trans-unit>
             <trans-unit id="213">
                 <source>No records to display</source>
@@ -4866,10 +4830,6 @@
                 <source>Please select an employee</source>
                 <target>FR_Please select an employee</target>
             </trans-unit>
-            <trans-unit id="986">
-                <source>Pay grade is required</source>
-                <target>FR_Pay grade is required</target>
-            </trans-unit>
             <trans-unit id="987">
                 <source>Education is required</source>
                 <target>FR_Education is required</target>
@@ -5299,6 +5259,23 @@
                 <source>End date should be after start date</source>
                 <target>FR_End date should be after start date</target>
             </trans-unit>
+            <trans-unit id="8004">
+                <source>Should be within Min/Max values</source>
+                <target>FR_Should be within Min/Max values</target>
+            </trans-unit>
+            <trans-unit id="8005">
+                <source>Should be a positive number</source>
+                <target>FR_Should be a positive number</target>
+            </trans-unit>
+            <trans-unit id="8006">
+                <source>Should be less than %amount%</source>
+                <target>FR_Should be less than %amount%</target>
+            </trans-unit>
+            <trans-unit id="8007">
+                <source>Should be a number</source>
+                <target>FR_Should be a number</target>
+            </trans-unit>
+            
         </body>
     </file>
 </xliff>

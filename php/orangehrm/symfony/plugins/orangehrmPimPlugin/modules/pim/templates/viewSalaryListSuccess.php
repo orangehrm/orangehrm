@@ -130,7 +130,7 @@
                                     </form>
                                 </div>
 
-                                <div class="smallText" id="salaryRequiredNote"><?php echo __('Fields marked with an asterisk') ?> <span class="required">*</span> <?php echo __('are required.') ?></div>
+                                 <div class="paddingLeftRequired"><span class="required">* <?php echo __(CommonMessages::REQUIRED_FIELD)?></span></div>
 
                             <?php endif; ?>
 
@@ -304,27 +304,26 @@
     var fileModified = 0;
     var lang_addSalary = "<?php echo __('Add Salary Component'); ?>";
     var lang_editSalary = "<?php echo __('Edit Salary Component'); ?>";
-    var lang_payPeriodRequired = "<?php echo __("Pay Grade is required"); ?>";
-    var lang_currencyRequired = "<?php echo __("Currency is required"); ?>";
-    var lang_componentRequired = "<?php echo __("Component is required"); ?>";
-    var lang_amountRequired = "<?php echo __("Amount is required"); ?>";
-    var lang_invalidAmount = "<?php echo __("Amount should be within Min/Max values"); ?>";
-    var lang_negativeAmount = "<?php echo __("Amount should be a positive number"); ?>";
-    var lang_tooLargeAmount = "<?php echo __("Amount should be less than 999999999.99"); ?>";
-    var lang_amountShouldBeNumber = "<?php echo __("Amount should be a number"); ?>";
-    var lang_commentsLength = "<?php echo __("Comments cannot exceed 255 characters in length") ?>";
-    var lang_componentLength = "<?php echo __('Component cannot exceed 100 characters in length'); ?>";
-    var lang_selectSalaryToDelete = "<?php echo __('Please Select At Least One Salary Component To Delete'); ?>";
-    var lang_accountRequired = "<?php echo __('Account Number is required'); ?>";
-    var lang_accountMaxLength = "<?php echo __('Account cannot exceed 100 characters in length'); ?>";
-    var lang_accountTypeRequired = "<?php echo __('Account Type is required'); ?>";
-    var lang_routingNumRequired = "<?php echo __('Routing Number is required'); ?>";
-    var lang_routingNumInteger = "<?php echo __('Routing Number should only contain digits'); ?>";
-    var lang_depositAmountRequired=  "<?php echo __('Amount is required'); ?>";
-    var lang_depositAmountShouldBeNumber = "<?php echo __('Amount should be a number'); ?>";
-    var lang_otherRequired = "<?php echo __('Please specify other account type'); ?>";
-    var lang_otherMaxLength = "<?php echo __('Other account cannot exceed 20 characters in length'); ?>";
-    var lang_otherMaxLength = "<?php echo __('Other account cannot exceed 20 characters in length'); ?>";
+    var lang_payPeriodRequired = "<?php echo __(ValidationMessages::REQUIRED); ?>";
+    var lang_currencyRequired = "<?php echo __(ValidationMessages::REQUIRED); ?>";
+    var lang_componentRequired = "<?php echo __(ValidationMessages::REQUIRED); ?>";
+    var lang_amountRequired = "<?php echo __(ValidationMessages::REQUIRED); ?>";
+    var lang_invalidAmount = "<?php echo __("Should be within Min/Max values"); ?>";
+    var lang_negativeAmount = "<?php echo __("Should be a positive number"); ?>";
+    var lang_tooLargeAmount = "<?php echo __("Should be less than %amount%", array("%amount%" => '1000,000,000.00')); ?>";
+    var lang_amountShouldBeNumber = "<?php echo __("Should be a number"); ?>";
+    var lang_commentsLength = "<?php echo __(ValidationMessages::TEXT_LENGTH_EXCEEDS, array('%amount%' => 250)) ?>";
+    var lang_componentLength = "<?php echo __(ValidationMessages::TEXT_LENGTH_EXCEEDS, array('%amount%' => 100)); ?>";
+    var lang_selectSalaryToDelete = "<?php echo __(TopLevelMessages::SELECT_RECORDS); ?>";
+    var lang_accountRequired = "<?php echo __(ValidationMessages::REQUIRED); ?>";
+    var lang_accountMaxLength = "<?php echo __(ValidationMessages::TEXT_LENGTH_EXCEEDS, array('%amount%' => 100)); ?>";
+    var lang_accountTypeRequired = "<?php echo __(ValidationMessages::REQUIRED); ?>";
+    var lang_routingNumRequired = "<?php echo __(ValidationMessages::REQUIRED); ?>";
+    var lang_routingNumInteger = "<?php echo __('Should be a number'); ?>";
+    var lang_depositAmountRequired=  "<?php echo __(ValidationMessages::REQUIRED); ?>";
+    var lang_depositAmountShouldBeNumber = "<?php echo __('Should be a number'); ?>";
+    var lang_otherRequired = "<?php echo __(ValidationMessages::REQUIRED); ?>";
+    var lang_otherMaxLength = "<?php echo __(ValidationMessages::TEXT_LENGTH_EXCEEDS, array('%amount%' => 20)); ?>";
     var essMode = '<?php echo $essUserMode; ?>';
 //]]>
 </script>
@@ -423,7 +422,7 @@
         //hide add section
 <?php if (count($salaryList) > 0) { ?>
         $("#changeSalary").hide();
-        $("#salaryRequiredNote").hide();
+        $(".paddingLeftRequired").hide();
 <?php } else { ?>
         clearDirectDepositFields();
         $('#directDebitSection').hide();
@@ -516,7 +515,7 @@
 
         //show add form
         $("#changeSalary").show();
-        $("#salaryRequiredNote").show();
+        $(".paddingLeftRequired").show();
 
         // hide direct deposit section
         $('#directDebitSection').hide();
@@ -574,7 +573,7 @@
             'salary[sal_grd_code]': {required: false},
             'salary[currency_id]': {required: true},
             'salary[salary_component]': {required: true, maxlength: 100},
-            'salary[comments]': {required: false, maxlength: 255},
+            'salary[comments]': {required: false, maxlength: 250},
             'salary[basic_salary]': {number:true, validateAmount:true, required: true, min: 0, max:999999999.99},
             'directdeposit[account]': {required: "#salary_set_direct_debit:checked", maxlength:100},
             'directdeposit[account_type]': {required: "#salary_set_direct_debit:checked"},
@@ -588,7 +587,7 @@
                 },
                 maxlength:20},
             'directdeposit[routing_num]': {required: "#salary_set_direct_debit:checked", digits:true},
-            'directdeposit[amount]': {required: "#salary_set_direct_debit:checked", number:true, min: 0, max:999999999.99}
+            'directdeposit[amount]': {required: "#salary_set_direct_debit:checked", number:true, min: 0, max:1000000000.00}
         },
         messages: {
             'salary[currency_id]': {required: lang_currencyRequired},
@@ -639,7 +638,7 @@
         //hiding action button section
         $("#actionSalary").show();
         $("#changeSalary").hide();
-        $("#salaryRequiredNote").hide();
+        $(".paddingLeftRequired").hide();
 
         $('#salary_id').val('');
 
@@ -721,7 +720,7 @@
         
         updateCurrencyList(salGrdCode, currencyId, currencyName);
         
-        $("#salaryRequiredNote").show();
+        $(".paddingLeftRequired").show();
         
         $("div#tblSalary td.check").hide();
         $('div#tblSalary td.component').attr('colspan', 2);

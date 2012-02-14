@@ -809,25 +809,9 @@
                 <source>Subordinate Updated Successfully</source>
                 <target>FR_Subordinate Updated Successfully</target>
             </trans-unit>
-            <trans-unit id="264">
-                <source>Amount should be a positive number</source>
-                <target>FR_Amount should be a positive number</target>
-            </trans-unit>
             <trans-unit id="266">
                 <source>Add Direct Deposit Details</source>
                 <target>FR_Add Direct Deposit Details</target>
-            </trans-unit>
-            <trans-unit id="267">
-                <source>Component is required</source>
-                <target>FR_Component is required</target>
-            </trans-unit>
-            <trans-unit id="268">
-                <source>Account Type is required</source>
-                <target>FR_Account Type is required</target>
-            </trans-unit>
-            <trans-unit id="269">
-                <source>Routing Number is required</source>
-                <target>FR_Routing Number is required</target>
             </trans-unit>
             <trans-unit id="270">
                 <source>Please specify other account type</source>
@@ -979,10 +963,6 @@
             <trans-unit id="317">
                 <source>Contract Details File Size Exceeded</source>
                 <target>FR_Contract Details File Size Exceeded</target>
-            </trans-unit>
-            <trans-unit id="319">
-                <source>Amount should be within Min/Max values</source>
-                <target>FR_Amount should be within Min/Max values</target>
             </trans-unit>
             <trans-unit id="320">
                 <source>Min</source>
