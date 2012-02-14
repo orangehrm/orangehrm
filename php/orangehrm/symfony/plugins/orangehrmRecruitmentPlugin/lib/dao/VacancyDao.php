@@ -44,6 +44,7 @@ class VacancyDao extends BaseDao {
                 $q->addWhere('jv.id = ?', $vacancyId);
             }
             $q->addWhere('e.termination_id IS NULL');
+            $q->orderBy('e.lastName ASC, e.firstName ASC');
             $results = $q->execute();
 
             $hiringManagerList = array();
@@ -78,7 +79,7 @@ class VacancyDao extends BaseDao {
             if (!empty($jobTitle)) {
                 $q->addWhere('jv.jobTitleCode =?', $jobTitle);
             }
-            $q->orderBy('jv.status');
+            $q->orderBy('jv.name ASC');
             return $q->execute(array(), $hydrateMode);
         } catch (Exception $e) {
             throw new DaoException($e->getMessage());
@@ -122,6 +123,8 @@ class VacancyDao extends BaseDao {
             if (!empty($status)) {
                 $q->addWhere('status =?', $status);
             }
+            $q->orderBy('name ASC');
+            
             return $q->execute();
         } catch (Exception $e) {
             throw new DaoException($e->getMessage());
