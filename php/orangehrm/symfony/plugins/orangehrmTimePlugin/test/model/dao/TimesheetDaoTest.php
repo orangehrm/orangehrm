@@ -89,7 +89,8 @@ class TimesheetDaoTest extends PHPUnit_Framework_TestCase {
      * Testing for saving a timesheet for newly made timesheets
      */
     public function testSaveTimesheetWithNewTimesheet() {
-
+        TestDataService::truncateTables(array('Timesheet'));
+        
         $timesheet = new Timesheet();
         $timesheet->setState("CREATED");
         $timesheet->setEmployeeId(200);
@@ -215,7 +216,8 @@ class TimesheetDaoTest extends PHPUnit_Framework_TestCase {
      * Testing saveTimesheetItem method for the newly made timesheet Items
      */
     public function testSaveTimesheetItemWithNewTimesheetItem() {
-
+        TestDataService::truncateTables(array('TimesheetItem'));
+        
         $timesheetItem = new TimesheetItem();
         $timesheetItem->setTimesheetId(1);
         $timesheetItem->setDate("2011-04-23");
@@ -228,7 +230,7 @@ class TimesheetDaoTest extends PHPUnit_Framework_TestCase {
         $savedNewTimesheetItem = $this->timesheetDao->saveTimesheetItem($timesheetItem);
 
         $this->assertTrue($savedNewTimesheetItem instanceof TimesheetItem);
-        $this->assertEquals("007", $savedNewTimesheetItem->getTimesheetItemId());
+        $this->assertEquals('001', $savedNewTimesheetItem->getTimesheetItemId());
         $this->assertEquals($timesheetItem->getTimesheetId(), $savedNewTimesheetItem->getTimesheetId());
         $this->assertEquals($timesheetItem->getDate(), $savedNewTimesheetItem->getDate());
         $this->assertEquals($timesheetItem->getDuration(), $savedNewTimesheetItem->getDuration());
@@ -317,18 +319,19 @@ class TimesheetDaoTest extends PHPUnit_Framework_TestCase {
      * Testing saveTimesheetActionLog mthod for newly made timesheet action logs
      */
     public function testSaveTimesheetActionLogWithNewTimesheetActionLog() {
-
+        TestDataService::truncateSpecificTables(array('TimesheetActionLog'), true);
+        
         $timesheetActionLog = new TimesheetActionLog();
         $timesheetActionLog->setTimesheetId(1);
-        $timesheetActionLog->setDateTime("2011-04-23");
-        $timesheetActionLog->setComment("New Timesheet Item");
-        $timesheetActionLog->setAction("ACCEPTED");
-        $timesheetActionLog->setPerformedBy(3);
+        $timesheetActionLog->setDateTime('2011-04-23');
+        $timesheetActionLog->setComment('New Timesheet Item');
+        $timesheetActionLog->setAction('ACCEPTED');
+        $timesheetActionLog->setPerformedBy('3');
 
         $savedNewTimesheetActionLog = $this->timesheetDao->saveTimesheetActionLog($timesheetActionLog);
 
         $this->assertTrue($savedNewTimesheetActionLog instanceof TimesheetActionLog);
-        $this->assertEquals("005", $savedNewTimesheetActionLog->getTimesheetActionLogId());
+        $this->assertEquals('001', $savedNewTimesheetActionLog->getTimesheetActionLogId());
         $this->assertEquals($timesheetActionLog->getTimesheetId(), $savedNewTimesheetActionLog->getTimesheetId());
         $this->assertEquals($timesheetActionLog->getDateTime(), $savedNewTimesheetActionLog->getDateTime());
         $this->assertEquals($timesheetActionLog->getComment(), $savedNewTimesheetActionLog->getComment());
