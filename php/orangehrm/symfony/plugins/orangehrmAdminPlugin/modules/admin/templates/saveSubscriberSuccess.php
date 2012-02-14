@@ -76,5 +76,5 @@
 	var lang_editSubscriber = "<?php echo __("Edit Subscriber"); ?>";
 	var lang_addSubscriber = "<?php echo __("Add Subscriber"); ?>";
 	var lang_uniqueEmail = "<?php echo __("Email already exist"); ?>";
-        var lang_validEmail = "<?php echo __("Email address should contain at least one '.' and one '@' Example:user@example.com"); ?>";
+        var lang_validEmail = '<?php echo __(ValidationMessages::EMAIL_INVALID); ?>';
 </script>

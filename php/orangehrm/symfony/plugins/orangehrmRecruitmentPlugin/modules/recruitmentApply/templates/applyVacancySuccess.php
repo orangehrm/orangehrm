@@ -137,7 +137,7 @@
     var lang_firstNameRequired = "<?php echo __("First name is required"); ?>";
     var lang_lastNameRequired = "<?php echo __("Last name is required"); ?>";
     var lang_emailRequired = "<?php echo __("E-mail is required"); ?>";
-    var lang_validEmail = "<?php echo __("Email address should contain at least one '.' and one '@' Example:user@example.com"); ?>";
+    var lang_validEmail = '<?php echo __(ValidationMessages::EMAIL_INVALID); ?>';
     var lang_tooLargeInput = "<?php echo __("Please enter no more than 30 characters"); ?>";
     var lang_commaSeparated = "<?php echo __("Enter comma separated words..."); ?>";
     var lang_validPhoneNo = "<?php echo __("Enter a valid contact number"); ?>";

@@ -124,7 +124,7 @@
 		              email: true,
 		             messages: {
 					   required: "<?php echo __("Test e-mail address is required")?>",
-					   email: "<?php echo __("Email address should contain at least one '.' and one '@' Example:user@example.com");?>"
+					   email: '<?php echo __(ValidationMessages::EMAIL_INVALID); ?>'
 		             }
 		         });
 	        } else {

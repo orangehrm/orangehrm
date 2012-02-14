@@ -241,7 +241,7 @@
                                     var lang_lastNameRequired = "<?php echo __("Last name is required"); ?>";
                                     var lang_emailRequired = "<?php echo __("E-mail is required"); ?>";
                                     var lang_validDateMsg = '<?php echo __("Please enter a valid date in %format% format", array('%format%' => get_datepicker_date_format($sf_user->getDateFormat()))); ?>';
-                                    var lang_validEmail = "<?php echo __("Email address should contain at least one '.' and one '@' Example:user@example.com"); ?>";
+                                    var lang_validEmail = '<?php echo __(ValidationMessages::EMAIL_INVALID); ?>';
                                     var list = <?php echo json_encode($allVacancylist); ?>;
                                     var allowedVacancylistWithClosedVacancies = <?php echo json_encode($allowedVacancylistWithClosedVacancies); ?>;
                                     var allowedVacancylist = <?php echo json_encode($allowedVacancylist); ?>;
