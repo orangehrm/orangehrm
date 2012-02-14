@@ -5266,6 +5266,10 @@
                 <source>No Project Activities</source>
                 <target>FR_No Project Activities</target>
             </trans-unit>
+            <trans-unit id="5036">
+                <source>Driver License Number</source>
+                <target>FR_Driver License Number</target>
+            </trans-unit>
         </body>
     </file>
 </xliff>
