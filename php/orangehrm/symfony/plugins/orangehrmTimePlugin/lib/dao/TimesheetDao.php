@@ -127,10 +127,12 @@ class TimesheetDao {
         try {
 
             $query = Doctrine_Query::create()
-                    ->from("TimesheetItem")
-                    ->where("timesheetId = ?", $timesheetId)
-                    ->andWhere("employeeId = ?", $employeeId)
-                    ->orderBy('projectId,activityId,date');
+                    ->from("TimesheetItem ti")
+                    ->leftJoin("ti.Project p")
+                    ->leftJoin("ti.ProjectActivity a")
+                    ->where("ti.timesheetId = ?", $timesheetId)
+                    ->andWhere("ti.employeeId = ?", $employeeId)
+                    ->orderBy('p.name ASC, a.name ASC, ti.date ASC');
 
 
             return $query->execute()->getData();
