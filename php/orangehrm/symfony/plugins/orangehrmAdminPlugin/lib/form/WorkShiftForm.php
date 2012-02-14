@@ -109,7 +109,7 @@ class WorkShiftForm extends BaseForm {
 		$existWorkShiftEmpList = array();
 		$employeeService = new EmployeeService();
 		$employeeService->setEmployeeDao(new EmployeeDao());
-		$employeeList = $employeeService->getEmployeeList('empNumber', 'ASC', true);
+		$employeeList = $employeeService->getEmployeeList('lastName', 'ASC', true);
 
 		$workShiftEmpList = $this->getWorkShiftService()->getWorkShiftEmployeeList();
 		foreach ($workShiftEmpList as $workShiftEmp) {
@@ -135,7 +135,7 @@ class WorkShiftForm extends BaseForm {
 			$existWorkShiftEmpList[] = $workShiftEmp->emp_number;
 		}
 
-		$employeeList = $employeeService->getEmployeeList('empNumber', 'ASC', true);
+		$employeeList = $employeeService->getEmployeeList('lastName', 'ASC', true);
 		$employeeUnique = array();
 		foreach ($employeeList as $employee) {
 
