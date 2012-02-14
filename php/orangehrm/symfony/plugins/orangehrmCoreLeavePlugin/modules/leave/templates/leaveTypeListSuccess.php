@@ -54,6 +54,6 @@ use_javascript('../orangehrmCoreLeavePlugin/js/leaveTypeListSuccess');
 <script type="text/javascript">
     //<![CDATA[
     var defineLeaveTypeUrl = '<?php echo url_for('leave/defineLeaveType'); ?>';    
-    var lang_SelectLeaveTypeToDelete = '<?php echo __('Please Select at Least One Leave Type to Delete'); ?>';  
+    var lang_SelectLeaveTypeToDelete = '<?php echo __(TopLevelMessages::SELECT_RECORDS); ?>';  
     //]]>
 </script>

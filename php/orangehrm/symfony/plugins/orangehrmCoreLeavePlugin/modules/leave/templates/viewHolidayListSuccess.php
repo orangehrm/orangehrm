@@ -80,7 +80,7 @@ use_stylesheets_for_form($searchForm);
 <script type="text/javascript"> 
 //<![CDATA[    
     var defineHolidayUrl = '<?php echo url_for('leave/defineHoliday'); ?>';
-    var lang_SelectHolidayToDelete = '<?php echo __('Please Select at Least One Holiday to Delete'); ?>';      
+    var lang_SelectHolidayToDelete = '<?php echo __(TopLevelMessages::SELECT_RECORDS); ?>';      
 //]]>    
 </script>
     

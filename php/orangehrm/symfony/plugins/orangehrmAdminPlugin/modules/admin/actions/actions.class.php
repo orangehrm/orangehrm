@@ -163,7 +163,7 @@ class adminActions extends sfActions {
                 $companyService->deleteCompanyLocation($request->getParameter('chkLocID'));
                 $this->setMessage('SUCCESS', array(TopLevelMessages::DELETE_SUCCESS));
             }else
-                $this->setMessage('NOTICE', array('Select at least one record to delete'));
+                $this->setMessage('NOTICE', array(TopLevelMessages::SELECT_RECORDS));
 
             $this->redirect('admin/listCompanylocation');
         }
@@ -260,7 +260,7 @@ class adminActions extends sfActions {
                         $companyService->deleteCompanyProperty($request->getParameter('chkLocID'));
                         $this->setMessage('SUCCESS', array(TopLevelMessages::DELETE_SUCCESS));
                     }else
-                        $this->setMessage('NOTICE', array('Select at least one record to delete'));
+                        $this->setMessage('NOTICE', array(TopLevelMessages::SELECT_RECORDS));
 
                     break;
 
@@ -318,7 +318,7 @@ class adminActions extends sfActions {
             $jobService->deleteJobCategory($request->getParameter('chkLocID'));
             $this->setMessage('SUCCESS', array(TopLevelMessages::DELETE_SUCCESS));
         }else
-            $this->setMessage('NOTICE', array('Select at least one record to delete'));
+            $this->setMessage('NOTICE', array(TopLevelMessages::SELECT_RECORDS));
 
         $this->redirect('admin/listJobCategory');
     }
@@ -465,7 +465,7 @@ class adminActions extends sfActions {
             $jobService->deleteSalleryGradeCurrency($saleryGradeId, $request->getParameter('chkdel'));
             $this->setMessage('SUCCESS', array(TopLevelMessages::DELETE_SUCCESS));
         }else
-            $this->setMessage('NOTICE', array('Select at least one record to delete'));
+            $this->setMessage('NOTICE', array(TopLevelMessages::SELECT_RECORDS));
 
         $this->redirect('admin/updateSaleryGrade?id=' . $saleryGradeId);
     }
@@ -481,7 +481,7 @@ class adminActions extends sfActions {
             $jobService->deleteSaleryGrade($request->getParameter('chkLocID'));
             $this->setMessage('SUCCESS', array(TopLevelMessages::DELETE_SUCCESS));
         }else
-            $this->setMessage('NOTICE', array('Select at least one record to delete'));
+            $this->setMessage('NOTICE', array(TopLevelMessages::SELECT_RECORDS));
 
         $this->redirect('admin/listSaleryGrade');
     }
@@ -562,7 +562,7 @@ class adminActions extends sfActions {
 
             $this->setMessage('SUCCESS', array(TopLevelMessages::DELETE_SUCCESS));
         }else
-            $this->setMessage('NOTICE', array('Select at least one record to delete'));
+            $this->setMessage('NOTICE', array(TopLevelMessages::SELECT_RECORDS));
 
         $this->redirect('admin/listEmployeeStatus');
     }
@@ -648,7 +648,7 @@ class adminActions extends sfActions {
             $jobService->deleteJobSpecifications($request->getParameter('chkLocID'));
             $this->setMessage('SUCCESS', array(TopLevelMessages::DELETE_SUCCESS));
         } else {
-            $this->setMessage('NOTICE', array('Select at least one record to delete'));
+            $this->setMessage('NOTICE', array(TopLevelMessages::SELECT_RECORDS));
         }
         $this->redirect('admin/listJobSpecifications');
     }
@@ -759,7 +759,7 @@ class adminActions extends sfActions {
             $jobService->deleteJobTitle($request->getParameter('chkLocID'));
             $this->setMessage('SUCCESS', array(TopLevelMessages::DELETE_SUCCESS));
         } else {
-            $this->setMessage('NOTICE', array('Select at least one record to delete'));
+            $this->setMessage('NOTICE', array(TopLevelMessages::SELECT_RECORDS));
         }
         $this->redirect('admin/listJobTitle');
     }
@@ -845,7 +845,7 @@ class adminActions extends sfActions {
             $educationService->deleteEducation($request->getParameter('chkLocID'));
             $this->setMessage('SUCCESS', array(TopLevelMessages::DELETE_SUCCESS));
         } else {
-            $this->setMessage('NOTICE', array('Select at least one record to delete'));
+            $this->setMessage('NOTICE', array(TopLevelMessages::SELECT_RECORDS));
         }
         $this->redirect('admin/listEducation');
     }
@@ -928,7 +928,7 @@ class adminActions extends sfActions {
             $educationService->deleteLicenses($request->getParameter('chkLocID'));
             $this->setMessage('SUCCESS', array(TopLevelMessages::DELETE_SUCCESS));
         } else {
-            $this->setMessage('NOTICE', array('Select at least one record to delete'));
+            $this->setMessage('NOTICE', array(TopLevelMessages::SELECT_RECORDS));
         }
         $this->redirect('admin/listLicenses');
     }
@@ -1014,7 +1014,7 @@ class adminActions extends sfActions {
             $skillService->deleteSkill($request->getParameter('chkLocID'));
             $this->setMessage('SUCCESS', array(TopLevelMessages::DELETE_SUCCESS));
         }else
-            $this->setMessage('NOTICE', array('Select at least one record to delete'));
+            $this->setMessage('NOTICE', array(TopLevelMessages::SELECT_RECORDS));
 
         $this->redirect('admin/listSkill');
     }
@@ -1094,7 +1094,7 @@ class adminActions extends sfActions {
             $skillService->deleteLanguage($request->getParameter('chkLocID'));
             $this->setMessage('SUCCESS', array(TopLevelMessages::DELETE_SUCCESS));
         } else {
-            $this->setMessage('NOTICE', array('Select at least one record to delete'));
+            $this->setMessage('NOTICE', array(TopLevelMessages::SELECT_RECORDS));
         }
         $this->redirect('admin/listLanguage');
     }
@@ -1176,7 +1176,7 @@ class adminActions extends sfActions {
             $membershipService->deleteMembershipType($request->getParameter('chkLocID'));
             $this->setMessage('SUCCESS', array(TopLevelMessages::DELETE_SUCCESS));
         }else
-            $this->setMessage('NOTICE', array('Select at least one record to delete'));
+            $this->setMessage('NOTICE', array(TopLevelMessages::SELECT_RECORDS));
 
         $this->redirect('admin/listMembershipType');
     }
@@ -1263,7 +1263,7 @@ class adminActions extends sfActions {
             $membershipService->deleteMembership($request->getParameter('chkLocID'));
             $this->setMessage('SUCCESS', array(TopLevelMessages::DELETE_SUCCESS));
         }else
-            $this->setMessage('NOTICE', array('Select at least one record to delete'));
+            $this->setMessage('NOTICE', array(TopLevelMessages::SELECT_RECORDS));
 
         $this->redirect('admin/listMembership');
     }
@@ -1344,7 +1344,7 @@ class adminActions extends sfActions {
             $nationalityService->deleteNationality($request->getParameter('chkLocID'));
             $this->setMessage('SUCCESS', array(TopLevelMessages::DELETE_SUCCESS));
         }else
-            $this->setMessage('NOTICE', array('Select at least one record to delete'));
+            $this->setMessage('NOTICE', array(TopLevelMessages::SELECT_RECORDS));
 
         $this->redirect('admin/listNationality');
     }
@@ -1424,7 +1424,7 @@ class adminActions extends sfActions {
             $nationalityService->deleteEthnicRace($request->getParameter('chkLocID'));
             $this->setMessage('SUCCESS', array(TopLevelMessages::DELETE_SUCCESS));
         } else {
-            $this->setMessage('NOTICE', array('Select at least one record to delete'));
+            $this->setMessage('NOTICE', array(TopLevelMessages::SELECT_RECORDS));
         }
         $this->redirect('admin/listEthnicRace');
     }
@@ -1506,7 +1506,7 @@ class adminActions extends sfActions {
             $customerService->deleteCustomer($request->getParameter('chkLocID'));
             $this->setMessage('SUCCESS', array(TopLevelMessages::DELETE_SUCCESS));
         } else {
-            $this->setMessage('NOTICE', array('Select at least one record to delete'));
+            $this->setMessage('NOTICE', array(TopLevelMessages::SELECT_RECORDS));
         }
         $this->redirect('admin/listCustomer');
     }
@@ -1602,7 +1602,7 @@ class adminActions extends sfActions {
             $projectService->deleteProject($request->getParameter('chkLocID'));
             $this->setMessage('SUCCESS', array(TopLevelMessages::DELETE_SUCCESS));
         }else
-            $this->setMessage('NOTICE', array('Select at least one record to delete'));
+            $this->setMessage('NOTICE', array(TopLevelMessages::SELECT_RECORDS));
 
         $this->redirect('admin/listProject');
     }
@@ -1634,7 +1634,7 @@ class adminActions extends sfActions {
             $projectService->deleteProjectAdmin($projectId, $request->getParameter('chkLocID'));
             $this->setMessage('SUCCESS', array(TopLevelMessages::DELETE_SUCCESS));
         }else
-            $this->setMessage('NOTICE', array('Select at least one record to delete'));
+            $this->setMessage('NOTICE', array(TopLevelMessages::SELECT_RECORDS));
         $this->redirect('admin/updateProject?id=' . $projectId);
     }
 
@@ -1689,7 +1689,7 @@ class adminActions extends sfActions {
             $projectService->deleteProjectActivities($request->getParameter('chkLocID'));
             $this->setMessage('SUCCESS', array(TopLevelMessages::DELETE_SUCCESS));
         }else
-            $this->setMessage('NOTICE', array('Select at least one record to delete'));
+            $this->setMessage('NOTICE', array(TopLevelMessages::SELECT_RECORDS));
 
         $this->redirect('admin/listProjectActivity?id=' . $projectId);
     }
@@ -1769,7 +1769,7 @@ class adminActions extends sfActions {
             $customFieldsService->deleteCustomField($request->getParameter('chkLocID'));
             $this->setMessage('SUCCESS', array(TopLevelMessages::DELETE_SUCCESS));
         }else
-            $this->setMessage('NOTICE', array('Select at least one record to delete'));
+            $this->setMessage('NOTICE', array(TopLevelMessages::SELECT_RECORDS));
 
         $this->redirect('admin/listCustomFields');
     }
@@ -1849,7 +1849,7 @@ class adminActions extends sfActions {
             $userService->deleteUserGroup($request->getParameter('chkLocID'));
             $this->setMessage('SUCCESS', array(TopLevelMessages::DELETE_SUCCESS));
         }else
-            $this->setMessage('NOTICE', array('Select at least one record to delete'));
+            $this->setMessage('NOTICE', array(TopLevelMessages::SELECT_RECORDS));
 
         $this->redirect('admin/listUserGroup');
     }
@@ -2000,7 +2000,7 @@ class adminActions extends sfActions {
             $userService->deleteUser($request->getParameter('chkLocID'));
             $this->setMessage('SUCCESS', array(TopLevelMessages::DELETE_SUCCESS));
         }else
-            $this->setMessage('NOTICE', array('Select at least one record to delete'));
+            $this->setMessage('NOTICE', array(TopLevelMessages::SELECT_RECORDS));
 
         $this->redirect('admin/listUser?isAdmin=' . $request->getParameter('isAdmin'));
     }

@@ -241,7 +241,7 @@ if (isset($messageType)) {
             var checked = $('#customFieldList tbody input.checkbox:checked').length;
 
             if ( checked == 0) {
-                $('#messagebar').text('<?php echo __("Please Select At Least One Custom Field To Delete") ?>').attr('class', 'messageBalloon_notice');
+                $('#messagebar').text('<?php echo __(TopLevelMessages::SELECT_RECORDS) ?>').attr('class', 'messageBalloon_notice');
             } else {
                 $('#messagebar').text('').attr('class', ''); 
                 

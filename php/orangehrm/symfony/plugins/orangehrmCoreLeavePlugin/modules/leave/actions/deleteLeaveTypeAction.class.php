@@ -20,7 +20,7 @@ class deleteLeaveTypeAction extends orangehrmAction {
         if ($request->isMethod('post')) {
 
             if (count($request->getParameter('chkSelectRow')) == 0) {
-                $this->getUser()->setFlash('templateMessage', array('NOTICE', __('Please Select at Least One Leave Type to Delete')));
+                $this->getUser()->setFlash('templateMessage', array('NOTICE', __(TopLevelMessages::SELECT_RECORDS)));
             } else {
 
                 $leaveTypeService = $this->getLeaveTypeService();

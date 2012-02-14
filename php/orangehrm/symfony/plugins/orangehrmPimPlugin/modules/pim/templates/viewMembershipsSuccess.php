@@ -179,7 +179,7 @@ foreach($form->getWidgetSchema()->getPositions() as $widgetName) {
 
                     var fileModified = 0;
                     var datepickerDateFormat = '<?php echo get_datepicker_date_format($sf_user->getDateFormat()); ?>';
-                    var deleteError = '<?php echo __("Select at least One Record to Delete"); ?>';
+                    var deleteError = '<?php echo __(TopLevelMessages::SELECT_RECORDS); ?>';
                     var addMembershipDetail = '<?php echo __("Add Membership Details"); ?>';
                     var editMembershipDetail = '<?php echo __("Edit Membership Detail"); ?>';
                     var getMembershipsUrl = "<?php echo url_for('pim/getMemberships')?>";

@@ -92,7 +92,7 @@ class EmployeeEmergencyContactForm extends BaseForm {
 
         if (empty($homePhone) && empty($mobile) && empty($workPhone)) {
 
-            $message = sfContext::getInstance()->getI18N()->__('Please specify at least one phone number.');
+            $message = sfContext::getInstance()->getI18N()->__('Specify at least one phone number.');
             $error = new sfValidatorError($validator, $message);
             throw new sfValidatorErrorSchema($validator, array('' => $error));
 

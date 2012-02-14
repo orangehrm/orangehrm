@@ -114,7 +114,7 @@ if (($section == 'language') && isset($message) && isset($messageType)) {
     var lang_languageRequired = "<?php echo __("Language is required");?>";
     var lang_languageTypeRequired = "<?php echo __("Fluency is required");?>";
     var lang_competencyRequired = "<?php echo __("Competency is required");?>";
-    var lang_selectLanguageToDelete = "<?php echo __('Please Select At Least One Language Item To Delete');?>";
+    var lang_selectLanguageToDelete = "<?php echo __(TopLevelMessages::SELECT_RECORDS);?>";
     var lang_commentsMaxLength = "<?php echo __('Comment length cannot exceed 100 characters');?>";
     //]]>
 </script>

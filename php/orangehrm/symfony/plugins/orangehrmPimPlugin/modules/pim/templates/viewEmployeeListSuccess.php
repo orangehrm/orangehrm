@@ -326,7 +326,7 @@ use_javascript('../../../scripts/jquery/jquery.autocomplete.js');
                                         return false;
                                     } else {
                                         $("#messagebar").attr('class', "messageBalloon_warning");
-                                        $("#messagebar").text('<?php echo __("Please Select at Least One Employee to Delete"); ?>');
+                                        $("#messagebar").text('<?php echo __(TopLevelMessages::SELECT_RECORDS); ?>');
                 return false;
             }
         });

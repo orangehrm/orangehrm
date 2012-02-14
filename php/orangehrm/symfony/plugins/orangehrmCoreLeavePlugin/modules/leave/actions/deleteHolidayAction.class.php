@@ -68,7 +68,7 @@ class deleteHolidayAction extends sfAction {
 
             $this->getUser()->setFlash('templateMessage', array('SUCCESS', __(TopLevelMessages::DELETE_SUCCESS)));
         } else {
-            $this->getUser()->setFlash('templateMessage', array('NOTICE', __('Please Select at Least One Holiday to Delete')));
+            $this->getUser()->setFlash('templateMessage', array('NOTICE', __(TopLevelMessages::SELECT_RECORDS)));
         }
 
 

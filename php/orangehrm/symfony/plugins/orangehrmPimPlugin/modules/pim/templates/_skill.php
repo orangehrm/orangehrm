@@ -101,7 +101,7 @@ if (($section == 'skill') && isset($message) && isset($messageType)) {
     var lang_addSkill = "<?php echo __('Add Skill');?>";
     var lang_editSkill = "<?php echo __('Edit Skill');?>";
     var lang_skillRequired = "<?php echo __("Skill is required");?>";
-    var lang_selectSkillToDelete = "<?php echo __('Please Select At Least One Skill Item To Delete');?>";
+    var lang_selectSkillToDelete = "<?php echo __(TopLevelMessages::SELECT_RECORDS);?>";
     var lang_commentsMaxLength = "<?php echo __('Comment length cannot exceed 100 characters');?>";
     var lang_yearsOfExpShouldBeNumber = "<?php echo __('Years of Experience should be a number');?>";
     var lang_yearsOfExpMax = "<?php echo __('Years of Experience should be less than 100');?>";

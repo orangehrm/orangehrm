@@ -36,7 +36,7 @@ class deleteSystemUsersAction extends sfAction {
                         $this->getUser()->setFlash('templateMessage', array('success', __(TopLevelMessages::DELETE_SUCCESS)));
 			
 		}else{
-                    $this->getUser()->setFlash('templateMessage', array('warning', __('Please Select at Least One System User to Delete')));
+                    $this->getUser()->setFlash('templateMessage', array('warning', __(TopLevelMessages::SELECT_RECORDS)));
                 }
 
 		$this->redirect('admin/viewSystemUsers');
