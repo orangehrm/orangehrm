@@ -118,7 +118,8 @@ class LocationDao extends BaseDao {
 		
 		try {
 			$q = Doctrine_Query :: create()
-				->from('Location');
+				->from('Location l')
+                                ->orderBy('l.name ASC');
 			return $q->execute();
 		} catch (Exception $e) {
 			throw new DaoException($e->getMessage());

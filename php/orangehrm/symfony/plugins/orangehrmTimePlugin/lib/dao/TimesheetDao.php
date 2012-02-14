@@ -449,17 +449,16 @@ class TimesheetDao {
 
         try {
 
-            if ($deleted == false) {
-                $query = Doctrine_Query::create()
-                        ->from('ProjectActivity')
-                        ->where('project_id = ?', $projectId)
-                        ->andWhere('is_deleted = ?', 0);
-            } else {
-                $query = Doctrine_Query::create()
-                        ->from('ProjectActivity')
-                        ->where('project_id = ?', $projectId);
+            $query = Doctrine_Query::create()
+                    ->from('ProjectActivity')
+                    ->where('project_id = ?', $projectId);
+
+            if (!$deleted) {
+                // Only fetch active projects
+                $query->andWhere('is_deleted = ?', ProjectActivity::ACTIVE_PROJECT_ACTIVITY);
             }
 
+            $query->orderBy('name ASC');
             $results = $query->execute();
 
             if ($results[0]->getActivityId() == null) {
