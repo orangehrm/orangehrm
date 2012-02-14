@@ -25,8 +25,9 @@
 class CandidateService extends BaseService {
 
 	private $candidateDao;
+        protected $employeeService;
 
-	/**
+        /**
 	 * Get Candidate Dao
 	 * @return CandidateDao
 	 */
@@ -39,10 +40,17 @@ class CandidateService extends BaseService {
 	 * @return EmployeeService
 	 */
 	public function getEmployeeService() {
-		return new EmployeeService();
+            if (!($this->employeeService instanceof EmployeeService)) {
+                $this->employeeService = new EmployeeService();
+            }
+            return $this->employeeService;
 	}
+        
+        public function setEmployeeService(EmployeeService $service) {
+            $this->employeeService = $service;
+        }
 
-	/**
+        /**
 	 * Set Candidate Dao
 	 * @param CandidateDao $candidateDao
 	 * @return void
