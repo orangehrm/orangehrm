@@ -35,7 +35,18 @@ function set_datepicker_date_format($date) {
     } else {
         $dateArray = explode('-', $date);
         $dateTime = new DateTime();
-        $dateTime->setDate($dateArray[0], $dateArray[1], $dateArray[2]);
+        $year = $dateArray[0];
+        $month = $dateArray[1];
+        $day = $dateArray[2];
+        
+        // For timestamp fields, clean time part from $day (day will look like "21 00:00:00"
+        $day = trim($day);
+        $spacePos = strpos($day, ' ');
+        if ($spacePos !== FALSE) {
+            $day = substr($day, 0, $spacePos);
+        }
+        
+        $dateTime->setDate($year, $month, $day);
         $formattedDate = $dateTime->format($dateFormat);
     }
 
