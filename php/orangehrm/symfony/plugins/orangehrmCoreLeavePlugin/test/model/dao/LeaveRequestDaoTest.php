@@ -922,13 +922,13 @@
 
         $searchParameters = new ParameterObject();
         
-        // Employees under engineering, and sales (2,5) : employees 2,5,6
+        // Employees under engineering, and support (2,5) : employees 2,5,6
         $searchParameters->setParameter('subUnit', 2);
         $leaveFixture = $this->fixture['LeaveRequest'];
         $expected = array($leaveFixture[18], $leaveFixture[19], $leaveFixture[16],
-                          $leaveFixture[13], $leaveFixture[12], $leaveFixture[11],
-                          $leaveFixture[15], $leaveFixture[17]);
-  
+                          $leaveFixture[13], $leaveFixture[12], $leaveFixture[15],
+                          $leaveFixture[11], $leaveFixture[17]);
+    
         $searchResult = $this->leaveRequestDao->searchLeaveRequests($searchParameters);
         $requestList = $searchResult['list'];
         $requestCount = $searchResult['meta']['record_count'];
@@ -1213,7 +1213,16 @@
             
             $item = $expected[$i];
             $result = $requestList[$i];
-
+            $str = $item['leave_request_id'] . '->' . $result->getLeaveRequestId() . "\n" .
+            $item['leave_period_id'] . '->' . $result->getLeavePeriodId() . "\n" .
+            $item['leave_type_id'] . '->' . $result->getLeaveTypeId() . "\n" .
+            $item['leave_type_name'] . '->' . $result->getLeaveTypeName() . "\n" .
+            $item['date_applied'] . '->' . $result->getDateApplied() . "\n" .
+            $item['empNumber'] . '->' . $result->getEmpNumber() . "\n" .
+            $item['leave_comments'] . '->' . $result->getLeaveComments() . "\n\n";
+            
+            //echo $str;
+            
             $this->assertEquals($item['leave_request_id'], $result->getLeaveRequestId());
             $this->assertEquals($item['leave_period_id'], $result->getLeavePeriodId());
             $this->assertEquals($item['leave_type_id'], $result->getLeaveTypeId());

@@ -173,9 +173,14 @@ class EmployeeDaoTest extends PHPUnit_Framework_TestCase {
     public function testGetSupervisorListForEmployee() {
 
         $supervisorReportToList = $this->employeeDao->getSupervisorListForEmployee(3);
+        $this->assertEquals(2, count($supervisorReportToList));
         $this->assertTrue($supervisorReportToList[0] instanceof ReportTo);
-        $this->assertEquals($supervisorReportToList[0]->supervisorId, 4);
+        $this->assertEquals($supervisorReportToList[0]->supervisorId, 5);
         $this->assertTrue($supervisorReportToList[0]->getSupervisor() instanceof Employee);
+        $this->assertTrue($supervisorReportToList[1] instanceof ReportTo);
+        $this->assertEquals($supervisorReportToList[1]->supervisorId, 4);
+        $this->assertTrue($supervisorReportToList[1]->getSupervisor() instanceof Employee);
+        
     }
 
     /**
@@ -184,8 +189,10 @@ class EmployeeDaoTest extends PHPUnit_Framework_TestCase {
     public function testGetSubordinateListForEmployee() {
 
         $subordinateReportToList = $this->employeeDao->getSubordinateListForEmployee(3);
+        $this->assertEquals(2, count($subordinateReportToList));
         $this->assertTrue($subordinateReportToList[0] instanceof ReportTo);
-        $this->assertEquals($subordinateReportToList[0]->subordinateId, 2);
+        $this->assertEquals($subordinateReportToList[0]->subordinateId, 1);
+        $this->assertEquals($subordinateReportToList[1]->subordinateId, 2);
         $this->assertTrue($subordinateReportToList[0]->getSubordinate() instanceof Employee);
     }
 
