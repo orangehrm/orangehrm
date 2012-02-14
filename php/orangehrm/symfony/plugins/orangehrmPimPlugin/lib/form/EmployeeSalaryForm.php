@@ -221,11 +221,13 @@ class EmployeeSalaryForm extends BaseForm {
     private function _getPayPeriods() {
         $payPeriods = Doctrine::getTable('Payperiod')->findAll();        
 
-        $choices = array('' => '-- ' . __('Select') . ' --');
-
         foreach ($payPeriods as $payPeriod) {
             $choices[$payPeriod->getCode()] = $payPeriod->getName();
         }
+        
+        asort($choices);
+        
+        $choices = array('' => '-- ' . __('Select') . ' --') + $choices;
         
         return $choices;
     }
