@@ -19,6 +19,8 @@ class CustomFields extends BaseCustomFields {
             for ($i=0; $i<count($options); $i++) {
                     $options[$i] = trim($options[$i]);
             }
+            
+            sort($options);
 
             return $options;
     }
