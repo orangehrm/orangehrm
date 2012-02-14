@@ -315,29 +315,13 @@
                 <source>other</source>
                 <target>FR_other</target>
             </trans-unit>
-            <trans-unit id="116">
-                <source>Dependent Saved Successfully</source>
-                <target>FR_Dependent Saved Successfully</target>
-            </trans-unit>
             <trans-unit id="117">
                 <source>Please Specify</source>
                 <target>FR_Please Specify</target>
             </trans-unit>
-            <trans-unit id="118">
-                <source>Relationship is required</source>
-                <target>FR_Relationship is required</target>
-            </trans-unit>
-            <trans-unit id="119">
-                <source>Please specify the relationship</source>
-                <target>FR_Please specify the relationship</target>
-            </trans-unit>
             <trans-unit id="120">
                 <source>Edit Dependent</source>
                 <target>FR_Edit Dependent</target>
-            </trans-unit>
-            <trans-unit id="121">
-                <source>Dependent/s Deleted Successfully</source>
-                <target>FR_Dependent/s Deleted Successfully</target>
             </trans-unit>
             <trans-unit id="123">
                 <source>Comment length cannot exceed 250 characters</source>

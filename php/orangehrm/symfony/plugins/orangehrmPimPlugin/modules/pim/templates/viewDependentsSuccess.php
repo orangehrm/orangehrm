@@ -167,7 +167,7 @@ foreach($form->getWidgetSchema()->getPositions() as $widgetName) {
         </table>
     </form>
 </div>
-<div class="paddingLeftRequired"><?php echo __('Fields marked with an asterisk')?> <span class="required">*</span> <?php echo __('are required.')?></div>    
+<div class="paddingLeftRequired"><span class="required">* <?php echo __(CommonMessages::REQUIRED_FIELD)?></span></div>
 <?php echo include_component('pim', 'customFields', array('empNumber'=>$empNumber, 'screen' => 'dependents'));?>
 <?php echo include_component('pim', 'attachments', array('empNumber'=>$empNumber, 'screen' => 'dependents'));?>    
 </div>
@@ -184,7 +184,7 @@ foreach($form->getWidgetSchema()->getPositions() as $widgetName) {
 
     // Move to separate js after completing initial work
     var datepickerDateFormat = '<?php echo get_datepicker_date_format($sf_user->getDateFormat()); ?>';
-    var lang_validDateMsg = '<?php echo __("Please enter a valid date in %format% format", array('%format%' => get_datepicker_date_format($sf_user->getDateFormat()))) ?>'
+    var lang_validDateMsg = '<?php echo __(ValidationMessages::DATE_FORMAT_INVALID, array('%format%' => get_datepicker_date_format($sf_user->getDateFormat()))) ?>'
 
     function clearAddForm() {
         $('#dependent_seqNo').val('');
@@ -338,15 +338,15 @@ foreach($form->getWidgetSchema()->getPositions() as $widgetName) {
             },
             messages: {
                 'dependent[name]': {
-                    required:'<?php echo __("Name is required") ?>',
-                    maxlength: '<?php echo __('Maximum character limit exceeded for') ?> <?php echo __('Name') ?>'
+                    required:'<?php echo __(ValidationMessages::REQUIRED) ?>',
+                    maxlength: '<?php echo __(ValidationMessages::TEXT_LENGTH_EXCEEDS,array('%amount%' => 100)) ?>'
                 },
                 'dependent[relationshipType]': {
-                    required:'<?php echo __("Relationship is required") ?>'
+                    required:'<?php echo __(ValidationMessages::REQUIRED) ?>'
                 },
                 'dependent[relationship]': {
-                    required:'<?php echo __("Please specify the relationship") ?>',
-                    maxlength:'<?php echo __("Maximum character limit exceeded.");?>'
+                    required:'<?php echo __(ValidationMessages::REQUIRED) ?>',
+                    maxlength:'<?php echo __(ValidationMessages::TEXT_LENGTH_EXCEEDS,array('%amount%' => 100));?>'
                 },
                 'dependent[dateOfBirth]' : {
                     valid_date: lang_validDateMsg
@@ -365,7 +365,7 @@ foreach($form->getWidgetSchema()->getPositions() as $widgetName) {
 
             if (checked == 0) {
                 $("#messagebar").attr('class', "messageBalloon_notice");
-                $("#messagebar").text('<?php echo __("Select at least One Record to Delete"); ?>');
+                $("#messagebar").text('<?php echo __(TopLevelMessages::SELECT_RECORDS); ?>');
             } else {
                 $('#frmEmpDelDependents').submit();
             }

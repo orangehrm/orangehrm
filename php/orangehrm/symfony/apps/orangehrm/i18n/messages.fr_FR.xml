@@ -296,10 +296,6 @@
                 <source>Date should be in the format: %format%</source>
                 <target>FR_Date should be in the format: %format%</target>
             </trans-unit>
-            <trans-unit id="107">
-                <source>Name is required</source>
-                <target>FR_Name is required</target>
-            </trans-unit>
             <trans-unit id="108">
                 <source>Name should be less than %length% characters</source>
                 <target>FR_Name should be less than %length% characters</target>
@@ -451,14 +447,6 @@
             <trans-unit id="143">
                 <source>License Type is required</source>
                 <target>FR_License Type is required</target>
-            </trans-unit>
-            <trans-unit id="145">
-                <source>Attachment Updated Successfully</source>
-                <target>FR_Attachment Updated Successfully</target>
-            </trans-unit>
-            <trans-unit id="146">
-                <source>Attachment(s) Deleted Successfully</source>
-                <target>FR_Attachment(s) Deleted Successfully</target>
             </trans-unit>
             <trans-unit id="147">
                 <source>Edit Attachment :</source>

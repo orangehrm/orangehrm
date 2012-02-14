@@ -51,7 +51,7 @@ class updateAttachmentAction extends basePimAction {
                 // save data
 
                 $this->form->save();
-                $this->getUser()->setFlash('attachmentMessage', array('success', __('Attachment Updated Successfully')));                
+                $this->getUser()->setFlash('attachmentMessage', array('success', __(TopLevelMessages::SAVE_SUCCESS)));                
             } else {
 
                 $validationMsg = '';
