@@ -10,6 +10,8 @@ class ViewDefinedPredefinedReportsConfigurationFactory extends ohrmListConfigura
             'name' => 'Report Name',
             'width' => '400',
             'isSortable' => true,
+            'filters' => array('I18nCellFilter' => array()
+                              ),
             'sortField' => 'name',
             'elementType' => 'label',
             'elementProperty' => array(
