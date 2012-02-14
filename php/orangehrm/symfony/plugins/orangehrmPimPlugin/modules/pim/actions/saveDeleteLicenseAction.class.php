@@ -49,9 +49,9 @@ class saveDeleteLicenseAction extends basePimAction {
                 if ($this->licenseForm->isValid()) {
                     $license = $this->getLicense($this->licenseForm);
                     $this->getEmployeeService()->saveLicense($license);
-                    $this->getUser()->setFlash('templateMessage', array('success', __('License Details Saved Successfully')));
+                    $this->getUser()->setFlash('templateMessage', array('success', __(TopLevelMessages::SAVE_SUCCESS)));
                 } else {
-                    $this->getUser()->setFlash('templateMessage', array('warning', __('Form Validation Failed.')));
+                    $this->getUser()->setFlash('templateMessage', array('warning', __('Form Validation Failed')));
                 }
             }
 

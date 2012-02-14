@@ -365,7 +365,7 @@ class AttendanceActions extends sfActions {
                         $attendanceRecord->setPunchOutUserTime(date('Y-m-d H:i', $punchOutEditModeTime));
                         $attendanceRecord->setPunchOutTimeOffset($employeeTimezone);
                         $this->getAttendanceService()->savePunchRecord($attendanceRecord);
-                        $this->getUser()->setFlash('templateMessage', array('success', __('Record Saved Successfully')));
+                        $this->getUser()->setFlash('templateMessage', array('success', __(TopLevelMessages::SAVE_SUCCESS)));
                         $this->redirect("attendance/viewAttendanceRecord?employeeId=" . $this->employeeId . "&date=" . $this->date . "&trigger=" . true);
                     }
                 }

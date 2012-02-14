@@ -41,7 +41,7 @@ class defineLeaveTypeAction extends orangehrmAction {
 
     protected function saveLeaveType(LeaveType $leaveType) {
         $this->getLeaveTypeService()->saveLeaveType($leaveType);
-        $message = __('Leave Type "%1%" Successfully Saved', array('%1%' => $leaveType->getLeaveTypeName()));        
+        $message = __(TopLevelMessages::SAVE_SUCCESS);        
         $this->getUser()->setFlash('templateMessage', array('success', $message));
     }
 

@@ -27,7 +27,7 @@ class savePayGradeCurrencyAction extends sfAction {
 			$this->form->bind($request->getParameter($this->form->getName()));
 			if ($this->form->isValid()) {
 				$payGradeId = $this->form->save();
-				$this->getUser()->setFlash('templateMessage', array('success', __("Pay Grade Currency Saved Successfully")));
+				$this->getUser()->setFlash('templateMessage', array('success', __(TopLevelMessages::SAVE_SUCCESS)));
 				$this->redirect('admin/payGrade?payGradeId='.$payGradeId);
 			}
 		}

@@ -49,9 +49,9 @@ class saveDeleteSkillAction extends basePimAction {
                 if ($this->skillForm->isValid()) {
                     $skill = $this->getSkill($this->skillForm);
                     $this->getEmployeeService()->saveSkill($skill);
-                    $this->getUser()->setFlash('templateMessage', array('success', __('Skill Details Saved Successfully')));
+                    $this->getUser()->setFlash('templateMessage', array('success', __(TopLevelMessages::SAVE_SUCCESS)));
                 } else {
-                    $this->getUser()->setFlash('templateMessage', array('warning', __('Form Validation Failed.')));
+                    $this->getUser()->setFlash('templateMessage', array('warning', __('Form Validation Failed')));
                 }
             }
 

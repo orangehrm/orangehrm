@@ -70,7 +70,7 @@ class viewUsTaxExemptionsAction extends basePimAction {
             if ($this->form->isValid()) {
                 $empUsTaxExemption = $this->form->getEmpUsTaxExemption();
                 $this->getEmployeeService()->saveEmployeeTaxExemptions($empUsTaxExemption, false);
-                $this->getUser()->setFlash('templateMessage', array('success', __('Tax Details Saved Successfully')));
+                $this->getUser()->setFlash('templateMessage', array('success', __(TopLevelMessages::SAVE_SUCCESS)));
                 $this->redirect('pim/viewUsTaxExemptions?empNumber='. $empUsTaxExemption->getEmpNumber());
             }
         }

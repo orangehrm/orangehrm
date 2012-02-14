@@ -49,9 +49,9 @@ class saveDeleteLanguageAction extends basePimAction {
                 if ($this->languageForm->isValid()) {
                     $language = $this->getLanguage($this->languageForm);
                     $this->getEmployeeService()->saveLanguage($language);
-                    $this->getUser()->setFlash('templateMessage', array('success', __('Language Details Saved Successfully')));
+                    $this->getUser()->setFlash('templateMessage', array('success', __(TopLevelMessages::SAVE_SUCCESS)));
                 } else {
-                    $this->getUser()->setFlash('templateMessage', array('warning', __('Form Validation Failed.')));
+                    $this->getUser()->setFlash('templateMessage', array('warning', __('Form Validation Failed')));
                 }
             }
 

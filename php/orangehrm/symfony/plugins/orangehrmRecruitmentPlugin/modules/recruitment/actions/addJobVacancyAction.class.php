@@ -81,7 +81,7 @@ class addJobVacancyAction extends baseRecruitmentAction {
             $this->form->bind($request->getParameter($this->form->getName()));
             if ($this->form->isValid()) {
                 $this->vacancyId = $this->form->save();
-                $this->getUser()->setFlash('templateMessage', array('success', __('Job Vacancy Saved Successfully')));
+                $this->getUser()->setFlash('templateMessage', array('success', __(TopLevelMessages::SAVE_SUCCESS)));
                 $this->redirect('recruitment/addJobVacancy?Id=' . $this->vacancyId);
             }
         }

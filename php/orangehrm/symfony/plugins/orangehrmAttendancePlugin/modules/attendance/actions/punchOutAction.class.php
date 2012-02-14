@@ -55,7 +55,7 @@ class punchOutAction extends sfAction {
         $attendanceRecord = $this->getAttendanceService()->getLastPunchRecord($this->employeeId, $actionableStatesList);
 
         if (is_null($attendanceRecord)) {
-            $this->getUser()->setFlash('templateMessage', array('success', __('Record Saved Successfully')));
+            $this->getUser()->setFlash('templateMessage', array('success', __(TopLevelMessages::SAVE_SUCCESS)));
             $this->redirect("attendance/punchIn");
         }
         $tempPunchInTime = $attendanceRecord->getPunchInUserTime();
@@ -87,7 +87,7 @@ class punchOutAction extends sfAction {
 
                     $attendanceRecord = $this->setAttendanceRecord($attendanceRecord, $nextState, date('Y-m-d H:i', $punchOutdateTime - $timeZoneOffset), date('Y-m-d H:i', $punchOutdateTime), $timeZoneOffset / 3600, $punchOutNote);
 
-                    $this->getUser()->setFlash('templateMessage', array('success', __('Record Saved Successfully')));
+                    $this->getUser()->setFlash('templateMessage', array('success', __(TopLevelMessages::SAVE_SUCCESS)));
                     $this->redirect('attendance/punchIn');
 
                 }
@@ -104,7 +104,7 @@ class punchOutAction extends sfAction {
 
                     $attendanceRecord = $this->setAttendanceRecord($attendanceRecord, $nextState, date('Y-m-d H:i', $punchOutEditModeTime - $timeZoneOffset), date('Y-m-d H:i', $punchOutEditModeTime), $timeZoneOffset / 3600, $punchOutNote);
 
-                    $this->getUser()->setFlash('templateMessage', array('success', __('Record Saved Successfully')));
+                    $this->getUser()->setFlash('templateMessage', array('success', __(TopLevelMessages::SAVE_SUCCESS)));
 
                     $this->redirect('attendance/punchIn');
 

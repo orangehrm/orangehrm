@@ -96,7 +96,7 @@ class editTimesheetAction extends sfAction {
             if ($request->getParameter('btnSave')) {
                 $backAction = $this->backAction;
                 $this->getTimesheetService()->saveTimesheetItems($request->getParameter('initialRows'), $this->employeeId, $this->timesheetId, $this->currentWeekDates, $this->totalRows);
-                $this->messageData = array('SUCCESS', __('Timesheet Saved Successfully'));
+                $this->messageData = array('SUCCESS', __(TopLevelMessages::SAVE_SUCCESS));
                 $startingDate = $this->timesheetService->getTimesheetById($this->timesheetId)->getStartDate();
                 $this->redirect('time/' . $backAction . '?' . http_build_query(array('message' => $this->messageData, 'timesheetStartDate' => $startingDate, 'employeeId' => $this->employeeId)));
             }
@@ -106,7 +106,7 @@ class editTimesheetAction extends sfAction {
             if ($request->getParameter('buttonRemoveRows')) {
               
 
-                $this->messageData = array('SUCCESS', __('Successfully removed'));
+                $this->messageData = array('SUCCESS', __('Successfully Removed'));
 
             }
         }

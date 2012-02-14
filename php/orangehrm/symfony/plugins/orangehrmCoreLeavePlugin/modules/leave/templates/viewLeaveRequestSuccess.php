@@ -170,7 +170,7 @@ $messageType = empty($messageType) ? '' : "messageBalloon_{$messageType}";
                             $('#commentContainer-' + id).html(commentLabel);
                             $('#hdnLeaveComment-' + id).val(comment);
                             $('#msgPlace').attr('class', 'messageBalloon_success');
-                            $('#msgPlace').html('<?php echo __('Comment Successfully Saved'); ?>');
+                            $('#msgPlace').html('<?php echo __(TopLevelMessages::SAVE_SUCCESS); ?>');
                         }
                     }
                 });

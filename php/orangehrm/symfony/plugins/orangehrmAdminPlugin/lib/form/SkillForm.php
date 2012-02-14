@@ -61,7 +61,7 @@ class SkillForm extends BaseForm {
         
         if (empty($id)) {
             $skill = new Skill();
-            $message = array('SUCCESS', __('Skill Saved Successfully'));
+            $message = array('SUCCESS', __(TopLevelMessages::SAVE_SUCCESS));
         } else {
             $skill = $this->getSkillService()->getSkillById($id);
             $message = array('SUCCESS', __('Skill Updated Successfully'));

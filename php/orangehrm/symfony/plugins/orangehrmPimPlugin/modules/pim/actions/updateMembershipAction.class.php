@@ -48,7 +48,7 @@ class updateMembershipAction extends sfAction {
             $this->form->bind($request->getParameter($this->form->getName()));
             if ($this->form->isValid()) {
                 $this->form->save();
-                $this->getUser()->setFlash('templateMessage', array('success', __('Membership Saved Successfully')));
+                $this->getUser()->setFlash('templateMessage', array('success', __(TopLevelMessages::SAVE_SUCCESS)));
             }
         }
 

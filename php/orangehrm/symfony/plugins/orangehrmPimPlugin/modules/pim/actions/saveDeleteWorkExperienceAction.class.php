@@ -51,7 +51,7 @@ class saveDeleteWorkExperienceAction extends basePimAction {
                     $workExperience = $this->getWorkExperience($this->workExperienceForm);
                     $this->setOperationName(($workExperience->getSeqno() == '') ? 'ADD WORK EXPERIENCE' : 'CHANGE WORK EXPERIENCE');
                     $this->getEmployeeService()->saveWorkExperience($workExperience);
-                    $this->getUser()->setFlash('templateMessage', array('success', __('Work Experience Details Saved Successfully')));
+                    $this->getUser()->setFlash('templateMessage', array('success', __(TopLevelMessages::SAVE_SUCCESS)));
                 } else {
                     $this->getUser()->setFlash('templateMessage', array('warning', __('Form Validation Failed.')));
                 }

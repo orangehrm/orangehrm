@@ -42,7 +42,7 @@ class saveSubunitAction extends sfAction {
             if ($result) {
                 $object->affectedId = $subunit->getId();
                 $object->messageType = 'success';
-                $object->message = __('Subunit Saved Successfully');
+                $object->message = __(TopLevelMessages::SAVE_SUCCESS);
             } else {
                 $object->messageType = 'failure';
                 $object->message = __('Failed to Save Subunit');

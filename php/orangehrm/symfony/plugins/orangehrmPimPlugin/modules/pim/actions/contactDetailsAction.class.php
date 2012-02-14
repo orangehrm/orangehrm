@@ -64,7 +64,7 @@ class contactDetailsAction extends basePimAction {
             if ($this->form->isValid()) {
                 $employee = $this->form->getEmployee();
                 $this->getEmployeeService()->saveContactDetails($employee, false);
-                $this->getUser()->setFlash('templateMessage', array('success', __('Contact Details Saved Successfully')));
+                $this->getUser()->setFlash('templateMessage', array('success', __(TopLevelMessages::SAVE_SUCCESS)));
                 $this->redirect('pim/contactDetails?empNumber='. $empNumber);
             }
         }

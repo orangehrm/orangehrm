@@ -103,7 +103,7 @@ class defineLeavePeriodAction extends sfAction {
                 $fullEndDate = $leavePeriodService->generateEndDate($leavePeriodDataHolder);
                 $currentLeavePeriod = $leavePeriodService->getCurrentLeavePeriod();
                 
-                $this->getUser()->setFlash('templateMessage', array('success', __('Leave Period Saved Successfully')));
+                $this->getUser()->setFlash('templateMessage', array('success', __(TopLevelMessages::SAVE_SUCCESS)));
 
                 if (!is_null($currentLeavePeriod)) {
                     $leavePeriodService->adjustCurrentLeavePeriod($fullEndDate);

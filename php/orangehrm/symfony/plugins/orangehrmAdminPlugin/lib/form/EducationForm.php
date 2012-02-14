@@ -59,10 +59,10 @@ class EducationForm extends BaseForm {
         
         if (empty($id)) {
             $education = new Education();
-            $message = array('SUCCESS', __('Education Saved Successfully'));
+            $message = array('SUCCESS', __(TopLevelMessages::SAVE_SUCCESS));
         } else {
             $education = $this->getEducationService()->getEducationById($id);
-            $message = array('SUCCESS', __('Education Updated Successfully'));
+            $message = array('SUCCESS', __(TopLevelMessages::UPDATE_SUCCESS));
         }
         
         $education->setName($this->getValue('name'));

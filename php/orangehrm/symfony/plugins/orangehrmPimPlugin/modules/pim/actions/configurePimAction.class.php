@@ -59,7 +59,7 @@ class configurePimAction extends basePimAction {
                 $this->_saveConfigValue($post, 'chkShowSIN', ConfigService::KEY_PIM_SHOW_SIN);
                 $this->_saveConfigValue($post, 'chkShowTax', ConfigService::KEY_PIM_SHOW_TAX_EXEMPTIONS);
 
-                $this->getUser()->setFlash('templateMessage', array('success', __('PIM Configuration Saved Successfully')));
+                $this->getUser()->setFlash('templateMessage', array('success', __(TopLevelMessages::SAVE_SUCCESS)));
                 $this->redirect('pim/configurePim');
             }
         }

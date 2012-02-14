@@ -97,7 +97,7 @@ use_javascripts_for_form($form);
     var datepickerDateFormat = '<?php echo get_datepicker_date_format($sf_user->getDateFormat()); ?>';
     var lang_dateError = '<?php echo __("To date should be after the From date") ?>';
     var lang_invalidDate = '<?php echo __("Please enter a valid date in %format% format", array('%format%' => get_datepicker_date_format($sf_user->getDateFormat()))) ?>'
-    var lang_comment_successfully_saved = '<?php echo __('Comment Successfully Saved'); ?>';
+    var lang_comment_successfully_saved = '<?php echo __(TopLevelMessages::SAVE_SUCCESS); ?>';
     var lang_edit = '<?php echo __('Edit'); ?>';
     var lang_save = '<?php echo __('Save'); ?>';
     var lang_length_exceeded_error = '<?php echo __('Comment length should be less than 250 characters'); ?>';    

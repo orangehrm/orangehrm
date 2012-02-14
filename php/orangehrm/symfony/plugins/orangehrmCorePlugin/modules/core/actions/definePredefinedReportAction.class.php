@@ -81,7 +81,7 @@ class definePredefinedReportAction extends sfAction {
                 $reportGeneratorService->saveSelectedDisplayFields($selectedDisplayFields, $reportId);
                 $reportGeneratorService->saveSelectedFilterFields($selectedFilterValues, $reportId, 'Predefined');
                 
-                $this->getUser()->setFlash('templateMessage', array('success', __('Report Successfully Saved')));
+                $this->getUser()->setFlash('templateMessage', array('success', __(TopLevelMessages::SAVE_SUCCESS)));
                 $this->redirect('core/viewDefinedPredefinedReports'); 
                 return;
             } else {

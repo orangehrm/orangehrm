@@ -75,7 +75,7 @@ class editAttendanceRecordAction extends sfAction {
 			    $errorStr = json_encode($errorArray);
 			    $this->redirect('attendance/editAttendanceRecord?employeeId='.$this->employeeId.'&date='.$this->date.'&actionRecorder='.$this->actionRecorder.'&errorRows='.$errorStr);
 		    } else {
-                    $messageData = array('SUCCESS', __(' Records Saved Successfully'));
+                    $messageData = array('SUCCESS', __(TopLevelMessages::SAVE_SUCCESS));
                     if ($this->actionRecorder == "viewMy") {
                         $this->redirect('attendance/viewMyAttendanceRecord' . '?' . http_build_query(array('message' => $messageData, 'actionRecorder' => $this->actionRecorder, 'employeeId' => $this->employeeId, 'date' => $this->date, 'trigger' => true)));
                     }

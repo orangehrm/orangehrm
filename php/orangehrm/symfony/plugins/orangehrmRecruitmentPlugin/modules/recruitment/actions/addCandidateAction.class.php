@@ -132,7 +132,7 @@ class addCandidateAction extends sfAction {
                         $this->invalidFile = true;
                     } else {
                         $this->candidateId = $result['candidateId'];
-                        $this->getUser()->setFlash('templateMessage', array('success', __('Job Candidate Saved Successfully')));
+                        $this->getUser()->setFlash('templateMessage', array('success', __(TopLevelMessages::SAVE_SUCCESS)));
                         $this->redirect('recruitment/addCandidate?id=' . $this->candidateId);
                     }
                 }

@@ -212,7 +212,7 @@ class configureAction extends sfAction {
 
 
 
-                $this->getUser()->setFlash('templateMessage', array('success', __('Configuration Saved Successfully')));
+                $this->getUser()->setFlash('templateMessage', array('success', __(TopLevelMessages::SAVE_SUCCESS)));
 
                 $this->redirect('attendance/configure');
             }

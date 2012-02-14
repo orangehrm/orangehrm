@@ -106,9 +106,9 @@ class defineHolidayAction extends sfAction {
                 /* Save holiday */
 
                 if ($post['id'] != '') {
-                    $this->getUser()->setFlash('templateMessage', array('SUCCESS', __('Holiday Successfully Updated')));
+                    $this->getUser()->setFlash('templateMessage', array('SUCCESS', __(TopLevelMessages::UPDATE_SUCCESS)));
                 } else {
-                    $this->getUser()->setFlash('templateMessage', array('SUCCESS', __('Holiday Successfully Saved')));
+                    $this->getUser()->setFlash('templateMessage', array('SUCCESS', __(TopLevelMessages::SAVE_SUCCESS)));
                 }
 
                 $date = $post['date'];

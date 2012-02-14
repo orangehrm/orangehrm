@@ -59,10 +59,10 @@ class LicenseForm extends BaseForm {
         
         if (empty($id)) {
             $license = new License();
-            $message = array('SUCCESS', __('License Saved Successfully'));
+            $message = array('SUCCESS', __(TopLevelMessages::SAVE_SUCCESS));
         } else {
             $license = $this->getLicenseService()->getLicenseById($id);
-            $message = array('SUCCESS', __('License Updated Successfully'));
+            $message = array('SUCCESS', __(TopLevelMessages::UPDATE_SUCCESS));
         }
         
         $license->setName($this->getValue('name'));

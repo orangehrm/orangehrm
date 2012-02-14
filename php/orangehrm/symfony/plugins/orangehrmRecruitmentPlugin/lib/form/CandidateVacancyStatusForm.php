@@ -111,7 +111,7 @@ class CandidateVacancyStatusForm extends BaseForm {
 			$this->getCandidateService()->saveCandidateHistory($history);
 			$this->historyId = $history->getId();
 			$resultArray['messageType'] = 'success';
-			$resultArray['message'] = __('Action History Details Saved Successfully');
+			$resultArray['message'] = __(TopLevelMessages::SAVE_SUCCESS);
 			return $resultArray;
 		}
 		$result = $this->getCandidateService()->updateCandidateVacancy($this->selectedCandidateVacancy, $this->selectedAction, sfContext::getInstance()->getUser()->getAttribute('user'));
