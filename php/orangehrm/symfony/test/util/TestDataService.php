@@ -22,12 +22,18 @@
 
 class TestDataService {
 
+    /** Encrypted fields in the format 
+     *        array('Model1' => array(field1, field2), 
+     *              'Model2' => array(field1, field2))        
+     */
+    private static $encryptedModels = array('EmpBasicsalary' => array('ebsal_basic_salary'));
+    
     private static $dbConnection;
     private static $data;
     private static $tableNames;
     private static $lastFixture = null;
     private static $insertQueryCache = null;
-
+    
     public static function populate($fixture) {
 
         self::_populateUsingPdoTransaction($fixture);
@@ -194,7 +200,27 @@ class TestDataService {
     private static function _setData($fixture) {
 
         self::$data = sfYaml::load($fixture);
+        
+        self::_encryptFieldsInFixture();
+        
         self::_setTableNames();
+    }
+    
+    /**
+     * If configured to encrypt data, encrypt fields in fixture. 
+     */
+    private static function _encryptFieldsInFixture() {
+        
+        foreach (self::$encryptedModels as $model => $fields) {
+            if (isset(self::$data[$model]) && KeyHandler::keyExists()) {
+                foreach (self::$data[$model] as $id => $row) {
+                    
+                    foreach ($fields as $field) {
+                        self::$data[$model][$id][$field] = Cryptographer::encrypt($row[$field]);
+                    }
+                }            
+            }
+        }
     }
 
     private static function _setTableNames() {
