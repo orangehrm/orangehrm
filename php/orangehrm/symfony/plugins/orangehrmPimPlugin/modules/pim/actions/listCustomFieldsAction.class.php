@@ -72,13 +72,15 @@ class listCustomFieldsAction extends sfAction {
             $customFieldsService = $this->getCustomFieldService();
             $this->sorter = new ListSorter('propoerty.sort', 'admin_module', $this->getUser(), array('field_num', ListSorter::ASCENDING));
 
+            $sortBy = 'name';
+            $sortOrder = 'ASC';
+            
             if ($request->getParameter('sort')) {
-                $this->sorter->setSort(array($request->getParameter('sort'), $request->getParameter('order')));
-                $this->listCustomField = $customFieldsService->getCustomFieldList(null, $request->getParameter('sort'), $request->getParameter('order'));
-            } else {
-
-                $this->listCustomField = $customFieldsService->getCustomFieldList();
+                $sortBy = $request->getParameter('sort');
+                $sortOrder = $request->getParameter('order');                
             }
+            $this->sorter->setSort(array($sortBy, $sortOrder));
+            $this->listCustomField = $customFieldsService->getCustomFieldList(null, $sortBy, $sortOrder);            
         }
     }
 
