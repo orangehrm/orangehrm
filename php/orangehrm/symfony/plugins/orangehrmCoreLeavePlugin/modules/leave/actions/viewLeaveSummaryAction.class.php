@@ -141,6 +141,7 @@ class viewLeaveSummaryAction extends sfAction implements ohrmExportableAction {
      */
     protected function initializeListComponent(ListCompnentParameterHolder $parameters) {
         ohrmListComponent::setConfigurationFactory($parameters->getConfigurationFactory());
+        ohrmListComponent::setActivePlugin('orangehrmCoreLeavePlugin');
         ohrmListComponent::setListData($parameters->getListData());
         ohrmListComponent::setItemsPerPage($parameters->getNoOfRecords());
         ohrmListComponent::setNumberOfRecords($parameters->getTotalRecordsCount());
