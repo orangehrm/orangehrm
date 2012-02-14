@@ -247,9 +247,13 @@ class TestDataService {
         // ToDo: enable database constraints
     }
 
-    private static function _truncateTables() {
+    private static function _truncateTables($tableNames = null) {
 
-        if (count(self::$tableNames) > 0) {
+        if (is_null($tableNames)) {
+            $tableNames = self::$tableNames;
+        }
+        
+        if (count($tableNames) > 0) {
             $pdo = self::_getDbConnection();
             self::_disableConstraints();
             $query = '';
@@ -259,7 +263,7 @@ class TestDataService {
                 $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
                 $pdo->beginTransaction();
 
-                foreach (self::$tableNames as $tableName) {
+                foreach ($tableNames as $tableName) {
                     $query = 'DELETE FROM ' . $tableName;
                     $pdo->query($query);
                 }
@@ -310,6 +314,22 @@ class TestDataService {
         }
 
         self::_truncateTables();
+    }
+    
+    public static function truncateSpecificTables($aliasArray) {
+
+        $tableNames = array();
+        
+        foreach ($aliasArray as $alias) {
+            $table = Doctrine::getTable($alias)->getTableName();
+            if (!empty($table)) {
+                $tableNames[] = $table;
+            } else {
+                echo __FILE__ . ':' . __LINE__ . ") Skipping unknown table alias: " . $alias . "\n";
+            }
+        }
+
+        self::_truncateTables($tableNames);
     }
 
     public static function fetchLastInsertedRecords($alias, $count) {
