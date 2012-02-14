@@ -5,17 +5,13 @@
 <?php echo javascript_include_tag('orangehrm.datepicker.js')?>
 <script type="text/javascript">
     //<![CDATA[
-    var lang_numberRequired = "<?php echo __('Document number is required');?>";
-    var lang_dateFormatIssue = "<?php echo __('Date format should be YYYY-MM-DD'); ?>";
-    var lang_invalidIssueDate = "<?php echo __('Invalid issued date'); ?>";
-    var lang_invalidExpireDate = "<?php echo __('Invalid expiry date'); ?>";
-    var lang_invalidReviewDate = "<?php echo __('Invalid review date'); ?>";
+    var lang_numberRequired = "<?php echo __(ValidationMessages::REQUIRED);?>";
     var lang_issuedGreaterExpiry = "<?php echo __('Expiry date should be after the issued date'); ?>";
     var lang_editImmigrationHeading = "<?php echo __('Edit Immigration');?>";
     var lang_addImmigrationHeading = "<?php echo __('Add Immigration');?>";
-    var lang_commentLength = "<?php echo __('Comment length cannot exceed 250 characters');?>";
-    var lang_deleteErrorMsg = "<?php echo __('Select at least One Record to Delete');?>";
-    var lang_invalidDate = '<?php echo __("Please enter a valid date in %format% format", array('%format%' => get_datepicker_date_format($sf_user->getDateFormat()))) ?>'
+    var lang_commentLength = "<?php echo __(ValidationMessages::TEXT_LENGTH_EXCEEDS, array('%amount%' => 250));?>";
+    var lang_deleteErrorMsg = "<?php echo __(TopLevelMessages::SELECT_RECORDS);?>";
+    var lang_invalidDate = '<?php echo __(ValidationMessages::DATE_FORMAT_INVALID, array('%format%' => get_datepicker_date_format($sf_user->getDateFormat()))) ?>'
     var datepickerDateFormat = '<?php echo get_datepicker_date_format($sf_user->getDateFormat()); ?>';
     var fileModified = 0;
 
@@ -152,7 +148,7 @@
                                 </form>
                             </div>
 
-                            <div class="paddingLeftRequired"><?php echo __('Fields marked with an asterisk')?> <span class="required">*</span> <?php echo __('are required.')?></div>
+                            <div class="paddingLeftRequired"><span class="required">* <?php echo __(CommonMessages::REQUIRED_FIELD)?></span></div>
                         <?php echo include_component('pim', 'customFields', array('empNumber'=>$empNumber, 'screen' => 'immigration'));?>
                         <?php echo include_component('pim', 'attachments', array('empNumber'=>$empNumber, 'screen' => 'immigration'));?>
                             

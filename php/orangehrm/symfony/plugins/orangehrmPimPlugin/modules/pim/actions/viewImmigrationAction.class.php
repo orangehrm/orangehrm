@@ -63,7 +63,7 @@ class viewImmigrationAction extends basePimAction {
             if ($this->form->isValid()) {
                 $empPassport = $this->form->populateEmployeePassport();
                 $this->getEmployeeService()->saveEmployeePassport($empPassport);
-                $this->getUser()->setFlash('templateMessage', array('success', __('Immigration Details Saved Successfully')));
+                $this->getUser()->setFlash('templateMessage', array('success', __(TopLevelMessages::SAVE_SUCCESS)));
                 $this->redirect('pim/viewImmigration?empNumber='. $empNumber);
             }
         }

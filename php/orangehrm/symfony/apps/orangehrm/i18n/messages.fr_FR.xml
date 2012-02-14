@@ -264,10 +264,6 @@
                 <source>Comments</source>
                 <target>FR_Comments</target>
             </trans-unit>
-            <trans-unit id="99">
-                <source>Date format should be YYYY-MM-DD</source>
-                <target>FR_Date format should be YYYY-MM-DD</target>
-            </trans-unit>
             <trans-unit id="100">
                 <source>Please enter a valid date in %format% format</source>
                 <target>FR_Please enter a valid date in %format% format</target>
@@ -5291,9 +5287,13 @@
                 <source>Select Records to Delete</source>
                 <target>FR_Select Records to Delete</target>
             </trans-unit>
-            <trans-unit id="8000">
+            <trans-unit id="8001">
                 <source>Should be less than %amount% characters</source>
                 <target>FR_Should be less than %amount% characters</target>
+            </trans-unit>
+            <trans-unit id="8002">
+                <source>Expiry date should be after the issued date</source>
+                <target>FR_Expiry date should be after the issued date</target>
             </trans-unit>
             
         

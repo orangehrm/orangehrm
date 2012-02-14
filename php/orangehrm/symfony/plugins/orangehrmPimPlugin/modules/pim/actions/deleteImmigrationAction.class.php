@@ -26,7 +26,7 @@ class deleteImmigrationAction extends basePimAction {
             $empNumber = $request->getParameter('empNumber');
 
             $this->getEmployeeService()->deleteImmigration($empNumber, $deleteIds);
-            $this->getUser()->setFlash('templateMessage', array('success', __('Immigration Details Deleted Successfully')));
+            $this->getUser()->setFlash('templateMessage', array('success', __(TopLevelMessages::DELETE_SUCCESS)));
             $this->redirect('pim/viewImmigration?empNumber='. $empNumber);
             
         }
