@@ -112,7 +112,7 @@ $(document).ready(function() {
                         $(".messageBalloon_warning").remove();
                         $('#validationMsg').html("");
                         $('#validationMsg').attr('class', "messageBalloon_success");
-                        $('#validationMsg').html("Successfully removed");
+                        $('#validationMsg').html(lang_removeSuccess);
                         $(element).parent().parent().remove();
 
 

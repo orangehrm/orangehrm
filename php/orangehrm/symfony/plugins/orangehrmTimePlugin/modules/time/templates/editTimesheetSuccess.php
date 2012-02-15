@@ -171,6 +171,7 @@ use_javascript('../../../scripts/jquery/jquery.autocomplete.js');
     var lang_selectProjectAndActivity='<?php echo __('Select a Project and an Activity'); ?>';
     var lang_enterExistingProject='<?php echo __("Select an Existing Project"); ?>';
     var lang_noRecords='<?php echo __('Select Records to Remove'); ?>';
+    var lang_removeSuccess = '<?php echo __('Successfully removed')?>';
 <?php
 for ($i = 0; $i < count($currentWeekDates); $i++) {
     echo "currentWeekDates[$i]='" . $currentWeekDates[$i] . "';\n";

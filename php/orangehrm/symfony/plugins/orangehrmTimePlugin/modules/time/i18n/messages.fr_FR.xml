@@ -228,10 +228,6 @@
     <source>Sun</source>
     <target>FR_Sun</target>
    </trans-unit>
-   <trans-unit id="57">
-    <source>There is no timesheet to view</source>
-    <target>FR_There is no timesheet to view</target>
-   </trans-unit>
    <trans-unit id="58">
     <source>Thu</source>
     <target>FR_Thu</target>
@@ -307,6 +303,22 @@
    <trans-unit id="75">
     <source>Select Records to Remove</source>
     <target>FR_Select Records to Remove</target>
+   </trans-unit>
+   <trans-unit id="76">
+    <source>Timesheet Already Exists</source>
+    <target>FR_Timesheet Already Exists</target>
+   </trans-unit>
+   <trans-unit id="76">
+    <source>Successfully</source>
+    <target>FR_Successfully</target>
+   </trans-unit>
+   <trans-unit id="76">
+    <source>Successfully Submitted</source>
+    <target>FR_Successfully Submitted</target>
+   </trans-unit>
+   <trans-unit id="76">
+    <source>No Timesheets Available</source>
+    <target>FR_No Timesheets Available</target>
    </trans-unit>
   </body>
  </file>

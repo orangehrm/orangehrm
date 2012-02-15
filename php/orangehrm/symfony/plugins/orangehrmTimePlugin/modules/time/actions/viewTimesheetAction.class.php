@@ -108,7 +108,7 @@ class viewTimesheetAction extends sfAction {
 
                     $state = $request->getParameter('state');
                     if (isset($state)) {
-                        $this->successMessage = array('SUCCESS', __("Timesheet Successfully") . " " . __(ucwords(strtolower($state))));
+                        $this->successMessage = array('SUCCESS', __("Successfully") . " " . __(ucwords(strtolower($state))));
                     }
                     $comment = $request->getParameter('Comment');
                     $this->timesheet->setState($state);
@@ -125,7 +125,7 @@ class viewTimesheetAction extends sfAction {
 
                         $submitted = $request->getParameter('submitted');
                         if (isset($submitted)) {
-                            $this->successMessage = array('SUCCESS', __("Timesheet Successfully Submitted"));
+                            $this->successMessage = array('SUCCESS', __("Successfully Submitted"));
                         }
                     }
                 }
