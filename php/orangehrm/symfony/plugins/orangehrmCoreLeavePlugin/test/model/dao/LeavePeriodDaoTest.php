@@ -55,14 +55,15 @@ class LeavePeriodDaoTest extends PHPUnit_Framework_TestCase {
     /* test saveLeavePeriod with no Id */
 
     public function testSaveLeavePeriodWithNoId() {
-
+        TestDataService::truncateTables(array('LeavePeriod'));
+        
         $leavePeriod = new LeavePeriod();
 
         $leavePeriod->setStartDate("2010-01-31");
         $leavePeriod->setEndDate("2011-01-31");
 
         $this->assertTrue($this->leavePeriodDao->saveLeavePeriod($leavePeriod));
-        $savedLeavePeriod = TestDataService::fetchObject('LeavePeriod', 4);
+        $savedLeavePeriod = TestDataService::fetchObject('LeavePeriod', 1);
 
         $this->assertEquals($leavePeriod->getLeavePeriodId(), $savedLeavePeriod->getLeavePeriodId());
         $this->assertEquals($leavePeriod->getStartDate(), $savedLeavePeriod->getStartDate());
