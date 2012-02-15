@@ -362,7 +362,10 @@ function isValidForm(){
             },
             
             'addCandidate[keyWords]': {
-                maxlength:255
+                maxlength:250
+            },
+            'addCandidate[comment]': {
+                maxlength:250
             },
 
             'addCandidate[appliedDate]' : {
@@ -402,9 +405,11 @@ function isValidForm(){
             },
 
             'addCandidate[keyWords]': {
-                maxlength:lang_noMoreThan255
+                maxlength:lang_noMoreThan250
             },
-
+            'addCandidate[comment]' :{
+                maxlength:lang_noMoreThan250
+            },
             'addCandidate[appliedDate]' : {
                 valid_date: lang_validDateMsg,
                 date_range_comp:lang_dateValidation

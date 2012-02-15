@@ -247,13 +247,13 @@
                                     var allowedVacancylist = <?php echo json_encode($allowedVacancylist); ?>;
                                     var allowedVacancyIdArray = <?php echo json_encode($allowedVacancyIdArray); ?>;
                                     var closedVacancyIdArray = <?php echo json_encode($closedVacancyIdArray); ?>;
-                                    var lang_identical_rows = "<?php echo __("Cannot assign same vacancy twice"); ?>";
-                                    var lang_tooLargeInput = "<?php echo __("Please enter no more than 30 characters"); ?>";
-                                    var lang_commaSeparated = "<?php echo __("Enter comma separated words..."); ?>";
+                                    var lang_identical_rows = "<?php echo __('Cannot assign same vacancy twice'); ?>";
+                                    var lang_tooLargeInput = "<?php echo __(ValidationMessages::TEXT_LENGTH_EXCEEDS, array('%amount%' => 30)); ?>";
+                                    var lang_commaSeparated = "<?php echo __('Enter comma separated words').'...'; ?>";
                                     var currentDate = '<?php echo set_datepicker_date_format(date("Y-m-d")); ?>';
                                     var lang_dateValidation = "<?php echo __("Date of Application should be less than current date"); ?>";
-                                    var lang_validPhoneNo = "<?php echo __("Enter a valid contact number"); ?>";
-                                    var lang_noMoreThan255 = "<?php echo __("Please enter no more than 255 characters"); ?>";
+                                    var lang_validPhoneNo = "<?php echo __(ValidationMessages::TP_NUMBER_INVALID); ?>";
+                                    var lang_noMoreThan250 = "<?php echo __(ValidationMessages::TEXT_LENGTH_EXCEEDS, array('%amount%' => 250)); ?>";
                                     var lang_edit = "<?php echo __("Edit"); ?>";
                                     var lang_save = "<?php echo __("Save"); ?>";
                                     var lang_cancel = "<?php echo __("Cancel"); ?>";

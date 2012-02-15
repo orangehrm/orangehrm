@@ -484,6 +484,10 @@
     <source>with</source>
     <target>FR_with</target>
    </trans-unit>
+   <trans-unit id="121">
+    <source>Enter comma separated words</source>
+    <target>FR_Enter comma separated words</target>
+   </trans-unit>
   </body>
  </file>
 </xliff>
