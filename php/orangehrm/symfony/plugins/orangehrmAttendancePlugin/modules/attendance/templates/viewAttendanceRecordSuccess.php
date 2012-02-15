@@ -80,7 +80,7 @@ use_javascript('../../../scripts/jquery/jquery.autocomplete.js');
     var employeeId='<?php echo $employeeId; ?>';
     var dateSelected='<?php echo $date; ?>';
     var actionRecorder='<?php echo $actionRecorder; ?>';
-    var employeeSelect = '<?php echo __('Please Select an Employee')?>';
+    var employeeSelect = '<?php echo __('Select an Employee')?>';
     var invalidEmpName = '<?php echo __('Invalid Employee Name')?>';
     var noEmployees = '<?php echo __('No Employees Available in System')?>';
     var typeForHints = '<?php echo __("Type for hints").'...';?>';
