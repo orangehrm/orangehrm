@@ -271,7 +271,8 @@ class EmployeeDao extends BaseDao {
         try {
             $q = Doctrine_Query::create()
                             ->from('EmpPassport p')
-                            ->where('p.emp_number = ?', $empNumber);
+                            ->where('p.emp_number = ?', $empNumber)
+                            ->orderBy('p.type_flag, p.number');
 
             if (!is_null($sequenceNo)) {
                 $q->andwhere('p.seqno = ?', $sequenceNo);
