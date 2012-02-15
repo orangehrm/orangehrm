@@ -210,6 +210,7 @@ class LeaveListForm extends sfForm {
     public function getStylesheets() {
         $styleSheets = parent::getStylesheets();
         $styleSheets['/orangehrmCoreLeavePlugin/css/viewLeaveListSuccess.css'] = 'all';
+        $styleSheets['/orangehrmCoreLeavePlugin/css/common.css'] = 'all';
         
         return $styleSheets;        
     }    
