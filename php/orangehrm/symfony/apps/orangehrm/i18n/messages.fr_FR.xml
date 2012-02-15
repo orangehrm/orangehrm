@@ -4618,14 +4618,6 @@
     <source>Years of Experience</source>
     <target>FR_Years of Experience</target>
    </trans-unit>
-   <trans-unit id="997">
-    <source>Years of Experience should be a number</source>
-    <target>FR_Years of Experience should be a number</target>
-   </trans-unit>
-   <trans-unit id="998">
-    <source>Years of Experience should be less than 100</source>
-    <target>FR_Years of Experience should be less than 100</target>
-   </trans-unit>
    <trans-unit id="999">
     <source>Yemen</source>
     <target>FR_Yemen</target>

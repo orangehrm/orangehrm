@@ -112,9 +112,9 @@ if (($section == 'license') && isset($message) && isset($messageType)) {
     var lang_editLicense = "<?php echo __('Edit License');?>";
     var lang_licenseRequired = '<?php echo __(ValidationMessages::REQUIRED); ?>';
     var lang_invalidDate = '<?php echo __(ValidationMessages::DATE_FORMAT_INVALID, array('%format%' => get_datepicker_date_format($sf_user->getDateFormat()))) ?>';
-    var lang_startDateAfterEndDate = "<?php echo __('Expiry date should be after the issued date');?>";
+    var lang_startDateAfterEndDate = "<?php echo __('Expiry date should be after issued date');?>";
     var lang_selectLicenseToDelete = "<?php echo __(TopLevelMessages::SELECT_RECORDS);?>";
-    var lang_licenseNoMaxLength = "<?php echo __('License number cannot exceed 50 characters in length');?>";
+    var lang_licenseNoMaxLength = "<?php echo __(ValidationMessages::TEXT_LENGTH_EXCEEDS, array('%amount%' => 50));?>";
 
     var datepickerDateFormat = '<?php echo get_datepicker_date_format($sf_user->getDateFormat()); ?>';
     //]]>

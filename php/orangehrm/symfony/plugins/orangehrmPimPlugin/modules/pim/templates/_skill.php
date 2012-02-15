@@ -102,9 +102,9 @@ if (($section == 'skill') && isset($message) && isset($messageType)) {
     var lang_editSkill = "<?php echo __('Edit Skill');?>";
     var lang_skillRequired = '<?php echo __(ValidationMessages::REQUIRED); ?>';
     var lang_selectSkillToDelete = "<?php echo __(TopLevelMessages::SELECT_RECORDS);?>";
-    var lang_commentsMaxLength = "<?php echo __('Comment length cannot exceed 100 characters');?>";
-    var lang_yearsOfExpShouldBeNumber = "<?php echo __('Years of Experience should be a number');?>";
-    var lang_yearsOfExpMax = "<?php echo __('Years of Experience should be less than 100');?>";
+    var lang_commentsMaxLength = "<?php echo __(ValidationMessages::TEXT_LENGTH_EXCEEDS, array('%amount%' => 250));?>";
+    var lang_yearsOfExpShouldBeNumber = "<?php echo __('Should be a number');?>";
+    var lang_yearsOfExpMax = "<?php echo __("Should be less than %amount%", array("%amount%" => '100'));?>";
     //]]>
 </script>
 
@@ -205,7 +205,7 @@ $(document).ready(function() {
         rules: {
             'skill[code]': {required: true},
             'skill[years_of_exp]': {required: false, digits: true, max: 99},
-            'skill[comments]': {required: false, maxlength:100}
+            'skill[comments]': {required: false, maxlength:250}
         },
         messages: {
             'skill[code]': {required: lang_skillRequired},
