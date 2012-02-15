@@ -113,8 +113,8 @@
     <target>FR_Projects under selected customer will also be deleted</target>
    </trans-unit>
    <trans-unit id="28">
-    <source>and all the subunits under it will be permanantly deleted</source>
-    <target>FR_and all the subunits under it will be permanantly deleted</target>
+    <source>Units under selected unit will also be deleted</source>
+    <target>FR_Units under selected unit will also be deleted</target>
    </trans-unit>
    <trans-unit id="29">
     <source>Assigned Currencies</source>

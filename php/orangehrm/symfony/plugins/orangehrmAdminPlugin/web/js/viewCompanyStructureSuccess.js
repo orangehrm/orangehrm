@@ -186,7 +186,7 @@ function deleteNode(nodeId) {
     $('#dltConfirmationMsg').text("")
     nodeName = $('#treeLink_edit_' + nodeId).html();
     $('#dltNodeId').attr('value', nodeId)
-    $('#dltConfirmationMsg').append(nodeName+" "+lang_confirmationPart2)
+    $('#dltConfirmationMsg').append(lang_delete_warning+'<br /><br />'+lang_delete_confirmation)
     $("#dltDialog").dialog("open")
 }
 
