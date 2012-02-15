@@ -65,9 +65,7 @@ if (($section == 'education') && isset($message) && isset($messageType)) {
         </form>
     </div>
     <br class="clear" />
-    <div class="smallText" id="educationRequiredNote"><?php echo __('Fields marked with an asterisk') ?>
-        <span class="required">*</span> <?php echo __('are required.') ?></div>
-
+    <div class="paddingLeftRequired" id="educationRequiredNote"><span class="required">* <?php echo __(CommonMessages::REQUIRED_FIELD)?></span></div>
     <form id="frmDelEducation" action="<?php echo url_for('pim/saveDeleteEducation?empNumber=' . $empNumber . "&option=delete"); ?>" method="post">
         <div class="outerbox" id="tblEducation">
             <table width="100%" cellspacing="0" cellpadding="0" class="data-table" border="0">

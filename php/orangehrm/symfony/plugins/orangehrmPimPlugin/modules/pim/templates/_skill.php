@@ -45,9 +45,7 @@ if (($section == 'skill') && isset($message) && isset($messageType)) {
         </form>
     </div>
     <br class="clear" />
-    <div class="smallText" id="skillRequiredNote"><?php echo __('Fields marked with an asterisk')?>
-        <span class="required">*</span> <?php echo __('are required.')?></div>
-    
+    <div class="paddingLeftRequired" id="skillRequiredNote"><span class="required">* <?php echo __(CommonMessages::REQUIRED_FIELD)?></span></div>
 
     <form id="frmDelSkill" action="<?php echo url_for('pim/saveDeleteSkill?empNumber=' . $empNumber . "&option=delete"); ?>" method="post">
         <div class="outerbox" id="tblSkill">

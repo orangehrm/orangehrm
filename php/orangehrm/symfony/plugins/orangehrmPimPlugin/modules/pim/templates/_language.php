@@ -52,9 +52,7 @@ if (($section == 'language') && isset($message) && isset($messageType)) {
         </form>
     </div>
     <br class="clear" />
-    <div class="smallText" id="languageRequiredNote"><?php echo __('Fields marked with an asterisk')?>
-        <span class="required">*</span> <?php echo __('are required.')?></div>
-
+    <div class="paddingLeftRequired" id="languageRequiredNote"><span class="required">* <?php echo __(CommonMessages::REQUIRED_FIELD)?></span></div>
     
     <form id="frmDelLanguage" action="<?php echo url_for('pim/saveDeleteLanguage?empNumber=' . $empNumber . "&option=delete"); ?>" method="post">
         <div class="outerbox" id="tblLanguage">
