@@ -36,6 +36,7 @@ class LeaveEntitlementDaoTest extends PHPUnit_Framework_TestCase {
     protected $leaveTypeId;
 
     protected function setUp() {
+        TestDataService::truncateSpecificTables(array('Employee', 'LeaveType'));
 
         // Save leave type
         $leaveTypeData = sfYaml::load(sfConfig::get('sf_plugins_dir') . '/orangehrmCoreLeavePlugin/test/fixtures/leaveType.yml');
@@ -59,7 +60,6 @@ class LeaveEntitlementDaoTest extends PHPUnit_Framework_TestCase {
         $this->leavePeriodId = $leavePeriod->getLeavePeriodId();
 
         // Save Employee
-        TestDataService::truncateSpecificTables(array('Employee'));
         $employeeservice = new EmployeeService();
         $this->employee = new Employee();
         $employeeservice->addEmployee($this->employee);
