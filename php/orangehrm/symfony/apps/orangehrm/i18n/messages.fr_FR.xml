@@ -4242,8 +4242,8 @@
     <target>FR_to</target>
    </trans-unit>
    <trans-unit id="916">
-    <source>To date should be after the from date</source>
-    <target>FR_To date should be after the from date</target>
+    <source>To date should be after from date</source>
+    <target>FR_To date should be after from date</target>
    </trans-unit>
    <trans-unit id="917">
     <source>Togo</source>

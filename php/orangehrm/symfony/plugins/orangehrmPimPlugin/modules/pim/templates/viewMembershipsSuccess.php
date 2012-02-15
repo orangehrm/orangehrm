@@ -163,7 +163,7 @@ foreach($form->getWidgetSchema()->getPositions() as $widgetName) {
                             </table>
                         </form>
                     </div>
-                        <div class="paddingLeftRequired"><?php echo __('Fields marked with an asterisk')?> <span class="required">*</span> <?php echo __('are required.')?></div>
+                        <div class="paddingLeftRequired"><span class="required">* <?php echo __(CommonMessages::REQUIRED_FIELD)?></span></div>
                         <?php echo include_component('pim', 'customFields', array('empNumber' => $empNumber, 'screen' => 'membership')); ?>
                         <?php echo include_component('pim', 'attachments', array('empNumber' => $empNumber, 'screen' => 'membership')); ?>
                             </div>
@@ -185,9 +185,9 @@ foreach($form->getWidgetSchema()->getPositions() as $widgetName) {
                     var getMembershipsUrl = "<?php echo url_for('pim/getMemberships')?>";
                     var selectAMembership = '<?php echo __(ValidationMessages::REQUIRED); ?>';
                     var validDateMsg = '<?php echo __(ValidationMessages::DATE_FORMAT_INVALID, array('%format%' => get_datepicker_date_format($sf_user->getDateFormat()))) ?>';
-                    var validNumberMsg = '<?php echo __("Enter a valid number"); ?>';
-                    var dateError = '<?php echo __("Renewal date should be after the commence date"); ?>';
-                    var lang_negativeAmount = "<?php echo __("Amount should be a positive number"); ?>";
-                    var lang_tooLargeAmount = "<?php echo __("Amount should be less than 999999999.99"); ?>";
+                    var validNumberMsg = '<?php echo __("Should be a number"); ?>';
+                    var dateError = '<?php echo __("Renewal date should be after commence date"); ?>';
+                    var lang_negativeAmount = "<?php echo __("Should be a positive number"); ?>";
+                    var lang_tooLargeAmount = "<?php echo __("Should be less than %amount%", array("%amount%" => '1000,000,000.00')); ?>";
                     //]]>
                 </script>
