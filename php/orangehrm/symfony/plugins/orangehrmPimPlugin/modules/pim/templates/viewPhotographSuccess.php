@@ -79,11 +79,11 @@
 
 <!-- confirmation box -->
 <div id="deleteConfirmation" title="<?php echo __('OrangeHRM - Confirmation Required');?>" style="display: none;">
-    <?php echo __("Are you sure you want to delete the photograph?");?>
+    <?php echo __("Delete photograph?");?>
     <br /><br /><br />
     <div class="dialogButtons">
-        <input type="button" id="btnYes" class="savebutton" value="<?php echo __('Yes');?>" />
-        <input type="button" id="btnNo" class="savebutton" value="<?php echo __('No');?>" />
+        <input type="button" id="btnYes" class="savebutton" value="<?php echo __('Ok');?>" />
+        <input type="button" id="btnNo" class="savebutton" value="<?php echo __('Cancel');?>" />
     </div>
 </div>
 

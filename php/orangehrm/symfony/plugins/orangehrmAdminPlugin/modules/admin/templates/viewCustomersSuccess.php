@@ -47,7 +47,9 @@
 <!-- confirmation box -->
 <div id="deleteConfirmation" title="<?php echo __('OrangeHRM - Confirmation Required'); ?>" style="display: none;">
 
-    <?php echo __("All the projects under selected Customer will also be deleted") . "?"; ?>
+    <?php echo __("Projects under selected customer will also be deleted"); ?>
+    <br /><br />
+    <?php echo __(CommonMessages::DELETE_CONFIRMATION); ?>
 
     <div class="dialogButtons">
         <input type="button" id="dialogDeleteBtn" class="savebutton" value="<?php echo __('Ok'); ?>" />

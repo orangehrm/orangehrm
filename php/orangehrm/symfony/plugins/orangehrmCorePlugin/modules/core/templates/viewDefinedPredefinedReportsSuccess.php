@@ -33,9 +33,9 @@ use_javascript('../../../scripts/jquery/jquery.autocomplete.js');
 
 <!-- confirmation box -->
 <div id="deleteConfirmation" title="<?php echo __('OrangeHRM - Confirmation Required');?>" style="display: none;">
-    <?php echo __("Are you sure you want to delete selected report(s)") . "?";?>
+    <?php echo __(CommonMessages::DELETE_CONFIRMATION); ?>
     <div class="dialogButtons">
-        <input type="button" id="dialogDeleteBtn" class="savebutton" value="<?php echo __('Delete');?>" />
+        <input type="button" id="dialogDeleteBtn" class="savebutton" value="<?php echo __('Ok');?>" />
         <input type="button" id="dialogCancelBtn" class="savebutton" value="<?php echo __('Cancel');?>" />
     </div>
 </div>

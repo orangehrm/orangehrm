@@ -174,10 +174,10 @@ if (isset($messageType)) {
         </form>        
 </div> <!-- End of outerbox -->
 
-<div id="deleteConfirmation" title="OrangeHRM - Confirmation Required" style="display: none;">
-    <span id="deleteConfirmMsg">Are you sure you want to delete selected custom field(s)?</span>
+<div id="deleteConfirmation" title="<?php echo __('OrangeHRM - Confirmation Required'); ?>" style="display: none;">
+    <span id="deleteConfirmMsg"><?php echo __(CommonMessages::DELETE_CONFIRMATION); ?></span>
     <div class="dialogButtons">
-        <input type="button" id="dialogDeleteBtn" class="savebutton" value="<?php echo __("Delete");?>" />
+        <input type="button" id="dialogDeleteBtn" class="savebutton" value="<?php echo __("Ok");?>" />
         <input type="button" id="dialogCancelBtn" class="savebutton" value="<?php echo __("Cancel");?>" />
     </div>
 </div>

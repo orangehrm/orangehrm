@@ -604,6 +604,10 @@
     <source>Should have at least %number% characters</source>
     <target>FR_Should have at least %number% characters</target>
    </trans-unit>
+   <trans-unit id="3452">
+    <source>Delete photograph?</source>
+    <target>FR_Delete photograph?</target>
+   </trans-unit>
   </body>
  </file>
 </xliff>

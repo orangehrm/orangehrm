@@ -488,6 +488,10 @@
     <source>Enter comma separated words</source>
     <target>FR_Enter comma separated words</target>
    </trans-unit>
+   <trans-unit id="221">
+    <source>Remove vacancy?</source>
+    <target>FR_Remove vacancy?</target>
+   </trans-unit>
   </body>
  </file>
 </xliff>

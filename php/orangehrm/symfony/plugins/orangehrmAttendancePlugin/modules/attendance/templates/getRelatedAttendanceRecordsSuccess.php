@@ -95,7 +95,7 @@
 </div>
 
 <div id="dialogBox" class="dialogBox" title="<?php echo __('OrangeHRM - Confirmation Required'); ?>">
-    <?php echo __("Selected attendance records will be deleted") . "?"; ?>
+    <?php echo __(CommonMessages::DELETE_CONFIRMATION); ?>
 
     <div>
         <br class="clear" />&nbsp;&nbsp;&nbsp;<input type="button" id="dialogOk" class="plainbtn okBtn" value="<?php echo __('Ok'); ?>" />

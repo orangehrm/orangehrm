@@ -43,8 +43,8 @@
         </div>
     </div>
 
-<div id="languageDialog" title="OrangeHRM - <?php echo __('Supported Languages')?>"  style="display:none;">
-<?php echo __("Following languages are supported by OrangeHRM")?>
+<div id="languageDialog" title="<?php echo __('OrangeHRM - Supported Languages')?>"  style="display:none;">
+<?php echo __("Following languages are supported")?>
     <br class="clear"/>
     <br class="clear"/>
 <?php $languages = $form->getLanguages()?>

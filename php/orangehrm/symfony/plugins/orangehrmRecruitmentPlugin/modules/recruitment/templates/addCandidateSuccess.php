@@ -218,18 +218,20 @@
 
                                     <!-- confirmation box for removing vacancies-->
                                     <div id="deleteConfirmation" title="<?php echo __('OrangeHRM - Confirmation Required'); ?>" style="display: none;">
-    <?php echo __("Are you sure you want to remove job vacancy of the candidate") . "?"; ?>
+                                        <?php echo __("Remove vacancy?"); ?>
                                     <div class="dialogButtons">
-                                        <input type="button" id="dialogDeleteBtn" class="savebutton" value="<?php echo __('Remove'); ?>" />
+                                        <input type="button" id="dialogDeleteBtn" class="savebutton" value="<?php echo __('Ok'); ?>" />
                                         <input type="button" id="dialogCancelBtn" class="savebutton" value="<?php echo __('Cancel'); ?>" />
                                     </div>
                                 </div>
 
                                 <!-- confirmation box for remove vacancies & save -->
                                 <div id="deleteConfirmationForSave" title="<?php echo __('OrangeHRM - Confirmation Required'); ?>" style="display: none;">
-    <?php echo __("This action will remove the vacancy from the candidate") . "?"; ?>
+                                    <?php echo __("This action will remove the vacancy from the candidate"); ?>
+                                    <br /><br />
+                                    <?php echo __("Remove vacancy?"); ?>
                                     <div class="dialogButtons">
-                                        <input type="button" id="dialogSaveButton" class="savebutton" value="<?php echo __('Continue'); ?>" />
+                                        <input type="button" id="dialogSaveButton" class="savebutton" value="<?php echo __('Ok'); ?>" />
                                         <input type="button" id="dialogCancelButton" class="savebutton" value="<?php echo __('Cancel'); ?>" />
                                     </div>
                                 </div>

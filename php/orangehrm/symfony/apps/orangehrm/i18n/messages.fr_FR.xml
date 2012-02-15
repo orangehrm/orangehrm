@@ -4693,6 +4693,14 @@
     <source>Successfully removed</source>
     <target>FR_Successfully removed</target>
    </trans-unit>
+   <trans-unit id="2015">
+    <source>Ok</source>
+    <target>FR_Ok</target>
+   </trans-unit>
+   <trans-unit id="2016">
+    <source>Delete records?</source>
+    <target>FR_Delete records?</target>
+   </trans-unit>
    <trans-unit id="72">
     <source>Select an Employee</source>
     <target>FR_Select an Employee</target>

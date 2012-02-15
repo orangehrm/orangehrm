@@ -109,8 +109,8 @@
     <target>FR_Admin and PIM are compulsory modules</target>
    </trans-unit>
    <trans-unit id="27">
-    <source>All the projects under selected Customer will also be deleted</source>
-    <target>FR_All the projects under selected Customer will also be deleted</target>
+    <source>Projects under selected customer will also be deleted</source>
+    <target>FR_Projects under selected customer will also be deleted</target>
    </trans-unit>
    <trans-unit id="28">
     <source>and all the subunits under it will be permanantly deleted</source>
@@ -413,8 +413,8 @@
     <target>FR_First Name and Last Name are compulsory</target>
    </trans-unit>
    <trans-unit id="103">
-    <source>Following languages are supported by OrangeHRM</source>
-    <target>FR_Following languages are supported by OrangeHRM</target>
+    <source>Following languages are supported</source>
+    <target>FR_Following languages are supported</target>
    </trans-unit>
    <trans-unit id="104">
     <source>Hour per day is required</source>
@@ -681,8 +681,8 @@
     <target>FR_Subscribers</target>
    </trans-unit>
    <trans-unit id="170">
-    <source>Supported Languages</source>
-    <target>FR_Supported Languages</target>
+    <source>OrangeHRM - Supported Languages</source>
+    <target>FR_OrangeHRM - Supported Languages</target>
    </trans-unit>
    <trans-unit id="171">
     <source>Supported languages</source>
