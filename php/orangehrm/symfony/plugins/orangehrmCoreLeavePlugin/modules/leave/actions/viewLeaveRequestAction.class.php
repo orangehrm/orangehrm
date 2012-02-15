@@ -55,9 +55,7 @@ class viewLeaveRequestAction extends sfAction {
 
     protected function getTitle($mode, $employee, $leaveList) {
 
-        if ($mode === self::MODE_SUPERVISOR_DETAILED_LIST) {
-            $title = __('Approve Leave Request for %name%', array('%name%' => $employee->getFullName()));
-        } elseif ($mode === self::MODE_HR_ADMIN_DETAILED_LIST) {
+        if ($mode === self::MODE_SUPERVISOR_DETAILED_LIST || $mode === self::MODE_HR_ADMIN_DETAILED_LIST) {
             $range = $this->getDateRangeString($leaveList);
             $title = __('Leave Request (%date_range%) %name%', array('%date_range%' => $range, '%name%' => $employee->getFullName()));
         } elseif ($mode === self::MODE_MY_LEAVE_DETAILED_LIST) {
