@@ -310,7 +310,7 @@ $formatData['newSeparater'] = '/';
                            <script type="text/javascript">
 
                                var datepickerDateFormat = '<?php echo get_datepicker_date_format($sf_user->getDateFormat()); ?>';
-                               var lang_dateError = '<?php echo __("To date should be after the From date") ?>';
+                               var lang_dateError = '<?php echo __("To date should be after from date") ?>';
                                var lang_invalidDate = '<?php echo __(ValidationMessages::DATE_FORMAT_INVALID, array('%format%' => get_datepicker_date_format($sf_user->getDateFormat()))) ?>';
 
                                function autoFill(selector, filler, data) {
