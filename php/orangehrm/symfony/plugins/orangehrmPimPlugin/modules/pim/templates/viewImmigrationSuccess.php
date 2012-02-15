@@ -148,7 +148,7 @@
                                 </form>
                             </div>
 
-                            <div class="paddingLeftRequired"><span class="required">* <?php echo __(CommonMessages::REQUIRED_FIELD)?></span></div>
+                            <div class="paddingLeftRequired"><span class="required">* <?php echo __(CommonMessages::REQUIRED_FIELD); ?></span></div>
                         <?php echo include_component('pim', 'customFields', array('empNumber'=>$empNumber, 'screen' => 'immigration'));?>
                         <?php echo include_component('pim', 'attachments', array('empNumber'=>$empNumber, 'screen' => 'immigration'));?>
                             

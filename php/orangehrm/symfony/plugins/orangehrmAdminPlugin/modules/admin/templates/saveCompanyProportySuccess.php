@@ -23,7 +23,7 @@
                 </div>
             </form>
         </div>
-         <div class="requirednotice"><?php echo preg_replace('/#star/', '<span class="required">*</span>', __("Fields marked with an asterisk #star are required.") ); ?>.</div>
+         <div class="requirednotice"><span class="required">* <?php echo __(CommonMessages::REQUIRED_FIELD); ?></span></div>
    </div>
    
    <script type="text/javascript">

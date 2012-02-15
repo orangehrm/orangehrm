@@ -50,7 +50,7 @@
             </div>
         </form>
     </div>
-    <div class="requirednotice"><?php echo __('Fields marked with an asterisk %asterisk are required.', array('%asterisk' => '<span class="required">*</span>')) ?></div>
+    <div class="requirednotice"><span class="required">* <?php echo __(CommonMessages::REQUIRED_FIELD); ?></span></div>
 </div>
 <style type="text/css">
     label label.error{

@@ -37,7 +37,7 @@
 
         </form>
     </div>
-    <div class="paddingLeftRequired"><?php echo __('Fields marked with an asterisk') ?> <span class="required">*</span> <?php echo __('are required.') ?></div>
+    <div class="paddingLeftRequired"><span class="required">* <?php echo __(CommonMessages::REQUIRED_FIELD); ?></span></div>
 </div>
 
 <?php if ($payGradeId > 0) {

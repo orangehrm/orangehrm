@@ -80,7 +80,7 @@ use_javascript('../../../scripts/jquery/jquery.autocomplete.js');
         </form>
     </div>
 </div>
-<div class="paddingLeftRequired"><?php echo __('Fields marked with an asterisk') ?> <span class="required">*</span> <?php echo __('are required.') ?></div>
+<div class="paddingLeftRequired"><span class="required">* <?php echo __(CommonMessages::REQUIRED_FIELD); ?></span></div>
 
 <script type="text/javascript">
 	

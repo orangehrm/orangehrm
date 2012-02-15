@@ -50,7 +50,7 @@ if (($section == 'license') && isset($message) && isset($messageType)) {
         </form>
     </div>
      <br class="clear" />
-    <div class="paddingLeftRequired" id="licenseRequiredNote"><span class="required">* <?php echo __(CommonMessages::REQUIRED_FIELD)?></span></div>
+    <div class="paddingLeftRequired" id="licenseRequiredNote"><span class="required">* <?php echo __(CommonMessages::REQUIRED_FIELD); ?></span></div>
 
     <form id="frmDelLicense" action="<?php echo url_for('pim/saveDeleteLicense?empNumber=' . $empNumber . "&option=delete"); ?>" method="post">
         <div class="outerbox" id="tblLicense">

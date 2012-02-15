@@ -51,7 +51,7 @@ use_javascript('../../../scripts/jquery/jquery.autocomplete.js');
         </form>
     </div>
 </div>
-<div class="paddingLeftRequired">Fields marked with an asterisk <span class="required"> * </span> are required.</div>
+<div class="paddingLeftRequired"><span class="required">* <?php echo __(CommonMessages::REQUIRED_FIELD); ?></span></div>
 <script type="text/javascript">
 
     var datepickerDateFormat = '<?php echo get_datepicker_date_format($sf_user->getDateFormat()); ?>';

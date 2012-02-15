@@ -57,9 +57,7 @@ use_stylesheets_for_form($form);
     </div>
 </div>
 
-<div class="paddingLeftRequired"><?php echo __('Fields marked with an asterisk')?> 
-    <span class="required">*</span> <?php echo __('are required.')?>
-</div>
+<div class="paddingLeftRequired"><span class="required">* <?php echo __(CommonMessages::REQUIRED_FIELD); ?></span></div>
     
 <div id="undeleteDialog" title="OrangeHRM - <?php echo __('Confirmation Required')?>"  style="display:none;">
     <?php echo __('This is a deleted leave type. Reactivate it?'); ?><br /><br />

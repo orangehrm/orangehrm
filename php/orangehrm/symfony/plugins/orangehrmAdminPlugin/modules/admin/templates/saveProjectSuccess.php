@@ -107,7 +107,7 @@
 <?php include_component('core', 'ohrmList', $parmetersForListCompoment); ?>
 
 <?php } ?>
-<div class="paddingLeftRequired"><?php echo __('Fields marked with an asterisk') ?> <span class="required">*</span> <?php echo __('are required.') ?></div>
+<div class="paddingLeftRequired"><span class="required">* <?php echo __(CommonMessages::REQUIRED_FIELD); ?></span></div>
             <div id="customerDialog" title="<?php echo __('Add Customer') ?>"  style="display:none;">
 
                 <div class="dialogButtons">
@@ -133,7 +133,7 @@
         <input type="button" id="dialogCancel" class="cancelbutton" value="<?php echo __('Cancel'); ?>" />
         <br class="clear"/>
 	</div>
-        <div class="DigPaddingLeftRequired"><?php echo __('Fields marked with an asterisk') ?> <span class="required">*</span> <?php echo __('are required.') ?></div>
+        <div class="DigPaddingLeftRequired"><span class="required">* <?php echo __(CommonMessages::REQUIRED_FIELD); ?></span></div>
     </div>
 </div>
 
@@ -157,7 +157,7 @@
                            value="<?php echo __("Cancel"); ?>"onmouseover="moverButton(this);" onmouseout="moutButton(this);"/>
 
                 </div>
-		<div class="DigPaddingLeftRequired"><?php echo __('Fields marked with an asterisk') ?> <span class="required">*</span> <?php echo __('are required.') ?></div>
+		<div class="DigPaddingLeftRequired"><span class="required">* <?php echo __(CommonMessages::REQUIRED_FIELD); ?></span></div>
             </form>
         </div>
 

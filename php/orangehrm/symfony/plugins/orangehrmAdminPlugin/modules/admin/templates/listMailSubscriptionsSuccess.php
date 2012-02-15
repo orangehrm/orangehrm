@@ -58,7 +58,7 @@
         		<div class="left"></div><div class="right"></div><div class="middle"></div>
         	</div>
        
-        <div class="requirednotice"><?php echo __("Fields marked with an asterisk")?> <span class="required">*</span> <?php echo __("are required.")?></div>
+        <div class="requirednotice"><span class="required">* <?php echo __(CommonMessages::REQUIRED_FIELD); ?></span></div>
     </div>
 <script type="text/javascript">
     

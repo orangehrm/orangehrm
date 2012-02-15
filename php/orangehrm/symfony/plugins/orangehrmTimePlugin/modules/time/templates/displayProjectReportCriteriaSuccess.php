@@ -24,7 +24,7 @@
             </div>
         </form>
     </div>
-    <div class="paddingLeftRequired">Fields marked with an asterisk <span class="required"> * </span> are required.</div>
+    <div class="paddingLeftRequired"><span class="required">* <?php echo __(CommonMessages::REQUIRED_FIELD); ?></span></div>
 
     <style type="text/css">
 
