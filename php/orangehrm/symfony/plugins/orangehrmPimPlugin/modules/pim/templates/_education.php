@@ -130,12 +130,12 @@ if (($section == 'education') && isset($message) && isset($messageType)) {
     var lang_editEducation = "<?php echo __('Edit Education'); ?>";
     var lang_educationRequired = '<?php echo __(ValidationMessages::REQUIRED); ?>';
     var lang_invalidDate = '<?php echo __(ValidationMessages::DATE_FORMAT_INVALID, array('%format%' => get_datepicker_date_format($sf_user->getDateFormat()))) ?>';
-    var lang_EndDateBeforeSatrtDate = "<?php echo __('End date should be after the start date'); ?>";
+    var lang_EndDateBeforeSatrtDate = "<?php echo __('End date should be after start date'); ?>";
     var lang_selectEducationToDelete = "<?php echo __(TopLevelMessages::SELECT_RECORDS); ?>";
-    var lang_instituteMaxLength = "<?php echo __('Institute cannot exceed 100 characters in length'); ?>";
-    var lang_majorMaxLength = "<?php echo __('Major cannot exceed 100 characters in length'); ?>";
-    var lang_gpaMaxLength = "<?php echo __('GPA/Score cannot exceed 25 characters in length'); ?>";
-    var lang_yearShouldBeNumber = "<?php echo __('Year should be a number'); ?>";
+    var lang_instituteMaxLength = "<?php echo __(ValidationMessages::TEXT_LENGTH_EXCEEDS, array('%amount%' => 100)); ?>";
+    var lang_majorMaxLength = "<?php echo __(ValidationMessages::TEXT_LENGTH_EXCEEDS, array('%amount%' => 100)); ?>";
+    var lang_gpaMaxLength = "<?php echo __(ValidationMessages::TEXT_LENGTH_EXCEEDS, array('%amount%' => 25)); ?>";
+    var lang_yearShouldBeNumber = "<?php echo __('Should be a number'); ?>";
 
     var datepickerDateFormat = '<?php echo get_datepicker_date_format($sf_user->getDateFormat()); ?>';
     //]]>

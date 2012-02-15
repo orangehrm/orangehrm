@@ -4614,10 +4614,6 @@
     <source>Year</source>
     <target>FR_Year</target>
    </trans-unit>
-   <trans-unit id="995">
-    <source>Year should be a number</source>
-    <target>FR_Year should be a number</target>
-   </trans-unit>
    <trans-unit id="996">
     <source>Years of Experience</source>
     <target>FR_Years of Experience</target>
