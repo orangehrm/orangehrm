@@ -46,5 +46,5 @@
 
 <script type="text/javascript">
 	var linkForDownloadCsv = '<?php url_for('admin/sampleCsvDownload');?>';
-	var lang_csvRequired = '<?php echo __("File Required");?>';
+	var lang_csvRequired = '<?php echo __(ValidationMessages::REQUIRED);?>';
 </script>
