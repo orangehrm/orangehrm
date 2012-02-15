@@ -208,10 +208,6 @@
     <source>Successfully Copied</source>
     <target>FR_Successfully Copied</target>
    </trans-unit>
-   <trans-unit id="53">
-    <source>To date should be after the From date</source>
-    <target>FR_To date should be after the From date</target>
-   </trans-unit>
    <trans-unit id="54">
     <source>Update Key Performance Indicator</source>
     <target>FR_Update Key Performance Indicator</target>

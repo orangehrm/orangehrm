@@ -92,7 +92,7 @@
 <script type="text/javascript">
 
     var datepickerDateFormat = '<?php echo get_datepicker_date_format($sf_user->getDateFormat()); ?>';
-    var lang_dateError = '<?php echo __("To date should be after the From date") ?>';
+    var lang_dateError = '<?php echo __("To date should be after from date") ?>';
     var lang_invalidDate = '<?php echo __(ValidationMessages::DATE_FORMAT_INVALID, array('%format%' => get_datepicker_date_format($sf_user->getDateFormat()))) ?>';
 
     function autoFill(selector, filler, data) {
@@ -246,26 +246,26 @@
             messages: {
                 'txtEmpName-0':{
                     required: '<?php echo __(ValidationMessages::REQUIRED); ?>',
-                    empIdSet:'<?php echo __("Please select an employee")?>'
+                    empIdSet:'<?php echo __(ValidationMessages::INVALID)?>'
                 },
                 'txtReviewerName-0':{
                     required:'<?php echo __(ValidationMessages::REQUIRED); ?>',
-                    reviewerIdSet:'<?php echo __("Please select a reviewer")?>'
+                    reviewerIdSet:'<?php echo __(ValidationMessages::INVALID)?>'
                 },
                 'txtPeriodFromDate-0':{
-                    required: lang_invalidDate,
+                    required: '<?php echo __(ValidationMessages::REQUIRED)?>',
                     valid_date: lang_invalidDate
 
                 },
                 'txtPeriodToDate-0':{
-                    required: lang_invalidDate,
+                    required: '<?php echo __(ValidationMessages::REQUIRED)?>',
                     valid_date: lang_invalidDate ,
                     date_range: lang_dateError
                 },
                 'txtDueDate-0':{
-                    required: lang_invalidDate,
+                    required: '<?php echo __(ValidationMessages::REQUIRED)?>',
                     valid_date: lang_invalidDate ,
-                    date_range: lang_dateError
+                    date_range: '<?php echo __("Due date should be after from date");?>'
                 }
             },
             errorPlacement: function(error, element) {
