@@ -62,7 +62,7 @@ if (isset($messageType)) {
 
     </form>
   </div>
-  <div class="requiredNote"><?php echo __('Fields marked with an asterisk')?> <span class="required">*</span> <?php echo __('are required.')?></div>    
+  <div class="paddingLeftRequired"><span class="required">* <?php echo __(CommonMessages::REQUIRED_FIELD)?></span></div>
 
 <br class="clear"/>
 
@@ -313,10 +313,10 @@ if (isset($messageType)) {
             'customField[extra_data]': {validateExtra: true}
         },
         messages: {
-            'customField[name]': {required: '<?php echo __('Please specify field name');?>'},
-            'customField[type]': {required: '<?php echo __('Please select a field type');?>'},
-            'customField[screen]': {required: '<?php echo __('Please select a screen');?>'},
-            'customField[extra_data]' : {validateExtra: '<?php echo __('Please specify select options');?>'}
+            'customField[name]': {required: '<?php echo __(ValidationMessages::REQUIRED);?>'},
+            'customField[type]': {required: '<?php echo __(ValidationMessages::REQUIRED);?>'},
+            'customField[screen]': {required: '<?php echo __(ValidationMessages::REQUIRED);?>'},
+            'customField[extra_data]' : {validateExtra: '<?php echo __(ValidationMessages::REQUIRED);?>'}
         },
 
         errorElement : 'div',

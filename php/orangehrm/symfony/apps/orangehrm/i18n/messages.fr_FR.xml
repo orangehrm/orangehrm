@@ -3321,10 +3321,6 @@
     <target>FR_Platinum (oz.)</target>
     <note>A currency name</note>
    </trans-unit>
-   <trans-unit id="714">
-    <source>Please specify select options</source>
-    <target>FR_Please specify select options</target>
-   </trans-unit>
    <trans-unit id="715">
     <source>Poland</source>
     <target>FR_Poland</target>
