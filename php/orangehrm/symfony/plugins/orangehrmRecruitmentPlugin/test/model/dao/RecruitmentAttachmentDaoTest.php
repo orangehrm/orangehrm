@@ -1,6 +1,5 @@
 <?php
 
-
 /**
  * OrangeHRM is a comprehensive Human Resource Management (HRM) System that captures
  * all the essential functionalities required for any enterprise.
@@ -25,149 +24,149 @@ require_once sfConfig::get('sf_test_dir') . '/util/TestDataService.php';
  */
 class RecruitmentAttachmentDaoTest extends PHPUnit_Framework_TestCase {
 
-	private $recruitmentAttachmentDao;
-	protected $fixture;
+    private $recruitmentAttachmentDao;
+    protected $fixture;
 
-	/**
-	 * Set up method
-	 */
-	protected function setUp() {
+    /**
+     * Set up method
+     */
+    protected function setUp() {
 
-		$this->recruitmentAttachmentDao = new RecruitmentAttachmentDao();
-		$this->fixture = sfConfig::get('sf_plugins_dir') . '/orangehrmRecruitmentPlugin/test/fixtures/CandidateDao.yml';
-		TestDataService::populate($this->fixture);
-	}
+        $this->recruitmentAttachmentDao = new RecruitmentAttachmentDao();
+        $this->fixture = sfConfig::get('sf_plugins_dir') . '/orangehrmRecruitmentPlugin/test/fixtures/CandidateDao.yml';
+        TestDataService::populate($this->fixture);
+    }
 
-	/**
-	 * 
-	 */
-	public function testSaveVacancyAttachment() {
+    /**
+     * 
+     */
+    public function testSaveVacancyAttachment() {
 
-		$file = tmpfile();
-		fwrite($file, "writing to tempfile");
-		fseek($file, 0);
-		$resume = new JobVacancyAttachment();
-		$resume->id = 5;
-		$resume->vacancyId = 1;
-		$resume->fileName = "abc.txt";
-		$resume->fileType = ".txt";
-		$resume->fileSize = '512';
-		$this->recruitmentAttachmentDao->saveVacancyAttachment($resume);
+        $file = tmpfile();
+        fwrite($file, "writing to tempfile");
+        fseek($file, 0);
+        $resume = new JobVacancyAttachment();
+        $resume->id = 5;
+        $resume->vacancyId = 1;
+        $resume->fileName = "abc.txt";
+        $resume->fileType = ".txt";
+        $resume->fileSize = '512';
+        $this->recruitmentAttachmentDao->saveVacancyAttachment($resume);
 
-		$resume = TestDataService::fetchObject('JobVacancyAttachment', 5);
-		$this->assertNotNull($resume->getId());
-		$this->assertEquals($resume->getFileName(), "abc.txt");
-		$this->assertEquals($resume->getFileType(), ".txt");
-		$this->assertEquals($resume->getFileSize(), '512');
-	}
+        $resume = TestDataService::fetchObject('JobVacancyAttachment', 5);
+        $this->assertNotNull($resume->getId());
+        $this->assertEquals($resume->getFileName(), "abc.txt");
+        $this->assertEquals($resume->getFileType(), ".txt");
+        $this->assertEquals($resume->getFileSize(), '512');
+    }
 
-	/**
-	 *
-	 */
-	public function testSaveVacancyAttachmentForNullId() {
+    /**
+     *
+     */
+    public function testSaveVacancyAttachmentForNullId() {
 
-		$file = tmpfile();
-		fwrite($file, "writing to tempfile");
-		fseek($file, 0);
-		$resume = new JobVacancyAttachment();
-		$resume->id = null;
-		$resume->vacancyId = 1;
-		$resume->fileName = "xyz.txt";
-		$resume->fileType = ".txt";
-		$resume->fileSize = '512';
-		$return = $this->recruitmentAttachmentDao->saveVacancyAttachment($resume);
-		$this->assertTrue($return);
-	}
+        TestDataService::truncateSpecificTables(array('JobVacancyAttachment'));
 
-	/**
-	 *
-	 */
-	public function testSaveCandidateAttachment() {
+        $file = tmpfile();
+        fwrite($file, "writing to tempfile");
+        fseek($file, 0);
+        $resume = new JobVacancyAttachment();
+        $resume->setId(null);
+        $resume->setVacancyId(1);
+        $resume->setFileType('.txt');
+        $resume->setFileName('xyz.txt');
+        $resume->setFileSize('512');
+        $return = $this->recruitmentAttachmentDao->saveVacancyAttachment($resume);
+        $this->assertTrue($return);
+    }
 
-		$file = tmpfile();
-		fwrite($file, "writing to tempfile");
-		fseek($file, 0);
-		$resume = new JobCandidateAttachment();
-		$resume->id = 5;
-		$resume->candidateId = 1;
-		$resume->fileName = "abc.txt";
-		$resume->fileType = ".txt";
-		$resume->fileSize = '512';
-		$this->recruitmentAttachmentDao->saveCandidateAttachment($resume);
+    /**
+     *
+     */
+    public function testSaveCandidateAttachment() {
 
-		$resume = TestDataService::fetchObject('JobCandidateAttachment', 5);
-		$this->assertNotNull($resume->getId());
-		$this->assertEquals($resume->getFileName(), "abc.txt");
-		$this->assertEquals($resume->getFileType(), ".txt");
-		$this->assertEquals($resume->getFileSize(), '512');
-	}
+        $file = tmpfile();
+        fwrite($file, "writing to tempfile");
+        fseek($file, 0);
+        $resume = new JobCandidateAttachment();
+        $resume->id = 5;
+        $resume->candidateId = 1;
+        $resume->fileName = "abc.txt";
+        $resume->fileType = ".txt";
+        $resume->fileSize = '512';
+        $this->recruitmentAttachmentDao->saveCandidateAttachment($resume);
 
-	/**
-	 * 
-	 */
-	public function testSaveCandidateAttachmentForNullId() {
+        $resume = TestDataService::fetchObject('JobCandidateAttachment', 5);
+        $this->assertNotNull($resume->getId());
+        $this->assertEquals($resume->getFileName(), "abc.txt");
+        $this->assertEquals($resume->getFileType(), ".txt");
+        $this->assertEquals($resume->getFileSize(), '512');
+    }
 
-		$file = tmpfile();
-		fwrite($file, "writing to tempfile");
-		fseek($file, 0);
-		$resume = new JobCandidateAttachment();
-		$resume->id = null;
-		$resume->candidateId = 1;
-		$resume->fileName = "xyz.txt";
-		$resume->fileType = ".txt";
-		$resume->fileSize = '512';
-		$return = $this->recruitmentAttachmentDao->saveCandidateAttachment($resume);
-		$this->assertTrue($return);
-	}
+    /**
+     * 
+     */
+    public function testSaveCandidateAttachmentForNullId() {
+        TestDataService::truncateSpecificTables(array('JobCandidateAttachment'));
 
-	/**
-	 * Testing getVacancyList
-	 */
-	public function testGetVacancyAttachments() {
+        $file = tmpfile();
+        fwrite($file, "writing to tempfile");
+        fseek($file, 0);
+        $resume = new JobCandidateAttachment();
+        $resume->setId(null);
+        $resume->setCandidateId(1);
+        $resume->setFileName('xyz.txt');
+        $resume->setFileType('.txt');
+        $resume->setFileSize('512');
+        $return = $this->recruitmentAttachmentDao->saveCandidateAttachment($resume);
+        $this->assertTrue($return);
+    }
 
-		$vacancyId = 1;
-		$vacancyList = $this->recruitmentAttachmentDao->getVacancyAttachments($vacancyId);
-		$this->assertTrue($vacancyList[0] instanceof JobVacancyAttachment);
-		$this->assertEquals(sizeof($vacancyList), 2);
-	}
+    /**
+     * Testing getVacancyList
+     */
+    public function testGetVacancyAttachments() {
 
-	public function testGetInterviewAttachments() {
+        $vacancyId = 1;
+        $vacancyList = $this->recruitmentAttachmentDao->getVacancyAttachments($vacancyId);
+        $this->assertTrue($vacancyList[0] instanceof JobVacancyAttachment);
+        $this->assertEquals(sizeof($vacancyList), 2);
+    }
 
-		$interviewId = 1;
-		$attachments = $this->recruitmentAttachmentDao->getInterviewAttachments($interviewId);
-		$this->assertTrue($attachments[0] instanceof JobInterviewAttachment);
-		$this->assertEquals(sizeof($attachments), 2);
-	}
+    public function testGetInterviewAttachments() {
 
-	public function testGetVacancyAttachment() {
+        $interviewId = 1;
+        $attachments = $this->recruitmentAttachmentDao->getInterviewAttachments($interviewId);
+        $this->assertTrue($attachments[0] instanceof JobInterviewAttachment);
+        $this->assertEquals(sizeof($attachments), 2);
+    }
 
-		$attachId = 1;
-		$attachment = $this->recruitmentAttachmentDao->getVacancyAttachment($attachId);
-		$this->assertTrue($attachment instanceof JobVacancyAttachment);
-		$this->assertEquals($attachment->fileName, 'xyz.txt');
-		$this->assertEquals($attachment->fileSize, 512);
+    public function testGetVacancyAttachment() {
 
-	}
+        $attachId = 1;
+        $attachment = $this->recruitmentAttachmentDao->getVacancyAttachment($attachId);
+        $this->assertTrue($attachment instanceof JobVacancyAttachment);
+        $this->assertEquals($attachment->fileName, 'xyz.txt');
+        $this->assertEquals($attachment->fileSize, 512);
+    }
 
-	public function testGetInterviewAttachment() {
+    public function testGetInterviewAttachment() {
 
-		$attachId = 1;
-		$attachment = $this->recruitmentAttachmentDao->getInterviewAttachment($attachId);
-		$this->assertTrue($attachment instanceof JobInterviewAttachment);
-		$this->assertEquals($attachment->fileName, 'resume.pdf');
-		$this->assertEquals($attachment->fileSize, 512);
+        $attachId = 1;
+        $attachment = $this->recruitmentAttachmentDao->getInterviewAttachment($attachId);
+        $this->assertTrue($attachment instanceof JobInterviewAttachment);
+        $this->assertEquals($attachment->fileName, 'resume.pdf');
+        $this->assertEquals($attachment->fileSize, 512);
+    }
 
-	}
+    public function testGetCandidateAttachment() {
 
-	public function testGetCandidateAttachment() {
-
-		$attachId = 1;
-		$attachment = $this->recruitmentAttachmentDao->getCandidateAttachment($attachId);
-		$this->assertTrue($attachment instanceof JobCandidateAttachment);
-		$this->assertEquals($attachment->fileName, 'xyz.txt');
-		$this->assertEquals($attachment->fileSize, 512);
-
-	}
+        $attachId = 1;
+        $attachment = $this->recruitmentAttachmentDao->getCandidateAttachment($attachId);
+        $this->assertTrue($attachment instanceof JobCandidateAttachment);
+        $this->assertEquals($attachment->fileName, 'xyz.txt');
+        $this->assertEquals($attachment->fileSize, 512);
+    }
 
 }
 
