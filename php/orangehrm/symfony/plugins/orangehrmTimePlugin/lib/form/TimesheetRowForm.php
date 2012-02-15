@@ -20,7 +20,7 @@ class TimesheetRowForm extends sfForm {
 	    'toDelete' => new sfWidgetFormInputCheckbox(array(), array('class' => 'toDelete')),
             'projectName' => new sfWidgetFormInputText(array(), array('align' => 'center', 'class' => 'project')),
             'projectId' => new sfWidgetFormInputHidden(),
-            'projectActivityName' => new sfWidgetFormSelect(array('choices' => array('-1' => __('Select an Activity...'))), array('class' => 'projectActivity')),
+            'projectActivityName' => new sfWidgetFormSelect(array('choices' => array('-1' => __('Select an Activity').'...')), array('class' => 'projectActivity')),
             'projectActivityId' => new sfWidgetFormInputHidden()
 	);
 		    for ($i = 0; $i < $noOfDays; $i++) {
@@ -32,7 +32,7 @@ class TimesheetRowForm extends sfForm {
         $this->widgetSchema->setNameFormat('time[%s]');
 
         $this->widgetSchema['projectName']->setAttribute('size', 35);
-        $this->setDefault('projectName', __('Type for hints...'));
+        $this->setDefault('projectName', __('Type for hints').'...');
         $this->widgetSchema['projectActivityName']->setAttribute('style', 'width:225px');
 	for ($i = 0; $i < $noOfDays; $i++) {
 		$this->widgetSchema[$i]->setAttribute('size', 2);
