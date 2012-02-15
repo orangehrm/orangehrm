@@ -172,7 +172,7 @@
 				}else
 				{
 					
-					showError('messageBalloon_success','<?php echo __('Select records to delete'); ?>' );
+					showError('messageBalloon_success','<?php echo __(TopLevelMessages::SELECT_RECORDS); ?>' );
 				}
 			});
 
