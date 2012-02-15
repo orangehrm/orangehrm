@@ -120,11 +120,11 @@
     var historyId = "<?php echo $historyId; ?>";
     var getInterviewSheduledTimeListActionUrl = "<?php echo url_for('recruitment/getInterviewSheduledTimeListJson?candidateId=' . $form->candidateId); ?>";
     var lang_interviewHeadingRequired = '<?php echo __(ValidationMessages::REQUIRED); ?>';
-    var lang_noMoreThan98 = "<?php echo __("Please enter no more than 98 characters"); ?>";
-    var lang_noMoreThan18 = "<?php echo __("Please enter no more than 18 characters"); ?>";
-    var lang_enterAValidEmployeeName = "<?php echo __("Enter a valid employee name"); ?>";
+    var lang_noMoreThan98 = "<?php echo __(ValidationMessages::TEXT_LENGTH_EXCEEDS, array('%amount%' => 98)); ?>";
+    var lang_noMoreThan18 = "<?php echo __(ValidationMessages::TEXT_LENGTH_EXCEEDS, array('%amount%' => 18)); ?>";
+    var lang_enterAValidEmployeeName = "<?php echo __(ValidationMessages::INVALID); ?>";
     var lang_dateRequired = '<?php echo __(ValidationMessages::REQUIRED); ?>';
-    var lang_validTimeRequired = "<?php echo __('Valid Time Required'); ?>";
+    var lang_validTimeRequired = "<?php echo __(ValidationMessages::INVALID); ?>";
     var lang_viewInterviewDetails = "<?php echo __('View Interview Details'); ?>";
     var lang_editInterviewDetails = "<?php echo __('Edit Interview Details'); ?>";
     var addCandidateUrl = "<?php echo public_path('index.php/recruitment/addCandidate', true) . "?id=" . $form->candidateId; ?>";
