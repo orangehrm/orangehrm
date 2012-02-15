@@ -55,9 +55,9 @@ use_javascript('../../../scripts/jquery/jquery.autocomplete.js');
 <script type="text/javascript">
 
     var datepickerDateFormat = '<?php echo get_datepicker_date_format($sf_user->getDateFormat()); ?>';
-    var lang_dateError = '<?php echo __("To date should be after the From date") ?>';
+    var lang_dateError = '<?php echo __("To date should be after from date") ?>';
     var lang_invalidDate = '<?php echo __(ValidationMessages::DATE_FORMAT_INVALID, array('%format%' => get_datepicker_date_format($sf_user->getDateFormat()))) ?>';
-    var lang_emptyEmployee = '<?php echo __('Please Select an Employee')?>';
+    var lang_emptyEmployee = '<?php echo __('Select an Employee')?>';
 
     var employees = <?php echo str_replace('&#039;', "'", $form->getEmployeeListAsJson()) ?> ;
     var employeesArray = eval(employees);
@@ -202,7 +202,7 @@ use_javascript('../../../scripts/jquery/jquery.autocomplete.js');
         if(temp){
             return true;
         }else if(empName == "" || empName == $.trim("Type for hints...").toLowerCase()){
-            errorMsge = '<?php echo __("Please Select an Employee");?>';
+            errorMsge = '<?php echo __("Select an Employee");?>';
             return false;
         }else{
             errorMsge = '<?php echo __("Invalid Employee Name");?>';
