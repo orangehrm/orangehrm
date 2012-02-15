@@ -20,10 +20,6 @@
     <source>Activity Name</source>
     <target>FR_Activity Name</target>
    </trans-unit>
-   <trans-unit id="5">
-    <source>Add an activiy to view</source>
-    <target>FR_Add an activiy to view</target>
-   </trans-unit>
    <trans-unit id="6">
     <source>Add Row</source>
     <target>FR_Add Row</target>
@@ -259,10 +255,6 @@
    <trans-unit id="65">
     <source>Timesheets Pending Action</source>
     <target>FR_Timesheets Pending Action</target>
-   </trans-unit>
-   <trans-unit id="66">
-    <source>To date should be after the From date</source>
-    <target>FR_To date should be after the From date</target>
    </trans-unit>
    <trans-unit id="67">
     <source>Total</source>
