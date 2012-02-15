@@ -1469,7 +1469,8 @@ class EmployeeDao extends BaseDao {
             $q = Doctrine_Query :: create()->select('c.currency_id, c.currency_name')
                             ->from('CurrencyType c')
                             ->leftJoin('c.PayGradeCurrency s')
-                            ->where('s.pay_grade_id = ?', $salaryGrade);
+                            ->where('s.pay_grade_id = ?', $salaryGrade)
+                            ->orderBy('c.currency_name ASC');
 
             return $q->execute(array(), $hydrateMode);
         } catch (Exception $e) {
