@@ -153,9 +153,9 @@ use_javascript('../../../scripts/jquery/jquery.autocomplete.js');
     var timesheetId="<?php echo $timesheetId; ?>"
     var lang_not_numeric = '<?php echo __('Enter a Positive Duration(Should Less Than 24) in the Format of HH:mm or 0.0h'); ?>';
     var rows_are_duplicate = '<?php echo __('Time Sheet Records Duplicated'); ?>';
-    var project_name_is_wrong = '<?php echo __('Please Select an Existing Project'); ?>';
-    var please_select_an_activity = '<?php echo __('Please select a valid activity'); ?>';
-    var select_a_row = '<?php echo __('Select a row to delete'); ?>';
+    var project_name_is_wrong = '<?php echo __('Select an Existing Project'); ?>';
+    var please_select_an_activity = '<?php echo __('Select an Activity'); ?>';
+    var select_a_row = '<?php echo __(TopLevelMessages::SELECT_RECORDS); ?>';
     var employeeId = '<?php echo $employeeId; ?>';
     var linkToGetComment = "<?php echo url_for('time/getTimesheetItemComment') ?>";
     var linkToDeleteRow = "<?php echo url_for('time/deleteRows') ?>";
@@ -164,13 +164,13 @@ use_javascript('../../../scripts/jquery/jquery.autocomplete.js');
     var startDate='<?php echo $startDate ?>';
     var backAction='<?php echo $backAction ?>';
     var endDate='<?php echo $endDate ?>';
-    var erorrMessageForInvalidComment="<?php echo __("Comment should be less than 250 characters"); ?>";
+    var erorrMessageForInvalidComment="<?php echo __(ValidationMessages::TEXT_LENGTH_EXCEEDS, array('%amount%' => 250)); ?>";
     var numberOfRows='<?php echo $i ?>';
     var incorrect_total='<?php echo __('You Have Exceeded the Maximum No. of Working Hours (24:00h) for the Day'); ?>';
-    var typeForHints='<?php echo __('Type for hints...'); ?>';
-    var lang_selectProjectAndActivity='<?php echo __('Please select a project and an activity'); ?>';
-    var lang_enterExistingProject='<?php echo __("Enter an existing project name"); ?>';
-    var lang_noRecords='<?php echo __("No Rows Selected"); ?>';
+    var typeForHints='<?php echo __('Type for hints'.'...'); ?>';
+    var lang_selectProjectAndActivity='<?php echo __('Select a Project and an Activity'); ?>';
+    var lang_enterExistingProject='<?php echo __("Select an Existing Project"); ?>';
+    var lang_noRecords='<?php echo __('Select Records to Remove'); ?>';
 <?php
 for ($i = 0; $i < count($currentWeekDates); $i++) {
     echo "currentWeekDates[$i]='" . $currentWeekDates[$i] . "';\n";

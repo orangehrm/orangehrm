@@ -288,6 +288,26 @@
     <source>Week</source>
     <target>FR_Week</target>
    </trans-unit>
+   <trans-unit id="72">
+    <source>Select an Employee</source>
+    <target>FR_Select an Employee</target>
+   </trans-unit>
+   <trans-unit id="72">
+    <source>Select an Existing Project</source>
+    <target>FR_Select an Existing Project</target>
+   </trans-unit>
+   <trans-unit id="73">
+    <source>Select an Activity</source>
+    <target>FR_Select an Activity</target>
+   </trans-unit>
+   <trans-unit id="74">
+    <source>Select a Project and an Activity</source>
+    <target>FR_Select a Project and an Activity</target>
+   </trans-unit>
+   <trans-unit id="75">
+    <source>Select Records to Remove</source>
+    <target>FR_Select Records to Remove</target>
+   </trans-unit>
   </body>
  </file>
 </xliff>

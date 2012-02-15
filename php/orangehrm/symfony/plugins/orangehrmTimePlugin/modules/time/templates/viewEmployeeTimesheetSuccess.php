@@ -136,7 +136,7 @@ use_javascript('../../../scripts/jquery/jquery.autocomplete.js');
 		if(temp){
 			return true;
 		}else if(empName == "" || empName == $.trim("Type for hints...").toLowerCase()){
-			errorMsge = '<?php echo __("Please Select an Employee"); ?>';
+			errorMsge = '<?php echo __("Select an Employee"); ?>';
 			return false;
 		}else{
 			errorMsge = '<?php echo __("Invalid Employee Name"); ?>';
