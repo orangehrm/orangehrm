@@ -7,9 +7,9 @@
     var save = "<?php echo __("Save"); ?>";
     var lang_firstNameRequired = '<?php echo __(ValidationMessages::REQUIRED); ?>';
     var lang_lastNameRequired = '<?php echo __(ValidationMessages::REQUIRED); ?>';
-    var lang_userNameRequired = "<?php echo __("User Name should have at least 5 characters"); ?>";
-    var lang_passwordRequired = "<?php echo __("Password should have at least 4 characters"); ?>";
-    var lang_unMatchingPassword = "<?php echo __("Password and confirm password should be same"); ?>";
+    var lang_userNameRequired = "<?php echo __("Should have at least %number% characters", array('%number%' => 5)); ?>";
+    var lang_passwordRequired = "<?php echo __("Should have at least %number% characters", array('%number%' => 4)); ?>";
+    var lang_unMatchingPassword = "<?php echo __("Passwords do not match"); ?>";
     var lang_statusRequired = "<?php echo __(ValidationMessages::REQUIRED);?>";
     var cancelNavigateUrl = "<?php echo public_path("../../index.php?menu_no_top=hr");?>";
     var createUserAccount = "<?php echo $createUserAccount;?>";

@@ -432,14 +432,6 @@
     <source>Password</source>
     <target>FR_Password</target>
    </trans-unit>
-   <trans-unit id="108">
-    <source>Password and confirm password should be same</source>
-    <target>FR_Password and confirm password should be same</target>
-   </trans-unit>
-   <trans-unit id="109">
-    <source>Password should have at least 4 characters</source>
-    <target>FR_Password should have at least 4 characters</target>
-   </trans-unit>
    <trans-unit id="110">
     <source>Personal Details</source>
     <target>FR_Personal Details</target>
@@ -584,10 +576,6 @@
     <source>User Name</source>
     <target>FR_User Name</target>
    </trans-unit>
-   <trans-unit id="147">
-    <source>User Name should have at least 5 characters</source>
-    <target>FR_User Name should have at least 5 characters</target>
-   </trans-unit>
    <trans-unit id="148">
     <source>Visa</source>
     <target>FR_Visa</target>
@@ -611,6 +599,10 @@
    <trans-unit id="1010">
     <source>Renewal date should be after commence date</source>
     <target>FR_Renewal date should be after commence date</target>
+   </trans-unit>
+   <trans-unit id="1011">
+    <source>Should have at least %number% characters</source>
+    <target>FR_Should have at least %number% characters</target>
    </trans-unit>
   </body>
  </file>

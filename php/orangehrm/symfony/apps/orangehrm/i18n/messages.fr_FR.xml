@@ -4673,6 +4673,10 @@
     <target>FR_Zimbabwean</target>
     <note>A nationality name</note>
    </trans-unit>
+   <trans-unit id="1011">
+    <source>Passwords do not match</source>
+    <target>FR_Passwords do not match</target>
+   </trans-unit>
   </body>
  </file>
 </xliff>
