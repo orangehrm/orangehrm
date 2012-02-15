@@ -111,5 +111,5 @@
     var linkToDeleteRecords='<?php echo url_for('attendance/deleteAttendanceRecords'); ?>'
     var linkForGetRecords='<?php echo url_for('attendance/getRelatedAttendanceRecords'); ?>'
     var actionRecorder='<?php echo $actionRecorder; ?>';
-    var lang_noRowsSelected='<?php echo __("No Rows Selected"); ?>';
+    var lang_noRowsSelected='<?php echo __(TopLevelMessages::SELECT_RECORDS); ?>';
 </script>

@@ -167,14 +167,14 @@
     var linkForPunchInOverlappingValidation='<?php echo url_for('attendance/validatePunchInOverLappingWhenEditing') ?>';
     var nonEditableOutDate = <?php echo json_encode($editAttendanceForm->nonEditableOutDate); ?>;
     var updateCommentlink='<?php echo url_for('attendance/updatePunchInOutNote'); ?>'
-    var errorForInvalidTime='<?php echo __('Punch out time should be higher than the punch in time'); ?>';
-    var errorForInvalidFormat = '<?php echo __(ValidationMessages::DATE_FORMAT_INVALID, array('%format%' => get_datepicker_date_format($sf_user->getDateFormat()))) ?>';
+    var errorForInvalidTime='<?php echo __('Punch out Time Should Be Higher Than Punch in Time'); ?>';
+    var errorForInvalidFormat = '<?php echo __('Invalid Time') ?>';
     var errorForInvalidTimeFormat='<?php echo __('Invalid Time') ?>';
     var getCurrentTimeLink='<?php echo url_for('attendance/getCurrentTime') ?>';
-    var errorForInvalidDateFormat='<?php echo __('Invalid Date') ?>';
+    var errorForInvalidDateFormat='<?php echo __('Date Should Be a Valid Date in %format% Format', array('%format%' => get_datepicker_date_format($sf_user->getDateFormat()))) ?>';
     var errorForOverLappingTime='<?php echo __('Overlapping records found'); ?>';
     var actionRecorder='<?php echo $actionRecorder; ?>'
-    var commentError='<?php echo __('Comment should be less than 250 characters'); ?>';
+    var commentError='<?php echo __(ValidationMessages::TEXT_LENGTH_EXCEEDS, array('%amount%' => 250)); ?>';
     var errorRows = '<?php echo $errorRows; ?>';
      
 </script>

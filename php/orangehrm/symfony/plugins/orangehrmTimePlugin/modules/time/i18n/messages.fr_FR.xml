@@ -285,10 +285,6 @@
     <target>FR_Week</target>
    </trans-unit>
    <trans-unit id="72">
-    <source>Select an Employee</source>
-    <target>FR_Select an Employee</target>
-   </trans-unit>
-   <trans-unit id="72">
     <source>Select an Existing Project</source>
     <target>FR_Select an Existing Project</target>
    </trans-unit>

@@ -81,7 +81,7 @@
     var linkForProxyPunchAction='<?php echo url_for('attendance/proxyPunchInPunchOut') ?>';
     var linkForOverLappingValidation='<?php echo url_for('attendance/validatePunchOutOverLapping') ?>';
     var linkForPunchInOverlappingValidation='<?php echo url_for('attendance/validatePunchInOverLapping') ?>';
-    var errorForInvalidTime='<?php echo __('Punch out time should be higher than punch in time'); ?>';
+    var errorForInvalidTime='<?php echo __('Punch out Time Should Be Higher Than Punch in Time'); ?>';
     var errorForInvalidFormat='<?php echo __('Invalid Time') ?>';
     var errorForInvalidTimeFormat='<?php echo __('Invalid Time') ?>';
     var getCurrentTimeLink='<?php echo url_for('attendance/getCurrentTime') ?>';

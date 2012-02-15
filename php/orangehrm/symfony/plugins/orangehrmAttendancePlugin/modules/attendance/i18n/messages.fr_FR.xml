@@ -49,8 +49,8 @@
                 <target>FR_Total</target>
             </trans-unit>
             <trans-unit id="12">
-                <source>Punch out time should be higher than punch in time</source>
-                <target>FR_Punch out time should be higher than punch in time</target>
+                <source>Punch out Time Should Be Higher Than Punch in Time</source>
+                <target>FR_Punch out Time Should Be Higher Than Punch in Time</target>
             </trans-unit>
             <trans-unit id="13">
                 <source>Invalid Time</source>

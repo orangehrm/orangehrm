@@ -4693,6 +4693,10 @@
     <source>Successfully removed</source>
     <target>FR_Successfully removed</target>
    </trans-unit>
+   <trans-unit id="72">
+    <source>Select an Employee</source>
+    <target>FR_Select an Employee</target>
+   </trans-unit>
   </body>
  </file>
 </xliff>
