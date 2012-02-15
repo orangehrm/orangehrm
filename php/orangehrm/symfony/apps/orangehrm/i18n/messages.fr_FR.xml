@@ -4677,6 +4677,10 @@
     <source>Passwords do not match</source>
     <target>FR_Passwords do not match</target>
    </trans-unit>
+   <trans-unit id="1012">
+    <source>Invalid</source>
+    <target>FR_Invalid</target>
+   </trans-unit>
   </body>
  </file>
 </xliff>
