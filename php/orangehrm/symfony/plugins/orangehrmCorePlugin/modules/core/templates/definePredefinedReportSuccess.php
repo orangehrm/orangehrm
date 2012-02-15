@@ -534,7 +534,7 @@ use_javascript('orangehrm.datepicker.js');
                 'display_fields[]': {required: true, minlength: 1}
             },
             messages: {
-                'display_fields[]': "Select at least one display field"
+                'display_fields[]': '<?php echo __(ValidationMessages::REQUIRED);?>'
             },
             errorElement : 'div',
             errorPlacement: function(error, element) {
