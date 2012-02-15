@@ -59,6 +59,7 @@ class LeaveEntitlementDaoTest extends PHPUnit_Framework_TestCase {
         $this->leavePeriodId = $leavePeriod->getLeavePeriodId();
 
         // Save Employee
+        TestDataService::truncateSpecificTables(array('Employee'));
         $employeeservice = new EmployeeService();
         $this->employee = new Employee();
         $employeeservice->addEmployee($this->employee);
