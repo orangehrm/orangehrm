@@ -104,10 +104,6 @@
     <source>Minimum Rating should be lesser than Maximum Rating</source>
     <target>FR_Minimum Rating should be lesser than Maximum Rating</target>
    </trans-unit>
-   <trans-unit id="26">
-    <source>Minimum Rating should be numeric</source>
-    <target>FR_Minimum Rating should be numeric</target>
-   </trans-unit>
    <trans-unit id="27">
     <source>No employee exists with this name</source>
     <target>FR_No employee exists with this name</target>

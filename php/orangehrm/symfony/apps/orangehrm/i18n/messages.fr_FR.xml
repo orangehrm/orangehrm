@@ -4681,6 +4681,10 @@
     <source>Invalid</source>
     <target>FR_Invalid</target>
    </trans-unit>
+   <trans-unit id="1013">
+    <source>Should be less than %number% digits</source>
+    <target>FR_Should be less than %number% digits</target>
+   </trans-unit>
   </body>
  </file>
 </xliff>

@@ -78,7 +78,7 @@
 				
 				 rules: {
 				 	txtJobTitle: { required: true },
-				 	txtDescription: { required: true ,maxlength: 200},
+				 	txtDescription: { required: true ,maxlength: 250},
 				 	txtMinRate: { number: true,minmax:true,maxlength: 5},
 				 	txtMaxRate: { number: true,minmax:true ,maxlength: 5}
 			 	 },
@@ -86,17 +86,17 @@
 			 		txtJobTitle: '<?php echo __(ValidationMessages::REQUIRED); ?>', 
 			 		txtDescription:{ 
 			 			required:'<?php echo __(ValidationMessages::REQUIRED); ?>',
-			 			maxlength:"<?php echo __('Key Performance Indicator length exceeded')?>"
+			 			maxlength:"<?php echo __(ValidationMessages::TEXT_LENGTH_EXCEEDS, array('%amount%' => 250))?>"
 			 		},
 			 		txtMinRate:{ 
-				 		number:"<?php echo __("Minimum Rating should be numeric")?>",
+				 		number:"<?php echo __("Should be a number")?>",
 				 		minmax:"<?php echo __("Minimum Rating should be lesser than Maximum Rating")?>",
-				 		maxlength:"<?php echo __('Minimum Rating length exceed')?>"
+				 		maxlength:"<?php echo __("Should be less than %number% digits", array('%number%' => 5))?>"
 			 		},
 			 		txtMaxRate: {
-				 		number:"<?php echo __("Maximum Rating should be numeric")?>", 
+				 		number:"<?php echo __("Should be a number")?>", 
 				 		minmax:"<?php echo __("Minimum Rating should be lesser than Maximum Rating")?>",
-				 		maxlength:"<?php echo __('Maximum Rating length exceed')?>"
+				 		maxlength:"<?php echo __("Should be less than %number% digits", array('%number%' => 5))?>"
 				 		}
 			 	 }
 			 });
