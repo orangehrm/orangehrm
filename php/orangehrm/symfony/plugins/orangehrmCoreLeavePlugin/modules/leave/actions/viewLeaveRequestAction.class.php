@@ -6,11 +6,10 @@
  * @author sujith
  */
 class viewLeaveRequestAction extends sfAction {
-
     const MODE_SUPERVISOR_DETAILED_LIST = 'detailed_supervisor_list';
     const MODE_HR_ADMIN_DETAILED_LIST = 'detailed_hr_admin_list';
     const MODE_MY_LEAVE_DETAILED_LIST = 'my_leave_detailed_list';
-    
+
     private $leaveRequestService;
 
     /**
@@ -59,20 +58,9 @@ class viewLeaveRequestAction extends sfAction {
         if ($mode === self::MODE_SUPERVISOR_DETAILED_LIST) {
             $title = __('Approve Leave Request for %name%', array('%name%' => $employee->getFullName()));
         } elseif ($mode === self::MODE_HR_ADMIN_DETAILED_LIST) {
-
-            $range = "";
-            $count = count($leaveList);
-            if ($count == 1) {
-                $range = set_datepicker_date_format($leaveList[0]->getLeaveDate());
-            } else if (count > 1) {
-                $range = set_datepicker_date_format($leaveList[0]->getLeaveDate());
-                $range .= " " . __('to') . " ";
-                $range .= set_datepicker_date_format($leaveList[$count - 1]->getLeaveDate());
-            }
-
+            $range = $this->getDateRangeString($leaveList);
             $title = __('Leave Request (%date_range%) %name%', array('%date_range%' => $range, '%name%' => $employee->getFullName()));
         } elseif ($mode === self::MODE_MY_LEAVE_DETAILED_LIST) {
-
             // Do this for 
             $title = __('My Leave Details');
         }
@@ -80,22 +68,40 @@ class viewLeaveRequestAction extends sfAction {
         return $title;
     }
 
+    /**
+     * 
+     * @return string
+     */
+    protected function getDateRangeString($leaveList) {
+        $range = '';
+        $count = count($leaveList);
+        if ($count == 1) {
+            $range = set_datepicker_date_format($leaveList[0]->getLeaveDate());
+        } else if ($count > 1) {
+            $range = set_datepicker_date_format($leaveList[0]->getLeaveDate());
+            $range .= " " . __('to') . " ";
+            $range .= set_datepicker_date_format($leaveList[$count - 1]->getLeaveDate());
+        }
+
+        return $range;
+    }
+
     public function execute($request) {
 
-        $this->backUrl = stripos($request->getReferer(), 'viewMyLeaveList') === FALSE ? 
-                                            'leave/viewLeaveList' : 'leave/viewMyLeaveList';
+        $this->backUrl = stripos($request->getReferer(), 'viewMyLeaveList') === FALSE ?
+                'leave/viewLeaveList' : 'leave/viewMyLeaveList';
         $this->message = $this->getUser()->getFlash('message', '');
         $this->messageType = $this->getUser()->getFlash('messageType', '');
         $this->leaveRequestId = $request->getParameter('id');
-        
-        
+
+
         $leaveRequest = $this->getLeaveRequestService()->fetchLeaveRequest($this->leaveRequestId);
         $employee = $leaveRequest->getEmployee();
-        
+
         $this->mode = $this->getMode($employee->getEmpNumber());
-        
-        $list = $this->getLeaveRequestService()->searchLeave($this->leaveRequestId);       
-        
+
+        $list = $this->getLeaveRequestService()->searchLeave($this->leaveRequestId);
+
         $this->title = $this->getTitle($this->mode, $employee, $list);
         $this->baseUrl = 'leave/viewLeaveRequest';
 
