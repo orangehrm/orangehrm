@@ -269,7 +269,7 @@ class TestDataService {
                 }
 
                 $query = "UPDATE hs_hr_unique_id SET last_id = 0 WHERE table_name in ('" .
-                        implode("','", self::$tableNames) . "')";
+                        implode("','", $tableNames) . "')";
                 $pdo->exec($query);
 
                 $pdo->commit();
