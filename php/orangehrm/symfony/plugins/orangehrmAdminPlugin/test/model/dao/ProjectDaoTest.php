@@ -47,7 +47,7 @@ class ProjectDaoTest extends PHPUnit_Framework_TestCase {
 
 	public function testSearchProjectsForProjectName() {
 		$srchClues = array(
-		    'project' => 'project 1'
+		    'project' => 'development'
 		);
 		$allowedProjectList = array(1);
 		$result = $this->projectDao->searchProjects($srchClues, $allowedProjectList);
@@ -57,12 +57,12 @@ class ProjectDaoTest extends PHPUnit_Framework_TestCase {
 
 	public function testSearchProjectsForCustomerName() {
 		$srchClues = array(
-		    'customer' => 'customer 1'
+		    'customer' => 'Xavier'
 		);
-		$allowedProjectList = array(1, 2);
+		$allowedProjectList = array(1, 4);
 		$result = $this->projectDao->searchProjects($srchClues, $allowedProjectList);
-		$this->assertEquals(count($result), 2);
-		$this->assertEquals($result[1]->getCustomerName(), 'customer 1');
+		$this->assertEquals(2, count($result));
+		$this->assertEquals('Xavier', $result[0]->getCustomerName());
 	}
 
 	public function testSearchProjectsForProjectAdmin() {
@@ -77,12 +77,12 @@ class ProjectDaoTest extends PHPUnit_Framework_TestCase {
 
 	public function testGetProjectCountWithActiveOnly() {
 		$result = $this->projectDao->getProjectCount();
-		$this->assertEquals($result, 2);
+		$this->assertEquals(3, $result);
 	}
 	
 	public function testGetProjectCount() {
 		$result = $this->projectDao->getProjectCount(false);
-		$this->assertEquals($result, 3);
+		$this->assertEquals(4, $result);
 	}
 
 	public function testDeleteProject() {
@@ -98,17 +98,17 @@ class ProjectDaoTest extends PHPUnit_Framework_TestCase {
 
 	public function testGetProjectById() {
 		$result = $this->projectDao->getProjectById(1);
-		$this->assertEquals($result->getName(), 'project 1');
+		$this->assertEquals($result->getName(), 'development');
 	}
 
 	public function testGetAllActiveProjectsWithActiveOnly() {
 		$result = $this->projectDao->getAllProjects();
-		$this->assertEquals(count($result), 2);
+		$this->assertEquals(3, count($result));
 	}
 	
 	public function testGetAllActiveProjects() {
 		$result = $this->projectDao->getAllProjects(false);
-		$this->assertEquals(count($result), 3);
+		$this->assertEquals(4, count($result));
 	}
 
 //	public function testGetActivityListByProjectId() {
@@ -130,8 +130,22 @@ class ProjectDaoTest extends PHPUnit_Framework_TestCase {
 
 		$activeProjects = $this->projectDao->getActiveProjectList();
 		$this->assertTrue($activeProjects[0] instanceof Project);
-		$this->assertEquals(2, count($activeProjects));
+		$this->assertEquals(3, count($activeProjects));
 	}
+        
+        public function testGetActiveProjectsOrderedByCustomer() {
+            $sortedProjects = $this->projectDao->getActiveProjectsOrderedByCustomer();
+            $this->assertEquals(3, count($sortedProjects));
+            
+            $this->assertTrue($sortedProjects[0] instanceof Project);
+            $this->assertEquals(2, $sortedProjects[0]->getProjectId()); // Av Ltd - Engineering
+           
+            $this->assertTrue($sortedProjects[1] instanceof Project);
+            $this->assertEquals(1, $sortedProjects[1]->getProjectId()); // Xavier - development
+            
+            $this->assertTrue($sortedProjects[2] instanceof Project);
+            $this->assertEquals(4, $sortedProjects[2]->getProjectId()); // Xavier - Training            
+        }
 
 	public function testGetProjectsByProjectIdsWithActiveOnly() {
 
@@ -193,7 +207,7 @@ class ProjectDaoTest extends PHPUnit_Framework_TestCase {
 	public function testGetProjectListForUserRole() {
 
 		$result = $this->projectDao->getProjectListForUserRole(AdminUserRoleDecorator::ADMIN_USER, null);
-		$this->assertEquals(count($result), 3);
+		$this->assertEquals(4, count($result));
 	}
 
 }

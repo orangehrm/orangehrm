@@ -203,6 +203,16 @@ class ProjectService extends BaseService {
 	public function getActiveProjectList() {
 		return $this->getProjectDao()->getActiveProjectList();
 	}
+        
+        /**
+        *Get list of active projects, ordered by customer name, project name.
+        * 
+        * @return Doctrine_Collection of Project objects. Empty collection if no
+        *         active projects available.
+        */
+	public function getActiveProjectsOrderedByCustomer() {
+		return $this->getProjectDao()->getActiveProjectsOrderedByCustomer();
+	}        
 
 	/**
 	 * Get project list for a project admin

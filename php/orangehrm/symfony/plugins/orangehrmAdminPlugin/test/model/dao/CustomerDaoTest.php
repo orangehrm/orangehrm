@@ -40,27 +40,27 @@ class CustomerDaoTest extends PHPUnit_Framework_TestCase {
 
 	public function testGetCustomerListWithActiveOnly(){
 		$result = $this->customerDao->getCustomerList();
-		$this->assertEquals(count($result), 2);
+		$this->assertEquals(3, count($result));
 	}
 	
 	public function testGetCustomerList(){
 		$result = $this->customerDao->getCustomerList("","","","",false);
-		$this->assertEquals(count($result), 3);
+		$this->assertEquals(4, count($result));
 	}
 	
 	public function testGetCustomerCountWithActiveOnly(){
 		$result = $this->customerDao->getCustomerCount();
-		$this->assertEquals($result, 2);
+		$this->assertEquals(3, $result);
 	}
 	
 	public function testGetCustomerCount(){
 		$result = $this->customerDao->getCustomerCount(false);
-		$this->assertEquals($result, 3);
+		$this->assertEquals(4, $result);
 	}
 	
 	public function testGetCustomerById(){
 		$result = $this->customerDao->getCustomerById(1);
-		$this->assertEquals($result->getName(), 'customer 1');
+		$this->assertEquals($result->getName(), 'Xavier');
 	}
 	
 	public function testDeleteCustomer(){
@@ -71,18 +71,18 @@ class CustomerDaoTest extends PHPUnit_Framework_TestCase {
 	
 	public function testGetAllCustomersWithActiveOnly(){
 		$result = $this->customerDao->getAllCustomers();
-		$this->assertEquals(count($result), 2);
+		$this->assertEquals(3, count($result));
 		$this->assertTrue($result[0] instanceof Customer);
 	}
 	
 	public function testGetAllCustomers(){
 		$result = $this->customerDao->getAllCustomers(false);
-		$this->assertEquals(count($result), 3);
+		$this->assertEquals(4, count($result));
 		$this->assertTrue($result[0] instanceof Customer);
 	}
 	
 	public function testHasCustomerGotTimesheetItems(){
-		$result = $this->customerDao->hasCustomerGotTimesheetItems(1);
+		$result = $this->customerDao->hasCustomerGotTimesheetItems(4);
 		$this->assertTrue($result);
 	}
 	

@@ -6,14 +6,16 @@ Employee:
   4: {empNumber: 5, firstName: 'Indiran', lastName: 'Nadarajah'}
 
 Customer:
-  0: {customerId: 1, is_deleted: 0, name: 'customer 1', description: 'customer description 1'}
-  1: {customerId: 2, is_deleted: 0, name: 'customer 2', description: 'customer description 2'}
-  2: {customerId: 3, is_deleted: 1, name: 'customer 3', description: 'customer description 3'}
+  0: {customerId: 1, is_deleted: 0, name: 'Xavier', description: 'customer description 1'}
+  1: {customerId: 2, is_deleted: 0, name: 'ACME', description: 'customer description 2'}
+  2: {customerId: 3, is_deleted: 1, name: 'GoodWood', description: 'customer description 3'}
+  3: {customerId: 4, is_deleted: 0, name: 'Av Ltd', description: 'customer description 4'}
 
 Project:
-  0: {projectId: 1, customerId: 1, is_deleted: 0, name: 'project 1', description: 'project description 1'}
-  1: {projectId: 2, customerId: 1, is_deleted: 0, name: 'project 2', description: 'project description 2'}
-  2: {projectId: 3, customerId: 3, is_deleted: 1, name: 'project 3', description: 'project description 3'}
+  0: {projectId: 1, customerId: 1, is_deleted: 0, name: 'development', description: 'project description 1'}
+  1: {projectId: 2, customerId: 4, is_deleted: 0, name: 'Engineering', description: 'project description 2'}
+  2: {projectId: 3, customerId: 3, is_deleted: 1, name: 'Marketing', description: 'project description 3'}
+  3: {projectId: 4, customerId: 1, is_deleted: 0, name: 'Training', description: 'project description 4'}
 
 ProjectActivity:
   0: {activityId: 1, projectId: 1, is_deleted: 0, name: 'project activity 1'}

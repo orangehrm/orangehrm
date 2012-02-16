@@ -147,6 +147,30 @@ class ProjectDao extends BaseDao {
 			throw new AdminServiceException($e->getMessage());
 		}
 	}
+        
+    /**
+     *Get list of active projects, ordered by customer name, project name.
+     * 
+     * @return Doctrine_Collection of Project objects. Empty collection if no
+     *         active projects available.
+     * @throws AdminServiceException 
+     */
+    public function getActiveProjectsOrderedByCustomer() {
+        
+        try {
+            $q = Doctrine_Query::create()
+                    ->from('Project p')
+                    ->leftJoin('p.Customer c')
+                    ->where('p.is_deleted = ?', Project::ACTIVE_PROJECT)
+                    ->orderBy('c.name ASC, p.name ASC');
+
+            $projectList = $q->execute();
+            return $projectList;
+            
+        } catch (Exception $e) {
+            throw new AdminServiceException($e->getMessage());
+        }
+    }
 
 	/**
 	 * Retrieve active projects given project ids.

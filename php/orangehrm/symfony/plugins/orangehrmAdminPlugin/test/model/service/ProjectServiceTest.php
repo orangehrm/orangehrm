@@ -210,7 +210,7 @@ class ProjectServiceTest extends PHPUnit_Framework_TestCase {
 
 	public function testGetProjectNameWithCustomerName() {
 
-		$projectName = "customer 1 - project 1";
+		$projectName = "Xavier - development";
 		$result = $this->projectService->getProjectNameWithCustomerName(1);
 		$this->assertEquals($result, $projectName);
 	}
@@ -265,7 +265,7 @@ class ProjectServiceTest extends PHPUnit_Framework_TestCase {
 
 		$project = TestDataService::loadObjectList('Project', $this->fixture, 'Project');
 		$srchClues = array(
-		    'project' => 'project 1'
+		    'project' => 'development'
 		);
 		$allowedProjectList = array(1);
 		
@@ -285,7 +285,7 @@ class ProjectServiceTest extends PHPUnit_Framework_TestCase {
 
 		$project = TestDataService::loadObjectList('Project', $this->fixture, 'Project');
 		$srchClues = array(
-		    'project' => 'project 1'
+		    'project' => 'development'
 		);
 		$allowedProjectList = array(1);
 		
@@ -300,6 +300,22 @@ class ProjectServiceTest extends PHPUnit_Framework_TestCase {
 		$result = $this->projectService->getSearchProjectListCount($srchClues, $allowedProjectList);
 		$this->assertEquals($result, 1);
 	}
+        
+        public function testGetActiveProjectsOrderedByCustomer() {
+            // Verify that service calls DAO and returns object returned by dao method.
+            $project = new Project();
+            $expected = array($project);
+
+            $projectDao = $this->getMock('ProjectDao');
+            $projectDao->expects($this->once())
+                    ->method('getActiveProjectsOrderedByCustomer')
+                    ->will($this->returnValue($expected));
+
+            $this->projectService->setProjectDao($projectDao);
+
+            $result = $this->projectService->getActiveProjectsOrderedByCustomer();
+            $this->assertEquals($expected, $result);            
+        }
 	
 }
 
