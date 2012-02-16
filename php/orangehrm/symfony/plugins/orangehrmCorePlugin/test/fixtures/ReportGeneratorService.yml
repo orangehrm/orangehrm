@@ -11,8 +11,8 @@ ProjectActivity:
   1: {activity_id: 2, project_id: 1, name: 'Build Model', is_deleted: 0}
 
 ReportGroup:
-  0: {report_group_id: 1, name: 'timesheet', core_sql: 'SELECT selectCondition FROM ohrm_project_activity LEFT JOIN (SELECT * FROM ohrm_timesheet_item WHERE whereCondition1) AS ohrm_timesheet_item  ON (ohrm_timesheet_item.activity_id = ohrm_project_activity.activity_id) LEFT JOIN ohrm_project ON (ohrm_project.project_id = ohrm_project_activity.project_id) WHERE whereCondition2'}
-  1: {report_group_id: 2, name: 'pim', core_sql: 'SELECT selectCondition FROM ohrm_project_activity LEFT JOIN (SELECT * FROM ohrm_timesheet_item WHERE whereCondition1) AS ohrm_timesheet_item  ON (ohrm_timesheet_item.activity_id = ohrm_project_activity.activity_id) LEFT JOIN ohrm_project ON (ohrm_project.project_id = ohrm_project_activity.project_id) WHERE whereCondition2'}
+  0: {report_group_id: 1, name: 'timesheet', core_sql: 'SELECT selectCondition FROM ohrm_project_activity LEFT JOIN (SELECT * FROM ohrm_timesheet_item WHERE whereCondition1) AS ohrm_timesheet_item  ON (ohrm_timesheet_item.activity_id = ohrm_project_activity.activity_id) LEFT JOIN ohrm_project ON (ohrm_project.project_id = ohrm_project_activity.project_id) WHERE whereCondition2 groupByClause'}
+  1: {report_group_id: 2, name: 'pim', core_sql: 'SELECT selectCondition FROM ohrm_project_activity LEFT JOIN (SELECT * FROM ohrm_timesheet_item WHERE whereCondition1) AS ohrm_timesheet_item  ON (ohrm_timesheet_item.activity_id = ohrm_project_activity.activity_id) LEFT JOIN ohrm_project ON (ohrm_project.project_id = ohrm_project_activity.project_id) WHERE whereCondition2 groupByClause'}
 
 Report:
   0: {report_id: 1, name: 'Project Report', report_group_id: 1, use_filter_field: 1, type: 'Runtime'}

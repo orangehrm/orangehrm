@@ -749,6 +749,7 @@ class ReportGeneratorService {
         
         $selectedGroupField = $this->getReportableService()->getSelectedGroupField($reportId);
         $summaryDisplayField = null;
+        $groupByClause = "";
 
         if (!is_null($selectedGroupField)) {
             $summaryDisplayField = $selectedGroupField->getSummaryDisplayField();
@@ -779,9 +780,7 @@ class ReportGeneratorService {
 
         $sql = preg_replace($pattern, "true", $sql);
 
-        if (isSet($groupByClause)) {
-            $sql = $sql . " " . $groupByClause;
-        }
+        $sql = str_replace("groupByClause", $groupByClause, $sql);        
 
         if ($staticColumns != null) {
             $sql = $this->insertStaticColumnsInSelectStatement($sql, $staticColumns);
@@ -939,7 +938,8 @@ class ReportGeneratorService {
         $selectStatement = $this->getSelectConditionWithoutSummaryFunction($reportId);
         $selectedGroupField = $this->getReportableService()->getSelectedGroupField($reportId);
         $summaryDisplayField = null;
-
+        $groupByClause = '';
+        
         if (!is_null($selectedGroupField)) {
             $summaryDisplayField = $selectedGroupField->getSummaryDisplayField();
             $function = $summaryDisplayField->getFunction();
@@ -956,9 +956,7 @@ class ReportGeneratorService {
 
         $sql = str_replace("selectCondition", $selectStatement, $coreSql);
 
-        if (isSet($groupByClause)) {
-            $sql = $sql . " " . $groupByClause;
-        }
+        $sql = str_replace("groupByClause", $groupByClause, $sql); 
 
         foreach ($formValues as $key => $value) {
 
