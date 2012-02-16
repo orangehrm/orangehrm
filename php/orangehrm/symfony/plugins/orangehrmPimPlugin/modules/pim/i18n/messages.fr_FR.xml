@@ -608,6 +608,10 @@
     <source>Delete photograph?</source>
     <target>FR_Delete photograph?</target>
    </trans-unit>
+   <trans-unit id="3452">
+    <source>Custom Field Already Exists</source>
+    <target>FR_Custom Field Already Exists</target>
+   </trans-unit>
   </body>
  </file>
 </xliff>

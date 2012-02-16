@@ -82,10 +82,10 @@ class defineCustomFieldAction extends sfAction {
                 $customField->setExtraData($form->getValue('extra_data'));
                 try {
                     $customFieldsService->saveCustomField($customField);
-                    $this->getUser()->setFlash('templateMessage', array('success', __(TopLevelMessages::UPDATE_SUCCESS)));
+                    $this->getUser()->setFlash('templateMessage', array('success', __(TopLevelMessages::SAVE_SUCCESS)));
 
                 } catch (DuplicateNameException $e) {
-                    $this->getUser()->setFlash('templateMessage', array('notice', __('A custom field with the given name already exists')));                    
+                    $this->getUser()->setFlash('templateMessage', array('notice', __('Custom Field Already Exists')));                    
                 }
             }
         }
