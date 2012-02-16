@@ -140,10 +140,6 @@
     <source>Invalid to date</source>
     <target>FR_Invalid to date</target>
    </trans-unit>
-   <trans-unit id="35">
-    <source>Invalid total time</source>
-    <target>FR_Invalid total time</target>
-   </trans-unit>
    <trans-unit id="36">
     <source>Leave Balance</source>
     <target>FR_Leave Balance</target>
@@ -304,10 +300,6 @@
     <source>To Date is required</source>
     <target>FR_To Date is required</target>
    </trans-unit>
-   <trans-unit id="77">
-    <source>To date should be after the From date</source>
-    <target>FR_To date should be after the From date</target>
-   </trans-unit>
    <trans-unit id="78">
     <source>To Time</source>
     <target>FR_To Time</target>
@@ -315,10 +307,6 @@
    <trans-unit id="79">
     <source>Total Hours</source>
     <target>FR_Total Hours</target>
-   </trans-unit>
-   <trans-unit id="80">
-    <source>Total time is a numeric value</source>
-    <target>FR_Total time is a numeric value</target>
    </trans-unit>
    <trans-unit id="81">
     <source>Total time is greater than the shift length</source>

@@ -4709,6 +4709,14 @@
     <source>Delete?</source>
     <target>FR_Delete?</target>
    </trans-unit>
+   <trans-unit id="73">
+    <source>Successfully Assigned</source>
+    <target>FR_Successfully Assigned</target>
+   </trans-unit>
+   <trans-unit id="73">
+    <source>Should be greater than %amount%</source>
+    <target>FR_Should be greater than %amount%</target>
+   </trans-unit>
   </body>
  </file>
 </xliff>

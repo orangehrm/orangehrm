@@ -169,7 +169,7 @@ class assignLeaveAction extends sfAction {
                         $this->saveLeaveRequest($this->form);
                     }
                 } elseif(!empty($post['txtEmpID']) && $this->applyMoreThanAllowedForAday ($this->form)) {
-					$this->templateMessage = array('WARNING', __("Total Leave Requests for the Day Exceed Workshift Length"));
+					$this->templateMessage = array('WARNING', __("Total time is greater than shift length"));
                     $this->overlapLeaves = 0;
 				}
             }
@@ -343,7 +343,7 @@ class assignLeaveAction extends sfAction {
                     $leaveAssignmentMailer = new LeaveAssignmentMailer($leaveRequest, $leaves, $_SESSION['empNumber']);
                     $leaveAssignmentMailer->send();
 
-                    $this->templateMessage = array('SUCCESS', __('Leave Successfully Assigned'));
+                    $this->templateMessage = array('SUCCESS', __('Successfully Assigned'));
                 } catch(Exception $e) {
                     $this->templateMessage = array('WARNING', __("Leave Period Does Not Exist"));
                 }
