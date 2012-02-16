@@ -4717,6 +4717,18 @@
     <source>Should be greater than %amount%</source>
     <target>FR_Should be greater than %amount%</target>
    </trans-unit>
+   <trans-unit id="73">
+    <source>Accepts .docx, .doc, .odt, .pdf, .rtf, .txt up to 1MB</source>
+    <target>FR_Accepts .docx, .doc, .odt, .pdf, .rtf, .txt up to 1MB</target>
+   </trans-unit>
+   <trans-unit id="73">
+    <source>Accepts jpg, .png, .gif up to 1MB</source>
+    <target>FR_Accepts jpg, .png, .gif up to 1MB</target>
+   </trans-unit>
+   <trans-unit id="73">
+    <source>Accepts up to 1MB</source>
+    <target>FR_Accepts up to 1MB</target>
+   </trans-unit>
   </body>
  </file>
 </xliff>
