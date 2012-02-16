@@ -264,8 +264,8 @@
     <target>FR_Assigned Salary Components</target>
    </trans-unit>
    <trans-unit id="57">
-    <source>Attachment Size Exceeded.</source>
-    <target>FR_Attachment Size Exceeded.</target>
+    <source>Attachment Size Exceeded</source>
+    <target>FR_Attachment Size Exceeded</target>
    </trans-unit>
    <trans-unit id="58">
     <source>Attendance</source>

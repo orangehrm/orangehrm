@@ -33,7 +33,7 @@ class updateAttachmentAction extends sfAction {
 
             if ($_FILES['recruitmentAttachment']['size']['ufile'] > 1024000 || $_FILES == null) {
 
-                $this->getUser()->setFlash('attachmentMessage', array('warning', __('Adding Attachment Failed. Attachment Size Exceeded 1MB')));
+                $this->getUser()->setFlash('attachmentMessage', array('warning', __(TopLevelMessages::FILE_SIZE_SAVE_FAILURE)));
                 $this->redirect($this->getRequest()->getReferer() . '#attachments');
             }
 
