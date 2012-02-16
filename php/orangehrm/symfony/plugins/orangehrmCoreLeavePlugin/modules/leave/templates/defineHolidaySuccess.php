@@ -82,7 +82,7 @@
         var lang_DateIsRequired = '<?php echo __(ValidationMessages::REQUIRED); ?>';
         var lang_DateFormatIsWrong = '<?php echo __(ValidationMessages::DATE_FORMAT_INVALID, array('%format%' => get_datepicker_date_format($sf_user->getDateFormat()))) ?>';
         var lang_NameIsRequired = '<?php echo __(ValidationMessages::REQUIRED); ?>';
-        var lang_NameIsOverLimit = "<?php echo __("Name should be less than")." 200 ".__("characters");?>";
+        var lang_NameIsOverLimit = "<?php echo __(ValidationMessages::TEXT_LENGTH_EXCEEDS, array('%amount%' => 200));?>";
 
         //Validation
         $("#frmHoliday").validate({
