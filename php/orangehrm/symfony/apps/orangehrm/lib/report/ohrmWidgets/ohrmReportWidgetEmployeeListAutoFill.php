@@ -211,7 +211,7 @@ EOF
         } 
         
         $validator = new sfValidatorCallback(array('callback' => array($this, 'validate'), 'required' => $required), 
-                 array('required' => __('Please select an employee')));
+                 array('required' => __(ValidationMessages::REQUIRED)));
         
         $widgetSchema[$this->attributes['id']]->setLabel($label);
         $form->setValidator($this->attributes['id'], $validator);

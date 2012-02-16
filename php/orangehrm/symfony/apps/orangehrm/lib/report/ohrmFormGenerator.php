@@ -45,8 +45,8 @@ class ohrmFormGenerator {
         $form = new DefineReportForm();
 
         $form->setWidget('report_name', new sfWidgetFormInputText(array('default' => $reportName)));
-        $form->setValidator('report_name', new sfValidatorString(array('required' => true, 'max_length' => 255),
-                array('required' => __('Required'))));
+        $form->setValidator('report_name', new sfValidatorString(array('required' => true, 'max_length' => 250),
+                array('required' => __('Required'), 'max_length' => __(ValidationMessages::TEXT_LENGTH_EXCEEDS, array('%amount%' => 250)))));
         $form->setWidget('report_id', new sfWidgetFormInputHidden(array('default' => $reportId)));       
         $form->setValidator('report_id', new sfValidatorString(array('required' => false)));
         $criteriaChoices = array();

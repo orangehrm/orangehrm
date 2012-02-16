@@ -85,7 +85,7 @@ class definePredefinedReportAction extends sfAction {
                 $this->redirect('core/viewDefinedPredefinedReports'); 
                 return;
             } else {
-                list($this->messageType, $this->message) = array('warning', __('Please Correct The Following Errors'));
+                list($this->messageType, $this->message) = array('warning', __('Failed to Save'));
 
 /*                $errors = $this->form->getErrorSchema();
                 foreach ($errors as $error) {
