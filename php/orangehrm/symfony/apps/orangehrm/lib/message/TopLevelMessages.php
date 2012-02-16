@@ -10,7 +10,7 @@ class TopLevelMessages {
     const INVALID_FILE_TYPE = "Invalid File Type";
     const NO_RECORDS_FOUND = "No Records Found";
     const SELECT_RECORDS = "Select Records to Delete";
-    const FILE_TYPE_SAVE_FAILURE = "Failed to Save: Invalid File Type";
+    const FILE_TYPE_SAVE_FAILURE = "Failed to Save: File Type Not Allowed";
     const FILE_SIZE_SAVE_FAILURE = "Failed to Save: File Size Exceeded";
     
     

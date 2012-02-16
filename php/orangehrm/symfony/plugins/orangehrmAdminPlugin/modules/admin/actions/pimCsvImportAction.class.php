@@ -42,7 +42,7 @@ class pimCsvImportAction extends baseCsvImportAction {
 			$this->form->bind($request->getParameter($this->form->getName()), $request->getFiles($this->form->getName()));
 			$file = $request->getFiles($this->form->getName());
 			if ($_FILES['pimCsvImport']['size']['csvFile'] > 1024000 || $_FILES == null) {
-				$this->getUser()->setFlash('templateMessage', array('warning', __('Failed. File Size Exceeded 1MB')));
+				$this->getUser()->setFlash('templateMessage', array('warning', __('Failed to Import: File Size Exceeded')));
 				$this->redirect('admin/pimCsvImport');
 			}
 			if ($this->form->isValid()) {

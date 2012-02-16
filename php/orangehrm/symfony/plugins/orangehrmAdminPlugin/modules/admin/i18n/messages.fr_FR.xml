@@ -764,6 +764,14 @@
     <source>Zip/Postal Code</source>
     <target>FR_Zip/Postal Code</target>
    </trans-unit>
+   <trans-unit id="190">
+    <source>Failed to Import: File Type Not Allowed</source>
+    <target>FR_Failed to Import: File Type Not Allowed</target>
+   </trans-unit>
+   <trans-unit id="190">
+    <source>Failed to Import: File Size Exceeded</source>
+    <target>FR_Failed to Import: File Size Exceeded</target>
+   </trans-unit>
   </body>
  </file>
 </xliff>
