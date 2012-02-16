@@ -933,8 +933,8 @@ class EmployeeDaoTest extends PHPUnit_Framework_TestCase {
         $salaryGrade = 1;
         $assignedCurrencies = $this->employeeDao->getAssignedCurrencyList($salaryGrade, true);
 
-        $this->assertTrue(in_array('LKR', $assignedCurrencies[0]));
-        $this->assertTrue(in_array('USD', $assignedCurrencies[1]));
+        $this->assertTrue(in_array('USD', $assignedCurrencies[0]));
+        $this->assertTrue(in_array('LKR', $assignedCurrencies[1]));
     }
 
     public function testGetEmployeeByEmployeeIdWithCorrectId() {
