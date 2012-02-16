@@ -201,9 +201,8 @@ class TimesheetService {
                 for ($i = 0; $i < sizeof($keysArray); $i++) {
 
                     $date = $keysArray[$i];
-                    $timesheetItemId = next($tempArray);
-                    $timesheetItemDuration = next($tempArray);
-
+                    $timesheetItemId = $inputTimesheetItem['TimesheetItemId' . $i];
+                    $timesheetItemDuration = $inputTimesheetItem[$i];
                     if ($timesheetItemId != null) {
 
                         $existingTimesheetItem = $this->getTimesheetDao()->getTimesheetItemById($timesheetItemId);
