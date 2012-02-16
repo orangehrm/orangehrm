@@ -37,7 +37,7 @@ class defineWorkWeekAction extends baseLeaveAction {
                     $this->getWorkWeekService()->saveWorkWeek($workWeek);
                     $this->templateMessage = array('SUCCESS', __(TopLevelMessages::SAVE_SUCCESS));
                 } catch (Exception $e) {
-                    $this->templateMessage = array('FAILURE', __('Failed to Save Work Week'));
+                    $this->templateMessage = array('FAILURE', __(TopLevelMessages::SAVE_FAILURE));
                 }
             } else {
                 $this->templateMessage = array('FAILURE', __('Please correct the following errors'));
