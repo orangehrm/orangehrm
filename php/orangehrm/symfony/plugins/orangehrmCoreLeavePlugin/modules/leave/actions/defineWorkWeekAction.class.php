@@ -40,7 +40,7 @@ class defineWorkWeekAction extends baseLeaveAction {
                     $this->templateMessage = array('FAILURE', __(TopLevelMessages::SAVE_FAILURE));
                 }
             } else {
-                $this->templateMessage = array('FAILURE', __('Please correct the following errors'));
+                $this->templateMessage = array('FAILURE', __(TopLevelMessages::SAVE_FAILURE));
             }
         }
     }

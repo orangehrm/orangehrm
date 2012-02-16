@@ -33,7 +33,7 @@ class saveLeaveEntitlementsAction extends baseLeaveAction {
             if ($saveSuccess) {
                 $this->getUser()->setFlash('templateMessage', array('SUCCESS', __(TopLevelMessages::SAVE_SUCCESS)), false);
             } else {
-                $this->getUser()->setFlash('templateMessage', array('FAILURE', __('Failed to Save Leave Entitlements')), false);
+                $this->getUser()->setFlash('templateMessage', array('FAILURE', __(TopLevelMessages::SAVE_FAILURE)), false);
             }
 
             $this->forwardToLeaveSummary();

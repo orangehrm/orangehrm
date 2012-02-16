@@ -140,7 +140,7 @@ class leaveActions extends sfActions {
             try {
 
                 $this->getLeaveRequestService()->changeLeaveStatus($changes, $changeType, $changeComments, $changedByUserType, $_SESSION['empNumber']);
-                $this->getUser()->setFlash('message', __('Leave Successfully Changed'));
+                $this->getUser()->setFlash('message', __(TopLevelMessages::UPDATE_SUCCESS));
                 $this->getUser()->setFlash('messageType', 'success');
             } catch (Exception $e) {
                 $this->getUser()->setFlash('message', $e->getMessage());

@@ -132,7 +132,7 @@ $messageType = empty($messageType) ? '' : "messageBalloon_{$messageType}";
                 $('#commentError').html('');
                 var comment = $('#leaveComment').val().trim();
                 if(comment.length > 250) {
-                    $('#commentError').html('<?php echo __('Comment length should be less than 250 characters'); ?>');
+                    $('#commentError').html('<?php echo __(ValidationMessages::TEXT_LENGTH_EXCEEDS, array('%amount%' => 250)); ?>');
                     return;
                 }
 
