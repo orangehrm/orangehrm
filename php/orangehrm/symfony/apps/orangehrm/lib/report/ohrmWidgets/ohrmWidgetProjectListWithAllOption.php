@@ -62,7 +62,7 @@ class ohrmWidgetProjectListWithAllOption extends sfWidgetForm implements ohrmEmb
 
         $projectService = new ProjectService();
         $projectList = $projectService->getActiveProjectsOrderedByCustomer();
-        if ($projectList != null) {
+        if (!empty($projectList)) {
             foreach ($projectList as $project) {
                 $projectNameList[-1] = __("All");
                 $projectNameList[$project->getProjectId()] = $project->getCustomer()->getName() . " - " . $project->getName();
