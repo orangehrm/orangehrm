@@ -4718,6 +4718,18 @@
     <target>FR_Should be greater than %amount%</target>
    </trans-unit>
    <trans-unit id="73">
+    <source>Successfully Submitted</source>
+    <target>FR_Successfully Submitted</target>
+   </trans-unit>
+   <trans-unit id="73">
+    <source>Invalid Employee</source>
+    <target>FR_Invalid Employee</target>
+   </trans-unit>
+   <trans-unit id="73">
+    <source>Should be less than %amount%</source>
+    <target>FR_Should be less than %amount%</target>
+   </trans-unit>
+   <trans-unit id="73">
     <source>Accepts .docx, .doc, .odt, .pdf, .rtf, .txt up to 1MB</source>
     <target>FR_Accepts .docx, .doc, .odt, .pdf, .rtf, .txt up to 1MB</target>
    </trans-unit>

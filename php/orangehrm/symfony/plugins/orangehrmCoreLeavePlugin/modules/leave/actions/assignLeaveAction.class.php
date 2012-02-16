@@ -161,7 +161,7 @@ class assignLeaveAction extends sfAction {
                 $post   =	$form->getValues();
                 //check whether employee exists
                 if(empty($post['txtEmpID'])) {
-                    $this->templateMessage = array('WARNING', __("Employee Does Not Exist"));
+                    $this->templateMessage = array('WARNING', __("Invalid Employee"));
                 }
                
                 if(!empty($post['txtEmpID']) && !$this->applyMoreThanAllowedForAday ($this->form)) {					
@@ -169,7 +169,7 @@ class assignLeaveAction extends sfAction {
                         $this->saveLeaveRequest($this->form);
                     }
                 } elseif(!empty($post['txtEmpID']) && $this->applyMoreThanAllowedForAday ($this->form)) {
-					$this->templateMessage = array('WARNING', __("Total time is greater than shift length"));
+					$this->templateMessage = array('WARNING', __("Total Time Exceeds Shift Length"));
                     $this->overlapLeaves = 0;
 				}
             }
@@ -234,7 +234,7 @@ class assignLeaveAction extends sfAction {
         $leaveTypeChoices =	array();
         $leaveTypeList =	$this->getLeaveTypeService()->getLeaveTypeList();
 
-        $leaveTypeChoices[''] =	__("Select a Leave Type");
+        $leaveTypeChoices[''] =	'--'.__('Select').'--';
         foreach( $leaveTypeList as $leaveType) {
             $leaveTypeChoices[$leaveType->getLeaveTypeId()]	=	$leaveType->getLeaveTypeName();
         }
@@ -349,7 +349,7 @@ class assignLeaveAction extends sfAction {
                 }
             }
         } else {
-            $this->templateMessage = array('WARNING', __("Make Sure Leave Request Contain Work Days"));
+            $this->templateMessage = array('WARNING', __("Leave Request Should Contain Work Days"));
         }
     }
 

@@ -122,7 +122,7 @@
     <script type="text/javascript">
         var datepickerDateFormat = '<?php echo get_datepicker_date_format($sf_user->getDateFormat()); ?>';
         var lang_invalidDate = '<?php echo __(ValidationMessages::DATE_FORMAT_INVALID, array('%format%' => get_datepicker_date_format($sf_user->getDateFormat()))) ?>';
-        var lang_dateError = '<?php echo __("To date should be after the From date") ?>';
+        var lang_dateError = '<?php echo __("To date should be after from date") ?>';
         $(document).ready(function() {
 
 
@@ -238,14 +238,14 @@
                         date_range: lang_dateError
                     },
                     'applyleave[txtComment]':{
-                        maxlength:"<?php echo __('Comment length should be less than 250 characters'); ?>"
+                        maxlength:"<?php echo __(ValidationMessages::TEXT_LENGTH_EXCEEDS, array('%amount%' => 250)); ?>"
                     },
                     'applyleave[txtLeaveTotalTime]':{
-                        number:"<?php echo __('Total time is numeric value'); ?>",
-                        min : "<?php echo __('Total time should be greater than 0.01'); ?>",
-                        max : "<?php echo __('Total time should be lesser than 24'); ?>"	,
-                        validTotalTime : "<?php echo __('Invalid total time'); ?>",
-                        validWorkShift : "<?php echo __('Total time is greater than the shift length'); ?>"
+                        number:"<?php echo __('Should be a number'); ?>",
+                        min : "<?php echo __("Should be greater than %amount%", array("%amount%" => '0.01')); ?>",
+                        max : "<?php echo __("Should be less than %amount%", array("%amount%" => '24')); ?>"    ,
+                        validTotalTime : "<?php echo __(ValidationMessages::INVALID); ?>",
+                        validWorkShift : "<?php echo __('Total time exceeds Shift Length'); ?>"
                     },
                     'applyleave[txtToTime]':{
                         validToTime:"<?php echo __('From time should be lesser than To time'); ?>"

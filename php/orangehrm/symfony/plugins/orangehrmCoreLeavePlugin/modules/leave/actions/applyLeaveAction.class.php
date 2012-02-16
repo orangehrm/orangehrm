@@ -183,7 +183,7 @@ class applyLeaveAction extends sfAction {
                         $this->saveLeaveRequest($this->form);
                     }
                 } elseif ($this->applyMoreThanAllowedForAday($this->form)) {
-                    $this->templateMessage = array('WARNING', __("Total Leave Requests for the Day Exceed Workshift Length"));
+                    $this->templateMessage = array('WARNING', __("Total Time Exceeds Shift Length"));
                     $this->overlapLeaves = 0;
                 }
             }
@@ -202,7 +202,7 @@ class applyLeaveAction extends sfAction {
         $leaveRequestService = $this->getLeaveRequestService();
         $leaveTypeList = $leaveRequestService->getEmployeeAllowedToApplyLeaveTypes($employee);
 
-        $leaveTypeChoices[''] = __('Select a Leave Type');
+        $leaveTypeChoices[''] = '--'.__('Select').'--';
         foreach ($leaveTypeList as $leaveType) {
             $leaveTypeChoices[$leaveType->getLeaveTypeId()] = $leaveType->getLeaveTypeName();
         }
@@ -298,7 +298,7 @@ class applyLeaveAction extends sfAction {
                     $leaveApplicationMailer = new LeaveApplicationMailer($this->getLoggedInEmployee(), $leaveRequest, $leaves);
                     $leaveApplicationMailer->send();
 
-                    $this->templateMessage = array('SUCCESS', __('Leave Request Successfully Submitted'));
+                    $this->templateMessage = array('SUCCESS', __('Successfully Submitted'));
                 } catch (Exception $e) {
                     $this->templateMessage = array('WARNING', __('Leave Quota will Exceed'));
                 }
@@ -412,7 +412,7 @@ class applyLeaveAction extends sfAction {
     protected function hasWorkingDays($holidayCount , $leaves){
         
         if ($holidayCount == count($leaves)) {
-            $this->templateMessage = array('WARNING', __('Make Sure Leave Request Contain Work Days'));
+            $this->templateMessage = array('WARNING', __('Leave Request Should Contain Work Days'));
             return false;
         }
         

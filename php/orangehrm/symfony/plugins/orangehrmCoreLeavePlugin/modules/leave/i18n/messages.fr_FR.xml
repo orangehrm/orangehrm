@@ -76,10 +76,6 @@
     <source>Duration (hours)</source>
     <target>FR_Duration (hours)</target>
    </trans-unit>
-   <trans-unit id="19">
-    <source>Employee Does Not Exist</source>
-    <target>FR_Employee Does Not Exist</target>
-   </trans-unit>
    <trans-unit id="20">
     <source>End Date</source>
     <target>FR_End Date</target>
@@ -184,10 +180,6 @@
     <source>Leave Request Exceeds Leave Balance</source>
     <target>FR_Leave Request Exceeds Leave Balance</target>
    </trans-unit>
-   <trans-unit id="47">
-    <source>Make Sure Leave Request Contain Work Days</source>
-    <target>FR_Make Sure Leave Request Contain Work Days</target>
-   </trans-unit>
    <trans-unit id="48">
     <source>My Leave Details</source>
     <target>FR_My Leave Details</target>
@@ -280,10 +272,6 @@
     <source>Taken</source>
     <target>FR_Taken</target>
    </trans-unit>
-   <trans-unit id="71">
-    <source>The Date Is Already Assigned to Another Holiday</source>
-    <target>FR_The Date Is Already Assigned to Another Holiday</target>
-   </trans-unit>
    <trans-unit id="72">
     <source>The following leave requests are on the same day as the current leave request. Please cancel the existing leave requests and submit again  or change the leave period if needed.</source>
     <target>FR_The following leave requests are on the same day as the current leave request. Please cancel the existing leave requests and submit again  or change the leave period if needed.</target>
@@ -319,6 +307,18 @@
    <trans-unit id="83">
     <source>With Terminated Employees</source>
     <target>FR_With Terminated Employees</target>
+   </trans-unit>
+   <trans-unit id="83">
+    <source>Total Time Exceeds Shift Length</source>
+    <target>FR_Total Time Exceeds Shift Length</target>
+   </trans-unit>
+   <trans-unit id="83">
+    <source>Leave Request Should Contain Work Days</source>
+    <target>FR_Leave Request Should Contain Work Days</target>
+   </trans-unit>
+   <trans-unit id="83">
+    <source>The Date is Alredy Assigned</source>
+    <target>FR_The Date is Alredy Assigned</target>
    </trans-unit>
   </body>
  </file>
