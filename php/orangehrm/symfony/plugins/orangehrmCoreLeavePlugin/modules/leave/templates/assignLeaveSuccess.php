@@ -12,6 +12,8 @@
     }
 </style>
 
+<?php use_stylesheets_for_form($form); ?>
+
 <?php echo stylesheet_tag('../orangehrmCoreLeavePlugin/css/assignLeaveSuccess') ?>
 <?php echo stylesheet_tag('orangehrm.datepicker.css') ?>
 <?php echo javascript_include_tag('orangehrm.datepicker.js') ?>
@@ -70,53 +72,7 @@
         <?php echo $form['txtFromTime']->renderError(); ?>
         <?php } ?>
         <form id="frmLeaveApply" name="frmLeaveApply" method="post" action="">
-            <?php echo $form['_csrf_token']; ?>
-            <?php echo $form['txtEmpID']->render(); ?>
-            <?php echo $form['txtEmpWorkShift']->render(); ?>
-            <table border="0" cellspacing="0" cellpadding="2" class="tableArrange">
-                <tr>
-                    <td width="120"><?php echo __('Employee Name') . '<span class=required>*</span>'; ?></td>
-                    <td><?php echo $form['txtEmployee']->render(array('class' => 'formInputText')); ?><br class="clear" /></td>
-                </tr>
-                <tr>
-                    <td valign="top"><?php echo __('Leave Type') . ' <span class=required>*</span>'; ?></td>
-                    <td><?php echo $form['txtLeaveType']->render(); ?><br class="clear" /></td>
-                </tr>
-                <tr>
-                    <td><?php echo __('From Date') . ' <span class=required>*</span>'; ?></td>
-                    <td><?php echo $form['txtFromDate']->render(array('class' => 'formDateInput')); ?>
-                        <br class="clear" />
-                    </td>
-                </tr>
-                <tr>
-                    <td><?php echo __('To Date') . ' <span class=required>*</span>'; ?></td>
-                    <td><?php echo $form['txtToDate']->render(array('class' => 'formDateInput')); ?>
-                        <br class="clear" />
-                    </td>
-                </tr>
-
-                <tr id="trTime1" class="hide">
-                    <td height="25"><?php echo __('From Time'); ?></td>
-                    <td><?php echo $form['txtFromTime']->render(); ?></td>
-                </tr>
-                <tr id="trTime2" class="hide">
-                    <td height="25"><?php echo __('To Time'); ?></td>
-                    <td><?php echo $form['txtToTime']->render(); ?><br class="clear" /></td>
-                </tr>
-                <tr id="trTime3" class="hide">
-                    <td height="25"><?php echo __('Total Hours'); ?></td>
-                    <td><?php echo $form['txtLeaveTotalTime']->render(array('style' => 'width:3em;')); ?>
-                        <br class="clear" />
-                    </td>
-                </tr>
-                <tr>
-                    <td id="trTime4" class="hide" colspan="2"></td>
-                </tr>
-                <tr>
-                    <td valign="top"><?php echo __('Comment') ?></td>
-                    <td><?php echo $form['txtComment']->render(array('rows' => '3', 'cols' => '30')); ?><br class="clear" /></td>
-                </tr>
-            </table>
+            <?php echo $form->render(); ?>
             <!-- here we have the button -->
             <div class="formbuttons paddingLeft">
                 <input type="button" class="applybutton" id="saveBtn" value="<?php echo __('Assign'); ?>" title="<?php echo __('Assign'); ?>"/>
