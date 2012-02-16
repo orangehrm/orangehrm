@@ -130,7 +130,7 @@ class viewLeaveSummaryAction extends sfAction implements ohrmExportableAction {
         ));
 
         if (isset($this->form->recordsCount) && $this->form->recordsCount == 0 && isset($this->searchFlag) && $this->searchFlag == 1) {
-            $this->templateMessage = array('NOTICE', __('No Results Found for This Criteria'));
+            $this->templateMessage = array('NOTICE', __(TopLevelMessages::NO_RECORDS_FOUND));
         }
 
     }
