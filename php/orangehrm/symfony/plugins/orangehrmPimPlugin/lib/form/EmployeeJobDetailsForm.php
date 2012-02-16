@@ -151,7 +151,7 @@ class EmployeeJobDetailsForm extends BaseForm {
                     array('date_format' => $inputDatePattern, 'required' => false),
                     array('invalid' => 'Date format should be ' . $inputDatePattern)),
             'contract_file' => new sfValidatorFile(array('required' => false,
-                'max_size' => 1000000), array('max_size' => __('Contract Details File Size Exceeded'))),
+                'max_size' => 1000000), array('max_size' => __(FILE_SIZE_SAVE_FAILURE))),
             'contract_update' => new sfValidatorString(array('required' => false)),
         ));
 
