@@ -40,7 +40,7 @@ class EmployeeAttachmentForm extends BaseForm {
             'seqNO' => new sfValidatorNumber(array('required' => false, 'min'=> 0)),
             'MAX_FILE_SIZE' => new sfValidatorNumber(array('required' => true)),
             'ufile' => new sfValidatorFile(array('required' => false, 
-                'max_size'=>1000000), array('max_size' => __('Attachment Size Exceeded.'))),
+                'max_size'=>1000000), array('max_size' => __('Attachment Size Exceeded'))),
             'txtAttDesc' => new sfValidatorString(array('required' => false)),            
             'screen' => new sfValidatorString(array('required' => true)),
             'commentOnly' => new sfValidatorString(array('required' => false)),

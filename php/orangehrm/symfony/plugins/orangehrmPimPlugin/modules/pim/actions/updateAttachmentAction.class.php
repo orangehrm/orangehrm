@@ -57,7 +57,7 @@ class updateAttachmentAction extends basePimAction {
                 $validationMsg = '';
                 foreach($this->form->getWidgetSchema()->getPositions() as $widgetName) {
                     if($this->form[$widgetName]->hasError()) {
-                        $validationMsg .= __($this->form[$widgetName]->getError()->getMessageFormat());
+                        $validationMsg .= __(TopLevelMessages::FILE_SIZE_SAVE_FAILURE);
                     }
                 }
 
