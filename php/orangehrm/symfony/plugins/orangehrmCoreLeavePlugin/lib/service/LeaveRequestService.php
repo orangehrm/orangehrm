@@ -37,6 +37,9 @@ class LeaveRequestService extends BaseService {
      * @return LeaveRequestDao
      */
     public function getLeaveRequestDao() {
+        if (!($this->leaveRequestDao instanceof LeaveRequestDao)) {
+            $this->leaveRequestDao = new LeaveRequestDao();
+        }
         return $this->leaveRequestDao;
     }
 
@@ -45,7 +48,7 @@ class LeaveRequestService extends BaseService {
      * @param LeaveRequestDao $leaveRequestDao
      * @return void
      */
-    public function setLeaveRequestDao( LeaveRequestDao $leaveRequestDao) {
+    public function setLeaveRequestDao(LeaveRequestDao $leaveRequestDao) {
         $this->leaveRequestDao = $leaveRequestDao;
     }
 
