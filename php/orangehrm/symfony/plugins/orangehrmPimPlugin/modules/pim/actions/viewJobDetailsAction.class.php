@@ -81,7 +81,7 @@ class viewJobDetailsAction extends basePimAction {
                 $validationMsg = '';
                 foreach($this->form->getWidgetSchema()->getPositions() as $widgetName) {
                     if($this->form[$widgetName]->hasError()) {
-                        $validationMsg .= __($this->form[$widgetName]->getError()->getMessageFormat());
+                        $validationMsg .= $this->form[$widgetName]->getError()->getMessageFormat();
                     }
                 }
 
