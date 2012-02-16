@@ -112,7 +112,7 @@
         </form>
     </div>
 </div>
- <div class="paddingLeftRequired"><span class="required">* <?php echo __(CommonMessages::REQUIRED_FIELD); ?></span></div>
+ <div class="paddingLeftRequired"><span class="required">*</span> <?php echo __(CommonMessages::REQUIRED_FIELD); ?></div>
  <div class="paddingLeftRequired"><span>1 </span>: <?php echo __('RSS Feed URL') ?> <span>:</span> <?php echo link_to(null, 'recruitmentApply/jobs.rss', array('absolute' => true, 'target' => '_new'));?></div>
  <div class="paddingLeftRequired"><span>2 </span>: <?php echo __('Web Page URL') ?> <span>:</span> <?php echo link_to(null, 'recruitmentApply/jobs.html', array('absolute' => true, 'target' => '_new'));?></div>
 

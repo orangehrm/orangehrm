@@ -41,7 +41,7 @@
 	    </div>
     </form>
 </div>
-<div class="paddingLeftRequired"><span class="required">* <?php echo __(CommonMessages::REQUIRED_FIELD); ?></span></div>
+<div class="paddingLeftRequired"><span class="required">*</span> <?php echo __(CommonMessages::REQUIRED_FIELD); ?></div>
 <script type="text/javascript">
 	var customers = <?php echo str_replace('&#039;', "'", $form->getCustomerListAsJson()) ?> ;
         var customerList = eval(customers);

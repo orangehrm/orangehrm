@@ -163,7 +163,7 @@ foreach($form->getWidgetSchema()->getPositions() as $widgetName) {
                             </table>
                         </form>
                     </div>
-                        <div class="paddingLeftRequired"><span class="required">* <?php echo __(CommonMessages::REQUIRED_FIELD); ?></span></div>
+                        <div class="paddingLeftRequired"><span class="required">*</span> <?php echo __(CommonMessages::REQUIRED_FIELD); ?></div>
                         <?php echo include_component('pim', 'customFields', array('empNumber' => $empNumber, 'screen' => 'membership')); ?>
                         <?php echo include_component('pim', 'attachments', array('empNumber' => $empNumber, 'screen' => 'membership')); ?>
                             </div>

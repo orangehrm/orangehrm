@@ -214,7 +214,7 @@
                                               <input type="button" id="dialogConfirm" class="savebutton" value="<?php echo __('Confirm'); ?>" />
                                               <input type="button" id="dialogCancel" class="savebutton" value="<?php echo __('Cancel'); ?>" />
                                           </div>
-                                          <div class="paddingLeftRequired"><span class="required">* <?php echo __(CommonMessages::REQUIRED_FIELD); ?></span></div>
+                                          <div class="paddingLeftRequired"><span class="required">*</span> <?php echo __(CommonMessages::REQUIRED_FIELD); ?></div>
                                       </div>
 
 

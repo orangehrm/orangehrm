@@ -166,7 +166,7 @@ use_javascript('orangehrm.datepicker.js');
                 </form>
             </div>
         </div>
-        <div class="paddingLeftRequired"><span class="required">* <?php echo __(CommonMessages::REQUIRED_FIELD); ?></span></div>
+        <div class="paddingLeftRequired"><span class="required">*</span> <?php echo __(CommonMessages::REQUIRED_FIELD); ?></div>
     </div>
 
     <style type="text/css">

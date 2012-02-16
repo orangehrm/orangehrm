@@ -23,7 +23,7 @@
                 </div>
             </form>
         </div>
-         <div class="requirednotice"><span class="required">* <?php echo __(CommonMessages::REQUIRED_FIELD); ?></span></div>
+         <div class="requirednotice"><span class="required">*</span> <?php echo __(CommonMessages::REQUIRED_FIELD); ?></div>
    </div>
    
    <script type="text/javascript">

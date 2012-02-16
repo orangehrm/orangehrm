@@ -81,7 +81,7 @@
 	</form>
     </div>
 </div>
-<div class="paddingLeftRequired"><span class="required">* <?php echo __(CommonMessages::REQUIRED_FIELD); ?></span></div>
+<div class="paddingLeftRequired"><span class="required">*</span> <?php echo __(CommonMessages::REQUIRED_FIELD); ?></div>
 
 <script type="text/javascript">
 	var locations = <?php echo str_replace('&#039;', "'", $form->getLocationListAsJson()) ?> ;

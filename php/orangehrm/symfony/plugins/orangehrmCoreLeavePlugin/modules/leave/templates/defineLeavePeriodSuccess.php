@@ -84,7 +84,7 @@
 </div>
 </div>
 
-<div class="requirednotice"><span class="required">* <?php echo __(CommonMessages::REQUIRED_FIELD); ?></span></div>
+<div class="requirednotice"><span class="required">*</span> <?php echo __(CommonMessages::REQUIRED_FIELD); ?></div>
 
 <script type="text/javascript">
 	var isLeavePeriodDefined = <?php echo ($isLeavePeriodDefined) ? 'true' : 'false' ?>;

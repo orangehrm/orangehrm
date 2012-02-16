@@ -30,7 +30,7 @@ use_javascript('../../../scripts/jquery/jquery.autocomplete.js');
 
 	</div>
 </div>
-   <div class="paddingLeftRequired"><span class="required">* <?php echo __(CommonMessages::REQUIRED_FIELD); ?></span></div>
+   <div class="paddingLeftRequired"><span class="required">*</span> <?php echo __(CommonMessages::REQUIRED_FIELD); ?></div>
 <?php if (!($pendingApprovelTimesheets == null)): ?>
 						<div class="outerbox" style="width:500px">
 							<div class="maincontent">
