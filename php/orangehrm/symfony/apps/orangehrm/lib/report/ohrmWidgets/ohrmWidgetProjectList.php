@@ -62,15 +62,19 @@ class ohrmWidgetProjectList extends sfWidgetForm implements ohrmEmbeddableWidget
         $userObj = sfContext::getInstance()->getUser()->getAttribute("user");
         $projectList = $userObj->getActiveProjectList();
 
-        if ($projectList != null) {
-
-            $projectNameList[null] = "--".__("Select")."--";
+        if (!empty($projectList)) {
+            
             foreach ($projectList as $project) {
-
                 $projectNameList[$project->getProjectId()] = $project->getCustomer()->getName() . " - " . $project->getName();
             }
+            
+            // order by customer name, project name
+            asort($projectNameList);
+            
+            // push -- Select -- to front 
+            $projectNameList = array(null => "--" . __("Select") . "--") + $projectNameList;
         } else {
-            $projectNameList[null] = "--".__("No Projects")."--";
+            $projectNameList[null] = "--" . __("No Projects") . "--";
         }
 
         return $projectNameList;
