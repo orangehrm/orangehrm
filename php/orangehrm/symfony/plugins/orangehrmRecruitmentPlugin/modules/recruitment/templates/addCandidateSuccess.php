@@ -148,7 +148,7 @@
                             echo $form['resume']->renderLabel(__('Resume'), array("class " => "resume"));
                             echo $form['resume']->render(array("class " => "duplexBox", "size" => $resumeWidth));
                             echo "<br class=\"clear\"/>";
-                            echo "<span id=\"cvHelp\" class=\"helpText\">[" . __(".docx, .doc, .odt, .pdf, .rtf, or .txt with maximum file size of 1MB") . "]</span>";
+                            echo "<span id=\"cvHelp\" class=\"helpText\">" . __(CommonMessages::FILE_LABEL_DOC) . "</span>";
                         } else {
                             $attachment = $form->attachment;
                             $linkHtml = "<div id=\"fileLink\"><a target=\"_blank\" class=\"fileLink\" href=\"";
@@ -166,7 +166,7 @@
                             echo $form['resume']->renderLabel(' ');
                             echo $form['resume']->render(array("class " => "duplexBox", "size" => $resumeWidth));
                             echo "<br class=\"clear\"/>";
-                            echo "<span id=\"cvHelp\" class=\"helpText\">[" . __(".docx, .doc, .odt, .pdf, .rtf, or .txt with maximum file size of 1MB") . "]</span>";
+                            echo "<span id=\"cvHelp\" class=\"helpText\">" . __(CommonMessages::FILE_LABEL_DOC) . "</span>";
                             echo "</div>";
                         }
                 ?>

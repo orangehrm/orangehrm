@@ -52,7 +52,7 @@
                 echo $form['jobSpec']->renderLabel(__('Job Specification'), array("class " => "formInputFileUpload"));
                 echo $form['jobSpec']->render(array("class " => "duplexBox", "size" => 32));
                 echo "<br class=\"clear\"/>";
-                echo "<span id=\"cvHelp\" class=\"helpText\">[" . __("1M Max, any larger attachments will be ignored") . "]</span>";
+                echo "<span id=\"cvHelp\" class=\"helpText\">" . __(CommonMessages::FILE_LABEL_SIZE) . "</span>";
                 echo "<br class=\"clear\"/>";
             } else {
                 $attachment = $form->attachment;
@@ -71,7 +71,7 @@
                 echo $form['jobSpec']->renderLabel(' ');
                 echo $form['jobSpec']->render(array("class " => "duplexBox", "size" => 32));
                 echo "<br class=\"clear\"/>";
-                echo "<span id=\"cvHelp\" class=\"helpText\">[" . __("1M Max, any larger attachments will be ignored") . "]</span>";
+                echo "<span id=\"cvHelp\" class=\"helpText\">" . __(CommonMessages::FILE_LABEL_SIZE) . "</span>";
                 echo "</div>";
             }
             ?>

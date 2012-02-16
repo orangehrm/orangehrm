@@ -99,7 +99,7 @@
                     echo $form['resume']->renderLabel(__('Resume'). '<span class="required">*</span>', array("class " => "resume"));
                     echo $form['resume']->render(array("class " => "duplexBox", "size" => $resumeWidth));
                     echo "<div class=\"errorHolder below\"></div><br class=\"clear\"/>";
-                    echo "<span id=\"cvHelp\" class=\"helpText\">[" . __(".docx, .doc, .odt, .pdf, .rtf, or .txt with maximum file size of 1MB") . "]</span>";
+                    echo "<span id=\"cvHelp\" class=\"helpText\">" . __(CommonMessages::FILE_LABEL_DOC) . "</span>";
                 } else {
 		    echo "<span class=\"resumeUp\">".__('Resume')."</span>";
                     echo "<span class=\"fileLink\">".__('Uploaded')."</span>";

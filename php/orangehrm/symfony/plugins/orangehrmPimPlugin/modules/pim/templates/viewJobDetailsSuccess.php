@@ -122,7 +122,7 @@
 
                                               echo $form['contract_file']->renderLabel('Contract Details');
                                               echo $form['contract_file']->render(array("class" => ""));
-                                              echo "<p class=\"commonUploadHelp\">[" . __("1M Max, any larger attachments will be ignored") . "]</p>";
+                                              echo "<p class=\"commonUploadHelp\">" . __(CommonMessages::FILE_LABEL_SIZE) . "</p>";
                                           } else {
 
                                               $attachment = $form->attachment;
@@ -138,7 +138,7 @@
                                               echo "<div id=\"fileUploadSection\">";
                                               echo $form['contract_file']->renderLabel(' ');
                                               echo $form['contract_file']->render(array("class" => ""));
-                                              echo "<p class=\"commonUploadHelp\">[" . __("1M Max, any larger attachments will be ignored") . "]</p>";
+                                              echo "<p class=\"commonUploadHelp\">" . __(CommonMessages::FILE_LABEL_SIZE) . "</p>";
                                               echo "</div>";
                                           }
                                         ?>

@@ -58,7 +58,7 @@ $locRights['delete'] = true;
                     <div class="input_container input_file">
                         <input type="hidden" name="MAX_FILE_SIZE" value="1048576" />
                         <input type="file" name="ufile" id="ufile" class="formInputText" style="width:100%;"/>
-                        <p style="float: none; width: 100%; font-size: 11px;">[<?php echo __("1M Max, any larger attachments will be ignored")?>]</p>
+                        <p style="float: none; width: 100%; font-size: 11px;"><?php echo __(CommonMessages::FILE_LABEL_SIZE); ?></p>
                     </div>
                     
                     <div class="clear"></div>

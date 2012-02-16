@@ -47,7 +47,7 @@
                 <br class="clear" />
 
                 <?php echo $form['photofile']->renderLabel(__('Photograph')); ?>
-                <?php echo $form['photofile']->render(array("class" => "duplexBox")); ?><span class="helpText"><?php echo __(".jpg, .png or .gif file with maximum size of 1MB"); ?></span>
+                <?php echo $form['photofile']->render(array("class" => "duplexBox")); ?><span class="helpText"><?php echo __(CommonMessages::FILE_LABEL_IMAGE); ?></span>
                 <br class="clear" />
             </div>
             <?php 
