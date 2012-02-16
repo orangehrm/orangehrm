@@ -27,6 +27,12 @@ label {
     font-size: 12px;
 }
 
+div.error {
+    width: auto;
+    text-align: left;
+    padding-left: 142px;
+}
+
 #assignleave_txtFromTime, #assignleave_txtToTime {
     width: 5em;
 }

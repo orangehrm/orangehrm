@@ -88,6 +88,8 @@
         var lang_dateError = '<?php echo __("To date should be after the From date") ?>';
         $(document).ready(function() {
             $.datepicker.setDefaults({showOn: 'click'});
+            
+            showTimeControls(false);
 
             var data	= <?php echo str_replace('&#039;', "'", $form->getEmployeeListAsJson()) ?> ;
 
@@ -152,9 +154,7 @@
             //Show From if same date
             if(trim($("#assignleave_txtFromDate").val()) != datepickerDateFormat && trim($("#assignleave_txtToDate").val()) != datepickerDateFormat){
                 if( trim($("#assignleave_txtFromDate").val()) == trim($("#assignleave_txtToDate").val())) {
-                    $("#trTime1").show();
-                    $("#trTime2").show();
-                    $("#trTime3").show();
+                    showTimeControls(true);
                 }
             }
 
@@ -233,11 +233,14 @@
             },
             errorElement : 'div',
             errorPlacement: function(error, element) {
-                error.appendTo(element.prev('label'));
-                //this is for leave type
-                error.insertAfter(element.next(".clear"));
-                error.insertAfter(element.next().next(".clear"));
-                error.insertAfter(element.next().next().next(".clear"));
+//                error.appendTo(element.prev('label'));
+//                //this is for leave type
+//                error.insertAfter(element.next(".clear"));
+//                error.insertAfter(element.next().next(".clear"));
+//                error.insertAfter(element.next().next().next(".clear"));
+                if (element.css('display') != 'none') {
+                    error.insertAfter(element.next());
+                }
             }
         });
 
@@ -312,25 +315,33 @@
             });
         }
     });
+    
+    function showTimeControls(show) {
+
+        var timeControlIds = ['assignleave_txtFromTime', 'assignleave_txtToTime', 'assignleave_txtLeaveTotalTime'];
+        
+        $.each(timeControlIds, function(index, value) {
+
+            if (show) {
+                $('#' + value).show();
+                $('label[for="' + value + '"]').show();
+                $('#' + value).next('br').show();
+            } else {
+                $('#' + value).hide();
+                $('label[for="' + value + '"]').hide();
+                $('#' + value).next('br').hide();                
+            }
+        });
+    }
 
     function showTimepaneFromDate(theDate,datepickerDateFormat){
         var Todate	=	trim($("#assignleave_txtToDate").val());
         if(Todate == datepickerDateFormat ){
             $("#assignleave_txtFromDate").val(theDate);
-            $("#trTime1").show();
-            $("#trTime2").show();
-            $("#trTime3").show();
+            
             $("#assignleave_txtToDate").val(theDate);
         }else{
-            if(Todate == theDate ) {
-                $("#trTime1").show();
-                $("#trTime2").show();
-                $("#trTime3").show();
-            } else {
-                $("#trTime1").hide();
-                $("#trTime2").hide();
-                $("#trTime3").hide();
-            }
+            showTimeControls((Todate == theDate));
         }
         $("#assignleave_txtFromDate").valid();
         $("#assignleave_txtToDate").valid();
@@ -339,15 +350,8 @@
     function showTimepaneToDate(theDate){
         var fromDate	=	trim($("#assignleave_txtFromDate").val());
 
-        if(fromDate == theDate ) {
-            $("#trTime1").show();
-            $("#trTime2").show();
-            $("#trTime3").show();
-        } else {
-            $("#trTime1").hide();
-            $("#trTime2").hide();
-            $("#trTime3").hide();
-        }
+        showTimeControls((fromDate == theDate));
+        
         $("#assignleave_txtFromDate").valid();
         $("#assignleave_txtToDate").valid();
     }
@@ -378,21 +382,16 @@
                     var toDateValue	=	trim($("#assignleave_txtToDate").val());
                     if(validateDate(fromDateValue, datepickerDateFormat)){
                         if(fromDateValue == toDateValue) {
-                            $("#trTime1").show();
-                            $("#trTime2").show();
-                            $("#trTime3").show();
+                            showTimeControls(true);
                         }
                         if(!validateDate(toDateValue, datepickerDateFormat)){
-                            $("#assignleave_txtToDate").val(fromDateValue);
-                            $("#trTime1").show();
-                            $("#trTime2").show();
-                            $("#trTime3").show();
+                            $('#assignleave_txtToDate').val(fromDateValue);
+                            showTimeControls(true);
                         }
                     }
                     else {
-                        $("#trTime1").hide();
-                        $("#trTime2").hide();
-                        $("#trTime3").show();
+                        showTimeControls(false);
+                        $('#assignleave_txtLeaveTotalTime').show();
                     }
                 }
     }
@@ -404,15 +403,7 @@
 
                     if(validateDate(fromDateValue, datepickerDateFormat) && validateDate(toDateValue, datepickerDateFormat)){
 
-                        if(fromDateValue == toDateValue) {
-                            $("#trTime1").show();
-                            $("#trTime2").show();
-                            $("#trTime3").show();
-                        } else {
-                            $("#trTime1").hide();
-                            $("#trTime2").hide();
-                            $("#trTime3").hide();
-                        }
+                        showTimeControls((fromDateValue == toDateValue));
                     }
                 }
     }
