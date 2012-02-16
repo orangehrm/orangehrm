@@ -88,9 +88,9 @@ use_stylesheets_for_form($form);
     var activeLeaveTypes = [];
     var deletedLeaveTypes = [];
 
-    var lang_LeaveTypeNameRequired = '<?php echo __('Please provide a leave type name'); ?>';
-    var lang_LeaveTypeExists = '<?php echo __('This leave type exists'); ?>';
-    var lang_LeaveTypeNameTooLong = '<?php echo __("Leave type name should be 50 characters or less in length"); ?>'; 
+    var lang_LeaveTypeNameRequired = '<?php echo __(ValidationMessages::REQUIRED); ?>';
+    var lang_LeaveTypeExists = '<?php echo __(ValidationMessages::ALREADY_EXISTS); ?>';
+    var lang_LeaveTypeNameTooLong = '<?php echo __(ValidationMessages::TEXT_LENGTH_EXCEEDS, array('%amount%' => 50)); ?>'; 
     
     var backButtonUrl = '<?php echo url_for('leave/leaveTypeList'); ?>';
 

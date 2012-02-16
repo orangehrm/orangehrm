@@ -296,10 +296,6 @@
     <source>This is a deleted leave type. Reactivate it?</source>
     <target>FR_This is a deleted leave type. Reactivate it?</target>
    </trans-unit>
-   <trans-unit id="74">
-    <source>This leave type exists</source>
-    <target>FR_This leave type exists</target>
-   </trans-unit>
    <trans-unit id="75">
     <source>To Date</source>
     <target>FR_To Date</target>
