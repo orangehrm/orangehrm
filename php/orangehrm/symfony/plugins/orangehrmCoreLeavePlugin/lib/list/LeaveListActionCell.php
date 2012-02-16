@@ -7,7 +7,7 @@ class LeaveListActionCell extends SelectSingleCell {
         $statusDiffer = ($this->dataObject->isStatusDiffer());
         if ($statusDiffer) {
             return content_tag('a', __('Go to Detailed View'), array(
-                'href' => url_for('leave/viewLeaveList?id=' . $this->dataObject->getLeaveRequestId()),
+                'href' => url_for('leave/viewLeaveRequest?id=' . $this->dataObject->getLeaveRequestId()),
             ));
         } else {
             return parent::__toString();
