@@ -133,18 +133,19 @@ class PerformanceReviewDao extends BaseDao {
             }
 
             $q = Doctrine_Query::create()
-                 ->from('PerformanceReview');
-
+                 ->from('PerformanceReview p')
+                 ->leftJoin('p.Employee e');
+            
             if (!empty($from)) {
-                $q->andWhere("periodFrom >= ?", $from);
+                $q->andWhere("p.periodFrom >= ?", $from);
             }
 
             if (!empty($to)) {
-                $q->andWhere("periodTo <= ?", $to);
+                $q->andWhere("p.periodTo <= ?", $to);
             }
 
             if (!empty($empId)) {
-                $q->andWhere("employeeId = ?", $empId);
+                $q->andWhere("p.employeeId = ?", $empId);
             }
 
             if (!empty($reviewerId)) {
@@ -154,18 +155,19 @@ class PerformanceReviewDao extends BaseDao {
                  */
 
                 if (empty($empId) && isset($clues['loggedReviewerId'])) {
-                    $q->andWhere("(reviewerId = $reviewerId OR employeeId = $reviewerId)");
+                    $q->andWhere("(p.reviewerId = ? OR employeeId = ?)",
+                             array($reviewerId, $reviewerId));
                 } else {
-                    $q->andWhere("reviewerId = ?", $reviewerId);
+                    $q->andWhere("p.reviewerId = ?", $reviewerId);
                 }
             }
 
             if (!empty($jobCode)) {
-                $q->andWhere("jobTitleCode = ?", $jobCode);
+                $q->andWhere("p.jobTitleCode = ?", $jobCode);
             }
 
             if (!empty($divisionId)) {
-                $q->andWhere("subDivisionId = ?", $divisionId);
+                $q->andWhere("p.subDivisionId = ?", $divisionId);
             }
 
             return $q;
@@ -193,6 +195,8 @@ class PerformanceReviewDao extends BaseDao {
             if (isset($offset) && isset($limit)) {
                 $q->offset($offset)->limit($limit);
             }
+            
+            $q->orderBy('e.lastName ASC, e.firstName ASC');
             
             return $q->execute();
 
