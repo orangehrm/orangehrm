@@ -4,13 +4,13 @@
         <?php if (count($listJobTitle) == 0) {
         ?>
             <div id="messageBalloon_notice" class="messageBalloon_notice">
-                <?php echo __("No Defined Job Titles") ?> <a href="<?php echo '../../../.././lib/controllers/CentralController.php?uniqcode=JOB&amp;VIEW=MAIN' ?>"><?php echo __("Define Now") ?></a>
+                <?php echo __("No Defined Job Titles") ?> <a href="<?php echo url_for('admin/viewJobTitleList') ?>"><?php echo __("Define Now") ?></a>
             </div>
         <?php } ?>
         <?php if ($confirm) {
  ?>
             <div id="messageBalloon_notice" class="messageBalloon_notice">
-                <ul><li><?php echo __("KPI already exists, This opertaion deletes exsting KPI") ?> &nbsp;&nbsp;<a href="javascript:confirmOverwrite();"><?php echo __("Ok") ?></a> &nbsp;&nbsp;<a href="javascript:cancelOverwrite();"><?php echo __("Cancel") ?></a></li></ul>
+                <?php echo __("KPI already exists, This opertaion deletes exsting KPI") ?> &nbsp;&nbsp;<a href="javascript:confirmOverwrite();"><?php echo __("Ok") ?></a> &nbsp;&nbsp;<a href="javascript:cancelOverwrite();"><?php echo __("Cancel") ?></a>
             </div>
 <?php } ?>
 

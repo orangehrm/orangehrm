@@ -146,7 +146,9 @@ class performanceActions extends sfActions {
 
         $kpiService = $this->getKpiService();
         $this->mode = $request->getParameter('mode');
-
+        if ($this->getUser()->hasFlash('templateMessage')) {
+            $this->templateMessage = $this->getUser()->getFlash('templateMessage');
+        }
         $this->pager = new SimplePager('KpiList', sfConfig::get('app_items_per_page'));
         $this->pager->setPage(($request->getParameter('page') != '') ? $request->getParameter('page') : 0);
 
@@ -196,6 +198,10 @@ class performanceActions extends sfActions {
 
         $kpiService = $this->getKpiService();
         $this->defaultRate = $kpiService->getKpiDefaultRate();
+        
+        if ($this->getUser()->hasFlash('templateMessage')) {
+            $this->templateMessage = $this->getUser()->getFlash('templateMessage');
+        }
 
         if ($request->isMethod('post')) {
 
@@ -227,7 +233,7 @@ class performanceActions extends sfActions {
 
                     $kpiService->saveKpi($defineKpi);
 
-                    $this->setMessage('SUCCESS', array(__(TopLevelMessages::ADD_SUCCESS).'<a href="listDefineKpi">'.__('View KPI List').'</a>'));
+                    $this->getUser()->setFlash('templateMessage', array('SUCCESS', __(TopLevelMessages::ADD_SUCCESS).' <a href="listDefineKpi">'.__('View KPI List').'</a>'));
                     $this->redirect('performance/saveKpi');
                 } catch (Doctrine_Validator_Exception $e) {
 
@@ -277,7 +283,7 @@ class performanceActions extends sfActions {
             }
 
             $kpiService->saveKpi($kpi);
-            $this->setMessage('SUCCESS', array(__(TopLevelMessages::UPDATE_SUCCESS)));
+            $this->getUser()->setFlash('templateMessage', array('SUCCESS', __(TopLevelMessages::UPDATE_SUCCESS)));
             $this->redirect('performance/listDefineKpi');
         }
     }
@@ -315,7 +321,7 @@ class performanceActions extends sfActions {
 
                     $kpiService->copyKpi($toJobTitle, $fromJobTitle);
 
-                    $this->setMessage('SUCCESS', array(__('Successfully Copied')));
+                    $this->getUser()->setFlash('templateMessage', array('SUCCESS', __('Successfully Copied')));
                     $this->redirect('performance/listDefineKpi');
                 } else {
 
@@ -343,7 +349,7 @@ class performanceActions extends sfActions {
                 $kpiService = $this->getKpiService();
                 $kpiService->deleteKpi($request->getParameter('chkKpiID'));
 
-                $this->setMessage('SUCCESS', array(__(TopLevelMessages::DELETE_SUCCESS)));
+                $this->getUser()->setFlash('templateMessage', array('SUCCESS', __(TopLevelMessages::DELETE_SUCCESS)));
             }
         }
 

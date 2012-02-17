@@ -8,7 +8,7 @@
                             <?php echo __("No Defined Job Titles")?> <a href="<?php echo url_for('admin/viewJobTitleList') ?>"><?php echo __("Define Now")?></a>
 			</div>
 		<?php }?>
-		<?php echo message()?>
+		<?php echo isset($templateMessage) ? templateMessage($templateMessage) : ''; ?>
         <div class="outerbox">
             <div id="formHeading" class="mainHeading"><h2><?php echo __("Search Key Performance Indicators")?></h2></div>
 			
@@ -172,7 +172,7 @@
 				}else
 				{
 					
-					showError('messageBalloon_success','<?php echo __(TopLevelMessages::SELECT_RECORDS); ?>' );
+					showError('messageBalloon_warning','<?php echo __(TopLevelMessages::SELECT_RECORDS); ?>' );
 				}
 			});
 
@@ -212,7 +212,7 @@
 
 		function showError(errorType,message)
 		{
-			var html	=	"<div id='"+errorType+"' class='"+errorType+"' ><ul><li>"+message+"</li></ul></div>";
+			var html	=	"<div id='"+errorType+"' class='"+errorType+"' >"+message+"</div>";
 			 $("#errorContainer").html(html);
 			 $("#errorContainer").show();
 		}

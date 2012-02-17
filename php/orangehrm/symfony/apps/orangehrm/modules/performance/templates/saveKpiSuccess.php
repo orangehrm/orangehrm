@@ -3,10 +3,10 @@
 	<div id="contentContainer">
 	<?php if(count($listJobTitle) == 0){?>
 			<div id="messageBalloon_notice" class="messageBalloon_notice">
-				<?php echo __("No Defined Job Titles")?> <a href="<?php echo '../../../.././lib/controllers/CentralController.php?uniqcode=JOB&amp;VIEW=MAIN' ?>"><?php echo __("Define Now")?></a>
+				<?php echo __("No Defined Job Titles")?> <a href="<?php echo url_for('admin/viewJobTitleList') ?>"><?php echo __("Define Now")?></a>
 			</div>
 		<?php }?>
-		<?php echo message()?>
+		<?php echo isset($templateMessage) ? templateMessage($templateMessage) : ''; ?>
         <div class="outerbox">
             <div id="formHeading" class="mainHeading"><h2><?php echo __("Add Key Performance Indicator") ?></h2></div>
 			
