@@ -113,42 +113,12 @@ class changeCandidateVacancyStatusAction extends sfAction {
                 if (isset($result['messageType'])) {
                     $this->getUser()->setFlash('templateMessage', array($result['messageType'], $result['message']));
                 } else {
-                    $message = $this->_getSuccessMessage($this->performedAction);
+                    $message = __(TopLevelMessages::UPDATE_SUCCESS);
                     $this->getUser()->setFlash('templateMessage', array('success', $message));
                 }
                 $this->redirect('recruitment/changeCandidateVacancyStatus?id=' . $this->form->historyId);
             }
         }
     }
-
-    private function _getSuccessMessage($action) {
-
-        switch ($action) {
-
-            case WorkflowStateMachine::RECRUITMENT_APPLICATION_ACTION_SHORTLIST:
-                $message = __("Successfully Shortlisted");
-                break;
-            case WorkflowStateMachine::RECRUITMENT_APPLICATION_ACTION_REJECT:
-                $message = __("Successfully Rejected");
-                break;
-            case WorkflowStateMachine::RECRUITMENT_APPLICATION_ACTION_MARK_INTERVIEW_PASSED:
-                $message = __(TopLevelMessages::UPDATE_SUCCESS);
-                break;
-            case WorkflowStateMachine::RECRUITMENT_APPLICATION_ACTION_MARK_INTERVIEW_FAILED:
-                $message = __(TopLevelMessages::UPDATE_SUCCESS);
-                break;
-            case WorkflowStateMachine::RECRUITMENT_APPLICATION_ACTION_OFFER_JOB:
-                $message = __("Successfully Offered");
-                break;
-            case WorkflowStateMachine::RECRUITMENT_APPLICATION_ACTION_DECLINE_OFFER:
-                $message = __("Successfully Marked as Declined");
-                break;
-            case WorkflowStateMachine::RECRUITMENT_APPLICATION_ACTION_HIRE:
-                $message = __("Successfully Hired");
-                break;
-        }
-        return $message;
-    }
-
 }
 
