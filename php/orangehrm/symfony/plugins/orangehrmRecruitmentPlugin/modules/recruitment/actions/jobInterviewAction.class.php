@@ -101,7 +101,7 @@ class jobInterviewAction extends sfAction {
                 if (isset($result['messageType'])) {
                     $this->getUser()->setFlash('templateMessage', array($result['messageType'], $result['message']));
                 } else {
-                    $this->getUser()->setFlash('templateMessage', array('success', __("Interview Scheduled Successfully")));
+                    $this->getUser()->setFlash('templateMessage', array('success', __('Successfully Scheduled')));
                 }
                 $this->redirect('recruitment/changeCandidateVacancyStatus?id=' . $this->form->historyId);
             }

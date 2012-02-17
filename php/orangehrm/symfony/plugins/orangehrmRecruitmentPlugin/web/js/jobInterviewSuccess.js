@@ -285,7 +285,7 @@ function isValidForm(){
         rules: {
             'jobInterview[name]' : {
                 required:true,
-                maxlength:98
+                maxlength:100
             },
             
             'jobInterview[interviewer_1]' : {

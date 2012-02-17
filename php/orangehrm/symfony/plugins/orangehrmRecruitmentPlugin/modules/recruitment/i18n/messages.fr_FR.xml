@@ -492,6 +492,10 @@
     <source>Remove vacancy?</source>
     <target>FR_Remove vacancy?</target>
    </trans-unit>
+   <trans-unit id="221">
+    <source>Successfully Scheduled</source>
+    <target>FR_Successfully Scheduled</target>
+   </trans-unit>
   </body>
  </file>
 </xliff>
