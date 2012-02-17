@@ -224,6 +224,10 @@
     <source>View KPI List</source>
     <target>FR_View KPI List</target>
    </trans-unit>
+   <trans-unit id="57">
+    <source>No Defined Job Titles</source>
+    <target>FR_No Defined Job Titles</target>
+   </trans-unit>
   </body>
  </file>
 </xliff>

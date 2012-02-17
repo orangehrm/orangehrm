@@ -4,7 +4,7 @@
         <?php if (count($listJobTitle) == 0) {
         ?>
             <div id="messageBalloon_notice" class="messageBalloon_notice">
-                <ul><li><?php echo __("Job titles haven't been defined") ?> <a href="<?php echo '../../../.././lib/controllers/CentralController.php?uniqcode=JOB&amp;VIEW=MAIN' ?>"><?php echo __("Define Now") ?></a></li></ul>
+                <?php echo __("No Defined Job Titles") ?> <a href="<?php echo '../../../.././lib/controllers/CentralController.php?uniqcode=JOB&amp;VIEW=MAIN' ?>"><?php echo __("Define Now") ?></a>
             </div>
         <?php } ?>
         <?php if ($confirm) {
