@@ -126,7 +126,7 @@ $(document).ready(function() {
 				attachment:true
 			},
 			'recruitmentAttachment[comment]': {
-				maxlength: 200
+				maxlength: 250
 			}
 		},
 		messages: {

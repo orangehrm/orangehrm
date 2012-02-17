@@ -36,13 +36,12 @@ class updateAttachmentAction extends sfAction {
                 $this->getUser()->setFlash('attachmentMessage', array('warning', __(TopLevelMessages::FILE_SIZE_SAVE_FAILURE)));
                 $this->redirect($this->getRequest()->getReferer() . '#attachments');
             }
-
             // Handle the form submission
             $this->form->bind($request->getParameter($this->form->getName()), $request->getFiles($this->form->getName()));
 
             if ($this->form->isValid()) {
                 $this->form->save();
-                $this->getUser()->setFlash('attachmentMessage', array('success', __(TopLevelMessages::UPDATE_SUCCESS)));
+                $this->getUser()->setFlash('attachmentMessage', array('success', __(TopLevelMessages::SAVE_SUCCESS)));
             }
         }
         $this->redirect($this->getRequest()->getReferer() . '#attachments');
