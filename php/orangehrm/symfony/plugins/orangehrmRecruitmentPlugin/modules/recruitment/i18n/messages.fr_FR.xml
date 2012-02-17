@@ -448,10 +448,6 @@
     <source>Successfully Shortlisted</source>
     <target>FR_Successfully Shortlisted</target>
    </trans-unit>
-   <trans-unit id="112">
-    <source>This action will remove the vacancy from the candidate</source>
-    <target>FR_This action will remove the vacancy from the candidate</target>
-   </trans-unit>
    <trans-unit id="113">
     <source>Vacancy</source>
     <target>FR_Vacancy</target>
@@ -489,12 +485,16 @@
     <target>FR_Enter comma separated words</target>
    </trans-unit>
    <trans-unit id="221">
-    <source>Remove vacancy?</source>
-    <target>FR_Remove vacancy?</target>
-   </trans-unit>
-   <trans-unit id="221">
     <source>Successfully Scheduled</source>
     <target>FR_Successfully Scheduled</target>
+   </trans-unit>
+   <trans-unit id="221">
+    <source>This action will remove previous vacancy</source>
+    <target>FR_This action will remove previous vacancy</target>
+   </trans-unit>
+   <trans-unit id="221">
+    <source>Remove?</source>
+    <target>FR_Remove?</target>
    </trans-unit>
   </body>
  </file>

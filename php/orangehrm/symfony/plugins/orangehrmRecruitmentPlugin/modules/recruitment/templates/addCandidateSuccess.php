@@ -227,9 +227,9 @@
 
                                 <!-- confirmation box for remove vacancies & save -->
                                 <div id="deleteConfirmationForSave" title="<?php echo __('OrangeHRM - Confirmation Required'); ?>" style="display: none;">
-                                    <?php echo __("This action will remove the vacancy from the candidate"); ?>
+                                    <?php echo __("This action will remove previous vacancy"); ?>
                                     <br /><br />
-                                    <?php echo __("Remove vacancy?"); ?>
+                                    <?php echo __("Remove?"); ?>
                                     <div class="dialogButtons">
                                         <input type="button" id="dialogSaveButton" class="savebutton" value="<?php echo __('Ok'); ?>" />
                                         <input type="button" id="dialogCancelButton" class="savebutton" value="<?php echo __('Cancel'); ?>" />
