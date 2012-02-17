@@ -268,10 +268,6 @@
     <source>Emergency Contact(s)</source>
     <target>FR_Emergency Contact(s)</target>
    </trans-unit>
-   <trans-unit id="67">
-    <source>Employee Id Exists</source>
-    <target>FR_Employee Id Exists</target>
-   </trans-unit>
    <trans-unit id="68">
     <source>Employee Information</source>
     <target>FR_Employee Information</target>
@@ -611,6 +607,14 @@
    <trans-unit id="3452">
     <source>Custom Field Already Exists</source>
     <target>FR_Custom Field Already Exists</target>
+   </trans-unit>
+   <trans-unit id="3452">
+    <source>Failed To Save: User Name Exists</source>
+    <target>FR_Failed To Save: User Name Exists</target>
+   </trans-unit>
+   <trans-unit id="3452">
+    <source>Failed To Save: Employee Id Exists</source>
+    <target>FR_Failed To Save: Employee Id Exists</target>
    </trans-unit>
   </body>
  </file>

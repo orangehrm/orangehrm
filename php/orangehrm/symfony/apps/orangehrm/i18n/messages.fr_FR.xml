@@ -4742,8 +4742,8 @@
     <target>FR_Accepts up to 1MB</target>
    </trans-unit>
    <trans-unit id="73">
-    <source>Failed to Save: Invalid File Type</source>
-    <target>FR_Failed to Save: Invalid File Type</target>
+    <source>Failed to Save: File Type Not Allowed</source>
+    <target>FR_Failed to Save: File Type Not Allowed</target>
    </trans-unit>
    <trans-unit id="73">
     <source>Failed to Save: File Size Exceeded</source>
