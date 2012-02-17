@@ -371,6 +371,10 @@ class performanceActions extends sfActions {
         $performanceReview = $performanceReviewService->readPerformanceReview($id);
         $performanceService = $this->getPerformanceKpiService();
 
+        if ($this->getUser()->hasFlash('templateMessage')) {
+            $this->templateMessage = $this->getUser()->getFlash('templateMessage');
+        }
+        
         $this->performanceReview = $performanceReview;
         $performanceKpiList = $performanceService->getPerformanceKpiList($performanceReview->getKpis());
         $this->kpiList = $performanceKpiList;
@@ -426,7 +430,7 @@ class performanceActions extends sfActions {
                 if (trim($request->getParameter('txtMainComment')) != '') {
                     $performanceReviewService->addComment($performanceReview, $request->getParameter('txtMainComment'), $_SESSION['empNumber']);
                 }
-
+                $this->getUser()->setFlash('templateMessage', array('SUCCESS', __(TopLevelMessages::UPDATE_SUCCESS)));
                 $this->redirect('performance/performanceReview?id=' . $id);
             }
         }

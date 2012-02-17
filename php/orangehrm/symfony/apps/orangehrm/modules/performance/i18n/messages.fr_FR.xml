@@ -232,6 +232,10 @@
     <source>Failed to Add: No Job Title Assigned</source>
     <target>FR_Failed to Add: No Job Title Assigned</target>
    </trans-unit>
+   <trans-unit id="57">
+    <source>Comment Should Be Less Than %amount% Characters</source>
+    <target>FR_Comment Should Be Less Than %amount% Characters</target>
+   </trans-unit>
   </body>
  </file>
 </xliff>

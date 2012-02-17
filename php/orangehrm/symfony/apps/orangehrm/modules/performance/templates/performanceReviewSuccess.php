@@ -2,8 +2,10 @@
 
 <?php echo stylesheet_tag('performance/performanceReviewSuccess'); ?>
 
+
 <div id="content">
 	<div id="performanceReviewcontentContainer">
+	<?php echo isset($templateMessage) ? templateMessage($templateMessage) : ''; ?>
         <div class="outerbox">
             <div id="formHeading" class="mainHeading"><h2><?php echo __("Performance Review")?></h2></div>
 
@@ -311,12 +313,12 @@
 				 $("#frmSave").validate({
 
 					 rules: {
-					 	txtMainComment: {maxlength: 200},
+					 	txtMainComment: {maxlength: 250},
 					 	validRate: {minmax:true	}
 
 				 	 },
 				 	 messages: {
-				 		txtMainComment: "<?php echo __('Comments length exceed')?>",
+				 		txtMainComment: "<?php echo __(ValidationMessages::TEXT_LENGTH_EXCEEDS, array('%amount%' => 250))?>",
 				 		validRate: ""
 				 	 }
 				 });
@@ -400,7 +402,7 @@
 						});
 
 						if(error){
-							$("#messageBalloon_failure ul").html('<li><?php echo __('Please make sure that the comment contains less than 2000 characters');?></li>');
+							$("#messageBalloon_failure ul").html('<li><?php echo __('Comment Should Be Less Than %amount% Characters', array('%amount%' => 2000));?></li>');
 							$("#performanceError").show();
 							$('#validRate').val('0');
 						}else{
