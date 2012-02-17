@@ -84,7 +84,7 @@
             </form>
 
         </div> <!-- outerbox: Ends -->
-
+<div class="paddingLeftRequired"><span class="required">*</span> <?php echo __(CommonMessages::REQUIRED_FIELD); ?></div>
     </div> <!-- contentContainer: Ends -->
 
 </div> <!-- content: Ends -->

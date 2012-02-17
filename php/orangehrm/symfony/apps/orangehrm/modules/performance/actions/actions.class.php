@@ -564,7 +564,7 @@ class performanceActions extends sfActions {
 
                     if (trim($request->getParameter("hdnId-0")) == "") {
 
-                        $this->templateMessage = array('WARNING', __('Employee is not assigned a job title, cannot add a performance review'));
+                        $this->templateMessage = array('WARNING', __('Failed to Add: No Job Title Assigned'));
                         return;
                     }
 
@@ -611,7 +611,7 @@ class performanceActions extends sfActions {
                 $this->getUser()->setFlash('prClues', $clues);
 
                 $actionResult = ($request->getParameter("hdnId-0")) ? __('updated') : __('added');
-                $this->templateMessage = array('SUCCESS', __('Successfully')." ". $actionResult . ' '.__('review of') .' ' . $this->clues['empName'] . '. <a href="viewReview">' .__('View').'</a>');
+                $this->templateMessage = array('SUCCESS', __(TopLevelMessages::ADD_SUCCESS).' <a href="viewReview">' .__('View').'</a>');
             }
         }
     }
@@ -689,7 +689,7 @@ class performanceActions extends sfActions {
         if ((!$this->_isCorrectEmployee($this->clues['empId'], $this->clues['empName'])) ||
                 (!$this->_isCorrectEmployee($this->clues['reviewerId'], $this->clues['reviewerName']))
         ) {
-            $this->templateMessage = array('WARNING', __('No reviews were found on given criteria'));
+            $this->templateMessage = array('WARNING', __(TopLevelMessages::NO_RECORDS_FOUND));
             return;
         }
 
@@ -720,7 +720,7 @@ class performanceActions extends sfActions {
         if ($this->getUser()->hasFlash('templateMessage')) {
             $this->templateMessage = $this->getUser()->getFlash('templateMessage');
         } elseif (count($this->reviews) == 0) {
-            $this->templateMessage = array('WARNING', __('No reviews were found on given criteria'));
+            $this->templateMessage = array('WARNING', __(TopLevelMessages::NO_RECORDS_FOUND));
         }
     }
 

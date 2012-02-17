@@ -228,6 +228,10 @@
     <source>No Defined Job Titles</source>
     <target>FR_No Defined Job Titles</target>
    </trans-unit>
+   <trans-unit id="57">
+    <source>Failed to Add: No Job Title Assigned</source>
+    <target>FR_Failed to Add: No Job Title Assigned</target>
+   </trans-unit>
   </body>
  </file>
 </xliff>
