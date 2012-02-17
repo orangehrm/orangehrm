@@ -216,7 +216,7 @@ class AddCandidateForm extends BaseForm {
         if (!empty($file)) {
             if (!($this->isValidResume($file))) {
                 $resultArray['messageType'] = 'warning';
-                $resultArray['message'] = __('Error Occurred - Invalid File Type');
+                $resultArray['message'] = __(TopLevelMessages::FILE_TYPE_SAVE_FAILURE);
                 return $resultArray;
             }
         }

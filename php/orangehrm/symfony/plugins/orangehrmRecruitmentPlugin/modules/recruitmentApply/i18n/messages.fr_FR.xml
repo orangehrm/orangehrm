@@ -68,10 +68,6 @@
                 <source>Back to Job List</source>
                 <target>FR_Back to Job List</target>
             </trans-unit>
-			<trans-unit id="17">
-                <source>Error Occurred - Invalid File Type</source>
-                <target>FR_Error Occurred - Invalid File Type</target>
-            </trans-unit>
 			<trans-unit id="18">
                 <source>Enter comma separated words...</source>
                 <target>FR_Enter comma separated words...</target>

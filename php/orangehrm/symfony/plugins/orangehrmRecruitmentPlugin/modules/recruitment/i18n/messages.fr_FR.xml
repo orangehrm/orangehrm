@@ -157,8 +157,8 @@
     <target>FR_Date of Application</target>
    </trans-unit>
    <trans-unit id="39">
-    <source>Date of Application should be less than current date</source>
-    <target>FR_Date of Application should be less than current date</target>
+    <source>Should be less than current date</source>
+    <target>FR_Should be less than current date</target>
    </trans-unit>
    <trans-unit id="40">
     <source>Decline Offer</source>

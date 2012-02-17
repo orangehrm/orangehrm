@@ -253,7 +253,7 @@
                                     var lang_tooLargeInput = "<?php echo __(ValidationMessages::TEXT_LENGTH_EXCEEDS, array('%amount%' => 30)); ?>";
                                     var lang_commaSeparated = "<?php echo __('Enter comma separated words').'...'; ?>";
                                     var currentDate = '<?php echo set_datepicker_date_format(date("Y-m-d")); ?>';
-                                    var lang_dateValidation = "<?php echo __("Date of Application should be less than current date"); ?>";
+                                    var lang_dateValidation = "<?php echo __("Should be less than current date"); ?>";
                                     var lang_validPhoneNo = "<?php echo __(ValidationMessages::TP_NUMBER_INVALID); ?>";
                                     var lang_noMoreThan250 = "<?php echo __(ValidationMessages::TEXT_LENGTH_EXCEEDS, array('%amount%' => 250)); ?>";
                                     var lang_edit = "<?php echo __("Edit"); ?>";
