@@ -114,9 +114,9 @@ class viewEmployeeListAction extends basePimAction {
             $this->messageType = "warning";
 
             if (empty($employeeCount)) {
-                $this->message = __("No Employees Available in the System");
+                $this->message = __("No Employees Available");
             } else {
-                $this->message = __("No Matching Employees Found");
+                $this->message = __(TopLevelMessages::NO_RECORDS_FOUND);
             }
 
         }
