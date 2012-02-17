@@ -25,7 +25,7 @@
                 <div id="formWrapper">
                     <label for="txtLocationCode"><?php echo __("Copy From") ?><span class="required">*</span></label>
                     <select name="txtJobTitle" id="txtJobTitle" class="formSelect" tabindex="1">
-                        <option value="">--<?php echo __("Select Job Title") ?>--</option>
+                        <option value="">--<?php echo __("Select") ?>--</option>
 <?php foreach ($listAllJobTitle as $jobTitle) { ?>
                         <option value="<?php echo $jobTitle->getId() ?>" <?php
                         if ($fromJobTitle == $jobTitle->getId()) {
@@ -37,7 +37,7 @@
                     <br class="clear"/>
                     <label for="txtLocationCode"><?php echo __("Copy To") ?><span class="required">*</span></label>
                     <select name="txtCopyJobTitle" id="txtCopyJobTitle" class="formSelect" tabindex="1">
-                        <option value="">--<?php echo __("Select Job Title") ?>--</option>
+                        <option value="">--<?php echo __("Select") ?>--</option>
                                 <?php foreach ($listJobTitle as $jobTitle) {
  ?>
                             <option value="<?php echo $jobTitle->getId() ?>" <?php
@@ -61,6 +61,7 @@
 
             </form>
         </div>
+        <div class="paddingLeftRequired"><span class="required">*</span> <?php echo __(CommonMessages::REQUIRED_FIELD); ?></div>
     </div>
 
     <style type="text/css">
