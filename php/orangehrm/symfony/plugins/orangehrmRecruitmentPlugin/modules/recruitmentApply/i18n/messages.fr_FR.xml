@@ -112,10 +112,6 @@
                 <source>Vacancy Apply Form</source>
                 <target>FR_Vacancy Apply Form</target>
             </trans-unit>
-			<trans-unit id="29">
-                <source>Your Application for the Position of %name% Was Received</source>
-                <target>FR_Your Application for the Position of %name% Was Received</target>
-            </trans-unit>
 			<trans-unit id="30">
                 <source>Error Occurred - Invalid File Type</source>
                 <target>FR_Error Occurred - Invalid File Type</target>
@@ -127,6 +123,18 @@
             <trans-unit id="5001">
                 <source>.docx, .doc, .odt, .pdf, .rtf, or .txt with maximum file size of 1MB</source>
                 <target>FR_.docx, .doc, .odt, .pdf, .rtf, or .txt with maximum file size of 1MB</target>
+            </trans-unit>
+            <trans-unit id="5001">
+                <source>Application Received</source>
+                <target>FR_Application Received</target>
+            </trans-unit>
+            <trans-unit id="5001">
+                <source>Failed to Submit: File Size Exceeded</source>
+                <target>FR_Failed to Submit: File Size Exceeded</target>
+            </trans-unit>
+            <trans-unit id="5001">
+                <source>Failed to Submit: File Type Not Allowed</source>
+                <target>FR_Failed to Submit: File Type Not Allowed</target>
             </trans-unit>
         </body>
     </file>

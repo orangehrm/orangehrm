@@ -105,7 +105,7 @@ function isValidForm(){
 			},
 
 			'addCandidate[keyWords]': {
-				maxlength:255
+				maxlength:250
 			}
 		},
 		messages: {
@@ -141,7 +141,7 @@ function isValidForm(){
 			},
 
 			'addCandidate[keyWords]': {
-				maxlength:lang_noMoreThan255
+				maxlength:lang_noMoreThan250
 			}
 		},
 
