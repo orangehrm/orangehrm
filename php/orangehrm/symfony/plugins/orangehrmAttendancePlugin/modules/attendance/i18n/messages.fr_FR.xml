@@ -153,10 +153,6 @@
                 <target>FR_Add Attendance Records</target>
             </trans-unit>
             <trans-unit id="41">
-                <source>No Employees Available in System</source>
-                <target>FR_No Employees Available in System</target>
-            </trans-unit>
-            <trans-unit id="41">
                 <source>Date Should Be a Valid Date in %format% Format</source>
                 <target>FR_Date Should Be a Valid Date in %format% Format</target>
             </trans-unit>

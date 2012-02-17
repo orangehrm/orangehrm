@@ -94,7 +94,7 @@ function validateInput(){
 
         if(empDateCount==0){
 
-            errorMsge = "No Employees Available in System";
+            errorMsge = "No Employees Available";
             return false;
         }
         for (i=0; i < empDateCount; i++) {

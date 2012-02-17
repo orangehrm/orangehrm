@@ -119,7 +119,7 @@ use_javascript('../../../scripts/jquery/jquery.autocomplete.js');
    
          if(empDateCount==0){
             
-            errorMsge = '<?php echo __("No Employees Available in System"); ?>';
+            errorMsge = '<?php echo __("No Employees Available"); ?>';
             return false;
         }
 		for (i=0; i < empDateCount; i++) {

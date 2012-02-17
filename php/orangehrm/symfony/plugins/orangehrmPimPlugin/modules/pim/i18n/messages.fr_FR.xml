@@ -396,10 +396,6 @@
     <source>Nick Name, Smoker, Military Service fields are considered as deprecated fields</source>
     <target>FR_Nick Name, Smoker, Military Service fields are considered as deprecated fields</target>
    </trans-unit>
-   <trans-unit id="100">
-    <source>No Employees Available</source>
-    <target>FR_No Employees Available</target>
-   </trans-unit>
    <trans-unit id="101">
     <source>Non Resident Alien</source>
     <target>FR_Non Resident Alien</target>

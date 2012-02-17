@@ -4749,6 +4749,10 @@
     <source>Failed to Save: File Size Exceeded</source>
     <target>FR_Failed to Save: File Size Exceeded</target>
    </trans-unit>
+   <trans-unit id="100">
+    <source>No Employees Available</source>
+    <target>FR_No Employees Available</target>
+   </trans-unit>
   </body>
  </file>
 </xliff>

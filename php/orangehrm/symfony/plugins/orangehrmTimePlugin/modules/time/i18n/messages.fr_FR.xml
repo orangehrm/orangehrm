@@ -144,10 +144,6 @@
     <source>No Accessible Timesheets</source>
     <target>FR_No Accessible Timesheets</target>
    </trans-unit>
-   <trans-unit id="37">
-    <source>No Employees Available in System</source>
-    <target>FR_No Employees Available in System</target>
-   </trans-unit>
    <trans-unit id="38">
     <source>No Rows Selected</source>
     <target>FR_No Rows Selected</target>
