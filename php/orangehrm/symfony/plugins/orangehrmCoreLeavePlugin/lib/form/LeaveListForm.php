@@ -66,7 +66,10 @@ class LeaveListForm extends sfForm {
         // Set default from/to to current leave period.
         $leavePeriod = $this->getLeavePeriodService()->getCurrentLeavePeriod();
         $defaults['calFromDate'] = set_datepicker_date_format($leavePeriod->getStartDate());
-        $defaults['calToDate'] = set_datepicker_date_format($leavePeriod->getEndDate());
+        $endDate = new DateTime($leavePeriod->getEndDate());
+        $endDate->add(new DateInterval("P1Y"));
+        $toDate = $endDate->format("Y-m-d");
+        $defaults['calToDate'] = set_datepicker_date_format($toDate);
         
         $validators['calFromDate'] = new ohrmDateValidator(       
                 array('date_format' => $inputDatePattern, 'required' => false),
