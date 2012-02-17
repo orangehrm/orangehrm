@@ -86,11 +86,11 @@ use_javascript('../../../scripts/jquery/jquery.autocomplete.js');
 	
     var user_UserNameRequired       = '<?php echo __(ValidationMessages::REQUIRED); ?>';
     var user_EmployeeNameRequired   = '<?php echo __(ValidationMessages::REQUIRED); ?>';
-    var user_ValidEmployee          = "<?php echo __("Select valid employee"); ?>";
+    var user_ValidEmployee          = '<?php echo __(ValidationMessages::INVALID); ?>';
     var user_UserPaswordRequired    = '<?php echo __(ValidationMessages::REQUIRED); ?>';
     var user_UserConfirmPassword    = '<?php echo __(ValidationMessages::REQUIRED); ?>';
     var user_samePassword           = "<?php echo __("Passwords do not match"); ?>";
-    var user_Max20Chars             = "<?php echo __("Cannot exceed 20 charactors"); ?>";
+    var user_Max20Chars             = '<?php echo __(ValidationMessages::TEXT_LENGTH_EXCEEDS, array('%amount%' => 20)); ?>';
     var user_editLocation           = "<?php echo __("Edit User"); ?>";
     var userId                      = "<?php echo $userId ?>";
     var user_save                   = "<?php echo __("Save"); ?>";
@@ -98,11 +98,11 @@ use_javascript('../../../scripts/jquery/jquery.autocomplete.js');
     var employees                   = <?php echo str_replace('&#039;', "'", $form->getEmployeeListAsJson()) ?> ;
     var employeesArray              = eval(employees);
     var user_typeForHints           = "<?php echo __("Type for hints").'...';?>";
-    var user_name_alrady_taken      =   "<?php echo __("Username already taken"); ?>";
+    var user_name_alrady_taken      = '<?php echo __(ValidationMessages::ALREADY_EXISTS); ?>';
     var isUniqueUserUrl             = '<?php echo url_for('admin/isUniqueUserJson'); ?>';
-    var viewSystemUserUrl             = '<?php echo url_for('admin/viewSystemUsers'); ?>';
-    var user_UserNameLength         =   "<?php echo __("User Name should have at least 5 characters"); ?>";
-    var user_UserPasswordLength     =   "<?php echo __("Password should have at least 4 characters"); ?>";
+    var viewSystemUserUrl           = '<?php echo url_for('admin/viewSystemUsers'); ?>';
+    var user_UserNameLength         =   '<?php echo __("Should have at least %number% characters", array('%number%' => 5)); ?>';
+    var user_UserPasswordLength     =   '<?php echo __("Should have at least %number% characters", array('%number%' => 4)); ?>';
     var password_user               =   "<?php echo __("Very Weak").",".__("Weak").",".__("Better").",".__("Medium").",".__("Strong").",".__("Strongest")?>";
 
 </script>

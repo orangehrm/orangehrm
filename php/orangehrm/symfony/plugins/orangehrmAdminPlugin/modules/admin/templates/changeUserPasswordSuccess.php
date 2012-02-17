@@ -67,9 +67,9 @@ use_javascript('../../../scripts/jquery/jquery.autocomplete.js');
     var lang_newPasswordRequired       = '<?php echo __(ValidationMessages::REQUIRED); ?>';
     var lang_confirmNewPasswordRequired       = '<?php echo __(ValidationMessages::REQUIRED); ?>';
     var lang_passwordMissMatch           = "<?php echo __("Passwords do not match"); ?>";
-    var lang_maxLengthExceeds             = "<?php echo __("Cannot exceed 20 charactors"); ?>";
+    var lang_maxLengthExceeds             = '<?php echo __(ValidationMessages::TEXT_LENGTH_EXCEEDS, array('%amount%' => 20)); ?>';
     var lang_save                   = "<?php echo __("Save"); ?>";
     var lang_edit                   = "<?php echo __("Edit"); ?>";
-    var lang_UserPasswordLength     =   "<?php echo __("Password should have at least 4 characters"); ?>";
+    var lang_UserPasswordLength     =   '<?php echo __("Should have at least %number% characters", array('%number%' => 4)); ?>';
     var password_user               =   "<?php echo __("Very Weak").",".__("Weak").",".__("Better").",".__("Medium").",".__("Strong").",".__("Strongest")?>";
 </script>

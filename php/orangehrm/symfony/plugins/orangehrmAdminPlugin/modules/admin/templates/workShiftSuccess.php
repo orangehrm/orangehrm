@@ -93,14 +93,14 @@
 	var workShifts = <?php echo str_replace('&#039;', "'", $form->getWorkShiftListAsJson());?>;
 	var workShiftList = eval(workShifts);
 	var lang_NameRequired = '<?php echo __(ValidationMessages::REQUIRED); ?>';
-	var lang_exceed50Charactors = "<?php echo __("Cannot exceed 50 charactors"); ?>";
+	var lang_exceed50Charactors = '<?php echo __(ValidationMessages::TEXT_LENGTH_EXCEEDS, array('%amount%' => 50)); ?>';
 	var lang_hoursRequired = '<?php echo __(ValidationMessages::REQUIRED); ?>';
-	var lang_notNumeric = "<?php echo __("Enter a valid number"); ?>";
+	var lang_notNumeric = '<?php echo __(ValidationMessages::INVALID); ?>';
 	var lang_addWorkShift = "<?php echo __("Add Work Shift"); ?>";
 	var lang_editWorkShift = "<?php echo __("Edit Work Shift"); ?>";
-	var lang_possitiveNumber = "<?php echo __("Value should be a positive number"); ?>";
-	var lang_lessThan24 = "<?php echo __("Value should be less than 24"); ?>";
-	var lang_nameAlreadyExist = "<?php echo __("Name already exist"); ?>";
+	var lang_possitiveNumber = "<?php echo __("Should be a positive number"); ?>";
+	var lang_lessThan24 = '<?php echo __("Should be less than %amount%", array("%amount%" => '24')); ?>';
+	var lang_nameAlreadyExist = '<?php echo __(ValidationMessages::ALREADY_EXISTS); ?>';
 	var workShiftInfoUrl = "<?php echo url_for("admin/getWorkShiftInfoJson?id="); ?>";
 	var workShiftEmpInfoUrl = "<?php echo url_for("admin/getWorkShiftEmpInfoJson?id="); ?>";	
 </script>

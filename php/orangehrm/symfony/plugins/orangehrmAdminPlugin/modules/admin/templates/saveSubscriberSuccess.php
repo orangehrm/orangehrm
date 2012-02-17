@@ -70,11 +70,11 @@
         var subscriberList = eval(subscribers);
 	var lang_NameRequired = '<?php echo __(ValidationMessages::REQUIRED); ?>';
 	var lang_EmailRequired = '<?php echo __(ValidationMessages::REQUIRED); ?>';
-	var lang_exceed50Charactors = "<?php echo __("Cannot exceed 100 charactors"); ?>";
+	var lang_exceed50Charactors = '<?php echo __(ValidationMessages::TEXT_LENGTH_EXCEEDS, array('%amount%' => 100)); ?>';
 	var subscriberInfoUrl = "<?php echo url_for("admin/getSubscriberJson?id="); ?>";
 	var backBtnUrl = "<?php echo url_for("admin/viewEmailNotification"); ?>";
 	var lang_editSubscriber = "<?php echo __("Edit Subscriber"); ?>";
 	var lang_addSubscriber = "<?php echo __("Add Subscriber"); ?>";
-	var lang_uniqueEmail = "<?php echo __("Email already exist"); ?>";
+	var lang_uniqueEmail = '<?php echo __(ValidationMessages::ALREADY_EXISTS); ?>';
         var lang_validEmail = '<?php echo __(ValidationMessages::EMAIL_INVALID); ?>';
 </script>

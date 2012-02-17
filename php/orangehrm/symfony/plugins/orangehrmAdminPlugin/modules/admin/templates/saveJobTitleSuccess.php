@@ -102,9 +102,9 @@
     var lang_jobTitleRequired = '<?php echo __(ValidationMessages::REQUIRED); ?>';
     var viewJobTitleListUrl = '<?php echo url_for('admin/viewJobTitleList?jobTitleId='.$form->jobTitleId); ?>';
     var jobTitleId = '<?php echo $form->jobTitleId; ?>';
-    var lang_exceed400Chars = '<?php echo __("Cannot exceed 400 charactors"); ?>';
+    var lang_exceed400Chars = '<?php echo __(ValidationMessages::TEXT_LENGTH_EXCEEDS, array('%amount%' => 400)); ?>';
     var jobTitles = <?php echo str_replace('&#039;', "'", $form->getJobTitleListAsJson()) ?> ;
     var jobTitleList = eval(jobTitles);
-    var lang_uniqueName = "<?php echo __("Job Title already exists"); ?>";
+    var lang_uniqueName = '<?php echo __(ValidationMessages::ALREADY_EXISTS); ?>';
     //]]>
 </script>

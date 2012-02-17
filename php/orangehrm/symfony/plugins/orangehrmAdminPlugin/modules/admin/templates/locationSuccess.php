@@ -88,17 +88,17 @@
         var locationList = eval(locations);
 	var lang_LocNameRequired = '<?php echo __(ValidationMessages::REQUIRED); ?>';
 	var lang_CountryRequired = '<?php echo __(ValidationMessages::REQUIRED); ?>';
-	var lang_ValidCountry = "<?php echo __("Enter a valid country"); ?>";
-	var lang_validPhoneNo = '<?php echo __('Phone can contain only space, numbers, "+", and "-"'); ?>';
-	var lang_validFaxNo = '<?php echo __('Fax can contain only space, numbers, "+", and "-"'); ?>';
-	var lang_Max100Chars = "<?php echo __("Cannot exceed 100 charactors"); ?>";
-	var lang_Max50Chars = "<?php echo __("Cannot exceed 50 charactors"); ?>";
-	var lang_Max30Chars = "<?php echo __("Cannot exceed 30 charactors"); ?>";
-	var lang_Max255Chars = "<?php echo __("Cannot exceed 255 charactors"); ?>";
+	var lang_ValidCountry = '<?php echo __(ValidationMessages::INVALID); ?>';
+	var lang_validPhoneNo = '<?php echo __(ValidationMessages::TP_NUMBER_INVALID); ?>';
+	var lang_validFaxNo = '<?php echo __(ValidationMessages::TP_NUMBER_INVALID); ?>';
+	var lang_Max100Chars = '<?php echo __(ValidationMessages::TEXT_LENGTH_EXCEEDS, array('%amount%' => 100)); ?>';
+	var lang_Max50Chars = '<?php echo __(ValidationMessages::TEXT_LENGTH_EXCEEDS, array('%amount%' => 50)); ?>';
+	var lang_Max30Chars = '<?php echo __(ValidationMessages::TEXT_LENGTH_EXCEEDS, array('%amount%' => 30)); ?>';
+	var lang_Max255Chars = '<?php echo __(ValidationMessages::TEXT_LENGTH_EXCEEDS, array('%amount%' => 250)); ?>';
 	var lang_editLocation = "<?php echo __("Edit Location"); ?>";
 	var locationId = "<?php echo $locationId ?>";
 	var viewLocationUrl = "<?php echo url_for("admin/viewLocations"); ?>";
-	var lang_uniqueName = "<?php echo __("Name already exist"); ?>";
+	var lang_uniqueName = '<?php echo __(ValidationMessages::ALREADY_EXISTS); ?>';
 	var lang_save = "<?php echo __("Save"); ?>";
 	var lang_edit = "<?php echo __("Edit"); ?>";
 </script>

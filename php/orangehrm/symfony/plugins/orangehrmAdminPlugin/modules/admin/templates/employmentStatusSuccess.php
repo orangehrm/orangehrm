@@ -61,7 +61,7 @@
 	var empStatuses = <?php echo str_replace('&#039;', "'", $form->getEmploymentStatusListAsJson()) ?> ;
         var empStatusList = eval(empStatuses);
 	var lang_NameRequired = '<?php echo __(ValidationMessages::REQUIRED); ?>';
-	var lang_exceed50Charactors = "<?php echo __("Cannot exceed 50 charactors"); ?>";
+	var lang_exceed50Charactors = '<?php echo __(ValidationMessages::TEXT_LENGTH_EXCEEDS, array('%amount%' => 50)); ?>';
 	var empStatusInfoUrl = "<?php echo url_for("admin/getEmploymentStatusJson?id="); ?>";
 	var lang_editEmpStatus = "<?php echo __("Edit Employment Status"); ?>";
 	var lang_addEmpStatus = "<?php echo __("Add Employment Status"); ?>";

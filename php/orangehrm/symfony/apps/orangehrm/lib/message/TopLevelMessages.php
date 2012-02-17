@@ -13,6 +13,5 @@ class TopLevelMessages {
     const FILE_TYPE_SAVE_FAILURE = "Failed to Save: File Type Not Allowed";
     const FILE_SIZE_SAVE_FAILURE = "Failed to Save: File Size Exceeded";
     
-    
 }
 

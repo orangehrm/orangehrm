@@ -62,9 +62,9 @@
 	var nationalities = <?php echo str_replace('&#039;', "'", $form->getNationalityListAsJson()) ?> ;
         var nationalityList = eval(nationalities);
 	var lang_NameRequired = '<?php echo __(ValidationMessages::REQUIRED); ?>';
-	var lang_exceed50Charactors = "<?php echo __("Cannot exceed 100 charactors"); ?>";
+	var lang_exceed50Charactors = '<?php echo __(ValidationMessages::TEXT_LENGTH_EXCEEDS, array('%amount%' => 100)); ?>';
 	var nationalityInfoUrl = "<?php echo url_for("admin/getNationalityJson?id="); ?>";
 	var lang_editNationality = "<?php echo __("Edit Nationality"); ?>";
 	var lang_addNationality = "<?php echo __("Add Nationality"); ?>";
-	var lang_uniqueName = "<?php echo __("Name already exist"); ?>";
+	var lang_uniqueName = '<?php echo __(ValidationMessages::ALREADY_EXISTS); ?>';
 </script>

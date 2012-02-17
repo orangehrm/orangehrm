@@ -425,7 +425,7 @@ function validateThickBox(){
         isValid = false;
     }
     
-    if($('#addCustomer_description').val().length > 255 ){
+    if($('#addCustomer_description').val().length > 250 ){
         $('#errorHolderDesc').addClass("error").html(lang_exceed255Chars);
         isValid = false;
     }

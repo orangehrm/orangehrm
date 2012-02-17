@@ -310,7 +310,7 @@
     var lang_amountRequired = "<?php echo __(ValidationMessages::REQUIRED); ?>";
     var lang_invalidAmount = "<?php echo __("Should be within Min/Max values"); ?>";
     var lang_negativeAmount = "<?php echo __("Should be a positive number"); ?>";
-    var lang_tooLargeAmount = "<?php echo __("Should be less than %amount%", array("%amount%" => '1000,000,000.00')); ?>";
+    var lang_tooLargeAmount = "<?php echo __("Should be less than %amount%", array("%amount%" => '1000,000,000')); ?>";
     var lang_amountShouldBeNumber = "<?php echo __("Should be a number"); ?>";
     var lang_commentsLength = "<?php echo __(ValidationMessages::TEXT_LENGTH_EXCEEDS, array('%amount%' => 250)) ?>";
     var lang_componentLength = "<?php echo __(ValidationMessages::TEXT_LENGTH_EXCEEDS, array('%amount%' => 100)); ?>";

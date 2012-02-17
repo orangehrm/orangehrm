@@ -46,10 +46,10 @@
 	var customers = <?php echo str_replace('&#039;', "'", $form->getCustomerListAsJson()) ?> ;
         var customerList = eval(customers);
 	var lang_customerNameRequired = '<?php echo __(ValidationMessages::REQUIRED); ?>';
-	var lang_exceed50Charactors = "<?php echo __("Cannot exceed 50 charactors"); ?>";
-	var lang_exceed255Charactors = "<?php echo __("Cannot exceed 255 charactors"); ?>";
+	var lang_exceed50Charactors = '<?php echo __(ValidationMessages::TEXT_LENGTH_EXCEEDS, array('%amount%' => 50)); ?>';
+	var lang_exceed255Charactors = '<?php echo __(ValidationMessages::TEXT_LENGTH_EXCEEDS, array('%amount%' => 250)); ?>';
 	var lang_editCustomer = "<?php echo __("Edit Customer"); ?>";
-	var lang_uniqueName = "<?php echo __("Name already exist"); ?>";
+	var lang_uniqueName = '<?php echo __(ValidationMessages::ALREADY_EXISTS); ?>';
 	var lang_edit = "<?php echo __("Edit"); ?>";
 	var lang_save = "<?php echo __("Save"); ?>";
 	var customerId = '<?php echo $customerId;?>';
