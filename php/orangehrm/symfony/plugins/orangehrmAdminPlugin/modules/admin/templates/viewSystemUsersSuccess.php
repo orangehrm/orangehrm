@@ -127,6 +127,6 @@
     var lang_typeforhint    =   '<?php echo __("Type for hints") . "..."; ?>';
     var employees           =   <?php echo str_replace('&#039;', "'", $form->getEmployeeListAsJson()) ?> ;
     var employeesArray      =   eval(employees);
-    var user_ValidEmployee  =   "<?php echo __("Select valid employee"); ?>";
+    var user_ValidEmployee  =   '<?php echo __(ValidationMessages::INVALID); ?>';
 
 </script>

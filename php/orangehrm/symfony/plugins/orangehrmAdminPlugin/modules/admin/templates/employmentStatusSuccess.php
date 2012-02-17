@@ -65,5 +65,5 @@
 	var empStatusInfoUrl = "<?php echo url_for("admin/getEmploymentStatusJson?id="); ?>";
 	var lang_editEmpStatus = "<?php echo __("Edit Employment Status"); ?>";
 	var lang_addEmpStatus = "<?php echo __("Add Employment Status"); ?>";
-	var lang_uniqueName = "<?php echo __("Name already exist"); ?>";
+	var lang_uniqueName = '<?php echo __(ValidationMessages::ALREADY_EXISTS); ?>';
 </script>

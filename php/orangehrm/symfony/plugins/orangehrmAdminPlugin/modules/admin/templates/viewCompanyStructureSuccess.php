@@ -44,7 +44,8 @@ $form->printRequiredFieldsNotice(); ?></div>
     var lang_delete_confirmation = "<?php echo __("Delete?"); ?>";
     var lang_addNote = "<?php echo __("This unit will be added under"); ?>";
     var lang_nameRequired = '<?php echo __(ValidationMessages::REQUIRED); ?>';
-    var lang_max = "<?php echo __("Maximum allowed character limit is") . " "; ?>";
+    var lang_max_100 = '<?php echo __(ValidationMessages::TEXT_LENGTH_EXCEEDS, array('%amount%' => 100)); ?>';
+    var lang_max_400 = '<?php echo __(ValidationMessages::TEXT_LENGTH_EXCEEDS, array('%amount%' => 400)); ?>';
     var lang_noDescriptionSpecified = "<?php echo __("Description is not specified"); ?>";
     var deleteSubunitUrl = '<?php echo public_path('index.php/admin/deleteSubunit'); ?>';
     var getSubunitUrl = '<?php echo public_path('index.php/admin/getSubunit'); ?>';

@@ -85,13 +85,13 @@ $(document).ready(function() {
         messages: {
             txtName: {
                 required: lang_nameRequired,
-                maxlength: lang_max+"100"
+                maxlength: lang_max_100
             },
             txtDescription: {
-                maxlength: lang_max+"400"
+                maxlength: lang_max_400
             },
             txtUnit_Id: {
-                maxlength: lang_max+"100"
+                maxlength: lang_max_100
             }
         },
         submitHandler: function(form) {

@@ -126,7 +126,7 @@
     var lang_editFormHeading = "<?php echo __('Edit Education'); ?>";
     
     var lang_nameIsRequired = '<?php echo __(ValidationMessages::REQUIRED); ?>';
-    var lang_nameExists = "<?php echo __('Name exists'); ?>";
+    var lang_nameExists = '<?php echo __(ValidationMessages::ALREADY_EXISTS); ?>';
     
 //]]>	
 </script> 

@@ -87,7 +87,7 @@
                 if(!invalid_email) {
                     $('#frmSave').submit();
                 }else {
-                    alert('<?php echo __("Please enter a valid email")?>');
+                    alert('<?php echo __(ValidationMessages::EMAIL_INVALID); ?>');
                     invalid_email = false;
                 }
 				
