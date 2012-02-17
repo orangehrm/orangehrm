@@ -115,13 +115,13 @@
     var employees = <?php echo str_replace('&#039;', "'", $form->getEmployeeListAsJson()) ?> ;
     var employeeList = eval(employees);
     var numberOfInterviewers = <?php echo $form->numberOfInterviewers; ?>;
-    var lang_identical_rows = "<?php echo __("Cannot assign same interviewer twice"); ?>";
+    var lang_identical_rows = "<?php echo __("Already exists"); ?>";
     var interviewId = "<?php echo $interviewId; ?>";
     var historyId = "<?php echo $historyId; ?>";
     var getInterviewSheduledTimeListActionUrl = "<?php echo url_for('recruitment/getInterviewSheduledTimeListJson?candidateId=' . $form->candidateId); ?>";
     var lang_interviewHeadingRequired = '<?php echo __(ValidationMessages::REQUIRED); ?>';
-    var lang_noMoreThan98 = "<?php echo __(ValidationMessages::TEXT_LENGTH_EXCEEDS, array('%amount%' => 98)); ?>";
-    var lang_noMoreThan18 = "<?php echo __(ValidationMessages::TEXT_LENGTH_EXCEEDS, array('%amount%' => 18)); ?>";
+    var lang_noMoreThan98 = "<?php echo __(ValidationMessages::TEXT_LENGTH_EXCEEDS, array('%amount%' => 100)); ?>";
+    var lang_noMoreThan18 = "<?php echo __(ValidationMessages::TEXT_LENGTH_EXCEEDS, array('%amount%' => 50)); ?>";
     var lang_enterAValidEmployeeName = "<?php echo __(ValidationMessages::INVALID); ?>";
     var lang_dateRequired = '<?php echo __(ValidationMessages::REQUIRED); ?>';
     var lang_validTimeRequired = "<?php echo __(ValidationMessages::INVALID); ?>";
