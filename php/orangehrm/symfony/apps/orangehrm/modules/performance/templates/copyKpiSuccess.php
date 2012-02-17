@@ -10,7 +10,7 @@
         <?php if ($confirm) {
  ?>
             <div id="messageBalloon_notice" class="messageBalloon_notice">
-                <?php echo __("KPI already exists, This opertaion deletes exsting KPI") ?> &nbsp;&nbsp;<a href="javascript:confirmOverwrite();"><?php echo __("Ok") ?></a> &nbsp;&nbsp;<a href="javascript:cancelOverwrite();"><?php echo __("Cancel") ?></a>
+                <?php echo __("KPI Already Exists, This Operation Deletes Existing KPI") ?> &nbsp;&nbsp;<a href="javascript:confirmOverwrite();"><?php echo __("Ok") ?></a> &nbsp;&nbsp;<a href="javascript:cancelOverwrite();"><?php echo __("Cancel") ?></a>
             </div>
 <?php } ?>
 

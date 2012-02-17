@@ -240,6 +240,10 @@
     <source>KPI Should Be a Number Within Minimum and Maximum Value</source>
     <target>FR_KPI Should Be a Number Within Minimum and Maximum Value</target>
    </trans-unit>
+   <trans-unit id="57">
+    <source>KPI Already Exists, This Operation Deletes Existing KPI</source>
+    <target>FR_KPI Already Exists, This Operation Deletes Existing KPI</target>
+   </trans-unit>
   </body>
  </file>
 </xliff>
