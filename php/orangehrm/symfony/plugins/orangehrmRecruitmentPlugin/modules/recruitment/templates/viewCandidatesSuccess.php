@@ -151,10 +151,10 @@
                 var hiringManagerListUrlForVacancyId = '<?php echo url_for('recruitment/getHiringManagerListJson?vacancyId='); ?>';
                 var addCandidateUrl = '<?php echo url_for('recruitment/addCandidate'); ?>';
                 var lang_all = '<?php echo __("All") ?>';
-                var lang_dateError = '<?php echo __("To date should be after the from date") ?>';
+                var lang_dateError = '<?php echo __("To date should be after from date") ?>';
                 var lang_helpText = '<?php echo __("Click on a candidate to perform actions") ?>';
                 var candidatesArray = eval(candidates);
-                var lang_enterValidName = '<?php echo __("Enter valid candidate name") ?>';
+                var lang_enterValidName = '<?php echo __(ValidationMessages::INVALID) ?>';
                 var lang_typeForHints = '<?php echo __("Type for hints") . "..."; ?>';
                 var lang_enterCommaSeparatedWords = '<?php echo __("Enter comma separated words") . "..."; ?>';
                 var allowedCandidateListToDelete = <?php echo json_encode($form->allowedCandidateListToDelete); ?>;
