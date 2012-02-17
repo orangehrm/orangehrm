@@ -134,7 +134,7 @@
                     var lang_jobTitleRequired = '<?php echo __(ValidationMessages::REQUIRED); ?>';
                     var lang_vacancyNameRequired = '<?php echo __(ValidationMessages::REQUIRED); ?>';
                     var lang_enterAValidEmployeeName = "<?php echo __(ValidationMessages::INVALID); ?>";
-                    var lang_nameExistmsg = "<?php echo __("This vacancy already exists"); ?>";
+                    var lang_nameExistmsg = "<?php echo __("Already exists"); ?>";
                     var vacancyNames = <?php echo $form->getVacancyList(); ?>;
                     var vacancyNameList = eval(vacancyNames);
                     var lang_edit = "<?php echo __("Edit"); ?>";
