@@ -772,6 +772,14 @@
     <source>Failed to Import: File Size Exceeded</source>
     <target>FR_Failed to Import: File Size Exceeded</target>
    </trans-unit>
+   <trans-unit id="190">
+    <source>Failed to Import: No Compatible Records</source>
+    <target>FR_Failed to Import: No Compatible Records</target>
+   </trans-unit>
+   <trans-unit id="100">
+    <source>Number of Records Imported</source>
+    <target>FR_Number of Records Imported</target>
+   </trans-unit>
   </body>
  </file>
 </xliff>

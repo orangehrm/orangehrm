@@ -19,7 +19,7 @@
             <?php echo $form['_csrf_token']; ?>
             <br class="clear"/>
 	    <div class="newColumn">
-                <?php echo $form['csvFile']->renderLabel(__('Select File'),array("class" => "csvFileLabel")); ?>
+                <?php echo $form['csvFile']->renderLabel(__('Select File').' <span class="required">*</span>',array("class" => "csvFileLabel")); ?>
                 <?php echo $form['csvFile']->render(array("class" => "csvFile")); ?>
                 <div class="errorHolder"></div>
             </div>
@@ -43,7 +43,7 @@
 	    </div>
     </form>
 </div>
-
+<div class="paddingLeftRequired"><span class="required">*</span> <?php echo __(CommonMessages::REQUIRED_FIELD); ?></div>
 <script type="text/javascript">
 	var linkForDownloadCsv = '<?php url_for('admin/sampleCsvDownload');?>';
 	var lang_csvRequired = '<?php echo __(ValidationMessages::REQUIRED);?>';
