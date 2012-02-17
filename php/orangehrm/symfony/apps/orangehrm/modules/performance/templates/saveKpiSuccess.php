@@ -17,7 +17,7 @@
               <div id="formWrapper">
                        <label for="txtLocationCode"><?php echo __('Job Title')?><span class="required">*</span></label>
                      <select name="txtJobTitle" id="txtJobTitle" class="formSelect" tabindex="1" >
-                     	<option value=""><?php echo __('Select Job Title')?></option>
+                     	<option value=""><?php echo '--'.__('Select').'--'?></option>
 	                     <?php foreach($listJobTitle as $jobTitle){?>
 	                     	<option value="<?php echo $jobTitle->getId()?>"><?php echo htmlspecialchars_decode($jobTitle->getJobTitleName())?></option>
 	                     <?php }?>
@@ -48,6 +48,7 @@
               
             </form>
         </div>
+        <div class="paddingLeftRequired"><span class="required">*</span> <?php echo __(CommonMessages::REQUIRED_FIELD); ?></div>
  	</div>
 </div>
 

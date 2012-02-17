@@ -233,7 +233,7 @@ class performanceActions extends sfActions {
 
                     $kpiService->saveKpi($defineKpi);
 
-                    $this->getUser()->setFlash('templateMessage', array('SUCCESS', __(TopLevelMessages::ADD_SUCCESS).' <a href="listDefineKpi">'.__('View KPI List').'</a>'));
+                    $this->getUser()->setFlash('templateMessage', array('SUCCESS', __(TopLevelMessages::SAVE_SUCCESS).' <a href="listDefineKpi">'.__('View KPI List').'</a>'));
                     $this->redirect('performance/saveKpi');
                 } catch (Doctrine_Validator_Exception $e) {
 
