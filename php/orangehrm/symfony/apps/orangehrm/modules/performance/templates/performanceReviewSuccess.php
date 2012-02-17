@@ -214,7 +214,7 @@
 			  }
 		  });
 		  if( !valid ){
-			  msg	=	'<?php echo __('Please enter a numeric KPI rating within the defined Minimum and Maximum value');?>';
+			  msg	=	'<?php echo __('KPI Should Be a Number Within Minimum and Maximum Value');?>';
 			  $("#messageBalloon_failure ul").html('<li>'+msg+'</li>');
 			  $("#performanceError").show();
 		  }
@@ -251,7 +251,7 @@
 			  }
 		  });
 		  if( !valid ){
-			  msg	=	'<?php echo __('Please enter a numeric Key Performance I rating within the defined Minimum and Maximum value');?>';
+			  msg	=	'<?php echo __('KPI Should Be a Number Within Minimum and Maximum Value');?>';
 			  $("#messageBalloon_failure ul").html('<li>'+msg+'</li>');
 			  $("#performanceError").show();
 		  }
@@ -351,7 +351,7 @@
 								if( (rate > max) || (rate <min) ){
 									$(this).css('background-color', '#ffeeee');
 									$(this).css('border', 'solid 1px #ffdddd');
-									msg = '<?php echo __('Please enter a numeric KPI rating within the defined Minimum and Maximum value')?>';
+									msg = '<?php echo __('KPI Should Be a Number Within Minimum and Maximum Value')?>';
 									error = true;
 
 								}else{
@@ -361,7 +361,7 @@
 							}else{
 								$(this).css('background-color', '#ffeeee');
 								$(this).css('border', 'solid 1px #ffdddd');
-								msg = '<?php echo __('Please enter a numeric KPI rating within the defined Minimum and Maximum value')?>';
+								msg = '<?php echo __('KPI Should Be a Number Within Minimum and Maximum Value')?>';
 								error = true;
 							}
 						});
