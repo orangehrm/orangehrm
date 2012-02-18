@@ -309,10 +309,6 @@
     <target>FR_With Terminated Employees</target>
    </trans-unit>
    <trans-unit id="83">
-    <source>Total Time Exceeds Shift Length</source>
-    <target>FR_Total Time Exceeds Shift Length</target>
-   </trans-unit>
-   <trans-unit id="83">
     <source>Leave Request Should Contain Work Days</source>
     <target>FR_Leave Request Should Contain Work Days</target>
    </trans-unit>
@@ -323,6 +319,10 @@
    <trans-unit id="83">
     <source>Failed to Save: Date Alredy Assigned</source>
     <target>FR_Failed to Save: Date Alredy Assigned</target>
+   </trans-unit>
+   <trans-unit id="83">
+    <source>Failed to Assign: Work Shift Length Exceeded</source>
+    <target>FR_Failed to Assign: Work Shift Length Exceeded</target>
    </trans-unit>
   </body>
  </file>
