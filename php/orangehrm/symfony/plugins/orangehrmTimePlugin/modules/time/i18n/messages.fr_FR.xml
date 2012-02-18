@@ -133,8 +133,8 @@
     <target>FR_Invalid Employee Name</target>
    </trans-unit>
    <trans-unit id="34">
-    <source>It is Not Possible to Create Future Timesheets</source>
-    <target>FR_It is Not Possible to Create Future Timesheets</target>
+    <source>Failed to Create: Future Timesheets Not Allowed</source>
+    <target>FR_Failed to Create: Future Timesheets Not Allowed</target>
    </trans-unit>
    <trans-unit id="35">
     <source>Mon</source>

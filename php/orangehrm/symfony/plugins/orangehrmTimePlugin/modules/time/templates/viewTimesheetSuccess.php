@@ -386,7 +386,7 @@ use_javascript('../../../scripts/jquery/ui/ui.dialog.js');
         var createTimesheet="<?php echo url_for('time/createTimesheet'); ?>";
         var returnEndDate="<?php echo url_for('time/returnEndDate'); ?>";
         var currentDate= "<?php echo $currentDate; ?>";
-        var lang_noFutureTimesheets= "<?php echo __("It is Not Possible to Create Future Timesheets"); ?>";
+        var lang_noFutureTimesheets= "<?php echo __("Failed to Create: Future Timesheets Not Allowed"); ?>";
 	var lang_overlappingTimesheets= "<?php echo __("Timesheet Overlaps with Existing Timesheets"); ?>";
 	var lang_timesheetExists= "<?php echo __("Timesheet Already Exists"); ?>";
 	var lang_invalidDate= "<?php echo __("Invalid Date"); ?>";
