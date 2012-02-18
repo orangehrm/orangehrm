@@ -183,7 +183,7 @@ class applyLeaveAction extends sfAction {
                         $this->saveLeaveRequest($this->form);
                     }
                 } elseif ($this->applyMoreThanAllowedForAday($this->form)) {
-                    $this->templateMessage = array('WARNING', __("Total Time Exceeds Shift Length"));
+                    $this->templateMessage = array('WARNING', __("Failed to Submit: Work Shift Length Exceeded"));
                     $this->overlapLeaves = 0;
                 }
             }
@@ -398,7 +398,7 @@ class applyLeaveAction extends sfAction {
     protected function isLeaveRequestNotExceededLeaveBalance( $requestedLeaveDays, $leaveRequest){
         
         if (!$this->getLeaveEntitlementService()->isLeaveRequestNotExceededLeaveBalance($requestedLeaveDays, $leaveRequest)) {
-            $this->templateMessage = array('WARNING', __('Leave Request Exceeds Leave Balance'));
+            $this->templateMessage = array('WARNING', __('Failed to Submit: Leave Balanace Exceeded'));
             return false;
         }
         return true;

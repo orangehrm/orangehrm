@@ -169,7 +169,7 @@ class assignLeaveAction extends sfAction {
                         $this->saveLeaveRequest($this->form);
                     }
                 } elseif(!empty($post['txtEmpID']) && $this->applyMoreThanAllowedForAday ($this->form)) {
-					$this->templateMessage = array('WARNING', __("Total Time Exceeds Shift Length"));
+					$this->templateMessage = array('WARNING', __("Failed to Assign: Work Shift Length Exceeded"));
                     $this->overlapLeaves = 0;
 				}
             }

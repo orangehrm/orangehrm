@@ -225,7 +225,7 @@
                         min : "<?php echo __("Should be greater than %amount%", array("%amount%" => '0.01')); ?>",
                         max : "<?php echo __("Should be less than %amount%", array("%amount%" => '24')); ?>"	,
                         validTotalTime : "<?php echo __(ValidationMessages::REQUIRED); ?>",
-                        validWorkShift : "<?php echo __('Failed to Assign: Work Shift Length Exceeded'); ?>"
+                        validWorkShift : "<?php echo __('Should be less than work shift length'); ?>"
                     },
                     'assignleave[txtToTime]':{
                         validToTime:"<?php echo __('From time should be lesser than To time'); ?>"

@@ -244,8 +244,8 @@
                         number:"<?php echo __('Should be a number'); ?>",
                         min : "<?php echo __("Should be greater than %amount%", array("%amount%" => '0.01')); ?>",
                         max : "<?php echo __("Should be less than %amount%", array("%amount%" => '24')); ?>"    ,
-                        validTotalTime : "<?php echo __(ValidationMessages::INVALID); ?>",
-                        validWorkShift : "<?php echo __('Total time exceeds Shift Length'); ?>"
+                        validTotalTime : "<?php echo __(ValidationMessages::REQUIRED); ?>",
+                        validWorkShift : "<?php echo __('Should be less than work shift length'); ?>"
                     },
                     'applyleave[txtToTime]':{
                         validToTime:"<?php echo __('From time should be lesser than To time'); ?>"

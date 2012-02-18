@@ -324,6 +324,18 @@
     <source>Failed to Assign: Work Shift Length Exceeded</source>
     <target>FR_Failed to Assign: Work Shift Length Exceeded</target>
    </trans-unit>
+   <trans-unit id="83">
+    <source>Failed to Submit: Work Shift Length Exceeded</source>
+    <target>FR_Failed to Submit: Work Shift Length Exceeded</target>
+   </trans-unit>
+   <trans-unit id="83">
+    <source>Failed to Submit: Leave Balanace Exceeded</source>
+    <target>FR_Failed to Submit: Leave Balanace Exceeded</target>
+   </trans-unit>
+   <trans-unit id="83">
+    <source>Should be less than work shift length</source>
+    <target>FR_Should be less than work shift length</target>
+   </trans-unit>
   </body>
  </file>
 </xliff>
