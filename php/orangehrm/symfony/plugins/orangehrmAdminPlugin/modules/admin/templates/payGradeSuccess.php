@@ -148,7 +148,7 @@
                            var lang_salaryShouldBeNumeric = '<?php echo __("Should be a positive number"); ?>';
                            var lang_validCurrency = '<?php echo __(ValidationMessages::INVALID); ?>';
                            var lang_currencyAlreadyExist = '<?php echo __(ValidationMessages::ALREADY_EXISTS); ?>';
-                           var lang_validSalaryRange  = '<?php echo __(ValidationMessages::INVALID); ?>';
+                           var lang_validSalaryRange  = '<?php echo __("Should be higher than Minimum Salary"); ?>';
                            var lang_addCurrency  = "<?php echo __("Add Currency"); ?>";
                            var lang_editCurrency  = "<?php echo __("Edit Currency"); ?>";
                            var lang_assignedCurrency  = "<?php echo __("Assigned Currency"); ?>";

@@ -95,7 +95,7 @@
 	var lang_NameRequired = '<?php echo __(ValidationMessages::REQUIRED); ?>';
 	var lang_exceed50Charactors = '<?php echo __(ValidationMessages::TEXT_LENGTH_EXCEEDS, array('%amount%' => 50)); ?>';
 	var lang_hoursRequired = '<?php echo __(ValidationMessages::REQUIRED); ?>';
-	var lang_notNumeric = '<?php echo __(ValidationMessages::INVALID); ?>';
+	var lang_notNumeric = '<?php echo __("Should be a positive number"); ?>';
 	var lang_addWorkShift = "<?php echo __("Add Work Shift"); ?>";
 	var lang_editWorkShift = "<?php echo __("Edit Work Shift"); ?>";
 	var lang_possitiveNumber = "<?php echo __("Should be a positive number"); ?>";

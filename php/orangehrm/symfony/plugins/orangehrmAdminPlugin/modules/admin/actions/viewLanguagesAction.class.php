@@ -85,7 +85,7 @@ class viewLanguagesAction extends sfAction {
                 return false;
             }
             
-            $this->getUser()->setFlash('templateMessage', array('WARNING', __('Language Name Exists')));
+            $this->getUser()->setFlash('templateMessage', array('WARNING', __('Name Already Exists')));
             $this->redirect('admin/viewLanguages');            
             
         }

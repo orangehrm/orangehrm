@@ -780,6 +780,14 @@
     <source>Number of Records Imported</source>
     <target>FR_Number of Records Imported</target>
    </trans-unit>
+   <trans-unit id="100">
+    <source>Should be higher than Minimum Salary</source>
+    <target>FR_Should be higher than Minimum Salary</target>
+   </trans-unit>
+   <trans-unit id="100">
+    <source>Level Already Exists</source>
+    <target>FR_Level Already Exists</target>
+   </trans-unit>
   </body>
  </file>
 </xliff>

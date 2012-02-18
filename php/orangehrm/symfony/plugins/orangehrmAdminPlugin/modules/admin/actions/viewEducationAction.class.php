@@ -85,7 +85,7 @@ class viewEducationAction extends sfAction {
                 return false;
             }
             
-            $this->getUser()->setFlash('templateMessage', array('WARNING', __('Education Level Exists')));
+            $this->getUser()->setFlash('templateMessage', array('WARNING', __('Level Already Exists')));
             $this->redirect('admin/viewEducation');            
             
         }

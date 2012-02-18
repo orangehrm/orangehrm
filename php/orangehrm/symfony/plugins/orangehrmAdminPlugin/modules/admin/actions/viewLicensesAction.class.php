@@ -85,7 +85,7 @@ class viewLicensesAction extends sfAction {
                 return false;
             }
             
-            $this->getUser()->setFlash('templateMessage', array('WARNING', __('License Name Exists')));
+            $this->getUser()->setFlash('templateMessage', array('WARNING', __('Name Already Exists')));
             $this->redirect('admin/viewLicenses');            
             
         }

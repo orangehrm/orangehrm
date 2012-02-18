@@ -119,6 +119,10 @@
     <source>Already exists</source>
     <target>FR_Already exists</target>
    </trans-unit>
+   <trans-unit id="26">
+    <source>Name Already Exists</source>
+    <target>FR_Name Already Exists</target>
+   </trans-unit>
    <trans-unit id="27">
     <source>American</source>
     <target>FR_American</target>
@@ -4756,6 +4760,10 @@
    <trans-unit id="200">
     <source>Should have at least %number% characters</source>
     <target>FR_Should have at least %number% characters</target>
+   </trans-unit>
+   <trans-unit id="100">
+    <source>Successfully Copied</source>
+    <target>FR_Successfully Copied</target>
    </trans-unit>
   </body>
  </file>

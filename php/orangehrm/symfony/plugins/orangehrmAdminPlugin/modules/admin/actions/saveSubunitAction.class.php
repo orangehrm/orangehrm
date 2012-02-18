@@ -45,11 +45,11 @@ class saveSubunitAction extends sfAction {
                 $object->message = __(TopLevelMessages::SAVE_SUCCESS);
             } else {
                 $object->messageType = 'failure';
-                $object->message = __('Failed to Save Subunit');
+                $object->message = __('Failed to Save');
             }
         } catch (Exception $e) {
             $object->messageType = 'failure';
-            $object->message = __('Subunit Name Cannot be Duplicated');
+            $object->message = __('Name Already Exists');
         }
 
         @ob_clean();

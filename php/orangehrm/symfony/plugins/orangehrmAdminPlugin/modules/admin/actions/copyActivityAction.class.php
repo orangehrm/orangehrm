@@ -73,9 +73,9 @@ class copyActivityAction extends sfAction {
 					$activities->add($activity);
 				}
 				$activities->save();
-				$this->getUser()->setFlash('templateMessageAct', array('success', __('Activity Copy Successfully')));
+				$this->getUser()->setFlash('templateMessageAct', array('success', __('Successfully Copied')));
 			} else {
-				$this->getUser()->setFlash('templateMessageAct', array('failure', __('Cannot Have Duplicate Activities')));
+				$this->getUser()->setFlash('templateMessageAct', array('failure', __('Name Already Exists')));
 			}
 			
 			$this->redirect('admin/saveProject?projectId=' . $projectId);

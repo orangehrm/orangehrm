@@ -85,7 +85,7 @@ class viewSkillsAction extends sfAction {
                 return false;
             }
             
-            $this->getUser()->setFlash('templateMessage', array('WARNING', __('Skill Name Exists')));
+            $this->getUser()->setFlash('templateMessage', array('WARNING', __('Name Already Exists')));
             $this->redirect('admin/viewSkills');            
             
         }
