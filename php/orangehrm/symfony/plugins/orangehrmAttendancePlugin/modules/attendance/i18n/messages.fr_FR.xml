@@ -57,8 +57,8 @@
                 <target>FR_Invalid Date</target>
             </trans-unit>
             <trans-unit id="15">
-                <source>Overlapping records found</source>
-                <target>FR_Overlapping records found</target>
+                <source>Overlapping Records Found</source>
+                <target>FR_Overlapping Records Found</target>
             </trans-unit>
             <trans-unit id="16">
                 <source>Comment should be less than 250 characters</source>

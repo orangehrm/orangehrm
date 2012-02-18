@@ -85,8 +85,8 @@
     var errorForInvalidFormat='<?php echo __('Should Be a Valid Time in %format% Format', array('%format%' => 'HH:MM')) ?>';
     var errorForInvalidTimeFormat='<?php echo __('Should Be a Valid Time in %format% Format', array('%format%' => 'HH:MM')) ?>';
     var getCurrentTimeLink='<?php echo url_for('attendance/getCurrentTime') ?>';
-    var errorForInvalidDateFormat='<?php echo __('Should Be a Valid Date in %format% Format', array('%format%' => get_datepicker_date_format($sf_user->getDateFormat()))) ?>';
-    var errorForOverLappingTime='<?php echo __('Overlapping records found'); ?>';
+    var errorForInvalidDateFormat='<?php echo __(ValidationMessages::DATE_FORMAT_INVALID, array('%format%' => get_datepicker_date_format($sf_user->getDateFormat()))) ?>';
+    var errorForOverLappingTime='<?php echo __('Overlapping Records Found'); ?>';
     var errorForInvalidNote='<?php echo __(ValidationMessages::TEXT_LENGTH_EXCEEDS, array('%amount%' => 250)) ?>';
     var actionRecorder='<?php echo $actionRecorder; ?>';
    
