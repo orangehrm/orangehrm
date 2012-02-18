@@ -15,7 +15,7 @@
     <?php $i = 0; ?>
     <?php $total = 0; ?>
     <?php if ($records == null): ?>  <tr>
-            <td id="noRecordsColumn"style="text-align:center" colspan="6"><br><?php echo __("No attendance records to display") . "!" ?></td>
+            <td id="noRecordsColumn"style="text-align:center" colspan="6"><br><?php echo __("No attendance records to display") ?></td>
         </tr> <?php else: ?> 
 
         <?php foreach ($records as $record): ?>
