@@ -190,7 +190,7 @@ class HolidayForm extends sfForm {
                             'required' => true)
                         , array(
                     'required' => 'Date field is required',
-                    'invalid' => 'Date format should be ' . $inputDatePattern,
+                    'bad_format' => __(ValidationMessages::DATE_FORMAT_INVALID, array('%format%' => get_datepicker_date_format(sfContext::getInstance()->getUser()->getDateFormat())))
                 ));
         $validators['length'] = new sfValidatorChoice(array('choices' => array_keys($this->getDaysLengthList())));
 

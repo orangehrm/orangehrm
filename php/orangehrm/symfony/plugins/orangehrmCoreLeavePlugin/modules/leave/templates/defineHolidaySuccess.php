@@ -89,14 +89,16 @@
             rules: {
                 'holiday[date]': {
                     required: true,
-                    valid_date: function(){ return {format:datepickerDateFormat} }
+                    valid_date: function(){ return {format:datepickerDateFormat} },
+                    date: true
                 },
                 'holiday[description]': {required: true, maxlength: 200}
             },
             messages: {
                 'holiday[date]':{
                     required:  lang_DateIsRequired,
-                    valid_date: lang_DateFormatIsWrong
+                    valid_date: lang_DateFormatIsWrong,
+                    date: lang_DateFormatIsWrong
                 },
                 'holiday[description]':{
                     required: lang_NameIsRequired,
