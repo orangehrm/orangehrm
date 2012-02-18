@@ -320,6 +320,10 @@
     <source>The Date is Alredy Assigned</source>
     <target>FR_The Date is Alredy Assigned</target>
    </trans-unit>
+   <trans-unit id="83">
+    <source>Successfully Undeleted</source>
+    <target>FR_Successfully Undeleted</target>
+   </trans-unit>
   </body>
  </file>
 </xliff>
