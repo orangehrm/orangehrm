@@ -317,12 +317,12 @@
     <target>FR_Leave Request Should Contain Work Days</target>
    </trans-unit>
    <trans-unit id="83">
-    <source>The Date is Alredy Assigned</source>
-    <target>FR_The Date is Alredy Assigned</target>
-   </trans-unit>
-   <trans-unit id="83">
     <source>Successfully Undeleted</source>
     <target>FR_Successfully Undeleted</target>
+   </trans-unit>
+   <trans-unit id="83">
+    <source>Failed to Save: Date Alredy Assigned</source>
+    <target>FR_Failed to Save: Date Alredy Assigned</target>
    </trans-unit>
   </body>
  </file>

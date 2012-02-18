@@ -134,7 +134,7 @@ class defineHolidayAction extends sfAction {
 
                 /* Error will not return if the date if not in the correct format */
                 if (!$allowToAdd && !is_null($date)) {
-                    $this->templateMessage = array('WARNING', __('The Date is Alredy Assigned'));
+                    $this->templateMessage = array('WARNING', __('Failed to Save: Date Alredy Assigned'));
                 } else {
 
                     //first creating the leave period if the date belongs to next leave period
