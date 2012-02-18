@@ -785,6 +785,11 @@ if (isset($_SESSION['load.admin.viewModules'])) {
     unset($_SESSION['load.admin.viewModules']);
 }
 
+if (isset($_SESSION['load.admin.localization'])) {
+    $home = "./symfony/web/index.php/admin/localization";
+    unset($_SESSION['load.admin.localization']);
+}
+
 ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="<?php echo $cultureElements[0]; ?>" lang="<?php echo $cultureElements[0]; ?>">

@@ -10,9 +10,8 @@
 <?php use_stylesheet('../orangehrmAdminPlugin/css/localizationSuccess'); ?>
 <?php use_javascript('../orangehrmAdminPlugin/js/localizationSuccess'); ?>
 
-<div id="messagebar" class="<?php echo isset($messageType) ? "messageBalloon_{$messageType}" : ''; ?>" >
-    <span><?php echo isset($message) ? $message : ''; ?></span>
-</div>
+<?php echo isset($templateMessage) ? templateMessage($templateMessage) : ''; ?>
+
 <div id="localization">
     <div class="outerbox">
         <div class="mainHeading"><h2 id="localizationHeading"><?php echo __('Localization'); ?></h2></div>
@@ -63,6 +62,7 @@
         //<![CDATA[    
         var lang_edit = "<?php echo __("Edit"); ?>";
         var lang_save = "<?php echo __("Save"); ?>";
-        var browserLanguage = "<?php echo $browserLanguage ?>"
+        var browserLanguage = "<?php echo $browserLanguage ?>";
+        var reloadParent = <?php echo isset($templateMessage)?'true':'false'; ?>;
     //]]>
 </script>

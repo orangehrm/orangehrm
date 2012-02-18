@@ -25,6 +25,13 @@ $(document).ready(function() {
     $("#dialogOk").click(function(){
         $("#languageDialog").dialog("close");
     });
+    
+   // For reloading main menu (index.php)
+   if (reloadParent) {
+       window.setTimeout(function() {
+       parent.location.reload();
+           }, 500);
+   }    
 
     
 });

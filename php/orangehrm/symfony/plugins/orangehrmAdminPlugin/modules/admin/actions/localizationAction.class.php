@@ -67,12 +67,15 @@ class localizationAction extends sfAction {
         $this->browserLanguage = $languages[0];
 
          if ($this->getUser()->hasFlash('templateMessage')) {
-             list($this->messageType, $this->message) = $this->getUser()->getFlash('templateMessage');
+             $this->templateMessage = $this->getUser()->getFlash('templateMessage');
          }
 
         if ($request->isMethod('post')) {
             $this->form->bind($request->getParameter($this->form->getName()));
             if ($this->form->isValid()) {
+                
+                // For reloading main menu (index.php)
+                $_SESSION['load.admin.localization'] = true;
 
                 $formValues = $this->form->getFormValues();               
                 $defaultLanguage = $formValues['defaultLanguage'];
@@ -87,7 +90,7 @@ class localizationAction extends sfAction {
                 $this->getUser()->setDateFormat($formValues['defaultDateFormat']);
                 $this->getConfigService()->setAdminLocalizationDefaultDateFormat($formValues['defaultDateFormat']);
 
-                $this->getUser()->setFlash('templateMessage', array('success', __(TopLevelMessages::SAVE_SUCCESS)));
+                $this->getUser()->setFlash('templateMessage', array('SUCCESS', __(TopLevelMessages::SAVE_SUCCESS)));
                 $this->redirect("admin/localization");
             }
         }
