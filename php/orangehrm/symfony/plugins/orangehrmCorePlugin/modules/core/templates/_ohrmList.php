@@ -268,7 +268,7 @@ function printButtonEventBindings($buttons) {
                         }
                 ?>
                         <tr>
-                            <td colspan="<?php echo $colspan; ?>"><?php echo __('No records to display'); ?></td>
+                            <td colspan="<?php echo $colspan; ?>"><?php echo __(TopLevelMessages::NO_RECORDS_FOUND); ?></td>
                         </tr>
                 <?php
                     }

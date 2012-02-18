@@ -96,7 +96,7 @@
                     <?php if (count($records) == 0) : ?>
                     <tr>
                         <td>
-                            <?php echo __('No records to display'); ?>
+                            <?php echo __(TopLevelMessages::NO_RECORDS_FOUND); ?>
                         </td>
                     </tr>
                     <?php endif; ?>

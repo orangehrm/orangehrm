@@ -273,7 +273,7 @@ else
          <?php }
         	  } else if ((isset($message)) && ($message =='')) {
 
-        		 $dispMessage = "No Records to Display !";
+        		 $dispMessage = "No Records Found";
         		 echo '<font color="#FF0000" size="-1" face="Verdana, Arial, Helvetica, sans-serif">';
         		 echo $dispMessage;
         		 echo '</font>';
