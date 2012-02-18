@@ -50,7 +50,7 @@ class viewEmployeeTimesheetAction extends sfAction {
 
                 if ($dateOptions == null) {
 
-                    $this->getContext()->getUser()->setFlash('errorMessage', __("No Timesheets Available"));
+                    $this->getContext()->getUser()->setFlash('errorMessage', __("No Timesheets Found"));
                     $this->redirect('time/createTimesheetForSubourdinate?' . http_build_query(array('employeeId' => $this->employeeId)));
                 }
 

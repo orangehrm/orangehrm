@@ -301,8 +301,8 @@
     <target>FR_Successfully Submitted</target>
    </trans-unit>
    <trans-unit id="76">
-    <source>No Timesheets Available</source>
-    <target>FR_No Timesheets Available</target>
+    <source>No Timesheets Found</source>
+    <target>FR_No Timesheets Found</target>
    </trans-unit>
   </body>
  </file>
