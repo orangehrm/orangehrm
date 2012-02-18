@@ -13,7 +13,7 @@ use_stylesheets_for_form($form);
 
 <div class="formpage">
 
-    <?php echo $form->getMessage(); ?>
+    <?php echo isset($templateMessage) ? templateMessage($templateMessage) : ''; ?>
 
     <div class="outerbox" style="width:auto;">
 
