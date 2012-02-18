@@ -52,10 +52,6 @@
                 <source>Punch out Time Should Be Higher Than Punch in Time</source>
                 <target>FR_Punch out Time Should Be Higher Than Punch in Time</target>
             </trans-unit>
-            <trans-unit id="13">
-                <source>Invalid Time</source>
-                <target>FR_Invalid Time</target>
-            </trans-unit>
             <trans-unit id="14">
                 <source>Invalid Date</source>
                 <target>FR_Invalid Date</target>
@@ -153,10 +149,13 @@
                 <target>FR_Add Attendance Records</target>
             </trans-unit>
             <trans-unit id="41">
-                <source>Date Should Be a Valid Date in %format% Format</source>
-                <target>FR_Date Should Be a Valid Date in %format% Format</target>
+                <source>Should Be a Valid Date in %format% Format</source>
+                <target>FR_Should Be a Valid Date in %format% Format</target>
             </trans-unit>
-            
+            <trans-unit id="41">
+                <source>Should Be a Valid Time in %format% Format</source>
+                <target>FR_Should Be a Valid Time in %format% Format</target>
+            </trans-unit>
         </body>
     </file>
 </xliff>

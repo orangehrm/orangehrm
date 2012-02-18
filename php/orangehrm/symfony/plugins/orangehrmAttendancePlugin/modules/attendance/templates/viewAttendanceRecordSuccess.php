@@ -30,10 +30,10 @@ use_javascript('../../../scripts/jquery/jquery.autocomplete.js');
 
             <table  border="0" cellpadding="5" cellspacing="0" class="employeeTable">
                 <tr>
-                    <td><?php echo __('Employee Name') ?></td>
+                    <td><?php echo __('Employee Name').' <span class="required">*</span>'?></td>
                     <td><?php echo $form['employeeName']->renderError() ?><?php echo $form['employeeName']->render(); ?></td>
                 </tr>
-                <tr><td><?php echo __('Date') ?></td>
+                <tr><td><?php echo __('Date').' <span class="required">*</span>' ?></td>
                     <td><?php echo $form['date']->renderError() ?><?php echo $form['date']->render(); ?>&nbsp;<input id="DateBtn" type="button" name="" value="" class="calendarBtn"style="display: inline;margin:0;float:none; "/></td>
                     <?php echo $form->renderHiddenFields(); ?>
                 </tr>
@@ -41,7 +41,7 @@ use_javascript('../../../scripts/jquery/jquery.autocomplete.js');
         </form>
     </div>
 </div>
-
+<div class="paddingLeftRequired"><span class="required">*</span> <?php echo __(CommonMessages::REQUIRED_FIELD); ?></div>
 <div id="recordsTable">
 
     <br class="clear">
