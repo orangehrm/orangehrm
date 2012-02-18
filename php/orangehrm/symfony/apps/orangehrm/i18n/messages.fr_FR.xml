@@ -4765,6 +4765,14 @@
     <source>Successfully Copied</source>
     <target>FR_Successfully Copied</target>
    </trans-unit>
+   <trans-unit id="100">
+    <source>LOGIN Panel</source>
+    <target>FR_LOGIN Panel</target>
+   </trans-unit>
+   <trans-unit id="100">
+    <source>LOGIN</source>
+    <target>FR_LOGIN</target>
+   </trans-unit>
   </body>
  </file>
 </xliff>
