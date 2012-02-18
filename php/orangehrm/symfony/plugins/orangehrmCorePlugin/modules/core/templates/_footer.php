@@ -2,7 +2,7 @@
 $styleSheet = 'orange';
 $imagePath = public_path("../../themes/{$styleSheet}/images/login");
 $version = '2.6.12.1';
-$copyrightYear = '2011';
+$copyrightYear = '2012';
 ?>
 
 <style type="text/css">
