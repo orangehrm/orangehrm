@@ -68,7 +68,7 @@ class viewMyTimesheetAction extends sfAction {
 
         $submitted = $request->getParameter('submitted');
         if (isset($submitted)) {
-            $this->successMessage = array('SUCCESS', __("Timesheet Successfully Submitted"));
+            $this->successMessage = array('SUCCESS', __("Timesheet Submitted"));
         }
 
         $startDateOfTheTimesheetForUpdates = $request->getParameter('timesheetStartDate');

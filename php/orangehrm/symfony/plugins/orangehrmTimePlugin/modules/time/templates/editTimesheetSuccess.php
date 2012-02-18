@@ -151,10 +151,10 @@ use_javascript('../../../scripts/jquery/jquery.autocomplete.js');
     var projectsArray = eval(projects);
     var getActivitiesLink = "<?php echo url_for('time/getRelatedActiviesForAutoCompleteAjax') ?>";
     var timesheetId="<?php echo $timesheetId; ?>"
-    var lang_not_numeric = '<?php echo __('Enter a Positive Duration(Should Less Than 24) in the Format of HH:mm or 0.0h'); ?>';
-    var rows_are_duplicate = '<?php echo __('Time Sheet Records Duplicated'); ?>';
-    var project_name_is_wrong = '<?php echo __('Select an Existing Project'); ?>';
-    var please_select_an_activity = '<?php echo __('Select an Activity'); ?>';
+    var lang_not_numeric = '<?php echo __('Should Be Less Than 24 and in HH:MM or Decimal Format'); ?>';
+    var rows_are_duplicate = '<?php echo __('Duplicate Records Found'); ?>';
+    var project_name_is_wrong = '<?php echo __('Select a Project and an Activity'); ?>';
+    var please_select_an_activity = '<?php echo __('Select a Project and an Activity'); ?>';
     var select_a_row = '<?php echo __(TopLevelMessages::SELECT_RECORDS); ?>';
     var employeeId = '<?php echo $employeeId; ?>';
     var linkToGetComment = "<?php echo url_for('time/getTimesheetItemComment') ?>";
@@ -169,7 +169,7 @@ use_javascript('../../../scripts/jquery/jquery.autocomplete.js');
     var incorrect_total='<?php echo __('You Have Exceeded the Maximum No. of Working Hours (24:00h) for the Day'); ?>';
     var typeForHints='<?php echo __('Type for hints').'...'; ?>';
     var lang_selectProjectAndActivity='<?php echo __('Select a Project and an Activity'); ?>';
-    var lang_enterExistingProject='<?php echo __("Select an Existing Project"); ?>';
+    var lang_enterExistingProject='<?php echo __("Select a Project and an Activity"); ?>';
     var lang_noRecords='<?php echo __('Select Records to Remove'); ?>';
     var lang_removeSuccess = '<?php echo __('Successfully removed')?>';
 <?php

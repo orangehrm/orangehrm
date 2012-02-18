@@ -93,8 +93,8 @@
     <target>FR_Employee Report</target>
    </trans-unit>
    <trans-unit id="24">
-    <source>Enter a Positive Duration(Should Less Than 24) in the Format of HH:mm or 0.0h</source>
-    <target>FR_Enter a Positive Duration(Should Less Than 24) in the Format of HH:mm or 0.0h</target>
+    <source>Should Be Less Than 24 and in HH:MM or Decimal Format</source>
+    <target>FR_Should Be Less Than 24 and in HH:MM or Decimal Format</target>
    </trans-unit>
    <trans-unit id="25">
     <source>Enter Employee Name</source>
@@ -229,8 +229,8 @@
     <target>FR_Time (hours)</target>
    </trans-unit>
    <trans-unit id="60">
-    <source>Time Sheet Records Duplicated</source>
-    <target>FR_Time Sheet Records Duplicated</target>
+    <source>Duplicate Records Found</source>
+    <target>FR_Duplicate Records Found</target>
    </trans-unit>
    <trans-unit id="61">
     <source>Timesheet for</source>
@@ -272,14 +272,6 @@
     <source>Week</source>
     <target>FR_Week</target>
    </trans-unit>
-   <trans-unit id="72">
-    <source>Select an Existing Project</source>
-    <target>FR_Select an Existing Project</target>
-   </trans-unit>
-   <trans-unit id="73">
-    <source>Select an Activity</source>
-    <target>FR_Select an Activity</target>
-   </trans-unit>
    <trans-unit id="74">
     <source>Select a Project and an Activity</source>
     <target>FR_Select a Project and an Activity</target>
@@ -293,16 +285,20 @@
     <target>FR_Timesheet Already Exists</target>
    </trans-unit>
    <trans-unit id="76">
-    <source>Successfully</source>
-    <target>FR_Successfully</target>
-   </trans-unit>
-   <trans-unit id="76">
-    <source>Successfully Submitted</source>
-    <target>FR_Successfully Submitted</target>
+    <source>Timesheet Submitted</source>
+    <target>FR_Timesheet Submitted</target>
    </trans-unit>
    <trans-unit id="76">
     <source>No Timesheets Found</source>
     <target>FR_No Timesheets Found</target>
+   </trans-unit>
+   <trans-unit id="76">
+    <source>Timesheet Approved</source>
+    <target>FR_Timesheet Approved</target>
+   </trans-unit>
+   <trans-unit id="76">
+    <source>Timesheet Rejected</source>
+    <target>FR_Timesheet Rejected</target>
    </trans-unit>
   </body>
  </file>
