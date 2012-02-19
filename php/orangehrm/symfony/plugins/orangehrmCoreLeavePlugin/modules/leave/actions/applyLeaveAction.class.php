@@ -398,7 +398,7 @@ class applyLeaveAction extends sfAction {
     protected function isLeaveRequestNotExceededLeaveBalance( $requestedLeaveDays, $leaveRequest){
         
         if (!$this->getLeaveEntitlementService()->isLeaveRequestNotExceededLeaveBalance($requestedLeaveDays, $leaveRequest)) {
-            $this->templateMessage = array('WARNING', __('Failed to Submit: Leave Balanace Exceeded'));
+            $this->templateMessage = array('WARNING', __('Failed to Submit: Leave Balance Exceeded'));
             return false;
         }
         return true;
@@ -412,7 +412,7 @@ class applyLeaveAction extends sfAction {
     protected function hasWorkingDays($holidayCount , $leaves){
         
         if ($holidayCount == count($leaves)) {
-            $this->templateMessage = array('WARNING', __('Leave Request Should Contain Work Days'));
+            $this->templateMessage = array('WARNING', __('Failed to Submit: No Work Days Selected'));
             return false;
         }
         
