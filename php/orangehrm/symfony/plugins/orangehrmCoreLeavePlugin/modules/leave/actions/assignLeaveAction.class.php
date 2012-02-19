@@ -21,8 +21,6 @@
 
 /**
  * Displaying AssignLeave UI and saving data
- *
- * @author sujith
  */
 class assignLeaveAction extends baseLeaveAction {
 

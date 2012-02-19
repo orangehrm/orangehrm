@@ -88,12 +88,12 @@
         var lang_dateError = '<?php echo __("To date should be after from date") ?>';
         $(document).ready(function() {
             $.datepicker.setDefaults({showOn: 'click'});
-            
+
             showTimeControls(false);
 
-            var data	= <?php echo str_replace('&#039;', "'", $assignLeaveForm->getEmployeeListAsJson()) ?> ;
+            var data = <?php echo str_replace('&#039;', "'", $assignLeaveForm->getEmployeeListAsJson()) ?> ;
 
-            //Auto complete
+            // Auto complete
             $("#assignleave_txtEmployee").autocomplete(data, {
                 formatItem: function(item) {
                     return item.name;
@@ -106,9 +106,9 @@
         );
 
         var rDate = trim($("#assignleave_txtFromDate").val());
-            if (rDate == '') {
-                $("#assignleave_txtFromDate").val(datepickerDateFormat);
-            }
+        if (rDate == '') {
+            $("#assignleave_txtFromDate").val(datepickerDateFormat);
+        }
 
         //Bind date picker
         daymarker.bindElement("#assignleave_txtFromDate",
@@ -181,7 +181,6 @@
                             }
                         }
                     },
-
                     'assignleave[txtToDate]': {
                         required: true,
                         valid_date: function() {
@@ -196,7 +195,6 @@
                             }
                         }
                     },
-
                     'assignleave[txtComment]': {maxlength: 250},
                     'assignleave[txtLeaveTotalTime]':{ required: false , number: true , min: 0.01, validWorkShift : true,validTotalTime : true},
                     'assignleave[txtToTime]': {validToTime: true}
@@ -233,11 +231,6 @@
             },
             errorElement : 'div',
             errorPlacement: function(error, element) {
-//                error.appendTo(element.prev('label'));
-//                //this is for leave type
-//                error.insertAfter(element.next(".clear"));
-//                error.insertAfter(element.next().next(".clear"));
-//                error.insertAfter(element.next().next().next(".clear"));
                 if (element.css('display') != 'none') {
                     error.insertAfter(element.next());
                 }
@@ -315,7 +308,7 @@
             });
         }
     });
-    
+
     function showTimeControls(show) {
 
         var timeControlIds = ['assignleave_txtFromTime', 'assignleave_txtToTime', 'assignleave_txtLeaveTotalTime'];
@@ -329,18 +322,17 @@
             } else {
                 $('#' + value).hide();
                 $('label[for="' + value + '"]').hide();
-                $('#' + value).next('br').hide();                
+                $('#' + value).next('br').hide();
             }
         });
     }
 
-    function showTimepaneFromDate(theDate,datepickerDateFormat){
-        var Todate	=	trim($("#assignleave_txtToDate").val());
-        if(Todate == datepickerDateFormat ){
+    function showTimepaneFromDate(theDate, datepickerDateFormat){
+        var Todate = trim($("#assignleave_txtToDate").val());
+        if(Todate == datepickerDateFormat) {
             $("#assignleave_txtFromDate").val(theDate);
-            
             $("#assignleave_txtToDate").val(theDate);
-        }else{
+        } else{
             showTimeControls((Todate == theDate));
         }
         $("#assignleave_txtFromDate").valid();
@@ -351,7 +343,7 @@
         var fromDate	=	trim($("#assignleave_txtFromDate").val());
 
         showTimeControls((fromDate == theDate));
-        
+
         $("#assignleave_txtFromDate").valid();
         $("#assignleave_txtToDate").valid();
     }
@@ -378,36 +370,34 @@
 
     function fromDateBlur(date){
         var fromDateValue 	= 	trim(date);
-                if(fromDateValue != datepickerDateFormat && fromDateValue != ""){
-                    var toDateValue	=	trim($("#assignleave_txtToDate").val());
-                    if(validateDate(fromDateValue, datepickerDateFormat)){
-                        if(fromDateValue == toDateValue) {
-                            showTimeControls(true);
-                        }
-                        if(!validateDate(toDateValue, datepickerDateFormat)){
-                            $('#assignleave_txtToDate').val(fromDateValue);
-                            showTimeControls(true);
-                        }
-                    }
-                    else {
-                        showTimeControls(false);
-                        $('#assignleave_txtLeaveTotalTime').show();
-                    }
+        if(fromDateValue != datepickerDateFormat && fromDateValue != ""){
+            var toDateValue	=	trim($("#assignleave_txtToDate").val());
+            if(validateDate(fromDateValue, datepickerDateFormat)){
+                if(fromDateValue == toDateValue) {
+                    showTimeControls(true);
                 }
+
+                if(!validateDate(toDateValue, datepickerDateFormat)){
+                    $('#assignleave_txtToDate').val(fromDateValue);
+                        showTimeControls(true);
+                    }
+                } else {
+                    showTimeControls(false);
+                    $('#assignleave_txtLeaveTotalTime').show();
+                }
+        }
     }
 
     function toDateBlur(date){
-         var toDateValue	=	trim(date);
-                if(toDateValue != datepickerDateFormat && toDateValue != ""){
-                    var fromDateValue 	= 	trim($("#assignleave_txtFromDate").val());
+        var toDateValue	=	trim(date);
+        if(toDateValue != datepickerDateFormat && toDateValue != ""){
+            var fromDateValue = trim($("#assignleave_txtFromDate").val());
 
-                    if(validateDate(fromDateValue, datepickerDateFormat) && validateDate(toDateValue, datepickerDateFormat)){
+            if(validateDate(fromDateValue, datepickerDateFormat) && validateDate(toDateValue, datepickerDateFormat)){
 
-                        showTimeControls((fromDateValue == toDateValue));
-                    }
-                }
+                showTimeControls((fromDateValue == toDateValue));
+            }
+        }
     }
-
-
 
 </script>

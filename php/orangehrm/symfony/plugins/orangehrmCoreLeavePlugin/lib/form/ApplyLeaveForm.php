@@ -1,21 +1,23 @@
 <?php
 
 /*
-  // OrangeHRM is a comprehensive Human Resource Management (HRM) System that captures
-  // all the essential functionalities required for any enterprise.
-  // Copyright (C) 2006 OrangeHRM Inc., http://www.orangehrm.com
-
-  // OrangeHRM is free software; you can redistribute it and/or modify it under the terms of
-  // the GNU General Public License as published by the Free Software Foundation; either
-  // version 2 of the License, or (at your option) any later version.
-
-  // OrangeHRM is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY;
-  // without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
-  // See the GNU General Public License for more details.
-
-  // You should have received a copy of the GNU General Public License along with this program;
-  // if not, write to the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
-  // Boston, MA  02110-1301, USA
+ *
+ * OrangeHRM is a comprehensive Human Resource Management (HRM) System that captures
+ * all the essential functionalities required for any enterprise.
+ * Copyright (C) 2006 OrangeHRM Inc., http://www.orangehrm.com
+ *
+ * OrangeHRM is free software; you can redistribute it and/or modify it under the terms of
+ * the GNU General Public License as published by the Free Software Foundation; either
+ * version 2 of the License, or (at your option) any later version.
+ *
+ * OrangeHRM is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY;
+ * without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+ * See the GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License along with this program;
+ * if not, write to the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
+ * Boston, MA  02110-1301, USA
+ *
  */
 
 /**
@@ -33,40 +35,25 @@ class ApplyLeaveForm extends sfForm {
 
         $this->leaveTypeList = $this->getOption('leaveTypes');
 
-        $this->setWidgets(array(
-            'txtEmpID' => new sfWidgetFormInputHidden(),
-            'txtEmpWorkShift' => new sfWidgetFormInputHidden(),
-            'txtLeaveType' => new sfWidgetFormChoice(array('choices' => $this->leaveTypeList)),
-            'txtFromDate' => new ohrmWidgetDatePicker(array(), array('id' => 'applyleave_txtFromDate')),
-            'txtToDate' => new ohrmWidgetDatePicker(array(), array('id' => 'applyleave_txtToDate')),
-            'txtComment' => new sfWidgetFormTextarea(),
-            'txtFromTime' => new sfWidgetFormChoice(array('choices' => $this->getTimeChoices())),
-            'txtToTime' => new sfWidgetFormChoice(array('choices' => $this->getTimeChoices())),
-            'txtLeaveTotalTime' => new sfWidgetFormInput(array(), array('readonly' => 'readonly')),
-        ));
-        $inputDatePattern = sfContext::getInstance()->getUser()->getDateFormat();
-        $this->setValidators(array(
-            'txtEmpID' => new sfValidatorString(array('required' => true), array('required' => __(ValidationMessages::REQUIRED))),
-            'txtEmpWorkShift' => new sfValidatorString(array('required' => false)),
-            'txtLeaveType' => new sfValidatorChoice(array('choices' => array_keys($this->leaveTypeList))),
-            'txtFromDate' => new ohrmDateValidator(array('date_format' => $inputDatePattern, 'required' => true),
-                    array('invalid' => 'Date format should be ' . $inputDatePattern)),
-            'txtToDate' => new ohrmDateValidator(array('date_format' => $inputDatePattern, 'required' => true),
-                    array('invalid' => 'Date format should be ' . $inputDatePattern)),
-            'txtComment' => new sfValidatorString(array('required' => false, 'trim' => true, 'max_length' => 1000)),
-            'txtFromTime' => new sfValidatorString(array('required' => false)),
-            'txtToTime' => new sfValidatorString(array('required' => false)),
-            'txtLeaveTotalTime' => new sfValidatorNumber(array('required' => false)),
-        ));
-
+        $this->setWidgets($this->getFormWidgets());
+        $this->setValidators($this->getFormValidators());
 
         $this->setDefault('txtEmpID', $this->getEmployeeNumber());
         $this->setDefault('txtEmpWorkShift', $this->getWorkShiftLength());
 
-        $this->widgetSchema->setNameFormat('applyleave[%s]');
+        $this->getValidatorSchema()->setPostValidator(new sfValidatorCallback(array('callback' => array($this, 'postValidation'))));
 
+        $this->getWidgetSchema()->setNameFormat('applyleave[%s]');
+        $this->getWidgetSchema()->setLabels($this->getFormLabels());
+        $this->getWidgetSchema()->setFormFormatterName('BreakTags');
+    }
 
-        $this->validatorSchema->setPostValidator(new sfValidatorCallback(array('callback' => array($this, 'postValidation'))));
+    /**
+     *
+     * @return array
+     */
+    public function getLeaveTypeList() {
+        return $this->leaveTypeList;
     }
 
     public static function setLeaveTypes($types) {
@@ -91,7 +78,7 @@ class ApplyLeaveForm extends sfForm {
     }
 
     /**
-     * get Leave Request 
+     * get Leave Request
      * @return LeaveRequest
      */
     public function getLeaveRequest() {
@@ -126,8 +113,6 @@ class ApplyLeaveForm extends sfForm {
             $isHalfday = $this->isHalfDay($leaveDate);
             $isHalfDayHoliday = $this->isHalfdayHoliday($leaveDate);
 
-
-
             $leave->setLeaveDate($leaveDate);
             $leave->setLeaveComments($posts['txtComment']);
             $leave->setLeaveLengthDays($this->calculateDateDeference($isWeekend, $isHoliday, $isHalfday, $isHalfDayHoliday));
@@ -148,6 +133,7 @@ class ApplyLeaveForm extends sfForm {
      * @return unknown_type
      */
     public function postValidation($validator, $values) {
+
         $errorList = array();
 
         $fromDateTimeStamp = strtotime($values['txtFromDate']);
@@ -269,6 +255,7 @@ class ApplyLeaveForm extends sfForm {
             else
                 $timeDeference = $this->getWorkShiftLength();
         }
+
         return $timeDeference;
     }
 
@@ -280,11 +267,13 @@ class ApplyLeaveForm extends sfForm {
     public function getLeaveRequestStatus($isWeekend, $isHoliday) {
         $status = Leave::LEAVE_STATUS_LEAVE_PENDING_APPROVAL;
 
-        if ($isWeekend)
+        if ($isWeekend) {
             $status = Leave::LEAVE_STATUS_LEAVE_WEEKEND;
+        }
 
-        if ($isHoliday)
+        if ($isHoliday) {
             $status = Leave::LEAVE_STATUS_LEAVE_HOLIDAY;
+        }
 
         return $status;
     }
@@ -299,6 +288,16 @@ class ApplyLeaveForm extends sfForm {
         $workWeekService->setWorkWeekDao(new WorkWeekDao());
 
         return $workWeekService->isWeekend($day, true);
+    }
+
+    /**
+     *
+     * @param $day
+     * @return boolean
+     */
+    public function isHoliday($day) {
+        $holidayService = new HolidayService();
+        return $holidayService->isHoliday($day);
     }
 
     /**
@@ -326,27 +325,9 @@ class ApplyLeaveForm extends sfForm {
      * @param $day
      * @return boolean
      */
-    public function isHoliday($day) {
-        $holidayService = new HolidayService();
-        return $holidayService->isHoliday($day);
-    }
-
-    /**
-     *
-     * @param $day
-     * @return boolean
-     */
     public function isHalfdayHoliday($day) {
         $holidayService = new HolidayService();
         return $holidayService->isHalfdayHoliday($day);
-    }
-
-    /**
-     * Get Employee number
-     * @return int
-     */
-    private function getEmployeeNumber() {
-        return $_SESSION['empID'];
     }
 
     /**
@@ -372,6 +353,14 @@ class ApplyLeaveForm extends sfForm {
     private function incDate($timestamp) {
 
         return strtotime("+1 day", $timestamp);
+    }
+
+    /**
+     * Get Employee number
+     * @return int
+     */
+    private function getEmployeeNumber() {
+        return $_SESSION['empID'];
     }
 
     /**
@@ -409,6 +398,83 @@ class ApplyLeaveForm extends sfForm {
         }
 
         return false;
+    }
+
+    /**
+     *
+     * @return array
+     */
+    public function getStylesheets() {
+        $styleSheets = parent::getStylesheets();
+        
+        $styleSheets['/orangehrmCoreLeavePlugin/css/applyLeaveSuccess.css'] = 'all';
+        $styleSheets['/orangehrmCoreLeavePlugin/css/common.css'] = 'all';
+        
+        return $styleSheets;
+    }
+
+    /**
+     *
+     * @return array
+     */
+    protected function getFormWidgets() {
+        $widgets = array(
+            'txtEmpID' => new sfWidgetFormInputHidden(),
+            'txtEmpWorkShift' => new sfWidgetFormInputHidden(),
+            'txtLeaveType' => new sfWidgetFormChoice(array('choices' => $this->getLeaveTypeList()), array('class' => 'formSelect')),
+            'txtFromDate' => new ohrmWidgetDatePicker(array(), array('id' => 'applyleave_txtFromDate'), array('class' => 'formDateInput')),
+            'txtToDate' => new ohrmWidgetDatePicker(array(), array('id' => 'applyleave_txtToDate'), array('class' => 'formDateInput')),
+            'txtFromTime' => new sfWidgetFormChoice(array('choices' => $this->getTimeChoices()), array('class' => 'formSelect')),
+            'txtToTime' => new sfWidgetFormChoice(array('choices' => $this->getTimeChoices()), array('class' => 'formSelect')),
+            'txtLeaveTotalTime' => new sfWidgetFormInput(array(), array('readonly' => 'readonly', 'class' => 'formInputText')),
+            'txtComment' => new sfWidgetFormTextarea(array(), array('rows' => '3', 'cols' => '30')),
+        );
+
+        return $widgets;
+    }
+
+    /**
+     *
+     * @return array
+     */
+    protected function getFormValidators() {
+        $inputDatePattern = sfContext::getInstance()->getUser()->getDateFormat();
+
+        $validators = array(
+            'txtEmpID' => new sfValidatorString(array('required' => true), array('required' => __(ValidationMessages::REQUIRED))),
+            'txtEmpWorkShift' => new sfValidatorString(array('required' => false)),
+            'txtLeaveType' => new sfValidatorChoice(array('choices' => array_keys($this->getLeaveTypeList()))),
+            'txtFromDate' => new ohrmDateValidator(array('date_format' => $inputDatePattern, 'required' => true),
+                    array('invalid' => 'Date format should be ' . $inputDatePattern)),
+            'txtToDate' => new ohrmDateValidator(array('date_format' => $inputDatePattern, 'required' => true),
+                    array('invalid' => 'Date format should be ' . $inputDatePattern)),
+            'txtComment' => new sfValidatorString(array('required' => false, 'trim' => true, 'max_length' => 1000)),
+            'txtFromTime' => new sfValidatorString(array('required' => false)),
+            'txtToTime' => new sfValidatorString(array('required' => false)),
+            'txtLeaveTotalTime' => new sfValidatorNumber(array('required' => false)),
+        );
+
+        return $validators;
+    }
+    
+    /**
+     *
+     * @return array
+     */
+    protected function getFormLabels() {
+        $requiredMarker = ' <span class="required">*</span>';
+        
+        $labels = array(
+            'txtLeaveType' => __('Leave Type') . $requiredMarker,
+            'txtFromDate' => __('From Date') . $requiredMarker,
+            'txtToDate' => __('To Date') . $requiredMarker,
+            'txtFromTime' => __('From Time'),
+            'txtToTime' => __('To Time'),
+            'txtLeaveTotalTime' => __('Total Hours'),
+            'txtComment' => __('Comment'),
+        );
+        
+        return $labels;
     }
 
 }

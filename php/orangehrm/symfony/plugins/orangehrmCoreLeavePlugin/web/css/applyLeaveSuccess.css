@@ -27,3 +27,11 @@
 form#frmLeaveApply table.tableArrange tbody tr td select#assignleave_txtLeaveType{
     width:160px;
 }
+
+#applyleave_txtFromTime, #applyleave_txtToTime {
+    width: 5em;
+}
+
+#applyleave_txtLeaveTotalTime {
+    width: 3em;
+}

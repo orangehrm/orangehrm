@@ -23,16 +23,13 @@
 /**
  * Displaying ApplyLeave UI and saving data
  *
- * @author sujith
  */
-class applyLeaveAction extends sfAction {
+class applyLeaveAction extends baseLeaveAction {
 
-    private $employeeService;
-    private $leaveRequestService;
-    private $leaveTypeService;
-    private $leavePeriodService;
-    private $leaveNotificationService;
-    private $leaveEntitlementService;
+    protected $employeeService;
+    protected $leaveRequestService;
+    protected $leavePeriodService;
+    protected $leaveNotificationService;
 
     /**
      * Get Employee number
@@ -63,8 +60,8 @@ class applyLeaveAction extends sfAction {
      * @return
      */
     public function setForm(sfForm $form) {
-        if (is_null($this->form)) {
-            $this->form = $form;
+        if (is_null($this->applyLeaveForm)) {
+            $this->applyLeaveForm = $form;
         }
     }
 
@@ -149,25 +146,6 @@ class applyLeaveAction extends sfAction {
         $this->leaveNotificationService = $leaveNotificationService;
     }
 
-    /**
-     * Get LeaveEntitlementService
-     * return LeaveEntitlementService
-     */
-    public function getLeaveEntitlementService() {
-        if (is_null($this->leaveEntitlementService)) {
-            $this->leaveEntitlementService = new LeaveEntitlementService();
-        }
-        return $this->leaveEntitlementService;
-    }
-
-    /**
-     * Set LeaveEntitlementService
-     * @param type $leaveEntitlementService 
-     */
-    public function setLeaveEntitlementService($leaveEntitlementService) {
-        $this->leaveEntitlementService = $leaveEntitlementService;
-    }
-
     public function execute($request) {
 
         $form = $this->getApplyLeaveForm();
@@ -176,13 +154,13 @@ class applyLeaveAction extends sfAction {
 
         //this section is to save leave request
         if ($request->isMethod('post')) {
-            $this->form->bind($request->getParameter($this->form->getName()));
-            if ($this->form->isValid()) {
-                if (!$this->applyMoreThanAllowedForAday($this->form)) {
-                    if (!$this->hasOverlapLeave($this->form)) {
-                        $this->saveLeaveRequest($this->form);
+            $this->applyLeaveForm->bind($request->getParameter($this->applyLeaveForm->getName()));
+            if ($this->applyLeaveForm->isValid()) {
+                if (!$this->applyMoreThanAllowedForAday($this->applyLeaveForm)) {
+                    if (!$this->hasOverlapLeave($this->applyLeaveForm)) {
+                        $this->saveLeaveRequest($this->applyLeaveForm);
                     }
-                } elseif ($this->applyMoreThanAllowedForAday($this->form)) {
+                } elseif ($this->applyMoreThanAllowedForAday($this->applyLeaveForm)) {
                     $this->templateMessage = array('WARNING', __("Failed to Submit: Work Shift Length Exceeded"));
                     $this->overlapLeaves = 0;
                 }
@@ -249,25 +227,6 @@ class applyLeaveAction extends sfAction {
     }
 
     /**
-     * @return LeaveTypeService
-     */
-    public function getLeaveTypeService() {
-        if (is_null($this->leaveTypeService)) {
-            $leaevTypeservice = new LeaveTypeService();
-            $leaevTypeservice->setLeaveTypeDao(new LeaveTypeDao());
-            $this->leaveTypeService = $leaevTypeservice;
-        }
-        return $this->leaveTypeService;
-    }
-
-    /**
-     * @param LeaveTypeService $leaveTypeService
-     */
-    public function setLeaveTypeService(LeaveTypeService $leaveTypeService) {
-        $this->leaveTypeService = $leaveTypeService;
-    }
-
-    /**
      * Saves Leave Request and Sends Notification
      */
     protected function saveLeaveRequest(sfForm $form) {
@@ -289,7 +248,7 @@ class applyLeaveAction extends sfAction {
                 try {
                     $this->getLeaveRequestService()->saveLeaveRequest($leaveRequest, $leaves);
 
-                    if ($this->form->isOverlapLeaveRequest()) {
+                    if ($this->applyLeaveForm->isOverlapLeaveRequest()) {
                         $this->getLeaveRequestService()->modifyOverlapLeaveRequest($leaveRequest, $leaves);
                     }
 
@@ -420,5 +379,3 @@ class applyLeaveAction extends sfAction {
     }
 
 }
-
-?>

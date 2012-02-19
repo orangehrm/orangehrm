@@ -43,12 +43,12 @@ class AssignLeaveForm extends sfForm {
         $this->setValidators($this->getFormValidators());
 
         $this->getValidatorSchema()->setPostValidator(new sfValidatorCallback(array('callback' => array($this, 'postValidation'))));
-        
+
         $this->getWidgetSchema()->setNameFormat('assignleave[%s]');
         $this->getWidgetSchema()->setLabels($this->getFormLabels());
         $this->getWidgetSchema()->setFormFormatterName('BreakTags');
     }
-    
+
     /**
      *
      * @return array
