@@ -25,7 +25,7 @@
  *
  * @author sujith
  */
-class assignLeaveAction extends sfAction {
+class assignLeaveAction extends baseLeaveAction {
 
     protected $employeeService;
     protected $leaveRequestService;
@@ -37,8 +37,8 @@ class assignLeaveAction extends sfAction {
      * @param sfForm $form
      */
     public function setForm(sfForm $form) {
-        if (is_null($this->form)) {
-            $this->form = $form;
+        if (is_null($this->assignLeaveForm)) {
+            $this->assignLeaveForm = $form;
         }
     }
 
@@ -154,19 +154,19 @@ class assignLeaveAction extends sfAction {
 
         /* This section is to save leave request */
         if ($request->isMethod('post')) {
-            $this->form->bind($request->getParameter($this->form->getName()));
-            if ($this->form->isValid()) {
+            $this->assignLeaveForm->bind($request->getParameter($this->assignLeaveForm->getName()));
+            if ($this->assignLeaveForm->isValid()) {
                 $post = $form->getValues();
                 /* Check whether employee exists */
                 if (empty($post['txtEmpID'])) {
                     $this->templateMessage = array('WARNING', __("Invalid Employee"));
                 }
 
-                if (!empty($post['txtEmpID']) && !$this->applyMoreThanAllowedForAday($this->form)) {
-                    if (!$this->hasOverlapLeave($this->form)) {
-                        $this->saveLeaveRequest($this->form);
+                if (!empty($post['txtEmpID']) && !$this->applyMoreThanAllowedForAday($this->assignLeaveForm)) {
+                    if (!$this->hasOverlapLeave($this->assignLeaveForm)) {
+                        $this->saveLeaveRequest($this->assignLeaveForm);
                     }
-                } elseif (!empty($post['txtEmpID']) && $this->applyMoreThanAllowedForAday($this->form)) {
+                } elseif (!empty($post['txtEmpID']) && $this->applyMoreThanAllowedForAday($this->assignLeaveForm)) {
                     $this->templateMessage = array('WARNING', __("Failed to Assign: Work Shift Length Exceeded"));
                     $this->overlapLeaves = 0;
                 }
@@ -332,7 +332,7 @@ class assignLeaveAction extends sfAction {
                 try {
                     $this->getLeaveRequestService()->saveLeaveRequest($leaveRequest, $leaves);
 
-                    if ($this->form->isOverlapLeaveRequest()) {
+                    if ($this->assignLeaveForm->isOverlapLeaveRequest()) {
                         $this->getLeaveRequestService()->modifyOverlapLeaveRequest($leaveRequest, $leaves);
                     }
 

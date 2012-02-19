@@ -12,7 +12,7 @@
     }
 </style>
 
-<?php use_stylesheets_for_form($form); ?>
+<?php use_stylesheets_for_form($assignLeaveForm); ?>
 
 <?php echo stylesheet_tag('../orangehrmCoreLeavePlugin/css/assignLeaveSuccess') ?>
 <?php echo stylesheet_tag('orangehrm.datepicker.css') ?>
@@ -55,24 +55,24 @@
 <?php } ?>
     <div class="formpage">
     <?php echo isset($templateMessage) ? templateMessage($templateMessage) : ''; ?>
-    <?php if (count($form->leaveTypeList) > 1) {
+    <?php if (count($assignLeaveForm->leaveTypeList) > 1) {
     ?>
         <div class="outerbox">
             <div class="mainHeading"><h2 class="paddingLeft"><?php echo __('Assign Leave') ?></h2></div>
 
-        <?php if ($form->hasErrors()) {
+        <?php if ($assignLeaveForm->hasErrors()) {
         ?>
-        <?php echo $form['txtEmpID']->renderError(); ?>
-        <?php echo $form['txtEmployee']->renderError(); ?>
-        <?php echo $form['txtLeaveType']->renderError(); ?>
-        <?php echo $form['txtFromDate']->renderError(); ?>
-        <?php echo $form['txtToDate']->renderError(); ?>
-        <?php echo $form['txtLeaveTotalTime']->renderError(); ?>
-        <?php echo $form['txtComment']->renderError(); ?>
-        <?php echo $form['txtFromTime']->renderError(); ?>
+        <?php echo $assignLeaveForm['txtEmpID']->renderError(); ?>
+        <?php echo $assignLeaveForm['txtEmployee']->renderError(); ?>
+        <?php echo $assignLeaveForm['txtLeaveType']->renderError(); ?>
+        <?php echo $assignLeaveForm['txtFromDate']->renderError(); ?>
+        <?php echo $assignLeaveForm['txtToDate']->renderError(); ?>
+        <?php echo $assignLeaveForm['txtLeaveTotalTime']->renderError(); ?>
+        <?php echo $assignLeaveForm['txtComment']->renderError(); ?>
+        <?php echo $assignLeaveForm['txtFromTime']->renderError(); ?>
         <?php } ?>
         <form id="frmLeaveApply" name="frmLeaveApply" method="post" action="">
-            <?php echo $form->render(); ?>
+            <?php echo $assignLeaveForm->render(); ?>
             <!-- here we have the button -->
             <div class="formbuttons paddingLeft">
                 <input type="button" class="applybutton" id="saveBtn" value="<?php echo __('Assign'); ?>" title="<?php echo __('Assign'); ?>"/>
@@ -91,7 +91,7 @@
             
             showTimeControls(false);
 
-            var data	= <?php echo str_replace('&#039;', "'", $form->getEmployeeListAsJson()) ?> ;
+            var data	= <?php echo str_replace('&#039;', "'", $assignLeaveForm->getEmployeeListAsJson()) ?> ;
 
             //Auto complete
             $("#assignleave_txtEmployee").autocomplete(data, {
