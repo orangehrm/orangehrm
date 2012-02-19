@@ -112,7 +112,7 @@ EOF
 //                        array('invalid' => 'The from date ("%left_field%") must be before the to date ("%right_field%")')
 //        ));
 
-        $requiredMessage = __("Please select comparison");
+        $requiredMessage = __(ValidationMessages::REQUIRED);
         $validatorSchema[$this->attributes['id']] = new ohrmValidatorConditionalFilter(array(), array('required' => $requiredMessage));
         
     }

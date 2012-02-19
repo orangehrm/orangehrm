@@ -127,7 +127,7 @@ EOF
         $widgetSchema[$this->attributes['id']] = $this;
         $widgetSchema[$this->attributes['id']]->setLabel(ucwords(str_replace("_", " ", $this->attributes['id'])));
         
-        $requiredMessage = __("Please select comparison");
+        $requiredMessage = __(ValidationMessages::REQUIRED);
         $validatorSchema[$this->attributes['id']] =  new ohrmValidatorConditionalFilter(array(), array('required' => $requiredMessage));
 
 //$form->setValidator('date_period', new sfValidatorString());

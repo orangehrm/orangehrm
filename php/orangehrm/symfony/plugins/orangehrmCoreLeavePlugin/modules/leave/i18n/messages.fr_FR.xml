@@ -273,8 +273,8 @@
     <target>FR_Taken</target>
    </trans-unit>
    <trans-unit id="72">
-    <source>The following leave requests are on the same day as the current leave request. Please cancel the existing leave requests and submit again  or change the leave period if needed.</source>
-    <target>FR_The following leave requests are on the same day as the current leave request. Please cancel the existing leave requests and submit again  or change the leave period if needed.</target>
+    <source>Overlapping Leave Request Found</source>
+    <target>FR_Overlapping Leave Request Found</target>
    </trans-unit>
    <trans-unit id="73">
     <source>This is a deleted leave type. Reactivate it?</source>

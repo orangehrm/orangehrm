@@ -59,6 +59,10 @@ class ohrmReportWidgetEmployeeListAutoFill extends sfWidgetForm implements ohrmE
                     '%empName%' => $this->getOption($this->attributes['id'] . '_' . 'empName')->render($name . '[empName]', $values['empName'], array('id' => $this->attributes['id'] . '_' . 'empName')),
                 ));
 
+        $noEmployeeMessage = __('No Employees Available');
+        $requiredMessage = __(ValidationMessages::REQUIRED);
+        $invalidMessage = __(ValidationMessages::INVALID);
+        
         $javaScript = $javaScript = sprintf(<<<EOF
 <script type="text/javascript">
 
@@ -67,7 +71,7 @@ class ohrmReportWidgetEmployeeListAutoFill extends sfWidgetForm implements ohrmE
     var errorMsge;
     var employeeFlag;
     var empId;
-    var valid = false;
+    var valid = false; 
 
 $(document).ready(function() {
 
@@ -123,7 +127,7 @@ function validateInput(){
 
         if(empDateCount==0){
 
-            errorMsge = "No Employees Available";
+            errorMsge = "$noEmployeeMessage";
             return false;
         }
         for (i=0; i < empDateCount; i++) {
@@ -141,11 +145,11 @@ function validateInput(){
             valid = true;
             return true;
         }else if(empName == "" || empName == $.trim("Type for hints...").toLowerCase()){
-            errorMsge = "Please Select an Employee";
+            errorMsge = "$requiredMessage";
             return false;
         }else{
             if(valid != true){
-            errorMsge = "Invalid Employee Name";
+            errorMsge = "$invalidMessage";
             return false;
             }else{
             return true;

@@ -4773,6 +4773,10 @@
     <source>LOGIN</source>
     <target>FR_LOGIN</target>
    </trans-unit>
+   <trans-unit id="100">
+    <source>Second date should be after first date</source>
+    <target>FR_Second date should be after first date</target>
+   </trans-unit>
   </body>
  </file>
 </xliff>

@@ -67,7 +67,7 @@ class HolidayListSearchForm extends sfForm {
         
         $this->setValidator('leave_period', 
                 new sfValidatorChoice(array('choices' => array_keys($leavePeriodChoices)), 
-                                      array('invalid' => __('Please select a valid leave period'))));        
+                                      array('invalid' => __(ValidationMessages::INVALID))));        
 
         $this->widgetSchema->setLabels(array('leave_period' => __("Leave Period")));
         

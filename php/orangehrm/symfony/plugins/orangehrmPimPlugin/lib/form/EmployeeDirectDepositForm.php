@@ -72,7 +72,7 @@ class EmployeeDirectDepositForm extends BaseForm {
         if ($accountType == self::ACCOUNT_TYPE_OTHER) {
             $other = $values['account_type_other'];
             if ($other == '') {
-                $message = __('Please Specify Other Account Type');
+                $message = __(ValidationMessages::REQUIRED);
                 $error = new sfValidatorError($validator, $message);
                 throw new sfValidatorErrorSchema($validator, array('account_type_other' => $error));                
 
