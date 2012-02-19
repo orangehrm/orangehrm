@@ -151,7 +151,7 @@
                            var lang_validSalaryRange  = '<?php echo __("Should be higher than Minimum Salary"); ?>';
                            var lang_addCurrency  = "<?php echo __("Add Currency"); ?>";
                            var lang_editCurrency  = "<?php echo __("Edit Currency"); ?>";
-                           var lang_assignedCurrency  = "<?php echo __("Assigned Currency"); ?>";
+                           var lang_assignedCurrency  = "<?php echo __("Assigned Currencies"); ?>";
                            var lang_uniquePayGradeName  = '<?php echo __(ValidationMessages::ALREADY_EXISTS); ?>';
                            var viewPayGradesUrl = "<?php echo url_for("admin/viewPayGrades"); ?>";
                            var getCurrencyDetailsUrl = "<?php echo url_for("admin/getCurrencyDetailsJson"); ?>";
