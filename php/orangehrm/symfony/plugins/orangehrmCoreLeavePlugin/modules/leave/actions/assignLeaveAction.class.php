@@ -29,7 +29,6 @@ class assignLeaveAction extends baseLeaveAction {
 
     protected $employeeService;
     protected $leaveRequestService;
-    protected $leaveTypeService;
     protected $leavePeriodService;
     protected $leaveNotificationService;
 
@@ -100,25 +99,6 @@ class assignLeaveAction extends baseLeaveAction {
      */
     public function setLeavePeriodService(LeavePeriodService $leavePeriodService) {
         $this->leavePeriodService = $leavePeriodService;
-    }
-
-    /**
-     * @return LeaveTypeService
-     */
-    public function getLeaveTypeService() {
-        if (is_null($this->leaveTypeService)) {
-            $leaveTypeService = new LeaveTypeService();
-            $leaveTypeService->setLeaveTypeDao(new LeaveTypeDao());
-            $this->leaveTypeService = $leaveTypeService;
-        }
-        return $this->leaveTypeService;
-    }
-
-    /**
-     * @param LeaveTypeService $leaveTypeService
-     */
-    public function setLeaveTypeService(LeaveTypeService $leaveTypeService) {
-        $this->leaveTypeService = $leaveTypeService;
     }
 
     /**
