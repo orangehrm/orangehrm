@@ -1,21 +1,23 @@
 <?php
 
 /*
-  // OrangeHRM is a comprehensive Human Resource Management (HRM) System that captures
-  // all the essential functionalities required for any enterprise.
-  // Copyright (C) 2006 OrangeHRM Inc., http://www.orangehrm.com
-
-  // OrangeHRM is free software; you can redistribute it and/or modify it under the terms of
-  // the GNU General Public License as published by the Free Software Foundation; either
-  // version 2 of the License, or (at your option) any later version.
-
-  // OrangeHRM is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY;
-  // without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
-  // See the GNU General Public License for more details.
-
-  // You should have received a copy of the GNU General Public License along with this program;
-  // if not, write to the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
-  // Boston, MA  02110-1301, USA
+ *
+ * OrangeHRM is a comprehensive Human Resource Management (HRM) System that captures
+ * all the essential functionalities required for any enterprise.
+ * Copyright (C) 2006 OrangeHRM Inc., http://www.orangehrm.com
+ *
+ * OrangeHRM is free software; you can redistribute it and/or modify it under the terms of
+ * the GNU General Public License as published by the Free Software Foundation; either
+ * version 2 of the License, or (at your option) any later version.
+ *
+ * OrangeHRM is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY;
+ * without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+ * See the GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License along with this program;
+ * if not, write to the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
+ * Boston, MA  02110-1301, USA
+ *
  */
 
 /**
@@ -253,11 +255,13 @@ class AssignLeaveForm extends sfForm {
     public function getLeaveRequestStatus($isWeekend, $isHoliday, $leaveDate) {
         $status = null;
 
-        if ($isWeekend)
+        if ($isWeekend) {
             return Leave::LEAVE_STATUS_LEAVE_WEEKEND;
+        }
 
-        if ($isHoliday)
+        if ($isHoliday) {
             return Leave::LEAVE_STATUS_LEAVE_HOLIDAY;
+        }
 
         if (strtotime($leaveDate) <= strtotime(date('Y-m-d')))
             $status = Leave::LEAVE_STATUS_LEAVE_TAKEN;
@@ -286,7 +290,6 @@ class AssignLeaveForm extends sfForm {
      */
     public function isHoliday($day) {
         $holidayService = new HolidayService();
-
         return $holidayService->isHoliday($day);
     }
 
@@ -345,9 +348,12 @@ class AssignLeaveForm extends sfForm {
         return strtotime("+1 day", $timestamp);
     }
 
+    /**
+     * Get Employee number
+     * @return int
+     */
     private function getEmployeeNumber() {
         $posts = $this->getValues();
-
         return $posts['txtEmpID'];
     }
 
@@ -455,7 +461,6 @@ class AssignLeaveForm extends sfForm {
             'txtLeaveType' => new sfWidgetFormChoice(array('choices' => $this->getLeaveTypeList()), array('class' => 'formSelect')),
             'txtFromDate' => new ohrmWidgetDatePicker(array(), array('id' => 'assignleave_txtFromDate'), array('class' => 'formDateInput')),
             'txtToDate' => new ohrmWidgetDatePicker(array(), array('id' => 'assignleave_txtToDate'), array('class' => 'formDateInput')),
-//            'txtHalfDay' => new sfWidgetFormInputCheckbox(),
             'txtFromTime' => new sfWidgetFormChoice(array('choices' => $this->getTimeChoices()), array('class' => 'formSelect')),
             'txtToTime' => new sfWidgetFormChoice(array('choices' => $this->getTimeChoices()), array('class' => 'formSelect')),
             'txtLeaveTotalTime' => new sfWidgetFormInput(array(), array('readonly' => 'readonly', 'class' => 'formInputText')),
@@ -482,7 +487,6 @@ class AssignLeaveForm extends sfForm {
             'txtToDate' => new ohrmDateValidator(array('date_format' => $inputDatePattern, 'required' => true),
                     array('invalid' => 'Date format should be ' . $inputDatePattern)),
             'txtComment' => new sfValidatorString(array('required' => false, 'trim' => true, 'max_length' => 1000)),
-//            'txtHalfDay' => new sfValidatorString(array('required' => false)),
             'txtFromTime' => new sfValidatorString(array('required' => false)),
             'txtToTime' => new sfValidatorString(array('required' => false)),
             'txtLeaveTotalTime' => new sfValidatorNumber(array('required' => false)),
@@ -503,7 +507,6 @@ class AssignLeaveForm extends sfForm {
             'txtLeaveType' => __('Leave Type') . $requiredMarker,
             'txtFromDate' => __('From Date') . $requiredMarker,
             'txtToDate' => __('To Date') . $requiredMarker,
-//            'txtHalfDay' => __('Half Day'),
             'txtFromTime' => __('From Time'),
             'txtToTime' => __('To Time'),
             'txtLeaveTotalTime' => __('Total Hours'),
