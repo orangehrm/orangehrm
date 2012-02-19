@@ -198,7 +198,7 @@ class ProjectForm extends BaseForm {
 
 		$jsonArray = array();
 
-		$customerList = $this->getCustomerService()->getAllCustomers();
+		$customerList = $this->getCustomerService()->getAllCustomers(true);
 
 
 		foreach ($customerList as $customer) {
