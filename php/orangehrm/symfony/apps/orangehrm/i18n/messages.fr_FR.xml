@@ -4023,6 +4023,10 @@
     <source>Successfully Updated</source>
     <target>FR_Successfully Updated</target>
    </trans-unit>
+   <trans-unit id="869">
+    <source>Successfully Uploaded</source>
+    <target>FR_Successfully Uploaded</target>
+   </trans-unit>
    <trans-unit id="870">
     <source>Sudan</source>
     <target>FR_Sudan</target>
@@ -4748,6 +4752,14 @@
    <trans-unit id="73">
     <source>Failed to Save: File Type Not Allowed</source>
     <target>FR_Failed to Save: File Type Not Allowed</target>
+   </trans-unit>
+   <trans-unit id="73">
+    <source>Failed to Upload: File Type Not Allowed</source>
+    <target>FR_Failed to Upload: File Type Not Allowed</target>
+   </trans-unit>
+   <trans-unit id="73">
+    <source>Failed to Upload: File Size Exceeded</source>
+    <target>FR_Failed to Upload: File Size Exceeded</target>
    </trans-unit>
    <trans-unit id="73">
     <source>Failed to Save: File Size Exceeded</source>

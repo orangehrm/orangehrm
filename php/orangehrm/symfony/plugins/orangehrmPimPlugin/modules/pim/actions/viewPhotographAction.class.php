@@ -92,7 +92,7 @@ class viewPhotographAction extends sfAction {
             if($photoFile['photofile']['size'] == 0 || $photoFile['photofile']['size'] > 1000000) {
                 
                 $this->messageType = "warning";
-                $this->message = __(TopLevelMessages::FILE_SIZE_SAVE_FAILURE);
+                $this->message = __('Failed to Upload: File Size Exceeded');
             }
 
             if ($this->form->isValid()) {
@@ -109,7 +109,7 @@ class viewPhotographAction extends sfAction {
                 if (!in_array($fileType, $allowedImageTypes)) {
                     
                     $this->messageType = "warning";
-                    $this->message = __(TopLevelMessages::FILE_TYPE_SAVE_FAILURE);
+                    $this->message = __('Failed to Upload: File Type Not Allowed');
 
                 } else {
                 
@@ -122,7 +122,7 @@ class viewPhotographAction extends sfAction {
                     $this->pictureSizeAdjust($height, $width);
                     $this->saveEmployeePicture($empNumber, $photoFile);
                     $this->messageType = "success";
-                    $this->message = __(TopLevelMessages::SAVE_SUCCESS);
+                    $this->message = __('Successfully Uploaded');
                 }
             }
         }

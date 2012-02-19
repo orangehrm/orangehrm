@@ -84,22 +84,7 @@ class definePredefinedReportAction extends sfAction {
                 $this->getUser()->setFlash('templateMessage', array('success', __(TopLevelMessages::SAVE_SUCCESS)));
                 $this->redirect('core/viewDefinedPredefinedReports'); 
                 return;
-            } else {
-                list($this->messageType, $this->message) = array('warning', __('Failed to Save'));
-
-/*                $errors = $this->form->getErrorSchema();
-                foreach ($errors as $error) {
-                    echo $error . "<br />";
-                }
-
-                foreach ($this->form->getWidgetSchema()->getPositions() as $widgetName) {
-                    $err = $this->form[$widgetName]->renderError();
-
-                    if (!empty($err)) {
-                        echo $widgetName . '=' . $err;
-                    }
-                } */
-            }
+            } 
         } else {
             // Get filters, display field groups and display fields for report
             if (!empty($reportId)) {
