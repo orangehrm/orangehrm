@@ -5,8 +5,8 @@
  <file source-language="en_US" target-language="fr_FR" datatype="plaintext" original="messages" date="2012-02-14T22:11:29Z" product-name="messages">
   <body>
    <trans-unit id="1">
-    <source>1 Custom field left</source>
-    <target>FR_1 Custom field left</target>
+    <source>Remaining number of custom fields</source>
+    <target>FR_Remaining number of custom fields</target>
    </trans-unit>
    <trans-unit id="2">
     <source>Account Number</source>
@@ -175,10 +175,6 @@
    <trans-unit id="43">
     <source>Custom Field Name</source>
     <target>FR_Custom Field Name</target>
-   </trans-unit>
-   <trans-unit id="44">
-    <source>Custom fields left</source>
-    <target>FR_Custom fields left</target>
    </trans-unit>
    <trans-unit id="45">
     <source>Date of Expiry</source>

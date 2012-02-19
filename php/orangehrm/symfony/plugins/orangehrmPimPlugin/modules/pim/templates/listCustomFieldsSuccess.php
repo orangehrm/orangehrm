@@ -86,10 +86,8 @@ if (isset($messageType)) {
     
     if ($fieldsLeft == 0) {
         $fieldsLeftMsg = __("All customs fields are in use");
-    } else if ($fieldsLeft == 1) {
-        $fieldsLeftMsg = __("1 Custom field left");
-    } else if ($fieldsLeft > 1) {
-        $fieldsLeftMsg = $fieldsLeft . ' ' . __("Custom fields left");
+    } else {
+        $fieldsLeftMsg = __("Remaining number of custom fields") . ": $fieldsLeft";
     }
 ?>
 <?php if ($fieldsLeft > 0 ) { ?>                
