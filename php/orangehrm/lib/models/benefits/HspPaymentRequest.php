@@ -286,9 +286,8 @@ class HspPaymentRequest {
 		$arrRecordsList[] = "'".$this->paymentMadeTo."'";
 		$arrRecordsList[] = "'".$this->thirdPartyAccountNumber."'";
 		$arrRecordsList[] = "'".$this->mailAddress."'";
-		$arrRecordsList[] = "'". $this->comments."'";
-		$arrRecordsList[] = "'". $this->status."'";
-
+		$arrRecordsList[] = "'". $this->comments."'";		
+                $arrRecordsList[] = ( $this->status) == ''? '0' :  "'". $this->status."'";
 		if ($this->datePaid != null) {
 			$insertFields[] = '`'.self::DB_FIELD_DATE_PAID.'`';
 			$arrRecordsList[] = "'".$this->datePaid."'";
