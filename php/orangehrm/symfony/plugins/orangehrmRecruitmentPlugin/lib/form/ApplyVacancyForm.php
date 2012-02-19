@@ -124,7 +124,7 @@ class ApplyVacancyForm extends BaseForm {
         $resultArray = array();
         if (!($this->isValidResume($file))) {
             $resultArray['messageType'] = 'warning';
-            $resultArray['message'] = __('Failed to Submit: File Type Not Allowed');
+            $resultArray['message'] = __(TopLevelMessages::FILE_TYPE_SAVE_FAILURE);
             return $resultArray;
         } else {
             $this->candidateId = $this->_getNewlySavedCandidateId($candidate);

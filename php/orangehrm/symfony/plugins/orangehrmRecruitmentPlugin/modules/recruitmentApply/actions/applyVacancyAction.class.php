@@ -83,9 +83,9 @@ class applyVacancyAction extends sfAction {
             $file = $request->getFiles($this->form->getName());
             
             if ($_FILES['addCandidate']['size']['resume'] > 1024000 ) {
-                 $this->templateMessage = array ('WARNING', __('Failed to Submit: File Size Exceeded'));
+                 $this->templateMessage = array ('WARNING', __(TopLevelMessages::FILE_SIZE_SAVE_FAILURE));
 	    } else if ($_FILES == null){
-		 $this->getUser()->setFlash('templateMessage', array('warning', __('Failed to Submit: File Size Exceeded')));
+		 $this->getUser()->setFlash('templateMessage', array('warning', __(TopLevelMessages::FILE_SIZE_SAVE_FAILURE)));
 		 $this->redirect('recruitmentApply/applyVacancy?id=' . $this->vacancyId);
             } else {
 

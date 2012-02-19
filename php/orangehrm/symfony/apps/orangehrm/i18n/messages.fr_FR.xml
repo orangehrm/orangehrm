@@ -4754,14 +4754,6 @@
     <target>FR_Failed to Save: File Type Not Allowed</target>
    </trans-unit>
    <trans-unit id="73">
-    <source>Failed to Upload: File Type Not Allowed</source>
-    <target>FR_Failed to Upload: File Type Not Allowed</target>
-   </trans-unit>
-   <trans-unit id="73">
-    <source>Failed to Upload: File Size Exceeded</source>
-    <target>FR_Failed to Upload: File Size Exceeded</target>
-   </trans-unit>
-   <trans-unit id="73">
     <source>Failed to Save: File Size Exceeded</source>
     <target>FR_Failed to Save: File Size Exceeded</target>
    </trans-unit>
