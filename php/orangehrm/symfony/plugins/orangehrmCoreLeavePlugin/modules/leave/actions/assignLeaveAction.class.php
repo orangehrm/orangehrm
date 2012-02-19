@@ -1,7 +1,6 @@
 <?php
 
 /*
- *
  * OrangeHRM is a comprehensive Human Resource Management (HRM) System that captures
  * all the essential functionalities required for any enterprise.
  * Copyright (C) 2006 OrangeHRM Inc., http://www.orangehrm.com
@@ -234,28 +233,6 @@ class assignLeaveAction extends baseLeaveAction {
         $form = new AssignLeaveForm(array(), $leaveFormOptions, true);
 
         return $form;
-    }
-
-    /**
-     * Returns Logged in user details
-     */
-    protected function getLoggedInUserDetails() {
-        $userDetails['userType'] = 'ESS';
-
-        if (!empty($_SESSION['empNumber'])) {
-            $userDetails['loggedUserId'] = $_SESSION['empNumber'];
-        } else {
-            $userDetails['loggedUserId'] = 0; // Means default admin
-        }
-
-        if ($_SESSION['isSupervisor']) {
-            $userDetails['userType'] = 'Supervisor';
-        }
-
-        if (isset($_SESSION['isAdmin']) && $_SESSION['isAdmin'] == 'Yes') {
-            $userDetails['userType'] = 'Admin';
-        }
-        return $userDetails;
     }
 
     /**
