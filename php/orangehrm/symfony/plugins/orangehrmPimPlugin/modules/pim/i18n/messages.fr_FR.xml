@@ -612,6 +612,10 @@
     <source>Failed To Save: Employee Id Exists</source>
     <target>FR_Failed To Save: Employee Id Exists</target>
    </trans-unit>
+   <trans-unit id="3452">
+    <source>Will be deleted from all employees</source>
+    <target>FR_Will be deleted from all employees</target>
+   </trans-unit>
   </body>
  </file>
 </xliff>

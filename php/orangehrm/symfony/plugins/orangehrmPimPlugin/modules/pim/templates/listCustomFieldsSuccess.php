@@ -175,7 +175,11 @@ if (isset($messageType)) {
 </div> <!-- End of outerbox -->
 
 <div id="deleteConfirmation" title="<?php echo __('OrangeHRM - Confirmation Required'); ?>" style="display: none;">
-    <span id="deleteConfirmMsg"><?php echo __(CommonMessages::DELETE_CONFIRMATION); ?></span>
+    <span id="deleteConfirmMsg">
+        <?php echo __('Will be deleted from all employees'); ?>
+        <br /><br />
+        <?php echo __(CommonMessages::DELETE_CONFIRMATION); ?>
+    </span>
     <div class="dialogButtons">
         <input type="button" id="dialogDeleteBtn" class="savebutton" value="<?php echo __("Ok");?>" />
         <input type="button" id="dialogCancelBtn" class="savebutton" value="<?php echo __("Cancel");?>" />
@@ -254,16 +258,6 @@ if (isset($messageType)) {
                         fields = fields + ', ' + name;
                     }
                 });
-                
-                var confirmMsg =  fields + " <?php echo __("will be deleted from all employees' records. Do you want to continue?");?>";
-                if (checked == 1) {
-                    confirmMsg = '<?php echo __('Field ');?>' + confirmMsg;
-                }
-                else {
-                    confirmMsg = '<?php echo __('Fields ');?>' + confirmMsg;
-                }
-                
-                $('span#deleteConfirmMsg').text(confirmMsg);
                 
                 $('#deleteConfirmation').dialog('open');
                 return false;
