@@ -371,7 +371,7 @@ class applyLeaveAction extends baseLeaveAction {
     protected function hasWorkingDays($holidayCount , $leaves){
         
         if ($holidayCount == count($leaves)) {
-            $this->templateMessage = array('WARNING', __('Failed to Submit: No Work Days Selected'));
+            $this->templateMessage = array('WARNING', __('Failed to Submit: No Working Days Selected'));
             return false;
         }
         

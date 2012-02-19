@@ -309,8 +309,8 @@
     <target>FR_With Terminated Employees</target>
    </trans-unit>
    <trans-unit id="83">
-    <source>Failed to Submit: No Work Days Selected</source>
-    <target>FR_Failed to Submit: No Work Days Selected</target>
+    <source>Failed to Submit: No Working Days Selected</source>
+    <target>FR_Failed to Submit: No Working Days Selected</target>
    </trans-unit>
    <trans-unit id="83">
     <source>Successfully Undeleted</source>
