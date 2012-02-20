@@ -72,56 +72,7 @@ class AssignLeaveForm extends sfForm {
             $timeChoices[$timeVal] = $timeVal;
         }
         return $timeChoices;
-    }
-
-    /**
-     * get Leave Request
-     * @return LeaveRequest
-     */
-    public function getLeaveRequest() {
-
-        $posts = $this->getValues();
-        $leaveRequest = new LeaveRequest();
-        $leaveRequest->setLeaveTypeId($posts['txtLeaveType']);
-        $leaveRequest->setDateApplied($posts['txtFromDate']);
-        $leaveRequest->setLeavePeriodId($this->getLeavePeriod($posts['txtFromDate']));
-        $leaveRequest->setEmpNumber($posts['txtEmpID']);
-        $leaveRequest->setLeaveComments($posts['txtComment']);
-        return $leaveRequest;
-    }
-
-    /**
-     * Get Leave
-     * @return Leave
-     */
-    public function createLeaveObjectListForAppliedRange() {
-        $posts = $this->getValues();
-
-        $leaveList = array();
-        $from = strtotime($posts['txtFromDate']);
-        $to = strtotime($posts['txtToDate']);
-
-        for ($timeStamp = $from; $timeStamp <= $to; $timeStamp = $this->incDate($timeStamp)) {
-            $leave = new Leave();
-
-            $leaveDate = date('Y-m-d', $timeStamp);
-            $isWeekend = $this->isWeekend($leaveDate);
-            $isHoliday = $this->isHoliday($leaveDate);
-            $isHalfday = $this->isHalfDay($leaveDate);
-            $isHalfDayHoliday = $this->isHalfdayHoliday($leaveDate);
-
-            $leave->setLeaveDate($leaveDate);
-            $leave->setLeaveComments($posts['txtComment']);
-            $leave->setLeaveLengthDays($this->calculateDateDeference($isWeekend, $isHoliday, $isHalfday, $isHalfDayHoliday));
-            $leave->setStartTime(($posts['txtFromTime'] != '') ? $posts['txtFromTime'] : '00:00');
-            $leave->setEndTime(($posts['txtToTime'] != '') ? $posts['txtToTime'] : '00:00');
-            $leave->setLeaveLengthHours($this->calculateTimeDeference($isWeekend, $isHoliday, $isHalfday, $isHalfDayHoliday));
-            $leave->setLeaveStatus($this->getLeaveRequestStatus($isWeekend, $isHoliday, $leaveDate));
-
-            array_push($leaveList, $leave);
-        }
-        return $leaveList;
-    }
+    }    
 
     /**
      * Post validation
@@ -164,78 +115,6 @@ class AssignLeaveForm extends sfForm {
     }
 
     /**
-     * Calculate Date deference
-     * @return int
-     */
-    public function calculateDateDeference($isWeekend, $isHoliday, $isHalfday, $isHalfDayHoliday) {
-        $posts = $this->getValues();
-        if ($isWeekend)
-            $dayDeference = 0;
-        elseif ($isHoliday) {
-            if ($isHalfDayHoliday) {
-                if ($posts['txtToDate'] == $posts['txtFromDate']) {
-                    if ($posts['txtEmpWorkShift'] / 2 <= $posts['txtLeaveTotalTime'])
-                        $dayDeference = 0.5;
-                    else
-                        $dayDeference = number_format($posts['txtLeaveTotalTime'] / $posts['txtEmpWorkShift'], 3);
-                }else
-                    $dayDeference = 0.5;
-            }else
-                $dayDeference = 0;
-        }elseif ($isHalfday) {
-
-            if ($posts['txtToDate'] == $posts['txtFromDate']) {
-                if ($posts['txtEmpWorkShift'] / 2 <= $posts['txtLeaveTotalTime'])
-                    $dayDeference = 0.5;
-                else
-                    $dayDeference = number_format($posts['txtLeaveTotalTime'] / $posts['txtEmpWorkShift'], 3);
-            }else
-                $dayDeference = 0.5;
-        }else {
-            if ($posts['txtToDate'] == $posts['txtFromDate'])
-                $dayDeference = number_format($posts['txtLeaveTotalTime'] / $posts['txtEmpWorkShift'], 3);
-            else
-            //$dayDeference	=	floor((strtotime($posts['txtToDate'])-strtotime($posts['txtFromDate']))/86400)+1;
-                $dayDeference = 1;
-        }
-
-        return $dayDeference;
-    }
-
-    public function calculateTimeDeference($isWeekend, $isHoliday, $isHalfday, $isHalfDayHoliday) {
-        $posts = $this->getValues();
-        if ($isWeekend) {
-            $timeDeference = 0;
-        } elseif ($isHoliday) {
-            if ($isHalfDayHoliday) {
-                if ($posts['txtToDate'] == $posts['txtFromDate']) {
-                    if ($posts['txtEmpWorkShift'] / 2 <= $posts['txtLeaveTotalTime'])
-                        $timeDeference = number_format($posts['txtEmpWorkShift'] / 2, 3);
-                    else
-                        $timeDeference = $posts['txtLeaveTotalTime'];
-                }else
-                    $timeDeference = number_format($posts['txtEmpWorkShift'] / 2, 3);
-            }else
-                $timeDeference = 0;
-        }elseif ($isHalfday) {
-            if ($posts['txtToDate'] == $posts['txtFromDate'] && $posts['txtLeaveTotalTime'] > 0) {
-                if ($posts['txtEmpWorkShift'] / 2 <= $posts['txtLeaveTotalTime'])
-                    $timeDeference = number_format($posts['txtEmpWorkShift'] / 2, 3);
-                else
-                    $timeDeference = $posts['txtLeaveTotalTime'];
-            }else
-                $timeDeference = number_format($posts['txtEmpWorkShift'] / 2, 3);
-        }else {
-            if ($posts['txtToDate'] == $posts['txtFromDate'])
-                $timeDeference = $posts['txtLeaveTotalTime'];
-            else
-                $timeDeference = $this->getWorkShiftLength();
-        }
-
-        return $timeDeference;
-    }
-
-    /**
      * Calculate Applied Date range
      * @return int
      */
@@ -247,106 +126,9 @@ class AssignLeaveForm extends sfForm {
         return $dateRange;
     }
 
-    /**
-     *
-     * @param $isWeekend
-     * @return status
-     */
-    public function getLeaveRequestStatus($isWeekend, $isHoliday, $leaveDate) {
-        $status = null;
+    
 
-        if ($isWeekend) {
-            return Leave::LEAVE_STATUS_LEAVE_WEEKEND;
-        }
-
-        if ($isHoliday) {
-            return Leave::LEAVE_STATUS_LEAVE_HOLIDAY;
-        }
-
-        if (strtotime($leaveDate) <= strtotime(date('Y-m-d')))
-            $status = Leave::LEAVE_STATUS_LEAVE_TAKEN;
-        else
-            $status = Leave::LEAVE_STATUS_LEAVE_APPROVED;
-
-        return $status;
-    }
-
-    /**
-     *
-     * @param $day
-     * @return boolean
-     */
-    public function isWeekend($day) {
-        $workWeekService = new WorkWeekService();
-        $workWeekService->setWorkWeekDao(new WorkWeekDao());
-
-        return $workWeekService->isWeekend($day, true);
-    }
-
-    /**
-     *
-     * @param $day
-     * @return boolean
-     */
-    public function isHoliday($day) {
-        $holidayService = new HolidayService();
-        return $holidayService->isHoliday($day);
-    }
-
-    /**
-     *
-     * @param $day
-     * @return boolean
-     */
-    public function isHalfDay($day) {
-        $workWeekService = new WorkWeekService();
-        $workWeekService->setWorkWeekDao(new WorkWeekDao());
-
-        $holidayService = new HolidayService();
-
-        //this is to check weekday half days
-        $flag = $holidayService->isHalfDay($day);
-        if (!$flag) {
-            //this checks for weekend half day
-            return $workWeekService->isWeekend($day, false);
-        }
-        return $flag;
-    }
-
-    /**
-     *
-     * @param $day
-     * @return boolean
-     */
-    public function isHalfdayHoliday($day) {
-        $holidayService = new HolidayService();
-        return $holidayService->isHalfdayHoliday($day);
-    }
-
-    /**
-     * get work shift length
-     * @return int
-     */
-    private function getWorkShiftLength() {
-
-        $employeeService = new EmployeeService();
-        $employeeWorkShift = $employeeService->getWorkShift($this->getEmployeeNumber());
-        if ($employeeWorkShift != null) {
-
-            return $employeeWorkShift->getWorkShift()->getHoursPerDay();
-        }else
-            return WorkShift::DEFAULT_WORK_SHIFT_LENGTH;
-    }
-
-    /**
-     * Date increment
-     *
-     * @param int $timestamp
-     */
-    private function incDate($timestamp) {
-
-        return strtotime("+1 day", $timestamp);
-    }
+    
 
     /**
      * Get Employee number
@@ -355,43 +137,6 @@ class AssignLeaveForm extends sfForm {
     private function getEmployeeNumber() {
         $posts = $this->getValues();
         return $posts['txtEmpID'];
-    }
-
-    /**
-     * Get Leave Period
-     * @param $fromDate
-     * @return unknown_type
-     */
-    private function getLeavePeriod($fromDate) {
-
-        $leavePeriodService = new LeavePeriodService();
-        $leavePeriodService->setLeavePeriodDao(new LeavePeriodDao());
-
-        $leavePeriod = $leavePeriodService->getLeavePeriod(strtotime($fromDate));
-
-        if ($leavePeriod != null)
-            return $leavePeriod->getLeavePeriodId();
-        else
-            return null;
-    }
-
-    /**
-     * check overlap leave request
-     * @return unknown_type
-     */
-    public function isOverlapLeaveRequest() {
-        $posts = $this->getValues();
-        $leavePeriodService = new LeavePeriodService();
-        $leavePeriodService->setLeavePeriodDao(new LeavePeriodDao());
-
-        $leavePeriod = $leavePeriodService->getLeavePeriod(strtotime($posts['txtFromDate']));
-
-        if ($leavePeriod != null) {
-            if ($posts['txtToDate'] > $leavePeriod->getEndDate())
-                return true;
-        }
-
-        return false;
     }
 
     public function getEmployeeListAsJson() {

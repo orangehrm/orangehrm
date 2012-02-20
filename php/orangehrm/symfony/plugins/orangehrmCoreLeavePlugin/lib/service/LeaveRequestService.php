@@ -214,10 +214,11 @@ class LeaveRequestService extends BaseService {
      * @param date $leaveEndDate
      * @param int $empId
      * @return Leave List
+     * @todo Parameter list is too long. Refactor to use LeaveParameterObject
      */
     public function getOverlappingLeave($leaveStartDate, $leaveEndDate ,$empId, $startTime = '00:00', $endTime='59:00', $hoursPerday = '8') {
 
-        return $this->leaveRequestDao->getOverlappingLeave($leaveStartDate, $leaveEndDate ,$empId,  $startTime, $endTime, $hoursPerday);
+        return $this->getLeaveRequestDao()->getOverlappingLeave($leaveStartDate, $leaveEndDate ,$empId,  $startTime, $endTime, $hoursPerday);
 
     }
 

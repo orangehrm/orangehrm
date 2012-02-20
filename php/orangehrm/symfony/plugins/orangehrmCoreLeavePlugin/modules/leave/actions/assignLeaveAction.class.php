@@ -28,6 +28,7 @@ class assignLeaveAction extends baseLeaveAction {
     protected $leaveRequestService;
     protected $leavePeriodService;
     protected $leaveNotificationService;
+    protected $leaveAssignmentService;
 
     /**
      * @param sfForm $form
@@ -39,84 +40,24 @@ class assignLeaveAction extends baseLeaveAction {
     }
 
     /**
-     * @return LeaveRequestService
+     *
+     * @return LeaveAssignmentService
      */
-    public function getLeaveRequestService() {
-
-        if (!($this->leaveRequestService instanceof LeaveRequestService)) {
-            $this->leaveRequestServic = new LeaveRequestService();
+    public function getLeaveAssignmentService() {
+        if (!($this->leaveAssignmentService instanceof LeaveAssignmentService)) {
+            $this->leaveAssignmentService = new LeaveAssignmentService();
         }
-
-        return $this->leaveRequestService;
-    }
-
-    /**
-     * @param LeaveRequestService $leaveRequestService
-     */
-    public function setLeaveRequestService(LeaveRequestService $leaveRequestService) {
-        $this->leaveRequestService = $leaveRequestService;
-    }
-
-    /**
-     * @return EmployeeService
-     */
-    public function getEmployeeService() {
-
-        if (is_null($this->employeeService)) {
-            $employeeService = new EmployeeService();
-            $employeeService->setEmployeeDao(new EmployeeDao());
-            $this->employeeService = $employeeService;
-        }
-
-        return $this->employeeService;
-    }
-
-    /**
-     * @param EmployeeService $employeeService
-     */
-    public function setEmployeeService(EmployeeService $employeeService) {
-        $this->employeeService = $employeeService;
-    }
-
-    /**
-     * @return LeavePeriodService
-     */
-    public function getLeavePeriodService() {
-        if (is_null($this->leavePeriodService)) {
-            $leavePeriodService = new LeavePeriodService();
-            $leavePeriodService->setLeavePeriodDao(new LeavePeriodDao());
-            $this->leavePeriodService = $leavePeriodService;
-        }
-        return $this->leavePeriodService;
+        return $this->leaveAssignmentService;
     }
 
     /**
      *
-     * @param LeavePeriodService $leavePeriodService
+     * @param LeaveAssignmentService $service 
      */
-    public function setLeavePeriodService(LeavePeriodService $leavePeriodService) {
-        $this->leavePeriodService = $leavePeriodService;
+    public function setLeaveAssignmentService(LeaveAssignmentService $service) {
+        $this->leaveAssignmentService = $service;
     }
-
-    /**
-     * @return LeaveNotificationService
-     */
-    public function getLeaveNotificationService() {
-
-        if (is_null($this->leaveNotificationService)) {
-            $this->leaveNotificationService = new LeaveNotificationService();
-        }
-
-        return $this->leaveNotificationService;
-    }
-
-    /**
-     * @param LeaveRequestService $leaveRequestService
-     */
-    public function setLeaveNotificationService(LeaveNotificationService $leaveNotificationService) {
-        $this->leaveNotificationService = $leaveNotificationService;
-    }
-
+    
     public function execute($request) {
 
         $form = $this->getAssignLeaveForm();
@@ -133,72 +74,20 @@ class assignLeaveAction extends baseLeaveAction {
         if ($request->isMethod('post')) {
             $this->assignLeaveForm->bind($request->getParameter($this->assignLeaveForm->getName()));
             if ($this->assignLeaveForm->isValid()) {
-                $post = $form->getValues();
-                /* Check whether employee exists */
-                if (empty($post['txtEmpID'])) {
-                    $this->templateMessage = array('WARNING', __("Invalid Employee"));
-                }
-
-                if (!empty($post['txtEmpID']) && !$this->applyMoreThanAllowedForAday($this->assignLeaveForm)) {
-                    if (!$this->hasOverlapLeave($this->assignLeaveForm)) {
-                        $this->saveLeaveRequest($this->assignLeaveForm);
+                try {
+                    $leaveParameters = new LeaveParameterObject($form->getValues());
+                    
+                    $success = $this->getLeaveAssignmentService()->assignLeave($leaveParameters);
+                    
+                    if ($success) {
+                        $this->templateMessage = array('SUCCESS', __('Successfully Assigned'));
+                    } else {
+                        $this->templateMessage = array('WARNING', __('Failed to Assign'));
                     }
-                } elseif (!empty($post['txtEmpID']) && $this->applyMoreThanAllowedForAday($this->assignLeaveForm)) {
-                    $this->templateMessage = array('WARNING', __("Failed to Assign: Work Shift Length Exceeded"));
-                    $this->overlapLeaves = 0;
+                } catch (LeaveAssignmentServiceException $e) {
+                    $this->templateMessage = array('WARNING', __($e->getMessage()));
                 }
             }
-        }
-    }
-
-    protected function getWorkShiftDurationForEmployee($employeeId) {
-        $workshift = $this->getEmployeeService()->getWorkShift($employeeId);
-
-        if ($workshift == null) {
-            $definedDuration = sfConfig::get('app_orangehrm_core_leave_plugin_default_work_shift_length_hours');
-        } else {
-            $definedDuration = $workshift->getWorkShift()->getHoursPerDay();
-        }
-        return $definedDuration;
-    }
-
-    /**
-     *
-     * @param sfForm $form
-     * @return boolean 
-     */
-    public function applyMoreThanAllowedForAday($form) {
-
-        $post = $form->getValues();
-
-        $fromTime = date("H:i:s", strtotime($post['txtFromTime']));
-        $toTime = date("H:i:s", strtotime($post['txtToTime']));
-
-
-        if ($post['txtFromDate'] == $post['txtToDate']) {
-            $totalDuration = $this->getLeaveRequestService()->getTotalLeaveDuration($post['txtEmpID'], $post['txtFromDate']);
-        }
-
-        if (($totalDuration + $post['txtLeaveTotalTime']) > $this->getWorkShiftDurationForEmployee($post['txtEmpID'])) {
-
-            $dateRange = new DateRange();
-            $dateRange->setFromDate($post['txtFromDate']);
-            $dateRange->setToDate($post['txtFromDate']);
-
-            $searchParameters['dateRange'] = $dateRange;
-            $searchParameters['employeeFilter'] = $post['txtEmpID'];
-
-            $parameter = new ParameterObject($searchParameters);
-            $leaveRequests = $this->getLeaveRequestService()->searchLeaveRequests($parameter);
-
-            if (count($leaveRequests['list']) > 0) {
-                foreach ($leaveRequests['list'] as $leaveRequest) {
-                    $this->overlapLeaves [] = $leaveRequest->getLeave();
-                }
-            }
-            return true;
-        } else {
-            return false;
         }
     }
 
@@ -233,87 +122,4 @@ class assignLeaveAction extends baseLeaveAction {
         return $form;
     }
 
-    /**
-     * Checking for leave overlaps
-     */
-    protected function hasOverlapLeave(sfForm $form) {
-        $post = $form->getValues();
-        $fromTime = '';
-        $toTime = '';
-        if (strlen($post['txtFromTime']) > 0) {
-            $fromTime = date("H:i:s", strtotime($post['txtFromTime']));
-        }
-        if (strlen($post['txtToTime']) > 0) {
-            $toTime = date("H:i:s", strtotime($post['txtToTime']));
-        }
-        /* Find duplicate leaves */
-        $overlapLeaves = $this->getLeaveRequestService()->getOverlappingLeave($post['txtFromDate'], $post['txtToDate'], $post['txtEmpID'], $fromTime, $toTime);
-
-        $this->overlapLeaves = $overlapLeaves;
-        if (count($overlapLeaves) == 0) {
-            $this->overlapLeaves = null;
-            return false;
-        }
-        return true;
-    }
-
-    /**
-     * Saving Leave Request
-     */
-    protected function saveLeaveRequest(sfForm $form) {
-        $post = $form->getValues();
-        $leaveRequest = $form->getLeaveRequest();
-        $leaveType = $this->getLeaveTypeService()->readLeaveType($post['txtLeaveType']);
-        $leaveRequest->setLeaveTypeName($leaveType->getLeaveTypeName());
-
-        if (is_null($leaveRequest->getLeavePeriodId())) {
-            if ($this->getLeavePeriodService()->isWithinNextLeavePeriod(strtotime($leaveRequest->getDateApplied()))) {
-                $nextLeavePeriod = $this->getLeavePeriodService()->createNextLeavePeriod($leaveRequest->getDateApplied());
-                $leaveRequest->setLeavePeriodId($nextLeavePeriod->getLeavePeriodId());
-            }
-        }
-        $leaves = $form->createLeaveObjectListForAppliedRange();
-        $holidayCount = 0;
-        $holidays = array(Leave::LEAVE_STATUS_LEAVE_WEEKEND, Leave::LEAVE_STATUS_LEAVE_HOLIDAY);
-        foreach ($leaves as $k => $leave) {
-            if (in_array($leave->getLeaveStatus(), $holidays)) {
-                $holidayCount++;
-            }
-        }
-
-        /* This is to see whether employee applies leave only during weekends or standard holidays */
-        if ($holidayCount != count($leaves)) {
-            if ($this->isEmployeeAllowedToApply($leaveType)) {
-                try {
-                    $this->getLeaveRequestService()->saveLeaveRequest($leaveRequest, $leaves);
-
-                    if ($this->assignLeaveForm->isOverlapLeaveRequest()) {
-                        $this->getLeaveRequestService()->modifyOverlapLeaveRequest($leaveRequest, $leaves);
-                    }
-
-                    /* Send notification to the when leave is assigned */
-                    $leaveAssignmentMailer = new LeaveAssignmentMailer($leaveRequest, $leaves, $_SESSION['empNumber']);
-                    $leaveAssignmentMailer->send();
-
-                    $this->templateMessage = array('SUCCESS', __('Successfully Assigned'));
-                } catch (Exception $e) {
-                    $this->templateMessage = array('WARNING', __("Leave Period Does Not Exist"));
-                }
-            }
-        } else {
-            $this->templateMessage = array('WARNING', __("Leave Request Should Contain Work Days"));
-        }
-    }
-
-    /**
-     * isEmployeeAllowedToApply
-     * @param LeaveType $leaveType
-     * @returns boolean
-     */
-    protected function isEmployeeAllowedToApply(LeaveType $leaveType) {
-        return true;
-    }
-
 }
-
-?>
