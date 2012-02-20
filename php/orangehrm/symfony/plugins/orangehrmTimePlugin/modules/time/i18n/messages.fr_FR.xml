@@ -9,8 +9,8 @@
     <target>FR_Action</target>
    </trans-unit>
    <trans-unit id="2">
-    <source>Actions Performed On The Timesheet</source>
-    <target>FR_Actions Performed On The Timesheet</target>
+    <source>Actions Performed on the Timesheet</source>
+    <target>FR_Actions Performed on the Timesheet</target>
    </trans-unit>
    <trans-unit id="4">
     <source>Activity Name</source>

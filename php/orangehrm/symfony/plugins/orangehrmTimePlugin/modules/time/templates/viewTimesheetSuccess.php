@@ -311,7 +311,7 @@ use_javascript('../../../scripts/jquery/ui/ui.dialog.js');
     <?php if ($actionLogRecords != null): ?>
 
         <h2 id="actionLogHeading">
-            &nbsp;&nbsp;&nbsp;<?php echo __("Actions Performed On The Timesheet"); ?>
+            &nbsp;&nbsp;&nbsp;<?php echo __("Actions Performed on the Timesheet"); ?>
         </h2>
         <div class="outerbox" style="width: auto">
             <div class="maincontent" style="width: auto">
