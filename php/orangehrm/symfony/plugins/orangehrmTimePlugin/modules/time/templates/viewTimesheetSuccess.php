@@ -115,7 +115,7 @@ use_javascript('../../../scripts/jquery/ui/ui.dialog.js');
                 <?php if ($timesheetRows == null) : ?>
                     <!-- colspan should be based on  the fields in a timesheet-->
                     <tr>
-                        <td id="noRecordsColumn" colspan="100"><br><?php echo __("No timesheet records to display!") ?></td>
+                        <td id="noRecordsColumn" colspan="100"><br><?php echo __("No Records Found") ?></td>
                     </tr>
 
                 <?php else: ?>
