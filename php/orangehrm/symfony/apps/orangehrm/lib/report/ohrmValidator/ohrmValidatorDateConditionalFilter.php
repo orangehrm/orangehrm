@@ -6,10 +6,10 @@ class ohrmValidatorDateConditionalFilter extends ohrmValidatorConditionalFilter 
         parent::configure($options, $messages);
 
         $this->addOption('values', array('from', 'to'));
-        $this->addMessage('value1_required', 'Date value required');
-        $this->addMessage('value2_required', 'Second date required');
-        $this->addMessage('value1_value2_required', 'Both date values required');
-        $this->addMessage('value1_greater_than_value2', 'Second date should be after or equal to first date');
+        $this->addMessage('value1_required', __(ValidationMessages::REQUIRED));
+        $this->addMessage('value2_required', __(ValidationMessages::REQUIRED));
+        $this->addMessage('value1_value2_required', __(ValidationMessages::REQUIRED));
+        $this->addMessage('value1_greater_than_value2', __('Should be greater than first value'));
         $this->addMessage('value1_invalid', 'Date does not match the date format yy-mm-dd');
         $this->addMessage('value2_invalid', 'Date does not match the date format yy-mm-dd');
         $this->addMessage('value1_and_value2_invalid', 'Please enter valid dates in format of yy-mm-dd');

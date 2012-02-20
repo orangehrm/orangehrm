@@ -12,14 +12,14 @@ class ohrmValidatorConditionalFilter extends sfValidatorBase {
                                                        'BETWEEN' => 2));
         $this->addOption('values', array('value1', 'value2'));
         $this->addOption('required', false);
-        $this->addMessage('required', 'Field is required.');
-        $this->addMessage('value1_required', 'Value required');
-        $this->addMessage('value2_required', 'Second value required');
-        $this->addMessage('value1_value2_required', 'Both values required');
-        $this->addMessage('value1_greater_than_value2', 'Second value should be greater or equal to first value');
-        $this->addMessage('value1_invalid', 'First value should be a number.');
-        $this->addMessage('value2_invalid', 'Second value should be a number.');
-        $this->addMessage('value1_and_value2_invalid', 'First and second values should be numbers.');
+        $this->addMessage('required', __(ValidationMessages::REQUIRED));
+        $this->addMessage('value1_required', __(ValidationMessages::REQUIRED));
+        $this->addMessage('value2_required', __(ValidationMessages::REQUIRED));
+        $this->addMessage('value1_value2_required', __(ValidationMessages::REQUIRED));
+        $this->addMessage('value1_greater_than_value2', 'Should be greater than first value');
+        $this->addMessage('value1_invalid', __('Should be a number'));
+        $this->addMessage('value2_invalid', __('Should be a number'));
+        $this->addMessage('value1_and_value2_invalid', __('Should be a number'));
     }
     
     protected function isValid($value) {

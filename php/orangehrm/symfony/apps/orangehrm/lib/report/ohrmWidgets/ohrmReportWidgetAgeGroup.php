@@ -29,10 +29,10 @@ class ohrmReportWidgetAgeGroup extends sfWidgetForm implements ohrmEnhancedEmbed
         $this->id = $attributes['id'];
 
         $choices = array(
-                '' => '--' . __('Select Comparison') . '--',
-                '1' => 'Less Than',
-                '2' => 'Greater Than',
-                '3' => 'Range'
+                '' => '-- ' . __('Select') . ' --',
+                '1' => __('Less Than'),
+                '2' => __('Greater Than'),
+                '3' => __('Range')
         );
 
         $this->addOption($this->id . '_' . 'comparision', new sfWidgetFormChoice(array('choices' => $choices)));

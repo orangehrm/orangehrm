@@ -93,7 +93,7 @@ class ohrmReportWidgetLanguageDropDown extends sfWidgetForm implements ohrmEnhan
             $required = true;            
         }
         
-        $requiredMess = $label . ' is required.';
+        $requiredMess = __(ValidationMessages::REQUIRED);
         $validator = new sfValidatorString(array('required' => $required), array('required' => $requiredMess));       
         $widgetSchema[$this->attributes['id']]->setLabel($label);
         $form->setValidator($this->attributes['id'], $validator);

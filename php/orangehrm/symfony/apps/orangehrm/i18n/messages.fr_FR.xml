@@ -4781,6 +4781,22 @@
     <source>Second date should be after first date</source>
     <target>FR_Second date should be after first date</target>
    </trans-unit>
+   <trans-unit id="100">
+    <source>Should be greater than first value</source>
+    <target>FR_Should be greater than first value</target>
+   </trans-unit>
+   <trans-unit id="100">
+    <source>Joined After</source>
+    <target>FR_Joined After</target>
+   </trans-unit>
+   <trans-unit id="100">
+    <source>Joined Before</source>
+    <target>FR_Joined Before</target>
+   </trans-unit>
+   <trans-unit id="100">
+    <source>Joined in Between</source>
+    <target>FR_Joined in Between</target>
+   </trans-unit>
   </body>
  </file>
 </xliff>

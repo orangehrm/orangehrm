@@ -81,7 +81,7 @@ class ohrmReportWidgetPayGradeDropDown extends sfWidgetForm implements ohrmEnhan
      */
     public function embedWidgetIntoForm(sfForm &$form) {
 
-        $requiredMess = __('Pay grade is required');
+        $requiredMess = __(ValidationMessages::REQUIRED);
 
         $widgetSchema = $form->getWidgetSchema();
         $widgetSchema[$this->attributes['id']] = $this;

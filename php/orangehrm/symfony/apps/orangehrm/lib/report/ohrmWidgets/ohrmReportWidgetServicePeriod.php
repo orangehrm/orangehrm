@@ -11,7 +11,7 @@ class ohrmReportWidgetServicePeriod extends sfWidgetForm implements ohrmEnhanced
         $this->id = $attributes['id'];
 
         $choices = array(
-            '' => '--' . __('Select Comparison') . '--',
+            '' => '-- ' . __('Select') . ' --',
             '1' => __('Less Than'),
             '2' => __('Greater Than'),
             '3' => __('Range')
