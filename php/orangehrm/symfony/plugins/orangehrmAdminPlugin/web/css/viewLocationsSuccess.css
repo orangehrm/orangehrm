@@ -21,7 +21,7 @@ div.formbuttons {
 
 form#frmSearchLocation label{
     margin-top: 2px;
-    width: 100px;
+    width: 110px;
 }
 
 form#frmSearchLocation .txtBox{
@@ -44,11 +44,11 @@ form#frmSearchLocation .contentDiv{
     cursor: auto;
 }
 #city label{
-    width: 40px !important;
+    width: 50px !important;
 }
 
 #country label{
-    width: 60px !important;
+    width: 70px !important;
 }
 
 form#frmList_ohrmListComponent table.data-table tbody td{
