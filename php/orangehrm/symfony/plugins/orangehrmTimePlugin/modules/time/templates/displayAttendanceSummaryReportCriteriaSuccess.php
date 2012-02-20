@@ -58,7 +58,8 @@ use_javascript('../../../scripts/jquery/jquery.autocomplete.js');
     var lang_dateError = '<?php echo __("To date should be after from date") ?>';
     var lang_invalidDate = '<?php echo __(ValidationMessages::DATE_FORMAT_INVALID, array('%format%' => get_datepicker_date_format($sf_user->getDateFormat()))) ?>';
     var lang_emptyEmployee = '<?php echo __('Select an Employee')?>';
-
+    var lang_required = '<?php echo __(ValidationMessages::REQUIRED);?>';
+    var lang_invalid = '<?php echo __(ValidationMessages::INVALID);?>';
     var employees = <?php echo str_replace('&#039;', "'", $form->getEmployeeListAsJson()) ?> ;
     var employeesArray = eval(employees);
     var errorMsge;
@@ -104,8 +105,10 @@ use_javascript('../../../scripts/jquery/jquery.autocomplete.js');
             $('#validationMsg').html("");
             var employeeFlag = validateInput();
             if(!employeeFlag) {
-                $('#validationMsg').attr('class', "messageBalloon_failure");
-                $('#validationMsg').html(errorMsge);
+                if(errorMsge) {
+                    $('#validationMsg').attr('class', "messageBalloon_failure");
+                    $('#validationMsg').html(errorMsge);
+                }
                 return false;
             }
         });
@@ -114,7 +117,8 @@ use_javascript('../../../scripts/jquery/jquery.autocomplete.js');
         $("#attendanceTotalSummaryReportForm").validate({
             rules: {
                 'attendanceTotalSummary[empName]': {
-                    required:true
+                    required:true,
+                    employeeValidation: true
                 },
                 'attendanceTotalSummary[fromDate]':{
                     valid_date: function() {
@@ -141,7 +145,8 @@ use_javascript('../../../scripts/jquery/jquery.autocomplete.js');
             },
             messages: {
                 'attendanceTotalSummary[empName]': {
-                    required: lang_emptyEmployee
+                    required: lang_required,
+                    employeeValidation: lang_invalid
                 },
                 'attendanceTotalSummary[fromDate]': {
                     valid_date: lang_invalidDate
@@ -183,7 +188,7 @@ use_javascript('../../../scripts/jquery/jquery.autocomplete.js');
         var empDateCount = employeesArray.length;
         var temp = false;
         var i;
-
+        errorMsge = null;
         if(empDateCount==0){
 
             errorMsge = '<?php echo __("No Employees Available");?>';
@@ -201,14 +206,27 @@ use_javascript('../../../scripts/jquery/jquery.autocomplete.js');
         }
         if(temp){
             return true;
-        }else if(empName == "" || empName == $.trim("Type for hints...").toLowerCase()){
-            errorMsge = '<?php echo __("Select an Employee");?>';
-            return false;
-        }else{
-            errorMsge = '<?php echo __("Invalid Employee Name");?>';
-            return false;
         }
     }
+
+    $.validator.addMethod("employeeValidation", function(value, element, params) {
+        
+        var empCount = employeesArray.length;
+        var isValid = false;
+        var empName = $('#employee_name').val();
+        var inputName = $.trim(empName).toLowerCase();
+        if(inputName != ""){
+            var i;
+            for (i=0; i < empCount; i++) {
+                var arrayName = employeesArray[i].name.toLowerCase();
+                if (inputName == arrayName) {
+                    isValid =  true;
+                    break;
+                }
+            }
+        }
+        return isValid;
+    }); 
 </script>
 <style type="text/css" media="all">
     label.error{
