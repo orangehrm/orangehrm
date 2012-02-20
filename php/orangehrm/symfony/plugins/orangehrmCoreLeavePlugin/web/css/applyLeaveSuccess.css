@@ -36,6 +36,11 @@ form#frmLeaveApply table.tableArrange tbody tr td select#assignleave_txtLeaveTyp
     width: 3em;
 }
 
+div#applyleave_leaveBalance {
+    display: inline-block;
+    margin-top: 10px;
+}
+
 div.error {
     padding-left: 140px !important;
 }

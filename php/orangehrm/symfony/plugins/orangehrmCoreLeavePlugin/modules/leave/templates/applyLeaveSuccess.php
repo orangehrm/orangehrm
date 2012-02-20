@@ -80,8 +80,10 @@
     </div>
     <script type="text/javascript">
         var datepickerDateFormat = '<?php echo get_datepicker_date_format($sf_user->getDateFormat()); ?>';
+        var leaveBalanceUrl = '<?php echo url_for('leave/getLeaveBalanceAjax');?>';
         var lang_invalidDate = '<?php echo __(ValidationMessages::DATE_FORMAT_INVALID, array('%format%' => get_datepicker_date_format($sf_user->getDateFormat()))) ?>';
-        var lang_dateError = '<?php echo __("To date should be after from date") ?>';
+        var lang_dateError = '<?php echo __("To date should be after from date") ?>';        
+        
         $(document).ready(function() {
             $.datepicker.setDefaults({showOn: 'click'});
 
@@ -91,6 +93,8 @@
         if (rDate == '') {
             $("#applyleave_txtFromDate").val(datepickerDateFormat);
         }
+
+        updateLeaveBalance();
 
         //Bind date picker
         daymarker.bindElement("#applyleave_txtFromDate",
@@ -150,6 +154,32 @@
                 fillTotalTime();
             });
 
+            // Fetch and display available leave when leave type is changed
+            $('#applyleave_txtLeaveType').change(function() {
+                updateLeaveBalance();
+            });
+            
+            function updateLeaveBalance() {
+                var leaveType = $('#applyleave_txtLeaveType').val();
+                if (leaveType == "") {
+                    $('#applyleave_leaveBalance').text('--');
+                } else {
+                    $('#applyleave_leaveBalance').append('');
+                    $.ajax({
+                        type: 'GET',
+                        url: leaveBalanceUrl,
+                        data: '&leaveType=' + leaveType,
+                        dataType: 'json',
+                        success: function(data) {
+                            if ($('#leaveBalance').length == 0) {
+                                $('#applyleave_leaveBalance').text(data);
+                            }
+
+                        }
+                    });     
+                }            
+            }
+            
             //Validation
             $("#frmLeaveApply").validate({
                 rules: {
