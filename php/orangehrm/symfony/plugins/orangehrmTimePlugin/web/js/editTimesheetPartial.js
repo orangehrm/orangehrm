@@ -54,7 +54,7 @@ $(document).ready(function() {
             }
             else{
                 $('#validationMsg').attr('class', "messageBalloon_warning");
-                $('#validationMsg').html("No changes to delete");
+                $('#validationMsg').html(lang_noChagesToDelete);
             }
 
         }

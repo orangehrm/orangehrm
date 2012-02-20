@@ -296,6 +296,10 @@
     <source>Timesheet Rejected</source>
     <target>FR_Timesheet Rejected</target>
    </trans-unit>
+   <trans-unit id="76">
+    <source>No Changes to Delete</source>
+    <target>FR_No Changes to Delete</target>
+   </trans-unit>
   </body>
  </file>
 </xliff>
