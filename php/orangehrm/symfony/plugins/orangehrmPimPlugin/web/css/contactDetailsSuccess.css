@@ -41,6 +41,7 @@ form input.txtBoxSmall {
 
 label.error {
     display:block;
+    width: 220px !important;
 }
 
 br.clear1 {
