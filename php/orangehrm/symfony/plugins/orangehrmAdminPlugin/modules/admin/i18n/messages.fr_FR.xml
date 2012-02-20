@@ -321,12 +321,12 @@
     <target>FR_Email already exist</target>
    </trans-unit>
    <trans-unit id="80">
-    <source>Email configuration was saved. Test email couldn't be sent</source>
-    <target>FR_Email configuration was saved. Test email couldn't be sent</target>
+    <source>Successfully Saved. Test Email Sent</source>
+    <target>FR_Successfully Saved. Test Email Sent</target>
    </trans-unit>
    <trans-unit id="81">
-    <source>Email configuration was saved. Test email was sent</source>
-    <target>FR_Email configuration was saved. Test email was sent</target>
+    <source>Successfully Saved. Test Email Not Sent</source>
+    <target>FR_Successfully Saved. Test Email Not Sent</target>
    </trans-unit>
    <trans-unit id="82">
     <source>Email is required</source>
