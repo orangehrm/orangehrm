@@ -11,14 +11,14 @@ label{
 }
 
 #addCustomerLink {
-    margin-left: 140px;
+    margin-left: 145px;
     text-decoration: underline;
     font-size: 10px;
     cursor: pointer;
 }
 
 .formInputProjectAdmin{
-    margin-left: 140px;
+    margin-left: 145px;
     width: 300px;
 }
 
@@ -26,7 +26,7 @@ label{
     margin-left: 0px;
 }
 .addText{
-    margin-left: 140px;
+    margin-left: 145px !important;
     text-decoration: underline;
     cursor: pointer;
     font-size: 10px;
@@ -83,15 +83,16 @@ form {
 
 #errorHolderName{
     font-size: 10px;
-    margin-left: 140px;
+    margin-left: 145px;
 }
 
 #errorHolderDesc{
     font-size: 10px;
-    margin-left: 140px;
+    margin-left: 145px;
 }
 label.error{
     width: 220px !important;
+    padding-left: 145px !important;
 }
 #projectAdminNameError {
     color: red;
@@ -141,7 +142,7 @@ div.actionbuttons{
 #errorHolderCopy {
     font-size: 11px;
     color: red;
-    margin-left: 140px;
+    margin-left: 145px;
 }
 .check{
     margin-right: 10px;
@@ -152,3 +153,8 @@ div.actionbuttons{
 .headerCell {
     font-size: 12px !important;
 }
+
+label, span.formLabel, span.wideFormLabel {
+    width: 125px;
+}
+
