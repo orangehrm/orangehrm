@@ -114,7 +114,7 @@ $(document).ready(function() {
         rules: {
             'nationality[name]' : {
                 required:true,
-                maxlength: 50,
+                maxlength: 100,
                 uniqueName: true
             }
         },
