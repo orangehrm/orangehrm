@@ -11,3 +11,7 @@
 br {
     clear: both;
 }
+
+#messageBalloonContainer{
+    width: 420px !important;
+}
