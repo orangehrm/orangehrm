@@ -156,6 +156,10 @@
                 <source>Should Be a Valid Time in %format% Format</source>
                 <target>FR_Should Be a Valid Time in %format% Format</target>
             </trans-unit>
+            <trans-unit id="41">
+                <source>Invalid Time</source>
+                <target>FR_Invalid Time</target>
+            </trans-unit>
         </body>
     </file>
 </xliff>

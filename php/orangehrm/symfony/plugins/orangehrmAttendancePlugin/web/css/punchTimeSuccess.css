@@ -63,7 +63,7 @@ label, span.formLabel, span.wideFormLabel {
 form#punchTimeForm label {
     position: relative;
     margin-top: 6px;
-    width: 30px
+    width: 60px
 }
 
 .date{
