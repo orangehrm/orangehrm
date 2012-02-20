@@ -263,8 +263,8 @@
                                               $("#terminateEmployement").dialog({
                                                   autoOpen: false,
                                                   modal: true,
-                                                  width: 470,
-                                                  height: 270,
+                                                  width: 550,
+                                                  height: 290,
                                                   position: 'middle'
                                               });
 

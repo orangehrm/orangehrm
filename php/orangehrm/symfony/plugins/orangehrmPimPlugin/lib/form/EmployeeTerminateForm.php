@@ -64,7 +64,7 @@ class EmployeeTerminateForm extends BaseForm {
             'reason' => new sfWidgetFormSelect(array('choices' => $terminateReasons)),
             'note' => new sfWidgetFormTextArea()
         ));
-
+        
         $inputDatePattern = sfContext::getInstance()->getUser()->getDateFormat();
 
         //Setting validators
@@ -80,7 +80,7 @@ class EmployeeTerminateForm extends BaseForm {
 
         if(!empty($empTerminatedId)){
             $empTermination = $employee->getEmpTermination();
-            $this->setDefault('date', $empTermination->getDate());
+            $this->setDefault('date', set_datepicker_date_format($empTermination->getDate()));
             $this->setDefault('reason', $empTermination->getReasonId());
             $this->setDefault('note', $empTermination->getNote());
         }
