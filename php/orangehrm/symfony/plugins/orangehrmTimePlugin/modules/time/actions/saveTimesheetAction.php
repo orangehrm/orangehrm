@@ -30,7 +30,7 @@ class saveTimesheetAction extends sfAction {
             if ($request->getParameter('btnSave')) {
                 if ($this->numberOfRows == null) {
                     $this->getTimesheetService()->saveTimesheetItems($request->getParameter('initialRows'), 1, 1, $this->currentWeekDates, $this->totalRows);
-                    $this->messageData = array('SUCCESS', __(TopLevelMessages::ADD_SUCCESS));
+                    $this->messageData = array('SUCCESS', __(TopLevelMessages::SAVE_SUCCESS));
                     $this->redirect('time/editTimesheet');
                 } else {
                     $this->getTimesheetService()->saveTimesheetItems($request->getParameter('initialRows'), $this->employeeId, $this->timesheetId, $this->currentWeekDates, $this->totalRows);

@@ -72,7 +72,7 @@ class CustomerForm extends BaseForm {
 		} else {
 			$customer = new Customer();
 			$this->resultArray['messageType'] = 'success';
-			$this->resultArray['message'] = __(TopLevelMessages::ADD_SUCCESS);
+			$this->resultArray['message'] = __(TopLevelMessages::SAVE_SUCCESS);
 		}
 
 		$customer->setName(trim($this->getValue('customerName')));

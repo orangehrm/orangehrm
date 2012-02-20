@@ -615,7 +615,7 @@ class performanceActions extends sfActions {
                 $this->getUser()->setFlash('prClues', $clues);
 
                 $actionResult = ($request->getParameter("hdnId-0")) ? __('updated') : __('added');
-                $this->templateMessage = array('SUCCESS', __(TopLevelMessages::ADD_SUCCESS).' <a href="viewReview">' .__('View').'</a>');
+                $this->templateMessage = array('SUCCESS', __(TopLevelMessages::SAVE_SUCCESS).' <a href="viewReview">' .__('View').'</a>');
             }
         }
     }

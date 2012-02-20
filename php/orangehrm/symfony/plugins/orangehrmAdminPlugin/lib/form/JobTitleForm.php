@@ -94,7 +94,7 @@ class JobTitleForm extends BaseForm {
         } else {
             $jobTitleObj = new JobTitle();
             $resultArray['messageType'] = 'success';
-            $resultArray['message'] = __(TopLevelMessages::ADD_SUCCESS);
+            $resultArray['message'] = __(TopLevelMessages::SAVE_SUCCESS);
         }
 
         $jobTitleObj->setJobTitleName($jobTitle);

@@ -70,14 +70,14 @@ class updateReportToDetailAction extends basePimAction {
                     if ($value[1]) {
                         $this->getUser()->setFlash('templateMessage', array('success', __(TopLevelMessages::UPDATE_SUCCESS)));
                     } else {
-                        $this->getUser()->setFlash('templateMessage', array('success', __(TopLevelMessages::ADD_SUCCESS)));
+                        $this->getUser()->setFlash('templateMessage', array('success', __(TopLevelMessages::SAVE_SUCCESS)));
                     }
                 }
                 if ($value[0] == ReportTo::SUBORDINATE) {
                     if ($value[1]) {
                         $this->getUser()->setFlash('templateMessage', array('success', __(TopLevelMessages::UPDATE_SUCCESS)));
                     } else {
-                        $this->getUser()->setFlash('templateMessage', array('success', __(TopLevelMessages::ADD_SUCCESS)));
+                        $this->getUser()->setFlash('templateMessage', array('success', __(TopLevelMessages::SAVE_SUCCESS)));
                     }
                 }
             }

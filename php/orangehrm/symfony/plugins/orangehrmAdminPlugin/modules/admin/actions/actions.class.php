@@ -111,7 +111,7 @@ class adminActions extends sfActions {
 
             $companyService = new CompanyService();
             $companyService->saveCompanyLocation($companyLocation);
-            $this->setMessage('SUCCESS', array(TopLevelMessages::ADD_SUCCESS));
+            $this->setMessage('SUCCESS', array(TopLevelMessages::SAVE_SUCCESS));
             $this->redirect('admin/listCompanylocation');
         }
         $countryService = new CountryService();
@@ -183,7 +183,7 @@ class adminActions extends sfActions {
             $companyService = new CompanyService();
             $companyService->saveCompanyProporty($companyProperty);
 
-            $this->setMessage('SUCCESS', array(TopLevelMessages::ADD_SUCCESS));
+            $this->setMessage('SUCCESS', array(TopLevelMessages::SAVE_SUCCESS));
             $this->redirect('admin/listCompanyProporty');
         }
     }
@@ -337,7 +337,7 @@ class adminActions extends sfActions {
             $jobCategory->setEecDesc($request->getParameter('txtName'));
             $jobService->saveJobCategory($jobCategory);
 
-            $this->setMessage('SUCCESS', array(TopLevelMessages::ADD_SUCCESS));
+            $this->setMessage('SUCCESS', array(TopLevelMessages::SAVE_SUCCESS));
             $this->redirect('admin/listJobCategory');
         }
     }
@@ -400,7 +400,7 @@ class adminActions extends sfActions {
             $saleryGrade->setSalGrdName($request->getParameter('txtName'));
             $jobService->saveSaleryGrade($saleryGrade);
 
-            $this->setMessage('SUCCESS', array(TopLevelMessages::ADD_SUCCESS));
+            $this->setMessage('SUCCESS', array(TopLevelMessages::SAVE_SUCCESS));
 
             $this->redirect('admin/listSaleryGrade');
         }
@@ -526,7 +526,7 @@ class adminActions extends sfActions {
             $employeeStatus->setEstatName($request->getParameter('txtName'));
             $jobService->saveEmployeeStatus($employeeStatus);
 
-            $this->setMessage('SUCCESS', array(TopLevelMessages::ADD_SUCCESS));
+            $this->setMessage('SUCCESS', array(TopLevelMessages::SAVE_SUCCESS));
             $this->redirect('admin/listEmployeeStatus');
         }
     }
@@ -610,7 +610,7 @@ class adminActions extends sfActions {
 
             $jobService->saveJobSpecifications($jobSpecification);
 
-            $this->setMessage('SUCCESS', array(TopLevelMessages::ADD_SUCCESS));
+            $this->setMessage('SUCCESS', array(TopLevelMessages::SAVE_SUCCESS));
             $this->redirect('admin/listJobSpecifications');
         }
     }
@@ -702,7 +702,7 @@ class adminActions extends sfActions {
             //array_push($arrEmployeeStatus,$employeeStatus);
             $jobService->saveJobTitle($jobTitle, $employeeStatus);
 
-            $this->setMessage('SUCCESS', array(TopLevelMessages::ADD_SUCCESS));
+            $this->setMessage('SUCCESS', array(TopLevelMessages::SAVE_SUCCESS));
             $this->redirect('admin/listJobTitle');
         }
         $this->listJobSpecifications = $jobService->getJobSpecificationsList();
@@ -807,7 +807,7 @@ class adminActions extends sfActions {
 
             $educationService->saveEducation($education);
 
-            $this->setMessage('SUCCESS', array(TopLevelMessages::ADD_SUCCESS));
+            $this->setMessage('SUCCESS', array(TopLevelMessages::SAVE_SUCCESS));
             $this->redirect('admin/listEducation');
         }
     }
@@ -893,7 +893,7 @@ class adminActions extends sfActions {
 
             $educationService->saveLicenses($licenses);
 
-            $this->setMessage('SUCCESS', array(TopLevelMessages::ADD_SUCCESS));
+            $this->setMessage('SUCCESS', array(TopLevelMessages::SAVE_SUCCESS));
             $this->redirect('admin/listLicenses');
         }
     }
@@ -977,7 +977,7 @@ class adminActions extends sfActions {
 
             $skillService->saveSkill($skill);
 
-            $this->setMessage('SUCCESS', array(TopLevelMessages::ADD_SUCCESS));
+            $this->setMessage('SUCCESS', array(TopLevelMessages::SAVE_SUCCESS));
             $this->redirect('admin/listSkill');
         }
     }
@@ -1060,7 +1060,7 @@ class adminActions extends sfActions {
             $language->setLangName($request->getParameter('txtLanguageInfoDesc'));
 
             $skillService->saveLanguage($language);
-            $this->setMessage('SUCCESS', array(TopLevelMessages::ADD_SUCCESS));
+            $this->setMessage('SUCCESS', array(TopLevelMessages::SAVE_SUCCESS));
             $this->redirect('admin/listLanguage');
         }
     }
@@ -1140,7 +1140,7 @@ class adminActions extends sfActions {
             $membershipType->setMembtypeName($request->getParameter('txtMemTypeDescription'));
             $membershipService->saveMembershipType($membershipType);
 
-            $this->setMessage('SUCCESS', array(TopLevelMessages::ADD_SUCCESS));
+            $this->setMessage('SUCCESS', array(TopLevelMessages::SAVE_SUCCESS));
             $this->redirect('admin/listMembershipType');
         }
     }
@@ -1224,7 +1224,7 @@ class adminActions extends sfActions {
             $membership->setMembshipName($request->getParameter('txtMembershipInfoDesc'));
             $membershipService->saveMembership($membership);
 
-            $this->setMessage('SUCCESS', array(TopLevelMessages::ADD_SUCCESS));
+            $this->setMessage('SUCCESS', array(TopLevelMessages::SAVE_SUCCESS));
             $this->redirect('admin/listMembership');
         }
         $this->listMembershipType = $membershipService->getMembershipTypeList();
@@ -1309,7 +1309,7 @@ class adminActions extends sfActions {
             $nationality = new Nationality();
             $nationality->setNatName($request->getParameter('txtNationalityInfoDesc'));
             $nationalityService->saveNationality($nationality);
-            $this->setMessage('SUCCESS', array(TopLevelMessages::ADD_SUCCESS));
+            $this->setMessage('SUCCESS', array(TopLevelMessages::SAVE_SUCCESS));
             $this->redirect('admin/listNationality');
         }
     }
@@ -1389,7 +1389,7 @@ class adminActions extends sfActions {
             $ethnicRace = new EthnicRace();
             $ethnicRace->setEthnicRaceDesc($request->getParameter('txtEthnicRaceDesc'));
             $nationalityService->saveEthnicRace($ethnicRace);
-            $this->setMessage('SUCCESS', array(TopLevelMessages::ADD_SUCCESS));
+            $this->setMessage('SUCCESS', array(TopLevelMessages::SAVE_SUCCESS));
             $this->redirect('admin/listEthnicRace');
         }
     }
@@ -1471,7 +1471,7 @@ class adminActions extends sfActions {
             $customer->setName($request->getParameter('txtName'));
             $customer->setDescription($request->getParameter('txtDescription'));
             $customerService->saveCustomer($customer);
-            $this->setMessage('SUCCESS', array(TopLevelMessages::ADD_SUCCESS));
+            $this->setMessage('SUCCESS', array(TopLevelMessages::SAVE_SUCCESS));
             $this->redirect('admin/listCustomer');
         }
     }
@@ -1554,7 +1554,7 @@ class adminActions extends sfActions {
             $project->setDescription($request->getParameter('txtDescription'));
 
             $projectService->saveProject($project);
-            $this->setMessage('SUCCESS', array(TopLevelMessages::ADD_SUCCESS));
+            $this->setMessage('SUCCESS', array(TopLevelMessages::SAVE_SUCCESS));
             $this->redirect('admin/listProject');
         }
         $customerService = new CustomerService();
@@ -1617,7 +1617,7 @@ class adminActions extends sfActions {
         $empId = $request->getParameter('txtEmpId');
         $projectService = new ProjectService();
         $projectService->saveProjectAdmin($projectId, $empId);
-        $this->setMessage('SUCCESS', array(TopLevelMessages::ADD_SUCCESS));
+        $this->setMessage('SUCCESS', array(TopLevelMessages::SAVE_SUCCESS));
         $this->redirect('admin/updateProject?id=' . $projectId);
     }
 
@@ -1669,7 +1669,7 @@ class adminActions extends sfActions {
             $activity = $request->getParameter('activityName');
             $projectService = new ProjectService();
             $projectService->saveProjectActivity($projectId, $activity);
-            $this->setMessage('SUCCESS', array(TopLevelMessages::ADD_SUCCESS));
+            $this->setMessage('SUCCESS', array(TopLevelMessages::SAVE_SUCCESS));
         }else
             $this->setMessage('NOTICE', array('Select Project'));
 
@@ -1730,7 +1730,7 @@ class adminActions extends sfActions {
 
             $customFieldsService->saveCustomField($customFields);
 
-            $this->setMessage('SUCCESS', array(TopLevelMessages::ADD_SUCCESS));
+            $this->setMessage('SUCCESS', array(TopLevelMessages::SAVE_SUCCESS));
             $this->redirect('admin/listCustomFields');
         }
 
@@ -1815,7 +1815,7 @@ class adminActions extends sfActions {
             $userGroup->setUsergName($request->getParameter('txtUserGroupName'));
             $userService->saveUserGroup($userGroup);
 
-            $this->setMessage('SUCCESS', array(TopLevelMessages::ADD_SUCCESS));
+            $this->setMessage('SUCCESS', array(TopLevelMessages::SAVE_SUCCESS));
             $this->redirect('admin/listUserGroup');
         }
     }
@@ -1951,7 +1951,7 @@ class adminActions extends sfActions {
             $user->setEmpNumber($request->getParameter('txtEmpId'));
             $userService->saveUser($user);
 
-            $this->setMessage('SUCCESS', array(TopLevelMessages::ADD_SUCCESS));
+            $this->setMessage('SUCCESS', array(TopLevelMessages::SAVE_SUCCESS));
             $this->redirect('admin/listUser?isAdmin=' . $request->getParameter('isAdmin'));
         }
 
@@ -1980,7 +1980,7 @@ class adminActions extends sfActions {
             $user->setEmpNumber($request->getParameter('txtEmpId'));
             $userService->saveUser($user);
 
-            $this->setMessage('SUCCESS', array(TopLevelMessages::ADD_SUCCESS));
+            $this->setMessage('SUCCESS', array(TopLevelMessages::SAVE_SUCCESS));
             $this->redirect('admin/listUser?isAdmin=' . $request->getParameter('isAdmin'));
         }
 

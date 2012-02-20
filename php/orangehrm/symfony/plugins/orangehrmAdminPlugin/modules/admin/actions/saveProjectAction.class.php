@@ -70,7 +70,7 @@ class saveProjectAction extends sfAction {
 			$customerName = $customer->getName();
 			$this->form->setDefault('customerName', $customerName);
 			print_r($this->customerName);
-			$this->getUser()->setFlash('templateMessage', array('success', __(TopLevelMessages::ADD_SUCCESS)));
+			$this->getUser()->setFlash('templateMessage', array('success', __(TopLevelMessages::SAVE_SUCCESS)));
 		}
 
 		if (!empty($this->projectId)) {
@@ -100,7 +100,7 @@ class saveProjectAction extends sfAction {
 				if ($this->form->edited) {
 					$this->getUser()->setFlash('templateMessage', array('success', __(TopLevelMessages::UPDATE_SUCCESS)));
 				} else {
-					$this->getUser()->setFlash('templateMessage', array('success', __(TopLevelMessages::ADD_SUCCESS)));
+					$this->getUser()->setFlash('templateMessage', array('success', __(TopLevelMessages::SAVE_SUCCESS)));
 				}
 				$this->redirect('admin/saveProject?projectId=' . $projectId);
 			}
