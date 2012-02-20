@@ -91,7 +91,7 @@ form {
     margin-left: 140px;
 }
 label.error{
-    width: 160px !important;
+    width: 220px !important;
 }
 #projectAdminNameError {
     color: red;
