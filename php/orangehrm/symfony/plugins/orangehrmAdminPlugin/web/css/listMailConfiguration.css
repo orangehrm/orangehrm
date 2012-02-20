@@ -1,4 +1,5 @@
 label.error[for="txtTestEmail"] {
     position: relative;
-    left: 292px;
+    left: 300px;
+    width:220px !important;
 }
