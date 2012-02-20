@@ -35,3 +35,12 @@ form#frmLeaveApply table.tableArrange tbody tr td select#assignleave_txtLeaveTyp
 #applyleave_txtLeaveTotalTime {
     width: 3em;
 }
+
+div.error {
+    padding-left: 140px !important;
+}
+
+#applyleave_txtComment{
+    position: relative;
+    top: 5px;
+}
