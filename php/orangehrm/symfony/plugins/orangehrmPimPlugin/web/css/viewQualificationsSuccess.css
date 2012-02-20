@@ -126,6 +126,8 @@ div#licenseMessagebar {
 
 label {
     margin-top: 5px;
+    width: 140px;
+}
 }
 form#frmWorkExperience label div.error{
     margin-top: 5px;
