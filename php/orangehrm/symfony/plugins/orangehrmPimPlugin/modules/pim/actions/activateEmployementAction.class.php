@@ -22,7 +22,7 @@ class activateEmployementAction extends basePimAction {
     public function execute($request) {
         $empNumber = $request->getParameter('empNumber');
         $this->getEmployeeService()->activateEmployment($empNumber);
-        $this->getUser()->setFlash('templateMessage', array('success', __('Employee Activated Successfully')));
+        $this->getUser()->setFlash('templateMessage', array('success', __(TopLevelMessages::UPDATE_SUCCESS)));
         $this->redirect('pim/viewJobDetails?empNumber=' . $empNumber);
     }
 
