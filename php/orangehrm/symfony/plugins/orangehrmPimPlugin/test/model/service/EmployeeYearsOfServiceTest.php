@@ -15,6 +15,14 @@ class EmployeeYearsOfServiceTest extends PHPUnit_Framework_TestCase {
         $this->employeeService = new EmployeeService();
     }
 
+    public function testGetDurationInYears() {
+        $years = $this->employeeService->getDurationInYears('2011-08-31', '2012-08-31');
+        $this->assertEquals($years, 1);
+        $years = $this->employeeService->getDurationInYears('2011-08-31', '2012-09-31');
+        $this->assertEquals($years, 2);
+        
+    }
+    
     public function testGetDurationInYears1() {
         $years = $this->employeeService->getDurationInYears('2008-01-01', '2011-01-01');
         $this->assertEquals($years, 3);
