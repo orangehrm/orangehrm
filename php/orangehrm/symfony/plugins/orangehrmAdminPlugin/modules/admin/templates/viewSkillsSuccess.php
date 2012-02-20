@@ -140,6 +140,8 @@
     var lang_nameIsRequired = '<?php echo __(ValidationMessages::REQUIRED); ?>';
     var lang_descLengthExceeded = '<?php echo __(ValidationMessages::TEXT_LENGTH_EXCEEDS, array('%amount%' => 250)); ?>';
     var lang_nameExists = '<?php echo __(ValidationMessages::ALREADY_EXISTS); ?>';
+    var skills = <?php echo str_replace('&#039;', "'", $form->getSkillListAsJson()) ?> ;
+    var skillList = eval(skills);
     
 //]]>	
 </script> 

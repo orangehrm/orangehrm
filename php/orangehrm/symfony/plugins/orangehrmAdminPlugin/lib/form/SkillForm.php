@@ -74,6 +74,16 @@ class SkillForm extends BaseForm {
         return $message;
         
     }
+    
+    public function getSkillListAsJson() {
+
+        $list = array();
+        $skillList = $this->getSkillService()->getSkillList();
+        foreach ($skillList as $skill) {
+            $list[] = array('id' => $skill->getId(), 'name' => $skill->getName());
+        }
+        return json_encode($list);
+    }
 
 }
 

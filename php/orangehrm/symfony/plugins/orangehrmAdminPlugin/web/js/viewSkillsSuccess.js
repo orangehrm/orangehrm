@@ -14,6 +14,35 @@ $(document).ready(function() {
 
 });
 
+$.validator.addMethod("uniqueName", function(value, element, params) {
+    var temp = true;
+    var currentSkill;
+    var id = parseInt(id,10);
+    var vcCount = skillList.length;
+    for (var j=0; j < vcCount; j++) {
+        if(id == skillList[j].id){
+        	currentSkill = j;
+        }
+    }
+    var i;
+    skillName = $.trim($('#skill_name').val()).toLowerCase();
+    for (i=0; i < vcCount; i++) {
+
+        arrayName = skillList[i].name.toLowerCase();
+        if (skillName == arrayName) {
+            temp = false
+            break;
+        }
+    }
+    if(currentSkill != null){
+        if(skillName == skillList[currentSkill].name.toLowerCase()){
+            temp = true;
+        }
+    }
+	
+    return temp;
+});
+
 function validateData() {
     
     $("#frmSave").validate({
@@ -21,7 +50,8 @@ function validateData() {
         rules: {
             'skill[name]' : {
                 required:true,
-                maxlength: 120
+                maxlength: 120,
+                uniqueName:true
             },
             'skill[description]' : {
                 maxlength: 250
@@ -30,7 +60,8 @@ function validateData() {
         },
         messages: {
             'skill[name]' : {
-                required: lang_nameIsRequired
+                required: lang_nameIsRequired,
+                uniqueName: lang_nameExists
             },
             'skill[description]' : {
                 maxlength: lang_descLengthExceeded
