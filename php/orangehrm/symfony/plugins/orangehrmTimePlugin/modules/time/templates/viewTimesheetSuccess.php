@@ -389,7 +389,7 @@ use_javascript('../../../scripts/jquery/ui/ui.dialog.js');
         var lang_noFutureTimesheets= "<?php echo __("Failed to Create: Future Timesheets Not Allowed"); ?>";
 	var lang_overlappingTimesheets= "<?php echo __("Timesheet Overlaps with Existing Timesheets"); ?>";
 	var lang_timesheetExists= "<?php echo __("Timesheet Already Exists"); ?>";
-	var lang_invalidDate= "<?php echo __("Invalid Date"); ?>";
+	var lang_invalidDate= "<?php echo __(ValidationMessages::DATE_FORMAT_INVALID, array('%format%' => get_datepicker_date_format($sf_user->getDateFormat()))); ?>";
 
 
 
