@@ -24,10 +24,6 @@
  */
 class assignLeaveAction extends baseLeaveAction {
 
-    protected $employeeService;
-    protected $leaveRequestService;
-    protected $leavePeriodService;
-    protected $leaveNotificationService;
     protected $leaveAssignmentService;
 
     /**
