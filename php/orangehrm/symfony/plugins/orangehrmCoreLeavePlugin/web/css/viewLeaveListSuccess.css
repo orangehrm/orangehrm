@@ -97,6 +97,10 @@ label.subLabelNew {
     padding-bottom: 5px;
 }
 
+label.error{
+    padding-left: 160px;
+    width: 230px !important;
+}
 .numberLabel {
     margin-left: 40px;
 }
