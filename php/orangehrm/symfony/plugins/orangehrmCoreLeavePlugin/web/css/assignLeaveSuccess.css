@@ -30,7 +30,7 @@ label {
 div.error {
     width: auto;
     text-align: left;
-    padding-left: 142px;
+    padding-left: 156px;
 }
 
 #assignleave_txtFromTime, #assignleave_txtToTime {
@@ -39,4 +39,8 @@ div.error {
 
 #assignleave_txtLeaveTotalTime {
     width: 3em;
+}
+
+label, span.formLabel, span.wideFormLabel {
+    width: 137px !important;
 }
