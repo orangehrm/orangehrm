@@ -92,3 +92,7 @@ root {
     padding-top: 5px;
     font-size: 8pt;
 }
+
+#submitRemoveRows {
+    width: 120px !important;
+}
