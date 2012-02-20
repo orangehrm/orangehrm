@@ -10,7 +10,7 @@ div.messageBar {
 form#frmSrchCandidates label {
     /*    position: relative;*/
     margin-top: 6px;
-    width: 130px
+    width: 150px
 }
 
 div.dateadded label{
@@ -65,11 +65,11 @@ div .column {
 }
 
 #frmDate{
-    padding-left: 225px;
+    padding-left: 170px;
 }
 
 #toDate{
-    padding-left: 70px;
+    padding-left: 0px !important;
 }
 
 table.data-table tbody tr td {

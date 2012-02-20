@@ -187,6 +187,7 @@ table.data-table th {
     text-align:left;
     vertical-align:middle;
     white-space:nowrap;
+    width: 170px !important;
 }
 
 #textBoxesGroup {
