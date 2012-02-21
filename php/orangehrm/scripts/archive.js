@@ -87,7 +87,7 @@
 
             code=txt.value.charCodeAt(i);
 
-            if ( ( (code>=48) && (code<=57) ) || (code == 45) || (code == 43) || (code == 32) )
+            if ( ( (code>=48) && (code<=57) ) || (code == 45) || (code == 47) || (code == 40) || (code == 41) || (code == 43) || (code == 32) )
                 flag=true
             else
             {
