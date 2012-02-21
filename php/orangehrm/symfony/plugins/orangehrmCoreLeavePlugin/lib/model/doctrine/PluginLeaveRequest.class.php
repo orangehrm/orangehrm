@@ -54,11 +54,46 @@ abstract class PluginLeaveRequest extends BaseLeaveRequest {
         $statusStrings = array();
         foreach ($this->statusCounter as $status => $count) {
             if (!empty($status)) {
-                $statusStrings[] = __($status) . "(". $count . ")";
+                $statusStrings[] = __($status) . "(" . $count . ")";
             }
         }
 
         return implode(', ', $statusStrings);
+    }
+
+    public function getLeaveBalance() {
+
+        $employeeId = $this->getEmpNumber();
+        $leaveTypeId = $this->getLeaveTypeId();
+        $leavePeriodId = $this->getLeavePeriodId();
+
+        $leaveEntitlementService = new LeaveEntitlementService();
+        $leaveEntitlementObj = $leaveEntitlementService->readEmployeeLeaveEntitlement($employeeId, $leaveTypeId, $leavePeriodId);
+
+        if ($leaveEntitlementObj instanceof EmployeeLeaveEntitlement) {
+            $leaveEntitled = $leaveEntitlementObj->getNoOfDaysAllotted();
+            $leaveBroughtForward = $leaveEntitlementObj->getLeaveBroughtForward();
+            $leaveCarryForward = $leaveEntitlementObj->getLeaveCarriedForward();
+        } else {
+            $leaveEntitled = '0.00';
+            $leaveBroughtForward = '0.00';
+            $leaveCarryForward = '0.00';
+        }
+
+        $leaveRequestService = new LeaveRequestService();
+        $leaveRequestService->setLeaveRequestDao(new LeaveRequestDao());
+
+        $leaveTaken = $leaveRequestService->getTakenLeaveSum($employeeId, $leaveTypeId, $leavePeriodId);
+        $leaveTaken = empty($leaveTaken) ? '0.00' : $leaveTaken;
+
+        //$leaveScheduled = $this->_getLeaveScheduled($employeeId, $leaveTypeId, $leavePeriodId);
+        $leaveScheduled = $leaveRequestService->getScheduledLeavesSum($employeeId, $leaveTypeId, $leavePeriodId);
+        $leaveScheduled = empty($leaveScheduled) ? '0.00' : $leaveScheduled;
+
+        $leaveRemaining = ($leaveEntitled + $leaveBroughtForward) - ($leaveTaken + $leaveScheduled + $leaveCarryForward);
+        $leaveRemaining = number_format($leaveRemaining, 2);
+
+        return $leaveRemaining;
     }
 
     private function _fetchLeave() {
@@ -82,7 +117,7 @@ abstract class PluginLeaveRequest extends BaseLeaveRequest {
             return $this->canCancel;
         }
     }
-    
+
     public function getLeaveDateRange() {
 
         $this->_fetchLeave();
@@ -125,14 +160,13 @@ abstract class PluginLeaveRequest extends BaseLeaveRequest {
             $this->leaveDuration += $hourLength;
 
             //if($hourLength > 0) {
-                $this->numberOfDays += $dayLength;
+            $this->numberOfDays += $dayLength;
             //}
-
             // Populating status counter
             $key = $leave->getTextLeaveStatus();
             $statusDayLength = ($dayLength != 0) ? $dayLength : 1;
             if (!empty($key)) {
-                if($hourLength > 0) {
+                if ($hourLength > 0) {
                     if (array_key_exists($key, $this->statusCounter)) {
                         $this->statusCounter[$key]+= $statusDayLength;
                     } else {
@@ -196,4 +230,5 @@ abstract class PluginLeaveRequest extends BaseLeaveRequest {
             return false;
         }
     }
+
 }

@@ -14,6 +14,7 @@ class LeaveListConfigurationFactory extends ohrmListConfigurationFactory {
         $header5 = new ListHeader();
         $header6 = new ListHeader();
         $header7 = new LeaveListActionHeader();
+        $header8 = new ListHeader();
 
         $header1->populateFromArray(array(
             'name' => 'Date',
@@ -57,6 +58,15 @@ class LeaveListConfigurationFactory extends ohrmListConfigurationFactory {
             'elementType' => 'label',
             'textAlignmentStyle' => 'center',
             'elementProperty' => array('getter' => 'getNumberOfDays'),
+        ));
+
+        $header8->populateFromArray(array(
+            'name' => 'Leave Balance (Days)',
+            'width' => '15%',
+            'isSortable' => false,
+            'elementType' => 'label',
+            'textAlignmentStyle' => 'center',
+            'elementProperty' => array('getter' => 'getLeaveBalance'),
         ));
 
         $header5->populateFromArray(array(
@@ -122,7 +132,7 @@ class LeaveListConfigurationFactory extends ohrmListConfigurationFactory {
             ),
         ));
 
-        $this->headers = array($header1, $header2, $header3, $header4, $header5, $header6, $header7);
+        $this->headers = array($header1, $header2, $header3, $header8, $header4, $header5, $header6, $header7);
     }
     
     public function getClassName() {

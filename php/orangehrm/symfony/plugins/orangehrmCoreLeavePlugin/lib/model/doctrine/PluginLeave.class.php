@@ -72,6 +72,10 @@ abstract class PluginLeave extends BaseLeave {
         return $this->getLeaveRequest()->getNumberOfDays();
     }
 
+    public function getLeaveBalance() {
+        return $this->getLeaveRequest()->getLeaveBalance();
+    }
+
     public function getDetailedLeaveListQuotaHolderValue() {
         return "1";
     }
