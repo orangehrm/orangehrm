@@ -4821,6 +4821,136 @@
     <source>Invalid credentials</source>
     <target>FR_Invalid credentials</target>
    </trans-unit>
+   <trans-unit id="1800"> 
+    <source>Europe/Belgrade</source> 
+    <target>FR_Europe/Belgrade</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="1801"> 
+    <source>Europe/Minsk</source> 
+    <target>FR_Europe/Minsk</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="1802"> 
+    <source>Asia/Kuwait</source> 
+    <target>FR_Asia/Kuwait</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="1803"> 
+    <source>Asia/Muscat</source> 
+    <target>FR_Asia/Muscat</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="1804"> 
+    <source>Asia/Yekaterinburg</source> 
+    <target>FR_Asia/Yekaterinburg</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="1805"> 
+    <source>Asia/Kolkata</source> 
+    <target>FR_Asia/Kolkata</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="1806"> 
+    <source>Asia/Dhaka</source> 
+    <target>FR_Asia/Dhaka</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="1807"> 
+    <source>Asia/Krasnoyarsk</source> 
+    <target>FR_Asia/Krasnoyarsk</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="1808"> 
+    <source>Asia/Brunei</source> 
+    <target>FR_Asia/Brunei</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="1809"> 
+    <source>Asia/Seoul</source> 
+    <target>FR_Asia/Seoul</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="1810"> 
+    <source>Australia/Darwin</source> 
+    <target>FR_Australia/Darwin</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="1811"> 
+    <source>Australia/Canberra</source> 
+    <target>FR_Australia/Canberra</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="1812"> 
+    <source>Asia/Magadan</source> 
+    <target>FR_Asia/Magadan</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="1813"> 
+    <source>Pacific/Fiji</source> 
+    <target>FR_Pacific/Fiji</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="1814"> 
+    <source>Pacific/Midway</source> 
+    <target>FR_Pacific/Midway</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="1815"> 
+    <source>Pacific/Honolulu</source> 
+    <target>FR_Pacific/Honolulu</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="1816"> 
+    <source>America/Anchorage</source> 
+    <target>FR_America/Anchorage</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="1817"> 
+    <source>America/Los_Angeles</source> 
+    <target>FR_America/Los_Angeles</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="1818"> 
+    <source>America/Denver</source> 
+    <target>FR_America/Denver</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="1819"> 
+    <source>America/Tegucigalpa</source> 
+    <target>FR_America/Tegucigalpa</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="1820"> 
+    <source>America/New_York</source> 
+    <target>FR_America/New_York</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="1821"> 
+    <source>America/Halifax</source> 
+    <target>FR_America/Halifax</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="1822"> 
+    <source>America/St_Johns</source> 
+    <target>FR_America/St_Johns</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="1823"> 
+    <source>America/Argentina/Buenos_Aires</source> 
+    <target>FR_America/Argentina/Buenos_Aires</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="1824"> 
+    <source>Atlantic/South_Georgia</source> 
+    <target>FR_Atlantic/South_Georgia</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="1825"> 
+    <source>Atlantic/Azores</source> 
+    <target>FR_Atlantic/Azores</target> 
+    <note>A time zone name</note> 
+   </trans-unit>    
   </body>
  </file>
 </xliff>
