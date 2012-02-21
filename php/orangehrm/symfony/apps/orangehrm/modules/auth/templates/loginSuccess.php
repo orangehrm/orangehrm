@@ -124,6 +124,25 @@ $imagePath = public_path("../../themes/{$styleSheet}/images/login");
         font-weight: bold;
     }
     
+    .form-hint {
+    color: #878787;
+    padding: 4px 8px;
+    position: absolute;
+    left:680px;
+}
+
+    #txtUsername {
+        z-index: 1; 
+        position: relative;
+        opacity: 1; 
+    }
+
+    #txtPassword {
+        z-index: 1; 
+        position: relative;
+        opacity: 1; 
+    }
+    
 </style>
 
 <div id="divLogin">
@@ -138,9 +157,11 @@ $imagePath = public_path("../../themes/{$styleSheet}/images/login");
 
         <div id="divUsername" class="textInputContainer">
             <?php echo $form['Username']->render(); ?>
+          <span class="form-hint" >Username</span> 
         </div>
         <div id="divPassword" class="textInputContainer">
             <?php echo $form['Password']->render(); ?>
+         <span class="form-hint" >Password</span>
         </div>
         <div id="divLoginHelpLink"><?php
             include_component('core', 'ohrmPluginPannel', array(
@@ -173,8 +194,8 @@ $imagePath = public_path("../../themes/{$styleSheet}/images/login");
         }
     }
             
-    function removeHint(inputObject) {
-        inputObject.css('background', '');
+    function removeHint() {
+       $('.form-hint').css('display', 'none');
     }
     
     function showMessage(message) {
@@ -205,17 +226,15 @@ $imagePath = public_path("../../themes/{$styleSheet}/images/login");
     
     $(document).ready(function() {
         
-        addHint($('#txtUsername'), '<?php echo "{$imagePath}/username-hint.png"; ?>');
-        addHint($('#txtPassword'), '<?php echo "{$imagePath}/password-hint.png"; ?>');
-        
+               
         $('#txtUsername').focus(function() {
-            removeHint($(this));
-            removeHint($("#txtPassword"));
+            
+            removeHint();
+            
         });
         
         $('#txtPassword').focus(function() {
-            removeHint($(this));
-            removeHint($("#txtUsername"));
+             removeHint();
         });
         
         $('#hdnUserTimeZoneOffset').val(calculateUserTimeZoneOffset().toString());
