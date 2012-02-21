@@ -344,6 +344,10 @@
     <source>Full Day/Half Day</source>
     <target>FR_Full Day/Half Day</target>
    </trans-unit>
+   <trans-unit id="83">
+    <source>Leave Request (%date_range%) %name%</source>
+    <target>FR_Leave Request (%date_range%) %name%</target>
+   </trans-unit>
   </body>
  </file>
 </xliff>
