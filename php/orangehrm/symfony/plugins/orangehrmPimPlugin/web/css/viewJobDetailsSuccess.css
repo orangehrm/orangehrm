@@ -116,7 +116,7 @@ form#frmEmpJobDetails div.formbuttons label#terminatedDate{
     margin-top: 3px;
 }
 form#frmEmpJobDetails div.formbuttons input#btnTerminateEmployement.terminateButton{
-    width: 150px;
+    width: 174px;
     background: none repeat scroll 0 0 #999966 !important;
     border-color: #CCCC99 #666633 #666633 #CCCC99 !important;
     border-style: solid !important;
