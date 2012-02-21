@@ -79,7 +79,7 @@
 	<div class="requirednotice"><span class="required">*</span> <?php echo __(CommonMessages::REQUIRED_FIELD); ?></div>
 </div>
 
-<script type="text/javascript">
+<script type="text/javascript"><!--
 	$(document).ready(function() {
 
 		var mode	=	'edit';
@@ -133,6 +133,40 @@
 		    }
 		})
 		
+		if($("#cmbMailSendingMethod").val() == 'smtp'){
+            $("#txtSmtpHost").rules("add", {
+                  required: true,
+                 messages: {
+                   required: '<?php echo __(ValidationMessages::REQUIRED); ?>',
+                 }
+             });
+            $("#txtSmtpPort").rules("add", {
+                required: true,
+               messages: {
+                 required: '<?php echo __(ValidationMessages::REQUIRED); ?>',
+               }
+           });
+        }
+        
+		$("#cmbMailSendingMethod").change(function() {
+            if($("#cmbMailSendingMethod").val() == 'smtp'){
+                $("#txtSmtpHost").rules("add", {
+                      required: true,
+                     messages: {
+                       required: '<?php echo __(ValidationMessages::REQUIRED); ?>',
+                     }
+                 });
+                $("#txtSmtpPort").rules("add", {
+                    required: true,
+                   messages: {
+                     required: '<?php echo __(ValidationMessages::REQUIRED); ?>',
+                   }
+               });
+            } else {
+                $("#txtSmtpHost").rules("remove", "required");
+                $("#txtSmtpPort").rules("remove", "required");
+            }
+        })
 		//When click reset buton
 		$("#resetBtn").click(function() {
 			document.forms[0].reset('');
@@ -161,4 +195,4 @@
 			$('#txtSmtpPass').attr('readonly', true);
 		}
 	}
-</script>
+--></script>
