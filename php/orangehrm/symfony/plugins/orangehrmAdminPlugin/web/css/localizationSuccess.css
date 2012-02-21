@@ -7,6 +7,10 @@ html body div#messagebar {
     width: 600px
 }
 
+#messageBalloon_success {
+    margin: 5px 15px 5px 30px;
+    width: 525px
+}
 #localization {
     width: 600px;
 }
