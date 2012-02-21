@@ -42,6 +42,7 @@ div#applyleave_leaveBalance {
 }
 
 div.error {
+	padding-top: 7px;
     padding-left: 140px !important;
 }
 
