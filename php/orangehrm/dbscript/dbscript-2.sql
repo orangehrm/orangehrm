@@ -702,6 +702,10 @@ INSERT INTO `ohrm_report_group` (`report_group_id`, `name`, `core_sql`) VALUES
                         (supervisor.emp_number = supervisor_list.erep_sup_emp_number)
                     LEFT JOIN ohrm_emp_reporting_method AS supervisor_reporting_method ON 
                         (supervisor_list.erep_reporting_mode = supervisor_reporting_method.reporting_method_id) 
+                    LEFT JOIN ohrm_emp_termination ON
+                        (hs_hr_employee.termination_id = ohrm_emp_termination.id)
+                    LEFT JOIN ohrm_emp_termination_reason ON
+                        (ohrm_emp_termination.reason_id = ohrm_emp_termination_reason.id)
                 WHERE hs_hr_employee.emp_number in (
                     SELECT hs_hr_employee.emp_number FROM hs_hr_employee
                         LEFT JOIN hs_hr_emp_basicsalary ON 
@@ -888,7 +892,9 @@ INSERT INTO `ohrm_display_field` (`display_field_id`, `report_group_id`, `name`,
     (108, 3, 'hs_hr_emp_language.fluency', 'empLangType', 'empLangType',  'false', null, null, 'label', '<xml><getter>ecMobile</getter></xml>', 100, '0', null, true, 13, '---', false, true),
     (109, 3, 'ohrm_emp_license.license_id', 'empLicenseCode', 'empLicenseCode',  'false', null, null, 'label', '<xml><getter>ecMobile</getter></xml>', 100, '0', null, true, 14, '---', false, true),
     (110, 3, 'hs_hr_emp_member_detail.membship_code', 'membershipCode', 'membershipCode',  'false', null, null, 'label', '<xml><getter>ecMobile</getter></xml>', 100, '0', null, true, 15, '---', false, true),
-    (112, 3, 'ROUND(DATEDIFF(hs_hr_emp_work_experience.eexp_to_date, hs_hr_emp_work_experience.eexp_from_date)/365,1)', 'Duration', 'expDuration',  'false', null, null, 'label', '<xml><getter>expDuration</getter></xml>', 100, '0', null, true, 10, '---', false, false);
+    (112, 3, 'ROUND(DATEDIFF(hs_hr_emp_work_experience.eexp_to_date, hs_hr_emp_work_experience.eexp_from_date)/365,1)', 'Duration', 'expDuration',  'false', null, null, 'label', '<xml><getter>expDuration</getter></xml>', 100, '0', null, true, 10, '---', false, false),
+    (113, 3, 'ohrm_emp_termination.termination_date', 'Termination Date', 'terminationDate',  'false', null, null, 'label', '<xml><getter>terminationDate</getter></xml>', 100, '0', null, true, 6, '---', false, false),
+    (114, 3, 'ohrm_emp_termination_reason.name', 'Termination Reason', 'terminationReason',  'false', null, null, 'label', '<xml><getter>terminationReason</getter></xml>', 100, '0', null, true, 6, '---', false, false);
 
     
 INSERT INTO `ohrm_group_field` (`group_field_id`, `name`, `group_by_clause`, `group_field_widget`) VALUES 
@@ -993,6 +999,7 @@ INSERT INTO `ohrm_selected_display_field` (`id`, `display_field_id`, `report_id`
     (90, 94, 5),
     (91, 95, 5),
     (93, 97, 5);
+
     
 INSERT INTO `ohrm_selected_display_field_group`(`id`, `report_id`, `display_field_group_id`) VALUES
     (1, 5, 1),
