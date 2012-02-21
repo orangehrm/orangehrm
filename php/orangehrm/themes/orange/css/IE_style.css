@@ -146,6 +146,15 @@ form input.txtBoxR {
     margin-top: 5px;
 }
 
+form#frmEmpTaxExemptions label {
+    margin-top: 6px;
+    width: 140px;
+}
+form#frmEmpTaxExemptions label.error {
+    margin-top: 5px;
+    width: 200px !important;
+    padding-left: 140px;
+}
 form input.formInputM{
     border: 1px solid #888888;
     width: 317px;
