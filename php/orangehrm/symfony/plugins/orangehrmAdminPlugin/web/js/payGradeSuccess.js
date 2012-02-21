@@ -12,6 +12,28 @@ $(document).ready(function() {
         }        
     });
     
+    $('#btnDeleteCurrency').attr('disabled', 'disabled');
+    $("#currencyCheckAll").click(function() {
+    	if($(":checkbox").length == 1) {
+            $('#btnDeleteCurrency').attr('disabled','disabled');
+        }
+        else {
+            if($("#currencyCheckAll").is(':checked')) {
+                $('#btnDeleteCurrency').removeAttr('disabled');
+            } else {
+                $('#btnDeleteCurrency').attr('disabled','disabled');
+            }
+        }
+    });
+    
+    $(':checkbox[name*="delCurrencies[]"]').click(function() {
+    	if($(':checkbox[name*="delCurrencies[]"]').is(':checked')) {
+            $('#btnDeleteCurrency').removeAttr('disabled');
+        } else {
+            $('#btnDeleteCurrency').attr('disabled','disabled');
+        }
+    });
+    
     //auto complete
     $("#payGradeCurrency_currencyName").autocomplete(currencies, {
         formatItem: function(item) {
