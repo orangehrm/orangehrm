@@ -54,7 +54,7 @@
 </div>
 <style type="text/css">
     label label.error{
-        padding-left: 120px;
+        padding-left: 130px;
         width:230px !important;
     }
     
