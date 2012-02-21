@@ -239,7 +239,7 @@ use_javascript('../../../scripts/jquery/ui/ui.dialog.js');
 
                 <div class="formbuttons">
 
-                    <div><h4><?php echo __('Status: ') ?><?php echo __(ucwords(strtolower($timesheet->getState()))); ?></h4></div>
+                    <div><h4><?php echo __('Status').': ' ?><?php echo __(ucwords(strtolower($timesheet->getState()))); ?></h4></div>
                     <br class="clear">
 
                     <?php if (in_array(WorkflowStateMachine::TIMESHEET_ACTION_MODIFY, $sf_data->getRaw('allowedActions'))) : ?>
