@@ -80,7 +80,7 @@ class assignLeaveAction extends baseLeaveAction {
                     } else {
                         $this->templateMessage = array('WARNING', __('Failed to Assign'));
                     }
-                } catch (LeaveAssignmentServiceException $e) {
+                } catch (LeaveAllocationServiceException $e) {
                     $this->templateMessage = array('WARNING', __($e->getMessage()));
                 }
             }
