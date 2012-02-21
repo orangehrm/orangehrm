@@ -344,7 +344,7 @@
                                               $("#frmTerminateEmployement").validate({
                                                   rules: {
                                                       'terminate[reason]': { required: true },
-                                                      'terminate[note]': { maxlength: 256 },
+                                                      'terminate[note]': { maxlength: 250 },
                                                       'terminate[date]': { required: true, valid_date: function(){ return {format:datepickerDateFormat} } }
                                                   },
                                                   messages: {
