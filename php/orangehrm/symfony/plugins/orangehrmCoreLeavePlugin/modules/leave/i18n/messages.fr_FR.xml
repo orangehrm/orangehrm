@@ -336,6 +336,10 @@
     <source>Should be less than work shift length</source>
     <target>FR_Should be less than work shift length</target>
    </trans-unit>
+   <trans-unit id="83">
+    <source>Leave Period Not Defined</source>
+    <target>FR_Leave Period Not Defined</target>
+   </trans-unit>
   </body>
  </file>
 </xliff>
