@@ -117,7 +117,7 @@ function isValidForm(){
                 phone: true
             },
             'location[notes]' : {
-                maxlength: 255
+                maxlength: 250
             }
 
         },
