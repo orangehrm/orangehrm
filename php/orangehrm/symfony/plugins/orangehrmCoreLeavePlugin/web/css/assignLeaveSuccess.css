@@ -31,6 +31,12 @@ div.error {
     width: auto;
     text-align: left;
     padding-left: 156px;
+    padding-top: 12px;
+}
+
+#assignleave_txtComment{
+    position: relative;
+    top: 10px;
 }
 
 #assignleave_txtFromTime, #assignleave_txtToTime {

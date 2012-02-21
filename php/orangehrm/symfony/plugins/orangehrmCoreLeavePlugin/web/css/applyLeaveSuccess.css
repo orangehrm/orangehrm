@@ -42,11 +42,11 @@ div#applyleave_leaveBalance {
 }
 
 div.error {
-	padding-top: 7px;
+	padding-top: 12px;
     padding-left: 140px !important;
 }
 
 #applyleave_txtComment{
     position: relative;
-    top: 5px;
+    top: 10px;
 }
