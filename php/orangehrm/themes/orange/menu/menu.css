@@ -127,13 +127,22 @@ div#top-menu ul#nav li#recruit.l1 ul.l2 li.l2 a {
 
 /* Adjust PIM drop down margins */
 #nav li#pim ul.l3 {
-	margin-left: 10em;
+	margin-left: 14em;
 }
 #nav li#time ul.l3 {
-	margin-left: 11.6em;
+	margin-left: 14em;
 }
+
+#nav li#admin ul.l3 {
+    margin-left: 14em;
+}
+
+#nav li#leave ul.l3 {
+    margin-left: 14em;
+}
+
 #nav li#benefits ul.l3 {
-	margin-left: 13.6em;
+	margin-left: 14em;
 }
 
 #nav li:hover ul,#nav li li:hover ul,#nav li.hover ul,#nav li li.hover ul
@@ -250,61 +259,80 @@ div#top-menu ul#nav li#recruit.l1 ul.l2 li.l2 a {
 /* Drop down menu widths */
 /* TODO: Try to set widths automatically */
 #nav li#admin ul li.l2 span {
-	width: 10em;
+	width: 13em;
 }
 #nav li#admin ul li.l3 a.importexport span {
-	width: 11.2em;
+	width: 13em;
 }
 #nav li#pim ul {
-	width: 12em;
+	width: 13em;
 }
+
+#nav li#pim ul li.l2 span {
+    width: 13em;
+}
+
 #nav li#pim ul li.l3 span {
-	width: 12em;
+	width: 13em;
 }
 
 #nav li#leave ul li.l2 span {
-	width: 10em;
+	width: 13em;
 }
 #nav li#leave ul li.l3 a.leavesummary span {
 	width: 13em;
 }
 
 #nav li#time ul li.l2 span {
-	width: 11em;
+	width: 13em;
 }
 
 #nav li#time ul li.l3 a.timesheets span {
-	width: 12em;
+	width: 13em;
 }
+
+#nav li#recruit ul li.l2 span {
+    width: 13em;
+}
+
 #nav li#benefits ul li.l2 span{
-	width: 11em;
+	width: 13em;
 }
 #nav li#benefits ul li.l3 a.hsp span{
 	width: 13em;
 }
 #nav li#benefits ul li.l3 a.payrollschedule span{
-	width: 12em;
+	width: 13em;
 }
 #nav li#recruit ul {
-	width: 12em;
+	width: 13em;
 }
 #nav li#perform ul {
-	width: 12em;
+	width: 13em;
 }
+
+#nav li#perform ul li.l2 span {
+    width: 13em;
+}
+
 #nav li#report ul li.l2 span {
-	width: 8em;
+	width: 13em;
 }
 
 #nav li#ess ul {
-	width: 12em;
+	width: 13em;
 }
 
 #nav li#bug aul {
-	width: 12em;
+	width: 13em;
 }
 
 #nav li#help ul {
-	width: 12em;
+	width: 13em;
+}
+
+#nav li#help ul li.l2 span {
+    width: 13em;
 }
 
 /* help menu icons */
