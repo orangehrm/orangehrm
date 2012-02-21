@@ -58,7 +58,7 @@ class assignLeaveAction extends baseLeaveAction {
 
         $form = $this->getAssignLeaveForm();
         $this->setForm($form);
-        $this->overlapLeaves = 0;
+        $this->overlapLeave = 0;
 
         /* Authentication */
         $userDetails = $this->getLoggedInUserDetails();
@@ -78,6 +78,7 @@ class assignLeaveAction extends baseLeaveAction {
                     if ($success) {
                         $this->templateMessage = array('SUCCESS', __('Successfully Assigned'));
                     } else {
+                        $this->overlapLeave = $this->getLeaveAssignmentService()->getOverlapLeave();
                         $this->templateMessage = array('WARNING', __('Failed to Assign'));
                     }
                 } catch (LeaveAllocationServiceException $e) {

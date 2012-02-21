@@ -114,6 +114,7 @@ class applyLeaveAction extends baseLeaveAction {
                     if ($success) {
                         $this->templateMessage = array('SUCCESS', __('Successfully Submitted'));
                     } else {
+                        $this->overlapLeave = $this->getLeaveApplicationService()->getOverlapLeave();
                         $this->templateMessage = array('WARNING', __('Failed to Submit'));
                     }
                 } catch (LeaveAllocationServiceException $e) {

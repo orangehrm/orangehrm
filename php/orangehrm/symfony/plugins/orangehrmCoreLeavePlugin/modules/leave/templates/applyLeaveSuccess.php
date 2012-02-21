@@ -15,7 +15,7 @@
 <?php echo stylesheet_tag('orangehrm.datepicker.css') ?>
 <?php echo javascript_include_tag('orangehrm.datepicker.js') ?>
 
-<?php if (!empty($overlapLeaves)) {
+<?php if (!empty($overlapLeave)) {
 ?>
     <div id="duplicateWarning" class="confirmBox" style="margin-left:18px;">
         <div class="confirmInnerBox">
@@ -35,7 +35,7 @@
         </tr>
     </thead>
     <tbody>
-        <?php foreach ($overlapLeaves as $leave) {
+        <?php foreach ($overlapLeave as $leave) {
         ?>
             <tr>
                 <td class="odd"><?php echo set_datepicker_date_format($leave->getLeaveDate()) ?></td>
