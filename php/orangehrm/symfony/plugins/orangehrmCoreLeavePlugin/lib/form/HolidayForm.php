@@ -208,8 +208,8 @@ class HolidayForm extends sfForm {
 
         $requiredLabel = content_tag('span', '*', array('class' => 'required'));
         
-        $labels['description'] = __('Name %s', array('%s' => $requiredLabel));
-        $labels['date'] = __('Date %s', array('%s' => $requiredLabel));
+        $labels['description'] = __('Name').' '. $requiredLabel;
+        $labels['date'] = __('Date').' '.$requiredLabel;
         $labels['recurring'] = __('Repeats Annually');
         $labels['length'] = __('Full Day/Half Day');
         

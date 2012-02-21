@@ -340,6 +340,10 @@
     <source>Leave Period Not Defined</source>
     <target>FR_Leave Period Not Defined</target>
    </trans-unit>
+   <trans-unit id="83">
+    <source>Full Day/Half Day</source>
+    <target>FR_Full Day/Half Day</target>
+   </trans-unit>
   </body>
  </file>
 </xliff>

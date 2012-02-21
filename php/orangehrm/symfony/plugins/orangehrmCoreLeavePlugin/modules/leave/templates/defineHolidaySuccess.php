@@ -68,6 +68,10 @@
         font-size: 11px;
     }
     
+    label, span.formLabel, span.wideFormLabel {
+        width: 130px !important;
+    }
+    
     br {
         clear: both;
     }
