@@ -1,4 +1,4 @@
-<div id="currentImage" style="width:150px;height:180px;overflow:hidden;">
+<div id="currentImage" style="width:150px;height:205px;overflow:hidden;">
     <center>
         <a href="<?php echo url_for('pim/viewPhotograph?empNumber=' . $empNumber); ?>">
             <img alt="Employee Photo" src="<?php echo url_for("pim/viewPhoto?empNumber=". $empNumber); ?>" border="0" id="empPic" 
@@ -7,7 +7,7 @@
 <?php if ($editMode) { ?>
         <div class="smallHelpText">[<?php echo __('Dimensions'); ?> 150x180]</div>
 <?php } ?>
-        <span class="smallHelpText"><strong><?php echo $fullName;?></strong></span>
+        <span class="smallHelpText" style="clear: both"><strong><?php echo $fullName;?></strong></span>
     </center>
 </div>
 <script type="text/javascript">

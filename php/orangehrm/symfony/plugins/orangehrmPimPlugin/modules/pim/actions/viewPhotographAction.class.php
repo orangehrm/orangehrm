@@ -183,10 +183,10 @@ class viewPhotographAction extends sfAction {
                 $newHeight = 180;
             }
         } else {
-            if($imgHeight < 180)
+            if($imgHeight <= 180)
                 $newHeight = $imgHeight;
             
-            if($imgWidth < 150)
+            if($imgWidth <= 150)
                 $newWidth = $imgWidth;
         }
 

@@ -399,12 +399,11 @@ if($empNumber == $_SESSION['empID']) {
     $employeeService = new EmployeeService();
     $empPicture = $employeeService->getPicture($empNumber);
 
+    $width = '150';
+    $height = '180';
     if (!empty($empPicture)) {
         $width = $empPicture->width;
         $height = $empPicture->height;
-    } else {
-        $width = '150';
-        $height = '180';
     }
 ?>
 

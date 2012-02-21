@@ -143,7 +143,7 @@ class addEmployeeAction extends basePimAction {
 
         $posts = $form->getValues();
         $file = $posts['photofile'];
-
+//        print_r($file);die;
         //saving employee
         $employee = new Employee();
         $employee->firstName = $posts['firstName'];
@@ -167,10 +167,42 @@ class addEmployeeAction extends basePimAction {
             $empPicture->filename = $file->getOriginalName();
             $empPicture->file_type = $file->getType();
             $empPicture->size = $file->getSize();
+            list($width, $height) = getimagesize($file->getTempName());
+            $sizeArray = $this->pictureSizeAdjust($height, $width);
+            $empPicture->width = $sizeArray['width'];
+            $empPicture->height = $sizeArray['height'];
             $empPicture->save();
         }
 
         return $empNumber;
+    }
+    
+    private function pictureSizeAdjust($imgHeight, $imgWidth) {
+
+        if ($imgHeight > 180 || $imgWidth > 150) {
+            $newHeight = 0;
+            $newWidth = 0;
+
+            $propHeight = floor(($imgHeight / $imgWidth) * 150);
+            $propWidth = floor(($imgWidth / $imgHeight) * 180);
+
+            if ($propHeight <= 180) {
+                $newHeight = $propHeight;
+                $newWidth = 150;
+            }
+
+            if ($propWidth <= 150) {
+                $newWidth = $propWidth;
+                $newHeight = 180;
+            }
+        } else {
+            if($imgHeight <= 180)
+                $newHeight = $imgHeight;
+            
+            if($imgWidth <= 150)
+                $newWidth = $imgWidth;
+        }
+        return array('width' => $newWidth, 'height' => $newHeight);
     }
 
     private function saveUser(sfForm $form, $empNumber) {

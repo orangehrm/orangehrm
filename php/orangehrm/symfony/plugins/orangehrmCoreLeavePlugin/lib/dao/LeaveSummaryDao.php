@@ -35,9 +35,22 @@ class LeaveSummaryDao extends BaseDao {
         
         $where = array();
         
+        /* old search - only support for empId
         if (!empty($clues['cmbEmpId'])) {
             $where[] = "a.emp_number = '{$clues['cmbEmpId']}'";
         } elseif ($clues['userType'] == 'Supervisor') {
+            $where[] = "a.emp_number IN(".implode(",", $clues['subordinates']).")";
+        }
+        */
+        
+         if (!empty($clues['txtEmpName'])) {
+            // Replace multiple spaces in string with wildcards
+            $value = preg_replace('!\s+!', '%', $clues['txtEmpName']);
+            $employeeName = '\'%' . $value . '%\'';
+            $where[] = "CONCAT_WS('', a.emp_firstname, a.emp_middle_name, a.emp_lastname) LIKE $employeeName";
+        }
+                
+        if ($clues['userType'] == 'Supervisor') {
             $where[] = "a.emp_number IN(".implode(",", $clues['subordinates']).")";
         }
 
@@ -87,9 +100,21 @@ class LeaveSummaryDao extends BaseDao {
         
         $where = array();
 
+        /* old search - only support for empId
         if (!empty($clues['cmbEmpId'])) {
             $where[] = "a.emp_number = '{$clues['cmbEmpId']}'";
         } elseif ($clues['userType'] == 'Supervisor') {
+            $where[] = "a.emp_number IN(".implode(",", $clues['subordinates']).")";
+        }         
+        */
+        if (!empty($clues['txtEmpName'])) {
+            // Replace multiple spaces in string with wildcards
+            $value = preg_replace('!\s+!', '%', $clues['txtEmpName']);
+            $employeeName = '\'%' . $value . '%\'';
+            $where[] = "CONCAT_WS('', a.emp_firstname, a.emp_middle_name, a.emp_lastname) LIKE $employeeName";
+        }
+        
+        if ($clues['userType'] == 'Supervisor') {
             $where[] = "a.emp_number IN(".implode(",", $clues['subordinates']).")";
         }
 
@@ -131,7 +156,7 @@ class LeaveSummaryDao extends BaseDao {
      * @return string
      */
     protected function getBaseQuery() {
-        return 'SELECT a.emp_number AS empNumber, a.emp_firstname AS empFirstName,
+        return 'SELECT a.emp_number AS empNumber, a.emp_firstname AS empFirstName, a.emp_middle_name AS empMiddleName,
               a.emp_lastname AS empLastName, b.leave_type_id AS leaveTypeId,
               b.leave_type_name AS leaveTypeName, b.available_flag AS availableFlag, a.emp_status As empStatus FROM
               (hs_hr_employee a, hs_hr_leavetype b)';
