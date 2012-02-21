@@ -612,10 +612,6 @@
     <source>Will be deleted from all employees</source>
     <target>FR_Will be deleted from all employees</target>
    </trans-unit>
-   <trans-unit id="3452">
-    <source>Upload</source>
-    <target>FR_Upload</target>
-   </trans-unit>
   </body>
  </file>
 </xliff>

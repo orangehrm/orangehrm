@@ -4419,10 +4419,6 @@
     <target>FR_United States Minor Outlying Islands</target>
     <note>A country name</note>
    </trans-unit>
-   <trans-unit id="952">
-    <source>Upload File</source>
-    <target>FR_Upload File</target>
-   </trans-unit>
    <trans-unit id="953">
     <source>Upload New</source>
     <target>FR_Upload New</target>
@@ -4950,11 +4946,15 @@
     <source>Atlantic/Azores</source> 
     <target>FR_Atlantic/Azores</target> 
     <note>A time zone name</note> 
-   </trans-unit>  
+   </trans-unit>
+   <trans-unit id="3452">
+    <source>Upload</source>
+    <target>FR_Upload</target>
+   </trans-unit>
    <trans-unit id="1825"> 
     <source>Type in years</source> 
     <target>FR_Type in years</target> 
-   </trans-unit>     
+   </trans-unit>
   </body>
  </file>
 </xliff>

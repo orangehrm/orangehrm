@@ -60,8 +60,8 @@
 	    </div>
 	    <div id="actionButtons" class="formbuttons" style="display: none">
                 <input type="button" class="savebutton" name="btnSaveAttachment" id="btnSaveAttachment"
-                       value="<?php echo __("Upload File");?>"
-                       title="<?php echo __("Upload File");?>"
+                       value="<?php echo __("Upload");?>"
+                       title="<?php echo __("Upload");?>"
                        onmouseover="moverButton(this);" onmouseout="moutButton(this);"/>
                 <input type="button" class="plainbtn" id="btnCommentOnly" style="width: 140px" value="<?php echo __("Save Comment Only"); ?>" />
                 <input type="button" class="plainbtn" id="athCancelButton" value="<?php echo __("Cancel"); ?>" />

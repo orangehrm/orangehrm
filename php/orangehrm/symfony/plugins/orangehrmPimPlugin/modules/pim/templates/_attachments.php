@@ -75,8 +75,8 @@ $locRights['delete'] = true;
             
             <div class="formbuttons">
                 <input type="button" class="savebutton" name="btnSaveAttachment" id="btnSaveAttachment"
-                       value="<?php echo __("Upload File");?>"
-                       title="<?php echo __("Upload File");?>"
+                       value="<?php echo __("Upload");?>"
+                       title="<?php echo __("Upload");?>"
                        onmouseover="moverButton(this);" onmouseout="moutButton(this);"/>
                 <input type="button" class="plainbtn" id="btnCommentOnly" value="<?php echo __("Save Comment Only"); ?>" />
                 <input type="button" class="plainbtn" id="cancelButton" value="<?php echo __("Cancel"); ?>" />
