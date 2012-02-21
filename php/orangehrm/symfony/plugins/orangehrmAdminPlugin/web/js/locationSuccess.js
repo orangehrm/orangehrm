@@ -103,7 +103,7 @@ function isValidForm(){
                 maxlength: 50
             },
             'location[address]' : {
-                maxlength: 255
+                maxlength: 250
             },
             'location[zipCode]' : {
                 maxlength: 30
