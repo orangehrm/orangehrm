@@ -8,6 +8,7 @@ abstract class AbstractLeaveAllocationService extends BaseService {
     protected $employeeService;
     protected $workWeekService;
     protected $holidayService;
+    protected $overlapLeave;
 
     /**
      * 
@@ -15,6 +16,13 @@ abstract class AbstractLeaveAllocationService extends BaseService {
      * @param LeaveParameterObject $leaveAssignmentData 
      */
     protected abstract function saveLeaveRequest(LeaveParameterObject $leaveAssignmentData);
+    
+    /**
+     *
+     * @param bool $isWeekend
+     * @return int
+     */
+    protected abstract function getLeaveRequestStatus($isWeekend, $isHoliday, $leaveDate);
 
     /**
      *
@@ -129,6 +137,22 @@ abstract class AbstractLeaveAllocationService extends BaseService {
     public function setHolidayService(HolidayService $service) {
         $this->holidayService = $service;
     }
+    
+    /**
+     *
+     * @return mixed 
+     */
+    public function getOverlapLeave() {
+        return $this->overlapLeave;
+    }
+    
+    /**
+     *
+     * @param mixed $overlapLeaveRecords 
+     */
+    public function setOverlapLeave($overlapLeaveRecords) {
+        $this->overlapLeave = $overlapLeaveRecords;
+    }
 
     /**
      * Checking for leave overlaps
@@ -145,11 +169,13 @@ abstract class AbstractLeaveAllocationService extends BaseService {
         }
 
         /* Find duplicate leaves */
-        $overlapLeaves = $this->getLeaveRequestService()->getOverlappingLeave(
+        $overlapLeave = $this->getLeaveRequestService()->getOverlappingLeave(
                 $leaveAssignmentData->getFromDate(), $leaveAssignmentData->getToDate(), $leaveAssignmentData->getEmployeeNumber(), $leaveAssignmentData->getFromTime(), $leaveAssignmentData->getToTime()
         );
 
-        return (count($overlapLeaves) !== 0);
+        $this->setOverlapLeave($overlapLeave);
+
+        return (count($overlapLeave) !== 0);
     }
 
     /**
@@ -417,30 +443,6 @@ abstract class AbstractLeaveAllocationService extends BaseService {
         }
 
         return $timeDeference;
-    }
-
-    /**
-     *
-     * @param bool $isWeekend
-     * @return int
-     */
-    public function getLeaveRequestStatus($isWeekend, $isHoliday, $leaveDate) {
-        $status = null;
-
-        if ($isWeekend) {
-            return Leave::LEAVE_STATUS_LEAVE_WEEKEND;
-        }
-
-        if ($isHoliday) {
-            return Leave::LEAVE_STATUS_LEAVE_HOLIDAY;
-        }
-
-        if (strtotime($leaveDate) <= strtotime(date('Y-m-d')))
-            $status = Leave::LEAVE_STATUS_LEAVE_TAKEN;
-        else
-            $status = Leave::LEAVE_STATUS_LEAVE_APPROVED;
-
-        return $status;
     }
 
     /**

@@ -83,6 +83,25 @@ class LeaveApplicationService extends AbstractLeaveAllocationService {
         }
     }
 
+        /**
+     *
+     * @param $isWeekend
+     * @return status
+     */
+    public function getLeaveRequestStatus($isWeekend, $isHoliday, $leaveDate) {
+        $status = Leave::LEAVE_STATUS_LEAVE_PENDING_APPROVAL;
+
+        if ($isWeekend) {
+            $status = Leave::LEAVE_STATUS_LEAVE_WEEKEND;
+        }
+
+        if ($isHoliday) {
+            $status = Leave::LEAVE_STATUS_LEAVE_HOLIDAY;
+        }
+
+        return $status;
+    }
+
     /**
      * Is Valid leave request
      * @param LeaveType $leaveType

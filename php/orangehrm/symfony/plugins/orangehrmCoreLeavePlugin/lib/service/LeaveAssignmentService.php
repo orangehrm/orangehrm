@@ -78,5 +78,32 @@ class LeaveAssignmentService extends AbstractLeaveAllocationService {
             throw new LeaveAllocationServiceException('Leave Request Should Contain Work Days');
         }
     }
+    
+    /**
+     *
+     * @param type $isWeekend
+     * @param type $isHoliday
+     * @param type $leaveDate
+     * @return type 
+     */
+    public function getLeaveRequestStatus($isWeekend, $isHoliday, $leaveDate) {
+        $status = null;
+
+        if ($isWeekend) {
+            return Leave::LEAVE_STATUS_LEAVE_WEEKEND;
+        }
+
+        if ($isHoliday) {
+            return Leave::LEAVE_STATUS_LEAVE_HOLIDAY;
+        }
+
+        if (strtotime($leaveDate) <= strtotime(date('Y-m-d'))) {
+            $status = Leave::LEAVE_STATUS_LEAVE_TAKEN;
+        } else {
+            $status = Leave::LEAVE_STATUS_LEAVE_APPROVED;
+        }
+
+        return $status;
+    }
 
 }
