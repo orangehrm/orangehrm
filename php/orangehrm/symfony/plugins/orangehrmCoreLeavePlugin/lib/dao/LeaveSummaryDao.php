@@ -111,7 +111,7 @@ class LeaveSummaryDao extends BaseDao {
             $where[] = "a.emp_number IN(".implode(",", $clues['subordinates']).")";
         }         
         */
-        if (!empty($clues['txtEmpName'])) {
+        if (!empty($clues['txtEmpName']) && $clues['userType'] != 'ESS') {
             // Replace multiple spaces in string with wildcards
             $value = preg_replace('!\s+!', '%', $clues['txtEmpName']);
             $employeeName = '\'%' . $value . '%\'';
@@ -120,6 +120,10 @@ class LeaveSummaryDao extends BaseDao {
         
         if ($clues['userType'] == 'Supervisor') {
             $where[] = "a.emp_number IN(".implode(",", $clues['subordinates']).")";
+        }
+        
+        if ($clues['userType'] == 'ESS') {
+            $where[] = "a.emp_number = '{$clues['cmbEmpId']}'";
         }
 
         if (!empty($clues['cmbLeaveType'])) {
