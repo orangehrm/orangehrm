@@ -20,7 +20,7 @@ class TimesheetRowForm extends sfForm {
 	    'toDelete' => new sfWidgetFormInputCheckbox(array(), array('class' => 'toDelete')),
             'projectName' => new sfWidgetFormInputText(array(), array('align' => 'center', 'class' => 'project')),
             'projectId' => new sfWidgetFormInputHidden(),
-            'projectActivityName' => new sfWidgetFormSelect(array('choices' => array('-1' => __('Select an Activity').'...')), array('class' => 'projectActivity')),
+            'projectActivityName' => new sfWidgetFormSelect(array('choices' => array('-1' => '-- ' . __('Select') . ' --')), array('class' => 'projectActivity')),
             'projectActivityId' => new sfWidgetFormInputHidden()
 	);
 		    for ($i = 0; $i < $noOfDays; $i++) {

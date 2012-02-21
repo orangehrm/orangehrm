@@ -29,9 +29,9 @@ class ohrmReportWidgetJoinedDate extends sfWidgetForm implements ohrmEnhancedEmb
 
         $choices = array(
             '' => '-- ' . __('Select') . ' --',
-            '1' => 'Joined After',
-            '2' => 'Joined Before',
-            '3' => 'Joined in Between'
+            '1' => __('Joined After'),
+            '2' => __('Joined Before'),
+            '3' => __('Joined in Between')
         );
 
         $this->addOption($this->id . '_' . 'comparision', new sfWidgetFormChoice(array('choices' => $choices)));
