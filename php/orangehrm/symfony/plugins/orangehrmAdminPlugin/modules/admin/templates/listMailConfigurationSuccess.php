@@ -133,39 +133,15 @@
 		    }
 		})
 		
-		if($("#cmbMailSendingMethod").val() == 'smtp'){
-            $("#txtSmtpHost").rules("add", {
-                  required: true,
-                 messages: {
-                   required: '<?php echo __(ValidationMessages::REQUIRED); ?>',
-                 }
-             });
-            $("#txtSmtpPort").rules("add", {
-                required: true,
-               messages: {
-                 required: '<?php echo __(ValidationMessages::REQUIRED); ?>',
-               }
-           });
-        }
+        checkAuthenticationActivate();
+		$("#optAuthLOGIN, #optAuthNONE").change(function() {
+			checkAuthenticationActivate();
+        })
         
+		
+        checkSmtpValidation();
 		$("#cmbMailSendingMethod").change(function() {
-            if($("#cmbMailSendingMethod").val() == 'smtp'){
-                $("#txtSmtpHost").rules("add", {
-                      required: true,
-                     messages: {
-                       required: '<?php echo __(ValidationMessages::REQUIRED); ?>',
-                     }
-                 });
-                $("#txtSmtpPort").rules("add", {
-                    required: true,
-                   messages: {
-                     required: '<?php echo __(ValidationMessages::REQUIRED); ?>',
-                   }
-               });
-            } else {
-                $("#txtSmtpHost").rules("remove", "required");
-                $("#txtSmtpPort").rules("remove", "required");
-            }
+			checkSmtpValidation();
         })
 		//When click reset buton
 		$("#resetBtn").click(function() {
@@ -186,6 +162,45 @@
 		$(divId).show();
 	}
 
+	function checkSmtpValidation(){
+		if($("#cmbMailSendingMethod").val() == 'smtp'){
+            $("#txtSmtpHost").rules("add", {
+                  required: true,
+                 messages: {
+                   required: '<?php echo __(ValidationMessages::REQUIRED); ?>',
+                 }
+             });
+            $("#txtSmtpPort").rules("add", {
+                required: true,
+               messages: {
+                 required: '<?php echo __(ValidationMessages::REQUIRED); ?>',
+               }
+           });
+        } else {
+            $("#txtSmtpHost").rules("remove", "required");
+            $("#txtSmtpPort").rules("remove", "required");
+        }
+	}
+
+    function checkAuthenticationActivate() {
+        if($("#optAuthLOGIN").attr("checked")){
+            $("#txtSmtpUser").rules("add", {
+                  required: true,
+                 messages: {
+                   required: '<?php echo __(ValidationMessages::REQUIRED); ?>',
+                 }
+             });
+            $("#txtSmtpPass").rules("add", {
+                  required: true,
+                 messages: {
+                   required: '<?php echo __(ValidationMessages::REQUIRED); ?>',
+                 }
+             });
+        } else {
+            $("#txtSmtpUser").rules("remove", "required");
+            $("#txtSmtpPass").rules("remove", "required");
+        }
+    }
 	function toggleSMTPAuthenticationFields() {
 		if ($('#optAuthLOGIN').attr('checked')) {
 			$('#txtSmtpUser').removeAttr('readonly');
