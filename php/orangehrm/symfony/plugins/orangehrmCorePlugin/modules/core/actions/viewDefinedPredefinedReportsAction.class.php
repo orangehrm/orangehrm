@@ -41,9 +41,6 @@ class viewDefinedPredefinedReportsAction extends sfAction {
                 $this->searchForm->bind($request->getParameter($this->searchForm->getName()));
                 if ($this->searchForm->isValid()) {
                     $searchString = $this->searchForm->getValue("search");
-                    if($searchString == __("PIM Sample Report")) {
-                        $searchString = 'PIM Sample Report';
-                    }
                 }
             }
         } else {

@@ -29,11 +29,7 @@ class ViewPredefinedReportsSearchForm extends sfForm {
             }
 
             $reportArray[$report->getReportId()] = $name;
-            if($name == 'PIM Sample Report') {
-                $jsonArray[] = array('name' => __($name), 'id' => $report->getReportId());
-            } else {
-                $jsonArray[] = array('name' => $name, 'id' => $report->getReportId());
-            }
+            $jsonArray[] = array('name' => $name, 'id' => $report->getReportId());
         }
 
         $jsonString = json_encode($jsonArray);
