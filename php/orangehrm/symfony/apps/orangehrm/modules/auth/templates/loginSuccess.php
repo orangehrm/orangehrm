@@ -83,7 +83,7 @@ $imagePath = public_path("../../themes/{$styleSheet}/images/login");
         padding-top: 2px;
         padding-left: 49.3%;
         float: left;
-        width: 280px;
+        width: 350px;
     }
 
     #btnLogin {
