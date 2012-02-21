@@ -75,7 +75,7 @@ class EmployeeTerminateForm extends BaseForm {
             'note' => new sfValidatorString(array('required' => false, 'max_length' => 255))
         ));
 
-        $this->setDefault('date', date('Y-m-d'));
+        $this->setDefault('date', set_datepicker_date_format(date('Y-m-d')));
         $this->setDefault('reason', 1);
 
         if(!empty($empTerminatedId)){
