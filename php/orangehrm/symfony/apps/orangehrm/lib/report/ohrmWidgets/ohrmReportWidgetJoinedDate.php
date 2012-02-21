@@ -57,6 +57,7 @@ class ohrmReportWidgetJoinedDate extends sfWidgetForm implements ohrmEnhancedEmb
 $(document).ready(function() {
 
     var idValue = '%s';
+    var joinedDateFormat = '%s';
 
     if($('#' + idValue + '_comparision').val() == ''){
         $('#' + idValue + '_from').hide().val('');
@@ -88,6 +89,18 @@ $(document).ready(function() {
             $('#' + idValue + '_from_Button').show().css('display', 'inline');
             $('#' + idValue + '_to_Button').show().css('display', 'inline');
         }
+        
+        if ($('#' + idValue + '_from').is(":visible")) {
+            if ($('#' + idValue + '_from').val() == '') {
+                $('#' + idValue + '_from').val(joinedDateFormat);
+            }
+        }
+        if ($('#' + idValue + '_to').is(":visible")) {
+            if ($('#' + idValue + '_to').val() == '') {
+                $('#' + idValue + '_to').val(joinedDateFormat);
+            }
+        }
+        
     });
     
     $('#' + idValue + '_comparision').trigger('change');
@@ -95,7 +108,8 @@ $(document).ready(function() {
  </script>
 EOF
                         ,
-                        $this->attributes['id']);
+                        $this->attributes['id'],
+                        get_datepicker_date_format(sfContext::getInstance()->getUser()->getDateFormat()));
 
         return $html . $javaScript;
     }
@@ -112,8 +126,10 @@ EOF
 
         $widgetSchema[$this->attributes['id']] = $this;
         $widgetSchema[$this->attributes['id']]->setLabel(ucwords(str_replace("_", " ", $this->attributes['id'])));
-        $requiredMessage = __(ValidationMessages::REQUIRED);
-        $validatorSchema[$this->attributes['id']] = new ohrmValidatorDateConditionalFilter(array(), array('required' => $requiredMessage));        
+        $requiredMessage = __(ValidationMessages::REQUIRED);               
+        
+        $validatorSchema[$this->attributes['id']] = new ohrmValidatorDateConditionalFilter(array(), 
+                array('required' => $requiredMessage));        
     }
 
     /**

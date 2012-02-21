@@ -270,13 +270,15 @@ use_javascript('orangehrm.datepicker.js');
             height: 18px;
         }
     </style>
-
+    <script type="text/javascript">
+    var datepickerDateFormat = '<?php echo get_datepicker_date_format($sf_user->getDateFormat()); ?>';
+    </script>
+    
     <script type="text/javascript">
     $(document).ready(function() {
 
-         var datepickerDateFormat = 'yy-mm-dd';
-
         var rDate = trim($("#joined_date_from").val());
+
             if (rDate == '') {
                 $("#joined_date_from").val(datepickerDateFormat);
             }

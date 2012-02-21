@@ -2,6 +2,8 @@
 
 class ohrmValidatorConditionalFilter extends sfValidatorBase {
 
+    protected $messageArguments = array();
+    
     protected function configure($options = array(), $messages = array()) {
         $this->addOption('operators', array(1 => '<', 2 => '>', 3 => 'BETWEEN'));
         $this->addOption('operator_field', 'comparision');
@@ -46,7 +48,7 @@ class ohrmValidatorConditionalFilter extends sfValidatorBase {
                 || !isset($operators[$operatorKey])) {
 
             if ($required) {                
-                 throw new sfValidatorError($this, 'required');
+                 throw new sfValidatorError($this, 'required', $this->messageArguments);
             }
             
             // required error
@@ -66,22 +68,22 @@ class ohrmValidatorConditionalFilter extends sfValidatorBase {
             switch ($paramCount) {
                 case 1:
                     if (!$value1Available) {
-                        throw new sfValidatorError($this, 'value1_required');
+                        throw new sfValidatorError($this, 'value1_required', $this->messageArguments);
                     } else {
                         $value1 = $value[$value1Name];
 
                         if (!$this->isValid($value1)) {
-                            throw new sfValidatorError($this, 'value1_invalid');
+                            throw new sfValidatorError($this, 'value1_invalid', $this->messageArguments);
                         }
                     }
                     break;
                 case 2: 
                     if (!$value1Available && !$value2Available) {
-                        throw new sfValidatorError($this, 'value1_value2_required');
+                        throw new sfValidatorError($this, 'value1_value2_required', $this->messageArguments);
                     } else if (!$value1Available) {
-                        throw new sfValidatorError($this, 'value1_required');
+                        throw new sfValidatorError($this, 'value1_required', $this->messageArguments);
                     } else if (!$value2Available) {
-                        throw new sfValidatorError($this, 'value2_required');
+                        throw new sfValidatorError($this, 'value2_required', $this->messageArguments);
                     } else if ($operator == 'BETWEEN') {
                            
                         $value1 = $value[$value1Name];
@@ -91,13 +93,13 @@ class ohrmValidatorConditionalFilter extends sfValidatorBase {
                         $value2Valid = $this->isValid($value2);
                             
                         if (!$value1Valid && !$value2Valid) {
-                            throw new sfValidatorError($this, 'value1_invalid');
+                            throw new sfValidatorError($this, 'value1_invalid', $this->messageArguments);
                         } else if (!$value1Valid) {
-                            throw new sfValidatorError($this, 'value1_invalid');
+                            throw new sfValidatorError($this, 'value1_invalid', $this->messageArguments);
                         } else if (!$value2Valid) {
-                        throw new sfValidatorError($this, 'value1_and_value2_invalid');
+                        throw new sfValidatorError($this, 'value1_and_value2_invalid', $this->messageArguments);
                         } else if (!$this->validatedBetween($value1, $value2)) {
-                            throw new sfValidatorError($this, 'value1_greater_than_value2');
+                            throw new sfValidatorError($this, 'value1_greater_than_value2', $this->messageArguments);
                         }
                     }
                     break;

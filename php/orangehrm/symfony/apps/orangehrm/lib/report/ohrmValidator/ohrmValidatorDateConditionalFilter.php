@@ -5,14 +5,19 @@ class ohrmValidatorDateConditionalFilter extends ohrmValidatorConditionalFilter 
     protected function configure($options = array(), $messages = array()) {
         parent::configure($options, $messages);
 
+        $inputDatePattern = sfContext::getInstance()->getUser()->getDateFormat();
+        $this->addOption('date_format', $inputDatePattern);        
         $this->addOption('values', array('from', 'to'));
+        
         $this->addMessage('value1_required', __(ValidationMessages::REQUIRED));
         $this->addMessage('value2_required', __(ValidationMessages::REQUIRED));
         $this->addMessage('value1_value2_required', __(ValidationMessages::REQUIRED));
         $this->addMessage('value1_greater_than_value2', __('Should be greater than first value'));
-        $this->addMessage('value1_invalid', 'Date does not match the date format yy-mm-dd');
-        $this->addMessage('value2_invalid', 'Date does not match the date format yy-mm-dd');
-        $this->addMessage('value1_and_value2_invalid', 'Please enter valid dates in format of yy-mm-dd');
+        $this->addMessage('value1_invalid', ValidationMessages::DATE_FORMAT_INVALID);
+        $this->addMessage('value2_invalid', ValidationMessages::DATE_FORMAT_INVALID);
+        $this->addMessage('value1_and_value2_invalid', ValidationMessages::DATE_FORMAT_INVALID);
+        
+        $this->messageArguments['format'] = get_datepicker_date_format($inputDatePattern);
     }
 
     protected function isValid($value) {
@@ -21,59 +26,42 @@ class ohrmValidatorDateConditionalFilter extends ohrmValidatorConditionalFilter 
         if (is_null($date)) {
             return false;
         } else {
-            $formattedValue = $date->format('Y-m-d');
-            $trimmedValue = trim($value);
-
-            return $trimmedValue == $formattedValue;
+            return true;
         }
     }
 
     protected function validatedBetween($value1, $value2) {
         $valid = false;
-        $date1 = getDate($value1);
-        $date2 = getDate($value2);
+        $date1 = $this->getDate($value1);
+        $date2 = $this->getDate($value2);
         if (!empty($date1) && !empty($date2)) {
-            $valid = $date2 >= $date1;
+            
+            $date1Obj = new DateTime($date1);
+            $date2Obj = new DateTime($date2);
+            
+            $valid = $date2Obj >= $date1Obj;
         }
         return $valid;
     }
 
     protected function getDate($value) {
-        $dateTime = null;
+        $date = null;
         $valid = false;
 
         $trimmedValue = trim($value);
-        $pattern = 'yyyy-MM-dd';
+        $pattern = $this->getOption('date_format');
 
         // check date format
-
         if (is_string($value) && !empty($pattern)) {
+            $localizationService = new LocalizationService();
+            $result = $localizationService->convertPHPFormatDateToISOFormatDate($pattern, $trimmedValue);
 
-            $dateFormat = new sfDateFormat();
-
-            try {
-                $dateParts = $dateFormat->getDate($trimmedValue, $pattern);
-
-                if (is_array($dateParts) && isset($dateParts['year']) && isset($dateParts['mon']) && isset($dateParts['mday'])) {
-
-                    $day = $dateParts['mday'];
-                    $month = $dateParts['mon'];
-                    $year = $dateParts['year'];
-
-                    // Additional check done for 3 digit years, or more than 4 digit years
-                    if (checkdate($month, $day, $year) && ($year >= 1000) && ($year <= 9999)) {
-                        $dateTime = new DateTime();
-                        $dateTime->setTimezone(new DateTimeZone(date_default_timezone_get()));
-                        $dateTime->setDate($year, $month, $day);
-
-                        $valid = true;
-                    }
-                }
-            } catch (Exception $e) {
-                $valid = false;
+            if ($result != "Invalid date") {
+                $date = $result;
+                $valid = true;
             }
         }
-        return($dateTime);
+        return($date);
     }
 
 }
