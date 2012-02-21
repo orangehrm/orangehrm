@@ -34,6 +34,8 @@ function initLeaveSummary() {
             $('#leaveSummary_cmbEmpId').val(0);
         }
         
+        $('#frmLeaveSummarySearch input.inputFormatHint').val('');
+        
         $('#frmLeaveSummarySearch').submit();
     });
 
