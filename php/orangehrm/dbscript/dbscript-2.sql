@@ -913,7 +913,8 @@ INSERT INTO `ohrm_selected_filter_field` (`report_id`, `filter_field_id`, `filte
     (2, 7, 5, null, null, null, 'Runtime'),
     (3, 3, 2, null, null, null, 'Runtime'),
     (3, 5, 1, null, null, null, 'Runtime'),
-    (3, 7, 3, null, null, null, 'Runtime');
+    (3, 7, 3, null, null, null, 'Runtime'),
+    (5, 22, 1, null, null, 'IS NULL', 'Predefined');
 
 INSERT INTO `ohrm_selected_display_field` (`id`, `display_field_id`, `report_id`) VALUES 
     (2, 2, 1),
