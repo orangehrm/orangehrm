@@ -25,8 +25,12 @@
                 <target>FR_Punch Out Note</target>
             </trans-unit>
             <trans-unit id="6">
-                <source>Duration(Hours)</source>
-                <target>FR_Duration(Hours)</target>
+                <source>Duration</source>
+                <target>FR_Duration</target>
+            </trans-unit>
+            <trans-unit id="6">
+                <source>Hours</source>
+                <target>FR_Hours</target>
             </trans-unit>
             <trans-unit id="7">
                 <source>No attendance records to display</source>

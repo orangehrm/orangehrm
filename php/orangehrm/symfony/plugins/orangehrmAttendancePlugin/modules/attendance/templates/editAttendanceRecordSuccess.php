@@ -25,7 +25,7 @@
                         <td><?php echo __("Punch In Note"); ?></td>
                         <td style="width: 900px;"><?php echo __("Punch Out"); ?></td>
                         <td><?php echo __("Punch Out Note"); ?></td>
-                        <td style="width: 100px;"><?php echo __("Duration(Hours)"); ?></td>
+                        <td style="width: 100px;"><?php echo __("Duration")."(".__("Hours").")"; ?></td>
                     </tr></thead> 
                 <?php $i = 1; ?>
                 <?php echo $editAttendanceForm['_csrf_token']; ?>

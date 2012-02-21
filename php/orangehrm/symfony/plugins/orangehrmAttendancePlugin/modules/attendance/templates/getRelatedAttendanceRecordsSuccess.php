@@ -8,7 +8,7 @@
             <td><?php echo __("Punch In Note"); ?></td>
             <td><?php echo __("Punch Out"); ?></td>
             <td><?php echo __("Punch Out Note"); ?></td>
-            <td><?php echo __("Duration(Hours)"); ?></td>
+            <td><?php echo __("Duration")."(".__("Hours").")"; ?></td>
         </tr>
     </thead>     
     <?php $class = 'odd'; ?>
