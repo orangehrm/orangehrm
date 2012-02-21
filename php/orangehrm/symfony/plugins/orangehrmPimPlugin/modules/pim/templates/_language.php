@@ -113,7 +113,7 @@ if (($section == 'language') && isset($message) && isset($messageType)) {
     var lang_languageTypeRequired = '<?php echo __(ValidationMessages::REQUIRED); ?>';
     var lang_competencyRequired = '<?php echo __(ValidationMessages::REQUIRED); ?>';
     var lang_selectLanguageToDelete = "<?php echo __(TopLevelMessages::SELECT_RECORDS);?>";
-    var lang_commentsMaxLength = "<?php echo __(ValidationMessages::TEXT_LENGTH_EXCEEDS, array('%amount%' => 250));?>";
+    var lang_commentsMaxLength = "<?php echo __(ValidationMessages::TEXT_LENGTH_EXCEEDS, array('%amount%' => 100));?>";
     //]]>
 </script>
 
@@ -212,7 +212,7 @@ $(document).ready(function() {
             'language[code]': {required: true},
             'language[lang_type]': {required: true},
             'language[competency]': {required: true},
-            'language[comments]' : {required: false, maxlength:250}
+            'language[comments]' : {required: false, maxlength:100}
         },
         messages: {
             'language[code]': {required: lang_languageRequired},
