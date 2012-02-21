@@ -62,7 +62,7 @@ class ohrmReportWidgetGenderDropDown extends sfWidgetForm implements ohrmEnhance
      */
     private function _getGenderTypes() {
 
-        $genderType = array('-1' => 'All', '1' => 'Male', '2' => 'Female');
+        $genderType = array('-1' => __('All'), '1' => __('Male'), '2' => __('Female'));
 
         return $genderType;
     }

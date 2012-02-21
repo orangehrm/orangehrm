@@ -64,7 +64,7 @@ class ohrmReportWidgetLanguageDropDown extends sfWidgetForm implements ohrmEnhan
     private function _getLanguageList() {
         $languageService = new LanguageService();
         $languageList = $languageService->getLanguageList();
-        $list = array("" => "-- " . __('Select Language') . " --");
+        $list = array("" => "-- " . __('Select') . " --");
 
         foreach($languageList as $language) {
             $list[$language->getId()] = $language->getName();

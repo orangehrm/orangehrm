@@ -64,7 +64,7 @@ class ohrmReportWidgetSkillDropDown extends sfWidgetForm implements ohrmEnhanced
         $list = array();
         $skillService = new SkillService();
         $skillList = $skillService->getSkillList();
-        $list = array("" => "-- " . __('Select Skill') . " --");
+        $list = array("" => "-- " . __('Select') . " --");
 
         foreach($skillList as $skill) {
             $list[$skill->getId()] = $skill->getName();
