@@ -123,7 +123,7 @@ function handleSaveButton() {
             $('#hdnLeave_' + id).val($(this).val());
         }
     });
-
+    
     $('#frmList_ohrmListComponent').submit();
 }
 

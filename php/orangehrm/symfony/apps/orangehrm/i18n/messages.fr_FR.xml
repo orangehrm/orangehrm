@@ -4950,7 +4950,11 @@
     <source>Atlantic/Azores</source> 
     <target>FR_Atlantic/Azores</target> 
     <note>A time zone name</note> 
-   </trans-unit>    
+   </trans-unit>  
+   <trans-unit id="1825"> 
+    <source>Type in years</source> 
+    <target>FR_Type in years</target> 
+   </trans-unit>     
   </body>
  </file>
 </xliff>

@@ -62,6 +62,11 @@ function handleEditButton() {
     if ($(this).val() == saveButtonCaption) {
         var flag = validateInput();
         if(flag) {
+            
+            if ($('#leaveSummary_txtEmpName').val() == lang_typeHint) {
+                $('#leaveSummary_txtEmpName').val('');
+            }
+
             $('#hdnAction').val('save');
             $('#frmLeaveSummarySearch').attr('action', '../leave/saveLeaveEntitlements');
             $('#frmLeaveSummarySearch').submit();
