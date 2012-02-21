@@ -28,6 +28,7 @@ h3 {
 div.error{
     margin-left: 160px;
     margin-top: 2px;
+    width: 300px;
 }
 
 .smallText {
@@ -128,20 +129,20 @@ label {
     margin-top: 5px;
     width: 140px;
 }
-}
-form#frmWorkExperience label div.error{
+
+form#frmWorkExperience label div.error {
     margin-top: 5px;
     width: 300px;
-    margin-left: 120px;
+    margin-left: 140px !important;
 }
 form#frmEducation label div.error{
     margin-top: 5px;
     width: 300px;
-    margin-left: 120px;
+    margin-left: 140px !important;
 }
 
 form#frmLicense label div.error{
     margin-top: 5px;
     width: 300px;
-    margin-left: 120px;
+    margin-left: 140px !important;
 }
