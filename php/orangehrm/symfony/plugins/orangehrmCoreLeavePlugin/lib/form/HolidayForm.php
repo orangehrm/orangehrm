@@ -215,5 +215,13 @@ class HolidayForm extends sfForm {
         
         return $labels;
     }
+    
+    public function getJavaScripts() {
+        $javaScripts = parent::getJavaScripts();
+        $javaScripts[] = '/orangehrmCoreLeavePlugin/js/defineHolidaySuccess.js';
+        $javaScripts[] = '/orangehrmCoreLeavePlugin/js/defineHolidaySuccessValidate.js';
+
+        return $javaScripts;
+    }    
 }
 

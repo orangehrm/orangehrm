@@ -80,61 +80,12 @@
 <script type="text/javascript">
     //<![CDATA[
     
-    $(document).ready(function() {
-        
-        var datepickerDateFormat = '<?php echo get_datepicker_date_format($sf_user->getDateFormat()); ?>';
+    var datepickerDateFormat = '<?php echo get_datepicker_date_format($sf_user->getDateFormat()); ?>';
+    var backUrl = '<?php echo url_for('leave/viewHolidayList'); ?>';
 
-        var lang_DateIsRequired = '<?php echo __(ValidationMessages::REQUIRED); ?>';
-        var lang_DateFormatIsWrong = '<?php echo __(ValidationMessages::DATE_FORMAT_INVALID, array('%format%' => get_datepicker_date_format($sf_user->getDateFormat()))) ?>';
-        var lang_NameIsRequired = '<?php echo __(ValidationMessages::REQUIRED); ?>';
-        var lang_NameIsOverLimit = "<?php echo __(ValidationMessages::TEXT_LENGTH_EXCEEDS, array('%amount%' => 200));?>";
-
-        //Validation
-        $("#frmHoliday").validate({
-            rules: {
-                'holiday[date]': {
-                    required: true,
-                    valid_date: function(){ return {format:datepickerDateFormat} }
-                },
-                'holiday[description]': {required: true, maxlength: 200}
-            },
-            messages: {
-                'holiday[date]':{
-                    required:  lang_DateIsRequired,
-                    valid_date: lang_DateFormatIsWrong
-                },
-                'holiday[description]':{
-                    required: lang_NameIsRequired,
-                    maxlength: lang_NameIsOverLimit
-                }
-            },
-            errorPlacement: function(error, element) {
-                error.appendTo(element.prev('label'));
-                error.appendTo(element.next().next('.errorContainer'));
-                error.appendTo(element.next('.errorContainer'));
-            },
-            invalidHandler: function(form, validator) {
-                clearTemplateMessages();
-            }
-        });
-
-        //clearing error messages after reset
-        $("#btnReset").click(function() {
-            $("#holiday_txtDescription").attr("class", "formInputText");
-            $("#holiday_txtDate").attr("class", "formDateInput hasDatepicker");
-            $(".errorContainer").html("");
-        });
-               
-        // Back button
-        $('#btnBack').click(function(){
-            window.location.href = '<?php echo url_for('leave/viewHolidayList'); ?>';
-        });
-
-        $("#saveBtn").click(function(){
-            $("#frmHoliday").submit();
-        });
-
-    }); 
+    var lang_Required = '<?php echo __(ValidationMessages::REQUIRED); ?>';
+    var lang_DateFormatIsWrong = '<?php echo __(ValidationMessages::DATE_FORMAT_INVALID, array('%format%' => get_datepicker_date_format($sf_user->getDateFormat()))) ?>';
+    var lang_NameIsOverLimit = "<?php echo __(ValidationMessages::TEXT_LENGTH_EXCEEDS, array('%amount%' => 200));?>";        
 
     //]]>
 </script>
