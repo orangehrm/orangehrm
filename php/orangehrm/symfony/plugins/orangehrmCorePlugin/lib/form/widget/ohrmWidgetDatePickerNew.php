@@ -55,7 +55,10 @@ class ohrmWidgetDatePickerNew extends sfWidgetFormInput {
             onSelect: function(date){
 
             },
-            dateFormat : datepickerDateFormat
+            dateFormat : datepickerDateFormat,
+            onClose: function(){
+                $(this).valid();
+            }
         });
 
         $('#%s_Button').click(function(){
