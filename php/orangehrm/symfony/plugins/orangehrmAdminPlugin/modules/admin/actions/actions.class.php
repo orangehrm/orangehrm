@@ -2102,6 +2102,8 @@ class adminActions extends sfActions {
             } else {
                 $this->getUser()->setFlash('templateMessage', array('WARNING', __("Successfully Saved. Test Email Not Sent")));
             }
+        } else {
+            $this->getUser()->setFlash('templateMessage', array('SUCCESS', __(TopLevelMessages::SAVE_SUCCESS)));
         }
 
         $this->redirect('admin/listMailConfiguration');
