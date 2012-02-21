@@ -85,7 +85,7 @@ class viewReportingMethodsAction extends sfAction {
                 return false;
             }
             
-            $this->getUser()->setFlash('templateMessage', array('WARNING', __('Reporting Method Name Exists')));
+            $this->getUser()->setFlash('templateMessage', array('WARNING', __('Name Already Exists')));
             $this->redirect('pim/viewReportingMethods');            
             
         }

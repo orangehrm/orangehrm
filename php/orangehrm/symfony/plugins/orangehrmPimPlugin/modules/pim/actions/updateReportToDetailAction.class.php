@@ -91,7 +91,7 @@ class updateReportToDetailAction extends basePimAction {
     protected function _checkDuplicateEntry($empNumber) {
 
         if (empty($id) && $this->getReportingMethodService()->isExistingReportingMethodName($this->form->getValue('reportingMethod'))) {
-            $this->getUser()->setFlash('templateMessage', array('warning', __('Reporting Method Name Exists')));
+            $this->getUser()->setFlash('templateMessage', array('warning', __('Name Already Exists')));
             $this->redirect('pim/viewReportToDetails?empNumber=' . $empNumber);
         }
 
