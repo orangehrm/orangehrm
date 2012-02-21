@@ -184,6 +184,8 @@
 
     function checkAuthenticationActivate() {
         if($("#optAuthLOGIN").attr("checked")){
+        	$("label[for=txtSmtpUser]").append('<span class="required">*</span>');
+        	$("label[for=txtSmtpPass]").append('<span class="required">*</span>');
             $("#txtSmtpUser").rules("add", {
                   required: true,
                  messages: {
@@ -199,6 +201,8 @@
         } else {
             $("#txtSmtpUser").rules("remove", "required");
             $("#txtSmtpPass").rules("remove", "required");
+            $("label[for=txtSmtpUser] span").remove();
+            $("label[for=txtSmtpPass] span").remove();
         }
     }
 	function toggleSMTPAuthenticationFields() {
