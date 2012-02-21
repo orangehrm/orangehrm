@@ -4801,6 +4801,26 @@
     <source>Successfully Changed</source>
     <target>FR_Successfully Changed</target>
    </trans-unit>
+   <trans-unit id="100">
+    <source>Username</source>
+    <target>FR_Username</target>
+   </trans-unit>
+   <trans-unit id="100">
+    <source>Password</source>
+    <target>FR_Password</target>
+   </trans-unit>
+   <trans-unit id="100">
+    <source>Username cannot be empty</source>
+    <target>FR_Username cannot be empty</target>
+   </trans-unit>
+   <trans-unit id="100">
+    <source>Password cannot be empty</source>
+    <target>FR_Password cannot be empty</target>
+   </trans-unit>
+   <trans-unit id="100">
+    <source>Invalid credentials</source>
+    <target>FR_Invalid credentials</target>
+   </trans-unit>
   </body>
  </file>
 </xliff>

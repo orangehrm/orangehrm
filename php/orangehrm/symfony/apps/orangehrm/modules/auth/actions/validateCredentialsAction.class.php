@@ -17,7 +17,7 @@ class validateCredentialsAction extends sfAction {
                 if ($success) {
                     $this->redirect(public_path('../../index.php'));
                 } else {
-                    $this->getUser()->setFlash('message', 'Invalid credentials', true);
+                    $this->getUser()->setFlash('message', __('Invalid credentials'), true);
                     $this->forward('auth', 'retryLogin');
                 }
             } catch (AuthenticationServiceException $e) {

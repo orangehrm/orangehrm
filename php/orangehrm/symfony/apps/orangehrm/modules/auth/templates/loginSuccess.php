@@ -157,11 +157,11 @@ $imagePath = public_path("../../themes/{$styleSheet}/images/login");
 
         <div id="divUsername" class="textInputContainer">
             <?php echo $form['Username']->render(); ?>
-          <span class="form-hint" >Username</span> 
+          <span class="form-hint" ><?php echo __('Username'); ?></span> 
         </div>
         <div id="divPassword" class="textInputContainer">
             <?php echo $form['Password']->render(); ?>
-         <span class="form-hint" >Password</span>
+         <span class="form-hint" ><?php echo __('Password'); ?></span>
         </div>
         <div id="divLoginHelpLink"><?php
             include_component('core', 'ohrmPluginPannel', array(
