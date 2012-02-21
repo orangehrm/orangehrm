@@ -62,10 +62,6 @@ class CustomFieldsService extends BaseService {
           $customFields = $this->customFieldsDao->saveCustomField($customFields);
           $reportGeneratorService->saveCustomDisplayField($customFields, "3");
           return $customFields;
-//         return $this->customFieldsDao->saveCustomField($customFields);
-      } catch(DataDuplicationException $e) {
-         //this is for backward compatibility, need to identify the references and update them
-         throw new DuplicateNameException($e->getMessage());
       } catch(Exception $e) {
          throw new AdminServiceException($e->getMessage());
       }

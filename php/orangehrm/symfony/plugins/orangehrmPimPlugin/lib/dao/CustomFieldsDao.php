@@ -44,10 +44,6 @@ class CustomFieldsDao extends BaseDao {
                             ->where('c.name = ?', $customFields->name)
                             ->andWhere('c.field_num <> ?', $customFields->field_num);
 
-            if ($q->count() > 0) {
-                throw new DataDuplicationException("Saving CustomFields failed due to saving of dupliced data");
-            }
-
             $freeNum = null;
 
             if (empty($customFields->field_num)) {

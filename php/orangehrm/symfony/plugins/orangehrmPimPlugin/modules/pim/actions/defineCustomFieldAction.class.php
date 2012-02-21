@@ -80,13 +80,9 @@ class defineCustomFieldAction extends sfAction {
                 $customField->setType($form->getValue('type'));
                 $customField->setScreen($form->getValue('screen'));
                 $customField->setExtraData($form->getValue('extra_data'));
-                try {
-                    $customFieldsService->saveCustomField($customField);
-                    $this->getUser()->setFlash('templateMessage', array('success', __(TopLevelMessages::SAVE_SUCCESS)));
+                $customFieldsService->saveCustomField($customField);
+                $this->getUser()->setFlash('templateMessage', array('success', __(TopLevelMessages::SAVE_SUCCESS)));
 
-                } catch (DuplicateNameException $e) {
-                    $this->getUser()->setFlash('templateMessage', array('notice', __('Custom Field Already Exists')));                    
-                }
             }
         }
         $this->redirect('pim/listCustomFields');        
