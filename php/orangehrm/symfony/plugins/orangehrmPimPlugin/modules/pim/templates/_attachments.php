@@ -198,7 +198,7 @@ $locRights['delete'] = true;
 
             rules: {
                 ufile : {attachment:true},
-                txtAttDesc: {maxlength: 198}
+                txtAttDesc: {maxlength: 200}
             },
             messages: {
                 ufile: lang_PleaseSelectAFile,
