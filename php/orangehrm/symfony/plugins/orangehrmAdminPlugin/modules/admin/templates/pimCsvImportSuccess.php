@@ -32,7 +32,7 @@
                 <li><?php echo __("If gender is specified, value should be either") . ' <span class="boldText">Male</span> ' . __('or') . ' <span class="boldText">Female</span>'; ?></li>
                 <li><?php echo __("Each import file should be configured for 100 records or less");?></li>
                 <li><?php echo __("Multiple import files may be required");?></li>
-                <li><?php echo __("Sample csv file "); ?><a title="<?php echo __("Download"); ?>" target="_blank" class="download"
+                <li><?php echo __("Sample CSV file").': '; ?><a title="<?php echo __("Download"); ?>" target="_blank" class="download"
                        href="<?php echo url_for('admin/sampleCsvDownload');?>"><?php echo __("Download"); ?></a></li>
             </ul>
 

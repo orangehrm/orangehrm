@@ -621,8 +621,8 @@
     <target>FR_Salary should be a number. No spaces are allowed</target>
    </trans-unit>
    <trans-unit id="155">
-    <source>Sample csv file</source>
-    <target>FR_Sample csv file</target>
+    <source>Sample CSV file</source>
+    <target>FR_Sample CSV file</target>
    </trans-unit>
    <trans-unit id="156">
     <source>Select valid employee</source>
@@ -788,6 +788,15 @@
     <source>Level Already Exists</source>
     <target>FR_Level Already Exists</target>
    </trans-unit>
+   <trans-unit id="100">
+    <source>All date fields should be in YYYY-mm-dd format</source>
+    <target>FR_All date fields should be in YYYY-mm-dd format</target>
+   </trans-unit>
+   <trans-unit id="100">
+    <source>Multiple import files may be required</source>
+    <target>FR_Multiple import files may be required</target>
+   </trans-unit>
+   
   </body>
  </file>
 </xliff>
