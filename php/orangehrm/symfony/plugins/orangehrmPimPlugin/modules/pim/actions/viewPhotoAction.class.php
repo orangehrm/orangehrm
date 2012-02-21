@@ -91,4 +91,3 @@ class viewPhotoAction extends sfAction {
         return sfView::NONE;
     }
 }
-?>

@@ -33,7 +33,7 @@
         <!-- this space is reserved for menus - dont use -->
         <td width="200" valign="top">
         <?php include_partial('leftmenu', 
-                array('empNumber' => $empNumber, 'form' => $form, 'editPhotoMode' => true));?></td>
+                array('empNumber' => $empNumber, 'form' => $form, 'editPhotoMode' => true, 'width' => $width, 'height' => $height));?></td>
         <td valign="top">
             <table cellspacing="0" cellpadding="0" border="0">
                 <tr>

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * OrangeHRM is a comprehensive Human Resource Management (HRM) System that captures
  * all the essential functionalities required for any enterprise.
@@ -25,7 +26,7 @@ class viewPhotographAction extends sfAction {
      * @returns EmployeeService
      */
     public function getEmployeeService() {
-        if(is_null($this->employeeService)) {
+        if (is_null($this->employeeService)) {
             $this->employeeService = new EmployeeService();
             $this->employeeService->setEmployeeDao(new EmployeeDao());
         }
@@ -49,21 +50,21 @@ class viewPhotographAction extends sfAction {
             $this->form = $form;
         }
     }
-    
+
     public function execute($request) {
 
         $loggedInEmpNum = $this->getUser()->getEmployeeNumber();
         $this->showBackButton = true;
         $picture = $request->getPostParameters();
-        $empNumber = (isset($picture['emp_number']))?$picture['emp_number']:$request->getParameter('empNumber');
+        $empNumber = (isset($picture['emp_number'])) ? $picture['emp_number'] : $request->getParameter('empNumber');
         $this->empNumber = $empNumber;
 
         // Cheking authorization
         $this->_checkAuthorization($empNumber, $loggedInEmpNum);
 
         //hiding the back button if its self ESS view
-        if($loggedInEmpNum == $empNumber) {
-            
+        if ($loggedInEmpNum == $empNumber) {
+
             $this->showBackButton = false;
         }
 
@@ -71,8 +72,8 @@ class viewPhotographAction extends sfAction {
         $employeeService = $this->getEmployeeService();
         $empPicture = $employeeService->getPicture($empNumber);
         $this->showDeleteButton = 1;
-        
-        if(!$empPicture instanceof EmpPicture) {
+
+        if (!$empPicture instanceof EmpPicture) {
             $this->showDeleteButton = 0;
         }
 
@@ -89,14 +90,14 @@ class viewPhotographAction extends sfAction {
             $photoFile = $request->getFiles();
 
             //in case if file size exceeds 1MB
-            if($photoFile['photofile']['size'] == 0 || $photoFile['photofile']['size'] > 1000000) {
-                
+            if ($photoFile['photofile']['size'] == 0 || $photoFile['photofile']['size'] > 1000000) {
+
                 $this->messageType = "warning";
                 $this->message = __(TopLevelMessages::FILE_SIZE_SAVE_FAILURE);
             }
 
             if ($this->form->isValid()) {
-                
+
                 $fileType = $photoFile['photofile']['type'];
 
                 $allowedImageTypes[] = "image/gif";
@@ -107,12 +108,11 @@ class viewPhotographAction extends sfAction {
                 $allowedImageTypes[] = "image/x-png";
 
                 if (!in_array($fileType, $allowedImageTypes)) {
-                    
+
                     $this->messageType = "warning";
                     $this->message = __(TopLevelMessages::FILE_TYPE_SAVE_FAILURE);
-
                 } else {
-                
+
                     list($width, $height) = getimagesize($photoFile['photofile']['tmp_name']);
 
                     //flags from server
@@ -128,7 +128,7 @@ class viewPhotographAction extends sfAction {
         }
 
         //this is for deleting a picture
-        if($request->getParameter('option') == "delete") {
+        if ($request->getParameter('option') == "delete") {
 
             $employeeService = $this->getEmployeeService();
             $employeeService->deletePhoto($empNumber);
@@ -150,7 +150,7 @@ class viewPhotographAction extends sfAction {
         $employeeService = $this->getEmployeeService();
         $empPicture = $employeeService->getPicture($empNumber);
 
-        if(!$empPicture instanceof EmpPicture) {
+        if (!$empPicture instanceof EmpPicture) {
             $empPicture = new EmpPicture();
             $empPicture->emp_number = $empNumber;
         }
@@ -159,26 +159,35 @@ class viewPhotographAction extends sfAction {
         $empPicture->filename = $file['photofile']['name'];
         $empPicture->file_type = $file['photofile']['type'];
         $empPicture->size = $file['photofile']['size'];
+        $empPicture->width = $this->newWidth;
+        $empPicture->height = $this->newHeight;
         $empPicture->save();
-        
     }
 
     private function pictureSizeAdjust($imgHeight, $imgWidth) {
-        
-        $newHeight = 0;
-        $newWidth = 0;
 
-        $propHeight = floor(($imgHeight/$imgWidth) * 150);
-        $propWidth = floor(($imgWidth/$imgHeight) * 180);
+        if ($imgHeight > 180 || $imgWidth > 150) {
+            $newHeight = 0;
+            $newWidth = 0;
 
-        if($propHeight <= 180) {
-            $newHeight = $propHeight;
-            $newWidth = 150;
-        }
+            $propHeight = floor(($imgHeight / $imgWidth) * 150);
+            $propWidth = floor(($imgWidth / $imgHeight) * 180);
 
-        if($propWidth <= 150) {
-            $newWidth = $propWidth;
-            $newHeight = 180;
+            if ($propHeight <= 180) {
+                $newHeight = $propHeight;
+                $newWidth = 150;
+            }
+
+            if ($propWidth <= 150) {
+                $newWidth = $propWidth;
+                $newHeight = 180;
+            }
+        } else {
+            if($imgHeight < 180)
+                $newHeight = $imgHeight;
+            
+            if($imgWidth < 150)
+                $newWidth = $imgWidth;
         }
 
         $this->newWidth = $newWidth;
@@ -187,13 +196,13 @@ class viewPhotographAction extends sfAction {
 
     private function isSupervisor($loggedInEmpNum, $empNumber) {
 
-        if(isset($_SESSION['isSupervisor']) && $_SESSION['isSupervisor']) {
+        if (isset($_SESSION['isSupervisor']) && $_SESSION['isSupervisor']) {
 
             $empService = $this->getEmployeeService();
             $subordinates = $empService->getSupervisorEmployeeList($loggedInEmpNum);
 
-            foreach($subordinates as $employee) {
-                if($employee->getEmpNumber() == $empNumber) {
+            foreach ($subordinates as $employee) {
+                if ($employee->getEmpNumber() == $empNumber) {
                     return true;
                 }
             }
@@ -206,11 +215,11 @@ class viewPhotographAction extends sfAction {
         $supervisorMode = $this->isSupervisor($loggedInEmpNumber, $empNumber);
         $adminMode = $this->getUser()->hasCredential(Auth::ADMIN_ROLE);
 
-        if($empNumber != $loggedInEmpNumber && (!$supervisorMode && !$adminMode)) {
-            $this->redirect('pim/viewPersonalDetails?empNumber='. $loggedInEmpNum);
+        if ($empNumber != $loggedInEmpNumber && (!$supervisorMode && !$adminMode)) {
+            $this->redirect('pim/viewPersonalDetails?empNumber=' . $loggedInEmpNum);
         }
-
     }
 
 }
+
 ?>

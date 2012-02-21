@@ -395,11 +395,23 @@ if($empNumber == $_SESSION['empID']) {
     $idLength = OrangeConfig::getInstance()->getSysConf()->getEmployeeIdLength();
 
     $paddedEmpNumber = str_pad($empNumber, $idLength, "0", STR_PAD_LEFT);
+    
+    $employeeService = new EmployeeService();
+    $empPicture = $employeeService->getPicture($empNumber);
+
+    if (!empty($empPicture)) {
+        $width = $empPicture->width;
+        $height = $empPicture->height;
+    } else {
+        $width = '150';
+        $height = '180';
+    }
 ?>
 
 <form id="frmEmp" action=""></form>
 <div id="pimleftmenu">
-    <?php include_partial('photo', array('empNumber' => $empNumber, 
+    <?php include_partial('photo', array('empNumber' => $empNumber,
+        'width' => $width, 'height' => $height,
         'editMode' => isset($editPhotoMode) ? $editPhotoMode : false,
         'fullName' => htmlspecialchars($form->fullName)));?>
     <ul class="pimleftmenu">

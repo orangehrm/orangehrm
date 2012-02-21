@@ -273,6 +273,8 @@ create table `hs_hr_emp_picture` (
   `epic_filename` varchar(100) default null,
   `epic_type` varchar(50) default null,
   `epic_file_size` varchar(20) default null,
+  `epic_file_width` varchar(20) default null,
+  `epic_file_height` varchar(20) default null,
   primary key  (`emp_number`)
 ) engine=innodb default charset=utf8;
 

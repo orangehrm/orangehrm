@@ -10,6 +10,8 @@
  * @property string $filename
  * @property string $file_type
  * @property string $size
+ * @property string $width
+ * @property string $height
  * @property Employee $Employee
  * 
  * @method integer    getEmpNumber()  Returns the current record's "emp_number" value
@@ -17,12 +19,16 @@
  * @method string     getFilename()   Returns the current record's "filename" value
  * @method string     getFileType()   Returns the current record's "file_type" value
  * @method string     getSize()       Returns the current record's "size" value
+ * @method string     getWidth()      Returns the current record's "width" value
+ * @method string     getHeight()     Returns the current record's "height" value
  * @method Employee   getEmployee()   Returns the current record's "Employee" value
  * @method EmpPicture setEmpNumber()  Sets the current record's "emp_number" value
  * @method EmpPicture setPicture()    Sets the current record's "picture" value
  * @method EmpPicture setFilename()   Sets the current record's "filename" value
  * @method EmpPicture setFileType()   Sets the current record's "file_type" value
  * @method EmpPicture setSize()       Sets the current record's "size" value
+ * @method EmpPicture setWidth()      Sets the current record's "width" value
+ * @method EmpPicture setHeight()     Sets the current record's "height" value
  * @method EmpPicture setEmployee()   Sets the current record's "Employee" value
  * 
  * @package    orangehrm
@@ -53,6 +59,14 @@ abstract class BaseEmpPicture extends sfDoctrineRecord
              'length' => 50,
              ));
         $this->hasColumn('epic_file_size as size', 'string', 20, array(
+             'type' => 'string',
+             'length' => 20,
+             ));
+        $this->hasColumn('epic_file_width as width', 'string', 20, array(
+             'type' => 'string',
+             'length' => 20,
+             ));
+        $this->hasColumn('epic_file_height as height', 'string', 20, array(
              'type' => 'string',
              'length' => 20,
              ));

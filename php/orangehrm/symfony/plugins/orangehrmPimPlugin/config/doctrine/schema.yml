@@ -213,6 +213,8 @@ EmpPicture:
     epic_filename as filename: string(100)
     epic_type as file_type: string(50)
     epic_file_size as size: string(20)
+    epic_file_width as width: string(20)
+    epic_file_height as height: string(20)
   relations:
     Employee:
       local: emp_number
