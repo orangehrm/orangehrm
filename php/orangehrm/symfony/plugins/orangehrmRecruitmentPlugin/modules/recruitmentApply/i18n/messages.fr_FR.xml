@@ -136,6 +136,10 @@
                 <source>Failed to Submit: File Type Not Allowed</source>
                 <target>FR_Failed to Submit: File Type Not Allowed</target>
             </trans-unit>
+            <trans-unit id="5001">
+                <source>Uploaded</source>
+                <target>FR_Uploaded</target>
+            </trans-unit>
         </body>
     </file>
 </xliff>
