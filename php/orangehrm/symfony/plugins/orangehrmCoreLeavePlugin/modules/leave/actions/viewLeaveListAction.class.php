@@ -120,7 +120,7 @@ class viewLeaveListAction extends sfAction {
               $values = $this->form->getDefaults();
               $this->_setFilters($mode, $values);                            
         } else {
-              $values = $this->_getFilters($mode);      
+              $values = $this->_getFilters($mode);
               $this->form->setDefaults($values);
               $page = $request->getParameter('pageNo', null);
               if (empty($page)) {
@@ -321,7 +321,11 @@ class viewLeaveListAction extends sfAction {
      * @return unknown_type
      */
     protected function _getFilters($mode) {
-        return $this->getUser()->getAttribute($mode . '.filters', null, 'leave_list');
+        $filter = $this->getUser()->getAttribute($mode . '.filters', null, 'leave_list');
+        $filter['calFromDate'] = set_datepicker_date_format($filter['calFromDate']);
+        $filter['calToDate'] = set_datepicker_date_format($filter['calToDate']);
+        
+        return $filter;
     }
 
     protected function _getFilterValue($filters, $parameter, $default = null) {
