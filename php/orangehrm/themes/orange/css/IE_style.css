@@ -332,3 +332,8 @@ form#frmList_ohrmListComponent div.actionbar div.formbuttons{
     width: 160px;
 }
 
+/* recruitment specific */
+
+form#frmCandidateVacancyStatus .savebutton {
+    width: 110px !important;
+}
