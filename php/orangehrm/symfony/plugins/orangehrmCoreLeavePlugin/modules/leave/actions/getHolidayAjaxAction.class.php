@@ -52,6 +52,9 @@ class getHolidayAjaxAction extends sfAction {
      * @param type $request 
      */
     public function execute( $request ){
+        sfConfig::set('sf_web_debug', false);
+        sfConfig::set('sf_debug', false);
+        
         $year = $request->getParameter("year");
 
         $holidayList = $this->getHolidayList();
@@ -64,10 +67,16 @@ class getHolidayAjaxAction extends sfAction {
 
         $dates = rtrim($dates, ",");
 
+        $response = $this->getResponse();
+        $response->setHttpHeader('Expires', '0');
+        $response->setHttpHeader("Cache-Control", "must-revalidate, post-check=0, pre-check=0");
+        $response->setHttpHeader("Cache-Control", "private", false);
+        
         echo "[";
         echo $dates;
         echo "]";
-        exit;
+        
+        return sfView::NONE;
     }
     
     /**

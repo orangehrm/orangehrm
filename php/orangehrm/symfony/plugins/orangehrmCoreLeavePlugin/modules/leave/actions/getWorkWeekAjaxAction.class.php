@@ -49,6 +49,8 @@ class getWorkWeekAjaxAction extends sfAction {
     }
     
     public function execute( $request ){
+        sfConfig::set('sf_web_debug', false);
+        sfConfig::set('sf_debug', false);
         
         $workWeek = $this->getWorkWeekList();
 
@@ -63,7 +65,11 @@ class getWorkWeekAjaxAction extends sfAction {
             }
         }
 
-
+        $response = $this->getResponse();
+        $response->setHttpHeader('Expires', '0');
+        $response->setHttpHeader("Cache-Control", "must-revalidate, post-check=0, pre-check=0");
+        $response->setHttpHeader("Cache-Control", "private", false);
+            
         echo json_encode($dates);
         
         return sfView::NONE;

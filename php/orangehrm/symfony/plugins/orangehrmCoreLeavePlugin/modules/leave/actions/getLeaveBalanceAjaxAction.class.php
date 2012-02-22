@@ -64,6 +64,11 @@ class getLeaveBalanceAjaxAction extends sfAction {
 */            
         }
         
+        $response = $this->getResponse();
+        $response->setHttpHeader('Expires', '0');
+        $response->setHttpHeader("Cache-Control", "must-revalidate, post-check=0, pre-check=0");
+        $response->setHttpHeader("Cache-Control", "private", false);
+        
         if ($allowed) {
             $leavePeriod = $this->getLeavePeriodService()->getCurrentLeavePeriod();
             $balance = $this->getLeaveEntitlementService()->getLeaveBalance($empNumber, $leaveTypeId, $leavePeriod->getLeavePeriodId());
