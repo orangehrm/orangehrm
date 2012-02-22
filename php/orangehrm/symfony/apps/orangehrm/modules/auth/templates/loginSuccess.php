@@ -214,10 +214,8 @@ $imagePath = public_path("../../themes/{$styleSheet}/images/login");
     }
     
     $(document).ready(function() {
-    
-        if ($('#txtUsername').val() != '') {
-            removeHint();
-        }
+        /*Set a delay to compatible with chrome browser*/
+        setTimeout(checkSavedUsernames,100);
         
         $('#txtUsername').focus(function() {
             
@@ -233,7 +231,13 @@ $imagePath = public_path("../../themes/{$styleSheet}/images/login");
         
         $('#frmLogin').submit(validateLogin);
     });
-    
+
+    function checkSavedUsernames(){
+        if ($('#txtUsername').val() != '') {
+            removeHint();
+        }
+    }
+
     if (window.top.location.href != location.href) {
         window.top.location.href = location.href;
     }
