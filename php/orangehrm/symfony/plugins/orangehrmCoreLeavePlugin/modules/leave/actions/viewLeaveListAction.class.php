@@ -139,6 +139,8 @@ class viewLeaveListAction extends sfAction {
 
         // Check for request from pim: 'txtEmpID' will be available as a get parameter.
         $empNumber = $request->getGetParameter('txtEmpID');
+        $leavePeriodId = $request->getGetParameter('leavePeriodId');
+        $leaveTypeId = $request->getGetParameter('leaveTypeId');
         if (!empty($empNumber)) {
             $employee = $this->getEmployeeService()->getEmployee($empNumber);
             
@@ -154,6 +156,16 @@ class viewLeaveListAction extends sfAction {
                     $terminatedEmp = 'on';
                     $values['cmbWithTerminated'] = $terminatedEmp;
                 }
+                if (!empty($leavePeriodId)) {
+                   $leavePeriod = $this->getLeavePeriodService()->readLeavePeriod($leavePeriodId);
+                   if($leavePeriod instanceof LeavePeriod){
+                       $values['calFromDate'] = $leavePeriod->getStartDate();
+                       $values['calToDate'] = $leavePeriod->getEndDate();
+                   }
+                }
+                if (!empty($leaveTypeId)) {
+                   $values['leaveTypeId'] = $leaveTypeId;
+                }
                 $this->_setFilters($mode, $values);
             }
         }
@@ -166,6 +178,7 @@ class viewLeaveListAction extends sfAction {
         $searchParams = new ParameterObject(array(
                     'dateRange' => new DateRange($fromDate, $toDate),
                     'statuses' => $statuses,
+                    'leaveTypeId' => $leaveTypeId,
                     'employeeFilter' => $employeeFilter,
                     'noOfRecordsPerPage' => sfConfig::get('app_items_per_page'),
                     'cmbWithTerminated' => $terminatedEmp,
@@ -324,7 +337,7 @@ class viewLeaveListAction extends sfAction {
         $filter = $this->getUser()->getAttribute($mode . '.filters', null, 'leave_list');
         $filter['calFromDate'] = set_datepicker_date_format($filter['calFromDate']);
         $filter['calToDate'] = set_datepicker_date_format($filter['calToDate']);
-        
+
         return $filter;
     }
 

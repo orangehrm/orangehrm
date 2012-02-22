@@ -329,6 +329,7 @@ class LeaveRequestDao extends BaseDao {
         $employeeFilter = $searchParameters->getParameter('employeeFilter');
         $leavePeriod = $searchParameters->getParameter('leavePeriod');
         $leaveType = $searchParameters->getParameter('leaveType');
+        $leaveTypeId = $searchParameters->getParameter('leaveTypeId');
         $includeTerminatedEmployees = $searchParameters->getParameter('cmbWithTerminated');
         $subUnit = $searchParameters->getParameter('subUnit');
         $locations = $searchParameters->getParameter('locations');
@@ -377,6 +378,9 @@ class LeaveRequestDao extends BaseDao {
             $leaveTypeId = ($leaveType instanceof LeaveType) ? $leaveType->getLeaveTypeId() : $leaveType;
             $q->andWhere('lr.leave_type_id = ?', $leaveTypeId);
         }
+        if (!empty($leaveTypeId)) {
+            $q->andWhere('lr.leave_type_id = ?', $leaveTypeId);
+        }
         
         if ($isMyLeaveList) {
             $includeTerminatedEmployees = true;
@@ -384,6 +388,7 @@ class LeaveRequestDao extends BaseDao {
                 
         // Search by employee name
         if (!empty($employeeName)) {
+            $employeeName = str_replace(' (' . __('Past Employee') . ')', '', $employeeName);
             // Replace multiple spaces in string with wildcards
             $employeeName = preg_replace('!\s+!', '%', $employeeName);
             
