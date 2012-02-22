@@ -83,11 +83,13 @@ var empdata = <?php echo str_replace('&#039;',"'",$form->getEmployeeListAsJson()
 
 
 function submitPage(pageNo) {
-
+   if ($('#leaveSummary_txtEmpName').val() == lang_typeHint) {
+        $('#leaveSummary_txtEmpName').val('');
+    }
     document.frmLeaveSummarySearch.pageNo.value = pageNo;
     document.frmLeaveSummarySearch.hdnAction.value = 'paging';
-    document.getElementById('frmLeaveSummarySearch').submit();
-
+    document.getElementById('frmLeaveSummarySearch').submit();    
+ 
 }
 
 var editButtonCaption = "<?php echo __('Edit');?>";
