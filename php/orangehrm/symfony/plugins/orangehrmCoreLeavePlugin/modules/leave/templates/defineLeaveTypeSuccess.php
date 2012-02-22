@@ -47,9 +47,14 @@ use_stylesheets_for_form($form);
         <?php include_component('core', 'ohrmPluginPannel', array('location' => 'define-leave-type-extra-fields')); ?>
             
         <div class="formbuttons paddingLeft">
-            <input type="button" id="saveButton" value="<?php echo __('Save'); ?>" class="savebutton" />
-            <input type="reset"  id="resetButton" value="<?php echo __('Reset'); ?>" class="savebutton" />
-            <input type="button" id="backButton" value="<?php echo __('Back'); ?>" class="savebutton" />
+<?php 
+    $actionButtons = $form->getActionButtons();
+    
+    foreach($actionButtons as $button) {
+        echo $button->render($id), "\n";        
+    }
+
+?>
         </div>
 
     </form>

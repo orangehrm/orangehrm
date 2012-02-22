@@ -127,5 +127,16 @@ class LeaveTypeForm extends orangehrmForm {
         
         return $styleSheets;        
     }
+    
+    public function getActionButtons() {
+
+        $actionButtons = array();
+        
+        $actionButtons['saveButton'] = new ohrmWidgetButton('saveButton', "Save", array('class' => 'savebutton'));
+        $actionButtons['resetButton'] = new ohrmWidgetButton('resetButton', "Reset", array('class' => 'savebutton', 'type'=> 'reset'));
+        $actionButtons['backButton'] = new ohrmWidgetButton('backButton', "Back", array('class' => 'savebutton'));
+
+        return $actionButtons;
+    }    
 }
 
