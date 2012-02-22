@@ -734,6 +734,11 @@
     <target>CFAフランBCEAO</target> 
     <note>A time zone name</note> 
    </trans-unit> 
+   <trans-unit id="146"> 
+    <source>CFP Franc</source> 
+    <target>CFPフラン</target> 
+    <note>A time zone name</note> 
+   </trans-unit>   
    <trans-unit id="147"> 
     <source>CFA Franc BEAC</source> 
     <target>CFAフランBEAC</target> 

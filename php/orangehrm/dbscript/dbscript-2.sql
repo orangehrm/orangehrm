@@ -388,7 +388,7 @@ INSERT INTO `hs_hr_currency_type`(`code`, `currency_id`, `currency_name`) VALUES
     (179, 'XDR', 'IMF Special Drawing Right'),
     (162, 'XOF', 'CFA Franc BCEAO'),
     (163, 'XPD', 'Palladium (oz.)'),
-    (164, 'XPF', 'Franc des Comptoirs français du Pacifique'),
+    (164, 'XPF', 'CFP Franc'),
     (165, 'XPT', 'Platinum (oz.)'),
     (166, 'YER', 'Yemeni Riyal'),
     (167, 'YUM', 'Yugoslavian Dinar'),

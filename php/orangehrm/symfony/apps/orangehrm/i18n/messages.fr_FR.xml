@@ -691,6 +691,11 @@
     <target>FR_CFA Franc BCEAO</target>
     <note>A currency name</note>
    </trans-unit>
+   <trans-unit id="143">
+    <source>CFP Franc</source>
+    <target>FR_CFP Franc</target>
+    <note>A currency name</note>
+   </trans-unit>   
    <trans-unit id="144">
     <source>CFA Franc BEAC</source>
     <target>FR_CFA Franc BEAC</target>
