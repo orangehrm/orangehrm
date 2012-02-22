@@ -35,10 +35,11 @@ use_stylesheets_for_form($form);
                 </td>
                 <td>
                     <?php echo $form['txtLeaveTypeName']->render(); ?>
+                    <?php if ($form['txtLeaveTypeName']->hasError()) { ?>
                     <div>
                         <?php echo $form['txtLeaveTypeName']->renderError(); ?>
                     </div>
-
+                    <?php } ?>
                     <?php echo $form['_csrf_token']; ?>
                 </td>
             </tr>
