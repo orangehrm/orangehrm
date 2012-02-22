@@ -140,7 +140,7 @@
     var lang_emailRequired = '<?php echo __(ValidationMessages::REQUIRED); ?>';
     var lang_validEmail = '<?php echo __(ValidationMessages::EMAIL_INVALID); ?>';
     var lang_tooLargeInput = "<?php echo __(ValidationMessages::TEXT_LENGTH_EXCEEDS, array('%amount%' => 30)); ?>";
-    var lang_commaSeparated = "<?php echo __("Enter comma separated words..."); ?>";
+    var lang_commaSeparated = "<?php echo __("Enter comma separated words") . '...'; ?>";
     var lang_validPhoneNo = "<?php echo __(ValidationMessages::TP_NUMBER_INVALID); ?>";
     var lang_noMoreThan250 = "<?php echo __(ValidationMessages::TEXT_LENGTH_EXCEEDS, array('%amount%' => 250)); ?>";
     var lang_resumeRequired = "<?php echo __(ValidationMessages::REQUIRED); ?>";

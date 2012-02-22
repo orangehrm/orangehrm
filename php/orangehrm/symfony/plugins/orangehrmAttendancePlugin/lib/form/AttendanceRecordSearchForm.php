@@ -37,7 +37,7 @@ class AttendanceRecordSearchForm extends sfForm {
        
             } else {
             
-            $this->setDefault('employeeName', __('Type for hints...'));
+            $this->setDefault('employeeName', __('Type for hints').'...');
         }
 
         $this->widgetSchema->setNameFormat('attendance[%s]');

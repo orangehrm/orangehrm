@@ -47,7 +47,7 @@ class DetailedLeaveListConfigurationFactory extends ohrmListConfigurationFactory
 
         
         $header4->populateFromArray(array(
-            'name' => 'Duration (hours)',
+            'name' => 'Duration (Hours)',
             'width' => '15%',
             'isSortable' => false,
             'elementType' => 'label',

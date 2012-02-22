@@ -73,8 +73,8 @@
     <target>FR_Duration</target>
    </trans-unit>
    <trans-unit id="18">
-    <source>Duration (hours)</source>
-    <target>FR_Duration (hours)</target>
+    <source>Duration (Hours)</source>
+    <target>FR_Duration (Hours)</target>
    </trans-unit>
    <trans-unit id="20">
     <source>End Date</source>

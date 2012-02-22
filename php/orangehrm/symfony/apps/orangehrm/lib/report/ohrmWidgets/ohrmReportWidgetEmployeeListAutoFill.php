@@ -62,6 +62,7 @@ class ohrmReportWidgetEmployeeListAutoFill extends sfWidgetForm implements ohrmE
         $noEmployeeMessage = __('No Employees Available');
         $requiredMessage = __(ValidationMessages::REQUIRED);
         $invalidMessage = __(ValidationMessages::INVALID);
+        $typeHint = __('Type for hints') . '...';
         
         $javaScript = $javaScript = sprintf(<<<EOF
 <script type="text/javascript">
@@ -144,7 +145,7 @@ function validateInput(){
         if(temp){
             valid = true;
             return true;
-        }else if(empName == "" || empName == $.trim("Type for hints...").toLowerCase()){
+        }else if(empName == "" || empName == $.trim("$typeHint").toLowerCase()){
             errorMsge = "$requiredMessage";
             return false;
         }else{
