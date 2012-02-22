@@ -643,7 +643,7 @@ EmpTermination:
     termination_date:
       name: termination_date as date
       type: date(25)
-    note: string(225)
+    note: string(255)
   relations:
     EmpTerminationReason:
       local: reasonId

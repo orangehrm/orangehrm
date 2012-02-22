@@ -56,9 +56,9 @@ abstract class BaseEmpTermination extends sfDoctrineRecord
              'type' => 'date',
              'length' => 25,
              ));
-        $this->hasColumn('note', 'string', 225, array(
+        $this->hasColumn('note', 'string', 255, array(
              'type' => 'string',
-             'length' => 225,
+             'length' => 255,
              ));
     }
 
