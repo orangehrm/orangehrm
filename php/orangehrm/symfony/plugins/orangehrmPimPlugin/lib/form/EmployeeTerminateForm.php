@@ -72,7 +72,7 @@ class EmployeeTerminateForm extends BaseForm {
             'date' => new ohrmDateValidator(array('date_format' => $inputDatePattern, 'required' => true),
                     array('invalid' => 'Date format should be ' . $inputDatePattern)),
             'reason' => new sfValidatorChoice(array('required' => true, 'choices' => array_keys($terminateReasons))),
-            'note' => new sfValidatorString(array('required' => false, 'max_length' => 250))
+            'note' => new sfValidatorString(array('required' => false, 'max_length' => 250, 'trim' => true))
         ));
 
         $this->setDefault('date', set_datepicker_date_format(date('Y-m-d')));

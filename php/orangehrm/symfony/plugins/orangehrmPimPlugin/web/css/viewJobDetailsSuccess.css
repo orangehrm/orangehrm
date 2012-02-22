@@ -108,6 +108,10 @@ div#terminateEmployement.ui-dialog-content div.dialogButtons{
     padding-left: 40px;
 }
 
+div#terminateEmployement.ui-dialog-content input.savebutton{
+    width: 90px !important;
+}
+
 form#frmTerminateEmployement textarea#terminate_note.formTxtArea{
     margin-top: 6px;
 }
