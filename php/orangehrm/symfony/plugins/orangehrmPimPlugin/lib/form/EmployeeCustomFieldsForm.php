@@ -41,7 +41,7 @@ class EmployeeCustomFieldsForm extends BaseForm {
                                        'trim'=>true, 'choices'=>$options)));
             } else {
                 $this->setWidget($fieldName, new sfWidgetFormInputText());
-                $this->setValidator($fieldName, new sfValidatorString(array('required' => false)));
+                $this->setValidator($fieldName, new sfValidatorString(array('required' => false, 'max_length' => 250)));
             }
         }
         

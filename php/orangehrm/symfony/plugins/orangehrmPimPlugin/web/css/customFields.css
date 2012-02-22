@@ -1,3 +1,7 @@
 form#frmEmpCustomFields label {
     margin-top: 5px;
 }
+
+label.error {
+    width: 220px !important;
+}

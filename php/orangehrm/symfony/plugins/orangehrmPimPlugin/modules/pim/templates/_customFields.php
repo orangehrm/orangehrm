@@ -103,6 +103,17 @@ if (!empty($customFieldList) && (count($customFieldList) > 0)) {
                     } else {
                             $('#frmEmpCustomFields').submit();
                     }
+                });
+
+                $("#frmEmpCustomFields").validate();
+                $("#frmEmpCustomFields .formInputText").each(function (item) {
+                    $(this).rules("add", {
+                        required: false,
+                        maxlength: 250,
+                        messages: {
+                              maxlength: '<?php echo __(ValidationMessages::TEXT_LENGTH_EXCEEDS, array('%amount%' => 250)); ?>'
+                          }
+                    });
                 });        
             });
 
