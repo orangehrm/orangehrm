@@ -73,3 +73,10 @@ input#btnCommentOnly {
     color:#888888;
     padding-left: 170px;
 }
+
+form#frmRecDelAttachments table.data-table td {
+    vertical-align: top;
+    padding-top: 5px;
+    padding-bottom: 3px;
+    height: 16px;
+}
