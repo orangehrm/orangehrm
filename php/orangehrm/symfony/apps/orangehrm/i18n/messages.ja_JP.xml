@@ -5269,6 +5269,10 @@
     <target>合計</target> 
     <note>A time zone name</note> 
    </trans-unit> 
+   <trans-unit id="1053"> 
+    <source>compulsory</source> 
+    <target>強制的な</target> 
+   </trans-unit>     
   </body> 
  </file> 
 </xliff> 

@@ -35,11 +35,11 @@
             <!--<div class="errorHolder"></div>-->
             
             <?php echo $form['admin']->render(); ?>
-            <?php echo $form['admin']->renderLabel(__('Enable Admin module')); ?>
+            <?php echo $form['admin']->renderLabel(__('Enable Admin module') . ' <span class="required">*</span>'); ?>
             <br class="clear"/>   
             
             <?php echo $form['pim']->render(); ?>
-            <?php echo $form['pim']->renderLabel(__('Enable PIM module')); ?>
+            <?php echo $form['pim']->renderLabel(__('Enable PIM module') . ' <span class="required">*</span>'); ?>
             <br class="clear"/>          
             
             <?php echo $form['leave']->render(); ?>
@@ -60,7 +60,11 @@
             
             <?php echo $form['benefits']->render(); ?>
             <?php echo $form['benefits']->renderLabel(__('Enable Benefits module')); ?>
-            <br class="clear"/>              
+            <br class="clear"/>
+            
+            <?php echo $form['help']->render(); ?>
+            <?php echo $form['help']->renderLabel(__('Enable Help') . ' <span class="required">*</span>'); ?>
+            <br class="clear"/>            
             
             <div class="formbuttons">
                 <input type="button" class="savebutton" name="btnSave" id="btnSave"
@@ -73,7 +77,7 @@
     
     </div>
     
-    <div class="helpText"><?php echo __('Admin and PIM are compulsory modules'); ?></div>
+    <div class="helpText"><span class="required">*</span> <?php echo __('compulsory'); ?></div>
     
 </div> <!-- saveFormDiv -->
 

@@ -129,11 +129,6 @@
     <target>住所ストリート2</target> 
     <note>A time zone name</note> 
    </trans-unit> 
-   <trans-unit id="26"> 
-    <source>Admin and PIM are compulsory modules</source> 
-    <target>AdminおよびPIMは強制モジュールです</target> 
-    <note>A time zone name</note> 
-   </trans-unit> 
    <trans-unit id="27"> 
     <source>Projects under selected customer will also be deleted</source> 
     <target>選択した顧客中のプロジェクトも削除されます</target> 
@@ -424,6 +419,10 @@
     <target>Timeモジュールを有効にする</target> 
     <note>A time zone name</note> 
    </trans-unit> 
+   <trans-unit id="92">
+    <source>Enable Help</source>
+    <target>ヘルプを有効にする</target>
+   </trans-unit>     
    <trans-unit id="85"> 
     <source>ESS</source> 
     <target>ESS</target> 

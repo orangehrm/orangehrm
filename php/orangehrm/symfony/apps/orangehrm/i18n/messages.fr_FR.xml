@@ -4975,7 +4975,11 @@
    <trans-unit id="1825"> 
     <source>Time (Hours)</source> 
     <target>FR_Time (Hours)</target> 
-   </trans-unit>    
+   </trans-unit>
+   <trans-unit id="1825"> 
+    <source>compulsory</source> 
+    <target>FR_compulsory</target> 
+   </trans-unit>   
   </body>
  </file>
 </xliff>

@@ -104,10 +104,6 @@
     <source>Address Street 2</source>
     <target>FR_Address Street 2</target>
    </trans-unit>
-   <trans-unit id="26">
-    <source>Admin and PIM are compulsory modules</source>
-    <target>FR_Admin and PIM are compulsory modules</target>
-   </trans-unit>
    <trans-unit id="27">
     <source>Projects under selected customer will also be deleted</source>
     <target>FR_Projects under selected customer will also be deleted</target>
@@ -372,6 +368,10 @@
     <source>Enable Time module</source>
     <target>FR_Enable Time module</target>
    </trans-unit>
+   <trans-unit id="92">
+    <source>Enable Help</source>
+    <target>FR_Enable Help</target>
+   </trans-unit>   
    <trans-unit id="93">
     <source>Enter a valid currency</source>
     <target>FR_Enter a valid currency</target>

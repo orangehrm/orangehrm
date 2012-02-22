@@ -45,7 +45,8 @@ class ModuleForm extends BaseForm {
             'time' => new sfWidgetFormInputCheckbox(array(), array('class' => 'checkbox')),
             'recruitment' => new sfWidgetFormInputCheckbox(array(), array('class' => 'checkbox')),
             'performance' => new sfWidgetFormInputCheckbox(array(), array('class' => 'checkbox')),
-            'benefits' => new sfWidgetFormInputCheckbox(array(), array('class' => 'checkbox'))            
+            'benefits' => new sfWidgetFormInputCheckbox(array(), array('class' => 'checkbox')),
+            'help' => new sfWidgetFormInputCheckbox(array(), array('class' => 'checkbox'))
         ));        
         
         $this->setValidators(array(
@@ -55,10 +56,12 @@ class ModuleForm extends BaseForm {
             'time' => new sfValidatorPass(),
             'recruitment' => new sfValidatorPass(),
             'performance' => new sfValidatorPass(),
-            'benefits' => new sfValidatorPass()            
+            'benefits' => new sfValidatorPass(),
+            'help' => new sfValidatorPass()
         ));
         
         $this->setDefaults($this->_getDefaultValues());
+        $this->setDefault('help', true);
 
         $this->widgetSchema->setNameFormat('moduleConfig[%s]');
 

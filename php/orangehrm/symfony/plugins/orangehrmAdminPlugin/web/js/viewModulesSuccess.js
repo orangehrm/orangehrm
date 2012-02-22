@@ -37,6 +37,7 @@ function loadSaveButtonBehavior() {
            
            $('#moduleConfig_admin').attr('disabled', 'disabled');
            $('#moduleConfig_pim').attr('disabled', 'disabled');
+           $('#moduleConfig_help').attr('disabled', 'disabled');
             
         } else if (buttonName == lang_save) {
             $('#frmSave').submit();
