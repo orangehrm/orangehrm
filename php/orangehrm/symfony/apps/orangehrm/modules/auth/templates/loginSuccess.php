@@ -127,21 +127,10 @@ $imagePath = public_path("../../themes/{$styleSheet}/images/login");
     .form-hint {
     color: #878787;
     padding: 4px 8px;
-    position: absolute;
-    left:680px;
+    position: relative;
+    left:-260px;
 }
 
-    #txtUsername {
-        z-index: 1; 
-        position: relative;
-        opacity: 1; 
-    }
-
-    #txtPassword {
-        z-index: 1; 
-        position: relative;
-        opacity: 1; 
-    }
     
 </style>
 
