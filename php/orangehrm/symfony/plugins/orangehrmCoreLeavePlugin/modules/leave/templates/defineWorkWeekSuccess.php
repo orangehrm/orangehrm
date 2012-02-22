@@ -45,7 +45,7 @@
         //<![CDATA[
 
         $(document).ready(function() {
-            $('.formSelect').attr('disabled', true);
+            $('.formSelect[name^="WorkWeek[day_length"]').attr('disabled', true);
             
             $('#saveBtn').click(function() {                
                 if($(this).val() == "<?php echo __('Edit') ?>") {
