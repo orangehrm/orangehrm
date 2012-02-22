@@ -66,10 +66,6 @@ $(document).ready(function() {
                         fromDate:$('#calFromDate').val()
                     }
                 }
-            },
-            'leaveList[chkSearchFilter][]': {
-                required: true,
-                minlength: 1
             }
         },
         messages: {

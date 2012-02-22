@@ -100,7 +100,7 @@ class LeaveListForm extends sfForm {
 
         $validators['chkSearchFilter'] = new sfValidatorChoice(
                 array('choices' => array_keys($leaveStatusChoices), 
-                      'required' => true, 'multiple' => true));
+                      'required' => false, 'multiple' => true));
 
 
         if ($this->mode != self::MODE_MY_LEAVE_LIST) {
