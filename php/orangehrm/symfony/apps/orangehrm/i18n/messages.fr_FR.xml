@@ -4955,6 +4955,18 @@
     <source>Type in years</source> 
     <target>FR_Type in years</target> 
    </trans-unit>
+   <trans-unit id="1825"> 
+    <source>Hours</source> 
+    <target>FR_Hours</target> 
+   </trans-unit> 
+   <trans-unit id="1825"> 
+    <source>Deleted Employee</source> 
+    <target>FR_Deleted Employee</target> 
+   </trans-unit>  
+   <trans-unit id="1825"> 
+    <source>Total</source> 
+    <target>FR_Total</target> 
+   </trans-unit>    
   </body>
  </file>
 </xliff>
