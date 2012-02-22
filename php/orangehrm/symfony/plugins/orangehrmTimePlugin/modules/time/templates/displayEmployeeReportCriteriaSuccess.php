@@ -23,7 +23,7 @@ use_javascript('../../../scripts/jquery/jquery.autocomplete.js');
             <?php foreach ($sf_data->getRaw('runtimeFilterFieldWidgetNamesAndLabelsList') as $label): ?>
             <?php echo $reportForm[$label['labelName']]->renderLabel(); ?>
             <?php echo $reportForm[$label['labelName']]->render(); ?><?php echo $reportForm[$label['labelName']]->renderError(); ?>
-                <div class="errorDiv" style="padding-right: 165px; float: right"></div>
+                <div class="errorDiv"></div>
                 <br class="clear"/>
                 <br class="clear"/>
             <?php endforeach; ?>
@@ -50,6 +50,9 @@ use_javascript('../../../scripts/jquery/jquery.autocomplete.js');
             width: 160px;
         }
 
+        .errorDiv {
+            padding-left: 20px;
+        }
         .viewbutton {
             margin-left: 20px;
         }
