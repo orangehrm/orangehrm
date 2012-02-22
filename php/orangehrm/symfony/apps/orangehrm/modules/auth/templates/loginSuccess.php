@@ -214,8 +214,11 @@ $imagePath = public_path("../../themes/{$styleSheet}/images/login");
     }
     
     $(document).ready(function() {
+    
+        if ($('#txtUsername').val() != '') {
+            removeHint();
+        }
         
-               
         $('#txtUsername').focus(function() {
             
             removeHint();
