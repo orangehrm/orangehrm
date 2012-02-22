@@ -115,7 +115,7 @@ class leaveActions extends sfActions {
                 $changes = $request->getParameter('leave');
                 $changeType = 'change_leave';
             }
-
+            
             //this is to bypass the approval/rejection comment
             foreach($changes as $k => $v) {
                 if(trim($v) != "") {
@@ -148,10 +148,10 @@ class leaveActions extends sfActions {
             }
 
         }
-
+        
         if ($changedByUserType == SystemUser::USER_TYPE_EMPLOYEE) {
 
-            $url = "leave/viewMyLeaveList";
+            $url = ($changeType == 'change_leave') ? "leave/viewLeaveRequest" : "leave/viewMyLeaveList";
 
             if(trim($request->getParameter("id")) != "") {
                 $url = $url . "?id=" . $request->getParameter("id");
@@ -163,7 +163,7 @@ class leaveActions extends sfActions {
 
         } else {
 
-            $url = "leave/viewLeaveList";
+            $url = ($changeType == 'change_leave') ? "leave/viewLeaveRequest" : "leave/viewLeaveList";
 
             $page = $request->getParameter("currentPage");
 

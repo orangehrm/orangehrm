@@ -53,6 +53,8 @@ $messageType = empty($messageType) ? '' : "messageBalloon_{$messageType}";
         <script type="text/javascript">
             //<![CDATA[
 
+    var leaveRequestId = <?php echo $leaveRequestId;?>;
+    
     function handleSaveButton() {
         $(this).attr('disabled', true);
         $('select[name^="select_leave_action_"]').each(function() {
@@ -69,6 +71,11 @@ $messageType = empty($messageType) ? '' : "messageBalloon_{$messageType}";
                 $('#hdnLeave_' + id).val($(this).val());
             }
         });
+        
+        var action = $('#frmList_ohrmListComponent').attr('action');
+        action = action + '/id/' + leaveRequestId;
+        
+        $('#frmList_ohrmListComponent').attr('action', action);
         
         // check the correct url here
         $('#frmList_ohrmListComponent').submit();
