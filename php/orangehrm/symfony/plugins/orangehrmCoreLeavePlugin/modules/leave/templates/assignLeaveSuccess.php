@@ -85,6 +85,7 @@
     </div>
     <script type="text/javascript">
         var datepickerDateFormat = '<?php echo get_datepicker_date_format($sf_user->getDateFormat()); ?>';
+        var leaveBalanceUrl = '<?php echo url_for('leave/getLeaveBalanceAjax');?>';
         var lang_invalidDate = '<?php echo __(ValidationMessages::DATE_FORMAT_INVALID, array('%format%' => get_datepicker_date_format($sf_user->getDateFormat()))) ?>';
         var lang_dateError = '<?php echo __("To date should be after from date") ?>';
         $(document).ready(function() {
@@ -103,6 +104,7 @@
             }).result(function(event, item) {
                 $('#assignleave_txtEmpID').val(item.id);
                 $('#assignleave_txtEmpWorkShift').val(item.workShift);
+                updateLeaveBalance();
             }
         );
 
@@ -110,6 +112,8 @@
         if (rDate == '') {
             $("#assignleave_txtFromDate").val(datepickerDateFormat);
         }
+
+        updateLeaveBalance();
 
         //Bind date picker
         daymarker.bindElement("#assignleave_txtFromDate",
@@ -175,6 +179,33 @@
                 fillTotalTime();
             });
 
+            // Fetch and display available leave when leave type is changed
+            $('#assignleave_txtLeaveType').change(function() {
+                updateLeaveBalance();
+            });
+            
+            function updateLeaveBalance() {
+                var leaveType = $('#assignleave_txtLeaveType').val();
+                var empId = $('#assignleave_txtEmpID').val();
+                if (leaveType == "" || empId == "") {
+                    $('#assignleave_leaveBalance').text('--');
+                } else {
+                    $('#assignleave_leaveBalance').append('');
+                    $.ajax({
+                        type: 'GET',
+                        url: leaveBalanceUrl,
+                        data: '&leaveType=' + leaveType+'&empNumber=' + empId,
+                        dataType: 'json',
+                        success: function(data) {
+                            if ($('#leaveBalance').length == 0) {
+                                $('#assignleave_leaveBalance').text(data);
+                            }
+
+                        }
+                    });     
+                }            
+            }
+            
             //Validation
             $("#frmLeaveApply").validate({
                 rules: {
@@ -303,6 +334,7 @@
 
         $("#assignleave_txtEmployee").change(function(){
             autoFill('assignleave_txtEmployee', 'assignleave_txtEmpID', data);
+            updateLeaveBalance();
         });
 
         function autoFill(selector, filler, data) {

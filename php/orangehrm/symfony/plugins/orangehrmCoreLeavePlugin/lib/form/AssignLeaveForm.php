@@ -42,6 +42,8 @@ class AssignLeaveForm extends sfForm {
         $this->setWidgets($this->getFormWidgets());
         $this->setValidators($this->getFormValidators());
 
+        $this->setDefault('leaveBalance', '--');
+
         $this->getValidatorSchema()->setPostValidator(new sfValidatorCallback(array('callback' => array($this, 'postValidation'))));
 
         $this->getWidgetSchema()->setNameFormat('assignleave[%s]');
@@ -204,6 +206,7 @@ class AssignLeaveForm extends sfForm {
             'txtEmployee' => new sfWidgetFormInput(array(), array('class' => 'formInputText')),
             'txtEmpWorkShift' => new sfWidgetFormInputHidden(),
             'txtLeaveType' => new sfWidgetFormChoice(array('choices' => $this->getLeaveTypeList()), array('class' => 'formSelect')),
+            'leaveBalance' => new ohrmWidgetDiv(),
             'txtFromDate' => new ohrmWidgetDatePicker(array(), array('id' => 'assignleave_txtFromDate'), array('class' => 'formDateInput')),
             'txtToDate' => new ohrmWidgetDatePicker(array(), array('id' => 'assignleave_txtToDate'), array('class' => 'formDateInput')),
             'txtFromTime' => new sfWidgetFormChoice(array('choices' => $this->getTimeChoices()), array('class' => 'formSelect')),
@@ -250,6 +253,7 @@ class AssignLeaveForm extends sfForm {
         $labels = array(
             'txtEmployee' => __('Employee Name') . $requiredMarker,
             'txtLeaveType' => __('Leave Type') . $requiredMarker,
+            'leaveBalance' => __('Leave Balance'),
             'txtFromDate' => __('From Date') . $requiredMarker,
             'txtToDate' => __('To Date') . $requiredMarker,
             'txtFromTime' => __('From Time'),

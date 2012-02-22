@@ -53,15 +53,22 @@ class getLeaveBalanceAjaxAction extends sfAction {
             $allowed = true;
         } else {        
                         
-/*          TODO: Implement passing emp number  
- *          if ($user->getAttribute('auth.isAdmin') == 'Yes') {
+/*          TODO: Implement passing emp number  */
+          if ($user->getAttribute('auth.isAdmin') == 'Yes') {
                 $allowed = true;
             } else if ($user->getAttribute('auth.isSupervisor')) {
-                
+                $employeeService = new EmployeeService();
+                $subList = $employeeService->getSupervisorEmployeeList($loggedEmpNumber);
+
+                foreach ($subList as $sub) {
+                    if($empNumber == $sub->getEmpNumber()) {
+                       $allowed = true;
+                       break;
+                    }
+                }
             } else {
                 $allowed = ($loggedEmpNumber == $empNumber);
-            }
-*/            
+            }            
         }
         
         $response = $this->getResponse();
