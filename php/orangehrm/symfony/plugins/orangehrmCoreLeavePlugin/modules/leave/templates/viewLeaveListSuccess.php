@@ -53,6 +53,8 @@ use_javascripts_for_form($form);
             <br class="clear" />
 
             <div class="buttonWrapper">
+                <input type="hidden" name="pageNo" id="pageNo" value="<?php echo $form->pageNo; ?>" />
+                <input type="hidden" name="hdnAction" id="hdnAction" value="search" />
                 <?php
                 foreach ($searchActionButtons as $id => $button) {
                     echo $button->render($id), "\n";
@@ -90,9 +92,9 @@ use_javascripts_for_form($form);
 <!-- end of comment dialog-->
 
 <script type="text/javascript">
-//<![CDATA[
+    //<![CDATA[
     var lang_typeHint = "<?php echo __("Type for hints"); ?>" + "...";
-    var resetUrl = '<?php echo url_for($baseUrl . '?reset=1');?>';
+    var resetUrl = '<?php echo url_for($baseUrl . '?reset=1'); ?>';
     var commentUpdateUrl = '<?php echo public_path('index.php/leave/updateComment'); ?>';
     var datepickerDateFormat = '<?php echo get_datepicker_date_format($sf_user->getDateFormat()); ?>';
     var lang_dateError = '<?php echo __("To date should be after from date") ?>';
@@ -103,34 +105,40 @@ use_javascripts_for_form($form);
     var lang_length_exceeded_error = '<?php echo __(ValidationMessages::TEXT_LENGTH_EXCEEDS, array('%amount%' => 250)); ?>';    
     var data = <?php echo str_replace('&#039;', "'", $form->getEmployeeListAsJson()); ?>
     
-function submitPage(pageNo) {
-    location.href = '<?php echo url_for($baseUrl . '?pageNo=');?>' + pageNo;
-}
-
-function handleSaveButton() {
-    $(this).attr('disabled', true);
-    $('select[name^="select_leave_action_"]').each(function() {
-        var id = $(this).attr('id').replace('select_leave_action_', '');
-        if ($(this).val() == '') {
-            $('#hdnLeaveRequest_' + id).attr('disabled', true);
-        } else {
-            $('#hdnLeaveRequest_' + id).val($(this).val());
+    function submitPage(pageNo) {
+        //    location.href = '<?php //echo url_for($baseUrl . '?pageNo='); ?>' + pageNo;
+        document.frmFilterLeave.pageNo.value = pageNo;
+        document.frmFilterLeave.hdnAction.value = 'paging';
+        if ($('#leaveList_txtEmployee').val() == lang_typeHint) {
+            $('#leaveList_txtEmployee').val('');
         }
+        document.getElementById('frmFilterLeave').submit();        
+    }
 
-        if ($(this).val() == '') {
-            $('#hdnLeave_' + id).attr('disabled', true);
-        } else {
-            $('#hdnLeave_' + id).val($(this).val());
-        }
-    });
+    function handleSaveButton() {
+        $(this).attr('disabled', true);
+        $('select[name^="select_leave_action_"]').each(function() {
+            var id = $(this).attr('id').replace('select_leave_action_', '');
+            if ($(this).val() == '') {
+                $('#hdnLeaveRequest_' + id).attr('disabled', true);
+            } else {
+                $('#hdnLeaveRequest_' + id).val($(this).val());
+            }
+
+            if ($(this).val() == '') {
+                $('#hdnLeave_' + id).attr('disabled', true);
+            } else {
+                $('#hdnLeave_' + id).val($(this).val());
+            }
+        });
     
-    $('#frmList_ohrmListComponent').submit();
-}
+        $('#frmList_ohrmListComponent').submit();
+    }
 
-function setPage() {}
+    function setPage() {}
 
 
     
-//]]>
+    //]]>
 </script>
 

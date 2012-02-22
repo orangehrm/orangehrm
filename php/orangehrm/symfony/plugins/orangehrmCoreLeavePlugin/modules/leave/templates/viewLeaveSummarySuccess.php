@@ -48,7 +48,7 @@
             <div class="formbuttons">
                 <input type="hidden" name="pageNo" id="pageNo" value="<?php echo $form->pageNo; ?>" />
                 <input type="hidden" name="hdnAction" id="hdnAction" value="search" />
-            <input type="button" name="btnSearch" id="btnSearch" value="<?php echo __('Search') ?>" class="savebutton" />
+                <input type="button" name="btnSearch" id="btnSearch" value="<?php echo __('Search') ?>" class="savebutton" />
                 <?php if ($form->userType == 'Admin' || $form->userType == 'Supervisor') { ?>
                     <input type="reset" id="btnReset" value="<?php echo __('Reset') ?>" class="savebutton" />
                 <?php } ?>
@@ -115,11 +115,10 @@
 
         document.frmLeaveSummarySearch.pageNo.value = pageNo;
         document.frmLeaveSummarySearch.hdnAction.value = 'paging';
+        if ($('#leaveSummary_txtEmpName').val() == lang_typeHint) {
+            $('#leaveSummary_txtEmpName').val('');
+        }
         document.getElementById('frmLeaveSummarySearch').submit();
-   if ($('#leaveSummary_txtEmpName').val() == lang_typeHint) {
-        $('#leaveSummary_txtEmpName').val('');
-    }
-
     }
 
 

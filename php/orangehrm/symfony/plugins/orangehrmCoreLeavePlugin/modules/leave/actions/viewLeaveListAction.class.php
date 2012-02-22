@@ -97,8 +97,8 @@ class viewLeaveListAction extends sfAction {
 
         $this->form = $this->getLeaveListForm($mode);
         $values = array();
-        $page = 1;
-        
+
+        $page = $request->getParameter('hdnAction') == 'search' ? 1 : $request->getParameter('pageNo', 1);
         if ($request->isMethod('post')) {
 
             $this->form->bind($request->getParameter($this->form->getName()));
@@ -184,11 +184,10 @@ class viewLeaveListAction extends sfAction {
                        $this->form->setDefault('calFromDate', set_datepicker_date_format($values['calFromDate']));
                        $this->form->setDefault('calToDate', set_datepicker_date_format($values['calToDate']));
                    }
-                }
-                $this->_setFilters($mode, $values);
+                }                
             }
         }
-
+        $this->_setFilters($mode, $values);
         $message = $this->getUser()->getFlash('message', '');
         $messageType = $this->getUser()->getFlash('messageType', '');
 
