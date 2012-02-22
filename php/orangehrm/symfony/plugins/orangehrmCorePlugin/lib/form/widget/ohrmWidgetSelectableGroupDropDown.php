@@ -130,7 +130,8 @@ class ohrmWidgetSelectableGroupDropDown extends sfWidgetFormSelect {
 
             if (is_array($option) && !empty($option)) {
                 $subOptions = $this->getOptionsForSelect($value, $option, $level+1);
-                $groupValue = implode(',', array_keys($option));
+                
+                $groupValue = implode(',', array_keys($option)) . ",-1";
 
                 $attributes['class'] = 'optiongroup';
                 $attributes['value'] = $groupValue;
