@@ -4967,6 +4967,10 @@
     <source>Total</source> 
     <target>FR_Total</target> 
    </trans-unit>    
+   <trans-unit id="1825"> 
+    <source>Time (Hours)</source> 
+    <target>FR_Time (Hours)</target> 
+   </trans-unit>    
   </body>
  </file>
 </xliff>

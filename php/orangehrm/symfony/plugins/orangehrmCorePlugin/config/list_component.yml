@@ -76,7 +76,7 @@ ProjectReport:
   hasSummary: true
   summary:
     summaryLabel: 'Total'
-    summaryField: 'Time (hours)'
+    summaryField: 'Time (Hours)'
     summaryFunction: SUM
     summaryFieldDecimals: 2
   buttons: []
@@ -97,7 +97,7 @@ EmployeeReport:
   hasSummary: true
   summary:
     summaryLabel: 'Total'
-    summaryField: 'Time (hours)'
+    summaryField: 'Time (Hours)'
     summaryFunction: SUM
     summaryFieldDecimals: 2
   buttons: []
@@ -139,7 +139,7 @@ AttendanceSummaryReport:
   hasSummary: true
   summary:
     summaryLabel: 'Total'
-    summaryField: 'Time (hours)'
+    summaryField: 'Time (Hours)'
     summaryFunction: SUM
     summaryFieldDecimals: 2
   buttons: []
