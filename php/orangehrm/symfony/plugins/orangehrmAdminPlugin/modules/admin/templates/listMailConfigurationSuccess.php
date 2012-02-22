@@ -167,13 +167,13 @@
             $("#txtSmtpHost").rules("add", {
                   required: true,
                  messages: {
-                   required: '<?php echo __(ValidationMessages::REQUIRED); ?>',
+                   required: '<?php echo __(ValidationMessages::REQUIRED); ?>'
                  }
              });
             $("#txtSmtpPort").rules("add", {
                 required: true,
                messages: {
-                 required: '<?php echo __(ValidationMessages::REQUIRED); ?>',
+                 required: '<?php echo __(ValidationMessages::REQUIRED); ?>'
                }
            });
         } else {
@@ -189,13 +189,13 @@
             $("#txtSmtpUser").rules("add", {
                   required: true,
                  messages: {
-                   required: '<?php echo __(ValidationMessages::REQUIRED); ?>',
+                   required: '<?php echo __(ValidationMessages::REQUIRED); ?>'
                  }
              });
             $("#txtSmtpPass").rules("add", {
                   required: true,
                  messages: {
-                   required: '<?php echo __(ValidationMessages::REQUIRED); ?>',
+                   required: '<?php echo __(ValidationMessages::REQUIRED); ?>'
                  }
              });
         } else {
