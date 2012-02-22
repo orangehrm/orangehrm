@@ -23,7 +23,7 @@
 
 <?php echo stylesheet_tag('../orangehrmCoreLeavePlugin/css/viewLeaveSummarySuccess'); ?>
 
-<script type="text/javascript" src="<?php echo public_path('../../scripts/jquery/jquery.validate.js') ?>"></script>
+ <!-- 9706 <script type="text/javascript" src="<?php echo public_path('../../scripts/jquery/jquery.validate.js') ?>"></script>-->
 
 <!--[if IE]>
 <style type="text/css">
@@ -82,6 +82,7 @@
             }
         });
         
+        /* 9706
         $("#frmLeaveSummarySearch").validate({
             onsubmit : false,
             rules: {
@@ -94,8 +95,10 @@
                 }
             }
         });
+        */
         
         /* Valid amount */
+        /* 9706
         $.validator.addMethod("validateAmount", function(value, element) {
             if(value != '') {
                 return value.match(/^\d+(?:\.\d\d?)?$/);
@@ -103,6 +106,7 @@
                 return true;
             }
         });
+        */
         
     });
 

@@ -26,7 +26,7 @@ function initLeaveSummary() {
 
     /* Search button */
     $('#btnSearch').click(function() {
-        $("#frmLeaveSummarySearch").validate().resetForm();
+        // 9706 $("#frmLeaveSummarySearch").validate().resetForm();
         recheckEmpId();
         adjustEmpId();
         $('#hdnAction').val('search');
@@ -60,7 +60,8 @@ function handleEditButton() {
         return;
     }
     
-    if ($(this).val() == saveButtonCaption && $("#frmLeaveSummarySearch").valid()) {
+    //9706 if ($(this).val() == saveButtonCaption && $("#frmLeaveSummarySearch").valid()) {
+    if ($(this).val() == saveButtonCaption) {
         var flag = validateInput();
         if(flag) {
             
