@@ -43,40 +43,10 @@
     </div>
     <script type="text/javascript">
         //<![CDATA[
-
-        $(document).ready(function() {
-            $('.formSelect[name^="WorkWeek[day_length"]').attr('disabled', true);
-            
-            $('#saveBtn').click(function() {                
-                if($(this).val() == "<?php echo __('Edit') ?>") {
-                    $('.formSelect').attr('disabled', false);
-                    $(this).val("<?php echo __('Save') ?>");
-                    return;
-                }
-
-                if($(this).val() == "<?php echo __('Save') ?>") {
-                    
-                    var noOfWorkingDays = 0;
-                    $('.formSelect').each(function(){
-                        if($(this).find('option:selected').val() == 8) {
-                            noOfWorkingDays = noOfWorkingDays + 1;
-                        }
-                    });
-                    
-                    if(noOfWorkingDays == 7) {
-                        $('#messageBalloonContainer').empty();
-                        $('#messageBalloonContainer').append("<div class=\"messageBalloon_warning\"><?php echo __('At Least One Day Should Be a Working Day') ?></div>");
-                        $('.messageBalloon_warning').css('padding-left', '10px');
-                    } else {
-                        $('#frmWorkWeek').submit();
-                        $(".formSelect").attr('disabled', true);
-                        return;                    
-                    }
-                    
-                }
-            });            
-          
-        });
+        var lang_Save = "<?php echo __('Save') ?>";
+        var lang_Edit = "<?php echo __('Edit') ?>";
+        var lang_AtLeastOneWorkDay = "<?php echo __('At Least One Day Should Be a Working Day') ?>";
+        var lang_Required = "<?php echo __(ValidationMessages::REQUIRED);?>";
         //]]>
     </script>
 </div>
