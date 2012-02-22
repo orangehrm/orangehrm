@@ -23,8 +23,9 @@ class OperationalCountryDao extends BaseDao {
     public function getLocationsMappedToOperationalCountry($countryCode) {
         try {
             $query = Doctrine_Query::create()
-                    ->from('Location')
-                    ->where('country_code = ?', $countryCode);
+                    ->from('Location l')
+                    ->where('l.country_code = ?', $countryCode)
+                    ->orderBy('l.name ASC');
             return $query->execute();
         } catch (Exception $e) {
             throw new DaoException($e->getMessage());
