@@ -128,7 +128,7 @@ $imagePath = public_path("../../themes/{$styleSheet}/images/login");
     color: #878787;
     padding: 4px 8px;
     position: relative;
-    left:-260px;
+    left:-254px;
 }
 
     
