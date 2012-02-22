@@ -102,7 +102,10 @@
             onSelect: function(date){
             fromDateBlur(date)
             },
-            dateFormat : datepickerDateFormat
+            dateFormat : datepickerDateFormat,
+            onClose: function() {
+                $(this).valid();
+            }
         });
 
         $('#applyleave_txtFromDate_Button').click(function(){
@@ -125,7 +128,10 @@
             onSelect: function(date){
             toDateBlur(date)
             },
-            dateFormat : datepickerDateFormat
+            dateFormat : datepickerDateFormat,
+            onClose: function() {
+                $(this).valid();
+            }            
         });
 
         $('#applyleave_txtToDate_Button').click(function(){
