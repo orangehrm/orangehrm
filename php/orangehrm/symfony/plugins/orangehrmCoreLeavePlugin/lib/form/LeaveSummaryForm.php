@@ -155,7 +155,7 @@ class LeaveSummaryForm extends sfForm {
      * 
      * @return array
      */
-    private function getLeaveTypeChoices() {
+    protected function getLeaveTypeChoices() {
         if (!($this->leaveTypeChoices)) {
             $leaveTypeList = $this->getLeaveTypeService()->getLeaveTypeList();
 
