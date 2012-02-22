@@ -186,8 +186,8 @@ EOF
             $condition = array_search($selectedFilterField->whereCondition, $this->conditionMap);            
         }
         
-        $values = array('from' => $selectedFilterField->value1, 
-                        'to' => $selectedFilterField->value2,
+        $values = array('from' => set_datepicker_date_format($selectedFilterField->value1), 
+                        'to' => set_datepicker_date_format($selectedFilterField->value2),
                         'comparision' => $condition);
 
         return $values;

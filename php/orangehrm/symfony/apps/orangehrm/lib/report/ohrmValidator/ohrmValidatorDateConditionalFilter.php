@@ -63,6 +63,35 @@ class ohrmValidatorDateConditionalFilter extends ohrmValidatorConditionalFilter 
         }
         return($date);
     }
+    
+    protected function doClean($value) {
+        $value = parent::doClean($value);
+        
+        $valueNames = $this->getOption('values');
+        $value1Name = $valueNames[0];
+        $value2Name = $valueNames[1];        
+        
+        $value1Available = isset($value[$value1Name]) && ($value[$value1Name] !== '');
+        $value2Available = isset($value[$value2Name]) && ($value[$value2Name] !== ''); 
+        
+        if ($value1Available) {
+            $date1 = $this->getDate($value[$value1Name]);
+            if (!empty($date1)) {
+                $date1Obj = new DateTime($date1);
+                $value[$value1Name] = $date1Obj->format('Y-m-d');                
+            }
+        }
+        
+        if ($value2Available) {
+            $date2 = $this->getDate($value[$value2Name]);
+            if (!empty($date2)) {
+                $date2Obj = new DateTime($date2);
+                $value[$value2Name] = $date2Obj->format('Y-m-d');                
+            }            
+        }
+        
+        return $value;
+    }
 
 }
 
