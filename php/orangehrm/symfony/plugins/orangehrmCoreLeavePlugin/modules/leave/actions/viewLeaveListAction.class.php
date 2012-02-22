@@ -174,19 +174,20 @@ class viewLeaveListAction extends sfAction {
                 if (!empty($leaveStatusId)) {
                    $statuses = $values['chkSearchFilter'] = $leaveStatusId;
                    $this->form->setDefault('chkSearchFilter', array($statuses));
-                }
-
-                if($values['calFromDate'] && $values['calToDate']) {
-                    $leavePeriod = $this->getLeavePeriodService()->getCurrentLeavePeriod();
-                   if($leavePeriod instanceof LeavePeriod){
-                       $fromDate = $values['calFromDate'] = $leavePeriod->getStartDate();
-                       $toDate = $values['calToDate'] = $leavePeriod->getEndDate();
-                       $this->form->setDefault('calFromDate', set_datepicker_date_format($values['calFromDate']));
-                       $this->form->setDefault('calToDate', set_datepicker_date_format($values['calToDate']));
-                   }
                 }                
             }
         }
+        
+        if ($values['calFromDate'] && $values['calToDate'] && !$request->hasParameter('reset')) {
+            $leavePeriod = $this->getLeavePeriodService()->getCurrentLeavePeriod();
+            if ($leavePeriod instanceof LeavePeriod) {
+                $fromDate = $values['calFromDate'] = $leavePeriod->getStartDate();
+                $toDate = $values['calToDate'] = $leavePeriod->getEndDate();
+                $this->form->setDefault('calFromDate', set_datepicker_date_format($values['calFromDate']));
+                $this->form->setDefault('calToDate', set_datepicker_date_format($values['calToDate']));
+            }
+        }
+        
         $this->_setFilters($mode, $values);
         $message = $this->getUser()->getFlash('message', '');
         $messageType = $this->getUser()->getFlash('messageType', '');
