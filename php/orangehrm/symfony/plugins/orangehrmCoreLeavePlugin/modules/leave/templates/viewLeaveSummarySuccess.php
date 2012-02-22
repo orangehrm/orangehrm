@@ -17,11 +17,13 @@
  * Boston, MA  02110-1301, USA
  */
 ?>
-<script type="text/javascript" src="<?php echo public_path('../../scripts/jquery/jquery.js')?>"></script>
+<script type="text/javascript" src="<?php echo public_path('../../scripts/jquery/jquery.js') ?>"></script>
 
-<link href="<?php echo public_path('../../themes/orange/css/jquery/jquery.autocomplete.css')?>" rel="stylesheet" type="text/css"/>
+<link href="<?php echo public_path('../../themes/orange/css/jquery/jquery.autocomplete.css') ?>" rel="stylesheet" type="text/css"/>
 
-<?php echo stylesheet_tag('../orangehrmCoreLeavePlugin/css/viewLeaveSummarySuccess');?>
+<?php echo stylesheet_tag('../orangehrmCoreLeavePlugin/css/viewLeaveSummarySuccess'); ?>
+
+<script type="text/javascript" src="<?php echo public_path('../../scripts/jquery/jquery.validate.js') ?>"></script>
 
 <!--[if IE]>
 <style type="text/css">
@@ -30,34 +32,42 @@
     }
 </style>
 <![endif]-->
-
+<style type="text/css">
+    label.error {
+        padding: 0;
+        text-align: center;
+    }
+</style>
 <form id="frmLeaveSummarySearch" name="frmLeaveSummarySearch" method="post" action="<?php echo url_for('leave/viewLeaveSummary'); ?>">
-<div class="outerbox" style="width: 850px;">
-<div class="mainHeading"><h2><?php echo __('Leave Summary') ?></h2></div>
-    <div class="searchbar">
-        <?php echo $form->render(); ?>
-        <br class="clear" />
+    <div class="outerbox" style="width: 850px;">
+        <div class="mainHeading"><h2><?php echo __('Leave Summary') ?></h2></div>
+        <div class="searchbar">
+            <?php echo $form->render(); ?>
+            <br class="clear" />
 
-        <div class="formbuttons">
-            <input type="hidden" name="pageNo" id="pageNo" value="<?php echo $form->pageNo; ?>" />
-            <input type="hidden" name="hdnAction" id="hdnAction" value="search" />
+            <div class="formbuttons">
+                <input type="hidden" name="pageNo" id="pageNo" value="<?php echo $form->pageNo; ?>" />
+                <input type="hidden" name="hdnAction" id="hdnAction" value="search" />
             <input type="button" name="btnSearch" id="btnSearch" value="<?php echo __('Search') ?>" class="savebutton" />
-            <?php if ($form->userType == 'Admin' || $form->userType == 'Supervisor') { ?>
-            <input type="reset" id="btnReset" value="<?php echo __('Reset') ?>" class="savebutton" />
-            <?php } ?>
+                <?php if ($form->userType == 'Admin' || $form->userType == 'Supervisor') { ?>
+                    <input type="reset" id="btnReset" value="<?php echo __('Reset') ?>" class="savebutton" />
+                <?php } ?>
+            </div>
         </div>
     </div>
-</div>
-<?php echo templateMessage($templateMessage); ?>
+    <?php echo templateMessage($templateMessage); ?>
 
-<div id="validationMsg"></div>
+    <div id="validationMsg"></div>
 
-<?php include_component('core', 'ohrmList'); ?>
+    <?php include_component('core', 'ohrmList'); ?>
 
 </form>
 <script type="text/javascript">
     
-    var lang_typeHint = "<?php echo __("Type for hints");?>" + "...";
+    var lang_typeHint = "<?php echo __("Type for hints"); ?>" + "...";
+    
+    /* Define language strings here */
+    var lang_not_numeric = '<?php echo __(ValidationMessages::INVALID); ?>';
     
     $(document).ready(function() {
         
@@ -72,28 +82,49 @@
             }
         });
         
+        $("#frmLeaveSummarySearch").validate({
+            onsubmit : false,
+            rules: {
+                'txtLeaveEntitled[]':{validateAmount: true, max: 365 }
+            },
+            messages: {
+                'txtLeaveEntitled[]':{
+                    validateAmount: lang_not_numeric,
+                    max: lang_not_numeric
+                }
+            }
+        });
+        
+        /* Valid amount */
+        $.validator.addMethod("validateAmount", function(value, element) {
+            if(value != '') {
+                return value.match(/^\d+(?:\.\d\d?)?$/);
+            } else {
+                return true;
+            }
+        });
+        
     });
 
-/* Define language strings here */
-var lang_not_numeric = '<?php echo __('Enter a Positive Number Less Than 365 with Two Decimal Places'); ?>';
+    /* Employee list */
 
-/* Employee list */
-
-var empdata = <?php echo str_replace('&#039;',"'",$form->getEmployeeListAsJson());?>;
+    var empdata = <?php echo str_replace('&#039;', "'", $form->getEmployeeListAsJson()); ?>;
 
 
-function submitPage(pageNo) {
+    function submitPage(pageNo) {
+
+        document.frmLeaveSummarySearch.pageNo.value = pageNo;
+        document.frmLeaveSummarySearch.hdnAction.value = 'paging';
+        document.getElementById('frmLeaveSummarySearch').submit();
    if ($('#leaveSummary_txtEmpName').val() == lang_typeHint) {
         $('#leaveSummary_txtEmpName').val('');
     }
-    document.frmLeaveSummarySearch.pageNo.value = pageNo;
-    document.frmLeaveSummarySearch.hdnAction.value = 'paging';
-    document.getElementById('frmLeaveSummarySearch').submit();    
- 
-}
 
-var editButtonCaption = "<?php echo __('Edit');?>";
-var saveButtonCaption = "<?php echo __('Save');?>";
+    }
+
+
+    var editButtonCaption = "<?php echo __('Edit'); ?>";
+    var saveButtonCaption = "<?php echo __('Save'); ?>";
 </script>
 
-<script type="text/javascript" src="<?php echo public_path('../../scripts/jquery/jquery.autocomplete.js')?>"></script>
+<script type="text/javascript" src="<?php echo public_path('../../scripts/jquery/jquery.autocomplete.js') ?>"></script>

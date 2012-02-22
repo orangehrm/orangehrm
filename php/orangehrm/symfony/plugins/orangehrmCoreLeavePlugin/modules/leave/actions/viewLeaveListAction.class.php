@@ -141,6 +141,7 @@ class viewLeaveListAction extends sfAction {
         $empNumber = $request->getGetParameter('txtEmpID');
         $leavePeriodId = $request->getGetParameter('leavePeriodId');
         $leaveTypeId = $request->getGetParameter('leaveTypeId');
+        $leaveStatusId = $request->getGetParameter('status');
         if (!empty($empNumber)) {
             $employee = $this->getEmployeeService()->getEmployee($empNumber);
             
@@ -155,16 +156,34 @@ class viewLeaveListAction extends sfAction {
                 if (!empty($terminationId)) {
                     $terminatedEmp = 'on';
                     $values['cmbWithTerminated'] = $terminatedEmp;
+                    $this->form->setDefault('cmbWithTerminated', $terminatedEmp);
                 }
                 if (!empty($leavePeriodId)) {
                    $leavePeriod = $this->getLeavePeriodService()->readLeavePeriod($leavePeriodId);
                    if($leavePeriod instanceof LeavePeriod){
-                       $values['calFromDate'] = $leavePeriod->getStartDate();
-                       $values['calToDate'] = $leavePeriod->getEndDate();
+                       $fromDate = $values['calFromDate'] = $leavePeriod->getStartDate();
+                       $toDate = $values['calToDate'] = $leavePeriod->getEndDate();
+                       $this->form->setDefault('calFromDate', set_datepicker_date_format($values['calFromDate']));
+                       $this->form->setDefault('calToDate', set_datepicker_date_format($values['calToDate']));
                    }
                 }
+                
                 if (!empty($leaveTypeId)) {
                    $values['leaveTypeId'] = $leaveTypeId;
+                }
+                if (!empty($leaveStatusId)) {
+                   $statuses = $values['chkSearchFilter'] = $leaveStatusId;
+                   $this->form->setDefault('chkSearchFilter', array($statuses));
+                }
+
+                if($values['calFromDate'] && $values['calToDate']) {
+                    $leavePeriod = $this->getLeavePeriodService()->getCurrentLeavePeriod();
+                   if($leavePeriod instanceof LeavePeriod){
+                       $fromDate = $values['calFromDate'] = $leavePeriod->getStartDate();
+                       $toDate = $values['calToDate'] = $leavePeriod->getEndDate();
+                       $this->form->setDefault('calFromDate', set_datepicker_date_format($values['calFromDate']));
+                       $this->form->setDefault('calToDate', set_datepicker_date_format($values['calToDate']));
+                   }
                 }
                 $this->_setFilters($mode, $values);
             }
@@ -326,6 +345,8 @@ class viewLeaveListAction extends sfAction {
      * @return unknown_type
      */
     protected function _setFilters($mode, array $filters) {
+        $filters['calFromDate'] = set_datepicker_date_format($filters['calFromDate']);
+        $filters['calToDate'] = set_datepicker_date_format($filters['calToDate']);
         return $this->getUser()->setAttribute($mode . '.filters', $filters, 'leave_list');
     }
 
@@ -334,11 +355,7 @@ class viewLeaveListAction extends sfAction {
      * @return unknown_type
      */
     protected function _getFilters($mode) {
-        $filter = $this->getUser()->getAttribute($mode . '.filters', null, 'leave_list');
-        $filter['calFromDate'] = set_datepicker_date_format($filter['calFromDate']);
-        $filter['calToDate'] = set_datepicker_date_format($filter['calToDate']);
-
-        return $filter;
+        return $this->getUser()->getAttribute($mode . '.filters', null, 'leave_list');
     }
 
     protected function _getFilterValue($filters, $parameter, $default = null) {

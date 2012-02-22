@@ -42,9 +42,14 @@ class LeaveSummaryService extends BaseService {
     }
 
     public function fetchRawLeaveSummaryRecords($clues, $offset, $limit) {
-
-        $recordsResult = $this->getLeaveSummaryDao()->fetchRawLeaveSummaryRecords($clues, $offset, $limit);
-        $recordsCount = $this->fetchRawLeaveSummaryRecordsCount($clues);
+        
+        $includeTerminated = false;        
+        if($clues['cmbWithTerminated'] != 0) {
+            $includeTerminated = true;
+        }
+        
+        $recordsResult = $this->getLeaveSummaryDao()->fetchRawLeaveSummaryRecords($clues, $offset, $limit, $includeTerminated);
+        $recordsCount = $this->fetchRawLeaveSummaryRecordsCount($clues, $includeTerminated);
 
         $leaveEntitlementService = new LeaveEntitlementService();
         $leaveEntitlementService->setLeaveEntitlementDao(new LeaveEntitlementDao());
@@ -128,7 +133,7 @@ class LeaveSummaryService extends BaseService {
         return $summaryListArray;
     }
 
-    public function fetchRawLeaveSummaryRecordsCount($clues) {
-        return $this->getLeaveSummaryDao()->fetchRawLeaveSummaryRecordsCount($clues);
+    public function fetchRawLeaveSummaryRecordsCount($clues, $includeTerminated = false) {
+        return $this->getLeaveSummaryDao()->fetchRawLeaveSummaryRecordsCount($clues, $includeTerminated);
     }
 }

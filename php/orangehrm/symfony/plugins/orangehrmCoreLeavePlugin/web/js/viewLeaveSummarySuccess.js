@@ -21,11 +21,12 @@ function initLeaveSummary() {
         }, 
         matchContains:true
     }).result(function(event, item) {
-        $('#leaveSummary_cmbEmpId').val(item.id);
+//        $('#leaveSummary_cmbEmpId').val(item.id);
     });
 
     /* Search button */
     $('#btnSearch').click(function() {
+        $("#frmLeaveSummarySearch").validate().resetForm();
         recheckEmpId();
         adjustEmpId();
         $('#hdnAction').val('search');
@@ -59,7 +60,7 @@ function handleEditButton() {
         return;
     }
     
-    if ($(this).val() == saveButtonCaption) {
+    if ($(this).val() == saveButtonCaption && $("#frmLeaveSummarySearch").valid()) {
         var flag = validateInput();
         if(flag) {
             
@@ -73,7 +74,7 @@ function handleEditButton() {
         } else {
             $('#validationMsg').attr('class', 'messageBalloon_failure');
         }
-    };
+    }
 }
 
 function handleResetButton() {

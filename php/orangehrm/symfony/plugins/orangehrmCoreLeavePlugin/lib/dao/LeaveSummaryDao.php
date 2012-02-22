@@ -42,9 +42,10 @@ class LeaveSummaryDao extends BaseDao {
             $where[] = "a.emp_number IN(".implode(",", $clues['subordinates']).")";
         }
         */
-
+       
          if (!empty($clues['txtEmpName']) && $clues['userType'] != 'ESS') {
             // Replace multiple spaces in string with wildcards
+            $clues['txtEmpName'] = str_replace(' (' . __('Past Employee') . ')', '', $clues['txtEmpName']);
             $value = preg_replace('!\s+!', '%', $clues['txtEmpName']);
             $employeeName = '\'%' . $value . '%\'';
             $where[] = "CONCAT_WS('', a.emp_firstname, a.emp_middle_name, a.emp_lastname) LIKE $employeeName";
@@ -113,6 +114,7 @@ class LeaveSummaryDao extends BaseDao {
         */
         if (!empty($clues['txtEmpName']) && $clues['userType'] != 'ESS') {
             // Replace multiple spaces in string with wildcards
+            $clues['txtEmpName'] = str_replace(' (' . __('Past Employee') . ')', '', $clues['txtEmpName']);
             $value = preg_replace('!\s+!', '%', $clues['txtEmpName']);
             $employeeName = '\'%' . $value . '%\'';
             $where[] = "CONCAT_WS('', a.emp_firstname, a.emp_middle_name, a.emp_lastname) LIKE $employeeName";
