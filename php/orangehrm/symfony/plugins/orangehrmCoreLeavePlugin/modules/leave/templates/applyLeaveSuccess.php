@@ -82,8 +82,8 @@
         var datepickerDateFormat = '<?php echo get_datepicker_date_format($sf_user->getDateFormat()); ?>';
         var leaveBalanceUrl = '<?php echo url_for('leave/getLeaveBalanceAjax');?>';
         var lang_invalidDate = '<?php echo __(ValidationMessages::DATE_FORMAT_INVALID, array('%format%' => get_datepicker_date_format($sf_user->getDateFormat()))) ?>';
-        var lang_dateError = '<?php echo __("To date should be after from date") ?>';        
-        
+        var lang_dateError = '<?php echo __("To date should be after from date") ?>';
+
         $(document).ready(function() {
             $.datepicker.setDefaults({showOn: 'click'});
 
@@ -100,7 +100,7 @@
         daymarker.bindElement("#applyleave_txtFromDate",
         {
             onSelect: function(date){
-            fromDateBlur(date)
+                fromDateBlur(date)
             },
             dateFormat : datepickerDateFormat,
             onClose: function() {
@@ -118,20 +118,20 @@
         });
 
         var tDate = trim($("#applyleave_txtToDate").val());
-            if (tDate == '') {
-                $("#applyleave_txtToDate").val(datepickerDateFormat);
-            }
+        if (tDate == '') {
+            $("#applyleave_txtToDate").val(datepickerDateFormat);
+        }
 
         //Bind date picker
         daymarker.bindElement("#applyleave_txtToDate",
         {
             onSelect: function(date){
-            toDateBlur(date)
+                toDateBlur(date)
             },
             dateFormat : datepickerDateFormat,
             onClose: function() {
                 $(this).valid();
-            }            
+            }
         });
 
         $('#applyleave_txtToDate_Button').click(function(){
@@ -143,104 +143,104 @@
 
         });
 
-            //Show From if same date
-            if(trim($("#applyleave_txtFromDate").val()) != datepickerDateFormat && trim($("#applyleave_txtToDate").val()) != datepickerDateFormat){
-                if( trim($("#applyleave_txtFromDate").val()) == trim($("#applyleave_txtToDate").val())) {
-                    showTimeControls(true);
-                }
+        //Show From if same date
+        if(trim($("#applyleave_txtFromDate").val()) != datepickerDateFormat && trim($("#applyleave_txtToDate").val()) != datepickerDateFormat){
+            if( trim($("#applyleave_txtFromDate").val()) == trim($("#applyleave_txtToDate").val())) {
+                showTimeControls(true);
             }
+        }
 
-            // Bind On change event of From Time
-            $('#applyleave_txtFromTime').change(function() {
-                fillTotalTime();
-            });
+        // Bind On change event of From Time
+        $('#applyleave_txtFromTime').change(function() {
+            fillTotalTime();
+        });
 
-            // Bind On change event of To Time
-            $('#applyleave_txtToTime').change(function() {
-                fillTotalTime();
-            });
+        // Bind On change event of To Time
+        $('#applyleave_txtToTime').change(function() {
+            fillTotalTime();
+        });
 
-            // Fetch and display available leave when leave type is changed
+        function updateLeaveBalance() {
+            var leaveType = $('#applyleave_txtLeaveType').val();
+            if (leaveType == "") {
+                $('#applyleave_leaveBalance').text('--');
+            } else {
+                $('#applyleave_leaveBalance').append('');
+                $.ajax({
+                    type: 'GET',
+                    url: leaveBalanceUrl,
+                    data: '&leaveType=' + leaveType,
+                    dataType: 'json',
+                    success: function(data) {
+                        if ($('#leaveBalance').length == 0) {
+                           $('#applyleave_leaveBalance').text(data);
+                       }
+
+                    }
+                });
+           }
+        }
+
+        // Fetch and display available leave when leave type is changed
             $('#applyleave_txtLeaveType').change(function() {
                 updateLeaveBalance();
             });
-            
-            function updateLeaveBalance() {
-                var leaveType = $('#applyleave_txtLeaveType').val();
-                if (leaveType == "") {
-                    $('#applyleave_leaveBalance').text('--');
-                } else {
-                    $('#applyleave_leaveBalance').append('');
-                    $.ajax({
-                        type: 'GET',
-                        url: leaveBalanceUrl,
-                        data: '&leaveType=' + leaveType,
-                        dataType: 'json',
-                        success: function(data) {
-                            if ($('#leaveBalance').length == 0) {
-                                $('#applyleave_leaveBalance').text(data);
-                            }
 
+        //Validation
+        $("#frmLeaveApply").validate({
+            rules: {
+                'applyleave[txtLeaveType]':{required: true },
+                'applyleave[txtFromDate]': {
+                    required: true,
+                    valid_date: function() {
+                        return {
+                            format:datepickerDateFormat
                         }
-                    });     
-                }            
-            }
-            
-            //Validation
-            $("#frmLeaveApply").validate({
-                rules: {
-                    'applyleave[txtLeaveType]':{required: true },
-                    'applyleave[txtFromDate]': {
-                        required: true,
-                        valid_date: function() {
-                            return {
-                                format:datepickerDateFormat
-                            }
-                        }
-                    },
-                    'applyleave[txtToDate]': {
-                        required: true,
-                        valid_date: function() {
-                            return {
-                                format:datepickerDateFormat
-                            }
-                        },
-                        date_range: function() {
-                            return {
-                                format:datepickerDateFormat,
-                                fromDate:$("#applyleave_txtFromDate").val()
-                            }
-                        }
-                    },
-                    'applyleave[txtComment]': {maxlength: 250},
-                    'applyleave[txtLeaveTotalTime]':{ required: false , number: true , min: 0.01, validWorkShift : true,validTotalTime : true},
-                    'applyleave[txtToTime]': {validToTime: true}
+                    }
                 },
-                messages: {
-                    'applyleave[txtLeaveType]':{
-                        required:'<?php echo __(ValidationMessages::REQUIRED); ?>'
+                'applyleave[txtToDate]': {
+                    required: true,
+                    valid_date: function() {
+                        return {
+                            format:datepickerDateFormat
+                        }
                     },
-                    'applyleave[txtFromDate]':{
-                        required:lang_invalidDate,
-                        valid_date: lang_invalidDate
-                    },
-                    'applyleave[txtToDate]':{
-                        required:lang_invalidDate,
-                        valid_date: lang_invalidDate ,
-                        date_range: lang_dateError
-                    },
-                    'applyleave[txtComment]':{
-                        maxlength:"<?php echo __(ValidationMessages::TEXT_LENGTH_EXCEEDS, array('%amount%' => 250)); ?>"
-                    },
-                    'applyleave[txtLeaveTotalTime]':{
-                        number:"<?php echo __('Should be a number'); ?>",
-                        min : "<?php echo __("Should be greater than %amount%", array("%amount%" => '0.01')); ?>",
-                        max : "<?php echo __("Should be less than %amount%", array("%amount%" => '24')); ?>",
-                        validTotalTime : "<?php echo __(ValidationMessages::REQUIRED); ?>",
-                        validWorkShift : "<?php echo __('Should be less than work shift length'); ?>"
-                    },
-                    'applyleave[txtToTime]':{
-                        validToTime:"<?php echo __('From time should be lesser than To time'); ?>"
+                    date_range: function() {
+                        return {
+                            format:datepickerDateFormat,
+                            fromDate:$("#applyleave_txtFromDate").val()
+                        }
+                    }
+                },
+                'applyleave[txtComment]': {maxlength: 250},
+                'applyleave[txtLeaveTotalTime]':{ required: false , number: true , min: 0.01, validWorkShift : true,validTotalTime : true},
+                'applyleave[txtToTime]': {validToTime: true}
+            },
+            messages: {
+                'applyleave[txtLeaveType]':{
+                    required:'<?php echo __(ValidationMessages::REQUIRED); ?>'
+                },
+                'applyleave[txtFromDate]':{
+                    required:lang_invalidDate,
+                    valid_date: lang_invalidDate
+                },
+                'applyleave[txtToDate]':{
+                    required:lang_invalidDate,
+                    valid_date: lang_invalidDate ,
+                    date_range: lang_dateError
+                },
+                'applyleave[txtComment]':{
+                    maxlength:"<?php echo __(ValidationMessages::TEXT_LENGTH_EXCEEDS, array('%amount%' => 250)); ?>"
+                },
+                'applyleave[txtLeaveTotalTime]':{
+                    number:"<?php echo __('Should be a number'); ?>",
+                    min : "<?php echo __("Should be greater than %amount%", array("%amount%" => '0.01')); ?>",
+                    max : "<?php echo __("Should be less than %amount%", array("%amount%" => '24')); ?>",
+                    validTotalTime : "<?php echo __(ValidationMessages::REQUIRED); ?>",
+                    validWorkShift : "<?php echo __('Should be less than work shift length'); ?>"
+                },
+                'applyleave[txtToTime]':{
+                    validToTime:"<?php echo __('From time should be lesser than To time'); ?>"
                 }
             },
             errorElement : 'div',
@@ -333,7 +333,7 @@
             $("#applyleave_txtFromDate").val(theDate);
             $("#applyleave_txtToDate").val(theDate);
             showTimeControls(true);
-        } else{
+        } else {
             showTimeControls((Todate == theDate));
         }
         $("#applyleave_txtFromDate").valid();
@@ -371,7 +371,7 @@
 
     function fromDateBlur(date){
         var fromDateValue 	= 	trim(date);
-        if(fromDateValue != datepickerDateFormat && fromDateValue != ""){
+        if(fromDateValue != datepickerDateFormat && fromDateValue != "") {
             var toDateValue	=	trim($("#applyleave_txtToDate").val());
             if(validateDate(fromDateValue, datepickerDateFormat)){
                 if(fromDateValue == toDateValue) {
