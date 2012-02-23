@@ -50,7 +50,7 @@ class HolidayListConfigurationFactory extends ohrmListConfigurationFactory {
             'filters' => array('DateCellFilter' => array()),            
             'elementType' => 'label',
             'textAlignmentStyle' => 'left',
-            'elementProperty' => array('getter' => 'getDate'),
+            'elementProperty' => array('getter' => 'getFdate'),
         ));
         
         $header3 = new ListHeader();
