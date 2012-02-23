@@ -38,7 +38,7 @@
         </tr>
     </thead>
     <tbody>
-        
+
         <?php foreach ($overlapLeave as $leave) {
         ?>
             <tr>
@@ -124,7 +124,7 @@
             dateFormat : datepickerDateFormat,
             onClose: function() {
                 $(this).valid();
-            }            
+            }
         });
 
         $('#assignleave_txtFromDate_Button').click(function(){
@@ -150,7 +150,7 @@
             dateFormat : datepickerDateFormat,
             onClose: function() {
                 $(this).valid();
-            }            
+            }
         });
 
         $('#assignleave_txtToDate_Button').click(function(){
@@ -183,7 +183,7 @@
             $('#assignleave_txtLeaveType').change(function() {
                 updateLeaveBalance();
             });
-            
+
             function updateLeaveBalance() {
                 var leaveType = $('#assignleave_txtLeaveType').val();
                 var empId = $('#assignleave_txtEmpID').val();
@@ -202,10 +202,10 @@
                             }
 
                         }
-                    });     
-                }            
+                    });
+                }
             }
-            
+
             //Validation
             $("#frmLeaveApply").validate({
                 rules: {
