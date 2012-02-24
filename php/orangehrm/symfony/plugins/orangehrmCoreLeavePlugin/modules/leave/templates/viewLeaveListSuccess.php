@@ -68,7 +68,7 @@ use_javascripts_for_form($form);
 
 <?php if ($messageType == "messageBalloon_success") {
     ?>
-    <div class="<?php echo $messageType; ?>"><?php echo $message; ?></div>
+    <div id="leaveListActionMsg" class="<?php echo $messageType; ?>"><?php echo $message; ?></div>
 <?php } ?>
 
 <!--this is ajax message place -->
@@ -120,7 +120,9 @@ use_javascripts_for_form($form);
         $(this).attr('disabled', true);
         
         $('#noActionsSelectedWarning').remove();
-        
+        $('#leaveListActionMsg').remove();
+        $('#ajaxCommentSaveMsg').removeAttr('class').html('');
+              
         var selectedActions = 0;
         
         $('select[name^="select_leave_action_"]').each(function() {

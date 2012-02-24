@@ -168,6 +168,7 @@ $(document).ready(function() {
                         var id = $('#leaveId').val();
                         $('#commentContainer-' + id).html(commentLabel);
                         $('#hdnLeaveComment-' + id).val(comment);
+                        $('#noActionsSelectedWarning').remove();
                         $('#ajaxCommentSaveMsg').attr('class', 'messageBalloon_success')
                         .html(lang_comment_successfully_saved);
                     }
@@ -190,9 +191,11 @@ $(document).ready(function() {
         event.preventDefault();
         return false;
     });
-
-});
     
+    $('select.select_action').bind("change",function() {
+        $('div#noActionsSelectedWarning').remove();
+    });
+});    
 
 function trimComment(comment) {
     if (comment.length > 35) {
