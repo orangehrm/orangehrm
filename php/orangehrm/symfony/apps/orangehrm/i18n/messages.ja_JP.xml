@@ -4971,7 +4971,7 @@
    </trans-unit> 
    <trans-unit id="993"> 
     <source>Ok</source> 
-    <target>[OK]</target> 
+    <target>良い</target> 
     <note>A time zone name</note> 
    </trans-unit> 
    <trans-unit id="994"> 
