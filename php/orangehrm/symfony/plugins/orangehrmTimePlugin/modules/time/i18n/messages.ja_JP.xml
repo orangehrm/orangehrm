@@ -181,7 +181,7 @@
    </trans-unit> 
    <trans-unit id="36"> 
     <source>Proceed with Time Module</source> 
-    <target>Timeモジュールに進みます</target> 
+    <target>時間モジュールに進みます</target> 
     <note/> 
    </trans-unit> 
    <trans-unit id="37"> 
