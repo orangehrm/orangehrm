@@ -135,6 +135,9 @@ function isValidForm(){
             },
             'addJobVacancy[hiringManager]' : {
                 hiringManagerNameValidation: true
+            },
+            'addJobVacancy[description]' : {
+            	maxlength:2000
             }
 
         },
@@ -153,6 +156,9 @@ function isValidForm(){
             },
             'addJobVacancy[hiringManager]' : {
                 hiringManagerNameValidation:lang_enterAValidEmployeeName
+            },
+            'addJobVacancy[description]' : {
+            	maxlength: lang_descriptionLength
             }
 
         },
