@@ -5291,6 +5291,14 @@
     <source>Only Include Approved Timesheets</source>
     <target>唯一の承認されたタイムシートを含める</target>
    </trans-unit>
+   <trans-unit id="1825"> 
+    <source>Termination Date</source> 
+    <target>終了日</target> 
+   </trans-unit>
+   <trans-unit id="1825"> 
+    <source>Termination Reason</source> 
+    <target>退職理由</target> 
+   </trans-unit>
   </body> 
  </file> 
 </xliff> 

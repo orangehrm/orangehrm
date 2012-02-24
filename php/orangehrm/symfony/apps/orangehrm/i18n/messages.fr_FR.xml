@@ -4979,7 +4979,15 @@
    <trans-unit id="1825"> 
     <source>compulsory</source> 
     <target>FR_compulsory</target> 
-   </trans-unit>   
+   </trans-unit>
+   <trans-unit id="1825"> 
+    <source>Termination Date</source> 
+    <target>FR_Termination Date</target> 
+   </trans-unit>
+   <trans-unit id="1825"> 
+    <source>Termination Reason</source> 
+    <target>FR_Termination Reason</target> 
+   </trans-unit>
   </body>
  </file>
 </xliff>
