@@ -22,7 +22,7 @@
 
 class WorkWeekService extends BaseService {
 
-    private $workWeekDao;
+    protected $workWeekDao;
 
     /**
      * Get the WorkWeek Service
