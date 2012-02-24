@@ -167,7 +167,7 @@ class viewLeaveListAction extends sfAction {
                     }
                     if (!empty($leaveStatusId)) {
                         $values['chkSearchFilter'] = $leaveStatusId;
-                        $this->form->setDefault('chkSearchFilter', array($statuses));
+                        $this->form->setDefault('chkSearchFilter', array($leaveStatusId));
                     }
                     
                     $this->_setFilters($mode, $values);
