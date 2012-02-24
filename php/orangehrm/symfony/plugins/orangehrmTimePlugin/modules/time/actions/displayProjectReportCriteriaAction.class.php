@@ -85,7 +85,7 @@ class displayProjectReportCriteriaAction extends displayReportCriteriaAction {
 
         $staticColumns["projectId"] = $formValues["project_name"];
 
-        if ($formValues["only_inlclude_approved_timesheets"] == "on") {
+        if ($formValues["only_include_approved_timesheets"] == "on") {
             $staticColumns["onlyIncludeApprovedTimesheets"] = "on";
         } else {
             $staticColumns["onlyIncludeApprovedTimesheets"] = "off";

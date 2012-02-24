@@ -3122,8 +3122,8 @@
     <note>A currency name</note>
    </trans-unit>
    <trans-unit id="668">
-    <source>Only Inlclude Approved Timesheets</source>
-    <target>FR_Only Inlclude Approved Timesheets</target>
+    <source>Only Include Approved Timesheets</source>
+    <target>FR_Only Include Approved Timesheets</target>
    </trans-unit>
    <trans-unit id="669">
     <source>Optional Fields</source>

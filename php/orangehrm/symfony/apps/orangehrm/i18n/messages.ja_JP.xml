@@ -5283,6 +5283,14 @@
     <target>ラオス人民民主共和国</target>
     <note>A country name</note>
     </trans-unit>
+    <trans-unit id="724">
+    <source>Project Date Range</source>
+    <target>プロジェクトの日付範囲</target>
+    </trans-unit>
+    <trans-unit id="668">
+    <source>Only Include Approved Timesheets</source>
+    <target>唯一の承認されたタイムシートを含める</target>
+   </trans-unit>
   </body> 
  </file> 
 </xliff> 

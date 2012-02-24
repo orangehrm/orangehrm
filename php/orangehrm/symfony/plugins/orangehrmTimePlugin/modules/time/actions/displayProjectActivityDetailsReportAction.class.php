@@ -60,7 +60,7 @@ class displayProjectActivityDetailsReportAction extends displayReportAction {
         $toDate = $this->getRequest()->getParameter("to");
         $approved = $this->getRequest()->getParameter("onlyIncludeApprovedTimesheets");
         
-        $values = array("activity_name" => $activityId, "project_date_range" => array("from" => $fromDate, "to" => $toDate), "only_inlclude_approved_timesheets" => $approved);
+        $values = array("activity_name" => $activityId, "project_date_range" => array("from" => $fromDate, "to" => $toDate), "only_include_approved_timesheets" => $approved);
 
         return $values;
     }
