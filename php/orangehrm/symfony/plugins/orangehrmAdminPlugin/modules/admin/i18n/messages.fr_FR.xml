@@ -796,7 +796,10 @@
     <source>Multiple import files may be required</source>
     <target>FR_Multiple import files may be required</target>
    </trans-unit>
-   
+   <trans-unit id="100">
+    <source>Language and font help</source>
+    <target>FR_Language and font help</target>
+   </trans-unit>   
   </body>
  </file>
 </xliff>

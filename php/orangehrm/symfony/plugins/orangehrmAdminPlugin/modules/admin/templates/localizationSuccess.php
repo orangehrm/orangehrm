@@ -58,6 +58,8 @@
 </div>
 </div>
 
+<div class="paddingLeftRequired"><a href="http://www.orangehrm.com/localization-help.shtml" target="_blank"><?php echo __('Language and font help');?></a></div>
+
     <script type="text/javascript">
         //<![CDATA[    
         var lang_edit = "<?php echo __("Edit"); ?>";

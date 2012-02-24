@@ -828,6 +828,10 @@
     <target>複数のインポートファイルが必要になることがあります</target> 
     <note>A time zone name</note> 
    </trans-unit> 
+   <trans-unit id="100">
+    <source>Language and font help</source>
+    <target>言語とフォントのヘルプ</target>
+   </trans-unit>   
   </body> 
  </file> 
 </xliff> 
