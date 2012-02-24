@@ -359,7 +359,7 @@
    </trans-unit>
    <trans-unit id="76">
     <source>Timesheet Rejected</source>
-    <target>タイムシートが承認されました</target>
+    <target>タイムシートが拒否されました</target>
    </trans-unit>
   </body> 
  </file> 
