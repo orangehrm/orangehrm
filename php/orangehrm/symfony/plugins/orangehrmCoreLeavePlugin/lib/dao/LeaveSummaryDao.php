@@ -27,7 +27,7 @@ class LeaveSummaryDao extends BaseDao {
 
     public function fetchRawLeaveSummaryRecords($clues, $offset=0, $limit=20, $includeTerminated = false) {
 
-        $q = $this->getBaseQuery();
+        $q = $this->getBaseQuery($clues);
 
         if (!empty($clues['cmbLocation'])) {
             $q .= " LEFT JOIN hs_hr_emp_locations c ON a.emp_number = c.emp_number";
@@ -97,7 +97,7 @@ class LeaveSummaryDao extends BaseDao {
 
     public function fetchRawLeaveSummaryRecordsCount($clues, $includeTerminated = false) {
 
-        $q = $this->getBaseCountQuery();
+        $q = $this->getBaseCountQuery($clues);
 
         if (!empty($clues['cmbLocation'])) {
             $q .= " LEFT JOIN hs_hr_emp_locations c ON a.emp_number = c.emp_number";
@@ -165,7 +165,7 @@ class LeaveSummaryDao extends BaseDao {
      *
      * @return string
      */
-    protected function getBaseQuery() {
+    protected function getBaseQuery($clues) {
         return 'SELECT a.emp_number AS empNumber, a.emp_firstname AS empFirstName, a.emp_middle_name AS empMiddleName,
               a.emp_lastname AS empLastName, b.leave_type_id AS leaveTypeId,
               b.leave_type_name AS leaveTypeName, b.available_flag AS availableFlag, a.emp_status As empStatus FROM
@@ -176,7 +176,7 @@ class LeaveSummaryDao extends BaseDao {
      *
      * @return type 
      */
-    protected function getBaseCountQuery() {
+    protected function getBaseCountQuery($clues) {
         return 'SELECT COUNT(*) FROM (hs_hr_employee a, hs_hr_leavetype b)';
     }
 

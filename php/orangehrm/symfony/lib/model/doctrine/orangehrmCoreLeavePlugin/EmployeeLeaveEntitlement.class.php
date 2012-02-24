@@ -17,6 +17,7 @@ class EmployeeLeaveEntitlement extends PluginEmployeeLeaveEntitlement {
     private $leaveTaken;
     private $editableLeaveTypeIds;
     private $employeeStatus;
+    private $forceReadOnly = false;
 
     public function __construct($table = null, $isNewEntry = false) {
         parent::__construct($table, $isNewEntry);
@@ -120,6 +121,10 @@ class EmployeeLeaveEntitlement extends PluginEmployeeLeaveEntitlement {
             return true;
         }
 
+        if ($this->isForceReadOnly()) {
+            return false;
+        }
+        
         if (empty($this->editableLeaveTypeIds)) {
             $this->editableLeaveTypeIds = $this->_getEditableLeaveTypesIds();
         }
@@ -127,6 +132,14 @@ class EmployeeLeaveEntitlement extends PluginEmployeeLeaveEntitlement {
         return in_array($leaveTypeId, $this->editableLeaveTypeIds);
     }
 
+    public function isForceReadOnly() {
+        return $this->forceReadOnly;
+    }
+    
+    public function setForceReadOnly($forceReadOnly) {
+        $this->forceReadOnly = $forceReadOnly;
+    }
+    
     /**
      * Get editable leave types:
      * @return <type>

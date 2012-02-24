@@ -114,6 +114,11 @@ class LeaveSummaryService extends BaseService {
                     $summaryListRow = Array();
                     $employeeLeaveEntitlementObject = new EmployeeLeaveEntitlement();
 
+                    // If readonly value is 1, force read only
+                    if (isset($row['readonly']) && $row['readonly'] == 1) {
+                        $employeeLeaveEntitlementObject->setForceReadOnly(true);
+                    }
+                    
                     $employeeLeaveEntitlementObject->setEmployeeId($employeeId);
                     $employeeLeaveEntitlementObject->setEmployeeStatus($employeeStatus);
                     $employeeLeaveEntitlementObject->setLeaveTypeId($leaveTypeId);
