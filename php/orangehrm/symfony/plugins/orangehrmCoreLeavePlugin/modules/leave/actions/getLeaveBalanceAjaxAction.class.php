@@ -58,7 +58,7 @@ class getLeaveBalanceAjaxAction extends sfAction {
                 $allowed = true;
             } else if ($user->getAttribute('auth.isSupervisor')) {
                 $employeeService = new EmployeeService();
-                $subList = $employeeService->getSupervisorEmployeeList($loggedEmpNumber);
+                $subList = $employeeService->getSupervisorEmployeeChain($loggedEmpNumber);
 
                 foreach ($subList as $sub) {
                     if($empNumber == $sub->getEmpNumber()) {
