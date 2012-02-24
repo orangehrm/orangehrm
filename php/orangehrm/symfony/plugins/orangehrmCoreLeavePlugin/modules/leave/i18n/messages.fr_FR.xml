@@ -353,6 +353,10 @@
     <target>FR_Failed to Assign</target>
    </trans-unit>
    <trans-unit id="83">
+    <source>Failed to Submit</source>
+    <target>FR_Failed to Submit</target>
+   </trans-unit>
+   <trans-unit id="83">
     <source>Add Leave Type</source>
     <target>FR_Add Leave Type</target>
    </trans-unit>

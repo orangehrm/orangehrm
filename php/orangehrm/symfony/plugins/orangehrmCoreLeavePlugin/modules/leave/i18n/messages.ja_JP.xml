@@ -379,6 +379,10 @@
     <target>割り当てに失敗しました。</target>
    </trans-unit>
    <trans-unit id="83">
+    <source>Failed to Submit</source>
+    <target>送信に失敗しました。</target>
+   </trans-unit>
+   <trans-unit id="83">
     <source>Add Leave Type</source>
     <target>タイプを残すに追加</target>
    </trans-unit>
