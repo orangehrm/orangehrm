@@ -106,7 +106,7 @@
    </trans-unit> 
    <trans-unit id="21"> 
     <source>Should Be Less Than 24 and in HH:MM or Decimal Format</source> 
-    <target>MMまたは10進数形式：24未満で、HHでなければなりません</target> 
+    <target>または10進数形式：24未満で、HH:MMでなければなりません</target> 
     <note/> 
    </trans-unit> 
    <trans-unit id="22"> 
@@ -349,6 +349,18 @@
     <target>変更はありません削除する</target> 
     <note/> 
    </trans-unit> 
+   <trans-unit id="76">
+    <source>Total Should Be Less Than 24 Hours</source>
+    <target>合計が24時間未満である必要があります</target>
+   </trans-unit>
+   <trans-unit id="76">
+    <source>Timesheet Approved</source>
+    <target>タイムシートが承認されました</target>
+   </trans-unit>
+   <trans-unit id="76">
+    <source>Timesheet Rejected</source>
+    <target>タイムシートが承認されました</target>
+   </trans-unit>
   </body> 
  </file> 
 </xliff> 

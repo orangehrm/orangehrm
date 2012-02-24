@@ -300,6 +300,10 @@
     <source>No Changes to Delete</source>
     <target>FR_No Changes to Delete</target>
    </trans-unit>
+   <trans-unit id="76">
+    <source>Total Should Be Less Than 24 Hours</source>
+    <target>FR_Total Should Be Less Than 24 Hours</target>
+   </trans-unit>
   </body>
  </file>
 </xliff>

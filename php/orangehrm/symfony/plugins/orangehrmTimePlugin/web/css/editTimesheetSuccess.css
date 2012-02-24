@@ -96,3 +96,7 @@ root {
 #submitRemoveRows {
     width: 120px !important;
 }
+
+#btnAddRow {
+    width: 120px !important;
+}

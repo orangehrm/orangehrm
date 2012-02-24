@@ -166,7 +166,7 @@ use_javascript('../../../scripts/jquery/jquery.autocomplete.js');
     var endDate='<?php echo $endDate ?>';
     var erorrMessageForInvalidComment="<?php echo __(ValidationMessages::TEXT_LENGTH_EXCEEDS, array('%amount%' => 250)); ?>";
     var numberOfRows='<?php echo $i ?>';
-    var incorrect_total='<?php echo __('You Have Exceeded the Maximum No. of Working Hours (24:00h) for the Day'); ?>';
+    var incorrect_total='<?php echo __('Total Should Be Less Than 24 Hours'); ?>';
     var typeForHints='<?php echo __('Type for hints').'...'; ?>';
     var lang_selectProjectAndActivity='<?php echo __('Select a Project and an Activity'); ?>';
     var lang_enterExistingProject='<?php echo __("Select a Project and an Activity"); ?>';
