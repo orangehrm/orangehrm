@@ -508,9 +508,9 @@ if($empNumber == $_SESSION['empID']) {
     
                         //any user tries accesses his own information
 <?php if(isset($_SESSION['empID']) && $_SESSION['empID'] == $empNumber) {?>
-                            frm.action = "<?php echo url_for('leave/viewMyLeaveList?reset=1');?>";
+                            frm.action = "<?php echo url_for('leave/viewMyLeaveList');?>";
 <?php } else { ?>
-                            frm.action = "<?php echo url_for('leave/viewLeaveList?reset=1');?>";    
+                            frm.action = "<?php echo url_for('leave/viewLeaveList');?>";    
 <?php } ?>        
                             input.setAttribute("name", "txtEmpID");
                         }
