@@ -75,7 +75,7 @@ class LeaveAssignmentService extends AbstractLeaveAllocationService {
                 }
             }
         } else {
-            throw new LeaveAllocationServiceException('Leave Request Should Contain Work Days');
+            throw new LeaveAllocationServiceException('FR_Failed to Submit: No Working Days Selected');
         }
     }
     
