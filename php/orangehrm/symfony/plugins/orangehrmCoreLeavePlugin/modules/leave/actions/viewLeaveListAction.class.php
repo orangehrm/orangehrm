@@ -140,6 +140,14 @@ class viewLeaveListAction extends sfAction {
 
                 // set default to employee name field.
                 if (!empty($employee)) {
+                    
+                    // Get Default settings and override as needed.
+                    $values = $this->form->getDefaults();    
+
+                    // Defaults have localized dates, therefore, convert to standard format 
+                    $values['calFromDate'] = $this->_getStandardDate($values['calFromDate']);
+                    $values['calToDate'] = $this->_getStandardDate($values['calToDate']);                    
+                    
                     $employeeName = $employee->getFullName();
                     $terminationId = $employee->getTerminationId();
 
