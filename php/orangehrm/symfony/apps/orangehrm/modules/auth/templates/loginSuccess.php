@@ -227,11 +227,13 @@ $imagePath = public_path("../../themes/{$styleSheet}/images/login");
         
         $('.form-hint').click(function(){
             removeHint();
+            $('#txtUsername').focus();
         });
         
         $('#hdnUserTimeZoneOffset').val(calculateUserTimeZoneOffset().toString());
         
         $('#frmLogin').submit(validateLogin);
+        
     });
 
     function checkSavedUsernames(){
