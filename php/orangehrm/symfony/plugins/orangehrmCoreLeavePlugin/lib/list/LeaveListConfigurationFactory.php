@@ -31,7 +31,7 @@ class LeaveListConfigurationFactory extends ohrmListConfigurationFactory {
 
         $header2->populateFromArray(array(
             'name' => 'Employee Name',
-            'width' => '15%',
+            'width' => '12%',
             'isSortable' => false,
             'elementType' => 'link',
             'textAlignmentStyle' => 'left',
@@ -44,7 +44,7 @@ class LeaveListConfigurationFactory extends ohrmListConfigurationFactory {
 
         $header3->populateFromArray(array(
             'name' => 'Leave Type',
-            'width' => '15%',
+            'width' => '12%',
             'isSortable' => false,
             'elementType' => 'label',
             'textAlignmentStyle' => 'left',
@@ -53,7 +53,7 @@ class LeaveListConfigurationFactory extends ohrmListConfigurationFactory {
 
         $header4->populateFromArray(array(
             'name' => 'Number of Days',
-            'width' => '15%',
+            'width' => '12%',
             'isSortable' => false,
             'elementType' => 'label',
             'textAlignmentStyle' => 'center',
@@ -62,7 +62,7 @@ class LeaveListConfigurationFactory extends ohrmListConfigurationFactory {
 
         $header8->populateFromArray(array(
             'name' => 'Leave Balance (Days)',
-            'width' => '15%',
+            'width' => '12%',
             'isSortable' => false,
             'elementType' => 'label',
             'textAlignmentStyle' => 'center',
@@ -71,7 +71,7 @@ class LeaveListConfigurationFactory extends ohrmListConfigurationFactory {
 
         $header5->populateFromArray(array(
             'name' => 'Status',
-            'width' => '10%',
+            'width' => '9%',
             'isSortable' => false,
             'elementType' => 'link',
             'filters' => array('I18nCellFilter' => array()
@@ -86,7 +86,7 @@ class LeaveListConfigurationFactory extends ohrmListConfigurationFactory {
 
         $header6->populateFromArray(array(
             'name' => 'Comments',
-            'width' => '20%',
+            'width' => '18%',
             'isSortable' => false,
             'elementType' => 'comment',
             'textAlignmentStyle' => 'left',
