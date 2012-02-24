@@ -99,6 +99,15 @@ class viewLeaveListAction extends sfAction {
         $values = array();
 
         $page = $request->getParameter('hdnAction') == 'search' ? 1 : $request->getParameter('pageNo', 1);
+        
+        // Check for parametes sent from direct links
+        // (PIM: 'txtEmpID' will be available as a get parameter)
+        // (Leave Summary Links: leavePeriodId, leaveTypeId and status)
+        $empNumber = $request->getGetParameter('txtEmpID');
+        $leavePeriodId = $request->getGetParameter('leavePeriodId');
+        $leaveTypeId = $request->getGetParameter('leaveTypeId');
+        $leaveStatusId = $request->getGetParameter('status');
+        
         if ($request->isMethod('post')) {
 
             $this->form->bind($request->getParameter($this->form->getName()));
@@ -117,17 +126,70 @@ class viewLeaveListAction extends sfAction {
             }
 
         } else if ($request->hasParameter('reset')) {
-              $values = $this->form->getDefaults();
+              $values = $this->form->getDefaults();    
+              
+              // Defaults have localized dates, therefore, convert to standard format 
+              $values['calFromDate'] = $this->_getStandardDate($values['calFromDate']);
+              $values['calToDate'] = $this->_getStandardDate($values['calToDate']);
               $this->_setFilters($mode, $values);                            
         } else {
-              $values = $this->_getFilters($mode);
-              $this->form->setDefaults($values);
-              $page = $request->getParameter('pageNo', null);
-              if (empty($page)) {
-                  $page = $this->_getPage($mode);
-              }
-        }
+            
+            // If request was link from another page:
+            if (!empty($empNumber)) {
+                $employee = $this->getEmployeeService()->getEmployee($empNumber);
 
+                // set default to employee name field.
+                if (!empty($employee)) {
+                    $employeeName = $employee->getFullName();
+                    $terminationId = $employee->getTerminationId();
+
+                    $this->form->setDefault('txtEmployee', $employeeName);
+                    $values['txtEmployee'] = $employeeName;
+
+                    if (!empty($terminationId)) {
+                        $terminatedEmp = 'on';
+                        $values['cmbWithTerminated'] = $terminatedEmp;
+                        $this->form->setDefault('cmbWithTerminated', $terminatedEmp);
+                    }
+                    if (!empty($leavePeriodId)) {
+
+                        $leavePeriod = $this->getLeavePeriodService()->readLeavePeriod($leavePeriodId);
+                        if ($leavePeriod instanceof LeavePeriod) {
+                            $values['calFromDate'] = $leavePeriod->getStartDate();
+                            $values['calToDate'] = $leavePeriod->getEndDate();
+                            $this->form->setDefault('calFromDate', set_datepicker_date_format($values['calFromDate']));
+                            $this->form->setDefault('calToDate', set_datepicker_date_format($values['calToDate']));
+                        }
+                    }
+
+                    if (!empty($leaveTypeId)) {
+                        $values['leaveTypeId'] = $leaveTypeId;
+                    }
+                    if (!empty($leaveStatusId)) {
+                        $values['chkSearchFilter'] = $leaveStatusId;
+                        $this->form->setDefault('chkSearchFilter', array($statuses));
+                    }
+                    
+                    $this->_setFilters($mode, $values);
+                }
+                
+            } else {           
+
+                // (paging, direct access of leave list)
+                $values = $this->_getFilters($mode);
+                $this->form->setDefaults($values);
+
+                // Session filters have dates in standard format. Therefore, convert to localized format for
+                // display
+                $this->form->setDefault('calFromDate', set_datepicker_date_format($values['calFromDate']));
+                $this->form->setDefault('calToDate', set_datepicker_date_format($values['calToDate']));
+
+                $page = $request->getParameter('pageNo', null);
+                if (empty($page)) {
+                    $page = $this->_getPage($mode);
+                }
+            }
+        }
 
         $subunitId = $this->_getFilterValue($values, 'cmbSubunit', null);
         $statuses = $this->_getFilterValue($values, 'chkSearchFilter', array());
@@ -135,60 +197,7 @@ class viewLeaveListAction extends sfAction {
         $fromDate = $this->_getFilterValue($values, 'calFromDate', null);
         $toDate = $this->_getFilterValue($values, 'calToDate', null);
         $employeeName = $this->_getFilterValue($values, 'txtEmployee', null);
-        
-
-        // Check for request from pim: 'txtEmpID' will be available as a get parameter.
-        $empNumber = $request->getGetParameter('txtEmpID');
-        $leavePeriodId = $request->getGetParameter('leavePeriodId');
-        $leaveTypeId = $request->getGetParameter('leaveTypeId');
-        $leaveStatusId = $request->getGetParameter('status');
-        if (!empty($empNumber)) {
-            $employee = $this->getEmployeeService()->getEmployee($empNumber);
-            
-            // set default to employee name field.
-            if (!empty($employee)) {
-                $employeeName = $employee->getFullName();
-                $terminationId = $employee->getTerminationId();
                 
-                $this->form->setDefault('txtEmployee', $employeeName);
-                $values['txtEmployee'] = $employeeName;
-                
-                if (!empty($terminationId)) {
-                    $terminatedEmp = 'on';
-                    $values['cmbWithTerminated'] = $terminatedEmp;
-                    $this->form->setDefault('cmbWithTerminated', $terminatedEmp);
-                }
-                if (!empty($leavePeriodId)) {
-                   $leavePeriod = $this->getLeavePeriodService()->readLeavePeriod($leavePeriodId);
-                   if($leavePeriod instanceof LeavePeriod){
-                       $fromDate = $values['calFromDate'] = $leavePeriod->getStartDate();
-                       $toDate = $values['calToDate'] = $leavePeriod->getEndDate();
-                       $this->form->setDefault('calFromDate', set_datepicker_date_format($values['calFromDate']));
-                       $this->form->setDefault('calToDate', set_datepicker_date_format($values['calToDate']));
-                   }
-                }
-                
-                if (!empty($leaveTypeId)) {
-                   $values['leaveTypeId'] = $leaveTypeId;
-                }
-                if (!empty($leaveStatusId)) {
-                   $statuses = $values['chkSearchFilter'] = $leaveStatusId;
-                   $this->form->setDefault('chkSearchFilter', array($statuses));
-                }                
-            }
-        }
-        
-        if ($values['calFromDate'] && $values['calToDate'] && !$request->hasParameter('reset')) {
-            $leavePeriod = $this->getLeavePeriodService()->getCurrentLeavePeriod();
-            if ($leavePeriod instanceof LeavePeriod) {
-                $fromDate = $values['calFromDate'] = $leavePeriod->getStartDate();
-                $toDate = $values['calToDate'] = $leavePeriod->getEndDate();
-                $this->form->setDefault('calFromDate', set_datepicker_date_format($values['calFromDate']));
-                $this->form->setDefault('calToDate', set_datepicker_date_format($values['calToDate']));
-            }
-        }
-        
-        $this->_setFilters($mode, $values);
         $message = $this->getUser()->getFlash('message', '');
         $messageType = $this->getUser()->getFlash('messageType', '');
 
@@ -340,13 +349,17 @@ class viewLeaveListAction extends sfAction {
     }
 
     /**
-     *
-     * @param array $filters
+     * Remember filter values in session.
+     * 
+     * Dates are expected in standard date format (yy-dd-mm, 2012-21-02).
+     * 
+     * @param mode Leave list mode. One of (LeaveListForm::MODE_ADMIN_LIST,
+     *                                      LeaveListForm::MODE_MY_LEAVE_LIST
+     *                                      LeaveListForm::MODE_SUPERVISOR_LIST)                            
+     * @param array $filters Filters
      * @return unknown_type
      */
     protected function _setFilters($mode, array $filters) {
-        $filters['calFromDate'] = set_datepicker_date_format($filters['calFromDate']);
-        $filters['calToDate'] = set_datepicker_date_format($filters['calToDate']);
         return $this->getUser()->setAttribute($mode . '.filters', $filters, 'leave_list');
     }
 
@@ -376,6 +389,14 @@ class viewLeaveListAction extends sfAction {
         }
 
         return false;
+    }
+    
+    protected function _getStandardDate($localizedDate) {
+        $localizationService = new LocalizationService();
+        $format = sfContext::getInstance()->getUser()->getDateFormat();
+        $trimmedValue = trim($localizedDate);
+        $result = $localizationService->convertPHPFormatDateToISOFormatDate($format, $trimmedValue);   
+        return $result;
     }
 
 }

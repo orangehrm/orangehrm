@@ -4,16 +4,16 @@ class DateRange {
     private $toDate;
 
     public function __construct($fromDate = null, $toDate = null) {
-        $this->fromDate = $this->_formatDate($fromDate);
-        $this->toDate = $this->_formatDate($toDate);
+        $this->fromDate = $fromDate;
+        $this->toDate = $toDate;
     }
 
     public function setFromDate($fromDate) {
-        $this->fromDate = $this->_formatDate($fromDate);
+        $this->fromDate = $fromDate;
     }
 
     public function setToDate($toDate) {
-        $this->toDate = $this->_formatDate($toDate);
+        $this->toDate = $toDate;
     }
 
     public function getFromDate() {
@@ -23,12 +23,5 @@ class DateRange {
     public function getToDate() {
 		return $this->toDate;
     }
-     
-    public function _formatDate($dateString) {
-        $pattern = sfContext::getInstance()->getUser()->getDateFormat();
-        $localizationService = new LocalizationService();
-        $result = $localizationService->convertPHPFormatDateToISOFormatDate($pattern, trim($dateString));        
-
-        return $result;
-    }
+        
 }
