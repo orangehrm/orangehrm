@@ -218,13 +218,15 @@ $imagePath = public_path("../../themes/{$styleSheet}/images/login");
         setTimeout(checkSavedUsernames,100);
         
         $('#txtUsername').focus(function() {
-            
             removeHint();
-            
         });
         
         $('#txtPassword').focus(function() {
              removeHint();
+        });
+        
+        $('.form-hint').click(function(){
+            removeHint();
         });
         
         $('#hdnUserTimeZoneOffset').val(calculateUserTimeZoneOffset().toString());
