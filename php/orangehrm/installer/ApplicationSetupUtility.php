@@ -289,25 +289,31 @@ public static function writeSymfonyDbConfigFile() {
 		$dbOHRMUser = $_SESSION['dbInfo']['dbUserName'];
 		$dbOHRMPassword = $_SESSION['dbInfo']['dbPassword'];
 	}
+    
+    $dsn = "mysql:host=$dbHost;dbname=$dbName";
+    $testDsn = "mysql:host=$dbHost;dbname=test_$dbName";
+    
+    if (is_numeric($dbHostPort)) {
+        $dsn = "mysql:host=$dbHost;port=$dbHostPort;dbname=$dbName";
+        $testDsn = "mysql:host=$dbHost;port=$dbHostPort;dbname=test_$dbName";
+    }
 	
     $confContent = <<< CONFCONT
 all:
   doctrine:
     class: sfDoctrineDatabase
     param:
-      dsn: 'mysql:host=$dbHost;dbname=$dbName'
+      dsn: '$dsn'
       username: $dbOHRMUser
       password: $dbOHRMPassword
-      port: $dbHostPort
       attributes: { export: tables }
 test:
   doctrine:
     class: sfDoctrineDatabase
     param:
-      dsn: 'mysql:host=$dbHost;dbname=test_$dbName'
+      dsn: '$testDsn'
       username: $dbOHRMUser
       password: $dbOHRMPassword
-      port: $dbHostPort
 CONFCONT;
 
 	$filename = ROOT_PATH . '/symfony/config/databases.yml';
