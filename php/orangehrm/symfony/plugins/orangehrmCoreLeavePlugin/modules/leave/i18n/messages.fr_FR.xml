@@ -352,6 +352,14 @@
     <source>Failed to Assign</source>
     <target>FR_Failed to Assign</target>
    </trans-unit>
+   <trans-unit id="83">
+    <source>Add Leave Type</source>
+    <target>FR_Add Leave Type</target>
+   </trans-unit>
+   <trans-unit id="83">
+    <source>Edit Leave Type</source>
+    <target>FR_Edit Leave Type</target>
+   </trans-unit>
   </body>
  </file>
 </xliff>

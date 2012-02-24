@@ -18,8 +18,7 @@ use_stylesheets_for_form($form);
     <div class="outerbox" style="width:auto;">
 
         <div class="mainHeading">
-            <h2 class="paddingLeft"><?php echo $form->isUpdateMode() ? __('Edit') : __('Add'); ?>
-                <?php echo __(' Leave Type'); ?></h2>
+            <h2 class="paddingLeft"><?php echo $form->isUpdateMode() ? __('Edit Leave Type') : __('Add Leave Type'); ?></h2>
         </div>
 
         <form name="frmLeaveType" id="frmLeaveType" 
