@@ -528,7 +528,15 @@
     <source>Remove?</source> 
     <target>削除しますか？</target> 
     <note/> 
-   </trans-unit> 
+   </trans-unit>
+   <trans-unit id="105"> 
+    <source>Application Initiated</source> 
+    <target>アプリケーション開始</target> 
+   </trans-unit>
+   <trans-unit id="66">
+    <source>Interview Scheduled</source>
+    <target>インタビューのスケジュール</target>
+   </trans-unit>
   </body> 
  </file> 
 </xliff> 
