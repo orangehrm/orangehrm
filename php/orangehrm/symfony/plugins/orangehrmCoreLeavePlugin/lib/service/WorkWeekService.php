@@ -94,8 +94,8 @@ class WorkWeekService extends BaseService {
      * @param $day
      * @return boolean
      */
-    public function isWeekend($day, $fullDay) {
-        return $this->getWorkWeekDao()->isWeekend($day, $fullDay);
+    public function isWeekend($day, $fullDay, $operationalCountryId = null) {
+        return $this->getWorkWeekDao()->isWeekend($day, $fullDay, $operationalCountryId);
     }
     
     /**
