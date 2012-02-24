@@ -158,8 +158,8 @@ EOT
     }
 
     public function printRequiredFieldsNotice() {
-        $content = content_tag('span', '* ' . __(CommonMessages::REQUIRED_FIELD), array('class' => 'required'));
-        echo content_tag('div', $content, array('class' => 'requirednotice'));
+        $content = content_tag('span', '* ', array('class' => 'required'));
+        echo content_tag('div', $content. __(CommonMessages::REQUIRED_FIELD), array('class' => 'requirednotice'));
         return true;
     }
 
