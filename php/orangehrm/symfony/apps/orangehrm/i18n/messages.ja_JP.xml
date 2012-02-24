@@ -5272,7 +5272,17 @@
    <trans-unit id="1053"> 
     <source>compulsory</source> 
     <target>強制的な</target> 
-   </trans-unit>     
+   </trans-unit>
+   <trans-unit id="465">
+    <source>Korea, Democratic People's Republic of</source>
+    <target>韓国民主人民共和国</target>
+    <note>A country name</note>
+    </trans-unit>
+    <trans-unit id="465">
+    <source>Lao People's Democratic Republic</source>
+    <target>ラオス人民民主共和国</target>
+    <note>A country name</note>
+    </trans-unit>
   </body> 
  </file> 
 </xliff> 
