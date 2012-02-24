@@ -103,7 +103,8 @@ use_javascripts_for_form($form);
     var lang_edit = '<?php echo __('Edit'); ?>';
     var lang_save = '<?php echo __('Save'); ?>';
     var lang_length_exceeded_error = '<?php echo __(ValidationMessages::TEXT_LENGTH_EXCEEDS, array('%amount%' => 250)); ?>';    
-    var data = <?php echo str_replace('&#039;', "'", $form->getEmployeeListAsJson()); ?>
+    var data = <?php echo str_replace('&#039;', "'", $form->getEmployeeListAsJson()); ?>;
+    var lang_selectAction = '<?php echo __("Select Action");?>';
     
     function submitPage(pageNo) {
         //    location.href = '<?php //echo url_for($baseUrl . '?pageNo='); ?>' + pageNo;
@@ -117,22 +118,37 @@ use_javascripts_for_form($form);
 
     function handleSaveButton() {
         $(this).attr('disabled', true);
+        
+        $('#noActionsSelectedWarning').remove();
+        
+        var selectedActions = 0;
+        
         $('select[name^="select_leave_action_"]').each(function() {
             var id = $(this).attr('id').replace('select_leave_action_', '');
             if ($(this).val() == '') {
                 $('#hdnLeaveRequest_' + id).attr('disabled', true);
             } else {
+                selectedActions++;
+                $('#hdnLeaveRequest_' + id).attr('disabled', false);                
                 $('#hdnLeaveRequest_' + id).val($(this).val());
             }
 
             if ($(this).val() == '') {
                 $('#hdnLeave_' + id).attr('disabled', true);
             } else {
+                $('#hdnLeave_' + id).attr('disabled', false); 
                 $('#hdnLeave_' + id).val($(this).val());
             }
-        });
+        });  
     
-        $('#frmList_ohrmListComponent').submit();
+        if (selectedActions > 0) {
+            $('#frmList_ohrmListComponent').submit();
+        } else {
+            $('div#ajaxCommentSaveMsg').before('<div id="noActionsSelectedWarning" class="messageBalloon_warning"></div>');
+            $('#noActionsSelectedWarning').text(lang_selectAction);
+            $(this).attr('disabled', false);      
+            return false;
+        }
     }
 
     function setPage() {}

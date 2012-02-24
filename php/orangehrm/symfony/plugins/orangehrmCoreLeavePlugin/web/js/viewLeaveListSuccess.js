@@ -191,18 +191,6 @@ $(document).ready(function() {
         return false;
     });
 
-    $('select.select_action').bind("change",function() {
-
-        var requestId = $(this).attr('name').substring(20);
-
-        if (mode == 'detailed') {
-            $('#leave-'+requestId).val($(this).val());
-        } else {
-            $('#leaveRequest-'+requestId).val($(this).val());
-        }
-
-    });
-
 });
     
 
