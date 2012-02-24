@@ -1,3 +1,25 @@
+New & Changed Features for OrangeHRM ver  2.7-rc.1
+
+    New Features
+    ------------
+    Language translation and date format support for all modules except Benefits module.
+    Ability to switch on/off modules.
+
+    Bug Fixes
+    ---------
+    3483627 - Can't Install if MySQL Host in an IP and Port Is Different
+    3483432 - [Terminate Employment]"Date" field is not internationalized
+    3483464 - User can add projects for the deleted customer
+    3483434 - [Add Pay Grade] "Assigned Currency" label should be changed
+    3483549 - PIM employee image shrinks in some cases
+    3483552 - Date picker validator doesn't disappear on correct value
+    3483465 - "System shows date validation instead of time validation
+    3483541 - view leave balance when approving leave
+    3483466 - [Spelling] Leve Request Exceeds Leave Balance
+    3483546 - leave requests of next leave period should be shown by default
+    3479992 - Fatal error displayed when checked the checkbox and saved
+    3483539 - Show number of available leave when apply a leave
+
 New & Changed Features for OrangeHRM ver  2.6.12.1
 
     Bug Fixes
