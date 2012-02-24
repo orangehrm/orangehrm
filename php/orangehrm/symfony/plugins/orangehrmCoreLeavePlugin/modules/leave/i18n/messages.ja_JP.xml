@@ -335,8 +335,8 @@
     <note/> 
    </trans-unit> 
    <trans-unit id="67"> 
-    <source>Failed to Save: Date Alredy Assigned</source> 
-    <target>Alredy割当年月日：保存に失敗しました。</target> 
+    <source>Failed to Save: Date Already Assigned</source> 
+    <target>既に割り当てられた日付：保存に失敗しました。</target> 
     <note/> 
    </trans-unit> 
    <trans-unit id="68"> 

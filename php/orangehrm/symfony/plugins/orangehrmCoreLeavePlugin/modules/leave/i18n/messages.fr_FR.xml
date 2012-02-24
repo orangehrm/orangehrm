@@ -317,8 +317,8 @@
     <target>FR_Successfully Undeleted</target>
    </trans-unit>
    <trans-unit id="83">
-    <source>Failed to Save: Date Alredy Assigned</source>
-    <target>FR_Failed to Save: Date Alredy Assigned</target>
+    <source>Failed to Save: Date Already Assigned</source>
+    <target>FR_Failed to Save: Date Already Assigned</target>
    </trans-unit>
    <trans-unit id="83">
     <source>Failed to Assign: Work Shift Length Exceeded</source>
