@@ -374,6 +374,10 @@
     <target>要求（%date_range%）を%name%を残す</target> 
     <note/> 
    </trans-unit> 
+   <trans-unit id="83">
+    <source>Failed to Assign</source>
+    <target>割り当てに失敗しました。</target>
+   </trans-unit>
   </body> 
  </file> 
 </xliff> 

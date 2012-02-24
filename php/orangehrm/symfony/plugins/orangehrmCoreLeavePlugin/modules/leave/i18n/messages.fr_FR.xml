@@ -348,6 +348,10 @@
     <source>Leave Request (%date_range%) %name%</source>
     <target>FR_Leave Request (%date_range%) %name%</target>
    </trans-unit>
+   <trans-unit id="83">
+    <source>Failed to Assign</source>
+    <target>FR_Failed to Assign</target>
+   </trans-unit>
   </body>
  </file>
 </xliff>
