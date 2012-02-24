@@ -193,7 +193,7 @@ $formatData['newSeparater'] = '/';
                         <?php
                             $i = 0;
                             foreach ($reviews as $review) {
-
+                                if($review->getEmployee()) {
                                 $rowClass = ($i % 2) ? 'even' : 'odd';
                                 $empName = $review->getEmployee()->getFirstName() . ' ' . $review->getEmployee()->getLastName();
                         ?>
@@ -267,7 +267,8 @@ $formatData['newSeparater'] = '/';
 
                         <?php
                                        $i++;
-                                   } // End of foreach
+                                } // End of if condition
+                             } // End of foreach
                         ?>
 
                                </tbody>
