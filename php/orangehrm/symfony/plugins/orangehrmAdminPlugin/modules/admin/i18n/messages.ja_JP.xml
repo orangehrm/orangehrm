@@ -386,7 +386,7 @@
    </trans-unit> 
    <trans-unit id="78"> 
     <source>Enable Admin module</source> 
-    <target>Adminモジュールを有効にする</target> 
+    <target>管理モジュールを有効にする</target> 
     <note>A time zone name</note> 
    </trans-unit> 
    <trans-unit id="79"> 
@@ -406,7 +406,7 @@
    </trans-unit> 
    <trans-unit id="82"> 
     <source>Enable PIM module</source> 
-    <target>PIMモジュールを有効にする</target> 
+    <target>ピムモジュールを有効にする</target> 
     <note>A time zone name</note> 
    </trans-unit> 
    <trans-unit id="83"> 
@@ -416,7 +416,7 @@
    </trans-unit> 
    <trans-unit id="84"> 
     <source>Enable Time module</source> 
-    <target>Timeモジュールを有効にする</target> 
+    <target>時間モジュールを有効にする</target> 
     <note>A time zone name</note> 
    </trans-unit> 
    <trans-unit id="92">
