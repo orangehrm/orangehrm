@@ -167,7 +167,7 @@ $locRights['delete'] = true;
     //<![CDATA[
     
     var hideAttachmentListOnAdd = <?php echo $hasAttachments ? 'false' : 'true';?>;
-    var lang_EditAttachmentHeading = "<?php echo __("Edit Attachment :") ?>";
+    var lang_EditAttachmentHeading = "<?php echo __("Edit Attachment") . " :" ?>";
     var lang_AddAttachmentHeading = "<?php echo __("Add Attachment"); ?>";
     var lang_EditAttachmentReplaceFile = "<?php echo __("Replace file");?>";
     var lang_EditAttachmentWithNewFile = "<?php echo __("with new file");?>";
