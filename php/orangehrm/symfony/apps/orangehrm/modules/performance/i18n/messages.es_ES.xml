@@ -1,0 +1,177 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE xliff PUBLIC "-//XLIFF//DTD XLIFF//EN" "http://www.oasis-open.org/committees/xliff/documents/xliff.dtd">
+<xliff version="1.0">
+ <header/>
+ <file source-language="en_US" target-language="es_ES" datatype="plaintext" original="messages" date="2012-03-01T0:25:45Z" product-name="messages">
+  <body>
+   <trans-unit id="1">
+    <source>Add Key Performance Indicator</source>
+    <target>Añadir indicador clave de rendimiento</target>
+   </trans-unit>
+   <trans-unit id="2">
+    <source>Add Performance Review</source>
+    <target>Añadir Revisión del Desempeño</target>
+   </trans-unit>
+   <trans-unit id="3">
+    <source>Being Reviewed</source>
+    <target>Siendo revisado</target>
+   </trans-unit>
+   <trans-unit id="4">
+    <source>Clear</source>
+    <target>Borrar</target>
+   </trans-unit>
+   <trans-unit id="5">
+    <source>Copy Key Performance Indicators</source>
+    <target>Copie los indicadores clave de rendimiento</target>
+   </trans-unit>
+   <trans-unit id="6">
+    <source>Copy To</source>
+    <target>Copiar a</target>
+   </trans-unit>
+   <trans-unit id="7">
+    <source>Define Now</source>
+    <target>Definir ahora</target>
+   </trans-unit>
+   <trans-unit id="8">
+    <source>Due Date</source>
+    <target>Fecha de vencimiento</target>
+   </trans-unit>
+   <trans-unit id="9">
+    <source>Edit Performance Review</source>
+    <target>Edición de Evaluación de Resultados</target>
+   </trans-unit>
+   <trans-unit id="10">
+    <source>Is Default</source>
+    <target>No está en</target>
+   </trans-unit>
+   <trans-unit id="11">
+    <source>Key Performance Indicator</source>
+    <target>Indicador clave de rendimiento</target>
+   </trans-unit>
+   <trans-unit id="12">
+    <source>Key Performance Indicators for Job Title</source>
+    <target>Indicadores clave de rendimiento para el Título del Trabajo</target>
+   </trans-unit>
+   <trans-unit id="13">
+    <source>Make Default Scale</source>
+    <target>Asegúrese de escala por defecto</target>
+   </trans-unit>
+   <trans-unit id="14">
+    <source>Max Rate</source>
+    <target>Velocidad máxima de</target>
+   </trans-unit>
+   <trans-unit id="15">
+    <source>Maximum Rating</source>
+    <target>Valoración máxima</target>
+   </trans-unit>
+   <trans-unit id="16">
+    <source>Min Rate</source>
+    <target>Min Rate</target>
+   </trans-unit>
+   <trans-unit id="17">
+    <source>Minimum Rating</source>
+    <target>Calificación mínima</target>
+   </trans-unit>
+   <trans-unit id="18">
+    <source>Minimum Rating should be lesser than Maximum Rating</source>
+    <target>Calificación mínima debe ser menor al límite nominal</target>
+   </trans-unit>
+   <trans-unit id="19">
+    <source>No employee exists with this name</source>
+    <target>Ningún empleado existe con este nombre</target>
+   </trans-unit>
+   <trans-unit id="20">
+    <source>No Key Performance Indicators were found for the job title of this employee</source>
+    <target>No indicadores clave de rendimiento se encontraron resultados para el título del trabajo de este empleado</target>
+   </trans-unit>
+   <trans-unit id="21">
+    <source>No reviewer exists with this name</source>
+    <target>No revisor existe con este nombre</target>
+   </trans-unit>
+   <trans-unit id="22">
+    <source>Not Available</source>
+    <target>No está disponible</target>
+   </trans-unit>
+   <trans-unit id="23">
+    <source>Performance Review</source>
+    <target>Examen del Rendimiento</target>
+   </trans-unit>
+   <trans-unit id="24">
+    <source>Rating</source>
+    <target>Clasificación</target>
+   </trans-unit>
+   <trans-unit id="25">
+    <source>review of</source>
+    <target>revisión de</target>
+   </trans-unit>
+   <trans-unit id="26">
+    <source>Review Period</source>
+    <target>Examen Periódico</target>
+   </trans-unit>
+   <trans-unit id="27">
+    <source>Reviewer</source>
+    <target>Crítico</target>
+   </trans-unit>
+   <trans-unit id="28">
+    <source>Reviewer Comments</source>
+    <target>Comentarios de los viajeros</target>
+   </trans-unit>
+   <trans-unit id="29">
+    <source>Reviewer Name</source>
+    <target>Nombre Revisor</target>
+   </trans-unit>
+   <trans-unit id="30">
+    <source>Search Key Performance Indicators</source>
+    <target>Buscar en indicadores clave de rendimiento</target>
+   </trans-unit>
+   <trans-unit id="31">
+    <source>Search Performance Reviews</source>
+    <target>Comentarios de la búsqueda de rendimiento</target>
+   </trans-unit>
+   <trans-unit id="32">
+    <source>Select Job Title</source>
+    <target>Seleccione Título del Trabajo</target>
+   </trans-unit>
+   <trans-unit id="33">
+    <source>Sub Division</source>
+    <target>División de Sub</target>
+   </trans-unit>
+   <trans-unit id="34">
+    <source>Successfully</source>
+    <target>Con éxito</target>
+   </trans-unit>
+   <trans-unit id="35">
+    <source>Update Key Performance Indicator</source>
+    <target>Actualización de indicadores clave de rendimiento</target>
+   </trans-unit>
+   <trans-unit id="36">
+    <source>updated</source>
+    <target>actualizado</target>
+   </trans-unit>
+   <trans-unit id="37">
+    <source>View KPI List</source>
+    <target>Ver la lista de KPI</target>
+   </trans-unit>
+   <trans-unit id="38">
+    <source>No Defined Job Titles</source>
+    <target>No hay definidos Profesiones</target>
+   </trans-unit>
+   <trans-unit id="39">
+    <source>Failed to Add: No Job Title Assigned</source>
+    <target>No se pudo agregar: No Título del trabajo asignado</target>
+   </trans-unit>
+   <trans-unit id="40">
+    <source>Comment Should Be Less Than %amount% Characters</source>
+    <target>Comentario debe ser menos de Personajes% Monto%</target>
+   </trans-unit>
+   <trans-unit id="41">
+    <source>KPI Should Be a Number Within Minimum and Maximum Value</source>
+    <target>KPI debe ser un número dentro del valor mínimo y máximo</target>
+   </trans-unit>
+   <trans-unit id="42">
+    <source>KPI Already Exists, This Operation Deletes Existing KPI</source>
+    <target>KPI ya existe, esta operación elimina existentes KPI</target>
+   </trans-unit>
+  </body>
+ </file>
+</xliff>
