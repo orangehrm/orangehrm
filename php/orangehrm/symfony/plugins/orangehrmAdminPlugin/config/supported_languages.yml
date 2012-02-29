@@ -4,5 +4,5 @@
 languages:
 #  0: {key: 'fr_CA', value: 'French - Canada'}  
   1: {key: 'fr_FR', value: 'French - France'}
-#  2: {key: 'ja_JP', value: 'Japanese'}
+  2: {key: 'ja_JP', value: 'Japanese'}
   3: {key: 'en_US', value: 'US English'}  

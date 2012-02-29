@@ -2,7 +2,7 @@
 <!DOCTYPE xliff PUBLIC "-//XLIFF//DTD XLIFF//EN" "http://www.oasis-open.org/committees/xliff/documents/xliff.dtd">
 <xliff version="1.0">
  <header/>
- <file source-language="en_US" target-language="fr_FR" datatype="plaintext" original="messages" date="2012-02-14T22:11:29Z" product-name="messages">
+ <file source-language="en_US" target-language="fr_FR" datatype="plaintext" original="messages" date="2012-02-29T20:12:33Z" product-name="messages">
   <body>
    <trans-unit id="1">
     <source>Remaining number of custom fields</source>
@@ -176,445 +176,409 @@
     <source>Custom Field Name</source>
     <target>FR_Custom Field Name</target>
    </trans-unit>
-   <trans-unit id="45">
+   <trans-unit id="44">
     <source>Date of Expiry</source>
     <target>FR_Date of Expiry</target>
    </trans-unit>
-   <trans-unit id="46">
+   <trans-unit id="45">
     <source>Defined Custom Fields</source>
     <target>FR_Defined Custom Fields</target>
    </trans-unit>
-   <trans-unit id="47">
+   <trans-unit id="46">
     <source>Deleted</source>
     <target>FR_Deleted</target>
    </trans-unit>
-   <trans-unit id="48">
+   <trans-unit id="47">
     <source>Direct Deposit</source>
     <target>FR_Direct Deposit</target>
    </trans-unit>
-   <trans-unit id="49">
+   <trans-unit id="48">
     <source>Document</source>
     <target>FR_Document</target>
    </trans-unit>
-   <trans-unit id="50">
+   <trans-unit id="49">
     <source>Document No</source>
     <target>FR_Document No</target>
    </trans-unit>
-   <trans-unit id="51">
+   <trans-unit id="50">
     <source>Drop Down</source>
     <target>FR_Drop Down</target>
    </trans-unit>
-   <trans-unit id="52">
+   <trans-unit id="51">
     <source>Edit Custom Field</source>
     <target>FR_Edit Custom Field</target>
    </trans-unit>
-   <trans-unit id="53">
+   <trans-unit id="52">
     <source>Edit Dependent</source>
     <target>FR_Edit Dependent</target>
    </trans-unit>
-   <trans-unit id="54">
+   <trans-unit id="53">
     <source>Edit Education</source>
     <target>FR_Edit Education</target>
    </trans-unit>
-   <trans-unit id="55">
+   <trans-unit id="54">
     <source>Edit Emergency Contact</source>
     <target>FR_Edit Emergency Contact</target>
    </trans-unit>
-   <trans-unit id="56">
+   <trans-unit id="55">
     <source>Edit Employement Termination</source>
     <target>FR_Edit Employement Termination</target>
    </trans-unit>
-   <trans-unit id="57">
+   <trans-unit id="56">
     <source>Edit Language</source>
     <target>FR_Edit Language</target>
    </trans-unit>
-   <trans-unit id="58">
+   <trans-unit id="57">
     <source>Edit License</source>
     <target>FR_Edit License</target>
    </trans-unit>
-   <trans-unit id="59">
+   <trans-unit id="58">
     <source>Edit Membership Detail</source>
     <target>FR_Edit Membership Detail</target>
    </trans-unit>
-   <trans-unit id="60">
+   <trans-unit id="59">
     <source>Edit Reporting Method</source>
     <target>FR_Edit Reporting Method</target>
    </trans-unit>
-   <trans-unit id="61">
+   <trans-unit id="60">
     <source>Edit Skill</source>
     <target>FR_Edit Skill</target>
    </trans-unit>
-   <trans-unit id="62">
+   <trans-unit id="61">
     <source>Edit Subordinate</source>
     <target>FR_Edit Subordinate</target>
    </trans-unit>
-   <trans-unit id="63">
+   <trans-unit id="62">
     <source>Edit Supervisor</source>
     <target>FR_Edit Supervisor</target>
    </trans-unit>
-   <trans-unit id="64">
+   <trans-unit id="63">
     <source>Edit Termination Reason</source>
     <target>FR_Edit Termination Reason</target>
    </trans-unit>
-   <trans-unit id="65">
+   <trans-unit id="64">
     <source>Edit Work Experience</source>
     <target>FR_Edit Work Experience</target>
    </trans-unit>
-   <trans-unit id="66">
+   <trans-unit id="65">
     <source>Emergency Contact(s)</source>
     <target>FR_Emergency Contact(s)</target>
    </trans-unit>
-   <trans-unit id="68">
+   <trans-unit id="66">
     <source>Employee Information</source>
     <target>FR_Employee Information</target>
    </trans-unit>
-   <trans-unit id="69">
+   <trans-unit id="67">
     <source>Employment</source>
     <target>FR_Employment</target>
    </trans-unit>
-   <trans-unit id="70">
+   <trans-unit id="68">
     <source>Employment Contract</source>
     <target>FR_Employment Contract</target>
    </trans-unit>
-   <trans-unit id="71">
+   <trans-unit id="69">
     <source>Enter a number</source>
     <target>FR_Enter a number</target>
    </trans-unit>
-   <trans-unit id="72">
-    <source>Enter a valid number</source>
-    <target>FR_Enter a valid number</target>
-   </trans-unit>
-   <trans-unit id="73">
+   <trans-unit id="70">
     <source>Enter allowed options separated by commas</source>
     <target>FR_Enter allowed options separated by commas</target>
    </trans-unit>
-   <trans-unit id="74">
-    <source>Ethinical Race</source>
-    <target>FR_Ethinical Race</target>
-   </trans-unit>
-   <trans-unit id="75">
+   <trans-unit id="71">
     <source>Ethnic Race</source>
     <target>FR_Ethnic Race</target>
    </trans-unit>
-   <trans-unit id="76">
+   <trans-unit id="72">
     <source>Exemptions</source>
     <target>FR_Exemptions</target>
    </trans-unit>
-   <trans-unit id="77">
+   <trans-unit id="73">
     <source>Federal Income Tax</source>
     <target>FR_Federal Income Tax</target>
    </trans-unit>
-   <trans-unit id="78">
+   <trans-unit id="74">
     <source>Field Name</source>
     <target>FR_Field Name</target>
    </trans-unit>
-   <trans-unit id="79">
+   <trans-unit id="75">
     <source>Field Type</source>
     <target>FR_Field Type</target>
    </trans-unit>
-   <trans-unit id="80">
+   <trans-unit id="76">
     <source>From date should be before to date</source>
     <target>FR_From date should be before to date</target>
    </trans-unit>
-   <trans-unit id="81">
+   <trans-unit id="77">
     <source>GPA/Score</source>
     <target>FR_GPA/Score</target>
    </trans-unit>
-   <trans-unit id="82">
+   <trans-unit id="78">
     <source>Hourly</source>
     <target>FR_Hourly</target>
    </trans-unit>
-   <trans-unit id="83">
-    <source>Incorrect work email</source>
-    <target>FR_Incorrect work email</target>
-   </trans-unit>
-   <trans-unit id="84">
+   <trans-unit id="79">
     <source>Institute</source>
     <target>FR_Institute</target>
    </trans-unit>
-   <trans-unit id="85">
+   <trans-unit id="80">
     <source>Invalid File Type</source>
     <target>FR_Invalid File Type</target>
    </trans-unit>
-   <trans-unit id="86">
+   <trans-unit id="81">
     <source>Issued date should be before expiration date</source>
     <target>FR_Issued date should be before expiration date</target>
    </trans-unit>
-   <trans-unit id="87">
+   <trans-unit id="82">
     <source>Leave</source>
     <target>FR_Leave</target>
    </trans-unit>
-   <trans-unit id="88">
+   <trans-unit id="83">
     <source>Major/Specialization</source>
     <target>FR_Major/Specialization</target>
    </trans-unit>
-   <trans-unit id="89">
+   <trans-unit id="84">
     <source>Married</source>
     <target>FR_Married</target>
    </trans-unit>
-   <trans-unit id="90">
+   <trans-unit id="85">
     <source>Max</source>
     <target>FR_Max</target>
    </trans-unit>
-   <trans-unit id="91">
+   <trans-unit id="86">
     <source>Membership</source>
     <target>FR_Membership</target>
    </trans-unit>
-   <trans-unit id="92">
+   <trans-unit id="87">
     <source>Membership Type</source>
     <target>FR_Membership Type</target>
    </trans-unit>
-   <trans-unit id="93">
+   <trans-unit id="88">
     <source>Military Service</source>
     <target>FR_Military Service</target>
    </trans-unit>
-   <trans-unit id="94">
+   <trans-unit id="89">
     <source>Min</source>
     <target>FR_Min</target>
    </trans-unit>
-   <trans-unit id="95">
+   <trans-unit id="90">
     <source>Monthly</source>
     <target>FR_Monthly</target>
    </trans-unit>
-   <trans-unit id="96">
+   <trans-unit id="91">
     <source>Monthly on first pay of month.</source>
     <target>FR_Monthly on first pay of month.</target>
    </trans-unit>
-   <trans-unit id="97">
+   <trans-unit id="92">
     <source>N/A</source>
     <target>FR_N/A</target>
    </trans-unit>
-   <trans-unit id="98">
+   <trans-unit id="93">
     <source>Nick Name</source>
     <target>FR_Nick Name</target>
    </trans-unit>
-   <trans-unit id="99">
-    <source>Nick Name, Smoker, Military Service fields are considered as deprecated fields</source>
-    <target>FR_Nick Name, Smoker, Military Service fields are considered as deprecated fields</target>
-   </trans-unit>
-   <trans-unit id="101">
+   <trans-unit id="94">
     <source>Non Resident Alien</source>
     <target>FR_Non Resident Alien</target>
    </trans-unit>
-   <trans-unit id="102">
+   <trans-unit id="95">
     <source>Not Applicable</source>
     <target>FR_Not Applicable</target>
    </trans-unit>
-   <trans-unit id="103">
+   <trans-unit id="96">
     <source>Note</source>
     <target>FR_Note</target>
    </trans-unit>
-   <trans-unit id="104">
+   <trans-unit id="97">
     <source>Other</source>
     <target>FR_Other</target>
    </trans-unit>
-   <trans-unit id="105">
+   <trans-unit id="98">
     <source>other</source>
     <target>FR_other</target>
    </trans-unit>
-   <trans-unit id="106">
+   <trans-unit id="99">
     <source>Passport</source>
     <target>FR_Passport</target>
    </trans-unit>
-   <trans-unit id="107">
+   <trans-unit id="100">
     <source>Password</source>
     <target>FR_Password</target>
    </trans-unit>
-   <trans-unit id="110">
+   <trans-unit id="101">
     <source>Personal Details</source>
     <target>FR_Personal Details</target>
    </trans-unit>
-   <trans-unit id="111">
+   <trans-unit id="102">
     <source>Photograph</source>
     <target>FR_Photograph</target>
    </trans-unit>
-   <trans-unit id="112">
-    <source>Photograph is required</source>
-    <target>FR_Photograph is required</target>
-   </trans-unit>
-   <trans-unit id="113">
+   <trans-unit id="103">
     <source>Please Specify</source>
     <target>FR_Please Specify</target>
    </trans-unit>
-   <trans-unit id="114">
+   <trans-unit id="104">
     <source>Qualifications</source>
     <target>FR_Qualifications</target>
    </trans-unit>
-   <trans-unit id="115">
+   <trans-unit id="105">
     <source>Reason</source>
     <target>FR_Reason</target>
    </trans-unit>
-   <trans-unit id="117">
-    <source>Renewal date should be greater than commence date</source>
-    <target>FR_Renewal date should be greater than commence date</target>
-   </trans-unit>
-   <trans-unit id="118">
+   <trans-unit id="106">
     <source>Report-to</source>
     <target>FR_Report-to</target>
    </trans-unit>
-   <trans-unit id="119">
+   <trans-unit id="107">
     <source>Screen</source>
     <target>FR_Screen</target>
    </trans-unit>
-   <trans-unit id="120">
+   <trans-unit id="108">
     <source>Select a Photograph</source>
     <target>FR_Select a Photograph</target>
    </trans-unit>
-   <trans-unit id="121">
-    <source>Select Currency Type</source>
-    <target>FR_Select Currency Type</target>
-   </trans-unit>
-   <trans-unit id="122">
+   <trans-unit id="109">
     <source>Select Membership</source>
     <target>FR_Select Membership</target>
    </trans-unit>
-   <trans-unit id="123">
+   <trans-unit id="110">
     <source>Select Options</source>
     <target>FR_Select Options</target>
    </trans-unit>
-   <trans-unit id="124">
+   <trans-unit id="111">
     <source>Semi Monthly</source>
     <target>FR_Semi Monthly</target>
    </trans-unit>
-   <trans-unit id="125">
+   <trans-unit id="112">
     <source>Show Deprecated Fields</source>
     <target>FR_Show Deprecated Fields</target>
    </trans-unit>
-   <trans-unit id="126">
+   <trans-unit id="113">
     <source>Show Nick Name, Smoker and Military Service in Personal Details</source>
     <target>FR_Show Nick Name, Smoker and Military Service in Personal Details</target>
    </trans-unit>
-   <trans-unit id="127">
+   <trans-unit id="114">
     <source>Show SIN field in Personal Details</source>
     <target>FR_Show SIN field in Personal Details</target>
    </trans-unit>
-   <trans-unit id="128">
+   <trans-unit id="115">
     <source>Show SSN field in Personal Details</source>
     <target>FR_Show SSN field in Personal Details</target>
    </trans-unit>
-   <trans-unit id="129">
+   <trans-unit id="116">
     <source>Show US Tax Exemptions menu</source>
     <target>FR_Show US Tax Exemptions menu</target>
    </trans-unit>
-   <trans-unit id="130">
+   <trans-unit id="117">
     <source>SIN Number</source>
     <target>FR_SIN Number</target>
    </trans-unit>
-   <trans-unit id="131">
+   <trans-unit id="118">
     <source>Single</source>
     <target>FR_Single</target>
    </trans-unit>
-   <trans-unit id="132">
+   <trans-unit id="119">
     <source>Smoker</source>
     <target>FR_Smoker</target>
    </trans-unit>
-   <trans-unit id="133">
+   <trans-unit id="120">
     <source>SSN Number</source>
     <target>FR_SSN Number</target>
    </trans-unit>
-   <trans-unit id="134">
+   <trans-unit id="121">
     <source>State Income Tax</source>
     <target>FR_State Income Tax</target>
    </trans-unit>
-   <trans-unit id="135">
+   <trans-unit id="122">
     <source>State/Province</source>
     <target>FR_State/Province</target>
    </trans-unit>
-   <trans-unit id="136">
+   <trans-unit id="123">
     <source>Status</source>
     <target>FR_Status</target>
    </trans-unit>
-   <trans-unit id="137">
+   <trans-unit id="124">
     <source>Subordinate</source>
     <target>FR_Subordinate</target>
    </trans-unit>
-   <trans-unit id="138">
+   <trans-unit id="125">
     <source>Tax Exemptions</source>
     <target>FR_Tax Exemptions</target>
    </trans-unit>
-   <trans-unit id="139">
+   <trans-unit id="126">
     <source>Terminate Employement</source>
     <target>FR_Terminate Employement</target>
    </trans-unit>
-   <trans-unit id="140">
+   <trans-unit id="127">
     <source>Terminated Date</source>
     <target>FR_Terminated Date</target>
    </trans-unit>
-   <trans-unit id="141">
+   <trans-unit id="128">
     <source>Terminated on</source>
     <target>FR_Terminated on</target>
    </trans-unit>
-   <trans-unit id="142">
+   <trans-unit id="129">
     <source>Terminated Reason</source>
     <target>FR_Terminated Reason</target>
    </trans-unit>
-   <trans-unit id="143">
+   <trans-unit id="130">
     <source>Text or Number</source>
     <target>FR_Text or Number</target>
    </trans-unit>
-   <trans-unit id="144">
+   <trans-unit id="131">
     <source>To date should be after From date</source>
     <target>FR_To date should be after From date</target>
    </trans-unit>
-   <trans-unit id="145">
+   <trans-unit id="132">
     <source>Unemployment State</source>
     <target>FR_Unemployment State</target>
    </trans-unit>
-   <trans-unit id="146">
+   <trans-unit id="133">
     <source>User Name</source>
     <target>FR_User Name</target>
    </trans-unit>
-   <trans-unit id="148">
+   <trans-unit id="134">
     <source>Visa</source>
     <target>FR_Visa</target>
    </trans-unit>
-   <trans-unit id="149">
+   <trans-unit id="135">
     <source>Weekly</source>
     <target>FR_Weekly</target>
    </trans-unit>
-   <trans-unit id="150">
+   <trans-unit id="136">
     <source>Work experience</source>
     <target>FR_Work experience</target>
    </trans-unit>
-   <trans-unit id="151">
+   <trans-unit id="137">
     <source>Work State</source>
     <target>FR_Work State</target>
    </trans-unit>
-   <trans-unit id="152">
+   <trans-unit id="138">
     <source>Zip/Postal Code</source>
     <target>FR_Zip/Postal Code</target>
    </trans-unit>
-   <trans-unit id="1010">
+   <trans-unit id="139">
     <source>Renewal date should be after commence date</source>
     <target>FR_Renewal date should be after commence date</target>
    </trans-unit>
-   <trans-unit id="1011">
+   <trans-unit id="140">
     <source>Should have at least %number% characters</source>
     <target>FR_Should have at least %number% characters</target>
    </trans-unit>
-   <trans-unit id="3452">
+   <trans-unit id="141">
     <source>Delete photograph?</source>
     <target>FR_Delete photograph?</target>
    </trans-unit>
-   <trans-unit id="3452">
-    <source>Custom Field Already Exists</source>
-    <target>FR_Custom Field Already Exists</target>
-   </trans-unit>
-   <trans-unit id="3452">
+   <trans-unit id="142">
     <source>Failed To Save: User Name Exists</source>
     <target>FR_Failed To Save: User Name Exists</target>
    </trans-unit>
-   <trans-unit id="3452">
+   <trans-unit id="143">
     <source>Failed To Save: Employee Id Exists</source>
     <target>FR_Failed To Save: Employee Id Exists</target>
    </trans-unit>
-   <trans-unit id="3452">
+   <trans-unit id="144">
     <source>Will be deleted from all employees</source>
     <target>FR_Will be deleted from all employees</target>
-   </trans-unit>
-   <trans-unit id="3452">
-    <source>Failed to Save: Length Exceeded</source>
-    <target>FR_Failed to Save: Length Exceeded</target>
    </trans-unit>
   </body>
  </file>
