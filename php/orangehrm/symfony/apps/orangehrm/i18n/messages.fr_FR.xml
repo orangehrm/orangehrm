@@ -1492,11 +1492,6 @@
     <source>Forum</source>
     <target>FR_Forum</target>
    </trans-unit>
-   <trans-unit id="322">
-    <source>Franc des Comptoirs franÃƒÂ§ais du Pacifique</source>
-    <target>FR_Franc des Comptoirs franÃƒÂ§ais du Pacifique</target>
-    <note>A currency name</note>
-   </trans-unit>
    <trans-unit id="323">
     <source>France</source>
     <target>FR_France</target>
