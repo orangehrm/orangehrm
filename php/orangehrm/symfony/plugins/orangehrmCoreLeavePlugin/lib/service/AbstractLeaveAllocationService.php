@@ -302,11 +302,12 @@ abstract class AbstractLeaveAllocationService extends BaseService {
             $leave = new Leave();
 
             $leaveDate = date('Y-m-d', $timeStamp);
-            $isWeekend = $this->getWorkWeekService()->isWeekend($leaveDate, true);
-            $isHoliday = $this->getHolidayService()->isHoliday($leaveDate);
-            $isHalfday = $this->isHalfDay($leaveDate);
-            $isHalfDayHoliday = $this->getHolidayService()->isHalfdayHoliday($leaveDate);
-
+            
+            $isWeekend = $this->isWeekend($leaveDate, $leaveAssignmentData);
+            $isHoliday = $this->isHoliday($leaveDate, $leaveAssignmentData);
+            $isHalfday = $this->isHalfDay($leaveDate, $leaveAssignmentData);
+            $isHalfDayHoliday = $this->isHalfdayHoliday($leaveDate, $leaveAssignmentData);
+            
             $leave->setLeaveDate($leaveDate);
             $leave->setLeaveComments($leaveAssignmentData->getComment());
             $leave->setLeaveLengthDays($this->calculateDateDeference($leaveAssignmentData, $isWeekend, $isHoliday, $isHalfday, $isHalfDayHoliday));
@@ -333,7 +334,7 @@ abstract class AbstractLeaveAllocationService extends BaseService {
      * @param $day
      * @return boolean
      */
-    public function isHalfDay($day) {
+    public function isHalfDay($day, LeaveParameterObject $leaveAssignmentData) {
 
         /* This is to check weekday half days */
         $flag = $this->getHolidayService()->isHalfDay($day);
@@ -344,6 +345,21 @@ abstract class AbstractLeaveAllocationService extends BaseService {
         }
 
         return $flag;
+    }
+    
+    protected function isWeekend($day, LeaveParameterObject $leaveAssignmentData) {        
+        $isWeekend = $this->getWorkWeekService()->isWeekend($day, true);
+        return $isWeekend;
+    }
+    
+    protected function isHoliday($day, LeaveParameterObject $leaveAssignmentData) {
+        $isHoliday = $this->getHolidayService()->isHoliday($day);
+        return $isHoliday;
+    }
+    
+    protected function isHalfdayHoliday($day, LeaveParameterObject $leaveAssignmentData) {
+        $isHalfDayHoliday = $this->getHolidayService()->isHalfdayHoliday($leaveDate);
+        return $isHalfDayHoliday;
     }
 
     /**

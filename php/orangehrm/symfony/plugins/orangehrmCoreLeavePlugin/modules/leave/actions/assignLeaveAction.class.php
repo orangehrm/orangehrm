@@ -71,7 +71,7 @@ class assignLeaveAction extends baseLeaveAction {
             $this->assignLeaveForm->bind($request->getParameter($this->assignLeaveForm->getName()));
             if ($this->assignLeaveForm->isValid()) {
                 try {
-                    $leaveParameters = new LeaveParameterObject($form->getValues());
+                    $leaveParameters = $this->getLeaveParameterObject($form->getValues());
                     
                     $success = $this->getLeaveAssignmentService()->assignLeave($leaveParameters);
                     
@@ -87,7 +87,11 @@ class assignLeaveAction extends baseLeaveAction {
             }
         }
     }
-
+    
+    protected function getLeaveParameterObject(array $formValues) {
+        return new LeaveParameterObject($formValues);
+    }
+    
     /**
      * Retrieve Leave Type List
      */

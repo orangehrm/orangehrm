@@ -107,7 +107,7 @@ class applyLeaveAction extends baseLeaveAction {
             $this->applyLeaveForm->bind($request->getParameter($this->applyLeaveForm->getName()));
             if ($this->applyLeaveForm->isValid()) {
                 try {
-                    $leaveParameters = new LeaveParameterObject($form->getValues());
+                    $leaveParameters = $this->getLeaveParameterObject($form->getValues());
 
                     $success = $this->getLeaveApplicationService()->applyLeave($leaveParameters);
 
@@ -123,6 +123,10 @@ class applyLeaveAction extends baseLeaveAction {
             }
         }
     }
+    
+    protected function getLeaveParameterObject(array $formValues) {
+        return new LeaveParameterObject($formValues);
+    } 
 
     /**
      * Retrieve Eligible Leave Type
