@@ -28,7 +28,7 @@
             <ul id="ulInstructions">
                 <li><?php echo __("Column order should not be changed"); ?></li>
                 <li><?php echo __("First Name and Last Name are compulsory");?></li>
-                <li><?php echo __("All date fields should be in YYYY-mm-dd format");?></li>
+                <li><?php echo __("All date fields should be in YYYY-MM-DD format");?></li>
                 <li><?php echo __("If gender is specified, value should be either") . ' <span class="boldText">Male</span> ' . __('or') . ' <span class="boldText">Female</span>'; ?></li>
                 <li><?php echo __("Each import file should be configured for 100 records or less");?></li>
                 <li><?php echo __("Multiple import files may be required");?></li>

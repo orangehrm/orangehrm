@@ -21,7 +21,7 @@ class EmailNotificationHeaderFactory extends ohrmListConfigurationFactory {
         ));
         
         $header2->populateFromArray(array(
-            'name' => 'Subscriber(s)',
+            'name' => 'Subscribers',
             'width' => '49%',
             'elementType' => 'label',
             'elementProperty' => array('getter' => 'getSubscriberList'),
