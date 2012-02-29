@@ -5,13 +5,13 @@
         			<div class="left"></div><div class="right"></div><div class="middle"></div>
         		</div>
         		<div class="maincontent">
-            <div class="mainHeading"><h2><?php echo __("Subscribe to E-mail Notifications")?></h2></div>
+            <div class="mainHeading"><h2><?php echo __("Subscribe to Email Notifications")?></h2></div>
 
         
 	            <form action="" onsubmit="" method="post" id="frmSave" name="frmSave">
 	
 	                <input type="hidden" value="UpdateRecord" name="sqlState"/>
-	                <label for="txtMailAddress"><?php echo __("E-mail")?><span class="required">*</span></label>
+	                <label for="txtMailAddress"><?php echo __("Email")?><span class="required">*</span></label>
 	                <input type="text"  value="<?php echo $currentUser->getEmail1()?>" class="formInputText" id="txtMailAddress" name="txtMailAddress"/>
 	                <br class="clear"/>
 	

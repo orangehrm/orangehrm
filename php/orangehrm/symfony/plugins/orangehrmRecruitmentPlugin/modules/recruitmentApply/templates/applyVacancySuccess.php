@@ -79,7 +79,7 @@
             <br class="clear"/>
             <br class="clear"/>
             <div class="newColumn">
-                <?php echo $form['email']->renderLabel(__('E-Mail'). ' <span class="required">*</span>'); ?>
+                <?php echo $form['email']->renderLabel(__('Email'). ' <span class="required">*</span>'); ?>
                 <?php echo $form['email']->render(array("class" => "formInputText")); ?>
                 <div class="errorHolder below"></div>
             </div>
