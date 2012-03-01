@@ -85,7 +85,7 @@ class WorkWeekDaoTest extends PHPUnit_Framework_TestCase {
 
     public function testGetWorkWeekListCount() {
         $daysList = $this->workWeekDao->getWorkWeekList();
-        $this->assertEquals(1, count($daysList));
+        $this->assertEquals(2, count($daysList));
     }
 
     public function testGetWorkWeekListValuesAndOrder() {

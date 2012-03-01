@@ -111,7 +111,7 @@ class LeaveSummaryDaoTest extends PHPUnit_Framework_TestCase {
     public function testFetchRawLeaveSummaryRecordsEmployeeId() {
 
         $clues['cmbEmpId'] = 1;
-        $clues['userType'] = '';
+        $clues['userType'] = 'ESS';
         $clues['cmbLeaveType'] = '';
         $clues['cmbSubDivision'] = '';
         $clues['cmbJobTitle'] = '';

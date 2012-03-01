@@ -12,5 +12,5 @@ OperationalCountry:
   3: { id: 4, country_code: 'BR' }
 
 WorkWeek:
-  0: { id: 1, operational_country_id: 1, mon: 0, tue: 0, wed: 0, thu: 0, fri: 0, sat: 8, sun: 8 }
-  1: { id: 2, operational_country_id: 2, mon: 0, tue: 0, wed: 0, thu: 0, fri: 0, sat: 4, sun: 8 }
+  0: { id: 1, operational_country_id: 1, mon: 0, tue: 0, wed: 0, thu: 0, fri: 0, sat: 4, sun: 8 }
+  1: { id: 2, operational_country_id: 2, mon: 0, tue: 0, wed: 0, thu: 0, fri: 0, sat: 8, sun: 8 }
