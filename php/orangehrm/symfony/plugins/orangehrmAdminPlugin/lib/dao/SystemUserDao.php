@@ -27,7 +27,7 @@ class SystemUserDao extends BaseDao {
      */
     public function saveSystemUser(SystemUser $systemUser) {
         try {
-
+            $systemUser->clearRelated('Employee');
             $systemUser->save();
         } catch (Exception $e) {
             throw new DaoException($e->getMessage(), $e->getCode(), $e);
@@ -217,5 +217,5 @@ class SystemUserDao extends BaseDao {
         }
         
     }
-
+    
 }
