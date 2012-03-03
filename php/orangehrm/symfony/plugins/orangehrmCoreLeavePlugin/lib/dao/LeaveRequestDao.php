@@ -554,150 +554,91 @@ class LeaveRequestDao extends BaseDao {
         }
     }
     
-    /**
-     *
-     * @param DateRange $dateRange
-     * @param array $status
-     * @param int $page
-     * @return array
-     */
-    public function searchLeaveRequestsSummaryHydrateMode($searchParameters) {
-        $this->_markApprovedLeaveAsTaken();       
-
-        $q = Doctrine_Query::create()
-                ->select('lr.date_applied, lr.leave_type_name, lr.leave_comments, sum(l.leave_length_hours) leave_length_hours_total, sum(l.leave_length_days) as total_leave_length_days,em.firstName, em.middleName, em.lastName' .
+    public function getLeaveRequestSearchResultAsArray($searchParameters) {
+        $this->_markApprovedLeaveAsTaken();
+        
+        $q = $this->getSearchBaseQuery($searchParameters);
+        
+        $q->select('lr.date_applied, lr.leave_type_name, lr.leave_comments, sum(l.leave_length_hours) leave_length_hours_total, sum(l.leave_length_days) as total_leave_length_days,em.firstName, em.middleName, em.lastName' .
                          ', sum(IF(l.leave_status = 2, l.leave_length_days, 0)) as scheduled, ' . 
                          ', sum(IF(l.leave_status = 0, l.leave_length_days, 0)) as cancelled, ' .
                          ', sum(IF(l.leave_status = 3, l.leave_length_days, 0)) as taken, ' . 
                          ', sum(IF(l.leave_status = -1, l.leave_length_days, 0)) as rejected, ' . 
                          ', sum(IF(l.leave_status = 1, l.leave_length_days, 0)) as pending_approval, ' . 
                         'concat(l.leave_status)')
-                ->from('LeaveRequest lr')
-                ->leftJoin('lr.LeaveType lt')
-                ->leftJoin('lr.Leave l')                
-                ->leftJoin('lr.Employee em');
-
-        $dateRange = $searchParameters->getParameter('dateRange');
-        $statuses = $searchParameters->getParameter('statuses');
-        $employeeFilter = $searchParameters->getParameter('employeeFilter');
-        $leavePeriod = $searchParameters->getParameter('leavePeriod');
-        $leaveType = $searchParameters->getParameter('leaveType');
-        $withTerminatedEmployee = $searchParameters->getParameter('cmbWithTerminated');
-
-        $fromDate = $dateRange->getFromDate();
-        $toDate = $dateRange->getToDate();
-
-        if ((!empty($fromDate) && !empty($toDate)) || !empty($statuses)) {
-
-            if (!empty($fromDate) && !empty($toDate)) {
-                $q->andWhere("l.leave_date >= '{$fromDate}'");
-                $q->andWhere("l.leave_date <= '{$toDate}'");
-            }
-
-            if (!empty($statuses)) {
-                $q->whereIn("l.leave_status", $statuses);
-                //$q->andWhere("SELECT leave_request_id FROM hs_hr_leave WHERE leave_status IN(".  implode(",", $statuses).")");
-            }
-        }
-
-        if (!empty($employeeFilter)) {
-            if (is_numeric($employeeFilter) && $employeeFilter > 0) {
-                $q->andWhere('lr.employee_id = ?', (int) $employeeFilter);
-            } elseif ($employeeFilter instanceof Employee) {
-                $q->andWhere('lr.employee_id = ?', $employeeFilter->getEmpNumber());
-            } elseif (is_array($employeeFilter)) {
-                $empNumbers = array();
-                foreach ($employeeFilter as $employee) {
-                    $empNumbers[] = ($employee instanceof Employee) ? $employee->getEmpNumber() : $employee;
-                }
-                $q->whereIn('lr.employee_id', $empNumbers);
-            }
-        } else {
-            if (is_array($employeeFilter)) {
-                $q->andWhere('lr.employee_id = ?', -1);
-            }
-        }
-
-        if (trim($fromDate) == "" && trim($toDate) == "" && !empty($leavePeriod)) {
-            $leavePeriodId = ($leavePeriod instanceof LeavePeriod) ? $leavePeriod->getLeavePeriodId() : $leavePeriod;
-            $q->andWhere('lr.leave_period_id = ?', (int) $leavePeriodId);
-        }
-
-        if (!empty($leaveType)) {
-            $leaveTypeId = ($leaveType instanceof LeaveType) ? $leaveType->getLeaveTypeId() : $leaveType;
-            $q->andWhere('lr.leave_type_id = ?', $leaveTypeId);
-        }
-        if (!$isMyLeaveList) {
-            if (empty($withTerminatedEmployee)) {                
-                        $q->andWhere("(em.emp_status != '" . PluginEmployee::EMPLOYEE_STATUS_TERMINATED . "' OR em.emp_status IS NULL)");
-            }
-        }
-        $q->orderBy('l.leave_date DESC,em.emp_lastname ASC');
-        $q->groupBy('lr.leave_request_id');
-
+                   ->groupBy('lr.leave_request_id');
+        
         return $q->execute(array(), Doctrine::HYDRATE_SCALAR);
-       
     }
     
-     /**
-     *
-     * @param DateRange $dateRange
-     * @param array $status
-     * @param int $page
-     * @return array
-     */
-    public function searchLeaveRequestsDetailedHydrateMode($searchParameters) {
+    public function getDetailedLeaveRequestSearchResultAsArray($searchParameters) {
+        
         $this->_markApprovedLeaveAsTaken();
-       
-        $list = array();
+         
+        $q = $this->getSearchBaseQuery($searchParameters);
+        
+        $q->select('l.leave_date, lr.leave_type_name, l.leave_length_hours, ' .
+                   'l.leave_status,l.leave_comments, em.firstName, em.middleName, em.lastName ');
+                
+        return $q->execute(array(), Doctrine::HYDRATE_SCALAR); 
+        
+    }
+    
+    protected function getSearchBaseQuery($searchParameters) {
+        
 
         $q = Doctrine_Query::create()
-                ->select('l.leave_date, lr.leave_type_name, l.leave_length_hours, l.leave_status,l.leave_comments, em.firstName, em.middleName, em.lastName ')
+
                 ->from('LeaveRequest lr')
                 ->leftJoin('lr.LeaveType lt')
                 ->leftJoin('lr.Leave l')                
                 ->leftJoin('lr.Employee em');
 
-        $dateRange = $searchParameters->getParameter('dateRange');
+        $dateRange = $searchParameters->getParameter('dateRange', new DateRange());
         $statuses = $searchParameters->getParameter('statuses');
         $employeeFilter = $searchParameters->getParameter('employeeFilter');
         $leavePeriod = $searchParameters->getParameter('leavePeriod');
         $leaveType = $searchParameters->getParameter('leaveType');
-        $withTerminatedEmployee = $searchParameters->getParameter('cmbWithTerminated');
+        $leaveTypeId = $searchParameters->getParameter('leaveTypeId');
+        $includeTerminatedEmployees = $searchParameters->getParameter('cmbWithTerminated');
+        $subUnit = $searchParameters->getParameter('subUnit');
+        $locations = $searchParameters->getParameter('locations');
+        $employeeName = $searchParameters->getParameter('employeeName');
 
         $fromDate = $dateRange->getFromDate();
         $toDate = $dateRange->getToDate();
 
-        if ((!empty($fromDate) && !empty($toDate)) || !empty($statuses)) {
-
-            if (!empty($fromDate) && !empty($toDate)) {
-                $q->andWhere("l.leave_date >= '{$fromDate}'");
-                $q->andWhere("l.leave_date <= '{$toDate}'");
-            }
-
-            if (!empty($statuses)) {
-                $q->whereIn("l.leave_status", $statuses);
-            }
+        if (!empty($fromDate)) {
+            $q->andWhere("l.leave_date >= '{$fromDate}'");
+        }
+        
+        if (!empty($toDate)) {
+            $q->andWhere("l.leave_date <= '{$toDate}'");
         }
 
+        if (!empty($statuses)) {
+            $q->whereIn("l.leave_status", $statuses);
+        }
+        
         if (!empty($employeeFilter)) {
             if (is_numeric($employeeFilter) && $employeeFilter > 0) {
-                $q->andWhere('lr.employee_id = ?', (int) $employeeFilter);
+                $q->andWhere('lr.empNumber = ?', (int) $employeeFilter);
             } elseif ($employeeFilter instanceof Employee) {
-                $q->andWhere('lr.employee_id = ?', $employeeFilter->getEmpNumber());
+                $q->andWhere('lr.empNumber = ?', $employeeFilter->getEmpNumber());
             } elseif (is_array($employeeFilter)) {
                 $empNumbers = array();
                 foreach ($employeeFilter as $employee) {
                     $empNumbers[] = ($employee instanceof Employee) ? $employee->getEmpNumber() : $employee;
                 }
-                $q->whereIn('lr.employee_id', $empNumbers);
+                $q->whereIn('lr.empNumber', $empNumbers);
             }
         } else {
+            // empty array does not match any results.
             if (is_array($employeeFilter)) {
-                $q->andWhere('lr.employee_id = ?', -1);
+                $q->andWhere('lr.empNumber = ?', -1);
             }
         }
-
+        
         if (trim($fromDate) == "" && trim($toDate) == "" && !empty($leavePeriod)) {
             $leavePeriodId = ($leavePeriod instanceof LeavePeriod) ? $leavePeriod->getLeavePeriodId() : $leavePeriod;
             $q->andWhere('lr.leave_period_id = ?', (int) $leavePeriodId);
@@ -707,14 +648,51 @@ class LeaveRequestDao extends BaseDao {
             $leaveTypeId = ($leaveType instanceof LeaveType) ? $leaveType->getLeaveTypeId() : $leaveType;
             $q->andWhere('lr.leave_type_id = ?', $leaveTypeId);
         }
-        if (!$isMyLeaveList) {
-            if (empty($withTerminatedEmployee)) {                
-                        $q->andWhere("(em.emp_status != '" . PluginEmployee::EMPLOYEE_STATUS_TERMINATED . "' OR em.emp_status IS NULL)");
-            }
+        if (!empty($leaveTypeId)) {
+            $q->andWhere('lr.leave_type_id = ?', $leaveTypeId);
+        }        
+                
+        // Search by employee name
+        if (!empty($employeeName)) {
+            $employeeName = str_replace(' (' . __('Past Employee') . ')', '', $employeeName);
+            // Replace multiple spaces in string with wildcards
+            $employeeName = preg_replace('!\s+!', '%', $employeeName);
+            
+            // Surround with wildcard character
+            $employeeName = '%' . $employeeName . '%';
+                        
+            $q->andWhere('CONCAT_WS(\' \', em.emp_firstname, em.emp_middle_name, em.emp_lastname) LIKE ?', $employeeName);
         }
-        $q->orderBy('l.leave_date DESC,em.emp_lastname ASC');
         
+        if (!empty($subUnit)) {
 
-        return $q->execute(array(), Doctrine::HYDRATE_SCALAR);       
+            // Get given subunit's descendents as well.
+            $subUnitIds = array($subUnit);
+            $subUnitObj = Doctrine::getTable('Subunit')->find($subUnit);
+            
+            if (!empty($subUnitObj)) {
+                $descendents = $subUnitObj->getNode()->getDescendants();
+                foreach($descendents as $descendent) {
+                    $subUnitIds[] = $descendent->id;
+                }                
+            }
+            
+            $q->andWhereIn('em.work_station', $subUnitIds);
+        }
+        
+        if (empty($includeTerminatedEmployees)) {
+            $q->andWhere("em.termination_id IS NULL");
+        }
+        
+        if (!empty($locations)) {
+            $q->leftJoin('em.locations loc');
+            $q->andWhereIn('loc.id', $locations);
+        }
+
+        $q->orderBy('l.leave_date DESC, em.emp_lastname ASC, em.emp_firstname ASC');
+        
+        return $q;
+
     }
+    
 }

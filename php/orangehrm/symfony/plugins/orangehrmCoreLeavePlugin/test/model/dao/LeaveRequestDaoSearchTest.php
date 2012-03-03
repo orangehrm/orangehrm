@@ -31,7 +31,7 @@ class LeaveRequestDaoSearchTest extends PHPUnit_Framework_TestCase {
     /**
      * @group orangehrmLeaveListDataExtractorCsvPlugin
      */
-    public function testSearchLeaveRequestsSummaryHydrateMode1() {
+    public function testGetLeaveRequestSearchResultAsArray1() {
 
         $searchParams = new ParameterObject(array(
                     'dateRange' => new DateRange("2010-09-01", "2010-09-07"),
@@ -44,13 +44,13 @@ class LeaveRequestDaoSearchTest extends PHPUnit_Framework_TestCase {
                 ));
 
         $dao = new LeaveRequestDao();
-        $this->assertEquals(3, sizeof($dao->searchLeaveRequestsSummaryHydrateMode($searchParams)));
+        $this->assertEquals(3, sizeof($dao->getLeaveRequestSearchResultAsArray($searchParams)));
     }
 
     /**
      * @group orangehrmLeaveListDataExtractorCsvPlugin
      */
-    public function testSearchLeaveRequestsDetailedHydrateMode2() {
+    public function testGetDetailedLeaveRequestSearchResultAsArray2() {
 
         $searchParams = new ParameterObject(array(
                     'dateRange' => new DateRange("2010-09-01", "2010-09-07"),
@@ -63,13 +63,13 @@ class LeaveRequestDaoSearchTest extends PHPUnit_Framework_TestCase {
                 ));
 
         $dao = new LeaveRequestDao();
-        $this->assertEquals(6, sizeof($dao->searchLeaveRequestsDetailedHydrateMode($searchParams)));
+        $this->assertEquals(6, sizeof($dao->getDetailedLeaveRequestSearchResultAsArray($searchParams)));
     }
 
     /**
      * @group orangehrmLeaveListDataExtractorCsvPlugin
      */
-    public function testSearchLeaveRequestsSummaryHydrateMode3() {
+    public function testGetLeaveRequestSearchResultAsArray3() {
 
         $searchParams = new ParameterObject(array(
                     'dateRange' => new DateRange("2010-09-01", "2010-09-07"),
@@ -82,13 +82,13 @@ class LeaveRequestDaoSearchTest extends PHPUnit_Framework_TestCase {
                 ));
 
         $dao = new LeaveRequestDao();
-        $this->assertEquals(1, sizeof($dao->searchLeaveRequestsSummaryHydrateMode($searchParams)));
+        $this->assertEquals(1, sizeof($dao->getLeaveRequestSearchResultAsArray($searchParams)));
     }
 
     /**
      * @group orangehrmLeaveListDataExtractorCsvPlugin
      */
-    public function testSearchLeaveRequestsSummaryHydrateMode4() {
+    public function testGetDetailedLeaveRequestSearchResultAsArray4() {
 
         $searchParams = new ParameterObject(array(
                     'dateRange' => new DateRange("2010-09-01", "2010-09-07"),
@@ -101,13 +101,13 @@ class LeaveRequestDaoSearchTest extends PHPUnit_Framework_TestCase {
                 ));
 
         $dao = new LeaveRequestDao();
-        $this->assertEquals(2, sizeof($dao->searchLeaveRequestsDetailedHydrateMode($searchParams)));
+        $this->assertEquals(2, sizeof($dao->getDetailedLeaveRequestSearchResultAsArray($searchParams)));
     }
 
     /**
      * @group orangehrmLeaveListDataExtractorCsvPlugin
      */
-    public function testSearchLeaveRequestsSummaryHydrateMode5() {
+    public function testGetLeaveRequestSearchResultAsArray5() {
 
         $searchParams = new ParameterObject(array(
                     'dateRange' => new DateRange("2010-09-01", "2010-09-07"),
@@ -120,13 +120,13 @@ class LeaveRequestDaoSearchTest extends PHPUnit_Framework_TestCase {
                 ));
 
         $dao = new LeaveRequestDao();
-        $this->assertEquals(1, sizeof($dao->searchLeaveRequestsSummaryHydrateMode($searchParams)));
+        $this->assertEquals(1, sizeof($dao->getLeaveRequestSearchResultAsArray($searchParams)));
     }
 
     /**
      * @group orangehrmLeaveListDataExtractorCsvPlugin
      */
-    public function testSearchLeaveRequestsSummaryHydrateMode6() {
+    public function testGetDetailedLeaveRequestSearchResultAsArray6() {
 
         $searchParams = new ParameterObject(array(
                     'dateRange' => new DateRange("2010-09-01", "2010-09-07"),
@@ -139,7 +139,7 @@ class LeaveRequestDaoSearchTest extends PHPUnit_Framework_TestCase {
                 ));
 
         $dao = new LeaveRequestDao();
-        $this->assertEquals(2, sizeof($dao->searchLeaveRequestsDetailedHydrateMode($searchParams)));
+        $this->assertEquals(2, sizeof($dao->getDetailedLeaveRequestSearchResultAsArray($searchParams)));
     }
 
 }

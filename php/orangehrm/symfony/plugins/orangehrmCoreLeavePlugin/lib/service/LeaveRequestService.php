@@ -245,7 +245,7 @@ class LeaveRequestService extends BaseService {
      */
     public function getNumOfLeave($empId, $leaveTypeId) {
 
-        return $this->leaveRequestDao->getNumOfLeave($empId, $leaveTypeId);
+        return $this->getLeaveRequestDao()->getNumOfLeave($empId, $leaveTypeId);
 
     }
 
@@ -257,7 +257,7 @@ class LeaveRequestService extends BaseService {
      */
     public function getNumOfAvaliableLeave($empId, $leaveTypeId) {
 
-        return $this->leaveRequestDao->getNumOfAvaliableLeave($empId, $leaveTypeId);
+        return $this->getLeaveRequestDao()->getNumOfAvaliableLeave($empId, $leaveTypeId);
 
     }
 
@@ -271,7 +271,7 @@ class LeaveRequestService extends BaseService {
         try {
             $leaveEntitlementService = $this->getLeaveEntitlementService();
             $entitledDays	=	$leaveEntitlementService->getEmployeeLeaveEntitlementDays($empId, $leaveTypeId,$leaveRequest->getLeavePeriodId());
-            $leaveDays		=	$this->leaveRequestDao->getNumOfAvaliableLeave($empId, $leaveTypeId);
+            $leaveDays		=	$this->getLeaveRequestDao()->getNumOfAvaliableLeave($empId, $leaveTypeId);
 
             $leaveEntitlement = $leaveEntitlementService->readEmployeeLeaveEntitlement($empId, $leaveTypeId, $leaveRequest->getLeavePeriodId());
             $leaveBoughtForward = 0;
@@ -413,7 +413,7 @@ class LeaveRequestService extends BaseService {
      * @return array
      */
     public function searchLeaveRequests($searchParameters, $page = 1, $isCSVPDFExport = false, $isMyLeaveList = false) {
-        $result = $this->leaveRequestDao->searchLeaveRequests($searchParameters, $page, $isCSVPDFExport, $isMyLeaveList);
+        $result = $this->getLeaveRequestDao()->searchLeaveRequests($searchParameters, $page, $isCSVPDFExport, $isMyLeaveList);
         return $result;
 
     }
@@ -445,7 +445,7 @@ class LeaveRequestService extends BaseService {
      */
     public function searchLeave($leaveRequestId) {
 
-        return $this->leaveRequestDao->fetchLeave($leaveRequestId);
+        return $this->getLeaveRequestDao()->fetchLeave($leaveRequestId);
 
     }
 
@@ -456,12 +456,12 @@ class LeaveRequestService extends BaseService {
      */
     public function readLeave($leaveId) {
 
-        return $this->leaveRequestDao->readLeave($leaveId);
+        return $this->getLeaveRequestDao()->readLeave($leaveId);
 
     }
 
     public function saveLeave(Leave $leave) {
-        return $this->leaveRequestDao->saveLeave($leave);
+        return $this->getLeaveRequestDao()->saveLeave($leave);
     }
 
     /**
@@ -469,7 +469,7 @@ class LeaveRequestService extends BaseService {
      */
     public function fetchLeaveRequest($leaveRequestId) {
 
-        return $this->leaveRequestDao->fetchLeaveRequest($leaveRequestId);
+        return $this->getLeaveRequestDao()->fetchLeaveRequest($leaveRequestId);
 
     }
 
@@ -481,7 +481,7 @@ class LeaveRequestService extends BaseService {
      */
     public function modifyOverlapLeaveRequest(LeaveRequest $leaveRequest , $leaveList ) {
 
-        return $this->leaveRequestDao->modifyOverlapLeaveRequest($leaveRequest , $leaveList);
+        return $this->getLeaveRequestDao()->modifyOverlapLeaveRequest($leaveRequest , $leaveList);
 
     }
 
@@ -492,15 +492,15 @@ class LeaveRequestService extends BaseService {
      */
     public function adjustLeavePeriodOverlapLeaves(LeavePeriod $leavePeriod) {
 
-        $overlapleaveList =	$this->leaveRequestDao->getLeavePeriodOverlapLeaves($leavePeriod);
+        $overlapleaveList =	$this->getLeaveRequestDao()->getLeavePeriodOverlapLeaves($leavePeriod);
 
         if (count($overlapleaveList) > 0) {
 
             foreach($overlapleaveList as $leave) {
 
                 $leaveRequest	=	$leave->getLeaveRequest();
-                $leaveList		=	$this->leaveRequestDao->fetchLeave($leaveRequest->getLeaveRequestId());
-                $this->leaveRequestDao->modifyOverlapLeaveRequest($leaveRequest,$leaveList,$leavePeriod);
+                $leaveList		=	$this->getLeaveRequestDao()->fetchLeave($leaveRequest->getLeaveRequestId());
+                $this->getLeaveRequestDao()->modifyOverlapLeaveRequest($leaveRequest,$leaveList,$leavePeriod);
 
             }
 
@@ -646,13 +646,13 @@ class LeaveRequestService extends BaseService {
 
     public function getScheduledLeavesSum($employeeId, $leaveTypeId, $leavePeriodId) {
 
-        return $this->leaveRequestDao->getScheduledLeavesSum($employeeId, $leaveTypeId, $leavePeriodId);
+        return $this->getLeaveRequestDao()->getScheduledLeavesSum($employeeId, $leaveTypeId, $leavePeriodId);
 
     }
 
     public function getTakenLeaveSum($employeeId, $leaveTypeId, $leavePeriodId) {
 
-        return $this->leaveRequestDao->getTakenLeaveSum($employeeId, $leaveTypeId, $leavePeriodId);
+        return $this->getLeaveRequestDao()->getTakenLeaveSum($employeeId, $leaveTypeId, $leavePeriodId);
 
     }
     
@@ -730,8 +730,8 @@ class LeaveRequestService extends BaseService {
      * @param array $statuses
      * @return array
      */
-    public function searchLeaveRequestsSummaryHydrateMode($searchParameters) {
-        return $this->leaveRequestDao->searchLeaveRequestsSummaryHydrateMode($searchParameters);
+    public function getLeaveRequestSearchResultAsArray($searchParameters) {
+        return $this->getLeaveRequestDao()->getLeaveRequestSearchResultAsArray($searchParameters);
     }
     
      /**
@@ -740,8 +740,8 @@ class LeaveRequestService extends BaseService {
      * @param array $statuses
      * @return array
      */
-    public function searchLeaveRequestsDetailedHydrateMode($searchParameters) {
-        return $this->leaveRequestDao->searchLeaveRequestsDetailedHydrateMode($searchParameters);
+    public function getDetailedLeaveRequestSearchResultAsArray($searchParameters) {
+        return $this->getLeaveRequestDao()->getDetailedLeaveRequestSearchResultAsArray($searchParameters);
     }
 
 }
