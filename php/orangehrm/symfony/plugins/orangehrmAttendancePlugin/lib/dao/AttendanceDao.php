@@ -489,21 +489,27 @@ class AttendanceDao {
         if( $employeementStatus != null){           
             $q->andWhere("e.emp_status = ?", $employeementStatus);
         } else {
-            $q->andWhere("(e.emp_status != '".Employee::EMPLOYEE_STATUS_TERMINATED."' OR  e.emp_status IS NULL)");
+            if($employeeIds <= 0){
+                $q->andWhere("(e.termination_id IS NULL)");
+            }
+            
         }
         
-        if( $subDivision != null){
+        if( $subDivision > 0){
             
-            $companyDao = new CompanyDao();
-            $subDivisions = $companyDao->getSubdivisionTreeByNodeId($subDivision);
-            
-            $subDivision = array();
-            foreach ($subDivisions as $subDivisoin){                
-                $subDivision [] = $subDivisoin->getId();
+            $companyService = new CompanyStructureService();
+            $subDivisions = $companyService->getCompanyStructureDao()->getSubunitById($subDivision);
+           
+            $subUnitIds = array();
+             if (!empty($subDivisions)) {
+                $descendents = $subDivisions->getNode()->getDescendants();
+               
+                foreach($descendents as $descendent) {                
+                    $subUnitIds[] = $descendent->id;
+                }
             }
-                         
-            $q->andWhereIn("e.work_station", $subDivision);
             
+            $q->andWhereIn("e.work_station", $subUnitIds);            
         }
         
         if( $dateFrom != null){            

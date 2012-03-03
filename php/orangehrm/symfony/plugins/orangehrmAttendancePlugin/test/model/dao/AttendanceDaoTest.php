@@ -30,14 +30,16 @@ class AttendanceDaoTest extends PHPUnit_Framework_TestCase {
      */
     protected function setUp() {
 
-        $this->attendanceDao = new AttendanceDao();
-
+        $this->attendanceDao = new AttendanceDao();    
+        TestDataService::truncateSpecificTables(array('AttendanceRecord','Employee'));
         TestDataService::populate(sfConfig::get('sf_plugins_dir') . '/orangehrmAttendancePlugin/test/fixtures/AttendanceDao.yml');
     }
 
-    public function testSaveNewPunchRecord() {
-        TestDataService::truncateSpecificTables(array('AttendanceRecord'));
-        
+    /**
+     * @group orangehrmAttendancePlugin
+     */
+    public function testSaveNewPunchRecord() {        
+
         $punchRecord = new AttendanceRecord();
 
         $punchRecord->setState("PUNCHED IN");
@@ -54,6 +56,9 @@ class AttendanceDaoTest extends PHPUnit_Framework_TestCase {
         $this->assertEquals($savedRecord->getPunchInTimeOffset(), 'Asia/Calcutta');
     }
 
+    /**
+     * @group orangehrmAttendancePlugin
+     */
     public function testSavePunchRecordForExistingPunchRecord() {
 
         $attendanceRecord = TestDataService::fetchObject('AttendanceRecord', 1);
@@ -66,6 +71,9 @@ class AttendanceDaoTest extends PHPUnit_Framework_TestCase {
         $this->assertEquals($saveRecord->getPunchInTimeOffset(), 'Asia/Calcutta');
     }
 
+    /**
+     * @group orangehrmAttendancePlugin
+     */
     public function testGetLastPunchRecord() {
 
         $employeeId = 2;
@@ -78,6 +86,9 @@ class AttendanceDaoTest extends PHPUnit_Framework_TestCase {
         $this->assertEquals($attendanceRecord->getPunchInTimeOffset(), 'Asia/Calcutta');
     }
 
+    /**
+     * @group orangehrmAttendancePlugin
+     */
     public function testGetLastPunchRecordForNonExistingRecord() {
 
         $employeeId = 4;
@@ -88,13 +99,16 @@ class AttendanceDaoTest extends PHPUnit_Framework_TestCase {
         $this->assertNull($attendanceRecord);
     }
 
+    /**
+     * @group orangehrmAttendancePlugin
+     */
     public function testCheckForPunchOutOverLappingRecords() {
         $punchInTime = "2011-06-10 15:21:00";
         $punchOutTime = "2011-06-10 15:40:00";
         $employeeId = 5;
-        $recordId=121;
+        $recordId = 121;
 
-        $records = $this->attendanceDao->checkForPunchOutOverLappingRecords($punchInTime, $punchOutTime, $employeeId,$recordId);
+        $records = $this->attendanceDao->checkForPunchOutOverLappingRecords($punchInTime, $punchOutTime, $employeeId, $recordId);
 
         $this->assertEquals($records, 0);
 
@@ -102,17 +116,20 @@ class AttendanceDaoTest extends PHPUnit_Framework_TestCase {
         $punchOutTime = "2011-06-10 15:50:00";
         $employeeId = 5;
 
-        $records = $this->attendanceDao->checkForPunchOutOverLappingRecords($punchInTime, $punchOutTime, $employeeId,$recordId);
+        $records = $this->attendanceDao->checkForPunchOutOverLappingRecords($punchInTime, $punchOutTime, $employeeId, $recordId);
         $this->assertEquals($records, 0);
 
         $punchInTime = "2011-06-10 15:21:00";
         $punchOutTime = "2011-06-10 15:50:00";
         $employeeId = 5;
 
-        $records = $this->attendanceDao->checkForPunchOutOverLappingRecords($punchInTime, $punchOutTime, $employeeId,$recordId);
+        $records = $this->attendanceDao->checkForPunchOutOverLappingRecords($punchInTime, $punchOutTime, $employeeId, $recordId);
         $this->assertEquals($records, 0);
     }
 
+    /**
+     * @group orangehrmAttendancePlugin
+     */
     public function testCheckForPunchInOverLappingRecords() {
         $punchInTime = "2011-04-03 15:21:00";
         $employeeId = 5;
@@ -120,6 +137,9 @@ class AttendanceDaoTest extends PHPUnit_Framework_TestCase {
         $this->assertEquals($records, 0);
     }
 
+    /**
+     * @group orangehrmAttendancePlugin
+     */
     public function testGetSavedConfiguration() {
 
         $workflow = "ATTENDANCE";
@@ -143,6 +163,9 @@ class AttendanceDaoTest extends PHPUnit_Framework_TestCase {
         $this->assertFalse($RecordExist);
     }
 
+    /**
+     * @group orangehrmAttendancePlugin
+     */
     public function testGetAttendanceRecord() {
         $employeeId = 5;
         $date = "2011-12-12";
@@ -179,14 +202,19 @@ class AttendanceDaoTest extends PHPUnit_Framework_TestCase {
         $this->assertNull($records[0]);
     }
 
+    /**
+     * @group orangehrmAttendancePlugin
+     */
     public function testDeleteAttendanceRecords() {
         $attendanceRecordId = 4;
         $isDeleted = $this->attendanceDao->deleteAttendanceRecords($attendanceRecordId);
 
         $this->assertTrue($isDeleted);
-
     }
 
+    /**
+     * @group orangehrmAttendancePlugin
+     */
     public function testGetAttendanceRecordById() {
         $id = 5;
         $attendanceRecord = $this->attendanceDao->getAttendanceRecordById($id);
@@ -194,20 +222,53 @@ class AttendanceDaoTest extends PHPUnit_Framework_TestCase {
         $this->assertEquals(5, $attendanceRecord->getEmployeeId());
     }
 
-    public function testCheckForPunchInOutOverLappingRecordsWhenEditing(){
+    /**
+     * @group orangehrmAttendancePlugin
+     */
+    public function testCheckForPunchInOutOverLappingRecordsWhenEditing() {
 
-//	$punchInTime = "2011-04-20 1:30:00";
-//	$punchOutTime = "2011-04-20 5:10:00";
-//	$employeeId = 2;
-//	$recordId = 21;
-//	$isDeleted = $this->attendanceDao->checkForPunchInOutOverLappingRecordsWhenEditing($punchInTime, $punchOutTime, $employeeId, $recordId);
-//	$this->assertEquals(0, $isDeleted);
-	
-	$punchInTime = "2012-02-27 23:10:00";
-	$punchOutTime = "2012-02-28 23:15:00";
-	$employeeId = 5;
-	$recordId = 22;
-	$isDeleted = $this->attendanceDao->checkForPunchInOutOverLappingRecordsWhenEditing($punchInTime, $punchOutTime, $employeeId, $recordId);
-	$this->assertEquals(0, $isDeleted);
+        $punchInTime = "2012-02-27 23:10:00";
+        $punchOutTime = "2012-02-28 23:15:00";
+        $employeeId = 5;
+        $recordId = 22;
+        $isDeleted = $this->attendanceDao->checkForPunchInOutOverLappingRecordsWhenEditing($punchInTime, $punchOutTime, $employeeId, $recordId);
+        $this->assertEquals(0, $isDeleted);
     }
+
+    /**
+     * @group orangehrmAttendancePlugin
+     */
+    public function testSearchAttendanceRecords1() {
+        
+        $attendanceRecords = $this->attendanceDao->searchAttendanceRecords(1);      
+        $this->assertEquals(1, sizeof($attendanceRecords));
+    }
+    
+     /**
+     * @group orangehrmAttendancePlugin
+     */
+    public function testSearchAttendanceRecords2() {
+        
+        $attendanceRecords = $this->attendanceDao->searchAttendanceRecords(5);      
+        $this->assertEquals(7, sizeof($attendanceRecords));
+    }
+    
+     /**
+     * @group orangehrmAttendancePlugin
+     */
+    public function testSearchAttendanceRecords3() {
+        
+        $attendanceRecords = $this->attendanceDao->searchAttendanceRecords(2, array(3));      
+        $this->assertEquals(0, sizeof($attendanceRecords));
+    }
+    
+    /**
+     * @group orangehrmAttendancePlugin
+     */
+    public function testSearchAttendanceRecords4() {
+        
+        $attendanceRecords = $this->attendanceDao->searchAttendanceRecords(2, array(1));      
+        $this->assertEquals(1, sizeof($attendanceRecords));
+    }
+
 }

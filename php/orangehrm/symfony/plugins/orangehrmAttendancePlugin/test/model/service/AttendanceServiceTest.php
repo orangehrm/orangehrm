@@ -1,4 +1,5 @@
 <?php
+
 /**
  *  @group Attendance
  */
@@ -14,6 +15,9 @@ class AttendanceServiceTest extends PHPUnit_Framework_Testcase {
         $this->attendanceService = new AttendanceService();
     }
 
+    /**
+     * @group orangehrmAttendancePlugin
+     */
     public function testSetAttendanceDao() {
 
         $attendanceDao = new AttendanceDao();
@@ -22,11 +26,17 @@ class AttendanceServiceTest extends PHPUnit_Framework_Testcase {
         $this->assertTrue($this->attendanceService->getAttendanceDao() instanceof AttendanceDao);
     }
 
+    /**
+     * @group orangehrmAttendancePlugin
+     */
     public function testGetAttendanceDao() {
 
         $this->assertTrue($this->attendanceService->getAttendanceDao() instanceof AttendanceDao);
     }
 
+    /**
+     * @group orangehrmAttendancePlugin
+     */
     public function testSavePunchAction() {
 
         $attendanceRecords = TestDataService::loadObjectList('AttendanceRecord', $this->fixture, 'AttendanceRecord');
@@ -43,6 +53,9 @@ class AttendanceServiceTest extends PHPUnit_Framework_Testcase {
         $this->assertTrue($this->attendanceService->savePunchRecord($attendanceRecord) instanceof AttendanceRecord);
     }
 
+    /**
+     * @group orangehrmAttendancePlugin
+     */
     public function testLastPunchRecord() {
 
         $employeeId = 1;
@@ -61,6 +74,9 @@ class AttendanceServiceTest extends PHPUnit_Framework_Testcase {
         $this->assertEquals($lastPunchRecord, $retrievedPunchRecord);
     }
 
+    /**
+     * @group orangehrmAttendancePlugin
+     */
     public function testGetSavedConfiguration() {
 
         $workflow = "ATTENDANCE";
@@ -80,6 +96,9 @@ class AttendanceServiceTest extends PHPUnit_Framework_Testcase {
         $this->assertTrue($this->attendanceService->getSavedConfiguration($workflow, $state, $role, $action, $resultingState));
     }
 
+    /**
+     * @group orangehrmAttendancePlugin
+     */
     public function testCheckForPunchOutOverLappingRecords() {
 
         $punchInTime = "2011-06-10 15:21:00";
@@ -96,9 +115,12 @@ class AttendanceServiceTest extends PHPUnit_Framework_Testcase {
 
         $this->attendanceService->setAttendanceDao($attendanceDaoMock);
 
-        $this->assertEquals($isValid, $this->attendanceService->checkForPunchOutOverLappingRecords($punchInTime, $punchOutTime, $employeeId, $recordId  ));
+        $this->assertEquals($isValid, $this->attendanceService->checkForPunchOutOverLappingRecords($punchInTime, $punchOutTime, $employeeId, $recordId));
     }
 
+    /**
+     * @group orangehrmAttendancePlugin
+     */
     public function testCheckForPunchInOverLappingRecords() {
 
         $punchInTime = "2011-04-03 5:10:00";
@@ -116,6 +138,9 @@ class AttendanceServiceTest extends PHPUnit_Framework_Testcase {
         $this->assertEquals($isValid, $this->attendanceService->checkForPunchInOverLappingRecords($punchInTime, $employeeId));
     }
 
+    /**
+     * @group orangehrmAttendancePlugin
+     */
     public function testGetAttendanceRecord() {
 
         $attendanceRecord = TestDataService::fetchObject('AttendanceRecord', 11);
@@ -134,6 +159,9 @@ class AttendanceServiceTest extends PHPUnit_Framework_Testcase {
         $this->assertEquals($attendanceRecord, $record);
     }
 
+    /**
+     * @group orangehrmAttendancePlugin
+     */
     public function testDeleteAttendanceRecords() {
         $attendanceRecordId = 4;
         $isDeleted = true;
@@ -162,6 +190,9 @@ class AttendanceServiceTest extends PHPUnit_Framework_Testcase {
         $this->assertFalse($deleted);
     }
 
+    /**
+     * @group orangehrmAttendancePlugin
+     */
     public function testGetAttendanceRecordById() {
 
         $attendanceRecordId = 4;
@@ -179,6 +210,9 @@ class AttendanceServiceTest extends PHPUnit_Framework_Testcase {
         $this->assertEquals($retrievedAttendanceRecord->getId(), $attendanceRecordId);
     }
 
+    /**
+     * @group orangehrmAttendancePlugin
+     */
     public function testGetTimezone() {
         $timezoneArray = $this->attendanceService->getTimezoneArray();
 
@@ -201,12 +235,18 @@ class AttendanceServiceTest extends PHPUnit_Framework_Testcase {
         $this->assertEquals('-2.00', $this->attendanceService->getTimezone($value));
     }
 
+    /**
+     * @group orangehrmAttendancePlugin
+     */
     public function testGetTimezoneArray() {
 
         $timezoneArray = $this->attendanceService->getTimezoneArray();
         $this->assertNotnull($timezoneArray);
     }
 
+    /**
+     * @group orangehrmAttendancePlugin
+     */
     public function testGetLocalTimezone() {
 
         $offset = -12.00;
@@ -228,6 +268,21 @@ class AttendanceServiceTest extends PHPUnit_Framework_Testcase {
         $offset = 6.0;
         $timezone = $this->attendanceService->getLocalTimezone($offset);
         $this->assertEquals('Asia/Dhaka', $timezone);
+    }
+
+    /**
+     * @group orangehrmAttendancePlugin
+     */
+    public function testSearchAttendanceRecords() {
+        $attendanceDaoMock = $this->getMock('AttendanceDao', array('searchAttendanceRecords'));
+        $attendanceDaoMock->expects($this->once())
+                ->method('searchAttendanceRecords')
+                ->with($attendanceRecordId)
+                ->will($this->returnValue(array("id"=>1)));
+       
+        $attendanceService = new AttendanceService();
+        $attendanceService->setAttendanceDao($attendanceDaoMock);
+        $this->assertEquals(1, sizeof($attendanceService->searchAttendanceRecords()));
     }
 
 }

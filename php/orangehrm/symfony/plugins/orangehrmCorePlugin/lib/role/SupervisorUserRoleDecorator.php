@@ -23,8 +23,8 @@ class SupervisorUserRoleDecorator extends UserRoleDecorator {
 	const EMPLOYEE_REPORT_LINK="./symfony/web/index.php/time/displayEmployeeReportCriteria?reportId=2";
 	const VIEW_ATTENDANCE_RECORD_LINK="./symfony/web/index.php/attendance/viewAttendanceRecord";
 	const ATTENDANCE_TOTAL_SUMMARY_REPORT_LINK="./symfony/web/index.php/time/displayAttendanceSummaryReportCriteria?reportId=4";
-        const CSV_TIMESHEET_EXPORT ="./symfony/web/index.php/csvExport/viewTimesheetCsvExtract";
-        const CSV_ATTENDANCE_EXPORT ="./symfony/web/index.php/csvExport/viewAttendanceDataExtract";
+        const CSV_TIMESHEET_EXPORT ="./symfony/web/index.php/time/viewTimesheetCsvExtract";
+        const CSV_ATTENDANCE_EXPORT ="./symfony/web/index.php/time/viewAttendanceDataExtract";
 
 	private $user;
 	private $employeeService;
@@ -142,7 +142,13 @@ class SupervisorUserRoleDecorator extends UserRoleDecorator {
 		    $topMenuItem->setLink(AdminUserRoleDecorator::CSV_ATTENDANCE_EXPORT);
 		 }
 
-		$topMenuItemArray = $this->__chkAndPutItemsToArray($topMenuItemArray, $topMenuItem);
+        if ($this->isPluginAvailable('orangehrmAttendanceDataExtractorPlugin')){
+            $topMenuItem = new TopMenuItem();
+            $topMenuItem->setDisplayName(__("Export To CSV"));
+            $topMenuItem->setLink(AdminUserRoleDecorator::CSV_ATTENDANCE_EXPORT);
+         }
+
+        $topMenuItemArray = $this->__chkAndPutItemsToArray($topMenuItemArray, $topMenuItem);
 		return $topMenuItemArray;
 	}
 
