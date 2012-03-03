@@ -200,6 +200,7 @@ class LeaveSummaryDao extends BaseDao {
         
         $q .= " ";        
            
+        
         if (!empty($clues['cmbLocation'])) {
             $q .= " LEFT JOIN hs_hr_emp_locations c ON a.emp_number = c.emp_number";
         }
@@ -237,7 +238,7 @@ class LeaveSummaryDao extends BaseDao {
         }
 
         if (!empty($clues['cmbLocation'])) {
-            $where[] = "c.loc_code = '{$clues['cmbLocation']}'";
+            $where[] = "c.location_id = '{$clues['cmbLocation']}'";
         }
 
         if (!empty($clues['cmbLeavePeriod'])) {

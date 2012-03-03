@@ -52,8 +52,9 @@
                 <?php if ($form->userType == 'Admin' || $form->userType == 'Supervisor') { ?>
                     <input type="reset" id="btnReset" value="<?php echo __('Reset') ?>" class="savebutton" />
                 <?php } ?>
+                <?php include_component('core', 'ohrmPluginPannel', array('location' => 'listing_layout_navigation_bar_1')); ?>
             </div>
-    <?php include_component('core', 'ohrmPluginPannel', array('location' => 'listing_layout_navigation_bar_1')); ?>
+    
         </div>
     </div>
     <?php echo templateMessage($templateMessage); ?>
