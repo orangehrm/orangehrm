@@ -140,10 +140,12 @@ class SystemUserDao extends BaseDao {
      */
     public function searchSystemUsers($searchClues) {
         try {
-            $sortField = ($searchClues['sortField'] == "") ? 'user_name' : $searchClues['sortField'];
-            $sortOrder = ($searchClues['sortOrder'] == "") ? 'ASC' : $searchClues['sortOrder'];
-            $offset = ($searchClues['offset'] == "") ? 0 : $searchClues['offset'];
-            $limit = ($searchClues['limit'] == "") ? SystemUser::NO_OF_RECORDS_PER_PAGE : $searchClues['limit'];
+            
+            // Set defaults to sort order and limits           
+            $sortField = empty($searchClues['sortField']) ? 'user_name' : $searchClues['sortField'];
+            $sortOrder = empty($searchClues['sortOrder']) ? 'ASC' : $searchClues['sortOrder'];
+            $offset = empty($searchClues['offset']) ? 0 : $searchClues['offset'];
+            $limit = empty($searchClues['limit']) ? SystemUser::NO_OF_RECORDS_PER_PAGE : $searchClues['limit'];
 
             $q = $this->_buildSearchQuery($searchClues);
 
