@@ -562,17 +562,15 @@ class LeaveRequestDao extends BaseDao {
      * @return array
      */
     public function searchLeaveRequestsSummaryHydrateMode($searchParameters) {
-        $this->_markApprovedLeaveAsTaken();
-       
-        $list = array();
+        $this->_markApprovedLeaveAsTaken();       
 
         $q = Doctrine_Query::create()
                 ->select('lr.date_applied, lr.leave_type_name, lr.leave_comments, sum(l.leave_length_hours) leave_length_hours_total, sum(l.leave_length_days) as total_leave_length_days,em.firstName, em.middleName, em.lastName' .
-                         ', sum(IF(l.leave_status = 2, 1, 0)) as scheduled, ' . 
-                         ', sum(IF(l.leave_status = 0, 1, 0)) as cancelled, ' .
-                         ', sum(IF(l.leave_status = 3, 1, 0)) as taken, ' . 
-                         ', sum(IF(l.leave_status = -1, 1, 0)) as rejected, ' . 
-                        ', sum(IF(l.leave_status = 1, 1, 0)) as pending_approval, ' . 
+                         ', sum(IF(l.leave_status = 2, l.leave_length_days, 0)) as scheduled, ' . 
+                         ', sum(IF(l.leave_status = 0, l.leave_length_days, 0)) as cancelled, ' .
+                         ', sum(IF(l.leave_status = 3, l.leave_length_days, 0)) as taken, ' . 
+                         ', sum(IF(l.leave_status = -1, l.leave_length_days, 0)) as rejected, ' . 
+                         ', sum(IF(l.leave_status = 1, l.leave_length_days, 0)) as pending_approval, ' . 
                         'concat(l.leave_status)')
                 ->from('LeaveRequest lr')
                 ->leftJoin('lr.LeaveType lt')
@@ -598,6 +596,7 @@ class LeaveRequestDao extends BaseDao {
 
             if (!empty($statuses)) {
                 $q->whereIn("l.leave_status", $statuses);
+                //$q->andWhere("SELECT leave_request_id FROM hs_hr_leave WHERE leave_status IN(".  implode(",", $statuses).")");
             }
         }
 

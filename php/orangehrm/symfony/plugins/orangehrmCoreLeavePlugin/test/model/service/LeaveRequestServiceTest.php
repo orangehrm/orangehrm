@@ -700,6 +700,41 @@ class LeaveRequestServiceTest extends PHPUnit_Framework_TestCase {
         }
         
     }
+    
+     /**
+     * @group orangehrmLeaveListDataExtractorCsvPlugin
+     */
+    public function testSearchLeaveRequestsSummaryHydrateMode() {
+
+        $mockDao = $this->getMock('LeaveRequestDao', array('searchLeaveRequestsSummaryHydrateMode'));
+        $mockDao->expects($this->any())
+                ->method('searchLeaveRequestsSummaryHydrateMode')
+                ->will($this->returnValue(array('em_fist_name'=>'employee1')));
+
+        $service = new LeaveRequestService();
+        $service->setLeaveRequestDao($mockDao);
+
+        $this->assertEquals(1, sizeof($service->searchLeaveRequestsSummaryHydrateMode(array())));
+      
+    }
+    
+    
+     /**
+     * @group orangehrmLeaveListDataExtractorCsvPlugin
+     */
+    public function searchLeaveRequestsDetailedHydrateMode() {
+
+        $mockDao = $this->getMock('LeaveRequestDao', array('searchLeaveRequestsDetailedHydrateMode'));
+        $mockDao->expects($this->any())
+                ->method('searchLeaveRequestsDetailedHydrateMode')
+                ->will($this->returnValue(array('em_fist_name'=>'employee1')));
+
+        $service = new LeaveRequestService();
+        $service->setLeaveRequestDao($mockDao);
+
+        $this->assertEquals(1, sizeof($service->searchLeaveRequestsDetailedHydrateMode(array())));
+      
+    }    
 }
 
 class MockLeaveStateManager extends LeaveStateManager {
