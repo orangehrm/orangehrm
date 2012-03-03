@@ -490,6 +490,7 @@ class adminActions extends sfActions {
      * List Salery grade
      * @param sfWebRequest $request
      * @return unknown_type
+     * @todo Seems like an unused method. Should be removed if not used anwhere
      */
     public function executeListEmployeeStatus(sfWebRequest $request) {
         $jobService = new JobService();
@@ -517,6 +518,7 @@ class adminActions extends sfActions {
      * Save Salery Grade 
      * @param sfWebRequest $request
      * @return unknown_type
+     * @todo Seems like an unused method. Should be removed if not used anwhere
      */
     public function executeSaveEmployeeStatus(sfWebRequest $request) {
         if ($request->isMethod('post')) {
