@@ -743,7 +743,9 @@ class TimesheetDao {
                 ->leftJoin("prj.Customer cust")
                 ->leftJoin("act.TimesheetItem i")
                 ->leftJoin("i.Employee e");
-
+        
+        $q->where("act.activity_id = i.activity_id ");
+        
         if ($employeeIds != null) {
             if (is_array($employeeIds)) {
                 $q->whereIn("e.emp_number", $employeeIds);
@@ -758,10 +760,20 @@ class TimesheetDao {
 
         if ($employeementStatus != null) {
             $q->andWhere("e.emp_status = ?", $employeementStatus);
+        } else {
+           $q->andWhere("(e.emp_status != '".Employee::EMPLOYEE_STATUS_TERMINATED."' OR  e.emp_status IS Null)");
         }
 
         if ($subDivision != null) {
-            $q->andWhere("e.work_station = ?", $subDivision);
+            $companyDao = new CompanyDao();
+            $subDivisions = $companyDao->getSubdivisionTreeByNodeId($subDivision);
+            
+            $subDivision = array();
+            foreach ($subDivisions as $subDivisoin){                
+                $subDivision [] = $subDivisoin->getId();
+            }
+                         
+            $q->andWhereIn("e.work_station", $subDivision);
         }
 
         if ($dateFrom != null) {
@@ -774,6 +786,8 @@ class TimesheetDao {
 
         $q->groupBy("e.emp_number, i.date, activity_id");
         $q->orderBy("e.lastName ASC, i.date DESC, cust.name, act.name ASC ");
+        
+
         $result = $q->execute(array(), Doctrine::HYDRATE_SCALAR);
 
         return $result;

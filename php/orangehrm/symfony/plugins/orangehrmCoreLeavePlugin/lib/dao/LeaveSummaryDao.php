@@ -179,5 +179,73 @@ class LeaveSummaryDao extends BaseDao {
     protected function getBaseCountQuery($clues) {
         return 'SELECT COUNT(*) FROM (hs_hr_employee a, hs_hr_leavetype b)';
     }
+    
+    /**
+     * @tutorial this is a performance imporoved version of fetchRawLeaveSummaryRecords method
+     * @param array $clues
+     * @return array 
+     */
+    public function fetchRawLeaveSummaryRecordsImproved($clues) {
+      
+       $q = "SELECT a.emp_lastname, a.emp_middle_name, a.emp_firstname, b.leave_type_name, q.no_of_days_allotted, q.leave_brought_forward,
+            (SELECT CONCAT (q.no_of_days_allotted + q.leave_brought_forward - SUM(l.leave_length_days) + q.leave_carried_forward ,'_',  sum(IF(l.leave_status = ".Leave::LEAVE_STATUS_LEAVE_APPROVED.", leave_length_days, 0)),'_',  sum(IF(l.leave_status = ".Leave::LEAVE_STATUS_LEAVE_TAKEN.", leave_length_days, 0)))
+             FROM hs_hr_leave_requests lr 
+             LEFT JOIN hs_hr_leave l ON lr.leave_request_id = l.leave_request_id 
+             WHERE lr.leave_type_id = b.leave_type_id AND lr.employee_id = a.emp_number AND lr.leave_period_id = q.leave_period_id 
+             AND leave_status IN (".Leave::LEAVE_STATUS_LEAVE_APPROVED.",".Leave::LEAVE_STATUS_LEAVE_TAKEN.")) AS leave_info 
+       
+             FROM
+             (hs_hr_employee a, hs_hr_leavetype b) 
+             LEFT JOIN hs_hr_employee_leave_quota q ON a.emp_number = q.employee_id AND b.leave_type_id = q.leave_type_id
+";
+        
+        $q .= " ";        
+           
+        if (!empty($clues['cmbLocation'])) {
+            $q .= " LEFT JOIN hs_hr_emp_locations c ON a.emp_number = c.emp_number";
+        }
+        
+        $where = array();
+        $where [] = " b.available_flag = 1 ";
+        
+        
+        if (!empty($clues['cmbEmpId'])) {
+            $where[] = "a.emp_number = '{$clues['cmbEmpId']}'";
+        } elseif ($clues['userType'] == 'Supervisor') {
+            $where[] = "a.emp_number IN(".implode(",", $clues['subordinates']).")";
+        }
+
+        if (!empty($clues['cmbLeaveType'])) {
+            $where[] = "b.leave_type_id = '{$clues['cmbLeaveType']}'";
+        }
+
+        if (!empty($clues['cmbSubDivision'])) {
+            $where[] = "a.work_station = '{$clues['cmbSubDivision']}'";
+        }
+
+        if (!empty($clues['cmbJobTitle'])) {
+            $where[] = "a.job_title_code = '{$clues['cmbJobTitle']}'";
+        }
+
+        if (!empty($clues['cmbLocation'])) {
+            $where[] = "c.loc_code = '{$clues['cmbLocation']}'";
+        }
+                
+        if(!$includeTerminated && empty($clues['cmbWithTerminated'])) {
+            $status = PluginEmployee::EMPLOYEE_STATUS_TERMINATED;
+            $where[] = "(a.emp_status !='{$status}' OR a.emp_status IS NULL)";           
+        }
+       
+        if(count($where) > 0) {
+            $q .= ' WHERE '.implode(' AND ',$where);
+        }
+        
+        $q .= " ORDER By a.emp_number, b.leave_type_id"; 
+        
+        $pdo = Doctrine_Manager::connection()->getDbh();      
+        return $pdo->query($q)->fetchAll();         
+
+    }
+
 
 }

@@ -141,4 +141,14 @@ class LeaveSummaryService extends BaseService {
     public function fetchRawLeaveSummaryRecordsCount($clues, $includeTerminated = false) {
         return $this->getLeaveSummaryDao()->fetchRawLeaveSummaryRecordsCount($clues, $includeTerminated);
     }
+    
+    /**
+     * @tutorial this is a performance imporoved version of fetchRawLeaveSummaryRecords method
+     * @param array $clues
+     * @return array 
+     */
+    public function fetchRawLeaveSummaryRecordsImproved($clues) {
+        return $this->getLeaveSummaryDao()->fetchRawLeaveSummaryRecordsImproved($clues);        
+    }
+    
 }

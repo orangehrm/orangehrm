@@ -53,13 +53,14 @@ use_javascripts_for_form($form);
             <br class="clear" />
 
             <div class="buttonWrapper">
-                <input type="hidden" name="pageNo" id="pageNo" value="<?php echo $form->pageNo; ?>" />
-                <input type="hidden" name="hdnAction" id="hdnAction" value="search" />
                 <?php
                 foreach ($searchActionButtons as $id => $button) {
                     echo $button->render($id), "\n";
                 }
                 ?>
+                <?php include_component('core', 'ohrmPluginPannel', array('location' => 'listing_layout_navigation_bar_1')); ?>
+                <input type="hidden" name="pageNo" id="pageNo" value="<?php echo $form->pageNo; ?>" />
+                <input type="hidden" name="hdnAction" id="hdnAction" value="search" />
             </div>
         </form>
     </div>

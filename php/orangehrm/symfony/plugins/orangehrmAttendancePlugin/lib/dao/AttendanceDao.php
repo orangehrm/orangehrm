@@ -469,34 +469,51 @@ class AttendanceDao {
      * @return array 
      */
     
-    public function searchAttendanceRecords($employeeId = null, $employeementStatus = null, $subDivision = null, $dateFrom = null , $dateTo = null ){
+    public function searchAttendanceRecords($employeeIds = null, $employeementStatus = null, $subDivision = null, $dateFrom = null , $dateTo = null ){
 
          $q = Doctrine_Query::create()
-                 ->select("e.emp_number, e.emp_firstname, e.emp_middle_name, e.emp_lastname, a.punch_in_user_time as in_date_time, a.punch_out_user_time as out_date_time, punch_in_note, punch_out_note, TIMESTAMPDIFF(HOUR, a.punch_in_user_time, a.punch_out_user_time) as duration")
+                 ->select("e.emp_number, e.emp_firstname, e.emp_middle_name, e.emp_lastname, a.punch_in_user_time as in_date_time, a.punch_out_user_time as out_date_time, punch_in_note, punch_out_note, TIMESTAMPDIFF(MINUTE, a.punch_in_user_time, a.punch_out_user_time) as duration")
                 ->from("AttendanceRecord a")
                 ->leftJoin("a.Employee e")
-                ->groupBy('a.punch_in_utc_time DESC');
+                ->orderBy('a.punch_in_user_time DESC');
 
-        if( $employeeId != null){
-            $q->andWhere(" e.emp_number = ?", $employeeId);
+        if( $employeeIds != null){
+            
+            if(is_array($employeeIds)){
+                $q->andWhereIn("e.emp_number", $employeeIds);
+            } else {
+                $q->andWhere(" e.emp_number = ?", $employeeIds);
+            }            
         }
         
         if( $employeementStatus != null){           
             $q->andWhere("e.emp_status = ?", $employeementStatus);
+        } else {
+            $q->andWhere("(e.emp_status != '".Employee::EMPLOYEE_STATUS_TERMINATED."' OR  e.emp_status IS NULL)");
         }
         
         if( $subDivision != null){
-            $q->andWhere("e.work_station = ?", $subDivision);            
+            
+            $companyDao = new CompanyDao();
+            $subDivisions = $companyDao->getSubdivisionTreeByNodeId($subDivision);
+            
+            $subDivision = array();
+            foreach ($subDivisions as $subDivisoin){                
+                $subDivision [] = $subDivisoin->getId();
+            }
+                         
+            $q->andWhereIn("e.work_station", $subDivision);
+            
         }
         
         if( $dateFrom != null){            
-            $q->andWhere("i.punch_in_user_time >=?", $dateFrom);
+            $q->andWhere("a.punch_in_user_time >=?", $dateFrom);
         }
         
         if( $dateTo != null){
-            $q->andWhere("i.punch_out_user_time <=?", $dateTo);
+            $q->andWhere("a.punch_out_user_time <=?", $dateTo);
         }
-              
+      
         $result = $q->execute(array(), Doctrine::HYDRATE_SCALAR);
         return $result;
       
