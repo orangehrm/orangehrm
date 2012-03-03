@@ -497,5 +497,31 @@ class TimesheetService {
         
         return $endDate;
     }
+    
+    /**
+     *
+     * @param array/Integer $employeeIds
+     * @param date $dateFrom
+     * @param date $dateTo
+     * @param int $subDivision
+     * @param String $employeementStatus 
+     * @return array
+     */
+    public function searchTimesheetItems($employeeIds = null, $employeementStatus = null, $subDivision = null,$supervisorId = null, $dateFrom = null , $dateTo = null ){
+        
+        if(!is_array($employeeIds) && $employeeIds != null ){
+            $employeeIds = array($employeeIds);
+        }
+        
+        $employeeService = new EmployeeService();
+        $subordinates = $employeeService->getSubordinateListForEmployee($supervisorId);
+        
+        $supervisorIds = array();
+        foreach($subordinates as $subordinate){           
+            $supervisorIds [] = $subordinate->getSubordinateId();
+        }
+        
+        return $this->getTimesheetDao()->searchTimesheetItems($employeeIds, $employeementStatus, $supervisorIds,  $subDivision, $dateFrom, $dateTo );
+    }
 
 }

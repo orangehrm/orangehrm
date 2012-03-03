@@ -16,6 +16,7 @@
  * @property string $punchOutTimeOffset
  * @property datetime $punchOutUserTime
  * @property string $state
+ * @property Employee $Employee
  * 
  * @method integer          getId()                 Returns the current record's "id" value
  * @method integer          getEmployeeId()         Returns the current record's "employeeId" value
@@ -28,6 +29,7 @@
  * @method string           getPunchOutTimeOffset() Returns the current record's "punchOutTimeOffset" value
  * @method datetime         getPunchOutUserTime()   Returns the current record's "punchOutUserTime" value
  * @method string           getState()              Returns the current record's "state" value
+ * @method Employee         getEmployee()           Returns the current record's "Employee" value
  * @method AttendanceRecord setId()                 Sets the current record's "id" value
  * @method AttendanceRecord setEmployeeId()         Sets the current record's "employeeId" value
  * @method AttendanceRecord setPunchInUtcTime()     Sets the current record's "punchInUtcTime" value
@@ -39,6 +41,7 @@
  * @method AttendanceRecord setPunchOutTimeOffset() Sets the current record's "punchOutTimeOffset" value
  * @method AttendanceRecord setPunchOutUserTime()   Sets the current record's "punchOutUserTime" value
  * @method AttendanceRecord setState()              Sets the current record's "state" value
+ * @method AttendanceRecord setEmployee()           Sets the current record's "Employee" value
  * 
  * @package    orangehrm
  * @subpackage model
@@ -96,6 +99,8 @@ abstract class BaseAttendanceRecord extends sfDoctrineRecord
     public function setUp()
     {
         parent::setUp();
-        
+        $this->hasOne('Employee', array(
+             'local' => 'employeeId',
+             'foreign' => 'empNumber'));
     }
 }

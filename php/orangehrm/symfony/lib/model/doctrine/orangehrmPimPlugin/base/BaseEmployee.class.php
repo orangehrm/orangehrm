@@ -71,6 +71,7 @@
  * @property EmpTermination $EmpTermination
  * @property Nationality $Nationality
  * @property JobCategory $JobCategory
+ * @property Doctrine_Collection $AttendanceRecord
  * @property Doctrine_Collection $EmployeeLeaveEntitlement
  * @property Doctrine_Collection $LeaveRequest
  * @property Doctrine_Collection $SystemUser
@@ -89,6 +90,7 @@
  * @property Doctrine_Collection $JobCandidate
  * @property Doctrine_Collection $JobInterviewInterviewer
  * @property Doctrine_Collection $CandidateHistory
+ * @property Doctrine_Collection $TimesheetItem
  * @property Doctrine_Collection $EmpChildren
  * @property Doctrine_Collection $PerformanceReview
  * @property Doctrine_Collection $PerformanceReviewComment
@@ -159,6 +161,7 @@
  * @method EmpTermination      getEmpTermination()           Returns the current record's "EmpTermination" value
  * @method Nationality         getNationality()              Returns the current record's "Nationality" value
  * @method JobCategory         getJobCategory()              Returns the current record's "JobCategory" value
+ * @method Doctrine_Collection getAttendanceRecord()         Returns the current record's "AttendanceRecord" collection
  * @method Doctrine_Collection getEmployeeLeaveEntitlement() Returns the current record's "EmployeeLeaveEntitlement" collection
  * @method Doctrine_Collection getLeaveRequest()             Returns the current record's "LeaveRequest" collection
  * @method Doctrine_Collection getSystemUser()               Returns the current record's "SystemUser" collection
@@ -177,6 +180,7 @@
  * @method Doctrine_Collection getJobCandidate()             Returns the current record's "JobCandidate" collection
  * @method Doctrine_Collection getJobInterviewInterviewer()  Returns the current record's "JobInterviewInterviewer" collection
  * @method Doctrine_Collection getCandidateHistory()         Returns the current record's "CandidateHistory" collection
+ * @method Doctrine_Collection getTimesheetItem()            Returns the current record's "TimesheetItem" collection
  * @method Doctrine_Collection getEmpChildren()              Returns the current record's "EmpChildren" collection
  * @method Doctrine_Collection getPerformanceReview()        Returns the current record's "PerformanceReview" collection
  * @method Doctrine_Collection getPerformanceReviewComment() Returns the current record's "PerformanceReviewComment" collection
@@ -246,6 +250,7 @@
  * @method Employee            setEmpTermination()           Sets the current record's "EmpTermination" value
  * @method Employee            setNationality()              Sets the current record's "Nationality" value
  * @method Employee            setJobCategory()              Sets the current record's "JobCategory" value
+ * @method Employee            setAttendanceRecord()         Sets the current record's "AttendanceRecord" collection
  * @method Employee            setEmployeeLeaveEntitlement() Sets the current record's "EmployeeLeaveEntitlement" collection
  * @method Employee            setLeaveRequest()             Sets the current record's "LeaveRequest" collection
  * @method Employee            setSystemUser()               Sets the current record's "SystemUser" collection
@@ -264,6 +269,7 @@
  * @method Employee            setJobCandidate()             Sets the current record's "JobCandidate" collection
  * @method Employee            setJobInterviewInterviewer()  Sets the current record's "JobInterviewInterviewer" collection
  * @method Employee            setCandidateHistory()         Sets the current record's "CandidateHistory" collection
+ * @method Employee            setTimesheetItem()            Sets the current record's "TimesheetItem" collection
  * @method Employee            setEmpChildren()              Sets the current record's "EmpChildren" collection
  * @method Employee            setPerformanceReview()        Sets the current record's "PerformanceReview" collection
  * @method Employee            setPerformanceReviewComment() Sets the current record's "PerformanceReviewComment" collection
@@ -567,6 +573,10 @@ abstract class BaseEmployee extends sfDoctrineRecord
              'local' => 'eeo_cat_code',
              'foreign' => 'id'));
 
+        $this->hasMany('AttendanceRecord', array(
+             'local' => 'empNumber',
+             'foreign' => 'employeeId'));
+
         $this->hasMany('EmployeeLeaveEntitlement', array(
              'local' => 'empNumber',
              'foreign' => 'employee_id'));
@@ -639,6 +649,10 @@ abstract class BaseEmployee extends sfDoctrineRecord
         $this->hasMany('CandidateHistory', array(
              'local' => 'empNumber',
              'foreign' => 'performedBy'));
+
+        $this->hasMany('TimesheetItem', array(
+             'local' => 'empNumber',
+             'foreign' => 'employeeId'));
 
         $this->hasMany('EmpChildren', array(
              'local' => 'emp_number',

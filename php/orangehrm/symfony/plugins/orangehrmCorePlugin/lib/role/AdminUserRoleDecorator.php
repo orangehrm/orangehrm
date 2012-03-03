@@ -30,6 +30,9 @@ class AdminUserRoleDecorator extends UserRoleDecorator {
 	const VIEW_VACANCIES = "./symfony/web/index.php/recruitment/viewJobVacancy";
 	const ADD_CANDIDATE = "./symfony/web/index.php/recruitment/addCandidate";
 	const VIEW_CANDIDATES = "./symfony/web/index.php/recruitment/viewCandidates";
+        const CSV_TIMESHEET_EXPORT ="./symfony/web/index.php/csvExport/viewTimesheetCsvExtract";
+        const CSV_ATTENDANCE_EXPORT ="./symfony/web/index.php/csvExport/viewAttendanceDataExtract";
+
 	private $user;
 	private $employeeService;
 	private $timesheetService;
@@ -126,7 +129,7 @@ class AdminUserRoleDecorator extends UserRoleDecorator {
 		$topMenuItem = new TopMenuItem();
 		$topMenuItem->setDisplayName("Reports");
 		$topMenuItem->setLink(AdminUserRoleDecorator::PROJECT_REPORT_LINK);
-
+        
 		$topMenuItemArray = $this->__chkAndPutItemsToArray($topMenuItemArray, $topMenuItem);
 
 		return $topMenuItemArray;
@@ -138,9 +141,17 @@ class AdminUserRoleDecorator extends UserRoleDecorator {
 		$topMenuItem->setDisplayName(__("Employee Timesheets"));
 		$topMenuItem->setLink(AdminUserRoleDecorator::VIEW_EMPLOYEE_TIMESHEET);
 		$topMenuItemArray = $this->__chkAndPutItemsToArray($topMenuItemArray, $topMenuItem);
+         
+        if ($this->isPluginAvailable('orangehrmTimesheetCsvExtractorPlugin')){            
+            $topMenuItem = new TopMenuItem();
+            $topMenuItem->setDisplayName(__("Export Timesheets"));
+            $topMenuItem->setLink(AdminUserRoleDecorator::CSV_TIMESHEET_EXPORT);
+        }
 
-		return $topMenuItemArray;
-	}
+        $topMenuItemArray = $this->__chkAndPutItemsToArray($topMenuItemArray, $topMenuItem);
+
+        return $topMenuItemArray;
+    }
 
 	public function getAccessibleAttendanceSubMenus() {
 
@@ -153,11 +164,17 @@ class AdminUserRoleDecorator extends UserRoleDecorator {
 		$topMenuItem = new TopMenuItem();
 		$topMenuItem->setDisplayName(__("Configuration"));
 		$topMenuItem->setLink(AdminUserRoleDecorator::CONFIGURE_LINK);
-
 		$topMenuItemArray = $this->__chkAndPutItemsToArray($topMenuItemArray, $topMenuItem);
 
+		if ($this->isPluginAvailable('orangehrmAttendanceDataExtractorPlugin')){
+		    $topMenuItem = new TopMenuItem();
+		    $topMenuItem->setDisplayName(__("Export Employee Records"));
+		    $topMenuItem->setLink(AdminUserRoleDecorator::CSV_ATTENDANCE_EXPORT);
+		    $topMenuItemArray = $this->__chkAndPutItemsToArray($topMenuItemArray, $topMenuItem);
+		}
+
 		return $topMenuItemArray;
-	}
+        }
 
 	public function getAccessibleReportSubMenus() {
 

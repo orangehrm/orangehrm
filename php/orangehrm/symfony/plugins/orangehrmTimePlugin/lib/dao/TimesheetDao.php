@@ -24,21 +24,19 @@ class TimesheetDao {
      * @param $timesheetId
      * @return Timesheet
      */
-    
     protected $configDao;
-    
+
     public function setConfigDao($configDao) {
         $this->configDao = $configDao;
     }
-    
+
     public function getConfigDao() {
-        
+
         if (is_null($this->configDao)) {
             $this->configDao = new ConfigDao();
         }
-        
+
         return $this->configDao;
-        
     }
 
     public function getTimesheetById($timesheetId) {
@@ -347,7 +345,7 @@ class TimesheetDao {
                     ->from('Timesheet a')
                     ->where('employee_id = ?', $employeeId)
                     ->orderBy('a.start_date ASC');
-         
+
             $results = $query->execute();
 
             if ($results[0]->getTimesheetId() == null) {
@@ -653,7 +651,7 @@ class TimesheetDao {
      * @return string 1,0
      */
     public function checkForOverlappingTimesheets($startDate, $endDate, $employeeId) {
- 
+
 
         $isValid = "1";
 
@@ -725,6 +723,60 @@ class TimesheetDao {
         } else {
             return null;
         }
+    }
+
+    /**
+     *
+     * @param type $employeeIds
+     * @param type $dateFrom
+     * @param type $dateTo
+     * @param type $subDivision
+     * @param type $employeementStatus
+     * @return type array
+     */
+    public function searchTimesheetItems($employeeIds = null, $employeementStatus = null, $supervisorIds = null, $subDivision = null, $dateFrom = null, $dateTo = null) {
+
+        $q = Doctrine_Query::create()
+                ->select("e.emp_middle_name, e.emp_lastname, e.emp_firstname, i.date, cust.name, prj.name, act.name, i.comment, SUM(i.duration) AS total_duration ")
+                ->from("ProjectActivity act")
+                ->leftJoin("act.Project prj")
+                ->leftJoin("prj.Customer cust")
+                ->leftJoin("act.TimesheetItem i")
+                ->leftJoin("i.Employee e");
+
+        if ($employeeIds != null) {
+            if (is_array($employeeIds)) {
+                $q->whereIn("e.emp_number", $employeeIds);
+            } else {
+                $q->andWhere(" e.emp_number = ?", $employeeIds);
+            }
+        }
+        
+        if (is_array($supervisorIds) && sizeof($supervisorIds)>0) {
+            $q->whereIn("e.emp_number", $supervisorIds);
+        }
+
+        if ($employeementStatus != null) {
+            $q->andWhere("e.emp_status = ?", $employeementStatus);
+        }
+
+        if ($subDivision != null) {
+            $q->andWhere("e.work_station = ?", $subDivision);
+        }
+
+        if ($dateFrom != null) {
+            $q->andWhere("i.date >=?", $dateFrom);
+        }
+
+        if ($dateTo != null) {
+            $q->andWhere("i.date <=?", $dateTo);
+        }
+
+        $q->groupBy("e.emp_number, i.date, activity_id");
+        $q->orderBy("e.lastName ASC, i.date DESC, cust.name, act.name ASC ");
+        $result = $q->execute(array(), Doctrine::HYDRATE_SCALAR);
+
+        return $result;
     }
 
 }

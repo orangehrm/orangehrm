@@ -23,6 +23,9 @@ class SupervisorUserRoleDecorator extends UserRoleDecorator {
 	const EMPLOYEE_REPORT_LINK="./symfony/web/index.php/time/displayEmployeeReportCriteria?reportId=2";
 	const VIEW_ATTENDANCE_RECORD_LINK="./symfony/web/index.php/attendance/viewAttendanceRecord";
 	const ATTENDANCE_TOTAL_SUMMARY_REPORT_LINK="./symfony/web/index.php/time/displayAttendanceSummaryReportCriteria?reportId=4";
+        const CSV_TIMESHEET_EXPORT ="./symfony/web/index.php/csvExport/viewTimesheetCsvExtract";
+        const CSV_ATTENDANCE_EXPORT ="./symfony/web/index.php/csvExport/viewAttendanceDataExtract";
+
 	private $user;
 	private $employeeService;
 	private $timesheetService;
@@ -113,15 +116,31 @@ class SupervisorUserRoleDecorator extends UserRoleDecorator {
 		$topMenuItem->setDisplayName(__("Employee Timesheets"));
 		$topMenuItem->setLink(SupervisorUserRoleDecorator::VIEW_EMPLOYEE_TIMESHEET);
 		$topMenuItemArray = $this->__chkAndPutItemsToArray($topMenuItemArray, $topMenuItem);
+        
+		if ($this->isPluginAvailable('orangehrmTimesheetCsvExtractorPlugin')){       
+		    $topMenuItem = new TopMenuItem();
+		    $topMenuItem->setDisplayName(__("Export Timesheets"));
+		    $topMenuItem->setLink(SupervisorUserRoleDecorator::CSV_TIMESHEET_EXPORT);
+		    $topMenuItemArray = $this->__chkAndPutItemsToArray($topMenuItemArray, $topMenuItem);
 
-		return $topMenuItemArray;
-	}
+		}
+		
+                $topMenuItemArray = $this->__chkAndPutItemsToArray($topMenuItemArray, $topMenuItem);
+
+                return $topMenuItemArray;
+        }
 
 	public function getAccessibleAttendanceSubMenus() {
 		$topMenuItemArray = $this->user->getAccessibleAttendanceSubMenus();
 		$topMenuItem = new TopMenuItem();
 		$topMenuItem->setDisplayName(__("Employee Records"));
 		$topMenuItem->setLink(SupervisorUserRoleDecorator::VIEW_ATTENDANCE_RECORD_LINK);
+        
+		if ($this->isPluginAvailable('orangehrmAttendanceDataExtractorPlugin')){
+		    $topMenuItem = new TopMenuItem();
+		    $topMenuItem->setDisplayName(__("Export Employee Records"));
+		    $topMenuItem->setLink(AdminUserRoleDecorator::CSV_ATTENDANCE_EXPORT);
+		 }
 
 		$topMenuItemArray = $this->__chkAndPutItemsToArray($topMenuItemArray, $topMenuItem);
 		return $topMenuItemArray;

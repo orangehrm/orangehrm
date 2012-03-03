@@ -16,6 +16,7 @@
  * @property Timesheet $Timesheet
  * @property Project $Project
  * @property ProjectActivity $ProjectActivity
+ * @property Employee $Employee
  * 
  * @method integer         getTimesheetItemId() Returns the current record's "timesheetItemId" value
  * @method integer         getTimesheetId()     Returns the current record's "timesheetId" value
@@ -28,6 +29,7 @@
  * @method Timesheet       getTimesheet()       Returns the current record's "Timesheet" value
  * @method Project         getProject()         Returns the current record's "Project" value
  * @method ProjectActivity getProjectActivity() Returns the current record's "ProjectActivity" value
+ * @method Employee        getEmployee()        Returns the current record's "Employee" value
  * @method TimesheetItem   setTimesheetItemId() Sets the current record's "timesheetItemId" value
  * @method TimesheetItem   setTimesheetId()     Sets the current record's "timesheetId" value
  * @method TimesheetItem   setEmployeeId()      Sets the current record's "employeeId" value
@@ -39,6 +41,7 @@
  * @method TimesheetItem   setTimesheet()       Sets the current record's "Timesheet" value
  * @method TimesheetItem   setProject()         Sets the current record's "Project" value
  * @method TimesheetItem   setProjectActivity() Sets the current record's "ProjectActivity" value
+ * @method TimesheetItem   setEmployee()        Sets the current record's "Employee" value
  * 
  * @package    orangehrm
  * @subpackage model
@@ -96,6 +99,11 @@ abstract class BaseTimesheetItem extends sfDoctrineRecord
         $this->hasOne('ProjectActivity', array(
              'local' => 'activityId',
              'foreign' => 'activity_id',
+             'onDelete' => 'cascade'));
+
+        $this->hasOne('Employee', array(
+             'local' => 'employeeId',
+             'foreign' => 'empNumber',
              'onDelete' => 'cascade'));
     }
 }

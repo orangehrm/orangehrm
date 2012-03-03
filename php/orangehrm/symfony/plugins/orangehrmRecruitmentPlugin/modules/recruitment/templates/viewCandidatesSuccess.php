@@ -94,7 +94,7 @@
                 <label id="toDate" class="helpText"><?php echo __('To'); ?></label>
             </div>
 
-            <?php include_component('core', 'ohrmPluginPannel', array('location' => 'candidate-search-fields')); ?>
+            <?php include_component('core', 'ohrmPluginPannel', array('location' => 'listing_layout_navigation_bar_1')); ?>
 
                 <div class="actionbar" style="border-top: 1px solid #FAD163; margin-top: 3px">
                     <div class="actionbuttons">

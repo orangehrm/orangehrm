@@ -38,3 +38,7 @@ AttendanceRecord:
     state:
       type: string(255)
       notnull: true
+  relations:
+    Employee:     
+      local: employeeId
+      foreign: empNumber

@@ -61,6 +61,10 @@ TimesheetItem:
       onDelete: cascade
       local: activityId
       foreign: activity_id
+    Employee:
+      onDelete: cascade
+      local: employeeId
+      foreign: empNumber
 
 TimesheetActionLog:
   tableName: ohrm_timesheet_action_log

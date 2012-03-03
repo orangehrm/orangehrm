@@ -254,6 +254,19 @@ class AttendanceService {
     public function checkForPunchInOutOverLappingRecordsWhenEditing($punchIn, $punchOut, $employeeId,$recordId) {
         return $this->getAttendanceDao()->checkForPunchInOutOverLappingRecordsWhenEditing($punchIn, $punchOut, $employeeId, $recordId);
     }
+    
+    /**
+     *
+     * @param int $employeeId
+     * @param string $employeementStatus
+     * @param int $subDivision    
+     * @param date $dateFrom
+     * @param date $dateTo
+     * @return array 
+     */
+    public function searchAttendanceRecords($employeeId = null, $employeementStatus = null, $subDivision = null, $dateFrom = null , $dateTo = null ){
+        return $this->getAttendanceDao()->searchAttendanceRecords($employeeId, $employeementStatus, $subDivision, $dateFrom, $dateTo );
+    }
 
 }
 

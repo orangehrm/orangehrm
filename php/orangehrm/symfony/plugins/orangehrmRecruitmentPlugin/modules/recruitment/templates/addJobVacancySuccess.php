@@ -95,7 +95,7 @@
                 <br class="clear"/>
             </div>
             
-            <?php include_component('core', 'ohrmPluginPannel', array('location' => 'post-to-facebook'))?>
+            <?php include_component('core', 'ohrmPluginPannel', array('location' => 'add_layout_before_navigation_bar_1'))?>
             
             <div class="formbuttons">
                 <?php if (isset($vacancyId)) { ?>
