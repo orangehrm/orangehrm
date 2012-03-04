@@ -491,8 +491,7 @@ class AttendanceDao {
         } else {
             if($employeeIds <= 0){
                 $q->andWhere("(e.termination_id IS NULL)");
-            }
-            
+            }            
         }
         
         if( $subDivision > 0){

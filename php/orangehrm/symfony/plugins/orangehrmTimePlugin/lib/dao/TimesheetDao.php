@@ -758,22 +758,29 @@ class TimesheetDao {
             $q->whereIn("e.emp_number", $supervisorIds);
         }
 
-        if ($employeementStatus != null) {
+        if( $employeementStatus > 0 ){
             $q->andWhere("e.emp_status = ?", $employeementStatus);
         } else {
-           $q->andWhere("(e.emp_status != '".Employee::EMPLOYEE_STATUS_TERMINATED."' OR  e.emp_status IS Null)");
-        }
-
-        if ($subDivision != null) {
-            $companyDao = new CompanyDao();
-            $subDivisions = $companyDao->getSubdivisionTreeByNodeId($subDivision);
+            if($employeeIds <= 0){
+                $q->andWhere("(e.termination_id IS NULL)");
+            }            
+        }        
+        
+        if( $subDivision > 0){
             
-            $subDivision = array();
-            foreach ($subDivisions as $subDivisoin){                
-                $subDivision [] = $subDivisoin->getId();
+            $companyService = new CompanyStructureService();
+            $subDivisions = $companyService->getCompanyStructureDao()->getSubunitById($subDivision);
+           
+            $subUnitIds = array();
+             if (!empty($subDivisions)) {
+                $descendents = $subDivisions->getNode()->getDescendants();
+               
+                foreach($descendents as $descendent) {                
+                    $subUnitIds[] = $descendent->id;
+                }
             }
-                         
-            $q->andWhereIn("e.work_station", $subDivision);
+            
+            $q->andWhereIn("e.work_station", $subUnitIds);            
         }
 
         if ($dateFrom != null) {
@@ -784,9 +791,8 @@ class TimesheetDao {
             $q->andWhere("i.date <=?", $dateTo);
         }
 
-        $q->groupBy("e.emp_number, i.date, activity_id");
+        $q->groupBy("e.emp_number, i.date, act.activity_id");
         $q->orderBy("e.lastName ASC, i.date DESC, cust.name, act.name ASC ");
-        
 
         $result = $q->execute(array(), Doctrine::HYDRATE_SCALAR);
 

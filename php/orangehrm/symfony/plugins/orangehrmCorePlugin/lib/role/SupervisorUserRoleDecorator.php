@@ -23,7 +23,7 @@ class SupervisorUserRoleDecorator extends UserRoleDecorator {
 	const EMPLOYEE_REPORT_LINK="./symfony/web/index.php/time/displayEmployeeReportCriteria?reportId=2";
 	const VIEW_ATTENDANCE_RECORD_LINK="./symfony/web/index.php/attendance/viewAttendanceRecord";
 	const ATTENDANCE_TOTAL_SUMMARY_REPORT_LINK="./symfony/web/index.php/time/displayAttendanceSummaryReportCriteria?reportId=4";
-        const CSV_TIMESHEET_EXPORT ="./symfony/web/index.php/time/viewTimesheetCsvExtract";
+        const CSV_TIMESHEET_EXPORT ="./symfony/web/index.php/csvExport/viewTimesheetCsvExtract";
         const CSV_ATTENDANCE_EXPORT ="./symfony/web/index.php/time/viewAttendanceDataExtract";
 
 	private $user;

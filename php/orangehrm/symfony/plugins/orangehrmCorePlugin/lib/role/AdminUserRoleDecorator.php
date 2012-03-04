@@ -30,7 +30,7 @@ class AdminUserRoleDecorator extends UserRoleDecorator {
 	const VIEW_VACANCIES = "./symfony/web/index.php/recruitment/viewJobVacancy";
 	const ADD_CANDIDATE = "./symfony/web/index.php/recruitment/addCandidate";
 	const VIEW_CANDIDATES = "./symfony/web/index.php/recruitment/viewCandidates";
-        const CSV_TIMESHEET_EXPORT ="./symfony/web/index.php/time/viewTimesheetCsvExtract";
+        const CSV_TIMESHEET_EXPORT ="./symfony/web/index.php/csvExport/viewTimesheetCsvExtract";
         const CSV_ATTENDANCE_EXPORT ="./symfony/web/index.php/time/viewAttendanceDataExtract";
 
 	private $user;
