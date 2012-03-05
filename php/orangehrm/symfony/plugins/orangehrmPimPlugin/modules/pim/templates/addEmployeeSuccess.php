@@ -13,7 +13,7 @@
     var lang_statusRequired = "<?php echo __(ValidationMessages::REQUIRED);?>";
     var cancelNavigateUrl = "<?php echo public_path("../../index.php?menu_no_top=hr");?>";
     var createUserAccount = "<?php echo $createUserAccount;?>";
-    var ldapInstalled = <?php echo ($ldapInstalled)?'true':'false'; ?>;
+    var ldapInstalled = <?php echo ($sf_user->hasAttribute('ldap.available'))?'true':'false'; ?>;
     
     //]]>
 </script>
@@ -65,9 +65,9 @@
                     <td><?php echo $form['status']->render(array("class" => "formInputText")); ?><br class="clear" /></td>
                 </tr>
                 <tr>
-                    <td><?php echo __('Password'); ?><span class="required">*</span></td>
+                    <td><?php echo __('Password'); ?><span class="required passwordRequired">*</span></td>
                     <td><?php echo $form['user_password']->render(array("class" => "formInputText", "maxlength" => 20)); ?><br class="clear" /></td>
-                    <td><?php echo __('Confirm Password'); ?><span class="required">*</span></td>
+                    <td><?php echo __('Confirm Password'); ?><span class="required passwordRequired">*</span></td>
                     <td><?php echo $form['re_password']->render(array("class" => "formInputText", "maxlength" => 20)); ?><br class="clear" /></td> 
                 </tr>
             </table>

@@ -1,4 +1,8 @@
 $(document).ready(function() {
+    
+    if (ldapInstalled) {
+        $('.passwordRequired').hide();
+    }    
 
     $("#chkLogin").attr("checked", "checked");
 

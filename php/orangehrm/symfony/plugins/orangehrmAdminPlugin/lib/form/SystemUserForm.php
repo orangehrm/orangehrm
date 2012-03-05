@@ -47,6 +47,7 @@ class SystemUserForm extends BaseForm {
             'password' => new sfWidgetFormInputPassword(),
             'confirmPassword' => new sfWidgetFormInputPassword(),
             'status' => new sfWidgetFormSelect(array('choices' => $statusList)),
+            'chkChangePassword' => new sfWidgetFormInputCheckbox()
         ));
 
         $this->setValidators(array(
@@ -58,6 +59,7 @@ class SystemUserForm extends BaseForm {
             'password' => new sfValidatorString(array('required' => false, 'max_length' => 20)),
             'confirmPassword' => new sfValidatorString(array('required' => false, 'max_length' => 20)),
             'status' => new sfValidatorString(array('required' => true, 'max_length' => 1)),
+            'chkChangePassword' => new sfValidatorString(array('required' => false))
         ));
 
 
@@ -108,21 +110,23 @@ class SystemUserForm extends BaseForm {
 
         $userId = $this->getValue('userId');
         $password = $this->getValue('password');
+        $changePasswordCheck = $this->getValue('chkChangePassword');
         $changePasword = false;
         if (empty($userId)) {
             $user = new SystemUser();
             $user->setDateEntered(date('Y-m-d H:i:s'));
             $user->setCreatedBy($this->getOption('sessionUser')->getUserId());
+            $user->setUserPassword($this->getValue('password'));
+            $changePasword = true;
         } else {
             $this->edited = true;
             $user = $this->getSystemUserService()->getSystemUser($userId);
             $user->setDateModified(date('Y-m-d H:i:s'));
             $user->setModifiedUserId($this->getOption('sessionUser')->getUserId());
-        }
-
-        if (!empty($password)) {
-            $changePasword = true;
-            $user->setUserPassword($this->getValue('password'));
+            if (!empty($changePasswordCheck)) {
+                $user->setUserPassword($this->getValue('password'));
+                $changePasword = true;
+            }            
         }
 
         $user->setUserRoleId($this->getValue('userType'));

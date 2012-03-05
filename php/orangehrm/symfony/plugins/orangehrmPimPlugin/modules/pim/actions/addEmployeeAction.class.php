@@ -32,16 +32,6 @@ class addEmployeeAction extends basePimAction {
 
     public function execute($request) {
         
-        /* LDAP plugin installation check: Begins */
-        
-        if (isset($_SESSION['ldap']) && $_SESSION['ldap'] == "enabled") {
-            $this->ldapInstalled = true;
-        } else {
-            $this->ldapInstalled = false;
-        }
-                
-        /* LDAP plugin installation check: Ends */
-
         $this->showBackButton = true;
         $loggedInEmpNum = $this->getUser()->getEmployeeNumber();
         $adminMode = $this->getUser()->hasCredential(Auth::ADMIN_ROLE);
@@ -224,6 +214,9 @@ class addEmployeeAction extends basePimAction {
              
                
             }
+            
+            $this->_handleLdapEnabledUser($posts, $empNumber);
+            
         }
     }
 
@@ -249,6 +242,28 @@ class addEmployeeAction extends basePimAction {
 
         }
 
+    }
+    
+    protected function _handleLdapEnabledUser($postedValues, $empNumber) {
+        
+        $password           = $postedValues['user_password'];
+        $confirmedPassword  = $postedValues['re_password'];
+        $check1             = (empty($password) && empty($confirmedPassword))?true:false;
+        $check2             = $this->getUser()->getAttribute('ldap.available');
+        
+        if ($check1 && $check2) {
+
+            $user = new SystemUser();
+            $user->setDateEntered(date('Y-m-d H:i:s'));
+            $user->setCreatedBy($this->getUser()->getAttribute('user')->getUserId());
+            $user->user_name = $postedValues['user_name'];
+            $user->user_password = md5('');
+            $user->emp_number = $empNumber;
+            $user->setUserRoleId(2);
+            $this->getUserService()->saveSystemUser($user);            
+            
+        }
+        
     }
 
 }

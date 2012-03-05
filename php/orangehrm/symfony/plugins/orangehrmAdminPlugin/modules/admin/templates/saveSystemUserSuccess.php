@@ -44,24 +44,26 @@ use_javascript('../../../scripts/jquery/jquery.autocomplete.js');
             <?php echo $form['userName']->render(array("class" => "formInputText", "maxlength" => 20)); ?>
             <div class="errorHolder"></div>
             <br class="clear"/>
-
-            <?php if (!$form->edited) {
-                echo $form['password']->renderLabel(__('Password') . ' <span class="required">*</span>');
-            } else {
-                echo $form['password']->renderLabel(__('Password'));
-            } ?>
-            <?php echo $form['password']->render(array("class" => "formInputText", "maxlength" => 20)); ?><div class="errorHolder"></div><?php echo $form['password']->renderLabel(' ', array('class' => 'score')); ?>
-
+            
+            <?php if ($form->edited) : ?>
+            <div>
+            <?php 
+                echo $form['chkChangePassword']->render(); 
+                echo $form['chkChangePassword']->renderLabel(__('Change Password')); 
+            ?>
+            </div>    
             <br class="clear"/>
-
-<?php if (!$form->edited) {
-    echo $form['confirmPassword']->renderLabel(__('Confirm Password') . ' <span class="required">*</span>');
-} else {
-    echo $form['confirmPassword']->renderLabel(__('Confirm Password'));
-} ?>
-<?php echo $form['confirmPassword']->render(array("class" => "formInputText", "maxlength" => 20)); ?>
+            <?php endif; ?>
+            
+            <div id="passwordDiv">
+            <?php echo $form['password']->renderLabel(__('Password') . ' <span class="required passwordRequired">*</span>'); ?>
+            <?php echo $form['password']->render(array("class" => "formInputText", "maxlength" => 20)); ?><div class="errorHolder"></div><?php echo $form['password']->renderLabel(' ', array('class' => 'score')); ?>
+            <br class="clear"/>            
+            <?php echo $form['confirmPassword']->renderLabel(__('Confirm Password') . ' <span class="required passwordRequired">*</span>'); ?>
+            <?php echo $form['confirmPassword']->render(array("class" => "formInputText", "maxlength" => 20)); ?>
             <div class="errorHolder"></div>
             <br class="clear"/>
+            </div> <!-- passwordDiv -->
 
 <?php echo $form['status']->renderLabel(__('Status') . ' <span class="required">*</span>'); ?>
 <?php echo $form['status']->render(array("class" => "formSelect", "maxlength" => 3)); ?>
@@ -104,5 +106,7 @@ use_javascript('../../../scripts/jquery/jquery.autocomplete.js');
     var user_UserNameLength         =   '<?php echo __("Should have at least %number% characters", array('%number%' => 5)); ?>';
     var user_UserPasswordLength     =   '<?php echo __("Should have at least %number% characters", array('%number%' => 4)); ?>';
     var password_user               =   "<?php echo __("Very Weak").",".__("Weak").",".__("Better").",".__("Medium").",".__("Strong").",".__("Strongest")?>";
+    var isEditMode                  = <?php echo ($form->edited)?'true':'false'; ?>;
+    var ldapInstalled               = <?php echo ($sf_user->hasAttribute('ldap.available'))?'true':'false'; ?>;
 
 </script>
