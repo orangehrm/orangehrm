@@ -1,0 +1,9 @@
+#progressBar {
+    background-color: #FF9900;
+    display: block;
+    height: 10px;
+}
+
+#btnSubmit {
+    display:none;
+}
