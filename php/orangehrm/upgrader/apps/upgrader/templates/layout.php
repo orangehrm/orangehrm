@@ -4,10 +4,10 @@
 $cupath = realpath(dirname(__FILE__).'/../');
 
 define('ROOT_PATH', $cupath);
-$steps = array('welcome', 'database info', 'version info', 'data import', 'database changes');
+$steps = array('database info', 'version info', 'database changes', 'configuration info');
 
-$helpLink = array("#welcome", "#DBInfo", "#VersionInfo", "#DataImport", "#DBChanges");
-$currScreen = 0;
+$helpLink = array("#DBInfo", "#VersionInfo", "#DBChanges", '#configInfo');
+$currScreen = $sf_user->getAttribute('currentScreen');
 
 ?>
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">

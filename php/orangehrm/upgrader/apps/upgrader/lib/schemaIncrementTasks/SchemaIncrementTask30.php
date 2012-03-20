@@ -1,7 +1,7 @@
 <?php
 include_once 'SchemaIncrementTask.php';
 
-class SchemaIncrementTask20 extends SchemaIncrementTask {
+class SchemaIncrementTask30 extends SchemaIncrementTask {
     
     public $userInputs;
     
