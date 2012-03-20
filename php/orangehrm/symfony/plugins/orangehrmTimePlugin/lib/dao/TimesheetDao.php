@@ -737,7 +737,7 @@ class TimesheetDao {
     public function searchTimesheetItems($employeeIds = null, $employeementStatus = null, $supervisorIds = null, $subDivision = null, $dateFrom = null, $dateTo = null) {
 
         $q = Doctrine_Query::create()
-                ->select("e.emp_middle_name, e.emp_lastname, e.emp_firstname, i.date, cust.name, prj.name, act.name, i.comment, SUM(i.duration) AS total_duration ")
+                ->select("e.emp_middle_name, e.termination_id , e.emp_lastname, e.emp_firstname, i.date, cust.name, prj.name, act.name, i.comment, SUM(i.duration) AS total_duration ")
                 ->from("ProjectActivity act")
                 ->leftJoin("act.Project prj")
                 ->leftJoin("prj.Customer cust")
@@ -771,15 +771,15 @@ class TimesheetDao {
             $companyService = new CompanyStructureService();
             $subDivisions = $companyService->getCompanyStructureDao()->getSubunitById($subDivision);
            
-            $subUnitIds = array();
+            $subUnitIds = array($subDivision);
              if (!empty($subDivisions)) {
                 $descendents = $subDivisions->getNode()->getDescendants();
-               
+                
                 foreach($descendents as $descendent) {                
                     $subUnitIds[] = $descendent->id;
                 }
             }
-            
+
             $q->andWhereIn("e.work_station", $subUnitIds);            
         }
 
