@@ -472,7 +472,7 @@ class AttendanceDao {
     public function searchAttendanceRecords($employeeIds = null, $employeementStatus = null, $subDivision = null, $dateFrom = null , $dateTo = null ){
 
          $q = Doctrine_Query::create()
-                 ->select("e.emp_number, e.emp_firstname, e.emp_middle_name, e.emp_lastname, a.punch_in_user_time as in_date_time, a.punch_out_user_time as out_date_time, punch_in_note, punch_out_note, TIMESTAMPDIFF(MINUTE, a.punch_in_user_time, a.punch_out_user_time) as duration")
+                 ->select("e.emp_number, e.termination_id, e.emp_firstname, e.emp_middle_name, e.emp_lastname, a.punch_in_user_time as in_date_time, a.punch_out_user_time as out_date_time, punch_in_note, punch_out_note, TIMESTAMPDIFF(MINUTE, a.punch_in_user_time, a.punch_out_user_time) as duration")
                 ->from("AttendanceRecord a")
                 ->leftJoin("a.Employee e")
                 ->orderBy('a.punch_in_user_time DESC');
@@ -499,7 +499,7 @@ class AttendanceDao {
             $companyService = new CompanyStructureService();
             $subDivisions = $companyService->getCompanyStructureDao()->getSubunitById($subDivision);
            
-            $subUnitIds = array();
+            $subUnitIds = array($subDivision);
              if (!empty($subDivisions)) {
                 $descendents = $subDivisions->getNode()->getDescendants();
                
