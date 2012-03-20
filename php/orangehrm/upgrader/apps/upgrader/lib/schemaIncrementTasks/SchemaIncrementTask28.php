@@ -20,8 +20,7 @@ class SchemaIncrementTask28 extends SchemaIncrementTask {
     private $usersMapArray;
     private $userIdMapArray;
     private $parentMapArray;
-    private $selfConfigPath = "../../orangehrm_test/orangehrm/symfony/apps/orangehrm/config/";
-    private $remortConfigPath = "../../orangehrm_test/orangehrm-12/symfony/apps/orangehrm/config/";
+    
     
     public function execute() {
         parent::execute();
@@ -192,8 +191,6 @@ class SchemaIncrementTask28 extends SchemaIncrementTask {
         for($i = 105; $i <= 117; $i++) {
             $result[] = $this->upgradeUtility->executeSql($this->sql[$i]);
         }
-        
-        //$result[] = $this->copyConfigurationFiles();
         
         $this->checkTransactionComplete($result);
         $this->upgradeUtility->finalizeTransaction($this->transactionComplete);
@@ -1998,17 +1995,4 @@ EOT;
         }
         return $success;
     }
-    
-    private function copyConfigurationFiles() {
-        $success = true;
-        if (!copy($this->selfConfigPath."emailConfiguration.yml", $this->remortConfigPath."emailConfiguration.yml")) {
-            $success = false;
-        }
-        
-        if (!copy($this->selfConfigPath."parameters.yml", $this->remortConfigPath."parameters.yml")) {
-            $success = false;
-        }
-        return $success;
-    }
-    
 }

@@ -72,7 +72,9 @@ function back() {
           </tr>
         </table>
     </form>
-    <?php echo $sf_content ?>
+    <div name="content" id="content">
+        <?php echo $sf_content ?>
+    </div>
     <div id="footer"><a href="http://www.orangehrm.com" target="_blank" tabindex="37">OrangeHRM</a> Web Upgrade Wizard ver 0.2 &copy; OrangeHRM Inc 2005 - 2012 All rights reserved. </div>
     </div>
     
