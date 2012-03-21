@@ -6,59 +6,63 @@ class SchemaIncrementTask30 extends SchemaIncrementTask {
     public $userInputs;
     
     public function execute() {
+        $this->version = '2.6.12.1';
+        $this->incrementNumber = 30;
         parent::execute();
         
-        $result[0] = $this->upgradeUtility->executeSql($this->sql[0]);
+        $result[] = $this->upgradeUtility->executeSql($this->sql[0]);
         
-        $result[1] = $this->upgradeUtility->executeSql($this->sql[1]);
+        $result[] = $this->upgradeUtility->executeSql($this->sql[1]);
         
-        $result[2] = $this->upgradeUtility->executeSql($this->sql[2]);
+        $result[] = $this->upgradeUtility->executeSql($this->sql[2]);
         
-        $result[3] = $this->upgradeUtility->executeSql($this->sql[3]);
+        $result[] = $this->upgradeUtility->executeSql($this->sql[3]);
         
-        $result[4] = $this->upgradeUtility->executeSql($this->sql[4]);
+        $result[] = $this->upgradeUtility->executeSql($this->sql[4]);
         
-        $result[5] = $this->upgradeUtility->executeSql($this->sql[5]);
+        $result[] = $this->upgradeUtility->executeSql($this->sql[5]);
         
-        $result[6] = $this->upgradeUtility->executeSql($this->sql[6]);
+        $result[] = $this->upgradeUtility->executeSql($this->sql[6]);
         
-        $result[7] = $this->upgradeUtility->executeSql($this->sql[7]);
+        $result[] = $this->upgradeUtility->executeSql($this->sql[7]);
         
-        $result[8] = $this->upgradeUtility->executeSql($this->sql[8]);
+        $result[] = $this->upgradeUtility->executeSql($this->sql[8]);
         
-        $result[9] = $this->upgradeUtility->executeSql($this->sql[9]);
+        $result[] = $this->upgradeUtility->executeSql($this->sql[9]);
         
-        $result[10] = $this->upgradeUtility->executeSql($this->sql[10]);
+        $result[] = $this->upgradeUtility->executeSql($this->sql[10]);
         
-        $result[11] = $this->upgradeUtility->executeSql($this->sql[11]);
+        $result[] = $this->upgradeUtility->executeSql($this->sql[11]);
         
-        $result[12] = $this->upgradeUtility->executeSql($this->sql[12]);
+        $result[] = $this->upgradeUtility->executeSql($this->sql[12]);
         
-        $result[13] = $this->upgradeUtility->executeSql($this->sql[13]);
+        $result[] = $this->upgradeUtility->executeSql($this->sql[13]);
         
-        $result[14] = $this->upgradeUtility->executeSql($this->sql[14]);
+        $result[] = $this->upgradeUtility->executeSql($this->sql[14]);
         
-        $result[15] = $this->upgradeUtility->executeSql($this->sql[15]);
+        $result[] = $this->upgradeUtility->executeSql($this->sql[15]);
         
-        $result[16] = $this->upgradeUtility->executeSql($this->sql[16]);
+        $result[] = $this->upgradeUtility->executeSql($this->sql[16]);
         
         $weekdays = $this->upgradeUtility->executeSql($this->sql[17]);
         
         if($weekdays){
             $workweekstring = '';
-            while($row = mysql_fetch_array($weekdays))
+            while($row = $this->upgradeUtility->fetchArray($weekdays))
             {
                 $workweekstring .= ", ".$row['length'];
             }
             
             $sqlString = "INSERT INTO `ohrm_work_week` VALUES (1, NULL $workweekstring);";
             
-            $result[17] = $this->upgradeUtility->executeSql($sqlString);
+            $result[] = $this->upgradeUtility->executeSql($sqlString);
         }
         
-        $result[18] = $this->upgradeUtility->executeSql($this->sql[18]);
+        $result[] = $this->upgradeUtility->executeSql($this->sql[18]);
         
-        $this->result = $result;
+        $this->checkTransactionComplete($result);
+        $this->updateOhrmUpgradeInfo($this->transactionComplete, $this->incrementNumber);
+        $this->upgradeUtility->finalizeTransaction($this->transactionComplete);
     }
     
     

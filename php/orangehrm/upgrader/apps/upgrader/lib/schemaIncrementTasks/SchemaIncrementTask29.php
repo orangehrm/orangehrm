@@ -6,19 +6,23 @@ class SchemaIncrementTask29 extends SchemaIncrementTask {
     public $userInputs;
     
     public function execute() {
+        $this->version = '2.6.12';
+        $this->incrementNumber = 29;
         parent::execute();
         
-        $result[0] = $this->upgradeUtility->executeSql($this->sql[0]);
+        $result[] = $this->upgradeUtility->executeSql($this->sql[0]);
         
-        $result[1] = $this->upgradeUtility->executeSql($this->sql[1]);
+        $result[] = $this->upgradeUtility->executeSql($this->sql[1]);
         
-        $result[2] = $this->upgradeUtility->executeSql($this->sql[2]);
+        $result[] = $this->upgradeUtility->executeSql($this->sql[2]);
         
-        $result[3] = $this->upgradeUtility->executeSql($this->sql[3]);
+        $result[] = $this->upgradeUtility->executeSql($this->sql[3]);
         
-        $result[4] = $this->upgradeUtility->executeSql($this->sql[4]);
+        $result[] = $this->upgradeUtility->executeSql($this->sql[4]);
         
-        $this->result = $result;
+        $this->checkTransactionComplete($result);
+        $this->updateOhrmUpgradeInfo($this->transactionComplete, $this->incrementNumber);
+        $this->upgradeUtility->finalizeTransaction($this->transactionComplete);
     }
     
     public function getUserInputWidgets() {
