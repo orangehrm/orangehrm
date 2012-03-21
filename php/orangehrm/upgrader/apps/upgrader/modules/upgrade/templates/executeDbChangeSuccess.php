@@ -9,11 +9,25 @@
     </span>
     &nbsp;<span id="spanProgressPercentage">0%</span>
 </div>
+<div>
+    <form action="<?php echo url_for('upgrade/executeDbChange');?>" name="databaseChangeForm" method="post">
+        <?php echo $form->renderHiddenFields();?>
+        <table>
+            <tbody>
+                <tr>
+                    <td>
+                        
+                    </td>
+                    <td>
+                        <input type="button" name="dbChangeStartBtn" id="dbChangeStartBtn" value="Start"/>
+                        <input type="submit" name="dbChangeProceedBtn" id="dbChangeProceedBtn" value="Proceed"/>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </form>
+</div>
 
-<form name="frmDataImport" method="post" action="./">
-    <input type="hidden" name="hdnState" value="oldConstraints" />
-    <input type="submit" name="btnSubmit" value="Continue"  size="40" id="btnSubmit" />
-</form>
 <script type="text/javascript">
     var upgraderControllerUrl = '<?php echo url_for('upgrade/dbChangeControl');?>';
     var tasks = new Array();
