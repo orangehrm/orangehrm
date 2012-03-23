@@ -25,9 +25,9 @@ class DatabaseInfo extends sfForm {
         $this->setValidators(array(
             'submitBy' => new sfValidatorString(array('required' => true)),
             'host' => new sfValidatorString(array('required' => true), array('required' => 'Host is Empty')),
-            'port' => new sfValidatorString(array('required' => true), array('required' => 'Port is Empty')),
+            'port' => new sfValidatorString(array('required' => false), array()),
             'user' => new sfValidatorString(array('required' => true), array('required' => 'User is Empty')),
-            'password' => new sfValidatorString(array('required' => true), array('required' => 'Password is Empty')),
+            'password' => new sfValidatorString(array('required' => false), array()),
             'database_name' => new sfValidatorString(array('required' => true), array('required' => 'Database Name is Empty')),
         ));
     }

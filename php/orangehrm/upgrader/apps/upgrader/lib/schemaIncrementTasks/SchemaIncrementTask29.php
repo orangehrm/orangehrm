@@ -6,7 +6,6 @@ class SchemaIncrementTask29 extends SchemaIncrementTask {
     public $userInputs;
     
     public function execute() {
-        $this->version = '2.6.12';
         $this->incrementNumber = 29;
         parent::execute();
         
@@ -23,6 +22,7 @@ class SchemaIncrementTask29 extends SchemaIncrementTask {
         $this->checkTransactionComplete($result);
         $this->updateOhrmUpgradeInfo($this->transactionComplete, $this->incrementNumber);
         $this->upgradeUtility->finalizeTransaction($this->transactionComplete);
+        $this->upgradeUtility->closeDbConnection();
     }
     
     public function getUserInputWidgets() {

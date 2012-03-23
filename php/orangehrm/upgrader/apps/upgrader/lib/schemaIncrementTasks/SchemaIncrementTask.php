@@ -6,13 +6,17 @@ abstract class SchemaIncrementTask {
     protected $upgradeUtility;
     protected $sql;
     protected $transactionComplete = true;
-    protected $version;
     protected $incrementNumber;
+    protected $dbInfo;
+    
+    public function __construct($dbInfo) {
+        $this->dbInfo = $dbInfo;
+    }
     
     public function execute() {
         $this->upgradeUtility = new UpgradeUtility();
-        $this->upgradeUtility->connectDatabase();
-        $this->createOhrmUpgradeInfo($this->incrementNumber, $this->version);
+        $this->upgradeUtility->getDbConnection($this->dbInfo['host'],$this->dbInfo['user'],$this->dbInfo['password'],$this->dbInfo['database'],$this->dbInfo['port']);
+        $this->createOhrmUpgradeInfo($this->incrementNumber);
         $this->loadSql();
     }
     
@@ -36,19 +40,18 @@ abstract class SchemaIncrementTask {
         }
     }
     
-    public function createOhrmUpgradeInfo($id, $version) {
-        $sql= "CREATE TABLE IF NOT EXISTS `ohrm_upgrade_info` (
+    public function createOhrmUpgradeInfo($id) {
+        $sql= "CREATE TABLE IF NOT EXISTS `ohrm_upgrade_status` (
                   `id` int(11) NOT NULL AUTO_INCREMENT,
-                  `version` varchar(250) NOT NULL,
                   `status` varchar(250) NOT NULL,
                   PRIMARY KEY (`id`)
                 ) engine=innodb default charset=utf8;";
         
         $result = $this->upgradeUtility->executeSql($sql);
         
-        $valueString = "'".$id."', '". $version."' , 'started'";
-        $sql= "INSERT INTO ohrm_upgrade_info
-                            (id, version, status) 
+        $valueString = "'".$id."' , 'started'";
+        $sql= "INSERT INTO ohrm_upgrade_status
+                            (id, status) 
                             VALUES($valueString);";
         
         $result = $this->upgradeUtility->executeSql($sql);
@@ -56,7 +59,7 @@ abstract class SchemaIncrementTask {
     
     public function updateOhrmUpgradeInfo($transactionComplete, $id) {
         if ($transactionComplete) {
-            $sql = "UPDATE ohrm_upgrade_info 
+            $sql = "UPDATE ohrm_upgrade_status 
                         SET status = 'completed' WHERE id = '$id'";
            
             $result = $this->upgradeUtility->executeSql($sql);

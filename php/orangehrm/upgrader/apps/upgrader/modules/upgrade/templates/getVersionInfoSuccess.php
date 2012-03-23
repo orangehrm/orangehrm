@@ -1,5 +1,5 @@
 <div>
-    <form action="<?php echo url_for('upgrade/addVersionInfo');?>" name="versionInfoForm" method="post">
+    <form action="<?php echo url_for('upgrade/getVersionInfo');?>" name="versionInfoForm" method="post">
         <?php echo $form->renderHiddenFields();?>
         <table>
             <tbody>

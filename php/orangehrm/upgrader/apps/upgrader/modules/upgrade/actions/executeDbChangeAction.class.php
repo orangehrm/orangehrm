@@ -14,7 +14,7 @@ class executeDbChangeAction extends sfAction {
         
         $schemaIncremantArray;
         for ($i = $startIncrementer; $i <= $endIncrementer; $i++) {
-            $schemaIncremantArray[] = 'increment_'.$i;
+            $schemaIncremantArray[] = $i;
         }
         $this->schemaIncremantArray = $schemaIncremantArray;
         if ($request->isMethod('post')) {

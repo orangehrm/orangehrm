@@ -1,5 +1,5 @@
 <div>
-    <form action="<?php echo url_for('upgrade/addDatabaseInfo');?>" name="databaseInfoForm" method="post">
+    <form action="<?php echo url_for('upgrade/getDatabaseInfo');?>" name="databaseInfoForm" method="post">
         <?php echo $form->renderHiddenFields();?>
         <table>
             <tbody>

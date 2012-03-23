@@ -7,7 +7,7 @@ class indexAction extends sfAction {
             $submitBy = $request->getParameter('submitBy');
             switch ($submitBy) {
                 case 'databaseInfo':
-                    $this->redirect('upgrade/addVersionInfo');
+                    $this->redirect('upgrade/getVersionInfo');
                     break;
                 case 'versionInfo':
                     $this->redirect('upgrade/executeDbChange');
@@ -17,7 +17,7 @@ class indexAction extends sfAction {
                     break;
             }
         } else {
-            $this->redirect('upgrade/addDatabaseInfo');
+            $this->redirect('upgrade/getDatabaseInfo');
         }
     }
 }

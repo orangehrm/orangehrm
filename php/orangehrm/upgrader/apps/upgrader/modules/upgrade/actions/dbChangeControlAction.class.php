@@ -2,21 +2,17 @@
 
 class dbChangeControlAction extends sfAction {
     
-    private $task;
-    public function preExecute() {
-        $this->task['increment_28'] = new SchemaIncrementTask28();
-        $this->task['increment_29'] = new SchemaIncrementTask29();
-        $this->task['increment_30'] = new SchemaIncrementTask30();
-    }
-    
     public function execute($request) {
+        $dbInfo = $this->getUser()->getAttribute('dbInfo');
         $currentTask = $request->getParameter('task');
+        $currentTask = "SchemaIncrementTask$currentTask";
+        $task = new $currentTask($dbInfo);
         try {
-            $this->task[$currentTask]->execute();
+            $task->execute();
         } catch (Exception $e) {
             
         }
-        $progeress = $this->task[$currentTask]->getProgress();
+        $progeress = $task->getProgress();
         $arr = array('progress' => $progeress);
 
         echo json_encode($arr);

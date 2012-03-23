@@ -2,24 +2,27 @@
 
 class UpgradeUtility {
     
-    private $host = 'localhost';
-    private $username = 'root';
-    private $password = 'root';
-    private $dbname = 'test';
     private $connection = null;
     
-    public function connectDatabase() {
-        $this->connection = mysqli_connect($this->host, $this->username, $this->password);
+    public function getDbConnection($host, $username, $password, $dbname, $port) {
+        if (!$this->connection) {
+            if (!$port) {
+                $this->connection = mysqli_connect($host, $username, $password, $dbname);
+            } else {
+                $this->connection = mysqli_connect($host, $username, $password, $dbname, $port);
+            }
+        }
+        
         if (!$this->connection)
         {
             die('Could not connect: ' . mysqli_connect_error());
         }
-        mysqli_select_db($this->connection, $this->dbname);
         mysqli_autocommit($this->connection, FALSE);
+        return $this->connection;
     }
     
-    public function getConnection() {
-        return $this->connection;
+    public function setDbConnection($connection) {
+        $this->connection = $connection;
     }
     
     public function finalizeTransaction($transactionComplete) {
@@ -28,6 +31,9 @@ class UpgradeUtility {
         } else {
             mysqli_commit($this->connection);
         }
+    }
+    
+    public function closeDbConnection() {
         mysqli_close($this->connection);
     }
     
