@@ -6,37 +6,36 @@ class executeConfChangeAction extends sfAction {
     private $remortConfigPath;
     public function preExecute() {
         $this->getUser()->setAttribute('currentScreen',3);
-        $this->selfConfigPath = sfConfig::get('sf_root_dir')."/../symfony/apps/orangehrm/config/";
+        $this->applicationRootPath = sfConfig::get('sf_root_dir')."/..";
     }
     
     public function execute($request) {
-        $this->form = new FolderInput();
+        $this->form = new ConfigureFile();
         if ($request->isMethod('post')) {
-            $this->form->bind($request->getParameter('folderPath'));
-            if ($this->form->isValid())
-            {
-                $folderPath = $this->form->getValue('folder_path');
-                $this->remortConfigPath = $folderPath."/symfony/apps/orangehrm/config/";
-                $result = $this->copyConfigurationFiles();
-                if ($result) {
-                    $this->getUser()->setFlash('message', 'Successfully Copied Files', false);
-                } else {
-                    $this->getUser()->setFlash('message', 'Failed to Copy Files', false);
+            $this->form->bind($request->getParameter('configureFile'));
+            if ($this->form->isValid()) {
+                $upgraderUtility = new UpgradeUtility();
+                $dbInfo = $this->getUser()->getAttribute('dbInfo');
+                $host = $dbInfo['host'];
+                $user = $dbInfo['user'];
+                $password = $dbInfo['password'];
+                $port = $dbInfo['port'];
+                $database = $dbInfo['database'];
+                
+                $upgraderUtility->setApplicationRootPath($this->applicationRootPath);
+                $result[] = $upgraderUtility->writeConfFile($host, $port, $database, $user, $password);
+                $result[] = $upgraderUtility->writeSymfonyDbConfigFile($host, $port, $database, $user, $password);
+                $success = true;
+                foreach ($result as $res) {
+                    if (!$res) {
+                        $success = false;
+                    }
+                }
+                if ($success) {
+                    $this->getRequest()->setParameter('submitBy', 'confFile');
+                    $this->forward('upgrade','index');
                 }
             }
-            
         }
-    }
-    
-    private function copyConfigurationFiles() {
-        $success = true;
-        if (!copy($this->remortConfigPath."emailConfiguration.yml", $this->selfConfigPath."emailConfiguration.yml")) {
-            $success = false;
-        }
-        
-        if (!copy($this->remortConfigPath."parameters.yml", $this->selfConfigPath."parameters.yml")) {
-            $success = false;
-        }
-        return $success;
     }
 }

@@ -2,18 +2,10 @@
   <?php echo $sf_user->getFlash('message') ?>
 <?php endif; ?>
 <div>
-    <form action="" method="post" name="folderInputForm" id="folderInputForm">
+    <form action="<?php echo url_for('upgrade/executeConfChange');?>" method="post" name="configureFileForm" id="configureFileForm">
         <?php echo $form->renderHiddenFields();?>
         <table>
             <tbody>
-                <tr>
-                    <td>
-                        <?php echo $form['folder_path']->renderLabel() ?>
-                    </td>
-                    <td>
-                        <?php echo $form['folder_path']->render() ?>
-                    </td>
-                </tr>
                 <tr>
                     <td>
                     </td>
