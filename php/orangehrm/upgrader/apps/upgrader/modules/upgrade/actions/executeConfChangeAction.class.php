@@ -29,6 +29,7 @@ class executeConfChangeAction extends sfAction {
                 foreach ($result as $res) {
                     if (!$res) {
                         $success = false;
+                        break;
                     }
                 }
                 if ($success) {

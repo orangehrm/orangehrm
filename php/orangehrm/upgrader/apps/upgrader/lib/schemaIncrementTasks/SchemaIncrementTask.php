@@ -36,6 +36,7 @@ abstract class SchemaIncrementTask {
         foreach($results as $result) {
             if(!$result) {
                 $this->transactionComplete = false;
+                break;
             }
         }
     }
