@@ -21,8 +21,14 @@ class getDatabaseInfoAction extends sfAction {
                 
                 $this->getUser()->setAttribute('dbInfo', $dbInfo);
                 
-                $this->getRequest()->setParameter('submitBy', 'databaseInfo');
-                $this->forward('upgrade','index');
+                $upgraderUtility = new UpgradeUtility();
+                $result = $upgraderUtility->checkDatabaseConnection($dbInfo['host'], $dbInfo['username'], $dbInfo['password'], $dbInfo['database'], $dbInfo['port']);
+                if(!$result) {
+                    $this->getUser()->setFlash('errorMessage', 'Failed to Connect: Check Database Details');
+                } else {
+                    $this->getRequest()->setParameter('submitBy', 'databaseInfo');
+                    $this->forward('upgrade','index');
+                }
             } 
         }
     }

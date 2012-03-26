@@ -149,4 +149,17 @@ CONFCONT;
         fclose($handle);
         return $result;
     }
+    
+    public function checkDatabaseConnection($host, $username, $password, $dbname, $port) {
+        if (!$port) {
+            $connection = new mysqli($host, $username, $password, $dbname);
+        } else {
+            $connection = new mysqli($host, $username, $password, $dbname, $port);
+        }
+        if ($connection->connect_error) {
+            return false;
+        } else {
+            return true;
+        }
+    }
 }

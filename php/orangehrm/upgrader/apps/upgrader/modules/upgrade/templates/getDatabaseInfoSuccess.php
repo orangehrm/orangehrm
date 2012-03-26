@@ -5,6 +5,11 @@
     <h2>Database Information</h2>
     <p>Get database information</p>
 </div>
+<?php if ($sf_user->hasFlash('errorMessage')): ?>
+    <div class="messageBalloon_warning">
+    <?php echo '<span>'.$sf_user->getFlash('errorMessage').'</span>' ?>
+    </div>
+<?php endif; ?>
 <div>
     <form action="<?php echo url_for('upgrade/getDatabaseInfo');?>" name="databaseInfoForm" id="databaseInfoForm" method="post">
         <?php echo $form->renderHiddenFields();?>

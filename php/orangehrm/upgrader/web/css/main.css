@@ -21,3 +21,15 @@ span.required {
     color: red;
     margin-left: 5px;
 }
+
+div.messageBalloon_warning {
+    border: solid 1px #FE9;
+    background-color: #FFE;
+    color: #600;
+    width: 400px;
+    font-size: 14px;
+    padding: 8px 8px 8px 20px;
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+
