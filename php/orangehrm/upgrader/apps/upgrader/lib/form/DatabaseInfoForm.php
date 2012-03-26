@@ -3,6 +3,7 @@
 class DatabaseInfo extends sfForm {
 
     public function configure() {
+        sfContext::getInstance()->getConfiguration()->loadHelpers('I18N');
         $this->setWidgets(array(
             'submitBy' => new sfWidgetFormInputHidden(array(), array('value' => 'databaseInfo')),
             'host' => new sfWidgetFormInputText(array(), array()),
@@ -13,22 +14,22 @@ class DatabaseInfo extends sfForm {
         ));
         
         $this->widgetSchema->setLabels(array(
-            'host' => 'Host'.'<span class="required">*</span>',
-            'port' => 'Port',
-            'username' => 'Username'.'<span class="required">*</span>',
-            'password' => 'Password',
-            'database_name' => 'Database Name'.'<span class="required">*</span>'
+            'host' => __('Host').'<span class="required">*</span>',
+            'port' => __('Port'),
+            'username' => __('Username').'<span class="required">*</span>',
+            'password' => __('Password'),
+            'database_name' => __('Database Name').'<span class="required">*</span>'
         ));
         
         $this->widgetSchema->setNameFormat('databaseInfo[%s]');
         
         $this->setValidators(array(
             'submitBy' => new sfValidatorString(array('required' => true)),
-            'host' => new sfValidatorString(array('required' => true), array('required' => 'Host is Empty')),
+            'host' => new sfValidatorString(array('required' => true), array('required' => __('Required'))),
             'port' => new sfValidatorString(array('required' => false), array()),
-            'username' => new sfValidatorString(array('required' => true), array('required' => 'Username is Empty')),
+            'username' => new sfValidatorString(array('required' => true), array('required' => __('Required'))),
             'password' => new sfValidatorString(array('required' => false), array()),
-            'database_name' => new sfValidatorString(array('required' => true), array('required' => 'Database Name is Empty')),
+            'database_name' => new sfValidatorString(array('required' => true), array('required' => __('Required'))),
         ));
     }
 

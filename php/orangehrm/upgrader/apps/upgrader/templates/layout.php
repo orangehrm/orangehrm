@@ -1,17 +1,17 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <?php 
-    $steps = array('database info', 'version info', 'database changes', 'configuration info');
+    $steps = array(__('Database Info'), __('Version Info'), __('Database Changes'), __('Configuration Info'));
     $currScreen = $sf_user->getAttribute('currentScreen');
 ?>
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
   <head>
+    <?php $sf_response->setTitle(__('OrangeHRM Web Upgrade Wizard'))?>
     <?php include_http_metas() ?>
     <?php include_metas() ?>
     <?php include_title() ?>
     <?php include_stylesheets() ?>
     <?php include_javascripts() ?>
     <?php use_stylesheet('style.css') ?>
-    <title>OrangeHRM Web Upgrade Wizard</title>
   </head>
   <body>
       <div id="body">

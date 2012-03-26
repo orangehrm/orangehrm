@@ -25,7 +25,7 @@ $(document).ready(function(){
                     changeProceedButtonStatus(status);
                 }
             } else {
-                alert('Falid to Update');
+                alert(lang_failedToUpdate);
                 status = false;
             }
         });

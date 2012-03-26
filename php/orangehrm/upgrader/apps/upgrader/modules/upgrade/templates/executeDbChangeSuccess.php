@@ -2,8 +2,8 @@
 <?php use_javascript('jquery.js') ?>
 <?php use_javascript('executeDbChangeSuccess.js') ?>
 <div>
-    <h2>Upgrade Current Database</h2>
-    <p>Change database</p>
+    <h2><?php echo __('Upgrade Current Database')?></h2>
+    <p><?php echo __('Change database')?></p>
 </div>
 
 <div id="divProgressBarContainer" class="statusValue">
@@ -19,8 +19,8 @@
             <tbody>
                 <tr>
                     <td>
-                        <input type="button" name="dbChangeStartBtn" id="dbChangeStartBtn" value="Start"/>
-                        <input type="submit" name="dbChangeProceedBtn" id="dbChangeProceedBtn" value="Proceed"/>
+                        <input type="button" name="dbChangeStartBtn" id="dbChangeStartBtn" value="<?php echo __('Start')?>"/>
+                        <input type="submit" name="dbChangeProceedBtn" id="dbChangeProceedBtn" value="<?php echo __('Proceed')?>"/>
                     </td>
                 </tr>
             </tbody>
@@ -30,6 +30,7 @@
 
 <script type="text/javascript">
     var upgraderControllerUrl = '<?php echo url_for('upgrade/dbChangeControl');?>';
+    var lang_failedToUpdate = '<?php echo __('Falid to Update')?>';
     var tasks = new Array();
     <?php
         for($i=0; $i < count($schemaIncremantArray) ; $i++)

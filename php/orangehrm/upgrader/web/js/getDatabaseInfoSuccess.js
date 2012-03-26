@@ -6,9 +6,9 @@ $(document).ready(function(){
             'databaseInfo[database_name]': "required"
         },
         messages: {
-            'databaseInfo[host]': "Required",
-            'databaseInfo[username]': "Required",
-            'databaseInfo[database_name]': "Required"
+            'databaseInfo[host]': lang_required,
+            'databaseInfo[username]': lang_required,
+            'databaseInfo[database_name]': lang_required
         },
         errorPlacement: function(error, element) {
             error.appendTo(element.prev('label'));

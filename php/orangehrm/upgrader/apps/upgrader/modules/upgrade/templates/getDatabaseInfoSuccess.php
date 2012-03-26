@@ -2,8 +2,8 @@
 <?php use_javascript('jquery.validate.js') ?>
 <?php use_javascript('getDatabaseInfoSuccess.js') ?>
 <div>
-    <h2>Database Information</h2>
-    <p>Get database information</p>
+    <h2><?php echo __('Database Information')?></h2>
+    <p><?php echo __('Get database information')?></p>
 </div>
 <?php if ($sf_user->hasFlash('errorMessage')): ?>
     <div class="messageBalloon_warning">
@@ -60,10 +60,13 @@
                 </tr>
                 <tr>
                     <td>
-                        <input type="submit" value="Proceed"/>
+                        <input type="submit" value="<?php echo __('Proceed')?>"/>
                     </td>
                 </tr>
             </tbody>
         </table>
     </form>
 </div>
+<script type="text/javascript">
+    var lang_required = '<?php echo __('Required')?>';
+</script>

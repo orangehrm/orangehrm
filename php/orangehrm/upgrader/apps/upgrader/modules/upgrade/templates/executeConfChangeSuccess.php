@@ -12,7 +12,7 @@
             <tbody>
                 <tr>
                     <td>
-                        <input type="submit" value="Start" />
+                        <input type="submit" value="<?php echo __("Start")?>" />
                     </td>
                 </tr>
             </tbody>
