@@ -61,12 +61,12 @@ class UpgradeUtility {
         $this->applicationRootPath = $applicationRootPath;
     }
     
-    public function writeConfFile($host, $port, $dbName, $user, $password) {
+    public function writeConfFile($host, $port, $dbName, $username, $password) {
 
         $dbHost = $host;
         $dbHostPort = $port;
         $dbName = $dbName;
-        $dbOHRMUser = $user;
+        $dbOHRMUser = $username;
         $dbOHRMPassword = $password;
 
     $confContent = <<< CONFCONT
@@ -108,12 +108,12 @@ CONFCONT;
         return $result;
     }
     
-    public function writeSymfonyDbConfigFile($host, $port, $dbName, $user, $password) {
+    public function writeSymfonyDbConfigFile($host, $port, $dbName, $username, $password) {
 
         $dbHost = $host;
         $dbHostPort = $port;
         $dbName = $dbName;
-        $dbOHRMUser = $user;
+        $dbOHRMUser = $username;
         $dbOHRMPassword = $password;
         
         $dsn = "mysql:host=$dbHost;dbname=$dbName";

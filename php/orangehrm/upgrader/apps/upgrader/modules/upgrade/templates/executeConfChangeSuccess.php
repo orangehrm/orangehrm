@@ -1,3 +1,7 @@
+<div>
+    <h2>Configure File</h2>
+    <p>Conf file conf file</p>
+</div>
 <?php if ($sf_user->hasFlash('message')): ?>
   <?php echo $sf_user->getFlash('message') ?>
 <?php endif; ?>
@@ -8,9 +12,7 @@
             <tbody>
                 <tr>
                     <td>
-                    </td>
-                    <td>
-                        <input type="submit" value="Submit" />
+                        <input type="submit" value="Start" />
                     </td>
                 </tr>
             </tbody>

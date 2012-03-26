@@ -7,17 +7,17 @@ class DatabaseInfo extends sfForm {
             'submitBy' => new sfWidgetFormInputHidden(array(), array('value' => 'databaseInfo')),
             'host' => new sfWidgetFormInputText(array(), array()),
             'port' => new sfWidgetFormInputText(array(), array()),
-            'user' => new sfWidgetFormInputText(array(), array()),
+            'username' => new sfWidgetFormInputText(array(), array()),
             'password' => new sfWidgetFormInputPassword(array(), array()),
             'database_name' => new sfWidgetFormInputText(array(), array())
         ));
         
         $this->widgetSchema->setLabels(array(
-            'host' => 'Host',
+            'host' => 'Host'.'<span class="required">*</span>',
             'port' => 'Port',
-            'user' => 'user',
+            'username' => 'Username'.'<span class="required">*</span>',
             'password' => 'Password',
-            'database_name' => 'Database Name'
+            'database_name' => 'Database Name'.'<span class="required">*</span>'
         ));
         
         $this->widgetSchema->setNameFormat('databaseInfo[%s]');
@@ -26,7 +26,7 @@ class DatabaseInfo extends sfForm {
             'submitBy' => new sfValidatorString(array('required' => true)),
             'host' => new sfValidatorString(array('required' => true), array('required' => 'Host is Empty')),
             'port' => new sfValidatorString(array('required' => false), array()),
-            'user' => new sfValidatorString(array('required' => true), array('required' => 'User is Empty')),
+            'username' => new sfValidatorString(array('required' => true), array('required' => 'Username is Empty')),
             'password' => new sfValidatorString(array('required' => false), array()),
             'database_name' => new sfValidatorString(array('required' => true), array('required' => 'Database Name is Empty')),
         ));

@@ -1,7 +1,10 @@
 <?php use_stylesheet('executeDbChangeSuccess.css') ?>
-<?php use_javascript('jquery-1.3.2.js') ?>
+<?php use_javascript('jquery.js') ?>
 <?php use_javascript('executeDbChangeSuccess.js') ?>
-<h2>Upgrade Current Database</h2>
+<div>
+    <h2>Upgrade Current Database</h2>
+    <p>Change database</p>
+</div>
 
 <div id="divProgressBarContainer" class="statusValue">
     <span style="width:200px; display: block; float: left; height: 10px; border: solid 1px #000000;">
@@ -15,9 +18,6 @@
         <table>
             <tbody>
                 <tr>
-                    <td>
-                        
-                    </td>
                     <td>
                         <input type="button" name="dbChangeStartBtn" id="dbChangeStartBtn" value="Start"/>
                         <input type="submit" name="dbChangeProceedBtn" id="dbChangeProceedBtn" value="Proceed"/>

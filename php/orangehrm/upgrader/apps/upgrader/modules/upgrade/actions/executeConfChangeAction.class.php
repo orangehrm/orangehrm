@@ -17,14 +17,14 @@ class executeConfChangeAction extends sfAction {
                 $upgraderUtility = new UpgradeUtility();
                 $dbInfo = $this->getUser()->getAttribute('dbInfo');
                 $host = $dbInfo['host'];
-                $user = $dbInfo['user'];
+                $username = $dbInfo['username'];
                 $password = $dbInfo['password'];
                 $port = $dbInfo['port'];
                 $database = $dbInfo['database'];
                 
                 $upgraderUtility->setApplicationRootPath($this->applicationRootPath);
-                $result[] = $upgraderUtility->writeConfFile($host, $port, $database, $user, $password);
-                $result[] = $upgraderUtility->writeSymfonyDbConfigFile($host, $port, $database, $user, $password);
+                $result[] = $upgraderUtility->writeConfFile($host, $port, $database, $username, $password);
+                $result[] = $upgraderUtility->writeSymfonyDbConfigFile($host, $port, $database, $username, $password);
                 $success = true;
                 foreach ($result as $res) {
                     if (!$res) {

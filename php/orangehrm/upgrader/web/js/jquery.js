@@ -4373,4 +4373,4 @@ jQuery.each([ "Height", "Width" ], function(i, name){
 	};
 
 });
-})();
+})(); 

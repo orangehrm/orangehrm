@@ -1,5 +1,12 @@
+<?php use_javascript('jquery.js') ?>
+<?php use_javascript('jquery.validate.js') ?>
+<?php use_javascript('getDatabaseInfoSuccess.js') ?>
 <div>
-    <form action="<?php echo url_for('upgrade/getDatabaseInfo');?>" name="databaseInfoForm" method="post">
+    <h2>Database Information</h2>
+    <p>Get database information</p>
+</div>
+<div>
+    <form action="<?php echo url_for('upgrade/getDatabaseInfo');?>" name="databaseInfoForm" id="databaseInfoForm" method="post">
         <?php echo $form->renderHiddenFields();?>
         <table>
             <tbody>
@@ -9,6 +16,7 @@
                     </td>
                     <td>
                         <?php echo $form['host']->render();?>
+                        <div class="errorContainer"></div>
                     </td>
                 </tr>
                 <tr>
@@ -21,10 +29,11 @@
                 </tr>
                 <tr>
                     <td>
-                        <label><?php echo $form['user']->renderLabel();?></label>
+                        <label><?php echo $form['username']->renderLabel();?></label>
                     </td>
                     <td>
-                        <?php echo $form['user']->render();?>
+                        <?php echo $form['username']->render();?>
+                        <div class="errorContainer"></div>
                     </td>
                 </tr>
                 <tr>
@@ -41,12 +50,10 @@
                     </td>
                     <td>
                         <?php echo $form['database_name']->render();?>
+                        <div class="errorContainer"></div>
                     </td>
                 </tr>
                 <tr>
-                    <td>
-                        
-                    </td>
                     <td>
                         <input type="submit" value="Proceed"/>
                     </td>

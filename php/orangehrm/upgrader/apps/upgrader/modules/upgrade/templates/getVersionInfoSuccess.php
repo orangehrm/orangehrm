@@ -1,4 +1,8 @@
 <div>
+    <h2>Version Information</h2>
+    <p>Get version information</p>
+</div>
+<div>
     <form action="<?php echo url_for('upgrade/getVersionInfo');?>" name="versionInfoForm" method="post">
         <?php echo $form->renderHiddenFields();?>
         <table>
@@ -12,9 +16,6 @@
                     </td>
                 </tr>
                 <tr>
-                    <td>
-                        
-                    </td>
                     <td>
                         <input type="submit" value="Proceed"/>
                     </td>

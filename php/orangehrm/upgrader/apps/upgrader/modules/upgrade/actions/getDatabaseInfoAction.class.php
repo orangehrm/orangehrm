@@ -15,7 +15,7 @@ class getDatabaseInfoAction extends sfAction {
                 $dbInfo;
                 $dbInfo['host'] = $this->form->getValue('host');
                 $dbInfo['port'] = $this->form->getValue('port');
-                $dbInfo['user'] = $this->form->getValue('user');
+                $dbInfo['username'] = $this->form->getValue('username');
                 $dbInfo['password'] = $this->form->getValue('password');
                 $dbInfo['database'] = $this->form->getValue('database_name');
                 

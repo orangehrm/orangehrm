@@ -1,3 +1,23 @@
 #content {
     height: 400px;
+    padding-left: 10px;
+}
+
+#logoContainer {
+    padding-bottom: 10px;
+}
+
+label.error {
+    color: red;
+    clear: both;
+    display: block;
+    font-size: 11px;
+    margin-top: 5px;
+    width: 128px !important;
+}
+
+span.required {
+    position: relative;
+    color: red;
+    margin-left: 5px;
 }
