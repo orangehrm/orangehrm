@@ -2,45 +2,45 @@
 
 class UpgradeUtility {
     
-    private $connection = null;
+    private $dbConnection = null;
     private $applicationRootPath = null;
     
     public function getDbConnection($host, $username, $password, $dbname, $port) {
-        if (!$this->connection) {
+        if (!$this->dbConnection) {
             if (!$port) {
-                $this->connection = mysqli_connect($host, $username, $password, $dbname);
+                $this->dbConnection = mysqli_connect($host, $username, $password, $dbname);
             } else {
-                $this->connection = mysqli_connect($host, $username, $password, $dbname, $port);
+                $this->dbConnection = mysqli_connect($host, $username, $password, $dbname, $port);
             }
         }
         
-        if (!$this->connection)
+        if (!$this->dbConnection)
         {
             die('Could not connect: ' . mysqli_connect_error());
         }
-        mysqli_autocommit($this->connection, FALSE);
-        return $this->connection;
+        mysqli_autocommit($this->dbConnection, FALSE);
+        return $this->dbConnection;
     }
     
-    public function setDbConnection($connection) {
-        $this->connection = $connection;
+    public function setDbConnection($dbConnection) {
+        $this->dbConnection = $dbConnection;
     }
     
     public function finalizeTransaction($transactionComplete) {
         if(!$transactionComplete) {
-            mysqli_rollback($this->connection);
+            mysqli_rollback($this->dbConnection);
         } else {
-            mysqli_commit($this->connection);
+            mysqli_commit($this->dbConnection);
         }
     }
     
     public function closeDbConnection() {
-        mysqli_close($this->connection);
+        mysqli_close($this->dbConnection);
     }
     
     public function executeSql($query) {
         
-        return mysqli_query($this->connection, $query);        
+        return mysqli_query($this->dbConnection, $query);        
 
        /* $result = mysqli_query($this->connection, $query);
         
@@ -152,11 +152,11 @@ CONFCONT;
     
     public function checkDatabaseConnection($host, $username, $password, $dbname, $port) {
         if (!$port) {
-            $connection = new mysqli($host, $username, $password, $dbname);
+            $dbConnection = new mysqli($host, $username, $password, $dbname);
         } else {
-            $connection = new mysqli($host, $username, $password, $dbname, $port);
+            $dbConnection = new mysqli($host, $username, $password, $dbname, $port);
         }
-        if ($connection->connect_error) {
+        if ($dbConnection->connect_error) {
             return false;
         } else {
             return true;
