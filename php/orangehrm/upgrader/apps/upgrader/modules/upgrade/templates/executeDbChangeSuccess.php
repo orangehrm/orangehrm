@@ -2,7 +2,7 @@
 <?php use_javascript('jquery.js') ?>
 <?php use_javascript('executeDbChangeSuccess.js') ?>
 <div>
-    <h2><?php echo __('Upgrade Current Database')?></h2>
+    <h2><?php echo __('Applying Database Changes')?></h2>
     <p><?php echo __('Change database')?></p>
 </div>
 

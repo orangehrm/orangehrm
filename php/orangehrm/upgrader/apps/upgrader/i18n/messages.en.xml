@@ -11,8 +11,8 @@
         <target>Start</target>
       </trans-unit>
       <trans-unit id="3">
-        <source>Upgrade Current Database</source>
-        <target>Upgrade Current Database</target>
+        <source>Applying Database Changes</source>
+        <target>Applying Database Changes</target>
       </trans-unit>
       <trans-unit id="4">
         <source>Proceed</source>
