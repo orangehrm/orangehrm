@@ -74,7 +74,14 @@
         <source>OrangeHRM Web Upgrade Wizard</source>
         <target>OrangeHRM Web Upgrade Wizard</target>
       </trans-unit>
-      
+      <trans-unit id="19">
+        <source>Pending</source>
+        <target>Pending</target>
+      </trans-unit>
+      <trans-unit id="20">
+        <source>Done</source>
+        <target>Done</target>
+      </trans-unit>
     </body>
   </file>
 </xliff>

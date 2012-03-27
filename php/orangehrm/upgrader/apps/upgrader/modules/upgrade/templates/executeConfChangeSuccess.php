@@ -10,9 +10,29 @@
         <?php echo $form->renderHiddenFields();?>
         <table>
             <tbody>
+                <table class="displayTable">
+                    <tbody>
+                        <tr>
+                            <td>
+                                <span>Conf.php</span>
+                            </td>
+                            <td>
+                                <span><?php echo __($confFileCreted[0])?></span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <span>database.yml</span>
+                            </td>
+                            <td>
+                                <span><?php echo __($confFileCreted[1])?></span>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
                 <tr>
                     <td>
-                        <input type="submit" value="<?php echo __("Start")?>" />
+                        <input type="submit" id="sumbitButton" name="sumbitButton" value="<?php echo __($buttonState)?>" />
                     </td>
                 </tr>
             </tbody>

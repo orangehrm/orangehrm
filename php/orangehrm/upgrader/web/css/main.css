@@ -33,3 +33,16 @@ div.messageBalloon_warning {
     margin-bottom: 10px;
 }
 
+table.displayTable {
+    border: 3px solid #090;
+    border-collapse: collapse;
+    margin-bottom: 10px;
+}
+
+table.displayTable td {
+    border: 2px solid #090;
+    vertical-align: middle;
+    width: 150px;
+    height: 30px;
+}
+

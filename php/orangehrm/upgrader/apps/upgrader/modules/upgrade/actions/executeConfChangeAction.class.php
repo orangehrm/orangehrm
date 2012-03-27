@@ -11,7 +11,13 @@ class executeConfChangeAction extends sfAction {
     
     public function execute($request) {
         $this->form = new ConfigureFile();
+        $this->confFileCreted = array('Pending', 'Pending');
+        $this->buttonState = "Start";
         if ($request->isMethod('post')) {
+            if($request->getParameter('sumbitButton') == 'Proceed') {
+                $this->getRequest()->setParameter('submitBy', 'confFile');
+                $this->forward('upgrade','index');
+            }
             $this->form->bind($request->getParameter('configureFile'));
             if ($this->form->isValid()) {
                 $upgraderUtility = new UpgradeUtility();
@@ -25,6 +31,12 @@ class executeConfChangeAction extends sfAction {
                 $upgraderUtility->setApplicationRootPath($this->applicationRootPath);
                 $result[] = $upgraderUtility->writeConfFile($host, $port, $database, $username, $password);
                 $result[] = $upgraderUtility->writeSymfonyDbConfigFile($host, $port, $database, $username, $password);
+                if ($result[0]) {
+                    $this->confFileCreted[0] = 'Done';
+                }
+                if ($result[1]) {
+                    $this->confFileCreted[1] = 'Done';
+                }
                 $success = true;
                 foreach ($result as $res) {
                     if (!$res) {
@@ -33,10 +45,9 @@ class executeConfChangeAction extends sfAction {
                     }
                 }
                 if ($success) {
+                    $this->buttonState = 'Proceed';
                     $upgraderUtility->getDbConnection($host, $username, $password, $database, $port);
                     $upgraderUtility->dropUpgradeStatusTable();
-                    $this->getRequest()->setParameter('submitBy', 'confFile');
-                    $this->forward('upgrade','index');
                 }
             }
         }
