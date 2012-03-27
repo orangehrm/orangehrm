@@ -30,6 +30,7 @@ class getDatabaseInfoAction extends sfAction {
                     if (!$result) {
                         $this->getUser()->setFlash('errorMessage', __('Failed to Proceed: Interrupted Database'));
                     } else {
+                        $this->getUser()->setAuthenticated(true);
                         $this->getRequest()->setParameter('submitBy', 'databaseInfo');
                         $this->forward('upgrade','index');
                     }

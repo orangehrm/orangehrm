@@ -5,6 +5,8 @@ rendering: ~
 security:  ~
 
 # insert your own filters here
+actionFilter:
+  class: ActionFilter
 
 cache:     ~
 execution: ~

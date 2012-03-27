@@ -1,5 +1,12 @@
 $(document).ready(function(){
+    $('#errorDisplay').hide();
+    $('#logContainer').hide();
     $('#dbChangeProceedBtn').hide();
+    
+    $('#errorDisplay span a').click(function (event) {
+        event.preventDefault();
+        showErrorLog();
+    });
     
     $('#dbChangeStartBtn').click(function () {
         $('#dbChangeStartBtn').attr('disabled', "disabled");
@@ -25,13 +32,20 @@ $(document).ready(function(){
                     changeProceedButtonStatus(status);
                 }
             } else {
-                alert(lang_failedToUpdate);
+                $('#errorDisplay').show();
                 status = false;
             }
         });
     }
 });
 
+function showErrorLog() {
+    $('#logContainer').show();
+    $.get(showLogUrl, function(data) {
+        var myObject = JSON.parse(data);
+        $('#logContainer textarea').html(myObject.log);
+    });
+}
 
 function changeProceedButtonStatus(status) {
     if (status) {
