@@ -10,6 +10,7 @@ class executeDbChangeAction extends sfAction {
     public function execute($request) {
         $startIncrementer = $this->getUser()->getAttribute('startIncrementer');
         $endIncrementer = $this->getUser()->getAttribute('endIncrementer');
+        UpgradeLogger::clearLog();
         $this->form = new DatabaseChange();
         
         $schemaIncremantArray;

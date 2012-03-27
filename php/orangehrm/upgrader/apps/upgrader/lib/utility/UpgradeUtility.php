@@ -39,18 +39,14 @@ class UpgradeUtility {
     }
     
     public function executeSql($query) {
-        
-        return mysqli_query($this->dbConnection, $query);        
-
-       /* $result = mysqli_query($this->connection, $query);
+        $result = mysqli_query($this->dbConnection, $query);
         
         if (!$result) {
-            $logMessage = 'MySQL Error: ' . mysqli_error($this->connection) . ". \nQuery:\n";
-            // Call your logger here.
+            $logMessage = 'MySQL Error: ' . mysqli_error($this->dbConnection) . ". \nQuery: $query\n";
+            UpgradeLogger::writeMessage($logMessage);
         }
 
-        return $result;        */
-        
+        return $result;
     }
     
     public function fetchArray($tableData) {
