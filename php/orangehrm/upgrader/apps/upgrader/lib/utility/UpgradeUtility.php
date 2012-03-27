@@ -152,11 +152,21 @@ CONFCONT;
     
     public function checkDatabaseConnection($host, $username, $password, $dbname, $port) {
         if (!$port) {
-            $dbConnection = new mysqli($host, $username, $password, $dbname);
+            $this->dbConnection = new mysqli($host, $username, $password, $dbname);
         } else {
-            $dbConnection = new mysqli($host, $username, $password, $dbname, $port);
+            $this->dbConnection = new mysqli($host, $username, $password, $dbname, $port);
         }
-        if ($dbConnection->connect_error) {
+        if ($this->dbConnection->connect_error) {
+            return false;
+        } else {
+            return true;
+        }
+    }
+    
+    public function checkDatabaseStatus() {
+        $sql = "select 1 from `ohrm_upgrade_status`";
+        $result = $this->executeSql($sql);
+        if ($result) {
             return false;
         } else {
             return true;

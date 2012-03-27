@@ -26,8 +26,13 @@ class getDatabaseInfoAction extends sfAction {
                 if(!$result) {
                     $this->getUser()->setFlash('errorMessage', __('Failed to Connect: Check Database Details'));
                 } else {
-                    $this->getRequest()->setParameter('submitBy', 'databaseInfo');
-                    $this->forward('upgrade','index');
+                    $result = $upgraderUtility->checkDatabaseStatus();
+                    if (!$result) {
+                        $this->getUser()->setFlash('errorMessage', __('Failed to Proceed: Interrupted Database'));
+                    } else {
+                        $this->getRequest()->setParameter('submitBy', 'databaseInfo');
+                        $this->forward('upgrade','index');
+                    }
                 }
             } 
         }
