@@ -6,6 +6,8 @@ class executeDbChangeAction extends sfAction {
         $this->getUser()->setAttribute('currentScreen', 2);
         $this->getUser()->setAttribute('startIncrementer', 28);
         $this->getUser()->setAttribute('endIncrementer', 30);
+        $this->getUser()->setAttribute('startVersion', '2.6.11.3');
+        $this->getUser()->setAttribute('endVersion', '2.7');
     }
     public function execute($request) {
         $startIncrementer = $this->getUser()->getAttribute('startIncrementer');

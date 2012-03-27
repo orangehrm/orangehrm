@@ -59,6 +59,8 @@ class SchemaIncrementTask30 extends SchemaIncrementTask {
         
         $result[] = $this->upgradeUtility->executeSql($this->sql[18]);
         
+        $result[] = $this->upgradeUtility->executeSql($this->sql[19]);
+        
         $this->checkTransactionComplete($result);
         $this->updateOhrmUpgradeInfo($this->transactionComplete, $this->incrementNumber);
         $this->upgradeUtility->finalizeTransaction($this->transactionComplete);
@@ -291,6 +293,16 @@ class SchemaIncrementTask30 extends SchemaIncrementTask {
         $sql[17] = "SELECT * FROM hs_hr_weekends ORDER BY day";
         
         $sql[18] = "DROP TABLE hs_hr_weekends ;";
+        
+        $sql[19] = "CREATE TABLE IF NOT EXISTS `ohrm_upgrade_history` (
+                      `id` int(10) not null auto_increment,
+                      `from_version` varchar(30) DEFAULT NULL,
+                      `to_version` varchar(30) DEFAULT NULL,
+                      `from_increment` int(11) NOT NULL,
+                      `to_increment` int(11) NOT NULL,
+                      `date` datetime DEFAULT NULL,
+                      PRIMARY KEY (`id`)
+                    ) ENGINE=InnoDB  DEFAULT CHARSET=utf8;";
         
         $this->sql = $sql;
     

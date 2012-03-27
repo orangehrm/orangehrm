@@ -56,6 +56,7 @@ abstract class SchemaIncrementTask {
                             VALUES($valueString);";
         
         $result = $this->upgradeUtility->executeSql($sql);
+        $this->upgradeUtility->commitDatabaseChanges();
     }
     
     public function updateOhrmUpgradeInfo($transactionComplete, $id) {
@@ -64,6 +65,7 @@ abstract class SchemaIncrementTask {
                         SET status = 'completed' WHERE id = '$id'";
            
             $result = $this->upgradeUtility->executeSql($sql);
+            $this->upgradeUtility->commitDatabaseChanges();
         }
     }
 }

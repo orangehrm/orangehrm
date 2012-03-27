@@ -1189,6 +1189,16 @@ create table `ohrm_module` (
   primary key  (`id`)
 ) engine=innodb default charset=utf8;
 
+create table `ohrm_upgrade_history` (
+  `id` int(10) not null auto_increment,
+  `from_version` varchar(30) DEFAULT NULL,
+  `to_version` varchar(30) DEFAULT NULL,
+  `from_increment` int(11) NOT NULL,
+  `to_increment` int(11) NOT NULL,
+  `date` datetime DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8;
+
 alter table ohrm_email_subscriber
        add constraint foreign key (notification_id)
                              references ohrm_email_notification(id) on delete cascade;

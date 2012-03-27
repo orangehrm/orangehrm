@@ -48,6 +48,12 @@ class executeConfChangeAction extends sfAction {
                     $this->buttonState = 'Proceed';
                     $upgraderUtility->getDbConnection($host, $username, $password, $database, $port);
                     $upgraderUtility->dropUpgradeStatusTable();
+                    $fromVersion = $this->getUser()->getAttribute('startVersion');
+                    $toVersion = $this->getUser()->getAttribute('endVersion');
+                    $fromIncrement = $this->getUser()->getAttribute('startIncrementer');
+                    $toIncrement = $this->getUser()->getAttribute('endIncrementer');
+                    $date = gmdate("Y-m-d H:i:s", time());
+                    $result = $upgraderUtility->insertUpgradeHistory($fromVersion, $toVersion, $fromIncrement, $toIncrement, $date);
                 }
             }
         }

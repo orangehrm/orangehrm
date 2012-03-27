@@ -34,6 +34,10 @@ class UpgradeUtility {
         }
     }
     
+    public function commitDatabaseChanges() {
+        mysqli_commit($this->dbConnection);
+    }
+    
     public function closeDbConnection() {
         mysqli_close($this->dbConnection);
     }
@@ -172,5 +176,18 @@ CONFCONT;
     public function dropUpgradeStatusTable() {
         $sql = "DROP TABLE `ohrm_upgrade_status`";
         $result = $this->executeSql($sql);
+    }
+    
+    public function insertUpgradeHistory($fromVersion, $toVersion, $fromIncrement, $toIncrement, $date) {
+        $fromVersion = $fromVersion ? $fromVersion : 'NULL';
+        $toVersion = $toVersion ? $toVersion : 'NULL';
+        $valueString = "'$fromVersion' , '$toVersion' ,$fromIncrement, $toIncrement , '$date' ";
+        $sql= "INSERT INTO `ohrm_upgrade_history`
+                            (`from_version`, `to_version`, `from_increment`, `to_increment`, `date`) 
+                            VALUES ($valueString);";
+        
+        $result = $this->executeSql($sql);
+        $this->commitDatabaseChanges();
+        return $result;
     }
 }
