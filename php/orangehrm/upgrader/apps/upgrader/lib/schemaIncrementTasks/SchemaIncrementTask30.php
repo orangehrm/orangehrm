@@ -266,9 +266,9 @@ class SchemaIncrementTask30 extends SchemaIncrementTask {
         $sql[12] = "UPDATE ohrm_filter_field 
                         SET name = 'only_include_approved_timesheets' WHERE filter_field_id = 7";
         
-        $sql[13] = "INSERT INTO `ohrm_display_field` (`display_field_id`, `report_group_id`, `name`, `label`, `field_alias`, `is_sortable`, `sort_order`, `sort_field`, `element_type`, `element_property`, `width`, `is_exportable`, `text_alignment_style`, `is_value_list`, `display_field_group_id`, `default_value`, `is_encrypted`, `is_meta`) VALUES
-                        (113, 3, 'ohrm_emp_termination.termination_date', 'Termination Date', 'terminationDate',  'false', null, null, 'label', '<xml><getter>terminationDate</getter></xml>', 100, '0', null, true, 6, '---', false, false),
-                        (114, 3, 'ohrm_emp_termination_reason.name', 'Termination Reason', 'terminationReason',  'false', null, null, 'label', '<xml><getter>terminationReason</getter></xml>', 100, '0', null, true, 6, '---', false, false);";
+        $sql[13] = "INSERT INTO `ohrm_display_field` (`report_group_id`, `name`, `label`, `field_alias`, `is_sortable`, `sort_order`, `sort_field`, `element_type`, `element_property`, `width`, `is_exportable`, `text_alignment_style`, `is_value_list`, `display_field_group_id`, `default_value`, `is_encrypted`, `is_meta`) VALUES
+                        (3, 'ohrm_emp_termination.termination_date', 'Termination Date', 'terminationDate',  'false', null, null, 'label', '<xml><getter>terminationDate</getter></xml>', 100, '0', null, true, 6, '---', false, false),
+                        (3, 'ohrm_emp_termination_reason.name', 'Termination Reason', 'terminationReason',  'false', null, null, 'label', '<xml><getter>terminationReason</getter></xml>', 100, '0', null, true, 6, '---', false, false);";
         
         $sql[14] = "INSERT INTO `ohrm_selected_filter_field` (`report_id`, `filter_field_id`, `filter_field_order`, `value1`, `value2`, `where_condition`, `type`) VALUES
                         (5, 22, 1, null, null, 'IS NULL', 'Predefined');";
