@@ -33,6 +33,8 @@ class executeConfChangeAction extends sfAction {
                     }
                 }
                 if ($success) {
+                    $upgraderUtility->getDbConnection($host, $username, $password, $database, $port);
+                    $upgraderUtility->dropUpgradeStatusTable();
                     $this->getRequest()->setParameter('submitBy', 'confFile');
                     $this->forward('upgrade','index');
                 }

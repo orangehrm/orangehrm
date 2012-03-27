@@ -168,4 +168,9 @@ CONFCONT;
             return true;
         }
     }
+    
+    public function dropUpgradeStatusTable() {
+        $sql = "DROP TABLE `ohrm_upgrade_status`";
+        $result = $this->executeSql($sql);
+    }
 }
