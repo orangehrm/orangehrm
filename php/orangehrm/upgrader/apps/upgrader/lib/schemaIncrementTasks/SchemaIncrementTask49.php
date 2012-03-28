@@ -1,12 +1,12 @@
 <?php
 include_once 'SchemaIncrementTask.php';
 
-class SchemaIncrementTask29 extends SchemaIncrementTask {
+class SchemaIncrementTask49 extends SchemaIncrementTask {
     
     public $userInputs;
     
     public function execute() {
-        $this->incrementNumber = 29;
+        $this->incrementNumber = 49;
         parent::execute();
         
         $result[] = $this->upgradeUtility->executeSql($this->sql[0]);

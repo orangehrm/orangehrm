@@ -294,7 +294,7 @@ function sysCheckPassed() {
      */
     function checkHTAccessFiles() {
         var testImage = new Image();
-        testImage.src = "<?php echo sfConfig::get('sf_root_dir').'web/images/dummy.jpg';?>";
+        testImage.src = "<?php echo sfConfig::get('sf_root_dir').'/web/images/dummy.jpg';?>";
         testImage.onload = htAcessDisabled;
         testImage.onerror = htAccessEnabled;
         
