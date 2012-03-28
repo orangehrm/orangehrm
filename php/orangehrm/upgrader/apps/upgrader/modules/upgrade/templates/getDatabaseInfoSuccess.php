@@ -30,6 +30,7 @@
                     </td>
                     <td>
                         <?php echo $form['port']->render();?>
+                        <div class="errorContainer"></div>
                     </td>
                 </tr>
                 <tr>
@@ -69,4 +70,5 @@
 </div>
 <script type="text/javascript">
     var lang_required = '<?php echo __('Required')?>';
+    var lang_number = '<?php echo __('Should be a Number')?>'
 </script>
