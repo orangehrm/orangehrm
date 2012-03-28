@@ -3,7 +3,7 @@
 class executeDbChangeAction extends sfAction {
     
     public function preExecute() {
-        $this->getUser()->setAttribute('currentScreen', 2);
+        $this->getUser()->setAttribute('currentScreen', 'dbChange');
         $this->getUser()->setAttribute('startIncrementer', 28);
         $this->getUser()->setAttribute('endIncrementer', 30);
         $this->getUser()->setAttribute('startVersion', '2.6.11.3');

@@ -5,7 +5,7 @@ class executeConfChangeAction extends sfAction {
     private $selfConfigPath;
     private $remortConfigPath;
     public function preExecute() {
-        $this->getUser()->setAttribute('currentScreen',3);
+        $this->getUser()->setAttribute('currentScreen','confInfo');
         $this->applicationRootPath = sfConfig::get('sf_root_dir')."/..";
     }
     

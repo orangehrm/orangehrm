@@ -3,7 +3,7 @@
 class getDatabaseInfoAction extends sfAction {
     
     public function preExecute() {
-        $this->getUser()->setAttribute('currentScreen', 0);
+        $this->getUser()->setAttribute('currentScreen', 'dbInfo');
     }
     
     public function execute($request) {
