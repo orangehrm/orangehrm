@@ -189,7 +189,7 @@ class SchemaIncrementTask48 extends SchemaIncrementTask {
         
         $result[] = $this->updateOhrmSubunit();
         
-        for($i = 105; $i <= 117; $i++) {
+        for($i = 105; $i <= 133; $i++) {
             $result[] = $this->upgradeUtility->executeSql($this->sql[$i]);
         }
         
@@ -1191,6 +1191,41 @@ EOT;
                             ('Yemenite'),
                             ('Zambian'),
                             ('Zimbabwean');";
+        
+        $sql[118] = "DROP TABLE hs_hr_geninfo ;";
+        
+        $sql[119] = "DROP TABLE hs_hr_job_title ;";
+        
+        $sql[120] = "DROP TABLE hs_hr_empstat ;";
+        
+        $sql[121] = "ALTER TABLE `hs_hr_module`
+                            DROP FOREIGN KEY `hs_hr_module_ibfk_1`;";
+        
+        $sql[122] = "DROP TABLE hs_hr_versions ;";
+        
+        $sql[123] = "DROP TABLE hs_hr_db_version ;";
+        
+        $sql[124] = "DROP TABLE hs_hr_developer ;";
+        
+        $sql[125] = "DROP TABLE hs_hr_membership ;";
+        
+        $sql[126] = "DROP TABLE hs_hr_membership_type ;";
+        
+        $sql[127] = "ALTER TABLE `hs_hr_file_version`
+                            DROP FOREIGN KEY `hs_hr_file_version_ibfk_2`,
+                            DROP FOREIGN KEY `hs_hr_file_version_ibfk_3`;";
+        
+        $sql[128] = "DROP TABLE hs_hr_users ;";
+        
+        $sql[129] = "DROP TABLE hs_hr_emp_jobtitle_history ;";
+        
+        $sql[130] = "DROP TABLE hs_hr_emp_subdivision_history ;";
+        
+        $sql[131] = "DROP TABLE hs_hr_emp_location_history ;";
+        
+        $sql[132] = "DROP TABLE hs_hr_comp_property ;";
+        
+        $sql[133] = "DROP TABLE hs_hr_compstructtree ;";
         
         $this->sql = $sql;
     }
