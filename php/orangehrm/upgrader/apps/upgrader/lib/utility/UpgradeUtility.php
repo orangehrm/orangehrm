@@ -214,9 +214,21 @@ CONFCONT;
         
     }
     
+    /**
+     * @todo Get the new version which need to upgrade the system
+     */
     public function getNewVersion() {
         
         return '2.7';
+        
+    }
+    
+    /**
+     * @todo Get the current version of the system
+     */
+    public function getCurrentVersion($incrementNumber) {
+        
+        return '2.11.3';
         
     }
     
@@ -262,7 +274,7 @@ CONFCONT;
         $toVersion = $toVersion ? $toVersion : 'NULL';
         $valueString = "'$fromVersion' , '$toVersion' ,$fromIncrement, $toIncrement , '$date' ";
         $sql= "INSERT INTO `ohrm_upgrade_history`
-                            (`from_version`, `to_version`, `from_increment`, `to_increment`, `date`) 
+                            (`start_version`, `end_version`, `start_increment`, `end_increment`, `upgraded_date`) 
                             VALUES ($valueString);";
         
         $result = $this->executeSql($sql);

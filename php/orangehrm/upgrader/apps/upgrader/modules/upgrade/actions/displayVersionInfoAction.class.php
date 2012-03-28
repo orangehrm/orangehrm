@@ -3,7 +3,7 @@
 class displayVersionInfoAction extends sfAction {
 
     public function preExecute() {
-        $this->getUser()->setAttribute('currentScreen', 1);
+        $this->getUser()->setAttribute('currentScreen', 'verInfo');
     }
     
     public function execute ($request) {

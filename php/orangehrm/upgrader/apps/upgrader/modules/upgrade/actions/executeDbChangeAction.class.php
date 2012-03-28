@@ -4,14 +4,10 @@ class executeDbChangeAction extends sfAction {
     
     public function preExecute() {
         $this->getUser()->setAttribute('currentScreen', 'dbChange');
-        $this->getUser()->setAttribute('startIncrementer', 48);
-        $this->getUser()->setAttribute('endIncrementer', 50);
-        $this->getUser()->setAttribute('startVersion', '2.6.11.3');
-        $this->getUser()->setAttribute('endVersion', '2.7');
     }
     public function execute($request) {
-        $startIncrementer = $this->getUser()->getAttribute('startIncrementer');
-        $endIncrementer = $this->getUser()->getAttribute('endIncrementer');
+        $startIncrementer = $this->getUser()->getAttribute('upgrade.startIncNumber');
+        $endIncrementer = $this->getUser()->getAttribute('upgrade.endIncNumber');
         UpgradeLogger::clearLog();
         $this->form = new DatabaseChange();
         
