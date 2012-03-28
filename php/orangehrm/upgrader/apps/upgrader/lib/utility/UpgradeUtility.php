@@ -150,6 +150,85 @@ CONFCONT;
         return $result;
     }
     
+    public function getStartIncrementNumber($selectedVersion) {
+        
+        $versions = $this->getVersionAndIncrementerNumbers();
+        
+        if (isset($versions[$selectedVersion])) {
+            return $versions[$selectedVersion];
+        }
+        
+        $dbConnection   = $this->getDbConnection();
+        $query          = "SELECT `inc_num` as incNum * FROM `ohrm_upgrade_info` ORDER By `inc_num` DESC LIMIT 1";
+        $result         = mysqli_query($dbConnection, $query);
+        
+        if (mysqli_num_rows($result) > 0) {
+
+            $row = mysqli_fetch_assoc($result);
+            
+            return $row['incNum'];
+            
+        } else {
+            
+            throw new Exception("No results found: " . $query);
+            
+        }
+        
+    }
+    
+    /**
+     * @todo Look at SchemaIncrement directory and calculate the end Increment
+     */
+    public function getEndIncrementNumber() {
+        
+        return 50;
+        
+    }
+    
+    public function getVersionAndIncrementerNumbers() {
+        
+        /*
+        $a['2.6']       = zz;
+        $a['2.6.0.1']   = zz;
+        $a['2.6.0.2']   = zz;
+        $a['2.6.1']     = zz;
+        $a['2.6.2']     = zz;
+        $a['2.6.3']     = zz;
+        $a['2.6.4']     = zz;
+        $a['2.6.5']     = zz;
+        $a['2.6.6']     = zz;
+        $a['2.6.7']     = zz;
+        $a['2.6.8']     = zz;
+        $a['2.6.8.1']   = zz;
+        $a['2.6.9']     = zz;
+        $a['2.6.10']    = zz;
+        */
+        $a['2.6.11']    = 48;
+        $a['2.6.11.1']  = 48;
+        $a['2.6.11.2']  = 48;
+        $a['2.6.11.3']  = 48;
+        $a['2.6.12']    = 49;
+        $a['2.6.12.1']  = 50;
+        
+        return $a;
+        
+    }
+    
+    public function getNewVersion() {
+        
+        return '2.7';
+        
+    }
+    
+    /**
+     * @todo Check for upgrade info table and return true/false
+     */
+    public function isUpgradeInfoTableAvailable() {
+        
+        return false;
+        
+    }
+    
     public function checkDatabaseConnection($host, $username, $password, $dbname, $port) {
         if (!$port) {
             $this->dbConnection = new mysqli($host, $username, $password, $dbname);
@@ -190,4 +269,5 @@ CONFCONT;
         $this->commitDatabaseChanges();
         return $result;
     }
+    
 }

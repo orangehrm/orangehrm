@@ -12,7 +12,7 @@ class getDatabaseInfoAction extends sfAction {
         if ($request->isMethod('post')) {
             $this->form->bind($request->getParameter('databaseInfo'));
             if ($this->form->isValid()) {
-                $dbInfo;
+                $dbInfo = array();
                 $dbInfo['host'] = $this->form->getValue('host');
                 $dbInfo['port'] = $this->form->getValue('port');
                 $dbInfo['username'] = $this->form->getValue('username');

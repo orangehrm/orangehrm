@@ -1,21 +1,19 @@
 <div>
-    <h2>Version Information</h2>
-    <p>Get version information</p>
-</div>
-<div>
-    <form action="<?php echo url_for('upgrade/getVersionInfo');?>" name="versionInfoForm" method="post">
-        <?php echo $form->renderHiddenFields();?>
+    <form action="<?php echo url_for('upgrade/displayVersionInfo');?>" name="versionInfoForm" method="post">
         <table>
             <tbody>
                 <tr>
                     <td>
-                        <label><?php echo $form['version']->renderLabel();?></label>
+                        You are going to upgrade to OrangeHRM <?php echo $newVersion; ?>
                     </td>
                     <td>
-                        <?php echo $form['version']->render();?>
+                        &nbsp;
                     </td>
                 </tr>
                 <tr>
+                    <td>
+                        
+                    </td>
                     <td>
                         <input type="submit" value="Proceed"/>
                     </td>

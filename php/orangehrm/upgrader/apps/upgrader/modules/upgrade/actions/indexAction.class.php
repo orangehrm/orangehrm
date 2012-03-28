@@ -9,15 +9,18 @@ class indexAction extends sfAction {
                 case 'databaseInfo':
                     $this->redirect('upgrade/executeSystemCheck');
                     break;
-                    
                 case 'systemCheck':
-                    $this->redirect('upgrade/getVersionInfo');
+                    $this->redirect('upgrade/calculateIncrementNumbers');
                     break;
-                    
-                case 'versionInfo':
+                case 'versionSelection':
+                    $this->redirect('upgrade/calculateIncrementNumbers');
+                    break; 
+                case 'calculateIncrementNumbers':
+                    $this->redirect('upgrade/displayVersionInfo');
+                    break;                
+                case 'displayVersionInfo':
                     $this->redirect('upgrade/executeDbChange');
                     break;
-                    
                 case 'dbChange':
                     $this->redirect('upgrade/executeConfChange');
                     break;
