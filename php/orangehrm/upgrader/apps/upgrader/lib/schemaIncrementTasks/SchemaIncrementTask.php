@@ -16,7 +16,7 @@ abstract class SchemaIncrementTask {
     public function execute() {
         $this->upgradeUtility = new UpgradeUtility();
         $this->upgradeUtility->getDbConnection($this->dbInfo['host'],$this->dbInfo['username'],$this->dbInfo['password'],$this->dbInfo['database'],$this->dbInfo['port']);
-        $this->createOhrmUpgradeInfo($this->incrementNumber);
+        $this->createOhrmUpgradeStatus($this->incrementNumber);
         $this->loadSql();
     }
     
@@ -41,7 +41,7 @@ abstract class SchemaIncrementTask {
         }
     }
     
-    public function createOhrmUpgradeInfo($id) {
+    public function createOhrmUpgradeStatus($id) {
         $sql= "CREATE TABLE IF NOT EXISTS `ohrm_upgrade_status` (
                   `id` int(11) NOT NULL AUTO_INCREMENT,
                   `status` varchar(250) NOT NULL,
