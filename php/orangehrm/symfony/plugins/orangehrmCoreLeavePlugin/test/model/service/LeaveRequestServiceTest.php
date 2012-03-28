@@ -704,17 +704,17 @@ class LeaveRequestServiceTest extends PHPUnit_Framework_TestCase {
      /**
      * @group orangehrmLeaveListDataExtractorCsvPlugin
      */
-    public function testSearchLeaveRequestsSummaryHydrateMode() {
+    public function testGetLeaveRequestSearchResultAsArray() {
 
-        $mockDao = $this->getMock('LeaveRequestDao', array('searchLeaveRequestsSummaryHydrateMode'));
+        $mockDao = $this->getMock('LeaveRequestDao', array('getLeaveRequestSearchResultAsArray'));
         $mockDao->expects($this->any())
-                ->method('searchLeaveRequestsSummaryHydrateMode')
+                ->method('getLeaveRequestSearchResultAsArray')
                 ->will($this->returnValue(array('em_fist_name'=>'employee1')));
 
         $service = new LeaveRequestService();
         $service->setLeaveRequestDao($mockDao);
 
-        $this->assertEquals(1, sizeof($service->searchLeaveRequestsSummaryHydrateMode(array())));
+        $this->assertEquals(1, sizeof($service->getLeaveRequestSearchResultAsArray(array())));
       
     }
     
@@ -722,17 +722,17 @@ class LeaveRequestServiceTest extends PHPUnit_Framework_TestCase {
      /**
      * @group orangehrmLeaveListDataExtractorCsvPlugin
      */
-    public function searchLeaveRequestsDetailedHydrateMode() {
+    public function getDetailedLeaveRequestSearchResultAsArray() {
 
-        $mockDao = $this->getMock('LeaveRequestDao', array('searchLeaveRequestsDetailedHydrateMode'));
+        $mockDao = $this->getMock('LeaveRequestDao', array('getDetailedLeaveRequestSearchResultAsArray'));
         $mockDao->expects($this->any())
-                ->method('searchLeaveRequestsDetailedHydrateMode')
+                ->method('getDetailedLeaveRequestSearchResultAsArray')
                 ->will($this->returnValue(array('em_fist_name'=>'employee1')));
 
         $service = new LeaveRequestService();
         $service->setLeaveRequestDao($mockDao);
 
-        $this->assertEquals(1, sizeof($service->searchLeaveRequestsDetailedHydrateMode(array())));
+        $this->assertEquals(1, sizeof($service->getDetailedLeaveRequestSearchResultAsArray(array())));
       
     }    
 }
