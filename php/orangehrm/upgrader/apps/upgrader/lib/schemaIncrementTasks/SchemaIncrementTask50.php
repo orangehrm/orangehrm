@@ -9,57 +9,15 @@ class SchemaIncrementTask50 extends SchemaIncrementTask {
         $this->incrementNumber = 50;
         parent::execute();
         
-        $result[] = $this->upgradeUtility->executeSql($this->sql[0]);
-        
-        $result[] = $this->upgradeUtility->executeSql($this->sql[1]);
-        
-        $result[] = $this->upgradeUtility->executeSql($this->sql[2]);
-        
-        $result[] = $this->upgradeUtility->executeSql($this->sql[3]);
-        
-        $result[] = $this->upgradeUtility->executeSql($this->sql[4]);
-        
-        $result[] = $this->upgradeUtility->executeSql($this->sql[5]);
-        
-        $result[] = $this->upgradeUtility->executeSql($this->sql[6]);
-        
-        $result[] = $this->upgradeUtility->executeSql($this->sql[7]);
-        
-        $result[] = $this->upgradeUtility->executeSql($this->sql[8]);
-        
-        $result[] = $this->upgradeUtility->executeSql($this->sql[9]);
-        
-        $result[] = $this->upgradeUtility->executeSql($this->sql[10]);
-        
-        $result[] = $this->upgradeUtility->executeSql($this->sql[11]);
-        
-        $result[] = $this->upgradeUtility->executeSql($this->sql[12]);
-        
-        $result[] = $this->upgradeUtility->executeSql($this->sql[13]);
-        
-        $result[] = $this->upgradeUtility->executeSql($this->sql[14]);
-        
-        $result[] = $this->upgradeUtility->executeSql($this->sql[15]);
-        
-        $result[] = $this->upgradeUtility->executeSql($this->sql[16]);
-        
-        $weekdays = $this->upgradeUtility->executeSql($this->sql[17]);
-        
-        if($weekdays){
-            $workweekstring = '';
-            while($row = $this->upgradeUtility->fetchArray($weekdays))
-            {
-                $workweekstring .= ", ".$row['length'];
-            }
-            
-            $sqlString = "INSERT INTO `ohrm_work_week` VALUES (1, NULL $workweekstring);";
-            
-            $result[] = $this->upgradeUtility->executeSql($sqlString);
+        for($i = 0; $i <= 16; $i++) {
+            $result[] = $this->upgradeUtility->executeSql($this->sql[$i]);
         }
         
-        $result[] = $this->upgradeUtility->executeSql($this->sql[18]);
+        $result[] = $this->insertOhrmWorkWeek();
         
-        $result[] = $this->upgradeUtility->executeSql($this->sql[19]);
+        for($i = 18; $i <= 33; $i++) {
+            $result[] = $this->upgradeUtility->executeSql($this->sql[$i]);
+        }
         
         $this->checkTransactionComplete($result);
         $this->updateOhrmUpgradeInfo($this->transactionComplete, $this->incrementNumber);
@@ -304,7 +262,140 @@ class SchemaIncrementTask50 extends SchemaIncrementTask {
                       PRIMARY KEY (`id`)
                     ) ENGINE=InnoDB  DEFAULT CHARSET=utf8;";
         
+        $sql[20] = "ALTER TABLE ohrm_user_role
+                        add column `display_name` varchar(255) not null;";
+        
+        $sql[21] = "create table ohrm_screen (
+                        `id` int not null auto_increment, 
+                        `name` varchar(100) not null, 
+                        `module_id` int not null, 
+                        `action_url` varchar(255) not null, 
+                        primary key (`id`)
+                    ) engine=innodb default charset=utf8;";
+        
+        $sql[22] = "create table ohrm_user_role_screen (
+                        id int not null auto_increment,
+                        user_role_id int not null, 
+                        screen_id int not null, 
+                        can_read tinyint(1) not null default '0', 
+                        can_create tinyint(1) not null default '0',
+                        can_update tinyint(1) not null default '0', 
+                        can_delete tinyint(1) not null default '0',
+                        primary key (`id`)
+                    ) engine=innodb default charset=utf8;";
+        
+        $sql[23] = "alter table ohrm_screen
+                       add constraint foreign key (module_id)
+                           references ohrm_module(id) on delete cascade;";
+        
+        $sql[24] = "alter table ohrm_user_role_screen
+                        add constraint foreign key (user_role_id)
+                            references ohrm_user_role(id) on delete cascade;";
+        
+        $sql[25] = "alter table ohrm_user_role_screen
+                        add constraint foreign key (screen_id)
+                            references ohrm_screen(id) on delete cascade;";
+        
+        $sql[26] = "INSERT INTO `hs_hr_config`(`key`, `value`) VALUES
+                        ('authorize_user_role_manager_class', 'BasicUserRoleManager');";
+        
+        $sql[27] = "UPDATE ohrm_filter_field 
+                        SET filter_field_widget = 'ohrmReportWidgetOperationalCountryLocationDropDown' WHERE filter_field_id = 20";
+        
+        $sql[28] = "UPDATE ohrm_user_role 
+                        SET is_assignable = is_predefined ";
+        
+        $sql[29] = "UPDATE ohrm_user_role 
+                        SET is_predefined = 1 ";
+        
+        $sql[30] = "UPDATE ohrm_user_role 
+                        SET display_name = name ";
+        
+        $sql[31] = "UPDATE ohrm_module SET id = CASE name
+                        WHEN 'core' THEN '1'
+                        WHEN 'admin' THEN '2'
+                        WHEN 'pim' THEN '3'
+                        WHEN 'leave' THEN '4'
+                        WHEN 'time' THEN '5'
+                        WHEN 'attendance' THEN '6'
+                        WHEN 'recruitment' THEN '7'
+                        WHEN 'recruitmentApply' THEN '8'
+                        WHEN 'performance' THEN '9'
+                        WHEN 'benefits' THEN '10'
+                        END
+                        WHERE name in('core', 'admin', 'pim', 'leave', 'time', 'attendance', 'recruitment', 'recruitmentApply', 'performance', 'benefits')";
+        
+        $sql[32] = "INSERT INTO ohrm_screen (`id`, `name`, `module_id`, `action_url`) VALUES
+                        (1, 'User List', 2, 'viewSystemUsers'),
+                        (2, 'Add/Edit System User', 2, 'saveSystemUser'),
+                        (3, 'Delete System Users', 2, 'deleteSystemUsers'),
+                        (4, 'Add Employee', 3, 'addEmployee'),
+                        (5, 'View Employee List', 3, 'viewEmployeeList'),
+                        (6, 'Delete Employees', 3, 'deleteEmployees'),
+                        (7, 'Leave Type List', 4, 'leaveTypeList'),
+                        (8, 'Define Leave Type', 4, 'defineLeaveType'),
+                        (9, 'Undelete Leave Type', 4, 'undeleteLeaveType'),
+                        (10, 'Delete Leave Type', 4, 'deleteLeaveType'),
+                        (11, 'View Holiday List', 4, 'viewHolidayList'),
+                        (12, 'Define Holiday', 4, 'defineHoliday'),
+                        (13, 'Delete Holiday', 4, 'deleteHoliday'),
+                        (14, 'Define WorkWeek', 4, 'defineWorkWeek'),
+                        (16, 'Leave List', 4, 'viewLeaveList'),
+                        (17, 'Assign Leave', 4, 'assignLeave'),
+                        (18, 'View Leave Summary', 4, 'viewLeaveSummary'),
+                        (19, 'Save Leave Entitlements', 4, 'saveLeaveEntitlements');";
+        $sql[33] = "INSERT INTO ohrm_user_role_screen (user_role_id, screen_id, can_read, can_create, can_update, can_delete) VALUES
+                        (1, 1, 1, 1, 1, 1),
+                        (2, 1, 0, 0, 0, 0),
+                        (3, 1, 0, 0, 0, 0),
+                        (1, 2, 1, 1, 1, 1),
+                        (2, 2, 0, 0, 0, 0),
+                        (3, 2, 0, 0, 0, 0),
+                        (1, 3, 1, 1, 1, 1),
+                        (2, 3, 0, 0, 0, 0),
+                        (3, 3, 0, 0, 0, 0),
+                        (1, 4, 1, 1, 1, 1),
+                        (1, 5, 1, 1, 1, 1),
+                        (3, 5, 1, 0, 0, 0),
+                        (1, 6, 1, 0, 0, 1),
+                        (1, 7, 1, 1, 1, 1),
+                        (1, 8, 1, 1, 1, 1),
+                        (1, 9, 1, 1, 1, 1),
+                        (1, 10, 1, 1, 1, 1),
+                        (1, 11, 1, 1, 1, 1),
+                        (1, 12, 1, 1, 1, 1),
+                        (1, 13, 1, 1, 1, 1),
+                        (1, 14, 1, 1, 1, 1),
+                        (1, 16, 1, 1, 1, 0),
+                        (2, 16, 1, 1, 1, 0),
+                        (1, 17, 1, 1, 1, 0),
+                        (2, 17, 1, 1, 1, 0),
+                        (1, 18, 1, 1, 1, 0),
+                        (2, 18, 1, 0, 0, 0),
+                        (3, 18, 1, 0, 0, 0),
+                        (1, 19, 1, 1, 1, 1);";
+        
         $this->sql = $sql;
     
+    }
+    
+    private function insertOhrmWorkWeek() {
+        $weekdays = $this->upgradeUtility->executeSql($this->sql[17]);
+        $success = true;
+        if($weekdays){
+            $workweekstring = '';
+            while($row = $this->upgradeUtility->fetchArray($weekdays))
+            {
+                $workweekstring .= ", ".$row['length'];
+            }
+            
+            $sqlString = "INSERT INTO `ohrm_work_week` VALUES (1, NULL $workweekstring);";
+            
+            $result = $this->upgradeUtility->executeSql($sqlString);
+            if (!$result) {
+                $success = false;
+            }
+        }
+        return $success;
     }
 }
