@@ -36,6 +36,11 @@ class viewAttachmentAction extends basePimAction {
         $screen = $request->getParameter('screen');
 
         $empNumber = $request->getParameter('empNumber');
+        
+        if (!$this->IsActionAccessible($empNumber)) {
+            $this->forward(sfConfig::get('sf_secure_module'), sfConfig::get('sf_secure_action'));
+        }
+            
         $attachId = $request->getParameter('attachId');
 
         $employeeService = $this->getEmployeeService();

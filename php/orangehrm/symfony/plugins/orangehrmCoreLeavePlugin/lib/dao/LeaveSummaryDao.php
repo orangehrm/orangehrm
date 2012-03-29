@@ -62,6 +62,10 @@ class LeaveSummaryDao extends BaseDao {
         if (!empty($clues['cmbLeaveType'])) {
             $where[] = "b.leave_type_id = '{$clues['cmbLeaveType']}'";
         }
+        
+        if (!empty($clues['emp_numbers'])) {
+            $where[] = "a.emp_number IN(".implode(",", $clues['emp_numbers']).")";
+        }        
 
         if (!empty($clues['cmbSubDivision'])) {
             $where[] = "a.work_station IN ({$clues['cmbSubDivision']})";
@@ -132,6 +136,10 @@ class LeaveSummaryDao extends BaseDao {
             $where[] = "b.leave_type_id = '{$clues['cmbLeaveType']}'";
         }
 
+        if (!empty($clues['emp_numbers'])) {
+            $where[] = "a.emp_number IN(".implode(",", $clues['emp_numbers']).")";
+        }
+        
         if (!empty($clues['cmbSubDivision'])) {
             $where[] = "a.work_station IN ({$clues['cmbSubDivision']})";
         }

@@ -15,12 +15,12 @@ div.outerbox {
 }
 
 .hrLine {
-    width: 98%;
-    border-top:1px solid #FAD163;
-    display:block;
+    border-top: 1px solid #FAD163;
+    display: block;
+    margin-bottom: 5px;
     margin-left: 5px;
-    margin-top: 15px;
-    margin-bottom: 15px;
+    margin-top: 5px;
+    width: 102%;
 }
 
 label {
@@ -52,8 +52,17 @@ label {
     margin-top: 7px;
     border: 1px solid #888888;
     width: 243px;
+    float: left;
 }
 
 #chkLogin {
     margin-top: 5px;
+}
+
+br {
+    clear: both;
+}
+
+table#addEmployeeTbl td {
+    vertical-align: top;
 }

@@ -33,10 +33,8 @@ class saveDeleteEducationAction extends basePimAction {
         $education = $request->getParameter('education');
         $empNumber = (isset($education['emp_number']))?$education['emp_number']:$request->getParameter('empNumber');
 
-        if (!$this->isAdminSupervisorOrEssUser($empNumber)) {
-            $this->getUser()->setFlash('templateMessage', array('warning', __('Access Denied!')));
-            $this->redirect($this->getRequest()->getReferer());
-            return;
+        if (!$this->IsActionAccessible($empNumber)) {
+            $this->forward(sfConfig::get('sf_secure_module'), sfConfig::get('sf_secure_action'));
         }
         
         $this->setEducationForm(new EmployeeEducationForm(array(), array('empNumber' => $empNumber), true));

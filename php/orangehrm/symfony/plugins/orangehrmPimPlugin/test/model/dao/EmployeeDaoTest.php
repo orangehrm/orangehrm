@@ -960,5 +960,63 @@ class EmployeeDaoTest extends PHPUnit_Framework_TestCase {
         $employee = $this->employeeDao->getEmployeeByEmployeeId('');
         $this->assertFalse($employee);
     }
+    
+    public function testGetEmployeesBySubUnit() {
+        
+        // subunit with no employees        
+        $employees = $this->employeeDao->getEmployeesBySubUnit('6');
+        $this->assertEquals(0, count($employees));
 
+        $employees = $this->employeeDao->getEmployeesBySubUnit(array('6'));
+        $this->assertEquals(0, count($employees));
+        
+        // subunit with 1 employee
+        $employees = $this->employeeDao->getEmployeesBySubUnit('2');
+        $this->assertEquals(1, count($employees));
+        $this->compareArrays(array(1), $this->getEmployeeIds($employees));
+        
+        $employees = $this->employeeDao->getEmployeesBySubUnit(array('2'));
+        $this->assertEquals(1, count($employees));
+        $this->compareArrays(array(1), $this->getEmployeeIds($employees));
+        
+        // subunit with 2 employees
+        $employees = $this->employeeDao->getEmployeesBySubUnit('4');
+        $this->assertEquals(2, count($employees));
+        $this->compareArrays(array(2, 4), $this->getEmployeeIds($employees));
+        
+        $employees = $this->employeeDao->getEmployeesBySubUnit(array('4'));
+        $this->assertEquals(2, count($employees));
+        $this->compareArrays(array(2, 4), $this->getEmployeeIds($employees));
+        
+        // subunit with no employees + subunit with no employees
+        $employees = $this->employeeDao->getEmployeesBySubUnit(array('6', '5'));
+        $this->assertEquals(0, count($employees));
+        
+        // subunit with no employees + subunit with 2 employees
+        $employees = $this->employeeDao->getEmployeesBySubUnit(array('4', '5'));
+        $this->assertEquals(2, count($employees));
+        $this->compareArrays(array(2, 4), $this->getEmployeeIds($employees));
+        
+        // subunit with 1 employee + subunit with 2 employees
+        $employees = $this->employeeDao->getEmployeesBySubUnit(array('4', '2'));
+        $this->assertEquals(3, count($employees));        
+        $this->compareArrays(array(1, 2, 4), $this->getEmployeeIds($employees));        
+    }
+    
+    protected function getEmployeeIds($employees) {
+        $ids = array();
+        
+        foreach ($employees as $employee) {
+            $ids[] = $employee->getEmpNumber();
+        }
+        
+        return $ids;
+    }
+    
+    protected function compareArrays($expected, $actual) {
+        $this->assertEquals(count($expected), count($actual));
+        
+        $diff = array_diff($expected, $actual);
+        $this->assertEquals(0, count($diff), $diff);       
+    }     
 }

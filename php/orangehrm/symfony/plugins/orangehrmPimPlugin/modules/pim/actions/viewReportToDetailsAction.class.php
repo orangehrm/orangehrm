@@ -65,10 +65,9 @@ class viewReportToDetailsAction extends basePimAction {
         $this->essUserMode = !$this->isAllowedAdminOnlyActions($loggedInEmpNum, $empNumber);
 
         $adminMode = $this->getUser()->hasCredential(Auth::ADMIN_ROLE);
-        $supervisorMode = $this->isSupervisor($loggedInEmpNum, $empNumber);
 
-        if ($empNumber != $loggedInEmpNum && (!$supervisorMode && !$adminMode)) {
-            $this->redirect('pim/viewReportToDetails?empNumber=' . $loggedInEmpNum);
+        if (!$this->IsActionAccessible($empNumber)) {
+            $this->forward(sfConfig::get('sf_secure_module'), sfConfig::get('sf_secure_action'));
         }
 
         if ($this->getUser()->hasFlash('templateMessage')) {

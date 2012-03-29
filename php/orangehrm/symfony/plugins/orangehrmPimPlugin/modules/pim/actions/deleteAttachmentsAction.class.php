@@ -33,14 +33,17 @@ class deleteAttachmentsAction extends basePimAction {
     public function execute($request) {
         $this->form = new EmployeeAttachmentDeleteForm(array(), array(), true);
 
-        $result = false;
-
         $this->form->bind($request->getParameter($this->form->getName()));
         if ($this->form->isValid()) {
             $empId = $request->getParameter('EmpID', false);
             if (!$empId) {
                 throw new PIMServiceException("No Employee ID given");
             }
+            
+            if (!$this->IsActionAccessible($empId)) {
+                $this->forward(sfConfig::get('sf_secure_module'), sfConfig::get('sf_secure_action'));
+            }
+            
             $attachmentsToDelete = $request->getParameter('chkattdel', array());
             if ($attachmentsToDelete) {
                 $service = new EmployeeService();

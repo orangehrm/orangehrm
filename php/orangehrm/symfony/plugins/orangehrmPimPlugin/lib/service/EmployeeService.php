@@ -1440,5 +1440,15 @@ class EmployeeService extends BaseService {
     public function getEmpTerminationById($terminatedId) {
         return $this->getEmployeeDao()->getEmpTerminationById($terminatedId);
     }
+    
+    /**
+     * Get Employees under the given subunits
+     * @param string/array $subUnits Sub Unit IDs
+     * @param type $includeTerminatedEmployees if true, includes terminated employees
+     * @return Array of Employees
+     */
+    public function getEmployeesBySubUnit($subUnits, $includeTerminatedEmployees = false) {
+        return $this->getEmployeeDao()->getEmployeesBySubUnit($subUnits, $includeTerminatedEmployees); 
+    }    
 
 }

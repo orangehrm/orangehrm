@@ -99,6 +99,12 @@ class AuthenticationService extends BaseService {
         $cookieManager = new CookieManager();
         $cookieManager->destroyCookie('Loggedin', '/');
     }
+    
+    public function getLoggedInUserId() {
+        $sfUser = sfContext::getInstance()->getUser();
+        $userId = $sfUser->getAttribute('auth.userId');
+        return $userId;        
+    }
 
     /**
      *
@@ -112,6 +118,7 @@ class AuthenticationService extends BaseService {
         $sfUser->setAttribute('auth.empId', $user->getEmployee()->getEmployeeId());
         $sfUser->setAttribute('auth.empNumber', $user->getEmpNumber());
         $sfUser->setAttribute('auth.firstName', $user->getName());
+        $sfUser->setAttribute('auth.userRole', $user->getUserRole()->getName());
     }
 
     /**

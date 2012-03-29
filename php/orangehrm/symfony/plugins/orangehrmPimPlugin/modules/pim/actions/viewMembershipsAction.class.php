@@ -21,7 +21,7 @@
 /**
  * Actions class for PIM module memberships
  */
-class viewMembershipsAction extends sfAction {
+class viewMembershipsAction extends basePimAction {
 
     private $employeeService;
 
@@ -64,10 +64,9 @@ class viewMembershipsAction extends sfAction {
         $this->empNumber = $empNumber;
 
         $adminMode = $this->getUser()->hasCredential(Auth::ADMIN_ROLE);
-        $supervisorMode = $this->isSupervisor($loggedInEmpNum, $empNumber);
 
-        if ($empNumber != $loggedInEmpNum && (!$supervisorMode && !$adminMode)) {
-            $this->redirect('pim/viewMemberships?empNumber=' . $loggedInEmpNum);
+        if (!$this->IsActionAccessible($empNumber)) {
+            $this->forward(sfConfig::get('sf_secure_module'), sfConfig::get('sf_secure_action'));
         }
 
         if ($this->getUser()->hasFlash('templateMessage')) {
@@ -81,22 +80,6 @@ class viewMembershipsAction extends sfAction {
         $this->deleteForm = new EmployeeMembershipsDeleteForm(array(), $param, true);
         $this->membershipDetails = $this->getEmployeeService()->getMembershipDetails($this->empNumber);
         
-    }
-
-    private function isSupervisor($loggedInEmpNum, $empNumber) {
-
-        if (isset($_SESSION['isSupervisor']) && $_SESSION['isSupervisor']) {
-
-            $empService = $this->getEmployeeService();
-            $subordinates = $empService->getSupervisorEmployeeList($loggedInEmpNum);
-
-            foreach ($subordinates as $employee) {
-                if ($employee->getEmpNumber() == $empNumber) {
-                    return true;
-                }
-            }
-        }
-        return false;
     }
 
 }

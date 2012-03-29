@@ -35,8 +35,12 @@ class deleteDependentsAction extends basePimAction {
         $empNumber = $request->getParameter('empNumber', false);
     	$this->form = new EmployeeDependentsDeleteForm(array(), array('empNumber' => $empNumber), true);
         
-    	$this->form->bind($request->getParameter($this->form->getName()));        
+    	$this->form->bind($request->getParameter($this->form->getName()));               
 
+        if (!$this->IsActionAccessible($empNumber)) {
+            $this->forward(sfConfig::get('sf_secure_module'), sfConfig::get('sf_secure_action'));
+        }
+        
         if ($this->form->isValid()) {
                 
                 if (!$empNumber) {

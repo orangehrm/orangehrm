@@ -71,4 +71,3 @@ class viewJobTitleListAction extends sfAction {
     }
 
 }
-

@@ -60,7 +60,7 @@ class SystemUserService extends BaseService{
                 $systemUser->setUserPassword(md5($systemUser->getUserPassword()));
             }
 
-            $this->getSystemUserDao()->saveSystemUser($systemUser);
+            return $this->getSystemUserDao()->saveSystemUser($systemUser);
             
         } catch (Exception $e) {
             throw new ServiceException($e->getMessage(),$e->getCode(),$e);
@@ -128,13 +128,28 @@ class SystemUserService extends BaseService{
      * 
      * @return Doctrine_Collection UserRoles 
      */
-    public function getPreDefinedUserRoles(){
+    public function getAssignableUserRoles(){
         try {
-           return $this->getSystemUserDao()->getPreDefinedUserRole();
+           return $this->getSystemUserDao()->getAssignableUserRoles();
         } catch (Exception $e) {
             throw new ServiceException($e->getMessage(),$e->getCode(),$e);
         }
     }
+    
+    /**
+     * Get User role with given name
+     * 
+     * @param String $roleName Role Name
+     * @return Doctrine_Collection UserRoles 
+     */
+    public function getUserRole($roleName){
+        try {
+           return $this->getSystemUserDao()->getUserRole($roleName);
+        } catch (Exception $e) {
+            throw new ServiceException($e->getMessage(),$e->getCode(),$e);
+        }
+    }    
+    
     
    /**
      * Get Count of Search Query 

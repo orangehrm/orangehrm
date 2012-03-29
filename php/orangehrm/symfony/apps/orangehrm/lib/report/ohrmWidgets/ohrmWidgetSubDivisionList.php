@@ -76,8 +76,10 @@ class ohrmWidgetSubDivisionList extends sfWidgetForm implements ohrmEnhancedEmbe
                 $value = $node->getId();
                 $children = $node->getNode()->getChildren();
 
-                foreach ($children as $childNode) {
-                    $value = $value . "," . $childNode->getId();
+                if ($children !== false) {
+                    foreach ($children as $childNode) {
+                        $value = $value . "," . $childNode->getId();
+                    }
                 }
                 $choice[$value] = str_repeat('&nbsp;&nbsp;', $node['level'] - 1) . $node['name'];
             }

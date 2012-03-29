@@ -77,8 +77,7 @@ class EmployeeReportToForm extends BaseForm {
                     array('value' => $this->empNumber)),
             'type_flag' => new sfWidgetFormChoice(array('expanded' => true, 'choices' => array(
                     ReportTo::SUPERVISOR => __('Supervisor'), ReportTo::SUBORDINATE => __('Subordinate')), 'default' => ReportTo::SUPERVISOR)),
-            'name' => new sfWidgetFormInputText(),
-            'selectedEmployee' => new sfWidgetFormInputHidden(),
+            'name' => new ohrmWidgetEmployeeNameAutoFill(array('employeeList' => $this->getEmployeeList())),
             'previousRecord' => new sfWidgetFormInputHidden(),
             'reportingMethodType' => new sfWidgetFormSelect(array('choices' => $reportingMethodType)),
             'reportingMethod' => new sfWidgetFormInputText()
@@ -90,8 +89,8 @@ class EmployeeReportToForm extends BaseForm {
             'empNumber' => new sfValidatorNumber(array('required' => true, 'min' => 0)),
             'type_flag' => new sfValidatorChoice(array('required' => true,
                 'choices' => array(ReportTo::SUPERVISOR, ReportTo::SUBORDINATE))),
-            'name' => new sfValidatorString(array('required' => true), array('required' => 'Employee name required')),
-            'selectedEmployee' => new sfValidatorNumber(array('required' => true, 'min' => 0)),
+            'name' => new ohrmValidatorEmployeeNameAutoFill(),
+            'name_id' => new sfValidatorString(array('required' => false)),
             'previousRecord' => new sfValidatorString(array('required' => false)),
             'reportingMethodType' => new sfValidatorString(array('required' => true), array('required' => 'Select reporting method')),
             'reportingMethod' => new sfValidatorString(array('required' => false, 'max_length' => 80)),
@@ -116,48 +115,42 @@ class EmployeeReportToForm extends BaseForm {
         return $list;
     }
 
-    public function getEmployeeListAsJson() {
+    protected function getEmployeeList() {
 
-        $jsonArray = array();
         $employeeService = $this->getEmployeeService();
+       
+        $employeeList = UserRoleManagerFactory::getUserRoleManager()->getAccessibleEntities('Employee');
+        
+        $finalEmployeeList = array();
 
-        $employeeList = $employeeService->getEmployeeList();
-
-        // Get supervisosubordinates of current employee
-        $employeeUnique = array();
-
-        // Skip supervisors and subordinates already assigned
-
+        /* Populating already assigned sup & sub */
+        $assignedReportTo = array();
         $supervisors = $employeeService->getSupervisorListForEmployee($this->empNumber);
         $subordinates = $employeeService->getSubordinateListForEmployee($this->empNumber);
 
         foreach ($subordinates as $subordinate) {
-            $employeeUnique[$subordinate->getSubordinateId()] = true;
+            $assignedReportTo[$subordinate->getSubordinateId()] = true;
         }
+        
         foreach ($supervisors as $supervisor) {
-            $employeeUnique[$supervisor->getSupervisorId()] = true;
+            $assignedReportTo[$supervisor->getSupervisorId()] = true;
         }
 
+        /* Populating final list */
         foreach ($employeeList as $employee) {
 
-            if (!isset($employeeUnique[$employee->getEmpNumber()])) {
+            if (!isset($assignedReportTo[$employee->getEmpNumber()]) && 
+                $employee->getEmpNumber() != $this->empNumber) {
 
-                $name = $employee->getFirstName() . " " . $employee->getMiddleName();
-                $name = trim(trim($name) . " " . $employee->getLastName());
-
-                $employeeUnique[$employee->getEmpNumber()] = $name;
-
-                if ($employee->getEmpNumber() != $this->empNumber) {
-                    $jsonArray[] = array('name' => $name, 'id' => $employee->getEmpNumber());
-                }
+                $finalEmployeeList[] = $employee;                
+                
             }
         }
 
-        $jsonString = json_encode($jsonArray);
-
-        return $jsonString;
+        return $finalEmployeeList;
+        
     }
-
+    
     /**
      * Save supervisors and subordinates
      */
@@ -166,10 +159,11 @@ class EmployeeReportToForm extends BaseForm {
         $updated = false;
         $empNumber = $this->getValue('empNumber');
         $supOrSub = $this->getValue('type_flag');
-        $name = $this->getValue('name');
+        $empData = $this->getValue('name');
+        $name = $empData['empName'];
         $reportingType = $this->getValue('reportingMethodType');
         $reportingMethod = $this->getValue('reportingMethod');
-        $selectedEmployee = $this->getValue('selectedEmployee');
+        $selectedEmployee = $empData['empId'];
         $previousRecord = $this->getValue('previousRecord');
 
         if ($reportingMethod != null) {

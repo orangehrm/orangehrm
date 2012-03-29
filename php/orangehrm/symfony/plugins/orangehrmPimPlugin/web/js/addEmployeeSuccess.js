@@ -4,26 +4,35 @@ $(document).ready(function() {
         $('.passwordRequired').hide();
     }    
 
-    $("#chkLogin").attr("checked", "checked");
+    $("#chkLogin").attr("checked", true);
+
+    $("#addEmployeeTbl td div:empty").remove();
+    $("#addEmployeeTbl td:empty").remove();
+    $("label[for='lineSeperator']").parent('td').attr('colspan', 4);
+    $("label[for='lineSeperator']").replaceWith($("label[for='lineSeperator']").html());
+        
+    $("label[for='user_name']").closest("tr").attr('class', 'loginSectionRow');
+    $("label[for='user_password']").closest("tr").attr('class', 'loginSectionRow');
+
 
     if(createUserAccount == 0) {
         //hiding login section by default
         $("#lineSeperator").hide();
         $("#loginSection").hide();
+        $(".loginSectionRow").hide();
 
         $("#chkLogin").removeAttr("checked");
     }
 
     //default edit button behavior
     $("#btnSave").click(function() {
-
         $("#frmAddEmp").submit();
-
     });
 
     $("#chkLogin").click(function() {
         $("#lineSeperator").hide();
         $("#loginSection").hide();
+        $(".loginSectionRow").hide();
 
         $("#user_name").val("");
         $("#user_password").val("");
@@ -33,6 +42,7 @@ $(document).ready(function() {
         if($("#chkLogin").attr('checked') == true) {
             $("#lineSeperator").show();
             $("#loginSection").show();
+            $(".loginSectionRow").show();
         }
     });
 
@@ -44,7 +54,8 @@ $(document).ready(function() {
             'user_name': { validateLoginName: true },
             'user_password': {validatePassword: true},
             're_password': {validateReCheckPassword: true},
-            'status': {validateStatusRequired: true }
+            'status': {validateStatusRequired: true },
+            'location': {required: true }
         },
         messages: {
             'firstName': { required: lang_firstNameRequired },
@@ -52,12 +63,10 @@ $(document).ready(function() {
             'user_name': { validateLoginName: lang_userNameRequired },
             'user_password': {validatePassword: lang_passwordRequired},
             're_password': {validateReCheckPassword: lang_unMatchingPassword},
-            'status': {validateStatusRequired: lang_statusRequired }
+            'status': {validateStatusRequired: lang_statusRequired },
+            'location': {required: lang_locationRequired }
         },
-        errorElement : 'div',
-        errorPlacement: function(error, element) {
-            error.insertAfter(element.next(".clear"));
-        }
+        errorElement : 'div'
     });
 
     $.validator.addMethod("validateLoginName", function(value, element) {

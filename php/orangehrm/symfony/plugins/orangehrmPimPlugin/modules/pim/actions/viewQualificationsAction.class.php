@@ -74,10 +74,8 @@ class viewQualificationsAction extends basePimAction {
         $empNumber = $request->getParameter('empNumber');
         $this->empNumber = $empNumber;
 
-        if (!$this->isAdminSupervisorOrEssUser($empNumber)) {
-            $this->getUser()->setFlash('templateMessage', array('warning', __('Access Denied!')));
-            $this->redirect($this->getRequest()->getReferer());
-            return;
+        if (!$this->IsActionAccessible($empNumber)) {
+            $this->forward(sfConfig::get('sf_secure_module'), sfConfig::get('sf_secure_action'));
         }
         
         $this->_setMessage();

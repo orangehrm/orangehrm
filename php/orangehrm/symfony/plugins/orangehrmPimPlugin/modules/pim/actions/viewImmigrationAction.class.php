@@ -44,13 +44,10 @@ class viewImmigrationAction extends basePimAction {
         $param = array('empNumber' => $empNumber);
         $this->setForm(new EmployeeImmigrationDetailsForm(array(), $param, true));
 
-        $adminMode = $this->getUser()->hasCredential(Auth::ADMIN_ROLE);
-        $supervisorMode = $this->isSupervisor($loggedInEmpNum, $empNumber);
-
-        if($empNumber != $loggedInEmpNum && (!$supervisorMode && !$adminMode)) {
-            //shud b redirected 2 ESS user view
-            $this->redirect('pim/viewImmigration?empNumber='. $loggedInEmpNum);
+        if (!$this->IsActionAccessible($empNumber)) {
+            $this->forward(sfConfig::get('sf_secure_module'), sfConfig::get('sf_secure_action'));
         }
+
         
         if ($this->getUser()->hasFlash('templateMessage')) {
             list($this->messageType, $this->message) = $this->getUser()->getFlash('templateMessage');

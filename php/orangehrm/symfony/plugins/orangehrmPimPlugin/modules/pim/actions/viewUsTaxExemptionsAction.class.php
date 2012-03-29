@@ -48,12 +48,10 @@ class viewUsTaxExemptionsAction extends basePimAction {
         $empNumber = (isset($tax['empNumber']))?$tax['empNumber']:$request->getParameter('empNumber');
         $this->empNumber = $empNumber;
 
-        $adminMode = $this->getUser()->hasCredential(Auth::ADMIN_ROLE);
         $this->essUserMode = !$this->isAllowedAdminOnlyActions($loggedInEmpNum, $empNumber);
-        $supervisorMode = $this->isSupervisor($loggedInEmpNum, $empNumber);
 
-        if($empNumber != $loggedInEmpNum && (!$supervisorMode && !$adminMode)) {
-            $this->redirect('pim/viewMemberships?empNumber='. $loggedInEmpNum);
+        if (!$this->IsActionAccessible($empNumber)) {
+            $this->forward(sfConfig::get('sf_secure_module'), sfConfig::get('sf_secure_action'));
         }
 
         $param = array('empNumber' => $empNumber);

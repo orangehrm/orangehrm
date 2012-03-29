@@ -49,8 +49,12 @@ class viewDependentsAction extends basePimAction {
         //hiding the back button if its self ESS view
         if($loggedInEmpNum == $empNumber) {
             $this->showBackButton = false;
-        }
+        }        
         
+        if (!$this->IsActionAccessible($empNumber)) {
+            $this->forward(sfConfig::get('sf_secure_module'), sfConfig::get('sf_secure_action'));
+        }        
+            
         $essMode = !$adminMode && !empty($loggedInEmpNum) && ($empNumber == $loggedInEmpNum);
         $param = array('empNumber' => $empNumber, 'ESS' => $essMode);
 

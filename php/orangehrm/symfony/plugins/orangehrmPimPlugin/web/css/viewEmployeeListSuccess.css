@@ -92,3 +92,7 @@ form#search_form div#formcontent label{
 html body div.outerbox div.maincontent div.searchbox form#search_form div#formcontent select#empsearch_termination{
        width:15.5%;
 }
+
+br{
+    clear: both;
+}

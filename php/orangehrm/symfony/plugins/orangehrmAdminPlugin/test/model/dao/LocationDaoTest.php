@@ -84,6 +84,22 @@ class LocationDaoTest extends PHPUnit_Framework_TestCase {
 		$this->assertEquals(count($result), 2);
 		$this->assertEquals($result[0]->getId(), 1);
 	}
+        
+	public function testSearchLocationsForCountryArray() {
+		$srchClues = array(
+		    'country' => array('LK')
+		);
+		$result = $this->locationDao->searchLocations($srchClues);
+		$this->assertEquals(count($result), 2);
+		$this->assertEquals($result[0]->getId(), 1);
+                
+		$srchClues = array(
+		    'country' => array('LK', 'US')
+		);
+		$result = $this->locationDao->searchLocations($srchClues);
+		$this->assertEquals(count($result), 3);
+		$this->assertEquals($result[0]->getId(), 1);                
+	}        
 	
 	public function testGetSearchLocationListCount() {
 		$srchClues = array(

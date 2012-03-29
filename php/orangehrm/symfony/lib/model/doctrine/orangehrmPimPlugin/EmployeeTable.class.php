@@ -30,7 +30,9 @@ class EmployeeTable extends PluginEmployeeTable {
             'sub_unit' => 'cs.name',
             'supervisor_name' => 'concat_ws(\' \', s.emp_firstname,s.emp_middle_name,s.emp_lastname)',
             'supervisorId' => 's.emp_firstname',
-            'termination' => 'e.termination_id'
+            'termination' => 'e.termination_id',
+            'location' => 'l.location_id',
+            'employee_id_list' => 'e.emp_number',
     );
 
     /**
@@ -45,6 +47,7 @@ class EmployeeTable extends PluginEmployeeTable {
             'lastName' => 'e.emp_lastName',
             'fullName' => array('e.emp_firstname', 'e.emp_middle_name', 'e.emp_lastName'),
             'jobTitle' => 'j.job_title',
+            'empLocation' => 'loc.name',
             'employeeStatus' => 'es.name',
             'subDivision' => 'cs.name',
             'supervisor' => array('s.emp_firstname', 's.emp_lastname')
@@ -120,15 +123,29 @@ class EmployeeTable extends PluginEmployeeTable {
 
                 if (!empty($supervisorList)) {
 
-                    $supervisors = new Doctrine_Collection(Doctrine::getTable('Employee'));
-
                     $supervisorArray = explode(',', $supervisorList);
                     foreach ($supervisorArray as $supervisor) {
-                        list($first, $last) = explode(' ', $supervisor);
+                        list($first, $last) = explode('##', $supervisor);
                         $supervisor = new Employee();
                         $supervisor->setFirstName($first);
                         $supervisor->setLastName($last);
                         $employee->supervisors[] = $supervisor;
+                    }
+                }
+                
+                $locationList = $row['locationIds'];
+
+                if (!empty($locationList)) {
+
+//                    $locations = new Doctrine_Collection(Doctrine::getTable('EmpLocations'));
+
+                    $locationArray = explode(',', $locationList);
+                    foreach ($locationArray as $location) {
+                        list($id, $name) = explode('##', $location);
+                        $empLocation = new Location();
+                        $empLocation->setId($id);
+                        $empLocation->setName($name);
+                        $employee->locations[] = $empLocation;
                     }
                 }
 
@@ -202,7 +219,7 @@ class EmployeeTable extends PluginEmployeeTable {
 	     * Using direct SQL since it is difficult to use Doctrine DQL or RawSQL to get an efficient
 	     * query taht searches the company structure tree and supervisors.
         */
-        $supervisorNameSubQuery = '(SELECT GROUP_CONCAT(emp_firstname, \' \', emp_lastname) ' .
+        $supervisorNameSubQuery = '(SELECT GROUP_CONCAT(emp_firstname, \'##\', emp_lastname) ' .
                 ' FROM hs_hr_employee WHERE emp_number IN (SELECT erep_sup_emp_number ' . 
                 ' FROM hs_hr_emp_reportto where erep_sub_emp_number = e.emp_number))';
         
@@ -212,14 +229,21 @@ class EmployeeTable extends PluginEmployeeTable {
                 'cs.name AS subDivision, cs.id AS subDivisionId,' .
                 'j.job_title AS jobTitle, j.id AS jobTitleId, j.is_deleted AS isDeleted, ' .
                 'es.name AS employeeStatus, es.id AS employeeStatusId, ' .
-                $supervisorNameSubQuery . ' AS supervisors';
+                $supervisorNameSubQuery . ' AS supervisors, ' .
+                'GROUP_CONCAT(DISTINCT loc.id, \'##\',loc.name) AS locationIds';
 
         $query = 'FROM hs_hr_employee e ' .
                 '  LEFT JOIN ohrm_subunit cs ON cs.id = e.work_station ' .
                 '  LEFT JOIN ohrm_job_title j on j.id = e.job_title_code ' .
                 '  LEFT JOIN ohrm_employment_status es on e.emp_status = es.id ' .
                 '  LEFT JOIN hs_hr_emp_reportto rt on e.emp_number = rt.erep_sub_emp_number ' .
-                '  LEFT JOIN hs_hr_employee s on s.emp_number = rt.erep_sup_emp_number ';
+                '  LEFT JOIN hs_hr_employee s on s.emp_number = rt.erep_sup_emp_number ' .
+                '  LEFT JOIN hs_hr_emp_locations l ON l.emp_number = e.emp_number ' .
+                '  LEFT JOIN ohrm_location loc ON l.location_id = loc.id ';
+        
+//        if(!empty($filters['location']) && $filters['location'] != '-1'){
+//            $query .= ' LEFT JOIN hs_hr_emp_locations l ON l.emp_number = e.emp_number ';
+//        }
 
         /* search filters */
         $conditions = array();
@@ -261,6 +285,8 @@ class EmployeeTable extends PluginEmployeeTable {
                             $conditions[] = ' s.emp_number = ? ';
                             $bindParams[] = $searchBy;
                         }
+                    } else if ($searchField == 'employee_id_list') {
+                        $conditions[] = ' e.emp_number IN (' . implode(',', $searchBy) . ') ';
                     } else if ($searchField == 'supervisor_name') {
                         $conditions[] = $field . ' LIKE ? ';
                         // Replace multiple spaces in string with wildcards
@@ -272,6 +298,10 @@ class EmployeeTable extends PluginEmployeeTable {
                         // Replace multiple spaces in string with wildcards
                         $value = preg_replace('!\s+!', '%', $searchBy);
                         $bindParams[] = '%' . $value . '%';
+                    } elseif( $searchField == 'location' ){
+                        if(!empty($filters['location']) && $filters['location'] != '-1'){
+                            $conditions[] = ' l.location_id IN (' . $searchBy . ') ';
+                        }
                     }
                     $filterCount++;
 

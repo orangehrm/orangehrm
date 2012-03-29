@@ -562,6 +562,9 @@ UserRole:
     name:
       type: string(255)
       notnull: true
+    display_name:
+      type: string(255)
+      notnull: true
     is_assignable:
       type: int
       type: boolean
@@ -604,4 +607,50 @@ UserRoleUserSelectionRule:
       primary: true
     configurable_params:
       type: string
-      notnull: true   
+      notnull: true       
+Screen:
+  tableName: ohrm_screen
+  columns:
+    id:
+      type: integer
+      primary: true
+      autoincrement: true
+    name: string(100)
+    module_id: integer
+    action_url: string(255)
+  relations:
+    Module:
+      local: module_id
+      foreign: id
+      type: one
+      
+ScreenPermission:
+  tableName: ohrm_user_role_screen
+  columns:
+    id:
+      type: integer
+      primary: true
+      autoincrement: true
+    user_role_id: integer
+    screen_id: integer
+    can_read: 
+      type: boolean
+      default: false
+    can_create:
+      type: boolean
+      default: false
+    can_update:
+      type: boolean
+      default: false
+    can_delete:
+      type: boolean
+      default: false    
+  relations:
+    UserRole:
+      local: user_role_id
+      foreign: id
+      type: one  
+    Screen:
+      local: screen_id
+      foreign: id
+      type: one 

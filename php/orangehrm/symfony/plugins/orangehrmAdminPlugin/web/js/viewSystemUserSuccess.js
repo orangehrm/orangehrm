@@ -49,59 +49,35 @@ $(document).ready(function() {
     $('#dialogCancelBtn').click(function() {
         $("#deleteConfirmation").dialog("close");
     });
-
-    
-    $("#searchSystemUser_employeeName").autocomplete(employees, {
-
-            formatItem: function(item) {
-                           return item.name;
-                    }
-                    ,matchContains:true
-            }).result(function(event, item) {
-                $('#searchSystemUser_employeeId').val(item.id);
-            }
-	);
             
-     if ($("#searchSystemUser_employeeName").val() == '') {
-        $("#searchSystemUser_employeeName").val(lang_typeforhint)
-        .addClass("inputFormatHint");
-    }
-    
-     $('#searchBtn').click(function() {
-         if(isValidForm()){         
+    $('#searchBtn').click(function() {
+        if(isValidForm()){         
             $('#search_form').submit();
-         }
+        }
     });
     
     $('#resetBtn').click(function() {
                   
-        $("#searchSystemUser_employeeName").val(lang_typeforhint).addClass("inputFormatHint");
+        $("#searchSystemUser_employeeName_empName").val(lang_typeforhint).addClass("inputFormatHint");
         $("#searchSystemUser_userName").val('');
         $("#searchSystemUser_userType option[value='']").attr("selected", "selected");
         $("#searchSystemUser_status option[value='']").attr("selected", "selected");
         window.location.replace(viewUserUrl);
     });
     
-    $('#searchSystemUser_employeeName').click(function(){
-        if($('#searchSystemUser_employeeName').val() == lang_typeforhint){
-            $('#searchSystemUser_employeeName').val("")
-            $('#searchSystemUser_employeeName').removeClass("inputFormatHint");
-        }
-        }); 
-    
 });
 
 $.validator.addMethod("validEmployeeName", function(value, element) {                 
-               	 var empName    =   trim($('#searchSystemUser_employeeName').val());
-                 var empId      =   $('#searchSystemUser_employeeId').val();  
+    var empName    =   trim($('#searchSystemUser_employeeName_empName').val());
+    var empId      =   $('#searchSystemUser_employeeName_empName_empId').val();  
                  
-                 if(empName != lang_typeforhint && empName.length > 0  && empId == ''){
-                     return false;
-                 }else{
-                     return true;
-                 }
-                
-            });
+    if(empName != lang_typeforhint && empName.length > 0  && empId == ''){
+        return false;
+    }else{
+        return true;
+    }
+    
+});
             
 
 function addSystemUser(){

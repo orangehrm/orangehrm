@@ -18,7 +18,7 @@ class LeaveSummaryConfigurationFactory extends ohrmListConfigurationFactory {
             'elementType' => 'link',
             'textAlignmentStyle' => 'left',
             'elementProperty' => array(
-                'linkable' => array('isEmployeeDetailsAccessibleTo', array(self::$userId, self::$userType)),
+                'linkable' => array('isEmployeeDetailsAccessible', array()),
                 'labelGetter' => array('getEmployee', 'getFullName'),
                 'placeholderGetters' => array('id' => 'getEmployeeId'),
                 'urlPattern' => '../pim/viewPersonalDetails/empNumber/{id}',
@@ -52,7 +52,7 @@ class LeaveSummaryConfigurationFactory extends ohrmListConfigurationFactory {
             'elementProperty' => array(
                 'getter' => 'getNoOfDaysAllotted',
                 'name' => 'txtLeaveEntitled[]',
-                'readOnly' => (self::$userType != SystemUser::USER_TYPE_ADMIN),
+                'readOnly' => (!self::$permissions->canUpdate()),
             ),
         ));
 
@@ -106,7 +106,7 @@ class LeaveSummaryConfigurationFactory extends ohrmListConfigurationFactory {
 
         $this->headers = array($header1, $header2, $header3, $header4, $header5, $header6);
         
-        if (self::$userType != SystemUser::USER_TYPE_ADMIN) {
+        if (!self::$permissions->canUpdate()) {
             $this->runtimeDefinitions = array(
                 'buttons' => array(),
             );

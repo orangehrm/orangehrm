@@ -34,15 +34,26 @@
         <form id="frmWorkWeek" name="frmWorkWeek" method="post" action="<?php echo url_for('leave/defineWorkWeek') ?>" >            
             <?php echo $workWeekForm->render() ?>
             <br class="clear"/>
-
-            <div class="formbuttons">
+<?php 
+    $permissions = $sf_context->get('screen_permissions');
+    if ($permissions->canUpdate()) {
+?>
+            <div class="formbuttons">            
                 <input type="button" class="savebutton" id="saveBtn" value="<?php echo __('Edit'); ?>" />
-                <input type="button" class="clearbutton" onclick="reset();" value="<?php echo __('Reset'); ?>" />
+                <input type="button" class="clearbutton" onclick="reset();" value="<?php echo __('Reset'); ?>" />                
             </div>
+<?php } ?>            
         </form>
     </div>
     <script type="text/javascript">
         //<![CDATA[
+        var permissions = {
+            canRead: <?php echo $permissions->canRead() ? 'true' : 'false';?>,
+            canCreate: <?php echo $permissions->canCreate() ? 'true' : 'false';?>,            
+            canUpdate: <?php echo $permissions->canUpdate() ? 'true' : 'false';?>,
+            canDelete: <?php echo $permissions->canDelete() ? 'true' : 'false';?>
+        };
+        
         var lang_Save = "<?php echo __('Save') ?>";
         var lang_Edit = "<?php echo __('Edit') ?>";
         var lang_AtLeastOneWorkDay = "<?php echo __('At Least One Day Should Be a Working Day') ?>";

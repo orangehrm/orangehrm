@@ -1,14 +1,14 @@
 <?php
 
 abstract class Cell implements PopulatableFromArray {
+
     const DATASOURCE_TYPE_OBJECT = 1;
     const DATASOURCE_TYPE_ARRAY = 2;
 
     protected $properties;
     protected $dataObject;
-    protected $header;    
+    protected $header;
     private $dataSourceType = self::DATASOURCE_TYPE_OBJECT;
-
 
     public function populateFromArray(array $properties) {
         PropertyPopulator::populateFromArray($this, $properties);
@@ -25,7 +25,7 @@ abstract class Cell implements PopulatableFromArray {
     public function getPropertyValue($name, $default = null) {
         return isset($this->properties[$name]) ? $this->properties[$name] : $default;
     }
-    
+
     public function hasProperty($name) {
         return isset($this->properties[$name]);
     }
@@ -41,16 +41,16 @@ abstract class Cell implements PopulatableFromArray {
 
         $this->dataObject = ($dataObject instanceof sfOutputEscaperArrayDecorator) ? $dataObject->getRawValue() : $dataObject;
     }
-    
+
     public function setHeader($header) {
-        
+
         if ($header instanceof sfOutputEscaperObjectDecorator) {
             $header = $header->getRawValue();
         }
 
         $this->header = $header;
     }
-    
+
     public function getHeader() {
         return $this->header;
     }
@@ -65,7 +65,9 @@ abstract class Cell implements PopulatableFromArray {
         if ($getter instanceof sfOutputEscaperArrayDecorator || is_array($getter)) {
             $value = $this->dataObject;
             foreach ($getter as $method) {
-                $value = $value->$method();
+                if (is_object($value)) {
+                    $value = $value->$method();
+                }
             }
         } else {
             $value = ($this->dataSourceType === self::DATASOURCE_TYPE_ARRAY) ? $this->dataObject[$getter] : $this->dataObject->$getter();
@@ -76,10 +78,10 @@ abstract class Cell implements PopulatableFromArray {
         }
 
         $value = $this->filterValue($value);
-        
+
         return $value;
     }
-    
+
     /**
      * Filters given value using all filters set in the header.
      * 
@@ -91,7 +93,7 @@ abstract class Cell implements PopulatableFromArray {
         if (isset($this->header)) {
             $value = $this->header->filterValue($value);
         }
-        
+
         return $value;
     }
 
@@ -101,11 +103,11 @@ abstract class Cell implements PopulatableFromArray {
 
         if ($this->getPropertyValue('hasHiddenField', false)) {
             $hiddenFieldHtml = tag('input', array(
-                        'type' => 'hidden',
-                        'name' => $this->generateAttributeValue($placeholderGetters, $this->getPropertyValue('hiddenFieldName')),
-                        'id' => $this->generateAttributeValue($placeholderGetters, $this->getPropertyValue('hiddenFieldId')),
-                        'class' => $this->generateAttributeValue($placeholderGetters, $this->getPropertyValue('hiddenFieldClass')),
-                        'value' => $this->getValue('hiddenFieldValueGetter'),
+                'type' => 'hidden',
+                'name' => $this->generateAttributeValue($placeholderGetters, $this->getPropertyValue('hiddenFieldName')),
+                'id' => $this->generateAttributeValue($placeholderGetters, $this->getPropertyValue('hiddenFieldId')),
+                'class' => $this->generateAttributeValue($placeholderGetters, $this->getPropertyValue('hiddenFieldClass')),
+                'value' => $this->getValue('hiddenFieldValueGetter'),
                     ));
         }
 

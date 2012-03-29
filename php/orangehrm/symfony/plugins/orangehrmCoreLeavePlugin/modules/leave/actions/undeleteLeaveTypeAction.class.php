@@ -20,12 +20,6 @@
 class undeleteLeaveTypeAction extends orangehrmAction {
 
     protected $leaveTypeService;
-
-    public function preExecute() {
-        if ($this->getUser()->getAttribute('auth.isAdmin') != 'Yes') {
-            $this->redirect('leave/viewMyLeaveList');
-        }
-    }
     
     public function execute($request) {
         $this->form = $this->getForm();

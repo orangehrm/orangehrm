@@ -21,7 +21,7 @@
  * Actions class for PIM module updateMembership
  */
 
-class updateMembershipAction extends sfAction {
+class updateMembershipAction extends basePimAction {
 
     /**
      * Add / update employee membership
@@ -36,6 +36,11 @@ class updateMembershipAction extends sfAction {
         $empNumber = (isset($memberships['empNumber']))?$memberships['empNumber']:$request->getParameter('empNumber');
         $this->empNumber = $empNumber;
 
+
+        if (!$this->IsActionAccessible($empNumber)) {
+            $this->forward(sfConfig::get('sf_secure_module'), sfConfig::get('sf_secure_action'));
+        }
+        
         $loggedInEmpNum = $this->getUser()->getEmployeeNumber();
         $adminMode = $this->getUser()->hasCredential(Auth::ADMIN_ROLE);
         $essMode = !$adminMode && !empty($loggedInEmpNum) && ($empNumber == $loggedInEmpNum);

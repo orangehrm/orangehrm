@@ -21,13 +21,6 @@ class viewSystemUsersAction extends sfAction {
 
     private $systemUserService;
 
-    public function preExecute() {
-        $usrObj = $this->getUser()->getAttribute('user');
-        if (!$usrObj->isAdmin()) {
-            $this->redirect('pim/viewPersonalDetails');
-        }
-    }
-
     public function getSystemUserService() {
         $this->systemUserService = new SystemUserService();
         return $this->systemUserService;
@@ -45,8 +38,6 @@ class viewSystemUsersAction extends sfAction {
      */
     public function execute($request) {
 
-
-
         $isPaging = $request->getParameter('pageNo');
         $sortField = $request->getParameter('sortField');
         $sortOrder = $request->getParameter('sortOrder');
@@ -61,8 +52,6 @@ class viewSystemUsersAction extends sfAction {
         
         $limit = SystemUser::NO_OF_RECORDS_PER_PAGE;
         $offset = ($pageNumber >= 1) ? (($pageNumber - 1) * $limit) : ($request->getParameter('pageNo', 1) - 1) * $limit;
-
-
 
         $searchClues = $this->_setSearchClues($sortField, $sortOrder, $offset, $limit);
 
@@ -79,8 +68,17 @@ class viewSystemUsersAction extends sfAction {
             $this->getUser()->setAttribute('searchClues', $searchClues);
         }
 
-        $systemUserList = $this->getSystemUserService()->searchSystemUsers($searchClues);
-        $systemUserListCount = $this->getSystemUserService()->getSearchSystemUsersCount($searchClues);
+        $userIds = UserRoleManagerFactory::getUserRoleManager()->getAccessibleEntityIds('SystemUser');
+        
+        if (empty($userIds)) {
+            $systemUserList = array();
+            $systemUserListCount = 0;
+        } else {
+            $searchClues['user_ids'] = $userIds;            
+            $systemUserList = $this->getSystemUserService()->searchSystemUsers($searchClues);
+            $systemUserListCount = $this->getSystemUserService()->getSearchSystemUsersCount($searchClues);
+        }        
+
         $this->_setListComponent($systemUserList, $limit, $pageNumber, $systemUserListCount);
         $this->getUser()->setAttribute('pageNumber', $pageNumber);
         $params = array();
@@ -101,10 +99,16 @@ class viewSystemUsersAction extends sfAction {
                 if ($this->form->isValid()) {
 
                     $searchClues = $this->_setSearchClues($sortField, $sortOrder, $offset, $limit);
-
+                    if (empty($userIds)) {
+                        $systemUserList = array();
+                        $systemUserListCount = 0;
+                    } else {
+                        $searchClues['user_ids'] = $userIds;            
+                        $systemUserList = $this->getSystemUserService()->searchSystemUsers($searchClues);
+                        $systemUserListCount = $this->getSystemUserService()->getSearchSystemUsersCount($searchClues);
+                    } 
+                    
                     $this->getUser()->setAttribute('searchClues', $searchClues);
-                    $systemUserList = $this->getSystemUserService()->searchSystemUsers($searchClues);
-                    $systemUserListCount = $this->getSystemUserService()->getSearchSystemUsersCount($searchClues);
                     $this->_setListComponent($systemUserList, $limit, $pageNumber, $systemUserListCount);
                 }
             }else{
@@ -121,7 +125,7 @@ class viewSystemUsersAction extends sfAction {
      */
     private function _setListComponent($systemUserList, $limit, $pageNumber, $recordCount) {
 
-        $configurationFactory = new SystemUserHeaderFactory();
+        $configurationFactory = $this->getSystemUserHeaderFactory();
 
         $configurationFactory->setRuntimeDefinitions(array(
             'hasSelectableRows' => true,
@@ -136,11 +140,15 @@ class viewSystemUsersAction extends sfAction {
     }
 
     private function _setSearchClues($sortField, $sortOrder, $offset, $limit) {
+        
+        $empData = $this->form->getValue('employeeName');
+        
         $searchClues = array(
             'userName' => $this->form->getValue('userName'),
             'userType' => $this->form->getValue('userType'),
-            'employeeId' => $this->form->getValue('employeeId'),
+            'employeeId' => $empData['empId'],
             'status' => $this->form->getValue('status'),
+            'location' => $this->form->getValue('location'),
             'sortField' => $sortField,
             'sortOrder' => $sortOrder,
             'offset' => $offset,
@@ -150,6 +158,10 @@ class viewSystemUsersAction extends sfAction {
 
         return $searchClues;
     }
+    
+    protected function getSystemUserHeaderFactory() {
+
+        return new SystemUserHeaderFactory();
+    }
 
 }
-

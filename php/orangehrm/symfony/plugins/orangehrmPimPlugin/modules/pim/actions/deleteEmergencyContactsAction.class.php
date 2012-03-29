@@ -36,7 +36,11 @@ class deleteEmergencyContactsAction extends basePimAction {
     	$this->form = new EmployeeEmergencyContactsDeleteForm(array(), array('empNumber' => $empNumber), true);
         
     	$this->form->bind($request->getParameter($this->form->getName()));        
-
+        
+        if (!$this->IsActionAccessible($empNumber)) {
+            $this->forward(sfConfig::get('sf_secure_module'), sfConfig::get('sf_secure_action'));
+        }
+        
         if ($this->form->isValid()) {
                 
                 if (!$empNumber) {

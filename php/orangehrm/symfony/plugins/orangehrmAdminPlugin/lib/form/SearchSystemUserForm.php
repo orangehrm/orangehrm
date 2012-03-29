@@ -29,26 +29,36 @@ class SearchSystemUserForm extends BaseForm {
 
     public function configure() {
 
-        $userRoleList = $this->getPreDefinedUserRoleList();
+        $userRoleList = $this->getAssignableUserRoleList();
         $statusList = $this->getStatusList();
 
-        $this->setWidgets(array(
-            'userName' => new sfWidgetFormInputText(),
-            'userType' => new sfWidgetFormSelect(array('choices' => $userRoleList)),
-            'employeeName' => new sfWidgetFormInputText(),
-            'employeeId' => new sfWidgetFormInputHidden(),
-            'status' => new sfWidgetFormSelect(array('choices' => $statusList)),
-        ));
+        $widgets = array();
 
-        $this->setValidators(array(
-            'userName' => new sfValidatorString(array('required' => false)),
-            'userType' => new sfValidatorString(array('required' => false)),
-            'employeeName' => new sfValidatorString(array('required' => false)),
-            'employeeId' => new sfValidatorString(array('required' => false)),
-            'status' => new sfValidatorString(array('required' => false)),
-        ));
+        $widgets['userName'] = new sfWidgetFormInputText();
+        $widgets['userType'] = new sfWidgetFormSelect(array('choices' => $userRoleList));
+        $widgets['employeeName'] = new ohrmWidgetEmployeeNameAutoFill();
+        $widgets['status'] = new sfWidgetFormSelect(array('choices' => $statusList));        
+        $this->setWidgets($widgets);
+                
+        $validators = array();
+        $validators['userName'] = new sfValidatorString(array('required' => false));
+        $validators['userType'] = new sfValidatorChoice(array('required' => false, 
+                'choices' => array_keys($userRoleList)));                
+        $validators['employeeName'] = new ohrmValidatorEmployeeNameAutoFill();
+        $validators['status'] = new sfValidatorChoice(array('required' => false, 
+                'choices' => array_keys($statusList)));
+        
+        $this->setValidators($validators);
 
-        $this->widgetSchema->setNameFormat('searchSystemUser[%s]');
+        //merge location filter
+        $formExtension = PluginFormMergeManager::instance();
+        $formExtension->mergeForms($this, 'viewSystemUsers', 'SearchSystemUserForm');
+
+        $this->getWidgetSchema()->setNameFormat('searchSystemUser[%s]');
+        $this->getWidgetSchema()->setLabels($this->getFormLabels());
+
+        sfWidgetFormSchemaFormatterBreakTags::setNoOfColumns(3);
+        $this->getWidgetSchema()->setFormFormatterName('BreakTags');
     }
 
     /**
@@ -56,12 +66,17 @@ class SearchSystemUserForm extends BaseForm {
      * 
      * @return array
      */
-    private function getPreDefinedUserRoleList() {
+    private function getAssignableUserRoleList() {
         $list = array();
         $list[] = __("All");
-        $userRoles = $this->getSystemUserService()->getPreDefinedUserRoles();
+        $userRoles = $this->getSystemUserService()->getAssignableUserRoles();
+        
+        $accessibleRoleIds = UserRoleManagerFactory::getUserRoleManager()->getAccessibleEntityIds('UserRole');
+        
         foreach ($userRoles as $userRole) {
-            $list[$userRole->getId()] = $userRole->getName();
+            if (in_array($userRole->getId(), $accessibleRoleIds)) {
+                $list[$userRole->getId()] = $userRole->getDisplayName();
+            }
         }
         return $list;
     }
@@ -75,39 +90,28 @@ class SearchSystemUserForm extends BaseForm {
         return $list;
     }
 
-    public function getEmployeeListAsJson() {
-
-        $jsonArray = array();
-        $employeeService = new EmployeeService();
-        $employeeService->setEmployeeDao(new EmployeeDao());
-
-        $employeeList = $employeeService->getEmployeeList();
-
-        $employeeUnique = array();
-        foreach ($employeeList as $employee) {
-            $workShiftLength = 0;
-
-            if (!isset($employeeUnique[$employee->getEmpNumber()])) {
-
-                $name = $employee->getFullName();
-
-                $employeeUnique[$employee->getEmpNumber()] = $name;
-                $jsonArray[] = array('name' => $name, 'id' => $employee->getEmpNumber());
-            }
-        }
-
-        $jsonString = json_encode($jsonArray);
-
-        return $jsonString;
-    }
-
     public function setDefaultDataToWidgets($searchClues) {
         $this->setDefault('userName', $searchClues['userName']);
         $this->setDefault('userType', $searchClues['userType']);
-        $this->setDefault('employeeName', $searchClues['employeeName']);
-        $this->setDefault('employeeId', $searchClues['employeeId']);
+        if (isset($searchClues['employeeName'])) {
+            $this->setDefault('employeeName', $searchClues['employeeName']);
+        }
         $this->setDefault('status', $searchClues['status']);
     }
 
-}
+    /**
+     *
+     * @return array
+     */
+    protected function getFormLabels() {
+        $labels = array(
+            'userName' => __('Username'),
+            'userType' => __('User Type'),
+            'employeeName' => __('Employee Name'),
+            'status' => __('Status')
+        );
 
+        return $labels;
+    }
+
+}

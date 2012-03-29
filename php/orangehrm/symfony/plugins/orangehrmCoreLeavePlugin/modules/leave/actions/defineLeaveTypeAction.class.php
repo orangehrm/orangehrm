@@ -3,13 +3,6 @@
 class defineLeaveTypeAction extends orangehrmAction {
 
     protected $leaveTypeService;
-
-    public function preExecute() {
-        parent::preExecute();
-        if ($this->getUser()->getAttribute('auth.isAdmin') != 'Yes') {
-            $this->redirect('leave/viewMyLeaveList');
-        }
-    }
     
     public function execute($request) {
         

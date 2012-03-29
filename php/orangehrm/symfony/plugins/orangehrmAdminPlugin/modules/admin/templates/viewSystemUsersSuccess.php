@@ -46,30 +46,11 @@
         <div class="searchbox">
             <form id="search_form" method="post" action="<?php echo url_for('admin/viewSystemUsers'); ?>">
                 <div id="formcontent">
-                    
-                    <?php
-                    echo $form['_csrf_token'];
-                    echo $form->renderHiddenFields(); 
-                    
-                    echo $form['employeeName']->renderLabel(__("Employee Name"));
-                    echo $form['employeeName']->render();
-                   
-                    echo $form['userType']->renderLabel(__("User Type"));
-                    echo $form['userType']->render();
 
-                    echo $form['userName']->renderLabel(__("Username"));
-                    echo $form['userName']->render();
-                    
-                    ?>
-                    <div class="errorHolder"></div>
-                    <br class="clear"/>
                     <?php
-                    echo $form['status']->renderLabel(__("Status"));
-                    echo $form['status']->render();
-
-                    
+                    echo $form->render();
                     ?>
-                    
+                    <div class="errorHolder"></div>                    
                 </div>
                 <div class="actionbar">
                     <div class="actionbuttons">
@@ -125,8 +106,6 @@
     var addUserUrl          =   '<?php echo url_for('admin/saveSystemUser'); ?>';
     var viewUserUrl          =   '<?php echo url_for('admin/viewSystemUsers'); ?>';
     var lang_typeforhint    =   '<?php echo __("Type for hints") . "..."; ?>';
-    var employees           =   <?php echo str_replace('&#039;', "'", $form->getEmployeeListAsJson()) ?> ;
-    var employeesArray      =   eval(employees);
     var user_ValidEmployee  =   '<?php echo __(ValidationMessages::INVALID); ?>';
 
 </script>

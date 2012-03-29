@@ -674,7 +674,7 @@ class LeaveRequestService extends BaseService {
     public function getLeaveActions($leave, $loggedUserId, $listMode) {
         $actions = array();
 
-        if ($leave->canApprove() && $listMode != LeaveListForm::MODE_MY_LEAVE_DETAILED_LIST && $leave->getEmployeeId() != $loggedUserId) {
+        if ($leave->canApprove() && $listMode != viewLeaveRequestAction::MODE_MY_LEAVE_DETAILED_LIST && $leave->getEmployeeId() != $loggedUserId) {
             $actions['markedForApproval'] = 'Approve';
             $actions['markedForRejection'] = 'Reject';
         }
@@ -724,6 +724,9 @@ class LeaveRequestService extends BaseService {
         return $this->getLeaveRequestDao()->getTotalLeaveDuration($employeeId, $date);
     }
 
+    public function getLeaveById($leaveId) {
+        return $this->getLeaveRequestDao()->getLeaveById($leaveId);
+    }
      /**
      *
      * @param ParameterObject $searchParameters

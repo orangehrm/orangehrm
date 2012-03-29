@@ -27,17 +27,15 @@ class deleteEmployeesAction extends basePimAction {
      * Delete action. Deletes the employees with the given ids
      */
     public function execute($request) {
+        
+        $ids = $request->getParameter('chkSelectRow');
 
-        // Check if admin mode - temporary solution - use symfony
-        $adminMode = $this->getUser()->hasCredential(Auth::ADMIN_ROLE);
-
-        if (!$adminMode) {
-            return $this->forward("pim", "unauthorized");
+        $userRoleManager = $this->getContext()->getUserRoleManager();
+        if (!$userRoleManager->areEntitiesAccessible('Employee', $ids)) {
+            $this->forward(sfConfig::get('sf_secure_module'), sfConfig::get('sf_secure_action'));
         }
-
-        $ids = $request->getParameter('ids');
-
-        $employeeService = $this->getEmployeeService();
+        
+        $employeeService = $this->getEmployeeService();               
         $count = $employeeService->deleteEmployee($ids);
 
         if ($count == count($ids)) {

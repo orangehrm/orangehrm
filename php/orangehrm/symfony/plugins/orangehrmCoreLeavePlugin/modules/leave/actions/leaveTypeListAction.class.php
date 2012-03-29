@@ -2,12 +2,6 @@
 
 class leaveTypeListAction extends orangehrmAction {
 
-    public function preExecute() {
-        if ($this->getUser()->getAttribute('auth.isAdmin') != 'Yes') {
-            $this->redirect('leave/viewMyLeaveList');
-        }
-    }
-    
     public function execute($request) {
 
         $message = $this->getUser()->getFlash('templateMessage');

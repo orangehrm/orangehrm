@@ -35,14 +35,13 @@ class SystemUserForm extends BaseForm {
         if (!empty($this->userId)) {
             $this->edited = true;
         }
-        $userRoleList = $this->getPreDefinedUserRoleList();
+        $userRoleList = $this->getAssignableUserRoleList();
         $statusList = $this->getStatusList();
 
         $this->setWidgets(array(
             'userId' => new sfWidgetFormInputHidden(),
             'userType' => new sfWidgetFormSelect(array('choices' => $userRoleList)),
-            'employeeName' => new sfWidgetFormInputText(),
-            'employeeId' => new sfWidgetFormInputHidden(),
+            'employeeName' => new ohrmWidgetEmployeeNameAutoFill(),
             'userName' => new sfWidgetFormInputText(),
             'password' => new sfWidgetFormInputPassword(),
             'confirmPassword' => new sfWidgetFormInputPassword(),
@@ -52,9 +51,9 @@ class SystemUserForm extends BaseForm {
 
         $this->setValidators(array(
             'userId' => new sfValidatorNumber(array('required' => false)),
-            'userType' => new sfValidatorString(array('required' => true, 'max_length' => 3)),
-            'employeeName' => new sfValidatorString(array('required' => true, 'max_length' => 200)),
-            'employeeId' => new sfValidatorString(array('required' => true)),
+            'userType' => new sfValidatorChoice(array('required' => true, 
+                                                      'choices' => array_keys($userRoleList))),            
+            'employeeName' => new ohrmValidatorEmployeeNameAutoFill(),
             'userName' => new sfValidatorString(array('required' => true, 'max_length' => 20)),
             'password' => new sfValidatorString(array('required' => false, 'max_length' => 20)),
             'confirmPassword' => new sfValidatorString(array('required' => false, 'max_length' => 20)),
@@ -78,8 +77,7 @@ class SystemUserForm extends BaseForm {
 
         $this->setDefault('userId', $systemUser->getId());
         $this->setDefault('userType', $systemUser->getUserRoleId());
-        $this->setDefault('employeeName', $systemUser->getEmployee()->getFullName());
-        $this->setDefault('employeeId', $systemUser->getEmpNumber());
+        $this->setDefault('employeeName', array('empName' => $systemUser->getEmployee()->getFullName(), 'empId' => $systemUser->getEmployee()->getEmpNumber()));
         $this->setDefault('userName', $systemUser->getUserName());
         $this->setDefault('status', $systemUser->getStatus());
     }
@@ -89,11 +87,16 @@ class SystemUserForm extends BaseForm {
      * 
      * @return array
      */
-    private function getPreDefinedUserRoleList() {
+    private function getAssignableUserRoleList() {
         $list = array();
-        $userRoles = $this->getSystemUserService()->getPreDefinedUserRoles();
+        $userRoles = $this->getSystemUserService()->getAssignableUserRoles();
+        
+        $accessibleRoleIds = UserRoleManagerFactory::getUserRoleManager()->getAccessibleEntityIds('UserRole');
+        
         foreach ($userRoles as $userRole) {
-            $list[$userRole->getId()] = $userRole->getName();
+            if (in_array($userRole->getId(), $accessibleRoleIds)) {
+                $list[$userRole->getId()] = $userRole->getDisplayName();
+            }
         }
         return $list;
     }
@@ -130,13 +133,14 @@ class SystemUserForm extends BaseForm {
         }
 
         $user->setUserRoleId($this->getValue('userType'));
-        $user->setEmpNumber($this->getValue('employeeId'));
+        $empData = $this->getValue('employeeName');
+        $user->setEmpNumber($empData['empId']);
         $user->setUserName($this->getValue('userName'));
 
         $user->setStatus($this->getValue('status'));
 
         
-        $this->getSystemUserService()->saveSystemUser($user, $changePasword);
+        return $this->getSystemUserService()->saveSystemUser($user, $changePasword);
         
     }
 

@@ -10,69 +10,35 @@
     var lang_userNameRequired = "<?php echo __("Should have at least %number% characters", array('%number%' => 5)); ?>";
     var lang_passwordRequired = "<?php echo __("Should have at least %number% characters", array('%number%' => 4)); ?>";
     var lang_unMatchingPassword = "<?php echo __("Passwords do not match"); ?>";
-    var lang_statusRequired = "<?php echo __(ValidationMessages::REQUIRED);?>";
-    var cancelNavigateUrl = "<?php echo public_path("../../index.php?menu_no_top=hr");?>";
-    var createUserAccount = "<?php echo $createUserAccount;?>";
+    var lang_statusRequired = "<?php echo __(ValidationMessages::REQUIRED); ?>";
+    var lang_locationRequired = "<?php echo __(ValidationMessages::REQUIRED); ?>";
+    var cancelNavigateUrl = "<?php echo public_path("../../index.php?menu_no_top=hr"); ?>";
+    var createUserAccount = "<?php echo $createUserAccount; ?>";
     var ldapInstalled = <?php echo ($sf_user->hasAttribute('ldap.available'))?'true':'false'; ?>;
     
     //]]>
 </script>
+
+<style type="text/css">
+    table#mytable td {
+        width: auto;
+    }
+    table#mytable tr {
+        width: auto;
+    }
+    table#mytable tbody {
+        width: 700px;
+    }
+</style>
+
 <div id="messagebar" class="<?php echo isset($messageType) ? "messageBalloon_{$messageType}" : ''; ?>" style="margin-left: 16px;width: 700px;">
     <span style="font-weight: bold;"><?php echo isset($message) ? $message : ''; ?></span>
 </div>
 <div class="outerbox">
     <div class="mainHeading"><h2><?php echo __('Add Employee'); ?></h2></div>
     <div>
-        <form id="frmAddEmp" method="post" action="<?php echo url_for('pim/addEmployee'); ?>" enctype="multipart/form-data">
-            <?php echo $form['_csrf_token']; ?> 
-            <?php echo $form['empNumber']->render(); ?>
-            <table width="97%" border="0" align="center">
-                <tr>
-                    <td width="123">&nbsp;&nbsp;<?php echo __('Full Name'); ?></td>
-                    <td valign="top"><?php echo $form['firstName']->render(array("class" => "formInputText", "maxlength" => 30)); ?><br class="clear" /></td>
-                    <td valign="top"><?php echo $form['middleName']->render(array("class" => "formInputText", "maxlength" => 30)); ?></td>
-                    <td valign="top"><?php echo $form['lastName']->render(array("class" => "formInputText", "maxlength" => 30)); ?><br class="clear" /></td>
-                </tr>
-                <tr>
-                    <td>&nbsp;</td>
-                    <td class="helpText"><?php echo __('First Name'); ?><span class="required">*</span></td>
-                    <td class="helpText"><?php echo __('Middle Name'); ?></td>
-                    <td class="helpText"><?php echo __('Last Name'); ?><span class="required">*</span></td>
-                </tr>
-            </table>
-            
-            <div>
-                <?php echo $form['employeeId']->renderLabel(__('Employee Id')); ?>
-                <?php echo $form['employeeId']->render(array("class" => "formInputText", "maxlength" => 10)); ?>
-                <br class="clear" />
-
-                <?php echo $form['photofile']->renderLabel(__('Photograph')); ?>
-                <?php echo $form['photofile']->render(array("class" => "duplexBox")); ?><span class="helpText"><?php echo __(CommonMessages::FILE_LABEL_IMAGE); ?></span>
-                <br class="clear" />
-            </div>
-            <?php 
-                echo $form['chkLogin']->render(); 
-                echo $form['chkLogin']->renderLabel('Create Login Details', array('style' => "width:117px", 'id' => 'chkLoginLbl')); 
-            ?>
-            <div class="hrLine" id="lineSeperator"></div>
-            
-            <!-- create login section starts here -->
-            <table width="95%" border="0" id="loginSection" align="center">
-                <tr>
-                    <td width="115"><?php echo __('User Name'); ?><span class="required">*</span></td>
-                    <td><?php echo $form['user_name']->render(array("class" => "formInputText", "maxlength" => 20)); ?><br class="clear" /></td>
-                    <td><?php echo __('Status'); ?><span class="required">*</span></td>
-                    <td><?php echo $form['status']->render(array("class" => "formInputText")); ?><br class="clear" /></td>
-                </tr>
-                <tr>
-                    <td><?php echo __('Password'); ?><span class="required passwordRequired">*</span></td>
-                    <td><?php echo $form['user_password']->render(array("class" => "formInputText", "maxlength" => 20)); ?><br class="clear" /></td>
-                    <td><?php echo __('Confirm Password'); ?><span class="required passwordRequired">*</span></td>
-                    <td><?php echo $form['re_password']->render(array("class" => "formInputText", "maxlength" => 20)); ?><br class="clear" /></td> 
-                </tr>
-            </table>
-            
-
+        <form id="frmAddEmp" method="post" action="<?php echo url_for('pim/addEmployee'); ?>" enctype="multipart/form-data" style="width: auto">
+            <table id="addEmployeeTbl"><?php echo $form->render(); ?> </table>                       
             <div class="formbuttons">
                 <input type="button" class="savebutton" id="btnSave" value="<?php echo __("Save"); ?>"  />
                 <input type="button" class="savebutton" id="btnCancel" value="<?php echo __("Cancel"); ?>" />

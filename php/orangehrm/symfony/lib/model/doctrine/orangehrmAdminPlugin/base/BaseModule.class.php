@@ -8,13 +8,16 @@
  * @property integer $id
  * @property string $name
  * @property integer $status
+ * @property Doctrine_Collection $Screen
  * 
- * @method integer getId()     Returns the current record's "id" value
- * @method string  getName()   Returns the current record's "name" value
- * @method integer getStatus() Returns the current record's "status" value
- * @method Module  setId()     Sets the current record's "id" value
- * @method Module  setName()   Sets the current record's "name" value
- * @method Module  setStatus() Sets the current record's "status" value
+ * @method integer             getId()     Returns the current record's "id" value
+ * @method string              getName()   Returns the current record's "name" value
+ * @method integer             getStatus() Returns the current record's "status" value
+ * @method Doctrine_Collection getScreen() Returns the current record's "Screen" collection
+ * @method Module              setId()     Sets the current record's "id" value
+ * @method Module              setName()   Sets the current record's "name" value
+ * @method Module              setStatus() Sets the current record's "status" value
+ * @method Module              setScreen() Sets the current record's "Screen" collection
  * 
  * @package    orangehrm
  * @subpackage model
@@ -43,6 +46,8 @@ abstract class BaseModule extends sfDoctrineRecord
     public function setUp()
     {
         parent::setUp();
-        
+        $this->hasMany('Screen', array(
+             'local' => 'id',
+             'foreign' => 'module_id'));
     }
 }

@@ -77,7 +77,6 @@
 
                             <?php echo $form['_csrf_token']; ?>
                             <?php echo $form["empNumber"]->render(); ?>
-                            <?php echo $form["selectedEmployee"]->render(); ?>
                             <?php echo $form["previousRecord"]->render(); ?>
                             <div id="reportTo" class="reportTo">
                                 <?php echo $form['type_flag']->render(); ?>
@@ -261,8 +260,6 @@
                                 //<![CDATA[
                                 var fileModified = 0;
                                 var typeForHints = '<?php echo __("Type for hints") . "..."; ?>';
-                                var employees = <?php echo str_replace('&#039;', "'", $form->getEmployeeListAsJson()) ?> ;
-                                var employeesArray = eval(employees);
                                 var addSupervisor = '<?php echo __("Add Supervisor"); ?>';
                                 var addSubordinate = '<?php echo __("Add Subordinate"); ?>';
                                 var deleteWarning = '<?php echo __(TopLevelMessages::SELECT_RECORDS); ?>';

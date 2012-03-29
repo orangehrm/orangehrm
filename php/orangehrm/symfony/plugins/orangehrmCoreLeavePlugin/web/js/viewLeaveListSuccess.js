@@ -1,47 +1,5 @@
 $(document).ready(function() {
     
-    if ($("#leaveList_txtEmployee").val() == '' || $("#leaveList_txtEmployee").val() == lang_typeHint) {
-        $("#leaveList_txtEmployee").addClass("inputFormatHint").val(lang_typeHint);
-    }
-
-    $("#leaveList_txtEmployee").one('focus', function() {
-
-        if ($(this).hasClass("inputFormatHint")) {
-            $(this).val("");
-            $(this).removeClass("inputFormatHint");
-        }
-    });
-
-
-    //Auto complete
-    $("#leaveList_txtEmployee").autocomplete(data, {
-        formatItem: function(item) {
-            return item.name;
-        }
-        ,
-        matchContains:true
-    }).result(function(event, item) {
-        $('#leaveList_txtEmpID').val(item.id);
-    });
-
-    $("#leaveList_txtEmployee").change(function(){
-        autoFill('leaveList_txtEmployee', 'leaveList_txtEmpID', data);
-    });
-
-    function autoFill(selector, filler, data) {
-        $("#" + filler).val(0);
-        if($("#" + selector).val().trim() == "") {
-            $("#" + filler).val("");
-        }
-
-        $.each(data, function(index, item){
-            if(item.name.toLowerCase() == $("#" + selector).val().toLowerCase()) {
-                $("#" + filler).val(item.id);
-                return true;
-            }
-        });
-    }
-    
     var validator = $("#frmFilterLeave").validate({
 
         rules: {

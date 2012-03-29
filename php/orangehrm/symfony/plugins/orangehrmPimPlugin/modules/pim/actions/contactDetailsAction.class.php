@@ -35,20 +35,15 @@ class contactDetailsAction extends basePimAction {
         $contact = $request->getParameter('contact');
         $empNumber = (isset($contact['empNumber']))?$contact['empNumber']:$request->getParameter('empNumber');
         $this->empNumber = $empNumber;
-
-        $adminMode = $this->getUser()->hasCredential(Auth::ADMIN_ROLE);
-        $supervisorMode = $this->isSupervisor($loggedInEmpNum, $empNumber);
         
         //hiding the back button if its self ESS view
         if($loggedInEmpNum == $empNumber) {
 
             $this->showBackButton = false;
         }
-        
-        if($empNumber != $loggedInEmpNum && (!$supervisorMode && !$adminMode)) {
-            //shud b redirected 2 ESS user view
-            //echo("this should be redirected to ESS view, under construction");die();
-            $this->redirect('pim/contactDetails?empNumber='. $loggedInEmpNum);
+                
+        if (!$this->IsActionAccessible($empNumber)) {
+            $this->forward(sfConfig::get('sf_secure_module'), sfConfig::get('sf_secure_action'));
         }
 
         $param = array('empNumber' => $empNumber);

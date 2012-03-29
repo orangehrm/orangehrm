@@ -109,7 +109,7 @@ class AuthorizeService extends BaseService {
      *
      * @param VacancyService $cacancyService 
      */
-    public function setVacancyService($cacancyService) {
+    public function setVacancyService($vacancyService) {
         $this->vacancyService = $vacancyService;
     }
 

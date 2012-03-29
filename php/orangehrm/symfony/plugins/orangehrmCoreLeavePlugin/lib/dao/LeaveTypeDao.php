@@ -96,7 +96,11 @@ class LeaveTypeDao extends BaseDao {
                             ->orderBy('lt.leaveTypeName');
             
             if (!is_null($operationalCountryId)) {
-                $q->andWhere('lt.operationalCountryId = ? ', $operationalCountryId);
+                if (is_array($operationalCountryId)) {
+                    $q->andWhereIn('lt.operationalCountryId', $operationalCountryId);
+                } else {
+                    $q->andWhere('lt.operationalCountryId = ? ', $operationalCountryId);
+                }
             }
             
             $leaveTypeList = $q->execute();

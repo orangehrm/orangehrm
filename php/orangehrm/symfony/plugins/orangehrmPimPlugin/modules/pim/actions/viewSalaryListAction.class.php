@@ -38,15 +38,12 @@ class viewSalaryListAction extends basePimAction {
         $adminMode = $this->getUser()->hasCredential(Auth::ADMIN_ROLE);
         $this->isSupervisor = $this->isSupervisor($loggedInEmpNum, $empNumber);
 
-        $this->essMode = false;
-        if (!$this->isSupervisor && !$adminMode) {
-            if ($empNumber == $loggedInEmpNum) {
-                $this->essMode = true;
-            } else {
-                $this->forward("auth", "unauthorized");
-                return;
-            }
+        $this->essMode = !$adminMode && !empty($loggedInEmpNum) && ($empNumber == $loggedInEmpNum);
+        
+        if (!$this->IsActionAccessible($empNumber)) {
+            $this->forward(sfConfig::get('sf_secure_module'), sfConfig::get('sf_secure_action'));
         }
+            
                        
         if ($this->getUser()->hasFlash('templateMessage')) {
             list($this->messageType, $this->message) = $this->getUser()->getFlash('templateMessage');

@@ -104,15 +104,14 @@ use_javascripts_for_form($form);
     var lang_edit = '<?php echo __('Edit'); ?>';
     var lang_save = '<?php echo __('Save'); ?>';
     var lang_length_exceeded_error = '<?php echo __(ValidationMessages::TEXT_LENGTH_EXCEEDS, array('%amount%' => 250)); ?>';    
-    var data = <?php echo str_replace('&#039;', "'", $form->getEmployeeListAsJson()); ?>;
     var lang_selectAction = '<?php echo __("Select Action");?>';
     
     function submitPage(pageNo) {
         //    location.href = '<?php //echo url_for($baseUrl . '?pageNo='); ?>' + pageNo;
         document.frmFilterLeave.pageNo.value = pageNo;
         document.frmFilterLeave.hdnAction.value = 'paging';
-        if ($('#leaveList_txtEmployee').val() == lang_typeHint) {
-            $('#leaveList_txtEmployee').val('');
+        if ($('#leaveList_txtEmployee_empName').val() == lang_typeHint) {
+            $('#leaveList_txtEmployee_empName').val('');
         }
         document.getElementById('frmFilterLeave').submit();        
     }

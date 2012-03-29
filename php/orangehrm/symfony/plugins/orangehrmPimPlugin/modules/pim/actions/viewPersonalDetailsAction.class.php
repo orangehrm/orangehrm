@@ -48,22 +48,20 @@ class viewPersonalDetailsAction extends basePimAction {
                 $this->showBackButton = false;
             }
             
-            // TODO: Improve
+            // TODO: Improve            
             $adminMode = $this->getUser()->hasCredential(Auth::ADMIN_ROLE);
 
             if ($this->getUser()->hasFlash('templateMessage')) {
                 list($this->messageType, $this->message) = $this->getUser()->getFlash('templateMessage');
             }
-            
-            $supervisorMode = $this->isSupervisor($loggedInEmpNum, $empNumber);
 
             $essMode = !$adminMode && !empty($loggedInEmpNum) && ($empNumber == $loggedInEmpNum);
             $param = array('empNumber' => $empNumber, 'ESS' => $essMode);
-
-            if($empNumber != $loggedInEmpNum && (!$supervisorMode && !$adminMode)) {
-                $this->redirect('pim/viewPersonalDetails?empNumber='. $loggedInEmpNum);
-                exit();
+            
+            if (!$this->IsActionAccessible($empNumber)) {
+                $this->forward(sfConfig::get('sf_secure_module'), sfConfig::get('sf_secure_action'));
             }
+            
             $this->essMode = $essMode;
             
             $this->showDeprecatedFields = OrangeConfig::getInstance()->getAppConfValue(ConfigService::KEY_PIM_SHOW_DEPRECATED);

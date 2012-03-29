@@ -2,13 +2,6 @@
 
 class defineWorkWeekAction extends baseLeaveAction {
 
-    public function preExecute() {
-        parent::preExecute();
-        if ($this->getUser()->getAttribute('auth.isAdmin') != 'Yes') {
-            $this->redirect('leave/viewMyLeaveList');
-        }        
-    }
-    
     public function execute($request) {
 
         $workWeek = $this->getWorkWeekService()->getWorkWeekOfOperationalCountry(null);

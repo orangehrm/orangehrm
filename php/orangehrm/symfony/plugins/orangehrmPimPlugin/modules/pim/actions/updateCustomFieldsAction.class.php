@@ -48,8 +48,10 @@ class updateCustomFieldsAction extends basePimAction {
 
             if ($this->form->isValid()) {
 
-                // validate either ADMIN, supervisor for employee or employee himself
-                // save data
+                $empNumber = $this->form->getValue('EmpID');
+                if (!$this->IsActionAccessible($empNumber)) {
+                    $this->forward(sfConfig::get('sf_secure_module'), sfConfig::get('sf_secure_action'));
+                }
 
                 $this->form->save();
                 $this->getUser()->setFlash('customFieldsMessage', array('success', __(TopLevelMessages::UPDATE_SUCCESS)));                

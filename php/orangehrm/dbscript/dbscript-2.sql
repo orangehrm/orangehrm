@@ -513,7 +513,8 @@ INSERT INTO `hs_hr_config`(`key`, `value`) VALUES ('ldap_server', ''),
     ('timesheet_period_and_start_date', '<TimesheetPeriod><PeriodType>Weekly</PeriodType><ClassName>WeeklyTimesheetPeriod</ClassName><StartDate>1</StartDate><Heading>Week</Heading></TimesheetPeriod>'),
     ('admin.localization.default_language', 'en'),
     ('admin.localization.use_browser_language', 'No'),
-    ('admin.localization.default_date_format', 'Y-m-d');
+    ('admin.localization.default_date_format', 'Y-m-d'),
+    ('authorize_user_role_manager_class', 'BasicUserRoleManager');
 
 INSERT INTO `ohrm_emp_reporting_method`(`reporting_method_id`, `reporting_method_name`) VALUES(1, 'Direct'),
       (2, 'Indirect');
@@ -767,7 +768,7 @@ INSERT INTO `ohrm_filter_field` (`filter_field_id`, `report_group_id`, `name`, `
     (17, 3, 'age_group', 'datediff(current_date(), hs_hr_employee.emp_birthday)/365', 'ohrmReportWidgetAgeGroup', 1, null),
     (18, 3, 'sub_unit', 'hs_hr_employee.work_station', 'ohrmWidgetSubDivisionList', 1, null),
     (19, 3, 'gender', 'hs_hr_employee.emp_gender', 'ohrmReportWidgetGenderDropDown', 1, null),
-    (20, 3, 'location', 'ohrm_location.id', 'ohrmReportWidgetLocationDropDown', 1, null),
+    (20, 3, 'location', 'ohrm_location.id', 'ohrmReportWidgetOperationalCountryLocationDropDown', 1, null),
     (21, 1, 'is_deleted', 'ohrm_project_activity.is_deleted', '', 2, null),
     (22, 3, 'include', 'hs_hr_employee.termination_id', 'ohrmReportWidgetIncludedEmployeesDropDown', 1, 'true');
 
@@ -1048,15 +1049,15 @@ INSERT INTO `ohrm_emp_termination_reason` VALUES (1, 'Other'),
 (9, 'Layed off'),
 (10, 'Dismissed');
 
-INSERT INTO `ohrm_user_role` (`id`, `name`, `is_assignable`, `is_predefined`) VALUES
-(1, 'Admin', 0, 1),
-(2, 'ESS', 0, 1),
-(3, 'Supervisor', 1, 0),
-(4, 'ProjectAdmin', 1, 0),
-(5, 'Interviewer', 1, 0),
-(6, 'Offerer', 1, 0),
-(7, 'Interviewer', 1, 0),
-(8, 'Offerer', 1, 0);
+INSERT INTO `ohrm_user_role` (`id`, `name`, `display_name`, `is_assignable`, `is_predefined`) VALUES
+(1, 'Admin', 'Admin', 1, 1),
+(2, 'ESS', 'ESS', 1, 1),
+(3, 'Supervisor', 'Supervisor', 0, 1),
+(4, 'ProjectAdmin', 'ProjectAdmin', 0, 1),
+(5, 'Interviewer', 'Interviewer', 0, 1),
+(6, 'Offerer', 'Offerer', 0, 1),
+(7, 'Interviewer', 'Interviewer', 0, 1),
+(8, 'Offerer', 'Offerer', 0, 1);
 
 INSERT INTO `ohrm_nationality` (`id`, `name`) VALUES
 (1, 'Afghan'),
@@ -1262,14 +1263,67 @@ INSERT INTO `ohrm_email_notification` (`id`, `name`, `is_enable`) VALUES
 #(6, 'HSP Notifications', 0),
 (7, 'Performance Review Submissions', 0);
 
-INSERT INTO `ohrm_module` (`name`, `status`) VALUES
-('core', 1),
-('admin', 1),
-('pim', 1),
-('leave', 1),
-('time', 1),
-('attendance', 1),
-('recruitment', 1),
-('recruitmentApply', 1),
-('performance', 1),
-('benefits', 0);
+INSERT INTO `ohrm_module` (`id`, `name`, `status`) VALUES
+(1, 'core', 1),
+(2, 'admin', 1),
+(3, 'pim', 1),
+(4, 'leave', 1),
+(5, 'time', 1),
+(6, 'attendance', 1),
+(7, 'recruitment', 1),
+(8, 'recruitmentApply', 1),
+(9, 'performance', 1),
+(10, 'benefits', 0);
+
+INSERT INTO ohrm_screen (`id`, `name`, `module_id`, `action_url`) VALUES
+(1, 'User List', 2, 'viewSystemUsers'),
+(2, 'Add/Edit System User', 2, 'saveSystemUser'),
+(3, 'Delete System Users', 2, 'deleteSystemUsers'),
+(4, 'Add Employee', 3, 'addEmployee'),
+(5, 'View Employee List', 3, 'viewEmployeeList'),
+(6, 'Delete Employees', 3, 'deleteEmployees'),
+(7, 'Leave Type List', 4, 'leaveTypeList'),
+(8, 'Define Leave Type', 4, 'defineLeaveType'),
+(9, 'Undelete Leave Type', 4, 'undeleteLeaveType'),
+(10, 'Delete Leave Type', 4, 'deleteLeaveType'),
+(11, 'View Holiday List', 4, 'viewHolidayList'),
+(12, 'Define Holiday', 4, 'defineHoliday'),
+(13, 'Delete Holiday', 4, 'deleteHoliday'),
+(14, 'Define WorkWeek', 4, 'defineWorkWeek'),
+(16, 'Leave List', 4, 'viewLeaveList'),
+(17, 'Assign Leave', 4, 'assignLeave'),
+(18, 'View Leave Summary', 4, 'viewLeaveSummary'),
+(19, 'Save Leave Entitlements', 4, 'saveLeaveEntitlements');
+
+INSERT INTO ohrm_user_role_screen (user_role_id, screen_id, can_read, can_create, can_update, can_delete) VALUES
+(1, 1, 1, 1, 1, 1),
+(2, 1, 0, 0, 0, 0),
+(3, 1, 0, 0, 0, 0),
+(1, 2, 1, 1, 1, 1),
+(2, 2, 0, 0, 0, 0),
+(3, 2, 0, 0, 0, 0),
+(1, 3, 1, 1, 1, 1),
+(2, 3, 0, 0, 0, 0),
+(3, 3, 0, 0, 0, 0),
+(1, 4, 1, 1, 1, 1),
+(1, 5, 1, 1, 1, 1),
+(3, 5, 1, 0, 0, 0),
+(1, 6, 1, 0, 0, 1),
+(1, 7, 1, 1, 1, 1),
+(1, 8, 1, 1, 1, 1),
+(1, 9, 1, 1, 1, 1),
+(1, 10, 1, 1, 1, 1),
+(1, 11, 1, 1, 1, 1),
+(1, 12, 1, 1, 1, 1),
+(1, 13, 1, 1, 1, 1),
+(1, 14, 1, 1, 1, 1),
+(1, 16, 1, 1, 1, 0),
+(2, 16, 1, 1, 1, 0),
+(1, 17, 1, 1, 1, 0),
+(2, 17, 1, 1, 1, 0),
+(1, 18, 1, 1, 1, 0),
+(2, 18, 1, 0, 0, 0),
+(3, 18, 1, 0, 0, 0),
+(1, 19, 1, 1, 1, 1);
+
+

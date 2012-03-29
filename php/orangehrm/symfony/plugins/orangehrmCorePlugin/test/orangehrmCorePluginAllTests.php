@@ -66,6 +66,13 @@ class orangehrmCorePluginAllTests {
         /* form validators */
         $suite->addTestFile(dirname(__FILE__) . '/form/validate/ohrmValidatorSchemaCompareTest.php');
 
+        /* Authorization */
+        $suite->addTestFile(dirname(__FILE__) . '/authorization/service/UserRoleManagerServiceTest.php');
+        $suite->addTestFile(dirname(__FILE__) . '/authorization/manager/BasicUserRoleManagerTest.php');
+        $suite->addTestFile(dirname(__FILE__) . '/authorization/dao/ScreenPermissionDaoTest.php');
+        $suite->addTestFile(dirname(__FILE__) . '/authorization/service/ScreenPermissionServiceTest.php');
+        $suite->addTestFile(dirname(__FILE__) . '/authorization/dao/ScreenDaoTest.php');
+        
         return $suite;
     }
 

@@ -65,16 +65,16 @@ abstract class basePimAction extends sfAction {
         return false;
     }
     
-    protected function isAdminSupervisorOrEssUser($empNumber) {
+    protected function IsActionAccessible($empNumber) {
         
         $isValidUser = true;
         
-        $loggedInEmpNum = $this->getUser()->getEmployeeNumber();
+        $loggedInEmpNum = $this->getUser()->getEmployeeNumber();     
         
-        $adminMode = $this->getUser()->hasCredential(Auth::ADMIN_ROLE);
-        $supervisorMode = $this->isSupervisor($loggedInEmpNum, $empNumber);        
-        
-        if ($empNumber != $loggedInEmpNum && (!$supervisorMode && !$adminMode)) {
+        $userRoleManager = $this->getContext()->getUserRoleManager();            
+        $accessible = $userRoleManager->isEntityAccessible('Employee', $empNumber);
+            
+        if ($empNumber != $loggedInEmpNum && (!$accessible)) {
             $isValidUser = false;
         }      
         
@@ -87,7 +87,12 @@ abstract class basePimAction extends sfAction {
             return false;
         }
 
-        if ($this->getUser()->hasCredential(Auth::ADMIN_ROLE)) {
+        $userRoleManager = $this->getContext()->getUserRoleManager();   
+        $excludeRoles = array('Supervisor');
+        
+        $accessible = $userRoleManager->isEntityAccessible('Employee', $empNumber, null, $excludeRoles);
+        
+        if ($accessible) {
             return true;
         }
 

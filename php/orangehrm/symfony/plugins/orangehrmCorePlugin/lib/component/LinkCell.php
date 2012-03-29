@@ -37,7 +37,7 @@ class LinkCell extends Cell {
             return content_tag('a', $label, $linkAttributes) 
                     . $this->getHiddenFieldHTML();
         } else {
-            return $this->toValue();
+            return $this->toValue() . $this->getHiddenFieldHTML();
         }
     }
 

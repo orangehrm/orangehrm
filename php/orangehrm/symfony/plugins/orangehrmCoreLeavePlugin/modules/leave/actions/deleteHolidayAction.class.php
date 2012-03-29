@@ -46,11 +46,6 @@ class deleteHolidayAction extends sfAction {
         $this->holidayService = $holidayService;
     }
     
-    public function preExecute() {
-        if ($this->getUser()->getAttribute('auth.isAdmin') != 'Yes') {
-            $this->redirect('leave/viewMyLeaveList');
-        }
-    }
     
     /**
      * view Holiday list

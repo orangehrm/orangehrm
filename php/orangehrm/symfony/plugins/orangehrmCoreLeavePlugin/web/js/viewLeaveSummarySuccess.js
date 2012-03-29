@@ -3,36 +3,33 @@ function initLeaveSummary() {
     /* Making all text boxes non editable by default */
     disableEntitlementTextboxes();
     
-
+    /* Remove edit/save buttons if no editable leave entitlements */
+    var editableRows = $('input[name="txtLeaveEntitled[]"][type="text"]').length;
+    if (editableRows == 0) {
+        $('div[class="actionbar"]').hide();
+    }
+    
     /* Clearing auto-fill fields */
-    $('#leaveSummary_txtEmpName').click(function(){
+    $('#leaveSummary_txtEmpName_empName').click(function(){
         $(this).attr('value', '');
-        $("#leaveSummary_cmbEmpId").attr('value', 0);
+        $("#leaveSummary_txtEmpName_empId").attr('value', 0);
     });
 
     $('#leaveSummary_cmbLeavePeriod').change(function() {
         $('#leaveSummary_hdnSubjectedLeavePeriod').val($('#leaveSummary_cmbLeavePeriod').val());
     });
 
-    /* Auto completion of employees */
-    $('#leaveSummary_txtEmpName').autocomplete(empdata, {
-        formatItem: function(item) {
-            return item.name;
-        }, 
-        matchContains:true
-    }).result(function(event, item) {
-//        $('#leaveSummary_cmbEmpId').val(item.id);
-    });
-
     /* Search button */
     $('#btnSearch').click(function() {
         // 9706 $("#frmLeaveSummarySearch").validate().resetForm();
+        if(userType != 'ESS') {
         recheckEmpId();
         adjustEmpId();
+        }
         $('#hdnAction').val('search');
         
-        if($("#leaveSummary_txtEmpName").val() == lang_typeHint || $("#leaveSummary_txtEmpName").val() =="") {
-            $('#leaveSummary_cmbEmpId').val(0);
+        if($("#leaveSummary_txtEmpName_empName").val() == lang_typeHint || $("#leaveSummary_txtEmpName_empName").val() =="") {
+            $('#leaveSummary_txtEmpName_empId').val(0);
         }
         
         $('#frmLeaveSummarySearch input.inputFormatHint').val('');
@@ -65,8 +62,8 @@ function handleEditButton() {
         var flag = validateInput();
         if(flag) {
             
-            if ($('#leaveSummary_txtEmpName').val() == lang_typeHint) {
-                $('#leaveSummary_txtEmpName').val('');
+            if ($('#leaveSummary_txtEmpName_empName').val() == lang_typeHint) {
+                $('#leaveSummary_txtEmpName_empName').val('');
             }
 
             $('#hdnAction').val('save');
@@ -86,8 +83,8 @@ function handleResetButton() {
 
     $('.formInputText').removeAttr('style');  
     
-    $("#leaveSummary_txtEmpName").val('');
-    $('#leaveSummary_cmbEmpId').val('0');
+    $("#leaveSummary_txtEmpName_empName").val('');
+    $('#leaveSummary_txtEmpName_empId').val('0');
     $('#frmLeaveSummarySearch select').find('option:first').attr('selected','selected');
     $('#leaveSummary_cmbWithTerminated').removeAttr('checked');
     $('#frmLeaveSummarySearch').submit();
@@ -95,27 +92,27 @@ function handleResetButton() {
 }
 function adjustEmpId() {
 
-    empName = $.trim($('#leaveSummary_txtEmpName').val()).toLowerCase();
+    empName = $.trim($('#leaveSummary_txtEmpName_empName').val()).toLowerCase();
 
-    if (empName != 'all' && $('#leaveSummary_cmbEmpId').val() == 0) {
-        $('#leaveSummary_cmbEmpId').val('-1');
+    if (empName != 'all' && $('#leaveSummary_txtEmpName_empId').val() == 0) {
+        $('#leaveSummary_txtEmpName_empId').val('-1');
     }
 
 }
 
 function recheckEmpId() {
 
-    var empDataArray = eval(empdata); // TODO: Try to replace eval()
+    var empDataArray = eval(employees); // TODO: Try to replace eval()
     var empDateCount = empDataArray.length;
 
     var i;
     for (i=0; i<empDateCount; i++) {
 
-        fieldName = $.trim($('#leaveSummary_txtEmpName').val()).toLowerCase();
+        fieldName = $.trim($('#leaveSummary_txtEmpName_empName').val()).toLowerCase();
         arrayName = empDataArray[i].name.toLowerCase();
-        $('#leaveSummary_cmbEmpId').val(0);
+        $('#leaveSummary_txtEmpName_empId').val(0);
         if (fieldName == arrayName) {
-            $('#leaveSummary_cmbEmpId').val(empDataArray[i].id);
+            $('#leaveSummary_txtEmpName_empId').val(empDataArray[i].id);
             break;
         }
     }

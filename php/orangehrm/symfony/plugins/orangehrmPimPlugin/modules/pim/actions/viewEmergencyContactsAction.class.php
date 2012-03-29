@@ -41,7 +41,6 @@ class viewEmergencyContactsAction extends basePimAction {
         $this->empNumber = $empNumber;
 
         $adminMode = $this->getUser()->hasCredential(Auth::ADMIN_ROLE);
-        $supervisorMode = $this->isSupervisor($loggedInEmpNum, $empNumber);
         
         //hiding the back button if its self ESS view
         if($loggedInEmpNum == $empNumber) {
@@ -49,9 +48,8 @@ class viewEmergencyContactsAction extends basePimAction {
             $this->showBackButton = false;
         }
         
-        if($empNumber != $loggedInEmpNum && (!$supervisorMode && !$adminMode)) {
-            //shud b redirected 2 ESS user view
-            $this->redirect('pim/viewEmergencyContacts?empNumber='. $loggedInEmpNum);
+        if (!$this->IsActionAccessible($empNumber)) {
+            $this->forward(sfConfig::get('sf_secure_module'), sfConfig::get('sf_secure_action'));
         }
 
         if ($this->getUser()->hasFlash('templateMessage')) {

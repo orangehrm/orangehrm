@@ -12,6 +12,7 @@ abstract class ohrmListConfigurationFactory implements ListConfigurationFactory 
     protected $initialized = false;
     protected static $userType;
     protected static $userId;
+    protected static $permissions;
 
     public function getHeaderGroups() {
         
@@ -86,6 +87,10 @@ abstract class ohrmListConfigurationFactory implements ListConfigurationFactory 
     public static function setUserId($userId) {
         self::$userId = $userId;
     }
+    
+    public static function setPermissions($permissions) {
+        self::$permissions = $permissions;
+    }    
 
     protected function init() {
         $this->headerGroups = array(new ListHeaderGroup(array()));

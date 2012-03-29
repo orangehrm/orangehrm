@@ -6,8 +6,8 @@
  * @author sujith
  */
 class viewLeaveRequestAction extends sfAction {
-    const MODE_SUPERVISOR_DETAILED_LIST = 'detailed_supervisor_list';
-    const MODE_HR_ADMIN_DETAILED_LIST = 'detailed_hr_admin_list';
+
+    const MODE_ADMIN_DETAILED_LIST = 'detailed_hr_admin_list';
     const MODE_MY_LEAVE_DETAILED_LIST = 'my_leave_detailed_list';
 
     private $leaveRequestService;
@@ -37,17 +37,19 @@ class viewLeaveRequestAction extends sfAction {
 
     protected function getMode($requesterEmpNumber) {
 
-        $user = $this->getUser();
         $loggedInEmpNumber = $this->getUser()->getAttribute('auth.empNumber');
 
         if ($loggedInEmpNumber === $requesterEmpNumber) {
-            $mode = LeaveListForm::MODE_MY_LEAVE_DETAILED_LIST;
-        } else if ($user->getAttribute('auth.isAdmin') == 'Yes') {
-            $mode = LeaveListForm::MODE_HR_ADMIN_DETAILED_LIST;
-        } else if ($user->getAttribute('auth.isSupervisor')) {
-            $mode = LeaveListForm::MODE_SUPERVISOR_DETAILED_LIST;
+            $mode = self::MODE_MY_LEAVE_DETAILED_LIST;
         } else {
-            $mode = LeaveListForm::MODE_MY_LEAVE_DETAILED_LIST;
+            $manager = $this->getContext()->getUserRoleManager();
+            $accessible = $manager->isEntityAccessible('Employee', $requesterEmpNumber);
+            if ($accessible) {
+                $mode = self::MODE_ADMIN_DETAILED_LIST;
+            } else {
+                $this->forward(sfConfig::get('sf_secure_module'), sfConfig::get('sf_secure_action'));
+            }
+            
         }
 
         return $mode;
@@ -55,7 +57,7 @@ class viewLeaveRequestAction extends sfAction {
 
     protected function getTitle($mode, $employee, $leaveList) {
 
-        if ($mode === self::MODE_SUPERVISOR_DETAILED_LIST || $mode === self::MODE_HR_ADMIN_DETAILED_LIST) {
+        if ($mode === self::MODE_ADMIN_DETAILED_LIST) {
             $range = $this->getDateRangeString($leaveList);
             $title = __('Leave Request (%date_range%) %name%', array('%date_range%' => $range, '%name%' => $employee->getFullName()));
         } elseif ($mode === self::MODE_MY_LEAVE_DETAILED_LIST) {
@@ -88,6 +90,14 @@ class viewLeaveRequestAction extends sfAction {
 
         $this->backUrl = stripos($request->getReferer(), 'viewMyLeaveList') === FALSE ?
                 'leave/viewLeaveList' : 'leave/viewMyLeaveList';
+        
+        if ($this->getUser()->hasFlash('myLeave')) {
+            $myLeave = $this->getUser()->getFlash('myLeave');
+            if ($myLeave) {
+                $this->backUrl = 'leave/viewMyLeaveList';
+            }
+        }
+        
         $this->message = $this->getUser()->getFlash('message', '');
         $this->messageType = $this->getUser()->getFlash('messageType', '');
         $this->leaveRequestId = $request->getParameter('id');

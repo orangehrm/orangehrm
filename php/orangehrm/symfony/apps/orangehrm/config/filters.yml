@@ -8,6 +8,8 @@ i18nFilter:
   class: OrangeI18NFilter
 sessionInfoFetcherFilter:
   class: SessionInfoFetcherFilter
+authorizationFilter:
+  class: ohrmAuthorizationFilter
 moduleFilter:
   class: ModuleFilter  
 postExecutionFilter:

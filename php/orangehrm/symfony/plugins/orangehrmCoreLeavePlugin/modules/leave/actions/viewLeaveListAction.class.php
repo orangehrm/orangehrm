@@ -1,10 +1,5 @@
 <?php
 
-/**
- * viewLeaveListAction
- *
- * @author sujith
- */
 class viewLeaveListAction extends sfAction {
 
     protected $leavePeriodService;
@@ -68,25 +63,7 @@ class viewLeaveListAction extends sfAction {
     }
 
     protected function getMode() {
-
-        $user = $this->getUser();
-
-        if ($user->getAttribute('auth.isAdmin') == 'Yes') {
-            $mode = LeaveListForm::MODE_ADMIN_LIST;
-        } else if ($user->getAttribute('auth.isSupervisor')) {
-            $mode = LeaveListForm::MODE_SUPERVISOR_LIST;
-        } else {
-            $mode = LeaveListForm::MODE_MY_LEAVE_LIST;
-        }
-
-        // If my leave list was requested and user has a valid
-        // employee number, switch to my leave list.
-//        if ($mode != LeaveListForm::MODE_MY_LEAVE_LIST &&
-//                $this->requestedMode == LeaveListForm::MODE_MY_LEAVE_LIST &&
-//                !empty($empNumber)) {
-//
-//            $mode = LeaveListForm::MODE_MY_LEAVE_LIST;
-//        }
+        $mode = LeaveListForm::MODE_ADMIN_LIST;
         
         return $mode;
     }
@@ -150,9 +127,10 @@ class viewLeaveListAction extends sfAction {
                     
                     $employeeName = $employee->getFullName();
                     $terminationId = $employee->getTerminationId();
+                    $empData = array('empName' => $employeeName, 'empId' => $employee->getEmpNumber());
 
-                    $this->form->setDefault('txtEmployee', $employeeName);
-                    $values['txtEmployee'] = $employeeName;
+                    $this->form->setDefault('txtEmployee', $empData);
+                    $values['txtEmployee'] = $empData;
 
                     if (!empty($terminationId)) {
                         $terminatedEmp = 'on';
@@ -204,7 +182,8 @@ class viewLeaveListAction extends sfAction {
         $terminatedEmp = $this->_getFilterValue($values, 'cmbWithTerminated', null);
         $fromDate = $this->_getFilterValue($values, 'calFromDate', null);
         $toDate = $this->_getFilterValue($values, 'calToDate', null);
-        $employeeName = $this->_getFilterValue($values, 'txtEmployee', null);
+        $empData = $this->_getFilterValue($values, 'txtEmployee', null);
+        $employeeName = $empData['empName'];
                 
         $message = $this->getUser()->getFlash('message', '');
         $messageType = $this->getUser()->getFlash('messageType', '');
@@ -234,7 +213,7 @@ class viewLeaveListAction extends sfAction {
 
         $list = empty($list) ? null : $list;
         $this->form->setList($list);
-        $this->form->setEmployeeListAsJson($this->getEmployeeListAsJson());
+        $this->form->setEmployeeList($this->getEmployeeList());
         
         $this->message = $message;
         $this->messageType = $messageType;
@@ -284,36 +263,34 @@ class viewLeaveListAction extends sfAction {
     protected function getEmployeeFilter($mode, $empNumber) {
         
         $loggedInEmpNumber = $this->getUser()->getAttribute('auth.empNumber');
-        $employeeFilter = null;
         
+        // default filter to null. Will fetch all employees
+        $employeeFilter = null;
+            
         if ($mode == LeaveListForm::MODE_MY_LEAVE_LIST) {
             
             $employeeFilter = $loggedInEmpNumber;
-        } else if ($mode == LeaveListForm::MODE_ADMIN_LIST) {
-            
-            if (!empty($empNumber)) {
-                $employeeFilter = $empNumber;
-            }
-        } else if ($mode == LeaveListForm::MODE_SUPERVISOR_LIST) {
-            
-            $employeeFilter = array();
-            
-            $subordinates = $this->getEmployeeService()->getSupervisorEmployeeChain($loggedInEmpNumber, true);
-            
-            foreach ($subordinates as $subordinate) {
-                $subordinateId = $subordinate->getEmpNumber();
-                
-                if (empty($empNumber) || ($empNumber == $subordinateId)) {
-                    $employeeFilter[] = $subordinateId;
-                }
-            }
+        } else {
+            $manager = $this->getContext()->getUserRoleManager();
+            $accessibleEmpIds = $manager->getAccessibleEntityIds('Employee');
+
+            if (empty($empNumber)) {
+                $employeeFilter = $accessibleEmpIds;
+            } else {
+                if (in_array($empNumber, $accessibleEmpIds)) {
+                    $employeeFilter = $empNumber;
+                } else {
+                    // Requested employee is not accessible. 
+                    $employeeFilter = array();
+                }           
+            }                
         }
+        
         return $employeeFilter;
     }
 
-    private function getEmployeeListAsJson() {
+    protected function getEmployeeList() {
 
-        $jsonArray = array();
         $employeeService = new EmployeeService();
         $employeeList = array();
 
@@ -324,21 +301,11 @@ class viewLeaveListAction extends sfAction {
         if ($_SESSION['isSupervisor'] && trim(Auth::instance()->getEmployeeNumber()) != "") {
             $employeeList = $employeeService->getSupervisorEmployeeChain(Auth::instance()->getEmployeeNumber());
         }
-        $employeeUnique = array();
-        foreach ($employeeList as $employee) {
-            if (!isset($employeeUnique[$employee->getEmpNumber()])) {
-                $name = $employee->getFullName();
 
-                $employeeUnique[$employee->getEmpNumber()] = $name;
-                $jsonArray[] = array('name' => $name, 'id' => $employee->getEmpNumber());
-            }
-        }
-
-        $jsonString = json_encode($jsonArray);
-
-        return $jsonString;
+        return $employeeList;
+        
     }
-
+    
     /**
      * Set's the current page number in the user session.
      * @param $page int Page Number
@@ -362,8 +329,7 @@ class viewLeaveListAction extends sfAction {
      * Dates are expected in standard date format (yy-dd-mm, 2012-21-02).
      * 
      * @param mode Leave list mode. One of (LeaveListForm::MODE_ADMIN_LIST,
-     *                                      LeaveListForm::MODE_MY_LEAVE_LIST
-     *                                      LeaveListForm::MODE_SUPERVISOR_LIST)                            
+     *                                      LeaveListForm::MODE_MY_LEAVE_LIST)                            
      * @param array $filters Filters
      * @return unknown_type
      */

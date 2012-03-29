@@ -102,7 +102,7 @@ class ohrmWidgetSelectableGroupDropDown extends sfWidgetFormSelect {
         $value_set = array_flip($value);
         $options = array();
 
-        if ($level == 0) {
+        if ($level == 0) {            
             if ($this->getOption('show_select_option')) {
                 $selectLabel = self::escapeOnce($this->getOption('select_option_label'));
                 $selectValue = self::escapeOnce($this->getOption('select_option_value'));
@@ -112,7 +112,7 @@ class ohrmWidgetSelectableGroupDropDown extends sfWidgetFormSelect {
             if ($this->getOption('show_all_option')) {
                 
                 $allLabel = self::escapeOnce($this->getOption('all_option_label'));
-                $allValue = implode(',', $this->getAllKeys($choices));
+                $allValue = ($this->getOption('all_option_value')) ? $this->getOption('all_option_value') : implode(',', $this->getAllKeys($choices));
                 $allAttributes = array('value' => $allValue);
                 
                 if (isset($value_set[strval($allValue)])) {

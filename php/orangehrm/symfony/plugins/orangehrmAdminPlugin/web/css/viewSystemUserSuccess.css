@@ -78,3 +78,7 @@ input#empsearch_employee_name,
 input#empsearch_supervisor_name {
     width: 250px;
 }
+
+br {
+    clear: both;
+}

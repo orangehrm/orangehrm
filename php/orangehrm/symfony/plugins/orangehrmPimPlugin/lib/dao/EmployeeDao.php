@@ -1494,6 +1494,34 @@ class EmployeeDao extends BaseDao {
 
     }
     
+    /**
+     * Get Employees under the given subunits
+     * @param string/array $subUnits Sub Unit IDs
+     * @param type $includeTerminatedEmployees if true, includes terminated employees
+     * @return Array of Employees
+     */
+    public function getEmployeesBySubUnit($subUnits, $includeTerminatedEmployees = false) {
+        try {
+
+            $q = Doctrine_Query::create()
+                               ->from('Employee');
+            if (is_array($subUnits)) {
+                $q->whereIn('work_station', $subUnits);
+            } else {
+                $q->where('work_station = ?', $subUnits);
+            }
+            
+            if (!$includeTerminatedEmployees) {                
+                $q->andwhere("termination_id IS NULL");
+            }
+
+            return $q->execute();
+
+        } catch (Exception $e) {
+            throw new DaoException($e->getMessage(), $e->getCode(), $e);
+        }        
+    }
+    
     
 
 }

@@ -26,17 +26,15 @@
 class AssignLeaveForm extends sfForm {
 
     public $leaveTypeList = array();
-    public $userType;
-    public $loggedUserId;
 
+    protected $employeeService;
+    
     /**
      * Configure ApplyLeaveForm
      *
      */
     public function configure() {
 
-        $this->userType = $this->getOption('userType');
-        $this->loggedUserId = $this->getOption('loggedUserId');
         $this->leaveTypeList = $this->getOption('leaveTypes');
 
         $this->setWidgets($this->getFormWidgets());
@@ -49,14 +47,23 @@ class AssignLeaveForm extends sfForm {
         $this->getWidgetSchema()->setNameFormat('assignleave[%s]');
         $this->getWidgetSchema()->setLabels($this->getFormLabels());
         $this->getWidgetSchema()->setFormFormatterName('BreakTags');
-    }
+    }        
 
     /**
      *
      * @return array
      */
     public function getLeaveTypeList() {
-        return $this->leaveTypeList;
+        
+        $leaveTypeChoices = array();
+
+        $leaveTypeChoices[''] = '--' . __('Select') . '--';
+        
+        foreach ($this->leaveTypeList as $leaveType) {
+            $leaveTypeChoices[$leaveType->getLeaveTypeId()] = $leaveType->getLeaveTypeName();
+        }
+        
+        return $leaveTypeChoices;
     }
 
     /**
@@ -128,31 +135,14 @@ class AssignLeaveForm extends sfForm {
         return $dateRange;
     }
 
-    
-
-    
-
-    /**
-     * Get Employee number
-     * @return int
-     */
-    private function getEmployeeNumber() {
-        $posts = $this->getValues();
-        return $posts['txtEmpID'];
-    }
-
-    public function getEmployeeListAsJson() {
+    protected function getEmployeeListAsJson() {
 
         $jsonArray = array();
-        $employeeService = new EmployeeService();
-        $employeeService->setEmployeeDao(new EmployeeDao());
-
-        if ($this->userType == 'Admin') {
-            $employeeList = $employeeService->getEmployeeList('empNumber', 'ASC', true);
-        } elseif ($this->userType == 'Supervisor') {
-
-            $employeeList = $employeeService->getSupervisorEmployeeChain($this->loggedUserId, true);
-        }
+        $employeeService = $this->getEmployeeService();
+        
+        $locationService = new LocationService();
+        
+        $employeeList = UserRoleManagerFactory::getUserRoleManager()->getAccessibleEntities('Employee');
 
         $employeeUnique = array();
         foreach ($employeeList as $employee) {
@@ -166,11 +156,25 @@ class AssignLeaveForm extends sfForm {
                 } else
                     $workShiftLength = WorkShift :: DEFAULT_WORK_SHIFT_LENGTH;
 
-                $operatinalCountry = $employee->getOperationalCountry();
+                /*$operatinalCountry = $employee->getOperationalCountry();
                 if ($employee->getOperationalCountry() instanceof OperationalCountry) {
                     $employeeCountry = $operatinalCountry->getId();
+                }*/
+                
+                $employeeLocations  = $employee->getLocations();
+                if ($employeeLocations[0] instanceof Location){                
+                    $location = $locationService->getLocationById($employeeLocations[0]->getId());
+                    if ($location instanceof Location) {
+                        $country = $location->getCountry();
+                        if ($country instanceof Country) {
+                            $employeeOperationalCountry = $country->getOperationalCountry();
+                            if ($employeeOperationalCountry instanceof OperationalCountry) {
+                                $employeeCountry = $employeeOperationalCountry->getId();
+                            }
+                        }
+                    }
                 }
-
+                
                 $name = $employee->getFullName();
 
                 $employeeUnique[$employee->getEmpNumber()] = $name;
@@ -202,11 +206,10 @@ class AssignLeaveForm extends sfForm {
      */
     protected function getFormWidgets() {
         $widgets = array(
-            'txtEmpID' => new sfWidgetFormInputHidden(),
-            'txtEmployee' => new sfWidgetFormInput(array(), array('class' => 'formInputText')),
+            'txtEmployee' => new ohrmWidgetEmployeeNameAutoFill(array('jsonList' => $this->getEmployeeListAsJson()), array('class' => 'formInputText')),
             'txtEmpWorkShift' => new sfWidgetFormInputHidden(),
             'txtLeaveType' => new sfWidgetFormChoice(array('choices' => $this->getLeaveTypeList()), array('class' => 'formSelect')),
-            'leaveBalance' => new ohrmWidgetDiv(),
+            'leaveBalance' => new ohrmWidgetDiv(array(), array('style' => 'float:left;padding-top: 10px;')),
             'txtFromDate' => new ohrmWidgetDatePicker(array(), array('id' => 'assignleave_txtFromDate'), array('class' => 'formDateInput')),
             'txtToDate' => new ohrmWidgetDatePicker(array(), array('id' => 'assignleave_txtToDate'), array('class' => 'formDateInput')),
             'txtFromTime' => new sfWidgetFormChoice(array('choices' => $this->getTimeChoices()), array('class' => 'formSelect')),
@@ -226,8 +229,7 @@ class AssignLeaveForm extends sfForm {
         $inputDatePattern = sfContext::getInstance()->getUser()->getDateFormat();
 
         $validators = array(
-            'txtEmpID' => new sfValidatorString(array('required' => false)),
-            'txtEmployee' => new sfValidatorString(array('required' => true), array('required' => __(ValidationMessages::REQUIRED))),
+            'txtEmployee' => new ohrmValidatorEmployeeNameAutoFill(),
             'txtEmpWorkShift' => new sfValidatorString(array('required' => false)),
             'txtLeaveType' => new sfValidatorChoice(array('choices' => array_keys($this->getLeaveTypeList()))),
             'txtFromDate' => new ohrmDateValidator(array('date_format' => $inputDatePattern, 'required' => true),
@@ -265,5 +267,23 @@ class AssignLeaveForm extends sfForm {
         return $labels;
     }
 
+    /**
+     *
+     * @return EmployeeService
+     */
+    public function getEmployeeService() {
+        if (!($this->employeeService instanceof EmployeeService)) {
+            $this->employeeService = new EmployeeService();
+        }
+        return $this->employeeService;
+    }
+
+    /**
+     *
+     * @param EmployeeService $service 
+     */
+    public function setEmployeeService(EmployeeService $service) {
+        $this->employeeService = $service;
+    }     
 }
 

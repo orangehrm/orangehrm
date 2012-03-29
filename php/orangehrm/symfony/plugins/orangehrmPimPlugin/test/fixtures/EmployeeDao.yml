@@ -1,8 +1,17 @@
+Subunit:
+  0: {id: 1, name: 'Organization', description: 'company description', lft: 1, rgt: 14, level: 0}
+  1: {id: 2, name: 'Sales', description: 'department description', lft: 2, rgt: 5, level: 1}
+  2: {id: 3, name: 'Engineering', description: 'sub department description', lft: 6, rgt: 7, level: 1}
+  3: {id: 4, name: 'Marketing', description: 'sub department description', lft: 8, rgt: 9, level: 1}
+  4: {id: 5, name: 'Executive', description: 'sub department description', lft: 10, rgt: 13, level: 1}
+  5: {id: 6, name: 'Sub Executive', description: 'sub department description', lft: 11, rgt: 12, level: 2}
+  6: {id: 7, name: 'Sales Executive', description: 'sub department description', lft: 3, rgt: 4, level: 2}
+  
 Employee:
-  0: {empNumber: 1, firstName: 'Kayla', lastName: 'Abbey', middleName: 'T', employeeId: 'E001', emp_work_email: 'kayla@xample.com', emp_oth_email: 'kayla2@xample.com'}
-  1: {empNumber: 2, firstName: 'Ashley', lastName: 'Abel', middleName: 'ST',employeeId: 'E002', emp_work_email: 'ashley@xample.com', emp_oth_email: 'ashley2@xample.com'}
+  0: {empNumber: 1, firstName: 'Kayla', lastName: 'Abbey', middleName: 'T', employeeId: 'E001', emp_work_email: 'kayla@xample.com', emp_oth_email: 'kayla2@xample.com', work_station: 2}
+  1: {empNumber: 2, firstName: 'Ashley', lastName: 'Abel', middleName: 'ST',employeeId: 'E002', emp_work_email: 'ashley@xample.com', emp_oth_email: 'ashley2@xample.com', work_station: 4}
   2: {empNumber: 3, firstName: 'Renukshan', lastName: 'Saputhanthri', middleName: 'RT', employeeId: 'E003', emp_work_email: 'renukshan@xample.com', emp_oth_email: 'renukshan2@xample.com'}
-  3: {empNumber: 4, firstName: 'Chaturanga', lastName: 'Namal', middleName: 'ST', employeeId: 'E004', emp_work_email: '', emp_oth_email: ''}
+  3: {empNumber: 4, firstName: 'Chaturanga', lastName: 'Namal', middleName: 'ST', employeeId: 'E004', emp_work_email: '', emp_oth_email: '', work_station: 4}
   4: {empNumber: 5, firstName: 'Indiran', lastName: 'Nadarajah', middleName: 'KT', employeeId: 'E005', emp_work_email: '', emp_oth_email: ''}
 
 EmpPassport:

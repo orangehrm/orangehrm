@@ -36,7 +36,7 @@ if (!mysql_query("TRUNCATE TABLE `ohrm_user_role`")) { echo mysql_error(); die; 
 if (!mysql_query("TRUNCATE TABLE `ohrm_user`")) { echo mysql_error(); die; }
 
 // User roles
-$q = "INSERT INTO `ohrm_user_role` (`id`, `name`, `is_assignable`, `is_predefined`) VALUES (1, 'Admin', 0, 1), (2, 'ESS', 0, 1)";
+$q = "INSERT INTO `ohrm_user_role` (`id`, `name`, `display_name`, `is_assignable`, `is_predefined`) VALUES (1, 'Admin', 'Admin', 1, 1), (2, 'ESS', 'ESS', 1, 1)";
 if (!mysql_query($q)) { echo mysql_error(); die; }
 
 // Default admin

@@ -33,10 +33,8 @@ class saveDeleteLicenseAction extends basePimAction {
         $license = $request->getParameter('license');
         $empNumber = (isset($license['emp_number']))?$license['emp_number']:$request->getParameter('empNumber');
 
-        if (!$this->isAdminSupervisorOrEssUser($empNumber)) {
-            $this->getUser()->setFlash('templateMessage', array('warning', __('Access Denied!')));
-            $this->redirect($this->getRequest()->getReferer());
-            return;
+        if (!$this->IsActionAccessible($empNumber)) {
+            $this->forward(sfConfig::get('sf_secure_module'), sfConfig::get('sf_secure_action'));
         }
         
         $this->setLicenseForm(new EmployeeLicenseForm(array(), array('empNumber' => $empNumber), true));

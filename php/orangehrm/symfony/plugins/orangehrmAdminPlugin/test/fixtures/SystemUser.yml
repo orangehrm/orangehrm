@@ -6,9 +6,9 @@ Employee:
   4: {empNumber: 5, firstName: 'Indiran', lastName: 'Nadarajah'}
   
 UserRole:
-  0: {id: 1, name: Admin, is_assignable: 0, is_predefined: 1}
-  1: {id: 2, name: ESS, is_assignable: 0, is_predefined: 1}
-  2: {id: 3, name: Supervisor, is_assignable: 1, is_predefined: 0}
+  0: {id: 1, name: Admin, is_assignable: 1, is_predefined: 1}
+  1: {id: 2, name: ESS, is_assignable: 1, is_predefined: 1}
+  2: {id: 3, name: Supervisor, is_assignable: 0, is_predefined: 1}
   
 SystemUser:
   0: {id: 1, user_role_id: 1, emp_number: 1, user_name: 'samantha', user_password: 'samantha'}

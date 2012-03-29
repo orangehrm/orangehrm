@@ -1,4 +1,5 @@
 <?php
+
 /**
  * OrangeHRM is a comprehensive Human Resource Management (HRM) System that captures
  * all the essential functionalities required for any enterprise.
@@ -16,6 +17,31 @@
  * if not, write to the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
  * Boston, MA  02110-1301, USA
  */
-abstract class PluginEmployee extends BaseEmployee
-{
+abstract class PluginEmployee extends BaseEmployee {
+
+    public function getFirstAndMiddleName() {
+        $name = $this->getFirstName();
+        if ($this->getMiddleName() != '') {
+            $name .= ' ' . $this->getMiddleName();
+        }
+
+        return $name;
+    }
+
+    public function getFullLastName() {
+        $terminationId = $this->getTerminationId();
+        $name = (!empty($terminationId)) ? $this->getLastName() . " (" . __('Past Employee') . ")" : $this->getLastName();
+        
+        return $name;
+    }
+
+    public function getJobTitleName() {
+        $jobTitle = $this->getJobTitle();
+        $jobTitleName = '';
+        if ($jobTitle instanceof JobTitle) {
+            $jobTitleName = ($jobTitle->getIsDeleted() == JobTitle::DELETED) ? $jobTitle->getJobTitleName() . " (" . __("Deleted") . ")" : $jobTitle->getJobTitleName();
+        }
+        return $jobTitleName;
+    }
+
 }

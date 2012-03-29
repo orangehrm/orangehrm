@@ -71,12 +71,6 @@ class defineHolidayAction extends sfAction {
         $this->holidayService = $holidayService;
     }
 
-    public function preExecute() {
-        if ($this->getUser()->getAttribute('auth.isAdmin') != 'Yes') {
-            $this->redirect('leave/viewMyLeaveList');
-        }
-    }
-
     /**
      * Add Holiday
      * @param sfWebRequest $request

@@ -3,12 +3,6 @@
 class deleteLeaveTypeAction extends orangehrmAction {
 
     protected $leaveTypeService;
-
-    public function preExecute() {
-        if ($this->getUser()->getAttribute('auth.isAdmin') != 'Yes') {
-            $this->redirect('leave/viewMyLeaveList');
-        }
-    }
     
     /**
      * Executes deleteLeaveType action
@@ -24,7 +18,9 @@ class deleteLeaveTypeAction extends orangehrmAction {
             } else {
 
                 $leaveTypeService = $this->getLeaveTypeService();
-                $leaveTypeService->deleteLeaveType($request->getParameter('chkSelectRow'));
+                
+                $leaveTypeIds = $request->getParameter('chkSelectRow');
+                $leaveTypeService->deleteLeaveType($leaveTypeIds);
                 $this->getUser()->setFlash('templateMessage', array('SUCCESS', __(TopLevelMessages::DELETE_SUCCESS)));
             }
             

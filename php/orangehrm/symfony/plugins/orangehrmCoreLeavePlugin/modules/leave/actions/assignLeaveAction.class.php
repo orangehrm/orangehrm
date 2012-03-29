@@ -60,12 +60,6 @@ class assignLeaveAction extends baseLeaveAction {
         $this->setForm($form);
         $this->overlapLeave = 0;
 
-        /* Authentication */
-        $userDetails = $this->getLoggedInUserDetails();
-        if ($userDetails['userType'] == 'ESS') {
-            $this->forward('leave', 'viewMyLeaveList');
-        }
-
         /* This section is to save leave request */
         if ($request->isMethod('post')) {
             $this->assignLeaveForm->bind($request->getParameter($this->assignLeaveForm->getName()));
@@ -89,6 +83,10 @@ class assignLeaveAction extends baseLeaveAction {
     }
     
     protected function getLeaveParameterObject(array $formValues) {
+        
+        $empData = $formValues['txtEmployee'];
+        $formValues['txtEmpID'] = $empData['empId'];
+        
         return new LeaveParameterObject($formValues);
     }
     
@@ -96,14 +94,8 @@ class assignLeaveAction extends baseLeaveAction {
      * Retrieve Leave Type List
      */
     protected function getElegibleLeaveTypes() {
-        $leaveTypeChoices = array();
         $leaveTypeList = $this->getLeaveTypeService()->getLeaveTypeList();
-
-        $leaveTypeChoices[''] = '--' . __('Select') . '--';
-        foreach ($leaveTypeList as $leaveType) {
-            $leaveTypeChoices[$leaveType->getLeaveTypeId()] = $leaveType->getLeaveTypeName();
-        }
-        return $leaveTypeChoices;
+        return $leaveTypeList;
     }
 
     /**
@@ -112,12 +104,11 @@ class assignLeaveAction extends baseLeaveAction {
     protected function getAssignLeaveForm() {
         /* Making the optional parameters to create the form */
         $leaveTypes = $this->getElegibleLeaveTypes();
-        $userDetails = $this->getLoggedInUserDetails();
-        if (count($leaveTypes) == 1) {
+
+        if (count($leaveTypes) == 0) {
             $this->templateMessage = array('WARNING', __('No Leave Types with Leave Balance'));
         }
-        $leaveFormOptions = array('leaveTypes' => $leaveTypes, 'userType' => $userDetails['userType'],
-            'loggedUserId' => $userDetails['loggedUserId']);
+        $leaveFormOptions = array('leaveTypes' => $leaveTypes);
         $form = new AssignLeaveForm(array(), $leaveFormOptions, true);
 
         return $form;

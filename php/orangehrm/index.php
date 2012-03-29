@@ -415,18 +415,20 @@ if ($_SESSION['isAdmin'] == 'Yes' || $arrAllRights[Admin]['view']) {
 
     $menuItem->setSubMenuItems($subs);
     $menu[] = $menuItem;
-} else if ($_SESSION['isProjectAdmin'] && !$_SESSION['isSupervisor']) {
-    $menuItem = new MenuItem("admin", $i18n->__("Admin"), './symfony/web/index.php/admin/viewProjects', 'rightMenu');
-    $menuItem->setCurrent($_GET['menu_no_top'] == "eim");
-    $subs[] = new MenuItem("project", $i18n->__("Projects"), "./symfony/web/index.php/admin/viewProjects", 'rightMenu');
-    $menuItem->setSubMenuItems($subs);
-    $menu[] = $menuItem;
-} else if ($_SESSION['isSupervisor'] && $_SESSION['isProjectAdmin']) {
-    $menuItem = new MenuItem("admin", $i18n->__("Admin"), './symfony/web/index.php/admin/viewProjects', 'rightMenu');
-    $menuItem->setCurrent($_GET['menu_no_top'] == "eim");
-    $subs[] = new MenuItem("project", __("Projects"), "./symfony/web/index.php/admin/viewProjects", 'rightMenu');
-    $menuItem->setSubMenuItems($subs);
-    $menu[] = $menuItem;
+} else {
+    
+    $subs = array();
+    
+    if ($_SESSION['isProjectAdmin']) {
+        $subs[] = new MenuItem("project", $i18n->__("Projects"), "./symfony/web/index.php/admin/viewProjects", 'rightMenu');
+    }
+    
+    if (count($subs) > 0) {
+        $menuItem = new MenuItem("admin", $i18n->__("Admin"), '#', 'rightMenu');
+        $menuItem->setCurrent($_GET['menu_no_top'] == "eim");
+        $menuItem->setSubMenuItems($subs);
+        $menu[] = $menuItem;        
+    }
 }
 
 define('PIM_MENU_TYPE', 'left');

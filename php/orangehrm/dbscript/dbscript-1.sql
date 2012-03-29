@@ -1134,6 +1134,7 @@ create table `ohrm_user`(
 create table `ohrm_user_role`(
 	`id` int(10) not null auto_increment,
 	`name` varchar(255) not null,
+	`display_name` varchar(255) not null,
 	`is_assignable` tinyint(1) default 0,
         `is_predefined` tinyint(1) default 0,
 	primary key (`id`)
@@ -1187,6 +1188,25 @@ create table `ohrm_module` (
   `name` varchar(120) default null,
   `status` tinyint default 1,
   primary key  (`id`)
+) engine=innodb default charset=utf8;
+
+create table ohrm_screen (
+  `id` int not null auto_increment, 
+   `name` varchar(100) not null, 
+   `module_id` int not null, 
+   `action_url` varchar(255) not null, 
+   primary key (`id`)
+) engine=innodb default charset=utf8;
+
+create table ohrm_user_role_screen (
+  id int not null auto_increment,
+  user_role_id int not null, 
+  screen_id int not null, 
+  can_read tinyint(1) not null default '0', 
+  can_create tinyint(1) not null default '0',
+  can_update tinyint(1) not null default '0', 
+  can_delete tinyint(1) not null default '0',
+  primary key (`id`)
 ) engine=innodb default charset=utf8;
 
 create table `ohrm_upgrade_history` (
@@ -1641,3 +1661,13 @@ ADD CONSTRAINT `fk_ohrm_holiday_ohrm_operational_country`
     REFERENCES `ohrm_operational_country` (`id`)
     ON DELETE CASCADE
     ON UPDATE CASCADE;
+
+alter table ohrm_screen
+       add constraint foreign key (module_id)
+                             references ohrm_module(id) on delete cascade;
+alter table ohrm_user_role_screen
+       add constraint foreign key (user_role_id)
+                             references ohrm_user_role(id) on delete cascade;
+alter table ohrm_user_role_screen
+       add constraint foreign key (screen_id)
+                             references ohrm_screen(id) on delete cascade;

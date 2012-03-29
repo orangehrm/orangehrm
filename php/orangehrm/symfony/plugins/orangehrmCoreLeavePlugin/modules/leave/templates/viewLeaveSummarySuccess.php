@@ -70,6 +70,7 @@
     
     /* Define language strings here */
     var lang_not_numeric = '<?php echo __(ValidationMessages::INVALID); ?>';
+    var userType = '<?php echo $form->userType; ?>';
     
     $(document).ready(function() {
         
@@ -111,11 +112,6 @@
         */
         
     });
-
-    /* Employee list */
-
-    var empdata = <?php echo str_replace('&#039;', "'", $form->getEmployeeListAsJson()); ?>;
-
 
     function submitPage(pageNo) {
 

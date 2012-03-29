@@ -37,8 +37,14 @@ class updateEmergencyContactAction extends basePimAction {
         $this->empNumber = $empNumber;
 
         $loggedInEmpNum = $this->getUser()->getEmployeeNumber();
-        $adminMode = $this->getUser()->hasCredential(Auth::ADMIN_ROLE);
+        $adminMode = $this->getUser()->hasCredential(Auth::ADMIN_ROLE);        
+
+        if (!$this->IsActionAccessible($empNumber)) {
+            $this->forward(sfConfig::get('sf_secure_module'), sfConfig::get('sf_secure_action'));
+        }
+            
         $essMode = !$adminMode && !empty($loggedInEmpNum) && ($empNumber == $loggedInEmpNum);
+        
         $param = array('empNumber' => $empNumber, 'ESS' => $essMode);
         
         $this->form = new EmployeeEmergencyContactForm(array(), $param, true);

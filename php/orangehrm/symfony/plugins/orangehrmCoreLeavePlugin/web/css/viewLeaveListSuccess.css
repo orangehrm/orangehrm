@@ -132,7 +132,7 @@ form#frmFilterLeave label.mainLabel label.error{
 }
 
 
-form#frmFilterLeave input#leaveList_txtEmployee{
+form#frmFilterLeave input#leaveList_txtEmployee_empName{
     width: 190px;
     margin-top: 9px;
 }

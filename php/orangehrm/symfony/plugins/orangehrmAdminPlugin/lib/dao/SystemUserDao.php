@@ -29,6 +29,7 @@ class SystemUserDao extends BaseDao {
         try {
             $systemUser->clearRelated('Employee');
             $systemUser->save();
+            return $systemUser;
         } catch (Exception $e) {
             throw new DaoException($e->getMessage(), $e->getCode(), $e);
         }
@@ -106,12 +107,23 @@ class SystemUserDao extends BaseDao {
      * 
      * @return Doctrine_Collection 
      */
-    public function getPreDefinedUserRole() {
+    public function getAssignableUserRoles() {
         try {
             $query = Doctrine_Query:: create()->from('UserRole ur')
-                    ->whereIn('ur.is_predefined', 1);
+                    ->whereIn('ur.is_assignable', 1);
 
             return $query->execute();
+        } catch (Exception $e) {
+            throw new DaoException($e->getMessage(), $e->getCode(), $e);
+        }
+    }
+    
+    public function getUserRole($roleName) {
+        try {
+            $query = Doctrine_Query:: create()->from('UserRole ur')
+                    ->where('ur.name = ?', $roleName);
+
+            return $query->fetchOne();
         } catch (Exception $e) {
             throw new DaoException($e->getMessage(), $e->getCode(), $e);
         }
@@ -172,13 +184,27 @@ class SystemUserDao extends BaseDao {
             $query->addWhere('u.user_name = ?', $searchClues['userName']);
         }
         if (!empty($searchClues['userType'])) {
-            $query->addWhere('u.user_role_id = ?', $searchClues['userType']);
+            if (is_array($searchClues['userType'])) {
+                $query->andWhereIn('u.user_role_id', $searchClues['userType']);
+            } else {
+                $query->addWhere('u.user_role_id = ?', $searchClues['userType']);
+            }
         }
         if (!empty($searchClues['employeeId'])) {
             $query->addWhere('u.emp_number = ?', $searchClues['employeeId']);
         }
         if ($searchClues['status'] != '') {
             $query->addWhere('u.status = ?', $searchClues['status']);
+        }
+
+        if ($searchClues['location'] && $searchClues['location'] != '-1') {
+            $query->leftJoin('u.Employee e');
+            $query->leftJoin('e.EmpLocations l');
+            $query->whereIn('l.location_id', explode(',', $searchClues['location']));
+        }
+        
+        if (isset($searchClues['user_ids']) && is_array($searchClues['user_ids'])) {   
+            $query->whereIn('u.id', $searchClues['user_ids']);
         }
 
         $query->addWhere('u.deleted=?', 0);

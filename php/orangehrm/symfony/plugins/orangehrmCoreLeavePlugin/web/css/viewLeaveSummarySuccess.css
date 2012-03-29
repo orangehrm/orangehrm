@@ -58,7 +58,7 @@ div.navigationHearder {
     margin-top: 8px;
 }
 
-#leaveSummary_txtEmpName {
+#leaveSummary_txtEmpName_empName {
     width: 190px;
     display: block;
     float: left;

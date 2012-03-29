@@ -95,7 +95,27 @@ class leaveActions extends sfActions {
 
     }
 
-
+    protected function _getLeaveChangeEmployeeNumbers($changes, $changeType) {
+        
+        $empNumbers = array();
+        $leaveRequestService = $this->getLeaveRequestService();
+           
+        if ($changeType == 'change_leave_request') {
+            $leaveRequestService = $this->getLeaveRequestService();
+            foreach ($changes as $id) {
+                $leaveRequest = $leaveRequestService->fetchLeaveRequest($id);
+                $empNumbers[] = $leaveRequest->getEmpNumber();
+            }
+        } else {
+ 
+            foreach ($changes as $id) {
+                $leave = $leaveRequestService->getLeaveById($id);
+                $empNumbers[] = $leave->getEmployeeId();
+            }
+        }
+        
+        return array_unique($empNumbers);
+    }
 
     /**
      * Change leave status
@@ -115,27 +135,39 @@ class leaveActions extends sfActions {
                 $changes = $request->getParameter('leave');
                 $changeType = 'change_leave';
             }
-            
+
             //this is to bypass the approval/rejection comment
             foreach($changes as $k => $v) {
                 if(trim($v) != "") {
                     $changeComments[$k] = $leaveComments[$k];
                 }
             }
-
-            $changedByUserType = SystemUser::USER_TYPE_EMPLOYEE;
+            
+            $changeIds = array_keys($changes);            
+            $empNumbers = $this->_getLeaveChangeEmployeeNumbers($changeIds, $changeType);
+            
+            $manager = $this->getContext()->getUserRoleManager();
+            $allowed = $manager->areEntitiesAccessible('Employee', $empNumbers);
             
             $mode = $request->getParameter('hdnMode', null);
-            
-            if ($mode != LeaveListForm::MODE_MY_LEAVE_LIST && $mode != LeaveListForm::MODE_MY_LEAVE_DETAILED_LIST) {
-                
-                if (isset($_SESSION['isAdmin']) && $_SESSION['isAdmin']=='Yes') {
+
+            if ($allowed) {
+                if ($mode != LeaveListForm::MODE_MY_LEAVE_LIST && $mode != viewLeaveRequestAction::MODE_MY_LEAVE_DETAILED_LIST) {
                     $changedByUserType = SystemUser::USER_TYPE_ADMIN;
+                } else {
+                    $changedByUserType = SystemUser::USER_TYPE_EMPLOYEE;
                 }
-                if ($_SESSION['isSupervisor']) {                                
-                    $changedByUserType = SystemUser::USER_TYPE_SUPERVISOR;
+
+            } else {
+                // Check if changing own leave status
+                $loggedInEmpNumber = $this->getUser()->getAttribute('auth.empNumber');
+                
+                if ((count($empNumbers) == 1) && ($empNumbers[0] == $loggedInEmpNumber)) {
+                    $changedByUserType = SystemUser::USER_TYPE_EMPLOYEE;
+                } else {
+                    $this->forward(sfConfig::get('sf_secure_module'), sfConfig::get('sf_secure_action'));
                 }
-            }
+            }            
 
             try {
 
@@ -148,9 +180,16 @@ class leaveActions extends sfActions {
             }
 
         }
-        
+
         if ($changedByUserType == SystemUser::USER_TYPE_EMPLOYEE) {
 
+            if ($changeType == 'change_leave') {
+                $url = "leave/viewLeaveRequest";
+                $this->getUser()->setFlash('myLeave', true);
+            } else {
+                $url = "leave/viewMyLeaveList";
+            }
+            
             $url = ($changeType == 'change_leave') ? "leave/viewLeaveRequest" : "leave/viewMyLeaveList";
 
             if(trim($request->getParameter("id")) != "") {

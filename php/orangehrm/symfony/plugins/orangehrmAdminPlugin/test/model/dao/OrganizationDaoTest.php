@@ -34,12 +34,12 @@ class OrganizationDaoTest extends PHPUnit_Framework_TestCase {
     protected function setUp() {
 
         $this->organizationDao = new OrganizationDao();
-        //$this->fixture = sfConfig::get('sf_plugins_dir') . '/orangehrmRecruitmentPlugin/test/fixtures/CandidateDao.yml';
-        //TestDataService::populate($this->fixture);
+        $this->fixture = sfConfig::get('sf_plugins_dir') . '/orangehrmAdminPlugin/test/fixtures/OrganizationDao.yml';
+        TestDataService::populate($this->fixture);
     }
 
     public function testGetOrganizationGeneralInformation(){
-       $this->assertFalse($this->organizationDao->getOrganizationGeneralInformation() instanceof Organization);
+       $this->assertTrue($this->organizationDao->getOrganizationGeneralInformation() instanceof Organization);
     }
 
 }

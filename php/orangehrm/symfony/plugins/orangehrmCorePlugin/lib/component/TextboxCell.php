@@ -3,7 +3,14 @@
 class TextboxCell extends Cell {
 
     public function __toString() {
-        $html = ($this->getPropertyValue('readOnly', false)) ? $this->getValue() : tag('input', array(
+        $readOnly = $this->getPropertyValue('readOnly', false);
+        
+        if (($readOnly instanceof sfOutputEscaperArrayDecorator) || is_array($readOnly)) {
+            list($method, $params) = $readOnly;
+            $readOnly = call_user_func_array(array($this->dataObject, $method), $params->getRawValue());
+        }
+        
+        $html = ($readOnly) ? $this->getValue() : tag('input', array(
                     'type' => 'text',
                     'name' => $this->getPropertyValue('name'),
                     'class' => $this->getPropertyValue('classPattern'),

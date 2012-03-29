@@ -159,7 +159,7 @@
                                       </div> <!-- End of contractReadMode -->
 
                                       <div class="formbuttons">
-                                        <?php if (!$ownRecords): ?>
+                                        <?php if ($allowEdit): ?>
                                               <input type="button" class="savebutton" id="btnSave" style="padding-left: 5px; float: left" value="<?php echo __("Edit"); ?>" />
                                         <?php
                                               $empTermination = $form->empTermination;
@@ -361,7 +361,7 @@
 
 
                                               var readonlyFlag = 0;
-<?php if ($essMode) { ?>
+<?php if (!$allowEdit) { ?>
                                           readonlyFlag = 1;
 <?php } ?>
 

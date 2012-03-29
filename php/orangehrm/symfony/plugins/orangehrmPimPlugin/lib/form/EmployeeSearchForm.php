@@ -23,13 +23,11 @@
  */
 class EmployeeSearchForm extends BaseForm {
 
-    private $userType;
-    private $loggedInUserId;
     private $companyStructureService;
     private $jobService;
     private $jobTitleService;
     private $empStatusService;
-    
+
     const WITHOUT_TERMINATED = 1;
     const WITH_TERMINATED = 2;
     const ONLY_TERMINATED = 3;
@@ -52,19 +50,10 @@ class EmployeeSearchForm extends BaseForm {
 
     public function configure() {
 
-        $this->userType = $this->getOption('userType');
-        $this->loggedInUserId = $this->getOption('loggedInUserId');
-
         $this->setWidgets(array(
-            'employee_name' => new sfWidgetFormInputText(),
+            'employee_name' => new ohrmWidgetEmployeeNameAutoFill(),
             'id' => new sfWidgetFormInputText(),
         ));
-
-        /* Setting job titles */
-        $this->_setJobTitleWidget();
-
-        /* Setting sub divisions */
-        $this->_setSubunitWidget();
 
         $this->_setEmployeeStatusWidget();
 
@@ -73,41 +62,25 @@ class EmployeeSearchForm extends BaseForm {
         $this->setWidget('supervisor_name', new sfWidgetFormInputText());
         $this->setValidator('supervisor_name', new sfValidatorString(array('required' => false)));
 
+        /* Setting job titles */
+        $this->_setJobTitleWidget();
 
-        $this->setValidator('employee_name', new sfValidatorString(array('required' => false)));
+        /* Setting sub divisions */
+        $this->_setSubunitWidget();
+
+
+        $this->setValidator('employee_name', new ohrmValidatorEmployeeNameAutoFill());
         $this->setValidator('id', new sfValidatorString(array('required' => false)));
 
+        $formExtension  =   PluginFormMergeManager::instance();
+        $formExtension->mergeForms( $this,'viewEmployeeList','EmployeeSearchForm');
+
+        
         $this->widgetSchema->setNameFormat('empsearch[%s]');
-    }
+        $this->getWidgetSchema()->setLabels($this->getFormLabels());
+        sfWidgetFormSchemaFormatterBreakTags::setNoOfColumns(4);
+        $this->getWidgetSchema()->setFormFormatterName('BreakTags');
 
-    public function getEmployeeListAsJson() {
-
-        $jsonArray = array();
-        $employeeService = new EmployeeService();
-        $employeeService->setEmployeeDao(new EmployeeDao());
-
-        if ($this->userType == 'Admin') {
-            $employeeList = $employeeService->getEmployeeList('empNumber', 'ASC', true);
-        } elseif ($this->userType == 'Supervisor') {
-
-            $employeeList = $employeeService->getSupervisorEmployeeChain($this->loggedInUserId, true);
-        }
-
-        $employeeUnique = array();
-        foreach ($employeeList as $employee) {
-
-            if (!isset($employeeUnique[$employee->getEmpNumber()])) {
-
-                $name = $employee->getFullName();
-                $employeeUnique[$employee->getEmpNumber()] = $name;
-                $jsonArray[] = array('name' => $name, 'id' => $employee->getEmpNumber());
-                
-            }
-        }
-
-        $jsonString = json_encode($jsonArray);
-
-        return $jsonString;
     }
 
     public function getSupervisorListAsJson() {
@@ -202,7 +175,24 @@ class EmployeeSearchForm extends BaseForm {
         $terminateSelection = array(self::WITHOUT_TERMINATED => __('Current Employees Only'), self::WITH_TERMINATED => __('Current and Past Employees'), self::ONLY_TERMINATED => __('Past Employees Only'));
         $this->setWidget('termination', new sfWidgetFormChoice(array('choices' => $terminateSelection)));
         $this->setValidator('termination', new sfValidatorChoice(array('choices' => array_keys($terminateSelection))));
+    }
 
+    /**
+     *
+     * @return array
+     */
+    protected function getFormLabels() {
+
+        $labels = array(
+            'employee_name' => __('Employee Name'),
+            'id' => __('Id'),
+            'employee_status' => __('Employment Status'),
+            'termination' => __('Include'),
+            'supervisor_name' => __('Supervisor Name'),
+            'job_title' => __('Job Title'),
+            'sub_unit' => __('Sub Unit')
+        );
+        return $labels;
     }
 
 }
