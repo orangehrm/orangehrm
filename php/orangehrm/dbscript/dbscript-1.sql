@@ -1211,11 +1211,11 @@ create table ohrm_user_role_screen (
 
 create table `ohrm_upgrade_history` (
   `id` int(10) not null auto_increment,
-  `from_version` varchar(30) DEFAULT NULL,
-  `to_version` varchar(30) DEFAULT NULL,
-  `from_increment` int(11) NOT NULL,
-  `to_increment` int(11) NOT NULL,
-  `date` datetime DEFAULT NULL,
+  `start_version` varchar(30) DEFAULT NULL,
+  `end_version` varchar(30) DEFAULT NULL,
+  `start_increment` int(11) NOT NULL,
+  `end_increment` int(11) NOT NULL,
+  `upgraded_date` datetime DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8;
 
