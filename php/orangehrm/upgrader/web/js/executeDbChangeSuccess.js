@@ -55,6 +55,7 @@ function changeProceedButtonStatus(status) {
 }
 
 function displayProgress(percentage) {
+    percentage = (Math.round(percentage)).toFixed(2)
     $("#divProgressBarContainer span span").width(percentage+'%');
     $("#spanProgressPercentage").html(percentage+'%');
 }
