@@ -1262,7 +1262,7 @@ EOT;
             {
                 $isActive = $row['is_active'] == 1 ? 0 : 1;
                 $this->jobTitleMapArray[$row['jobtit_code']] = $count;
-                $valueString = "'".$count."', '". $row['jobtit_name']."', '". $row['jobtit_desc']."', '". $row['jobtit_comm']."', '".$isActive ."'";
+                $valueString = "'".$count."', '". $this->upgradeUtility->escapeString(htmlspecialchars_decode($row['jobtit_name']))."', '". $this->upgradeUtility->escapeString(htmlspecialchars_decode($row['jobtit_desc']))."', '". $this->upgradeUtility->escapeString(htmlspecialchars_decode($row['jobtit_comm']))."', '".$isActive ."'";
                 $sql = "INSERT INTO ohrm_job_title 
                             (id, job_title, job_description, note, is_deleted) 
                             VALUES($valueString); ";
@@ -1284,7 +1284,7 @@ EOT;
             while($row = $this->upgradeUtility->fetchArray($empStatus))
             {
                 $this->empStatusMapArray[$row['estat_code']] = $count;
-                $valueString = "'".$count."', '". $row['estat_name']."'";
+                $valueString = "'".$count."', '". $this->upgradeUtility->escapeString($row['estat_name'])."'";
                 $sql = "INSERT INTO ohrm_employment_status
                             (id, name) 
                             VALUES($valueString); ";
