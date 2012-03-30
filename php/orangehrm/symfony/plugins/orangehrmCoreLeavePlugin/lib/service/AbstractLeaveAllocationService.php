@@ -469,7 +469,7 @@ abstract class AbstractLeaveAllocationService extends BaseService {
 
         $employeeWorkShift = $this->getEmployeeService()->getWorkShift($employeeNumber);
 
-        if (!is_null($employeeWorkShift) && ($employeeWorkShift instanceof WorkShift)) {
+        if (!is_null($employeeWorkShift) && ($employeeWorkShift instanceof EmployeeWorkShift)) {
             return $employeeWorkShift->getWorkShift()->getHoursPerDay();
         } else {
             return WorkShift::DEFAULT_WORK_SHIFT_LENGTH;
