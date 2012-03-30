@@ -19,22 +19,10 @@
     //]]>
 </script>
 
-<style type="text/css">
-    table#mytable td {
-        width: auto;
-    }
-    table#mytable tr {
-        width: auto;
-    }
-    table#mytable tbody {
-        width: 700px;
-    }
-</style>
-
 <div id="messagebar" class="<?php echo isset($messageType) ? "messageBalloon_{$messageType}" : ''; ?>" style="margin-left: 16px;width: 700px;">
     <span style="font-weight: bold;"><?php echo isset($message) ? $message : ''; ?></span>
 </div>
-<div class="outerbox">
+<div class="outerbox" style="">
     <div class="mainHeading"><h2><?php echo __('Add Employee'); ?></h2></div>
     <div>
         <form id="frmAddEmp" method="post" action="<?php echo url_for('pim/addEmployee'); ?>" enctype="multipart/form-data" style="width: auto">

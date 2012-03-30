@@ -51,7 +51,7 @@ label {
 .duplexBox {
     margin-top: 7px;
     border: 1px solid #888888;
-    width: 243px;
+    width: 316px;
     float: left;
 }
 
@@ -65,4 +65,13 @@ br {
 
 table#addEmployeeTbl td {
     vertical-align: top;
+}
+
+div.error {
+    clear: both;
+    width: 150px;
+}
+
+#addEmployeeTbl td {
+/*    min-width: 165px;*/
 }

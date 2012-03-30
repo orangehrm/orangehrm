@@ -74,7 +74,7 @@ class AddEmployeeForm extends sfForm {
             'employeeId' => new sfWidgetFormInputText(array(), array("class" => "formInputText", "maxlength" => 10, "colspan" => 3)),
             'photofile' => new sfWidgetFormInputFileEditable(array('edit_mode' => false, 'with_delete' => false, 'file_src' => ''), array("class" => "duplexBox", "colspan" => 2)),
             'helpText' => new ohrmWidgetDiv(),
-            'chkLogin' => new sfWidgetFormInputCheckbox(array('value_attribute_value' => 1), array("class" => "formInputText", "colspan" => 3)),
+            'chkLogin' => new sfWidgetFormInputCheckbox(array('value_attribute_value' => 1), array("style" => "vertical-align:top", "colspan" => 3)),
             'lineSeperator' => new ohrmWidgetDiv(array(), array("colspan" => 3)),
             'user_name' => new sfWidgetFormInputText(array(), array("class" => "formInputText", "maxlength" => 20)),
             'status' => new sfWidgetFormSelect(array('choices' => $status), array("class" => "formInputText", "br" => true)),
