@@ -1482,10 +1482,12 @@ EOT;
             while($row = $this->upgradeUtility->fetchArray($salaryCurrancyDetails))
             {
                 $salGrdCode = $this->salaryGradeMapArray[$row['sal_grd_code']];
+                $minSalary = $row['salcurr_dtl_minsalary'] ? $row['salcurr_dtl_minsalary'] : 0;
+                $maxSalary = $row['salcurr_dtl_maxsalary'] ? $row['salcurr_dtl_maxsalary'] : 0;
                 $preSallaryGrdCode = $row['sal_grd_code'];
                 if($salGrdCode) {
                     $sql = "UPDATE hs_pr_salary_currency_detail SET 
-                     sal_grd_code = '$salGrdCode'
+                     sal_grd_code = '$salGrdCode', salcurr_dtl_minsalary = '$minSalary', salcurr_dtl_maxsalary = '$maxSalary'
                      WHERE sal_grd_code = '$preSallaryGrdCode'";
                     
                     $result = $this->upgradeUtility->executeSql($sql);
