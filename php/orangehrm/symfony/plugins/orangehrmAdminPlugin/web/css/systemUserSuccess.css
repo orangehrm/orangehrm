@@ -8,6 +8,7 @@
 
 label.error {
     width:168px !important;
+    padding-left: 156px !important
 }
 #messagebar{
     width: 540px;
@@ -26,4 +27,14 @@ label.error {
 
 label, span.formLabel, span.wideFormLabel {
     width: 135px !important;
+}
+
+br {
+    clear: both;
+}
+
+.scoreSec { float:left; margin-left:5px; padding:2px; margin-top:5px; font-weight: bold;  width:100px; text-align:center; }
+
+.chkChangePassword {
+    margin-top: 10px;
 }

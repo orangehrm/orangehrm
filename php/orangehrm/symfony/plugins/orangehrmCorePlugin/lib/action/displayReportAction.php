@@ -63,7 +63,6 @@ abstract class displayReportAction extends sfAction {
                 
                 $values = $this->setValues();
 
-
 //                $linkedFilterFieldIdsAndFormValues = $reportGeneratorService->linkFilterFieldIdsToFormValues($selectedRuntimeFilterFieldList, $values);
 //                $runtimeWhereClauseConditionArray = $reportGeneratorService->generateWhereClauseConditionArray($linkedFilterFieldIdsAndFormValues);
 
@@ -141,4 +140,3 @@ abstract class displayReportAction extends sfAction {
     }
 
 }
-

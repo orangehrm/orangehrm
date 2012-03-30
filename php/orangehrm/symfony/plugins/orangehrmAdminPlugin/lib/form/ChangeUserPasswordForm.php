@@ -24,9 +24,9 @@ class ChangeUserPasswordForm extends BaseForm {
 
         $this->setWidgets(array(
             'userId' => new sfWidgetFormInputHidden(),
-            'currentPassword' => new sfWidgetFormInputPassword(),
-            'newPassword' => new sfWidgetFormInputPassword(),
-            'confirmNewPassword' => new sfWidgetFormInputPassword()
+            'currentPassword' => new sfWidgetFormInputPassword(array(), array("class" => "formInputText", "maxlength" => 20)),
+            'newPassword' => new sfWidgetFormInputPassword(array(), array("class" => "formInputText", "maxlength" => 20)),
+            'confirmNewPassword' => new sfWidgetFormInputPassword(array(), array("class" => "formInputText", "maxlength" => 20))
         ));
 
         $this->setValidators(array(
@@ -36,9 +36,45 @@ class ChangeUserPasswordForm extends BaseForm {
             'confirmNewPassword' => new sfValidatorString(array('required' => true, 'max_length' => 20))
         ));
 
-
+        
         $this->widgetSchema->setNameFormat('changeUserPassword[%s]');
 
+        $this->getWidgetSchema()->setLabels($this->getFormLabels());
+
+        //merge secondary password
+        $formExtension = PluginFormMergeManager::instance();
+        $formExtension->mergeForms($this, 'changeUserPassword', 'ChangeUserPasswordForm');
+
+        sfWidgetFormSchemaFormatterBreakTags::setNoOfColumns(1);
+        $this->getWidgetSchema()->setFormFormatterName('BreakTags');
+    }
+
+    /**
+     *
+     * @return array
+     */
+    protected function getFormLabels() {
+        $labels = array(
+            'userId' => false,
+            'currentPassword' => __('Current Password') . '<span class="required">*</span>',
+            'newPassword' => __('New Password') . '<span class="required">*</span>',
+            'confirmNewPassword' => __('Confirm New Password') . '<span class="required">*</span>',
+            'currentPassword' => __('Current Password') . '<span class="required">*</span>',
+        );
+
+        return $labels;
+    }
+
+    public function save() {
+
+        $userId = sfContext::getInstance()->getUser()->getAttribute('user')->getUserId();
+        $systemUserService = new SystemUserService();
+        $posts = $this->getValues();
+        $systemUserService->updatePassword($userId, $posts['newPassword']);
+
+        //save secondary password
+        $formExtension = PluginFormMergeManager::instance();
+        $formExtension->saveMergeForms($this, 'changeUserPassword', 'ChangeUserPasswordForm');
     }
 
 }

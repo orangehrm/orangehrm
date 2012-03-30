@@ -21,33 +21,13 @@ use_javascript('../../../scripts/jquery/jquery.autocomplete.js');
         <div class="mainHeading"><h2 id="UserHeading"><?php echo __("Change Password"); ?></h2></div>
         <form name="frmChangePassword" id="frmChangePassword" method="post" action="" >
 
-            <?php echo $form['_csrf_token']; ?>
-            <?php echo $form->renderHiddenFields(); ?>
-            <br class="clear"/>
-
             <div id="usernameValue">
             <label><?php echo __('Username'); ?></label>
             <label class="valueHolder"><?php echo $username; ?></label>
             </div>
-            <div class="errorHolder"></div>
             <br class="clear"/>
-            
-            <?php echo $form['currentPassword']->renderLabel(__('Current Password') . ' <span class="required">*</span>'); ?>
-            <?php echo $form['currentPassword']->render(array("class" => "formInputText", "maxlength" => 20)); ?>
-            <div class="errorHolder"></div>
+            <?php echo $form->render(); ?>
             <br class="clear"/>
-
-            <?php echo $form['newPassword']->renderLabel(__('New Password') . ' <span class="required">*</span>'); ?>
-            <?php echo $form['newPassword']->render(array("class" => "formInputText", "maxlength" => 20)); ?>
-            <div class="errorHolder"></div>
-            <?php echo $form['newPassword']->renderLabel(' ', array('class' => 'score')); ?>
-            <br class="clear"/>
-
-            <?php echo $form['confirmNewPassword']->renderLabel(__('Confirm New Password') . ' <span class="required">*</span>'); ?>
-            <?php echo $form['confirmNewPassword']->render(array("class" => "formInputText", "maxlength" => 20)); ?>
-            <div class="errorHolder"></div>
-            <br class="clear"/>
-
 
             <div class="formbuttons">
                 <input type="button" class="savebutton" name="btnSave" id="btnSave"

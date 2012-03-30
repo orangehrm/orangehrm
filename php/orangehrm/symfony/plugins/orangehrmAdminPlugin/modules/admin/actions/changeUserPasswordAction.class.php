@@ -20,44 +20,37 @@
 class changeUserPasswordAction extends sfAction {
 
     public function execute($request) {
-        
+
         $this->form = new ChangeUserPasswordForm();
-        
+
         $this->userId = $this->getUser()->getAttribute('user')->getUserId();
-        
+
         $systemUserService = new SystemUserService();
-        
-        $systemUser = $systemUserService->getSystemUser($this->userId);        
+
+        $systemUser = $systemUserService->getSystemUser($this->userId);
         $this->username = $systemUser->getName();
-        
-		if ($this->getUser()->hasFlash('templateMessage')) {
+
+        if ($this->getUser()->hasFlash('templateMessage')) {
             $this->templateMessage = $this->getUser()->getFlash('templateMessage');
-        }        
-        
-        if ($request->isMethod('post')) {
-            
-            $this->form->bind($request->getParameter($this->form->getName()));
-            
-            if ($this->form->isValid()) {
-                
-                if (!$systemUserService->isCurrentPassword($this->userId, $this->form->getValue('currentPassword'))) {
-                    
-                    $this->getUser()->setFlash('templateMessage', array('WARNING', __('Current Password Is Wrong')));
-                    $this->redirect('admin/changeUserPassword');                 
-                    
-                }
-                
-                $systemUserService->updatePassword($this->userId, $this->form->getValue('newPassword'));
-                
-                $this->getUser()->setFlash('templateMessage', array('SUCCESS', __('Successfully Changed')));
-                $this->redirect('admin/changeUserPassword'); 
-                
-            }
-            
         }
 
+        if ($request->isMethod('post')) {
+
+            $this->form->bind($request->getParameter($this->form->getName()));
+
+            if ($this->form->isValid()) {
+
+                if (!$systemUserService->isCurrentPassword($this->userId, $this->form->getValue('currentPassword'))) {
+
+                    $this->getUser()->setFlash('templateMessage', array('WARNING', __('Current Password Is Wrong')));
+                    $this->redirect('admin/changeUserPassword');
+                } else {
+                    $this->form->save();
+                    $this->getUser()->setFlash('templateMessage', array('SUCCESS', __('Successfully Changed')));
+                    $this->redirect('admin/changeUserPassword');
+                }
+            }
+        }
     }
 
 }
-
-

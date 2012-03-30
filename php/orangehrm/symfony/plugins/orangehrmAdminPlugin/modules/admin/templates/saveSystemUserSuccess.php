@@ -22,55 +22,8 @@ use_javascript('../../../scripts/jquery/jquery.autocomplete.js');
         <div class="mainHeading"><h2 id="UserHeading"><?php echo __("Add User"); ?></h2></div>
         <form name="frmSystemUser" id="frmSystemUser" method="post" action="" >
 
-            <?php echo $form['_csrf_token']; ?>
-            <?php echo $form->renderHiddenFields(); ?>
+            <?php echo $form->render(); ?>
             <br class="clear"/>
-
-            <?php echo $form['userType']->renderLabel(__('User Type') . ' <span class="required">*</span>'); ?>
-            <?php echo $form['userType']->render(array("class" => "formSelect", "maxlength" => 3)); ?>
-            <div class="errorHolder"></div>
-            <br class="clear"/>
-
-            <?php echo $form['employeeName']->renderLabel(__('Employee Name') . ' <span class="required">*</span>'); ?>
-            <?php if (!$form->edited) {
-                echo $form['employeeName']->render(array("class" => "formInputText inputFormatHint", "maxlength" => 200, "value" => __("Type for hints")."..."));
-            } else {
-                echo $form['employeeName']->render(array("class" => "formInputText", "maxlength" => 200));
-            } ?>
-            <div class="errorHolder"></div>
-            <br class="clear"/>
-
-            <?php echo $form['userName']->renderLabel(__('Username') . ' <span class="required">*</span>'); ?>
-            <?php echo $form['userName']->render(array("class" => "formInputText", "maxlength" => 20)); ?>
-            <div class="errorHolder"></div>
-            <br class="clear"/>
-            
-            <?php if ($form->edited) : ?>
-            <div>
-            <?php 
-                echo $form['chkChangePassword']->render(); 
-                echo $form['chkChangePassword']->renderLabel(__('Change Password')); 
-            ?>
-            </div>    
-            <br class="clear"/>
-            <?php endif; ?>
-            
-            <div id="passwordDiv">
-            <?php echo $form['password']->renderLabel(__('Password') . ' <span class="required passwordRequired">*</span>'); ?>
-            <?php echo $form['password']->render(array("class" => "formInputText", "maxlength" => 20)); ?><div class="errorHolder"></div><?php echo $form['password']->renderLabel(' ', array('class' => 'score')); ?>
-            <br class="clear"/>            
-            <?php echo $form['confirmPassword']->renderLabel(__('Confirm Password') . ' <span class="required passwordRequired">*</span>'); ?>
-            <?php echo $form['confirmPassword']->render(array("class" => "formInputText", "maxlength" => 20)); ?>
-            <div class="errorHolder"></div>
-            <br class="clear"/>
-            </div> <!-- passwordDiv -->
-
-<?php echo $form['status']->renderLabel(__('Status') . ' <span class="required">*</span>'); ?>
-<?php echo $form['status']->render(array("class" => "formSelect", "maxlength" => 3)); ?>
-            <div class="errorHolder"></div>
-            <br class="clear"/>
-
-
 
             <div class="formbuttons">
                 <input type="button" class="savebutton" name="btnSave" id="btnSave"

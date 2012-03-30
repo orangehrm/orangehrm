@@ -1,6 +1,8 @@
 $(document).ready(function() {
     
     disableWidgets();
+    $('#changeUserPassword_newPassword').after('<label class="score"/>');
+    $('#changeUserPassword_secondaryPassword').after('<label class="scoreSec"/>');
     
     $('#btnSave').click(function() {
         
@@ -19,6 +21,10 @@ $(document).ready(function() {
     $("#changeUserPassword_newPassword").password({
         score: '.score' 
 	});
+
+    $("#changeUserPassword_secondaryPassword").password({
+        score: '.scoreSec' 
+    });
 
     $('#btnCancel').click(function() {
         window.history.back();
@@ -55,6 +61,15 @@ function isValidForm(){
             'changeUserPassword[confirmNewPassword]' : {
                 required: true,
                 equalTo: "#changeUserPassword_newPassword"
+            },
+            'changeUserPassword[secondaryPassword]' : {
+                required: true,
+                minlength: 4,
+                maxlength: 20
+            },
+            'changeUserPassword[confirmation]' : {
+                required: true,
+                equalTo: "#changeUserPassword_secondaryPassword"
             }
         },
         messages: {
@@ -69,14 +84,17 @@ function isValidForm(){
             'changeUserPassword[confirmNewPassword]' : {
                 required: lang_confirmNewPasswordRequired,
                 equalTo: lang_passwordMissMatch
+            },
+            'changeUserPassword[secondaryPassword]' : {
+                required: lang_newPasswordRequired,
+                maxlength: lang_maxLengthExceeds,
+                minlength: lang_UserPasswordLength
+            },
+            'changeUserPassword[confirmation]' : {
+                required: lang_confirmNewPasswordRequired,
+                equalTo: lang_passwordMissMatch
             }
-        },
-
-        errorPlacement: function(error, element) {
-            error.appendTo(element.next('div.errorHolder'));
-            
         }
-
     });
     
     return true;

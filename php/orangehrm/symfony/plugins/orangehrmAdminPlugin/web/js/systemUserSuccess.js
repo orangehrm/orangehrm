@@ -1,7 +1,35 @@
 $(document).ready(function() {
+    $("label[for='systemUser_chkChangePassword']").hide();
+    $("label[for='systemUser_chkChangeSecPassword']").hide();
+    $("#systemUser_chkChangePassword").hide();
+    $("#systemUser_chkChangeSecPassword").hide();
+    $("#systemUser_chkChangePassword").next("br").attr('class', 'chkChangePasswordBr').hide();
+    $("#systemUser_chkChangeSecPassword").next("br").attr('class', 'chkChangeSecPasswordBr').hide();
+    $('.secPassReq').hide();    
+
+    $(':input.password').each(function(){
+        $(this).prev('label').andSelf().wrapAll('<div class="passwordDiv"/>');
+    });
     
+    $(':input.secPassword').each(function(){
+        $(this).prev('label').andSelf().wrapAll('<div class="secPasswordDiv"/>');
+    });
+    
+    $('#systemUser_password').after('<label class="score"/>');
+    $('#systemUser_secondaryPassword').after('<label class="scoreSec"/>');
+
     if (isEditMode) {
-        $('#passwordDiv').hide();
+        $('.passwordDiv').hide();
+        $('.passwordDiv').next('br').hide();
+        $('.secPasswordDiv').hide();
+        $('.secPasswordDiv').next('br').hide();
+        $("label[for='systemUser_chkChangePassword']").show();
+        $("label[for='systemUser_chkChangeSecPassword']").show();
+        $("#systemUser_chkChangePassword").show();
+        $("#systemUser_chkChangeSecPassword").show();
+        $('.chkChangePasswordBr').show();
+        $('.chkChangeSecPasswordBr').show();
+        $('.secPassReq').show();
     }
     
     if (ldapInstalled) {
@@ -9,10 +37,24 @@ $(document).ready(function() {
     }
     
     $('#systemUser_chkChangePassword').click(function(){
+        $("#systemUser_password").val('');
         if($(this).attr('checked') == true) {
-            $('#passwordDiv').show();
+            $('.passwordDiv').show();
+            $('.passwordDiv').next('br').show();
         } else {
-            $('#passwordDiv').hide();
+            $('.passwordDiv').hide();
+            $('.passwordDiv').next('br').hide();
+        }
+    });
+    
+    $('#systemUser_chkChangeSecPassword').click(function(){
+        $("#systemUser_secondaryPassword").val('');
+        if($(this).attr('checked') == true) {
+            $('.secPasswordDiv').show();
+            $('.secPasswordDiv').next('br').show();
+        } else {
+            $('.secPasswordDiv').hide();
+            $('.secPasswordDiv').next('br').hide();
         }
     });
     
@@ -37,11 +79,15 @@ $(document).ready(function() {
         disableWidgets();
     }
     
-     $("#systemUser_password").password({
-	           score: '.score' 
-	       });
+    $("#systemUser_password").password({
+        score: '.score' 
+    });
+    
+    $("#systemUser_secondaryPassword").password({
+        score: '.scoreSec' 
+    });
         
-     $('#btnCancel').click(function() {
+    $('#btnCancel').click(function() {
         window.location.replace(viewSystemUserUrl+'?userId='+userId);
     });
     
@@ -52,6 +98,7 @@ function disableWidgets(){
     $('.formInputText').attr('disabled','disabled');
     $('.formSelect').attr('disabled','disabled');
     $('#systemUser_chkChangePassword').attr('disabled','disabled');
+    $('#systemUser_chkChangeSecPassword').attr('disabled','disabled');
     $('#btnSave').val(user_edit);  
 }
 
@@ -59,27 +106,26 @@ function enableWidgets(){
     $('.formInputText').removeAttr('disabled');
     $('.formSelect').removeAttr('disabled');
     $('#systemUser_chkChangePassword').removeAttr('disabled');
+    $('#systemUser_chkChangeSecPassword').removeAttr('disabled');
     $('#btnSave').val(user_save);
 }
 
 
 $.validator.addMethod("validEmployeeName", function(value, element) {                 
-               	 var empName    =   trim($('#systemUser_employeeName_empName').val());
-                 var empId      =   $('#systemUser_employeeName_empId').val();  
+
+    var empName = trim($('#systemUser_employeeName_empName').val());
+    var empId = $('#systemUser_employeeName_empId').val();  
                  
-                 if(empName.length > 0 && empId == ''){
-                     return false;
-                 }else{
-                     return true;
-                 }
+    if(empName.length > 0 && empId == ''){
+        return false;
+    }else{
+        return true;
+    }
                 
-            });
+});
             
     
 function isValidForm(){
-    
-   
-    
     var validator = $("#frmSystemUser").validate({
 
         rules: {
@@ -88,17 +134,19 @@ function isValidForm(){
                 maxlength: 20,
                 minlength: 5,
                 remote: {
-                   url: isUniqueUserUrl,
-                   data: { user_id: userId}
+                    url: isUniqueUserUrl,
+                    data: {
+                        user_id: userId
+                    }
                 }
             },
             'systemUser[password]' : {
                 required:function(element) {
-                    if($('#systemUser_chkChangePassword').attr('checked') == true && !ldapInstalled)
+                    if(($('#systemUser_chkChangePassword').attr('checked') == true || !isEditMode) && !ldapInstalled)
                         return true;
                     else
                         return false;
-                  },
+                },
                 minlength: 4,
                 maxlength: 20
             },
@@ -106,12 +154,25 @@ function isValidForm(){
                 maxlength: 20,
                 equalTo: "#systemUser_password"
             },
+            'systemUser[secondaryPassword]' : {
+                required:function(element) {
+                    if($('#systemUser_chkChangeSecPassword').attr('checked') == true)
+                        return true;
+                    else
+                        return false;
+                },
+                minlength: 4,
+                maxlength: 20
+            },
+            'systemUser[confirmation]' : {
+                maxlength: 20,
+                equalTo: "#systemUser_secondaryPassword"
+            },
             'systemUser[employeeName][empName]' : {
                 required:true,
                 maxlength: 200,
                 validEmployeeName: true
             }
-
         },
         messages: {
             'systemUser[userName]' : {
@@ -130,15 +191,20 @@ function isValidForm(){
                 maxlength: user_Max20Chars,
                 equalTo: user_samePassword
             },
+            'systemUser[secondaryPassword]' : {
+                required: user_UserPaswordRequired,
+                maxlength: user_Max20Chars,
+                minlength: user_UserPasswordLength
+            },
+            'systemUser[confirmation]' : {
+                required: user_UserConfirmPassword,
+                maxlength: user_Max20Chars,
+                equalTo: user_samePassword
+            },
             'systemUser[employeeName][empName]' : {
                 required: user_EmployeeNameRequired,
                 validEmployeeName: user_ValidEmployee
             }
-        },
-
-        errorPlacement: function(error, element) {
-            error.appendTo(element.next('div.errorHolder'));
-            
         }
 
     });

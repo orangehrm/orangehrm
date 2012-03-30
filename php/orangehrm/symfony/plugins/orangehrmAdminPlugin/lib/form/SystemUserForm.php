@@ -32,21 +32,23 @@ class SystemUserForm extends BaseForm {
     public function configure() {
 
         $this->userId = $this->getOption('userId');
+        $empNameStyle = array("class" => "formInputText inputFormatHint", "maxlength" => 200, "value" => __("Type for hints") . "...");
         if (!empty($this->userId)) {
             $this->edited = true;
+            $empNameStyle = array("class" => "formInputText", "maxlength" => 200);
         }
         $userRoleList = $this->getAssignableUserRoleList();
         $statusList = $this->getStatusList();
 
         $this->setWidgets(array(
             'userId' => new sfWidgetFormInputHidden(),
-            'userType' => new sfWidgetFormSelect(array('choices' => $userRoleList)),
-            'employeeName' => new ohrmWidgetEmployeeNameAutoFill(),
-            'userName' => new sfWidgetFormInputText(),
-            'password' => new sfWidgetFormInputPassword(),
-            'confirmPassword' => new sfWidgetFormInputPassword(),
-            'status' => new sfWidgetFormSelect(array('choices' => $statusList)),
-            'chkChangePassword' => new sfWidgetFormInputCheckbox()
+            'userType' => new sfWidgetFormSelect(array('choices' => $userRoleList), array("class" => "formSelect", "maxlength" => 3)),
+            'employeeName' => new ohrmWidgetEmployeeNameAutoFill(array(), $empNameStyle),
+            'userName' => new sfWidgetFormInputText(array(), array("class" => "formInputText", "maxlength" => 20)),
+            'status' => new sfWidgetFormSelect(array('choices' => $statusList), array("class" => "formSelect", "maxlength" => 3)),
+            'chkChangePassword' => new sfWidgetFormInputCheckbox(array(), array('class' => 'chkChangePassword')),
+            'password' => new sfWidgetFormInputPassword(array(), array("class" => "formInputText password", "maxlength" => 20)),
+            'confirmPassword' => new sfWidgetFormInputPassword(array(), array("class" => "formInputText password", "maxlength" => 20))
         ));
 
         $this->setValidators(array(
@@ -69,6 +71,15 @@ class SystemUserForm extends BaseForm {
         } else {
             $this->setDefault('userType', 2);
         }
+
+        $this->getWidgetSchema()->setLabels($this->getFormLabels());
+
+        //merge secondary password
+        $formExtension = PluginFormMergeManager::instance();
+        $formExtension->mergeForms($this, 'saveSystemUser', 'SystemUserForm');
+
+        sfWidgetFormSchemaFormatterBreakTags::setNoOfColumns(1);
+        $this->getWidgetSchema()->setFormFormatterName('BreakTags');
     }
 
     private function setDefaultValues($locationId) {
@@ -129,7 +140,7 @@ class SystemUserForm extends BaseForm {
             if (!empty($changePasswordCheck)) {
                 $user->setUserPassword($this->getValue('password'));
                 $changePasword = true;
-            }            
+            }
         }
 
         $user->setUserRoleId($this->getValue('userType'));
@@ -139,9 +150,17 @@ class SystemUserForm extends BaseForm {
 
         $user->setStatus($this->getValue('status'));
 
+        $savedUser = $this->getSystemUserService()->saveSystemUser($user, $changePasword);
         
-        return $this->getSystemUserService()->saveSystemUser($user, $changePasword);
+        if ($savedUser instanceof SystemUser) {
+            $this->setDefault('userId', $savedUser->getId());
+        }
         
+        //save secondary password
+        $formExtension = PluginFormMergeManager::instance();
+        $formExtension->saveMergeForms($this, 'saveSystemUser', 'SystemUserForm');
+
+        return $savedUser;
     }
 
     public function getEmployeeListAsJson() {
@@ -170,6 +189,22 @@ class SystemUserForm extends BaseForm {
         return $jsonString;
     }
 
-}
+    /**
+     *
+     * @return array
+     */
+    protected function getFormLabels() {
+        $labels = array(
+            'userType' => __('User Type') . '<span class="required">*</span>',
+            'employeeName' => __('Employee Name') . '<span class="required">*</span>',
+            'userName' => __('Username') . '<span class="required">*</span>',
+            'password' => __('Password') . '<span class="required passwordRequired">*</span>',
+            'confirmPassword' => __('Confirm Password') . '<span class="required passwordRequired">*</span>',
+            'status' => __('Status') . ' <span class="required">*</span>',
+            'chkChangePassword' => __('Change Password'),
+        );
 
-?>
+        return $labels;
+    }
+
+}
