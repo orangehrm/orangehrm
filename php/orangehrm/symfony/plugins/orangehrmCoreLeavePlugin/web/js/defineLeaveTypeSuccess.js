@@ -76,6 +76,7 @@ $(document).ready(function(){
     });
 
     $("#undeleteNo").click(function(){
+        $(this).attr('disabled', true);
         $('#leaveType_txtLeaveTypeName').attr('disabled', false);
         $('#frmLeaveType').get(0).submit();
     });

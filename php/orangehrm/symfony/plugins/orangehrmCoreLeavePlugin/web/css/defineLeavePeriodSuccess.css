@@ -11,8 +11,8 @@
 	font-weight: bold;
 }
 
-#comboHolder {
-    padding-left: 20px;
+.formSelect {
+    margin-right: 5px !important;
 }
 
 .errorHolder {

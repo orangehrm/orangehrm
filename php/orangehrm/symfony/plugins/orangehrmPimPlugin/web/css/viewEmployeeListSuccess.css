@@ -2,14 +2,15 @@
     background-color: #ccc;
     cursor: pointer;
 }
-div.searchbox div.actionbar {
+
+form#search_form .actionbar {
     border-top: 1px solid #FAD163;
-    margin-top: 3px;
+    margin-top: 5px;
+    padding-top: 5px;
 }
 
 div.searchbox {
-    border-bottom: 0px;
-    padding-bottom: 0px;
+    padding-left: 10px;
 }
 
 form#search_form div#formcontent select,

@@ -14,6 +14,7 @@ $(document).ready(function() {
     $("label[for='user_name']").closest("tr").attr('class', 'loginSectionRow');
     $("label[for='user_password']").closest("tr").attr('class', 'loginSectionRow');
 
+    $('#photofile').after('<div class="helpText" style="width:160px;padding-top:10px;">'+fileHelpText+'</div>');
 
     if(createUserAccount == 0) {
         //hiding login section by default

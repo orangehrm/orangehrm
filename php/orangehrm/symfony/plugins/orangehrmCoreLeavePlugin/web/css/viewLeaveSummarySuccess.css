@@ -78,3 +78,7 @@ div.navigationHearder {
 br {
     clear: both;
 }
+
+.paddingLeftBtn {
+    padding-left: 10px;
+}

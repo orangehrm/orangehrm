@@ -33,10 +33,10 @@
         </tr>
         <tr class="tableArrangetr">
             <td align="left" class="labelTd"><?php echo __("Start Date"); ?> <span class=required>*</span></td>
-            <td><span id="comboHolder">
-                <?php echo $form['cmbStartMonth']->render(); ?>
+            <td><div id="comboHolder">
+                <?php echo $form['cmbStartMonth']->render(); ?>&nbsp;
                 <?php echo $form['cmbStartDate']->render(); ?>
-                </span>
+                </div>
             </td>
         </tr>
         <tr><td></td><td id="inlineErrorHolder" class="errorHolder"></td></tr>

@@ -8,12 +8,6 @@ div.outerbox {
     width: 700px;
 }
 
-.helpText {
-   font-size: 8pt;
-   color:#888888;
-   padding-left: 40px;
-}
-
 .hrLine {
     border-top: 1px solid #FAD163;
     display: block;
@@ -46,17 +40,19 @@ label {
    font-size: 8pt;
    color:#888888;
    padding-left: 10px;
+   float: left;
 }
 
 .duplexBox {
     margin-top: 7px;
     border: 1px solid #888888;
-    width: 316px;
+    width: auto;
     float: left;
 }
 
 #chkLogin {
     margin-top: 5px;
+    margin-left: 0;
 }
 
 br {
