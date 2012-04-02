@@ -189,7 +189,7 @@ class SchemaIncrementTask48 extends SchemaIncrementTask {
         
         $result[] = $this->updateOhrmSubunit();
         
-        for($i = 105; $i <= 133; $i++) {
+        for($i = 105; $i <= 135; $i++) {
             $result[] = $this->upgradeUtility->executeSql($this->sql[$i]);
         }
         
@@ -265,6 +265,7 @@ class SchemaIncrementTask48 extends SchemaIncrementTask {
         
         $sql[8] = "ALTER TABLE hs_hr_employee
                         DROP FOREIGN KEY hs_hr_employee_ibfk_1,
+                        DROP FOREIGN KEY hs_hr_employee_ibfk_2,
                         DROP FOREIGN KEY hs_hr_employee_ibfk_3,
                         DROP FOREIGN KEY hs_hr_employee_ibfk_4,
                         DROP FOREIGN KEY hs_hr_employee_ibfk_5,
@@ -1226,6 +1227,10 @@ EOT;
         $sql[132] = "DROP TABLE hs_hr_comp_property ;";
         
         $sql[133] = "DROP TABLE hs_hr_compstructtree ;";
+        
+        $sql[134] = "DROP TABLE hs_hr_eec ;";
+        
+        $sql[135] = "DROP TABLE hs_hr_ethnic_race ;";
         
         $this->sql = $sql;
     }
