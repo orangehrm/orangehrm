@@ -709,7 +709,7 @@ class SchemaIncrementTask48 extends SchemaIncrementTask {
                             (3, 'Leave Approvals', 0),
                             (4, 'Leave Cancellations', 0),
                             (5, 'Leave Rejections', 0),
-                            #(6, 'HSP Notifications', 0),
+                            (6, 'HSP Notifications', 0),
                             (7, 'Performance Review Submissions', 0);";
         
         $sql[102] = "create table `ohrm_user_selection_rule`(
