@@ -1,3 +1,5 @@
+var originalSkillName = '';
+
 $(document).ready(function() {
     
     executeLoadtimeActions();
@@ -11,10 +13,16 @@ $(document).ready(function() {
         validateData();
         $('#frmSave').submit();
     });
-
+    
 });
 
 $.validator.addMethod("uniqueName", function(value, element, params) {
+    
+    /* If in edit mode and original name (value at loading time), return true */
+    if ($('#saveFormHeading').text() == lang_editFormHeading && $.trim($('#skill_name').val()) == originalSkillName) {
+        return true;
+    }
+    
     var temp = true;
     var currentSkill;
     var id = parseInt(id,10);
@@ -158,6 +166,9 @@ function loadEditForm() {
             
             if (saveFormFieldIds[i] !== undefined) {
                 $('#'+saveFormFieldIds[i]).val($.trim($(this).text()));
+                if (i == 0) {
+                    originalSkillName = $.trim($(this).text());
+                }
             }
             
             i++;
