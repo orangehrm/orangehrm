@@ -160,17 +160,20 @@ abstract class AbstractLeaveAllocationService extends BaseService {
      */
     public function hasOverlapLeave(LeaveParameterObject $leaveAssignmentData) {
 
+        $fromTime = null;
         if (strlen($leaveAssignmentData->getFromTime()) > 0) {
             $fromTime = date('H:i:s', strtotime($leaveAssignmentData->getFromTime()));
         }
 
+        
+        $toTime = null;
         if (strlen($leaveAssignmentData->getToTime()) > 0) {
             $toTime = date('H:i:s', strtotime($leaveAssignmentData->getToTime()));
         }
 
         /* Find duplicate leaves */
         $overlapLeave = $this->getLeaveRequestService()->getOverlappingLeave(
-                $leaveAssignmentData->getFromDate(), $leaveAssignmentData->getToDate(), $leaveAssignmentData->getEmployeeNumber(), $leaveAssignmentData->getFromTime(), $leaveAssignmentData->getToTime()
+                $leaveAssignmentData->getFromDate(), $leaveAssignmentData->getToDate(), $leaveAssignmentData->getEmployeeNumber(), $fromTime, $toTime
         );
 
         $this->setOverlapLeave($overlapLeave);
