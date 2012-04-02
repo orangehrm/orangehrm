@@ -70,7 +70,10 @@ class viewEmployeeListAction extends basePimAction {
         }
 
         $filters = $this->getFilters();
-        $filters['employee_name'] = str_replace(' (' . __('Past Employee') . ')', '', $filters['employee_name']['empName']);        
+        if( isset(  $filters['employee_name'])){
+            $filters['employee_name'] = str_replace(' (' . __('Past Employee') . ')', '', $filters['employee_name']['empName']);        
+        }
+        
         
         $this->filterApply = !empty($filters);
 
@@ -78,10 +81,14 @@ class viewEmployeeListAction extends basePimAction {
 
         if (count($accessibleEmployees) > 0) {
             $filters['employee_id_list'] = $accessibleEmployees;
-            $table = Doctrine::getTable('Employee');
-            $count = $table->getEmployeeCount($filters);
+            $count = $this->getEmployeeService()->getSearchEmployeeCount( $filters );
 
-            $list = $table->getEmployeeList($sortField, $sortOrder, $filters, $offset, $noOfRecords);
+            $list = $this->getEmployeeService()->searchEmployeeList( $sortField, $sortOrder, $filters, $offset, $noOfRecords );
+            
+            //$table = Doctrine::getTable('Employee');
+            //$count = $table->getEmployeeCount($filters);
+
+            //$list = $table->getEmployeeList($sortField, $sortOrder, $filters, $offset, $noOfRecords);
         } else {
             $count = 0;
             $list = array();

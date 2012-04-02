@@ -1876,4 +1876,26 @@ class EmployeeServiceTest extends PHPUnit_Framework_TestCase {
         $result = $this->employeeService->getEmployeesBySubUnit($subUnit, $includeTerminatedEmployees);
         $this->assertEquals($employees, $result);
     }    
+    
+    public function testSearchEmployeeList(){
+        $employee1 = new Employee();
+        $employee1->setLastName('Last Name');
+        $employee1->setFirstName('First Name');
+        
+        $employee2 = new Employee();
+        $employee2->setLastName('Last Name');
+        $employee2->setFirstName('First Name');
+        
+        $list   =   array( $employee1,$employee2);
+        
+        $mockDao = $this->getMock('EmployeeDao');
+        $mockDao->expects($this->once())
+             ->method('searchEmployeeList')
+             ->will($this->returnValue($list));
+        
+        $this->employeeService->setEmployeeDao($mockDao);
+        $result = $this->employeeService->searchEmployeeList();
+        $this->assertEquals($list, $result);
+        
+    }
 }

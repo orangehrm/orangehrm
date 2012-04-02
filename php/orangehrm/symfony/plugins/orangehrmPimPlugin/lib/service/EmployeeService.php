@@ -1449,6 +1449,28 @@ class EmployeeService extends BaseService {
      */
     public function getEmployeesBySubUnit($subUnits, $includeTerminatedEmployees = false) {
         return $this->getEmployeeDao()->getEmployeesBySubUnit($subUnits, $includeTerminatedEmployees); 
-    }    
+    } 
+    
+         /**
+     * Get employee list after sorting and filtering using given parameters.
+     *
+     * @param array $sortField
+     * @param $sortOrder
+     * @param $filters
+     * @return array
+     */
+    public function searchEmployeeList($sortField = 'empNumber', $sortOrder = 'asc', array $filters = null, $offset = null, $limit = null) {
+            return $this->getEmployeeDao()->searchEmployeeList($sortField,$sortOrder,$filters,$offset,$limit);
+    }
+    
+    /**
+     * Get Search Employee Count
+     *
+     * @param $filters
+     * @return Inteager
+     */
+    public function getSearchEmployeeCount(array $filters = null) {
+        return $this->getEmployeeDao()->getSearchEmployeeCount($filters);
+    }
 
 }
