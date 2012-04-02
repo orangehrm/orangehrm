@@ -63,7 +63,6 @@ $(document).ready(function() {
         if ($('#btnSave').val() == user_edit){
             enableWidgets();
         } else if ($('#btnSave').val() == user_save){
-           
             $('#systemUser_userId').val(userId);
             if(isValidForm()){          
                 $('#frmSystemUser').submit();
@@ -71,11 +70,10 @@ $(document).ready(function() {
         }
     });
     
-    
-    
-    
     if(userId > 0){
         $('#UserHeading').text(user_editLocation);
+        $("#systemUser_password").val('');
+        $("#systemUser_confirmPassword").val('');
         disableWidgets();
     }
     
@@ -113,20 +111,13 @@ function enableWidgets(){
 
 $.validator.addMethod("validEmployeeName", function(value, element) {                 
 
-    var empName = trim($('#systemUser_employeeName_empName').val());
-    var empId = $('#systemUser_employeeName_empId').val();  
+    return autoFill('systemUser_employeeName_empName', 'systemUser_employeeName_empId', employees);
                  
-    if(empName.length > 0 && empId == ''){
-        return false;
-    }else{
-        return true;
-    }
-                
 });
             
     
 function isValidForm(){
-    var validator = $("#frmSystemUser").validate({
+    validator = $("#frmSystemUser").validate({
 
         rules: {
             'systemUser[userName]' : {
@@ -209,4 +200,16 @@ function isValidForm(){
 
     });
     return true;
+}
+
+function autoFill(selector, filler, data) {
+    $("#" + filler).val("");
+    var valid = false;
+    $.each(data, function(index, item){
+        if(item.name.toLowerCase() == $("#" + selector).val().toLowerCase()) {
+            $("#" + filler).val(item.id);
+            valid = true;
+        }
+    });
+    return valid;
 }
