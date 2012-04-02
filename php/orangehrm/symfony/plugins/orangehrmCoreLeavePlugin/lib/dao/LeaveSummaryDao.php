@@ -155,6 +155,8 @@ class LeaveSummaryDao extends BaseDao {
         if(!$includeTerminated && empty($clues['cmbWithTerminated'])) {
             $where[] = "(a.termination_id IS NULL)";
         }
+
+        $where[] = "b.available_flag = 1"; //ignore deleted leave types 
         
         if(count($where) > 0) {
             $q .= ' WHERE '.implode(' AND ',$where);

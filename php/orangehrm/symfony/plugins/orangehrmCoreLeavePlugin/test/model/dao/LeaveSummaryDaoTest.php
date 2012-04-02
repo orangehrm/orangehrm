@@ -49,7 +49,7 @@ class LeaveSummaryDaoTest extends PHPUnit_Framework_TestCase {
         $result = $this->leaveSummaryDao->fetchRawLeaveSummaryRecords($clues,0,20,true);
 
         /* Checking records count */
-        $this->assertEquals(15, $this->leaveSummaryDao->fetchRawLeaveSummaryRecordsCount($clues,true));
+        $this->assertEquals(10, $this->leaveSummaryDao->fetchRawLeaveSummaryRecordsCount($clues,true));
 
         /* Checking values and order */
 
@@ -122,7 +122,7 @@ class LeaveSummaryDaoTest extends PHPUnit_Framework_TestCase {
         $result = $this->leaveSummaryDao->fetchRawLeaveSummaryRecords($clues,0,20,true);
 
         /* Checking records count */
-        $this->assertEquals(3, $this->leaveSummaryDao->fetchRawLeaveSummaryRecordsCount($clues, true));
+        $this->assertEquals(2, $this->leaveSummaryDao->fetchRawLeaveSummaryRecordsCount($clues, true));
 
         /* Checking values and order */
 
@@ -160,7 +160,7 @@ class LeaveSummaryDaoTest extends PHPUnit_Framework_TestCase {
         $result = $this->leaveSummaryDao->fetchRawLeaveSummaryRecords($clues,0,20,true);
 
         /* Checking records count */
-        $this->assertEquals(6, $this->leaveSummaryDao->fetchRawLeaveSummaryRecordsCount($clues,true));
+        $this->assertEquals(4, $this->leaveSummaryDao->fetchRawLeaveSummaryRecordsCount($clues,true));
 
         /* Checking values and order */
 
@@ -197,7 +197,7 @@ class LeaveSummaryDaoTest extends PHPUnit_Framework_TestCase {
         $result = $this->leaveSummaryDao->fetchRawLeaveSummaryRecords($clues,0,20,true);
 
         /* Checking records count */
-        $this->assertEquals(6, $this->leaveSummaryDao->fetchRawLeaveSummaryRecordsCount($clues, true));
+        $this->assertEquals(4, $this->leaveSummaryDao->fetchRawLeaveSummaryRecordsCount($clues, true));
 
         /* Checking values and order */
 
@@ -235,7 +235,7 @@ class LeaveSummaryDaoTest extends PHPUnit_Framework_TestCase {
         $result = $this->leaveSummaryDao->fetchRawLeaveSummaryRecords($clues,0,20,true);
 
         /* Checking records count */
-        $this->assertEquals(6, $this->leaveSummaryDao->fetchRawLeaveSummaryRecordsCount($clues,true));
+        $this->assertEquals(4, $this->leaveSummaryDao->fetchRawLeaveSummaryRecordsCount($clues,true));
 
         /* Checking values and order */
 
@@ -273,7 +273,7 @@ class LeaveSummaryDaoTest extends PHPUnit_Framework_TestCase {
         $result = $this->leaveSummaryDao->fetchRawLeaveSummaryRecords($clues,0,20,true);
 
         /* Checking records count */
-        $this->assertEquals(6, $this->leaveSummaryDao->fetchRawLeaveSummaryRecordsCount($clues,true));
+        $this->assertEquals(4, $this->leaveSummaryDao->fetchRawLeaveSummaryRecordsCount($clues,true));
 
         /* Checking values and order */
 
@@ -310,7 +310,7 @@ class LeaveSummaryDaoTest extends PHPUnit_Framework_TestCase {
         $clues['cmbWithTerminated'] = '';
         
         $result = $this->leaveSummaryDao->fetchRawLeaveSummaryRecords($clues);
-        $this->assertEquals(12, $this->leaveSummaryDao->fetchRawLeaveSummaryRecordsCount($clues));
+        $this->assertEquals(8, $this->leaveSummaryDao->fetchRawLeaveSummaryRecordsCount($clues));
         
        /* Checking values and order */
 
