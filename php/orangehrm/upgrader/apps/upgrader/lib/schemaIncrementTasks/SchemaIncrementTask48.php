@@ -272,6 +272,7 @@ class SchemaIncrementTask48 extends SchemaIncrementTask {
                         DROP FOREIGN KEY hs_hr_employee_ibfk_6;";
         
         $sql[9] = "ALTER TABLE hs_hr_employee
+                        DROP KEY ethnic_race_code,
                         CHANGE emp_status emp_status int(13) default null,
                         CHANGE job_title_code job_title_code int(7) default null,
                         CHANGE eeo_cat_code eeo_cat_code int default null,
@@ -320,6 +321,7 @@ class SchemaIncrementTask48 extends SchemaIncrementTask {
         
         $sql[19] = "ALTER TABLE hs_pr_salary_grade 
                         DROP PRIMARY KEY,
+                        DROP KEY sal_grd_name,
                         CHANGE sal_grd_code id int not null auto_increment,
                         CHANGE sal_grd_name name varchar(60) default null unique,
                         ADD primary key (id)";
@@ -1210,6 +1212,7 @@ EOT;
         $sql[120] = "DROP TABLE hs_hr_empstat ;";
         
         $sql[121] = "ALTER TABLE `hs_hr_module`
+                            DROP KEY version,
                             DROP FOREIGN KEY `hs_hr_module_ibfk_1`;";
         
         $sql[122] = "DROP TABLE hs_hr_versions ;";
