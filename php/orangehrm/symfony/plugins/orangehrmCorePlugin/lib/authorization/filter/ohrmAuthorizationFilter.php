@@ -47,8 +47,21 @@ class ohrmAuthorizationFilter extends sfFilter {
 
             return;
         }        
+        
 
-        $logger = Logger::getLogger('filter.ohrmAuthorizationFilter');    
+        $logger = Logger::getLogger('filter.ohrmAuthorizationFilter');
+        
+        // disable security on non-secure actions
+        try {
+            $secure = $this->context->getController()->getActionStack()->getLastEntry()->getActionInstance() ->getSecurityValue('is_secure');
+            if (!$secure) {
+                $filterChain->execute();
+                return;            
+            }
+        } catch (Exception $e) {
+            $logger->error('Error getting is_secure value for action: ' . $e);            
+            $this->forwardToSecureAction();              
+        }    
         
         try {
             $userRoleManager = UserRoleManagerFactory::getUserRoleManager();  
