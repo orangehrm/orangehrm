@@ -228,7 +228,7 @@ class SchemaIncrementTask48 extends SchemaIncrementTask {
                     ) engine=innodb default charset=utf8;";
         
         $sql[1] = "ALTER TABLE hs_hr_config
-                        CHANGE value value varchar(512);";
+                        CHANGE value value varchar(512) not null default '';";
         
         $sql[2] = "create table `ohrm_employment_status` (
                           `id` int not null auto_increment,
