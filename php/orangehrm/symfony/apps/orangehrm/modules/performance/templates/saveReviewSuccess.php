@@ -115,7 +115,7 @@
             $('#txtDueDate-0').val(datepickerDateFormat)
         }
 
-        var empdata = <?php echo str_replace('&#039;', "'", $empJson) ?>;
+        var empdata = <?php echo str_replace('&#039;', "'", $form->getEmployeeListAsJson()) ?>;
 
         /* Auto completion of employees */
         $("#txtEmpName-0").autocomplete(empdata, {
@@ -136,11 +136,11 @@
         });
 
         $("#txtEmpName-0").change(function(){
-            autoFill('txtEmpName-0', 'hdnEmpId-0', <?php echo str_replace('&#039;', "'", $empJson) ?>);
+            autoFill('txtEmpName-0', 'hdnEmpId-0', empdata);
         });
 
         $("#txtReviewerName-0").change(function(){
-            autoFill('txtReviewerName-0', 'hdnReviewerId-0', <?php echo str_replace('&#039;', "'", $empJson) ?>);
+            autoFill('txtReviewerName-0', 'hdnReviewerId-0', empdata);
         });
         /* Clearing auto-fill fields */
         $("#txtEmpName-0").click(function(){ $(this).attr({ value: '' }); $("#hdnEmpId-0").attr({ value: '0' }); });

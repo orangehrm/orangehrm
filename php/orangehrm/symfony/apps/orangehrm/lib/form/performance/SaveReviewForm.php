@@ -27,5 +27,10 @@ class SaveReviewForm extends BaseForm {
         $this->widgetSchema->setNameFormat('saveReview[%s]');
 
      }
+     
+     public function getEmployeeListAsJson() {
+         $companyService = new CompanyService();
+         return $companyService->getEmployeeListAsJson();
+     }
 
 }

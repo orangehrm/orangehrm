@@ -89,7 +89,7 @@ $formatData['newSeparater'] = '/';
  ?>
                             <label for="txtEmpName"><?php echo __('Employee')?></label>
                             <input id="txtEmpName" name="txtEmpName" type="text" class="formInputText"
-                                   value="<?php echo isset($clues['empName']) ? $clues['empName'] : __('Type for hints').'...' ?>" tabindex="5" onblur="autoFill('txtEmpName', 'hdnEmpId', <?php echo str_replace('&#039;', "'", $empJson) ?>);"/>
+                                   value="<?php echo isset($clues['empName']) ? $clues['empName'] : __('Type for hints').'...' ?>" tabindex="5" onblur="autoFill('txtEmpName', 'hdnEmpId', <?php echo str_replace('&#039;', "'", $form->getEmployeeListAsJson()) ?>);"/>
                             <input type="text" name="hdnEmpId" id="hdnEmpId"
                                    value="<?php echo isset($clues['empId']) ? $clues['empId'] : '0' ?>" style="visibility:hidden;">
                             <div class="errorDiv"></div>
@@ -99,7 +99,7 @@ $formatData['newSeparater'] = '/';
                     <?php if ($loggedAdmin) { ?>
                             <label for="txtReviewerName"><?php echo __('Reviewer')?></label>
                             <input id="txtReviewerName"  name="txtReviewerName" type="text" class="formInputText"
-                                   value="<?php echo isset($clues['reviewerName']) ? $clues['reviewerName'] : __('Type for hints').'...' ?>" tabindex="6" onblur="autoFill('txtReviewerName', 'hdnReviewerId', <?php echo str_replace('&#039;', "'", $empJson) ?>);"/>
+                                   value="<?php echo isset($clues['reviewerName']) ? $clues['reviewerName'] : __('Type for hints').'...' ?>" tabindex="6" onblur="autoFill('txtReviewerName', 'hdnReviewerId', <?php echo str_replace('&#039;', "'", $form->getEmployeeListAsJson()) ?>);"/>
                             <input type="text" name="hdnReviewerId" id="hdnReviewerId"
                                    value="<?php echo isset($clues['reviewerId']) ? $clues['reviewerId'] : '0' ?>" style="visibility:hidden;">
                             <div class="errorDiv"></div>
@@ -332,7 +332,7 @@ $formatData['newSeparater'] = '/';
 
 <?php if ($loggedAdmin || $loggedReviewer) { ?>
 
-                               var empdata = <?php echo str_replace('&#039;', "'", $empJson); ?>;
+                               var empdata = <?php echo str_replace('&#039;', "'", $form->getEmployeeListAsJson()) ?>;
 
                                /* Auto completion of employees */
                                $("#txtEmpName").autocomplete(empdata, {

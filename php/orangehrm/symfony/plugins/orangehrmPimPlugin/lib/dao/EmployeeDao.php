@@ -1004,11 +1004,12 @@ class EmployeeDao extends BaseDao {
                 }
                 $terminationId = $employee->getTerminationId();
                 if (empty($terminationId)) {
-                    array_push($jsonString, "{name:'" . $employee->getFirstName() . ' ' . $employee->getLastName() . "',id:'" . $employee->getEmpNumber() . "',workShift:'" . $workShiftLength . "'}");
+                    $name = $employee->getFirstName() . " " . $employee->getLastName();
+                    $jsonString[] = array('name' => $name, 'id' => $employee->getEmpNumber());
                 }
             }
 
-            $jsonStr = " [" . implode(",", $jsonString) . "]";
+            $jsonStr = json_encode($jsonString);
             return $jsonStr;
         } catch (Exception $e) {
             throw new DaoException($e->getMessage());

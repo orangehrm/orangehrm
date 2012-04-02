@@ -369,7 +369,7 @@ class PerformanceReviewService extends BaseService {
                foreach($escapeCharSet as $char) {
                   $emp[0] = str_replace(chr($char), (chr(92) . chr($char)), $emp[0]);
                }
-                $jsonList[$emp[1]] = "{name:'" . $emp[0] . "',id:'".$emp[1]."'}";
+                $jsonList[$emp[1]] = array('name' => $emp[0], 'id' => $emp[1]);
             }
 
             if ($addSelf) {
@@ -378,10 +378,10 @@ class PerformanceReviewService extends BaseService {
                       $name = str_replace(chr($char), (chr(92) . chr($char)), $name);
                   }
                   $id = $resultList[0]->getReviewer()->getEmpNumber();
-                  $jsonList[$id] = "{name:'". $name ."',id:'".$resultList[0]->getReviewer()->getEmpNumber()."'}";
+                  $jsonList[$id] = array('name' => $name, 'id' => $resultList[0]->getReviewer()->getEmpNumber());
             }
 
-            $jsonString = "[".implode(",", $jsonList)."]";
+            $jsonString = json_encode($jsonList);
 
             return $jsonString;
 

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * OrangeHRM is a comprehensive Human Resource Management (HRM) System that captures
  * all the essential functionalities required for any enterprise.
@@ -21,11 +22,16 @@
  * Form class for Save Education
  */
 class ViewReviewForm extends BaseForm {
-	
-     public function configure() {
 
+    private $empJson = array();
+
+    public function configure() {
+        $this->empJson = $this->getOption('empJson');
         $this->widgetSchema->setNameFormat('viewReviewForm[%s]');
+    }
 
-     }
+    public function getEmployeeListAsJson() {
+        return $this->empJson;
+    }
 
 }

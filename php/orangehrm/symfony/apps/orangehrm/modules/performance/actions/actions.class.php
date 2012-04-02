@@ -502,11 +502,6 @@ class performanceActions extends sfActions {
 
         $this->form = new SaveReviewForm(array(), array(), true);
 
-        /* Showing Performance Review Add form */
-
-        $companyService = new CompanyService();
-        $this->empJson = $companyService->getEmployeeListAsJson();
-
         /* Saving Performance Reviews */
 
         if ($request->isMethod('post')) {
@@ -624,12 +619,7 @@ class performanceActions extends sfActions {
      * Handles showing review search form and
      * listing searched reviews.
      */
-    public function executeViewReview(sfWebRequest $request) {
-
-        /* Showing Performance Review Search form
-         * ====================================== */
-
-        $this->form = new ViewReviewForm(array(), array(), true);
+    public function executeViewReview(sfWebRequest $request) {        
 
         $performanceReviewService = $this->getPerformanceReviewService();
 
@@ -644,6 +634,11 @@ class performanceActions extends sfActions {
             $this->empJson = $performanceReviewService->getRevieweeListAsJson($this->loggedEmpId, true);
         }
 
+        /* Showing Performance Review Search form
+         * ====================================== */
+
+        $this->form = new ViewReviewForm(array(), array('empJson' => $this->empJson), true);
+        
         /* Subdivision list */
         $compStructure = new CompanyStructureService();
         $treeObject = $compStructure->getSubunitTreeObject();
