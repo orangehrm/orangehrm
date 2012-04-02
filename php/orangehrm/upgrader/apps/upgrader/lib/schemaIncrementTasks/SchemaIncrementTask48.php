@@ -295,10 +295,12 @@ class SchemaIncrementTask48 extends SchemaIncrementTask {
         
         $sql[13] = "ALTER TABLE hs_hr_emp_licenses 
                         DROP PRIMARY KEY,
+                        DROP KEY licenses_code,
                         CHANGE emp_number emp_number int not null,
                         CHANGE licenses_code license_id int not null,
                         CHANGE licenses_date license_issued_date date null default null,
                         CHANGE licenses_renewal_date license_expiry_date date null default null,
+                        ADD KEY `license_id` (`license_id`),
                         ADD primary key (emp_number,license_id)";
         
         $sql[14] = "RENAME TABLE hs_hr_emp_licenses TO ohrm_emp_license";
@@ -358,8 +360,10 @@ class SchemaIncrementTask48 extends SchemaIncrementTask {
         
         $sql[29] = "ALTER TABLE hs_hr_emp_language 
                         DROP PRIMARY KEY,
+                        DROP KEY lang_code,
                         CHANGE lang_code lang_id int not null,
                         CHANGE elang_type fluency smallint default '0',
+                        ADD KEY `lang_id` (`lang_id`),
                         ADD primary key (emp_number,lang_id,fluency)";
         
         $sql[30] = "alter table hs_hr_emp_language
@@ -398,8 +402,10 @@ class SchemaIncrementTask48 extends SchemaIncrementTask {
         
         $sql[37] = "RENAME TABLE hs_hr_skill TO ohrm_skill";
         
-        $sql[38] = "ALTER TABLE hs_hr_emp_skill 
-                        CHANGE skill_code skill_id int not null";
+        $sql[38] = "ALTER TABLE hs_hr_emp_skill
+                        DROP KEY skill_code,
+                        CHANGE skill_code skill_id int not null,
+                        ADD KEY `skill_id` (`skill_id`)";
         
         $sql[39] = "alter table hs_hr_emp_skill
                         add constraint foreign key (skill_id)
@@ -451,6 +457,7 @@ class SchemaIncrementTask48 extends SchemaIncrementTask {
         
         $sql[50] = "ALTER TABLE hs_hr_location 
                         DROP PRIMARY KEY,
+                        DROP KEY loc_country,
                         CHANGE loc_code id int not null auto_increment,
                         CHANGE loc_name name varchar(110) not null,
                         CHANGE loc_country country_code varchar(3) not null,
@@ -461,6 +468,7 @@ class SchemaIncrementTask48 extends SchemaIncrementTask {
                         CHANGE loc_phone phone varchar(35) default null,
                         CHANGE loc_fax fax varchar(35) default null,
                         CHANGE loc_comments notes varchar(255) default null,
+                        ADD KEY `country_code` (`country_code`),
                         ADD primary key (id)";
         
         $sql[51] = "RENAME TABLE hs_hr_location TO ohrm_location";
@@ -471,8 +479,10 @@ class SchemaIncrementTask48 extends SchemaIncrementTask {
         
         $sql[53] = "ALTER TABLE hs_hr_emp_locations 
                         DROP PRIMARY KEY,
+                        DROP KEY loc_code,
                         CHANGE emp_number emp_number int not null,
                         CHANGE loc_code location_id int not null,
+                        ADD KEY `location_id` (`location_id`),
                         ADD primary key (emp_number, location_id)";
         
         $sql[54] = "alter table `hs_hr_emp_locations`
