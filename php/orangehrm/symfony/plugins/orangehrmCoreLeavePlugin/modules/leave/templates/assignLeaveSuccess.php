@@ -1,5 +1,4 @@
 <link href="<?php echo public_path('../../themes/orange/css/jquery/jquery.autocomplete.css') ?>" rel="stylesheet" type="text/css"/>
-<link href="<?php echo public_path('../../themes/orange/css/leave.css') ?>" rel="stylesheet" type="text/css"/>
 <link href="<?php echo public_path('../../themes/orange/css/ui-lightness/jquery-ui-1.7.2.custom.css') ?>" rel="stylesheet" type="text/css"/>
 
 <script type="text/javascript" src="<?php echo public_path('../../scripts/jquery/ui/ui.core.js') ?>"></script>
@@ -14,7 +13,6 @@
 
 <?php use_stylesheets_for_form($assignLeaveForm); ?>
 
-<?php echo stylesheet_tag('../orangehrmCoreLeavePlugin/css/assignLeaveSuccess') ?>
 <?php echo stylesheet_tag('orangehrm.datepicker.css') ?>
 <?php echo javascript_include_tag('orangehrm.datepicker.js') ?>
 
@@ -206,7 +204,7 @@
             //Validation
             $("#frmLeaveApply").validate({
                 rules: {
-                    'assignleave[txtEmployee]':{required: true },
+                    'assignleave[txtEmployee][empName]':{required: true },
                     'assignleave[txtLeaveType]':{required: true },
                     'assignleave[txtFromDate]': {
                         required: true,
@@ -235,7 +233,7 @@
                     'assignleave[txtToTime]': {validToTime: true}
                 },
                 messages: {
-                    'assignleave[txtEmployee]':{
+                    'assignleave[txtEmployee][empName]':{
                         required:'<?php echo __(ValidationMessages::REQUIRED); ?>'
                     },
                     'assignleave[txtLeaveType]':{
