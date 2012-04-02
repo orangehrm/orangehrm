@@ -337,3 +337,9 @@ form#frmList_ohrmListComponent div.actionbar div.formbuttons{
 form#frmCandidateVacancyStatus .savebutton {
     width: 110px !important;
 }
+
+/* leave summary specific */
+
+form#frmLeaveSummarySearch #leaveSummary_txtEmpName_empName {
+    width: 196px !important;
+}
