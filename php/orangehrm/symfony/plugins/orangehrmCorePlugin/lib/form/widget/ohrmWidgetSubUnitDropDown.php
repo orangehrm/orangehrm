@@ -95,6 +95,7 @@ class ohrmWidgetSubUnitDropDown extends sfWidgetFormSelect {
             $this->choices = $choices;            
         }
         
+        asort($this->choices);
         return $this->choices;               
     }
     
