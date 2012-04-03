@@ -724,7 +724,7 @@ class SchemaIncrementTask48 extends SchemaIncrementTask {
                             (3, 'Leave Approvals', 0),
                             (4, 'Leave Cancellations', 0),
                             (5, 'Leave Rejections', 0),
-                            (6, 'HSP Notifications', 0),
+                            #(6, 'HSP Notifications', 0),
                             (7, 'Performance Review Submissions', 0);";
         
         $sql[102] = "create table `ohrm_user_selection_rule`(
@@ -1953,7 +1953,7 @@ EOT;
                 $notificationTypeId = $mailNotificationMapArray[$row['notification_type_id']];
                 $status = $row['status'];
                 $email = $row['email'];
-                if($notificationTypeId) {
+                if($notificationTypeId && ($notificationTypeId != 6)) {
                     $sql = "UPDATE ohrm_email_notification SET 
                      is_enable = '$status'
                      WHERE id = '$notificationTypeId'";
