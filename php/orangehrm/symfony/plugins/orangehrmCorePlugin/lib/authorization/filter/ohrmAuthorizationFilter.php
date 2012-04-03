@@ -55,7 +55,8 @@ class ohrmAuthorizationFilter extends sfFilter {
         try {
             $secure = $this->context->getController()->getActionStack()->getLastEntry()->getActionInstance() ->getSecurityValue('is_secure');
 
-            if (!$secure || ($secure == "false") || ($secure == "off")) {
+            if (!$secure || ($secure === "false") || ($secure === "off")) {
+
                 $filterChain->execute();
                 return;            
             }
