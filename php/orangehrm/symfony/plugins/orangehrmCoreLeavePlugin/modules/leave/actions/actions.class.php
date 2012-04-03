@@ -223,18 +223,32 @@ class leaveActions extends sfActions {
         $leaveId = trim($request->getParameter("leaveId"));
         $comment = trim($request->getParameter("leaveComment"));
 
+        $essMode = $this->isEssMode();
+        
         $flag = 0;
         if($leaveRequestId != "") {
             $leaveRequest = $leaveRequestService->fetchLeaveRequest($leaveRequestId);
-            $leaveRequest->setLeaveComments($comment);
-            $leaves = $leaveRequestService->searchLeave($leaveRequestId);
-            $flag = $leaveRequestService->saveLeaveRequest($leaveRequest, $leaves);
+            $statusId = $leaveRequest->getLeaveStatusId();
+            
+            if($essMode && $statusId != PluginLeave::LEAVE_STATUS_LEAVE_PENDING_APPROVAL) { //ess can not comment on leaves other than status 'pending'
+                $flag = 0;
+            } else {
+                $leaveRequest->setLeaveComments($comment);
+                $leaves = $leaveRequestService->searchLeave($leaveRequestId);
+                $flag = $leaveRequestService->saveLeaveRequest($leaveRequest, $leaves);
+            }
         }
 
         if($leaveId != "") {
             $leave = $leaveRequestService->readLeave($leaveId);
-            $leave->setLeaveComments($comment);
-            $flag = $leaveRequestService->saveLeave($leave);
+            $statusId = $leave->getLeaveStatus();
+            
+            if($essMode && $statusId != PluginLeave::LEAVE_STATUS_LEAVE_PENDING_APPROVAL) { //ess can not comment on leaves other than status 'pending'
+                $flag = 0;
+            } else {
+                $leave->setLeaveComments($comment);
+                $flag = $leaveRequestService->saveLeave($leave);
+            }
         }
 
         return $this->renderText($flag);
@@ -250,6 +264,20 @@ class leaveActions extends sfActions {
         if (is_null($this->form)) {
             $this->form = $form;
         }
+    }
+    
+    protected function isEssMode() {
+         $userMode = 'ESS';
+         
+        if ($_SESSION['isSupervisor']) {
+            $userMode = 'Supervisor';
+        }
+
+        if (isset($_SESSION['isAdmin']) && $_SESSION['isAdmin'] == 'Yes') {
+            $userMode = 'Admin';
+        }
+        
+        return ($userMode == 'ESS');
     }
 
     /**

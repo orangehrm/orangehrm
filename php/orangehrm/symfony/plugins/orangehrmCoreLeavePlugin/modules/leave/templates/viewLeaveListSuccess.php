@@ -105,6 +105,8 @@ use_javascripts_for_form($form);
     var lang_save = '<?php echo __('Save'); ?>';
     var lang_length_exceeded_error = '<?php echo __(ValidationMessages::TEXT_LENGTH_EXCEEDS, array('%amount%' => 250)); ?>';    
     var lang_selectAction = '<?php echo __("Select Action");?>';
+    var leave_status_pending = '<?php echo PluginLeave::LEAVE_STATUS_LEAVE_PENDING_APPROVAL;?>';
+    var ess_mode = '<?php echo ($essMode) ? '1' : '0'; ?>';
     
     function submitPage(pageNo) {
         //    location.href = '<?php //echo url_for($baseUrl . '?pageNo='); ?>' + pageNo;

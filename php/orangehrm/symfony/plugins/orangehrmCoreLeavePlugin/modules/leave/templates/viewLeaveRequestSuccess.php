@@ -54,6 +54,8 @@ $messageType = empty($messageType) ? '' : "messageBalloon_{$messageType}";
             //<![CDATA[
 
     var leaveRequestId = <?php echo $leaveRequestId;?>;
+    var leave_status_pending = '<?php echo PluginLeave::LEAVE_STATUS_LEAVE_PENDING_APPROVAL_TEXT;?>';
+    var ess_mode = '<?php echo ($essMode) ? '1' : '0'; ?>';
     
     function handleSaveButton() {
         $(this).attr('disabled', true);
@@ -112,6 +114,16 @@ $messageType = empty($messageType) ? '' : "messageBalloon_{$messageType}";
             if (!id) {
                 var id = $(this).parent().siblings('input[id^="hdnLeave_"]').val();
             }
+            
+            /* Extracting the status text */
+            var status = $.trim($(this).closest('td').prev('td').text());
+
+            $('#commentSave').show();
+            //disable edit comment for ess for pending approval leave
+            if(ess_mode == 1 && status != leave_status_pending) {
+//                $('#commentSave').hide();
+            }
+            
             var comment = $('#hdnLeaveComment-' + id).val();
             var typeOfView = (mode == 'compact') ? 'request' : 'leave';
 

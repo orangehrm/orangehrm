@@ -17,6 +17,7 @@ abstract class PluginLeaveRequest extends BaseLeaveRequest {
     const LEVAE_REQUEST_STATUS_APPROVED = 'Scheduled';
     const LEVAE_REQUEST_STATUS_CANCELLED = 'Cancelled';
     const LEVAE_REQUEST_STATUS_REJECTED = 'Rejected';
+    const LEVAE_REQUEST_STATUS_DIFFER = -2;
 
     public function getNumberOfDays() {
         $this->_fetchLeave();
@@ -115,6 +116,15 @@ abstract class PluginLeaveRequest extends BaseLeaveRequest {
         } else {
             $this->_fetchLeave();
             return $this->canCancel;
+        }
+    }
+
+    public function getLeaveStatusId() {
+        $this->_fetchLeave();
+        if ($this->isStatusDiffer()) {
+            return self::LEVAE_REQUEST_STATUS_DIFFER;
+        } else {
+            return $this->leave[0]->getLeaveStatus();
         }
     }
 

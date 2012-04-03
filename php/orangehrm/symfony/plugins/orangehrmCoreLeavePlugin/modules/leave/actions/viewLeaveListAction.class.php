@@ -68,9 +68,24 @@ class viewLeaveListAction extends sfAction {
         return $mode;
     }
 
+    protected function isEssMode() {
+         $userMode = 'ESS';
+         
+        if ($_SESSION['isSupervisor']) {
+            $userMode = 'Supervisor';
+        }
+
+        if (isset($_SESSION['isAdmin']) && $_SESSION['isAdmin'] == 'Yes') {
+            $userMode = 'Admin';
+        }
+        
+        return ($userMode == 'ESS');
+    }
+
     public function execute($request) {
 
         $this->mode = $mode = $this->getMode();
+        $this->essMode = $this->isEssMode();
 
         $this->form = $this->getLeaveListForm($mode);
         $values = array();

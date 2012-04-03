@@ -10,5 +10,10 @@ class viewMyLeaveListAction extends viewLeaveListAction {
         $mode = LeaveListForm::MODE_MY_LEAVE_LIST;
         return $mode;
     }
+    
+    protected function isEssMode() {
+       
+        return true;
+    }
 
 }

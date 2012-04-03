@@ -65,6 +65,15 @@ $(document).ready(function() {
         }
         var comment = $('#hdnLeaveComment-' + id).val();
 
+        /* Extracting the status id */
+        var statusId = $(this).closest('td').prev('td').find('input[id^="hdnLeaveRequestStatus_'+id+'"]').val();
+        
+        $('#commentSave').show();
+        //disable edit comment for ess for pending approval leave
+        if(ess_mode == 1 && statusId != leave_status_pending) {
+//            $('#commentSave').hide();
+        }
+        
         $('#leaveId').val(id);
         $('#leaveComment').val(comment);
         $('#leaveOrRequest').val('request');

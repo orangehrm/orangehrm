@@ -81,6 +81,10 @@ class LeaveListConfigurationFactory extends ohrmListConfigurationFactory {
                 'labelGetter' => array('getStatus'),
                 'placeholderGetters' => array('id' => 'getLeaveRequestId'),
                 'urlPattern' => public_path('index.php/leave/viewLeaveRequest/id/{id}'),
+                'hasHiddenField' => true,
+                'hiddenFieldName' => 'leaveRequestStatus[{id}]',
+                'hiddenFieldId' => 'hdnLeaveRequestStatus_{id}',
+                'hiddenFieldValueGetter' => 'getLeaveStatusId',
             ),
         ));
 

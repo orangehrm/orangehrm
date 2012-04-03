@@ -11,11 +11,13 @@ abstract class PluginLeave extends BaseLeave {
     const LEAVE_STATUS_LEAVE_TAKEN = 3;
     const LEAVE_STATUS_LEAVE_WEEKEND = 4;
     const LEAVE_STATUS_LEAVE_HOLIDAY = 5;
+    
+    const LEAVE_STATUS_LEAVE_PENDING_APPROVAL_TEXT = 'Pending Approval';
 
     private static $leaveStatusText = array(
         self::LEAVE_STATUS_LEAVE_REJECTED => 'Rejected',
         self::LEAVE_STATUS_LEAVE_CANCELLED => 'Canceled',
-        self::LEAVE_STATUS_LEAVE_PENDING_APPROVAL => 'Pending Approval',
+        self::LEAVE_STATUS_LEAVE_PENDING_APPROVAL => self::LEAVE_STATUS_LEAVE_PENDING_APPROVAL_TEXT,
         self::LEAVE_STATUS_LEAVE_APPROVED => 'Scheduled',
         self::LEAVE_STATUS_LEAVE_TAKEN => 'Taken',
     );
