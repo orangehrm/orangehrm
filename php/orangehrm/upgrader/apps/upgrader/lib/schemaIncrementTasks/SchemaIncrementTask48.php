@@ -1233,18 +1233,20 @@ EOT;
         if($info){
             while($row = $this->upgradeUtility->fetchArray($info))
             {
-                $keys =  explode("|", $row['geninfo_keys']);
-                $values = explode("|", $row['geninfo_values']);
-                for($count = 0; $count < count($keys); $count++) {
-                    $keyValue[$keys[$count]] = $values[$count];
-                }
-            
-                $valueString = "'".$keyValue['COMPANY']."', '". $keyValue['TAX']."', '". $keyValue['PHONE']."', '". $keyValue['FAX']."', '". $keyValue['COUNTRY']."', '". $keyValue['STATE']."', '". $keyValue['CITY']."', '". $keyValue['ZIP']."', '". $keyValue['STREET1']."', '". $keyValue['STREET2']."', '". $keyValue['COMMENTS']."'";
-                $sql = "INSERT INTO ohrm_organization_gen_info 
-                                (name, tax_id, phone, fax, country, province, city, zip_code, street1, street2, note) 
-                                VALUES($valueString); ";
+                if ($row['geninfo_keys']) {
+                    $keys =  explode("|", $row['geninfo_keys']);
+                    $values = explode("|", $row['geninfo_values']);
+                    for($count = 0; $count < count($keys); $count++) {
+                        $keyValue[$keys[$count]] = $values[$count];
+                    }
                 
-                $success = $this->upgradeUtility->executeSql($sql);
+                    $valueString = "'".$keyValue['COMPANY']."', '". $keyValue['TAX']."', '". $keyValue['NAICS']."', '". $keyValue['PHONE']."', '". $keyValue['FAX']."', '". $keyValue['COUNTRY']."', '". $keyValue['STATE']."', '". $keyValue['CITY']."', '". $keyValue['ZIP']."', '". $keyValue['STREET1']."', '". $keyValue['STREET2']."', '". $keyValue['COMMENTS']."'";
+                    $sql = "INSERT INTO ohrm_organization_gen_info 
+                                    (name, tax_id, registration_number, phone, fax, country, province, city, zip_code, street1, street2, note) 
+                                    VALUES($valueString); ";
+                    
+                    $success = $this->upgradeUtility->executeSql($sql);
+                }
             }
         }
         return $success;
@@ -1551,7 +1553,7 @@ EOT;
             while($row = $this->upgradeUtility->fetchArray($memberships))
             {
                 $this->membershipMapArray[$row['membship_code']] = $count;
-                $valueString = "'".$count."', '". $row['membship_name']."'";
+                $valueString = "'".$count."', '". $this->upgradeUtility->escapeString($row['membship_name'])."'";
                 $sql = "INSERT INTO ohrm_membership
                             (id, name) 
                             VALUES($valueString); ";
@@ -2002,7 +2004,7 @@ EOT;
                 $rgt = $row['rgt'];
                 $id = $row['id'];
                 $parnt = $row['parnt'];
-                $valueString = "'".$id."', '". $name."', '". $description."', '". $lft."', '". $rgt."', '". $parnt."'";
+                $valueString = "'".$id."', '". $this->upgradeUtility->escapeString($name)."', '". $this->upgradeUtility->escapeString($description)."', '". $lft."', '". $rgt."', '". $parnt."'";
                 $sql = "INSERT INTO ohrm_subunit 
                         (id, name, description, lft, rgt, level) 
                         VALUES($valueString); ";
