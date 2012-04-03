@@ -189,7 +189,9 @@ class SchemaIncrementTask48 extends SchemaIncrementTask {
         
         $result[] = $this->updateOhrmSubunit();
         
-        for($i = 105; $i <= 135; $i++) {
+        $result[] = $this->upgradeUtility->executeSql($this->sql[105]);
+        
+        for($i = 107; $i <= 135; $i++) {
             $result[] = $this->upgradeUtility->executeSql($this->sql[$i]);
         }
         
@@ -756,38 +758,15 @@ class SchemaIncrementTask48 extends SchemaIncrementTask {
                            add constraint foreign key (work_station)
                             references ohrm_subunit(id) on delete set null;";
         
-        $sql[106] = "TRUNCATE hs_hr_unique_id;";
+        $uniqueIdArray = array(
+            'hs_hr_language', 'hs_hr_customer', 'hs_hr_job_title', 'hs_hr_empstat', 'hs_hr_eec', 'hs_hr_licenses', 'hs_hr_location',
+            'hs_hr_membership', 'hs_hr_membership_type', 'hs_hr_education', 'hs_hr_ethnic_race', 'hs_hr_skill', 'hs_hr_users', 'hs_pr_salary_grade',
+            'hs_hr_project', 'hs_hr_compstructtree', 'hs_hr_project_activity', 'hs_hr_workshift', 'hs_hr_job_spec', 'hs_hr_nationality'
+        );
         
-        $sql[107] = "INSERT INTO `hs_hr_unique_id`(last_id, table_name, field_name) VALUES
-                            (0, 'hs_hr_employee', 'emp_number'),
-                            (6, 'hs_hr_module', 'mod_id'),
-                            (1, 'hs_hr_user_group', 'userg_id'),
-                            (0, 'hs_hr_empreport', 'rep_code'),
-                            (0, 'hs_hr_leave', 'leave_id'),
-                            (0, 'hs_hr_leavetype', 'leave_type_id'),
-                            (0, 'hs_hr_holidays', 'holiday_id'),
-                            (0, 'hs_hr_leave_requests', 'leave_request_id'),
-                            (0, 'hs_hr_custom_export', 'export_id'),
-                            (0, 'hs_hr_custom_import', 'import_id'),
-                            (0, 'hs_hr_pay_period', 'id'),
-                            (0, 'hs_hr_hsp_summary', 'summary_id'),
-                            (0, 'hs_hr_hsp_payment_request', 'id'),
-                            (0, 'hs_hr_kpi', 'id'),
-                            (0, 'hs_hr_performance_review', 'id'),
-                            (0, 'hs_hr_leave_period', 'leave_period_id'),
-                            (2, 'ohrm_emp_reporting_method', 'reporting_method_id'),
-                            (0, 'ohrm_timesheet', 'timesheet_id'),
-                            (0, 'ohrm_timesheet_action_log', 'timesheet_action_log_id'),
-                            (0, 'ohrm_timesheet_item', 'timesheet_item_id'),
-                            (0,'ohrm_attendance_record', 'id'),
-                            (0, 'ohrm_job_vacancy', 'id'),
-                            (0, 'ohrm_job_candidate', 'id'),
-                            (80,'ohrm_workflow_state_machine', 'id'),
-                            (0, 'ohrm_job_candidate_attachment', 'id'),
-                            (0, 'ohrm_job_vacancy_attachment', 'id'),
-                            (0, 'ohrm_job_candidate_vacancy', 'id'),
-                            (0, 'ohrm_job_candidate_history', 'id'),
-                            (0, 'ohrm_job_interview', 'id');";
+        $tabelNames = join("','",$uniqueIdArray);  
+        
+        $sql[107] = "DELETE FROM hs_hr_unique_id WHERE table_name IN ('$tabelNames')";
         
         $row[1] = 'SELECT selectCondition FROM ohrm_project_activity LEFT JOIN (SELECT * FROM ohrm_timesheet_item WHERE whereCondition1) AS ohrm_timesheet_item  ON (ohrm_timesheet_item.activity_id = ohrm_project_activity.activity_id) LEFT JOIN ohrm_project ON (ohrm_project.project_id = ohrm_project_activity.project_id) LEFT JOIN hs_hr_employee ON (hs_hr_employee.emp_number = ohrm_timesheet_item.employee_id) LEFT JOIN ohrm_timesheet ON (ohrm_timesheet.timesheet_id = ohrm_timesheet_item.timesheet_id) LEFT JOIN ohrm_customer ON (ohrm_customer.customer_id = ohrm_project.customer_id) WHERE whereCondition2';
         $row[2] = 'SELECT selectCondition FROM hs_hr_employee LEFT JOIN (SELECT * FROM ohrm_attendance_record WHERE ( ( ohrm_attendance_record.punch_in_user_time BETWEEN "#@fromDate@,@1970-01-01@#" AND #@"toDate"@,@CURDATE()@# ) AND ( ohrm_attendance_record.punch_out_user_time BETWEEN "#@fromDate@,@1970-01-01@#" AND #@"toDate"@,@CURDATE()@# ) ) ) AS ohrm_attendance_record ON (hs_hr_employee.emp_number = ohrm_attendance_record.employee_id) WHERE hs_hr_employee.emp_number = #@employeeId@,@hs_hr_employee.emp_number AND (hs_hr_employee.termination_id is null) @# AND (hs_hr_employee.job_title_code = #@"jobTitle")@,@hs_hr_employee.job_title_code OR hs_hr_employee.job_title_code is null)@# AND (hs_hr_employee.work_station IN (#@subUnit)@,@SELECT id FROM ohrm_subunit) OR hs_hr_employee.work_station is null@#) AND (hs_hr_employee.emp_status = #@"employeeStatus")@,@hs_hr_employee.emp_status OR hs_hr_employee.emp_status is null)@#';
@@ -1500,13 +1479,14 @@ EOT;
             while($row = $this->upgradeUtility->fetchArray($salaryCurrancyDetails))
             {
                 $salGrdCode = $this->salaryGradeMapArray[$row['sal_grd_code']];
+                $currencyId = $row['currency_id'];
                 $minSalary = $row['salcurr_dtl_minsalary'] ? $row['salcurr_dtl_minsalary'] : 0;
                 $maxSalary = $row['salcurr_dtl_maxsalary'] ? $row['salcurr_dtl_maxsalary'] : 0;
                 $preSallaryGrdCode = $row['sal_grd_code'];
                 if($salGrdCode) {
                     $sql = "UPDATE hs_pr_salary_currency_detail SET 
                      sal_grd_code = '$salGrdCode', salcurr_dtl_minsalary = '$minSalary', salcurr_dtl_maxsalary = '$maxSalary'
-                     WHERE sal_grd_code = '$preSallaryGrdCode'";
+                     WHERE sal_grd_code = '$preSallaryGrdCode' AND currency_id = '$currencyId'";
                     
                     $result = $this->upgradeUtility->executeSql($sql);
                     if(!$result) {
