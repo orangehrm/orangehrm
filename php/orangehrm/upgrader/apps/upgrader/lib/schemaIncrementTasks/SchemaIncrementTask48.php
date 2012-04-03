@@ -973,7 +973,7 @@ class SchemaIncrementTask48 extends SchemaIncrementTask {
                         WHERE display_field_id in(47,49)";
         
         $sql[112] = "UPDATE ohrm_display_field 
-                        SET name = 'ohrm_membership.name', field_alias = 'name' WHERE display_field_id = '35'";
+                        SET name = 'ohrm_membership.name', field_alias = 'name', element_property = '<xml><getter>name</getter></xml>' WHERE display_field_id = '35'";
         
         $sql[113] = "DELETE FROM ohrm_display_field WHERE display_field_id IN ('16', '34', '79', '111');";
         
