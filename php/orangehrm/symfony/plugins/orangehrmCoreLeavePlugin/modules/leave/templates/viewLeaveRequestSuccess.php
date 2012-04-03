@@ -121,7 +121,7 @@ $messageType = empty($messageType) ? '' : "messageBalloon_{$messageType}";
             $('#commentSave').show();
             //disable edit comment for ess for pending approval leave
             if(ess_mode == 1 && status != leave_status_pending) {
-//                $('#commentSave').hide();
+                $('#commentSave').hide();
             }
             
             var comment = $('#hdnLeaveComment-' + id).val();

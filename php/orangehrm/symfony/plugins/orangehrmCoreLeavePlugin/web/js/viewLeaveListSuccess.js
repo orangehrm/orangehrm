@@ -71,7 +71,7 @@ $(document).ready(function() {
         $('#commentSave').show();
         //disable edit comment for ess for pending approval leave
         if(ess_mode == 1 && statusId != leave_status_pending) {
-//            $('#commentSave').hide();
+            $('#commentSave').hide();
         }
         
         $('#leaveId').val(id);
