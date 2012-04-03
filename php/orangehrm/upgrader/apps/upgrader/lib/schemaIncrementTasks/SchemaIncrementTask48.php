@@ -1237,7 +1237,7 @@ EOT;
                     $keys =  explode("|", $row['geninfo_keys']);
                     $values = explode("|", $row['geninfo_values']);
                     for($count = 0; $count < count($keys); $count++) {
-                        $keyValue[$keys[$count]] = $values[$count];
+                        $keyValue[$keys[$count]] = $this->upgradeUtility->escapeString($values[$count]);
                     }
                 
                     $valueString = "'".$keyValue['COMPANY']."', '". $keyValue['TAX']."', '". $keyValue['NAICS']."', '". $keyValue['PHONE']."', '". $keyValue['FAX']."', '". $keyValue['COUNTRY']."', '". $keyValue['STATE']."', '". $keyValue['CITY']."', '". $keyValue['ZIP']."', '". $keyValue['STREET1']."', '". $keyValue['STREET2']."', '". $keyValue['COMMENTS']."'";
@@ -1914,12 +1914,12 @@ EOT;
             while($row = $this->upgradeUtility->fetchArray($employee))
             {
                 $terminationDate = $row['terminated_date'];
-                $terminationReason = $row['termination_reason'] == '' ? 'NULL' : "'".$row['termination_reason']."'";
+                $terminationReason = $row['termination_reason'] == '' ? 'NULL' : "'".$this->upgradeUtility->escapeString($row['termination_reason'])."'";
                 $emp_number = $row['emp_number'];
                 if($terminationDate) {
-                    $valueString = "'".$count."', '". $row['emp_number']."', '". $terminationDate."', ". $terminationReason;
+                    $valueString = "'".$count."', '". $row['emp_number']."', 1 , '". $terminationDate."', ". $terminationReason;
                     $sql= "INSERT INTO ohrm_emp_termination 
-                            (id, emp_number, termination_date, note) 
+                            (id, emp_number, reason_id, termination_date, note) 
                             VALUES($valueString); ";
                     
                     $result = $this->upgradeUtility->executeSql($sql);
