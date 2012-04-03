@@ -84,7 +84,7 @@ class ohrmWidgetSubDivisionList extends sfWidgetForm implements ohrmEnhancedEmbe
                 $choice[$value] = str_repeat('&nbsp;&nbsp;', $node['level'] - 1) . $node['name'];
             }
         }
-        asort($choice);
+//        asort($choice);
         return $choice;
     }
 

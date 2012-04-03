@@ -306,7 +306,7 @@ class EmployeeJobDetailsForm extends BaseForm {
             }
         }
 
-        asort($subUnitList);
+//        asort($subUnitList);
         return($subUnitList);
     }
 
