@@ -1,4 +1,4 @@
 ## YAML Template.
 ---
 default:
-  is_secure: off
+  is_secure: false
