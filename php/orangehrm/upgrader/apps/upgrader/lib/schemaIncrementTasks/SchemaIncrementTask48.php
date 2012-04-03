@@ -1992,7 +1992,11 @@ EOT;
                 if($row['parnt'] == 0) {
                     $root = $row['id'];
                 }
-                $name = $row['title'].$count;
+                if (!$row['title']) {
+                    $name = 'Organization';
+                } else {
+                    $name = $row['title'].$count;
+                }
                 $description = $row['description'];
                 $lft = $row['lft'];
                 $rgt = $row['rgt'];
