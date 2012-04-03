@@ -54,7 +54,8 @@ class ohrmAuthorizationFilter extends sfFilter {
         // disable security on non-secure actions
         try {
             $secure = $this->context->getController()->getActionStack()->getLastEntry()->getActionInstance() ->getSecurityValue('is_secure');
-            if (!$secure) {
+
+            if (!$secure || ($secure == "false") || ($secure == "off")) {
                 $filterChain->execute();
                 return;            
             }
@@ -62,7 +63,7 @@ class ohrmAuthorizationFilter extends sfFilter {
             $logger->error('Error getting is_secure value for action: ' . $e);            
             $this->forwardToSecureAction();              
         }    
-        
+
         try {
             $userRoleManager = UserRoleManagerFactory::getUserRoleManager();  
             $this->context->setUserRoleManager($userRoleManager);
