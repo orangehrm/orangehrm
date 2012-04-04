@@ -22,6 +22,11 @@ class ohrmListSummaryHelper {
     private static $collection = array();
     private static $count = array();
 
+    /**
+     *
+     * @param mixed $value
+     * @param string $function 
+     */
     public static function collectValue($value, $function) {
 
         if (!isset(self::$collection[$function])) {
@@ -33,6 +38,12 @@ class ohrmListSummaryHelper {
         self::$count[$function]++;
     }
 
+    /**
+     *
+     * @param string $function
+     * @param mixed $decimals
+     * @return mixed 
+     */
     public static function getAggregateValue($function, $decimals) {
         $aggregateValue = null;
 
