@@ -10,7 +10,7 @@ class PluginUIManager {
      * @return PluginUIManager
      */
     public static function instance() {
-        if (!(self::$instance instanceof PluginConfigurationManager)) {
+        if (!(self::$instance instanceof PluginUIManager)) {
             self::$instance = new self();
         }
         return self::$instance;
@@ -55,12 +55,12 @@ class PluginUIManager {
                         if (!isset($this->uiSubComponents[$module])) {
                             $this->uiSubComponents[$module] = array();
                         }
-                        
+
                         foreach ($uiExtentionsForActions as $action => $extensions) {
                             if (!isset($this->uiSubComponents[$module][$action])) {
                                 $this->uiSubComponents[$module][$action] = array();
                             }
-                            
+
                             foreach ($extensions as $location => $subComponents) {
                                 if (isset($this->uiSubComponents[$module][$action][$location])) {
                                     $this->uiSubComponents[$module][$action][$location] = array_merge($this->uiSubComponents[$module][$action][$location], $subComponents);
@@ -70,7 +70,6 @@ class PluginUIManager {
                             }
                         }
                     }
-                    
                 }
             }
         }
