@@ -17,8 +17,8 @@
     <target>FR_Account Type</target>
    </trans-unit>
    <trans-unit id="4">
-    <source>Activate Employement</source>
-    <target>FR_Activate Employement</target>
+    <source>Activate Employment</source>
+    <target>FR_Activate Employment</target>
    </trans-unit>
    <trans-unit id="5">
     <source>Add Custom Field</source>
@@ -173,8 +173,8 @@
     <target>FR_Edit Emergency Contact</target>
    </trans-unit>
    <trans-unit id="43">
-    <source>Edit Employement Termination</source>
-    <target>FR_Edit Employement Termination</target>
+    <source>Edit Employment Termination</source>
+    <target>FR_Edit Employment Termination</target>
    </trans-unit>
    <trans-unit id="44">
     <source>Edit Membership Detail</source>
@@ -413,8 +413,8 @@
     <target>FR_Tax Exemptions</target>
    </trans-unit>
    <trans-unit id="103">
-    <source>Terminate Employement</source>
-    <target>FR_Terminate Employement</target>
+    <source>Terminate Employment</source>
+    <target>FR_Terminate Employment</target>
    </trans-unit>
    <trans-unit id="104">
     <source>Terminated Date</source>

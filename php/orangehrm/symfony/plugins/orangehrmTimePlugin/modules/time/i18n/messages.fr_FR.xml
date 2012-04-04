@@ -157,8 +157,8 @@
     <target>FR_Timesheet period start day has been set</target>
    </trans-unit>
    <trans-unit id="39">
-    <source>Timesheet period start day has not been defiend. Please contact HR Admin</source>
-    <target>FR_Timesheet period start day has not been defiend. Please contact HR Admin</target>
+    <source>Timesheet period start day has not been defined. Please contact HR Admin</source>
+    <target>FR_Timesheet period start day has not been defined. Please contact HR Admin</target>
    </trans-unit>
    <trans-unit id="40">
     <source>Timesheets Pending Action</source>

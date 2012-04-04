@@ -1651,7 +1651,7 @@
 	$lang_Time_NoEmploymentStatusDefined = "No employment status defined";
 
 	$lang_Time_SelectWeekStartDay = "Please select week start day";
-	$lang_Time_ContactAdminForTimesheetPeriodSet = "Timesheet period start day has not been defiend. Please contact HR Admin";
+	$lang_Time_ContactAdminForTimesheetPeriodSet = "Timesheet period start day has not been defined. Please contact HR Admin";
 	$lang_Time_ContactAdminForTimesheetPeriodSetComplete = "Timesheet period start day has been set";
 	$lang_Time_ProceedWithTimeModule = "Proceed with Time Module";
 

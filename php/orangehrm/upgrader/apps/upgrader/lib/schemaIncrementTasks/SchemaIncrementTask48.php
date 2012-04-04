@@ -679,7 +679,7 @@ class SchemaIncrementTask48 extends SchemaIncrementTask {
                             (6, 'Resigned'),
                             (7, 'Deceased'),
                             (8, 'Physically Disabled/Compensated'),
-                            (9, 'Layed off'),
+                            (9, 'Laid-off'),
                             (10, 'Dismissed');";
         
         $sql[94] = "ALTER TABLE hs_hr_employee

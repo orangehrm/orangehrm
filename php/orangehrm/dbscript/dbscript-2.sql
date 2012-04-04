@@ -1046,7 +1046,7 @@ INSERT INTO `ohrm_emp_termination_reason` VALUES (1, 'Other'),
 (6, 'Resigned'),
 (7, 'Deceased'),
 (8, 'Physically Disabled/Compensated'),
-(9, 'Layed off'),
+(9, 'Laid-off'),
 (10, 'Dismissed');
 
 INSERT INTO `ohrm_user_role` (`id`, `name`, `display_name`, `is_assignable`, `is_predefined`) VALUES

@@ -37,7 +37,7 @@
 
                 <br class="clear"/>
 		<tr>
-            <td><b><?php echo __("Timesheet period start day has not been defiend. Please contact HR Admin"); ?></b></td>
+            <td><b><?php echo __("Timesheet period start day has not been defined. Please contact HR Admin"); ?></b></td>
 		<?php } ?>
 		</tr>
 		</table>

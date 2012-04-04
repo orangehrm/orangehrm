@@ -20,9 +20,9 @@
     var lang_max_char_terminated_reason =  "<?php echo __(ValidationMessages::TEXT_LENGTH_EXCEEDS, array('%amount%' => 250)); ?>";
     var  lang_max_char_terminated_note =  "<?php echo __(ValidationMessages::TEXT_LENGTH_EXCEEDS, array('%amount%' => 250)); ?>";
     var lang_terminatedReasonRequired = "<?php echo __(ValidationMessages::REQUIRED); ?>";
-    var lang_activateEmployement = "<?php echo __("Activate Employement"); ?>";
-    var lang_terminateEmployement = "<?php echo __("Terminate Employement"); ?>";
-    var lang_editTerminateEmployement = "<?php echo __("Edit Employement Termination"); ?>";
+    var lang_activateEmployement = "<?php echo __("Activate Employment"); ?>";
+    var lang_terminateEmployement = "<?php echo __("Terminate Employment"); ?>";
+    var lang_editTerminateEmployement = "<?php echo __("Edit Employment Termination"); ?>";
     var activateEmployementUrl = '<?php echo url_for('pim/activateEmployement?empNumber=' . $empNumber); ?>';
 
     var datepickerDateFormat = '<?php echo get_datepicker_date_format($sf_user->getDateFormat()); ?>';
@@ -165,10 +165,10 @@
                                               $empTermination = $form->empTermination;
                                               if (!empty($empTermination)) {
                                                   $terminatedId = $empTermination->getId();
-                                                  $btnTitle = __("Activate Employement");
+                                                  $btnTitle = __("Activate Employment");
                                                   $label = __("Terminated on")." : ". set_datepicker_date_format($empTermination->getDate());
                                               } else {
-                                                  $btnTitle = __("Terminate Employement");
+                                                  $btnTitle = __("Terminate Employment");
                                               }
                                         ?>
                                               <input type="button" class="terminateButton" id="btnTerminateEmployement" style="margin-left: 5px; float: left;" value="<?php echo $btnTitle; ?>" />
@@ -194,7 +194,7 @@
                       </table>
 
 
-                      <div id="terminateEmployement" title="<?php echo __("Terminate Employement"); ?>"  style="display:none;">
+                      <div id="terminateEmployement" title="<?php echo __("Terminate Employment"); ?>"  style="display:none;">
                           <form id="frmTerminateEmployement" method="post"
                                 action="<?php echo url_for('pim/terminateEmployement?empNumber=' . $empNumber.'&terminatedId='.$terminatedId); ?>">
         <?php echo $employeeTerminateForm['_csrf_token']; ?>
