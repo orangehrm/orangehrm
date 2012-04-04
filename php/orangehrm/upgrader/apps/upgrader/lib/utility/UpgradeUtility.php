@@ -18,6 +18,7 @@ class UpgradeUtility {
         {
             die('Could not connect: ' . mysqli_connect_error());
         }
+        $this->dbConnection->set_charset("utf8");
         mysqli_autocommit($this->dbConnection, FALSE);
         return $this->dbConnection;
     }
