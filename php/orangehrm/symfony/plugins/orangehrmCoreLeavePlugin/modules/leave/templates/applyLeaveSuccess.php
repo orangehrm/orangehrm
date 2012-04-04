@@ -95,12 +95,17 @@
         }
 
         updateLeaveBalance();
+        
+        $('#applyleave_txtFromDate').change(function() {
+            updateLeaveBalance();
+        });
 
         //Bind date picker
         daymarker.bindElement("#applyleave_txtFromDate",
         {
             onSelect: function(date){
-                fromDateBlur(date)
+                fromDateBlur(date);
+                updateLeaveBalance();
             },
             dateFormat : datepickerDateFormat,
             onClose: function() {
@@ -162,6 +167,7 @@
 
         function updateLeaveBalance() {
             var leaveType = $('#applyleave_txtLeaveType').val();
+            var startDate = $('#applyleave_txtFromDate').val();
             if (leaveType == "") {
                 $('#applyleave_leaveBalance').text('--');
             } else {
@@ -169,7 +175,7 @@
                 $.ajax({
                     type: 'GET',
                     url: leaveBalanceUrl,
-                    data: '&leaveType=' + leaveType,
+                    data: '&leaveType=' + leaveType + '&startDate=' + startDate,
                     dataType: 'json',
                     success: function(data) {
                         if ($('#leaveBalance').length == 0) {

@@ -26,7 +26,7 @@ class getLeaveBalanceAjaxAction extends sfAction {
 
     protected $leavePeriodService;
     protected $leaveEntitlementService;
-    
+
     /**
      * Get leave balance for given leave type
      * Request parameters:
@@ -39,43 +39,55 @@ class getLeaveBalanceAjaxAction extends sfAction {
     public function execute($request) {
         sfConfig::set('sf_web_debug', false);
         sfConfig::set('sf_debug', false);
-        
+
         $leaveTypeId = $request->getParameter('leaveType');
         $empNumber = $request->getParameter('empNumber');
-        
-        $user = $this->getUser();        
+
+        $user = $this->getUser();
         $loggedEmpNumber = $user->getAttribute('auth.empNumber');
-        
+
         $allowed = false;
-            
+
         if (empty($empNumber)) {
-            $empNumber = $loggedEmpNumber; 
+            $empNumber = $loggedEmpNumber;
             $allowed = true;
-        } else {        
-                        
+        } else {
+
             $manager = $this->getContext()->getUserRoleManager();
             if ($manager->isEntityAccessible('Employee', $empNumber)) {
                 $allowed = true;
             } else {
                 $allowed = ($loggedEmpNumber == $empNumber);
-            }            
+            }
         }
-        
+
         $response = $this->getResponse();
         $response->setHttpHeader('Expires', '0');
         $response->setHttpHeader("Cache-Control", "must-revalidate, post-check=0, pre-check=0");
         $response->setHttpHeader("Cache-Control", "private", false);
-        
+
         if ($allowed) {
-            $leavePeriod = $this->getLeavePeriodService()->getCurrentLeavePeriod();
-            $balance = $this->getLeaveEntitlementService()->getLeaveBalance($empNumber, $leaveTypeId, $leavePeriod->getLeavePeriodId());
+            $localizationService = new LocalizationService();
+            $inputDatePattern = sfContext::getInstance()->getUser()->getDateFormat();
+            $startDateTimeStamp = strtotime($localizationService->convertPHPFormatDateToISOFormatDate($inputDatePattern, $request->getParameter("startDate")));
+
+            if ($startDateTimeStamp) {
+                $leavePeriod = $this->getLeavePeriodService()->getLeavePeriod($startDateTimeStamp);
+            } else {
+                $leavePeriod = $this->getLeavePeriodService()->getCurrentLeavePeriod();
+            }
+
+            $balance = '--';
+            if ($leavePeriod instanceof LeavePeriod) {
+                $balance = $this->getLeaveEntitlementService()->getLeaveBalance($empNumber, $leaveTypeId, $leavePeriod->getLeavePeriodId());
+            }
 
             echo json_encode($balance);
         }
-        
+
         return sfView::NONE;
-    }       
-    
+    }
+
     /**
      * @return LeavePeriodService
      */
@@ -94,8 +106,8 @@ class getLeaveBalanceAjaxAction extends sfAction {
      */
     public function setLeavePeriodService(LeavePeriodService $leavePeriodService) {
         $this->leavePeriodService = $leavePeriodService;
-    }   
-    
+    }
+
     /**
      * @return LeaveEntitlementService
      */
@@ -112,6 +124,7 @@ class getLeaveBalanceAjaxAction extends sfAction {
      */
     public function setLeaveEntitlementService(LeaveEntitlementService $leaveEntitlementService) {
         $this->leaveEntitlementService = $leaveEntitlementService;
-    }    
+    }
+
 }
 

@@ -111,11 +111,17 @@
 
         updateLeaveBalance();
 
+        $('#assignleave_txtFromDate').change(function() {
+            fromDateBlur($(this).val());
+            updateLeaveBalance();
+        });
+
         //Bind date picker
         daymarker.bindElement("#assignleave_txtFromDate",
         {
             onSelect: function(date){
-            fromDateBlur(date)
+                fromDateBlur(date);
+                updateLeaveBalance();
             },
             dateFormat : datepickerDateFormat,
             onClose: function() {
@@ -183,6 +189,7 @@
             function updateLeaveBalance() {
                 var leaveType = $('#assignleave_txtLeaveType').val();
                 var empId = $('#assignleave_txtEmployee_empId').val();
+                var startDate = $('#assignleave_txtFromDate').val();
                 if (leaveType == "" || empId == "") {
                     $('#assignleave_leaveBalance').text('--');
                 } else {
@@ -190,7 +197,7 @@
                     $.ajax({
                         type: 'GET',
                         url: leaveBalanceUrl,
-                        data: '&leaveType=' + leaveType+'&empNumber=' + empId,
+                        data: '&leaveType=' + leaveType+'&empNumber=' + empId + '&startDate=' + startDate,
                         dataType: 'json',
                         success: function(data) {
                             if ($('#leaveBalance').length == 0) {
