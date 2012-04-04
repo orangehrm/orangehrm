@@ -11,7 +11,7 @@ class PluginExecutionManager {
      * @return PluginExecutionManager
      */
     public static function instance() {
-        if (!(self::$instance instanceof PluginConfigurationManager)) {
+        if (!(self::$instance instanceof PluginExecutionManager)) {
             self::$instance = new self();
         }
         return self::$instance;
@@ -81,12 +81,7 @@ class PluginExecutionManager {
                             $this->preExecuteMethodStack[$module][$action] = array_merge($this->preExecuteMethodStack[$module][$action], $extentions['pre']);
                             $this->postExecuteMethodStack[$module][$action] = array_merge($this->postExecuteMethodStack[$module][$action], $extentions['post']);
                         }
-
-
-
-                        
                     }
-                    
                 }
             }
         }
