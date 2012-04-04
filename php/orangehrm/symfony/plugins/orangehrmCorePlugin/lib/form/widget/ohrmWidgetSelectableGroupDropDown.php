@@ -70,11 +70,11 @@ class ohrmWidgetSelectableGroupDropDown extends sfWidgetFormSelect {
 
         $this->addOption('show_all_option', true);
         $this->addOption('all_option_label', __('All'));
-        
+
         $this->addOption('show_select_option', false);
         $this->addOption('select_option_label', '-- ' . __('Select') . ' --');
         $this->addOption('select_option_value', -1);
-        
+
         $this->addOption('indent', true);
         $this->addOption('indent_string', "&nbsp;&nbsp;");
     }
@@ -90,10 +90,10 @@ class ohrmWidgetSelectableGroupDropDown extends sfWidgetFormSelect {
     protected function getOptionsForSelect($value, $choices, $level = 0) {
         $mainAttributes = $this->attributes;
         $this->attributes = array();
-        
+
         $indent = $this->getOption('indent');
         $indentWith = $this->getOption('indent_string');
-            
+
         if (!is_array($value)) {
             $value = array($value);
         }
@@ -102,35 +102,34 @@ class ohrmWidgetSelectableGroupDropDown extends sfWidgetFormSelect {
         $value_set = array_flip($value);
         $options = array();
 
-        if ($level == 0) {            
+        if ($level == 0) {
             if ($this->getOption('show_select_option')) {
                 $selectLabel = self::escapeOnce($this->getOption('select_option_label'));
                 $selectValue = self::escapeOnce($this->getOption('select_option_value'));
-                $options[] = $this->renderContentTag('option', $selectLabel, 
-                        array('value' => $selectValue));
-            }            
+                $options[] = $this->renderContentTag('option', $selectLabel, array('value' => $selectValue));
+            }
             if ($this->getOption('show_all_option')) {
-                
+
                 $allLabel = self::escapeOnce($this->getOption('all_option_label'));
                 $allValue = ($this->getOption('all_option_value')) ? $this->getOption('all_option_value') : implode(',', $this->getAllKeys($choices));
                 $allAttributes = array('value' => $allValue);
-                
+
                 if (isset($value_set[strval($allValue)])) {
                     $allAttributes['selected'] = 'selected';
-                }                
+                }
                 $options[] = $this->renderContentTag('option', $allLabel, $allAttributes);
                 $level++;
             }
         }
 // TODO: Use CSS for indenting instead of using indent with.
 // Then we can only indent the drop down and have select not indented.
-        
+
         foreach ($choices as $key => $option) {
             $attributes = array();
 
             if (is_array($option) && !empty($option)) {
-                $subOptions = $this->getOptionsForSelect($value, $option, $level+1);
-                
+                $subOptions = $this->getOptionsForSelect($value, $option, $level + 1);
+
                 $groupValue = implode(',', array_keys($option)) . ",-1";
 
                 $attributes['class'] = 'optiongroup';
@@ -143,7 +142,7 @@ class ohrmWidgetSelectableGroupDropDown extends sfWidgetFormSelect {
                 $label = self::escapeOnce($key);
                 if ($indent && $level > 0) {
                     $label = str_repeat($indentWith, $level) . $label;
-                }                
+                }
                 $options[] = $this->renderContentTag('option', $label, $attributes);
 
                 $options = array_merge($options, $subOptions);
@@ -153,11 +152,11 @@ class ohrmWidgetSelectableGroupDropDown extends sfWidgetFormSelect {
                     $attributes['selected'] = 'selected';
                 }
                 $label = self::escapeOnce($option);
-                
+
                 if ($indent && $level > 0) {
                     $label = str_repeat($indentWith, $level) . $label;
                 }
-                
+
                 $options[] = $this->renderContentTag('option', $label, $attributes);
             }
         }
@@ -166,27 +165,27 @@ class ohrmWidgetSelectableGroupDropDown extends sfWidgetFormSelect {
 
         return $options;
     }
-    
+
     public function getAllKeys($choices) {
         $keys = array();
-        
-        foreach($choices as $key => $value) {
+
+        foreach ($choices as $key => $value) {
             if (is_array($value)) {
                 $keys = array_merge($keys, $this->getAllKeys($value));
             } else {
                 $keys[] = $key;
             }
         }
-        
+
         return $keys;
     }
-    
+
     public function getStylesheets() {
         $styleSheets = parent::getStylesheets();
         $styleSheets['/orangehrmCorePlugin/css/ohrmWidgetSelectableGroupDropDown.css'] = 'all';
 
         return($styleSheets);
-    }    
+    }
 
 }
 
