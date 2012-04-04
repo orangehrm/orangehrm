@@ -11,7 +11,7 @@ class SchemaIncrementTask46 extends SchemaIncrementTask {
         
         $result[] = $this->updateSalaryCurrencyDetail();
         
-        for($i = 0; $i <= 1; $i++) {
+        for($i = 0; $i <= 2; $i++) {
             $result[] = $this->upgradeUtility->executeSql($this->sql[$i]);
         }
         
@@ -34,7 +34,10 @@ class SchemaIncrementTask46 extends SchemaIncrementTask {
         $sql[0] = "UPDATE hs_hr_emp_basicsalary 
                         SET currency_id = 'ZAR' WHERE currency_id = 'SAR'";
         
-        $sql[1] = "UPDATE hs_hr_currency_type 
+        $sql[1] = "UPDATE hs_hr_emp_member_detail 
+                        SET ememb_subs_currency = 'ZAR' WHERE ememb_subs_currency = 'SAR'";
+        
+        $sql[2] = "UPDATE hs_hr_currency_type 
                         SET code = '173', currency_name = 'Saudi Arabia Riyal' WHERE currency_id = 'SAR'";
         
         $this->sql = $sql;
