@@ -254,8 +254,9 @@
                                           }
 
                                           function openTerminateEmploymentDialog(){
-                                              $('#ui-dialog-title-terminateEmployement').text(lang_editTerminateEmployement)
-                                            $('#terminateEmployement').dialog('open');
+                                              $('#ui-dialog-title-terminateEmployement').text(lang_editTerminateEmployement);
+                                              $('#terminate_date_Button').removeAttr('disabled');
+                                              $('#terminateEmployement').dialog('open');
                                           }
 
                                           $(document).ready(function() {
