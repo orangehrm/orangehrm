@@ -169,7 +169,7 @@
                                                 foreach ($salaryList as $salary) {
                                                     $cssClass = ($row % 2) ? 'even' : 'odd';
                                                     //empty($salary->from_date)
-                                                    $component = htmlspecialchars($salary->getSalaryComponent());
+                                                    $component = $salary->getSalaryComponent();
                                                     $period = $salary->getPayperiod();
                                                     $payPeriodName = empty($period) ? '' : htmlspecialchars($period->getName());
                                                     $payPeriodCode = empty($period) ? '' : htmlspecialchars($period->getCode());
