@@ -12,7 +12,7 @@ class CookieManager {
     public function setCookie($name, $value = null, $expire = null, $path = null) {
         setcookie($name, $value, $expire, $path);
     }
-    
+
     /**
      *
      * @param string $name
@@ -21,7 +21,7 @@ class CookieManager {
     public function destroyCookie($name, $path) {
         setcookie($name, null, time() - 3600, $path);
     }
-    
+
     /**
      *
      * @param string $name
@@ -31,7 +31,7 @@ class CookieManager {
     public function readCookie($name, $defaultValue = null) {
         return (isset($_COOKIE[$name])) ? $_COOKIE[$name] : $defaultValue;
     }
-    
+
     public function isCookieSet($name) {
         return isset($_COOKIE[$name]);
     }
