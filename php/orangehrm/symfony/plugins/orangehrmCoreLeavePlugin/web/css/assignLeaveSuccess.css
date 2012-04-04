@@ -25,6 +25,11 @@ form#frmLeaveApply table.tableArrange tbody tr td select#assignleave_txtLeaveTyp
 label {
     color: black;
     font-size: 12px;
+    margin-top: 6px !important;
+}
+
+.ohrm_datepicker {
+    margin-top: 6px !important;
 }
 
 div.error {
@@ -36,7 +41,7 @@ div.error {
 }
 
 #assignleave_txtComment{
-    margin-top: 10px;
+    margin-top: 6px !important;
 }
 
 #assignleave_txtFromTime, #assignleave_txtToTime {

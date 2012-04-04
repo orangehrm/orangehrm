@@ -70,6 +70,7 @@
         <?php echo $assignLeaveForm['txtFromTime']->renderError(); ?>
         <?php } ?>
         <form id="frmLeaveApply" name="frmLeaveApply" method="post" action="">
+            <br class="clear"/>
             <?php echo $assignLeaveForm->render(); ?>
             <!-- here we have the button -->
             <div class="formbuttons paddingLeft">
