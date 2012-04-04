@@ -117,20 +117,39 @@ abstract class ohrmListConfigurationFactory implements ListConfigurationFactory 
         self::$userId = $userId;
     }
 
+    /**
+     *
+     * @param array $permissions 
+     */
     public static function setPermissions($permissions) {
         self::$permissions = $permissions;
     }
 
+    /**
+     * Initializes the properties 
+     */
     protected function init() {
         $this->headerGroups = array(new ListHeaderGroup(array()));
     }
 
+    /**
+     * Property setter
+     * 
+     * @param string $name
+     * @param mixed $value 
+     */
     public function __set($name, $value) {
         if ($name === 'headers') {
             $this->setHeaders($value);
         }
     }
 
+    /**
+     * Property getter
+     * 
+     * @param string $name
+     * @return mixed 
+     */
     public function __get($name) {
         if ($name === 'headers') {
             return $this->getHeaders();
@@ -139,6 +158,9 @@ abstract class ohrmListConfigurationFactory implements ListConfigurationFactory 
         }
     }
 
+    /**
+     * Init class 
+     */
     private function __init() {
 
         if (!$this->initialized) {
