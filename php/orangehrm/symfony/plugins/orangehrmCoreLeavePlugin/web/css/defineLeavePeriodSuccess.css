@@ -40,3 +40,7 @@
 .labelTd {
     width: 150px;
 }
+
+div#comboHolder {
+    width: 300px;
+}

@@ -44,7 +44,7 @@ function sockComm($postArr) {
 	if(!$fp)
 	    	return false;
 
-	    fputs($fp, "POST $path HTTP/1.1\r\n");
+	    fputs($fp, "$method $path HTTP/1.1\r\n");
 	    fputs($fp, "Host: $host\r\n");
 	    fputs($fp, "Content-type: application/x-www-form-urlencoded\r\n");
 	    fputs($fp, "Content-length: " . strlen($data) . "\r\n");

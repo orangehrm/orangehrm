@@ -161,4 +161,3 @@ use_javascripts_for_form($form);
     
     //]]>
 </script>
-

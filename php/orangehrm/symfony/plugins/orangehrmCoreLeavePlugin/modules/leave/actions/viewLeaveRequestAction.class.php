@@ -55,11 +55,15 @@ class viewLeaveRequestAction extends sfAction {
         return $mode;
     }
     
-    protected function isEssMode() {
+    protected function isEssMode($requesterEmpNumber) {
          $userMode = 'ESS';
          
         if ($_SESSION['isSupervisor']) {
-            $userMode = 'Supervisor';
+            if($this->getMode($requesterEmpNumber) == self::MODE_MY_LEAVE_DETAILED_LIST) {
+                $userMode = 'ESS';
+            } else {
+                $userMode = 'Supervisor';
+            }
         }
 
         if (isset($_SESSION['isAdmin']) && $_SESSION['isAdmin'] == 'Yes') {
@@ -121,7 +125,7 @@ class viewLeaveRequestAction extends sfAction {
         $employee = $leaveRequest->getEmployee();
 
         $this->mode = $this->getMode($employee->getEmpNumber());
-        $this->essMode = $this->isEssMode();
+        $this->essMode = $this->isEssMode($employee->getEmpNumber());
 
         $list = $this->getLeaveRequestService()->searchLeave($this->leaveRequestId);
 

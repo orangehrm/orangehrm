@@ -53,10 +53,10 @@
         <tr class="datesForNonLeapYears tableArrangetr">
             <td align="left"><?php echo __("Start Date"); ?> <span class=required>*</span></td>
             <td>
-                <span id="comboHolder">
-                <?php echo $form['cmbStartMonthForNonLeapYears']->render(); ?>
+                <div id="comboHolder">
+                <?php echo $form['cmbStartMonthForNonLeapYears']->render(); ?>&nbsp;
                 <?php echo $form['cmbStartDateForNonLeapYears']->render(); ?>
-                </span>
+                </div>
             </td>
         </tr>
         <tr><td></td><td id="inlineErrorHolder2" class="errorHolder"></td></tr>
