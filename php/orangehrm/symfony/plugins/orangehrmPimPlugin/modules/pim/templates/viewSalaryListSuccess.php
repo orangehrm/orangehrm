@@ -178,7 +178,7 @@
                                                     $currencyName = empty($currency) ? '' : __(htmlspecialchars($currency->getCurrencyName()));
                                                     $currencyId = empty($currency) ? '' : htmlspecialchars($currency->getCurrencyId());
                                                     $amount = $salary->getBasicSalary();
-                                                    $comments = htmlspecialchars($salary->getComments());
+                                                    $comments = $salary->getComments();
                                                     $salaryGrade = $salary->getSalGrdCode();
 
                                                     $directDeposit = $salary->getDirectDebit();
