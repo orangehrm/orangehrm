@@ -117,8 +117,8 @@
 
         document.frmLeaveSummarySearch.pageNo.value = pageNo;
         document.frmLeaveSummarySearch.hdnAction.value = 'paging';
-        if ($('#leaveSummary_txtEmpName').val() == lang_typeHint) {
-            $('#leaveSummary_txtEmpName').val('');
+        if ($('#leaveSummary_txtEmpName_empName').val() == lang_typeHint) {
+            $('#leaveSummary_txtEmpName_empName').val('');
         }
         document.getElementById('frmLeaveSummarySearch').submit();
     }

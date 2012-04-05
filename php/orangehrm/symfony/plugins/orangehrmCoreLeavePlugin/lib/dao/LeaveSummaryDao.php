@@ -83,7 +83,7 @@ class LeaveSummaryDao extends BaseDao {
             $where[] = "(a.termination_id IS NULL)";
         }
         
-        //$where[] = "b.available_flag = 1";
+        $where[] = "b.available_flag = 1";
         if(count($where) > 0) {
             $q .= ' WHERE '.implode(' AND ',$where);
         }
