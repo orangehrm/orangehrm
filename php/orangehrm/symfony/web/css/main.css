@@ -99,3 +99,8 @@ table.data-table th {
     text-align: left;
     padding-left: 2px;
 }
+
+.loading {
+    background: white url('../images/loading.gif') right center no-repeat;
+    color: #D8D8D8;
+}

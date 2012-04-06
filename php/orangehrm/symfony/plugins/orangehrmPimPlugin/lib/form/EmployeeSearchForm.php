@@ -51,7 +51,7 @@ class EmployeeSearchForm extends BaseForm {
     public function configure() {
 
         $this->setWidgets(array(
-            'employee_name' => new ohrmWidgetEmployeeNameAutoFill(),
+            'employee_name' => new ohrmWidgetEmployeeNameAutoFill(array('loadingMethod'=>'ajax')),
             'id' => new sfWidgetFormInputText(),
         ));
 

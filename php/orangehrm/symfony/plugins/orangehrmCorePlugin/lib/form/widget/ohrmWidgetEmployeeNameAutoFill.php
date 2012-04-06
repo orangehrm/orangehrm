@@ -28,11 +28,13 @@
 
 class ohrmWidgetEmployeeNameAutoFill extends sfWidgetFormInput {
     
+    
+    
     public function configure($options = array(), $attributes = array()) {
 
         $this->addOption('employeeList', '');
         $this->addOption('jsonList', '');
-        
+        $this->addOption('loadingMethod','');
     }    
 
     public function render($name, $value = null, $attributes = array(), $errors = array()) {
@@ -55,41 +57,77 @@ class ohrmWidgetEmployeeNameAutoFill extends sfWidgetFormInput {
                 var idStoreField = $("#%s");
                 var typeHint = '%s';
                 var hintClass = 'inputFormatHint';
+                var loadingMethod = '%s';
             
-                if (nameField.val() == '') {
-                    nameField.val(typeHint).addClass(hintClass);
-                }
-
                 nameField.one('focus', function() {
 
-                    if ($(this).hasClass(hintClass)) {
-                        $(this).val("");
-                        $(this).removeClass(hintClass);
-                    }
-                    
-                });
-
-                nameField.autocomplete(employees, {
-
-                        formatItem: function(item) {
-                            return item.name;
+                        if ($(this).hasClass(hintClass)) {
+                            $(this).val("");
+                            $(this).removeClass(hintClass);
                         }
-                        ,matchContains:true
-                    }).result(function(event, item) {
-                        idStoreField.val(item.id);
-                    }
+
+                    });
                     
-                );
+                if( loadingMethod != 'ajax'){
+                    if (nameField.val() == '') {
+                        nameField.val(typeHint).addClass(hintClass);
+                    }
+
+                    
+
+                    nameField.autocomplete(employees, {
+
+                            formatItem: function(item) {
+                                return item.name;
+                            }
+                      ,matchContains:true
+                        }).result(function(event, item) {
+                            idStoreField.val(item.id);
+                        }
+
+                    );
+                 }else{
+                        nameField.val('%s').addClass('loading');
+                        $.ajax({
+                               url: "%s",
+                               data: "",
+                               dataType: 'json',
+                               success: function(employeeList){
+
+                                     nameField.autocomplete(employeeList, {
+
+                                                formatItem: function(item) {
+                                                    return item.name;
+                                                }
+                                                ,matchContains:true
+                                            }).result(function(event, item) {
+                                                idStoreField.val(item.id);
+                                            }
+
+                                        );
+                                         nameField.css("background-image", "none"); 
+                                        
+                                         nameField.val(typeHint).addClass(hintClass);
+                                         
+                               }
+                             });
+                 }
                 
             }); // End of $(document).ready
 
+                 
         </script>
 EOF
                         ,
                         $this->getEmployeeListAsJson($this->getEmployeeList()),
                         $this->getHtmlId($name),
                         $hiddenFieldId,
-                        $typeHint);
+                        $typeHint,
+                        $this->getOption('loadingMethod'),
+                        __('loading'),
+                        url_for('pim/getEmployeeListAjax'));
+                        
+        
 
         return "\n\n" . $html . "\n\n" . $this->getHiddenFieldHtml($name, $empIdValue) . "\n\n" . $javaScript . "\n\n";
         
@@ -123,15 +161,20 @@ EOF
     
     protected function getEmployeeList() {
         
-        $employeeList = $this->getOption('employeeList'); 
+        $employeeList = $this->getOption('employeeList');
+        $loadingMethod = $this->getOption('loadingMethod');
         
         if (is_array($employeeList)) {
             return $employeeList;
         }
         
-        $employees = UserRoleManagerFactory::getUserRoleManager()->getAccessibleEntities('Employee');
-        return $employees;
-        
+        if( $loadingMethod != 'ajax'){
+            $employees = UserRoleManagerFactory::getUserRoleManager()->getAccessibleEntities('Employee');
+            
+            return $employees;
+        }else{
+            return array();
+        }
     }
 
     protected function getEmployeeListAsJson($employeeList) {
