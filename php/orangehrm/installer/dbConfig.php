@@ -81,7 +81,7 @@ function submitDBInfo() {
 		return;
 	}
 
-	if(document.frmInstall.chkSameUser.checked && frm.dbOHRMUserName.value == '') {
+	if(!document.frmInstall.chkSameUser.checked && frm.dbOHRMUserName.value == '') {
 		alert('OrangeHRM DB User-name left Empty');
 		frm.dbOHRMUserName.focus();
 		return;
@@ -145,7 +145,7 @@ document.frmInstall.submit();
 
  <tr>
         <td class="tdComponent">Database to Use</td>
-        <td class="tdValues"> <select name="dbmethods" onchange="dosubmit();">
+        <td class="tdValues"> <select name="cMethod" onchange="dosubmit();">
 
                 <?php
                     $selectEx = "";
@@ -157,8 +157,8 @@ document.frmInstall.submit();
                         $selectDB = "selected";
                     }
                 ?>
-                                        <option value="" <?php echo $selectEx; ?>>Existing Empty Database</option>
-                                        <option value="" <?php echo $selectDB; ?>>New Database</option>
+                                        <option value="existing" <?php echo $selectEx; ?>>Existing Empty Database</option>
+                                        <option value="new" <?php echo $selectDB; ?>>New Database</option>
                               </select>
         </td>
 </tr>
@@ -214,8 +214,7 @@ document.frmInstall.submit();
 
 <br />
 
-<input type="hidden" name="cMethod" value="<?php echo $_SESSION['cMethod'] == 'existing'?'new':'existing'; ?>" />
-
+<!--<input type="hidden" name="cMethod" value="<?php //echo $_SESSION['cMethod'] == 'existing'?'new':'existing'; ?>" />-->
 
 <br />
 <input type="hidden" id="dbCreateMethod" name="dbCreateMethod" value="<?php echo $_SESSION['cMethod'] == 'existing'?'existing':'new'; ?>" />
