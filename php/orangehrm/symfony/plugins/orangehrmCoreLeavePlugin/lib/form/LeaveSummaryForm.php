@@ -48,6 +48,7 @@ class LeaveSummaryForm extends sfForm {
     public $recordsLimit = 20;
     public $saveSuccess;
     public $loggedUserId;
+    public $userType;
     public $subordinatesList;
     public $currentLeavePeriodId;
 
@@ -65,6 +66,7 @@ class LeaveSummaryForm extends sfForm {
     public function configure() {
 
         $this->loggedUserId = $this->getOption('loggedUserId');
+        $this->userType = $this->getUserType();
         $this->searchParam['employeeId'] = $this->getOption('employeeId');
         $this->searchParam['cmbWithTerminated'] = $this->getOption('cmbWithTerminated');
         $this->empId = $this->getOption('empId');
@@ -513,6 +515,25 @@ class LeaveSummaryForm extends sfForm {
      */
     protected function hasAdministrativeFilters() {
         return ($this->hasAdministrativeFilters);
+    }
+    
+    /**
+     * Returns Logged in user type
+     * @return string
+     * @todo Refactor this method to use auth classes instead of directly accessing the session
+     */
+    protected function getUserType() {
+        $userType = 'ESS';
+        
+        if ($_SESSION['isSupervisor']) {
+            $userType = 'Supervisor';
+        }
+
+        if (isset($_SESSION['isAdmin']) && $_SESSION['isAdmin'] == 'Yes') {
+            $userType = 'Admin';
+        }
+        
+        return $userType;
     }
 
 }
