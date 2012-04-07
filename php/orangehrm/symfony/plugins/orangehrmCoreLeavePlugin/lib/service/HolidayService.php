@@ -118,7 +118,35 @@ class HolidayService extends BaseService {
      * @return Holidays
      */
     public function searchHolidays($startDate = null, $endDate = null) {
-        return $this->getHolidayDao()->searchHolidays($startDate, $endDate);
+
+        $holidayList = array();
+        $holidayList = $this->getHolidayDao()->searchHolidays($startDate, $endDate);
+
+        $startDateTimeStamp = (is_null($startDate)) ? strtotime(date("Y-m-d")) : strtotime($startDate);
+        $endDateTimeStamp = (is_null($endDate)) ? strtotime(date("Y-m-d")) : strtotime($endDate);
+
+        $formattedHolidayList = array();
+        foreach ($holidayList as $holiday) {
+            if ($holiday->getRecurring() == 1) {
+                $startYearRecurring = date("Y", $startDateTimeStamp) . '-' . date("m", strtotime($holiday->getDate())) . '-' . date("d", strtotime($holiday->getDate()));
+                $startYearRecurringTimeStamp = strtotime($startYearRecurring);
+                if (($startYearRecurringTimeStamp >= $startDateTimeStamp) && ($startYearRecurringTimeStamp <= $endDateTimeStamp)) {
+                    $holiday->setDate(date("Y-m-d", $startYearRecurringTimeStamp));
+                    $formattedHolidayList[] = $holiday;
+                } else {
+                    $endYearRecurring = date("Y", $endDateTimeStamp) . '-' . date("m", strtotime($holiday->getDate())) . '-' . date("d", strtotime($holiday->getDate()));
+                    $endYearRecurringTimeStamp = strtotime($endYearRecurring);
+                    if (($endYearRecurringTimeStamp >= $startDateTimeStamp) && ($endYearRecurringTimeStamp <= $endDateTimeStamp)) {
+                        $holiday->setDate(date("Y-m-d", $endYearRecurringTimeStamp));
+                        $formattedHolidayList[] = $holiday;
+                    }
+                }                
+            } else {
+                $formattedHolidayList[] = $holiday;
+            }
+        }
+
+        return $formattedHolidayList;
     }
 
     /**
