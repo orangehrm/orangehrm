@@ -17,7 +17,7 @@
  * if not, write to the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
  * Boston, MA  02110-1301, USA
  */
-class ReportGeneratorService {
+class ReportGeneratorService extends BaseService {
     const LIST_SEPARATOR = "|\n|";
 
     // ReportableService Data Access Object
