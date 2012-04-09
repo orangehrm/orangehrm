@@ -103,13 +103,13 @@ class SchemaIncrementTask44 extends SchemaIncrementTask {
          // New constraints
          $sql[15] = "alter table ohrm_display_field
                      add constraint foreign key (report_group_id) 
-                        references ohrm_report_group(report_group_id) on delete cascade;
+                        references ohrm_report_group(report_group_id) on delete cascade,
                      add constraint foreign key (display_field_group_id)
                         references ohrm_display_field_group(id) on delete set null";
 
          $sql[16] = "alter table ohrm_composite_display_field
                      add constraint foreign key (report_group_id)
-                       references ohrm_report_group(report_group_id) on delete cascade;
+                       references ohrm_report_group(report_group_id) on delete cascade,
                      add constraint foreign key (display_field_group_id)
                        references ohrm_display_field_group(id) on delete set null";
 
@@ -279,7 +279,7 @@ class SchemaIncrementTask44 extends SchemaIncrementTask {
                      hs_hr_employee.emp_oth_email')";
          
          $sql[39] = "INSERT INTO `ohrm_report` (`report_id`, `name`, `report_group_id`, `use_filter_field`, `type`) VALUES 
-                     (5, 'PIM Sample Report', 3, 1, 'PIM_DEFINED');";
+                     (5, 'PIM Sample Report', 3, 1, 'PIM_DEFINED')";
          
          $sql[40] = "INSERT INTO `ohrm_filter_field` (`filter_field_id`, `report_group_id`, `name`, 
     `where_clause_part`, `filter_field_widget`, `condition_no`, `required`) VALUES 
