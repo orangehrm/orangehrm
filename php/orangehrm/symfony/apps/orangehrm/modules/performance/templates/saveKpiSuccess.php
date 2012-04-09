@@ -91,12 +91,12 @@
 			 		},
 			 		txtMinRate:{ 
 				 		number:"<?php echo __("Should be a number")?>",
-				 		minmax:"<?php echo __("Minimum Rating should be lesser than Maximum Rating")?>",
+				 		minmax:"<?php echo __("Minimum Rating should be less than Maximum Rating")?>",
 				 		maxlength:"<?php echo __("Should be less than %number% digits", array('%number%' => 5))?>"
 			 		},
 			 		txtMaxRate: {
 				 		number:"<?php echo __("Should be a number")?>", 
-				 		minmax:"<?php echo __("Minimum Rating should be lesser than Maximum Rating")?>",
+				 		minmax:"<?php echo __("Minimum Rating should be less than Maximum Rating")?>",
 				 		maxlength:"<?php echo __("Should be less than %number% digits", array('%number%' => 5))?>"
 				 		}
 			 	 }
