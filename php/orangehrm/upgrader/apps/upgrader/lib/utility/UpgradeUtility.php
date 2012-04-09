@@ -62,6 +62,10 @@ class UpgradeUtility {
         return mysqli_real_escape_string($this->dbConnection, $string);
     }
     
+    public function decodeHtmlEntity($string) {
+        return html_entity_decode($string, ENT_QUOTES);
+    }
+    
     public function setApplicationRootPath ($applicationRootPath) {
         $this->applicationRootPath = $applicationRootPath;
     }
