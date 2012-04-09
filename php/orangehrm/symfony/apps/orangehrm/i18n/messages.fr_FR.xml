@@ -5119,6 +5119,10 @@
     <source>Submitted</source>
     <target>FR_Submitted</target>
    </trans-unit>
+   <trans-unit id="1112">
+    <source>Loading</source>
+    <target>FR_Loading</target>
+   </trans-unit>
   </body>
  </file>
 </xliff>

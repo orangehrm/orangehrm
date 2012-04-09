@@ -124,7 +124,7 @@ EOF
                         $hiddenFieldId,
                         $typeHint,
                         $this->getOption('loadingMethod'),
-                        __('loading'),
+                        __('Loading'),
                         url_for('pim/getEmployeeListAjax'));
                         
         
