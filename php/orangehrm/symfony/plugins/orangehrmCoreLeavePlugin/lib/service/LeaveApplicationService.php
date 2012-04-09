@@ -110,13 +110,24 @@ class LeaveApplicationService extends AbstractLeaveAllocationService {
      */
     protected function isValidLeaveRequest($leaveRequest, $leaveRecords) {
         $holidayCount = 0;
-        $requestedLeaveDays = 0;
+        $requestedLeaveDays = array();
         $holidays = array(Leave::LEAVE_STATUS_LEAVE_WEEKEND, Leave::LEAVE_STATUS_LEAVE_HOLIDAY);
         foreach ($leaveRecords as $k => $leave) {
             if (in_array($leave->getLeaveStatus(), $holidays)) {
                 $holidayCount++;
             }
-            $requestedLeaveDays += $leave->getLeaveLengthDays();
+            $leavePeriod = $this->getLeavePeriodService()->getLeavePeriod(strtotime($leave->getLeaveDate()));
+            if($leavePeriod instanceof LeavePeriod) {
+                $leavePeriodId = $leavePeriod->getLeavePeriodId();
+            } else {
+                $leavePeriodId = null; //todo create leave period?
+            }
+
+            if(key_exists($leavePeriodId, $requestedLeaveDays)) {
+                $requestedLeaveDays[$leavePeriodId] += $leave->getLeaveLengthDays();
+            } else {
+                $requestedLeaveDays[$leavePeriodId] = $leave->getLeaveLengthDays();
+            }
         }
 
         if ($this->isLeaveRequestNotExceededLeaveBalance($requestedLeaveDays, $leaveRequest) && $this->hasWorkingDays($holidayCount, $leaveRecords)) {
@@ -126,7 +137,8 @@ class LeaveApplicationService extends AbstractLeaveAllocationService {
     
     /**
      * isLeaveRequestNotExceededLeaveBalance
-     * @param LeaveType $leaveType
+     * @param array $requestedLeaveDays key => leave period id
+     * @param LeaveRequest $leaveRequest
      * @returns boolean
      */
     protected function isLeaveRequestNotExceededLeaveBalance($requestedLeaveDays, $leaveRequest) {

@@ -252,13 +252,14 @@ class LeaveRequestService extends BaseService {
     /**
      *
      * @param $empId
-     * @param $leaveTypeId
+     * @param $leaveTypeId 
+     * @param $$leavePeriodId
      * @return int
      */
-    public function getNumOfAvaliableLeave($empId, $leaveTypeId) {
-
-        return $this->getLeaveRequestDao()->getNumOfAvaliableLeave($empId, $leaveTypeId);
-
+    public function getNumOfAvaliableLeave($empId, $leaveTypeId, $leavePeriodId = null) {
+        
+        return $this->getLeaveRequestDao()->getNumOfAvaliableLeave($empId, $leaveTypeId, $leavePeriodId);
+        
     }
 
     /**

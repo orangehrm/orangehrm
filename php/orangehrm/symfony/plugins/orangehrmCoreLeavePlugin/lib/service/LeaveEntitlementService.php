@@ -184,21 +184,23 @@ class LeaveEntitlementService extends BaseService {
 
     /**
      * Check Whether the Employee is Allowed to Apply Requested Leave Days
-     * @param decimal $requestedLeaveDays
+     * @param array $requestedLeaveDays key => leave period id
      * @param LeaveRequest $leaveRequest
      * @return boolean 
      */
     public function isLeaveRequestNotExceededLeaveBalance($requestedLeaveDays, $leaveRequest) {
-        
-        $leaveQuota = $this->getEmployeeLeaveEntitlementDays($leaveRequest->getEmployeeId(), $leaveRequest->getLeaveTypeId(), $leaveRequest->getLeavePeriodId());        
-        $acceptedLeaveDays = $this->getLeaveRequestService()->getNumOfAvaliableLeave($leaveRequest->getEmployeeId(), $leaveRequest->getLeaveTypeId());
-        
-        if($requestedLeaveDays <= ($leaveQuota - $acceptedLeaveDays)) {
-            return true;
+
+        print_r($requestedLeaveDays);
+        foreach ($requestedLeaveDays as $leavePeriodId => $days) {
+            $leaveQuota = $this->getEmployeeLeaveEntitlementDays($leaveRequest->getEmployeeId(), $leaveRequest->getLeaveTypeId(), $leavePeriodId);
+            $acceptedLeaveDays = $this->getLeaveRequestService()->getNumOfAvaliableLeave($leaveRequest->getEmployeeId(), $leaveRequest->getLeaveTypeId(), $leavePeriodId);
+            
+            if ($days > ($leaveQuota - $acceptedLeaveDays)) {
+                return false;
+            }
         }
-        
-        return false;
-        
+
+        return true;
     }
 
 }

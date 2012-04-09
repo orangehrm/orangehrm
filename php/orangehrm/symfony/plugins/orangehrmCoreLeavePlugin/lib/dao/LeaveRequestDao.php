@@ -243,7 +243,7 @@ class LeaveRequestDao extends BaseDao {
      * @param $leaveTypeId
      * @return int
      */
-    public function getNumOfAvaliableLeave($empId, $leaveTypeId) {
+    public function getNumOfAvaliableLeave($empId, $leaveTypeId, $leavePeriodId = null) {
         try {
 
 
@@ -253,8 +253,12 @@ class LeaveRequestDao extends BaseDao {
                     ->andWhere("l.employee_id = ?", $empId)
                     ->andWhere("l.leave_type_id = ?", $leaveTypeId)
                     ->andWhereNotIn('l.leave_status', array(Leave::LEAVE_STATUS_LEAVE_CANCELLED, Leave::LEAVE_STATUS_LEAVE_PENDING_APPROVAL, Leave::LEAVE_STATUS_LEAVE_REJECTED));
-
-
+                    
+            if($leavePeriodId) {
+                $q->leftJoin('l.LeaveRequest lr');
+                $q->andWhere('lr.leave_period_id = ?', $leavePeriodId);
+            }
+            
             $record = $q->fetchOne();
 
             return $record['daysLength'];
