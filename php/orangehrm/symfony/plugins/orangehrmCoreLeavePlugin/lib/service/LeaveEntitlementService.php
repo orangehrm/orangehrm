@@ -190,7 +190,6 @@ class LeaveEntitlementService extends BaseService {
      */
     public function isLeaveRequestNotExceededLeaveBalance($requestedLeaveDays, $leaveRequest) {
 
-        print_r($requestedLeaveDays);
         foreach ($requestedLeaveDays as $leavePeriodId => $days) {
             $leaveQuota = $this->getEmployeeLeaveEntitlementDays($leaveRequest->getEmployeeId(), $leaveRequest->getLeaveTypeId(), $leavePeriodId);
             $acceptedLeaveDays = $this->getLeaveRequestService()->getNumOfAvaliableLeave($leaveRequest->getEmployeeId(), $leaveRequest->getLeaveTypeId(), $leavePeriodId);
