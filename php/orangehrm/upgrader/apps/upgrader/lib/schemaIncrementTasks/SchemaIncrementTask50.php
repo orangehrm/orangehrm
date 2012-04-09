@@ -19,6 +19,8 @@ class SchemaIncrementTask50 extends SchemaIncrementTask {
             $result[] = $this->upgradeUtility->executeSql($this->sql[$i]);
         }
         
+        $result[] = $this->updateHsHrEmpPicture();
+        
         $this->checkTransactionComplete($result);
         $this->updateOhrmUpgradeInfo($this->transactionComplete, $this->incrementNumber);
         $this->upgradeUtility->finalizeTransaction($this->transactionComplete);
@@ -389,6 +391,8 @@ class SchemaIncrementTask50 extends SchemaIncrementTask {
                       PRIMARY KEY (`id`)
                     ) ENGINE=InnoDB  DEFAULT CHARSET=utf8;";
         
+        $sql[35] = "SELECT * FROM hs_hr_emp_picture";
+        
         $this->sql = $sql;
     
     }
@@ -409,6 +413,43 @@ class SchemaIncrementTask50 extends SchemaIncrementTask {
             if (!$result) {
                 $success = false;
             }
+        }
+        return $success;
+    }
+    
+    
+    private function updateHsHrEmpPicture() {
+        $pictures = $this->upgradeUtility->executeSql($this->sql[35]);
+        $success = true;
+        if($pictures){
+            $baseDir = sfConfig::get('sf_root_dir')."/cache/tempImages/";
+            if (!file_exists($baseDir)) {
+                mkdir($baseDir);
+            }
+            
+            while($row = $this->upgradeUtility->fetchArray($pictures))
+            {
+                $empNumber = $row['emp_number'];
+                $filename = $row['epic_filename'];
+                $imageData = $row['epic_picture'];
+                $filePath = $baseDir.$filename;
+                
+                $this->upgradeUtility->saveImage($filePath, $imageData);
+                list($width, $height) = getimagesize($filePath);
+                $sizeArray = $this->upgradeUtility->pictureSizeAdjust($height, $width);
+                $adjustedWidth = $sizeArray['width'];
+                $adjustedheight = $sizeArray['height'];
+                $sql = "UPDATE hs_hr_emp_picture 
+                        SET epic_file_width = '$adjustedWidth', epic_file_height = '$adjustedheight' WHERE emp_number = $empNumber";
+                
+                $result = $this->upgradeUtility->executeSql($sql);
+                if (!$result) {
+                    $success = false;
+                }
+                
+                unlink($filePath);
+            }
+            rmdir($baseDir);
         }
         return $success;
     }
