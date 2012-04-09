@@ -1241,7 +1241,10 @@ EOT;
                     for($count = 0; $count < count($keys); $count++) {
                         $keyValue[$keys[$count]] = $this->upgradeUtility->escapeString($values[$count]);
                     }
-                
+                    
+                    if (strlen($keyValue['COUNTRY']) > 30) {
+                        $keyValue['COUNTRY'] = '';
+                    }
                     $valueString = "'".$keyValue['COMPANY']."', '". $keyValue['TAX']."', '". $keyValue['NAICS']."', '". $keyValue['PHONE']."', '". $keyValue['FAX']."', '". $keyValue['COUNTRY']."', '". $keyValue['STATE']."', '". $keyValue['CITY']."', '". $keyValue['ZIP']."', '". $keyValue['STREET1']."', '". $keyValue['STREET2']."', '". $keyValue['COMMENTS']."'";
                     $sql = "INSERT INTO ohrm_organization_gen_info 
                                     (name, tax_id, registration_number, phone, fax, country, province, city, zip_code, street1, street2, note) 
