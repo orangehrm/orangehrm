@@ -30,7 +30,8 @@ class EmailConfigurationTest extends PHPUnit_Framework_TestCase {
 
     public function testConfInitialValues() {
 
-        $emailConf = new EmailConfiguration();
+        $emailConfigurationService = new EmailConfigurationService();
+        $emailConf = $emailConfigurationService->getEmailConfiguration();
 
         $this->assertEquals('smtp', $emailConf->getMailType());
         $this->assertEquals('example@example.com', $emailConf->getSentAs());
@@ -46,7 +47,8 @@ class EmailConfigurationTest extends PHPUnit_Framework_TestCase {
 
     public function testSaveEmailConfigurationSmtpValues() {
 
-        $emailConf = new EmailConfiguration();
+        $emailConfigurationService = new EmailConfigurationService();
+        $emailConf = $emailConfigurationService->getEmailConfiguration();
 
         $emailConf->setMailType('smtp');
         $emailConf->setSentAs('example@example2.com');
@@ -77,7 +79,8 @@ class EmailConfigurationTest extends PHPUnit_Framework_TestCase {
 
     public function testSaveEmailConfigurationSendmailValues() {
 
-        $emailConf = new EmailConfiguration();
+        $emailConfigurationService = new EmailConfigurationService();
+        $emailConf = $emailConfigurationService->getEmailConfiguration();
 
         $emailConf->setMailType('sendmail');
         $emailConf->setSendmailPath('path/to/new/sendmail');

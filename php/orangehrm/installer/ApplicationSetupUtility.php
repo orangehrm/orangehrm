@@ -324,30 +324,6 @@ CONFCONT;
 
 }
 
-public static function writeEmailConfigFile() {
-
-    $confContent = <<< CONFCONT
-mailType:
-sentAs:
-smtp:
-  host:
-  port:
-  username:
-  password:
-  authType:
-  securityType:
-sendmail:
-  path:
-CONFCONT;
-
-	$filename = ROOT_PATH . '/symfony/apps/orangehrm/config/emailConfiguration.yml';
-	$handle = fopen($filename, 'w');
-	fwrite($handle, $confContent);
-
-    fclose($handle);
-
-}
-
 public static function writeParamConfigFile() {
 
     $confContent = <<< CONFCONT
@@ -458,7 +434,6 @@ public static function install() {
 		case 5 :	error_log (date("r")." Write Conf - Starting\n",3, "installer/log.txt");
 					self::writeConfFile();
 					self::writeSymfonyDbConfigFile();
-                                        self::writeEmailConfigFile();
                                         self::writeParamConfigFile();
 					error_log (date("r")." Write Conf - Done\n",3, "installer/log.txt");
 					if (!isset($error) || !isset($_SESSION['error'])) {

@@ -143,10 +143,10 @@
 		//Validate the form
 		$("#frmSave").validate({
 			 rules: {
-			 	txtMailAddress: { required: true }
+			 	'txtMailAddress': { required: true }
 		 	 },
 		 	 messages: {
-		 		txtMailAddress: '<?php echo __(ValidationMessages::REQUIRED); ?>'
+		 		'txtMailAddress': '<?php echo __(ValidationMessages::REQUIRED); ?>'
 		 	 }
 		 });
 		$("#chkSendTestEmail").click(function() {
@@ -204,8 +204,12 @@
              });
             $("#txtSmtpPort").rules("add", {
                 required: true,
+                number: true,
+                maxlength: 10,
                messages: {
-                 required: '<?php echo __(ValidationMessages::REQUIRED); ?>'
+                 required: '<?php echo __(ValidationMessages::REQUIRED); ?>',
+                 number: '<?php echo __('Should be a number'); ?>',
+                 maxlength: '<?php echo __(ValidationMessages::TEXT_LENGTH_EXCEEDS, array('%amount%' => 10)); ?>'
                }
            });
         } else {

@@ -69,8 +69,8 @@ class EmailService extends BaseService {
     }
 
     public function __construct() {
-
-        $this->emailConfig = new EmailConfiguration();
+        $emailConfigurationService = new EmailConfigurationService();
+        $this->emailConfig = $emailConfigurationService->getEmailConfiguration();
 
         if ($this->emailConfig->getMailType() == 'smtp' ||
             $this->emailConfig->getMailType() == 'sendmail') {

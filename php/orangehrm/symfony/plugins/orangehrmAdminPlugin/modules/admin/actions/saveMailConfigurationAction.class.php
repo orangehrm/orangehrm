@@ -21,11 +21,12 @@ class saveMailConfigurationAction extends sfAction {
 
     public function execute($request) {
 
+        $emailConfigurationService = new EmailConfigurationService();
         $this->form = new EmailConfigurationForm(array(), array(), true);
         $this->form->bind($request->getParameter($this->form->getName()));
 
         $emailConfiguration = $this->form->populateEmailConfiguration($request);
-        $emailConfiguration->save();
+        $emailConfigurationService->saveEmailConfiguration($emailConfiguration);
 
         if ($request->getParameter('chkSendTestEmail')) {
 

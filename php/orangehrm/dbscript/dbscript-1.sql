@@ -1219,6 +1219,21 @@ create table `ohrm_upgrade_history` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8;
 
+
+create table `ohrm_email_configuration` (
+  `id` int(10) not null auto_increment,
+  `mail_type` varchar(50) DEFAULT NULL,
+  `sent_as` varchar(250) NOT NULL,
+  `sendmail_path` varchar(250) DEFAULT NULL,
+  `smtp_host` varchar(250) DEFAULT NULL,
+  `smtp_port` int(10) DEFAULT NULL,
+  `smtp_username` varchar(250) DEFAULT NULL,
+  `smtp_password` varchar(250) DEFAULT NULL,
+  `smtp_auth_type` varchar(50) DEFAULT NULL,
+  `smtp_security_type` varchar(50) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8;
+
 alter table ohrm_email_subscriber
        add constraint foreign key (notification_id)
                              references ohrm_email_notification(id) on delete cascade;

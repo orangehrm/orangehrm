@@ -67,13 +67,14 @@ class EmailConfigurationForm extends BaseForm {
 
     public function populateEmailConfiguration($request) {
 
-        $emailConfiguration = new EmailConfiguration();
+        $emailConfigurationService = new EmailConfigurationService();
+        $emailConfiguration = $emailConfigurationService->getEmailConfiguration();
 
-
+        $stmpPort = $request->getParameter('txtSmtpPort');
         $emailConfiguration->setMailType($request->getParameter('cmbMailSendingMethod'));
         $emailConfiguration->setSentAs($request->getParameter('txtMailAddress'));
         $emailConfiguration->setSmtpHost($request->getParameter('txtSmtpHost'));
-        $emailConfiguration->setSmtpPort($request->getParameter('txtSmtpPort'));
+        $emailConfiguration->setSmtpPort($stmpPort ? $stmpPort : NULL);
         $emailConfiguration->setSmtpUsername($request->getParameter('txtSmtpUser'));
         $emailConfiguration->setSmtpPassword($request->getParameter('txtSmtpPass'));
         $emailConfiguration->setSmtpAuthType($request->getParameter('optAuth'));

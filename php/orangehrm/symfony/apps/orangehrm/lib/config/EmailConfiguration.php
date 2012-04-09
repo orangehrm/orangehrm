@@ -21,7 +21,7 @@
  */
 
 
-class EmailConfiguration {
+class EmailConfiguration2 {
 
     private $mailType;
     private $sentAs;

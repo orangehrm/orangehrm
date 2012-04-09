@@ -70,7 +70,8 @@ abstract class orangehrmMailer {
 
     public function getSystemFrom() {
 
-        $emailConfig = new EmailConfiguration();
+        $emailConfigurationService = new EmailConfigurationService();
+        $emailConfig = $emailConfigurationService->getEmailConfiguration();
         return array($emailConfig->getSentAs() => 'OrangeHRM');
 
     }

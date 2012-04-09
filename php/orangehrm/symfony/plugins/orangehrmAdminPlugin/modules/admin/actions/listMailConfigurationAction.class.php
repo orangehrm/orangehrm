@@ -20,10 +20,10 @@
 class listMailConfigurationAction extends sfAction {
 
     public function execute($request) {
-        $emailConfiguration = new EmailConfiguration();
-
+        $emailConfigurationService = new EmailConfigurationService();
+        $emailConfiguration = $emailConfigurationService->getEmailConfiguration();
         $this->mailAddress = $emailConfiguration->getSentAs();
-        $this->sendMailPath = $emailConfiguration->getSendMailPath();
+        $this->sendMailPath = $emailConfiguration->getSendmailPath();
         $this->smtpAuth = $emailConfiguration->getSmtpAuthType();
         $this->smtpSecurity = $emailConfiguration->getSmtpSecurityType();
         $this->smtpHost = $emailConfiguration->getSmtpHost();

@@ -468,3 +468,30 @@ Module:
       autoincrement: true
     name: string(120)
     status: integer
+
+EmailConfiguration:
+  tableName: ohrm_email_configuration
+  columns:
+    id:
+      type: integer
+      primary: true
+      autoincrement: true
+    mail_type as mailType:
+      type: string(50)
+    sent_as as sentAs:
+      type: string(250)
+      notnull: true
+    sendmail_path as sendmailPath:
+      type: string(250)
+    smtp_host as smtpHost:
+      type: string(250)
+    smtp_port as smtpPort:
+      type: integer
+    smtp_username as smtpUsername:
+      type: string(250)
+    smtp_password as smtpPassword:
+      type: string(250)
+    smtp_auth_type as smtpAuthType:
+      type: string(50)
+    smtp_security_type as smtpSecurityType:
+      type: string(50)
