@@ -73,8 +73,8 @@
     <target>FR_From Time</target>
    </trans-unit>
    <trans-unit id="18">
-    <source>From time should be lesser than To time</source>
-    <target>FR_From time should be lesser than To time</target>
+    <source>From time should be less than To time</source>
+    <target>FR_From time should be less than To time</target>
    </trans-unit>
    <trans-unit id="19">
     <source>Full Day</source>

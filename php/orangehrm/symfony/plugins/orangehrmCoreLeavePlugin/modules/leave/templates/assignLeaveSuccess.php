@@ -267,7 +267,7 @@
                         validWorkShift : "<?php echo __('Should be less than work shift length'); ?>"
                     },
                     'assignleave[txtToTime]':{
-                        validToTime:"<?php echo __('From time should be lesser than To time'); ?>"
+                        validToTime:"<?php echo __('From time should be less than To time'); ?>"
                 }
             },
             errorElement : 'div',
