@@ -36,11 +36,54 @@ if (!mysql_query("TRUNCATE TABLE `ohrm_user_role`")) { echo mysql_error(); die; 
 if (!mysql_query("TRUNCATE TABLE `ohrm_user`")) { echo mysql_error(); die; }
 
 // User roles
-$q = "INSERT INTO `ohrm_user_role` (`id`, `name`, `display_name`, `is_assignable`, `is_predefined`) VALUES (1, 'Admin', 'Admin', 1, 1), (2, 'ESS', 'ESS', 1, 1)";
+$q = "INSERT INTO `ohrm_user_role` (`id`, `name`, `display_name`, `is_assignable`, `is_predefined`) VALUES
+                                    (1, 'Admin', 'Admin', 1, 1),
+                                    (2, 'ESS', 'ESS', 1, 1),
+                                    (3, 'Supervisor', 'Supervisor', 0, 1),
+                                    (4, 'ProjectAdmin', 'ProjectAdmin', 0, 1),
+                                    (5, 'Interviewer', 'Interviewer', 0, 1),
+                                    (6, 'Offerer', 'Offerer', 0, 1),
+                                    (7, 'Interviewer', 'Interviewer', 0, 1),
+                                    (8, 'Offerer', 'Offerer', 0, 1)";
+
 if (!mysql_query($q)) { echo mysql_error(); die; }
 
 // Default admin
 $q = "INSERT INTO `ohrm_user` ( `user_name`, `user_password`,`user_role_id`) VALUES ('admin', '21232f297a57a5a743894a0e4a801fc3', 1)";
+if (!mysql_query($q)) { echo mysql_error(); die; }
+
+//Adding eligible screens
+$q = "INSERT INTO ohrm_user_role_screen (user_role_id, screen_id, can_read, can_create, can_update, can_delete) VALUES
+                                        (1, 1, 1, 1, 1, 1),
+                                        (2, 1, 0, 0, 0, 0),
+                                        (3, 1, 0, 0, 0, 0),
+                                        (1, 2, 1, 1, 1, 1),
+                                        (2, 2, 0, 0, 0, 0),
+                                        (3, 2, 0, 0, 0, 0),
+                                        (1, 3, 1, 1, 1, 1),
+                                        (2, 3, 0, 0, 0, 0),
+                                        (3, 3, 0, 0, 0, 0),
+                                        (1, 4, 1, 1, 1, 1),
+                                        (1, 5, 1, 1, 1, 1),
+                                        (3, 5, 1, 0, 0, 0),
+                                        (1, 6, 1, 0, 0, 1),
+                                        (1, 7, 1, 1, 1, 1),
+                                        (1, 8, 1, 1, 1, 1),
+                                        (1, 9, 1, 1, 1, 1),
+                                        (1, 10, 1, 1, 1, 1),
+                                        (1, 11, 1, 1, 1, 1),
+                                        (1, 12, 1, 1, 1, 1),
+                                        (1, 13, 1, 1, 1, 1),
+                                        (1, 14, 1, 1, 1, 1),
+                                        (1, 16, 1, 1, 1, 0),
+                                        (2, 16, 1, 1, 1, 0),
+                                        (1, 17, 1, 1, 1, 0),
+                                        (2, 17, 1, 1, 1, 0),
+                                        (1, 18, 1, 1, 1, 0),
+                                        (2, 18, 1, 0, 0, 0),
+                                        (3, 18, 1, 0, 0, 0),
+                                        (1, 19, 1, 1, 1, 1)";
+
 if (!mysql_query($q)) { echo mysql_error(); die; }
 
 // Employee data
