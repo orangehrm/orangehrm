@@ -5123,6 +5123,10 @@
     <source>Loading</source>
     <target>FR_Loading</target>
    </trans-unit>
+   <trans-unit id="1113">
+    <source>My Info</source>
+    <target>FR_My Info</target>
+   </trans-unit>   
   </body>
  </file>
 </xliff>
