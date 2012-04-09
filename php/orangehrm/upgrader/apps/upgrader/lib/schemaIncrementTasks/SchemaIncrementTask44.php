@@ -205,7 +205,7 @@ class SchemaIncrementTask44 extends SchemaIncrementTask {
                         (hs_hr_employee.emp_number = hs_hr_emp_contract_extend.emp_number) 
                     LEFT JOIN hs_hr_emp_basicsalary ON 
                         (hs_hr_employee.emp_number = hs_hr_emp_basicsalary.emp_number) 
-                    LEFT JOIN 7hs_pr_salary_grade ON 
+                    LEFT JOIN hs_pr_salary_grade ON 
                         (hs_hr_emp_basicsalary.sal_grd_code = hs_pr_salary_grade.sal_grd_code) 
                     LEFT JOIN hs_hr_currency_type ON 
                         (hs_hr_emp_basicsalary.currency_id = hs_hr_currency_type.currency_id) 
@@ -229,7 +229,7 @@ class SchemaIncrementTask44 extends SchemaIncrementTask {
                         (hs_hr_employee.emp_number = hs_hr_emp_skill.emp_number) 
                     LEFT JOIN hs_hr_skill ON 
                         (hs_hr_emp_skill.skill_code = hs_hr_skill.skill_code) 
-                    LEFT JOIN 7hs_hr_emp_language ON 
+                    LEFT JOIN hs_hr_emp_language ON 
                         (hs_hr_employee.emp_number = hs_hr_emp_language.emp_number) 
                     LEFT JOIN hs_hr_language ON 
                         (hs_hr_emp_language.lang_code = hs_hr_language.lang_code) 
@@ -242,7 +242,7 @@ class SchemaIncrementTask44 extends SchemaIncrementTask {
                     LEFT JOIN hs_hr_membership ON 
                         (hs_hr_emp_member_detail.membship_code = hs_hr_membership.membship_code) 
                     LEFT JOIN hs_hr_membership_type ON 
-       7                 (hs_hr_emp_member_detail.membtype_code = hs_hr_membership_type.membtype_code) 
+                        (hs_hr_emp_member_detail.membtype_code = hs_hr_membership_type.membtype_code) 
                     LEFT JOIN hs_hr_country ON 
                         (hs_hr_employee.coun_code = hs_hr_country.cou_code) 
                     LEFT JOIN hs_hr_emp_directdebit ON 
@@ -317,8 +317,8 @@ class SchemaIncrementTask44 extends SchemaIncrementTask {
     (15, 3, 'Memberships', true),
     (16, 3, 'Custom Fields', false)";
          
-         $sql[42] =  "UPDATE ohrm_display_field SET `name` = 'Employee First Name' WHERE display_field_id = 6";
-         $sql[43] =  "UPDATE ohrm_display_field SET `name` = 'Employee Last Name' WHERE display_field_id = 7";
+         $sql[42] =  "UPDATE ohrm_display_field SET `label` = 'Employee First Name' WHERE display_field_id = 6";
+         $sql[43] =  "UPDATE ohrm_display_field SET `label` = 'Employee Last Name' WHERE display_field_id = 7";
          
          $sql[44] = <<< DISPLAY_FIELDS
 INSERT INTO `ohrm_display_field` (`display_field_id`, `report_group_id`, `name`, `label`, `field_alias`, `is_sortable`, `sort_order`, `sort_field`, `element_type`, `element_property`, `width`, `is_exportable`, `text_alignment_style`, `is_value_list`, `display_field_group_id`, `default_value`, `is_encrypted`, `is_meta`) VALUES
