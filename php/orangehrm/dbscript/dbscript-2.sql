@@ -740,7 +740,10 @@ INSERT INTO `ohrm_report_group` (`report_group_id`, `name`, `core_sql`) VALUES
                      hs_hr_employee.emp_mobile,
                      hs_hr_employee.emp_work_telephone,
                      hs_hr_employee.emp_work_email,
-                     hs_hr_employee.emp_oth_email');
+                     hs_hr_employee.emp_oth_email
+
+ORDER BY hs_hr_employee.emp_lastname
+');
 
 INSERT INTO `ohrm_report` (`report_id`, `name`, `report_group_id`, `use_filter_field`, `type`) VALUES (1, 'Project Report', 1, 1, null),
     (2, 'Employee Report', 1, 1, null),
