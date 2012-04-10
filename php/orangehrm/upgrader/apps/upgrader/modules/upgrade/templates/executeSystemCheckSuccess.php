@@ -13,9 +13,8 @@ function sysCheckPassed() {
 
   <h2>System Check</h2>
 
-  <p>In order for your OrangeHRM upgrader to function properly,
-  please ensure that all of the system check items listed below are green. If
-  any are red, please take the necessary steps to fix them.</p>
+  <p>For OrangeHRM to function properly, please ensure that all the items listed below are green. <br />
+      If any of them are red, please take the necessary steps to fix them.</p>
 
         <table cellpadding="0" cellspacing="0" border="0" class="table">
           <tr>
@@ -282,6 +281,8 @@ function sysCheckPassed() {
             <input class="button" id="nextButton" type="submit" value="Proceed" <?php echo  ($error_found) ? 'disabled' : '' ?> tabindex="2">
         </form>
 </div>
+
+<br />
 
 <script type="text/javascript">
 //<![CDATA[
