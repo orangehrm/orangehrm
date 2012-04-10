@@ -2,8 +2,21 @@
 <?php use_javascript('jquery.validate.js') ?>
 <?php use_javascript('getDatabaseInfoSuccess.js') ?>
 <div>
-    <h2><?php echo __('Database Information')?></h2>
-    <p><?php echo __('Get database information')?></p>
+
+    <h2>Database Information</h2>
+    
+    <p>
+        Welcome to OrangeHRM upgrader! This upgrader supports upgrading from version 2.6.5 upwards to <?php echo $newVersion; ?>. 
+    </p>
+
+    <p>
+        Please provide the database information of the database you are going to upgrade. Make sure it's a copy of the database of your current OrangeHRM installation and not the original database.
+    </p>
+
+    <p>
+        It's highly discouraged to use the original database for upgrading since it won't be recoverable if an error occurred during the upgrade.
+    </p>
+
 </div>
 <?php if ($sf_user->hasFlash('errorMessage')): ?>
     <div class="messageBalloon_warning">
@@ -61,6 +74,7 @@
                 </tr>
                 <tr>
                     <td>
+                        <br />
                         <input type="submit" value="<?php echo __('Proceed')?>"/>
                     </td>
                 </tr>

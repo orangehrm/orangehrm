@@ -7,7 +7,10 @@ class getDatabaseInfoAction extends sfAction {
     }
     
     public function execute($request) {
-        $this->form = new DatabaseInfo();
+        
+        $this->form         = new DatabaseInfo();
+        $upgradeUtility     = new UpgradeUtility();
+        $this->newVersion   = $upgradeUtility->getNewVersion();
         
         if ($request->isMethod('post')) {
             $this->form->bind($request->getParameter('databaseInfo'));

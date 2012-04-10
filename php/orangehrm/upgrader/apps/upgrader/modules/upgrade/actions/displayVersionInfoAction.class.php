@@ -22,5 +22,7 @@ class displayVersionInfoAction extends sfAction {
             $this->forward('upgrade','index');
 
         }
+        
     }
+    
 }
