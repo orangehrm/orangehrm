@@ -299,34 +299,6 @@ CONFCONT;
         file_put_contents( $filePath, $imageData );
     }
     
-    public function pictureSizeAdjust($imgHeight, $imgWidth) {
-
-        if ($imgHeight > 180 || $imgWidth > 150) {
-            $newHeight = 0;
-            $newWidth = 0;
-
-            $propHeight = floor(($imgHeight / $imgWidth) * 150);
-            $propWidth = floor(($imgWidth / $imgHeight) * 180);
-
-            if ($propHeight <= 180) {
-                $newHeight = $propHeight;
-                $newWidth = 150;
-            }
-
-            if ($propWidth <= 150) {
-                $newWidth = $propWidth;
-                $newHeight = 180;
-            }
-        } else {
-            if ($imgHeight <= 180)
-                $newHeight = $imgHeight;
-
-            if ($imgWidth <= 150)
-                $newWidth = $imgWidth;
-        }
-        return array('width' => $newWidth, 'height' => $newHeight);
-    }
-    
     /**
      * @param int $startIncNumber
      * @param int $endIncNumber

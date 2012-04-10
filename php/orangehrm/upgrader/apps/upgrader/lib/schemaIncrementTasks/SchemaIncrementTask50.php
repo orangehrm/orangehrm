@@ -436,7 +436,7 @@ class SchemaIncrementTask50 extends SchemaIncrementTask {
                 
                 $this->upgradeUtility->saveImage($filePath, $imageData);
                 list($width, $height) = getimagesize($filePath);
-                $sizeArray = $this->upgradeUtility->pictureSizeAdjust($height, $width);
+                $sizeArray = $this->pictureSizeAdjust($height, $width);
                 $adjustedWidth = $sizeArray['width'];
                 $adjustedheight = $sizeArray['height'];
                 $sql = "UPDATE hs_hr_emp_picture 
@@ -452,6 +452,34 @@ class SchemaIncrementTask50 extends SchemaIncrementTask {
             rmdir($baseDir);
         }
         return $success;
+    }
+    
+    private function pictureSizeAdjust($imgHeight, $imgWidth) {
+
+        if ($imgHeight > 180 || $imgWidth > 150) {
+            $newHeight = 0;
+            $newWidth = 0;
+
+            $propHeight = floor(($imgHeight / $imgWidth) * 150);
+            $propWidth = floor(($imgWidth / $imgHeight) * 180);
+
+            if ($propHeight <= 180) {
+                $newHeight = $propHeight;
+                $newWidth = 150;
+            }
+
+            if ($propWidth <= 150) {
+                $newWidth = $propWidth;
+                $newHeight = 180;
+            }
+        } else {
+            if ($imgHeight <= 180)
+                $newHeight = $imgHeight;
+
+            if ($imgWidth <= 150)
+                $newWidth = $imgWidth;
+        }
+        return array('width' => $newWidth, 'height' => $newHeight);
     }
     
     public function getNotes() {
