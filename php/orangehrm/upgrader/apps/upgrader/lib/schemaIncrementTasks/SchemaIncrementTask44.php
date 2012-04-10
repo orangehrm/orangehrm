@@ -1,6 +1,13 @@
 <?php
 include_once 'SchemaIncrementTask.php';
 
+/**
+ * Installer Notes: 
+ * 
+ * 1. Old reports defined under the 'report' module are not converted to new PIM reports.
+ * They will have to be manually recreated.
+ * 
+ */
 class SchemaIncrementTask44 extends SchemaIncrementTask {
     
     public $userInputs;
