@@ -185,6 +185,9 @@ CONFCONT;
         
     }
     
+    public function getRowCount($result) {
+        return mysqli_num_rows($result);
+    }
     /**
      * @todo Look at SchemaIncrement directory and calculate the end Increment
      */

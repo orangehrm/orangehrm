@@ -11,6 +11,8 @@ class SchemaIncrementTask46 extends SchemaIncrementTask {
         
         $result[] = $this->updateSalaryCurrencyDetail();
         
+        $result[] = $this->updateOhrmDisplayField();
+        
         for($i = 0; $i <= 2; $i++) {
             $result[] = $this->upgradeUtility->executeSql($this->sql[$i]);
         }
@@ -70,6 +72,44 @@ class SchemaIncrementTask46 extends SchemaIncrementTask {
                             $success = false;
                         }
                     }
+                }
+            }
+        }
+        return $success;
+    }
+    
+    private function updateOhrmDisplayField() {
+        $customFields = $this->upgradeUtility->executeSql("SELECT * FROM hs_hr_custom_fields");
+        $success = true;
+        if($customFields){
+            while($row = $this->upgradeUtility->fetchArray($customFields))
+            {
+                $customFieldNo = $row['field_num'];
+                $name = "hs_hr_employee.custom" . $customFieldNo;
+                $existingCustomFields = $this->upgradeUtility->executeSql("SELECT * FROM ohrm_display_field WHERE name = '$name'");
+                if (!($this->upgradeUtility->getRowCount($existingCustomFields) > 0)) {
+                    $reportGroupId = "3";
+                    $label = $row['name'];
+                    $fieldAlias = "customField" . $customFieldNo;
+                    $isSortable = "false";
+                    $sortOrder = 'NULL';
+                    $sortField = 'NULL';
+                    $elementType = "label";
+                    $elementProperty = "<xml><getter>customField" . $customFieldNo . "</getter></xml>";
+                    $width = "200";
+                    $isExportable = "0";
+                    $textAlignmentStyle = 'NULL';
+                    $isValueList = "0";
+                    $displayFieldGroupId = "16";
+                    $defaultValue = "---";
+                    $isEncrypted = '0';
+                    
+                    $valueString = "'".$reportGroupId."', '". $name."', '". $label."', '". $fieldAlias."', '". $isSortable."', ". $sortOrder.", ". $sortField.", '". $elementType."', '". $elementProperty."', '". $width."', '". $isExportable."', ". $textAlignmentStyle.", '". $isValueList."', '". $displayFieldGroupId."', '". $defaultValue."', '". $isEncrypted."'";
+                    $sql = "INSERT INTO ohrm_display_field 
+                                    (report_group_id, name, label, field_alias, is_sortable, sort_order, sort_field, element_type, element_property, width, is_exportable, text_alignment_style, is_value_list, display_field_group_id, default_value, is_encrypted) 
+                                    VALUES($valueString); ";
+                    
+                    $success = $this->upgradeUtility->executeSql($sql);
                 }
             }
         }
