@@ -56,4 +56,14 @@ class SchemaIncrementTask49 extends SchemaIncrementTask {
         
         $this->sql = $sql;
     }
+    
+    public function getNotes() {
+        
+        $notes[] = "Note 49 - 1";
+        $notes[] = "Note 49 - 2";        
+        
+        return $notes;
+        
+    }    
+    
 }

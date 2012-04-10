@@ -8,11 +8,13 @@ class displayVersionInfoAction extends sfAction {
     
     public function execute ($request) {
         
-//        $startIncNumber = $this->getUser()->getAttribute('upgrade.startIncNumber');
-//        $endIncNumber   = $this->getUser()->getAttribute('upgrade.endIncNumber');
+        $startIncNumber = $this->getUser()->getAttribute('upgrade.startIncNumber');
+        $endIncNumber   = $this->getUser()->getAttribute('upgrade.endIncNumber');
         
-        $upgradeUtility = new UpgradeUtility();
-        $this->newVersion = $upgradeUtility->getNewVersion();        
+        $upgradeUtility     = new UpgradeUtility();
+        $this->newVersion   = $upgradeUtility->getNewVersion();    
+        
+        $this->notes        = $upgradeUtility->getNotes($startIncNumber, $endIncNumber);
         
         if ($request->isMethod('post')) {
 

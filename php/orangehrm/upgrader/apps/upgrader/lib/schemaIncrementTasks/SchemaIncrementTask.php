@@ -23,6 +23,7 @@ abstract class SchemaIncrementTask {
     abstract public function loadSql();
     abstract public function getUserInputWidgets();
     abstract public function setUserInputs();
+    abstract public function getNotes();
     
     public function getProgress(){
         if($this->transactionComplete) {

@@ -327,4 +327,29 @@ CONFCONT;
         return array('width' => $newWidth, 'height' => $newHeight);
     }
     
+    /**
+     * @param int $startIncNumber
+     * @param int $endIncNumber
+     * @return array
+     */
+    public function getNotes($startIncNumber, $endIncNumber) {
+        
+        $notes = array();
+        
+        for ($i=$startIncNumber; $i<$endIncNumber; $i++) {
+            
+            $className      = 'SchemaIncrementTask' . $i;      
+            $schemaObject   = new $className;
+            $schemaNotes    = $schemaObject->getNotes();
+            
+            if (!empty($schemaNotes)) {
+                $notes = array_merge($notes, $schemaNotes);
+            }
+            
+        }
+        
+        return $notes;
+        
+    }
+    
 }

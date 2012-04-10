@@ -543,4 +543,9 @@ SELECTED_DISPLAY_FIELD_GROUP;
     
          $this->sql = $sql;
     }
+    
+    public function getNotes() {
+        
+    }    
+    
 }

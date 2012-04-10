@@ -64,4 +64,9 @@ CORE_SQL_UPDATE;
         
         $this->sql = $sql;
     }
+    
+    public function getNotes() {
+        
+    }
+    
 }

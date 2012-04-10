@@ -2044,4 +2044,14 @@ EOT;
         }
         return $success;
     }
+    
+    public function getNotes() {
+        
+        $notes[] = "Note 48 - 1";
+        $notes[] = "Note 48 - 2";   
+        
+        return $notes;
+        
+    }    
+    
 }

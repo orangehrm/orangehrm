@@ -170,4 +170,9 @@ class SchemaIncrementTask45 extends SchemaIncrementTask {
         
         $this->sql = $sql;
     }
+    
+    public function getNotes() {
+        
+    }    
+    
 }
