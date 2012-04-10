@@ -457,7 +457,8 @@ class SchemaIncrementTask48 extends SchemaIncrementTask {
                             DROP FOREIGN KEY `hs_hr_compstructtree_ibfk_1`;";
         
         $sql[48] = "ALTER TABLE `hs_hr_emp_locations`
-                            DROP FOREIGN KEY `hs_hr_emp_locations_ibfk_1`;";
+                            DROP FOREIGN KEY `hs_hr_emp_locations_ibfk_1`,
+                            DROP FOREIGN KEY `hs_hr_emp_locations_ibfk_2`;";
         
         $sql[49] = "ALTER TABLE `hs_hr_location`
                             DROP FOREIGN KEY `hs_hr_location_ibfk_1`;";
@@ -494,7 +495,9 @@ class SchemaIncrementTask48 extends SchemaIncrementTask {
         
         $sql[54] = "alter table `hs_hr_emp_locations`
                             add constraint `hs_hr_emp_locations_ibfk_1` foreign key (`location_id`)
-                                references ohrm_location(`id`) on delete cascade;";
+                                references ohrm_location(`id`) on delete cascade,
+                            add constraint `hs_hr_emp_locations_ibfk_2` foreign key (`emp_number`)
+                                references hs_hr_employee(`emp_number`) on delete cascade;";
         
         $sql[55] = "ALTER TABLE hs_hr_nationality 
                         DROP PRIMARY KEY,
