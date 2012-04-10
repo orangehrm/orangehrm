@@ -278,11 +278,11 @@ class SchemaIncrementTask48 extends SchemaIncrementTask {
                         CHANGE emp_status emp_status int(13) default null,
                         CHANGE job_title_code job_title_code int(7) default null,
                         CHANGE eeo_cat_code eeo_cat_code int default null,
-                        add constraint foreign key (job_title_code)
+                        add constraint `hs_hr_employee_ibfk_3` foreign key (job_title_code)
                              references ohrm_job_title(id) on delete set null,
-                        add constraint foreign key (emp_status)
+                        add constraint `hs_hr_employee_ibfk_4` foreign key (emp_status)
                              references ohrm_employment_status(id) on delete set null,
-                        add constraint foreign key (eeo_cat_code)
+                        add constraint `hs_hr_employee_ibfk_5` foreign key (eeo_cat_code)
                              references ohrm_job_category(id) on delete set null;";
         
         $sql[10] = "ALTER TABLE `hs_hr_emp_licenses` 
@@ -344,7 +344,7 @@ class SchemaIncrementTask48 extends SchemaIncrementTask {
         $sql[23] = "RENAME TABLE hs_pr_salary_currency_detail TO ohrm_pay_grade_currency";
         
         $sql[24] = "alter table hs_hr_emp_basicsalary
-                        add constraint foreign key (sal_grd_code)
+                        add constraint `hs_hr_emp_basicsalary_ibfk_1` foreign key (sal_grd_code)
                             references ohrm_pay_grade(id) on delete cascade;";
         
         $sql[25] = "alter table ohrm_pay_grade_currency
@@ -382,7 +382,8 @@ class SchemaIncrementTask48 extends SchemaIncrementTask {
         
         $sql[32] = "ALTER TABLE `hs_hr_emp_member_detail`
                             DROP FOREIGN KEY `hs_hr_emp_member_detail_ibfk_1`,
-                            DROP FOREIGN KEY `hs_hr_emp_member_detail_ibfk_2`;";
+                            DROP FOREIGN KEY `hs_hr_emp_member_detail_ibfk_2`,
+                            DROP FOREIGN KEY `hs_hr_emp_member_detail_ibfk_3`;";
         
         $sql[33] = "ALTER TABLE hs_hr_emp_member_detail 
                         DROP PRIMARY KEY,
@@ -391,8 +392,10 @@ class SchemaIncrementTask48 extends SchemaIncrementTask {
                         ADD primary key (emp_number,membship_code)";
         
         $sql[34] = "alter table hs_hr_emp_member_detail
-                        add constraint foreign key (membship_code)
-                             references ohrm_membership(id) on delete cascade;";
+                        add constraint `hs_hr_emp_member_detail_ibfk_1` foreign key (membship_code)
+                             references ohrm_membership(id) on delete cascade,
+                        add constraint `hs_hr_emp_member_detail_ibfk_2` foreign key (emp_number)
+                             references hs_hr_employee(emp_number) on delete cascade;";
         
         $sql[35] = "ALTER TABLE `hs_hr_emp_skill`
                             DROP FOREIGN KEY `hs_hr_emp_skill_ibfk_2`;";
@@ -490,7 +493,7 @@ class SchemaIncrementTask48 extends SchemaIncrementTask {
                         ADD primary key (emp_number, location_id)";
         
         $sql[54] = "alter table `hs_hr_emp_locations`
-                            add constraint foreign key (`location_id`)
+                            add constraint `hs_hr_emp_locations_ibfk_1` foreign key (`location_id`)
                                 references ohrm_location(`id`) on delete cascade;";
         
         $sql[55] = "ALTER TABLE hs_hr_nationality 
@@ -503,7 +506,7 @@ class SchemaIncrementTask48 extends SchemaIncrementTask {
         
         $sql[57] = "ALTER TABLE hs_hr_employee
                         CHANGE nation_code nation_code int(4) default null,
-                        add constraint foreign key (nation_code)
+                        add constraint `hs_hr_employee_ibfk_2` foreign key (nation_code)
                              references ohrm_nationality(id) on delete set null;";
         
         $sql[58] = "ALTER TABLE `ohrm_timesheet_action_log`
@@ -562,11 +565,11 @@ class SchemaIncrementTask48 extends SchemaIncrementTask {
                             references ohrm_user(id) on delete cascade;";
         
         $sql[66] = "alter table `ohrm_user`
-                        add constraint foreign key (`user_role_id`)
+                        add constraint `ohrm_user_ibfk_2` foreign key (`user_role_id`)
                             references ohrm_user_role(`id`) on delete cascade;";
         
         $sql[67] = "alter table `ohrm_user`
-                        add constraint foreign key (`emp_number`)
+                        add constraint `ohrm_user_ibfk_1` foreign key (`emp_number`)
                             references hs_hr_employee(`emp_number`) on delete cascade;";
         
         $sql[68] = "ALTER TABLE hs_hr_customer 
@@ -653,7 +656,7 @@ class SchemaIncrementTask48 extends SchemaIncrementTask {
                         CHANGE job_title_code job_title_code int(4) not null";
         
         $sql[90] = "alter table ohrm_job_vacancy
-                         add constraint foreign key (job_title_code)
+                         add constraint `ohrm_job_vacancy_ibfk_1` foreign key (job_title_code)
                              references ohrm_job_title(id) on delete cascade;";
         
         $sql[91] = "create table `ohrm_emp_termination`(
@@ -688,7 +691,7 @@ class SchemaIncrementTask48 extends SchemaIncrementTask {
         $sql[95] = "ALTER TABLE hs_hr_employee
                             DROP column terminated_date,
                             DROP column termination_reason,
-                            add constraint foreign key (termination_id)
+                            add constraint `hs_hr_employee_ibfk_6` foreign key (termination_id)
                                  references ohrm_emp_termination(id) on delete set null;";
         
         $sql[96] = "alter table ohrm_emp_termination
@@ -755,7 +758,7 @@ class SchemaIncrementTask48 extends SchemaIncrementTask {
                         ) engine=innodb default charset=utf8;";
         
         $sql[105] = "alter table hs_hr_employee
-                           add constraint foreign key (work_station)
+                           add constraint `hs_hr_employee_ibfk_1` foreign key (work_station)
                             references ohrm_subunit(id) on delete set null;";
         
         $uniqueIdArray = array(
