@@ -98,6 +98,22 @@ if (isset($_GET['ACT']) && $_GET['ACT'] == 'logout') {
     exit();
 }
 
+/* Sanitising $_GET parameters: Begins */
+
+if (!empty($_GET)) {
+    
+    $a = array();
+    
+    foreach ($_GET as $key => $value) {
+        $a[$key] = htmlspecialchars($value);
+    }
+    
+    $_GET = $a;
+    
+}
+
+/* Sanitising $_GET parameters: Ends */
+
 /* Loading disabled modules: Begins */
 
 require_once ROOT_PATH . '/lib/common/ModuleManager.php';
