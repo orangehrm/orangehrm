@@ -308,7 +308,7 @@ CONFCONT;
         
         $notes = array();
         
-        for ($i=$startIncNumber; $i<$endIncNumber; $i++) {
+        for ($i = $startIncNumber; $i <= $endIncNumber; $i++) {
             
             $className      = 'SchemaIncrementTask' . $i;      
             $schemaObject   = new $className;
