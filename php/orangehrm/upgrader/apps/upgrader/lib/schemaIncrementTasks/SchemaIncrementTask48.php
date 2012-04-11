@@ -191,7 +191,7 @@ class SchemaIncrementTask48 extends SchemaIncrementTask {
         
         $result[] = $this->upgradeUtility->executeSql($this->sql[105]);
         
-        for($i = 107; $i <= 136; $i++) {
+        for($i = 107; $i <= 135; $i++) {
             $result[] = $this->upgradeUtility->executeSql($this->sql[$i]);
         }
         
@@ -1222,15 +1222,13 @@ EOT;
         
         $sql[131] = "DROP TABLE hs_hr_emp_location_history ;";
         
-        $sql[132] = "DROP TABLE hs_hr_comp_property ;";
+        $sql[132] = "DROP TABLE hs_hr_compstructtree ;";
         
-        $sql[133] = "DROP TABLE hs_hr_compstructtree ;";
+        $sql[133] = "DROP TABLE hs_hr_eec ;";
         
-        $sql[134] = "DROP TABLE hs_hr_eec ;";
+        $sql[134] = "DROP TABLE hs_hr_ethnic_race ;";
         
-        $sql[135] = "DROP TABLE hs_hr_ethnic_race ;";
-        
-        $sql[136] = "DROP TABLE hs_hr_job_spec ;";
+        $sql[135] = "DROP TABLE hs_hr_job_spec ;";
         
         $this->sql = $sql;
     }
