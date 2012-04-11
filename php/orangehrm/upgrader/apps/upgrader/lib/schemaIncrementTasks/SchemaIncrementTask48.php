@@ -1927,7 +1927,19 @@ EOT;
                 $terminationDate = $row['terminated_date'];
                 $terminationReason = $row['termination_reason'] == '' ? 'NULL' : "'".$this->upgradeUtility->escapeString($row['termination_reason'])."'";
                 $emp_number = $row['emp_number'];
-                if($terminationDate) {
+                $emp_status = $row['emp_status'];
+                $estat_name = 'Active';
+                if ($emp_status) {
+                    $employee_status = $this->upgradeUtility->executeSql("SELECT * FROM ohrm_employment_status WHERE id = '$emp_status'");
+                    while($emp_stat = $this->upgradeUtility->fetchArray($employee_status)) {
+                        $estat_name = $emp_stat['name'];
+                    }
+                } 
+                
+                if ($estat_name == 'Terminated') {
+                    if (!$terminationDate) {
+                        $terminationDate = date("Y-m-d");
+                    }
                     $valueString = "'".$count."', '". $row['emp_number']."', 1 , '". $terminationDate."', ". $terminationReason;
                     $sql= "INSERT INTO ohrm_emp_termination 
                             (id, emp_number, reason_id, termination_date, note) 
