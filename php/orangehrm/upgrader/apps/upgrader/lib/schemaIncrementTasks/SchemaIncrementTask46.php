@@ -118,6 +118,7 @@ class SchemaIncrementTask46 extends SchemaIncrementTask {
     
     public function getNotes() {
         
+        return $notes;
     }  
     
 }

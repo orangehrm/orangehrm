@@ -173,6 +173,7 @@ class SchemaIncrementTask45 extends SchemaIncrementTask {
     
     public function getNotes() {
         
-    }    
+        return $notes;
+    }
     
 }

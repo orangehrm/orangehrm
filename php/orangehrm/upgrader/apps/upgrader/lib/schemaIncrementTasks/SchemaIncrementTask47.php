@@ -35,9 +35,6 @@ class SchemaIncrementTask47 extends SchemaIncrementTask {
     
     public function getNotes() {
         
-        $notes[] = "Note 47 - 1";
-        $notes[] = "Note 47 - 2";
-        
         return $notes;
         
     }    

@@ -484,6 +484,11 @@ class SchemaIncrementTask50 extends SchemaIncrementTask {
     
     public function getNotes() {
         
-    }    
+        $notes[] = "After upgrading, copy existing key.ohrm file to `/lib/confs/cryptokeys/` folder";
+        $notes[] = "After upgrading, you will need to reset leave period start date.";
+        $notes[] = "After upgrading, you will need to reset email configuration details.";
+        
+        return $notes;
+    }
     
 }

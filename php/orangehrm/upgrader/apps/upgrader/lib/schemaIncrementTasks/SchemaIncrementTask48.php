@@ -2065,11 +2065,20 @@ EOT;
     
     public function getNotes() {
         
-        $notes[] = "Note 48 - 1";
-        $notes[] = "Note 48 - 2";   
+        $notes[] = "After upgrading, pay grade records with duplicate currencies will be remove.";
+        $notes[] = "After upgrading, company structure names will contain a suffix to avoid duplications.";
+        $notes[] = "After upgrading, new nationalities will be added. You should remove duplicate old nationalities.";
+        $notes[] = "After upgrading, empty termination dates will be set to current date";
+        $notes[] = "After upgrading, you may need to edit general information details.";
+        $notes[] = "After upgrading, you will need to add job specification details.";
+        $notes[] = "After upgrading, HSP Notifications will be disabled.";
+        $notes[] = "After upgrading, Company Property details will be removed.";
+        $notes[] = "After upgrading, Pay Grade Step Increase details will be removed.";
+        $notes[] = "After upgrading, Admin User Groups details will be removed.";
+        $notes[] = "After upgrading, Membership Types details in Membership will be removed.";
+        $notes[] = "After upgrading, Ethnic Race details in Nationality & Race will be removed.";
         
         return $notes;
-        
-    }    
+    }
     
 }
