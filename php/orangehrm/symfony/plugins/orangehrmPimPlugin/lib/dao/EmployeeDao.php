@@ -459,10 +459,11 @@ class EmployeeDao extends BaseDao {
      */
     public function deleteEducation($empNumber, $educationToDelete) {
         try {
+
             if (is_array($educationToDelete)) {
                 // Delete work experience
                 $q = Doctrine_Query :: create()->delete('EmployeeEducation ec')
-                                ->whereIn('educationId', $educationToDelete)
+                                ->whereIn('id', $educationToDelete)
                                 ->andwhere('emp_number = ?', $empNumber);
 
                 $result = $q->execute();

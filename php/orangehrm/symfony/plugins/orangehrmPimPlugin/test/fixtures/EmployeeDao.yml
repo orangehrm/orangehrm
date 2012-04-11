@@ -55,6 +55,7 @@ Education:
 EmployeeEducation:
   0: {id: 1, empNumber: '1', educationId: 1, major: 'ENG', year: '2007', score: '3.7', startDate: '2006-03-04', endDate: '2010-03-05'}
   1: {id: 2, empNumber: '1', educationId: 2, major: 'ENG1', year: '2008', score: '4', startDate: '2007-03-04', endDate: '2011-03-05'}
+  2: {id: 3, empNumber: '2', educationId: 1, major: 'ENG1', year: '2008', score: '4', startDate: '2007-03-04', endDate: '2011-03-05'}
 
 Skill:
   0: {id: 1, name: 'good', description: 'good work'}

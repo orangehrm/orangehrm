@@ -354,6 +354,16 @@ class EmployeeDaoTest extends PHPUnit_Framework_TestCase {
 
         $result = $this->employeeDao->deleteEducation($empNumber, $educationToDelete);
         $this->assertTrue($result);
+        
+        // verify records deleted
+        $q = Doctrine_Query::create()->from('EmployeeEducation ec')->where('emp_number = ?', $empNumber);
+        $this->assertEquals(0, $q->count());
+        
+        $empNumber = 2;
+        $result = $this->employeeDao->deleteEducation($empNumber, array(3));
+        $this->assertTrue($result);
+        $q = Doctrine_Query::create()->from('EmployeeEducation ec')->where('emp_number = ?', $empNumber);
+        $this->assertEquals(0, $q->count());
     }
 
     /**
