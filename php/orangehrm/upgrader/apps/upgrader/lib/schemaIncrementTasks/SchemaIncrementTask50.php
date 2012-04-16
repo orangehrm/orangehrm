@@ -216,7 +216,8 @@ class SchemaIncrementTask50 extends SchemaIncrementTask {
                      hs_hr_employee.emp_mobile,
                      hs_hr_employee.emp_work_telephone,
                      hs_hr_employee.emp_work_email,
-                     hs_hr_employee.emp_oth_email';
+                     hs_hr_employee.emp_oth_email
+                     ORDER BY hs_hr_employee.emp_lastname';
         
         $sql[11] = "UPDATE ohrm_report_group SET core_sql = CASE report_group_id
                         WHEN '1' THEN '$row[1]'
