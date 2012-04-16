@@ -55,3 +55,15 @@ div.error {
 label, span.formLabel, span.wideFormLabel {
     width: 137px !important;
 }
+
+.confirmInnerBox {
+    background-color: #FAD163;
+    padding: 3px 10px;
+    font-weight: bold;
+    width: 620px;
+}
+
+.confirmBox {
+    margin: 10px 10px;
+    display: block;
+}
