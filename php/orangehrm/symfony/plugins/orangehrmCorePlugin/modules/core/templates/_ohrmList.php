@@ -78,6 +78,9 @@ function printButtonEventBindings($buttons) {
 
 <?php } ?>
 
+    <?php include_component('core', 'ohrmPluginPannel', array('location' => 'widget-panel-1')) ?>
+    <?php include_component('core', 'ohrmPluginPannel', array('location' => 'widget-panel-2')) ?>
+        
     <form method="<?php echo $formMethod; ?>" action="<?php echo public_path($formAction); ?>" id="frmList_ohrmListComponent">
 <?php
     if (count($buttons) > 0) {

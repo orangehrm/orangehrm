@@ -21,7 +21,42 @@ abstract class displayReportAction extends sfAction {
 
     private $confFactory;
     private $form;
+    protected $reportName = 'pim-report';
+    protected $reportTitle = 'PIM Report';
+    
+    /**
+     *
+     * @return string
+     */
+    public function getReportName() {
+        return $this->reportName;
+    }
 
+    /**
+     *
+     * @param string $reportName 
+     */
+    public function setReportName($reportName) {
+        $this->reportName = $reportName;
+    }
+
+    /**
+     *
+     * @return string
+     */
+    public function getReportTitle() {
+        return $this->reportTitle;
+    }
+
+    /**
+     *
+     * @param string $reportTitle 
+     */
+    public function setReportTitle($reportTitle) {
+        $this->reportTitle = $reportTitle;
+    }
+
+    
     public function execute($request) {
 
         $reportId = $request->getParameter("reportId");
@@ -107,6 +142,8 @@ abstract class displayReportAction extends sfAction {
         ohrmListComponent::setListData($dataSet);
 
         $this->parmetersForListComponent = $params;
+        
+        $this->initilizeDataRetriever($configurationFactory, $reportableGeneratorService, 'generateReportDataSet', array($reportId, $sql));
     }
 
     abstract public function setParametersForListComponent();
@@ -137,6 +174,19 @@ abstract class displayReportAction extends sfAction {
 
     public function setForm($form) {
         $this->form = $form;
+    }
+    
+    public function initilizeDataRetriever(ohrmListConfigurationFactory $configurationFactory, BaseService $dataRetrievalService, $dataRetrievalMethod, array $dataRetrievalParams) {
+        $dataRetriever = new ExportDataRetriever();
+        $dataRetriever->setConfigurationFactory($configurationFactory);
+        $dataRetriever->setDataRetrievalService($dataRetrievalService);
+        $dataRetriever->setDataRetrievalMethod($dataRetrievalMethod);
+        $dataRetriever->setDataRetrievalParams($dataRetrievalParams);
+
+        $this->getUser()->setAttribute('persistant.exportDataRetriever', $dataRetriever);
+        $this->getUser()->setAttribute('persistant.exportFileName', $this->getReportName());
+        $this->getUser()->setAttribute('persistant.exportDocumentTitle', $this->getReportTitle());
+        $this->getUser()->setAttribute('persistant.exportDocumentDescription', 'Generated at ' . date('Y-m-d H:i'));
     }
 
 }

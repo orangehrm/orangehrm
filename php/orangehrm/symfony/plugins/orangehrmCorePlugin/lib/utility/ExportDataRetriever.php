@@ -54,7 +54,7 @@ class ExportDataRetriever implements Exportable {
         return $headerArray;
     }
 
-    public function getExportData() {
+    public function getExportData($flattenValueList = false, $delimitter = ',', $enclosure = '"') {
         $listData = call_user_func_array(array($this->dataRetrievalService, $this->dataRetrievalMethod), $this->dataRetrievalParams);
 
         if ($listData instanceof Doctrine_Collection || is_array($listData)) {
@@ -74,7 +74,17 @@ class ExportDataRetriever implements Exportable {
                         $cell->setProperties($properties);
                         $cell->setDataObject($object);
 
-                        $dataArray[$i][] = $cell->toValue();
+                        $value = $cell->toValue();
+
+                        if ($flattenValueList && $cell->getPropertyValue('isValueList')) {
+                            if ($value == array('')) {
+                                $value = '';
+                            } elseif (is_array($value)) {
+                                $value = implode($delimitter, $value);
+                            }
+                        }
+
+                        $dataArray[$i][] = $value;
                     }
                 }
                 $i++;
