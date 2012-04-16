@@ -67,3 +67,8 @@ label, span.formLabel, span.wideFormLabel {
     margin: 10px 10px;
     display: block;
 }
+
+th {
+    text-align: left;
+    font-size: 11px;
+}
