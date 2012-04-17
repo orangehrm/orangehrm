@@ -2,7 +2,7 @@
 ---
 
 UserRole:
-  0: {id: 1, name: 'Admin'}
+  0: {id: 1, name: 'Admin', display_name: Admin}
 
 SystemUser:
   0: {id: 3, user_name: 'user3', user_role_id: 1}
