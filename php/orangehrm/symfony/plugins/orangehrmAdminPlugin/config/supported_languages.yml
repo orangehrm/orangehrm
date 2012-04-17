@@ -6,4 +6,7 @@ languages:
   1: {key: 'en_US', value: 'US English'}  
   2: {key: 'fr_FR', value: 'French - France'}
   3: {key: 'ja_JP', value: 'Japanese'}
-  4: {key: 'es_ES', value: 'Spanish'}    
+  4: {key: 'es_ES', value: 'Spanish'}
+  5: {key: 'om_ET', value: 'Oromo'}
+  6: {key: 'id_ID', value: 'Indonesian'}
+  7: {key: 'zh_CN', value: 'Chinese'}
