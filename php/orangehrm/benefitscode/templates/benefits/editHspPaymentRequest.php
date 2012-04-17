@@ -115,18 +115,18 @@ function mout() {
 	var Edit = $("btnEdit");
 
 	if(Edit.title=='Save')
-		Edit.src='../../themes/beyondT/pictures/btn_save.gif';
+		Edit.src='../../../themes/beyondT/pictures/btn_save.gif';
 	else
-		Edit.src='../../themes/beyondT/pictures/btn_edit.gif';
+		Edit.src='../../../themes/beyondT/pictures/btn_edit.gif';
 }
 
 function mover() {
 	var Edit = $("btnEdit");
 
 	if(Edit.title=='Save')
-		Edit.src='../../themes/beyondT/pictures/btn_save_02.gif';
+		Edit.src='../../../themes/beyondT/pictures/btn_save_02.gif';
 	else
-		Edit.src='../../themes/beyondT/pictures/btn_edit_02.gif';
+		Edit.src='../../../themes/beyondT/pictures/btn_edit_02.gif';
 }
 
 function editRequest()

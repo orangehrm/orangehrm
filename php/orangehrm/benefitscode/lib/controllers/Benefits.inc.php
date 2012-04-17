@@ -18,11 +18,11 @@
  */
 
 while (true) {
-	require_once ROOT_PATH . '/lib/extractor/benefits/EXTRACTOR_HspPayPeriod.php';
-	require_once ROOT_PATH . '/lib/extractor/benefits/EXTRACTOR_Hsp.php';
-	require_once ROOT_PATH . '/lib/extractor/benefits/EXTRACTOR_HspPaymentRequest.php';
-	require_once ROOT_PATH . '/lib/extractor/benefits/EXTRACTOR_DefineHsp.php';
-	require_once ROOT_PATH . '/lib/extractor/benefits/EXTRACTOR_HspSummary.php';
+	require_once ROOT_PATH . '/benefitscode/lib/extractor/benefits/EXTRACTOR_HspPayPeriod.php';
+	require_once ROOT_PATH . '/benefitscode/lib/extractor/benefits/EXTRACTOR_Hsp.php';
+	require_once ROOT_PATH . '/benefitscode/lib/extractor/benefits/EXTRACTOR_HspPaymentRequest.php';
+	require_once ROOT_PATH . '/benefitscode/lib/extractor/benefits/EXTRACTOR_DefineHsp.php';
+	require_once ROOT_PATH . '/benefitscode/lib/extractor/benefits/EXTRACTOR_HspSummary.php';
 
     /* Clean up GET[] parameters used */
     if (isset($_GET['year'])) {

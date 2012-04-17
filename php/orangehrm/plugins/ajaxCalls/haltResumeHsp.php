@@ -25,8 +25,8 @@ session_start();
 if (!defined('ROOT_PATH'))
 	define('ROOT_PATH', $_SESSION['path']);
 
-require_once ROOT_PATH . '/lib/models/benefits/Hsp.php';
-require_once ROOT_PATH . '/lib/models/benefits/mail/HspMailNotification.php';
+require_once ROOT_PATH . '/benefitscode/lib/models/benefits/Hsp.php';
+require_once ROOT_PATH . '/benefitscode/lib/models/benefits/mail/HspMailNotification.php';
 
 try {
 	$hspSummaryId 	= $_GET['hspSummaryId'];

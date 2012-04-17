@@ -26,7 +26,7 @@ if(!isset($_SESSION['fname'])) {
 
 define('ROOT_PATH', $_SESSION['path']);
 require_once ROOT_PATH . '/lib/models/hrfunct/EmpInfo.php';
-require_once ROOT_PATH . '/lib/controllers/EmpViewController.php';
+require_once ROOT_PATH . '/benefitscode/lib/controllers/EmpViewController.php';
 require_once ROOT_PATH . '/lib/confs/sysConf.php';
 require_once ROOT_PATH . '/lib/common/Language.php';
 require_once ROOT_PATH . '/lib/common/CommonFunctions.php';
@@ -92,17 +92,17 @@ else
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
-<link href="../../themes/<?php echo $styleSheet; ?>/css/style.css" rel="stylesheet" type="text/css"/>
+<link href="../../../themes/<?php echo $styleSheet; ?>/css/style.css" rel="stylesheet" type="text/css"/>
 <!--[if lte IE 6]>
-<link href="../../themes/<?php echo $styleSheet; ?>/css/IE6_style.css" rel="stylesheet" type="text/css"/>
+<link href="../../../themes/<?php echo $styleSheet; ?>/css/IE6_style.css" rel="stylesheet" type="text/css"/>
 <![endif]-->
 <!--[if IE]>
-<link href="../../themes/<?php echo $styleSheet; ?>/css/IE_style.css" rel="stylesheet" type="text/css"/>
+<link href="../../../themes/<?php echo $styleSheet; ?>/css/IE_style.css" rel="stylesheet" type="text/css"/>
 <![endif]-->
-<script type="text/javascript" src="../../themes/<?php echo $styleSheet;?>/scripts/style.js"></script>
+<script type="text/javascript" src="../../../themes/<?php echo $styleSheet;?>/scripts/style.js"></script>
 <title><?php echo $lang_emppop_title; ?></title>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
-<script type="text/javascript" src="../../scripts/archive.js"></script>
+<script type="text/javascript" src="../../../scripts/archive.js"></script>
 <script type="text/javascript">
 //<![CDATA[
 	function clear_form() {
@@ -174,7 +174,7 @@ else
         window.close();
 
 <?php  } else { ?>
-		window.opener.document.standardView.action="../../lib/controllers/CentralController.php?id=" + empNumber + "&reqcode=<?php echo CommonFunctions::escapeHtml($_GET['reqcode'])?>";
+		window.opener.document.standardView.action="../../../lib/controllers/CentralController.php?id=" + empNumber + "&reqcode=<?php echo CommonFunctions::escapeHtml($_GET['reqcode'])?>";
         window.opener.document.standardView.submit();
 		window.close();
 <?php } ?>

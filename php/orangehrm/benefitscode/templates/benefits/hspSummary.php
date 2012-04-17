@@ -18,7 +18,7 @@
  *
  */
 
-require_once ROOT_PATH . '/lib/models/benefits/Hsp.php';
+require_once ROOT_PATH . '/benefitscode/lib/models/benefits/Hsp.php';
 $token = "";
 if(isset($records['token'])) {
    $token = $records['token'];
@@ -76,7 +76,7 @@ if (isset($errorFlag)) {
    	}
 
 ?>
-<link href="../../themes/orange/css/jquery/jquery.autocomplete.css" rel="stylesheet" type="text/css"/>
+<link href="../../../themes/orange/css/jquery/jquery.autocomplete.css" rel="stylesheet" type="text/css"/>
 
 <style>
 #employeeSearchAC {
@@ -110,8 +110,8 @@ if (isset($errorFlag)) {
 	text-align:center;
 }
 </style>
-<script type="text/javascript" src="../../scripts/jquery/jquery.js"></script>
-<script type="text/javascript" src="../../scripts/jquery/jquery.autocomplete.js"></script>
+<script type="text/javascript" src="../../../scripts/jquery/jquery.js"></script>
+<script type="text/javascript" src="../../../scripts/jquery/jquery.autocomplete.js"></script>
 
 
 
@@ -297,7 +297,7 @@ if (isset($errorFlag)) {
 	    }
         }
 
-        xmlHTTPObject.open('GET', '../../plugins/ajaxCalls/haltResumeHsp.php?hspSummaryId=' + hspId + '&empId='+ empId +'&newHspStatus=' + newHspStatus, true);
+        xmlHTTPObject.open('GET', '../../../plugins/ajaxCalls/haltResumeHsp.php?hspSummaryId=' + hspId + '&empId='+ empId +'&newHspStatus=' + newHspStatus, true);
         xmlHTTPObject.send(null);
     }
 

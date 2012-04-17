@@ -17,7 +17,7 @@
  * Boston, MA  02110-1301, USA
  */
 
-require_once ROOT_PATH . '/lib/models/benefits/HspPayPeriod.php';
+require_once ROOT_PATH . '/benefitscode/lib/models/benefits/HspPayPeriod.php';
 
 class EXTRACTOR_HspPayPeriod {
 

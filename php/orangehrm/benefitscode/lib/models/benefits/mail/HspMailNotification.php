@@ -31,23 +31,23 @@ require_once ROOT_PATH . '/lib/models/eimadmin/EmailNotificationConfiguration.ph
 
 require_once ROOT_PATH . '/lib/models/hrfunct/EmpInfo.php';
 
-require_once ROOT_PATH . '/lib/models/benefits/HspPaymentRequest.php';
+require_once ROOT_PATH . '/benefitscode/lib/models/benefits/HspPaymentRequest.php';
 
 
 class HspMailNotification {
-	const HSP_PAYMENT_REQUEST_NOTIFICATION_TEMPLATE_SUBJECT = '/templates/benefits/mail/payment_request_subject.txt';
-	const HSP_PAYMENT_ACCEPT_NOTIFICATION_TEMPLATE_SUBJECT = '/templates/benefits/mail/payment_accept_subject.txt';
-	const HSP_PAYMENT_DENY_NOTIFICATION_TEMPLATE_SUBJECT = '/templates/benefits/mail/payment_deny_subject.txt';
-	const HSP_PAYMENT_REQUEST_DELETE_NOTIFICATION_TEMPLATE_SUBJECT = '/templates/benefits/mail/payment_request_delete_subject.txt';
-	const HSP_ADMIN_HALTE_PALN_NOTIFICATION_TEMPLATE_SUBJECT = '/templates/benefits/mail/admin_halt_plan_subject.txt';
-	const HSP_ESS_HALTE_PALN_NOTIFICATION_TEMPLATE_SUBJECT = '/templates/benefits/mail/ess_halts_plan_subject.txt';
+	const HSP_PAYMENT_REQUEST_NOTIFICATION_TEMPLATE_SUBJECT = '/benefitscode/templates/benefits/mail/payment_request_subject.txt';
+	const HSP_PAYMENT_ACCEPT_NOTIFICATION_TEMPLATE_SUBJECT = '/benefitscode/templates/benefits/mail/payment_accept_subject.txt';
+	const HSP_PAYMENT_DENY_NOTIFICATION_TEMPLATE_SUBJECT = '/benefitscode/templates/benefits/mail/payment_deny_subject.txt';
+	const HSP_PAYMENT_REQUEST_DELETE_NOTIFICATION_TEMPLATE_SUBJECT = '/benefitscode/templates/benefits/mail/payment_request_delete_subject.txt';
+	const HSP_ADMIN_HALTE_PALN_NOTIFICATION_TEMPLATE_SUBJECT = '/benefitscode/templates/benefits/mail/admin_halt_plan_subject.txt';
+	const HSP_ESS_HALTE_PALN_NOTIFICATION_TEMPLATE_SUBJECT = '/benefitscode/templates/benefits/mail/ess_halts_plan_subject.txt';
 
-	const HSP_PAYMENT_REQUEST_NOTIFICATION_TEMPLATE_MESSAGE = '/templates/benefits/mail/payment_request.txt';
-	const HSP_PAYMENT_ACCEPT_NOTIFICATION_TEMPLATE_MESSAGE = '/templates/benefits/mail/payment_accept.txt';
-	const HSP_PAYMENT_DENY_NOTIFICATION_TEMPLATE_MESSAGE = '/templates/benefits/mail/payment_deny.txt';
-	const HSP_PAYMENT_REQUEST_DELETE_NOTIFICATION_TEMPLATE_MESSAGE = '/templates/benefits/mail/payment_request_delete.txt';
-	const HSP_ADMIN_HALT_PLAN_NOTIFICATION_TEMPLATE_MESSAGE = '/templates/benefits/mail/admin_halt_plan.txt';
-	const HSP_ESS_HALT_PLAN_NOTIFICATION_TEMPLATE_MESSAGE = '/templates/benefits/mail/ess_halts_plan.txt';
+	const HSP_PAYMENT_REQUEST_NOTIFICATION_TEMPLATE_MESSAGE = '/benefitscode/templates/benefits/mail/payment_request.txt';
+	const HSP_PAYMENT_ACCEPT_NOTIFICATION_TEMPLATE_MESSAGE = '/benefitscode/templates/benefits/mail/payment_accept.txt';
+	const HSP_PAYMENT_DENY_NOTIFICATION_TEMPLATE_MESSAGE = '/benefitscode/templates/benefits/mail/payment_deny.txt';
+	const HSP_PAYMENT_REQUEST_DELETE_NOTIFICATION_TEMPLATE_MESSAGE = '/benefitscode/templates/benefits/mail/payment_request_delete.txt';
+	const HSP_ADMIN_HALT_PLAN_NOTIFICATION_TEMPLATE_MESSAGE = '/benefitscode/templates/benefits/mail/admin_halt_plan.txt';
+	const HSP_ESS_HALT_PLAN_NOTIFICATION_TEMPLATE_MESSAGE = '/benefitscode/templates/benefits/mail/ess_halts_plan.txt';
 
 	const HSP_PAYMENT_REQUEST_NOTIFICATION_VARIABLE_EMPLOYEE = 'employee';
 	const HSP_PAYMENT_REQUEST_NOTIFICATION_VARIABLE_LINK = 'link';

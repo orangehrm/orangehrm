@@ -17,7 +17,7 @@
  * Boston, MA  02110-1301, USA
  */
 
-require_once ROOT_PATH . '/lib/models/benefits/DefineHsp.php';
+require_once ROOT_PATH . '/benefitscode/lib/models/benefits/DefineHsp.php';
 
 class EXTRACTOR_DefineHsp {
 

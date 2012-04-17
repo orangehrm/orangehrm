@@ -44,7 +44,7 @@ require_once ROOT_PATH . '/lib/models/hrfunct/EmpLocation.php';
 require_once ROOT_PATH . '/lib/models/eimadmin/EmployStat.php';
 
 require_once ROOT_PATH . '/lib/common/FormCreator.php';
-require_once ROOT_PATH . '/lib/models/benefits/HspSummary.php';
+require_once ROOT_PATH . '/benefitscode/lib/models/benefits/HspSummary.php';
 require_once ROOT_PATH . '/lib/common/Config.php';
 require_once ROOT_PATH . '/lib/common/authorize.php';
 require_once ROOT_PATH . '/lib/utils/CSRFTokenGenerator.php';

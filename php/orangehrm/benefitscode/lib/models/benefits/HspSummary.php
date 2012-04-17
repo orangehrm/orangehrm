@@ -19,7 +19,7 @@
  */
 
 require_once ROOT_PATH.'/lib/models/hrfunct/EmpInfo.php';
-require_once ROOT_PATH.'/lib/models/benefits/DefineHsp.php';
+require_once ROOT_PATH.'/benefitscode/lib/models/benefits/DefineHsp.php';
 require_once ROOT_PATH.'/lib/common/Config.php';
 require_once 'Hsp.php';
 

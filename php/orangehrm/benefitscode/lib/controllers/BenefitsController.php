@@ -22,13 +22,13 @@ if(! defined('ROOT_PATH'))
 
 require_once ROOT_PATH . '/lib/common/TemplateMerger.php';
 require_once ROOT_PATH . '/lib/common/authorize.php';
-require_once ROOT_PATH . '/lib/models/benefits/HspPayPeriod.php';
-require_once ROOT_PATH . '/lib/models/benefits/HspSummary.php';
+require_once ROOT_PATH . '/benefitscode/lib/models/benefits/HspPayPeriod.php';
+require_once ROOT_PATH . '/benefitscode/lib/models/benefits/HspSummary.php';
 require_once ROOT_PATH . '/lib/models/hrfunct/EmpInfo.php';
-require_once ROOT_PATH . '/lib/models/benefits/mail/HspMailNotification.php';
-require_once ROOT_PATH . '/lib/models/benefits/HspPaymentRequest.php';
+require_once ROOT_PATH . '/benefitscode/lib/models/benefits/mail/HspMailNotification.php';
+require_once ROOT_PATH . '/benefitscode/lib/models/benefits/HspPaymentRequest.php';
 require_once ROOT_PATH . '/lib/models/hrfunct/EmpInfo.php';
-require_once ROOT_PATH . '/lib/models/benefits/DefineHsp.php';
+require_once ROOT_PATH . '/benefitscode/lib/models/benefits/DefineHsp.php';
 require_once ROOT_PATH . '/lib/logger/Logger.php';
 require_once ROOT_PATH . '/lib/logs/LogFileWriter.php';
 require_once ROOT_PATH . '/lib/models/eimadmin/EmailNotificationConfiguration.php';
@@ -98,7 +98,7 @@ class BenefitsController {
 
 		$years = HspPayPeriod::getYears();
 
-		$path = "/templates/benefits/selectYear.php";
+		$path = "/benefitscode/templates/benefits/selectYear.php";
 		$tmpOb[0]=$heading;
 		$tmpOb[1]=$years;
 		$tmpOb[2]=$action;
@@ -134,7 +134,7 @@ class BenefitsController {
 
 		$years = HspPayPeriod::getYears();
 
-		$path = "/templates/benefits/selectEmployeeAndYear.php";
+		$path = "/benefitscode/templates/benefits/selectEmployeeAndYear.php";
 
 		$tmpOb[0]=$heading;
 		$tmpOb[1]=$years;
@@ -153,7 +153,7 @@ class BenefitsController {
       
 		$payPeriods = HspPayPeriod::listPayPeriods($year);
 
-		$path = "/templates/benefits/listPayPeriods.php";
+		$path = "/benefitscode/templates/benefits/listPayPeriods.php";
 
 		$tmpOb[0] = $payPeriods;
 		$tmpOb[1] = $year;
@@ -175,7 +175,7 @@ class BenefitsController {
 		    die('You are not authorized to view this page');
 		}
 		
-		$path = "/templates/benefits/addPayPeriods.php";
+		$path = "/benefitscode/templates/benefits/addPayPeriods.php";
 
 		if (isset($year)) {
 			$tmpOb[0] = $year;
@@ -189,7 +189,7 @@ class BenefitsController {
 	}
 
 	public static function viewEditPayPeriod($year, $id) {
-		$path = "/templates/benefits/editPayPeriods.php";
+		$path = "/benefitscode/templates/benefits/editPayPeriods.php";
       $screenParam = array('benefitcode' => $_GET['benefitcode'], 'action' => $_GET['action'], 'id' => $_GET['id']);
       $tokenGenerator = CSRFTokenGenerator::getInstance();
       $tokenGenerator->setKeyGenerationInput($screenParam);
@@ -304,7 +304,7 @@ class BenefitsController {
 		}
 
 		if (isset($error)) { // If errors found
-		    $path = "/templates/benefits/hspSummary.php";
+		    $path = "/benefitscode/templates/benefits/hspSummary.php";
 		    $template = new TemplateMerger($error, $path);
 		    $template->setError(true);
 		    $template->display();
@@ -341,7 +341,7 @@ class BenefitsController {
 			    	$pageNo = 1;
 				}
 
-				// Setting records that are used in /templates/benefits/hspSummary.php
+				// Setting records that are used in /benefitscode/templates/benefits/hspSummary.php
 				$tmpOb[0]="hspSummary";
 				$tmpOb[1]=HspSummary::fetchHspSummary($year, $pageNo);
 				$tmpOb[2]=$year;
@@ -376,11 +376,11 @@ class BenefitsController {
 					$path = "/plugins/printBenefits/pdfPersonalHspSummary.php";
 				}
 			} else {
-				$path = "/templates/benefits/hspSummary.php";
+				$path = "/benefitscode/templates/benefits/hspSummary.php";
 			}
 
 			if (isset($employeeId) && !isset($_GET['printPdf'])) {
-				$path = "/templates/benefits/personalHspSummary.php";
+				$path = "/benefitscode/templates/benefits/personalHspSummary.php";
 			}
 
 
@@ -407,7 +407,7 @@ class BenefitsController {
 	 */
 
 	public static function HspNotDefined() {
-	    $path = "/templates/benefits/hspSummary.php";
+	    $path = "/benefitscode/templates/benefits/hspSummary.php";
 	    $error['hspNotDefined'] = true;
 	    $template = new TemplateMerger($error, $path);
 		$template->setError(true);
@@ -502,7 +502,7 @@ class BenefitsController {
 		}
 
 		// Setting template path
-		$path = "/templates/benefits/hspSummary.php";
+		$path = "/benefitscode/templates/benefits/hspSummary.php";
 
 		if ($errorFlag) {
 
@@ -520,7 +520,7 @@ class BenefitsController {
 		    	$pageNo = 1;
 			}
 
-			// Setting records that are used in /templates/benefits/hspSummary.php
+			// Setting records that are used in /benefitscode/templates/benefits/hspSummary.php
 			$tmpOb[0]="searchHspSummary";
 			$tmpOb[1]=HspSummary::fetchHspSummary($year, 1, $empId);
 			$tmpOb[2]=$year;
@@ -698,7 +698,7 @@ class BenefitsController {
 		$authorizeObj = new authorize($_SESSION['empID'], $_SESSION['isAdmin']);
 
 
-		$path = "/templates/benefits/editHspPaymentRequest.php";
+		$path = "/benefitscode/templates/benefits/editHspPaymentRequest.php";
 		$header = "requestHeader.php";
 
 		$empID = $_SESSION['empID'];
@@ -1005,7 +1005,7 @@ class BenefitsController {
 				$path = "/plugins/printBenefits/pdfHspPaymentsDue.php";
 			}
 		} else {
-			$path = "/templates/benefits/listPendingHspPaymentRequest.php";
+			$path = "/benefitscode/templates/benefits/listPendingHspPaymentRequest.php";
 		}
 
 		$requests = HspPaymentRequest::listUnPaidHspRequests();
@@ -1029,7 +1029,7 @@ class BenefitsController {
 				$path = "/plugins/printBenefits/pdfHspExpenditures.php";
 			}
 		} else {
-			$path = "/templates/benefits/listPaidHspPaymentRequest.php";
+			$path = "/benefitscode/templates/benefits/listPaidHspPaymentRequest.php";
 		}
 
 		$requests = HspPaymentRequest::listEmployeeHspRequests($year, $employeeId, true);
@@ -1056,7 +1056,7 @@ class BenefitsController {
 				$path = "/plugins/printBenefits/pdfHspUsed.php";
 			}
 		} else {
-			$path = "/templates/benefits/listHspPaymentRequestsUsed.php";
+			$path = "/benefitscode/templates/benefits/listHspPaymentRequestsUsed.php";
 		}
 
 		$requests = HspPaymentRequest::listEmployeeHspRequestsPaid($year, $employeeId);
@@ -1080,7 +1080,7 @@ class BenefitsController {
 		$authorizeObj = new authorize($_SESSION['empID'], $_SESSION['isAdmin']);
 
 
-		$path = "/templates/benefits/editHspPaymentRequest.php";
+		$path = "/benefitscode/templates/benefits/editHspPaymentRequest.php";
 
 		$request = HspPaymentRequest::getHspRequest($id);
 
@@ -1153,7 +1153,7 @@ class BenefitsController {
 		    die('You are not authorized to view this page');
 		}
 		
-		$path = "/templates/benefits/defineHsp.php";
+		$path = "/benefitscode/templates/benefits/defineHsp.php";
       $param = array('token' => $token);
 		$template = new TemplateMerger($param, $path);
 		$template->display();

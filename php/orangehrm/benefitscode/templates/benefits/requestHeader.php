@@ -23,23 +23,23 @@
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <title><?php echo $lang_Benefits_Module_Title; ?></title>
 
-<link href="../../themes/<?php echo $styleSheet;?>/css/style.css" rel="stylesheet" type="text/css"/>
+<link href="../../../themes/<?php echo $styleSheet;?>/css/style.css" rel="stylesheet" type="text/css"/>
 <!--[if lte IE 6]>
-<link href="../../themes/<?php echo $styleSheet; ?>/css/IE6_style.css" rel="stylesheet" type="text/css"/>
+<link href="../../../themes/<?php echo $styleSheet; ?>/css/IE6_style.css" rel="stylesheet" type="text/css"/>
 <![endif]-->
 <!--[if IE]>
-<link href="../../themes/<?php echo $styleSheet; ?>/css/IE_style.css" rel="stylesheet" type="text/css"/>
+<link href="../../../themes/<?php echo $styleSheet; ?>/css/IE_style.css" rel="stylesheet" type="text/css"/>
 <![endif]-->
 
-<link href="../../themes/<?php echo $styleSheet;?>/css/time.css" rel="stylesheet" type="text/css" />
-<link href="../../themes/<?php echo $styleSheet;?>/css/suggestions.css" rel="stylesheet" type="text/css" />
+<link href="../../../themes/<?php echo $styleSheet;?>/css/time.css" rel="stylesheet" type="text/css" />
+<link href="../../../themes/<?php echo $styleSheet;?>/css/suggestions.css" rel="stylesheet" type="text/css" />
 
-<script src="../../scripts/autoSuggest.js"></script>
-<script src="../../scripts/suggestions.js"></script>
+<script src="../../../scripts/autoSuggest.js"></script>
+<script src="../../../scripts/suggestions.js"></script>
 
-<script type="text/javascript" src="../../scripts/time.js"></script>
-<script type="text/javascript" src="../../scripts/archive.js"></script>
-<script type="text/javascript" src="../../themes/<?php echo $styleSheet;?>/scripts/style.js"></script>
+<script type="text/javascript" src="../../../scripts/time.js"></script>
+<script type="text/javascript" src="../../../scripts/archive.js"></script>
+<script type="text/javascript" src="../../../themes/<?php echo $styleSheet;?>/scripts/style.js"></script>
 
 <script type="text/javascript">
 //<![CDATA[

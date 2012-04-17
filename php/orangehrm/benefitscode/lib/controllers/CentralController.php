@@ -18,7 +18,7 @@
  */
 
 /* For logging PHP errors */
-include_once('../../lib/confs/log_settings.php');
+include_once('../../../lib/confs/log_settings.php');
 
 ob_start();
 
@@ -42,7 +42,7 @@ require_once ROOT_PATH . '/lib/common/Language.php';
 require_once ROOT_PATH . '/lib/common/LocaleUtil.php';
 require_once ROOT_PATH . '/lib/common/CommonFunctions.php';
 
-require_once ROOT_PATH . '/lib/controllers/BenefitsController.php';
+require_once ROOT_PATH . '/benefitscode/lib/controllers/BenefitsController.php';
 
 /** Clean Get variables that are used in page */
 $varsToClean = array('uniqcode', 'repcode', 'reqcode', 'mtcode', 'repcode', 
@@ -108,7 +108,7 @@ if (in_array('benefits', $disabledModules) && isset($_GET['benefitcode'])) {
 
 /* Loading disabled modules: Ends */        
 
-include ROOT_PATH.'/lib/controllers/Benefits.inc.php';
+include ROOT_PATH.'/benefitscode/lib/controllers/Benefits.inc.php';
 
 
 @ob_end_flush();  ?>

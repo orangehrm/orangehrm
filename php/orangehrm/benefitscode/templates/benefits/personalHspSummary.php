@@ -99,15 +99,15 @@ function goBack() {
 
  	<?php if($_SESSION['isAdmin']=='Yes') {?>
  	<img id="btnAdd" title="Add" onClick="edit();"
- 		 onMouseOut="this.src='../../themes/beyondT/pictures/btn_edit.gif';"
- 		 onMouseOver="this.src='../../themes/beyondT/pictures/btn_edit_02.gif';"
- 		 src="../../themes/beyondT/pictures/btn_edit.gif"
+ 		 onMouseOut="this.src='../../../themes/beyondT/pictures/btn_edit.gif';"
+ 		 onMouseOver="this.src='../../../themes/beyondT/pictures/btn_edit_02.gif';"
+ 		 src="../../../themes/beyondT/pictures/btn_edit.gif"
  		 style="display:inline;" />
 
  	<img id="btnSave" title="Save" onClick="save();"
- 		 onMouseOut="this.src='../../themes/beyondT/pictures/btn_save.gif';"
- 		 onMouseOver="this.src='../../themes/beyondT/pictures/btn_save_02.gif';"
- 		 src="../../themes/beyondT/pictures/btn_save.gif"
+ 		 onMouseOut="this.src='../../../themes/beyondT/pictures/btn_save.gif';"
+ 		 onMouseOver="this.src='../../../themes/beyondT/pictures/btn_save_02.gif';"
+ 		 src="../../../themes/beyondT/pictures/btn_save.gif"
  		 style="display:none;"/>
 <?php } ?>
 <?php
