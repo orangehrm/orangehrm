@@ -295,6 +295,12 @@ if (!$authorizeObj->isAdmin() && $authorizeObj->isESS()) {
 
 }
 
+
+
+
+
+
+/* Disabling Benefits module: Begins 
 if (!$authorizeObj->isAdmin() && $authorizeObj->isESS()) {
     $beneftisHomePage = 'benefitscode/lib/controllers/CentralController.php?benefitcode=Benefits&action=Benefits_Schedule_Select_Year';
     $empId = $_SESSION['empID'];
@@ -304,6 +310,13 @@ if (!$authorizeObj->isAdmin() && $authorizeObj->isESS()) {
     $beneftisHomePage = 'benefitscode/lib/controllers/CentralController.php?benefitcode=Benefits&action=Benefits_Schedule_Select_Year';
     $personalHspSummary = 'benefitscode/lib/controllers/CentralController.php?benefitcode=Benefits&action=Hsp_Summary_Select_Year_Employee_Admin';
 }
+   Disabling Benefits module: Ends */
+
+
+
+
+
+
 
 if ($authorizeObj->isESS()) {
     if ($_SESSION['timePeriodSet'] == 'Yes') {
@@ -647,14 +660,19 @@ if ($_SESSION['isAdmin'] != 'Yes') {
     $menu[] = $menuItem;
 }
 
-/* Start benefits menu */
+
+
+
+
+
+
+/* Disabling Benefits module: Begins
 if (($_SESSION['empID'] != null) || $arrAllRights[Benefits]['view']) {
     $menuItem = new MenuItem("benefits", $lang_Menu_Benefits, "./index.php?menu_no_top=benefits");
     $menuItem->setCurrent($_GET['menu_no_top'] == "benefits");
 
     $subs = array();
 
-    /* TODO: clean up this part based on requirements */
     if ($_SESSION['isAdmin'] == "Yes" && $arrAllRights[Benefits]['view']) {
         $yearVal = date('Y');
         $sub = new MenuItem("hsp", $lang_Menu_Benefits_HealthSavingsPlan, "benefitscode/lib/controllers/CentralController.php?benefitcode=Benefits&action=Hsp_Summary&year={$yearVal}");
@@ -704,6 +722,13 @@ if (($_SESSION['empID'] != null) || $arrAllRights[Benefits]['view']) {
     $menuItem->setSubMenuItems($subs);
     $menu[] = $menuItem;
 }
+   Disabling Benefits module: Ends */
+
+
+
+
+
+
 
 /* Start help menu */
 $menuItem = new MenuItem("help", $i18n->__("Help"), '#');
