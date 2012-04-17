@@ -1275,8 +1275,7 @@ INSERT INTO `ohrm_module` (`id`, `name`, `status`) VALUES
 (6, 'attendance', 1),
 (7, 'recruitment', 1),
 (8, 'recruitmentApply', 1),
-(9, 'performance', 1),
-(10, 'benefits', 0);
+(9, 'performance', 1);
 
 INSERT INTO ohrm_screen (`id`, `name`, `module_id`, `action_url`) VALUES
 (1, 'User List', 2, 'viewSystemUsers'),

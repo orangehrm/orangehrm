@@ -58,10 +58,6 @@
             <?php echo $form['performance']->renderLabel(__('Enable Performance module')); ?>
             <br class="clear"/>  
             
-            <?php echo $form['benefits']->render(); ?>
-            <?php echo $form['benefits']->renderLabel(__('Enable Benefits module')); ?>
-            <br class="clear"/>
-            
             <?php echo $form['help']->render(); ?>
             <?php echo $form['help']->renderLabel(__('Enable Help') . ' <span class="required">*</span>'); ?>
             <br class="clear"/>            
