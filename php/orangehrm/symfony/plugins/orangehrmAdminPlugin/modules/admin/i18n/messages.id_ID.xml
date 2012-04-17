@@ -1,0 +1,534 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE xliff PUBLIC "-//XLIFF//DTD XLIFF//EN" "http://www.oasis-open.org/committees/xliff/documents/xliff.dtd">
+<xliff version="1.0">
+ <header/>
+ <file source-language="en_US" target-language="id_ID" datatype="plaintext" original="messages" date="2012-04-17T0:33:12Z" product-name="messages">
+  <body>
+   <trans-unit id="1">
+    <source>Activities</source>
+    <target>Kegiatan</target>
+   </trans-unit>
+   <trans-unit id="2">
+    <source>Add Another</source>
+    <target>Tambahkan lainnya</target>
+   </trans-unit>
+   <trans-unit id="3">
+    <source>Add Currency</source>
+    <target>Tambahkan Mata Uang</target>
+   </trans-unit>
+   <trans-unit id="4">
+    <source>Add Customer</source>
+    <target>Tambahkan Pelanggan</target>
+   </trans-unit>
+   <trans-unit id="5">
+    <source>Add Employment Status</source>
+    <target>Tambahkan Status Pekerjaan</target>
+   </trans-unit>
+   <trans-unit id="6">
+    <source>Add Job Category</source>
+    <target>Tambah Kategori Pekerjaan</target>
+   </trans-unit>
+   <trans-unit id="7">
+    <source>Add Job Title</source>
+    <target>Tambahkan Jabatan</target>
+   </trans-unit>
+   <trans-unit id="8">
+    <source>Add Location</source>
+    <target>Tambahkan Lokasi</target>
+   </trans-unit>
+   <trans-unit id="9">
+    <source>Add Membership</source>
+    <target>Tambahkan Keanggotaan</target>
+   </trans-unit>
+   <trans-unit id="10">
+    <source>Add Nationality</source>
+    <target>Tambahkan Kebangsaan</target>
+   </trans-unit>
+   <trans-unit id="11">
+    <source>Add Pay Grade</source>
+    <target>Tambahkan Skala Gaji</target>
+   </trans-unit>
+   <trans-unit id="12">
+    <source>Add Project</source>
+    <target>Tambahkan Proyek</target>
+   </trans-unit>
+   <trans-unit id="13">
+    <source>Add Project Activity</source>
+    <target>Tambahkan Kegiatan Proyek</target>
+   </trans-unit>
+   <trans-unit id="14">
+    <source>Add Subscriber</source>
+    <target>Tambahkan Pelanggan (Subscriber)</target>
+   </trans-unit>
+   <trans-unit id="15">
+    <source>Add Unit</source>
+    <target>Tambahkan Unit</target>
+   </trans-unit>
+   <trans-unit id="16">
+    <source>Add User</source>
+    <target>Tambah Pengguna</target>
+   </trans-unit>
+   <trans-unit id="17">
+    <source>Add Work Shift</source>
+    <target>Tambahkan Shift Kerja</target>
+   </trans-unit>
+   <trans-unit id="18">
+    <source>All date fields should be in YYYY-MM-DD format</source>
+    <target>Semua bidang tanggal harus dalam format  YYYY-MM-DD</target>
+   </trans-unit>
+   <trans-unit id="19">
+    <source>Assigned Currencies</source>
+    <target>Mata Uang yang dipakai</target>
+   </trans-unit>
+   <trans-unit id="20">
+    <source>Assigned Employees</source>
+    <target>Karyawan ditetapkan</target>
+   </trans-unit>
+   <trans-unit id="21">
+    <source>Available Employees</source>
+    <target>Karyawan yang tersedia</target>
+   </trans-unit>
+   <trans-unit id="22">
+    <source>Better</source>
+    <target>Lebih baik</target>
+   </trans-unit>
+   <trans-unit id="23">
+    <source>Click on a notification type to add subscribers</source>
+    <target>Klik pada jenis pemberitahuan untuk menambah pelanggan (subscriber)</target>
+   </trans-unit>
+   <trans-unit id="24">
+    <source>Column order should not be changed</source>
+    <target>Urutan kolom tidak boleh diubah</target>
+   </trans-unit>
+   <trans-unit id="25">
+    <source>Company Structure</source>
+    <target>Struktur Perusahaan</target>
+   </trans-unit>
+   <trans-unit id="26">
+    <source>Confirm New Password</source>
+    <target>Konfirmasi Kata Sandi Baru</target>
+   </trans-unit>
+   <trans-unit id="27">
+    <source>Copy Activity</source>
+    <target>Salin Kegiatan</target>
+   </trans-unit>
+   <trans-unit id="28">
+    <source>CSV Data Import</source>
+    <target>Impor Data CSV</target>
+   </trans-unit>
+   <trans-unit id="29">
+    <source>Current Password</source>
+    <target>Kata Sandi Lama</target>
+   </trans-unit>
+   <trans-unit id="30">
+    <source>Current Password Is Wrong</source>
+    <target>Kata Sandi Lama  Salah</target>
+   </trans-unit>
+   <trans-unit id="31">
+    <source>Customer</source>
+    <target>Pelanggan</target>
+   </trans-unit>
+   <trans-unit id="32">
+    <source>Customer Name</source>
+    <target>Nama Pelanggan</target>
+   </trans-unit>
+   <trans-unit id="33">
+    <source>Date Format</source>
+    <target>Format Tanggal</target>
+   </trans-unit>
+   <trans-unit id="34">
+    <source>Description is not specified</source>
+    <target>Deskripsi tidak ditentukan</target>
+   </trans-unit>
+   <trans-unit id="35">
+    <source>Done</source>
+    <target>Selesai</target>
+   </trans-unit>
+   <trans-unit id="36">
+    <source>Each import file should be configured for 100 records or less</source>
+    <target>Setiap file impor harus dikonfigurasi untuk 100 catatan atau kurang</target>
+   </trans-unit>
+   <trans-unit id="37">
+    <source>Edit Currency</source>
+    <target>Sunting Mata Uang</target>
+   </trans-unit>
+   <trans-unit id="38">
+    <source>Edit Customer</source>
+    <target>Sunting Pelanggan</target>
+   </trans-unit>
+   <trans-unit id="39">
+    <source>Edit Employment Status</source>
+    <target>Sunting Status Pekerjaan</target>
+   </trans-unit>
+   <trans-unit id="40">
+    <source>Edit Job Category</source>
+    <target>Sunting Kategori Pekerjaan</target>
+   </trans-unit>
+   <trans-unit id="41">
+    <source>Edit Job Title</source>
+    <target>Sunting Jabatan</target>
+   </trans-unit>
+   <trans-unit id="42">
+    <source>Edit Location</source>
+    <target>Sunting Lokasi</target>
+   </trans-unit>
+   <trans-unit id="43">
+    <source>Edit Membership</source>
+    <target>Sunting Keanggotaan</target>
+   </trans-unit>
+   <trans-unit id="44">
+    <source>Edit Nationality</source>
+    <target>Sunting Kebangsaan</target>
+   </trans-unit>
+   <trans-unit id="45">
+    <source>Edit Pay Grade</source>
+    <target>Sunting Skala Gaji</target>
+   </trans-unit>
+   <trans-unit id="46">
+    <source>Edit Project</source>
+    <target>Sunting Proyek</target>
+   </trans-unit>
+   <trans-unit id="47">
+    <source>Edit Project Activity</source>
+    <target>Sunting Kegiatan Proyek</target>
+   </trans-unit>
+   <trans-unit id="48">
+    <source>Edit Subscriber</source>
+    <target>Sunting Pelanggan (Subscriber)</target>
+   </trans-unit>
+   <trans-unit id="49">
+    <source>Edit Unit</source>
+    <target>Sunting Unit</target>
+   </trans-unit>
+   <trans-unit id="50">
+    <source>Edit User</source>
+    <target>Sunting Pengguna</target>
+   </trans-unit>
+   <trans-unit id="51">
+    <source>Edit Work Shift</source>
+    <target>Sunting Shift Kerja</target>
+   </trans-unit>
+   <trans-unit id="52">
+    <source>Email Notification</source>
+    <target>Email Pemberitahuan</target>
+   </trans-unit>
+   <trans-unit id="53">
+    <source>Enable Admin module</source>
+    <target>Aktifkan modul Admin</target>
+   </trans-unit>
+   <trans-unit id="54">
+    <source>Enable Benefits module</source>
+    <target>Aktifkan modul Tunjangan</target>
+   </trans-unit>
+   <trans-unit id="55">
+    <source>Enable Help</source>
+    <target>Aktifkan Bantuan</target>
+   </trans-unit>
+   <trans-unit id="56">
+    <source>Enable Leave module</source>
+    <target>Aktifkan modul Cuti</target>
+   </trans-unit>
+   <trans-unit id="57">
+    <source>Enable Performance module</source>
+    <target>Aktifkan modul Kinerja</target>
+   </trans-unit>
+   <trans-unit id="58">
+    <source>Enable PIM module</source>
+    <target>Aktifkan modul PIM</target>
+   </trans-unit>
+   <trans-unit id="59">
+    <source>Enable Recruitment module</source>
+    <target>Aktifkan modul Rekrutmen</target>
+   </trans-unit>
+   <trans-unit id="60">
+    <source>Enable Time module</source>
+    <target>Aktifkan modul Kehadiran</target>
+   </trans-unit>
+   <trans-unit id="61">
+    <source>Failed to Import: File Size Exceeded</source>
+    <target>Gagal mengimpor: Ukuran File terlalu besar</target>
+   </trans-unit>
+   <trans-unit id="62">
+    <source>Failed to Import: File Type Not Allowed</source>
+    <target>Gagal mengimpor: Jenis File Tidak Diizinkan</target>
+   </trans-unit>
+   <trans-unit id="63">
+    <source>Failed to Import: No Compatible Records</source>
+    <target>Gagal mengimpor: Tidak ada Catatan yang Kompatibel</target>
+   </trans-unit>
+   <trans-unit id="64">
+    <source>Fax</source>
+    <target>Fax</target>
+   </trans-unit>
+   <trans-unit id="65">
+    <source>First Name and Last Name are compulsory</source>
+    <target>Nama Depan dan Nama Belakang wajib diisi</target>
+   </trans-unit>
+   <trans-unit id="66">
+    <source>Following languages are supported</source>
+    <target>Bahasa yang didukung berikut ini</target>
+   </trans-unit>
+   <trans-unit id="67">
+    <source>Hours Per Day</source>
+    <target>Jam Per Hari</target>
+   </trans-unit>
+   <trans-unit id="68">
+    <source>If gender is specified, value should be either</source>
+    <target>Jika jenis kelamin yang ditentukan, nilai harus dimasukkan</target>
+   </trans-unit>
+   <trans-unit id="69">
+    <source>Job Description</source>
+    <target>Uraian Pekerjaan (Job Description)</target>
+   </trans-unit>
+   <trans-unit id="70">
+    <source>Language and font help</source>
+    <target>Bahasa dan bantuan huruf</target>
+   </trans-unit>
+   <trans-unit id="71">
+    <source>Leave Applications</source>
+    <target>Pengambilan Cuti</target>
+   </trans-unit>
+   <trans-unit id="72">
+    <source>Leave Approvals</source>
+    <target>Persetujuan Cuti</target>
+   </trans-unit>
+   <trans-unit id="73">
+    <source>Leave Assignments</source>
+    <target>Cuti Yang Ditetapkan</target>
+   </trans-unit>
+   <trans-unit id="74">
+    <source>Leave Cancellations</source>
+    <target>Pembatalan Cuti</target>
+   </trans-unit>
+   <trans-unit id="75">
+    <source>Leave Rejections</source>
+    <target>Cuti Ditolak</target>
+   </trans-unit>
+   <trans-unit id="76">
+    <source>Level Already Exists</source>
+    <target>Tingkat Sudah Ada</target>
+   </trans-unit>
+   <trans-unit id="77">
+    <source>Location Name</source>
+    <target>Nama Lokasi</target>
+   </trans-unit>
+   <trans-unit id="78">
+    <source>Mail Configuration</source>
+    <target>Konfigurasi e-Mail</target>
+   </trans-unit>
+   <trans-unit id="79">
+    <source>Mail Sent As</source>
+    <target>e-Mail dikirim oleh</target>
+   </trans-unit>
+   <trans-unit id="80">
+    <source>Maximum Salary</source>
+    <target>Gaji Maksimum </target>
+   </trans-unit>
+   <trans-unit id="81">
+    <source>Medium</source>
+    <target>Medium</target>
+   </trans-unit>
+   <trans-unit id="82">
+    <source>Minimum Salary</source>
+    <target>Gaji Minimum </target>
+   </trans-unit>
+   <trans-unit id="83">
+    <source>Module Configuration</source>
+    <target>Konfigurasi Modul </target>
+   </trans-unit>
+   <trans-unit id="84">
+    <source>Multiple import files may be required</source>
+    <target>Beberapa File impor mungkin diperlukan</target>
+   </trans-unit>
+   <trans-unit id="85">
+    <source>New Password</source>
+    <target>Kata Sandi Baru</target>
+   </trans-unit>
+   <trans-unit id="86">
+    <source>No activities selected</source>
+    <target>Tidak ada kegiatan yang dipilih</target>
+   </trans-unit>
+   <trans-unit id="87">
+    <source>No assigned activities</source>
+    <target>Tidak ada kegiatan yang ditetapkan</target>
+   </trans-unit>
+   <trans-unit id="88">
+    <source>Not Allowed to Delete Customer(s) Which Have Time Logged Against</source>
+    <target>Tidak Diizinkan untuk Menghapus Pelanggan (s) Yang Memiliki Waktu Logged berlawanan </target>
+   </trans-unit>
+   <trans-unit id="89">
+    <source>Not Allowed to Delete Project Activites Which Have Time Logged Against</source>
+    <target>Tidak Diizinkan untuk Hapus Aktivitas Proyek Yang Memiliki Logged Waktu berlawanan </target>
+   </trans-unit>
+   <trans-unit id="90">
+    <source>Notification Type</source>
+    <target>Jenis Pemberitahuan </target>
+   </trans-unit>
+   <trans-unit id="91">
+    <source>Number of Employees</source>
+    <target>Jumlah Karyawan</target>
+   </trans-unit>
+   <trans-unit id="92">
+    <source>Number of Records Imported</source>
+    <target>Jumlah Catatan Impor</target>
+   </trans-unit>
+   <trans-unit id="93">
+    <source>OrangeHRM - Supported Languages</source>
+    <target>Bahasa yang didukung OrangeHRM</target>
+   </trans-unit>
+   <trans-unit id="94">
+    <source>Organization Name</source>
+    <target>Nama Organisasi</target>
+   </trans-unit>
+   <trans-unit id="95">
+    <source>Path to Sendmail</source>
+    <target>Path to Sendmail</target>
+   </trans-unit>
+   <trans-unit id="96">
+    <source>Performance Review Submissions</source>
+    <target>Pengiriman Tinjauan Kinerja (Performance Review)</target>
+   </trans-unit>
+   <trans-unit id="97">
+    <source>Phone</source>
+    <target>Telepon</target>
+   </trans-unit>
+   <trans-unit id="98">
+    <source>Project</source>
+    <target>Proyek</target>
+   </trans-unit>
+   <trans-unit id="99">
+    <source>Project Admin</source>
+    <target>Admin Proyek </target>
+   </trans-unit>
+   <trans-unit id="100">
+    <source>Project Admins</source>
+    <target>Admin Proyek (s)</target>
+   </trans-unit>
+   <trans-unit id="101">
+    <source>Projects under selected customer will also be deleted</source>
+    <target>Proyek di bawah pelanggan yang dipilih juga akan dihapus</target>
+   </trans-unit>
+   <trans-unit id="102">
+    <source>Registration Number</source>
+    <target>Nomor pendaftaran</target>
+   </trans-unit>
+   <trans-unit id="103">
+    <source>Sample CSV file</source>
+    <target>Contoh CSV</target>
+   </trans-unit>
+   <trans-unit id="104">
+    <source>Send Test Email</source>
+    <target>Kirim Email Uji</target>
+   </trans-unit>
+   <trans-unit id="105">
+    <source>Sending Method</source>
+    <target>Metode Pengiriman</target>
+   </trans-unit>
+   <trans-unit id="106">
+    <source>Shift Name</source>
+    <target>Nama Shift </target>
+   </trans-unit>
+   <trans-unit id="107">
+    <source>Should be higher than Minimum Salary</source>
+    <target>Harus lebih tinggi dari Gaji Minimum</target>
+   </trans-unit>
+   <trans-unit id="108">
+    <source>SMTP Password</source>
+    <target>Kata Sandi SMTP </target>
+   </trans-unit>
+   <trans-unit id="109">
+    <source>SMTP Port</source>
+    <target>SMTP Port</target>
+   </trans-unit>
+   <trans-unit id="110">
+    <source>SMTP User</source>
+    <target>SMTP User</target>
+   </trans-unit>
+   <trans-unit id="111">
+    <source>SSL</source>
+    <target>SSL</target>
+   </trans-unit>
+   <trans-unit id="112">
+    <source>Strong</source>
+    <target>Kuat</target>
+   </trans-unit>
+   <trans-unit id="113">
+    <source>Strongest</source>
+    <target>Terkuat</target>
+   </trans-unit>
+   <trans-unit id="114">
+    <source>Subscribers</source>
+    <target>Pelanggan (Subsriciber)</target>
+   </trans-unit>
+   <trans-unit id="115">
+    <source>Successfully Saved. Test Email Not Sent</source>
+    <target>Berhasil tersimpan. Email Uji Tidak Terkirim</target>
+   </trans-unit>
+   <trans-unit id="116">
+    <source>Successfully Saved. Test Email Sent</source>
+    <target>Berhasil tersimpan. Email Uji Terkirim</target>
+   </trans-unit>
+   <trans-unit id="117">
+    <source>Supported languages</source>
+    <target>Bahasa yang didukung</target>
+   </trans-unit>
+   <trans-unit id="118">
+    <source>System Users</source>
+    <target>Pengguna Sistem </target>
+   </trans-unit>
+   <trans-unit id="119">
+    <source>Tax ID</source>
+    <target>ID Pajak</target>
+   </trans-unit>
+   <trans-unit id="120">
+    <source>Test Email Address</source>
+    <target>Alamat Uji Email</target>
+   </trans-unit>
+   <trans-unit id="121">
+    <source>This unit will be added under</source>
+    <target>Unit ini akan ditambahkan di bawah</target>
+   </trans-unit>
+   <trans-unit id="122">
+    <source>TLS</source>
+    <target>TLS</target>
+   </trans-unit>
+   <trans-unit id="123">
+    <source>Unit Id</source>
+    <target>ID Unit</target>
+   </trans-unit>
+   <trans-unit id="124">
+    <source>Units under selected unit will also be deleted</source>
+    <target>Unit di bawah unit yang dipilih juga akan dihapus</target>
+   </trans-unit>
+   <trans-unit id="125">
+    <source>Use browser language if set</source>
+    <target>Gunakan bahasa browser jika diatur</target>
+   </trans-unit>
+   <trans-unit id="126">
+    <source>Use SMTP Authentication</source>
+    <target>Gunakan Otentikasi SMTP</target>
+   </trans-unit>
+   <trans-unit id="127">
+    <source>User Secure Connection</source>
+    <target>Pengguna Koneksi Aman</target>
+   </trans-unit>
+   <trans-unit id="128">
+    <source>User Type</source>
+    <target>Jenis Pengguna</target>
+   </trans-unit>
+   <trans-unit id="129">
+    <source>Very Weak</source>
+    <target>Sangat Lemah</target>
+   </trans-unit>
+   <trans-unit id="130">
+    <source>Weak</source>
+    <target>Lemah</target>
+   </trans-unit>
+   <trans-unit id="131">
+    <source>Zip Code</source>
+    <target>Kode pos</target>
+   </trans-unit>
+  </body>
+ </file>
+</xliff>
+<!-- Contributed By:   ,  Bambang Widya Putra , Boedhie Cool , Gondhez Alkatraz , Tituk Novianto , Trenggana Natadirja -->

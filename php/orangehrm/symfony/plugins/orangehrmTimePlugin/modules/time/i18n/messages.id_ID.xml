@@ -1,0 +1,218 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE xliff PUBLIC "-//XLIFF//DTD XLIFF//EN" "http://www.oasis-open.org/committees/xliff/documents/xliff.dtd">
+<xliff version="1.0">
+ <header/>
+ <file source-language="en_US" target-language="id_ID" datatype="plaintext" original="messages" date="2012-04-17T0:34:44Z" product-name="messages">
+  <body>
+   <trans-unit id="1">
+    <source>Actions Performed on the Timesheet</source>
+    <target>Tindakan yang Dilakukan pada Laporan Jam Kerja (Timesheet)</target>
+   </trans-unit>
+   <trans-unit id="2">
+    <source>Add Row</source>
+    <target>Tambahkan Baris</target>
+   </trans-unit>
+   <trans-unit id="3">
+    <source>Add Timesheet</source>
+    <target>Tambahkan Laporan Kartu Absen (Timesheet)</target>
+   </trans-unit>
+   <trans-unit id="4">
+    <source>Attendance Total Summary Report</source>
+    <target>Laporan Ringkas Kehadiran Total</target>
+   </trans-unit>
+   <trans-unit id="5">
+    <source>Define Timesheet Period</source>
+    <target>Tentukan Periode Kartu Absen (Timesheet)</target>
+   </trans-unit>
+   <trans-unit id="6">
+    <source>Deleted project activities are not editable</source>
+    <target>Kegiatan proyek (Project Activity)  yang dihapus tidak dapat disunting</target>
+   </trans-unit>
+   <trans-unit id="7">
+    <source>Deleted projects/activities are marked with an asterik</source>
+    <target>Proyek / kegiatan yang sudah dihapus ditandai dengan asterik</target>
+   </trans-unit>
+   <trans-unit id="8">
+    <source>Duplicate Records Found</source>
+    <target>Catatan Ganda Ditemukan</target>
+   </trans-unit>
+   <trans-unit id="9">
+    <source>Edit Timesheet for</source>
+    <target>Sunting Kartu Absen (Timesheet) untuk</target>
+   </trans-unit>
+   <trans-unit id="10">
+    <source>Edit Timesheet for Month</source>
+    <target>Sunting Kartu Absen (Timesheet) untuk Bulan</target>
+   </trans-unit>
+   <trans-unit id="11">
+    <source>Edit Timesheet for Week</source>
+    <target>Sunting Kartu Absen (Timesheet) untuk Minggu</target>
+   </trans-unit>
+   <trans-unit id="12">
+    <source>Edit timesheet for week starting</source>
+    <target>Sunting Kartu Absen (Timesheet) untuk minggu mulai</target>
+   </trans-unit>
+   <trans-unit id="13">
+    <source>Employee name</source>
+    <target>Nama karyawan</target>
+   </trans-unit>
+   <trans-unit id="14">
+    <source>Employee Report</source>
+    <target>Laporan Karyawan </target>
+   </trans-unit>
+   <trans-unit id="15">
+    <source>Enter Employee Name</source>
+    <target>Masukkan Nama Karyawan</target>
+   </trans-unit>
+   <trans-unit id="16">
+    <source>Failed to Create: Future Timesheets Not Allowed</source>
+    <target>Gagal Membuat: Kartu Absen (Timesheets) Berikutnya Tidak Diizinkan</target>
+   </trans-unit>
+   <trans-unit id="17">
+    <source>First Day of Week</source>
+    <target>Pertama Hari dari Minggu</target>
+   </trans-unit>
+   <trans-unit id="18">
+    <source>for Month starting on</source>
+    <target>untuk Bulan yang dimulai pada </target>
+   </trans-unit>
+   <trans-unit id="19">
+    <source>for Week</source>
+    <target>untuk Minggu</target>
+   </trans-unit>
+   <trans-unit id="20">
+    <source>Fri</source>
+    <target>Jumat</target>
+   </trans-unit>
+   <trans-unit id="21">
+    <source>hours</source>
+    <target>jam</target>
+   </trans-unit>
+   <trans-unit id="22">
+    <source>Mon</source>
+    <target>Senin</target>
+   </trans-unit>
+   <trans-unit id="23">
+    <source>No Accessible Timesheets</source>
+    <target>Kartu Absen (Timesheets) tidak dapat diakses</target>
+   </trans-unit>
+   <trans-unit id="24">
+    <source>No Changes to Delete</source>
+    <target>Tidak ada Perubahan yang Dihapus</target>
+   </trans-unit>
+   <trans-unit id="25">
+    <source>No Timesheets Found</source>
+    <target>Tidak ada Kartu Absen (Timesheets) Ditemukan</target>
+   </trans-unit>
+   <trans-unit id="26">
+    <source>Not Submitted</source>
+    <target>Tidak Dikirim</target>
+   </trans-unit>
+   <trans-unit id="27">
+    <source>Proceed with Time Module</source>
+    <target>Lanjutkan dengan Modul Waktu (Time Module)</target>
+   </trans-unit>
+   <trans-unit id="28">
+    <source>Project Activity Details Report</source>
+    <target>Laporan Rincian Kegiatan Proyek </target>
+   </trans-unit>
+   <trans-unit id="29">
+    <source>Project Report</source>
+    <target>Laporan Proyek</target>
+   </trans-unit>
+   <trans-unit id="30">
+    <source>Remove Rows</source>
+    <target>Hapus Baris</target>
+   </trans-unit>
+   <trans-unit id="31">
+    <source>Sat</source>
+    <target>Sabtu</target>
+   </trans-unit>
+   <trans-unit id="32">
+    <source>Select a Day to Create Timesheet</source>
+    <target>Pilih Hari untuk Membuat Kartu Absen (Timesheet)</target>
+   </trans-unit>
+   <trans-unit id="33">
+    <source>Select a Project and an Activity</source>
+    <target>Pilih sebuah Proyek dan sebuah Kegiatan</target>
+   </trans-unit>
+   <trans-unit id="34">
+    <source>Select Employee</source>
+    <target>Pilih Karyawan</target>
+   </trans-unit>
+   <trans-unit id="35">
+    <source>Select Records to Remove</source>
+    <target>Pilih Catatan untuk Dihapus</target>
+   </trans-unit>
+   <trans-unit id="36">
+    <source>Should Be Less Than 24 and in HH:MM or Decimal Format</source>
+    <target>Harus Kurang dari 24 dan dalam format HH: MM atau Format Desimal</target>
+   </trans-unit>
+   <trans-unit id="37">
+    <source>Status:</source>
+    <target>Status:</target>
+   </trans-unit>
+   <trans-unit id="38">
+    <source>Sun</source>
+    <target>Minggu</target>
+   </trans-unit>
+   <trans-unit id="39">
+    <source>Thu</source>
+    <target>Kamis</target>
+   </trans-unit>
+   <trans-unit id="40">
+    <source>Timesheet Already Exists</source>
+    <target>Kartu Absen (Timesheet) Sudah Ada</target>
+   </trans-unit>
+   <trans-unit id="41">
+    <source>Timesheet Approved</source>
+    <target>Kartu Absen (Timesheets) Disetujui</target>
+   </trans-unit>
+   <trans-unit id="42">
+    <source>Timesheet for</source>
+    <target>Kartu Absen (Timesheet) untuk</target>
+   </trans-unit>
+   <trans-unit id="43">
+    <source>Timesheet Period</source>
+    <target>Periode Kartu Absen (Timesheet)</target>
+   </trans-unit>
+   <trans-unit id="44">
+    <source>Timesheet period start day has been set</source>
+    <target>Hari pertama periode Kartu Absen (Timesheet) telah ditetapkan</target>
+   </trans-unit>
+   <trans-unit id="45">
+    <source>Timesheet period start day has not been defined. Please contact HR Admin</source>
+    <target>Hari pertama periode Kartu Absen (Timesheet) belum ditetapkan. Hubungi HR Admin</target>
+   </trans-unit>
+   <trans-unit id="46">
+    <source>Timesheet Rejected</source>
+    <target>Kartu Absen (Timesheets) Ditolak</target>
+   </trans-unit>
+   <trans-unit id="47">
+    <source>Timesheet Submitted</source>
+    <target>Kartu Absen (Timesheet) Dikirim</target>
+   </trans-unit>
+   <trans-unit id="48">
+    <source>Timesheets Pending Action</source>
+    <target>Kartu Absen (Timesheets) yang Tertunda</target>
+   </trans-unit>
+   <trans-unit id="49">
+    <source>Total Should Be Less Than 24 Hours</source>
+    <target>Jumlah Harus Kurang Dari 24 Jam</target>
+   </trans-unit>
+   <trans-unit id="50">
+    <source>Tue</source>
+    <target>Selasa</target>
+   </trans-unit>
+   <trans-unit id="51">
+    <source>Wed</source>
+    <target>Rabu</target>
+   </trans-unit>
+   <trans-unit id="52">
+    <source>Week</source>
+    <target>Minggu</target>
+   </trans-unit>
+  </body>
+ </file>
+</xliff>
+<!-- Contributed By:   ,  Bambang Widya Putra , Boedhie Cool , Gondhez Alkatraz , Tituk Novianto , Trenggana Natadirja -->
