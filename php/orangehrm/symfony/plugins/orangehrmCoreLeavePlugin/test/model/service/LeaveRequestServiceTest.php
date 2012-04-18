@@ -414,19 +414,24 @@ class LeaveRequestServiceTest extends PHPUnit_Framework_TestCase {
         $leaveRequestDao = $this->getMock('LeaveRequestDao',
                 array('getLeavePeriodOverlapLeaves', 'fetchLeave', 'modifyOverlapLeaveRequest'));
         
+        $leave        = $leaveList[0];
+        $leaveRequest = new LeaveRequest();
+        $leaveRequest->setLeaveRequestId($leave->getLeaveRequestId());
+        $leave->setLeaveRequest($leaveRequest);
+        
         $leaveRequestDao->expects($this->once())
                 ->method('getLeavePeriodOverlapLeaves')
                 ->with($leavePeriod)
-                ->will($this->returnValue(array($leaveList[0])));
+                ->will($this->returnValue(array($leave)));
 
         $leaveRequestDao->expects($this->once())
                 ->method('fetchLeave')
-                ->with($leaveRequestId)
+                ->with($leave->getLeaveRequestId())
                 ->will($this->returnValue($leaveList));
 
         $leaveRequestDao->expects($this->once())
                 ->method('modifyOverlapLeaveRequest')
-                ->with($leaveList[0]->getLeaveRequest(), $leaveList, $leavePeriod);
+                ->with($leave->getLeaveRequest(), $leaveList, $leavePeriod);
 
         $this->leaveRequestService->setLeaveRequestDao($leaveRequestDao);
 
