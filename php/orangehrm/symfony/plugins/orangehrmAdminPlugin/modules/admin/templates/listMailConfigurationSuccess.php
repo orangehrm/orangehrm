@@ -130,7 +130,7 @@
 
 			if( mode == 'edit')
 			{
-				$('#editBtn').attr('value', '<?php echo __('Save');?>');
+				$('#editBtn').attr('value', "<?php echo __('Save');?>");
 				$('#frmSave :input').removeAttr('disabled');
 				mode = 'save';
 			}else
