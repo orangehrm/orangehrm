@@ -1652,10 +1652,6 @@ alter table `ohrm_user`
     add constraint foreign key (`user_role_id`)
         references ohrm_user_role(`id`) on delete cascade;
 
-alter table `ohrm_user`
-    add constraint foreign key (`emp_number`)
-        references hs_hr_employee(`emp_number`) on delete cascade;
-
 ALTER TABLE `ohrm_operational_country`
 ADD CONSTRAINT `fk_ohrm_operational_country_hs_hr_country`
     FOREIGN KEY (`country_code`)
