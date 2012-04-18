@@ -942,7 +942,27 @@ SQL90;
 
         $sql[91] = "UPDATE `ohrm_attendance_record` SET `state` = 'PUNCHED IN' WHERE `punch_out_user_time` IS NULL";
         $sql[92] = "UPDATE `ohrm_attendance_record` SET `state` = 'PUNCHED OUT' WHERE `punch_out_user_time` IS NOT NULL";
-                
+        
+        $sql[93] = "ALTER TABLE `hs_hr_emp_basicsalary` 
+                            DROP FOREIGN KEY `hs_hr_emp_basicsalary_ibfk_2`";
+        
+        $sql[94] = "ALTER TABLE `hs_pr_salary_currency_detail` 
+                            DROP FOREIGN KEY `hs_pr_salary_currency_detail_ibfk_1`";
+        
+        $sql[95] = "UPDATE `hs_hr_currency_type` SET `currency_id` = 'SRD', `currency_name` = 'Surinamese Dollar' WHERE `code` = 137";
+        
+        $sql[96] = "UPDATE `hs_hr_emp_basicsalary` SET `currency_id` = 'SRD' WHERE `currency_id` = 'SRG'";
+        
+        $sql[97] = "UPDATE `hs_pr_salary_currency_detail` SET `currency_id` = 'SRD' WHERE `currency_id` = 'SRG'";
+        
+        $sql[98] = "alter table hs_pr_salary_currency_detail
+                        add constraint `hs_pr_salary_currency_detail_ibfk_1` foreign key (currency_id)
+                        references hs_hr_currency_type(currency_id) on delete cascade;";
+        
+        $sql[99] = "alter table hs_hr_emp_basicsalary
+                        add constraint `hs_hr_emp_basicsalary_ibfk_2` foreign key (currency_id)
+                        references hs_hr_currency_type(currency_id) on delete cascade;";
+        
         $this->sql = $sql;
         
         $this->loadSqlForAttendanceUTCConversion();        
