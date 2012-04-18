@@ -110,7 +110,7 @@ class addCandidateAction extends sfAction {
             $this->form->bind($request->getParameter($this->form->getName()), $request->getFiles($this->form->getName()));
             $file = $request->getFiles($this->form->getName());
 
-            if (($_FILES['addCandidate']['size']['resume'] > 1024000) || ($_FILES['addCandidate']['error']['resume'])) {
+            if (($_FILES['addCandidate']['size']['resume'] > 1024000) || ($_FILES['addCandidate']['error']['resume'] && $_FILES['addCandidate']['name']['resume'])) {
                 $title = ($this->candidateId > 0) ? __('Editing Candidate') : __('Adding Candidate');	 
                 $this->templateMessage = array('WARNING', '' . __(TopLevelMessages::FILE_SIZE_SAVE_FAILURE));
             } elseif ($_FILES == null) {
