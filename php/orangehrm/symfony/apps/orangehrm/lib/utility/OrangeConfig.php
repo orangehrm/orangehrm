@@ -99,7 +99,15 @@ class OrangeConfig {
             case ConfigService::KEY_PIM_SHOW_TAX_EXEMPTIONS:
                 return $configService->showPimTaxExemptions();
                 break;
-
+            case ConfigService::KEY_NON_LEAP_YEAR_LEAVE_PERIOD_START_DATE:
+                return $configService->getNonLeapYearLeavePeriodStartDate();
+                break;                
+            case ConfigService::KEY_IS_LEAVE_PERIOD_START_ON_FEB_29:
+                return $configService->getIsLeavePeriodStartOnFeb29th();
+                break;
+            case ConfigService::KEY_LEAVE_PERIOD_START_DATE:
+                return $configService->getLeavePeriodStartDate();
+                break;
             default:
                 throw new Exception("Getting {$key} is not implemented yet");
                 break;
@@ -126,6 +134,15 @@ class OrangeConfig {
                 break;
             case ConfigService::KEY_PIM_SHOW_TAX_EXEMPTIONS:
                 return $configService->setShowPimTaxExemptions($value);
+                break;            
+            case ConfigService::KEY_NON_LEAP_YEAR_LEAVE_PERIOD_START_DATE:
+                return $configService->setNonLeapYearLeavePeriodStartDate($value);
+                break;                
+            case ConfigService::KEY_IS_LEAVE_PERIOD_START_ON_FEB_29:
+                return $configService->setIsLeavePeriodStartOnFeb29th($value);
+                break;
+            case ConfigService::KEY_LEAVE_PERIOD_START_DATE:
+                return $configService->setLeavePeriodStartDate($value);
                 break;            
             default:
                 throw new Exception("Setting {$key} is not implemented yet");

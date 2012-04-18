@@ -1,55 +1,47 @@
 <?php
-
+/**
+ * Only used in Leave module. Please do not use for anything new.
+ * Will be removed in the future.
+ * 
+ * @deprecated
+ */
 class ParameterService {
 
-    private static $paramArray;
-    private static $paramFilePath;
-
-    private static function _loadParamArray() {
-
-        $path = sfConfig::get('sf_root_dir') . '/apps/orangehrm/config/parameters.yml';
-
-        if (is_readable($path)) {
-            self::$paramFilePath = $path;
-        } else {
-            throw new Exception("Parameter container is not readable");
-        }
-
-        self::$paramArray = sfYaml::load($path);
-
-        if ( !is_array(self::$paramArray) ) {
-            self::$paramArray = array();
-        }
-
-    }
-
     public static function getParameter($key, $default = null) {
-
-        self::_loadParamArray();
-
-        if (array_key_exists($key, self::$paramArray)) {
-            return self::$paramArray[$key];
-        } else {
-            return $default;
+        
+        $key = self::_adjustKey($key);
+        $value = OrangeConfig::getInstance()->getAppConfValue($key);
+        
+        if (empty($value)) {
+            $value = $default;
         }
-
+        
+        return $value;
     }
 
     public static function setParameter($key, $value) {
-
-        self::_loadParamArray();
-
-        if (array_key_exists($key, self::$paramArray)) {
-            self::$paramArray[$key] = $value;
+        $key = self::_adjustKey($key);
+        OrangeConfig::getInstance()->setAppConfValue($key, $value);
+    }
+    
+    /**
+     * Adjusts key for specific keys related to leave period, by adding a 
+     * 'leave.' in front. This is a temporary fix for live, and will no longer
+     * be needed after moving to 2.6.9.
+     * 
+     * @param string $key Key
+     * @return string Adjusted Key 
+     */
+    private static function _adjustKey($key) {
+        
+        if ($key == 'nonLeapYearLeavePeriodStartDate' || 
+                $key == 'isLeavePeriodStartOnFeb29th' || 
+                $key == 'leavePeriodStartDate') {
             
-            if (is_writable(self::$paramFilePath)) {
-                file_put_contents(self::$paramFilePath, sfYaml::dump(self::$paramArray));
-            } else {
-                throw new Exception("Parameter container is not writable");
-            }                                    
+            $key = 'leave.' . $key;
         }
 
+        return $key;
     }
-
 
 }

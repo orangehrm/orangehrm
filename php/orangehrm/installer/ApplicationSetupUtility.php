@@ -324,22 +324,6 @@ CONFCONT;
 
 }
 
-public static function writeParamConfigFile() {
-
-    $confContent = <<< CONFCONT
-isLeavePeriodStartOnFeb29th: 'No'
-nonLeapYearLeavePeriodStartDate:
-leavePeriodStartDate: 
-CONFCONT;
-
-	$filename = ROOT_PATH . '/symfony/apps/orangehrm/config/parameters.yml';
-	$handle = fopen($filename, 'w');
-	fwrite($handle, $confContent);
-
-    fclose($handle);
-
-}
-
 public static function writeLog() {
 	$Content = "Client Info\n\n";
 
@@ -434,7 +418,6 @@ public static function install() {
 		case 5 :	error_log (date("r")." Write Conf - Starting\n",3, "installer/log.txt");
 					self::writeConfFile();
 					self::writeSymfonyDbConfigFile();
-                                        self::writeParamConfigFile();
 					error_log (date("r")." Write Conf - Done\n",3, "installer/log.txt");
 					if (!isset($error) || !isset($_SESSION['error'])) {
 						$_SESSION['INSTALLING'] = 6;

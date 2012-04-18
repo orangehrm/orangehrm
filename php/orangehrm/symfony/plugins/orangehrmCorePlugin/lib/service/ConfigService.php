@@ -37,6 +37,9 @@ class ConfigService extends BaseService {
     const KEY_ADMIN_LOCALIZATION_DEFAULT_LANGUAGE = 'admin.localization.default_language';
     const KEY_ADMIN_LOCALIZATION_USE_BROWSER_LANGUAGE = 'admin.localization.use_browser_language';
     const KEY_ADMIN_LOCALIZATION_DEFAULT_DATE_FORMAT = 'admin.localization.default_date_format';
+    const KEY_NON_LEAP_YEAR_LEAVE_PERIOD_START_DATE = 'leave.nonLeapYearLeavePeriodStartDate';
+    const KEY_IS_LEAVE_PERIOD_START_ON_FEB_29 = 'leave.isLeavePeriodStartOnFeb29th';
+    const KEY_LEAVE_PERIOD_START_DATE = 'leave.leavePeriodStartDate'; 
 
     /**
      * Get ConfigDao
@@ -205,5 +208,29 @@ class ConfigService extends BaseService {
     public function getAdminLocalizationDefaultLanguage(){
         return $this->_getConfigValue(self::KEY_ADMIN_LOCALIZATION_DEFAULT_LANGUAGE);
     }
+    
+    public function getNonLeapYearLeavePeriodStartDate() {
+        return $this->_getConfigValue(self::KEY_NON_LEAP_YEAR_LEAVE_PERIOD_START_DATE);        
+    }
+    
+    public function setNonLeapYearLeavePeriodStartDate($startDate) {
+        $this->_setConfigValue(self::KEY_NON_LEAP_YEAR_LEAVE_PERIOD_START_DATE, $startDate);  
+    }
+    
+    public function getIsLeavePeriodStartOnFeb29th() {
+        return $this->_getConfigValue(self::KEY_IS_LEAVE_PERIOD_START_ON_FEB_29);
+    }
+    
+    public function setIsLeavePeriodStartOnFeb29th($value) {
+        $this->_setConfigValue(self::KEY_IS_LEAVE_PERIOD_START_ON_FEB_29, $value);
+    }
+    
+    public function getLeavePeriodStartDate() {
+        return $this->_getConfigValue(self::KEY_LEAVE_PERIOD_START_DATE);
+    }
+    
+    public function setLeavePeriodStartDate($startDate) {
+        $this->_setConfigValue(self::KEY_LEAVE_PERIOD_START_DATE, $startDate);
+    }     
 
 }
