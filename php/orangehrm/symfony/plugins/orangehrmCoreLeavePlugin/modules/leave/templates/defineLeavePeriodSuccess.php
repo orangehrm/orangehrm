@@ -164,7 +164,7 @@
 				isEditMode = true;
                 $("#btnReset").show();
 				$('#frmLeavePeriod select').attr('disabled', false);
-				$(this).val('<?php echo __("Save"); ?>');
+				$(this).val("<?php echo __("Save"); ?>");
 			}
 		});
 
