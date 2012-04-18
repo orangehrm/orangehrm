@@ -269,7 +269,7 @@
 			 $("#saveBtn").click(function() {
 					if( mode == 'edit')
 					{
-						$('#saveBtn').attr('value', '<?php echo __("Save")?>');
+						$('#saveBtn').attr('value', "<?php echo __("Save")?>");
 						$('#frmSave :input').removeAttr('readonly');
 						mode = 'save';
 					}else
