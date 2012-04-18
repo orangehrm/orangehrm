@@ -193,7 +193,7 @@
             var projectId = '<?php echo $projectId; ?>';
             var custId = '<?php echo $custId; ?>';
             var lang_edit = '<?php echo __("Edit"); ?>';
-            var lang_save = '<?php echo __("Save"); ?>';
+            var lang_save = "<?php echo __("Save"); ?>";
             var lang_editProject = '<?php echo __("Edit Project"); ?>';
             var lang_Project = '<?php echo __("Project"); ?>';
 	    var lang_uniqueCustomer = '<?php echo __(ValidationMessages::ALREADY_EXISTS); ?>';
