@@ -54,15 +54,6 @@ class AjaxCallsTest extends PHPUnit_Framework_TestCase
     {
     }
 
-    /**
-     * @todo Implement testFetchOptions().
-     */
-    public function testFetchOptions() {
-        // Remove the following lines when you implement this test.
-        $this->markTestIncomplete(
-          'This test has not been implemented yet.'
-        );
-    }
 }
 
 // Call AjaxCallsTest::main() if this source file is executed directly.

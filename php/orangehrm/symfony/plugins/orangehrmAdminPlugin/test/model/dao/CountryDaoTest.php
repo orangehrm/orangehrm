@@ -44,28 +44,6 @@ class CountryDaoTest extends PHPUnit_Framework_TestCase {
     }
 
     /**
-     * @covers {className}::{origMethodName}
-     * @todo Implement testGetCountryList().
-     */
-    public function testGetCountryList() {
-        // Remove the following lines when you implement this test.
-        $this->markTestIncomplete(
-                'This test has not been implemented yet.'
-        );
-    }
-
-    /**
-     * @covers {className}::{origMethodName}
-     * @todo Implement testGetProvinceList().
-     */
-    public function testGetProvinceList() {
-        // Remove the following lines when you implement this test.
-        $this->markTestIncomplete(
-                'This test has not been implemented yet.'
-        );
-    }
-
-    /**
      * @covers CountryDao::searchCountries
      */
     public function testSearchCountries_Successful_AllResults() {
@@ -129,16 +107,6 @@ class CountryDaoTest extends PHPUnit_Framework_TestCase {
         
         $this->assertTrue($result instanceof Doctrine_Collection);
         $this->assertEquals(0, $result->count());
-    }
-
-    /**
-     * @covers CountryDao::searchCountries
-     * @expectedException ServiceException
-     */
-    public function testSearchCountries_WithException() {
-        $this->markTestIncomplete(
-                'This test has not been implemented yet.'
-        );
     }
 
 }

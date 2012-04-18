@@ -49,28 +49,6 @@ class CountryServiceTest extends PHPUnit_Framework_TestCase {
     }
 
     /**
-     * @covers {className}::{origMethodName}
-     * @todo Implement testGetCountryList().
-     */
-    public function testGetCountryList() {
-        // Remove the following lines when you implement this test.
-        $this->markTestIncomplete(
-                'This test has not been implemented yet.'
-        );
-    }
-
-    /**
-     * @covers {className}::{origMethodName}
-     * @todo Implement testGetProvinceList().
-     */
-    public function testGetProvinceList() {
-        // Remove the following lines when you implement this test.
-        $this->markTestIncomplete(
-                'This test has not been implemented yet.'
-        );
-    }
-
-    /**
      * @covers CountryService::searchCountries
      */
     public function testSearchCountries_Successful() {

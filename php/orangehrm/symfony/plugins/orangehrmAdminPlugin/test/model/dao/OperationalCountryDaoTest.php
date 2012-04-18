@@ -54,14 +54,6 @@ class OperationalCountryDaoTest extends PHPUnit_Framework_TestCase {
     }
     
     /**
-     * @covers OperationalCountryDao::getOperationalCountryList
-     * @expectedException DaoException
-     */
-    public function testGetOperationalCountryList_WithException() {
-        $this->markTestIncomplete();
-    }
-    
-    /**
      * @covers OperationalCountryDao::getLocationsMappedToOperationalCountry
      */
     public function testGetLocationsMappedToOperationalCountry_Successful() {
@@ -92,14 +84,6 @@ class OperationalCountryDaoTest extends PHPUnit_Framework_TestCase {
             $this->assertEquals($sampleData[$index]['id'], $location->getId());
             $this->assertEquals($sampleData[$index]['name'], $location->getName());
         }
-    }
-    
-    /**
-     * @covers OperationalCountryDao::getOperationalCountryList
-     * @expectedException DaoException
-     */
-    public function testGetLocationsMappedToOperationalCountry_WithException() {
-        $this->markTestIncomplete();
     }
 
 }
