@@ -166,8 +166,7 @@ class LeaveEntitlementService extends BaseService {
             $leaveCarryForward = '0.00';
         }
 
-        $leaveRequestService = new LeaveRequestService();
-        $leaveRequestService->setLeaveRequestDao(new LeaveRequestDao());
+        $leaveRequestService = $this->getLeaveRequestService();
 
         $leaveTaken = $leaveRequestService->getTakenLeaveSum($employeeId, $leaveTypeId, $leavePeriodId);
         $leaveTaken = empty($leaveTaken) ? '0.00' : $leaveTaken;
