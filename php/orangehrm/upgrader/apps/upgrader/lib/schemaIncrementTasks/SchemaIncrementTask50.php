@@ -15,7 +15,7 @@ class SchemaIncrementTask50 extends SchemaIncrementTask {
         
         $result[] = $this->insertOhrmWorkWeek();
         
-        for($i = 18; $i <= 34; $i++) {
+        for($i = 18; $i <= 35; $i++) {
             $result[] = $this->upgradeUtility->executeSql($this->sql[$i]);
         }
         
@@ -392,7 +392,9 @@ class SchemaIncrementTask50 extends SchemaIncrementTask {
                       PRIMARY KEY (`id`)
                     ) ENGINE=InnoDB  DEFAULT CHARSET=utf8;";
         
-        $sql[35] = "SELECT * FROM hs_hr_emp_picture";
+        $sql[35] = "DROP TABLE hs_hr_file_version ;";
+        
+        $sql[36] = "SELECT * FROM hs_hr_emp_picture";
         
         $this->sql = $sql;
     
@@ -420,7 +422,7 @@ class SchemaIncrementTask50 extends SchemaIncrementTask {
     
     
     private function updateHsHrEmpPicture() {
-        $pictures = $this->upgradeUtility->executeSql($this->sql[35]);
+        $pictures = $this->upgradeUtility->executeSql($this->sql[36]);
         $success = true;
         if($pictures){
             $baseDir = sfConfig::get('sf_root_dir')."/cache/tempImages/";

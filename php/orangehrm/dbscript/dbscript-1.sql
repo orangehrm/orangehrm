@@ -312,21 +312,6 @@ create table `hs_hr_employee` (
 ) engine=innodb default charset=utf8;
 
 
-create table `hs_hr_file_version` (
-  `id` varchar(36) not null default '',
-  `altered_module` varchar(36) default null,
-  `description` varchar(200) default null,
-  `entered_date` datetime null default null,
-  `modified_date` datetime null default null,
-  `entered_by` int(10) default null,
-  `modified_by` int(10) default null,
-  `name` varchar(50) default null,
-  primary key  (`id`),
-    key `entered_by`(`entered_by`),
-    key `modified_by`(`modified_by`)
-) engine=innodb default charset=utf8;
-
-
 create table `ohrm_language` (
   `id` int not null auto_increment,
   `name` varchar(120) default null,
@@ -1554,18 +1539,6 @@ alter table hs_hr_emp_contract_extend
        add constraint foreign key (emp_number)
                              references hs_hr_employee(emp_number) on delete cascade;
 
-alter table hs_hr_file_version
-       add constraint foreign key (altered_module)
-							references hs_hr_module (mod_id) on delete cascade;
-
-alter table hs_hr_file_version
-       add constraint foreign key (entered_by)
-       						references ohrm_user (id) on delete cascade;
-
-alter table hs_hr_file_version
-       add constraint foreign key (modified_by)
-       						references ohrm_user (id) on delete cascade;
-
 alter table hs_hr_rights
        add constraint foreign key (mod_id)
        						references hs_hr_module (mod_id) on delete cascade;
@@ -1619,10 +1592,6 @@ alter table hs_hr_mailnotifications
 
 alter table `ohrm_project_activity`
   add constraint foreign key (`project_id`) references `ohrm_project` (`project_id`) on delete cascade;
-
-alter table `ohrm_project_admin`
-  add constraint foreign key (`project_id`) references `ohrm_project` (`project_id`) on delete cascade,
-  add constraint foreign key (`emp_number`) references `hs_hr_employee` (`emp_number`) on delete cascade;
 
 alter table `ohrm_project_admin`
   add constraint foreign key (`project_id`) references `ohrm_project` (`project_id`) on delete cascade,
