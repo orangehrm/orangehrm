@@ -85,7 +85,7 @@ class AddJobVacancyForm extends BaseForm {
             'hiringManager' => new sfValidatorString(array('required' => true)),
             'hiringManagerId' => new sfValidatorInteger(array('required' => true, 'min' => 0)),
             'noOfPositions' => new sfValidatorInteger(array('required' => false, 'min' => 0)),
-            'description' => new sfValidatorString(array('required' => false, 'max_length' => 2000)),
+            'description' => new sfValidatorString(array('required' => false, 'max_length' => 41000)),
             'status' => new sfValidatorString(array('required' => false)),
             'publishedInFeed' => new sfValidatorString(array('required' => false)),
         ));

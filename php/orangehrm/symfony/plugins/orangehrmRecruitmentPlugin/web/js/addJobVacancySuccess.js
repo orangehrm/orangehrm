@@ -137,7 +137,7 @@ function isValidForm(){
                 hiringManagerNameValidation: true
             },
             'addJobVacancy[description]' : {
-            	maxlength:2000
+            	maxlength:40000
             }
 
         },

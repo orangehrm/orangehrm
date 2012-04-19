@@ -142,7 +142,7 @@
                     var lang_cancel = "<?php echo __("Cancel"); ?>";
                     var lang_back = "<?php echo __("Back"); ?>";
                     var linkForAddJobVacancy = "<?php echo url_for('recruitment/addJobVacancy'); ?>";
-                    var lang_descriptionLength = "<?php echo __(ValidationMessages::TEXT_LENGTH_EXCEEDS, array('%amount%' => 2000)) ?>";
+                    var lang_descriptionLength = "<?php echo __(ValidationMessages::TEXT_LENGTH_EXCEEDS, array('%amount%' => 40000)) ?>";
 		    var backBtnUrl = '<?php echo url_for('recruitment/viewJobVacancy?'); ?>';
 		    var backCancelUrl = '<?php echo url_for('recruitment/addJobVacancy?'); ?>';
 <?php if (isset($vacancyId)) { ?>
