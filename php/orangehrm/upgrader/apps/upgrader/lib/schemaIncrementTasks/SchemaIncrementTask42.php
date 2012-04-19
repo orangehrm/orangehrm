@@ -67,47 +67,55 @@ class SchemaIncrementTask42 extends SchemaIncrementTask {
         $sql[9] = "UPDATE ohrm_filter_field SET `required` = NULL where filter_field_id = 7";
         
         // Workflow changes        
-        $sql[10] = "DELETE FROM ohrm_workflow_state_machine WHERE id >= 40 AND id <= 89";
+        $sql[10] = "DELETE FROM ohrm_workflow_state_machine WHERE workflow = '2'";
         
-        $sql[11] = "INSERT INTO ohrm_workflow_state_machine VALUES 
-            ('40','2','SHORTLISTED','ADMIN','4','INTERVIEW SCHEDULED'),
-            ('41','2','SHORTLISTED','ADMIN','3','REJECTED'),
-            ('42','2','INTERVIEW SCHEDULED','ADMIN','3','REJECTED'),
-            ('43','2','INTERVIEW SCHEDULED','ADMIN','5','INTERVIEW PASSED'),
-            ('44','2','INTERVIEW SCHEDULED','ADMIN','6','INTERVIEW FAILED'),
-            ('45','2','INTERVIEW PASSED','ADMIN','4','INTERVIEW SCHEDULED'),
-            ('46','2','INTERVIEW PASSED','ADMIN','7','JOB OFFERED'),
-            ('47','2','INTERVIEW PASSED','ADMIN','3','REJECTED'),
-            ('48','2','INTERVIEW FAILED','ADMIN','3','REJECTED'),
-            ('49','2','JOB OFFERED','ADMIN','8','OFFER DECLINED'),
-            ('50','2','JOB OFFERED','ADMIN','3','REJECTED'),
-            ('51','2','JOB OFFERED','ADMIN','9','HIRED'),
-            ('52','2','OFFER DECLINED','ADMIN','3','REJECTED'),
-            ('53','2','INITIAL','HIRING MANAGER','1','APPLICATION INITIATED'),
-            ('54','2','APPLICATION INITIATED','HIRING MANAGER','2','SHORTLISTED'),
-            ('55','2','APPLICATION INITIATED','HIRING MANAGER','3','REJECTED'),
-            ('56','2','SHORTLISTED','HIRING MANAGER','4','INTERVIEW SCHEDULED'),
-            ('57','2','SHORTLISTED','HIRING MANAGER','3','REJECTED'),
-            ('58','2','INTERVIEW SCHEDULED','HIRING MANAGER','3','REJECTED'),
-            ('59','2','INTERVIEW SCHEDULED','HIRING MANAGER','5','INTERVIEW PASSED'),
-            ('60','2','INTERVIEW SCHEDULED','HIRING MANAGER','6','INTERVIEW FAILED'),
-            ('61','2','INTERVIEW PASSED','HIRING MANAGER','4','INTERVIEW SCHEDULED'),
-            ('62','2','INTERVIEW PASSED','HIRING MANAGER','7','JOB OFFERED'),
-            ('63','2','INTERVIEW PASSED','HIRING MANAGER','3','REJECTED'),
-            ('64','2','INTERVIEW FAILED','HIRING MANAGER','3','REJECTED'),
-            ('65','2','JOB OFFERED','HIRING MANAGER','8','OFFER DECLINED'),
-            ('66','2','JOB OFFERED','HIRING MANAGER','3','REJECTED'),
-            ('67','2','JOB OFFERED','HIRING MANAGER','9','HIRED'),
-            ('68','2','OFFER DECLINED','HIRING MANAGER','3','REJECTED'),
-            ('69','2','INTERVIEW SCHEDULED','INTERVIEWER','5','INTERVIEW PASSED'),
-            ('70','2','INTERVIEW SCHEDULED','INTERVIEWER','6','INTERVIEW FAILED'),
-            ('71','1','INITIAL','ADMIN','5','PUNCHED IN'),
-            ('72','1','PUNCHED IN','ADMIN','6','PUNCHED OUT'),
-            ('73','1','PUNCHED IN','ADMIN','2','PUNCHED IN'),
-            ('74','1','PUNCHED IN','ADMIN','7','N/A'),
-            ('75','1','PUNCHED OUT','ADMIN','2','PUNCHED OUT'),
-            ('76','1','PUNCHED OUT','ADMIN','3','PUNCHED OUT'),
-            ('77','1','PUNCHED OUT','ADMIN','7','N/A')";
+        $recruitmentStates = array(array('2','APPLICATION INITIATED','ADMIN','2','SHORTLISTED'),
+                                   array('2','APPLICATION INITIATED','ADMIN','3','REJECTED'),
+                                   array('2','SHORTLISTED','ADMIN','4','INTERVIEW SCHEDULED'),
+                                   array('2','SHORTLISTED','ADMIN','3','REJECTED'),
+                                   array('2','INTERVIEW SCHEDULED','ADMIN','3','REJECTED'),
+                                   array('2','INTERVIEW SCHEDULED','ADMIN','5','INTERVIEW PASSED'),
+                                   array('2','INTERVIEW SCHEDULED','ADMIN','6','INTERVIEW FAILED'),
+                                   array('2','INTERVIEW PASSED','ADMIN','4','INTERVIEW SCHEDULED'),
+                                   array('2','INTERVIEW PASSED','ADMIN','7','JOB OFFERED'),
+                                   array('2','INTERVIEW PASSED','ADMIN','3','REJECTED'),
+                                   array('2','INTERVIEW FAILED','ADMIN','3','REJECTED'),
+                                   array('2','JOB OFFERED','ADMIN','8','OFFER DECLINED'),
+                                   array('2','JOB OFFERED','ADMIN','3','REJECTED'),
+                                   array('2','JOB OFFERED','ADMIN','9','HIRED'),
+                                   array('2','OFFER DECLINED','ADMIN','3','REJECTED'),
+                                   array('2','INITIAL','HIRING MANAGER','1','APPLICATION INITIATED'),
+                                   array('2','APPLICATION INITIATED','HIRING MANAGER','2','SHORTLISTED'),
+                                   array('2','APPLICATION INITIATED','HIRING MANAGER','3','REJECTED'),
+                                   array('2','SHORTLISTED','HIRING MANAGER','4','INTERVIEW SCHEDULED'),
+                                   array('2','SHORTLISTED','HIRING MANAGER','3','REJECTED'),
+                                   array('2','INTERVIEW SCHEDULED','HIRING MANAGER','3','REJECTED'),
+                                   array('2','INTERVIEW SCHEDULED','HIRING MANAGER','5','INTERVIEW PASSED'),
+                                   array('2','INTERVIEW SCHEDULED','HIRING MANAGER','6','INTERVIEW FAILED'),
+                                   array('2','INTERVIEW PASSED','HIRING MANAGER','4','INTERVIEW SCHEDULED'),
+                                   array('2','INTERVIEW PASSED','HIRING MANAGER','7','JOB OFFERED'),
+                                   array('2','INTERVIEW PASSED','HIRING MANAGER','3','REJECTED'),
+                                   array('2','INTERVIEW FAILED','HIRING MANAGER','3','REJECTED'),
+                                   array('2','JOB OFFERED','HIRING MANAGER','8','OFFER DECLINED'),
+                                   array('2','JOB OFFERED','HIRING MANAGER','3','REJECTED'),
+                                   array('2','JOB OFFERED','HIRING MANAGER','9','HIRED'),
+                                   array('2','OFFER DECLINED','HIRING MANAGER','3','REJECTED'),
+                                   array('2','INTERVIEW SCHEDULED','INTERVIEWER','5','INTERVIEW PASSED'),
+                                   array('2','INTERVIEW SCHEDULED','INTERVIEWER','6','INTERVIEW FAILED'));
+        
+        $workflowInsertSql = "INSERT INTO ohrm_workflow_state_machine VALUES ";
+        $startId = $this->getNextWorkflowId();
+        
+        for ($i = 0; $i < count($recruitmentStates); $i++) {
+            if ($i > 0) {
+                $workflowInsertSql .= ', ';
+            }
+            $id = $i + $startId;
+            $state = $recruitmentStates[$i];
+            $workflowInsertSql .= "('{$id}','{$state[0]}','{$state[1]}','{$state[2]}','{$state[3]}','{$state[4]}')";
+        }
+        $sql[11] = $workflowInsertSql;
+        
         
         // Upgrade recruitment data (based on osUpgrader-2.6.6-to-2.6.10.sql
         $sql[12] = "INSERT INTO `ohrm_job_vacancy` (ohrm_job_vacancy.`id`, ohrm_job_vacancy.`job_title_code`, ohrm_job_vacancy.`hiring_manager_id`, ohrm_job_vacancy.`name`, ohrm_job_vacancy.`description`, ohrm_job_vacancy.`status`, ohrm_job_vacancy.`defined_time`, ohrm_job_vacancy.`updated_time`)
@@ -201,5 +209,12 @@ class SchemaIncrementTask42 extends SchemaIncrementTask {
 
     public function getNotes() {
         
+    }
+    
+    protected function getNextWorkflowId() {
+        $result = $this->upgradeUtility->executeSql('SELECT COALESCE(MAX(id),0) + 1 FROM `ohrm_workflow_state_machine`');
+        $resultArray = $this->upgradeUtility->fetchArray($result);
+        $nextId = $resultArray[0];
+        return $nextId;
     }
 }

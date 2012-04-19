@@ -19,6 +19,8 @@ class SchemaIncrementTask41 extends SchemaIncrementTask {
             $result[] = $this->upgradeUtility->executeSql($sql);
         }
 
+        $result[] = $this->upgradeAttendanceConfiguration();
+        
         $this->checkTransactionComplete($result);
         $this->updateOhrmUpgradeInfo($this->transactionComplete, $this->incrementNumber);
         $this->upgradeUtility->finalizeTransaction($this->transactionComplete);
@@ -961,7 +963,8 @@ SQL90;
         
         $sql[99] = "alter table hs_hr_emp_basicsalary
                         add constraint `hs_hr_emp_basicsalary_ibfk_2` foreign key (currency_id)
-                        references hs_hr_currency_type(currency_id) on delete cascade;";
+                        references hs_hr_currency_type(currency_id) on delete cascade;";        
+
         
         $this->sql = $sql;
         
@@ -1000,5 +1003,93 @@ SQL90;
         }
         
     }
+    
+    protected function getBooleanConfigValue($key) {
+        $value = false;
+        
+        $res = $this->upgradeUtility->executeSql("SELECT `value` from hs_hr_config where `key` = '{$key}'");
+        if ($res) {
+            $values = $this->upgradeUtility->fetchArray($res);
+            if ($values && isset($values[0])) {
+                $value = ($values[0] == 'Yes');
+            }
+        }
+        
+        return $value;
+    }
+    
+    protected function upgradeAttendanceConfiguration() {
+        
+        $success = true;
+        
+        $attendanceEmpChangeTime = $this->getBooleanConfigValue('attendanceEmpChangeTime');
+        $attendanceEmpEditSubmitted = $this->getBooleanConfigValue('attendanceEmpEditSubmitted');
+        $attendanceSupEditSubmitted = $this->getBooleanConfigValue('attendanceSupEditSubmitted');
+        
+        $rows = array();
+        $id = $this->getNextWorkflowId();
+        
+        if ($attendanceEmpChangeTime) {
+            $rows[] = "({$id}, '1', 'INITIAL', 'ESS USER', '2', 'INITIAL')";
+            $id++;
+            $rows[] = "({$id}, '1', 'PUNCHED IN', 'ESS USER', '3', 'PUNCHED IN')";
+            $id++;
+        }
+        
+        if ($attendanceEmpEditSubmitted) {
+            $rows[] = "({$id}, '1', 'PUNCHED IN', 'ESS USER', '2', 'PUNCHED IN')";
+            $id++;
+            $rows[] = "({$id}, '1', 'PUNCHED OUT', 'ESS USER', '3', 'PUNCHED OUT')";
+            $id++;
+            $rows[] = "({$id}, '1', 'PUNCHED OUT', 'ESS USER', '2', 'PUNCHED OUT')";
+            $id++;
+            $rows[] = "({$id}, '1', 'PUNCHED IN', 'ESS USER', '7', 'NA')";
+            $id++;
+            $rows[] = "({$id}, '1', 'PUNCHED OUT', 'ESS USER', '7', 'NA')";            
+            $id++;
+        }
+        
+        if ($attendanceSupEditSubmitted) {
+            $rows[] = "({$id}, '1', 'PUNCHED IN', 'SUPERVISOR', '2', 'PUNCHED IN')";
+            $id++;
+            $rows[] = "({$id}, '1', 'PUNCHED OUT', 'SUPERVISOR', '2', 'PUNCHED OUT')";
+            $id++;
+            $rows[] = "({$id}, '1', 'PUNCHED OUT', 'SUPERVISOR', '3', 'PUNCHED OUT')";
+            $id++;
+            $rows[] = "({$id}, '1', 'PUNCHED IN', 'SUPERVISOR', '7', 'NA')";
+            $id++;
+            $rows[] = "({$id}, '1', 'PUNCHED OUT', 'SUPERVISOR', '7', 'NA')";
+            $id++;
+            $rows[] = "({$id}, '1', 'INITIAL', 'SUPERVISOR', '5', 'PUNCHED IN')";
+            $id++;
+            $rows[] = "({$id}, '1', 'PUNCHED IN', 'SUPERVISOR', '6', 'PUNCHED OUT')";
+            $id++;
+        }
+        
+        if (count($rows) > 0) {
+            $sql = "INSERT INTO ohrm_workflow_state_machine(`id`, `workflow`, `state`, `role`, `action`, `resulting_state`) VALUES ";
+            
+            for ($i = 0; $i < count($rows); $i++) {
+                if ($i > 0) {
+                    $sql .= ', ';
+                }
+                $sql .= $rows[$i];
+            }
+            
+            $result = $this->upgradeUtility->executeSql($sql);
+            if (!$result) {
+                $success = false;
+            }            
+        }
+
+        return $success;        
+    }
+    
+    protected function getNextWorkflowId() {
+        $result = $this->upgradeUtility->executeSql('SELECT COALESCE(MAX(id),0) + 1 FROM `ohrm_workflow_state_machine`');
+        $resultArray = $this->upgradeUtility->fetchArray($result);
+        $nextId = $resultArray[0];
+        return $nextId;
+    }    
 
 }
