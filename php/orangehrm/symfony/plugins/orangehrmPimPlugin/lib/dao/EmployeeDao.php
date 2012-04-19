@@ -538,7 +538,7 @@ class EmployeeDao extends BaseDao {
                 $q->delete('EmployeeLanguage el');
 
                 foreach ($languagesToDelete as $code => $type) {
-                    $q->orWhere('(lang_id = ? and fluency = ?)', array($code, $type));
+                    $q->orWhere('(emp_number = ? and lang_id = ? and fluency = ?)', array($empNumber, $code, $type));
                 }
 
                 $result = $q->execute();
