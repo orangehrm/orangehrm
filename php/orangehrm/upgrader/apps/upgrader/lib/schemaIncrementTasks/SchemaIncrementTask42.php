@@ -208,7 +208,9 @@ class SchemaIncrementTask42 extends SchemaIncrementTask {
     }
 
     public function getNotes() {
+        $notes[] = "After upgrading, candidate qualifications, experience and address details will be removed.";
         
+        return $notes;
     }
     
     protected function getNextWorkflowId() {
