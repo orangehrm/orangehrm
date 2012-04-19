@@ -739,7 +739,7 @@ $subs[] = new MenuItem("blog", $i18n->__("Blog"), "http://www.orangehrm.com/blog
 $subs[] = new MenuItem("support", $i18n->__("Training"), "http://www.orangehrm.com/training.php?utm_source=application_traning&utm_medium=app_url&utm_campaign=orangeapp", '_blank');
 $subs[] = new MenuItem("support", $i18n->__("Add-Ons"), "http://www.orangehrm.com/addon-plans.shtml?utm_source=application_addons&utm_medium=app_url&utm_campaign=orangeapp", '_blank');
 $subs[] = new MenuItem("support", $i18n->__("Customizations"), "http://www.orangehrm.com/customizations.php?utm_source=application_cus&utm_medium=app_url&utm_campaign=orangeapp", '_blank');
-$subs[] = new MenuItem("bug", $i18n->__("Bug Tracker"), "http://sourceforge.net/tracker/?group_id=156477&atid=799942", '_blank');
+$subs[] = new MenuItem("bug", $i18n->__("Bug Tracker"), "http://sourceforge.net/apps/mantisbt/orangehrm/view_all_bug_page.php", '_blank');
 
 $menuItem->setSubMenuItems($subs);
 $menu[] = $menuItem;
