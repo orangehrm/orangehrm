@@ -18,6 +18,11 @@ class SchemaIncrementTask42 extends SchemaIncrementTask {
             $result[] = $this->upgradeUtility->executeSql($sql);
         }
         
+        $res1 = $this->updateCandidateHistory();
+        $res2 = $this->updateCandidateAttachment();
+        
+        $result = array_merge($result, $res1, $res2);
+        
         $this->checkTransactionComplete($result);
         $this->updateOhrmUpgradeInfo($this->transactionComplete, $this->incrementNumber);
         $this->upgradeUtility->finalizeTransaction($this->transactionComplete);
@@ -118,8 +123,8 @@ class SchemaIncrementTask42 extends SchemaIncrementTask {
         
         
         // Upgrade recruitment data (based on osUpgrader-2.6.6-to-2.6.10.sql
-        $sql[12] = "INSERT INTO `ohrm_job_vacancy` (ohrm_job_vacancy.`id`, ohrm_job_vacancy.`job_title_code`, ohrm_job_vacancy.`hiring_manager_id`, ohrm_job_vacancy.`name`, ohrm_job_vacancy.`description`, ohrm_job_vacancy.`status`, ohrm_job_vacancy.`defined_time`, ohrm_job_vacancy.`updated_time`)
-            SELECT hs_hr_job_vacancy.`vacancy_id`, hs_hr_job_vacancy.`jobtit_code`, hs_hr_job_vacancy.`manager_id`, hs_hr_job_title.jobtit_name, hs_hr_job_vacancy.`description`, hs_hr_job_vacancy.`active`, CURDATE(), CURDATE()
+        $sql[12] = "INSERT INTO `ohrm_job_vacancy` (ohrm_job_vacancy.`id`, ohrm_job_vacancy.`job_title_code`, ohrm_job_vacancy.`hiring_manager_id`, ohrm_job_vacancy.`name`, ohrm_job_vacancy.`description`, ohrm_job_vacancy.`status`, ohrm_job_vacancy.`defined_time`, ohrm_job_vacancy.`updated_time`, ohrm_job_vacancy.`published_in_feed`)
+            SELECT hs_hr_job_vacancy.`vacancy_id`, hs_hr_job_vacancy.`jobtit_code`, hs_hr_job_vacancy.`manager_id`, hs_hr_job_title.jobtit_name, hs_hr_job_vacancy.`description`, IF( hs_hr_job_vacancy.`active` = 1, 1, 2 ), CURDATE(), CURDATE(), hs_hr_job_vacancy.`active`
             FROM `hs_hr_job_vacancy`
             LEFT JOIN hs_hr_job_title 
                 ON hs_hr_job_vacancy.`jobtit_code` = hs_hr_job_title.jobtit_code";
@@ -134,84 +139,186 @@ class SchemaIncrementTask42 extends SchemaIncrementTask {
             FROM `hs_hr_job_application`";
         $sql[16] = "UPDATE `ohrm_job_candidate_vacancy` SET status = 'APPLICATION INITIATED' WHERE status = 0";
         $sql[17] = "UPDATE `ohrm_job_candidate_vacancy` SET status = 'INTERVIEW SCHEDULED' WHERE status = 1 OR status = 2";
-        $sql[18] = "UPDATE `ohrm_job_candidate_vacancy` SET status = 'JOB OFFERED' WHERE status = 3";
+        $sql[18] = "UPDATE `ohrm_job_candidate_vacancy` SET status = 'JOB OFFERED' WHERE status = 3 OR status = 5";
         $sql[19] = "UPDATE `ohrm_job_candidate_vacancy` SET status = 'OFFER DECLINED' WHERE status = 4";
         $sql[20] = "UPDATE `ohrm_job_candidate_vacancy` SET status = 'HIRED' WHERE status = 6";
         $sql[21] = "UPDATE `ohrm_job_candidate_vacancy` SET status = 'REJECTED' WHERE status = 7";
         $sql[22] = "ALTER TABLE `ohrm_job_candidate_vacancy` CHANGE `id` `id` INT( 13 ) NULL";
 
         $sql[23] = "INSERT INTO `ohrm_job_candidate_attachment` (ohrm_job_candidate_attachment.`candidate_id`, ohrm_job_candidate_attachment.`file_name`, ohrm_job_candidate_attachment.`file_size`, ohrm_job_candidate_attachment.`file_content`)
-            SELECT hs_hr_job_application.`application_id`, COALESCE(hs_hr_job_application.`resume_name`, 'resume-file'), '0', hs_hr_job_application.`resume_data`
-            FROM `hs_hr_job_application`";
+            SELECT hs_hr_job_application.`application_id`, COALESCE(hs_hr_job_application.`resume_name`, 'resume-file'), OCTET_LENGTH(`resume_data`), hs_hr_job_application.`resume_data`
+            FROM `hs_hr_job_application`
+            WHERE hs_hr_job_application.`resume_name` IS NOT NULL";
 
         $sql[24] = "INSERT INTO `ohrm_job_interview` (ohrm_job_interview.`candidate_vacancy_id`, ohrm_job_interview.`candidate_id`, ohrm_job_interview.`interview_name`, ohrm_job_interview.`interview_date`, ohrm_job_interview.`interview_time`, ohrm_job_interview.`note`)
-            SELECT ohrm_job_candidate_vacancy.`id`, hs_hr_job_application_events.`application_id`, hs_hr_job_application_events.`event_type`, DATE(hs_hr_job_application_events.`event_time`), TIME(hs_hr_job_application_events.`event_time`), hs_hr_job_application_events.`notes`
+            SELECT ohrm_job_candidate_vacancy.`id`, ohrm_job_candidate_vacancy.`candidate_id`, hs_hr_job_application_events.`event_type`, DATE(hs_hr_job_application_events.`event_time`), TIME(hs_hr_job_application_events.`event_time`), hs_hr_job_application_events.`notes`
             FROM `hs_hr_job_application_events`
             LEFT JOIN ohrm_job_candidate_vacancy
             ON hs_hr_job_application_events.`application_id` = ohrm_job_candidate_vacancy.candidate_id
-            WHERE event_type = 1 OR event_type = 2";
+            WHERE (hs_hr_job_application_events.`event_type` = 1 OR hs_hr_job_application_events.`event_type` = 2) AND ohrm_job_candidate_vacancy.`candidate_id` IS NOT NULL";
 
         $sql[25] = "INSERT INTO `ohrm_job_interview_interviewer` (ohrm_job_interview_interviewer.`interview_id`, ohrm_job_interview_interviewer.`interviewer_id`)
             SELECT DISTINCT(ohrm_job_interview.`id`), hs_hr_job_application_events.`owner`
             FROM `ohrm_job_interview` 
             LEFT JOIN hs_hr_job_application_events 
-            ON ohrm_job_interview.`candidate_id` = hs_hr_job_application_events.application_id 
-            WHERE hs_hr_job_application_events.event_type = 1 OR hs_hr_job_application_events.event_type = 2";
+            ON ohrm_job_interview.`candidate_id` = hs_hr_job_application_events.application_id AND  ohrm_job_interview.`interview_name` = hs_hr_job_application_events.event_type";
 
-        $sql[26] = "INSERT INTO `ohrm_job_candidate_history` (ohrm_job_candidate_history.`candidate_id`, ohrm_job_candidate_history.`vacancy_id`, ohrm_job_candidate_history.`action`, ohrm_job_candidate_history.`performed_by`, ohrm_job_candidate_history.`performed_date`, ohrm_job_candidate_history.`note`, ohrm_job_candidate_history.`interviewers`)
-            SELECT hs_hr_job_application_events.`application_id`, hs_hr_job_application.`vacancy_id`, hs_hr_job_application_events.`event_type`, hs_hr_job_application_events.`owner`, COALESCE(hs_hr_job_application_events.`event_time`, hs_hr_job_application.`applied_datetime`), hs_hr_job_application_events.`notes`, hs_hr_job_application_events.`owner` 
+        $sql[26] = "INSERT INTO `ohrm_job_candidate_history` (ohrm_job_candidate_history.`candidate_id`, ohrm_job_candidate_history.`vacancy_id`, ohrm_job_candidate_history.`action`, ohrm_job_candidate_history.`performed_by`, ohrm_job_candidate_history.`performed_date`, ohrm_job_candidate_history.`note`, ohrm_job_candidate_history.`interviewers`, ohrm_job_candidate_history.`candidate_vacancy_name`)
+            SELECT hs_hr_job_application_events.`application_id`, hs_hr_job_application.`vacancy_id`, hs_hr_job_application_events.`event_type`, (SELECT emp_number FROM hs_hr_users WHERE id=hs_hr_job_application_events.created_by), hs_hr_job_application_events.`created_time`, hs_hr_job_application_events.`notes`, hs_hr_job_application_events.`owner`,  (SELECT `name` FROM ohrm_job_vacancy WHERE hs_hr_job_application.vacancy_id = ohrm_job_vacancy.`id`)
             FROM `hs_hr_job_application_events` 
             LEFT JOIN hs_hr_job_application 
-            ON hs_hr_job_application_events.`application_id` = hs_hr_job_application.application_id 
-            WHERE 1";
+            ON hs_hr_job_application_events.`application_id` = hs_hr_job_application.application_id";              
         
-        $sql[27] = "UPDATE `ohrm_job_candidate_history` SET action = '3' WHERE action = 0";
-        $sql[28] = "UPDATE `ohrm_job_candidate_history` SET action = '4' WHERE action = 1 OR action = 2";
-        $sql[29] = "UPDATE `ohrm_job_candidate_history` SET action = '7' WHERE action = 3";
-        $sql[30] = "UPDATE `ohrm_job_candidate_history` SET action = '8' WHERE action = 4";        
+        $sql[27] = "UPDATE `ohrm_job_candidate_history` SET action = 'REJ' WHERE action = 0";
+        // UPDATE `ohrm_job_candidate_history` SET action = '4' WHERE action = 1 OR action = 2; -- moved to php
+        $sql[28] = "UPDATE `ohrm_job_candidate_history` SET action = '7' WHERE action = 3 OR action = 5";
+        $sql[29] = "UPDATE `ohrm_job_candidate_history` SET action = '8' WHERE action = 4";
+        $sql[30] = "UPDATE `ohrm_job_candidate_history` SET action = '9' WHERE action = 6";
+        $sql[31] = "UPDATE `ohrm_job_candidate_history` SET action = '3' WHERE action = 'REJ'";
+
         
         // Update hs_hr_unique_id
-        $sql[31] = "UPDATE `hs_hr_unique_id` SET last_id = (SELECT COALESCE(MAX( id ),0)
+        $sql[32] = "UPDATE `hs_hr_unique_id` SET last_id = (SELECT COALESCE(MAX( id ),0)
             FROM `ohrm_job_candidate`
             WHERE 1) WHERE table_name='ohrm_job_candidate' AND field_name='id'";
 
-        $sql[32] = "UPDATE `hs_hr_unique_id` SET last_id = (SELECT COALESCE(MAX( id ),0)
+        $sql[33] = "UPDATE `hs_hr_unique_id` SET last_id = (SELECT COALESCE(MAX( id ),0)
             FROM `ohrm_job_candidate_vacancy`
             WHERE 1) WHERE table_name='ohrm_job_candidate_vacancy' AND field_name='id'";
 
-        $sql[33] = "UPDATE `hs_hr_unique_id` SET last_id = (SELECT COALESCE(MAX( id ),0)
+        $sql[34] = "UPDATE `hs_hr_unique_id` SET last_id = (SELECT COALESCE(MAX( id ),0)
             FROM `ohrm_job_candidate_history`
             WHERE 1) WHERE table_name='ohrm_job_candidate_history' AND field_name='id'";
 
-        $sql[34] = "UPDATE `hs_hr_unique_id` SET last_id = (SELECT COALESCE(MAX( id ),0)
+        $sql[35] = "UPDATE `hs_hr_unique_id` SET last_id = (SELECT COALESCE(MAX( id ),0)
             FROM `ohrm_job_interview`
             WHERE 1) WHERE table_name='ohrm_job_interview' AND field_name='id'";
 
-        $sql[35] = "UPDATE `hs_hr_unique_id` SET last_id = (SELECT COALESCE(MAX( id ),0)
+        $sql[36] = "UPDATE `hs_hr_unique_id` SET last_id = (SELECT COALESCE(MAX( id ),0)
             FROM `ohrm_job_vacancy_attachment`
             WHERE 1) WHERE table_name='ohrm_job_vacancy_attachment' AND field_name='id'";
 
-        $sql[36] = "UPDATE `hs_hr_unique_id` SET last_id = (SELECT COALESCE(MAX( id ),0)
+        $sql[37] = "UPDATE `hs_hr_unique_id` SET last_id = (SELECT COALESCE(MAX( id ),0)
             FROM `ohrm_job_vacancy`
             WHERE 1) WHERE table_name='ohrm_job_vacancy' AND field_name='id'";
 
-        $sql[37] = "UPDATE `hs_hr_unique_id` SET last_id = (SELECT COALESCE(MAX( id ),0)
+        $sql[38] = "UPDATE `hs_hr_unique_id` SET last_id = (SELECT COALESCE(MAX( id ),0)
             FROM `ohrm_job_candidate_attachment`
             WHERE 1) WHERE table_name='ohrm_job_candidate_attachment' AND field_name='id'";
 
+        $sql[39] = "UPDATE `hs_hr_unique_id` SET last_id = (SELECT COALESCE(MAX( id ),0)
+            FROM `ohrm_workflow_state_machine`
+            WHERE 1) WHERE table_name='ohrm_workflow_state_machine' AND field_name='id'";
+
+        
         // Delete old recruitment tables
-        $sql[38] = "DROP TABLE hs_hr_job_application_events";        
-        $sql[39] = "DROP TABLE hs_hr_job_application";
-        $sql[40] = "DROP TABLE hs_hr_job_vacancy";
+        $sql[40] = "DROP TABLE hs_hr_job_application_events";        
+        $sql[41] = "DROP TABLE hs_hr_job_application";
+        $sql[42] = "DROP TABLE hs_hr_job_vacancy";
         
         $this->sql = $sql;
     }
-
+    
     public function getNotes() {
         $notes[] = "After upgrading, candidate qualifications, experience and address details will be removed.";
         
         return $notes;
     }
+    
+    private function updateCandidateHistory() {
+
+        $results = array();
+        
+        $q = "SELECT * FROM `ohrm_job_interview` WHERE interview_name='1'";
+        
+        $res = $this->upgradeUtility->executeSql($q);
+
+        while ($row = $this->upgradeUtility->fetchArray($res)) {
+            $id = $row['id'];
+            $candidateId = $row['candidate_id'];
+
+            $query = "UPDATE ohrm_job_candidate_history SET
+                    interview_id='{$id}', interviewers=(SELECT interviewer_id FROM ohrm_job_interview_interviewer WHERE interview_id='{$id}')
+                   WHERE candidate_id = '{$candidateId}' AND action = '1'";
+
+            $results[] = $this->upgradeUtility->executeSql($query);
+        }
+
+        $q = "SELECT * FROM `ohrm_job_interview` WHERE interview_name='2'";
+
+       $res = $this->upgradeUtility->executeSql($q);
+
+       while ($row = $this->upgradeUtility->fetchArray($res)) {
+            $id = $row['id'];
+            $candidateId = $row['candidate_id'];
+
+            $query = "UPDATE ohrm_job_candidate_history SET
+                    interview_id='{$id}', interviewers=(SELECT interviewer_id FROM ohrm_job_interview_interviewer WHERE interview_id='{$id}')
+                   WHERE candidate_id = '{$candidateId}' AND action = '2'";
+
+            $results[] = $this->upgradeUtility->executeSql($query);
+        }
+
+        $query = "UPDATE ohrm_job_candidate_history SET `action`='4' WHERE action='1' OR action='2'";
+        $results[] = $this->upgradeUtility->executeSql($query);
+
+        $query = "UPDATE ohrm_job_candidate_history SET `interviewers`=concat(`interviewers`,'_')";
+        $results[] = $this->upgradeUtility->executeSql($query);
+
+        $query = "UPDATE ohrm_job_interview SET `interview_name`='First Interview' WHERE interview_name='1'";
+        $results[] = $this->upgradeUtility->executeSql($query);
+        
+        $query = "UPDATE ohrm_job_interview SET `interview_name`='Second Interview' WHERE interview_name='2'";
+        $results[] = $this->upgradeUtility->executeSql($query);
+
+        return $results;
+    }
+
+    private function updateCandidateAttachment() {
+
+        $results = array();
+        
+        $q = "SELECT * FROM `ohrm_job_candidate_attachment`";
+
+        $res = $this->upgradeUtility->executeSql($q);
+
+        $path = tempnam(sys_get_temp_dir(), 'Oup');
+        unlink($path);        
+        mkdir($path, 0755);
+        
+        while ($row = $this->upgradeUtility->fetchArray($res)) {
+            $id = $row['id'];
+            $data = $row['file_content'];
+
+            file_put_contents($path . $row['file_name'], $data);
+
+            $mime = mime_content_type($path . $row['file_name']);
+
+            $query1 = "UPDATE ohrm_job_candidate_attachment SET
+                    file_type='{$mime}'
+                   WHERE id = '{$id}'"; //die($query2);
+
+            unlink($path . $row['file_name']);
+
+            $results[] = $this->upgradeUtility->executeSql($query1);
+        }
+
+        if (is_dir($path)) {
+            $objects = scandir($path);
+            foreach ($objects as $object) {
+                if ($object != "." && $object != "..") {
+                    if (filetype($dir . "/" . $object) == "dir") {
+                        rrmdir($path . "/" . $object); 
+                    } else {
+                        unlink($dir . "/" . $object);
+                    }
+                }
+            }
+            
+            reset($objects);
+            rmdir($path);
+        }
+    }    
     
     protected function getNextWorkflowId() {
         $result = $this->upgradeUtility->executeSql('SELECT COALESCE(MAX(id),0) + 1 FROM `ohrm_workflow_state_machine`');

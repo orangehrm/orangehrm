@@ -973,36 +973,62 @@ SQL90;
 
     public function getNotes() {
         
-    }
+    }   
     
-    protected function loadSqlForAttendanceUTCConversion() {
+    private function loadSqlForAttendanceUTCConversion() {
 
-        $result = $this->upgradeUtility->executeSql('SELECT * FROM `hs_hr_attendance`');
+        $q = "SELECT * FROM `hs_hr_attendance`";
 
-        if ($result) {
+        $result = $this->upgradeUtility->executeSql($q);
 
-            while($row = mysql_fetch_assoc($result)) {
+        while ($row = $this->upgradeUtility->fetchArray($result)) {
+            $timeStampDiff = $row['timestamp_diff'];
+            $punchInTime = strtotime($row['punchin_time']);
 
-                $timeStampDiff = $row['timestamp_diff'];
-                $punchInTime = $row['punchin_time'];
-                $punchOutTime = $row['punchout_time'];
+            $punchOutTime = null;
+            $punchOutTimeUTC = null;
+            if ($row['punchout_time'] != null) {
+                $punchOutTime = strtotime($row['punchout_time']);
+            }
+            
+            $userZone = new DateTime($row['punchin_time'], new DateTimeZone(date_default_timezone_get()));
+            $userDiff = $timeStampDiff + $userZone->getOffset();
 
-                $punchInTimeOffset = (date('Z') + $timeStampDiff)/(60 * 60);
-                $punchOutTimeOffset = (date('Z') + $timeStampDiff)/(60 * 60);
-                $punchInTimeUTC = gmdate('Y-m-d H:i:s', strtotime($punchInTime." UTC"));
-                $punchOutTimeUTC = gmdate('Y-m-d H:i:s', strtotime($punchOutTime." UTC"));
-                $id = $row['attendance_id'];
+            $punchInTimeOffset = ($userDiff) / (60 * 60);
+            $punchOutTimeOffset = ($userDiff) / (60 * 60);
+            
+            $sign = '-';
+            if ($userDiff < 0) {
+                $sign = '+';           
+            }
+            
+            $diffSting = $sign . abs($userDiff);
 
-                $this->sql[] = "UPDATE ohrm_attendance_record SET
-                            punch_in_time_offset='{$punchInTimeOffset}',
-                            punch_out_time_offset='{$punchOutTimeOffset}',
-                            punch_in_utc_time='{$punchInTimeUTC}',
-                            punch_out_utc_time='{$punchOutTimeUTC}'
-                            WHERE id = '{$id}' ";
-            }        
+            $punchInTimeUTC = date('Y-m-d H:i:s', strtotime("$diffSting seconds", $punchInTime));
+
+            if ($punchOutTime != null) {
+                $punchOutTimeUTC = date('Y-m-d H:i:s', strtotime("$diffSting seconds", $punchOutTime));
+            }
+            
+            $id = $row['attendance_id'];
+
+            if ($punchOutTimeUTC != null) {
+                $query1 = "UPDATE ohrm_attendance_record SET
+                    punch_in_time_offset='{$punchInTimeOffset}',
+                    punch_out_time_offset='{$punchOutTimeOffset}',
+                    punch_in_utc_time='{$punchInTimeUTC}',
+                    punch_out_utc_time='{$punchOutTimeUTC}'
+                   WHERE id = '{$id}' "; //die($query2);
+            } else {
+                $query1 = "UPDATE ohrm_attendance_record SET
+                    punch_in_time_offset='{$punchInTimeOffset}',
+                    punch_in_utc_time='{$punchInTimeUTC}'
+                   WHERE id = '{$id}' "; //die($query2);   
+            }
+
+            $this->sql[] = $query1;
         }
-        
-    }
+    }    
     
     protected function getBooleanConfigValue($key) {
         $value = false;
