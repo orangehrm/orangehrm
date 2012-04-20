@@ -234,6 +234,10 @@ class LeaveSummaryDao extends BaseDao {
         if ($clues['userType'] == 'ESS') {
             $where[] = "a.emp_number = '{$clues['cmbEmpId']}'";
         }
+
+        if (!empty($clues['emp_numbers'])) {
+            $where[] = "a.emp_number IN(".implode(",", $clues['emp_numbers']).")";
+        }
        
         if (!empty($clues['cmbLeaveType'])) {
             $where[] = "b.leave_type_id = '{$clues['cmbLeaveType']}'";
@@ -255,7 +259,7 @@ class LeaveSummaryDao extends BaseDao {
             $where[] = "q.leave_period_id = '{$clues['cmbLeavePeriod']}'";
         }
 
-        if(empty($clues['cmbWithTerminated'])) {           
+        if(empty($clues['cmbWithTerminated'])) {
             $where[] = "(a.termination_id IS NULL)";           
         }
        
