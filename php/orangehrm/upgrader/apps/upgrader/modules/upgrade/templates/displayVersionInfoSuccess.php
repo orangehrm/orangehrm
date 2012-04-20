@@ -3,7 +3,7 @@
     <h2>Version Information</h2>
     
     <p>
-        You are going to upgrade to OrangeHRM version <?php echo $newVersion; ?>. Following is a list of changes and manual steps that you need to take into consideration before upgrading.
+        You are going to upgrade to OrangeHRM version <?php echo $newVersion; ?>. Following is a list of changes and manual steps that you need to take into consideration after upgrading. Make sure you understand them thoroughly before upgrading.
     </p>
     
     <?php if (!empty($notes)) : ?>
