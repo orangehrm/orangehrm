@@ -179,7 +179,8 @@ class LeaveSummaryForm extends sfForm {
      * @return array
      */
     private function getRecordsPerPageChoices() {
-        return array('20' => 20, '50' => 50, '100' => 100, '200' => 200);
+        //return array('20' => 20, '50' => 50, '100' => 100, '200' => 200); TODO: // Improve performance of Leave Summary and introduce 100 and 200 again
+        return array('20' => 20, '50' => 50);
     }
 
     public function getLocationService() {
