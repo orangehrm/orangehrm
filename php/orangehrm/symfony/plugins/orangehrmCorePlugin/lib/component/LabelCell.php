@@ -12,9 +12,6 @@ class LabelCell extends Cell {
         
         $isValueList = $this->getPropertyValue('isValueList', false);
 
-        if (!is_array($value)) {
-            $value = htmlspecialchars($value);
-        }
         if ($isValueList && is_array($value)) {
             
             $lines = $value;
@@ -24,7 +21,7 @@ class LabelCell extends Cell {
                     if (!$line && $default) {
                         $value .= '<tr><td>' . $default . '</td></tr>';
                     } else {
-                        $value .= '<tr><td> &bull; ' . htmlspecialchars($line) . '</td></tr>';
+                        $value .= '<tr><td> &bull; ' . $line . '</td></tr>';
                     }
                 }
                 $value .= '</tbody></table>';

@@ -121,8 +121,10 @@ abstract class displayReportAction extends sfAction {
 
 
         $params = (!empty($paramArray)) ? $paramArray : $this->setParametersForListComponent();
-        $dataSet = $reportableGeneratorService->generateReportDataSet($reportId, $sql);
+        $rawDataSet = $reportableGeneratorService->generateReportDataSet($reportId, $sql);
 
+        $dataSet = self::escapeData($rawDataSet);
+        
         $headerGroups = $reportableGeneratorService->getHeaderGroups($reportId);
 
         $this->setConfigurationFactory();
@@ -187,6 +189,18 @@ abstract class displayReportAction extends sfAction {
         $this->getUser()->setAttribute('persistant.exportFileName', $this->getReportName());
         $this->getUser()->setAttribute('persistant.exportDocumentTitle', $this->getReportTitle());
         $this->getUser()->setAttribute('persistant.exportDocumentDescription', 'Generated at ' . date('Y-m-d H:i'));
+    }
+    
+    public function escapeData($data) {
+        if (is_array($data)) {
+            $escapedArray = array();
+            foreach ($data as $key => $rawData) {
+                $escapedArray[$key] = self::escapeData($rawData);
+            }
+            return $escapedArray;
+        } else {
+            return htmlspecialchars($data);
+        } 
     }
 
 }
