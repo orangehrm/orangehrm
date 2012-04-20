@@ -355,6 +355,7 @@ class LeaveSummaryForm extends sfForm {
             $clues['cmbSubDivision'] = 0;
             $clues['cmbJobTitle'] = 0;
             $clues['cmbWithTerminated'] = 0;
+            $clues['userType'] = ""; // TODO: Was added because of PHP warning in LeaveSummaryDao. Should be able to refactor fetchRawLeaveSummaryRecords() and fetchRawLeaveSummaryRecordsCount()
 
             return $this->adjustSearchClues($clues);
         }
@@ -369,6 +370,8 @@ class LeaveSummaryForm extends sfForm {
         }
 
         $clues['emp_numbers'] = $this->employeeIdList;
+        $clues['userType'] = ""; // TODO: Was added because of PHP warning in LeaveSummaryDao. Should be able to refactor fetchRawLeaveSummaryRecords() and fetchRawLeaveSummaryRecordsCount()
+        
         return $clues;        
     }
 
