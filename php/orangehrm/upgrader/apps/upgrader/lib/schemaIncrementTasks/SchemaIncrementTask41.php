@@ -900,7 +900,7 @@ SQL84;
 
         $sql[85] = <<<SQL85
 INSERT INTO `ohrm_attendance_record` (`ohrm_attendance_record`.`id`, `ohrm_attendance_record`.`employee_id`, `ohrm_attendance_record`.`punch_in_user_time`, `ohrm_attendance_record`.`punch_out_user_time`, `ohrm_attendance_record`.`punch_in_note`, `ohrm_attendance_record`.`punch_out_note`, `ohrm_attendance_record`.`state` )
-SELECT `hs_hr_attendance`.`attendance_id`, `hs_hr_attendance`.`employee_id`, TIMESTAMPADD(SECOND, `hs_hr_attendance`.`timestamp_diff`, `hs_hr_attendance`.`punchin_time`), TIMESTAMPADD(SECOND, `hs_hr_attendance`.`timestamp_diff`, `hs_hr_attendance`.`punchout_time`), `hs_hr_attendance`.`in_note`, `hs_hr_attendance`.`out_note`, `hs_hr_attendance`.`status` 
+SELECT `hs_hr_attendance`.`attendance_id`, `hs_hr_attendance`.`employee_id`, `hs_hr_attendance`.`punchin_time`, `hs_hr_attendance`.`punchout_time`, `hs_hr_attendance`.`in_note`, `hs_hr_attendance`.`out_note`, `hs_hr_attendance`.`status` 
 FROM hs_hr_attendance
 
 SQL85;
@@ -980,56 +980,60 @@ SQL90;
         $q = "SELECT * FROM `hs_hr_attendance`";
 
         $result = $this->upgradeUtility->executeSql($q);
-        $orgTimezone = date_default_timezone_get();
+        $serverTimeZoneCode = date_default_timezone_get();
+        $serverTimeZone = new DateTimeZone($serverTimeZoneCode);
         
         while ($row = $this->upgradeUtility->fetchArray($result)) {
+            
             $timeStampDiff = $row['timestamp_diff'];
-            $punchInTime = strtotime($row['punchin_time']);
+            
+            // Calculate punch in related values:            
+            $punchInTimeServer = new DateTime($row['punchin_time'], $serverTimeZone);
 
-            $punchOutTime = null;
+            $serverPunchInOffset = $serverTimeZone->getOffset($punchInTimeServer);
+            
+            // Calculate UTC and User punch in time.
+            $punchInTimeUTC = date('Y-m-d H:i:s', $punchInTimeServer->format('U') - $serverPunchInOffset);
+            $punchInTimeUser = date('Y-m-d H:i:s', $punchInTimeServer->format('U') + $timeStampDiff);
+
+            // User timezone diff from UTC
+            $userPunchInOffset = $timeStampDiff + $serverPunchInOffset;
+            $userPunchInOffsetHours = $userPunchInOffset / (60*60);
+
+            $punchOutTimeServer = null;
             $punchOutTimeUTC = null;
+            
+            // Calculate punch out related values
             if ($row['punchout_time'] != null) {
-                $punchOutTime = strtotime($row['punchout_time']);
-            }
-            
-            $userZone = new DateTime($row['punchin_time'], new DateTimeZone(date_default_timezone_get()));
-            $userDiff = $timeStampDiff + $userZone->getOffset();
+                $punchOutTimeServer = new DateTime($row['punchout_time'], $serverTimeZone);
+                
+                $serverPunchOutOffset = $serverTimeZone->getOffset($punchOutTimeServer);
 
-            $punchInTimeOffset = ($userDiff) / (60 * 60);
-            $punchOutTimeOffset = ($userDiff) / (60 * 60);
-            
-            $sign = '-';
-            if ($userDiff < 0) {
-                $sign = '+';           
-            }
-            
-            $diffSting = $sign . abs($userDiff);
+                // Calculate UTC and User punch out time.
+                $punchOutTimeUTC = date('Y-m-d H:i:s', $punchOutTimeServer->format('U') - $serverPunchOutOffset);
+                $punchOutTimeUser = date('Y-m-d H:i:s', $punchOutTimeServer->format('U') + $timeStampDiff);
 
-            date_default_timezone_set('UTC'); 
-            $punchInTimeUTC = date('Y-m-d H:i:s', strtotime("$diffSting seconds", $punchInTime));
-
-            if ($punchOutTime != null) {
-                $punchOutTimeUTC = date('Y-m-d H:i:s', strtotime("$diffSting seconds", $punchOutTime));
-            }
-            date_default_timezone_set($orgTimezone);
+                // User timezone diff from UTC
+                $userPunchOutOffset = $timeStampDiff + $serverPunchOutOffset;   
+                $userPunchOutOffsetHours = $userPunchOutOffset / (60*60);
+            }            
             
             $id = $row['attendance_id'];
 
+            $query = "UPDATE ohrm_attendance_record SET
+                punch_in_user_time='{$punchInTimeUser}',
+                punch_in_time_offset='{$userPunchInOffsetHours}',
+                punch_in_utc_time='{$punchInTimeUTC}'";
+            
             if ($punchOutTimeUTC != null) {
-                $query1 = "UPDATE ohrm_attendance_record SET
-                    punch_in_time_offset='{$punchInTimeOffset}',
-                    punch_out_time_offset='{$punchOutTimeOffset}',
-                    punch_in_utc_time='{$punchInTimeUTC}',
-                    punch_out_utc_time='{$punchOutTimeUTC}'
-                   WHERE id = '{$id}' "; //die($query2);
-            } else {
-                $query1 = "UPDATE ohrm_attendance_record SET
-                    punch_in_time_offset='{$punchInTimeOffset}',
-                    punch_in_utc_time='{$punchInTimeUTC}'
-                   WHERE id = '{$id}' "; //die($query2);   
+                $query .= ", punch_out_user_time='{$punchOutTimeUser}',
+                    punch_out_time_offset='{$userPunchOutOffsetHours}',
+                    punch_out_utc_time='{$punchOutTimeUTC}'";
             }
+            
+            $query .= " WHERE id = '{$id}'"; 
 
-            $this->sql[] = $query1;
+            $this->sql[] = $query;
         }
     }    
     
