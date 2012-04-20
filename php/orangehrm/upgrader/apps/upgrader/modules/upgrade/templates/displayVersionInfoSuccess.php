@@ -1,14 +1,12 @@
 <div>
     
-    <h2>Version Info</h2>
+    <h2>Version Information</h2>
     
     <p>
-        You are going to upgrade to OrangeHRM <?php echo $newVersion; ?>
+        You are going to upgrade to OrangeHRM version <?php echo $newVersion; ?>. Following is a list of changes and manual steps that you need to take into consideration before upgrading.
     </p>
     
     <?php if (!empty($notes)) : ?>
-    
-    <h3>Notes</h3>
     
     <ul>
         
