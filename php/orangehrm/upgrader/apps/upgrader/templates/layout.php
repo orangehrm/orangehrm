@@ -1,6 +1,6 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <?php 
-    $steps = array('dbInfo' => __('Database Info'), 'sysCheck' => __('System Check'), 'verInfo' => __('Version Info'), 'dbChange' => __('Database Changes'), 'confInfo' => __('Configuration Info'));
+    $steps = array('dbInfo' => __('Database Info'), 'sysCheck' => __('System Check'), 'verInfo' => __('Version Info'), 'dbChange' => __('Database Changes'), 'confInfo' => __('Configuration Info'), 'completion' => __('Completion'));
     $currScreen = $sf_user->getAttribute('currentScreen');
 ?>
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">

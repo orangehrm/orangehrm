@@ -24,6 +24,10 @@ class indexAction extends sfAction {
                 case 'dbChange':
                     $this->redirect('upgrade/executeConfChange');
                     break;
+                case 'configureFile':
+                    $this->redirect('upgrade/executeComplete');
+                    break;
+                    
             }
         } else {
             $this->redirect('upgrade/getDatabaseInfo');
