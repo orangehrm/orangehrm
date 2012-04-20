@@ -1022,6 +1022,8 @@ class EmployeeDao extends BaseDao {
      * @param int $supervisorId
      * @returns array
      * @throws DaoException
+     * 
+     * @todo parameter name $withoutTerminatedEmployees does not give the correct meaning
      */
     public function getSupervisorEmployeeChain($supervisorId, $withoutTerminatedEmployees = false) {
         try {
