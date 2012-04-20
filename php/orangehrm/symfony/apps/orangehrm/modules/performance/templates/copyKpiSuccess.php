@@ -90,15 +90,28 @@
 				
                 rules: {
                     txtJobTitle: { required: true },
-                    txtCopyJobTitle: { required: true }
+                    txtCopyJobTitle: { required: true, notEqual: true }
                 },
                 messages: {
-                    txtJobTitle: '<?php echo __(ValidationMessages::REQUIRED); ?>',
-                    txtCopyJobTitle: '<?php echo __(ValidationMessages::REQUIRED); ?>'
+                    txtJobTitle: {
+                            required: '<?php echo __(ValidationMessages::REQUIRED); ?>',
+                        },
+                    txtCopyJobTitle: {
+                            required: '<?php echo __(ValidationMessages::REQUIRED); ?>',
+                            notEqual: '<?php echo __(ValidationMessages::INVALID); ?>'
+                        }
 			 		
                 }
             });
 
+            $.validator.addMethod("notEqual", function(value, element, param) {
+                    var fromJobTitleValue = $('#txtJobTitle').val();
+                    var toJobTitleValue = $('#txtCopyJobTitle').val();
+                    return this.optional(element) || fromJobTitleValue != toJobTitleValue;
+                  }, 
+                  '<?php echo __(ValidationMessages::INVALID); ?>'
+            );
+            
             // when click Save button
             $('#saveBtn').click(function(){
                 $('#frmSave').submit();
