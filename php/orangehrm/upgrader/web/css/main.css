@@ -44,5 +44,6 @@ table.displayTable td {
     vertical-align: middle;
     width: 150px;
     height: 30px;
+    padding: 10px;
 }
 

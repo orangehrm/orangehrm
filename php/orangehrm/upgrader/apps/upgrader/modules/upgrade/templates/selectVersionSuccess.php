@@ -13,10 +13,10 @@
                 </tr>
                 <tr>
                     <td>
-                        
+                        <input type="submit" value="Proceed"/>
                     </td>
                     <td>
-                        <input type="submit" value="Proceed"/>
+                        
                     </td>
                 </tr>
             </tbody>

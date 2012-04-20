@@ -3,7 +3,7 @@
 <?php use_javascript('executeDbChangeSuccess.js') ?>
 <div>
     <h2><?php echo __('Applying Database Changes')?></h2>
-    <p><?php echo __('Change database')?></p>
+    <p>In this step, applying database changes is taking place. This may take some time. <br />Please don't close the window till progress become 100%.</p>
 </div>
 <div id="errorDisplay" class="messageBalloon_warning">
     <span><?php echo __("Error Occurred").": "?><a href=""><?php echo __("Show Details")?></a></span>

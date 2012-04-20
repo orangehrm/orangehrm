@@ -1,6 +1,6 @@
 <div>
-    <h2>Configure File</h2>
-    <p>Conf file conf file</p>
+    <h2>Creating Configuration Files</h2>
+    <p>In this step, following configuration files are created. Please don't close the window till files are created.</p>
 </div>
 <?php if ($sf_user->hasFlash('message')): ?>
   <?php echo $sf_user->getFlash('message') ?>
