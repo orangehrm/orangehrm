@@ -2066,13 +2066,13 @@ EOT;
     public function getNotes() {
         
         $notes[] = "In the Admin module, duplicate currency records of pay grades will be removed and only one record from each currency will be kept.";
-        $notes[] = "In the Company Structure, duplicate sub-unit names will be added as a suffix. You can change the names by editing the Company Structure.";
+        $notes[] = "In the Company Structure, duplicate sub-unit names will be added a suffix. You can change the names by editing the Company Structure.";
         $notes[] = "A list of nationalities will be added by default. If you have already added nationalities to the system, check and remove duplicates.";
         $notes[] = "Termination date is a compulsory field in the new version. If the termination date is not set for a terminated employee, current date will be set by default. You can edit the termination date at PIM > Job.";
         $notes[] = "Make sure General Information is correct at Admin > Organization.";
         $notes[] = "Job specifications are now added as attachments. You can add specifications at Admin > Job > Job Titles.";
-        $notes[] = "Benefits module has been removed in the new version since it wasn't a general module and mostly has country specific features.";
-        $notes[] = "Company Property feature has been removed from the new version.";
+        $notes[] = "Benefits module has been removed in the new version since it wasn't a general module and mostly had country specific features.";
+        $notes[] = "Company Property feature has been removed from new version.";
         $notes[] = "Step Increase has been removed from pay grades at Admin > Job > Pay Grades.";
         $notes[] = "Admin User Group feature has been removed from new version.";
         $notes[] = "Membership Type has been removed from Admin > Memberships.";
