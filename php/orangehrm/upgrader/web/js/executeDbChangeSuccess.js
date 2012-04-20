@@ -10,6 +10,7 @@ $(document).ready(function(){
     
     $('#dbChangeStartBtn').click(function () {
         $('#dbChangeStartBtn').attr('disabled', "disabled");
+        $('<label id="processingLabel">Processing...</label>').insertAfter('#spanProgressPercentage');
         startChangeDb();
     });
     
@@ -33,6 +34,7 @@ $(document).ready(function(){
                 }
             } else {
                 $('#errorDisplay').show();
+                $('#processingLabel').remove();
                 status = false;
             }
         });
@@ -50,6 +52,7 @@ function showErrorLog() {
 function changeProceedButtonStatus(status) {
     if (status) {
         $('#dbChangeStartBtn').hide();
+        $('#processingLabel').remove();
         $('#dbChangeProceedBtn').show();
     }
 }

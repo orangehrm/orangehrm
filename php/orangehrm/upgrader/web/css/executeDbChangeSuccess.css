@@ -16,3 +16,9 @@ div#logContainer textarea {
     width: 425px;
     height: 120px; 
 }
+
+#processingLabel {
+    padding-left: 20px;
+    color: #C6C3B5;
+    font-weight: bold;
+}
