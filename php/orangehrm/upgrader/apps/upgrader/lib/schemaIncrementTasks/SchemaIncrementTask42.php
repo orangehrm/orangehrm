@@ -229,9 +229,11 @@ class SchemaIncrementTask42 extends SchemaIncrementTask {
     }
     
     public function getNotes() {
-        $notes[] = "After upgrading, candidate qualifications, experience and address details will be removed.";
+        
+        $notes[] = "In Recruitment module, applicant qualifications, experience and address details will be removed.";
         
         return $notes;
+        
     }
     
     private function updateCandidateHistory() {

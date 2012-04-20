@@ -487,9 +487,9 @@ class SchemaIncrementTask50 extends SchemaIncrementTask {
     
     public function getNotes() {
         
-        $notes[] = "After upgrading, copy existing key.ohrm file to `/lib/confs/cryptokeys/` folder";
-        $notes[] = "After upgrading, you will need to reset leave period start date.";
-        $notes[] = "After upgrading, you will need to reset email configuration details.";
+        $notes[] = "AIf you have enabled data encryption in your current version, you need to copy 'key.ohrm' file located at 'lib/confs/cryptokeys' of the root of current installation to corresponding location of new version.";
+        $notes[] = "If you have already set email configuration details, you have to reset the details at Admin > Email Notifications > Configuration.";
+        $notes[] = "You need to reset the leave period starting date in the Leave module.";
         
         return $notes;
     }

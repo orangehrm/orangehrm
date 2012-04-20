@@ -2065,18 +2065,18 @@ EOT;
     
     public function getNotes() {
         
-        $notes[] = "After upgrading, pay grade records with duplicate currencies will be remove.";
-        $notes[] = "After upgrading, company structure names will contain a suffix to avoid duplications.";
-        $notes[] = "After upgrading, new nationalities will be added. You should remove duplicate old nationalities.";
-        $notes[] = "After upgrading, empty termination dates will be set to current date";
-        $notes[] = "After upgrading, you may need to edit general information details.";
-        $notes[] = "After upgrading, you will need to add job specification details.";
-        $notes[] = "After upgrading, HSP Notifications will be disabled.";
-        $notes[] = "After upgrading, Company Property details will be removed.";
-        $notes[] = "After upgrading, Pay Grade Step Increase details will be removed.";
-        $notes[] = "After upgrading, Admin User Groups details will be removed.";
-        $notes[] = "After upgrading, Membership Types details in Membership will be removed.";
-        $notes[] = "After upgrading, Ethnic Race details in Nationality & Race will be removed.";
+        $notes[] = "In the Admin module, duplicate currency records of pay grades will be removed and only one record from each currency will be kept.";
+        $notes[] = "In the Company Structure, duplicate sub-unit names will be added as a suffix. You can change the names by editing the Company Structure.";
+        $notes[] = "A list of nationalities will be added by default. If you have already added nationalities to the system, check and remove duplicates.";
+        $notes[] = "Termination date is a compulsory field in the new version. If the termination date is not set for a terminated employee, current date will be set by default. You can edit the termination date at PIM > Job.";
+        $notes[] = "Make sure General Information is correct at Admin > Organization.";
+        $notes[] = "Job specifications are now added as attachments. You can add specifications at Admin > Job > Job Titles.";
+        $notes[] = "Benefits module has been removed in the new version since it wasn't a general module and mostly has country specific features.";
+        $notes[] = "Company Property feature has been removed from the new version.";
+        $notes[] = "Step Increase has been removed from pay grades at Admin > Job > Pay Grades.";
+        $notes[] = "Admin User Group feature has been removed from new version.";
+        $notes[] = "Membership Type has been removed from Admin > Memberships.";
+        $notes[] = "Ethnic Race has been removed from Admin > Nationalities.";
         
         return $notes;
     }
