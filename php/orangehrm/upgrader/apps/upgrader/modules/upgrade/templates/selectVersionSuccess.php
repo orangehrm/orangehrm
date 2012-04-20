@@ -1,3 +1,5 @@
+<?php use_javascript('jquery.js') ?>
+<?php use_javascript('selectVersionSuccess.js') ?>
 <div>
     <form action="<?php echo url_for('upgrade/calculateIncrementNumbers');?>" name="versionInfoForm" method="post">
         <?php echo $form->renderHiddenFields();?>
@@ -13,7 +15,7 @@
                 </tr>
                 <tr>
                     <td>
-                        <input type="submit" value="Proceed"/>
+                        <input id="selectVersionSubmit" type="submit" value="Proceed"/>
                     </td>
                     <td>
                         
