@@ -8,6 +8,15 @@ class SchemaIncrementTask42 extends SchemaIncrementTask {
     
     public $userInputs;
     
+    protected static $mimeTypes = array(
+        'doc' => 'application/msword',
+        'docx' => 'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
+        'odt' => 'application/msword',
+        'pdf' => 'application/pdf',
+        'rtf' => 'application/rtf',
+        'txt' => 'text/plain'
+    );
+    
     public function execute() {
         $this->incrementNumber = 42;
         parent::execute();
@@ -274,49 +283,107 @@ class SchemaIncrementTask42 extends SchemaIncrementTask {
         return $results;
     }
 
+    private function getContentTypeFromExtension($fileName) {
+        
+        $type = null;
+        
+        $extension = pathinfo($fileName, PATHINFO_EXTENSION);
+        if (!empty($extension)) {
+            if (isset(self::$mimeTypes[$extension])) {
+                $type = self::$mimeTypes[$extension];
+            }
+        }
+        
+        return $type;
+    }
+    
+    private function getContentTypeFromFinfo($path) {
+        if (!function_exists('finfo_open') || !is_readable($path)) {
+            return null;
+        }
+
+        if (!$finfo = new finfo(FILEINFO_MIME)) {
+            return null;
+        }
+
+        $type = $finfo->file($path);
+
+        // remove charset (added as of PHP 5.3)
+        if (false !== $pos = strpos($type, ';')) {
+            $type = substr($type, 0, $pos);
+        }
+
+        return $type;
+    }
+    
+    
+    
     private function updateCandidateAttachment() {
 
         $results = array();
         
-        $q = "SELECT * FROM `ohrm_job_candidate_attachment`";
-
+        $haveFinfo = function_exists('finfo_open');
+        $haveMimeContentType = function_exists('mime_content_type');
+        
+        $extractFiles = $haveFinfo || $haveMimeContentType;        
+        
+        $q = "SELECT id, file_name FROM  `ohrm_job_candidate_attachment`";
+        
+        if ($extractFiles) {
+            $q = "SELECT * FROM `ohrm_job_candidate_attachment`";
+        }
+        
         $res = $this->upgradeUtility->executeSql($q);
 
-        $path = tempnam(sys_get_temp_dir(), 'Oup');
-        unlink($path);        
-        mkdir($path, 0755);
+        if ($extractFiles) {
+            $path = tempnam(sys_get_temp_dir(), 'Oup');
+            unlink($path);        
+            mkdir($path, 0755);
+        }
         
         while ($row = $this->upgradeUtility->fetchArray($res)) {
             $id = $row['id'];
-            $data = $row['file_content'];
+            
+            if ($extractFiles) {
+                $data = $row['file_content'];
+                file_put_contents($path . $row['file_name'], $data);    
+                
+                if ($haveFinfo) {
+                    $mime = $this->getContentTypeFromFinfo($path . $row['file_name']);
+                } else {
+                    $mime = mime_content_type($path . $row['file_name']);
+                }
+                
+                unlink($path . $row['file_name']);
+            } else {
+                $mime = $this->getContentTypeFromExtension($row['file_name']);
+            }
 
-            file_put_contents($path . $row['file_name'], $data);
-
-            $mime = mime_content_type($path . $row['file_name']);
-
-            $query1 = "UPDATE ohrm_job_candidate_attachment SET
+            if (!empty($mime)) {
+                $query1 = "UPDATE ohrm_job_candidate_attachment SET
                     file_type='{$mime}'
-                   WHERE id = '{$id}'"; //die($query2);
+                    WHERE id = '{$id}'";
 
-            unlink($path . $row['file_name']);
-
-            $results[] = $this->upgradeUtility->executeSql($query1);
+                $results[] = $this->upgradeUtility->executeSql($query1);
+            }
         }
 
-        if (is_dir($path)) {
-            $objects = scandir($path);
-            foreach ($objects as $object) {
-                if ($object != "." && $object != "..") {
-                    if (filetype($dir . "/" . $object) == "dir") {
-                        rrmdir($path . "/" . $object); 
-                    } else {
-                        unlink($dir . "/" . $object);
+        if ($extractFiles) {        
+            if (is_dir($path)) {
+                $objects = scandir($path);
+                foreach ($objects as $object) {
+                    if ($object != "." && $object != "..") {
+                        if (filetype($dir . "/" . $object) == "dir") {
+                            rrmdir($path . "/" . $object); 
+                        } else {
+                            unlink($dir . "/" . $object);
+                        }
                     }
                 }
+
+                reset($objects);
+                rmdir($path);
             }
-            
-            reset($objects);
-            rmdir($path);
         }
     }    
     
