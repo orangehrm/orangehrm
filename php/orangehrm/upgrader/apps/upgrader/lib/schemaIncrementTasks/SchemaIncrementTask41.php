@@ -980,7 +980,8 @@ SQL90;
         $q = "SELECT * FROM `hs_hr_attendance`";
 
         $result = $this->upgradeUtility->executeSql($q);
-
+        $orgTimezone = date_default_timezone_get();
+        
         while ($row = $this->upgradeUtility->fetchArray($result)) {
             $timeStampDiff = $row['timestamp_diff'];
             $punchInTime = strtotime($row['punchin_time']);
@@ -1004,11 +1005,13 @@ SQL90;
             
             $diffSting = $sign . abs($userDiff);
 
+            date_default_timezone_set('UTC'); 
             $punchInTimeUTC = date('Y-m-d H:i:s', strtotime("$diffSting seconds", $punchInTime));
 
             if ($punchOutTime != null) {
                 $punchOutTimeUTC = date('Y-m-d H:i:s', strtotime("$diffSting seconds", $punchOutTime));
             }
+            date_default_timezone_set($orgTimezone);
             
             $id = $row['attendance_id'];
 
