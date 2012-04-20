@@ -343,3 +343,7 @@ form#frmCandidateVacancyStatus .savebutton {
 form#frmLeaveSummarySearch #leaveSummary_txtEmpName_empName {
     width: 196px !important;
 }
+
+form#search_form #searchBtn, form#search_form #resetBtn {
+    width: 85px !important;
+}
