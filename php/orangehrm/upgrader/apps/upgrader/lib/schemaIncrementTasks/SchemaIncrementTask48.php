@@ -660,8 +660,7 @@ class SchemaIncrementTask48 extends SchemaIncrementTask {
         
         $sql[90] = "alter table ohrm_job_vacancy
                          add constraint `ohrm_job_vacancy_ibfk_1` foreign key (job_title_code)
-                             references ohrm_job_title(id) on delete cascade,
-                         ADD KEY `job_title_code` (`job_title_code`);";
+                             references ohrm_job_title(id) on delete cascade;";
         
         $sql[91] = "create table `ohrm_emp_termination`(
                             `id` int(4) not null auto_increment,
@@ -696,8 +695,7 @@ class SchemaIncrementTask48 extends SchemaIncrementTask {
                             DROP column terminated_date,
                             DROP column termination_reason,
                             add constraint `hs_hr_employee_ibfk_6` foreign key (termination_id)
-                                 references ohrm_emp_termination(id) on delete set null,
-                            ADD KEY `termination_id` (`termination_id`);";
+                                 references ohrm_emp_termination(id) on delete set null;";
         
         $sql[96] = "alter table ohrm_emp_termination
                          add constraint foreign key (reason_id)
