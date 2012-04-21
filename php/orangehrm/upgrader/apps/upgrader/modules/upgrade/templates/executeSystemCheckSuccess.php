@@ -1,12 +1,12 @@
 <?php use_javascript('jquery.js') ?>
 <?php use_javascript('executeSystemCheckSuccess.js') ?>
+<?php use_stylesheet('style.css') ?>
 <script language="JavaScript">
 function sysCheckPassed() {
     document.frmInstall.actionResponse.value  = 'SYSCHECKOK';
     document.frmInstall.submit();
 }
 </script>
-<link href="style.css" rel="stylesheet" type="text/css" />
 
 
 <div id="content" style="width:1000px">
@@ -295,7 +295,8 @@ function sysCheckPassed() {
      */
     function checkHTAccessFiles() {
         var testImage = new Image();
-        testImage.src = "<?php echo sfConfig::get('sf_root_dir').'/web/images/dummy.jpg';?>";
+        testImage.src = "<?php echo sfContext::getInstance()->getRequest()->getRelativeUrlRoot().'/images/dummy.jpg';?>";
+        
         testImage.onload = htAcessDisabled;
         testImage.onerror = htAccessEnabled;
         
@@ -311,9 +312,6 @@ function sysCheckPassed() {
         var element = document.getElementById("htaccess");
         element.innerHTML = "Not enabled! This makes OrangeHRM vulnerable to security attacks.";
         element.className = "error";
-
-        var nextButton = document.getElementById("nextButton");
-        //nextButton.disabled = true;
     }
 
 
