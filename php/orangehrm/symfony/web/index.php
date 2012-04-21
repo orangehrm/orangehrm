@@ -18,5 +18,5 @@ if (!is_file(ROOT_PATH . '/lib/confs/Conf.php')) {
 
 require_once(dirname(__FILE__).'/../config/ProjectConfiguration.class.php');
 
-$configuration = ProjectConfiguration::getApplicationConfiguration('orangehrm', 'prod', true);
+$configuration = ProjectConfiguration::getApplicationConfiguration('orangehrm', 'prod', false);
 sfContext::createInstance($configuration)->dispatch();
