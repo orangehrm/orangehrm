@@ -50,7 +50,7 @@ class executeConfChangeAction extends sfAction {
                     $upgraderUtility->dropUpgradeStatusTable();
                     $startIncrement = $this->getUser()->getAttribute('upgrade.startIncNumber');
                     $endIncrement = $this->getUser()->getAttribute('upgrade.endIncNumber');
-                    $startVersion = $upgraderUtility->getCurrentVersion($startIncrement);
+                    $startVersion = $this->getUser()->getAttribute('upgrade.currentVersion');
                     $endVersion = $upgraderUtility->getNewVersion();
                     $date = gmdate("Y-m-d H:i:s", time());
                     $result = $upgraderUtility->insertUpgradeHistory($startVersion, $endVersion, $startIncrement, $endIncrement, $date);
