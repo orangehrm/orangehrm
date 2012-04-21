@@ -104,7 +104,7 @@ class CandidateHistoryService {
     }
 
     public function getDescriptionForApply($object) {
-        return $object->getJobCandidate()->getFullName()." ".__("applied for the") . " " . $object->getCandidateVacancyName();
+        return $object->getJobCandidate()->getFullName()." ".__("applied for the vacancy ") . " " . $object->getCandidateVacancyName();
     }
 
     public function getDescriptionForRemove($object) {
