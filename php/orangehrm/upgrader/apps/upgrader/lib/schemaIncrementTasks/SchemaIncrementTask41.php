@@ -972,7 +972,10 @@ SQL90;
     }
 
     public function getNotes() {
+        $notes = array();
+        $notes[] = "Timesheet action history will be empty for Timesheets created by OrangeHRM 2.6.6 or earlier.";
         
+        return $notes;        
     }   
     
     private function loadSqlForAttendanceUTCConversion() {
