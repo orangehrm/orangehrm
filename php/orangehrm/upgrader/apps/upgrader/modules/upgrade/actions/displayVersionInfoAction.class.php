@@ -7,12 +7,11 @@ class displayVersionInfoAction extends sfAction {
     }
     
     public function execute ($request) {
-        $upgraderUtility = new UpgradeUtility();
+        $upgradeUtility = new UpgradeUtility();
         $startIncNumber = $this->getUser()->getAttribute('upgrade.startIncNumber');
         $endIncNumber   = $this->getUser()->getAttribute('upgrade.endIncNumber');
-        $startVersion = $upgraderUtility->getCurrentVersion($startIncrement);
-        $endVersion = $upgraderUtility->getNewVersion();
-        $upgradeUtility     = new UpgradeUtility();
+        $startVersion = $upgradeUtility->getCurrentVersion($startIncrement);
+        $endVersion = $upgradeUtility->getNewVersion();
         $this->newVersion   = $upgradeUtility->getNewVersion();    
         
         $this->notes        = $upgradeUtility->getNotes($startIncNumber, $endIncNumber);

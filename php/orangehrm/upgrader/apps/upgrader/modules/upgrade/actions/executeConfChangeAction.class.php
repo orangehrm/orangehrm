@@ -15,7 +15,7 @@ class executeConfChangeAction extends sfAction {
         $this->buttonState = "Start";
         if ($request->isMethod('post')) {
             if($request->getParameter('sumbitButton') == 'Proceed') {
-                $this->getRequest()->setParameter('submitBy', 'confFile');
+                $this->getRequest()->setParameter('submitBy', 'configureFile');
                 $this->forward('upgrade','index');
             }
             $this->form->bind($request->getParameter('configureFile'));
