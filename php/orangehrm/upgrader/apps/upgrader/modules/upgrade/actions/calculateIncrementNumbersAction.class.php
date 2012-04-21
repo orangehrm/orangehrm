@@ -30,7 +30,8 @@ class calculateIncrementNumbersAction extends sfAction {
                 }
                 
                 $this->getUser()->setAttribute('upgrade.startIncNumber', $upgradeUtility->getStartIncrementNumber($selectedVersion));
-                $this->getUser()->setAttribute('upgrade.endIncNumber', $upgradeUtility->getEndIncrementNumber());                
+                $this->getUser()->setAttribute('upgrade.endIncNumber', $upgradeUtility->getEndIncrementNumber()); 
+                $this->getUser()->setAttribute('upgrade.currentVersion', $selectedVersion);
                 
                 $this->getRequest()->setParameter('submitBy', 'calculateIncrementNumbers');
                 $this->forward('upgrade','index');
