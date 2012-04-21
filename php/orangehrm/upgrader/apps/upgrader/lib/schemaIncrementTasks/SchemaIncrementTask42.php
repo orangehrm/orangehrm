@@ -171,59 +171,63 @@ class SchemaIncrementTask42 extends SchemaIncrementTask {
             FROM `ohrm_job_interview` 
             LEFT JOIN hs_hr_job_application_events 
             ON ohrm_job_interview.`candidate_id` = hs_hr_job_application_events.application_id AND  ohrm_job_interview.`interview_name` = hs_hr_job_application_events.event_type";
-
-        $sql[26] = "INSERT INTO `ohrm_job_candidate_history` (ohrm_job_candidate_history.`candidate_id`, ohrm_job_candidate_history.`vacancy_id`, ohrm_job_candidate_history.`action`, ohrm_job_candidate_history.`performed_by`, ohrm_job_candidate_history.`performed_date`, ohrm_job_candidate_history.`note`, ohrm_job_candidate_history.`interviewers`, ohrm_job_candidate_history.`candidate_vacancy_name`)
+        
+        $sql[26] = "INSERT INTO ohrm_job_candidate_history (candidate_id, vacancy_id, action, performed_by, performed_date, note, interviewers, candidate_vacancy_name)
+            SELECT app.`application_id`, app.`vacancy_id`, 15, NULL, app.applied_datetime, NULL, NULL, (SELECT `name` FROM ohrm_job_vacancy WHERE app.vacancy_id = ohrm_job_vacancy.`id`)
+            FROM hs_hr_job_application app";
+        
+        $sql[28] = "INSERT INTO `ohrm_job_candidate_history` (ohrm_job_candidate_history.`candidate_id`, ohrm_job_candidate_history.`vacancy_id`, ohrm_job_candidate_history.`action`, ohrm_job_candidate_history.`performed_by`, ohrm_job_candidate_history.`performed_date`, ohrm_job_candidate_history.`note`, ohrm_job_candidate_history.`interviewers`, ohrm_job_candidate_history.`candidate_vacancy_name`)
             SELECT hs_hr_job_application_events.`application_id`, hs_hr_job_application.`vacancy_id`, hs_hr_job_application_events.`event_type`, (SELECT emp_number FROM hs_hr_users WHERE id=hs_hr_job_application_events.created_by), hs_hr_job_application_events.`created_time`, hs_hr_job_application_events.`notes`, hs_hr_job_application_events.`owner`,  (SELECT `name` FROM ohrm_job_vacancy WHERE hs_hr_job_application.vacancy_id = ohrm_job_vacancy.`id`)
             FROM `hs_hr_job_application_events` 
             LEFT JOIN hs_hr_job_application 
             ON hs_hr_job_application_events.`application_id` = hs_hr_job_application.application_id";              
         
-        $sql[27] = "UPDATE `ohrm_job_candidate_history` SET action = 'REJ' WHERE action = 0";
+        $sql[29] = "UPDATE `ohrm_job_candidate_history` SET action = 'REJ' WHERE action = 0";
         // UPDATE `ohrm_job_candidate_history` SET action = '4' WHERE action = 1 OR action = 2; -- moved to php
-        $sql[28] = "UPDATE `ohrm_job_candidate_history` SET action = '7' WHERE action = 3 OR action = 5";
-        $sql[29] = "UPDATE `ohrm_job_candidate_history` SET action = '8' WHERE action = 4";
-        $sql[30] = "UPDATE `ohrm_job_candidate_history` SET action = '9' WHERE action = 6";
-        $sql[31] = "UPDATE `ohrm_job_candidate_history` SET action = '3' WHERE action = 'REJ'";
+        $sql[30] = "UPDATE `ohrm_job_candidate_history` SET action = '7' WHERE action = 3 OR action = 5";
+        $sql[31] = "UPDATE `ohrm_job_candidate_history` SET action = '8' WHERE action = 4";
+        $sql[32] = "UPDATE `ohrm_job_candidate_history` SET action = '9' WHERE action = 6";
+        $sql[33] = "UPDATE `ohrm_job_candidate_history` SET action = '3' WHERE action = 'REJ'";
 
         
         // Update hs_hr_unique_id
-        $sql[32] = "UPDATE `hs_hr_unique_id` SET last_id = (SELECT COALESCE(MAX( id ),0)
+        $sql[34] = "UPDATE `hs_hr_unique_id` SET last_id = (SELECT COALESCE(MAX( id ),0)
             FROM `ohrm_job_candidate`
             WHERE 1) WHERE table_name='ohrm_job_candidate' AND field_name='id'";
 
-        $sql[33] = "UPDATE `hs_hr_unique_id` SET last_id = (SELECT COALESCE(MAX( id ),0)
+        $sql[35] = "UPDATE `hs_hr_unique_id` SET last_id = (SELECT COALESCE(MAX( id ),0)
             FROM `ohrm_job_candidate_vacancy`
             WHERE 1) WHERE table_name='ohrm_job_candidate_vacancy' AND field_name='id'";
 
-        $sql[34] = "UPDATE `hs_hr_unique_id` SET last_id = (SELECT COALESCE(MAX( id ),0)
+        $sql[36] = "UPDATE `hs_hr_unique_id` SET last_id = (SELECT COALESCE(MAX( id ),0)
             FROM `ohrm_job_candidate_history`
             WHERE 1) WHERE table_name='ohrm_job_candidate_history' AND field_name='id'";
 
-        $sql[35] = "UPDATE `hs_hr_unique_id` SET last_id = (SELECT COALESCE(MAX( id ),0)
+        $sql[37] = "UPDATE `hs_hr_unique_id` SET last_id = (SELECT COALESCE(MAX( id ),0)
             FROM `ohrm_job_interview`
             WHERE 1) WHERE table_name='ohrm_job_interview' AND field_name='id'";
 
-        $sql[36] = "UPDATE `hs_hr_unique_id` SET last_id = (SELECT COALESCE(MAX( id ),0)
+        $sql[38] = "UPDATE `hs_hr_unique_id` SET last_id = (SELECT COALESCE(MAX( id ),0)
             FROM `ohrm_job_vacancy_attachment`
             WHERE 1) WHERE table_name='ohrm_job_vacancy_attachment' AND field_name='id'";
 
-        $sql[37] = "UPDATE `hs_hr_unique_id` SET last_id = (SELECT COALESCE(MAX( id ),0)
+        $sql[39] = "UPDATE `hs_hr_unique_id` SET last_id = (SELECT COALESCE(MAX( id ),0)
             FROM `ohrm_job_vacancy`
             WHERE 1) WHERE table_name='ohrm_job_vacancy' AND field_name='id'";
 
-        $sql[38] = "UPDATE `hs_hr_unique_id` SET last_id = (SELECT COALESCE(MAX( id ),0)
+        $sql[40] = "UPDATE `hs_hr_unique_id` SET last_id = (SELECT COALESCE(MAX( id ),0)
             FROM `ohrm_job_candidate_attachment`
             WHERE 1) WHERE table_name='ohrm_job_candidate_attachment' AND field_name='id'";
 
-        $sql[39] = "UPDATE `hs_hr_unique_id` SET last_id = (SELECT COALESCE(MAX( id ),0)
+        $sql[41] = "UPDATE `hs_hr_unique_id` SET last_id = (SELECT COALESCE(MAX( id ),0)
             FROM `ohrm_workflow_state_machine`
             WHERE 1) WHERE table_name='ohrm_workflow_state_machine' AND field_name='id'";
 
         
         // Delete old recruitment tables
-        $sql[40] = "DROP TABLE hs_hr_job_application_events";        
-        $sql[41] = "DROP TABLE hs_hr_job_application";
-        $sql[42] = "DROP TABLE hs_hr_job_vacancy";
+        $sql[42] = "DROP TABLE hs_hr_job_application_events";        
+        $sql[43] = "DROP TABLE hs_hr_job_application";
+        $sql[44] = "DROP TABLE hs_hr_job_vacancy";
         
         $this->sql = $sql;
     }
