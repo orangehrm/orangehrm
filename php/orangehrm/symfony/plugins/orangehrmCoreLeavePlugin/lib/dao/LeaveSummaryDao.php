@@ -83,7 +83,8 @@ class LeaveSummaryDao extends BaseDao {
             $where[] = "(a.termination_id IS NULL)";
         }
         
-        $where[] = "b.available_flag = 1";
+//        $where[] = "b.available_flag = 1"; //handled in service layer
+        
         if(count($where) > 0) {
             $q .= ' WHERE '.implode(' AND ',$where);
         }
@@ -156,7 +157,7 @@ class LeaveSummaryDao extends BaseDao {
             $where[] = "(a.termination_id IS NULL)";
         }
 
-        $where[] = "b.available_flag = 1"; //ignore deleted leave types 
+//        $where[] = "b.available_flag = 1"; //todo handle the corrcect count in service 
         
         if(count($where) > 0) {
             $q .= ' WHERE '.implode(' AND ',$where);
