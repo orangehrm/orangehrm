@@ -146,12 +146,12 @@ class SchemaIncrementTask42 extends SchemaIncrementTask {
         $sql[15] = "INSERT INTO `ohrm_job_candidate_vacancy` (ohrm_job_candidate_vacancy.`candidate_id`, ohrm_job_candidate_vacancy.`vacancy_id`, ohrm_job_candidate_vacancy.`applied_date`, ohrm_job_candidate_vacancy.`status`)
             SELECT hs_hr_job_application.`application_id`, hs_hr_job_application.`vacancy_id`, DATE(hs_hr_job_application.`applied_datetime`), hs_hr_job_application.`status`
             FROM `hs_hr_job_application`";
-        $sql[16] = "UPDATE `ohrm_job_candidate_vacancy` SET status = 'APPLICATION INITIATED' WHERE status = 0";
-        $sql[17] = "UPDATE `ohrm_job_candidate_vacancy` SET status = 'INTERVIEW SCHEDULED' WHERE status = 1 OR status = 2";
-        $sql[18] = "UPDATE `ohrm_job_candidate_vacancy` SET status = 'JOB OFFERED' WHERE status = 3 OR status = 5";
-        $sql[19] = "UPDATE `ohrm_job_candidate_vacancy` SET status = 'OFFER DECLINED' WHERE status = 4";
-        $sql[20] = "UPDATE `ohrm_job_candidate_vacancy` SET status = 'HIRED' WHERE status = 6";
-        $sql[21] = "UPDATE `ohrm_job_candidate_vacancy` SET status = 'REJECTED' WHERE status = 7";
+        $sql[16] = "UPDATE `ohrm_job_candidate_vacancy` SET status = 'APPLICATION INITIATED' WHERE status = '0'";
+        $sql[17] = "UPDATE `ohrm_job_candidate_vacancy` SET status = 'INTERVIEW SCHEDULED' WHERE status = '1' OR status = '2'";
+        $sql[18] = "UPDATE `ohrm_job_candidate_vacancy` SET status = 'JOB OFFERED' WHERE status = '3' OR status = '5'";
+        $sql[19] = "UPDATE `ohrm_job_candidate_vacancy` SET status = 'OFFER DECLINED' WHERE status = '4'";
+        $sql[20] = "UPDATE `ohrm_job_candidate_vacancy` SET status = 'HIRED' WHERE status = '6'";
+        $sql[21] = "UPDATE `ohrm_job_candidate_vacancy` SET status = 'REJECTED' WHERE status = '7'";
         $sql[22] = "ALTER TABLE `ohrm_job_candidate_vacancy` CHANGE `id` `id` INT( 13 ) NULL";
 
         $sql[23] = "INSERT INTO `ohrm_job_candidate_attachment` (ohrm_job_candidate_attachment.`candidate_id`, ohrm_job_candidate_attachment.`file_name`, ohrm_job_candidate_attachment.`file_size`, ohrm_job_candidate_attachment.`file_content`)
