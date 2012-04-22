@@ -182,12 +182,12 @@ class SchemaIncrementTask42 extends SchemaIncrementTask {
             LEFT JOIN hs_hr_job_application 
             ON hs_hr_job_application_events.`application_id` = hs_hr_job_application.application_id";              
         
-        $sql[29] = "UPDATE `ohrm_job_candidate_history` SET action = 'REJ' WHERE action = 0";
+        // $sql[29] = "UPDATE `ohrm_job_candidate_history` SET action = 'REJ' WHERE action = 0";
         // UPDATE `ohrm_job_candidate_history` SET action = '4' WHERE action = 1 OR action = 2; -- moved to php
-        $sql[30] = "UPDATE `ohrm_job_candidate_history` SET action = '7' WHERE action = 3 OR action = 5";
-        $sql[31] = "UPDATE `ohrm_job_candidate_history` SET action = '8' WHERE action = 4";
-        $sql[32] = "UPDATE `ohrm_job_candidate_history` SET action = '9' WHERE action = 6";
-        $sql[33] = "UPDATE `ohrm_job_candidate_history` SET action = '3' WHERE action = 'REJ'";
+        $sql[30] = "UPDATE `ohrm_job_candidate_history` SET action = 7 WHERE action = 3 OR action = 5";
+        $sql[31] = "UPDATE `ohrm_job_candidate_history` SET action = 8 WHERE action = 4";
+        $sql[32] = "UPDATE `ohrm_job_candidate_history` SET action = 9 WHERE action = 6";
+        $sql[33] = "UPDATE `ohrm_job_candidate_history` SET action = 3 WHERE action = 0";
 
         
         // Update hs_hr_unique_id
@@ -254,8 +254,8 @@ class SchemaIncrementTask42 extends SchemaIncrementTask {
             $candidateId = $row['candidate_id'];
 
             $query = "UPDATE ohrm_job_candidate_history SET
-                    interview_id='{$id}', interviewers=(SELECT interviewer_id FROM ohrm_job_interview_interviewer WHERE interview_id='{$id}')
-                   WHERE candidate_id = '{$candidateId}' AND action = '1'";
+                    interview_id={$id}, interviewers=(SELECT interviewer_id FROM ohrm_job_interview_interviewer WHERE interview_id={$id})
+                   WHERE candidate_id = {$candidateId} AND action = 1";
 
             $results[] = $this->upgradeUtility->executeSql($query);
         }
@@ -269,13 +269,13 @@ class SchemaIncrementTask42 extends SchemaIncrementTask {
             $candidateId = $row['candidate_id'];
 
             $query = "UPDATE ohrm_job_candidate_history SET
-                    interview_id='{$id}', interviewers=(SELECT interviewer_id FROM ohrm_job_interview_interviewer WHERE interview_id='{$id}')
-                   WHERE candidate_id = '{$candidateId}' AND action = '2'";
+                    interview_id={$id}, interviewers=(SELECT interviewer_id FROM ohrm_job_interview_interviewer WHERE interview_id={$id})
+                   WHERE candidate_id = {$candidateId} AND action = 2";
 
             $results[] = $this->upgradeUtility->executeSql($query);
         }
 
-        $query = "UPDATE ohrm_job_candidate_history SET `action`='4' WHERE action='1' OR action='2'";
+        $query = "UPDATE ohrm_job_candidate_history SET `action`=4 WHERE action=1 OR action=2";
         $results[] = $this->upgradeUtility->executeSql($query);
 
         $query = "UPDATE ohrm_job_candidate_history SET `interviewers`=concat(`interviewers`,'_')";
@@ -369,7 +369,7 @@ class SchemaIncrementTask42 extends SchemaIncrementTask {
             if (!empty($mime)) {
                 $query1 = "UPDATE ohrm_job_candidate_attachment SET
                     file_type='{$mime}'
-                    WHERE id = '{$id}'";
+                    WHERE id = {$id}";
 
                 $results[] = $this->upgradeUtility->executeSql($query1);
             }
