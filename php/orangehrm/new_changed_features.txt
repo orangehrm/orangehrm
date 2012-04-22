@@ -1,3 +1,45 @@
+New & Changed Features for OrangeHRM ver  2.7
+
+    New Features/Changes
+    --------------------
+    Language translation and date format support for all modules.
+    Ability to switch on/off modules.
+    Upgraders up to version 2.6.5.
+    Removal of Benefits module.
+
+    Bug Fixes
+    ---------
+    Bugs were reported in SF Mantis Tracker: http://sourceforge.net/apps/mantisbt/orangehrm/view_all_bug_page.php
+
+    0000043 - [Admin] Notification mails are not subscribed
+    0000052 - [Admin] Cannot edit skill
+    0000077 - [Performance] - Add performance review does not work	
+    0000084 - [Performance] - Cannot add performance review
+    0000039 - system [Admin] shows symfony urls for the first and last name of the employee, if an employee is assigned 
+    0000040 - [Register] Cannot register while installing the product	
+    0000063 - [PIM] - Job - Terminate Employment - Correct spelling mistakes
+    0000064 - [PIM] - Job - Correct spelling mistakes
+    0000078 - [Leave] User cannot apply/assign two half days or two short leave for the same date in some scenarios
+    0000083 - Leave Summary -> Pagination is not working properly, when reduce records to one page from 2/3 pages
+    0000103 - [Leave] - Leave Summary & Leave List - not possible to search for past employees using "Employee" auto-fill box.
+    0000111 - [Leave] - My Leave - ESS user can replace the supervisor/admin comments
+    0000133 - [XSS] get parameter 'uri' is not sanitised and vulnerable to XSS Injections
+    0000144  - [Time] spelling mistake in Time module
+    0000041 - Calender control of Date field doesn't work in "Edit Employment Termination"
+    0000051 - [Leave] Apply Leave - Incorrect error message shown if to time is less than from time
+    0000071 - [PIM] - Membership - it's not possible to select Sterling (British) Pound as currency
+    0000097 - [Leave] - repeats annually is not calculated properly in "Holiday List"
+    0000098 - [Leave] - Future holiday (dates) are shown in current leave period's holiday list
+    0000120 - PIM->Job - Currently supervisor can Edit subordinate Job details, and terminate the subordinate
+    3460919 - user is shown existing database setting if invalid password
+    0000042 - [Leave] System shows message as "Failed to Submit - Leave Balance Exceeded" message even user has leave quota
+    0000050 - [Leave] Assign Leave - Leave balance value is not aligned with the label - "Leave Balance"
+    0000066 - [PIM] - Salary - saved apostrophe in a new salary component's comments field, displayed as & # 039 ;
+    0000079 - [Leave] Apply Leave - leave balance only shows the balance in the current leave period.
+    0000085 - [Recruitment] If resume > 1MB no error message shown
+    0000145 - [ESS] ESS tab should be renamed as "My Info"
+    0000146 - [Leave] Leave balance incorrectly validate when applying leave on leave period border
+
 New & Changed Features for OrangeHRM ver  2.7-rc.1
 
     New Features
