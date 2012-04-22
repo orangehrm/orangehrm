@@ -1,4 +1,10 @@
 <script type="text/javascript" src="<?php echo public_path('../../scripts/jquery/jquery.validate.js');?>"></script>
+<!-- TODO: port this to a main style sheet -->
+<style type="text/css">
+    #txtDescription {
+        margin-left: 0;
+    }
+</style>
 <div id="content">
 	<div id="contentContainer">
         <div class="outerbox">
