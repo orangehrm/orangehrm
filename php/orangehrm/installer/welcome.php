@@ -30,6 +30,11 @@ function welcomeSubmit() {
 
 		<p>This installer creates the OrangeHRM database tables and sets the
         configuration files that you need to start.</p>
+                
+                <p>
+                    If you already use OrangeHRM, consider <a href="../upgrader/web/index.php/">upgrading</a>.
+                </p>
+                
         <p>
 		Click <b>[Next]</b> to Start the Wizard.</p>
         <input class="button" type="button" value="Back" onclick="back();" disabled="disabled">
