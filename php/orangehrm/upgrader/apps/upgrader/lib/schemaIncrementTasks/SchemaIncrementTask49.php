@@ -9,15 +9,11 @@ class SchemaIncrementTask49 extends SchemaIncrementTask {
         $this->incrementNumber = 49;
         parent::execute();
         
-        $result[] = $this->upgradeUtility->executeSql($this->sql[0]);
+        $result = array();
         
-        $result[] = $this->upgradeUtility->executeSql($this->sql[1]);
-        
-        $result[] = $this->upgradeUtility->executeSql($this->sql[2]);
-        
-        $result[] = $this->upgradeUtility->executeSql($this->sql[3]);
-        
-        $result[] = $this->upgradeUtility->executeSql($this->sql[4]);
+        foreach ($this->sql as $sql) {
+            $result[] = $this->upgradeUtility->executeSql($sql);
+        }
         
         $this->checkTransactionComplete($result);
         $this->updateOhrmUpgradeInfo($this->transactionComplete, $this->incrementNumber);
@@ -53,6 +49,10 @@ class SchemaIncrementTask49 extends SchemaIncrementTask {
         
         $sql[4] = "INSERT INTO `ohrm_filter_field` (`filter_field_id`, `report_group_id`, `name`, `where_clause_part`, `filter_field_widget`, `condition_no`, `required`) VALUES 
                     (22, 3, 'include', 'hs_hr_employee.termination_id', 'ohrmReportWidgetIncludedEmployeesDropDown', 1, 'true');";
+        
+        // Add include field to all defined PIM reports.
+        $sql[5] = "INSERT INTO ohrm_selected_filter_field(report_id, filter_field_id, filter_field_order, value1, value2, where_condition, `type`) 
+                   SELECT r.report_id, 22, 0, NULL, NULL, 'IS NULL', 'Predefined' FROM ohrm_report r WHERE r.report_group_id = 3";
         
         $this->sql = $sql;
     }

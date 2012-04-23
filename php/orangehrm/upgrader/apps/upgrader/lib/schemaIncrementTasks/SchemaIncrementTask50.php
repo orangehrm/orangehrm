@@ -9,13 +9,13 @@ class SchemaIncrementTask50 extends SchemaIncrementTask {
         $this->incrementNumber = 50;
         parent::execute();
         
-        for($i = 0; $i <= 16; $i++) {
+        for($i = 0; $i <= 15; $i++) {
             $result[] = $this->upgradeUtility->executeSql($this->sql[$i]);
         }
         
         $result[] = $this->insertOhrmWorkWeek();
         
-        for($i = 18; $i <= 35; $i++) {
+        for($i = 17; $i <= 34; $i++) {
             $result[] = $this->upgradeUtility->executeSql($this->sql[$i]);
         }
         
@@ -233,13 +233,14 @@ class SchemaIncrementTask50 extends SchemaIncrementTask {
                         (3, 'ohrm_emp_termination.termination_date', 'Termination Date', 'terminationDate',  'false', null, null, 'label', '<xml><getter>terminationDate</getter></xml>', 100, '0', null, true, 6, '---', false, false),
                         (3, 'ohrm_emp_termination_reason.name', 'Termination Reason', 'terminationReason',  'false', null, null, 'label', '<xml><getter>terminationReason</getter></xml>', 100, '0', null, true, 6, '---', false, false);";
         
-        $sql[14] = "INSERT INTO `ohrm_selected_filter_field` (`report_id`, `filter_field_id`, `filter_field_order`, `value1`, `value2`, `where_condition`, `type`) VALUES
-                        (5, 22, 1, null, null, 'IS NULL', 'Predefined');";
+        // Not required here. This is done in schmatask 49.
+        // $sql[14] = "INSERT INTO `ohrm_selected_filter_field` (`report_id`, `filter_field_id`, `filter_field_order`, `value1`, `value2`, `where_condition`, `type`) VALUES
+        //                (5, 22, 1, null, null, 'IS NULL', 'Predefined');";
         
-        $sql[15] = "UPDATE ohrm_summary_display_field 
+        $sql[14] = "UPDATE ohrm_summary_display_field 
                         SET label = 'Time (Hours)' WHERE summary_display_field_id = 1";
         
-        $sql[16] = "INSERT INTO `ohrm_module` (`name`, `status`) VALUES
+        $sql[15] = "INSERT INTO `ohrm_module` (`name`, `status`) VALUES
                         ('core', 1),
                         ('admin', 1),
                         ('pim', 1),
@@ -251,11 +252,11 @@ class SchemaIncrementTask50 extends SchemaIncrementTask {
                         ('performance', 1),
                         ('benefits', 1);";
         
-        $sql[17] = "SELECT * FROM hs_hr_weekends ORDER BY day";
+        $sql[16] = "SELECT * FROM hs_hr_weekends ORDER BY day";
         
-        $sql[18] = "DROP TABLE hs_hr_weekends ;";
+        $sql[17] = "DROP TABLE hs_hr_weekends ;";
         
-        $sql[19] = "CREATE TABLE IF NOT EXISTS `ohrm_upgrade_history` (
+        $sql[18] = "CREATE TABLE IF NOT EXISTS `ohrm_upgrade_history` (
                       `id` int(10) not null auto_increment,
                       `start_version` varchar(30) DEFAULT NULL,
                       `end_version` varchar(30) DEFAULT NULL,
@@ -265,10 +266,10 @@ class SchemaIncrementTask50 extends SchemaIncrementTask {
                       PRIMARY KEY (`id`)
                     ) ENGINE=InnoDB  DEFAULT CHARSET=utf8;";
         
-        $sql[20] = "ALTER TABLE ohrm_user_role
+        $sql[19] = "ALTER TABLE ohrm_user_role
                         add column `display_name` varchar(255) not null;";
         
-        $sql[21] = "create table ohrm_screen (
+        $sql[20] = "create table ohrm_screen (
                         `id` int not null auto_increment, 
                         `name` varchar(100) not null, 
                         `module_id` int not null, 
@@ -276,7 +277,7 @@ class SchemaIncrementTask50 extends SchemaIncrementTask {
                         primary key (`id`)
                     ) engine=innodb default charset=utf8;";
         
-        $sql[22] = "create table ohrm_user_role_screen (
+        $sql[21] = "create table ohrm_user_role_screen (
                         id int not null auto_increment,
                         user_role_id int not null, 
                         screen_id int not null, 
@@ -287,34 +288,34 @@ class SchemaIncrementTask50 extends SchemaIncrementTask {
                         primary key (`id`)
                     ) engine=innodb default charset=utf8;";
         
-        $sql[23] = "alter table ohrm_screen
+        $sql[22] = "alter table ohrm_screen
                        add constraint foreign key (module_id)
                            references ohrm_module(id) on delete cascade;";
         
-        $sql[24] = "alter table ohrm_user_role_screen
+        $sql[23] = "alter table ohrm_user_role_screen
                         add constraint foreign key (user_role_id)
                             references ohrm_user_role(id) on delete cascade;";
         
-        $sql[25] = "alter table ohrm_user_role_screen
+        $sql[24] = "alter table ohrm_user_role_screen
                         add constraint foreign key (screen_id)
                             references ohrm_screen(id) on delete cascade;";
         
-        $sql[26] = "INSERT INTO `hs_hr_config`(`key`, `value`) VALUES
+        $sql[25] = "INSERT INTO `hs_hr_config`(`key`, `value`) VALUES
                         ('authorize_user_role_manager_class', 'BasicUserRoleManager');";
         
-        $sql[27] = "UPDATE ohrm_filter_field 
+        $sql[26] = "UPDATE ohrm_filter_field 
                         SET filter_field_widget = 'ohrmReportWidgetOperationalCountryLocationDropDown' WHERE filter_field_id = 20";
         
-        $sql[28] = "UPDATE ohrm_user_role 
+        $sql[27] = "UPDATE ohrm_user_role 
                         SET is_assignable = is_predefined ";
         
-        $sql[29] = "UPDATE ohrm_user_role 
+        $sql[28] = "UPDATE ohrm_user_role 
                         SET is_predefined = 1 ";
         
-        $sql[30] = "UPDATE ohrm_user_role 
+        $sql[29] = "UPDATE ohrm_user_role 
                         SET display_name = name ";
         
-        $sql[31] = "UPDATE ohrm_module SET id = CASE name
+        $sql[30] = "UPDATE ohrm_module SET id = CASE name
                         WHEN 'core' THEN '1'
                         WHEN 'admin' THEN '2'
                         WHEN 'pim' THEN '3'
@@ -328,7 +329,7 @@ class SchemaIncrementTask50 extends SchemaIncrementTask {
                         END
                         WHERE name in('core', 'admin', 'pim', 'leave', 'time', 'attendance', 'recruitment', 'recruitmentApply', 'performance', 'benefits')";
         
-        $sql[32] = "INSERT INTO ohrm_screen (`id`, `name`, `module_id`, `action_url`) VALUES
+        $sql[31] = "INSERT INTO ohrm_screen (`id`, `name`, `module_id`, `action_url`) VALUES
                         (1, 'User List', 2, 'viewSystemUsers'),
                         (2, 'Add/Edit System User', 2, 'saveSystemUser'),
                         (3, 'Delete System Users', 2, 'deleteSystemUsers'),
@@ -347,7 +348,7 @@ class SchemaIncrementTask50 extends SchemaIncrementTask {
                         (17, 'Assign Leave', 4, 'assignLeave'),
                         (18, 'View Leave Summary', 4, 'viewLeaveSummary'),
                         (19, 'Save Leave Entitlements', 4, 'saveLeaveEntitlements');";
-        $sql[33] = "INSERT INTO ohrm_user_role_screen (user_role_id, screen_id, can_read, can_create, can_update, can_delete) VALUES
+        $sql[32] = "INSERT INTO ohrm_user_role_screen (user_role_id, screen_id, can_read, can_create, can_update, can_delete) VALUES
                         (1, 1, 1, 1, 1, 1),
                         (2, 1, 0, 0, 0, 0),
                         (3, 1, 0, 0, 0, 0),
@@ -378,7 +379,7 @@ class SchemaIncrementTask50 extends SchemaIncrementTask {
                         (3, 18, 1, 0, 0, 0),
                         (1, 19, 1, 1, 1, 1);";
         
-        $sql[34] = "create table `ohrm_email_configuration` (
+        $sql[33] = "create table `ohrm_email_configuration` (
                       `id` int(10) not null auto_increment,
                       `mail_type` varchar(50) DEFAULT NULL,
                       `sent_as` varchar(250) NOT NULL,
@@ -392,16 +393,16 @@ class SchemaIncrementTask50 extends SchemaIncrementTask {
                       PRIMARY KEY (`id`)
                     ) ENGINE=InnoDB  DEFAULT CHARSET=utf8;";
         
-        $sql[35] = "DROP TABLE hs_hr_file_version ;";
+        $sql[34] = "DROP TABLE hs_hr_file_version ;";
         
-        $sql[36] = "SELECT * FROM hs_hr_emp_picture";
+        $sql[35] = "SELECT * FROM hs_hr_emp_picture";
         
         $this->sql = $sql;
     
     }
     
     private function insertOhrmWorkWeek() {
-        $weekdays = $this->upgradeUtility->executeSql($this->sql[17]);
+        $weekdays = $this->upgradeUtility->executeSql($this->sql[16]);
         $success = true;
         if($weekdays){
             $workweekstring = '';
@@ -422,7 +423,7 @@ class SchemaIncrementTask50 extends SchemaIncrementTask {
     
     
     private function updateHsHrEmpPicture() {
-        $pictures = $this->upgradeUtility->executeSql($this->sql[36]);
+        $pictures = $this->upgradeUtility->executeSql($this->sql[35]);
         $success = true;
         if($pictures){
             $baseDir = sfConfig::get('sf_root_dir')."/cache/tempImages/";
