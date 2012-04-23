@@ -236,6 +236,7 @@ class SchemaIncrementTask42 extends SchemaIncrementTask {
         
         $notes = array();
         $notes[] = "In Recruitment module, applicant qualifications, experience and address details will be removed.";
+        $notes[] = "Recruitment mail notifications have been removed.";
         
         return $notes;
         

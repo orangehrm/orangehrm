@@ -1967,7 +1967,7 @@ EOT;
         $mailNotifications = $this->upgradeUtility->executeSql("SELECT * FROM hs_hr_mailnotifications");
         $success = true;
         if($mailNotifications) {
-            $mailNotificationMapArray = array(1 => 1, 4 => 2, 2 => 3, 0 => 4, -1 => 5, 3 => 6, 8 => 7);
+            $mailNotificationMapArray = array(1 => 1, 2 => 3, 0 => 4, -1 => 5, 3 => 6, 8 => 7);
             while($row = $this->upgradeUtility->fetchArray($mailNotifications))
             {
                 $userId = $row['user_id'];
