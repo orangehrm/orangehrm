@@ -1274,8 +1274,10 @@ EOT;
                 $sql = "INSERT INTO ohrm_job_title 
                             (id, job_title, job_description, note, is_deleted) 
                             VALUES($valueString); ";
-                $result = $this->upgradeUtility->executeSql($sql);
-                if(!$result) {
+                $result1 = $this->upgradeUtility->executeSql($sql);
+                
+                $result2 = $this->updatePimReportSelectedFields(14, $row['jobtit_code'], $count);
+                if((!$result1) || (!$result2)) {
                     $success = false;
                 }
                 $count ++;
@@ -1296,8 +1298,10 @@ EOT;
                 $sql = "INSERT INTO ohrm_employment_status
                             (id, name) 
                             VALUES($valueString); ";
-                $result = $this->upgradeUtility->executeSql($sql);
-                if(!$result) {
+                $result1 = $this->upgradeUtility->executeSql($sql);
+                
+                $result2 = $this->updatePimReportSelectedFields(11, $row['estat_code'], $count);
+                if((!$result1) || (!$result2)) {
                     $success = false;
                 }
                 $count ++;
@@ -1450,8 +1454,10 @@ EOT;
                 $sql = "UPDATE hs_pr_salary_grade 
                         SET sal_grd_code = '$count' WHERE sal_grd_code = '$sal_grd_code'";
                 
-                $result = $this->upgradeUtility->executeSql($sql);
-                if(!$result) {
+                $result1 = $this->upgradeUtility->executeSql($sql);
+                
+                $result2 = $this->updatePimReportSelectedFields(9, $sal_grd_code, $count);
+                if((!$result1) || (!$result2)) {
                     $success = false;
                 }
                 $count ++;
@@ -1521,8 +1527,10 @@ EOT;
                 $sql = "UPDATE hs_hr_language 
                         SET lang_code = '$count' WHERE lang_code = '$pre_language_code'";
                 
-                $result = $this->upgradeUtility->executeSql($sql);
-                if(!$result) {
+                $result1 = $this->upgradeUtility->executeSql($sql);
+                
+                $result2 = $this->updatePimReportSelectedFields(15, $pre_language_code, $count);
+                if((!$result1) || (!$result2)) {
                     $success = false;
                 }
                 $count ++;
@@ -1612,8 +1620,10 @@ EOT;
                 $sql = "UPDATE hs_hr_skill 
                         SET skill_code = '$count' WHERE skill_code = '$pre_skill'";
                 
-                $result = $this->upgradeUtility->executeSql($sql);
-                if(!$result) {
+                $result1 = $this->upgradeUtility->executeSql($sql);
+                
+                $result2 = $this->updatePimReportSelectedFields(16, $pre_skill, $count);
+                if((!$result1) || (!$result2)) {
                     $success = false;
                 }
                 $count ++;
@@ -1658,8 +1668,10 @@ EOT;
                 $sql = "UPDATE hs_hr_education 
                         SET edu_code = '$count' WHERE edu_code = '$pre_education'";
                 
-                $result = $this->upgradeUtility->executeSql($sql);
-                if(!$result) {
+                $result1 = $this->upgradeUtility->executeSql($sql);
+                
+                $result2 = $this->updatePimReportSelectedFields(10, $pre_education, $count);
+                if((!$result1) || (!$result2)) {
                     $success = false;
                 }
                 $count ++;
@@ -1704,8 +1716,10 @@ EOT;
                 $sql = "UPDATE hs_hr_location 
                         SET loc_code = '$count' WHERE loc_code = '$pre_location'";
                 
-                $result = $this->upgradeUtility->executeSql($sql);
-                if(!$result) {
+                $result1 = $this->upgradeUtility->executeSql($sql);
+                
+                $result2 = $this->updatePimReportSelectedFields(20, $pre_location, $count);
+                if((!$result1) || (!$result2)) {
                     $success = false;
                 }
                 $count ++;
@@ -2058,6 +2072,20 @@ EOT;
                 }
             }
         }
+        return $success;
+    }
+    
+    private function updatePimReportSelectedFields($filterFieldId, $oldValue, $newValue) {
+        $success = true;
+        
+        $sql = "UPDATE ohrm_selected_filter_field set value1 = '{$newValue}' WHERE filter_field_id = {$filterFieldId}
+            AND value1 = '{$oldValue}'";
+        
+        $result = $this->upgradeUtility->executeSql($sql);
+        if(!$result) {
+            $success = false;
+        }
+        
         return $success;
     }
     
