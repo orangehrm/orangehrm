@@ -22,9 +22,12 @@
  * Employee Service
  * @package pim
  * @todo: Add get/save/delete for all 
- * @todo: All methods to return PIMServiceException or DaoException consistantly
  * @todo Add deleteReportingMethod() function
+ * @todo Add getEmployeeImmigrationRecords method
+ * @todo Add getEmployeeChildren method
+ * @todo: All methods to return PIMServiceException or DaoException consistantly
  * @todo Don't wrap DAO exceptions.
+ * @todo Deside if all methods need to have try catch blocks
  */
 class EmployeeService extends BaseService {
 
@@ -75,7 +78,7 @@ class EmployeeService extends BaseService {
      * @return boolean
      * @throws PIMServiceException
      * 
-     * @todo Don't return any value
+     * @todo Return Saved Employee
      * @todo Change method name to saveEmployee
      * @todo Improve exception, pass $e
      */
@@ -109,6 +112,7 @@ class EmployeeService extends BaseService {
      * @version 2.6.12.1
      * @param string $employeeId Employee ID
      * @return Employee Employee instance if found or false
+     * @todo return null if not found (instead of returning false)
      */
     public function getEmployeeByEmployeeId($employeeId) {
         return $this->getEmployeeDao()->getEmployeeByEmployeeId($employeeId);
@@ -136,7 +140,7 @@ class EmployeeService extends BaseService {
      * @return EmpPicture EmpPicture or null if no picture found 
      * @throws PIMServiceException
      * 
-     * @todo Remove this or getEmployeePicture (don't have both)
+     * @todo Rename to getEmployeePicture 
      */
     public function getPicture($empNumber) {
         try {
@@ -190,8 +194,11 @@ class EmployeeService extends BaseService {
      * @version 2.6.11
      * @param int $empNumber Employee Number
      * @return array EmpEmergencyContact objects as array. Array will be empty 
-     *               if no emergency contacts defined for employee.
+     *               if no emergency contacts defined fo
+     * r employee.
      * @throws PIMServiceException
+     * 
+     * @todo Rename method as getEmployeeEmergencyContacts
      */
     public function getEmergencyContacts($empNumber) {
         try {
@@ -210,9 +217,9 @@ class EmployeeService extends BaseService {
      * @returns boolean
      * @throws PIMServiceException
      * 
-     * @todo return number of contacts deleted?? (currently returns true always)
+     * @todo return number of contacts deleted (currently returns true always)
      * @todo Exceptions should preserve previous exception
-     * @todo Is the name $emergencyContactsToDelete ok?
+     * @todo rename method as deleteEmployeeEmergencyContacts
      */
     public function deleteEmergencyContacts($empNumber, $emergencyContactsToDelete) {
         try {
@@ -231,10 +238,9 @@ class EmployeeService extends BaseService {
      * @returns boolean
      * @throws PIMServiceException
      * 
-     * @todo Rename to deleteImmigrationRecords
-     * @todo return number of entries deleted?? (currently returns true always)
+     * @todo Rename to deleteEmployeeImmigrationRecords
+     * @todo return number of entries deleted (currently returns true always)
      * @todo Exceptions should preserve previous exception
-     * @todo Don't we need a getImmigrationRecords method?
      */
     public function deleteImmigration($empNumber, $entriesToDelete) {
 
@@ -253,6 +259,7 @@ class EmployeeService extends BaseService {
      * @return array EmpDependent Array of EmpDependent objects
      * 
      * @todo Exceptions should preserve previous exception
+     * @todo Rename method as getEmployeeDependents
      */
     public function getDependents($empNumber) {
         try {
@@ -271,8 +278,9 @@ class EmployeeService extends BaseService {
      * @returns boolean
      * @throws PIMServiceException
      * 
-     * @todo return number of entries deleted?? (currently returns true always)
+     * @todo return number of entries deleted (currently returns true always)
      * @todo Exceptions should preserve previous exception
+     * @todo Rename method as deleteEmployeeDependents
      */
     public function deleteDependents($empNumber, $entriesToDelete) {
         try {
@@ -291,9 +299,9 @@ class EmployeeService extends BaseService {
      * @returns boolean
      * @throws PIMServiceException
      * 
-     * @todo return number of entries deleted?? (currently returns true always)
+     * @todo return number of entries deleted (currently returns true always)
      * @todo Exceptions should preserve previous exception
-     * @todo We need a getChildren method
+     * @todo rename method as deleteEmployeeChildren
      */
     public function deleteChildren($empNumber, $entriesToDelete) {
         try {
@@ -305,7 +313,7 @@ class EmployeeService extends BaseService {
 
     /**
      * Check if employee with given employee number is a supervisor
-     * 
+     * @ignore
      * @version 2.6.11
      * @param int $empNumber Employee Number
      * @return bool True if given employee is a supervisor, false if not
@@ -330,7 +338,7 @@ class EmployeeService extends BaseService {
      * 
      * @todo Don't return any value (currently returns true always)
      * @todo Exceptions should preserve previous exception
-     * @todo Rename to deletePicture (to match with get method)
+     * @todo Rename to deleteEmployeePicture (to match with get method)
      */
     public function deletePhoto($empNumber) {
         try {
@@ -348,7 +356,7 @@ class EmployeeService extends BaseService {
      * @return boolean
      * @throws PIMServiceException
      * 
-     * @todo Don't return any value (currently returns true always)
+     * @todo Return saved EmpPicture 
      * @todo Exceptions should preserve previous exception
      * @todo Rename to savePicture (without Employee) to match other methods
      */
@@ -367,9 +375,9 @@ class EmployeeService extends BaseService {
      * @param EmpPassport $empPassport EmpPassport instance
      * @return boolean
      * 
-     * @todo Rename to saveImmigrationEntry (without Employee) and change Passport -> Immigration
+     * @todo Rename to saveEmployeeImmigrationEntry (without Employee) and change Passport -> Immigration
      * @todo Rename EmpPassport to EmpImmigrationRecord
-     * @todo return no value (currently always returns true)
+     * @todo return saved EmpImmigrationRecord
      */
     public function saveEmployeePassport(EmpPassport $empPassport) {
         return $this->getEmployeeDao()->saveEmployeePassport($empPassport);
@@ -382,11 +390,11 @@ class EmployeeService extends BaseService {
      * @param int $empNumber Employee Number
      * @param int $sequenceNo Immigration Record sequence Number (optional)
      * 
-     * @return Collection/EmpPassport If sequenceNo is given returns matching 
+     * @return Doctrine_Collection/EmpPassport If sequenceNo is given returns matching 
      * Immigration Record or false if not found. If sequenceNo is not given, returns Immigration 
      * Record collection. (Empty collection if no records available)
      * 
-     * @todo rename to getImmigrationRecords
+     * @todo rename to getEmployeeImmigrationRecords
      */
     public function getEmployeePassport($empNumber, $sequenceNo = null) {
         return $this->getEmployeeDao()->getEmployeePassport($empNumber, $sequenceNo);
@@ -400,7 +408,8 @@ class EmployeeService extends BaseService {
      * @return boolean
      * @throws DaoException
      * 
-     * @todo return no value (currently always returns true)
+     * @todo return saved work Experience
+     * @todo rename method as saveEmployeeWorkExperience
      */
     public function saveWorkExperience(EmpWorkExperience $empWorkExp) {
         return $this->getEmployeeDao()->saveWorkExperience($empWorkExp);
@@ -413,12 +422,12 @@ class EmployeeService extends BaseService {
      * @param int $empNumber Employee number
      * @param int $sequenceNo Work Experience record sequence number
      * 
-     * @return Collection/WorkExperience  If sequenceNo is given returns matching 
+     * @return Doctrine_Collection/WorkExperience  If sequenceNo is given returns matching 
      * EmpWorkExperience or false if not found. If sequenceNo is not given, returns 
      * EmpWorkExperience collection. (Empty collection if no records available)
      * @throws DaoException
      * 
-     * @todo Exceptions should preserve previous exception
+     * @todo Rename method as getEmployeeWorkExperience
      */
     public function getWorkExperience($empNumber, $sequenceNo = null) {
         return $this->getEmployeeDao()->getWorkExperience($empNumber, $sequenceNo);
@@ -435,30 +444,44 @@ class EmployeeService extends BaseService {
      * @return boolean True if workExperienceToDelete is not empty, false if empty.
      * @throws DaoException
      * 
-     * @todo return number of entries deleted?? (currently return value is based
-     *       on $workExperienceToDelete not actual deleted records
+     * @todo return number of entries deleted
+     * @todo rename method as deleteEmployeeWorkExperience
      */
     public function deleteWorkExperience($empNumber, $workExperienceToDelete) {
         return $this->getEmployeeDao()->deleteWorkExperience($empNumber, $workExperienceToDelete);
     }
 
     /**
-     * Get Education Entry/Entries for given employee
+     * Get Employee Education with given id
+     * 
+     * @ignore
      * 
      * @version 2.6.11
-     * @param int $empNumber Employee Number
-     * @param int $eduCode Education Entry code
-     * @return Collection/EmployeeEducation If eduCode is given returns matching 
-     * EmployeeEducation Entry or false if not found. If sequenceNo is not given, returns 
-     * EmployeeEducation collection.
+     * @param int $id Education Id
+     * @return EmployeeEducation If Id match with records return EmployeeEducation else return false
      * @throws DaoException
      * 
-     * @todo Rename EmployeeEducation to EmpEducation for consistancty
+     * @todo Rename method as getEmployeeEducation 
      */
     public function getEducation($id) {
         return $this->getEmployeeDao()->getEducation($id);
     }
     
+    /**
+     * Get Education Record(s) for given employee
+     * 
+     * @version 2.6.11
+     * @param int $empNumber Employee number
+     * @param int $educationId Education record id
+     * 
+     * @return Collection/Education If education id is given returns matching 
+     * EmpEducation or false if not found. If educationId is not given, returns 
+     * EmpEducation collection. (Empty collection if no records available)
+     * @throws DaoException
+     * 
+     * @todo rename method as getEmployeeEducations
+     * @todo If EducationId is given return EmployeeEducation instead of Doctrine_Collection
+     */
     public function getEmployeeEducationList($empNumber, $educationId=null) {
         return $this->getEmployeeDao()->getEmployeeEducationList($empNumber, $educationId);
     }   
@@ -472,8 +495,8 @@ class EmployeeService extends BaseService {
      * @return boolean True if educationToDelete is not empty, false if empty.
      * @throws DaoException
      * 
-     * @todo return number of entries deleted?? (currently return value is based
-     *       on $educationToDelete not actual deleted records
+     * @todo return number of entries deleted (currently return value is based on $educationToDelete not actual deleted records)
+     * @todo rename method as deleteEmployeeEducations
      */
     public function deleteEducation($empNumber, $educationToDelete) {
         return $this->getEmployeeDao()->deleteEducation($empNumber, $educationToDelete);
@@ -487,7 +510,8 @@ class EmployeeService extends BaseService {
      * @returns boolean true
      * @throws DaoException
      * 
-     * @todo Don't return any value. Currently returns true always.
+     * @todo return saved Employee Education object
+     * @todo rename method as saveEmployeeEducation
      */
     public function saveEducation(EmployeeEducation $education) {
         return $this->getEmployeeDao()->saveEducation($education);
@@ -496,14 +520,15 @@ class EmployeeService extends BaseService {
     /**
      * Get all skills or a single skill with given skill code for given employee.
      * 
-     * If skillCode is null, returns all EmployeeSkill objects for the employee.
-     * If skillCode is given, returns the EmployeeSkill object with given skillcode.
+     * If skillCode is null, returns all Doctrine_Collection/EmployeeSkill objects for the employee.
+     * If skillCode is given, returns the Doctrine_Collection/EmployeeSkill object with given skillcode.
      * 
      * @version 2.6.11
      * @param int $empNumber Employee Number
      * @param int $skillCode Skill Code
-     * @returns Collection/EmployeeSkill 
-     * @throws DaoException
+     * @returns Doctrine_Collection/EmployeeSkill 
+     * 
+     * @todo rename method as getEmployeeSkills 
      * 
      */
     public function getSkill($empNumber, $skillCode = null) {
@@ -519,8 +544,8 @@ class EmployeeService extends BaseService {
      * @return boolean True if $skillToDelete is not empty, false if empty.
      * @throws DaoException
      * 
-     * @todo return number of entries deleted?? (currently return value is based
-     *       on $skillToDelete not actual deleted records
+     * @todo return number of entries deleted
+     * @todo rename method as deleteEmployeeSkills
      */
     public function deleteSkill($empNumber, $skillToDelete) {
         return $this->getEmployeeDao()->deleteSkill($empNumber, $skillToDelete);
@@ -532,9 +557,9 @@ class EmployeeService extends BaseService {
      * @version 2.6.11
      * @param EmployeeSkill $education EmployeeSkill object to save
      * @returns boolean true
-     * @throws DaoException
      * 
-     * @todo Don't return any value. Currently returns true always.
+     * @todo reurn saved Employee Skill object
+     * @todo rename method as saveEmployeeSkill
      */
     public function saveSkill(EmployeeSkill $skill) {
         return $this->getEmployeeDao()->saveSkill($skill);
@@ -555,7 +580,7 @@ class EmployeeService extends BaseService {
      * @param String $languageType Language Type
      * @return Doctrine_Collection/Array Returns Doctrine_Collection of EmployeeLanguage objects  or EmployeeLanguage object
      * 
-     * @todo add two methods for getLanguage() and getLanguageList()
+     * @todo rename method as getEmployeeLanguages
      * 
      */
     public function getLanguage($empNumber, $languageCode = null, $languageType = null) {
@@ -570,19 +595,22 @@ class EmployeeService extends BaseService {
      * @param array() $languageToDelete Associative array of with language IDs as keys and fluency types as values
      * @return int Number of records deleted. False if $languageToDelete is empty
      * 
+     * @todo return number of entries deleted
+     * @todo rename method as deleteEmployeeLanguages
      */
     public function deleteLanguage($empNumber, $languagesToDelete) {
         return $this->getEmployeeDao()->deleteLanguage($empNumber, $languagesToDelete);
     }
 
     /**
-     * Assign a language or update an assigned language of an employee
+     * Save given Employee Language entry
      * 
      * @version 2.6.11
      * @param EmployeeLanguage $language Employee Language
      * @returns boolean 
      * 
-     * @todo Don't return any value
+     * @todo return saved Employee Language entry
+     * @todo rename method as saveEmployeeLanguage 
      * 
      */
     public function saveLanguage(EmployeeLanguage $language) {
@@ -599,9 +627,9 @@ class EmployeeService extends BaseService {
      * @version 2.6.11
      * @param int $empNumber 
      * @param int $licenseId
-     * @returns Doctrine_Collection Returns Doctrine_Collection of EmployeeLicense objects or single object
+     * @returns Doctrine_Collection/License Returns Doctrine_Collection of EmployeeLicense objects or single object
      * 
-     * @todo add two methods for getLicense() and getLicenseList()
+     * @todo rename method as getEmployeeLicences 
      * 
      */
     public function getLicense($empNumber, $licenseId = null) {
@@ -617,23 +645,14 @@ class EmployeeService extends BaseService {
      * @return boolean False if $licenseToDelete is empty or true otherwise
      * 
      * @todo Return number of items deleted
+     * @todo Rename method as deleteEmployeeLicenses
      * 
      */
     public function deleteLicense($empNumber, $licenseToDelete) {
         return $this->getEmployeeDao()->deleteLicense($empNumber, $licenseToDelete);
     }
 
-    /**
-     * save License of an Employee
-     * 
-     * @version 2.6.11
-     * @param EmployeeLicense $license
-     * @returns boolean
-     * 
-     * @todo need to throw exception if error occur
-     * @todo Don't return any value
-     * 
-     */
+
     /**
      * Assign a license or update an assigned license of an employee
      * 
@@ -641,7 +660,8 @@ class EmployeeService extends BaseService {
      * @param EmployeeLicense $license Populated EmployeeLicense object
      * @return boolean True always
      * 
-     * @todo Don't return any value
+     * @todo return saved Employee License entry
+     * @todo rename method as saveEmployeeLicense
      * 
      */    
     public function saveLicense(EmployeeLicense $license) {
@@ -657,7 +677,8 @@ class EmployeeService extends BaseService {
      * 
      * @return Doctrine_Collection Doctrine_Collection of EmployeeAttachment objects
      * 
-     * @todo Define already used screen name in PluginEmployeeAttachment
+     * @todo Define screen name constant in PluginEmployeeAttachment class 
+     * @todo rename method as getEmployeeAttachments
      */
     public function getAttachments($empNumber, $screen) {
         return $this->getEmployeeDao()->getAttachments($empNumber, $screen);
@@ -670,6 +691,9 @@ class EmployeeService extends BaseService {
      * @param int $empNumber Employee number
      * @param array $attachmentsToDelete Array of attachement IDs
      * @return boolean False if $attachmentsToDelete is empty or true otherwise
+     * 
+     * @todo rename method as deleteEmployeeAttachments
+     * @todo return number of items deleted
      */
     public function deleteAttachments($empNumber, $attachmentsToDelete) {
         return $this->getEmployeeDao()->deleteAttachments($empNumber, $attachmentsToDelete);
@@ -682,7 +706,9 @@ class EmployeeService extends BaseService {
      * @param int $empNumber Employee number 
      * @param int $attachmentId Attachment ID
      * 
-     * @return EmployeeAttachment/boolean EmployeeAttachment or false
+     * @return EmployeeAttachment/boolean If no records return false 
+     * 
+     * @todo rename method as getEmployeeAttachment
      */
     public function getAttachment($empNumber, $attachmentId) {
         return $this->getEmployeeDao()->getAttachment($empNumber, $attachmentId);
@@ -691,11 +717,15 @@ class EmployeeService extends BaseService {
     /**
      * Retrieve Employee Picture for an employee
      * 
+     * @ignore
+     * 
      * @version 2.6.11
      * @param int $empNumber Employee Number
      * @returns EmpPicture Employee Picture object
      * 
      * @throws PIMServiceException
+     * 
+     * @todo remove method and use getEmployeePicture
      */
     public function readEmployeePicture($empNumber) {
         try {
@@ -731,6 +761,8 @@ class EmployeeService extends BaseService {
      * @version 2.6.11
      * @returns Doctrine_Collection/Array Returns Doctrine_Collection of Employee objects
      * @throws PIMServiceException
+     * 
+     * @todo add orderField,oraderBy and include Deleted parameters
      */
     public function getSupervisorList() {
         try {
@@ -742,6 +774,8 @@ class EmployeeService extends BaseService {
 
     /**
      * Search Employee for given field and value 
+     * 
+     * @ignore
      * 
      * @version 2.6.11
      * @param String $field property name
@@ -766,6 +800,7 @@ class EmployeeService extends BaseService {
      * 
      * @throws PIMServiceException
      * 
+     * @todo Change parameter to include terminated and change logic 
      */
     public function getEmployeeCount($withoutTerminatedEmployees = false) {
         try {
@@ -776,12 +811,16 @@ class EmployeeService extends BaseService {
     }
 
     /**
-     * Retrieve Supervisor Employee List
+     * Get Direct subordinates of the given employee.
      * 
      * @version 2.6.11
      * @param int $supervisorId Supervisor Id
      * @returns Doctrine_Collection/Array Returns Doctrine_Collection of Employee objects
      * @throws PIMServiceException
+     * 
+     * @todo Rename to getSubordinates($empNumber)
+     * @todo improve DAO method performance , currently it execute few queries 
+     * 
      */
     public function getSupervisorEmployeeList($supervisorId) {
         try {
@@ -801,6 +840,11 @@ class EmployeeService extends BaseService {
      * @returns String Json string include employee name and employee id
      * 
      * @throws PIMServiceException
+     * 
+     * @todo Remove WorkShift Parameter , currently it's not used in DAO method 
+     * @todo Create Json string in service method instead of DAO method. DAO can
+     * return array of name and id values.
+     * @todo Improve performance of dao method
      */
     public function getEmployeeListAsJson($workShift = false) {
         try {
@@ -817,7 +861,7 @@ class EmployeeService extends BaseService {
      * @param int $supervisorId Supervisor Id
      * @param boolean $withoutTerminatedEmployees Terminated status
      * @throws PIMServiceException 
-     * 
+     * @todo parameter name $withoutTerminatedEmployees does not give the correct meaning
      */
     public function getSupervisorEmployeeChain($supervisorId, $withoutTerminatedEmployees = false) {
         try {
@@ -1446,6 +1490,8 @@ class EmployeeService extends BaseService {
      * @param string/array $subUnits Sub Unit IDs
      * @param type $includeTerminatedEmployees if true, includes terminated employees
      * @return Array of Employees
+     * 
+     * @todo duplicate??
      */
     public function getEmployeesBySubUnit($subUnits, $includeTerminatedEmployees = false) {
         return $this->getEmployeeDao()->getEmployeesBySubUnit($subUnits, $includeTerminatedEmployees); 
