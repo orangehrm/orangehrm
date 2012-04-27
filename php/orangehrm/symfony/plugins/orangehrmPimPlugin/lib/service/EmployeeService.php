@@ -811,14 +811,14 @@ class EmployeeService extends BaseService {
     }
 
     /**
-     * Get Direct subordinates of the given employee.
+     * Get Immediate subordinates of the given employee.
      * 
      * @version 2.6.11
      * @param int $supervisorId Supervisor Id
      * @returns Doctrine_Collection/Array Returns Doctrine_Collection of Employee objects
      * @throws PIMServiceException
      * 
-     * @todo Rename to getSubordinates($empNumber)
+     * @todo Rename to getImmediateSubordinates($empNumber)
      * @todo improve DAO method performance , currently it execute few queries 
      * 
      */
@@ -861,7 +861,10 @@ class EmployeeService extends BaseService {
      * @param int $supervisorId Supervisor Id
      * @param boolean $withoutTerminatedEmployees Terminated status
      * @throws PIMServiceException 
+     * 
      * @todo parameter name $withoutTerminatedEmployees does not give the correct meaning
+     * @todo rename method as getSubordinateChain($empNumber , $includeTerminated )
+     * @todo rename second parameter as include Terminated as change DAO method logic
      */
     public function getSupervisorEmployeeChain($supervisorId, $withoutTerminatedEmployees = false) {
         try {
@@ -873,12 +876,14 @@ class EmployeeService extends BaseService {
 
     /**
      * Filtering Employee by Sub unit
+     * @ignore
      * 
      * @version 2.6.11
      * @param Doctrine_Collection/Array $employeeList Employee List Collection
      * @param String $subUnitId
      * @returns array()
      * @throws PIMServiceException
+     * 
      */
     public function filterEmployeeListBySubUnit($employeeList, $subUnitId) {
         try {
@@ -911,7 +916,8 @@ class EmployeeService extends BaseService {
      * 
      * @throws PIMServiceException
      * 
-     * @todo rename method as delete Employees
+     * @todo rename method as deleteEmployees($empNumbers )
+     * @todo return number of deleted items
      * 
      */
     public function deleteEmployee($empList = array()) {
@@ -924,6 +930,8 @@ class EmployeeService extends BaseService {
 
     /**
      * Checks if the given employee id is in use.
+     * 
+     * @ignore
      * 
      * @version 2.6.11
      * @param  $employeeId
@@ -939,7 +947,9 @@ class EmployeeService extends BaseService {
     }
 
     /**
-     * Checks employee already exists for given first middle and last name 
+     * Checks employee already exists for given first middle and last name
+     * 
+     * @ignore 
      *
      * @version 2.6.11
      * @param string $firstName First Name of the Employee
@@ -947,6 +957,7 @@ class EmployeeService extends BaseService {
      * @param string $lastname Last name of the employee
      * @return boolean If Employee exists retrun true else return false 
      * @throws PIMServiceException
+     * 
      */
     public function checkForEmployeeWithSameName($first, $middle, $last) {
         try {
@@ -968,7 +979,6 @@ class EmployeeService extends BaseService {
      * @return int O if joined date is not set or joined date is after $date
      * @throws PIMServiceException If employee with given ID is not found
      * 
-     * @todo Rename the method to getYearsOfService()
      * @todo Improve year duration calculation 
      */
     public function getEmployeeYearsOfService($empNumber, $date) {
@@ -1020,6 +1030,7 @@ class EmployeeService extends BaseService {
         return $years;
     }
 
+    
     private function getBorderPeriodMonths($fromDate, $toDate) {
         $years = 0;
         $secondsOfDay = 60 * 60 * 24;
@@ -1060,6 +1071,8 @@ class EmployeeService extends BaseService {
      * @param int $empNumber Employee number
      * @return EmployeeWorkShift EmployeeWorkShift instance if found or false
      * @throws PIMServiceException
+     * 
+     * @todo rename method as getEmployeeWorkShift
      */
     public function getWorkShift($empNumber) {
         try {
@@ -1077,7 +1090,6 @@ class EmployeeService extends BaseService {
      * @return EmpUsTaxExemption EmpUsTaxExemption instance if found or NULL
      * @throws PIMServiceException
      * 
-     * @todo Rename the method to getTaxExemptions()
      */
     public function getEmployeeTaxExemptions($empNumber) {
         try {
@@ -1095,8 +1107,7 @@ class EmployeeService extends BaseService {
      * @return boolean true always
      * @throws PIMServiceException
      * 
-     * @todo Don't return value
-     * @todo Rename the method as saveTaxExemptions()
+     * @todo return saved EmpUsTaxExemption entry
      */
     public function saveEmployeeTaxExemptions(EmpUsTaxExemption $empUsTaxExemption) {
         try {
@@ -1116,6 +1127,7 @@ class EmployeeService extends BaseService {
      * 
      * @todo Don't return value
      * @todo Save only job details in corresponding DAO method
+     * @todo rename method as saveEmployeeJobDetails
      */
     public function saveJobDetails(Employee $employee) {
         try {
@@ -1128,12 +1140,13 @@ class EmployeeService extends BaseService {
     /**
      * Retrieves Membership details of an employee
      * 
+     * @ignore
+     * 
      * @version 2.6.11
      * @param int $empNumber Employee number
      * @return EmployeeMemberDetail A collection of EmployeeMemberDetail
      * @throws PIMServiceException
      * 
-     * @todo Rename the method as getMemberships()
      */
     public function getMembershipDetails($empNumber) {
         try {
@@ -1153,8 +1166,9 @@ class EmployeeService extends BaseService {
      * @return Doctrine_Collection A collection of EmployeeMemberDetail
      * @throws PIMServiceException
      * 
-     * @todo Rename the method as getMembership()
-     * @todo Return only one object
+     * @todo Rename the method as  getEmployeeMemberships()
+     * @todo Rename EmployeeMemberDetail Entity as EmployeeMembership
+     * @todo Make $membershipcode parameter as opational parameter and rename parameter as $membershipId 
      */
     public function getMembershipDetail($empNumber, $membershipCode) {
         try {
@@ -1175,16 +1189,8 @@ class EmployeeService extends BaseService {
      * @return boolean true always
      * @throws PIMServiceException
      * 
-     * @todo Rename the method as deleteMemberships()
-     * @todo Array elements can also be arrays rather than space-separated values
-     * @todo If all the deletions fail, need to return false
-     * @todo add parameter $empNumber
-     * @todo change $membershipsToDelete as: array $membershipsToDelete Associative array with membership types <br/>
-     *              code and membership codes. <br/>
-     *        Eg: array( array('membershipTypeCode'=>'MEM001',
-     *                         'membershipCode' => 'MME001'),
-     *                   array('membershipTypeCode'=>'MEM001',
-     *                         'membershipCode' => 'MME002'))
+     * @todo Add new method as deleteEmployeeMemberships($empNumber, $membershipIds )
+     * @todo return number of items deleted 
      * 
      * 
      */
@@ -1209,6 +1215,7 @@ class EmployeeService extends BaseService {
     
     /**
      * Retrieve non-assigned Currency List for given employee for the given salary grade
+     * @ignore
      * 
      * @version 2.6.11
      * @param int $empNumber Employee Number
@@ -1218,7 +1225,7 @@ class EmployeeService extends BaseService {
      *  if $asArray is false, otherwise returns an array
      * @throws PIMServiceException     
      * 
-     * @todo Rename to getNonAssignedCurrencies
+     * @todo Remove this method since it's not used anywhere
      */
     public function getUnAssignedCurrencyList($empNumber, $salaryGrade, $asArray = false) {
         try {
@@ -1231,12 +1238,16 @@ class EmployeeService extends BaseService {
     /**
      * Retrieve assigned Currency List for the given salary grade
      * 
+     * @ignore
+     * 
      * @version 2.6.11
      * @param string $salaryGrade Salary Grade
      * @param boolean $asArray
      * @return Doctrine_Collection/Array Returns Doctrine_Collection of CurrencyType objects
      *  if $asArray is false, otherwise returns an array
-     * @throws PIMServiceException     
+     * @throws PIMServiceException 
+     * 
+     * @todo remove this method if it's not used   
      * 
      */
     public function getAssignedCurrencyList($salaryGrade, $asArray = false) {
@@ -1255,9 +1266,9 @@ class EmployeeService extends BaseService {
      * @return boolean true always
      * @throws PIMServiceException
      * 
-     * @todo Don't return value
-     * @todo Rename to saveBasicSalary
-     * @todo EmpBasicsalary to EmpBasicSalary 
+     * @todo return saved EmpSalary entry 
+     * @todo Rename method as saveEmployeeSalary
+     * @todo rename Entity as EmpBasicsalary to EmpSalary 
      */
     public function saveEmpBasicsalary(EmpBasicsalary $basicSalary) {
         try {
@@ -1276,7 +1287,8 @@ class EmployeeService extends BaseService {
      * @return boolean true always
      * @throws PIMServiceException
      * 
-     * @todo return number deleted
+     * @todo return number deleted items
+     * @todo rename method as deleteEmployeeSalary
      */
     public function deleteSalary($empNumber, $salaryToDelete) {
         try {
@@ -1298,21 +1310,22 @@ class EmployeeService extends BaseService {
      * EmbBasicsalary collection. (Empty collection if no records available)
      * @throws DaoException
      * 
-     * @todo Exceptions should preserve previous exception
+     * @todo rename method as getEmployeeSalaries
      */
     public function getSalary($empNumber, $empSalaryId = null) {
         return $this->getEmployeeDao()->getSalary($empNumber, $empSalaryId);
     }   
 
     /**
-     * Retrieves supervisors of an employee
+     * Retrieves Immediate supervisors of an employee
      * 
      * @version 2.6.11
      * @param int $empNumber Employee Number
      * @return Doctrine_Collection A collection of ReportTo objects
      * @throws PIMServiceException
      * 
-     * @todo Rename the method as getSupervisors
+     * @todo Rename the method as getImmediateSupervisors
+     * @todo return Employee Entities instead of ReportTo Entities
      */
     public function getSupervisorListForEmployee($empNumber) {
 
@@ -1325,6 +1338,7 @@ class EmployeeService extends BaseService {
 
     /**
      * Retrieves subordinates of an employee
+     * @ignore
      * 
      * @version 2.6.11
      * @param int $empNumber Employee Number
@@ -1345,6 +1359,7 @@ class EmployeeService extends BaseService {
     /**
      * Retrieves report-to details of given supervisor and subordinate IDs
      * 
+     * @ignore
      * @version 2.6.11
      * @param int $supNumber
      * @param int $subNumber
@@ -1364,6 +1379,7 @@ class EmployeeService extends BaseService {
 
     /**
      * Deletes report-to details
+     * @ignore
      * 
      * @version 2.6.11
      * @param array $supOrSubListToDelete
@@ -1373,7 +1389,10 @@ class EmployeeService extends BaseService {
      * @todo Array elements can also be arrays rather than space-separated values
      * @todo Currently it returns last deleted record's return value instead return 
      * an overall value
-     * @todo Rename the method to deleteReportTo()
+     * @todo Add new deleteEmployeeSubordinates($empNumber , $subordinateIds)  method
+     * @todo Add new deleteEmployeeSupervisors($empNumber , $supervisorIds)  method
+     * $todo Add new saveEmployeeReportTo(ReportTo $reportTo)
+     * 
      */
     public function deleteReportToObject($supOrSubListToDelete) {
 
@@ -1455,6 +1474,7 @@ class EmployeeService extends BaseService {
      * @todo Change to take EmpTermination object. Dao should save 
      * EmpTermination and update termination id in employee table in one
      * transaction.
+     * 
      * @todo throw an exception if not successfull, no return type
      */
     public function terminateEmployment($empNumber, $empTerminationId) {
@@ -1480,6 +1500,8 @@ class EmployeeService extends BaseService {
      * @version 2.6.11
      * @param int $terminatedId Termination Id
      * @return EmpTermination EmpTermination object 
+     * 
+     * @todo raname method as getEmployeeTermination 
      */
     public function getEmpTerminationById($terminatedId) {
         return $this->getEmployeeDao()->getEmpTerminationById($terminatedId);
@@ -1489,21 +1511,24 @@ class EmployeeService extends BaseService {
      * Get Employees under the given subunits
      * @param string/array $subUnits Sub Unit IDs
      * @param type $includeTerminatedEmployees if true, includes terminated employees
-     * @return Array of Employees
+     * @return Employee Array of Employee Entities
      * 
-     * @todo duplicate??
+     * 
      */
     public function getEmployeesBySubUnit($subUnits, $includeTerminatedEmployees = false) {
         return $this->getEmployeeDao()->getEmployeesBySubUnit($subUnits, $includeTerminatedEmployees); 
     } 
     
-         /**
+   /**
      * Get employee list after sorting and filtering using given parameters.
      *
-     * @param array $sortField
-     * @param $sortOrder
-     * @param $filters
-     * @return array
+     * @param array $sortField String or Array
+     * @param array $sortOrder String or Array 
+     * @param array $filters 
+     * @param int $offset
+     * @param int $limit 
+     * 
+     * @return Employee array of Employee entities match with filters 
      */
     public function searchEmployeeList($sortField = 'empNumber', $sortOrder = 'asc', array $filters = null, $offset = null, $limit = null) {
             return $this->getEmployeeDao()->searchEmployeeList($sortField,$sortOrder,$filters,$offset,$limit);
@@ -1513,6 +1538,7 @@ class EmployeeService extends BaseService {
      * Get Search Employee Count
      *
      * @param $filters
+     * 
      * @return Inteager
      */
     public function getSearchEmployeeCount(array $filters = null) {
