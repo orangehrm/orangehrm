@@ -69,7 +69,7 @@ class ohrmWidgetEmployeeNameAutoFill extends sfWidgetFormInput {
                     });
                     
                 if( loadingMethod != 'ajax'){
-                    if (nameField.val() == '') {
+                    if (nameField.val() == '' || nameField.val() == typeHint) {
                         nameField.val(typeHint).addClass(hintClass);
                     }
 
@@ -83,6 +83,7 @@ class ohrmWidgetEmployeeNameAutoFill extends sfWidgetFormInput {
                       ,matchContains:true
                         }).result(function(event, item) {
                             idStoreField.val(item.id);
+                            $(this).valid();
                         }
 
                     );
