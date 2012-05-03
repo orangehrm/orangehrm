@@ -931,12 +931,14 @@ class EmployeeService extends BaseService {
     /**
      * Checks if the given employee id is in use.
      * 
-     * @ignore
      * 
      * @version 2.6.11
      * @param  $employeeId
-     * @return EmployeeService.employeeDao.isEmployeeIdInUse
+     * @return boolean
      * @throws PIMServiceException
+     * 
+     * @todo rename method as isExistingEmployeeId( $employeeId )
+     * @
      */
     public function isEmployeeIdInUse($employeeId) {
         try {

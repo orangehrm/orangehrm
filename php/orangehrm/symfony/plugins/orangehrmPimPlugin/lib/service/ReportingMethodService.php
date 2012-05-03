@@ -17,8 +17,18 @@
  * if not, write to the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
  * Boston, MA  02110-1301, USA
  */
+
+/**
+ * ReportingMethod Service
+ * @package pim
+ * @todo: All methods to return PIMServiceException or DaoException consistantly
+ * @todo Don't wrap DAO exceptions.
+ * @todo Deside if all methods need to have try catch blocks
+ */
+
 class ReportingMethodService extends BaseService {
     
+    /** @property ReportingMethodDao $reportingMethodDao */
     private $reportingMethodDao;
     
     /**
@@ -29,7 +39,7 @@ class ReportingMethodService extends BaseService {
         if (!($this->reportingMethodDao instanceof ReportingMethodDao)) {
             $this->reportingMethodDao = new ReportingMethodDao();
         }
-        
+
         return $this->reportingMethodDao;
     }
 
@@ -48,6 +58,8 @@ class ReportingMethodService extends BaseService {
      * @version 2.6.12 
      * @param ReportingMethod $reportingMethod 
      * @return NULL Doesn't return a value
+     * 
+     * @todo return saved entity
      */
     public function saveReportingMethod(ReportingMethod $reportingMethod) {        
         return $this->getReportingMethodDao()->saveReportingMethod($reportingMethod);        
@@ -59,6 +71,8 @@ class ReportingMethodService extends BaseService {
      * @version 2.6.12 
      * @param int $id 
      * @return ReportingMethod An instance of ReportingMethod or NULL
+     * 
+     * @todo rename method as getReportingMethod( $id )
      */    
     public function getReportingMethodById($id) {
         return $this->getReportingMethodDao()->getReportingMethodById($id);
@@ -94,8 +108,8 @@ class ReportingMethodService extends BaseService {
      * @param array $toDeleteIds An array of IDs to be deleted
      * @return int Number of records deleted
      */    
-    public function deleteReportingMethods($toDeleteIds) {
-        return $this->getReportingMethodDao()->deleteReportingMethods($toDeleteIds);
+    public function deleteReportingMethods($ids) {
+        return $this->getReportingMethodDao()->deleteReportingMethods($ids);
     }
 
     /**
@@ -106,6 +120,8 @@ class ReportingMethodService extends BaseService {
      * @version 2.6.12
      * @param string $reportingMethodName ReportingMethod name that needs to be checked
      * @return boolean
+     * 
+     * 
      */
     public function isExistingReportingMethodName($reportingMethodName) {
         return $this->getReportingMethodDao()->isExistingReportingMethodName($reportingMethodName);

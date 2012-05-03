@@ -17,6 +17,15 @@
  * if not, write to the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
  * Boston, MA  02110-1301, USA
  */
+
+/**
+ * TerminationReason Service
+ * @package pim
+ * @todo: All methods to return PIMServiceException or DaoException consistantly
+ * @todo Don't wrap DAO exceptions.
+ * @todo Deside if all methods need to have try catch blocks
+ */
+
 class TerminationReasonService extends BaseService {
     
     private $terminationReasonDao;
@@ -48,6 +57,8 @@ class TerminationReasonService extends BaseService {
      * @version 2.6.12 
      * @param TerminationReason $terminationReason 
      * @return NULL Doesn't return a value
+     * 
+     * @todo return saved entity 
      */
     public function saveTerminationReason(TerminationReason $terminationReason) {        
         $this->getTerminationReasonDao()->saveTerminationReason($terminationReason);        
@@ -59,6 +70,8 @@ class TerminationReasonService extends BaseService {
      * @version 2.6.12 
      * @param int $id 
      * @return TerminationReason An instance of TerminationReason or NULL
+     * 
+     * @todo rename method as getTerminationReason( $id )
      */    
     public function getTerminationReasonById($id) {
         return $this->getTerminationReasonDao()->getTerminationReasonById($id);
@@ -91,11 +104,12 @@ class TerminationReasonService extends BaseService {
      * Deletes termination reasons
      * 
      * @version 2.6.12 
-     * @param array $toDeleteIds An array of IDs to be deleted
+     * 
+     * @param array $ids An array of IDs to be deleted
      * @return int Number of records deleted
      */    
-    public function deleteTerminationReasons($toDeleteIds) {
-        return $this->getTerminationReasonDao()->deleteTerminationReasons($toDeleteIds);
+    public function deleteTerminationReasons($ids) {
+        return $this->getTerminationReasonDao()->deleteTerminationReasons($ids);
     }
 
     /**
@@ -106,6 +120,7 @@ class TerminationReasonService extends BaseService {
      * @version 2.6.12
      * @param string $terminationReasonName Termination reason name that needs to be checked
      * @return boolean
+     * 
      */
     public function isExistingTerminationReasonName($terminationReasonName) {
         return $this->getTerminationReasonDao()->isExistingTerminationReasonName($terminationReasonName);
@@ -114,8 +129,12 @@ class TerminationReasonService extends BaseService {
     /**
      * Checks whether the given IDs have been assigned to any employee
      * 
+     * @ignore
+     * 
      * @param array $idArray Reason IDs
      * @return boolean 
+     * 
+     * @todo rename method as isTerminationReasonsInUse 
      */
     public function isReasonInUse($idArray) {
         return $this->getTerminationReasonDao()->isReasonInUse($idArray);

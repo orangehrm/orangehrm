@@ -1,8 +1,28 @@
 <?php
 /**
- * CustomFieldsService class
+ * OrangeHRM is a comprehensive Human Resource Management (HRM) System that captures
+ * all the essential functionalities required for any enterprise.
+ * Copyright (C) 2006 OrangeHRM Inc., http://www.orangehrm.com
  *
- * @author Sujith T
+ * OrangeHRM is free software; you can redistribute it and/or modify it under the terms of
+ * the GNU General Public License as published by the Free Software Foundation; either
+ * version 2 of the License, or (at your option) any later version.
+ *
+ * OrangeHRM is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY;
+ * without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+ * See the GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License along with this program;
+ * if not, write to the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
+ * Boston, MA  02110-1301, USA
+ */
+
+/**
+ * CustomFields Service
+ * @package pim
+ * @todo: All methods to return PIMServiceException or DaoException consistantly
+ * @todo Don't wrap DAO exceptions.
+ * @todo Deside if all methods need to have try catch blocks
  */
 class CustomFieldsService extends BaseService {
 	//not sure of the business purpose of the constants, need to check their references
@@ -20,6 +40,8 @@ class CustomFieldsService extends BaseService {
    }
 
    /**
+    * @ignore
+    * 
     * Sets CustomFieldsDao
     * @param CustomFieldsDao $customFieldsDao
     */
@@ -28,6 +50,8 @@ class CustomFieldsService extends BaseService {
    }
 
    /**
+    * @ignore
+    * 
     * Returns CustomFieldsDao
     * @return CustomFieldsDao
     */
@@ -41,6 +65,8 @@ class CustomFieldsService extends BaseService {
     * @param String $orderBy
     * @returns Collection
     * @throws AdminServiceException
+    * 
+    * @todo rename method as searchCustomFieldList( $sortField , $sortOrder, $filters )
     */
    public function getCustomFieldList($screen = null, $orderField = "field_num", $orderBy = "ASC") {
       try {
@@ -55,6 +81,9 @@ class CustomFieldsService extends BaseService {
     * @param CustomFields $customFields
     * @returns boolean
     * @throws AdminServiceException, DuplicateNameException
+    * 
+    * @todo return saved entity
+    * @todo rename entity as CustomField
     */
    public function saveCustomField(CustomFields $customFields) {
       try {
@@ -72,6 +101,9 @@ class CustomFieldsService extends BaseService {
     * @param array() $customFieldList
     * @returns boolean
     * @throws AdminServiceException
+    * 
+    * @todo rename method as deleteCustomFields
+    * @todo return number of items deleted
     */
    public function deleteCustomField($customFieldList) {
       try {
@@ -88,6 +120,8 @@ class CustomFieldsService extends BaseService {
     * @param int $id
     * @returns CustomFields
     * @throws AdminServiceException
+    * 
+    * @todo rename method as getCustomeField
     */
    public function readCustomField($id) {
       try {
@@ -98,9 +132,13 @@ class CustomFieldsService extends BaseService {
    }
     
    /**
+    * @ignore
+    * 
     * Retrievs available field numbers
     * @returns array()
     * @throws AdminServiceException
+    * 
+    * @todo remove method since it not used any where 
     */
    public function getAvailableFieldNumbers() {
       try {
@@ -124,4 +162,3 @@ class CustomFieldsService extends BaseService {
       }
    }
 }
-?>
