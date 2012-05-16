@@ -250,9 +250,13 @@
 
   <target name="phpdoc" depends="prepare">
       <phpdoc title="OrangeHRM API Documentation" destdir="${apidocs.dir}"
+          sourcecode="true"
           output="HTML:Smarty:PHP">
               <fileset dir="${project.dir}/symfony/plugins/orangehrmPimPlugin/lib/service">
-                    <include name="EmployeeService.php" />
+                  <include name="EmployeeService.php" />
+                  <include name="CustomFieldsService.php" />
+                  <include name="ReportingMethodService.php" />
+                  <include name="TerminationReasonService.php" />
               </fileset>
           </phpdoc>
   </target>
