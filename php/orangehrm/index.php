@@ -72,7 +72,15 @@ if (file_exists('symfony/config/databases.yml')) {
         
         $i18n = $context->getI18N();
         $cultureElements = explode('_', $context->getUser()->getCulture()); // Used in <html> tag
-                
+        
+        /* For checking TimesheetPeriodStartDaySet status : Begins */
+        $timesheetPeriodService = new TimesheetPeriodService();
+        if ($timesheetPeriodService->isTimesheetPeriodDefined() == 'Yes') {
+            $_SESSION['timePeriodSet'] = 'Yes';
+        } else {
+            $_SESSION['timePeriodSet'] = 'No';
+        }
+        /* For checking TimesheetPeriodStartDaySet status : Ends */    
     }
 }
 
@@ -158,7 +166,7 @@ $arrAllRights = array(Admin => $arrRights,
 require_once ROOT_PATH . '/lib/models/maintenance/Rights.php';
 require_once ROOT_PATH . '/lib/models/maintenance/UserGroups.php';
 require_once ROOT_PATH . '/lib/common/CommonFunctions.php';
-require_once ROOT_PATH . '/lib/common/Config.php';
+//require_once ROOT_PATH . '/lib/common/Config.php'; //using ConfigService instead
 require_once ROOT_PATH . '/lib/common/authorize.php';
 
 $_SESSION['path'] = ROOT_PATH;
@@ -183,17 +191,6 @@ foreach ($varsToClean as $var) {
         $_GET[$var] = CommonFunctions::cleanAlphaNumericIdField($_GET[$var]);
     }
 }
-
-
-/* For checking TimesheetPeriodStartDaySet status : Begins */
-
-//This should be change using $timesheetPeriodService->isTimesheetPeriodDefined() method to support symfony version of the timesheet period 
-if (Config::getTimePeriodSet()) {
-    $_SESSION['timePeriodSet'] = 'Yes';
-} else {
-    $_SESSION['timePeriodSet'] = 'No';
-}
-/* For checking TimesheetPeriodStartDaySet status : Ends */
 
 if ($_SESSION['isAdmin'] == 'Yes') {
     $rights = new Rights();
@@ -257,7 +254,8 @@ $styleSheet = CommonFunctions::getTheme();
 $authorizeObj = new authorize($_SESSION['empID'], $_SESSION['isAdmin']);
 
 // Default leave home page
-$leavePeriodDefined = Config::isLeavePeriodDefined();
+$configService = new ConfigService();
+$leavePeriodDefined = $configService->isLeavePeriodDefined();
 if (!$leavePeriodDefined) {
     if ($authorizeObj->isAdmin()) {
         $leaveHomePage = './symfony/web/index.php/leave/defineLeavePeriod';
