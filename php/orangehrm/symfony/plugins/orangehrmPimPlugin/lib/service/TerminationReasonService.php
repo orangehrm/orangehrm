@@ -22,7 +22,6 @@
  * TerminationReason Service
  * @package pim
  * Rename to TerminationConfigurationReasonService
- * @todo Deside if all methods need to have try catch blocks
  */
 
 class TerminationReasonService extends BaseService {

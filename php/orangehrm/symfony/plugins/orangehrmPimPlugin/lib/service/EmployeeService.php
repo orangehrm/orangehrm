@@ -745,7 +745,7 @@ class EmployeeService extends BaseService {
      * @return Doctrine_Collection/Array Returns Doctrine_Collection of Employee objects
      * @throws PIMServiceException
      * 
-     * @TODO: Change default $orderField to last name
+     * @todo Change default $orderField to last name
      */
     public function getEmployeeList($orderField = 'empNumber', $orderBy = 'ASC', $includeTerminatedEmployees = false) {
         try {
@@ -940,7 +940,6 @@ class EmployeeService extends BaseService {
      * @throws PIMServiceException
      * 
      * @todo rename method as isExistingEmployeeId( $employeeId )
-     * @
      */
     public function isEmployeeIdInUse($employeeId) {
         try {
