@@ -20,9 +20,8 @@
 /**
  * CustomFields Service
  * @package pim
- * @todo: All methods to return PIMServiceException or DaoException consistantly
- * @todo Don't wrap DAO exceptions.
- * @todo Deside if all methods need to have try catch blocks
+ * @todo Rename to CustomFieldsConfigurationService
+ * @todo Remove exceptions that only wraps DAO exceptions
  */
 class CustomFieldsService extends BaseService {
 	//not sure of the business purpose of the constants, need to check their references

@@ -21,8 +21,7 @@
 /**
  * ReportingMethod Service
  * @package pim
- * @todo: All methods to return PIMServiceException or DaoException consistantly
- * @todo Don't wrap DAO exceptions.
+ * @todo Rename to ReportingMethodConfigurationService
  * @todo Deside if all methods need to have try catch blocks
  */
 

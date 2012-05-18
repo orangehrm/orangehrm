@@ -21,11 +21,12 @@
 /**
  * Employee Service
  * @package pim
- * @todo: Add get/save/delete for all 
+ * @todo Remove exceptions that only wraps DAO exceptions
+ * @todo Add get/save/delete for all 
  * @todo Add deleteReportingMethod() function
  * @todo Add getEmployeeImmigrationRecords method
  * @todo Add getEmployeeChildren method
- * @todo: All methods to return PIMServiceException or DaoException consistantly
+ * @todo All methods to return PIMServiceException or DaoException consistantly
  * @todo Don't wrap DAO exceptions.
  * @todo Deside if all methods need to have try catch blocks
  */
@@ -80,7 +81,6 @@ class EmployeeService extends BaseService {
      * 
      * @todo Return Saved Employee
      * @todo Change method name to saveEmployee
-     * @todo Improve exception, pass $e
      */
     public function addEmployee(Employee $employee) {
         try {
@@ -240,7 +240,6 @@ class EmployeeService extends BaseService {
      * 
      * @todo Rename to deleteEmployeeImmigrationRecords
      * @todo return number of entries deleted (currently returns true always)
-     * @todo Exceptions should preserve previous exception
      */
     public function deleteImmigration($empNumber, $entriesToDelete) {
 
@@ -395,6 +394,7 @@ class EmployeeService extends BaseService {
      * Record collection. (Empty collection if no records available)
      * 
      * @todo rename to getEmployeeImmigrationRecords
+     * @todo rename $sequenceNo to a meaningful values. Ex: $recordId
      */
     public function getEmployeePassport($empNumber, $sequenceNo = null) {
         return $this->getEmployeeDao()->getEmployeePassport($empNumber, $sequenceNo);
@@ -427,7 +427,7 @@ class EmployeeService extends BaseService {
      * EmpWorkExperience collection. (Empty collection if no records available)
      * @throws DaoException
      * 
-     * @todo Rename method as getEmployeeWorkExperience
+     * @todo Rename method as getEmployeeWorkExperienceRecords
      */
     public function getWorkExperience($empNumber, $sequenceNo = null) {
         return $this->getEmployeeDao()->getWorkExperience($empNumber, $sequenceNo);
@@ -445,7 +445,7 @@ class EmployeeService extends BaseService {
      * @throws DaoException
      * 
      * @todo return number of entries deleted
-     * @todo rename method as deleteEmployeeWorkExperience
+     * @todo rename method as deleteEmployeeWorkExperienceRecords
      */
     public function deleteWorkExperience($empNumber, $workExperienceToDelete) {
         return $this->getEmployeeDao()->deleteWorkExperience($empNumber, $workExperienceToDelete);
@@ -477,7 +477,6 @@ class EmployeeService extends BaseService {
      * @return Collection/Education If education id is given returns matching 
      * EmpEducation or false if not found. If educationId is not given, returns 
      * EmpEducation collection. (Empty collection if no records available)
-     * @throws DaoException
      * 
      * @todo rename method as getEmployeeEducations
      * @todo If EducationId is given return EmployeeEducation instead of Doctrine_Collection
@@ -496,7 +495,7 @@ class EmployeeService extends BaseService {
      * @throws DaoException
      * 
      * @todo return number of entries deleted (currently return value is based on $educationToDelete not actual deleted records)
-     * @todo rename method as deleteEmployeeEducations
+     * @todo rename method as deleteEmployeeEducationRecords
      */
     public function deleteEducation($empNumber, $educationToDelete) {
         return $this->getEmployeeDao()->deleteEducation($empNumber, $educationToDelete);
@@ -679,6 +678,7 @@ class EmployeeService extends BaseService {
      * 
      * @todo Define screen name constant in PluginEmployeeAttachment class 
      * @todo rename method as getEmployeeAttachments
+     * @todo Define the values for $screen as constants use constants names here
      */
     public function getAttachments($empNumber, $screen) {
         return $this->getEmployeeDao()->getAttachments($empNumber, $screen);
@@ -831,6 +831,8 @@ class EmployeeService extends BaseService {
     }
 
     /**
+     * @ignore
+     * 
      * Returns Employee List as Json string 
      * 
      * if workShift parameter is true json string include employee work shift value 
@@ -974,6 +976,8 @@ class EmployeeService extends BaseService {
      * as on given date
      * 
      * Returns 0 if employee's joined date is not set.
+     * Calculates based on joined data and given date.
+     * Does not consider employment terminations happened in between
      * 
      * @version 2.6.11
      * @param int $empNumber
@@ -1163,7 +1167,6 @@ class EmployeeService extends BaseService {
      * 
      * @version 2.6.11
      * @param int $empNumber Employee number
-     * @param string $membershipType
      * @param string $membershipCode
      * @return Doctrine_Collection A collection of EmployeeMemberDetail
      * @throws PIMServiceException
@@ -1285,12 +1288,14 @@ class EmployeeService extends BaseService {
      * 
      * @version 2.6.11
      * @param int $empNumber Employee Number
-     * @param array $salaryToDelete Array of EmpBasicsalary IDs
+     * @param array $salaryToDelete Array of salary IDs
      * @return boolean true always
      * @throws PIMServiceException
      * 
      * @todo return number deleted items
-     * @todo rename method as deleteEmployeeSalary
+     * @todo rename method as deleteEmployeeSalaries
+     * @todo Change parameter to $salaryIds
+     * @todo Change EmpBasicSalary ORM to Salary
      */
     public function deleteSalary($empNumber, $salaryToDelete) {
         try {
@@ -1484,13 +1489,13 @@ class EmployeeService extends BaseService {
     }
 
     /**
-     * Activate employment for given employee
+     * Activates terminated employment for given employee
      * 
      * @version 2.6.11
      * @param int $empNumber Employee Number
      * @return int 1 if successfull, 0 if empNumber is not available 
      * 
-     * @todo throw an exception if not successfull, no return type 
+     * @todo Rename to activateTerminatedEmployment
      */
     public function activateEmployment($empNumber) {
         return $this->getEmployeeDao()->activateEmployment($empNumber);
@@ -1501,9 +1506,9 @@ class EmployeeService extends BaseService {
      * 
      * @version 2.6.11
      * @param int $terminatedId Termination Id
-     * @return EmpTermination EmpTermination object 
+     * @return EmpTermination EmpTermination object
      * 
-     * @todo raname method as getEmployeeTermination 
+     * @todo raname method as getEmployeeTerminationDetails 
      */
     public function getEmpTerminationById($terminatedId) {
         return $this->getEmployeeDao()->getEmpTerminationById($terminatedId);
@@ -1511,11 +1516,13 @@ class EmployeeService extends BaseService {
     
     /**
      * Get Employees under the given subunits
+     * 
+     * Only returns the employees in given subunits, not in sub unit hierarchies.
+     * 
      * @param string/array $subUnits Sub Unit IDs
      * @param type $includeTerminatedEmployees if true, includes terminated employees
-     * @return Employee Array of Employee Entities
      * 
-     * 
+     * @return Doctrine_Collection of Employee objects
      */
     public function getEmployeesBySubUnit($subUnits, $includeTerminatedEmployees = false) {
         return $this->getEmployeeDao()->getEmployeesBySubUnit($subUnits, $includeTerminatedEmployees); 
@@ -1530,7 +1537,10 @@ class EmployeeService extends BaseService {
      * @param int $offset
      * @param int $limit 
      * 
-     * @return Employee array of Employee entities match with filters 
+     * @return Employee array of Employee entities match with filters
+     * 
+     * @todo Rename to searchEmployees(ParameterHolder $parameterObject)
+     * @todo Use an instance of a parameter holder instead of set of parameters
      */
     public function searchEmployeeList($sortField = 'empNumber', $sortOrder = 'asc', array $filters = null, $offset = null, $limit = null) {
             return $this->getEmployeeDao()->searchEmployeeList($sortField,$sortOrder,$filters,$offset,$limit);
@@ -1542,6 +1552,7 @@ class EmployeeService extends BaseService {
      * @param $filters
      * 
      * @return Inteager
+     * @todo Use a parameter object instead of $filters
      */
     public function getSearchEmployeeCount(array $filters = null) {
         return $this->getEmployeeDao()->getSearchEmployeeCount($filters);

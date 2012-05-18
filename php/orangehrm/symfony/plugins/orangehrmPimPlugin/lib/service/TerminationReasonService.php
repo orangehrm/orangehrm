@@ -21,8 +21,7 @@
 /**
  * TerminationReason Service
  * @package pim
- * @todo: All methods to return PIMServiceException or DaoException consistantly
- * @todo Don't wrap DAO exceptions.
+ * Rename to TerminationConfigurationReasonService
  * @todo Deside if all methods need to have try catch blocks
  */
 
