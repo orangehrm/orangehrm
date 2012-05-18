@@ -258,6 +258,9 @@
                   <include name="ReportingMethodService.php" />
                   <include name="TerminationReasonService.php" />
               </fileset>
+              <fileset dir="${project.dir}/symfony/lib/model/doctrine/orangehrmPimPlugin">
+                  <include name="Employee.class.php" />
+              </fileset>              
           </phpdoc>
   </target>
 
