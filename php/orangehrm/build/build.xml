@@ -249,9 +249,12 @@
   </target>
 
   <target name="phpdoc" depends="prepare">
-      <phpdoc title="OrangeHRM API Documentation" destdir="${apidocs.dir}"
-          sourcecode="true"
-          output="HTML:Smarty:PHP">
+      <exec command="phpdoc" checkreturn="true" dir="${project.basedir}" passthru="true"/>
+  </target>
+
+  <target name="phpdoc-old" depends="prepare">
+      <phpdoc2 title="OrangeHRM API Documentation" destdir="${apidocs.dir}"
+          template="responsive">
               <fileset dir="${project.dir}/symfony/plugins/orangehrmPimPlugin/lib/service">
                   <include name="EmployeeService.php" />
                   <include name="CustomFieldsService.php" />
@@ -261,7 +264,13 @@
               <fileset dir="${project.dir}/symfony/lib/model/doctrine/orangehrmPimPlugin">
                   <include name="Employee.class.php" />
               </fileset>              
-          </phpdoc>
+              <fileset dir="${project.dir}/symfony/lib/model/doctrine/orangehrmPimPlugin/base">
+                  <include name="BaseEmployee.class.php" />
+              </fileset>              
+              <fileset dir="${project.dir}/symfony/plugins/orangehrmPimPlugin/lib/model/doctrine">
+                  <include name="PluginEmployee.class.php" />
+              </fileset>              
+          </phpdoc2>
   </target>
 
   <target name="lint" depends="prepare">

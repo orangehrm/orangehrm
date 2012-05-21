@@ -20,8 +20,10 @@
 
 /**
  * TerminationReason Service
- * @package pim
+ * 
  * Rename to TerminationConfigurationReasonService
+ * 
+  * @package pim
  */
 
 class TerminationReasonService extends BaseService {

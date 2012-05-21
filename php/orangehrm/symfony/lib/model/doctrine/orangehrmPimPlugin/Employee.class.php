@@ -16,6 +16,10 @@
  * if not, write to the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
  * Boston, MA  02110-1301, USA
  */
+
+/**
+ * Employee class
+ */
 class Employee extends PluginEmployee {
 
     const GENDER_MALE = 1;
