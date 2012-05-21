@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<phpdoc>
+  <title>OrangeHRM API</title>
+  <parser>
+    <target>dist/apidocs</target>
+    <default-package-name>orangehrm</default-package-name>
+  </parser>
+  <transformer>
+    <target>dist/apidocs</target>
+  </transformer>
+  <files>
+      <file>../symfony/plugins/orangehrmPimPlugin/lib/service/EmployeeService.php</file>
+      <file>../symfony/plugins/orangehrmPimPlugin/lib/service/CustomFieldsService.php</file>
+      <file>../symfony/plugins/orangehrmPimPlugin/lib/service/ReportingMethodService.php</file>
+      <file>../symfony/plugins/orangehrmPimPlugin/lib/service/TerminationReasonService.php</file>
+      <file>../symfony/lib/model/doctrine/orangehrmPimPlugin/Employee.class.php</file>
+      <file>../symfony/lib/model/doctrine/orangehrmPimPlugin/base/BaseEmployee.class.php</file>
+      <file>../symfony/plugins/orangehrmPimPlugin/lib/model/doctrine/PluginEmployee.class.php</file>
+  </files>
+</phpdoc>
