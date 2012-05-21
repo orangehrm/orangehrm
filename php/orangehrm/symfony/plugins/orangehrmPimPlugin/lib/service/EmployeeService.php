@@ -32,6 +32,9 @@
  */
 class EmployeeService extends BaseService {
 
+    /**
+     * @ignore
+     */
     private $employeeDao;
 
     /**
@@ -554,7 +557,7 @@ class EmployeeService extends BaseService {
      * Save the given EmployeeSkill entry.
      * 
      * @version 2.6.11
-     * @param EmployeeSkill $education EmployeeSkill object to save
+     * @param EmployeeSkill $skill EmployeeSkill object to save
      * @returns boolean true
      * 
      * @todo reurn saved Employee Skill object
@@ -574,7 +577,7 @@ class EmployeeService extends BaseService {
      * If Language code and Language type are set, It returns a Language for Employee  
      * 
      * @version 2.6.11
-     * @param int $empNumbers Employee Number
+     * @param int $empNumber Employee Number
      * @param String $languageCode Language Code 
      * @param String $languageType Language Type
      * @return Doctrine_Collection/Array Returns Doctrine_Collection of EmployeeLanguage objects  or EmployeeLanguage object
@@ -591,8 +594,8 @@ class EmployeeService extends BaseService {
      * 
      * @version 2.6.11
      * @param int $empNumber Employee Number
-     * @param array() $languageToDelete Associative array of with language IDs as keys and fluency types as values
-     * @return int Number of records deleted. False if $languageToDelete is empty
+     * @param array() $languagesToDelete Associative array of with language IDs as keys and fluency types as values
+     * @return int Number of records deleted. False if $languagesToDelete is empty
      * 
      * @todo return number of entries deleted
      * @todo rename method as deleteEmployeeLanguages
@@ -1035,7 +1038,12 @@ class EmployeeService extends BaseService {
         return $years;
     }
 
-    
+    /**
+     * @ignore
+     * @param type $fromDate
+     * @param type $toDate
+     * @return type 
+     */
     private function getBorderPeriodMonths($fromDate, $toDate) {
         $years = 0;
         $secondsOfDay = 60 * 60 * 24;
@@ -1266,7 +1274,7 @@ class EmployeeService extends BaseService {
      * Saves basic salary of an employee
      * 
      * @version 2.6.11
-     * @param EmpBasicsalary $empBasicsalary
+     * @param EmpBasicsalary $basicSalary
      * @return boolean true always
      * @throws PIMServiceException
      * 
@@ -1519,7 +1527,7 @@ class EmployeeService extends BaseService {
      * Only returns the employees in given subunits, not in sub unit hierarchies.
      * 
      * @param string/array $subUnits Sub Unit IDs
-     * @param type $includeTerminatedEmployees if true, includes terminated employees
+     * @param boolean $includeTerminatedEmployees if true, includes terminated employees
      * 
      * @return Doctrine_Collection of Employee objects
      */
@@ -1548,7 +1556,7 @@ class EmployeeService extends BaseService {
     /**
      * Get Search Employee Count
      *
-     * @param $filters
+     * @param array $filters
      * 
      * @return Inteager
      * @todo Use a parameter object instead of $filters
