@@ -28,6 +28,10 @@
 
 class TerminationReasonService extends BaseService {
     
+    /**
+     * @ignore
+     * @var TerminationReasonDao 
+     */
     private $terminationReasonDao;
     
     /**

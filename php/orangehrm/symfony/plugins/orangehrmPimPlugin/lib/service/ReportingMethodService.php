@@ -27,7 +27,10 @@
 
 class ReportingMethodService extends BaseService {
     
-    /** @property ReportingMethodDao $reportingMethodDao */
+    /**
+     * @ignore
+     * @var ReportingMethodDao 
+     */
     private $reportingMethodDao;
     
     /**
@@ -104,7 +107,7 @@ class ReportingMethodService extends BaseService {
      * Deletes reportingMethods
      * 
      * @version 2.6.12 
-     * @param array $toDeleteIds An array of IDs to be deleted
+     * @param array $ids An array of IDs to be deleted
      * @return int Number of records deleted
      */    
     public function deleteReportingMethods($ids) {

@@ -32,6 +32,10 @@ class Employee extends PluginEmployee {
 
     private $employeeService;
 
+    /**
+     * @ignore
+     * @return type 
+     */
     public function getEmployeeService() {
         if(is_null($this->employeeService)) {
             $this->employeeService = new EmployeeService();
@@ -39,7 +43,9 @@ class Employee extends PluginEmployee {
         }
         return $this->employeeService;
     }
+    
     /**
+     * @ignore
      * Set up model. Calls base class Setup and adds encryption support
      * for ssn.
      */
@@ -209,7 +215,7 @@ class Employee extends PluginEmployee {
     /**
      * Returns education details with given code, or null if not found.
      *
-     * @param int $eduCode Education code
+     * @param int $skillCode Education code
      *
      * @return EmpEducation Education details with given code.
      */
@@ -429,7 +435,12 @@ class Employee extends PluginEmployee {
         }
         return $years;
     }
-    
+    /**
+     * @ignore
+     * 
+     * @param type $supervisorId
+     * @return type 
+     */
     public function isSubordinateOf($supervisorId) {
 //        $this->supervisors = $this->getSupervisors();
 //        foreach ($this->supervisors as $supervisor) {
@@ -454,8 +465,8 @@ class Employee extends PluginEmployee {
     }
     
     /**
-     * get operational Country of Employee 
-     * @return type 
+     * get operational Country of an Employee 
+     * @return OperationalCountry 
      */
     public function getOperationalCountry(){
         $employeeLocations  = $this->getLocations();

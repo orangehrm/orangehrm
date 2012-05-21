@@ -19,6 +19,10 @@
  */
 abstract class PluginEmployee extends BaseEmployee {
 
+    /**
+     * Get First name and middle name
+     * @return string 
+     */
     public function getFirstAndMiddleName() {
         $name = $this->getFirstName();
         if ($this->getMiddleName() != '') {
@@ -28,6 +32,10 @@ abstract class PluginEmployee extends BaseEmployee {
         return $name;
     }
 
+    /**
+     * @ignore
+     * @return type 
+     */
     public function getFullLastName() {
         $terminationId = $this->getTerminationId();
         $name = (!empty($terminationId)) ? $this->getLastName() . " (" . __('Past Employee') . ")" : $this->getLastName();
@@ -35,6 +43,11 @@ abstract class PluginEmployee extends BaseEmployee {
         return $name;
     }
 
+    /**
+     * Get Job title name of an Employee
+     * 
+     * @return string 
+     */
     public function getJobTitleName() {
         $jobTitle = $this->getJobTitle();
         $jobTitleName = '';

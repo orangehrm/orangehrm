@@ -29,6 +29,10 @@ class CustomFieldsService extends BaseService {
    const FIELD_TYPE_DROP_DOWN		=	1 ;
    const NUMBER_OF_FIELDS			=	10 ;
 
+   /**
+    * @ignore
+    * @var CustomFieldsDao 
+    */
    private $customFieldsDao;
    
    /**
@@ -60,6 +64,7 @@ class CustomFieldsService extends BaseService {
 
    /**
     * Retrieve Custom Fields
+    * @param String $screen
     * @param String $orderField
     * @param String $orderBy
     * @returns Collection
