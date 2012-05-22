@@ -18,7 +18,12 @@
  */
 
 /**
- * Employee class
+ *  Employee class file
+ */
+
+/**
+ * @package    orangehrm
+ * @subpackage model\pim
  */
 class Employee extends PluginEmployee {
 
