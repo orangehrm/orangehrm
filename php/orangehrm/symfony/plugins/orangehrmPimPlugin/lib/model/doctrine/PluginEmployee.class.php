@@ -24,7 +24,8 @@
 
 /**
  * Contains plugin level customizations of Employee class
- * @package pim
+ * @package    orangehrm
+ * @subpackage model\pim\plugin
  */
 abstract class PluginEmployee extends BaseEmployee {
 

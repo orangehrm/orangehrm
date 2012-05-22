@@ -13,8 +13,12 @@
       <file>../symfony/plugins/orangehrmPimPlugin/lib/service/CustomFieldsService.php</file>
       <file>../symfony/plugins/orangehrmPimPlugin/lib/service/ReportingMethodService.php</file>
       <file>../symfony/plugins/orangehrmPimPlugin/lib/service/TerminationReasonService.php</file>
-      <file>../symfony/lib/model/doctrine/orangehrmPimPlugin/Employee.class.php</file>
-      <file>../symfony/lib/model/doctrine/orangehrmPimPlugin/base/BaseEmployee.class.php</file>
-      <file>../symfony/plugins/orangehrmPimPlugin/lib/model/doctrine/PluginEmployee.class.php</file>
+      <directory>../symfony/lib/model/doctrine/orangehrmAdminPlugin/base/</directory>
+      <directory>../symfony/plugins/orangehrmAdminPlugin/lib/model/doctrine/</directory>
+      <directory>../symfony/lib/model/doctrine/orangehrmAdminPlugin/</directory>      
+      <directory>../symfony/lib/model/doctrine/orangehrmPimPlugin/base/</directory>
+      <directory>../symfony/plugins/orangehrmPimPlugin/lib/model/doctrine/</directory>
+      <directory>../symfony/lib/model/doctrine/orangehrmPimPlugin/</directory>
+      <ignore>*Table.class.php</ignore>
   </files>
 </phpdoc>
