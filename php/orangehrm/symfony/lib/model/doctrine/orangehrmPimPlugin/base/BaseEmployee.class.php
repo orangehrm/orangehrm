@@ -71,7 +71,6 @@
  * @property EmpTermination $EmpTermination
  * @property Nationality $Nationality
  * @property JobCategory $JobCategory
- * @property Doctrine_Collection $EmployeeLeaveAccrual
  * @property Doctrine_Collection $AttendanceRecord
  * @property Doctrine_Collection $EmployeeLeaveEntitlement
  * @property Doctrine_Collection $LeaveRequest
@@ -162,7 +161,6 @@
  * @method EmpTermination      getEmpTermination()           Returns the current record's "EmpTermination" value
  * @method Nationality         getNationality()              Returns the current record's "Nationality" value
  * @method JobCategory         getJobCategory()              Returns the current record's "JobCategory" value
- * @method Doctrine_Collection getEmployeeLeaveAccrual()     Returns the current record's "EmployeeLeaveAccrual" collection
  * @method Doctrine_Collection getAttendanceRecord()         Returns the current record's "AttendanceRecord" collection
  * @method Doctrine_Collection getEmployeeLeaveEntitlement() Returns the current record's "EmployeeLeaveEntitlement" collection
  * @method Doctrine_Collection getLeaveRequest()             Returns the current record's "LeaveRequest" collection
@@ -252,7 +250,6 @@
  * @method Employee            setEmpTermination()           Sets the current record's "EmpTermination" value
  * @method Employee            setNationality()              Sets the current record's "Nationality" value
  * @method Employee            setJobCategory()              Sets the current record's "JobCategory" value
- * @method Employee            setEmployeeLeaveAccrual()     Sets the current record's "EmployeeLeaveAccrual" collection
  * @method Employee            setAttendanceRecord()         Sets the current record's "AttendanceRecord" collection
  * @method Employee            setEmployeeLeaveEntitlement() Sets the current record's "EmployeeLeaveEntitlement" collection
  * @method Employee            setLeaveRequest()             Sets the current record's "LeaveRequest" collection
@@ -278,7 +275,7 @@
  * @method Employee            setPerformanceReviewComment() Sets the current record's "PerformanceReviewComment" collection
  * 
  * @package    orangehrm
- * @subpackage model
+ * @subpackage model\pim\base
  * @author     Your name here
  * @version    SVN: $Id: Builder.php 7490 2010-03-29 19:53:27Z jwage $
  */
@@ -575,10 +572,6 @@ abstract class BaseEmployee extends sfDoctrineRecord
         $this->hasOne('JobCategory', array(
              'local' => 'eeo_cat_code',
              'foreign' => 'id'));
-
-        $this->hasMany('EmployeeLeaveAccrual', array(
-             'local' => 'empNumber',
-             'foreign' => 'employee_id'));
 
         $this->hasMany('AttendanceRecord', array(
              'local' => 'empNumber',

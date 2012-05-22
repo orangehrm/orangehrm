@@ -29,7 +29,7 @@
  * @method JobSpecificationAttachment setJobTitle()    Sets the current record's "JobTitle" value
  * 
  * @package    orangehrm
- * @subpackage model
+ * @subpackage model\admin\base
  * @author     Your name here
  * @version    SVN: $Id: Builder.php 7490 2010-03-29 19:53:27Z jwage $
  */
