@@ -30,6 +30,9 @@ class Employee extends PluginEmployee {
     const DIVORCED = 'Divorced';
     const OTHERS = 'Others';
 
+    /**
+     * @ignore
+     */    
     private $employeeService;
 
     /**

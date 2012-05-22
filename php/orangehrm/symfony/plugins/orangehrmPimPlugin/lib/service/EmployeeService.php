@@ -19,6 +19,10 @@
  */
 
 /**
+ * EmployeeService class file
+ */
+
+/**
  * Employee Service
  * @package pim
  * @todo Remove exceptions that only wraps DAO exceptions

@@ -1,6 +1,6 @@
 <?php
 
-/**
+/*
  * OrangeHRM is a comprehensive Human Resource Management (HRM) System that captures
  * all the essential functionalities required for any enterprise.
  * Copyright (C) 2006 OrangeHRM Inc., http://www.orangehrm.com
@@ -16,6 +16,15 @@
  * You should have received a copy of the GNU General Public License along with this program;
  * if not, write to the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
  * Boston, MA  02110-1301, USA
+ */
+
+/**
+ * PluginEmployee class file
+ */
+
+/**
+ * Contains plugin level customizations of Employee class
+ * @package pim
  */
 abstract class PluginEmployee extends BaseEmployee {
 
