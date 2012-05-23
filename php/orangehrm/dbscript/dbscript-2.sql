@@ -1057,9 +1057,7 @@ INSERT INTO `ohrm_user_role` (`id`, `name`, `display_name`, `is_assignable`, `is
 (3, 'Supervisor', 'Supervisor', 0, 1),
 (4, 'ProjectAdmin', 'ProjectAdmin', 0, 1),
 (5, 'Interviewer', 'Interviewer', 0, 1),
-(6, 'Offerer', 'Offerer', 0, 1),
-(7, 'Interviewer', 'Interviewer', 0, 1),
-(8, 'Offerer', 'Offerer', 0, 1);
+(6, 'Offerer', 'Offerer', 0, 1);
 
 INSERT INTO `ohrm_nationality` (`id`, `name`) VALUES
 (1, 'Afghan'),

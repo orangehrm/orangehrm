@@ -562,6 +562,7 @@ UserRole:
     name:
       type: string(255)
       notnull: true
+      unique: true
     display_name:
       type: string(255)
       notnull: true

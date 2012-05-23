@@ -1122,6 +1122,7 @@ create table `ohrm_user_role`(
 	`display_name` varchar(255) not null,
 	`is_assignable` tinyint(1) default 0,
         `is_predefined` tinyint(1) default 0,
+        unique key user_role_name (`name`),
 	primary key (`id`)
 )engine=innodb default charset=utf8;
 
@@ -1619,7 +1620,7 @@ alter table `ohrm_user`
 
 alter table `ohrm_user`
     add constraint foreign key (`user_role_id`)
-        references ohrm_user_role(`id`) on delete cascade;
+        references ohrm_user_role(`id`) on delete restrict;
 
 ALTER TABLE `ohrm_operational_country`
 ADD CONSTRAINT `fk_ohrm_operational_country_hs_hr_country`
