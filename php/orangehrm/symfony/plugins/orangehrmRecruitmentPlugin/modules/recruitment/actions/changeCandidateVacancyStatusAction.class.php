@@ -18,7 +18,7 @@
  * Boston, MA  02110-1301, USA
  *
  */
-class changeCandidateVacancyStatusAction extends sfAction {
+class changeCandidateVacancyStatusAction extends baseRecruitmentAction {
 
     private $performedAction;
 
@@ -120,5 +120,5 @@ class changeCandidateVacancyStatusAction extends sfAction {
             }
         }
     }
-}
 
+}
