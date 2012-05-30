@@ -32,7 +32,7 @@ class ScreenPermissionDaoTest  extends PHPUnit_Framework_TestCase {
      */
     protected function setUp() {        
         $this->fixture = sfConfig::get('sf_plugins_dir') . '/orangehrmCorePlugin/test/fixtures/ScreenPermissionDao.yml';
-        
+        TestDataService::truncateSpecificTables(array('SystemUser'));
         TestDataService::populate($this->fixture);
                 
         $this->dao = new ScreenPermissionDao();

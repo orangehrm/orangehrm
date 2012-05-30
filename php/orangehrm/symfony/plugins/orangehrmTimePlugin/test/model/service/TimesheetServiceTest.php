@@ -31,6 +31,7 @@ class TimesheetServiceTest extends PHPUnit_Framework_Testcase {
 
        
         $this->fixture = sfConfig::get('sf_plugins_dir') . '/orangehrmTimePlugin/test/fixtures/TimesheetService.yml';
+        TestDataService::truncateSpecificTables(array('SystemUser'));                
         TestDataService::populate($this->fixture);
         $this->timesheetService = new TimesheetService();
     }

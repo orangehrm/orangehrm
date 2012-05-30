@@ -32,6 +32,7 @@ class TimesheetDaoTest extends PHPUnit_Framework_TestCase {
     protected function setUp() {
 
         $this->timesheetDao = new TimesheetDao();
+        TestDataService::truncateSpecificTables(array('SystemUser'));        
         TestDataService::populate(sfConfig::get('sf_plugins_dir') . '/orangehrmTimePlugin/test/fixtures/TimesheetDao.yml');
     }
 

@@ -20,25 +20,17 @@
  */
 class SystemUserService extends BaseService{
     
-    private $systemUserDao = null;
+    protected $systemUserDao = null;
     
-    /**
-     * Constructor of System User Service class
-     * 
-     * Set System User Dao if object not intilaized
-     */
-    function __construct() {
-        if( empty($this->systemUserDao)){
-            $this->setSystemUserDao(new SystemUserDao());
-        }
-        
-    }
 
     /**
      *
      * @return SystemUserDao
      */
     public function getSystemUserDao() {
+        if (empty($this->systemUserDao)) {
+            $this->systemUserDao = new SystemUserDao();
+        }
         return $this->systemUserDao;
     }
 
