@@ -33,6 +33,7 @@ class SystemUserDaoTest extends PHPUnit_Framework_TestCase {
 
 		$this->systemUserDao = new SystemUserDao();
 		$this->fixture = sfConfig::get('sf_plugins_dir') . '/orangehrmAdminPlugin/test/fixtures/SystemUser.yml';
+        TestDataService::truncateSpecificTables(array('SystemUser'));
 		TestDataService::populate($this->fixture);
 	}
 
