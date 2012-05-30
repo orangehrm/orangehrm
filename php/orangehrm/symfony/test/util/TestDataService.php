@@ -239,13 +239,15 @@ class TestDataService {
 
     private static function _disableConstraints() {
 
-        // ToDo: disable database constraints
+        $pdo = self::_getDbConnection();
+        $pdo->exec("SET FOREIGN_KEY_CHECKS=0;");
     }
 
     private static function _enableConstraints() {
-
-        // ToDo: enable database constraints
+        $pdo = self::_getDbConnection();
+        $pdo->exec("SET FOREIGN_KEY_CHECKS=1;");
     }
+
 
     private static function _truncateTables($tableNames = null) {
 
