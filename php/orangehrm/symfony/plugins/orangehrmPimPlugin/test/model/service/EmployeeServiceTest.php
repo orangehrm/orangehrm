@@ -1898,4 +1898,83 @@ class EmployeeServiceTest extends PHPUnit_Framework_TestCase {
         $this->assertEquals($list, $result);
         
     }
+    
+    public function testGetEmployeeIdList(){
+        $employeeIdList = array(1, 2, 3);
+        
+        $mockDao = $this->getMock('EmployeeDao');
+        $mockDao->expects($this->once())
+             ->method('getEmployeeIdList')
+             ->will($this->returnValue($employeeIdList));
+        
+        $this->employeeService->setEmployeeDao($mockDao);
+        $result = $this->employeeService->getEmployeeIdList();
+        $this->compareArrays($employeeIdList, $result);
+        
+    }
+    
+    public function testGetEmployeePropertyList(){
+        $properties = array('empNumber', 'firstName', 'lastName', 'middleName', 'employeeId' );
+        $emplyees = TestDataService::loadObjectList('Employee', $this->fixture, 'Employee');
+        $employeePropertyArray = array();
+        foreach ($emplyees as $employee) {
+            $employeePropertyArray[$employee['empNumber']] = array('empNumber' => $employee['empNumber'], 'firstName' => $employee['firstName'], 
+            	'lastName' => $employee['lastName'], 'middleName' => $employee['middleName'], 'employeeId' => $employee['employeeId'] );
+        }
+        $mockDao = $this->getMock('EmployeeDao');
+        $mockDao->expects($this->once())
+             ->method('getEmployeePropertyList')
+             ->with($properties, 'empNumber', 'ASC')
+             ->will($this->returnValue($employeePropertyArray));
+        
+        $this->employeeService->setEmployeeDao($mockDao);
+        $result = $this->employeeService->getEmployeePropertyList($properties, 'empNumber', ASC);
+        $this->compareArrays($employeePropertyArray, $result);
+        
+    }
+    
+    public function testGetSubordinateIdListBySupervisorId(){
+        $subordinateIdList = array(1, 2, 3);
+        
+        $mockDao = $this->getMock('EmployeeDao');
+        $mockDao->expects($this->once())
+             ->method('getSubordinateIdListBySupervisorId')
+             ->with(1)
+             ->will($this->returnValue($subordinateIdList));
+        
+        $this->employeeService->setEmployeeDao($mockDao);
+        $result = $this->employeeService->getSubordinateIdListBySupervisorId(1);
+        $this->compareArrays($subordinateIdList, $result);
+        
+    }
+    
+    public function testGetSubordinatePropertyListBySupervisorId(){
+        $properties = array('empNumber', 'firstName', 'lastName', 'middleName', 'employeeId' );
+        $emplyee1 = TestDataService::fetchObject('Employee', 1);
+        $emplyee2 = TestDataService::fetchObject('Employee', 2);
+        $employees = array($emplyee1, $emplyee2);
+        $subordinatePropertyArray = array();
+        foreach ($employees as $employee) {
+            $subordinatePropertyArray[$employee['empNumber']] = array('empNumber' => $employee['empNumber'], 'firstName' => $employee['firstName'], 
+            	'lastName' => $employee['lastName'], 'middleName' => $employee['middleName'], 'employeeId' => $employee['employeeId'] );
+        }
+        
+        $mockDao = $this->getMock('EmployeeDao');
+        $mockDao->expects($this->once())
+             ->method('getSubordinatePropertyListBySupervisorId')
+             ->with(3, $properties, 'empNumber', 'ASC')
+             ->will($this->returnValue($subordinatePropertyArray));
+        
+        $this->employeeService->setEmployeeDao($mockDao);
+        $result = $this->employeeService->getSubordinatePropertyListBySupervisorId(3, $properties, 'empNumber', 'ASC');
+        $this->compareArrays($subordinatePropertyArray, $result);
+        
+    }
+    
+    protected function compareArrays($expected, $actual) {
+        $this->assertEquals(count($expected), count($actual));
+        
+        $diff = array_diff($expected, $actual);
+        $this->assertEquals(0, count($diff), $diff);       
+    }
 }

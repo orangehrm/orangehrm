@@ -761,6 +761,27 @@ class EmployeeService extends BaseService {
             throw new PIMServiceException($e->getMessage());
         }
     }
+    
+    /**
+     * Get Employee id list
+     * 
+     * @version 2.7.1
+     * @return Array EmployeeId List 
+     */
+    public function getEmployeeIdList() {
+        return $this->getEmployeeDao()->getEmployeeIdList();
+    }
+    
+    /**
+     * Get List of Employee Properties
+     * 
+     * @version 2.7.1
+     * @return Array Employee Property List 
+     */
+    public function getEmployeePropertyList($properties, $orderField, $orderBy) {
+        return $this->getEmployeeDao()->getEmployeePropertyList($properties, $orderField, $orderBy);
+    }
+    
 
     /**
      * Returns list of supervisors (employees having at least one subordinate)
@@ -881,6 +902,31 @@ class EmployeeService extends BaseService {
         } catch (Exception $e) {
             throw new PIMServiceException($e->getMessage());
         }
+    }
+    
+    /**
+     * Get Subordinate Id List By Supervisor Id 
+     * 
+     * @version 2.7.1
+     * @param int $supervisorId
+     * @return Array SubordinateId List
+     */
+    public function getSubordinateIdListBySupervisorId($supervisorId) {
+        return $this->getEmployeeDao()->getSubordinateIdListBySupervisorId($supervisorId);
+    }
+    
+    /**
+     * Get List of Subordinate Properties By Supervisor Id 
+     * 
+     * @version 2.7.1
+     * @param int $supervisorId
+     * @param Array $properties
+     * @param String $orderField
+     * @param String $orderBy
+     * @return Array List of Subordinate Properties
+     */
+    public function getSubordinatePropertyListBySupervisorId($supervisorId, $properties, $orderField, $orderBy) {
+        return $this->getEmployeeDao()->getSubordinatePropertyListBySupervisorId($supervisorId, $properties, $orderField, $orderBy);
     }
 
     /**

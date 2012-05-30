@@ -112,6 +112,49 @@ class BasicUserRoleManager extends AbstractUserRoleManager {
         return $allEmployees;
     }
     
+    /*
+     * Get Properties of Accessible Entities
+     * @param $entityType Entity Type
+     * @parm $properties Properties of the entity which should return
+     */
+    public function getAccessibleEntityProperties($entityType, $properties = array(), $orderField, $orderBy, 
+            $rolesToExclude = array(), $rolesToInclude = array()) {
+        $allPropertyList = array();
+        $filteredRoles = $this->filterRoles($this->userRoles, $rolesToExclude, $rolesToInclude);
+        
+        foreach ($filteredRoles as $role) {
+            $propertyList = array();
+            switch ($entityType) {
+                case 'Employee':
+                    $propertyList = $this->getAccessibleEmployeePropertyList($role, $properties, $orderField, $orderBy);
+                    break;
+            }
+            
+            if (count($propertyList) > 0) {
+                $allPropertyList = array_merge($allPropertyList, $propertyList);
+            }
+        }
+
+        return $allPropertyList;
+    }
+    
+    protected function getAccessibleEmployeePropertyList($role, $properties = array(), $orderBy) {
+
+            $employeeProperties = array();
+        
+            if ('Admin' == $role->getName()) {
+                $employeeProperties = $this->getEmployeeService()->getEmployeePropertyList($properties, $orderField, $orderBy);
+            } else if ('Supervisor' == $role->getName()) {
+                $empNumber = $this->getUser()->getEmpNumber();
+                if (!empty($empNumber)) {
+                    $employeeProperties = $this->getEmployeeService()->getSubordinatePropertyListBySupervisorId($empNumber, $properties, $orderField, $orderBy);
+                }
+            }
+            
+        return $employeeProperties;
+
+    }
+    
     
     /**
      * TODO: 'locations', 'system users', 'operational countries', 
@@ -260,26 +303,17 @@ class BasicUserRoleManager extends AbstractUserRoleManager {
     }
     
     protected function getAccessibleEmployeeIds($role, $operation = null, $returnType = null) {
-        
-        $employees = array();
-        
+        $employeeIdArray = array();
         if ('Admin' == $role->getName()) {
-            $employees = $this->getEmployeeService()->getEmployeeList('empNumber', 'ASC', true);
+            $employeeIdArray = $this->getEmployeeService()->getEmployeeIdList();
         } else if ('Supervisor' == $role->getName()) {
             $empNumber = $this->getUser()->getEmpNumber();
             if (!empty($empNumber)) {
-                $employees = $this->getEmployeeService()->getSupervisorEmployeeChain($empNumber, true);
+                $employeeIdArray = $this->getEmployeeService()->getSubordinateIdListBySupervisorId($empNumber);
             }
         }
-        
-        $ids = array();
-        
-        foreach ($employees as $employee) {
-            $ids[] = $employee->getEmpNumber();
-        }
 
-        return $ids;
-        
+        return $employeeIdArray;
     }
     
     protected function getAccessibleSystemUserIds($role, $operation = null, $returnType = null) {

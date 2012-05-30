@@ -864,6 +864,58 @@ class EmployeeDao extends BaseDao {
             throw new DaoException($e->getMessage());
         }
     }
+    
+    /**
+     * Get Employee id list
+     * @returns Array EmployeeId List
+     * @throws DaoException
+     */
+    public function getEmployeeIdList() {
+        
+        try {
+                $q = Doctrine_Query :: create()
+                            ->select('e.empNumber')
+                            ->from('Employee e');
+                $employeeIds = $q->execute(array(), Doctrine_Core::HYDRATE_SINGLE_SCALAR);
+
+                return $employeeIds;
+        
+        // @codeCoverageIgnoreStart
+        } catch (Exception $e) {
+            throw new DaoException($e->getMessage(), $e->getCode(), $e);
+        }
+        // @codeCoverageIgnoreEnd
+    }
+    
+    /**
+     * Get List of Employee Properties
+     * @returns Array List of Employee Properties 
+     * @throws DaoException
+     */
+    public function getEmployeePropertyList($properties, $orderField, $orderBy) {
+
+        try {
+                $q = Doctrine_Query :: create();
+                foreach ($properties as $property) {
+                    $q->addSelect($property);
+                }
+                $q->from('Employee e');
+                if($orderField && $orderBy) {
+                    $q->orderBy($orderField . ' ' . $orderBy);
+                }
+
+                $employeeProperties = $q->fetchArray();
+
+                return $employeeProperties;
+                
+        // @codeCoverageIgnoreStart
+        } catch (Exception $e) {
+            throw new DaoException($e->getMessage(), $e->getCode(), $e);
+        }
+        // @codeCoverageIgnoreEnd
+
+    }
+    
 
     /**
      * Returns list of supervisors (employees having at least one subordinate)
@@ -980,6 +1032,94 @@ class EmployeeDao extends BaseDao {
         } catch (Exception $e) {
             throw new DaoException($e->getMessage());
         }
+    }
+    
+    /**
+     * Get Subordinate Id List by supervisor id
+     * @param int $supervisorId
+     * @returns Array SubordinateId List
+     * @throws DaoException
+     */
+    public function getSubordinateIdListBySupervisorId($supervisorId) {
+        
+        try {
+            $employeeIdList = array();
+            $q = "SELECT h.erep_sub_emp_number
+            	FROM hs_hr_emp_reportto h 
+            	LEFT JOIN hs_hr_employee h2 
+            		ON h.erep_sub_emp_number = h2.emp_number 
+            		WHERE (h.erep_sup_emp_number = ?)";
+            
+            
+            $pdo = Doctrine_Manager::connection()->getDbh();
+            $query = $pdo->prepare($q);
+            $query->execute(array($supervisorId));
+            $subordinates =  $query->fetchAll();
+            
+            foreach ($subordinates as $subordinate) {
+                array_push($employeeIdList, $subordinate['erep_sub_emp_number']);
+                $subordinateIdList = $this->getSubordinateIdListBySupervisorId($subordinate['erep_sub_emp_number']);
+                if (count($subordinateIdList) > 0) {
+                    foreach ($subordinateIdList as $id) {
+                        array_push($employeeIdList, $id);
+                    }
+                }
+            }
+            return $employeeIdList;
+            
+        // @codeCoverageIgnoreStart
+        } catch (Exception $e) {
+            throw new DaoException($e->getMessage(), $e->getCode(), $e);
+        }
+        // @codeCoverageIgnoreEnd
+    }
+    
+    /**
+     * Get List of Subordinate Properties by supervisor id
+     * @param int $supervisorId
+     * @param Array $properties
+     * @param String $orderField
+     * @param String $orderBy
+     * @returns Array List of Subordinate Properties
+     * @throws DaoException
+     */
+    public function getSubordinatePropertyListBySupervisorId($supervisorId, $properties, $orderField, $orderBy) {
+
+        try {
+
+            $employeePropertyList = array();
+            
+            $q = Doctrine_Query::create()
+                            ->select("supervisorId");
+            foreach ($properties as $property) {
+                $q->addSelect('e.'.$property);
+            }
+            $q->from('ReportTo rt')
+              ->leftJoin('rt.subordinate e')
+              ->where("rt.supervisorId=$supervisorId");
+            
+            if($orderField && $orderBy) {
+                $q->orderBy('e.'.$orderField . ' ' . $orderBy);
+            }
+              
+            $subordinates =  $q->fetchArray();
+            foreach ($subordinates as $subordinate) {
+                $employeePropertyList[$subordinate['subordinateId']] = $subordinate['subordinate'];
+                $subordinatePropertyList = $this->getSubordinatePropertyListBySupervisorId($subordinate['subordinateId'], $properties, $orderField, $orderBy);
+                if (count($subordinatePropertyList) > 0) {
+                    foreach ($subordinatePropertyList as $key => $value) {
+                        $employeePropertyList[$key] = $value;
+                    }
+                }
+            }
+            return $employeePropertyList;
+        
+        // @codeCoverageIgnoreStart
+        } catch (Exception $e) {
+            throw new DaoException($e->getMessage(), $e->getCode(), $e);
+        }
+        // @codeCoverageIgnoreEnd
+        
     }
 
     /**
@@ -1458,10 +1598,14 @@ class EmployeeDao extends BaseDao {
                             ->select('e.emp_work_email, e.emp_oth_email')
                             ->from('Employee e');
 
-            return $q->execute();
+            return $q->fetchArray();
+            
+        // @codeCoverageIgnoreStart
         } catch (Exception $e) {
             throw new DaoException($e->getMessage());
         }
+        // @codeCoverageIgnoreEnd
+        
     }
 
     public function terminateEmployment($empNumber, $empTerminationId) {

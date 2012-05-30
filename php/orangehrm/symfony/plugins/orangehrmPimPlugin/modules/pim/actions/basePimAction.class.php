@@ -52,14 +52,10 @@ abstract class basePimAction extends sfAction {
     protected function isSupervisor($loggedInEmpNum, $empNumber) {
 
         if(isset($_SESSION['isSupervisor']) && $_SESSION['isSupervisor']) {
-
-            $empService = $this->getEmployeeService();
-            $subordinates = $empService->getSupervisorEmployeeChain($loggedInEmpNum, true);
-
-            foreach($subordinates as $employee) {
-                if($employee->getEmpNumber() == $empNumber) {
-                    return true;
-                }
+            $employeeService = $this->getEmployeeService();
+            $subordinates = $employeeService->getSubordinateIdListBySupervisorId($loggedInEmpNum);
+            if(in_array($empNumber, $subordinates)) {
+                return true;
             }
         }
         return false;
