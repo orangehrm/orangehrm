@@ -32,8 +32,8 @@ if (!mysql_select_db($conf->dbname)) { echo mysql_error(); exit(0); }
 // Truncating tables
 if (!mysql_query("TRUNCATE TABLE `ohrm_emp_termination`")) { echo mysql_error(); die; }
 if (!mysql_query("TRUNCATE TABLE `hs_hr_employee`")) { echo mysql_error(); die; }
-if (!mysql_query("TRUNCATE TABLE `ohrm_user_role`")) { echo mysql_error(); die; }
 if (!mysql_query("TRUNCATE TABLE `ohrm_user`")) { echo mysql_error(); die; }
+if (!mysql_query("TRUNCATE TABLE `ohrm_user_role`")) { echo mysql_error(); die; }
 
 // User roles
 $q = "INSERT INTO `ohrm_user_role` (`id`, `name`, `display_name`, `is_assignable`, `is_predefined`) VALUES
@@ -42,9 +42,7 @@ $q = "INSERT INTO `ohrm_user_role` (`id`, `name`, `display_name`, `is_assignable
                                     (3, 'Supervisor', 'Supervisor', 0, 1),
                                     (4, 'ProjectAdmin', 'ProjectAdmin', 0, 1),
                                     (5, 'Interviewer', 'Interviewer', 0, 1),
-                                    (6, 'Offerer', 'Offerer', 0, 1),
-                                    (7, 'Interviewer', 'Interviewer', 0, 1),
-                                    (8, 'Offerer', 'Offerer', 0, 1)";
+                                    (6, 'Offerer', 'Offerer', 0, 1)";
 
 if (!mysql_query($q)) { echo mysql_error(); die; }
 
