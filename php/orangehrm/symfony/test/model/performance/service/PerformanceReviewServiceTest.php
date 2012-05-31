@@ -1,7 +1,6 @@
 <?php
 /**
  * Test Cases for PerformanceReviewServiceTest
- * @author Sujith T
  *
  */
 

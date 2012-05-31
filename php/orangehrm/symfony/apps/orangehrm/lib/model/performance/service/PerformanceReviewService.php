@@ -2,7 +2,6 @@
 /**
  * Service Class for Performance Review
  *
- * @author Sujith T
  */
 class PerformanceReviewService extends BaseService {
 

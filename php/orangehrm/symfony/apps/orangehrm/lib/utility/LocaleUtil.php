@@ -2,7 +2,6 @@
 /**
  * Substituting old LocaleUtil functionality
  *
- * @author Sujith T
  */
 class LocaleUtil {
    const STANDARD_DATE_FORMAT = 'Y-m-d';

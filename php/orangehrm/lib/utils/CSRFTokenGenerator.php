@@ -2,7 +2,6 @@
 /**
  * CSRFTokenGenerator to prevent forms from CSRF Attacks
  *
- * @author Sujith T
  */
 class CSRFTokenGenerator {
    private $seed;

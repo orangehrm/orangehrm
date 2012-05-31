@@ -2,7 +2,6 @@
 /**
  * Import DAO Class to save, retrieve, update Import model
  *
- * @author Sujith T
  */
 class CustomImportDao extends BaseDao {
 

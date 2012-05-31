@@ -2,7 +2,6 @@
 
 /**
  * CustomFieldsDao Test Class
- * @author Sujith T
  *
  */
 class CustomFieldsDaoTest extends PHPUnit_Framework_TestCase {

@@ -3,7 +3,6 @@
 /**
  * CustomFieldsDao to make CRUD operations
  *
- * @author Sujith T
  */
 class CustomFieldsDao extends BaseDao {
 

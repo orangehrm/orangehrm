@@ -2,7 +2,6 @@
 
 /**
  * Currency DAO to execute CRUD operations
- * @author Sujith T
  *
  */
 class CurrencyDao extends BaseDao {

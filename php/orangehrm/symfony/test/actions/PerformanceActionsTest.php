@@ -10,7 +10,6 @@ require_once SYMFONY_ROOT . 'apps/orangehrm/modules/performance/actions/actions.
 /**
  * PerformanceActionsTest class tests Performance Controller
  *
- * @author Sujith T
  */
 class PerformanceActionsTest extends PHPUnit_Framework_TestCase {
 

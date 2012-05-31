@@ -2,7 +2,6 @@
 /**
  * Description of JobDao
  *
- * @author Sujith T
  */
 class JobDao extends BaseDao {
 

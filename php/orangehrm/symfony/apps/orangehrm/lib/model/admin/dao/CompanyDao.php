@@ -1,7 +1,6 @@
 <?php
 /**
  * Company DAO class to make CRUD operations
- * @author Sujith T
  *
  */
 class CompanyDao extends BaseDao {

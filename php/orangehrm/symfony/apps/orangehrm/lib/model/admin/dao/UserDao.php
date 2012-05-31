@@ -2,7 +2,6 @@
 /**
  * UserDao for CRUD operation
  *
- * @author Sujith T
  */
 class UserDao extends BaseDao {
    

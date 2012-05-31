@@ -2,7 +2,6 @@
 /**
  * MailDao for CRUD operation of MailNotification objects
  *
- * @author Sujith T
  */
 class MailDao extends BaseDao {
    

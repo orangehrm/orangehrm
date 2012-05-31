@@ -1,7 +1,6 @@
 <?php
 /**
  * JobService Class
- * @author Sujith T
  *
  */
 class JobService extends BaseService {

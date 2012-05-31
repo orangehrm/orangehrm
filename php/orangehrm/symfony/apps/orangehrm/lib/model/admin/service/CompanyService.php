@@ -2,7 +2,6 @@
 /**
  * CompanyService
  *
- * @author Sujith T
  */
 class CompanyService extends BaseService {
 

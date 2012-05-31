@@ -2,7 +2,6 @@
 /**
  * Export DAO Class to save, retrieve, update Export model
  *
- * @author Sujith T
  */
 class CustomExportDao extends BaseDao {
 

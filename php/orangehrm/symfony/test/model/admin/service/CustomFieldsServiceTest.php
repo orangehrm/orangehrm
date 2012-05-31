@@ -3,7 +3,6 @@
 /**
  * Test class of CustomFieldsService
  *
- * @author Sujith T
  */
 class CustomFieldsServiceTest extends PHPUnit_Framework_TestCase {
 
