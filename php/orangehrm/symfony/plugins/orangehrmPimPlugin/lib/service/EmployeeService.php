@@ -763,19 +763,33 @@ class EmployeeService extends BaseService {
     }
     
     /**
-     * Get Employee id list
+     * Returns employee IDs of all the employees in the system
      * 
      * @version 2.7.1
-     * @return Array EmployeeId List 
+     * @return Array List of employee IDs
      */
     public function getEmployeeIdList() {
         return $this->getEmployeeDao()->getEmployeeIdList();
     }
     
     /**
-     * Get List of Employee Properties
+     * Returns an array of requested properties of all employees
+     * 
+     * <pre>
+     * Ex: $properties = array('empNumber', 'firstName', 'lastName')
+     * 
+     * For above $properties parameter there will be an array like below as the response.
+     * 
+     * array(
+     *          0 => array('empNumber' => 1, 'firstName' => 'Kayla', 'lastName' => 'Abbey'),
+     *          1 => array('empNumber' => 1, 'firstName' => 'Ashley', 'lastName' => 'Abel')
+     * )
+     * </pre>
      * 
      * @version 2.7.1
+     * @param $properties An array of strings containing names of required properties
+     * @param $orderField Field to be used for ordering
+     * @param $orderBy ASC or DESC
      * @return Array Employee Property List 
      */
     public function getEmployeePropertyList($properties, $orderField, $orderBy) {
@@ -905,26 +919,39 @@ class EmployeeService extends BaseService {
     }
     
     /**
-     * Get Subordinate Id List By Supervisor Id 
+     * Returns an array of employee IDs of subordinates for given supervisor ID
+     * 
+     * IDs of whole chain under given supervisor are returned.
      * 
      * @version 2.7.1
-     * @param int $supervisorId
-     * @return Array SubordinateId List
+     * @param int $supervisorId Supervisor's ID
+     * @return Array An array of employee IDs
      */
     public function getSubordinateIdListBySupervisorId($supervisorId) {
         return $this->getEmployeeDao()->getSubordinateIdListBySupervisorId($supervisorId);
     }
     
     /**
-     * Get List of Subordinate Properties By Supervisor Id 
+     * Returns an array of requested properties of subordinates of given supervisor ID
+     * 
+     * <pre>
+     * Ex: $properties = array('empNumber', 'firstName', 'lastName')
+     * 
+     * For above $properties parameter there will be an array like below as the response.
+     * 
+     * array(
+     *          0 => array('empNumber' => 1, 'firstName' => 'Kayla', 'lastName' => 'Abbey'),
+     *          1 => array('empNumber' => 1, 'firstName' => 'Ashley', 'lastName' => 'Abel')
+     * )
+     * </pre>
      * 
      * @version 2.7.1
-     * @param int $supervisorId
-     * @param Array $properties
-     * @param String $orderField
-     * @param String $orderBy
-     * @return Array List of Subordinate Properties
-     */
+     * @param int $supervisorId Supervisor's ID
+     * @param $properties An array of strings containing names of required properties
+     * @param $orderField Field to be used for ordering
+     * @param $orderBy ASC or DESC
+     * @return Array Employee Property List 
+     */    
     public function getSubordinatePropertyListBySupervisorId($supervisorId, $properties, $orderField, $orderBy) {
         return $this->getEmployeeDao()->getSubordinatePropertyListBySupervisorId($supervisorId, $properties, $orderField, $orderBy);
     }

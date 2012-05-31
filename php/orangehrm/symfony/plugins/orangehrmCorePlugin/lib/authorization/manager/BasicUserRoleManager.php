@@ -117,7 +117,7 @@ class BasicUserRoleManager extends AbstractUserRoleManager {
      * @param $entityType Entity Type
      * @parm $properties Properties of the entity which should return
      */
-    public function getAccessibleEntityProperties($entityType, $properties = array(), $orderField, $orderBy, 
+    public function getAccessibleEntityProperties($entityType, $properties = array(), $orderField = null, $orderBy = null, 
             $rolesToExclude = array(), $rolesToInclude = array()) {
         $allPropertyList = array();
         $filteredRoles = $this->filterRoles($this->userRoles, $rolesToExclude, $rolesToInclude);
@@ -138,7 +138,7 @@ class BasicUserRoleManager extends AbstractUserRoleManager {
         return $allPropertyList;
     }
     
-    protected function getAccessibleEmployeePropertyList($role, $properties = array(), $orderBy) {
+    protected function getAccessibleEmployeePropertyList($role, $properties = array(), $orderField, $orderBy) {
 
             $employeeProperties = array();
         
