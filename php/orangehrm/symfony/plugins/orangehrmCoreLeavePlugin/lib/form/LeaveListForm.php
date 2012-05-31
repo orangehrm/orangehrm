@@ -63,8 +63,8 @@ class LeaveListForm extends sfForm {
         // Set default from/to to current leave period.
         $leavePeriod = $this->getLeavePeriodService()->getCurrentLeavePeriod();
         $defaults['calFromDate'] = set_datepicker_date_format($leavePeriod->getStartDate());
-        $endDate = new DateTime($leavePeriod->getEndDate());
-        $endDate->add(new DateInterval("P1Y"));
+        $endDateString = date('Y-m-d', strtotime($leavePeriod->getEndDate(), "+1 year"));
+        $endDate = new DateTime($endDateString);
         $toDate = $endDate->format("Y-m-d");
         $defaults['calToDate'] = set_datepicker_date_format($toDate);
         
