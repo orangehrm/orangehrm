@@ -35,7 +35,7 @@ class LeaveSummaryDaoTest extends PHPUnit_Framework_TestCase {
 
     }
 
-    public function testFetchRawLeaveSummaryRecordsAllRecords() {
+    public function testSearchLeaveSummaryWithAllRecords() {
 
         $clues['cmbEmpId'] = '';
         $clues['userType'] = '';
@@ -46,33 +46,28 @@ class LeaveSummaryDaoTest extends PHPUnit_Framework_TestCase {
         $clues['subordinates'] = '';
         $clues['cmbWithTerminated'] = '';
 
-        $result = $this->leaveSummaryDao->fetchRawLeaveSummaryRecords($clues,0,20,true);
+        $result = $this->leaveSummaryDao->searchLeaveSummary($clues,0,20);
 
+        /*Checking SearchLeaveSummaryCount function*/
+        $count = $this->leaveSummaryDao->searchLeaveSummaryCount($clues);
+        $this->assertEquals(8, $count);
+        
         /* Checking records count */
-        $this->assertEquals(15, $this->leaveSummaryDao->fetchRawLeaveSummaryRecordsCount($clues,true));
-
+        $this->assertEquals(8, count($result));
         /* Checking values and order */
+        $this->assertEquals(2, $result[0]['emp_number']);
+        $this->assertEquals('Ashley Abel', $result[0]['emp_fullname']);
+        $this->assertEquals('LTY001', $result[0]['leave_type_id']);
+        $this->assertEquals('Casual', $result[0]['leave_type_name']);
 
-        while ($row = $result->fetch()) {
-            $rows[] = $row;
-        }
-        $this->assertEquals(15, count($rows));
-  
-        $this->assertEquals(1, $rows[0]['empNumber']);
-        $this->assertEquals('Kayla', $rows[0]['empFirstName']);
-        $this->assertEquals('Abbey', $rows[0]['empLastName']);
-        $this->assertEquals('LTY001', $rows[0]['leaveTypeId']);
-        $this->assertEquals('Casual', $rows[0]['leaveTypeName']);
-
-        $this->assertEquals(2, $rows[5]['empNumber']);
-        $this->assertEquals('Ashley', $rows[5]['empFirstName']);
-        $this->assertEquals('Abel', $rows[5]['empLastName']);
-        $this->assertEquals('LTY002', $rows[5]['leaveTypeId']);
-        $this->assertEquals('Medical', $rows[5]['leaveTypeName']);
+        $this->assertEquals(2, $result[1]['emp_number']);
+        $this->assertEquals('Ashley Abel', $result[1]['emp_fullname']);
+        $this->assertEquals('LTY002', $result[1]['leave_type_id']);
+        $this->assertEquals('Medical', $result[1]['leave_type_name']);
 
     }
-
-    public function testFetchRawLeaveSummaryRecordsLeaveType() {
+    
+    public function testSearchLeaveSummaryWithLeaveType() {
 
         $clues['cmbEmpId'] = '';
         $clues['userType'] = '';
@@ -83,32 +78,30 @@ class LeaveSummaryDaoTest extends PHPUnit_Framework_TestCase {
         $clues['subordinates'] = '';
         $clues['cmbWithTerminated'] = '';
 
-        $result = $this->leaveSummaryDao->fetchRawLeaveSummaryRecords($clues,0,20, true);
+        $result = $this->leaveSummaryDao->searchLeaveSummary($clues,0,20);
+        
+        /*Checking SearchLeaveSummaryCount function*/
+        $count = $this->leaveSummaryDao->searchLeaveSummaryCount($clues);
+        $this->assertEquals(4, $count);
+        
         /* Checking records count */
-        $this->assertEquals(5, $this->leaveSummaryDao->fetchRawLeaveSummaryRecordsCount($clues, true));
+        $this->assertEquals(4, count($result));
 
         /* Checking values and order */
 
-        while ($row = $result->fetch()) {
-            $rows[] = $row;
-        }
-        $this->assertEquals(5, count($rows));
+        $this->assertEquals(2, $result[0]['emp_number']);
+        $this->assertEquals('Ashley Abel', $result[0]['emp_fullname']);
+        $this->assertEquals('LTY001', $result[0]['leave_type_id']);
+        $this->assertEquals('Casual', $result[0]['leave_type_name']);
 
-        $this->assertEquals(1, $rows[0]['empNumber']);
-        $this->assertEquals('Kayla', $rows[0]['empFirstName']);
-        $this->assertEquals('Abbey', $rows[0]['empLastName']);
-        $this->assertEquals('LTY001', $rows[0]['leaveTypeId']);
-        $this->assertEquals('Casual', $rows[0]['leaveTypeName']);
-
-        $this->assertEquals(5, $rows[4]['empNumber']);
-        $this->assertEquals('James', $rows[4]['empFirstName']);
-        $this->assertEquals('Abrahamson', $rows[4]['empLastName']);
-        $this->assertEquals('LTY001', $rows[4]['leaveTypeId']);
-        $this->assertEquals('Casual', $rows[4]['leaveTypeName']);
+        $this->assertEquals(5, $result[3]['emp_number']);
+        $this->assertEquals('James Abrahamson', $result[3]['emp_fullname']);
+        $this->assertEquals('LTY001', $result[3]['leave_type_id']);
+        $this->assertEquals('Casual', $result[3]['leave_type_name']);
 
     }
-
-    public function testFetchRawLeaveSummaryRecordsEmployeeId() {
+    
+    public function testSearchLeaveSummaryWithTerminatedEmployee() {
 
         $clues['cmbEmpId'] = 1;
         $clues['userType'] = 'ESS';
@@ -119,34 +112,80 @@ class LeaveSummaryDaoTest extends PHPUnit_Framework_TestCase {
         $clues['subordinates'] = '';
         $clues['cmbWithTerminated'] = '';
 
-        $result = $this->leaveSummaryDao->fetchRawLeaveSummaryRecords($clues,0,20,true);
-
+        $result = $this->leaveSummaryDao->searchLeaveSummary($clues,0,20);
+        
+        /*Checking SearchLeaveSummaryCount function*/
+        $count = $this->leaveSummaryDao->searchLeaveSummaryCount($clues);
+        $this->assertEquals(0, $count);
+        
         /* Checking records count */
-        $this->assertEquals(3, $this->leaveSummaryDao->fetchRawLeaveSummaryRecordsCount($clues, true));
+        $this->assertEquals(0, count($result));
+        
+        $clues['cmbEmpId'] = 1;
+        $clues['userType'] = 'ESS';
+        $clues['cmbLeaveType'] = '';
+        $clues['cmbSubDivision'] = '';
+        $clues['cmbJobTitle'] = '';
+        $clues['cmbLocation'] = '';
+        $clues['subordinates'] = '';
+        $clues['cmbWithTerminated'] = '1';
+
+        $result = $this->leaveSummaryDao->searchLeaveSummary($clues,0,20);
+        
+        /*Checking SearchLeaveSummaryCount function*/
+        $count = $this->leaveSummaryDao->searchLeaveSummaryCount($clues);
+        $this->assertEquals(2, $count);
+        
+        /* Checking records count */
+        $this->assertEquals(2, count($result));
 
         /* Checking values and order */
 
-        while ($row = $result->fetch()) {
-            $rows[] = $row;
-        }
+        $this->assertEquals(1, $result[0]['emp_number']);
+        $this->assertEquals('Kayla Abbey', $result[0]['emp_fullname']);
+        $this->assertEquals('LTY001', $result[0]['leave_type_id']);
+        $this->assertEquals('Casual', $result[0]['leave_type_name']);
 
-        $this->assertEquals(3, count($rows));
-
-        $this->assertEquals(1, $rows[0]['empNumber']);
-        $this->assertEquals('Kayla', $rows[0]['empFirstName']);
-        $this->assertEquals('Abbey', $rows[0]['empLastName']);
-        $this->assertEquals('LTY001', $rows[0]['leaveTypeId']);
-        $this->assertEquals('Casual', $rows[0]['leaveTypeName']);
-
-        $this->assertEquals(1, $rows[1]['empNumber']);
-        $this->assertEquals('Kayla', $rows[1]['empFirstName']);
-        $this->assertEquals('Abbey', $rows[1]['empLastName']);
-        $this->assertEquals('LTY003', $rows[1]['leaveTypeId']);
-        $this->assertEquals('Company', $rows[1]['leaveTypeName']);
+        $this->assertEquals(1, $result[1]['emp_number']);
+        $this->assertEquals('Kayla Abbey', $result[1]['emp_fullname']);
+        $this->assertEquals('LTY002', $result[1]['leave_type_id']);
+        $this->assertEquals('Medical', $result[1]['leave_type_name']);
 
     }
+    
+    public function testSearchLeaveSummaryWithEmployeeId() {
 
-    public function testFetchRawLeaveSummaryRecordsSubDivision() {
+        $clues['cmbEmpId'] = 2;
+        $clues['userType'] = 'ESS';
+        $clues['cmbLeaveType'] = '';
+        $clues['cmbSubDivision'] = '';
+        $clues['cmbJobTitle'] = '';
+        $clues['cmbLocation'] = '';
+        $clues['subordinates'] = '';
+        $clues['cmbWithTerminated'] = '';
+
+        $result = $this->leaveSummaryDao->searchLeaveSummary($clues,0,20);
+        
+        /*Checking SearchLeaveSummaryCount function*/
+        $count = $this->leaveSummaryDao->searchLeaveSummaryCount($clues);
+        $this->assertEquals(2, $count);
+        
+        /* Checking records count */
+        $this->assertEquals(2, count($result));
+        
+        $this->assertEquals(2, $result[0]['emp_number']);
+        $this->assertEquals('Ashley Abel', $result[0]['emp_fullname']);
+        $this->assertEquals('LTY001', $result[0]['leave_type_id']);
+        $this->assertEquals('Casual', $result[0]['leave_type_name']);
+
+        $this->assertEquals(2, $result[1]['emp_number']);
+        $this->assertEquals('Ashley Abel', $result[1]['emp_fullname']);
+        $this->assertEquals('LTY002', $result[1]['leave_type_id']);
+        $this->assertEquals('Medical', $result[1]['leave_type_name']);
+
+    }
+    
+    public function testSearchLeaveSummaryWithSubDivision() {
 
         $clues['cmbEmpId'] = '';
         $clues['userType'] = '';
@@ -157,33 +196,28 @@ class LeaveSummaryDaoTest extends PHPUnit_Framework_TestCase {
         $clues['subordinates'] = '';
         $clues['cmbWithTerminated'] = '';
 
-        $result = $this->leaveSummaryDao->fetchRawLeaveSummaryRecords($clues,0,20,true);
+        $result = $this->leaveSummaryDao->searchLeaveSummary($clues,0,20);
 
+        /*Checking SearchLeaveSummaryCount function*/
+        $count = $this->leaveSummaryDao->searchLeaveSummaryCount($clues);
+        $this->assertEquals(2, $count);
+        
         /* Checking records count */
-        $this->assertEquals(6, $this->leaveSummaryDao->fetchRawLeaveSummaryRecordsCount($clues,true));
+        $this->assertEquals(2, count($result));
 
-        /* Checking values and order */
+        $this->assertEquals(2, $result[0]['emp_number']);
+        $this->assertEquals('Ashley Abel', $result[0]['emp_fullname']);
+        $this->assertEquals('LTY001', $result[0]['leave_type_id']);
+        $this->assertEquals('Casual', $result[0]['leave_type_name']);
 
-        while ($row = $result->fetch()) {
-            $rows[] = $row;
-        }
-        $this->assertEquals(6, count($rows));
-
-        $this->assertEquals(1, $rows[0]['empNumber']);
-        $this->assertEquals('Kayla', $rows[0]['empFirstName']);
-        $this->assertEquals('Abbey', $rows[0]['empLastName']);
-        $this->assertEquals('LTY001', $rows[0]['leaveTypeId']);
-        $this->assertEquals('Casual', $rows[0]['leaveTypeName']);
-
-        $this->assertEquals(2, $rows[3]['empNumber']);
-        $this->assertEquals('Ashley', $rows[3]['empFirstName']);
-        $this->assertEquals('Abel', $rows[3]['empLastName']);
-        $this->assertEquals('LTY001', $rows[3]['leaveTypeId']);
-        $this->assertEquals('Casual', $rows[3]['leaveTypeName']);
-
+        $this->assertEquals(2, $result[1]['emp_number']);
+        $this->assertEquals('Ashley Abel', $result[1]['emp_fullname']);
+        $this->assertEquals('LTY002', $result[1]['leave_type_id']);
+        $this->assertEquals('Medical', $result[1]['leave_type_name']);
+        
     }
-
-    public function testFetchRawLeaveSummaryRecordsJobTitle() {
+    
+    public function testSearchLeaveSummaryWithJobTitle() {
 
         $clues['cmbEmpId'] = '';
         $clues['userType'] = '';
@@ -194,34 +228,28 @@ class LeaveSummaryDaoTest extends PHPUnit_Framework_TestCase {
         $clues['subordinates'] = '';
         $clues['cmbWithTerminated'] = '';
 
-        $result = $this->leaveSummaryDao->fetchRawLeaveSummaryRecords($clues,0,20,true);
+        $result = $this->leaveSummaryDao->searchLeaveSummary($clues,0,20);
 
+        /*Checking SearchLeaveSummaryCount function*/
+        $count = $this->leaveSummaryDao->searchLeaveSummaryCount($clues);
+        $this->assertEquals(2, $count);
+        
         /* Checking records count */
-        $this->assertEquals(6, $this->leaveSummaryDao->fetchRawLeaveSummaryRecordsCount($clues, true));
+        $this->assertEquals(2, count($result));
 
-        /* Checking values and order */
+        $this->assertEquals(5, $result[0]['emp_number']);
+        $this->assertEquals('James Abrahamson', $result[0]['emp_fullname']);
+        $this->assertEquals('LTY001', $result[0]['leave_type_id']);
+        $this->assertEquals('Casual', $result[0]['leave_type_name']);
 
-        while ($row = $result->fetch()) {
-            $rows[] = $row;
-        }
-        $this->assertEquals(6, count($rows));
-
-        $this->assertEquals(1, $rows[0]['empNumber']);
-        $this->assertEquals('Kayla', $rows[0]['empFirstName']);
-        $this->assertEquals('Abbey', $rows[0]['empLastName']);
-        $this->assertEquals('LTY001', $rows[0]['leaveTypeId']);
-        $this->assertEquals('Casual', $rows[0]['leaveTypeName']);
-
-        $this->assertEquals(5, $rows[3]['empNumber']);
-        $this->assertEquals('James', $rows[3]['empFirstName']);
-        $this->assertEquals('Abrahamson', $rows[3]['empLastName']);
-        $this->assertEquals('LTY001', $rows[3]['leaveTypeId']);
-        $this->assertEquals('Casual', $rows[3]['leaveTypeName']);
+        $this->assertEquals(5, $result[1]['emp_number']);
+        $this->assertEquals('James Abrahamson', $result[1]['emp_fullname']);
+        $this->assertEquals('LTY002', $result[1]['leave_type_id']);
+        $this->assertEquals('Medical', $result[1]['leave_type_name']);
 
     }
-
-
-    public function testFetchRawLeaveSummaryRecordsLocation() {
+    
+    public function testSearchLeaveSummarysWithLocation() {
 
         $clues['cmbEmpId'] = '';
         $clues['userType'] = '';
@@ -232,34 +260,28 @@ class LeaveSummaryDaoTest extends PHPUnit_Framework_TestCase {
         $clues['subordinates'] = '';
         $clues['cmbWithTerminated'] = '';
 
-        $result = $this->leaveSummaryDao->fetchRawLeaveSummaryRecords($clues,0,20,true);
+        $result = $this->leaveSummaryDao->searchLeaveSummary($clues,0,20);
 
+        /*Checking SearchLeaveSummaryCount function*/
+        $count = $this->leaveSummaryDao->searchLeaveSummaryCount($clues);
+        $this->assertEquals(2, $count);
+        
         /* Checking records count */
-        $this->assertEquals(6, $this->leaveSummaryDao->fetchRawLeaveSummaryRecordsCount($clues,true));
+        $this->assertEquals(2, count($result));
 
-        /* Checking values and order */
+        $this->assertEquals(4, $result[0]['emp_number']);
+        $this->assertEquals('Landon Abrahams', $result[0]['emp_fullname']);
+        $this->assertEquals('LTY001', $result[0]['leave_type_id']);
+        $this->assertEquals('Casual', $result[0]['leave_type_name']);
 
-        while ($row = $result->fetch()) {
-            $rows[] = $row;
-        }
-        $this->assertEquals(6, count($rows));
-
-        $this->assertEquals(1, $rows[0]['empNumber']);
-        $this->assertEquals('Kayla', $rows[0]['empFirstName']);
-        $this->assertEquals('Abbey', $rows[0]['empLastName']);
-        $this->assertEquals('LTY001', $rows[0]['leaveTypeId']);
-        $this->assertEquals('Casual', $rows[0]['leaveTypeName']);
-
-        $this->assertEquals(4, $rows[3]['empNumber']);
-        $this->assertEquals('Landon', $rows[3]['empFirstName']);
-        $this->assertEquals('Abrahams', $rows[3]['empLastName']);
-        $this->assertEquals('LTY001', $rows[3]['leaveTypeId']);
-        $this->assertEquals('Casual', $rows[3]['leaveTypeName']);
+        $this->assertEquals(4, $result[1]['emp_number']);
+        $this->assertEquals('Landon Abrahams', $result[1]['emp_fullname']);
+        $this->assertEquals('LTY002', $result[1]['leave_type_id']);
+        $this->assertEquals('Medical', $result[1]['leave_type_name']);
 
     }
-
-
-    public function testFetchRawLeaveSummaryRecordsSubordinates() {
+    
+    public function testSsearchLeaveSummaryWithSubordinates() {
 
         $clues['cmbEmpId'] = '';
         $clues['userType'] = 'Supervisor';
@@ -270,92 +292,24 @@ class LeaveSummaryDaoTest extends PHPUnit_Framework_TestCase {
         $clues['subordinates'] = array(2, 5);
         $clues['cmbWithTerminated'] = '';
 
-        $result = $this->leaveSummaryDao->fetchRawLeaveSummaryRecords($clues,0,20,true);
+        $result = $this->leaveSummaryDao->searchLeaveSummary($clues,0,20);
 
+        /*Checking SearchLeaveSummaryCount function*/
+        $count = $this->leaveSummaryDao->searchLeaveSummaryCount($clues);
+        $this->assertEquals(4, $count);
+        
         /* Checking records count */
-        $this->assertEquals(6, $this->leaveSummaryDao->fetchRawLeaveSummaryRecordsCount($clues,true));
+        $this->assertEquals(4, count($result));
 
-        /* Checking values and order */
+        $this->assertEquals(2, $result[0]['emp_number']);
+        $this->assertEquals('Ashley Abel', $result[0]['emp_fullname']);
+        $this->assertEquals('LTY001', $result[0]['leave_type_id']);
+        $this->assertEquals('Casual', $result[0]['leave_type_name']);
 
-        while ($row = $result->fetch()) {
-            $rows[] = $row;
-        }
-
-        $this->assertEquals(6, count($rows));
-
-        $this->assertEquals(2, $rows[0]['empNumber']);
-        $this->assertEquals('Ashley', $rows[0]['empFirstName']);
-        $this->assertEquals('Abel', $rows[0]['empLastName']);
-        $this->assertEquals('LTY001', $rows[0]['leaveTypeId']);
-        $this->assertEquals('Casual', $rows[0]['leaveTypeName']);
-
-        $this->assertEquals(5, $rows[3]['empNumber']);
-        $this->assertEquals('James', $rows[3]['empFirstName']);
-        $this->assertEquals('Abrahamson', $rows[3]['empLastName']);
-        $this->assertEquals('LTY001', $rows[3]['leaveTypeId']);
-        $this->assertEquals('Casual', $rows[3]['leaveTypeName']);
-
-    }
-
-
-    public function testFetchRawLeaveSummaryRecordsTerminatedEmployees() {
-        
-        $clues['cmbEmpId'] = '';
-        $clues['userType'] = '';
-        $clues['cmbLeaveType'] = '';
-        $clues['cmbSubDivision'] = '';
-        $clues['cmbJobTitle'] = '';
-        $clues['cmbLocation'] = '';
-        $clues['subordinates'] = '';
-        $clues['cmbWithTerminated'] = '';
-        
-        $result = $this->leaveSummaryDao->fetchRawLeaveSummaryRecords($clues);
-        $this->assertEquals(12, $this->leaveSummaryDao->fetchRawLeaveSummaryRecordsCount($clues));
-        
-       /* Checking values and order */
-
-        while ($row = $result->fetch()) {
-            $rows[] = $row;
-        }
-
-        $this->assertEquals(12, count($rows));
-        
-        $this->assertEquals(2, $rows[0]['empNumber']);
-        $this->assertEquals('Ashley', $rows[0]['empFirstName']);
-        $this->assertEquals('Abel', $rows[0]['empLastName']);
-        $this->assertEquals('LTY001', $rows[0]['leaveTypeId']);
-        $this->assertEquals('Casual', $rows[0]['leaveTypeName']);
-        
-        $this->assertEquals(2, $rows[1]['empNumber']);
-        $this->assertEquals(3, $rows[3]['empNumber']);
-
-    }
-
-    public function testFetchRawLeaveSummaryRecordsLeaveTypeTerminatedEmployee() {
-
-        $clues['cmbEmpId'] = '';
-        $clues['userType'] = '';
-        $clues['cmbLeaveType'] = 'LTY001';
-        $clues['cmbSubDivision'] = '';
-        $clues['cmbJobTitle'] = '';
-        $clues['cmbLocation'] = '';
-        $clues['subordinates'] = '';
-        $clues['cmbWithTerminated'] = '';
-
-        $result = $this->leaveSummaryDao->fetchRawLeaveSummaryRecords($clues);
-        /* Checking records count */
-        $this->assertEquals(4, $this->leaveSummaryDao->fetchRawLeaveSummaryRecordsCount($clues));
-
-        /* Checking values and order */
-
-        while ($row = $result->fetch()) {
-            $rows[] = $row;
-        }
-        $this->assertEquals(4, count($rows));
-
-        $this->assertEquals(2, $rows[0]['empNumber']);
-        $this->assertEquals(5, $rows[3]['empNumber']);
-
+        $this->assertEquals(5, $result[2]['emp_number']);
+        $this->assertEquals('James Abrahamson', $result[2]['emp_fullname']);
+        $this->assertEquals('LTY001', $result[2]['leave_type_id']);
+        $this->assertEquals('Casual', $result[2]['leave_type_name']);
 
     }
 

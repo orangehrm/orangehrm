@@ -46,6 +46,7 @@
             <br class="clear" />
 
             <div class="formbuttons paddingLeftBtn">
+                <input type="hidden" name="leavePeriodId" id="leavePeriodId" value="<?php echo $leavePeriodId; ?>" />
                 <input type="hidden" name="pageNo" id="pageNo" value="<?php echo $form->pageNo; ?>" />
                 <input type="hidden" name="hdnAction" id="hdnAction" value="search" />
                 <input type="button" name="btnSearch" id="btnSearch" value="<?php echo __('Search') ?>" class="savebutton" />

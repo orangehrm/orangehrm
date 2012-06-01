@@ -1,0 +1,16 @@
+LeavePeriod:
+  0: { leavePeriodId: 1, startDate: '2008-02-01', endDate: '2009-01-31' }
+  1: { leavePeriodId: 2, startDate: '2009-02-01', endDate: '2010-01-31' }
+  2: { leavePeriodId: 3, startDate: '2010-02-01', endDate: '2011-01-31' }
+
+LeaveType:
+  0: {leaveTypeId: 'LTY001', leaveTypeName: 'Casual', availableFlag: 1}
+  1: {leaveTypeId: 'LTY002', leaveTypeName: 'Medical', availableFlag: 1}
+
+Employee:
+  E_001: { firstName: myname1, lastName: last1, employeeId: '0001', empNumber: 1 }
+  E_002: { firstName: myname2, lastName: last2, employeeId: '0002', empNumber: 2 }
+
+EmployeeLeaveEntitlement:
+  0: {leave_type_id: 'LTY001', employee_id: 1, leave_period_id: 1, no_of_days_allotted: 20, leave_taken: 2, leave_brought_forward: 2, leave_carried_forward: 1}
+  1: {leave_type_id: 'LTY001', employee_id: 2, leave_period_id: 1, no_of_days_allotted: 20, leave_taken: 1, leave_brought_forward: 1, leave_carried_forward: 1}

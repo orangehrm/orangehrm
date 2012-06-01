@@ -23,6 +23,7 @@
 class LeaveSummaryService extends BaseService {
 
     private $leaveSummaryDao;
+    private $userRoleManager;
 
     /**
      *
@@ -40,108 +41,23 @@ class LeaveSummaryService extends BaseService {
     public function setLeaveSummaryDao(LeaveSummaryDao $leaveSummaryDao) {
         $this->leaveSummaryDao = $leaveSummaryDao;
     }
-
-    public function fetchRawLeaveSummaryRecords($clues, $offset, $limit) {
+    
+    public function getUserRoleManager() {
         
-        $includeTerminated = false;        
-        if($clues['cmbWithTerminated'] != 0) {
-            $includeTerminated = true;
+        if (is_null($this->userRoleManager)) {
+            $this->userRoleManager = UserRoleManagerFactory::getUserRoleManager();
         }
         
-        $recordsResult = $this->getLeaveSummaryDao()->fetchRawLeaveSummaryRecords($clues, $offset, $limit, $includeTerminated);
-        $recordsCount = $this->fetchRawLeaveSummaryRecordsCount($clues, $includeTerminated);
-
-        $leaveEntitlementService = new LeaveEntitlementService();
-        $leaveEntitlementService->setLeaveEntitlementDao(new LeaveEntitlementDao());
-
-        $leavePeriodService = new LeavePeriodService();
-        $leavePeriodService->setLeavePeriodDao(new LeavePeriodDao());
-
-        $summaryListArray = Array();
-        if ($recordsCount > 0) {
-
-            $i = 0;
-
-            while ($row = $recordsResult->fetch()) {
-
-                $employeeName = $row['empFirstName'].' '.$row['empLastName'];
-                $employeeId = $row['empNumber'];
-                $employeeStatus = $row['empStatus'];
-                $leaveType = $row['leaveTypeName'];
-                $leaveTypeId = $row['leaveTypeId'];
-                $leavePeriodId = $clues['cmbLeavePeriod']?$clues['cmbLeavePeriod']:$leavePeriodService->getCurrentLeavePeriod();
-
-                $leaveEntitlementObj = $leaveEntitlementService->readEmployeeLeaveEntitlement($employeeId, $leaveTypeId, $leavePeriodId);
-
-                if ($leaveEntitlementObj instanceof EmployeeLeaveEntitlement) {
-                    $leaveEntitled = $leaveEntitlementObj->getNoOfDaysAllotted();
-                    $leaveBroughtForward = $leaveEntitlementObj->getLeaveBroughtForward();
-                    $leaveCarryForward = $leaveEntitlementObj->getLeaveCarriedForward();
-                } else {
-                    $leaveEntitled = '0.00';
-                    $leaveBroughtForward = '0.00';
-                    $leaveCarryForward = '0.00';
-                }
-
-                $leaveRequestService = new LeaveRequestService();
-                $leaveRequestService->setLeaveRequestDao(new LeaveRequestDao());
-
-                $leaveTaken = $leaveRequestService->getTakenLeaveSum($employeeId, $leaveTypeId, $leavePeriodId);
-                $leaveTaken = empty($leaveTaken)?'0.00':$leaveTaken;
-
-                //$leaveScheduled = $this->_getLeaveScheduled($employeeId, $leaveTypeId, $leavePeriodId);
-                $leaveScheduled = $leaveRequestService->getScheduledLeavesSum($employeeId, $leaveTypeId, $leavePeriodId);
-                $leaveScheduled = empty($leaveScheduled)?'0.00':$leaveScheduled;
-
-                $leaveRemaining = ($leaveEntitled + $leaveBroughtForward) - ($leaveTaken + $leaveScheduled + $leaveCarryForward);
-                $leaveRemaining = number_format($leaveRemaining, 2);
-
-                $rowDisplayFlag = false;
-                $deletedFlag = false;
-                //show active leave types
-                if($row['availableFlag'] == 1) {
-                    $rowDisplayFlag = true;
-                }
-
-                //show inactive leave types if any leaveEntitled, leaveTaken, leaveScheduled of them above 0
-                if(($row['availableFlag'] != 1) && ($leaveEntitled > 0 || $leaveTaken > 0 || $leaveScheduled > 0)) {
-                    $rowDisplayFlag = true;
-                    $deletedFlag = true;
-                }
-
-                if($rowDisplayFlag) {
-
-                    $summaryListRow = Array();
-                    $employeeLeaveEntitlementObject = new EmployeeLeaveEntitlement();
-
-                    // If readonly value is 1, force read only
-                    if (isset($row['readonly']) && $row['readonly'] == 1) {
-                        $employeeLeaveEntitlementObject->setForceReadOnly(true);
-                    }
-                    
-                    $employeeLeaveEntitlementObject->setEmployeeId($employeeId);
-                    $employeeLeaveEntitlementObject->setEmployeeStatus($employeeStatus);
-                    $employeeLeaveEntitlementObject->setLeaveTypeId($leaveTypeId);
-                    $employeeLeaveEntitlementObject->setNoOfDaysAllotted($leaveEntitled);
-                    $employeeLeaveEntitlementObject->setLeaveBroughtForward($leaveBroughtForward);
-                    $employeeLeaveEntitlementObject->setLeaveCarriedForward($leaveCarryForward);
-
-                    $employeeLeaveEntitlementObject->setLeavePeriodId($leavePeriodId);
-
-                    $summaryListArray[] = $employeeLeaveEntitlementObject;
-                    
-                    $i++;
-                }
-            }
-        }
-
-        return $summaryListArray;
-    }
-
-    public function fetchRawLeaveSummaryRecordsCount($clues, $includeTerminated = false) {
-        return $this->getLeaveSummaryDao()->fetchRawLeaveSummaryRecordsCount($clues, $includeTerminated);
+        return $this->userRoleManager;
+        
     }
     
+    public function setUserRoleManager($userRoleManger) {
+        
+        $this->userRoleManager = $userRoleManger;
+        
+    }
+
     /**
      * @tutorial this is a performance imporoved version of fetchRawLeaveSummaryRecords method
      * @param array $clues
@@ -149,6 +65,48 @@ class LeaveSummaryService extends BaseService {
      */
     public function fetchRawLeaveSummaryRecordsImproved($clues) {
         return $this->getLeaveSummaryDao()->fetchRawLeaveSummaryRecordsImproved($clues);        
+    }
+    
+    /**
+     * Returns an Array of leave summary records
+     * 
+     * @version 2.7.1
+     * @param Array $clues Array of Search Clues
+     * @param Int $offset Offset for Limit
+     * @param Int $limit
+     * @param Int $loggedInUserId Current Logged In User Id
+     * @return Array List of Leave Summary Records
+     */
+    public function searchLeaveSummary($clues, $offset, $limit, $loggedInUserId) {
+        $listData = $this->getLeaveSummaryDao()->searchLeaveSummary($clues, $offset, $limit);
+        
+        $userRoleManager = $this->getUserRoleManager();
+        $accessibleEmployeeIds = $userRoleManager->getAccessibleEntityIds('Employee');
+
+        foreach ($listData as $key => $row) {
+            $listData[$key]['is_accessible'] = in_array($row['emp_number'], $accessibleEmployeeIds);
+            $leave_info = explode("_", $row['leave_info']);
+            $listData[$key]['having_taken'] = ($leave_info[2] != 0.00) ? true : false;
+            $listData[$key]['leave_taken'] = $leave_info[2];
+            $listData[$key]['having_scheduled'] = ($leave_info[1] != 0.00) ? true : false;
+            $listData[$key]['leave_scheduled'] = $leave_info[1];
+            $listData[$key]['leave_period_id'] ? $listData[$key]['leave_period_id'] : $clues['cmbLeavePeriod'];
+            $listData[$key]['logged_user_id'] = $loggedInUserId;
+            $listData[$key]['leave_type_status'] = $listData[$key]['available_flag'] ? true : false;
+        }
+        
+        return $listData;
+    }
+    
+    /**
+     * Return Count of Total Leave Summary Records
+     * 
+     * @version 2.7.1
+     * @param Array $clues Array of Search Clues
+     * @return Int Count of Total Leave Summary Records
+     */
+    public function searchLeaveSummaryCount($clues) {
+        return $this->getLeaveSummaryDao()->searchLeaveSummaryCount($clues);
     }
     
 }

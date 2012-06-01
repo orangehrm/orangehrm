@@ -179,8 +179,7 @@ class LeaveSummaryForm extends sfForm {
      * @return array
      */
     private function getRecordsPerPageChoices() {
-        //return array('20' => 20, '50' => 50, '100' => 100, '200' => 200); TODO: // Improve performance of Leave Summary and introduce 100 and 200 again
-        return array('20' => 20, '50' => 50);
+        return array('20' => 20, '50' => 50, '100' => 100, '200' => 200);
     }
 
     public function getLocationService() {
@@ -254,31 +253,31 @@ class LeaveSummaryForm extends sfForm {
         $employeeList = array();
         $idList = array();
         
-        $manager = UserRoleManagerFactory::getUserRoleManager();
-        $employeeList = $manager->getAccessibleEntities('Employee');
-        
+        $userRoleManager = UserRoleManagerFactory::getUserRoleManager();
+        $properties = array("empNumber","firstName", "middleName", "lastName");
+        $employeeList = $userRoleManager->getAccessibleEntityProperties('Employee', $properties);
+        $employeeIdList = $userRoleManager->getAccessibleEntityIds('Employee');
         $this->hasAdministrativeFilters = count($employeeList) > 0;
         
         $hasSelf = false;
-        foreach ($employeeList as $employee) {
-            $idList[] = $employee->getEmpNumber();
-            if ($employee->getEmpNumber() == $this->loggedUserId) {
-                $hasSelf = true;
-            }
+        if(in_array($this->loggedUserId, $employeeIdList)) {
+            $hasSelf = true;
         }
         
         if (!$hasSelf) {
 
-            $employeeService = $this->getEmployeeService();            
+            $employeeService = $this->getEmployeeService();
             $loggedInEmployee = $employeeService->getEmployee($this->loggedUserId);
             if ($loggedInEmployee instanceof Employee) {
-                $idList[] = $this->loggedUserId;                
-                array_push($employeeList, $loggedInEmployee);
+                $employeeIdList[] = $this->loggedUserId;
+                $empProperties = array('empNumber' => $loggedInEmployee->getEmpNumber(), 'firstName' => $loggedInEmployee->getFirstName(), 
+                	'middleName' => $loggedInEmployee->getMiddleName(), 'lastName' => $loggedInEmployee->getLastName());
+                $employeeList[$employee->getEmpNumber()] = $empProperties;
             }
         }
         
         $this->employeeList = $employeeList;
-        $this->employeeIdList = $idList;
+        $this->employeeIdList = $employeeIdList;
 
         return $employeeList;
         
@@ -310,7 +309,7 @@ class LeaveSummaryForm extends sfForm {
     public function getLeaveSummaryRecordsCount() {
 
         $leaveSummaryService = $this->getLeaveSummaryService();
-        $recordsCount = $leaveSummaryService->fetchRawLeaveSummaryRecordsCount($this->getSearchClues());
+        $recordsCount = $leaveSummaryService->searchLeaveSummaryCount($this->getSearchClues());
 
         return $recordsCount;
     }

@@ -248,6 +248,84 @@ class LeaveEntitlementServiceTest extends PHPUnit_Framework_TestCase {
 
     }
     
+    public function testSearchEmployeeLeaveEntitlement() {
+
+        $employeeLeaveEntitlementCollection = new Doctrine_Collection('EmployeeLeaveEntitlement');
+        $employeeLeaveEntitlement = new EmployeeLeaveEntitlement();
+        $employeeLeaveEntitlement->setLeaveTypeId(1);
+        $employeeLeaveEntitlement->setLeavePeriodId(1);
+        $employeeLeaveEntitlement->setEmployeeId(1);
+        $employeeLeaveEntitlement->setNoOfDaysAllotted(14);
+        $employeeLeaveEntitlement->setLeaveBroughtForward(2);
+        $employeeLeaveEntitlement->setLeaveCarriedForward(5);
+        
+        $employeeLeaveEntitlementCollection->add($employeeLeaveEntitlement);
+        
+        $employeeLeaveEntitlement = new EmployeeLeaveEntitlement();
+        $employeeLeaveEntitlement->setLeaveTypeId(1);
+        $employeeLeaveEntitlement->setLeavePeriodId(1);
+        $employeeLeaveEntitlement->setEmployeeId(2);
+        $employeeLeaveEntitlement->setNoOfDaysAllotted(20);
+        $employeeLeaveEntitlement->setLeaveBroughtForward(3);
+        $employeeLeaveEntitlement->setLeaveCarriedForward(4);
+        
+        $employeeLeaveEntitlementCollection->add($employeeLeaveEntitlement);
+        
+        $leaveEntitlementDao = $this->getMock('LeaveEntitlementDao', array('searchEmployeeLeaveEntitlement'));
+        $leaveEntitlementDao->expects($this->once())
+                                ->method('searchEmployeeLeaveEntitlement')
+                                ->with(array(1, 2), array(1, 1), 1, 2)
+                                ->will($this->returnValue($employeeLeaveEntitlementCollection));
+
+        $leaveEntitlementService = new LeaveEntitlementService();
+        $leaveEntitlementService->setLeaveEntitlementDao($leaveEntitlementDao);
+        $results = $leaveEntitlementService->searchEmployeeLeaveEntitlement(array(1, 2), array(1, 1), 1, 2);
+        
+        $this->assertEquals($employeeLeaveEntitlementCollection, $results);
+
+    }
+    
+    public function testSaveEmployeeLeaveEntitlementCollection() {
+
+        $employeeLeaveEntitlementCollection = new Doctrine_Collection('EmployeeLeaveEntitlement');
+        $employeeLeaveEntitlementList = array();
+        
+        $employeeLeaveEntitlement = new EmployeeLeaveEntitlement();
+        $employeeLeaveEntitlement->setLeaveTypeId(1);
+        $employeeLeaveEntitlement->setLeavePeriodId(1);
+        $employeeLeaveEntitlement->setEmployeeId(1);
+        $employeeLeaveEntitlement->setNoOfDaysAllotted(14);
+        $employeeLeaveEntitlement->setLeaveBroughtForward(2);
+        $employeeLeaveEntitlement->setLeaveCarriedForward(5);
+        
+        $employeeLeaveEntitlementCollection->add($employeeLeaveEntitlement);
+        $employeeLeaveEntitlementList[] = $employeeLeaveEntitlement;
+        
+        $employeeLeaveEntitlement = new EmployeeLeaveEntitlement();
+        $employeeLeaveEntitlement->setLeaveTypeId(1);
+        $employeeLeaveEntitlement->setLeavePeriodId(1);
+        $employeeLeaveEntitlement->setEmployeeId(2);
+        $employeeLeaveEntitlement->setNoOfDaysAllotted(20);
+        $employeeLeaveEntitlement->setLeaveBroughtForward(3);
+        $employeeLeaveEntitlement->setLeaveCarriedForward(4);
+        
+        $employeeLeaveEntitlementCollection->add($employeeLeaveEntitlement);
+        $employeeLeaveEntitlementList[] = $employeeLeaveEntitlement;
+        
+        $leaveEntitlementDao = $this->getMock('LeaveEntitlementDao', array('saveEmployeeLeaveEntitlementCollection'));
+        $leaveEntitlementDao->expects($this->once())
+                                ->method('saveEmployeeLeaveEntitlementCollection')
+                                ->with($employeeLeaveEntitlementList)
+                                ->will($this->returnValue($employeeLeaveEntitlementCollection));
+
+        $leaveEntitlementService = new LeaveEntitlementService();
+        $leaveEntitlementService->setLeaveEntitlementDao($leaveEntitlementDao);
+        $results = $leaveEntitlementService->saveEmployeeLeaveEntitlementCollection($employeeLeaveEntitlementList);
+        
+        $this->assertEquals($employeeLeaveEntitlementCollection, $results);
+
+    }
+    
 //    /**
 //     * Test isEmployeeRequestProtectLeaveQuota For true Result
 //     */

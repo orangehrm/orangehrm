@@ -16,9 +16,9 @@ class saveLeaveEntitlementsAction extends baseLeaveAction {
 
             $hdnEmpId = $request->getParameter('hdnEmpId');
             $hdnLeaveTypeId = $request->getParameter('hdnLeaveTypeId');
-            $hdnLeavePeriodId = $request->getParameter('hdnLeavePeriodId');
+            $leavePeriodId = $request->getParameter('leavePeriodId');
             $txtLeaveEntitled = $request->getParameter('txtLeaveEntitled');
-            
+
             $idCount = count($hdnEmpId);
             $leaveTypeCount = count($hdnLeaveTypeId);
             $count = count($txtLeaveEntitled);
@@ -27,21 +27,40 @@ class saveLeaveEntitlementsAction extends baseLeaveAction {
              * Validate we have all input values for all rows.
              */
             if (($count != $idCount) || ($count != $leaveTypeCount)) {
-                $logger->error("saveLeaveEntitlements: field count does not match: " . 
+                $logger->error("saveLeaveEntitlements: field count does not match: " .
                         " employee ids={$idCount}, leaveTypeIds={$hdnLeaveTypeId}, entitlements={$txtLeaveEntitled}");
                 $logger->error($hdnEmpId);
                 $logger->error($hdnLeaveTypeId);
                 $logger->error($txtLeaveEntitled);
-                
+
                 $saveSuccess = false;
-            } else {            
+            } else {
                 $leaveEntitlementService = $this->getLeaveEntitlementService();
                 $leaveSummaryData = $request->getParameter('leaveSummary');
-
-                for ($i = 0; $i < $count; $i++) {
-                    $leavePeriodId = empty($hdnLeavePeriodId[$i]) ? $leaveSummaryData['hdnSubjectedLeavePeriod'] : $hdnLeavePeriodId[$i];
+                if ($count > 0) {
+                     
+                    $employeeLeaveEntitlementList = $leaveEntitlementService->searchEmployeeLeaveEntitlement($hdnEmpId, $hdnLeaveTypeId, $leavePeriodId, $count);
+                    $employeeLeaveEntitlementArray = $this->getEmployeeLeaveEntitlementArray($employeeLeaveEntitlementList);
+                     
+                    $employeeLeaveEntitlements = array();
+                    
+                    for ($i = 0; $i < $count; $i++) {
+                        $arrayKey = $hdnEmpId[$i]."_".$hdnLeaveTypeId[$i];
+                        if(array_key_exists($arrayKey, $employeeLeaveEntitlementArray)) {
+                            $employeeLeaveEntitlement = $employeeLeaveEntitlementArray[$arrayKey];
+                            $employeeLeaveEntitlement->setNoOfDaysAllotted($txtLeaveEntitled[$i]);
+                        } else {
+                            $employeeLeaveEntitlement = new EmployeeLeaveEntitlement();
+                            $employeeLeaveEntitlement->setLeaveTypeId($hdnLeaveTypeId[$i]);
+                            $employeeLeaveEntitlement->setEmployeeId($hdnEmpId[$i]);
+                            $employeeLeaveEntitlement->setLeavePeriodId($leavePeriodId);
+                            $employeeLeaveEntitlement->setNoOfDaysAllotted($txtLeaveEntitled[$i]);
+                        }
+                        $employeeLeaveEntitlements[] = $employeeLeaveEntitlement;
+                    }
+                    
                     try {
-                        $leaveEntitlementService->saveEmployeeLeaveEntitlement($hdnEmpId[$i], $hdnLeaveTypeId[$i], $leavePeriodId, $txtLeaveEntitled[$i], true);
+                        $leaveEntitlementService->saveEmployeeLeaveEntitlementCollection($employeeLeaveEntitlements);
                     } catch (Exception $e) {
                         $logger->error($e);
                         $saveSuccess = false;
@@ -56,6 +75,22 @@ class saveLeaveEntitlementsAction extends baseLeaveAction {
 
             $this->forwardToLeaveSummary();
         }
+    }
+    
+    /**
+     * GetLeaveEntitlementArray
+     * Itterate through the $employeeLeaveEntitlementList and retrun an array with emplyeeLeaveEntitlements as values and 
+     * employeeId_leaveTypeId as keys 
+     * @param EmployeeLeaveEntitlementCollection $employeeLeaveEntitlementList
+     * @return Array $employeeLeaveEntitlementArray
+     */
+    protected function getEmployeeLeaveEntitlementArray($employeeLeaveEntitlementList) {
+        $employeeLeaveEntitlementArray = array();
+        foreach ($employeeLeaveEntitlementList as $employeeLeaveEntitlement) {
+            $id = $employeeLeaveEntitlement->getEmployeeId()."_".$employeeLeaveEntitlement->getLeaveTypeId();
+            $employeeLeaveEntitlementArray[$id] = $employeeLeaveEntitlement;
+        }
+        return $employeeLeaveEntitlementArray;
     }
     
     protected function forwardToLeaveSummary() {

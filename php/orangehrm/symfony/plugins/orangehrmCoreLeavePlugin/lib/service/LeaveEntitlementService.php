@@ -200,5 +200,30 @@ class LeaveEntitlementService extends BaseService {
 
         return true;
     }
+    
+    /**
+     * Return Collection of Employee Leave Entitlements
+     * 
+     * @version 2.7.1
+     * @param array $employeeIdArray Array of Employee Ids
+     * @param array $leaveTypeIdArray Array of LeaveTypeIds
+     * @param int $leavePeriodId Leave Period Id
+     * @param int $recordCount Length of the EmployeeId Array
+     * @return Doctrine_Collection Collection of Employee Leave Entitlements
+     */
+    public function searchEmployeeLeaveEntitlement($employeeIdArray, $leaveTypeIdArray, $leavePeriodId, $recordCount){
+        return $this->getLeaveEntitlementDao()->searchEmployeeLeaveEntitlement($employeeIdArray, $leaveTypeIdArray, $leavePeriodId, $recordCount);
+    }
+    
+    /**
+     * Save Employee Leave Entitlement Collection
+     * 
+     * @version 2.7.1
+     * @param Array $employeeLeaveEntitlements Array of Employee Leave Entitlements
+     * @return Doctrine_Collection Collection of Employee Leave Entitlements
+     */
+    public function saveEmployeeLeaveEntitlementCollection($employeeLeaveEntitlements){
+        return $this->getLeaveEntitlementDao()->saveEmployeeLeaveEntitlementCollection($employeeLeaveEntitlements);
+    }
 
 }

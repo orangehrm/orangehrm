@@ -36,7 +36,7 @@ class LeaveEntitlementDaoTest extends PHPUnit_Framework_TestCase {
     protected $leaveTypeId;
 
     protected function setUp() {
-        TestDataService::truncateSpecificTables(array('Employee', 'LeaveType'));
+        TestDataService::truncateSpecificTables(array('Employee', 'LeaveType', 'EmployeeLeaveEntitlement', 'LeavePeriod'));
 
         // Save leave type
         $leaveTypeData = sfYaml::load(sfConfig::get('sf_plugins_dir') . '/orangehrmCoreLeavePlugin/test/fixtures/leaveType.yml');
@@ -186,6 +186,54 @@ class LeaveEntitlementDaoTest extends PHPUnit_Framework_TestCase {
         $this->leaveEntitlementDao->saveEmployeeLeaveEntitlement($this->employee->getEmpNumber(), $this->leaveType->getLeaveTypeId(), $this->leavePeriod->getLeavePeriodId(), 10);
         $result = $this->leaveEntitlementDao->saveEmployeeLeaveBroughtForward($this->employee->getEmpNumber(), $this->leaveType->getLeaveTypeId(), $this->leavePeriod->getLeavePeriodId(), 12);
         $this->assertTrue($result);
+    }
+    
+    public function testSearchEmployeeLeaveEntitlement() {
+        $leaveEntitilementFixture = sfConfig::get('sf_plugins_dir') . '/orangehrmCoreLeavePlugin/test/fixtures/leaveEntitlement.yml';
+        TestDataService::populate($leaveEntitilementFixture);
+        $results = $this->leaveEntitlementDao->searchEmployeeLeaveEntitlement(array(1, 2), array('LTY001', 'LTY001'), 1, 2);
+        $this->assertEquals(2, count($results));
+        
+        $results = $this->leaveEntitlementDao->searchEmployeeLeaveEntitlement(array(1, 2), array('LTY001', 'LTY001'), 1, 2);
+        $this->assertEquals('20.00', $results[0]['no_of_days_allotted']);
+        
+        $results = $this->leaveEntitlementDao->searchEmployeeLeaveEntitlement(array(1, 2), array('LTY001', 'LTY001'), 1, 2);
+        $this->assertEquals('1.00', $results[1]['leave_brought_forward']);
+        
+        
+        $results = $this->leaveEntitlementDao->searchEmployeeLeaveEntitlement(array(1, 2), array('LTY001', 'LTY001'), 1, 2);
+        $this->assertEquals('1.00', $results[1]['leave_carried_forward']);
+        
+        
+    }
+    
+    public function testSaveEmployeeLeaveEntitlementCollection() {
+        $leaveEntitilementFixture = sfConfig::get('sf_plugins_dir') . '/orangehrmCoreLeavePlugin/test/fixtures/leaveEntitlement.yml';
+        TestDataService::populate($leaveEntitilementFixture);
+        
+        $leaveEntitlementList = array();
+        
+        $employeeLeaveEntitlement = new EmployeeLeaveEntitlement();
+        $employeeLeaveEntitlement->setLeaveTypeId('LTY002');
+        $employeeLeaveEntitlement->setEmployeeId(2);
+        $employeeLeaveEntitlement->setLeavePeriodId(1);
+        $employeeLeaveEntitlement->setNoOfDaysAllotted(40);
+        
+        $leaveEntitlementList[] = $employeeLeaveEntitlement;
+        $employeeLeaveEntitlement = TestDataService::fetchObject('EmployeeLeaveEntitlement', array('LTY001',1, 1));
+        //$employeeLeaveEntitlement = $this->leaveEntitlementDao->getEmployeeLeaveEntitlement(1, 'LTY001', 1);
+        $employeeLeaveEntitlement->setNoOfDaysAllotted(50);
+        $leaveEntitlementList[] = $employeeLeaveEntitlement;
+        $results = $this->leaveEntitlementDao->saveEmployeeLeaveEntitlementCollection($leaveEntitlementList);
+        
+        $employeeLeaveEntitlement = TestDataService::fetchObject('EmployeeLeaveEntitlement', array('LTY001', 1, 1));
+        //$employeeLeaveEntitlement = $this->leaveEntitlementDao->getEmployeeLeaveEntitlement(1, 'LTY001', 1);
+        $this->assertEquals(50.00, $employeeLeaveEntitlement->getNoOfDaysAllotted());
+        
+        $employeeLeaveEntitlement = TestDataService::fetchObject('EmployeeLeaveEntitlement', array('LTY002', 2, 1));
+        //$employeeLeaveEntitlement = $this->leaveEntitlementDao->getEmployeeLeaveEntitlement(2, 'LTY002', 1);
+        $this->assertEquals(40.00, $employeeLeaveEntitlement->getNoOfDaysAllotted());
+        
     }
 
 }

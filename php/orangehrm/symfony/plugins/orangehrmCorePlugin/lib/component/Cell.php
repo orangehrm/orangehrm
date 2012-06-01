@@ -123,7 +123,7 @@ abstract class Cell implements PopulatableFromArray {
 
             foreach ($placeholderGetters as $placeholderKey => $getterMethod) {
                 $patterns[] = '/\{' . $placeholderKey . '\}/';
-                $replacements[] = $this->getDataObject()->$getterMethod();
+                $replacements[] = ($this->dataSourceType === self::DATASOURCE_TYPE_ARRAY) ? $this->dataObject[$getterMethod] : $this->dataObject->$getterMethod();
             }
 
             return preg_replace($patterns, $replacements, $attributeValue);

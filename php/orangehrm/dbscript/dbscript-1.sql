@@ -430,7 +430,8 @@ CREATE TABLE `hs_hr_leave_requests` (
   PRIMARY KEY  (`leave_request_id`,`leave_type_id`,`employee_id`),
   KEY `employee_id` (`employee_id`),
   KEY `leave_type_id` (`leave_type_id`),
-  KEY `leave_period_id` (`leave_period_id`)
+  KEY `leave_period_id` (`leave_period_id`),
+  KEY `leave_period_id_2` (`leave_period_id`,`employee_id`,`leave_type_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 CREATE TABLE `hs_hr_leave` (
@@ -448,7 +449,8 @@ CREATE TABLE `hs_hr_leave` (
   PRIMARY KEY  (`leave_id`,`leave_request_id`,`leave_type_id`,`employee_id`),
   KEY `leave_request_id` (`leave_request_id`,`leave_type_id`,`employee_id`),
   KEY `leave_type_id` (`leave_type_id`),
-  KEY `employee_id` (`employee_id`)
+  KEY `employee_id` (`employee_id`),
+  KEY `type_status` (`leave_request_id`,`leave_status`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 create table `hs_hr_leavetype` (
@@ -467,7 +469,8 @@ create table `hs_hr_employee_leave_quota` (
   `leave_taken` decimal(6,2) default '0.00',
   `leave_brought_forward` decimal(6,2) default '0.00',
   `leave_carried_forward` decimal(6,2) default '0.00',
-   primary key  (`leave_type_id`,`employee_id`,`leave_period_id`)
+   primary key  (`leave_type_id`,`employee_id`,`leave_period_id`),
+   KEY `per_emp_type_key` (`leave_period_id`,`employee_id`,`leave_type_id`)
 ) engine=innodb default charset=utf8;
 
 CREATE TABLE `ohrm_holiday` (

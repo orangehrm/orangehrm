@@ -1,16 +1,10 @@
 <?php
-/* 
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
-
 /**
- * Description of leaveSummaryLinkCell
+ * Description of LeaveSummaryEmployeeNameCell
  *
- * @author nadeeth
  */
 
-class LeaveSummaryLinkCell extends Cell {
+class LeaveSummaryEmployeeNameCell extends Cell {
 
     public function __toString() {
         $linkable = $this->getPropertyValue('linkable', true);
@@ -18,12 +12,16 @@ class LeaveSummaryLinkCell extends Cell {
         if (($linkable instanceof sfOutputEscaperArrayDecorator) || is_array($linkable)) {
             list($method, $params) = $linkable;
             $linkable = call_user_func_array(array($this->dataObject, $method), $params->getRawValue());
+            $employeeId = $this->dataObject->getEmployeeId();
+        } else {
+            $linkable = $this->getValue('linkable');
+            $employeeId = $this->getValue('hiddenFieldValueGetter');
         }
 
-        if ($linkable) {
+         if ($linkable) {
             $placeholderGetters = $this->getPropertyValue('placeholderGetters');
             $urlPattern = $this->getPropertyValue('urlPattern');
-            if ($this->dataObject->getEmployeeId() == $_SESSION['empNumber']) {
+            if ($employeeId == $this->getValue('loggedUserId')) {
                 $urlPattern = $this->getPropertyValue('altUrlPattern');
             }
 
@@ -36,8 +34,11 @@ class LeaveSummaryLinkCell extends Cell {
             $linkAttributes = array(
                 'href' => $url,
             );
-
-            return content_tag('a', $this->getValue('labelGetter'), $linkAttributes)
+            $employeeName = $this->getValue('labelGetter');
+            if($this->getValue('terminatedEmployee')) {
+                $employeeName .= ' ('. __('Past Employee').')';
+            }
+            return content_tag('a', $employeeName, $linkAttributes)
                     . $this->getHiddenFieldHTML();
         } else {
             return $this->toValue();

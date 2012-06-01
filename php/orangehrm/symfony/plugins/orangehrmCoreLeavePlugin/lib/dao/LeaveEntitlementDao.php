@@ -173,7 +173,61 @@ class LeaveEntitlementDao extends BaseDao{
             throw new DaoException( $e->getMessage());
         }
 	}
-        
+
+    /**
+     * searchEmployeeLeaveEntitlement
+     * Search Leave Entitlment by employeeId, leaveTypeId and leave period id
+     * @param Array $employeeIdArray
+     * @param Array $leaveTypeIdArray
+     * @param int $leavePeriodId
+     * @param int $recordCount
+     * @return Doctrine_Collection EmployeeLeaveEntitlement
+     */
+    public function searchEmployeeLeaveEntitlement($employeeIdArray, $leaveTypeIdArray, $leavePeriodId, $recordCount) {
+        try {
+            $q = Doctrine_Query::create()
+            ->from('EmployeeLeaveEntitlement ele')
+            ->where("ele.leave_period_id = ?");
+    
+            $whereClause = "";
+            $escapeArray = array();
+            $escapeArray[] = $leavePeriodId;
+            for ($i = 0; $i < $recordCount; $i++) {
+                $whereClause .= "( (ele.leave_type_id = ?) AND (ele.employee_id = ? ) )";
+                $escapeArray[] = $leaveTypeIdArray[$i];
+                $escapeArray[] = $employeeIdArray[$i];
+                if (($whereClause != "") && ($i != ($recordCount - 1))) {
+                    $whereClause .= " OR ";
+                }
+            }
+            
+            $q->andWhere($whereClause);
+            return $q->execute($escapeArray);
+    
+        } catch( Exception $e) {
+            throw new DaoException($e->getMessage(), $e->getCode(), $e);
+        }
+    }
+    
+    /**
+     * SaveEmployeeLeaveEntitlementCollection
+     * Save EmployeeLeaveEntitlement Collection
+     * @param Array $employeeLeaveEntitlements
+     * @return Doctrine_Collection EmployeeLeaveEntitlement
+     */
+    public function saveEmployeeLeaveEntitlementCollection($employeeLeaveEntitlements){
+        try {
+            $employeeLeaveEntitlementCollection = new Doctrine_Collection('EmployeeLeaveEntitlement');
+            foreach ($employeeLeaveEntitlements as $employeeLeaveEntitlement) {
+                $employeeLeaveEntitlementCollection->add($employeeLeaveEntitlement);
+            }
+            $employeeLeaveEntitlementCollection->save();
+            return $employeeLeaveEntitlementCollection;
+        } catch( Exception $e) {
+            throw new DaoException($e->getMessage(), $e->getCode(), $e);
+        }
+    }
+
            /**
 	 * Save employee leave carried forward for given period
 	 * @param int $employeeId

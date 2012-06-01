@@ -31,43 +31,114 @@ class LeaveSummaryServiceTest extends PHPUnit_Framework_TestCase {
 
     }
 
-    public function testFetchRawLeaveSummaryRecords() {
+    public function testSearchLeaveSummary() {
 
-        $clues = array();
-        $offset = 0;
-        $limit = 50;
-        $resource = Array();
+        $clues['cmbEmpId'] = 1;
+        $clues['userType'] = 'ESS';
+        $clues['cmbLeaveType'] = '';
+        $clues['cmbSubDivision'] = '';
+        $clues['cmbJobTitle'] = '';
+        $clues['cmbLocation'] = '';
+        $clues['subordinates'] = '';
+        $clues['cmbWithTerminated'] = '';
 
-        $leaveSummaryDao = $this->getMock('LeaveSummaryDao', array('fetchRawLeaveSummaryRecords'));
+        $intendedResults[0] = array
+        (
+            'emp_fullname' => 'Ashley Abel',
+            'leave_type_id' => 'LTY001',
+            'available_flag' => 1,
+            'leave_period_id' => null,
+            'employee_id' => null,
+            'emp_number' => 2,
+            'termination_id' => null,
+            'leave_type_name' => 'Casual',
+            'no_of_days_allotted' => '0.00',
+            'leave_brought_forward' => null,
+            'leave_carried_forward' => null,
+            'leave_info' => '0.00_0.00_0.00',
+            'having_taken' => false,
+            'leave_taken' => '0.00',
+            'having_scheduled' => false,
+            'leave_scheduled' => '0.00',
+            'logged_user_id' => 1,
+            'leave_type_status' => true
+        );
+        
+        $intendedResults[1] = array
+        (
+            'emp_fullname' => 'Ashley Abel',
+            'leave_type_id' => 'LTY002',
+            'available_flag' => 1,
+            'leave_period_id' => null,
+            'employee_id' => null,
+            'emp_number' => 2,
+            'termination_id' => null,
+            'leave_type_name' => 'Medical',
+            'no_of_days_allotted' => '0.00',
+            'leave_brought_forward' => null,
+            'leave_carried_forward' => null,
+            'leave_info' => '0.00_0.00_0.00',
+            'having_taken' => false,
+            'leave_taken' => '0.00',
+            'having_scheduled' => false,
+            'leave_scheduled' => '0.00',
+            'logged_user_id' => 1,
+            'leave_type_status' => true
+        );
+        
+        $leaveSummaryDao = $this->getMock('LeaveSummaryDao', array('searchLeaveSummary'));
         $leaveSummaryDao->expects($this->once())
-                        ->method('fetchRawLeaveSummaryRecords')
-                        ->with($clues, $offset, $limit)
-                        ->will($this->returnValue(new MySqlResource()));
+                        ->method('searchLeaveSummary')
+                        ->with($clues, 0, 20)
+                        ->will($this->returnValue($intendedResults));
 
+        // TODO: 'BasicUserRoleManager' is used directly. Should be accessed via UserRoleManagerFactory::getUserRoleManager()
+        $userRoleManagerMock = $this->getMock('BasicUserRoleManager', array('getAccessibleEntityIds'));
+        $userRoleManagerMock->expects($this->once())
+                        ->method('getAccessibleEntityIds')
+                        ->with('Employee')
+                        ->will($this->returnValue(array(1, 2, 3, 4, 5)));
+
+                        
         $this->leaveSummaryService->setLeaveSummaryDao($leaveSummaryDao);
+        $this->leaveSummaryService->setUserRoleManager($userRoleManagerMock);
 
-        $result = $this->leaveSummaryService->fetchRawLeaveSummaryRecords($clues, $offset, $limit);
+        $result = $this->leaveSummaryService->searchLeaveSummary($clues, 0, 20, 1);
 
-        $this->assertTrue(is_array($result));
+        $this->compareArrays($intendedResults, $result);
 
     }
 
-    public function testFetchRawLeaveSummaryRecordsCount() {
+    public function testSearchLeaveSummaryCount() {
 
-        $clues = array();
-
-        $leaveSummaryDao = $this->getMock('LeaveSummaryDao', array('fetchRawLeaveSummaryRecordsCount'));
+        $clues['cmbEmpId'] = 1;
+        $clues['userType'] = 'ESS';
+        $clues['cmbLeaveType'] = '';
+        $clues['cmbSubDivision'] = '';
+        $clues['cmbJobTitle'] = '';
+        $clues['cmbLocation'] = '';
+        $clues['subordinates'] = '';
+        $clues['cmbWithTerminated'] = '';
+        
+        $leaveSummaryDao = $this->getMock('LeaveSummaryDao');
         $leaveSummaryDao->expects($this->once())
-                        ->method('fetchRawLeaveSummaryRecordsCount')
+                        ->method('searchLeaveSummaryCount')
                         ->with($clues)
-                        ->will($this->returnValue(50));
+                        ->will($this->returnValue(2));
 
         $this->leaveSummaryService->setLeaveSummaryDao($leaveSummaryDao);
 
-        $result = $this->leaveSummaryService->fetchRawLeaveSummaryRecordsCount($clues);
+        $result = $this->leaveSummaryService->searchLeaveSummaryCount($clues);
 
-        $this->assertEquals(50, $result);
+        $this->assertEquals(2, $result);
 
+    }
+    
+    protected function compareArrays($expected, $actual) {
+        $this->assertEquals(count($expected), count($actual));
+        
+        $diff = array_diff($expected, $actual);
+        $this->assertEquals(0, count($diff), $diff);       
     }
 
 }

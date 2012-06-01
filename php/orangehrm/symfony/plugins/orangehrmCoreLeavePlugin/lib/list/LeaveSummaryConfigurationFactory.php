@@ -4,27 +4,29 @@
 class LeaveSummaryConfigurationFactory extends ohrmListConfigurationFactory {
 
     protected function init() {
-        $header1 = new ListHeader();
-        $header2 = new ListHeader();
+        $header1 = new LeaveSummaryEmployeeNameHeader();
+        $header2 = new LeaveSummaryLeaveTypeHeader();
         $header3 = new ListHeader();
-        $header4 = new LeaveSummaryLinkHeader();
-        $header5 = new LeaveSummaryLinkHeader();
-        $header6 = new ListHeader();
+        $header4 = new LeaveSummaryValueHeader();
+        $header5 = new LeaveSummaryValueHeader();
+        $header6 = new LeaveSummaryValueHeader();
 
         $header1->populateFromArray(array(
             'name' => 'Employee Name',
             'width' => '20%',
             'isSortable' => false,
-            'elementType' => 'link',
+            'elementType' => 'leaveSummaryEmployeeName',
             'textAlignmentStyle' => 'left',
             'elementProperty' => array(
-                'linkable' => array('isEmployeeDetailsAccessible', array()),
-                'labelGetter' => array('getEmployee', 'getFullName'),
-                'placeholderGetters' => array('id' => 'getEmployeeId'),
+                'linkable' => 'is_accessible',
+                'loggedUserId' => 'logged_user_id',
+                'terminatedEmployee' => 'termination_id',
+                'labelGetter' => 'emp_fullname',
+                'placeholderGetters' => array('id' => 'emp_number'),
                 'urlPattern' => '../pim/viewPersonalDetails/empNumber/{id}',
                 'hasHiddenField' => true,
                 'hiddenFieldName' => 'hdnEmpId[]',
-                'hiddenFieldValueGetter' => 'getEmployeeId',
+                'hiddenFieldValueGetter' => 'emp_number',
             ),
         ));
 
@@ -32,14 +34,14 @@ class LeaveSummaryConfigurationFactory extends ohrmListConfigurationFactory {
             'name' => 'Leave Type',
             'width' => '20%',
             'isSortable' => false,
-            'elementType' => 'label',
+            'elementType' => 'leaveSummaryLeaveType',
             'textAlignmentStyle' => 'left',
             'elementProperty' => array(
-                'getter' => array('getLeaveType', 'getDescriptiveLeaveTypeName'),
+                'getter' => 'leave_type_name',
                 'hasHiddenField' => true,
                 'hiddenFieldName' => 'hdnLeaveTypeId[]',
-                'hiddenFieldValueGetter' => 'getLeaveTypeId',
-
+                'hiddenFieldValueGetter' => 'leave_type_id',
+                'leaveTypeStatus' => 'leave_type_status',
             ),
         ));
 
@@ -50,7 +52,7 @@ class LeaveSummaryConfigurationFactory extends ohrmListConfigurationFactory {
             'elementType' => 'textbox',
             'textAlignmentStyle' => 'center',
             'elementProperty' => array(
-                'getter' => 'getNoOfDaysAllotted',
+                'getter' => 'no_of_days_allotted',
                 'name' => 'txtLeaveEntitled[]',
                 'readOnly' => (!self::$permissions->canUpdate()),
             ),
@@ -60,36 +62,35 @@ class LeaveSummaryConfigurationFactory extends ohrmListConfigurationFactory {
             'name' => 'Leave Scheduled (Days)',
             'width' => '15%',
             'isSortable' => false,
-            'elementType' => 'leaveSummaryLink',
+            'elementType' => 'leaveSummaryValue',
             'textAlignmentStyle' => 'center',
             'elementProperty' => array(
-                'getter' => 'getLeaveScheduled',
-                 /* FIXME: This hidden field is added because the old leave 
-                  * summary contains one. Ideally, the value of leave period id 
-                  * need to be taken from a single field
-                  */
-                'linkable' => array('isThereLeaveScheduled', array()),
-                'labelGetter' => array('getLeaveScheduled'),
-                'placeholderGetters' => array('id' => 'getEmployeeId', 'lty' => 'getLeaveTypeId', 'lpi' => 'getLeavePeriodId', 'empstat' => 'getEmployeeStatus'),
-                'urlPattern' => 'viewLeaveList?txtEmpID={id}&leaveTypeId={lty}&status=2&leavePeriodId={lpi}&EmpStatus={empstat}',
-                'hasHiddenField' => true,
-                'hiddenFieldName' => 'hdnLeavePeriodId[]',
-                'hiddenFieldValueGetter' => 'getLeavePeriodId',
-                'altUrlPattern' => 'viewMyLeaveList?txtEmpID={id}&leaveTypeId={lty}&status=2&leavePeriodId={lpi}&EmpStatus={empstat}',
+                'getter' => 'leave_info',
+                'elementKey' => 1,
+                'linkable' => 'having_scheduled',
+                'loggedUserId' => 'logged_user_id',
+                'labelGetter' => 'leave_scheduled',
+                'placeholderGetters' => array('id' => 'emp_number', 'lty' => 'leave_type_id', 'lpi' => 'leave_period_id'),
+                'urlPattern' => 'viewLeaveList?txtEmpID={id}&leaveTypeId={lty}&status=2&leavePeriodId={lpi}',
+                'altUrlPattern' => 'viewMyLeaveList?txtEmpID={id}&leaveTypeId={lty}&status=2&leavePeriodId={lpi}',
             ),
         ));
+        
+        
 
         $header5->populateFromArray(array(
             'name' => 'Leave Taken (Days)',
             'width' => '15%',
             'isSortable' => false,
-            'elementType' => 'leaveSummaryLink',
+            'elementType' => 'leaveSummaryValue',
             'textAlignmentStyle' => 'center',
             'elementProperty' => array(
-                'getter' => 'getLeaveTaken',
-                'linkable' => array('isThereLeaveTaken', array()),
-                'labelGetter' => array('getLeaveTaken'),
-                'placeholderGetters' => array('id' => 'getEmployeeId', 'lty' => 'getLeaveTypeId', 'lpi' => 'getLeavePeriodId'),
+                'getter' => 'leave_info',
+                'loggedUserId' => 'logged_user_id',
+                'elementKey' => 2,
+                'linkable' => 'having_taken',
+                'labelGetter' => 'leave_taken',
+                'placeholderGetters' => array('id' => 'emp_number', 'lty' => 'leave_type_id', 'lpi' => 'leave_period_id'),
                 'urlPattern' => 'viewLeaveList?txtEmpID={id}&leaveTypeId={lty}&status=3&leavePeriodId={lpi}',
                 'altUrlPattern' => 'viewMyLeaveList?txtEmpID={id}&leaveTypeId={lty}&status=3&leavePeriodId={lpi}',
              ),
@@ -99,9 +100,12 @@ class LeaveSummaryConfigurationFactory extends ohrmListConfigurationFactory {
             'name' => 'Leave Balance (Days)',
             'width' => '15%',
             'isSortable' => false,
-            'elementType' => 'label',
+            'elementType' => 'leaveSummaryValue',
             'textAlignmentStyle' => 'center',
-            'elementProperty' => array('getter' => 'getLeaveBalance'),
+            'elementProperty' => array(
+            'getter' => 'leave_info',
+            'elementKey' => 0,
+        ),
         ));
 
         $this->headers = array($header1, $header2, $header3, $header4, $header5, $header6);

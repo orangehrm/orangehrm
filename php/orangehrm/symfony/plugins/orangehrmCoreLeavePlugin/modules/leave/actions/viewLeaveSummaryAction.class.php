@@ -122,9 +122,11 @@ class viewLeaveSummaryAction extends sfAction implements ohrmExportableAction {
         $noOfRecords = isset($clues['cmbRecordsCount']) ? (int) $clues['cmbRecordsCount'] : $this->form->recordsLimit;
         $pageNo = $request->getParameter('hdnAction') == 'search' ? 1 : $request->getParameter('pageNo', 1);
         $offset = ($pageNo - 1) * $noOfRecords;
-
-        $listData = $leaveSummaryService->fetchRawLeaveSummaryRecords($clues, $offset, $noOfRecords);
-        $totalRecordsCount = $leaveSummaryService->fetchRawLeaveSummaryRecordsCount($clues);
+        
+        $this->leavePeriodId = $clues['cmbLeavePeriod'];
+        $loggedInUserId = $this->getUser()->getEmployeeNumber();
+        $listData = $leaveSummaryService->searchLeaveSummary($clues, $offset, $noOfRecords, $loggedInUserId);
+        $totalRecordsCount = $leaveSummaryService->searchLeaveSummaryCount($clues);
 
         $listComponentParameters = new ListCompnentParameterHolder();
         $listComponentParameters->populateByArray(array(
@@ -136,7 +138,7 @@ class viewLeaveSummaryAction extends sfAction implements ohrmExportableAction {
         ));
         $this->initializeListComponent($listComponentParameters);
 
-        $this->initilizeDataRetriever($configurationFactory, $leaveSummaryService, 'fetchRawLeaveSummaryRecords', array($this->form->getSearchClues(),
+        $this->initilizeDataRetriever($configurationFactory, $leaveSummaryService, 'searchLeaveSummary', array($this->form->getSearchClues(),
             0,
             $totalRecordsCount
         ));

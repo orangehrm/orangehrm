@@ -168,11 +168,12 @@ EOF
         if (is_array($employeeList)) {
             return $employeeList;
         }
-        
+
         if( $loadingMethod != 'ajax'){
-            $employees = UserRoleManagerFactory::getUserRoleManager()->getAccessibleEntities('Employee');
-            
-            return $employees;
+            $properties = array("empNumber","firstName", "middleName", "lastName");
+            $employeeList = UserRoleManagerFactory::getUserRoleManager()->getAccessibleEntityProperties('Employee', $properties);
+
+            return $employeeList;
         }else{
             return array();
         }
@@ -189,13 +190,9 @@ EOF
         $jsonArray = array();        
         
         foreach ($employeeList as $employee) {
-
-            $jsonArray[] = array('name' => $employee->getFullName(), 'id' => $employee->getEmpNumber());
-            
+            $jsonArray[$employee['empNumber']] = array('name' => trim($employee['firstName'] . ' ' . $employee['middleName'],' ') . ' ' . $employee['lastName'], 'id' => $employee['empNumber']);
         }
-        
         usort($jsonArray, array($this, 'compareByName'));
-
         return json_encode($jsonArray);
 
     }
