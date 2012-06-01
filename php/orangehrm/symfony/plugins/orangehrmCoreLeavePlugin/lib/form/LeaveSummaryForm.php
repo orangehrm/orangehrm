@@ -272,7 +272,7 @@ class LeaveSummaryForm extends sfForm {
                 $employeeIdList[] = $this->loggedUserId;
                 $empProperties = array('empNumber' => $loggedInEmployee->getEmpNumber(), 'firstName' => $loggedInEmployee->getFirstName(), 
                 	'middleName' => $loggedInEmployee->getMiddleName(), 'lastName' => $loggedInEmployee->getLastName());
-                $employeeList[$employee->getEmpNumber()] = $empProperties;
+                $employeeList[$loggedInEmployee->getEmpNumber()] = $empProperties;
             }
         }
         
