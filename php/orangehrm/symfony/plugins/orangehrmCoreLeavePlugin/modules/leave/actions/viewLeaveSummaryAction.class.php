@@ -88,7 +88,6 @@ class viewLeaveSummaryAction extends sfAction implements ohrmExportableAction {
             $this->form->bind($request->getParameter($this->form->getName()));
         }
 
-        $this->form->recordsCount = $this->form->getLeaveSummaryRecordsCount();
         $this->form->setPager($request);
 
         $permissions = $this->getContext()->get('screen_permissions');        
@@ -127,7 +126,8 @@ class viewLeaveSummaryAction extends sfAction implements ohrmExportableAction {
         $loggedInUserId = $this->getUser()->getEmployeeNumber();
         $listData = $leaveSummaryService->searchLeaveSummary($clues, $offset, $noOfRecords, $loggedInUserId);
         $totalRecordsCount = $leaveSummaryService->searchLeaveSummaryCount($clues);
-
+        $this->form->recordsCount = $totalRecordsCount;
+        
         $listComponentParameters = new ListCompnentParameterHolder();
         $listComponentParameters->populateByArray(array(
             'configurationFactory' => $configurationFactory,
