@@ -99,7 +99,7 @@
                 ,matchContains:true
             }).result(function(event, item) {
                 $('#assignleave_txtEmployee_empId').val(item.id);
-                $('#assignleave_txtEmpWorkShift').val(item.workShift);
+                setEmployeeWorkshift(item.id);
                 updateLeaveBalance();
             }
         );
@@ -441,5 +441,18 @@
             }
         }
     }
+    
+    function setEmployeeWorkshift(empNumber) {
+
+        $.ajax({
+            url: "getWorkshiftAjax",
+            data: "empNumber="+empNumber,
+            dataType: 'json',
+            success: function(data){
+                $('#assignleave_txtEmpWorkShift').val(data.workshift);
+            }
+        });
+
+    }    
 
 </script>

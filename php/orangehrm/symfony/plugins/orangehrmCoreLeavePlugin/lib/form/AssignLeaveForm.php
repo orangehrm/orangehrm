@@ -142,43 +142,20 @@ class AssignLeaveForm extends sfForm {
         
         $locationService = new LocationService();
         
-        $employeeList = UserRoleManagerFactory::getUserRoleManager()->getAccessibleEntities('Employee');
+        $properties = array("empNumber","firstName", "middleName", "lastName", 'termination_id');
+        $employeeList = UserRoleManagerFactory::getUserRoleManager()->getAccessibleEntityProperties('Employee', $properties);
 
         $employeeUnique = array();
         foreach ($employeeList as $employee) {
             $workShiftLength = 0;
             $employeeCountry = null;
-            $terminationId = $employee->getTerminationId();
-            if (!isset($employeeUnique[$employee->getEmpNumber()]) && empty($terminationId)) {
-                $employeeWorkShift = $employeeService->getWorkShift($employee->getEmpNumber());
-                if ($employeeWorkShift != null) {
-                    $workShiftLength = $employeeWorkShift->getWorkShift()->getHoursPerDay();
-                } else
-                    $workShiftLength = WorkShift :: DEFAULT_WORK_SHIFT_LENGTH;
+            $terminationId = $employee['termination_id'];
+            $empNumber = $employee['empNumber'];
+            if (!isset($employeeUnique[$empNumber]) && empty($terminationId)) {
+                $name = trim($employee['firstName'] . ' ' . $employee['middleName'],' ') . ' ' . $employee['lastName'];
 
-                /*$operatinalCountry = $employee->getOperationalCountry();
-                if ($employee->getOperationalCountry() instanceof OperationalCountry) {
-                    $employeeCountry = $operatinalCountry->getId();
-                }*/
-                
-                $employeeLocations  = $employee->getLocations();
-                if ($employeeLocations[0] instanceof Location){                
-                    $location = $locationService->getLocationById($employeeLocations[0]->getId());
-                    if ($location instanceof Location) {
-                        $country = $location->getCountry();
-                        if ($country instanceof Country) {
-                            $employeeOperationalCountry = $country->getOperationalCountry();
-                            if ($employeeOperationalCountry instanceof OperationalCountry) {
-                                $employeeCountry = $employeeOperationalCountry->getId();
-                            }
-                        }
-                    }
-                }
-                
-                $name = $employee->getFullName();
-
-                $employeeUnique[$employee->getEmpNumber()] = $name;
-                $jsonArray[] = array('name' => $name, 'id' => $employee->getEmpNumber(), 'workShift' => $workShiftLength, 'country' => $employeeCountry);
+                $employeeUnique[$empNumber] = $name;
+                $jsonArray[] = array('name' => $name, 'id' => $empNumber);
             }
         }
 
