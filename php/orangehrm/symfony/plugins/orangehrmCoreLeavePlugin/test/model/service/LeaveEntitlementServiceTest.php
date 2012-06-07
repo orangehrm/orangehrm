@@ -194,30 +194,13 @@ class LeaveEntitlementServiceTest extends PHPUnit_Framework_TestCase {
 
     public function testGetLeaveBalanceExistingRecords() {
 
-        $employeeLeaveEntitlement = new EmployeeLeaveEntitlement();
-        $employeeLeaveEntitlement->setNoOfDaysAllotted(14);
-        $employeeLeaveEntitlement->setLeaveBroughtForward(2);
-        $employeeLeaveEntitlement->setLeaveCarriedForward(5);
-
-        $leaveEntitlementService = $this->getMock('LeaveEntitlementService', array('readEmployeeLeaveEntitlement'));
-        $leaveEntitlementService->expects($this->once())
-                                ->method('readEmployeeLeaveEntitlement')
-                                ->with(1, 'LTY001', 1)
-                                ->will($this->returnValue($employeeLeaveEntitlement));
-
-        $leaveRequestService = $this->getMock('LeaveRequestService', array('getScheduledLeavesSum', 'getTakenLeaveSum'));
-
-        $leaveRequestService->expects($this->once())
-                            ->method('getScheduledLeavesSum')
+        $leaveEntitlementService = new LeaveEntitlementService();
+        $leaveEntitlementDao = $this->getMock('LeaveEntitlementDao', array('getLeaveBalance'));
+        $leaveEntitlementDao->expects($this->once())
+                            ->method('getLeaveBalance')
                             ->with(1, 'LTY001', 1)
-                            ->will($this->returnValue(3));
-
-        $leaveRequestService->expects($this->once())
-                            ->method('getTakenLeaveSum')
-                            ->with(1, 'LTY001', 1)
-                            ->will($this->returnValue(2));
-
-        $leaveEntitlementService->setLeaveRequestService($leaveRequestService);
+                            ->will($this->returnValue(6));
+        $leaveEntitlementService->setLeaveEntitlementDao($leaveEntitlementDao);
 
         $this->assertEquals(6, $leaveEntitlementService->getLeaveBalance(1, 'LTY001', 1));
 
@@ -225,24 +208,13 @@ class LeaveEntitlementServiceTest extends PHPUnit_Framework_TestCase {
 
     public function testGetLeaveBalanceEmptyRecords() {
 
-        $leaveEntitlementService = $this->getMock('LeaveEntitlementService', array('readEmployeeLeaveEntitlement'));
-        $leaveEntitlementService->expects($this->once())
-                                ->method('readEmployeeLeaveEntitlement')
-                                ->with(1, 'LTY001', 1)
-                                ->will($this->returnValue(null));
-
-        $leaveRequestService = $this->getMock('LeaveRequestService', array('getScheduledLeavesSum', 'getTakenLeaveSum'));
-        $leaveRequestService->expects($this->once())
-                            ->method('getScheduledLeavesSum')
+        $leaveEntitlementService = new LeaveEntitlementService();
+        $leaveEntitlementDao = $this->getMock('LeaveEntitlementDao', array('getLeaveBalance'));
+        $leaveEntitlementDao->expects($this->once())
+                            ->method('getLeaveBalance')
                             ->with(1, 'LTY001', 1)
-                            ->will($this->returnValue(0));
-                            
-        $leaveRequestService->expects($this->once())
-                            ->method('getTakenLeaveSum')
-                            ->with(1, 'LTY001', 1)
-                            ->will($this->returnValue(0));
-
-        $leaveEntitlementService->setLeaveRequestService($leaveRequestService);
+                            ->will($this->returnValue('0.00'));
+        $leaveEntitlementService->setLeaveEntitlementDao($leaveEntitlementDao);
 
         $this->assertEquals('0.00', $leaveEntitlementService->getLeaveBalance(1, 'LTY001', 1));
 

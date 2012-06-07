@@ -310,7 +310,8 @@ class viewLeaveListAction extends sfAction {
         $employeeList = array();
 
         if (Auth::instance()->hasRole(Auth::ADMIN_ROLE)) {
-            $employeeList = $employeeService->getEmployeeList('empNumber', 'ASC', false);
+            $properties = array("empNumber","firstName", "middleName", "lastName", 'termination_id');
+            $employeeList = UserRoleManagerFactory::getUserRoleManager()->getAccessibleEntityProperties('Employee', $properties);
         }
 
         if ($_SESSION['isSupervisor'] && trim(Auth::instance()->getEmployeeNumber()) != "") {

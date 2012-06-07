@@ -63,38 +63,14 @@ abstract class PluginLeaveRequest extends BaseLeaveRequest {
     }
 
     public function getLeaveBalance() {
-
+        $leaveEntitlementService = new LeaveEntitlementService();
         $employeeId = $this->getEmpNumber();
         $leaveTypeId = $this->getLeaveTypeId();
         $leavePeriodId = $this->getLeavePeriodId();
-
-        $leaveEntitlementService = new LeaveEntitlementService();
-        $leaveEntitlementObj = $leaveEntitlementService->readEmployeeLeaveEntitlement($employeeId, $leaveTypeId, $leavePeriodId);
-
-        if ($leaveEntitlementObj instanceof EmployeeLeaveEntitlement) {
-            $leaveEntitled = $leaveEntitlementObj->getNoOfDaysAllotted();
-            $leaveBroughtForward = $leaveEntitlementObj->getLeaveBroughtForward();
-            $leaveCarryForward = $leaveEntitlementObj->getLeaveCarriedForward();
-        } else {
-            $leaveEntitled = '0.00';
-            $leaveBroughtForward = '0.00';
-            $leaveCarryForward = '0.00';
-        }
-
-        $leaveRequestService = new LeaveRequestService();
-        $leaveRequestService->setLeaveRequestDao(new LeaveRequestDao());
-
-        $leaveTaken = $leaveRequestService->getTakenLeaveSum($employeeId, $leaveTypeId, $leavePeriodId);
-        $leaveTaken = empty($leaveTaken) ? '0.00' : $leaveTaken;
-
-        //$leaveScheduled = $this->_getLeaveScheduled($employeeId, $leaveTypeId, $leavePeriodId);
-        $leaveScheduled = $leaveRequestService->getScheduledLeavesSum($employeeId, $leaveTypeId, $leavePeriodId);
-        $leaveScheduled = empty($leaveScheduled) ? '0.00' : $leaveScheduled;
-
-        $leaveRemaining = ($leaveEntitled + $leaveBroughtForward) - ($leaveTaken + $leaveScheduled + $leaveCarryForward);
-        $leaveRemaining = number_format($leaveRemaining, 2);
-
-        return $leaveRemaining;
+        
+        $balance = $leaveEntitlementService->getLeaveBalance($employeeId, $leaveTypeId, $leavePeriodId);
+        
+        return $balance;
     }
 
     private function _fetchLeave() {

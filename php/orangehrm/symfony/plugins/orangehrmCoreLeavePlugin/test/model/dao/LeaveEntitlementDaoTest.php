@@ -36,7 +36,7 @@ class LeaveEntitlementDaoTest extends PHPUnit_Framework_TestCase {
     protected $leaveTypeId;
 
     protected function setUp() {
-        TestDataService::truncateSpecificTables(array('Employee', 'LeaveType', 'EmployeeLeaveEntitlement', 'LeavePeriod'));
+        TestDataService::truncateSpecificTables(array('Employee', 'Leave', 'LeaveRequest', 'LeaveType', 'EmployeeLeaveEntitlement', 'LeavePeriod'));
 
         // Save leave type
         $leaveTypeData = sfYaml::load(sfConfig::get('sf_plugins_dir') . '/orangehrmCoreLeavePlugin/test/fixtures/leaveType.yml');
@@ -234,6 +234,20 @@ class LeaveEntitlementDaoTest extends PHPUnit_Framework_TestCase {
         //$employeeLeaveEntitlement = $this->leaveEntitlementDao->getEmployeeLeaveEntitlement(2, 'LTY002', 1);
         $this->assertEquals(40.00, $employeeLeaveEntitlement->getNoOfDaysAllotted());
         
+    }
+    
+    /**
+     *
+     * @covers LeaveEntitlementDao::getLeaveBalance
+     */    
+    public function testGetLeaveBalance() {
+        TestDataService::populate(sfConfig::get('sf_plugins_dir') . '/orangehrmCoreLeavePlugin/test/fixtures/leaveEntitlement.yml');
+
+        $balance = $this->leaveEntitlementDao->getLeaveBalance(1, 'LTY001', 1);
+        $this->assertEquals(19, $balance);
+        
+        $balance = $this->leaveEntitlementDao->getLeaveBalance(1, 'LTY001', null);
+        $this->assertEquals(0, $balance);
     }
 
 }

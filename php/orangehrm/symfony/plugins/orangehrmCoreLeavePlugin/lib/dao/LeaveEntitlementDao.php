@@ -286,5 +286,51 @@ class LeaveEntitlementDao extends BaseDao{
                 throw new DaoException( $e->getMessage());
             }
 	}
+    
+    /**
+     * Get Leave Balance 
+     * 
+     * @version 2.7.1
+     * @param type $employeeId
+     * @param type $leaveTypeId
+     * @param type $leavePeriodId
+     * @return Leave Balance
+     */
+    public function getLeaveBalance($empNumber, $leaveTypeId, $leavePeriodId) {
+
+        $query = 'SELECT IFNULL(q.no_of_days_allotted,0) + IFNULL(q.leave_brought_forward,0) 
+                  - (IFNULL(sum(IF(l.leave_status = ' .Leave::LEAVE_STATUS_LEAVE_APPROVED. ', leave_length_days, 0)),0) + 
+                     IFNULL(sum(IF(l.leave_status = '.Leave::LEAVE_STATUS_LEAVE_TAKEN.', leave_length_days, 0)),0) +
+                     IFNULL(q.leave_carried_forward,0)) as balance
+            
+                FROM hs_hr_employee a 
+             	LEFT JOIN hs_hr_employee_leave_quota q 
+             		ON a.emp_number = q.employee_id              		
+            		AND q.leave_period_id = :leave_period_id
+                    AND q.leave_type_id = :leave_type_id
+                LEFT JOIN hs_hr_leave_requests lr 
+                    ON a.emp_number = lr.employee_id
+                    AND lr.leave_period_id = :leave_period_id
+                    AND lr.leave_type_id = :leave_type_id                    
+                LEFT JOIN hs_hr_leave l 
+             		ON lr.leave_request_id = l.leave_request_id 
+                WHERE a.emp_number = :emp_number
+                    AND lr.leave_type_id = :leave_type_id
+                    AND lr.leave_period_id = :leave_period_id
+                    AND leave_status IN ('.Leave::LEAVE_STATUS_LEAVE_APPROVED.','.Leave::LEAVE_STATUS_LEAVE_TAKEN.')
+                GROUP BY a.emp_number';                
+                        
+        $pdo = Doctrine_Manager::connection()->getDbh(); 
+        $statement = $pdo->prepare($query);
+        
+        $statement->execute(array(':emp_number' => $empNumber, 
+           ':leave_type_id' => $leaveTypeId, ':leave_period_id' => $leavePeriodId));
+
+        $balance = $statement->fetchColumn();
+        
+        return $balance;
+      
+    }    
 
 }
+
