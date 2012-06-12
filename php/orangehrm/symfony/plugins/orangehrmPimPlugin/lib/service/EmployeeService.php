@@ -33,6 +33,7 @@
  * @todo All methods to return PIMServiceException or DaoException consistantly
  * @todo Don't wrap DAO exceptions.
  * @todo Deside if all methods need to have try catch blocks
+ * @todo Show class hierarchy (inheritance) of all the classes in the API
  */
 class EmployeeService extends BaseService {
 
