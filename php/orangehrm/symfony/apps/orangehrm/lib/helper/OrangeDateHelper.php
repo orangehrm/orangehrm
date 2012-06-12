@@ -28,7 +28,12 @@
 
 function set_datepicker_date_format($date) {
 
-    $dateFormat = sfContext::getInstance()->getUser()->getDateFormat();
+    if (sfContext::hasInstance()) {
+        $dateFormat = sfContext::getInstance()->getUser()->getDateFormat();
+    } else{
+        $configService = new ConfigService();
+        $dateFormat = $configService->getAdminLocalizationDefaultDateFormat();
+    }
 
     if (empty($date)) {
         $formattedDate = null;
