@@ -5,6 +5,7 @@ class ListHeader extends ComponentProperty {
 
     protected $elementTypes = array(
         'label',
+        'labelDate',
         'link',
         'textbox',
         'textarea',
