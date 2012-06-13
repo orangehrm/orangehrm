@@ -70,7 +70,7 @@ class pimCsvImportAction extends baseCsvImportAction {
         $user = $this->getUser()->getAttribute('user');
         
 		if (!$user->isAdmin()) {
-			$this->redirect('pim/viewPersonalDetails');
+			$this->redirect('auth/login');
 		}
         
     }    
