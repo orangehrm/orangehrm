@@ -71,7 +71,7 @@ class viewPhotographAction extends basePimAction {
 
         //as part of making users childish by hiding delete button
         $employeeService = $this->getEmployeeService();
-        $empPicture = $employeeService->getPicture($empNumber);
+        $empPicture = $employeeService->getEmployeePicture($empNumber);
         $this->showDeleteButton = 1;
 
         if (!$empPicture instanceof EmpPicture) {
@@ -149,7 +149,7 @@ class viewPhotographAction extends basePimAction {
     private function saveEmployeePicture($empNumber, $file) {
 
         $employeeService = $this->getEmployeeService();
-        $empPicture = $employeeService->getPicture($empNumber);
+        $empPicture = $employeeService->getEmployeePicture($empNumber);
 
         if (!$empPicture instanceof EmpPicture) {
             $empPicture = new EmpPicture();

@@ -50,7 +50,7 @@ class deleteEmergencyContactsAction extends basePimAction {
 
                 if ($emergencyContactsToDelete) {
                     $service = new EmployeeService();
-                    $count = $service->deleteEmergencyContacts($empNumber, $emergencyContactsToDelete);
+                    $count = $service->deleteEmployeeEmergencyContacts($empNumber, $emergencyContactsToDelete);
                     $this->getUser()->setFlash('templateMessage', array('success', __(TopLevelMessages::DELETE_SUCCESS)));
                 }
         }

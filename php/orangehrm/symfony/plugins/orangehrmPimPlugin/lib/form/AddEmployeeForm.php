@@ -168,7 +168,7 @@ class AddEmployeeForm extends sfForm {
         $employee->employeeId = $posts['employeeId'];
 
         $employeeService = $this->getEmployeeService();
-        $employeeService->addEmployee($employee);
+        $employeeService->saveEmployee($employee);
 
         $empNumber = $employee->empNumber;
 

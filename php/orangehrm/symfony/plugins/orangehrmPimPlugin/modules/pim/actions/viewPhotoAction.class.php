@@ -48,7 +48,7 @@ class viewPhotoAction extends sfAction {
         $empNumber = $request->getParameter('empNumber');
 
         $employeeService = $this->getEmployeeService();
-        $empPicture = $employeeService->getPicture($empNumber);
+        $empPicture = $employeeService->getEmployeePicture($empNumber);
 
         if (!empty($empPicture)) {
             $contents = $empPicture->picture;

@@ -54,11 +54,11 @@ class EmployeeServiceTest extends PHPUnit_Framework_TestCase {
 
             $employeeDao = $this->getMock('EmployeeDao');
             $employeeDao->expects($this->once())
-                    ->method('addEmployee')
-                    ->will($this->returnValue(true));
+                    ->method('saveEmployee')
+                    ->will($this->returnValue($employee));
             $this->employeeService->setEmployeeDao($employeeDao);
-            $result = $this->employeeService->addEmployee($employee);
-            $this->assertTrue($result);
+            $result = $this->employeeService->saveEmployee($employee);
+            $this->assertTrue($result instanceof Employee);
         }
     }
 
@@ -143,13 +143,13 @@ class EmployeeServiceTest extends PHPUnit_Framework_TestCase {
         $empNumber = 121;
         $mockDao = $this->getMock('EmployeeDao');
         $mockDao->expects($this->once())
-                 ->method('getPicture')
+                 ->method('getEmployeePicture')
                  ->with($empNumber)
                  ->will($this->returnValue($picture));
         
         $this->employeeService->setEmployeeDao($mockDao);
         
-        $result = $this->employeeService->getPicture($empNumber);
+        $result = $this->employeeService->getEmployeePicture($empNumber);
         $this->assertEquals($picture, $result);
         
     }
@@ -235,13 +235,13 @@ class EmployeeServiceTest extends PHPUnit_Framework_TestCase {
         
         $mockDao = $this->getMock('EmployeeDao');
         $mockDao->expects($this->once())
-                 ->method('deleteEmergencyContacts')
+                 ->method('deleteEmployeeEmergencyContacts')
                  ->with($empNumber, $contactsToDelete)
                  ->will($this->returnValue(true));
         
         $this->employeeService->setEmployeeDao($mockDao);
         
-        $result = $this->employeeService->deleteEmergencyContacts($empNumber, $contactsToDelete);
+        $result = $this->employeeService->deleteEmployeeEmergencyContacts($empNumber, $contactsToDelete);
         $this->assertTrue($result);
         
     }
@@ -1143,13 +1143,13 @@ class EmployeeServiceTest extends PHPUnit_Framework_TestCase {
         $employeeDao = $this->getMock('EmployeeDao');
 
         $employeeDao->expects($this->once())
-                ->method('getEmergencyContacts')
+                ->method('getEmployeeEmergencyContacts')
                 ->with($empNumber)
                 ->will($this->returnValue($contacts));
 
         $this->employeeService->setEmployeeDao($employeeDao);
 
-        $emgContacts = $this->employeeService->getEmergencyContacts($empNumber);
+        $emgContacts = $this->employeeService->getEmployeeEmergencyContacts($empNumber);
         $this->assertEquals(count($contacts), count($emgContacts));
         $this->assertEquals($emgContacts, $contacts);
 
@@ -1400,12 +1400,12 @@ class EmployeeServiceTest extends PHPUnit_Framework_TestCase {
         $employeeDao = $this->getMock('EmployeeDao');
 
         $employeeDao->expects($this->once())
-                ->method('getEmergencyContacts')
+                ->method('getEmployeeEmergencyContacts')
                 ->with($empNumber)
                 ->will($this->returnValue($emergencyContactList));
 
         $this->employeeService->setEmployeeDao($employeeDao);
-        $readEmergencyContactlList = $this->employeeService->getEmergencyContacts($empNumber);
+        $readEmergencyContactlList = $this->employeeService->getEmployeeEmergencyContacts($empNumber);
         $this->assertTrue($readEmergencyContactlList[0] instanceof EmpEmergencyContact);
         $this->assertTrue($readEmergencyContactlList[1] instanceof EmpEmergencyContact);
     }

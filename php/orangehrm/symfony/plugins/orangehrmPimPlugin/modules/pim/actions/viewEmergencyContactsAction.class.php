@@ -62,7 +62,7 @@ class viewEmergencyContactsAction extends basePimAction {
         $this->setForm(new EmployeeEmergencyContactForm(array(), $param, true));
         $this->deleteForm = new EmployeeEmergencyContactsDeleteForm(array(), $param, true);
 
-        $this->emergencyContacts = $this->getEmployeeService()->getEmergencyContacts($this->empNumber);
+        $this->emergencyContacts = $this->getEmployeeService()->getEmployeeEmergencyContacts($this->empNumber);
     }
 
 }

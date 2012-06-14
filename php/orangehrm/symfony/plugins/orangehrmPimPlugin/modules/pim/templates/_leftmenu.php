@@ -397,7 +397,7 @@ if($empNumber == $_SESSION['empID']) {
     $paddedEmpNumber = str_pad($empNumber, $idLength, "0", STR_PAD_LEFT);
     
     $employeeService = new EmployeeService();
-    $empPicture = $employeeService->getPicture($empNumber);
+    $empPicture = $employeeService->getEmployeePicture($empNumber);
 
     $width = '150';
     $height = '180';

@@ -217,7 +217,7 @@ class EmployeeDaoTest extends PHPUnit_Framework_TestCase {
 
         $empNumber = 1;
 
-        $emergencyContact = $this->employeeDao->getEmergencyContacts($empNumber);
+        $emergencyContact = $this->employeeDao->getEmployeeEmergencyContacts($empNumber);
         $this->assertTrue($emergencyContact[0] instanceof EmpEmergencyContact);
     }
 
@@ -229,7 +229,7 @@ class EmployeeDaoTest extends PHPUnit_Framework_TestCase {
         $empNumber = 1;
         $emergencyContactsToDelete = array(1, 2);
 
-        $result = $this->employeeDao->deleteEmergencyContacts($empNumber, $emergencyContactsToDelete);
+        $result = $this->employeeDao->deleteEmployeeEmergencyContacts($empNumber, $emergencyContactsToDelete);
         $this->assertTrue($result);
     }
 
@@ -605,7 +605,7 @@ class EmployeeDaoTest extends PHPUnit_Framework_TestCase {
         $employee->firstName = 'Tester';
         $employee->lastName = 'Jason';
 
-        $employee = $this->employeeDao->addEmployee($employee);
+        $employee = $this->employeeDao->saveEmployee($employee);
     }
 
     public function testGetEmployee() {
@@ -619,7 +619,7 @@ class EmployeeDaoTest extends PHPUnit_Framework_TestCase {
     public function testGetPicture() {
         $empNumber = 1;
 
-        $picture = $this->employeeDao->getPicture($empNumber);
+        $picture = $this->employeeDao->getEmployeePicture($empNumber);
         $this->assertTrue($picture instanceof EmpPicture);
         $this->assertEquals('test_file.jpg', $picture->getFileName());
     }

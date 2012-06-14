@@ -67,15 +67,18 @@ class EmployeeDao extends BaseDao {
      * @returns boolean
      * @throws DaoException
      */
-    public function addEmployee(Employee $employee) {
+    public function saveEmployee(Employee $employee) {
         try {
             if ($employee->getEmpNumber() == '') {
                 $idGenService = new IDGeneratorService();
                 $idGenService->setEntity($employee);
                 $employee->setEmpNumber($idGenService->getNextID());
             }
+            
             $employee->save();
-            return true;
+            
+            return $employee;
+            
         } catch (Exception $e) {
             throw new DaoException($e->getMessage());
         }
@@ -101,7 +104,7 @@ class EmployeeDao extends BaseDao {
      * @returns Collection
      * @throws DaoException
      */
-    public function getPicture($empNumber) {
+    public function getEmployeePicture($empNumber) {
         try {
             return Doctrine :: getTable('EmpPicture')->find($empNumber);
         } catch (Exception $e) {
@@ -207,7 +210,7 @@ class EmployeeDao extends BaseDao {
      * @param int $empNumber Employee Number
      * @return array EmpEmergencyContact objects as array
      */
-    public function getEmergencyContacts($empNumber) {
+    public function getEmployeeEmergencyContacts($empNumber) {
 
         try {
             $q = Doctrine_Query:: create()->from('EmpEmergencyContact ec')
@@ -226,7 +229,7 @@ class EmployeeDao extends BaseDao {
      * @returns boolean
      * @throws DaoException
      */
-    public function deleteEmergencyContacts($empNumber, $emergencyContactsToDelete = array()) {
+    public function deleteEmployeeEmergencyContacts($empNumber, $emergencyContactsToDelete = array()) {
         try {
             if (is_array($emergencyContactsToDelete)) {
 

@@ -113,7 +113,7 @@ class PimCsvDataImport extends CsvDataImport {
 		}
 
 		$empService = new EmployeeService();
-		$empService->addEmployee($employee);
+		$empService->saveEmployee($employee);
 		return true;
 	}
 

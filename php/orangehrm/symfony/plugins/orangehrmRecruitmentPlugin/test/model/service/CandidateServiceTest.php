@@ -478,18 +478,19 @@ class CandidateServiceTest extends PHPUnit_Framework_TestCase {
         $return = $this->candidateService->getNextActionsForCandidateVacancy(2, $userObj);
         $this->assertEquals($expectedArray, $return);
     }
-    
+   
     public function testAddEmployee() {
         
-        $employeeServiceMock = $this->getMock('EmployeeService', array('addEmployee'));
+        $employeeServiceMock = $this->getMock('EmployeeService', array('saveEmployee'));
         $employeeServiceMock->expects($this->once())
-                ->method('addEmployee')
-                ->will($this->returnValue(true));
+                ->method('saveEmployee')
+                ->will($this->returnValue(new Employee()));
         
         $this->candidateService->setEmployeeService($employeeServiceMock);
         
         $employee = new Employee();
-        $this->assertTrue($this->candidateService->addEmployee($employee));       
+        $result = $this->candidateService->addEmployee($employee);
+        $this->assertTrue($result instanceof Employee);       
     }
     
         public function testUpdateCandidateHistory() {

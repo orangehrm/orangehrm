@@ -87,11 +87,11 @@ class EmployeeService extends BaseService {
      * @return boolean
      * @throws PIMServiceException
      * 
-     * @todo Return Saved Employee
-     * @todo Change method name to saveEmployee
+     * @todo Return Saved Employee [DONE]
+     * @todo Change method name to saveEmployee [DONE]
      */
-    public function addEmployee(Employee $employee) {
-        return $this->getEmployeeDao()->addEmployee($employee);
+    public function saveEmployee(Employee $employee) {
+        return $this->getEmployeeDao()->saveEmployee($employee);
     }
 
     /**
@@ -142,8 +142,8 @@ class EmployeeService extends BaseService {
      * 
      * @todo Rename to getEmployeePicture 
      */
-    public function getPicture($empNumber) {
-        return $this->getEmployeeDao()->getPicture($empNumber);
+    public function getEmployeePicture($empNumber) {
+        return $this->getEmployeeDao()->getEmployeePicture($empNumber);
     }
 
     /**
@@ -188,8 +188,8 @@ class EmployeeService extends BaseService {
      * 
      * @todo Rename method as getEmployeeEmergencyContacts
      */
-    public function getEmergencyContacts($empNumber) {
-        return $this->getEmployeeDao()->getEmergencyContacts($empNumber);
+    public function getEmployeeEmergencyContacts($empNumber) {
+        return $this->getEmployeeDao()->getEmployeeEmergencyContacts($empNumber);
     }
 
     /**
@@ -205,8 +205,8 @@ class EmployeeService extends BaseService {
      * @todo Exceptions should preserve previous exception [DONE]
      * @todo rename method as deleteEmployeeEmergencyContacts
      */
-    public function deleteEmergencyContacts($empNumber, $emergencyContactsToDelete) {
-        return $this->getEmployeeDao()->deleteEmergencyContacts($empNumber, $emergencyContactsToDelete);
+    public function deleteEmployeeEmergencyContacts($empNumber, $emergencyContactsToDelete) {
+        return $this->getEmployeeDao()->deleteEmployeeEmergencyContacts($empNumber, $emergencyContactsToDelete);
     }
 
     /**

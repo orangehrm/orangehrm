@@ -328,7 +328,11 @@ class LeaveEntitlementDao extends BaseDao{
 
         $balance = $statement->fetchColumn();
         
-        return $balance;
+        if ($balance) {
+            return $balance;
+        }
+        
+        return 0;
       
     }    
 
