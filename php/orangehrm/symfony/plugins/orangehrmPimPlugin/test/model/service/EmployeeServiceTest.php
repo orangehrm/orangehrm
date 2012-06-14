@@ -63,31 +63,6 @@ class EmployeeServiceTest extends PHPUnit_Framework_TestCase {
     }
 
     /**
-     * Testing addEmployee Exception
-     */
-    public function testAddEmployeeException() {
-        $employee = new Employee();
-        $employee->setLastName('Last Name');
-        $employee->setFirstName('First Name');
-
-        $employeeDao = $this->getMock('EmployeeDao');
-
-        $employeeDao->expects($this->once())
-                ->method('addEmployee')
-                ->will($this->throwException(new DaoException()));
-
-        $this->employeeService->setEmployeeDao($employeeDao);
-
-        try {
-            $result = $this->employeeService->addEmployee($employee);
-            $this->fail("Exception expected");
-        } catch (Exception $e) {
-            $this->assertTrue($e instanceof PIMServiceException);
-        }
-    }
-
-
-    /**
      * Testing GetEmployee
      */
     public function testGetEmployee() {
@@ -110,21 +85,6 @@ class EmployeeServiceTest extends PHPUnit_Framework_TestCase {
         
         $this->assertEquals($employee, $retVal);
         
-        // Test Exception
-        $mockDao =  $this->getMock('EmployeeDao');
-        $mockDao->expects($this->once())
-             ->method('getEmployee')
-             ->with($empNumber)
-             ->will($this->throwException(new DaoException()));
-        
-        $this->employeeService->setEmployeeDao($mockDao);
-        
-        try {
-            $result = $this->employeeService->getEmployee($empNumber);
-            $this->fail("Exception expected");
-        } catch (Exception $e) {
-            $this->assertTrue($e instanceof PIMServiceException);
-        }
     }
     
     
@@ -158,20 +118,6 @@ class EmployeeServiceTest extends PHPUnit_Framework_TestCase {
         $pic->setEmpNumber($empNumber);
         $pic->setFilename("pic_" . rand(0, 1000));        
         
-        $mockDao = $this->getMock('EmployeeDao');
-        $mockDao->expects($this->once())
-                 ->method('saveEmployeePicture')
-                 ->with($pic)
-                 ->will($this->throwException(new DaoException()));
-        
-        $this->employeeService->setEmployeeDao($mockDao);
-        
-        try {
-            $result = $this->employeeService->saveEmployeePicture($pic);
-            $this->fail("Exception expected");
-        } catch (Exception $e) {
-            $this->assertTrue($e instanceof PIMServiceException);
-        } 
     }
     
     /**
@@ -190,29 +136,6 @@ class EmployeeServiceTest extends PHPUnit_Framework_TestCase {
     }
     
     /**
-     * Testing readEmployeePicture
-     */
-    public function testReadEmployeePictureException() {
-        
-        $empNumber = 102;    
-        
-        $mockDao = $this->getMock('EmployeeDao');
-        $mockDao->expects($this->once())
-                 ->method('readEmployeePicture')
-                 ->with($empNumber)
-                 ->will($this->throwException(new DaoException()));
-        
-        $this->employeeService->setEmployeeDao($mockDao);
-        
-        try {
-            $result = $this->employeeService->readEmployeePicture($empNumber);
-            $this->fail("Exception expected");
-        } catch (Exception $e) {
-            $this->assertTrue($e instanceof PIMServiceException);
-        }        
-    }    
-
-    /**
      * Testing getPicture
      */
     public function testGetPicture() {
@@ -229,20 +152,6 @@ class EmployeeServiceTest extends PHPUnit_Framework_TestCase {
         $result = $this->employeeService->getPicture($empNumber);
         $this->assertEquals($picture, $result);
         
-        $mockDao = $this->getMock('EmployeeDao');
-        $mockDao->expects($this->once())
-                 ->method('getPicture')
-                 ->with($empNumber)
-                 ->will($this->throwException(new DaoException()));
-        
-        $this->employeeService->setEmployeeDao($mockDao);
-        
-        try {
-            $result = $this->employeeService->getPicture($empNumber);
-            $this->fail("Exception expected");
-        } catch (Exception $e) {
-            $this->assertTrue($e instanceof PIMServiceException);
-        }               
     }
     
     /**
@@ -258,25 +167,6 @@ class EmployeeServiceTest extends PHPUnit_Framework_TestCase {
             $result = $this->employeeService->deletePhoto($v['id']);
             $this->assertTrue($result);
         }
-    }
-
-    public function testDeletePhotoException() {
-        $empNumber = 102;
-        
-        $mockDao = $this->getMock('EmployeeDao');
-        $mockDao->expects($this->once())
-                 ->method('deletePhoto')
-                 ->with($empNumber)
-                 ->will($this->throwException(new DaoException()));
-        
-        $this->employeeService->setEmployeeDao($mockDao);
-        
-        try {
-            $result = $this->employeeService->deletePhoto($empNumber);
-            $this->fail("Exception expected");
-        } catch (Exception $e) {
-            $this->assertTrue($e instanceof PIMServiceException);
-        }        
     }
     
     /**
@@ -305,20 +195,6 @@ class EmployeeServiceTest extends PHPUnit_Framework_TestCase {
         $result = $this->employeeService->savePersonalDetails($employee, $isEss);
         $this->assertTrue($result);
         
-        $mockDao = $this->getMock('EmployeeDao');
-        $mockDao->expects($this->once())
-                 ->method('savePersonalDetails')
-                 ->with($employee, $isEss)
-                 ->will($this->throwException(new DaoException()));
-        
-        $this->employeeService->setEmployeeDao($mockDao);
-        
-        try {
-            $result = $this->employeeService->savePersonalDetails($employee, $isEss);
-            $this->fail("Exception expected");
-        } catch (Exception $e) {
-            $this->assertTrue($e instanceof PIMServiceException);
-        }               
     }
     
     /**
@@ -348,20 +224,6 @@ class EmployeeServiceTest extends PHPUnit_Framework_TestCase {
         $result = $this->employeeService->saveContactDetails($employee);
         $this->assertTrue($result);
         
-        $mockDao = $this->getMock('EmployeeDao');
-        $mockDao->expects($this->once())
-                 ->method('saveContactDetails')
-                 ->with($employee)
-                 ->will($this->throwException(new DaoException()));
-        
-        $this->employeeService->setEmployeeDao($mockDao);
-        
-        try {
-            $result = $this->employeeService->saveContactDetails($employee);
-            $this->fail("Exception expected");
-        } catch (Exception $e) {
-            $this->assertTrue($e instanceof PIMServiceException);
-        }               
     }
     
     /**
@@ -382,20 +244,6 @@ class EmployeeServiceTest extends PHPUnit_Framework_TestCase {
         $result = $this->employeeService->deleteEmergencyContacts($empNumber, $contactsToDelete);
         $this->assertTrue($result);
         
-        $mockDao = $this->getMock('EmployeeDao');
-        $mockDao->expects($this->once())
-                 ->method('deleteEmergencyContacts')
-                 ->with($empNumber, $contactsToDelete)
-                 ->will($this->throwException(new DaoException()));
-               
-        $this->employeeService->setEmployeeDao($mockDao);
-        
-        try {
-            $result = $this->employeeService->deleteEmergencyContacts($empNumber, $contactsToDelete);
-            $this->fail("Exception expected");
-        } catch (Exception $e) {
-            $this->assertTrue($e instanceof PIMServiceException);
-        }               
     }
 
     /**
@@ -416,20 +264,6 @@ class EmployeeServiceTest extends PHPUnit_Framework_TestCase {
         $result = $this->employeeService->deleteImmigration($empNumber, $immigrationToDelete);
         $this->assertTrue($result);
         
-        $mockDao = $this->getMock('EmployeeDao');
-        $mockDao->expects($this->once())
-                 ->method('deleteImmigration')
-                 ->with($empNumber, $immigrationToDelete)
-                 ->will($this->throwException(new DaoException()));
-               
-        $this->employeeService->setEmployeeDao($mockDao);
-        
-        try {
-            $result = $this->employeeService->deleteImmigration($empNumber, $immigrationToDelete);
-            $this->fail("Exception expected");
-        } catch (Exception $e) {
-            $this->assertTrue($e instanceof PIMServiceException);
-        }               
     }
      
     /**
@@ -465,20 +299,6 @@ class EmployeeServiceTest extends PHPUnit_Framework_TestCase {
         $result = $this->employeeService->getDependents($empNumber);
         $this->assertEquals($dependents, $result);
         
-        $mockDao = $this->getMock('EmployeeDao');
-        $mockDao->expects($this->once())
-                 ->method('getDependents')
-                 ->with($empNumber)
-                 ->will($this->throwException(new DaoException()));
-               
-        $this->employeeService->setEmployeeDao($mockDao);
-        
-        try {
-            $result = $this->employeeService->getDependents($empNumber);
-            $this->fail("Exception expected");
-        } catch (Exception $e) {
-            $this->assertTrue($e instanceof PIMServiceException);
-        }               
     }
     
     /**
@@ -499,20 +319,6 @@ class EmployeeServiceTest extends PHPUnit_Framework_TestCase {
         $result = $this->employeeService->deleteDependents($empNumber, $entriesToDelete);
         $this->assertTrue($result);
         
-        $mockDao = $this->getMock('EmployeeDao');
-        $mockDao->expects($this->once())
-                 ->method('deleteDependents')
-                 ->with($empNumber, $entriesToDelete)
-                 ->will($this->throwException(new DaoException()));
-               
-        $this->employeeService->setEmployeeDao($mockDao);
-        
-        try {
-            $result = $this->employeeService->deleteDependents($empNumber, $entriesToDelete);
-            $this->fail("Exception expected");
-        } catch (Exception $e) {
-            $this->assertTrue($e instanceof PIMServiceException);
-        }               
     }
     
     /**
@@ -533,20 +339,6 @@ class EmployeeServiceTest extends PHPUnit_Framework_TestCase {
         $result = $this->employeeService->deleteChildren($empNumber, $entriesToDelete);
         $this->assertTrue($result);
         
-        $mockDao = $this->getMock('EmployeeDao');
-        $mockDao->expects($this->once())
-                 ->method('deleteChildren')
-                 ->with($empNumber, $entriesToDelete)
-                 ->will($this->throwException(new DaoException()));
-               
-        $this->employeeService->setEmployeeDao($mockDao);
-        
-        try {
-            $result = $this->employeeService->deleteChildren($empNumber, $entriesToDelete);
-            $this->fail("Exception expected");
-        } catch (Exception $e) {
-            $this->assertTrue($e instanceof PIMServiceException);
-        }               
     }
     
     /**
@@ -566,20 +358,6 @@ class EmployeeServiceTest extends PHPUnit_Framework_TestCase {
         $result = $this->employeeService->isSupervisor($empNumber);
         $this->assertTrue($result);
         
-        $mockDao = $this->getMock('EmployeeDao');
-        $mockDao->expects($this->once())
-                 ->method('isSupervisor')
-                 ->with($empNumber)
-                 ->will($this->throwException(new DaoException()));
-               
-        $this->employeeService->setEmployeeDao($mockDao);
-        
-        try {
-            $result = $this->employeeService->isSupervisor($empNumber);
-            $this->fail("Exception expected");
-        } catch (Exception $e) {
-            $this->assertTrue($e instanceof PIMServiceException);
-        }               
     }
     
     /**
@@ -1090,20 +868,6 @@ class EmployeeServiceTest extends PHPUnit_Framework_TestCase {
         $result = $this->employeeService->getEmployeeList($sortField, $orderBy);
         $this->assertEquals($employees, $result);              
         
-        $mockDao = $this->getMock('EmployeeDao');
-        $mockDao->expects($this->once())
-                 ->method('getEmployeeList')
-                 ->with($sortField, $orderBy)
-                 ->will($this->throwException(new DaoException()));
-               
-        $this->employeeService->setEmployeeDao($mockDao);
-        
-        try {
-            $result = $this->employeeService->getEmployeeList($sortField, $orderBy);
-            $this->fail("Exception expected");
-        } catch (Exception $e) {
-            $this->assertTrue($e instanceof PIMServiceException);
-        }           
     }
     
     /**
@@ -1130,19 +894,6 @@ class EmployeeServiceTest extends PHPUnit_Framework_TestCase {
         $result = $this->employeeService->getSupervisorList();
         $this->assertEquals($supervisors, $result);              
         
-        $mockDao = $this->getMock('EmployeeDao');
-        $mockDao->expects($this->once())
-                 ->method('getSupervisorList')
-                 ->will($this->throwException(new DaoException()));
-               
-        $this->employeeService->setEmployeeDao($mockDao);
-        
-        try {
-            $result = $this->employeeService->getSupervisorList();
-            $this->fail("Exception expected");
-        } catch (Exception $e) {
-            $this->assertTrue($e instanceof PIMServiceException);
-        }           
     }
     
     /**
@@ -1170,20 +921,6 @@ class EmployeeServiceTest extends PHPUnit_Framework_TestCase {
         $result = $this->employeeService->searchEmployee($field, $value);
         $this->assertEquals($employees, $result);              
         
-        $mockDao = $this->getMock('EmployeeDao');
-        $mockDao->expects($this->once())
-                 ->method('searchEmployee')
-                 ->with($field, $value)                
-                 ->will($this->throwException(new DaoException()));
-               
-        $this->employeeService->setEmployeeDao($mockDao);
-        
-        try {
-            $result = $this->employeeService->searchEmployee($field, $value);
-            $this->fail("Exception expected");
-        } catch (Exception $e) {
-            $this->assertTrue($e instanceof PIMServiceException);
-        }           
     }    
     
     /**
@@ -1203,18 +940,6 @@ class EmployeeServiceTest extends PHPUnit_Framework_TestCase {
         $result = $this->employeeService->getEmployeeCount();
         $this->assertEquals($count, $result);              
         
-        $mockDao = $this->getMock('EmployeeDao');
-        $mockDao->expects($this->once())
-                 ->method('getEmployeeCount')               
-                 ->will($this->throwException(new DaoException()));
-               
-        $this->employeeService->setEmployeeDao($mockDao);
-        
-        try {
-            $result = $this->employeeService->getEmployeeCount();
-        } catch (Exception $e) {
-            $this->assertTrue($e instanceof PIMServiceException);
-        }           
     }    
     
     /**
@@ -1241,20 +966,6 @@ class EmployeeServiceTest extends PHPUnit_Framework_TestCase {
         $result = $this->employeeService->getSupervisorEmployeeList($supervisorId);
         $this->assertEquals($employees, $result);              
         
-        $mockDao = $this->getMock('EmployeeDao');
-        $mockDao->expects($this->once())
-                 ->method('getSupervisorEmployeeList')
-                 ->with($supervisorId)
-                 ->will($this->throwException(new DaoException()));
-               
-        $this->employeeService->setEmployeeDao($mockDao);
-        
-        try {
-            $result = $this->employeeService->getSupervisorEmployeeList($supervisorId);
-            $this->fail("Exception expected");
-        } catch (Exception $e) {
-            $this->assertTrue($e instanceof PIMServiceException);
-        }           
     }
     
     /**
@@ -1280,20 +991,6 @@ class EmployeeServiceTest extends PHPUnit_Framework_TestCase {
         $result = $this->employeeService->getEmployeeListAsJson($workShift);
         $this->assertEquals($jsonStr, $result);
         
-        $mockDao = $this->getMock('EmployeeDao');
-        $mockDao->expects($this->once())
-                ->method('getEmployeeListAsJson')
-                ->with($workShift)
-                 ->will($this->throwException(new DaoException()));
-               
-        $this->employeeService->setEmployeeDao($mockDao);
-        
-        try {
-            $result = $this->employeeService->getEmployeeListAsJson($workShift);
-            $this->fail("Exception expected");
-        } catch (Exception $e) {
-            $this->assertTrue($e instanceof PIMServiceException);
-        }         
     }
 
     /**
@@ -1320,20 +1017,6 @@ class EmployeeServiceTest extends PHPUnit_Framework_TestCase {
         $result = $this->employeeService->getSupervisorEmployeeChain($supervisorId);
         $this->assertEquals($employees, $result);              
         
-        $mockDao = $this->getMock('EmployeeDao');
-        $mockDao->expects($this->once())
-                 ->method('getSupervisorEmployeeChain')
-                 ->with($supervisorId)
-                 ->will($this->throwException(new DaoException()));
-               
-        $this->employeeService->setEmployeeDao($mockDao);
-        
-        try {
-            $result = $this->employeeService->getSupervisorEmployeeChain($supervisorId);
-            $this->fail("Exception expected");
-        } catch (Exception $e) {
-            $this->assertTrue($e instanceof PIMServiceException);
-        }           
     }
     
    /**
@@ -1378,20 +1061,6 @@ class EmployeeServiceTest extends PHPUnit_Framework_TestCase {
         $this->assertEquals(1, count($result));
         $this->assertEquals($employees[0], $result[0]);           
         
-        // Dao Exception
-        $mockDao = $this->getMock('EmployeeDao');
-        $mockDao->expects($this->once())
-                 ->method('getEmployeeList')
-                 ->will($this->throwException(new DaoException()));
-               
-        $this->employeeService->setEmployeeDao($mockDao);
-        
-        try {
-            $result = $this->employeeService->filterEmployeeListBySubUnit(NULL, $subUnitId);
-            $this->fail("Exception expected");
-        } catch (Exception $e) {
-            $this->assertTrue($e instanceof PIMServiceException);
-        }           
     }
     
     
@@ -1414,21 +1083,6 @@ class EmployeeServiceTest extends PHPUnit_Framework_TestCase {
         $result = $this->employeeService->deleteEmployee($employeesToDelete);
         $this->assertEquals($numEmployees, $result);              
         
-        $mockDao = $this->getMock('EmployeeDao');
-        $mockDao->expects($this->once())
-                 ->method('deleteEmployee')
-                 ->with($employeesToDelete)
-                 ->will($this->throwException(new DaoException()));
-               
-        $this->employeeService->setEmployeeDao($mockDao);
-        
-        try {
-            $result = $this->employeeService->deleteEmployee($employeesToDelete);
-            $this->fail("Exception expected");
-        } catch (Exception $e) {
-            $this->assertTrue($e instanceof PIMServiceException);
-        }
-        
     }
 
     /**
@@ -1447,21 +1101,6 @@ class EmployeeServiceTest extends PHPUnit_Framework_TestCase {
         $this->employeeService->setEmployeeDao($mockDao);
         $result = $this->employeeService->isEmployeeIdInUse($employeeId);
         $this->assertTrue($result);               
-        
-        $mockDao = $this->getMock('EmployeeDao');
-        $mockDao->expects($this->once())
-                ->method('isEmployeeIdInUse')
-                ->with($employeeId)
-                ->will($this->throwException(new DaoException()));
-        
-        $this->employeeService->setEmployeeDao($mockDao);       
-        
-        try {
-            $result = $this->employeeService->isEmployeeIdInUse($employeeId);
-            $this->fail("Exception expected");
-        } catch (Exception $e) {
-            $this->assertTrue($e instanceof PIMServiceException);
-        }
         
     }
     
@@ -1484,21 +1123,6 @@ class EmployeeServiceTest extends PHPUnit_Framework_TestCase {
         $this->employeeService->setEmployeeDao($mockDao);
         $result = $this->employeeService->checkForEmployeeWithSameName($first, $middle, $last);
         $this->assertTrue($result);               
-        
-        $mockDao = $this->getMock('EmployeeDao');
-        $mockDao->expects($this->once())
-                ->method('checkForEmployeeWithSameName')
-                ->with($first, $middle, $last)
-                ->will($this->throwException(new DaoException()));
-        
-        $this->employeeService->setEmployeeDao($mockDao);       
-        
-        try {
-            $result = $this->employeeService->checkForEmployeeWithSameName($first, $middle, $last);
-            $this->fail("Exception expected");
-        } catch (Exception $e) {
-            $this->assertTrue($e instanceof PIMServiceException);
-        }
         
     }
     
@@ -1529,23 +1153,6 @@ class EmployeeServiceTest extends PHPUnit_Framework_TestCase {
         $this->assertEquals(count($contacts), count($emgContacts));
         $this->assertEquals($emgContacts, $contacts);
 
-
-        // Test exception
-        $employeeDao = $this->getMock('EmployeeDao');
-
-        $employeeDao->expects($this->once())
-                ->method('getEmergencyContacts')
-                ->with($empNumber)
-                ->will($this->throwException(new DaoException('test')));
-
-        $this->employeeService->setEmployeeDao($employeeDao);
-
-        try {
-            $emgContacts = $this->employeeService->getEmergencyContacts($empNumber);
-            $this->fail('DaoException expected');
-        } catch (PIMServiceException $e) {
-            // expected
-        }
     }
 
     /**

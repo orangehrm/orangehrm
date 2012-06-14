@@ -25,14 +25,14 @@
 /**
  * Employee Service
  * @package pim
- * @todo Remove exceptions that only wraps DAO exceptions
+ * @todo Remove exceptions that only wraps DAO exceptions [DONE]
  * @todo Add get/save/delete for all 
  * @todo Add deleteReportingMethod() function
  * @todo Add getEmployeeImmigrationRecords method
  * @todo Add getEmployeeChildren method
- * @todo All methods to return PIMServiceException or DaoException consistantly
- * @todo Don't wrap DAO exceptions.
- * @todo Deside if all methods need to have try catch blocks
+ * @todo All methods to return PIMServiceException or DaoException consistantly [DONE]
+ * @todo Don't wrap DAO exceptions. [DONE]
+ * @todo Deside if all methods need to have try catch blocks [DONE]
  * @todo Show class hierarchy (inheritance) of all the classes in the API
  */
 class EmployeeService extends BaseService {
@@ -91,11 +91,7 @@ class EmployeeService extends BaseService {
      * @todo Change method name to saveEmployee
      */
     public function addEmployee(Employee $employee) {
-        try {
-            return $this->getEmployeeDao()->addEmployee($employee);
-        } catch (Exception $e) {
-            throw new PIMServiceException($e->getMessage());
-        }
+        return $this->getEmployeeDao()->addEmployee($employee);
     }
 
     /**
@@ -107,11 +103,7 @@ class EmployeeService extends BaseService {
      * @throws PIMServiceException
      */
     public function getEmployee($empNumber) {
-        try {
-            return $this->getEmployeeDao()->getEmployee($empNumber);
-        } catch (Exception $e) {
-            throw new PIMServiceException($e->getMessage());
-        }
+        return $this->getEmployeeDao()->getEmployee($empNumber);
     }
 
     /**
@@ -151,11 +143,7 @@ class EmployeeService extends BaseService {
      * @todo Rename to getEmployeePicture 
      */
     public function getPicture($empNumber) {
-        try {
-            return $this->getEmployeeDao()->getPicture($empNumber);
-        } catch (Exception $e) {
-            throw new PIMServiceException($e->getMessage());
-        }
+        return $this->getEmployeeDao()->getPicture($empNumber);
     }
 
     /**
@@ -170,11 +158,7 @@ class EmployeeService extends BaseService {
      * @todo Remove $isESS parameter and handle it in action
      */
     public function savePersonalDetails(Employee $employee, $isESS = false) {
-        try {
-            return $this->getEmployeeDao()->savePersonalDetails($employee, $isESS);
-        } catch (Exception $e) {
-            throw new PIMServiceException($e->getMessage());
-        }
+        return $this->getEmployeeDao()->savePersonalDetails($employee, $isESS);
     }
 
     /**
@@ -186,14 +170,10 @@ class EmployeeService extends BaseService {
      * @throws PIMServiceException
      * 
      * @todo Don't return any value (currently returns true always)
-     * @todo Exceptions should preserve previous exception
+     * @todo Exceptions should preserve previous exception [DONE]
      */
     public function saveContactDetails(Employee $employee) {
-        try {
-            return $this->getEmployeeDao()->saveContactDetails($employee);
-        } catch (Exception $e) {
-            throw new PIMServiceException($e->getMessage());
-        }
+        return $this->getEmployeeDao()->saveContactDetails($employee);
     }
 
     /**
@@ -209,11 +189,7 @@ class EmployeeService extends BaseService {
      * @todo Rename method as getEmployeeEmergencyContacts
      */
     public function getEmergencyContacts($empNumber) {
-        try {
-            return $this->getEmployeeDao()->getEmergencyContacts($empNumber);
-        } catch (Exception $e) {
-            throw new PIMServiceException($e->getMessage());
-        }
+        return $this->getEmployeeDao()->getEmergencyContacts($empNumber);
     }
 
     /**
@@ -226,15 +202,11 @@ class EmployeeService extends BaseService {
      * @throws PIMServiceException
      * 
      * @todo return number of contacts deleted (currently returns true always)
-     * @todo Exceptions should preserve previous exception
+     * @todo Exceptions should preserve previous exception [DONE]
      * @todo rename method as deleteEmployeeEmergencyContacts
      */
     public function deleteEmergencyContacts($empNumber, $emergencyContactsToDelete) {
-        try {
-            return $this->getEmployeeDao()->deleteEmergencyContacts($empNumber, $emergencyContactsToDelete);
-        } catch (Exception $e) {
-            throw new PIMServiceException($e->getMessage());
-        }
+        return $this->getEmployeeDao()->deleteEmergencyContacts($empNumber, $emergencyContactsToDelete);
     }
 
     /**
@@ -250,12 +222,7 @@ class EmployeeService extends BaseService {
      * @todo return number of entries deleted (currently returns true always)
      */
     public function deleteImmigration($empNumber, $entriesToDelete) {
-
-        try {
-            return $this->getEmployeeDao()->deleteImmigration($empNumber, $entriesToDelete);
-        } catch (Exception $e) {
-            throw new PIMServiceException($e->getMessage());
-        }
+        return $this->getEmployeeDao()->deleteImmigration($empNumber, $entriesToDelete);
     }
 
     /**
@@ -265,15 +232,11 @@ class EmployeeService extends BaseService {
      * @param int $empNumber Employee Number
      * @return array EmpDependent Array of EmpDependent objects
      * 
-     * @todo Exceptions should preserve previous exception
+     * @todo Exceptions should preserve previous exception [DONE]
      * @todo Rename method as getEmployeeDependents
      */
     public function getDependents($empNumber) {
-        try {
-            return $this->getEmployeeDao()->getDependents($empNumber);
-        } catch (Exception $e) {
-            throw new PIMServiceException($e->getMessage());
-        }
+        return $this->getEmployeeDao()->getDependents($empNumber);
     }
 
     /**
@@ -286,15 +249,11 @@ class EmployeeService extends BaseService {
      * @throws PIMServiceException
      * 
      * @todo return number of entries deleted (currently returns true always)
-     * @todo Exceptions should preserve previous exception
+     * @todo Exceptions should preserve previous exception [DONE]
      * @todo Rename method as deleteEmployeeDependents
      */
     public function deleteDependents($empNumber, $entriesToDelete) {
-        try {
-            return $this->getEmployeeDao()->deleteDependents($empNumber, $entriesToDelete);
-        } catch (Exception $e) {
-            throw new PIMServiceException($e->getMessage());
-        }
+        return $this->getEmployeeDao()->deleteDependents($empNumber, $entriesToDelete);
     }
 
     /**
@@ -307,15 +266,11 @@ class EmployeeService extends BaseService {
      * @throws PIMServiceException
      * 
      * @todo return number of entries deleted (currently returns true always)
-     * @todo Exceptions should preserve previous exception
+     * @todo Exceptions should preserve previous exception [DONE]
      * @todo rename method as deleteEmployeeChildren
      */
     public function deleteChildren($empNumber, $entriesToDelete) {
-        try {
-            return $this->getEmployeeDao()->deleteChildren($empNumber, $entriesToDelete);
-        } catch (Exception $e) {
-            throw new PIMServiceException($e->getMessage());
-        }
+        return $this->getEmployeeDao()->deleteChildren($empNumber, $entriesToDelete);
     }
 
     /**
@@ -325,14 +280,10 @@ class EmployeeService extends BaseService {
      * @param int $empNumber Employee Number
      * @return bool True if given employee is a supervisor, false if not
      * 
-     * @todo Exceptions should preserve previous exception
+     * @todo Exceptions should preserve previous exception [DONE]
      */
     public function isSupervisor($empNumber) {
-        try {
-            return $this->getEmployeeDao()->isSupervisor($empNumber);
-        } catch (Exception $e) {
-            throw new PIMServiceException($e->getMessage());
-        }
+        return $this->getEmployeeDao()->isSupervisor($empNumber);
     }
 
     /**
@@ -344,15 +295,11 @@ class EmployeeService extends BaseService {
      * @throws PIMServiceException
      * 
      * @todo Don't return any value (currently returns true always)
-     * @todo Exceptions should preserve previous exception
+     * @todo Exceptions should preserve previous exception [DONE]
      * @todo Rename to deleteEmployeePicture (to match with get method)
      */
     public function deletePhoto($empNumber) {
-        try {
-            return $this->getEmployeeDao()->deletePhoto($empNumber);
-        } catch (Exception $e) {
-            throw new PIMServiceException($e->getMessage());
-        }
+        return $this->getEmployeeDao()->deletePhoto($empNumber);
     }
 
     /**
@@ -364,15 +311,11 @@ class EmployeeService extends BaseService {
      * @throws PIMServiceException
      * 
      * @todo Return saved EmpPicture 
-     * @todo Exceptions should preserve previous exception
+     * @todo Exceptions should preserve previous exception [DONE]
      * @todo Rename to savePicture (without Employee) to match other methods
      */
-    function saveEmployeePicture(EmpPicture $empPicture) {
-        try {
-            return $this->getEmployeeDao()->saveEmployeePicture($empPicture);
-        } catch (Exception $e) {
-            throw new PIMServiceException($e->getMessage());
-        }
+    public function saveEmployeePicture(EmpPicture $empPicture) {
+        return $this->getEmployeeDao()->saveEmployeePicture($empPicture);
     }
 
     /**
@@ -736,11 +679,7 @@ class EmployeeService extends BaseService {
      * @todo remove method and use getEmployeePicture
      */
     public function readEmployeePicture($empNumber) {
-        try {
-            return $this->getEmployeeDao()->readEmployeePicture($empNumber);
-        } catch (Exception $e) {
-            throw new PIMServiceException($e->getMessage());
-        }
+        return $this->getEmployeeDao()->readEmployeePicture($empNumber);
     }
 
     /**
@@ -756,11 +695,7 @@ class EmployeeService extends BaseService {
      * @todo Change default $orderField to last name
      */
     public function getEmployeeList($orderField = 'empNumber', $orderBy = 'ASC', $includeTerminatedEmployees = false) {
-        try {
-            return $this->getEmployeeDao()->getEmployeeList($orderField, $orderBy, $includeTerminatedEmployees);
-        } catch (Exception $e) {
-            throw new PIMServiceException($e->getMessage());
-        }
+        return $this->getEmployeeDao()->getEmployeeList($orderField, $orderBy, $includeTerminatedEmployees);
     }
     
     /**
@@ -808,11 +743,7 @@ class EmployeeService extends BaseService {
      * @todo add orderField,oraderBy and include Deleted parameters
      */
     public function getSupervisorList() {
-        try {
-            return $this->getEmployeeDao()->getSupervisorList();
-        } catch (Exception $e) {
-            throw new PIMServiceException($e->getMessage());
-        }
+        return $this->getEmployeeDao()->getSupervisorList();
     }
 
     /**
@@ -827,11 +758,7 @@ class EmployeeService extends BaseService {
      * @throws PIMServiceException
      */
     public function searchEmployee($field, $value) {
-        try {
-            return $this->getEmployeeDao()->searchEmployee($field, $value);
-        } catch (Exception $e) {
-            throw new PIMServiceException($e->getMessage());
-        }
+        return $this->getEmployeeDao()->searchEmployee($field, $value);
     }
 
     /**
@@ -846,11 +773,7 @@ class EmployeeService extends BaseService {
      * @todo Change parameter to include terminated and change logic 
      */
     public function getEmployeeCount($withoutTerminatedEmployees = false) {
-        try {
-            return $this->getEmployeeDao()->getEmployeeCount($withoutTerminatedEmployees = false);
-        } catch (Exception $e) {
-            throw new PIMServiceException($e->getMessage());
-        }
+        return $this->getEmployeeDao()->getEmployeeCount($withoutTerminatedEmployees = false);
     }
 
     /**
@@ -866,11 +789,7 @@ class EmployeeService extends BaseService {
      * 
      */
     public function getSupervisorEmployeeList($supervisorId) {
-        try {
-            return $this->getEmployeeDao()->getSupervisorEmployeeList($supervisorId);
-        } catch (Exception $e) {
-            throw new PIMServiceException($e->getMessage());
-        }
+        return $this->getEmployeeDao()->getSupervisorEmployeeList($supervisorId);
     }
 
     /**
@@ -892,11 +811,7 @@ class EmployeeService extends BaseService {
      * @todo Improve performance of dao method
      */
     public function getEmployeeListAsJson($workShift = false) {
-        try {
-            return $this->getEmployeeDao()->getEmployeeListAsJson($workShift);
-        } catch (Exception $e) {
-            throw new PIMServiceException($e->getMessage());
-        }
+        return $this->getEmployeeDao()->getEmployeeListAsJson($workShift);
     }
 
     /**
@@ -912,11 +827,7 @@ class EmployeeService extends BaseService {
      * @todo rename second parameter as include Terminated as change DAO method logic
      */
     public function getSupervisorEmployeeChain($supervisorId, $withoutTerminatedEmployees = false) {
-        try {
-            return $this->getEmployeeDao()->getSupervisorEmployeeChain($supervisorId, $withoutTerminatedEmployees);
-        } catch (Exception $e) {
-            throw new PIMServiceException($e->getMessage());
-        }
+        return $this->getEmployeeDao()->getSupervisorEmployeeChain($supervisorId, $withoutTerminatedEmployees);
     }
     
     /**
@@ -969,25 +880,24 @@ class EmployeeService extends BaseService {
      * 
      */
     public function filterEmployeeListBySubUnit($employeeList, $subUnitId) {
-        try {
-            if (empty($subUnitId) || $subUnitId == 1) {
-                return $employeeList;
-            }
 
-            if (empty($employeeList)) {
-                $employeeList = $this->getEmployeeList("empNumber", "ASC", true);
-            }
-
-            $filteredList = array();
-            foreach ($employeeList as $employee) {
-                if ($employee->getWorkStation() == $subUnitId) {
-                    $filteredList[] = $employee;
-                }
-            }
-            return $filteredList;
-        } catch (Exception $e) {
-            throw new PIMServiceException($e->getMessage());
+        if (empty($subUnitId) || $subUnitId == 1) {
+            return $employeeList;
         }
+
+        if (empty($employeeList)) {
+            $employeeList = $this->getEmployeeList("empNumber", "ASC", true);
+        }
+
+        $filteredList = array();
+        foreach ($employeeList as $employee) {
+            if ($employee->getWorkStation() == $subUnitId) {
+                $filteredList[] = $employee;
+            }
+        }
+        
+        return $filteredList;
+        
     }
 
     /**
@@ -1004,11 +914,7 @@ class EmployeeService extends BaseService {
      * 
      */
     public function deleteEmployee($empList = array()) {
-        try {
-            return $this->getEmployeeDao()->deleteEmployee($empList);
-        } catch (Exception $e) {
-            throw new PIMServiceException($e->getMessage());
-        }
+        return $this->getEmployeeDao()->deleteEmployee($empList);
     }
 
     /**
@@ -1023,11 +929,7 @@ class EmployeeService extends BaseService {
      * @todo rename method as isExistingEmployeeId( $employeeId )
      */
     public function isEmployeeIdInUse($employeeId) {
-        try {
-            return $this->getEmployeeDao()->isEmployeeIdInUse($employeeId);
-        } catch (Exception $e) {
-            throw new PIMServiceException($e->getMessage());
-        }
+        return $this->getEmployeeDao()->isEmployeeIdInUse($employeeId);
     }
 
     /**
@@ -1044,11 +946,7 @@ class EmployeeService extends BaseService {
      * 
      */
     public function checkForEmployeeWithSameName($first, $middle, $last) {
-        try {
-            return $this->getEmployeeDao()->checkForEmployeeWithSameName($first, $middle, $last);
-        } catch (Exception $e) {
-            throw new PIMServiceException($e->getMessage());
-        }
+        return $this->getEmployeeDao()->checkForEmployeeWithSameName($first, $middle, $last);
     }
 
     /**
@@ -1166,11 +1064,7 @@ class EmployeeService extends BaseService {
      * @todo rename method as getEmployeeWorkShift
      */
     public function getWorkShift($empNumber) {
-        try {
-            return $this->getEmployeeDao()->getWorkShift($empNumber);
-        } catch (Exception $e) {
-            throw new PIMServiceException($e->getMessage());
-        }
+        return $this->getEmployeeDao()->getWorkShift($empNumber);
     }
 
     /**
@@ -1183,11 +1077,7 @@ class EmployeeService extends BaseService {
      * 
      */
     public function getEmployeeTaxExemptions($empNumber) {
-        try {
-            return $this->getEmployeeDao()->getEmployeeTaxExemptions($empNumber);
-        } catch (Exception $e) {
-            throw new PIMServiceException($e->getMessage());
-        }
+        return $this->getEmployeeDao()->getEmployeeTaxExemptions($empNumber);
     }
 
     /**
@@ -1201,11 +1091,7 @@ class EmployeeService extends BaseService {
      * @todo return saved EmpUsTaxExemption entry
      */
     public function saveEmployeeTaxExemptions(EmpUsTaxExemption $empUsTaxExemption) {
-        try {
-            return $this->getEmployeeDao()->saveEmployeeTaxExemptions($empUsTaxExemption);
-        } catch (Exception $e) {
-            throw new PIMServiceException($e->getMessage());
-        }
+        return $this->getEmployeeDao()->saveEmployeeTaxExemptions($empUsTaxExemption);
     }
 
     /**
@@ -1221,11 +1107,7 @@ class EmployeeService extends BaseService {
      * @todo rename method as saveEmployeeJobDetails
      */
     public function saveJobDetails(Employee $employee) {
-        try {
-            return $this->getEmployeeDao()->saveJobDetails($employee);
-        } catch (Exception $e) {
-            throw new PIMServiceException($e->getMessage());
-        }
+        return $this->getEmployeeDao()->saveJobDetails($employee);
     }
 
     /**
@@ -1240,11 +1122,7 @@ class EmployeeService extends BaseService {
      * 
      */
     public function getMembershipDetails($empNumber) {
-        try {
-            return $this->getEmployeeDao()->getMembershipDetails($empNumber);
-        } catch (Exception $e) {
-            throw new PIMServiceException($e->getMessage());
-        }
+        return $this->getEmployeeDao()->getMembershipDetails($empNumber);
     }
 
     /**
@@ -1261,11 +1139,7 @@ class EmployeeService extends BaseService {
      * @todo Make $membershipcode parameter as opational parameter and rename parameter as $membershipId 
      */
     public function getMembershipDetail($empNumber, $membershipCode) {
-        try {
-            return $this->getEmployeeDao()->getMembershipDetail($empNumber, $membershipCode);
-        } catch (Exception $e) {
-            throw new PIMServiceException($e->getMessage());
-        }
+        return $this->getEmployeeDao()->getMembershipDetail($empNumber, $membershipCode);
     }
 
     /**
@@ -1286,21 +1160,18 @@ class EmployeeService extends BaseService {
      */
     public function deleteMembershipDetails($membershipsToDelete) {
 
-        try {
-            foreach ($membershipsToDelete as $membershipToDelete) {
+        foreach ($membershipsToDelete as $membershipToDelete) {
 
-                $tempArray = explode(" ", $membershipToDelete);
+            $tempArray = explode(" ", $membershipToDelete);
 
-                $empNumber = $tempArray[0];
-                $membership = $tempArray[1];
+            $empNumber = $tempArray[0];
+            $membership = $tempArray[1];
 
-                $this->getEmployeeDao()->deleteMembershipDetails($empNumber, $membership);
-            }
-
-            return true;
-        } catch (Exception $e) {
-            throw new PIMServiceException($e->getMessage());
+            $this->getEmployeeDao()->deleteMembershipDetails($empNumber, $membership);
         }
+
+        return true;
+            
     }
     
     /**
@@ -1318,11 +1189,7 @@ class EmployeeService extends BaseService {
      * @todo Remove this method since it's not used anywhere
      */
     public function getUnAssignedCurrencyList($empNumber, $salaryGrade, $asArray = false) {
-        try {
-            return $this->getEmployeeDao()->getUnAssignedCurrencyList($empNumber, $salaryGrade, $asArray);
-        } catch (Exception $e) {
-            throw new PIMServiceException($e->getMessage());
-        }
+        return $this->getEmployeeDao()->getUnAssignedCurrencyList($empNumber, $salaryGrade, $asArray);
     }
 
     /**
@@ -1341,11 +1208,7 @@ class EmployeeService extends BaseService {
      * 
      */
     public function getAssignedCurrencyList($salaryGrade, $asArray = false) {
-        try {
-            return $this->getEmployeeDao()->getAssignedCurrencyList($salaryGrade, $asArray);
-        } catch (Exception $e) {
-            throw new PIMServiceException($e->getMessage());
-        }
+        return $this->getEmployeeDao()->getAssignedCurrencyList($salaryGrade, $asArray);
     }
 
     /**
@@ -1361,11 +1224,7 @@ class EmployeeService extends BaseService {
      * @todo rename Entity as EmpBasicsalary to EmpSalary 
      */
     public function saveEmpBasicsalary(EmpBasicsalary $basicSalary) {
-        try {
-            return $this->getEmployeeDao()->saveEmpBasicsalary($basicSalary);
-        } catch (Exception $e) {
-            throw new PIMServiceException($e->getMessage());
-        }
+        return $this->getEmployeeDao()->saveEmpBasicsalary($basicSalary);
     }
 
     /**
@@ -1383,11 +1242,7 @@ class EmployeeService extends BaseService {
      * @todo Change EmpBasicSalary ORM to Salary
      */
     public function deleteSalary($empNumber, $salaryToDelete) {
-        try {
-            return $this->getEmployeeDao()->deleteSalary($empNumber, $salaryToDelete);
-        } catch (Exception $e) {
-            throw new PIMServiceException($e->getMessage());
-        }
+        return $this->getEmployeeDao()->deleteSalary($empNumber, $salaryToDelete);
     }
     
     /**
@@ -1420,12 +1275,7 @@ class EmployeeService extends BaseService {
      * @todo return Employee Entities instead of ReportTo Entities
      */
     public function getSupervisorListForEmployee($empNumber) {
-
-        try {
-            return $this->getEmployeeDao()->getSupervisorListForEmployee($empNumber);
-        } catch (Exception $e) {
-            throw new PIMServiceException($e->getMessage());
-        }
+        return $this->getEmployeeDao()->getSupervisorListForEmployee($empNumber);
     }
 
     /**
@@ -1440,12 +1290,7 @@ class EmployeeService extends BaseService {
      * @todo Rename the method as getSubordinates
      */
     public function getSubordinateListForEmployee($empNumber) {
-
-        try {
-            return $this->getEmployeeDao()->getSubordinateListForEmployee($empNumber);
-        } catch (Exception $e) {
-            throw new PIMServiceException($e->getMessage());
-        }
+        return $this->getEmployeeDao()->getSubordinateListForEmployee($empNumber);
     }
 
     /**
@@ -1461,12 +1306,7 @@ class EmployeeService extends BaseService {
      * @todo Rename the method as getReportTo()
      */
     public function getReportToObject($supNumber, $subNumber) {
-
-        try {
-            return $this->getEmployeeDao()->getReportToObject($supNumber, $subNumber);
-        } catch (Exception $e) {
-            throw new PIMServiceException($e->getMessage());
-        }
+        return $this->getEmployeeDao()->getReportToObject($supNumber, $subNumber);
     }
 
     /**
@@ -1488,21 +1328,19 @@ class EmployeeService extends BaseService {
      */
     public function deleteReportToObject($supOrSubListToDelete) {
 
-        try {
-            foreach ($supOrSubListToDelete as $supOrSubToDelete) {
+        foreach ($supOrSubListToDelete as $supOrSubToDelete) {
 
-                $tempArray = explode(" ", $supOrSubToDelete);
+            $tempArray = explode(" ", $supOrSubToDelete);
 
-                $supNumber = $tempArray[0];
-                $subNumber = $tempArray[1];
-                $reportingMethod = $tempArray[2];
+            $supNumber = $tempArray[0];
+            $subNumber = $tempArray[1];
+            $reportingMethod = $tempArray[2];
 
-                $state = $this->getEmployeeDao()->deleteReportToObject($supNumber, $subNumber, $reportingMethod);
-            }
-            return $state;
-        } catch (Exception $e) {
-            throw new PIMServiceException($e->getMessage());
+            $state = $this->getEmployeeDao()->deleteReportToObject($supNumber, $subNumber, $reportingMethod);
         }
+
+        return $state;
+            
     }
 
     /**
@@ -1514,11 +1352,7 @@ class EmployeeService extends BaseService {
      * @todo Move method to Auth Service
      */
     public function isAdmin($userId) {
-        try {
-            return $this->getEmployeeDao()->isAdmin($userId);
-        } catch (Exception $e) {
-            throw new PIMServiceException($e->getMessage());
-        }
+        return $this->getEmployeeDao()->isAdmin($userId);
     }
 
     /**
@@ -1534,11 +1368,7 @@ class EmployeeService extends BaseService {
      *       emails to template)
      */
     public function getEmailList() {
-        try {
-            return $this->getEmployeeDao()->getEmailList();
-        } catch (Exception $e) {
-            throw new PIMServiceException($e->getMessage());
-        }
+        return $this->getEmployeeDao()->getEmailList();
     }
 
     /**
@@ -1628,7 +1458,7 @@ class EmployeeService extends BaseService {
      * @todo Use an instance of a parameter holder instead of set of parameters
      */
     public function searchEmployeeList($sortField = 'empNumber', $sortOrder = 'asc', array $filters = null, $offset = null, $limit = null) {
-            return $this->getEmployeeDao()->searchEmployeeList($sortField,$sortOrder,$filters,$offset,$limit);
+        return $this->getEmployeeDao()->searchEmployeeList($sortField,$sortOrder,$filters,$offset,$limit);
     }
     
     /**
