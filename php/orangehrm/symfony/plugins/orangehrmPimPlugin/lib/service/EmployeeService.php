@@ -140,7 +140,7 @@ class EmployeeService extends BaseService {
      * @return EmpPicture EmpPicture or null if no picture found 
      * @throws PIMServiceException
      * 
-     * @todo Rename to getEmployeePicture 
+     * @todo Rename to getEmployeePicture [DONE]
      */
     public function getEmployeePicture($empNumber) {
         return $this->getEmployeeDao()->getEmployeePicture($empNumber);
@@ -186,7 +186,7 @@ class EmployeeService extends BaseService {
      * r employee.
      * @throws PIMServiceException
      * 
-     * @todo Rename method as getEmployeeEmergencyContacts
+     * @todo Rename method as getEmployeeEmergencyContacts [DONE]
      */
     public function getEmployeeEmergencyContacts($empNumber) {
         return $this->getEmployeeDao()->getEmployeeEmergencyContacts($empNumber);
@@ -203,7 +203,7 @@ class EmployeeService extends BaseService {
      * 
      * @todo return number of contacts deleted (currently returns true always)
      * @todo Exceptions should preserve previous exception [DONE]
-     * @todo rename method as deleteEmployeeEmergencyContacts
+     * @todo rename method as deleteEmployeeEmergencyContacts [DONE]
      */
     public function deleteEmployeeEmergencyContacts($empNumber, $emergencyContactsToDelete) {
         return $this->getEmployeeDao()->deleteEmployeeEmergencyContacts($empNumber, $emergencyContactsToDelete);
