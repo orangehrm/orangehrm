@@ -75,7 +75,7 @@ class EmployeeDaoTest extends PHPUnit_Framework_TestCase {
             $result = $this->employeeDao->saveEmployeePassport($passport);
             $this->assertTrue($result);
 
-            $savedPassport = $this->employeeDao->getEmployeePassport($passport->getEmpNumber(), $passport->getSeqno());
+            $savedPassport = $this->employeeDao->getEmployeeImmigrationRecords($passport->getEmpNumber(), $passport->getSeqno());
             $this->assertEquals($comment, $savedPassport->comments);
             $this->assertEquals($savedPassport, $passport);
         }
@@ -90,7 +90,7 @@ class EmployeeDaoTest extends PHPUnit_Framework_TestCase {
 
         foreach ($empPassports as $passport) {
 
-            $empPassport = $this->employeeDao->getEmployeePassport($passport->getEmpNumber(), $passport->getSeqno());
+            $empPassport = $this->employeeDao->getEmployeeImmigrationRecords($passport->getEmpNumber(), $passport->getSeqno());
             $this->assertEquals($passport, $empPassport);
         }
     }
@@ -104,7 +104,7 @@ class EmployeeDaoTest extends PHPUnit_Framework_TestCase {
 
         foreach ($empPassports as $passport) {
 
-            $collection = $this->employeeDao->getEmployeePassport($passport->getEmpNumber());
+            $collection = $this->employeeDao->getEmployeeImmigrationRecords($passport->getEmpNumber());
             $this->assertTrue($collection instanceof Doctrine_Collection);
         }
     }
@@ -542,7 +542,7 @@ class EmployeeDaoTest extends PHPUnit_Framework_TestCase {
 
         $empNumber = 1;
 
-        $empDep = $this->employeeDao->getDependents($empNumber);
+        $empDep = $this->employeeDao->getEmployeeDependents($empNumber);
         $this->assertTrue($empDep[0] instanceof EmpDependent);
         $this->assertTrue($empDep[1] instanceof EmpDependent);
     }
@@ -555,7 +555,7 @@ class EmployeeDaoTest extends PHPUnit_Framework_TestCase {
         $empNumber = 1;
         $entriesToDelete = array(1, 2);
 
-        $result = $this->employeeDao->deleteDependents($empNumber, $entriesToDelete);
+        $result = $this->employeeDao->deleteEmployeeDependents($empNumber, $entriesToDelete);
         $this->assertTrue($result);
     }
 
@@ -563,18 +563,18 @@ class EmployeeDaoTest extends PHPUnit_Framework_TestCase {
         $empNumber = 1;
 
         // Set 2nd parameter to a non array object
-        $result = $this->employeeDao->deleteDependents($empNumber, '');
+        $result = $this->employeeDao->deleteEmployeeDependents($empNumber, '');
         $this->assertFalse($result);
 
         $entriesToDelete = array(1, 2);
-        $result = $this->employeeDao->deleteDependents($empNumber, $entriesToDelete);
+        $result = $this->employeeDao->deleteEmployeeDependents($empNumber, $entriesToDelete);
         $this->assertTrue($result);
     }
 
     public function testDeletePhoto() {
         $empNumber = 1;
 
-        $result = $this->employeeDao->deletePhoto($empNumber);
+        $result = $this->employeeDao->deleteEmployeePicture($empNumber);
         $this->assertTrue($result);
     }
 
@@ -680,7 +680,7 @@ class EmployeeDaoTest extends PHPUnit_Framework_TestCase {
 
     public function testDeleteImmigration() {
         $empNumber = 1;
-        $retVal = $this->employeeDao->deleteImmigration($empNumber, array(1));
+        $retVal = $this->employeeDao->deleteEmployeeImmigrationRecords($empNumber, array(1));
         $this->assertTrue($retVal);
     }
 

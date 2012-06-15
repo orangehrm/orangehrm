@@ -218,11 +218,11 @@ class EmployeeService extends BaseService {
      * @returns boolean
      * @throws PIMServiceException
      * 
-     * @todo Rename to deleteEmployeeImmigrationRecords
+     * @todo Rename to deleteEmployeeImmigrationRecords [DONE]
      * @todo return number of entries deleted (currently returns true always)
      */
-    public function deleteImmigration($empNumber, $entriesToDelete) {
-        return $this->getEmployeeDao()->deleteImmigration($empNumber, $entriesToDelete);
+    public function deleteEmployeeImmigrationRecords($empNumber, $entriesToDelete) {
+        return $this->getEmployeeDao()->deleteEmployeeImmigrationRecords($empNumber, $entriesToDelete);
     }
 
     /**
@@ -233,10 +233,10 @@ class EmployeeService extends BaseService {
      * @return array EmpDependent Array of EmpDependent objects
      * 
      * @todo Exceptions should preserve previous exception [DONE]
-     * @todo Rename method as getEmployeeDependents
+     * @todo Rename method as getEmployeeDependents [DONE]
      */
-    public function getDependents($empNumber) {
-        return $this->getEmployeeDao()->getDependents($empNumber);
+    public function getEmployeeDependents($empNumber) {
+        return $this->getEmployeeDao()->getEmployeeDependents($empNumber);
     }
 
     /**
@@ -250,10 +250,10 @@ class EmployeeService extends BaseService {
      * 
      * @todo return number of entries deleted (currently returns true always)
      * @todo Exceptions should preserve previous exception [DONE]
-     * @todo Rename method as deleteEmployeeDependents
+     * @todo Rename method as deleteEmployeeDependents [DONE]
      */
-    public function deleteDependents($empNumber, $entriesToDelete) {
-        return $this->getEmployeeDao()->deleteDependents($empNumber, $entriesToDelete);
+    public function deleteEmployeeDependents($empNumber, $entriesToDelete) {
+        return $this->getEmployeeDao()->deleteEmployeeDependents($empNumber, $entriesToDelete);
     }
 
     /**
@@ -267,10 +267,10 @@ class EmployeeService extends BaseService {
      * 
      * @todo return number of entries deleted (currently returns true always)
      * @todo Exceptions should preserve previous exception [DONE]
-     * @todo rename method as deleteEmployeeChildren
+     * @todo rename method as deleteEmployeeChildren [DONE]
      */
-    public function deleteChildren($empNumber, $entriesToDelete) {
-        return $this->getEmployeeDao()->deleteChildren($empNumber, $entriesToDelete);
+    public function deleteEmployeeChildren($empNumber, $entriesToDelete) {
+        return $this->getEmployeeDao()->deleteEmployeeChildren($empNumber, $entriesToDelete);
     }
 
     /**
@@ -296,10 +296,10 @@ class EmployeeService extends BaseService {
      * 
      * @todo Don't return any value (currently returns true always)
      * @todo Exceptions should preserve previous exception [DONE]
-     * @todo Rename to deleteEmployeePicture (to match with get method)
+     * @todo Rename to deleteEmployeePicture (to match with get method) [DONE]
      */
-    public function deletePhoto($empNumber) {
-        return $this->getEmployeeDao()->deletePhoto($empNumber);
+    public function deleteEmployeePicture($empNumber) {
+        return $this->getEmployeeDao()->deleteEmployeePicture($empNumber);
     }
 
     /**
@@ -338,17 +338,17 @@ class EmployeeService extends BaseService {
      * 
      * @version 2.6.11
      * @param int $empNumber Employee Number
-     * @param int $sequenceNo Immigration Record sequence Number (optional)
+     * @param int $recordId Immigration Record sequence Number (optional)
      * 
      * @return Doctrine_Collection/EmpPassport If sequenceNo is given returns matching 
      * Immigration Record or false if not found. If sequenceNo is not given, returns Immigration 
      * Record collection. (Empty collection if no records available)
      * 
-     * @todo rename to getEmployeeImmigrationRecords
+     * @todo rename to getEmployeeImmigrationRecords [DONE]
      * @todo rename $sequenceNo to a meaningful values. Ex: $recordId
      */
-    public function getEmployeePassport($empNumber, $sequenceNo = null) {
-        return $this->getEmployeeDao()->getEmployeePassport($empNumber, $sequenceNo);
+    public function getEmployeeImmigrationRecords($empNumber, $recordId = null) {
+        return $this->getEmployeeDao()->getEmployeeImmigrationRecords($empNumber, $recordId);
     }
 
     /**

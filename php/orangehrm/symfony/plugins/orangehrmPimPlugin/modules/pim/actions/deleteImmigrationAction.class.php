@@ -29,7 +29,7 @@ class deleteImmigrationAction extends basePimAction {
                 $this->forward(sfConfig::get('sf_secure_module'), sfConfig::get('sf_secure_action'));
             }              
           
-            $this->getEmployeeService()->deleteImmigration($empNumber, $deleteIds);
+            $this->getEmployeeService()->deleteEmployeeImmigrationRecords($empNumber, $deleteIds);
             $this->getUser()->setFlash('templateMessage', array('success', __(TopLevelMessages::DELETE_SUCCESS)));
             $this->redirect('pim/viewImmigration?empNumber='. $empNumber);
             

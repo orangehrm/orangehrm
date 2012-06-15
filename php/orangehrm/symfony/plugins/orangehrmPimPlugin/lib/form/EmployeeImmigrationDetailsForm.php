@@ -50,7 +50,7 @@ class EmployeeImmigrationDetailsForm extends sfForm {
         $employee = $this->getEmployeeService()->getEmployee($empNumber);
         $this->fullName = $employee->getFullName();
         $this->countries = $this->getCountryList();
-        $this->empPassports = $this->getEmployeeService()->getEmployeePassport($empNumber);
+        $this->empPassports = $this->getEmployeeService()->getEmployeeImmigrationRecords($empNumber);
 
         $this->setWidgets(array(
                 'emp_number' => new sfWidgetFormInputHidden(array('default' => $empNumber)),
@@ -111,7 +111,7 @@ class EmployeeImmigrationDetailsForm extends sfForm {
 
     public function populateEmployeePassport() {
 
-        $empPassport = $this->getEmployeeService()->getEmployeePassport($this->getValue('emp_number'), $this->getValue('seqno'));
+        $empPassport = $this->getEmployeeService()->getEmployeeImmigrationRecords($this->getValue('emp_number'), $this->getValue('seqno'));
         
         if(!$empPassport instanceof EmpPassport) {
             $empPassport = new EmpPassport();

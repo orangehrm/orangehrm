@@ -161,10 +161,10 @@ class EmployeeServiceTest extends PHPUnit_Framework_TestCase {
         foreach ($this->testCase['Employee'] as $k => $v) {
             $this->employeeDao = $this->getMock('EmployeeDao');
             $this->employeeDao->expects($this->once())
-                    ->method('deletePhoto')
+                    ->method('deleteEmployeePicture')
                     ->will($this->returnValue(true));
             $this->employeeService->setEmployeeDao($this->employeeDao);
-            $result = $this->employeeService->deletePhoto($v['id']);
+            $result = $this->employeeService->deleteEmployeePicture($v['id']);
             $this->assertTrue($result);
         }
     }
@@ -255,13 +255,13 @@ class EmployeeServiceTest extends PHPUnit_Framework_TestCase {
         
         $mockDao = $this->getMock('EmployeeDao');
         $mockDao->expects($this->once())
-                 ->method('deleteImmigration')
+                 ->method('deleteEmployeeImmigrationRecords')
                  ->with($empNumber, $immigrationToDelete)
                  ->will($this->returnValue(true));
         
         $this->employeeService->setEmployeeDao($mockDao);
         
-        $result = $this->employeeService->deleteImmigration($empNumber, $immigrationToDelete);
+        $result = $this->employeeService->deleteEmployeeImmigrationRecords($empNumber, $immigrationToDelete);
         $this->assertTrue($result);
         
     }
@@ -290,13 +290,13 @@ class EmployeeServiceTest extends PHPUnit_Framework_TestCase {
         
         $mockDao = $this->getMock('EmployeeDao');
         $mockDao->expects($this->once())
-                 ->method('getDependents')
+                 ->method('getEmployeeDependents')
                  ->with($empNumber)
                  ->will($this->returnValue($dependents));
         
         $this->employeeService->setEmployeeDao($mockDao);
         
-        $result = $this->employeeService->getDependents($empNumber);
+        $result = $this->employeeService->getEmployeeDependents($empNumber);
         $this->assertEquals($dependents, $result);
         
     }
@@ -310,13 +310,13 @@ class EmployeeServiceTest extends PHPUnit_Framework_TestCase {
         
         $mockDao = $this->getMock('EmployeeDao');
         $mockDao->expects($this->once())
-                 ->method('deleteDependents')
+                 ->method('deleteEmployeeDependents')
                  ->with($empNumber, $entriesToDelete)
                  ->will($this->returnValue(true));
         
         $this->employeeService->setEmployeeDao($mockDao);
         
-        $result = $this->employeeService->deleteDependents($empNumber, $entriesToDelete);
+        $result = $this->employeeService->deleteEmployeeDependents($empNumber, $entriesToDelete);
         $this->assertTrue($result);
         
     }
@@ -330,13 +330,13 @@ class EmployeeServiceTest extends PHPUnit_Framework_TestCase {
         
         $mockDao = $this->getMock('EmployeeDao');
         $mockDao->expects($this->once())
-                 ->method('deleteChildren')
+                 ->method('deleteEmployeeChildren')
                  ->with($empNumber, $entriesToDelete)
                  ->will($this->returnValue(true));
         
         $this->employeeService->setEmployeeDao($mockDao);
         
-        $result = $this->employeeService->deleteChildren($empNumber, $entriesToDelete);
+        $result = $this->employeeService->deleteEmployeeChildren($empNumber, $entriesToDelete);
         $this->assertTrue($result);
         
     }
@@ -1181,12 +1181,12 @@ class EmployeeServiceTest extends PHPUnit_Framework_TestCase {
         $employeeDao = $this->getMock('EmployeeDao');
 
         $employeeDao->expects($this->once())
-                ->method('getEmployeePassport')
+                ->method('getEmployeeImmigrationRecords')
                 ->will($this->returnValue(new EmpPassport()));
 
         $this->employeeService->setEmployeeDao($employeeDao);
 
-        $readEmpPassport = $this->employeeService->getEmployeePassport(1);
+        $readEmpPassport = $this->employeeService->getEmployeeImmigrationRecords(1);
         $this->assertTrue($readEmpPassport instanceof EmpPassport);
     }
 

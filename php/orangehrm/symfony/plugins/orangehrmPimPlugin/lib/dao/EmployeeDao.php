@@ -252,7 +252,7 @@ class EmployeeDao extends BaseDao {
      * @returns boolean
      * @throws DaoException
      */
-    public function deleteImmigration($empNumber, $entriesToDelete) {
+    public function deleteEmployeeImmigrationRecords($empNumber, $entriesToDelete) {
 
         try {
 
@@ -307,15 +307,15 @@ class EmployeeDao extends BaseDao {
      * @returns Collection/EmpPassport
      * @throws DaoException
      */
-    public function getEmployeePassport($empNumber, $sequenceNo = null) {
+    public function getEmployeeImmigrationRecords($empNumber, $recordId = null) {
         try {
             $q = Doctrine_Query::create()
                             ->from('EmpPassport p')
                             ->where('p.emp_number = ?', $empNumber)
                             ->orderBy('p.type_flag, p.number');
 
-            if (!is_null($sequenceNo)) {
-                $q->andwhere('p.seqno = ?', $sequenceNo);
+            if (!is_null($recordId)) {
+                $q->andwhere('p.seqno = ?', $recordId);
                 return $q->fetchOne();
             }
             return $q->execute();
@@ -743,7 +743,7 @@ class EmployeeDao extends BaseDao {
      * @param int $empNumber Employee Number
      * @return array Dependents as array
      */
-    public function getDependents($empNumber) {
+    public function getEmployeeDependents($empNumber) {
         try {
             $q = Doctrine_Query:: create()->from('EmpDependent ed')
                             ->where('ed.emp_number = ?', $empNumber)
@@ -761,7 +761,7 @@ class EmployeeDao extends BaseDao {
      * @returns boolean
      * @throws DaoException
      */
-    public function deleteDependents($empNumber, $entriesToDelete) {
+    public function deleteEmployeeDependents($empNumber, $entriesToDelete) {
         try {
             if (is_array($entriesToDelete)) {
                 // Delete dependents
@@ -784,7 +784,7 @@ class EmployeeDao extends BaseDao {
      * @returns boolean
      * @throws DaoException
      */
-    public function deleteChildren($empNumber, $entriesToDelete) {
+    public function deleteEmployeeChildren($empNumber, $entriesToDelete) {
         try {
             if (is_array($entriesToDelete)) {
                 // Delete children
@@ -806,7 +806,7 @@ class EmployeeDao extends BaseDao {
      * @returns boolean
      * @throws DaoException
      */
-    public function deletePhoto($empNumber) {
+    public function deleteEmployeePicture($empNumber) {
         try {
             $q = Doctrine_Query :: create()->delete('EmpPicture p')
                             ->where('emp_number = ?', $empNumber);

@@ -132,7 +132,7 @@ class viewPhotographAction extends basePimAction {
         if ($request->getParameter('option') == "delete") {
 
             $employeeService = $this->getEmployeeService();
-            $employeeService->deletePhoto($empNumber);
+            $employeeService->deleteEmployeePicture($empNumber);
 
             $this->showDeleteButton = 0;
             $this->fileModify = 1;

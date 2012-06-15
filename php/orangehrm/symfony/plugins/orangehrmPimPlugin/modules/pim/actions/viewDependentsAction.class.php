@@ -61,6 +61,6 @@ class viewDependentsAction extends basePimAction {
         $this->setForm(new EmployeeDependentForm(array(), $param, true));
         $this->deleteForm = new EmployeeDependentsDeleteForm(array(), $param, true);
 
-        $this->dependents = $this->getEmployeeService()->getDependents($this->empNumber);
+        $this->dependents = $this->getEmployeeService()->getEmployeeDependents($this->empNumber);
     }
 }
