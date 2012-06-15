@@ -73,7 +73,7 @@ if (($section == 'language') && isset($message) && isset($messageType)) {
 
                     foreach ($languages as $language) {                        
                         $cssClass = ($row % 2) ? 'even' : 'odd';
-                        $languageName = $language->getLanguage()->getName();
+                        $languageName = $language->getEmployeeLanguages()->getName();
                         ?>
                     <tr class="<?php echo $cssClass;?>">
                 <td class="check"><input type="hidden" class="code" value="<?php echo htmlspecialchars($language->langId); ?>" />

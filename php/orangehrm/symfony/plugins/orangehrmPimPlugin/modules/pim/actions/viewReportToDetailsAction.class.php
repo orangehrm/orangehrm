@@ -81,7 +81,7 @@ class viewReportToDetailsAction extends basePimAction {
 
         $this->deleteSupForm = new EmployeeReportToSupervisorDeleteForm(array(), $param, true);
         $this->deleteSubForm = new EmployeeReportToSubordinateDeleteForm(array(), $param, true);
-        $this->supDetails = $this->getEmployeeService()->getSupervisorListForEmployee($this->empNumber);
+        $this->supDetails = $this->getEmployeeService()->getImmediateSupervisors($this->empNumber);
         $this->subDetails = $this->getEmployeeService()->getSubordinateListForEmployee($this->empNumber);
 
     }

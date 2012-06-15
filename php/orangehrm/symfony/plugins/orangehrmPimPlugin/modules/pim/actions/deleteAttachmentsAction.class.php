@@ -47,7 +47,7 @@ class deleteAttachmentsAction extends basePimAction {
             $attachmentsToDelete = $request->getParameter('chkattdel', array());
             if ($attachmentsToDelete) {
                 $service = new EmployeeService();
-                $service->deleteAttachments($empId, $attachmentsToDelete);
+                $service->deleteEmployeeAttachments($empId, $attachmentsToDelete);
                 $this->getUser()->setFlash('attachmentMessage', array('success', __(TopLevelMessages::DELETE_SUCCESS)));
             }
         }

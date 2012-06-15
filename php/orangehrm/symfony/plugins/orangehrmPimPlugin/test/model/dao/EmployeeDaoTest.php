@@ -170,7 +170,7 @@ class EmployeeDaoTest extends PHPUnit_Framework_TestCase {
      */
     public function testGetSupervisorListForEmployee() {
 
-        $supervisorReportToList = $this->employeeDao->getSupervisorListForEmployee(3);
+        $supervisorReportToList = $this->employeeDao->getImmediateSupervisors(3);
         $this->assertEquals(2, count($supervisorReportToList));
         $this->assertTrue($supervisorReportToList[0] instanceof ReportTo);
         $this->assertEquals($supervisorReportToList[0]->supervisorId, 5);
@@ -240,7 +240,7 @@ class EmployeeDaoTest extends PHPUnit_Framework_TestCase {
 
         $empNumber = 1;
 
-        $wrkExp = $this->employeeDao->getWorkExperience($empNumber);
+        $wrkExp = $this->employeeDao->getEmployeeWorkExperienceRecords($empNumber);
         $this->assertTrue($wrkExp[0] instanceof EmpWorkExperience);
     }
 
@@ -252,7 +252,7 @@ class EmployeeDaoTest extends PHPUnit_Framework_TestCase {
         $empNumber = 1;
         $sequenceNo = 2;
 
-        $wrkExp = $this->employeeDao->getWorkExperience($empNumber, $sequenceNo);
+        $wrkExp = $this->employeeDao->getEmployeeWorkExperienceRecords($empNumber, $sequenceNo);
         $this->assertTrue($wrkExp instanceof EmpWorkExperience);
     }
 
@@ -268,7 +268,7 @@ class EmployeeDaoTest extends PHPUnit_Framework_TestCase {
         $empWorkExp->jobtitle = "SE";
         $empWorkExp->employer = "OrangeHRM";
 
-        $this->assertTrue($this->employeeDao->saveWorkExperience($empWorkExp));
+        $this->assertTrue($this->employeeDao->saveEmployeeWorkExperience($empWorkExp));
     }
 
     /**
@@ -282,7 +282,7 @@ class EmployeeDaoTest extends PHPUnit_Framework_TestCase {
         $empWorkExp->jobtitle = "Architect";
         $empWorkExp->employer = "IFS";
 
-        $this->assertTrue($this->employeeDao->saveWorkExperience($empWorkExp));
+        $this->assertTrue($this->employeeDao->saveEmployeeWorkExperience($empWorkExp));
     }
 
     /**
@@ -293,7 +293,7 @@ class EmployeeDaoTest extends PHPUnit_Framework_TestCase {
         $empNumber = 1;
         $workExperienceToDelete = array(1, 2);
 
-        $result = $this->employeeDao->deleteWorkExperience($empNumber, $workExperienceToDelete);
+        $result = $this->employeeDao->deleteEmployeeWorkExperienceRecords($empNumber, $workExperienceToDelete);
         $this->assertTrue($result);
     }
 
@@ -341,7 +341,7 @@ class EmployeeDaoTest extends PHPUnit_Framework_TestCase {
         $empEdu->educationId = 2;
         $empEdu->major = 'major';
 
-        $this->assertTrue($this->employeeDao->saveEducation($empEdu));
+        $this->assertTrue($this->employeeDao->saveEmployeeEducation($empEdu));
     }
 
     /**
@@ -352,7 +352,7 @@ class EmployeeDaoTest extends PHPUnit_Framework_TestCase {
         $empNumber = 1;
         $educationToDelete = array(1, 2);
 
-        $result = $this->employeeDao->deleteEducation($empNumber, $educationToDelete);
+        $result = $this->employeeDao->deleteEmployeeEducationRecords($empNumber, $educationToDelete);
         $this->assertTrue($result);
         
         // verify records deleted
@@ -360,7 +360,7 @@ class EmployeeDaoTest extends PHPUnit_Framework_TestCase {
         $this->assertEquals(0, $q->count());
         
         $empNumber = 2;
-        $result = $this->employeeDao->deleteEducation($empNumber, array(3));
+        $result = $this->employeeDao->deleteEmployeeEducationRecords($empNumber, array(3));
         $this->assertTrue($result);
         $q = Doctrine_Query::create()->from('EmployeeEducation ec')->where('emp_number = ?', $empNumber);
         $this->assertEquals(0, $q->count());
@@ -373,7 +373,7 @@ class EmployeeDaoTest extends PHPUnit_Framework_TestCase {
 
         $empNumber = 1;
 
-        $skill = $this->employeeDao->getSkill($empNumber);
+        $skill = $this->employeeDao->getEmployeeSkills($empNumber);
         $this->assertTrue($skill[0] instanceof EmployeeSkill);
     }
 
@@ -385,7 +385,7 @@ class EmployeeDaoTest extends PHPUnit_Framework_TestCase {
         $empNumber = 1;
         $skillCode = 2;
 
-        $skill = $this->employeeDao->getSkill($empNumber, $skillCode);
+        $skill = $this->employeeDao->getEmployeeSkills($empNumber, $skillCode);
         $this->assertTrue($skill instanceof EmployeeSkill);
     }
 
@@ -399,7 +399,7 @@ class EmployeeDaoTest extends PHPUnit_Framework_TestCase {
         $empSkill->emp_number = 3;
         $empSkill->skillId = 1;
 
-        $this->assertTrue($this->employeeDao->saveSkill($empSkill));
+        $this->assertTrue($this->employeeDao->saveEmployeeSkill($empSkill));
     }
 
     /**
@@ -410,7 +410,7 @@ class EmployeeDaoTest extends PHPUnit_Framework_TestCase {
         $empNumber = 1;
         $skillToDelete = array(1, 2);
 
-        $result = $this->employeeDao->deleteSkill($empNumber, $skillToDelete);
+        $result = $this->employeeDao->deleteEmployeeSkills($empNumber, $skillToDelete);
         $this->assertTrue($result);
     }
 
@@ -421,7 +421,7 @@ class EmployeeDaoTest extends PHPUnit_Framework_TestCase {
 
         $empNumber = 1;
 
-        $language = $this->employeeDao->getLanguage($empNumber);
+        $language = $this->employeeDao->getEmployeeLanguages($empNumber);
         $this->assertTrue($language[0] instanceof EmployeeLanguage);
     }
 
@@ -433,7 +433,7 @@ class EmployeeDaoTest extends PHPUnit_Framework_TestCase {
         $empNumber = 1;
         $langType = 2;
 
-        $language = $this->employeeDao->getLanguage($empNumber, null, $langType);
+        $language = $this->employeeDao->getEmployeeLanguages($empNumber, null, $langType);
         $this->assertTrue($language[0] instanceof EmployeeLanguage);
     }
 
@@ -445,7 +445,7 @@ class EmployeeDaoTest extends PHPUnit_Framework_TestCase {
         $empNumber = 1;
         $langCode = 'LAN001';
 
-        $language = $this->employeeDao->getLanguage($empNumber, $langCode);
+        $language = $this->employeeDao->getEmployeeLanguages($empNumber, $langCode);
         $this->assertTrue($language[0] instanceof EmployeeLanguage);
     }
 
@@ -458,7 +458,7 @@ class EmployeeDaoTest extends PHPUnit_Framework_TestCase {
         $langCode = 1;
         $langType = 2;
 
-        $language = $this->employeeDao->getLanguage($empNumber, $langCode, $langType);
+        $language = $this->employeeDao->getEmployeeLanguages($empNumber, $langCode, $langType);
         $this->assertTrue($language instanceof EmployeeLanguage);
     }
 
@@ -472,7 +472,7 @@ class EmployeeDaoTest extends PHPUnit_Framework_TestCase {
         $empLang->empNumber = 2;
         $empLang->langId = 1;
 
-        $this->assertTrue($this->employeeDao->saveLanguage($empLang));
+        $this->assertTrue($this->employeeDao->saveEmployeeLanguage($empLang));
     }
 
     /**
@@ -483,7 +483,7 @@ class EmployeeDaoTest extends PHPUnit_Framework_TestCase {
         $empNumber = 1;
         $languagesToDelete = array(1 => 2, 2 => 1);
 
-        $result = $this->employeeDao->deleteLanguage($empNumber, $languagesToDelete);
+        $result = $this->employeeDao->deleteEmployeeLanguages($empNumber, $languagesToDelete);
         $this->assertTrue($result > 0);
     }
 
@@ -494,7 +494,7 @@ class EmployeeDaoTest extends PHPUnit_Framework_TestCase {
 
         $empNumber = 1;
 
-        $license = $this->employeeDao->getLicense($empNumber);
+        $license = $this->employeeDao->getEmployeeLicences($empNumber);
         $this->assertTrue($license[0] instanceof EmployeeLicense);
     }
 
@@ -506,7 +506,7 @@ class EmployeeDaoTest extends PHPUnit_Framework_TestCase {
         $empNumber = 1;
         $licenseCode = 1;
 
-        $licenseCode = $this->employeeDao->getLicense($empNumber, $licenseCode);
+        $licenseCode = $this->employeeDao->getEmployeeLicences($empNumber, $licenseCode);
         $this->assertTrue($licenseCode instanceof EmployeeLicense);
     }
 
@@ -520,7 +520,7 @@ class EmployeeDaoTest extends PHPUnit_Framework_TestCase {
         $empLicense->empNumber = 3;
         $empLicense->licenseId = 1;
 
-        $this->assertTrue($this->employeeDao->saveLicense($empLicense));
+        $this->assertTrue($this->employeeDao->saveEmployeeLicense($empLicense));
     }
 
     /**
@@ -531,7 +531,7 @@ class EmployeeDaoTest extends PHPUnit_Framework_TestCase {
         $empNumber = 1;
         $licenseToDelete = array(1, 2);
 
-        $result = $this->employeeDao->deleteLicense($empNumber, $licenseToDelete);
+        $result = $this->employeeDao->deleteEmployeeLicenses($empNumber, $licenseToDelete);
         $this->assertTrue($result);
     }
 
@@ -686,23 +686,23 @@ class EmployeeDaoTest extends PHPUnit_Framework_TestCase {
 
     public function testGetAttachments() {
         $empNumber = 1;
-        $retVal = $this->employeeDao->getAttachments($empNumber, 'personal');
+        $retVal = $this->employeeDao->getEmployeeAttachments($empNumber, 'personal');
         $this->assertEquals(2, count($retVal));
     }
 
     public function testGetAttachment() {
         $empNumber = 1;
-        $retVal = $this->employeeDao->getAttachment($empNumber, 1);
+        $retVal = $this->employeeDao->getEmployeeAttachment($empNumber, 1);
         $this->assertTrue($retVal instanceof EmployeeAttachment);
         $this->assertEquals('test.mdb', $retVal->filename);
     }
 
     public function testdeleteAttachments() {
         $empNumber = 1;
-        $retVal = $this->employeeDao->deleteAttachments($empNumber, array(1, 2));
+        $retVal = $this->employeeDao->deleteEmployeeAttachments($empNumber, array(1, 2));
         $this->assertTrue($retVal);
 
-        $retVal = $this->employeeDao->deleteAttachments($empNumber, array());
+        $retVal = $this->employeeDao->deleteEmployeeAttachments($empNumber, array());
         $this->assertFalse($retVal);
     }
 
@@ -783,7 +783,7 @@ class EmployeeDaoTest extends PHPUnit_Framework_TestCase {
 
         $subCounts = array_count_values($supervisors);
         foreach ($subCounts as $supervisor => $count) {
-            $list = $this->employeeDao->getSupervisorEmployeeList($supervisor);
+            $list = $this->employeeDao->getImmediateSubordinates($supervisor);
             $this->assertEquals($count, count($list));
         }
     }
@@ -821,10 +821,10 @@ class EmployeeDaoTest extends PHPUnit_Framework_TestCase {
 
         foreach ($employees as $emp) {
             $empId = $emp->getEmployeeId();
-            $this->assertTrue($this->employeeDao->isEmployeeIdInUse($empId));
+            $this->assertTrue($this->employeeDao->isExistingEmployeeId($empId));
         }
 
-        $this->assertFalse($this->employeeDao->isEmployeeIdInUse('sdfsd'));
+        $this->assertFalse($this->employeeDao->isExistingEmployeeId('sdfsd'));
     }
 
     public function testCheckForEmployeeWithSameName() {
@@ -839,7 +839,7 @@ class EmployeeDaoTest extends PHPUnit_Framework_TestCase {
 
     public function testGetWorkShift() {
         $empNumber = 1;
-        $workShift = $this->employeeDao->getWorkShift($empNumber);
+        $workShift = $this->employeeDao->getEmployeeWorkShift($empNumber);
         $this->assertEquals(1, $workShift->getWorkShiftId());
     }
 
@@ -849,7 +849,7 @@ class EmployeeDaoTest extends PHPUnit_Framework_TestCase {
         $employee->expects($this->once())
                 ->method('save');
 
-        $result = $this->employeeDao->saveJobDetails($employee);
+        $result = $this->employeeDao->saveEmployeeJobDetails($employee);
         $this->assertTrue($result);
 
         $employee = $this->getMock('Employee', array('save'));
@@ -858,7 +858,7 @@ class EmployeeDaoTest extends PHPUnit_Framework_TestCase {
                 ->will($this->throwException(new Exception()));
 
         try {
-            $result = $this->employeeDao->saveJobDetails($employee);
+            $result = $this->employeeDao->saveEmployeeJobDetails($employee);
             $this->fail("Exception expected");
         } catch (Exception $e) {
             
@@ -889,7 +889,7 @@ class EmployeeDaoTest extends PHPUnit_Framework_TestCase {
     public function testDeleteSalary() {
         $empNumber = 1;
 
-        $result = $this->employeeDao->deleteSalary($empNumber, array('SAL001'));
+        $result = $this->employeeDao->deleteEmployeeSalaries($empNumber, array('SAL001'));
         $this->assertEquals(1, count($result));
     }
 
@@ -897,7 +897,7 @@ class EmployeeDaoTest extends PHPUnit_Framework_TestCase {
 
         // Get all salaries
         $empNumber = 1;
-        $result = $this->employeeDao->getSalary($empNumber);
+        $result = $this->employeeDao->getEmployeeSalaries($empNumber);
         $this->assertEquals(2, count($result));
         $this->assertEquals(2, $result[0]->id); // Allowance
         $this->assertEquals('Allowance', $result[0]->getSalaryComponent());
@@ -905,19 +905,19 @@ class EmployeeDaoTest extends PHPUnit_Framework_TestCase {
         $this->assertEquals('Main Salary', $result[1]->getSalaryComponent());
 
         // Get one salary
-        $result = $this->employeeDao->getSalary($empNumber, 1);
-        $result = $this->employeeDao->getSalary($empNumber, 1);
+        $result = $this->employeeDao->getEmployeeSalaries($empNumber, 1);
+        $result = $this->employeeDao->getEmployeeSalaries($empNumber, 1);
         $this->assertTrue($result instanceof EmpBasicsalary);
         $this->assertEquals(1, $result->id);
         $this->assertEquals('Main Salary', $result->getSalaryComponent());
 
         //        
         // None existing salary
-        $result = $this->employeeDao->getSalary($empNumber, 12);
+        $result = $this->employeeDao->getEmployeeSalaries($empNumber, 12);
         $this->assertFalse($result);
 
         // employee with no salaries
-        $result = $this->employeeDao->getSalary(3);
+        $result = $this->employeeDao->getEmployeeSalaries(3);
         $this->assertEquals(0, count($result));
     }
 

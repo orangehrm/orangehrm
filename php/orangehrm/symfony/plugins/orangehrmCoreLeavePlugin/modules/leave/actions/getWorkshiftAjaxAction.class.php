@@ -50,7 +50,7 @@ class getWorkshiftAjaxAction extends sfAction {
         
         $empNumber = $request->getParameter('empNumber');
         
-        $employeeWorkShift = $this->getEmployeeService()->getWorkShift($empNumber);
+        $employeeWorkShift = $this->getEmployeeService()->getEmployeeWorkShift($empNumber);
         
         if ($employeeWorkShift != null) {
             $workShiftLength = $employeeWorkShift->getWorkShift()->getHoursPerDay();

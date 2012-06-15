@@ -50,7 +50,7 @@ class EducationService extends BaseService {
      * @return NULL Doesn't return a value
      */
     public function saveEducation(Education $education) {        
-        $this->getEducationDao()->saveEducation($education);        
+        $this->getEducationDao()->saveEmployeeEducation($education);        
     }
     
     /**

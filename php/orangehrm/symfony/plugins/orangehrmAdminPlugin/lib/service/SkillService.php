@@ -50,7 +50,7 @@ class SkillService extends BaseService {
      * @return NULL Doesn't return a value
      */
     public function saveSkill(Skill $skill) {        
-        $this->getSkillDao()->saveSkill($skill);        
+        $this->getSkillDao()->saveEmployeeSkill($skill);        
     }
     
     /**

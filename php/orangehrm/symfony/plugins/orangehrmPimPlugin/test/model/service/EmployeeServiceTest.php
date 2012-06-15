@@ -375,13 +375,13 @@ class EmployeeServiceTest extends PHPUnit_Framework_TestCase {
         
         $mockDao = $this->getMock('EmployeeDao');
         $mockDao->expects($this->once())
-                 ->method('saveWorkExperience')
+                 ->method('saveEmployeeWorkExperience')
                  ->with($experience)
                  ->will($this->returnValue(true));
         
         $this->employeeService->setEmployeeDao($mockDao);
         
-        $result = $this->employeeService->saveWorkExperience($experience);
+        $result = $this->employeeService->saveEmployeeWorkExperience($experience);
         $this->assertTrue($result);              
     }    
     
@@ -402,13 +402,13 @@ class EmployeeServiceTest extends PHPUnit_Framework_TestCase {
         
         $mockDao = $this->getMock('EmployeeDao');
         $mockDao->expects($this->once())
-                 ->method('getWorkExperience')
+                 ->method('getEmployeeWorkExperienceRecords')
                  ->with($empNumber, $sequence)
                  ->will($this->returnValue($experience));
         
         $this->employeeService->setEmployeeDao($mockDao);
         
-        $result = $this->employeeService->getWorkExperience($empNumber, $sequence);
+        $result = $this->employeeService->getEmployeeWorkExperienceRecords($empNumber, $sequence);
         $this->assertEquals($experience, $result);              
     } 
     
@@ -421,13 +421,13 @@ class EmployeeServiceTest extends PHPUnit_Framework_TestCase {
         
         $mockDao = $this->getMock('EmployeeDao');
         $mockDao->expects($this->once())
-                 ->method('deleteWorkExperience')
+                 ->method('deleteEmployeeWorkExperienceRecords')
                  ->with($empNumber, $entriesToDelete)
                  ->will($this->returnValue(true));
         
         $this->employeeService->setEmployeeDao($mockDao);
         
-        $result = $this->employeeService->deleteWorkExperience($empNumber, $entriesToDelete);
+        $result = $this->employeeService->deleteEmployeeWorkExperienceRecords($empNumber, $entriesToDelete);
         $this->assertTrue($result);              
     }
     
@@ -445,13 +445,13 @@ class EmployeeServiceTest extends PHPUnit_Framework_TestCase {
        
         $mockDao = $this->getMock('EmployeeDao');
         $mockDao->expects($this->once())
-                 ->method('saveEducation')
+                 ->method('saveEmployeeEducation')
                  ->with($education)
                  ->will($this->returnValue(true));
         
         $this->employeeService->setEmployeeDao($mockDao);
         
-        $result = $this->employeeService->saveEducation($education);
+        $result = $this->employeeService->saveEmployeeEducation($education);
         $this->assertTrue($result);              
     }    
     
@@ -489,13 +489,13 @@ class EmployeeServiceTest extends PHPUnit_Framework_TestCase {
         
         $mockDao = $this->getMock('EmployeeDao');
         $mockDao->expects($this->once())
-                 ->method('deleteEducation')
+                 ->method('deleteEmployeeEducationRecords')
                  ->with($empNumber, $entriesToDelete)
                  ->will($this->returnValue(true));
         
         $this->employeeService->setEmployeeDao($mockDao);
         
-        $result = $this->employeeService->deleteEducation($empNumber, $entriesToDelete);
+        $result = $this->employeeService->deleteEmployeeEducationRecords($empNumber, $entriesToDelete);
         $this->assertTrue($result);              
     }
     
@@ -511,13 +511,13 @@ class EmployeeServiceTest extends PHPUnit_Framework_TestCase {
         
         $mockDao = $this->getMock('EmployeeDao');
         $mockDao->expects($this->once())
-                 ->method('saveSkill')
+                 ->method('saveEmployeeSkill')
                  ->with($skill)
                  ->will($this->returnValue(true));
         
         $this->employeeService->setEmployeeDao($mockDao);
         
-        $result = $this->employeeService->saveSkill($skill);
+        $result = $this->employeeService->saveEmployeeSkill($skill);
         $this->assertTrue($result);              
     }    
     
@@ -537,13 +537,13 @@ class EmployeeServiceTest extends PHPUnit_Framework_TestCase {
         
         $mockDao = $this->getMock('EmployeeDao');
         $mockDao->expects($this->once())
-                 ->method('getSkill')
+                 ->method('getEmployeeSkills')
                  ->with($empNumber, $skillCode)
                  ->will($this->returnValue($skill));
         
         $this->employeeService->setEmployeeDao($mockDao);
         
-        $result = $this->employeeService->getSkill($empNumber, $skillCode);
+        $result = $this->employeeService->getEmployeeSkills($empNumber, $skillCode);
         $this->assertEquals($skill, $result);              
     } 
     
@@ -556,13 +556,13 @@ class EmployeeServiceTest extends PHPUnit_Framework_TestCase {
         
         $mockDao = $this->getMock('EmployeeDao');
         $mockDao->expects($this->once())
-                 ->method('deleteSkill')
+                 ->method('deleteEmployeeSkills')
                  ->with($empNumber, $entriesToDelete)
                  ->will($this->returnValue(true));
         
         $this->employeeService->setEmployeeDao($mockDao);
         
-        $result = $this->employeeService->deleteSkill($empNumber, $entriesToDelete);
+        $result = $this->employeeService->deleteEmployeeSkills($empNumber, $entriesToDelete);
         $this->assertTrue($result);              
     }
     
@@ -580,13 +580,13 @@ class EmployeeServiceTest extends PHPUnit_Framework_TestCase {
         
         $mockDao = $this->getMock('EmployeeDao');
         $mockDao->expects($this->once())
-                 ->method('getSalary')
+                 ->method('getEmployeeSalaries')
                  ->with($empNumber, $id)
                  ->will($this->returnValue($salary));
         
         $this->employeeService->setEmployeeDao($mockDao);
         
-        $result = $this->employeeService->getSalary($empNumber, $id);
+        $result = $this->employeeService->getEmployeeSalaries($empNumber, $id);
         $this->assertEquals($salary, $result);              
     } 
     
@@ -604,13 +604,13 @@ class EmployeeServiceTest extends PHPUnit_Framework_TestCase {
         
         $mockDao = $this->getMock('EmployeeDao');
         $mockDao->expects($this->once())
-                 ->method('saveLanguage')
+                 ->method('saveEmployeeLanguage')
                  ->with($language)
                  ->will($this->returnValue(true));
         
         $this->employeeService->setEmployeeDao($mockDao);
         
-        $result = $this->employeeService->saveLanguage($language);
+        $result = $this->employeeService->saveEmployeeLanguage($language);
         $this->assertTrue($result);              
     }    
     
@@ -632,13 +632,13 @@ class EmployeeServiceTest extends PHPUnit_Framework_TestCase {
         
         $mockDao = $this->getMock('EmployeeDao');
         $mockDao->expects($this->once())
-                 ->method('getLanguage')
+                 ->method('getEmployeeLanguages')
                  ->with($empNumber, $languageCode, $langType)
                  ->will($this->returnValue($language));
         
         $this->employeeService->setEmployeeDao($mockDao);
         
-        $result = $this->employeeService->getLanguage($empNumber, $languageCode, $langType);
+        $result = $this->employeeService->getEmployeeLanguages($empNumber, $languageCode, $langType);
         $this->assertEquals($language, $result);              
     } 
     
@@ -651,13 +651,13 @@ class EmployeeServiceTest extends PHPUnit_Framework_TestCase {
         
         $mockDao = $this->getMock('EmployeeDao');
         $mockDao->expects($this->once())
-                 ->method('deleteLanguage')
+                 ->method('deleteEmployeeLanguages')
                  ->with($empNumber, $entriesToDelete)
                  ->will($this->returnValue(true));
         
         $this->employeeService->setEmployeeDao($mockDao);
         
-        $result = $this->employeeService->deleteLanguage($empNumber, $entriesToDelete);
+        $result = $this->employeeService->deleteEmployeeLanguages($empNumber, $entriesToDelete);
         $this->assertTrue($result);              
     }
     
@@ -673,13 +673,13 @@ class EmployeeServiceTest extends PHPUnit_Framework_TestCase {
         
         $mockDao = $this->getMock('EmployeeDao');
         $mockDao->expects($this->once())
-                 ->method('saveLicense')
+                 ->method('saveEmployeeLicense')
                  ->with($license)
                  ->will($this->returnValue(true));
         
         $this->employeeService->setEmployeeDao($mockDao);
         
-        $result = $this->employeeService->saveLicense($license);
+        $result = $this->employeeService->saveEmployeeLicense($license);
         $this->assertTrue($result);              
     }    
     
@@ -697,13 +697,13 @@ class EmployeeServiceTest extends PHPUnit_Framework_TestCase {
         
         $mockDao = $this->getMock('EmployeeDao');
         $mockDao->expects($this->once())
-                 ->method('getLicense')
+                 ->method('getEmployeeLicences')
                  ->with($empNumber, $licenseCode)
                  ->will($this->returnValue($license));
         
         $this->employeeService->setEmployeeDao($mockDao);
         
-        $result = $this->employeeService->getLicense($empNumber, $licenseCode);
+        $result = $this->employeeService->getEmployeeLicences($empNumber, $licenseCode);
         $this->assertEquals($license, $result);              
     } 
     
@@ -716,13 +716,13 @@ class EmployeeServiceTest extends PHPUnit_Framework_TestCase {
         
         $mockDao = $this->getMock('EmployeeDao');
         $mockDao->expects($this->once())
-                 ->method('deleteLicense')
+                 ->method('deleteEmployeeLicenses')
                  ->with($empNumber, $entriesToDelete)
                  ->will($this->returnValue(true));
         
         $this->employeeService->setEmployeeDao($mockDao);
         
-        $result = $this->employeeService->deleteLicense($empNumber, $entriesToDelete);
+        $result = $this->employeeService->deleteEmployeeLicenses($empNumber, $entriesToDelete);
         $this->assertTrue($result);              
     } 
     
@@ -742,25 +742,25 @@ class EmployeeServiceTest extends PHPUnit_Framework_TestCase {
         
         $mockDao = $this->getMock('EmployeeDao');
         $mockDao->expects($this->once())
-                 ->method('getAttachments')
+                 ->method('getEmployeeAttachments')
                  ->with($empNumber, $screen)
                  ->will($this->returnValue($attachments));
         
         $this->employeeService->setEmployeeDao($mockDao);
         
-        $result = $this->employeeService->getAttachments($empNumber, $screen);
+        $result = $this->employeeService->getEmployeeAttachments($empNumber, $screen);
         $this->assertEquals($attachments, $result);              
         
         $mockDao = $this->getMock('EmployeeDao');
         $mockDao->expects($this->once())
-                 ->method('getAttachments')
+                 ->method('getEmployeeAttachments')
                  ->with($empNumber, $screen)
                  ->will($this->throwException(new DaoException()));
                
         $this->employeeService->setEmployeeDao($mockDao);
         
         try {
-            $result = $this->employeeService->getAttachments($empNumber, $screen);
+            $result = $this->employeeService->getEmployeeAttachments($empNumber, $screen);
             $this->fail("Exception expected");
         } catch (Exception $e) {
         }  
@@ -776,25 +776,25 @@ class EmployeeServiceTest extends PHPUnit_Framework_TestCase {
         
         $mockDao = $this->getMock('EmployeeDao');
         $mockDao->expects($this->once())
-                 ->method('deleteAttachments')
+                 ->method('deleteEmployeeAttachments')
                  ->with($empNumber, $entriesToDelete)
                  ->will($this->returnValue(true));
         
         $this->employeeService->setEmployeeDao($mockDao);
         
-        $result = $this->employeeService->deleteAttachments($empNumber, $entriesToDelete);
+        $result = $this->employeeService->deleteEmployeeAttachments($empNumber, $entriesToDelete);
         $this->assertTrue($result);              
         
         $mockDao = $this->getMock('EmployeeDao');
         $mockDao->expects($this->once())
-                 ->method('deleteAttachments')
+                 ->method('deleteEmployeeAttachments')
                  ->with($empNumber, $entriesToDelete)
                  ->will($this->throwException(new DaoException()));
                
         $this->employeeService->setEmployeeDao($mockDao);
         
         try {
-            $result = $this->employeeService->deleteAttachments($empNumber, $entriesToDelete);
+            $result = $this->employeeService->deleteEmployeeAttachments($empNumber, $entriesToDelete);
             $this->fail("Exception expected");
         } catch (Exception $e) {
         }         
@@ -818,25 +818,25 @@ class EmployeeServiceTest extends PHPUnit_Framework_TestCase {
         
         $mockDao = $this->getMock('EmployeeDao');
         $mockDao->expects($this->once())
-                 ->method('getAttachment')
+                 ->method('getEmployeeAttachment')
                  ->with($empNumber, $attachmentId)
                  ->will($this->returnValue($attachment));
         
         $this->employeeService->setEmployeeDao($mockDao);
         
-        $result = $this->employeeService->getAttachment($empNumber, $attachmentId);
+        $result = $this->employeeService->getEmployeeAttachment($empNumber, $attachmentId);
         $this->assertEquals($attachment, $result);              
         
         $mockDao = $this->getMock('EmployeeDao');
         $mockDao->expects($this->once())
-                 ->method('getAttachment')
+                 ->method('getEmployeeAttachment')
                  ->with($empNumber, $attachmentId)
                  ->will($this->throwException(new DaoException()));
                
         $this->employeeService->setEmployeeDao($mockDao);
         
         try {
-            $result = $this->employeeService->getAttachment($empNumber, $attachmentId);
+            $result = $this->employeeService->getEmployeeAttachment($empNumber, $attachmentId);
             $this->fail("Exception expected");
         } catch (Exception $e) {
         }  
@@ -957,13 +957,13 @@ class EmployeeServiceTest extends PHPUnit_Framework_TestCase {
         
         $mockDao = $this->getMock('EmployeeDao');
         $mockDao->expects($this->once())
-                 ->method('getSupervisorEmployeeList')
+                 ->method('getImmediateSubordinates')
                  ->with($supervisorId)
                  ->will($this->returnValue($employees));
         
         $this->employeeService->setEmployeeDao($mockDao);
         
-        $result = $this->employeeService->getSupervisorEmployeeList($supervisorId);
+        $result = $this->employeeService->getImmediateSubordinates($supervisorId);
         $this->assertEquals($employees, $result);              
         
     }
@@ -1094,12 +1094,12 @@ class EmployeeServiceTest extends PHPUnit_Framework_TestCase {
         
         $mockDao = $this->getMock('EmployeeDao');
         $mockDao->expects($this->once())
-                ->method('isEmployeeIdInUse')
+                ->method('isExistingEmployeeId')
                 ->with($employeeId)
                 ->will($this->returnValue(true));
         
         $this->employeeService->setEmployeeDao($mockDao);
-        $result = $this->employeeService->isEmployeeIdInUse($employeeId);
+        $result = $this->employeeService->isExistingEmployeeId($employeeId);
         $this->assertTrue($result);               
         
     }
@@ -1238,13 +1238,13 @@ class EmployeeServiceTest extends PHPUnit_Framework_TestCase {
         $employeeDao = $this->getMock('EmployeeDao');
 
         $employeeDao->expects($this->once())
-                ->method('getSupervisorListForEmployee')
+                ->method('getImmediateSupervisors')
                 ->with($empNumber)
                 ->will($this->returnValue($reportToSupervisorList1));
 
         $this->employeeService->setEmployeeDao($employeeDao);
 
-        $readReportToSupervisorList1 = $this->employeeService->getSupervisorListForEmployee($empNumber);
+        $readReportToSupervisorList1 = $this->employeeService->getImmediateSupervisors($empNumber);
         $this->assertTrue($readReportToSupervisorList1[0] instanceof ReportTo);
     }
 

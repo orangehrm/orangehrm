@@ -46,7 +46,7 @@ class saveDeleteSkillAction extends basePimAction {
 
                 if ($this->skillForm->isValid()) {
                     $skill = $this->getSkill($this->skillForm);
-                    $this->getEmployeeService()->saveSkill($skill);
+                    $this->getEmployeeService()->saveEmployeeSkill($skill);
                     $this->getUser()->setFlash('templateMessage', array('success', __(TopLevelMessages::SAVE_SUCCESS)));
                 } else {
                     $this->getUser()->setFlash('templateMessage', array('warning', __('Form Validation Failed')));
@@ -58,7 +58,7 @@ class saveDeleteSkillAction extends basePimAction {
                 $deleteIds = $request->getParameter('delSkill');
 
                 if(count($deleteIds) > 0) {
-                    $this->getEmployeeService()->deleteSkill($empNumber, $request->getParameter('delSkill'));
+                    $this->getEmployeeService()->deleteEmployeeSkills($empNumber, $request->getParameter('delSkill'));
                     $this->getUser()->setFlash('templateMessage', array('success', __(TopLevelMessages::DELETE_SUCCESS)));
                 }
             }
@@ -71,7 +71,7 @@ class saveDeleteSkillAction extends basePimAction {
 
         $post = $form->getValues();
 
-        $skill = $this->getEmployeeService()->getSkill($post['emp_number'], $post['code']);
+        $skill = $this->getEmployeeService()->getEmployeeSkills($post['emp_number'], $post['code']);
 
         if(!$skill instanceof EmployeeSkill) {
             $skill = new EmployeeSkill();

@@ -338,7 +338,7 @@ class ApplyLeaveForm extends sfForm {
     private function getWorkShiftLength() {
 
         $employeeService = new EmployeeService();
-        $employeeWorkShift = $employeeService->getWorkShift($this->getEmployeeNumber());
+        $employeeWorkShift = $employeeService->getEmployeeWorkShift($this->getEmployeeNumber());
         if ($employeeWorkShift != null) {
 
             return $employeeWorkShift->getWorkShift()->getHoursPerDay();

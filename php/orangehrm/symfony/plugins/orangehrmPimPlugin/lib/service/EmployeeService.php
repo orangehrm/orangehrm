@@ -345,7 +345,7 @@ class EmployeeService extends BaseService {
      * Record collection. (Empty collection if no records available)
      * 
      * @todo rename to getEmployeeImmigrationRecords [DONE]
-     * @todo rename $sequenceNo to a meaningful values. Ex: $recordId
+     * @todo rename $sequenceNo to a meaningful values. Ex: $recordId [DONE]
      */
     public function getEmployeeImmigrationRecords($empNumber, $recordId = null) {
         return $this->getEmployeeDao()->getEmployeeImmigrationRecords($empNumber, $recordId);
@@ -360,10 +360,10 @@ class EmployeeService extends BaseService {
      * @throws DaoException
      * 
      * @todo return saved work Experience
-     * @todo rename method as saveEmployeeWorkExperience
+     * @todo rename method as saveEmployeeWorkExperience [DONE]
      */
-    public function saveWorkExperience(EmpWorkExperience $empWorkExp) {
-        return $this->getEmployeeDao()->saveWorkExperience($empWorkExp);
+    public function saveEmployeeWorkExperience(EmpWorkExperience $empWorkExp) {
+        return $this->getEmployeeDao()->saveEmployeeWorkExperience($empWorkExp);
     }
 
     /**
@@ -371,17 +371,17 @@ class EmployeeService extends BaseService {
      * 
      * @version 2.6.11
      * @param int $empNumber Employee number
-     * @param int $sequenceNo Work Experience record sequence number
+     * @param int $recordId Work Experience record sequence number
      * 
      * @return Doctrine_Collection/WorkExperience  If sequenceNo is given returns matching 
      * EmpWorkExperience or false if not found. If sequenceNo is not given, returns 
      * EmpWorkExperience collection. (Empty collection if no records available)
      * @throws DaoException
      * 
-     * @todo Rename method as getEmployeeWorkExperienceRecords
+     * @todo Rename method as getEmployeeWorkExperienceRecords [DONE]
      */
-    public function getWorkExperience($empNumber, $sequenceNo = null) {
-        return $this->getEmployeeDao()->getWorkExperience($empNumber, $sequenceNo);
+    public function getEmployeeWorkExperienceRecords($empNumber, $recordId = null) {
+        return $this->getEmployeeDao()->getEmployeeWorkExperienceRecords($empNumber, $recordId);
     }
 
     /**
@@ -396,10 +396,10 @@ class EmployeeService extends BaseService {
      * @throws DaoException
      * 
      * @todo return number of entries deleted
-     * @todo rename method as deleteEmployeeWorkExperienceRecords
+     * @todo rename method as deleteEmployeeWorkExperienceRecords [DONE]
      */
-    public function deleteWorkExperience($empNumber, $workExperienceToDelete) {
-        return $this->getEmployeeDao()->deleteWorkExperience($empNumber, $workExperienceToDelete);
+    public function deleteEmployeeWorkExperienceRecords($empNumber, $workExperienceToDelete) {
+        return $this->getEmployeeDao()->deleteEmployeeWorkExperienceRecords($empNumber, $workExperienceToDelete);
     }
 
     /**
@@ -446,10 +446,10 @@ class EmployeeService extends BaseService {
      * @throws DaoException
      * 
      * @todo return number of entries deleted (currently return value is based on $educationToDelete not actual deleted records)
-     * @todo rename method as deleteEmployeeEducationRecords
+     * @todo rename method as deleteEmployeeEducationRecords [DONE]
      */
-    public function deleteEducation($empNumber, $educationToDelete) {
-        return $this->getEmployeeDao()->deleteEducation($empNumber, $educationToDelete);
+    public function deleteEmployeeEducationRecords($empNumber, $educationToDelete) {
+        return $this->getEmployeeDao()->deleteEmployeeEducationRecords($empNumber, $educationToDelete);
     }
 
     /**
@@ -461,10 +461,10 @@ class EmployeeService extends BaseService {
      * @throws DaoException
      * 
      * @todo return saved Employee Education object
-     * @todo rename method as saveEmployeeEducation
+     * @todo rename method as saveEmployeeEducation [DONE]
      */
-    public function saveEducation(EmployeeEducation $education) {
-        return $this->getEmployeeDao()->saveEducation($education);
+    public function saveEmployeeEducation(EmployeeEducation $education) {
+        return $this->getEmployeeDao()->saveEmployeeEducation($education);
     }
 
     /**
@@ -478,11 +478,11 @@ class EmployeeService extends BaseService {
      * @param int $skillCode Skill Code
      * @returns Doctrine_Collection/EmployeeSkill 
      * 
-     * @todo rename method as getEmployeeSkills 
+     * @todo rename method as getEmployeeSkills [DONE]
      * 
      */
-    public function getSkill($empNumber, $skillCode = null) {
-        return $this->getEmployeeDao()->getSkill($empNumber, $skillCode);
+    public function getEmployeeSkills($empNumber, $skillCode = null) {
+        return $this->getEmployeeDao()->getEmployeeSkills($empNumber, $skillCode);
     }
 
     /**
@@ -490,15 +490,15 @@ class EmployeeService extends BaseService {
      * 
      * @version 2.6.11
      * @param int $empNumber Employee Number
-     * @param array $skillToDelete id's of the skill entries to delete
+     * @param array $skillToDelete ids of the skill entries to delete
      * @return boolean True if $skillToDelete is not empty, false if empty.
      * @throws DaoException
      * 
      * @todo return number of entries deleted
-     * @todo rename method as deleteEmployeeSkills
+     * @todo rename method as deleteEmployeeSkills [DONE]
      */
-    public function deleteSkill($empNumber, $skillToDelete) {
-        return $this->getEmployeeDao()->deleteSkill($empNumber, $skillToDelete);
+    public function deleteEmployeeSkills($empNumber, $skillToDelete) {
+        return $this->getEmployeeDao()->deleteEmployeeSkills($empNumber, $skillToDelete);
     }
 
     /**
@@ -509,10 +509,10 @@ class EmployeeService extends BaseService {
      * @returns boolean true
      * 
      * @todo reurn saved Employee Skill object
-     * @todo rename method as saveEmployeeSkill
+     * @todo rename method as saveEmployeeSkill [DONE]
      */
-    public function saveSkill(EmployeeSkill $skill) {
-        return $this->getEmployeeDao()->saveSkill($skill);
+    public function saveEmployeeSkill(EmployeeSkill $skill) {
+        return $this->getEmployeeDao()->saveEmployeeSkill($skill);
     }
 
     /** 
@@ -530,11 +530,11 @@ class EmployeeService extends BaseService {
      * @param String $languageType Language Type
      * @return Doctrine_Collection/Array Returns Doctrine_Collection of EmployeeLanguage objects  or EmployeeLanguage object
      * 
-     * @todo rename method as getEmployeeLanguages
+     * @todo rename method as getEmployeeLanguages [DONE]
      * 
      */
-    public function getLanguage($empNumber, $languageCode = null, $languageType = null) {
-        return $this->getEmployeeDao()->getLanguage($empNumber, $languageCode, $languageType);
+    public function getEmployeeLanguages($empNumber, $languageCode = null, $languageType = null) {
+        return $this->getEmployeeDao()->getEmployeeLanguages($empNumber, $languageCode, $languageType);
     }
 
     /** 
@@ -546,10 +546,10 @@ class EmployeeService extends BaseService {
      * @return int Number of records deleted. False if $languagesToDelete is empty
      * 
      * @todo return number of entries deleted
-     * @todo rename method as deleteEmployeeLanguages
+     * @todo rename method as deleteEmployeeLanguages [DONE]
      */
-    public function deleteLanguage($empNumber, $languagesToDelete) {
-        return $this->getEmployeeDao()->deleteLanguage($empNumber, $languagesToDelete);
+    public function deleteEmployeeLanguages($empNumber, $languagesToDelete) {
+        return $this->getEmployeeDao()->deleteEmployeeLanguages($empNumber, $languagesToDelete);
     }
 
     /**
@@ -560,11 +560,11 @@ class EmployeeService extends BaseService {
      * @returns boolean 
      * 
      * @todo return saved Employee Language entry
-     * @todo rename method as saveEmployeeLanguage 
+     * @todo rename method as saveEmployeeLanguage [DONE]
      * 
      */
-    public function saveLanguage(EmployeeLanguage $language) {
-        return $this->getEmployeeDao()->saveLanguage($language);
+    public function saveEmployeeLanguage(EmployeeLanguage $language) {
+        return $this->getEmployeeDao()->saveEmployeeLanguage($language);
     }
 
     /**
@@ -579,11 +579,11 @@ class EmployeeService extends BaseService {
      * @param int $licenseId
      * @returns Doctrine_Collection/License Returns Doctrine_Collection of EmployeeLicense objects or single object
      * 
-     * @todo rename method as getEmployeeLicences 
+     * @todo rename method as getEmployeeLicences [DONE]
      * 
      */
-    public function getLicense($empNumber, $licenseId = null) {
-        return $this->getEmployeeDao()->getLicense($empNumber, $licenseId);
+    public function getEmployeeLicences($empNumber, $licenseId = null) {
+        return $this->getEmployeeDao()->getEmployeeLicences($empNumber, $licenseId);
     }
 
     /**
@@ -595,11 +595,11 @@ class EmployeeService extends BaseService {
      * @return boolean False if $licenseToDelete is empty or true otherwise
      * 
      * @todo Return number of items deleted
-     * @todo Rename method as deleteEmployeeLicenses
+     * @todo Rename method as deleteEmployeeLicenses [DONE]
      * 
      */
-    public function deleteLicense($empNumber, $licenseToDelete) {
-        return $this->getEmployeeDao()->deleteLicense($empNumber, $licenseToDelete);
+    public function deleteEmployeeLicenses($empNumber, $licenseToDelete) {
+        return $this->getEmployeeDao()->deleteEmployeeLicenses($empNumber, $licenseToDelete);
     }
 
 
@@ -611,11 +611,11 @@ class EmployeeService extends BaseService {
      * @return boolean True always
      * 
      * @todo return saved Employee License entry
-     * @todo rename method as saveEmployeeLicense
+     * @todo rename method as saveEmployeeLicense [DONE]
      * 
      */    
-    public function saveLicense(EmployeeLicense $license) {
-        return $this->getEmployeeDao()->saveLicense($license);
+    public function saveEmployeeLicense(EmployeeLicense $license) {
+        return $this->getEmployeeDao()->saveEmployeeLicense($license);
     }
 
     /**
@@ -628,11 +628,11 @@ class EmployeeService extends BaseService {
      * @return Doctrine_Collection Doctrine_Collection of EmployeeAttachment objects
      * 
      * @todo Define screen name constant in PluginEmployeeAttachment class 
-     * @todo rename method as getEmployeeAttachments
+     * @todo rename method as getEmployeeAttachments [DONE]
      * @todo Define the values for $screen as constants use constants names here
      */
-    public function getAttachments($empNumber, $screen) {
-        return $this->getEmployeeDao()->getAttachments($empNumber, $screen);
+    public function getEmployeeAttachments($empNumber, $screen) {
+        return $this->getEmployeeDao()->getEmployeeAttachments($empNumber, $screen);
     }
 
     /**
@@ -643,11 +643,11 @@ class EmployeeService extends BaseService {
      * @param array $attachmentsToDelete Array of attachement IDs
      * @return boolean False if $attachmentsToDelete is empty or true otherwise
      * 
-     * @todo rename method as deleteEmployeeAttachments
+     * @todo rename method as deleteEmployeeAttachments [DONE]
      * @todo return number of items deleted
      */
-    public function deleteAttachments($empNumber, $attachmentsToDelete) {
-        return $this->getEmployeeDao()->deleteAttachments($empNumber, $attachmentsToDelete);
+    public function deleteEmployeeAttachments($empNumber, $attachmentsToDelete) {
+        return $this->getEmployeeDao()->deleteEmployeeAttachments($empNumber, $attachmentsToDelete);
     }
 
     /**
@@ -659,10 +659,10 @@ class EmployeeService extends BaseService {
      * 
      * @return EmployeeAttachment/boolean If no records return false 
      * 
-     * @todo rename method as getEmployeeAttachment
+     * @todo rename method as getEmployeeAttachment [DONE]
      */
-    public function getAttachment($empNumber, $attachmentId) {
-        return $this->getEmployeeDao()->getAttachment($empNumber, $attachmentId);
+    public function getEmployeeAttachment($empNumber, $attachmentId) {
+        return $this->getEmployeeDao()->getEmployeeAttachment($empNumber, $attachmentId);
     }
 
     /**
@@ -780,16 +780,16 @@ class EmployeeService extends BaseService {
      * Get Immediate subordinates of the given employee.
      * 
      * @version 2.6.11
-     * @param int $supervisorId Supervisor Id
+     * @param int $empNumber Supervisor Id
      * @returns Doctrine_Collection/Array Returns Doctrine_Collection of Employee objects
      * @throws PIMServiceException
      * 
-     * @todo Rename to getImmediateSubordinates($empNumber)
+     * @todo Rename to getImmediateSubordinates($empNumber) [DONE]
      * @todo improve DAO method performance , currently it execute few queries 
      * 
      */
-    public function getSupervisorEmployeeList($supervisorId) {
-        return $this->getEmployeeDao()->getSupervisorEmployeeList($supervisorId);
+    public function getImmediateSubordinates($empNumber) {
+        return $this->getEmployeeDao()->getImmediateSubordinates($empNumber);
     }
 
     /**
@@ -926,10 +926,10 @@ class EmployeeService extends BaseService {
      * @return boolean
      * @throws PIMServiceException
      * 
-     * @todo rename method as isExistingEmployeeId( $employeeId )
+     * @todo rename method as isExistingEmployeeId( $employeeId ) [DONE]
      */
-    public function isEmployeeIdInUse($employeeId) {
-        return $this->getEmployeeDao()->isEmployeeIdInUse($employeeId);
+    public function isExistingEmployeeId($employeeId) {
+        return $this->getEmployeeDao()->isExistingEmployeeId($employeeId);
     }
 
     /**
@@ -1061,10 +1061,10 @@ class EmployeeService extends BaseService {
      * @return EmployeeWorkShift EmployeeWorkShift instance if found or false
      * @throws PIMServiceException
      * 
-     * @todo rename method as getEmployeeWorkShift
+     * @todo rename method as getEmployeeWorkShift [DONE]
      */
-    public function getWorkShift($empNumber) {
-        return $this->getEmployeeDao()->getWorkShift($empNumber);
+    public function getEmployeeWorkShift($empNumber) {
+        return $this->getEmployeeDao()->getEmployeeWorkShift($empNumber);
     }
 
     /**
@@ -1104,10 +1104,10 @@ class EmployeeService extends BaseService {
      * 
      * @todo Don't return value
      * @todo Save only job details in corresponding DAO method
-     * @todo rename method as saveEmployeeJobDetails
+     * @todo rename method as saveEmployeeJobDetails [DONE]
      */
-    public function saveJobDetails(Employee $employee) {
-        return $this->getEmployeeDao()->saveJobDetails($employee);
+    public function saveEmployeeJobDetails(Employee $employee) {
+        return $this->getEmployeeDao()->saveEmployeeJobDetails($employee);
     }
 
     /**
@@ -1237,12 +1237,12 @@ class EmployeeService extends BaseService {
      * @throws PIMServiceException
      * 
      * @todo return number deleted items
-     * @todo rename method as deleteEmployeeSalaries
+     * @todo rename method as deleteEmployeeSalaries [DONE]
      * @todo Change parameter to $salaryIds
      * @todo Change EmpBasicSalary ORM to Salary
      */
-    public function deleteSalary($empNumber, $salaryToDelete) {
-        return $this->getEmployeeDao()->deleteSalary($empNumber, $salaryToDelete);
+    public function deleteEmployeeSalaries($empNumber, $salaryToDelete) {
+        return $this->getEmployeeDao()->deleteEmployeeSalaries($empNumber, $salaryToDelete);
     }
     
     /**
@@ -1257,10 +1257,10 @@ class EmployeeService extends BaseService {
      * EmbBasicsalary collection. (Empty collection if no records available)
      * @throws DaoException
      * 
-     * @todo rename method as getEmployeeSalaries
+     * @todo rename method as getEmployeeSalaries [DONE]
      */
-    public function getSalary($empNumber, $empSalaryId = null) {
-        return $this->getEmployeeDao()->getSalary($empNumber, $empSalaryId);
+    public function getEmployeeSalaries($empNumber, $empSalaryId = null) {
+        return $this->getEmployeeDao()->getEmployeeSalaries($empNumber, $empSalaryId);
     }   
 
     /**
@@ -1271,11 +1271,11 @@ class EmployeeService extends BaseService {
      * @return Doctrine_Collection A collection of ReportTo objects
      * @throws PIMServiceException
      * 
-     * @todo Rename the method as getImmediateSupervisors
+     * @todo Rename the method as getImmediateSupervisors [DONE]
      * @todo return Employee Entities instead of ReportTo Entities
      */
-    public function getSupervisorListForEmployee($empNumber) {
-        return $this->getEmployeeDao()->getSupervisorListForEmployee($empNumber);
+    public function getImmediateSupervisors($empNumber) {
+        return $this->getEmployeeDao()->getImmediateSupervisors($empNumber);
     }
 
     /**

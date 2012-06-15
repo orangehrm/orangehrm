@@ -331,14 +331,14 @@ class EmployeeDao extends BaseDao {
      * @returns Collection/WorkExperience
      * @throws DaoException
      */
-    public function getWorkExperience($empNumber, $sequenceNo = null) {
+    public function getEmployeeWorkExperienceRecords($empNumber, $recordId = null) {
         try {
             $q = Doctrine_Query::create()
                             ->from('EmpWorkExperience w')
                             ->where('w.emp_number = ?', $empNumber);
 
-            if (!is_null($sequenceNo)) {
-                $q->andwhere('w.seqno = ?', $sequenceNo);
+            if (!is_null($recordId)) {
+                $q->andwhere('w.seqno = ?', $recordId);
                 return $q->fetchOne();
             }
 
@@ -354,7 +354,7 @@ class EmployeeDao extends BaseDao {
      * @param EmpWorkExperience $empWorkExp
      * @returns boolean
      */
-    public function saveWorkExperience(EmpWorkExperience $empWorkExp) {
+    public function saveEmployeeWorkExperience(EmpWorkExperience $empWorkExp) {
         try {
 
             $sequenceNo = 1;
@@ -383,7 +383,7 @@ class EmployeeDao extends BaseDao {
      * @returns boolean
      * @throws DaoException
      */
-    public function deleteWorkExperience($empNumber, $workExperienceToDelete) {
+    public function deleteEmployeeWorkExperienceRecords($empNumber, $workExperienceToDelete) {
         try {
             if (is_array($workExperienceToDelete)) {
                 // Delete work experience
@@ -444,7 +444,7 @@ class EmployeeDao extends BaseDao {
      * @param EmpEducation $empEdu
      * @returns boolean
      */
-    public function saveEducation(EmployeeEducation $empEdu) {
+    public function saveEmployeeEducation(EmployeeEducation $empEdu) {
         try {
             $empEdu->save();
             return true;
@@ -460,7 +460,7 @@ class EmployeeDao extends BaseDao {
      * @returns boolean
      * @throws DaoException
      */
-    public function deleteEducation($empNumber, $educationToDelete) {
+    public function deleteEmployeeEducationRecords($empNumber, $educationToDelete) {
         try {
 
             if (is_array($educationToDelete)) {
@@ -485,7 +485,7 @@ class EmployeeDao extends BaseDao {
      * @returns Collection/Language
      * @throws DaoException
      */
-    public function getLanguage($empNumber, $langCode = null, $langType = null) {
+    public function getEmployeeLanguages($empNumber, $langCode = null, $langType = null) {
         try {
             $q = Doctrine_Query::create()
                             ->from('EmployeeLanguage el')
@@ -516,7 +516,7 @@ class EmployeeDao extends BaseDao {
      * @param EmpLanguage $empLang
      * @returns boolean
      */
-    public function saveLanguage(EmployeeLanguage $empLang) {
+    public function saveEmployeeLanguage(EmployeeLanguage $empLang) {
         try {
             $empLang->save();
             return true;
@@ -532,7 +532,7 @@ class EmployeeDao extends BaseDao {
      * @return int - number of records deleted. False if did not delete anything.
      * @throws DaoException
      */
-    public function deleteLanguage($empNumber, $languagesToDelete) {
+    public function deleteEmployeeLanguages($empNumber, $languagesToDelete) {
 
         try {
             if (is_array($languagesToDelete) && count($languagesToDelete) > 0) {
@@ -560,7 +560,7 @@ class EmployeeDao extends BaseDao {
      * @returns Collection/Skill
      * @throws DaoException
      */
-    public function getSkill($empNumber, $skillCode = null) {
+    public function getEmployeeSkills($empNumber, $skillCode = null) {
         try {
             $q = Doctrine_Query::create()
                             ->from('EmployeeSkill es')
@@ -584,7 +584,7 @@ class EmployeeDao extends BaseDao {
      * @param EmployeeSkill $empSkill
      * @returns boolean
      */
-    public function saveSkill(EmployeeSkill $empSkill) {
+    public function saveEmployeeSkill(EmployeeSkill $empSkill) {
         try {
             $empSkill->save();
             return true;
@@ -600,7 +600,7 @@ class EmployeeDao extends BaseDao {
      * @returns boolean
      * @throws DaoException
      */
-    public function deleteSkill($empNumber, $skillToDelete) {
+    public function deleteEmployeeSkills($empNumber, $skillToDelete) {
         try {
             if (is_array($skillToDelete)) {
                 // Delete Skill
@@ -624,7 +624,7 @@ class EmployeeDao extends BaseDao {
      * @returns Collection/License
      * @throws DaoException
      */
-    public function getLicense($empNumber, $licenseCode = null) {
+    public function getEmployeeLicences($empNumber, $licenseCode = null) {
         try {
             $q = Doctrine_Query::create()
                             ->from('EmployeeLicense el')
@@ -647,7 +647,7 @@ class EmployeeDao extends BaseDao {
      * @param EmployeeLicense $empLicense
      * @returns boolean
      */
-    public function saveLicense(EmployeeLicense $empLicense) {
+    public function saveEmployeeLicense(EmployeeLicense $empLicense) {
         try {
             $empLicense->save();
             return true;
@@ -663,7 +663,7 @@ class EmployeeDao extends BaseDao {
      * @returns boolean
      * @throws DaoException
      */
-    public function deleteLicense($empNumber, $licenseToDelete) {
+    public function deleteEmployeeLicenses($empNumber, $licenseToDelete) {
         try {
             if (is_array($licenseToDelete) && count($licenseToDelete) > 0) {
                 // Delete work experience
@@ -685,7 +685,7 @@ class EmployeeDao extends BaseDao {
      * @param type $empNumber - employee number
      * @param type $screen - screen attached to
      */
-    public function getAttachments($empNumber, $screen) {
+    public function getEmployeeAttachments($empNumber, $screen) {
         try {
             $q = Doctrine_Query:: create()
                             ->from('EmployeeAttachment a')
@@ -704,7 +704,7 @@ class EmployeeDao extends BaseDao {
      * @returns Collection
      * @throws DaoException
      */
-    public function getAttachment($empNumber, $attachId) {
+    public function getEmployeeAttachment($empNumber, $attachId) {
         try {
             return Doctrine :: getTable('EmployeeAttachment')->find(array(
                 'emp_number' => $empNumber,
@@ -722,7 +722,7 @@ class EmployeeDao extends BaseDao {
      * @returns boolean
      * @throws DaoException
      */
-    public function deleteAttachments($empNumber, $attachmentsToDelete = array()) {
+    public function deleteEmployeeAttachments($empNumber, $attachmentsToDelete = array()) {
         try {
             if (count($attachmentsToDelete) > 0) {
                 // Delete attachments
@@ -1003,13 +1003,13 @@ class EmployeeDao extends BaseDao {
      * @returns Collection
      * @throws DaoException
      */
-    public function getSupervisorEmployeeList($supervisorId) {
+    public function getImmediateSubordinates($empNumber) {
         try {
             $employeeList = array();
             $q = Doctrine_Query :: create()->select("rt.supervisorId,emp.*")
                             ->from('ReportTo rt')
                             ->leftJoin('rt.subordinate emp')
-                            ->where("rt.supervisorId = ?", $supervisorId);
+                            ->where("rt.supervisorId = ?", $empNumber);
 
             $reportToList = $q->execute();
             foreach ($reportToList as $reportTo) {
@@ -1140,7 +1140,7 @@ class EmployeeDao extends BaseDao {
             foreach ($employeeList as $employee) {
                 $workShiftLength = 0;
                 if ($workShift) {
-                    $employeeWorkShift = $this->getWorkShift($employee->getEmpNumber());
+                    $employeeWorkShift = $this->getEmployeeWorkShift($employee->getEmpNumber());
                     if ($employeeWorkShift != null) {
                         $workShiftLength = $employeeWorkShift->getWorkShift()->getHoursPerDay();
                     } else
@@ -1223,7 +1223,7 @@ class EmployeeDao extends BaseDao {
      * @param  $employeeId
      * @return ?#M#P#CEmployeeService.employeeDao.isEmployeeIdInUse
      */
-    public function isEmployeeIdInUse($employeeId) {
+    public function isExistingEmployeeId($employeeId) {
         try {
             $count = Doctrine_Query::create()
                             ->from('Employee')
@@ -1266,7 +1266,7 @@ class EmployeeDao extends BaseDao {
      * @returns EmployeeWorkShift
      * @throws DaoException
      */
-    public function getWorkShift($empNumber) {
+    public function getEmployeeWorkShift($empNumber) {
         try {
             $q = Doctrine_Query::create()->from('EmployeeWorkShift ews')
                             ->where('ews.emp_number =?', $empNumber);
@@ -1314,7 +1314,7 @@ class EmployeeDao extends BaseDao {
      * @returns boolean
      * @throws DaoException
      */
-    public function saveJobDetails(Employee $employee) {
+    public function saveEmployeeJobDetails(Employee $employee) {
 
         try {
             $employee->save();
@@ -1431,7 +1431,7 @@ class EmployeeDao extends BaseDao {
      * @returns boolean
      * @throws DaoException
      */
-    public function deleteSalary($empNumber, $salaryToDelete) {
+    public function deleteEmployeeSalaries($empNumber, $salaryToDelete) {
         try {
             // Skip if no salarys because running the following query
             // with no salarys will delete all this employee's assigned
@@ -1464,7 +1464,7 @@ class EmployeeDao extends BaseDao {
      * 
      * @todo Exceptions should preserve previous exception
      */
-    public function getSalary($empNumber, $empSalaryId = null) {
+    public function getEmployeeSalaries($empNumber, $empSalaryId = null) {
         try {
             $q = Doctrine_Query::create()
                 ->from('EmpBasicsalary s')
@@ -1489,7 +1489,7 @@ class EmployeeDao extends BaseDao {
      * @param $empNumber
      * @return Doctine collection ReportTo
      */
-    public function getSupervisorListForEmployee($empNumber) {
+    public function getImmediateSupervisors($empNumber) {
 
         try {
             $q = Doctrine_Query :: create()

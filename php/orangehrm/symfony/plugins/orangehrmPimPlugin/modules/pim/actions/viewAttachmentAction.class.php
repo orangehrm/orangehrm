@@ -44,7 +44,7 @@ class viewAttachmentAction extends basePimAction {
         $attachId = $request->getParameter('attachId');
 
         $employeeService = $this->getEmployeeService();
-        $attachment = $employeeService->getAttachment($empNumber, $attachId);
+        $attachment = $employeeService->getEmployeeAttachment($empNumber, $attachId);
 
         $response = $this->getResponse();
 

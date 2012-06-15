@@ -66,7 +66,7 @@ class EducationForm extends BaseForm {
         }
         
         $education->setName($this->getValue('name'));
-        $this->getEducationService()->saveEducation($education);        
+        $this->getEducationService()->saveEmployeeEducation($education);        
         
         return $message;
         

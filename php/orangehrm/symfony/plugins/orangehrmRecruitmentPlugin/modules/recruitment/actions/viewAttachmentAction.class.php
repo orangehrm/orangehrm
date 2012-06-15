@@ -60,7 +60,7 @@ class viewAttachmentAction extends sfAction {
         $attachId = $request->getParameter('attachId');
         $screen = $request->getParameter('screen');
         $candidateService = $this->getRecruitmentAttachmentService();
-        $attachment = $candidateService->getAttachment($attachId, $screen);
+        $attachment = $candidateService->getEmployeeAttachment($attachId, $screen);
 
         $response = $this->getResponse();
 

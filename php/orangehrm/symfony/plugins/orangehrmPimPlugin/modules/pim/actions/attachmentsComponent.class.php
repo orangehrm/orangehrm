@@ -80,7 +80,7 @@ class attachmentsComponent extends sfComponent {
 
         
         $this->employee = $this->getEmployeeService()->getEmployee($this->empNumber);
-        $this->attachmentList = $this->getEmployeeService()->getAttachments($this->empNumber, $this->screen);          
+        $this->attachmentList = $this->getEmployeeService()->getEmployeeAttachments($this->empNumber, $this->screen);          
         $this->form = new EmployeeAttachmentForm(array(),  array(), true);  
         $this->deleteForm = new EmployeeAttachmentDeleteForm(array(), array(), true);
     }

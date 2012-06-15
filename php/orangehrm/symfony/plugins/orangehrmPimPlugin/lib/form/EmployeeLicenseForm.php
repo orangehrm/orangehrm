@@ -49,7 +49,7 @@ class EmployeeLicenseForm extends sfForm {
         $employee = $this->getEmployeeService()->getEmployee($empNumber);
         $this->fullName = $employee->getFullName();
 
-        $this->empLicenseList = $this->getEmployeeService()->getLicense($empNumber);
+        $this->empLicenseList = $this->getEmployeeService()->getEmployeeLicences($empNumber);
 
         //initializing the components
         $this->widgets = array(

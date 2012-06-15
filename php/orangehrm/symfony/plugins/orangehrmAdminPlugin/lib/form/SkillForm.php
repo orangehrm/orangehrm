@@ -69,7 +69,7 @@ class SkillForm extends BaseForm {
         
         $skill->setName($this->getValue('name'));
         $skill->setDescription($this->getValue('description'));            
-        $this->getSkillService()->saveSkill($skill);        
+        $this->getSkillService()->saveEmployeeSkill($skill);        
         
         return $message;
         

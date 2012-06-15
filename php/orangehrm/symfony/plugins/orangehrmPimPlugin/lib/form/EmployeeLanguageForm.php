@@ -49,7 +49,7 @@ class EmployeeLanguageForm extends sfForm {
         $employee = $this->getEmployeeService()->getEmployee($empNumber);
         $this->fullName = $employee->getFullName();
 
-        $this->empLanguageList = $this->getEmployeeService()->getLanguage($empNumber);
+        $this->empLanguageList = $this->getEmployeeService()->getEmployeeLanguages($empNumber);
 
         $i18nHelper = sfContext::getInstance()->getI18N();
         

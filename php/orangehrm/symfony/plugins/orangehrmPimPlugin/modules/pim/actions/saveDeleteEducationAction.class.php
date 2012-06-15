@@ -46,7 +46,7 @@ class saveDeleteEducationAction extends basePimAction {
 
                 if ($this->educationForm->isValid()) {
                     $education = $this->getEducation($this->educationForm);
-                    $this->getEmployeeService()->saveEducation($education);
+                    $this->getEmployeeService()->saveEmployeeEducation($education);
                     $this->getUser()->setFlash('templateMessage', array('success', __(TopLevelMessages::SAVE_SUCCESS)));
                 } else {
                     $this->getUser()->setFlash('templateMessage', array('warning', __('Form Validation Failed')));
@@ -58,7 +58,7 @@ class saveDeleteEducationAction extends basePimAction {
                 $deleteIds = $request->getParameter('delEdu');
 
                 if(count($deleteIds) > 0) {
-                    $this->getEmployeeService()->deleteEducation($empNumber, $request->getParameter('delEdu'));
+                    $this->getEmployeeService()->deleteEmployeeEducationRecords($empNumber, $request->getParameter('delEdu'));
                     $this->getUser()->setFlash('templateMessage', array('success', __(TopLevelMessages::DELETE_SUCCESS)));
                 }
             }

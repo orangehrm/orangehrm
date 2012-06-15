@@ -125,7 +125,7 @@ class EmployeeReportToForm extends BaseForm {
 
         /* Populating already assigned sup & sub */
         $assignedReportTo = array();
-        $supervisors = $employeeService->getSupervisorListForEmployee($this->empNumber);
+        $supervisors = $employeeService->getImmediateSupervisors($this->empNumber);
         $subordinates = $employeeService->getSubordinateListForEmployee($this->empNumber);
 
         foreach ($subordinates as $subordinate) {

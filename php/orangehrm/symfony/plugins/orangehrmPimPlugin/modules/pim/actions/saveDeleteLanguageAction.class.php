@@ -46,7 +46,7 @@ class saveDeleteLanguageAction extends basePimAction {
 
                 if ($this->languageForm->isValid()) {
                     $language = $this->getLanguage($this->languageForm);
-                    $this->getEmployeeService()->saveLanguage($language);
+                    $this->getEmployeeService()->saveEmployeeLanguage($language);
                     $this->getUser()->setFlash('templateMessage', array('success', __(TopLevelMessages::SAVE_SUCCESS)));
                 } else {
                     $this->getUser()->setFlash('templateMessage', array('warning', __('Form Validation Failed')));
@@ -67,7 +67,7 @@ class saveDeleteLanguageAction extends basePimAction {
 
                 if (count($languagesToDelete) > 0) {
 
-                    $this->getEmployeeService()->deleteLanguage($empNumber, $languagesToDelete);
+                    $this->getEmployeeService()->deleteEmployeeLanguages($empNumber, $languagesToDelete);
                     $this->getUser()->setFlash('templateMessage', array('success', __(TopLevelMessages::DELETE_SUCCESS)));
                 }
             }
@@ -80,7 +80,7 @@ class saveDeleteLanguageAction extends basePimAction {
 
         $post = $form->getValues();
 
-        $language = $this->getEmployeeService()->getLanguage($post['emp_number'], $post['code'], $post['lang_type']);
+        $language = $this->getEmployeeService()->getEmployeeLanguages($post['emp_number'], $post['code'], $post['lang_type']);
 
         if(!$language instanceof EmployeeLanguage) {
             $language = new EmployeeLanguage();

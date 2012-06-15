@@ -46,7 +46,7 @@ class saveDeleteLicenseAction extends basePimAction {
 
                 if ($this->licenseForm->isValid()) {
                     $license = $this->getLicense($this->licenseForm);
-                    $this->getEmployeeService()->saveLicense($license);
+                    $this->getEmployeeService()->saveEmployeeLicense($license);
                     $this->getUser()->setFlash('templateMessage', array('success', __(TopLevelMessages::SAVE_SUCCESS)));
                 } else {
                     $this->getUser()->setFlash('templateMessage', array('warning', __('Form Validation Failed')));
@@ -58,7 +58,7 @@ class saveDeleteLicenseAction extends basePimAction {
                 $deleteIds = $request->getParameter('delLicense');
 
                 if(count($deleteIds) > 0) {
-                    $this->getEmployeeService()->deleteLicense($empNumber, $request->getParameter('delLicense'));
+                    $this->getEmployeeService()->deleteEmployeeLicenses($empNumber, $request->getParameter('delLicense'));
                     $this->getUser()->setFlash('templateMessage', array('success', __(TopLevelMessages::DELETE_SUCCESS)));
                 }
             }
@@ -71,7 +71,7 @@ class saveDeleteLicenseAction extends basePimAction {
 
         $post = $form->getValues();
 
-        $license = $this->getEmployeeService()->getLicense($post['emp_number'], $post['code']);
+        $license = $this->getEmployeeService()->getEmployeeLicences($post['emp_number'], $post['code']);
 
         if(!$license instanceof EmployeeLicense) {
             $license = new EmployeeLicense();

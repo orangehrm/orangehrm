@@ -68,7 +68,7 @@ class CompanyService extends BaseService {
    {
       try {
          $employeeService = new EmployeeService();
-         return $employeeService->getSupervisorEmployeeList($supervisorId);
+         return $employeeService->getImmediateSubordinates($supervisorId);
       } catch(Exception $e) {
          throw new AdminServiceException($e->getMessage());
       }

@@ -279,7 +279,7 @@ abstract class AbstractLeaveAllocationService extends BaseService {
      * @return int 
      */
     protected function getWorkShiftDurationForEmployee($employeeNumber) {
-        $workshift = $this->getEmployeeService()->getWorkShift($employeeNumber);
+        $workshift = $this->getEmployeeService()->getEmployeeWorkShift($employeeNumber);
 
         if ($workshift == null) {
             $definedDuration = sfConfig::get('app_orangehrm_core_leave_plugin_default_work_shift_length_hours');
@@ -470,7 +470,7 @@ abstract class AbstractLeaveAllocationService extends BaseService {
      */
     protected function getWorkShiftLengthOfEmployee($employeeNumber) {
 
-        $employeeWorkShift = $this->getEmployeeService()->getWorkShift($employeeNumber);
+        $employeeWorkShift = $this->getEmployeeService()->getEmployeeWorkShift($employeeNumber);
 
         if (!is_null($employeeWorkShift) && ($employeeWorkShift instanceof EmployeeWorkShift)) {
             return $employeeWorkShift->getWorkShift()->getHoursPerDay();

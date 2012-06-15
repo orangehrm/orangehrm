@@ -62,7 +62,7 @@ class EmployeeJobDetailsForm extends BaseForm {
 
         $empService = new EmployeeService();
 
-        $attachmentList = $empService->getAttachments($empNumber, 'contract');
+        $attachmentList = $empService->getEmployeeAttachments($empNumber, 'contract');
         if (count($attachmentList) > 0) {
             $this->attachment = $attachmentList[0];
         }

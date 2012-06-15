@@ -85,7 +85,7 @@ class WorkExperienceForm extends sfForm {
         $this->setValidator('comments', new sfValidatorString(array('required' => false,
             'max_length' => 200)));
 
-        $this->workExperiences = $this->getEmployeeService()->getWorkExperience($empNumber);
+        $this->workExperiences = $this->getEmployeeService()->getEmployeeWorkExperienceRecords($empNumber);
         $this->widgetSchema->setNameFormat('experience[%s]');
     }
 }
