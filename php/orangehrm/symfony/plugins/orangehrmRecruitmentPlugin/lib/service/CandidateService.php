@@ -74,6 +74,30 @@ class CandidateService extends BaseService {
     public function getCandidateList($allowedCandidateList) {
         return $this->getCandidateDao()->getCandidateList($allowedCandidateList);
     }
+    
+    /**
+     * Return an array of candidate names
+     * 
+     * <pre>
+     * Ex: $allowedCandidateIdList = array('1', '2')
+     * 
+     * For above $allowedCandidateIdList parameter there will be an array like below as the response.
+     * 
+     * array(
+     *          0 => array('firstName' => 'Chanaka', 'middleName' => 'Saman', 'lastName' => 'Bandara', 'id' => 1),
+     *          1 => array('firstName' => 'Yasitha', 'middleName' => 'Namal', 'lastName' => 'Panditharathne', 'id' => 2)
+     * )
+     * </pre>
+     * 
+     * @version 2.7.1
+     * @param Array $allowedCandidateIdList Allowed candidate Id List
+     * @param Integer $status Cadidate Status
+     * @returns Array Candidate Name List
+     */
+    public function getCandidateNameList($allowedCandidateIdList, $status = JobCandidate::ACTIVE) {
+        return $this->getCandidateDao()->getCandidateNameList($allowedCandidateIdList, $status);
+    }
+    
 
     /**
      * Retrieve  candidate list

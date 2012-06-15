@@ -56,6 +56,33 @@ class CandidateServiceTest extends PHPUnit_Framework_TestCase {
         $readCandidatesList = $this->candidateService->getCandidateList($allowedCandidateList);
         $this->assertEquals($readCandidatesList, $allCandidatesList);
     }
+    
+    /**
+     * Testing getCandidateNameList
+     */
+    public function testGetCandidateNameList() {
+
+        $allCandidatesList = TestDataService::loadObjectList('JobCandidate', $this->fixture, 'JobCandidate');
+        $allowedCandidateList = array(1,2,3);
+        $candidateNameArray = array();
+        foreach ($allCandidatesList as $candidate) {
+            if (in_array($candidate->getId(), $allowedCandidateList)) {
+                $candidateNameArray[] = array('firstName' => $candidate->getFirstName(), 'middleName' => $candidate->getMiddleName(), 'lastName' => $candidate->getLastName(), 'id' => $candidate->getId());
+            }
+        }
+        
+        $candidateDao = $this->getMock('CandidateDao');
+
+        $candidateDao->expects($this->once())
+                ->method('getCandidateNameList')
+                ->with($allowedCandidateList)
+                ->will($this->returnValue($candidateNameArray));
+
+        $this->candidateService->setCandidateDao($candidateDao);
+
+        $results= $this->candidateService->getCandidateNameList($allowedCandidateList);
+        $this->assertEquals($candidateNameArray, $results);
+    }
 
     /**
      * Testing getAllCandidatesList

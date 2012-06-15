@@ -184,12 +184,13 @@ class AddCandidateForm extends BaseForm {
 
     private function getActiveVacancyList() {
         $list = array("" => "-- " . __('Select') . " --");
-        $activeVacancyList = $this->getVacancyService()->getAllVacancies(JobVacancy::ACTIVE);
+        $vacancyProperties = array('name', 'id', 'hiringManagerId');
+        $activeVacancyList = $this->getVacancyService()->getVacancyPropertyList($vacancyProperties, JobVacancy::ACTIVE);
         foreach ($activeVacancyList as $vacancy) {
-            $vacancyId = $vacancy->getId();
-            if (in_array($vacancyId, $this->allowedVacancyList) && ($vacancy->getHiringManagerId() == $this->empNumber || $this->isAdmin)) {
-                $list[$vacancy->getId()] = $vacancy->getName();
-            }
+            $vacancyId = $vacancy['id'];
+            if (in_array($vacancyId, $this->allowedVacancyList) && ($vacancy['hiringManagerId'] == $this->empNumber || $this->isAdmin)) {
+                $list[$vacancyId] = $vacancy['name'];
+             }
         }
         return $list;
     }

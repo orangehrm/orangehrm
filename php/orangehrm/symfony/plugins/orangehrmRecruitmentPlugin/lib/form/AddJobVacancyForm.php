@@ -180,19 +180,17 @@ class AddJobVacancyForm extends BaseForm {
         $employeeService->setEmployeeDao(new EmployeeDao());
 
         // Fetch only none terminated employees
-        $employeeList = $employeeService->getEmployeeList('lastName', 'ASC', false);
+        $properties = array("empNumber","firstName", "middleName", "lastName", "termination_id");
+        $employeeList = $employeeService->getEmployeePropertyList($properties, 'lastName', 'ASC');
 
-        $employeeUnique = array();
         foreach ($employeeList as $employee) {
-
-            if (!isset($employeeUnique[$employee->getEmpNumber()])) {
-
-                $name = $employee->getFirstName() . " " . $employee->getMiddleName();
-                $name = trim(trim($name) . " " . $employee->getLastName());
-
-                $employeeUnique[$employee->getEmpNumber()] = $name;
-                $jsonArray[] = array('name' => $name, 'id' => $employee->getEmpNumber());
+            $empNumber = $employee['empNumber'];
+            $name = trim(trim($employee['firstName'] . ' ' . $employee['middleName'],' ') . ' ' . $employee['lastName']);
+            
+            if ($employee['termination_id']) {
+                $name = $name. ' ('.__('Past Employee') .')';
             }
+            $jsonArray[] = array('name' => $name, 'id' => $empNumber);
         }
         $jsonString = json_encode($jsonArray);
         return $jsonString;

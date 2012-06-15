@@ -87,6 +87,29 @@ class VacancyService extends BaseService {
     }
 
     /**
+     * Return an array of vacancy properties
+     * 
+     * <pre>
+     * Ex: $properties = array('name', 'id');
+     * 
+     * For above $properties parameter there will be an array like below as the response.
+     * 
+     * array(
+     *          0 => array('name' => 'Software Architect', 'id' => 1),
+     *          1 => array('name' => 'Accountant Grade', 'id' => 2)
+     * )
+     * </pre>
+     * 
+     * @version 2.7.1
+     * @param Array $properties List of Vacancy properties
+     * @param Integer $status Vacancy Status
+     * @returns Array Vacancy Property List
+     */
+    public function getVacancyPropertyList($properties = array(), $status) {
+        return $this->getVacancyDao()->getVacancyPropertyList($properties, $status);
+    }
+    
+    /**
      * Get list of vacancies published to web/rss
      * 
      * @return type Array of JobVacancy objects

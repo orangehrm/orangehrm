@@ -173,6 +173,33 @@ class VacancyDaoTest extends PHPUnit_Framework_TestCase {
         $vacancyList = $this->vacancyDao->getAllVacancies();
         $this->assertTrue($vacancyList[0] instanceof JobVacancy);
     }
+    
+    /**
+     * Testing getVacancyPropertyList
+     */
+    public function testGetVacancyPropertyListByName() {
+        $properties = array('name', 'id');
+        $vacancyList = $this->vacancyDao->getVacancyPropertyList($properties, JobVacancy::ACTIVE);
+        $this->assertEquals(3, count($vacancyList));
+        
+        $vacancyList = $this->vacancyDao->getVacancyPropertyList($properties, JobVacancy::ACTIVE);
+        $this->assertEquals(3, $vacancyList[0]['id']);
+        $this->assertEquals('Software Architect 2011', $vacancyList[1]['name']);
+    }
+    
+    /**
+     * Testing getVacancyPropertyList
+     */
+    public function testGetVacancyPropertyListByHiringmanagerId() {
+        $properties = array('name', 'id', 'hiringManagerId');
+        $vacancyList = $this->vacancyDao->getVacancyPropertyList($properties, JobVacancy::ACTIVE);
+        $this->assertEquals(3, count($vacancyList));
+        
+        $vacancyList = $this->vacancyDao->getVacancyPropertyList($properties, JobVacancy::ACTIVE);
+        $this->assertEquals(3, $vacancyList[0]['id']);
+        $this->assertEquals('Software Architect 2011', $vacancyList[1]['name']);
+        $this->assertEquals(1, $vacancyList[2]['hiringManagerId']);
+    }
 
     /**
      * Testing getAllVacancies

@@ -45,20 +45,22 @@ class VacancyDao extends BaseDao {
             }
             $q->addWhere('e.termination_id IS NULL');
             $q->orderBy('e.lastName ASC, e.firstName ASC');
-            $results = $q->execute();
+            $results = $q->fetchArray();
 
             $hiringManagerList = array();
             
             foreach ($results as $result) {
-                $hiringManagerList[] = array('id' =>  $result->getEmpNumber(), 
-                                             'name' => $result->getFullName());
+                $hiringManagerList[] = array('id' =>  $result['empNumber'], 
+                                             'name' => trim(trim($result['firstName'] . ' '.$result['middleName']) . ' ' .$result['lastName']));
             }
             
             return $hiringManagerList;            
             
+        // @codeCoverageIgnoreStart
         } catch (Exception $e) {
-           throw new DaoException($e->getMessage());
+            throw new DaoException($e->getMessage(), $e->getCode(), $e);
         }
+        // @codeCoverageIgnoreEnd
     }
 
     /**
@@ -129,6 +131,40 @@ class VacancyDao extends BaseDao {
         } catch (Exception $e) {
             throw new DaoException($e->getMessage());
         }
+    }
+    
+    /**
+     * Return an array of vacancy properties
+     * 
+     * @version 2.7.1
+     * @param Array $properties List of Vacancy properties
+     * @param Integer $status Vacancy Status
+     * @returns Array Vacancy Property List
+     * @throws DaoException
+     */
+    public function getVacancyPropertyList($properties, $status) {
+        try {
+            
+            $q = Doctrine_Query :: create()
+                            ->from('JobVacancy');
+                            
+            foreach ($properties as $property) {
+                $q->addSelect($property);
+            }
+            
+            if (!empty($status)) {
+                $q->addWhere('status =?', $status);
+            }
+
+            $q->orderBy('name ASC');
+ 
+            return $q->fetchArray();
+            
+        // @codeCoverageIgnoreStart
+        } catch (Exception $e) {
+            throw new DaoException($e->getMessage(), $e->getCode(), $e);
+        }
+        // @codeCoverageIgnoreEnd
     }
 
     /**
@@ -245,33 +281,42 @@ class VacancyDao extends BaseDao {
      * @return <type>
      */
     public function searchVacanciesCount($srchParams) {
-
-        $jobTitle = $srchParams['jobTitle'];
-        $jobVacancy = $srchParams['jobVacancy'];
-        $hiringManager = $srchParams['hiringManager'];
-        $status = $srchParams['status'];
-
-
-        $q = Doctrine_Query::create()
-                        ->from('JobVacancy v')
-                        ->leftJoin('v.Employee e')
-                        ->leftJoin('v.JobTitle jt');
-
-        if (!empty($jobTitle)) {
-            $q->addwhere('v.jobTitleCode = ?', $jobTitle);
+        try {
+            
+            $jobTitle = $srchParams['jobTitle'];
+            $jobVacancy = $srchParams['jobVacancy'];
+            $hiringManager = $srchParams['hiringManager'];
+            $status = $srchParams['status'];
+    
+    
+            $q = Doctrine_Query::create()
+                            ->select("COUNT(v.id)")
+                            ->from('JobVacancy v')
+                            ->leftJoin('v.Employee e')
+                            ->leftJoin('v.JobTitle jt');
+    
+            if (!empty($jobTitle)) {
+                $q->addwhere('v.jobTitleCode = ?', $jobTitle);
+            }
+            if (!empty($jobVacancy)) {
+                $q->addwhere('v.id = ?', $jobVacancy);
+            }
+            if (!empty($hiringManager)) {
+                $q->addwhere('v.hiringManagerId = ?', $hiringManager);
+            }
+            if ($status != "") {
+                $q->addwhere('v.status = ?', $status);
+            }
+    
+            $results = $q->fetchArray();
+            $count = $results[0]['COUNT'];
+            return $count;
+            
+        // @codeCoverageIgnoreStart
+        } catch (Exception $e) {
+            throw new DaoException($e->getMessage(), $e->getCode(), $e);
         }
-        if (!empty($jobVacancy)) {
-            $q->addwhere('v.id = ?', $jobVacancy);
-        }
-        if (!empty($hiringManager)) {
-            $q->addwhere('v.hiringManagerId = ?', $hiringManager);
-        }
-        if ($status != "") {
-            $q->addwhere('v.status = ?', $status);
-        }
-
-        $count = $q->execute()->count();
-        return $count;
+        // @codeCoverageIgnoreEnd
     }
 
     /**

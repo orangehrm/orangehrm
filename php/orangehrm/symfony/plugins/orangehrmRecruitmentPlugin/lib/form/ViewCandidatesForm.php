@@ -223,9 +223,11 @@ class viewCandidatesForm extends BaseForm {
      */
     private function getVacancyList() {
         $list = array("" => __('All'));
-        $vacancyList = $this->getVacancyService()->getAllVacancies();
+        $vacancyProperties = array('name', 'id');
+        $vacancyList = $this->getVacancyService()->getVacancyPropertyList($vacancyProperties, null);
+        
         foreach ($vacancyList as $vacancy) {
-            $list[$vacancy->getId()] = $vacancy->getName();
+            $list[$vacancy['id']] = $vacancy['name'];
         }
         return $list;
     }
@@ -255,12 +257,12 @@ class viewCandidatesForm extends BaseForm {
     public function getCandidateListAsJson() {
 
         $jsonArray = array();
-        $candidateList = $this->getCandidateService()->getCandidateList($this->allowedCandidateList);
+        $candidateList = $this->getCandidateService()->getCandidateNameList($this->allowedCandidateList, JobCandidate::ACTIVE);
         foreach ($candidateList as $candidate) {
 
-            $name = trim($candidate->getFullName());
+            $name = trim(trim($candidate['firstName'] . ' ' . $candidate['middleName']) . ' ' . $candidate['lastName']);
 
-            $jsonArray[] = array('name' => $name, 'id' => $candidate->getId());
+            $jsonArray[] = array('name' => $name, 'id' => $candidate['id']);
         }
         $jsonString = json_encode($jsonArray);
         return $jsonString;

@@ -46,6 +46,21 @@ class CandidateDaoTest extends PHPUnit_Framework_TestCase {
     }
 
     /**
+     * Testing  getCandidateNameList
+     */
+    public function testGetCandidateNameList() {
+
+        $allowedCandidatesIdList = array(1, 2, 3);
+        $candidatesList = $this->candidateDao->getCandidateNameList($allowedCandidatesIdList);
+        $this->assertEquals(3, count($candidatesList));
+        
+        $candidatesList = $this->candidateDao->getCandidateNameList($allowedCandidatesIdList);
+        $this->assertEquals('Yasitha', $candidatesList[0]['firstName']);
+        $this->assertEquals('Bandara', $candidatesList[1]['lastName']);
+        $this->assertEquals(3, $candidatesList[2]['id']);
+    }
+    
+    /**
      * Testing  getAllCandidatesList
      */
     public function testCandidateList() {

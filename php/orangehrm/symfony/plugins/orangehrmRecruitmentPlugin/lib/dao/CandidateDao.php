@@ -58,6 +58,44 @@ class CandidateDao extends BaseDao {
             throw new DaoException($e->getMessage());
         }
     }
+    
+    /**
+     * Return an array of candidate names
+     * 
+     * @version 2.7.1
+     * @param Array $allowedCandidateIdList Allowed candidate Id List
+     * @param Integer $status Cadidate Status
+     * @returns Array Candidate Name List
+     * @throws DaoException
+     */
+    public function getCandidateNameList($allowedCandidateIdList, $status = JobCandidate::ACTIVE) {
+        try {
+            
+            if (!empty($allowedCandidateIdList)) {
+                
+                $escapeString = implode(',', array_fill(0, count($allowedCandidateIdList), '?'));
+                $pdo = Doctrine_Manager::connection()->getDbh();
+                $q = "SELECT jc.first_name AS firstName, jc.middle_name AS middleName, jc.last_name AS lastName, jc.id
+                		FROM ohrm_job_candidate jc
+                		WHERE jc.id IN ({$escapeString}) AND
+                		jc.status = ?";
+                
+                $escapeValueArray = $allowedCandidateIdList;
+                $escapeValueArray[] = $status;
+                
+                $query = $pdo->prepare($q); 
+                $query->execute($escapeValueArray);
+                $results = $query->fetchAll(PDO::FETCH_ASSOC);
+            }
+            
+            return $results;
+        
+        // @codeCoverageIgnoreStart
+        } catch (Exception $e) {
+            throw new DaoException($e->getMessage(), $e->getCode(), $e);
+        }
+        // @codeCoverageIgnoreEnd
+    }
 
     public function getCandidateListForUserRole($role, $empNumber) {
 

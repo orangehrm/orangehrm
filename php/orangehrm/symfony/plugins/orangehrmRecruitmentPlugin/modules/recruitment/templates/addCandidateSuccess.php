@@ -45,13 +45,13 @@
         $allowedVacancyIdArray[] = array();
         $closedVacancyIdArray[] = array();
         foreach ($jobVacancyList as $vacancy) {
-            $newVacancyId = $vacancy->getId();
-            $newVacancyName = $vacancy->getVacancyName();
+            $newVacancyId = $vacancy['id'];
+            $newVacancyName = ($vacancy['status'] == JobVacancy::CLOSED) ? $vacancy['name'] . " (".__('Closed').")" : $vacancy['name'];
             $allVacancylist[] = array("id" => $newVacancyId, "name" => $newVacancyName);
-            if (in_array($vacancy->getId(), $form->allowedVacancyList)) {
+            if (in_array($vacancy['id'], $form->allowedVacancyList)) {
                 $allowedVacancylistWithClosedVacancies[] = array("id" => $newVacancyId, "name" => $newVacancyName);
                 $allowedVacancyIdArray[] = $newVacancyId;
-                if ($vacancy->getStatus() == JobVacancy::ACTIVE) {
+                if ($vacancy['status'] == JobVacancy::ACTIVE) {
                     $allowedVacancylist[] = array("id" => $newVacancyId, "name" => $newVacancyName);
                 } else {
                     $closedVacancyIdArray[] = $newVacancyId;
