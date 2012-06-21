@@ -119,6 +119,10 @@ class HiringManagerUserRoleDecorator extends UserRoleDecorator {
 		return $this->user->getActionableTimesheets();
 	}
 
+    public function getEmployeeNameList() {
+        return $this->user->getEmployeeNameList();
+    }
+
 	public function getActionableAttendanceStates($actions) {
 
 		return $this->user->getActionableAttendanceStates($actions);

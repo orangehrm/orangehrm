@@ -127,5 +127,13 @@ class SystemUserDaoTest extends PHPUnit_Framework_TestCase {
             
         }
         
+    public function testGetSystemUserIdList() {
+        
+        $result = $this->systemUserDao->getSystemUserIdList();
+        
+        $this->assertEquals(3, count($result));
+        $this->assertEquals(array(1, 2, 3), $result);
+    }
+    
 }
 ?>

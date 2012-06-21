@@ -170,7 +170,7 @@ EOF
         }
 
         if( $loadingMethod != 'ajax'){
-            $properties = array("empNumber","firstName", "middleName", "lastName");
+            $properties = array("empNumber","firstName", "middleName", "lastName", "termination_id");
             $employeeList = UserRoleManagerFactory::getUserRoleManager()->getAccessibleEntityProperties('Employee', $properties);
 
             return $employeeList;
@@ -190,7 +190,11 @@ EOF
         $jsonArray = array();        
         
         foreach ($employeeList as $employee) {
-            $jsonArray[$employee['empNumber']] = array('name' => trim($employee['firstName'] . ' ' . $employee['middleName'],' ') . ' ' . $employee['lastName'], 'id' => $employee['empNumber']);
+            $name = trim(trim($employee['firstName'] . ' ' . $employee['middleName'],' ') . ' ' . $employee['lastName']);
+            if ($employee['termination_id']) {
+                $name = $name. ' ('.__('Past Employee') .')';
+            }
+            $jsonArray[$employee['empNumber']] = array('name' => $name, 'id' => $employee['empNumber']);
         }
         usort($jsonArray, array($this, 'compareByName'));
         return json_encode($jsonArray);

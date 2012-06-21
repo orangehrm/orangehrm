@@ -316,6 +316,47 @@ class ProjectServiceTest extends PHPUnit_Framework_TestCase {
             $result = $this->projectService->getActiveProjectsOrderedByCustomer();
             $this->assertEquals($expected, $result);            
         }
+        
+    public function testGetCustomerIdListByProjectId() {
+        
+        $projectIdList = array(1, 2);
+        $customerIds = array(1, 4);
+        
+        $projectDao = $this->getMock('ProjectDao');
+        $projectDao->expects($this->once())
+                ->method('getCustomerIdListByProjectId')
+                ->with($projectIdList)
+                ->will($this->returnValue($customerIds));
+        
+        $this->projectService->setProjectDao($projectDao);
+        
+        $result = $this->projectService->getCustomerIdListByProjectId($projectIdList);
+        $this->assertEquals($customerIds, $result);
+    }
+    
+    public function testGetProjectNameList() {
+        
+        $projectIdList = array(1, 2);
+        
+        $project1['projectId'] = 1;
+        $project1['name'] = 'Development';
+        
+        $project2['projectId'] = 2;
+        $project2['name'] = 'Engineering';
+        
+        $projects = array($project1, $project1);
+        
+        $projectDao = $this->getMock('ProjectDao');
+        $projectDao->expects($this->once())
+                ->method('getProjectNameList')
+                ->with($projectIdList, true)
+                ->will($this->returnValue($projects));
+        
+        $this->projectService->setProjectDao($projectDao);
+        
+        $result = $this->projectService->getProjectNameList($projectIdList, true);
+        $this->assertEquals($projects, $result);
+    }
 	
 }
 

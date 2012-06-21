@@ -1,6 +1,10 @@
 ## YAML Template.
 ---
 
+Employee:
+  0: { firstName: myname1, lastName: last1, employeeId: 1, empNumber: 1 }
+  1: { firstName: myname2, lastName: last2, employeeId: 2, empNumber: 2 }
+
 UserRole:
   0: {id: 1, name: 'Admin', display_name: Admin}
 

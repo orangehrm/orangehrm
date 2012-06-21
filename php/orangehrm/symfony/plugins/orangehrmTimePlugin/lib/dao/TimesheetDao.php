@@ -385,6 +385,53 @@ class TimesheetDao {
             throw new DaoException($ex->getMessage());
         }
     }
+    
+    /**
+     * Return an Array of Timesheets for given Employee Ids and States
+     * 
+     * @version 2.7.1
+     * @param Array $employeeIdList Array of Employee Ids
+     * @param Array $stateList Array of States
+     * @param Integer $limit
+     * @return Array of Timesheets
+     */
+    public function getTimesheetListByEmployeeIdAndState($employeeIdList, $stateList, $limit = 100) {
+
+        try {
+            
+            if ((!empty($employeeIdList)) && (!empty($stateList))) {
+                
+                $employeeListEscapeString = implode(',', array_fill(0, count($employeeIdList), '?'));
+                $stateListEscapeString = implode(',', array_fill(0, count($stateList), '?'));
+    
+                $q = "SELECT o.timesheet_id AS timesheetId, o.start_date AS timesheetStartday, o.end_date AS timesheetEndDate, o.employee_id AS employeeId, e.emp_firstname AS employeeFirstName, e.emp_lastname AS employeeLastName
+    					FROM ohrm_timesheet o
+    					LEFT JOIN  hs_hr_employee e ON o.employee_id = e.emp_number
+    					WHERE 
+    					o.employee_id IN ({$employeeListEscapeString}) AND
+    					o.state IN({$stateListEscapeString})
+    					ORDER BY e.emp_lastname ASC";
+    			
+    			if ($limit) {
+    				$q .= " LIMIT 0, {$limit}";
+    			}
+                
+                $escapeValueArray = array_merge($employeeIdList, $stateList);
+                
+                $pdo = Doctrine_Manager::connection()->getDbh();
+                $query = $pdo->prepare($q);
+                $query->execute($escapeValueArray);
+                
+                $results = $query->fetchAll(PDO::FETCH_ASSOC);
+            }
+            return $results;
+
+        // @codeCoverageIgnoreStart
+        } catch (Exception $e) {
+            throw new DaoException($e->getMessage(), $e->getCode(), $e);
+        }
+        // @codeCoverageIgnoreEnd
+    }
 
     /**
      * Get Customer by customer name
@@ -469,6 +516,73 @@ class TimesheetDao {
         } catch (Exception $ex) {
             throw new DaoException($ex->getMessage());
         }
+    }
+    
+    /**
+     * Return an Array of Project Names
+     * 
+     * @version 2.7.1
+     * @param Boolean $excludeDeletedProjects Exclude deleted projects or not
+     * @param String $orderField Sort order field
+     * @param String $orderBy Sort order
+     * @return Array of Project Names
+     */
+    public function getProjectNameList($excludeDeletedProjects = true, $orderField='project_id', $orderBy='ASC') {
+        try {
+            
+            $q = "SELECT p.project_id AS projectId, p.name AS projectName, c.name AS customerName
+            		FROM ohrm_project p
+            		LEFT JOIN ohrm_customer c ON p.customer_id = c.customer_id";
+            
+            if($excludeDeletedProjects) {
+                $q .= " WHERE p.is_deleted = 0";
+            }
+            
+            if ($orderField && $orderBy) {
+                $q .= " ORDER BY {$orderField} {$orderBy}";
+            }
+            
+            $pdo = Doctrine_Manager::connection()->getDbh();
+            $projectList = $pdo->query($q)->fetchAll(PDO::FETCH_ASSOC);
+
+            return $projectList;
+            
+        // @codeCoverageIgnoreStart
+        } catch (Exception $e) {
+            throw new DaoException($e->getMessage(), $e->getCode(), $e);
+        }
+        // @codeCoverageIgnoreEnd
+    }
+    
+    /**
+     * Return an Array of Project Activities by Project Id
+     * 
+     * @version 2.7.1
+     * @param Integer $projectId Project Id
+     * @param Boolean $excludeDeletedActivities Exclude Deleted Project Activities or not
+     * @return Array of Project Activities
+     */
+    public function getProjectActivityListByPorjectId($projectId, $excludeDeletedActivities = true) {
+
+        try {
+
+            $query = Doctrine_Query::create()
+                    ->from('ProjectActivity')
+                    ->where('project_id = ?', $projectId);
+
+            if ($excludeDeletedActivities) {
+                $query->andWhere('is_deleted = ?', ProjectActivity::ACTIVE_PROJECT_ACTIVITY);
+            }
+            $query->orderBy('name ASC');
+            $results = $query->fetchArray();
+            
+            return $results;
+        
+        // @codeCoverageIgnoreStart
+        } catch (Exception $e) {
+            throw new DaoException($e->getMessage(), $e->getCode(), $e);
+        }
+        // @codeCoverageIgnoreEnd
     }
 
     /**

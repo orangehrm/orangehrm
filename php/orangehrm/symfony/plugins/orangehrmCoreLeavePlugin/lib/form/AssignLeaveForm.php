@@ -152,7 +152,7 @@ class AssignLeaveForm extends sfForm {
             $terminationId = $employee['termination_id'];
             $empNumber = $employee['empNumber'];
             if (!isset($employeeUnique[$empNumber]) && empty($terminationId)) {
-                $name = trim($employee['firstName'] . ' ' . $employee['middleName'],' ') . ' ' . $employee['lastName'];
+                $name = trim(trim($employee['firstName'] . ' ' . $employee['middleName'],' ') . ' ' . $employee['lastName']);
 
                 $employeeUnique[$empNumber] = $name;
                 $jsonArray[] = array('name' => $name, 'id' => $empNumber);

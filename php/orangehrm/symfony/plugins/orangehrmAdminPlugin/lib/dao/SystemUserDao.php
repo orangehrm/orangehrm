@@ -84,6 +84,28 @@ class SystemUserDao extends BaseDao {
             throw new DaoException($e->getMessage(), $e->getCode(), $e);
         }
     }
+    
+    /**
+     * Return an array of System User Ids
+     * 
+     * @version 2.7.1
+     * @return Array of System User Ids
+     */
+    public function getSystemUserIdList() {
+        try {
+            $query = Doctrine_Query:: create()
+                    ->select('u.id')
+                    ->from('SystemUser u')
+                    ->where('u.deleted=?', 0);
+ 
+            return $query->execute(array(), Doctrine::HYDRATE_SINGLE_SCALAR);
+            
+        // @codeCoverageIgnoreStart
+        } catch (Exception $e) {
+            throw new DaoException($e->getMessage(), $e->getCode(), $e);
+        }
+        // @codeCoverageIgnoreEnd
+    }
 
     /**
      * Delete System Users

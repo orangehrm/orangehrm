@@ -151,6 +151,10 @@ class EssUserRoleDecorator extends UserRoleDecorator {
 	public function getActionableTimesheets() {
 		return $this->user->getActionableTimesheets();
 	}
+	
+    public function getEmployeeNameList() {
+        return $this->user->getEmployeeNameList();
+    }
 
 	public function getActionableAttendanceStates($actions) {
 

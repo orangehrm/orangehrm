@@ -65,14 +65,18 @@ class TimesheetForm extends sfForm {
                     }
                 }
 
-                $activities = $this->getTimesheetDao()->getProjectActivitiesByPorjectId($project->getProjectId(), true);
+                $activities = $this->getTimesheetService()->getProjectActivityListByPorjectId($project->getProjectId(), true);
                 $activityArray = null;
+                
                 foreach ($activities as $activity) {
-                    if ($activity->getIsDeleted() != 1) {
-                        $activityArray[$activity->getActivityId()] = $activity->getName();
+                    $activityId = $activity['activityId'];
+                    $activityName = $activity['name'];
+                    $activityIsDeleted = $activity['is_deleted'];
+                    if ($activityIsDeleted != 1) {
+                        $activityArray[$activityId] = $activityName;
                     }
-                    if($activity->getActivityId() == $numberOfRows[$i]['activityId'] && $activity->getIsDeleted() == 1){
-                        $activityArray[$activity->getActivityId()] = $activity->getName();
+                    if($activityId == $numberOfRows[$i]['activityId'] && $activityIsDeleted == 1){
+                        $activityArray[$activityId] = $activityName;
                     }
                 }
 
@@ -269,13 +273,10 @@ class TimesheetForm extends sfForm {
     public function getProjectListAsJson() {
 
         $jsonArray = array();
-
-        $projectList = $this->getTimesheetService()->getProjectList();
-
+        $projectList = $this->getTimesheetService()->getProjectNameList();
 
         foreach ($projectList as $project) {
-
-            $jsonArray[] = array('name' => $project->getCustomer()->getName() . " - ##" . $project->getName(), 'id' => $project->getProjectId());
+            $jsonArray[] = array('name' => $project['customerName'] . " - ##" . $project['projectName'], 'id' => $project['projectId']);
         }
 
         $jsonString = json_encode($jsonArray);
@@ -286,14 +287,10 @@ class TimesheetForm extends sfForm {
     public function getProjectListAsJsonForValidation() {
 
         $jsonArray = array();
-
-        $projectList = $this->getTimesheetService()->getProjectListForValidation();
-
+        $projectList = $this->getTimesheetService()->getProjectNameList(false);
 
         foreach ($projectList as $project) {
-//            if ($project->getIsDeleted() != Projects::PROJECT_DELETED) {
-            $jsonArray[] = array('name' => $project->getCustomer()->getName() . " - ##"  . $project->getName(), 'id' => $project->getProjectId());
-//            }
+            $jsonArray[] = array('name' => $project['customerName'] . " - ##"  . $project['projectName'], 'id' => $project['projectId']);
         }
 
         $jsonString = json_encode($jsonArray);

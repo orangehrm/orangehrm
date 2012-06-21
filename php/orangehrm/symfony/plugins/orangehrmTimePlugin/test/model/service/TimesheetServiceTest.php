@@ -397,6 +397,108 @@ class TimesheetServiceTest extends PHPUnit_Framework_Testcase {
         $this->assertTrue($testTimesheet instanceof Timesheet);
         $this->assertEquals($timesheet, $testTimesheet);
     }
+    
+    public function testGetTimesheetListByEmployeeIdAndState() {
+
+        $empIdList = array(1, 2);
+        $stateList = array('SUBMITTED', 'ACCEPTED');
+        
+        $timesheet1['timesheetId'] = 11;
+        $timesheet1['timesheetStartday'] = '2011-04-18';
+        $timesheet1['timesheetEndDate'] = '2011-04-28';
+        $timesheet1['employeeId'] = 2;
+        $timesheet1['employeeFirstName'] = null;
+        $timesheet1['employeeLastName'] = null;
+        
+        $timesheet2['timesheetId'] = 2;
+        $timesheet2['timesheetStartday'] = '2011-04-22';
+        $timesheet2['timesheetEndDate'] = '2011-04-19';
+        $timesheet2['employeeId'] = 2;
+        $timesheet2['employeeFirstName'] = null;
+        $timesheet2['employeeLastName'] = null;
+        
+        $timesheet3['timesheetId'] = 8;
+        $timesheet3['timesheetStartday'] = '2011-04-22';
+        $timesheet3['timesheetEndDate'] = '2011-04-28';
+        $timesheet3['employeeId'] = 1;
+        $timesheet3['employeeFirstName'] = null;
+        $timesheet3['employeeLastName'] = null;
+        
+        $timesheets[] = $timesheet1;
+        $timesheets[] = $timesheet2;
+        $timesheets[] = $timesheet3;
+        
+        $timesheetDaoMock = $this->getMock('TimesheetDao', array('getTimesheetListByEmployeeIdAndState'));
+        $timesheetDaoMock->expects($this->once())
+                ->method('getTimesheetListByEmployeeIdAndState')
+                ->with($empIdList, $stateList, 100)
+                ->will($this->returnValue($timesheets));
+
+        $this->timesheetService->setTimesheetDao($timesheetDaoMock);
+        $result = $this->timesheetService->getTimesheetListByEmployeeIdAndState($empIdList, $stateList, 100);
+        
+        $this->assertEquals(3, count($result));
+        $this->assertEquals($timesheets[0], $result[0]);
+        $this->assertEquals($timesheets[1], $result[1]);
+        
+        $timesheetDaoMock = $this->getMock('TimesheetDao', array('getTimesheetListByEmployeeIdAndState'));
+        $timesheetDaoMock->expects($this->once())
+                ->method('getTimesheetListByEmployeeIdAndState')
+                ->with(null, null, null)
+                ->will($this->returnValue(null));
+
+        $this->timesheetService->setTimesheetDao($timesheetDaoMock);
+        $result = $this->timesheetService->getTimesheetListByEmployeeIdAndState(null, null, null);
+        $this->assertNull(null, $result);
+    }
+    
+    public function testGetProjectNameList() {
+        
+        $project1['projectId'] = 1;
+        $project1['projectName'] = 'OrangeHRM';
+        $project1['customerName'] = 'user';
+        
+        $project2['projectId'] = 2;
+        $project2['projectName'] = 'OrangeHRM2';
+        $project2['customerName'] = 'user';
+        
+        $projects = array($project1, $project2);
+        
+        $timesheetDaoMock = $this->getMock('TimesheetDao', array('getProjectNameList'));
+        $timesheetDaoMock->expects($this->once())
+                ->method('getProjectNameList')
+                ->with(true, 'project_id', 'ASC')
+                ->will($this->returnValue($projects));
+
+        $this->timesheetService->setTimesheetDao($timesheetDaoMock);
+        $result = $this->timesheetService->getProjectNameList(true, 'project_id', 'ASC');
+        
+        $this->assertEquals(2, count($result));
+        $this->assertEquals($projects[0], $result[0]);
+        $this->assertEquals($projects[1], $result[1]);
+    }
+    
+    public function testGetProjectActivityListByPorjectId() {
+        
+        $activity1['activityId'] = 1;
+        $activity1['projectId'] = 1;
+        $activity1['is_deleted'] = 0;
+        $activity1['name'] = 'Activity1 For Pro1';
+        
+        $activities = array($project1);
+        
+        $timesheetDaoMock = $this->getMock('TimesheetDao', array('getProjectActivityListByPorjectId'));
+        $timesheetDaoMock->expects($this->once())
+                ->method('getProjectActivityListByPorjectId')
+                ->with(1, true)
+                ->will($this->returnValue($activities));
+
+        $this->timesheetService->setTimesheetDao($timesheetDaoMock);
+        $result = $this->timesheetService->getProjectActivityListByPorjectId(1, true);
+        
+        $this->assertEquals(1, count($result));
+        $this->assertEquals($projects[0], $result[0]);
+    }
 
 //    public function testCreatePreviousTimesheets(){
 //

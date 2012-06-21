@@ -23,6 +23,7 @@ class SearchProjectForm extends BaseForm {
 	private $customerService;
 	private $projectService;
 	private $userObj;
+    private $allowedProjectList;
 
 	public function getProjectService() {
 		if (is_null($this->projectService)) {
@@ -39,11 +40,16 @@ class SearchProjectForm extends BaseForm {
 		}
 		return $this->customerService;
 	}
+	
+    private function setAllowedProjectList() {
+        $this->allowedProjectList = $this->userObj->getAllowedProjectList();
+    }
 
 	public function configure() {
 
 		$this->userObj = sfContext::getInstance()->getUser()->getAttribute('user');
 
+        $this->setAllowedProjectList();
 		$this->setWidgets(array(
 		    'customer' => new sfWidgetFormInputText(),
 		    'project' => new sfWidgetFormInputText(),
@@ -71,10 +77,15 @@ class SearchProjectForm extends BaseForm {
 		$employeeService = new EmployeeService();
 		$employeeService->setEmployeeDao(new EmployeeDao());
 
-		$employeeList = $employeeService->getEmployeeList();
+        $properties = array("empNumber","firstName", "middleName", "lastName", 'termination_id');
+        $employeeList = $employeeService->getEmployeePropertyList($properties, 'empNumber', 'ASC');
 
 		foreach ($employeeList as $employee) {
-			$jsonArray[] = array('name' => $employee->getFullName(), 'id' => $employee->getEmpNumber());
+            $name = trim(trim($employee['firstName'] . ' ' . $employee['middleName'],' ') . ' ' . $employee['lastName']);
+            if ($employee['termination_id']) {
+                $name = $name. ' ('.__('Past Employee') .')';
+            }
+            $jsonArray[] = array('name' => $name, 'id' => $employee['empNumber']);
 		}
 
 		$jsonString = json_encode($jsonArray);
@@ -84,46 +95,43 @@ class SearchProjectForm extends BaseForm {
 
 	public function getCustomerListAsJson() {
 
-		$allowedProjectList = $this->userObj->getAllowedProjectList();
-		$allowedCustomerList = array();
-		foreach ($allowedProjectList as $projectId) {
-			$project = $this->getProjectService()->getProjectById($projectId);
-			$allowedCustomerList[] = $project->getCustomerId();
-		}
-		$jsonArray = array();
-		$customerList = $this->getCustomerService()->getAllCustomers();		
-		$allowedCustomers = array();
-		foreach ($customerList as $customer) {
-			if (in_array($customer->getCustomerId(), $allowedCustomerList)) {
-				$allowedCustomers[] = $customer;
-			}
-		}		
-		foreach ($allowedCustomers as $customer) {
-			$jsonArray[] = array('name' => $customer->getName(), 'id' => $customer->getCustomerId());
-		}
+	    $allowedProjectList = $this->allowedProjectList;
+	    $allowedCustomerList = $this->getProjectService()->getCustomerIdListByProjectId($allowedProjectList);
+
+	    $jsonArray = array();
+	    $customerList = $this->getCustomerService()->getCustomerNameList($allowedCustomerList);
+	    $allowedCustomerNames = array();
+
+
+	    foreach ($customerList as $customer) {
+	        $allowedCustomerNames[$customer['customerId']] = $customer['name'];
+        }
+        
+        foreach ($allowedCustomerNames as $id => $customerName) {
+            $jsonArray[] = array('name' => $customerName, 'id' => $id);
+        }
+        
 		$jsonString = json_encode($jsonArray);
 		return $jsonString;
 	}
 
-	public function getProjectListAsJson() {
+    public function getProjectListAsJson() {
 
-		$allowedProjectList = $this->userObj->getAllowedProjectList();
-		$jsonArray = array();
-		$projectList = $this->getProjectService()->getAllProjects();
-
-		$allowedProjets = array();
-		foreach ($projectList as $project) {
-			if (in_array($project->getProjectId(), $allowedProjectList)) {
-				$allowedProjets[] = $project;
-			}
-		}
-
-		foreach ($allowedProjets as $project) {
-			$jsonArray[] = array('name' => $project->getName(), 'id' => $project->getProjectId());
-		}
-		$jsonString = json_encode($jsonArray);
-		return $jsonString;
-	}
+        $allowedProjectIdList = $this->allowedProjectList;
+        $jsonArray = array();
+        $projectList = $this->getProjectService()->getProjectNameList($allowedProjectIdList);
+        
+        $allowedProjetNames = array();
+        foreach ($projectList as $project) {
+            $allowedProjetNames[$project['projectId']] = $project['name'];
+        }
+        
+        foreach ($allowedProjetNames as $id => $projectName) {
+            $jsonArray[] = array('name' => $projectName, 'id' => $id);
+        }
+        $jsonString = json_encode($jsonArray);
+        return $jsonString;
+    }
 
 }
 

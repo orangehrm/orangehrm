@@ -47,16 +47,17 @@ class viewEmployeeTimesheetForm extends sfFormSymfony {
         $jsonArray = array();
         $employeeService = new EmployeeService();
         $employeeService->setEmployeeDao(new EmployeeDao());
-
         $employeeUnique = array();
+        
         foreach ($this->employeeList as $employee) {
-
-            if (!isset($employeeUnique[$employee->getEmpNumber()])) {
-
-                $name = $employee->getFullName();
-                $employeeUnique[$employee->getEmpNumber()] = $name;
-                $jsonArray[] = array('name' => $name, 'id' => $employee->getEmpNumber());
-                
+            $empNumber = $employee['empNumber'];
+            if (!isset($employeeUnique[$empNumber])) {
+                $name = trim(trim($employee['firstName'] . ' ' . $employee['middleName'],' ') . ' ' . $employee['lastName']);
+                if ($employee['termination_id']) {
+                    $name = $name. ' ('.__('Past Employee') .')';
+                }
+                $employeeUnique[$empNumber] = $name;
+                $jsonArray[] = array('name' => $name, 'id' => $empNumber);
             }
         }
 

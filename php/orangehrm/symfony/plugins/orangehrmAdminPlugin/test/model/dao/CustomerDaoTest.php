@@ -86,6 +86,19 @@ class CustomerDaoTest extends PHPUnit_Framework_TestCase {
 		$this->assertTrue($result);
 	}
 	
+    public function testGetCustomerNameList(){
+        $allowdCustomers = array(1, 2);
+        $result = $this->customerDao->getCustomerNameList($allowdCustomers);
+        
+        $this->assertEquals(2, count($result));
+        $this->assertEquals(1, $result[0]['customerId']);
+        $this->assertEquals('Xavier', $result[0]['name']);
+        
+        $result = $this->customerDao->getCustomerNameList(null);
+        
+        $this->assertNull($result);
+    }
+	
 	
 }
 

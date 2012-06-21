@@ -126,12 +126,14 @@ class BasicUserRoleManager extends AbstractUserRoleManager {
             $propertyList = array();
             switch ($entityType) {
                 case 'Employee':
-                    $propertyList = $this->getAccessibleEmployeePropertyList($role, $properties, $orderField, $orderBy);
+                    $propertyList = $this->getAccessibleEmployeePropertyList($role, $properties, $orderField, $orderBy, true);
                     break;
             }
             
             if (count($propertyList) > 0) {
-                $allPropertyList = array_merge($allPropertyList, $propertyList);
+                foreach ($propertyList as $property) {
+                    $allPropertyList[$property['empNumber']] = $property;
+                }
             }
         }
 
@@ -147,7 +149,7 @@ class BasicUserRoleManager extends AbstractUserRoleManager {
             } else if ('Supervisor' == $role->getName()) {
                 $empNumber = $this->getUser()->getEmpNumber();
                 if (!empty($empNumber)) {
-                    $employeeProperties = $this->getEmployeeService()->getSubordinatePropertyListBySupervisorId($empNumber, $properties, $orderField, $orderBy);
+                    $employeeProperties = $this->getEmployeeService()->getSubordinatePropertyListBySupervisorId($empNumber, $properties, $orderField, $orderBy, true);
                 }
             }
             
@@ -305,7 +307,7 @@ class BasicUserRoleManager extends AbstractUserRoleManager {
     protected function getAccessibleEmployeeIds($role, $operation = null, $returnType = null) {
         $employeeIdArray = array();
         if ('Admin' == $role->getName()) {
-            $employeeIdArray = $this->getEmployeeService()->getEmployeeIdList();
+            $employeeIdArray = $this->getEmployeeService()->getEmployeeIdList(true);
         } else if ('Supervisor' == $role->getName()) {
             $empNumber = $this->getUser()->getEmpNumber();
             if (!empty($empNumber)) {
@@ -318,21 +320,13 @@ class BasicUserRoleManager extends AbstractUserRoleManager {
     
     protected function getAccessibleSystemUserIds($role, $operation = null, $returnType = null) {
         
-        $systemUsers = array();
-        
+        $systemUserIdArray = array();
         if ('Admin' == $role->getName()) {
-            $systemUsers = $this->getSystemUserService()->getSystemUsers();
-        }
-        
-        $ids = array();
-        
-        foreach ($systemUsers as $user) {
-            $ids[] = $user->getId();
+            $systemUserIdArray = $this->getSystemUserService()->getSystemUserIdList();
         }
 
-        return $ids;        
-    }    
-    
+        return $systemUserIdArray;
+    }
     
     protected function getAccessibleOperationalCountryIds($role, $operation = null, $returnType = null) {
         

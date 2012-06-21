@@ -343,28 +343,32 @@ class CandidateDao extends BaseDao {
         }
     }
 
+    /**
+     * Return an array of Candidate History Ids based on user role
+     * 
+     * @version 2.7.1
+     * @param String $role User Role
+     * @param Integer $empNumber Employee Number
+     * @param Integer $candidateId Candidate Id
+     * @return Array of Candidate History Ids
+     * @throws DaoException
+     */
     public function getCanidateHistoryForUserRole($role, $empNumber, $candidateId) {
         try {
             $q = Doctrine_Query :: create()
                     ->select('ch.id')
                     ->from('CandidateHistory ch');
             if ($role == HiringManagerUserRoleDecorator::HIRING_MANAGER) {
-                $q->leftJoin('ch.JobVacancy jv')
+                 $q->leftJoin('ch.JobVacancy jv')
                         ->leftJoin('ch.JobCandidate jc')
-                        ->where('jv.hiringManagerId = ?', $empNumber)
-                        ->andWhere('ch.candidateId = ?', $candidateId)
-                        ->orWhereIn('ch.action', array(CandidateHistory::RECRUITMENT_CANDIDATE_ACTION_ADD))
-                        ->orWhere('ch.candidateId NOT IN (SELECT ojcv.candidateId FROM JobCandidateVacancy ojcv) AND jc.addedPerson = ?', $empNumber)
-                        ->orWhere('ch.performedBy = ?', $empNumber);
+                        ->where('ch.candidateId = ?', $candidateId)
+                        ->andWhere('jv.hiringManagerId = ? OR ( ch.action IN (?) OR (ch.candidateId NOT IN (SELECT ojcv.candidateId FROM JobCandidateVacancy ojcv) AND jc.addedPerson = ?) OR ch.performedBy = ? )', array($empNumber, CandidateHistory::RECRUITMENT_CANDIDATE_ACTION_ADD, $empNumber, $empNumber));
             }
             if ($role == InterviewerUserRoleDecorator::INTERVIEWER) {
                 $q->leftJoin('ch.JobInterview ji ON ji.id = ch.interview_id')
                         ->leftJoin('ji.JobInterviewInterviewer jii')
-                        ->where('jii.interviewerId = ?', $empNumber)
-                        ->andWhere('ch.candidateId = ?', $candidateId)
-                        ->orWhere('ch.performedBy = ?', $empNumber)
-                        ->orWhereIn('ch.action', array(CandidateHistory::RECRUITMENT_CANDIDATE_ACTION_ADD, WorkflowStateMachine::RECRUITMENT_APPLICATION_ACTION_ATTACH_VACANCY, WorkflowStateMachine::RECRUITMENT_APPLICATION_ACTION_SHORTLIST, WorkflowStateMachine::RECRUITMENT_APPLICATION_ACTION_SHEDULE_INTERVIEW, WorkflowStateMachine::RECRUITMENT_APPLICATION_ACTION_MARK_INTERVIEW_FAILED, WorkflowStateMachine::RECRUITMENT_APPLICATION_ACTION_MARK_INTERVIEW_PASSED));
-//                        ->orWhere('jcv.id IN (SELECT ojcv.id FROM JobCandidateVacancy ojcv LEFT JOIN ojcv.JobInterview oji ON ojcv.id = oji.candidate_vacancy_id LEFT JOIN oji.JobInterviewInterviewer ojii ON ojii.interview_id = oji.id WHERE ojii.interviewerId = ?)', $empNumber);
+                        ->where('ch.candidateId = ?', $candidateId)
+                        ->andWhere('jii.interviewerId = ? OR (ch.performedBy = ? OR ch.action IN (?, ?, ?, ?, ?, ?))',  array($empNumber, $empNumber, CandidateHistory::RECRUITMENT_CANDIDATE_ACTION_ADD, WorkflowStateMachine::RECRUITMENT_APPLICATION_ACTION_ATTACH_VACANCY, WorkflowStateMachine::RECRUITMENT_APPLICATION_ACTION_SHORTLIST, WorkflowStateMachine::RECRUITMENT_APPLICATION_ACTION_SHEDULE_INTERVIEW, WorkflowStateMachine::RECRUITMENT_APPLICATION_ACTION_MARK_INTERVIEW_FAILED, WorkflowStateMachine::RECRUITMENT_APPLICATION_ACTION_MARK_INTERVIEW_PASSED));
             }
             if ($role == AdminUserRoleDecorator::ADMIN_USER) {
                 $q->where('ch.candidateId = ?', $candidateId);
@@ -375,9 +379,12 @@ class CandidateDao extends BaseDao {
                 $idList[] = $item['id'];
             }
             return $idList;
+
+        // @codeCoverageIgnoreStart
         } catch (Exception $e) {
-            throw new DaoException($e->getMessage());
+            throw new DaoException($e->getMessage(), $e->getCode(), $e);
         }
+        // @codeCoverageIgnoreEnd
     }
 
     /**

@@ -74,10 +74,9 @@ class LeaveSummaryService extends BaseService {
      * @param Array $clues Array of Search Clues
      * @param Int $offset Offset for Limit
      * @param Int $limit
-     * @param Int $loggedInUserId Current Logged In User Id
      * @return Array List of Leave Summary Records
      */
-    public function searchLeaveSummary($clues, $offset, $limit, $loggedInUserId) {
+    public function searchLeaveSummary($clues, $offset, $limit) {
         $listData = $this->getLeaveSummaryDao()->searchLeaveSummary($clues, $offset, $limit);
         
         $userRoleManager = $this->getUserRoleManager();
@@ -91,7 +90,7 @@ class LeaveSummaryService extends BaseService {
             $listData[$key]['having_scheduled'] = ($leave_info[1] != 0.00) ? true : false;
             $listData[$key]['leave_scheduled'] = $leave_info[1];
             $listData[$key]['leave_period_id'] ? $listData[$key]['leave_period_id'] : $clues['cmbLeavePeriod'];
-            $listData[$key]['logged_user_id'] = $loggedInUserId;
+            $listData[$key]['logged_user_id'] = $clues['loggedUserId'];
             $listData[$key]['leave_type_status'] = $listData[$key]['available_flag'] ? true : false;
         }
         

@@ -59,8 +59,7 @@ class viewEmployeeTimesheetAction extends sfAction {
         }
 
         $userObj = $this->getContext()->getUser()->getAttribute("user");
-        $this->form->employeeList = $userObj->getEmployeeList();
-
+        $this->form->employeeList = $userObj->getEmployeeNameList();
 
         $this->pendingApprovelTimesheets = $userObj->getActionableTimesheets();
     }

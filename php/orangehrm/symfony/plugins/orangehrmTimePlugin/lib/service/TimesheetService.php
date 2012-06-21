@@ -162,6 +162,31 @@ class TimesheetService {
         return $this->getTimesheetDao()->getTimesheetByEmployeeIdAndState($employeeId, $stateList);
     }
 
+    /**
+     * Return an Array of Timesheets for given Employee Ids and States
+     * 
+     * <pre>
+     * Ex: $employeeIdList = array('1', '2')
+     *     $stateList = array('SUBMITTED', 'ACCEPTED');
+     * 
+     * For above $employeeIdList and $stateList parameters there will be an array like below as the response.
+     *
+     * array(
+     *          0 => array('timesheetId' => 2, 'timesheetStartday' => '2011-04-22', 'timesheetEndDate' => '2011-04-19', 'employeeId' => 2, 'employeeFirstName' => 'Kayla', 'employeeLastName' => 'Abay'),
+     *          1 => array('timesheetId' => 8, 'timesheetStartday' => '2011-04-22', 'timesheetEndDate' => '2011-04-28', 'employeeId' => 1, 'employeeFirstName' => 'John', 'employeeLastName' => 'Dunion')
+     * )
+     * </pre>
+     * 
+     * @version 2.7.1
+     * @param Array $employeeIdList Array of Employee Ids
+     * @param Array $stateList Array of States
+     * @param $limit Number of Timesheets return
+     * @return Array of Timesheets
+     */
+    public function getTimesheetListByEmployeeIdAndState($employeeIdList, $stateList, $limit) {
+        return $this->getTimesheetDao()->getTimesheetListByEmployeeIdAndState($employeeIdList, $stateList, $limit);
+    }
+    
     public function getStartAndEndDatesList($employeeId) {
 
         $resultArray = $this->getTimesheetDao()->getStartAndEndDatesList($employeeId);
@@ -352,7 +377,52 @@ class TimesheetService {
 
         return $this->getTimesheetDao()->getProjectListForValidation();
     }
+    
+    /**
+     * Return an Array of Project Names
+     * 
+     * <pre>
+     * This will return an array like below as the response.
+     *
+     * array(
+     *          0 => array('projectId' => 1, 'projectName' => 'UB', 'customerName' => 'University of Belize')
+     *          1 => array('projectId' => 2, 'projectName' => 'KM2', 'customerName' => 'KM2 Solutions')
+     * )
+     * </pre>
+     * 
+     * @version 2.7.1
+     * @param Boolean $excludeDeletedProjects Exclude deleted projects or not
+     * @param String $orderField Sort order field
+     * @param String $orderBy Sort order
+     * @return Array of Project Names
+     */
+    public function getProjectNameList($excludeDeletedProjects = true, $orderField, $orderBy) {
+        return $this->getTimesheetDao()->getProjectNameList($excludeDeletedProjects, $orderField, $orderBy);
+    }
 
+    /**
+     * Return an Array of Project Activities by Project Id
+     * 
+     * <pre>
+     * Ex: $projectId = 1
+     *     $excludeDeletedActivities = true;
+     * 
+     * For above $projectId and $excludeDeletedActivities parameters there will be an array like below as the response.
+     *
+     * array(
+     *          0 => array('activityId' => 1, 'projectId' => 1, 'is_deleted' => 0, 'name' => 'Development')
+     * )
+     * </pre>
+     * 
+     * @version 2.7.1
+     * @param Integer $projectId Project Id
+     * @param Boolean $excludeDeletedActivities Exclude Deleted Project Activities or not
+     * @return Array of Project Activities
+     */
+    public function getProjectActivityListByPorjectId($projectId, $excludeDeletedActivities = true) {
+        return $this->getTimesheetDao()->getProjectActivityListByPorjectId($projectId, $excludeDeletedActivities);
+    }
+    
     public function getLatestTimesheetEndDate($employeeId) {
 
         return $this->getTimesheetDao()->getLatestTimesheetEndDate($employeeId);

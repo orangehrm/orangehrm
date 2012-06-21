@@ -254,7 +254,7 @@ class LeaveSummaryForm extends sfForm {
         $idList = array();
         
         $userRoleManager = UserRoleManagerFactory::getUserRoleManager();
-        $properties = array("empNumber","firstName", "middleName", "lastName");
+        $properties = array("empNumber","firstName", "middleName", "lastName", 'termination_id');
         $employeeList = $userRoleManager->getAccessibleEntityProperties('Employee', $properties);
         $employeeIdList = $userRoleManager->getAccessibleEntityIds('Employee');
         $this->hasAdministrativeFilters = count($employeeList) > 0;

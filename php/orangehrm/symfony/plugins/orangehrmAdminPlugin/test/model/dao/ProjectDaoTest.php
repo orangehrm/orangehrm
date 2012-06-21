@@ -42,7 +42,7 @@ class ProjectDaoTest extends PHPUnit_Framework_TestCase {
 		$srchClues = array();
 		$allowedProjectList = array(1, 2);
 		$result = $this->projectDao->searchProjects($srchClues, $allowedProjectList);
-		$this->assertEquals(count($result), 2);
+		$this->assertEquals(2, count($result));
 	}
 
 	public function testSearchProjectsForProjectName() {
@@ -51,8 +51,8 @@ class ProjectDaoTest extends PHPUnit_Framework_TestCase {
 		);
 		$allowedProjectList = array(1);
 		$result = $this->projectDao->searchProjects($srchClues, $allowedProjectList);
-		$this->assertEquals(count($result), 1);
-		$this->assertEquals($result[0]->getProjectId(), 1);
+		$this->assertEquals(1, count($result));
+		$this->assertEquals(1, $result[0]['projectId']);
 	}
 
 	public function testSearchProjectsForCustomerName() {
@@ -62,7 +62,7 @@ class ProjectDaoTest extends PHPUnit_Framework_TestCase {
 		$allowedProjectList = array(1, 4);
 		$result = $this->projectDao->searchProjects($srchClues, $allowedProjectList);
 		$this->assertEquals(2, count($result));
-		$this->assertEquals('Xavier', $result[0]->getCustomerName());
+		$this->assertEquals('Xavier', $result[0]['customerName']);
 	}
 
 	public function testSearchProjectsForProjectAdmin() {
@@ -72,7 +72,7 @@ class ProjectDaoTest extends PHPUnit_Framework_TestCase {
 		$allowedProjectList = array(1);
 		$result = $this->projectDao->searchProjects($srchClues, $allowedProjectList);
 		$this->assertEquals(count($result), 1);
-		$this->assertEquals($result[0]->getProjectId(), 1);
+		$this->assertEquals(1, $result[0]['projectId']);
 	}
 
 	public function testGetProjectCountWithActiveOnly() {
@@ -123,7 +123,7 @@ class ProjectDaoTest extends PHPUnit_Framework_TestCase {
 		);
 		$allowedProjectList = array(1);
 		$result = $this->projectDao->getSearchProjectListCount($srchClues,$allowedProjectList);
-		$this->assertEquals($result, 1);
+		$this->assertEquals(1, $result );
 	}
 
 	public function testGetActiveProjectList() {
@@ -209,5 +209,30 @@ class ProjectDaoTest extends PHPUnit_Framework_TestCase {
 		$result = $this->projectDao->getProjectListForUserRole(AdminUserRoleDecorator::ADMIN_USER, null);
 		$this->assertEquals(4, count($result));
 	}
+    
+    public function testGetCustomerIdListByProjectId() {
+        
+        $projectIdList = array(1, 2);
+        $result = $this->projectDao->getCustomerIdListByProjectId($projectIdList);
+        
+        $this->assertEquals(1, $result[0]);
+        $this->assertEquals(4, $result[1]);
+        
+        $result = $this->projectDao->getCustomerIdListByProjectId(null);
+        $this->assertNull($result);
+    }
 
+    public function testGetProjectNameList() {
+        
+        $allowedProjectIdList = array(1, 2);
+        $result = $this->projectDao->getProjectNameList($allowedProjectIdList);
+        
+        $this->assertEquals(2, count($result));
+        $this->assertEquals(1, $result[0]['projectId']);
+        $this->assertEquals('development', $result[0]['name']);
+        $this->assertEquals(2, $result[1]['projectId']);
+        
+        $result = $this->projectDao->getProjectNameList(null);
+        $this->assertNull($result);
+    }
 }

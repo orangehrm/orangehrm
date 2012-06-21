@@ -103,6 +103,52 @@ class ProjectService extends BaseService {
 	public function getProjectById($projectId) {
 		return $this->projectDao->getProjectById($projectId);
 	}
+	
+	
+    /**
+     * Return an array of Customer Ids for Lits of Project Ids
+     * 
+     * <pre>
+     * Ex: $projectIdList = array(1, 2);
+     * 
+     * For above $projectIdList parameter there will be an array like below as the response.
+     * 
+     * array(
+     *          0 => 1,
+     *          1 => 4
+     * )
+     * </pre>
+     * 
+     * @version 2.7.1
+     * @param Array $projectIdList List of Project Ids
+     * @return Array of Customer Ids
+     */
+    public function getCustomerIdListByProjectId($projectIdList) {
+        return $this->projectDao->getCustomerIdListByProjectId($projectIdList);
+    }
+    
+    /**
+     * Return an Array of Project Names
+     * 
+     * <pre>
+     * Ex: $projectIdList = array(1, 2);
+     * 
+     * For above $projectIdList parameter there will be an array like below as the response.
+     * 
+     * array(
+     *          0 => array('projectId' => 1, 'name' => 'Development'),
+     *          1 => array('projectId' => 2, 'name' => 'Engineering')
+     * )
+     * </pre>
+     * 
+     * @version 2.7.1
+     * @param Array $projectIdList List of Project Ids
+     * @param Boolean $excludeDeletedProjects Exclude Deleted Projects or not
+     * @return Array of Project Names
+     */
+    public function getProjectNameList($projectIdList, $excludeDeletedProjects = true) {
+        return $this->projectDao->getProjectNameList($projectIdList, $excludeDeletedProjects);
+    }
 
 	/**
 	 * 

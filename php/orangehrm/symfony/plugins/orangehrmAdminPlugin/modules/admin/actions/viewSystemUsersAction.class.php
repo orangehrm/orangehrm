@@ -70,17 +70,6 @@ class viewSystemUsersAction extends sfAction {
 
         $userIds = UserRoleManagerFactory::getUserRoleManager()->getAccessibleEntityIds('SystemUser');
         
-        if (empty($userIds)) {
-            $systemUserList = array();
-            $systemUserListCount = 0;
-        } else {
-            $searchClues['user_ids'] = $userIds;            
-            $systemUserList = $this->getSystemUserService()->searchSystemUsers($searchClues);
-            $systemUserListCount = $this->getSystemUserService()->getSearchSystemUsersCount($searchClues);
-        }        
-
-        $this->_setListComponent($systemUserList, $limit, $pageNumber, $systemUserListCount);
-        $this->getUser()->setAttribute('pageNumber', $pageNumber);
         $params = array();
         $this->parmetersForListCompoment = $params;
 
@@ -99,22 +88,25 @@ class viewSystemUsersAction extends sfAction {
                 if ($this->form->isValid()) {
 
                     $searchClues = $this->_setSearchClues($sortField, $sortOrder, $offset, $limit);
-                    if (empty($userIds)) {
-                        $systemUserList = array();
-                        $systemUserListCount = 0;
-                    } else {
-                        $searchClues['user_ids'] = $userIds;            
-                        $systemUserList = $this->getSystemUserService()->searchSystemUsers($searchClues);
-                        $systemUserListCount = $this->getSystemUserService()->getSearchSystemUsersCount($searchClues);
-                    } 
-                    
                     $this->getUser()->setAttribute('searchClues', $searchClues);
-                    $this->_setListComponent($systemUserList, $limit, $pageNumber, $systemUserListCount);
                 }
-            }else{
-                $this->getUser()->setAttribute('pageNumber',$pageNumber);
             }
+            
+
         }
+        
+        $this->getUser()->setAttribute('pageNumber', $pageNumber);
+            
+        if (empty($userIds)) {
+            $systemUserList = array();
+            $systemUserListCount = 0;
+        } else {
+            $searchClues['user_ids'] = $userIds;            
+            $systemUserList = $this->getSystemUserService()->searchSystemUsers($searchClues);
+            $systemUserListCount = $this->getSystemUserService()->getSearchSystemUsersCount($searchClues);
+        }
+        
+        $this->_setListComponent($systemUserList, $limit, $pageNumber, $systemUserListCount);
     }
 
     /**

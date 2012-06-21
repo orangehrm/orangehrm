@@ -32,7 +32,7 @@ class TimesheetDaoTest extends PHPUnit_Framework_TestCase {
     protected function setUp() {
 
         $this->timesheetDao = new TimesheetDao();
-        TestDataService::truncateSpecificTables(array('SystemUser'));        
+        TestDataService::truncateSpecificTables(array('SystemUser', 'Employee'));        
         TestDataService::populate(sfConfig::get('sf_plugins_dir') . '/orangehrmTimePlugin/test/fixtures/TimesheetDao.yml');
     }
 
@@ -601,6 +601,54 @@ class TimesheetDaoTest extends PHPUnit_Framework_TestCase {
          $this->assertTrue($allProjects[1] instanceof Project);
         $this->assertEquals($allProjects[1]->getProjectId(), 2);
         $this->assertEquals($allProjects[1]->getName(), "OrangeHRM2");
+    }
+    
+    public function testGetTimesheetListByEmployeeIdAndState() {
+
+        $empIdList = array(1, 2);
+        $stateList = array('SUBMITTED', 'ACCEPTED');
+        
+        $timesheets = $this->timesheetDao->getTimesheetListByEmployeeIdAndState($empIdList, $stateList, 100);
+        $this->assertEquals(3, count($timesheets));
+
+        $this->assertEquals(8, $timesheets[0]['timesheetId']);
+        $this->assertEquals('2011-04-22', $timesheets[0]['timesheetStartday']);
+        $this->assertEquals(1, $timesheets[0]['employeeId']);
+
+        $this->assertEquals('last2', $timesheets[1]['employeeLastName']);
+        
+        $timesheets = $this->timesheetDao->getTimesheetListByEmployeeIdAndState($empIdList, $stateList, 1);
+        $this->assertEquals(1, count($timesheets));
+        
+        $timesheets = $this->timesheetDao->getTimesheetListByEmployeeIdAndState(null, null, null);
+        $this->assertNull($timesheets);
+    }
+    
+    public function testGetProjectNameList() {
+
+        $projectList = $this->timesheetDao->getProjectNameList();
+        
+        $this->assertEquals(1, $projectList[0]['projectId']);
+        $this->assertEquals('OrangeHRM', $projectList[0]['projectName']);
+        
+        $this->assertEquals(2, $projectList[1]['projectId']);
+        $this->assertEquals('OrangeHRM2', $projectList[1]['projectName']);
+        
+        $this->assertEquals(2, count($projectList));
+    }
+    
+    public function testGetProjectActivityListByPorjectId() {
+
+        $activities = $this->timesheetDao->getProjectActivityListByPorjectId(1);
+        
+        $this->assertEquals(1, count($activities));
+        $this->assertEquals(1, $activities[0]['activityId']);
+        $this->assertEquals(1, $activities[0]['projectId']);
+        $this->assertEquals(0, $activities[0]['is_deleted']);
+        $this->assertEquals('Activity1 For Pro1', $activities[0]['name']);
+        
+        $activities = $this->timesheetDao->getProjectActivityListByPorjectId(null);
+        $this->assertEquals(array(), $activities);
     }
 
 }

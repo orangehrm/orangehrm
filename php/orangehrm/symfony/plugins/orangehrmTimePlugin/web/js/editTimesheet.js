@@ -30,6 +30,16 @@ $(document).ready(function() {
         }
       
     });
+    
+    $(".project").focus(function(){
+        element = $(this);
+        
+        if (element.data('init') != true) {
+            initAutoComplete(element);
+            element.data('init', true);
+        }
+      
+    });
 
     $(".deletedRow").attr("disabled", "disabled");
 
@@ -42,49 +52,51 @@ $(document).ready(function() {
     });
 
     //Auto complete
-    $(".project").autocomplete(projectsForAutoComplete, {
+    function initAutoComplete(element) {
+        element.autocomplete(projectsForAutoComplete, {
 
-        formatItem: function(item) {
-	    var temp = $("<div/>").html(item.name).text();
-            return temp.replace("##", "");
-        }
-        ,
-        matchContains:true
-    }).result(function(event, item) {
-
-        currentId = $(this).attr('id');
-
-        var temparray = currentId.split('_');
-        var temp = '#'+temparray[0]+'_'+temparray[1]+'_'+'projectActivityName';
-        var decodedfullName = $("<div/>").html(item.name).text();
-       
-        var array = decodedfullName.split(' - ##');
-
-        var r = $.ajax({
-            type: 'POST',
-            url: getActivitiesLink,
-            data: {
-                customerName: array[0],
-                projectName: array[1]
-            },
-           
-            success: function(msg){
-                $(temp).html(msg);
-                var flag = validateProject();
-                if(!flag) {
-                    $('#btnSave').attr('disabled', 'disabled');
-                    $('#validationMsg').attr('class', "messageBalloon_failure");
-                }
-                else{
-                    $('#btnSave').removeAttr('disabled');
-                    $('#validationMsg').removeAttr('class');
-                    $('#validationMsg').html("");
-                    $(".messageBalloon_success").remove();
-                }
+            formatItem: function(item) {
+                var temp = $("<div/>").html(item.name).text();
+                return temp.replace("##", "");
             }
-        }).responseText;
+            ,
+            matchContains:true
+        }).result(function(event, item) {
+    
+            currentId = $(this).attr('id');
+    
+            var temparray = currentId.split('_');
+            var temp = '#'+temparray[0]+'_'+temparray[1]+'_'+'projectActivityName';
+            var decodedfullName = $("<div/>").html(item.name).text();
+           
+            var array = decodedfullName.split(' - ##');
+    
+            var r = $.ajax({
+                type: 'POST',
+                url: getActivitiesLink,
+                data: {
+                    customerName: array[0],
+                    projectName: array[1]
+                },
+               
+                success: function(msg){
+                    $(temp).html(msg);
+                    var flag = validateProject();
+                    if(!flag) {
+                        $('#btnSave').attr('disabled', 'disabled');
+                        $('#validationMsg').attr('class', "messageBalloon_failure");
+                    }
+                    else{
+                        $('#btnSave').removeAttr('disabled');
+                        $('#validationMsg').removeAttr('class');
+                        $('#validationMsg').html("");
+                        $(".messageBalloon_success").remove();
+                    }
+                }
+            }).responseText;
+        }
+        );
     }
-    );
 
     $("#commentDialog").dialog({
         autoOpen: false,

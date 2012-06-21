@@ -42,6 +42,7 @@ class User {
 	private $isHiringManager = false;
 	private $isInterviewer = false;
 	private $employeeListForAttendanceTotalSummaryReport;
+	private $employeeNameList = null;
 
 	public function getEmployeeListForAttendanceTotalSummaryReport() {
 		return $this->employeeListForAttendanceTotalSummaryReport;
@@ -56,6 +57,10 @@ class User {
 
 		return $this->actionableTimesheets;
 	}
+	
+    public function getEmployeeNameList() {
+        return $this->employeeNameList;
+    }
 
 	public function getAccessibleTimeSubMenus() {
 

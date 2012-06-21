@@ -102,6 +102,27 @@ class SystemUserService extends BaseService{
         }
     }
     
+    /**
+     * Return an array of System User Ids
+     * 
+     * <pre>
+     * 
+     * The output will be an array like below.
+     * 
+     * array(
+     *          0 => 1,
+     *          1 => 2,
+     *          2 => 3
+     * )
+     * </pre>
+     * 
+     * @version 2.7.1
+     * @return Array of System User Ids
+     */
+    public function getSystemUserIdList(){
+        return $this->getSystemUserDao()->getSystemUserIdList();
+    }
+    
    /**
      * Delete System Users
      * @param array $deletedIds 

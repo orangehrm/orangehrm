@@ -702,10 +702,11 @@ class EmployeeService extends BaseService {
      * Returns employee IDs of all the employees in the system
      * 
      * @version 2.7.1
+     * @param Boolean $excludeTerminatedEmployees Exclude Terminated employees or not
      * @return Array List of employee IDs
      */
-    public function getEmployeeIdList() {
-        return $this->getEmployeeDao()->getEmployeeIdList();
+    public function getEmployeeIdList($excludeTerminatedEmployees = true) {
+        return $this->getEmployeeDao()->getEmployeeIdList($excludeTerminatedEmployees);
     }
     
     /**
@@ -726,10 +727,11 @@ class EmployeeService extends BaseService {
      * @param $properties An array of strings containing names of required properties
      * @param $orderField Field to be used for ordering
      * @param $orderBy ASC or DESC
+     * @param Boolean $excludeTerminatedEmployees Exclude Terminated employees or not
      * @return Array Employee Property List 
      */
-    public function getEmployeePropertyList($properties, $orderField, $orderBy) {
-        return $this->getEmployeeDao()->getEmployeePropertyList($properties, $orderField, $orderBy);
+    public function getEmployeePropertyList($properties, $orderField, $orderBy, $excludeTerminatedEmployees = true) {
+        return $this->getEmployeeDao()->getEmployeePropertyList($properties, $orderField, $orderBy, $excludeTerminatedEmployees);
     }
     
 
@@ -862,10 +864,11 @@ class EmployeeService extends BaseService {
      * @param $properties An array of strings containing names of required properties
      * @param $orderField Field to be used for ordering
      * @param $orderBy ASC or DESC
+     * @param Boolean $excludeTerminatedEmployees Exclude Terminated employees or not
      * @return Array Employee Property List 
      */    
-    public function getSubordinatePropertyListBySupervisorId($supervisorId, $properties, $orderField, $orderBy) {
-        return $this->getEmployeeDao()->getSubordinatePropertyListBySupervisorId($supervisorId, $properties, $orderField, $orderBy);
+    public function getSubordinatePropertyListBySupervisorId($supervisorId, $properties, $orderField, $orderBy, $excludeTerminatedEmployees = true) {
+        return $this->getEmployeeDao()->getSubordinatePropertyListBySupervisorId($supervisorId, $properties, $orderField, $orderBy, $excludeTerminatedEmployees);
     }
 
     /**

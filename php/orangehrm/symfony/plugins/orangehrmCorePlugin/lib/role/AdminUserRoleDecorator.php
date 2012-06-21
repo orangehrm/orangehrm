@@ -284,7 +284,7 @@ class AdminUserRoleDecorator extends UserRoleDecorator {
 		$temp = $this->user->getNextState($workFlow, $state, $action);
 
 		if (is_null($tempNextState)) {
-			return $temp;
+		    return $temp;
 		}
 
 		return $tempNextState;
@@ -298,65 +298,42 @@ class AdminUserRoleDecorator extends UserRoleDecorator {
 	 */
 	public function getAllAlowedRecruitmentApplicationStates($flow) {
 
-		$accessFlowStateMachineService = new AccessFlowStateMachineService();
-		$applicationStates = $accessFlowStateMachineService->getAllAlowedRecruitmentApplicationStates($flow, AdminUserRoleDecorator::ADMIN_USER);
-		$existingStates = $this->user->getAllAlowedRecruitmentApplicationStates($flow);
-		if (is_null($applicationStates)) {
-			return $existingStates;
-		} else {
-			$applicationStates = array_unique(array_merge($applicationStates, $existingStates));
-			return $applicationStates;
-		}
+	    $accessFlowStateMachineService = new AccessFlowStateMachineService();
+	    $applicationStates = $accessFlowStateMachineService->getAllAlowedRecruitmentApplicationStates($flow, AdminUserRoleDecorator::ADMIN_USER);
+	    $existingStates = $this->user->getAllAlowedRecruitmentApplicationStates($flow);
+	    if (is_null($applicationStates)) {
+	        return $existingStates;
+	    } else {
+	        $applicationStates = array_unique(array_merge($applicationStates, $existingStates));
+	        return $applicationStates;
+	    }
 	}
 
-	public function getActionableTimesheets() {
-
-		$accessFlowStateMachinService = new AccessFlowStateMachineService();
-		$action = array(PluginWorkflowStateMachine::TIMESHEET_ACTION_APPROVE, PluginWorkflowStateMachine::TIMESHEET_ACTION_REJECT);
-		$actionableStatesList = $accessFlowStateMachinService->getActionableStates(PluginWorkflowStateMachine::FLOW_TIME_TIMESHEET, AdminUserRoleDecorator::ADMIN_USER, $action);
-
-		$subordinateListObjects = $this->getEmployeeService()->getSubordinateListForEmployee($this->getEmployeeNumber());
-		$subordinateList = array();
-		$employeeList = array();
-		foreach ($subordinateListObjects as $subordinate) {
-			$subordinateList[] = $subordinate->getSubordinate();
-		}
-		$subordinateIdList = $this->getEmployeeService()->getSubordinateIdList();
-		$allEmployeeList = $this->getEmployeeList();
-		foreach ($allEmployeeList as $employee) {
-			if (!in_array($employee->getEmpNumber(), $subordinateIdList)) {
-				$employeeList[] = $employee;
-			}
-		}
-
-		if ($actionableStatesList != null) {
-			foreach (array_merge($subordinateList, $employeeList) as $employee) {
-
-				$timesheetList = $this->getTimesheetService()->getTimesheetByEmployeeIdAndState($employee->getEmpNumber(), $actionableStatesList);
-
-				if (!is_null($timesheetList)) {
-					foreach ($timesheetList as $timesheet) {
-
-						$pendingApprovelTimesheetArray["timesheetId"] = $timesheet->getTimesheetId();
-						$pendingApprovelTimesheetArray["employeeFirstName"] = $employee->getFirstName();
-						$pendingApprovelTimesheetArray["employeeLastName"] = $employee->getLastName();
-						$pendingApprovelTimesheetArray["timesheetStartday"] = $timesheet->getStartDate();
-						$pendingApprovelTimesheetArray["timesheetEndDate"] = $timesheet->getEndDate();
-						$pendingApprovelTimesheetArray["employeeId"] = $employee->getEmpNumber();
-						$pendingApprovelTimesheets[] = $pendingApprovelTimesheetArray;
-					}
-				}
-			}
-		}
-
-		if ($pendingApprovelTimesheets[0] != null) {
-
-			return $pendingApprovelTimesheets;
-		} else {
-
-			return $this->user->getActionableTimesheets();
-		}
-	}
+    public function getActionableTimesheets() {
+    
+        $accessFlowStateMachinService = new AccessFlowStateMachineService();
+        $action = array(PluginWorkflowStateMachine::TIMESHEET_ACTION_APPROVE, PluginWorkflowStateMachine::TIMESHEET_ACTION_REJECT);
+        $actionableStatesList = $accessFlowStateMachinService->getActionableStates(PluginWorkflowStateMachine::FLOW_TIME_TIMESHEET, AdminUserRoleDecorator::ADMIN_USER, $action);
+        
+        $subordinateIdList = $this->getEmployeeService()->getSubordinateIdListBySupervisorId($this->getEmployeeNumber());
+        $employeeIdList = $this->getEmployeeService()->getEmployeeIdList(true);
+        $fullIdList = array_merge($subordinateIdList, $employeeIdList);
+        
+        if ($actionableStatesList != null) {
+            $timesheetList = $this->getTimesheetService()->getTimesheetListByEmployeeIdAndState($fullIdList, $actionableStatesList, 100);
+        }
+        
+        if ($timesheetList != null) {
+            return $timesheetList;
+        } else {
+            return $this->user->getActionableTimesheets();
+        }
+    }
+	
+    public function getEmployeeNameList() {
+        $properties = array("empNumber","firstName", "middleName", "lastName", "termination_id");
+        return $this->getEmployeeService()->getEmployeePropertyList($properties, 'lastName', 'ASC', false);
+    }
 
 	public function getActionableAttendanceStates($actions) {
 

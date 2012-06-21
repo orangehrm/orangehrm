@@ -106,6 +106,29 @@ class CustomerService extends BaseService {
 	public function getAllCustomers($activeOnly) {
 		return $this->customerDao->getAllCustomers($activeOnly);
 	}
+	
+    /**
+     * Return an array of Customer Names
+     * 
+     * <pre>
+     * Ex: $customerIdList = array(1, 2);
+     * 
+     * For above $customerIdList parameter there will be an array like below as the response.
+     * 
+     * array(
+     *          0 => array('customerId' => 1, 'name' => 'Xavier'),
+     *          1 => array('customerId' => 2, 'name' => 'ACME')
+     * )
+     * </pre>
+     * 
+     * @version 2.7.1
+     * @param Array $customerIdList List of Customer Ids
+     * @param Boolean $excludeDeletedCustomers Exclude deleted Customers or not
+     * @return Array of Customer Names
+     */
+    public function getCustomerNameList($customerIdList, $excludeDeletedCustomers = true) {
+        return $this->customerDao->getCustomerNameList($customerIdList, $excludeDeletedCustomers);
+    }
 
 	/**
 	 * Check wheather the customer has any timesheet records

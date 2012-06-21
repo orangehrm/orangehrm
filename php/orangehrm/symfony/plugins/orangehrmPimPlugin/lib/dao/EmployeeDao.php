@@ -870,15 +870,22 @@ class EmployeeDao extends BaseDao {
     
     /**
      * Get Employee id list
+     * 
+     * @version 2.7.1
+     * @param Boolean $excludeTerminatedEmployees 
      * @returns Array EmployeeId List
      * @throws DaoException
      */
-    public function getEmployeeIdList() {
+    public function getEmployeeIdList($excludeTerminatedEmployees = true) {
         
         try {
                 $q = Doctrine_Query :: create()
                             ->select('e.empNumber')
                             ->from('Employee e');
+                
+                if ($excludeTerminatedEmployees) {
+                    $q->andwhere("e.termination_id IS NULL");
+                }
                 $employeeIds = $q->execute(array(), Doctrine_Core::HYDRATE_SINGLE_SCALAR);
 
                 return $employeeIds;
@@ -892,10 +899,13 @@ class EmployeeDao extends BaseDao {
     
     /**
      * Get List of Employee Properties
+     * 
+     * @version 2.7.1
+     * @param Boolean $excludeTerminatedEmployees
      * @returns Array List of Employee Properties 
      * @throws DaoException
      */
-    public function getEmployeePropertyList($properties, $orderField, $orderBy) {
+    public function getEmployeePropertyList($properties, $orderField, $orderBy, $excludeTerminatedEmployees = true) {
 
         try {
                 $q = Doctrine_Query :: create();
@@ -903,7 +913,12 @@ class EmployeeDao extends BaseDao {
                     $q->addSelect($property);
                 }
                 $q->from('Employee e');
-                if($orderField && $orderBy) {
+                
+                if ($excludeTerminatedEmployees) {
+                    $q->andwhere("e.termination_id IS NULL");
+                }
+                
+                if ($orderField && $orderBy) {
                     $q->orderBy($orderField . ' ' . $orderBy);
                 }
 
@@ -1079,14 +1094,16 @@ class EmployeeDao extends BaseDao {
     
     /**
      * Get List of Subordinate Properties by supervisor id
+     * 
      * @param int $supervisorId
      * @param Array $properties
      * @param String $orderField
      * @param String $orderBy
+     * @param Boolean $excludeTerminatedEmployees
      * @returns Array List of Subordinate Properties
      * @throws DaoException
      */
-    public function getSubordinatePropertyListBySupervisorId($supervisorId, $properties, $orderField, $orderBy) {
+    public function getSubordinatePropertyListBySupervisorId($supervisorId, $properties, $orderField, $orderBy, $excludeTerminatedEmployees = true) {
 
         try {
 
@@ -1101,6 +1118,10 @@ class EmployeeDao extends BaseDao {
               ->leftJoin('rt.subordinate e')
               ->where("rt.supervisorId=$supervisorId");
             
+            if ($excludeTerminatedEmployees) {
+                $q->addWhere("e.termination_id IS NULL");
+            }
+            
             if($orderField && $orderBy) {
                 $q->orderBy('e.'.$orderField . ' ' . $orderBy);
             }
@@ -1108,7 +1129,7 @@ class EmployeeDao extends BaseDao {
             $subordinates =  $q->fetchArray();
             foreach ($subordinates as $subordinate) {
                 $employeePropertyList[$subordinate['subordinateId']] = $subordinate['subordinate'];
-                $subordinatePropertyList = $this->getSubordinatePropertyListBySupervisorId($subordinate['subordinateId'], $properties, $orderField, $orderBy);
+                $subordinatePropertyList = $this->getSubordinatePropertyListBySupervisorId($subordinate['subordinateId'], $properties, $orderField, $orderBy, $excludeTerminatedEmployees);
                 if (count($subordinatePropertyList) > 0) {
                     foreach ($subordinatePropertyList as $key => $value) {
                         $employeePropertyList[$key] = $value;

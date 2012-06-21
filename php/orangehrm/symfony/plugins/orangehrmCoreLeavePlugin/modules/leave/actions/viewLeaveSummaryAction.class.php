@@ -123,8 +123,7 @@ class viewLeaveSummaryAction extends sfAction implements ohrmExportableAction {
         $offset = ($pageNo - 1) * $noOfRecords;
         
         $this->leavePeriodId = $clues['cmbLeavePeriod'];
-        $loggedInUserId = $this->getUser()->getEmployeeNumber();
-        $listData = $leaveSummaryService->searchLeaveSummary($clues, $offset, $noOfRecords, $loggedInUserId);
+        $listData = $leaveSummaryService->searchLeaveSummary($clues, $offset, $noOfRecords);
         $totalRecordsCount = $leaveSummaryService->searchLeaveSummaryCount($clues);
         $this->form->recordsCount = $totalRecordsCount;
         

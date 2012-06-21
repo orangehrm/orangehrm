@@ -14,7 +14,7 @@ class ProjectHeaderFactory extends ohrmListConfigurationFactory {
 		    'isSortable' => true,
 		    'sortField' => 'name',
 		    'elementType' => 'label',
-		    'elementProperty' => array('getter' => 'getCustomerName'),
+		    'elementProperty' => array('getter' => 'customerName'),
 		    
 		));
 		
@@ -25,8 +25,8 @@ class ProjectHeaderFactory extends ohrmListConfigurationFactory {
 		    'sortField' => 'name',
 		    'elementType' => 'link',
 		    'elementProperty' => array(
-			'labelGetter' => 'getName',
-			'placeholderGetters' => array('id' => 'getProjectId'),
+			'labelGetter' => 'projectName',
+			'placeholderGetters' => array('id' => 'projectId'),
 			'urlPattern' => 'saveProject?projectId={id}'),
 		));
 
@@ -34,7 +34,7 @@ class ProjectHeaderFactory extends ohrmListConfigurationFactory {
 		    'name' => 'Project Admins',
 		    'width' => '33%',
 		    'elementType' => 'label',
-		    'elementProperty' => array('getter' => 'getProjectAdminNames'),
+		    'elementProperty' => array('getter' => 'projectAdminName'),
 		));
 
 		$this->headers = array($header1, $header2, $header3);

@@ -166,6 +166,45 @@ class CustomerDao extends BaseDao {
 			throw new DaoException($e->getMessage());
 		}
 	}
+    
+    /**
+     * Return an array of Customer Names
+     * 
+     * @version 2.7.1
+     * @param Array $customerIdList List of Customer Ids
+     * @param Boolean $excludeDeletedCustomers Exclude deleted Customers or not
+     * @return Array of Customer Names
+     */
+    public function getCustomerNameList($customerIdList, $excludeDeletedCustomers = true) {
+
+        try {
+            
+            if (!empty($customerIdList)) {
+                
+                $customerIdString = implode(',', $customerIdList);
+                
+                $q = "SELECT c.customer_id AS customerId, c.name
+                		FROM ohrm_customer AS c
+                		WHERE c.customer_id IN ({$customerIdString})";
+                
+                if ($excludeDeletedCustomers) {
+                    $q .= ' AND c.is_deleted = 0';
+                }
+
+                $pdo = Doctrine_Manager::connection()->getDbh();
+                $query = $pdo->prepare($q);
+                $query->execute();
+                $results = $query->fetchAll(PDO::FETCH_ASSOC);
+            }
+            
+            return $results;
+            
+        // @codeCoverageIgnoreStart
+        } catch (Exception $e) {
+            throw new DaoException($e->getMessage(), $e->getCode(), $e);
+        }
+        // @codeCoverageIgnoreEnd
+    }
 
 	/**
 	 *

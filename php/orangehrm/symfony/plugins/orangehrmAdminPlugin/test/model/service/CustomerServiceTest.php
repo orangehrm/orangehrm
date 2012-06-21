@@ -129,6 +129,29 @@ class CustomerServiceTest extends PHPUnit_Framework_TestCase {
 		$this->assertEquals($result,true);
 	}
 	
+    public function testGetCustomerNameList() {
+
+        $allowdCustomers = array(1, 2);
+        $customer1['customerId'] = 1;
+        $customer1['name'] = 'Xavier';
+        
+        $customer2['customerId'] = 2;
+        $customer2['name'] = 'ACME';
+        
+        $customers = array($customer1, $customer2);
+        
+        $customerDao = $this->getMock('CustomerDao');
+        $customerDao->expects($this->once())
+            ->method('getCustomerNameList')
+            ->with($allowdCustomers, true)
+            ->will($this->returnValue($customers));
+        
+        $this->customerService->setCustomerDao($customerDao);
+        
+        $result = $this->customerService->getCustomerNameList($allowdCustomers, true);
+        $this->assertEquals($customers[0],$result[0]);
+    }
+	
 	
 }
 

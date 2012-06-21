@@ -176,6 +176,11 @@ class SupervisorUserRoleDecorator extends UserRoleDecorator {
 		$employeeList = $this->getEmployeeService()->getSupervisorEmployeeChain($this->getEmployeeNumber(), true);
 		return $employeeList;
 	}
+	
+    public function getEmployeeNameList() {
+        $properties = array("empNumber","firstName", "middleName", "lastName", "termination_id");
+        $results = $this->getEmployeeService()->getSubordinatePropertyListBySupervisorId($this->getEmployeeNumber(), $properties, 'lastName', 'ASC', false);
+    }
 
 	public function getEmployeeListForAttendanceTotalSummaryReport() {
 
@@ -229,38 +234,16 @@ class SupervisorUserRoleDecorator extends UserRoleDecorator {
 		$action = array(PluginWorkflowStateMachine::TIMESHEET_ACTION_APPROVE, PluginWorkflowStateMachine::TIMESHEET_ACTION_REJECT);
 		$actionableStatesList = $accessFlowStateMachinService->getActionableStates(PluginWorkflowStateMachine::FLOW_TIME_TIMESHEET, SupervisorUserRoleDecorator::SUPERVISOR_USER, $action);
 
-		$subordinateListObjects = $this->getEmployeeService()->getSubordinateListForEmployee($this->getEmployeeNumber());
-		$subordinateList = array();
-		foreach ($subordinateListObjects as $subordinate) {
-			$subordinateList[] = $subordinate->getSubordinate();
-		}
+        $subordinateIdList = $this->getEmployeeService()->getSubordinateIdListBySupervisorId($this->getEmployeeNumber());
 
 		if ($actionableStatesList != null) {
-			foreach ($subordinateList as $employee) {
-
-				$timesheetList = $this->getTimesheetService()->getTimesheetByEmployeeIdAndState($employee->getEmpNumber(), $actionableStatesList);
-
-				if ($timesheetList != null) {
-
-					foreach ($timesheetList as $timesheet) {
-
-						$pendingApprovelTimesheetArray["timesheetId"] = $timesheet->getTimesheetId();
-						$pendingApprovelTimesheetArray["employeeFirstName"] = $employee->getFirstName();
-						$pendingApprovelTimesheetArray["employeeLastName"] = $employee->getLastName();
-						$pendingApprovelTimesheetArray["timesheetStartday"] = $timesheet->getStartDate();
-						$pendingApprovelTimesheetArray["timesheetEndDate"] = $timesheet->getEndDate();
-						$pendingApprovelTimesheetArray["employeeId"] = $employee->getEmpNumber();
-						$pendingApprovelTimesheets[] = $pendingApprovelTimesheetArray;
-					}
-				}
-			}
+		    $timesheetList = $this->getTimesheetService()->getTimesheetListByEmployeeIdAndState($subordinateIdList, $actionableStatesList, 100);
 		}
-		if ($pendingApprovelTimesheets[0] != null) {
-
-			return $pendingApprovelTimesheets;
+        
+        if ($timesheetList != null) {
+            return $timesheetList;
 		} else {
-
-			return $this->user->getActionableTimesheets();
+            return $this->user->getActionableTimesheets();
 		}
 	}
 

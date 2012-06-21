@@ -1515,7 +1515,7 @@ class EmployeeServiceTest extends PHPUnit_Framework_TestCase {
              ->will($this->returnValue($employeeIdList));
         
         $this->employeeService->setEmployeeDao($mockDao);
-        $result = $this->employeeService->getEmployeeIdList();
+        $result = $this->employeeService->getEmployeeIdList(true);
         $this->compareArrays($employeeIdList, $result);
         
     }
@@ -1535,7 +1535,7 @@ class EmployeeServiceTest extends PHPUnit_Framework_TestCase {
              ->will($this->returnValue($employeePropertyArray));
         
         $this->employeeService->setEmployeeDao($mockDao);
-        $result = $this->employeeService->getEmployeePropertyList($properties, 'empNumber', ASC);
+        $result = $this->employeeService->getEmployeePropertyList($properties, 'empNumber', ASC, true);
         $this->compareArrays($employeePropertyArray, $result);
         
     }
@@ -1573,7 +1573,7 @@ class EmployeeServiceTest extends PHPUnit_Framework_TestCase {
              ->will($this->returnValue($subordinatePropertyArray));
         
         $this->employeeService->setEmployeeDao($mockDao);
-        $result = $this->employeeService->getSubordinatePropertyListBySupervisorId(3, $properties, 'empNumber', 'ASC');
+        $result = $this->employeeService->getSubordinatePropertyListBySupervisorId(3, $properties, 'empNumber', 'ASC', true);
         $this->compareArrays($subordinatePropertyArray, $result);
         
     }
