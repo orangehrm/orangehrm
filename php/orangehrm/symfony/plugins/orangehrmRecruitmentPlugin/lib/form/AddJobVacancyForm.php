@@ -180,15 +180,13 @@ class AddJobVacancyForm extends BaseForm {
         $employeeService->setEmployeeDao(new EmployeeDao());
 
         $properties = array("empNumber","firstName", "middleName", "lastName", "termination_id");
-        $employeeList = $employeeService->getEmployeePropertyList($properties, 'lastName', 'ASC');
+        $employeeList = $employeeService->getEmployeePropertyList($properties, 'lastName', 'ASC', true);
 
         foreach ($employeeList as $employee) {
-            if (empty($employee['termination_id'])) {
-                $empNumber = $employee['empNumber'];
-                $name = trim(trim($employee['firstName'] . ' ' . $employee['middleName'],' ') . ' ' . $employee['lastName']);
-            
-                $jsonArray[] = array('name' => $name, 'id' => $empNumber);
-            }
+            $empNumber = $employee['empNumber'];
+            $name = trim(trim($employee['firstName'] . ' ' . $employee['middleName'],' ') . ' ' . $employee['lastName']);
+        
+            $jsonArray[] = array('name' => $name, 'id' => $empNumber);
         }
         $jsonString = json_encode($jsonArray);
         return $jsonString;

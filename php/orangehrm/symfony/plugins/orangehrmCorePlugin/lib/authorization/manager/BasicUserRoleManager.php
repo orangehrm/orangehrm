@@ -126,7 +126,7 @@ class BasicUserRoleManager extends AbstractUserRoleManager {
             $propertyList = array();
             switch ($entityType) {
                 case 'Employee':
-                    $propertyList = $this->getAccessibleEmployeePropertyList($role, $properties, $orderField, $orderBy, true);
+                    $propertyList = $this->getAccessibleEmployeePropertyList($role, $properties, $orderField, $orderBy);
                     break;
             }
             
@@ -145,11 +145,11 @@ class BasicUserRoleManager extends AbstractUserRoleManager {
             $employeeProperties = array();
         
             if ('Admin' == $role->getName()) {
-                $employeeProperties = $this->getEmployeeService()->getEmployeePropertyList($properties, $orderField, $orderBy);
+                $employeeProperties = $this->getEmployeeService()->getEmployeePropertyList($properties, $orderField, $orderBy, false);
             } else if ('Supervisor' == $role->getName()) {
                 $empNumber = $this->getUser()->getEmpNumber();
                 if (!empty($empNumber)) {
-                    $employeeProperties = $this->getEmployeeService()->getSubordinatePropertyListBySupervisorId($empNumber, $properties, $orderField, $orderBy, true);
+                    $employeeProperties = $this->getEmployeeService()->getSubordinatePropertyListBySupervisorId($empNumber, $properties, $orderField, $orderBy, false);
                 }
             }
             
@@ -307,7 +307,7 @@ class BasicUserRoleManager extends AbstractUserRoleManager {
     protected function getAccessibleEmployeeIds($role, $operation = null, $returnType = null) {
         $employeeIdArray = array();
         if ('Admin' == $role->getName()) {
-            $employeeIdArray = $this->getEmployeeService()->getEmployeeIdList(true);
+            $employeeIdArray = $this->getEmployeeService()->getEmployeeIdList(false);
         } else if ('Supervisor' == $role->getName()) {
             $empNumber = $this->getUser()->getEmpNumber();
             if (!empty($empNumber)) {

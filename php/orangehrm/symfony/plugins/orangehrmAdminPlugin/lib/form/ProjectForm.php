@@ -175,20 +175,15 @@ class ProjectForm extends BaseForm {
 		$employeeService = new EmployeeService();
 		$employeeService->setEmployeeDao(new EmployeeDao());
 
-		$employeeList = $employeeService->getEmployeeList('empNumber', 'ASC');
-		$employeeUnique = array();
-		foreach ($employeeList as $employee) {
-
-			if (!isset($employeeUnique[$employee->getEmpNumber()])) {
-
-				$name = $employee->getFirstName() . " " . $employee->getMiddleName();
-				$name = trim(trim($name) . " " . $employee->getLastName());
-
-				$employeeUnique[$employee->getEmpNumber()] = $name;
-				$jsonArray[] = array('name' => $name, 'id' => $employee->getEmpNumber());
-			}
-		}
-
+        $properties = array("empNumber","firstName", "middleName", "lastName");
+        $employeeList = $employeeService->getEmployeePropertyList($properties, 'lastName', 'ASC', true);
+        
+        foreach ($employeeList as $employee) {
+            $empNumber = $employee['empNumber'];
+            $name = trim(trim($employee['firstName'] . ' ' . $employee['middleName'],' ') . ' ' . $employee['lastName']);
+            
+            $jsonArray[] = array('name' => $name, 'id' => $empNumber);
+        }
 		$jsonString = json_encode($jsonArray);
 
 		return $jsonString;
@@ -229,15 +224,16 @@ class ProjectForm extends BaseForm {
 	}
 
 	public function getCustomerProjectListAsJson() {
-
+        $timesheetService = new TimesheetService();
+        $timesheetService->setTimesheetDao(new TimesheetDao());
 		$jsonArray = array();
 
-		$projectList = $this->getProjectService()->getAllProjects();
+		$projectList = $timesheetService->getProjectNameList();
 
 
 		foreach ($projectList as $project) {
-			if ($this->projectId != $project->getProjectId()) {
-				$jsonArray[] = array('name' => $project->getCustomer()->getName() . " - ##" . $project->getName(), 'id' => $project->getProjectId());
+			if ($this->projectId != $project['projectId']) {
+				$jsonArray[] = array('name' => $project['customerName'] . " - ##" . $project['projectName'], 'id' => $project['projectId']);
 			}
 		}
 

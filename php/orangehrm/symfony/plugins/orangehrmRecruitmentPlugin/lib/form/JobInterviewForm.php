@@ -240,15 +240,12 @@ class JobInterviewForm extends BaseForm {
         $employeeService->setEmployeeDao(new EmployeeDao());
 
         $properties = array("empNumber","firstName", "middleName", "lastName", 'termination_id');
-        $employeeList = $employeeService->getEmployeePropertyList($properties, 'lastName', 'ASC');
+        $employeeList = $employeeService->getEmployeePropertyList($properties, 'lastName', 'ASC', true);
         
         foreach ($employeeList as $employee) {
             $empNumber = $employee['empNumber'];
             $name = trim(trim($employee['firstName'] . ' ' . $employee['middleName'],' ') . ' ' . $employee['lastName']);
             
-            if ($employee['termination_id']) {
-                $name = $name. ' ('.__('Past Employee') .')';
-            }
             $jsonArray[] = array('name' => $name, 'id' => $empNumber);
         }
 

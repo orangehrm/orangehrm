@@ -95,7 +95,9 @@ class EmployeeSearchForm extends BaseForm {
 
             $name = $employee->getFirstName() . " " . $employee->getMiddleName();
             $name = trim(trim($name) . " " . $employee->getLastName());
-
+            if ($employee->getTerminationId()) {
+                $name = $name. ' ('.__('Past Employee') .')';
+            }
             $jsonArray[] = array('name' => $name, 'id' => $employee->getEmpNumber());
         }
 

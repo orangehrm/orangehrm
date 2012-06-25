@@ -876,7 +876,7 @@ class EmployeeDao extends BaseDao {
      * @returns Array EmployeeId List
      * @throws DaoException
      */
-    public function getEmployeeIdList($excludeTerminatedEmployees = true) {
+    public function getEmployeeIdList($excludeTerminatedEmployees = false) {
         
         try {
                 $q = Doctrine_Query :: create()
@@ -905,7 +905,7 @@ class EmployeeDao extends BaseDao {
      * @returns Array List of Employee Properties 
      * @throws DaoException
      */
-    public function getEmployeePropertyList($properties, $orderField, $orderBy, $excludeTerminatedEmployees = true) {
+    public function getEmployeePropertyList($properties, $orderField, $orderBy, $excludeTerminatedEmployees = false) {
 
         try {
                 $q = Doctrine_Query :: create();
@@ -944,7 +944,7 @@ class EmployeeDao extends BaseDao {
     public function getSupervisorList() {
         try {
             $q = Doctrine_Query :: create()
-                            ->select('e.firstName, e.lastName, e.empNumber, s.empNumber')
+                            ->select('e.firstName, e.lastName, e.empNumber, s.termination_id')
                             ->from('Employee e')
                             ->innerJoin('e.subordinates s')
                             ->orderBy('e.lastName DESC');

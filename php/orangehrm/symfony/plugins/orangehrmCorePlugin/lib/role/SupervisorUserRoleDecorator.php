@@ -179,7 +179,7 @@ class SupervisorUserRoleDecorator extends UserRoleDecorator {
 	
     public function getEmployeeNameList() {
         $properties = array("empNumber","firstName", "middleName", "lastName", "termination_id");
-        $results = $this->getEmployeeService()->getSubordinatePropertyListBySupervisorId($this->getEmployeeNumber(), $properties, 'lastName', 'ASC', false);
+        return $this->getEmployeeService()->getSubordinatePropertyListBySupervisorId($this->getEmployeeNumber(), $properties, 'lastName', 'ASC', false);
     }
 
 	public function getEmployeeListForAttendanceTotalSummaryReport() {

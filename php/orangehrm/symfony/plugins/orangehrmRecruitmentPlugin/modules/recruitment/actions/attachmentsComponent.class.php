@@ -47,7 +47,7 @@ class attachmentsComponent extends sfComponent {
 		}
 
 		//$attachments = $this->getRecruitmentAttachmentService()->getVacancyAttachment($this->id);
-		$attachments = $this->getRecruitmentAttachmentService()->getEmployeeAttachments($this->id, $this->screen);
+		$attachments = $this->getRecruitmentAttachmentService()->getAttachments($this->id, $this->screen);
 		$this->attachmentList = array();
 		if (!empty($attachments)) {
 			foreach ($attachments as $attachment) {

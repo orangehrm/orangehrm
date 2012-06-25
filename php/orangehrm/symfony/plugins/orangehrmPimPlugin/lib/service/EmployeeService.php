@@ -705,7 +705,7 @@ class EmployeeService extends BaseService {
      * @param Boolean $excludeTerminatedEmployees Exclude Terminated employees or not
      * @return Array List of employee IDs
      */
-    public function getEmployeeIdList($excludeTerminatedEmployees = true) {
+    public function getEmployeeIdList($excludeTerminatedEmployees = false) {
         return $this->getEmployeeDao()->getEmployeeIdList($excludeTerminatedEmployees);
     }
     
@@ -730,7 +730,7 @@ class EmployeeService extends BaseService {
      * @param Boolean $excludeTerminatedEmployees Exclude Terminated employees or not
      * @return Array Employee Property List 
      */
-    public function getEmployeePropertyList($properties, $orderField, $orderBy, $excludeTerminatedEmployees = true) {
+    public function getEmployeePropertyList($properties, $orderField, $orderBy, $excludeTerminatedEmployees = false) {
         return $this->getEmployeeDao()->getEmployeePropertyList($properties, $orderField, $orderBy, $excludeTerminatedEmployees);
     }
     
