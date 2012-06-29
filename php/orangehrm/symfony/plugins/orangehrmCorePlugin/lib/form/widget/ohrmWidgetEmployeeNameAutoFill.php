@@ -88,6 +88,7 @@ class ohrmWidgetEmployeeNameAutoFill extends sfWidgetFormInput {
 
                     );
                  }else{
+                        var value = nameField.val().trim();
                         nameField.val('%s').addClass('loading');
                         $.ajax({
                                url: "%s",
@@ -108,9 +109,12 @@ class ohrmWidgetEmployeeNameAutoFill extends sfWidgetFormInput {
                                         );
                                          nameField.css("background-image", "none"); 
                                         
-                                         nameField.val(typeHint).addClass(hintClass);
-                                         
-                               }
+                                         if(value==''){
+                                            nameField.val(typeHint).addClass(hintClass);
+                                         } else {
+                                            nameField.val(value).addClass();
+                                         }
+                                    }
                              });
                  }
                 
