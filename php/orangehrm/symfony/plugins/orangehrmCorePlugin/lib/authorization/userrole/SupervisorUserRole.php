@@ -69,7 +69,7 @@ class SupervisorUserRole implements UserRoleInterface {
 
         $empNumber = sfContext::getInstance()->getUser()->getEmployeeNumber();
         if (!empty($empNumber)) {
-            $employees = $this->getEmployeeService()->getSupervisorEmployeeChain($empNumber, true);
+            $employees = $this->getEmployeeService()->getSubordinateList($empNumber, true);
         }
 
         $employeesWithIds = array();

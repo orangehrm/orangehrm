@@ -27,6 +27,7 @@ class EmployeeReportToForm extends BaseForm {
     public $empNumber;
     private $employeeService;
     private $reportingMethodService;
+    private $employeeList;
 
     /**
      * Get EmployeeService
@@ -65,6 +66,7 @@ class EmployeeReportToForm extends BaseForm {
 
     public function configure() {
 
+        $this->setEmployeeList();
         $reportingMethodType = $this->getReportingMethodType();
 
         $this->empNumber = $this->getOption('empNumber');
@@ -77,7 +79,8 @@ class EmployeeReportToForm extends BaseForm {
                     array('value' => $this->empNumber)),
             'type_flag' => new sfWidgetFormChoice(array('expanded' => true, 'choices' => array(
                     ReportTo::SUPERVISOR => __('Supervisor'), ReportTo::SUBORDINATE => __('Subordinate')), 'default' => ReportTo::SUPERVISOR)),
-            'name' => new ohrmWidgetEmployeeNameAutoFill(array('employeeList' => $this->getEmployeeList())),
+            'supervisorName' => new ohrmWidgetEmployeeNameAutoFill(array('employeeList' => $this->getEmployeeListForSupervisor())),
+            'subordinateName' => new ohrmWidgetEmployeeNameAutoFill(array('employeeList' => $this->getEmployeeListForSubordinate())),
             'previousRecord' => new sfWidgetFormInputHidden(),
             'reportingMethodType' => new sfWidgetFormSelect(array('choices' => $reportingMethodType)),
             'reportingMethod' => new sfWidgetFormInputText()
@@ -89,7 +92,8 @@ class EmployeeReportToForm extends BaseForm {
             'empNumber' => new sfValidatorNumber(array('required' => true, 'min' => 0)),
             'type_flag' => new sfValidatorChoice(array('required' => true,
                 'choices' => array(ReportTo::SUPERVISOR, ReportTo::SUBORDINATE))),
-            'name' => new ohrmValidatorEmployeeNameAutoFill(),
+            'supervisorName' => new ohrmValidatorEmployeeNameAutoFill(),
+            'subordinateName' => new ohrmValidatorEmployeeNameAutoFill(),
             'name_id' => new sfValidatorString(array('required' => false)),
             'previousRecord' => new sfValidatorString(array('required' => false)),
             'reportingMethodType' => new sfValidatorString(array('required' => true), array('required' => 'Select reporting method')),
@@ -98,6 +102,13 @@ class EmployeeReportToForm extends BaseForm {
         $this->widgetSchema->setNameFormat('reportto[%s]');
     }
 
+    private function setEmployeeList() {
+        
+        $employeeService = $this->getEmployeeService();
+       
+        $properties = array("empNumber","firstName", "middleName", "lastName", "termination_id");
+        $this->employeeList = $employeeService->getEmployeePropertyList($properties, 'lastName', 'ASC', true);
+    }
     /**
      * Returns Reporting method Type
      * @return array
@@ -115,39 +126,67 @@ class EmployeeReportToForm extends BaseForm {
         return $list;
     }
 
-    protected function getEmployeeList() {
+    protected function getEmployeeListForSupervisor() {
 
         $employeeService = $this->getEmployeeService();
-       
-        $employeeList = UserRoleManagerFactory::getUserRoleManager()->getAccessibleEntities('Employee');
         
-        $finalEmployeeList = array();
+        $filteredEmployeeList = array();
 
         /* Populating already assigned sup & sub */
         $assignedReportTo = array();
         $supervisors = $employeeService->getImmediateSupervisors($this->empNumber);
+        $subordinateIdList = $employeeService->getSubordinateIdListBySupervisorId($this->empNumber, true);
+
+        foreach ($subordinateIdList as $id) {
+            $assignedReportTo[$id] = true;
+        }
+        
+        foreach ($supervisors as $supervisor) {
+            $assignedReportTo[$supervisor->getSupervisorId()] = true;
+        }
+        
+        /* Populating final list */
+        foreach ($this->employeeList as $employee) {
+
+            if (!isset($assignedReportTo[$employee['empNumber']]) && 
+                $employee['empNumber'] != $this->empNumber) {
+                $filteredEmployeeList[] = $employee;
+            }
+        }
+        
+        return $filteredEmployeeList;
+        
+    }
+    
+    protected function getEmployeeListForSubordinate() {
+
+        $employeeService = $this->getEmployeeService();
+        
+        $filteredEmployeeList = array();
+
+        /* Populating already assigned sup & sub */
+        $assignedReportTo = array();
+        $supervisorIdList = $employeeService->getSupervisorIdListBySubordinateId($this->empNumber, true);
         $subordinates = $employeeService->getSubordinateListForEmployee($this->empNumber);
 
         foreach ($subordinates as $subordinate) {
             $assignedReportTo[$subordinate->getSubordinateId()] = true;
         }
         
-        foreach ($supervisors as $supervisor) {
-            $assignedReportTo[$supervisor->getSupervisorId()] = true;
+        foreach ($supervisorIdList as $id) {
+            $assignedReportTo[$id] = true;
         }
-
+        
         /* Populating final list */
-        foreach ($employeeList as $employee) {
+        foreach ($this->employeeList as $employee) {
 
-            if (!isset($assignedReportTo[$employee->getEmpNumber()]) && 
-                $employee->getEmpNumber() != $this->empNumber) {
-
-                $finalEmployeeList[] = $employee;                
-                
+            if (!isset($assignedReportTo[$employee['empNumber']]) && 
+                $employee['empNumber'] != $this->empNumber) {
+                $filteredEmployeeList[] = $employee;
             }
         }
-
-        return $finalEmployeeList;
+        
+        return $filteredEmployeeList;
         
     }
     
@@ -159,11 +198,19 @@ class EmployeeReportToForm extends BaseForm {
         $updated = false;
         $empNumber = $this->getValue('empNumber');
         $supOrSub = $this->getValue('type_flag');
-        $empData = $this->getValue('name');
-        $name = $empData['empName'];
+        $supervisorName = $this->getValue('supervisorName');
+        $subordinateName = $this->getValue('subordinateName');
+        if ($supervisorName['empId'] != '') {
+            $name = $supervisorName['empName'];
+            $selectedEmployee = $supervisorName['empId'];
+        } else if ($subordinateName['empId'] != '') {
+            $name = $subordinateName['empName'];
+            $selectedEmployee = $subordinateName['empId'];
+        }
+        
         $reportingType = $this->getValue('reportingMethodType');
         $reportingMethod = $this->getValue('reportingMethod');
-        $selectedEmployee = $empData['empId'];
+        
         $previousRecord = $this->getValue('previousRecord');
 
         if ($reportingMethod != null) {

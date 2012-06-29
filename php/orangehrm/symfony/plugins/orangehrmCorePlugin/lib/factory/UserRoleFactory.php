@@ -43,7 +43,7 @@ class UserRoleFactory {
     public function isSupervisorRoleRelatedToEmployee($userId, $employeeId) {
 
         $employeeService = $this->getEmployeeService();
-        $employeeList = $employeeService->getSupervisorEmployeeChain($this->userEmployeeId);
+        $employeeList = $employeeService->getSubordinateList($this->userEmployeeId);
         $isSupervisor = false;
 
         foreach ($employeeList as $employee) {

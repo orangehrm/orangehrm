@@ -39,7 +39,8 @@ class ConfigService extends BaseService {
     const KEY_ADMIN_LOCALIZATION_DEFAULT_DATE_FORMAT = 'admin.localization.default_date_format';
     const KEY_NON_LEAP_YEAR_LEAVE_PERIOD_START_DATE = 'leave.nonLeapYearLeavePeriodStartDate';
     const KEY_IS_LEAVE_PERIOD_START_ON_FEB_29 = 'leave.isLeavePeriodStartOnFeb29th';
-    const KEY_LEAVE_PERIOD_START_DATE = 'leave.leavePeriodStartDate'; 
+    const KEY_LEAVE_PERIOD_START_DATE = 'leave.leavePeriodStartDate';
+    const KEY_INCLUDE_SUPERVISOR_CHAIN = 'include_supervisor_chain'; 
 
     /**
      * Get ConfigDao
@@ -127,6 +128,24 @@ class ConfigService extends BaseService {
     public function isLeavePeriodDefined() {
         $val = $this->_getConfigValue(self::KEY_LEAVE_PERIOD_DEFINED);
         return ($val == 'Yes');
+    }
+    
+    /**
+     * Retrun is Supervisor Chain suported
+     * @return boolean is Supervisor Chain suported
+     */
+    public function isSupervisorChainSuported() {
+        $val = $this->_getConfigValue(self::KEY_INCLUDE_SUPERVISOR_CHAIN);
+        return ($val == 'Yes');
+    }
+    
+    /**
+     * Set Supervisor Chain suported
+     * @param boolean $value true or false
+     */
+    public function setSupervisorChainSuported($value) {
+        $flag = $value ? 'Yes' : 'No';
+        $this->_setConfigValue(self::KEY_INCLUDE_SUPERVISOR_CHAIN, $flag);
     }
 
     /**

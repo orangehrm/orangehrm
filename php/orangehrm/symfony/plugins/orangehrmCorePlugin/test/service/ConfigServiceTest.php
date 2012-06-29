@@ -300,6 +300,53 @@ class ConfigServiceTest extends PHPUnit_Framework_TestCase {
         
     }
     
+    public function testSetSupervisorChainSuported() {
+        
+        $mockDao = $this->getMock('ConfigDao');
+        $mockDao->expects($this->once())
+                 ->method('setValue')
+                 ->with(ConfigService::KEY_INCLUDE_SUPERVISOR_CHAIN, 'Yes');
+
+        $this->configService->setConfigDao($mockDao);
+
+        $this->configService->setSupervisorChainSuported(true);
+        
+        $mockDao = $this->getMock('ConfigDao');
+        $mockDao->expects($this->once())
+                 ->method('setValue')
+                 ->with(ConfigService::KEY_INCLUDE_SUPERVISOR_CHAIN, 'No');
+
+        $this->configService->setConfigDao($mockDao);
+
+        $this->configService->setSupervisorChainSuported(false);
+        
+    }
+    
+    public function testIsSupervisorChainSuported() {
+
+        $mockDao = $this->getMock('ConfigDao');
+        $mockDao->expects($this->once())
+                 ->method('getValue')
+                 ->with(ConfigService::KEY_INCLUDE_SUPERVISOR_CHAIN)
+                 ->will($this->returnValue('Yes'));
+
+        $this->configService->setConfigDao($mockDao);
+
+        $returnVal = $this->configService->isSupervisorChainSuported();
+        $this->assertTrue($returnVal);
+
+        $mockDao = $this->getMock('ConfigDao');
+        $mockDao->expects($this->once())
+                 ->method('getValue')
+                 ->with(ConfigService::KEY_INCLUDE_SUPERVISOR_CHAIN)
+                 ->will($this->returnValue('No'));
+
+        $this->configService->setConfigDao($mockDao);
+        
+        $returnVal = $this->configService->isSupervisorChainSuported();
+        $this->assertFalse($returnVal);
+    }
+    
 }
 
 ?>

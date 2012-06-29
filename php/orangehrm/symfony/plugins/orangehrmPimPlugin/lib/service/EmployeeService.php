@@ -41,6 +41,7 @@ class EmployeeService extends BaseService {
      * @ignore
      */
     private $employeeDao;
+    private $configurationService;
 
     /**
      * Get Employee Dao
@@ -59,6 +60,29 @@ class EmployeeService extends BaseService {
      */
     public function setEmployeeDao(EmployeeDao $employeeDao) {
         $this->employeeDao = $employeeDao;
+    }
+    
+    /**
+     * Set Configuration Service
+     * @param ConfigService $configurationService
+     * @return void
+     * @ignore
+     */
+    public function setConfigurationService(ConfigService $configurationService) {
+        $this->configurationService = $configurationService;
+    }
+    
+    /**
+     * Get Configuration Service
+     * @return ConfigService
+     * @ignore
+     */
+    public function getConfigurationService() {
+        if($this->configurationService) {
+            return $this->configurationService;
+        } else {
+            return new ConfigService();
+        }
     }
 
     /**
@@ -817,19 +841,17 @@ class EmployeeService extends BaseService {
     }
 
     /**
-     * Retrieve Supervisor Employee Chain 
+     * Return List of Subordinates for given Supervisor
      * 
-     * @version 2.6.11
+     * @version 2.7.1
      * @param int $supervisorId Supervisor Id
-     * @param boolean $withoutTerminatedEmployees Terminated status
-     * @throws PIMServiceException 
-     * 
-     * @todo parameter name $withoutTerminatedEmployees does not give the correct meaning
-     * @todo rename method as getSubordinateChain($empNumber , $includeTerminated )
-     * @todo rename second parameter as include Terminated as change DAO method logic
+     * @param boolean $includeTerminated Terminated status
+     * @return Doctrine_Collection of Subordinates
      */
-    public function getSupervisorEmployeeChain($supervisorId, $withoutTerminatedEmployees = false) {
-        return $this->getEmployeeDao()->getSupervisorEmployeeChain($supervisorId, $withoutTerminatedEmployees);
+    public function getSubordinateList($supervisorId, $includeTerminated = false) {
+        $configService = $this->getConfigurationService();
+        $includeChain = $configService->isSupervisorChainSuported();
+        return $this->getEmployeeDao()->getSubordinateList($supervisorId, $includeTerminated, $includeChain);
     }
     
     /**
@@ -839,10 +861,33 @@ class EmployeeService extends BaseService {
      * 
      * @version 2.7.1
      * @param int $supervisorId Supervisor's ID
+     * @param boolean $includeChain Include Supervisor chain or not
      * @return Array An array of employee IDs
      */
-    public function getSubordinateIdListBySupervisorId($supervisorId) {
-        return $this->getEmployeeDao()->getSubordinateIdListBySupervisorId($supervisorId);
+    public function getSubordinateIdListBySupervisorId($supervisorId, $includeChain = null) {
+        if (is_null($includeChain)) {
+            $configService = $this->getConfigurationService();
+            $includeChain = $configService->isSupervisorChainSuported();
+        }
+        return $this->getEmployeeDao()->getSubordinateIdListBySupervisorId($supervisorId, $includeChain);
+    }
+    
+    /**
+     * Returns an array of employee IDs of supervisors for given subordinate ID
+     * 
+     * IDs of whole chain of supervisors of a subordinate are returned.
+     * 
+     * @version 2.7.1
+     * @param int $subordinateId Subordinates ID
+     * @param boolean $includeChain Include Supervisor chain or not
+     * @return Array An array of employee IDs
+     */
+    public function getSupervisorIdListBySubordinateId($subordinateId , $includeChain = null) {
+        if (is_null($includeChain)) {
+            $configService = $this->getConfigurationService();
+            $includeChain = $configService->isSupervisorChainSuported();
+        }
+        return $this->getEmployeeDao()->getSupervisorIdListBySubordinateId($subordinateId, $includeChain);
     }
     
     /**
@@ -864,11 +909,13 @@ class EmployeeService extends BaseService {
      * @param $properties An array of strings containing names of required properties
      * @param $orderField Field to be used for ordering
      * @param $orderBy ASC or DESC
-     * @param Boolean $excludeTerminatedEmployees Exclude Terminated employees or not
+     * @param Boolean $includeTerminated Include Terminated employees or not
      * @return Array Employee Property List 
      */    
-    public function getSubordinatePropertyListBySupervisorId($supervisorId, $properties, $orderField, $orderBy, $excludeTerminatedEmployees = true) {
-        return $this->getEmployeeDao()->getSubordinatePropertyListBySupervisorId($supervisorId, $properties, $orderField, $orderBy, $excludeTerminatedEmployees);
+    public function getSubordinatePropertyListBySupervisorId($supervisorId, $properties, $orderField, $orderBy, $includeTerminated = false) {
+        $configService = $this->getConfigurationService();
+        $includeChain = $configService->isSupervisorChainSuported();
+        return $this->getEmployeeDao()->getSubordinatePropertyListBySupervisorId($supervisorId, $properties, $includeChain, $orderField, $orderBy, $includeTerminated);
     }
 
     /**

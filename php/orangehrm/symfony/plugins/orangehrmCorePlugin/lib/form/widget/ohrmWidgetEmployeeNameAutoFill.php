@@ -49,7 +49,7 @@ class ohrmWidgetEmployeeNameAutoFill extends sfWidgetFormInput {
         $javaScript     = sprintf(<<<EOF
         <script type="text/javascript">
 
-            var employees = %s;
+            var employees_%s = %s;
 
             $(document).ready(function() {
             
@@ -75,7 +75,7 @@ class ohrmWidgetEmployeeNameAutoFill extends sfWidgetFormInput {
 
                     
 
-                    nameField.autocomplete(employees, {
+                    nameField.autocomplete(employees_%s, {
 
                             formatItem: function(item) {
                                 return item.name;
@@ -120,11 +120,13 @@ class ohrmWidgetEmployeeNameAutoFill extends sfWidgetFormInput {
         </script>
 EOF
                         ,
+                        $this->generateId($name),
                         $this->getEmployeeListAsJson($this->getEmployeeList()),
                         $this->getHtmlId($name),
                         $hiddenFieldId,
                         $typeHint,
                         $this->getOption('loadingMethod'),
+                        $this->generateId($name),
                         __('Loading'),
                         url_for('pim/getEmployeeListAjax'));
                         

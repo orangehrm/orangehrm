@@ -461,7 +461,7 @@ class Employee extends PluginEmployee {
         if(isset($_SESSION['isSupervisor']) && $_SESSION['isSupervisor']) {
 
             $empService = $this->getEmployeeService();
-            $subordinates = $empService->getSupervisorEmployeeChain($supervisorId, true);
+            $subordinates = $empService->getSubordinateList($supervisorId, true);
 
             foreach($subordinates as $employee) {
                 if($employee->getEmpNumber() == $this->getEmpNumber()) {

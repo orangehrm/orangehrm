@@ -384,7 +384,7 @@ class LeaveSummaryForm extends sfForm {
 
             $employeeService = new EmployeeService();
             $employeeService->setEmployeeDao(new EmployeeDao());
-            $this->subordinatesList = $employeeService->getSupervisorEmployeeChain($this->loggedUserId, true);
+            $this->subordinatesList = $employeeService->getSubordinateList($this->loggedUserId, true);
 
             return $this->subordinatesList;
         }

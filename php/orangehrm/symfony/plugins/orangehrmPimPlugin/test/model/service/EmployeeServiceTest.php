@@ -994,9 +994,9 @@ class EmployeeServiceTest extends PHPUnit_Framework_TestCase {
     }
 
     /**
-     * Testing getSupervisorEmployeeChain
+     * Testing getSubordinateList
      */
-    public function testGetSupervisorEmployeeChain() {
+    public function testGetSubordinateList() {
         $supervisorId = '11';
         
         $employees = array();
@@ -1008,14 +1008,20 @@ class EmployeeServiceTest extends PHPUnit_Framework_TestCase {
         
         $mockDao = $this->getMock('EmployeeDao');
         $mockDao->expects($this->once())
-                 ->method('getSupervisorEmployeeChain')
-                 ->with($supervisorId)
+                 ->method('getSubordinateList')
+                 ->with($supervisorId, true, true)
                  ->will($this->returnValue($employees));
+                 
+        $configServiceMock = $this->getMock('ConfigService');
+        $configServiceMock->expects($this->once())
+             ->method('isSupervisorChainSuported')
+             ->will($this->returnValue(true));
         
         $this->employeeService->setEmployeeDao($mockDao);
+        $this->employeeService->setConfigurationService($configServiceMock);
         
-        $result = $this->employeeService->getSupervisorEmployeeChain($supervisorId);
-        $this->assertEquals($employees, $result);              
+        $result = $this->employeeService->getSubordinateList($supervisorId,  true);
+        $this->assertEquals($employees, $result);
         
     }
     
@@ -1546,11 +1552,26 @@ class EmployeeServiceTest extends PHPUnit_Framework_TestCase {
         $mockDao = $this->getMock('EmployeeDao');
         $mockDao->expects($this->once())
              ->method('getSubordinateIdListBySupervisorId')
-             ->with(1)
+             ->with(1, true)
              ->will($this->returnValue($subordinateIdList));
         
         $this->employeeService->setEmployeeDao($mockDao);
-        $result = $this->employeeService->getSubordinateIdListBySupervisorId(1);
+        $result = $this->employeeService->getSubordinateIdListBySupervisorId(1, true);
+        $this->compareArrays($subordinateIdList, $result);
+        
+    }
+    
+    public function testGetSupervisorIdListBySubordinateId(){
+        $subordinateIdList = array(4, 5);
+        
+        $mockDao = $this->getMock('EmployeeDao');
+        $mockDao->expects($this->once())
+             ->method('getSupervisorIdListBySubordinateId')
+             ->with(3, true)
+             ->will($this->returnValue($subordinateIdList));
+        
+        $this->employeeService->setEmployeeDao($mockDao);
+        $result = $this->employeeService->getSupervisorIdListBySubordinateId(3, true);
         $this->compareArrays($subordinateIdList, $result);
         
     }
@@ -1566,13 +1587,19 @@ class EmployeeServiceTest extends PHPUnit_Framework_TestCase {
             	'lastName' => $employee['lastName'], 'middleName' => $employee['middleName'], 'employeeId' => $employee['employeeId'] );
         }
         
+        $configServiceMock = $this->getMock('ConfigService');
+        $configServiceMock->expects($this->once())
+             ->method('isSupervisorChainSuported')
+             ->will($this->returnValue(true));
+             
         $mockDao = $this->getMock('EmployeeDao');
         $mockDao->expects($this->once())
              ->method('getSubordinatePropertyListBySupervisorId')
-             ->with(3, $properties, 'empNumber', 'ASC')
+             ->with(3, $properties, true, 'empNumber', 'ASC')
              ->will($this->returnValue($subordinatePropertyArray));
         
         $this->employeeService->setEmployeeDao($mockDao);
+        $this->employeeService->setConfigurationService($configServiceMock);
         $result = $this->employeeService->getSubordinatePropertyListBySupervisorId(3, $properties, 'empNumber', 'ASC', true);
         $this->compareArrays($subordinatePropertyArray, $result);
         

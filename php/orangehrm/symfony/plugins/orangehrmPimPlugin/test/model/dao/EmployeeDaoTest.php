@@ -788,7 +788,7 @@ class EmployeeDaoTest extends PHPUnit_Framework_TestCase {
         }
     }
 
-    public function testGetSupervisorEmployeeChain() {
+    public function testGetSubordinateList() {
         $repToList = TestDataService::loadObjectList('ReportTo', $this->fixture, 'ReportTo');
         foreach ($repToList as $repTo) {
             $supervisors[] = $repTo->supervisorId;
@@ -796,7 +796,7 @@ class EmployeeDaoTest extends PHPUnit_Framework_TestCase {
 
         $supervisorId = array_pop($supervisors);
 
-        $chain = $this->employeeDao->getSupervisorEmployeeChain($supervisorId);
+        $chain = $this->employeeDao->getSubordinateList($supervisorId, false, true);
         $this->assertTrue(count($chain) > 0);
     }
 
@@ -1072,45 +1072,71 @@ class EmployeeDaoTest extends PHPUnit_Framework_TestCase {
     
     public function testGetSubordinateIdListBySupervisorId() {
 
-        $subordinateIdList = $this->employeeDao->getSubordinateIdListBySupervisorId(3);
+        $subordinateIdList = $this->employeeDao->getSubordinateIdListBySupervisorId(3, true);
         $this->assertEquals(2, count($subordinateIdList));
         
-        $subordinateIdList = $this->employeeDao->getSubordinateIdListBySupervisorId(10);
+        $subordinateIdList = $this->employeeDao->getSubordinateIdListBySupervisorId(4, true);
+        $this->assertEquals(3, count($subordinateIdList));
+        
+        $subordinateIdList = $this->employeeDao->getSubordinateIdListBySupervisorId(4, false);
+        $this->assertEquals(1, count($subordinateIdList));
+        
+        $subordinateIdList = $this->employeeDao->getSubordinateIdListBySupervisorId(10, true);
         $this->assertEquals(0, count($subordinateIdList));
         
-        $subordinateIdList = $this->employeeDao->getSubordinateIdListBySupervisorId(1);
+        $subordinateIdList = $this->employeeDao->getSubordinateIdListBySupervisorId(1, true);
         $this->assertEquals(0, count($subordinateIdList));
         
-        $subordinateIdList = $this->employeeDao->getSubordinateIdListBySupervisorId(3);
+        $subordinateIdList = $this->employeeDao->getSubordinateIdListBySupervisorId(3, true);
         $subordinateIdArray = array(1, 2);
         $this->compareArrays($subordinateIdArray, $subordinateIdList);
+
+    }
+    
+    public function testGetSupervisorIdListBySubordinateId() {
+
+        $supervisorIdList = $this->employeeDao->getSupervisorIdListBySubordinateId(2, true);
+        $this->assertEquals(3, count($supervisorIdList));
+        
+        $supervisorIdList = $this->employeeDao->getSupervisorIdListBySubordinateId(10, true);
+        $this->assertEquals(0, count($supervisorIdList));
+        
+        $supervisorIdList = $this->employeeDao->getSupervisorIdListBySubordinateId(1, true);
+        $this->assertEquals(3, count($supervisorIdList));
+        
+        $supervisorIdList = $this->employeeDao->getSupervisorIdListBySubordinateId(1, false);
+        $this->assertEquals(1, count($supervisorIdList));
+        
+        $supervisorIdList = $this->employeeDao->getSupervisorIdListBySubordinateId(2, true);
+        $supervisorIdArray = array(3, 4, 5);
+        $this->compareArrays($supervisorIdArray, $supervisorIdList);
 
     }
     
     public function testGetSubordinatePropertyListBySupervisorId() {
         
         $properties = array();
-        $subordinatePropertyList = $this->employeeDao->getSubordinatePropertyListBySupervisorId(3, $properties, 'empNumber', 'ASC');
+        $subordinatePropertyList = $this->employeeDao->getSubordinatePropertyListBySupervisorId(3, $properties, true, 'empNumber', 'ASC');
         $this->assertEquals(2, count($subordinatePropertyList));
         
         $properties = array('empNumber', 'firstName', 'lastName', 'middleName', 'employeeId' );
-        $subordinatePropertyList = $this->employeeDao->getSubordinatePropertyListBySupervisorId(3, $properties, 'empNumber', 'ASC');
+        $subordinatePropertyList = $this->employeeDao->getSubordinatePropertyListBySupervisorId(3, $properties, true, 'empNumber', 'ASC');
         $this->assertEquals(2, count($subordinatePropertyList));
         
         
         $properties = array('empNumber', 'firstName', 'lastName', 'middleName', 'employeeId' );
-        $subordinatePropertyList = $this->employeeDao->getSubordinatePropertyListBySupervisorId(10, $properties, 'empNumber', 'ASC');
+        $subordinatePropertyList = $this->employeeDao->getSubordinatePropertyListBySupervisorId(10, $properties, true, 'empNumber', 'ASC');
         $this->assertEquals(0,count($subordinatePropertyList));
         
         
         $properties = array('empNumber', 'firstName', 'lastName', 'middleName', 'employeeId' );
-        $subordinatePropertyList = $this->employeeDao->getSubordinatePropertyListBySupervisorId(3, $properties, 'empNumber', 'ASC');
+        $subordinatePropertyList = $this->employeeDao->getSubordinatePropertyListBySupervisorId(3, $properties, true, 'empNumber', 'ASC');
         foreach ($subordinatePropertyList as $subbordinateProperties) {
-            $this->assertEquals(5, count($subbordinateProperties));
+            $this->assertEquals(6, count($subbordinateProperties));
         }
 
         $properties = array('empNumber', 'firstName', 'lastName', 'middleName', 'employeeId' );
-        $subordinatePropertyList = $this->employeeDao->getSubordinatePropertyListBySupervisorId(3, $properties, 'empNumber', 'ASC');
+        $subordinatePropertyList = $this->employeeDao->getSubordinatePropertyListBySupervisorId(3, $properties, true, 'empNumber', 'ASC');
         $employee = TestDataService::fetchObject('Employee', 1);
         $this->assertEquals($employee->getFirstName(), $subordinatePropertyList[1]['firstName']);
         
@@ -1120,6 +1146,8 @@ class EmployeeDaoTest extends PHPUnit_Framework_TestCase {
         $propertyArray['lastName'] = $employee->getLastName();
         $propertyArray['middleName'] = $employee->getMiddleName();
         $propertyArray['employeeId'] = $employee->getEmployeeId();
+        $propertyArray['ReportTo'] = array();
+        
         $this->compareArrays($propertyArray, $subordinatePropertyList[1]);
 
     }

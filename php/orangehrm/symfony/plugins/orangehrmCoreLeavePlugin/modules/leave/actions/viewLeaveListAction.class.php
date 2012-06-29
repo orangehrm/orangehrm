@@ -315,7 +315,7 @@ class viewLeaveListAction extends sfAction {
         }
 
         if ($_SESSION['isSupervisor'] && trim(Auth::instance()->getEmployeeNumber()) != "") {
-            $employeeList = $employeeService->getSupervisorEmployeeChain(Auth::instance()->getEmployeeNumber());
+            $employeeList = $employeeService->getSubordinateList(Auth::instance()->getEmployeeNumber());
         }
 
         return $employeeList;

@@ -1054,18 +1054,19 @@ class EmployeeDao extends BaseDao {
     
     /**
      * Get Subordinate Id List by supervisor id
+     * 
      * @param int $supervisorId
-     * @returns Array SubordinateId List
+     * @param boolean $includeChain
+     * @param Array $supervisorIdStack
+     * @return Array of SubordinateId List
      * @throws DaoException
      */
-    public function getSubordinateIdListBySupervisorId($supervisorId) {
+    public function getSubordinateIdListBySupervisorId($supervisorId, $includeChain = false, $supervisorIdStack = array ()) {
         
         try {
             $employeeIdList = array();
             $q = "SELECT h.erep_sub_emp_number
             	FROM hs_hr_emp_reportto h 
-            	LEFT JOIN hs_hr_employee h2 
-            		ON h.erep_sub_emp_number = h2.emp_number 
             		WHERE (h.erep_sup_emp_number = ?)";
             
             
@@ -1076,10 +1077,61 @@ class EmployeeDao extends BaseDao {
             
             foreach ($subordinates as $subordinate) {
                 array_push($employeeIdList, $subordinate['erep_sub_emp_number']);
-                $subordinateIdList = $this->getSubordinateIdListBySupervisorId($subordinate['erep_sub_emp_number']);
-                if (count($subordinateIdList) > 0) {
-                    foreach ($subordinateIdList as $id) {
-                        array_push($employeeIdList, $id);
+                if ($includeChain) {
+                    if (!in_array($subordinate['erep_sub_emp_number'], $supervisorIdStack)) {
+                        $supervisorIdStack[] = $subordinate['erep_sub_emp_number'];
+                        $subordinateIdList = $this->getSubordinateIdListBySupervisorId($subordinate['erep_sub_emp_number'], $includeChain, $supervisorIdStack);
+                        if (count($subordinateIdList) > 0) {
+                            foreach ($subordinateIdList as $id) {
+                                array_push($employeeIdList, $id);
+                            }
+                        }
+                    }
+                }
+            }
+            return $employeeIdList;
+            
+        // @codeCoverageIgnoreStart
+        } catch (Exception $e) {
+            throw new DaoException($e->getMessage(), $e->getCode(), $e);
+        }
+        // @codeCoverageIgnoreEnd
+    }
+    
+    /**
+     * Get Supervisor Id List by subordinate id
+     * 
+     * @param int $subordinateId
+     * @param boolean $includeChain
+     * @param Array $supervisorIdStack
+     * @return Array of Supervisor Id List
+     * @throws DaoException
+     */
+    public function getSupervisorIdListBySubordinateId($subordinateId, $includeChain = false, $supervisorIdStack = array()) {
+        
+        try {
+            $employeeIdList = array();
+            $q = "SELECT h.erep_sup_emp_number
+            	FROM hs_hr_emp_reportto h
+            		WHERE (h.erep_sub_emp_number = ?)";
+            
+            
+            $pdo = Doctrine_Manager::connection()->getDbh();
+            $query = $pdo->prepare($q);
+            $query->execute(array($subordinateId));
+            $supervisors =  $query->fetchAll();
+            
+            foreach ($supervisors as $supervisor) {
+                array_push($employeeIdList, $supervisor['erep_sup_emp_number']);
+                if ($includeChain) {
+                    if (!in_array($supervisor['erep_sup_emp_number'], $supervisorIdStack)) {
+                        $supervisorIdStack[] = $subordinate['erep_sub_emp_number'];
+                        $supervisorIdList = $this->getSupervisorIdListBySubordinateId($supervisor['erep_sup_emp_number'], $includeChain, $supervisorIdStack);
+                        if (count($supervisorIdList) > 0) {
+                            foreach ($supervisorIdList as $id) {
+                                array_push($employeeIdList, $id);
+                            }
+                        }
                     }
                 }
             }
@@ -1097,28 +1149,34 @@ class EmployeeDao extends BaseDao {
      * 
      * @param int $supervisorId
      * @param Array $properties
+     * @param boolean $includeChain
      * @param String $orderField
      * @param String $orderBy
      * @param Boolean $excludeTerminatedEmployees
+     * @param Array $supervisorIdStack 
      * @returns Array List of Subordinate Properties
      * @throws DaoException
+     * 
+     * @todo Use a parameter object
      */
-    public function getSubordinatePropertyListBySupervisorId($supervisorId, $properties, $orderField, $orderBy, $excludeTerminatedEmployees = true) {
+    public function getSubordinatePropertyListBySupervisorId($supervisorId, $properties, $includeChain = false, $orderField, $orderBy, $includeTerminated = false, $supervisorIdStack = array()) {
 
         try {
 
             $employeePropertyList = array();
             
             $q = Doctrine_Query::create()
-                            ->select("supervisorId");
+                            ->select("rt2.subordinateId AS isSupervisor, supervisorId, e.empNumber as empNumber");
             foreach ($properties as $property) {
                 $q->addSelect('e.'.$property);
             }
+                            
             $q->from('ReportTo rt')
               ->leftJoin('rt.subordinate e')
+              ->leftJoin('e.ReportTo rt2 ON rt.erep_sub_emp_number = rt2.erep_sup_emp_number')
               ->where("rt.supervisorId=$supervisorId");
             
-            if ($excludeTerminatedEmployees) {
+            if ($includeTerminated == false) {
                 $q->addWhere("e.termination_id IS NULL");
             }
             
@@ -1129,10 +1187,15 @@ class EmployeeDao extends BaseDao {
             $subordinates =  $q->fetchArray();
             foreach ($subordinates as $subordinate) {
                 $employeePropertyList[$subordinate['subordinateId']] = $subordinate['subordinate'];
-                $subordinatePropertyList = $this->getSubordinatePropertyListBySupervisorId($subordinate['subordinateId'], $properties, $orderField, $orderBy, $excludeTerminatedEmployees);
-                if (count($subordinatePropertyList) > 0) {
-                    foreach ($subordinatePropertyList as $key => $value) {
-                        $employeePropertyList[$key] = $value;
+                if ($subordinate['isSupervisor'] && $includeChain) {
+                    if (!in_array($subordinate['subordinateId'], $supervisorIdStack)) {
+                        $supervisorIdStack[] = $subordinate['subordinateId'];
+                        $subordinatePropertyList = $this->getSubordinatePropertyListBySupervisorId($subordinate['subordinateId'], $properties, $includeChain, $orderField, $orderBy, $includeTerminated, $supervisorIdStack);
+                        if (count($subordinatePropertyList) > 0) {
+                            foreach ($subordinatePropertyList as $key => $value) {
+                                $employeePropertyList[$key] = $value;
+                            }
+                        }
                     }
                 }
             }
@@ -1182,39 +1245,53 @@ class EmployeeDao extends BaseDao {
     }
 
     /**
-     * Retrieve SupervisorEmployeeChain
-     * @param int $supervisorId
-     * @returns array
-     * @throws DaoException
+     * Return List of Subordinates for given Supervisor
      * 
-     * @todo parameter name $withoutTerminatedEmployees does not give the correct meaning
+     * @version 2.7.1
+     * @param int $supervisorId Supervisor Id
+     * @param boolean $includeTerminated Terminated status
+     * @param boolean $includeChain
+     * @param Array $supervisorIdStack
+     * @return Doctrine_Collection of Subordinates
+     * @throws DaoException
      */
-    public function getSupervisorEmployeeChain($supervisorId, $withoutTerminatedEmployees = false) {
+    public function getSubordinateList($supervisorId, $includeTerminated = false, $includeChain = false, $supervisorIdStack = array()) {
         try {
             $employeeList = array();
 
             $q = Doctrine_Query::create()
-                            ->select("rt.supervisorId,emp.*")
+                            ->select("rt2.subordinateId AS isSupervisor, rt.supervisorId, emp.*")
                             ->from('ReportTo rt')
                             ->leftJoin('rt.subordinate emp')
+                            ->leftJoin('emp.ReportTo rt2 ON rt.erep_sub_emp_number = rt2.erep_sup_emp_number')
                             ->where("rt.supervisorId=$supervisorId");
 
-            if ($withoutTerminatedEmployees == false) {
+            if ($includeTerminated == false) {
                 $q->addWhere("emp.termination_id IS NULL");
             }
 
             $reportToList = $q->execute();
             foreach ($reportToList as $reportTo) {
                 array_push($employeeList, $reportTo->getSubordinate());
-                $list = $this->getSupervisorEmployeeChain($reportTo->getSubordinateId(), true);
-                if (count($list) > 0)
-                    foreach ($list as $employee)
-                        array_push($employeeList, $employee);
+                if ($reportTo['isSupervisor'] && $includeChain) {
+                    if (!in_array($subordinate['subordinateId'], $supervisorIdStack)) {
+                        $supervisorIdStack[] = $subordinate['subordinateId'];
+                        $list = $this->getSubordinateList($reportTo->getSubordinateId(), true, $supervisorIdStack);
+                        if (count($list) > 0) {
+                            foreach ($list as $employee) {
+                                array_push($employeeList, $employee);
+                            }
+                        }
+                    }
+                }
             }
             return $employeeList;
+            
+        // @codeCoverageIgnoreStart
         } catch (Exception $e) {
-            throw new DaoException($e->getMessage());
+            throw new DaoException($e->getMessage(), $e->getCode(), $e);
         }
+        // @codeCoverageIgnoreEnd
     }
 
     /**
@@ -2065,7 +2142,7 @@ class EmployeeDao extends BaseDao {
      */
     private function _getSubordinateIds($supervisorId) {
 
-        $subordinatesList = $this->getSupervisorEmployeeChain($supervisorId, true);
+        $subordinatesList = $this->getSubordinateList($supervisorId, true);
 
         $ids = array();
         

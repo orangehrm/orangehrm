@@ -82,8 +82,10 @@
                                 <?php echo $form['type_flag']->render(); ?>
                                 <br class="clear" />
 
-                                <?php echo $form['name']->renderLabel(__('Name') . ' <span class="required">*</span>'); ?>
-                                <?php echo $form['name']->render(array("class" => "txtBoxR", "maxlength" => 92)); ?>
+                                <?php echo $form['supervisorName']->renderLabel(__('Name') . ' <span class="required">*</span>'); ?>
+                                <?php echo $form['supervisorName']->render(array("class" => "txtBoxR name", "maxlength" => 92)); ?>
+                                <?php echo $form['subordinateName']->renderLabel(__('Name') . ' <span class="required">*</span>'); ?>
+                                <?php echo $form['subordinateName']->render(array("class" => "txtBoxR name", "maxlength" => 92)); ?>
                                 <div id="name">
                                 </div>
                                 <br class="clear"/>
