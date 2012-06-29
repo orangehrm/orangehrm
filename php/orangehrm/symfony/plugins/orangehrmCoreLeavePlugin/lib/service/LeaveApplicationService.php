@@ -1,12 +1,22 @@
 <?php
 
+/**
+ * Leave Application Service
+ * 
+ * Functionalities related to leave applying.
+ * 
+ * @package leave
+ * @todo Add license 
+ */
+
 class LeaveApplicationService extends AbstractLeaveAllocationService {
 
     protected $leaveEntitlementService;
 
     /**
-     *
+     * Get LeaveEntitlementService
      * @return LeaveEntitlementService
+     * 
      */
     public function getLeaveEntitlementService() {
         if (!($this->leaveEntitlementService instanceof LeaveEntitlementService)) {
@@ -16,7 +26,7 @@ class LeaveApplicationService extends AbstractLeaveAllocationService {
     }
     
     /**
-     *
+     * Set LeaveEntitlementService
      * @param LeaveEntitlementService $service 
      */
     public function setLeaveEntitlementService(LeaveEntitlementService $service) {
@@ -24,27 +34,37 @@ class LeaveApplicationService extends AbstractLeaveAllocationService {
     }
 
     /**
-     *
+     * Creates a new leave application
+     * 
      * @param LeaveParameterObject $leaveAssignmentData
-     * @return type 
+     * @return boolean True if leave request is saved else false
+     * @throws LeaveAllocationServiceException When leave request length exceeds work shift length. 
+     * 
+     * @todo Add LeaveParameterObject to the API
      */
     public function applyLeave(LeaveParameterObject $leaveAssignmentData) {
 
         if ($this->applyMoreThanAllowedForADay($leaveAssignmentData)) {
             throw new LeaveAllocationServiceException('Failed to Submit: Work Shift Length Exceeded');
-        } else {
-            if (!$this->hasOverlapLeave($leaveAssignmentData)) {
-                $this->saveLeaveRequest($leaveAssignmentData);
-                return true;
-            }
         }
+
+        if (!$this->hasOverlapLeave($leaveAssignmentData)) {
+            $this->saveLeaveRequest($leaveAssignmentData);
+            return true;
+        }
+        
+        return false;
+        
     }
 
     /**
-     * Saves Leave Request and Sends Notification
+     * Saves Leave Request and Sends Email Notification
      * 
      * @param LeaveParameterObject $leaveAssignmentData 
+     * @return boolean True if leave request is saved else false
+     * @throws LeaveAllocationServiceException
      * 
+     * @todo Don't catch general Exception. Catch specific one.
      */
     protected function saveLeaveRequest(LeaveParameterObject $leaveAssignmentData) {
 
@@ -81,12 +101,25 @@ class LeaveApplicationService extends AbstractLeaveAllocationService {
                 }
             }
         }
+        
+        return false;
+        
     }
 
-        /**
-     *
-     * @param $isWeekend
+    /**
+     * Returns leave status based on weekend and holiday
+     * 
+     * If weekend, returns Leave::LEAVE_STATUS_LEAVE_WEEKEND
+     * If holiday, returns Leave::LEAVE_STATUS_LEAVE_HOLIDAY
+     * Else, returns LEAVE_STATUS_LEAVE_PENDING_APPROVAL
+     * 
+     * @param $isWeekend boolean
+     * @param $isHoliday boolean
+     * @param $leaveDate string 
      * @return status
+     * 
+     * @todo Check usage of $leaveDate
+     * 
      */
     public function getLeaveRequestStatus($isWeekend, $isHoliday, $leaveDate) {
         $status = Leave::LEAVE_STATUS_LEAVE_PENDING_APPROVAL;
