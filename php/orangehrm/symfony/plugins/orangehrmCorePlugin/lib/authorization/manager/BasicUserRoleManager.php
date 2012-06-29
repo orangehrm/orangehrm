@@ -23,17 +23,47 @@
  *
  */
 class BasicUserRoleManager extends AbstractUserRoleManager {
-    
+
     protected $employeeService;
     protected $systemUserService;
     protected $screenPermissionService;
     protected $operationalCountryService;
     protected $locationService;
-    
+    protected $userRoleClasses;
+
+    public function __construct() {
+        $this->_init();
+    }
+
+    private function _init() {
+
+        $pluginsPath = sfConfig::get('sf_plugins_dir');
+        $directoryIterator = new DirectoryIterator($pluginsPath);
+        foreach ($directoryIterator as $fileInfo) {
+            if ($fileInfo->isDir()) {
+
+                $pluginName = $fileInfo->getFilename();
+                $configuraitonPath = $pluginsPath . '/' . $pluginName . '/config/user_role.yml';
+
+                if (is_file($configuraitonPath)) {
+                    $configuraiton = sfYaml::load($configuraitonPath);
+
+                    if (!is_array($configuraiton)) {
+                        continue;
+                    }
+
+                    foreach ($configuraiton as $roleName => $roleObj) {
+                        $this->userRoleClasses[$roleName] = new $roleObj['class'];
+                    }
+                }
+            }
+        }
+    }
+
     public function getLocationService() {
         if (empty($this->locationService)) {
             $this->locationService = new LocationService();
-        }        
+        }
         return $this->locationService;
     }
 
@@ -44,7 +74,7 @@ class BasicUserRoleManager extends AbstractUserRoleManager {
     public function getOperationalCountryService() {
         if (empty($this->operationalCountryService)) {
             $this->operationalCountryService = new OperationalCountryService();
-        }         
+        }
         return $this->operationalCountryService;
     }
 
@@ -52,11 +82,10 @@ class BasicUserRoleManager extends AbstractUserRoleManager {
         $this->operationalCountryService = $operationalCountryService;
     }
 
-        
     public function getScreenPermissionService() {
         if (empty($this->screenPermissionService)) {
             $this->screenPermissionService = new ScreenPermissionService();
-        }         
+        }
         return $this->screenPermissionService;
     }
 
@@ -67,7 +96,7 @@ class BasicUserRoleManager extends AbstractUserRoleManager {
     public function getSystemUserService() {
         if (empty($this->systemUserService)) {
             $this->systemUserService = new SystemUserService();
-        }        
+        }
         return $this->systemUserService;
     }
 
@@ -76,7 +105,7 @@ class BasicUserRoleManager extends AbstractUserRoleManager {
     }
 
     public function getEmployeeService() {
-        
+
         if (empty($this->employeeService)) {
             $this->employeeService = new EmployeeService();
         }
@@ -87,49 +116,55 @@ class BasicUserRoleManager extends AbstractUserRoleManager {
         $this->employeeService = $employeeService;
     }
 
-        
-    public function getAccessibleEntities($entityType, $operation = null, $returnType = null,
-            $rolesToExclude = array(), $rolesToInclude = array()) {
-        
+    public function getAccessibleEntities($entityType, $operation = null, $returnType = null, $rolesToExclude = array(), $rolesToInclude = array()) {
+
         $allEmployees = array();
-        
-        $filteredRoles = $this->filterRoles($this->userRoles, $rolesToExclude, $rolesToInclude); 
-        
-        foreach ($filteredRoles as $role) {  
+
+        $filteredRoles = $this->filterRoles($this->userRoles, $rolesToExclude, $rolesToInclude);
+
+        foreach ($filteredRoles as $role) {
             $employees = array();
 
-            switch ($entityType) {
-                case 'Employee':
-                    $employees = $this->getAccessibleEmployees($role, $operation, $returnType);
-                    break;  
+            $roleClass = $this->userRoleClasses[$role];
+
+            if ($roleClass) {
+                switch ($entityType) {
+                    case 'Employee':
+                        $employees = $roleClass->getAccessibleEmployees($operation, $returnType);
+                        break;
+                }
             }
-            
+
             if (count($employees) > 0) {
                 $allEmployees = $this->mergeEmployees($allEmployees, $employees);
             }
-        }        
+        }
 
         return $allEmployees;
     }
-    
-    /*
+
+    /**
      * Get Properties of Accessible Entities
      * @param $entityType Entity Type
      * @parm $properties Properties of the entity which should return
      */
-    public function getAccessibleEntityProperties($entityType, $properties = array(), $orderField = null, $orderBy = null, 
-            $rolesToExclude = array(), $rolesToInclude = array()) {
+    public function getAccessibleEntityProperties($entityType, $properties = array(), $orderField = null, $orderBy = null, $rolesToExclude = array(), $rolesToInclude = array()) {
         $allPropertyList = array();
         $filteredRoles = $this->filterRoles($this->userRoles, $rolesToExclude, $rolesToInclude);
-        
+
         foreach ($filteredRoles as $role) {
             $propertyList = array();
-            switch ($entityType) {
-                case 'Employee':
-                    $propertyList = $this->getAccessibleEmployeePropertyList($role, $properties, $orderField, $orderBy);
-                    break;
+
+            $roleClass = $this->userRoleClasses[$role];
+
+            if ($roleClass) {
+                switch ($entityType) {
+                    case 'Employee':
+                        $propertyList = $roleClass->getAccessibleEmployeePropertyList($role, $properties, $orderField, $orderBy);
+                        break;
+                }
             }
-            
+
             if (count($propertyList) > 0) {
                 foreach ($propertyList as $property) {
                     $allPropertyList[$property['empNumber']] = $property;
@@ -139,25 +174,7 @@ class BasicUserRoleManager extends AbstractUserRoleManager {
 
         return $allPropertyList;
     }
-    
-    protected function getAccessibleEmployeePropertyList($role, $properties = array(), $orderField, $orderBy) {
 
-            $employeeProperties = array();
-        
-            if ('Admin' == $role->getName()) {
-                $employeeProperties = $this->getEmployeeService()->getEmployeePropertyList($properties, $orderField, $orderBy, false);
-            } else if ('Supervisor' == $role->getName()) {
-                $empNumber = $this->getUser()->getEmpNumber();
-                if (!empty($empNumber)) {
-                    $employeeProperties = $this->getEmployeeService()->getSubordinatePropertyListBySupervisorId($empNumber, $properties, $orderField, $orderBy, false);
-                }
-            }
-            
-        return $employeeProperties;
-
-    }
-    
-    
     /**
      * TODO: 'locations', 'system users', 'operational countries', 
      *       'user role' (only ess for regional admin),
@@ -167,97 +184,97 @@ class BasicUserRoleManager extends AbstractUserRoleManager {
      * @param type $returnType
      * @return type 
      */
-    public function getAccessibleEntityIds($entityType, $operation = null, $returnType = null,
-            $rolesToExclude = array(), $rolesToInclude = array()) {
-    
+    public function getAccessibleEntityIds($entityType, $operation = null, $returnType = null, $rolesToExclude = array(), $rolesToInclude = array()) {
+
         $allIds = array();
-        $filteredRoles = $this->filterRoles($this->userRoles, $rolesToExclude, $rolesToInclude);                
-        
-        foreach ($filteredRoles as $role) {  
+        $filteredRoles = $this->filterRoles($this->userRoles, $rolesToExclude, $rolesToInclude);
+
+        foreach ($filteredRoles as $role) {
             $ids = array();
+            
+            $roleClass = $this->userRoleClasses["$role"];
+
+            if ($roleClass) {
 
             switch ($entityType) {
                 case 'Employee':
-                    $ids = $this->getAccessibleEmployeeIds($role, $operation, $returnType);
+                    $ids = $roleClass->getAccessibleEmployeeIds($operation, $returnType);
                     break;
                 case 'SystemUser':
-                    $ids = $this->getAccessibleSystemUserIds($role, $operation, $returnType);
+                    $ids = $roleClass->getAccessibleSystemUserIds($operation, $returnType);
                     break;
                 case 'OperationalCountry':
-                    $ids = $this->getAccessibleOperationalCountryIds($role, $operation, $returnType);
+                    $ids = $roleClass->getAccessibleOperationalCountryIds($operation, $returnType);
                     break;
                 case 'UserRole':
-                    $ids = $this->getAccessibleUserRoleIds($role, $operation, $returnType);
+                    $ids = $roleClass->getAccessibleUserRoleIds($operation, $returnType);
                     break;
                 case 'Location':
-                    $ids = $this->getAccessibleLocationIds($role, $operation, $returnType);
+                    $ids = $roleClass->getAccessibleLocationIds($operation, $returnType);
                     break;
-                    
             }
-            
+            }
+
             if (count($ids) > 0) {
                 $allIds = array_unique(array_merge($allIds, $ids));
             }
         }
-        
+
         return $allIds;
     }
-    
-    
-    public function isEntityAccessible($entityType, $entityId, $operation = null, 
-            $rolesToExclude = array(), $rolesToInclude = array()) {
+
+    public function isEntityAccessible($entityType, $entityId, $operation = null, $rolesToExclude = array(), $rolesToInclude = array()) {
         $entityIds = $this->getAccessibleEntityIds($entityType, $operation, null, $rolesToExclude, $rolesToInclude);
-        
+
         $accessible = in_array($entityId, $entityIds);
-        
+
         return $accessible;
     }
-    
-    public function areEntitiesAccessible($entityType, $entityIds, $operation = null, 
-            $rolesToExclude = array(), $rolesToInclude = array()) {
+
+    public function areEntitiesAccessible($entityType, $entityIds, $operation = null, $rolesToExclude = array(), $rolesToInclude = array()) {
         $accessibleIds = $this->getAccessibleEntityIds($entityType, $operation, null, $rolesToExclude, $rolesToInclude);
         $intersection = array_intersect($accessibleIds, $entityIds);
-        
+
         $accessible = false;
-        
+
         if (count($entityIds) == count($intersection)) {
             $diff = array_diff($entityIds, $intersection);
             if (count($diff) == 0) {
                 $accessible = true;
             }
         }
-        
-        return $accessible;        
+
+        return $accessible;
     }
-    
+
     public function getAccessibleModules() {
         
     }
-    
+
     public function isModuleAccessible($module) {
         
     }
-    
+
     public function isScreenAccessible($module, $screen, $field) {
         
     }
-    
+
     public function isFieldAccessible($module, $screen, $field) {
         
     }
-    
+
     public function getScreenPermissions($module, $action) {
         $permissions = $this->getScreenPermissionService()->getScreenPermissions($module, $action, $this->userRoles);
-        
+
         return $permissions;
     }
-    
+
     protected function getUserRoles(SystemUser $user) {
-        
+
         $user = $this->getSystemUserService()->getSystemUser($user->id);
 
         $roles = array($user->getUserRole());
-        
+
         // Check for supervisor:
         $empNumber = $user->getEmpNumber();
         if (!empty($empNumber)) {
@@ -268,145 +285,49 @@ class BasicUserRoleManager extends AbstractUserRoleManager {
                 }
             }
         }
-        
-        
-        return $roles;
-    }    
-    
-    protected function getAccessibleEmployees($role, $operation = null, $returnType = null) {
-        $employees = array();
-        
-        if ('Admin' == $role->getName()) {
-            $employees = $this->getEmployeeService()->getEmployeeList('empNumber', 'ASC', true);
-        } else if ('Supervisor' == $role->getName()) {
-            $empNumber = $this->getUser()->getEmpNumber();
-            if (!empty($empNumber)) {
-                $employees = $this->getEmployeeService()->getSupervisorEmployeeChain($empNumber, true);
-            }
-        }
-        
-        $employeesWithIds = array();
-        
-        foreach ($employees as $employee) {
-            $employeesWithIds[$employee->getEmpNumber()] = $employee;
-        }
 
-        return $employeesWithIds;        
+
+        return $roles;
     }
-    
+
     protected function mergeEmployees($empList1, $empList2) {
-        
-        foreach ($empList2 as $id=>$emp) {
+
+        foreach ($empList2 as $id => $emp) {
             if (!isset($empList1[$id])) {
                 $empList1[$id] = $emp;
             }
         }
         return $empList1;
     }
-    
-    protected function getAccessibleEmployeeIds($role, $operation = null, $returnType = null) {
-        $employeeIdArray = array();
-        if ('Admin' == $role->getName()) {
-            $employeeIdArray = $this->getEmployeeService()->getEmployeeIdList(false);
-        } else if ('Supervisor' == $role->getName()) {
-            $empNumber = $this->getUser()->getEmpNumber();
-            if (!empty($empNumber)) {
-                $employeeIdArray = $this->getEmployeeService()->getSubordinateIdListBySupervisorId($empNumber);
-            }
-        }
 
-        return $employeeIdArray;
-    }
-    
-    protected function getAccessibleSystemUserIds($role, $operation = null, $returnType = null) {
-        
-        $systemUserIdArray = array();
-        if ('Admin' == $role->getName()) {
-            $systemUserIdArray = $this->getSystemUserService()->getSystemUserIdList();
-        }
-
-        return $systemUserIdArray;
-    }
-    
-    protected function getAccessibleOperationalCountryIds($role, $operation = null, $returnType = null) {
-        
-        $operationalCountries = array();
-        
-        if ('Admin' == $role->getName()) {
-            $operationalCountries = $this->getOperationalCountryService()->getOperationalCountryList();
-        }
-        
-        $ids = array();
-        
-        foreach ($operationalCountries as $country) {
-            $ids[] = $country->getId();
-        }
-
-        return $ids;        
-    }    
-    
-    protected function getAccessibleUserRoleIds($role, $operation = null, $returnType = null) {
-        
-        $userRoles = array();
-        
-        if ('Admin' == $role->getName()) {
-            $userRoles = $this->getSystemUserService()->getAssignableUserRoles();
-        }
-        
-        $ids = array();
-        
-        foreach ($userRoles as $role) {
-            $ids[] = $role->getId();
-        }
-
-        return $ids;        
-    } 
-    
-    protected function getAccessibleLocationIds($role, $operation = null, $returnType = null) {
-        
-        $locations = array();
-        
-        if ('Admin' == $role->getName()) {
-            $locations = $this->getLocationService()->getLocationList();
-        }
-        
-        $ids = array();
-        
-        foreach ($locations as $location) {
-            $ids[] = $location->getId();
-        }
-
-        return $ids;        
-    }    
-    
     protected function filterRoles($userRoles, $rolesToExclude, $rolesToInclude) {
-        
+
         if (!empty($rolesToExclude)) {
-            
+
             $temp = array();
-            
-            foreach ($userRoles as $role) {  
+
+            foreach ($userRoles as $role) {
                 if (!in_array($role->getName(), $rolesToExclude)) {
                     $temp[] = $role;
                 }
-            }         
-            
+            }
+
             $userRoles = $temp;
         }
-        
+
         if (!empty($rolesToInclude)) {
             $temp = array();
-            
-            foreach ($userRoles as $role) {  
+
+            foreach ($userRoles as $role) {
                 if (in_array($role->getName(), $rolesToInclude)) {
                     $temp[] = $role;
                 }
-            }         
-            
-            $userRoles = $temp;            
-        }  
-        
+            }
+
+            $userRoles = $temp;
+        }
+
         return $userRoles;
     }
-}
 
+}

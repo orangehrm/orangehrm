@@ -28,7 +28,7 @@ class saveSystemUserAction extends sfAction {
             $this->form = $form;
         }
     }
-    
+
     /**
      *
      * @return sfForm 
@@ -41,11 +41,20 @@ class saveSystemUserAction extends sfAction {
 
 
         $this->userId = $request->getParameter('userId');
-        $values = array('userId' => $this->userId,'sessionUser'=>$this->getUser()->getAttribute('user'));
+        $values = array('userId' => $this->userId, 'sessionUser' => $this->getUser()->getAttribute('user'));
         $this->setForm(new SystemUserForm(array(), $values));
 
         if ($this->getUser()->hasFlash('templateMessage')) {
             list($this->messageType, $this->message) = $this->getUser()->getFlash('templateMessage');
+        }
+
+        if ($request->getParameter('userId')) {
+            $userRoleManager = $this->getContext()->getUserRoleManager();
+            $accessible = $userRoleManager->isEntityAccessible('SystemUser', $request->getParameter('userId'));
+
+            if (!$accessible) {
+                $this->forward(sfConfig::get('sf_secure_module'), sfConfig::get('sf_secure_action'));
+            }
         }
 
         if ($request->isMethod('post')) {
@@ -57,7 +66,7 @@ class saveSystemUserAction extends sfAction {
                 if ($this->form->edited) {
                     $this->getUser()->setFlash('templateMessage', array('success', __(TopLevelMessages::UPDATE_SUCCESS)));
                 } else {
-                    if($savedUser instanceof SystemUser) { // sets flash values for admin/viewSystemUsers pre filter for further actions if needed
+                    if ($savedUser instanceof SystemUser) { // sets flash values for admin/viewSystemUsers pre filter for further actions if needed
                         $this->getUser()->setFlash("new.user.id", $savedUser->getId()); //
                         $this->getUser()->setFlash("new.user.role.id", $savedUser->getUserRoleId());
                     }

@@ -29,7 +29,7 @@ class ohrmReportWidgetOperationalCountryLocationDropDown extends ohrmWidgetSelec
     private $choices = null;
 
     protected function configure($options = array(), $attributes = array()) {
-        
+
         parent::configure($options, $attributes);
 
         // Parent requires the 'choices' option.
@@ -49,17 +49,17 @@ class ohrmReportWidgetOperationalCountryLocationDropDown extends ohrmWidgetSelec
             $locationList = $this->_getLocationList();
 
             $showAll = $this->getOption('show_all_locations');
-                    
+
             $choices = array();
             $addedLocationIds = array();
 
             // adding locations that assigned to operational country first
-            $accessibleCountries = UserRoleManagerFactory::getUserRoleManager()->getAccessibleEntityIds('OperationalCountry'); 
-            
+            $accessibleCountries = UserRoleManagerFactory::getUserRoleManager()->getAccessibleEntityIds('OperationalCountry');
+
             foreach ($operationalCountries as $operationalCountry) {
 
                 $country = $operationalCountry->getCountry();
-                
+
                 if ($showAll || in_array($operationalCountry->getId(), $accessibleCountries)) {
                     $locations = $country->getLocation();
 
@@ -76,9 +76,16 @@ class ohrmReportWidgetOperationalCountryLocationDropDown extends ohrmWidgetSelec
             }
 
             //after that, adding all the remaining locations to the list
-            foreach ($locationList as $id => $location) {
-                if (!in_array($id, $addedLocationIds)) {
-                    $choices[$id] = $location;
+            foreach ($locationList as $countryName => $locations) {
+                $locationChoices = array();
+                if (!array_key_exists($countryName, $choices)) {
+                    foreach ($locations as $location) {
+                        if (!in_array($location->getId(), $addedLocationIds)) {
+                            $locationChoices[$location->getId()] = $location->getName();
+                        }
+                    }
+
+                    $choices[$countryName] = $locationChoices;
                 }
             }
 
@@ -177,15 +184,15 @@ class ohrmReportWidgetOperationalCountryLocationDropDown extends ohrmWidgetSelec
         $locationService = new LocationService();
 
         $showAll = $this->getOption('show_all_locations');
-        
+
         $locationList = array();
         $locations = $locationService->getLocationList();
 
         $accessibleLocations = UserRoleManagerFactory::getUserRoleManager()->getAccessibleEntityIds('Location');
-        
+
         foreach ($locations as $location) {
             if ($showAll || in_array($location->id, $accessibleLocations)) {
-                $locationList[$location->id] = $location->name;
+                $locationList[$location->getCountry()->getCouName()][] = $location;
             }
         }
 

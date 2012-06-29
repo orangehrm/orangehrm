@@ -1,0 +1,4 @@
+Admin:
+  class: AdminUserRole
+Supervisor:
+  class: SupervisorUserRole
