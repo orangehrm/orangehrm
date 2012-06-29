@@ -26,8 +26,8 @@ function roundBorder(className) {
 	var innerClass = 'maincontent';
         var divContent = '';
     var elements = document.getElementsByTagName('div');
-	for (i=0;i<elements.length;i++) {
-		div = elements[i];
+    for (i=0;i<getElementLength(elements.length);i++) {
+        div = elements[i];
         if (div.className == className) {
 
 			divContent = div.innerHTML;
@@ -81,8 +81,32 @@ function moverButton(button) {
  * Removes the 'hov' className added in moverButton function
  */
 function moutButton(button) {
-	var classes = button.className.split(" ");
-	if (classes.length > 1) {
-		button.className = classes[0];
-	}
+    var classes = button.className.split(" ");
+    if (classes.length > 1) {
+        button.className = classes[0];
+    }
+}
+
+/*
+ * Function will run when adding rounded borders to the template div tags
+ * Reduce the nuber of div counts from 1 when browser version is IE
+ */
+function getElementLength(length){
+    if(ieVersion()==9){
+        return length-1;
+    }
+    return length;   
+}
+
+/*
+ * Function will run when adding rounded borders to the template div tags
+ * Function will return the current version of Internet Explorer in client side 
+ */
+function ieVersion(){
+    var ua = window.navigator.userAgent;
+    var msie = ua.indexOf ("MSIE ");
+    if (msie > 0){
+        return parseInt(ua.substring(msie+5, ua.indexOf(".", msie)));
+    }
+    return 0;         
 }

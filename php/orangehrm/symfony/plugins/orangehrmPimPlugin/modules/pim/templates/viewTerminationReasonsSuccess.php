@@ -83,12 +83,8 @@
                     <?php foreach($records as $record): ?>
                     
                     <tr>
-                        <td class="check">
-                            <input type="checkbox" class="checkbox" name="chkListRecord[]" value="<?php echo $record->getId(); ?>" />
-                        </td>
-                        <td class="tdName tdValue">
-                            <a href="#"><?php echo __($record->getName()); ?></a>
-                        </td>
+                        <td class="check"><input type="checkbox" class="checkbox" name="chkListRecord[]" value="<?php echo $record->getId(); ?>" /></td>
+                        <td class="tdName tdValue"><a href="#"><?php echo __($record->getName()); ?></a></td>
                     </tr>
                     
                     <?php endforeach; ?>
