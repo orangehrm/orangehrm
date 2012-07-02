@@ -10,7 +10,7 @@
 
 require_once(dirname(__FILE__).'/../../bootstrap/unit.php');
 
-$t = new lime_test(73);
+$t = new lime_test(74);
 
 // ->click()
 $t->diag('->click()');
@@ -132,6 +132,11 @@ $html = <<<EOF
     <a href="/submitimagelink"><img src="myimage.gif" alt="submit" /></a>
 
     <input type="submit" id="orphaned-input-submit" />
+
+    <ul class="css-selector-test">
+      <li>my first <a href="myfirstlink">paragraph</a></li>
+      <li>my second <a href="mysecondlink">paragraph</a></li>
+    </ul>
 
   </body>
 </html>
@@ -310,6 +315,9 @@ catch(Exception $e)
 {
   $t->pass('->deselect() cannot deselect radiobuttons');
 }
+
+list($method, $uri, $parameters) = $b->click('li:contains("first") a');
+$t->is($uri, 'myfirstlink', 'click accept css selectors without "[" or "]"');
 
 // ->call()
 $t->diag('->call()');

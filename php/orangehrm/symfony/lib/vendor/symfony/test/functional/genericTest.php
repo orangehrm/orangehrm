@@ -3,7 +3,7 @@
 /*
  * This file is part of the symfony package.
  * (c) 2004-2006 Fabien Potencier <fabien.potencier@symfony-project.com>
- * 
+ *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
@@ -23,6 +23,7 @@ $b->
     checkElement('body', '/congratulations/i')->
     checkElement('link[href="/sf/sf_default/css/screen.css"]')->
     checkElement('link[href="/css/main.css"]')->
+    checkElement('link[href="/css/multiple_media.css"][media="print,handheld"]')->
     matches('#'.preg_quote('<!--[if lte IE 6]><link rel="stylesheet" type="text/css" media="screen" href="/css/ie6.css" /><![endif]-->').'#')->
   end()
 ;

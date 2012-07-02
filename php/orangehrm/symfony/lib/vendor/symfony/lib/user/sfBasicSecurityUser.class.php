@@ -16,7 +16,7 @@
  * @subpackage user
  * @author     Fabien Potencier <fabien.potencier@symfony-project.com>
  * @author     Sean Kerr <sean@code-box.org>
- * @version    SVN: $Id: sfBasicSecurityUser.class.php 29528 2010-05-19 13:12:27Z fabien $
+ * @version    SVN: $Id: sfBasicSecurityUser.class.php 33466 2012-05-30 07:33:03Z fabien $
  */
 class sfBasicSecurityUser extends sfUser implements sfSecurityUser
 {
@@ -70,7 +70,7 @@ class sfBasicSecurityUser extends sfUser implements sfSecurityUser
 
           unset($this->credentials[$key]);
 
-          $this->storage->regenerate(false);
+          $this->storage->regenerate(true);
 
           return;
         }
@@ -117,7 +117,7 @@ class sfBasicSecurityUser extends sfUser implements sfSecurityUser
 
     if ($added)
     {
-      $this->storage->regenerate(false);
+      $this->storage->regenerate(true);
     }
   }
 
@@ -205,7 +205,7 @@ class sfBasicSecurityUser extends sfUser implements sfSecurityUser
 
       $this->dispatcher->notify(new sfEvent($this, 'user.change_authentication', array('authenticated' => $this->authenticated)));
 
-      $this->storage->regenerate(false);
+      $this->storage->regenerate(true);
     }
   }
 

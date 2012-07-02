@@ -14,7 +14,7 @@
  * @package    symfony
  * @subpackage widget
  * @author     Fabien Potencier <fabien.potencier@symfony-project.com>
- * @version    SVN: $Id: sfWidgetForm.class.php 24137 2009-11-18 13:12:40Z fabien $
+ * @version    SVN: $Id: sfWidgetForm.class.php 33388 2012-03-15 15:01:41Z fabien $
  */
 abstract class sfWidgetForm extends sfWidget
 {

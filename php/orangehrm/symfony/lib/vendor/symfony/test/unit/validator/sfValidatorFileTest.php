@@ -75,7 +75,7 @@ if (!function_exists('finfo_open'))
 else
 {
   $v = new testValidatorFile();
-  $t->is($v->guessFromFileinfo($tmpDir.'/test.txt'), (version_compare(PHP_VERSION, '5.3', '<')) ? 'text/plain' : 'text/plain; charset=us-ascii', '->guessFromFileinfo() guesses the type of a given file');
+  $t->is($v->guessFromFileinfo($tmpDir.'/test.txt'), 'text/plain', '->guessFromFileinfo() guesses the type of a given file');
   $t->is($v->guessFromFileinfo($tmpDir.'/foo.txt'), null, '->guessFromFileinfo() returns null if the file type is not guessable');
 }
 
@@ -88,7 +88,7 @@ if (!function_exists('mime_content_type'))
 else
 {
   $v = new testValidatorFile();
-  $t->is($v->guessFromMimeContentType($tmpDir.'/test.txt'), (version_compare(PHP_VERSION, '5.3', '<')) ? 'text/plain' : 'text/plain; charset=us-ascii', '->guessFromMimeContentType() guesses the type of a given file');
+  $t->is($v->guessFromMimeContentType($tmpDir.'/test.txt'), 'text/plain', '->guessFromMimeContentType() guesses the type of a given file');
   $t->is($v->guessFromMimeContentType($tmpDir.'/foo.txt'), null, '->guessFromMimeContentType() returns null if the file type is not guessable');
 }
 
@@ -102,7 +102,7 @@ $t->is($v->guessFromFileBinary('/bin/ls'), (PHP_OS != 'Darwin') ? 'application/x
 // ->getMimeType()
 $t->diag('->getMimeType()');
 $v = new testValidatorFile();
-$t->is($v->getMimeType($tmpDir.'/test.txt', 'image/png'), (version_compare(PHP_VERSION, '5.3', '<')) ? 'text/plain' : 'text/plain; charset=us-ascii', '->getMimeType() guesses the type of a given file');
+$t->is($v->getMimeType($tmpDir.'/test.txt', 'image/png'), 'text/plain', '->getMimeType() guesses the type of a given file');
 $t->is($v->getMimeType($tmpDir.'/foo.txt', 'text/plain'), 'text/plain', '->getMimeType() returns the default type if the file type is not guessable');
 
 $v->setOption('mime_type_guessers', array_merge(array(array($v, 'guessFromNothing')), $v->getOption('mime_type_guessers')));
@@ -126,7 +126,7 @@ $f = $v->clean(array('tmp_name' => $tmpDir.'/test.txt'));
 $t->ok($f instanceof sfValidatedFile, '->clean() returns a sfValidatedFile instance');
 $t->is($f->getOriginalName(), '', '->clean() returns a sfValidatedFile with an empty original name if the name is not passed in the initial value');
 $t->is($f->getSize(), strlen($content), '->clean() returns a sfValidatedFile with a computed file size if the size is not passed in the initial value');
-$t->is($f->getType(), (version_compare(PHP_VERSION, '5.3', '<')) ? 'text/plain' : 'text/plain; charset=us-ascii', '->clean() returns a sfValidatedFile with a guessed content type');
+$t->is($f->getType(), 'text/plain', '->clean() returns a sfValidatedFile with a guessed content type');
 
 class myValidatedFile extends sfValidatedFile
 {

@@ -14,7 +14,7 @@
  * @package    symfony
  * @subpackage widget
  * @author     Fabien Potencier <fabien.potencier@symfony-project.com>
- * @version    SVN: $Id: sfWidgetFormSelectCheckbox.class.php 30762 2010-08-25 12:33:33Z fabien $
+ * @version    SVN: $Id: sfWidgetFormSelectCheckbox.class.php 33362 2012-03-08 13:53:08Z fabien $
  */
 class sfWidgetFormSelectCheckbox extends sfWidgetFormChoiceBase
 {
@@ -102,7 +102,7 @@ class sfWidgetFormSelectCheckbox extends sfWidgetFormChoiceBase
         'id'    => $id = $this->generateId($name, self::escapeOnce($key)),
       );
 
-      if ((is_array($value) && in_array(strval($key), $value)) || strval($key) == strval($value))
+      if ((is_array($value) && in_array(strval($key), $value)) || (is_string($value) && strval($key) == strval($value)))
       {
         $baseAttributes['checked'] = 'checked';
       }

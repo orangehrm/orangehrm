@@ -13,7 +13,7 @@
  * {@link http://prado.sourceforge.net/}
  *
  * @author     Wei Zhuo <weizhuo[at]gmail[dot]com>
- * @version    $Id: sfCultureInfo.class.php 32741 2011-07-09 09:41:59Z fabien $
+ * @version    $Id: sfCultureInfo.class.php 33361 2012-03-08 13:48:42Z fabien $
  * @package    symfony
  * @subpackage i18n
  */
@@ -772,15 +772,22 @@ class sfCultureInfo
       $allCurrencies = array_intersect_key($allCurrencies, array_flip($currencies));
     }
 
-    if (!$full)
+    $tmp = array();
+    foreach ($allCurrencies as $key => $value)
     {
-      foreach ($allCurrencies as $key => $value)
-      {
-        $allCurrencies[$key] = $value[1];
-      }
+      $allCurrencies[$key] = $value[1];
+      $tmp[$key] = $value[0];
     }
 
     $this->sortArray($allCurrencies);
+
+    if ($full)
+    {
+        foreach ($allCurrencies as $key => $value)
+        {
+          $allCurrencies[$key] = array($tmp[$key], $value);
+        }
+    }
 
     return $allCurrencies;
   }
@@ -846,7 +853,7 @@ class sfCultureInfo
   /**
    * sorts the passed array according to the locale of this sfCultureInfo class
    *
-   * @param  array the array to pe sorted wiht "asort" and this locale
+   * @param  array the array to be sorted with "asort" and this locale
    */
   public function sortArray(&$array)
   {
