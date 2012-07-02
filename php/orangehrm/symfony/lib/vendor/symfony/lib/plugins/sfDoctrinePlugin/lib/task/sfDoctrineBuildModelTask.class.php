@@ -7,6 +7,13 @@
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
+ * 
+ * NOTE: This file includes modifications done for the OrangeHRM project.
+ * The code added for these modifications are between the following blocks:
+ * 
+ * // Start OrangeHRM Modified Section
+ * // End OrangeHRM Modified Section
+ * 
  */
 
 require_once(dirname(__FILE__).'/sfDoctrineBaseTask.class.php');
@@ -73,6 +80,10 @@ EOF;
     // markup base classes with magic methods
     foreach (sfYaml::load($schema) as $model => $definition)
     {
+      // Start OrangeHRM Modified Section
+      $subPackageName = $this->getSubPackageName($definition);
+      // End OrangeHRM Modified Section
+      
       $file = sprintf('%s%s/%s/Base%s%s', $config['models_path'], isset($definition['package']) ? '/'.substr($definition['package'], 0, strpos($definition['package'], '.')) : '', $builderOptions['baseClassesDirectory'], $model, $builderOptions['suffix']);
       $code = file_get_contents($file);
 
@@ -101,6 +112,14 @@ EOF;
 
         // use the last match as a search string
         $code = str_replace($match[0], $match[0].PHP_EOL.' * '.PHP_EOL.' * '.implode(PHP_EOL.' * ', array_merge($getters, $setters)), $code);
+        
+        // Start OrangeHRM Modified Section
+        $tokens = array(
+                '##SUBPACKAGE##' => $subPackageName
+        );
+        $code = str_replace(array_keys($tokens), array_values($tokens), $code);
+        // End OrangeHRM Modified Section
+        
         file_put_contents($file, $code);
       }
     }
@@ -125,4 +144,35 @@ EOF;
 
     $this->reloadAutoload();
   }
+  
+  // Start OrangeHRM Modified Section
+  /**
+   * Get SubPackageName for phpdoc based on model definition.
+   * 
+   * The method sfDoctrineBaseTask::prepareSchemaFile() adds a 'package' tag to the
+   * schema.yml file, with the format:  pluginName.lib.model.doctrine
+   * 
+   * This method extracts the pluginName part, strips it of 'orangehrm' prefix and 'Plugin'
+   * suffix and uses the remainder to build a sub package name fo the format
+   * "model\base" or "\model\pim\base" (for the orangehrPimPlugin)
+   * 
+   * NOTE: Added for OrangeHRM use. 
+   * 
+   * @param Array $modelDefinition Model definition from schema file
+   * @return string Sub package name.
+   */
+  protected function getSubPackageName($modelDefinition) {
+    $pluginName = isset($modelDefinition['package']) ? substr($modelDefinition['package'], 0, strpos($modelDefinition['package'], '.')) : '';
+
+    $modelName = str_replace('orangehrm', '', $pluginName);
+    $modelName = str_replace('Plugin', '', $modelName);
+    if (!empty($modelName)) {
+        $subPackageName = 'model\\' . strtolower($modelName) . '\\base';
+    } else {
+        $subPackageName = 'model\\base';
+    }
+    
+    return $subPackageName;
+  }
+  // End OrangeHRM Modified Section
 }
