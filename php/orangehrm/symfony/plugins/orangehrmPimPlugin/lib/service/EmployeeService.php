@@ -28,7 +28,7 @@
  * @todo Remove exceptions that only wraps DAO exceptions [DONE]
  * @todo Add get/save/delete for all 
  * @todo Add deleteReportingMethod() function
- * @todo Add getEmployeeImmigrationRecords method
+ * @todo Add getEmployeeImmigrationRecords method [DONE]
  * @todo Add getEmployeeChildren method
  * @todo All methods to return PIMServiceException or DaoException consistantly [DONE]
  * @todo Don't wrap DAO exceptions. [DONE]
@@ -222,10 +222,10 @@ class EmployeeService extends BaseService {
      * @version 2.6.11
      * @param int $empNumber Employee Number
      * @param array $emergencyContactsToDelete Array of emergency contact seqNo values.
-     * @returns boolean
+     * @returns integer Number of records deleted
      * @throws PIMServiceException
      * 
-     * @todo return number of contacts deleted (currently returns true always)
+     * @todo return number of contacts deleted (currently returns true always) [DONE]
      * @todo Exceptions should preserve previous exception [DONE]
      * @todo rename method as deleteEmployeeEmergencyContacts [DONE]
      */

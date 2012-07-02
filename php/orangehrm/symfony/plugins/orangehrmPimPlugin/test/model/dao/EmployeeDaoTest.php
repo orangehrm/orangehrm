@@ -230,8 +230,26 @@ class EmployeeDaoTest extends PHPUnit_Framework_TestCase {
         $emergencyContactsToDelete = array(1, 2);
 
         $result = $this->employeeDao->deleteEmployeeEmergencyContacts($empNumber, $emergencyContactsToDelete);
-        $this->assertTrue($result);
+        $this->assertEquals(1, $result);
     }
+    
+    public function testDeleteNonExistingEmergencyContacts() {
+
+        $empNumber = 1;
+        $emergencyContactsToDelete = array(100, 115);
+
+        $result = $this->employeeDao->deleteEmployeeEmergencyContacts($empNumber, $emergencyContactsToDelete);
+        $this->assertEquals(0, $result);
+    }    
+    
+    public function testDeleteEmergencyContactsWithWrongParameters() {
+
+        $empNumber = 1;
+        $emergencyContactsToDelete = 100;
+
+        $result = $this->employeeDao->deleteEmployeeEmergencyContacts($empNumber, $emergencyContactsToDelete);
+        $this->assertEquals(0, $result);
+    }    
 
     /**
      * Test for get work expierence returns EmpWorkExperience doctrine collection

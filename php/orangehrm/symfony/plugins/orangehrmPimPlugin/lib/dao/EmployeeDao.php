@@ -236,10 +236,14 @@ class EmployeeDao extends BaseDao {
                 $q = Doctrine_Query :: create()->delete('EmpEmergencyContact ec')
                                 ->whereIn('seqno', $emergencyContactsToDelete)
                                 ->andwhere('emp_number = ?', $empNumber);
-                $result = $q->execute();
-                return true;
+                
+                return $q->execute();
+
             }
-            return false;
+            
+            return 0;
+            
+            
         } catch (Exception $e) {
             throw new DaoException($e->getMessage());
         }
