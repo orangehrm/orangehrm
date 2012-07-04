@@ -26,6 +26,7 @@
 class SupervisorUserRole implements UserRoleInterface {
 
     protected $employeeService;
+    protected $employeeNumber;
 
     public function getEmployeeService() {
 
@@ -38,12 +39,23 @@ class SupervisorUserRole implements UserRoleInterface {
     public function setEmployeeService($employeeService) {
         $this->employeeService = $employeeService;
     }
+    
+    public function getEmployeeNumber() {
+        if(empty($this->employeeNumber)) {
+            $this->employeeNumber = sfContext::getInstance()->getUser()->getEmployeeNumber();
+        }
+        return $this->employeeNumber;
+    }
+
+    public function setEmployeeNumber($employeeNumber) {
+        $this->employeeNumber = $employeeNumber;
+    }
 
     public function getAccessibleEmployeeIds($operation = null, $returnType = null) {
 
         $employeeIdArray = array();
 
-        $empNumber = sfContext::getInstance()->getUser()->getEmployeeNumber();
+        $empNumber = $this->getEmployeeNumber();
         if (!empty($empNumber)) {
             $employeeIdArray = $this->getEmployeeService()->getSubordinateIdListBySupervisorId($empNumber);
         }
@@ -55,7 +67,7 @@ class SupervisorUserRole implements UserRoleInterface {
 
         $employeeProperties = array();
 
-        $empNumber = sfContext::getInstance()->getUser()->getEmployeeNumber();
+        $empNumber = $this->getEmployeeNumber();
         if (!empty($empNumber)) {
             $employeeProperties = $this->getEmployeeService()->getSubordinatePropertyListBySupervisorId($empNumber, $properties, $orderField, $orderBy, false);
         }
@@ -67,7 +79,7 @@ class SupervisorUserRole implements UserRoleInterface {
 
         $employees = array();
 
-        $empNumber = sfContext::getInstance()->getUser()->getEmployeeNumber();
+        $empNumber = $this->getEmployeeNumber();
         if (!empty($empNumber)) {
             $employees = $this->getEmployeeService()->getSubordinateList($empNumber, true);
         }

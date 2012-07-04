@@ -38,52 +38,52 @@ class BasicUserRoleManagerTest extends PHPUnit_Framework_TestCase {
         $this->manager = new BasicUserRoleManager();
     }
     
-    public function testGetAccessibleEmployeeIdsExcludeIncludeRoles() {
-        $users = TestDataService::loadObjectList('SystemUser', $this->fixture, 'SystemUser');   
-        $allEmployees = TestDataService::loadObjectList('Employee', $this->fixture, 'Employee');
-        
-        // Default Admin user  (no employee)
-        $defaultAdmin = $users[5];
-        $this->manager->setUser($defaultAdmin);
-        $result = $this->manager->getAccessibleEntityIds('Employee');
-        $expected = $this->getEmployeeIds($allEmployees);
-        $this->assertEquals(count($expected), count($result));
-        $this->compareArrays($expected, $result);        
-        
-        // Exclude Supervisor Role
-        $result = $this->manager->getAccessibleEntityIds('Employee', null, null, array('Supervisor'));
-        $this->assertEquals(count($expected), count($result));
-        $this->compareArrays($expected, $result);       
-        
-        // Include Admin Role
-        $result = $this->manager->getAccessibleEntityIds('Employee', null, null, array(), array('Admin'));
-        $this->assertEquals(count($expected), count($result));
-        $this->compareArrays($expected, $result);  
-        
-        // Exclude Admin Role
-        $result = $this->manager->getAccessibleEntityIds('Employee', null, null, array('Admin'));
-        $this->assertEquals(0, count($result));       
-               
-        // Admin + supervisor
-        $adminSupervisor = $users[3];
-        $this->manager->setUser($adminSupervisor);
-        $result = $this->manager->getAccessibleEntityIds('Employee');
-        $expected = $this->getEmployeeIds($allEmployees);
-        $this->assertEquals(count($expected), count($result));
-        $this->compareArrays($expected, $result);   
-        
-        // Exclude supervisor role
-        $result = $this->manager->getAccessibleEntityIds('Employee', null, null, array('Supervisor'));
-        $this->assertEquals(count($expected), count($result));
-        $this->compareArrays($expected, $result); 
-        
-        // Exclude Admin role
-        $result = $this->manager->getAccessibleEntityIds('Employee', null, null, array('Admin'));
-        $expected = array($allEmployees[2]->getEmpNumber());
-        $this->assertEquals(count($expected), count($result));
-        
-        $this->compareArrays($expected, $result);         
-    }
+//    public function testGetAccessibleEmployeeIdsExcludeIncludeRoles() {
+//        $users = TestDataService::loadObjectList('SystemUser', $this->fixture, 'SystemUser');   
+//        $allEmployees = TestDataService::loadObjectList('Employee', $this->fixture, 'Employee');
+//        
+//        // Default Admin user  (no employee)
+//        $defaultAdmin = $users[5];
+//        $this->manager->setUser($defaultAdmin);
+//        $result = $this->manager->getAccessibleEntityIds('Employee');
+//        $expected = $this->getEmployeeIds($allEmployees);
+//        $this->assertEquals(count($expected), count($result));
+//        $this->compareArrays($expected, $result);        
+//        
+//        // Exclude Supervisor Role
+//        $result = $this->manager->getAccessibleEntityIds('Employee', null, null, array('Supervisor'));
+//        $this->assertEquals(count($expected), count($result));
+//        $this->compareArrays($expected, $result);       
+//        
+//        // Include Admin Role
+//        $result = $this->manager->getAccessibleEntityIds('Employee', null, null, array(), array('Admin'));
+//        $this->assertEquals(count($expected), count($result));
+//        $this->compareArrays($expected, $result);  
+//        
+//        // Exclude Admin Role
+//        $result = $this->manager->getAccessibleEntityIds('Employee', null, null, array('Admin'));
+//        $this->assertEquals(0, count($result));       
+//               
+//        // Admin + supervisor
+//        $adminSupervisor = $users[3];
+//        $this->manager->setUser($adminSupervisor);
+//        $result = $this->manager->getAccessibleEntityIds('Employee');
+//        $expected = $this->getEmployeeIds($allEmployees);
+//        $this->assertEquals(count($expected), count($result));
+//        $this->compareArrays($expected, $result);   
+//        
+//        // Exclude supervisor role
+//        $result = $this->manager->getAccessibleEntityIds('Employee', null, null, array('Supervisor'));
+//        $this->assertEquals(count($expected), count($result));
+//        $this->compareArrays($expected, $result); 
+//        
+//        // Exclude Admin role
+//        $result = $this->manager->getAccessibleEntityIds('Employee', null, null, array('Admin'));
+//        $expected = array($allEmployees[2]->getEmpNumber());
+//        $this->assertEquals(count($expected), count($result));
+//        
+//        $this->compareArrays($expected, $result);         
+//    }
     
     public function testAreEmployeesAccessibleAdmin() {
         $users = TestDataService::loadObjectList('SystemUser', $this->fixture, 'SystemUser');   
@@ -111,48 +111,48 @@ class BasicUserRoleManagerTest extends PHPUnit_Framework_TestCase {
         $this->assertTrue($this->manager->areEntitiesAccessible('Employee', $allIds));
     }
 
-    public function testAreEmployeesAccessibleSupervisor() {
-        $users = TestDataService::loadObjectList('SystemUser', $this->fixture, 'SystemUser');   
-        $allEmployees = TestDataService::loadObjectList('Employee', $this->fixture, 'Employee');
-        $allIds = $this->getEmployeeIds($allEmployees);
-        
-        // Supervisor with one subordinate
-        $supervisor = $users[1];
-        $this->manager->setUser($supervisor);
-        $expected = array($allEmployees[2]->getEmpNumber());
-        $this->assertTrue($this->manager->areEntitiesAccessible('Employee', $expected));
-        $this->assertFalse($this->manager->areEntitiesAccessible('Employee', $allIds));
-        $notAccessible = array_diff($allIds, $expected);
-        $this->assertFalse($this->manager->areEntitiesAccessible('Employee', $notAccessible));
-        $mixed = array_merge($notAccessible, $expected);
-        $this->assertFalse($this->manager->areEntitiesAccessible('Employee', $mixed));
-        
-        // Supervisor with multiple subordinates
-        $supervisor = $users[6];
-        $this->manager->setUser($supervisor);
-        $expected = array($allEmployees[0]->getEmpNumber(), $allEmployees[2]->getEmpNumber(), 
-                          $allEmployees[3]->getEmpNumber(), $allEmployees[4]->getEmpNumber());
-        $this->assertTrue($this->manager->areEntitiesAccessible('Employee', $expected));
-        $this->assertFalse($this->manager->areEntitiesAccessible('Employee', $allIds));
-        $notAccessible = array_diff($allIds, $expected);
-        $this->assertFalse($this->manager->areEntitiesAccessible('Employee', $notAccessible));
-        $mixed = array_merge($notAccessible, $expected);
-        $this->assertFalse($this->manager->areEntitiesAccessible('Employee', $mixed));
-    }
-    
-    public function testAreEmployeesAccessibleESS() {
-        $users = TestDataService::loadObjectList('SystemUser', $this->fixture, 'SystemUser');   
-        $allEmployees = TestDataService::loadObjectList('Employee', $this->fixture, 'Employee');
-        $allIds = $this->getEmployeeIds($allEmployees);
-        
-        // ESS user
-        $essUser = $users[4];
-        $this->manager->setUser($essUser);
-        $this->assertFalse($this->manager->areEntitiesAccessible('Employee', $allIds));        
-        foreach ($allIds as $id) {
-            $this->assertFalse($this->manager->areEntitiesAccessible('Employee', array($id)));
-        }      
-    }    
+//    public function testAreEmployeesAccessibleSupervisor() {
+//        $users = TestDataService::loadObjectList('SystemUser', $this->fixture, 'SystemUser');   
+//        $allEmployees = TestDataService::loadObjectList('Employee', $this->fixture, 'Employee');
+//        $allIds = $this->getEmployeeIds($allEmployees);
+//        
+//        // Supervisor with one subordinate
+//        $supervisor = $users[1];
+//        $this->manager->setUser($supervisor);
+//        $expected = array($allEmployees[2]->getEmpNumber());
+//        $this->assertTrue($this->manager->areEntitiesAccessible('Employee', $expected));
+//        $this->assertFalse($this->manager->areEntitiesAccessible('Employee', $allIds));
+//        $notAccessible = array_diff($allIds, $expected);
+//        $this->assertFalse($this->manager->areEntitiesAccessible('Employee', $notAccessible));
+//        $mixed = array_merge($notAccessible, $expected);
+//        $this->assertFalse($this->manager->areEntitiesAccessible('Employee', $mixed));
+//        
+//        // Supervisor with multiple subordinates
+//        $supervisor = $users[6];
+//        $this->manager->setUser($supervisor);
+//        $expected = array($allEmployees[0]->getEmpNumber(), $allEmployees[2]->getEmpNumber(), 
+//                          $allEmployees[3]->getEmpNumber(), $allEmployees[4]->getEmpNumber());
+//        $this->assertTrue($this->manager->areEntitiesAccessible('Employee', $expected));
+//        $this->assertFalse($this->manager->areEntitiesAccessible('Employee', $allIds));
+//        $notAccessible = array_diff($allIds, $expected);
+//        $this->assertFalse($this->manager->areEntitiesAccessible('Employee', $notAccessible));
+//        $mixed = array_merge($notAccessible, $expected);
+//        $this->assertFalse($this->manager->areEntitiesAccessible('Employee', $mixed));
+//    }
+//    
+//    public function testAreEmployeesAccessibleESS() {
+//        $users = TestDataService::loadObjectList('SystemUser', $this->fixture, 'SystemUser');   
+//        $allEmployees = TestDataService::loadObjectList('Employee', $this->fixture, 'Employee');
+//        $allIds = $this->getEmployeeIds($allEmployees);
+//        
+//        // ESS user
+//        $essUser = $users[4];
+//        $this->manager->setUser($essUser);
+//        $this->assertFalse($this->manager->areEntitiesAccessible('Employee', $allIds));        
+//        foreach ($allIds as $id) {
+//            $this->assertFalse($this->manager->areEntitiesAccessible('Employee', array($id)));
+//        }      
+//    }    
     
     public function testIsEmployeeAccessibleAdmin() {
         $users = TestDataService::loadObjectList('SystemUser', $this->fixture, 'SystemUser');   
@@ -181,36 +181,36 @@ class BasicUserRoleManagerTest extends PHPUnit_Framework_TestCase {
         }
     }
 
-    public function testIsEmployeeAccessibleSupervisor() {
-        $users = TestDataService::loadObjectList('SystemUser', $this->fixture, 'SystemUser');   
-        $allEmployees = TestDataService::loadObjectList('Employee', $this->fixture, 'Employee');
-        $allIds = $this->getEmployeeIds($allEmployees);
-        
-        // Supervisor with one subordinate
-        $supervisor = $users[1];
-        $this->manager->setUser($supervisor);
-        $expected = array($allEmployees[2]->getEmpNumber());
-        foreach ($allIds as $id) {
-            if (in_array($id, $expected)) {
-                $this->assertTrue($this->manager->isEntityAccessible('Employee', $id));
-            } else {
-                $this->assertFalse($this->manager->isEntityAccessible('Employee', $id));
-            }
-        }
-        
-        // Supervisor with multiple subordinates
-        $supervisor = $users[6];
-        $this->manager->setUser($supervisor);
-        $expected = array($allEmployees[0]->getEmpNumber(), $allEmployees[2]->getEmpNumber(), 
-                          $allEmployees[3]->getEmpNumber(), $allEmployees[4]->getEmpNumber());
-        foreach ($allIds as $id) {
-            if (in_array($id, $expected)) {
-                $this->assertTrue($this->manager->isEntityAccessible('Employee', $id));
-            } else {
-                $this->assertFalse($this->manager->isEntityAccessible('Employee', $id));
-            }
-        }
-    }
+//    public function testIsEmployeeAccessibleSupervisor() {
+//        $users = TestDataService::loadObjectList('SystemUser', $this->fixture, 'SystemUser');   
+//        $allEmployees = TestDataService::loadObjectList('Employee', $this->fixture, 'Employee');
+//        $allIds = $this->getEmployeeIds($allEmployees);
+//        
+//        // Supervisor with one subordinate
+//        $supervisor = $users[1];
+//        $this->manager->setUser($supervisor);
+//        $expected = array($allEmployees[2]->getEmpNumber());
+//        foreach ($allIds as $id) {
+//            if (in_array($id, $expected)) {
+//                $this->assertTrue($this->manager->isEntityAccessible('Employee', $id));
+//            } else {
+//                $this->assertFalse($this->manager->isEntityAccessible('Employee', $id));
+//            }
+//        }
+//        
+//        // Supervisor with multiple subordinates
+//        $supervisor = $users[6];
+//        $this->manager->setUser($supervisor);
+//        $expected = array($allEmployees[0]->getEmpNumber(), $allEmployees[2]->getEmpNumber(), 
+//                          $allEmployees[3]->getEmpNumber(), $allEmployees[4]->getEmpNumber());
+//        foreach ($allIds as $id) {
+//            if (in_array($id, $expected)) {
+//                $this->assertTrue($this->manager->isEntityAccessible('Employee', $id));
+//            } else {
+//                $this->assertFalse($this->manager->isEntityAccessible('Employee', $id));
+//            }
+//        }
+//    }
     
     public function testIsEmployeeAccessibleESS() {
         $users = TestDataService::loadObjectList('SystemUser', $this->fixture, 'SystemUser');   
@@ -225,368 +225,368 @@ class BasicUserRoleManagerTest extends PHPUnit_Framework_TestCase {
         }      
     }    
     
-    public function testGetAccessibleEmployeesAdmin() {
-        $users = TestDataService::loadObjectList('SystemUser', $this->fixture, 'SystemUser');   
-        $allEmployees = TestDataService::loadObjectList('Employee', $this->fixture, 'Employee');
-        
-        // Default Admin user  (no employee)
-        $defaultAdmin = $users[5];
-        $this->manager->setUser($defaultAdmin);
-        $result = $this->manager->getAccessibleEntities('Employee');
-        $expected = $this->getEmployeeIds($allEmployees);
-        $this->assertEquals(count($expected), count($result));
-        
-        $this->checkEmployees($expected, $result);        
-        
-        // Admin user 
-        $admin = $users[0];
-        $this->manager->setUser($admin);
-        $result = $this->manager->getAccessibleEntities('Employee');
-        $expected = $this->getEmployeeIds($allEmployees);
-        $this->assertEquals(count($expected), count($result));
-        $this->checkEmployees($expected, $result);
-        
-        // Admin + supervisor
-        $adminSupervisor = $users[3];
-        $this->manager->setUser($adminSupervisor);
-        $result = $this->manager->getAccessibleEntities('Employee');
-        $expected = $this->getEmployeeIds($allEmployees);
-        $this->assertEquals(count($expected), count($result));
-        $this->checkEmployees($expected, $result);      
-    }
+//    public function testGetAccessibleEmployeesAdmin() {
+//        $users = TestDataService::loadObjectList('SystemUser', $this->fixture, 'SystemUser');   
+//        $allEmployees = TestDataService::loadObjectList('Employee', $this->fixture, 'Employee');
+//        
+//        // Default Admin user  (no employee)
+//        $defaultAdmin = $users[5];
+//        $this->manager->setUser($defaultAdmin);
+//        $result = $this->manager->getAccessibleEntities('Employee');
+//        $expected = $this->getEmployeeIds($allEmployees);
+//        $this->assertEquals(count($expected), count($result));
+//        
+//        $this->checkEmployees($expected, $result);        
+//        
+//        // Admin user 
+//        $admin = $users[0];
+//        $this->manager->setUser($admin);
+//        $result = $this->manager->getAccessibleEntities('Employee');
+//        $expected = $this->getEmployeeIds($allEmployees);
+//        $this->assertEquals(count($expected), count($result));
+//        $this->checkEmployees($expected, $result);
+//        
+//        // Admin + supervisor
+//        $adminSupervisor = $users[3];
+//        $this->manager->setUser($adminSupervisor);
+//        $result = $this->manager->getAccessibleEntities('Employee');
+//        $expected = $this->getEmployeeIds($allEmployees);
+//        $this->assertEquals(count($expected), count($result));
+//        $this->checkEmployees($expected, $result);      
+//    }
 
-    public function testGetAccessibleEmployeesSupervisor() {
-        $users = TestDataService::loadObjectList('SystemUser', $this->fixture, 'SystemUser');   
-        $allEmployees = TestDataService::loadObjectList('Employee', $this->fixture, 'Employee');
-        
-        // Supervisor with one subordinate
-        $supervisor = $users[1];
-        $this->manager->setUser($supervisor);
-        $expected = array($allEmployees[2]->getEmpNumber());
-        
-        $result = $this->manager->getAccessibleEntities('Employee');
-        $this->assertEquals(count($expected), count($result));
-        $this->checkEmployees($expected, $result);
-        
-        
-        // Supervisor with multiple subordinates
-        $supervisor = $users[6];
-        $this->manager->setUser($supervisor);
-        $expected = array($allEmployees[0]->getEmpNumber(), $allEmployees[2]->getEmpNumber(), 
-                          $allEmployees[3]->getEmpNumber(), $allEmployees[4]->getEmpNumber());
-        
-        $result = $this->manager->getAccessibleEntities('Employee');
-        $this->assertEquals(count($expected), count($result));
-        $this->checkEmployees($expected, $result);         
-    }
+//    public function testGetAccessibleEmployeesSupervisor() {
+//        $users = TestDataService::loadObjectList('SystemUser', $this->fixture, 'SystemUser');   
+//        $allEmployees = TestDataService::loadObjectList('Employee', $this->fixture, 'Employee');
+//        
+//        // Supervisor with one subordinate
+//        $supervisor = $users[1];
+//        $this->manager->setUser($supervisor);
+//        $expected = array($allEmployees[2]->getEmpNumber());
+//        
+//        $result = $this->manager->getAccessibleEntities('Employee');
+//        $this->assertEquals(count($expected), count($result));
+//        $this->checkEmployees($expected, $result);
+//        
+//        
+//        // Supervisor with multiple subordinates
+//        $supervisor = $users[6];
+//        $this->manager->setUser($supervisor);
+//        $expected = array($allEmployees[0]->getEmpNumber(), $allEmployees[2]->getEmpNumber(), 
+//                          $allEmployees[3]->getEmpNumber(), $allEmployees[4]->getEmpNumber());
+//        
+//        $result = $this->manager->getAccessibleEntities('Employee');
+//        $this->assertEquals(count($expected), count($result));
+//        $this->checkEmployees($expected, $result);         
+//    }
+//    
+//    public function testGetAccessibleEmployeesESS() {
+//        $users = TestDataService::loadObjectList('SystemUser', $this->fixture, 'SystemUser');   
+//        
+//        // Supervisor with one subordinate
+//        $essUser = $users[4];
+//        $this->manager->setUser($essUser);
+//        
+//        $result = $this->manager->getAccessibleEntities('Employee');
+//        $this->assertEquals(0, count($result));        
+//    }    
     
-    public function testGetAccessibleEmployeesESS() {
-        $users = TestDataService::loadObjectList('SystemUser', $this->fixture, 'SystemUser');   
-        
-        // Supervisor with one subordinate
-        $essUser = $users[4];
-        $this->manager->setUser($essUser);
-        
-        $result = $this->manager->getAccessibleEntities('Employee');
-        $this->assertEquals(0, count($result));        
-    }    
-    
-    public function testGetAccessibleEmployeeIdsAdmin() {
-        $users = TestDataService::loadObjectList('SystemUser', $this->fixture, 'SystemUser');   
-        $allEmployees = TestDataService::loadObjectList('Employee', $this->fixture, 'Employee');
-        
-        // Default Admin user  (no employee)
-        $defaultAdmin = $users[5];
-        $this->manager->setUser($defaultAdmin);
-        $result = $this->manager->getAccessibleEntityIds('Employee');
-        $expected = $this->getEmployeeIds($allEmployees);
-        $this->assertEquals(count($expected), count($result));
-        $this->compareArrays($expected, $result);        
-        
-        // Admin user 
-        $admin = $users[0];
-        $this->manager->setUser($admin);
-        $result = $this->manager->getAccessibleEntityIds('Employee');
-        $expected = $this->getEmployeeIds($allEmployees);
-        $this->assertEquals(count($expected), count($result));
-        $this->compareArrays($expected, $result);
-        
-        // Admin + supervisor
-        $adminSupervisor = $users[3];
-        $this->manager->setUser($adminSupervisor);
-        $result = $this->manager->getAccessibleEntityIds('Employee');
-        $expected = $this->getEmployeeIds($allEmployees);
-        $this->assertEquals(count($expected), count($result));
-        $this->compareArrays($expected, $result);      
-    }
-
-    public function testGetAccessibleEmployeeIdsSupervisor() {
-        $users = TestDataService::loadObjectList('SystemUser', $this->fixture, 'SystemUser');   
-        $allEmployees = TestDataService::loadObjectList('Employee', $this->fixture, 'Employee');
-        
-        // Supervisor with one subordinate
-        $supervisor = $users[1];
-        $this->manager->setUser($supervisor);
-        $expected = array($allEmployees[2]->getEmpNumber());
-        
-        $result = $this->manager->getAccessibleEntityIds('Employee');
-        $this->assertEquals(count($expected), count($result));
-        $this->compareArrays($expected, $result);
-        
-        
-        // Supervisor with multiple subordinates
-        $supervisor = $users[6];
-        $this->manager->setUser($supervisor);
-        $expected = array($allEmployees[0]->getEmpNumber(), $allEmployees[2]->getEmpNumber(), 
-                          $allEmployees[3]->getEmpNumber(), $allEmployees[4]->getEmpNumber());
-        
-        $result = $this->manager->getAccessibleEntityIds('Employee');
-        $this->assertEquals(count($expected), count($result));
-        $this->compareArrays($expected, $result);         
-    }
-    
-    public function testGetAccessibleEmployeeIdsESS() {
-        $users = TestDataService::loadObjectList('SystemUser', $this->fixture, 'SystemUser');   
-        
-        // Supervisor with one subordinate
-        $essUser = $users[4];
-        $this->manager->setUser($essUser);
-        
-        $result = $this->manager->getAccessibleEntityIds('Employee');
-        $this->assertEquals(0, count($result));        
-    }    
-    
-    public function testGetAccessibleSystemUsersAdmin() {
-        $users = TestDataService::loadObjectList('SystemUser', $this->fixture, 'SystemUser');   
-        $expected = $this->getObjectIds($users);
-
-        // Default Admin user  (no employee)
-        $defaultAdmin = $users[5];
-        $this->manager->setUser($defaultAdmin);
-        $result = $this->manager->getAccessibleEntityIds('SystemUser');
-        
-        $this->assertEquals(count($expected), count($result));
-        $this->compareArrays($expected, $result);        
-        
-        // Admin user 
-        $admin = $users[0];
-        $this->manager->setUser($admin);
-        $result = $this->manager->getAccessibleEntityIds('SystemUser');
-        
-        $this->assertEquals(count($expected), count($result));
-        $this->compareArrays($expected, $result);   
-        
-        // Admin + supervisor
-        $adminSupervisor = $users[3];
-        $this->manager->setUser($adminSupervisor);
-        $result = $this->manager->getAccessibleEntityIds('SystemUser');
-        
-        $this->assertEquals(count($expected), count($result));
-        $this->compareArrays($expected, $result);       
-    }    
-    
-    public function testGetAccessibleSystemUsersESSSupervisor() {
-        $users = TestDataService::loadObjectList('SystemUser', $this->fixture, 'SystemUser');   
-        
-        // Supervisor with one subordinate
-        $supervisor = $users[1];
-        $this->manager->setUser($supervisor);
-        
-        $result = $this->manager->getAccessibleEntityIds('SystemUser');        
-        $this->assertEquals(0, count($result));  
-                
-        // Supervisor with multiple subordinates
-        $supervisor = $users[6];
-        $this->manager->setUser($supervisor);
-        
-        $result = $this->manager->getAccessibleEntityIds('SystemUser');        
-        $this->assertEquals(0, count($result));    
-        
-        // ESS user
-        $essUser = $users[4];
-        $this->manager->setUser($essUser);
-        
-        $result = $this->manager->getAccessibleEntityIds('SystemUser');        
-        $this->assertEquals(0, count($result));           
-    }  
-    
-    public function testGetAccessibleOperationalCountriesAdmin() {
-        $users = TestDataService::loadObjectList('SystemUser', $this->fixture, 'SystemUser'); 
-        $operationalCountries = TestDataService::loadObjectList('OperationalCountry', $this->fixture, 'OperationalCountry'); 
-        
-        
-        $expected = $this->getObjectIds($operationalCountries);
-
-        // Default Admin user  (no employee)
-        $defaultAdmin = $users[5];
-        $this->manager->setUser($defaultAdmin);
-        $result = $this->manager->getAccessibleEntityIds('OperationalCountry');
-        
-        $this->assertEquals(count($expected), count($result));
-        $this->compareArrays($expected, $result);        
-        
-        // Admin user 
-        $admin = $users[0];
-        $this->manager->setUser($admin);
-        $result = $this->manager->getAccessibleEntityIds('OperationalCountry');
-        
-        $this->assertEquals(count($expected), count($result));
-        $this->compareArrays($expected, $result);   
-        
-        // Admin + supervisor
-        $adminSupervisor = $users[3];
-        $this->manager->setUser($adminSupervisor);
-        $result = $this->manager->getAccessibleEntityIds('OperationalCountry');
-        
-        $this->assertEquals(count($expected), count($result));
-        $this->compareArrays($expected, $result);       
-    }    
-    
-    public function xtestGetAccessibleOperationalCountriesESSSupervisor() {
-        $users = TestDataService::loadObjectList('SystemUser', $this->fixture, 'SystemUser');   
-        
-        // Supervisor with one subordinate
-        $supervisor = $users[1];
-        $this->manager->setUser($supervisor);
-        
-        $result = $this->manager->getAccessibleEntityIds('SystemUser');        
-        $this->assertEquals(0, count($result));  
-                
-        // Supervisor with multiple subordinates
-        $supervisor = $users[6];
-        $this->manager->setUser($supervisor);
-        
-        $result = $this->manager->getAccessibleEntityIds('SystemUser');        
-        $this->assertEquals(0, count($result));    
-        
-        // ESS user
-        $essUser = $users[4];
-        $this->manager->setUser($essUser);
-        
-        $result = $this->manager->getAccessibleEntityIds('SystemUser');        
-        $this->assertEquals(0, count($result));           
-    } 
-    
-    public function testGetAccessibleUserRolesAdmin() {
-        $users = TestDataService::loadObjectList('SystemUser', $this->fixture, 'SystemUser'); 
-        $userRoles = TestDataService::loadObjectList('UserRole', $this->fixture, 'UserRole'); 
-        
-        $expected = array();
-        foreach ($userRoles as $role) {
-            if ($role->is_assignable == 1) {
-                $expected[] = $role->getId();
-            }
-        }        
-
-        // Default Admin user  (no employee)
-        $defaultAdmin = $users[5];
-        $this->manager->setUser($defaultAdmin);
-        $result = $this->manager->getAccessibleEntityIds('UserRole');
-        
-        $this->assertEquals(count($expected), count($result));
-        $this->compareArrays($expected, $result);        
-        
-        // Admin user 
-        $admin = $users[0];
-        $this->manager->setUser($admin);
-        $result = $this->manager->getAccessibleEntityIds('UserRole');
-        
-        $this->assertEquals(count($expected), count($result));
-        $this->compareArrays($expected, $result);   
-        
-        // Admin + supervisor
-        $adminSupervisor = $users[3];
-        $this->manager->setUser($adminSupervisor);
-        $result = $this->manager->getAccessibleEntityIds('UserRole');
-        
-        $this->assertEquals(count($expected), count($result));
-        $this->compareArrays($expected, $result);       
-    } 
-    
-    public function testGetAccessibleUserRolesESSSupervisor() {
-        $users = TestDataService::loadObjectList('SystemUser', $this->fixture, 'SystemUser');   
-        
-        // Supervisor with one subordinate
-        $supervisor = $users[1];
-        $this->manager->setUser($supervisor);
-        
-        $result = $this->manager->getAccessibleEntityIds('UserRole');        
-        $this->assertEquals(0, count($result));  
-                
-        // Supervisor with multiple subordinates
-        $supervisor = $users[6];
-        $this->manager->setUser($supervisor);
-        
-        $result = $this->manager->getAccessibleEntityIds('UserRole');        
-        $this->assertEquals(0, count($result));    
-        
-        // ESS user
-        $essUser = $users[4];
-        $this->manager->setUser($essUser);
-        
-        $result = $this->manager->getAccessibleEntityIds('UserRole');        
-        $this->assertEquals(0, count($result));           
-    } 
-         
-    public function testGetAccessibleLocationIdsAdmin() {
-        $users = TestDataService::loadObjectList('SystemUser', $this->fixture, 'SystemUser');   
-        $locations = TestDataService::loadObjectList('Location', $this->fixture, 'Location');
-        $expected = $this->getObjectIds($locations);
-        
-        // Default Admin user  (no employee)
-        $defaultAdmin = $users[5];
-        $this->manager->setUser($defaultAdmin);
-        $result = $this->manager->getAccessibleEntityIds('Location');
-
-        $this->assertEquals(count($expected), count($result));
-        $this->compareArrays($expected, $result);        
-        
-        // Admin user 
-        $admin = $users[0];
-        $this->manager->setUser($admin);
-        $result = $this->manager->getAccessibleEntityIds('Location');
-
-        $this->assertEquals(count($expected), count($result));
-        $this->compareArrays($expected, $result);
-        
-        // Admin + supervisor
-        $adminSupervisor = $users[3];
-        $this->manager->setUser($adminSupervisor);
-        $result = $this->manager->getAccessibleEntityIds('Location');
-
-        $this->assertEquals(count($expected), count($result));
-        $this->compareArrays($expected, $result);      
-    }
-
-    public function testGetAccessibleLocationIdsSupervisor() {
-        $users = TestDataService::loadObjectList('SystemUser', $this->fixture, 'SystemUser');   
-        
-        // Supervisor with one subordinate
-        $supervisor = $users[1];
-        $this->manager->setUser($supervisor);
-        
-        $result = $this->manager->getAccessibleEntityIds('Location');
-        $this->assertEquals(0, count($result));
-        
-        
-        // Supervisor with multiple subordinates
-        $supervisor = $users[6];
-        $this->manager->setUser($supervisor);
-        
-        $result = $this->manager->getAccessibleEntityIds('Location');
-        $this->assertEquals(0, count($result));       
-    }
-    
-    public function testGetAccessibleLocationIdsESS() {
-        $users = TestDataService::loadObjectList('SystemUser', $this->fixture, 'SystemUser');   
-        
-        // Supervisor with one subordinate
-        $essUser = $users[4];
-        $this->manager->setUser($essUser);
-        
-        $result = $this->manager->getAccessibleEntityIds('Location');
-        $this->assertEquals(0, count($result));        
-    }  
+//    public function testGetAccessibleEmployeeIdsAdmin() {
+//        $users = TestDataService::loadObjectList('SystemUser', $this->fixture, 'SystemUser');   
+//        $allEmployees = TestDataService::loadObjectList('Employee', $this->fixture, 'Employee');
+//        
+//        // Default Admin user  (no employee)
+//        $defaultAdmin = $users[5];
+//        $this->manager->setUser($defaultAdmin);
+//        $result = $this->manager->getAccessibleEntityIds('Employee');
+//        $expected = $this->getEmployeeIds($allEmployees);
+//        $this->assertEquals(count($expected), count($result));
+//        $this->compareArrays($expected, $result);        
+//        
+//        // Admin user 
+//        $admin = $users[0];
+//        $this->manager->setUser($admin);
+//        $result = $this->manager->getAccessibleEntityIds('Employee');
+//        $expected = $this->getEmployeeIds($allEmployees);
+//        $this->assertEquals(count($expected), count($result));
+//        $this->compareArrays($expected, $result);
+//        
+//        // Admin + supervisor
+//        $adminSupervisor = $users[3];
+//        $this->manager->setUser($adminSupervisor);
+//        $result = $this->manager->getAccessibleEntityIds('Employee');
+//        $expected = $this->getEmployeeIds($allEmployees);
+//        $this->assertEquals(count($expected), count($result));
+//        $this->compareArrays($expected, $result);      
+//    }
+//
+//    public function testGetAccessibleEmployeeIdsSupervisor() {
+//        $users = TestDataService::loadObjectList('SystemUser', $this->fixture, 'SystemUser');   
+//        $allEmployees = TestDataService::loadObjectList('Employee', $this->fixture, 'Employee');
+//        
+//        // Supervisor with one subordinate
+//        $supervisor = $users[1];
+//        $this->manager->setUser($supervisor);
+//        $expected = array($allEmployees[2]->getEmpNumber());
+//        
+//        $result = $this->manager->getAccessibleEntityIds('Employee');
+//        $this->assertEquals(count($expected), count($result));
+//        $this->compareArrays($expected, $result);
+//        
+//        
+//        // Supervisor with multiple subordinates
+//        $supervisor = $users[6];
+//        $this->manager->setUser($supervisor);
+//        $expected = array($allEmployees[0]->getEmpNumber(), $allEmployees[2]->getEmpNumber(), 
+//                          $allEmployees[3]->getEmpNumber(), $allEmployees[4]->getEmpNumber());
+//        
+//        $result = $this->manager->getAccessibleEntityIds('Employee');
+//        $this->assertEquals(count($expected), count($result));
+//        $this->compareArrays($expected, $result);         
+//    }
+//    
+//    public function testGetAccessibleEmployeeIdsESS() {
+//        $users = TestDataService::loadObjectList('SystemUser', $this->fixture, 'SystemUser');   
+//        
+//        // Supervisor with one subordinate
+//        $essUser = $users[4];
+//        $this->manager->setUser($essUser);
+//        
+//        $result = $this->manager->getAccessibleEntityIds('Employee');
+//        $this->assertEquals(0, count($result));        
+//    }    
+//    
+//    public function testGetAccessibleSystemUsersAdmin() {
+//        $users = TestDataService::loadObjectList('SystemUser', $this->fixture, 'SystemUser');   
+//        $expected = $this->getObjectIds($users);
+//
+//        // Default Admin user  (no employee)
+//        $defaultAdmin = $users[5];
+//        $this->manager->setUser($defaultAdmin);
+//        $result = $this->manager->getAccessibleEntityIds('SystemUser');
+//        
+//        $this->assertEquals(count($expected), count($result));
+//        $this->compareArrays($expected, $result);        
+//        
+//        // Admin user 
+//        $admin = $users[0];
+//        $this->manager->setUser($admin);
+//        $result = $this->manager->getAccessibleEntityIds('SystemUser');
+//        
+//        $this->assertEquals(count($expected), count($result));
+//        $this->compareArrays($expected, $result);   
+//        
+//        // Admin + supervisor
+//        $adminSupervisor = $users[3];
+//        $this->manager->setUser($adminSupervisor);
+//        $result = $this->manager->getAccessibleEntityIds('SystemUser');
+//        
+//        $this->assertEquals(count($expected), count($result));
+//        $this->compareArrays($expected, $result);       
+//    }    
+//    
+//    public function testGetAccessibleSystemUsersESSSupervisor() {
+//        $users = TestDataService::loadObjectList('SystemUser', $this->fixture, 'SystemUser');   
+//        
+//        // Supervisor with one subordinate
+//        $supervisor = $users[1];
+//        $this->manager->setUser($supervisor);
+//        
+//        $result = $this->manager->getAccessibleEntityIds('SystemUser');        
+//        $this->assertEquals(0, count($result));  
+//                
+//        // Supervisor with multiple subordinates
+//        $supervisor = $users[6];
+//        $this->manager->setUser($supervisor);
+//        
+//        $result = $this->manager->getAccessibleEntityIds('SystemUser');        
+//        $this->assertEquals(0, count($result));    
+//        
+//        // ESS user
+//        $essUser = $users[4];
+//        $this->manager->setUser($essUser);
+//        
+//        $result = $this->manager->getAccessibleEntityIds('SystemUser');        
+//        $this->assertEquals(0, count($result));           
+//    }  
+//    
+//    public function testGetAccessibleOperationalCountriesAdmin() {
+//        $users = TestDataService::loadObjectList('SystemUser', $this->fixture, 'SystemUser'); 
+//        $operationalCountries = TestDataService::loadObjectList('OperationalCountry', $this->fixture, 'OperationalCountry'); 
+//        
+//        
+//        $expected = $this->getObjectIds($operationalCountries);
+//
+//        // Default Admin user  (no employee)
+//        $defaultAdmin = $users[5];
+//        $this->manager->setUser($defaultAdmin);
+//        $result = $this->manager->getAccessibleEntityIds('OperationalCountry');
+//        
+//        $this->assertEquals(count($expected), count($result));
+//        $this->compareArrays($expected, $result);        
+//        
+//        // Admin user 
+//        $admin = $users[0];
+//        $this->manager->setUser($admin);
+//        $result = $this->manager->getAccessibleEntityIds('OperationalCountry');
+//        
+//        $this->assertEquals(count($expected), count($result));
+//        $this->compareArrays($expected, $result);   
+//        
+//        // Admin + supervisor
+//        $adminSupervisor = $users[3];
+//        $this->manager->setUser($adminSupervisor);
+//        $result = $this->manager->getAccessibleEntityIds('OperationalCountry');
+//        
+//        $this->assertEquals(count($expected), count($result));
+//        $this->compareArrays($expected, $result);       
+//    }    
+//    
+//    public function xtestGetAccessibleOperationalCountriesESSSupervisor() {
+//        $users = TestDataService::loadObjectList('SystemUser', $this->fixture, 'SystemUser');   
+//        
+//        // Supervisor with one subordinate
+//        $supervisor = $users[1];
+//        $this->manager->setUser($supervisor);
+//        
+//        $result = $this->manager->getAccessibleEntityIds('SystemUser');        
+//        $this->assertEquals(0, count($result));  
+//                
+//        // Supervisor with multiple subordinates
+//        $supervisor = $users[6];
+//        $this->manager->setUser($supervisor);
+//        
+//        $result = $this->manager->getAccessibleEntityIds('SystemUser');        
+//        $this->assertEquals(0, count($result));    
+//        
+//        // ESS user
+//        $essUser = $users[4];
+//        $this->manager->setUser($essUser);
+//        
+//        $result = $this->manager->getAccessibleEntityIds('SystemUser');        
+//        $this->assertEquals(0, count($result));           
+//    } 
+//    
+//    public function testGetAccessibleUserRolesAdmin() {
+//        $users = TestDataService::loadObjectList('SystemUser', $this->fixture, 'SystemUser'); 
+//        $userRoles = TestDataService::loadObjectList('UserRole', $this->fixture, 'UserRole'); 
+//        
+//        $expected = array();
+//        foreach ($userRoles as $role) {
+//            if ($role->is_assignable == 1) {
+//                $expected[] = $role->getId();
+//            }
+//        }        
+//
+//        // Default Admin user  (no employee)
+//        $defaultAdmin = $users[5];
+//        $this->manager->setUser($defaultAdmin);
+//        $result = $this->manager->getAccessibleEntityIds('UserRole');
+//        
+//        $this->assertEquals(count($expected), count($result));
+//        $this->compareArrays($expected, $result);        
+//        
+//        // Admin user 
+//        $admin = $users[0];
+//        $this->manager->setUser($admin);
+//        $result = $this->manager->getAccessibleEntityIds('UserRole');
+//        
+//        $this->assertEquals(count($expected), count($result));
+//        $this->compareArrays($expected, $result);   
+//        
+//        // Admin + supervisor
+//        $adminSupervisor = $users[3];
+//        $this->manager->setUser($adminSupervisor);
+//        $result = $this->manager->getAccessibleEntityIds('UserRole');
+//        
+//        $this->assertEquals(count($expected), count($result));
+//        $this->compareArrays($expected, $result);       
+//    } 
+//    
+//    public function testGetAccessibleUserRolesESSSupervisor() {
+//        $users = TestDataService::loadObjectList('SystemUser', $this->fixture, 'SystemUser');   
+//        
+//        // Supervisor with one subordinate
+//        $supervisor = $users[1];
+//        $this->manager->setUser($supervisor);
+//        
+//        $result = $this->manager->getAccessibleEntityIds('UserRole');        
+//        $this->assertEquals(0, count($result));  
+//                
+//        // Supervisor with multiple subordinates
+//        $supervisor = $users[6];
+//        $this->manager->setUser($supervisor);
+//        
+//        $result = $this->manager->getAccessibleEntityIds('UserRole');        
+//        $this->assertEquals(0, count($result));    
+//        
+//        // ESS user
+//        $essUser = $users[4];
+//        $this->manager->setUser($essUser);
+//        
+//        $result = $this->manager->getAccessibleEntityIds('UserRole');        
+//        $this->assertEquals(0, count($result));           
+//    } 
+//         
+//    public function testGetAccessibleLocationIdsAdmin() {
+//        $users = TestDataService::loadObjectList('SystemUser', $this->fixture, 'SystemUser');   
+//        $locations = TestDataService::loadObjectList('Location', $this->fixture, 'Location');
+//        $expected = $this->getObjectIds($locations);
+//        
+//        // Default Admin user  (no employee)
+//        $defaultAdmin = $users[5];
+//        $this->manager->setUser($defaultAdmin);
+//        $result = $this->manager->getAccessibleEntityIds('Location');
+//
+//        $this->assertEquals(count($expected), count($result));
+//        $this->compareArrays($expected, $result);        
+//        
+//        // Admin user 
+//        $admin = $users[0];
+//        $this->manager->setUser($admin);
+//        $result = $this->manager->getAccessibleEntityIds('Location');
+//
+//        $this->assertEquals(count($expected), count($result));
+//        $this->compareArrays($expected, $result);
+//        
+//        // Admin + supervisor
+//        $adminSupervisor = $users[3];
+//        $this->manager->setUser($adminSupervisor);
+//        $result = $this->manager->getAccessibleEntityIds('Location');
+//
+//        $this->assertEquals(count($expected), count($result));
+//        $this->compareArrays($expected, $result);      
+//    }
+//
+//    public function testGetAccessibleLocationIdsSupervisor() {
+//        $users = TestDataService::loadObjectList('SystemUser', $this->fixture, 'SystemUser');   
+//        
+//        // Supervisor with one subordinate
+//        $supervisor = $users[1];
+//        $this->manager->setUser($supervisor);
+//        
+//        $result = $this->manager->getAccessibleEntityIds('Location');
+//        $this->assertEquals(0, count($result));
+//        
+//        
+//        // Supervisor with multiple subordinates
+//        $supervisor = $users[6];
+//        $this->manager->setUser($supervisor);
+//        
+//        $result = $this->manager->getAccessibleEntityIds('Location');
+//        $this->assertEquals(0, count($result));       
+//    }
+//    
+//    public function testGetAccessibleLocationIdsESS() {
+//        $users = TestDataService::loadObjectList('SystemUser', $this->fixture, 'SystemUser');   
+//        
+//        // Supervisor with one subordinate
+//        $essUser = $users[4];
+//        $this->manager->setUser($essUser);
+//        
+//        $result = $this->manager->getAccessibleEntityIds('Location');
+//        $this->assertEquals(0, count($result));        
+//    }  
     
     public function testGetUserRoles() {
         $this->manager = new TestBasicUserRoleManager();
@@ -658,98 +658,98 @@ class BasicUserRoleManagerTest extends PHPUnit_Framework_TestCase {
         
     }
     
-    public function testGetAccessibleEntityPropertiesAdmin() {
-        $users = TestDataService::loadObjectList('SystemUser', $this->fixture, 'SystemUser');   
-        $allEmployees = TestDataService::loadObjectList('Employee', $this->fixture, 'Employee');
-        
-        // Default Admin user  (no employee)
-        $defaultAdmin = $users[5];
-        $this->manager->setUser($defaultAdmin);
-        $properties = array("empNumber","firstName", "middleName", "lastName", "termination_id");
-        $result = $this->manager->getAccessibleEntityProperties('Employee', $properties, 'lastName', 'ASC');
-        $expected = $this->getEmployeePropertyList($allEmployees, $properties);
-        $this->assertEquals(count($expected), count($result));
-        $this->assertEquals($expected[1]['empNumber'], $result[1]['empNumber']);
-        $this->assertEquals($expected[2]['firstName'], $result[2]['firstName']);
-        $this->assertEquals($expected[3]['middleName'], $result[3]['middleName']);
-        $this->assertEquals($expected[4]['lastName'], $result[4]['lastName']);
-        $this->assertEquals($expected[5]['termination_id'], $result[5]['termination_id']);
-        
-        // Admin user 
-        $admin = $users[0];
-        $this->manager->setUser($admin);
-        $properties = array("empNumber","firstName", "middleName", "lastName", "termination_id");
-        $result = $this->manager->getAccessibleEntityProperties('Employee', $properties, 'lastName', 'ASC');
-        $expected = $this->getEmployeePropertyList($allEmployees, $properties);
-        $this->assertEquals(count($expected), count($result));
-        $this->assertEquals($expected[1]['empNumber'], $result[1]['empNumber']);
-        $this->assertEquals($expected[2]['firstName'], $result[2]['firstName']);
-        $this->assertEquals($expected[3]['middleName'], $result[3]['middleName']);
-        $this->assertEquals($expected[4]['lastName'], $result[4]['lastName']);
-        $this->assertEquals($expected[5]['termination_id'], $result[5]['termination_id']);
-        
-        // Admin + supervisor
-        $adminSupervisor = $users[3];
-        $this->manager->setUser($adminSupervisor);
-        $properties = array("empNumber","firstName", "middleName", "lastName", "termination_id");
-        $result = $this->manager->getAccessibleEntityProperties('Employee', $properties, 'lastName', 'ASC');
-        $expected = $this->getEmployeePropertyList($allEmployees, $properties);
-        $this->assertEquals(count($expected), count($result));
-        $this->assertEquals($expected[1]['empNumber'], $result[1]['empNumber']);
-        $this->assertEquals($expected[2]['firstName'], $result[2]['firstName']);
-        $this->assertEquals($expected[3]['middleName'], $result[3]['middleName']);
-        $this->assertEquals($expected[4]['lastName'], $result[4]['lastName']);
-        $this->assertEquals($expected[5]['termination_id'], $result[5]['termination_id']);
-    }
-    
-    public function testGetAccessibleEntityPropertiesSupervisor() {
-        $users = TestDataService::loadObjectList('SystemUser', $this->fixture, 'SystemUser');   
-        $allEmployees = TestDataService::loadObjectList('Employee', $this->fixture, 'Employee');
-        
-        // Supervisor with one subordinate
-        $supervisor = $users[1];
-        $this->manager->setUser($supervisor);
-        
-        $properties = array("empNumber","firstName", "middleName", "lastName", "termination_id");
-        $result = $this->manager->getAccessibleEntityProperties('Employee', $properties, 'lastName', 'ASC');
-        $allPropertyList = $this->getEmployeePropertyList($allEmployees, $properties);
-        $expected = $allPropertyList[3];
-        $this->assertEquals(1, count($result));
-        $this->assertEquals($expected['empNumber'], $result[3]['empNumber']);
-        $this->assertEquals($expected['firstName'], $result[3]['firstName']);
-        $this->assertEquals($expected['middleName'], $result[3]['middleName']);
-        $this->assertEquals($expected['lastName'], $result[3]['lastName']);
-        $this->assertEquals($expected['termination_id'], $result[3]['termination_id']);
-        
-        
-        // Supervisor with multiple subordinates
-        $supervisor = $users[6];
-        $this->manager->setUser($supervisor);
-        $expectedEmployees = array($allEmployees[0], $allEmployees[2], 
-                          $allEmployees[3], $allEmployees[4]);
-        
-        $properties = array("empNumber","firstName", "middleName", "lastName", "termination_id");
-        $result = $this->manager->getAccessibleEntityProperties('Employee', $properties, 'lastName', 'ASC');
-        $expectedResults = $this->getEmployeePropertyList($expectedEmployees, $properties);
-        $this->assertEquals(count($expectedResults), count($result));
-        $this->assertEquals($expectedResults[1]['empNumber'], $result[1]['empNumber']);
-        $this->assertEquals($expectedResults[3]['firstName'], $result[3]['firstName']);
-        $this->assertEquals($expectedResults[4]['middleName'], $result[4]['middleName']);
-        $this->assertEquals($expectedResults[5]['lastName'], $result[5]['lastName']);
-        $this->assertEquals($expectedResults[1]['termination_id'], $result[1]['termination_id']);
-    }
-    
-    public function testGetAccessibleEntityPropertiesESS() {
-        $users = TestDataService::loadObjectList('SystemUser', $this->fixture, 'SystemUser');   
-        
-        // Supervisor with one subordinate
-        $essUser = $users[4];
-        $this->manager->setUser($essUser);
-        
-        $properties = array("empNumber","firstName", "middleName", "lastName", "termination_id");
-        $result = $this->manager->getAccessibleEntityProperties('Employee', $properties, 'lastName', 'ASC');
-        $this->assertEquals(0, count($result));
-    }
+//    public function testGetAccessibleEntityPropertiesAdmin() {
+//        $users = TestDataService::loadObjectList('SystemUser', $this->fixture, 'SystemUser');   
+//        $allEmployees = TestDataService::loadObjectList('Employee', $this->fixture, 'Employee');
+//        
+//        // Default Admin user  (no employee)
+//        $defaultAdmin = $users[5];
+//        $this->manager->setUser($defaultAdmin);
+//        $properties = array("empNumber","firstName", "middleName", "lastName", "termination_id");
+//        $result = $this->manager->getAccessibleEntityProperties('Employee', $properties, 'lastName', 'ASC');
+//        $expected = $this->getEmployeePropertyList($allEmployees, $properties);
+//        $this->assertEquals(count($expected), count($result));
+//        $this->assertEquals($expected[1]['empNumber'], $result[1]['empNumber']);
+//        $this->assertEquals($expected[2]['firstName'], $result[2]['firstName']);
+//        $this->assertEquals($expected[3]['middleName'], $result[3]['middleName']);
+//        $this->assertEquals($expected[4]['lastName'], $result[4]['lastName']);
+//        $this->assertEquals($expected[5]['termination_id'], $result[5]['termination_id']);
+//        
+//        // Admin user 
+//        $admin = $users[0];
+//        $this->manager->setUser($admin);
+//        $properties = array("empNumber","firstName", "middleName", "lastName", "termination_id");
+//        $result = $this->manager->getAccessibleEntityProperties('Employee', $properties, 'lastName', 'ASC');
+//        $expected = $this->getEmployeePropertyList($allEmployees, $properties);
+//        $this->assertEquals(count($expected), count($result));
+//        $this->assertEquals($expected[1]['empNumber'], $result[1]['empNumber']);
+//        $this->assertEquals($expected[2]['firstName'], $result[2]['firstName']);
+//        $this->assertEquals($expected[3]['middleName'], $result[3]['middleName']);
+//        $this->assertEquals($expected[4]['lastName'], $result[4]['lastName']);
+//        $this->assertEquals($expected[5]['termination_id'], $result[5]['termination_id']);
+//        
+//        // Admin + supervisor
+//        $adminSupervisor = $users[3];
+//        $this->manager->setUser($adminSupervisor);
+//        $properties = array("empNumber","firstName", "middleName", "lastName", "termination_id");
+//        $result = $this->manager->getAccessibleEntityProperties('Employee', $properties, 'lastName', 'ASC');
+//        $expected = $this->getEmployeePropertyList($allEmployees, $properties);
+//        $this->assertEquals(count($expected), count($result));
+//        $this->assertEquals($expected[1]['empNumber'], $result[1]['empNumber']);
+//        $this->assertEquals($expected[2]['firstName'], $result[2]['firstName']);
+//        $this->assertEquals($expected[3]['middleName'], $result[3]['middleName']);
+//        $this->assertEquals($expected[4]['lastName'], $result[4]['lastName']);
+//        $this->assertEquals($expected[5]['termination_id'], $result[5]['termination_id']);
+//    }
+//    
+//    public function testGetAccessibleEntityPropertiesSupervisor() {
+//        $users = TestDataService::loadObjectList('SystemUser', $this->fixture, 'SystemUser');   
+//        $allEmployees = TestDataService::loadObjectList('Employee', $this->fixture, 'Employee');
+//        
+//        // Supervisor with one subordinate
+//        $supervisor = $users[1];
+//        $this->manager->setUser($supervisor);
+//        
+//        $properties = array("empNumber","firstName", "middleName", "lastName", "termination_id");
+//        $result = $this->manager->getAccessibleEntityProperties('Employee', $properties, 'lastName', 'ASC');
+//        $allPropertyList = $this->getEmployeePropertyList($allEmployees, $properties);
+//        $expected = $allPropertyList[3];
+//        $this->assertEquals(1, count($result));
+//        $this->assertEquals($expected['empNumber'], $result[3]['empNumber']);
+//        $this->assertEquals($expected['firstName'], $result[3]['firstName']);
+//        $this->assertEquals($expected['middleName'], $result[3]['middleName']);
+//        $this->assertEquals($expected['lastName'], $result[3]['lastName']);
+//        $this->assertEquals($expected['termination_id'], $result[3]['termination_id']);
+//        
+//        
+//        // Supervisor with multiple subordinates
+//        $supervisor = $users[6];
+//        $this->manager->setUser($supervisor);
+//        $expectedEmployees = array($allEmployees[0], $allEmployees[2], 
+//                          $allEmployees[3], $allEmployees[4]);
+//        
+//        $properties = array("empNumber","firstName", "middleName", "lastName", "termination_id");
+//        $result = $this->manager->getAccessibleEntityProperties('Employee', $properties, 'lastName', 'ASC');
+//        $expectedResults = $this->getEmployeePropertyList($expectedEmployees, $properties);
+//        $this->assertEquals(count($expectedResults), count($result));
+//        $this->assertEquals($expectedResults[1]['empNumber'], $result[1]['empNumber']);
+//        $this->assertEquals($expectedResults[3]['firstName'], $result[3]['firstName']);
+//        $this->assertEquals($expectedResults[4]['middleName'], $result[4]['middleName']);
+//        $this->assertEquals($expectedResults[5]['lastName'], $result[5]['lastName']);
+//        $this->assertEquals($expectedResults[1]['termination_id'], $result[1]['termination_id']);
+//    }
+//    
+//    public function testGetAccessibleEntityPropertiesESS() {
+//        $users = TestDataService::loadObjectList('SystemUser', $this->fixture, 'SystemUser');   
+//        
+//        // Supervisor with one subordinate
+//        $essUser = $users[4];
+//        $this->manager->setUser($essUser);
+//        
+//        $properties = array("empNumber","firstName", "middleName", "lastName", "termination_id");
+//        $result = $this->manager->getAccessibleEntityProperties('Employee', $properties, 'lastName', 'ASC');
+//        $this->assertEquals(0, count($result));
+//    }
     
     protected function compareUserRoles($expected, $actual) {
         $this->assertEquals(count($expected), count($actual));
