@@ -125,7 +125,7 @@ class BasicUserRoleManager extends AbstractUserRoleManager {
         foreach ($filteredRoles as $role) {
             $employees = array();
 
-            $roleClass = $this->userRoleClasses[$role];
+            $roleClass = $this->userRoleClasses["$role"];
 
             if ($roleClass) {
                 switch ($entityType) {
