@@ -155,12 +155,12 @@ class BasicUserRoleManager extends AbstractUserRoleManager {
         foreach ($filteredRoles as $role) {
             $propertyList = array();
 
-            $roleClass = $this->userRoleClasses[$role];
+            $roleClass = $this->userRoleClasses["$role"];
 
             if ($roleClass) {
                 switch ($entityType) {
                     case 'Employee':
-                        $propertyList = $roleClass->getAccessibleEmployeePropertyList($role, $properties, $orderField, $orderBy);
+                        $propertyList = $roleClass->getAccessibleEmployeePropertyList($properties, $orderField, $orderBy);
                         break;
                 }
             }
