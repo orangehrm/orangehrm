@@ -90,7 +90,7 @@ class SupervisorUserRoleTest extends PHPUnit_Framework_TestCase {
         }
 
         $mockService->expects($this->once())
-                ->method('getSupervisorEmployeeChain')
+                ->method('getSubordinateList')
                 ->with(1, true)
                 ->will($this->returnValue($employeeList));
 
