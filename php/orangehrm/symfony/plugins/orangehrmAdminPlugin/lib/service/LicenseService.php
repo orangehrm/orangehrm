@@ -50,7 +50,7 @@ class LicenseService extends BaseService {
      * @return NULL Doesn't return a value
      */
     public function saveLicense(License $license) {        
-        $this->getLicenseDao()->saveEmployeeLicense($license);        
+        $this->getLicenseDao()->saveLicense($license);        
     }
     
     /**

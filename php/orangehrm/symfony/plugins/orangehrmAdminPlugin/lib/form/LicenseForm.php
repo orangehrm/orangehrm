@@ -66,7 +66,7 @@ class LicenseForm extends BaseForm {
         }
         
         $license->setName($this->getValue('name'));
-        $this->getLicenseService()->saveEmployeeLicense($license);        
+        $this->getLicenseService()->saveLicense($license);        
         
         return $message;
         

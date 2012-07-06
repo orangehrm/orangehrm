@@ -50,7 +50,7 @@ class LanguageService extends BaseService {
      * @return NULL Doesn't return a value
      */
     public function saveLanguage(Language $language) {        
-        $this->getLanguageDao()->saveEmployeeLanguage($language);        
+        $this->getLanguageDao()->saveLanguage($language);        
     }
     
     /**

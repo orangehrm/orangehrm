@@ -66,7 +66,7 @@ class LanguageForm extends BaseForm {
         }
         
         $language->setName($this->getValue('name'));
-        $this->getLanguageService()->saveEmployeeLanguage($language);        
+        $this->getLanguageService()->saveLanguage($language);        
         
         return $message;
         
