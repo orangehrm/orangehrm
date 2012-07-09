@@ -111,7 +111,7 @@ function enableWidgets(){
 
 $.validator.addMethod("validEmployeeName", function(value, element) {                 
 
-    return autoFill('systemUser_employeeName_empName', 'systemUser_employeeName_empId', employees);
+    return autoFill('systemUser_employeeName_empName', 'systemUser_employeeName_empId', employees_systemUser_employeeName);
                  
 });
             
