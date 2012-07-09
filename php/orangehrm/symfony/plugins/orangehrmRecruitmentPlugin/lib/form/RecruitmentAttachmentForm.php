@@ -99,7 +99,7 @@ class RecruitmentAttachmentForm extends BaseForm {
 		$file = $this->getValue('ufile');
 		$candidateService = $this->getRecruitmentAttachmentService();
 		if ($recId != "") {
-			$existRec = $this->getRecruitmentAttachmentService()->getEmployeeAttachment($recId, $this->screen);
+			$existRec = $this->getRecruitmentAttachmentService()->getAttachment($recId, $this->screen);
 			if ($commentOnly == '1') {
 				$existRec->comment = $this->getValue('comment');
 				//$candidateService->saveAttachment($existRec, $this->screen);
