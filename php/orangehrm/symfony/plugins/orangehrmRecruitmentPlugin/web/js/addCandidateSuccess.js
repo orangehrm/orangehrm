@@ -3,7 +3,7 @@ var toDisable = new Array();
 var item = 0;
 var vacancyId;
 $(document).ready(function() {
-
+    isValidForm();
     vacancyId = $('#addCandidate_vacancy').val();
     if(candidateStatus != activeStatus) {
         $("#btnSave").attr('disabled', 'disabled');
@@ -68,10 +68,8 @@ $(document).ready(function() {
             $("#btnSave").attr('value', lang_save);
             $("#btnBack").attr('value', lang_cancel);
             
-        } else {
+        } else if($("#btnSave").attr('value') == lang_save){
             
-            if(isValidForm()) {
-                
                 $('#addCandidate_keyWords.inputFormatHint').val('');
                 getVacancy();
                 if(candidateId != "") {
@@ -84,7 +82,6 @@ $(document).ready(function() {
                 } else {
                     $('form#frmAddCandidate').submit();
                 }
-            }
         }
 
     });
