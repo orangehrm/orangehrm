@@ -102,7 +102,7 @@ function adjustEmpId() {
 
 function recheckEmpId() {
 
-    var empDataArray = eval(employees); // TODO: Try to replace eval()
+    var empDataArray = eval(employees_leaveSummary_txtEmpName); // TODO: Try to replace eval()
     var empDateCount = empDataArray.length;
 
     var i;
