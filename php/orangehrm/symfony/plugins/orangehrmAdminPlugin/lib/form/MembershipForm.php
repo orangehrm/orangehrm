@@ -39,7 +39,7 @@ class MembershipForm extends BaseForm {
 
         $this->setValidators(array(
             'membershipId' => new sfValidatorNumber(array('required' => false)),
-            'name' => new sfValidatorString(array('required' => true, 'max_length' => 100))
+            'name' => new sfValidatorString(array('required' => true, 'max_length' => 50))
         ));
 
         $this->widgetSchema->setNameFormat('membership[%s]');

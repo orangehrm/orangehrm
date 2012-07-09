@@ -62,7 +62,7 @@
 	var memberships = <?php echo str_replace('&#039;', "'", $form->getMembershipListAsJson()) ?> ;
         var membershipList = eval(memberships);
 	var lang_NameRequired = '<?php echo __(ValidationMessages::REQUIRED); ?>';
-	var lang_exceed50Charactors = '<?php echo __(ValidationMessages::TEXT_LENGTH_EXCEEDS, array('%amount%' => 100)); ?>';
+	var lang_exceed50Charactors = '<?php echo __(ValidationMessages::TEXT_LENGTH_EXCEEDS, array('%amount%' => 50)); ?>';
 	var membershipInfoUrl = "<?php echo url_for("admin/getMembershipJson?id="); ?>";
 	var lang_editMembership = "<?php echo __("Edit Membership"); ?>";
 	var lang_addMembership = "<?php echo __("Add Membership"); ?>";
