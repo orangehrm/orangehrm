@@ -92,7 +92,7 @@
             showTimeControls(false);
 
             // Auto complete
-            $("#assignleave_txtEmployee_empName").autocomplete(employees, {
+            $("#assignleave_txtEmployee_empName").autocomplete(employees_assignleave_txtEmployee, {
                 formatItem: function(item) {
                     return item.name;
                 }
@@ -336,7 +336,7 @@
         });
 
         $("#assignleave_txtEmployee_empName").change(function(){
-            autoFill('assignleave_txtEmployee_empName', 'assignleave_txtEmployee_empId', employees);
+            autoFill('assignleave_txtEmployee_empName', 'assignleave_txtEmployee_empId', employees_assignleave_txtEmployee);
             updateLeaveBalance();
         });
 
