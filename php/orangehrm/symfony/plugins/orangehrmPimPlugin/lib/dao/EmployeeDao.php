@@ -241,8 +241,7 @@ class EmployeeDao extends BaseDao {
 
             }
             
-            return 0;
-            
+            throw new DaoException("Invalid Parameter: emergencyContactsToDelete should be an array");
             
         } catch (Exception $e) {
             throw new DaoException($e->getMessage());

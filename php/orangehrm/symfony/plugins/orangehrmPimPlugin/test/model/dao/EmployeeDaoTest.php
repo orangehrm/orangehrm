@@ -241,14 +241,16 @@ class EmployeeDaoTest extends PHPUnit_Framework_TestCase {
         $result = $this->employeeDao->deleteEmployeeEmergencyContacts($empNumber, $emergencyContactsToDelete);
         $this->assertEquals(0, $result);
     }    
-    
+    /**
+     * @expectedException DaoException
+     */
     public function testDeleteEmergencyContactsWithWrongParameters() {
 
         $empNumber = 1;
         $emergencyContactsToDelete = 100;
 
         $result = $this->employeeDao->deleteEmployeeEmergencyContacts($empNumber, $emergencyContactsToDelete);
-        $this->assertEquals(0, $result);
+        
     }    
 
     /**
