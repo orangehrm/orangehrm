@@ -149,7 +149,7 @@ class CandidateVacancyStatusForm extends BaseForm {
 			$employee->job_title_code = $this->selectedCandidateVacancy->getJobVacancy()->getJobTitleCode();
 			$employee->jobTitle = $this->selectedCandidateVacancy->getJobVacancy()->getJobTitle();
 
-			$this->getCandidateService()->saveEmployee($employee);
+			$this->getCandidateService()->addEmployee($employee);
 		}
 	}
 
