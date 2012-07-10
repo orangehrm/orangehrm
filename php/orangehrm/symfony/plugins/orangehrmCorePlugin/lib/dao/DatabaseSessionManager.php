@@ -8,7 +8,7 @@ class DatabaseSessionManager {
         $this->sessionVariables = $sessionVariables;
     }
 
-    public function  registerVarables() {
+    public function  registerVariables() {
         $conn = Doctrine_Manager::getInstance()->getCurrentConnection();
         foreach ($this->sessionVariables as $key => $value) {
             $conn->execute("SET @{$key} = '{$value}';");

@@ -22,7 +22,7 @@ class baseCsvImportAction extends sfAction {
         $sessionVariableManager->setSessionVariables(array(
             'orangehrm_user' => Auth::instance()->getLoggedInUserId(),
         ));
-        $sessionVariableManager->registerVarables();
+        $sessionVariableManager->registerVariables();
         $this->setOperationName(OrangeActionHelper::getActionDescriptor($this->getModuleName(), $this->getActionName()));
     }
 
@@ -31,7 +31,7 @@ class baseCsvImportAction extends sfAction {
         $sessionVariableManager->setSessionVariables(array(
             'orangehrm_action_name' => $actionName,
         ));
-        $sessionVariableManager->registerVarables();
+        $sessionVariableManager->registerVariables();
     }
 
 }

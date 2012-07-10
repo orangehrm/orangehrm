@@ -8,7 +8,7 @@ abstract class baseRecruitmentAction extends sfAction {
         $sessionVariableManager->setSessionVariables(array(
             'orangehrm_user' => Auth::instance()->getLoggedInUserId(),
         ));
-        $sessionVariableManager->registerVarables();
+        $sessionVariableManager->registerVariables();
         $this->setOperationName(OrangeActionHelper::getActionDescriptor($this->getModuleName(), $this->getActionName()));
     }
 
@@ -17,7 +17,7 @@ abstract class baseRecruitmentAction extends sfAction {
         $sessionVariableManager->setSessionVariables(array(
             'orangehrm_action_name' => $actionName,
         ));
-        $sessionVariableManager->registerVarables();
+        $sessionVariableManager->registerVariables();
     }
 
 }
