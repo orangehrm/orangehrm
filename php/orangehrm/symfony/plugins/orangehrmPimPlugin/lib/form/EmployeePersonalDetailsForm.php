@@ -83,7 +83,7 @@ class EmployeePersonalDetailsForm extends BaseForm {
             'optGender' => new sfWidgetFormChoice(array('expanded' => true, 'choices'  => array(1 => __("Male"), 2 => __("Female")))),
             'cmbNation' => new sfWidgetFormSelect(array('choices' => $this->getNationalityList())),
             'txtOtherID' => new sfWidgetFormInputText(),
-            'cmbMarital' => new sfWidgetFormSelect(array('choices'=>array(0 => "-- " . __('Select') . " --", 'Single' => __('Single'), 'Married' => __('Married'), 'Other' => __('Other')))),
+            'cmbMarital' => new sfWidgetFormSelect(array('choices'=>array('' => "-- " . __('Select') . " --", 'Single' => __('Single'), 'Married' => __('Married'), 'Other' => __('Other')))),
             'chkSmokeFlag' => new sfWidgetFormInputCheckbox(),
             'txtLicExpDate' => new ohrmWidgetDatePickerNew(array(), array('id' => 'personal_txtLicExpDate')),
             'txtMilitarySer' => new sfWidgetFormInputText(),

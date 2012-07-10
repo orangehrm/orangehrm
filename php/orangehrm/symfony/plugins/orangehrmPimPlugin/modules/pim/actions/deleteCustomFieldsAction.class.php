@@ -21,7 +21,7 @@
 /**
  * deleteCustomFieldsAction action
  */
-class deleteCustomFieldsAction extends sfAction {
+class deleteCustomFieldsAction extends basePimAction {
 
     protected $customFieldService;
 

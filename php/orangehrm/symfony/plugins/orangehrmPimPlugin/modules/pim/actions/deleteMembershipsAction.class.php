@@ -22,7 +22,7 @@
  * Action class for PIM module delete memberships
  *
  */
-class deleteMembershipsAction extends sfAction {
+class deleteMembershipsAction extends basePimAction {
 
     /**
      * Delete employee memberships
