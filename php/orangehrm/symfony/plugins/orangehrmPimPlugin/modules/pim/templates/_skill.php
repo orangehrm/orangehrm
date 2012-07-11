@@ -64,7 +64,7 @@ if (($section == 'skill') && isset($message) && isset($messageType)) {
 
                     foreach ($skills as $skill) {                        
                         $cssClass = ($row % 2) ? 'even' : 'odd';
-                        $skillName = $skill->getEmployeeSkills()->getName();
+                        $skillName = $skill->getSkill()->getName();
                         ?>
                     <tr class="<?php echo $cssClass;?>">
                 <td class="check"><input type="hidden" id="code_<?php echo $skill->skillId;?>" value="<?php echo htmlspecialchars($skill->skillId); ?>" />
