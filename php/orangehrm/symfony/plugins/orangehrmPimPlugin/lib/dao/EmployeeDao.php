@@ -277,7 +277,7 @@ class EmployeeDao extends BaseDao {
     /**
      * save immigration
      * @param EmpPassport $empPassport
-     * @returns boolean
+     * @return EmpPassport
      */
     public function saveEmployeePassport(EmpPassport $empPassport) {
 
@@ -296,7 +296,9 @@ class EmployeeDao extends BaseDao {
             }
 
             $empPassport->save();
-            return true;
+            
+            return $empPassport;
+            
         } catch (Exception $e) {
             throw new DaoException($e->getMessage());
         }
@@ -354,7 +356,7 @@ class EmployeeDao extends BaseDao {
     /**
      * save WorkExperience
      * @param EmpWorkExperience $empWorkExp
-     * @returns boolean
+     * @return EmpWorkExperience
      */
     public function saveEmployeeWorkExperience(EmpWorkExperience $empWorkExp) {
         try {
@@ -372,7 +374,9 @@ class EmployeeDao extends BaseDao {
             }
 
             $empWorkExp->save();
-            return true;
+            
+            return $empWorkExp;
+            
         } catch (Exception $e) {
             throw new DaoException($e->getMessage());
         }
@@ -816,16 +820,21 @@ class EmployeeDao extends BaseDao {
     /**
      * Save EmployeePicture
      * @param EmpPicture $empPicture
-     * @returns boolean
+     * @return EmpPicture
      * @throws DaoException
      */
-    function saveEmployeePicture(EmpPicture $empPicture) {
+    public function saveEmployeePicture(EmpPicture $empPicture) {
+        
         try {
+            
             $empPicture->save();
-            return true;
+            
+            return $empPicture;
+            
         } catch (Exception $e) {
             throw new DaoException($e->getMessage());
         }
+        
     }
 
     /**
@@ -1776,7 +1785,13 @@ class EmployeeDao extends BaseDao {
                                ->from('Employee')
                                ->where('employeeId = ?', trim($employeeId));
 
-            return $q->fetchOne();
+            $result = $q->fetchOne();
+            
+            if (!$result) {
+                return null;
+            }
+
+            return $result;
 
         } catch (Exception $e) {
             throw new DaoException($e->getMessage(), $e->getCode(), $e);

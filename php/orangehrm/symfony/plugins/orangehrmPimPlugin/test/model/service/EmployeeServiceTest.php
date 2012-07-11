@@ -91,20 +91,17 @@ class EmployeeServiceTest extends PHPUnit_Framework_TestCase {
     /**
      * Testing Adding Employee Picture
      */
-    public function testAddEmployeePicture() {
-        foreach ($this->testCase['Employee'] as $k => $v) {
-            $this->employeeDao = $this->getMock('EmployeeDao');
-            $this->employeeDao->expects($this->once())
-                    ->method('saveEmployeePicture')
-                    ->will($this->returnValue(true));
-            $this->employeeService->setEmployeeDao($this->employeeDao);
-
-            $pic = new EmpPicture();
-            $pic->setEmpNumber($v['id']);
-            $pic->setFilename("pic_" . rand(0, 1000));
-            $result = $this->employeeService->saveEmployeePicture($pic);
-            $this->assertTrue($result);
-        }
+    public function testSaveEmployeePicture() {
+        
+        $this->employeeDao = $this->getMock('EmployeeDao');
+        $this->employeeDao->expects($this->once())
+                ->method('saveEmployeePicture')
+                ->will($this->returnValue(new EmpPicture()));
+        $this->employeeService->setEmployeeDao($this->employeeDao);
+        
+        $result = $this->employeeService->saveEmployeePicture(new EmpPicture());
+        $this->assertTrue($result instanceof EmpPicture);        
+        
     }
 
     /**
@@ -344,6 +341,7 @@ class EmployeeServiceTest extends PHPUnit_Framework_TestCase {
      * Testing saveWorkExperience
      */
     public function testSaveWorkExperience() {
+        
         $empNumber = 121;
         $experience = new EmpWorkExperience();
         $experience->setEmpNumber($empNumber);
@@ -351,18 +349,17 @@ class EmployeeServiceTest extends PHPUnit_Framework_TestCase {
         $experience->setEmployer('ACME Inc');
         $experience->setJobtitle('Manager');
         
-        $isEss = true;
-        
         $mockDao = $this->getMock('EmployeeDao');
         $mockDao->expects($this->once())
                  ->method('saveEmployeeWorkExperience')
                  ->with($experience)
-                 ->will($this->returnValue(true));
+                 ->will($this->returnValue($experience));
         
-        $this->employeeService->setEmployeeDao($mockDao);
-        
+        $this->employeeService->setEmployeeDao($mockDao);        
         $result = $this->employeeService->saveEmployeeWorkExperience($experience);
-        $this->assertTrue($result);              
+        
+        $this->assertTrue($result === $experience);
+        
     }    
     
     /**
@@ -1163,18 +1160,22 @@ class EmployeeServiceTest extends PHPUnit_Framework_TestCase {
      * Test SaveEmployeePassport
      */
     public function testSaveEmployeePassport() {
+        
+        $empPassport = new EmpPassPort();
+        $empPassport->setEmpNumber(1);        
 
         $employeeDao = $this->getMock('EmployeeDao');
 
         $employeeDao->expects($this->once())
                 ->method('saveEmployeePassport')
-                ->will($this->returnValue(true));
+                ->with($empPassport)
+                ->will($this->returnValue($empPassport));
 
         $this->employeeService->setEmployeeDao($employeeDao);
-        $empPassport = new EmpPassPort();
-        $empPassport->setEmpNumber(1);
+
         $result = $this->employeeService->saveEmployeePassport($empPassport);
-        $this->assertTrue($result);
+        $this->assertTrue($result === $empPassport);
+        
     }
 
     /**

@@ -54,7 +54,7 @@ class EmployeeDaoTest extends PHPUnit_Framework_TestCase {
         $empPassport->setEmpNumber(1);
         $empPassport->country = 'LK';
         $result = $this->employeeDao->saveEmployeePassport($empPassport);
-        $this->assertTrue($result);
+        $this->assertTrue($result instanceof EmpPassPort);
         $this->assertEquals(1, $empPassport->seqno);
     }
 
@@ -73,7 +73,7 @@ class EmployeeDaoTest extends PHPUnit_Framework_TestCase {
             $comment = "I add more comments";
             $passport->comments = $comment;
             $result = $this->employeeDao->saveEmployeePassport($passport);
-            $this->assertTrue($result);
+            $this->assertTrue($result instanceof EmpPassPort);
 
             $savedPassport = $this->employeeDao->getEmployeeImmigrationRecords($passport->getEmpNumber(), $passport->getSeqno());
             $this->assertEquals($comment, $savedPassport->comments);
@@ -269,14 +269,17 @@ class EmployeeDaoTest extends PHPUnit_Framework_TestCase {
      */
     public function testSaveWorkExperienceWithSeqNum() {
 
-        $empWorkExp = new EmpWorkExperience;
+        $empWorkExp = new EmpWorkExperience();
 
         $empWorkExp->emp_number = 1;
         $empWorkExp->seqno = 3;
         $empWorkExp->jobtitle = "SE";
         $empWorkExp->employer = "OrangeHRM";
+        
+        $result = $this->employeeDao->saveEmployeeWorkExperience($empWorkExp);
 
-        $this->assertTrue($this->employeeDao->saveEmployeeWorkExperience($empWorkExp));
+        $this->assertTrue($result === $empWorkExp);
+        
     }
 
     /**
@@ -284,13 +287,16 @@ class EmployeeDaoTest extends PHPUnit_Framework_TestCase {
      */
     public function testSaveWorkExperienceWithoutSeqNum() {
 
-        $empWorkExp = new EmpWorkExperience;
+        $empWorkExp = new EmpWorkExperience();
 
         $empWorkExp->emp_number = 1;
         $empWorkExp->jobtitle = "Architect";
-        $empWorkExp->employer = "IFS";
+        $empWorkExp->employer = "OrangeHRM";
 
-        $this->assertTrue($this->employeeDao->saveEmployeeWorkExperience($empWorkExp));
+        $result = $this->employeeDao->saveEmployeeWorkExperience($empWorkExp);
+
+        $this->assertTrue($result === $empWorkExp);
+        
     }
 
     /**
@@ -657,18 +663,23 @@ class EmployeeDaoTest extends PHPUnit_Framework_TestCase {
         $mockPicture->expects($this->once())
                 ->method('save');
         $result = $this->employeeDao->saveEmployeePicture($mockPicture);
+        
+        $this->assertTrue($result instanceof EmpPicture);        
+
+    }
+    
+    /**
+     * @expectedException DaoException
+     */
+    public function testSaveEmployeePictureException() {
 
         $mockPicture = $this->getMock('EmpPicture', array('save'));
         $mockPicture->expects($this->once())
                 ->method('save')
-                ->will($this->throwException(new Exception()));
+                ->will($this->throwException(new DaoException()));
+        
+        $this->employeeDao->saveEmployeePicture($mockPicture);
 
-        try {
-            $result = $this->employeeDao->saveEmployeePicture($mockPicture);
-            $this->fail("Exception expected");
-        } catch (Exception $e) {
-            // Expected
-        }
     }
 
     public function testAddEmployee() {
@@ -1083,10 +1094,10 @@ class EmployeeDaoTest extends PHPUnit_Framework_TestCase {
     public function testGetEmployeeByEmployeeIdWithWrongId() {
 
         $employee = $this->employeeDao->getEmployeeByEmployeeId('abcd');
-        $this->assertFalse($employee);
+        $this->assertNull($employee);
 
         $employee = $this->employeeDao->getEmployeeByEmployeeId('');
-        $this->assertFalse($employee);
+        $this->assertNull($employee);
     }
     
     public function testGetEmployeesBySubUnit() {

@@ -108,8 +108,8 @@ class EmployeeService extends BaseService {
      * 
      * @version 2.6.11
      * @param Employee $employee
-     * @return boolean
-     * @throws PIMServiceException
+     * @return Employee Saved Employee object
+     * @throws DaoException
      * 
      * @todo Return Saved Employee [DONE]
      * @todo Change method name to saveEmployee [DONE]
@@ -136,7 +136,7 @@ class EmployeeService extends BaseService {
      * @version 2.6.12.1
      * @param string $employeeId Employee ID
      * @return Employee Employee instance if found or false
-     * @todo return null if not found (instead of returning false)
+     * @todo return null if not found (instead of returning false) [DONE]
      */
     public function getEmployeeByEmployeeId($employeeId) {
         return $this->getEmployeeDao()->getEmployeeByEmployeeId($employeeId);
@@ -323,10 +323,10 @@ class EmployeeService extends BaseService {
      * 
      * @version 2.6.11
      * @param EmpPicture $empPicture EmpPicture object to save
-     * @return boolean
-     * @throws PIMServiceException
+     * @return EmpPicture Saved EmpPicture object
+     * @throws DaoException
      * 
-     * @todo Return saved EmpPicture 
+     * @todo Return saved EmpPicture [DONE]
      * @todo Exceptions should preserve previous exception [DONE]
      * @todo Rename to savePicture (without Employee) to match other methods
      */
@@ -339,11 +339,11 @@ class EmployeeService extends BaseService {
      * 
      * @version 2.6.11
      * @param EmpPassport $empPassport EmpPassport instance
-     * @return boolean
+     * @return EmpPassport Saved EmpPassport object
      * 
      * @todo Rename to saveEmployeeImmigrationEntry (without Employee) and change Passport -> Immigration
      * @todo Rename EmpPassport to EmpImmigrationRecord
-     * @todo return saved EmpImmigrationRecord
+     * @todo return saved EmpImmigrationRecord [DONE]
      */
     public function saveEmployeePassport(EmpPassport $empPassport) {
         return $this->getEmployeeDao()->saveEmployeePassport($empPassport);
@@ -372,10 +372,10 @@ class EmployeeService extends BaseService {
      * 
      * @version 2.6.11
      * @param EmpWorkExperience $empWorkExp Work Experience record to save
-     * @return boolean
+     * @return EmpWorkExperience Saved EmpWorkExperience object
      * @throws DaoException
      * 
-     * @todo return saved work Experience
+     * @todo return saved work Experience [DONE]
      * @todo rename method as saveEmployeeWorkExperience [DONE]
      */
     public function saveEmployeeWorkExperience(EmpWorkExperience $empWorkExp) {
