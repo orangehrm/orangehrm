@@ -257,12 +257,12 @@ class EmployeeServiceTest extends PHPUnit_Framework_TestCase {
         $mockDao->expects($this->once())
                  ->method('deleteEmployeeImmigrationRecords')
                  ->with($empNumber, $immigrationToDelete)
-                 ->will($this->returnValue(true));
+                 ->will($this->returnValue(2));
         
         $this->employeeService->setEmployeeDao($mockDao);
         
         $result = $this->employeeService->deleteEmployeeImmigrationRecords($empNumber, $immigrationToDelete);
-        $this->assertTrue($result);
+        $this->assertEquals(2, $result);
         
     }
      
@@ -312,32 +312,12 @@ class EmployeeServiceTest extends PHPUnit_Framework_TestCase {
         $mockDao->expects($this->once())
                  ->method('deleteEmployeeDependents')
                  ->with($empNumber, $entriesToDelete)
-                 ->will($this->returnValue(true));
+                 ->will($this->returnValue(2));
         
         $this->employeeService->setEmployeeDao($mockDao);
         
         $result = $this->employeeService->deleteEmployeeDependents($empNumber, $entriesToDelete);
-        $this->assertTrue($result);
-        
-    }
-    
-    /**
-     * Testing deleteChildren
-     */
-    public function testDeleteChildren() {
-        $empNumber = 111;
-        $entriesToDelete = array('1', '2', '4');
-        
-        $mockDao = $this->getMock('EmployeeDao');
-        $mockDao->expects($this->once())
-                 ->method('deleteEmployeeChildren')
-                 ->with($empNumber, $entriesToDelete)
-                 ->will($this->returnValue(true));
-        
-        $this->employeeService->setEmployeeDao($mockDao);
-        
-        $result = $this->employeeService->deleteEmployeeChildren($empNumber, $entriesToDelete);
-        $this->assertTrue($result);
+        $this->assertEquals(2, $result);
         
     }
     
@@ -423,12 +403,12 @@ class EmployeeServiceTest extends PHPUnit_Framework_TestCase {
         $mockDao->expects($this->once())
                  ->method('deleteEmployeeWorkExperienceRecords')
                  ->with($empNumber, $entriesToDelete)
-                 ->will($this->returnValue(true));
+                 ->will($this->returnValue(2));
         
         $this->employeeService->setEmployeeDao($mockDao);
         
         $result = $this->employeeService->deleteEmployeeWorkExperienceRecords($empNumber, $entriesToDelete);
-        $this->assertTrue($result);              
+        $this->assertEquals(2, $result);              
     }
     
     /**
@@ -491,12 +471,12 @@ class EmployeeServiceTest extends PHPUnit_Framework_TestCase {
         $mockDao->expects($this->once())
                  ->method('deleteEmployeeEducationRecords')
                  ->with($empNumber, $entriesToDelete)
-                 ->will($this->returnValue(true));
+                 ->will($this->returnValue(2));
         
         $this->employeeService->setEmployeeDao($mockDao);
         
         $result = $this->employeeService->deleteEmployeeEducationRecords($empNumber, $entriesToDelete);
-        $this->assertTrue($result);              
+        $this->assertEquals(2, $result);              
     }
     
     /**
@@ -558,12 +538,12 @@ class EmployeeServiceTest extends PHPUnit_Framework_TestCase {
         $mockDao->expects($this->once())
                  ->method('deleteEmployeeSkills')
                  ->with($empNumber, $entriesToDelete)
-                 ->will($this->returnValue(true));
+                 ->will($this->returnValue(2));
         
         $this->employeeService->setEmployeeDao($mockDao);
         
         $result = $this->employeeService->deleteEmployeeSkills($empNumber, $entriesToDelete);
-        $this->assertTrue($result);              
+        $this->assertEquals(2, $result);              
     }
     
     /**
@@ -588,7 +568,25 @@ class EmployeeServiceTest extends PHPUnit_Framework_TestCase {
         
         $result = $this->employeeService->getEmployeeSalaries($empNumber, $id);
         $this->assertEquals($salary, $result);              
-    } 
+    }
+    
+    public function testDeleteEmployeeSalaries() {
+        
+        $empNumber = 1;
+        $entriesToDelete = array(1, 2);
+        
+        $mockDao = $this->getMock('EmployeeDao');
+        $mockDao->expects($this->once())
+                 ->method('deleteEmployeeSalaries')
+                 ->with($empNumber, $entriesToDelete)
+                 ->will($this->returnValue(2));
+        
+        $this->employeeService->setEmployeeDao($mockDao);
+        
+        $result = $this->employeeService->deleteEmployeeSalaries($empNumber, $entriesToDelete);
+        $this->assertEquals(2, $result); 
+        
+    }  
     
     /**
      * Testing saveLanguage
@@ -647,18 +645,18 @@ class EmployeeServiceTest extends PHPUnit_Framework_TestCase {
      */
     public function testDeleteLanguage() {
         $empNumber = 111;
-        $entriesToDelete = array('1', '2', '4');
+        $entriesToDelete = array(1 => 1, 1 => 2);
         
         $mockDao = $this->getMock('EmployeeDao');
         $mockDao->expects($this->once())
                  ->method('deleteEmployeeLanguages')
                  ->with($empNumber, $entriesToDelete)
-                 ->will($this->returnValue(true));
+                 ->will($this->returnValue(2));
         
         $this->employeeService->setEmployeeDao($mockDao);
         
         $result = $this->employeeService->deleteEmployeeLanguages($empNumber, $entriesToDelete);
-        $this->assertTrue($result);              
+        $this->assertEquals(2, $result);              
     }
     
     /**
@@ -718,12 +716,12 @@ class EmployeeServiceTest extends PHPUnit_Framework_TestCase {
         $mockDao->expects($this->once())
                  ->method('deleteEmployeeLicenses')
                  ->with($empNumber, $entriesToDelete)
-                 ->will($this->returnValue(true));
+                 ->will($this->returnValue(2));
         
         $this->employeeService->setEmployeeDao($mockDao);
         
         $result = $this->employeeService->deleteEmployeeLicenses($empNumber, $entriesToDelete);
-        $this->assertTrue($result);              
+        $this->assertEquals(2, $result);              
     } 
     
     /**
@@ -778,12 +776,12 @@ class EmployeeServiceTest extends PHPUnit_Framework_TestCase {
         $mockDao->expects($this->once())
                  ->method('deleteEmployeeAttachments')
                  ->with($empNumber, $entriesToDelete)
-                 ->will($this->returnValue(true));
+                 ->will($this->returnValue(2));
         
         $this->employeeService->setEmployeeDao($mockDao);
         
         $result = $this->employeeService->deleteEmployeeAttachments($empNumber, $entriesToDelete);
-        $this->assertTrue($result);              
+        $this->assertEquals(2, $result);              
         
         $mockDao = $this->getMock('EmployeeDao');
         $mockDao->expects($this->once())

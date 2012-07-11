@@ -219,33 +219,39 @@ class EmployeeService extends BaseService {
     /**
      * Delete the given emergency contacts from the given employee
      * 
+     * If $entriesToDelete is not provided (null), all entries of given employee
+     * will be deleted.
+     * 
      * @version 2.6.11
      * @param int $empNumber Employee Number
-     * @param array $emergencyContactsToDelete Array of emergency contact seqNo values.
+     * @param array $entriesToDelete Array of emergency contact seqNo values. Optional.
      * @returns integer Number of records deleted
-     * @throws PIMServiceException
+     * @throws DaoException
      * 
      * @todo return number of contacts deleted (currently returns true always) [DONE]
      * @todo Exceptions should preserve previous exception [DONE]
      * @todo rename method as deleteEmployeeEmergencyContacts [DONE]
      */
-    public function deleteEmployeeEmergencyContacts($empNumber, $emergencyContactsToDelete) {
-        return $this->getEmployeeDao()->deleteEmployeeEmergencyContacts($empNumber, $emergencyContactsToDelete);
+    public function deleteEmployeeEmergencyContacts($empNumber, $entriesToDelete = null) {
+        return $this->getEmployeeDao()->deleteEmployeeEmergencyContacts($empNumber, $entriesToDelete);
     }
 
     /**
      * Delete the given immigration entries for the given employee.
      * 
+     * If $entriesToDelete is not provided (null), all entries of given employee
+     * will be deleted.
+     * 
      * @version 2.6.11
      * @param int $empNumber Employee Number
-     * @param array $entriesToDelete Array of immigration entry seqno values.
-     * @returns boolean
-     * @throws PIMServiceException
+     * @param array $entriesToDelete Array of immigration entry seqno values. Optional.
+     * @returns integer Number of records deleted
+     * @throws DaoException
      * 
      * @todo Rename to deleteEmployeeImmigrationRecords [DONE]
-     * @todo return number of entries deleted (currently returns true always)
+     * @todo return number of entries deleted (currently returns true always) [DONE]
      */
-    public function deleteEmployeeImmigrationRecords($empNumber, $entriesToDelete) {
+    public function deleteEmployeeImmigrationRecords($empNumber, $entriesToDelete = null) {
         return $this->getEmployeeDao()->deleteEmployeeImmigrationRecords($empNumber, $entriesToDelete);
     }
 
@@ -266,35 +272,21 @@ class EmployeeService extends BaseService {
     /**
      * Delete the given dependents from the given employee
      * 
+     * If $entriesToDelete is not provided (null), all entries of given employee
+     * will be deleted.
+     *  
      * @version 2.6.11
      * @param int $empNumber Employee Number
-     * @param array $entriesToDelete Array of dependent seqno values.
-     * @returns boolean
-     * @throws PIMServiceException
+     * @param array $entriesToDelete Array of dependent seqno values. Optional.
+     * @returns integer Number of records deleted
+     * @throws DaoException
      * 
-     * @todo return number of entries deleted (currently returns true always)
+     * @todo return number of entries deleted (currently returns true always) [DONE]
      * @todo Exceptions should preserve previous exception [DONE]
      * @todo Rename method as deleteEmployeeDependents [DONE]
      */
-    public function deleteEmployeeDependents($empNumber, $entriesToDelete) {
+    public function deleteEmployeeDependents($empNumber, $entriesToDelete = null) {
         return $this->getEmployeeDao()->deleteEmployeeDependents($empNumber, $entriesToDelete);
-    }
-
-    /**
-     * Delete given children from the given employee
-     * 
-     * @version 2.6.11
-     * @param int $empNumber Employee Number
-     * @param array $entriesToDelete Array of EmpChild seqno values 
-     * @returns boolean
-     * @throws PIMServiceException
-     * 
-     * @todo return number of entries deleted (currently returns true always)
-     * @todo Exceptions should preserve previous exception [DONE]
-     * @todo rename method as deleteEmployeeChildren [DONE]
-     */
-    public function deleteEmployeeChildren($empNumber, $entriesToDelete) {
-        return $this->getEmployeeDao()->deleteEmployeeChildren($empNumber, $entriesToDelete);
     }
 
     /**
@@ -411,19 +403,22 @@ class EmployeeService extends BaseService {
     /**
      * Delete given WorkExperience entries from given employee.
      * 
+     * If $entriesToDelete is not provided (null), all entries of given employee
+     * will be deleted.
+     * 
      * @version 2.6.11
      * @param int $empNumber Employee Number
-     * @param array $workExperienceToDelete sequenceNos of the work experience
-     *              records to delete
+     * @param array $entriesToDelete sequenceNos of the work experience
+     *              records to delete. Optional.
      * 
-     * @return boolean True if workExperienceToDelete is not empty, false if empty.
+     * @return integer Number of records deleted
      * @throws DaoException
      * 
-     * @todo return number of entries deleted
+     * @todo return number of entries deleted [DONE]
      * @todo rename method as deleteEmployeeWorkExperienceRecords [DONE]
      */
-    public function deleteEmployeeWorkExperienceRecords($empNumber, $workExperienceToDelete) {
-        return $this->getEmployeeDao()->deleteEmployeeWorkExperienceRecords($empNumber, $workExperienceToDelete);
+    public function deleteEmployeeWorkExperienceRecords($empNumber, $entriesToDelete = null) {
+        return $this->getEmployeeDao()->deleteEmployeeWorkExperienceRecords($empNumber, $entriesToDelete);
     }
 
     /**
@@ -463,17 +458,20 @@ class EmployeeService extends BaseService {
     /**
      * Delete given education entries for given employee
      * 
+     * If $entriesToDelete is not provided (null), all entries of given employee
+     * will be deleted.
+     * 
      * @version 2.6.11
      * @param int $empNumber Employee Number
-     * @param array $educationToDelete sequenceNos of the education entries to delete
-     * @return boolean True if educationToDelete is not empty, false if empty.
+     * @param array $entriesToDelete sequenceNos of the education entries to delete. Optional.
+     * @return integer Number of records deleted
      * @throws DaoException
      * 
-     * @todo return number of entries deleted (currently return value is based on $educationToDelete not actual deleted records)
+     * @todo return number of entries deleted (currently return value is based on $educationToDelete not actual deleted records) [DONE]
      * @todo rename method as deleteEmployeeEducationRecords [DONE]
      */
-    public function deleteEmployeeEducationRecords($empNumber, $educationToDelete) {
-        return $this->getEmployeeDao()->deleteEmployeeEducationRecords($empNumber, $educationToDelete);
+    public function deleteEmployeeEducationRecords($empNumber, $entriesToDelete = null) {
+        return $this->getEmployeeDao()->deleteEmployeeEducationRecords($empNumber, $entriesToDelete);
     }
 
     /**
@@ -512,17 +510,20 @@ class EmployeeService extends BaseService {
     /**
      * Delete given skill entries for given employee
      * 
+     * If $entriesToDelete is not provided (null), all entries of given employee
+     * will be deleted.
+     * 
      * @version 2.6.11
      * @param int $empNumber Employee Number
-     * @param array $skillToDelete ids of the skill entries to delete
-     * @return boolean True if $skillToDelete is not empty, false if empty.
+     * @param array $entriesToDelete Ids of the skill entries to delete. Optional.
+     * @return integer Number of records deleted
      * @throws DaoException
      * 
-     * @todo return number of entries deleted
+     * @todo return number of entries deleted [DONE]
      * @todo rename method as deleteEmployeeSkills [DONE]
      */
-    public function deleteEmployeeSkills($empNumber, $skillToDelete) {
-        return $this->getEmployeeDao()->deleteEmployeeSkills($empNumber, $skillToDelete);
+    public function deleteEmployeeSkills($empNumber, $entriesToDelete = null) {
+        return $this->getEmployeeDao()->deleteEmployeeSkills($empNumber, $entriesToDelete);
     }
 
     /**
@@ -564,16 +565,19 @@ class EmployeeService extends BaseService {
     /** 
      * Deletes languages assigned to an employee
      * 
+     * If $entriesToDelete is not provided (null), all entries of given employee
+     * will be deleted.
+     * 
      * @version 2.6.11
      * @param int $empNumber Employee Number
-     * @param array() $languagesToDelete Associative array of with language IDs as keys and fluency types as values
-     * @return int Number of records deleted. False if $languagesToDelete is empty
+     * @param array $entriesToDelete Associative array of with language IDs as keys and fluency types as values. Optional.
+     * @return integer Number of records deleted
      * 
-     * @todo return number of entries deleted
+     * @todo return number of entries deleted [DONE]
      * @todo rename method as deleteEmployeeLanguages [DONE]
      */
-    public function deleteEmployeeLanguages($empNumber, $languagesToDelete) {
-        return $this->getEmployeeDao()->deleteEmployeeLanguages($empNumber, $languagesToDelete);
+    public function deleteEmployeeLanguages($empNumber, $entriesToDelete = null) {
+        return $this->getEmployeeDao()->deleteEmployeeLanguages($empNumber, $entriesToDelete);
     }
 
     /**
@@ -613,17 +617,20 @@ class EmployeeService extends BaseService {
     /**
      * Deletes license of an employee
      * 
+     * If $entriesToDelete is not provided (null), all entries of given employee
+     * will be deleted.
+     * 
      * @version 2.6.11
      * @param int $empNumber Employee number
-     * @param array $licenseToDelete Array of license IDs
-     * @return boolean False if $licenseToDelete is empty or true otherwise
+     * @param array $entriesToDelete Array of license IDs. Optional.
+     * @return integer Number of records deleted
      * 
-     * @todo Return number of items deleted
+     * @todo Return number of items deleted [DONE]
      * @todo Rename method as deleteEmployeeLicenses [DONE]
      * 
      */
-    public function deleteEmployeeLicenses($empNumber, $licenseToDelete) {
-        return $this->getEmployeeDao()->deleteEmployeeLicenses($empNumber, $licenseToDelete);
+    public function deleteEmployeeLicenses($empNumber, $entriesToDelete = null) {
+        return $this->getEmployeeDao()->deleteEmployeeLicenses($empNumber, $entriesToDelete);
     }
 
 
@@ -662,16 +669,19 @@ class EmployeeService extends BaseService {
     /**
      * Deletes attachments of an employee
      * 
+     * If $entriesToDelete is not provided (null), all entries of given employee
+     * will be deleted.
+     * 
      * @version 2.6.11
      * @param int $empNumber Employee number
-     * @param array $attachmentsToDelete Array of attachement IDs
-     * @return boolean False if $attachmentsToDelete is empty or true otherwise
+     * @param array $entriesToDelete Array of attachement IDs. Optional.
+     * @return integer Number of records deleted
      * 
      * @todo rename method as deleteEmployeeAttachments [DONE]
-     * @todo return number of items deleted
+     * @todo return number of items deleted [DONE]
      */
-    public function deleteEmployeeAttachments($empNumber, $attachmentsToDelete) {
-        return $this->getEmployeeDao()->deleteEmployeeAttachments($empNumber, $attachmentsToDelete);
+    public function deleteEmployeeAttachments($empNumber, $entriesToDelete = null) {
+        return $this->getEmployeeDao()->deleteEmployeeAttachments($empNumber, $entriesToDelete);
     }
 
     /**
@@ -954,17 +964,17 @@ class EmployeeService extends BaseService {
      * Delete Employees for given employee Id List
      * 
      * @version 2.6.11
-     * @param array $empList
-     * @return boolean , true if successfully deleted 
+     * @param array $empNumbers
+     * @return integer Number of records deleted
      * 
-     * @throws PIMServiceException
+     * @throws DaoException
      * 
      * @todo rename method as deleteEmployees($empNumbers )
-     * @todo return number of deleted items
+     * @todo return number of deleted items [DONE]
      * 
      */
-    public function deleteEmployee($empList = array()) {
-        return $this->getEmployeeDao()->deleteEmployee($empList);
+    public function deleteEmployee($empNumbers) {
+        return $this->getEmployeeDao()->deleteEmployee($empNumbers);
     }
 
     /**
@@ -1278,21 +1288,24 @@ class EmployeeService extends BaseService {
     }
 
     /**
-     * Deletes a salary of an employee
+     * Deletes salary components of an employee
+     * 
+     * If $salaryIds is not provided (null), all entries of given employee
+     * will be deleted.
      * 
      * @version 2.6.11
-     * @param int $empNumber Employee Number
-     * @param array $salaryToDelete Array of salary IDs
-     * @return boolean true always
-     * @throws PIMServiceException
+     * @param int $empNumber Employee number
+     * @param array $salaryIds Array of salary IDs. Optional.
+     * @return integer Number of records deleted
+     * @throws DaoException
      * 
-     * @todo return number deleted items
+     * @todo return number deleted items [DONE]
      * @todo rename method as deleteEmployeeSalaries [DONE]
-     * @todo Change parameter to $salaryIds
+     * @todo Change parameter to $salaryIds [DONE]
      * @todo Change EmpBasicSalary ORM to Salary
      */
-    public function deleteEmployeeSalaries($empNumber, $salaryToDelete) {
-        return $this->getEmployeeDao()->deleteEmployeeSalaries($empNumber, $salaryToDelete);
+    public function deleteEmployeeSalaries($empNumber, $salaryIds = null) {
+        return $this->getEmployeeDao()->deleteEmployeeSalaries($empNumber, $salaryIds);
     }
     
     /**

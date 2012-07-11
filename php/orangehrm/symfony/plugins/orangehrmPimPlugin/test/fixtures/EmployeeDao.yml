@@ -121,5 +121,5 @@ PayGradeCurrency:
 
 EmpBasicsalary:
     0: {id: 1, emp_number: 1, sal_grd_code: 1, currency_id: 'LKR', ebsal_basic_salary: '10000.00', salary_component: 'Main Salary'}
-    1: {id: 2, emp_number: 1, sal_grd_code: 1, currency_id: 'USD', ebsal_basic_salary: '20000.00', salary_component: 'Allowance'}
+    1: {id: 2, emp_number: 1, sal_grd_code: 2, currency_id: 'USD', ebsal_basic_salary: '20000.00', salary_component: 'Allowance'}
 

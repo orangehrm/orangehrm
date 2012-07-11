@@ -225,54 +225,53 @@ class EmployeeDao extends BaseDao {
     /**
      * Delete Emergency contacts
      * @param int $empNumber
-     * @param array() $emergencyContactsToDelete
-     * @returns boolean
+     * @param array $entriesToDelete
+     * @returns integer
      * @throws DaoException
      */
-    public function deleteEmployeeEmergencyContacts($empNumber, $emergencyContactsToDelete = array()) {
+    public function deleteEmployeeEmergencyContacts($empNumber, $entriesToDelete = null) {
+        
         try {
-            if (is_array($emergencyContactsToDelete)) {
-
-                $q = Doctrine_Query :: create()->delete('EmpEmergencyContact ec')
-                                ->whereIn('seqno', $emergencyContactsToDelete)
-                                ->andwhere('emp_number = ?', $empNumber);
-                
-                return $q->execute();
-
+            
+            $q = Doctrine_Query::create()->delete('EmpEmergencyContact')
+                                         ->where('emp_number = ?', $empNumber);
+            
+            if (is_array($entriesToDelete) && count($entriesToDelete) > 0) {                
+                $q->whereIn('seqno', $entriesToDelete);                
             }
             
-            throw new DaoException("Invalid Parameter: emergencyContactsToDelete should be an array");
-            
+            return $q->execute();
+
         } catch (Exception $e) {
             throw new DaoException($e->getMessage());
-        }
+        }        
+        
     }
 
     /**
      * Delete Immigration
      * @param int $empNumber
      * @param array() $entriesToDelete
-     * @returns boolean
+     * @returns integer
      * @throws DaoException
      */
-    public function deleteEmployeeImmigrationRecords($empNumber, $entriesToDelete) {
+    public function deleteEmployeeImmigrationRecords($empNumber, $entriesToDelete = null) {
 
         try {
-
-            if (is_array($entriesToDelete)) {
-                // Delete immigration
-                $q = Doctrine_Query :: create()->delete('EmpPassport ec')
-                                ->whereIn('seqno', $entriesToDelete)
-                                ->andwhere('emp_number = ?', $empNumber);
-                $result = $q->execute();
-
-                return true;
+            
+            $q = Doctrine_Query::create()->delete('EmpPassport ec')
+                                         ->where('emp_number = ?', $empNumber);
+            
+            if (is_array($entriesToDelete) && count($entriesToDelete) > 0) {                
+                $q->whereIn('seqno', $entriesToDelete);                
             }
+            
+            return $q->execute();
 
-            return false;
         } catch (Exception $e) {
             throw new DaoException($e->getMessage());
         }
+        
     }
 
     /**
@@ -382,24 +381,27 @@ class EmployeeDao extends BaseDao {
     /**
      * Delete WorkExperiences
      * @param int $empNumber
-     * @param array() $workExperienceToDelete
-     * @returns boolean
+     * @param array() $entriesToDelete
+     * @returns integer
      * @throws DaoException
      */
-    public function deleteEmployeeWorkExperienceRecords($empNumber, $workExperienceToDelete) {
+    public function deleteEmployeeWorkExperienceRecords($empNumber, $entriesToDelete = null) {
+        
         try {
-            if (is_array($workExperienceToDelete)) {
-                // Delete work experience
-                $q = Doctrine_Query :: create()->delete('EmpWorkExperience ec')
-                                ->whereIn('seqno', $workExperienceToDelete)
-                                ->andwhere('emp_number = ?', $empNumber);
-                $result = $q->execute();
-                return true;
+            
+            $q = Doctrine_Query::create()->delete('EmpWorkExperience ec')
+                                         ->where('emp_number = ?', $empNumber);
+            
+            if (is_array($entriesToDelete) && count($entriesToDelete) > 0) {                
+                $q->whereIn('seqno', $entriesToDelete);                
             }
-            return false;
+            
+            return $q->execute();
+
         } catch (Exception $e) {
             throw new DaoException($e->getMessage());
-        }
+        }        
+        
     }
 
     /**
@@ -459,26 +461,27 @@ class EmployeeDao extends BaseDao {
     /**
      * Delete Educations
      * @param int $empNumber
-     * @param array() $educationToDelete
-     * @returns boolean
+     * @param array() $entriesToDelete
+     * @returns integer
      * @throws DaoException
      */
-    public function deleteEmployeeEducationRecords($empNumber, $educationToDelete) {
+    public function deleteEmployeeEducationRecords($empNumber, $entriesToDelete = null) {
+        
         try {
-
-            if (is_array($educationToDelete)) {
-                // Delete work experience
-                $q = Doctrine_Query :: create()->delete('EmployeeEducation ec')
-                                ->whereIn('id', $educationToDelete)
-                                ->andwhere('emp_number = ?', $empNumber);
-
-                $result = $q->execute();
-                return true;
+            
+            $q = Doctrine_Query::create()->delete('EmployeeEducation')
+                                         ->where('emp_number = ?', $empNumber);
+            
+            if (is_array($entriesToDelete) && count($entriesToDelete) > 0) {                
+                $q->whereIn('id', $entriesToDelete);                
             }
-            return false;
+            
+            return $q->execute();
+
         } catch (Exception $e) {
             throw new DaoException($e->getMessage());
-        }
+        }        
+        
     }
 
     /**
@@ -531,29 +534,32 @@ class EmployeeDao extends BaseDao {
     /**
      * Delete Languages
      * @param int $empNumber
-     * @param array() $languageToDelete
-     * @return int - number of records deleted. False if did not delete anything.
+     * @param array() $entriesToDelete
+     * @return integer
      * @throws DaoException
      */
-    public function deleteEmployeeLanguages($empNumber, $languagesToDelete) {
+    public function deleteEmployeeLanguages($empNumber, $entriesToDelete = null) {
 
         try {
-            if (is_array($languagesToDelete) && count($languagesToDelete) > 0) {
-                // Delete language
-                $q = Doctrine_Query::create();
-                $q->delete('EmployeeLanguage el');
-
-                foreach ($languagesToDelete as $code => $type) {
-                    $q->orWhere('(emp_number = ? and lang_id = ? and fluency = ?)', array($empNumber, $code, $type));
-                }
-
-                $result = $q->execute();
-                return $result;
+            
+            $q = Doctrine_Query::create()->delete('EmployeeLanguage');
+            
+            if (is_array($entriesToDelete) && count($entriesToDelete) > 0) {                
+                
+                foreach ($entriesToDelete as $langId => $fluency) {
+                    $q->orWhere('(lang_id = ? and fluency = ?)', array($langId, $fluency));
+                }                
+                
             }
-            return false;
+            
+            $q->andWhere('emp_number = ?', $empNumber);
+            
+            return $q->execute();
+
         } catch (Exception $e) {
             throw new DaoException($e->getMessage());
-        }
+        }        
+        
     }
 
     /**
@@ -599,25 +605,27 @@ class EmployeeDao extends BaseDao {
     /**
      * Delete Skills
      * @param int $empNumber
-     * @param array() $skillToDelete
-     * @returns boolean
+     * @param array() $entriesToDelete
+     * @returns integer
      * @throws DaoException
      */
-    public function deleteEmployeeSkills($empNumber, $skillToDelete) {
+    public function deleteEmployeeSkills($empNumber, $entriesToDelete = null) {
+        
         try {
-            if (is_array($skillToDelete)) {
-                // Delete Skill
-                $q = Doctrine_Query :: create()->delete('EmployeeSkill ec')
-                                ->whereIn('skill_id', $skillToDelete)
-                                ->andwhere('emp_number = ?', $empNumber);
-
-                $result = $q->execute();
-                return true;
+            
+            $q = Doctrine_Query::create()->delete('EmployeeSkill')
+                                         ->where('emp_number = ?', $empNumber);
+            
+            if (is_array($entriesToDelete) && count($entriesToDelete) > 0) {                
+                $q->whereIn('skill_id', $entriesToDelete);                
             }
-            return false;
+            
+            return $q->execute();
+
         } catch (Exception $e) {
             throw new DaoException($e->getMessage());
-        }
+        }        
+        
     }
 
     /**
@@ -662,25 +670,27 @@ class EmployeeDao extends BaseDao {
     /**
      * Delete Licenses
      * @param int $empNumber
-     * @param array() $licenseToDelete
-     * @returns boolean
+     * @param array() $entriesToDelete
+     * @returns integer
      * @throws DaoException
      */
-    public function deleteEmployeeLicenses($empNumber, $licenseToDelete) {
+    public function deleteEmployeeLicenses($empNumber, $entriesToDelete = null) {
+        
         try {
-            if (is_array($licenseToDelete) && count($licenseToDelete) > 0) {
-                // Delete work experience
-                $q = Doctrine_Query :: create()->delete('EmployeeLicense l')
-                                ->whereIn('l.license_id', $licenseToDelete)
-                                ->andwhere('l.emp_number = ?', $empNumber);
-
-                $result = $q->execute();
-                return true;
+            
+            $q = Doctrine_Query::create()->delete('EmployeeLicense')
+                                         ->where('emp_number = ?', $empNumber);
+            
+            if (is_array($entriesToDelete) && count($entriesToDelete) > 0) {                
+                $q->whereIn('license_id', $entriesToDelete);                
             }
-            return false;
+            
+            return $q->execute();
+
         } catch (Exception $e) {
             throw new DaoException($e->getMessage());
-        }
+        }        
+        
     }
 
     /**
@@ -721,24 +731,27 @@ class EmployeeDao extends BaseDao {
     /**
      * Delete Attachments
      * @param int $empNumber
-     * @param array $attachmentsToDelete
-     * @returns boolean
+     * @param array $entriesToDelete
+     * @returns integer
      * @throws DaoException
      */
-    public function deleteEmployeeAttachments($empNumber, $attachmentsToDelete = array()) {
+    public function deleteEmployeeAttachments($empNumber, $entriesToDelete = null) {
+        
         try {
-            if (count($attachmentsToDelete) > 0) {
-                // Delete attachments
-                $q = Doctrine_Query :: create()->delete('EmployeeAttachment a')
-                                ->whereIn('attach_id', $attachmentsToDelete)
-                                ->andwhere('emp_number = ?', $empNumber);
-                $result = $q->execute();
-                return true;
+            
+            $q = Doctrine_Query::create()->delete('EmployeeAttachment')
+                                         ->where('emp_number = ?', $empNumber);
+            
+            if (is_array($entriesToDelete) && count($entriesToDelete) > 0) {                
+                $q->whereIn('attach_id', $entriesToDelete);                
             }
-            return false;
+            
+            return $q->execute();
+
         } catch (Exception $e) {
             throw new DaoException($e->getMessage());
-        }
+        }        
+        
     }
 
     /**
@@ -761,46 +774,26 @@ class EmployeeDao extends BaseDao {
      * Delete Dependents
      * @param int $empNumber
      * @param array() $entriesToDelete
-     * @returns boolean
+     * @returns integer
      * @throws DaoException
      */
-    public function deleteEmployeeDependents($empNumber, $entriesToDelete) {
+    public function deleteEmployeeDependents($empNumber, $entriesToDelete = null) {
+        
         try {
-            if (is_array($entriesToDelete)) {
-                // Delete dependents
-                $q = Doctrine_Query :: create()->delete('EmpDependent d')
-                                ->whereIn('seqno', $entriesToDelete)
-                                ->andwhere('emp_number = ?', $empNumber);
-                $result = $q->execute();
-                return true;
+            
+            $q = Doctrine_Query::create()->delete('EmpDependent d')
+                                         ->where('emp_number = ?', $empNumber);
+            
+            if (is_array($entriesToDelete) && count($entriesToDelete) > 0) {                
+                $q->whereIn('seqno', $entriesToDelete);                
             }
-            return false;
-        } catch (Exception $e) {
-            throw new DaoException($e->getMessage());
-        }
-    }
+            
+            return $q->execute();
 
-    /**
-     * Delete Children
-     * @param int $empNumber
-     * @param array() $entriesToDelete
-     * @returns boolean
-     * @throws DaoException
-     */
-    public function deleteEmployeeChildren($empNumber, $entriesToDelete) {
-        try {
-            if (is_array($entriesToDelete)) {
-                // Delete children
-                $q = Doctrine_Query :: create()->delete('EmpChild c')
-                                ->whereIn('seqno', $entriesToDelete)
-                                ->andwhere('emp_number = ?', $empNumber);
-                $result = $q->execute();
-                return true;
-            }
-            return false;
         } catch (Exception $e) {
             throw new DaoException($e->getMessage());
-        }
+        }        
+        
     }
 
     /**
@@ -1299,23 +1292,31 @@ class EmployeeDao extends BaseDao {
 
     /**
      * Delete Employee
-     * @param array $empList
-     * @returns int
+     * 
+     * This method prevents deleting all employees in case $empNumbers is not provided.
+     * 
+     * @param array $empNumbers
+     * @returns integer
      * @throws DaoException
      */
-    public function deleteEmployee($empList = array()) {
+    public function deleteEmployee($empNumbers) {
+        
         try {
-            if (is_array($empList) && count($empList) > 0) {
-                $q = Doctrine_Query::create()
-                                ->delete('Employee')
-                                ->whereIn('empNumber', $empList);
-
-                return $q->execute();
+            
+            if (!is_array($empNumbers) || empty($empNumbers)) {
+                throw new DaoException('Invalid parameter: $empNumbers should be an array and should not be empty');
             }
-            return 0;
+
+            $q = Doctrine_Query::create()
+                            ->delete('Employee')
+                            ->whereIn('empNumber', $empNumbers);
+
+            return $q->execute();
+
         } catch (Exception $e) {
             throw new DaoException($e->getMessage());
         }
+        
     }
 
     /**
@@ -1528,27 +1529,27 @@ class EmployeeDao extends BaseDao {
     /**
      * Delete Salary
      * @param int $empNumber
-     * @param array() $salaryToDelete
-     * @returns boolean
+     * @param array $salaryIds
+     * @returns integer
      * @throws DaoException
      */
-    public function deleteEmployeeSalaries($empNumber, $salaryToDelete) {
+    public function deleteEmployeeSalaries($empNumber, $salaryIds = null) {
+        
         try {
-            // Skip if no salarys because running the following query
-            // with no salarys will delete all this employee's assigned
-            // salary
-
-            if (count($salaryToDelete) > 0) {
-                $q = Doctrine_Query :: create()->delete('EmpBasicsalary s')
-                                ->whereIn('id', array_values($salaryToDelete))
-                                ->andWhere('emp_number = ?', $empNumber);
-
-                $result = $q->execute();
+            
+            $q = Doctrine_Query::create()->delete('EmpBasicsalary')
+                                         ->where('emp_number = ?', $empNumber);
+            
+            if (is_array($salaryIds) && count($salaryIds) > 0) {                
+                $q->whereIn('id', $salaryIds);                
             }
-            return true;
+            
+            return $q->execute();
+
         } catch (Exception $e) {
             throw new DaoException($e->getMessage());
-        }
+        }        
+        
     }
     
     /**
