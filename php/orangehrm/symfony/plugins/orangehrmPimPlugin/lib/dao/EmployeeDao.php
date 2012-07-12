@@ -605,15 +605,20 @@ class EmployeeDao extends BaseDao {
     /**
      * save Skill
      * @param EmployeeSkill $empSkill
-     * @returns boolean
+     * @returns EmployeeSkill
      */
     public function saveEmployeeSkill(EmployeeSkill $empSkill) {
+        
         try {
+            
             $empSkill->save();
-            return true;
+            
+            return $empSkill;
+            
         } catch (Exception $e) {
             throw new DaoException($e->getMessage());
         }
+        
     }
 
     /**
@@ -1494,26 +1499,27 @@ class EmployeeDao extends BaseDao {
 
     /**
      * Delete Membership Detail
-     * @param $empNumber $membershipType $membership
-     * @return boolean
+     * @param $empNumber 
+     * @param $membershipIds
+     * @return integer
      */
-    public function deleteMembershipDetails($empNumber, $membership) {
+    public function deleteEmployeeMemberships($empNumber, $membershipIds = null) {
+        
         try {
-            $query = Doctrine_Query::create()
-                            ->delete()
-                            ->from("EmployeeMemberDetail")
-                            ->where("empNumber = ?", $empNumber)
-                            ->andWhere("membershipCode = ?", $membership);
-
-            $membershipDetailDeleted = $query->execute();
-
-            if ($membershipDetailDeleted > 0) {
-                return true;
+            
+            $q = Doctrine_Query::create()->delete('EmployeeMemberDetail')
+                                         ->where('empNumber = ?', $empNumber);
+            
+            if (is_array($membershipIds) && count($membershipIds) > 0) {                
+                $q->whereIn('membershipCode', $membershipIds);                
             }
-        } catch (Exception $ex) {
+            
+            return $q->execute();
 
-            throw new DaoException($ex->getMessage());
-        }
+        } catch (Exception $e) {
+            throw new DaoException($e->getMessage());
+        }        
+        
     }
 
     /**

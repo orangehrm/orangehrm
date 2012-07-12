@@ -482,6 +482,7 @@ class EmployeeServiceTest extends PHPUnit_Framework_TestCase {
      * Testing saveSkill
      */
     public function testSaveSkill() {
+        
         $empNumber = 121;
         $skill = new EmployeeSkill();
         $skill->setEmpNumber($empNumber);
@@ -492,12 +493,13 @@ class EmployeeServiceTest extends PHPUnit_Framework_TestCase {
         $mockDao->expects($this->once())
                  ->method('saveEmployeeSkill')
                  ->with($skill)
-                 ->will($this->returnValue(true));
+                 ->will($this->returnValue($skill));
         
         $this->employeeService->setEmployeeDao($mockDao);
         
         $result = $this->employeeService->saveEmployeeSkill($skill);
-        $this->assertTrue($result);              
+        $this->assertTrue($result === $skill);
+        
     }    
     
     /**
@@ -1378,27 +1380,23 @@ class EmployeeServiceTest extends PHPUnit_Framework_TestCase {
         $this->assertTrue($readMembershipDetail instanceof EmployeeMemberDetail);
     }
 
-    /**
-     * Test delete membership details collection list for a given string array containing empNumber membershipType and membership
-     */
     public function testDeleteMembershipDetails() {
 
         $empNumber = 1;
-        $membership = 1;
-
-        $membershipsToDelete = array("1 1");
+        $membershipIds = array(1, 2);
 
         $employeeDao = $this->getMock('EmployeeDao');
 
         $employeeDao->expects($this->once())
-                ->method('deleteMembershipDetails')
-                ->with($empNumber, $membership)
-                ->will($this->returnValue(true));
+                ->method('deleteEmployeeMemberships')
+                ->with($empNumber, $membershipIds)
+                ->will($this->returnValue(2));
 
         $this->employeeService->setEmployeeDao($employeeDao);
-
-        $result = $this->employeeService->deleteMembershipDetails($membershipsToDelete);
-        $this->assertTrue($result);
+        $result = $this->employeeService->deleteEmployeeMemberships($empNumber, $membershipIds);
+        
+        $this->assertEquals(2, $result);
+        
     }
 
     /**

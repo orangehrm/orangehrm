@@ -157,16 +157,34 @@ class EmployeeDaoTest extends PHPUnit_Framework_TestCase {
         $this->assertTrue($memberDetail[0] instanceof EmployeeMemberDetail);
     }
 
-    /**
-     * Test for delete EmployeeMemberDetail object returns boolean
-     */
-    public function testDeleteMembershipDetails() {
+    public function testDeleteMembershipDetails1() {
 
         $empNumber = 1;
-        $membership = 1;
-
-        $this->assertTrue($this->employeeDao->deleteMembershipDetails($empNumber, $membership));
+        $membershipIds = array(1, 2);
+        $result = $this->employeeDao->deleteEmployeeMemberships($empNumber, $membershipIds);
+        
+        $this->assertEquals(2, $result);
+        
     }
+    
+    public function testDeleteMembershipDetails2() {
+
+        $empNumber = 1;
+        $membershipIds = array(1);
+        $result = $this->employeeDao->deleteEmployeeMemberships($empNumber, $membershipIds);
+        
+        $this->assertEquals(1, $result);
+        
+    }
+    
+    public function testDeleteMembershipDetails3() {
+
+        $empNumber = 1;
+        $result = $this->employeeDao->deleteEmployeeMemberships($empNumber);
+        
+        $this->assertEquals(2, $result);
+        
+    }    
 
     /**
      * Test for getSupervisorListForEmployee returns ReportTo doctrine collection
@@ -413,11 +431,13 @@ class EmployeeDaoTest extends PHPUnit_Framework_TestCase {
     public function testSaveSkill() {
 
         $empSkill = new EmployeeSkill;
-
         $empSkill->emp_number = 3;
         $empSkill->skillId = 1;
-
-        $this->assertTrue($this->employeeDao->saveEmployeeSkill($empSkill));
+        
+        $result = $this->employeeDao->saveEmployeeSkill($empSkill);
+        
+        $this->assertTrue($result === $empSkill);
+        
     }
 
     /**

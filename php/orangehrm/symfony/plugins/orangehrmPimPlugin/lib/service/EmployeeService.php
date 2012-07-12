@@ -531,9 +531,9 @@ class EmployeeService extends BaseService {
      * 
      * @version 2.6.11
      * @param EmployeeSkill $skill EmployeeSkill object to save
-     * @returns boolean true
+     * @returns EmployeeSkill Saved EmployeeSkill object
      * 
-     * @todo reurn saved Employee Skill object
+     * @todo reurn saved Employee Skill object [DONE]
      * @todo rename method as saveEmployeeSkill [DONE]
      */
     public function saveEmployeeSkill(EmployeeSkill $skill) {
@@ -1205,33 +1205,23 @@ class EmployeeService extends BaseService {
     /**
      * Deletes the given Memberships
      * 
+     * If $membershipIds is not provided (null), all entries of given employee
+     * will be deleted.
+     * 
      * @version 2.6.11
-     * @param array $membershipsToDelete Array of strings with the format
-     * "emp_number membership_type_code membership_code"
-     * eg: array("1 MEM001 MME001", "2 MEM001 MME002")
+     * @param array $membershipIds Array of salary IDs. Optional.
      * 
-     * @return boolean true always
-     * @throws PIMServiceException
+     * @return integer Number of records deleted
+     * @throws DaoException
      * 
-     * @todo Add new method as deleteEmployeeMemberships($empNumber, $membershipIds )
-     * @todo return number of items deleted 
-     * 
+     * @todo Add new method as deleteEmployeeMemberships($empNumber, $membershipIds ) [DONE]
+     * @todo return number of items deleted [DONE]
      * 
      */
-    public function deleteMembershipDetails($membershipsToDelete) {
+    public function deleteEmployeeMemberships($empNumber, $membershipIds = null) {
+        
+        return $this->getEmployeeDao()->deleteEmployeeMemberships($empNumber, $membershipIds);
 
-        foreach ($membershipsToDelete as $membershipToDelete) {
-
-            $tempArray = explode(" ", $membershipToDelete);
-
-            $empNumber = $tempArray[0];
-            $membership = $tempArray[1];
-
-            $this->getEmployeeDao()->deleteMembershipDetails($empNumber, $membership);
-        }
-
-        return true;
-            
     }
     
     /**
