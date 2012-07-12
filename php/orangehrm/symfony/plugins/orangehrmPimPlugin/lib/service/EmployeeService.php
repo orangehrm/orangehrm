@@ -479,10 +479,10 @@ class EmployeeService extends BaseService {
      * 
      * @version 2.6.11
      * @param EmployeeEducation $education EmployeeEducation object to save
-     * @returns boolean true
+     * @returns EmployeeEducation Saved EmployeeEducation object
      * @throws DaoException
      * 
-     * @todo return saved Employee Education object
+     * @todo return saved Employee Education object [DONE]
      * @todo rename method as saveEmployeeEducation [DONE]
      */
     public function saveEmployeeEducation(EmployeeEducation $education) {
@@ -585,9 +585,9 @@ class EmployeeService extends BaseService {
      * 
      * @version 2.6.11
      * @param EmployeeLanguage $language Employee Language
-     * @returns boolean 
+     * @returns EmployeeLanguage Saved EmployeeLanguage object 
      * 
-     * @todo return saved Employee Language entry
+     * @todo return saved Employee Language entry [DONE]
      * @todo rename method as saveEmployeeLanguage [DONE]
      * 
      */
@@ -639,9 +639,9 @@ class EmployeeService extends BaseService {
      * 
      * @version 2.6.11
      * @param EmployeeLicense $license Populated EmployeeLicense object
-     * @return boolean True always
+     * @return EmployeeLicense Saved EmployeeLicense object
      * 
-     * @todo return saved Employee License entry
+     * @todo return saved Employee License entry [DONE]
      * @todo rename method as saveEmployeeLicense [DONE]
      * 
      */    
@@ -1145,10 +1145,10 @@ class EmployeeService extends BaseService {
      * 
      * @version 2.6.11
      * @param EmpUsTaxExemption $empUsTaxExemption
-     * @return boolean true always
-     * @throws PIMServiceException
+     * @return EmpUsTaxExemption Saved EmpUsTaxExemption object
+     * @throws DaoException
      * 
-     * @todo return saved EmpUsTaxExemption entry
+     * @todo return saved EmpUsTaxExemption entry [DONE]
      */
     public function saveEmployeeTaxExemptions(EmpUsTaxExemption $empUsTaxExemption) {
         return $this->getEmployeeDao()->saveEmployeeTaxExemptions($empUsTaxExemption);
@@ -1276,10 +1276,10 @@ class EmployeeService extends BaseService {
      * 
      * @version 2.6.11
      * @param EmpBasicsalary $basicSalary
-     * @return boolean true always
-     * @throws PIMServiceException
+     * @return Employee Saved Employee object
+     * @throws DaoException
      * 
-     * @todo return saved EmpSalary entry 
+     * @todo return saved EmpSalary entry [DONE]
      * @todo Rename method as saveEmployeeSalary
      * @todo rename Entity as EmpBasicsalary to EmpSalary 
      */

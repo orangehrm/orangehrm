@@ -451,15 +451,20 @@ class EmployeeDao extends BaseDao {
     /**
      * save Education
      * @param EmpEducation $empEdu
-     * @returns boolean
+     * @returns EmployeeEducation
      */
     public function saveEmployeeEducation(EmployeeEducation $empEdu) {
+        
         try {
+            
             $empEdu->save();
-            return true;
+            
+            return $empEdu;
+            
         } catch (Exception $e) {
             throw new DaoException($e->getMessage());
         }
+        
     }
 
     /**
@@ -524,15 +529,20 @@ class EmployeeDao extends BaseDao {
     /**
      * save Language
      * @param EmpLanguage $empLang
-     * @returns boolean
+     * @returns EmployeeLanguage
      */
     public function saveEmployeeLanguage(EmployeeLanguage $empLang) {
+        
         try {
+            
             $empLang->save();
-            return true;
+            
+            return $empLang;
+            
         } catch (Exception $e) {
             throw new DaoException($e->getMessage());
         }
+        
     }
 
     /**
@@ -660,15 +670,20 @@ class EmployeeDao extends BaseDao {
     /**
      * save License
      * @param EmployeeLicense $empLicense
-     * @returns boolean
+     * @returns EmployeeLicense
      */
     public function saveEmployeeLicense(EmployeeLicense $empLicense) {
+        
         try {
+            
             $empLicense->save();
-            return true;
+            
+            return $empLicense;
+            
         } catch (Exception $e) {
             throw new DaoException($e->getMessage());
         }
+        
     }
 
     /**
@@ -1407,16 +1422,21 @@ class EmployeeDao extends BaseDao {
     /**
      * Save Employee Tax Exemptios
      * @param EmpUsTaxExemption $empUsTaxExemption
-     * @returns boolean
+     * @returns EmpUsTaxExemption
      * @throws DaoException
      */
     public function saveEmployeeTaxExemptions(EmpUsTaxExemption $empUsTaxExemption) {
+        
         try {
+            
             $empUsTaxExemption->save();
-            return true;
+            
+            return $empUsTaxExemption;
+            
         } catch (Exception $e) {
             throw new DaoException($e->getMessage());
         }
+        
     }
 
     /**
@@ -1523,16 +1543,21 @@ class EmployeeDao extends BaseDao {
     /**
      * Save EmpBasicsalary
      * @param EmpBasicsalary $empBasicsalary
-     * @returns boolean
+     * @returns EmpBasicsalary
      * @throws DaoException
      */
     public function saveEmpBasicsalary(EmpBasicsalary $empBasicsalary) {
+        
         try {
+            
             $empBasicsalary->save();
-            return true;
+            
+            return $empBasicsalary;
+            
         } catch (Exception $e) {
             throw new DaoException($e->getMessage());
         }
+        
     }
 
     /**

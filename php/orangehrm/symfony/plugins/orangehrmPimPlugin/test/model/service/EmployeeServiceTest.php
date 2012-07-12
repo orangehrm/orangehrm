@@ -412,6 +412,7 @@ class EmployeeServiceTest extends PHPUnit_Framework_TestCase {
      * Testing saveEducation
      */
     public function testSaveEducation() {
+        
         $empNumber = 121;
         $education = new EmployeeEducation();
         $education->setEmpNumber($empNumber);
@@ -424,12 +425,13 @@ class EmployeeServiceTest extends PHPUnit_Framework_TestCase {
         $mockDao->expects($this->once())
                  ->method('saveEmployeeEducation')
                  ->with($education)
-                 ->will($this->returnValue(true));
+                 ->will($this->returnValue($education));
         
-        $this->employeeService->setEmployeeDao($mockDao);
-        
+        $this->employeeService->setEmployeeDao($mockDao);        
         $result = $this->employeeService->saveEmployeeEducation($education);
-        $this->assertTrue($result);              
+        
+        $this->assertTrue($result === $education); 
+        
     }    
     
     /**
@@ -589,6 +591,7 @@ class EmployeeServiceTest extends PHPUnit_Framework_TestCase {
      * Testing saveLanguage
      */
     public function testSaveLanguage() {
+        
         $empNumber = 121;
         $language = new EmployeeLanguage();
         $language->setEmpNumber($empNumber);
@@ -601,12 +604,13 @@ class EmployeeServiceTest extends PHPUnit_Framework_TestCase {
         $mockDao->expects($this->once())
                  ->method('saveEmployeeLanguage')
                  ->with($language)
-                 ->will($this->returnValue(true));
+                 ->will($this->returnValue($language));
         
-        $this->employeeService->setEmployeeDao($mockDao);
-        
+        $this->employeeService->setEmployeeDao($mockDao);        
         $result = $this->employeeService->saveEmployeeLanguage($language);
-        $this->assertTrue($result);              
+        
+        $this->assertTrue($result === $language);
+        
     }    
     
     /**
@@ -660,6 +664,7 @@ class EmployeeServiceTest extends PHPUnit_Framework_TestCase {
      * Testing saveLicense
      */
     public function testSaveLicense() {
+        
         $empNumber = 121;
         $license = new EmployeeLicense();
         $license->setEmpNumber($empNumber);
@@ -670,12 +675,13 @@ class EmployeeServiceTest extends PHPUnit_Framework_TestCase {
         $mockDao->expects($this->once())
                  ->method('saveEmployeeLicense')
                  ->with($license)
-                 ->will($this->returnValue(true));
+                 ->will($this->returnValue($license));
         
-        $this->employeeService->setEmployeeDao($mockDao);
-        
+        $this->employeeService->setEmployeeDao($mockDao);        
         $result = $this->employeeService->saveEmployeeLicense($license);
-        $this->assertTrue($result);              
+        
+        $this->assertTrue($result === $license);  
+        
     }    
     
     /**
@@ -1217,18 +1223,20 @@ class EmployeeServiceTest extends PHPUnit_Framework_TestCase {
      */
     public function testSaveEmployeeTaxExemptions() {
 
+        $empUsTaxExemption = new EmpUsTaxExemption();
+        $empUsTaxExemption->setEmpNumber(3);
+        
         $employeeDao = $this->getMock('EmployeeDao');
 
         $employeeDao->expects($this->once())
                 ->method('saveEmployeeTaxExemptions')
-                ->will($this->returnValue(true));
+                ->will($this->returnValue($empUsTaxExemption));
 
         $this->employeeService->setEmployeeDao($employeeDao);
-
-        $empUsTaxExemption = new EmpUsTaxExemption();
-        $empUsTaxExemption->setEmpNumber(3);
         $result = $this->employeeService->saveEmployeeTaxExemptions($empUsTaxExemption);
-        $this->assertTrue($result);
+        
+        $this->assertTrue($result === $empUsTaxExemption);
+        
     }
 
     /**

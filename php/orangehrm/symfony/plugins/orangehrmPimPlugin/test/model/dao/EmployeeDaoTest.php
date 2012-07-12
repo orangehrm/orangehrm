@@ -126,10 +126,13 @@ class EmployeeDaoTest extends PHPUnit_Framework_TestCase {
         $empUsTaxExemption = new EmpUsTaxExemption();
         $empUsTaxExemption->setEmpNumber(2);
         $empUsTaxExemption->stateExemptions = 4;
+        
         $result = $this->employeeDao->saveEmployeeTaxExemptions($empUsTaxExemption);
-        $this->assertTrue($result);
-        $this->assertEquals(2, $empUsTaxExemption->getEmpNumber());
-        $this->assertEquals(4, $empUsTaxExemption->stateExemptions);
+        
+        $this->assertTrue($result === $empUsTaxExemption);
+        $this->assertEquals(2, $result->getEmpNumber());
+        $this->assertEquals(4, $result->stateExemptions);
+        
     }
 
     /**
@@ -347,13 +350,16 @@ class EmployeeDaoTest extends PHPUnit_Framework_TestCase {
      */
     public function testSaveEducation() {
 
-        $empEdu = new EmployeeEducation;
+        $empEdu = new EmployeeEducation();
 
         $empEdu->empNumber = 2;
         $empEdu->educationId = 2;
         $empEdu->major = 'major';
+        
+        $result = $this->employeeDao->saveEmployeeEducation($empEdu);
 
-        $this->assertTrue($this->employeeDao->saveEmployeeEducation($empEdu));
+        $this->assertTrue($result === $empEdu);
+        
     }
 
     /**
@@ -474,22 +480,19 @@ class EmployeeDaoTest extends PHPUnit_Framework_TestCase {
         $this->assertTrue($language instanceof EmployeeLanguage);
     }
 
-    /**
-     * Test for save language expierence returns boolean
-     */
     public function testSaveLanguage() {
 
-        $empLang = new EmployeeLanguage;
+        $empLang = new EmployeeLanguage();
 
         $empLang->empNumber = 2;
         $empLang->langId = 1;
 
-        $this->assertTrue($this->employeeDao->saveEmployeeLanguage($empLang));
+        $result = $this->employeeDao->saveEmployeeLanguage($empLang);
+        
+        $this->assertTrue($result === $empLang);
+                
     }
 
-    /**
-     * Test for deleteLanguage returns boolean
-     */
     public function testDeleteLanguage1() {
 
         $empNumber = 1;
@@ -547,12 +550,15 @@ class EmployeeDaoTest extends PHPUnit_Framework_TestCase {
      */
     public function testSaveLicense() {
 
-        $empLicense = new EmployeeLicense;
+        $empLicense = new EmployeeLicense();
 
         $empLicense->empNumber = 3;
         $empLicense->licenseId = 1;
+        
+        $result = $this->employeeDao->saveEmployeeLicense($empLicense);
 
-        $this->assertTrue($this->employeeDao->saveEmployeeLicense($empLicense));
+        $this->assertTrue($result === $empLicense);
+        
     }
 
     public function testDeleteLicense1() {
@@ -973,26 +979,32 @@ class EmployeeDaoTest extends PHPUnit_Framework_TestCase {
     }
 
     public function testSaveEmpBasicsalary() {
-        $salary = $this->getMock('EmpBasicsalary', array('save'));
-        $salary->expects($this->once())
-                ->method('save');
-
+        
+        $salary = new EmpBasicsalary();
+        $salary->setEmpNumber(1);
+        $salary->setCurrencyId('LKR');
+        $salary->setBasicSalary(2121212);
+        
         $result = $this->employeeDao->saveEmpBasicsalary($salary);
-        $this->assertTrue($result);
 
+        $this->assertTrue($result === $salary);
+
+    }
+
+    /**
+     * @expectedException DaoException
+     */
+    public function testSaveEmpBasicsalaryException() {
+        
         $salary = $this->getMock('EmpBasicsalary', array('save'));
         $salary->expects($this->once())
                 ->method('save')
                 ->will($this->throwException(new Exception()));
 
-        try {
-            $result = $this->employeeDao->saveEmpBasicsalary($salary);
-            $this->fail("Exception expected");
-        } catch (Exception $e) {
-            
-        }
-    }
+        $result = $this->employeeDao->saveEmpBasicsalary($salary);
 
+    }
+    
     public function testDeleteEmployeeSalaries1() {
         
         $empNumber = 1;
