@@ -35,7 +35,7 @@ class updateCustomFieldsAction extends basePimAction {
         // this should probably be kept in session?
         $screen = $request->getParameter('screen');
 
-        $customFieldsService = new CustomFieldsService();
+        $customFieldsService = new CustomFieldConfigurationService();
         $customFieldList = $customFieldsService->getCustomFieldList($screen);
 
         $this->form = new EmployeeCustomFieldsForm(array(), array('customFields'=>$customFieldList), true);

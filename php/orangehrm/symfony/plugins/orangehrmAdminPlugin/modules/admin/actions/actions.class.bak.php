@@ -1700,7 +1700,7 @@ class adminActions extends sfActions {
      * @return void
      */
     public function executeListCustomFields(sfWebRequest $request) {
-        $customFieldsService = new CustomFieldsService();
+        $customFieldsService = new CustomFieldConfigurationService();
         $this->sorter = new ListSorter('propoerty.sort', 'admin_module', $this->getUser(), array('field_num', ListSorter::ASCENDING));
 
         if ($request->getParameter('sort')) {
@@ -1718,7 +1718,7 @@ class adminActions extends sfActions {
      * @return unknown_type
      */
     public function executeSaveCustomFields(sfWebRequest $request) {
-        $customFieldsService = new CustomFieldsService();
+        $customFieldsService = new CustomFieldConfigurationService();
         if ($request->isMethod('post')) {
 
 
@@ -1743,7 +1743,7 @@ class adminActions extends sfActions {
      * @return unknown_type
      */
     public function executeUpdateCustomFields(sfWebRequest $request) {
-        $customFieldsService = new CustomFieldsService();
+        $customFieldsService = new CustomFieldConfigurationService();
         $customFields = $customFieldsService->readCustomField($request->getParameter('id'));
         $this->customFields = $customFields;
         if ($request->isMethod('post')) {
@@ -1765,7 +1765,7 @@ class adminActions extends sfActions {
      */
     public function executeDeleteCustomFields(sfWebRequest $request) {
         if (count($request->getParameter('chkLocID')) > 0) {
-            $customFieldsService = new CustomFieldsService();
+            $customFieldsService = new CustomFieldConfigurationService();
             $customFieldsService->deleteCustomField($request->getParameter('chkLocID'));
             $this->setMessage('SUCCESS', array(TopLevelMessages::DELETE_SUCCESS));
         }else

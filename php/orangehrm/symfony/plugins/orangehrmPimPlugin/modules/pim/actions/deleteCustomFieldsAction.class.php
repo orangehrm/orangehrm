@@ -31,8 +31,8 @@ class deleteCustomFieldsAction extends basePimAction {
      */
     public function getCustomFieldService() {
         if (is_null($this->customFieldService)) {
-            $this->customFieldService = new CustomFieldsService();
-            $this->customFieldService->setCustomFieldsDao(new CustomFieldsDao());
+            $this->customFieldService = new CustomFieldConfigurationService();
+            $this->customFieldService->setCustomFieldsDao(new CustomFieldConfigurationDao());
         }
         return $this->customFieldService;
     }
@@ -40,7 +40,7 @@ class deleteCustomFieldsAction extends basePimAction {
     /**
      * Set Country Service
      */
-    public function setCustomFieldService(CustomFieldsService $customFieldsService) {
+    public function setCustomFieldService(CustomFieldConfigurationService $customFieldsService) {
         $this->customFieldService = $customFieldsService;
     }
 

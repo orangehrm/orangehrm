@@ -4,7 +4,7 @@
  * CustomFieldsDao to make CRUD operations
  *
  */
-class CustomFieldsDao extends BaseDao {
+class CustomFieldConfigurationDao extends BaseDao {
 
     /**
      * Retrieve Custom Fields

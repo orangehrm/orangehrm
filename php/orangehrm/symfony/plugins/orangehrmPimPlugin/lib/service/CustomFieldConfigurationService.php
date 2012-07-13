@@ -20,10 +20,10 @@
 /**
  * CustomFields Service
  * @package pim
- * @todo Rename to CustomFieldsConfigurationService
- * @todo Remove exceptions that only wraps DAO exceptions
+ * @todo Rename to CustomFieldsConfigurationService [DONE]
+ * @todo Remove exceptions that only wraps DAO exceptions [DONE]
  */
-class CustomFieldsService extends BaseService {
+class CustomFieldConfigurationService extends BaseService {
 	//not sure of the business purpose of the constants, need to check their references
    const FIELD_TYPE_STRING			=	0 ;
    const FIELD_TYPE_DROP_DOWN		=	1 ;
@@ -31,7 +31,7 @@ class CustomFieldsService extends BaseService {
 
    /**
     * @ignore
-    * @var CustomFieldsDao 
+    * @var CustomFieldConfigurationDao 
     */
    private $customFieldsDao;
    
@@ -39,16 +39,16 @@ class CustomFieldsService extends BaseService {
     * Constructor
     */
    public function __construct() {
-      $this->customFieldsDao = new CustomFieldsDao();
+      $this->customFieldsDao = new CustomFieldConfigurationDao();
    }
 
    /**
     * @ignore
     * 
     * Sets CustomFieldsDao
-    * @param CustomFieldsDao $customFieldsDao
+    * @param CustomFieldConfigurationDao $customFieldsDao
     */
-   public function setCustomFieldsDao(CustomFieldsDao $customFieldsDao) {
+   public function setCustomFieldsDao(CustomFieldConfigurationDao $customFieldsDao) {
       $this->customFieldsDao = $customFieldsDao;
    }
 
@@ -56,7 +56,7 @@ class CustomFieldsService extends BaseService {
     * @ignore
     * 
     * Returns CustomFieldsDao
-    * @return CustomFieldsDao
+    * @return CustomFieldConfigurationDao
     */
    public function getCustomFieldsDao() {
       return $this->customFieldsDao;
@@ -73,12 +73,8 @@ class CustomFieldsService extends BaseService {
     * @todo rename method as searchCustomFieldList( $sortField , $sortOrder, $filters )
     */
    public function getCustomFieldList($screen = null, $orderField = "field_num", $orderBy = "ASC") {
-      try {
-         return $this->customFieldsDao->getCustomFieldList($screen, $orderField, $orderBy);
-      } catch(Exception $e) {
-         throw new AdminServiceException($e->getMessage());
-      }
-    } 
+       return $this->customFieldsDao->getCustomFieldList($screen, $orderField, $orderBy);
+   } 
     
    /**
     * Save CustomFields
@@ -90,14 +86,13 @@ class CustomFieldsService extends BaseService {
     * @todo rename entity as CustomField
     */
    public function saveCustomField(CustomFields $customFields) {
-      try {
-          $reportGeneratorService = new ReportGeneratorService();
-          $customFields = $this->customFieldsDao->saveCustomField($customFields);
-          $reportGeneratorService->saveCustomDisplayField($customFields, "3");
-          return $customFields;
-      } catch(Exception $e) {
-         throw new AdminServiceException($e->getMessage());
-      }
+
+      $reportGeneratorService = new ReportGeneratorService();
+      $customFields = $this->customFieldsDao->saveCustomField($customFields);
+      $reportGeneratorService->saveCustomDisplayField($customFields, "3");
+      
+      return $customFields;
+
    }
     
    /**
@@ -110,13 +105,12 @@ class CustomFieldsService extends BaseService {
     * @todo return number of items deleted
     */
    public function deleteCustomField($customFieldList) {
-      try {
-          $reportGeneratorService = new ReportGeneratorService();
-          $reportGeneratorService->deleteCustomDisplayFieldList($customFieldList);
-         return $this->customFieldsDao->deleteCustomField($customFieldList);
-      } catch(Exception $e) {
-         throw new AdminServiceException($e->getMessage());
-      }
+
+      $reportGeneratorService = new ReportGeneratorService();
+      $reportGeneratorService->deleteCustomDisplayFieldList($customFieldList);
+      
+      return $this->customFieldsDao->deleteCustomField($customFieldList);
+
    }
     
    /**
@@ -128,11 +122,7 @@ class CustomFieldsService extends BaseService {
     * @todo rename method as getCustomeField
     */
    public function readCustomField($id) {
-      try {
-         return $this->customFieldsDao->readCustomField($id);
-      } catch(Exception $e) {
-         throw new AdminServiceException($e->getMessage());
-      }
+       return $this->customFieldsDao->readCustomField($id);
    }
     
    /**
@@ -144,25 +134,26 @@ class CustomFieldsService extends BaseService {
     * 
     * @todo remove method since it not used any where 
     */
-   public function getAvailableFieldNumbers() {
-      try {
-        	$availableFields	=	array();
+    public function getAvailableFieldNumbers() {
 
-			$customFieldList = $this->getCustomFieldList();
-			for( $i=1 ; $i<= self::NUMBER_OF_FIELDS ; $i++) {
-				$avaliabe	=	true; 
-				foreach( $customFieldList as $customField) {
-					if($customField->getFieldNum() == $i ) {
-						$avaliabe	=	false; 
-					}
-				}
-				if( $avaliabe )
-					array_push($availableFields,$i);			
-			}
-			
-			return $availableFields;
-      } catch(Exception $e) {
-         throw new AdminServiceException($e->getMessage());
-      }
-   }
+        $availableFields	=	array();
+
+        $customFieldList = $this->getCustomFieldList();
+        for( $i=1 ; $i<= self::NUMBER_OF_FIELDS ; $i++) {
+            $avaliabe	=	true; 
+            foreach( $customFieldList as $customField) {
+                if($customField->getFieldNum() == $i ) {
+                    $avaliabe	=	false; 
+                }
+            }
+            if( $avaliabe )
+                array_push($availableFields,$i);			
+        }
+
+        return $availableFields;
+
+    }
+   
+   
+   
 }

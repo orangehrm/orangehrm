@@ -3,7 +3,6 @@
 /**
  * Test class of CustomFieldsService
  *
- * @group Pim
  */
 class CustomFieldsServiceTest extends PHPUnit_Framework_TestCase {
 
@@ -16,7 +15,7 @@ class CustomFieldsServiceTest extends PHPUnit_Framework_TestCase {
 	 */
 	protected function setUp() {
 		$this->testCases = sfYaml::load(sfConfig::get('sf_test_dir') . '/fixtures/admin/customFields.yml');
-		$this->customFieldsService	= new CustomFieldsService();
+		$this->customFieldsService	= new CustomFieldConfigurationService();
 	}
 
    /**
@@ -45,7 +44,7 @@ class CustomFieldsServiceTest extends PHPUnit_Framework_TestCase {
     * Testing getCustomFieldList
     */
    public function testGetCustomFieldList() {
-      $customFieldsDao = new CustomFieldsDao();
+      $customFieldsDao = new CustomFieldConfigurationDao();
       $list = $customFieldsDao->getCustomFieldList();
 
       $this->customFieldsDao  =	$this->getMock('CustomFieldsDao');

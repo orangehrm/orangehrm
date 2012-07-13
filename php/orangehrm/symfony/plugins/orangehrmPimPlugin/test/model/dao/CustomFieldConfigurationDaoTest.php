@@ -2,7 +2,7 @@
 
 /**
  * CustomFieldsDao Test Class
- *
+ * @group Pim
  */
 class CustomFieldsDaoTest extends PHPUnit_Framework_TestCase {
 	private $testCases;
@@ -13,7 +13,7 @@ class CustomFieldsDaoTest extends PHPUnit_Framework_TestCase {
 	 */
 	protected function setUp() {
 		$this->testCases = sfYaml::load(sfConfig::get('sf_test_dir') . '/fixtures/admin/customFields.yml');
-		$this->customFieldsDao	= new CustomFieldsDao();
+		$this->customFieldsDao	= new CustomFieldConfigurationDao();
 	}
 
    /**

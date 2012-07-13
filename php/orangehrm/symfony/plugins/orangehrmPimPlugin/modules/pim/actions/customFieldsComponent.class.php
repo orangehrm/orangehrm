@@ -48,7 +48,7 @@ class customFieldsComponent extends sfComponent {
      */
     public function getCustomFieldsService() {
         if(is_null($this->customFieldsService)) {
-            $this->customFieldsService = new CustomFieldsService();
+            $this->customFieldsService = new CustomFieldConfigurationService();
         }
         return $this->customFieldsService;
     }
@@ -57,7 +57,7 @@ class customFieldsComponent extends sfComponent {
      * Set EmployeeService
      * @param EmployeeService $employeeService
      */
-    public function setCustomFieldsService(CustomFieldsService $customFieldsService) {
+    public function setCustomFieldsService(CustomFieldConfigurationService $customFieldsService) {
         $this->customFieldsService = $customFieldsService;
     }
     
