@@ -858,9 +858,9 @@ class EmployeeService extends BaseService {
      * @param boolean $includeTerminated Terminated status
      * @return Doctrine_Collection of Subordinates
      * 
-     * @todo parameter name $withoutTerminatedEmployees does not give the correct meaning
-     * @todo rename method as getSubordinateChain($empNumber , $includeTerminated )
-     * @todo rename second parameter as include Terminated as change DAO method logic
+     * @todo parameter name $withoutTerminatedEmployees does not give the correct meaning [Done: In 10188]
+     * @todo rename method as getSubordinateChain($empNumber , $includeTerminated ) [Done: In 10188, getSubordinateList is better]
+     * @todo rename second parameter as include Terminated as change DAO method logic [Done: In 10188]
      */
     public function getSubordinateList($supervisorId, $includeTerminated = false) {
         $configService = $this->getConfigurationService();
