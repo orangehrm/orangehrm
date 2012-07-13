@@ -27,9 +27,9 @@
  * @package pim
  * @todo Remove exceptions that only wraps DAO exceptions [DONE]
  * @todo Add get/save/delete for all 
- * @todo Add deleteReportingMethod() function
+ * @todo Add deleteReportingMethod() function [DONE: Refer ReportingMethodConfigurationService]
  * @todo Add getEmployeeImmigrationRecords method [DONE]
- * @todo Add getEmployeeChildren method
+ * @todo Add getEmployeeChildren method [DONE: Refer dependents methods]
  * @todo All methods to return PIMServiceException or DaoException consistantly [DONE]
  * @todo Don't wrap DAO exceptions. [DONE]
  * @todo Deside if all methods need to have try catch blocks [DONE]
@@ -328,7 +328,7 @@ class EmployeeService extends BaseService {
      * 
      * @todo Return saved EmpPicture [DONE]
      * @todo Exceptions should preserve previous exception [DONE]
-     * @todo Rename to savePicture (without Employee) to match other methods
+     * @todo Rename to savePicture (without Employee) to match other methods [DONE: Won't change. Complies with new reules]
      */
     public function saveEmployeePicture(EmpPicture $empPicture) {
         return $this->getEmployeeDao()->saveEmployeePicture($empPicture);
@@ -449,7 +449,7 @@ class EmployeeService extends BaseService {
      * EmpEducation collection. (Empty collection if no records available)
      * 
      * @todo rename method as getEmployeeEducations
-     * @todo If EducationId is given return EmployeeEducation instead of Doctrine_Collection
+     * @todo If EducationId is given return EmployeeEducation instead of Doctrine_Collection [DONE: Won't change since there is different primary key]
      */
     public function getEmployeeEducationList($empNumber, $educationId=null) {
         return $this->getEmployeeDao()->getEmployeeEducationList($empNumber, $educationId);

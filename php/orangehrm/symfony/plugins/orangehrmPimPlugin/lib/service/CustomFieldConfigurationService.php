@@ -70,7 +70,7 @@ class CustomFieldConfigurationService extends BaseService {
     * @returns Collection
     * @throws AdminServiceException
     * 
-    * @todo rename method as searchCustomFieldList( $sortField , $sortOrder, $filters )
+    * @todo rename method as searchCustomFieldList( $sortField , $sortOrder, $filters ) [DONE: Won't change. Can be implemented on request]
     */
    public function getCustomFieldList($screen = null, $orderField = "field_num", $orderBy = "ASC") {
        return $this->customFieldsDao->getCustomFieldList($screen, $orderField, $orderBy);
