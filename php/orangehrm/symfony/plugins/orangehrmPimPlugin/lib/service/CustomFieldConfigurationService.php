@@ -97,19 +97,19 @@ class CustomFieldConfigurationService extends BaseService {
     
    /**
     * Delete CustomField
-    * @param array() $customFieldList
-    * @returns boolean
-    * @throws AdminServiceException
+    * @param array $customFieldList
+    * @returns integer Number of records deleted
+    * @throws DaoException
     * 
     * @todo rename method as deleteCustomFields
-    * @todo return number of items deleted
+    * @todo return number of items deleted [DONE]
     */
-   public function deleteCustomField($customFieldList) {
+   public function deleteCustomFields($customFieldList) {
 
       $reportGeneratorService = new ReportGeneratorService();
       $reportGeneratorService->deleteCustomDisplayFieldList($customFieldList);
       
-      return $this->customFieldsDao->deleteCustomField($customFieldList);
+      return $this->customFieldsDao->deleteCustomFields($customFieldList);
 
    }
     

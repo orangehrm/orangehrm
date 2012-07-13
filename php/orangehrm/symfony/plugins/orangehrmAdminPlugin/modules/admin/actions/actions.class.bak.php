@@ -1766,7 +1766,7 @@ class adminActions extends sfActions {
     public function executeDeleteCustomFields(sfWebRequest $request) {
         if (count($request->getParameter('chkLocID')) > 0) {
             $customFieldsService = new CustomFieldConfigurationService();
-            $customFieldsService->deleteCustomField($request->getParameter('chkLocID'));
+            $customFieldsService->deleteCustomFields($request->getParameter('chkLocID'));
             $this->setMessage('SUCCESS', array(TopLevelMessages::DELETE_SUCCESS));
         }else
             $this->setMessage('NOTICE', array(TopLevelMessages::SELECT_RECORDS));

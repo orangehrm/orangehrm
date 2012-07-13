@@ -88,27 +88,29 @@ class CustomFieldConfigurationDao extends BaseDao {
     /**
      * Delete CustomField
      * @param array() $customFieldList
-     * @returns boolean
+     * @returns integer
      * @throws DaoException
      */
-    public function deleteCustomField($customFieldList = array()) {
+    public function deleteCustomFields($customFieldList = array()) {
+        
         try {
+            
+            if (!is_array($customFieldList) || empty($customFieldList)) {
+                throw new DaoException('Invalid parameter: $customFieldList should be an array and should not be empty');
+            }            
+            
             $this->deleteReletedEmployeeCustomField($customFieldList);
 
-            if (is_array($customFieldList)) {
-                $q = Doctrine_Query::create()
-                                ->delete('CustomFields')
-                                ->whereIn('field_num', $customFieldList);
+            $q = Doctrine_Query::create()
+                            ->delete('CustomFields')
+                            ->whereIn('field_num', $customFieldList);
 
-                $numDeleted = $q->execute();
-                if ($numDeleted > 0) {
-                    return true;
-                }
-            }
-            return false;
+            return $q->execute();
+            
         } catch (Exception $e) {
             throw new DaoException($e->getMessage());
         }
+        
     }
 
     /**

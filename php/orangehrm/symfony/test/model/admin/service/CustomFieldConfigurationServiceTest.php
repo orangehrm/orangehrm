@@ -87,7 +87,7 @@ class CustomFieldsServiceTest extends PHPUnit_Framework_TestCase {
                ->method('deleteCustomField')
                ->will($this->returnValue(true));
          $this->customFieldsService->setCustomFieldsDao($this->customFieldsDao);
-         $result = $this->customFieldsService->deleteCustomField(array($v['field_num']));
+         $result = $this->customFieldsService->deleteCustomFields(array($v['field_num']));
          $this->assertTrue($result);
       }
    }

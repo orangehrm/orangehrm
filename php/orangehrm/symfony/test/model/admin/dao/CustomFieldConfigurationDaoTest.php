@@ -46,7 +46,7 @@ class CustomFieldsDaoTest extends PHPUnit_Framework_TestCase {
     */
    public function testDeleteCustomField() {
       foreach($this->testCases['CustomFields'] as $k => $v) {
-         $result = $this->customFieldsDao->deleteCustomField(array($v['field_num']));
+         $result = $this->customFieldsDao->deleteCustomFields(array($v['field_num']));
          $this->assertTrue($result);
       }
    }
