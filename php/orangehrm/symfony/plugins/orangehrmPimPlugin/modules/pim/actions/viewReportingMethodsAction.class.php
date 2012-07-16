@@ -20,19 +20,19 @@
 
 class viewReportingMethodsAction extends sfAction {
     
-    private $reportingMethodService;
+    private $reportingMethodConfigurationService;
     
-    public function getReportingMethodService() {
+    public function getReportingMethodConfigurationService() {
         
-        if (!($this->reportingMethodService instanceof ReportingMethodService)) {
-            $this->reportingMethodService = new ReportingMethodService();
+        if (!($this->reportingMethodConfigurationService instanceof ReportingMethodConfigurationService)) {
+            $this->reportingMethodConfigurationService = new ReportingMethodConfigurationService();
         }        
         
-        return $this->reportingMethodService;
+        return $this->reportingMethodConfigurationService;
     }
 
-    public function setReportingMethodService($reportingMethodService) {
-        $this->reportingMethodService = $reportingMethodService;
+    public function setReportingMethodConfigurationService($reportingMethodConfigurationService) {
+        $this->reportingMethodConfigurationService = $reportingMethodConfigurationService;
     }
     
     public function execute($request) {
@@ -40,7 +40,7 @@ class viewReportingMethodsAction extends sfAction {
         $this->_checkAuthentication();
         
         $this->form = new ReportingMethodForm();
-        $this->records = $this->getReportingMethodService()->getReportingMethodList();
+        $this->records = $this->getReportingMethodConfigurationService()->getReportingMethodList();
         
 		if ($this->getUser()->hasFlash('templateMessage')) {
             $this->templateMessage = $this->getUser()->getFlash('templateMessage');
@@ -77,7 +77,7 @@ class viewReportingMethodsAction extends sfAction {
     protected function _checkDuplicateEntry() {
 
         $id = $this->form->getValue('id');
-        $object = $this->getReportingMethodService()->getReportingMethodByName($this->form->getValue('name'));
+        $object = $this->getReportingMethodConfigurationService()->getReportingMethodByName($this->form->getValue('name'));
         
         if ($object instanceof ReportingMethod) {
             

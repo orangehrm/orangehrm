@@ -21,19 +21,19 @@
 
 class ReportingMethodForm extends BaseForm {
     
-    private $reportingMethodService;
+    private $reportingMethodConfigurationService;
     
-    public function getReportingMethodService() {
+    public function getReportingMethodConfigurationService() {
         
-        if (!($this->reportingMethodService instanceof ReportingMethodService)) {
-            $this->reportingMethodService = new ReportingMethodService();
+        if (!($this->reportingMethodConfigurationService instanceof ReportingMethodConfigurationService)) {
+            $this->reportingMethodConfigurationService = new ReportingMethodConfigurationService();
         }
         
-        return $this->reportingMethodService;
+        return $this->reportingMethodConfigurationService;
     }
 
-    public function setReportingMethodService($reportingMethodService) {
-        $this->reportingMethodService = $reportingMethodService;
+    public function setReportingMethodConfigurationService($reportingMethodConfigurationService) {
+        $this->reportingMethodConfigurationService = $reportingMethodConfigurationService;
     }
 
     public function configure() {
@@ -61,12 +61,12 @@ class ReportingMethodForm extends BaseForm {
             $reportingMethod = new ReportingMethod();
             $message = array('SUCCESS', __(TopLevelMessages::SAVE_SUCCESS));
         } else {
-            $reportingMethod = $this->getReportingMethodService()->getReportingMethodById($id);
+            $reportingMethod = $this->getReportingMethodConfigurationService()->getReportingMethod($id);
             $message = array('SUCCESS', __(TopLevelMessages::UPDATE_SUCCESS));
         }
         
         $reportingMethod->setName($this->getValue('name'));
-        $this->getReportingMethodService()->saveReportingMethod($reportingMethod);        
+        $this->getReportingMethodConfigurationService()->saveReportingMethod($reportingMethod);        
         
         return $message;
         

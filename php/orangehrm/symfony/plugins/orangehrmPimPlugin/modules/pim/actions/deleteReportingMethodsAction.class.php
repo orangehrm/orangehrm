@@ -20,19 +20,19 @@
 
 class deleteReportingMethodsAction extends sfAction {
     
-    private $reportingMethodService;
+    private $reportingMethodConfigurationService;
     
-    public function getReportingMethodService() {
+    public function getReportingMethodConfigurationService() {
         
-        if (!($this->reportingMethodService instanceof ReportingMethodService)) {
-            $this->reportingMethodService = new ReportingMethodService();
+        if (!($this->reportingMethodConfigurationService instanceof ReportingMethodConfigurationService)) {
+            $this->reportingMethodConfigurationService = new ReportingMethodConfigurationService();
         }        
         
-        return $this->reportingMethodService;
+        return $this->reportingMethodConfigurationService;
     }
 
-    public function setReportingMethodService($reportingMethodService) {
-        $this->reportingMethodService = $reportingMethodService;
+    public function setReportingMethodConfigurationService($reportingMethodConfigurationService) {
+        $this->reportingMethodConfigurationService = $reportingMethodConfigurationService;
     }
     
     public function execute($request) {
@@ -43,7 +43,7 @@ class deleteReportingMethodsAction extends sfAction {
         
         if (!empty($toDeleteIds) && $request->isMethod('post')) {
             
-            $result = $this->getReportingMethodService()->deleteReportingMethods($toDeleteIds);
+            $result = $this->getReportingMethodConfigurationService()->deleteReportingMethods($toDeleteIds);
             
             if ($result) {
                 $this->getUser()->setFlash('templateMessage', array('SUCCESS', __(TopLevelMessages::DELETE_SUCCESS))); 

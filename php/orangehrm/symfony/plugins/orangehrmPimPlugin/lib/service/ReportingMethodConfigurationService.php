@@ -19,17 +19,17 @@
  */
 
 /**
- * ReportingMethod Service
+ * ReportingMethodConfigurationService Service
  * @package pim
- * @todo Rename to ReportingMethodConfigurationService
- * @todo Deside if all methods need to have try catch blocks
+ * @todo Rename to ReportingMethodConfigurationService [DONE]
+ * @todo Deside if all methods need to have try catch blocks [DONE]
  */
 
-class ReportingMethodService extends BaseService {
+class ReportingMethodConfigurationService extends BaseService {
     
     /**
      * @ignore
-     * @var ReportingMethodDao 
+     * @var ReportingMethodConfigurationDao 
      */
     private $reportingMethodDao;
     
@@ -38,8 +38,8 @@ class ReportingMethodService extends BaseService {
      */
     public function getReportingMethodDao() {
         
-        if (!($this->reportingMethodDao instanceof ReportingMethodDao)) {
-            $this->reportingMethodDao = new ReportingMethodDao();
+        if (!($this->reportingMethodDao instanceof ReportingMethodConfigurationDao)) {
+            $this->reportingMethodDao = new ReportingMethodConfigurationDao();
         }
 
         return $this->reportingMethodDao;
@@ -61,7 +61,7 @@ class ReportingMethodService extends BaseService {
      * @param ReportingMethod $reportingMethod 
      * @return NULL Doesn't return a value
      * 
-     * @todo return saved entity
+     * @todo return saved entity [DONE]
      */
     public function saveReportingMethod(ReportingMethod $reportingMethod) {        
         return $this->getReportingMethodDao()->saveReportingMethod($reportingMethod);        
@@ -74,10 +74,10 @@ class ReportingMethodService extends BaseService {
      * @param int $id 
      * @return ReportingMethod An instance of ReportingMethod or NULL
      * 
-     * @todo rename method as getReportingMethod( $id )
+     * @todo rename method as getReportingMethod( $id )[DONE]
      */    
-    public function getReportingMethodById($id) {
-        return $this->getReportingMethodDao()->getReportingMethodById($id);
+    public function getReportingMethod($id) {
+        return $this->getReportingMethodDao()->getReportingMethod($id);
     }
     
     /**

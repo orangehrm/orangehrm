@@ -26,7 +26,7 @@ class EmployeeReportToForm extends BaseForm {
     public $fullName;
     public $empNumber;
     private $employeeService;
-    private $reportingMethodService;
+    private $reportingMethodConfigurationService;
     private $employeeList;
 
     /**
@@ -50,18 +50,18 @@ class EmployeeReportToForm extends BaseForm {
         $this->employeeService = $employeeService;
     }
     
-    public function getReportingMethodService() {
+    public function getReportingMethodConfigurationService() {
 
-        if (is_null($this->reportingMethodService)) {
-            $this->reportingMethodService = new ReportingMethodService();
+        if (is_null($this->reportingMethodConfigurationService)) {
+            $this->reportingMethodConfigurationService = new ReportingMethodConfigurationService();
         }
         
-        return $this->reportingMethodService;
+        return $this->reportingMethodConfigurationService;
         
     }    
     
-    public function setReportingMethodService(ReportingMethod $reportingMethodService) {
-        $this->reportingMethodService = $reportingMethodService;
+    public function setReportingMethodConfigurationService($reportingMethodConfigurationService) {
+        $this->reportingMethodConfigurationService = $reportingMethodConfigurationService;
     }
 
     public function configure() {
@@ -117,7 +117,7 @@ class EmployeeReportToForm extends BaseForm {
 
         $list = array("" => "-- " . __('Select') . " --");
 
-        $reportingMethodTypes = $this->getReportingMethodService()->getReportingMethodList();
+        $reportingMethodTypes = $this->getReportingMethodConfigurationService()->getReportingMethodList();
 
         foreach ($reportingMethodTypes as $reportingMethodType) {
             $list[$reportingMethodType->id] = $reportingMethodType->name;
@@ -217,7 +217,7 @@ class EmployeeReportToForm extends BaseForm {
 
             $newReportingMethod = new ReportingMethod();
             $newReportingMethod->name = $reportingMethod;
-            $savedReportingMethod = $this->getReportingMethodService()->saveReportingMethod($newReportingMethod);
+            $savedReportingMethod = $this->getReportingMethodConfigurationService()->saveReportingMethod($newReportingMethod);
             $reportingType = $savedReportingMethod->id;
         }
 

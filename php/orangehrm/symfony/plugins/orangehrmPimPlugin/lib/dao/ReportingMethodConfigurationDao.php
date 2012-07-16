@@ -17,7 +17,7 @@
  * if not, write to the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
  * Boston, MA  02110-1301, USA
  */
-class ReportingMethodDao extends BaseDao {
+class ReportingMethodConfigurationDao extends BaseDao {
 
     public function saveReportingMethod(ReportingMethod $reportingMethod) {
         
@@ -30,7 +30,7 @@ class ReportingMethodDao extends BaseDao {
         
     }
     
-    public function getReportingMethodById($id) {
+    public function getReportingMethod($id) {
         
         try {
             return Doctrine::getTable('ReportingMethod')->find($id);

@@ -23,19 +23,19 @@
  */
 class updateReportToDetailAction extends basePimAction {
     
-    private $reportingMethodService;
+    private $reportingMethodConfigurationService;
     
-    public function getReportingMethodService() {
+    public function getReportingMethodConfigurationService() {
         
-        if (!($this->reportingMethodService instanceof ReportingMethodService)) {
-            $this->reportingMethodService = new ReportingMethodService();
+        if (!($this->reportingMethodConfigurationService instanceof ReportingMethodConfigurationService)) {
+            $this->reportingMethodConfigurationService = new ReportingMethodConfigurationService();
         }        
         
-        return $this->reportingMethodService;
+        return $this->reportingMethodConfigurationService;
     }
 
-    public function setReportingMethodService($reportingMethodService) {
-        $this->reportingMethodService = $reportingMethodService;
+    public function setReportingMethodConfigurationService($reportingMethodConfigurationService) {
+        $this->reportingMethodConfigurationService = $reportingMethodConfigurationService;
     }
 
     /**
@@ -90,7 +90,7 @@ class updateReportToDetailAction extends basePimAction {
     
     protected function _checkDuplicateEntry($empNumber) {
 
-        if (empty($id) && $this->getReportingMethodService()->isExistingReportingMethodName($this->form->getValue('reportingMethod'))) {
+        if (empty($id) && $this->getReportingMethodConfigurationService()->isExistingReportingMethodName($this->form->getValue('reportingMethod'))) {
             $this->getUser()->setFlash('templateMessage', array('warning', __('Name Already Exists')));
             $this->redirect('pim/viewReportToDetails?empNumber=' . $empNumber);
         }
