@@ -307,10 +307,10 @@ class EmployeeService extends BaseService {
      * 
      * @version 2.6.11
      * @param int $empNumber Employee Number
-     * @return boolean
-     * @throws PIMServiceException
+     * @return integer
+     * @throws DaoException
      * 
-     * @todo Don't return any value (currently returns true always)
+     * @todo Don't return any value (currently returns true always) [DONE: Decided to return query value]
      * @todo Exceptions should preserve previous exception [DONE]
      * @todo Rename to deleteEmployeePicture (to match with get method) [DONE]
      */
@@ -708,7 +708,7 @@ class EmployeeService extends BaseService {
      * @param int $empNumber Employee Number
      * @returns EmpPicture Employee Picture object
      * 
-     * @throws PIMServiceException
+     * @throws DaoException
      * 
      * @todo remove method and use getEmployeePicture
      */
@@ -724,11 +724,11 @@ class EmployeeService extends BaseService {
      * @param String $orderBy Order By, Default is ASC
      * @param boolean $includeTerminatedEmployees 
      * @return Doctrine_Collection/Array Returns Doctrine_Collection of Employee objects
-     * @throws PIMServiceException
+     * @throws DaoException
      * 
-     * @todo Change default $orderField to last name
+     * @todo Change default $orderField to last name [DONE]
      */
-    public function getEmployeeList($orderField = 'empNumber', $orderBy = 'ASC', $includeTerminatedEmployees = false) {
+    public function getEmployeeList($orderField = 'lastName', $orderBy = 'ASC', $includeTerminatedEmployees = false) {
         return $this->getEmployeeDao()->getEmployeeList($orderField, $orderBy, $includeTerminatedEmployees);
     }
     
@@ -801,15 +801,15 @@ class EmployeeService extends BaseService {
      * Returns Employee Count according to terminated status
      * 
      * @version 2.6.11
-     * @param boolean $withoutTerminatedEmployees 
+     * @param boolean $includeTerminated 
      * @returns int Employee Count
      * 
-     * @throws PIMServiceException
+     * @throws DaoException
      * 
-     * @todo Change parameter to include terminated and change logic 
+     * @todo Change parameter to include terminated and change logic [DONE]
      */
-    public function getEmployeeCount($withoutTerminatedEmployees = false) {
-        return $this->getEmployeeDao()->getEmployeeCount($withoutTerminatedEmployees = false);
+    public function getEmployeeCount($includeTerminated = false) {
+        return $this->getEmployeeDao()->getEmployeeCount($includeTerminated = false);
     }
 
     /**
@@ -1274,11 +1274,11 @@ class EmployeeService extends BaseService {
      * @throws DaoException
      * 
      * @todo return saved EmpSalary entry [DONE]
-     * @todo Rename method as saveEmployeeSalary
+     * @todo Rename method as saveEmployeeSalary [DONE]
      * @todo rename Entity as EmpBasicsalary to EmpSalary 
      */
-    public function saveEmpBasicsalary(EmpBasicsalary $basicSalary) {
-        return $this->getEmployeeDao()->saveEmpBasicsalary($basicSalary);
+    public function saveEmployeeSalary(EmpBasicsalary $basicSalary) {
+        return $this->getEmployeeDao()->saveEmployeeSalary($basicSalary);
     }
 
     /**
@@ -1467,10 +1467,10 @@ class EmployeeService extends BaseService {
      * @param int $empNumber Employee Number
      * @return int 1 if successfull, 0 if empNumber is not available 
      * 
-     * @todo Rename to activateTerminatedEmployment
+     * @todo Rename to activateTerminatedEmployment [DONE]
      */
-    public function activateEmployment($empNumber) {
-        return $this->getEmployeeDao()->activateEmployment($empNumber);
+    public function activateTerminatedEmployment($empNumber) {
+        return $this->getEmployeeDao()->activateTerminatedEmployment($empNumber);
     }
 
     /**

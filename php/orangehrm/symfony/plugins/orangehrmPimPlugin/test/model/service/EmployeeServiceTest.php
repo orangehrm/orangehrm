@@ -159,10 +159,10 @@ class EmployeeServiceTest extends PHPUnit_Framework_TestCase {
             $this->employeeDao = $this->getMock('EmployeeDao');
             $this->employeeDao->expects($this->once())
                     ->method('deleteEmployeePicture')
-                    ->will($this->returnValue(true));
+                    ->will($this->returnValue(1));
             $this->employeeService->setEmployeeDao($this->employeeDao);
             $result = $this->employeeService->deleteEmployeePicture($v['id']);
-            $this->assertTrue($result);
+            $this->assertEquals(1, $result);
         }
     }
     

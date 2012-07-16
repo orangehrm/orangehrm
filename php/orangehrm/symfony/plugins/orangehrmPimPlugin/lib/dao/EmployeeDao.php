@@ -823,18 +823,21 @@ class EmployeeDao extends BaseDao {
     /**
      * Delete Photo
      * @param int $empNumber
-     * @returns boolean
+     * @return integer
      * @throws DaoException
      */
     public function deleteEmployeePicture($empNumber) {
+        
         try {
+            
             $q = Doctrine_Query :: create()->delete('EmpPicture p')
                             ->where('emp_number = ?', $empNumber);
-            $result = $q->execute();
-            return true;
+            return $q->execute();
+
         } catch (Exception $e) {
             throw new DaoException($e->getMessage());
         }
+        
     }
 
     /**
@@ -878,7 +881,7 @@ class EmployeeDao extends BaseDao {
      * @returns Collection
      * @throws DaoException
      */
-    public function getEmployeeList($orderField = 'empNumber', $orderBy = 'ASC', $includeTerminatedEmployees = false) {
+    public function getEmployeeList($orderField = 'lastName', $orderBy = 'ASC', $includeTerminatedEmployees = false) {
         try {
             $q = Doctrine_Query :: create()->from('Employee');
             $q->orderBy($orderField . ' ' . $orderBy);
@@ -1023,18 +1026,21 @@ class EmployeeDao extends BaseDao {
      * @returns int
      * @throws DaoException
      */
-    public function getEmployeeCount($withoutTerminatedEmployees = false) {
+    public function getEmployeeCount($includeTerminated = false) {
+        
         try {
             $q = Doctrine_Query :: create()->from('Employee');
 
-            if ($withoutTerminatedEmployees == false) {
+            if (!$includeTerminated) {
                 $q->where("termination_id IS NULL");
             }
 
             return $q->count();
+            
         } catch (Exception $e) {
             throw new DaoException($e->getMessage());
         }
+        
     }
 
     /**
@@ -1552,7 +1558,7 @@ class EmployeeDao extends BaseDao {
      * @returns EmpBasicsalary
      * @throws DaoException
      */
-    public function saveEmpBasicsalary(EmpBasicsalary $empBasicsalary) {
+    public function saveEmployeeSalary(EmpBasicsalary $empBasicsalary) {
         
         try {
             
@@ -1765,7 +1771,7 @@ class EmployeeDao extends BaseDao {
         }
     }
 
-    public function activateEmployment($empNumber) {
+    public function activateTerminatedEmployment($empNumber) {
 
         try {
             $q = Doctrine_Query :: create()->update('Employee')

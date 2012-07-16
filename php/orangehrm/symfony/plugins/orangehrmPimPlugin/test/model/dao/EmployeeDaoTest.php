@@ -680,7 +680,7 @@ class EmployeeDaoTest extends PHPUnit_Framework_TestCase {
         $empNumber = 1;
 
         $result = $this->employeeDao->deleteEmployeePicture($empNumber);
-        $this->assertTrue($result);
+        $this->assertEquals(1, $result);
     }
 
     public function testSaveEmployeePicture() {
@@ -998,14 +998,14 @@ class EmployeeDaoTest extends PHPUnit_Framework_TestCase {
         }
     }
 
-    public function testSaveEmpBasicsalary() {
+    public function testSaveEmployeeSalary() {
         
         $salary = new EmpBasicsalary();
         $salary->setEmpNumber(1);
         $salary->setCurrencyId('LKR');
         $salary->setBasicSalary(2121212);
         
-        $result = $this->employeeDao->saveEmpBasicsalary($salary);
+        $result = $this->employeeDao->saveEmployeeSalary($salary);
 
         $this->assertTrue($result === $salary);
 
@@ -1021,7 +1021,7 @@ class EmployeeDaoTest extends PHPUnit_Framework_TestCase {
                 ->method('save')
                 ->will($this->throwException(new Exception()));
 
-        $result = $this->employeeDao->saveEmpBasicsalary($salary);
+        $result = $this->employeeDao->saveEmployeeSalary($salary);
 
     }
     
