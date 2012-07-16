@@ -4,7 +4,7 @@
  * CustomFieldsDao Test Class
  * @group Pim
  */
-class CustomFieldsDaoTest extends PHPUnit_Framework_TestCase {
+class CustomFieldConfigurationDaoTest extends PHPUnit_Framework_TestCase {
 	private $testCases;
 	private $customFieldsDao ;
 
