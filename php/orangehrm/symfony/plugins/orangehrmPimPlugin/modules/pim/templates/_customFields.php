@@ -33,7 +33,7 @@ if (!empty($customFieldList) && (count($customFieldList) > 0)) {
             <?php
             $disabled = $editMode ? '' : 'disabled="disabled"';
             foreach ($customFieldList as $customField) {
-                $fieldName = "custom" . $customField->field_num;
+                $fieldName = "custom" . $customField->getId();
                 $value = $employee[$fieldName];
             ?>
                 <li>
@@ -41,7 +41,7 @@ if (!empty($customFieldList) && (count($customFieldList) > 0)) {
 
                     <div class="input_container">
                     <?php
-                    if ($customField->type == CustomFields::FIELD_TYPE_SELECT) {
+                    if ($customField->type == CustomField::FIELD_TYPE_SELECT) {
                         $options = $customField->getOptions(); ?>
                         <select <?php echo $disabled; ?> name="<?php echo $fieldName; ?>" class="formSelect" >
 

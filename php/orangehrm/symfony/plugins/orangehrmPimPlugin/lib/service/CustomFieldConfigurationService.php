@@ -68,61 +68,65 @@ class CustomFieldConfigurationService extends BaseService {
     * @param String $orderField
     * @param String $orderBy
     * @returns Collection
-    * @throws AdminServiceException
+    * @throws DaoException
     * 
     * @todo rename method as searchCustomFieldList( $sortField , $sortOrder, $filters ) [DONE: Won't change. Can be implemented on request]
     */
-   public function getCustomFieldList($screen = null, $orderField = "field_num", $orderBy = "ASC") {
+   public function getCustomFieldList($screen = null, $orderField = "name", $orderBy = "ASC") {
        return $this->customFieldsDao->getCustomFieldList($screen, $orderField, $orderBy);
    } 
     
    /**
-    * Save CustomFields
-    * @param CustomFields $customFields
-    * @returns boolean
-    * @throws AdminServiceException, DuplicateNameException
+    * Save sustom field
     * 
-    * @todo return saved entity
-    * @todo rename entity as CustomField
+    * Saves the given custom field object
+    * 
+    * @param CustomField $customField
+    * @return CustomField
+    * @throws DaoException, DuplicateNameException
+    * 
+    * @todo return saved entity [Done]
+    * @todo rename entity as CustomField [Done]
     */
-   public function saveCustomField(CustomFields $customFields) {
+   public function saveCustomField(CustomField $customField) {
+       
+       $customField = $this->customFieldsDao->saveCustomField($customField);
 
-      $reportGeneratorService = new ReportGeneratorService();
-      $customFields = $this->customFieldsDao->saveCustomField($customFields);
-      $reportGeneratorService->saveCustomDisplayField($customFields, "3");
+       $reportGeneratorService = new ReportGeneratorService();      
+       $reportGeneratorService->saveCustomDisplayField($customField, "3");
       
-      return $customFields;
+       return $customField;
 
    }
     
    /**
     * Delete CustomField
-    * @param array $customFieldList
+    * @param array $customFieldIdList
     * @returns integer Number of records deleted
     * @throws DaoException
     * 
-    * @todo rename method as deleteCustomFields
+    * @todo rename method as deleteCustomFields [DONE: There was no change to be done]
     * @todo return number of items deleted [DONE]
     */
-   public function deleteCustomFields($customFieldList) {
+   public function deleteCustomFields($customFieldIdList) {
 
       $reportGeneratorService = new ReportGeneratorService();
-      $reportGeneratorService->deleteCustomDisplayFieldList($customFieldList);
+      $reportGeneratorService->deleteCustomDisplayFieldList($customFieldIdList);
       
-      return $this->customFieldsDao->deleteCustomFields($customFieldList);
+      return $this->customFieldsDao->deleteCustomFields($customFieldIdList);
 
    }
     
    /**
     * Returns CustomField by Id. This need to be update to retrieve entity object
     * @param int $id
-    * @returns CustomFields
-    * @throws AdminServiceException
+    * @return CustomField CustomField object on success and null if not found
+    * @throws DaoException
     * 
-    * @todo rename method as getCustomeField
+    * @todo rename method as getCustomeField [DONE]
     */
-   public function readCustomField($id) {
-       return $this->customFieldsDao->readCustomField($id);
+   public function getCustomField($id) {
+       return $this->customFieldsDao->getCustomField($id);
    }
     
    /**
@@ -132,8 +136,9 @@ class CustomFieldConfigurationService extends BaseService {
     * @returns array()
     * @throws AdminServiceException
     * 
-    * @todo remove method since it not used any where 
+    * @todo remove method since it not used any where [DONE]
     */
+    /*
     public function getAvailableFieldNumbers() {
 
         $availableFields	=	array();
@@ -153,7 +158,7 @@ class CustomFieldConfigurationService extends BaseService {
         return $availableFields;
 
     }
-   
+    */
    
    
 }

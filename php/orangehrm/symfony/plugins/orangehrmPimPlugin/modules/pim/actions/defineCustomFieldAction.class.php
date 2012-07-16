@@ -69,11 +69,11 @@ class defineCustomFieldAction extends sfAction {
                 $customField = null;
                 
                 if (isset($fieldNum)) {
-                    $customField = $customFieldsService->readCustomField($fieldNum);
+                    $customField = $customFieldsService->getCustomField($fieldNum);
                 }
                 
                 if (empty($customField)) {
-                    $customField = new CustomFields();
+                    $customField = new CustomField();
                 }
                 
                 $customField->setName($form->getValue('name'));

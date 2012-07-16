@@ -56,8 +56,8 @@ class CustomFieldForm extends BaseForm {
     
     public function getFieldTypes() {
         $types = array('' => '-- ' . __('Select') . ' --',
-                      CustomFields::FIELD_TYPE_STRING => __('Text or Number'),
-                      CustomFields::FIELD_TYPE_SELECT => __('Drop Down'));        
+                      CustomField::FIELD_TYPE_STRING => __('Text or Number'),
+                      CustomField::FIELD_TYPE_SELECT => __('Drop Down'));        
         
         return $types;
     }

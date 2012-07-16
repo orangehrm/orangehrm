@@ -672,6 +672,23 @@ TerminationReason:
       foreign: reasonId
       type: one
       
+CustomField:
+  tableName: hs_hr_custom_fields
+  columns:
+    field_num as id:
+      type: integer(4)
+      primary: true
+    name:
+      type: string(250)
+      notnull: true
+    type:
+      type: integer(4)
+      notnull: true
+    screen:
+      type: string(100)
+      notnull: false
+    extra_data as extraData: string(250)      
+      
 EmployeeLanguage:
   tableName: hs_hr_emp_language
   columns:

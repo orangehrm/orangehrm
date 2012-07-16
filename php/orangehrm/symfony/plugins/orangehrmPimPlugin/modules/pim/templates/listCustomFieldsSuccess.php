@@ -42,7 +42,7 @@ if (isset($messageType)) {
     <?php echo $form['type']->render(array("class" => "formSelect")); ?>
     <br class="clear"/>
     
-    <?php $showExtra = ($form->getValue('type') == CustomFields::FIELD_TYPE_SELECT) ? 'block' : 'none';?>
+    <?php $showExtra = ($form->getValue('type') == CustomField::FIELD_TYPE_SELECT) ? 'block' : 'none';?>
     
     <div style="display:<?php echo $showExtra;?>;" id="selectOptions">
         
@@ -81,7 +81,7 @@ if (isset($messageType)) {
             <div class="actionbuttons">
 <?php 
     $fieldsInUse = count($listCustomField);
-    $fieldsLeft = CustomFields::MAX_FIELD_NUM - $fieldsInUse;
+    $fieldsLeft = CustomField::MAX_FIELD_NUM - $fieldsInUse;
     $fieldsLeftMsg = '';
     
     if ($fieldsLeft == 0) {
@@ -208,7 +208,7 @@ if (isset($messageType)) {
         hideextra();
 
         function hideextra() {
-            if ($('#customField_type').val() == <?php echo CustomFields::FIELD_TYPE_SELECT;?>) {
+            if ($('#customField_type').val() == <?php echo CustomField::FIELD_TYPE_SELECT;?>) {
                 $('#selectOptions').show();
             } else {
                 $('#selectOptions').hide();
@@ -285,7 +285,7 @@ if (isset($messageType)) {
     /* Valid From Date */
     $.validator.addMethod("validateExtra", function(value, element) {
 
-        if ($('#customField_type').val() == <?php echo CustomFields::FIELD_TYPE_SELECT;?>) {
+        if ($('#customField_type').val() == <?php echo CustomField::FIELD_TYPE_SELECT;?>) {
             var extraVal = $.trim($('#customField_extra_data').val());
             var len = extraVal.length;
             if (len == 0) {

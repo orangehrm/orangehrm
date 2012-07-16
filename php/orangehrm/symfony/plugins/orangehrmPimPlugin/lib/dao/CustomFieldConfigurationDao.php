@@ -1,9 +1,23 @@
 <?php
 
-/**
- * CustomFieldsDao to make CRUD operations
+/*
+ * OrangeHRM is a comprehensive Human Resource Management (HRM) System that captures
+ * all the essential functionalities required for any enterprise.
+ * Copyright (C) 2006 OrangeHRM Inc., http://www.orangehrm.com
  *
+ * OrangeHRM is free software; you can redistribute it and/or modify it under the terms of
+ * the GNU General Public License as published by the Free Software Foundation; either
+ * version 2 of the License, or (at your option) any later version.
+ *
+ * OrangeHRM is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY;
+ * without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+ * See the GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License along with this program;
+ * if not, write to the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
+ * Boston, MA  02110-1301, USA
  */
+
 class CustomFieldConfigurationDao extends BaseDao {
 
     /**
@@ -13,10 +27,12 @@ class CustomFieldConfigurationDao extends BaseDao {
      * @returns Collection
      * @throws DaoException
      */
-    public function getCustomFieldList($screen = null, $orderField = "field_num", $orderBy = "ASC") {
+    public function getCustomFieldList($screen = null, $orderField = "name", $orderBy = "ASC") {
+        
         try {
+            
             $q = Doctrine_Query::create()
-                            ->from('CustomFields');
+                            ->from('CustomField');
 
             if (!empty($screen)) {
                 $q->where('screen = ?', $screen);
@@ -25,38 +41,46 @@ class CustomFieldConfigurationDao extends BaseDao {
             $q->orderBy($orderField . ' ' . $orderBy);
 
             return $q->execute();
+            
+        // @codeCoverageIgnoreStart
         } catch (Exception $e) {
-            throw new DaoException($e->getMessage());
+            throw new DaoException($e->getMessage(), $e->getCode(), $e);
         }
+        // @codeCoverageIgnoreEnd
+        
     }
 
     /**
-     * Save CustomFields
-     * @param CustomFields $customFields
-     * @returns boolean
+     * Save CustomField
+     * @param CustomField $customField
+     * @returns CustomField
      * @throws DaoException, DataDuplicationException
      */
-    public function saveCustomField(CustomFields $customFields) {
+    public function saveCustomField(CustomField $customField) {
+        
         try {
+            
             $q = Doctrine_Query::create()
-                            ->from('CustomFields c')
-                            ->where('c.name = ?', $customFields->name)
-                            ->andWhere('c.field_num <> ?', $customFields->field_num);
+                            ->from('CustomField c')
+                            ->where('c.name = ?', $customField->name)
+                            ->andWhere('c.id <> ?', $customField->id);
 
             $freeNum = null;
 
-            if (empty($customFields->field_num)) {
+            if (empty($customField->id)) {
+                
                 $q = Doctrine_Query::create()
                                 ->select('c.field_num')
-                                ->from('CustomFields c')
-                                ->orderBy('field_num');
+                                ->from('CustomField c')
+                                ->orderBy('id');
+                
                 $fieldNumbers = $q->execute(array(), Doctrine::HYDRATE_SCALAR);
                 $count = count($fieldNumbers);
 
                 $i = 1;
                 foreach ($fieldNumbers as $num) {
 
-                    if ($num['c_field_num'] > $i) {
+                    if ($num['c_id'] > $i) {
                         $freeNum = $i;
                         break;
                     }
@@ -65,24 +89,29 @@ class CustomFieldConfigurationDao extends BaseDao {
                     if ($i > 10) {
                         break;
                     }
+                    
                 }
 
                 if (empty($freeNum) && ($i <= 10)) {
                     $freeNum = $i;
                 }
 
-                $customFields->field_num = $freeNum;
+                $customField->id = $freeNum;
+                
             }
 
-            if (!empty($customFields->field_num)) {
-                $customFields->save();
+            if (!empty($customField->id)) {
+                $customField->save();
             }
 
-            return $customFields;
-//            return true;
-        } catch (Doctrine_Exception $e) {
-            throw new DaoException($e->getMessage());
+            return $customField;
+
+        // @codeCoverageIgnoreStart
+        } catch (Exception $e) {
+            throw new DaoException($e->getMessage(), $e->getCode(), $e);
         }
+        // @codeCoverageIgnoreEnd
+        
     }
 
     /**
@@ -91,70 +120,83 @@ class CustomFieldConfigurationDao extends BaseDao {
      * @returns integer
      * @throws DaoException
      */
-    public function deleteCustomFields($customFieldList = array()) {
+    public function deleteCustomFields($customFieldIdList) {
         
         try {
             
-            if (!is_array($customFieldList) || empty($customFieldList)) {
+            if (!is_array($customFieldIdList) || empty($customFieldIdList)) {
                 throw new DaoException('Invalid parameter: $customFieldList should be an array and should not be empty');
             }            
             
-            $this->deleteReletedEmployeeCustomField($customFieldList);
+            $this->_deleteReletedEmployeeCustomFields($customFieldIdList);
 
             $q = Doctrine_Query::create()
-                            ->delete('CustomFields')
-                            ->whereIn('field_num', $customFieldList);
+                            ->delete('CustomField')
+                            ->whereIn('id', $customFieldIdList);
 
             return $q->execute();
             
+        // @codeCoverageIgnoreStart
         } catch (Exception $e) {
-            throw new DaoException($e->getMessage());
+            throw new DaoException($e->getMessage(), $e->getCode(), $e);
         }
+        // @codeCoverageIgnoreEnd
         
     }
 
-    /**
-     * Delete Releted Employee Custom Field
-     * @param array() $customFieldList
-     * @returns boolean
-     * @throws DaoException
-     */
-    public function deleteReletedEmployeeCustomField($customFieldList = array()) {
+    private function _deleteReletedEmployeeCustomFields($customFieldIdList) {
 
         try {
-            foreach ($customFieldList as $customField) {
-                $actualFieldName = "custom" . $customField;
+            
+            $rows = 0;
+            
+            foreach ($customFieldIdList as $id) {
+                
+                $actualFieldName = "custom" . $id;
 
                 $q = Doctrine_Query::create()
                                 ->update('Employee')
                                 ->set($actualFieldName, '?', '');
 
-                $rows = $q->execute();
+                $rows += $q->execute();
+                
             }
-            if ($rows > 0) {
-                return true;
-            }
-
-            return false;
+            
+            return $rows;
+            
+        // @codeCoverageIgnoreStart
         } catch (Exception $e) {
-            throw new DaoException($e->getMessage());
+            throw new DaoException($e->getMessage(), $e->getCode(), $e);
         }
+        // @codeCoverageIgnoreEnd
     }
 
     /**
-     * Returns CustomField by Id. This need to be update to retrieve entity object
+     * Returns CustomField by Id
      * @param int $id
-     * @returns CustomFields array
+     * @returns CustomField
      * @throws DaoException
      */
-    public function readCustomField($id) {
+    public function getCustomField($id) {
+        
         try {
-            return Doctrine::getTable('CustomFields')->find($id);
+            
+            $result = Doctrine::getTable('CustomField')->find($id);
+            
+            if (!$result) {
+                return null;
+            }
+            
+            return $result;
+            
+        // @codeCoverageIgnoreStart
         } catch (Exception $e) {
-            throw new AdminServiceException($e->getMessage());
+            throw new DaoException($e->getMessage(), $e->getCode(), $e);
         }
+        // @codeCoverageIgnoreEnd
+        
     }
 
+    
+    
 }
-
-?>

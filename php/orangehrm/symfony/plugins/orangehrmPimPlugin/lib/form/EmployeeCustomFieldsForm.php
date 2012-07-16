@@ -31,9 +31,9 @@ class EmployeeCustomFieldsForm extends BaseForm {
 		
        
         foreach ($customFields as $customField) {
-            $fieldName = "custom" . $customField->field_num;
+            $fieldName = "custom" . $customField->getId();
 
-            if ($customField->type == CustomFields::FIELD_TYPE_SELECT) {
+            if ($customField->type == CustomField::FIELD_TYPE_SELECT) {
 
                 $options = $customField->getOptions();
                 $this->setWidget($fieldName, new sfWidgetFormSelect(array('choices'=>$options)));

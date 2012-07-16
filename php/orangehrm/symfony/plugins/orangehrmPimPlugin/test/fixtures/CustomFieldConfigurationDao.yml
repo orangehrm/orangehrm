@@ -1,0 +1,6 @@
+CustomField:
+  0: {id: 1, name: 'Age', type: 0, screen: 'personal'}
+  1: {id: 2, name: 'Medium', type: 0, screen: 'contact'}
+  2: {id: 3, name: 'Level', type: 0, screen: 'emergency'}  
+  3: {id: 4, name: 'Emergency Type', type: 1, screen: 'emergency', extraData: 'Type 1, Type 2'}
+  4: {id: 5, name: 'Document Type', type: 1, screen: 'immigration', extraData: 'Visa 1, Visa 2'}
