@@ -255,23 +255,6 @@ Payperiod:
       foreign: payperiod_code
       type: many
        
-CustomFields:
-  tableName: hs_hr_custom_fields
-  columns:
-    field_num:
-      type: integer(4)
-      primary: true
-    name:
-      type: string(250)
-      notnull: true
-    type:
-      type: integer(4)
-      notnull: true
-    screen:
-      type: string(100)
-      notnull: false
-    extra_data: string(250)
- 
 CurrencyType:
   tableName: hs_hr_currency_type
   columns:
