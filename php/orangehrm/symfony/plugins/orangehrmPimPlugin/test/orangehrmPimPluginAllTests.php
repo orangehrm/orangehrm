@@ -13,7 +13,7 @@ class orangehrmPimPluginAllTests {
         /* Dao Test Cases */
         $suite->addTestFile(dirname(__FILE__) . '/model/dao/EmployeeDaoTest.php');
         $suite->addTestFile(dirname(__FILE__) . '/model/dao/ReportingMethodConfigurationDaoTest.php');
-        $suite->addTestFile(dirname(__FILE__) . '/model/dao/TerminationReasonDaoTest.php');
+        $suite->addTestFile(dirname(__FILE__) . '/model/dao/TerminationReasonConfigurationDaoTest.php');
         $suite->addTestFile(dirname(__FILE__) . '/model/dao/EmployeeListDaoTest.php');
         $suite->addTestFile(dirname(__FILE__) . '/model/dao/CustomFieldConfigurationDaoTest.php');
 

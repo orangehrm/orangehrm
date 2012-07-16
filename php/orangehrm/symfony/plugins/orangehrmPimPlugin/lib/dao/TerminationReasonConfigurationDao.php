@@ -17,7 +17,7 @@
  * if not, write to the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
  * Boston, MA  02110-1301, USA
  */
-class TerminationReasonDao extends BaseDao {
+class TerminationReasonConfigurationDao extends BaseDao {
 
     public function saveTerminationReason(TerminationReason $terminationReason) {
         
@@ -30,7 +30,7 @@ class TerminationReasonDao extends BaseDao {
         
     }
     
-    public function getTerminationReasonById($id) {
+    public function getTerminationReason($id) {
         
         try {
             return Doctrine::getTable('TerminationReason')->find($id);

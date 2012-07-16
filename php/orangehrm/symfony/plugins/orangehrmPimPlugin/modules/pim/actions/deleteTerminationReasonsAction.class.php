@@ -20,19 +20,19 @@
 
 class deleteTerminationReasonsAction extends sfAction {
     
-    private $terminationReasonService;
+    private $terminationReasonConfigurationService;
     
-    public function getTerminationReasonService() {
+    public function getTerminationReasonConfigurationService() {
         
-        if (!($this->terminationReasonService instanceof TerminationReasonService)) {
-            $this->terminationReasonService = new TerminationReasonService();
+        if (!($this->terminationReasonConfigurationService instanceof TerminationReasonConfigurationService)) {
+            $this->terminationReasonConfigurationService = new TerminationReasonConfigurationService();
         }        
         
-        return $this->terminationReasonService;
+        return $this->terminationReasonConfigurationService;
     }
 
-    public function setTerminationReasonService($terminationReasonService) {
-        $this->terminationReasonService = $terminationReasonService;
+    public function setTerminationReasonConfigurationService($terminationReasonConfigurationService) {
+        $this->terminationReasonConfigurationService = $terminationReasonConfigurationService;
     }
     
     public function execute($request) {
@@ -45,7 +45,7 @@ class deleteTerminationReasonsAction extends sfAction {
         
         if (!empty($toDeleteIds) && $request->isMethod('post')) {
             
-            $result = $this->getTerminationReasonService()->deleteTerminationReasons($toDeleteIds);
+            $result = $this->getTerminationReasonConfigurationService()->deleteTerminationReasons($toDeleteIds);
             
             if ($result) {
                 $this->getUser()->setFlash('templateMessage', array('SUCCESS', __(TopLevelMessages::DELETE_SUCCESS))); 
@@ -70,7 +70,7 @@ class deleteTerminationReasonsAction extends sfAction {
         
         if (!empty($toDeleteIds)) {
             
-            if ($this->getTerminationReasonService()->isReasonInUse($toDeleteIds)) {
+            if ($this->getTerminationReasonConfigurationService()->isReasonInUse($toDeleteIds)) {
                 $this->getUser()->setFlash('templateMessage', array('WARNING', __('Termination Reason(s) in Use')));
                 $this->redirect('pim/viewTerminationReasons');
             }

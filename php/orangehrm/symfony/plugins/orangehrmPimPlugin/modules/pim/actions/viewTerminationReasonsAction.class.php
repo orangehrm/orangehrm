@@ -20,19 +20,19 @@
 
 class viewTerminationReasonsAction extends sfAction {
     
-    private $terminationReasonService;
+    private $terminationReasonConfigurationService;
     
-    public function getTerminationReasonService() {
+    public function getTerminationReasonConfigurationService() {
         
-        if (!($this->terminationReasonService instanceof TerminationReasonService)) {
-            $this->terminationReasonService = new TerminationReasonService();
+        if (!($this->terminationReasonConfigurationService instanceof TerminationReasonConfigurationService)) {
+            $this->terminationReasonConfigurationService = new TerminationReasonConfigurationService();
         }        
         
-        return $this->terminationReasonService;
+        return $this->terminationReasonConfigurationService;
     }
 
-    public function setTerminationReasonService($terminationReasonService) {
-        $this->terminationReasonService = $terminationReasonService;
+    public function setTerminationReasonConfigurationService($terminationReasonConfigurationService) {
+        $this->terminationReasonConfigurationService = $terminationReasonConfigurationService;
     }
     
     public function execute($request) {
@@ -40,7 +40,7 @@ class viewTerminationReasonsAction extends sfAction {
         $this->_checkAuthentication();
         
         $this->form = new TerminationReasonForm();
-        $this->records = $this->getTerminationReasonService()->getTerminationReasonList();
+        $this->records = $this->getTerminationReasonConfigurationService()->getTerminationReasonList();
         
 		if ($this->getUser()->hasFlash('templateMessage')) {
             $this->templateMessage = $this->getUser()->getFlash('templateMessage');
@@ -77,7 +77,7 @@ class viewTerminationReasonsAction extends sfAction {
     protected function _checkDuplicateEntry() {
 
         $id = $this->form->getValue('id');
-        $object = $this->getTerminationReasonService()->getTerminationReasonByName($this->form->getValue('name'));
+        $object = $this->getTerminationReasonConfigurationService()->getTerminationReasonByName($this->form->getValue('name'));
         
         if ($object instanceof TerminationReason) {
             

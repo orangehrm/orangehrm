@@ -13,7 +13,7 @@
 class EmployeeTerminateForm extends BaseForm {
 
     private $employeeService;
-    private $terminationReasonService;
+    private $terminationReasonConfigurationService;
 
     /**
      * Get EmployeeService
@@ -35,18 +35,18 @@ class EmployeeTerminateForm extends BaseForm {
         $this->employeeService = $employeeService;
     }
     
-    public function getTerminationReasonService() {
+    public function getTerminationReasonConfigurationService() {
 
-        if (is_null($this->terminationReasonService)) {
-            $this->terminationReasonService = new TerminationReasonService();
+        if (is_null($this->terminationReasonConfigurationService)) {
+            $this->terminationReasonConfigurationService = new TerminationReasonConfigurationService();
         }
         
-        return $this->terminationReasonService;
+        return $this->terminationReasonConfigurationService;
         
     }
 
-    public function setTerminationReasonService(TerminationReasonService $terminationReasonService) {
-        $this->terminationReasonService = $terminationReasonService;
+    public function setTerminationReasonConfigurationService(TerminationReasonConfigurationService $terminationReasonConfigurationService) {
+        $this->terminationReasonConfigurationService = $terminationReasonConfigurationService;
     }    
 
     public function configure() {
@@ -109,7 +109,7 @@ class EmployeeTerminateForm extends BaseForm {
 
     public function __getTerminationReasons() {
         $list = array();
-        $terminateReasons = $this->getTerminationReasonService()->getTerminationReasonList();
+        $terminateReasons = $this->getTerminationReasonConfigurationService()->getTerminationReasonList();
         foreach ($terminateReasons as $terminateReason) {
             $list[$terminateReason->getId()] = $terminateReason->getName();
         }

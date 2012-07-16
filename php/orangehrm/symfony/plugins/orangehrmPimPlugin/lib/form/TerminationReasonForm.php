@@ -21,19 +21,19 @@
 
 class TerminationReasonForm extends BaseForm {
     
-    private $terminationReasonService;
+    private $terminationReasonConfigurationService;
     
-    public function getTerminationReasonService() {
+    public function getTerminationReasonConfigurationService() {
         
-        if (!($this->terminationReasonService instanceof TerminationReasonService)) {
-            $this->terminationReasonService = new TerminationReasonService();
+        if (!($this->terminationReasonConfigurationService instanceof TerminationReasonConfigurationService)) {
+            $this->terminationReasonConfigurationService = new TerminationReasonConfigurationService();
         }
         
-        return $this->terminationReasonService;
+        return $this->terminationReasonConfigurationService;
     }
 
-    public function setTerminationReasonService($terminationReasonService) {
-        $this->terminationReasonService = $terminationReasonService;
+    public function setTerminationReasonConfigurationService($terminationReasonConfigurationService) {
+        $this->terminationReasonConfigurationService = $terminationReasonConfigurationService;
     }
 
     public function configure() {
@@ -61,12 +61,12 @@ class TerminationReasonForm extends BaseForm {
             $terminationReason = new TerminationReason();
             $message = array('SUCCESS', __(TopLevelMessages::SAVE_SUCCESS));
         } else {
-            $terminationReason = $this->getTerminationReasonService()->getTerminationReasonById($id);
+            $terminationReason = $this->getTerminationReasonConfigurationService()->getTerminationReason($id);
             $message = array('SUCCESS', __(TopLevelMessages::UPDATE_SUCCESS));
         }
         
         $terminationReason->setName($this->getValue('name'));
-        $this->getTerminationReasonService()->saveTerminationReason($terminationReason);        
+        $this->getTerminationReasonConfigurationService()->saveTerminationReason($terminationReason);        
         
         return $message;
         

@@ -26,31 +26,31 @@
   * @package pim
  */
 
-class TerminationReasonService extends BaseService {
+class TerminationReasonConfigurationService extends BaseService {
     
     /**
      * @ignore
-     * @var TerminationReasonDao 
+     * @var TerminationReasonConfigurationDao 
      */
-    private $terminationReasonDao;
+    private $terminationReasonConfigurationDao;
     
     /**
      * @ignore
      */
     public function getTerminationReasonDao() {
         
-        if (!($this->terminationReasonDao instanceof TerminationReasonDao)) {
-            $this->terminationReasonDao = new TerminationReasonDao();
+        if (!($this->terminationReasonConfigurationDao instanceof TerminationReasonConfigurationDao)) {
+            $this->terminationReasonConfigurationDao = new TerminationReasonConfigurationDao();
         }
         
-        return $this->terminationReasonDao;
+        return $this->terminationReasonConfigurationDao;
     }
 
     /**
      * @ignore
      */
-    public function setTerminationReasonDao($terminationReasonDao) {
-        $this->terminationReasonDao = $terminationReasonDao;
+    public function setTerminationReasonDao($terminationReasonConfigurationDao) {
+        $this->terminationReasonConfigurationDao = $terminationReasonConfigurationDao;
     }
     
     /**
@@ -62,10 +62,10 @@ class TerminationReasonService extends BaseService {
      * @param TerminationReason $terminationReason 
      * @return NULL Doesn't return a value
      * 
-     * @todo return saved entity 
+     * @todo return saved entity [DONE]
      */
     public function saveTerminationReason(TerminationReason $terminationReason) {        
-        $this->getTerminationReasonDao()->saveTerminationReason($terminationReason);        
+        return $this->getTerminationReasonDao()->saveTerminationReason($terminationReason);        
     }
     
     /**
@@ -75,10 +75,10 @@ class TerminationReasonService extends BaseService {
      * @param int $id 
      * @return TerminationReason An instance of TerminationReason or NULL
      * 
-     * @todo rename method as getTerminationReason( $id )
+     * @todo rename method as getTerminationReason( $id ) [DONE]
      */    
-    public function getTerminationReasonById($id) {
-        return $this->getTerminationReasonDao()->getTerminationReasonById($id);
+    public function getTerminationReason($id) {
+        return $this->getTerminationReasonDao()->getTerminationReason($id);
     }
     
     /**
