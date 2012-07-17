@@ -7,14 +7,14 @@
  * 
  * @property integer $id
  * @property string $name
- * @property Doctrine_Collection $EmployeeMemberDetail
+ * @property Doctrine_Collection $EmployeeMembership
  * 
- * @method integer             getId()                   Returns the current record's "id" value
- * @method string              getName()                 Returns the current record's "name" value
- * @method Doctrine_Collection getEmployeeMemberDetail() Returns the current record's "EmployeeMemberDetail" collection
- * @method Membership          setId()                   Sets the current record's "id" value
- * @method Membership          setName()                 Sets the current record's "name" value
- * @method Membership          setEmployeeMemberDetail() Sets the current record's "EmployeeMemberDetail" collection
+ * @method integer             getId()                 Returns the current record's "id" value
+ * @method string              getName()               Returns the current record's "name" value
+ * @method Doctrine_Collection getEmployeeMembership() Returns the current record's "EmployeeMembership" collection
+ * @method Membership          setId()                 Sets the current record's "id" value
+ * @method Membership          setName()               Sets the current record's "name" value
+ * @method Membership          setEmployeeMembership() Sets the current record's "EmployeeMembership" collection
  * 
  * @package    orangehrm
  * @subpackage model\admin\base
@@ -40,8 +40,8 @@ abstract class BaseMembership extends sfDoctrineRecord
     public function setUp()
     {
         parent::setUp();
-        $this->hasMany('EmployeeMemberDetail', array(
+        $this->hasMany('EmployeeMembership', array(
              'local' => 'id',
-             'foreign' => 'membershipCode'));
+             'foreign' => 'membershipId'));
     }
 }

@@ -136,26 +136,38 @@ class EmployeeDaoTest extends PHPUnit_Framework_TestCase {
     }
 
     /**
-     * Test for getMembershipDetails returns collection
+     * Test for getMembershipDetail returns List with one EmployeeMembership object
      */
-    public function testGetMembershipDetails() {
-
-        $memberDetailArray = $this->employeeDao->getMembershipDetails(1);
-        $this->assertTrue($memberDetailArray[0] instanceof EmployeeMemberDetail);
-        $this->assertTrue($memberDetailArray[1] instanceof EmployeeMemberDetail);
-    }
-
-    /**
-     * Test for getMembershipDetail returns List with one EmployeeMemberDetail object
-     */
-    public function testGetMembershipDetail() {
+    public function testGetEmployeeMemberships1() {
 
         $empNumber = 1;
         $membership = 1;
 
-        $memberDetail = $this->employeeDao->getMembershipDetail($empNumber, $membership);
-        $this->assertTrue($memberDetail[0] instanceof EmployeeMemberDetail);
+        $memberDetail = $this->employeeDao->getEmployeeMemberships($empNumber, $membership);
+        $this->assertTrue($memberDetail[0] instanceof EmployeeMembership);
+        $this->assertEquals('2011-05-20', $memberDetail[0]->getSubscriptionCommenceDate());
+        
     }
+    
+    public function testGetEmployeeMemberships2() {
+
+        $empNumber = 1;
+
+        $memberships = $this->employeeDao->getEmployeeMemberships($empNumber);
+        
+        /* Checking the type */
+        foreach ($memberships as $membership) {
+            $this->assertTrue($membership instanceof EmployeeMembership);
+        }
+        
+        /* Checking the count */
+        $this->assertEquals(2, count($memberships));
+        
+        /* Checking the order */
+        $this->assertEquals('membership1', $memberships[0]->getMembership()->getName());
+        $this->assertEquals('membership2', $memberships[1]->getMembership()->getName());
+        
+    }    
 
     public function testDeleteMembershipDetails1() {
 

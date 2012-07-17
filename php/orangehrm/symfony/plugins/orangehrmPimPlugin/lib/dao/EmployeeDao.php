@@ -1477,36 +1477,26 @@ class EmployeeDao extends BaseDao {
 
     /**
      * Get membership details for given employee
-     * @param int $empNumber Employee Number
-     * @return array Membership details as array
+     * @param int $empNumber 
+     * @param int $membershipId
+     * @return array EmployeeMembership 
      */
-    public function getMembershipDetails($empNumber) {
+    public function getEmployeeMemberships($empNumber, $membershipId = null) {
 
         try {
-            $q = Doctrine_Query::create()
-                    ->from('EmployeeMemberDetail emd')
-                    ->leftJoin('emd.Membership m')
-                    ->where('emd.emp_number =?', $empNumber)
-                    ->orderBy('m.name ASC');
-            return $q->execute();
-        } catch (Exception $e) {
-            throw new DaoException($e->getMessage());
-        }
-    }
-
-    /**
-     * Get membership details for given employee
-     * @param int $empNumber $membershipType $membership
-     * @return array Membership details as array
-     */
-    public function getMembershipDetail($empNumber, $membership) {
-
-        try {
-            $q = Doctrine_Query::create()->from('EmployeeMemberDetail emd')
-                            ->where('emd.emp_number =?', $empNumber)
-                            ->andWhere("emd.membershipCode = ?", $membership);
+            
+            $q = Doctrine_Query::create()->from('EmployeeMembership em')
+                                        ->leftJoin('em.Membership m')
+                                        ->where('em.empNumber = ?', $empNumber);
+            
+            if (!empty($membershipId)) {
+                $q->andWhere("em.membershipId = ?", $membershipId);
+            }
+            
+            $q->orderBy('m.name ASC');
 
             return $q->execute();
+            
         } catch (Exception $e) {
             throw new DaoException($e->getMessage());
         }
@@ -1522,11 +1512,11 @@ class EmployeeDao extends BaseDao {
         
         try {
             
-            $q = Doctrine_Query::create()->delete('EmployeeMemberDetail')
+            $q = Doctrine_Query::create()->delete('EmployeeMembership')
                                          ->where('empNumber = ?', $empNumber);
             
             if (is_array($membershipIds) && count($membershipIds) > 0) {                
-                $q->whereIn('membershipCode', $membershipIds);                
+                $q->whereIn('membershipId', $membershipIds);                
             }
             
             return $q->execute();

@@ -1175,35 +1175,20 @@ class EmployeeService extends BaseService {
     }
 
     /**
-     * Retrieves Membership details of an employee
-     * 
-     * @ignore
-     * 
-     * @version 2.6.11
-     * @param int $empNumber Employee number
-     * @return EmployeeMemberDetail A collection of EmployeeMemberDetail
-     * @throws PIMServiceException
-     * 
-     */
-    public function getMembershipDetails($empNumber) {
-        return $this->getEmployeeDao()->getMembershipDetails($empNumber);
-    }
-
-    /**
      * Retrieves details of a membership of an employee
      * 
      * @version 2.6.11
      * @param int $empNumber Employee number
-     * @param string $membershipCode
-     * @return Doctrine_Collection A collection of EmployeeMemberDetail
-     * @throws PIMServiceException
+     * @param int $membershipId
+     * @return Doctrine_Collection A collection of EmployeeMembership
+     * @throws DaoException
      * 
-     * @todo Rename the method as  getEmployeeMemberships()
-     * @todo Rename EmployeeMemberDetail Entity as EmployeeMembership
-     * @todo Make $membershipcode parameter as opational parameter and rename parameter as $membershipId 
+     * @todo Rename the method as getEmployeeMemberships() [DONE]
+     * @todo Rename EmployeeMemberDetail Entity as EmployeeMembership [DONE]
+     * @todo Make $membershipcode parameter as opational parameter and rename parameter as $membershipId [DONE]
      */
-    public function getMembershipDetail($empNumber, $membershipCode) {
-        return $this->getEmployeeDao()->getMembershipDetail($empNumber, $membershipCode);
+    public function getEmployeeMemberships($empNumber, $membershipId = null) {
+        return $this->getEmployeeDao()->getEmployeeMemberships($empNumber, $membershipId);
     }
 
     /**

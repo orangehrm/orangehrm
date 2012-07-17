@@ -7,16 +7,13 @@
  * 
  * @property string $code
  * @property string $name
- * @property Doctrine_Collection $EmpBasicsalary
  * @property Doctrine_Collection $EmployeeSalary
  * 
  * @method string              getCode()           Returns the current record's "code" value
  * @method string              getName()           Returns the current record's "name" value
- * @method Doctrine_Collection getEmpBasicsalary() Returns the current record's "EmpBasicsalary" collection
  * @method Doctrine_Collection getEmployeeSalary() Returns the current record's "EmployeeSalary" collection
  * @method Payperiod           setCode()           Sets the current record's "code" value
  * @method Payperiod           setName()           Sets the current record's "name" value
- * @method Payperiod           setEmpBasicsalary() Sets the current record's "EmpBasicsalary" collection
  * @method Payperiod           setEmployeeSalary() Sets the current record's "EmployeeSalary" collection
  * 
  * @package    orangehrm
@@ -43,10 +40,6 @@ abstract class BasePayperiod extends sfDoctrineRecord
     public function setUp()
     {
         parent::setUp();
-        $this->hasMany('EmpBasicsalary', array(
-             'local' => 'payperiod_code',
-             'foreign' => 'payperiod_code'));
-
         $this->hasMany('EmployeeSalary', array(
              'local' => 'payperiod_code',
              'foreign' => 'payPeriodId'));

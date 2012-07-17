@@ -327,9 +327,9 @@ Membership:
     name:
       type: string(100)
   relations:
-    EmployeeMemberDetail:
+    EmployeeMembership:
       local: id
-      foreign: membershipCode
+      foreign: membershipId
       type: many
       
 Language:

@@ -9,20 +9,17 @@
  * @property string $currency_id
  * @property string $currency_name
  * @property Doctrine_Collection $PayGradeCurrency
- * @property Doctrine_Collection $EmpBasicsalary
  * @property Doctrine_Collection $EmployeeSalary
  * 
  * @method integer             getCode()             Returns the current record's "code" value
  * @method string              getCurrencyId()       Returns the current record's "currency_id" value
  * @method string              getCurrencyName()     Returns the current record's "currency_name" value
  * @method Doctrine_Collection getPayGradeCurrency() Returns the current record's "PayGradeCurrency" collection
- * @method Doctrine_Collection getEmpBasicsalary()   Returns the current record's "EmpBasicsalary" collection
  * @method Doctrine_Collection getEmployeeSalary()   Returns the current record's "EmployeeSalary" collection
  * @method CurrencyType        setCode()             Sets the current record's "code" value
  * @method CurrencyType        setCurrencyId()       Sets the current record's "currency_id" value
  * @method CurrencyType        setCurrencyName()     Sets the current record's "currency_name" value
  * @method CurrencyType        setPayGradeCurrency() Sets the current record's "PayGradeCurrency" collection
- * @method CurrencyType        setEmpBasicsalary()   Sets the current record's "EmpBasicsalary" collection
  * @method CurrencyType        setEmployeeSalary()   Sets the current record's "EmployeeSalary" collection
  * 
  * @package    orangehrm
@@ -59,10 +56,6 @@ abstract class BaseCurrencyType extends sfDoctrineRecord
     {
         parent::setUp();
         $this->hasMany('PayGradeCurrency', array(
-             'local' => 'currency_id',
-             'foreign' => 'currency_id'));
-
-        $this->hasMany('EmpBasicsalary', array(
              'local' => 'currency_id',
              'foreign' => 'currency_id'));
 

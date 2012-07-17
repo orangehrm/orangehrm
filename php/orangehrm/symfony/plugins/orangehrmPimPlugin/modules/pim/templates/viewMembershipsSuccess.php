@@ -144,14 +144,14 @@ foreach($form->getWidgetSchema()->getPositions() as $widgetName) {
                                 foreach ($membershipDetails as $memship) {
                                     $cssClass = ($row % 2) ? 'even' : 'odd';
                                     echo '<tr class="' . $cssClass . '">';
-                                    $chkBoxValue = $empNumber . " " . $memship->membershipCode;
+                                    $chkBoxValue = $empNumber . " " . $memship->membershipId;
                                     echo "<td class='check'><input type='checkbox' class='checkboxMem' name='chkmemdel[]' value='" . $chkBoxValue . "'/></td>";
                                 ?>
                                 <?php $newMembership = $memship->getMembership();?>
                                 <td class="memshipCode" valign="top"><a href="#"><?php echo $newMembership->name; ?></a></td>
                             <?php
                                     echo "<td class='memship' valigh='top'>" . $memship->subscriptionPaidBy . '</td>';
-                                    echo "<td  class='memshipAmount1' valigh='top'>" . $memship->subscriptionAmount . '</td>';
+                                    echo "<td  class='memshipAmount1' valigh='top'>" . $memship->subscriptionFee . '</td>';
                                     echo "<td class='memship'valigh='top'>" . $memship->subscriptionCurrency . '</td>';
                                     echo "<td class='memship'valigh='top'>" . set_datepicker_date_format($memship->subscriptionCommenceDate) . '</td>';
                                     echo "<td class='memship'valigh='top'>" . set_datepicker_date_format($memship->subscriptionRenewalDate) . '</td>';

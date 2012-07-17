@@ -146,18 +146,18 @@ class EmployeeMembershipForm extends BaseForm {
 
         $employeeService = new EmployeeService();
 
-        $membershipDetails = $employeeService->getMembershipDetail($empNumber, $membership);
+        $membershipDetails = $employeeService->getEmployeeMemberships($empNumber, $membership);
         $membershipDetail = $membershipDetails[0];
 
         if ($membershipDetail->getEmpNumber() == null) {
 
-            $membershipDetail = new EmployeeMemberDetail();
+            $membershipDetail = new EmployeeMembership();
             $membershipDetail->empNumber = $empNumber;
-            $membershipDetail->membershipCode = $membership;
+            $membershipDetail->membershipId = $membership;
         }
 
         $membershipDetail->subscriptionPaidBy = $this->getValue('subscriptionPaidBy');
-        $membershipDetail->subscriptionAmount = $this->getValue('subscriptionAmount');
+        $membershipDetail->subscriptionFee = $this->getValue('subscriptionAmount');
         $membershipDetail->subscriptionCurrency = $this->getValue('currency');
 
         $membershipDetail->subscriptionCommenceDate = $this->getValue('subscriptionCommenceDate');

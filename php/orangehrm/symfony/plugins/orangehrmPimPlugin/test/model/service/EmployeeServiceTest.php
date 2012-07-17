@@ -1337,47 +1337,48 @@ class EmployeeServiceTest extends PHPUnit_Framework_TestCase {
     /**
      * Test get membership details list for a given employee
      */
-    public function testGetMembershipDetails() {
+    public function testGetEmployeeMembershipsWithoutMembershipId() {
 
         $empNumber = 1;
 
-        $membershipDetailList = TestDataService::loadObjectList('EmployeeMemberDetail', $this->fixture, 'EmployeeMemberDetail');
+        $membershipDetailList = TestDataService::loadObjectList('EmployeeMembership', $this->fixture, 'EmployeeMembership');
 
         $employeeDao = $this->getMock('EmployeeDao');
 
         $employeeDao->expects($this->once())
-                ->method('getMembershipDetails')
+                ->method('getEmployeeMemberships')
                 ->with($empNumber)
                 ->will($this->returnValue($membershipDetailList));
 
         $this->employeeService->setEmployeeDao($employeeDao);
 
-        $readMembershipDetailList = $this->employeeService->getMembershipDetails($empNumber);
-        $this->assertTrue($readMembershipDetailList[0] instanceof EmployeeMemberDetail);
-        $this->assertTrue($readMembershipDetailList[1] instanceof EmployeeMemberDetail);
+        $readMembershipDetailList = $this->employeeService->getEmployeeMemberships($empNumber);
+        $this->assertTrue($readMembershipDetailList[0] instanceof EmployeeMembership);
+        $this->assertTrue($readMembershipDetailList[1] instanceof EmployeeMembership);
     }
 
     /**
      * Test get membership detail object for a given employee membershipType and membership
      */
-    public function testGetMembershipDetail() {
+    public function testGetEmployeeMemberships() {
 
         $empNumber = 1;
         $membership = 1;
 
-        $membershipDetailList = TestDataService::loadObjectList('EmployeeMemberDetail', $this->fixture, 'EmployeeMemberDetail');
+        $membershipDetailList = TestDataService::loadObjectList('EmployeeMembership', $this->fixture, 'EmployeeMembership');
 
         $employeeDao = $this->getMock('EmployeeDao');
 
         $employeeDao->expects($this->once())
-                ->method('getMembershipDetail')
+                ->method('getEmployeeMemberships')
                 ->with($empNumber)
                 ->will($this->returnValue($membershipDetailList[0]));
 
         $this->employeeService->setEmployeeDao($employeeDao);
 
-        $readMembershipDetail = $this->employeeService->getMembershipDetail($empNumber, $membership);
-        $this->assertTrue($readMembershipDetail instanceof EmployeeMemberDetail);
+        $readMembershipDetail = $this->employeeService->getEmployeeMemberships($empNumber, $membership);
+        $this->assertTrue($readMembershipDetail instanceof EmployeeMembership);
+        
     }
 
     public function testDeleteMembershipDetails() {

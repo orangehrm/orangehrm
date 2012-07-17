@@ -78,7 +78,7 @@ class viewMembershipsAction extends basePimAction {
 
         $this->setForm(new EmployeeMembershipForm(array(), $param, true));
         $this->deleteForm = new EmployeeMembershipsDeleteForm(array(), $param, true);
-        $this->membershipDetails = $this->getEmployeeService()->getMembershipDetails($this->empNumber);
+        $this->membershipDetails = $this->getEmployeeService()->getEmployeeMemberships($this->empNumber);
         
     }
 

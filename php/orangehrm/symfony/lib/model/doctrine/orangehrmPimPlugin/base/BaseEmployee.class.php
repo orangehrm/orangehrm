@@ -62,8 +62,6 @@
  * @property Doctrine_Collection $education
  * @property Doctrine_Collection $skills
  * @property Doctrine_Collection $languages
- * @property Doctrine_Collection $memberships
- * @property Doctrine_Collection $salary
  * @property Doctrine_Collection $contracts
  * @property Doctrine_Collection $attachments
  * @property Doctrine_Collection $projectAdmin
@@ -82,7 +80,7 @@
  * @property Doctrine_Collection $EmployeeImmigrationRecord
  * @property Doctrine_Collection $EmpUsTaxExemption
  * @property Doctrine_Collection $EmployeeSalary
- * @property Doctrine_Collection $EmployeeMemberDetail
+ * @property Doctrine_Collection $EmployeeMembership
  * @property Doctrine_Collection $ReportTo
  * @property Doctrine_Collection $EmployeeLicense
  * @property Doctrine_Collection $EmployeeWorkShift
@@ -153,8 +151,6 @@
  * @method Doctrine_Collection getEducation()                 Returns the current record's "education" collection
  * @method Doctrine_Collection getSkills()                    Returns the current record's "skills" collection
  * @method Doctrine_Collection getLanguages()                 Returns the current record's "languages" collection
- * @method Doctrine_Collection getMemberships()               Returns the current record's "memberships" collection
- * @method Doctrine_Collection getSalary()                    Returns the current record's "salary" collection
  * @method Doctrine_Collection getContracts()                 Returns the current record's "contracts" collection
  * @method Doctrine_Collection getAttachments()               Returns the current record's "attachments" collection
  * @method Doctrine_Collection getProjectAdmin()              Returns the current record's "projectAdmin" collection
@@ -173,7 +169,7 @@
  * @method Doctrine_Collection getEmployeeImmigrationRecord() Returns the current record's "EmployeeImmigrationRecord" collection
  * @method Doctrine_Collection getEmpUsTaxExemption()         Returns the current record's "EmpUsTaxExemption" collection
  * @method Doctrine_Collection getEmployeeSalary()            Returns the current record's "EmployeeSalary" collection
- * @method Doctrine_Collection getEmployeeMemberDetail()      Returns the current record's "EmployeeMemberDetail" collection
+ * @method Doctrine_Collection getEmployeeMembership()        Returns the current record's "EmployeeMembership" collection
  * @method Doctrine_Collection getReportTo()                  Returns the current record's "ReportTo" collection
  * @method Doctrine_Collection getEmployeeLicense()           Returns the current record's "EmployeeLicense" collection
  * @method Doctrine_Collection getEmployeeWorkShift()         Returns the current record's "EmployeeWorkShift" collection
@@ -243,8 +239,6 @@
  * @method Employee            setEducation()                 Sets the current record's "education" collection
  * @method Employee            setSkills()                    Sets the current record's "skills" collection
  * @method Employee            setLanguages()                 Sets the current record's "languages" collection
- * @method Employee            setMemberships()               Sets the current record's "memberships" collection
- * @method Employee            setSalary()                    Sets the current record's "salary" collection
  * @method Employee            setContracts()                 Sets the current record's "contracts" collection
  * @method Employee            setAttachments()               Sets the current record's "attachments" collection
  * @method Employee            setProjectAdmin()              Sets the current record's "projectAdmin" collection
@@ -263,7 +257,7 @@
  * @method Employee            setEmployeeImmigrationRecord() Sets the current record's "EmployeeImmigrationRecord" collection
  * @method Employee            setEmpUsTaxExemption()         Sets the current record's "EmpUsTaxExemption" collection
  * @method Employee            setEmployeeSalary()            Sets the current record's "EmployeeSalary" collection
- * @method Employee            setEmployeeMemberDetail()      Sets the current record's "EmployeeMemberDetail" collection
+ * @method Employee            setEmployeeMembership()        Sets the current record's "EmployeeMembership" collection
  * @method Employee            setReportTo()                  Sets the current record's "ReportTo" collection
  * @method Employee            setEmployeeLicense()           Sets the current record's "EmployeeLicense" collection
  * @method Employee            setEmployeeWorkShift()         Sets the current record's "EmployeeWorkShift" collection
@@ -540,14 +534,6 @@ abstract class BaseEmployee extends sfDoctrineRecord
              'local' => 'emp_number',
              'foreign' => 'emp_number'));
 
-        $this->hasMany('EmployeeMemberDetail as memberships', array(
-             'local' => 'emp_number',
-             'foreign' => 'emp_number'));
-
-        $this->hasMany('EmpBasicsalary as salary', array(
-             'local' => 'emp_number',
-             'foreign' => 'emp_number'));
-
         $this->hasMany('EmpContract as contracts', array(
              'local' => 'emp_number',
              'foreign' => 'emp_number'));
@@ -621,7 +607,7 @@ abstract class BaseEmployee extends sfDoctrineRecord
              'local' => 'empNumber',
              'foreign' => 'empNumber'));
 
-        $this->hasMany('EmployeeMemberDetail', array(
+        $this->hasMany('EmployeeMembership', array(
              'local' => 'empNumber',
              'foreign' => 'empNumber'));
 
