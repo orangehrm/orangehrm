@@ -338,15 +338,15 @@ class EmployeeService extends BaseService {
      * Save given employee immigration entry
      * 
      * @version 2.6.11
-     * @param EmpPassport $empPassport EmpPassport instance
-     * @return EmpPassport Saved EmpPassport object
+     * @param EmployeeImmigrationRecord $employeeImmigrationRecord EmployeeImmigrationRecord instance
+     * @return EmpPassport Saved EmployeeImmigrationRecord object
      * 
-     * @todo Rename to saveEmployeeImmigrationEntry (without Employee) and change Passport -> Immigration
-     * @todo Rename EmpPassport to EmpImmigrationRecord
+     * @todo Rename to saveEmployeeImmigrationEntry (without Employee) and change Passport -> Immigration [DONE: Renamed to saveEmployeeImmigrationRecord]
+     * @todo Rename EmpPassport to EmpImmigrationRecord [DONE]
      * @todo return saved EmpImmigrationRecord [DONE]
      */
-    public function saveEmployeePassport(EmpPassport $empPassport) {
-        return $this->getEmployeeDao()->saveEmployeePassport($empPassport);
+    public function saveEmployeeImmigrationRecord(EmployeeImmigrationRecord $employeeImmigrationRecord) {
+        return $this->getEmployeeDao()->saveEmployeeImmigrationRecord($employeeImmigrationRecord);
     }
 
     /**

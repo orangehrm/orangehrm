@@ -259,11 +259,11 @@ class EmployeeDao extends BaseDao {
 
         try {
             
-            $q = Doctrine_Query::create()->delete('EmpPassport ec')
-                                         ->where('emp_number = ?', $empNumber);
+            $q = Doctrine_Query::create()->delete('EmployeeImmigrationRecord')
+                                         ->where('empNumber = ?', $empNumber);
             
             if (is_array($entriesToDelete) && count($entriesToDelete) > 0) {                
-                $q->whereIn('seqno', $entriesToDelete);                
+                $q->whereIn('recordId', $entriesToDelete);                
             }
             
             return $q->execute();
@@ -276,56 +276,65 @@ class EmployeeDao extends BaseDao {
 
     /**
      * save immigration
-     * @param EmpPassport $empPassport
-     * @return EmpPassport
+     * @param EmployeeImmigrationRecord $employeeImmigrationRecord
+     * @return EmployeeImmigrationRecord
      */
-    public function saveEmployeePassport(EmpPassport $empPassport) {
+    public function saveEmployeeImmigrationRecord(EmployeeImmigrationRecord $employeeImmigrationRecord) {
 
         try {
 
-            $sequenceNo = 1;
+            $recordId = 1;
 
-            if (trim($empPassport->getSeqno()) == "") {
+            if (trim($employeeImmigrationRecord->getRecordId()) == "") {
+                
                 $q = Doctrine_Query::create()
-                                ->select('MAX(p.seqno)')
-                                ->from('EmpPassport p')
-                                ->where('p.emp_number = ?', $empPassport->getEmpNumber());
+                                ->select('MAX(p.recordId)')
+                                ->from('EmployeeImmigrationRecord p')
+                                ->where('p.empNumber = ?', $employeeImmigrationRecord->getEmpNumber());
                 $result = $q->execute(array(), Doctrine::HYDRATE_ARRAY);
-                $sequenceNo = $result[0]['MAX'] + 1;
-                $empPassport->setSeqno($sequenceNo);
+                $recordId = $result[0]['MAX'] + 1;
+                
+                $employeeImmigrationRecord->setRecordId($recordId);
+                
             }
 
-            $empPassport->save();
+            $employeeImmigrationRecord->save();
             
-            return $empPassport;
+            return $employeeImmigrationRecord;
             
         } catch (Exception $e) {
             throw new DaoException($e->getMessage());
         }
+        
     }
 
     /**
-     * Get EmpPassport
+     * Get EmployeeImmigrationRecord
      * @param int $empNumber
-     * @param int $sequenceNo
-     * @returns Collection/EmpPassport
+     * @param int $recordId
+     * @returns Collection/EmployeeImmigrationRecord
      * @throws DaoException
      */
     public function getEmployeeImmigrationRecords($empNumber, $recordId = null) {
+        
         try {
+            
             $q = Doctrine_Query::create()
-                            ->from('EmpPassport p')
-                            ->where('p.emp_number = ?', $empNumber)
-                            ->orderBy('p.type_flag, p.number');
+                            ->from('EmployeeImmigrationRecord p')
+                            ->where('p.empNumber = ?', $empNumber)
+                            ->orderBy('p.type, p.number');
 
             if (!is_null($recordId)) {
-                $q->andwhere('p.seqno = ?', $recordId);
+                $q->andwhere('p.recordId = ?', $recordId);
                 return $q->fetchOne();
             }
+            
             return $q->execute();
+            
         } catch (Exception $e) {
             throw new DaoException($e->getMessage());
         }
+        
     }
 
     /**

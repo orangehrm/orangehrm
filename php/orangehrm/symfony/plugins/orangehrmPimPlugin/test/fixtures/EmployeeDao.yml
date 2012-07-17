@@ -14,9 +14,9 @@ Employee:
   3: {empNumber: 4, firstName: 'Chaturanga', lastName: 'Namal', middleName: 'ST', employeeId: 'E004', emp_work_email: '', emp_oth_email: '', work_station: 4}
   4: {empNumber: 5, firstName: 'Indiran', lastName: 'Nadarajah', middleName: 'KT', employeeId: 'E005', emp_work_email: '', emp_oth_email: ''}
 
-EmpPassport:
-    0: {emp_number: '1', seqno: '0', type_flag: 1, number: 'HVN0003472', passport_issue_date: '2010-12-12', passport_expire_date: '2011-12-12', i9_status: 'some status', country: 'UK', i9_review_date: '2011-12-30', comments: 'test comment'}
-    1: {emp_number: '2', seqno: '1', type_flag: 2, number: 'RTF33323411', passport_issue_date: '2010-12-12', passport_expire_date: '2011-12-12', i9_status: 'some status', country: 'UK', i9_review_date: '2011-12-30', comments: 'i modify this'}
+EmployeeImmigrationRecord:
+    0: {empNumber: '1', recordId: '0', type: 1, number: 'HVN0003472', issuedDate: '2010-12-12', expiryDate: '2011-12-12', status: 'some status', countryCode: 'UK', reviewDate: '2011-12-30', notes: 'test comment'}
+    1: {empNumber: '2', recordId: '1', type: 2, number: 'RTF33323411', issuedDate: '2010-12-12', expiryDate: '2011-12-12', status: 'some status', countryCode: 'UK', reviewDate: '2011-12-30', notes: 'i modify this'}
 
 EmpUsTaxExemption:
   0: {emp_number: '1', federalStatus: 'Single', federalExemptions: '2', state: 'Alaska', stateStatus: 'Single', stateExemptions: '1', unemploymentState: 'Alaska', workState: 'Alaska'}

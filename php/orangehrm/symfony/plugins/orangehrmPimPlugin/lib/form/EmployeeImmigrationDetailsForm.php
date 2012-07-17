@@ -56,7 +56,7 @@ class EmployeeImmigrationDetailsForm extends sfForm {
                 'emp_number' => new sfWidgetFormInputHidden(array('default' => $empNumber)),
                 'seqno' => new sfWidgetFormInputHidden(),
                 'type_flag' => new sfWidgetFormChoice(array('expanded' => true, 'choices'  => array(
-                    EmpPassport::TYPE_PASSPORT => __('Passport'), EmpPassport::TYPE_VISA => __('Visa')), 'default' => EmpPassport::TYPE_PASSPORT)),
+                    EmployeeImmigrationRecord::TYPE_PASSPORT => __('Passport'), EmployeeImmigrationRecord::TYPE_VISA => __('Visa')), 'default' => EmployeeImmigrationRecord::TYPE_PASSPORT)),
                 'country' => new sfWidgetFormSelect(array('choices' => $this->countries)),
                 'number' => new sfWidgetFormInputText(),
                 'i9_status' => new sfWidgetFormInputText(),
@@ -72,7 +72,7 @@ class EmployeeImmigrationDetailsForm extends sfForm {
                 'emp_number' => new sfValidatorNumber(array('required' => false)),
                 'seqno' => new sfValidatorNumber(array('required' => false)),
                 'type_flag' => new sfValidatorChoice(array('required' => true,
-                        'choices' => array(EmpPassport::TYPE_PASSPORT, EmpPassport::TYPE_VISA))),
+                        'choices' => array(EmployeeImmigrationRecord::TYPE_PASSPORT, EmployeeImmigrationRecord::TYPE_VISA))),
                 'country' => new sfValidatorString(array('required' => false)),
                 'number' => new sfValidatorString(array('required' => true, 'trim'=>true)),
                 'i9_status' => new sfValidatorString(array('required' => false, 'trim'=>true)),
@@ -111,32 +111,32 @@ class EmployeeImmigrationDetailsForm extends sfForm {
 
     public function populateEmployeePassport() {
 
-        $empPassport = $this->getEmployeeService()->getEmployeeImmigrationRecords($this->getValue('emp_number'), $this->getValue('seqno'));
+        $immigrationRecord = $this->getEmployeeService()->getEmployeeImmigrationRecords($this->getValue('emp_number'), $this->getValue('seqno'));
         
-        if(!$empPassport instanceof EmpPassport) {
-            $empPassport = new EmpPassport();
+        if(!$immigrationRecord instanceof EmployeeImmigrationRecord) {
+            $immigrationRecord = new EmployeeImmigrationRecord();
         }
 
-        $empPassport->emp_number = $this->getValue('emp_number');
-        $empPassport->seqno = $this->getValue('seqno');
-        $empPassport->type_flag = $this->getValue('type_flag');
+        $immigrationRecord->empNumber = $this->getValue('emp_number');
+        $immigrationRecord->recordId = $this->getValue('seqno');
+        $immigrationRecord->type = $this->getValue('type_flag');
 
         $country = $this->getValue('country');
         if(!empty($country)) {
-            $empPassport->country = $country;
+            $immigrationRecord->countryCode = $country;
         } else {
-            $empPassport->country = null;
+            $immigrationRecord->countryCode = null;
         }
 
-        $empPassport->country = $this->getValue('country');
-        $empPassport->number = $this->getValue('number');
-        $empPassport->i9_status = $this->getValue('i9_status');
-        $empPassport->passport_issue_date = $this->getValue('passport_issue_date');
-        $empPassport->passport_expire_date = $this->getValue('passport_expire_date');
-        $empPassport->i9_review_date = $this->getValue('i9_review_date');
-        $empPassport->comments = $this->getValue('comments');
+        $immigrationRecord->countryCode = $this->getValue('country');
+        $immigrationRecord->number = $this->getValue('number');
+        $immigrationRecord->status = $this->getValue('i9_status');
+        $immigrationRecord->issuedDate = $this->getValue('passport_issue_date');
+        $immigrationRecord->expiryDate = $this->getValue('passport_expire_date');
+        $immigrationRecord->reviewDate = $this->getValue('i9_review_date');
+        $immigrationRecord->notes = $this->getValue('comments');
 
-        return $empPassport;
+        return $immigrationRecord;
         
     }
 }

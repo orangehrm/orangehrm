@@ -112,35 +112,35 @@
                                             </tr>
                                         </thead>
                                         <tbody>
-                                        <?php $empPassports = $form->empPassports;
+                                        <?php $immigrationRecords = $form->empPassports;
                                             $countries = $form->countries;
                                             $row = 0;
-                                            foreach ($empPassports as $passport) {
+                                            foreach ($immigrationRecords as $record) {
                                                 $cssClass = ($row % 2) ? 'even' : 'odd'; ?>
 
                                             <tr class="<?php echo $cssClass;?>">
                                                 <!-- we make data available in hidden fields -->
-                                                <input type="hidden" id="type_flag_<?php echo $passport->seqno;?>" value="<?php echo $passport->type_flag; ?>" />
-                                                <input type="hidden" id="number_<?php echo $passport->seqno;?>" value="<?php echo htmlentities($passport->number); ?>" />
+                                                <input type="hidden" id="type_flag_<?php echo $record->recordId;?>" value="<?php echo $record->type; ?>" />
+                                                <input type="hidden" id="number_<?php echo $record->recordId;?>" value="<?php echo htmlentities($record->number); ?>" />
                                                 <?php
-                                                    $passport_issue_date = set_datepicker_date_format($passport->passport_issue_date);
-                                                    $passport_expire_date = set_datepicker_date_format($passport->passport_expire_date);
-                                                    $i9_review_date = set_datepicker_date_format($passport->i9_review_date);
+                                                    $issuedDate = set_datepicker_date_format($record->issuedDate);
+                                                    $expiryDate = set_datepicker_date_format($record->expiryDate);
+                                                    $reviewDate = set_datepicker_date_format($record->reviewDate);
                                                 ?>
-                                                <input type="hidden" id="passport_issue_date_<?php echo $passport->seqno;?>" value="<?php echo $passport_issue_date; ?>" />
-                                                <input type="hidden" id="passport_expire_date_<?php echo $passport->seqno;?>" value="<?php echo $passport_expire_date; ?>" />
-                                                <input type="hidden" id="i9_status_<?php echo $passport->seqno;?>" value="<?php echo htmlentities($passport->i9_status); ?>" />
-                                                <input type="hidden" id="country_<?php echo $passport->seqno;?>" value="<?php echo $passport->country; ?>" />
-                                                <input type="hidden" id="i9_review_date_<?php echo $passport->seqno;?>" value="<?php echo $i9_review_date; ?>" />
-                                                <input type="hidden" id="comments_<?php echo $passport->seqno;?>" value="<?php echo htmlentities($passport->comments); ?>" />
+                                                <input type="hidden" id="passport_issue_date_<?php echo $record->recordId;?>" value="<?php echo $issuedDate; ?>" />
+                                                <input type="hidden" id="passport_expire_date_<?php echo $record->recordId;?>" value="<?php echo $expiryDate; ?>" />
+                                                <input type="hidden" id="i9_status_<?php echo $record->recordId;?>" value="<?php echo htmlentities($record->status); ?>" />
+                                                <input type="hidden" id="country_<?php echo $record->recordId;?>" value="<?php echo $record->countryCode; ?>" />
+                                                <input type="hidden" id="i9_review_date_<?php echo $record->recordId;?>" value="<?php echo $reviewDate; ?>" />
+                                                <input type="hidden" id="comments_<?php echo $record->recordId;?>" value="<?php echo htmlentities($record->notes); ?>" />
 
                                                 <!-- end of all data hidden fields -->
-                                                <td class="check"><input type='checkbox' class='checkbox' name='chkImmigration[]' value='<?php echo $passport->seqno;?>' /></td>
-                                                <td class="document"><a href="#"><?php echo ($passport->type_flag == EmpPassPort::TYPE_PASSPORT)? __("Passport"):__("Visa");?></a></td>
-                                                <td><?php echo $passport->number;?></td>
-                                                <td><?php echo empty($passport->country)?'':__($countries[$passport->country]); ?></td>
-                                                <td><?php echo $passport_issue_date;?></td>
-                                                <td><?php echo $passport_expire_date;?></td>
+                                                <td class="check"><input type='checkbox' class='checkbox' name='chkImmigration[]' value='<?php echo $record->recordId;?>' /></td>
+                                                <td class="document"><a href="#"><?php echo ($record->type == EmployeeImmigrationRecord::TYPE_PASSPORT)? __("Passport"):__("Visa");?></a></td>
+                                                <td><?php echo $record->number;?></td>
+                                                <td><?php echo empty($record->countryCode)?'':__($countries[$record->countryCode]); ?></td>
+                                                <td><?php echo $issuedDate;?></td>
+                                                <td><?php echo $expiryDate;?></td>
                                             </tr>
                                             <?php $row++; } ?>
                                         </tbody>

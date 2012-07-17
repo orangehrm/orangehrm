@@ -50,12 +50,12 @@ class EmployeeDaoTest extends PHPUnit_Framework_TestCase {
      */
     public function testSaveEmployeePassport1() {
 
-        $empPassport = new EmpPassPort();
+        $empPassport = new EmployeeImmigrationRecord();
         $empPassport->setEmpNumber(1);
-        $empPassport->country = 'LK';
-        $result = $this->employeeDao->saveEmployeePassport($empPassport);
-        $this->assertTrue($result instanceof EmpPassPort);
-        $this->assertEquals(1, $empPassport->seqno);
+        $empPassport->setCountryCode('LK');
+        $result = $this->employeeDao->saveEmployeeImmigrationRecord($empPassport);
+        $this->assertTrue($result instanceof EmployeeImmigrationRecord);
+        $this->assertEquals(1, $empPassport->getRecordId());
     }
 
     /**
@@ -63,20 +63,20 @@ class EmployeeDaoTest extends PHPUnit_Framework_TestCase {
      */
     public function testSaveEmployeePassport2() {
 
-        $empPassport = TestDataService::fetchLastInsertedRecords('EmpPassport', 2);
+        $empPassport = TestDataService::fetchLastInsertedRecords('EmployeeImmigrationRecord', 2);
         $empNumbers = array(1 => 1, 2 => 2);
 
         foreach ($empPassport as $passport) {
 
-            $this->assertTrue($passport instanceof EmpPassPort);
+            $this->assertTrue($passport instanceof EmployeeImmigrationRecord);
             $this->assertEquals($empNumbers[$passport->getEmpNumber()], $passport->getEmpNumber());
             $comment = "I add more comments";
-            $passport->comments = $comment;
-            $result = $this->employeeDao->saveEmployeePassport($passport);
-            $this->assertTrue($result instanceof EmpPassPort);
+            $passport->notes = $comment;
+            $result = $this->employeeDao->saveEmployeeImmigrationRecord($passport);
+            $this->assertTrue($result instanceof EmployeeImmigrationRecord);
 
-            $savedPassport = $this->employeeDao->getEmployeeImmigrationRecords($passport->getEmpNumber(), $passport->getSeqno());
-            $this->assertEquals($comment, $savedPassport->comments);
+            $savedPassport = $this->employeeDao->getEmployeeImmigrationRecords($passport->getEmpNumber(), $passport->getRecordId());
+            $this->assertEquals($comment, $savedPassport->notes);
             $this->assertEquals($savedPassport, $passport);
         }
     }
@@ -86,11 +86,11 @@ class EmployeeDaoTest extends PHPUnit_Framework_TestCase {
      */
     public function testGetEmployeePassport1() {
 
-        $empPassports = TestDataService::fetchLastInsertedRecords('EmpPassport', 2);
+        $empPassports = TestDataService::fetchLastInsertedRecords('EmployeeImmigrationRecord', 2);
 
         foreach ($empPassports as $passport) {
 
-            $empPassport = $this->employeeDao->getEmployeeImmigrationRecords($passport->getEmpNumber(), $passport->getSeqno());
+            $empPassport = $this->employeeDao->getEmployeeImmigrationRecords($passport->getEmpNumber(), $passport->getRecordId());
             $this->assertEquals($passport, $empPassport);
         }
     }
@@ -100,7 +100,7 @@ class EmployeeDaoTest extends PHPUnit_Framework_TestCase {
      */
     public function testGetEmployeePassport2() {
 
-        $empPassports = TestDataService::fetchLastInsertedRecords('EmpPassport', 2);
+        $empPassports = TestDataService::fetchLastInsertedRecords('EmployeeImmigrationRecord', 2);
 
         foreach ($empPassports as $passport) {
 

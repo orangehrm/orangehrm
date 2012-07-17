@@ -1169,19 +1169,19 @@ class EmployeeServiceTest extends PHPUnit_Framework_TestCase {
      */
     public function testSaveEmployeePassport() {
         
-        $empPassport = new EmpPassPort();
+        $empPassport = new EmployeeImmigrationRecord();
         $empPassport->setEmpNumber(1);        
 
         $employeeDao = $this->getMock('EmployeeDao');
 
         $employeeDao->expects($this->once())
-                ->method('saveEmployeePassport')
+                ->method('saveEmployeeImmigrationRecord')
                 ->with($empPassport)
                 ->will($this->returnValue($empPassport));
 
         $this->employeeService->setEmployeeDao($employeeDao);
 
-        $result = $this->employeeService->saveEmployeePassport($empPassport);
+        $result = $this->employeeService->saveEmployeeImmigrationRecord($empPassport);
         $this->assertTrue($result === $empPassport);
         
     }
@@ -1195,12 +1195,12 @@ class EmployeeServiceTest extends PHPUnit_Framework_TestCase {
 
         $employeeDao->expects($this->once())
                 ->method('getEmployeeImmigrationRecords')
-                ->will($this->returnValue(new EmpPassport()));
+                ->will($this->returnValue(new EmployeeImmigrationRecord()));
 
         $this->employeeService->setEmployeeDao($employeeDao);
 
         $readEmpPassport = $this->employeeService->getEmployeeImmigrationRecords(1);
-        $this->assertTrue($readEmpPassport instanceof EmpPassport);
+        $this->assertTrue($readEmpPassport instanceof EmployeeImmigrationRecord);
     }
 
     /**
