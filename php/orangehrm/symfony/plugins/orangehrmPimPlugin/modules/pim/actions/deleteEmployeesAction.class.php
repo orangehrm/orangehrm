@@ -36,7 +36,7 @@ class deleteEmployeesAction extends basePimAction {
         }
         
         $employeeService = $this->getEmployeeService();               
-        $count = $employeeService->deleteEmployee($ids);
+        $count = $employeeService->deleteEmployees($ids);
 
         if ($count == count($ids)) {
             $this->getUser()->setFlash('templateMessage', array('success', __(TopLevelMessages::DELETE_SUCCESS)));

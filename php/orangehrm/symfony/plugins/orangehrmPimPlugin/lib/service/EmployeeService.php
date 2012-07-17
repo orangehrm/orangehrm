@@ -973,12 +973,12 @@ class EmployeeService extends BaseService {
      * 
      * @throws DaoException
      * 
-     * @todo rename method as deleteEmployees($empNumbers )
+     * @todo rename method as deleteEmployees($empNumbers ) [DONE]
      * @todo return number of deleted items [DONE]
      * 
      */
-    public function deleteEmployee($empNumbers) {
-        return $this->getEmployeeDao()->deleteEmployee($empNumbers);
+    public function deleteEmployees($empNumbers) {
+        return $this->getEmployeeDao()->deleteEmployees($empNumbers);
     }
 
     /**

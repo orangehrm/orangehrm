@@ -1076,20 +1076,20 @@ class EmployeeServiceTest extends PHPUnit_Framework_TestCase {
     /**
      * Testing deleteEmployee
      */
-    public function testDeleteEmployee() {
+    public function testDeleteEmployees() {
                 
         $employeesToDelete = array('1', '2', '4');
         $numEmployees = count($employeesToDelete);
         
         $mockDao = $this->getMock('EmployeeDao');
         $mockDao->expects($this->once())
-                 ->method('deleteEmployee')
+                 ->method('deleteEmployees')
                  ->with($employeesToDelete)
                  ->will($this->returnValue($numEmployees));
         
         $this->employeeService->setEmployeeDao($mockDao);
         
-        $result = $this->employeeService->deleteEmployee($employeesToDelete);
+        $result = $this->employeeService->deleteEmployees($employeesToDelete);
         $this->assertEquals($numEmployees, $result);              
         
     }

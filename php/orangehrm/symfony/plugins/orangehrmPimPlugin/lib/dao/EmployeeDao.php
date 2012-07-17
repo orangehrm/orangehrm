@@ -1343,7 +1343,7 @@ class EmployeeDao extends BaseDao {
      * @returns integer
      * @throws DaoException
      */
-    public function deleteEmployee($empNumbers) {
+    public function deleteEmployees($empNumbers) {
         
         try {
             

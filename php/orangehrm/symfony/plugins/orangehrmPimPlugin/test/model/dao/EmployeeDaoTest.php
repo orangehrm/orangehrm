@@ -937,17 +937,17 @@ class EmployeeDaoTest extends PHPUnit_Framework_TestCase {
         $this->assertTrue(count($chain) > 0);
     }
 
-    public function testDeleteEmployee() {
+    public function testDeleteEmployees() {
         
         $employees = TestDataService::loadObjectList('Employee', $this->fixture, 'Employee');
         foreach ($employees as $emp) {
             $empNumbers[] = $emp->getEmpNumber();
         }
 
-        $retVal = $this->employeeDao->deleteEmployee($empNumbers);
+        $retVal = $this->employeeDao->deleteEmployees($empNumbers);
         $this->assertEquals(count($empNumbers), $retVal);
 
-        $retVal = $this->employeeDao->deleteEmployee($empNumbers);
+        $retVal = $this->employeeDao->deleteEmployees($empNumbers);
         $this->assertEquals(0, $retVal);
         
     }
@@ -957,7 +957,7 @@ class EmployeeDaoTest extends PHPUnit_Framework_TestCase {
      */
     public function testDeleteEmployeeException() {
         
-        $this->employeeDao->deleteEmployee(array());
+        $this->employeeDao->deleteEmployees(array());
         
     }
 
