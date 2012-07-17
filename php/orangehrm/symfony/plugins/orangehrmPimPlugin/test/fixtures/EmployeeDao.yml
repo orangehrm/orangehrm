@@ -119,7 +119,6 @@ PayGradeCurrency:
     1: {pay_grade_id : 1, currency_id: 'USD', min_salary: '2000', max_salary: '30000' }
     2: {pay_grade_id : 2, currency_id: 'YEN', min_salary: '2000', max_salary: '30000' }
 
-EmpBasicsalary:
-    0: {id: 1, emp_number: 1, sal_grd_code: 1, currency_id: 'LKR', ebsal_basic_salary: '10000.00', salary_component: 'Main Salary'}
-    1: {id: 2, emp_number: 1, sal_grd_code: 2, currency_id: 'USD', ebsal_basic_salary: '20000.00', salary_component: 'Allowance'}
-
+EmployeeSalary:
+    0: {id: 1, empNumber: 1, payGradeId: 1, currencyCode: 'LKR', amount: '10000.00', salaryName: 'Main Salary'}
+    1: {id: 2, empNumber: 1, payGradeId: 2, currencyCode: 'USD', amount: '20000.00', salaryName: 'Allowance'}

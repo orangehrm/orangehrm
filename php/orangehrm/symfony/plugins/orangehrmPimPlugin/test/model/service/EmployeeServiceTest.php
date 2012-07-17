@@ -554,10 +554,10 @@ class EmployeeServiceTest extends PHPUnit_Framework_TestCase {
         $empNumber = 121;
         $id = 1;
         
-        $salary = new EmpBasicsalary();
+        $salary = new EmployeeSalary();
         $salary->setEmpNumber($empNumber);
         $salary->setId($id);
-        $salary->setSalaryComponent('Travel Expenses');
+        $salary->setSalaryName('Travel Expenses');
         
         $mockDao = $this->getMock('EmployeeDao');
         $mockDao->expects($this->once())

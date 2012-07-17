@@ -457,7 +457,7 @@ EmpUsTaxExemption:
       foreign: empNumber
       type: one
 
-EmpBasicsalary:     
+EmployeeSalary:     
   tableName: hs_hr_emp_basicsalary
   columns:
     id:
@@ -465,46 +465,46 @@ EmpBasicsalary:
       primary: true
       autoincrement: true
       notnull: true
-    emp_number:
+    emp_number as empNumber:
       type: integer(4)
       notnull: true      
-    sal_grd_code:
+    sal_grd_code as payGradeId:
       type: string(13)
       default: null
-    currency_id:
+    currency_id as currencyCode:
       type: string(6)
       notnull: true
       default: ''      
-    ebsal_basic_salary as basic_salary: string(100)
-    payperiod_code: string(13)
-    salary_component: string(100)
-    comments: string(255)        
+    ebsal_basic_salary as amount: string(100)
+    payperiod_code as payPeriodId: string(13)
+    salary_component as salaryName: string(100)
+    comments as notes: string(255)        
   relations:
     salaryGrade:
       class: SalaryGrade
-      local: sal_grd_code
+      local: payGradeId
       foreign: sal_grd_code
       type: one
     currencyType:
       class: CurrencyType
-      local: currency_id
+      local: currencyCode
       foreign: currency_id
       type: one
     employee:
       class: Employee
-      local: emp_number
-      foreign: emp_number
+      local: empNumber
+      foreign: empNumber
       type: one
     payperiod:
       class: Payperiod
-      local: payperiod_code
+      local: payPeriodId
       foreign: payperiod_code
       type: one
     directDebit:
       class: EmpDirectdebit
       local: id
       foreign: salary_id
-      type: one
+      type: one      
     
 EmpDirectdebit:
   tableName: hs_hr_emp_directdebit

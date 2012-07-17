@@ -1266,19 +1266,19 @@ class EmployeeService extends BaseService {
     }
 
     /**
-     * Saves basic salary of an employee
+     * Saves salary of an employee
      * 
      * @version 2.6.11
-     * @param EmpBasicsalary $basicSalary
-     * @return Employee Saved Employee object
+     * @param EmployeeSalary $salary
+     * @return EmployeeSalary Saved EmployeeSalary object
      * @throws DaoException
      * 
      * @todo return saved EmpSalary entry [DONE]
      * @todo Rename method as saveEmployeeSalary [DONE]
-     * @todo rename Entity as EmpBasicsalary to EmpSalary 
+     * @todo rename Entity as EmpBasicsalary to EmpSalary [DONE: Renamed as EmployeeSalary]
      */
-    public function saveEmployeeSalary(EmpBasicsalary $basicSalary) {
-        return $this->getEmployeeDao()->saveEmployeeSalary($basicSalary);
+    public function saveEmployeeSalary(EmployeeSalary $salary) {
+        return $this->getEmployeeDao()->saveEmployeeSalary($salary);
     }
 
     /**
@@ -1296,7 +1296,7 @@ class EmployeeService extends BaseService {
      * @todo return number deleted items [DONE]
      * @todo rename method as deleteEmployeeSalaries [DONE]
      * @todo Change parameter to $salaryIds [DONE]
-     * @todo Change EmpBasicSalary ORM to Salary
+     * @todo Change EmpBasicSalary ORM to Salary [DONE: Renamed as EmployeeSalary]
      */
     public function deleteEmployeeSalaries($empNumber, $salaryIds = null) {
         return $this->getEmployeeDao()->deleteEmployeeSalaries($empNumber, $salaryIds);

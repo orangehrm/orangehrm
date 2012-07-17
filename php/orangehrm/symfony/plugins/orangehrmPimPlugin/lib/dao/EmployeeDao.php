@@ -1552,7 +1552,7 @@ class EmployeeDao extends BaseDao {
                             ->from('CurrencyType c')
                             ->leftJoin('c.PayGradeCurrency s')
                             ->where('s.pay_grade_id = ?', $salaryGrade)
-                            ->andWhere('c.currency_id NOT IN (SELECT e.currency_id FROM EmpBasicsalary e WHERE e.emp_number = ? AND e.sal_grd_code = ?)'
+                            ->andWhere('c.currency_id NOT IN (SELECT e.currency_id FROM EmployeeSalary e WHERE e.emp_number = ? AND e.sal_grd_code = ?)'
                                     , array($empNumber, $salaryGrade));
 
             return $q->execute(array(), $hydrateMode);
@@ -1562,12 +1562,12 @@ class EmployeeDao extends BaseDao {
     }
 
     /**
-     * Save EmpBasicsalary
-     * @param EmpBasicsalary $empBasicsalary
-     * @returns EmpBasicsalary
+     * Save EmployeeSalary
+     * @param EmployeeSalary $empBasicsalary
+     * @returns EmployeeSalary
      * @throws DaoException
      */
-    public function saveEmployeeSalary(EmpBasicsalary $empBasicsalary) {
+    public function saveEmployeeSalary(EmployeeSalary $empBasicsalary) {
         
         try {
             
@@ -1592,7 +1592,7 @@ class EmployeeDao extends BaseDao {
         
         try {
             
-            $q = Doctrine_Query::create()->delete('EmpBasicsalary')
+            $q = Doctrine_Query::create()->delete('EmployeeSalary')
                                          ->where('emp_number = ?', $empNumber);
             
             if (is_array($salaryIds) && count($salaryIds) > 0) {                
@@ -1624,7 +1624,7 @@ class EmployeeDao extends BaseDao {
     public function getEmployeeSalaries($empNumber, $empSalaryId = null) {
         try {
             $q = Doctrine_Query::create()
-                ->from('EmpBasicsalary s')
+                ->from('EmployeeSalary s')
                 ->leftJoin('s.currencyType c')
                 ->where('s.emp_number = ?', $empNumber);
 

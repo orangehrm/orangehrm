@@ -165,7 +165,7 @@ class EmployeeSalaryForm extends BaseForm {
     }
 
     /**
-     * Get EmpBasicsalary object
+     * Get EmployeeSalary object
      */
     public function getSalary() {
 
@@ -174,21 +174,21 @@ class EmployeeSalaryForm extends BaseForm {
         $empSalary = false;
         
         if (!empty($id)) {
-            $empSalary = Doctrine::getTable('EmpBasicsalary')->find($id);
+            $empSalary = Doctrine::getTable('EmployeeSalary')->find($id);
         }
         
         if ($empSalary === false) {
-            $empSalary = new EmpBasicsalary();
+            $empSalary = new EmployeeSalary();
         }
         
-        $empSalary->emp_number = $this->getValue('emp_number');
-        $empSalary->sal_grd_code = $this->getValue('sal_grd_code');
-        $empSalary->currency_id = $this->getValue('currency_id');
-        $empSalary->payperiod_code = $this->getValue('payperiod_code');
-        $empSalary->salary_component = $this->getValue('salary_component');
-        $empSalary->basic_salary = $this->getValue('basic_salary');
-        $empSalary->comments = $this->getValue('comments');
-
+        $empSalary->setEmpNumber($this->getValue('emp_number'));
+        $empSalary->setPayGradeId($this->getValue('sal_grd_code'));
+        $empSalary->setCurrencyCode($this->getValue('currency_id'));
+        $empSalary->setPayPeriodId($this->getValue('payperiod_code'));
+        $empSalary->setSalaryName($this->getValue('salary_component'));
+        $empSalary->setAmount($this->getValue('basic_salary'));
+        $empSalary->setNotes($this->getValue('comments'));
+        
         $setDirectDebit = $this->getValue('set_direct_debit');
         if ($setDirectDebit) {
         }

@@ -58,7 +58,6 @@
  * @property Doctrine_Collection $locations
  * @property Doctrine_Collection $dependents
  * @property Doctrine_Collection $emergencyContacts
- * @property Doctrine_Collection $immigrationDocuments
  * @property Doctrine_Collection $workExperience
  * @property Doctrine_Collection $education
  * @property Doctrine_Collection $skills
@@ -82,6 +81,7 @@
  * @property Doctrine_Collection $EmpSubdivisionHistory
  * @property Doctrine_Collection $EmployeeImmigrationRecord
  * @property Doctrine_Collection $EmpUsTaxExemption
+ * @property Doctrine_Collection $EmployeeSalary
  * @property Doctrine_Collection $EmployeeMemberDetail
  * @property Doctrine_Collection $ReportTo
  * @property Doctrine_Collection $EmployeeLicense
@@ -149,7 +149,6 @@
  * @method Doctrine_Collection getLocations()                 Returns the current record's "locations" collection
  * @method Doctrine_Collection getDependents()                Returns the current record's "dependents" collection
  * @method Doctrine_Collection getEmergencyContacts()         Returns the current record's "emergencyContacts" collection
- * @method Doctrine_Collection getImmigrationDocuments()      Returns the current record's "immigrationDocuments" collection
  * @method Doctrine_Collection getWorkExperience()            Returns the current record's "workExperience" collection
  * @method Doctrine_Collection getEducation()                 Returns the current record's "education" collection
  * @method Doctrine_Collection getSkills()                    Returns the current record's "skills" collection
@@ -173,6 +172,7 @@
  * @method Doctrine_Collection getEmpSubdivisionHistory()     Returns the current record's "EmpSubdivisionHistory" collection
  * @method Doctrine_Collection getEmployeeImmigrationRecord() Returns the current record's "EmployeeImmigrationRecord" collection
  * @method Doctrine_Collection getEmpUsTaxExemption()         Returns the current record's "EmpUsTaxExemption" collection
+ * @method Doctrine_Collection getEmployeeSalary()            Returns the current record's "EmployeeSalary" collection
  * @method Doctrine_Collection getEmployeeMemberDetail()      Returns the current record's "EmployeeMemberDetail" collection
  * @method Doctrine_Collection getReportTo()                  Returns the current record's "ReportTo" collection
  * @method Doctrine_Collection getEmployeeLicense()           Returns the current record's "EmployeeLicense" collection
@@ -239,7 +239,6 @@
  * @method Employee            setLocations()                 Sets the current record's "locations" collection
  * @method Employee            setDependents()                Sets the current record's "dependents" collection
  * @method Employee            setEmergencyContacts()         Sets the current record's "emergencyContacts" collection
- * @method Employee            setImmigrationDocuments()      Sets the current record's "immigrationDocuments" collection
  * @method Employee            setWorkExperience()            Sets the current record's "workExperience" collection
  * @method Employee            setEducation()                 Sets the current record's "education" collection
  * @method Employee            setSkills()                    Sets the current record's "skills" collection
@@ -263,6 +262,7 @@
  * @method Employee            setEmpSubdivisionHistory()     Sets the current record's "EmpSubdivisionHistory" collection
  * @method Employee            setEmployeeImmigrationRecord() Sets the current record's "EmployeeImmigrationRecord" collection
  * @method Employee            setEmpUsTaxExemption()         Sets the current record's "EmpUsTaxExemption" collection
+ * @method Employee            setEmployeeSalary()            Sets the current record's "EmployeeSalary" collection
  * @method Employee            setEmployeeMemberDetail()      Sets the current record's "EmployeeMemberDetail" collection
  * @method Employee            setReportTo()                  Sets the current record's "ReportTo" collection
  * @method Employee            setEmployeeLicense()           Sets the current record's "EmployeeLicense" collection
@@ -524,10 +524,6 @@ abstract class BaseEmployee extends sfDoctrineRecord
              'local' => 'emp_number',
              'foreign' => 'emp_number'));
 
-        $this->hasMany('EmpPassport as immigrationDocuments', array(
-             'local' => 'emp_number',
-             'foreign' => 'emp_number'));
-
         $this->hasMany('EmpWorkExperience as workExperience', array(
              'local' => 'emp_number',
              'foreign' => 'emp_number'));
@@ -618,6 +614,10 @@ abstract class BaseEmployee extends sfDoctrineRecord
              'foreign' => 'empNumber'));
 
         $this->hasMany('EmpUsTaxExemption', array(
+             'local' => 'empNumber',
+             'foreign' => 'empNumber'));
+
+        $this->hasMany('EmployeeSalary', array(
              'local' => 'empNumber',
              'foreign' => 'empNumber'));
 

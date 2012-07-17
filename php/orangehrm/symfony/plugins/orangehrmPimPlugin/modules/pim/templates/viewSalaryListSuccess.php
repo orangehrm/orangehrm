@@ -169,7 +169,7 @@
                                                 foreach ($salaryList as $salary) {
                                                     $cssClass = ($row % 2) ? 'even' : 'odd';
                                                     //empty($salary->from_date)
-                                                    $component = $salary->getSalaryComponent();
+                                                    $component = $salary->getSalaryName();
                                                     $period = $salary->getPayperiod();
                                                     $payPeriodName = empty($period) ? '' : htmlspecialchars($period->getName());
                                                     $payPeriodCode = empty($period) ? '' : htmlspecialchars($period->getCode());
@@ -177,9 +177,9 @@
                                                     $currency = $salary->getCurrencyType();
                                                     $currencyName = empty($currency) ? '' : __(htmlspecialchars($currency->getCurrencyName()));
                                                     $currencyId = empty($currency) ? '' : htmlspecialchars($currency->getCurrencyId());
-                                                    $amount = $salary->getBasicSalary();
-                                                    $comments = $salary->getComments();
-                                                    $salaryGrade = $salary->getSalGrdCode();
+                                                    $amount = $salary->getAmount();
+                                                    $comments = $salary->getNotes();
+                                                    $salaryGrade = $salary->getPayGradeId();
 
                                                     $directDeposit = $salary->getDirectDebit();
                                                     $hasDirectDeposit = !empty($directDeposit->id);

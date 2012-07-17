@@ -1000,10 +1000,10 @@ class EmployeeDaoTest extends PHPUnit_Framework_TestCase {
 
     public function testSaveEmployeeSalary() {
         
-        $salary = new EmpBasicsalary();
+        $salary = new EmployeeSalary();
         $salary->setEmpNumber(1);
-        $salary->setCurrencyId('LKR');
-        $salary->setBasicSalary(2121212);
+        $salary->setCurrencyCode('LKR');
+        $salary->setAmount(2121212);
         
         $result = $this->employeeDao->saveEmployeeSalary($salary);
 
@@ -1014,9 +1014,9 @@ class EmployeeDaoTest extends PHPUnit_Framework_TestCase {
     /**
      * @expectedException DaoException
      */
-    public function testSaveEmpBasicsalaryException() {
+    public function testSaveEmployeeSalaryException() {
         
-        $salary = $this->getMock('EmpBasicsalary', array('save'));
+        $salary = $this->getMock('EmployeeSalary', array('save'));
         $salary->expects($this->once())
                 ->method('save')
                 ->will($this->throwException(new Exception()));
@@ -1061,16 +1061,16 @@ class EmployeeDaoTest extends PHPUnit_Framework_TestCase {
         $result = $this->employeeDao->getEmployeeSalaries($empNumber);
         $this->assertEquals(2, count($result));
         $this->assertEquals(2, $result[0]->id); // Allowance
-        $this->assertEquals('Allowance', $result[0]->getSalaryComponent());
+        $this->assertEquals('Allowance', $result[0]->getSalaryName());
         $this->assertEquals(1, $result[1]->id); // Main Salary
-        $this->assertEquals('Main Salary', $result[1]->getSalaryComponent());
+        $this->assertEquals('Main Salary', $result[1]->getSalaryName());
 
         // Get one salary
         $result = $this->employeeDao->getEmployeeSalaries($empNumber, 1);
         $result = $this->employeeDao->getEmployeeSalaries($empNumber, 1);
-        $this->assertTrue($result instanceof EmpBasicsalary);
+        $this->assertTrue($result instanceof EmployeeSalary);
         $this->assertEquals(1, $result->id);
-        $this->assertEquals('Main Salary', $result->getSalaryComponent());
+        $this->assertEquals('Main Salary', $result->getSalaryName());
 
         //        
         // None existing salary

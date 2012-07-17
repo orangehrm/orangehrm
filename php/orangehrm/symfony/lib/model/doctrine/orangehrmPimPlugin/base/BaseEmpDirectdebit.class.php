@@ -13,23 +13,26 @@
  * @property string $account_type
  * @property string $transaction_type
  * @property EmpBasicsalary $salary
+ * @property Doctrine_Collection $EmployeeSalary
  * 
- * @method integer        getId()               Returns the current record's "id" value
- * @method integer        getSalaryId()         Returns the current record's "salary_id" value
- * @method integer        getRoutingNum()       Returns the current record's "routing_num" value
- * @method string         getAccount()          Returns the current record's "account" value
- * @method decimal        getAmount()           Returns the current record's "amount" value
- * @method string         getAccountType()      Returns the current record's "account_type" value
- * @method string         getTransactionType()  Returns the current record's "transaction_type" value
- * @method EmpBasicsalary getSalary()           Returns the current record's "salary" value
- * @method EmpDirectdebit setId()               Sets the current record's "id" value
- * @method EmpDirectdebit setSalaryId()         Sets the current record's "salary_id" value
- * @method EmpDirectdebit setRoutingNum()       Sets the current record's "routing_num" value
- * @method EmpDirectdebit setAccount()          Sets the current record's "account" value
- * @method EmpDirectdebit setAmount()           Sets the current record's "amount" value
- * @method EmpDirectdebit setAccountType()      Sets the current record's "account_type" value
- * @method EmpDirectdebit setTransactionType()  Sets the current record's "transaction_type" value
- * @method EmpDirectdebit setSalary()           Sets the current record's "salary" value
+ * @method integer             getId()               Returns the current record's "id" value
+ * @method integer             getSalaryId()         Returns the current record's "salary_id" value
+ * @method integer             getRoutingNum()       Returns the current record's "routing_num" value
+ * @method string              getAccount()          Returns the current record's "account" value
+ * @method decimal             getAmount()           Returns the current record's "amount" value
+ * @method string              getAccountType()      Returns the current record's "account_type" value
+ * @method string              getTransactionType()  Returns the current record's "transaction_type" value
+ * @method EmpBasicsalary      getSalary()           Returns the current record's "salary" value
+ * @method Doctrine_Collection getEmployeeSalary()   Returns the current record's "EmployeeSalary" collection
+ * @method EmpDirectdebit      setId()               Sets the current record's "id" value
+ * @method EmpDirectdebit      setSalaryId()         Sets the current record's "salary_id" value
+ * @method EmpDirectdebit      setRoutingNum()       Sets the current record's "routing_num" value
+ * @method EmpDirectdebit      setAccount()          Sets the current record's "account" value
+ * @method EmpDirectdebit      setAmount()           Sets the current record's "amount" value
+ * @method EmpDirectdebit      setAccountType()      Sets the current record's "account_type" value
+ * @method EmpDirectdebit      setTransactionType()  Sets the current record's "transaction_type" value
+ * @method EmpDirectdebit      setSalary()           Sets the current record's "salary" value
+ * @method EmpDirectdebit      setEmployeeSalary()   Sets the current record's "EmployeeSalary" collection
  * 
  * @package    orangehrm
  * @subpackage model\pim\base
@@ -90,5 +93,9 @@ abstract class BaseEmpDirectdebit extends sfDoctrineRecord
              'local' => 'salary_id',
              'foreign' => 'id',
              'onDelete' => 'Cascade'));
+
+        $this->hasMany('EmployeeSalary', array(
+             'local' => 'salary_id',
+             'foreign' => 'id'));
     }
 }
