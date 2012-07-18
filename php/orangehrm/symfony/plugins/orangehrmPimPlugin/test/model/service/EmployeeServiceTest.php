@@ -195,35 +195,6 @@ class EmployeeServiceTest extends PHPUnit_Framework_TestCase {
     }
     
     /**
-     * Testing saveContactDetails
-     */
-    public function testSaveContactDetails() {
-        $empNumber = 121;
-        $employee = new Employee();
-        $employee->setLastName('Last Name');
-        $employee->setFirstName('First Name');
-        $employee->setStreet1('Main Street');
-        $employee->setStreet2('Suite 299');
-        $employee->setCity('Houston');
-        $employee->setProvince('Texas');
-        $employee->setEmpZipcode('928282');
-        $employee->setEmpHmTelephone('2998288288');
-        $employee->setEmpMobile('28882882');
-        
-        $mockDao = $this->getMock('EmployeeDao');
-        $mockDao->expects($this->once())
-                 ->method('saveContactDetails')
-                 ->with($employee)
-                 ->will($this->returnValue(true));
-        
-        $this->employeeService->setEmployeeDao($mockDao);
-        
-        $result = $this->employeeService->saveContactDetails($employee);
-        $this->assertTrue($result);
-        
-    }
-    
-    /**
      * Testing deleteEmergencyContacts
      */
     public function testDeleteEmergencyContacts() {

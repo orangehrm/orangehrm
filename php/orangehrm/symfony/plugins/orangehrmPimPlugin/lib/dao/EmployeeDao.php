@@ -172,40 +172,6 @@ class EmployeeDao extends BaseDao {
     }
 
     /**
-     * Save Contact Details
-     * @param Employee $employee
-     * @returns boolean
-     * @throws DaoException
-     */
-    public function saveContactDetails(Employee $employee) {
-        try {
-            $countryCode = $employee->country;
-            $q = Doctrine_Query::create()->update('Employee')
-                            ->set('street1', '?', $employee->getStreet1())
-                            ->set('street2', '?', $employee->getStreet2())
-                            ->set('city', '?', $employee->getCity())
-                            ->set('province', '?', $employee->getProvince())
-                            ->set('emp_zipcode', '?', $employee->getEmpZipcode())
-                            ->set('emp_hm_telephone', '?', $employee->getEmpHmTelephone())
-                            ->set('emp_mobile', '?', $employee->getEmpMobile())
-                            ->set('emp_work_telephone', '?', $employee->getEmpWorkTelephone())
-                            ->set('emp_work_email', '?', $employee->getEmpWorkEmail())
-                            ->set('emp_oth_email', '?', $employee->getEmpOthEmail());
-
-            if (trim($employee->country) == "") {
-                $q->set('country', '?', 'NULL');
-            } else {
-                $q->set('country', '?', $employee->country);
-            }
-            $q->where('empNumber = ?', $employee->getEmpNumber());
-            $q->execute();
-            return true;
-        } catch (Exception $e) {
-            throw new DaoException($e->getMessage());
-        }
-    }
-
-    /**
      * Get Emergency contacts for given employee
      * @param int $empNumber Employee Number
      * @return array EmpEmergencyContact objects as array

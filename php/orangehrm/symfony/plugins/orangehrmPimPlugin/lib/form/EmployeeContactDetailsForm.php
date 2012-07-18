@@ -151,8 +151,9 @@ class EmployeeConactDetailsForm extends sfForm {
      * Get Employee object
      */
     public function getEmployee() {
-        $employee = new Employee();
-        $employee->empNumber = $this->getValue('empNumber');
+        
+        $employee = $this->getEmployeeService()->getEmployee($this->getValue('empNumber'));
+        
         $employee->street1 = $this->getValue('street1');
         $employee->street2 = $this->getValue('street2');
         $employee->city = $this->getValue('city');
@@ -172,6 +173,7 @@ class EmployeeConactDetailsForm extends sfForm {
         $employee->emp_oth_email = $this->getValue('emp_oth_email');
 
         return $employee;
+        
     }
 
     /**

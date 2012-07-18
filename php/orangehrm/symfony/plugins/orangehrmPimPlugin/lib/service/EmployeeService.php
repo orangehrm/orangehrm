@@ -193,12 +193,14 @@ class EmployeeService extends BaseService {
      * @return boolean
      * @throws PIMServiceException
      * 
-     * @todo Don't return any value (currently returns true always)
+     * @todo Don't return any value (currently returns true always) [DONE: Decided to remove this method and use saveEmployee()]
      * @todo Exceptions should preserve previous exception [DONE]
      */
+    /*
     public function saveContactDetails(Employee $employee) {
         return $this->getEmployeeDao()->saveContactDetails($employee);
     }
+    */
 
     /**
      * Get Emergency contacts for given employee

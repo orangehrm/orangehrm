@@ -775,31 +775,6 @@ class EmployeeDaoTest extends PHPUnit_Framework_TestCase {
         $this->assertTrue($retVal);
     }
 
-    public function testSaveContactDetails() {
-        $employee = new Employee();
-        $employee->firstName = 'Tester';
-        $employee->lastName = 'Jason';
-        $employee->empNumber = 1;
-        $employee->street1 = '223 Main Street';
-        $employee->street2 = '';
-        $employee->city = 'Colombo';
-        $employee->province = 'Western';
-        $employee->emp_zipcode = '10000';
-        $employee->emp_hm_telephone = '99299292';
-        $employee->emp_mobile = '9292929';
-        $employee->emp_work_telephone = '92999292';
-        $employee->emp_work_email = 'adsa@sad.com';
-        $employee->emp_oth_email = 'sadfa@dsaf.com';
-
-        $retVal = $this->employeeDao->saveContactDetails($employee);
-        $this->assertTrue($retVal);
-
-        $employee->country = 'Sri Lanka';
-
-        $retVal = $this->employeeDao->saveContactDetails($employee);
-        $this->assertTrue($retVal);
-    }
-
     public function testDeleteImmigrationWithRecordIds() {
         
         $result = $this->employeeDao->deleteEmployeeImmigrationRecords(2, array(1));
