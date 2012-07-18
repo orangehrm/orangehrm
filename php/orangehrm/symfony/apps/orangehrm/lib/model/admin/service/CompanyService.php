@@ -59,22 +59,6 @@ class CompanyService extends BaseService {
    }
 
   /**
-   * Get Supervisor Employee List
-   * This function should be available in EmployeeService, not here
-   * Due to backward compatibility temporarily its made available. referencing places need to be pointed to employee service
-   * and this should be removed
-   */
-   public function getSupervisorEmployeeList($supervisorId)
-   {
-      try {
-         $employeeService = new EmployeeService();
-         return $employeeService->getImmediateSubordinates($supervisorId);
-      } catch(Exception $e) {
-         throw new AdminServiceException($e->getMessage());
-      }
-   }
-
-  /**
    * Get Employee List As Json
    * This function should be available in EmployeeService, not here
    * Due to backward compatibility temporarily its made available. referencing places need to be pointed to employee service

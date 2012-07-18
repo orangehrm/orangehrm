@@ -11,7 +11,7 @@ EmploymentStatus:
 TerminationReason:
   0: {id: 1, name: 'Resign'}
 
-EmpTermination:
+EmployeeTerminationRecord:
   0: {id: 1, reasonId: 1, date: '2011-11-20'}
 
 Country:

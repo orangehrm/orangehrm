@@ -887,19 +887,6 @@ class EmployeeDaoTest extends PHPUnit_Framework_TestCase {
         $this->assertEquals(count($empList), $result);
     }
 
-    public function testGetSupervisorEmployeeList() {
-        $repToList = TestDataService::loadObjectList('ReportTo', $this->fixture, 'ReportTo');
-        foreach ($repToList as $repTo) {
-            $supervisors[] = $repTo->supervisorId;
-        }
-
-        $subCounts = array_count_values($supervisors);
-        foreach ($subCounts as $supervisor => $count) {
-            $list = $this->employeeDao->getImmediateSubordinates($supervisor);
-            $this->assertEquals($count, count($list));
-        }
-    }
-
     public function testGetSubordinateList() {
         $repToList = TestDataService::loadObjectList('ReportTo', $this->fixture, 'ReportTo');
         foreach ($repToList as $repTo) {

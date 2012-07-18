@@ -1018,31 +1018,6 @@ class EmployeeDao extends BaseDao {
         
     }
 
-    /**
-     * Returns Supervisor Employee List
-     * @param int $supervisorId
-     * @returns Collection
-     * @throws DaoException
-     */
-    public function getImmediateSubordinates($empNumber) {
-        try {
-            $employeeList = array();
-            $q = Doctrine_Query :: create()->select("rt.supervisorId,emp.*")
-                            ->from('ReportTo rt')
-                            ->leftJoin('rt.subordinate emp')
-                            ->where("rt.supervisorId = ?", $empNumber);
-
-            $reportToList = $q->execute();
-            foreach ($reportToList as $reportTo) {
-                array_push($employeeList, $reportTo->getSubordinate());
-            }
-
-            return $employeeList;
-        } catch (Exception $e) {
-            throw new DaoException($e->getMessage());
-        }
-    }
-
     public function getSubordinateIdList() {
         try {
             $idList = array();

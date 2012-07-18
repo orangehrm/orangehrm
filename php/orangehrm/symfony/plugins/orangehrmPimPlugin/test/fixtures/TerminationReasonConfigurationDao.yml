@@ -3,7 +3,7 @@ TerminationReason:
   1: {id: 2, name: 'Dismissed'}
   2: {id: 3, name: 'Laid-off'} 
 
-EmpTermination:
+EmployeeTerminationRecord:
   0: {id: 1, reasonId: 1, date: '2011-12-09'}   
   
 Employee:

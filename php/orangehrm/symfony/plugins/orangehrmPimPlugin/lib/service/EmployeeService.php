@@ -823,12 +823,14 @@ class EmployeeService extends BaseService {
      * @throws PIMServiceException
      * 
      * @todo Rename to getImmediateSubordinates($empNumber) [DONE]
-     * @todo improve DAO method performance , currently it execute few queries 
+     * @todo improve DAO method performance , currently it execute few queries [DONE: Decided to remove this method]
      * 
      */
+    /*
     public function getImmediateSubordinates($empNumber) {
         return $this->getEmployeeDao()->getImmediateSubordinates($empNumber);
     }
+    */
 
     /**
      * @ignore

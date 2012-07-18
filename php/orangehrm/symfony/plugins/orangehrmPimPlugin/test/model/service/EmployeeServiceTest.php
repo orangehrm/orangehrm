@@ -917,32 +917,6 @@ class EmployeeServiceTest extends PHPUnit_Framework_TestCase {
     }    
     
     /**
-     * Testing getSupervisorEmployeeList
-     */
-    public function testGetSupervisorEmployeeList() {
-        $supervisorId = '11';
-        
-        $employees = array();
-        foreach ($this->testCase['Employee'] as $values ) {
-            $employee = new Employee();
-            $employee->fromArray($values);
-            $employees[] = $employee;
-        }             
-        
-        $mockDao = $this->getMock('EmployeeDao');
-        $mockDao->expects($this->once())
-                 ->method('getImmediateSubordinates')
-                 ->with($supervisorId)
-                 ->will($this->returnValue($employees));
-        
-        $this->employeeService->setEmployeeDao($mockDao);
-        
-        $result = $this->employeeService->getImmediateSubordinates($supervisorId);
-        $this->assertEquals($employees, $result);              
-        
-    }
-    
-    /**
      * Testing getEmployeeListAsJson
      */
     public function testGetEmployeeListAsJson() {

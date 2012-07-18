@@ -108,7 +108,7 @@ class TerminationReasonConfigurationDao extends BaseDao {
     public function isReasonInUse($idArray) {
         
         $q = Doctrine_Query::create()->from('Employee em')
-                                     ->leftJoin('em.EmpTermination et')
+                                     ->leftJoin('em.EmployeeTerminationRecord et')
                                      ->leftJoin('et.TerminationReason tr')
                                      ->whereIn('tr.id', $idArray);        
         
