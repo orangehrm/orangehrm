@@ -49,7 +49,7 @@ class EmployeeEducationForm extends sfForm {
         $employee = $this->getEmployeeService()->getEmployee($empNumber);
         $this->fullName = $employee->getFullName();
 
-        $this->empEducationList = $this->getEmployeeService()->getEmployeeEducationList($empNumber);
+        $this->empEducationList = $this->getEmployeeService()->getEmployeeEducations($empNumber);
 
         //initializing the components
         $this->widgets = array(

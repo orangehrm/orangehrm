@@ -437,7 +437,7 @@ class EmployeeDao extends BaseDao {
         }
     }
     
-    public function getEmployeeEducationList($empNumber, $educationId=null) {
+    public function getEmployeeEducations($empNumber, $educationId=null) {
 
         try {
             $q = Doctrine_Query::create()

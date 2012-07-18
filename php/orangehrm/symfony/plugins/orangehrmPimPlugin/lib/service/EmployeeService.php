@@ -448,11 +448,11 @@ class EmployeeService extends BaseService {
      * EmpEducation or false if not found. If educationId is not given, returns 
      * EmpEducation collection. (Empty collection if no records available)
      * 
-     * @todo rename method as getEmployeeEducations
+     * @todo rename method as getEmployeeEducations [DONE]
      * @todo If EducationId is given return EmployeeEducation instead of Doctrine_Collection [DONE: Won't change since there is different primary key]
      */
-    public function getEmployeeEducationList($empNumber, $educationId=null) {
-        return $this->getEmployeeDao()->getEmployeeEducationList($empNumber, $educationId);
+    public function getEmployeeEducations($empNumber, $educationId=null) {
+        return $this->getEmployeeDao()->getEmployeeEducations($empNumber, $educationId);
     }   
 
     /**

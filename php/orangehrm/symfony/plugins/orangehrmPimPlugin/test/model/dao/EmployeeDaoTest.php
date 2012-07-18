@@ -348,9 +348,9 @@ class EmployeeDaoTest extends PHPUnit_Framework_TestCase {
         $this->assertTrue($this->employeeDao->getEducation(1) instanceof EmployeeEducation);
     }
 
-    public function testGetEmployeeEducationListWithOnlyEmpNumber() {
+    public function testGetEmployeeEducationsWithOnlyEmpNumber() {
 
-        $eduList = $this->employeeDao->getEmployeeEducationList(1);
+        $eduList = $this->employeeDao->getEmployeeEducations(1);
 
         foreach ($eduList as $item) {
             $this->assertTrue($item instanceof EmployeeEducation);
@@ -363,9 +363,9 @@ class EmployeeDaoTest extends PHPUnit_Framework_TestCase {
         $this->assertEquals('ENG1', $eduList[1]->getMajor());
     }
 
-    public function testGetEmployeeEducationListWithEmpNumberAndEduId() {
+    public function testGetEmployeeEducationsWithEmpNumberAndEduId() {
 
-        $eduList = $this->employeeDao->getEmployeeEducationList(1, 2);
+        $eduList = $this->employeeDao->getEmployeeEducations(1, 2);
 
         $this->assertTrue($eduList[0] instanceof EmployeeEducation);
 
