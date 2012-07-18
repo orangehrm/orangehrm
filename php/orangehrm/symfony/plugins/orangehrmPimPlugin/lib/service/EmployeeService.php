@@ -1428,21 +1428,24 @@ class EmployeeService extends BaseService {
     }
 
     /**
-     * Terminate employment of given employee.
+     * Terminate employment of given employee
+     * 
+     * Saves EmployeeTerminationRecord and updates termination_id 
+     * of Employee.
      * 
      * @version 2.6.11
-     * @param int $empNumber Employee Number
-     * @param int $empTerminationId Employee Termination Id
-     * @return int 1 if successfull, 0 if empNumber is not available 
+     * @param EmployeeTerminationRecord $employeeTerminationRecord EmployeeTerminationRecord object 
+     * @return EmployeeTerminationRecord Saved EmployeeTerminationRecord object
+     * @throws DaoException
      * 
      * @todo Change to take EmpTermination object. Dao should save 
      * EmpTermination and update termination id in employee table in one
-     * transaction.
+     * transaction. [DONE]
      * 
-     * @todo throw an exception if not successfull, no return type
+     * @todo throw an exception if not successfull, no return type [DONE: Returns EmployeeTerminationRecord]
      */
-    public function terminateEmployment($empNumber, $empTerminationId) {
-        return $this->getEmployeeDao()->terminateEmployment($empNumber, $empTerminationId);
+    public function terminateEmployment(EmployeeTerminationRecord $employeeTerminationRecord) {
+        return $this->getEmployeeDao()->terminateEmployment($employeeTerminationRecord);
     }
 
     /**
@@ -1459,16 +1462,16 @@ class EmployeeService extends BaseService {
     }
 
     /**
-     * Get EmpTermination object with given Id.
+     * Get EmployeeTerminationRecord object with given Id
      * 
      * @version 2.6.11
      * @param int $terminatedId Termination Id
-     * @return EmpTermination EmpTermination object
+     * @return EmployeeTerminationRecord EmployeeTerminationRecord object
      * 
-     * @todo raname method as getEmployeeTerminationDetails 
+     * @todo raname method as getEmployeeTerminationDetails [DONE: Renamed as getEmployeeTerminationRecord to comply with the entity] 
      */
-    public function getEmpTerminationById($terminatedId) {
-        return $this->getEmployeeDao()->getEmpTerminationById($terminatedId);
+    public function getEmployeeTerminationRecord($terminatedId) {
+        return $this->getEmployeeDao()->getEmployeeTerminationRecord($terminatedId);
     }
     
     /**

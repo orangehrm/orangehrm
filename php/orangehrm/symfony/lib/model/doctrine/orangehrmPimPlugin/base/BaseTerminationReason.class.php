@@ -7,14 +7,14 @@
  * 
  * @property integer $id
  * @property string $name
- * @property EmpTermination $EmpTermination
+ * @property EmployeeTerminationRecord $EmployeeTerminationRecord
  * 
- * @method integer           getId()             Returns the current record's "id" value
- * @method string            getName()           Returns the current record's "name" value
- * @method EmpTermination    getEmpTermination() Returns the current record's "EmpTermination" value
- * @method TerminationReason setId()             Sets the current record's "id" value
- * @method TerminationReason setName()           Sets the current record's "name" value
- * @method TerminationReason setEmpTermination() Sets the current record's "EmpTermination" value
+ * @method integer                   getId()                        Returns the current record's "id" value
+ * @method string                    getName()                      Returns the current record's "name" value
+ * @method EmployeeTerminationRecord getEmployeeTerminationRecord() Returns the current record's "EmployeeTerminationRecord" value
+ * @method TerminationReason         setId()                        Sets the current record's "id" value
+ * @method TerminationReason         setName()                      Sets the current record's "name" value
+ * @method TerminationReason         setEmployeeTerminationRecord() Sets the current record's "EmployeeTerminationRecord" value
  * 
  * @package    orangehrm
  * @subpackage model\pim\base
@@ -41,7 +41,7 @@ abstract class BaseTerminationReason extends sfDoctrineRecord
     public function setUp()
     {
         parent::setUp();
-        $this->hasOne('EmpTermination', array(
+        $this->hasOne('EmployeeTerminationRecord', array(
              'local' => 'id',
              'foreign' => 'reasonId'));
     }

@@ -79,10 +79,10 @@ class EmployeeTerminateForm extends BaseForm {
         $this->setDefault('reason', 1);
 
         if(!empty($empTerminatedId)){
-            $empTermination = $employee->getEmpTermination();
-            $this->setDefault('date', set_datepicker_date_format($empTermination->getDate()));
-            $this->setDefault('reason', $empTermination->getReasonId());
-            $this->setDefault('note', $empTermination->getNote());
+            $employeeTerminationRecord = $employee->getEmployeeTerminationRecord();
+            $this->setDefault('date', set_datepicker_date_format($employeeTerminationRecord->getDate()));
+            $this->setDefault('reason', $employeeTerminationRecord->getReasonId());
+            $this->setDefault('note', $employeeTerminationRecord->getNote());
         }
 
         $this->widgetSchema->setNameFormat('terminate[%s]');
@@ -94,17 +94,17 @@ class EmployeeTerminateForm extends BaseForm {
         $note = $this->getValue('note');
 
         if(!empty($terminatedId)){
-            $empTermination = $this->getEmployeeService()->getEmpTerminationById($terminatedId);
+            $employeeTerminationRecord = $this->getEmployeeService()->getEmployeeTerminationRecord($terminatedId);
         }else{
-            $empTermination = new EmpTermination();
+            $employeeTerminationRecord = new EmployeeTerminationRecord();
         }
-        $empTermination->setDate($date);
-        $empTermination->setReasonId($reasonId);
-        $empTermination->setEmpNumber($empNumber);
-        $empTermination->setNote($note);
+        $employeeTerminationRecord->setDate($date);
+        $employeeTerminationRecord->setReasonId($reasonId);
+        $employeeTerminationRecord->setEmpNumber($empNumber);
+        $employeeTerminationRecord->setNote($note);
 
-        $empTermination->save();
-        $this->getEmployeeService()->terminateEmployment($empNumber, $empTermination->getId());
+        $this->getEmployeeService()->terminateEmployment($employeeTerminationRecord);
+        
     }
 
     public function __getTerminationReasons() {

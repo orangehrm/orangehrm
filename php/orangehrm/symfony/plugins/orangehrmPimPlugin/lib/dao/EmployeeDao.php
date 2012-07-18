@@ -1758,15 +1758,32 @@ class EmployeeDao extends BaseDao {
         
     }
 
-    public function terminateEmployment($empNumber, $empTerminationId) {
+    public function terminateEmployment(EmployeeTerminationRecord $employeeTerminationRecord) {
 
         try {
+            
+            $connection = Doctrine_Manager::getInstance()->getCurrentConnection();
+            $connection->beginTransaction();            
+            
+            /* Saving EmployeeTerminationRecord */
+            $employeeTerminationRecord->save();
+            
+            /* Updating employee record */
             $q = Doctrine_Query :: create()->update('Employee')
-                            ->set('termination_id', '?', $empTerminationId)
-                            ->where('empNumber = ?', $empNumber);
-            return $q->execute();
+                            ->set('termination_id', '?', $employeeTerminationRecord->getId())
+                            ->where('empNumber = ?', $employeeTerminationRecord->getEmpNumber());
+            
+            $q->execute();
+            
+            $connection->commit();
+            
+            return $employeeTerminationRecord;
+            
         } catch (Exception $e) {
+            
+            $connection->rollback();
             throw new DaoException($e->getMessage());
+            
         }
     }
 
@@ -1782,10 +1799,10 @@ class EmployeeDao extends BaseDao {
         }
     }
 
-    public function getEmpTerminationById($terminatedId) {
+    public function getEmployeeTerminationRecord($terminatedId) {
 
         try {
-            return Doctrine::getTable('EmpTermination')->find($terminatedId);
+            return Doctrine::getTable('EmployeeTerminationRecord')->find($terminatedId);
         } catch (Exception $e) {
             throw new DaoException($e->getMessage());
         }

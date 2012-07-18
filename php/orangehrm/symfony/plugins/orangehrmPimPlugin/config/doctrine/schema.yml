@@ -194,11 +194,11 @@ Employee:
       local: emp_number
       foreign: emp_number
       type: many
-    EmpTermination:
-      local: emp_number
-      foreign: emp_number
+    EmployeeTerminationRecord:
+      local: empNumber
+      foreign: empNumber
       type: many
-    EmpTermination:
+    EmployeeTerminationRecord:
       local: termination_id
       foreign: id
       type: one
@@ -627,7 +627,7 @@ ReportingMethod:
       local: id
       foreign: reportingMethodId
 
-EmpTermination:
+EmployeeTerminationRecord:
   tableName: ohrm_emp_termination
   columns:
     id:
@@ -645,7 +645,7 @@ EmpTermination:
       type: date(25)
     note: string(255)
   relations:
-    EmpTerminationReason:
+    TerminationReason:
       local: reasonId
       foreign: id
       type: one
@@ -655,7 +655,7 @@ EmpTermination:
       type: one
     Employee:
       local: id
-      foreign: termination_id
+      foreign: terminationId
       type: one
 
 TerminationReason:
@@ -667,7 +667,7 @@ TerminationReason:
       autoincrement: true
     name: string(100)
   relations:
-    EmpTermination:
+    EmployeeTerminationRecord:
       local: id
       foreign: reasonId
       type: one

@@ -101,7 +101,7 @@ class EmployeeJobDetailsForm extends BaseForm {
         }
 
         if (!empty($empTerminatedId)) {
-            $this->empTermination = $employee->getEmpTermination();
+            $this->empTermination = $employee->getEmployeeTerminationRecord();
         }
 
         $this->setDefault('eeo_category', $employee->eeo_cat_code);
