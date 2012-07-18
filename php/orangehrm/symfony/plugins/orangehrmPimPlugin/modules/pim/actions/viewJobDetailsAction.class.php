@@ -70,7 +70,7 @@ class viewJobDetailsAction extends basePimAction {
 
                 // save data
                 $service = new EmployeeService();
-                $service->saveEmployeeJobDetails($this->form->getEmployee(), false);
+                $service->saveEmployee($this->form->getEmployee());
                 $this->form->updateAttachment();
                 
                 

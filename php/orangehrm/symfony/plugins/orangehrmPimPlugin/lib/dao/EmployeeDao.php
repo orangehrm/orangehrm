@@ -1460,22 +1460,6 @@ class EmployeeDao extends BaseDao {
     }
 
     /**
-     * Save Contact Details
-     * @param Employee $employee
-     * @returns boolean
-     * @throws DaoException
-     */
-    public function saveEmployeeJobDetails(Employee $employee) {
-
-        try {
-            $employee->save();
-            return true;
-        } catch (Exception $e) {
-            throw new DaoException($e->getMessage());
-        }
-    }
-
-    /**
      * Get membership details for given employee
      * @param int $empNumber 
      * @param int $membershipId

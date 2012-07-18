@@ -1164,16 +1164,19 @@ class EmployeeService extends BaseService {
      * @version 2.6.11
      * @param Employee $employee Employee instance
      * @return boolean true always
-     * @throws PIMServiceException
+     * @throws DaoException
      * 
-     * @todo Don't return value
-     * @todo Save only job details in corresponding DAO method
+     * @todo Don't return value [DONE: Decided to remove this method and use saveEmployee()]
+     * @todo Save only job details in corresponding DAO method [DONE: Decided to remove this method and use saveEmployee()]
      * @todo rename method as saveEmployeeJobDetails [DONE]
      */
+    /*
     public function saveEmployeeJobDetails(Employee $employee) {
         return $this->getEmployeeDao()->saveEmployeeJobDetails($employee);
     }
-
+    */
+      
+    
     /**
      * Retrieves details of a membership of an employee
      * 

@@ -988,28 +988,6 @@ class EmployeeDaoTest extends PHPUnit_Framework_TestCase {
         $this->assertEquals(1, $workShift->getWorkShiftId());
     }
 
-    public function testSaveJobDetails() {
-
-        $employee = $this->getMock('Employee', array('save'));
-        $employee->expects($this->once())
-                ->method('save');
-
-        $result = $this->employeeDao->saveEmployeeJobDetails($employee);
-        $this->assertTrue($result);
-
-        $employee = $this->getMock('Employee', array('save'));
-        $employee->expects($this->once())
-                ->method('save')
-                ->will($this->throwException(new Exception()));
-
-        try {
-            $result = $this->employeeDao->saveEmployeeJobDetails($employee);
-            $this->fail("Exception expected");
-        } catch (Exception $e) {
-            
-        }
-    }
-
     public function testSaveEmployeeSalary() {
         
         $salary = new EmployeeSalary();
