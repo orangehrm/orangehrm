@@ -891,6 +891,10 @@ class EmployeeDao extends BaseDao {
                 }
                 $employeeIds = $q->execute(array(), Doctrine_Core::HYDRATE_SINGLE_SCALAR);
 
+                // If only one result, Doctrine_Core::HYDRATE_SINGLE_SCALAR gives a single string.
+                if (is_string($employeeIds)) {
+                    $employeeIds = array($employeeIds);
+                }
                 return $employeeIds;
         
         // @codeCoverageIgnoreStart

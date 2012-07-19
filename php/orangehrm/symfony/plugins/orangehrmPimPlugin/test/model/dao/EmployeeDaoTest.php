@@ -1154,6 +1154,16 @@ class EmployeeDaoTest extends PHPUnit_Framework_TestCase {
         $this->compareArrays($employeeIdArray, $employeeIdList);
     }
     
+    public function testGetEmployeeIdListOneEmployee() {
+        
+        Doctrine_Query::create()->delete()->from('Employee e')->where('e.emp_number > 1')->execute();
+        
+        $employeeIdList = $this->employeeDao->getEmployeeIdList();
+        $this->assertTrue(is_array($employeeIdList));
+        $this->assertEquals(1, count($employeeIdList));
+        $this->assertEquals(1, $employeeIdList[0]);
+    }
+    
     public function testGetEmployeePropertyList() {
         $properties = array();
         $employeePropertyList = $this->employeeDao->getEmployeePropertyList($properties, 'empNumber', 'ASC');
