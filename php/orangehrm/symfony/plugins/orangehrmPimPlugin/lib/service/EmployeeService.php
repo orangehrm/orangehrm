@@ -26,7 +26,7 @@
  * Employee Service
  * @package pim
  * @todo Remove exceptions that only wraps DAO exceptions [DONE]
- * @todo Add get/save/delete for all 
+ * @todo Add get/save/delete for all [DONE: Postponed. Will add on request]
  * @todo Add deleteReportingMethod() function [DONE: Refer ReportingMethodConfigurationService]
  * @todo Add getEmployeeImmigrationRecords method [DONE]
  * @todo Add getEmployeeChildren method [DONE: Refer dependents methods]
@@ -660,9 +660,9 @@ class EmployeeService extends BaseService {
      * 
      * @return Doctrine_Collection Doctrine_Collection of EmployeeAttachment objects
      * 
-     * @todo Define screen name constant in PluginEmployeeAttachment class 
+     * @todo Define screen name constant in PluginEmployeeAttachment class [DONE]
      * @todo rename method as getEmployeeAttachments [DONE]
-     * @todo Define the values for $screen as constants use constants names here
+     * @todo Define the values for $screen as constants use constants names here [DONE]
      */
     public function getEmployeeAttachments($empNumber, $screen) {
         return $this->getEmployeeDao()->getEmployeeAttachments($empNumber, $screen);
