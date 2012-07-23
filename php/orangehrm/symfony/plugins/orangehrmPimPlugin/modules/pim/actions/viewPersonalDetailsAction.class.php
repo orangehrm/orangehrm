@@ -77,7 +77,7 @@ class viewPersonalDetailsAction extends basePimAction {
                     $this->_checkWhetherEmployeeIdExists($this->form->getValue('txtEmployeeId'), $empNumber);
 
                     $employee = $this->form->getEmployee();
-                    $this->getEmployeeService()->savePersonalDetails($employee, $essMode);
+                    $this->getEmployeeService()->saveEmployee($employee);
                     $this->getUser()->setFlash('templateMessage', array('success', __(TopLevelMessages::SAVE_SUCCESS)));
                     $this->redirect('pim/viewPersonalDetails?empNumber='. $empNumber);
 

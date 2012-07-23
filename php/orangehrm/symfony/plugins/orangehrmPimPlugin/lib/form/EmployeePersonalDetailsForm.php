@@ -24,6 +24,7 @@ class EmployeePersonalDetailsForm extends BaseForm {
     private $employeeService;
     private $widgets = array();
     private $gender;
+    private $employee;
     public $fullName;
 
     /**
@@ -69,7 +70,8 @@ class EmployeePersonalDetailsForm extends BaseForm {
         
         $ess = $this->getOption('ESS', false);
         $empNumber = $this->getOption('empNumber');
-        $employee = $this->getEmployeeService()->getEmployee($empNumber);
+        $this->employee = $this->getEmployeeService()->getEmployee($empNumber);
+        $employee = $this->employee;
         $this->gender = ($employee->emp_gender != "")?$employee->emp_gender:"";
         $this->fullName = $employee->getFullName();
 
@@ -181,8 +183,8 @@ class EmployeePersonalDetailsForm extends BaseForm {
 
         $ess = $this->getOption('ESS', false);
 
-        $employee = new Employee();
-        $employee->empNumber = $this->getValue('txtEmpID');
+        $employee = $this->employee;
+
         $employee->firstName = $this->getValue('txtEmpFirstName');
         $employee->middleName = $this->getValue('txtEmpMiddleName');
         $employee->lastName = $this->getValue('txtEmpLastName');
@@ -193,8 +195,9 @@ class EmployeePersonalDetailsForm extends BaseForm {
         $employee->otherId = $this->getValue('txtOtherID');
 
         $employee->emp_marital_status = $this->getValue('cmbMarital');
-        $employee->smoker = $this->getValue('chkSmokeFlag');
-        
+        $smoker = $this->getValue('chkSmokeFlag');
+        $employee->smoker = !empty($smoker) ? $employee->smoker : 0;
+            
         $gender = $this->getValue('optGender');
         if (!empty($gender)) {
             $employee->emp_gender = $gender;

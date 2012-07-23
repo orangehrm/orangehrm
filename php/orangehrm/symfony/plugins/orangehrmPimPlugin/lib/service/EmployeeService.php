@@ -171,21 +171,6 @@ class EmployeeService extends BaseService {
     }
 
     /**
-     * Save Personal Details of given employee
-     * 
-     * @param Employee $employee
-     * @param boolean $isESS
-     * @return boolean true always
-     * @throws PIMServiceException
-     * 
-     * @todo Don't return value
-     * @todo Remove $isESS parameter and handle it in action
-     */
-    public function savePersonalDetails(Employee $employee, $isESS = false) {
-        return $this->getEmployeeDao()->savePersonalDetails($employee, $isESS);
-    }
-
-    /**
      * Save Employee Contact Details of given employee
      * 
      * @version 2.6.11

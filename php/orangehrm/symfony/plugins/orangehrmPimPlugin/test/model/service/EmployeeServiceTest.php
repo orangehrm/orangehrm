@@ -164,35 +164,7 @@ class EmployeeServiceTest extends PHPUnit_Framework_TestCase {
             $result = $this->employeeService->deleteEmployeePicture($v['id']);
             $this->assertEquals(1, $result);
         }
-    }
-    
-    /**
-     * Testing savePersonalDetails
-     */
-    public function testSavePersonalDetails() {
-        $empNumber = 121;
-        $employee = new Employee();
-        $employee->setLastName('Last Name');
-        $employee->setFirstName('First Name');
-        $employee->setMiddleName('M');
-        $employee->setEmpNumber($empNumber);                             
-        $employee->setNickName('AB');
-        $employee->setOtherId('e2192');
-        
-        $isEss = true;
-        
-        $mockDao = $this->getMock('EmployeeDao');
-        $mockDao->expects($this->once())
-                 ->method('savePersonalDetails')
-                 ->with($employee, $isEss)
-                 ->will($this->returnValue(true));
-        
-        $this->employeeService->setEmployeeDao($mockDao);
-        
-        $result = $this->employeeService->savePersonalDetails($employee, $isEss);
-        $this->assertTrue($result);
-        
-    }
+    }    
     
     /**
      * Testing deleteEmergencyContacts

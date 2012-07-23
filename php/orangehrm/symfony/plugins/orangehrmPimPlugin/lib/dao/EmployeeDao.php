@@ -113,65 +113,6 @@ class EmployeeDao extends BaseDao {
     }
 
     /**
-     * Save Personal Details
-     * @param Employee $employee
-     * @param boolean $isESS
-     * @returns boolean
-     * @throws DaoException
-     */
-    public function savePersonalDetails(Employee $employee, $isESS = false) {
-        try {
-            $q = Doctrine_Query :: create()->update('Employee')
-                            ->set('firstName', '?', $employee->firstName)
-                            ->set('middleName', '?', $employee->middleName)
-                            ->set('lastName', '?', $employee->lastName)
-                            ->set('nickName', '?', $employee->nickName)
-                            ->set('otherId', '?', $employee->otherId)
-                            ->set('emp_marital_status', '?', $employee->emp_marital_status)
-                            ->set('smoker', '?', !empty($employee->smoker) ? $employee->smoker : 0)
-                            ->set('militaryService', '?', $employee->militaryService);
-
-            if (!empty($employee->emp_gender)) {
-                $q->set('emp_gender', '?', $employee->emp_gender);
-            }
-
-            if (empty($employee->emp_dri_lice_exp_date)) {
-                $q->set('emp_dri_lice_exp_date', 'NULL');
-            } else {
-                $q->set('emp_dri_lice_exp_date', '?', $employee->emp_dri_lice_exp_date);
-            }
-
-            if (empty($employee->nation_code)) {
-                $q->set('nation_code', 'NULL');
-            } else {
-                $q->set('nation_code', '?', $employee->nation_code);
-            }
-
-            if (empty($employee->ethnic_race_code)) {
-                $q->set('ethnic_race_code', 'NULL');
-            } else {
-                $q->set('ethnic_race_code', '?', $employee->ethnic_race_code);
-            }
-
-            if (!$isESS) {
-                $q->set('employeeId', '?', $employee->employeeId)->set('ssn', '?', $employee->ssn)->set('sin', '?', $employee->sin)->set('licenseNo', '?', $employee->licenseNo);
-
-                if (empty($employee->emp_birthday)) {
-                    $q->set('emp_birthday', 'NULL');
-                } else {
-                    $q->set('emp_birthday', '?', $employee->emp_birthday);
-                }
-            }
-
-            $q->where('empNumber = ?', $employee->empNumber);
-            $q->execute();
-            return true;
-        } catch (Exception $e) {
-            throw new DaoException($e->getMessage());
-        }
-    }
-
-    /**
      * Get Emergency contacts for given employee
      * @param int $empNumber Employee Number
      * @return array EmpEmergencyContact objects as array
