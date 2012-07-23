@@ -64,18 +64,18 @@ class CustomFieldForm extends BaseForm {
     
     public function getScreens() {
         $screens = array('' =>  '-- ' . __('Select') . ' --',
-                             'personal'=> __('Personal Details'),
-                             'contact' => __('Contact Details'),
-                             'emergency' => __('Emergency Contacts'),
-                             'dependents' => __('Dependents'),
-                             'immigration' => __('Immigration'),
-                             'qualifications' => __('Qualifications'),
-                             'tax' => __('Tax Exemptions'),
-                             'salary' => __('Salary'),
-                             'job' => __('Job'),
-                             'report-to' => __('Report-to'),
-                             'membership' => __('Membership')
-                             );
+                         CustomField::SCREEN_PERSONAL_DETAILS => __('Personal Details'),
+                         CustomField::SCREEN_CONTACT_DETAILS => __('Contact Details'),
+                         CustomField::SCREEN_EMERGENCY_CONTACTS => __('Emergency Contacts'),
+                         CustomField::SCREEN_DEPENDENTS => __('Dependents'),
+                         CustomField::SCREEN_IMMIGRATION => __('Immigration'),
+                         CustomField::SCREEN_QUALIFICATIONS => __('Qualifications'),
+                         CustomField::SCREEN_TAX_EXEMPTIONS => __('Tax Exemptions'),
+                         CustomField::SCREEN_SALARY => __('Salary'),
+                         CustomField::SCREEN_JOB => __('Job'),
+                         CustomField::SCREEN_REPORT_TO => __('Report-to'),
+                         CustomField::SCREEN_MEMBERSHIP => __('Membership')
+                        );
         return $screens;
     }
 

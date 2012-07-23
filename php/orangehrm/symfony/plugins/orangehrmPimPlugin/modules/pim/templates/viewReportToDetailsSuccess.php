@@ -246,8 +246,8 @@
                     </div>
 
 
-                <?php echo include_component('pim', 'customFields', array('empNumber' => $empNumber, 'screen' => 'report-to')); ?>
-                <?php echo include_component('pim', 'attachments', array('empNumber' => $empNumber, 'screen' => 'report-to')); ?>
+                <?php echo include_component('pim', 'customFields', array('empNumber' => $empNumber, 'screen' => CustomField::SCREEN_REPORT_TO)); ?>
+                <?php echo include_component('pim', 'attachments', array('empNumber' => $empNumber, 'screen' => EmployeeAttachment::SCREEN_REPORT_TO)); ?>
 
                                         </div>
                                     </td>

@@ -396,7 +396,7 @@ class EmployeeJobDetailsForm extends BaseForm {
             $empAttachment->attachment = file_get_contents($tempName);
             ;
             $empAttachment->file_type = $file->getType();
-            $empAttachment->screen = 'contract';
+            $empAttachment->screen = EmployeeAttachment::SCREEN_JOB_CONTRACT;
 
             $empAttachment->attached_by = $this->getOption('loggedInUser');
             $empAttachment->attached_by_name = $this->getOption('loggedInUserName');

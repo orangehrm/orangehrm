@@ -181,8 +181,8 @@
                                   </div>
                               </div>
 
-<?php echo include_component('pim', 'customFields', array('empNumber' => $empNumber, 'screen' => 'job')); ?>
-<?php echo include_component('pim', 'attachments', array('empNumber' => $empNumber, 'screen' => 'job')); ?>
+<?php echo include_component('pim', 'customFields', array('empNumber' => $empNumber, 'screen' => CustomField::SCREEN_JOB)); ?>
+<?php echo include_component('pim', 'attachments', array('empNumber' => $empNumber, 'screen' => EmployeeAttachment::SCREEN_JOB)); ?>
 
                                           </td>
                                           <td valign="top" align="center">
