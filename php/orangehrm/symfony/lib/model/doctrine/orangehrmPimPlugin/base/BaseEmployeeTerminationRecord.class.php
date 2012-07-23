@@ -71,6 +71,6 @@ abstract class BaseEmployeeTerminationRecord extends sfDoctrineRecord
 
         $this->hasOne('Employee', array(
              'local' => 'id',
-             'foreign' => 'terminationId'));
+             'foreign' => 'termination_id'));
     }
 }

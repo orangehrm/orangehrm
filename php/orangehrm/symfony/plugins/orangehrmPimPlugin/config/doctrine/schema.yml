@@ -655,7 +655,7 @@ EmployeeTerminationRecord:
       type: one
     Employee:
       local: id
-      foreign: terminationId
+      foreign: termination_id
       type: one
 
 TerminationReason:

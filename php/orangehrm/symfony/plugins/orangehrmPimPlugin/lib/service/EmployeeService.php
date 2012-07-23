@@ -778,10 +778,10 @@ class EmployeeService extends BaseService {
      * @returns Doctrine_Collection/Array Returns Doctrine_Collection of Employee objects
      * @throws PIMServiceException
      * 
-     * @todo add orderField,oraderBy and include Deleted parameters
+     * @todo add orderField,oraderBy and include Deleted parameters [DONE]
      */
-    public function getSupervisorList() {
-        return $this->getEmployeeDao()->getSupervisorList();
+    public function getSupervisorList($includeTerminated = false, $orderField = 'lastName', $orderBy = 'ASC') {
+        return $this->getEmployeeDao()->getSupervisorList($includeTerminated, $orderField, $orderBy);
     }
 
     /**

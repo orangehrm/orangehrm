@@ -847,6 +847,33 @@ class EmployeeDaoTest extends PHPUnit_Framework_TestCase {
 
         $this->assertEquals(count($supervisors), count($list));
     }
+    
+    public function testGetSupervisorListCount() {
+
+        $list = $this->employeeDao->getSupervisorList();
+
+        $this->assertEquals(3, count($list));
+        
+    }    
+    
+    public function testGetSupervisorListType() {
+
+        $list = $this->employeeDao->getSupervisorList();
+
+        foreach ($list as $item) {
+            $this->assertTrue($item instanceof Employee);
+        }
+       
+    }  
+    
+    public function testGetSupervisorListOrder() {
+
+        $list = $this->employeeDao->getSupervisorList();
+
+        $this->assertEquals('Nadarajah', $list[0]->getLastName());
+        $this->assertEquals('Saputhanthri', $list[2]->getLastName());
+        
+    }      
 
     public function testIsSupervisor() {
         $supervisorCount = 0;

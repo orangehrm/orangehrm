@@ -948,15 +948,29 @@ class EmployeeDao extends BaseDao {
      * @returns Collection
      * @throws DaoException
      */
-    public function getSupervisorList() {
+    public function getSupervisorList($includeTerminated = false, $orderField = 'lastName', $orderBy = 'ASC') {
+        
         try {
+            
+            if (!property_exists('Employee', $orderField)) {
+                $orderField = 'lastName';
+            }
+            
+            if ($orderBy != 'ASC' || $orderBy != 'DESC') {
+                $orderBy = 'ASC';
+            }
+            
             $q = Doctrine_Query :: create()
-                            ->select('e.firstName, e.lastName, e.empNumber, s.termination_id')
                             ->from('Employee e')
                             ->innerJoin('e.subordinates s')
-                            ->orderBy('e.lastName DESC');
+                            ->orderBy("e.$orderField $orderBy");
+            
+            if (!$includeTerminated) {
+                $q->where('e.termination_id IS NULL');
+            }
 
             return $q->execute();
+            
         } catch (Exception $e) {
             throw new DaoException($e->getMessage());
         }
