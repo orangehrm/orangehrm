@@ -27,11 +27,11 @@ $c = new Conf();
 
 mysql_connect($c->dbhost, $c->dbuser, $c->dbpass);
 
-if (mysql_query("DROP DATABASE {$c->dbname}")) {
+if (!mysql_query("DROP DATABASE `{$c->dbname}`")) {
     
     echo "Existing '{$c->dbname}' database was deleted.<br>\n";
     
-    if (mysql_query("CREATE DATABASE {$c->dbname}")) {
+    if (mysql_query("CREATE DATABASE `{$c->dbname}`")) {
         
         echo "Created new '{$c->dbname}' database.<br>\n";
         mysql_select_db($c->dbname);
