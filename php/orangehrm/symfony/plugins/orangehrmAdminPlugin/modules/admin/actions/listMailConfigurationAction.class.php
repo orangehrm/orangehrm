@@ -20,6 +20,9 @@
 class listMailConfigurationAction extends sfAction {
 
     public function execute($request) {
+        
+        $this->_checkAuthentication();
+        
         $emailConfigurationService = new EmailConfigurationService();
         $emailConfiguration = $emailConfigurationService->getEmailConfiguration();
         $this->mailAddress = $emailConfiguration->getSentAs();
@@ -35,6 +38,17 @@ class listMailConfigurationAction extends sfAction {
         if ($this->getUser()->hasFlash('templateMessage')) {
             $this->templateMessage = $this->getUser()->getFlash('templateMessage');
         }
+        
     }
+    
+    protected function _checkAuthentication() {
+        
+        $user = $this->getUser()->getAttribute('user');
+        
+		if (!$user->isAdmin()) {
+			$this->redirect('auth/login');
+		}
+        
+    }    
 
 }
