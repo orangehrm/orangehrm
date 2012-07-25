@@ -370,6 +370,8 @@ class performanceActions extends sfActions {
         $performanceReviewService = $this->getPerformanceReviewService();
         $performanceReview = $performanceReviewService->readPerformanceReview($id);
         $performanceService = $this->getPerformanceKpiService();
+        
+        $this->_checkPerformanceReviewAuthentication($performanceReview);
 
         if ($this->getUser()->hasFlash('templateMessage')) {
             $this->templateMessage = $this->getUser()->getFlash('templateMessage');
@@ -435,6 +437,28 @@ class performanceActions extends sfActions {
             }
         }
     }
+    
+    protected function _checkPerformanceReviewAuthentication($performanceReview) {
+        
+        if ($this->isHrAdmin()) {
+            return;
+        }
+        
+        if ($this->isReviwer($performanceReview)) {
+            return;
+        }
+        
+        $user = $this->getUser()->getAttribute('user');
+        
+        if ($performanceReview->getEmployeeId() == $user->getEmployeeNumber()) {
+            return;
+        }
+        
+		if (!$user->isAdmin()) {
+			$this->redirect('auth/login');
+		}
+        
+    }    
 
     /**
      * Get the current page number from the user session.
