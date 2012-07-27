@@ -37,6 +37,8 @@ class punchInAction extends sfAction {
     }
 
     public function execute($request) {
+        
+        $this->_checkAuthentication();
 
         $this->editmode = null;
         $this->userObj = $this->getContext()->getUser()->getAttribute('user');
@@ -137,7 +139,16 @@ class punchInAction extends sfAction {
         $attendanceRecord->setPunchInTimeOffset($punchInTimezoneOffset);
         return $this->getAttendanceService()->savePunchRecord($attendanceRecord);
     }
+    
+    protected function _checkAuthentication($empNumber) {
+        
+        $user = $this->getUser()->getAttribute('user');        
+        $logedInEmpNumber   = $user->getEmployeeNumber();
+
+        if (empty($logedInEmpNumber)) {
+            $this->redirect('auth/login');
+        }
+        
+    }
 
 }
-
-?>

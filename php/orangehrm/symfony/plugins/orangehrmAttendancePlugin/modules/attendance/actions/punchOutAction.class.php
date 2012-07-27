@@ -37,6 +37,8 @@ class punchOutAction extends sfAction {
     }
 
     public function execute($request) {
+        
+        $this->_checkAuthentication();
 
     $inputDatePattern = sfContext::getInstance()->getUser()->getDateFormat();
         $this->userObj = $this->getContext()->getUser()->getAttribute('user');
@@ -126,6 +128,15 @@ class punchOutAction extends sfAction {
         return $this->getAttendanceService()->savePunchRecord($attendanceRecord);
     }
 
-}
+    protected function _checkAuthentication($empNumber) {
+        
+        $user = $this->getUser()->getAttribute('user');        
+        $logedInEmpNumber   = $user->getEmployeeNumber();
 
-?>
+        if (empty($logedInEmpNumber)) {
+            $this->redirect('auth/login');
+        }
+        
+    }
+    
+}
