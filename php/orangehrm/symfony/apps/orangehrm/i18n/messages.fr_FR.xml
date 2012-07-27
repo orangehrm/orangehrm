@@ -5126,7 +5126,92 @@
    <trans-unit id="1113">
     <source>My Info</source>
     <target>FR_My Info</target>
-   </trans-unit>   
+   </trans-unit>
+   <trans-unit id="1114">
+    <source>Reports</source>
+    <target>FR_Reports</target>
+   </trans-unit>
+   <trans-unit id="1115">
+    <source>Employee Leave Report</source>
+    <target>FR_Employee Leave Report</target>
+   </trans-unit>
+   <trans-unit id="1116">
+    <source>Employee Turnover Hiring Report</source>
+    <target>FR_Employee Turnover Hiring Report</target>
+   </trans-unit>
+   <trans-unit id="1117">
+    <source>Employee Turnover Termination Report</source>
+    <target>FR_Employee Turnover Termination Report</target>
+   </trans-unit>
+   <trans-unit id="1118">
+    <source>Head Count Report</source>
+    <target>FR_Head Count Report</target>
+   </trans-unit>
+   <trans-unit id="1119">
+    <source>Vacancy Succession Report</source>
+    <target>FR_Vacancy Succession Report</target>
+   </trans-unit>
+   <trans-unit id="1120">
+    <source>Notifications</source>
+    <target>FR_Notifications</target>
+   </trans-unit>
+   <trans-unit id="1121">
+    <source>Question Group</source>
+    <target>FR_Question Group</target>
+   </trans-unit>
+   <trans-unit id="1122">
+    <source>Application Form</source>
+    <target>FR_Application Form</target>
+   </trans-unit>
+   <trans-unit id="1123">
+    <source>Header and Footer</source>
+    <target>FR_Header and Footer</target>
+   </trans-unit>
+   <trans-unit id="1124">
+    <source>Announcements</source>
+    <target>FR_Announcements</target>
+   </trans-unit>
+   <trans-unit id="1125">
+    <source>News</source>
+    <target>FR_News</target>
+   </trans-unit>
+   <trans-unit id="1126">
+    <source>Manage News</source>
+    <target>FR_Manage News</target>
+   </trans-unit>
+   <trans-unit id="1127">
+    <source>Documents</source>
+    <target>FR_Documents</target>
+   </trans-unit>
+   <trans-unit id="1128">
+    <source>Manage</source>
+    <target>FR_Manage</target>
+   </trans-unit>
+   <trans-unit id="1129">
+    <source>Manage Categories</source>
+    <target>FR_Manage Categories</target>
+   </trans-unit>
+   <trans-unit id="1130">
+    <source>Add Training</source>
+    <target>FR_Add Training</target>
+   </trans-unit>
+   <trans-unit id="1131">
+    <source>View Training</source>
+    <target>FR_View Training</target>
+   </trans-unit>
+   <trans-unit id="1132">
+    <source>Training Details</source>
+    <target>FR_Training Details</target>
+   </trans-unit>
+   <trans-unit id="1133">
+    <source>Forgot your password?</source>
+    <target>FR_Forgot your password?</target>
+   </trans-unit>
+   <trans-unit id="1134">
+    <source>Export To CSV</source>
+    <target>FR_Export To CSV</target>
+   </trans-unit>
+   
   </body>
  </file>
 </xliff>
