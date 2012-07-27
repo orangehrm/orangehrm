@@ -22,7 +22,7 @@ div.dateadded label{
 
 form#frmSrchCandidates label label.error {
     width:145px !important; /* Need to overide important in messages.css */
-    padding-left:130px;
+    padding-left:150px;
 }
 
 .paddingLeftRequired {
