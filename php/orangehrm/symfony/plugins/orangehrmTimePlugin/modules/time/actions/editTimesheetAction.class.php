@@ -131,16 +131,16 @@ class editTimesheetAction extends sfAction {
     }
     
     protected function _checkAuthentication($empNumber, $user) {
-        
-        if ($user->isAdmin()) {
-            return;
-        }        
-        
+
         $logedInEmpNumber   = $user->getEmployeeNumber();
         
         if ($logedInEmpNumber == $empNumber) {
             return;
         }
+        
+        if ($user->isAdmin()) {
+            return;
+        }        
         
         $subordinateIdList  = $this->getEmployeeService()->getSubordinateIdListBySupervisorId($logedInEmpNumber);
         

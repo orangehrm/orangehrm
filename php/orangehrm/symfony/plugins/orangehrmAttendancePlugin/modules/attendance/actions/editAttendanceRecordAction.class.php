@@ -7,18 +7,40 @@
 
 class editAttendanceRecordAction extends sfAction {
 
+    private $employeeService;
+    
+    public function getEmployeeService() {
+
+        if (is_null($this->employeeService)) {
+            $this->employeeService = new EmployeeService();
+        }
+
+        return $this->employeeService;
+    }
+    
+    public function setEmployeeService($employeeService) {
+
+        if ($employeeService instanceof EmployeeService) {
+            $this->employeeService = $employeeService;
+        }
+
+    }
+    
     public function execute($request) {
 
+        $userObj = sfContext::getInstance()->getUser()->getAttribute('user');
+        
         $this->editPunchIn = array();
         $this->editPunchOut = array();
         $this->employeeId = $request->getParameter('employeeId');
         $this->messageData = array($request->getParameter('message[0]'), $request->getParameter('message[1]'));
+        
+        $this->_checkAuthentication($this->employeeId, $userObj);
 
         $this->date = $request->getParameter('date');
 
         $this->actionRecorder = $request->getParameter('actionRecorder');
         $this->errorRows = $request->getParameter('errorRows');
-        $userObj = sfContext::getInstance()->getUser()->getAttribute('user');
         $userId = $userObj->getUserId();
         $userEmployeeNumber = $userObj->getEmployeeNumber();
         $this->records = $this->getAttendanceService()->getAttendanceRecord($this->employeeId, $this->date);
@@ -100,6 +122,30 @@ class editAttendanceRecordAction extends sfAction {
     public function setTimesheetDao(AttendanceService $attendanceService) {
 
         $this->attendanceService = $attendanceService;
+    }
+    
+    protected function _checkAuthentication($empNumber, $user) {
+        
+        $logedInEmpNumber   = $user->getEmployeeNumber();
+        
+        if ($logedInEmpNumber == $empNumber) {
+            return;
+        }
+        
+        if ($user->isAdmin()) {
+            return;
+        }        
+        
+        $subordinateIdList  = $this->getEmployeeService()->getSubordinateIdListBySupervisorId($logedInEmpNumber);
+        
+        if (empty($subordinateIdList)) {
+            $this->redirect('auth/login');
+        }
+        
+        if (!in_array($empNumber, $subordinateIdList)) {
+            $this->redirect('auth/login');
+        }
+                
     }
 
 }
