@@ -338,55 +338,20 @@ class PerformanceReviewService extends BaseService {
      */
     public function getRevieweeListAsJson($reviewerId, $addSelf = false) {
 
-        try {
+        $jsonString = array();
+        $resultList = $this->performanceReviewDao->searchPerformanceReview(array('reviewerId' => $reviewerId));
 
-            $resultList = $this->performanceReviewDao->searchPerformanceReview(array('reviewerId' => $reviewerId));
-
-            $empList = array();
-            $empIds = array();
-
-            /* Making sure employee list is unique: Begins */
-            $i = 0;
-            $escapeCharSet = array(38, 39, 34, 60, 61,62, 63, 64, 58, 59, 94, 96);
-            foreach ($resultList as $result) {
-            	
-            	$empId =  $result->getEmployee()->getEmpNumber();
-            	
-            	if (!in_array($empId, $empIds)) {
- 	            	$empList[$i][0] = $result->getEmployee()->getFirstName() . " " . $result->getEmployee()->getLastName();
-	                $empList[$i][1] = $empId;
-	                $empIds[] = $empId;
- 	               	$i++;
-            	}
-            	
-            }
-            /* Making sure employee list is unique: Ends */
-
-            $jsonList = array();
-
-            foreach ($empList as $emp) {
-               foreach($escapeCharSet as $char) {
-                  $emp[0] = str_replace(chr($char), (chr(92) . chr($char)), $emp[0]);
-               }
-                $jsonList[$emp[1]] = array('name' => $emp[0], 'id' => $emp[1]);
-            }
-
-            if ($addSelf) {
-               $name = $resultList[0]->getReviewer()->getFirstName() . " " . $resultList[0]->getReviewer()->getLastName();
-                  foreach($escapeCharSet as $char) {
-                      $name = str_replace(chr($char), (chr(92) . chr($char)), $name);
-                  }
-                  $id = $resultList[0]->getReviewer()->getEmpNumber();
-                  $jsonList[$id] = array('name' => $name, 'id' => $resultList[0]->getReviewer()->getEmpNumber());
-            }
-
-            $jsonString = json_encode($jsonList);
-
-            return $jsonString;
-
-        } catch (Exception $e) {
-            throw new PerformanceServiceException($e->getMessage());
+        foreach ($resultList as $reviewee) {
+            $jsonString[] = array('name' => $reviewee->getEmployee()->getFullName(), 'id' => $reviewee->getEmployee()->getEmpNumber());
         }
 
-    }
+        if ($addSelf) {
+            $jsonString[] = array('name' => $resultList[0]->getReviewer()->getFullName(), 'id' => $resultList[0]->getReviewer()->getEmpNumber());
+        }
+
+        return json_encode($jsonString);
+
+    }    
+    
+    
 }
