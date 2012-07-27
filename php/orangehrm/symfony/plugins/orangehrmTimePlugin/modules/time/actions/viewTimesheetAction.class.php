@@ -22,15 +22,35 @@ class viewTimesheetAction extends sfAction {
     private $timesheetService;
     private $timesheetPeriodService;
     private $timesheetActionLog;
+    private $employeeService;
+    
+    public function getEmployeeService() {
 
+        if (is_null($this->employeeService)) {
+            $this->employeeService = new EmployeeService();
+        }
+
+        return $this->employeeService;
+    }
+    
+    public function setEmployeeService($employeeService) {
+
+        if ($employeeService instanceof EmployeeService) {
+            $this->employeeService = $employeeService;
+        }
+
+    }
+    
     public function execute($request) {
 
+        $employeeId = $request->getParameter('employeeId');
+
+        $this->_checkAuthentication($employeeId);
 
         /* Decorated user object in the user session, which can be used only to get user's employee number, user id, employee list and accessible Time menus */
         $this->userObj = $this->getContext()->getUser()->getAttribute('user');
         $userId = $this->userObj->getUserId();
         $userEmployeeNumber = $this->userObj->getEmployeeNumber();
-        $employeeId = $request->getParameter('employeeId');
         $this->employeeName = $this->getEmployeeName($employeeId);
 
         $this->createTimesheetForm = new CreateTimesheetForm();
@@ -201,6 +221,27 @@ class viewTimesheetAction extends sfAction {
         }
 
         return $this->timesheetPeriodService;
+    }
+    
+    protected function _checkAuthentication($empNumber) {
+        
+        $user = $this->getUser()->getAttribute('user');
+        
+        if ($user->isAdmin()) {
+            return;
+        }        
+        
+        $logedInEmpNumber   = $user->getEmployeeNumber();
+        $subordinateIdList  = $this->getEmployeeService()->getSubordinateIdListBySupervisorId($logedInEmpNumber);
+        
+        if (empty($subordinateIdList)) {
+            $this->redirect('auth/login');
+        }
+        
+        if (!in_array($empNumber, $subordinateIdList)) {
+            $this->redirect('auth/login');
+        }
+                
     }
 
 }
