@@ -41,10 +41,7 @@ class viewEmployeeListAction extends basePimAction {
         if (!empty($empNumber) && $this->getUser()->hasAttribute('pageNumber')) {
             $pageNumber = $this->getUser()->getAttribute('pageNumber');
         }
-
-        $sortField = $request->getParameter('sortField');
-        $sortOrder = $request->getParameter('sortOrder');
-
+                
         $noOfRecords = sfConfig::get('app_items_per_page');
 
         $offset = ($pageNumber >= 1) ? (($pageNumber - 1) * $noOfRecords) : ($request->getParameter('pageNo', 1) - 1) * $noOfRecords;
@@ -52,6 +49,7 @@ class viewEmployeeListAction extends basePimAction {
          // Reset filters if requested to
         if ($request->hasParameter('reset')) {
             $this->setFilters(array());
+            $this->setSortParameter(array("field"=> NULL, "order"=> NULL));
             $this->setPage(1);
         }
 
@@ -61,15 +59,32 @@ class viewEmployeeListAction extends basePimAction {
             $this->form->bind($request->getParameter($this->form->getName()));
 
             if ($this->form->isValid()) {
+                
+                if($this->form->getValue('isSubmitted')=='yes'){
+                    $this->setSortParameter(array("field"=> NULL, "order"=> NULL));
+                }         
+                
                 $this->setFilters($this->form->getValues());
+                
             } else {
                 $this->setFilters(array());
             }
 
             $this->setPage(1);
         }
-
+        
+        if ($request->isMethod('get')) {
+            $sortParam = array("field"=>$request->getParameter('sortField'), 
+                               "order"=>$request->getParameter('sortOrder'));
+            $this->setSortParameter($sortParam);
+            $this->setPage(1);
+        }
+        
+        $sort = $this->getSortParameter();
+        $sortField = $sort["field"];
+        $sortOrder = $sort["order"];
         $filters = $this->getFilters();
+        
         if( isset(  $filters['employee_name'])){
             $filters['employee_name'] = str_replace(' (' . __('Past Employee') . ')', '', $filters['employee_name']['empName']);        
         }
@@ -162,7 +177,23 @@ class viewEmployeeListAction extends basePimAction {
     protected function getPage() {
         return $this->getUser()->getAttribute('emplist.page', 1, 'pim_module');
     }
+    
+    /**
+     * Sets the current sort field and order in the user session.
+     * @param type Array $sort 
+     */
+    protected function setSortParameter($sort) {
+        $this->getUser()->setAttribute('emplist.sort', $sort, 'pim_module');
+    }
 
+    /**
+     * Get the current sort feild&order from the user session.
+     * @return array ('field' , 'order')
+     */
+    protected function getSortParameter() {
+        return $this->getUser()->getAttribute('emplist.sort', null, 'pim_module');
+    }
+    
     /**
      *
      * @param array $filters

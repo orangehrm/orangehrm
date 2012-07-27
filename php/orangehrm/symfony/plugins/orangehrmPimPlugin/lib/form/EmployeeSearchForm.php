@@ -61,14 +61,14 @@ class EmployeeSearchForm extends BaseForm {
 
         $this->setWidget('supervisor_name', new sfWidgetFormInputText());
         $this->setValidator('supervisor_name', new sfValidatorString(array('required' => false)));
-
+        
         /* Setting job titles */
         $this->_setJobTitleWidget();
 
         /* Setting sub divisions */
         $this->_setSubunitWidget();
-
-
+        $this->setWidget('isSubmitted', new sfWidgetFormInputHidden(array(), array()));
+        $this->setValidator('isSubmitted', new sfValidatorString(array('required' => false)));
         $this->setValidator('employee_name', new ohrmValidatorEmployeeNameAutoFill());
         $this->setValidator('id', new sfValidatorString(array('required' => false)));
 

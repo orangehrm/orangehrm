@@ -141,11 +141,13 @@ use_javascript('../../../scripts/jquery/jquery.autocomplete.js');
     );
 
         $('#searchBtn').click(function() {
+            $("#empsearch_isSubmitted").val('yes');
             $('#search_form input.inputFormatHint').val('');
             $('#search_form').submit();
         });
 
         $('#resetBtn').click(function(){
+            $("#empsearch_isSubmitted").val('yes');
             $("#empsearch_employee_name_empName").val('');
             $("#empsearch_supervisor_name").val('');
             $("#empsearch_id").val('');
