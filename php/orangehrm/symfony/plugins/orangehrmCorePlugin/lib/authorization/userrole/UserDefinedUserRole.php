@@ -109,7 +109,7 @@ class UserDefinedUserRole extends AbstractUserRole {
         $permitted = true;
         
         foreach ($requiredPermissions as $permissionType => $permissions) {
-            if ($permissionType == self::PERMISSION_TYPE_DATA_GROUP) {
+            if ($permissionType == BasicUserRoleManager::PERMISSION_TYPE_DATA_GROUP) {
                 foreach ($permissions as $dataGroupName => $requestedResourcePermission) {
                     $dataGroupPermissions = $this->userRoleManager->getDataGroupPermissions($dataGroupName, array(), array($this->roleName));
 
