@@ -147,6 +147,15 @@ class EmployeeDaoTest extends PHPUnit_Framework_TestCase {
         $this->assertTrue($memberDetail[0] instanceof EmployeeMembership);
         $this->assertEquals('2011-05-20', $memberDetail[0]->getSubscriptionCommenceDate());
         
+        $this->assertEquals($empNumber, $memberDetail[0]->getEmpNumber());
+        $this->assertEquals($membership, $memberDetail[0]->getMembershipId());
+        
+        $empNumber = 1;
+        $membership = 4;
+
+        $memberDetail = $this->employeeDao->getEmployeeMemberships($empNumber, $membership);        
+        $this->assertEquals(0, $memberDetail->count());
+   
     }
     
     public function testGetEmployeeMemberships2() {
@@ -575,6 +584,9 @@ class EmployeeDaoTest extends PHPUnit_Framework_TestCase {
 
         $licenseCode = $this->employeeDao->getEmployeeLicences($empNumber, $licenseCode);
         $this->assertTrue($licenseCode instanceof EmployeeLicense);
+        //testing with not included 
+        $licenseCodeNull = $this->employeeDao->getEmployeeLicences(2, 1);
+        $this->assertTrue(!($licenseCodeNull instanceof EmployeeLicense));
     }
 
     /**
@@ -695,7 +707,7 @@ class EmployeeDaoTest extends PHPUnit_Framework_TestCase {
         $this->assertEquals(1, $result);
     }
 
-    public function testSaveEmployeePicture() {
+    public function xtestSaveEmployeePicture() {
 
         $mockPicture = $this->getMock('EmpPicture', array('save'));
         $mockPicture->expects($this->once())
@@ -709,7 +721,7 @@ class EmployeeDaoTest extends PHPUnit_Framework_TestCase {
     /**
      * @expectedException DaoException
      */
-    public function testSaveEmployeePictureException() {
+    public function xtestSaveEmployeePictureException() {
 
         $mockPicture = $this->getMock('EmpPicture', array('save'));
         $mockPicture->expects($this->once())

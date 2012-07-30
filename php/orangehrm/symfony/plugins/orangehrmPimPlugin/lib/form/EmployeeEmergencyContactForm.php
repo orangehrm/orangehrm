@@ -45,33 +45,31 @@ class EmployeeEmergencyContactForm extends BaseForm {
     }
     
     public function configure() {
+        $this->emergencyContactPermissions = $this->getOption('emergencyContactPermissions');
 
         $empNumber = $this->getOption('empNumber');
         $employee = $this->getEmployeeService()->getEmployee($empNumber);
         $this->fullName = $employee->getFullName();
         
         // Note: Widget names were kept from old non-symfony version
-        $this->setWidgets(array(
-            'empNumber' => new sfWidgetFormInputHidden(array(), 
-                    array('value' => $empNumber)),
-            'seqNo' => new sfWidgetFormInputHidden(), // seq no
-            'name' => new sfWidgetFormInputText(),
-            'relationship' => new sfWidgetFormInputText(),
-            'homePhone' => new sfWidgetFormInputText(),
-            'mobilePhone' => new sfWidgetFormInputText(),
-            'workPhone' => new sfWidgetFormInputText(),
+        $widgets = array('empNumber' => new sfWidgetFormInputHidden(array(), array('value' => $empNumber)));
+        $validators = array('empNumber' => new sfValidatorString(array('required' => true)));
+        
+        if ($this->emergencyContactPermissions->canRead()) {
+            $emergencyContactWidgets = $this->getEmergencyContactWidgets();
+            $emergencyContactValidators = $this->getEmergencyContactValidators();
 
-        ));
+            if (!($this->emergencyContactPermissions->canUpdate() || $this->emergencyContactPermissions->canCreate())) {
+                foreach ($emergencyContactWidgets as $widgetName => $widget) {
+                    $widget->setAttribute('disabled', 'disabled');
+                }
+            }
+            $widgets = array_merge($widgets, $emergencyContactWidgets);
+            $validators = array_merge($validators, $emergencyContactValidators);
+        }
 
-        $this->setValidators(array(
-            'empNumber' => new sfValidatorNumber(array('required' => true, 'min'=> 0)),
-            'seqNo' => new sfValidatorNumber(array('required' => false, 'min' => 1)),
-            'name' => new sfValidatorString(array('required' => true)),
-            'relationship' => new sfValidatorString(array('required' => true)),
-            'homePhone' => new sfValidatorString(array('required' => false)),
-            'mobilePhone' => new sfValidatorString(array('required' => false)),
-            'workPhone' => new sfValidatorString(array('required' => false))
-        ));
+        $this->setWidgets($widgets);
+        $this->setValidators($validators);
 
 
         // set up your post validator method
@@ -99,6 +97,41 @@ class EmployeeEmergencyContactForm extends BaseForm {
         }
         
         return $values;
+    }
+    
+    
+    /*
+     * Tis fuction will return the widgets of the form
+     */
+    public function getEmergencyContactWidgets(){
+        $widgets = array();
+        
+        //creating widgets
+        $widgets['seqNo'] = new sfWidgetFormInputHidden();
+        $widgets['name'] = new sfWidgetFormInputText();
+        $widgets['relationship'] = new sfWidgetFormInputText();
+        $widgets['homePhone'] = new sfWidgetFormInputText();
+        $widgets['mobilePhone'] = new sfWidgetFormInputText();
+        $widgets['workPhone'] = new sfWidgetFormInputText();
+        
+        return $widgets;
+    }
+    
+    
+    /*
+     * Tis fuction will return the form validators
+     */
+    public function getEmergencyContactValidators(){
+        $validators = array(
+            'seqNo' => new sfValidatorNumber(array('required' => false, 'min' => 1)),
+            'name' => new sfValidatorString(array('required' => true)),
+            'relationship' => new sfValidatorString(array('required' => true)),
+            'homePhone' => new sfValidatorString(array('required' => false)),
+            'mobilePhone' => new sfValidatorString(array('required' => false)),
+            'workPhone' => new sfValidatorString(array('required' => false))
+        );
+        
+        return $validators;
     }
 
 

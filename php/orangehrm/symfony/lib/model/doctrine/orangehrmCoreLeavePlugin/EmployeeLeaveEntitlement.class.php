@@ -97,12 +97,12 @@ class EmployeeLeaveEntitlement extends PluginEmployeeLeaveEntitlement {
      * @todo Move this logic to service classes
      */
     public function isEmployeeDetailsAccessible() {
-        
+
         $empNumber = $this->getEmployee()->getEmpNumber();
         
         $manager = UserRoleManagerFactory::getUserRoleManager();
         
-        if ($manager->isEntityAccessible('Employee', $empNumber)) {
+        if ($manager->isEntityAccessible('Employee', $empNumber)) {            
             return true;
         } else {
             return false;
@@ -115,6 +115,7 @@ class EmployeeLeaveEntitlement extends PluginEmployeeLeaveEntitlement {
         $manager = UserRoleManagerFactory::getUserRoleManager();
 
         // Supervisor cannot edit leave entitlement even when employee is accessible (subordinate)
+        // Note: This can now be handled through requiredPermissions array
         if ($manager->isEntityAccessible('Employee', $empNumber, null, array('Supervisor'))) {
             return true;
         } else {

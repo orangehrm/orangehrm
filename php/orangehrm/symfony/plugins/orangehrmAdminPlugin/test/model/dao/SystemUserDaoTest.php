@@ -104,8 +104,8 @@ class SystemUserDaoTest extends PHPUnit_Framework_TestCase {
         public function testGetAssignableUserRoles(){
             $result = $this->systemUserDao->getAssignableUserRoles();
             $this->assertEquals($result[0]->getName(),'Admin');
-            $this->assertEquals($result[1]->getName(),'ESS');
-            $this->assertEquals(2, count(  $result));
+            $this->assertEquals($result[1]->getName(),'Admin2');
+            $this->assertEquals(7, count(  $result));
         }
         
         public function testGetAdminUserCount() {
@@ -135,5 +135,20 @@ class SystemUserDaoTest extends PHPUnit_Framework_TestCase {
         $this->assertEquals(array(1, 2, 3), $result);
     }
     
+    /**
+     *
+     * @covers SystemUserDao::getNonPredefinedUserRoles
+     */
+    public function testGetNonPredefinedUserRoles() {
+        $userRoleNames = array('Admin2', 'TestAdmin', 'UserRole1', 'UserRole2', 'UserRole3');
+
+        $useRoles = $this->systemUserDao->getNonPredefinedUserRoles();
+        $this->assertEquals(count($userRoleNames), count($useRoles));
+        for ($i = 0; $i < count($userRoleNames); $i++) {
+            $userRole = $useRoles[$i];
+            $this->assertTrue($userRole instanceof UserRole);
+            $this->assertEquals($userRoleNames[$i], $userRole->getName());
+        }
+    }    
 }
 ?>

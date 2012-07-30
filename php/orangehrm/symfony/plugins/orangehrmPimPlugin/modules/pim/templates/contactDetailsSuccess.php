@@ -52,12 +52,13 @@
                         <div id="messagebar" class="<?php echo isset($messageType) ? "messageBalloon_{$messageType}" : ''; ?>" style="margin-left: 16px;width: 530px;">
                             <span style="font-weight: bold;"><?php echo isset($message) ? $message : ''; ?></span>
                         </div>
+                        <?php if ($contactDetailsPermission->canRead()) { ?>
                         <div class="outerbox">
                             <div class="mainHeading"><h2><?php echo __('Contact Details'); ?></h2></div>
                             <div>
                                 <form id="frmEmpContactDetails" method="post" action="<?php echo url_for('pim/contactDetails'); ?>">
                                     <?php echo $form['_csrf_token']; ?>
-                                    <?php echo $form['empNumber']->render();?>
+                                    <?php echo $form['empNumber']->render(); ?>
                                     <br />
                                     <div>
                                         <?php echo $form['street1']->renderLabel(__("Address Street 1")); ?>
@@ -121,14 +122,21 @@
                                         <?php echo $form['emp_oth_email']->render(array("class" => "txtBox", "maxlength" => 50)); ?>
                                         <br class="clear" />
                                     </div>
+                                    
                                     <div class="formbuttons">
+                                        <?php if ($contactDetailsPermission->canUpdate()){?>
                                         <input type="button" class="savebutton" id="btnSave" value="<?php echo __("Edit"); ?>" tabindex="2" />
+                                        <?php }?>
                                     </div>
                                 </form>
                             </div>
                         </div>
-                        <?php echo include_component('pim', 'customFields', array('empNumber'=>$empNumber, 'screen' => CustomField::SCREEN_CONTACT_DETAILS));?>
-                        <?php echo include_component('pim', 'attachments', array('empNumber'=>$empNumber, 'screen' => EmployeeAttachment::SCREEN_CONTACT_DETAILS));?>
+                        <?php } ?>
+                        
+                        <?php 
+                            echo include_component('pim', 'customFields', array('empNumber'=>$empNumber, 'screen' => CustomField::SCREEN_CONTACT_DETAILS));
+                            echo include_component('pim', 'attachments', array('empNumber'=>$empNumber, 'screen' => EmployeeAttachment::SCREEN_CONTACT_DETAILS));
+                        ?>
                     </td>
                     <td valign="top" align="center">
                     </td>

@@ -124,7 +124,7 @@ class InvalidUserRoleManager {
 
 class UnitTestUserRoleManager extends AbstractUserRoleManager {
     public function getAccessibleEntities($entityType, $operation = null, $returnType = null,
-            $rolesToExclude = array(), $rolesToInclude = array()) {
+            $rolesToExclude = array(), $rolesToInclude = array(), $requestedPermissions = array()) {
         
     }    
     
@@ -151,15 +151,27 @@ class UnitTestUserRoleManager extends AbstractUserRoleManager {
         
     }
 
-    public function areEntitiesAccessible($entityType, $entityIds, $operation = null, $rolesToExclude = array(), $rolesToInclude = array()) {
+    public function areEntitiesAccessible($entityType, $entityIds, $operation = null, 
+            $rolesToExclude = array(), $rolesToInclude = array(), $requiredPermissions = array()) {
         
     }
 
-    public function isEntityAccessible($entityType, $entityId, $operation = null, $rolesToExclude = array(), $rolesToInclude = array()) {
+    public function isEntityAccessible($entityType, $entityId, $operation = null, 
+            $rolesToExclude = array(), $rolesToInclude = array(), $requiredPermissions = array()) {
         
     }
 
-    public function getAccessibleEntityIds($entityType, $operation = null, $returnType = null, $rolesToExclude = array(), $rolesToInclude = array()) {
+    public function getAccessibleEntityIds($entityType, $operation = null, 
+            $returnType = null, $rolesToExclude = array(), 
+            $rolesToInclude = array(), $requiredPermissions = array()) {
+        
+    }
+
+    protected function getAllowedActions($workFlowId, $state) {
+        
+    }
+
+    protected function isActionAllowed($workFlowId, $state, $action) {
         
     }
 }

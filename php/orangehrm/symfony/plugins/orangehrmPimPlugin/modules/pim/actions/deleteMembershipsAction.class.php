@@ -37,27 +37,29 @@ class deleteMembershipsAction extends basePimAction {
         $this->form = new EmployeeMembershipsDeleteForm(array(), array('empNumber' => $empNumber), true);
 
         $this->form->bind($request->getParameter($this->form->getName()));
+        $membershipPermissions = $this->getDataGroupPermissions('membership', $empNumber);
+        
+        if ($membershipPermissions->canDelete()) {
+            if ($this->form->isValid()) {
 
-        if ($this->form->isValid()) {
+                if (!$empNumber) {
+                    throw new PIMServiceException("No Employee ID given");
+                }
 
-            if (!$empNumber) {
-                throw new PIMServiceException("No Employee ID given");
-            }
-            
-            $membershipDetails  = $this->_getSelectedMembershipDetails($request->getParameter('chkmemdel', array()));
-            $empNumber          = $membershipDetails[0];
-            $membershipIds      = $membershipDetails[1];  
-            
-            if (!empty($empNumber) && !empty($membershipIds)) {
+                $membershipDetails  = $this->_getSelectedMembershipDetails($request->getParameter('chkmemdel', array()));
+                $empNumber          = $membershipDetails[0];
+                $membershipIds      = $membershipDetails[1];  
 
-                $service = new EmployeeService();
-                $service->deleteEmployeeMemberships($empNumber, $membershipIds);
-                $this->getUser()->setFlash('templateMessage', array('success', __(TopLevelMessages::DELETE_SUCCESS)));
+                if (!empty($empNumber) && !empty($membershipIds)) {
+
+                    $service = new EmployeeService();
+                    $service->deleteEmployeeMemberships($empNumber, $membershipIds);
+                    $this->getUser()->setFlash('templateMessage', array('success', __(TopLevelMessages::DELETE_SUCCESS)));
                 
-            }           
+                }
             
+            }
         }
-
         $this->redirect('pim/viewMemberships?empNumber=' . $empNumber);
         
     }

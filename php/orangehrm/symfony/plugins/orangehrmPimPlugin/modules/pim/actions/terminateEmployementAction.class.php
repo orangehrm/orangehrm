@@ -29,7 +29,18 @@ class terminateEmployementAction extends basePimAction {
         $empNumber = $request->getParameter('empNumber');
         $terminatedId = $request->getParameter('terminatedId');
         $employee = $this->getEmployeeService()->getEmployee($empNumber);
-        $paramForTerminationForm = array('empNumber' => $empNumber, 'employee' => $employee);
+        
+        $allowedActions = $this->getContext()->getUserRoleManager()->getAllowedActions(WorkflowStateMachine::FLOW_EMPLOYEE, $employee->getState());
+        
+        $this->allowActivate = in_array(WorkflowStateMachine::EMPLOYEE_ACTION_REACTIVE, $allowedActions);
+        $this->allowTerminate = in_array(WorkflowStateMachine::EMPLOYEE_ACTION_TERMINATE, $allowedActions);
+
+        $paramForTerminationForm = array('empNumber' => $empNumber, 
+                                                                 'employee' => $employee, 
+                                                                 'allowTerminate' => $this->allowTerminate,
+                                                                 'allowActivate' => $this->allowActivate);
+        
+
         $this->form = new EmployeeTerminateForm(array(), $paramForTerminationForm, true);
 
         $loggedInEmpNum = $this->getUser()->getEmployeeNumber();

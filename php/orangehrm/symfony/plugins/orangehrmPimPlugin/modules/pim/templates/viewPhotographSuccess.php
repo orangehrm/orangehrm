@@ -46,6 +46,7 @@
                             <div>
                                 <div class="outerbox">
                                     <div class="mainHeading"><h2 id="immigrationHeading"><?php echo __('Photograph'); ?></h2></div>
+                                    <?php if (($photographPermissions->canUpdate()) || ($photographPermissions->canDelete())) { ?>
                                     <form name="frmPhoto" id="frmPhoto" method="post" action="<?php echo url_for('pim/viewPhotograph'); ?>" enctype="multipart/form-data">
                                         <?php echo $form['_csrf_token']; ?>
                                         <?php echo $form['emp_number']->render();?>
@@ -60,10 +61,15 @@
                                             
                                         </div>
                                         <div class="formbuttons">
-                                            <input type="button" class="savebutton" id="btnSave" value="<?php echo __("Upload"); ?>" />
-                                            <input type="button" class="savebutton" id="btnDelete" value="<?php echo __("Delete"); ?>" />
+                                            <?php if ($photographPermissions->canUpdate()) { ?>
+                                                <input type="button" class="savebutton" id="btnSave" value="<?php echo __("Upload"); ?>" />
+                                            <?php }
+                                            if ($photographPermissions->canDelete() && ($showDeleteButton == 1)) { ?>
+                                                <input type="button" class="savebutton" id="btnDelete" value="<?php echo __("Delete"); ?>" />
+                                            <?php } ?>
                                         </div>
                                     </form>
+                                    <?php }?>
 
                                 </div>
                             </div>

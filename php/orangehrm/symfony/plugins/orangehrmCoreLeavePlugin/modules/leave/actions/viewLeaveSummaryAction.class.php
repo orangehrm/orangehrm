@@ -90,8 +90,12 @@ class viewLeaveSummaryAction extends sfAction implements ohrmExportableAction {
 
         $this->form->setPager($request);
 
-        $permissions = $this->getContext()->get('screen_permissions');        
-        LeaveSummaryConfigurationFactory::setPermissions($permissions);
+        $screenPermissions = $this->getContext()->get('screen_permissions');        
+        $dataGroupPermissions = $this->getContext()->getUserRoleManager()->getDataGroupPermissions('leave_summary');
+        
+        $this->permissions = $dataGroupPermissions->andWith($screenPermissions);
+        
+        LeaveSummaryConfigurationFactory::setPermissions($this->permissions);
 
         $leaveSummaryService = new LeaveSummaryService();
         $leaveSummaryDao = new LeaveSummaryDao();

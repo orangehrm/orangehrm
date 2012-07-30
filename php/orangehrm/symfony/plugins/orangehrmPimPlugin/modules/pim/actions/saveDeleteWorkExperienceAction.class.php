@@ -1,4 +1,5 @@
 <?php
+
 /**
  * OrangeHRM is a comprehensive Human Resource Management (HRM) System that captures
  * all the essential functionalities required for any enterprise.
@@ -17,7 +18,7 @@
  * Boston, MA  02110-1301, USA
  */
 class saveDeleteWorkExperienceAction extends basePimAction {
-    
+
     /**
      * @param sfForm $form
      * @return
@@ -27,47 +28,53 @@ class saveDeleteWorkExperienceAction extends basePimAction {
             $this->workExperienceForm = $form;
         }
     }
-    
+
     public function execute($request) {
 
         $experience = $request->getParameter('experience');
-        $empNumber = (isset($experience['emp_number']))?$experience['emp_number']:$request->getParameter('empNumber');
+        $empNumber = (isset($experience['emp_number'])) ? $experience['emp_number'] : $request->getParameter('empNumber');
 
         if (!$this->IsActionAccessible($empNumber)) {
             $this->forward(sfConfig::get('sf_secure_module'), sfConfig::get('sf_secure_action'));
         }
-        
-        $this->setWorkExperienceForm(new WorkExperienceForm(array(), array('empNumber' => $empNumber), true));
+
+        $this->workExperiencePermissions = $this->getDataGroupPermissions('qualification_work', $empNumber);
+
+        $this->setWorkExperienceForm(new WorkExperienceForm(array(), array('empNumber' => $empNumber, 'workExperiencePermissions' => $this->workExperiencePermissions), true));
 
         //this is to save work experience
         if ($request->isMethod('post')) {
-            if ( $request->getParameter('option') == "save") {
+            if ($request->getParameter('option') == "save") {
+                if ($this->workExperiencePermissions->canCreate() || $this->workExperiencePermissions->canUpdate()) {
 
-                $this->workExperienceForm->bind($request->getParameter($this->workExperienceForm->getName()));
+                    $this->workExperienceForm->bind($request->getParameter($this->workExperienceForm->getName()));
 
-                if ($this->workExperienceForm->isValid()) {
-                    $workExperience = $this->getWorkExperience($this->workExperienceForm);
-                    $this->setOperationName(($workExperience->getSeqno() == '') ? 'ADD WORK EXPERIENCE' : 'CHANGE WORK EXPERIENCE');
-                    $this->getEmployeeService()->saveEmployeeWorkExperience($workExperience);
-                    $this->getUser()->setFlash('templateMessage', array('success', __(TopLevelMessages::SAVE_SUCCESS)));
-                } else {
-                    $this->getUser()->setFlash('templateMessage', array('warning', __('Form Validation Failed.')));
+                    if ($this->workExperienceForm->isValid()) {
+                        $workExperience = $this->getWorkExperience($this->workExperienceForm);
+                        $this->setOperationName(($workExperience->getSeqno() == '') ? 'ADD WORK EXPERIENCE' : 'CHANGE WORK EXPERIENCE');
+                        $this->getEmployeeService()->saveEmployeeWorkExperience($workExperience);
+                        $this->getUser()->setFlash('templateMessage', array('success', __(TopLevelMessages::SAVE_SUCCESS)));
+                    } else {
+                        $this->getUser()->setFlash('templateMessage', array('warning', __('Form Validation Failed.')));
+                    }
                 }
             }
 
             //this is to delete work experience
             if ($request->getParameter('option') == "delete") {
-                $deleteIds = $request->getParameter('delWorkExp');
+                if ($this->workExperiencePermissions->canDelete()) {
+                    $deleteIds = $request->getParameter('delWorkExp');
 
-                if(count($deleteIds) > 0) {
-                    $this->setOperationName('DELETE WORK EXPERIENCE');
-                    $this->getEmployeeService()->deleteEmployeeWorkExperienceRecords($empNumber, $request->getParameter('delWorkExp'));
-                    $this->getUser()->setFlash('templateMessage', array('success', __(TopLevelMessages::DELETE_SUCCESS)));
+                    if (count($deleteIds) > 0) {
+                        $this->setOperationName('DELETE WORK EXPERIENCE');
+                        $this->getEmployeeService()->deleteEmployeeWorkExperienceRecords($empNumber, $request->getParameter('delWorkExp'));
+                        $this->getUser()->setFlash('templateMessage', array('success', __(TopLevelMessages::DELETE_SUCCESS)));
+                    }
                 }
             }
         }
         $this->getUser()->setFlash('qualificationSection', 'workexperience');
-        $this->redirect('pim/viewQualifications?empNumber='. $empNumber . '#workexperience');
+        $this->redirect('pim/viewQualifications?empNumber=' . $empNumber . '#workexperience');
     }
 
     private function getWorkExperience(sfForm $form) {
@@ -76,7 +83,7 @@ class saveDeleteWorkExperienceAction extends basePimAction {
 
         $workExperience = $this->getEmployeeService()->getEmployeeWorkExperienceRecords($post['emp_number'], $post['seqno']);
 
-        if(!$workExperience instanceof EmpWorkExperience) {
+        if (!$workExperience instanceof EmpWorkExperience) {
             $workExperience = new EmpWorkExperience();
         }
 
@@ -90,5 +97,7 @@ class saveDeleteWorkExperienceAction extends basePimAction {
 
         return $workExperience;
     }
+
 }
+
 ?>

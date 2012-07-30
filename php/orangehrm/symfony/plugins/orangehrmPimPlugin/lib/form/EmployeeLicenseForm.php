@@ -44,44 +44,65 @@ class EmployeeLicenseForm extends sfForm {
     }
 
     public function configure() {
+        $this->licensePermissions = $this->getOption('licensePermissions');
 
         $empNumber = $this->getOption('empNumber');
         $employee = $this->getEmployeeService()->getEmployee($empNumber);
         $this->fullName = $employee->getFullName();
 
         $this->empLicenseList = $this->getEmployeeService()->getEmployeeLicences($empNumber);
-
-        //initializing the components
-        $this->widgets = array(
-            'emp_number' => new sfWidgetFormInputHidden(),
-            'code' => new sfWidgetFormSelect(array('choices' => $this->_getLicenseList())),
-            'license_no' => new sfWidgetFormInputText(),
-            'date' => new ohrmWidgetDatePickerNew(array(), array('id' => 'license_date')),
-            'renewal_date' => new ohrmWidgetDatePickerNew(array(), array('id' => 'license_renewal_date'))
-        );
-
-        $this->widgets['emp_number']->setDefault($empNumber);
-        $this->setWidgets($this->widgets);
-
-        $inputDatePattern = sfContext::getInstance()->getUser()->getDateFormat();
+        $widgets = array('emp_number' => new sfWidgetFormInputHidden(array(), array('value' => $empNumber)));
+        $validators = array('emp_number' => new sfValidatorString(array('required' => true)));
         
-        $this->setValidator('emp_number', new sfValidatorString(array('required' => false)));
-        $this->setValidator('code', new sfValidatorString(array('required' => true,
-            'max_length' => 13)));
-        $this->setValidator('license_no', new sfValidatorString(array('required' => false,
-            'max_length' => 50)));
+        if ($this->licensePermissions->canRead()) {
 
-        $this->setValidator('date', new ohrmDateValidator(
-                array('date_format'=>$inputDatePattern, 'required' => false),
-                array('invalid'=>'Date format should be'. $inputDatePattern)));
+            $licenseWidgets = $this->getLicenseWidgets();
+            $licenseValidators = $this->getLicenseValidators();
 
-        $this->setValidator('renewal_date', new ohrmDateValidator(
-                array('date_format'=>$inputDatePattern, 'required' => false),
-                array('invalid'=>'Date format should be'. $inputDatePattern)));
-
+            if (!($this->licensePermissions->canUpdate() || $this->licensePermissions->canCreate()) ) {
+                foreach ($licenseWidgets as $widgetName => $widget) {
+                    $widget->setAttribute('disabled', 'disabled');
+                }
+            }
+            $widgets = array_merge($widgets, $licenseWidgets);
+            $validators = array_merge($validators, $licenseValidators);
+        }
+        $this->setWidgets($widgets);
+        $this->setValidators($validators);
+        
         $this->widgetSchema->setNameFormat('license[%s]');
     }
+    
+    /**
+     * Get widgets
+     * @return array of widget objects 
+     */
+    private function getLicenseWidgets() {
+        $widgets = array();
+        
+        $widgets['code'] = new sfWidgetFormSelect(array('choices' => $this->_getLicenseList()));
+        $widgets['license_no'] = new sfWidgetFormInputText();
+        $widgets['date'] = new ohrmWidgetDatePickerNew(array(), array('id' => 'license_date'));
+        $widgets['renewal_date'] = new ohrmWidgetDatePickerNew(array(), array('id' => 'license_renewal_date'));
+        return $widgets;        
+    }
 
+    /**
+     * Get Validators
+     * @return \sfValidatorString 
+     */
+    private function getLicenseValidators() {
+        $inputDatePattern = sfContext::getInstance()->getUser()->getDateFormat();
+        $validators = array(
+            'code' => new sfValidatorString(array('required' => true,'max_length' => 13)),
+            'license_no' => new sfValidatorString(array('required' => false,'max_length' => 50)),
+            'date' => new ohrmDateValidator(array('date_format'=>$inputDatePattern, 'required' => false), array('invalid'=>'Date format should be'. $inputDatePattern)),
+            'renewal_date' => new ohrmDateValidator(array('date_format'=>$inputDatePattern, 'required' => false),array('invalid'=>'Date format should be'. $inputDatePattern))
+        );
+        
+        return $validators;
+    }
+    
     private function _getLicenseList() {
         $licenseService = new LicenseService();
         $licenseList = $licenseService->getLicenseList();

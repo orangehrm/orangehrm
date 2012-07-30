@@ -255,8 +255,18 @@ class LeaveSummaryForm extends sfForm {
         
         $userRoleManager = UserRoleManagerFactory::getUserRoleManager();
         $properties = array("empNumber","firstName", "middleName", "lastName", 'termination_id');
-        $employeeList = $userRoleManager->getAccessibleEntityProperties('Employee', $properties);
-        $employeeIdList = $userRoleManager->getAccessibleEntityIds('Employee');
+        
+        $requiredPermissions = array(
+            BasicUserRoleManager::PERMISSION_TYPE_DATA_GROUP => array(
+                'leave_summary' => 
+                    new ResourcePermission(true, false, false, false)));
+        
+        $employeeList = $userRoleManager->getAccessibleEntityProperties('Employee', 
+                $properties, null, null, array(), array(), $requiredPermissions);
+        
+        $employeeIdList = $userRoleManager->getAccessibleEntityIds('Employee', 
+                null, null, array(), array(), $requredPermissions);
+
         $this->hasAdministrativeFilters = count($employeeList) > 0;
         
         $hasSelf = false;

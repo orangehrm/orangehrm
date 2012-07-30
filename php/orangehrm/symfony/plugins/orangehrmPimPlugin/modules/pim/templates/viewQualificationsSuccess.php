@@ -22,10 +22,17 @@
     var lang_companyMaxLength = "<?php echo __(ValidationMessages::TEXT_LENGTH_EXCEEDS, array('%amount%' => 100));?>";
 
     var datepickerDateFormat = '<?php echo get_datepicker_date_format($sf_user->getDateFormat()); ?>';
+    
+    var canEdit = '<?php echo $workExperiencePermissions->canUpdate();?>';
     //]]>
 </script>
 
 <?php echo stylesheet_tag('../orangehrmPimPlugin/css/viewQualificationsSuccess'); ?>
+<?php 
+$haveWorkExperience = count($workExperienceForm->workExperiences)>0;
+
+?>
+
 <!-- common table structure to be followed -->
 <table cellspacing="0" cellpadding="0" border="0" width="100%">
     <tr>
@@ -72,15 +79,20 @@
                                 ?>
                                 <div id="workExpMessagebar" class="<?php echo $tmpMsgClass; ?>">
                                     <span style="font-weight: bold;"><?php echo $tmpMsg; ?></span>
-                                </div>                                 
+                                </div>                
                                 
+                                <?php if ($workExperiencePermissions->canRead()) { ?>
                                 <div class="sectionDiv" id="sectionWorkExperience">
                                     <div style="float: left; width: 450px;"><h3><?php echo __('Work Experience'); ?></h3></div>
                                     <div id="actionWorkExperience" style="float: left; margin-top: 20px; width: 335px; text-align: right">
+                                        <?php if ($workExperiencePermissions->canCreate() ) { ?>
                                         <input type="button" value="<?php echo __("Add");?>" class="savebutton" id="addWorkExperience" />&nbsp;
+                                        <?php } ?>
+                                        <?php if ($workExperiencePermissions->canDelete() ) { ?>
                                         <input type="button" value="<?php echo __("Delete");?>" class="savebutton" id="delWorkExperience" />
+                                        <?php } ?>
                                     </div>
-                                    
+                                    <?php if ($workExperiencePermissions->canRead() && (($workExperiencePermissions->canCreate()) || ($workExperiencePermissions->canUpdate() && $haveWorkExperience))) { ?>
                                     <div class="outerbox" id="changeWorkExperience" style="width:500px; float: left">
                                         <div class="mainHeading"><h4 id="headChangeWorkExperience"><?php echo __('Add Work Experience'); ?></h4></div>
                                         <form id="frmWorkExperience" action="<?php echo url_for('pim/saveDeleteWorkExperience?empNumber=' . $empNumber . "&option=save"); ?>" method="post">
@@ -108,22 +120,32 @@
                                             <?php echo $workExperienceForm['comments']->renderLabel(__('Comment')); ?>
                                             <?php echo $workExperienceForm['comments']->render(array("class" => "formInputText")); ?>
                                             <br class="clear"/>
-
+                                            
+                                            <?php if (($haveWorkExperience && $workExperiencePermissions->canUpdate()) || $workExperiencePermissions->canCreate()) { ?>
                                             <div class="formbuttons">
                                                 <input type="button" class="savebutton" id="btnWorkExpSave" value="<?php echo __("Save"); ?>" />
+                                                <?php if ((!$haveWorkExperience) || ($haveWorkExperience && $workExperiencePermissions->canCreate()) || ($haveWorkExperience && $workExperiencePermissions->canUpdate())) { ?>
                                                 <input type="button" class="savebutton" id="btnWorkExpCancel" value="<?php echo __("Cancel"); ?>" />
+                                                <?php } ?>
                                             </div>
+                                            <?php } ?>
                                         </form>
                                     </div>
+                                    <?php }?>
                                     <br class="clear" />
 
                                     <div class="paddingLeftRequired" id="workExpRequiredNote"><span class="required">*</span> <?php echo __(CommonMessages::REQUIRED_FIELD); ?></div>
+                                    <?php if ($workExperiencePermissions->canRead()) { ?>
                                     <form id="frmDelWorkExperience" action="<?php echo url_for('pim/saveDeleteWorkExperience?empNumber=' . $empNumber . "&option=delete"); ?>" method="post">
                                         <div class="outerbox" id="tblWorkExperience">
                                             <table width="100%" cellspacing="0" cellpadding="0" class="data-table" border="0">
                                                 <thead>
                                                     <tr>
+                                                        <?php if ($workExperiencePermissions->canDelete()) { ?>
                                                         <td class="check"><input type="checkbox" id="workCheckAll" /></td>
+                                                        <?php }else{?>
+                                                        <td></td>
+                                                        <?php }?>
                                                         <td><?php echo __('Company');?></td>
                                                         <td><?php echo __('Job Title');?></td>
                                                         <td><?php echo __('From');?></td>
@@ -146,9 +168,20 @@
                                                 <input type="hidden" id="fromDate_<?php echo $workExperience->seqno;?>" value="<?php echo $fromDate; ?>" />
                                                 <input type="hidden" id="toDate_<?php echo $workExperience->seqno;?>" value="<?php echo $toDate; ?>" />
                                                 <input type="hidden" id="comment_<?php echo $workExperience->seqno;?>" value="<?php echo htmlspecialchars($workExperience->comments); ?>" />
-
-                                                <input type="checkbox" class="chkbox1" value="<?php echo $workExperience->seqno;?>" name="delWorkExp[]"/></td>
-                                                <td class="name"><a class="edit" href="#"><?php echo htmlspecialchars($workExperience->employer);?></a></td>
+                                                <?php if ($workExperiencePermissions->canDelete()) {?>
+                                                <input type="checkbox" class="chkbox1" value="<?php echo $workExperience->seqno;?>" name="delWorkExp[]"/>
+                                                 <?php }else{?>
+                                                <input type="hidden" class="chkbox1" value="<?php echo $workExperience->seqno;?>" name="delWorkExp[]"/>
+                                                <?php }?>
+                                                </td>
+                                                <td class="name">
+                                                <?php if ($workExperiencePermissions->canUpdate()) { ?>
+                                                        <a class="edit" href="#"><?php echo htmlspecialchars($workExperience->employer);?></a>
+                                                <?php } else {
+                                                    echo htmlspecialchars($workExperience->employer); 
+                                                }
+                                                ?>
+                                                </td>
                                                 <td><?php echo htmlspecialchars($workExperience->jobtitle);?></td>
                                                 <td><?php echo $fromDate;?></td>
                                                 <td><?php echo $toDate;?></td>
@@ -167,41 +200,50 @@
                                             </table>
                                         </div>
                                     </form>
-
+                                    <?php }?>
                                 </div>
+                                <?php } ?>
                                 <!-- this is education section -->
                                 <br class="clear" />
+                                <?php if ($educationPermissions->canRead()) { ?>
                                 <a name="education"></a>
                                 <?php include_partial('education',
                                         array('empNumber'=>$empNumber, 'form'=>$educationForm,
                                               'message'=>$message, 'messageType'=>$messageType,
-                                              'section'=>$section));?>
+                                              'section'=>$section, 'educationPermissions'=>$educationPermissions));?>
 
                                 <!-- this is skills section -->
                                 <br class="clear" />
+                                <?php } ?>
+                                <?php if ($skillPermissions->canRead()) { ?>
                                 <a name="skill"></a>
                                 <?php include_partial('skill',
                                         array('empNumber'=>$empNumber, 'form'=>$skillForm,
                                               'message'=>$message, 'messageType'=>$messageType,
-                                              'section'=>$section));?>
+                                              'section'=>$section, 'skillPermissions'=>$skillPermissions));?>
                                 
                                 <!-- this is Languages section -->
                                 <br class="clear" />
+                                <?php } ?>
+                                <?php if ($languagePermissions->canRead()) { ?>
                                 <a name="language"></a>
                                 <?php include_partial('language',
                                         array('empNumber'=>$empNumber, 'form'=>$languageForm,
                                               'message'=>$message, 'messageType'=>$messageType,
-                                              'section'=>$section));?>
+                                              'section'=>$section, 'languagePermissions' => $languagePermissions));?>
 
                                 <!-- this is Licenses section -->
                                 <br class="clear" />
+                                <?php } ?>
+                                <?php if ($licensePermissions->canRead()) { ?>
                                 <a name="license"></a>
                                 <?php include_partial('license',
                                         array('empNumber'=>$empNumber, 'form'=>$licenseForm,
                                               'message'=>$message, 'messageType'=>$messageType,
-                                              'section'=>$section));?>
+                                              'section'=>$section, 'licensePermissions' => $licensePermissions));?>
                                 
                                 <br />
+                                <?php } ?>
                             </div>
                         <?php echo include_component('pim', 'customFields', array('empNumber'=>$empNumber, 'screen' => CustomField::SCREEN_QUALIFICATIONS));?>
                         <?php echo include_component('pim', 'attachments', array('empNumber'=>$empNumber, 'screen' => EmployeeAttachment::SCREEN_QUALIFICATIONS));?>

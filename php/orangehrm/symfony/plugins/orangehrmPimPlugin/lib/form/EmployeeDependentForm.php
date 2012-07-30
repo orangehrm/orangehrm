@@ -23,6 +23,7 @@
 class EmployeeDependentForm extends BaseForm {
     public $fullName;
     private $employeeService;
+    private $employee;
     
     /**
      * Get EmployeeService
@@ -45,45 +46,79 @@ class EmployeeDependentForm extends BaseForm {
     }
     
     public function configure() {
-
-        $empNumber = $this->getOption('empNumber');
-        $employee = $this->getEmployeeService()->getEmployee($empNumber);
-        $this->fullName = $employee->getFullName();
+        $this->dependentPermissions = $this->getOption('dependentPermissions');
         
+        $empNumber = $this->getOption('empNumber');
+        $this->employee = $this->getEmployeeService()->getEmployee($empNumber);
+        $this->fullName = $this->employee->getFullName();
+        
+        $widgets = array('empNumber' => new sfWidgetFormInputHidden(array(), array('value' => $this->employee->empNumber)));
+        $validators = array('empNumber' => new sfValidatorString(array('required' => true)));
+        
+        if ($this->dependentPermissions->canRead()) {
+
+            $dependentWidgets = $this->getDependentWidgets();
+            $dependentValidators = $this->getDependentValidators();
+
+            if (!($this->dependentPermissions->canUpdate() || $this->dependentPermissions->canCreate()) ) {
+                foreach ($dependentWidgets as $widgetName => $widget) {
+                    $widget->setAttribute('disabled', 'disabled');
+                }
+            }
+            $widgets = array_merge($widgets, $dependentWidgets);
+            $validators = array_merge($validators, $dependentValidators);
+        }
+
+        $this->setWidgets($widgets);
+        $this->setValidators($validators);
+
+
+        $this->widgetSchema->setNameFormat('dependent[%s]');
+    }
+    
+    
+    /*
+     * Tis fuction will return the widgets of the form
+     */
+    public function getDependentWidgets(){
+        $widgets = array();
         // Note: Widget names were kept from old non-symfony version
         $i18nHelper = sfContext::getInstance()->getI18N();
-
         $relationshipChoices = array('' => "-- " . __('Select') . " --", 'child'=> $i18nHelper->__('Child'), 'other'=> $i18nHelper->__('Other'));
-
-        $this->setWidgets(array(
-            'empNumber' => new sfWidgetFormInputHidden(array(),
-                    array('value' => $empNumber)),
-            'seqNo' => new sfWidgetFormInputHidden(), // seq no
-            'name' => new sfWidgetFormInputText(),
-            'relationshipType' => new sfWidgetFormSelect(array('choices' => $relationshipChoices)),
-            'relationship' => new sfWidgetFormInputText(),
-            'dateOfBirth' => new ohrmWidgetDatePickerNew(array(), array('id' => 'dependent_dateOfBirth')),
-        ));
-
-        $inputDatePattern = sfContext::getInstance()->getUser()->getDateFormat();
+        
+        //creating widgets
+        $widgets['seqNo'] = new sfWidgetFormInputHidden();
+        $widgets['name'] = new sfWidgetFormInputText();
+        $widgets['relationshipType'] = new sfWidgetFormSelect(array('choices' => $relationshipChoices));
+        $widgets['relationship'] = new sfWidgetFormInputText();
+        $widgets['dateOfBirth'] = new ohrmWidgetDatePickerNew(array(), array('id' => 'dependent_dateOfBirth'));
         unset($relationshipChoices['']);
-        $this->setValidators(array(
-            'empNumber' => new sfValidatorNumber(array('required' => true, 'min'=> 0)),
+        
+        return $widgets;
+    }
+    
+    
+    /*
+     * Tis fuction will return the form validators
+     */
+    public function getDependentValidators(){
+        $inputDatePattern = sfContext::getInstance()->getUser()->getDateFormat();
+        $i18nHelper = sfContext::getInstance()->getI18N();
+        $relationshipChoices = array('' => "-- " . __('Select') . " --", 'child'=> $i18nHelper->__('Child'), 'other'=> $i18nHelper->__('Other'));
+        
+        $validators = array(
             'seqNo' => new sfValidatorNumber(array('required' => false, 'min'=> 0)),
             'name' => new sfValidatorString(array('required' => true, 'trim'=>true, 'max_length'=>100)),
             'relationshipType' => new sfValidatorChoice(array('choices' => array_keys($relationshipChoices))),
             'relationship' => new sfValidatorString(array('required' => false, 'trim'=>true, 'max_length'=>100)),
             'dateOfBirth' =>  new ohrmDateValidator(array('date_format'=>$inputDatePattern, 'required'=>false),
                               array('invalid'=>'Date format should be '. $inputDatePattern)),
-
-        ));
-
-
-        $this->widgetSchema->setNameFormat('dependent[%s]');
+        );
+        
+        return $validators;
     }
 
-
-    /**
+        /**
      * Save employee contract
      */
     public function save() {

@@ -1,10 +1,18 @@
 <div id="currentImage" style="width:150px;height:210px;overflow:hidden;">
     <center>
+        <?php if ($photographPermissions->canUpdate() || $photographPermissions->canDelete()) { ?>
         <a href="<?php echo url_for('pim/viewPhotograph?empNumber=' . $empNumber); ?>">
             <img alt="Employee Photo" src="<?php echo url_for("pim/viewPhoto?empNumber=". $empNumber); ?>" border="0" id="empPic" 
                  width="<?php echo $width; ?>" height="<?php echo $height; ?>"/>
         </a>
-<?php if ($editMode) { ?>
+        <?php } 
+        else { ?>
+            <a href="#">
+                <img alt="Employee Photo" src="<?php echo url_for("pim/viewPhoto?empNumber=". $empNumber); ?>" border="0" id="empPic" 
+                 width="<?php echo $width; ?>" height="<?php echo $height; ?>"/>
+            </a>
+        <?php } ?>
+<?php if ($editMode && $photographPermissions->canUpdate()) { ?>
         <div class="smallHelpText">[<?php echo __('Dimensions'); ?> 150x180]</div>
 <?php } ?>
     </center>

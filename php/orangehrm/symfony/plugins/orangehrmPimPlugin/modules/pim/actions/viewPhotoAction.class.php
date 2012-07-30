@@ -20,7 +20,7 @@
  * Displays Employee Photo
  *
  */
-class viewPhotoAction extends sfAction {
+class viewPhotoAction extends basePimAction {
 
     private $employeeService;
 
@@ -50,7 +50,8 @@ class viewPhotoAction extends sfAction {
         $employeeService = $this->getEmployeeService();
         $empPicture = $employeeService->getEmployeePicture($empNumber);
 
-        if (!empty($empPicture)) {
+        $this->photographPermissions = $this->getDataGroupPermissions('photograph', $empNumber);
+        if ((!empty($empPicture)) && ($this->photographPermissions->canRead())) {
             $contents = $empPicture->picture;
             $contentType = $empPicture->file_type;
             $fileSize = $empPicture->size;

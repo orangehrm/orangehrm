@@ -21,9 +21,16 @@ class activateEmployementAction extends basePimAction {
 
     public function execute($request) {
         $empNumber = $request->getParameter('empNumber');
-        $this->getEmployeeService()->activateTerminatedEmployment($empNumber);
-        $this->getUser()->setFlash('templateMessage', array('success', __(TopLevelMessages::UPDATE_SUCCESS)));
-        $this->redirect('pim/viewJobDetails?empNumber=' . $empNumber);
+        $employee = $this->getEmployeeService()->getEmployee($empNumber);
+        $allowedActions = $this->getContext()->getUserRoleManager()->getAllowedActions(WorkflowStateMachine::FLOW_EMPLOYEE, $employee->getState());
+
+        $allowActivate = in_array(WorkflowStateMachine::EMPLOYEE_ACTION_REACTIVE, $allowedActions);
+
+        if ($allowActivate) {
+            $this->getEmployeeService()->activateTerminatedEmployment($empNumber);
+            $this->getUser()->setFlash('templateMessage', array('success', __(TopLevelMessages::UPDATE_SUCCESS)));
+            $this->redirect('pim/viewJobDetails?empNumber=' . $empNumber);
+        }
     }
 
 }

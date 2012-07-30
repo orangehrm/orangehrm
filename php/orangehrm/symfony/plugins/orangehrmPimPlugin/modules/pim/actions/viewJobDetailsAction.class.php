@@ -24,72 +24,79 @@
 class viewJobDetailsAction extends basePimAction {
 
     public function execute($request) {
-        
+
         $loggedInEmpNum = $this->getUser()->getEmployeeNumber();
         $loggedInUserName = $_SESSION['fname'];
-        
+
         $job = $request->getParameter('job');
-        $empNumber = (isset($job['emp_number'])) ? $job['emp_number']: $request->getParameter('empNumber');
+        $empNumber = (isset($job['emp_number'])) ? $job['emp_number'] : $request->getParameter('empNumber');
         $this->empNumber = $empNumber;
 
-        $this->ownRecords = ($loggedInEmpNum == $empNumber)?true:false;
-        $this->allowEdit = $this->isAllowedAdminOnlyActions($loggedInEmpNum, $empNumber);
+        $this->jobInformationPermission = $this->getDataGroupPermissions('job_details', $empNumber);
+        $this->ownRecords = ($loggedInEmpNum == $empNumber) ? true : false;
 
-        $adminMode = $this->getUser()->hasCredential(Auth::ADMIN_ROLE);
 
         if (!$this->IsActionAccessible($empNumber)) {
             $this->forward(sfConfig::get('sf_secure_module'), sfConfig::get('sf_secure_action'));
         }
-        
-        $this->essMode = !$adminMode && !empty($loggedInEmpNum) && ($empNumber == $loggedInEmpNum);
-                       
+
         if ($this->getUser()->hasFlash('templateMessage')) {
             list($this->messageType, $this->message) = $this->getUser()->getFlash('templateMessage');
         }
-        
+
         $employee = $this->getEmployeeService()->getEmployee($empNumber);
         $param = array('empNumber' => $empNumber, 'ESS' => $this->essMode,
-                       'employee' => $employee,
-                       'loggedInUser' => $loggedInEmpNum,
-                       'loggedInUserName' => $loggedInUserName);
-        $paramForTerminationForm = array('empNumber' => $empNumber, 'employee' => $employee);
+            'employee' => $employee,
+            'loggedInUser' => $loggedInEmpNum,
+            'loggedInUserName' => $loggedInUserName);
+
         $this->form = new EmployeeJobDetailsForm(array(), $param, true);
+        $this->employeeState = $employee->getState();
+        
+        $allowedActions = $this->getContext()->getUserRoleManager()->getAllowedActions(WorkflowStateMachine::FLOW_EMPLOYEE, $this->employeeState);
+        
+
+        $this->allowActivate = in_array(WorkflowStateMachine::EMPLOYEE_ACTION_REACTIVE, $allowedActions);
+        $this->allowTerminate = in_array(WorkflowStateMachine::EMPLOYEE_ACTION_TERMINATE, $allowedActions);
+        
+        $paramForTerminationForm = array('empNumber' => $empNumber,
+            'employee' => $employee,
+            'allowTerminate' => $this->allowTerminate,
+            'allowActivate' => $this->allowActivate);
+
         $this->employeeTerminateForm = new EmployeeTerminateForm(array(), $paramForTerminationForm, true);
 
         if ($this->getRequest()->isMethod('post')) {
 
-            if (!$this->allowEdit) {
-                $this->forward(sfConfig::get('sf_secure_module'), sfConfig::get('sf_secure_action'));
-            }
-                    
+
             // Handle the form submission           
-            $this->form->bind($request->getParameter($this->form->getName()), 
-                    $request->getFiles($this->form->getName()));
+            $this->form->bind($request->getParameter($this->form->getName()), $request->getFiles($this->form->getName()));
 
             if ($this->form->isValid()) {
 
                 // save data
-                $service = new EmployeeService();
-                $service->saveEmployee($this->form->getEmployee());
+                if ($this->jobInformationPermission->canUpdate()) {
+                    $service = new EmployeeService();
+                    $service->saveEmployee($this->form->getEmployee(), false);
+                }
+
                 $this->form->updateAttachment();
-                
-                
-                $this->getUser()->setFlash('templateMessage', array('success', __(TopLevelMessages::UPDATE_SUCCESS)));  
+
+
+                $this->getUser()->setFlash('templateMessage', array('success', __(TopLevelMessages::UPDATE_SUCCESS)));
             } else {
                 $validationMsg = '';
-                foreach($this->form->getWidgetSchema()->getPositions() as $widgetName) {
-                    if($this->form[$widgetName]->hasError()) {
+                foreach ($this->form->getWidgetSchema()->getPositions() as $widgetName) {
+                    if ($this->form[$widgetName]->hasError()) {
                         $validationMsg .= $this->form[$widgetName]->getError()->getMessageFormat();
                     }
                 }
 
                 $this->getUser()->setFlash('templateMessage', array('warning', $validationMsg));
             }
-            
+
             $this->redirect('pim/viewJobDetails?empNumber=' . $empNumber);
         }
-
     }
-
 
 }

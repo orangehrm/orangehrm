@@ -561,8 +561,7 @@ UserRole:
       autoincrement: true
     name:
       type: string(255)
-      notnull: true
-      unique: true
+      notnull: true      
     display_name:
       type: string(255)
       notnull: true
@@ -574,6 +573,12 @@ UserRole:
       type: int
       type: boolean
       notnull: true
+  relations:
+    DataGroupPermission:
+      class: DataGroupPermission
+      local: id
+      foreign: user_role_id
+      type: many
       
 UserSelectionRule:
   tableName: ohrm_user_selection_rule
@@ -655,3 +660,53 @@ ScreenPermission:
       local: screen_id
       foreign: id
       type: one 
+DataGroup:
+  tableName: ohrm_data_group
+  columns:
+    id:
+      type: integer
+      primary: true
+      autoincrement: true
+    name as name:
+      type: string(255)
+    description as description:
+      type: string(255)
+    can_read as canRead:
+      type: integer(1)
+    can_create as canCreate:
+      type: integer(1)
+    can_update as canUpdate:
+      type: integer(1)
+    can_delete as canDelete:
+      type: integer(1)
+
+DataGroupPermission:
+  tableName: ohrm_user_role_data_group
+  columns:
+    id:
+      type: integer
+      primary: true
+      autoincrement: true
+    user_role_id as userRoleId:
+      type: integer
+    data_group_id as dataGroupId:
+      type: integer
+    can_read as canRead:
+      type: integer(1)
+    can_create as canCreate:
+      type: integer(1)
+    can_update as canUpdate:
+      type: integer(1)
+    can_delete as canDelete:
+      type: integer(1)
+    self as self:
+      type: integer(1)
+  relations:
+    DataGroup:
+      local: data_group_id
+      foreign: id
+      type: one
+    UserRole:
+      local: user_role_id
+      foreign: id
+      type: one      

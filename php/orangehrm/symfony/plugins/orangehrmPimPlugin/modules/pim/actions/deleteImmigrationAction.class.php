@@ -1,4 +1,5 @@
 <?php
+
 /**
  * OrangeHRM is a comprehensive Human Resource Management (HRM) System that captures
  * all the essential functionalities required for any enterprise.
@@ -18,21 +19,22 @@
  */
 class deleteImmigrationAction extends basePimAction {
 
-    public function execute($request) {        
+    public function execute($request) {
+        $deleteIds = $request->getParameter('chkImmigration');
+        $empNumber = $request->getParameter('empNumber');
         
+        $this->immigrationPermission = $this->getDataGroupPermissions('immigration', $empNumber);
+
         if ($request->isMethod('post')) {
-
-            $deleteIds = $request->getParameter('chkImmigration');
-            $empNumber = $request->getParameter('empNumber');
-
             if (!$this->IsActionAccessible($empNumber)) {
                 $this->forward(sfConfig::get('sf_secure_module'), sfConfig::get('sf_secure_action'));
-            }              
-          
-            $this->getEmployeeService()->deleteEmployeeImmigrationRecords($empNumber, $deleteIds);
-            $this->getUser()->setFlash('templateMessage', array('success', __(TopLevelMessages::DELETE_SUCCESS)));
-            $this->redirect('pim/viewImmigration?empNumber='. $empNumber);
-            
+            }
+            if ($this->immigrationPermission->canDelete()) {
+                $this->getEmployeeService()->deleteEmployeeImmigrationRecords($empNumber, $deleteIds);
+                $this->getUser()->setFlash('templateMessage', array('success', __(TopLevelMessages::DELETE_SUCCESS)));
+                $this->redirect('pim/viewImmigration?empNumber=' . $empNumber);
+            }
         }
     }
+
 }

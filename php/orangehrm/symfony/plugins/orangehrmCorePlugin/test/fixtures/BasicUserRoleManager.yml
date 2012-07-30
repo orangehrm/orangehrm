@@ -56,3 +56,10 @@ ReportTo:
   3: {supervisorId: 6, subordinateId: 4, reportingMethodId: 1}
   4: {supervisorId: 6, subordinateId: 5, reportingMethodId: 1}
   5: {supervisorId: 6, subordinateId: 1, reportingMethodId: 1}
+  
+WorkflowStateMachine:
+  0: {id: 13, workflow: 3, state: 'NOT EXIST',role: 'ADMIN',action: '1',resulting_state: 'ACTIVE'}
+  1: {id: 14, workflow: 3, state: 'ACTIVE', role: 'ADMIN', action: '3', resulting_state: 'TERMINATED'}
+  2: {id: 15, workflow: 3, state: 'ACTIVE', role: 'ADMIN', action: '2', resulting_state: 'NOT EXIT'}
+  3: {id: 16, workflow: 3, state: 'TERMINATED', role: 'ADMIN', action: '4', resulting_state: 'ACTIVE'}
+  4: {id: 17, workflow: 3, state: 'TERMINATED', role: 'ADMIN', action: '5', resulting_state: 'NOT EXIT'}

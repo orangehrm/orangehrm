@@ -32,7 +32,7 @@ class SupervisorUserRoleTest extends PHPUnit_Framework_TestCase {
      */
     protected function setUp() {
 
-        $this->supervisorUserRole = new SupervisorUserRole();
+        $this->supervisorUserRole = new SupervisorUserRole('Supervisor', new BasicUserRoleManager());
     }
 
     public function testGetSetEmployeeService() {

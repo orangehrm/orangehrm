@@ -6,6 +6,8 @@ if (($section == 'skill') && isset($message) && isset($messageType)) {
     $tmpMsgClass = '';
     $tmpMsg = '';
 }
+
+$haveSkills = count($form->empSkillList)>0;
 ?>
 <div id="skillMessagebar" class="<?php echo $tmpMsgClass; ?>">
     <span style="font-weight: bold;"><?php echo $tmpMsg; ?></span>
@@ -14,10 +16,14 @@ if (($section == 'skill') && isset($message) && isset($messageType)) {
 <div class="sectionDiv" id="sectionSkill">
     <div style="float: left; width: 450px;"><h3><?php echo __('Skills'); ?></h3></div>
     <div id="actionSkill" style="float: left; margin-top: 20px; width: 335px; text-align: right">
+        <?php if ($skillPermissions->canCreate() ) { ?>
         <input type="button" value="<?php echo __("Add");?>" class="savebutton" id="addSkill" />&nbsp;
+        <?php } ?>
+        <?php if ($skillPermissions->canDelete() ) { ?>
         <input type="button" value="<?php echo __("Delete");?>" class="savebutton" id="delSkill" />
+        <?php } ?>
     </div>
-
+    <?php if ($skillPermissions->canRead() && (($skillPermissions->canCreate()) || ($skillPermissions->canUpdate() && $haveSkills))) { ?>
     <div class="outerbox" id="changeSkill" style="width:500px; float: left">
         <div class="mainHeading"><h4 id="headChangeSkill"><?php echo __('Add Skill'); ?></h4></div>
         <form id="frmSkill" action="<?php echo url_for('pim/saveDeleteSkill?empNumber=' . $empNumber . "&option=save"); ?>" method="post">
@@ -38,28 +44,37 @@ if (($section == 'skill') && isset($message) && isset($messageType)) {
             <?php echo $form['comments']->render(array("class" => "formInputText")); ?>
             <br class="clear"/>
 
+            <?php if (($haveSkills && $skillPermissions->canUpdate()) || $skillPermissions->canCreate()) { ?>
             <div class="formbuttons">
                 <input type="button" class="savebutton" id="btnSkillSave" value="<?php echo __("Save"); ?>" />
+                 <?php if ((!$haveSkills) || ($haveSkills && $skillPermissions->canCreate()) || ($skillPermissions && $skillPermissions->canUpdate())) { ?>
                 <input type="button" class="savebutton" id="btnSkillCancel" value="<?php echo __("Cancel"); ?>" />
+                <?php } ?>
             </div>
+            <?php } ?>
         </form>
     </div>
+    <?php }?>
     <br class="clear" />
     <div class="paddingLeftRequired" id="skillRequiredNote"><span class="required">*</span> <?php echo __(CommonMessages::REQUIRED_FIELD); ?></div>
-
+    <?php if ($skillPermissions->canRead()) { ?>
     <form id="frmDelSkill" action="<?php echo url_for('pim/saveDeleteSkill?empNumber=' . $empNumber . "&option=delete"); ?>" method="post">
         <div class="outerbox" id="tblSkill">
             <table width="100%" cellspacing="0" cellpadding="0" class="data-table" border="0">
                 <thead>
                 <tr>
+                    <?php if ($skillPermissions->canDelete()) { ?>
                     <td class="check"><input type="checkbox" id="skillCheckAll" /></td>
+                    <?php }else{?>
+                    <td></td>
+                    <?php }?>
                     <td><?php echo __('Skill');?></td>
                     <td><?php echo __('Years of Experience');?></td>
                 </tr>
                 </thead>
                 <tbody>
                     <?php
-                    $skills = $form->empSkillList;//var_dump($skills->toArray());die;
+                    $skills = $form->empSkillList;
                     $row = 0;
 
                     foreach ($skills as $skill) {                        
@@ -71,9 +86,20 @@ if (($section == 'skill') && isset($message) && isset($messageType)) {
                     <input type="hidden" id="skill_name_<?php echo $skill->skillId;?>" value="<?php echo htmlspecialchars($skillName); ?>" />
                 <input type="hidden" id="years_of_exp_<?php echo $skill->skillId;?>" value="<?php echo htmlspecialchars($skill->years_of_exp); ?>" />
                 <input type="hidden" id="comments_<?php echo $skill->skillId;?>" value="<?php echo htmlspecialchars($skill->comments); ?>" />
-
-                <input type="checkbox" class="chkbox" value="<?php echo $skill->skillId;?>" name="delSkill[]"/></td>
-                <td class="name"><a href="#" class="edit"><?php echo htmlspecialchars($skillName);?></a></td>
+                <?php if ($skillPermissions->canDelete()) {?>
+                <input type="checkbox" class="chkbox" value="<?php echo $skill->skillId;?>" name="delSkill[]"/>
+                <?php }else{?>
+                <input type="hidden" class="chkbox" value="<?php echo $skill->skillId;?>" name="delSkill[]"/>
+                <?php }?>
+                </td>
+                <td class="name">
+                    <?php if ($skillPermissions->canUpdate()) { ?>
+                    <a href="#" class="edit"><?php echo htmlspecialchars($skillName);?></a>
+                    <?php } else {
+                                echo htmlspecialchars($skillName); 
+                                }
+                     ?>
+                </td>
                 <td><?php echo htmlspecialchars($skill->years_of_exp);?></td>
                 </tr>
                     <?php
@@ -90,7 +116,7 @@ if (($section == 'skill') && isset($message) && isset($messageType)) {
             </table>
         </div>
     </form>
-
+    <?php } ?>
 </div>
 <script type="text/javascript">
     //<![CDATA[
@@ -103,6 +129,8 @@ if (($section == 'skill') && isset($message) && isset($messageType)) {
     var lang_commentsMaxLength = "<?php echo __(ValidationMessages::TEXT_LENGTH_EXCEEDS, array('%amount%' => 100));?>";
     var lang_yearsOfExpShouldBeNumber = "<?php echo __('Should be a number');?>";
     var lang_yearsOfExpMax = "<?php echo __("Should be less than %amount%", array("%amount%" => '100'));?>";
+    
+    var canUpdate = '<?php $skillPermissions->canUpdate(); ?>';
     //]]>
 </script>
 
@@ -221,7 +249,9 @@ $(document).ready(function() {
 
     $("#btnSkillCancel").click(function() {
         clearMessageBar();
-        addEditLinks();
+        if(canUpdate){
+            addEditLinks();
+        }
 
         skillValidator.resetForm();
         

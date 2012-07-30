@@ -40,6 +40,11 @@
         $allowDel = true;
         $allowEdit = true;
 ?>
+    <style type="text/css">
+        table.data-table tbody tr td {
+            padding: 1px 0px;
+        }
+    </style>
 
 <?php if ($form->hasErrors()): ?>
             <span class="error">
@@ -70,9 +75,10 @@
                 </div>
                 <?php if (!$essUserMode): ?>
                     <div id="addPaneReportTo" style="width: 600px" style="display:none;">
+                       
                         <div class="outerbox">
-
                             <div class="mainHeading"><h2 id="reportToHeading"><?php echo __('Add Supervisor/Subordinate'); ?></h2></div>
+                             <?php if ($reportToPermissions->canRead() && (($reportToPermissions->canCreate()) || ($hasSupDetails && $reportToSupervisorPermission->canUpdate()) || ($hasSubDetails && $reportToSubordinatePermission->canUpdate()))) { ?>
                             <form name="frmAddReportTo" id="frmAddReportTo" method="post" action="<?php echo url_for('pim/updateReportToDetail?empNumber=' . $empNumber); ?>">
 
                             <?php echo $form['_csrf_token']; ?>
@@ -100,8 +106,7 @@
                                     <br class="clear"/>
                                 </div>
                             </div>
-                            <?php if ($allowEdit) {
-                            ?>
+                            <?php if (($reportToPermissions->canUpdate()) || $reportToPermissions->canCreate()) { ?>
                                         <div class="formbuttons">
                                             <input type="button" class="savebutton" name="btnSaveReportTo" id="btnSaveReportTo"
                                                    value="<?php echo __("Save"); ?>"
@@ -111,17 +116,24 @@
                                         </div>
                             <?php } ?>
                                 </form>
+                             <?php 
+                             
+                             } else {
+                                    echo __(TopLevelMessages::NO_RECORDS_FOUND);
+                             }
+?>
                             </div>
-
+                   <?php if ((($hasSupDetails && $reportToSupervisorPermission->canUpdate()) || $reportToSupervisorPermission->canCreate()) || (($hasSubDetails && $reportToSubordinatePermission->canUpdate()) || $reportToSubordinatePermission->canCreate())) {?>
                   <div class="paddingLeftRequired"><span class="required">*</span> <?php echo __(CommonMessages::REQUIRED_FIELD); ?></div>
-
+                  <?php }?>
                         </div>
                 <?php endif; ?>
 
                                     <div id="listReportToDetails">
-                                        <table width="1100" cellspacing="0" cellpadding="0" class="data-table" id="report_list_table">
+                                        <table width="1000" cellspacing="0" cellpadding="0" class="data-table" id="report_list_table">
 
                                             <td valign="top">
+                                                <?php if (($hasSupDetails && $reportToSupervisorPermission->canRead()) || $reportToSupervisorPermission->canCreate()) { ?>
                                                 <div class="outerbox" id="listReportToSupDetails" >
                                                     <form name="frmEmpDelSupervisors" id="frmEmpDelSupervisors" method="post" action="<?php echo url_for('pim/deleteReportToSupervisor?empNumber=' . $empNumber); ?>">
                                     <?php echo $deleteSupForm['_csrf_token']->render(); ?>
@@ -131,12 +143,11 @@
 
                                     <div class="actionbar" id="supListActions">
                                         <div class="supActionbuttons">
-                                            <?php if ($allowEdit) {
-                                            ?>
+                                            <?php if ($reportToSupervisorPermission->canCreate() ) { ?>
 
                                                 <input type="button" class="addbutton" id="btnAddSupervisorDetail" onmouseover="moverButton(this);" onmouseout="moutButton(this);" value="<?php echo __("Add"); ?>" title="<?php echo __("Add"); ?>"/>
                                             <?php } ?>
-                                            <?php if ($allowDel) {
+                                            <?php if ($reportToSupervisorPermission->canDelete()) {
                                             ?>
 
                                                 <input type="button" class="delbutton" id="delSupBtn" onmouseover="moverButton(this);" onmouseout="moutButton(this);" value="<?php echo __("Delete"); ?>" title="<?php echo __("Delete"); ?>"/>
@@ -147,7 +158,9 @@
                                     <table  cellspacing="0" cellpadding="0" class="data-table" id="sup_list">
                                         <thead>
                                             <tr>
+                                                <?php if ($reportToSupervisorPermission->canDelete()) { ?>
                                                 <td class="check"><input type='checkbox' id='checkAllSup' class="checkboxSup" /></td>
+                                                <?php }?>
                                                 <td class="supName"><?php echo __("Name"); ?></td>
                                                 <td class="supReportMethod"><?php echo __("Reporting Method"); ?></td>
                                             </tr>
@@ -159,16 +172,24 @@
                                                 $cssClass = ($subRow % 2) ? 'even' : 'odd';
                                                 echo '<tr class="' . $cssClass . '">';
                                                 $supChkBoxValue = $sup->getSupervisorId() . " " . $empNumber . " " . $sup->getReportingMethodId();
+                                                if ($reportToSupervisorPermission->canDelete()) {
                                                 echo "<td class='check'><input type='checkbox' class='checkboxSup' name='chksupdel[]' value='" . $supChkBoxValue . "'/></td>";
+                                                }else{
                                             ?>
+                                            <input type='hidden' class='checkboxSup' name='chksupdel[]' value='<?php echo $supChkBoxValue; ?>'/>
                                             <?php 
+                                                }
                                             $supervisor = $sup->getSupervisor();
                                             $terminationId = $supervisor->getTerminationId();
                                             $suffix = (!empty($terminationId)) ? " (".__('Past Employee').")" : "";
                                             $supName = $supervisor->getFirstName() . " " . $supervisor->getLastName() . $suffix; ?>
                                             <?php $supReportingMethodName = $sup->getReportingMethod()->getName(); ?>
-                                            <td class="supName" valign="top"><a href="#"><?php echo $supName; ?></a></td>
+                                            <?php if ($reportToSupervisorPermission->canUpdate()) { ?>
+                                                <td class="supName" valign="top"><a href="#"><?php echo $supName; ?></a></td>
+                                            <?php }else{?>
+                                                <td class="supName" valign="top"><?php echo $supName; ?></td>
                                         <?php
+                                            }
                                                 echo "<td  class='supReportMethod' valigh='top'>" . __($supReportingMethodName) . "</td>";
                                                 echo '</tr>';
                                                 $subRow++;
@@ -178,6 +199,7 @@
                                         </table>
                                     </form>
                                 </div>
+                              <?php }?>
                             </td>
 
 
@@ -185,6 +207,7 @@
                             </td>
 
                             <td valign="top" >
+                                <?php if (($hasSubDetails && $reportToSubordinatePermission->canRead()) || $reportToSubordinatePermission->canCreate()) { ?>
                                 <div class="outerbox" id="listReportToSubDetails">
                                     <form name="frmEmpDelSubordinates" id="frmEmpDelSubordinates" method="post" action="<?php echo url_for('pim/deleteReportToSubordinate?empNumber=' . $empNumber); ?>">
                                     <?php echo $deleteSubForm['_csrf_token']->render(); ?>
@@ -194,12 +217,11 @@
 
                                             <div class="actionbar" id="subListActions">
                                                 <div class="subActionbuttons">
-                                            <?php if ($allowEdit) {
-                                            ?>
+                                            <?php if ($reportToSubordinatePermission->canCreate() ) { ?>
 
                                                 <input type="button" class="addbutton" id="btnAddSubordinateDetail" onmouseover="moverButton(this);" onmouseout="moutButton(this);" value="<?php echo __("Add"); ?>" title="<?php echo __("Add"); ?>"/>
                                             <?php } ?>
-                                            <?php if ($allowDel) {
+                                            <?php if ($reportToSubordinatePermission->canDelete()) {
                                             ?>
 
                                                 <input type="button" class="delbutton" id="delSubBtn" onmouseover="moverButton(this);" onmouseout="moutButton(this);" value="<?php echo __("Delete"); ?>" title="<?php echo __("Delete"); ?>"/>
@@ -210,7 +232,9 @@
                                     <table  cellspacing="0" cellpadding="0" class="data-table" id="sub_list">
                                         <thead>
                                             <tr>
+                                                <?php if ($reportToSubordinatePermission->canDelete()) { ?>
                                                 <td class="check"><input type='checkbox' id='checkAllSub' class="checkboxSub" /></td>
+                                                <?php }?>
                                                 <td class="subName"><?php echo __("Name"); ?></td>
                                                 <td class="subReportMethod"><?php echo __("Reporting Method"); ?></td>
                                             </tr>
@@ -222,16 +246,24 @@
                                                 $cssClass = ($subRow % 2) ? 'even' : 'odd';
                                                 echo '<tr class="' . $cssClass . '">';
                                                 $subChkBoxValue = $empNumber . " " . $sub->getSubordinateId() . " " . $sub->getReportingMethodId();
+                                                if ($reportToSubordinatePermission->canDelete()) {
                                                 echo "<td class='check'><input type='checkbox' class='checkboxSub' name='chksubdel[]' value='" . $subChkBoxValue . "'/></td>";
+                                                }else{
                                             ?>
+                                            <input type='hidden' class='checkboxSub' name='chksubdel[]' value='<?php echo $subChkBoxValue; ?>'/>
                                             <?php 
+                                                }
                                             $subordinate = $sub->getSubordinate();
                                             $terminationId = $subordinate->getTerminationId();
                                             $suffix = (!empty($terminationId)) ? " (".__("Past Employee").")" : "";
                                             $subName = $subordinate->getFirstName() . " " . $subordinate->getLastName() . $suffix; ?>
                                             <?php $subReportingMethodName = $sub->getReportingMethod()->getName(); ?>
+                                            <?php if ($reportToSubordinatePermission->canUpdate()) { ?>
                                             <td class="subName" valign="top"><a href="#"><?php echo $subName; ?></a></td>
+                                        <?php }else{?>
+                                                <td class="subName" valign="top"><?php echo $subName; ?></td>
                                         <?php
+                                            }
                                                 echo "<td  class='subReportMethod' valigh='top'>" . __($subReportingMethodName) . "</td>";
                                                 echo '</tr>';
                                                 $subRow++;
@@ -241,6 +273,7 @@
                                         </table>
                                     </form>
                                 </div>
+                                <?php }?>
                             </td>
                         </table>
                     </div>
@@ -271,5 +304,10 @@
                                 var reportingMethodIsRequired = '<?php echo __(ValidationMessages::REQUIRED); ?>';
                                 var reportingMethodTypeIsRequired = '<?php echo __(ValidationMessages::REQUIRED); ?>';
                                 var essMode = '<?php echo $essUserMode; ?>';
+                                
+                                var haveSupervisors = <?php echo $hasSupDetails ? 'true' : 'false';?>;
+                                var haveSubordinates = <?php echo $hasSubDetails ? 'true' : 'false';?>;
+                                var canUpdateSupervisors ='<?php echo $reportToSupervisorPermission->canUpdate();?>';
+                                var canUpdateSubordinates = '<?php echo $reportToSubordinatePermission->canUpdate();?>';
     //]]>
 </script>

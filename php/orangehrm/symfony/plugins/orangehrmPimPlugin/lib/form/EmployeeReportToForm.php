@@ -28,6 +28,7 @@ class EmployeeReportToForm extends BaseForm {
     private $employeeService;
     private $reportingMethodConfigurationService;
     private $employeeList;
+    private $reportingMethodType;
 
     /**
      * Get EmployeeService
@@ -65,31 +66,63 @@ class EmployeeReportToForm extends BaseForm {
     }
 
     public function configure() {
+        $this->reportToPermissions = $this->getOption('reportToPermissions');
 
         $this->setEmployeeList();
-        $reportingMethodType = $this->getReportingMethodType();
+        $this->reportingMethodType = $this->getReportingMethodType();
 
         $this->empNumber = $this->getOption('empNumber');
         $employee = $this->getEmployeeService()->getEmployee($this->empNumber);
         $this->fullName = $employee->getFullName();
+        
+        $widgets = array('empNumber' => new sfWidgetFormInputHidden(array(), array('value' => $this->empNumber)));
+        $validators = array('empNumber' => new sfValidatorString(array('required' => true)));
+        
+        if ($this->reportToPermissions->canRead()) {
 
+            $reportToWidgets = $this->getRepoertToWidgets();
+            $reportToValidators = $this->getRepoertToValidators();
+
+            if (!($this->reportToPermissions->canUpdate() || $this->reportToPermissions->canCreate()) ) {
+                foreach ($dependentWidgets as $widgetName => $widget) {
+                    $widget->setAttribute('disabled', 'disabled');
+                }
+            }
+            $widgets = array_merge($widgets, $reportToWidgets);
+            $validators = array_merge($validators, $reportToValidators);
+        }
+
+        $this->setWidgets($widgets);
+        $this->setValidators($validators);
+        
+        $this->widgetSchema->setNameFormat('reportto[%s]');
+    }
+    
+    /*
+     * Tis fuction will return the widgets of the form
+     */
+    public function getRepoertToWidgets(){
+        $widgets = array();
+        
         //creating widgets
-        $this->setWidgets(array(
-            'empNumber' => new sfWidgetFormInputHidden(array(),
-                    array('value' => $this->empNumber)),
-            'type_flag' => new sfWidgetFormChoice(array('expanded' => true, 'choices' => array(
-                    ReportTo::SUPERVISOR => __('Supervisor'), ReportTo::SUBORDINATE => __('Subordinate')), 'default' => ReportTo::SUPERVISOR)),
-            'supervisorName' => new ohrmWidgetEmployeeNameAutoFill(array('employeeList' => $this->getEmployeeListForSupervisor())),
-            'subordinateName' => new ohrmWidgetEmployeeNameAutoFill(array('employeeList' => $this->getEmployeeListForSubordinate())),
-            'previousRecord' => new sfWidgetFormInputHidden(),
-            'reportingMethodType' => new sfWidgetFormSelect(array('choices' => $reportingMethodType)),
-            'reportingMethod' => new sfWidgetFormInputText()
-        ));
-
-
-        //Setting validators
-        $this->setValidators(array(
-            'empNumber' => new sfValidatorNumber(array('required' => true, 'min' => 0)),
+        $widgets['type_flag'] = new sfWidgetFormChoice(array('expanded' => true, 'choices' => array(
+                    ReportTo::SUPERVISOR => __('Supervisor'), ReportTo::SUBORDINATE => __('Subordinate')), 'default' => ReportTo::SUPERVISOR));        
+        $widgets['supervisorName'] = new ohrmWidgetEmployeeNameAutoFill(array('employeeList' => $this->getEmployeeListForSupervisor()));
+        $widgets['subordinateName'] = new ohrmWidgetEmployeeNameAutoFill(array('employeeList' => $this->getEmployeeListForSubordinate()));                    
+        $widgets['previousRecord'] = new sfWidgetFormInputHidden();
+        $widgets['reportingMethodType'] = new sfWidgetFormSelect(array('choices' => $this->reportingMethodType));
+        $widgets['reportingMethod'] = new sfWidgetFormInputText();
+        
+        return $widgets;
+    }
+    
+    
+    /*
+     * Tis fuction will return the form validators
+     */
+    public function getRepoertToValidators(){
+        
+        $validators = array(
             'type_flag' => new sfValidatorChoice(array('required' => true,
                 'choices' => array(ReportTo::SUPERVISOR, ReportTo::SUBORDINATE))),
             'supervisorName' => new ohrmValidatorEmployeeNameAutoFill(),
@@ -98,8 +131,9 @@ class EmployeeReportToForm extends BaseForm {
             'previousRecord' => new sfValidatorString(array('required' => false)),
             'reportingMethodType' => new sfValidatorString(array('required' => true), array('required' => 'Select reporting method')),
             'reportingMethod' => new sfValidatorString(array('required' => false, 'max_length' => 80)),
-        ));
-        $this->widgetSchema->setNameFormat('reportto[%s]');
+        );
+        
+        return $validators;
     }
 
     private function setEmployeeList() {

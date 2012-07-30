@@ -59,9 +59,22 @@ class AccessFlowStateMachineService {
 
                 $allowedActionArray[] = $allowedAction->getAction();
             }
-
+            
             return $allowedActionArray;
         }
+    }
+    
+    /**
+     * check State Transition is possible with UserRole
+     * 
+     * @param type $workflow
+     * @param type $state
+     * @param type $role
+     * @param type $action
+     * @return boolean 
+     */
+    public function isActionAllowed($workflow, $state, $role, $action) {
+        return $this->getAccessibleFlowStateMachineDao()->isActionAllowed($workflow, $state, $role, $action);
     }
 
     public function getNextState($flow, $state, $role, $action) {
@@ -109,12 +122,32 @@ class AccessFlowStateMachineService {
         
         return $tempArray;
     }
+    
+    /**
+     * 
+     * @param type $workFlowId
+     * @return type Doctrine collections
+     */
+    public function getWorkFlowStateMachineRecords($workFlowId, $role){
+        return $this->accessFlowStateMachineDao->getWorkFlowStateMachineRecords($workFlowId, $role);
+    }
 
     public function saveWorkflowStateMachineRecord(WorkflowStateMachine $workflowStateMachineRecord) {
 
         return $this->getAccessFlowStateMachineDao()->saveWorkflowStateMachineRecord($workflowStateMachineRecord);
     }
-
+    
+    /**
+     * set workflow records form array
+     * @param type $workflowStateMachineRecordArray 
+     */
+    public function saveWorkflowStateMachineRecordAsArray($workflowStateMachineRecordArray) {
+        if (count($workflowStateMachineRecordArray) > 0) {
+            foreach ($workflowStateMachineRecordArray as $workflowStateMachineRecord) {
+                $this->saveWorkflowStateMachineRecord($workflowStateMachineRecord);
+            }
+        }
+    }
 	/*
     public function deleteWorkflowStateMachineRecord($flow, $state, $role, $action, $resultingState) {
 		$this->getAccessFlowStateMachineDao()->deleteWorkflowStateMachinerecord($flow, $state, $role, $action, $resultingState);

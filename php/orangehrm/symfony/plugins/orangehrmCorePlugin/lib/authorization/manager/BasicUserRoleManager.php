@@ -24,11 +24,16 @@
  */
 class BasicUserRoleManager extends AbstractUserRoleManager {
 
+    const PERMISSION_TYPE_DATA_GROUP = 'data_group';
+    
     protected $employeeService;
     protected $systemUserService;
     protected $screenPermissionService;
     protected $operationalCountryService;
     protected $locationService;
+    protected $dataGroupService;
+    protected $subordinates = null;   
+    
     protected $userRoleClasses;
 
     public function __construct() {
@@ -53,11 +58,30 @@ class BasicUserRoleManager extends AbstractUserRoleManager {
                     }
 
                     foreach ($configuraiton as $roleName => $roleObj) {
-                        $this->userRoleClasses[$roleName] = new $roleObj['class'];
+                        $this->userRoleClasses[$roleName] = new $roleObj['class']($this, $roleName);
                     }
                 }
             }
         }
+        
+        // Get non-predefined user roles (or lazy load)
+        
+    }
+    
+    protected function getUserRoleClass($roleName) {
+        
+        if (isset($this->userRoleClasses[$roleName])) {
+            return $this->userRoleClasses[$roleName];
+        } else {
+            $systemUserService = $this->getSystemUserService();
+            $role = $systemUserService->getUserRole($roleName);
+            if (!$role->getIsPredefined()) {
+                $this->userRoleClasses[$roleName] = new UserDefinedUserRole($roleName, $this);
+                return $this->userRoleClasses[$roleName];
+            }
+        }
+        
+        return null;
     }
 
     public function getLocationService() {
@@ -116,8 +140,9 @@ class BasicUserRoleManager extends AbstractUserRoleManager {
         $this->employeeService = $employeeService;
     }
 
-    public function getAccessibleEntities($entityType, $operation = null, $returnType = null, $rolesToExclude = array(), $rolesToInclude = array()) {
-
+    public function getAccessibleEntities($entityType, $operation = null, $returnType = null,
+            $rolesToExclude = array(), $rolesToInclude = array(), $requiredPermissions = array()) {
+        
         $allEmployees = array();
 
         $filteredRoles = $this->filterRoles($this->userRoles, $rolesToExclude, $rolesToInclude);
@@ -125,12 +150,12 @@ class BasicUserRoleManager extends AbstractUserRoleManager {
         foreach ($filteredRoles as $role) {
             $employees = array();
 
-            $roleClass = $this->userRoleClasses[$role->getName()];
+            $roleClass = $this->getUserRoleClass($role->getName());
 
             if ($roleClass) {
                 switch ($entityType) {
                     case 'Employee':
-                        $employees = $roleClass->getAccessibleEmployees($operation, $returnType);
+                        $employees = $roleClass->getAccessibleEmployees($operation, $returnType, $requiredPermissions);
                         break;
                 }
             }
@@ -148,19 +173,22 @@ class BasicUserRoleManager extends AbstractUserRoleManager {
      * @param $entityType Entity Type
      * @parm $properties Properties of the entity which should return
      */
-    public function getAccessibleEntityProperties($entityType, $properties = array(), $orderField = null, $orderBy = null, $rolesToExclude = array(), $rolesToInclude = array()) {
+    public function getAccessibleEntityProperties($entityType, $properties = array(), 
+            $orderField = null, $orderBy = null, $rolesToExclude = array(), 
+            $rolesToInclude = array(), $requiredPermissions = array()) {
+
         $allPropertyList = array();
         $filteredRoles = $this->filterRoles($this->userRoles, $rolesToExclude, $rolesToInclude);
 
         foreach ($filteredRoles as $role) {
             $propertyList = array();
 
-            $roleClass = $this->userRoleClasses[$role->getName()];
+            $roleClass = $this->getUserRoleClass($role->getName());
 
             if ($roleClass) {
                 switch ($entityType) {
                     case 'Employee':
-                        $propertyList = $roleClass->getAccessibleEmployeePropertyList($properties, $orderField, $orderBy);
+                        $propertyList = $roleClass->getAccessibleEmployeePropertyList($properties, $orderField, $orderBy, $requiredPermissions);
                         break;
                 }
             }
@@ -184,21 +212,23 @@ class BasicUserRoleManager extends AbstractUserRoleManager {
      * @param type $returnType
      * @return type 
      */
-    public function getAccessibleEntityIds($entityType, $operation = null, $returnType = null, $rolesToExclude = array(), $rolesToInclude = array()) {
 
+    public function getAccessibleEntityIds($entityType, $operation = null, $returnType = null,
+            $rolesToExclude = array(), $rolesToInclude = array(), $requiredPermissions = array()) {
+    
         $allIds = array();
         $filteredRoles = $this->filterRoles($this->userRoles, $rolesToExclude, $rolesToInclude);
 
         foreach ($filteredRoles as $role) {
             $ids = array();
             
-            $roleClass = $this->userRoleClasses[$role->getName()];
+            $roleClass = $this->getUserRoleClass($role->getName());
 
             if ($roleClass) {
 
             switch ($entityType) {
                 case 'Employee':
-                    $ids = $roleClass->getAccessibleEmployeeIds($operation, $returnType);
+                    $ids = $roleClass->getAccessibleEmployeeIds($operation, $returnType, $requiredPermissions);
                     break;
                 case 'SystemUser':
                     $ids = $roleClass->getAccessibleSystemUserIds($operation, $returnType);
@@ -222,17 +252,66 @@ class BasicUserRoleManager extends AbstractUserRoleManager {
 
         return $allIds;
     }
+    
+    /**
+     * Check State Transition possible for User 
+     * 
+     * @param type $workFlowId
+     * @param type $state
+     * @param type $action
+     * @return boolean 
+     */
+    public function isActionAllowed($workFlowId, $state, $action){
+        $accessFlowStateMachineService = new AccessFlowStateMachineService();
+        $isAllowed = FALSE;
+        foreach ($this->userRoles as $role) {
+           $isAllowed = $accessFlowStateMachineService->isActionAllowed($workFlowId, $state, $role, $action);
+           if($isAllowed){
+               break;
+           }
+        }
+        return $isAllowed;
+    }
+    
+    /**
+     * Get allowed Actions for User
+     * 
+     * @param type $workflow
+     * @param type $state
+     * @return actionsArray 
+     */
+    public function getAllowedActions($workflow, $state){
+        $accessFlowStateMachineService = new AccessFlowStateMachineService();
+        $allAction = array();
+        foreach ($this->userRoles as $role) {
+            $userAction = $accessFlowStateMachineService->getAllowedActions($workflow, $state, $role);     
+            
+            if (count($userAction) > 0) {
+                $allAction = array_unique(array_merge($allAction, $userAction));
+            }
+        }
+        return $allAction;
+    }
+    
 
-    public function isEntityAccessible($entityType, $entityId, $operation = null, $rolesToExclude = array(), $rolesToInclude = array()) {
-        $entityIds = $this->getAccessibleEntityIds($entityType, $operation, null, $rolesToExclude, $rolesToInclude);
+    public function isEntityAccessible($entityType, $entityId, $operation = null, 
+            $rolesToExclude = array(), $rolesToInclude = array(), $requiredPermissions = array()) {
 
+        $entityIds = $this->getAccessibleEntityIds($entityType, $operation, null, 
+                $rolesToExclude, $rolesToInclude, $requiredPermissions);
+        
         $accessible = in_array($entityId, $entityIds);
 
         return $accessible;
     }
 
-    public function areEntitiesAccessible($entityType, $entityIds, $operation = null, $rolesToExclude = array(), $rolesToInclude = array()) {
-        $accessibleIds = $this->getAccessibleEntityIds($entityType, $operation, null, $rolesToExclude, $rolesToInclude);
+    
+    public function areEntitiesAccessible($entityType, $entityIds, $operation = null, 
+            $rolesToExclude = array(), $rolesToInclude = array(), $requiredPermissions = array()) {
+        
+        $accessibleIds = $this->getAccessibleEntityIds($entityType, $operation, 
+                null, $rolesToExclude, $rolesToInclude, $requiredPermissions);
+
         $intersection = array_intersect($accessibleIds, $entityIds);
 
         $accessible = false;
@@ -285,11 +364,42 @@ class BasicUserRoleManager extends AbstractUserRoleManager {
                 }
             }
         }
-
-
+        
+        
         return $roles;
-    }
+    }    
+    
 
+    protected function areRequiredPermissionsAvailable($role, $requiredPermissions = array()) {
+        $permitted = true;
+        
+        foreach ($requiredPermissions as $permissionType => $permissions) {
+            if ($permissionType == self::PERMISSION_TYPE_DATA_GROUP) {
+                foreach ($permissions as $dataGroupName => $requestedResourcePermission) {
+                    $dataGroupPermissions = $this->getDataGroupPermissions($dataGroupName, array(), array($role->getName()));
+
+                    if ($permitted && $requestedResourcePermission->canRead()) {
+                        $permitted = $permitted && $dataGroupPermissions->canRead();
+                    }
+
+                    if ($permitted && $requestedResourcePermission->canCreate()) {
+                        $permitted = $dataGroupPermissions->canCreate();
+                    }
+
+                    if ($permitted && $requestedResourcePermission->canUpdate()) {
+                        $permitted = $dataGroupPermissions->canUpdate();
+                    }
+
+                    if ($permitted && $requestedResourcePermission->canDelete()) {
+                        $permitted = $dataGroupPermissions->canDelete();
+                    }                        
+                }
+            }
+        } 
+        
+        return $permitted;
+    }
+    
     protected function mergeEmployees($empList1, $empList2) {
 
         foreach ($empList2 as $id => $emp) {
@@ -299,9 +409,10 @@ class BasicUserRoleManager extends AbstractUserRoleManager {
         }
         return $empList1;
     }
+    
+    protected function filterRoles($userRoles, $rolesToExclude, $rolesToInclude, $entities = array()) {
 
-    protected function filterRoles($userRoles, $rolesToExclude, $rolesToInclude) {
-
+        
         if (!empty($rolesToExclude)) {
 
             $temp = array();
@@ -327,7 +438,107 @@ class BasicUserRoleManager extends AbstractUserRoleManager {
             $userRoles = $temp;
         }
 
+        $temp = array();
+        
+        if (!empty($entities)) {
+            foreach ($userRoles as $role) {
+                
+                $include = true;
+                
+                if ($role->getName() == 'Supervisor') {
+                    if (isset($entities['Employee'])) {
+                        if (!$this->isSupervisorFor($entities['Employee'])) {
+                            $include = false;
+                        }
+                    }
+                }
+                
+                if ($include) {
+                    $temp[] = $role;
+                }
+            }
+            
+            $userRoles = $temp;
+        }
+        
         return $userRoles;
     }
+    
+    protected function isSupervisorFor($empNumber) {
 
+        if (is_null($this->subordinates)) {
+            $this->subordinates = $this->getEmployeeService()->getSubordinateIdListBySupervisorId($this->user->getEmpNumber());
+        }
+        
+        if (is_array($this->subordinates) && in_array($empNumber, $this->subordinates)) {
+            return true;
+        }
+               
+        return false;
+    }
+    
+    public function getDataGroupService() {
+         if (empty($this->dataGroupService)) {
+            $this->dataGroupService = new DataGroupService();
+            $this->dataGroupService->setDao(new DataGroupDao());
+            return $this->dataGroupService;
+        }        
+        return $this->dataGroupService;
+    }
+
+    public function setDataGroupService($dataGroupService) {
+        $this->dataGroupService = $dataGroupService;
+    }
+
+    
+    /**
+     * Get user roles
+     * for each user role, 
+     * get data group permissions - if permissions not defined, should return object with all rights set to false.
+     * merge the permissions
+     * return merged data group permission object.
+     * 
+     * For testing, move service object into member variable.
+     * 
+     * @param type $dataGroupName
+     * @param type $userRoleId 
+     * 
+     * @return ResourcePermission
+     */
+    public function getDataGroupPermissions ($dataGroupName, $rolesToExclude = array(), $rolesToInclude = array(), $selfPermission = false, $entities = array()) {
+        
+        $filteredRoles = $this->filterRoles($this->userRoles, $rolesToExclude, $rolesToInclude, $entities); 
+              
+        $finalPermission = array('read'=> false, 'create'=> false,'update'=> false,'delete'=> false);
+        
+        foreach ($filteredRoles as $role){ 
+            $userRoleId = $role->getId();           
+            $permissions = $this->getDataGroupService()->getDataGroupPermission($dataGroupName, $userRoleId, $selfPermission);
+            
+            foreach ($permissions as $permission ){           
+
+                if($permission->getCanRead()){
+                    $finalPermission ['read'] = true;
+                }
+
+                if($permission->getCanCreate()){
+                    $finalPermission ['create'] = true;
+                }
+
+                if($permission->getCanUpdate()){
+                    $finalPermission ['update'] = true;
+                }
+
+                if($permission->getCanDelete()){
+                    $finalPermission ['delete'] = true;
+                }
+            }
+        }
+        
+        $resourcePermission = new ResourcePermission( $finalPermission ['read'], $finalPermission ['create'], $finalPermission ['update'], $finalPermission ['delete']);
+        return $resourcePermission;
+    }
+    
+    
+    
 }

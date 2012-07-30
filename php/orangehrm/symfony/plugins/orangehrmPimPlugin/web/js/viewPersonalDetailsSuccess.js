@@ -36,14 +36,18 @@ $(document).ready(function() {
                 $(list[i]).removeAttr("disabled");
             }
 
-            //making readonly fields for ESS users
-            if(readonlyFlag) {
-                $("#personal_txtEmployeeId").attr('disabled', 'disabled');
-                $("#personal_txtNICNo").attr('disabled', 'disabled');
-                $("#personal_txtSINNo").attr('disabled', 'disabled');
-                $("#personal_txtLicenNo").attr('disabled', 'disabled');
-                $("#personal_DOB").attr('disabled', 'disabled');
-                $('#personal_DOB_Button').attr('disabled', 'disabled');
+            // handle read only fields                
+            for (var j = 0; j < readOnlyFields.length; j++) {
+                var fieldId = '#personal_' + readOnlyFields[j];
+                var field = $(fieldId);
+                var fieldName = 'personal['+ readOnlyFields[j]+']';
+                
+                $('input[name="' + fieldName + '"]').attr('disabled', 'disabled');
+                field.attr('disabled', 'disabled');
+                if (field.hasClass('ohrm_datepicker')) {
+                    field.next('.calendarBtn').attr('disabled', 'disabled');
+                    
+                }
             }
 
             $("#btnSave").attr('value', save);

@@ -73,6 +73,12 @@ class viewQualificationsAction extends basePimAction {
         $this->showBackButton = false;
         $empNumber = $request->getParameter('empNumber');
         $this->empNumber = $empNumber;
+        
+        $this->workExperiencePermissions = $this->getDataGroupPermissions('qualification_work', $empNumber);
+        $this->educationPermissions = $this->getDataGroupPermissions('qualification_education', $empNumber);
+        $this->skillPermissions = $this->getDataGroupPermissions('qualification_skills', $empNumber);
+        $this->languagePermissions = $this->getDataGroupPermissions('qualification_languages', $empNumber);
+        $this->licensePermissions = $this->getDataGroupPermissions('qualification_license', $empNumber);
 
         if (!$this->IsActionAccessible($empNumber)) {
             $this->forward(sfConfig::get('sf_secure_module'), sfConfig::get('sf_secure_action'));
@@ -80,11 +86,11 @@ class viewQualificationsAction extends basePimAction {
         
         $this->_setMessage();
 
-        $this->setWorkExperienceForm(new WorkExperienceForm(array(), array('empNumber' => $empNumber), true));
-        $this->setEducationForm(new EmployeeEducationForm(array(), array('empNumber' => $empNumber), true));
-        $this->setSkillForm(new EmployeeSkillForm(array(), array('empNumber' => $empNumber), true));
-        $this->setLanguageForm(new EmployeeLanguageForm(array(), array('empNumber' => $empNumber), true));
-        $this->setLicenseForm(new EmployeeLicenseForm(array(), array('empNumber' => $empNumber), true));        
+        $this->setWorkExperienceForm(new WorkExperienceForm(array(), array('empNumber' => $empNumber,'workExperiencePermissions' => $this->workExperiencePermissions), true));
+        $this->setEducationForm(new EmployeeEducationForm(array(), array('empNumber' => $empNumber, 'educationPermissions' => $this->educationPermissions), true));
+        $this->setSkillForm(new EmployeeSkillForm(array(), array('empNumber' => $empNumber, 'skillPermissions' => $this->skillPermissions), true));
+        $this->setLanguageForm(new EmployeeLanguageForm(array(), array('empNumber' => $empNumber, 'languagePermissions' => $this->languagePermissions), true));
+        $this->setLicenseForm(new EmployeeLicenseForm(array(), array('empNumber' => $empNumber, 'licensePermissions' => $this->licensePermissions), true));        
     }
     
     protected function _setMessage() {

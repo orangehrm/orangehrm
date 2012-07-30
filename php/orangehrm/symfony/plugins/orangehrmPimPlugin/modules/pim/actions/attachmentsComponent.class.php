@@ -53,6 +53,8 @@ class attachmentsComponent extends sfComponent {
         $this->attComments = '';
         $this->scrollToAttachments = false;
         
+        $this->permission = $this->getDataGroupPermissions($this->screen . '_attachment', $this->empNumber);        
+
         if ($this->getUser()->hasFlash('attachmentMessage')) {  
             
             $this->scrollToAttachments = true;
@@ -85,5 +87,14 @@ class attachmentsComponent extends sfComponent {
         $this->deleteForm = new EmployeeAttachmentDeleteForm(array(), array(), true);
     }
 
+    protected function getDataGroupPermissions($dataGroups, $empNumber) { 
+        $loggedInEmpNum = $this->getUser()->getEmployeeNumber();
+        
+        $entities = array('Employee' => $empNumber);
+        
+        $self = $empNumber == $loggedInEmpNum;
+        
+         return $this->getContext()->getUserRoleManager()->getDataGroupPermissions($dataGroups, array(), array(), $self, $entities);
+    }
 }
 

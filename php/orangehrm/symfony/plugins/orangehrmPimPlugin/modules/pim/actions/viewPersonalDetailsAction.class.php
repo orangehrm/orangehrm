@@ -31,56 +31,55 @@ class viewPersonalDetailsAction extends basePimAction {
             $this->form = $form;
         }
     }
-
+    
     public function execute($request) {
         try {
             $loggedInEmpNum = $this->getUser()->getEmployeeNumber();
-            $this->showBackButton = true;
             $this->isLeavePeriodDefined();
 
             $personal = $request->getParameter('personal');
             $empNumber = (isset($personal['txtEmpID']))?$personal['txtEmpID']:$request->getParameter('empNumber');
             $this->empNumber = $empNumber;
-
-            //hiding the back button if its self ESS view
-            if($loggedInEmpNum == $empNumber) {
-                
-                $this->showBackButton = false;
-            }
             
             // TODO: Improve            
             $adminMode = $this->getUser()->hasCredential(Auth::ADMIN_ROLE);
 
             if ($this->getUser()->hasFlash('templateMessage')) {
                 list($this->messageType, $this->message) = $this->getUser()->getFlash('templateMessage');
-            }
+            }           
+           
+            $this->personalInformationPermission = $this->getDataGroupPermissions('personal_information', $empNumber);
+            $this->canEditSensitiveInformation = ($empNumber != $loggedInEmpNum) || $adminMode;
+            
 
-            $essMode = !$adminMode && !empty($loggedInEmpNum) && ($empNumber == $loggedInEmpNum);
-            $param = array('empNumber' => $empNumber, 'ESS' => $essMode);
+            $param = array('empNumber' => $empNumber, 
+                'personalInformationPermission' => $this->personalInformationPermission,
+                'canEditSensitiveInformation' => $this->canEditSensitiveInformation);
             
             if (!$this->IsActionAccessible($empNumber)) {
                 $this->forward(sfConfig::get('sf_secure_module'), sfConfig::get('sf_secure_action'));
             }
-            
-            $this->essMode = $essMode;
             
             $this->showDeprecatedFields = OrangeConfig::getInstance()->getAppConfValue(ConfigService::KEY_PIM_SHOW_DEPRECATED);
             $this->showSSN = OrangeConfig::getInstance()->getAppConfValue(ConfigService::KEY_PIM_SHOW_SSN);
             $this->showSIN = OrangeConfig::getInstance()->getAppConfValue(ConfigService::KEY_PIM_SHOW_SIN);
 
             $this->setForm(new EmployeePersonalDetailsForm(array(), $param, true));
-            if ($request->isMethod('post')) {
 
-                $this->form->bind($request->getParameter($this->form->getName()));
-                if ($this->form->isValid()) {
+            if ($this->personalInformationPermission->canUpdate()){
+                if ($request->isMethod('post')) {
 
-                    $this->_checkWhetherEmployeeIdExists($this->form->getValue('txtEmployeeId'), $empNumber);
+                    $this->form->bind($request->getParameter($this->form->getName()));
+                    if ($this->form->isValid()) {
 
-                    $employee = $this->form->getEmployee();
-                    $this->getEmployeeService()->saveEmployee($employee);
-                    $this->getUser()->setFlash('templateMessage', array('success', __(TopLevelMessages::SAVE_SUCCESS)));
-                    $this->redirect('pim/viewPersonalDetails?empNumber='. $empNumber);
+                        $this->_checkWhetherEmployeeIdExists($this->form->getValue('txtEmployeeId'), $empNumber);
 
+                        $employee = $this->form->getEmployee();
+                        $this->getEmployeeService()->saveEmployee($employee);
+                        $this->getUser()->setFlash('templateMessage', array('success', __(TopLevelMessages::SAVE_SUCCESS)));
+                        $this->redirect('pim/viewPersonalDetails?empNumber='. $empNumber);
+
+                    }
                 }
             }
         } catch( Exception $e) {

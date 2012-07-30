@@ -28,23 +28,34 @@ class deleteEmployeesAction extends basePimAction {
      */
     public function execute($request) {
         
-        $ids = $request->getParameter('chkSelectRow');
-
-        $userRoleManager = $this->getContext()->getUserRoleManager();
-        if (!$userRoleManager->areEntitiesAccessible('Employee', $ids)) {
-            $this->forward(sfConfig::get('sf_secure_module'), sfConfig::get('sf_secure_action'));
-        }
+        $allowedToDeleteActive = $this->getContext()->getUserRoleManager()->isActionAllowed(PluginWorkflowStateMachine::FLOW_EMPLOYEE, 
+                Employee::STATE_ACTIVE, PluginWorkflowStateMachine::EMPLOYEE_ACTION_DELETE_ACTIVE);
+        $allowedToDeleteTerminated = $this->getContext()->getUserRoleManager()->isActionAllowed(PluginWorkflowStateMachine::FLOW_EMPLOYEE, 
+                Employee::STATE_TERMINATED, PluginWorkflowStateMachine::EMPLOYEE_ACTION_DELETE_TERMINATED);
         
-        $employeeService = $this->getEmployeeService();               
-        $count = $employeeService->deleteEmployees($ids);
 
-        if ($count == count($ids)) {
-            $this->getUser()->setFlash('templateMessage', array('success', __(TopLevelMessages::DELETE_SUCCESS)));
+        if ($allowedToDeleteActive || $allowedToDeleteTerminated) {
+            $ids = $request->getParameter('chkSelectRow');
+
+            $userRoleManager = $this->getContext()->getUserRoleManager();
+            if (!$userRoleManager->areEntitiesAccessible('Employee', $ids)) {
+                $this->forward(sfConfig::get('sf_secure_module'), sfConfig::get('sf_secure_action'));
+            }
+
+            $employeeService = $this->getEmployeeService();               
+            $count = $employeeService->deleteEmployees($ids);
+
+            if ($count == count($ids)) {
+                $this->getUser()->setFlash('templateMessage', array('success', __(TopLevelMessages::DELETE_SUCCESS)));
+            } else {
+                $this->getUser()->setFlash('templateMessage', array('failure', __('A Problem Occured When Deleting The Selected Employees')));
+            }
+
+            $this->redirect('pim/viewEmployeeList');
         } else {
-            $this->getUser()->setFlash('templateMessage', array('failure', __('A Problem Occured When Deleting The Selected Employees')));
+            $this->getUser()->setFlash('templateMessage', array('warning', __('Contact Admin for delete Credentials')));
+            $this->redirect('pim/viewEmployeeList');
         }
-
-        $this->redirect('pim/viewEmployeeList');
     }
 
 

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * OrangeHRM is a comprehensive Human Resource Management (HRM) System that captures
  * all the essential functionalities required for any enterprise.
@@ -33,16 +34,18 @@ class deleteDependentsAction extends basePimAction {
     public function execute($request) {
 
         $empNumber = $request->getParameter('empNumber', false);
-    	$this->form = new EmployeeDependentsDeleteForm(array(), array('empNumber' => $empNumber), true);
-        
-    	$this->form->bind($request->getParameter($this->form->getName()));               
+        $this->form = new EmployeeDependentsDeleteForm(array(), array('empNumber' => $empNumber), true);
+
+        $this->form->bind($request->getParameter($this->form->getName()));
+
+        $this->dependentPermissions = $this->getDataGroupPermissions('dependents', $empNumber);
 
         if (!$this->IsActionAccessible($empNumber)) {
             $this->forward(sfConfig::get('sf_secure_module'), sfConfig::get('sf_secure_action'));
         }
-        
+
         if ($this->form->isValid()) {
-                
+            if ($this->dependentPermissions->canDelete()) {
                 if (!$empNumber) {
                     throw new PIMServiceException("No Employee ID given");
                 }
@@ -53,6 +56,7 @@ class deleteDependentsAction extends basePimAction {
                     $count = $service->deleteEmployeeDependents($empNumber, $dependentsToDelete);
                     $this->getUser()->setFlash('templateMessage', array('success', __(TopLevelMessages::DELETE_SUCCESS)));
                 }
+            }
         }
 
         $this->redirect('pim/viewDependents?empNumber=' . $empNumber);

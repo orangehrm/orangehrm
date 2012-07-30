@@ -71,33 +71,61 @@ class EmployeeMembershipForm extends BaseForm {
     }
 
     public function configure() {
-
-        $memberships = $this->getMembershipList();
-        $subscriptionPaidBy = array('' => "-- " . __('Select') . " --", 'Company' => __('Company'), 'Individual' => __('Individual'));
-        $currency = $this->getCurrencyList();
-
+        $this->membershipPermissions = $this->getOption('membershipPermissions');        
         $empNumber = $this->getOption('empNumber');
         $employee = $this->getEmployeeService()->getEmployee($empNumber);
         $this->fullName = $employee->getFullName();
-
-        //creating widgets
-        $this->setWidgets(array(
-            'empNumber' => new sfWidgetFormInputHidden(array(),
-                    array('value' => $empNumber)),
-            'membership' => new sfWidgetFormSelect(array('choices' => $memberships)),
-            'subscriptionPaidBy' => new sfWidgetFormSelect(array('choices' => $subscriptionPaidBy)),
-            'subscriptionAmount' => new sfWidgetFormInputText(),
-            'currency' => new sfWidgetFormSelect(array('choices' => $currency)),
-            'subscriptionCommenceDate' => new ohrmWidgetDatePickerNew(array(), array('id' => 'membership_subscriptionCommenceDate')),
-            'subscriptionRenewalDate' => new ohrmWidgetDatePickerNew(array(), array('id' => 'membership_subscriptionRenewalDate'))
-        ));
-
-
+        
+        $widgets = array('empNumber' => new sfWidgetFormInputHidden(array(), array('value' => $empNumber)));
+        $validators = array('empNumber' => new sfValidatorString(array('required' => true)));
+        
+        if ($this->membershipPermissions->canRead()) {
+            $membershipWidgets = $this->getMembershipWidgets();
+            $membershipValidators = $this->getMembershipValidators();
+            if (!($this->membershipPermissions->canUpdate() || $this->membershipPermissions->canCreate()) ) {
+                foreach ($membershipWidgets as $widgetName => $widget) {
+                    $widget->setAttribute('disabled', 'disabled');
+                }
+            }
+            $widgets = array_merge($widgets, $membershipWidgets);
+            $validators = array_merge($validators, $membershipValidators);
+        }
+        
+        $this->setWidgets($widgets);
+        $this->setValidators($validators);
+        
+        $this->widgetSchema->setNameFormat('membership[%s]');
+    }
+    
+    /**
+     * Set membership widgets 
+     * @return \ohrmWidgetDatePickerNew 
+     */
+    private function getMembershipWidgets() {
+        $empNumber = $this->getOption('empNumber');
+        $memberships = $this->getMembershipList();
+        $subscriptionPaidBy = array('' => "-- " . __('Select') . " --", 'Company' => __('Company'), 'Individual' => __('Individual'));
+        $currency = $this->getCurrencyList();
+        
+        $widgets = array();
+        $widgets['membership'] = new sfWidgetFormSelect(array('choices' => $memberships));
+        $widgets['subscriptionPaidBy'] = new sfWidgetFormSelect(array('choices' => $subscriptionPaidBy));
+        $widgets['subscriptionAmount'] = new sfWidgetFormInputText();
+        $widgets['currency'] = new sfWidgetFormSelect(array('choices' => $currency));
+        $widgets['subscriptionCommenceDate'] = new ohrmWidgetDatePickerNew(array(), array('id' => 'membership_subscriptionCommenceDate'));
+        $widgets['subscriptionRenewalDate'] = new ohrmWidgetDatePickerNew(array(), array('id' => 'membership_subscriptionRenewalDate'));
+        return $widgets;
+    }
+    
+    /**
+     * Form vaidation
+     * @return \sfValidatorNumber 
+     */
+    private function getMembershipValidators() {
+        $memberships = $this->getMembershipList();
         $inputDatePattern = sfContext::getInstance()->getUser()->getDateFormat();
-
-        //Setting validators
-        $this->setValidators(array(
-            'empNumber' => new sfValidatorNumber(array('required' => true, 'min' => 0)),
+        
+        $validators = array(
             'membership' => new sfValidatorChoice(array('required' => true, 'choices' => array_keys($memberships))),
             'subscriptionPaidBy' => new sfValidatorString(array('required' => false)),
             'subscriptionAmount' => new sfValidatorNumber(array('required' => false)),
@@ -106,8 +134,8 @@ class EmployeeMembershipForm extends BaseForm {
                     array('invalid' => 'Date format should be ' . $inputDatePattern)),
             'subscriptionRenewalDate' => new ohrmDateValidator(array('date_format' => $inputDatePattern, 'required' => false),
                     array('invalid' => 'Date format should be ' . $inputDatePattern)),
-        ));
-        $this->widgetSchema->setNameFormat('membership[%s]');
+        );
+        return $validators;
     }
 
     /**
@@ -143,27 +171,37 @@ class EmployeeMembershipForm extends BaseForm {
 
         $empNumber = $this->getValue('empNumber');
         $membership = $this->getValue('membership');
-
+        $membershipPermission = $this->getOption('membershipPermissions');
         $employeeService = new EmployeeService();
 
         $membershipDetails = $employeeService->getEmployeeMemberships($empNumber, $membership);
-        $membershipDetail = $membershipDetails[0];
-
-        if ($membershipDetail->getEmpNumber() == null) {
-
-            $membershipDetail = new EmployeeMembership();
-            $membershipDetail->empNumber = $empNumber;
-            $membershipDetail->membershipId = $membership;
+        
+        $allowed = FALSE;
+        
+        if ($membershipDetails->count() > 0) {
+            if($membershipPermission->canUpdate()) {
+                $membershipDetail = $membershipDetails[0];
+                $allowed = TRUE;
+            }
+        } else {
+            if ($membershipPermission->canCreate()) {
+                $membershipDetail = new EmployeeMembership();
+                $membershipDetail->empNumber = $empNumber;
+                $membershipDetail->membershipId = $membership;
+                $allowed = TRUE;
+            }
         }
 
-        $membershipDetail->subscriptionPaidBy = $this->getValue('subscriptionPaidBy');
-        $membershipDetail->subscriptionFee = $this->getValue('subscriptionAmount');
-        $membershipDetail->subscriptionCurrency = $this->getValue('currency');
+        if ($allowed) {
+            $membershipDetail->subscriptionPaidBy = $this->getValue('subscriptionPaidBy');
+            $membershipDetail->subscriptionFee = $this->getValue('subscriptionAmount');
+            $membershipDetail->subscriptionCurrency = $this->getValue('currency');
 
-        $membershipDetail->subscriptionCommenceDate = $this->getValue('subscriptionCommenceDate');
-        $membershipDetail->subscriptionRenewalDate = $this->getValue('subscriptionRenewalDate');
+            $membershipDetail->subscriptionCommenceDate = $this->getValue('subscriptionCommenceDate');
+            $membershipDetail->subscriptionRenewalDate = $this->getValue('subscriptionRenewalDate');
 
-        $membershipDetail->save();
+            $membershipDetail->save();
+        }
     }
 
 }

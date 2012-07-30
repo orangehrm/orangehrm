@@ -44,34 +44,65 @@ class EmployeeSkillForm extends sfForm {
     }
 
     public function configure() {
-
+        $this->skillPermissions = $this->getOption('skillPermissions');
+        
         $empNumber = $this->getOption('empNumber');
         $employee = $this->getEmployeeService()->getEmployee($empNumber);
         $this->fullName = $employee->getFullName();
 
         $this->empSkillList = $this->getEmployeeService()->getEmployeeSkills($empNumber);
 
-        //initializing the components
-        $this->widgets = array(
-            'emp_number' => new sfWidgetFormInputHidden(),
-            'code' => new sfWidgetFormSelect(array('choices' => $this->_getSkillList())),
-            'years_of_exp' => new sfWidgetFormInputText(),
-            'comments' => new sfWidgetFormTextarea(),
-        );
-
-        $this->widgets['emp_number']->setDefault($empNumber);
-        $this->setWidgets($this->widgets);
-
-        $inputDatePattern = sfContext::getInstance()->getUser()->getDateFormat();
+        $widgets = array('emp_number' => new sfWidgetFormInputHidden(array(), array('value' => $empNumber)));
+        $validators = array('emp_number' => new sfValidatorString(array('required' => false)));
         
-        $this->setValidator('emp_number', new sfValidatorString(array('required' => false)));
-        $this->setValidator('code', new sfValidatorString(array('required' => true,
-            'max_length' => 13)));
-        $this->setValidator('years_of_exp', new sfValidatorNumber(array('required' => false, 'max' => 99)));
-        $this->setValidator('comments', new sfValidatorString(array('required' => false,
-            'max_length' => 100)));
+        if ($this->skillPermissions->canRead()) {
+
+            $skillsWidgets = $this->getSkillsWidgets();
+            $skillsValidators = $this->getSkillsValidators();
+
+            if (!($this->skillPermissions->canUpdate() || $this->skillPermissions->canCreate()) ) {
+                foreach ($skillsWidgets as $widgetName => $widget) {
+                    $widget->setAttribute('disabled', 'disabled');
+                }
+            }
+            $widgets = array_merge($widgets, $skillsWidgets);
+            $validators = array_merge($validators, $skillsValidators);
+        }
+
+        $this->setWidgets($widgets);
+        $this->setValidators($validators);
+
 
         $this->widgetSchema->setNameFormat('skill[%s]');
+    }
+    
+    
+    /*
+     * Tis fuction will return the widgets of the form
+     */
+    public function getSkillsWidgets() {
+        $widgets = array();
+
+        //creating widgets
+        $widgets['code'] = new sfWidgetFormSelect(array('choices' => $this->_getSkillList()));
+        $widgets['years_of_exp'] = new sfWidgetFormInputText();
+        $widgets['comments'] = new sfWidgetFormTextarea();
+
+        return $widgets;
+    }
+
+    /*
+     * Tis fuction will return the form validators
+     */
+    public function getSkillsValidators() {
+        
+        $validators = array(
+            'code' => new sfValidatorString(array('required' => true, 'max_length' => 13)),
+            'years_of_exp' => new sfValidatorString(array('required' => false, 'max_length' => 99)),
+            'comments' => new sfValidatorString(array('required' => false, 'max_length' => 100)),
+        );
+
+        return $validators;
     }
 
     private function _getSkillList() {

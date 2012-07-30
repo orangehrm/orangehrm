@@ -77,73 +77,90 @@ class viewPhotographAction extends basePimAction {
         if (!$empPicture instanceof EmpPicture) {
             $this->showDeleteButton = 0;
         }
-
-        $param = array('empNumber' => $empNumber);
+        
+        $this->photographPermissions = $this->getDataGroupPermissions('photograph', $empNumber);
+        $param = array('empNumber' => $empNumber, 'photographPermissions' => $this->photographPermissions);
         $this->setForm(new EmployeePhotographForm(array(), $param, true));
         $this->fileModify = 0;
         $this->newWidth = 0;
         $this->newHeight = 0;
 
         //this is for saving a picture
-        if ($request->isMethod('post')) {
+        if ($this->photographPermissions->canUpdate()) {
+            
+            if ($request->isMethod('post')) {
+            
+                $this->form->bind($request->getPostParameters(), $request->getFiles());
+                $photoFile = $request->getFiles();
 
-            $this->form->bind($request->getPostParameters(), $request->getFiles());
-            $photoFile = $request->getFiles();
-
-            //in case if file size exceeds 1MB
-            if ($photoFile['photofile']['size'] == 0 || $photoFile['photofile']['size'] > 1000000) {
-
-                $this->messageType = "warning";
-                $this->message = __(TopLevelMessages::FILE_SIZE_SAVE_FAILURE);
-            }
-
-            if ($this->form->isValid()) {
-
-                $fileType = $photoFile['photofile']['type'];
-
-                $allowedImageTypes[] = "image/gif";
-                $allowedImageTypes[] = "image/jpeg";
-                $allowedImageTypes[] = "image/jpg";
-                $allowedImageTypes[] = "image/pjpeg";
-                $allowedImageTypes[] = "image/png";
-                $allowedImageTypes[] = "image/x-png";
-
-                if (!in_array($fileType, $allowedImageTypes)) {
+                //in case if file size exceeds 1MB
+                if ($photoFile['photofile']['size'] == 0 || $photoFile['photofile']['size'] > 1000000) {
 
                     $this->messageType = "warning";
-                    $this->message = __(TopLevelMessages::FILE_TYPE_SAVE_FAILURE);
-                } else {
+                    $this->message = __(TopLevelMessages::FILE_SIZE_SAVE_FAILURE);
+                }
 
-                    list($width, $height) = getimagesize($photoFile['photofile']['tmp_name']);
+                if ($this->form->isValid()) {
 
-                    //flags from server
-                    $this->fileModify = 1;
-                    $this->showDeleteButton = 1;
+                    $fileType = $photoFile['photofile']['type'];
 
-                    $this->pictureSizeAdjust($height, $width);
-                    $this->saveEmployeePicture($empNumber, $photoFile);
-                    $this->messageType = "success";
-                    $this->message = __('Successfully Uploaded');
+                    $allowedImageTypes[] = "image/gif";
+                    $allowedImageTypes[] = "image/jpeg";
+                    $allowedImageTypes[] = "image/jpg";
+                    $allowedImageTypes[] = "image/pjpeg";
+                    $allowedImageTypes[] = "image/png";
+                    $allowedImageTypes[] = "image/x-png";
+
+                    if (!in_array($fileType, $allowedImageTypes)) {
+
+                        $this->messageType = "warning";
+                        $this->message = __(TopLevelMessages::FILE_TYPE_SAVE_FAILURE);
+                    } else {
+
+                        list($width, $height) = getimagesize($photoFile['photofile']['tmp_name']);
+
+                        //flags from server
+                        $this->fileModify = 1;
+                        $this->showDeleteButton = 1;
+
+                        $this->pictureSizeAdjust($height, $width);
+                        $this->saveEmployeePicture($empNumber, $photoFile);
+                        $this->messageType = "success";
+                        $this->message = __('Successfully Uploaded');
+                    }
                 }
             }
         }
 
-        //this is for deleting a picture
+        //this is for deleting a picture        
         if ($request->getParameter('option') == "delete") {
+            
+            if ($this->photographPermissions->canDelete()) {
+                $employeeService = $this->getEmployeeService();
+                $employeeService->deleteEmployeePicture($empNumber);
 
-            $employeeService = $this->getEmployeeService();
-            $employeeService->deleteEmployeePicture($empNumber);
+                $this->showDeleteButton = 0;
+                $this->fileModify = 1;
 
-            $this->showDeleteButton = 0;
-            $this->fileModify = 1;
+                //set default picture size
+                $this->newWidth = 150;
+                $this->newHeight = 176;
 
-            //set default picture size
-            $this->newWidth = 150;
-            $this->newHeight = 176;
+                $this->messageType = "success";
+                $this->message = __(TopLevelMessages::DELETE_SUCCESS);
+            }
+            else {
+                $this->showDeleteButton = 0;
+                $this->fileModify = 1;
 
-            $this->messageType = "success";
-            $this->message = __(TopLevelMessages::DELETE_SUCCESS);
-        }
+                //set default picture size
+                $this->newWidth = 150;
+                $this->newHeight = 176;
+
+                $this->messageType = "warning";
+                $this->message = __("Failed to remove");
+            }
+        }        
     }
 
     private function saveEmployeePicture($empNumber, $file) {

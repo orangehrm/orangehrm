@@ -16,12 +16,10 @@
     var lang_selectGender = "<?php echo __(ValidationMessages::REQUIRED); ?>";
     var lang_invalidDate = '<?php echo __(ValidationMessages::DATE_FORMAT_INVALID, array('%format%' => get_datepicker_date_format($sf_user->getDateFormat()))) ?>';
     var datepickerDateFormat = '<?php echo get_datepicker_date_format($sf_user->getDateFormat()); ?>';
-    var readonlyFlag = 0;
-    <?php if($essMode) { ?>
-        readonlyFlag = 1;
-    <?php } ?>
 
     var fileModified = 0;
+    
+    var readOnlyFields = <?php echo json_encode($form->getReadOnlyWidgetNames());?>
 
     //]]>
 </script>
@@ -47,11 +45,14 @@
                         </div>
                         <div class="outerbox">
                             <div class="mainHeading"><h2><?php echo __('Personal Details'); ?></h2></div>
+                            <?php if ($personalInformationPermission->canRead()) {?>
                             <div>
+                                
                                 <form id="frmEmpPersonalDetails" method="post" action="<?php echo url_for('pim/viewPersonalDetails'); ?>">
                                     <?php echo $form['_csrf_token']; ?>
                                     <table cellspacing="0" cellpadding="0" border="0" class="tableArrange">
-                                        <?php echo $form['txtEmpID']->render(); ?>
+                                        <?php echo $form['txtEmpID']->render(); 
+                                        ?>
                                         <tr>
                                             <!-- section for full name -->
                                             <td>
@@ -72,6 +73,7 @@
                                                 <div class="hrLine" >&nbsp;</div>
                                             </td>
                                         </tr>
+                                        
                                         <tr>                
                                             <td>
                                                 <!-- section for rest of the contents -->
@@ -82,13 +84,13 @@
                                                         <td <?php echo $showSSN ? '' : "class='hideTr'";?>><?php echo __('SSN Number'); ?></td>
                                                         <td <?php echo $showSSN ? '' : "class='hideTr'";?>><?php echo $form['txtNICNo']->render(array("class" => "formInputText", "maxlength" => 30)); ?></td>
                                                     </tr>
+                                                    
                                                     <tr>
                                                         <td><?php echo __('Other Id'); ?></td>
                                                         <td><?php echo $form['txtOtherID']->render(array("class" => "formInputText", "maxlength" => 30)); ?></td>
-                                                        
                                                         <td <?php echo $showSIN ? '' : "class='hideTr'";?>><?php echo __('SIN Number'); ?></td>
                                                         <td <?php echo $showSIN ? '' : "class='hideTr'";?>><?php echo $form['txtSINNo']->render(array("class" => "formInputText", "maxlength" => 30)); ?></td>
-                                                        
+
                                                     </tr>
                                                     <tr>
                                                         <td><?php echo __("Driver's License Number"); ?></td>
@@ -119,6 +121,7 @@
                                                         <td>&nbsp;</td>
                                                         <td>&nbsp;</td>
                                                     </tr>
+
                                                     <tr <?php if(!$showDeprecatedFields) {
                                                         echo "class='hideTr'";
                                                         }?> >
@@ -145,12 +148,23 @@
                                         </tr>
                                     </table>
                                     <div class="formbuttons">
-                                        <input type="button" class="savebutton" id="btnSave" value="<?php echo __("Edit"); ?>" tabindex="2" />
+                                        <?php  if ($personalInformationPermission->canUpdate()) { ?>
+                                                    <input type="button" class="savebutton" id="btnSave" value="<?php echo __("Edit"); ?>" tabindex="2" />
+                                        <?php } ?>
                                     </div>
                                 </form>
+                                
                             </div>
+                            <?php }else{
+                                ?>
+                            <div class="paddingLeftRequired"><?php echo __(CommonMessages::DONT_HAVE_ACCESS); ?></div>
+                            <?php
+                            }
+?>
                         </div>
+                        <?php if ($personalInformationPermission->canRead()) {?>
                         <div class="paddingLeftRequired"><span class="required">*</span> <?php echo __(CommonMessages::REQUIRED_FIELD); ?></div>
+                        <?php }?>
                         <?php echo include_component('pim', 'customFields', array('empNumber'=>$empNumber, 'screen' => CustomField::SCREEN_PERSONAL_DETAILS));?>
                         <?php echo include_component('pim', 'attachments', array('empNumber'=>$empNumber, 'screen' => EmployeeAttachment::SCREEN_PERSONAL_DETAILS));?>
                         

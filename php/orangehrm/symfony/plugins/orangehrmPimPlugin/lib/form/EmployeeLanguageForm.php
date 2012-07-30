@@ -44,16 +44,16 @@ class EmployeeLanguageForm extends sfForm {
     }
 
     public function configure() {
+        $this->languagePermissions = $this->getOption('languagePermissions');
 
         $empNumber = $this->getOption('empNumber');
         $employee = $this->getEmployeeService()->getEmployee($empNumber);
         $this->fullName = $employee->getFullName();
 
         $this->empLanguageList = $this->getEmployeeService()->getEmployeeLanguages($empNumber);
-
+        
         $i18nHelper = sfContext::getInstance()->getI18N();
         
-        $availableLanguageList = $this->_getLanguageList();
         $this->langTypeList = array("" => '-- ' . $i18nHelper->__('Select') . ' --',
                                1 => $i18nHelper->__('Writing'),
                                2 => $i18nHelper->__('Speaking'),
@@ -64,29 +64,56 @@ class EmployeeLanguageForm extends sfForm {
                                  3 => $i18nHelper->__('Good'),
                                  4 => $i18nHelper->__('Mother Tongue'));
         
-        //initializing the components
-        $this->widgets = array(
-            'emp_number' => new sfWidgetFormInputHidden(),
-            'code' => new sfWidgetFormSelect(array('choices' => $availableLanguageList)),
-            'lang_type' => new sfWidgetFormSelect(array('choices' => $this->langTypeList)),
-            'competency' => new sfWidgetFormSelect(array('choices' => $this->competencyList)),
-            'comments' => new sfWidgetFormTextarea()
-        );
-
-        $this->widgets['emp_number']->setDefault($empNumber);
-        $this->setWidgets($this->widgets);
-
-        $inputDatePattern = sfContext::getInstance()->getUser()->getDateFormat();
+        $widgets = array('emp_number' => new sfWidgetFormInputHidden(array(), array('value' => $empNumber)));
+        $validators = array('emp_number' => new sfValidatorString(array('required' => true)));
         
-        $this->setValidator('emp_number', new sfValidatorString(array('required' => false)));
-        $this->setValidator('code', new sfValidatorChoice(array('choices' => array_keys($availableLanguageList))));
-        $this->setValidator('lang_type', new sfValidatorChoice(array('choices' => array_keys($this->langTypeList))));
-        $this->setValidator('competency', new sfValidatorChoice(array('choices' => array_keys($this->competencyList))));
-        $this->setValidator('comments', new sfValidatorString(array('required' => false, 'max_length' => 100)));
+        if ($this->languagePermissions->canRead()) {
 
+            $languageWidgets = $this->getLanguageWidgets();
+            $languageValidators = $this->getLanguageValidators();
+
+            if (!($this->languagePermissions->canUpdate() || $this->languagePermissions->canCreate()) ) {
+                foreach ($languageWidgets as $widgetName => $widget) {
+                    $widget->setAttribute('disabled', 'disabled');
+                }
+            }
+            $widgets = array_merge($widgets, $languageWidgets);
+            $validators = array_merge($validators, $languageValidators);
+        }
+        
+        $this->setWidgets($widgets);
+        $this->setValidators($validators);
+        
         $this->widgetSchema->setNameFormat('language[%s]');
     }
     
+    /**
+     *
+     * @return \sfWidgetFormInputHidden 
+     */
+    private function getLanguageWidgets() {
+        $availableLanguageList = $this->_getLanguageList();
+        
+        $widgets = array();
+        $widgets['code'] = new sfWidgetFormSelect(array('choices' => $availableLanguageList));
+        $widgets['lang_type'] = new sfWidgetFormSelect(array('choices' => $this->langTypeList));
+        $widgets['competency'] = new sfWidgetFormSelect(array('choices' => $this->competencyList));
+        $widgets['comments'] = new sfWidgetFormTextarea();
+        return $widgets;
+    }
+    
+    private function getLanguageValidators() {
+        $availableLanguageList = $this->_getLanguageList();
+        
+        $validators = array(
+            'code' => new sfValidatorChoice(array('choices' => array_keys($availableLanguageList))),
+            'lang_type' => new sfValidatorChoice(array('choices' => array_keys($this->langTypeList))),
+            'competency' => new sfValidatorChoice(array('choices' => array_keys($this->competencyList))),
+            'comments' => new sfValidatorString(array('required' => false, 'max_length' => 100))
+        );
+        return $validators;
+    }
+
     public function getLangTypeDesc($langType) {
         $langTypeDesc = "";
         if (isset($this->langTypeList[$langType])) {

@@ -6,6 +6,7 @@ if (($section == 'language') && isset($message) && isset($messageType)) {
     $tmpMsgClass = '';
     $tmpMsg = '';
 }
+$haveLanguage = count($form->empLanguageList) > 0;
 ?>
 <div id="languageMessagebar" class="<?php echo $tmpMsgClass; ?>">
     <span style="font-weight: bold;"><?php echo $tmpMsg; ?></span>
@@ -15,11 +16,15 @@ if (($section == 'language') && isset($message) && isset($messageType)) {
 <div class="sectionDiv" id="sectionLanguage">
     <div style="float: left; width: 450px;"><h3><?php echo __('Languages'); ?></h3></div>
     <div id="actionLanguage" style="float: left; margin-top: 20px; width: 335px; text-align: right">
+        <?php if ($languagePermissions->canCreate() ) { ?>
         <input type="button" value="<?php echo __("Add");?>" class="savebutton" id="addLanguage" />&nbsp;
+        <?php } ?>
+        <?php if ($languagePermissions->canDelete() ) { ?>
         <input type="button" value="<?php echo __("Delete");?>" class="savebutton" id="delLanguage" />
+        <?php } ?>
     </div>
 
-
+    <?php if ($languagePermissions->canRead() && (($languagePermissions->canCreate()) || ($languagePermissions->canUpdate() && $haveLanguage))) { ?>
     <div class="outerbox" id="changeLanguage" style="width:500px; float: left">
         <div class="mainHeading"><h4 id="headChangeLanguage"><?php echo __('Add Language'); ?></h4></div>
         <form id="frmLanguage" action="<?php echo url_for('pim/saveDeleteLanguage?empNumber=' . $empNumber . "&option=save"); ?>" method="post">
@@ -45,21 +50,29 @@ if (($section == 'language') && isset($message) && isset($messageType)) {
             <?php echo $form['comments']->render(array("class" => "formInputText")); ?>
             <br class="clear"/>
 
+            <?php if (($haveLanguage && $languagePermissions->canUpdate()) || $languagePermissions->canCreate()) { ?>
             <div class="formbuttons">
                 <input type="button" class="savebutton" id="btnLanguageSave" value="<?php echo __("Save"); ?>" />
                 <input type="button" class="savebutton" id="btnLanguageCancel" value="<?php echo __("Cancel"); ?>" />
             </div>
+            <?php } ?>
         </form>
     </div>
+    <?php } ?>
     <br class="clear" />
     <div class="paddingLeftRequired" id="languageRequiredNote"><span class="required">*</span> <?php echo __(CommonMessages::REQUIRED_FIELD); ?></div>
     
+    <?php if ($languagePermissions->canRead()) { ?>
     <form id="frmDelLanguage" action="<?php echo url_for('pim/saveDeleteLanguage?empNumber=' . $empNumber . "&option=delete"); ?>" method="post">
         <div class="outerbox" id="tblLanguage">
             <table width="100%" cellspacing="0" cellpadding="0" class="data-table" border="0">
                 <thead>
                 <tr>
-                    <td class="check"><input type="checkbox" id="languageCheckAll" /></td>
+                    <?php if ($languagePermissions->canDelete()) { ?>
+                        <td class="check"><input type="checkbox" id="languageCheckAll" /></td>
+                    <?php } else { ?>
+                        <td></td>
+                    <?php } ?>
                     <td><?php echo __('Language');?></td>
                     <td><?php echo __('Fluency');?></td>
                     <td><?php echo __('Competency');?></td>                    
@@ -81,8 +94,19 @@ if (($section == 'language') && isset($message) && isset($messageType)) {
                 <input type="hidden" class="lang_type" value="<?php echo htmlspecialchars($language->fluency); ?>" />
                 <input type="hidden" class="competency" value="<?php echo htmlspecialchars($language->competency); ?>" />
 
-                <input type="checkbox" class="chkbox" value="<?php echo $language->langId . "_" . $language->fluency;?>" name="delLanguage[]"/></td>
-                <td class="name"><a href="#" class="edit"><?php echo htmlspecialchars($languageName);?></a></td>
+                <?php if ($languagePermissions->canDelete()) {?>
+                    <input type="checkbox" class="chkbox" value="<?php echo $language->langId . "_" . $language->fluency;?>" name="delLanguage[]"/></td>
+                <?php } else {?>
+                    <input type="hidden" class="chkbox" value="<?php echo $language->langId . "_" . $language->fluency;?>" name="delLanguage[]"/>
+                <?php }?>
+                <td class="name">
+                    <?php if ($languagePermissions->canUpdate()) { ?>
+                    <a href="#" class="edit"><?php echo htmlspecialchars($languageName);?></a>
+                    <?php } else {
+                        echo htmlspecialchars($languageName);
+                        } ?>
+                </td>
+                
                 <td><?php echo htmlspecialchars($form->getLangTypeDesc($language->fluency));?></td>
                 <td><?php echo htmlspecialchars($form->getCompetencyDesc($language->competency));?></td>
                 <td class="comments"><?php echo htmlspecialchars($language->comments);?></td>
@@ -101,6 +125,7 @@ if (($section == 'language') && isset($message) && isset($messageType)) {
             </table>
         </div>
     </form>
+    <?php } ?>
 
 </div>
 <script type="text/javascript">

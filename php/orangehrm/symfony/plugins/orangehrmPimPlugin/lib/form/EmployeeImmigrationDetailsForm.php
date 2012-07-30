@@ -45,31 +45,67 @@ class EmployeeImmigrationDetailsForm extends sfForm {
     }
 
     public function configure() {
+        $this->immigrationPermission = $this->getOption('immigrationPermission');
         
         $empNumber = $this->getOption('empNumber');
         $employee = $this->getEmployeeService()->getEmployee($empNumber);
         $this->fullName = $employee->getFullName();
-        $this->countries = $this->getCountryList();
+        
         $this->empPassports = $this->getEmployeeService()->getEmployeeImmigrationRecords($empNumber);
+        
+        $widgets = array('emp_number' => new sfWidgetFormInputHidden(array(), array('value' => $empNumber)));
+        $validators = array('emp_number' => new sfValidatorString(array('required' => true)));
 
-        $this->setWidgets(array(
-                'emp_number' => new sfWidgetFormInputHidden(array('default' => $empNumber)),
-                'seqno' => new sfWidgetFormInputHidden(),
-                'type_flag' => new sfWidgetFormChoice(array('expanded' => true, 'choices'  => array(
-                    EmployeeImmigrationRecord::TYPE_PASSPORT => __('Passport'), EmployeeImmigrationRecord::TYPE_VISA => __('Visa')), 'default' => EmployeeImmigrationRecord::TYPE_PASSPORT)),
-                'country' => new sfWidgetFormSelect(array('choices' => $this->countries)),
-                'number' => new sfWidgetFormInputText(),
-                'i9_status' => new sfWidgetFormInputText(),
-                'passport_issue_date' => new ohrmWidgetDatePickerNew(array(), array('id' => 'immigration_passport_issue_date')),
-                'passport_expire_date' => new ohrmWidgetDatePickerNew(array(), array('id' => 'immigration_passport_expire_date')),
-                'i9_review_date' => new ohrmWidgetDatePickerNew(array(), array('id' => 'immigration_i9_review_date')),
-                'comments' => new sfWidgetFormTextarea(),
-        ));
+        if ($this->immigrationPermission->canRead()) {
+            $immigrationDetailsWidgets = $this->getImmigrationDetailsWidgets();
+            $immigrationDetailsValidators = $this->getImmigrationDetailsValidators();
 
+            if (!($this->immigrationPermission->canUpdate() || $this->immigrationPermission->canCreate())) {
+                foreach ($immigrationDetailsWidgets as $widgetName => $widget) {
+                    $widget->setAttribute('disabled', 'disabled');
+                }
+            }
+            $widgets = array_merge($widgets, $immigrationDetailsWidgets);
+            $validators = array_merge($validators, $immigrationDetailsValidators);
+        }
+
+        $this->setWidgets($widgets);
+        $this->setValidators($validators);
+        
+
+        $this->widgetSchema->setNameFormat('immigration[%s]');
+    }
+    
+    /*
+     * get immigration form widgets
+     * 
+     */
+     public function getImmigrationDetailsWidgets() {
+        $widgets = array();
+        $this->countries = $this->getCountryList();
+        
+        //creating widgets
+        $widgets['seqno'] = new sfWidgetFormInputHidden();
+        $widgets['type_flag'] = new sfWidgetFormChoice(array('expanded' => true, 'choices'  => array(
+                    EmployeeImmigrationRecord::TYPE_PASSPORT => __('Passport'), EmployeeImmigrationRecord::TYPE_VISA => __('Visa')), 'default' => EmployeeImmigrationRecord::TYPE_PASSPORT));
+        $widgets['country'] = new sfWidgetFormSelect(array('choices' => $this->countries));
+        $widgets['number'] = new sfWidgetFormInputText();
+        $widgets['i9_status'] = new sfWidgetFormInputText();
+        $widgets['passport_issue_date'] =new ohrmWidgetDatePickerNew(array(), array('id' => 'immigration_passport_issue_date'));
+        $widgets['passport_expire_date'] = new ohrmWidgetDatePickerNew(array(), array('id' => 'immigration_passport_expire_date'));
+        $widgets['i9_review_date'] = new ohrmWidgetDatePickerNew(array(), array('id' => 'immigration_i9_review_date'));
+        $widgets['comments'] =  new sfWidgetFormTextarea();
+        
+        return $widgets;
+    }
+
+    /*
+     * get immigration form validators
+     */
+    public function getImmigrationDetailsValidators() {
         $inputDatePattern = sfContext::getInstance()->getUser()->getDateFormat();
-
-        $this->setValidators(array(
-                'emp_number' => new sfValidatorNumber(array('required' => false)),
+        
+        $validators = array(
                 'seqno' => new sfValidatorNumber(array('required' => false)),
                 'type_flag' => new sfValidatorChoice(array('required' => true,
                         'choices' => array(EmployeeImmigrationRecord::TYPE_PASSPORT, EmployeeImmigrationRecord::TYPE_VISA))),
@@ -80,9 +116,8 @@ class EmployeeImmigrationDetailsForm extends sfForm {
                 'passport_expire_date' => new ohrmDateValidator(array('date_format'=>$inputDatePattern, 'required'=>false), array('invalid'=>"Date format should be". $inputDatePattern)),
                 'i9_review_date' => new ohrmDateValidator(array('date_format'=>$inputDatePattern, 'required'=>false), array('invalid'=>"Date format should be". $inputDatePattern)),
                 'comments' => new sfValidatorString(array('required' => false))
-        ));
-
-        $this->widgetSchema->setNameFormat('immigration[%s]');
+        );
+        return $validators;
     }
 
     /**

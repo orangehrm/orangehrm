@@ -31,93 +31,100 @@ class addEmployeeAction extends basePimAction {
     }
 
     public function execute($request) {
-        
-        $this->showBackButton = true;
-        $loggedInEmpNum = $this->getUser()->getEmployeeNumber();
+        $allowedToAddEmployee = $this->getContext()->getUserRoleManager()->isActionAllowed(PluginWorkflowStateMachine::FLOW_EMPLOYEE, 
+                Employee::STATE_NOT_EXIST, PluginWorkflowStateMachine::EMPLOYEE_ACTION_ADD);
+        if ($allowedToAddEmployee) {
 
-        //this is to preserve post value if any error occurs
-        $postArray = array();
-        $this->createUserAccount = 0;
+            $this->showBackButton = true;
+            $loggedInEmpNum = $this->getUser()->getEmployeeNumber();
 
-        if($request->isMethod('post')) {
-            $postArray = $request->getPostParameters();
-            unset($postArray['_csrf_token']);
-            $_SESSION['addEmployeePost'] = $postArray;
-        }
+            //this is to preserve post value if any error occurs
+            $postArray = array();
+            $this->createUserAccount = 0;
 
-        if(isset ($_SESSION['addEmployeePost'])) {
-            $postArray = $_SESSION['addEmployeePost'];
-
-            if(isset($postArray['chkLogin'])) {
-                $this->createUserAccount = 1;
-            }
-        }
-        
-        $this->setForm(new AddEmployeeForm(array(), $postArray, true));
-
-        if ($this->getUser()->hasFlash('templateMessage')) {
-            unset($_SESSION['addEmployeePost']);
-            list($this->messageType, $this->message) = $this->getUser()->getFlash('templateMessage');
-        }
-
-        if ($request->isMethod('post')) {
-
-            $this->form->bind($request->getPostParameters(), $request->getFiles());
-            $posts = $this->form->getValues();
-            $photoFile = $request->getFiles();
-
-            //in case if file size exceeds 1MB
-            if($photoFile['photofile']['name'] != "" && ($photoFile['photofile']['size'] == 0 || $photoFile['photofile']['size'] > 1000000)) {
-                $this->getUser()->setFlash('templateMessage', array('warning', __(TopLevelMessages::FILE_SIZE_SAVE_FAILURE)));
-                $this->redirect('pim/addEmployee');
+            if($request->isMethod('post')) {
+                $postArray = $request->getPostParameters();
+                unset($postArray['_csrf_token']);
+                $_SESSION['addEmployeePost'] = $postArray;
             }
 
-            //in case a user already exists with same user name
-            
-            if ($this->createUserAccount) {
+            if(isset ($_SESSION['addEmployeePost'])) {
+                $postArray = $_SESSION['addEmployeePost'];
 
-                $userService = $this->getUserService();
-                $user = $userService->isExistingSystemUser($posts['user_name'],null);
+                if(isset($postArray['chkLogin'])) {
+                    $this->createUserAccount = 1;
+                }
+            }
 
-                if($user instanceof SystemUser) {
+            $this->setForm(new AddEmployeeForm(array(), $postArray, true));
 
-                    $this->getUser()->setFlash('templateMessage', array('warning', __('Failed To Save: User Name Exists')));
+            if ($this->getUser()->hasFlash('templateMessage')) {
+                unset($_SESSION['addEmployeePost']);
+                list($this->messageType, $this->message) = $this->getUser()->getFlash('templateMessage');
+            }
+
+            if ($request->isMethod('post')) {
+
+                $this->form->bind($request->getPostParameters(), $request->getFiles());
+                $posts = $this->form->getValues();
+                $photoFile = $request->getFiles();
+
+                //in case if file size exceeds 1MB
+                if($photoFile['photofile']['name'] != "" && ($photoFile['photofile']['size'] == 0 || $photoFile['photofile']['size'] > 1000000)) {
+                    $this->getUser()->setFlash('templateMessage', array('warning', __(TopLevelMessages::FILE_SIZE_SAVE_FAILURE)));
                     $this->redirect('pim/addEmployee');
                 }
-            }
-            
-            //if everything seems ok save employee and create a user account
-            if ($this->form->isValid()) {
 
-                $this->_checkWhetherEmployeeIdExists($this->form->getValue('employeeId'));
-                
-                try {
+                //in case a user already exists with same user name
 
-                    $fileType = $photoFile['photofile']['type'];
+                if ($this->createUserAccount) {
 
-                    $allowedImageTypes[] = "image/gif";
-                    $allowedImageTypes[] = "image/jpeg";
-                    $allowedImageTypes[] = "image/jpg";
-                    $allowedImageTypes[] = "image/pjpeg";
-                    $allowedImageTypes[] = "image/png";
-                    $allowedImageTypes[] = "image/x-png";
+                    $userService = $this->getUserService();
+                    $user = $userService->isExistingSystemUser($posts['user_name'],null);
 
-                    if(!empty($fileType) && !in_array($fileType, $allowedImageTypes)) {
-                        $this->getUser()->setFlash('templateMessage', array('warning', __(TopLevelMessages::FILE_TYPE_SAVE_FAILURE)));
+                    if($user instanceof SystemUser) {
+
+                        $this->getUser()->setFlash('templateMessage', array('warning', __('Failed To Save: User Name Exists')));
                         $this->redirect('pim/addEmployee');
-                        
-                    } else {
-                        unset($_SESSION['addEmployeePost']);
-                        $this->form->createUserAccount = $this->createUserAccount;
-                        $empNumber = $this->form->save();
-                        
-                        $this->redirect('pim/viewPersonalDetails?empNumber='. $empNumber);
                     }
+                }
 
-                } catch(Exception $e) {
-                    print($e->getMessage());
+                //if everything seems ok save employee and create a user account
+                if ($this->form->isValid()) {
+
+                    $this->_checkWhetherEmployeeIdExists($this->form->getValue('employeeId'));
+
+                    try {
+
+                        $fileType = $photoFile['photofile']['type'];
+
+                        $allowedImageTypes[] = "image/gif";
+                        $allowedImageTypes[] = "image/jpeg";
+                        $allowedImageTypes[] = "image/jpg";
+                        $allowedImageTypes[] = "image/pjpeg";
+                        $allowedImageTypes[] = "image/png";
+                        $allowedImageTypes[] = "image/x-png";
+
+                        if(!empty($fileType) && !in_array($fileType, $allowedImageTypes)) {
+                            $this->getUser()->setFlash('templateMessage', array('warning', __(TopLevelMessages::FILE_TYPE_SAVE_FAILURE)));
+                            $this->redirect('pim/addEmployee');
+
+                        } else {
+                            unset($_SESSION['addEmployeePost']);
+                            $this->form->createUserAccount = $this->createUserAccount;
+                            $empNumber = $this->form->save();
+
+                            $this->redirect('pim/viewPersonalDetails?empNumber='. $empNumber);
+                        }
+
+                    } catch(Exception $e) {
+                        print($e->getMessage());
+                    }
                 }
             }
+        } 
+        else {
+            $this->credentialMessage = 'Credential Required';
         }
     } 
 

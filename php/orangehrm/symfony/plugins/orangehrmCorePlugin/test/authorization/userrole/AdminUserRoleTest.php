@@ -35,7 +35,7 @@ class AdminUserRoleTest extends PHPUnit_Framework_TestCase {
 //        TestDataService::truncateSpecificTables(array('SystemUser'));
 //        TestDataService::populate($this->fixture);
 
-        $this->adminUserRole = new AdminUserRole();
+        $this->adminUserRole = new AdminUserRole('Admin', new BasicUserRoleManager());
     }
 
     public function testGetSetEmployeeService() {

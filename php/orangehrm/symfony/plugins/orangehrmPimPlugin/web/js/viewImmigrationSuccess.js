@@ -59,7 +59,7 @@ $(document).ready(function() {
   
     //enable, dissable views on loading
     //this is to findout whether passport details already entered
-    if($("form#frmImmigrationDelete table tbody input.checkbox").length > 0) {
+    if(havePassports) {
         $(".paddingLeftRequired").hide();
         $("#immigrationDataPane").hide();
     } else {
@@ -98,7 +98,9 @@ $(document).ready(function() {
         $("#immigrationDataPane").hide();
         $('form#frmImmigrationDelete table.data-table input.checkbox').show();
         $("form#frmImmigrationDelete div.actionbar").show();
-        addEditLinks();
+        if(canUpdate){
+            addEditLinks();
+        }
         $("#messagebar").attr("class", "").text('');                
     });
 

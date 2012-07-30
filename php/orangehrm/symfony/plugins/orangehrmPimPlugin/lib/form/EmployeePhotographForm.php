@@ -43,32 +43,59 @@ class EmployeePhotographForm extends BaseForm {
     }
     
     public function configure() {
+        $this->photographPermissions = $this->getOption('photographPermissions');
 
         $empNumber = $this->getOption('empNumber');
         $employee = $this->getEmployeeService()->getEmployee($empNumber);
         $this->fullName = $employee->getFullName();
 
-        $this->widgets = array(
-            'emp_number' => new sfWidgetFormInputHidden(),
-            'photofile' => new sfWidgetFormInputFileEditable(
-	        array(
+        $widgets = array('emp_number' => new sfWidgetFormInputHidden(array(), array('value' => $empNumber)));
+        $validators = array('emp_number' => new sfValidatorString(array('required' => true)));
+        
+        if ($this->photographPermissions->canRead()) {
+
+            $photographWidgets = $this->getPhotographWidgets();
+            $photographValidators = $this->getPhotographValidators();
+
+            if (!($this->photographPermissions->canUpdate()) ) {
+                foreach ($photographWidgets as $widgetName => $widget) {
+                    $widget->setAttribute('disabled', 'disabled');
+                }
+            }
+            $widgets = array_merge($widgets, $photographWidgets);
+            $validators = array_merge($validators, $photographValidators);
+        }
+        $this->setWidgets($widgets);
+        $this->setValidators($validators);
+        
+    }
+    
+    /**
+     * Get form widgets
+     * @return \sfWidgetFormInputFileEditable 
+     */
+    private function getPhotographWidgets() {
+        $widgets = array(
+            'photofile' => new sfWidgetFormInputFileEditable(array(
 	            'edit_mode'=>false,
 	            'with_delete' => false,
-	            'file_src' => '',
-	        ))
-        );
-        
-        $this->widgets['emp_number']->setDefault($employee->empNumber);
-        $this->setWidgets($this->widgets);
-
-        $this->setValidators(array(
-            'emp_number' => new sfValidatorString(array('required' => true)),
+	            'file_src' => '')));
+        return $widgets;
+    }
+    
+    /**
+     * Get validators
+     * @return \sfValidatorFile 
+     */
+    private function getPhotographValidators() {
+        $validators = array(
             'photofile' =>  new sfValidatorFile(
 	        array(
 	            'max_size' => 1000000,
 	            'required' => true,
 	        ))
-        ));
+        );
+        return $validators;
     }
 }
 ?>

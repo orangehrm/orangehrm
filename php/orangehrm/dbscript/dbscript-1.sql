@@ -1223,6 +1223,36 @@ create table `ohrm_email_configuration` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8;
 
+
+CREATE TABLE ohrm_data_group (
+    `id` int AUTO_INCREMENT, 
+    `name` VARCHAR(255), description VARCHAR(255), 
+    `can_read` TINYINT, can_create TINYINT, 
+    `can_update` TINYINT, 
+    `can_delete` TINYINT, 
+    PRIMARY KEY(`id`)
+) ENGINE = INNODB DEFAULT CHARSET=utf8;
+
+CREATE TABLE ohrm_user_role_data_group (
+    id int AUTO_INCREMENT, 
+    user_role_id int, 
+    data_group_id int, 
+    can_read TINYINT, 
+    can_create TINYINT, 
+    can_update TINYINT, 
+    can_delete TINYINT, 
+    self TINYINT, 
+    PRIMARY KEY(id)
+) ENGINE = INNODB DEFAULT CHARSET=utf8;
+
+alter table ohrm_user_role_data_group 
+       add constraint foreign key (user_role_id)
+                             references ohrm_user_role(id) on delete cascade;
+
+alter table ohrm_user_role_data_group 
+       add constraint foreign key (data_group_id)
+                             references ohrm_data_group(id) on delete cascade;
+
 alter table ohrm_email_subscriber
        add constraint foreign key (notification_id)
                              references ohrm_email_notification(id) on delete cascade;

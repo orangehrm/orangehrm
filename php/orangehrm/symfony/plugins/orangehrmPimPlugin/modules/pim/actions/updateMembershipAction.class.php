@@ -44,19 +44,20 @@ class updateMembershipAction extends basePimAction {
         $loggedInEmpNum = $this->getUser()->getEmployeeNumber();
         $adminMode = $this->getUser()->hasCredential(Auth::ADMIN_ROLE);
         $essMode = !$adminMode && !empty($loggedInEmpNum) && ($empNumber == $loggedInEmpNum);
-        $param = array('empNumber' => $empNumber, 'ESS' => $essMode);
+        $this->membershipPermissions = $this->getDataGroupPermissions('membership', $empNumber);
+        $param = array('empNumber' => $empNumber, 'ESS' => $essMode, 'membershipPermissions' => $this->membershipPermissions);
 
         $this->form = new EmployeeMembershipForm(array(), $param, true);
+        if ($this->membershipPermissions->canUpdate() || $this->membershipPermissions->canCreate()){
+            if ($this->getRequest()->isMethod('post')) {
 
-        if ($this->getRequest()->isMethod('post')) {
-
-            $this->form->bind($request->getParameter($this->form->getName()));
-            if ($this->form->isValid()) {
-                $this->form->save();
-                $this->getUser()->setFlash('templateMessage', array('success', __(TopLevelMessages::SAVE_SUCCESS)));
+                $this->form->bind($request->getParameter($this->form->getName()));
+                if ($this->form->isValid()) {
+                    $this->form->save();
+                    $this->getUser()->setFlash('templateMessage', array('success', __(TopLevelMessages::SAVE_SUCCESS)));
+                }
             }
         }
-
         $empNumber = $request->getParameter('empNumber');
 
         $this->redirect('pim/viewMemberships?empNumber='. $empNumber);

@@ -35,6 +35,10 @@ class Employee extends PluginEmployee {
     const DIVORCED = 'Divorced';
     const OTHERS = 'Others';
 
+    const STATE_ACTIVE = 'ACTIVE';
+    const STATE_TERMINATED = 'TERMINATED';
+    const STATE_NOT_EXIST = 'NOT_EXIST';
+
     /**
      * @ignore
      */    
@@ -484,4 +488,15 @@ class Employee extends PluginEmployee {
         }
         return null;
     }
+    
+   /**
+    * Get employee state
+    * 
+    * @return string one of Employee::STATE_ACTIVE, Employee:STATE_TERMINATED
+    */
+    public function getState() {
+        $state = $this->termination_id == null ? self::STATE_ACTIVE : self::STATE_TERMINATED;
+        
+        return $state;
+    }    
 }

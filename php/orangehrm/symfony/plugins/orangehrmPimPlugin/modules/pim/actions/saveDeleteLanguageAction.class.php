@@ -36,8 +36,9 @@ class saveDeleteLanguageAction extends basePimAction {
         if (!$this->IsActionAccessible($empNumber)) {
             $this->forward(sfConfig::get('sf_secure_module'), sfConfig::get('sf_secure_action'));
         }
+        $this->languagePermissions = $this->getDataGroupPermissions('qualification_languages', $empNumber);
         
-        $this->setLanguageForm(new EmployeeLanguageForm(array(), array('empNumber' => $empNumber), true));
+        $this->setLanguageForm(new EmployeeLanguageForm(array(), array('empNumber' => $empNumber, 'languagePermissions' => $this->languagePermissions), true));
 
         if ($request->isMethod('post')) {
             if ( $request->getParameter('option') == "save") {
@@ -54,21 +55,23 @@ class saveDeleteLanguageAction extends basePimAction {
             }
 
             //this is to delete 
-            if ($request->getParameter('option') == "delete") {
-                $deleteIds = $request->getParameter('delLanguage');
-                $languagesToDelete = array();
-                
-                foreach ($deleteIds as $value) {
-                    $parts = explode("_", $value, 2);
-                    if (count($parts) == 2) {
-                        $languagesToDelete[$parts[0]] = $parts[1]; 
+            if ($this->languagePermissions->canDelete()) {
+                if ($request->getParameter('option') == "delete") {
+                    $deleteIds = $request->getParameter('delLanguage');
+                    $languagesToDelete = array();
+
+                    foreach ($deleteIds as $value) {
+                        $parts = explode("_", $value, 2);
+                        if (count($parts) == 2) {
+                            $languagesToDelete[$parts[0]] = $parts[1]; 
+                        }
                     }
-                }
 
-                if (count($languagesToDelete) > 0) {
+                    if (count($languagesToDelete) > 0) {
 
-                    $this->getEmployeeService()->deleteEmployeeLanguages($empNumber, $languagesToDelete);
-                    $this->getUser()->setFlash('templateMessage', array('success', __(TopLevelMessages::DELETE_SUCCESS)));
+                        $this->getEmployeeService()->deleteEmployeeLanguages($empNumber, $languagesToDelete);
+                        $this->getUser()->setFlash('templateMessage', array('success', __(TopLevelMessages::DELETE_SUCCESS)));
+                    }
                 }
             }
         }
@@ -81,18 +84,29 @@ class saveDeleteLanguageAction extends basePimAction {
         $post = $form->getValues();
 
         $language = $this->getEmployeeService()->getEmployeeLanguages($post['emp_number'], $post['code'], $post['lang_type']);
-
-        if(!$language instanceof EmployeeLanguage) {
-            $language = new EmployeeLanguage();
+        
+        $isAllowed = FALSE;
+        if (!$language instanceof EmployeeLanguage) {
+            if($this->languagePermissions->canCreate()){
+                $language = new EmployeeLanguage();
+                $isAllowed = TRUE;
+            }
+        } else {
+            if($this->languagePermissions->canUpdate()){
+                $isAllowed = TRUE;
+            }
         }
+        if ($isAllowed) {
+            $language->empNumber = $post['emp_number'];
+            $language->langId = $post['code'];
+            $language->fluency = $post['lang_type'];
+            $language->competency = $post['competency'];
+            $language->comments = $post['comments'];
 
-        $language->empNumber = $post['emp_number'];
-        $language->langId = $post['code'];
-        $language->fluency = $post['lang_type'];
-        $language->competency = $post['competency'];
-        $language->comments = $post['comments'];
-
-        return $language;
+            return $language;
+        } else {
+            return NULL;
+        }
     }
 }
 ?>

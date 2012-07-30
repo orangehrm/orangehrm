@@ -13,3 +13,4 @@ WorkflowStateMachine:
   9: {id: 10, workflow: Time, state: 'SUBMITTED',role: 'ESS USER',action: 'VIEW TIMESHEET',resulting_state: 'SUBMITTED'}
   10: {id: 11, workflow: Time, state: 'NOT SUBMITTED',role: 'ESS USER',action: 'VIEW TIMESHEET',resulting_state: 'NOT SUBMITTED'}
   11: {id: 12, workflow: Time, state: 'SUBMITTED',role: 'ESS USER',action: 'SUBMIT',resulting_state: 'SUBMITTED'}
+  12: {id: 13, workflow: 3, state: 'NOT EXIST',role: 'ADMIN',action: '1',resulting_state: 'ACTIVE'}

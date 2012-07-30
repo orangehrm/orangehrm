@@ -34,7 +34,7 @@
                             </div>
 
 
-                            <?php if (!$essUserMode && !$isSupervisor): ?>
+                            <?php if ($salaryPermissions->canRead() && (($salaryPermissions->canCreate()) || ($salaryPermissions->canUpdate() && count($salaryList) > 0))): ?>
                                 <div id="changeSalary" class="outerbox" >
                                     <div class="mainHeading"><h2 id="headchangeSalary"><?php echo __('Add Salary Component'); ?></h2></div>
                                     <form id="frmSalary" action="<?php echo url_for('pim/viewSalaryList?empNumber=' . $empNumber); ?>" method="post">
@@ -120,13 +120,14 @@
 
                                         <br class="clear"/>
 
+                                        <?php if ((count($salaryList) > 0 && $salaryPermissions->canUpdate()) || $salaryPermissions->canCreate()) { ?>
                                         <div class="formbuttons">
                                             <input type="button" class="savebutton" id="btnSalarySave" value="<?php echo __("Save"); ?>" />
-                                        <?php if (count($salaryList) > 0) {
-                                        ?>
+                                            <?php if ((count($salaryList) > 0) || (count($salaryList) > 0 && $salaryPermissions->canCreate()) || (count($salaryList) > 0 && $salaryPermissions->canUpdate())) { ?>
                                                 <input type="button" class="savebutton" id="btnSalaryCancel" value="<?php echo __("Cancel"); ?>" />
-                                        <?php } ?>
+                                            <?php } ?>
                                         </div>
+                                        <?php } ?>
                                     </form>
                                 </div>
 
@@ -134,14 +135,18 @@
 
                             <?php endif; ?>
 
-                            <?php if (count($salaryList) > 0 && !$isSupervisor) {
+                            <?php if (count($salaryList) > 0 && (!$isSupervisor || $salaryPermissions->canRead())) {
  ?>
                                                 <div class="outerbox">
                                                     <div class="mainHeading"><h2><?php echo __('Assigned Salary Components'); ?></h2></div>
                                                     <?php if (!$essUserMode) { ?>
                                                     <div id="actionSalary" class="actionbuttons">
-                                                        <input type="button" value="<?php echo __("Add"); ?>" class="savebutton" id="addSalary" />&nbsp;
-                                                        <input type="button" value="<?php echo __("Delete"); ?>" class="savebutton" id="delSalary" />
+                                                        <?php if ($salaryPermissions->canCreate() ) { ?>
+                                                            <input type="button" value="<?php echo __("Add"); ?>" class="savebutton" id="addSalary" />&nbsp;
+                                                        <?php } ?>
+                                                        <?php if ($salaryPermissions->canDelete() ) { ?>
+                                                            <input type="button" value="<?php echo __("Delete"); ?>" class="savebutton" id="delSalary" />
+                                                        <?php } ?>
                                                     </div>
                                                     <br class="clear" id="actionClearBr"/>
                                                     <?php } ?>
@@ -152,7 +157,7 @@
                                                                 <thead>
                                                                     <tr>
                                                                         <?php if (!$essUserMode) { ?>
-                                                                        <td class="check"><input type="checkbox" id="salaryCheckAll" /></td>
+                                                                                <td class="check"><input type="checkbox" id="salaryCheckAll" /></td>
                                                                         <?php } ?>
                                                                         <td class="component"><?php echo __('Salary Component'); ?></td>
                                                                         <td class="payperiod"><?php echo __('Pay Frequency'); ?></td>
@@ -196,22 +201,24 @@
                                                     }
                                                 ?>
                                                     <tr class="<?php echo $cssClass; ?>">
-                                                    <?php if (!$essUserMode) { ?>                                                        
-                                                        <td class="check">                                                            
-                                                            <input type="checkbox" class="chkbox" value="<?php echo $salary->id; ?>" name="delSalary[]"/>
-                                                        </td>
-                                                        <?php } ?>
+                                                    <?php if (!$essUserMode) {  
+                                                        $disabled = ($salaryPermissions->canDelete()) ? "" : 'disabled="disabled"';?>
+                                                        
+                                                            <td class="check">
+                                                                    <input type="checkbox" <?php echo $disabled;?> class="chkbox" value="<?php echo $salary->id; ?>" name="delSalary[]"/>
+                                                            </td>
+                                                    <?php } ?>
                                                         <td class="component">
                                                             <input type="hidden" id="code_<?php echo $salary->id; ?>" value="<?php echo $salary->id; ?>" />                                                            
-                                                            <?php if (!$essUserMode) { ?>                                   
-                                                            <a href="#" class="edit">
-                                                            <?php } 
-                                                            
-                                                            echo $component;
-                                                            
-                                                            if (!$essUserMode) { ?>                                                            
-                                                            </a>
-                                                            <?php } ?>
+                                                            <?php if (!$essUserMode) { ?> 
+                                                                <?php if($salaryPermissions->canUpdate()) {?>
+                                                            <a href="#" class="edit"><?php echo $component;?></a>
+                                                                <?php }else{ 
+                                                                    echo $component;
+                                                                }
+                                                             } else{ 
+                                                                    echo $component;
+                                                             }?>
                                                         </td>
                                                             
                                                         <td><?php echo __($payPeriodName); ?></td>
@@ -666,7 +673,8 @@
         
         //show add form
         $("#changeSalary").show();
-        var id = $(this).closest("tr").find('td.check input.chkbox:first').val();
+        
+        var id = $(this).closest("tr").find('input.chkbox:first').val();
         
         $('#salary_id').val(id);
         

@@ -71,6 +71,8 @@ class customFieldsComponent extends sfComponent {
         $this->customFieldsMessageType = '';
         $this->customFieldsMessage = '';
         
+         $this->permission = $this->getDataGroupPermissions($this->screen . '_custom_fields', $this->empNumber);
+        
         if ($this->getUser()->hasFlash('customFieldsMessage')) {  
             list($this->customFieldsMessageType, $this->customFieldsMessage) = $this->getUser()->getFlash('customFieldsMessage');
         }
@@ -79,6 +81,18 @@ class customFieldsComponent extends sfComponent {
         $this->customFieldList = $this->getCustomFieldsService()->getCustomFieldList($this->screen);          
         $this->form = new EmployeeCustomFieldsForm(array(),  array('customFields'=>$this->customFieldList), true);  
     }
+    
+    
+    protected function getDataGroupPermissions($dataGroups, $empNumber) { 
+        $loggedInEmpNum = $this->getUser()->getEmployeeNumber();
 
+        $entities = array('Employee' => $empNumber);
+        
+        $self = $empNumber == $loggedInEmpNum;
+
+        return $this->getContext()->getUserRoleManager()->getDataGroupPermissions($dataGroups, array(), array(), $self, $entities);
+
+
+    }
 }
 

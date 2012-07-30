@@ -81,7 +81,32 @@ class AccessFlowStateMachineDaoTest extends PHPUnit_Framework_TestCase {
         $this->assertTrue($isSuccess);
 
     }
-
+    
+    public function testGetWorkFlowStateMachineRecords() {
+        $workFlow = $this->accessFlowStateMachineDao->getWorkFlowStateMachineRecords(PluginWorkflowStateMachine::FLOW_EMPLOYEE);
+        $this->assertTrue($workFlow[0] instanceof WorkflowStateMachine);
+        $this->assertEquals("NOT EXIST", $workFlow[0]->getState());
+        $this->assertEquals(PluginWorkflowStateMachine::EMPLOYEE_ACTION_ADD, $workFlow[0]->getAction());
+        $this->assertEquals("ACTIVE", $workFlow[0]->getResultingState());
+    }
+    
+    public function testGetWorkFlowStateMachineRecordsNullWorkflow() {
+        $workFlow = $this->accessFlowStateMachineDao->getWorkFlowStateMachineRecords('10');
+//        $this->assertEquals(0, $workFlow->getCount());
+//        $this->assertNull($workFlow[0]);
+    }
+    
+    public function testIsActionAllowed() {
+        $isAllowed = $this->accessFlowStateMachineDao->isActionAllowed(PluginWorkflowStateMachine::FLOW_EMPLOYEE, 
+                'NOT EXIST', 'ADMIN', PluginWorkflowStateMachine::EMPLOYEE_ACTION_ADD);
+        $this->assertTrue($isAllowed);        
+    }
+    
+    public function testIsActionAllowedForNonEntry() {
+        $isAllowed = $this->accessFlowStateMachineDao->isActionAllowed(PluginWorkflowStateMachine::FLOW_EMPLOYEE, 
+                'ACTIVE', 'ADMIN', PluginWorkflowStateMachine::EMPLOYEE_ACTION_ADD);
+        $this->assertTrue(!$isAllowed); 
+    }
 }
 
-?>
+?>  

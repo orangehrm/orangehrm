@@ -23,69 +23,19 @@
  *
  * @author Chameera Senarathna
  */
-class AdminUserRole implements UserRoleInterface {
+class AdminUserRole extends AbstractUserRole {
 
-    protected $employeeService;
-    protected $systemUserService;
-    protected $operationalCountryService;
-    protected $locationService;
-
-    public function getSystemUserService() {
-        if (empty($this->systemUserService)) {
-            $this->systemUserService = new SystemUserService();
-        }
-        return $this->systemUserService;
-    }
-
-    public function setSystemUserService($systemUserService) {
-        $this->systemUserService = $systemUserService;
-    }
-
-    public function getEmployeeService() {
-
-        if (empty($this->employeeService)) {
-            $this->employeeService = new EmployeeService();
-        }
-        return $this->employeeService;
-    }
-
-    public function setEmployeeService($employeeService) {
-        $this->employeeService = $employeeService;
-    }
-
-    public function getLocationService() {
-        if (empty($this->locationService)) {
-            $this->locationService = new LocationService();
-        }
-        return $this->locationService;
-    }
-
-    public function setLocationService($locationService) {
-        $this->locationService = $locationService;
-    }
-
-    public function getOperationalCountryService() {
-        if (empty($this->operationalCountryService)) {
-            $this->operationalCountryService = new OperationalCountryService();
-        }
-        return $this->operationalCountryService;
-    }
-
-    public function setOperationalCountryService($operationalCountryService) {
-        $this->operationalCountryService = $operationalCountryService;
-    }
-
-    public function getAccessibleEmployeeIds($operation = null, $returnType = null) {
+    public function getAccessibleEmployeeIds($operation = null, $returnType = null, $requiredPermissions = array()) {
 
         return $this->getEmployeeService()->getEmployeeIdList(false);
     }
 
-    public function getAccessibleEmployeePropertyList($properties, $orderField, $orderBy) {
+    public function getAccessibleEmployeePropertyList($properties, $orderField, $orderBy, $requiredPermissions = array()) {
 
         return $this->getEmployeeService()->getEmployeePropertyList($properties, $orderField, $orderBy, false);
     }
 
-    public function getAccessibleEmployees($operation = null, $returnType = null) {
+    public function getAccessibleEmployees($operation = null, $returnType = null, $requiredPermissions = array()) {
 
         $employees = $this->getEmployeeService()->getEmployeeList('empNumber', 'ASC', true);
 

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * OrangeHRM is a comprehensive Human Resource Management (HRM) System that captures
  * all the essential functionalities required for any enterprise.
@@ -20,7 +21,6 @@
 /**
  * Actions class for PIM module updateDependentAction
  */
-
 class updateDependentAction extends basePimAction {
 
     /**
@@ -33,34 +33,38 @@ class updateDependentAction extends basePimAction {
     public function execute($request) {
 
         $dependent = $request->getParameter('dependent');
-        $empNumber = (isset($dependent['empNumber']))?$dependent['empNumber']:$request->getParameter('empNumber');
+        $empNumber = (isset($dependent['empNumber'])) ? $dependent['empNumber'] : $request->getParameter('empNumber');
         $this->empNumber = $empNumber;
+
+        $this->dependentPermissions = $this->getDataGroupPermissions('dependents', $empNumber);
 
 
         $loggedInEmpNum = $this->getUser()->getEmployeeNumber();
-        $adminMode = $this->getUser()->hasCredential(Auth::ADMIN_ROLE);        
-
+        $adminMode = $this->getUser()->hasCredential(Auth::ADMIN_ROLE);
+        
         if (!$this->IsActionAccessible($empNumber)) {
             $this->forward(sfConfig::get('sf_secure_module'), sfConfig::get('sf_secure_action'));
         }
-        
+
         $essMode = !$adminMode && !empty($loggedInEmpNum) && ($empNumber == $loggedInEmpNum);
-        $param = array('empNumber' => $empNumber, 'ESS' => $essMode);
-        
+        $param = array('empNumber' => $empNumber, 'ESS' => $essMode, 'dependentPermissions' => $this->dependentPermissions);
+
         $this->form = new EmployeeDependentForm(array(), $param, true);
 
-        if ($this->getRequest()->isMethod('post')) {
+        if ($this->dependentPermissions->canUpdate() || $this->dependentPermissions->canCreate()) {
+            if ($this->getRequest()->isMethod('post')) {
 
-            $this->form->bind($request->getParameter($this->form->getName()));
-            if ($this->form->isValid()) {
-                $this->form->save();
-                $this->getUser()->setFlash('templateMessage', array('success', __(TopLevelMessages::SAVE_SUCCESS)));
+                $this->form->bind($request->getParameter($this->form->getName()));
+                if ($this->form->isValid()) {
+                    $this->form->save();
+                    $this->getUser()->setFlash('templateMessage', array('success', __(TopLevelMessages::SAVE_SUCCESS)));
+                }
             }
         }
 
         $empNumber = $request->getParameter('empNumber');
 
-        $this->redirect('pim/viewDependents?empNumber='. $empNumber);
+        $this->redirect('pim/viewDependents?empNumber=' . $empNumber);
     }
 
 }

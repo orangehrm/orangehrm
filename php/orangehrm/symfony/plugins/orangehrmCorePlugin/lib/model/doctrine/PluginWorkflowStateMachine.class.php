@@ -27,7 +27,7 @@ abstract class PluginWorkflowStateMachine extends BaseWorkflowStateMachine {
     const ATTENDANCE_ACTION_PROXY_PUNCH_IN=5;
     const ATTENDANCE_ACTION_PROXY_PUNCH_OUT=6;
     const ATTENDANCE_ACTION_DELETE=7;
-     const ATTENDANCE_ACTION_EDIT_PUNCH_TIME=8;
+    const ATTENDANCE_ACTION_EDIT_PUNCH_TIME=8;
 
 
     const RECRUITMENT_APPLICATION_ACTION_ATTACH_VACANCY = 1;
@@ -40,10 +40,17 @@ abstract class PluginWorkflowStateMachine extends BaseWorkflowStateMachine {
     const RECRUITMENT_APPLICATION_ACTION_DECLINE_OFFER = 8;
     const RECRUITMENT_APPLICATION_ACTION_HIRE = 9;
     const RECRUITMENT_APPLICATION_ACTION_SHEDULE_2ND_INTERVIEW = 10;
-
+    
+    const EMPLOYEE_ACTION_ADD = 1;
+    const EMPLOYEE_ACTION_DELETE_ACTIVE = 2;
+    const EMPLOYEE_ACTION_TERMINATE = 3;
+    const EMPLOYEE_ACTION_REACTIVE = 4;
+    const EMPLOYEE_ACTION_DELETE_TERMINATED = 5;
+    
     const FLOW_TIME_TIMESHEET = 0;
     const FLOW_ATTENDANCE = 1;
     const FLOW_RECRUITMENT = 2;
+    const FLOW_EMPLOYEE = 3;
 
     public function getRecruitmentActionName($action) {
         $actionName = "";
@@ -81,5 +88,34 @@ abstract class PluginWorkflowStateMachine extends BaseWorkflowStateMachine {
         }
         return $actionName;
     }
-
+    
+    /**
+     * Getting String value of an Employee Action
+     * @param type $actionValue
+     * @return string 
+     */
+    public static function getEmployeeActionName($actionValue) {
+        $actionName = "";
+        switch ($actionValue) {
+            case PluginWorkflowStateMachine::EMPLOYEE_ACTION_ADD:
+                $actionName = "Add Employee";
+                break;
+            case PluginWorkflowStateMachine::EMPLOYEE_ACTION_DELETE_ACTIVE:
+                $actionName = "Delete Employee";
+                break;
+            case PluginWorkflowStateMachine::EMPLOYEE_ACTION_TERMINATE:
+                $actionName = "Terminate Employeement";
+                break; 
+            case PluginWorkflowStateMachine::EMPLOYEE_ACTION_REACTIVE:
+                $actionName = "Reactive Employee";
+                break;
+            case PluginWorkflowStateMachine::EMPLOYEE_ACTION_DELETE_TERMINATED:
+                $actionName = "Delete Terminate Employee";
+                break;
+            default:
+                $actionName = "";
+                break;
+        }
+        return $actionName;
+    }
 }

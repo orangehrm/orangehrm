@@ -163,6 +163,9 @@ class SystemUserService extends BaseService{
         }
     }    
     
+    public function getNonPredefinedUserRoles(){
+        return$this->getSystemUserDao()->getNonPredefinedUserRoles();
+    }    
     
    /**
      * Get Count of Search Query 

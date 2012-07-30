@@ -26,7 +26,17 @@ abstract class basePimAction extends sfAction {
             'orangehrm_user' => Auth::instance()->getLoggedInUserId(),
         ));
         $sessionVariableManager->registerVariables();
-        $this->setOperationName(OrangeActionHelper::getActionDescriptor($this->getModuleName(), $this->getActionName()));
+        $this->setOperationName(OrangeActionHelper::getActionDescriptor($this->getModuleName(), $this->getActionName()));        
+        
+    }
+    
+    public function getDataGroupPermissions($dataGroups, $empNumber) { 
+        $loggedInEmpNum = $this->getUser()->getEmployeeNumber();
+        
+        $entities = array('Employee' => $empNumber);        
+        $self = $empNumber == $loggedInEmpNum;
+        
+         return $this->getContext()->getUserRoleManager()->getDataGroupPermissions($dataGroups, array(), array(), $self, $entities);
     }
 
     /**
@@ -52,10 +62,14 @@ abstract class basePimAction extends sfAction {
     protected function isSupervisor($loggedInEmpNum, $empNumber) {
 
         if(isset($_SESSION['isSupervisor']) && $_SESSION['isSupervisor']) {
-            $employeeService = $this->getEmployeeService();
-            $subordinates = $employeeService->getSubordinateIdListBySupervisorId($loggedInEmpNum);
-            if(in_array($empNumber, $subordinates)) {
-                return true;
+
+            $empService = $this->getEmployeeService();
+            $subordinates = $empService->getSupervisorEmployeeChain($loggedInEmpNum, true);
+
+            foreach($subordinates as $employee) {
+                if($employee->getEmpNumber() == $empNumber) {
+                    return true;
+                }
             }
         }
         return false;

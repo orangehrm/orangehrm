@@ -22,15 +22,15 @@
  * Actions class for PIM module updateMembership
  */
 class updateReportToDetailAction extends basePimAction {
-    
+
     private $reportingMethodConfigurationService;
-    
+
     public function getReportingMethodConfigurationService() {
-        
+
         if (!($this->reportingMethodConfigurationService instanceof ReportingMethodConfigurationService)) {
             $this->reportingMethodConfigurationService = new ReportingMethodConfigurationService();
-        }        
-        
+        }
+
         return $this->reportingMethodConfigurationService;
     }
 
@@ -51,10 +51,12 @@ class updateReportToDetailAction extends basePimAction {
         $empNumber = (isset($memberships['empNumber'])) ? $memberships['empNumber'] : $request->getParameter('empNumber');
         $this->empNumber = $empNumber;
 
+        $this->reportToPermissions = $this->getDataGroupPermissions(array('supervisor', 'subordinates'), $empNumber);
+
         $loggedInEmpNum = $this->getUser()->getEmployeeNumber();
         $adminMode = $this->getUser()->hasCredential(Auth::ADMIN_ROLE);
         $essMode = !$adminMode && !empty($loggedInEmpNum) && ($empNumber == $loggedInEmpNum);
-        $param = array('empNumber' => $empNumber, 'ESS' => $essMode);
+        $param = array('empNumber' => $empNumber, 'ESS' => $essMode, 'reportToPermissions' => $this->reportToPermissions);
 
         $this->form = new EmployeeReportToForm(array(), $param, true);
 
@@ -62,22 +64,24 @@ class updateReportToDetailAction extends basePimAction {
 
             $this->form->bind($request->getParameter($this->form->getName()));
             if ($this->form->isValid()) {
-                
-                $this->_checkDuplicateEntry($empNumber);
-                
-                $value = $this->form->save();
-                if ($value[0] == ReportTo::SUPERVISOR) {
-                    if ($value[1]) {
-                        $this->getUser()->setFlash('templateMessage', array('success', __(TopLevelMessages::UPDATE_SUCCESS)));
-                    } else {
-                        $this->getUser()->setFlash('templateMessage', array('success', __(TopLevelMessages::SAVE_SUCCESS)));
+                If ($this->reportToPermissions->canUpdate() || $this->reportToPermissions->canCreate()) {
+
+                    $this->_checkDuplicateEntry($empNumber);
+
+                    $value = $this->form->save();
+                    if ($value[0] == ReportTo::SUPERVISOR) {
+                        if ($value[1]) {
+                            $this->getUser()->setFlash('templateMessage', array('success', __(TopLevelMessages::UPDATE_SUCCESS)));
+                        } else {
+                            $this->getUser()->setFlash('templateMessage', array('success', __(TopLevelMessages::SAVE_SUCCESS)));
+                        }
                     }
-                }
-                if ($value[0] == ReportTo::SUBORDINATE) {
-                    if ($value[1]) {
-                        $this->getUser()->setFlash('templateMessage', array('success', __(TopLevelMessages::UPDATE_SUCCESS)));
-                    } else {
-                        $this->getUser()->setFlash('templateMessage', array('success', __(TopLevelMessages::SAVE_SUCCESS)));
+                    if ($value[0] == ReportTo::SUBORDINATE) {
+                        if ($value[1]) {
+                            $this->getUser()->setFlash('templateMessage', array('success', __(TopLevelMessages::UPDATE_SUCCESS)));
+                        } else {
+                            $this->getUser()->setFlash('templateMessage', array('success', __(TopLevelMessages::SAVE_SUCCESS)));
+                        }
                     }
                 }
             }
@@ -87,14 +91,13 @@ class updateReportToDetailAction extends basePimAction {
 
         $this->redirect('pim/viewReportToDetails?empNumber=' . $empNumber);
     }
-    
+
     protected function _checkDuplicateEntry($empNumber) {
 
         if (empty($id) && $this->getReportingMethodConfigurationService()->isExistingReportingMethodName($this->form->getValue('reportingMethod'))) {
             $this->getUser()->setFlash('templateMessage', array('warning', __('Name Already Exists')));
             $this->redirect('pim/viewReportToDetails?empNumber=' . $empNumber);
         }
-
     }
 
 }

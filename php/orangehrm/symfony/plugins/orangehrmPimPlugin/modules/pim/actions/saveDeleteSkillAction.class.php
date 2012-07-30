@@ -1,4 +1,5 @@
 <?php
+
 /**
  * OrangeHRM is a comprehensive Human Resource Management (HRM) System that captures
  * all the essential functionalities required for any enterprise.
@@ -17,7 +18,7 @@
  * Boston, MA  02110-1301, USA
  */
 class saveDeleteSkillAction extends basePimAction {
-    
+
     /**
      * @param sfForm $form
      * @return
@@ -27,44 +28,50 @@ class saveDeleteSkillAction extends basePimAction {
             $this->skillForm = $form;
         }
     }
-    
+
     public function execute($request) {
 
         $skill = $request->getParameter('skill');
-        $empNumber = (isset($skill['emp_number']))?$skill['emp_number']:$request->getParameter('empNumber');
-        
+        $empNumber = (isset($skill['emp_number'])) ? $skill['emp_number'] : $request->getParameter('empNumber');
+
         if (!$this->IsActionAccessible($empNumber)) {
             $this->forward(sfConfig::get('sf_secure_module'), sfConfig::get('sf_secure_action'));
         }
-        
-        $this->setSkillForm(new EmployeeSkillForm(array(), array('empNumber' => $empNumber), true));
+
+        $this->skillPermissions = $this->getDataGroupPermissions('qualification_skills', $empNumber);
+
+        $this->setSkillForm(new EmployeeSkillForm(array(), array('empNumber' => $empNumber, 'skillPermissions' => $this->skillPermissions), true));
 
         if ($request->isMethod('post')) {
-            if ( $request->getParameter('option') == "save") {
+            if ($request->getParameter('option') == "save") {
+                if ($this->skillPermissions->canCreate() || $this->skillPermissions->canUpdate()) {
 
-                $this->skillForm->bind($request->getParameter($this->skillForm->getName()));
+                    $this->skillForm->bind($request->getParameter($this->skillForm->getName()));
 
-                if ($this->skillForm->isValid()) {
-                    $skill = $this->getSkill($this->skillForm);
-                    $this->getEmployeeService()->saveEmployeeSkill($skill);
-                    $this->getUser()->setFlash('templateMessage', array('success', __(TopLevelMessages::SAVE_SUCCESS)));
-                } else {
-                    $this->getUser()->setFlash('templateMessage', array('warning', __('Form Validation Failed')));
+                    if ($this->skillForm->isValid()) {
+                        $skill = $this->getSkill($this->skillForm);
+                        $this->getEmployeeService()->saveEmployeeSkill($skill);
+                        $this->getUser()->setFlash('templateMessage', array('success', __(TopLevelMessages::SAVE_SUCCESS)));
+                    } else {
+                        $this->getUser()->setFlash('templateMessage', array('warning', __('Form Validation Failed')));
+                    }
                 }
             }
 
             //this is to delete 
             if ($request->getParameter('option') == "delete") {
-                $deleteIds = $request->getParameter('delSkill');
+                if ($this->skillPermissions->canDelete()) {
+                    $deleteIds = $request->getParameter('delSkill');
 
-                if(count($deleteIds) > 0) {
-                    $this->getEmployeeService()->deleteEmployeeSkills($empNumber, $request->getParameter('delSkill'));
-                    $this->getUser()->setFlash('templateMessage', array('success', __(TopLevelMessages::DELETE_SUCCESS)));
+                    if (count($deleteIds) > 0) {
+                        $this->getEmployeeService()->deleteEmployeeSkills($empNumber, $request->getParameter('delSkill'));
+                        $this->getUser()->setFlash('templateMessage', array('success', __(TopLevelMessages::DELETE_SUCCESS)));
+                    }
                 }
             }
         }
         $this->getUser()->setFlash('qualificationSection', 'skill');
-        $this->redirect('pim/viewQualifications?empNumber='. $empNumber . '#skill');
+        $this->redirect('pim/viewQualifications?empNumber=' . $empNumber . '#skill');
     }
 
     private function getSkill(sfForm $form) {
@@ -73,7 +80,7 @@ class saveDeleteSkillAction extends basePimAction {
 
         $skill = $this->getEmployeeService()->getEmployeeSkills($post['emp_number'], $post['code']);
 
-        if(!$skill instanceof EmployeeSkill) {
+        if (!$skill instanceof EmployeeSkill) {
             $skill = new EmployeeSkill();
         }
 
@@ -84,5 +91,7 @@ class saveDeleteSkillAction extends basePimAction {
 
         return $skill;
     }
+
 }
+
 ?>

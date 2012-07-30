@@ -19,22 +19,39 @@
  */
 
 /**
- * Description of UserRoleInterface
+ * Description of DataGroupService
  *
- * @author Chameera Senarathna
  */
-interface UserRoleInterface {
-    public function getAccessibleEmployees($operation = null, $returnType = null);
+class DataGroupService {
     
-    public function getAccessibleEmployeePropertyList($properties, $orderField, $orderBy);
+    public $dao;
     
-    public function getAccessibleEmployeeIds($operation, $returnType);
+    public function getDao() {
+        return $this->dao;
+    }
 
-    public function getAccessibleSystemUserIds($operation, $returnType);
+    public function setDao($dao) {
+        $this->dao = $dao;
+    }
+    
+    /**
+     *
+     * @param type $dataGroup
+     * @param type $userRoleId
+     * @return Doctrine_Collection 
+     */
+    public function getDataGroupPermission( $dataGroup = null, $userRoleId , $selfPermission = false){
+        return $this->getDao()->getDataGroupPermission( $dataGroup, $userRoleId, $selfPermission );
+    }
+    
+    /**
+     *
+     * @return Doctrine_Collection 
+     */
+    public function getDataGroups(){
+        return $this->dao->getDataGroups();
+    }
 
-    public function getAccessibleOperationalCountryIds($operation, $returnType);
 
-    public function getAccessibleUserRoleIds($operation, $returnType);
-
-    public function getAccessibleLocationIds($operation, $returnType);    
 }
+

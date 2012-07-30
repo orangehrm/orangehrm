@@ -28,9 +28,6 @@ if(isset($_GET['ATT_UPLOAD']) && $_GET['ATT_UPLOAD'] == 'FAILED')
     echo "alert('" .__("Upload Failed")."');";
 }
 
-$locRights['add'] = true;
-$locRights['delete'] = true;
-
 ?>
     //--><!]]></script>
 
@@ -38,8 +35,10 @@ $locRights['delete'] = true;
 <div id="attachmentsMessagebar" class="<?php echo isset($attachmentMessageType) ? "messageBalloon_{$attachmentMessageType}" : ''; ?>" style="margin-left: 16px;width: 630px;">
     <span style="font-weight: bold;"><?php echo isset($attachmentMessage) ? $attachmentMessage : ''; ?></span>
 </div>
+<?php if ($permission->canRead()) { ?>
 <div class="outerbox">
     <div class="mainHeading"><h2><?php echo __('Attachments'); ?></h2></div>
+    
 <div id="parentPaneAttachments" >
     <form name="frmEmpAttachment" id="frmEmpAttachment" method="post" enctype="multipart/form-data"
           action="<?php echo url_for('pim/updateAttachment?empNumber='.$employee->empNumber); ?>">
@@ -91,13 +90,12 @@ $locRights['delete'] = true;
         <div class="subHeading"></div>
         <div class="actionbar" id="attachmentActions">
             <div class="actionbuttons">
-                               <?php if ($locRights['add'])
-                               { ?>
+                               <?php if ($permission->canCreate()) { ?>
                 <input type="button" class="addbutton" id="btnAddAttachment"
                        onmouseover="moverButton(this);" onmouseout="moutButton(this);"
                        value="<?php echo __("Add");?>" title="<?php echo __("Add");?>"/>
             <?php } ?>
-                        <?php	if ($locRights['delete'] && $hasAttachments)
+                        <?php	if ($permission->canDelete() && $hasAttachments)
         { ?>
                 <input type="button" class="delbutton" id="btnDeleteAttachment"
                        onmouseover="moverButton(this);" onmouseout="moutButton(this);"
@@ -123,7 +121,7 @@ $locRights['delete'] = true;
             <tbody>
                         <?php
 
-        $disabled = ($locRights['delete']) ? "" : 'disabled="disabled"';
+        $disabled = ($permission->canDelete()) ? "" : 'disabled="disabled"';
         $row = 0;
         foreach ($attachmentList as $attachment)
         {
@@ -148,7 +146,11 @@ $locRights['delete'] = true;
                     }                    
                     ?>
                     <td><?php echo $performedBy; ?></td>
+                    <?php
+                    if ($permission->canUpdate()){
+                    ?>
                     <td><a href="#" class="editLink"><?php echo __("Edit"); ?></a></td>
+                    <?php }?>
                 </tr>
             <?php   $row++;
             }
@@ -161,8 +163,9 @@ $locRights['delete'] = true;
     </form>
 
 </div>
+    
 </div>
-
+<?php } ?>
 <script type="text/javascript">
     //<![CDATA[
     

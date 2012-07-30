@@ -62,7 +62,8 @@ class viewMembershipsAction extends basePimAction {
         $membership = $request->getParameter('membership');
         $empNumber = (isset($membership['empNumber'])) ? $membership['empNumber'] : $request->getParameter('empNumber');
         $this->empNumber = $empNumber;
-
+        
+        $this->membershipPermissions = $this->getDataGroupPermissions('membership', $empNumber);
         $adminMode = $this->getUser()->hasCredential(Auth::ADMIN_ROLE);
 
         if (!$this->IsActionAccessible($empNumber)) {
@@ -74,7 +75,7 @@ class viewMembershipsAction extends basePimAction {
         }
 
         $essMode = !$adminMode && !empty($loggedInEmpNum) && ($empNumber == $loggedInEmpNum);
-        $param = array('empNumber' => $empNumber, 'ESS' => $essMode);
+        $param = array('empNumber' => $empNumber, 'ESS' => $essMode, 'membershipPermissions' => $this->membershipPermissions);
 
         $this->setForm(new EmployeeMembershipForm(array(), $param, true));
         $this->deleteForm = new EmployeeMembershipsDeleteForm(array(), $param, true);

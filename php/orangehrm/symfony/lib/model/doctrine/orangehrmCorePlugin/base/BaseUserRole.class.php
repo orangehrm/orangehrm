@@ -10,23 +10,26 @@
  * @property string $display_name
  * @property boolean $is_assignable
  * @property boolean $is_predefined
+ * @property Doctrine_Collection $DataGroupPermission
  * @property Doctrine_Collection $SystemUser
  * @property Doctrine_Collection $ScreenPermission
  * 
- * @method integer             getId()               Returns the current record's "id" value
- * @method string              getName()             Returns the current record's "name" value
- * @method string              getDisplayName()      Returns the current record's "display_name" value
- * @method boolean             getIsAssignable()     Returns the current record's "is_assignable" value
- * @method boolean             getIsPredefined()     Returns the current record's "is_predefined" value
- * @method Doctrine_Collection getSystemUser()       Returns the current record's "SystemUser" collection
- * @method Doctrine_Collection getScreenPermission() Returns the current record's "ScreenPermission" collection
- * @method UserRole            setId()               Sets the current record's "id" value
- * @method UserRole            setName()             Sets the current record's "name" value
- * @method UserRole            setDisplayName()      Sets the current record's "display_name" value
- * @method UserRole            setIsAssignable()     Sets the current record's "is_assignable" value
- * @method UserRole            setIsPredefined()     Sets the current record's "is_predefined" value
- * @method UserRole            setSystemUser()       Sets the current record's "SystemUser" collection
- * @method UserRole            setScreenPermission() Sets the current record's "ScreenPermission" collection
+ * @method integer             getId()                  Returns the current record's "id" value
+ * @method string              getName()                Returns the current record's "name" value
+ * @method string              getDisplayName()         Returns the current record's "display_name" value
+ * @method boolean             getIsAssignable()        Returns the current record's "is_assignable" value
+ * @method boolean             getIsPredefined()        Returns the current record's "is_predefined" value
+ * @method Doctrine_Collection getDataGroupPermission() Returns the current record's "DataGroupPermission" collection
+ * @method Doctrine_Collection getSystemUser()          Returns the current record's "SystemUser" collection
+ * @method Doctrine_Collection getScreenPermission()    Returns the current record's "ScreenPermission" collection
+ * @method UserRole            setId()                  Sets the current record's "id" value
+ * @method UserRole            setName()                Sets the current record's "name" value
+ * @method UserRole            setDisplayName()         Sets the current record's "display_name" value
+ * @method UserRole            setIsAssignable()        Sets the current record's "is_assignable" value
+ * @method UserRole            setIsPredefined()        Sets the current record's "is_predefined" value
+ * @method UserRole            setDataGroupPermission() Sets the current record's "DataGroupPermission" collection
+ * @method UserRole            setSystemUser()          Sets the current record's "SystemUser" collection
+ * @method UserRole            setScreenPermission()    Sets the current record's "ScreenPermission" collection
  * 
  * @package    orangehrm
  * @subpackage model\core\base
@@ -68,6 +71,10 @@ abstract class BaseUserRole extends sfDoctrineRecord
     public function setUp()
     {
         parent::setUp();
+        $this->hasMany('DataGroupPermission', array(
+             'local' => 'id',
+             'foreign' => 'user_role_id'));
+
         $this->hasMany('SystemUser', array(
              'local' => 'id',
              'foreign' => 'user_role_id'));

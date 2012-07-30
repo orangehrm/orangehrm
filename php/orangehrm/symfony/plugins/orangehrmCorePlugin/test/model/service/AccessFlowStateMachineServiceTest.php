@@ -195,6 +195,39 @@ class AccessFlowStateMachineServiceTest extends PHPUnit_Framework_TestCase {
 
         $this->assertEquals($isSuccess, $retunedValue);
     }
+    
+    public function testGetWorkFlowStateMachineRecordsService() {
+        $workflowStateMachineRecords = TestDataService::loadObjectList('WorkflowStateMachine', $this->fixture, 'WorkflowStateMachine');
+
+        $workflowStateMachineRecord = $workflowStateMachineRecords[12];
+
+        $accessFlowStateMachineDaoMock = $this->getMock('AccessFlowStateMachineDao');
+
+        $accessFlowStateMachineDaoMock->expects($this->once())
+                ->method('getWorkFlowStateMachineRecords')
+                ->with(PluginWorkflowStateMachine::FLOW_EMPLOYEE)
+                ->will($this->returnValue($workflowStateMachineRecord));
+        
+        $this->accessFlowStateMachineService->setAccessFlowStateMachineDao($accessFlowStateMachineDaoMock);
+
+        $this->assertTrue($this->accessFlowStateMachineService->getWorkFlowStateMachineRecords(PluginWorkflowStateMachine::FLOW_EMPLOYEE, null) instanceof WorkflowStateMachine);
+    }
+    
+    public function testIsActionAllowedService() {
+        $accessFlowStateMachineDaoMock = $this->getMock('AccessFlowStateMachineDao');
+
+        $accessFlowStateMachineDaoMock->expects($this->once())
+                ->method('isActionAllowed')
+                ->with(PluginWorkflowStateMachine::FLOW_EMPLOYEE, 'NOT EXIST', 'ADMIN', 
+                        PluginWorkflowStateMachine::EMPLOYEE_ACTION_ADD)
+                ->will($this->returnValue(TRUE));
+        
+        $this->accessFlowStateMachineService->setAccessFlowStateMachineDao($accessFlowStateMachineDaoMock);
+        
+        $isAllowed = $this->accessFlowStateMachineService->isActionAllowed(PluginWorkflowStateMachine::FLOW_EMPLOYEE, 
+                'NOT EXIST', 'ADMIN', PluginWorkflowStateMachine::EMPLOYEE_ACTION_ADD);
+        $this->assertTrue($isAllowed);       
+    }
 
 }
 

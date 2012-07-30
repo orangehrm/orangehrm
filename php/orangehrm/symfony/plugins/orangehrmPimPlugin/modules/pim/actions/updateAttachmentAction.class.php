@@ -1,4 +1,5 @@
 <?php
+
 /**
  * OrangeHRM is a comprehensive Human Resource Management (HRM) System that captures
  * all the essential functionalities required for any enterprise.
@@ -20,9 +21,8 @@
 /**
  * Actions class for PIM module updateAttachmentAction
  */
-
 class updateAttachmentAction extends basePimAction {
-        
+
     /**
      * Add / update employee attachment
      *
@@ -31,44 +31,51 @@ class updateAttachmentAction extends basePimAction {
      * @return boolean true if successfully assigned, false otherwise
      */
     public function execute($request) {
-        
+
         $loggedInEmpNum = $this->getUser()->getEmployeeNumber();
         $loggedInUserName = $_SESSION['fname'];
-        
-        $this->form = new EmployeeAttachmentForm(array(), 
-                array('loggedInUser' => $loggedInEmpNum,
-                      'loggedInUserName' => $loggedInUserName), true);
+
+        $this->form = new EmployeeAttachmentForm(array(),
+                        array('loggedInUser' => $loggedInEmpNum,
+                            'loggedInUserName' => $loggedInUserName), true);
 
         if ($this->getRequest()->isMethod('post')) {
 
+            $attachId = $request->getParameter('seqNO');
+            $screen = $request->getParameter('screen');
+            
+            $permission = $this->getDataGroupPermissions($screen. '_attachment', $loggedInEmpNum);
 
-            // Handle the form submission
-            $this->form->bind($request->getPostParameters(), $request->getFiles());
+            if ((empty($attachId) && $permission->canCreate()) || $permission->canUpdate()) {
 
-            if ($this->form->isValid()) {
+                // Handle the form submission
+                $this->form->bind($request->getPostParameters(), $request->getFiles());
 
-                $empNumber = $this->form->getValue('EmpID');
-                if (!$this->IsActionAccessible($empNumber)) {
-                    $this->forward(sfConfig::get('sf_secure_module'), sfConfig::get('sf_secure_action'));
-                }                
+                if ($this->form->isValid()) {
 
-                $this->form->save();
-                $this->getUser()->setFlash('attachmentMessage', array('success', __(TopLevelMessages::SAVE_SUCCESS)));                
-            } else {
-
-                $validationMsg = '';
-                foreach($this->form->getWidgetSchema()->getPositions() as $widgetName) {
-                    if($this->form[$widgetName]->hasError()) {
-                        $validationMsg .= __(TopLevelMessages::FILE_SIZE_SAVE_FAILURE);
+                    $empNumber = $this->form->getValue('EmpID');
+                    if (!$this->IsActionAccessible($empNumber)) {
+                        $this->forward(sfConfig::get('sf_secure_module'), sfConfig::get('sf_secure_action'));
                     }
-                }
 
-                $this->getUser()->setFlash('attachmentMessage', array('warning', $validationMsg));
-                $this->getUser()->setFlash('attachmentComments', $request->getParameter('txtAttDesc'));
-                $this->getUser()->setFlash('attachmentSeqNo', $request->getParameter('seqNO'));
+                    $this->form->save();
+                    $this->getUser()->setFlash('attachmentMessage', array('success', __(TopLevelMessages::SAVE_SUCCESS)));
+                } else {
+
+                    $validationMsg = '';
+                    foreach ($this->form->getWidgetSchema()->getPositions() as $widgetName) {
+                        if ($this->form[$widgetName]->hasError()) {
+                            $validationMsg .= __(TopLevelMessages::FILE_SIZE_SAVE_FAILURE);
+                        }
+                    }
+
+                    $this->getUser()->setFlash('attachmentMessage', array('warning', $validationMsg));
+                    $this->getUser()->setFlash('attachmentComments', $request->getParameter('txtAttDesc'));
+                    $this->getUser()->setFlash('attachmentSeqNo', $request->getParameter('seqNO'));
+                }
             }
         }
-       
+
         $this->redirect($this->getRequest()->getReferer() . '#attachments');
     }
 

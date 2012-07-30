@@ -29,31 +29,27 @@ class contactDetailsAction extends basePimAction {
     }
     
     public function execute($request) {
-        $this->showBackButton = true;
         $loggedInEmpNum = $this->getUser()->getEmployeeNumber();
         
         $contact = $request->getParameter('contact');
         $empNumber = (isset($contact['empNumber']))?$contact['empNumber']:$request->getParameter('empNumber');
         $this->empNumber = $empNumber;
+              
+        $this->contactDetailsPermission = $this->getDataGroupPermissions('contact_details', $empNumber);
         
-        //hiding the back button if its self ESS view
-        if($loggedInEmpNum == $empNumber) {
-
-            $this->showBackButton = false;
-        }
                 
         if (!$this->IsActionAccessible($empNumber)) {
             $this->forward(sfConfig::get('sf_secure_module'), sfConfig::get('sf_secure_action'));
         }
 
-        $param = array('empNumber' => $empNumber);
+        $param = array('empNumber' => $empNumber,  'contactDetailsPermission' => $this->contactDetailsPermission);
         $this->setForm(new EmployeeConactDetailsForm(array(), $param, true));
 
         if ($this->getUser()->hasFlash('templateMessage')) {
             list($this->messageType, $this->message) = $this->getUser()->getFlash('templateMessage');
         }
-        
-        if ($request->isMethod('post')) {
+        if ($this->contactDetailsPermission->canUpdate()){
+            if ($request->isMethod('post')) {
 
             $this->form->bind($request->getParameter($this->form->getName()));
             if ($this->form->isValid()) {
@@ -63,6 +59,8 @@ class contactDetailsAction extends basePimAction {
                 $this->redirect('pim/contactDetails?empNumber='. $empNumber);
             }
         }
+        }
+        
     }
 
 }

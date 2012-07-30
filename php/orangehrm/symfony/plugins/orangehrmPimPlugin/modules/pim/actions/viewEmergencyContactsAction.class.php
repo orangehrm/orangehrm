@@ -39,6 +39,8 @@ class viewEmergencyContactsAction extends basePimAction {
         $contacts = $request->getParameter('emgcontacts');
         $empNumber = (isset($contacts['empNumber']))?$contacts['empNumber']:$request->getParameter('empNumber');
         $this->empNumber = $empNumber;
+        
+        $this->emergencyContactPermissions = $this->getDataGroupPermissions('emergency_contacts', $empNumber);
 
         $adminMode = $this->getUser()->hasCredential(Auth::ADMIN_ROLE);
         
@@ -57,7 +59,7 @@ class viewEmergencyContactsAction extends basePimAction {
         }
 
         $essMode = !$adminMode && !empty($loggedInEmpNum) && ($empNumber == $loggedInEmpNum);
-        $param = array('empNumber' => $empNumber, 'ESS' => $essMode);
+        $param = array('empNumber' => $empNumber, 'ESS' => $essMode , 'emergencyContactPermissions' => $this->emergencyContactPermissions);
 
         $this->setForm(new EmployeeEmergencyContactForm(array(), $param, true));
         $this->deleteForm = new EmployeeEmergencyContactsDeleteForm(array(), $param, true);

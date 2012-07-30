@@ -6,6 +6,7 @@ if (($section == 'education') && isset($message) && isset($messageType)) {
     $tmpMsgClass = '';
     $tmpMsg = '';
 }
+$haveEducation = count($form->empEducationList) > 0;
 ?>
 <div id="educationMessagebar" class="<?php echo $tmpMsgClass; ?>">
     <span style="font-weight: bold;"><?php echo $tmpMsg; ?></span>
@@ -15,11 +16,15 @@ if (($section == 'education') && isset($message) && isset($messageType)) {
 <div class="sectionDiv" id="sectionEducation">
     <div style="float: left; width: 450px;"><h3><?php echo __('Education'); ?></h3></div>
     <div id="actionEducation" style="float: left; margin-top: 20px; width: 335px; text-align: right">
+        <?php if ($educationPermissions->canCreate()) { ?>
         <input type="button" value="<?php echo __("Add"); ?>" class="savebutton" id="addEducation" />&nbsp;
+        <?php } ?>
+        <?php if ($educationPermissions->canDelete()) { ?>
         <input type="button" value="<?php echo __("Delete"); ?>" class="savebutton" id="delEducation" />
+        <?php } ?>
     </div>
 
-
+    <?php if ($educationPermissions->canRead() && (($educationPermissions->canCreate()) || ($educationPermissions->canUpdate() && $haveEducation))) { ?>
     <div class="outerbox" id="changeEducation" style="width:500px; float: left">
         <div class="mainHeading"><h4 id="headChangeEducation"><?php echo __('Add Education'); ?></h4></div>
         <form id="frmEducation" action="<?php echo url_for('pim/saveDeleteEducation?empNumber=' . $empNumber . "&option=save"); ?>" method="post">
@@ -57,21 +62,28 @@ if (($section == 'education') && isset($message) && isset($messageType)) {
             <?php echo $form['end_date']->render(array("class" => "formInputText")); ?>
             <br class="clear"/>
 
-
+            <?php if (($haveEducation && $educationPermissions->canUpdate()) || $educationPermissions->canCreate()) { ?>
             <div class="formbuttons">
                 <input type="button" class="savebutton" id="btnEducationSave" value="<?php echo __("Save"); ?>" />
                 <input type="button" class="savebutton" id="btnEducationCancel" value="<?php echo __("Cancel"); ?>" />
             </div>
+            <?php } ?>
         </form>
     </div>
+    <?php } ?>
     <br class="clear" />
     <div class="paddingLeftRequired" id="educationRequiredNote"><span class="required">*</span> <?php echo __(CommonMessages::REQUIRED_FIELD); ?></div>
+    <?php if ($educationPermissions->canRead()) { ?>
     <form id="frmDelEducation" action="<?php echo url_for('pim/saveDeleteEducation?empNumber=' . $empNumber . "&option=delete"); ?>" method="post">
         <div class="outerbox" id="tblEducation">
             <table width="100%" cellspacing="0" cellpadding="0" class="data-table" border="0">
                 <thead>
                     <tr>
+                        <?php if ($educationPermissions->canDelete()) { ?>
                         <td class="check"><input type="checkbox" id="educationCheckAll" /></td>
+                        <?php } else { ?>
+                        <td> </td>
+                        <?php } ?>
                         <td><?php echo __('Level'); ?></td>
                         <td><?php echo __('Year'); ?></td>
                         <td><?php echo __('GPA/Score'); ?></td>
@@ -99,8 +111,17 @@ if (($section == 'education') && isset($message) && isset($messageType)) {
                                 <input type="hidden" id="start_date_<?php echo $education->id; ?>" value="<?php echo $startDate; ?>" />
                                 <input type="hidden" id="end_date_<?php echo $education->id; ?>" value="<?php echo $endDate; ?>" />
 
-                                <input type="checkbox" class="chkbox" value="<?php echo $education->id; ?>" name="delEdu[]"/></td>
-                            <td class="program"><a href="#" class="edit"><?php echo $eduDesc; ?></a></td>
+                                <?php if ($educationPermissions->canDelete()) {?>
+                                    <input type="checkbox" class="chkbox" value="<?php echo $education->id; ?>" name="delEdu[]"/></td>
+                                <?php } else {?>
+                                    <input type="hidden" class="chkbox" value="<?php echo $education->id;?>" name="delEdu[]"/>
+                                <?php }?>
+                            <td class="program">
+                                <?php if ($educationPermissions->canUpdate()) { ?>
+                                <a href="#" class="edit"><?php echo htmlspecialchars($eduDesc); ?></a>
+                                <?php } else { 
+                                    echo htmlspecialchars($eduDesc);
+                                } ?></td>
                             <td><?php echo htmlspecialchars($education->year); ?></td>
                             <td><?php echo htmlspecialchars($education->score); ?></td>
                         </tr>
@@ -118,6 +139,7 @@ if (($section == 'education') && isset($message) && isset($messageType)) {
             </table>
         </div>
     </form>
+    <?php } ?>
 
 </div>
 <script type="text/javascript">

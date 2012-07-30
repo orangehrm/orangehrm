@@ -1,4 +1,5 @@
 <?php
+
 /**
  * OrangeHRM is a comprehensive Human Resource Management (HRM) System that captures
  * all the essential functionalities required for any enterprise.
@@ -20,7 +21,6 @@
 /**
  * Actions class for PIM module updateEmergencyContact
  */
-
 class updateEmergencyContactAction extends basePimAction {
 
     /**
@@ -33,34 +33,38 @@ class updateEmergencyContactAction extends basePimAction {
     public function execute($request) {
 
         $contacts = $request->getParameter('emgcontacts');
-        $empNumber = (isset($contacts['empNumber']))?$contacts['empNumber']:$request->getParameter('empNumber');
+        $empNumber = (isset($contacts['empNumber'])) ? $contacts['empNumber'] : $request->getParameter('empNumber');
         $this->empNumber = $empNumber;
 
+        $this->emergencyContactPermissions = $this->getDataGroupPermissions('emergency_contacts', $empNumber);
+
         $loggedInEmpNum = $this->getUser()->getEmployeeNumber();
-        $adminMode = $this->getUser()->hasCredential(Auth::ADMIN_ROLE);        
+        $adminMode = $this->getUser()->hasCredential(Auth::ADMIN_ROLE);
 
         if (!$this->IsActionAccessible($empNumber)) {
             $this->forward(sfConfig::get('sf_secure_module'), sfConfig::get('sf_secure_action'));
         }
-            
+
         $essMode = !$adminMode && !empty($loggedInEmpNum) && ($empNumber == $loggedInEmpNum);
-        
-        $param = array('empNumber' => $empNumber, 'ESS' => $essMode);
-        
+
+        $param = array('empNumber' => $empNumber, 'ESS' => $essMode, 'emergencyContactPermissions' => $this->emergencyContactPermissions);
+
         $this->form = new EmployeeEmergencyContactForm(array(), $param, true);
 
-        if ($this->getRequest()->isMethod('post')) {
+        if ($this->emergencyContactPermissions->canUpdate() || $this->emergencyContactPermissions->canCreate()) {
+            if ($this->getRequest()->isMethod('post')) {
 
-            $this->form->bind($request->getParameter($this->form->getName()));
-            if ($this->form->isValid()) {
-                $this->form->save();
-                $this->getUser()->setFlash('templateMessage', array('success', __(TopLevelMessages::SAVE_SUCCESS)));
+                $this->form->bind($request->getParameter($this->form->getName()));
+                if ($this->form->isValid()) {
+                    $this->form->save();
+                    $this->getUser()->setFlash('templateMessage', array('success', __(TopLevelMessages::SAVE_SUCCESS)));
+                }
             }
         }
 
         $empNumber = $request->getParameter('empNumber');
 
-        $this->redirect('pim/viewEmergencyContacts?empNumber='. $empNumber);
+        $this->redirect('pim/viewEmergencyContacts?empNumber=' . $empNumber);
     }
 
 }

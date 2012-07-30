@@ -6,6 +6,7 @@ if (($section == 'license') && isset($message) && isset($messageType)) {
     $tmpMsgClass = '';
     $tmpMsg = '';
 }
+$haveLicense = count($form->empLicenseList) > 0;
 ?>
 <div id="licenseMessagebar" class="<?php echo $tmpMsgClass; ?>">
     <span style="font-weight: bold;"><?php echo $tmpMsg; ?></span>
@@ -14,10 +15,15 @@ if (($section == 'license') && isset($message) && isset($messageType)) {
 <div class="sectionDiv" id="sectionLicense">
     <div style="float: left; width: 450px;"><h3><?php echo __('License'); ?></h3></div>
     <div id="actionLicense" style="float: left; margin-top: 20px; width: 335px; text-align: right">
+        <?php if ($licensePermissions->canCreate() ) { ?>
         <input type="button" value="<?php echo __("Add");?>" class="savebutton" id="addLicense" />&nbsp;
+        <?php } ?>
+        <?php if ($licensePermissions->canDelete() ) { ?>
         <input type="button" value="<?php echo __("Delete");?>" class="savebutton" id="delLicense" />
+        <?php } ?>
     </div>
 
+    <?php if ($licensePermissions->canRead() && (($licensePermissions->canCreate()) || ($licensePermissions->canUpdate() && $haveLicense))) { ?>
     <div class="outerbox" id="changeLicense" style="width:500px; float: left">
         <div class="mainHeading"><h4 id="headChangeLicense"><?php echo __('Add License'); ?></h4></div>
         <form id="frmLicense" action="<?php echo url_for('pim/saveDeleteLicense?empNumber=' . $empNumber . "&option=save"); ?>" method="post">
@@ -43,21 +49,29 @@ if (($section == 'license') && isset($message) && isset($messageType)) {
             <br class="clear"/>
 
 
+            <?php if (($haveLicense && $licensePermissions->canUpdate()) || $licensePermissions->canCreate()) { ?>
             <div class="formbuttons">
                 <input type="button" class="savebutton" id="btnLicenseSave" value="<?php echo __("Save"); ?>" />
                 <input type="button" class="savebutton" id="btnLicenseCancel" value="<?php echo __("Cancel"); ?>" />
             </div>
+            <?php } ?>
         </form>
     </div>
+    <?php } ?>
      <br class="clear" />
     <div class="paddingLeftRequired" id="licenseRequiredNote"><span class="required">*</span> <?php echo __(CommonMessages::REQUIRED_FIELD); ?></div>
 
+    <?php if ($licensePermissions->canRead()) { ?>
     <form id="frmDelLicense" action="<?php echo url_for('pim/saveDeleteLicense?empNumber=' . $empNumber . "&option=delete"); ?>" method="post">
         <div class="outerbox" id="tblLicense">
             <table width="100%" cellspacing="0" cellpadding="0" class="data-table" border="0">
                 <thead>
                 <tr>
-                    <td class="check"><input type="checkbox" id="licenseCheckAll" /></td>
+                    <?php if ($licensePermissions->canDelete()) { ?>
+                        <td class="check"><input type="checkbox" id="licenseCheckAll" /></td>
+                    <?php } else { ?>
+                        <td></td>
+                    <?php } ?>
                     <td><?php echo __('License Type');?></td>
                     <td><?php echo __('Issued Date');?></td>                    
                     <td><?php echo __('Expiry Date');?></td>
@@ -82,8 +96,18 @@ if (($section == 'license') && isset($message) && isset($messageType)) {
                 <input type="hidden" id="start_date_<?php echo $license->licenseId;?>" value="<?php echo $startDate; ?>" />
                 <input type="hidden" id="end_date_<?php echo $license->licenseId;?>" value="<?php echo $endDate; ?>" />
 
-                <input type="checkbox" class="chkbox" value="<?php echo $license->licenseId;?>" name="delLicense[]"/></td>
-                <td class="desc"><a href="#" class="edit"><?php echo $licenseDesc;?></a></td>
+                <?php if ($licensePermissions->canDelete()) {?>
+                    <input type="checkbox" class="chkbox" value="<?php echo $license->licenseId;?>" name="delLicense[]"/></td>
+                <?php } else {?>
+                    <input type="hidden" class="chkbox" value="<?php echo $license->licenseId;?>" name="delLicense[]"/>
+                <?php }?>
+                <td class="desc">
+                <?php if ($licensePermissions->canUpdate()) { ?>
+                    <a href="#" class="edit"><?php echo htmlspecialchars($licenseDesc);?></a>
+                <?php } else {
+                        echo htmlspecialchars($licenseDesc);
+                      } ?>
+                </td>
                 <td><?php echo htmlspecialchars($startDate);?></td>
                 <td><?php echo htmlspecialchars($endDate);?></td>
                 <?php
@@ -100,6 +124,7 @@ if (($section == 'license') && isset($message) && isset($messageType)) {
             </table>
         </div>
     </form>
+    <?php } ?>
 
 </div>
 <script type="text/javascript">

@@ -132,7 +132,8 @@ class SystemUserDao extends BaseDao {
     public function getAssignableUserRoles() {
         try {
             $query = Doctrine_Query:: create()->from('UserRole ur')
-                    ->whereIn('ur.is_assignable', 1);
+                    ->whereIn('ur.is_assignable', 1)
+                    ->orderBy('ur.name');
 
             return $query->execute();
         } catch (Exception $e) {
@@ -150,6 +151,25 @@ class SystemUserDao extends BaseDao {
             throw new DaoException($e->getMessage(), $e->getCode(), $e);
         }
     }
+    
+    /*
+     * Get non pre defined UserRoles
+     * 
+     * @return Array Array of UserRole objects
+     */
+
+    public function getNonPredefinedUserRoles() {
+        try {
+            $query = Doctrine_Query::create()
+                    ->select('ur.*')
+                    ->from('UserRole ur')
+                    ->where('ur.is_predefined = 0')
+                    ->orderBy('ur.name');
+            return $query->execute();
+        } catch (Exception $e) {
+            throw new DaoException($e);
+        }
+    }    
 
     /**
      * Get Count of Search Query 

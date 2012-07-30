@@ -63,6 +63,10 @@ class viewReportToDetailsAction extends basePimAction {
         $empNumber = (isset($membership['empNumber'])) ? $membership['empNumber'] : $request->getParameter('empNumber');
         $this->empNumber = $empNumber;
         $this->essUserMode = !$this->isAllowedAdminOnlyActions($loggedInEmpNum, $empNumber);
+        
+        $this->reportToPermissions = $this->getDataGroupPermissions(array('supervisor','subordinates'), $empNumber);
+        $this->reportToSupervisorPermission = $this->getDataGroupPermissions('supervisor', $empNumber);
+        $this->reportToSubordinatePermission = $this->getDataGroupPermissions('subordinates', $empNumber);
 
         $adminMode = $this->getUser()->hasCredential(Auth::ADMIN_ROLE);
 
@@ -75,7 +79,7 @@ class viewReportToDetailsAction extends basePimAction {
         }
 
         $essMode = !$adminMode && !empty($loggedInEmpNum) && ($empNumber == $loggedInEmpNum);
-        $param = array('empNumber' => $empNumber, 'ESS' => $essMode);
+        $param = array('empNumber' => $empNumber, 'ESS' => $essMode, 'reportToPermissions'=>$this->reportToPermissions);
 
         $this->setForm(new EmployeeReportToForm(array(), $param, true));
 

@@ -3,6 +3,12 @@
 <script type="text/javascript" src="<?php echo public_path('../../scripts/jquery/ui/ui.datepicker.js')?>"></script>
 <?php echo stylesheet_tag('orangehrm.datepicker.css') ?>
 <?php echo javascript_include_tag('orangehrm.datepicker.js')?>
+<?php
+$empPassportDetails;
+$numContacts = count($empPassportDetails);
+$havePassports = $numContacts>0;
+
+?>
 <script type="text/javascript">
     //<![CDATA[
     var lang_numberRequired = "<?php echo __(ValidationMessages::REQUIRED);?>";
@@ -14,12 +20,16 @@
     var lang_invalidDate = '<?php echo __(ValidationMessages::DATE_FORMAT_INVALID, array('%format%' => get_datepicker_date_format($sf_user->getDateFormat()))) ?>'
     var datepickerDateFormat = '<?php echo get_datepicker_date_format($sf_user->getDateFormat()); ?>';
     var fileModified = 0;
+    var havePassports = '<?php echo $havePassports;?>';
+    var canUpdate = '<?php echo $immigrationPermission->canUpdate();?>';
 
     //]]>
 </script>
 
 <?php echo stylesheet_tag('../orangehrmPimPlugin/css/viewImmigrationSuccess'); ?>
 <?php echo javascript_include_tag('../orangehrmPimPlugin/js/viewImmigrationSuccess'); ?>
+
+
 <!-- common table structure to be followed -->
 <table cellspacing="0" cellpadding="0" border="0" width="100%">
     <tr>
@@ -43,10 +53,12 @@
                             <div id="immigrationDataPane">
                                 <div class="outerbox">
                                     <div class="mainHeading"><h2 id="immigrationHeading"><?php echo __('Add Immigration'); ?></h2></div>
+                                     <?php if ($immigrationPermission->canRead() && (($immigrationPermission->canCreate()) || ($immigrationPermission->canUpdate() && $havePassports))) { ?>
                                     <form name="frmEmpImmigration" id="frmEmpImmigration" method="post" action="<?php echo url_for('pim/viewImmigration'); ?>">
                                         <?php echo $form['_csrf_token']; ?>
                                         <?php echo $form['emp_number']->render();?>
-                                        <?php echo $form['seqno']->render();?>
+                                        <?php // if (($immigrationPermission->canRead() && $immigrationPermission->canCreate()) || ($immigrationPermission->canRead() && $immigrationPermission->canUpdate() && $havePassports)) { ?>
+                                       <?php echo $form['seqno']->render();?>
                                         <div>
                                             <?php echo $form['type_flag']->renderLabel(__('Document') . ' <span class="required">*</span>'); ?>
                                             <?php echo $form['type_flag']->render(); ?>
@@ -79,31 +91,42 @@
                                             <?php echo $form['comments']->renderLabel(__('Comments')); ?>
                                             <?php echo $form['comments']->render(array("class" => "formInputText")); ?>
                                             <br class="clear" />
+                                            
                                         </div>
+                                        <?php if (($havePassports&& $immigrationPermission->canUpdate()) || $immigrationPermission->canCreate()) { ?>
                                         <div class="formbuttons">
                                             <input type="button" class="savebutton" id="btnSave" value="<?php echo __("Save"); ?>" />
+                                            <?php if (($havePassports) || ($havePassports && $immigrationPermission->canCreate()) || ($havePassports && $immigrationPermission->canUpdate())) { ?>
                                             <input type="button" class="savebutton" id="btnCancel" value="<?php echo __("Cancel"); ?>" />
+                                            <?php }?>
                                         </div>
+                                        <?php } ?>
                                     </form>
-
+                                    <?php }?>
                                 </div>
                             </div>
-
+                            <?php if ($havePassports && $immigrationPermission->canRead()) { ?>
                             <div class="outerbox" id="immidrationList">
                                 <form name="frmImmigrationDelete" id="frmImmigrationDelete" method="post" action="<?php echo url_for('pim/deleteImmigration?empNumber=' . $empNumber); ?>">
                                     <div class="mainHeading"><h2><?php echo __("Assigned Immigration Documents"); ?></h2></div>
 
                                     <div class="actionbar" id="listActions">
                                         <div class="actionbuttons">
+                                            <?php if ($immigrationPermission->canCreate() ) { ?>
                                             <input type="button" id="btnAdd" value="<?php echo __("Add");?>" class="addbutton" />
+                                            <?php } ?>
+                                            <?php if ($immigrationPermission->canDelete() ) { ?>
                                             <input type="button" id="btnDelete" value="<?php echo __("Delete");?>" class="delbutton" />
+                                            <?php } ?>
                                         </div>
                                     </div>
 
                                     <table width="550" cellspacing="0" cellpadding="0" class="data-table">
                                         <thead>
                                             <tr>
+                                                <?php if ($immigrationPermission->canDelete()) { ?>
                                                 <td class="check"><input type="checkbox" id="immigrationCheckAll" class="checkbox"/></td>
+                                                <?php }?>
                                                 <td><?php echo __('Document');?></td>
                                                 <td><?php echo __('Document No');?></td>
                                                 <td><?php echo __('Issued By');?></td>
@@ -135,8 +158,23 @@
                                                 <input type="hidden" id="comments_<?php echo $record->recordId;?>" value="<?php echo htmlentities($record->notes); ?>" />
 
                                                 <!-- end of all data hidden fields -->
+                                                <?php if ($immigrationPermission->canDelete()) {?>
                                                 <td class="check"><input type='checkbox' class='checkbox' name='chkImmigration[]' value='<?php echo $record->recordId;?>' /></td>
-                                                <td class="document"><a href="#"><?php echo ($record->type == EmployeeImmigrationRecord::TYPE_PASSPORT)? __("Passport"):__("Visa");?></a></td>
+                                                <?php }else{
+                                                    ?>
+                                                <input type='hidden' class='checkbox' name='chkImmigrationUP[]' value='<?php echo $record->recordId;?>' />
+                                                <?php
+                                                    
+                                                }
+                                                    
+                                                    ?>
+                                                <td class="document">
+                                                    <?php if ($immigrationPermission->canUpdate()) { ?>
+                                                        <a href="#"><?php echo ($record->type == EmployeeImmigrationRecord::TYPE_PASSPORT)? __("Passport"):__("Visa");?></a>
+                                                    <?php }else{?>
+                                                        <?php echo ($record->type == EmployeeImmigrationRecord::TYPE_PASSPORT)? __("Passport"):__("Visa");?>
+                                                    <?php }?>
+                                                </td>
                                                 <td><?php echo $record->number;?></td>
                                                 <td><?php echo empty($record->countryCode)?'':__($countries[$record->countryCode]); ?></td>
                                                 <td><?php echo $issuedDate;?></td>
@@ -147,8 +185,9 @@
                                     </table>
                                 </form>
                             </div>
-
-                            <div class="paddingLeftRequired"><span class="required">*</span> <?php echo __(CommonMessages::REQUIRED_FIELD); ?></div>
+                            <?php }?>
+                            <div class="paddingLeftRequired" <?php echo $havePassports ? 'style="display:none;"' : '';?>><span class="required">*</span> <?php echo __(CommonMessages::REQUIRED_FIELD); ?></div>
+                       
                         <?php echo include_component('pim', 'customFields', array('empNumber'=>$empNumber, 'screen' => CustomField::SCREEN_IMMIGRATION));?>
                         <?php echo include_component('pim', 'attachments', array('empNumber'=>$empNumber, 'screen' => EmployeeAttachment::SCREEN_IMMIGRATION));?>
                             

@@ -36,6 +36,8 @@ class deleteReportToSubordinateAction extends basePimAction {
         $empNumber = $request->getParameter('empNumber', false);
         $this->form = new EmployeeReportToSubordinateDeleteForm(array(), array('empNumber' => $empNumber), true);
 
+        $this->reportToSubordinatePermission = $this->getDataGroupPermissions('subordinates', $empNumber);
+
         $this->form->bind($request->getParameter($this->form->getName()));
 
         if ($this->form->isValid()) {
@@ -44,12 +46,13 @@ class deleteReportToSubordinateAction extends basePimAction {
                 throw new PIMServiceException("No Employee ID given");
             }
             $subToDelete = $request->getParameter('chksubdel', array());
+            if ($this->reportToSubordinatePermission->canDelete()) {
+                if ($subToDelete) {
 
-            if ($subToDelete) {
-
-                $service = new EmployeeService();
-                $count = $service->deleteReportToObject($subToDelete);
-                $this->getUser()->setFlash('templateMessage', array('success', __(TopLevelMessages::DELETE_SUCCESS)));
+                    $service = new EmployeeService();
+                    $count = $service->deleteReportToObject($subToDelete);
+                    $this->getUser()->setFlash('templateMessage', array('success', __(TopLevelMessages::DELETE_SUCCESS)));
+                }
             }
         }
 

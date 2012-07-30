@@ -44,17 +44,43 @@ class EmployeeEducationForm extends sfForm {
     }
 
     public function configure() {
-
+        $this->educationPermissions = $this->getOption('educationPermissions');
+        
         $empNumber = $this->getOption('empNumber');
         $employee = $this->getEmployeeService()->getEmployee($empNumber);
         $this->fullName = $employee->getFullName();
 
         $this->empEducationList = $this->getEmployeeService()->getEmployeeEducations($empNumber);
+        
+        $widgets = array('emp_number' => new sfWidgetFormInputHidden(array(), array('value' => $empNumber)));
+        $validators = array('emp_number' => new sfValidatorString(array('required' => true)));
+        
+        if ($this->educationPermissions->canRead()) {
 
-        //initializing the components
-        $this->widgets = array(
+            $educationWidgets = $this->getEducationWidgets();
+            $educationValidators = $this->getEducationValidators();
+
+            if (!($this->educationPermissions->canUpdate() || $this->educationPermissions->canCreate()) ) {
+                foreach ($educationWidgets as $widgetName => $widget) {
+                    $widget->setAttribute('disabled', 'disabled');
+                }
+            }
+            $widgets = array_merge($widgets, $educationWidgets);
+            $validators = array_merge($validators, $educationValidators);
+        }
+        $this->setWidgets($widgets);
+        $this->setValidators($validators);
+        
+        $this->widgetSchema->setNameFormat('education[%s]');
+    }
+    
+    /**
+     * Get widgets
+     * @return \sfWidgetFormInputText 
+     */
+    private function getEducationWidgets() {
+        $widgets = array(
             'id' => new sfWidgetFormInputHidden(),
-            'emp_number' => new sfWidgetFormInputHidden(),
             'code' => new sfWidgetFormSelect(array('choices' => $this->_getEducationList())),
             'institute' => new sfWidgetFormInputText(),
             'major' => new sfWidgetFormInputText(),
@@ -63,34 +89,30 @@ class EmployeeEducationForm extends sfForm {
             'start_date' => new ohrmWidgetDatePickerNew(array(), array('id' => 'education_start_date')),
             'end_date' => new ohrmWidgetDatePickerNew(array(), array('id' => 'education_end_date'))
         );
-
-        $this->widgets['emp_number']->setDefault($empNumber);
-        $this->setWidgets($this->widgets);
-
-        $inputDatePattern = sfContext::getInstance()->getUser()->getDateFormat();
-        
-        $this->setValidator('id', new sfValidatorString(array('required' => false)));
-        $this->setValidator('emp_number', new sfValidatorString(array('required' => false)));
-        $this->setValidator('code', new sfValidatorString(array('required' => true,
-            'max_length' => 13)));
-        $this->setValidator('institute', new sfValidatorString(array('required' => false,
-            'max_length' => 100)));
-        $this->setValidator('major', new sfValidatorString(array('required' => false,
-            'max_length' => 100)));
-        $this->setValidator('year', new sfValidatorNumber(array('required' => false, 'max'=>9999, 'min'=>0)));
-        $this->setValidator('gpa', new sfValidatorString(array('required' => false,
-            'max_length' => 25)));
-
-        $this->setValidator('start_date', new ohrmDateValidator(
-                array('date_format'=>$inputDatePattern, 'required' => false),
-                array('invalid'=>'Date format should be'. $inputDatePattern)));
-
-        $this->setValidator('end_date', new ohrmDateValidator(
-                array('date_format'=>$inputDatePattern, 'required' => false),
-                array('invalid'=>'Date format should be'. $inputDatePattern)));
-
-        $this->widgetSchema->setNameFormat('education[%s]');
+        return $widgets;
     }
+    
+    /**
+     * Get validation for widgets
+     * @return \ohrmDateValidator 
+     */
+    private function getEducationValidators() {
+        $inputDatePattern = sfContext::getInstance()->getUser()->getDateFormat();
+    
+        $validators = array(
+            'id' => new sfValidatorString(array('required' => false)),
+            'code' => new sfValidatorString(array('required' => true, 'max_length' => 13)),
+            'institute' => new sfValidatorString(array('required' => false, 'max_length' => 100)),
+            'major' => new sfValidatorString(array('required' => false, 'max_length' => 100)),
+            'year' => new sfValidatorNumber(array('required' => false, 'max'=>9999, 'min'=>0)),
+            'gpa' => new sfValidatorString(array('required' => false, 'max_length' => 25)),
+            'start_date' => new ohrmDateValidator(array('date_format'=>$inputDatePattern, 'required' => false), array('invalid'=>'Date format should be'. $inputDatePattern)),
+            'end_date' => new ohrmDateValidator(array('date_format'=>$inputDatePattern, 'required' => false), array('invalid'=>'Date format should be'. $inputDatePattern)),
+        );
+        
+        return $validators;
+    }
+
 
     private function _getEducationList() {
         $educationService = new EducationService();

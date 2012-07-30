@@ -166,7 +166,9 @@ $(document).ready(function() {
     
     $("#btnWorkExpCancel").click(function() {
         clearMessageBar();
-        addEditLinks();
+        if(canEdit){
+            addEditLinks();
+        }
         
         workExperienceValidator.resetForm();
         

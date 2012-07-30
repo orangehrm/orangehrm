@@ -47,29 +47,32 @@ class viewUsTaxExemptionsAction extends basePimAction {
         $tax = $request->getParameter('tax');
         $empNumber = (isset($tax['empNumber']))?$tax['empNumber']:$request->getParameter('empNumber');
         $this->empNumber = $empNumber;
-
+        $this->taxExemptionPermission = $this->getDataGroupPermissions('tax_exemptions', $empNumber);
+        
         $this->essUserMode = !$this->isAllowedAdminOnlyActions($loggedInEmpNum, $empNumber);
 
         if (!$this->IsActionAccessible($empNumber)) {
             $this->forward(sfConfig::get('sf_secure_module'), sfConfig::get('sf_secure_action'));
         }
 
-        $param = array('empNumber' => $empNumber);
+        $param = array('empNumber' => $empNumber, 'taxExemptionPermission' => $this->taxExemptionPermission);
         $this->form = new EmployeeUsTaxExemptionsForm(array(), $param, true);
 
         if ($this->getUser()->hasFlash('templateMessage')) {
             list($this->messageType, $this->message) = $this->getUser()->getFlash('templateMessage');
         }
 
-        
-         if ($request->isMethod('post')) {
-
-            $this->form->bind($request->getParameter($this->form->getName()));
-            if ($this->form->isValid()) {
-                $empUsTaxExemption = $this->form->getEmpUsTaxExemption();
-                $this->getEmployeeService()->saveEmployeeTaxExemptions($empUsTaxExemption, false);
-                $this->getUser()->setFlash('templateMessage', array('success', __(TopLevelMessages::SAVE_SUCCESS)));
-                $this->redirect('pim/viewUsTaxExemptions?empNumber='. $empUsTaxExemption->getEmpNumber());
+        if ($this->taxExemptionPermission->canUpdate()){
+            
+            if ($request->isMethod('post')) {
+                
+                $this->form->bind($request->getParameter($this->form->getName()));
+                if ($this->form->isValid()) {
+                    $empUsTaxExemption = $this->form->getEmpUsTaxExemption();
+                    $this->getEmployeeService()->saveEmployeeTaxExemptions($empUsTaxExemption, false);
+                    $this->getUser()->setFlash('templateMessage', array('success', __(TopLevelMessages::SAVE_SUCCESS)));
+                    $this->redirect('pim/viewUsTaxExemptions?empNumber='. $empUsTaxExemption->getEmpNumber());
+                }
             }
         }
     }

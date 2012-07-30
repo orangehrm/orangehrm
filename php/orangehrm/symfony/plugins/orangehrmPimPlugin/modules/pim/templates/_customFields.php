@@ -3,7 +3,7 @@ use_stylesheet('../orangehrmPimPlugin/css/customFields');
 
 if (!empty($customFieldList) && (count($customFieldList) > 0)) {
     $editMode = false;
-    $allowEdit = true;
+    $allowEdit = isset($permission) ? $permission->canUpdate() : true;
     $allowDel = true;
 ?>
 <?php if ($form->hasErrors()): ?>
@@ -21,8 +21,10 @@ if (!empty($customFieldList) && (count($customFieldList) > 0)) {
         <div id="customFieldsMessagebar" class="<?php echo isset($customFieldsMessageType) ? "messageBalloon_{$customFieldsMessageType}" : ''; ?>" style="margin-left: 16px;width: 630px;">
             <span style="font-weight: bold;"><?php echo isset($customFieldsMessage) ? $customFieldsMessage : ''; ?></span>
         </div>
+        <?php if ($permission->canRead()) { ?>
         <div class="outerbox">
             <div class="mainHeading"><h2><?php echo __('Custom Fields'); ?></h2></div>
+            
             <form name="frmEmpCustomFields" id="frmEmpCustomFields" method="post"
                   action="<?php echo url_for('pim/updateCustomFields?empNumber=' . $employee->empNumber . '&screen=' . $screen); ?>">
 
@@ -82,8 +84,9 @@ if (!empty($customFieldList) && (count($customFieldList) > 0)) {
         <?php }
         ?>
             </form>
+            
         </div>
-
+        <?php }?>   
 
         <script type="text/javascript">
             //<![CDATA[

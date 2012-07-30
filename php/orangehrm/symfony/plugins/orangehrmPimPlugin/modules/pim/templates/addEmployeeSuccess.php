@@ -18,7 +18,12 @@
     var fileHelpText = <?php echo  '"'.__(CommonMessages::FILE_LABEL_IMAGE).'"'; ?>;
     //]]>
 </script>
-
+<?php if (isset($credentialMessage)) { ?>
+<div align="center" >
+    <br><br><br>
+    <h1 style="color: red">Credentials Required </h1>
+</div>
+<?php } else { ?>
 <div id="messagebar" class="<?php echo isset($messageType) ? "messageBalloon_{$messageType}" : ''; ?>" style="margin-left: 16px;width: 700px;">
     <span style="font-weight: bold;"><?php echo isset($message) ? $message : ''; ?></span>
 </div>
@@ -35,3 +40,4 @@
     </div>
 </div>
 <div class="paddingLeftRequired"><span class="required">*</span> <?php echo __(CommonMessages::REQUIRED_FIELD); ?></div>
+<?php } ?>

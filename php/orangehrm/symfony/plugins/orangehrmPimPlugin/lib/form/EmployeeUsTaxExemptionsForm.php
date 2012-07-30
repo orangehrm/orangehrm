@@ -23,30 +23,70 @@ class EmployeeUsTaxExemptionsForm extends sfForm {
     private $employeeService;
 
     public function configure() {
-
-        $status = array(0 => "-- " . __('Select') . " --", 'S' => __('Single'), 'M' => __('Married'), 'NRA' => __('Non Resident Alien'), 'NA' => __('Not Applicable'));
-        $states = $this->getStatesList();
+        $this->taxExemptionPermission = $this->getOption('taxExemptionPermission');
         $empNumber = $this->getOption('empNumber');
         $employee = $this->getEmployeeService()->getEmployee($empNumber);
         $this->fullName = $employee->getFullName();
-        $empTaxExemption = $this->getEmployeeService()->getEmployeeTaxExemptions($empNumber);
-
-        //creating widgets
-        $this->setWidgets(array(
-            'empNumber' => new sfWidgetFormInputHidden(),
-            'federalStatus' => new sfWidgetFormSelect(array('choices' => $status)),
-            'federalExemptions' => new sfWidgetFormInputText(),
-            'state' => new sfWidgetFormSelect(array('choices' => $states)),
-            'stateStatus' => new sfWidgetFormSelect(array('choices' => $status)),
-            'stateExemptions' => new sfWidgetFormInputText(),
-            'unempState' => new sfWidgetFormSelect(array('choices' => $states)),
-            'workState' => new sfWidgetFormSelect(array('choices' => $states)),
-        ));
-
+        $widgets = array('empNumber' => new sfWidgetFormInputHidden(array(), array('value' => $empNumber)));
+        $validators = array('empNumber' => new sfValidatorString(array('required' => true)));
+        if ($this->taxExemptionPermission->canRead()) {
+            $taxExemptionWidgets = $this->getTaxExemptionsWidgets();
+            $taxExemptionValidators = $this->getTaxExemptionsValidators();
+            if (!$this->taxExemptionPermission->canUpdate()) {
+                foreach ($taxExemptionWidgets as $widgetName => $widget) {
+                    $widget->setAttribute('disabled', 'disabled');
+                }
+            }
+            $widgets = array_merge($widgets, $taxExemptionWidgets);
+            $validators = array_merge($validators, $taxExemptionValidators);
+        }
+        $this->setWidgets($widgets);
+        $this->setValidators($validators);
         $this->widgetSchema->setNameFormat('tax[%s]');
-
-        //Setting validators
-        $this->setValidators(array(
+    }
+    
+    /**
+     * Create widgets and set default values
+     * 
+     * @return \sfWidgetFormSelect 
+     */
+    private function getTaxExemptionsWidgets() {
+        $status = array(0 => "-- " . __('Select') . " --", 'S' => __('Single'), 'M' => __('Married'), 'NRA' => __('Non Resident Alien'), 'NA' => __('Not Applicable'));
+        $states = $this->getStatesList();
+        $empNumber = $this->getOption('empNumber');
+        $empTaxExemption = $this->getEmployeeService()->getEmployeeTaxExemptions($empNumber);
+        $widgets = array();
+        $widgets['empNumber'] = new sfWidgetFormInputHidden();
+        $widgets['federalStatus'] = new sfWidgetFormSelect(array('choices' => $status));
+        $widgets['federalExemptions'] = new sfWidgetFormInputText();
+        $widgets['state'] = new sfWidgetFormSelect(array('choices' => $states));
+        $widgets['stateStatus'] = new sfWidgetFormSelect(array('choices' => $status));
+        $widgets['stateExemptions'] = new sfWidgetFormInputText();
+        $widgets['unempState'] = new sfWidgetFormSelect(array('choices' => $states));
+        $widgets['workState'] = new sfWidgetFormSelect(array('choices' => $states));
+                
+        $this->setDefault('empNumber', $empNumber);
+        if($empTaxExemption != null){
+            $widgets['federalStatus']->setDefault($empTaxExemption->getFederalStatus());
+            $widgets['federalExemptions']->setDefault($empTaxExemption->getFederalExemptions());
+            $widgets['state']->setDefault($empTaxExemption->getState());
+            $widgets['stateStatus']->setDefault($empTaxExemption->getStateStatus());
+            $widgets['stateExemptions']->setDefault($empTaxExemption->getStateExemptions());
+            $widgets['unempState']->setDefault($empTaxExemption->getUnemploymentState());
+            $widgets['workState']->setDefault($empTaxExemption->getWorkState());
+        }
+        return $widgets;
+    }
+    
+    /**
+     * Validate form fields
+     * 
+     * @return validators
+     */
+    private function getTaxExemptionsValidators() {
+        $status = array(0 => "-- " . __('Select') . " --", 'S' => __('Single'), 'M' => __('Married'), 'NRA' => __('Non Resident Alien'), 'NA' => __('Not Applicable'));
+        $states = $this->getStatesList();
+        $validators = array(
             'empNumber' => new sfValidatorString(array('required' => true)),
             'federalStatus' => new sfValidatorChoice(array('required' => false, 'choices' => array_keys($status))),
             'federalExemptions' => new sfValidatorInteger(array('required' => false, 'max' => 99)),
@@ -55,21 +95,8 @@ class EmployeeUsTaxExemptionsForm extends sfForm {
             'stateExemptions' => new sfValidatorInteger(array('required' => false, 'max' => 99)),
             'unempState' => new sfValidatorChoice(array('required' => false, 'choices' => array_keys($states))),
             'workState' => new sfValidatorChoice(array('required' => false, 'choices' => array_keys($states))),
-        ));
-
-            $this->setDefault('empNumber', $empNumber);
-            
-        if($empTaxExemption != null){
-        //setting the default values            
-            $this->setDefault('federalStatus', $empTaxExemption->getFederalStatus());
-            $this->setDefault('federalExemptions', $empTaxExemption->getFederalExemptions());
-            $this->setDefault('state', $empTaxExemption->getState());
-            $this->setDefault('stateStatus', $empTaxExemption->getStateStatus());
-            $this->setDefault('stateExemptions', $empTaxExemption->getStateExemptions());
-            $this->setDefault('unempState', $empTaxExemption->getUnemploymentState());
-            $this->setDefault('workState', $empTaxExemption->getWorkState());
-
-        }
+        );
+        return $validators;
     }
 
     /**

@@ -37,7 +37,8 @@ class saveDeleteLicenseAction extends basePimAction {
             $this->forward(sfConfig::get('sf_secure_module'), sfConfig::get('sf_secure_action'));
         }
         
-        $this->setLicenseForm(new EmployeeLicenseForm(array(), array('empNumber' => $empNumber), true));
+        $this->licensePermissions = $this->getDataGroupPermissions('qualification_license', $empNumber);
+        $this->setLicenseForm(new EmployeeLicenseForm(array(), array('empNumber' => $empNumber, 'licensePermissions' => $this->licensePermissions), true));
 
         if ($request->isMethod('post')) {
             if ( $request->getParameter('option') == "save") {
@@ -46,20 +47,24 @@ class saveDeleteLicenseAction extends basePimAction {
 
                 if ($this->licenseForm->isValid()) {
                     $license = $this->getLicense($this->licenseForm);
-                    $this->getEmployeeService()->saveEmployeeLicense($license);
-                    $this->getUser()->setFlash('templateMessage', array('success', __(TopLevelMessages::SAVE_SUCCESS)));
+                    if (!empty($license)){
+                        $this->getEmployeeService()->saveEmployeeLicense($license);
+                        $this->getUser()->setFlash('templateMessage', array('success', __(TopLevelMessages::SAVE_SUCCESS)));
+                    }
                 } else {
                     $this->getUser()->setFlash('templateMessage', array('warning', __('Form Validation Failed')));
                 }
             }
 
             //this is to delete 
-            if ($request->getParameter('option') == "delete") {
-                $deleteIds = $request->getParameter('delLicense');
+            if ($this->licensePermissions->canDelete()) {
+                if ($request->getParameter('option') == "delete") {
+                    $deleteIds = $request->getParameter('delLicense');
 
-                if(count($deleteIds) > 0) {
-                    $this->getEmployeeService()->deleteEmployeeLicenses($empNumber, $request->getParameter('delLicense'));
-                    $this->getUser()->setFlash('templateMessage', array('success', __(TopLevelMessages::DELETE_SUCCESS)));
+                    if(count($deleteIds) > 0) {
+                        $this->getEmployeeService()->deleteEmployeeLicenses($empNumber, $request->getParameter('delLicense'));
+                        $this->getUser()->setFlash('templateMessage', array('success', __(TopLevelMessages::DELETE_SUCCESS)));
+                    }
                 }
             }
         }
@@ -72,18 +77,29 @@ class saveDeleteLicenseAction extends basePimAction {
         $post = $form->getValues();
 
         $license = $this->getEmployeeService()->getEmployeeLicences($post['emp_number'], $post['code']);
-
-        if(!$license instanceof EmployeeLicense) {
-            $license = new EmployeeLicense();
+        
+        $isAllowed = FALSE;
+        if (!$license instanceof EmployeeLicense) {
+            if($this->licensePermissions->canCreate()){
+                $license = new EmployeeLicense();
+                $isAllowed = TRUE;
+            }
+        } else {
+            if($this->licensePermissions->canUpdate()){
+                $isAllowed = TRUE;                
+            }
         }
-
-        $license->empNumber = $post['emp_number'];
-        $license->licenseId = $post['code'];
-        $license->licenseNo = $post['license_no'];
-        $license->licenseIssuedDate = $post['date'];
-        $license->licenseExpiryDate = $post['renewal_date'];
-
-        return $license;
+        if ($isAllowed) {
+            $license->empNumber = $post['emp_number'];
+            $license->licenseId = $post['code'];
+            $license->licenseNo = $post['license_no'];
+            $license->licenseIssuedDate = $post['date'];
+            $license->licenseExpiryDate = $post['renewal_date'];
+            return $license;
+        } else {
+            return NULL;
+        }       
+                
     }
 }
 ?>

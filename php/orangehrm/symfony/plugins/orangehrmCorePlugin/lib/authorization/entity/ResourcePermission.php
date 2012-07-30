@@ -50,6 +50,15 @@ class ResourcePermission {
     public function canDelete() {
         return $this->canDelete;
     }
+    
+    public function andWith(ResourcePermission $permission) {
+        $permission = new ResourcePermission($this->canRead() && $permission->canRead(),
+                $this->canCreate() && $permission->canCreate(),
+                $this->canUpdate() && $permission->canUpdate(),
+                $this->canDelete() && $permission->canDelete());
+        
+        return $permission;
+    }
 
 }
 

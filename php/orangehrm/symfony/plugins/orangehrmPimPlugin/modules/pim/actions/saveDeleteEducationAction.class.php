@@ -36,30 +36,36 @@ class saveDeleteEducationAction extends basePimAction {
         if (!$this->IsActionAccessible($empNumber)) {
             $this->forward(sfConfig::get('sf_secure_module'), sfConfig::get('sf_secure_action'));
         }
+        $this->educationPermissions = $this->getDataGroupPermissions('qualification_education', $empNumber);
         
-        $this->setEducationForm(new EmployeeEducationForm(array(), array('empNumber' => $empNumber), true));
+        $this->setEducationForm(new EmployeeEducationForm(array(), array('empNumber' => $empNumber, 'educationPermissions' => $this->educationPermissions), true));
 
         if ($request->isMethod('post')) {
             if ( $request->getParameter('option') == "save") {
-
+              
                 $this->educationForm->bind($request->getParameter($this->educationForm->getName()));
 
                 if ($this->educationForm->isValid()) {
                     $education = $this->getEducation($this->educationForm);
-                    $this->getEmployeeService()->saveEmployeeEducation($education);
-                    $this->getUser()->setFlash('templateMessage', array('success', __(TopLevelMessages::SAVE_SUCCESS)));
+
+                    if (!empty($education)) {
+                        $this->getEmployeeService()->saveEmployeeEducation($education);
+                        $this->getUser()->setFlash('templateMessage', array('success', __(TopLevelMessages::SAVE_SUCCESS)));
+                    }
                 } else {
                     $this->getUser()->setFlash('templateMessage', array('warning', __('Form Validation Failed')));
                 }
             }
 
             //this is to delete 
-            if ($request->getParameter('option') == "delete") {
-                $deleteIds = $request->getParameter('delEdu');
+            if ($this->educationPermissions->canDelete()) {
+                if ($request->getParameter('option') == "delete") {
+                    $deleteIds = $request->getParameter('delEdu');
 
-                if(count($deleteIds) > 0) {
-                    $this->getEmployeeService()->deleteEmployeeEducationRecords($empNumber, $request->getParameter('delEdu'));
-                    $this->getUser()->setFlash('templateMessage', array('success', __(TopLevelMessages::DELETE_SUCCESS)));
+                    if(count($deleteIds) > 0) {
+                        $this->getEmployeeService()->deleteEmployeeEducationRecords($empNumber, $request->getParameter('delEdu'));
+                        $this->getUser()->setFlash('templateMessage', array('success', __(TopLevelMessages::DELETE_SUCCESS)));
+                    }
                 }
             }
         }
@@ -71,22 +77,31 @@ class saveDeleteEducationAction extends basePimAction {
 
         $post = $form->getValues(); 
         
+        $isAllowed = FALSE;
         if (!empty($post['id'])) {
-            $education = $this->getEmployeeService()->getEducation($post['id']);
+            if($this->educationPermissions->canUpdate()){
+                $education = $this->getEmployeeService()->getEducation($post['id']);
+                $isAllowed = TRUE;
+            }
         } 
         
-        if(!$education instanceof EmployeeEducation) {
-            $education = new EmployeeEducation();
+        if (!$education instanceof EmployeeEducation) {
+            if ($this->educationPermissions->canCreate()) {
+                $education = new EmployeeEducation();
+                $isAllowed = TRUE;
+            }
         }        
 
-        $education->empNumber = $post['emp_number'];
-        $education->educationId = $post['code'];
-        $education->institute = $post['institute'];
-        $education->major = $post['major'];
-        $education->year = $post['year'];
-        $education->score = $post['gpa'];
-        $education->startDate = $post['start_date'];
-        $education->endDate = $post['end_date'];
+        if ($isAllowed) {
+            $education->empNumber = $post['emp_number'];
+            $education->educationId = $post['code'];
+            $education->institute = $post['institute'];
+            $education->major = $post['major'];
+            $education->year = $post['year'];
+            $education->score = $post['gpa'];
+            $education->startDate = $post['start_date'];
+            $education->endDate = $post['end_date'];
+        }
         
         return $education;
     }

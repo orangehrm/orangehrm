@@ -1,4 +1,5 @@
 <?php
+
 /**
  * OrangeHRM is a comprehensive Human Resource Management (HRM) System that captures
  * all the essential functionalities required for any enterprise.
@@ -17,10 +18,9 @@
  * Boston, MA  02110-1301, USA
  */
 class WorkExperienceForm extends sfForm {
-    
+
     private $employeeService;
     public $fullName;
-    private $widgets = array();
     public $workExperiences;
 
     /**
@@ -28,7 +28,7 @@ class WorkExperienceForm extends sfForm {
      * @returns EmployeeService
      */
     public function getEmployeeService() {
-        if(is_null($this->employeeService)) {
+        if (is_null($this->employeeService)) {
             $this->employeeService = new EmployeeService();
             $this->employeeService->setEmployeeDao(new EmployeeDao());
         }
@@ -44,49 +44,75 @@ class WorkExperienceForm extends sfForm {
     }
 
     public function configure() {
+        $this->workExperiencePermissions = $this->getOption('workExperiencePermissions');
 
         $empNumber = $this->getOption('empNumber');
         $employee = $this->getEmployeeService()->getEmployee($empNumber);
         $this->fullName = $employee->getFullName();
-
-        //initializing the components
-        $this->widgets = array(
-            'emp_number' => new sfWidgetFormInputHidden(),
-            'seqno' => new sfWidgetFormInputHidden(),
-            'employer' => new sfWidgetFormInputText(),
-            'jobtitle' => new sfWidgetFormInputText(),
-            'from_date' => new ohrmWidgetDatePickerNew(array(), array('id' => 'experience_from_date')),
-            'to_date' => new ohrmWidgetDatePickerNew(array(), array('id' => 'experience_to_date')),
-            'comments' => new sfWidgetFormTextarea()
-        );
-
-        $this->widgets['emp_number']->setDefault($empNumber);
-        $this->setWidgets($this->widgets);
-
-        $inputDatePattern = sfContext::getInstance()->getUser()->getDateFormat();
         
-        $this->setValidator('emp_number', new sfValidatorString(array('required' => false)));
-        $this->setValidator('seqno', new sfValidatorString(array('required' => false)));
-        $this->setValidator('employer', new sfValidatorString(array('required' => true,
-            'max_length' => 100)));
-        $this->setValidator('jobtitle', new sfValidatorString(array('required' => true,
-            'max_length' => 120)));
+        
+        $widgets = array('emp_number' => new sfWidgetFormInputHidden(array(), array('value' => $empNumber)));
+        $validators = array('emp_number' => new sfValidatorString(array('required' => false)));
+        
+        if ($this->workExperiencePermissions->canRead()) {
 
-        $this->setValidator('from_date', new ohrmDateValidator(
-                array('date_format'=>$inputDatePattern, 'required' => false),
-                array('required'=>'Date field is required', 
-                      'invalid'=>'Date format should be ' . $inputDatePattern)));
+            $workExperienceWidgets = $this->getWorkExperienceWidgets();
+            $workExperienceValidators = $this->getWorkExperienceValidators();
 
-        $this->setValidator('to_date', new ohrmDateValidator(
-                array('date_format'=>$inputDatePattern, 'required' => false),
-                array('required'=>'Date field is required', 
-                      'invalid'=>'Date format should be ' . $inputDatePattern)));
+            if (!($this->workExperiencePermissions->canUpdate() || $this->workExperiencePermissions->canCreate()) ) {
+                foreach ($workExperienceWidgets as $widgetName => $widget) {
+                    $widget->setAttribute('disabled', 'disabled');
+                }
+            }
+            $widgets = array_merge($widgets, $workExperienceWidgets);
+            $validators = array_merge($validators, $workExperienceValidators);
+        }
 
-        $this->setValidator('comments', new sfValidatorString(array('required' => false,
-            'max_length' => 200)));
+        $this->setWidgets($widgets);
+        $this->setValidators($validators);
 
         $this->workExperiences = $this->getEmployeeService()->getEmployeeWorkExperienceRecords($empNumber);
         $this->widgetSchema->setNameFormat('experience[%s]');
     }
+
+    /*
+     * Tis fuction will return the widgets of the form
+     */
+
+    public function getWorkExperienceWidgets() {
+        $widgets = array();
+
+        //creating widgets
+        $widgets['seqno'] = new sfWidgetFormInputHidden();
+        $widgets['employer'] = new sfWidgetFormInputText();
+        $widgets['jobtitle'] = new sfWidgetFormInputText();
+        $widgets['from_date'] = new ohrmWidgetDatePickerNew(array(), array('id' => 'experience_from_date'));
+        $widgets['to_date'] = new ohrmWidgetDatePickerNew(array(), array('id' => 'experience_to_date'));
+        $widgets['comments'] = new sfWidgetFormTextarea();
+
+        return $widgets;
+    }
+
+    /*
+     * Tis fuction will return the form validators
+     */
+
+    public function getWorkExperienceValidators() {
+        $inputDatePattern = sfContext::getInstance()->getUser()->getDateFormat();
+
+        $validators = array(
+            'seqno' => new sfValidatorString(array('required' => false)),
+            'employer' => new sfValidatorString(array('required' => true, 'max_length' => 100)),
+            'jobtitle' => new sfValidatorString(array('required' => true, 'max_length' => 120)),
+            'relationship' => new sfValidatorString(array('required' => false, 'trim' => true, 'max_length' => 100)),
+            'from_date' => new ohrmDateValidator(array('date_format' => $inputDatePattern, 'required' => false), array('required' => 'Date field is required', 'invalid' => 'Date format should be ' . $inputDatePattern)),
+            'to_date' => new ohrmDateValidator(array('date_format' => $inputDatePattern, 'required' => false), array('required' => 'Date field is required', 'invalid' => 'Date format should be ' . $inputDatePattern)),
+            'comments' => new sfValidatorString(array('required' => false, 'max_length' => 200)),
+        );
+
+        return $validators;
+    }
+
 }
+
 ?>

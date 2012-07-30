@@ -23,22 +23,9 @@
  *
  * @author Chameera Senarathna
  */
-class SupervisorUserRole implements UserRoleInterface {
+class SupervisorUserRole extends AbstractUserRole {
 
-    protected $employeeService;
     protected $employeeNumber;
-
-    public function getEmployeeService() {
-
-        if (empty($this->employeeService)) {
-            $this->employeeService = new EmployeeService();
-        }
-        return $this->employeeService;
-    }
-
-    public function setEmployeeService($employeeService) {
-        $this->employeeService = $employeeService;
-    }
     
     public function getEmployeeNumber() {
         if(empty($this->employeeNumber)) {
@@ -51,7 +38,7 @@ class SupervisorUserRole implements UserRoleInterface {
         $this->employeeNumber = $employeeNumber;
     }
 
-    public function getAccessibleEmployeeIds($operation = null, $returnType = null) {
+    public function getAccessibleEmployeeIds($operation = null, $returnType = null, $requiredPermissions = array()) {
 
         $employeeIdArray = array();
 
@@ -63,7 +50,7 @@ class SupervisorUserRole implements UserRoleInterface {
         return $employeeIdArray;
     }
 
-    public function getAccessibleEmployeePropertyList($properties, $orderField, $orderBy) {
+    public function getAccessibleEmployeePropertyList($properties, $orderField, $orderBy, $requiredPermissions = array()) {
 
         $employeeProperties = array();
 
@@ -75,7 +62,7 @@ class SupervisorUserRole implements UserRoleInterface {
         return $employeeProperties;
     }
 
-    public function getAccessibleEmployees($operation = null, $returnType = null) {
+    public function getAccessibleEmployees($operation = null, $returnType = null, $requiredPermissions = array()) {
 
         $employees = array();
 
