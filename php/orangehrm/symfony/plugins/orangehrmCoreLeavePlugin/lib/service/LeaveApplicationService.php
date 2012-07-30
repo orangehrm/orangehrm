@@ -49,8 +49,7 @@ class LeaveApplicationService extends AbstractLeaveAllocationService {
         }
 
         if (!$this->hasOverlapLeave($leaveAssignmentData)) {
-            $this->saveLeaveRequest($leaveAssignmentData);
-            return true;
+            return $this->saveLeaveRequest($leaveAssignmentData);
         }
         
         return false;
@@ -95,7 +94,7 @@ class LeaveApplicationService extends AbstractLeaveAllocationService {
                     $leaveApplicationMailer = new LeaveApplicationMailer($this->getLoggedInEmployee(), $leaveRequest, $leaves);
                     $leaveApplicationMailer->send();
 
-                    return true;
+                    return $leaveRequest;
                 } catch (Exception $e) {
                     throw new LeaveAllocationServiceException('Leave Quota will Exceed');
                 }

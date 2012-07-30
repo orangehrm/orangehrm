@@ -3,11 +3,12 @@
 abstract class baseLeaveAction extends sfAction {
 
     public $form;
-    
     protected $workWeekService;
     protected $leaveEntitlementService;
     protected $leaveTypeService;
-    
+    private $leaveRequestService;
+    private $leavePeriodService;
+
     /**
      *
      * @return WorkWeekService
@@ -18,7 +19,7 @@ abstract class baseLeaveAction extends sfAction {
         }
         return $this->workWeekService;
     }
-    
+
     /**
      *
      * @param WorkWeekService $service 
@@ -26,7 +27,7 @@ abstract class baseLeaveAction extends sfAction {
     protected function setWorkWeekService(WorkWeekService $service) {
         $this->workWeekService = $service;
     }
-    
+
     /**
      *
      * @return LeaveEntitlementService
@@ -37,7 +38,7 @@ abstract class baseLeaveAction extends sfAction {
         }
         return $this->leaveEntitlementService;
     }
-    
+
     /**
      *
      * @param LeaveEntitlementService $service 
@@ -45,7 +46,7 @@ abstract class baseLeaveAction extends sfAction {
     protected function setLeaveEntitlementService(LeaveEntitlementService $service) {
         $this->leaveEntitlementService = $service;
     }
-    
+
     /**
      *
      * @return LeaveTypeService
@@ -56,13 +57,62 @@ abstract class baseLeaveAction extends sfAction {
         }
         return $this->leaveTypeService;
     }
-    
+
     /**
      *
      * @param LeaveTypeService $service 
      */
     protected function setLeaveTypeService(LeaveTypeService $service) {
         $this->leaveTypeService = $service;
+    }
+
+    /**
+     * Returns Leave Period
+     * @return LeavePeriodService
+     */
+    public function getLeavePeriodService() {
+
+        if (is_null($this->leavePeriodService)) {
+            $leavePeriodService = new LeavePeriodService();
+            $leavePeriodService->setLeavePeriodDao(new LeavePeriodDao());
+            $this->leavePeriodService = $leavePeriodService;
+        }
+
+        return $this->leavePeriodService;
+    }
+
+    /**
+     *
+     * @return LeaveRequestService
+     */
+    public function getLeaveRequestService() {
+        if (is_null($this->leaveRequestService)) {
+            $leaveRequestService = new LeaveRequestService();
+            $leaveRequestService->setLeaveRequestDao(new LeaveRequestDao());
+            $this->leaveRequestService = $leaveRequestService;
+        }
+
+        return $this->leaveRequestService;
+    }
+
+    /**
+     *
+     * @param LeaveRequestService $leaveRequestService
+     * @return void
+     */
+    public function setLeaveRequestService(LeaveRequestService $leaveRequestService) {
+        $this->leaveRequestService = $leaveRequestService;
+    }
+
+    /**
+     *
+     * @param sfForm $form
+     * @return
+     */
+    protected function setForm(sfForm $form) {
+        if (is_null($this->form)) {
+            $this->form = $form;
+        }
     }
 
     /**
@@ -84,9 +134,8 @@ abstract class baseLeaveAction extends sfAction {
         if (isset($_SESSION['isAdmin']) && $_SESSION['isAdmin'] == 'Yes') {
             $userDetails['userType'] = 'Admin';
         }
-        
+
         return $userDetails;
     }
 
 }
-

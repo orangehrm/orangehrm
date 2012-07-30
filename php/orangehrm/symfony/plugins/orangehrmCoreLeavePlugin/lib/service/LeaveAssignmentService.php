@@ -20,8 +20,8 @@ class LeaveAssignmentService extends AbstractLeaveAllocationService {
             throw new LeaveAllocationServiceException('Failed to Assign: Work Shift Length Exceeded');
         } else {
             if (!$this->hasOverlapLeave($leaveAssignmentData)) {
-                $this->saveLeaveRequest($leaveAssignmentData);
-                return true;
+                return $this->saveLeaveRequest($leaveAssignmentData);
+//                return true;
             }
         }
     }
@@ -69,7 +69,8 @@ class LeaveAssignmentService extends AbstractLeaveAllocationService {
                     $leaveAssignmentMailer = new LeaveAssignmentMailer($leaveRequest, $leaveDays, $_SESSION['empNumber']);
                     $leaveAssignmentMailer->send();
 
-                    return true;
+//                    return true;
+                    return $leaveRequest;
                 } catch (Exception $e) {
                     throw new LeaveAllocationServiceException('Leave Period Does Not Exist');
                 }
