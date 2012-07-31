@@ -52,12 +52,15 @@
                                 <span style="font-weight: bold;"><?php echo $message; ?></span>
                             </div>
                         <?php endif; ?>
-                        <?php if ($jobInformationPermission->canRead()) { ?>
+                        
                             <div class="outerbox">
                                     <div class="mainHeading"><h2><?php echo __('Job'); ?></h2></div>
                                 <div>
                                     <form id="frmEmpJobDetails" method="post" enctype="multipart/form-data"
                                           action="<?php echo url_for('pim/viewJobDetails'); ?>">
+                                        
+                                    <?php if ($jobInformationPermission->canRead()) { ?>
+                                        
                                         <?php echo $form['_csrf_token']; ?>
                                           <?php echo $form['emp_number']->render(); ?>
                                           <?php echo $form['job_title']->renderLabel(__('Job Title')); ?>
@@ -158,14 +161,14 @@
                                           }
                                         ?>
                                       </div> <!-- End of contractReadMode -->
-
+                                    <?php } ?>
                                       <div class="formbuttons">
                                         <?php if ($jobInformationPermission->canUpdate()) : ?>
                                               <input type="button" class="savebutton" id="btnSave" style="padding-left: 5px; float: left" value="<?php echo __("Edit"); ?>" />
-                                    <?php endif; ?>                                              
-                                        <?php
+                                        <?php endif; ?>                                              
+                                        <?php 
                                               $empTermination = $form->empTermination;
-                                              $allowed = true;
+                                              $allowed = FALSE;
                                               
                                               if (!empty($empTermination)) {
                                                   $allowed = $allowActivate;
@@ -178,12 +181,12 @@
                                               }
                                         ?>
                                               <?php if ($allowed) { ?>
-                                              <input type="button" class="terminateButton" id="btnTerminateEmployement" style="margin-left: 5px; float: left;" value="<?php echo $btnTitle; ?>" />
+                                                <input type="button" class="terminateButton" id="btnTerminateEmployement" style="margin-left: 5px; float: left;" value="<?php echo $btnTitle; ?>" />
                                               <?php } ?>
                                               <label id="terminatedDate" style="width: 250px; float: left"><a href="javascript:openTerminateEmploymentDialog()"><?php echo $label; ?></a></label>                                              
-                                                <br class="clear"/>
+                                              <br class="clear"/>
                                           </div>
-                                   <?php } ?>
+                                   
                                       </form>
                                   </div>
                               </div>
@@ -200,33 +203,31 @@
                           </tr>
                       </table>
 
-<?php if ($allowTerminate || ($employeeState == Employee::STATE_TERMINATED)) { ?>
-                      <div id="terminateEmployement" title="<?php echo __("Terminate Employment"); ?>"  style="display:none;">
-                          <form id="frmTerminateEmployement" method="post"
-                                action="<?php echo url_for('pim/terminateEmployement?empNumber=' . $empNumber.'&terminatedId='.$terminatedId); ?>">
-        <?php echo $employeeTerminateForm['_csrf_token']; ?>
-
-<?php echo $employeeTerminateForm['reason']->renderLabel(__('Reason') . ' <span class="required">*</span>'); ?>
-        <?php echo $employeeTerminateForm['reason']->render(array("class" => "formSelect")); ?>
-                                              <br class="clear"/>
-<?php echo $employeeTerminateForm['date']->renderLabel(__('Date') . ' <span class="required">*</span>'); ?>
-        <?php echo $employeeTerminateForm['date']->render(array("class" => "formDateInput")); ?>
-                                              <br class="clear"/>
-<?php echo $employeeTerminateForm['note']->renderLabel(__('Note')); ?>
-<?php echo $employeeTerminateForm['note']->render(array("class" => "formTxtArea")); ?>
-                                              <div class="errorHolder"></div>
-                                              <br class="clear"/>
-                                          </form>
-                                          <div class="formbuttons">
-                                              <?php if ($allowTerminate){ ?>
-                                              <input type="button" id="dialogConfirm" class="savebutton" value="<?php echo __('Confirm'); ?>" />
-                                              <?php }?>
-                                              <input type="button" id="dialogCancel" class="savebutton" value="<?php echo __('Cancel'); ?>" />
-                                          </div>
-                                          <div class="paddingLeftRequired"><span class="required">*</span> <?php echo __(CommonMessages::REQUIRED_FIELD); ?></div>
-                                      </div>
-
-<?php } ?>
+                <?php if ($allowTerminate || ($employeeState == Employee::STATE_TERMINATED)) { ?>
+                    <div id="terminateEmployement" title="<?php echo __("Terminate Employment"); ?>"  style="display:none;">
+                        <form id="frmTerminateEmployement" method="post" 
+                              action="<?php echo url_for('pim/terminateEmployement?empNumber=' . $empNumber.'&terminatedId='.$terminatedId); ?>">
+                            <?php echo $employeeTerminateForm['_csrf_token']; ?>
+                            <?php echo $employeeTerminateForm['reason']->renderLabel(__('Reason') . ' <span class="required">*</span>'); ?>
+                            <?php echo $employeeTerminateForm['reason']->render(array("class" => "formSelect")); ?>
+                            <br class="clear"/>
+                            <?php echo $employeeTerminateForm['date']->renderLabel(__('Date') . ' <span class="required">*</span>'); ?>
+                            <?php echo $employeeTerminateForm['date']->render(array("class" => "formDateInput")); ?>
+                            <br class="clear"/>
+                            <?php echo $employeeTerminateForm['note']->renderLabel(__('Note')); ?>
+                            <?php echo $employeeTerminateForm['note']->render(array("class" => "formTxtArea")); ?>
+                            <div class="errorHolder"></div>
+                            <br class="clear"/>
+                        </form>
+                        <div class="formbuttons">
+                            <?php if ($allowTerminate){ ?>
+                            <input type="button" id="dialogConfirm" class="savebutton" value="<?php echo __('Confirm'); ?>" />
+                            <?php }?>
+                            <input type="button" id="dialogCancel" class="savebutton" value="<?php echo __('Cancel'); ?>" />
+                        </div>
+                        <div class="paddingLeftRequired"><span class="required">*</span> <?php echo __(CommonMessages::REQUIRED_FIELD); ?></div>
+                    </div>  
+                <?php } ?>
 
 
                                       <script type="text/javascript">

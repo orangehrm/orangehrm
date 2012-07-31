@@ -53,11 +53,14 @@ class viewJobDetailsAction extends basePimAction {
         $this->form = new EmployeeJobDetailsForm(array(), $param, true);
         $this->employeeState = $employee->getState();
         
-        $allowedActions = $this->getContext()->getUserRoleManager()->getAllowedActions(WorkflowStateMachine::FLOW_EMPLOYEE, $this->employeeState);
-        
-
-        $this->allowActivate = in_array(WorkflowStateMachine::EMPLOYEE_ACTION_REACTIVE, $allowedActions);
-        $this->allowTerminate = in_array(WorkflowStateMachine::EMPLOYEE_ACTION_TERMINATE, $allowedActions);
+        if ($loggedInEmpNum == $empNumber) {
+            $this->allowActivate = FALSE;
+            $this->allowTerminate = FALSE;
+        } else {
+            $allowedActions = $this->getContext()->getUserRoleManager()->getAllowedActions(WorkflowStateMachine::FLOW_EMPLOYEE, $this->employeeState);
+            $this->allowActivate = in_array(WorkflowStateMachine::EMPLOYEE_ACTION_REACTIVE, $allowedActions);
+            $this->allowTerminate = in_array(WorkflowStateMachine::EMPLOYEE_ACTION_TERMINATE, $allowedActions);
+        }
         
         $paramForTerminationForm = array('empNumber' => $empNumber,
             'employee' => $employee,
