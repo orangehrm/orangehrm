@@ -543,7 +543,7 @@ INSERT INTO `hs_hr_unique_id`(last_id, table_name, field_name) VALUES
     (0,'ohrm_attendance_record', 'id'),
     (0, 'ohrm_job_vacancy', 'id'),
     (0, 'ohrm_job_candidate', 'id'),
-    (80,'ohrm_workflow_state_machine', 'id'),
+    (85,'ohrm_workflow_state_machine', 'id'),
     (0, 'ohrm_job_candidate_attachment', 'id'),
     (0, 'ohrm_job_vacancy_attachment', 'id'),
     (0, 'ohrm_job_candidate_vacancy', 'id'),
