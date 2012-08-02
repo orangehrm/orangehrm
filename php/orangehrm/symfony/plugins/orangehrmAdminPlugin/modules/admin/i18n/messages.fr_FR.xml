@@ -528,6 +528,10 @@
     <source>Language and font help</source>
     <target>FR_Language and font help</target>
    </trans-unit>
+   <trans-unit id="132">
+    <source>Organization Structure</source>
+    <target>FR_Organization Structure</target>
+   </trans-unit>   
   </body>
  </file>
 </xliff>

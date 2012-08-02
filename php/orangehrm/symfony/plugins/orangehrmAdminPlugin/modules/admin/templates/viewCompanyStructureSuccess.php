@@ -10,7 +10,7 @@
 
 <div id="messageDiv"></div>
 <br class="clear"/>
-<label id="heading"><?php echo __("Company Structure") ?></label>
+<label id="heading"><?php echo __("Organization Structure") ?></label>
 <br class="clear"/>
 <br class="clear"/>
 <div id="divCompanyStructureContainer"><?php $tree->render(); ?></div>
