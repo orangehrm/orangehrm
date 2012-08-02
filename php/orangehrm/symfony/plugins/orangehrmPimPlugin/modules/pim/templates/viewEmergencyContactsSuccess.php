@@ -58,6 +58,7 @@ var fileModified = 0;
         <td valign="top">
 
 <div class="formpage2col">
+    
 <div id="messagebar" class="<?php echo isset($messageType) ? "messageBalloon_{$messageType}" : ''; ?>" >
     <span style="font-weight: bold;"><?php echo isset($message) ? $message : ''; ?></span>
 </div>
@@ -109,7 +110,16 @@ var fileModified = 0;
 <?php } ?>
 </div>
     
-<?php if ($haveContacts && ($emergencyContactPermissions->canRead())) { ?>
+<?php if ($emergencyContactPermissions->canRead()) { ?>
+<?php if ((!$haveContacts) && (!$emergencyContactPermissions->canCreate())) { ?>
+                                <div class="outerbox">
+                                    <div class="mainHeading"><h2><?php echo __("Assigned Emergency Contacts"); ?></h2></div>
+                                    <span style="width: 500px; padding-left: 8px; padding-top: 3px;">
+                                        <?php echo __(TopLevelMessages::NO_RECORDS_FOUND); ?></span>
+                                     </div>
+                
+<?php } else { ?>
+    
 <div class="outerbox" id="listEmegrencyContact">
 <form name="frmEmpDelEmgContacts" id="frmEmpDelEmgContacts" method="post" action="<?php echo url_for('pim/deleteEmergencyContacts?empNumber=' . $empNumber); ?>">
 <?php echo $deleteForm['_csrf_token']->render(); ?>
@@ -179,7 +189,9 @@ var fileModified = 0;
         </table>
     </form>
 </div>
-
+<?php }
+ }?>
+ <?php if((($haveContacts && $emergencyContactPermissions->canUpdate()) || $emergencyContactPermissions->canCreate())) {?>
 <div class="paddingLeftRequired"><span class="required">*</span> <?php echo __(CommonMessages::REQUIRED_FIELD); ?></div>
 <?php }?>
 <?php echo include_component('pim', 'customFields', array('empNumber'=>$empNumber, 'screen' => CustomField::SCREEN_EMERGENCY_CONTACTS));?>
@@ -221,6 +233,12 @@ var fileModified = 0;
     }
 
     $(document).ready(function() {
+        
+        <?php if (!$haveContacts) {  ?>
+            $("#listEmegrencyContact").hide();
+        <?php }else{?>
+            $(".paddingLeftRequired").hide();
+        <?php }?>
         
         $("#checkAll").click(function(){
             if($("#checkAll:checked").attr('value') == 'on') {

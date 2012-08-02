@@ -256,7 +256,9 @@ $(document).ready(function() {
 
     $("#btnLanguageCancel").click(function() {
         clearMessageBar();
-        addEditLinks();
+        <?php if ($languagePermissions->canUpdate()){?>
+            addEditLinks();
+        <?php }?>
         languageValidator.resetForm();
         
         $('div#changeLanguage label.error').hide();

@@ -286,8 +286,10 @@ $haveEducation = count($form->empEducationList) > 0;
 
         $("#btnEducationCancel").click(function() {
             clearMessageBar();
-
+            
+            <?php if ($educationPermissions->canUpdate()){?>
             addEditLinks();
+            <?php }?>
             educationValidator.resetForm();
         
             $('div#changeEducation label.error').hide();

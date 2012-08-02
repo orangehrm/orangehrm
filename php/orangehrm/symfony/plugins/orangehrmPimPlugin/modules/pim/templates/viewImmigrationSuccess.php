@@ -50,10 +50,10 @@ $havePassports = $numContacts>0;
                             <span style="font-weight: bold;"><?php echo isset($message) ? $message : ''; ?></span>
                         </div>
                         <div class="formpage2col">
+                             <?php if ($immigrationPermission->canRead() && (($immigrationPermission->canCreate()) || ($immigrationPermission->canUpdate() && $havePassports))) { ?>
                             <div id="immigrationDataPane">
                                 <div class="outerbox">
                                     <div class="mainHeading"><h2 id="immigrationHeading"><?php echo __('Add Immigration'); ?></h2></div>
-                                     <?php if ($immigrationPermission->canRead() && (($immigrationPermission->canCreate()) || ($immigrationPermission->canUpdate() && $havePassports))) { ?>
                                     <form name="frmEmpImmigration" id="frmEmpImmigration" method="post" action="<?php echo url_for('pim/viewImmigration'); ?>">
                                         <?php echo $form['_csrf_token']; ?>
                                         <?php echo $form['emp_number']->render();?>
@@ -102,10 +102,20 @@ $havePassports = $numContacts>0;
                                         </div>
                                         <?php } ?>
                                     </form>
-                                    <?php }?>
                                 </div>
                             </div>
-                            <?php if ($havePassports && $immigrationPermission->canRead()) { ?>
+                            <?php }?>
+                            
+                            <?php if ($immigrationPermission->canRead()) { ?>
+                            <?php if ((!$havePassports) && (!$immigrationPermission->canCreate())) { ?>
+                                <div class="outerbox">
+                                    <div class="mainHeading"><h2><?php echo __("Assigned Immigration Documents"); ?></h2></div>
+                                    <span style="width: 500px; padding-left: 8px; padding-top: 3px;">
+                                        <?php echo __(TopLevelMessages::NO_RECORDS_FOUND); ?></span>
+                                     </div>
+                
+                        <?php } else { ?>
+                            
                             <div class="outerbox" id="immidrationList">
                                 <form name="frmImmigrationDelete" id="frmImmigrationDelete" method="post" action="<?php echo url_for('pim/deleteImmigration?empNumber=' . $empNumber); ?>">
                                     <div class="mainHeading"><h2><?php echo __("Assigned Immigration Documents"); ?></h2></div>
@@ -186,8 +196,10 @@ $havePassports = $numContacts>0;
                                 </form>
                             </div>
                             <?php }?>
+                            <?php }?>
+                            <?php if((($havePassports && $immigrationPermission->canUpdate()) || $immigrationPermission->canCreate())) {?>
                             <div class="paddingLeftRequired" <?php echo $havePassports ? 'style="display:none;"' : '';?>><span class="required">*</span> <?php echo __(CommonMessages::REQUIRED_FIELD); ?></div>
-                       
+                       <?php }?>
                         <?php echo include_component('pim', 'customFields', array('empNumber'=>$empNumber, 'screen' => CustomField::SCREEN_IMMIGRATION));?>
                         <?php echo include_component('pim', 'attachments', array('empNumber'=>$empNumber, 'screen' => EmployeeAttachment::SCREEN_IMMIGRATION));?>
                             

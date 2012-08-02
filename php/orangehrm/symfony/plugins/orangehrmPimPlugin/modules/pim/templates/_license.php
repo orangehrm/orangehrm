@@ -263,7 +263,9 @@ var issuedDate = "";
 
     $("#btnLicenseCancel").click(function() {
         clearMessageBar();
-        addEditLinks();
+        <?php if ($licensePermissions->canUpdate()){?>
+            addEditLinks();
+        <?php }?>
 
         licenseValidator.resetForm();
         
