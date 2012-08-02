@@ -43,7 +43,7 @@ if (!mysql_query("DROP DATABASE `{$c->dbname}`")) {
     }    
     
 } else {
-    echo "Couldn't delete existing database '{$c->dbname}'.<br>\n";
+    echo "Couldn't delete existing database '{$c->dbname}'. Error details: ". mysql_error() ."<br>\n";
 }
 
 //===========================================================
