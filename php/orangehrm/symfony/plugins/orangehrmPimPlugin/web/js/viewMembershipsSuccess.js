@@ -73,7 +73,7 @@ $(document).ready(function() {
         $('#addPaneMembership').css('display', 'none');
         $('#listActions').show();
         $('#mem_list td.check').show();
-        addEditLinks();
+        addEditLinks(); 
         $('div#messagebar').hide();
         $(".paddingLeftRequired").hide();
     });
@@ -82,6 +82,10 @@ $(document).ready(function() {
     // Add a membership detail contact
     $('#btnAddMembershipDetail').click(function() {
         
+        var memcode = savedMemships.split('^');
+        for (i in memcode) {
+            $("#membership_membership option[value=".concat(memcode[i]).concat("]")).hide();
+        }
         $('#membership_membership').removeAttr('disabled');
         $("#membershipHeading").text(addMembershipDetail);
         $(".paddingLeftRequired").show();
@@ -188,8 +192,10 @@ function clearAddForm() {
 
 function addEditLinks() {
     // called here to avoid double adding links - When in edit mode and cancel is pressed.
-    removeEditLinks();
-    $('#mem_list tbody td.memshipCode').wrapInner('<a href="#"/>');
+    if (canUpdate) {
+        removeEditLinks();
+        $('#mem_list tbody td.memshipCode').wrapInner('<a href="#"/>');
+    }
 }
 
 function removeEditLinks() {

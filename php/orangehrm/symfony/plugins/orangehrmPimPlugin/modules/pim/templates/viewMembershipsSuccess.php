@@ -107,20 +107,34 @@ $allowEdit = true;
                     </div>
                 </div>
                 <?php } ?>
-
-                <?php if ($hasMemDetails && $membershipPermissions->canRead()) { ?>
+                
+                <?php if ($membershipPermissions->canRead()) { ?>
+                
+                <?php if ((!$hasMemDetails) && (!$membershipPermissions->canCreate())) { ?>
+                <div class="outerbox">
+                    <div class="mainHeading"><h2 id="membershipHeading"><?php echo __("Assigned Memberships"); ?></h2></div>
+                    <span style="width: 500px; padding-left: 8px; padding-top: 3px;">
+                        <?php echo __(TopLevelMessages::NO_RECORDS_FOUND); ?></span>
+                </div>
+                
+                <?php } else { ?>
                     <div class="outerbox" id="listMembershipDetails">
                         <form name="frmEmpDelMemberships" id="frmEmpDelMemberships" method="post" action="<?php echo url_for('pim/deleteMemberships?empNumber=' . $empNumber); ?>">
                             <?php echo $deleteForm['_csrf_token']->render(); ?>
                             <?php echo $deleteForm['empNumber']->render(); ?>
-
+                            
                             <div class="mainHeading"><h2><?php echo __("Assigned Memberships"); ?></h2></div>
-
+                            
+                            <?php if ($membershipPermissions->canCreate() || $membershipPermissions->canDelete()) { ?>
                             <div class="actionbar" id="listActions">
                                 <div class="actionbuttons">
                                     <?php if ($membershipPermissions->canCreate()) { ?>
 
                                         <input type="button" class="addbutton" id="btnAddMembershipDetail" onmouseover="moverButton(this);" onmouseout="moutButton(this);" value="<?php echo __("Add"); ?>" title="<?php echo __("Add"); ?>"/>
+                                        <?php $savedMemship = '';
+                                        foreach ($membershipDetails as $memshipDetail) {
+                                            $savedMemship = $savedMemship . '' . $memshipDetail->getMembership()->getId() . '^';                                                        
+                                        }?>
                                     <?php } ?>
                                     <?php if ($membershipPermissions->canDelete()) { ?>
 
@@ -128,22 +142,23 @@ $allowEdit = true;
                                     <?php } ?>
                                 </div>
                             </div>
-
+                            <?php } ?>
+                            
                             <table width="550" cellspacing="0" cellpadding="0" class="data-table" id="mem_list">
                                 <thead>
                                     <tr>
-                                        <td class="check"><?php if ($membershipPermissions->canDelete()) { ?>
-                                            <input type='checkbox' id='checkAllMem' class="checkboxMem" />
-                                        <?php } else { ?>
-                                            <input type='hidden' id='checkAllMem' class="checkboxMem" /><?php } ?>
-                                        </td>
-                                <td class="memshipCode"><?php echo __("Membership"); ?></td>
-                                <td><?php echo __("Subscription Paid By"); ?></td>
-                                <td class="memshipAmount"><?php echo __("Subscription Amount"); ?></td>
-                                <td><?php echo __("Currency"); ?></td>
-                                <td><?php echo __("Subscription Commence Date"); ?></td>
-                                <td><?php echo __("Subscription Renewal Date"); ?></td>
-                                </tr>
+                                    <?php if ($membershipPermissions->canDelete()) { ?>
+                                    <td class="check"><input type='checkbox' id='checkAllMem' class="checkboxMem" /></td>
+                                    <?php } else {?>
+                                    <input type='hidden' class='checkboxMem' id='checkAllMem' />
+                                    <?php } ?>
+                                    <td class="memshipCode"><?php echo __("Membership"); ?></td>
+                                    <td><?php echo __("Subscription Paid By"); ?></td>
+                                    <td class="memshipAmount"><?php echo __("Subscription Amount"); ?></td>
+                                    <td><?php echo __("Currency"); ?></td>
+                                    <td><?php echo __("Subscription Commence Date"); ?></td>
+                                    <td><?php echo __("Subscription Renewal Date"); ?></td>
+                                    </tr>
                                 </thead>
                                 <tbody>
                                     <?php
@@ -152,11 +167,11 @@ $allowEdit = true;
                                         $cssClass = ($row % 2) ? 'even' : 'odd';
                                         echo '<tr class="' . $cssClass . '">';
                                         $chkBoxValue = $empNumber . " " . $memship->membershipId; ?>
-                                        <td class='check'><?php if ($membershipPermissions->canDelete()) { ?>
-                                            <input type='checkbox' class='checkboxMem' name='chkmemdel[]' value='<?php echo $chkBoxValue ?>'/>
+                                        <?php if ($membershipPermissions->canDelete()) { ?>
+                                            <td class='check'><input type='checkbox' class='checkboxMem' name='chkmemdel[]' value='<?php echo $chkBoxValue ?>'/></td>
                                         <?php } else { ?>
-                                            <input type='hidden' class='checkboxMem' value="<?php echo $chkBoxValue; ?>"/><?php } ?>
-                                        </td>
+                                            <input type='hidden' class='checkboxMem' value="<?php echo $chkBoxValue; ?>"/>
+                                        <?php } ?>
                                         <?php $newMembership = $memship->getMembership(); ?>
                                         <td class="memshipCode" valign="top"><?php if ($membershipPermissions->canUpdate()) { ?>
                                             <a href="#"><?php echo $newMembership->name; ?></a>
@@ -176,7 +191,8 @@ $allowEdit = true;
                             </table>
                         </form>
                     </div>
-                <?php } ?>
+                <?php }
+                } ?>
                 <?php if ($membershipPermissions->canCreate()) { ?>
                 <div class="paddingLeftRequired"><span class="required">*</span> <?php echo __(CommonMessages::REQUIRED_FIELD); ?></div>
                 <?php } ?>
@@ -192,7 +208,9 @@ $allowEdit = true;
 
 <script type="text/javascript">
     //<![CDATA[
-
+    
+    var savedMemships = '<?php echo substr($savedMemship, 0, -1); ?>'; //to remove last special character occurance 
+    var canUpdate = '<?php echo $membershipPermissions->canUpdate(); ?>';
     var fileModified = 0;
     var datepickerDateFormat = '<?php echo get_datepicker_date_format($sf_user->getDateFormat()); ?>';
     var deleteError = '<?php echo __(TopLevelMessages::SELECT_RECORDS); ?>';

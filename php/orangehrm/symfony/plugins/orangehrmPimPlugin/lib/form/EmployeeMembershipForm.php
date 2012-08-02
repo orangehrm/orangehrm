@@ -142,7 +142,7 @@ class EmployeeMembershipForm extends BaseForm {
      * Returns Membership Type List
      * @return array
      */
-    private function getMembershipList() {
+    public function getMembershipList() {
         $list = array("" => "-- " . __('Select') . " --");
         $membershipList = $this->getMembershipService()->getMembershipList();
         foreach ($membershipList as $membership) {
