@@ -223,7 +223,7 @@ Project:
   pluginName: orangehrmAdminPlugin
   hasSelectableRows: true
   unselectableRowIds: []
-  idValueGetter: getProjectId
+  idValueGetter: projectId
   title: ''
   tableWidth: 100%
   hasSummary: false
