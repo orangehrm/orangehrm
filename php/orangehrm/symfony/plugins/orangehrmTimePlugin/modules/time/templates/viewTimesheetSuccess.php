@@ -93,7 +93,7 @@ use_javascript('../../../scripts/jquery/ui/ui.dialog.js');
     <div id="validationMsg"><?php echo isset($messageData) ? templateMessage($messageData) : ''; ?></div>
     <div class="outerbox" style="width: <?php echo $width . 'px' ?>;">
         <div class="maincontent">
-            <table  border="0" cellpadding="5" cellspacing="0" class="data-table" >
+            <table  border="0" cellpadding="5" cellspacing="0" class="data-table" id="dataTable">
                 <thead>
                     <tr>
                         <td id="projectColumn" ><?php echo __("Project Name") ?></td>
@@ -205,7 +205,7 @@ use_javascript('../../../scripts/jquery/ui/ui.dialog.js');
                                         <?php if ($format == '2') { ?>
                                             <?php $verticalTotal+=$timesheetItemObjects->getConvertTime(); ?>
                                         <?php } ?>
-                                        <? continue; ?>
+                                        <?php continue; ?>
                                     <?php endif; ?>              
                                 <?php endforeach; ?>
                             <?php endforeach; ?>
