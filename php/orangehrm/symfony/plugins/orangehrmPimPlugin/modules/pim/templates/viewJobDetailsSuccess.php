@@ -52,9 +52,9 @@
                                 <span style="font-weight: bold;"><?php echo $message; ?></span>
                             </div>
                         <?php endif; ?>
-                        
+                        <?php if ($allowTerminate || $allowActivate || $jobInformationPermission->canRead()) { ?>
                             <div class="outerbox">
-                                    <div class="mainHeading"><h2><?php echo __('Job'); ?></h2></div>
+                                <div class="mainHeading"><h2><?php echo __('Job'); ?></h2></div>
                                 <div>
                                     <form id="frmEmpJobDetails" method="post" enctype="multipart/form-data"
                                           action="<?php echo url_for('pim/viewJobDetails'); ?>">
@@ -162,7 +162,7 @@
                                         ?>
                                       </div> <!-- End of contractReadMode -->
                                     <?php } ?>
-                                      <div class="formbuttons">
+                                    <div class="formbuttons">
                                         <?php if ($jobInformationPermission->canUpdate()) : ?>
                                               <input type="button" class="savebutton" id="btnSave" style="padding-left: 5px; float: left" value="<?php echo __("Edit"); ?>" />
                                         <?php endif; ?>                                              
@@ -180,16 +180,23 @@
                                                   $btnTitle = __("Terminate Employment");
                                               }
                                         ?>
-                                              <?php if ($allowed) { ?>
+                                            <?php if ($allowed) { ?>
                                                 <input type="button" class="terminateButton" id="btnTerminateEmployement" style="margin-left: 5px; float: left;" value="<?php echo $btnTitle; ?>" />
-                                              <?php } ?>
-                                              <label id="terminatedDate" style="width: 250px; float: left"><a href="javascript:openTerminateEmploymentDialog()"><?php echo $label; ?></a></label>                                              
-                                              <br class="clear"/>
+                                            <?php } ?>
+                                            <?php if ($allowActivate) { ?>
+                                                <label id="terminatedDate" style="width: 250px; float: left"><a href="javascript:openTerminateEmploymentDialog()"><?php echo $label; ?></a></label>      
+                                            <?php } else {  
+                                                if ($jobInformationPermission->canRead()) { ?>
+                                                    <label id="terminatedDate" style="width: 250px; float: left"><?php echo $label; ?></label>
+                                            <?php }
+                                            } ?>
+                                            <br class="clear"/>
                                           </div>
                                    
                                       </form>
-                                  </div>
-                              </div>
+                                </div>
+                            </div>
+                        <?php } ?>
 
 <?php echo include_component('pim', 'customFields', array('empNumber' => $empNumber, 'screen' => CustomField::SCREEN_JOB)); ?>
 <?php echo include_component('pim', 'attachments', array('empNumber' => $empNumber, 'screen' => EmployeeAttachment::SCREEN_JOB)); ?>
@@ -203,7 +210,7 @@
                           </tr>
                       </table>
 
-                <?php if ($allowTerminate || ($employeeState == Employee::STATE_TERMINATED)) { ?>
+                <?php if ($allowTerminate || $allowActivate) { ?>
                     <div id="terminateEmployement" title="<?php echo __("Terminate Employment"); ?>"  style="display:none;">
                         <form id="frmTerminateEmployement" method="post" 
                               action="<?php echo url_for('pim/terminateEmployement?empNumber=' . $empNumber.'&terminatedId='.$terminatedId); ?>">
@@ -220,9 +227,7 @@
                             <br class="clear"/>
                         </form>
                         <div class="formbuttons">
-                            <?php if ($allowTerminate){ ?>
                             <input type="button" id="dialogConfirm" class="savebutton" value="<?php echo __('Confirm'); ?>" />
-                            <?php }?>
                             <input type="button" id="dialogCancel" class="savebutton" value="<?php echo __('Cancel'); ?>" />
                         </div>
                         <div class="paddingLeftRequired"><span class="required">*</span> <?php echo __(CommonMessages::REQUIRED_FIELD); ?></div>

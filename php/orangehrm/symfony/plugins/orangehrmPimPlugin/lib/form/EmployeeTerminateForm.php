@@ -70,7 +70,7 @@ class EmployeeTerminateForm extends BaseForm {
             'note' => new sfWidgetFormTextArea()
         );
 
-        if (!$this->allowTerminate) {
+        if ((!$this->allowTerminate) && (!$this->allowActivate)) {
             foreach ($widgets as $widget) {
                 $widget->setAttribute('disabled', 'disabled');
             }
