@@ -2,6 +2,12 @@ var originalSkillName = '';
 
 $(document).ready(function() {
     
+    /* Fix for IE9 white space issue in tables: Begins */
+    var whiteSpaceExpr = new RegExp('>[ \t\r\n\v\f]*<', 'g');
+    var tableHtml = $('#recordsListTable').html();
+    $('#recordsListTable').html(tableHtml.replace(whiteSpaceExpr, '><'));
+    /* Fix for IE9 white space issue in tables: Ends */    
+    
     executeLoadtimeActions();
     loadCheckboxBehavior();
     loadAddForm();
