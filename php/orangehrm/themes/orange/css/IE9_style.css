@@ -432,3 +432,9 @@ form#frmEmpPersonalDetails #personal_optGender_1 {
 form#frmEmpPersonalDetails #personal_optGender_2 {
     border-width: 0px;
 }
+
+input[type="checkbox"] {
+    border: 0;
+    padding: 0;
+    margin: 3px;
+}
