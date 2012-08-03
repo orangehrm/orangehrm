@@ -226,14 +226,14 @@ foreach($form->getWidgetSchema()->getPositions() as $widgetName) {
 
     // Move to separate js after completing initial work
     var datepickerDateFormat = '<?php echo get_datepicker_date_format($sf_user->getDateFormat()); ?>';
-    var lang_validDateMsg = '<?php echo __(ValidationMessages::DATE_FORMAT_INVALID, array('%format%' => get_datepicker_date_format($sf_user->getDateFormat()))) ?>'
+    var lang_validDateMsg = '<?php echo __(ValidationMessages::DATE_FORMAT_INVALID, array('%format%' => str_replace('yy', 'yyyy', get_datepicker_date_format($sf_user->getDateFormat())))); ?>'
 
     function clearAddForm() {
         $('#dependent_seqNo').val('');
         $('#dependent_name').val('');
         $('#dependent_relationshipType').val('');
         $('#dependent_relationship').val('');
-        $('#dependent_dateOfBirth').val(datepickerDateFormat);
+        $('#dependent_dateOfBirth').val(displayDateFormat);
         $('div#addPaneDependent label.error').hide();
         $('div#messagebar').hide();
     }
@@ -296,7 +296,7 @@ foreach($form->getWidgetSchema()->getPositions() as $widgetName) {
             $('#dependent_relationship').val(relationship);
 
             if ($.trim(dateOfBirth) == '') {
-                dateOfBirth = datepickerDateFormat;
+                dateOfBirth = displayDateFormat;
             }
             $('#dependent_dateOfBirth').val(dateOfBirth);
 
@@ -368,7 +368,7 @@ foreach($form->getWidgetSchema()->getPositions() as $widgetName) {
                     return $('#dependent_relationshipType').val() == 'other';
                 }},
                 'dependent[dateOfBirth]' : {valid_date: function() {
-                        return {format:datepickerDateFormat, required:false}
+                        return {format:datepickerDateFormat, required:false, displayFormat:displayDateFormat}
                     }
                 },
                 maxlength:100
