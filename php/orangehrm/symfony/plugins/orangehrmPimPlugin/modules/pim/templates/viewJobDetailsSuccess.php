@@ -187,7 +187,7 @@
                                                 <label id="terminatedDate" style="width: 250px; float: left"><a href="javascript:openTerminateEmploymentDialog()"><?php echo $label; ?></a></label>      
                                             <?php } else {  
                                                 if ($jobInformationPermission->canRead()) { ?>
-                                                    <label id="terminatedDate" style="width: 250px; float: left"><?php echo $label; ?></label>
+                                                    <label id="terminatedDate" style="width: 250px; float: left"><a href="javascript:openTerminateEmploymentDialog()"><?php echo $label; ?></a></label>      
                                             <?php }
                                             } ?>
                                             <br class="clear"/>
@@ -210,7 +210,7 @@
                           </tr>
                       </table>
 
-                <?php if ($allowTerminate || $allowActivate) { ?>
+                <?php if ($allowTerminate || $allowActivate || $jobInformationPermission->canRead()) { ?>
                     <div id="terminateEmployement" title="<?php echo __("Terminate Employment"); ?>"  style="display:none;">
                         <form id="frmTerminateEmployement" method="post" 
                               action="<?php echo url_for('pim/terminateEmployement?empNumber=' . $empNumber.'&terminatedId='.$terminatedId); ?>">
@@ -227,7 +227,9 @@
                             <br class="clear"/>
                         </form>
                         <div class="formbuttons">
+                            <?php if ($allowTerminate || $allowActivate) { ?>
                             <input type="button" id="dialogConfirm" class="savebutton" value="<?php echo __('Confirm'); ?>" />
+                            <?php } ?>
                             <input type="button" id="dialogCancel" class="savebutton" value="<?php echo __('Cancel'); ?>" />
                         </div>
                         <div class="paddingLeftRequired"><span class="required">*</span> <?php echo __(CommonMessages::REQUIRED_FIELD); ?></div>
