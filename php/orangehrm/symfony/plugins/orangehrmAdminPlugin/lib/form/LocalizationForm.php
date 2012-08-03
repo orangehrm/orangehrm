@@ -99,17 +99,17 @@ class LocalizationForm extends BaseForm {
     private function __getDateFormats() {
 
         $dateFormats = array(
-            'Y-m-d' => 'yy-mm-dd ( '.date('Y-m-d').' )',
-            'd-m-Y' => 'dd-mm-yy ( '.date('d-m-Y').' )',
-            'm-d-Y' => 'mm-dd-yy ( '.date('m-d-Y').' )',
-            'Y-d-m' => 'yy-dd-mm ( '.date('Y-d-m').' )',
-            'm-Y-d' => 'mm-yy-dd ( '.date('m-Y-d').' )',
-            'd-Y-m' => 'dd-yy-mm ( '.date('d-Y-m').' )',
-            'Y/m/d' => 'yy/mm/dd ( '.date('Y/m/d').' )',
-            'Y m d' => 'yy mm dd ( '.date('Y m d').' )',
-            'Y-M-d' => 'yy-M-dd ( '.date('Y-M-d').' )',
-            'l, d-M-Y' => 'DD, dd-M-yy ( '.date('l, d-M-Y').' )',
-            'D, d M Y' => 'D, dd M yy ( '.date('D, d M Y').' )'
+            'Y-m-d' => 'yyyy-mm-dd ( '.date('Y-m-d').' )',
+            'd-m-Y' => 'dd-mm-yyyy ( '.date('d-m-Y').' )',
+            'm-d-Y' => 'mm-dd-yyyy ( '.date('m-d-Y').' )',
+            'Y-d-m' => 'yyyy-dd-mm ( '.date('Y-d-m').' )',
+            'm-Y-d' => 'mm-yyyy-dd ( '.date('m-Y-d').' )',
+            'd-Y-m' => 'dd-yyyy-mm ( '.date('d-Y-m').' )',
+            'Y/m/d' => 'yyyy/mm/dd ( '.date('Y/m/d').' )',
+            'Y m d' => 'yyyy mm dd ( '.date('Y m d').' )',
+            'Y-M-d' => 'yyyy-M-dd ( '.date('Y-M-d').' )',
+            'l, d-M-Y' => 'DD, dd-M-yyyy ( '.date('l, d-M-Y').' )',
+            'D, d M Y' => 'D, dd M yyyy ( '.date('D, d M Y').' )'
         );
         return $dateFormats;
     }
