@@ -25,6 +25,13 @@ $.validator.addMethod("valid_date",
 
         var valid = false;
         var format = params.format;
+        var displayFormat = '';
+        
+        if (params.displayFormat != undefined) {
+            displayFormat = params.displayFormat;
+        } else {
+            displayFormat = format;
+        }       
     
         var required = false;
     
@@ -35,7 +42,7 @@ $.validator.addMethod("valid_date",
             var trimmedValue = $.trim(value);
 
             // If not required, empty or format is ok.
-            if (!required && ((trimmedValue == '') || (trimmedValue == format)) ) {
+            if (!required && ((trimmedValue == '') || (trimmedValue == displayFormat)) ) {
                 valid = true;
             }
             else {
