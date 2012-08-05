@@ -39,14 +39,13 @@ class SchemaIncrementTask52 extends SchemaIncrementTask {
         $sql[2] = "ALTER TABLE hs_hr_leave_requests 
                       ADD KEY `leave_period_id_2` (`leave_period_id`,`employee_id`,`leave_type_id`)";
         
-        $sql[3] = "INSERT INTO `hs_hr_config`(`key`, `value`) VALUES ('include_supervisor_chain', 'Yes')";
+        $sql[3] = "INSERT INTO `hs_hr_config`(`key`, `value`) VALUES ('include_supervisor_chain', 'No')";
         
         $this->sql = $sql;
     }
     
-    public function getNotes() {
-        
-        return $notes;
+    public function getNotes() {        
+        return array();
     }
     
 }
