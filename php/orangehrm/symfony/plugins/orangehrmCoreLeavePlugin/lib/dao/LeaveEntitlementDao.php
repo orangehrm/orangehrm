@@ -313,7 +313,8 @@ class LeaveEntitlementDao extends BaseDao{
                     AND lr.leave_period_id = :leave_period_id
                     AND lr.leave_type_id = :leave_type_id                    
                 LEFT JOIN hs_hr_leave l 
-             		ON lr.leave_request_id = l.leave_request_id AND leave_status IN ('.Leave::LEAVE_STATUS_LEAVE_APPROVED.','.Leave::LEAVE_STATUS_LEAVE_TAKEN.')
+             		ON lr.leave_request_id = l.leave_request_id AND leave_status IN ('.Leave::LEAVE_STATUS_LEAVE_APPROVED.','.Leave::LEAVE_STATUS_LEAVE_TAKEN.') 
+                WHERE a.emp_number = :emp_number         
                 GROUP BY a.emp_number';                
                         
         $pdo = Doctrine_Manager::connection()->getDbh(); 
