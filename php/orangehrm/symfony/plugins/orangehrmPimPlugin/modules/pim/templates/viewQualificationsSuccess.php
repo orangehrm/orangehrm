@@ -14,7 +14,7 @@
     var lang_editWorkExperience = "<?php echo __('Edit Work Experience');?>";
     var lang_companyRequired = "<?php echo __(ValidationMessages::REQUIRED);?>";
     var lang_jobTitleRequired = "<?php echo __(ValidationMessages::REQUIRED);?>";
-    var lang_invalidDate = '<?php echo __(ValidationMessages::DATE_FORMAT_INVALID, array('%format%' => get_datepicker_date_format($sf_user->getDateFormat()))); ?>';
+    var lang_invalidDate = '<?php echo __(ValidationMessages::DATE_FORMAT_INVALID, array('%format%' => str_replace('yy', 'yyyy', get_datepicker_date_format($sf_user->getDateFormat())))); ?>';
     var lang_commentLength = "<?php echo __(ValidationMessages::TEXT_LENGTH_EXCEEDS, array('%amount%' => 200));?>";
     var lang_fromDateLessToDate = "<?php echo __('To date should be after From date');?>";
     var lang_selectWrkExprToDelete = "<?php echo __(TopLevelMessages::SELECT_RECORDS);?>";

@@ -5,8 +5,8 @@ $(document).ready(function() {
         rules: {
             'personal[txtEmpFirstName]': {required: true },
             'personal[txtEmpLastName]': { required: true },
-            'personal[DOB]': { required: false, valid_date: function(){ return {format:datepickerDateFormat, required:false} } },
-            'personal[txtLicExpDate]': { required: false, valid_date: function(){ return {format:datepickerDateFormat, required:false} } }
+            'personal[DOB]': { required: false, valid_date: function(){ return {format:datepickerDateFormat, required:false, displayFormat:displayDateFormat} } },
+            'personal[txtLicExpDate]': { required: false, valid_date: function(){ return {format:datepickerDateFormat, required:false, displayFormat:displayDateFormat} } }
         },
         messages: {
             'personal[txtEmpFirstName]': { required: lang_firstNameRequired },

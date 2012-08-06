@@ -149,7 +149,7 @@ $haveEducation = count($form->empEducationList) > 0;
     var lang_addEducation = "<?php echo __('Add Education'); ?>";
     var lang_editEducation = "<?php echo __('Edit Education'); ?>";
     var lang_educationRequired = '<?php echo __(ValidationMessages::REQUIRED); ?>';
-    var lang_invalidDate = '<?php echo __(ValidationMessages::DATE_FORMAT_INVALID, array('%format%' => get_datepicker_date_format($sf_user->getDateFormat()))) ?>';
+    var lang_invalidDate = '<?php echo __(ValidationMessages::DATE_FORMAT_INVALID, array('%format%' => str_replace('yy', 'yyyy', get_datepicker_date_format($sf_user->getDateFormat())))) ?>';
     var lang_EndDateBeforeSatrtDate = "<?php echo __('End date should be after start date'); ?>";
     var lang_selectEducationToDelete = "<?php echo __(TopLevelMessages::SELECT_RECORDS); ?>";
     var lang_instituteMaxLength = "<?php echo __(ValidationMessages::TEXT_LENGTH_EXCEEDS, array('%amount%' => 100)); ?>";
@@ -214,8 +214,8 @@ $haveEducation = count($form->empEducationList) > 0;
             $("#education_major").val("");
             $("#education_year").val("");
             $("#education_gpa").val("");
-            $("#education_start_date").val(datepickerDateFormat);
-            $("#education_end_date").val(datepickerDateFormat);
+            $("#education_start_date").val(displayDateFormat);
+            $("#education_end_date").val(displayDateFormat);
 
             //show add form
             $("#changeEducation").show();
@@ -250,8 +250,8 @@ $haveEducation = count($form->empEducationList) > 0;
                 'education[major]': {required: false, maxlength: 100},
                 'education[year]': {required: false, digits: true},
                 'education[gpa]': {required: false, maxlength: 25},
-                'education[start_date]': {valid_date: function(){return {format: datepickerDateFormat, required:false}}},
-                'education[end_date]': {valid_date: function(){return {format:datepickerDateFormat, required:false}}, date_range: function() {return {format:datepickerDateFormat, fromDate:startDate}}}
+                'education[start_date]': {valid_date: function(){return {format: datepickerDateFormat, required:false, displayFormat:displayDateFormat}}},
+                'education[end_date]': {valid_date: function(){return {format:datepickerDateFormat, required:false, displayFormat:displayDateFormat}}, date_range: function() {return {format:datepickerDateFormat, displayFormat:displayDateFormat, fromDate:startDate}}}
             },
             messages: {
                 'education[code]': {required: lang_educationRequired},
@@ -338,10 +338,10 @@ $haveEducation = count($form->empEducationList) > 0;
             $("#education_end_date").val($("#end_date_" + code).val());
         
             if ($("#education_start_date").val() == '') {
-                $("#education_start_date").val(datepickerDateFormat);
+                $("#education_start_date").val(displayDateFormat);
             }
             if ($("#education_end_date").val() == '') {
-                $("#education_end_date").val(datepickerDateFormat);
+                $("#education_end_date").val(displayDateFormat);
             }
         
             $("#educationRequiredNote").show();

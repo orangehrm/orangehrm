@@ -134,7 +134,7 @@ $haveLicense = count($form->empLicenseList) > 0;
     var lang_addLicense = "<?php echo __('Add License');?>";
     var lang_editLicense = "<?php echo __('Edit License');?>";
     var lang_licenseRequired = '<?php echo __(ValidationMessages::REQUIRED); ?>';
-    var lang_invalidDate = '<?php echo __(ValidationMessages::DATE_FORMAT_INVALID, array('%format%' => get_datepicker_date_format($sf_user->getDateFormat()))) ?>';
+    var lang_invalidDate = '<?php echo __(ValidationMessages::DATE_FORMAT_INVALID, array('%format%' => str_replace('yy', 'yyyy', get_datepicker_date_format($sf_user->getDateFormat())))) ?>';
     var lang_startDateAfterEndDate = "<?php echo __('Expiry date should be after issued date');?>";
     var lang_selectLicenseToDelete = "<?php echo __(TopLevelMessages::SELECT_RECORDS);?>";
     var lang_licenseNoMaxLength = "<?php echo __(ValidationMessages::TEXT_LENGTH_EXCEEDS, array('%amount%' => 50));?>";
@@ -209,8 +209,8 @@ var issuedDate = "";
         $("#license_major").val("");
         $("#license_year").val("");
         $("#license_gpa").val("");
-        $("#license_date").val(datepickerDateFormat);
-        $("#license_renewal_date").val(datepickerDateFormat);
+        $("#license_date").val(displayDateFormat);
+        $("#license_renewal_date").val(displayDateFormat);
 
         //show add form
         $("#changeLicense").show();
@@ -242,8 +242,8 @@ var issuedDate = "";
         rules: {
             'license[code]': {required: true},
             'license[license_no]': {required: false, maxlength: 50},
-            'license[date]': {valid_date: function(){return {format:datepickerDateFormat, required:false}}},
-            'license[renewal_date]': {valid_date: function(){return {format:datepickerDateFormat, required:false}}, date_range: function() {return {format:datepickerDateFormat, fromDate:issuedDate}}}
+            'license[date]': {valid_date: function(){return {format:datepickerDateFormat, required:false, displayFormat:displayDateFormat}}},
+            'license[renewal_date]': {valid_date: function(){return {format:datepickerDateFormat, required:false, displayFormat:displayDateFormat}}, date_range: function() {return {format:datepickerDateFormat, displayFormat:displayDateFormat, fromDate:issuedDate}}}
         },
         messages: {
             'license[code]': {required: lang_licenseRequired},
@@ -320,10 +320,10 @@ var issuedDate = "";
         $("#license_renewal_date").val($("#end_date_" + code).val());
         
         if ($("#license_date").val() == '') {
-            $("#license_date").val(datepickerDateFormat);
+            $("#license_date").val(displayDateFormat);
         }
         if ($("#license_renewal_date").val() == '') {
-            $("#license_renewal_date").val(datepickerDateFormat);
+            $("#license_renewal_date").val(displayDateFormat);
         }        
 
         $("#licenseRequiredNote").show();

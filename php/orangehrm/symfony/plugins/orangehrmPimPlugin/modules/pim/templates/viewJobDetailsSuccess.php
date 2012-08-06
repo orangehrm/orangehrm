@@ -13,7 +13,7 @@
     //we write javascript related stuff here, but if the logic gets lengthy should use a seperate js file
     var edit = "<?php echo __("Edit"); ?>";
     var save = "<?php echo __("Save"); ?>";
-    var lang_invalidDate = '<?php echo __(ValidationMessages::DATE_FORMAT_INVALID, array('%format%' => get_datepicker_date_format($sf_user->getDateFormat()))) ?>'
+    var lang_invalidDate = '<?php echo __(ValidationMessages::DATE_FORMAT_INVALID, array('%format%' => str_replace('yy', 'yyyy', get_datepicker_date_format($sf_user->getDateFormat())))) ?>'
     var lang_startDateAfterEndDate = "<?php echo __('End date should be after start date'); ?>";
     var lang_View_Details =  "<?php echo __('View Details'); ?>";
     var lang_Hide_Details =  "<?php echo __('Hide Details'); ?>";
@@ -340,11 +340,11 @@
                                               /* Form validation */
                                               $("#frmEmpJobDetails").validate({
                                                   rules: {
-                                                      'job[terminated_date]': { required: false, valid_date: function(){ return {format:datepickerDateFormat, required:false} } },
+                                                      'job[terminated_date]': { required: false, valid_date: function(){ return {format:datepickerDateFormat, required:false, displayFormat:displayDateFormat} } },
                                                       'job[termination_reason]': { maxlength: 250 },
-                                                      'job[joined_date]': { required: false, valid_date: function(){ return {format:datepickerDateFormat, required:false} } },
-                                                      'job[contract_start_date]': { required: false, valid_date: function(){ return {format:datepickerDateFormat, required:false}}},
-                                                      'job[contract_end_date]': { required: false, valid_date: function(){ return {format:datepickerDateFormat, required:false} }, date_range: function() {return {format:datepickerDateFormat, fromDate:stratDate}}}
+                                                      'job[joined_date]': { required: false, valid_date: function(){ return {format:datepickerDateFormat, required:false, displayFormat:displayDateFormat} } },
+                                                      'job[contract_start_date]': { required: false, valid_date: function(){ return {format:datepickerDateFormat, required:false, displayFormat:displayDateFormat}}},
+                                                      'job[contract_end_date]': { required: false, valid_date: function(){ return {format:datepickerDateFormat, required:false, displayFormat:displayDateFormat} }, date_range: function() {return {format:datepickerDateFormat, displayFormat:displayDateFormat, fromDate:stratDate}}}
                                                   },
                                                   messages: {
                                                       'job[terminated_date]': { valid_date: lang_invalidDate },
@@ -363,7 +363,7 @@
                                                   rules: {
                                                       'terminate[reason]': { required: true },
                                                       'terminate[note]': { maxlength: 250 },
-                                                      'terminate[date]': { required: true, valid_date: function(){ return {format:datepickerDateFormat} } }
+                                                      'terminate[date]': { required: true, valid_date: function(){ return {format:datepickerDateFormat, displayFormat:displayDateFormat} } }
                                                   },
                                                   messages: {
                                                       'terminate[reason]': { required: lang_terminatedReasonRequired },

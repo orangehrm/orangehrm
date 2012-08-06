@@ -218,7 +218,7 @@ $allowEdit = true;
     var editMembershipDetail = '<?php echo __("Edit Membership Detail"); ?>';
     var getMembershipsUrl = "<?php echo url_for('pim/getMemberships') ?>";
     var selectAMembership = '<?php echo __(ValidationMessages::REQUIRED); ?>';
-    var validDateMsg = '<?php echo __(ValidationMessages::DATE_FORMAT_INVALID, array('%format%' => get_datepicker_date_format($sf_user->getDateFormat()))) ?>';
+    var validDateMsg = '<?php echo __(ValidationMessages::DATE_FORMAT_INVALID, array('%format%' => str_replace('yy', 'yyyy', get_datepicker_date_format($sf_user->getDateFormat())))) ?>';
     var validNumberMsg = '<?php echo __("Should be a number"); ?>';
     var dateError = '<?php echo __("Renewal date should be after commence date"); ?>';
     var lang_negativeAmount = "<?php echo __("Should be a positive number"); ?>";

@@ -17,7 +17,7 @@ $havePassports = $numContacts>0;
     var lang_addImmigrationHeading = "<?php echo __('Add Immigration');?>";
     var lang_commentLength = "<?php echo __(ValidationMessages::TEXT_LENGTH_EXCEEDS, array('%amount%' => 250));?>";
     var lang_deleteErrorMsg = "<?php echo __(TopLevelMessages::SELECT_RECORDS);?>";
-    var lang_invalidDate = '<?php echo __(ValidationMessages::DATE_FORMAT_INVALID, array('%format%' => get_datepicker_date_format($sf_user->getDateFormat()))) ?>'
+    var lang_invalidDate = '<?php echo __(ValidationMessages::DATE_FORMAT_INVALID, array('%format%' => str_replace('yy', 'yyyy', get_datepicker_date_format($sf_user->getDateFormat())))) ?>'
     var datepickerDateFormat = '<?php echo get_datepicker_date_format($sf_user->getDateFormat()); ?>';
     var fileModified = 0;
     var havePassports = '<?php echo $havePassports;?>';

@@ -14,7 +14,7 @@
     var lang_firstNameRequired = "<?php echo __(ValidationMessages::REQUIRED); ?>";
     var lang_lastNameRequired = "<?php echo __(ValidationMessages::REQUIRED); ?>";
     var lang_selectGender = "<?php echo __(ValidationMessages::REQUIRED); ?>";
-    var lang_invalidDate = '<?php echo __(ValidationMessages::DATE_FORMAT_INVALID, array('%format%' => get_datepicker_date_format($sf_user->getDateFormat()))) ?>';
+    var lang_invalidDate = '<?php echo __(ValidationMessages::DATE_FORMAT_INVALID, array('%format%' => str_replace('yy', 'yyyy', get_datepicker_date_format($sf_user->getDateFormat())))) ?>';
     var datepickerDateFormat = '<?php echo get_datepicker_date_format($sf_user->getDateFormat()); ?>';
 
     var fileModified = 0;

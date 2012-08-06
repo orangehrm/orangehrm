@@ -68,8 +68,8 @@ $(document).ready(function() {
         $("#experience_seqno").val("");
         $("#experience_employer").val("");
         $("#experience_jobtitle").val("");
-        $("#experience_from_date").val(datepickerDateFormat);
-        $("#experience_to_date").val(datepickerDateFormat);
+        $("#experience_from_date").val(displayDateFormat);
+        $("#experience_to_date").val(displayDateFormat);
         $("#experience_comments").val("");
 
         //show add work experience form
@@ -112,7 +112,8 @@ $(document).ready(function() {
                 valid_date: function(){
                     return {
                         format:datepickerDateFormat,
-                        required:false
+                        required:false,
+                        displayFormat:displayDateFormat
                     }
                 }
             },
@@ -120,12 +121,14 @@ $(document).ready(function() {
                 valid_date: function(){
                     return {
                         format:datepickerDateFormat,
-                        required:false
+                        required:false,
+                        displayFormat:displayDateFormat
                     }
                 },
                 date_range: function() {
                     return {
                         format:datepickerDateFormat,
+                        displayFormat:displayDateFormat,
                         fromDate:fromDate
                     }
                 }
@@ -211,10 +214,10 @@ $(document).ready(function() {
         $("#experience_comments").val($("#comment_" + seqno).val());
 
         if ($("#experience_from_date").val() == '') {
-            $("#experience_from_date").val(datepickerDateFormat);
+            $("#experience_from_date").val(displayDateFormat);
         }
         if ($("#experience_to_date").val() == '') {
-            $("#experience_to_date").val(datepickerDateFormat);
+            $("#experience_to_date").val(displayDateFormat);
         }
 
         $("#workExpRequiredNote").show();
