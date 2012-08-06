@@ -98,7 +98,7 @@ class EmployeeSkillForm extends sfForm {
         
         $validators = array(
             'code' => new sfValidatorString(array('required' => true, 'max_length' => 13)),
-            'years_of_exp' => new sfValidatorString(array('required' => false, 'max_length' => 99)),
+            'years_of_exp' => new sfValidatorNumber(array('required' => false)),
             'comments' => new sfValidatorString(array('required' => false, 'max_length' => 100)),
         );
 

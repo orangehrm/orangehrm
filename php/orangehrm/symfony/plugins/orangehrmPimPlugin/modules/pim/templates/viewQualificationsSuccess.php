@@ -63,6 +63,9 @@ $haveWorkExperience = count($workExperienceForm->workExperiences)>0;
                                 <span style="font-weight: bold;"><?php echo $tmpMsg; ?></span>
                             </div>                            
                             
+                            <?php if ($workExperiencePermissions->canRead() || $educationPermissions->canRead() || 
+                                    $skillPermissions->canRead() || $languagePermissions->canRead() || 
+                                    $licensePermissions->canRead()) { ?>
                             <div class="outerbox">
                                 <div class="mainHeading"><h2><?php echo __('Qualifications'); ?></h2></div>
 
@@ -92,7 +95,7 @@ $haveWorkExperience = count($workExperienceForm->workExperiences)>0;
                                         <input type="button" value="<?php echo __("Delete");?>" class="savebutton" id="delWorkExperience" />
                                         <?php } ?>
                                     </div>
-                                    <?php if ($workExperiencePermissions->canRead() && (($workExperiencePermissions->canCreate()) || ($workExperiencePermissions->canUpdate() && $haveWorkExperience))) { ?>
+                                    <?php if ($workExperiencePermissions->canCreate() || ($workExperiencePermissions->canUpdate() && $haveWorkExperience)) { ?>
                                     <div class="outerbox" id="changeWorkExperience" style="width:500px; float: left">
                                         <div class="mainHeading"><h4 id="headChangeWorkExperience"><?php echo __('Add Work Experience'); ?></h4></div>
                                         <form id="frmWorkExperience" action="<?php echo url_for('pim/saveDeleteWorkExperience?empNumber=' . $empNumber . "&option=save"); ?>" method="post">
@@ -135,7 +138,7 @@ $haveWorkExperience = count($workExperienceForm->workExperiences)>0;
                                     <br class="clear" />
 
                                     <div class="paddingLeftRequired" id="workExpRequiredNote"><span class="required">*</span> <?php echo __(CommonMessages::REQUIRED_FIELD); ?></div>
-                                    <?php if ($workExperiencePermissions->canRead()) { ?>
+                                    
                                     <form id="frmDelWorkExperience" action="<?php echo url_for('pim/saveDeleteWorkExperience?empNumber=' . $empNumber . "&option=delete"); ?>" method="post">
                                         <div class="outerbox" id="tblWorkExperience">
                                             <table width="100%" cellspacing="0" cellpadding="0" class="data-table" border="0">
@@ -162,37 +165,37 @@ $haveWorkExperience = count($workExperienceForm->workExperiences)>0;
                                                         $fromDate = set_datepicker_date_format($workExperience->from_date);
                                                         $toDate = set_datepicker_date_format($workExperience->to_date);
                                                         ?>
-                                                    <tr class="<?php echo $cssClass;?>">
-                                                <td class="check"><input type="hidden" id="employer_<?php echo $workExperience->seqno;?>" value="<?php echo htmlspecialchars($workExperience->employer); ?>" />
-                                                <input type="hidden" id="jobtitle_<?php echo $workExperience->seqno;?>" value="<?php echo htmlspecialchars($workExperience->jobtitle); ?>" />
-                                                <input type="hidden" id="fromDate_<?php echo $workExperience->seqno;?>" value="<?php echo $fromDate; ?>" />
-                                                <input type="hidden" id="toDate_<?php echo $workExperience->seqno;?>" value="<?php echo $toDate; ?>" />
-                                                <input type="hidden" id="comment_<?php echo $workExperience->seqno;?>" value="<?php echo htmlspecialchars($workExperience->comments); ?>" />
-                                                <?php if ($workExperiencePermissions->canDelete()) {?>
-                                                <input type="checkbox" class="chkbox1" value="<?php echo $workExperience->seqno;?>" name="delWorkExp[]"/>
-                                                 <?php }else{?>
-                                                <input type="hidden" class="chkbox1" value="<?php echo $workExperience->seqno;?>" name="delWorkExp[]"/>
-                                                <?php }?>
-                                                </td>
-                                                <td class="name">
-                                                <?php if ($workExperiencePermissions->canUpdate()) { ?>
-                                                        <a class="edit" href="#"><?php echo htmlspecialchars($workExperience->employer);?></a>
-                                                <?php } else {
-                                                    echo htmlspecialchars($workExperience->employer); 
-                                                }
-                                                ?>
-                                                </td>
-                                                <td><?php echo htmlspecialchars($workExperience->jobtitle);?></td>
-                                                <td><?php echo $fromDate;?></td>
-                                                <td><?php echo $toDate;?></td>
-                                                <td class="comments"><?php echo htmlspecialchars($workExperience->comments);?></td>
-                                                </tr>
-                                                    <?php $row++;
-                                                }
+                                                        <tr class="<?php echo $cssClass;?>">
+                                                        <td class="check"><input type="hidden" id="employer_<?php echo $workExperience->seqno;?>" value="<?php echo htmlspecialchars($workExperience->employer); ?>" />
+                                                        <input type="hidden" id="jobtitle_<?php echo $workExperience->seqno;?>" value="<?php echo htmlspecialchars($workExperience->jobtitle); ?>" />
+                                                        <input type="hidden" id="fromDate_<?php echo $workExperience->seqno;?>" value="<?php echo $fromDate; ?>" />
+                                                        <input type="hidden" id="toDate_<?php echo $workExperience->seqno;?>" value="<?php echo $toDate; ?>" />
+                                                        <input type="hidden" id="comment_<?php echo $workExperience->seqno;?>" value="<?php echo htmlspecialchars($workExperience->comments); ?>" />
+                                                        <?php if ($workExperiencePermissions->canDelete()) {?>
+                                                        <input type="checkbox" class="chkbox1" value="<?php echo $workExperience->seqno;?>" name="delWorkExp[]"/>
+                                                        <?php }else{?>
+                                                        <input type="hidden" class="chkbox1" value="<?php echo $workExperience->seqno;?>" name="delWorkExp[]"/>
+                                                        <?php }?>
+                                                        </td>
+                                                        <td class="name">
+                                                        <?php if ($workExperiencePermissions->canUpdate()) { ?>
+                                                                <a class="edit" href="#"><?php echo htmlspecialchars($workExperience->employer);?></a>
+                                                        <?php } else {
+                                                            echo htmlspecialchars($workExperience->employer); 
+                                                        }
+                                                        ?>
+                                                        </td>
+                                                        <td><?php echo htmlspecialchars($workExperience->jobtitle);?></td>
+                                                        <td><?php echo $fromDate;?></td>
+                                                        <td><?php echo $toDate;?></td>
+                                                        <td class="comments"><?php echo htmlspecialchars($workExperience->comments);?></td>
+                                                        </tr>
+                                                            <?php $row++;
+                                                    }
                                                 
                                                 if ($row == 0) { ?>
                                                 <tr>
-                                                    <td colspan="6">&nbsp;</td>
+                                                    <td colspan="6">&nbsp; <?php echo TopLevelMessages::NO_RECORDS_FOUND; ?></td>
                                                 </tr>
                                                 <?php } ?>
                                                 
@@ -200,7 +203,6 @@ $haveWorkExperience = count($workExperienceForm->workExperiences)>0;
                                             </table>
                                         </div>
                                     </form>
-                                    <?php }?>
                                 </div>
                                 <?php } ?>
                                 <!-- this is education section -->
@@ -245,6 +247,7 @@ $haveWorkExperience = count($workExperienceForm->workExperiences)>0;
                                 <br />
                                 <?php } ?>
                             </div>
+                            <?php } ?>
                         <?php echo include_component('pim', 'customFields', array('empNumber'=>$empNumber, 'screen' => CustomField::SCREEN_QUALIFICATIONS));?>
                         <?php echo include_component('pim', 'attachments', array('empNumber'=>$empNumber, 'screen' => EmployeeAttachment::SCREEN_QUALIFICATIONS));?>
                             

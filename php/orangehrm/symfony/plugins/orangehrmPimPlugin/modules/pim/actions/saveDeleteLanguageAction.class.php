@@ -47,8 +47,10 @@ class saveDeleteLanguageAction extends basePimAction {
 
                 if ($this->languageForm->isValid()) {
                     $language = $this->getLanguage($this->languageForm);
-                    $this->getEmployeeService()->saveEmployeeLanguage($language);
-                    $this->getUser()->setFlash('templateMessage', array('success', __(TopLevelMessages::SAVE_SUCCESS)));
+                    if ($language != NULL) {
+                        $this->getEmployeeService()->saveEmployeeLanguage($language);
+                        $this->getUser()->setFlash('templateMessage', array('success', __(TopLevelMessages::SAVE_SUCCESS)));
+                    } 
                 } else {
                     $this->getUser()->setFlash('templateMessage', array('warning', __('Form Validation Failed')));
                 }
@@ -94,6 +96,8 @@ class saveDeleteLanguageAction extends basePimAction {
         } else {
             if($this->languagePermissions->canUpdate()){
                 $isAllowed = TRUE;
+            } else {
+                $this->getUser()->setFlash('templateMessage', array('warning', __('You dont have access permission')));
             }
         }
         if ($isAllowed) {

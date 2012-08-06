@@ -132,7 +132,7 @@ $haveEducation = count($form->empEducationList) > 0;
                     if ($row == 0) {
                     ?>
                         <tr>
-                            <td colspan="6">&nbsp;</td>
+                            <td colspan="6">&nbsp; <?php echo TopLevelMessages::NO_RECORDS_FOUND; ?></td>
                         </tr>
                     <?php } ?>
                 </tbody>

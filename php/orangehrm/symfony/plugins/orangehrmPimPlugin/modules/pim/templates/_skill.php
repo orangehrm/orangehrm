@@ -109,7 +109,7 @@ $haveSkills = count($form->empSkillList)>0;
                     if ($row == 0) {
                     ?>
                         <tr>
-                            <td colspan="6">&nbsp;</td>
+                            <td colspan="6">&nbsp; <?php echo TopLevelMessages::NO_RECORDS_FOUND; ?></td>
                         </tr>
 <?php } ?>
                 </tbody>
@@ -130,7 +130,7 @@ $haveSkills = count($form->empSkillList)>0;
     var lang_yearsOfExpShouldBeNumber = "<?php echo __('Should be a number');?>";
     var lang_yearsOfExpMax = "<?php echo __("Should be less than %amount%", array("%amount%" => '100'));?>";
     
-    var canUpdate = '<?php $skillPermissions->canUpdate(); ?>';
+    var canUpdate = '<?php echo $skillPermissions->canUpdate(); ?>';
     //]]>
 </script>
 
