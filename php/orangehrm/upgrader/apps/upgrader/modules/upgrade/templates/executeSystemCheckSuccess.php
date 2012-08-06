@@ -250,6 +250,31 @@ function sysCheckPassed() {
             <td class="tdComponent">Web server allows .htaccess files</td>
             <td align="right" class="tdValues"><strong><b id="htaccess" class="pending">Checking...</b></strong></td>
           </tr>
+          
+          <tr>
+            <td class="tdComponent">MySQL Event Scheduler status</td>
+
+            <td align="right" class="tdValues"><strong>
+            <?php
+               if(function_exists('mysql_connect') && (@mysql_connect($dbInfo['host'].':'.$dbInfo['port'], $dbInfo['username'], $dbInfo['password']))) {
+
+		            $result = mysql_query("SHOW VARIABLES LIKE 'EVENT_SCHEDULER'");
+                    $row = mysql_fetch_assoc($result);
+                    $schedulerStatus = $row['Value'];
+                    
+                    if ($schedulerStatus == 'ON') {
+                        echo "<b><font color='green'>Enabled</font></b>";
+                    } else {
+                        echo "<b><font color='red'>Disabled. This is required for automatic leave status changes of Leave module.</font></b>";
+                    }
+
+               } else {
+                  echo "<b><font color='red'>Cannot connect to the database</font></b>";
+                  $error_found = true;
+               }
+            ?>
+            </strong></td>
+          </tr>          
 
           <?php
             $printMoreInfoLink = false;

@@ -378,6 +378,7 @@ public static function install() {
 
 		case 2	:	error_log (date("r")." Fill Data Phase 2 - Starting\n",3, "installer/log.txt");
 					self::fillData(2);
+                    self::createMysqlEvents();
 					error_log (date("r")." Fill Data Phase 2 - Done\n",3, "installer/log.txt");
 					if (!isset($error) || !isset($_SESSION['error'])) {
 						$res = self::initUniqueIDs();
@@ -431,4 +432,26 @@ public static function install() {
 	}
   }
 }
+ 
+    public static function createMysqlEvents() {
+        
+        self::connectDB();
+        
+        $eventTime = date('Y-m-d') . " 00:00:00";
+        $query = "CREATE EVENT leave_taken_status_change
+                    ON SCHEDULE EVERY 1 HOUR STARTS '$eventTime'
+                    DO
+                      BEGIN
+                        UPDATE hs_hr_leave SET leave_status = 3 WHERE leave_status = 2 AND leave_date < DATE(NOW());
+                      END";
+        
+        if (!mysql_query($query)) {
+            error_log (date("r")." MySQL Event Error:".mysql_erro()."\n",3, "installer/log.txt");
+            return false;
+        }
+        
+        return true;
+        
+    }
+
 }
