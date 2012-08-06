@@ -65,7 +65,7 @@ $haveLanguage = count($form->empLanguageList) > 0;
     <?php if ($languagePermissions->canRead()) { ?>
     <form id="frmDelLanguage" action="<?php echo url_for('pim/saveDeleteLanguage?empNumber=' . $empNumber . "&option=delete"); ?>" method="post">
         <div class="outerbox" id="tblLanguage">
-            <table width="100%" cellspacing="0" cellpadding="0" class="data-table" border="0">
+            <table width="100%" cellspacing="0" cellpadding="0" class="data-table" border="0" id="lang_data_table">
                 <thead>
                 <tr>
                     <?php if ($languagePermissions->canDelete()) { ?>
@@ -120,7 +120,7 @@ $haveLanguage = count($form->empLanguageList) > 0;
                         <tr>
                             <td colspan="6">&nbsp; <?php echo TopLevelMessages::NO_RECORDS_FOUND; ?></td>
                         </tr>
-<?php } ?>
+                    <?php } ?>
                 </tbody>
             </table>
         </div>
@@ -185,7 +185,28 @@ $(document).ready(function() {
             $("#languageCheckAll").attr('checked', 'checked');
         }
     });
-
+    
+    //hide already added languages and fluencys
+    $("#language_code").change(function() {
+        //show all the options to reseting hide options
+        $("#language_lang_type option").each(function() {
+            $(this).show();
+        });
+        $("#language_lang_type").val("0");
+        var $table_tr = $("#lang_data_table tr");
+        var i=0;
+        //hide already added optons for selected language
+        $table_tr.each(function() {
+            i++;
+            if (i != 1) {           // skip heading tr
+                if ($('#language_code').val() == $(this).find('td:eq(0)').find('input[class="code"]').val()){
+                    $td = $(this).find('td:eq(0)').find('input[class="lang_type"]').val();
+                    $("#language_lang_type option[value=" + $td + "]").hide();
+                }
+            }
+        });        
+    });
+    
     $("#addLanguage").click(function() {
         removeEditLinks();
         clearMessageBar();
@@ -209,6 +230,11 @@ $(document).ready(function() {
         //show add form
         $("#changeLanguage").show();
         $("#languageRequiredNote").show();
+        
+        //show all the options to reseting hide options
+        $("#language_lang_type option").each(function() {
+            $(this).show();
+        });
     });
 
     //clicking of delete button

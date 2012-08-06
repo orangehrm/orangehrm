@@ -97,7 +97,7 @@ class saveDeleteLanguageAction extends basePimAction {
             if($this->languagePermissions->canUpdate()){
                 $isAllowed = TRUE;
             } else {
-                $this->getUser()->setFlash('templateMessage', array('warning', __('You dont have access permission')));
+                $this->getUser()->setFlash('templateMessage', array('warning', __("You don't have update permission")));
             }
         }
         if ($isAllowed) {
