@@ -276,17 +276,21 @@ function isValidForm(nameType){
         var temp = false;
         var empDateCount = employeesArray.length;
   
-        var i;
-        for (i=0; i < empDateCount; i++) {
-            
-            empName = $.trim($nameElement.val()).toLowerCase();
-            arrayName = employeesArray[i].name.toLowerCase();
-            
-            if (empName == arrayName) {
-                $idElement.val(employeesArray[i].id);
-                $nameElement.val(employeesArray[i].name);
-                temp = true
-                break;
+        if ($idElement.val() > 0) {
+            temp = true;
+        } else {
+            var i;
+            for (i=0; i < empDateCount; i++) {
+                
+                empName = $.trim($nameElement.val()).toLowerCase();
+                arrayName = employeesArray[i].name.toLowerCase();
+                
+                if (empName == arrayName) {
+                    $idElement.val(employeesArray[i].id);
+                    $nameElement.val(employeesArray[i].name);
+                    temp = true
+                    break;
+                }
             }
         }
         
