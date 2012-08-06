@@ -259,38 +259,34 @@ function isValidForm(nameType){
         
         if (params['nameType'] == 'supervisor') {
             var employeesArray = eval(employees_reportto_supervisorName);
-            $nameElement = $('#reportto_supervisorName_empId');
+            $idElement = $('#reportto_supervisorName_empId');
+            $nameElement = $('#reportto_supervisorName_empName');
             if ($('#reportto_supervisorName_empName').val() == '') {
                 return false;
             }
         } else if (params['nameType'] == 'subordinate') {
             var employeesArray = eval(employees_reportto_subordinateName);
-            $nameElement = $('#reportto_subordinateName_empId');
+            $idElement = $('#reportto_subordinateName_empId');
+            $nameElement = $('#reportto_subordinateName_empName');
             if ($('#reportto_subordinateName_empName').val() == '') {
                 return false;
             }
         }
         
-        
         var temp = false;
-        if($nameElement.val() > 0){
-            temp = true;
-        }
-
-        else{
-
-            var empDateCount = employeesArray.length;
-      
-            var i;
-            for (i=0; i < empDateCount; i++) {
-                empName = $.trim($nameElement.val()).toLowerCase();
-                arrayName = employeesArray[i].name.toLowerCase();
-
-                if (empName == arrayName) {
-                    $nameElement.val(employeesArray[i].id);
-                    temp = true
-                    break;
-                }
+        var empDateCount = employeesArray.length;
+  
+        var i;
+        for (i=0; i < empDateCount; i++) {
+            
+            empName = $.trim($nameElement.val()).toLowerCase();
+            arrayName = employeesArray[i].name.toLowerCase();
+            
+            if (empName == arrayName) {
+                $idElement.val(employeesArray[i].id);
+                $nameElement.val(employeesArray[i].name);
+                temp = true
+                break;
             }
         }
         

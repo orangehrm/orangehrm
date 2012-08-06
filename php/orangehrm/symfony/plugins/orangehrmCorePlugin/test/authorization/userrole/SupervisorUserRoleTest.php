@@ -69,7 +69,7 @@ class SupervisorUserRoleTest extends PHPUnit_Framework_TestCase {
 
         $mockService->expects($this->once())
                 ->method('getSubordinatePropertyListBySupervisorId')
-                ->with(1, $properties, 'lastName', 'ASC', false)
+                ->with(1, $properties, 'lastName', 'ASC', true)
                 ->will($this->returnValue($propertyList));
 
         $this->supervisorUserRole->setEmployeeNumber(1);

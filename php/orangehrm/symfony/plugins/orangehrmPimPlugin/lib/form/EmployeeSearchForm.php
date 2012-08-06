@@ -89,7 +89,7 @@ class EmployeeSearchForm extends BaseForm {
         $employeeService = new EmployeeService();
         $employeeService->setEmployeeDao(new EmployeeDao());
 
-        $employeeList = $employeeService->getSupervisorList();
+        $employeeList = $employeeService->getSupervisorList(true);
 
         foreach ($employeeList as $employee) {
 

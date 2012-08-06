@@ -56,7 +56,7 @@ class SupervisorUserRole extends AbstractUserRole {
 
         $empNumber = $this->getEmployeeNumber();
         if (!empty($empNumber)) {
-            $employeeProperties = $this->getEmployeeService()->getSubordinatePropertyListBySupervisorId($empNumber, $properties, $orderField, $orderBy, false);
+            $employeeProperties = $this->getEmployeeService()->getSubordinatePropertyListBySupervisorId($empNumber, $properties, $orderField, $orderBy, true);
         }
 
         return $employeeProperties;

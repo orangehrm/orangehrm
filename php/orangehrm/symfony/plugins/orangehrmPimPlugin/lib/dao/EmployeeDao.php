@@ -1852,7 +1852,8 @@ class EmployeeDao extends BaseDao {
                         $conditions[] = ' e.emp_number IN (' . implode(',', $searchBy) . ') ';
                     } else if ($searchField == 'supervisor_name') {
                        // $conditions[] = $field . ' LIKE ? ';
-                        $conditions[] =  ' e.emp_number IN ((SELECT srt.erep_sub_emp_number  FROM hs_hr_emp_reportto  srt LEFT JOIN hs_hr_employee se on ( srt.erep_sub_emp_number = se.emp_number AND '. $field.' LIKE ? ) ))';
+                        $conditions[] =  ' e.emp_number IN ((SELECT srt.erep_sub_emp_number  FROM hs_hr_emp_reportto  srt LEFT JOIN hs_hr_employee se on ( srt.erep_sup_emp_number = se.emp_number )
+                        					WHERE '. $field.' LIKE ? ))';
                         // Replace multiple spaces in string with wildcards
                         $value = preg_replace('!\s+!', '%', $searchBy);
                         $bindParams[] = '%' . $value . '%';
