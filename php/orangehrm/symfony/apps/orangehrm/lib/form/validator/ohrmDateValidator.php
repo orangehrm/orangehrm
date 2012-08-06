@@ -54,7 +54,7 @@ class ohrmDateValidator extends sfValidatorBase {
 
         // If not required and empty or the format pattern, return valid.
         if (!$this->getOption('required') &&
-                ( ($trimmedValue == '') || (strcasecmp($trimmedValue, get_datepicker_date_format($pattern)) == 0 ) )) {
+                ( ($trimmedValue == '') || (strcasecmp(str_replace('yyyy', 'yy', $trimmedValue), get_datepicker_date_format($pattern)) == 0 ) )) {
             return null;
         }
         $localizationService = new LocalizationService();

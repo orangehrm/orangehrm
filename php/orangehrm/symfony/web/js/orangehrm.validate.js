@@ -134,8 +134,15 @@ $.validator.addMethod('date_range', function(value, element, params) {
     var fromDate = $.trim(params.fromDate);
     var toDate = $.trim(value);
     var format = params.format;
+    var displayFormat = '';
 
-    if(fromDate == format || toDate == format || fromDate == "" || toDate =="") {
+    if (params.displayFormat != undefined) {
+        displayFormat = params.displayFormat;
+    } else {
+        displayFormat = format;
+    }    
+
+    if(fromDate == displayFormat || toDate == displayFormat || fromDate == "" || toDate =="") {
         valid = true;
     }else{
         var parsedFromDate = $.datepicker.parseDate(format, fromDate);

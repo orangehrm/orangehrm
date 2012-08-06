@@ -7,19 +7,19 @@ $(document).ready(function() {
         var passportIssueDate = $("#immigration_passport_issue_date");
 
         if(trim(passportIssueDate.val()) == ''){
-            passportIssueDate.val(datepickerDateFormat);
+            passportIssueDate.val(displayDateFormat);
         }
 
         var passportExpireDate = $("#immigration_passport_expire_date");
 
         if(trim(passportExpireDate.val()) == ''){
-            passportExpireDate.val(datepickerDateFormat);
+            passportExpireDate.val(displayDateFormat);
         }
 
         var i9ReviewDate = $("#immigration_i9_review_date");
 
         if(trim(i9ReviewDate.val()) == ''){
-            i9ReviewDate.val(datepickerDateFormat);
+            i9ReviewDate.val(displayDateFormat);
         }
     
     }
@@ -36,9 +36,9 @@ $(document).ready(function() {
     $("#frmEmpImmigration").validate({
         rules: {
             'immigration[number]': {required: true},
-            'immigration[passport_issue_date]': {valid_date: function(){return {format:datepickerDateFormat, required:false}}},
-            'immigration[passport_expire_date]' : {valid_date: function(){return {format:datepickerDateFormat, required:false}}, date_range: function() {return {format:datepickerDateFormat, fromDate:issuedDate}}},
-            'immigration[i9_review_date]' : {valid_date: function(){return {format:datepickerDateFormat, required:false}}},
+            'immigration[passport_issue_date]': {valid_date: function(){return {format:datepickerDateFormat, required:false, displayFormat:displayDateFormat}}},
+            'immigration[passport_expire_date]' : {valid_date: function(){return {format:datepickerDateFormat, required:false, displayFormat:displayDateFormat}}, date_range: function() {return {format:datepickerDateFormat, displayFormat:displayDateFormat, fromDate:issuedDate}}},
+            'immigration[i9_review_date]' : {valid_date: function(){return {format:datepickerDateFormat, required:false, displayFormat:displayDateFormat}}},
             'immigration[comments]': {maxlength: 250}
         },
         messages: {

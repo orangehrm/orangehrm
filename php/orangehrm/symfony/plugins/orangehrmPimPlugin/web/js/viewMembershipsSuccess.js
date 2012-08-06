@@ -47,10 +47,10 @@ $(document).ready(function() {
         $('#membership_currency').val(currency);
 
         if ($.trim(subscriptionCommenceDate) == '') {
-            subscriptionCommenceDate = datepickerDateFormat;
+            subscriptionCommenceDate = displayDateFormat;
         }
         if ($.trim(subscriptionRenewalDate) == '') {
-            subscriptionRenewalDate = datepickerDateFormat;
+            subscriptionRenewalDate = displayDateFormat;
         }
 
         $('#membership_subscriptionCommenceDate').val(subscriptionCommenceDate);
@@ -132,6 +132,7 @@ $(document).ready(function() {
                 valid_date: function() {
                     return {
                         format:datepickerDateFormat,
+                        displayFormat:displayDateFormat,
                         required:false
                     }
                 }
@@ -140,12 +141,14 @@ $(document).ready(function() {
                 valid_date: function() {
                     return {
                         format:datepickerDateFormat,
+                        displayFormat:displayDateFormat,
                         required:false
                     }
                 },
                 date_range: function() {
                     return {
                         format:datepickerDateFormat,
+                        displayFormat:displayDateFormat,
                         fromDate:commenceDate
                     }
                 }
@@ -183,8 +186,8 @@ function clearAddForm() {
     $('#membership_subscriptionPaidBy').val('');
     $('#membership_subscriptionAmount').val('');
     $('#membership_currency').val('');
-    $('#membership_subscriptionCommenceDate').val(datepickerDateFormat);
-    $('#membership_subscriptionRenewalDate').val(datepickerDateFormat);
+    $('#membership_subscriptionCommenceDate').val(displayDateFormat);
+    $('#membership_subscriptionRenewalDate').val(displayDateFormat);
     $('div#addPaneMembership label.error').hide();
     $('div#messagebar').hide();
     
