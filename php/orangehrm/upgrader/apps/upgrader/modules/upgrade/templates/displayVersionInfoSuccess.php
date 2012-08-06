@@ -3,10 +3,13 @@
     <h2>Version Information</h2>
     
     <p>
-        You are going to upgrade to OrangeHRM version <?php echo $newVersion; ?>. Following is a list of changes and manual steps that you need to take into consideration after upgrading. Make sure you understand them thoroughly before upgrading.
+        You are going to upgrade to OrangeHRM version <?php echo $newVersion; ?>. 
+        <?php if (count($notes) > 0): ?>
+        Following is a list of changes and manual steps that you need to take into consideration after upgrading. Make sure you understand them thoroughly before upgrading.
+        <?php endif; ?>
     </p>
     
-    <?php if (!empty($notes)) : ?>
+    <?php if (count($notes) > 0) : ?>
     
     <ul>
         

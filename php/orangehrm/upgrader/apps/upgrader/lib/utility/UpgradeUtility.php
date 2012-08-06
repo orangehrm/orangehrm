@@ -193,7 +193,7 @@ CONFCONT;
      */
     public function getEndIncrementNumber() {
         
-        return 50;
+        return 54;
         
     }
     
@@ -222,6 +222,7 @@ CONFCONT;
         $a['2.6.11.3']  = 48;
         $a['2.6.12']    = 49;
         $a['2.6.12.1']  = 50;
+        $a['2.7']       = 51;
         
         return $a;
         
@@ -232,7 +233,7 @@ CONFCONT;
      */
     public function getNewVersion() {
         
-        return '2.7';
+        return '2.7.1';
         
     }
     

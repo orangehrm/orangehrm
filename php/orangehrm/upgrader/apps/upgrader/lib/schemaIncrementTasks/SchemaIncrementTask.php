@@ -9,7 +9,7 @@ abstract class SchemaIncrementTask {
     protected $incrementNumber;
     protected $dbInfo;
     
-    public function __construct($dbInfo) {
+    public function __construct($dbInfo = null) {
         $this->dbInfo = $dbInfo;
     }
     
