@@ -35,6 +35,7 @@ class ohrmWidgetEmployeeNameAutoFill extends sfWidgetFormInput {
         $this->addOption('employeeList', '');
         $this->addOption('jsonList', '');
         $this->addOption('loadingMethod','');
+        $this->addOption('requiredPermissions', array());
     }    
 
     public function render($name, $value = null, $attributes = array(), $errors = array()) {
@@ -169,6 +170,7 @@ EOF
         
         $employeeList = $this->getOption('employeeList');
         $loadingMethod = $this->getOption('loadingMethod');
+        $requiredPermissions = $this->getOption('requiredPermissions');
         
         if (is_array($employeeList)) {
             return $employeeList;
@@ -176,8 +178,9 @@ EOF
 
         if( $loadingMethod != 'ajax'){
             $properties = array("empNumber","firstName", "middleName", "lastName", "termination_id");
-            $employeeList = UserRoleManagerFactory::getUserRoleManager()->getAccessibleEntityProperties('Employee', $properties);
-
+            $employeeList = UserRoleManagerFactory::getUserRoleManager()->getAccessibleEntityProperties('Employee', 
+                    $properties, null, null, array(), array(), $requiredPermissions);
+        
             return $employeeList;
         }else{
             return array();
