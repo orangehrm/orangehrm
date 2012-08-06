@@ -251,7 +251,7 @@ class SchemaIncrementTask54 extends SchemaIncrementTask {
                                                             (2, 37, 1, 1, 1, 1, 1),
                                                             (2, 38, 1, NULL, 1, NULL, 1),
                                                             (2, 39, 1, NULL, 1, 1, 1),
-                                                            (2, 40, 1, NULL, 1, NULL, 1),
+                                                            (2, 40, 1, NULL, NULL, NULL, 1),
                                                             (3, 1, 1, NULL, 1, NULL, 0),
                                                             (3, 2, 1, 1, 1, 1, 0),
                                                             (3, 3, 1, NULL, 1, NULL, 0),
@@ -291,7 +291,7 @@ class SchemaIncrementTask54 extends SchemaIncrementTask {
                                                             (3, 37, 1, 1, 1, 1, 0),
                                                             (3, 38, 1, NULL, 1, NULL, 0),
                                                             (3, 39, 1, NULL, 1, 1, 0),
-                                                            (3, 40, 1, NULL, 1, NULL, 0),
+                                                            (3, 40, 1, NULL, NULL, NULL, 0),
                                                             (3, 1, 1, NULL, 1, NULL, 1),
                                                             (3, 2, 1, 1, 1, 1, 1),
                                                             (3, 3, 1, NULL, 1, NULL, 1),
@@ -331,7 +331,7 @@ class SchemaIncrementTask54 extends SchemaIncrementTask {
                                                             (3, 37, 1, 1, 1, 1, 1),
                                                             (3, 38, 1, NULL, 1, NULL, 1),
                                                             (3, 39, 1, NULL, 1, 1, 1),
-                                                            (3, 40, 1, NULL, 1, NULL, 1)";
+                                                            (3, 40, 1, NULL, NULL, NULL, 1)";
         
         $this->sql = $sql;
         
