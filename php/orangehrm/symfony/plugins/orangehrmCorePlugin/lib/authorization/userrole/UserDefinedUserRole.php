@@ -129,6 +129,8 @@ class UserDefinedUserRole extends AbstractUserRole {
                         $permitted = $dataGroupPermissions->canDelete();
                     }                        
                 }
+            } else if ($permissionType == BasicUserRoleManager::PERMISSION_TYPE_ACTION) {
+                $permitted = false;
             }
         } 
         
