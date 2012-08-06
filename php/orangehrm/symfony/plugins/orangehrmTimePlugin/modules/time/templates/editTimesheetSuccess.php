@@ -164,7 +164,7 @@ use_javascript('../../../scripts/jquery/jquery.autocomplete.js');
     var startDate='<?php echo $startDate ?>';
     var backAction='<?php echo $backAction ?>';
     var endDate='<?php echo $endDate ?>';
-    var erorrMessageForInvalidComment="<?php echo __(ValidationMessages::TEXT_LENGTH_EXCEEDS, array('%amount%' => 250)); ?>";
+    var erorrMessageForInvalidComment="<?php echo __(ValidationMessages::TEXT_LENGTH_EXCEEDS, array('%amount%' => 2000)); ?>";
     var numberOfRows='<?php echo $i ?>';
     var incorrect_total="<?php echo __('Total Should Be Less Than 24 Hours'); ?>";
     var typeForHints='<?php echo __('Type for hints').'...'; ?>';

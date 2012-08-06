@@ -447,7 +447,7 @@ $(document).ready(function() {
 
         var errorStyle = "background-color:#FFDFDF;";
 
-        if ($('#timeComment').val().length > 250) {
+        if ($('#timeComment').val().length > 2000) {
             $('#commentSave').attr('disabled', 'disabled');
             $('#commentCancel').attr('disabled', 'disabled');
             //   $('#validationMsg').attr('class', "messageBalloon_failure");

@@ -718,7 +718,7 @@ create table `ohrm_timesheet_item`(
   `timesheet_id` bigint(20) not null,
   `date` date not null,
   `duration` bigint(20) default null,
-  `comment` varchar(255) default null,
+  `comment` text default null,
   `project_id` bigint(20) not null,
   `employee_id` bigint(20) not null,
   `activity_id` bigint(20) not null,

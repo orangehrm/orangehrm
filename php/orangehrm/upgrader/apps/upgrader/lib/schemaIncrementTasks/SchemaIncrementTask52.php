@@ -41,6 +41,8 @@ class SchemaIncrementTask52 extends SchemaIncrementTask {
         
         $sql[3] = "INSERT INTO `hs_hr_config`(`key`, `value`) VALUES ('include_supervisor_chain', 'No')";
         
+        $sql[4] = "ALTER TABLE `ohrm_timesheet_item` MODIFY COLUMN `comment` text default null";
+        
         $this->sql = $sql;
     }
     

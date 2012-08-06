@@ -47,7 +47,7 @@ TimesheetItem:
       type: integer
     date: date
     duration: integer
-    comment: string(255)
+    comment: string(2000)
   relations:
     Timesheet:
       onDelete: cascade

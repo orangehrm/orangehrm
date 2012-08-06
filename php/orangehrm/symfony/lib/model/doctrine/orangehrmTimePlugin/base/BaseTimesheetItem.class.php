@@ -77,9 +77,9 @@ abstract class BaseTimesheetItem extends sfDoctrineRecord
         $this->hasColumn('duration', 'integer', null, array(
              'type' => 'integer',
              ));
-        $this->hasColumn('comment', 'string', 255, array(
+        $this->hasColumn('comment', 'string', 2000, array(
              'type' => 'string',
-             'length' => 255,
+             'length' => 2000,
              ));
     }
 
