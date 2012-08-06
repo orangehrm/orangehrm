@@ -83,7 +83,6 @@ class ohrmWidgetEmployeeNameAutoFill extends sfWidgetFormInput {
                       ,matchContains:true
                         }).result(function(event, item) {
                             idStoreField.val(item.id);
-                            $(this).valid();
                         }
 
                     );
