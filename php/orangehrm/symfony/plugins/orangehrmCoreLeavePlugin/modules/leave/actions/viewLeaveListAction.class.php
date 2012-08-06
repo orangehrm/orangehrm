@@ -287,7 +287,10 @@ class viewLeaveListAction extends sfAction {
             $employeeFilter = $loggedInEmpNumber;
         } else {
             $manager = $this->getContext()->getUserRoleManager();
-            $accessibleEmpIds = $manager->getAccessibleEntityIds('Employee');
+            $requiredPermissions = array(
+                BasicUserRoleManager::PERMISSION_TYPE_ACTION => array('view_leave_list'));
+                
+            $accessibleEmpIds = $manager->getAccessibleEntityIds('Employee', null, null, array(), array(), $requiredPermissions);
 
             if (empty($empNumber)) {
                 $employeeFilter = $accessibleEmpIds;

@@ -143,8 +143,13 @@ class AssignLeaveForm extends sfForm {
         $locationService = new LocationService();
         
         $properties = array("empNumber","firstName", "middleName", "lastName", 'termination_id');
-        $employeeList = UserRoleManagerFactory::getUserRoleManager()->getAccessibleEntityProperties('Employee', $properties);
-
+        
+        $requiredPermissions = array(
+            BasicUserRoleManager::PERMISSION_TYPE_ACTION => array('assign_leave'));
+        
+        $employeeList = UserRoleManagerFactory::getUserRoleManager()
+                ->getAccessibleEntityProperties('Employee', $properties, null, null, array(), array(), $requiredPermissions);
+         
         $employeeUnique = array();
         foreach ($employeeList as $employee) {
             $workShiftLength = 0;

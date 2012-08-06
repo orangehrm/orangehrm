@@ -102,7 +102,13 @@ class LeaveListForm extends sfForm {
 
         if ($this->mode != self::MODE_MY_LEAVE_LIST) {
 
-            $widgets['txtEmployee'] = new ohrmWidgetEmployeeNameAutoFill(array('employeeList' => $this->getEmployeeList()));
+            $requiredPermissions = array(
+                BasicUserRoleManager::PERMISSION_TYPE_ACTION => array('view_leave_list'));
+            
+            $widgets['txtEmployee'] = new ohrmWidgetEmployeeNameAutoFill(
+                    array('employeeList' => $this->getEmployeeList(),
+                          'requiredPermissions' => $requiredPermissions));
+            
             $labels['txtEmployee'] = __('Employee');
             $validators['txtEmployee'] = new ohrmValidatorEmployeeNameAutoFill();
             

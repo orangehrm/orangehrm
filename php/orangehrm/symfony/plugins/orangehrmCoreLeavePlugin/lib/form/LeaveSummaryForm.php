@@ -265,7 +265,7 @@ class LeaveSummaryForm extends sfForm {
                 $properties, null, null, array(), array(), $requiredPermissions);
         
         $employeeIdList = $userRoleManager->getAccessibleEntityIds('Employee', 
-                null, null, array(), array(), $requredPermissions);
+                null, null, array(), array(), $requiredPermissions);
 
         $this->hasAdministrativeFilters = count($employeeList) > 0;
         
