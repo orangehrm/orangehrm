@@ -1,5 +1,5 @@
 $(document).ready(function(){
-    
+   
     dateTimeFormat= 'yyyy-MM-dd HH:mm';
     
     $("#createTimesheet").hide();
@@ -153,7 +153,7 @@ $(document).ready(function(){
         $("#timeComment").val(decoded);
         $("#commentProjectName").text(": " + projectName);
         $("#commentActivityName").text(": " + activityName);
-        var parsedDate = $.datepicker.parseDate("yy-mm-dd", date);
+        var parsedDate = $.datepicker.parseDate("yy-mm-dd", comment_date);
         $("#commentDate").text(":"+" "+$.datepicker.formatDate(datepickerDateFormat, parsedDate));
         $("#commentDialog").dialog('open');
     });
@@ -185,7 +185,7 @@ function getComment(timesheetItemId){
         success: function(msg){
             var array = msg.split('##');
             question = array[0];
-            date = array[1];
+            comment_date = array[1];
 
         }
     });
