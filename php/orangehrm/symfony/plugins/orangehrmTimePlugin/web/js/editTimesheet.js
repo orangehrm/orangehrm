@@ -340,7 +340,7 @@ $(document).ready(function() {
         var errorStyle = "background-color:#FFDFDF;";
         var normalStyle = "background-color:#FFFFFF;";
         var projectCount = projectsArray.length;
-        $('.project').each(function(){
+        $('input.project').each(function(){
             element = $(this);
             $(element).attr('style', normalStyle);
             proName = $.trim($(element).val()).toLowerCase();
