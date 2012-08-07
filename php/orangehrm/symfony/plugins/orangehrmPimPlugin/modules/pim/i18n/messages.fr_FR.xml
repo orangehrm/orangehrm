@@ -480,6 +480,10 @@
     <source>Will be deleted from all employees</source>
     <target>FR_Will be deleted from all employees</target>
    </trans-unit>
+   <trans-unit id="120">
+    <source>First (&amp; Middle) Name</source>
+    <target>FR_First (&amp; Middle) Name</target>
+   </trans-unit>   
   </body>
  </file>
 </xliff>

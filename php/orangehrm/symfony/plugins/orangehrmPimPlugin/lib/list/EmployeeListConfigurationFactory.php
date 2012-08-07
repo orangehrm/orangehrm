@@ -28,7 +28,7 @@ class EmployeeListConfigurationFactory extends ohrmListConfigurationFactory {
         ));
 
         $header2->populateFromArray(array(
-            'name' => 'First (& Middle) Name',
+            'name' => __('First (& Middle) Name'),
             'width' => '20%',
             'isSortable' => true,
             'sortField' => 'firstMiddleName',
