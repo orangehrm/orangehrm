@@ -111,7 +111,7 @@
     var cancelBtnUrl = '<?php echo url_for('recruitment/addCandidate?'); ?>';
     var cancelUrl = '<?php echo url_for('recruitment/changeCandidateVacancyStatus?'); ?>';
     var datepickerDateFormat = '<?php echo get_datepicker_date_format($sf_user->getDateFormat()); ?>';
-    var lang_validDateMsg = '<?php echo __(ValidationMessages::DATE_FORMAT_INVALID, array('%format%' => get_datepicker_date_format($sf_user->getDateFormat()))) ?>';
+    var lang_validDateMsg = '<?php echo __(ValidationMessages::DATE_FORMAT_INVALID, array('%format%' => str_replace('yy', 'yyyy', get_datepicker_date_format($sf_user->getDateFormat())))) ?>';
     var employees = <?php echo str_replace('&#039;', "'", $form->getEmployeeListAsJson()) ?> ;
     var employeeList = eval(employees);
     var numberOfInterviewers = <?php echo $form->numberOfInterviewers; ?>;

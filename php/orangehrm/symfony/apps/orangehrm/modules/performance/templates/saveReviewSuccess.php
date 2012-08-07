@@ -92,8 +92,9 @@
 <script type="text/javascript">
 
     var datepickerDateFormat = '<?php echo get_datepicker_date_format($sf_user->getDateFormat()); ?>';
+    var displayDateFormat = '<?php echo str_replace('yy', 'yyyy', get_datepicker_date_format($sf_user->getDateFormat())); ?>';
     var lang_dateError = '<?php echo __("To date should be after from date") ?>';
-    var lang_invalidDate = '<?php echo __(ValidationMessages::DATE_FORMAT_INVALID, array('%format%' => get_datepicker_date_format($sf_user->getDateFormat()))) ?>';
+    var lang_invalidDate = '<?php echo __(ValidationMessages::DATE_FORMAT_INVALID, array('%format%' => str_replace('yy', 'yyyy', get_datepicker_date_format($sf_user->getDateFormat())))) ?>';
 
     function autoFill(selector, filler, data) {
         jQuery.each(data, function(index, item){
@@ -106,13 +107,13 @@
 
     $(document).ready(function() {
         if($('#txtPeriodFromDate-0').val() == ""){
-            $('#txtPeriodFromDate-0').val(datepickerDateFormat)
+            $('#txtPeriodFromDate-0').val(displayDateFormat)
         }
         if($('#txtPeriodToDate-0').val() == ""){
-            $('#txtPeriodToDate-0').val(datepickerDateFormat)
+            $('#txtPeriodToDate-0').val(displayDateFormat)
         }
         if($('#txtDueDate-0').val() == ""){
-            $('#txtDueDate-0').val(datepickerDateFormat)
+            $('#txtDueDate-0').val(displayDateFormat)
         }
 
         var empdata = <?php echo str_replace('&#039;', "'", $form->getEmployeeListAsJson()) ?>;
@@ -178,13 +179,13 @@
                     }
                 }
             }
-            if($('#txtPeriodFromDate-0').val() == datepickerDateFormat){
+            if($('#txtPeriodFromDate-0').val() == displayDateFormat){
                 $('#txtPeriodFromDate-0').val("")
             }
-            if($('#txtPeriodToDate-0').val() == datepickerDateFormat){
+            if($('#txtPeriodToDate-0').val() == displayDateFormat){
                 $('#txtPeriodToDate-0').val("")
             }
-            if($('#txtDueDate-0').val() == datepickerDateFormat){
+            if($('#txtDueDate-0').val() == displayDateFormat){
                 $('#txtDueDate-0').val("")
             }
             $('#frmSave').submit();
@@ -210,7 +211,8 @@
                     required: true,
                     valid_date: function() {
                         return {
-                            format:datepickerDateFormat
+                            format:datepickerDateFormat,
+                            displayFormat:displayDateFormat
                         }
                     }
                 },
@@ -218,12 +220,14 @@
                     required: true,
                     valid_date: function() {
                         return {
-                            format:datepickerDateFormat
+                            format:datepickerDateFormat,
+                            displayFormat:displayDateFormat
                         }
                     },
                     date_range: function() {
                         return {
                             format:datepickerDateFormat,
+                            displayFormat:displayDateFormat,
                             fromDate:$('#txtPeriodFromDate-0').val()
                         }
                     }
@@ -232,12 +236,14 @@
                     required: true,
                     valid_date: function() {
                         return {
-                            format:datepickerDateFormat
+                            format:datepickerDateFormat,
+                            displayFormat:displayDateFormat
                         }
                     },
                     date_range: function() {
                         return {
                             format:datepickerDateFormat,
+                            displayFormat:displayDateFormat,
                             fromDate:$('#txtPeriodFromDate-0').val()
                         }
                     }

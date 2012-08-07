@@ -212,7 +212,8 @@ $(document).ready(function() {
                 valid_date: function() {
                     return {
                         format:datepickerDateFormat,
-                        required:false
+                        required:false,
+                        displayFormat:displayDateFormat
                     }
                 }
             },
@@ -220,12 +221,14 @@ $(document).ready(function() {
                 valid_date: function() {
                     return {
                         format:datepickerDateFormat,
-                        required:false
+                        required:false,
+                        displayFormat:displayDateFormat
                     }
                 },
                 date_range: function() {
                     return {
                         format:datepickerDateFormat,
+                        displayFormat:displayDateFormat,
                         fromDate:fromdate
                     }
                 }

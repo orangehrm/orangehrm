@@ -68,9 +68,9 @@ use_javascript('../../../scripts/jquery/jquery.autocomplete.js');
     </style>
 
     <script type="text/javascript">
-                    var datepickerDateFormat = '<?php echo get_datepicker_date_format($sf_user->getDateFormat()); ?>';
+            var datepickerDateFormat = '<?php echo get_datepicker_date_format($sf_user->getDateFormat()); ?>';
             var lang_dateError = '<?php echo __("To date should be after from date") ?>';
-            var lang_validDateMsg = '<?php echo __(ValidationMessages::DATE_FORMAT_INVALID, array('%format%' => get_datepicker_date_format($sf_user->getDateFormat()))) ?>';
+            var lang_validDateMsg = '<?php echo __(ValidationMessages::DATE_FORMAT_INVALID, array('%format%' => str_replace('yy', 'yyyy', get_datepicker_date_format($sf_user->getDateFormat())))) ?>';
             var lang_required = '<?php echo __(ValidationMessages::REQUIRED); ?>';
             var lang_empNamerequired = '<?php echo __(ValidationMessages::REQUIRED); ?>';
             var lang_activityRequired = '<?php echo __(ValidationMessages::REQUIRED)?>';
@@ -95,19 +95,22 @@ use_javascript('../../../scripts/jquery/jquery.autocomplete.js');
                     valid_date: function() {
                         return {
                             format:datepickerDateFormat,
-                            required:false
+                            required:false,
+                            displayFormat:displayDateFormat
                         }
                     }},
                 'time[project_date_range][to]' : {
                     valid_date: function() {
                         return {
                             format:datepickerDateFormat,
-                            required:false
+                            required:false,
+                            displayFormat:displayDateFormat
                         }
                     },
                     date_range: function() {
                         return {
                             format:datepickerDateFormat,
+                            displayFormat:displayDateFormat,
                             fromDate:$('#project_date_range_from_date').val()
                         }
                     }

@@ -8,7 +8,7 @@ $(document).ready(function(){
     
     var rDate = trim($(".date").val());
     if (rDate == '') {
-        $(".date").val(datepickerDateFormat);
+        $(".date").val(displayDateFormat);
     }
 
     //Bind date picker

@@ -369,7 +369,8 @@ function isValidForm(){
                 valid_date: function() {
                     return {
                         format:datepickerDateFormat,
-                        required:false
+                        required:false,
+                        displayFormat:displayDateFormat
 
                     }
                 },

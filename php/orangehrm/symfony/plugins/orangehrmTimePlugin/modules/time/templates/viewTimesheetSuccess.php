@@ -368,7 +368,8 @@ use_javascript('../../../scripts/jquery/ui/ui.dialog.js');
     </div>
     <script type="text/javascript">
                                                     
-         var datepickerDateFormat = '<?php echo get_datepicker_date_format($sf_user->getDateFormat()); ?>';
+        var datepickerDateFormat = '<?php echo get_datepicker_date_format($sf_user->getDateFormat()); ?>';
+        var displayDateFormat = '<?php echo str_replace('yy', 'yyyy', get_datepicker_date_format($sf_user->getDateFormat())); ?>';
         var submitNextState = "<?php echo $submitNextState; ?>";
         var approveNextState = "<?php echo $approveNextState; ?>";
         var submitNextState = "<?php echo $submitNextState; ?>";
@@ -389,7 +390,7 @@ use_javascript('../../../scripts/jquery/ui/ui.dialog.js');
         var lang_noFutureTimesheets= "<?php echo __("Failed to Create: Future Timesheets Not Allowed"); ?>";
 	var lang_overlappingTimesheets= "<?php echo __("Timesheet Overlaps with Existing Timesheets"); ?>";
 	var lang_timesheetExists= "<?php echo __("Timesheet Already Exists"); ?>";
-	var lang_invalidDate= "<?php echo __(ValidationMessages::DATE_FORMAT_INVALID, array('%format%' => get_datepicker_date_format($sf_user->getDateFormat()))); ?>";
+	var lang_invalidDate= "<?php echo __(ValidationMessages::DATE_FORMAT_INVALID, array('%format%' => str_replace('yy', 'yyyy', get_datepicker_date_format($sf_user->getDateFormat())))); ?>";
 
 
 

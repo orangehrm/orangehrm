@@ -56,7 +56,7 @@ use_javascript('../../../scripts/jquery/jquery.autocomplete.js');
 
     var datepickerDateFormat = '<?php echo get_datepicker_date_format($sf_user->getDateFormat()); ?>';
     var lang_dateError = '<?php echo __("To date should be after from date") ?>';
-    var lang_invalidDate = '<?php echo __(ValidationMessages::DATE_FORMAT_INVALID, array('%format%' => get_datepicker_date_format($sf_user->getDateFormat()))) ?>';
+    var lang_invalidDate = '<?php echo __(ValidationMessages::DATE_FORMAT_INVALID, array('%format%' => str_replace('yy', 'yyyy', get_datepicker_date_format($sf_user->getDateFormat())))) ?>';
     var lang_emptyEmployee = '<?php echo __('Select an Employee')?>';
     var lang_required = '<?php echo __(ValidationMessages::REQUIRED);?>';
     var lang_invalid = '<?php echo __(ValidationMessages::INVALID);?>';
@@ -124,7 +124,8 @@ use_javascript('../../../scripts/jquery/jquery.autocomplete.js');
                     valid_date: function() {
                         return {
                             format:datepickerDateFormat,
-                            required:false
+                            required:false,
+                            displayFormat:displayDateFormat
                         }
                     }
                 },
@@ -132,12 +133,14 @@ use_javascript('../../../scripts/jquery/jquery.autocomplete.js');
                     valid_date: function() {
                         return {
                             format:datepickerDateFormat,
-                            required:false
+                            required:false,
+                            displayFormat:displayDateFormat
                         }
                     },
                     date_range: function() {
                         return {
                             format:datepickerDateFormat,
+                            displayFormat:displayDateFormat,
                             fromDate:$('#from_date').val()
                         }
                     }

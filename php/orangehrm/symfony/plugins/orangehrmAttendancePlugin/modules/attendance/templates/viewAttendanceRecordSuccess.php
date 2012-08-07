@@ -70,7 +70,8 @@ use_javascript('../../../scripts/jquery/jquery.autocomplete.js');
 <script type="text/javascript">
     
     var datepickerDateFormat = '<?php echo get_datepicker_date_format($sf_user->getDateFormat()); ?>';
-    var errorForInvalidFormat='<?php echo __(ValidationMessages::DATE_FORMAT_INVALID, array('%format%' => get_datepicker_date_format($sf_user->getDateFormat()))) ?>';
+    var displayDateFormat = '<?php echo str_replace('yy', 'yyyy', get_datepicker_date_format($sf_user->getDateFormat())); ?>';
+    var errorForInvalidFormat='<?php echo __(ValidationMessages::DATE_FORMAT_INVALID, array('%format%' => str_replace('yy', 'yyyy', get_datepicker_date_format($sf_user->getDateFormat())))) ?>';
     var employees = <?php echo str_replace('&quot;', "'", $employeeListAsJson) ?> ;
     var employeesArray = eval(employees);
     var errorMsge;

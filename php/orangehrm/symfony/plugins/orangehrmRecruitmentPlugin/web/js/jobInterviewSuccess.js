@@ -273,7 +273,7 @@ function isValidForm(){
         
         var date = trim(value)
         
-        if((date == "") || (date == datepickerDateFormat)) {
+        if((date == "") || (date == displayDateFormat)) {
             return false;
         }
         return true;
@@ -313,7 +313,8 @@ function isValidForm(){
                 valid_date: function() {
                     return {
                         format:datepickerDateFormat,
-                        required:false
+                        required:false,
+                        displayFormat:displayDateFormat
                     }
                 }
             },

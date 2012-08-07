@@ -242,7 +242,7 @@
                                     var lang_firstNameRequired = '<?php echo __(ValidationMessages::REQUIRED); ?>';
                                     var lang_lastNameRequired = '<?php echo __(ValidationMessages::REQUIRED); ?>';
                                     var lang_emailRequired = '<?php echo __(ValidationMessages::REQUIRED); ?>';
-                                    var lang_validDateMsg = '<?php echo __(ValidationMessages::DATE_FORMAT_INVALID, array('%format%' => get_datepicker_date_format($sf_user->getDateFormat()))) ?>';
+                                    var lang_validDateMsg = '<?php echo __(ValidationMessages::DATE_FORMAT_INVALID, array('%format%' => str_replace('yy', 'yyyy', get_datepicker_date_format($sf_user->getDateFormat())))) ?>';
                                     var lang_validEmail = '<?php echo __(ValidationMessages::EMAIL_INVALID); ?>';
                                     var list = <?php echo json_encode($allVacancylist); ?>;
                                     var allowedVacancylistWithClosedVacancies = <?php echo json_encode($allowedVacancylistWithClosedVacancies); ?>;

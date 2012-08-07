@@ -311,8 +311,9 @@ $formatData['newSeparater'] = '/';
                            <script type="text/javascript">
 
                                var datepickerDateFormat = '<?php echo get_datepicker_date_format($sf_user->getDateFormat()); ?>';
+                               var displayDateFormat = '<?php echo str_replace('yy', 'yyyy', get_datepicker_date_format($sf_user->getDateFormat())); ?>';
                                var lang_dateError = '<?php echo __("To date should be after from date") ?>';
-                               var lang_invalidDate = '<?php echo __(ValidationMessages::DATE_FORMAT_INVALID, array('%format%' => get_datepicker_date_format($sf_user->getDateFormat()))) ?>';
+                               var lang_invalidDate = '<?php echo __(ValidationMessages::DATE_FORMAT_INVALID, array('%format%' => str_replace('yy', 'yyyy', get_datepicker_date_format($sf_user->getDateFormat())))) ?>';
 
                                function autoFill(selector, filler, data) {
                                    jQuery.each(data, function(index, item){
@@ -325,10 +326,10 @@ $formatData['newSeparater'] = '/';
 
                                $(document).ready(function() {
                                    if($('#txtPeriodFromDate').val() == ""){
-                                       $('#txtPeriodFromDate').val(datepickerDateFormat);
+                                       $('#txtPeriodFromDate').val(displayDateFormat);
                                    }
                                    if($('#txtPeriodToDate').val() == ""){
-                                       $('#txtPeriodToDate').val(datepickerDateFormat);}
+                                       $('#txtPeriodToDate').val(displayDateFormat);}
 
 <?php if ($loggedAdmin || $loggedReviewer) { ?>
 
@@ -420,8 +421,8 @@ $formatData['newSeparater'] = '/';
                            }
                            // Clear button
                            $('#clearBtn').click(function(){
-                           $('#txtPeriodFromDate').val(datepickerDateFormat);
-                           $('#txtPeriodToDate').val(datepickerDateFormat);
+                           $('#txtPeriodFromDate').val(displayDateFormat);
+                           $('#txtPeriodToDate').val(displayDateFormat);
                            $('#txtJobTitleCode').val('0');
                            $('#txtSubDivisionId').val('0');
 <?php if ($loggedAdmin || $loggedReviewer) { ?>
@@ -477,7 +478,8 @@ rules: {
 valid_date: function() {
 return {
  format:datepickerDateFormat,
- required:false
+ required:false,
+ displayFormat:displayDateFormat
 }
 }
 },
@@ -485,12 +487,14 @@ return {
 valid_date: function() {
 return {
  format:datepickerDateFormat,
- required:false
+ required:false,
+ displayFormat:displayDateFormat
 }
 },
 date_range: function() {
 return {
  format:datepickerDateFormat,
+ displayFormat:displayDateFormat,
  fromDate:$('#txtPeriodFromDate').val()
 }
 }
