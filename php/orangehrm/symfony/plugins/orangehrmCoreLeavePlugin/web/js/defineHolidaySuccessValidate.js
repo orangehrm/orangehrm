@@ -8,7 +8,8 @@ $(document).ready(function() {
                 valid_date: function(){
                     return {
                         format:datepickerDateFormat,
-                        required: true
+                        required: true,
+                        displayFormat:displayDateFormat
                     }
                 }
             },

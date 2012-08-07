@@ -83,8 +83,9 @@
     </div>
     <script type="text/javascript">
         var datepickerDateFormat = '<?php echo get_datepicker_date_format($sf_user->getDateFormat()); ?>';
+        var displayDateFormat = '<?php echo str_replace('yy', 'yyyy', get_datepicker_date_format($sf_user->getDateFormat())); ?>';
         var leaveBalanceUrl = '<?php echo url_for('leave/getLeaveBalanceAjax');?>';
-        var lang_invalidDate = '<?php echo __(ValidationMessages::DATE_FORMAT_INVALID, array('%format%' => get_datepicker_date_format($sf_user->getDateFormat()))) ?>';
+        var lang_invalidDate = '<?php echo __(ValidationMessages::DATE_FORMAT_INVALID, array('%format%' => str_replace('yy', 'yyyy', get_datepicker_date_format($sf_user->getDateFormat())))) ?>';
         var lang_dateError = '<?php echo __("To date should be after from date") ?>';
         $(document).ready(function() {
             $.datepicker.setDefaults({showOn: 'click'});
@@ -106,7 +107,7 @@
 
         var rDate = trim($("#assignleave_txtFromDate").val());
         if (rDate == '') {
-            $("#assignleave_txtFromDate").val(datepickerDateFormat);
+            $("#assignleave_txtFromDate").val(displayDateFormat);
         }
 
         updateLeaveBalance();
@@ -140,7 +141,7 @@
 
         var tDate = trim($("#assignleave_txtToDate").val());
             if (tDate == '') {
-                $("#assignleave_txtToDate").val(datepickerDateFormat);
+                $("#assignleave_txtToDate").val(displayDateFormat);
             }
 
         //Bind date picker
@@ -165,7 +166,7 @@
         });
 
             //Show From if same date
-            if(trim($("#assignleave_txtFromDate").val()) != datepickerDateFormat && trim($("#assignleave_txtToDate").val()) != datepickerDateFormat){
+            if(trim($("#assignleave_txtFromDate").val()) != displayDateFormat && trim($("#assignleave_txtToDate").val()) != displayDateFormat){
                 if( trim($("#assignleave_txtFromDate").val()) == trim($("#assignleave_txtToDate").val())) {
                     showTimeControls(true);
                 }
@@ -218,7 +219,8 @@
                         required: true,
                         valid_date: function() {
                             return {
-                                format:datepickerDateFormat
+                                format:datepickerDateFormat,
+                                displayFormat:displayDateFormat
                             }
                         }
                     },
@@ -226,12 +228,14 @@
                         required: true,
                         valid_date: function() {
                             return {
-                                format:datepickerDateFormat
+                                format:datepickerDateFormat,
+                                displayFormat:displayDateFormat
                             }
                         },
                         date_range: function() {
                             return {
                                 format:datepickerDateFormat,
+                                displayFormat:displayDateFormat,
                                 fromDate:$("#assignleave_txtFromDate").val()
                             }
                         }
@@ -326,10 +330,10 @@
 
         //Click Submit button
         $('#saveBtn').click(function() {
-            if($('#assignleave_txtFromDate').val() == datepickerDateFormat){
+            if($('#assignleave_txtFromDate').val() == displayDateFormat ){
                 $('#assignleave_txtFromDate').val("");
             }
-            if($('#assignleave_txtToDate').val() == datepickerDateFormat){
+            if($('#assignleave_txtToDate').val() == displayDateFormat ){
                 $('#assignleave_txtToDate').val("");
             }
             $('#frmLeaveApply').submit();
@@ -412,7 +416,7 @@
 
     function fromDateBlur(date){
         var fromDateValue 	= 	trim(date);
-        if(fromDateValue != datepickerDateFormat && fromDateValue != ""){
+        if(fromDateValue != displayDateFormat && fromDateValue != ""){
             var toDateValue	=	trim($("#assignleave_txtToDate").val());
             if(validateDate(fromDateValue, datepickerDateFormat)){
                 if(fromDateValue == toDateValue) {
@@ -432,7 +436,7 @@
 
     function toDateBlur(date){
         var toDateValue	=	trim(date);
-        if(toDateValue != datepickerDateFormat && toDateValue != ""){
+        if(toDateValue != displayDateFormat && toDateValue != ""){
             var fromDateValue = trim($("#assignleave_txtFromDate").val());
 
             if(validateDate(fromDateValue, datepickerDateFormat) && validateDate(toDateValue, datepickerDateFormat)){
