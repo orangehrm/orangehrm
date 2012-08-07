@@ -4,6 +4,8 @@ $cultureElements = explode('_', $sf_user->getCulture());
 ?>
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="<?php echo $cultureElements[0]; ?>" lang="<?php echo $cultureElements[0]; ?>">
   <head>
+    <!-- Mimic Internet Explorer 8 -->  
+    <meta http-equiv="X-UA-Compatible" content="IE=EmulateIE8" >  
     <?php include_http_metas() ?>
     <?php include_metas() ?>
     <?php include_title() ?>
