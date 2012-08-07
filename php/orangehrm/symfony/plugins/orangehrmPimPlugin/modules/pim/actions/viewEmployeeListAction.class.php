@@ -86,9 +86,12 @@ class viewEmployeeListAction extends basePimAction {
         $filters = $this->getFilters();
         
         if( isset(  $filters['employee_name'])){
-            $filters['employee_name'] = str_replace(' (' . __('Past Employee') . ')', '', $filters['employee_name']['empName']);        
+            $filters['employee_name'] = str_replace(' (' . __('Past Employee') . ')', '', $filters['employee_name']['empName']);
         }
         
+        if (isset($filters['supervisor_name'])) {
+            $filters['supervisor_name'] = str_replace(' (' . __('Past Employee') . ')', '', $filters['supervisor_name']);
+        }
         
         $this->filterApply = !empty($filters);
 
