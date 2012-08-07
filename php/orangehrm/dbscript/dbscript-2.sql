@@ -1578,3 +1578,13 @@ INSERT INTO `ohrm_user_role_data_group` (`user_role_id`, `data_group_id`, `can_r
 (3, 38, 1, NULL, 1, NULL, 1),
 (3, 39, 1, NULL, 1, 1, 1),
 (3, 40, 1, NULL, NULL, NULL, 1);
+
+INSERT INTO `ohrm_job_category` (`name`) VALUES ('Officials and Managers'),
+                                                ('Professionals'),
+                                                ('Technicians'),
+                                                ('Sales Workers'),
+                                                ('Operatives'),
+                                                ('Office and Clerical Workers'),
+                                                ('Craft Workers'),
+                                                ('Service Workers'),
+                                                ('Laborers and Helpers');
