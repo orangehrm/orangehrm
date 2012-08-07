@@ -41,6 +41,8 @@ class deleteEmployeesAction extends basePimAction {
             if (!$userRoleManager->areEntitiesAccessible('Employee', $ids)) {
                 $this->forward(sfConfig::get('sf_secure_module'), sfConfig::get('sf_secure_action'));
             }
+            
+            $this->_checkLastAdminDeletion($ids);
 
             $employeeService = $this->getEmployeeService();               
             $count = $employeeService->deleteEmployees($ids);
@@ -56,6 +58,38 @@ class deleteEmployeesAction extends basePimAction {
             $this->getUser()->setFlash('templateMessage', array('warning', __('Contact Admin for delete Credentials')));
             $this->redirect('pim/viewEmployeeList');
         }
+    }
+    
+    /**
+     * Restricts deleting employees when there is only one admin
+     * and the admin is assigned to an employee to be deleted
+     */
+    protected function _checkLastAdminDeletion($empNumbers) {
+        
+        $searchClues['userType']    = SystemUser::ADMIN_USER_ROLE_ID;
+        $searchClues['status']      = SystemUser::ENABLED;
+        
+        $systemUserService = new SystemUserService();
+        
+        $adminUsers = $systemUserService->searchSystemUsers($searchClues);
+        
+        if (count($adminUsers) == 1) {
+            
+            $adminEmpNumber = $adminUsers[0]->getEmployee()->getEmpNumber();
+            
+            if (!empty($adminEmpNumber)) {
+                
+                if (in_array($adminEmpNumber, $empNumbers)) {
+                    
+                    $this->getUser()->setFlash('templateMessage', array('failure', __('Failed to Delete')));
+                    $this->redirect('pim/viewEmployeeList');
+                    
+                }
+                
+            }
+            
+        }
+        
     }
 
 
