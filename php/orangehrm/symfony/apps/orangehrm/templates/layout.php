@@ -17,9 +17,9 @@ $cultureElements = explode('_', $sf_user->getCulture());
 	<!--[if IE]>
 	<link href="<?php echo public_path('../../themes/orange/css/IE_style.css')?>" rel="stylesheet" type="text/css"/>
 	<![endif]-->
-        <!--[if IE 9]>
-            <link href="<?php echo public_path('../../themes/orange/css/IE9_style.css')?>" rel="stylesheet" type="text/css"/>
-        <![endif]-->
+    <!--[if IE 9]>
+        <link href="<?php echo public_path('../../themes/orange/css/IE9_style.css')?>" rel="stylesheet" type="text/css"/>
+    <![endif]-->
 	<script type="text/javascript" src="<?php echo public_path('../../themes/orange/scripts/style.js');?>"></script>
 	
 	<script type="text/javascript" src="<?php echo public_path('../../scripts/archive.js');?>"></script>
@@ -31,6 +31,11 @@ $cultureElements = explode('_', $sf_user->getCulture());
 
     <?php echo include_javascripts();?>
     <?php echo include_stylesheets();?>
+    
+    <!--[if IE 9]>
+        <?php echo javascript_include_tag('orangehrm.ie9.hacks.js'); ?>
+    <![endif]-->   
+    
   </head>
   <body>
   

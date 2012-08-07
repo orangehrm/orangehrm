@@ -1,11 +1,5 @@
 $(document).ready(function(){
     
-    /* Fix for IE9 white space issue in tables: Begins */
-    var whiteSpaceExpr = new RegExp('>[ \t\r\n\v\f]*<', 'g');
-    var tableHtml = $('#dataTable').html();
-    $('#dataTable').html(tableHtml.replace(whiteSpaceExpr, '><'));
-    /* Fix for IE9 white space issue in tables: Ends */
-   
     dateTimeFormat= 'yyyy-MM-dd HH:mm';
     
     $("#createTimesheet").hide();
