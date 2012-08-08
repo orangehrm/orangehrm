@@ -919,7 +919,7 @@ catch(exception $e)
         </div>
 
         <div id="main-footer" style="clear:both;text-align:center;height:20px;">
-            <a href="http://www.orangehrm.com" target="_blank">OrangeHRM</a> ver 2.7.1-beta.1 &copy; OrangeHRM Inc. 2005 - 2012 All rights reserved.
+            <a href="http://www.orangehrm.com" target="_blank">OrangeHRM</a> ver 2.7.1-rc.1 &copy; OrangeHRM Inc. 2005 - 2012 All rights reserved.
         </div>
         <script type="text/javascript">
             //<![CDATA[
