@@ -56,6 +56,10 @@ class WorkShiftService extends BaseService {
 		return $this->workShiftDao->getWorkShiftEmployeeListById($workShiftId);
 	}
 	
+    public function getWorkShiftEmployeeNameListById($workShiftId) {
+        return $this->workShiftDao->getWorkShiftEmployeeNameListById($workShiftId);
+	}
+	
 	public function getWorkShiftEmployeeList(){
 		return $this->workShiftDao->getWorkShiftEmployeeList();
 	}
@@ -63,6 +67,14 @@ class WorkShiftService extends BaseService {
 	public function updateWorkShift($workShift) {
 		return $this->workShiftDao->updateWorkShift($workShift);
 	}
+	
+    public function getWorkShiftEmployeeIdList(){
+        return $this->workShiftDao->getWorkShiftEmployeeIdList();
+    }
+    
+    public function saveEmployeeWorkShiftCollection(Doctrine_Collection $empWorkShiftCollection) {
+        $this->workShiftDao->saveEmployeeWorkShiftCollection($empWorkShiftCollection);
+    }
 }
 
 ?>

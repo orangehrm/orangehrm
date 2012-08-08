@@ -30,11 +30,15 @@ class getWorkShiftEmpInfoJsonAction extends sfAction {
 		$workShiftId = $request->getParameter('id');
 
 		$service = new WorkShiftService();
-		$workShiftList = $service->getWorkShiftEmployeeListById($workShiftId);
-
+		$employeeNameList = $service->getWorkShiftEmployeeNameListById($workShiftId);
+        
 		$list = array();
-		foreach ($workShiftList as $workShift){
-			$list[] = array('empNo' => $workShift->getEmpNumber(), 'empName' => $workShift->getEmployee()->getFullName());
+		foreach ($employeeNameList as $employee){
+		    
+		    $empNumber = $employee['empNumber'];
+		    $name = trim(trim($employee['firstName'] . ' ' . $employee['middleName'],' ') . ' ' . $employee['lastName']);
+			
+		    $list[] = array('empNo' => $empNumber, 'empName' => $name);
 		}
 		return $this->renderText(json_encode($list));
 	}

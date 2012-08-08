@@ -56,6 +56,26 @@ class WorkShiftDao extends BaseDao {
 		}
 	}
 	
+    public function getWorkShiftEmployeeNameListById($workShiftId) {
+
+		try {
+			$q = Doctrine_Query :: create()
+			    ->select('w.emp_number as empNumber, e.firstName as firstName, e.lastName as lastName, e.middleName as middleName')
+				->from('EmployeeWorkShift w')
+				->leftJoin('w.Employee e')
+				->where('work_shift_id = ?', $workShiftId);
+				
+			$employeeNames = $q->execute(array(), Doctrine_Core::HYDRATE_ARRAY);
+            
+            return $employeeNames;
+                
+        // @codeCoverageIgnoreStart
+        } catch (Exception $e) {
+            throw new DaoException($e->getMessage(), $e->getCode(), $e);
+        }
+        // @codeCoverageIgnoreEnd
+	}
+	
 	public function getWorkShiftEmployeeList(){
 
 		try {
@@ -65,6 +85,28 @@ class WorkShiftDao extends BaseDao {
 		} catch (Exception $e) {
 			throw new DaoException($e->getMessage());
 		}
+	}
+	
+	public function getWorkShiftEmployeeIdList(){
+
+		try {
+			$q = Doctrine_Query :: create()
+			    ->select('emp_number')
+				->from('EmployeeWorkShift');
+				
+		    $employeeIds = $q->execute(array(), Doctrine_Core::HYDRATE_SINGLE_SCALAR);
+			
+            if (is_string($employeeIds)) {
+                $employeeIds = array($employeeIds);
+            }
+            
+            return $employeeIds;
+                
+        // @codeCoverageIgnoreStart
+        } catch (Exception $e) {
+            throw new DaoException($e->getMessage(), $e->getCode(), $e);
+        }
+        // @codeCoverageIgnoreEnd
 	}
 
 	public function updateWorkShift(WorkShift $workShift) {
@@ -78,6 +120,18 @@ class WorkShiftDao extends BaseDao {
 		} catch (Exception $e) {
 			throw new DaoException($e->getMessage());
 		}
+	}
+	
+	public function saveEmployeeWorkShiftCollection(Doctrine_Collection $empWorkShiftCollection) {
+	    try {
+	        
+			$empWorkShiftCollection->save();
+			
+		// @codeCoverageIgnoreStart
+        } catch (Exception $e) {
+            throw new DaoException($e->getMessage(), $e->getCode(), $e);
+        }
+        // @codeCoverageIgnoreEnd
 	}
 }
 

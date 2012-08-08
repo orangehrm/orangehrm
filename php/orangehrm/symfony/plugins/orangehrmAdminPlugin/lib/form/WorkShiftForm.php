@@ -95,13 +95,15 @@ class WorkShiftForm extends BaseForm {
 	}
 
 	private function _saveEmployeeWorkShift($workShiftId, $empArray) {
-
+        $empWorkShiftCollection = new Doctrine_Collection('EmployeeWorkShift');
 		for ($i = 0; $i < sizeof($empArray); $i++) {
 			$empWorkShift = new EmployeeWorkShift();
 			$empWorkShift->setWorkShiftId($workShiftId);
 			$empWorkShift->setEmpNumber($empArray[$i]);
-			$empWorkShift->save();
+			$empWorkShiftCollection->add($empWorkShift);
+			
 		}
+		$this->getWorkShiftService()->saveEmployeeWorkShiftCollection($empWorkShiftCollection);
 	}
 
     public function getEmployeeList() {
@@ -114,10 +116,8 @@ class WorkShiftForm extends BaseForm {
         $properties = array("empNumber","firstName", "middleName", "lastName");
         $employeeList = $employeeService->getEmployeePropertyList($properties, 'lastName', 'ASC', true);
         
-        $workShiftEmpList = $this->getWorkShiftService()->getWorkShiftEmployeeList();
-        foreach ($workShiftEmpList as $workShiftEmp) {
-            $existWorkShiftEmpList[] = $workShiftEmp->emp_number;
-        }
+        $existWorkShiftEmpList = $this->getWorkShiftService()->getWorkShiftEmployeeIdList();
+        
         foreach ($employeeList as $employee) {
             
             $empNumber = $employee['empNumber'];
