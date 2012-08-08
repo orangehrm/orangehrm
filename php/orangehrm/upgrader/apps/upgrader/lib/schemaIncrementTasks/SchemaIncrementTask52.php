@@ -43,6 +43,10 @@ class SchemaIncrementTask52 extends SchemaIncrementTask {
         
         $sql[4] = "ALTER TABLE `ohrm_timesheet_item` MODIFY COLUMN `comment` text default null";
         
+        $sql[5] = "ALTER TABLE `ohrm_attendance_record` 
+                      ADD INDEX `emp_id_state` (`employee_id`, `state`),
+                      ADD INDEX `emp_id_time` (`employee_id`, `punch_in_utc_time`, `punch_out_utc_time`)";
+        
         $this->sql = $sql;
     }
     

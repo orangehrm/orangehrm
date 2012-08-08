@@ -761,7 +761,9 @@ create table `ohrm_attendance_record`(
   `punch_out_time_offset` varchar(255),
   `punch_out_user_time` datetime,
   `state` varchar(255) not null,
-  primary key (`id`)
+  primary key (`id`),
+  KEY `emp_id_state` (`employee_id`,`state`),
+  KEY `emp_id_time` (`employee_id`,`punch_in_utc_time`,`punch_out_utc_time`)
 ) engine=innodb default charset=utf8;
 
 create table `ohrm_report_group` (
