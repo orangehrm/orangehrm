@@ -97,9 +97,9 @@ function sysCheckPassed() {
             	$error_found = false;
                 $phpVersion = PHP_VERSION;
                
-               if (version_compare(PHP_VERSION, '5.2.4') < 0) {
+               if (version_compare(PHP_VERSION, '5.3.0') < 0) {
                    $error_found = true;
-                   echo "<b><font color='red'>PHP 5.2.4 or higher is required. Installed version is $phpVersion</font></b>";
+                   echo "<b><font color='red'>PHP 5.3.0 or higher is required. Installed version is $phpVersion</font></b>";
                } else {
                    echo "<b><font color='green'>OK (ver $phpVersion)</font></b>";
                }               
@@ -117,7 +117,7 @@ function sysCheckPassed() {
 	            	$mysqlClient = mysql_get_client_info();
 
                   if(intval(substr($mysqlClient,0,1)) < 4 || substr($mysqlClient,0,3) == '4.0') {
-	                  echo "<b><font color='#C4C781'>ver 4.1.x or later recommended (reported ver " .$mysqlClient. ')</font></b>';
+	                  echo "<b><font color='#9E6D6D'>ver 4.1.x or later recommended (reported ver " .$mysqlClient. ')</font></b>';
                   } else echo "<b><font color='green'>OK (ver " .$mysqlClient. ')</font></b>';
                } else {
                   echo "<b><font color='red'>MySQL support not available in PHP settings</font></b>";
@@ -136,10 +136,10 @@ function sysCheckPassed() {
 
 	              $mysqlServer = mysql_get_server_info();
 
-                  if(version_compare($mysqlServer, "5.0.12") >= 0) {
+                  if(version_compare($mysqlServer, "5.1.6") >= 0) {
                   	 echo "<b><font color='green'>OK (ver " .$mysqlServer. ')</font></b>';
                   } else {
-                  	echo "<b><font color='#C4C781'>ver 5.0.12 or later recommended (reported ver " .$mysqlServer. ')</font></b>';
+                  	echo "<b><font color='#9E6D6D'>ver 5.1.6 or later recommended (reported ver " .$mysqlServer. ')</font></b>';
                   }
                } else {
                   echo "<b><font color='red'>Not Available</font></b>";
@@ -283,7 +283,7 @@ function sysCheckPassed() {
                if ($gc_maxlifetime_min > 15) {
                   echo "<b><font color='green'>OK</font></b>";
 				} else if ($gc_maxlifetime_min > 2){
-					echo "<b><font color='#C4C781'>Short ($gc_maxlifetime_min minutes and $gc_maxlifetime_sec seconds)</font></b>";
+					echo "<b><font color='#9E6D6D'>Short ($gc_maxlifetime_min minutes and $gc_maxlifetime_sec seconds)</font></b>";
 				} else {
                   echo "<b><font color='red'>Too short ($gc_maxlifetime_min minutes and $gc_maxlifetime_sec seconds)</font></b>";
                   $error_found = true;
