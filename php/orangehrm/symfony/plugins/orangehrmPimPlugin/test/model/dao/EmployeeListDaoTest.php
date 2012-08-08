@@ -38,7 +38,7 @@ class EmployeeListDaoTest extends PHPUnit_Framework_TestCase {
     
    
     public function testSearchEmployeeList() {
-        $result = $this->employeeDao->searchEmployeeList();
+        $result = $this->employeeDao->searchEmployees($this->_getParameterHolder());
         
          $this->assertTrue( $result instanceof Doctrine_Collection);
     }
@@ -50,6 +50,13 @@ class EmployeeListDaoTest extends PHPUnit_Framework_TestCase {
     
     public function testSearchEmployeeListByFirstName(){
       
+         $result = $this->employeeDao->searchEmployees($this->_getParameterHolder());
+         $this->assertEquals( $result[0]->getFirstName(),'Kayla');
+         $this->assertEquals(1,count($result));
+    }
+    
+    private function _getParameterHolder() {
+        
          $filters = array ( 
                         'employee_name' => 'Kayla',
                         'id'=>'',
@@ -59,11 +66,13 @@ class EmployeeListDaoTest extends PHPUnit_Framework_TestCase {
                         'job_title' => 0,
                         'sub_unit' => 0
                         );
+         
+         $parameterHolder = new EmployeeSearchParameterHolder();
+         $parameterHolder->setFilters($filters);
+         $parameterHolder->setOrderField('empNumber');
+         
+         return $parameterHolder;
         
-        
-         $result = $this->employeeDao->searchEmployeeList('empNumber','asc',$filters);
-         $this->assertEquals( $result[0]->getFirstName(),'Kayla');
-         $this->assertEquals(1,count($result));
     }
     
 

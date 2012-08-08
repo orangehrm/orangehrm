@@ -1483,19 +1483,15 @@ class EmployeeService extends BaseService {
    /**
      * Get employee list after sorting and filtering using given parameters.
      *
-     * @param array $sortField String or Array
-     * @param array $sortOrder String or Array 
-     * @param array $filters 
-     * @param int $offset
-     * @param int $limit 
-     * 
+     * @param EmployeeSearchParameterHolder $parameterHolder Object containing search parameters
+     *
      * @return Employee array of Employee entities match with filters
      * 
-     * @todo Rename to searchEmployees(ParameterHolder $parameterObject)
-     * @todo Use an instance of a parameter holder instead of set of parameters
+     * @todo Rename to searchEmployees(ParameterHolder $parameterObject) [DONE]
+     * @todo Use an instance of a parameter holder instead of set of parameters [DONE]
      */
-    public function searchEmployeeList($sortField = 'empNumber', $sortOrder = 'asc', array $filters = null, $offset = null, $limit = null) {
-        return $this->getEmployeeDao()->searchEmployeeList($sortField,$sortOrder,$filters,$offset,$limit);
+    public function searchEmployees(EmployeeSearchParameterHolder $parameterHolder) {
+        return $this->getEmployeeDao()->searchEmployees($parameterHolder);
     }
     
     /**

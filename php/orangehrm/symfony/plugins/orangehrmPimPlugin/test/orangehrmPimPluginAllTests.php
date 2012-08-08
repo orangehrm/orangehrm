@@ -19,6 +19,9 @@ class orangehrmPimPluginAllTests {
 
         /* Service Test Cases */
         $suite->addTestFile(dirname(__FILE__) . '/model/service/EmployeeServiceTest.php');
+        
+        /* ParameterHolder Test Cases */
+        $suite->addTestFile(dirname(__FILE__) . '/model/parameterholder/EmployeeSearchParameterHolderTest.php');        
 
         return $suite;
 

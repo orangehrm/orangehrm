@@ -1414,6 +1414,9 @@ class EmployeeServiceTest extends PHPUnit_Framework_TestCase {
     }    
     
     public function testSearchEmployeeList(){
+        
+        $parameterHolder = new EmployeeSearchParameterHolder();
+        
         $employee1 = new Employee();
         $employee1->setLastName('Last Name');
         $employee1->setFirstName('First Name');
@@ -1421,16 +1424,17 @@ class EmployeeServiceTest extends PHPUnit_Framework_TestCase {
         $employee2 = new Employee();
         $employee2->setLastName('Last Name');
         $employee2->setFirstName('First Name');
-        
+                
         $list   =   array( $employee1,$employee2);
         
         $mockDao = $this->getMock('EmployeeDao');
         $mockDao->expects($this->once())
-             ->method('searchEmployeeList')
+             ->method('searchEmployees')
+             ->with($parameterHolder)   
              ->will($this->returnValue($list));
         
         $this->employeeService->setEmployeeDao($mockDao);
-        $result = $this->employeeService->searchEmployeeList();
+        $result = $this->employeeService->searchEmployees($parameterHolder);
         $this->assertEquals($list, $result);
         
     }

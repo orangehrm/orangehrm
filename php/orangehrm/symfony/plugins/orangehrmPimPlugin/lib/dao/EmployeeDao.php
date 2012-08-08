@@ -1,6 +1,6 @@
 <?php
 
-/**
+/*
  * OrangeHRM is a comprehensive Human Resource Management (HRM) System that captures
  * all the essential functionalities required for any enterprise.
  * Copyright (C) 2006 OrangeHRM Inc., http://www.orangehrm.com
@@ -2072,12 +2072,15 @@ class EmployeeDao extends BaseDao {
    /**
      * Get employee list after sorting and filtering using given parameters.
      *
-     * @param array $sortField
-     * @param $sortOrder
-     * @param $filters
-     * @return array
+     * @param EmployeeSearchParameterHolder $parameterHolder
      */
-    public function searchEmployeeList($sortField = 'empNumber', $sortOrder = 'asc', array $filters = null, $offset = null, $limit = null) {
+    public function searchEmployees(EmployeeSearchParameterHolder $parameterHolder) {
+        
+        $sortField  = $parameterHolder->getOrderField();
+        $sortOrder  = $parameterHolder->getOrderBy();
+        $offset     = $parameterHolder->getOffset();
+        $limit      = $parameterHolder->getLimit();
+        $filters    = $parameterHolder->getFilters();
 
         $select = '';
         $query = '';
