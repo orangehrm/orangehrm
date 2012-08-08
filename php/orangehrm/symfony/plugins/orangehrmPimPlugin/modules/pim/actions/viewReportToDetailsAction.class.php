@@ -67,7 +67,7 @@ class viewReportToDetailsAction extends basePimAction {
         $this->reportToPermissions = $this->getDataGroupPermissions(array('supervisor','subordinates'), $empNumber);
         $this->reportToSupervisorPermission = $this->getDataGroupPermissions('supervisor', $empNumber);
         $this->reportToSubordinatePermission = $this->getDataGroupPermissions('subordinates', $empNumber);
-
+        
         $adminMode = $this->getUser()->hasCredential(Auth::ADMIN_ROLE);
 
         if (!$this->IsActionAccessible($empNumber)) {

@@ -229,7 +229,8 @@ class EmployeeReportToForm extends BaseForm {
      */
     public function save() {
 
-        $updated = false;
+        $message = 'failed';
+        $updated = FALSE;
         $empNumber = $this->getValue('empNumber');
         $supOrSub = $this->getValue('type_flag');
         $supervisorName = $this->getValue('supervisorName');
@@ -259,14 +260,22 @@ class EmployeeReportToForm extends BaseForm {
             $existingReportToObject = $this->getEmployeeService()->getReportToObject($selectedEmployee, $empNumber);
 
             if ($existingReportToObject != null) {
-                $existingReportToObject->setReportingMethodId($reportingType);
-                $existingReportToObject->save();
+                if ($this->getOption('reportToSupervisorPermission')->canUpdate()) {
+                    $existingReportToObject->setReportingMethodId($reportingType);
+                    $existingReportToObject->save();
+                    $updated = TRUE;
+                    $message = 'updated';
+                }
             } else {
-                $newReportToObject = new ReportTo();
-                $newReportToObject->setSupervisorId($selectedEmployee);
-                $newReportToObject->setSubordinateId($empNumber);
-                $newReportToObject->setReportingMethodId($reportingType);
-                $newReportToObject->save();
+                if ($this->getOption('reportToSupervisorPermission')->canCreate()) {
+                    $newReportToObject = new ReportTo();
+                    $newReportToObject->setSupervisorId($selectedEmployee);
+                    $newReportToObject->setSubordinateId($empNumber);
+                    $newReportToObject->setReportingMethodId($reportingType);
+                    $newReportToObject->save();
+                    $updated = TRUE;
+                    $message = 'saved';
+                }
             }
         }
 
@@ -274,17 +283,25 @@ class EmployeeReportToForm extends BaseForm {
             $existingReportToObject = $this->getEmployeeService()->getReportToObject($empNumber, $selectedEmployee);
 
             if ($existingReportToObject != null) {
-                $existingReportToObject->setReportingMethodId($reportingType);
-                $existingReportToObject->save();
+                if ($this->getOption('reportToSubordinatePermission')->canUpdate()) {
+                    $existingReportToObject->setReportingMethodId($reportingType);
+                    $existingReportToObject->save();
+                    $updated = TRUE;
+                    $message = 'updated';
+                }
             } else {
-                $newReportToObject = new ReportTo();
-                $newReportToObject->setSupervisorId($empNumber);
-                $newReportToObject->setSubordinateId($selectedEmployee);
-                $newReportToObject->setReportingMethodId($reportingType);
-                $newReportToObject->save();
+                if ($this->getOption('reportToSubordinatePermission')->canCreate()) {
+                    $newReportToObject = new ReportTo();
+                    $newReportToObject->setSupervisorId($empNumber);
+                    $newReportToObject->setSubordinateId($selectedEmployee);
+                    $newReportToObject->setReportingMethodId($reportingType);
+                    $newReportToObject->save();
+                    $updated = TRUE;
+                    $message = 'saved';
+                }
             }
         }
-        $returnValue = array($supOrSub, $updated);
+        $returnValue = array($supOrSub, $updated, $message);
         return $returnValue;
     }
 

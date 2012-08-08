@@ -52,11 +52,14 @@ class updateReportToDetailAction extends basePimAction {
         $this->empNumber = $empNumber;
 
         $this->reportToPermissions = $this->getDataGroupPermissions(array('supervisor', 'subordinates'), $empNumber);
-
+        $reportToSupervisorPermission = $this->getDataGroupPermissions('supervisor', $empNumber);
+        $reportToSubordinatePermission = $this->getDataGroupPermissions('subordinates', $empNumber);
+        
         $loggedInEmpNum = $this->getUser()->getEmployeeNumber();
         $adminMode = $this->getUser()->hasCredential(Auth::ADMIN_ROLE);
         $essMode = !$adminMode && !empty($loggedInEmpNum) && ($empNumber == $loggedInEmpNum);
-        $param = array('empNumber' => $empNumber, 'ESS' => $essMode, 'reportToPermissions' => $this->reportToPermissions);
+        $param = array('empNumber' => $empNumber, 'ESS' => $essMode, 'reportToPermissions' => $this->reportToPermissions,
+                'reportToSupervisorPermission' => $reportToSupervisorPermission, 'reportToSubordinatePermission' => $reportToSubordinatePermission);
 
         $this->form = new EmployeeReportToForm(array(), $param, true);
 
@@ -69,20 +72,28 @@ class updateReportToDetailAction extends basePimAction {
                     $this->_checkDuplicateEntry($empNumber);
 
                     $value = $this->form->save();
-                    if ($value[0] == ReportTo::SUPERVISOR) {
-                        if ($value[1]) {
-                            $this->getUser()->setFlash('templateMessage', array('success', __(TopLevelMessages::UPDATE_SUCCESS)));
-                        } else {
-                            $this->getUser()->setFlash('templateMessage', array('success', __(TopLevelMessages::SAVE_SUCCESS)));
-                        }
+                    
+                    if ($value[2] == 'failed') {
+                        $this->getUser()->setFlash('templateMessage', array('failure', __(TopLevelMessages::SAVE_FAILURE)));
+                    } else if ($value[2] == 'updated') {
+                        $this->getUser()->setFlash('templateMessage', array('success', __(TopLevelMessages::UPDATE_SUCCESS)));
+                    } else if ($value[2] == 'saved') {
+                        $this->getUser()->setFlash('templateMessage', array('success', __(TopLevelMessages::SAVE_SUCCESS)));
                     }
-                    if ($value[0] == ReportTo::SUBORDINATE) {
-                        if ($value[1]) {
-                            $this->getUser()->setFlash('templateMessage', array('success', __(TopLevelMessages::UPDATE_SUCCESS)));
-                        } else {
-                            $this->getUser()->setFlash('templateMessage', array('success', __(TopLevelMessages::SAVE_SUCCESS)));
-                        }
-                    }
+//                    if ($value[0] == ReportTo::SUPERVISOR) {
+//                        if ($value[1]) {
+//                            $this->getUser()->setFlash('templateMessage', array('success', __(TopLevelMessages::UPDATE_SUCCESS)));
+//                        } else {
+//                            $this->getUser()->setFlash('templateMessage', array('success', __(TopLevelMessages::SAVE_SUCCESS)));
+//                        }
+//                    }
+//                    if ($value[0] == ReportTo::SUBORDINATE) {
+//                        if ($value[1]) {
+//                            $this->getUser()->setFlash('templateMessage', array('success', __(TopLevelMessages::UPDATE_SUCCESS)));
+//                        } else {
+//                            $this->getUser()->setFlash('templateMessage', array('success', __(TopLevelMessages::SAVE_SUCCESS)));
+//                        }
+//                    }
                 }
             }
         }

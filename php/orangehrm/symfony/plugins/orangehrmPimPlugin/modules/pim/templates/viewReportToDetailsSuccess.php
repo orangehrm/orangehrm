@@ -77,8 +77,10 @@
                     <div id="addPaneReportTo" style="width: 600px" style="display:none;">
                        
                         <div class="outerbox">
+                        <?php if ($reportToPermissions->canRead() && (($reportToPermissions->canCreate()) || ($hasSupDetails && 
+                                $reportToSupervisorPermission->canUpdate()) || ($hasSubDetails && $reportToSubordinatePermission->canUpdate()))) { ?>
                             <div class="mainHeading"><h2 id="reportToHeading"><?php echo __('Add Supervisor/Subordinate'); ?></h2></div>
-                             <?php if ($reportToPermissions->canRead() && (($reportToPermissions->canCreate()) || ($hasSupDetails && $reportToSupervisorPermission->canUpdate()) || ($hasSubDetails && $reportToSubordinatePermission->canUpdate()))) { ?>
+                             
                             <form name="frmAddReportTo" id="frmAddReportTo" method="post" action="<?php echo url_for('pim/updateReportToDetail?empNumber=' . $empNumber); ?>">
 
                             <?php echo $form['_csrf_token']; ?>
@@ -118,10 +120,10 @@
                                 </form>
                              <?php 
                              
-                             } else {
-                                    echo __(TopLevelMessages::NO_RECORDS_FOUND);
-                             }
-?>
+                             } else { ?>
+                            <div class="mainHeading"><h2 id="reportToHeading"><?php echo __('Assigned Supervisors/Subordinates'); ?></h2></div>
+                            <span style="padding-top: 8px; padding-bottom: 5px;">&nbsp;&nbsp;<?php echo __(TopLevelMessages::NO_RECORDS_FOUND); ?> </span>
+                            <?php } ?>
                             </div>
                    <?php if ((($hasSupDetails && $reportToSupervisorPermission->canUpdate()) || $reportToSupervisorPermission->canCreate()) || (($hasSubDetails && $reportToSubordinatePermission->canUpdate()) || $reportToSubordinatePermission->canCreate())) {?>
                   <div class="paddingLeftRequired"><span class="required">*</span> <?php echo __(CommonMessages::REQUIRED_FIELD); ?></div>
@@ -324,5 +326,7 @@
                                 var haveSubordinates = <?php echo $hasSubDetails ? 'true' : 'false';?>;
                                 var canUpdateSupervisors ='<?php echo $reportToSupervisorPermission->canUpdate();?>';
                                 var canUpdateSubordinates = '<?php echo $reportToSubordinatePermission->canUpdate();?>';
-    //]]>
-</script>
+                                var canCreateSupervisors = '<?php echo $reportToSupervisorPermission->canCreate(); ?>';
+                                var canCreateSubordinates = '<?php echo $reportToSubordinatePermission->canCreate(); ?>';
+                            //]]>
+                            </script>

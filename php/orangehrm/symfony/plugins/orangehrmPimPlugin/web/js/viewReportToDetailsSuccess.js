@@ -1,10 +1,24 @@
 $(document).ready(function() {
-
-    hideShowReportingMethodOther()
+    $("#reportto_supervisorName_empName").click(function() {
+        $("#reportto_supervisorName_empName").val('').removeClass("inputFormatHint");
+    });
+    $("#reportto_subordinateName_empName").click(function() {
+        $("#reportto_subordinateName_empName").val('').removeClass("inputFormatHint");
+    });
+    
+    if (!canCreateSupervisors) {
+        $('#frmAddReportTo').find(':radio[id="reportto_type_flag_1"]').attr('disabled', 'disabled');
+        $('#frmAddReportTo').find(':radio[id="reportto_type_flag_2"]').attr('checked', true);
+    }
+    if (!canCreateSubordinates) {
+        $('#frmAddReportTo').find(':radio[id="reportto_type_flag_2"]').attr('disabled', 'disabled');
+        $('#frmAddReportTo').find(':radio[id="reportto_type_flag_2"]').attr('checked', false);
+    }
+    hideShowReportingMethodOther();
 
     hideShowSupervisorSubordinate();
     $('.radio_list input').live('click', function() {
-        hideShowSupervisorSubordinate();
+        hideShowSupervisorSubordinate();$("#reportto_supervisorName_empName").val(typeForHints)
     });
     
     if(essMode){
@@ -183,7 +197,7 @@ $(document).ready(function() {
         $('#sup_list td.check').hide();
         $('#subListActions').hide();
         $('#sub_list td.check').hide();
-        hideShowReportingMethodOther()
+        hideShowReportingMethodOther();
         $('#addPaneReportTo').css('display', 'block');
     });
 
@@ -225,7 +239,7 @@ $(document).ready(function() {
         $('#sup_list td.check').hide();
         $('#subListActions').hide();
         $('#sub_list td.check').hide();
-        hideShowReportingMethodOther()
+        hideShowReportingMethodOther();
         $('#addPaneReportTo').css('display', 'block');
     });
 });
@@ -325,7 +339,7 @@ function isValidForm(nameType){
     if (nameType == 'supervisor') {
         $("#reportto_subordinateName_empName").rules("remove", "empNameValidation");
         $("#reportto_supervisorName_empName").rules("add", {
-                empNameValidation: { value: true, nameType: 'supervisor' },
+                empNameValidation: {value: true, nameType: 'supervisor'},
                 messages: {
                     empNameValidation: nameIsRequired
                 }
@@ -333,7 +347,7 @@ function isValidForm(nameType){
     } else if (nameType == 'subordinate') {
         $("#reportto_supervisorName_empName").rules("remove", "empNameValidation");
         $("#reportto_subordinateName_empName").rules("add", {
-            empNameValidation: { value: true, nameType: 'subordinate' },
+            empNameValidation: {value: true, nameType: 'subordinate'},
             messages: {
                 empNameValidation: nameIsRequired
             }
@@ -389,7 +403,7 @@ function clearAddForm(nameMode) {
     $('div#messagebar').hide();
 
     
-    hideShowReportingMethodOther()
+    hideShowReportingMethodOther();
 }
 
 function addEditLinks() {
