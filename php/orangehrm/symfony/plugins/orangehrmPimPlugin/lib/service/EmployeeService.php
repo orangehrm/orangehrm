@@ -124,7 +124,7 @@ class EmployeeService extends BaseService {
      * @version 2.6.11
      * @param int $empNumber Employee number
      * @return Employee Employee instance if found or NULL
-     * @throws PIMServiceException
+     * @throws DaoException
      */
     public function getEmployee($empNumber) {
         return $this->getEmployeeDao()->getEmployee($empNumber);
@@ -162,7 +162,7 @@ class EmployeeService extends BaseService {
      * @version 2.6.11
      * @param int $empNumber
      * @return EmpPicture EmpPicture or null if no picture found 
-     * @throws PIMServiceException
+     * @throws DaoException
      * 
      * @todo Rename to getEmployeePicture [DONE]
      */
@@ -176,7 +176,7 @@ class EmployeeService extends BaseService {
      * @version 2.6.11
      * @param Employee $employee
      * @return boolean
-     * @throws PIMServiceException
+     * @throws DaoException
      * 
      * @todo Don't return any value (currently returns true always) [DONE: Decided to remove this method and use saveEmployee()]
      * @todo Exceptions should preserve previous exception [DONE]
@@ -195,7 +195,7 @@ class EmployeeService extends BaseService {
      * @return array EmpEmergencyContact objects as array. Array will be empty 
      *               if no emergency contacts defined fo
      * r employee.
-     * @throws PIMServiceException
+     * @throws DaoException
      * 
      * @todo Rename method as getEmployeeEmergencyContacts [DONE]
      */
@@ -761,7 +761,7 @@ class EmployeeService extends BaseService {
      *
      * @version 2.6.11
      * @returns Doctrine_Collection/Array Returns Doctrine_Collection of Employee objects
-     * @throws PIMServiceException
+     * @throws DaoException
      * 
      * @todo add orderField,oraderBy and include Deleted parameters [DONE]
      */
@@ -778,7 +778,7 @@ class EmployeeService extends BaseService {
      * @param String $field property name
      * @param String $value property value 
      * @return Doctrine_Collection/Array Returns Doctrine_Collection of Employee objects
-     * @throws PIMServiceException
+     * @throws DaoException
      */
     public function searchEmployee($field, $value) {
         return $this->getEmployeeDao()->searchEmployee($field, $value);
@@ -805,7 +805,7 @@ class EmployeeService extends BaseService {
      * @version 2.6.11
      * @param int $empNumber Supervisor Id
      * @returns Doctrine_Collection/Array Returns Doctrine_Collection of Employee objects
-     * @throws PIMServiceException
+     * @throws DaoException
      * 
      * @todo Rename to getImmediateSubordinates($empNumber) [DONE]
      * @todo improve DAO method performance , currently it execute few queries [DONE: Decided to remove this method]
@@ -828,7 +828,7 @@ class EmployeeService extends BaseService {
      * @param boolean $workShift Work Shift
      * @returns String Json string include employee name and employee id
      * 
-     * @throws PIMServiceException
+     * @throws DaoException
      * 
      * @todo Remove WorkShift Parameter , currently it's not used in DAO method 
      * @todo Create Json string in service method instead of DAO method. DAO can
@@ -929,7 +929,7 @@ class EmployeeService extends BaseService {
      * @param Doctrine_Collection/Array $employeeList Employee List Collection
      * @param String $subUnitId
      * @returns array()
-     * @throws PIMServiceException
+     * @throws DaoException
      * 
      */
     public function filterEmployeeListBySubUnit($employeeList, $subUnitId) {
@@ -977,7 +977,7 @@ class EmployeeService extends BaseService {
      * @version 2.6.11
      * @param  $employeeId
      * @return boolean
-     * @throws PIMServiceException
+     * @throws DaoException
      * 
      * @todo rename method as isExistingEmployeeId( $employeeId ) [DONE]
      */
@@ -995,7 +995,7 @@ class EmployeeService extends BaseService {
      * @param string $middle Middle name of the employee
      * @param string $lastname Last name of the employee
      * @return boolean If Employee exists retrun true else return false 
-     * @throws PIMServiceException
+     * @throws DaoException
      * 
      */
     public function checkForEmployeeWithSameName($first, $middle, $last) {
@@ -1112,7 +1112,7 @@ class EmployeeService extends BaseService {
      * @version 2.6.11
      * @param int $empNumber Employee number
      * @return EmployeeWorkShift EmployeeWorkShift instance if found or false
-     * @throws PIMServiceException
+     * @throws DaoException
      * 
      * @todo rename method as getEmployeeWorkShift [DONE]
      */
@@ -1126,7 +1126,7 @@ class EmployeeService extends BaseService {
      * @version 2.6.11
      * @param int $empNumber Employee number
      * @return EmpUsTaxExemption EmpUsTaxExemption instance if found or NULL
-     * @throws PIMServiceException
+     * @throws DaoException
      * 
      */
     public function getEmployeeTaxExemptions($empNumber) {
@@ -1215,7 +1215,7 @@ class EmployeeService extends BaseService {
      * @param boolean $asArray
      * @return Doctrine_Collection/Array Returns Doctrine_Collection of CurrencyType objects
      *  if $asArray is false, otherwise returns an array
-     * @throws PIMServiceException     
+     * @throws DaoException     
      * 
      * @todo Remove this method since it's not used anywhere
      */
@@ -1233,7 +1233,7 @@ class EmployeeService extends BaseService {
      * @param boolean $asArray
      * @return Doctrine_Collection/Array Returns Doctrine_Collection of CurrencyType objects
      *  if $asArray is false, otherwise returns an array
-     * @throws PIMServiceException 
+     * @throws DaoException 
      * 
      * @todo remove this method if it's not used   
      * 
@@ -1303,7 +1303,7 @@ class EmployeeService extends BaseService {
      * @version 2.6.11
      * @param int $empNumber Employee Number
      * @return Doctrine_Collection A collection of ReportTo objects
-     * @throws PIMServiceException
+     * @throws DaoException
      * 
      * @todo Rename the method as getImmediateSupervisors [DONE]
      * @todo return Employee Entities instead of ReportTo Entities
@@ -1319,7 +1319,7 @@ class EmployeeService extends BaseService {
      * @version 2.6.11
      * @param int $empNumber Employee Number
      * @return Doctrine_Collection A collection of ReportTo objects
-     * @throws PIMServiceException
+     * @throws DaoException
      * 
      * @todo Rename the method as getSubordinates
      */
@@ -1335,7 +1335,7 @@ class EmployeeService extends BaseService {
      * @param int $supNumber
      * @param int $subNumber
      * @return ReportTo ReportTo instance if found or NULL
-     * @throws PIMServiceException
+     * @throws DaoException
      * 
      * @todo Rename the method as getReportTo()
      */
@@ -1350,7 +1350,7 @@ class EmployeeService extends BaseService {
      * @version 2.6.11
      * @param array $supOrSubListToDelete
      * @return boolean true or NULL
-     * @throws PIMServiceException
+     * @throws DaoException
      * 
      * @todo Array elements can also be arrays rather than space-separated values
      * @todo Currently it returns last deleted record's return value instead return 
