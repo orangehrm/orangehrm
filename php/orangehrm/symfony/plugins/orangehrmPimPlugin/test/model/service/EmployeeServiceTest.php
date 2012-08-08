@@ -1533,5 +1533,113 @@ class EmployeeServiceTest extends PHPUnit_Framework_TestCase {
         
         $diff = array_diff($expected, $actual);
         $this->assertEquals(0, count($diff), $diff);       
+    } 
+    
+    
+    public function testGetDurationInYearsForOneYear(){
+        $startDate = '2012-01-01';
+        $endDate = '2013-01-01';
+        $expected = 1;
+        
+        $result = $this->employeeService->getDurationInYears($startDate, $endDate);
+        $this->assertEquals($expected, $result);
+        
     }
+    
+    public function testGetDurationInYearsForDecimalValues1(){
+        $startDate = '2012-01-01';
+        $endDate = '2013-06-30';
+        $expected = 1.5;
+        
+        $result = $this->employeeService->getDurationInYears($startDate, $endDate);
+        $this->assertEquals($expected, $result);
+    }
+    
+   public function testGetDurationInYearsForDecimalValues2() {
+
+       $fromDate = '2012-05-01';
+       $toDate = '2013-08-01';
+       $expected = 1.25;
+       
+       $timeStampDiff = $this->employeeService->getDurationInYears($fromDate, $toDate);
+       $this->assertEquals($expected, $timeStampDiff);
+   }
+   
+   public function testGetDurationInYearsForDecimalValues3() {
+
+        $fromDate = '2012-02-01';
+        $toDate = '2013-11-01';
+        $expected = 1.75;
+
+        $timeStampDiff = $this->employeeService->getDurationInYears($fromDate, $toDate);
+        $this->assertEquals($expected, $timeStampDiff);
+    }
+   
+   public function ttestGetDurationInYearsForDecimalValues4(){
+        $startDate = '2012-01-01';
+        $endDate = '2013-06-01';
+        $expected = 1.4166666666667;
+        
+        $result = $this->employeeService->getDurationInYears($startDate, $endDate);
+        $this->assertEquals($expected, $result);
+        
+    }
+   
+   public function testGetDurationInYearsForLeapYears(){
+        $startDate = '2011-02-28';
+        $endDate = '2012-02-29';
+        $expected = 1;
+        
+        $result = $this->employeeService->getDurationInYears($startDate, $endDate);
+        $this->assertEquals($expected, $result);
+    }
+    
+    public function testGetDurationInYearsFornonLeapYears(){
+        $startDate = '2010-02-28';
+        $endDate = '2011-02-28';
+        $expected = 1;
+        
+        $result = $this->employeeService->getDurationInYears($startDate, $endDate);
+        $this->assertEquals($expected, $result);
+    }
+    
+    public function testGetDurationInYearsForTwoYears(){
+        $startDate = '2012-06-01';
+        $endDate = '2014-05-31';
+        $expected = 2;
+  
+        $result = $this->employeeService->getDurationInYears($startDate, $endDate);
+        $this->assertEquals($expected, $result);
+    }
+
+    /**
+     *@todo This test shows wrong behavior of the method 
+     */
+    public function testGetDurationInYearsForLeapYearBorder1(){
+        $startDate = '2012-03-01';
+        $endDate = '2013-02-28';
+        $expected = 0;
+        
+        $result = $this->employeeService->getDurationInYears($startDate, $endDate);
+        $this->assertEquals($expected, $result);
+    }
+    
+    public function testGetDurationInYearsForLeapYearBorder2(){
+        $startDate = '2012-02-29';
+        $endDate = '2013-02-27';
+        $expected = 0;
+        
+        $result = $this->employeeService->getDurationInYears($startDate, $endDate);
+        $this->assertEquals($expected, $result);
+    }
+    
+    public function testGetDurationInYearsForLeapYearBorder3() {
+        $fromDate = '2012-07-05';
+        $toDate = '2015-06-30';
+        $expected = 2;
+        
+        $years = $this->employeeService->getDurationInYears($fromDate, $toDate);
+        $this->assertEquals($expected, $years);
+    }
+    
 }
