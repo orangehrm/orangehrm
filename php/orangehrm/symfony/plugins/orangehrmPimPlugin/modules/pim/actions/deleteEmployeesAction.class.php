@@ -76,13 +76,18 @@ class deleteEmployeesAction extends basePimAction {
         
         foreach ($adminUsers as $adminUser) {
             
-            $adminEmpNumber = $adminUsers[0]->getEmployee()->getEmpNumber();
+            $adminEmpNumber = $adminUser->getEmployee()->getEmpNumber();
             
             if (!empty($adminEmpNumber)) {
                 $adminEmpNumbers[] = $adminEmpNumber;
             }
             
         }
+        
+        /* Check whether there is only default admin (without being attached to an employee)*/
+        if (count($adminUsers) == 1 && empty($adminEmpNumbers)) {
+            return;
+        }        
         
         $adminUserDiff = array_diff($adminEmpNumbers, $empNumbers);
         
