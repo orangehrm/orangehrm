@@ -19,7 +19,7 @@
 /* For logging PHP errors */
 include_once('lib/confs/log_settings.php');
 
-session_start();
+$installed = true;
 
 /**
  * This if case checks whether the user is logged in. If so it will decorate User object with the user's user role.
@@ -27,18 +27,19 @@ session_start();
  * used for any other purposess. This if case will be dicarded when the whole system is converted to symfony.
  */
 if (file_exists('symfony/config/databases.yml')) {
+
+    define('SF_APP_NAME', 'orangehrm');
+    define('SF_ENV', 'prod');
+    define('SF_CONN', 'doctrine');
+
+
+    require_once(dirname(__FILE__) . '/symfony/config/ProjectConfiguration.class.php');
+    $configuration = ProjectConfiguration::getApplicationConfiguration(SF_APP_NAME, 'prod', true);
+    new sfDatabaseManager($configuration);
+    $context = sfContext::createInstance($configuration);
+    
     if (isset($_SESSION['user'])) {
-
-        define('SF_APP_NAME', 'orangehrm');
-        define('SF_ENV', 'prod');
-        define('SF_CONN', 'doctrine');
-
-
-        require_once(dirname(__FILE__) . '/symfony/config/ProjectConfiguration.class.php');
-        $configuration = ProjectConfiguration::getApplicationConfiguration(SF_APP_NAME, 'prod', true);
-        new sfDatabaseManager($configuration);
-        $context = sfContext::createInstance($configuration);
-
+        
         if ($_SESSION['isAdmin'] == "Yes") {
             $userRoleArray['isAdmin'] = true;
         } else {
@@ -89,16 +90,22 @@ if (file_exists('symfony/config/databases.yml')) {
         $allowedToAddEmployee = UserRoleManagerFactory::getUserRoleManager()->isActionAllowed(PluginWorkflowStateMachine::FLOW_EMPLOYEE,
                 Employee::STATE_NOT_EXIST, PluginWorkflowStateMachine::EMPLOYEE_ACTION_ADD);        
     }
+} else {
+    $installed = false;
 }
-
-ob_start();
 
 define('ROOT_PATH', dirname(__FILE__));
 
 if (!is_file(ROOT_PATH . '/lib/confs/Conf.php')) {
-    header('Location: ./install.php');
-    exit();
+    $installed = false;
 }
+
+if (!$installed) {
+    header('Location: ./install.php');
+    exit();    
+}
+
+ob_start();
 
 if (!isset($_SESSION['user'])) {
 
