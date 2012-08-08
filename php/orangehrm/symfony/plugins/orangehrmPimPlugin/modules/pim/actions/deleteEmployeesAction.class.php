@@ -81,7 +81,7 @@ class deleteEmployeesAction extends basePimAction {
                 
                 if (in_array($adminEmpNumber, $empNumbers)) {
                     
-                    $this->getUser()->setFlash('templateMessage', array('failure', __('Failed to Delete')));
+                    $this->getUser()->setFlash('templateMessage', array('failure', __('Failed to Delete: At Least One Admin Should Exists')));
                     $this->redirect('pim/viewEmployeeList');
                     
                 }

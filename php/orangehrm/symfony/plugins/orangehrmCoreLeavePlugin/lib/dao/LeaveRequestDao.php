@@ -543,14 +543,12 @@ class LeaveRequestDao extends BaseDao {
         } else {
 
             $date = date('Y-m-d');
-            $time = date('H:i:s');
 
             $q = Doctrine_Query::create()
                     ->update('Leave l')
                     ->set('l.leave_status', Leave::LEAVE_STATUS_LEAVE_TAKEN)
                     ->where('l.leave_status = ?', Leave::LEAVE_STATUS_LEAVE_APPROVED)
-                    ->andWhere('l.leave_date <= ?', $date)
-                    ->andWhere('l.end_time <= ?', $time);
+                    ->andWhere('l.leave_date < ?', $date);
 
             $q->execute();
 
