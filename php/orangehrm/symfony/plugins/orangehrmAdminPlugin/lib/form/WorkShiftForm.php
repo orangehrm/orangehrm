@@ -21,6 +21,7 @@
 class WorkShiftForm extends BaseForm {
 
 	private $workShiftService;
+	private $employeeList;
 
 	public function getWorkShiftService() {
 		if (is_null($this->workShiftService)) {
@@ -103,55 +104,45 @@ class WorkShiftForm extends BaseForm {
 		}
 	}
 
-	public function getEmployeeList() {
+    public function getEmployeeList() {
 
-		$temp = array();
-		$existWorkShiftEmpList = array();
-		$employeeService = new EmployeeService();
-		$employeeService->setEmployeeDao(new EmployeeDao());
-		$employeeList = $employeeService->getEmployeeList('lastName', 'ASC', true);
+        $empNameList = array();
+        $existWorkShiftEmpList = array();
+        $employeeService = new EmployeeService();
+        $employeeService->setEmployeeDao(new EmployeeDao());
+        
+        $properties = array("empNumber","firstName", "middleName", "lastName");
+        $employeeList = $employeeService->getEmployeePropertyList($properties, 'lastName', 'ASC', true);
+        
+        $workShiftEmpList = $this->getWorkShiftService()->getWorkShiftEmployeeList();
+        foreach ($workShiftEmpList as $workShiftEmp) {
+            $existWorkShiftEmpList[] = $workShiftEmp->emp_number;
+        }
+        foreach ($employeeList as $employee) {
+            
+            $empNumber = $employee['empNumber'];
+            
+            if (!in_array($empNumber, $existWorkShiftEmpList)) {
+                
+                $name = trim(trim($employee['firstName'] . ' ' . $employee['middleName'],' ') . ' ' . $employee['lastName']);
+                $empNameList[$empNumber] = $name;
+            
+            }
+        }
+        $this->employeeList = $empNameList;
+        return $empNameList;
+    }
+	
 
-		$workShiftEmpList = $this->getWorkShiftService()->getWorkShiftEmployeeList();
-		foreach ($workShiftEmpList as $workShiftEmp) {
-			$existWorkShiftEmpList[] = $workShiftEmp->emp_number;
-		}
-		foreach ($employeeList as $employee) {
-			if (!in_array($employee->getEmpNumber(), $existWorkShiftEmpList)) {
-				$temp[$employee->getEmpNumber()] = $employee->getFullName();
-			}
-		}
-		return $temp;
-	}
+    public function getEmployeeListAsJson() {
 
-	public function getEmployeeListAsJson() {
-
-		$jsonArray = array();
-		$existWorkShiftEmpList = array();
-		$employeeService = new EmployeeService();
-		$employeeService->setEmployeeDao(new EmployeeDao());
-
-		$workShiftEmpList = $this->getWorkShiftService()->getWorkShiftEmployeeList();
-		foreach ($workShiftEmpList as $workShiftEmp) {
-			$existWorkShiftEmpList[] = $workShiftEmp->emp_number;
-		}
-
-		$employeeList = $employeeService->getEmployeeList('lastName', 'ASC', true);
-		$employeeUnique = array();
-		foreach ($employeeList as $employee) {
-
-			if (!isset($employeeUnique[$employee->getEmpNumber()])) {
-
-				$name = $employee->getFullName();
-
-				$employeeUnique[$employee->getEmpNumber()] = $name;
-				if (!in_array($employee->getEmpNumber(), $existWorkShiftEmpList)) {
-					$jsonArray[] = array('name' => $name, 'id' => $employee->getEmpNumber());
-				}
-			}
-		}
-		$jsonString = json_encode($jsonArray);
-
-		return $jsonString;
+        foreach ($this->employeeList as $key => $value) {
+            
+            $jsonArray[] = array('name' => $value, 'id' => $key);
+        }
+        $jsonString = json_encode($jsonArray);
+        
+        return $jsonString;
 	}
 
 	public function getWorkShiftListAsJson() {
