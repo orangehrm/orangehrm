@@ -483,7 +483,11 @@
    <trans-unit id="120">
     <source>First (&amp; Middle) Name</source>
     <target>FR_First (&amp; Middle) Name</target>
-   </trans-unit>   
+   </trans-unit>
+   <trans-unit id="121">
+    <source>Failed to Delete: At Least One Admin Should Exist</source>
+    <target>FR_Failed to Delete: At Least One Admin Should Exist</target>
+   </trans-unit>    
   </body>
  </file>
 </xliff>
