@@ -79,9 +79,12 @@ class EmployeeDao extends BaseDao {
             
             return $employee;
             
+        // @codeCoverageIgnoreStart
         } catch (Exception $e) {
-            throw new DaoException($e->getMessage());
+            throw new DaoException($e->getMessage(), $e->getCode(), $e);
         }
+        // @codeCoverageIgnoreEnd
+        
     }
 
     /**
@@ -93,9 +96,11 @@ class EmployeeDao extends BaseDao {
     public function getEmployee($empNumber) {
         try {
             return Doctrine :: getTable('Employee')->find($empNumber);
+        // @codeCoverageIgnoreStart
         } catch (Exception $e) {
-            throw new DaoException($e->getMessage());
+            throw new DaoException($e->getMessage(), $e->getCode(), $e);
         }
+        // @codeCoverageIgnoreEnd
     }
 
     /**
@@ -107,9 +112,11 @@ class EmployeeDao extends BaseDao {
     public function getEmployeePicture($empNumber) {
         try {
             return Doctrine :: getTable('EmpPicture')->find($empNumber);
+        // @codeCoverageIgnoreStart
         } catch (Exception $e) {
-            throw new DaoException($e->getMessage());
+            throw new DaoException($e->getMessage(), $e->getCode(), $e);
         }
+        // @codeCoverageIgnoreEnd
     }
 
     /**
@@ -124,9 +131,11 @@ class EmployeeDao extends BaseDao {
                             ->where('ec.emp_number = ?', $empNumber)
                             ->orderBy('ec.name ASC');
             return $q->execute();
+        // @codeCoverageIgnoreStart
         } catch (Exception $e) {
-            throw new DaoException($e->getMessage());
+            throw new DaoException($e->getMessage(), $e->getCode(), $e);
         }
+        // @codeCoverageIgnoreEnd
     }
 
     /**
@@ -149,9 +158,11 @@ class EmployeeDao extends BaseDao {
             
             return $q->execute();
 
+        // @codeCoverageIgnoreStart
         } catch (Exception $e) {
-            throw new DaoException($e->getMessage());
-        }        
+            throw new DaoException($e->getMessage(), $e->getCode(), $e);
+        }
+        // @codeCoverageIgnoreEnd        
         
     }
 
@@ -175,9 +186,11 @@ class EmployeeDao extends BaseDao {
             
             return $q->execute();
 
+        // @codeCoverageIgnoreStart
         } catch (Exception $e) {
-            throw new DaoException($e->getMessage());
+            throw new DaoException($e->getMessage(), $e->getCode(), $e);
         }
+        // @codeCoverageIgnoreEnd
         
     }
 
@@ -209,9 +222,11 @@ class EmployeeDao extends BaseDao {
             
             return $employeeImmigrationRecord;
             
+        // @codeCoverageIgnoreStart
         } catch (Exception $e) {
-            throw new DaoException($e->getMessage());
+            throw new DaoException($e->getMessage(), $e->getCode(), $e);
         }
+        // @codeCoverageIgnoreEnd
         
     }
 
@@ -238,9 +253,11 @@ class EmployeeDao extends BaseDao {
             
             return $q->execute();
             
+        // @codeCoverageIgnoreStart
         } catch (Exception $e) {
-            throw new DaoException($e->getMessage());
+            throw new DaoException($e->getMessage(), $e->getCode(), $e);
         }
+        // @codeCoverageIgnoreEnd
         
     }
 
@@ -264,9 +281,11 @@ class EmployeeDao extends BaseDao {
 
             $q->orderBy('w.employer ASC, w.jobtitle ASC');
             return $q->execute();
+        // @codeCoverageIgnoreStart
         } catch (Exception $e) {
-            throw new DaoException($e->getMessage());
+            throw new DaoException($e->getMessage(), $e->getCode(), $e);
         }
+        // @codeCoverageIgnoreEnd
     }
 
     /**
@@ -293,9 +312,11 @@ class EmployeeDao extends BaseDao {
             
             return $empWorkExp;
             
+        // @codeCoverageIgnoreStart
         } catch (Exception $e) {
-            throw new DaoException($e->getMessage());
+            throw new DaoException($e->getMessage(), $e->getCode(), $e);
         }
+        // @codeCoverageIgnoreEnd
     }
 
     /**
@@ -318,9 +339,11 @@ class EmployeeDao extends BaseDao {
             
             return $q->execute();
 
+        // @codeCoverageIgnoreStart
         } catch (Exception $e) {
-            throw new DaoException($e->getMessage());
-        }        
+            throw new DaoException($e->getMessage(), $e->getCode(), $e);
+        }
+        // @codeCoverageIgnoreEnd     
         
     }
 
@@ -339,9 +362,11 @@ class EmployeeDao extends BaseDao {
 
             return $q->fetchOne();
                 
+        // @codeCoverageIgnoreStart
         } catch (Exception $e) {
-            throw new DaoException($e->getMessage());
+            throw new DaoException($e->getMessage(), $e->getCode(), $e);
         }
+        // @codeCoverageIgnoreEnd
     }
     
     public function getEmployeeEducations($empNumber, $educationId=null) {
@@ -358,9 +383,11 @@ class EmployeeDao extends BaseDao {
             $q->orderBy('edu.name ASC');
             return $q->execute();
                 
+        // @codeCoverageIgnoreStart
         } catch (Exception $e) {
-            throw new DaoException($e->getMessage());
+            throw new DaoException($e->getMessage(), $e->getCode(), $e);
         }
+        // @codeCoverageIgnoreEnd
         
     }   
 
@@ -377,9 +404,11 @@ class EmployeeDao extends BaseDao {
             
             return $empEdu;
             
+        // @codeCoverageIgnoreStart
         } catch (Exception $e) {
-            throw new DaoException($e->getMessage());
+            throw new DaoException($e->getMessage(), $e->getCode(), $e);
         }
+        // @codeCoverageIgnoreEnd
         
     }
 
@@ -403,9 +432,11 @@ class EmployeeDao extends BaseDao {
             
             return $q->execute();
 
+        // @codeCoverageIgnoreStart
         } catch (Exception $e) {
-            throw new DaoException($e->getMessage());
-        }        
+            throw new DaoException($e->getMessage(), $e->getCode(), $e);
+        }
+        // @codeCoverageIgnoreEnd       
         
     }
 
@@ -437,9 +468,11 @@ class EmployeeDao extends BaseDao {
                 $q->orderBy('l.name ASC');
                 return $q->execute();
             }
+        // @codeCoverageIgnoreStart
         } catch (Exception $e) {
-            throw new DaoException($e->getMessage());
+            throw new DaoException($e->getMessage(), $e->getCode(), $e);
         }
+        // @codeCoverageIgnoreEnd
     }
 
     /**
@@ -455,9 +488,11 @@ class EmployeeDao extends BaseDao {
             
             return $empLang;
             
+        // @codeCoverageIgnoreStart
         } catch (Exception $e) {
-            throw new DaoException($e->getMessage());
+            throw new DaoException($e->getMessage(), $e->getCode(), $e);
         }
+        // @codeCoverageIgnoreEnd
         
     }
 
@@ -486,9 +521,11 @@ class EmployeeDao extends BaseDao {
             
             return $q->execute();
 
+        // @codeCoverageIgnoreStart
         } catch (Exception $e) {
-            throw new DaoException($e->getMessage());
-        }        
+            throw new DaoException($e->getMessage(), $e->getCode(), $e);
+        }
+        // @codeCoverageIgnoreEnd      
         
     }
 
@@ -513,9 +550,11 @@ class EmployeeDao extends BaseDao {
             $q->orderBy('s.name ASC');
 
             return $q->execute();
+        // @codeCoverageIgnoreStart
         } catch (Exception $e) {
-            throw new DaoException($e->getMessage());
+            throw new DaoException($e->getMessage(), $e->getCode(), $e);
         }
+        // @codeCoverageIgnoreEnd
     }
 
     /**
@@ -531,9 +570,11 @@ class EmployeeDao extends BaseDao {
             
             return $empSkill;
             
+        // @codeCoverageIgnoreStart
         } catch (Exception $e) {
-            throw new DaoException($e->getMessage());
+            throw new DaoException($e->getMessage(), $e->getCode(), $e);
         }
+        // @codeCoverageIgnoreEnd
         
     }
 
@@ -557,9 +598,11 @@ class EmployeeDao extends BaseDao {
             
             return $q->execute();
 
+        // @codeCoverageIgnoreStart
         } catch (Exception $e) {
-            throw new DaoException($e->getMessage());
-        }        
+            throw new DaoException($e->getMessage(), $e->getCode(), $e);
+        }
+        // @codeCoverageIgnoreEnd    
         
     }
 
@@ -583,9 +626,11 @@ class EmployeeDao extends BaseDao {
             }
             $q->orderBy('l.name ASC');
             return $q->execute();
+        // @codeCoverageIgnoreStart
         } catch (Exception $e) {
-            throw new DaoException($e->getMessage());
+            throw new DaoException($e->getMessage(), $e->getCode(), $e);
         }
+        // @codeCoverageIgnoreEnd
     }
 
     /**
@@ -601,9 +646,11 @@ class EmployeeDao extends BaseDao {
             
             return $empLicense;
             
+        // @codeCoverageIgnoreStart
         } catch (Exception $e) {
-            throw new DaoException($e->getMessage());
+            throw new DaoException($e->getMessage(), $e->getCode(), $e);
         }
+        // @codeCoverageIgnoreEnd
         
     }
 
@@ -627,9 +674,11 @@ class EmployeeDao extends BaseDao {
             
             return $q->execute();
 
+        // @codeCoverageIgnoreStart
         } catch (Exception $e) {
-            throw new DaoException($e->getMessage());
-        }        
+            throw new DaoException($e->getMessage(), $e->getCode(), $e);
+        }
+        // @codeCoverageIgnoreEnd    
         
     }
 
@@ -646,9 +695,11 @@ class EmployeeDao extends BaseDao {
                             ->andWhere('a.screen = ?', $screen)
                             ->orderBy('a.filename ASC');
             return $q->execute();
+        // @codeCoverageIgnoreStart
         } catch (Exception $e) {
-            throw new PIMServiceException($e->getMessage());
+            throw new DaoException($e->getMessage(), $e->getCode(), $e);
         }
+        // @codeCoverageIgnoreEnd
     }
 
     /**
@@ -663,9 +714,11 @@ class EmployeeDao extends BaseDao {
                 'emp_number' => $empNumber,
                 'attach_id' => $attachId
             ));
+        // @codeCoverageIgnoreStart
         } catch (Exception $e) {
-            throw new DaoException($e->getMessage());
+            throw new DaoException($e->getMessage(), $e->getCode(), $e);
         }
+        // @codeCoverageIgnoreEnd
     }
 
     /**
@@ -688,9 +741,11 @@ class EmployeeDao extends BaseDao {
             
             return $q->execute();
 
+        // @codeCoverageIgnoreStart
         } catch (Exception $e) {
-            throw new DaoException($e->getMessage());
-        }        
+            throw new DaoException($e->getMessage(), $e->getCode(), $e);
+        }
+        // @codeCoverageIgnoreEnd      
         
     }
 
@@ -705,9 +760,11 @@ class EmployeeDao extends BaseDao {
                             ->where('ed.emp_number = ?', $empNumber)
                             ->orderBy('ed.name ASC');
             return $q->execute();
+        // @codeCoverageIgnoreStart
         } catch (Exception $e) {
-            throw new PIMServiceException($e->getMessage());
+            throw new DaoException($e->getMessage(), $e->getCode(), $e);
         }
+        // @codeCoverageIgnoreEnd
     }
 
     /**
@@ -730,9 +787,11 @@ class EmployeeDao extends BaseDao {
             
             return $q->execute();
 
+        // @codeCoverageIgnoreStart
         } catch (Exception $e) {
-            throw new DaoException($e->getMessage());
-        }        
+            throw new DaoException($e->getMessage(), $e->getCode(), $e);
+        }
+        // @codeCoverageIgnoreEnd        
         
     }
 
@@ -750,9 +809,11 @@ class EmployeeDao extends BaseDao {
                             ->where('emp_number = ?', $empNumber);
             return $q->execute();
 
+        // @codeCoverageIgnoreStart
         } catch (Exception $e) {
-            throw new DaoException($e->getMessage());
+            throw new DaoException($e->getMessage(), $e->getCode(), $e);
         }
+        // @codeCoverageIgnoreEnd
         
     }
 
@@ -770,9 +831,11 @@ class EmployeeDao extends BaseDao {
             
             return $empPicture;
             
+        // @codeCoverageIgnoreStart
         } catch (Exception $e) {
-            throw new DaoException($e->getMessage());
+            throw new DaoException($e->getMessage(), $e->getCode(), $e);
         }
+        // @codeCoverageIgnoreEnd
         
     }
 
@@ -787,9 +850,11 @@ class EmployeeDao extends BaseDao {
             $q = Doctrine_Query :: create()->from('EmpPicture ep')
                             ->where('emp_number = ?', $empNumber);
             return $q->fetchOne();
+        // @codeCoverageIgnoreStart
         } catch (Exception $e) {
-            throw new DaoException($e->getMessage());
+            throw new DaoException($e->getMessage(), $e->getCode(), $e);
         }
+        // @codeCoverageIgnoreEnd
     }
 
     /**
@@ -807,9 +872,11 @@ class EmployeeDao extends BaseDao {
             }
 
             return $q->execute();
+        // @codeCoverageIgnoreStart
         } catch (Exception $e) {
-            throw new DaoException($e->getMessage());
+            throw new DaoException($e->getMessage(), $e->getCode(), $e);
         }
+        // @codeCoverageIgnoreEnd
     }
     
     /**
@@ -912,9 +979,11 @@ class EmployeeDao extends BaseDao {
 
             return $q->execute();
             
+        // @codeCoverageIgnoreStart
         } catch (Exception $e) {
-            throw new DaoException($e->getMessage());
+            throw new DaoException($e->getMessage(), $e->getCode(), $e);
         }
+        // @codeCoverageIgnoreEnd
     }
 
     /**
@@ -932,9 +1001,11 @@ class EmployeeDao extends BaseDao {
             $count = $q->fetchOne(array(), Doctrine_Core::HYDRATE_SINGLE_SCALAR);
 
             return ($count > 0);
+        // @codeCoverageIgnoreStart
         } catch (Exception $e) {
-            throw new PIMServiceException($e->getMessage());
+            throw new DaoException($e->getMessage(), $e->getCode(), $e);
         }
+        // @codeCoverageIgnoreEnd
     }
 
     /**
@@ -950,9 +1021,11 @@ class EmployeeDao extends BaseDao {
                             ->from('Employee')
                             ->where($field . " = ?", $value);
             return $q->execute();
+        // @codeCoverageIgnoreStart
         } catch (Exception $e) {
-            throw new DaoException($e->getMessage());
+            throw new DaoException($e->getMessage(), $e->getCode(), $e);
         }
+        // @codeCoverageIgnoreEnd
     }
 
     /**
@@ -971,9 +1044,11 @@ class EmployeeDao extends BaseDao {
 
             return $q->count();
             
+        // @codeCoverageIgnoreStart
         } catch (Exception $e) {
-            throw new DaoException($e->getMessage());
+            throw new DaoException($e->getMessage(), $e->getCode(), $e);
         }
+        // @codeCoverageIgnoreEnd
         
     }
 
@@ -987,9 +1062,11 @@ class EmployeeDao extends BaseDao {
                 array_push($idList, $reportTo->getSubordinateId());
             }
             return $idList;
+        // @codeCoverageIgnoreStart
         } catch (Exception $e) {
-            throw new DaoException($e->getMessage());
+            throw new DaoException($e->getMessage(), $e->getCode(), $e);
         }
+        // @codeCoverageIgnoreEnd
     }
     
     /**
@@ -1179,9 +1256,11 @@ class EmployeeDao extends BaseDao {
 
             $jsonStr = json_encode($jsonString);
             return $jsonStr;
+        // @codeCoverageIgnoreStart
         } catch (Exception $e) {
-            throw new DaoException($e->getMessage());
+            throw new DaoException($e->getMessage(), $e->getCode(), $e);
         }
+        // @codeCoverageIgnoreEnd
     }
 
     /**
@@ -1257,9 +1336,11 @@ class EmployeeDao extends BaseDao {
 
             return $q->execute();
 
+        // @codeCoverageIgnoreStart
         } catch (Exception $e) {
-            throw new DaoException($e->getMessage());
+            throw new DaoException($e->getMessage(), $e->getCode(), $e);
         }
+        // @codeCoverageIgnoreEnd
         
     }
 
@@ -1277,9 +1358,11 @@ class EmployeeDao extends BaseDao {
                             ->count();
 
             return ($count > 0) ? true : false;
+        // @codeCoverageIgnoreStart
         } catch (Exception $e) {
-            throw new DaoException($e->getMessage());
+            throw new DaoException($e->getMessage(), $e->getCode(), $e);
         }
+        // @codeCoverageIgnoreEnd
     }
 
     /**
@@ -1301,9 +1384,11 @@ class EmployeeDao extends BaseDao {
                             ->count();
 
             return ($count > 0) ? true : false;
+        // @codeCoverageIgnoreStart
         } catch (Exception $e) {
-            throw new DaoException($e->getMessage());
+            throw new DaoException($e->getMessage(), $e->getCode(), $e);
         }
+        // @codeCoverageIgnoreEnd
     }
 
     /**
@@ -1318,9 +1403,11 @@ class EmployeeDao extends BaseDao {
                             ->where('ews.emp_number =?', $empNumber);
 
             return $q->fetchOne();
+        // @codeCoverageIgnoreStart
         } catch (Exception $e) {
-            throw new DaoException($e->getMessage());
+            throw new DaoException($e->getMessage(), $e->getCode(), $e);
         }
+        // @codeCoverageIgnoreEnd
     }
 
     /**
@@ -1334,9 +1421,11 @@ class EmployeeDao extends BaseDao {
             $q = Doctrine_Query::create()->from('EmpUsTaxExemption eute')
                             ->where('eute.emp_number =?', $empNumber);
             return $q->fetchOne();
+        // @codeCoverageIgnoreStart
         } catch (Exception $e) {
-            throw new DaoException($e->getMessage());
+            throw new DaoException($e->getMessage(), $e->getCode(), $e);
         }
+        // @codeCoverageIgnoreEnd
     }
 
     /**
@@ -1353,9 +1442,11 @@ class EmployeeDao extends BaseDao {
             
             return $empUsTaxExemption;
             
+        // @codeCoverageIgnoreStart
         } catch (Exception $e) {
-            throw new DaoException($e->getMessage());
+            throw new DaoException($e->getMessage(), $e->getCode(), $e);
         }
+        // @codeCoverageIgnoreEnd
         
     }
 
@@ -1381,9 +1472,11 @@ class EmployeeDao extends BaseDao {
 
             return $q->execute();
             
+        // @codeCoverageIgnoreStart
         } catch (Exception $e) {
-            throw new DaoException($e->getMessage());
+            throw new DaoException($e->getMessage(), $e->getCode(), $e);
         }
+        // @codeCoverageIgnoreEnd
     }
 
     /**
@@ -1405,9 +1498,11 @@ class EmployeeDao extends BaseDao {
             
             return $q->execute();
 
+        // @codeCoverageIgnoreStart
         } catch (Exception $e) {
-            throw new DaoException($e->getMessage());
-        }        
+            throw new DaoException($e->getMessage(), $e->getCode(), $e);
+        }
+        // @codeCoverageIgnoreEnd    
         
     }
 
@@ -1430,9 +1525,11 @@ class EmployeeDao extends BaseDao {
                                     , array($empNumber, $salaryGrade));
 
             return $q->execute(array(), $hydrateMode);
+        // @codeCoverageIgnoreStart
         } catch (Exception $e) {
-            throw new DaoException($e->getMessage());
+            throw new DaoException($e->getMessage(), $e->getCode(), $e);
         }
+        // @codeCoverageIgnoreEnd
     }
 
     /**
@@ -1449,9 +1546,11 @@ class EmployeeDao extends BaseDao {
             
             return $empBasicsalary;
             
+        // @codeCoverageIgnoreStart
         } catch (Exception $e) {
-            throw new DaoException($e->getMessage());
+            throw new DaoException($e->getMessage(), $e->getCode(), $e);
         }
+        // @codeCoverageIgnoreEnd
         
     }
 
@@ -1475,9 +1574,11 @@ class EmployeeDao extends BaseDao {
             
             return $q->execute();
 
+        // @codeCoverageIgnoreStart
         } catch (Exception $e) {
-            throw new DaoException($e->getMessage());
-        }        
+            throw new DaoException($e->getMessage(), $e->getCode(), $e);
+        }
+        // @codeCoverageIgnoreEnd     
         
     }
     
@@ -1510,9 +1611,11 @@ class EmployeeDao extends BaseDao {
             $q->orderBy('s.salary_component ASC');
             return $q->execute();
             
+        // @codeCoverageIgnoreStart
         } catch (Exception $e) {
-            throw new DaoException($e->getMessage());
+            throw new DaoException($e->getMessage(), $e->getCode(), $e);
         }
+        // @codeCoverageIgnoreEnd
     }     
 
     /**
@@ -1531,9 +1634,11 @@ class EmployeeDao extends BaseDao {
                             ->where('rt.erep_sub_emp_number =?', $empNumber)
                             ->orderBy('s.lastName ASC, s.firstName ASC');
             return $q->execute();
+        // @codeCoverageIgnoreStart
         } catch (Exception $e) {
-            throw new DaoException($e->getMessage());
+            throw new DaoException($e->getMessage(), $e->getCode(), $e);
         }
+        // @codeCoverageIgnoreEnd
     }
 
     /**
@@ -1551,9 +1656,11 @@ class EmployeeDao extends BaseDao {
                             ->where('rt.erep_sup_emp_number =?', $empNumber)
                             ->orderBy('s.lastName ASC, s.firstName ASC');
             return $q->execute();
+        // @codeCoverageIgnoreStart
         } catch (Exception $e) {
-            throw new DaoException($e->getMessage());
+            throw new DaoException($e->getMessage(), $e->getCode(), $e);
         }
+        // @codeCoverageIgnoreEnd
     }
 
     /**
@@ -1569,9 +1676,11 @@ class EmployeeDao extends BaseDao {
                             ->andWhere('rt.erep_sub_emp_number =?', $subNumber);
 
             return $q->fetchOne();
+        // @codeCoverageIgnoreStart
         } catch (Exception $e) {
-            throw new DaoException($e->getMessage());
+            throw new DaoException($e->getMessage(), $e->getCode(), $e);
         }
+        // @codeCoverageIgnoreEnd
     }
 
     /**
@@ -1594,9 +1703,11 @@ class EmployeeDao extends BaseDao {
             if ($executed > 0) {
                 return true;
             }
+        // @codeCoverageIgnoreStart
         } catch (Exception $e) {
-            throw new DaoException($e->getMessage());
+            throw new DaoException($e->getMessage(), $e->getCode(), $e);
         }
+        // @codeCoverageIgnoreEnd
     }
 
     /**
@@ -1621,9 +1732,11 @@ class EmployeeDao extends BaseDao {
             
             return false;
             
+        // @codeCoverageIgnoreStart
         } catch (Exception $e) {
-            throw new PIMServiceException($e->getMessage());
+            throw new DaoException($e->getMessage(), $e->getCode(), $e);
         }
+        // @codeCoverageIgnoreEnd
     }
 
     public function getEmailList() {
@@ -1636,7 +1749,7 @@ class EmployeeDao extends BaseDao {
             
         // @codeCoverageIgnoreStart
         } catch (Exception $e) {
-            throw new DaoException($e->getMessage());
+            throw new DaoException($e->getMessage(), $e->getCode(), $e);
         }
         // @codeCoverageIgnoreEnd
         
@@ -1663,12 +1776,14 @@ class EmployeeDao extends BaseDao {
             
             return $employeeTerminationRecord;
             
+        // @codeCoverageIgnoreStart    
         } catch (Exception $e) {
             
             $connection->rollback();
-            throw new DaoException($e->getMessage());
+            throw new DaoException($e->getMessage(), $e->getCode(), $e);
             
         }
+        // @codeCoverageIgnoreEnd
     }
 
     public function activateTerminatedEmployment($empNumber) {
@@ -1678,18 +1793,22 @@ class EmployeeDao extends BaseDao {
                             ->set('termination_id', 'NULL')
                             ->where('empNumber = ?', $empNumber);
             return $q->execute();
+        // @codeCoverageIgnoreStart
         } catch (Exception $e) {
-            throw new DaoException($e->getMessage());
+            throw new DaoException($e->getMessage(), $e->getCode(), $e);
         }
+        // @codeCoverageIgnoreEnd
     }
 
     public function getEmployeeTerminationRecord($terminatedId) {
 
         try {
             return Doctrine::getTable('EmployeeTerminationRecord')->find($terminatedId);
+        // @codeCoverageIgnoreStart
         } catch (Exception $e) {
-            throw new DaoException($e->getMessage());
+            throw new DaoException($e->getMessage(), $e->getCode(), $e);
         }
+        // @codeCoverageIgnoreEnd
     }
     
      /**
@@ -1709,9 +1828,11 @@ class EmployeeDao extends BaseDao {
                             ->orderBy('c.currency_name ASC');
 
             return $q->execute(array(), $hydrateMode);
+        // @codeCoverageIgnoreStart
         } catch (Exception $e) {
-            throw new DaoException($e->getMessage());
+            throw new DaoException($e->getMessage(), $e->getCode(), $e);
         }
+        // @codeCoverageIgnoreEnd
     }
 
     public function getEmployeeByEmployeeId($employeeId) {
@@ -1730,9 +1851,11 @@ class EmployeeDao extends BaseDao {
 
             return $result;
 
+        // @codeCoverageIgnoreStart
         } catch (Exception $e) {
             throw new DaoException($e->getMessage(), $e->getCode(), $e);
         }
+        // @codeCoverageIgnoreEnd
 
     }
     
@@ -1759,9 +1882,11 @@ class EmployeeDao extends BaseDao {
 
             return $q->execute();
 
+        // @codeCoverageIgnoreStart
         } catch (Exception $e) {
             throw new DaoException($e->getMessage(), $e->getCode(), $e);
-        }        
+        }
+        // @codeCoverageIgnoreEnd
     }
     
         /**
