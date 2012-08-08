@@ -1,3 +1,57 @@
+New & Changed Features for OrangeHRM ver  2.7.1-rc.1
+
+    New Features
+    ------------
+    Improvements to PIM module service classes and methods for forming PIM API.
+
+    Loading Time Bug Fixes
+    ----------------------
+    Bugs were reported in SF Mantis Tracker: http://sourceforge.net/apps/mantisbt/orangehrm/view_all_bug_page.php
+
+    0000128 - User log-in takes more than 3 seconds with 5000 employees
+    0000120 - Employee list search operations by Admin take more than 18 seconds with 5000 employees	
+    0000125 - Employee list sort operations by Admin take more than 2 minutes with 5000 employees
+    0000130 - Page navigation of employee list take more than 1 minute for admin user with 5000 employees	
+    0000138 - System takes more than 20 seconds to view and search Employee list by highest level supervisor
+    0000261 - Cannot open Employee Timesheet with 5000 employees
+    0000263 - Employee Timesheet actions take more than 40 seconds with 1000 employees
+    0000267 - My timesheet actions take more than 30 seconds with 100 employees
+    0000268 - Leave list loading takes more than 16 seconds with 5000 employeees
+    0000269 - Leave List search operations take more than 16 seconds with 5000 employees
+    0000270 - Page navigation in leave list takes ore than 15 seconds with 5000 employees
+    0000271 - Actions performed in the leave list takes more than 13 seconds with 5000 employees
+    0000272 - Loading Leave summary takes more than 2 minutes with 5000 employees
+    0000273 - Leave Summary Search actions take more than 3 seconds with 5000 employees
+    0000274 - Leave summary page navigation takes more than 2 minutes with 5000 employees
+    0000280 - Candidate list actions (Add/Delete/edit) takes more than 12 seconds with 4000 candidates
+    0001000 - Project list takes more than 3 minutes to load with 5000 employees
+    0001461 - Assign leave action takes more than 3 seconds with 5000 employees
+    0000126 - Delete and Reset Button actions in Employee List take more than 3 seconds	
+    0000275 - Editing Leave quota in Leave summary takes more than 6 seconds with 5000 employees
+    0000276 - Loading candidate list takes more than 7 seconds with 4000 candidates
+    0000277 - Candidate list serach take maor than 7 seconds with 4000 candidates
+    0000278 - Candidate list page navigation takes more than 6 seconds with 5000 candidates	
+    0000279 - Candidate list sorting takes more than 7 seconds with 4000 candidates
+    0000137 - System will take more than 3 seconds to edit and save PIM tabs with 5000 employee records	
+    0000259 - PIM employee profile page actions take more than 3 seconds
+    0000281 - Caniddate actions take more than 6 seconds with 4000 candidates
+    0000282 - Loading vacancy list takes more than 3 seconds with 1000 vacancies 	
+    0000283 - Vacancy list searching takes more than 3 seconds with 1000 vacancies
+    0000284 - vacancy list page navigation takes more than3 seconds with 1000 vacancies
+    0000285 - vacancy list sorting takes more than 3 seconds with 1000 vacancies
+    0000286 - Add and Edit vacncy takes more than 3 seconds with 1000 vacancies
+    0001001 - Actions in User page takes more than 3 seconds
+
+    General Bug Fixes
+    -----------------
+    0000209 - [Admin] - Default Admin Account gets deleted when deleted the assigned employee
+    0000217 - [CRB][Leave]automatic Leave status update based on system date does not work with Single or half day leave
+    0000239 - Date format hints shown in the system should be improved
+    0000076 - [Leave] - Leave Summary - It takes 20 seconds to update leave summary
+    0000224 - [Time] - Timesheets gives a blank page while approving
+    0000225 - [Time] - Error displayed while saving the timesheet
+    0000240 - Default values in employment status, and Job categories are not displyed
+
 New & Changed Features for OrangeHRM ver  2.7
 
     New Features/Changes
