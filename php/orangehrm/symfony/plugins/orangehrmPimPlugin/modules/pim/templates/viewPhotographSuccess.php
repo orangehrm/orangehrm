@@ -57,7 +57,8 @@
                                         <div class="formFields">
                                             <?php echo $form['photofile']->renderLabel(__('Select a Photograph')); ?>
                                             <?php echo $form['photofile']->render(array("class" => "duplexBox")); ?>
-                                            <div><span class="helpText"><?php echo __(CommonMessages::FILE_LABEL_IMAGE); ?></span><br class="clear" /></div>
+                                            <br class="clear" />
+                                            <span class="helpText"><?php echo __(CommonMessages::FILE_LABEL_IMAGE); ?></span><br class="clear" />
                                             
                                         </div>
                                         <div class="formbuttons">
