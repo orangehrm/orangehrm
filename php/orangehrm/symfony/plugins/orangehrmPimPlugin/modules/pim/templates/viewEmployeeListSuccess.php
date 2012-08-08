@@ -193,6 +193,7 @@ use_javascript('../../../scripts/jquery/jquery.autocomplete.js');
         document.frmEmployeeSearch.pageNo.value = pageNo;
         document.frmEmployeeSearch.hdnAction.value = 'paging';
         $('#search_form input.inputFormatHint').val('');
+        $("#empsearch_isSubmitted").val('no');
         document.getElementById('search_form').submit();
     }   
 </script>
