@@ -69,10 +69,10 @@ class deleteEmployeesAction extends basePimAction {
         $searchClues['userType']    = SystemUser::ADMIN_USER_ROLE_ID;
         $searchClues['status']      = SystemUser::ENABLED;
         
-        $systemUserService = new SystemUserService();
-        
-        $adminUsers = $systemUserService->searchSystemUsers($searchClues);
-        $adminEmpNumbers = array();
+        $systemUserService  = new SystemUserService();        
+        $adminUsers         = $systemUserService->searchSystemUsers($searchClues);
+        $adminEmpNumbers    = array();
+        $defaultAdminExists = false;
         
         foreach ($adminUsers as $adminUser) {
             
@@ -80,12 +80,13 @@ class deleteEmployeesAction extends basePimAction {
             
             if (!empty($adminEmpNumber)) {
                 $adminEmpNumbers[] = $adminEmpNumber;
+            } else {
+                $defaultAdminExists = true;
             }
             
         }
         
-        /* Check whether there is only default admin (without being attached to an employee)*/
-        if (count($adminUsers) == 1 && empty($adminEmpNumbers)) {
+        if ($defaultAdminExists) {
             return;
         }        
         
