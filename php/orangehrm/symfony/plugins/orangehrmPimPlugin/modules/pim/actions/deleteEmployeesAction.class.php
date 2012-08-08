@@ -72,25 +72,27 @@ class deleteEmployeesAction extends basePimAction {
         $systemUserService = new SystemUserService();
         
         $adminUsers = $systemUserService->searchSystemUsers($searchClues);
+        $adminEmpNumbers = array();
         
-        if (count($adminUsers) == 1) {
+        foreach ($adminUsers as $adminUser) {
             
             $adminEmpNumber = $adminUsers[0]->getEmployee()->getEmpNumber();
             
             if (!empty($adminEmpNumber)) {
-                
-                if (in_array($adminEmpNumber, $empNumbers)) {
-                    
-                    $this->getUser()->setFlash('templateMessage', array('failure', __('Failed to Delete: At Least One Admin Should Exist')));
-                    $this->redirect('pim/viewEmployeeList');
-                    
-                }
-                
+                $adminEmpNumbers[] = $adminEmpNumber;
             }
             
         }
         
+        $adminUserDiff = array_diff($adminEmpNumbers, $empNumbers);
+        
+        if (empty($adminUserDiff)) {
+            
+            $this->getUser()->setFlash('templateMessage', array('failure', __('Failed to Delete: At Least One Admin Should Exist')));
+            $this->redirect('pim/viewEmployeeList');            
+            
+        }
+        
     }
-
 
 }
