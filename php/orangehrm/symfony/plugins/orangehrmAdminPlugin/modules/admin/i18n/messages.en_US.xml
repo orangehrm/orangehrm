@@ -1,0 +1,537 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE xliff PUBLIC "-//XLIFF//DTD XLIFF//EN" "http://www.oasis-open.org/committees/xliff/documents/xliff.dtd">
+<xliff version="1.0">
+ <header/>
+ <file source-language="en_US" target-language="en_US" datatype="plaintext" original="messages" date="2012-03-01T0:09:54Z" product-name="messages">
+  <body>
+   <trans-unit id="1">
+    <source>Activities</source>
+    <target>Activities</target>
+   </trans-unit>
+   <trans-unit id="2">
+    <source>Add Another</source>
+    <target>Add Another</target>
+   </trans-unit>
+   <trans-unit id="3">
+    <source>Add Currency</source>
+    <target>Add Currency</target>
+   </trans-unit>
+   <trans-unit id="4">
+    <source>Add Customer</source>
+    <target>Add Customer</target>
+   </trans-unit>
+   <trans-unit id="5">
+    <source>Add Employment Status</source>
+    <target>Add Employment Status</target>
+   </trans-unit>
+   <trans-unit id="6">
+    <source>Add Job Category</source>
+    <target>Add Job Category</target>
+   </trans-unit>
+   <trans-unit id="7">
+    <source>Add Job Title</source>
+    <target>Add Job Title</target>
+   </trans-unit>
+   <trans-unit id="8">
+    <source>Add Location</source>
+    <target>Add Location</target>
+   </trans-unit>
+   <trans-unit id="9">
+    <source>Add Membership</source>
+    <target>Add Membership</target>
+   </trans-unit>
+   <trans-unit id="10">
+    <source>Add Nationality</source>
+    <target>Add Nationality</target>
+   </trans-unit>
+   <trans-unit id="11">
+    <source>Add Pay Grade</source>
+    <target>Add Pay Grade</target>
+   </trans-unit>
+   <trans-unit id="12">
+    <source>Add Project</source>
+    <target>Add Project</target>
+   </trans-unit>
+   <trans-unit id="13">
+    <source>Add Project Activity</source>
+    <target>Add Project Activity</target>
+   </trans-unit>
+   <trans-unit id="14">
+    <source>Add Subscriber</source>
+    <target>Add Subscriber</target>
+   </trans-unit>
+   <trans-unit id="15">
+    <source>Add Unit</source>
+    <target>Add Unit</target>
+   </trans-unit>
+   <trans-unit id="16">
+    <source>Add User</source>
+    <target>Add User</target>
+   </trans-unit>
+   <trans-unit id="17">
+    <source>Add Work Shift</source>
+    <target>Add Work Shift</target>
+   </trans-unit>
+   <trans-unit id="18">
+    <source>Projects under selected customer will also be deleted</source>
+    <target>Projects under selected customer will also be deleted</target>
+   </trans-unit>
+   <trans-unit id="19">
+    <source>Units under selected unit will also be deleted</source>
+    <target>Units under selected unit will also be deleted</target>
+   </trans-unit>
+   <trans-unit id="20">
+    <source>Assigned Currencies</source>
+    <target>Assigned Currencies</target>
+   </trans-unit>
+   <trans-unit id="21">
+    <source>Assigned Employees</source>
+    <target>Assigned Employees</target>
+   </trans-unit>
+   <trans-unit id="22">
+    <source>Available Employees</source>
+    <target>Available Employees</target>
+   </trans-unit>
+   <trans-unit id="23">
+    <source>Better</source>
+    <target>Better</target>
+   </trans-unit>
+   <trans-unit id="24">
+    <source>Click on a notification type to add subscribers</source>
+    <target>Click on a notification type to add subscribers</target>
+   </trans-unit>
+   <trans-unit id="25">
+    <source>Column order should not be changed</source>
+    <target>Column order should not be changed</target>
+   </trans-unit>
+   <trans-unit id="26">
+    <source>Company Structure</source>
+    <target>Company Structure</target>
+   </trans-unit>
+   <trans-unit id="27">
+    <source>Confirm New Password</source>
+    <target>Confirm New Password</target>
+   </trans-unit>
+   <trans-unit id="28">
+    <source>Copy Activity</source>
+    <target>Copy Activity</target>
+   </trans-unit>
+   <trans-unit id="29">
+    <source>CSV Data Import</source>
+    <target>CSV Data Import</target>
+   </trans-unit>
+   <trans-unit id="30">
+    <source>Current Password</source>
+    <target>Current Password</target>
+   </trans-unit>
+   <trans-unit id="31">
+    <source>Current Password Is Wrong</source>
+    <target>Current Password Is Wrong</target>
+   </trans-unit>
+   <trans-unit id="32">
+    <source>Customer</source>
+    <target>Customer</target>
+   </trans-unit>
+   <trans-unit id="33">
+    <source>Customer Name</source>
+    <target>Customer Name</target>
+   </trans-unit>
+   <trans-unit id="34">
+    <source>Date Format</source>
+    <target>Date Format</target>
+   </trans-unit>
+   <trans-unit id="35">
+    <source>Description is not specified</source>
+    <target>Description is not specified</target>
+   </trans-unit>
+   <trans-unit id="36">
+    <source>Done</source>
+    <target>Done</target>
+   </trans-unit>
+   <trans-unit id="37">
+    <source>Each import file should be configured for 100 records or less</source>
+    <target>Each import file should be configured for 100 records or less</target>
+   </trans-unit>
+   <trans-unit id="38">
+    <source>Edit Currency</source>
+    <target>Edit Currency</target>
+   </trans-unit>
+   <trans-unit id="39">
+    <source>Edit Customer</source>
+    <target>Edit Customer</target>
+   </trans-unit>
+   <trans-unit id="40">
+    <source>Edit Employment Status</source>
+    <target>Edit Employment Status</target>
+   </trans-unit>
+   <trans-unit id="41">
+    <source>Edit Job Category</source>
+    <target>Edit Job Category</target>
+   </trans-unit>
+   <trans-unit id="42">
+    <source>Edit Job Title</source>
+    <target>Edit Job Title</target>
+   </trans-unit>
+   <trans-unit id="43">
+    <source>Edit Location</source>
+    <target>Edit Location</target>
+   </trans-unit>
+   <trans-unit id="44">
+    <source>Edit Membership</source>
+    <target>Edit Membership</target>
+   </trans-unit>
+   <trans-unit id="45">
+    <source>Edit Nationality</source>
+    <target>Edit Nationality</target>
+   </trans-unit>
+   <trans-unit id="46">
+    <source>Edit Pay Grade</source>
+    <target>Edit Pay Grade</target>
+   </trans-unit>
+   <trans-unit id="47">
+    <source>Edit Project</source>
+    <target>Edit Project</target>
+   </trans-unit>
+   <trans-unit id="48">
+    <source>Edit Project Activity</source>
+    <target>Edit Project Activity</target>
+   </trans-unit>
+   <trans-unit id="49">
+    <source>Edit Subscriber</source>
+    <target>Edit Subscriber</target>
+   </trans-unit>
+   <trans-unit id="50">
+    <source>Edit Unit</source>
+    <target>Edit Unit</target>
+   </trans-unit>
+   <trans-unit id="51">
+    <source>Edit User</source>
+    <target>Edit User</target>
+   </trans-unit>
+   <trans-unit id="52">
+    <source>Edit Work Shift</source>
+    <target>Edit Work Shift</target>
+   </trans-unit>
+   <trans-unit id="53">
+    <source>Successfully Saved. Test Email Sent</source>
+    <target>Successfully Saved. Test Email Sent</target>
+   </trans-unit>
+   <trans-unit id="54">
+    <source>Successfully Saved. Test Email Not Sent</source>
+    <target>Successfully Saved. Test Email Not Sent</target>
+   </trans-unit>
+   <trans-unit id="55">
+    <source>Email Notification</source>
+    <target>Email Notification</target>
+   </trans-unit>
+   <trans-unit id="56">
+    <source>Enable Admin module</source>
+    <target>Enable Admin module</target>
+   </trans-unit>
+   <trans-unit id="57">
+    <source>Enable Benefits module</source>
+    <target>Enable Benefits module</target>
+   </trans-unit>
+   <trans-unit id="58">
+    <source>Enable Leave module</source>
+    <target>Enable Leave module</target>
+   </trans-unit>
+   <trans-unit id="59">
+    <source>Enable Performance module</source>
+    <target>Enable Performance module</target>
+   </trans-unit>
+   <trans-unit id="60">
+    <source>Enable PIM module</source>
+    <target>Enable PIM module</target>
+   </trans-unit>
+   <trans-unit id="61">
+    <source>Enable Recruitment module</source>
+    <target>Enable Recruitment module</target>
+   </trans-unit>
+   <trans-unit id="62">
+    <source>Enable Time module</source>
+    <target>Enable Time module</target>
+   </trans-unit>
+   <trans-unit id="63">
+    <source>Enable Help</source>
+    <target>Enable Help</target>
+   </trans-unit>
+   <trans-unit id="64">
+    <source>Fax</source>
+    <target>Fax</target>
+   </trans-unit>
+   <trans-unit id="65">
+    <source>First Name and Last Name are compulsory</source>
+    <target>First Name and Last Name are compulsory</target>
+   </trans-unit>
+   <trans-unit id="66">
+    <source>Following languages are supported</source>
+    <target>Following languages are supported</target>
+   </trans-unit>
+   <trans-unit id="67">
+    <source>Hours Per Day</source>
+    <target>Hours Per Day</target>
+   </trans-unit>
+   <trans-unit id="68">
+    <source>If gender is specified, value should be either</source>
+    <target>If gender is specified, value should be either</target>
+   </trans-unit>
+   <trans-unit id="69">
+    <source>Job Description</source>
+    <target>Job Description</target>
+   </trans-unit>
+   <trans-unit id="70">
+    <source>Leave Applications</source>
+    <target>Leave Applications</target>
+   </trans-unit>
+   <trans-unit id="71">
+    <source>Leave Approvals</source>
+    <target>Leave Approvals</target>
+   </trans-unit>
+   <trans-unit id="72">
+    <source>Leave Assignments</source>
+    <target>Leave Assignments</target>
+   </trans-unit>
+   <trans-unit id="73">
+    <source>Leave Cancellations</source>
+    <target>Leave Cancellations</target>
+   </trans-unit>
+   <trans-unit id="74">
+    <source>Leave Rejections</source>
+    <target>Leave Rejections</target>
+   </trans-unit>
+   <trans-unit id="75">
+    <source>Location Name</source>
+    <target>Location Name</target>
+   </trans-unit>
+   <trans-unit id="76">
+    <source>Mail Configuration</source>
+    <target>Mail Configuration</target>
+   </trans-unit>
+   <trans-unit id="77">
+    <source>Mail Sent As</source>
+    <target>Mail Sent As</target>
+   </trans-unit>
+   <trans-unit id="78">
+    <source>Maximum Salary</source>
+    <target>Maximum Salary</target>
+   </trans-unit>
+   <trans-unit id="79">
+    <source>Medium</source>
+    <target>Medium</target>
+   </trans-unit>
+   <trans-unit id="80">
+    <source>Minimum Salary</source>
+    <target>Minimum Salary</target>
+   </trans-unit>
+   <trans-unit id="81">
+    <source>Module Configuration</source>
+    <target>Module Configuration</target>
+   </trans-unit>
+   <trans-unit id="82">
+    <source>New Password</source>
+    <target>New Password</target>
+   </trans-unit>
+   <trans-unit id="83">
+    <source>No activities selected</source>
+    <target>No activities selected</target>
+   </trans-unit>
+   <trans-unit id="84">
+    <source>No assigned activities</source>
+    <target>No assigned activities</target>
+   </trans-unit>
+   <trans-unit id="85">
+    <source>Not Allowed to Delete Customer(s) Which Have Time Logged Against</source>
+    <target>Not Allowed to Delete Customer(s) Which Have Time Logged Against</target>
+   </trans-unit>
+   <trans-unit id="86">
+    <source>Not Allowed to Delete Project Activites Which Have Time Logged Against</source>
+    <target>Not Allowed to Delete Project Activites Which Have Time Logged Against</target>
+   </trans-unit>
+   <trans-unit id="87">
+    <source>Notification Type</source>
+    <target>Notification Type</target>
+   </trans-unit>
+   <trans-unit id="88">
+    <source>Number of Employees</source>
+    <target>Number of Employees</target>
+   </trans-unit>
+   <trans-unit id="89">
+    <source>Organization Name</source>
+    <target>Organization Name</target>
+   </trans-unit>
+   <trans-unit id="90">
+    <source>Path to Sendmail</source>
+    <target>Path to Sendmail</target>
+   </trans-unit>
+   <trans-unit id="91">
+    <source>Performance Review Submissions</source>
+    <target>Performance Review Submissions</target>
+   </trans-unit>
+   <trans-unit id="92">
+    <source>Phone</source>
+    <target>Phone</target>
+   </trans-unit>
+   <trans-unit id="93">
+    <source>Project</source>
+    <target>Project</target>
+   </trans-unit>
+   <trans-unit id="94">
+    <source>Project Admin</source>
+    <target>Project Admin</target>
+   </trans-unit>
+   <trans-unit id="95">
+    <source>Project Admins</source>
+    <target>Project Admins</target>
+   </trans-unit>
+   <trans-unit id="96">
+    <source>Registration Number</source>
+    <target>Registration Number</target>
+   </trans-unit>
+   <trans-unit id="97">
+    <source>Sample CSV file</source>
+    <target>Sample CSV file</target>
+   </trans-unit>
+   <trans-unit id="98">
+    <source>Send Test Email</source>
+    <target>Send Test Email</target>
+   </trans-unit>
+   <trans-unit id="99">
+    <source>Sending Method</source>
+    <target>Sending Method</target>
+   </trans-unit>
+   <trans-unit id="100">
+    <source>Shift Name</source>
+    <target>Shift Name</target>
+   </trans-unit>
+   <trans-unit id="101">
+    <source>SMTP Password</source>
+    <target>SMTP Password</target>
+   </trans-unit>
+   <trans-unit id="102">
+    <source>SMTP Port</source>
+    <target>SMTP Port</target>
+   </trans-unit>
+   <trans-unit id="103">
+    <source>SMTP User</source>
+    <target>SMTP User</target>
+   </trans-unit>
+   <trans-unit id="104">
+    <source>SSL</source>
+    <target>SSL</target>
+   </trans-unit>
+   <trans-unit id="105">
+    <source>Strong</source>
+    <target>Strong</target>
+   </trans-unit>
+   <trans-unit id="106">
+    <source>Strongest</source>
+    <target>Strongest</target>
+   </trans-unit>
+   <trans-unit id="107">
+    <source>Subscribers</source>
+    <target>Subscribers</target>
+   </trans-unit>
+   <trans-unit id="108">
+    <source>OrangeHRM - Supported Languages</source>
+    <target>OrangeHRM - Supported Languages</target>
+   </trans-unit>
+   <trans-unit id="109">
+    <source>Supported languages</source>
+    <target>Supported languages</target>
+   </trans-unit>
+   <trans-unit id="110">
+    <source>System Users</source>
+    <target>System Users</target>
+   </trans-unit>
+   <trans-unit id="111">
+    <source>Tax ID</source>
+    <target>Tax ID</target>
+   </trans-unit>
+   <trans-unit id="112">
+    <source>Test Email Address</source>
+    <target>Test Email Address</target>
+   </trans-unit>
+   <trans-unit id="113">
+    <source>This unit will be added under</source>
+    <target>This unit will be added under</target>
+   </trans-unit>
+   <trans-unit id="114">
+    <source>TLS</source>
+    <target>TLS</target>
+   </trans-unit>
+   <trans-unit id="115">
+    <source>Unit Id</source>
+    <target>Unit Id</target>
+   </trans-unit>
+   <trans-unit id="116">
+    <source>Use browser language if set</source>
+    <target>Use browser language if set</target>
+   </trans-unit>
+   <trans-unit id="117">
+    <source>Use SMTP Authentication</source>
+    <target>Use SMTP Authentication</target>
+   </trans-unit>
+   <trans-unit id="118">
+    <source>User Secure Connection</source>
+    <target>User Secure Connection</target>
+   </trans-unit>
+   <trans-unit id="119">
+    <source>User Type</source>
+    <target>User Type</target>
+   </trans-unit>
+   <trans-unit id="120">
+    <source>Very Weak</source>
+    <target>Very Weak</target>
+   </trans-unit>
+   <trans-unit id="121">
+    <source>Weak</source>
+    <target>Weak</target>
+   </trans-unit>
+   <trans-unit id="122">
+    <source>Zip Code</source>
+    <target>Zip Code</target>
+   </trans-unit>
+   <trans-unit id="123">
+    <source>Failed to Import: File Type Not Allowed</source>
+    <target>Failed to Import: File Type Not Allowed</target>
+   </trans-unit>
+   <trans-unit id="124">
+    <source>Failed to Import: File Size Exceeded</source>
+    <target>Failed to Import: File Size Exceeded</target>
+   </trans-unit>
+   <trans-unit id="125">
+    <source>Failed to Import: No Compatible Records</source>
+    <target>Failed to Import: No Compatible Records</target>
+   </trans-unit>
+   <trans-unit id="126">
+    <source>Number of Records Imported</source>
+    <target>Number of Records Imported</target>
+   </trans-unit>
+   <trans-unit id="127">
+    <source>Should be higher than Minimum Salary</source>
+    <target>Should be higher than Minimum Salary</target>
+   </trans-unit>
+   <trans-unit id="128">
+    <source>Level Already Exists</source>
+    <target>Level Already Exists</target>
+   </trans-unit>
+   <trans-unit id="129">
+    <source>All date fields should be in YYYY-MM-DD format</source>
+    <target>All date fields should be in YYYY-MM-DD format</target>
+   </trans-unit>
+   <trans-unit id="130">
+    <source>Multiple import files may be required</source>
+    <target>Multiple import files may be required</target>
+   </trans-unit>
+   <trans-unit id="131">
+    <source>Language and font help</source>
+    <target>Language and font help</target>
+   </trans-unit>
+   <trans-unit id="132">
+    <source>Organization Structure</source>
+    <target>Organization Structure</target>
+   </trans-unit>   
+  </body>
+ </file>
+</xliff>

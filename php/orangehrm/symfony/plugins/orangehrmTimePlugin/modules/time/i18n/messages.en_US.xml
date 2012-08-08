@@ -1,0 +1,217 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE xliff PUBLIC "-//XLIFF//DTD XLIFF//EN" "http://www.oasis-open.org/committees/xliff/documents/xliff.dtd">
+<xliff version="1.0">
+ <header/>
+ <file source-language="en_US" target-language="en_US" datatype="plaintext" original="messages" date="2012-03-01T0:09:54Z" product-name="messages">
+  <body>
+   <trans-unit id="1">
+    <source>Actions Performed on the Timesheet</source>
+    <target>Actions Performed on the Timesheet</target>
+   </trans-unit>
+   <trans-unit id="2">
+    <source>Add Row</source>
+    <target>Add Row</target>
+   </trans-unit>
+   <trans-unit id="3">
+    <source>Add Timesheet</source>
+    <target>Add Timesheet</target>
+   </trans-unit>
+   <trans-unit id="4">
+    <source>Attendance Total Summary Report</source>
+    <target>Attendance Total Summary Report</target>
+   </trans-unit>
+   <trans-unit id="5">
+    <source>Define Timesheet Period</source>
+    <target>Define Timesheet Period</target>
+   </trans-unit>
+   <trans-unit id="6">
+    <source>Deleted project activities are not editable</source>
+    <target>Deleted project activities are not editable</target>
+   </trans-unit>
+   <trans-unit id="7">
+    <source>Deleted projects/activities are marked with an asterik</source>
+    <target>Deleted projects/activities are marked with an asterik</target>
+   </trans-unit>
+   <trans-unit id="8">
+    <source>Edit Timesheet for</source>
+    <target>Edit Timesheet for</target>
+   </trans-unit>
+   <trans-unit id="9">
+    <source>Edit Timesheet for Month</source>
+    <target>Edit Timesheet for Month</target>
+   </trans-unit>
+   <trans-unit id="10">
+    <source>Edit Timesheet for Week</source>
+    <target>Edit Timesheet for Week</target>
+   </trans-unit>
+   <trans-unit id="11">
+    <source>Edit timesheet for week starting</source>
+    <target>Edit timesheet for week starting</target>
+   </trans-unit>
+   <trans-unit id="12">
+    <source>Employee name</source>
+    <target>Employee name</target>
+   </trans-unit>
+   <trans-unit id="13">
+    <source>Employee Report</source>
+    <target>Employee Report</target>
+   </trans-unit>
+   <trans-unit id="14">
+    <source>Should Be Less Than 24 and in HH:MM or Decimal Format</source>
+    <target>Should Be Less Than 24 and in HH:MM or Decimal Format</target>
+   </trans-unit>
+   <trans-unit id="15">
+    <source>Enter Employee Name</source>
+    <target>Enter Employee Name</target>
+   </trans-unit>
+   <trans-unit id="16">
+    <source>First Day of Week</source>
+    <target>First Day of Week</target>
+   </trans-unit>
+   <trans-unit id="17">
+    <source>for Month starting on</source>
+    <target>for Month starting on</target>
+   </trans-unit>
+   <trans-unit id="18">
+    <source>for Week</source>
+    <target>for Week</target>
+   </trans-unit>
+   <trans-unit id="19">
+    <source>Fri</source>
+    <target>Fri</target>
+   </trans-unit>
+   <trans-unit id="20">
+    <source>hours</source>
+    <target>hours</target>
+   </trans-unit>
+   <trans-unit id="21">
+    <source>Failed to Create: Future Timesheets Not Allowed</source>
+    <target>Failed to Create: Future Timesheets Not Allowed</target>
+   </trans-unit>
+   <trans-unit id="22">
+    <source>Mon</source>
+    <target>Mon</target>
+   </trans-unit>
+   <trans-unit id="23">
+    <source>No Accessible Timesheets</source>
+    <target>No Accessible Timesheets</target>
+   </trans-unit>
+   <trans-unit id="24">
+    <source>Not Submitted</source>
+    <target>Not Submitted</target>
+   </trans-unit>
+   <trans-unit id="25">
+    <source>Proceed with Time Module</source>
+    <target>Proceed with Time Module</target>
+   </trans-unit>
+   <trans-unit id="26">
+    <source>Project Activity Details Report</source>
+    <target>Project Activity Details Report</target>
+   </trans-unit>
+   <trans-unit id="27">
+    <source>Project Report</source>
+    <target>Project Report</target>
+   </trans-unit>
+   <trans-unit id="28">
+    <source>Remove Rows</source>
+    <target>Remove Rows</target>
+   </trans-unit>
+   <trans-unit id="29">
+    <source>Sat</source>
+    <target>Sat</target>
+   </trans-unit>
+   <trans-unit id="30">
+    <source>Select a Day to Create Timesheet</source>
+    <target>Select a Day to Create Timesheet</target>
+   </trans-unit>
+   <trans-unit id="31">
+    <source>Select Employee</source>
+    <target>Select Employee</target>
+   </trans-unit>
+   <trans-unit id="32">
+    <source>Status:</source>
+    <target>Status:</target>
+   </trans-unit>
+   <trans-unit id="33">
+    <source>Sun</source>
+    <target>Sun</target>
+   </trans-unit>
+   <trans-unit id="34">
+    <source>Thu</source>
+    <target>Thu</target>
+   </trans-unit>
+   <trans-unit id="35">
+    <source>Duplicate Records Found</source>
+    <target>Duplicate Records Found</target>
+   </trans-unit>
+   <trans-unit id="36">
+    <source>Timesheet for</source>
+    <target>Timesheet for</target>
+   </trans-unit>
+   <trans-unit id="37">
+    <source>Timesheet Period</source>
+    <target>Timesheet Period</target>
+   </trans-unit>
+   <trans-unit id="38">
+    <source>Timesheet period start day has been set</source>
+    <target>Timesheet period start day has been set</target>
+   </trans-unit>
+   <trans-unit id="39">
+    <source>Timesheet period start day has not been defined. Please contact HR Admin</source>
+    <target>Timesheet period start day has not been defined. Please contact HR Admin</target>
+   </trans-unit>
+   <trans-unit id="40">
+    <source>Timesheets Pending Action</source>
+    <target>Timesheets Pending Action</target>
+   </trans-unit>
+   <trans-unit id="41">
+    <source>Tue</source>
+    <target>Tue</target>
+   </trans-unit>
+   <trans-unit id="42">
+    <source>Wed</source>
+    <target>Wed</target>
+   </trans-unit>
+   <trans-unit id="43">
+    <source>Week</source>
+    <target>Week</target>
+   </trans-unit>
+   <trans-unit id="44">
+    <source>Select a Project and an Activity</source>
+    <target>Select a Project and an Activity</target>
+   </trans-unit>
+   <trans-unit id="45">
+    <source>Select Records to Remove</source>
+    <target>Select Records to Remove</target>
+   </trans-unit>
+   <trans-unit id="46">
+    <source>Timesheet Already Exists</source>
+    <target>Timesheet Already Exists</target>
+   </trans-unit>
+   <trans-unit id="47">
+    <source>Timesheet Submitted</source>
+    <target>Timesheet Submitted</target>
+   </trans-unit>
+   <trans-unit id="48">
+    <source>No Timesheets Found</source>
+    <target>No Timesheets Found</target>
+   </trans-unit>
+   <trans-unit id="49">
+    <source>Timesheet Approved</source>
+    <target>Timesheet Approved</target>
+   </trans-unit>
+   <trans-unit id="50">
+    <source>Timesheet Rejected</source>
+    <target>Timesheet Rejected</target>
+   </trans-unit>
+   <trans-unit id="51">
+    <source>No Changes to Delete</source>
+    <target>No Changes to Delete</target>
+   </trans-unit>
+   <trans-unit id="52">
+    <source>Total Should Be Less Than 24 Hours</source>
+    <target>Total Should Be Less Than 24 Hours</target>
+   </trans-unit>
+  </body>
+ </file>
+</xliff>
