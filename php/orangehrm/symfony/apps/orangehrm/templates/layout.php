@@ -34,10 +34,6 @@ $cultureElements = explode('_', $sf_user->getCulture());
     <?php echo include_javascripts();?>
     <?php echo include_stylesheets();?>
     
-    <!--[if IE 9]>
-        <?php echo javascript_include_tag('orangehrm.ie9.hacks.js'); ?>
-    <![endif]-->   
-    
   </head>
   <body>
   
