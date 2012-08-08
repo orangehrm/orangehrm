@@ -1,4 +1,5 @@
 <?php
+
 /**
  *
  * OrangeHRM is a comprehensive Human Resource Management (HRM) System that captures
@@ -48,7 +49,7 @@ class LeaveApplicationMailer extends orangehrmLeaveMailer {
                         $this->message->setFrom($this->getSystemFrom());
                         $this->message->setTo($to);
 
-                        $message = new LeaveApplicationMailContent($this->performer, $supervisor, $this->leaveRequest, $this->leaveList);
+                        $message = $this->getMailContent($this->performer, $supervisor, $this->leaveRequest, $this->leaveList);
 
                         $this->message->setSubject($message->generateSubject());
                         $this->message->setBody($message->generateBody());
@@ -57,21 +58,15 @@ class LeaveApplicationMailer extends orangehrmLeaveMailer {
 
                         $logMessage = "Leave application email was sent to $to";
                         $this->logResult('Success', $logMessage);
-
                     } catch (Exception $e) {
 
                         $logMessage = "Couldn't send leave application email to $to";
-                        $logMessage .= '. Reason: '.$e->getMessage();
+                        $logMessage .= '. Reason: ' . $e->getMessage();
                         $this->logResult('Failure', $logMessage);
-
                     }
-
                 }
-
             }
-
         }
-
     }
 
     public function sendToSubscribers() {
@@ -79,8 +74,8 @@ class LeaveApplicationMailer extends orangehrmLeaveMailer {
         $mailNotificationService = new EmailNotificationService();
         $subscriptions = $mailNotificationService->getSubscribersByNotificationId(EmailNotification::LEAVE_APPLICATION);
 
-	foreach ($subscriptions as $subscription) {
-	
+        foreach ($subscriptions as $subscription) {
+
             if ($subscription instanceof EmailSubscriber) {
 
                 if ($subscription->getEmailNotification()->getIsEnable() == EmailNotification::ENABLED) {
@@ -92,7 +87,7 @@ class LeaveApplicationMailer extends orangehrmLeaveMailer {
                         $this->message->setFrom($this->getSystemFrom());
                         $this->message->setTo($to);
 
-                        $message = new LeaveApplicationMailContent($this->performer, NULL, $this->leaveRequest, $this->leaveList);
+                        $message = $this->getMailContent($this->performer, NULL, $this->leaveRequest, $this->leaveList);
 
                         $this->message->setSubject($message->generateSubject());
                         $this->message->setBody($message->generateSubscriberBody());
@@ -101,19 +96,15 @@ class LeaveApplicationMailer extends orangehrmLeaveMailer {
 
                         $logMessage = "Leave application subscription email was sent to $to";
                         $this->logResult('Success', $logMessage);
-
                     } catch (Exception $e) {
 
                         $logMessage = "Couldn't send leave application subscription email to $to";
-                        $logMessage .= '. Reason: '.$e->getMessage();
+                        $logMessage .= '. Reason: ' . $e->getMessage();
                         $this->logResult('Failure', $logMessage);
-
                     }
-
                 }
-
             }
-	}
+        }
     }
 
     public function send() {
@@ -124,8 +115,11 @@ class LeaveApplicationMailer extends orangehrmLeaveMailer {
             $this->sendToSubscribers();
 
         }
-
     }
-    
-}
 
+    protected function getMailContent($performer, $recipient, $leaveRequest, $leaveList) {
+        
+        return new LeaveApplicationMailContent($performer, $recipient, $leaveRequest, $leaveList);
+    }
+
+}

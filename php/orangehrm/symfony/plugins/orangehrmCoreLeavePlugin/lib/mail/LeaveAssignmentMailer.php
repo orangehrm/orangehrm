@@ -1,4 +1,5 @@
 <?php
+
 /**
  *
  * OrangeHRM is a comprehensive Human Resource Management (HRM) System that captures
@@ -30,7 +31,6 @@ class LeaveAssignmentMailer extends orangehrmLeaveMailer {
         $this->_populatePerformer($performerId);
         $this->leaveRequest = $leaveRequest;
         $this->_populateRecipient();
-
     }
 
     private function _populatePerformer($performerId) {
@@ -38,15 +38,13 @@ class LeaveAssignmentMailer extends orangehrmLeaveMailer {
         if (!empty($performerId)) {
             $this->performer = $this->employeeService->getEmployee($performerId);
         }
-
     }
 
     private function _populateRecipient() {
 
         $this->recipient = $this->leaveRequest->getEmployee();
-
     }
-    
+
     public function sendToAssignee() {
 
         $to = $this->recipient->getEmpWorkEmail();
@@ -58,7 +56,7 @@ class LeaveAssignmentMailer extends orangehrmLeaveMailer {
                 $this->message->setFrom($this->getSystemFrom());
                 $this->message->setTo($to);
 
-                $message = new LeaveAssignmentMailContent($this->performer, $this->recipient, $this->leaveRequest, $this->leaveList);
+                $message = $this->getMailContent($this->performer, $this->recipient, $this->leaveRequest, $this->leaveList);
 
                 $this->message->setSubject($message->generateSubject());
                 $this->message->setBody($message->generateBody());
@@ -67,24 +65,21 @@ class LeaveAssignmentMailer extends orangehrmLeaveMailer {
 
                 $logMessage = "Leave assignment email was sent to $to";
                 $this->logResult('Success', $logMessage);
-
             } catch (Exception $e) {
 
                 $logMessage = "Couldn't send leave assignment email to $to";
-                $logMessage .= '. Reason: '.$e->getMessage();
+                $logMessage .= '. Reason: ' . $e->getMessage();
                 $this->logResult('Failure', $logMessage);
-
             }
-
         }
-
     }
-    
+
     /*
      * Send mail notifications to supervisors of the assignee
      */
+
     public function sendToSupervisors() {
-        
+
         $supervisors = $this->recipient->getSupervisors();
 
         if (count($supervisors) > 0) {
@@ -100,7 +95,7 @@ class LeaveAssignmentMailer extends orangehrmLeaveMailer {
                         $this->message->setFrom($this->getSystemFrom());
                         $this->message->setTo($to);
 
-                        $message = new LeaveAssignmentMailContent($this->performer, $supervisor, $this->leaveRequest, $this->leaveList);
+                        $message = $this->getMailContent($this->performer, $supervisor, $this->leaveRequest, $this->leaveList);
 
                         $this->message->setSubject($message->generateSubjectForSupervisors());
                         $this->message->setBody($message->generateBodyForSupervisors());
@@ -109,26 +104,21 @@ class LeaveAssignmentMailer extends orangehrmLeaveMailer {
 
                         $logMessage = "Leave assignment email was sent to $to";
                         $this->logResult('Success', $logMessage);
-
                     } catch (Exception $e) {
 
                         $logMessage = "Couldn't send leave assignment email to $to";
-                        $logMessage .= '. Reason: '.$e->getMessage();
+                        $logMessage .= '. Reason: ' . $e->getMessage();
                         $this->logResult('Failure', $logMessage);
-
                     }
-
                 }
-
             }
-
         }
-        
     }
-    
+
     /*
      * Send mail notifications to subscribers
      */
+
     public function sendToSubscribers() {
 
         $mailNotificationService = new EmailNotificationService();
@@ -147,7 +137,7 @@ class LeaveAssignmentMailer extends orangehrmLeaveMailer {
                         $this->message->setFrom($this->getSystemFrom());
                         $this->message->setTo($to);
 
-                        $message = new LeaveAssignmentMailContent($this->performer, NULL, $this->leaveRequest, $this->leaveList);
+                        $message = $this->getMailContent($this->performer, NULL, $this->leaveRequest, $this->leaveList);
 
                         $this->message->setSubject($message->generateSubscriberSubject());
                         $this->message->setBody($message->generateSubscriberBody());
@@ -156,17 +146,13 @@ class LeaveAssignmentMailer extends orangehrmLeaveMailer {
 
                         $logMessage = "Leave assignment subscription email was sent to $to";
                         $this->logResult('Success', $logMessage);
-
                     } catch (Exception $e) {
 
                         $logMessage = "Couldn't send leave assignment subscription email to $to";
-                        $logMessage .= '. Reason: '.$e->getMessage();
+                        $logMessage .= '. Reason: ' . $e->getMessage();
                         $this->logResult('Failure', $logMessage);
-
                     }
-
                 }
-
             }
         }
     }
@@ -178,10 +164,12 @@ class LeaveAssignmentMailer extends orangehrmLeaveMailer {
             $this->sendToAssignee();
             $this->sendToSupervisors();
             $this->sendToSubscribers();
-
         }
-
     }
-    
-}
 
+    protected function getMailContent($performer, $recipient, $leaveRequest, $leaveList) {
+
+        return new LeaveAssignmentMailContent($performer, $recipient, $leaveRequest, $leaveList);
+    }
+
+}

@@ -66,8 +66,7 @@ class LeaveAssignmentService extends AbstractLeaveAllocationService {
                     }
 
                     /* Send notification to the when leave is assigned; TODO: Move to action? */
-                    $leaveAssignmentMailer = new LeaveAssignmentMailer($leaveRequest, $leaveDays, $_SESSION['empNumber']);
-                    $leaveAssignmentMailer->send();
+                    $this->sendEmail($leaveRequest, $leaveDays, $_SESSION['empNumber']);
 
 //                    return true;
                     return $leaveRequest;
@@ -79,7 +78,13 @@ class LeaveAssignmentService extends AbstractLeaveAllocationService {
             throw new LeaveAllocationServiceException('Failed to Submit: No Working Days Selected');
         }
     }
-    
+
+    protected function sendEmail($leaveRequest, $leaveDays, $employeeNumber) {
+
+        $leaveAssignmentMailer = new LeaveAssignmentMailer($leaveRequest, $leaveDays, $employeeNumber);
+        $leaveAssignmentMailer->send();
+    }
+
     /**
      *
      * @param type $isWeekend

@@ -90,9 +90,7 @@ class LeaveApplicationService extends AbstractLeaveAllocationService {
                     }
 
                     //sending leave apply notification
-
-                    $leaveApplicationMailer = new LeaveApplicationMailer($this->getLoggedInEmployee(), $leaveRequest, $leaves);
-                    $leaveApplicationMailer->send();
+                    $this->sendEmail($this->getLoggedInEmployee(), $leaveRequest, $leaves);
 
                     return $leaveRequest;
                 } catch (Exception $e) {
@@ -103,6 +101,12 @@ class LeaveApplicationService extends AbstractLeaveAllocationService {
         
         return false;
         
+    }
+
+    protected function sendEmail($loggedInEmployee, $leaveRequest, $leaves) {
+        
+        $leaveApplicationMailer = new LeaveApplicationMailer($loggedInEmployee, $leaveRequest, $leaves);
+        $leaveApplicationMailer->send();
     }
 
     /**
