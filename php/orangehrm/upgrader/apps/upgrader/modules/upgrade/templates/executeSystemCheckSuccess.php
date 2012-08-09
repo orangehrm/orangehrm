@@ -69,7 +69,7 @@ function sysCheckPassed() {
                $dbInfo = $sf_user->getAttribute('dbInfo');
                if(function_exists('mysql_connect') && (@mysql_connect($dbInfo['host'].':'.$dbInfo['port'], $dbInfo['username'], $dbInfo['password']))) {
 
-                  $mysqlServer = $connection->server_info;
+                  $mysqlServer = mysql_get_server_info(); 
 
                   if(version_compare($mysqlServer, "5.1.6") >= 0) {
                      echo "<b><font color='green'>OK (ver " .$mysqlServer. ')</font></b>';
@@ -90,9 +90,9 @@ function sysCheckPassed() {
             <?php
             if(function_exists('mysql_connect') && (@mysql_connect($dbInfo['host'].':'.$dbInfo['port'], $dbInfo['username'], $dbInfo['password']))) {
 
-                    $mysqlServer = mysqli_query($connection, "show engines");
+                    $mysqlServer = mysql_query("show engines");
 
-                    while ($engines = mysqli_fetch_assoc($mysqlServer)) {
+                    while ($engines = mysql_fetch_assoc($mysqlServer)) {
                         if ($engines['Engine'] == 'InnoDB') {
                             if ($engines['Support'] == 'DISABLED') {
                                 echo "<b><font color='red'>Disabled!</font></b>";
