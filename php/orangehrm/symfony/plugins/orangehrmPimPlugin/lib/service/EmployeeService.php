@@ -212,7 +212,7 @@ class EmployeeService extends BaseService {
      * @version 2.6.11
      * @param int $empNumber Employee Number
      * @param array $entriesToDelete Array of emergency contact seqNo values. Optional.
-     * @returns integer Number of records deleted
+     * @return integer Number of records deleted
      * @throws DaoException
      * 
      * @todo return number of contacts deleted (currently returns true always) [DONE]
@@ -232,7 +232,7 @@ class EmployeeService extends BaseService {
      * @version 2.6.11
      * @param int $empNumber Employee Number
      * @param array $entriesToDelete Array of immigration entry seqno values. Optional.
-     * @returns integer Number of records deleted
+     * @return integer Number of records deleted
      * @throws DaoException
      * 
      * @todo Rename to deleteEmployeeImmigrationRecords [DONE]
@@ -265,7 +265,7 @@ class EmployeeService extends BaseService {
      * @version 2.6.11
      * @param int $empNumber Employee Number
      * @param array $entriesToDelete Array of dependent seqno values. Optional.
-     * @returns integer Number of records deleted
+     * @return integer Number of records deleted
      * @throws DaoException
      * 
      * @todo return number of entries deleted (currently returns true always) [DONE]
@@ -294,7 +294,7 @@ class EmployeeService extends BaseService {
      * 
      * @version 2.6.11
      * @param int $empNumber Employee Number
-     * @return integer
+     * @return integer Returns 1
      * @throws DaoException
      * 
      * @todo Don't return any value (currently returns true always) [DONE: Decided to return query value]
@@ -326,7 +326,7 @@ class EmployeeService extends BaseService {
      * 
      * @version 2.6.11
      * @param EmployeeImmigrationRecord $employeeImmigrationRecord EmployeeImmigrationRecord instance
-     * @return EmpPassport Saved EmployeeImmigrationRecord object
+     * @return EmployeeImmigrationRecord Saved EmployeeImmigrationRecord object
      * 
      * @todo Rename to saveEmployeeImmigrationEntry (without Employee) and change Passport -> Immigration [DONE: Renamed to saveEmployeeImmigrationRecord]
      * @todo Rename EmpPassport to EmpImmigrationRecord [DONE]
@@ -343,7 +343,7 @@ class EmployeeService extends BaseService {
      * @param int $empNumber Employee Number
      * @param int $recordId Immigration Record sequence Number (optional)
      * 
-     * @return Doctrine_Collection/EmpPassport If sequenceNo is given returns matching 
+     * @return Doctrine_Collection/EmployeeImmigrationRecord If sequenceNo is given returns matching 
      * Immigration Record or false if not found. If sequenceNo is not given, returns Immigration 
      * Record collection. (Empty collection if no records available)
      * 
@@ -431,7 +431,7 @@ class EmployeeService extends BaseService {
      * @param int $empNumber Employee number
      * @param int $educationId Education record id
      * 
-     * @return Collection/Education If education id is given returns matching 
+     * @return Collection/EmployeeEducation If education id is given returns matching 
      * EmpEducation or false if not found. If educationId is not given, returns 
      * EmpEducation collection. (Empty collection if no records available)
      * 
@@ -466,7 +466,7 @@ class EmployeeService extends BaseService {
      * 
      * @version 2.6.11
      * @param EmployeeEducation $education EmployeeEducation object to save
-     * @returns EmployeeEducation Saved EmployeeEducation object
+     * @return EmployeeEducation Saved EmployeeEducation object
      * @throws DaoException
      * 
      * @todo return saved Employee Education object [DONE]
@@ -485,7 +485,7 @@ class EmployeeService extends BaseService {
      * @version 2.6.11
      * @param int $empNumber Employee Number
      * @param int $skillCode Skill Code
-     * @returns Doctrine_Collection/EmployeeSkill 
+     * @return Doctrine_Collection/EmployeeSkill 
      * 
      * @todo rename method as getEmployeeSkills [DONE]
      * 
@@ -518,7 +518,7 @@ class EmployeeService extends BaseService {
      * 
      * @version 2.6.11
      * @param EmployeeSkill $skill EmployeeSkill object to save
-     * @returns EmployeeSkill Saved EmployeeSkill object
+     * @return EmployeeSkill Saved EmployeeSkill object
      * 
      * @todo reurn saved Employee Skill object [DONE]
      * @todo rename method as saveEmployeeSkill [DONE]
@@ -572,7 +572,7 @@ class EmployeeService extends BaseService {
      * 
      * @version 2.6.11
      * @param EmployeeLanguage $language Employee Language
-     * @returns EmployeeLanguage Saved EmployeeLanguage object 
+     * @return EmployeeLanguage Saved EmployeeLanguage object 
      * 
      * @todo return saved Employee Language entry [DONE]
      * @todo rename method as saveEmployeeLanguage [DONE]
@@ -590,9 +590,9 @@ class EmployeeService extends BaseService {
      * If licence ID is set, It returns an EmployeeLicense object
      *  
      * @version 2.6.11
-     * @param int $empNumber 
-     * @param int $licenseId
-     * @returns Doctrine_Collection/License Returns Doctrine_Collection of EmployeeLicense objects or single object
+     * @param int $empNumber Employee number
+     * @param int $licenseId License ID to delete
+     * @return Doctrine_Collection/License Returns Doctrine_Collection of EmployeeLicense objects or single object
      * 
      * @todo rename method as getEmployeeLicences [DONE]
      * 
@@ -641,7 +641,7 @@ class EmployeeService extends BaseService {
      * 
      * @version 2.6.11
      * @param int $empNumber Employee number
-     * @param string $screen Screen name
+     * @param string $screen Screen name. Allowed values are mentioned in PluginEmployeeAttachment.
      * 
      * @return Doctrine_Collection Doctrine_Collection of EmployeeAttachment objects
      * 
@@ -693,7 +693,7 @@ class EmployeeService extends BaseService {
      * 
      * @version 2.6.11
      * @param int $empNumber Employee Number
-     * @returns EmpPicture Employee Picture object
+     * @return EmpPicture Employee Picture object
      * 
      * @throws DaoException
      * 
@@ -745,7 +745,7 @@ class EmployeeService extends BaseService {
      * </pre>
      * 
      * @version 2.7.1
-     * @param $properties An array of strings containing names of required properties
+     * @param $properties An array of strings containing names of required properties. Any property of Employee is allowed.
      * @param $orderField Field to be used for ordering
      * @param $orderBy ASC or DESC
      * @param Boolean $excludeTerminatedEmployees Exclude Terminated employees or not
@@ -760,7 +760,7 @@ class EmployeeService extends BaseService {
      * Returns list of supervisors (employees having at least one subordinate)
      *
      * @version 2.6.11
-     * @returns Doctrine_Collection/Array Returns Doctrine_Collection of Employee objects
+     * @return Doctrine_Collection/Array Returns Doctrine_Collection of Employee objects
      * @throws DaoException
      * 
      * @todo add orderField,oraderBy and include Deleted parameters [DONE]
@@ -789,7 +789,7 @@ class EmployeeService extends BaseService {
      * 
      * @version 2.6.11
      * @param boolean $includeTerminated 
-     * @returns int Employee Count
+     * @return int Employee Count
      * 
      * @throws DaoException
      * 
@@ -804,7 +804,7 @@ class EmployeeService extends BaseService {
      * 
      * @version 2.6.11
      * @param int $empNumber Supervisor Id
-     * @returns Doctrine_Collection/Array Returns Doctrine_Collection of Employee objects
+     * @return Doctrine_Collection/Array Returns Doctrine_Collection of Employee objects
      * @throws DaoException
      * 
      * @todo Rename to getImmediateSubordinates($empNumber) [DONE]
@@ -826,7 +826,7 @@ class EmployeeService extends BaseService {
      * 
      * @version 2.6.11
      * @param boolean $workShift Work Shift
-     * @returns String Json string include employee name and employee id
+     * @return String Json string include employee name and employee id
      * 
      * @throws DaoException
      * 
@@ -928,7 +928,7 @@ class EmployeeService extends BaseService {
      * @version 2.6.11
      * @param Doctrine_Collection/Array $employeeList Employee List Collection
      * @param String $subUnitId
-     * @returns array()
+     * @return array()
      * @throws DaoException
      * 
      */
@@ -1013,7 +1013,7 @@ class EmployeeService extends BaseService {
      * @version 2.6.11
      * @param int $empNumber
      * @param string $date Any date format supported by strtotime()
-     * @return int O if joined date is not set or joined date is after $date
+     * @return decimal O if joined date is not set or joined date is after $date.
      * @throws PIMServiceException If employee with given ID is not found
      * 
      * @todo Improve year duration calculation 
@@ -1190,7 +1190,7 @@ class EmployeeService extends BaseService {
      * will be deleted.
      * 
      * @version 2.6.11
-     * @param array $membershipIds Array of salary IDs. Optional.
+     * @param array $membershipIds Array of membership IDs. Optional.
      * 
      * @return integer Number of records deleted
      * @throws DaoException
@@ -1286,9 +1286,9 @@ class EmployeeService extends BaseService {
      * @param int $empNumber Employee number
      * @param int $empSalaryId Employee Basic Salary ID
      * 
-     * @return Collection/EmbBasicsalary  If $empSalaryId is given returns matching 
-     * EmbBasicsalary or false if not found. If $empSalaryId is not given, returns 
-     * EmbBasicsalary collection. (Empty collection if no records available)
+     * @return Collection/EmployeeSalary If $empSalaryId is given returns matching 
+     * EmployeeSalary or false if not found. If $empSalaryId is not given, returns 
+     * EmployeeSalary collection. (Empty collection if no records available)
      * @throws DaoException
      * 
      * @todo rename method as getEmployeeSalaries [DONE]
@@ -1499,7 +1499,7 @@ class EmployeeService extends BaseService {
      *
      * @param array $filters
      * 
-     * @return Inteager
+     * @return int Number of employees matched to the filter criteria mentioned in $filters
      * @todo Use a parameter object instead of $filters
      */
     public function getSearchEmployeeCount(array $filters = null) {
