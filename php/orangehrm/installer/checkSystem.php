@@ -330,7 +330,7 @@ function sysCheckPassed() {
                     if ($schedulerStatus == 'ON') {
                         echo "<b><font color='green'>Enabled</font></b>";
                     } else {
-                        echo "<b><font color='red'>Disabled. This is required for automatic leave status changes of Leave module.</font></b>";
+                        echo "<b><font color='#9E6D6D'>Disabled. This is required for automatic leave status changes of Leave module.</font></b>";
                     }
 
                } else {
