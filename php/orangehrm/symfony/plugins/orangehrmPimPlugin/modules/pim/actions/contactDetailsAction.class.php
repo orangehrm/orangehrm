@@ -43,7 +43,7 @@ class contactDetailsAction extends basePimAction {
         }
 
         $param = array('empNumber' => $empNumber,  'contactDetailsPermission' => $this->contactDetailsPermission);
-        $this->setForm(new EmployeeConactDetailsForm(array(), $param, true));
+        $this->setForm(new EmployeeContactDetailsForm(array(), $param, true));
 
         if ($this->getUser()->hasFlash('templateMessage')) {
             list($this->messageType, $this->message) = $this->getUser()->getFlash('templateMessage');

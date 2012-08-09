@@ -17,7 +17,7 @@
  * if not, write to the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
  * Boston, MA  02110-1301, USA
  */
-class EmployeeConactDetailsForm extends sfForm {
+class EmployeeContactDetailsForm extends sfForm {
 
     private $countryService;
     private $employeeService;
