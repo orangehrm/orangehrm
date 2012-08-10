@@ -56,7 +56,7 @@ function confirm() {
 		</tr>
 <?php if($_SESSION['dbCreateMethod'] == 'new') { ?>		
 		<tr>
-			<td class="tdComponent">Priviledged Database User-name</td>
+			<td class="tdComponent">Privileged Database User-name</td>
 			<td class="tdValues"><?php echo $_SESSION['dbInfo']['dbUserName']?></td>
 		</tr>
 <?php } ?>

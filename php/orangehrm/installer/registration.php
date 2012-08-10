@@ -89,7 +89,7 @@ document.frmInstall.btnRegister.disabled = true;
 
 <div style="display: block;" class="wrapper">
 	<h2>Step 7: Registration</h2>
-	 <p>You have sucessfully installed OrangeHRM, please take a moment to register.</p>
+	 <p>You have successfully installed OrangeHRM, please take a moment to register.</p>
 	<div class="wrapper" style="width: 900px;">
     <div class="wrapper_content_div">
         <h3>Benefits of Registration</h3>
