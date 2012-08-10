@@ -41,7 +41,6 @@ $(document).ready(function() {
         var subscriptionRenewalDate = row.find("td:nth-child(7)").text();
         var memcode = primarykey.split(" ");
         $('#membership_membership').val(memcode[1]);
-        $('#membership_membership').attr('disabled', 'disabled');
         $('#membership_subscriptionPaidBy').val(subscriptionPaidBy);
         $('#membership_subscriptionAmount').val(subscriptionAmount);
         $('#membership_currency').val(currency);
