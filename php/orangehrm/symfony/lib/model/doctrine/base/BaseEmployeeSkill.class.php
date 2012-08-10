@@ -46,8 +46,6 @@ abstract class BaseEmployeeSkill extends sfDoctrineRecord
              ));
         $this->hasColumn('years_of_exp', 'decimal', 2, array(
              'type' => 'decimal',
-             'default' => '0',
-             'notnull' => true,
              'length' => 2,
              ));
         $this->hasColumn('comments', 'string', 100, array(

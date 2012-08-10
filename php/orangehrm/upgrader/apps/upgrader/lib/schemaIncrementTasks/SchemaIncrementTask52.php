@@ -47,6 +47,8 @@ class SchemaIncrementTask52 extends SchemaIncrementTask {
                       ADD INDEX `emp_id_state` (`employee_id`, `state`),
                       ADD INDEX `emp_id_time` (`employee_id`, `punch_in_utc_time`, `punch_out_utc_time`)";
         
+        $sql[6] = "ALTER TABLE `hs_hr_emp_skill` MODIFY COLUMN `years_of_exp` decimal(2,0) default null";
+        
         $this->sql = $sql;
     }
     

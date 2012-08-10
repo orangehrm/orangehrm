@@ -205,7 +205,7 @@ create table `hs_hr_emp_directdebit` (
 create table `hs_hr_emp_skill` (
   `emp_number` int(7) not null default 0,
   `skill_id` int not null,
-  `years_of_exp` decimal(2,0) not null default '0',
+  `years_of_exp` decimal(2,0) default null,
   `comments` varchar(100) not null default ''
 ) engine=innodb default charset=utf8;
 

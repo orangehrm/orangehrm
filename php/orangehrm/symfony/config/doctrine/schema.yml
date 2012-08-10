@@ -201,8 +201,6 @@ EmployeeSkill:
       primary: true
     years_of_exp:
       type: decimal(2)
-      default: '0'
-      notnull: true
     comments:
       type: string(100)
       default: ''
