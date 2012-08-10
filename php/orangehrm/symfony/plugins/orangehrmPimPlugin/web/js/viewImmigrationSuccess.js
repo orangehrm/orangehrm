@@ -1,22 +1,19 @@
 $(document).ready(function() {
 
     var issuedDate = "";
+    var passportIssueDate = $("#immigration_passport_issue_date");
+    var passportExpireDate = $("#immigration_passport_expire_date");
+    var i9ReviewDate = $("#immigration_i9_review_date");
 
     function loadDefaultDateMasks() {
-
-        var passportIssueDate = $("#immigration_passport_issue_date");
 
         if(trim(passportIssueDate.val()) == ''){
             passportIssueDate.val(displayDateFormat);
         }
 
-        var passportExpireDate = $("#immigration_passport_expire_date");
-
         if(trim(passportExpireDate.val()) == ''){
             passportExpireDate.val(displayDateFormat);
         }
-
-        var i9ReviewDate = $("#immigration_i9_review_date");
 
         if(trim(i9ReviewDate.val()) == ''){
             i9ReviewDate.val(displayDateFormat);
@@ -125,6 +122,9 @@ $(document).ready(function() {
         $('form#frmImmigrationDelete table.data-table input.checkbox').hide();
         $("form#frmImmigrationDelete div.actionbar").hide();
         $("#messagebar").attr("class", "").text('');        
+        
+        loadDefaultDateMasks();
+        
      });
      
     //if check all button clicked
