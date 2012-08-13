@@ -73,7 +73,9 @@
                 <div id="messagebar" class="<?php echo isset($messageType) ? "messageBalloon_{$messageType}" : ''; ?>" >
                     <span style="font-weight: bold;"><?php echo isset($message) ? $message : ''; ?></span>
                 </div>
-                <?php if (!$essUserMode): ?>
+                <?php if (!$essUserMode): 
+                    if ($reportToPermissions->canRead()) { ?>
+               
                     <div id="addPaneReportTo" style="width: 600px" style="display:none;">
                        
                         <div class="outerbox">
@@ -129,7 +131,8 @@
                   <div class="paddingLeftRequired"><span class="required">*</span> <?php echo __(CommonMessages::REQUIRED_FIELD); ?></div>
                   <?php }?>
                         </div>
-                <?php endif; ?>
+                <?php } 
+                endif; ?>
 
                                     <div id="listReportToDetails">
                                         <table width="1000" cellspacing="0" cellpadding="0" class="data-table" id="report_list_table">
