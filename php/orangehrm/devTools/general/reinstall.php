@@ -27,7 +27,7 @@ $c = new Conf();
 
 mysql_connect($c->dbhost, $c->dbuser, $c->dbpass);
 
-if (!mysql_query("DROP DATABASE `{$c->dbname}`")) {
+if (mysql_query("DROP DATABASE `{$c->dbname}`")) {
     
     echo "Existing '{$c->dbname}' database was deleted.<br>\n";
     
