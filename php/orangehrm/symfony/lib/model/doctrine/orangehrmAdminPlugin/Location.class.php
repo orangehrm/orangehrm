@@ -21,8 +21,8 @@ class Location extends PluginLocation {
 	
 	public function getNumberOfEmployees() {
 		
-		$locationService = new LocationService();
-		return $locationService->getNumberOfEmplyeesForLocation($this->id);
+		$locationService = new LocationService();  
+		return (string)$locationService->getNumberOfEmplyeesForLocation($this->id);
 	}
 
 }

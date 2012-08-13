@@ -12,7 +12,7 @@ class ProjectHeaderFactory extends ohrmListConfigurationFactory {
 		    'name' => 'Customer Name',
 		    'width' => '33%',
 		    'isSortable' => true,
-		    'sortField' => 'name',
+		    'sortField' => 'customerName',
 		    'elementType' => 'label',
 		    'elementProperty' => array('getter' => 'customerName'),
 		    
@@ -22,7 +22,7 @@ class ProjectHeaderFactory extends ohrmListConfigurationFactory {
 		    'name' => 'Project',
 		    'width' => '33%',
 		    'isSortable' => true,
-		    'sortField' => 'name',
+		    'sortField' => 'projectName',
 		    'elementType' => 'link',
 		    'elementProperty' => array(
 			'labelGetter' => 'projectName',

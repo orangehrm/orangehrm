@@ -368,7 +368,7 @@ class ProjectDao extends BaseDao {
     public function searchProjects($searchClues, $allowedProjectList) {
         try {
             
-            $sortField = ($searchClues['sortField'] == "") ? 'name' : $searchClues['sortField'];
+            $sortField = $this->_getSortField($searchClues['sortField']);
             $sortOrder = ($searchClues['sortOrder'] == "") ? 'ASC' : $searchClues['sortOrder'];
             $offset = ($searchClues['offset'] == "") ? 0 : $searchClues['offset'];
             $limit = ($searchClues['limit'] == "") ? 50 : $searchClues['limit'];
@@ -408,7 +408,7 @@ class ProjectDao extends BaseDao {
                 $escapeValueArray[] = $projectAdmin;
             }
 
-            $q .= " AND p.is_deleted = ? GROUP BY p.project_id ORDER BY p.{$sortField}  {$sortOrder}
+            $q .= " AND p.is_deleted = ? GROUP BY p.project_id ORDER BY {$sortField}  {$sortOrder}
             		limit {$offset}, {$limit}";
             
             $escapeValueArray[] = Project::ACTIVE_PROJECT;
@@ -571,6 +571,26 @@ class ProjectDao extends BaseDao {
         }
         // @codeCoverageIgnoreEnd
 
+    }
+    
+    /**
+     * Returns corresponding sort field
+     * 
+     * @version 2.7.1
+     * @param string $sortFieldName 
+     * @return string 
+     */
+    private function _getSortField($sortFieldName){
+        
+        $sortField = 'p.name';
+        if($sortFieldName === 'customerName') {
+            $sortField = 'c.name';
+        } else if ($sortFieldName === 'projectName') {
+            $sortField = 'p.name';
+        }
+        
+        return $sortField;
+        
     }
 }
 
