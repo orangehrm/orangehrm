@@ -103,7 +103,7 @@ class LeaveAssignmentService extends AbstractLeaveAllocationService {
             return Leave::LEAVE_STATUS_LEAVE_HOLIDAY;
         }
 
-        if (strtotime($leaveDate) <= strtotime(date('Y-m-d'))) {
+        if (strtotime($leaveDate) < strtotime(date('Y-m-d'))) {
             $status = Leave::LEAVE_STATUS_LEAVE_TAKEN;
         } else {
             $status = Leave::LEAVE_STATUS_LEAVE_APPROVED;
