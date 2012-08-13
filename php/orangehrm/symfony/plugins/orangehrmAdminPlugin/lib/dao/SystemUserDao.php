@@ -97,8 +97,14 @@ class SystemUserDao extends BaseDao {
                     ->select('u.id')
                     ->from('SystemUser u')
                     ->where('u.deleted=?', 0);
+            
+            $result = $query->execute(array(), Doctrine::HYDRATE_SINGLE_SCALAR);
+            
+            if (is_string($result)) {
+                $result = array($result);
+            }
  
-            return $query->execute(array(), Doctrine::HYDRATE_SINGLE_SCALAR);
+            return $result;
             
         // @codeCoverageIgnoreStart
         } catch (Exception $e) {

@@ -135,6 +135,22 @@ class SystemUserDaoTest extends PHPUnit_Framework_TestCase {
         $this->assertEquals(array(1, 2, 3), $result);
     }
     
+    public function testGetSystemUserIdListForOneActiveUser() {
+        
+        $q = Doctrine_Query::create()
+                             ->update('SystemUser')
+                             ->set('deleted', 1)
+                             ->whereIn('id', array(2, 3));        
+        $q->execute();
+
+        $result = $this->systemUserDao->getSystemUserIdList();
+        
+        $this->assertTrue(is_array($result));
+        $this->assertEquals(1, count($result));
+        $this->assertEquals(1, $result[0]);
+        
+    }
+    
     /**
      *
      * @covers SystemUserDao::getNonPredefinedUserRoles
