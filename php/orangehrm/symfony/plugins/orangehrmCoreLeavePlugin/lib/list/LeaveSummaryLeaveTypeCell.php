@@ -7,13 +7,18 @@ class LeaveSummaryLeaveTypeCell extends Cell {
             return '&nbsp;';
         }
 
-        $leaveType = $this->getValue();
+        $html = $this->getValue();
         if(!$this->getValue('leaveTypeStatus')) {
-            $leaveType .= " (".__('Deleted').")";
+            $html .= " (".__('Deleted').")";
         }
-        $default = $this->getPropertyValue('default');
 
-        return $leaveType . $this->getHiddenFieldHTML();
+        $isEmployeeAccessible = isset($this->dataObject['is_accessible']) ? 
+                                    $this->dataObject['is_accessible'] : false;
+        
+        if ($isEmployeeAccessible) {
+            $html .= $this->getHiddenFieldHTML();
+        }
+        return $html;
     }
 
 }

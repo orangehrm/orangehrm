@@ -6,7 +6,7 @@ class LeaveSummaryConfigurationFactory extends ohrmListConfigurationFactory {
     protected function init() {
         $header1 = new LeaveSummaryEmployeeNameHeader();
         $header2 = new LeaveSummaryLeaveTypeHeader();
-        $header3 = new ListHeader();
+        $header3 = new LeaveSummaryLeaveEntitlementHeader();
         $header4 = new LeaveSummaryValueHeader();
         $header5 = new LeaveSummaryValueHeader();
         $header6 = new LeaveSummaryValueHeader();
@@ -49,7 +49,7 @@ class LeaveSummaryConfigurationFactory extends ohrmListConfigurationFactory {
             'name' => 'Leave Entitled (Days)',
             'width' => '15%',
             'isSortable' => false,
-            'elementType' => 'textbox',
+            'elementType' => 'leaveSummaryLeaveEntitlement',
             'textAlignmentStyle' => 'center',
             'elementProperty' => array(
                 'getter' => 'no_of_days_allotted',
