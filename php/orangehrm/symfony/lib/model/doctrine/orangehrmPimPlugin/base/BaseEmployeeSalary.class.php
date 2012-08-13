@@ -18,6 +18,7 @@
  * @property Employee $employee
  * @property Payperiod $payperiod
  * @property EmpDirectdebit $directDebit
+ * @property PayGrade $PayGrade
  * 
  * @method integer        getId()           Returns the current record's "id" value
  * @method integer        getEmpNumber()    Returns the current record's "empNumber" value
@@ -32,6 +33,7 @@
  * @method Employee       getEmployee()     Returns the current record's "employee" value
  * @method Payperiod      getPayperiod()    Returns the current record's "payperiod" value
  * @method EmpDirectdebit getDirectDebit()  Returns the current record's "directDebit" value
+ * @method PayGrade       getPayGrade()     Returns the current record's "PayGrade" value
  * @method EmployeeSalary setId()           Sets the current record's "id" value
  * @method EmployeeSalary setEmpNumber()    Sets the current record's "empNumber" value
  * @method EmployeeSalary setPayGradeId()   Sets the current record's "payGradeId" value
@@ -45,6 +47,7 @@
  * @method EmployeeSalary setEmployee()     Sets the current record's "employee" value
  * @method EmployeeSalary setPayperiod()    Sets the current record's "payperiod" value
  * @method EmployeeSalary setDirectDebit()  Sets the current record's "directDebit" value
+ * @method EmployeeSalary setPayGrade()     Sets the current record's "PayGrade" value
  * 
  * @package    orangehrm
  * @subpackage model\pim\base
@@ -117,5 +120,9 @@ abstract class BaseEmployeeSalary extends sfDoctrineRecord
         $this->hasOne('EmpDirectdebit as directDebit', array(
              'local' => 'id',
              'foreign' => 'salary_id'));
+
+        $this->hasOne('PayGrade', array(
+             'local' => 'payGradeId',
+             'foreign' => 'id'));
     }
 }

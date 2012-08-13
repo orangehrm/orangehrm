@@ -268,9 +268,9 @@ PayGrade:
       autoincrement: true
     name: string(60)    
   relations:
-    EmpBasicsalary:
+    EmployeeSalary:
       local: id
-      foreign: sal_grd_code
+      foreign: payGradeId
       type: many
     SalaryCurrencyDetail:
       local: id

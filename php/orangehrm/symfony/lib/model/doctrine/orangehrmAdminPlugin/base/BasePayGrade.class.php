@@ -7,13 +7,14 @@
  * 
  * @property integer $id
  * @property string $name
+ * @property Doctrine_Collection $EmployeeSalary
  * 
- * @method integer  getId()   Returns the current record's "id" value
- * @method string   getName() Returns the current record's "name" value
- * @method PayGrade setId()   Sets the current record's "id" value
- * @method PayGrade setName() Sets the current record's "name" value
- * @property  $
- * @property  $
+ * @method integer             getId()             Returns the current record's "id" value
+ * @method string              getName()           Returns the current record's "name" value
+ * @method Doctrine_Collection getEmployeeSalary() Returns the current record's "EmployeeSalary" collection
+ * @method PayGrade            setId()             Sets the current record's "id" value
+ * @method PayGrade            setName()           Sets the current record's "name" value
+ * @method PayGrade            setEmployeeSalary() Sets the current record's "EmployeeSalary" collection
  * 
  * @package    orangehrm
  * @subpackage model\admin\base
@@ -39,12 +40,8 @@ abstract class BasePayGrade extends sfDoctrineRecord
     public function setUp()
     {
         parent::setUp();
-        $this->hasMany('EmpBasicsalary', array(
+        $this->hasMany('EmployeeSalary', array(
              'local' => 'id',
-             'foreign' => 'sal_grd_code'));
-
-        $this->hasMany('SalaryCurrencyDetail', array(
-             'local' => 'id',
-             'foreign' => 'sal_grd_code'));
+             'foreign' => 'payGradeId'));
     }
 }
