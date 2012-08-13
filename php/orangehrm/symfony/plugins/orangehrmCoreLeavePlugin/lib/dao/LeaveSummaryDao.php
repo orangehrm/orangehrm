@@ -268,7 +268,7 @@ class LeaveSummaryDao extends BaseDao {
         if(count($where) > 0) {
             $q .= ' WHERE '.implode(' AND ',$where);
         }
-        $q .= " ORDER By a.emp_number, b.leave_type_id";
+        $q .= " ORDER By a.emp_lastname, b.leave_type_id";
         
         $q .= ") as leave_details
         			WHERE   ((available_flag = 1) OR ((RIGHT(leave_info , 10) != '_0.00_0.00') OR no_of_days_allotted != '0.00')) ";
