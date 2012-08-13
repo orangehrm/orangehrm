@@ -63,7 +63,8 @@ class DataGroupDao {
     public function getDataGroups(){
          try {
             $query = Doctrine_Query::create()
-                    ->from('DataGroup as g'); 
+                    ->from('DataGroup as g')
+                    ->orderBy('g.description'); 
             return $query->execute();
         } catch (Exception $e) {
             throw new DaoException($e->getMessage());
