@@ -26,7 +26,7 @@ class TestDataService {
      *        array('Model1' => array(field1, field2), 
      *              'Model2' => array(field1, field2))        
      */
-    private static $encryptedModels = array('EmpBasicsalary' => array('ebsal_basic_salary'));
+    private static $encryptedModels = array('EmployeeSalary' => array('amount'));
     
     private static $dbConnection;
     private static $data;
