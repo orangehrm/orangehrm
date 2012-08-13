@@ -256,7 +256,7 @@ use_javascript('orangehrm.datepicker.js');
         }
 
         div.error{
-            padding-left: 140px;
+            padding-left: 240px;
         }
 
         fieldset#name_fieldset ul.error_list li{
@@ -533,14 +533,22 @@ use_javascript('orangehrm.datepicker.js');
         var reportValidator =
             $("#defineReportForm").validate({
             rules: {
+                'report[report_name]': {required: true},
                 'display_fields[]': {required: true, minlength: 1}
             },
             messages: {
+                'report[report_name]': '<?php echo __(ValidationMessages::REQUIRED);?>',
                 'display_fields[]': '<?php echo __(ValidationMessages::REQUIRED);?>'
             },
             errorElement : 'div',
             errorPlacement: function(error, element) {
-                error.insertAfter('#btnAddDisplayField');
+                var elementId = element.attr('id');
+                
+                if (elementId == 'report_report_name') {
+                    error.insertAfter(element);
+                } else {
+                    error.insertAfter('#btnAddDisplayField');
+                }
 
             }
         });
