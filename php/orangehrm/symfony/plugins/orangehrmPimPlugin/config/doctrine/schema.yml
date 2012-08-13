@@ -175,9 +175,9 @@ Employee:
       foreign: emp_number
       type: many
     salary:
-      class: EmpBasicsalary
-      local: emp_number
-      foreign: emp_number
+      class: EmployeeSalary
+      local: empNumber
+      foreign: empNumber
       type: many
     contracts:
       class: EmpContract
@@ -538,7 +538,7 @@ EmpDirectdebit:
       notnull: true
   relations:
     salary: 
-      class: EmpBasicsalary
+      class: EmployeeSalary
       local: salary_id
       foreign: id
       type: one

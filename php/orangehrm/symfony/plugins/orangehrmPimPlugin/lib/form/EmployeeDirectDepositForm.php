@@ -109,7 +109,7 @@ class EmployeeDirectDepositForm extends BaseForm {
     /**
      * Adds direct deposit information to the salary object
      * 
-     * @param type $salary EmpBasicsalary object - passed by reference
+     * @param type $salary EmployeeSalary object - passed by reference
      * @return None 
      */
     public function getDirectDeposit(&$salary) {
