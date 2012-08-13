@@ -487,6 +487,14 @@
    <trans-unit id="121">
     <source>Failed to Delete: At Least One Admin Should Exist</source>
     <target>FR_Failed to Delete: At Least One Admin Should Exist</target>
+   </trans-unit>
+   <trans-unit id="122">
+    <source>Add Membership</source>
+    <target>FR_Add Membership</target>
+   </trans-unit>
+   <trans-unit id="123">
+    <source>Edit Membership</source>
+    <target>FR_Edit Membership</target>
    </trans-unit>    
   </body>
  </file>

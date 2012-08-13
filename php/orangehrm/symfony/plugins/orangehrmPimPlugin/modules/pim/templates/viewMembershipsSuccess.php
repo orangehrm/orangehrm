@@ -63,7 +63,7 @@ $allowEdit = true;
                 <div id="addPaneMembership" style="display:none;">
                     <div class="outerbox">
 
-                        <div class="mainHeading"><h2 id="membershipHeading"><?php echo __('Add Membership Details'); ?></h2></div>
+                        <div class="mainHeading"><h2 id="membershipHeading"><?php echo __('Add Membership'); ?></h2></div>
                             <form name="frmEmpMembership" id="frmEmpMembership" method="post" action="<?php echo url_for('pim/updateMembership?empNumber=' . $empNumber); ?>">
 
                                 <?php echo $form['_csrf_token']; ?>
@@ -214,8 +214,8 @@ $allowEdit = true;
     var fileModified = 0;
     var datepickerDateFormat = '<?php echo get_datepicker_date_format($sf_user->getDateFormat()); ?>';
     var deleteError = '<?php echo __(TopLevelMessages::SELECT_RECORDS); ?>';
-    var addMembershipDetail = '<?php echo __("Add Membership Details"); ?>';
-    var editMembershipDetail = '<?php echo __("Edit Membership Detail"); ?>';
+    var addMembershipDetail = '<?php echo __("Add Membership"); ?>';
+    var editMembershipDetail = '<?php echo __("Edit Membership"); ?>';
     var getMembershipsUrl = "<?php echo url_for('pim/getMemberships') ?>";
     var selectAMembership = '<?php echo __(ValidationMessages::REQUIRED); ?>';
     var validDateMsg = '<?php echo __(ValidationMessages::DATE_FORMAT_INVALID, array('%format%' => str_replace('yy', 'yyyy', get_datepicker_date_format($sf_user->getDateFormat())))) ?>';
