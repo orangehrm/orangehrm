@@ -24,7 +24,7 @@ class CreateTimesheetForm extends sfForm {
 
     public function configure() {
 
-        $this->formWidgets['date'] = new sfWidgetFormInputText(array(), array('class' => 'date', 'margin' => '0'));
+        $this->formWidgets['date'] = new sfWidgetFormInputText(array(), array('class' => 'date formDateInput', 'margin' => '0'));
 
         $this->setWidgets($this->formWidgets);
 
