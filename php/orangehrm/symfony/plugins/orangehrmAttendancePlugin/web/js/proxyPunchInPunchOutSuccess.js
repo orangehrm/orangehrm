@@ -112,6 +112,16 @@ $(document).ready(function()
             return date.getTime();
 
         }
+        
+        daymarker.bindElement("#attendance_date",
+        {
+            onSelect: function(date){
+              
+                $("#attendance_date").trigger('change');            
+
+            },
+            dateFormat:datepickerDateFormat
+        });
 
         $("#attendance_date").change(function() {
 
