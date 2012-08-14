@@ -429,7 +429,6 @@
                     }
                 } else {
                     showTimeControls(false);
-                    $('#assignleave_txtLeaveTotalTime').show();
                 }
         }
     }
