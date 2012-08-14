@@ -71,6 +71,7 @@ $allowEdit = true;
 
                                 <?php echo $form['membership']->renderLabel(__('Membership') . ' <span class="required">*</span>'); ?>
                                 <?php echo $form['membership']->render(array("class" => "drpDown", "maxlength" => 50)); ?>
+                                <div id="nameContainer"></div>
                                 <br class="clear"/>
 
                                 <?php echo $form['subscriptionPaidBy']->renderLabel(__('Subscription Paid By')); ?>

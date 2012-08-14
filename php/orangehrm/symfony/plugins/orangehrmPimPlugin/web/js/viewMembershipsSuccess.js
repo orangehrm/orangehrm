@@ -1,4 +1,6 @@
 $(document).ready(function() {
+    
+    $('#nameContainer').hide();
 
     var commenceDate = "";
     $("#checkAllMem").click(function(){
@@ -28,12 +30,16 @@ $(document).ready(function() {
     
     // Edit a membership detail in the list
     $('#frmEmpDelMemberships a').live('click', function() {
+        
+        $('#membership_membership').hide();
+        $('#nameContainer').show();
 
         validator.resetForm();
 
         var row = $(this).closest("tr");
         var primarykey = row.find('input.checkboxMem:first').val();
         var membership = $(this).text();
+        $('#nameContainer').text(membership);
         var subscriptionPaidBy = row.find("td:nth-child(3)").text();
         var subscriptionAmount = row.find("td:nth-child(4)").text();
         var currency = row.find("td:nth-child(5)").text();
@@ -81,11 +87,13 @@ $(document).ready(function() {
     // Add a membership detail contact
     $('#btnAddMembershipDetail').click(function() {
         
+        $('#membership_membership').show();
+        
         var memcode = savedMemships.split('^');
         for (i in memcode) {
             $("#membership_membership option[value=".concat(memcode[i]).concat("]")).hide();
         }
-        $('#membership_membership').removeAttr('disabled');
+
         $("#membershipHeading").text(addMembershipDetail);
         $(".paddingLeftRequired").show();
         clearAddForm();
@@ -189,6 +197,7 @@ function clearAddForm() {
     $('#membership_subscriptionRenewalDate').val(displayDateFormat);
     $('div#addPaneMembership label.error').hide();
     $('div#messagebar').hide();
+    $('#nameContainer').hide();
     
 }
 

@@ -104,3 +104,7 @@ table#mem_list td.memshipCode {
 table#mem_list td.memshipAmount {
     text-align: center;
 }
+
+#nameContainer {
+    padding-top: 5px;
+}
