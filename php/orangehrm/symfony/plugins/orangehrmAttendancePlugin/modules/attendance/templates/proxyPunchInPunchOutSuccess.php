@@ -29,31 +29,37 @@
 
             <br class="clear">
             <form  id="punchTimeForm" method="post">
-                <table class="punchTable" border="0" cellpadding="5" cellspacing="0">
-                    <tbody>
-                        <?php echo $form['_csrf_token']; ?>
+            <?php echo $form['_csrf_token']; ?>
+            <?php echo $form['date']->renderLabel() ?>
+            <?php echo $form['date']->renderError() ?>
+            <?php echo $form['date']->render(array("class" => "formInputText"));?>
+            <br class="clear"/>
+            <?php echo $form['time']->renderLabel() ?>
+            <?php echo $form['time']->renderError() ?>
+            <?php echo $form['time']->render(); ?> <span class="timeFormatHint">HH:MM</span>
+            <br class="clear"/>
 
-                        <tr>
-                            <td><?php echo $form['date']->renderLabel() ?></td>
-                            <td> <?php echo $form['date']->renderError() ?>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<?php echo $form['date']->render();?></td></tr>
-                        <tr><td> <?php echo $form['time']->renderLabel() ?></td><td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<?php echo $form['time']->renderError() ?><?php echo $form['time']->render(); ?><span class="timeFormatHint">HH:MM</span></td></tr>
-                        <tr><td> <?php echo $form['timezone']->renderLabel() ?></td><td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<?php echo $form['timezone']->renderError() ?><?php echo $form['timezone']->render(); ?></td></tr>
-                        <tr><td style="vertical-align: top" > <?php echo $form['note']->renderLabel() ?></td><td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<?php echo $form['note']->renderError() ?><?php echo $form['note']->render(array("onkeyup" => "validateNote()")); ?></td></tr>
+            <?php echo $form['timezone']->renderLabel() ?>
+            <?php echo $form['timezone']->renderError() ?>
+            <?php echo $form['timezone']->render(); ?>
+            <br class="clear"/>
+                
+            <?php echo $form['note']->renderLabel() ?>
+            <?php echo $form['note']->renderError() ?>
+            <?php echo $form['note']->render(array("onkeyup" => "validateNote()")); ?>
+            <br class="clear"/>        
 
 
                         <?php if (in_array(PluginWorkflowStateMachine::ATTENDANCE_ACTION_PROXY_PUNCH_IN, $sf_data->getRaw('allowedActions'))) : ?>
-                            <tr> <td></td> <td> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="button" class="punchInbutton" name="button" id="btnPunch"
-                                                                                           onmouseover="moverButton(this);" onmouseout="moutButton(this); "
-                                                                                           value="<?php echo __('In'); ?>" /></td></tr>
+<input type="button" class="punchInbutton" name="button" id="btnPunch" onmouseover="moverButton(this);" onmouseout="moutButton(this); "
+value="<?php echo __('In'); ?>" />
                             <?php endif; ?>
 
                         <?php if (in_array(PluginWorkflowStateMachine::ATTENDANCE_ACTION_PROXY_PUNCH_OUT, $sf_data->getRaw('allowedActions'))) : ?>
-                            <tr><td></td> <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="button" class="punchOutbutton" name="button" id="btnPunch"
+                            <input type="button" class="punchOutbutton" name="button" id="btnPunch"
                                                                                          onmouseover="moverButton(this);" onmouseout="moutButton(this);"
-                                                                                         value="<?php echo __('Out'); ?>" /></td></tr>
+                                                                                         value="<?php echo __('Out'); ?>" />
                             <?php endif; ?>
-                    </tbody>
-                </table>
             </form>
             <?php if (in_array(PluginWorkflowStateMachine::ATTENDANCE_ACTION_PUNCH_OUT, $sf_data->getRaw('allowedActions'))) : ?>
             <?php $dateArray = explode(" ", $punchInTime)?>
