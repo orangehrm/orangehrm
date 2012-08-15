@@ -36,7 +36,9 @@ class LabelDateCell extends Cell {
                 }
                 $value = implode($spliter, $formatted);
             } else {
-                $value = set_datepicker_date_format($value);
+                if ($value != $default) {
+                    $value = set_datepicker_date_format($value);
+                }
             }
         }
 
