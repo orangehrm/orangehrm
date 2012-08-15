@@ -3,7 +3,7 @@ $(document).ready(function()
 
         dateTimeFormat= 'yyyy-MM-dd HH:mm';
 
-        $("#attendance_time").val(currentTime);
+        $(".time").val(currentTime);
 
         $(".punchInbutton").click(function(){
             
@@ -135,7 +135,7 @@ $(document).ready(function()
                 }
                 else{
                     $('.punchOutbutton').removeAttr('disabled');
-                    $("#attendance_time").removeAttr('style');
+                    $(".time").removeAttr('style');
                     $("#attendance_date").removeAttr('style');
                 }
 
@@ -144,8 +144,8 @@ $(document).ready(function()
 
                     if(flag2==1){
                         $('.punchOutbutton').removeAttr('disabled');
-                        $("#attendance_time").removeAttr('style');
-                        $("#attendance_date").removeAttr('style');
+                        $(".time").removeAttr('style');
+                        $(".date").removeAttr('style');
                     }
 
                     if(flag2==0){
@@ -167,7 +167,7 @@ $(document).ready(function()
                 }
                 else{
                     $('.punchOutbutton').removeAttr('disabled');
-                    $("#attendance_time").removeAttr('style');
+                    $(".time").removeAttr('style');
                     $("#attendance_date").removeAttr('style');
                 }
 
@@ -177,8 +177,8 @@ $(document).ready(function()
                     if(flag3==1){
 
                         $('.punchInbutton').removeAttr('disabled');
-                        $("#attendance_time").removeAttr('style');
-                        $("#attendance_date").removeAttr('style');
+                        $(".time").removeAttr('style');
+                        $(".date").removeAttr('style');
 
                     }
 
@@ -195,7 +195,7 @@ $(document).ready(function()
 
 
 
-        $("#attendance_time").change(function() {
+        $(".time").change(function() {
             if(punchOut){
 
                 var flag = validate();
@@ -206,7 +206,7 @@ $(document).ready(function()
                 }
                 else{
                     $('.punchOutbutton').removeAttr('disabled');
-                    $("#attendance_time").removeAttr('style');
+                    $(".time").removeAttr('style');
                     $("#attendance_date").removeAttr('style');
                 }
 
@@ -215,8 +215,8 @@ $(document).ready(function()
 
                     if(flag2==1){
                         $('.punchOutbutton').removeAttr('disabled');
-                        $("#attendance_time").removeAttr('style');
-                        $("#attendance_date").removeAttr('style');
+                        $(".time").removeAttr('style');
+                        $(".date").removeAttr('style');
                     }
 
                     if(flag2==0){
@@ -238,7 +238,7 @@ $(document).ready(function()
                 }
                 else{
                     $('.punchOutbutton').removeAttr('disabled');
-                    $("#attendance_time").removeAttr('style');
+                    $(".time").removeAttr('style');
                     $("#attendance_date").removeAttr('style');
                 }
 
@@ -248,8 +248,8 @@ $(document).ready(function()
                     if(flag3==1){
 
                         $('.punchInbutton').removeAttr('disabled');
-                        $("#attendance_time").removeAttr('style');
-                        $("#attendance_date").removeAttr('style');
+                        $(".time").removeAttr('style');
+                        $(".date").removeAttr('style');
 
                     }
 
@@ -295,8 +295,8 @@ $(document).ready(function()
 
             var errorStyle = "background-color:#FFDFDF;";
  
-            var date=$("#attendance_date").val();
-            var timeArray=$("#attendance_time").val().split(':')
+            var date=$(".date").val();
+            var timeArray=$(".time").val().split(':')
 
             //implement the when - is not there this breaks
 
@@ -322,7 +322,7 @@ $(document).ready(function()
                 $('.punchOutbutton').attr('disabled', 'disabled');
                 $('#validationMsg').attr('class', "messageBalloon_failure");
                 $('#validationMsg').html(errorForInvalidTimeFormat);
-                $("#attendance_time").attr('style', errorStyle);
+                $(".time").attr('style', errorStyle);
                 errFlag = true;
 
             }
@@ -377,7 +377,7 @@ $(document).ready(function()
                     $('#validationMsg').attr('class', "messageBalloon_failure");
                     $('#validationMsg').html(errorForInvalidFormat);
                     $("#attendance_date").attr('style', errorStyle);
-                    $("#attendance_time").attr('style', errorStyle);
+                    $(".time").attr('style', errorStyle);
                     errFlag = true;
 
                 }
@@ -411,7 +411,7 @@ $(document).ready(function()
                         $('.punchOutbutton').attr('disabled', 'disabled');
                         $('#validationMsg').attr('class', "messageBalloon_failure");
                         $('#validationMsg').html(errorForInvalidTime);
-                        $("#attendance_time").attr('style', errorStyle);
+                        $(".time").attr('style', errorStyle);
                         $("#attendance_date").attr('style', errorStyle);
                         errFlag = true;
                     }
@@ -439,7 +439,7 @@ $(document).ready(function()
             var inTime=punchInUtcTime;
             var timezone=timeZone*3600;
  
-            var outTime =convertDateToYMDFormat($("#attendance_date").val())+" "+$("#attendance_time").val();
+            var outTime =convertDateToYMDFormat($(".date").val())+" "+$(".time").val();
 
             var r = $.ajax({
                 type: 'POST',
@@ -462,7 +462,7 @@ $(document).ready(function()
                 $('.punchOutbutton').attr('disabled', 'disabled');
                 $('#validationMsg').attr('class', "messageBalloon_failure");
                 $('#validationMsg').html(errorForOverLappingTime);
-                $("#attendance_time").attr('style', errorStyle);
+                $(".time").attr('style', errorStyle);
                 $("#attendance_date").attr('style', errorStyle);
 
             }
@@ -477,7 +477,7 @@ $(document).ready(function()
             $('#validationMsg').removeAttr('class');
             $('#validationMsg').html("");
 
-            var inTime =convertDateToYMDFormat($("#attendance_date").val())+" "+$("#attendance_time").val();
+            var inTime =convertDateToYMDFormat($(".date").val())+" "+$(".time").val();
             var timezoneArray= getTimezoneArray();
             var  timeZone=  timezoneArray[$(".timezone").val()];
              if(timeZone == 'GMT'){
@@ -506,7 +506,7 @@ $(document).ready(function()
                 $('.punchInbutton').attr('disabled', 'disabled');
                 $('#validationMsg').attr('class', "messageBalloon_failure");
                 $('#validationMsg').html(errorForOverLappingTime);
-                $("#attendance_time").attr('style', errorStyle);
+                $(".time").attr('style', errorStyle);
                 $("#attendance_date").attr('style', errorStyle);
 
             }

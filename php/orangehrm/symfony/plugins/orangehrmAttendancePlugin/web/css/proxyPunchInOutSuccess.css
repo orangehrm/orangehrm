@@ -27,8 +27,16 @@ root {
     font-weight: bold !important;
     min-width: 75px;
     width: auto;
-    margin-left: 140px;
-    margin-top: 10px;
 }
 
+form#punchTimeForm label {
+    position: relative;
+    margin-top: 6px;
+    width: 60px
+}
 
+.punchTable td{
+
+     padding-left: 5px;
+    padding-right: 5px;
+}
