@@ -40,3 +40,8 @@ form#punchTimeForm label {
      padding-left: 5px;
     padding-right: 5px;
 }
+
+#attendance_date_Button {
+    margin-bottom:-4px;
+    margin-left:4px;
+}
