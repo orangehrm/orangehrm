@@ -23,7 +23,7 @@ class viewTimesheetAction extends sfAction {
     private $timesheetPeriodService;
     private $timesheetActionLog;
     private $employeeService;
-    
+
     public function getEmployeeService() {
 
         if (is_null($this->employeeService)) {
@@ -32,15 +32,14 @@ class viewTimesheetAction extends sfAction {
 
         return $this->employeeService;
     }
-    
+
     public function setEmployeeService($employeeService) {
 
         if ($employeeService instanceof EmployeeService) {
             $this->employeeService = $employeeService;
         }
-
     }
-    
+
     public function execute($request) {
 
         $employeeId = $request->getParameter('employeeId');
@@ -76,7 +75,6 @@ class viewTimesheetAction extends sfAction {
         if ($this->getContext()->getUser()->hasFlash('errorMessage')) {
 
             $this->messageData = array('NOTICE', __($this->getContext()->getUser()->getFlash('errorMessage')));
-           
         } else {
 
 
@@ -210,7 +208,14 @@ class viewTimesheetAction extends sfAction {
 
         $employeeService = new EmployeeService();
         $employee = $employeeService->getEmployee($employeeId);
-        return $employee->getFirstName() . " " . $employee->getLastName();
+
+        $name = $employee->getFirstName() . " " . $employee->getLastName();
+
+        if ($employee->getTerminationId()) {
+            $name = $name . ' ('. __('Past Employee') . ')';
+        }
+
+        return $name;
     }
 
     protected function getTimesheetPeriodService() {
@@ -222,26 +227,25 @@ class viewTimesheetAction extends sfAction {
 
         return $this->timesheetPeriodService;
     }
-    
+
     protected function _checkAuthentication($empNumber) {
-        
+
         $user = $this->getUser()->getAttribute('user');
-        
+
         if ($user->isAdmin()) {
             return;
-        }        
-        
-        $logedInEmpNumber   = $user->getEmployeeNumber();
-        $subordinateIdList  = $this->getEmployeeService()->getSubordinateIdListBySupervisorId($logedInEmpNumber);
-        
+        }
+
+        $logedInEmpNumber = $user->getEmployeeNumber();
+        $subordinateIdList = $this->getEmployeeService()->getSubordinateIdListBySupervisorId($logedInEmpNumber);
+
         if (empty($subordinateIdList)) {
             $this->redirect('auth/login');
         }
-        
+
         if (!in_array($empNumber, $subordinateIdList)) {
             $this->redirect('auth/login');
         }
-                
     }
 
 }
