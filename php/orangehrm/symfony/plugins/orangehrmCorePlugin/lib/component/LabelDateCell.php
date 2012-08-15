@@ -22,7 +22,7 @@ class LabelDateCell extends Cell {
                     if (!$line && $default) {
                         $value .= '<tr><td>' . $default . '</td></tr>';
                     } else {
-                        $value .= '<tr><td> &bull; ' . $line . '</td></tr>';
+                        $value .= '<tr><td> &bull; ' . set_datepicker_date_format($line) . '</td></tr>';
                     }
                 }
                 $value .= '</tbody></table>';
