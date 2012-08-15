@@ -353,3 +353,7 @@ form#frmAddCandidate input#addCandidate_appliedDate.error {
     padding-left: 1px;    
     width: 100px !important;
 }
+
+form#frmAddCandidate #extend{
+    padding-left: 40px;
+}
