@@ -33,10 +33,10 @@ class ConfigPimForm extends sfForm {
         $showSIN = $orangeConfig->getAppConfValue(ConfigService::KEY_PIM_SHOW_SIN);
         $showTax = $orangeConfig->getAppConfValue(ConfigService::KEY_PIM_SHOW_TAX_EXEMPTIONS);
         
-        $this->formWidgets['chkDeprecateFields'] = new sfWidgetFormInputCheckbox();
-        $this->formWidgets['chkShowSSN'] = new sfWidgetFormInputCheckbox();
-        $this->formWidgets['chkShowSIN'] = new sfWidgetFormInputCheckbox();
-        $this->formWidgets['chkShowTax'] = new sfWidgetFormInputCheckbox();
+        $this->formWidgets['chkDeprecateFields'] = new sfWidgetFormInputCheckbox(array(), array('value' => 'on'));
+        $this->formWidgets['chkShowSSN'] = new sfWidgetFormInputCheckbox(array(), array('value' => 'on'));
+        $this->formWidgets['chkShowSIN'] = new sfWidgetFormInputCheckbox(array(), array('value' => 'on'));
+        $this->formWidgets['chkShowTax'] = new sfWidgetFormInputCheckbox(array(), array('value' => 'on'));
         
         
         if ($showDeprecatedFields) {
