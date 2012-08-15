@@ -23,7 +23,7 @@ class editTimesheetAction extends sfAction {
     private $timesheetPeriodService;
     private $totalRows = 0;
     private $employeeService;
-    
+
     public function getEmployeeService() {
 
         if (is_null($this->employeeService)) {
@@ -32,13 +32,12 @@ class editTimesheetAction extends sfAction {
 
         return $this->employeeService;
     }
-    
+
     public function setEmployeeService($employeeService) {
 
         if ($employeeService instanceof EmployeeService) {
             $this->employeeService = $employeeService;
         }
-
     }
 
     public function getTimesheetService() {
@@ -71,22 +70,19 @@ class editTimesheetAction extends sfAction {
         $this->backAction = $request->getParameter('actionName');
         $this->timesheetId = $request->getParameter('timesheetId');
         $this->employeeId = $request->getParameter('employeeId');
-        
+
         $this->_checkAuthentication($this->employeeId, $userObj);
-        
+
         if ($this->employeeId == $employeeIdOfTheUser) {
             $this->employeeName == null;
         } else {
-
-            $employeeService = $this->getEmployeeService();
-            $employee = $employeeService->getEmployee($this->employeeId);
-            $this->employeeName = $employee->getFirstName() . " " . $employee->getLastName();
+            $this->employeeName = $this->getEmployeeName($this->employeeId);
         }
 
 
 
         $timesheet = $this->getTimesheetService()->getTimesheetById($this->timesheetId);
-        
+
         $this->date = $timesheet->getStartDate();
         $this->endDate = $timesheet->getEndDate();
         $this->startDate = $this->date;
@@ -122,36 +118,48 @@ class editTimesheetAction extends sfAction {
 
 
             if ($request->getParameter('buttonRemoveRows')) {
-              
+
 
                 $this->messageData = array('SUCCESS', __('Successfully Removed'));
-
             }
         }
     }
-    
+
     protected function _checkAuthentication($empNumber, $user) {
 
-        $logedInEmpNumber   = $user->getEmployeeNumber();
-        
+        $logedInEmpNumber = $user->getEmployeeNumber();
+
         if ($logedInEmpNumber == $empNumber) {
             return;
         }
-        
+
         if ($user->isAdmin()) {
             return;
-        }        
-        
-        $subordinateIdList  = $this->getEmployeeService()->getSubordinateIdListBySupervisorId($logedInEmpNumber);
-        
+        }
+
+        $subordinateIdList = $this->getEmployeeService()->getSubordinateIdListBySupervisorId($logedInEmpNumber);
+
         if (empty($subordinateIdList)) {
             $this->redirect('auth/login');
         }
-        
+
         if (!in_array($empNumber, $subordinateIdList)) {
             $this->redirect('auth/login');
         }
-                
+    }
+
+    private function getEmployeeName($employeeId) {
+
+        $employeeService = new EmployeeService();
+        $employee = $employeeService->getEmployee($employeeId);
+
+        $name = $employee->getFirstName() . " " . $employee->getLastName();
+
+        if ($employee->getTerminationId()) {
+            $name = $name . ' (' . __('Past Employee') . ')';
+        }
+
+        return $name;
     }
 
 }
