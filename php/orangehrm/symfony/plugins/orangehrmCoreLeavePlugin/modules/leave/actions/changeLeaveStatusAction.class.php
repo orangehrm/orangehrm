@@ -103,7 +103,9 @@ class changeLeaveStatusAction extends baseLeaveAction {
             }
         } else {
 
-            $url = ($changeType == 'change_leave') ? "leave/viewLeaveRequest" : "leave/viewLeaveList";
+            $redirectAction = stripos($request->getReferer(), 'viewMyLeaveList') === FALSE ? 'leave/viewLeaveList' : 'leave/viewMyLeaveList';
+            
+            $url = ($changeType == 'change_leave') ? "leave/viewLeaveRequest" : $redirectAction;
 
             $page = $request->getParameter("currentPage");
 
