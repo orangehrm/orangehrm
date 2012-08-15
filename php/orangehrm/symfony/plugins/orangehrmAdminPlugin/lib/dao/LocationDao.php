@@ -71,13 +71,13 @@ class LocationDao extends BaseDao {
                     $srchClues['limit'] = 50;
                 }
                 
-		$sortField = ($srchClues['sortField'] == "") ? 'name' : $srchClues['sortField'];
+		$sortField = $this->_getSortField($srchClues['sortField']);
 		$sortOrder = ($srchClues['sortOrder'] == "") ? 'ASC' : $srchClues['sortOrder'];
 		$offset = ($srchClues['offset'] == "") ? 0 : $srchClues['offset'];
 		$limit = ($srchClues['limit'] == "") ? 50 : $srchClues['limit'];
 
 		try {
-			$q = $this->_buildSearchQuery($srchClues);
+			$q = $this->_buildSearchQuery($srchClues);            
 			$q->orderBy($sortField . ' ' . $sortOrder)
 				->offset($offset)
 				->limit($limit);                        
@@ -95,22 +95,26 @@ class LocationDao extends BaseDao {
 	private function _buildSearchQuery($srchClues) {
 
 		$q = Doctrine_Query::create()
-			->from('Location');
+                ->select('l.* , IFNULL( Count(el.emp_number),0 ) as numberOfEmployees')
+                ->from('Location l')
+                ->leftJoin('l.country c')
+                ->leftJoin('l.EmpLocations el');
 
-		if (!empty($srchClues['name'])) {
-			$q->addWhere('name LIKE ?', "%" . trim($srchClues['name']) . "%");
-		}
-		if (!empty($srchClues['city'])) {
-			$q->addWhere('city LIKE ?', "%" . trim($srchClues['city']) . "%");
-		}
-		if (!empty($srchClues['country'])) {
-                    if (is_array($srchClues['country'])) {
-                        $q->andWhereIn('country_code', $srchClues['country']);
-                    } else {
-			$q->addWhere('country_code = ?', $srchClues['country']);
-                    }
-		}
-		return $q;
+        if (!empty($srchClues['name'])) {
+            $q->addWhere('l.name LIKE ?', "%" . trim($srchClues['name']) . "%");
+        }
+        if (!empty($srchClues['city'])) {
+            $q->addWhere('l.city LIKE ?', "%" . trim($srchClues['city']) . "%");
+        }
+        if (!empty($srchClues['country'])) {
+            if (is_array($srchClues['country'])) {
+                $q->andWhereIn('l.country_code', $srchClues['country']);
+            } else {
+                $q->addWhere('l.country_code = ?', $srchClues['country']);
+            }
+        }
+        $q->groupBy('l.id');
+        return $q;
 	}
 
 	/**
@@ -145,6 +149,30 @@ class LocationDao extends BaseDao {
 			throw new DaoException($e->getMessage());
 		}
 	}
+    
+    /**
+     * Returns corresponding sort field
+     * 
+     * @version 2.7.1
+     * @param string $sortFieldName 
+     * @return string 
+     */
+    private function _getSortField($sortFieldName){
+        
+        $sortField = 'l.name';
+        if($sortFieldName === 'name') {
+            $sortField = 'l.name';
+        } else if ($sortFieldName === 'countryName') {
+            $sortField = 'c.name';        
+        } else if ($sortFieldName === 'city') {
+            $sortField = 'l.city';
+        } else if ($sortFieldName === 'numberOfEmployees') {
+            $sortField = 'numberOfEmployees';
+        } 
+        
+        return $sortField;
+        
+    }
 }
 
 ?>
