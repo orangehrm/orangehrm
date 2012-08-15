@@ -39,13 +39,13 @@ class ModuleForm extends BaseForm {
     public function configure() {
 
         $this->setWidgets(array(
-            'admin' => new sfWidgetFormInputCheckbox(array(), array('class' => 'checkbox')),
-            'pim' => new sfWidgetFormInputCheckbox(array(), array('class' => 'checkbox')),
-            'leave' => new sfWidgetFormInputCheckbox(array(), array('class' => 'checkbox')),
-            'time' => new sfWidgetFormInputCheckbox(array(), array('class' => 'checkbox')),
-            'recruitment' => new sfWidgetFormInputCheckbox(array(), array('class' => 'checkbox')),
-            'performance' => new sfWidgetFormInputCheckbox(array(), array('class' => 'checkbox')),
-            'help' => new sfWidgetFormInputCheckbox(array(), array('class' => 'checkbox'))
+            'admin' => new sfWidgetFormInputCheckbox(array(), array('class' => 'checkbox', 'value' => 'on')),
+            'pim' => new sfWidgetFormInputCheckbox(array(), array('class' => 'checkbox', 'value' => 'on')),
+            'leave' => new sfWidgetFormInputCheckbox(array(), array('class' => 'checkbox', 'value' => 'on')),
+            'time' => new sfWidgetFormInputCheckbox(array(), array('class' => 'checkbox', 'value' => 'on')),
+            'recruitment' => new sfWidgetFormInputCheckbox(array(), array('class' => 'checkbox', 'value' => 'on')),
+            'performance' => new sfWidgetFormInputCheckbox(array(), array('class' => 'checkbox', 'value' => 'on')),
+            'help' => new sfWidgetFormInputCheckbox(array(), array('class' => 'checkbox', 'value' => 'on'))
         ));        
         
         $this->setValidators(array(
