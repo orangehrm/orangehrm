@@ -73,7 +73,8 @@
             <div class="errorHolder"></div>
             <br class="clear" />
             <?php echo $form['time']->renderLabel(__('Time')); ?>
-            <?php echo $form['time']->render(array("class" => "formInputText", "maxlength" => 20)); ?>            
+            <?php echo $form['time']->render(array("class" => "formInputText", "maxlength" => 20)); ?>       
+            <?php echo $form['time']->renderError(); ?>
             <label class="hhmm" style="padding-left: 6px">HH:MM</label>
             <div class="errorHolder"></div>
             <br class="clear" />

@@ -97,6 +97,12 @@ class JobInterviewForm extends BaseForm {
         for ($i = 1; $i <= $this->numberOfInterviewers; $i++) {
             $this->setValidator('interviewer_' . $i, new sfValidatorString(array('required' => false, 'max_length' => 100)));
         }
+        
+        $this->validatorSchema->setPostValidator(
+                new sfValidatorCallback(array(
+                    'callback' => array($this, 'postValidate')
+                ))
+        );        
 
         $this->widgetSchema->setNameFormat('jobInterview[%s]');
 
@@ -104,6 +110,28 @@ class JobInterviewForm extends BaseForm {
             $this->setDefaultValues($this->id);
         }
     }
+    
+    public function postValidate($validator, $values) {
+
+        $time = $values['time'];
+        $timeParts = explode(':', trim($time));
+        
+        if (empty($timeParts)) {
+            return $values;
+        }
+        
+        $hour = (int)$timeParts[0];
+        $minutes = (int)$timeParts[1];
+        
+        if ($hour > 24 || $minutes > 59 || ($hour == 24 && $minutes > 0)) {
+            $message = __('Invalid');
+            $error = new sfValidatorError($validator, $message);
+            throw new sfValidatorErrorSchema($validator, array('time' => $error));            
+        }
+        
+        return $values;
+        
+    }     
 
     private function setDefaultValues($interviewId) {
 
@@ -263,6 +291,6 @@ class JobInterviewForm extends BaseForm {
         }
         return $interviewersStr;
     }
-
+    
 }
 

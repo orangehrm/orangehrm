@@ -35,15 +35,6 @@ $(document).ready(function() {
         $(this).next().hide();
     });
     
-    $('#jobInterview_time').change(function(){
-        
-        var shedulingDate = $('#jobInterview_date').val();
-        var shedulingTime = $('#jobInterview_time').val();
-        
-        var setWarning = isSheduledTimeFreeJson(shedulingDate, shedulingTime);
-        
-    });
-
     $('.interviwerErrorContainers').css('display', 'none');
 
     $('.formInputInterviewer').each(function(){
