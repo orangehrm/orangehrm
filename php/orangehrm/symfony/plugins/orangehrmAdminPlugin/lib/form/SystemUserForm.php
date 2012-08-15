@@ -46,7 +46,7 @@ class SystemUserForm extends BaseForm {
             'employeeName' => new ohrmWidgetEmployeeNameAutoFill(array(), $empNameStyle),
             'userName' => new sfWidgetFormInputText(array(), array("class" => "formInputText", "maxlength" => 20)),
             'status' => new sfWidgetFormSelect(array('choices' => $statusList), array("class" => "formSelect", "maxlength" => 3)),
-            'chkChangePassword' => new sfWidgetFormInputCheckbox(array(), array('class' => 'chkChangePassword')),
+            'chkChangePassword' => new sfWidgetFormInputCheckbox(array(), array('class' => 'chkChangePassword', 'value' => 'on')),
             'password' => new sfWidgetFormInputPassword(array(), array("class" => "formInputText password", "maxlength" => 20)),
             'confirmPassword' => new sfWidgetFormInputPassword(array(), array("class" => "formInputText password", "maxlength" => 20))
         ));
