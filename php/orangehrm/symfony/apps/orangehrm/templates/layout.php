@@ -22,6 +22,9 @@ $cultureElements = explode('_', $sf_user->getCulture());
     <!--[if IE 9]>
         <link href="<?php echo public_path('../../themes/orange/css/IE9_style.css')?>" rel="stylesheet" type="text/css"/>
     <![endif]-->
+    <!--[if IE 8]>
+        <link href="<?php echo public_path('../../themes/orange/css/IE8_style.css')?>" rel="stylesheet" type="text/css"/>
+    <![endif]-->
 	<script type="text/javascript" src="<?php echo public_path('../../themes/orange/scripts/style.js');?>"></script>
 	
 	<script type="text/javascript" src="<?php echo public_path('../../scripts/archive.js');?>"></script>
