@@ -38,7 +38,7 @@
         <?php echo $createTimesheetForm['_csrf_token']; ?>
 
         <?php echo $createTimesheetForm['date']->renderLabel(__('Select a Day to Create Timesheet')); ?>
-        <?php echo $createTimesheetForm['date']->render(); ?><input id="DateBtn" type="button" name="" value="" class="calendarBtn"style="display: inline;margin:0;float:none; "/>
+        <?php echo $createTimesheetForm['date']->render(); ?><input id="DateBtn" type="button" name="" value="" class="calendarBtn" />
         <?php echo $createTimesheetForm['date']->renderError() ?>
         <br class="clear"/>
     </form>
