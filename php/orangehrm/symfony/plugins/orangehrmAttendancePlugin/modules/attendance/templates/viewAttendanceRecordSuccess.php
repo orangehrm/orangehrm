@@ -34,7 +34,7 @@ use_javascript('../../../scripts/jquery/jquery.autocomplete.js');
                     <td><?php echo $form['employeeName']->renderError() ?><?php echo $form['employeeName']->render(); ?></td>
                 </tr>
                 <tr><td><?php echo __('Date').' <span class="required">*</span>' ?></td>
-                    <td><?php echo $form['date']->renderError() ?><?php echo $form['date']->render(); ?>&nbsp;<input id="DateBtn" type="button" name="" value="" class="calendarBtn"style="display: inline;margin:0;float:none; "/></td>
+                    <td><?php echo $form['date']->renderError() ?><?php echo $form['date']->render(); ?>&nbsp;<input id="DateBtn" type="button" name="" value="" class="calendarBtn"style="display: inline;margin-bottom:-4px;margin-left:4px;float:none; "/></td>
                     <?php echo $form->renderHiddenFields(); ?>
                 </tr>
             </table>
