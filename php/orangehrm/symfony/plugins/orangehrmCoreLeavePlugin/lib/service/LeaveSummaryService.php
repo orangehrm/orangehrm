@@ -80,10 +80,21 @@ class LeaveSummaryService extends BaseService {
         $listData = $this->getLeaveSummaryDao()->searchLeaveSummary($clues, $offset, $limit);
         
         $userRoleManager = $this->getUserRoleManager();
+        $loggedInEmpNumber = $userRoleManager->getUser()->getEmpNumber();
+     
         $accessibleEmployeeIds = $userRoleManager->getAccessibleEntityIds('Employee');
 
         foreach ($listData as $key => $row) {
-            $listData[$key]['is_accessible'] = in_array($row['emp_number'], $accessibleEmployeeIds);
+            $empNumber = $row['emp_number'];
+            
+            if ($empNumber == $loggedInEmpNumber) {
+                $selfPermissions = $userRoleManager->getDataGroupPermissions(array('leave_summary'), array(), array(), true);
+                $isAccessible = $selfPermissions->canUpdate();
+            } else {
+                $isAccessible = in_array($empNumber, $accessibleEmployeeIds);
+            }
+            
+            $listData[$key]['is_accessible'] = $isAccessible;
             $leave_info = explode("_", $row['leave_info']);
             $listData[$key]['having_taken'] = ($leave_info[2] != 0.00) ? true : false;
             $listData[$key]['leave_taken'] = $leave_info[2];
