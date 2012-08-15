@@ -54,13 +54,11 @@ $(document).ready(function() {
 
     //open when the pencil mark got clicked
     $('.dialogInvoker').click(function() {
-        $('#ajaxCommentSaveMsg').html('').removeAttr('class');
-        $("#leaveComment").attr("disabled","disabled");
+        $('#ajaxCommentSaveMsg').html('').removeAttr('class');      
+        
         //removing errors message in the comment box
         $("#commentError").html("");
-
-        $("#commentSave").attr("value", lang_edit);
-
+        
         /* Extracting the request id */
         var id = $(this).parent().siblings('input[id^="hdnLeaveRequest_"]').val();
         if (!id) {
@@ -79,6 +77,16 @@ $(document).ready(function() {
         
         $('#leaveId').val(id);
         $('#leaveComment').val(comment);
+        
+        // If leave comment is empty , enable the edit mode
+        if( $('#leaveComment').val().trim() =="") {
+            $("#leaveComment").removeAttr("disabled");
+            $("#commentSave").attr("value", lang_save);
+        } else {
+            $("#leaveComment").attr("disabled","disabled");
+            $("#commentSave").attr("value", lang_edit);
+        }
+        
         $('#leaveOrRequest').val('request');
 
         $('#commentDialog').dialog('open');
