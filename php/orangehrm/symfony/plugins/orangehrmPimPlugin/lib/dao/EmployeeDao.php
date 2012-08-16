@@ -1568,7 +1568,7 @@ class EmployeeDao extends BaseDao {
      * @returns integer
      * @throws DaoException
      */
-    public function deleteEmployeeSalaries($empNumber, $salaryIds = null) {
+    public function deleteEmployeeSalaryComponents($empNumber, $salaryIds = null) {
         
         try {
             

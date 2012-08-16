@@ -992,7 +992,7 @@ class EmployeeDaoTest extends PHPUnit_Framework_TestCase {
         $empNumber = 1;
         $entriesToDelete = array(1, 2);
 
-        $result = $this->employeeDao->deleteEmployeeSalaries($empNumber, $entriesToDelete);
+        $result = $this->employeeDao->deleteEmployeeSalaryComponents($empNumber, $entriesToDelete);
         $this->assertEquals(2, $result);
         
     }
@@ -1002,7 +1002,7 @@ class EmployeeDaoTest extends PHPUnit_Framework_TestCase {
         $empNumber = 1;
         $entriesToDelete = array(1);
 
-        $result = $this->employeeDao->deleteEmployeeSalaries($empNumber, $entriesToDelete);
+        $result = $this->employeeDao->deleteEmployeeSalaryComponents($empNumber, $entriesToDelete);
         $this->assertEquals(1, $result);
         
     }
@@ -1011,7 +1011,7 @@ class EmployeeDaoTest extends PHPUnit_Framework_TestCase {
         
         $empNumber = 1;
 
-        $result = $this->employeeDao->deleteEmployeeSalaries($empNumber);
+        $result = $this->employeeDao->deleteEmployeeSalaryComponents($empNumber);
         $this->assertEquals(2, $result);
         
     }    

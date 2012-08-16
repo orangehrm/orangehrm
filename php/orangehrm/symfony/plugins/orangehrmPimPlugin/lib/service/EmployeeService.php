@@ -211,7 +211,7 @@ class EmployeeService extends BaseService {
      * 
      * @version 2.6.11
      * @param int $empNumber Employee Number
-     * @param array $entriesToDelete Array of emergency contact seqNo values. Optional.
+     * @param array $sequenceNumbers Array of emergency contact sequence numbers. Optional.
      * @return integer Number of records deleted
      * @throws DaoException
      * 
@@ -219,8 +219,8 @@ class EmployeeService extends BaseService {
      * @todo Exceptions should preserve previous exception [DONE]
      * @todo rename method as deleteEmployeeEmergencyContacts [DONE]
      */
-    public function deleteEmployeeEmergencyContacts($empNumber, $entriesToDelete = null) {
-        return $this->getEmployeeDao()->deleteEmployeeEmergencyContacts($empNumber, $entriesToDelete);
+    public function deleteEmployeeEmergencyContacts($empNumber, $sequenceNumbers = null) {
+        return $this->getEmployeeDao()->deleteEmployeeEmergencyContacts($empNumber, $sequenceNumbers);
     }
 
     /**
@@ -231,15 +231,15 @@ class EmployeeService extends BaseService {
      * 
      * @version 2.6.11
      * @param int $empNumber Employee Number
-     * @param array $entriesToDelete Array of immigration entry seqno values. Optional.
+     * @param array $recordIds Array of immigration record IDs. Optional.
      * @return integer Number of records deleted
      * @throws DaoException
      * 
      * @todo Rename to deleteEmployeeImmigrationRecords [DONE]
      * @todo return number of entries deleted (currently returns true always) [DONE]
      */
-    public function deleteEmployeeImmigrationRecords($empNumber, $entriesToDelete = null) {
-        return $this->getEmployeeDao()->deleteEmployeeImmigrationRecords($empNumber, $entriesToDelete);
+    public function deleteEmployeeImmigrationRecords($empNumber, $recordIds = null) {
+        return $this->getEmployeeDao()->deleteEmployeeImmigrationRecords($empNumber, $recordIds);
     }
 
     /**
@@ -264,7 +264,7 @@ class EmployeeService extends BaseService {
      *  
      * @version 2.6.11
      * @param int $empNumber Employee Number
-     * @param array $entriesToDelete Array of dependent seqno values. Optional.
+     * @param array $sequenceNumbers Array of dependent seqno values. Optional.
      * @return integer Number of records deleted
      * @throws DaoException
      * 
@@ -272,8 +272,8 @@ class EmployeeService extends BaseService {
      * @todo Exceptions should preserve previous exception [DONE]
      * @todo Rename method as deleteEmployeeDependents [DONE]
      */
-    public function deleteEmployeeDependents($empNumber, $entriesToDelete = null) {
-        return $this->getEmployeeDao()->deleteEmployeeDependents($empNumber, $entriesToDelete);
+    public function deleteEmployeeDependents($empNumber, $sequenceNumbers = null) {
+        return $this->getEmployeeDao()->deleteEmployeeDependents($empNumber, $sequenceNumbers);
     }
 
     /**
@@ -450,15 +450,15 @@ class EmployeeService extends BaseService {
      * 
      * @version 2.6.11
      * @param int $empNumber Employee Number
-     * @param array $entriesToDelete sequenceNos of the education entries to delete. Optional.
+     * @param array $ids Array of EmployeeEducation primary keys. Optional.
      * @return integer Number of records deleted
      * @throws DaoException
      * 
      * @todo return number of entries deleted (currently return value is based on $educationToDelete not actual deleted records) [DONE]
      * @todo rename method as deleteEmployeeEducationRecords [DONE]
      */
-    public function deleteEmployeeEducationRecords($empNumber, $entriesToDelete = null) {
-        return $this->getEmployeeDao()->deleteEmployeeEducationRecords($empNumber, $entriesToDelete);
+    public function deleteEmployeeEducationRecords($empNumber, $ids = null) {
+        return $this->getEmployeeDao()->deleteEmployeeEducationRecords($empNumber, $ids);
     }
 
     /**
@@ -609,15 +609,15 @@ class EmployeeService extends BaseService {
      * 
      * @version 2.6.11
      * @param int $empNumber Employee number
-     * @param array $entriesToDelete Array of license IDs. Optional.
+     * @param array $licenseIds Array of license IDs. Optional.
      * @return integer Number of records deleted
      * 
      * @todo Return number of items deleted [DONE]
      * @todo Rename method as deleteEmployeeLicenses [DONE]
      * 
      */
-    public function deleteEmployeeLicenses($empNumber, $entriesToDelete = null) {
-        return $this->getEmployeeDao()->deleteEmployeeLicenses($empNumber, $entriesToDelete);
+    public function deleteEmployeeLicenses($empNumber, $licenseIds = null) {
+        return $this->getEmployeeDao()->deleteEmployeeLicenses($empNumber, $licenseIds);
     }
 
 
@@ -661,14 +661,14 @@ class EmployeeService extends BaseService {
      * 
      * @version 2.6.11
      * @param int $empNumber Employee number
-     * @param array $entriesToDelete Array of attachement IDs. Optional.
+     * @param array $attachmentIds Array of attachement IDs. Optional.
      * @return integer Number of records deleted
      * 
      * @todo rename method as deleteEmployeeAttachments [DONE]
      * @todo return number of items deleted [DONE]
      */
-    public function deleteEmployeeAttachments($empNumber, $entriesToDelete = null) {
-        return $this->getEmployeeDao()->deleteEmployeeAttachments($empNumber, $entriesToDelete);
+    public function deleteEmployeeAttachments($empNumber, $attachmentIds = null) {
+        return $this->getEmployeeDao()->deleteEmployeeAttachments($empNumber, $attachmentIds);
     }
 
     /**
@@ -1275,8 +1275,8 @@ class EmployeeService extends BaseService {
      * @todo Change parameter to $salaryIds [DONE]
      * @todo Change EmpBasicSalary ORM to Salary [DONE: Renamed as EmployeeSalary]
      */
-    public function deleteEmployeeSalaries($empNumber, $salaryIds = null) {
-        return $this->getEmployeeDao()->deleteEmployeeSalaries($empNumber, $salaryIds);
+    public function deleteEmployeeSalaryComponents($empNumber, $salaryIds = null) {
+        return $this->getEmployeeDao()->deleteEmployeeSalaryComponents($empNumber, $salaryIds);
     }
     
     /**
