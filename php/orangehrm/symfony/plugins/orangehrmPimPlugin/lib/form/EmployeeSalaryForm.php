@@ -105,7 +105,7 @@ class EmployeeSalaryForm extends BaseForm {
         $widgets['payperiod_code'] = new sfWidgetFormSelect(array('choices' => $this->payPeriods));
         $widgets['salary_component'] = new sfWidgetFormInputText();
         $widgets['comments'] = new sfWidgetFormTextArea();
-        $widgets['set_direct_debit'] = new sfWidgetFormInputCheckbox();
+        $widgets['set_direct_debit'] = new sfWidgetFormInputCheckbox(array(), array('value' => 'on'));
 
         if (count($this->payGrades) > 0) {
             $this->havePayGrades = true;
