@@ -710,10 +710,17 @@ class EmployeeDao extends BaseDao {
      */
     public function getEmployeeAttachment($empNumber, $attachId) {
         try {
-            return Doctrine :: getTable('EmployeeAttachment')->find(array(
+            $result = Doctrine :: getTable('EmployeeAttachment')->find(array(
                 'emp_number' => $empNumber,
                 'attach_id' => $attachId
             ));
+            
+            if (!$result) {
+                return null;
+            }
+            
+            return $result;
+            
         // @codeCoverageIgnoreStart
         } catch (Exception $e) {
             throw new DaoException($e->getMessage(), $e->getCode(), $e);

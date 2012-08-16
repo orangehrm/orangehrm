@@ -678,7 +678,7 @@ class EmployeeService extends BaseService {
      * @param int $empNumber Employee number 
      * @param int $attachmentId Attachment ID
      * 
-     * @return EmployeeAttachment/boolean If no records return false 
+     * @return EmployeeAttachment or null if no attachment is found 
      * 
      * @todo rename method as getEmployeeAttachment [DONE]
      */
