@@ -72,8 +72,8 @@ class AddJobVacancyForm extends BaseForm {
             'hiringManagerId' => new sfWidgetFormInputHidden(),
             'noOfPositions' => new sfWidgetFormInputText(),
             'description' => new sfWidgetFormTextArea(),
-            'status' => new sfWidgetFormInputCheckbox(),
-            'publishedInFeed' => new sfWidgetFormInputCheckbox(),
+            'status' => new sfWidgetFormInputCheckbox(array(), array('value' => 'on')),
+            'publishedInFeed' => new sfWidgetFormInputCheckbox(array(), array('value' => 'on')),
         ));
 
         $inputDatePattern = sfContext::getInstance()->getUser()->getDateFormat();
