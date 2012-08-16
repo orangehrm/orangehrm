@@ -93,13 +93,26 @@ class LeaveSummaryServiceTest extends PHPUnit_Framework_TestCase {
                         ->will($this->returnValue($intendedResults));
 
         // TODO: 'BasicUserRoleManager' is used directly. Should be accessed via UserRoleManagerFactory::getUserRoleManager()
-        $userRoleManagerMock = $this->getMock('BasicUserRoleManager', array('getAccessibleEntityIds'));
+        $userRoleManagerMock = $this->getMock('BasicUserRoleManager', array('getAccessibleEntityIds', 'getUser', 'getDataGroupPermissions'));
         $userRoleManagerMock->expects($this->once())
                         ->method('getAccessibleEntityIds')
                         ->with('Employee')
                         ->will($this->returnValue(array(1, 2, 3, 4, 5)));
+        $user = new SystemUser();
+        $user->setEmpNumber(2);
+        
+        $userRoleManagerMock->expects($this->once())
+                        ->method('getUser')
+                        ->will($this->returnValue($user));
+        
+        $dataGroupPermission = new ResourcePermission(true, true, true, true);
+        
+        $userRoleManagerMock->expects($this->exactly(2))
+                        ->method('getDataGroupPermissions')
+                        ->with(array('leave_summary'), array(), array(), true)
+                        ->will($this->returnValue($dataGroupPermission));
+        
 
-                        
         $this->leaveSummaryService->setLeaveSummaryDao($leaveSummaryDao);
         $this->leaveSummaryService->setUserRoleManager($userRoleManagerMock);
 
