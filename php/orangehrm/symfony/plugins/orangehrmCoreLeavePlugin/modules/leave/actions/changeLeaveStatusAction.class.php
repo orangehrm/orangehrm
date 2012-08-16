@@ -115,6 +115,10 @@ class changeLeaveStatusAction extends baseLeaveAction {
                 $url = $url . "?pageNo=" . $page;
             }
         }
+        
+        if ($this->getUser()->hasFlash('myLeave')) {
+            $this->getUser()->setFlash('myLeave', true);
+        }
 
         $this->redirect($url);
     }

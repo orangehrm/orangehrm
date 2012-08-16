@@ -115,6 +115,10 @@ class viewLeaveRequestAction extends sfAction {
                 $this->backUrl = 'leave/viewMyLeaveList';
             }
         }
+ 
+        if ($this->backUrl === 'leave/viewMyLeaveList') {
+            $this->getUser()->setFlash('myLeave', true);
+        }
         
         $this->message = $this->getUser()->getFlash('message', '');
         $this->messageType = $this->getUser()->getFlash('messageType', '');
