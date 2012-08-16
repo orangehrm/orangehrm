@@ -145,7 +145,6 @@ form#frmFilterLeave input.ohrm_datepicker{
 }
 
 form#frmFilterLeave input.calendarBtn{
-    margin-left: 15px !important;
     display:block;
     float: left;  
     margin-top: 9px;
