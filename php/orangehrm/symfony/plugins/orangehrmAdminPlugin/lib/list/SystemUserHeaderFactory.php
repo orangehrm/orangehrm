@@ -22,7 +22,7 @@ class SystemUserHeaderFactory extends ohrmListConfigurationFactory {
 		));
 		
 		$header2->populateFromArray(array(
-		    'name' => 'User Type',
+		    'name' => 'User Role',
 		    'width' => '33%',
 		    'isSortable' => true,
 		    'filters' => array('I18nCellFilter' => array()
