@@ -1,0 +1,179 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE xliff PUBLIC "-//XLIFF//DTD XLIFF//EN" "http://www.oasis-open.org/committees/xliff/documents/xliff.dtd">
+<xliff version="1.0">
+ <header/>
+ <file source-language="en_US" target-language="da_DK" datatype="plaintext" original="messages" date="2012-08-22T5:52:10Z" product-name="messages">
+  <body>
+   <trans-unit id="1">
+    <source>Add Key Performance Indicator</source>
+    <target>Tilføj Key Performance Indicator</target>
+   </trans-unit>
+   <trans-unit id="2">
+    <source>Add Performance Review</source>
+    <target>Tilføj Performance Review</target>
+   </trans-unit>
+   <trans-unit id="3">
+    <source>Being Reviewed</source>
+    <target>Under bedømmelse</target>
+   </trans-unit>
+   <trans-unit id="4">
+    <source>Clear</source>
+    <target>Ryd</target>
+   </trans-unit>
+   <trans-unit id="5">
+    <source>Comment Should Be Less Than %amount% Characters</source>
+    <target>Kommentar skal være mindre en %amount% karakterer</target>
+   </trans-unit>
+   <trans-unit id="6">
+    <source>Copy Key Performance Indicators</source>
+    <target>Kopier Key Performance Indicators</target>
+   </trans-unit>
+   <trans-unit id="7">
+    <source>Copy To</source>
+    <target>Kopiere til</target>
+   </trans-unit>
+   <trans-unit id="8">
+    <source>Define Now</source>
+    <target>Definer nu</target>
+   </trans-unit>
+   <trans-unit id="9">
+    <source>Due Date</source>
+    <target>Forfaldsdato</target>
+   </trans-unit>
+   <trans-unit id="10">
+    <source>Edit Performance Review</source>
+    <target>Rediger præstationsbedømmelse</target>
+   </trans-unit>
+   <trans-unit id="11">
+    <source>Failed to Add: No Job Title Assigned</source>
+    <target>Kunne ikke tilføje: Nej Job Tildelt titel</target>
+   </trans-unit>
+   <trans-unit id="12">
+    <source>Is Default</source>
+    <target>Er Standard</target>
+   </trans-unit>
+   <trans-unit id="13">
+    <source>Key Performance Indicator</source>
+    <target>Key Performance Indicator</target>
+   </trans-unit>
+   <trans-unit id="14">
+    <source>Key Performance Indicators for Job Title</source>
+    <target>Key Performance Indicators for jobtitel</target>
+   </trans-unit>
+   <trans-unit id="15">
+    <source>KPI Already Exists, This Operation Deletes Existing KPI</source>
+    <target>KPI allerede eksisterer, Operation Sletter eksisterende KPI</target>
+   </trans-unit>
+   <trans-unit id="16">
+    <source>KPI Should Be a Number Within Minimum and Maximum Value</source>
+    <target>KPI skal være et tal inden for Minimum og maksimal værdi</target>
+   </trans-unit>
+   <trans-unit id="17">
+    <source>Make Default Scale</source>
+    <target>Gør til standardskala</target>
+   </trans-unit>
+   <trans-unit id="18">
+    <source>Max Rate</source>
+    <target>Maksimum rate</target>
+   </trans-unit>
+   <trans-unit id="19">
+    <source>Maximum Rating</source>
+    <target>Maksimum karakter</target>
+   </trans-unit>
+   <trans-unit id="20">
+    <source>Min Rate</source>
+    <target>Min Rate</target>
+   </trans-unit>
+   <trans-unit id="21">
+    <source>Minimum Rating</source>
+    <target>Minimum karakter</target>
+   </trans-unit>
+   <trans-unit id="22">
+    <source>Minimum Rating should be lesser than Maximum Rating</source>
+    <target>Minimum Vurdering skal være mindre end Maximum Rating</target>
+   </trans-unit>
+   <trans-unit id="23">
+    <source>No Defined Job Titles</source>
+    <target>Ingen Definerede jobtitler</target>
+   </trans-unit>
+   <trans-unit id="24">
+    <source>No employee exists with this name</source>
+    <target>Ingen medarbejder eksisterer med dette navn</target>
+   </trans-unit>
+   <trans-unit id="25">
+    <source>No Key Performance Indicators were found for the job title of this employee</source>
+    <target>Ingen Key Performance Indicators blev fundet til jobbet titlen på denne medarbejder</target>
+   </trans-unit>
+   <trans-unit id="26">
+    <source>No reviewer exists with this name</source>
+    <target>Ingen testpersonen eksisterer med dette navn</target>
+   </trans-unit>
+   <trans-unit id="27">
+    <source>Not Available</source>
+    <target>Ikke tilgængelig</target>
+   </trans-unit>
+   <trans-unit id="28">
+    <source>Performance Review</source>
+    <target>Præstationsbedømmelse</target>
+   </trans-unit>
+   <trans-unit id="29">
+    <source>Rating</source>
+    <target>Karakter</target>
+   </trans-unit>
+   <trans-unit id="30">
+    <source>review of</source>
+    <target>gennemgang af</target>
+   </trans-unit>
+   <trans-unit id="31">
+    <source>Review Period</source>
+    <target>Periode for bedømmelse</target>
+   </trans-unit>
+   <trans-unit id="32">
+    <source>Reviewer</source>
+    <target>Bedømmer</target>
+   </trans-unit>
+   <trans-unit id="33">
+    <source>Reviewer Comments</source>
+    <target>Bedømmer Kommentarer</target>
+   </trans-unit>
+   <trans-unit id="34">
+    <source>Reviewer Name</source>
+    <target>Bedømmer Navn</target>
+   </trans-unit>
+   <trans-unit id="35">
+    <source>Search Key Performance Indicators</source>
+    <target>Søg Key Performance Indicators</target>
+   </trans-unit>
+   <trans-unit id="36">
+    <source>Search Performance Reviews</source>
+    <target>Søg Performance Reviews</target>
+   </trans-unit>
+   <trans-unit id="37">
+    <source>Select Job Title</source>
+    <target>Vælg Stillingsbetegnelse</target>
+   </trans-unit>
+   <trans-unit id="38">
+    <source>Sub Division</source>
+    <target>Sub division</target>
+   </trans-unit>
+   <trans-unit id="39">
+    <source>Successfully</source>
+    <target>Vellykket</target>
+   </trans-unit>
+   <trans-unit id="40">
+    <source>Update Key Performance Indicator</source>
+    <target>Opdater Key Performance Indicator</target>
+   </trans-unit>
+   <trans-unit id="41">
+    <source>updated</source>
+    <target>opdateret</target>
+   </trans-unit>
+   <trans-unit id="42">
+    <source>View KPI List</source>
+    <target>Vis KPI-liste</target>
+   </trans-unit>
+  </body>
+ </file>
+</xliff>
+<!-- Contributed By:   ,   -->
+

@@ -1,0 +1,263 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE xliff PUBLIC "-//XLIFF//DTD XLIFF//EN" "http://www.oasis-open.org/committees/xliff/documents/xliff.dtd">
+<xliff version="1.0">
+ <header/>
+ <file source-language="en_US" target-language="da_DK" datatype="plaintext" original="messages" date="2012-08-22T5:49:21Z" product-name="messages">
+  <body>
+   <trans-unit id="1">
+    <source>A new leave type will be created with same name</source>
+    <target>En ny orlov type vil blive lavet med samme navn</target>
+   </trans-unit>
+   <trans-unit id="2">
+    <source>Actions</source>
+    <target>Handlinger</target>
+   </trans-unit>
+   <trans-unit id="3">
+    <source>Add Leave Type</source>
+    <target>Tilføj Lad Type</target>
+   </trans-unit>
+   <trans-unit id="4">
+    <source>Apply Leave</source>
+    <target>Anvend Ferie og Fravær</target>
+   </trans-unit>
+   <trans-unit id="5">
+    <source>Assign</source>
+    <target>Tildel</target>
+   </trans-unit>
+   <trans-unit id="6">
+    <source>At Least One Day Should Be a Working Day</source>
+    <target>Mindst en dag bør en arbejdsdag</target>
+   </trans-unit>
+   <trans-unit id="7">
+    <source>Canceled</source>
+    <target>Aflyst</target>
+   </trans-unit>
+   <trans-unit id="8">
+    <source>characters</source>
+    <target>tegn</target>
+   </trans-unit>
+   <trans-unit id="9">
+    <source>Confirmation Required</source>
+    <target>Bekræftelse påkrævet</target>
+   </trans-unit>
+   <trans-unit id="10">
+    <source>Current Leave Period</source>
+    <target>Aktuel orlov</target>
+   </trans-unit>
+   <trans-unit id="11">
+    <source>Date format should be</source>
+    <target>Datoformat skal være</target>
+   </trans-unit>
+   <trans-unit id="12">
+    <source>Define Leave Type</source>
+    <target>Definer Lad Type</target>
+   </trans-unit>
+   <trans-unit id="13">
+    <source>Duration (Hours)</source>
+    <target>Varighed (timer)</target>
+   </trans-unit>
+   <trans-unit id="14">
+    <source>Edit Leave Type</source>
+    <target>Rediger Lad Type</target>
+   </trans-unit>
+   <trans-unit id="15">
+    <source>Failed to Assign</source>
+    <target>Kunne ikke Tildel</target>
+   </trans-unit>
+   <trans-unit id="16">
+    <source>Failed to Assign: Work Shift Length Exceeded</source>
+    <target>Kunne ikke Tildel: arbejdsskift Længde overskredet</target>
+   </trans-unit>
+   <trans-unit id="17">
+    <source>Failed to Save: Date Already Assigned</source>
+    <target>Kunne ikke gemme: Dato allerede er tildelt</target>
+   </trans-unit>
+   <trans-unit id="18">
+    <source>Failed to Submit</source>
+    <target>Undlod at indsende</target>
+   </trans-unit>
+   <trans-unit id="19">
+    <source>Failed to Submit: Leave Balance Exceeded</source>
+    <target>Undlod at indsende: Lad Balance Exceeded</target>
+   </trans-unit>
+   <trans-unit id="20">
+    <source>Failed to Submit: No Working Days Selected</source>
+    <target>Undlod at indsende: Ingen Arbejdsdage Selected</target>
+   </trans-unit>
+   <trans-unit id="21">
+    <source>Failed to Submit: Work Shift Length Exceeded</source>
+    <target>Undlod at indsende: arbejdsskift Længde overskredet</target>
+   </trans-unit>
+   <trans-unit id="22">
+    <source>Following Year</source>
+    <target>Efter År</target>
+   </trans-unit>
+   <trans-unit id="23">
+    <source>For Leap Years</source>
+    <target>Skudår</target>
+   </trans-unit>
+   <trans-unit id="24">
+    <source>For Non-Leap Years</source>
+    <target>For Ikke-Skudår</target>
+   </trans-unit>
+   <trans-unit id="25">
+    <source>From Date</source>
+    <target>Fra Dato</target>
+   </trans-unit>
+   <trans-unit id="26">
+    <source>From Time</source>
+    <target>Fra Time</target>
+   </trans-unit>
+   <trans-unit id="27">
+    <source>From time should be lesser than To time</source>
+    <target>'Fra tidspunkt' skal være mindre end 'Til tidspunkt'</target>
+   </trans-unit>
+   <trans-unit id="28">
+    <source>Full Day</source>
+    <target>Fuld dag</target>
+   </trans-unit>
+   <trans-unit id="29">
+    <source>Full Day/Half Day</source>
+    <target>Fuld Dag / Half Day</target>
+   </trans-unit>
+   <trans-unit id="30">
+    <source>Go to Detailed View</source>
+    <target>Gå til detaljeret visning</target>
+   </trans-unit>
+   <trans-unit id="31">
+    <source>Half Day</source>
+    <target>Halv Day</target>
+   </trans-unit>
+   <trans-unit id="32">
+    <source>Holiday</source>
+    <target>Ferie- / helligdag</target>
+   </trans-unit>
+   <trans-unit id="33">
+    <source>Leave Balance</source>
+    <target>Ferie og fravær saldo</target>
+   </trans-unit>
+   <trans-unit id="34">
+    <source>Leave Comment</source>
+    <target>Efterlad en kommentar</target>
+   </trans-unit>
+   <trans-unit id="35">
+    <source>Leave Entitled</source>
+    <target>Ferie og fravær berettiget</target>
+   </trans-unit>
+   <trans-unit id="36">
+    <source>Leave Period Does Not Exist</source>
+    <target>Ferie og fraværsperiode eksisterer ikke</target>
+   </trans-unit>
+   <trans-unit id="37">
+    <source>Leave Period Not Defined</source>
+    <target>Lad periode Defineret</target>
+   </trans-unit>
+   <trans-unit id="38">
+    <source>Leave Request</source>
+    <target>Ferieanmodning</target>
+   </trans-unit>
+   <trans-unit id="39">
+    <source>Leave Scheduled</source>
+    <target>Planlagt ferie og fravær</target>
+   </trans-unit>
+   <trans-unit id="40">
+    <source>Leave Taken</source>
+    <target>Afholdt ferie</target>
+   </trans-unit>
+   <trans-unit id="41">
+    <source>Leave Type</source>
+    <target>Ferie og fraværstype</target>
+   </trans-unit>
+   <trans-unit id="42">
+    <source>Leave type will be undeleted</source>
+    <target>Ferie og fraværstype vil blive gendannet</target>
+   </trans-unit>
+   <trans-unit id="43">
+    <source>My Leave Details</source>
+    <target>Mine Detaljer for ferie og fravær</target>
+   </trans-unit>
+   <trans-unit id="44">
+    <source>My Leave List</source>
+    <target>Min ferie og fraværsliste</target>
+   </trans-unit>
+   <trans-unit id="45">
+    <source>Name of Holiday</source>
+    <target>Navn på ferie-/ helligdag</target>
+   </trans-unit>
+   <trans-unit id="46">
+    <source>No Leave Types with Leave Balance</source>
+    <target>Ingen ferie og fraværstyper med ferie og fraværssaldo</target>
+   </trans-unit>
+   <trans-unit id="47">
+    <source>No of Hours</source>
+    <target>Antal timer</target>
+   </trans-unit>
+   <trans-unit id="48">
+    <source>Non Working Day</source>
+    <target>Fridag</target>
+   </trans-unit>
+   <trans-unit id="49">
+    <source>Non-working Day</source>
+    <target>Fridag</target>
+   </trans-unit>
+   <trans-unit id="50">
+    <source>Number of Days</source>
+    <target>Antal dage</target>
+   </trans-unit>
+   <trans-unit id="51">
+    <source>Overlapping Leave Request Found</source>
+    <target>Overlappende derieanmodning fundet</target>
+   </trans-unit>
+   <trans-unit id="52">
+    <source>Pending Approval</source>
+    <target>Indtil godkendelse</target>
+   </trans-unit>
+   <trans-unit id="53">
+    <source>Repeats Annually</source>
+    <target>Gentager Årligt</target>
+   </trans-unit>
+   <trans-unit id="54">
+    <source>Should be less than work shift length</source>
+    <target>Skal være mindre end arbejdsskift længde</target>
+   </trans-unit>
+   <trans-unit id="55">
+    <source>Show Leave with Status</source>
+    <target>Vis ferie og fravær med status</target>
+   </trans-unit>
+   <trans-unit id="56">
+    <source>Successfully Undeleted</source>
+    <target>Vellykket ikke slettet</target>
+   </trans-unit>
+   <trans-unit id="57">
+    <source>Taken</source>
+    <target>Taget</target>
+   </trans-unit>
+   <trans-unit id="58">
+    <source>This is a deleted leave type. Reactivate it?</source>
+    <target>Dette er en slettet orlov type. Genaktiver det?</target>
+   </trans-unit>
+   <trans-unit id="59">
+    <source>To Date</source>
+    <target>Til dato</target>
+   </trans-unit>
+   <trans-unit id="60">
+    <source>To Time</source>
+    <target>Til tidspunkjt</target>
+   </trans-unit>
+   <trans-unit id="61">
+    <source>Total Hours</source>
+    <target>Samlede antal timer</target>
+   </trans-unit>
+   <trans-unit id="62">
+    <source>Total time is greater than the shift length</source>
+    <target>Samlet tid er større end overgangen længden</target>
+   </trans-unit>
+   <trans-unit id="63">
+    <source>Will take no action</source>
+    <target>Vil undlade at handle</target>
+   </trans-unit>
+  </body>
+ </file>
+</xliff>
+<!-- Contributed By:   ,   -->
+

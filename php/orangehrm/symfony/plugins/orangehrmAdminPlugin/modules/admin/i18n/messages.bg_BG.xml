@@ -1,0 +1,531 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE xliff PUBLIC "-//XLIFF//DTD XLIFF//EN" "http://www.oasis-open.org/committees/xliff/documents/xliff.dtd">
+<xliff version="1.0">
+ <header/>
+ <file source-language="en_US" target-language="bg_BG" datatype="plaintext" original="messages" date="2012-08-22T5:54:53Z" product-name="messages">
+  <body>
+   <trans-unit id="1">
+    <source>Activities</source>
+    <target>Дейности</target>
+   </trans-unit>
+   <trans-unit id="2">
+    <source>Add Another</source>
+    <target>Добавяне на друг</target>
+   </trans-unit>
+   <trans-unit id="3">
+    <source>Add Currency</source>
+    <target>Добави валути</target>
+   </trans-unit>
+   <trans-unit id="4">
+    <source>Add Customer</source>
+    <target>Добави клиенти</target>
+   </trans-unit>
+   <trans-unit id="5">
+    <source>Add Employment Status</source>
+    <target>Добави трудов статус</target>
+   </trans-unit>
+   <trans-unit id="6">
+    <source>Add Job Category</source>
+    <target>Добави Категория работа</target>
+   </trans-unit>
+   <trans-unit id="7">
+    <source>Add Job Title</source>
+    <target>Добави длъжност</target>
+   </trans-unit>
+   <trans-unit id="8">
+    <source>Add Location</source>
+    <target>Добавяне място</target>
+   </trans-unit>
+   <trans-unit id="9">
+    <source>Add Membership</source>
+    <target>Добави членство</target>
+   </trans-unit>
+   <trans-unit id="10">
+    <source>Add Nationality</source>
+    <target>Добави националност</target>
+   </trans-unit>
+   <trans-unit id="11">
+    <source>Add Pay Grade</source>
+    <target>Добави Плати степен</target>
+   </trans-unit>
+   <trans-unit id="12">
+    <source>Add Project</source>
+    <target>Добави проект</target>
+   </trans-unit>
+   <trans-unit id="13">
+    <source>Add Project Activity</source>
+    <target>Добави дейност по проекта</target>
+   </trans-unit>
+   <trans-unit id="14">
+    <source>Add Subscriber</source>
+    <target>Добавяне на абоната</target>
+   </trans-unit>
+   <trans-unit id="15">
+    <source>Add Unit</source>
+    <target>Добави звено</target>
+   </trans-unit>
+   <trans-unit id="16">
+    <source>Add User</source>
+    <target>Добави потребител</target>
+   </trans-unit>
+   <trans-unit id="17">
+    <source>Add Work Shift</source>
+    <target>Добави работа на смени</target>
+   </trans-unit>
+   <trans-unit id="18">
+    <source>All date fields should be in YYYY-MM-DD format</source>
+    <target>Всички полетата за дата трябва да бъде в ГГГГ-ММ-ДД формат</target>
+   </trans-unit>
+   <trans-unit id="19">
+    <source>Assigned Currencies</source>
+    <target>Присвоени Валути</target>
+   </trans-unit>
+   <trans-unit id="20">
+    <source>Assigned Employees</source>
+    <target>Присвоени Служителите</target>
+   </trans-unit>
+   <trans-unit id="21">
+    <source>Available Employees</source>
+    <target>Налични Служителите</target>
+   </trans-unit>
+   <trans-unit id="22">
+    <source>Better</source>
+    <target>По-добре</target>
+   </trans-unit>
+   <trans-unit id="23">
+    <source>Click on a notification type to add subscribers</source>
+    <target>Кликнете върху типа уведомление, за да добавите абонати</target>
+   </trans-unit>
+   <trans-unit id="24">
+    <source>Column order should not be changed</source>
+    <target>Колона за да не трябва да се промени</target>
+   </trans-unit>
+   <trans-unit id="25">
+    <source>Company Structure</source>
+    <target>Структура на фирмата</target>
+   </trans-unit>
+   <trans-unit id="26">
+    <source>Confirm New Password</source>
+    <target>Потвърдете новата парола</target>
+   </trans-unit>
+   <trans-unit id="27">
+    <source>Copy Activity</source>
+    <target>Копие Активност</target>
+   </trans-unit>
+   <trans-unit id="28">
+    <source>CSV Data Import</source>
+    <target>CSV за импортиране на данни</target>
+   </trans-unit>
+   <trans-unit id="29">
+    <source>Current Password</source>
+    <target>Настояща Парола</target>
+   </trans-unit>
+   <trans-unit id="30">
+    <source>Current Password Is Wrong</source>
+    <target>Текущата парола е неправилна</target>
+   </trans-unit>
+   <trans-unit id="31">
+    <source>Customer</source>
+    <target>Клиент</target>
+   </trans-unit>
+   <trans-unit id="32">
+    <source>Customer Name</source>
+    <target>Customer Name</target>
+   </trans-unit>
+   <trans-unit id="33">
+    <source>Date Format</source>
+    <target>Формат на датата</target>
+   </trans-unit>
+   <trans-unit id="34">
+    <source>Description is not specified</source>
+    <target>Описание не е посочен</target>
+   </trans-unit>
+   <trans-unit id="35">
+    <source>Done</source>
+    <target>Съставено</target>
+   </trans-unit>
+   <trans-unit id="36">
+    <source>Each import file should be configured for 100 records or less</source>
+    <target>Всеки внос на файла трябва да бъдат конфигурирани за 100 записа или по-малко</target>
+   </trans-unit>
+   <trans-unit id="37">
+    <source>Edit Currency</source>
+    <target>Редактиране на валута</target>
+   </trans-unit>
+   <trans-unit id="38">
+    <source>Edit Customer</source>
+    <target>Редактиране на клиенти</target>
+   </trans-unit>
+   <trans-unit id="39">
+    <source>Edit Employment Status</source>
+    <target>Редактиране трудов статус</target>
+   </trans-unit>
+   <trans-unit id="40">
+    <source>Edit Job Category</source>
+    <target>Редактиране Категория работа</target>
+   </trans-unit>
+   <trans-unit id="41">
+    <source>Edit Job Title</source>
+    <target>Редактиране длъжност</target>
+   </trans-unit>
+   <trans-unit id="42">
+    <source>Edit Location</source>
+    <target>Редактиране на местоположението</target>
+   </trans-unit>
+   <trans-unit id="43">
+    <source>Edit Membership</source>
+    <target>Редактиране на членство</target>
+   </trans-unit>
+   <trans-unit id="44">
+    <source>Edit Nationality</source>
+    <target>Редактиране на Националност</target>
+   </trans-unit>
+   <trans-unit id="45">
+    <source>Edit Pay Grade</source>
+    <target>Редактиране Плати степен</target>
+   </trans-unit>
+   <trans-unit id="46">
+    <source>Edit Project</source>
+    <target>Редактиране на проекта</target>
+   </trans-unit>
+   <trans-unit id="47">
+    <source>Edit Project Activity</source>
+    <target>Редактиране дейност по проекта</target>
+   </trans-unit>
+   <trans-unit id="48">
+    <source>Edit Subscriber</source>
+    <target>Редактиране на абоната</target>
+   </trans-unit>
+   <trans-unit id="49">
+    <source>Edit Unit</source>
+    <target>Редактиране на звено</target>
+   </trans-unit>
+   <trans-unit id="50">
+    <source>Edit User</source>
+    <target>Редактиране на потребителя</target>
+   </trans-unit>
+   <trans-unit id="51">
+    <source>Edit Work Shift</source>
+    <target>Редактиране работа на смени</target>
+   </trans-unit>
+   <trans-unit id="52">
+    <source>Email Notification</source>
+    <target>За уведомяване по имейл</target>
+   </trans-unit>
+   <trans-unit id="53">
+    <source>Enable Admin module</source>
+    <target>Активирайте Admin модул</target>
+   </trans-unit>
+   <trans-unit id="54">
+    <source>Enable Benefits module</source>
+    <target>Активирайте Ползи модул</target>
+   </trans-unit>
+   <trans-unit id="55">
+    <source>Enable Help</source>
+    <target>Активирайте Помощ</target>
+   </trans-unit>
+   <trans-unit id="56">
+    <source>Enable Leave module</source>
+    <target>Активирайте Оставете модул</target>
+   </trans-unit>
+   <trans-unit id="57">
+    <source>Enable Performance module</source>
+    <target>Включване на модул Изпълнение</target>
+   </trans-unit>
+   <trans-unit id="58">
+    <source>Enable PIM module</source>
+    <target>Активирайте PIM модул</target>
+   </trans-unit>
+   <trans-unit id="59">
+    <source>Enable Recruitment module</source>
+    <target>Включване на модул Recruitment</target>
+   </trans-unit>
+   <trans-unit id="60">
+    <source>Enable Time module</source>
+    <target>Включване на модул Време</target>
+   </trans-unit>
+   <trans-unit id="61">
+    <source>Failed to Import: File Size Exceeded</source>
+    <target>Неуспех да импортирате: Размер на файла надвишава</target>
+   </trans-unit>
+   <trans-unit id="62">
+    <source>Failed to Import: File Type Not Allowed</source>
+    <target>Неуспех да импортирате: Непозволен вид файл</target>
+   </trans-unit>
+   <trans-unit id="63">
+    <source>Failed to Import: No Compatible Records</source>
+    <target>Неуспешно за импортиране: Няма Съвместими Records</target>
+   </trans-unit>
+   <trans-unit id="64">
+    <source>Fax</source>
+    <target>Факс</target>
+   </trans-unit>
+   <trans-unit id="65">
+    <source>First Name and Last Name are compulsory</source>
+    <target>Име и фамилия са задължителни</target>
+   </trans-unit>
+   <trans-unit id="66">
+    <source>Following languages are supported</source>
+    <target>Поддържат се следните езици</target>
+   </trans-unit>
+   <trans-unit id="67">
+    <source>Hours Per Day</source>
+    <target>Часа на ден</target>
+   </trans-unit>
+   <trans-unit id="68">
+    <source>If gender is specified, value should be either</source>
+    <target>Ако е определен пол, стойността трябва да е или</target>
+   </trans-unit>
+   <trans-unit id="69">
+    <source>Job Description</source>
+    <target>Описание на длъжността</target>
+   </trans-unit>
+   <trans-unit id="70">
+    <source>Language and font help</source>
+    <target>Езика и помощ на шрифта</target>
+   </trans-unit>
+   <trans-unit id="71">
+    <source>Leave Applications</source>
+    <target>Оставете Приложения</target>
+   </trans-unit>
+   <trans-unit id="72">
+    <source>Leave Approvals</source>
+    <target>Оставете Одобрения</target>
+   </trans-unit>
+   <trans-unit id="73">
+    <source>Leave Assignments</source>
+    <target>Оставете Задачи</target>
+   </trans-unit>
+   <trans-unit id="74">
+    <source>Leave Cancellations</source>
+    <target>Оставете Анулации</target>
+   </trans-unit>
+   <trans-unit id="75">
+    <source>Leave Rejections</source>
+    <target>Оставете откази</target>
+   </trans-unit>
+   <trans-unit id="76">
+    <source>Level Already Exists</source>
+    <target>Равнище вече съществува</target>
+   </trans-unit>
+   <trans-unit id="77">
+    <source>Location Name</source>
+    <target>ИМЕТО НА МЯСТОТО</target>
+   </trans-unit>
+   <trans-unit id="78">
+    <source>Mail Configuration</source>
+    <target>Конфигуриране на пощата</target>
+   </trans-unit>
+   <trans-unit id="79">
+    <source>Mail Sent As</source>
+    <target>Съобщение, изпратено като</target>
+   </trans-unit>
+   <trans-unit id="80">
+    <source>Maximum Salary</source>
+    <target>Максимална Заплата</target>
+   </trans-unit>
+   <trans-unit id="81">
+    <source>Medium</source>
+    <target>Среден</target>
+   </trans-unit>
+   <trans-unit id="82">
+    <source>Minimum Salary</source>
+    <target>Минималната работна заплата</target>
+   </trans-unit>
+   <trans-unit id="83">
+    <source>Module Configuration</source>
+    <target>Модул конфигурация</target>
+   </trans-unit>
+   <trans-unit id="84">
+    <source>Multiple import files may be required</source>
+    <target>Множество файлове за внос може да се изисква</target>
+   </trans-unit>
+   <trans-unit id="85">
+    <source>New Password</source>
+    <target>За нова парола</target>
+   </trans-unit>
+   <trans-unit id="86">
+    <source>No activities selected</source>
+    <target>Не е избран дейности</target>
+   </trans-unit>
+   <trans-unit id="87">
+    <source>No assigned activities</source>
+    <target>Няма възложените дейности</target>
+   </trans-unit>
+   <trans-unit id="88">
+    <source>Not Allowed to Delete Customer(s) Which Have Time Logged Against</source>
+    <target>Не е позволено да се Изтриване на клиенти (и), които имат време, включена в</target>
+   </trans-unit>
+   <trans-unit id="89">
+    <source>Not Allowed to Delete Project Activites Which Have Time Logged Against</source>
+    <target>Не е позволено да се Изтриване на проектните дейности, които имат време, включена в</target>
+   </trans-unit>
+   <trans-unit id="90">
+    <source>Notification Type</source>
+    <target>Уведомление Вид</target>
+   </trans-unit>
+   <trans-unit id="91">
+    <source>Number of Employees</source>
+    <target>Брой на заетите лица</target>
+   </trans-unit>
+   <trans-unit id="92">
+    <source>Number of Records Imported</source>
+    <target>Брой на внесените записи</target>
+   </trans-unit>
+   <trans-unit id="93">
+    <source>Organization Name</source>
+    <target>Име на организацията</target>
+   </trans-unit>
+   <trans-unit id="94">
+    <source>Path to Sendmail</source>
+    <target>Път към Sendmail</target>
+   </trans-unit>
+   <trans-unit id="95">
+    <source>Performance Review Submissions</source>
+    <target>Представянията за преглед на ефективността на работата</target>
+   </trans-unit>
+   <trans-unit id="96">
+    <source>Phone</source>
+    <target>Телефон</target>
+   </trans-unit>
+   <trans-unit id="97">
+    <source>Project</source>
+    <target>Проект</target>
+   </trans-unit>
+   <trans-unit id="98">
+    <source>Project Admin</source>
+    <target>Проект Admin</target>
+   </trans-unit>
+   <trans-unit id="99">
+    <source>Project Admins</source>
+    <target>Проект администратори</target>
+   </trans-unit>
+   <trans-unit id="100">
+    <source>Projects under selected customer will also be deleted</source>
+    <target>Проектите по избран клиент също ще бъде изтрита</target>
+   </trans-unit>
+   <trans-unit id="101">
+    <source>Registration Number</source>
+    <target>Номер</target>
+   </trans-unit>
+   <trans-unit id="102">
+    <source>Sample CSV file</source>
+    <target>Примерен CSV файл</target>
+   </trans-unit>
+   <trans-unit id="103">
+    <source>Send Test Email</source>
+    <target>Изпратете съобщение тест</target>
+   </trans-unit>
+   <trans-unit id="104">
+    <source>Sending Method</source>
+    <target>Метод на изпращане</target>
+   </trans-unit>
+   <trans-unit id="105">
+    <source>Shift Name</source>
+    <target>Преместване Име</target>
+   </trans-unit>
+   <trans-unit id="106">
+    <source>Should be higher than Minimum Salary</source>
+    <target>Трябва да бъде по-висока от минималната работна заплата</target>
+   </trans-unit>
+   <trans-unit id="107">
+    <source>SMTP Password</source>
+    <target>SMTP Парола</target>
+   </trans-unit>
+   <trans-unit id="108">
+    <source>SMTP Port</source>
+    <target>SMTP Port</target>
+   </trans-unit>
+   <trans-unit id="109">
+    <source>SMTP User</source>
+    <target>SMTP Потребител</target>
+   </trans-unit>
+   <trans-unit id="110">
+    <source>SSL</source>
+    <target>SSL</target>
+   </trans-unit>
+   <trans-unit id="111">
+    <source>Strong</source>
+    <target>Силен</target>
+   </trans-unit>
+   <trans-unit id="112">
+    <source>Strongest</source>
+    <target>Силната</target>
+   </trans-unit>
+   <trans-unit id="113">
+    <source>Subscribers</source>
+    <target>Абонати</target>
+   </trans-unit>
+   <trans-unit id="114">
+    <source>Successfully Saved. Test Email Not Sent</source>
+    <target>Съхранен успешно. Тест E-mail не се изпраща</target>
+   </trans-unit>
+   <trans-unit id="115">
+    <source>Successfully Saved. Test Email Sent</source>
+    <target>Съхранен успешно. Тест мейл е изпратено</target>
+   </trans-unit>
+   <trans-unit id="116">
+    <source>Supported languages</source>
+    <target>Поддържани езици</target>
+   </trans-unit>
+   <trans-unit id="117">
+    <source>System Users</source>
+    <target>Потребители на системата</target>
+   </trans-unit>
+   <trans-unit id="118">
+    <source>Tax ID</source>
+    <target>Данъчен номер</target>
+   </trans-unit>
+   <trans-unit id="119">
+    <source>Test Email Address</source>
+    <target>Тест E-mail Адрес</target>
+   </trans-unit>
+   <trans-unit id="120">
+    <source>This unit will be added under</source>
+    <target>Това звено ще бъде добавена под</target>
+   </trans-unit>
+   <trans-unit id="121">
+    <source>TLS</source>
+    <target>TLS</target>
+   </trans-unit>
+   <trans-unit id="122">
+    <source>Unit Id</source>
+    <target>Звеното Id</target>
+   </trans-unit>
+   <trans-unit id="123">
+    <source>Units under selected unit will also be deleted</source>
+    <target>Звената по избраните звена също ще бъде изтрита</target>
+   </trans-unit>
+   <trans-unit id="124">
+    <source>Use browser language if set</source>
+    <target>Използвайте езика на браузъра, ако е зададено</target>
+   </trans-unit>
+   <trans-unit id="125">
+    <source>Use SMTP Authentication</source>
+    <target>Използвайте SMTP Authentication</target>
+   </trans-unit>
+   <trans-unit id="126">
+    <source>User Secure Connection</source>
+    <target>Потребителят защитена връзка</target>
+   </trans-unit>
+   <trans-unit id="127">
+    <source>User Type</source>
+    <target>Тип на потребителя</target>
+   </trans-unit>
+   <trans-unit id="128">
+    <source>Very Weak</source>
+    <target>Много слаб</target>
+   </trans-unit>
+   <trans-unit id="129">
+    <source>Weak</source>
+    <target>Слаб</target>
+   </trans-unit>
+   <trans-unit id="130">
+    <source>Zip Code</source>
+    <target>Пощенски код</target>
+   </trans-unit>
+  </body>
+ </file>
+</xliff>
+<!-- Contributed By:   , Jeni  Mincheva -->
+

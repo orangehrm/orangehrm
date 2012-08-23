@@ -1,0 +1,535 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE xliff PUBLIC "-//XLIFF//DTD XLIFF//EN" "http://www.oasis-open.org/committees/xliff/documents/xliff.dtd">
+<xliff version="1.0">
+ <header/>
+ <file source-language="en_US" target-language="vi_VN" datatype="plaintext" original="messages" date="2012-08-23T1:17:34Z" product-name="messages">
+  <body>
+   <trans-unit id="1">
+    <source>Activities</source>
+    <target>Hoạt động</target>
+   </trans-unit>
+   <trans-unit id="2">
+    <source>Add Another</source>
+    <target>Thêm khác</target>
+   </trans-unit>
+   <trans-unit id="3">
+    <source>Add Currency</source>
+    <target>Thêm tiền tệ</target>
+   </trans-unit>
+   <trans-unit id="4">
+    <source>Add Customer</source>
+    <target>Thêm khách hàng</target>
+   </trans-unit>
+   <trans-unit id="5">
+    <source>Add Employment Status</source>
+    <target>Thêm tình trạng việc làm</target>
+   </trans-unit>
+   <trans-unit id="6">
+    <source>Add Job Category</source>
+    <target>Thêm Ngành nghề</target>
+   </trans-unit>
+   <trans-unit id="7">
+    <source>Add Job Title</source>
+    <target>Thêm tiêu đề công việc</target>
+   </trans-unit>
+   <trans-unit id="8">
+    <source>Add Location</source>
+    <target>Thêm Địa điểm</target>
+   </trans-unit>
+   <trans-unit id="9">
+    <source>Add Membership</source>
+    <target>Thêm thành viên</target>
+   </trans-unit>
+   <trans-unit id="10">
+    <source>Add Nationality</source>
+    <target>Thêm Quốc tịch</target>
+   </trans-unit>
+   <trans-unit id="11">
+    <source>Add Pay Grade</source>
+    <target>Trả hạng</target>
+   </trans-unit>
+   <trans-unit id="12">
+    <source>Add Project</source>
+    <target>Thêm dự án</target>
+   </trans-unit>
+   <trans-unit id="13">
+    <source>Add Project Activity</source>
+    <target>Thêm Hoạt động dự án</target>
+   </trans-unit>
+   <trans-unit id="14">
+    <source>Add Subscriber</source>
+    <target>Thêm đăng ký</target>
+   </trans-unit>
+   <trans-unit id="15">
+    <source>Add Unit</source>
+    <target>Thêm Đơn vị</target>
+   </trans-unit>
+   <trans-unit id="16">
+    <source>Add User</source>
+    <target>Thêm người dùng</target>
+   </trans-unit>
+   <trans-unit id="17">
+    <source>Add Work Shift</source>
+    <target>Thêm ca làm việc</target>
+   </trans-unit>
+   <trans-unit id="18">
+    <source>All date fields should be in YYYY-MM-DD format</source>
+    <target>Tất cả các trường ngày phải ở trong định dạng YYYY-MM-DD</target>
+   </trans-unit>
+   <trans-unit id="19">
+    <source>Assigned Currencies</source>
+    <target>Giao Tiền tệ</target>
+   </trans-unit>
+   <trans-unit id="20">
+    <source>Assigned Employees</source>
+    <target>Phân công nhân viên</target>
+   </trans-unit>
+   <trans-unit id="21">
+    <source>Available Employees</source>
+    <target>Có sẵn nhân viên</target>
+   </trans-unit>
+   <trans-unit id="22">
+    <source>Better</source>
+    <target>Hơn</target>
+   </trans-unit>
+   <trans-unit id="23">
+    <source>Click on a notification type to add subscribers</source>
+    <target>Nhấp vào một loại thông báo thêm thuê bao</target>
+   </trans-unit>
+   <trans-unit id="24">
+    <source>Column order should not be changed</source>
+    <target>Không nên thay đổi thứ tự cột</target>
+   </trans-unit>
+   <trans-unit id="25">
+    <source>Company Structure</source>
+    <target>Cơ cấu tổ chức</target>
+   </trans-unit>
+   <trans-unit id="26">
+    <source>Confirm New Password</source>
+    <target>Xác nhận mật khẩu mới</target>
+   </trans-unit>
+   <trans-unit id="27">
+    <source>Copy Activity</source>
+    <target>Bản sao cuối</target>
+   </trans-unit>
+   <trans-unit id="28">
+    <source>CSV Data Import</source>
+    <target>Xuất Khẩu dữ liệu CSV</target>
+   </trans-unit>
+   <trans-unit id="29">
+    <source>Current Password</source>
+    <target>Mật khẩu hiện tại</target>
+   </trans-unit>
+   <trans-unit id="30">
+    <source>Current Password Is Wrong</source>
+    <target>Mật khẩu hiện tại là sai</target>
+   </trans-unit>
+   <trans-unit id="31">
+    <source>Customer</source>
+    <target>Khách hàng</target>
+   </trans-unit>
+   <trans-unit id="32">
+    <source>Customer Name</source>
+    <target>Tên khách hàng</target>
+   </trans-unit>
+   <trans-unit id="33">
+    <source>Date Format</source>
+    <target>Ngày Định dạng</target>
+   </trans-unit>
+   <trans-unit id="34">
+    <source>Description is not specified</source>
+    <target>Mô tả không được chỉ định</target>
+   </trans-unit>
+   <trans-unit id="35">
+    <source>Done</source>
+    <target>Thực hiện</target>
+   </trans-unit>
+   <trans-unit id="36">
+    <source>Each import file should be configured for 100 records or less</source>
+    <target>Mỗi tập tin nhập khẩu phải được cấu hình cho 100 hồ sơ hoặc ít hơn</target>
+   </trans-unit>
+   <trans-unit id="37">
+    <source>Edit Currency</source>
+    <target>Chỉnh sửa tệ</target>
+   </trans-unit>
+   <trans-unit id="38">
+    <source>Edit Customer</source>
+    <target>Chỉnh sửa khách hàng</target>
+   </trans-unit>
+   <trans-unit id="39">
+    <source>Edit Employment Status</source>
+    <target>Chỉnh sửa tình trạng việc làm</target>
+   </trans-unit>
+   <trans-unit id="40">
+    <source>Edit Job Category</source>
+    <target>Chỉnh sửa Ngành nghề</target>
+   </trans-unit>
+   <trans-unit id="41">
+    <source>Edit Job Title</source>
+    <target>Chỉnh sửa tiêu đề công việc</target>
+   </trans-unit>
+   <trans-unit id="42">
+    <source>Edit Location</source>
+    <target>Chỉnh sửa Địa điểm</target>
+   </trans-unit>
+   <trans-unit id="43">
+    <source>Edit Membership</source>
+    <target>Chỉnh sửa thành viên</target>
+   </trans-unit>
+   <trans-unit id="44">
+    <source>Edit Nationality</source>
+    <target>Chỉnh sửa Quốc tịch</target>
+   </trans-unit>
+   <trans-unit id="45">
+    <source>Edit Pay Grade</source>
+    <target>Chỉnh sửa Trả Lớp</target>
+   </trans-unit>
+   <trans-unit id="46">
+    <source>Edit Project</source>
+    <target>Chỉnh sửa dự án</target>
+   </trans-unit>
+   <trans-unit id="47">
+    <source>Edit Project Activity</source>
+    <target>Chỉnh sửa cuối dự án</target>
+   </trans-unit>
+   <trans-unit id="48">
+    <source>Edit Subscriber</source>
+    <target>Chỉnh sửa thuê bao</target>
+   </trans-unit>
+   <trans-unit id="49">
+    <source>Edit Unit</source>
+    <target>Chỉnh sửa Đơn vị</target>
+   </trans-unit>
+   <trans-unit id="50">
+    <source>Edit User</source>
+    <target>Chỉnh sửa tài</target>
+   </trans-unit>
+   <trans-unit id="51">
+    <source>Edit Work Shift</source>
+    <target>Chỉnh sửa phím Shift làm việc</target>
+   </trans-unit>
+   <trans-unit id="52">
+    <source>Email Notification</source>
+    <target>Thông báo bằng email</target>
+   </trans-unit>
+   <trans-unit id="53">
+    <source>Enable Admin module</source>
+    <target>Kích hoạt tính năng mô-đun quản trị</target>
+   </trans-unit>
+   <trans-unit id="54">
+    <source>Enable Benefits module</source>
+    <target>Kích hoạt tính năng mô-đun tiện ích</target>
+   </trans-unit>
+   <trans-unit id="55">
+    <source>Enable Help</source>
+    <target>Kích hoạt tính năng Trợ giúp</target>
+   </trans-unit>
+   <trans-unit id="56">
+    <source>Enable Leave module</source>
+    <target>Kích hoạt tính năng mô-đun nghỉ phép</target>
+   </trans-unit>
+   <trans-unit id="57">
+    <source>Enable Performance module</source>
+    <target>Kích hoạt tính năng mô-đun Hiệu suất</target>
+   </trans-unit>
+   <trans-unit id="58">
+    <source>Enable PIM module</source>
+    <target>Kích hoạt tính năng PIM mô-đun</target>
+   </trans-unit>
+   <trans-unit id="59">
+    <source>Enable Recruitment module</source>
+    <target>Kích hoạt tính năng mô-đun Tuyển dụng</target>
+   </trans-unit>
+   <trans-unit id="60">
+    <source>Enable Time module</source>
+    <target>Kích hoạt tính năng mô-đun Thời gian</target>
+   </trans-unit>
+   <trans-unit id="61">
+    <source>Failed to Import: File Size Exceeded</source>
+    <target>Import không thành công: Kích cỡ file vượt quá</target>
+   </trans-unit>
+   <trans-unit id="62">
+    <source>Failed to Import: File Type Not Allowed</source>
+    <target>Import không thành công: File Type không được phép</target>
+   </trans-unit>
+   <trans-unit id="63">
+    <source>Failed to Import: No Compatible Records</source>
+    <target>Import không thành công: Không có hồ sơ tương thích</target>
+   </trans-unit>
+   <trans-unit id="64">
+    <source>Fax</source>
+    <target>Fax</target>
+   </trans-unit>
+   <trans-unit id="65">
+    <source>First Name and Last Name are compulsory</source>
+    <target>Họ và Tên là bắt buộc</target>
+   </trans-unit>
+   <trans-unit id="66">
+    <source>Following languages are supported</source>
+    <target>Ngôn ngữ sau đây được hỗ trợ</target>
+   </trans-unit>
+   <trans-unit id="67">
+    <source>Hours Per Day</source>
+    <target>Giờ mỗi ngày</target>
+   </trans-unit>
+   <trans-unit id="68">
+    <source>If gender is specified, value should be either</source>
+    <target>Nếu giới được quy định cụ thể, giá trị sẽ là một trong hai</target>
+   </trans-unit>
+   <trans-unit id="69">
+    <source>Job Description</source>
+    <target>Mô tả công việc</target>
+   </trans-unit>
+   <trans-unit id="70">
+    <source>Language and font help</source>
+    <target>Trợ giúp Ngôn ngữ và font</target>
+   </trans-unit>
+   <trans-unit id="71">
+    <source>Leave Applications</source>
+    <target>Đơn nghỉ phép</target>
+   </trans-unit>
+   <trans-unit id="72">
+    <source>Leave Approvals</source>
+    <target>Chấp nhận nghỉ phép</target>
+   </trans-unit>
+   <trans-unit id="73">
+    <source>Leave Assignments</source>
+    <target>Chỉ định nghỉ phép</target>
+   </trans-unit>
+   <trans-unit id="74">
+    <source>Leave Cancellations</source>
+    <target>Huỷ bỏ nghỉ phép</target>
+   </trans-unit>
+   <trans-unit id="75">
+    <source>Leave Rejections</source>
+    <target>Từ chối nghỉ phép</target>
+   </trans-unit>
+   <trans-unit id="76">
+    <source>Level Already Exists</source>
+    <target>Cấp đã tồn tại</target>
+   </trans-unit>
+   <trans-unit id="77">
+    <source>Location Name</source>
+    <target>Tên vị trí</target>
+   </trans-unit>
+   <trans-unit id="78">
+    <source>Mail Configuration</source>
+    <target>Cấu hình thư</target>
+   </trans-unit>
+   <trans-unit id="79">
+    <source>Mail Sent As</source>
+    <target>Mail được gửi đi bởi</target>
+   </trans-unit>
+   <trans-unit id="80">
+    <source>Maximum Salary</source>
+    <target>Mức lương tối đa</target>
+   </trans-unit>
+   <trans-unit id="81">
+    <source>Medium</source>
+    <target>Trung bình</target>
+   </trans-unit>
+   <trans-unit id="82">
+    <source>Minimum Salary</source>
+    <target>Tối thiểu Mức lương</target>
+   </trans-unit>
+   <trans-unit id="83">
+    <source>Module Configuration</source>
+    <target>Mô-đun cấu hình</target>
+   </trans-unit>
+   <trans-unit id="84">
+    <source>Multiple import files may be required</source>
+    <target>Nhiều tác phẩm nhập khẩu có thể được yêu cầu</target>
+   </trans-unit>
+   <trans-unit id="85">
+    <source>New Password</source>
+    <target>Mật khẩu mới</target>
+   </trans-unit>
+   <trans-unit id="86">
+    <source>No activities selected</source>
+    <target>Không có hoạt động được lựa chọn</target>
+   </trans-unit>
+   <trans-unit id="87">
+    <source>No assigned activities</source>
+    <target>Không có chỉ định hoạt động</target>
+   </trans-unit>
+   <trans-unit id="88">
+    <source>Not Allowed to Delete Customer(s) Which Have Time Logged Against</source>
+    <target>Không cho phép để xóa khách hàng (s) có thời gian Logged chống</target>
+   </trans-unit>
+   <trans-unit id="89">
+    <source>Not Allowed to Delete Project Activites Which Have Time Logged Against</source>
+    <target>Không được phép Xóa HOẠT ĐỘNG Dự án nào có thời gian Logged chống</target>
+   </trans-unit>
+   <trans-unit id="90">
+    <source>Notification Type</source>
+    <target>Loại thông báo</target>
+   </trans-unit>
+   <trans-unit id="91">
+    <source>Number of Employees</source>
+    <target>Số lượng nhân viên</target>
+   </trans-unit>
+   <trans-unit id="92">
+    <source>Number of Records Imported</source>
+    <target>Số lượng hồ sơ nhập khẩu</target>
+   </trans-unit>
+   <trans-unit id="93">
+    <source>OrangeHRM - Supported Languages</source>
+    <target>OrangeHRM - Ngôn ngữ hỗ trợ</target>
+   </trans-unit>
+   <trans-unit id="94">
+    <source>Organization Name</source>
+    <target>Tên tổ chức</target>
+   </trans-unit>
+   <trans-unit id="95">
+    <source>Path to Sendmail</source>
+    <target>Đường dẫn đến Sendmail</target>
+   </trans-unit>
+   <trans-unit id="96">
+    <source>Performance Review Submissions</source>
+    <target>Hiệu suất đánh giá những phản hồi và những đề nghị, gợi ý</target>
+   </trans-unit>
+   <trans-unit id="97">
+    <source>Phone</source>
+    <target>Điện thoại</target>
+   </trans-unit>
+   <trans-unit id="98">
+    <source>Project</source>
+    <target>Dự án</target>
+   </trans-unit>
+   <trans-unit id="99">
+    <source>Project Admin</source>
+    <target>Dự án Quản trị viên</target>
+   </trans-unit>
+   <trans-unit id="100">
+    <source>Project Admins</source>
+    <target>Dự án quản trị</target>
+   </trans-unit>
+   <trans-unit id="101">
+    <source>Projects under selected customer will also be deleted</source>
+    <target>Dự án theo khách hàng lựa chọn cũng sẽ bị xóa</target>
+   </trans-unit>
+   <trans-unit id="102">
+    <source>Registration Number</source>
+    <target>Số đăng ký</target>
+   </trans-unit>
+   <trans-unit id="103">
+    <source>Sample CSV file</source>
+    <target>File CSV mẫu</target>
+   </trans-unit>
+   <trans-unit id="104">
+    <source>Send Test Email</source>
+    <target>Gửi Email Kiểm tra</target>
+   </trans-unit>
+   <trans-unit id="105">
+    <source>Sending Method</source>
+    <target>Phương thức gửi</target>
+   </trans-unit>
+   <trans-unit id="106">
+    <source>Shift Name</source>
+    <target>Thay đổi Tên</target>
+   </trans-unit>
+   <trans-unit id="107">
+    <source>Should be higher than Minimum Salary</source>
+    <target>Nên được cao hơn lương tối thiểu</target>
+   </trans-unit>
+   <trans-unit id="108">
+    <source>SMTP Password</source>
+    <target>Mật khẩu SMTP</target>
+   </trans-unit>
+   <trans-unit id="109">
+    <source>SMTP Port</source>
+    <target>Cổng SMTP</target>
+   </trans-unit>
+   <trans-unit id="110">
+    <source>SMTP User</source>
+    <target>User SMTP</target>
+   </trans-unit>
+   <trans-unit id="111">
+    <source>SSL</source>
+    <target>SSL</target>
+   </trans-unit>
+   <trans-unit id="112">
+    <source>Strong</source>
+    <target>Mạnh mẽ</target>
+   </trans-unit>
+   <trans-unit id="113">
+    <source>Strongest</source>
+    <target>Strongest</target>
+   </trans-unit>
+   <trans-unit id="114">
+    <source>Subscribers</source>
+    <target>Đăng ký</target>
+   </trans-unit>
+   <trans-unit id="115">
+    <source>Successfully Saved. Test Email Not Sent</source>
+    <target>Lưu thành công. Kiểm tra Email Không Gửi</target>
+   </trans-unit>
+   <trans-unit id="116">
+    <source>Successfully Saved. Test Email Sent</source>
+    <target>Lưu thành công. Kiểm tra email đã gửi</target>
+   </trans-unit>
+   <trans-unit id="117">
+    <source>Supported languages</source>
+    <target>Ngôn ngữ hỗ trợ</target>
+   </trans-unit>
+   <trans-unit id="118">
+    <source>System Users</source>
+    <target>Danh sách người dùng hệ thống</target>
+   </trans-unit>
+   <trans-unit id="119">
+    <source>Tax ID</source>
+    <target>ID thuế</target>
+   </trans-unit>
+   <trans-unit id="120">
+    <source>Test Email Address</source>
+    <target>Kiểm tra địa chỉ Email</target>
+   </trans-unit>
+   <trans-unit id="121">
+    <source>This unit will be added under</source>
+    <target>Đơn vị này sẽ được thêm vào dưới</target>
+   </trans-unit>
+   <trans-unit id="122">
+    <source>TLS</source>
+    <target>TLS</target>
+   </trans-unit>
+   <trans-unit id="123">
+    <source>Unit Id</source>
+    <target>Đơn vị Id</target>
+   </trans-unit>
+   <trans-unit id="124">
+    <source>Units under selected unit will also be deleted</source>
+    <target>Các đơn vị thuộc đơn vị được lựa chọn cũng sẽ bị xóa</target>
+   </trans-unit>
+   <trans-unit id="125">
+    <source>Use browser language if set</source>
+    <target>Sử dụng ngôn ngữ trình duyệt nếu đặt</target>
+   </trans-unit>
+   <trans-unit id="126">
+    <source>Use SMTP Authentication</source>
+    <target>Sử dụng xác thực SMTP</target>
+   </trans-unit>
+   <trans-unit id="127">
+    <source>User Secure Connection</source>
+    <target>Người sử dụng an toàn kết nối</target>
+   </trans-unit>
+   <trans-unit id="128">
+    <source>User Type</source>
+    <target>Loại Người sử dụng</target>
+   </trans-unit>
+   <trans-unit id="129">
+    <source>Very Weak</source>
+    <target>Rất yếu</target>
+   </trans-unit>
+   <trans-unit id="130">
+    <source>Weak</source>
+    <target>Yếu</target>
+   </trans-unit>
+   <trans-unit id="131">
+    <source>Zip Code</source>
+    <target>Zip Code</target>
+   </trans-unit>
+  </body>
+ </file>
+</xliff>
+<!-- Contributed By:   ,   ,  Nguyen Ninh , Adam Jimi , Do Nguyen , Duong Minh Hieu , Khanh Ho , Le Thanh Duong , Liem Chau , Linh Trinh , Nguyen Huu Tuan , Phu Dang , Phu Luong , Thanh Pham , Tran Quoc Ninh , Van Nguyen -->
+

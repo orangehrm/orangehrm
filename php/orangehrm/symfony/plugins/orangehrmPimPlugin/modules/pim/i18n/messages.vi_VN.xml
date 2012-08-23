@@ -1,0 +1,499 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE xliff PUBLIC "-//XLIFF//DTD XLIFF//EN" "http://www.oasis-open.org/committees/xliff/documents/xliff.dtd">
+<xliff version="1.0">
+ <header/>
+ <file source-language="en_US" target-language="vi_VN" datatype="plaintext" original="messages" date="2012-08-23T1:17:55Z" product-name="messages">
+  <body>
+   <trans-unit id="1">
+    <source>Account Number</source>
+    <target>Số tài khoản</target>
+   </trans-unit>
+   <trans-unit id="2">
+    <source>Account Type</source>
+    <target>Loại tài khoản</target>
+   </trans-unit>
+   <trans-unit id="3">
+    <source>Activate Employement</source>
+    <target>Kích hoạt Employement</target>
+   </trans-unit>
+   <trans-unit id="4">
+    <source>Activate Employment</source>
+    <target>Nhân viên hoạt động</target>
+   </trans-unit>
+   <trans-unit id="5">
+    <source>Add Custom Field</source>
+    <target>Thêm trường tuỳ chỉnh</target>
+   </trans-unit>
+   <trans-unit id="6">
+    <source>Add Dependent</source>
+    <target>Thêm phụ thuộc</target>
+   </trans-unit>
+   <trans-unit id="7">
+    <source>Add Direct Deposit Details</source>
+    <target>Thêm Chi tiết tiền gửi trực tiếp</target>
+   </trans-unit>
+   <trans-unit id="8">
+    <source>Add Emergency Contact</source>
+    <target>Thêm tin liên lạc khẩn cấp</target>
+   </trans-unit>
+   <trans-unit id="9">
+    <source>Add Immigration</source>
+    <target>Thêm Di Trú</target>
+   </trans-unit>
+   <trans-unit id="10">
+    <source>Add Membership Details</source>
+    <target>Thêm Chi tiết thành viên</target>
+   </trans-unit>
+   <trans-unit id="11">
+    <source>Add Reporting Method</source>
+    <target>Thêm Phương pháp báo cáo</target>
+   </trans-unit>
+   <trans-unit id="12">
+    <source>Add Subordinate</source>
+    <target>Thêm cấp dưới</target>
+   </trans-unit>
+   <trans-unit id="13">
+    <source>Add Supervisor</source>
+    <target>Thêm Giám sát</target>
+   </trans-unit>
+   <trans-unit id="14">
+    <source>Add Supervisor/Subordinate</source>
+    <target>Thêm Giám sát / cấp dưới</target>
+   </trans-unit>
+   <trans-unit id="15">
+    <source>Add Termination Reason</source>
+    <target>Thêm Lý do Chấm dứt</target>
+   </trans-unit>
+   <trans-unit id="16">
+    <source>Add Work Experience</source>
+    <target>Thêm kinh nghiệm làm việc</target>
+   </trans-unit>
+   <trans-unit id="17">
+    <source>All customs fields are in use</source>
+    <target>Tất cả các lĩnh vực hải quan đang được sử dụng</target>
+   </trans-unit>
+   <trans-unit id="18">
+    <source>Assigned Dependents</source>
+    <target>Phân công người phụ thuộc</target>
+   </trans-unit>
+   <trans-unit id="19">
+    <source>Assigned Emergency Contacts</source>
+    <target>Được giao khẩn cấp Liên hệ</target>
+   </trans-unit>
+   <trans-unit id="20">
+    <source>Assigned Immigration Documents</source>
+    <target>Được chỉ định nhập cư tài liệu</target>
+   </trans-unit>
+   <trans-unit id="21">
+    <source>Assigned Memberships</source>
+    <target>Phân công thành viên</target>
+   </trans-unit>
+   <trans-unit id="22">
+    <source>Assigned Subordinates</source>
+    <target>Phân công nhân viên dưới quyền</target>
+   </trans-unit>
+   <trans-unit id="23">
+    <source>Assigned Supervisors</source>
+    <target>Được giao giám sát</target>
+   </trans-unit>
+   <trans-unit id="24">
+    <source>At least one phone number is required</source>
+    <target>Ít nhất một số điện thoại được yêu cầu</target>
+   </trans-unit>
+   <trans-unit id="25">
+    <source>Bi Weekly</source>
+    <target>Bi tuần</target>
+   </trans-unit>
+   <trans-unit id="26">
+    <source>child</source>
+    <target>trẻ em</target>
+   </trans-unit>
+   <trans-unit id="27">
+    <source>Child</source>
+    <target>Trẻ em</target>
+   </trans-unit>
+   <trans-unit id="28">
+    <source>Configure PIM</source>
+    <target>Cấu hình PIM</target>
+   </trans-unit>
+   <trans-unit id="29">
+    <source>Confirm</source>
+    <target>Xác nhận</target>
+   </trans-unit>
+   <trans-unit id="30">
+    <source>Contract Details</source>
+    <target>Hợp đồng Thông tin chi tiết</target>
+   </trans-unit>
+   <trans-unit id="31">
+    <source>Country Specific Information</source>
+    <target>Quốc gia cụ thể thông tin</target>
+   </trans-unit>
+   <trans-unit id="32">
+    <source>Create Login Details</source>
+    <target>Tạo chi tiết đăng nhập</target>
+   </trans-unit>
+   <trans-unit id="33">
+    <source>Custom</source>
+    <target>Tuỳ chỉnh</target>
+   </trans-unit>
+   <trans-unit id="34">
+    <source>Custom Field Name</source>
+    <target>Tên Trường Tuỳ chỉnh</target>
+   </trans-unit>
+   <trans-unit id="35">
+    <source>Date of Expiry</source>
+    <target>Ngày của hết hạn</target>
+   </trans-unit>
+   <trans-unit id="36">
+    <source>Delete photograph?</source>
+    <target>Xóa bức ảnh?</target>
+   </trans-unit>
+   <trans-unit id="37">
+    <source>Direct Deposit</source>
+    <target>Direct Deposit</target>
+   </trans-unit>
+   <trans-unit id="38">
+    <source>Document</source>
+    <target>Tài liệu</target>
+   </trans-unit>
+   <trans-unit id="39">
+    <source>Document No</source>
+    <target>Tài liệu Không có</target>
+   </trans-unit>
+   <trans-unit id="40">
+    <source>Drop Down</source>
+    <target>Drop Down</target>
+   </trans-unit>
+   <trans-unit id="41">
+    <source>Edit Custom Field</source>
+    <target>Chỉnh sửa trường Tuỳ chỉnh</target>
+   </trans-unit>
+   <trans-unit id="42">
+    <source>Edit Dependent</source>
+    <target>Chỉnh sửa phụ thuộc</target>
+   </trans-unit>
+   <trans-unit id="43">
+    <source>Edit Emergency Contact</source>
+    <target>Chỉnh sửa liên lạc khẩn cấp</target>
+   </trans-unit>
+   <trans-unit id="44">
+    <source>Edit Employement Termination</source>
+    <target>Chỉnh sửa Chấm dứt Employement</target>
+   </trans-unit>
+   <trans-unit id="45">
+    <source>Edit Employment Termination</source>
+    <target>Chỉnh sửa thôi việc nhân viên</target>
+   </trans-unit>
+   <trans-unit id="46">
+    <source>Edit Membership Detail</source>
+    <target>Chỉnh sửa chi tiết thành viên</target>
+   </trans-unit>
+   <trans-unit id="47">
+    <source>Edit Reporting Method</source>
+    <target>Chỉnh sửa Phương pháp báo cáo</target>
+   </trans-unit>
+   <trans-unit id="48">
+    <source>Edit Subordinate</source>
+    <target>Chỉnh sửa cấp dưới</target>
+   </trans-unit>
+   <trans-unit id="49">
+    <source>Edit Supervisor</source>
+    <target>Chỉnh sửa Giám sát</target>
+   </trans-unit>
+   <trans-unit id="50">
+    <source>Edit Termination Reason</source>
+    <target>Chỉnh sửa Lý do Chấm dứt</target>
+   </trans-unit>
+   <trans-unit id="51">
+    <source>Edit Work Experience</source>
+    <target>Chỉnh sửa Kinh nghiệm làm việc</target>
+   </trans-unit>
+   <trans-unit id="52">
+    <source>Emergency Contact(s)</source>
+    <target>Liên Lạc Khẩn Cấp (s)</target>
+   </trans-unit>
+   <trans-unit id="53">
+    <source>Employee Information</source>
+    <target>Nhân viên thông tin</target>
+   </trans-unit>
+   <trans-unit id="54">
+    <source>Employment</source>
+    <target>Việc làm</target>
+   </trans-unit>
+   <trans-unit id="55">
+    <source>Employment Contract</source>
+    <target>Việc làm hợp đồng</target>
+   </trans-unit>
+   <trans-unit id="56">
+    <source>Enter a number</source>
+    <target>Nhập số</target>
+   </trans-unit>
+   <trans-unit id="57">
+    <source>Enter allowed options separated by commas</source>
+    <target>Nhập tùy chọn cho phép phân cách bằng dấu phẩy</target>
+   </trans-unit>
+   <trans-unit id="58">
+    <source>Ethnic Race</source>
+    <target>Dân tộc Race</target>
+   </trans-unit>
+   <trans-unit id="59">
+    <source>Exemptions</source>
+    <target>Miễn giảm</target>
+   </trans-unit>
+   <trans-unit id="60">
+    <source>Failed To Save: Employee Id Exists</source>
+    <target>Không: nhân viên Id Tồn tại</target>
+   </trans-unit>
+   <trans-unit id="61">
+    <source>Failed To Save: User Name Exists</source>
+    <target>Không: người sử dụng Name Tồn tại</target>
+   </trans-unit>
+   <trans-unit id="62">
+    <source>Federal Income Tax</source>
+    <target>Thuế thu nhập liên bang</target>
+   </trans-unit>
+   <trans-unit id="63">
+    <source>Field Name</source>
+    <target>Trường Name</target>
+   </trans-unit>
+   <trans-unit id="64">
+    <source>Field Type</source>
+    <target>Trường Type</target>
+   </trans-unit>
+   <trans-unit id="65">
+    <source>From date should be before to date</source>
+    <target>Từ ngày nên được trước khi cho đến nay</target>
+   </trans-unit>
+   <trans-unit id="66">
+    <source>GPA/Score</source>
+    <target>Điểm trung bình / điểm</target>
+   </trans-unit>
+   <trans-unit id="67">
+    <source>Hourly</source>
+    <target>Hàng giờ</target>
+   </trans-unit>
+   <trans-unit id="68">
+    <source>Institute</source>
+    <target>Viện</target>
+   </trans-unit>
+   <trans-unit id="69">
+    <source>Issued date should be before expiration date</source>
+    <target>Ngày cấp trước ngày hết hạn</target>
+   </trans-unit>
+   <trans-unit id="70">
+    <source>Major/Specialization</source>
+    <target>Chính / Chuyên ngành</target>
+   </trans-unit>
+   <trans-unit id="71">
+    <source>Married</source>
+    <target>Kết hôn</target>
+   </trans-unit>
+   <trans-unit id="72">
+    <source>Max</source>
+    <target>Max</target>
+   </trans-unit>
+   <trans-unit id="73">
+    <source>Membership Type</source>
+    <target>Thành viên Loại</target>
+   </trans-unit>
+   <trans-unit id="74">
+    <source>Military Service</source>
+    <target>Vụ quân sự</target>
+   </trans-unit>
+   <trans-unit id="75">
+    <source>Min</source>
+    <target>Min</target>
+   </trans-unit>
+   <trans-unit id="76">
+    <source>Monthly</source>
+    <target>Hàng tháng</target>
+   </trans-unit>
+   <trans-unit id="77">
+    <source>Monthly on first pay of month.</source>
+    <target>Tháng lương đầu tiên của tháng.</target>
+   </trans-unit>
+   <trans-unit id="78">
+    <source>N/A</source>
+    <target>N / A</target>
+   </trans-unit>
+   <trans-unit id="79">
+    <source>Nick Name</source>
+    <target>Nick Name</target>
+   </trans-unit>
+   <trans-unit id="80">
+    <source>Non Resident Alien</source>
+    <target>Không cư trú</target>
+   </trans-unit>
+   <trans-unit id="81">
+    <source>Not Applicable</source>
+    <target>Không áp dụng</target>
+   </trans-unit>
+   <trans-unit id="82">
+    <source>other</source>
+    <target>khác</target>
+   </trans-unit>
+   <trans-unit id="83">
+    <source>Passport</source>
+    <target>Hộ chiếu</target>
+   </trans-unit>
+   <trans-unit id="84">
+    <source>Personal Details</source>
+    <target>Thông tin cá nhân</target>
+   </trans-unit>
+   <trans-unit id="85">
+    <source>Photograph</source>
+    <target>Ảnh</target>
+   </trans-unit>
+   <trans-unit id="86">
+    <source>Please Specify</source>
+    <target>Hãy xác định</target>
+   </trans-unit>
+   <trans-unit id="87">
+    <source>Qualifications</source>
+    <target>Trình độ chuyên môn</target>
+   </trans-unit>
+   <trans-unit id="88">
+    <source>Reason</source>
+    <target>Lý do</target>
+   </trans-unit>
+   <trans-unit id="89">
+    <source>Remaining number of custom fields</source>
+    <target>Số còn lại của lĩnh vực tùy chỉnh</target>
+   </trans-unit>
+   <trans-unit id="90">
+    <source>Renewal date should be after commence date</source>
+    <target>Ngày gia hạn nên sau khi bắt đầu ngày</target>
+   </trans-unit>
+   <trans-unit id="91">
+    <source>Report-to</source>
+    <target>Báo cáo đến</target>
+   </trans-unit>
+   <trans-unit id="92">
+    <source>Screen</source>
+    <target>Màn hình</target>
+   </trans-unit>
+   <trans-unit id="93">
+    <source>Select a Photograph</source>
+    <target>Chọn một bức ảnh</target>
+   </trans-unit>
+   <trans-unit id="94">
+    <source>Select Membership</source>
+    <target>Chọn thành viên</target>
+   </trans-unit>
+   <trans-unit id="95">
+    <source>Select Options</source>
+    <target>Chọn Tùy chọn</target>
+   </trans-unit>
+   <trans-unit id="96">
+    <source>Semi Monthly</source>
+    <target>Bán hàng tháng</target>
+   </trans-unit>
+   <trans-unit id="97">
+    <source>Show Deprecated Fields</source>
+    <target>Các trường phản đối</target>
+   </trans-unit>
+   <trans-unit id="98">
+    <source>Show Nick Name, Smoker and Military Service in Personal Details</source>
+    <target>Hiển thị Nick Name, Hút Thuốc và vụ quân sự trong Thông tin cá nhân</target>
+   </trans-unit>
+   <trans-unit id="99">
+    <source>Show SIN field in Personal Details</source>
+    <target>Hiển thị trường SIN Thông tin cá nhân</target>
+   </trans-unit>
+   <trans-unit id="100">
+    <source>Show SSN field in Personal Details</source>
+    <target>Hiển thị trường SSN Thông tin cá nhân</target>
+   </trans-unit>
+   <trans-unit id="101">
+    <source>Show US Tax Exemptions menu</source>
+    <target>Hiển thị Mỹ đơn miễn giảm thuế</target>
+   </trans-unit>
+   <trans-unit id="102">
+    <source>SIN Number</source>
+    <target>SIN Số</target>
+   </trans-unit>
+   <trans-unit id="103">
+    <source>Single</source>
+    <target>Độc thân</target>
+   </trans-unit>
+   <trans-unit id="104">
+    <source>Smoker</source>
+    <target>Hút Thuốc</target>
+   </trans-unit>
+   <trans-unit id="105">
+    <source>SSN Number</source>
+    <target>SSN Số</target>
+   </trans-unit>
+   <trans-unit id="106">
+    <source>State Income Tax</source>
+    <target>Thuế thu nhập nhà nước</target>
+   </trans-unit>
+   <trans-unit id="107">
+    <source>Subordinate</source>
+    <target>Cấp dưới</target>
+   </trans-unit>
+   <trans-unit id="108">
+    <source>Tax Exemptions</source>
+    <target>Thuế miễn giảm</target>
+   </trans-unit>
+   <trans-unit id="109">
+    <source>Terminate Employement</source>
+    <target>Chấm dứt Employement</target>
+   </trans-unit>
+   <trans-unit id="110">
+    <source>Terminate Employment</source>
+    <target>Thôi việc nhân viên</target>
+   </trans-unit>
+   <trans-unit id="111">
+    <source>Terminated Date</source>
+    <target>Kết thúc ngày</target>
+   </trans-unit>
+   <trans-unit id="112">
+    <source>Terminated on</source>
+    <target>Kết thúc vào</target>
+   </trans-unit>
+   <trans-unit id="113">
+    <source>Terminated Reason</source>
+    <target>Kết thúc Lý do</target>
+   </trans-unit>
+   <trans-unit id="114">
+    <source>Text or Number</source>
+    <target>Văn bản hoặc số</target>
+   </trans-unit>
+   <trans-unit id="115">
+    <source>To date should be after From date</source>
+    <target>Cho đến nay nên được sau khi Từ ngày</target>
+   </trans-unit>
+   <trans-unit id="116">
+    <source>Unemployment State</source>
+    <target>Tỷ lệ thất nghiệp Nhà nước</target>
+   </trans-unit>
+   <trans-unit id="117">
+    <source>User Name</source>
+    <target>User Name</target>
+   </trans-unit>
+   <trans-unit id="118">
+    <source>Visa</source>
+    <target>Visa</target>
+   </trans-unit>
+   <trans-unit id="119">
+    <source>Weekly</source>
+    <target>Hàng tuần</target>
+   </trans-unit>
+   <trans-unit id="120">
+    <source>Will be deleted from all employees</source>
+    <target>Sẽ bị xóa từ tất cả các nhân viên</target>
+   </trans-unit>
+   <trans-unit id="121">
+    <source>Work experience</source>
+    <target>Kinh nghiệm làm việc</target>
+   </trans-unit>
+   <trans-unit id="122">
+    <source>Work State</source>
+    <target>Làm việc nhà nước</target>
+   </trans-unit>
+  </body>
+ </file>
+</xliff>
+<!-- Contributed By:   ,   ,  Nguyen Ninh , Adam Jimi , Do Nguyen , Duong Minh Hieu , Khanh Ho , Le Thanh Duong , Liem Chau , Linh Trinh , Nguyen Huu Tuan , Phu Dang , Phu Luong , Thanh Pham , Tran Quoc Ninh , Van Nguyen -->
+

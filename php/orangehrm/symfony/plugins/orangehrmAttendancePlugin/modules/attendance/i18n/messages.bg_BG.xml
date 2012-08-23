@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE xliff PUBLIC "-//XLIFF//DTD XLIFF//EN" "http://www.oasis-open.org/committees/xliff/documents/xliff.dtd">
+<xliff version="1.0">
+ <header/>
+ <file source-language="en_US" target-language="bg_BG" datatype="plaintext" original="messages" date="2012-08-22T5:56:13Z" product-name="messages">
+  <body>
+   <trans-unit id="1">
+    <source>Add Attendance Records</source>
+    <target>Добави седм. Records</target>
+   </trans-unit>
+   <trans-unit id="2">
+    <source>Attendance Configuration</source>
+    <target>Участие Конфигурация</target>
+   </trans-unit>
+   <trans-unit id="3">
+    <source>Comment should be less than 250 characters</source>
+    <target>Коментар трябва да бъде по-малко от 250 символа</target>
+   </trans-unit>
+   <trans-unit id="4">
+    <source>Employee can change current time when punching in/out</source>
+    <target>Служител може да се променя текущото време, когато пробиване /</target>
+   </trans-unit>
+   <trans-unit id="5">
+    <source>Employee can edit/delete own attendance records</source>
+    <target>Служител може да редактира / изтривате собствените записи посещаемост</target>
+   </trans-unit>
+   <trans-unit id="6">
+    <source>In</source>
+    <target>В</target>
+   </trans-unit>
+   <trans-unit id="7">
+    <source>Last punch in time</source>
+    <target>Последно удар във времето</target>
+   </trans-unit>
+   <trans-unit id="8">
+    <source>My Attendance Records</source>
+    <target>Присъствието ми записи</target>
+   </trans-unit>
+   <trans-unit id="9">
+    <source>No attendance records to display</source>
+    <target>Не записва присъствие, за да се покаже</target>
+   </trans-unit>
+   <trans-unit id="10">
+    <source>Out</source>
+    <target>От</target>
+   </trans-unit>
+   <trans-unit id="11">
+    <source>Overlapping Records Found</source>
+    <target>Припокриващи се Records са открити</target>
+   </trans-unit>
+   <trans-unit id="12">
+    <source>Punch In</source>
+    <target>Удар в</target>
+   </trans-unit>
+   <trans-unit id="13">
+    <source>Punch In Note</source>
+    <target>Punch в бележка</target>
+   </trans-unit>
+   <trans-unit id="14">
+    <source>Punch in/out note</source>
+    <target>Punch в / извън бележка</target>
+   </trans-unit>
+   <trans-unit id="15">
+    <source>Punch Out</source>
+    <target>Пробийте</target>
+   </trans-unit>
+   <trans-unit id="16">
+    <source>Punch Out Note</source>
+    <target>Пробийте Забележка</target>
+   </trans-unit>
+   <trans-unit id="17">
+    <source>Punch out Time Should Be Higher Than Punch in Time</source>
+    <target>Удар време трябва да бъде по-висока, отколкото Punch във времето</target>
+   </trans-unit>
+   <trans-unit id="18">
+    <source>Supervisor can add/edit/delete attendance records of subordinates</source>
+    <target>Надзорен орган могат да добавят / редактиране / изтриване на записи на посещаемост на подчинените</target>
+   </trans-unit>
+   <trans-unit id="19">
+    <source>Timezone</source>
+    <target>Часовата зона</target>
+   </trans-unit>
+   <trans-unit id="20">
+    <source>View Attendance Record</source>
+    <target>Виж Запис Присъствие</target>
+   </trans-unit>
+   <trans-unit id="21">
+    <source>You are not allowed to view this page</source>
+    <target>Вие нямате право да виждате тази страница</target>
+   </trans-unit>
+  </body>
+ </file>
+</xliff>
+<!-- Contributed By:   , Jeni  Mincheva -->
+

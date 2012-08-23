@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE xliff PUBLIC "-//XLIFF//DTD XLIFF//EN" "http://www.oasis-open.org/committees/xliff/documents/xliff.dtd">
+<xliff version="1.0">
+ <header/>
+ <file source-language="en_US" target-language="da_DK" datatype="plaintext" original="messages" date="2012-08-22T5:49:57Z" product-name="messages">
+  <body>
+   <trans-unit id="1">
+    <source>Add Attendance Records</source>
+    <target>Tilføj fremmødekontrol</target>
+   </trans-unit>
+   <trans-unit id="2">
+    <source>Attendance Configuration</source>
+    <target>Deltagelse Konfiguration</target>
+   </trans-unit>
+   <trans-unit id="3">
+    <source>Comment should be less than 250 characters</source>
+    <target>Kommentar bør være mindre end 250 tegn</target>
+   </trans-unit>
+   <trans-unit id="4">
+    <source>Employee can change current time when punching in/out</source>
+    <target>Medarbejder kan ændre aktuelle tidspunkt, hvor stansning ind / ud</target>
+   </trans-unit>
+   <trans-unit id="5">
+    <source>Employee can edit/delete own attendance records</source>
+    <target>Medarbejder kan redigere / slette egne fremmødekontrol</target>
+   </trans-unit>
+   <trans-unit id="6">
+    <source>In</source>
+    <target>Ind</target>
+   </trans-unit>
+   <trans-unit id="7">
+    <source>Last punch in time</source>
+    <target>Sidste slag i tid</target>
+   </trans-unit>
+   <trans-unit id="8">
+    <source>My Attendance Records</source>
+    <target>Min deltagelseregistrering</target>
+   </trans-unit>
+   <trans-unit id="9">
+    <source>No attendance records to display</source>
+    <target>Ingen fremmødekontrol at vise</target>
+   </trans-unit>
+   <trans-unit id="10">
+    <source>Out</source>
+    <target>Ud</target>
+   </trans-unit>
+   <trans-unit id="11">
+    <source>Overlapping Records Found</source>
+    <target>Overlappende Records fundet</target>
+   </trans-unit>
+   <trans-unit id="12">
+    <source>Punch In</source>
+    <target>Stempel ind</target>
+   </trans-unit>
+   <trans-unit id="13">
+    <source>Punch In Note</source>
+    <target>Stempel ind note</target>
+   </trans-unit>
+   <trans-unit id="14">
+    <source>Punch in/out note</source>
+    <target>Stempel ind/ ud note</target>
+   </trans-unit>
+   <trans-unit id="15">
+    <source>Punch Out</source>
+    <target>Stempel ud</target>
+   </trans-unit>
+   <trans-unit id="16">
+    <source>Punch Out Note</source>
+    <target>Stempel ud Note</target>
+   </trans-unit>
+   <trans-unit id="17">
+    <source>Punch out Time Should Be Higher Than Punch in Time</source>
+    <target>Tiden for 'Stempel ud' bør være højere end tidspunkt for Stempel ind'</target>
+   </trans-unit>
+   <trans-unit id="18">
+    <source>Should Be a Valid Date in %format% Format</source>
+    <target>Skal være en valid dato i %format% format</target>
+   </trans-unit>
+   <trans-unit id="19">
+    <source>Should Be a Valid Time in %format% Format</source>
+    <target>Skal være et validt tidspunkt i %format% format</target>
+   </trans-unit>
+   <trans-unit id="20">
+    <source>Supervisor can add/edit/delete attendance records of subordinates</source>
+    <target>Supervisor kan tilføje / redigere / slette fremmødekontrol af underordnede</target>
+   </trans-unit>
+   <trans-unit id="21">
+    <source>Timezone</source>
+    <target>Tidszone</target>
+   </trans-unit>
+   <trans-unit id="22">
+    <source>View Attendance Record</source>
+    <target>Se deltagelseregistering</target>
+   </trans-unit>
+   <trans-unit id="23">
+    <source>You are not allowed to view this page</source>
+    <target>Du har ikke tilladelse til at se denne side</target>
+   </trans-unit>
+  </body>
+ </file>
+</xliff>
+<!-- Contributed By:   ,   -->
+

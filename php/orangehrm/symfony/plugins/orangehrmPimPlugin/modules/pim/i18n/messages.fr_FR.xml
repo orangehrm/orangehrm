@@ -2,500 +2,498 @@
 <!DOCTYPE xliff PUBLIC "-//XLIFF//DTD XLIFF//EN" "http://www.oasis-open.org/committees/xliff/documents/xliff.dtd">
 <xliff version="1.0">
  <header/>
- <file source-language="en_US" target-language="fr_FR" datatype="plaintext" original="messages" date="2012-03-01T0:09:54Z" product-name="messages">
+ <file source-language="en_US" target-language="fr_FR" datatype="plaintext" original="messages" date="2012-08-23T0:53:31Z" product-name="messages">
   <body>
    <trans-unit id="1">
-    <source>Remaining number of custom fields</source>
-    <target>FR_Remaining number of custom fields</target>
+    <source>Account Number</source>
+    <target>Numéro de compte</target>
    </trans-unit>
    <trans-unit id="2">
-    <source>Account Number</source>
-    <target>FR_Account Number</target>
+    <source>Account Type</source>
+    <target>Type de compte</target>
    </trans-unit>
    <trans-unit id="3">
-    <source>Account Type</source>
-    <target>FR_Account Type</target>
+    <source>Activate Employement</source>
+    <target>Activé un poste</target>
    </trans-unit>
    <trans-unit id="4">
     <source>Activate Employment</source>
-    <target>FR_Activate Employment</target>
+    <target>Activer emploi</target>
    </trans-unit>
    <trans-unit id="5">
     <source>Add Custom Field</source>
-    <target>FR_Add Custom Field</target>
+    <target>Ajouter un champ personnalisé</target>
    </trans-unit>
    <trans-unit id="6">
     <source>Add Dependent</source>
-    <target>FR_Add Dependent</target>
+    <target>Ajouter personne à charge</target>
    </trans-unit>
    <trans-unit id="7">
     <source>Add Direct Deposit Details</source>
-    <target>FR_Add Direct Deposit Details</target>
+    <target>Ajouter Détails de dépôt direct</target>
    </trans-unit>
    <trans-unit id="8">
     <source>Add Emergency Contact</source>
-    <target>FR_Add Emergency Contact</target>
+    <target>Ajouter un contact d'urgence</target>
    </trans-unit>
    <trans-unit id="9">
     <source>Add Immigration</source>
-    <target>FR_Add Immigration</target>
+    <target>Ajouter l'immigration</target>
    </trans-unit>
    <trans-unit id="10">
     <source>Add Membership Details</source>
-    <target>FR_Add Membership Details</target>
+    <target>Ajouter Précisions sur les membres</target>
    </trans-unit>
    <trans-unit id="11">
     <source>Add Reporting Method</source>
-    <target>FR_Add Reporting Method</target>
+    <target>Ajouter une méthode de déclaration</target>
    </trans-unit>
    <trans-unit id="12">
     <source>Add Subordinate</source>
-    <target>FR_Add Subordinate</target>
+    <target>Ajouter subalterne</target>
    </trans-unit>
    <trans-unit id="13">
     <source>Add Supervisor</source>
-    <target>FR_Add Supervisor</target>
+    <target>Ajouter Superviseur</target>
    </trans-unit>
    <trans-unit id="14">
     <source>Add Supervisor/Subordinate</source>
-    <target>FR_Add Supervisor/Subordinate</target>
+    <target>Ajouter superviseur / subalterne</target>
    </trans-unit>
    <trans-unit id="15">
     <source>Add Termination Reason</source>
-    <target>FR_Add Termination Reason</target>
+    <target>Ajouter Raison Résiliation</target>
    </trans-unit>
    <trans-unit id="16">
     <source>Add Work Experience</source>
-    <target>FR_Add Work Experience</target>
+    <target>Ajouter expérience professionnelle</target>
    </trans-unit>
    <trans-unit id="17">
     <source>All customs fields are in use</source>
-    <target>FR_All customs fields are in use</target>
+    <target>Tous les champs personnalisés sont en cours d'utilisation</target>
    </trans-unit>
    <trans-unit id="18">
     <source>Assigned Dependents</source>
-    <target>FR_Assigned Dependents</target>
+    <target>Personnes à charge enregistrées</target>
    </trans-unit>
    <trans-unit id="19">
     <source>Assigned Emergency Contacts</source>
-    <target>FR_Assigned Emergency Contacts</target>
+    <target>Contacts d'urgence enregistrés</target>
    </trans-unit>
    <trans-unit id="20">
     <source>Assigned Immigration Documents</source>
-    <target>FR_Assigned Immigration Documents</target>
+    <target>Documents d'immigration enregistrés</target>
    </trans-unit>
    <trans-unit id="21">
     <source>Assigned Memberships</source>
-    <target>FR_Assigned Memberships</target>
+    <target>Membres enregistrés</target>
    </trans-unit>
    <trans-unit id="22">
     <source>Assigned Subordinates</source>
-    <target>FR_Assigned Subordinates</target>
+    <target>Subordonnés qui sont rattachés</target>
    </trans-unit>
    <trans-unit id="23">
     <source>Assigned Supervisors</source>
-    <target>FR_Assigned Supervisors</target>
+    <target>Superviseurs enregistrés</target>
    </trans-unit>
    <trans-unit id="24">
     <source>At least one phone number is required</source>
-    <target>FR_At least one phone number is required</target>
+    <target>Au moins un numéro de téléphone est nécessaire</target>
    </trans-unit>
    <trans-unit id="25">
     <source>Bi Weekly</source>
-    <target>FR_Bi Weekly</target>
+    <target>Bi hebdomadaire</target>
    </trans-unit>
    <trans-unit id="26">
     <source>child</source>
-    <target>FR_child</target>
+    <target>enfant</target>
    </trans-unit>
    <trans-unit id="27">
     <source>Child</source>
-    <target>FR_Child</target>
+    <target>Enfant</target>
    </trans-unit>
    <trans-unit id="28">
     <source>Configure PIM</source>
-    <target>FR_Configure PIM</target>
+    <target>Configurer PIM</target>
    </trans-unit>
    <trans-unit id="29">
     <source>Confirm</source>
-    <target>FR_Confirm</target>
+    <target>Confirmer</target>
    </trans-unit>
    <trans-unit id="30">
     <source>Contract Details</source>
-    <target>FR_Contract Details</target>
+    <target>Détails du contrat</target>
    </trans-unit>
    <trans-unit id="31">
     <source>Country Specific Information</source>
-    <target>FR_Country Specific Information</target>
+    <target>Informations spécifiques au pays</target>
    </trans-unit>
    <trans-unit id="32">
     <source>Create Login Details</source>
-    <target>FR_Create Login Details</target>
+    <target>Créer Détails Connexion</target>
    </trans-unit>
    <trans-unit id="33">
     <source>Custom</source>
-    <target>FR_Custom</target>
+    <target>Personnalisation</target>
    </trans-unit>
    <trans-unit id="34">
     <source>Custom Field Name</source>
-    <target>FR_Custom Field Name</target>
+    <target>Nom du champ personnalisé</target>
    </trans-unit>
    <trans-unit id="35">
     <source>Date of Expiry</source>
-    <target>FR_Date of Expiry</target>
+    <target>Date d'expiration</target>
    </trans-unit>
    <trans-unit id="36">
-    <source>Direct Deposit</source>
-    <target>FR_Direct Deposit</target>
+    <source>Delete photograph?</source>
+    <target>Supprimer photo?</target>
    </trans-unit>
    <trans-unit id="37">
-    <source>Document</source>
-    <target>FR_Document</target>
+    <source>Direct Deposit</source>
+    <target>Dépôt direct</target>
    </trans-unit>
    <trans-unit id="38">
-    <source>Document No</source>
-    <target>FR_Document No</target>
+    <source>Document</source>
+    <target>Document</target>
    </trans-unit>
    <trans-unit id="39">
-    <source>Drop Down</source>
-    <target>FR_Drop Down</target>
+    <source>Document No</source>
+    <target>Le document n °</target>
    </trans-unit>
    <trans-unit id="40">
-    <source>Edit Custom Field</source>
-    <target>FR_Edit Custom Field</target>
+    <source>Drop Down</source>
+    <target>Déroulant</target>
    </trans-unit>
    <trans-unit id="41">
-    <source>Edit Dependent</source>
-    <target>FR_Edit Dependent</target>
+    <source>Edit Custom Field</source>
+    <target>Modifier les champs personnalisés</target>
    </trans-unit>
    <trans-unit id="42">
-    <source>Edit Emergency Contact</source>
-    <target>FR_Edit Emergency Contact</target>
+    <source>Edit Dependent</source>
+    <target>Modifier personne à charge</target>
    </trans-unit>
    <trans-unit id="43">
-    <source>Edit Employment Termination</source>
-    <target>FR_Edit Employment Termination</target>
+    <source>Edit Emergency Contact</source>
+    <target>Modifier le contact d'urgence</target>
    </trans-unit>
    <trans-unit id="44">
-    <source>Edit Membership Detail</source>
-    <target>FR_Edit Membership Detail</target>
+    <source>Edit Employement Termination</source>
+    <target>Modifier raison de départ</target>
    </trans-unit>
    <trans-unit id="45">
-    <source>Edit Reporting Method</source>
-    <target>FR_Edit Reporting Method</target>
+    <source>Edit Employment Termination</source>
+    <target>Modifier Résiliation emploi</target>
    </trans-unit>
    <trans-unit id="46">
-    <source>Edit Subordinate</source>
-    <target>FR_Edit Subordinate</target>
+    <source>Edit Membership Detail</source>
+    <target>Modifier les détails de membre</target>
    </trans-unit>
    <trans-unit id="47">
-    <source>Edit Supervisor</source>
-    <target>FR_Edit Supervisor</target>
+    <source>Edit Reporting Method</source>
+    <target>Modifier Mode de présentation</target>
    </trans-unit>
    <trans-unit id="48">
-    <source>Edit Termination Reason</source>
-    <target>FR_Edit Termination Reason</target>
+    <source>Edit Subordinate</source>
+    <target>Modifier subordonnés</target>
    </trans-unit>
    <trans-unit id="49">
-    <source>Edit Work Experience</source>
-    <target>FR_Edit Work Experience</target>
+    <source>Edit Supervisor</source>
+    <target>Modifier Superviseur</target>
    </trans-unit>
    <trans-unit id="50">
-    <source>Emergency Contact(s)</source>
-    <target>FR_Emergency Contact(s)</target>
+    <source>Edit Termination Reason</source>
+    <target>Modifier Raison Résiliation</target>
    </trans-unit>
    <trans-unit id="51">
-    <source>Employee Information</source>
-    <target>FR_Employee Information</target>
+    <source>Edit Work Experience</source>
+    <target>Modifier l'expérience professionnelle</target>
    </trans-unit>
    <trans-unit id="52">
-    <source>Employment</source>
-    <target>FR_Employment</target>
+    <source>Emergency Contact(s)</source>
+    <target>Contact(s) d'urgence</target>
    </trans-unit>
    <trans-unit id="53">
-    <source>Employment Contract</source>
-    <target>FR_Employment Contract</target>
+    <source>Employee Information</source>
+    <target>Renseignements sur les employés</target>
    </trans-unit>
    <trans-unit id="54">
-    <source>Enter a number</source>
-    <target>FR_Enter a number</target>
+    <source>Employment</source>
+    <target>Emploi</target>
    </trans-unit>
    <trans-unit id="55">
-    <source>Enter allowed options separated by commas</source>
-    <target>FR_Enter allowed options separated by commas</target>
+    <source>Employment Contract</source>
+    <target>Contrat de travail</target>
    </trans-unit>
    <trans-unit id="56">
-    <source>Ethnic Race</source>
-    <target>FR_Ethnic Race</target>
+    <source>Enter a number</source>
+    <target>Entrez un numéro</target>
    </trans-unit>
    <trans-unit id="57">
-    <source>Exemptions</source>
-    <target>FR_Exemptions</target>
+    <source>Enter allowed options separated by commas</source>
+    <target>Entrez les options autorisées séparées par des virgules</target>
    </trans-unit>
    <trans-unit id="58">
-    <source>Federal Income Tax</source>
-    <target>FR_Federal Income Tax</target>
+    <source>Ethnic Race</source>
+    <target>Origine</target>
    </trans-unit>
    <trans-unit id="59">
-    <source>Field Name</source>
-    <target>FR_Field Name</target>
+    <source>Exemptions</source>
+    <target>Exemptions</target>
    </trans-unit>
    <trans-unit id="60">
-    <source>Field Type</source>
-    <target>FR_Field Type</target>
+    <source>Failed To Save: Employee Id Exists</source>
+    <target>Impossible d'enregistrer: Id salarié existe</target>
    </trans-unit>
    <trans-unit id="61">
-    <source>From date should be before to date</source>
-    <target>FR_From date should be before to date</target>
+    <source>Failed To Save: User Name Exists</source>
+    <target>Impossible d'enregistrer: nom d'utilisateur existe</target>
    </trans-unit>
    <trans-unit id="62">
-    <source>GPA/Score</source>
-    <target>FR_GPA/Score</target>
+    <source>Federal Income Tax</source>
+    <target>Impôt sur le revenu</target>
    </trans-unit>
    <trans-unit id="63">
-    <source>Hourly</source>
-    <target>FR_Hourly</target>
+    <source>Field Name</source>
+    <target>Nom du champ</target>
    </trans-unit>
    <trans-unit id="64">
-    <source>Institute</source>
-    <target>FR_Institute</target>
+    <source>Field Type</source>
+    <target>Type de champ</target>
    </trans-unit>
    <trans-unit id="65">
-    <source>Issued date should be before expiration date</source>
-    <target>FR_Issued date should be before expiration date</target>
+    <source>From date should be before to date</source>
+    <target>La date doit être antérieure à la date du jour</target>
    </trans-unit>
    <trans-unit id="66">
-    <source>Major/Specialization</source>
-    <target>FR_Major/Specialization</target>
+    <source>GPA/Score</source>
+    <target>GPA / Score</target>
    </trans-unit>
    <trans-unit id="67">
-    <source>Married</source>
-    <target>FR_Married</target>
+    <source>Hourly</source>
+    <target>Horaire</target>
    </trans-unit>
    <trans-unit id="68">
-    <source>Max</source>
-    <target>FR_Max</target>
+    <source>Institute</source>
+    <target>Institut</target>
    </trans-unit>
    <trans-unit id="69">
-    <source>Membership Type</source>
-    <target>FR_Membership Type</target>
+    <source>Issued date should be before expiration date</source>
+    <target>Date d'émission devrait être avant la date d'expiration</target>
    </trans-unit>
    <trans-unit id="70">
-    <source>Military Service</source>
-    <target>FR_Military Service</target>
+    <source>Major/Specialization</source>
+    <target>Major / Spécialisation</target>
    </trans-unit>
    <trans-unit id="71">
-    <source>Min</source>
-    <target>FR_Min</target>
+    <source>Married</source>
+    <target>Marié</target>
    </trans-unit>
    <trans-unit id="72">
-    <source>Monthly</source>
-    <target>FR_Monthly</target>
+    <source>Max</source>
+    <target>Max</target>
    </trans-unit>
    <trans-unit id="73">
-    <source>Monthly on first pay of month.</source>
-    <target>FR_Monthly on first pay of month.</target>
+    <source>Membership Type</source>
+    <target>Type d'adhésion</target>
    </trans-unit>
    <trans-unit id="74">
-    <source>N/A</source>
-    <target>FR_N/A</target>
+    <source>Military Service</source>
+    <target>Service militaire</target>
    </trans-unit>
    <trans-unit id="75">
-    <source>Nick Name</source>
-    <target>FR_Nick Name</target>
+    <source>Min</source>
+    <target>Min</target>
    </trans-unit>
    <trans-unit id="76">
-    <source>Non Resident Alien</source>
-    <target>FR_Non Resident Alien</target>
+    <source>Monthly</source>
+    <target>Mensuel</target>
    </trans-unit>
    <trans-unit id="77">
-    <source>Not Applicable</source>
-    <target>FR_Not Applicable</target>
+    <source>Monthly on first pay of month.</source>
+    <target>Mensuel sur la première paie du mois.</target>
    </trans-unit>
    <trans-unit id="78">
-    <source>other</source>
-    <target>FR_other</target>
+    <source>N/A</source>
+    <target>N / A</target>
    </trans-unit>
    <trans-unit id="79">
-    <source>Passport</source>
-    <target>FR_Passport</target>
+    <source>Nick Name</source>
+    <target>Surnom</target>
    </trans-unit>
    <trans-unit id="80">
-    <source>Personal Details</source>
-    <target>FR_Personal Details</target>
+    <source>Non Resident Alien</source>
+    <target>Résident non étranger</target>
    </trans-unit>
    <trans-unit id="81">
-    <source>Photograph</source>
-    <target>FR_Photograph</target>
+    <source>Not Applicable</source>
+    <target>Non Applicable</target>
    </trans-unit>
    <trans-unit id="82">
-    <source>Please Specify</source>
-    <target>FR_Please Specify</target>
+    <source>other</source>
+    <target>autre</target>
    </trans-unit>
    <trans-unit id="83">
-    <source>Qualifications</source>
-    <target>FR_Qualifications</target>
+    <source>Passport</source>
+    <target>Passeport</target>
    </trans-unit>
    <trans-unit id="84">
-    <source>Reason</source>
-    <target>FR_Reason</target>
+    <source>Personal Details</source>
+    <target>Détails personnels</target>
    </trans-unit>
    <trans-unit id="85">
-    <source>Report-to</source>
-    <target>FR_Report-to</target>
+    <source>Photograph</source>
+    <target>Photo</target>
    </trans-unit>
    <trans-unit id="86">
-    <source>Screen</source>
-    <target>FR_Screen</target>
+    <source>Please Specify</source>
+    <target>S'il vous plaît spécifier</target>
    </trans-unit>
    <trans-unit id="87">
-    <source>Select a Photograph</source>
-    <target>FR_Select a Photograph</target>
+    <source>Qualifications</source>
+    <target>Diplômes</target>
    </trans-unit>
    <trans-unit id="88">
-    <source>Select Membership</source>
-    <target>FR_Select Membership</target>
+    <source>Reason</source>
+    <target>Raison</target>
    </trans-unit>
    <trans-unit id="89">
-    <source>Select Options</source>
-    <target>FR_Select Options</target>
+    <source>Remaining number of custom fields</source>
+    <target>Nombre restant de champs personnalisés</target>
    </trans-unit>
    <trans-unit id="90">
-    <source>Semi Monthly</source>
-    <target>FR_Semi Monthly</target>
+    <source>Renewal date should be after commence date</source>
+    <target>Date de renouvellement devrait avoir lieu après la date de début</target>
    </trans-unit>
    <trans-unit id="91">
-    <source>Show Deprecated Fields</source>
-    <target>FR_Show Deprecated Fields</target>
+    <source>Report-to</source>
+    <target>Reporte à</target>
    </trans-unit>
    <trans-unit id="92">
-    <source>Show Nick Name, Smoker and Military Service in Personal Details</source>
-    <target>FR_Show Nick Name, Smoker and Military Service in Personal Details</target>
+    <source>Screen</source>
+    <target>Écran</target>
    </trans-unit>
    <trans-unit id="93">
-    <source>Show SIN field in Personal Details</source>
-    <target>FR_Show SIN field in Personal Details</target>
+    <source>Select a Photograph</source>
+    <target>Sélectionnez une photo</target>
    </trans-unit>
    <trans-unit id="94">
-    <source>Show SSN field in Personal Details</source>
-    <target>FR_Show SSN field in Personal Details</target>
+    <source>Select Membership</source>
+    <target>Sélectionnez adhésion</target>
    </trans-unit>
    <trans-unit id="95">
-    <source>Show US Tax Exemptions menu</source>
-    <target>FR_Show US Tax Exemptions menu</target>
+    <source>Select Options</source>
+    <target>Sélectionnez Options</target>
    </trans-unit>
    <trans-unit id="96">
-    <source>SIN Number</source>
-    <target>FR_SIN Number</target>
+    <source>Semi Monthly</source>
+    <target>Semi mensuel</target>
    </trans-unit>
    <trans-unit id="97">
-    <source>Single</source>
-    <target>FR_Single</target>
+    <source>Show Deprecated Fields</source>
+    <target>Afficher les champs obsolètes</target>
    </trans-unit>
    <trans-unit id="98">
-    <source>Smoker</source>
-    <target>FR_Smoker</target>
+    <source>Show Nick Name, Smoker and Military Service in Personal Details</source>
+    <target>Afficher le surnom, Fumeur et le service militaire dans les détails personnels</target>
    </trans-unit>
    <trans-unit id="99">
-    <source>SSN Number</source>
-    <target>FR_SSN Number</target>
+    <source>Show SIN field in Personal Details</source>
+    <target>Afficher le champ NAS dans les détails personnels</target>
    </trans-unit>
    <trans-unit id="100">
-    <source>State Income Tax</source>
-    <target>FR_State Income Tax</target>
+    <source>Show SSN field in Personal Details</source>
+    <target>Afficher le champ SSN dans les détails personnels</target>
    </trans-unit>
    <trans-unit id="101">
-    <source>Subordinate</source>
-    <target>FR_Subordinate</target>
+    <source>Show US Tax Exemptions menu</source>
+    <target>Afficher le menu de l'exemption des impôts des États-Unis</target>
    </trans-unit>
    <trans-unit id="102">
-    <source>Tax Exemptions</source>
-    <target>FR_Tax Exemptions</target>
+    <source>SIN Number</source>
+    <target>Nombre NAS</target>
    </trans-unit>
    <trans-unit id="103">
-    <source>Terminate Employment</source>
-    <target>FR_Terminate Employment</target>
+    <source>Single</source>
+    <target>Célibataire</target>
    </trans-unit>
    <trans-unit id="104">
-    <source>Terminated Date</source>
-    <target>FR_Terminated Date</target>
+    <source>Smoker</source>
+    <target>Fumeur</target>
    </trans-unit>
    <trans-unit id="105">
-    <source>Terminated on</source>
-    <target>FR_Terminated on</target>
+    <source>SSN Number</source>
+    <target>Nombre SSN</target>
    </trans-unit>
    <trans-unit id="106">
-    <source>Terminated Reason</source>
-    <target>FR_Terminated Reason</target>
+    <source>State Income Tax</source>
+    <target>Impôt sur le revenu</target>
    </trans-unit>
    <trans-unit id="107">
-    <source>Text or Number</source>
-    <target>FR_Text or Number</target>
+    <source>Subordinate</source>
+    <target>Subordonner</target>
    </trans-unit>
    <trans-unit id="108">
-    <source>To date should be after From date</source>
-    <target>FR_To date should be after From date</target>
+    <source>Tax Exemptions</source>
+    <target>Exonérations fiscales</target>
    </trans-unit>
    <trans-unit id="109">
-    <source>Unemployment State</source>
-    <target>FR_Unemployment State</target>
+    <source>Terminate Employement</source>
+    <target>Mettre fin à l'emploi</target>
    </trans-unit>
    <trans-unit id="110">
-    <source>User Name</source>
-    <target>FR_User Name</target>
+    <source>Terminate Employment</source>
+    <target>Mettre fin à l'emploi</target>
    </trans-unit>
    <trans-unit id="111">
-    <source>Visa</source>
-    <target>FR_Visa</target>
+    <source>Terminated Date</source>
+    <target>Date de fin</target>
    </trans-unit>
    <trans-unit id="112">
-    <source>Weekly</source>
-    <target>FR_Weekly</target>
+    <source>Terminated on</source>
+    <target>Terminé le</target>
    </trans-unit>
    <trans-unit id="113">
-    <source>Work experience</source>
-    <target>FR_Work experience</target>
+    <source>Terminated Reason</source>
+    <target>Raison de la fin du contrat</target>
    </trans-unit>
    <trans-unit id="114">
-    <source>Work State</source>
-    <target>FR_Work State</target>
+    <source>Text or Number</source>
+    <target>Texte ou Nombre</target>
    </trans-unit>
    <trans-unit id="115">
-    <source>Renewal date should be after commence date</source>
-    <target>FR_Renewal date should be after commence date</target>
+    <source>To date should be after From date</source>
+    <target>À ce jour, devrait avoir lieu après la date de</target>
    </trans-unit>
    <trans-unit id="116">
-    <source>Delete photograph?</source>
-    <target>FR_Delete photograph?</target>
+    <source>Unemployment State</source>
+    <target>Etat chômage</target>
    </trans-unit>
    <trans-unit id="117">
-    <source>Failed To Save: User Name Exists</source>
-    <target>FR_Failed To Save: User Name Exists</target>
+    <source>User Name</source>
+    <target>Nom d'utilisateur</target>
    </trans-unit>
    <trans-unit id="118">
-    <source>Failed To Save: Employee Id Exists</source>
-    <target>FR_Failed To Save: Employee Id Exists</target>
+    <source>Visa</source>
+    <target>Visa</target>
    </trans-unit>
    <trans-unit id="119">
-    <source>Will be deleted from all employees</source>
-    <target>FR_Will be deleted from all employees</target>
+    <source>Weekly</source>
+    <target>Hebdomadaire</target>
    </trans-unit>
    <trans-unit id="120">
-    <source>First (&amp; Middle) Name</source>
-    <target>FR_First (&amp; Middle) Name</target>
+    <source>Will be deleted from all employees</source>
+    <target>Sera supprimé chez tous les salariés</target>
    </trans-unit>
    <trans-unit id="121">
-    <source>Failed to Delete: At Least One Admin Should Exist</source>
-    <target>FR_Failed to Delete: At Least One Admin Should Exist</target>
+    <source>Work experience</source>
+    <target>L'expérience professionnelle</target>
    </trans-unit>
    <trans-unit id="122">
-    <source>Add Membership</source>
-    <target>FR_Add Membership</target>
+    <source>Work State</source>
+    <target>Etat de travail</target>
    </trans-unit>
-   <trans-unit id="123">
-    <source>Edit Membership</source>
-    <target>FR_Edit Membership</target>
-   </trans-unit>    
   </body>
  </file>
 </xliff>
+<!-- Contributed By:   ,   ,   ,   ,  ANDY Mitchell , Abdo Kalil , Alagics Sixela , Alain  Hops , Alde Alde , Bob Mar , Christophe Chassat , Domenech Bruno , erf dfee , Fabien RICHARD , Fabien Valoggia , Faycal Chabane , Follin Guillaume , Kais Derouiche , Lionel Agbohouto , Luigi Ditello , Meriem BENMERADI , Michael French , Nicolas  Mariage , Patrick JUVEL , Thierry Ferrandiz -->
+

@@ -1,0 +1,219 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE xliff PUBLIC "-//XLIFF//DTD XLIFF//EN" "http://www.oasis-open.org/committees/xliff/documents/xliff.dtd">
+<xliff version="1.0">
+ <header/>
+ <file source-language="en_US" target-language="th_TH" datatype="plaintext" original="messages" date="2012-08-23T2:35:10Z" product-name="messages">
+  <body>
+   <trans-unit id="1">
+    <source>Actions Performed on the Timesheet</source>
+    <target>กิจกรรมที่ทำใน Timesheet</target>
+   </trans-unit>
+   <trans-unit id="2">
+    <source>Add Row</source>
+    <target>เพิ่มแถว</target>
+   </trans-unit>
+   <trans-unit id="3">
+    <source>Add Timesheet</source>
+    <target>เพิ่ม Timesheet</target>
+   </trans-unit>
+   <trans-unit id="4">
+    <source>Attendance Total Summary Report</source>
+    <target>รายงานสรุปการเวลาการทำงาน</target>
+   </trans-unit>
+   <trans-unit id="5">
+    <source>Define Timesheet Period</source>
+    <target>กำหนดระยะเวลา Timesheet</target>
+   </trans-unit>
+   <trans-unit id="6">
+    <source>Deleted project activities are not editable</source>
+    <target>กิจกรรมของโครงการที่ถูกลบจะไม่สามารถแก้ไขได้</target>
+   </trans-unit>
+   <trans-unit id="7">
+    <source>Deleted projects/activities are marked with an asterik</source>
+    <target>โครงการ/ กิจกรรมที่ถูกลบจะมีเครื่องหมาย *</target>
+   </trans-unit>
+   <trans-unit id="8">
+    <source>Duplicate Records Found</source>
+    <target>พบการบันทึกซ้อนกัน</target>
+   </trans-unit>
+   <trans-unit id="9">
+    <source>Edit Timesheet for</source>
+    <target>แก้ไข Timesheet สำหรับ</target>
+   </trans-unit>
+   <trans-unit id="10">
+    <source>Edit Timesheet for Month</source>
+    <target>แก้ไข Timesheet สำหรับเดือน</target>
+   </trans-unit>
+   <trans-unit id="11">
+    <source>Edit Timesheet for Week</source>
+    <target>แก้ไข Timesheet สำหรับสัปดาห์</target>
+   </trans-unit>
+   <trans-unit id="12">
+    <source>Edit timesheet for week starting</source>
+    <target>แก้ไข timesheet สำหรับสัปดาห์ที่เริ่มต้น</target>
+   </trans-unit>
+   <trans-unit id="13">
+    <source>Employee name</source>
+    <target>ชื่อพนักงาน</target>
+   </trans-unit>
+   <trans-unit id="14">
+    <source>Employee Report</source>
+    <target>รายงานของพนักงาน</target>
+   </trans-unit>
+   <trans-unit id="15">
+    <source>Enter Employee Name</source>
+    <target>กรุณาใส่ชื่อของพนักงาน</target>
+   </trans-unit>
+   <trans-unit id="16">
+    <source>Failed to Create: Future Timesheets Not Allowed</source>
+    <target>ไม่สามารถสร้างได้ : ไม่อนุญาตให้สร้าง Timesheets ในอนาคต</target>
+   </trans-unit>
+   <trans-unit id="17">
+    <source>First Day of Week</source>
+    <target>วันแรกของสัปดาห์</target>
+   </trans-unit>
+   <trans-unit id="18">
+    <source>for Month starting on</source>
+    <target>สำหรับเดือนที่เริ่มต้นจาก</target>
+   </trans-unit>
+   <trans-unit id="19">
+    <source>for Week</source>
+    <target>สำหรับสัปดาห์</target>
+   </trans-unit>
+   <trans-unit id="20">
+    <source>Fri</source>
+    <target>วันศุกร์</target>
+   </trans-unit>
+   <trans-unit id="21">
+    <source>hours</source>
+    <target>ชั่วโมง</target>
+   </trans-unit>
+   <trans-unit id="22">
+    <source>Mon</source>
+    <target>วันจันทร์</target>
+   </trans-unit>
+   <trans-unit id="23">
+    <source>No Accessible Timesheets</source>
+    <target>ไม่สามารถเข้าถึง Timesheets ได้</target>
+   </trans-unit>
+   <trans-unit id="24">
+    <source>No Changes to Delete</source>
+    <target>ไม่มีอะไรให้ลบ</target>
+   </trans-unit>
+   <trans-unit id="25">
+    <source>No Timesheets Found</source>
+    <target>ไม่พบ Timesheets </target>
+   </trans-unit>
+   <trans-unit id="26">
+    <source>Not Submitted</source>
+    <target>ไม่ได้ส่ง</target>
+   </trans-unit>
+   <trans-unit id="27">
+    <source>Proceed with Time Module</source>
+    <target>ดำเนินการต่อในโมดูลเวลา</target>
+   </trans-unit>
+   <trans-unit id="28">
+    <source>Project Activity Details Report</source>
+    <target>รายงานรายละเอียดกิจกรรมโครงการ</target>
+   </trans-unit>
+   <trans-unit id="29">
+    <source>Project Report</source>
+    <target>รายงานโครงการ</target>
+   </trans-unit>
+   <trans-unit id="30">
+    <source>Remove Rows</source>
+    <target>ลบแถว</target>
+   </trans-unit>
+   <trans-unit id="31">
+    <source>Sat</source>
+    <target>วันเสาร์</target>
+   </trans-unit>
+   <trans-unit id="32">
+    <source>Select a Day to Create Timesheet</source>
+    <target>เลือกวันที่จะสร้าง Timesheet</target>
+   </trans-unit>
+   <trans-unit id="33">
+    <source>Select a Project and an Activity</source>
+    <target>เลือกโครงการและกิจกรรม</target>
+   </trans-unit>
+   <trans-unit id="34">
+    <source>Select Employee</source>
+    <target>เลือกพนักงาน</target>
+   </trans-unit>
+   <trans-unit id="35">
+    <source>Select Records to Remove</source>
+    <target>เลือกรายการที่จะลบออก</target>
+   </trans-unit>
+   <trans-unit id="36">
+    <source>Should Be Less Than 24 and in HH:MM or Decimal Format</source>
+    <target>ควรน้อยกว่า 24 และใน HH: MM หรือรูปแบบทศนิยม</target>
+   </trans-unit>
+   <trans-unit id="37">
+    <source>Status:</source>
+    <target>สถานะ:</target>
+   </trans-unit>
+   <trans-unit id="38">
+    <source>Sun</source>
+    <target>วันอาทิตย์</target>
+   </trans-unit>
+   <trans-unit id="39">
+    <source>Thu</source>
+    <target>วันพฤหัสบดี</target>
+   </trans-unit>
+   <trans-unit id="40">
+    <source>Timesheet Already Exists</source>
+    <target>Timesheet มีอยู่แล้ว</target>
+   </trans-unit>
+   <trans-unit id="41">
+    <source>Timesheet Approved</source>
+    <target>Timesheet ได้รับอนุมัติแล้ว</target>
+   </trans-unit>
+   <trans-unit id="42">
+    <source>Timesheet for</source>
+    <target> Timesheet สำหรับ</target>
+   </trans-unit>
+   <trans-unit id="43">
+    <source>Timesheet Period</source>
+    <target>ระยะเวลา Timesheet</target>
+   </trans-unit>
+   <trans-unit id="44">
+    <source>Timesheet period start day has been set</source>
+    <target>ระยะเริ่มต้น Timesheet ได้รับการตั้งค่าแล้ว</target>
+   </trans-unit>
+   <trans-unit id="45">
+    <source>Timesheet period start day has not been defined. Please contact HR Admin</source>
+    <target>ระยะเริ่มต้น Timesheet ยังไม่ได้กำหนด กรุณาติดต่อฝ่ายทรัพยากรบุคคล</target>
+   </trans-unit>
+   <trans-unit id="46">
+    <source>Timesheet Rejected</source>
+    <target>Timesheet ได้รับการปฏิเสธ</target>
+   </trans-unit>
+   <trans-unit id="47">
+    <source>Timesheet Submitted</source>
+    <target>ส่ง Timesheet แล้ว</target>
+   </trans-unit>
+   <trans-unit id="48">
+    <source>Timesheets Pending Action</source>
+    <target>Timesheets รอการดำเนินการ</target>
+   </trans-unit>
+   <trans-unit id="49">
+    <source>Total Should Be Less Than 24 Hours</source>
+    <target>เวลารวมควรจะน้อยกว่า 24 ชั่วโมง</target>
+   </trans-unit>
+   <trans-unit id="50">
+    <source>Tue</source>
+    <target>วันอังคาร</target>
+   </trans-unit>
+   <trans-unit id="51">
+    <source>Wed</source>
+    <target>วันพุธ</target>
+   </trans-unit>
+   <trans-unit id="52">
+    <source>Week</source>
+    <target>สัปดาห์</target>
+   </trans-unit>
+  </body>
+ </file>
+</xliff>
+<!-- Contributed By: Dam Phanchot , Pornruedee Thatsanamethin , Pun Sorpitiphorn , Suthep Suthep , Tiyada Noon -->
+
