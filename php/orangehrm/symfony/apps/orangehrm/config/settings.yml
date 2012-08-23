@@ -39,7 +39,7 @@ all:
     i18n:                   true
     default_culture: 		  en    # Default user culture
 
-    enabled_modules:        [default, core, leave, pim, time, attendance, recruitment, recruitmentApply, admin]
+    enabled_modules:        [default, core, leave, pim, time, attendance, recruitment, recruitmentApply, admin, auth]
 
     # Charset used for the response
     charset:                utf-8
