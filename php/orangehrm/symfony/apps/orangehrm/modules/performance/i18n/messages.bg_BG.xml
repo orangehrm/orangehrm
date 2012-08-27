@@ -172,19 +172,4 @@
  </file>
 </xliff>
 <!-- Contributed By:   , Jeni  Mincheva -->
-<script type="text/javascript">
-    var fileCount = "101";
-    $(".sf-menu li.homepage").addClass("current");
-</script>
-<div class="messageBar">
-        </div>
-<div class="outerBorder homePageBorder">
-    <div class="homePage">
-        <div class="mediumText pageHeader">
-            Download Dictionary        </div>
-        <span class="errorMsg"></span>
-        <table class="mainFrame mediumText">
-            <tr class="mainRowWidth">
-                <td class="tableColumnWidth">Source Language</td>
-                <td class="tableColumnWidth addDotLinetoRight">
-Fatal error: Call to a member function getName() on a non-object in /var/www/html/OHRMStandalone/localizit-prod/apps/localizit/modules/localization/templates/indexSuccess.php on line 23
+
