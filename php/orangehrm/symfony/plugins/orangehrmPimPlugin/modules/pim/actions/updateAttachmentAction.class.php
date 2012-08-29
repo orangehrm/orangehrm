@@ -44,7 +44,7 @@ class updateAttachmentAction extends basePimAction {
             $attachId = $request->getParameter('seqNO');
             $screen = $request->getParameter('screen');
             
-            $permission = $this->getDataGroupPermissions($screen. '_attachment', $loggedInEmpNum);
+            $permission = $this->getDataGroupPermissions($screen. '_attachment', $request->getParameter('EmpID'));
 
             if ((empty($attachId) && $permission->canCreate()) || $permission->canUpdate()) {
 
