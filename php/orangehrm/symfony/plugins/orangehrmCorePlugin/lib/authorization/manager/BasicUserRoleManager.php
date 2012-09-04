@@ -73,16 +73,9 @@ class BasicUserRoleManager extends AbstractUserRoleManager {
         
         if (isset($this->userRoleClasses[$roleName])) {
             return $this->userRoleClasses[$roleName];
-        } else {
-            $systemUserService = $this->getSystemUserService();
-            $role = $systemUserService->getUserRole($roleName);
-            if (!$role->getIsPredefined()) {
-                $this->userRoleClasses[$roleName] = new UserDefinedUserRole($roleName, $this);
-                return $this->userRoleClasses[$roleName];
-            }
+        } else {        
+            return null;
         }
-        
-        return null;
     }
 
     public function getLocationService() {
