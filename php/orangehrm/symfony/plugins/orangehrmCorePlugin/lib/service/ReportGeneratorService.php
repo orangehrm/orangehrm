@@ -1170,7 +1170,7 @@ class ReportGeneratorService extends BaseService {
         $columns['elementType'] = "label";
         $columns['elementProperty'] = "<xml><getter>customField" . $customFieldNo . "</getter></xml>";
         $columns['width'] = "200";
-        $columns['isExportable'] = "0";
+        $columns['isExportable'] = "1";
         $columns['textAlignmentStyle'] = null;
         $columns['isValueList'] = "0";
         $columns['displayFieldGroupId'] = "16";
