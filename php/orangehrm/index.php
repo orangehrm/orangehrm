@@ -429,9 +429,13 @@ if ($_SESSION['isAdmin'] == 'Yes' || $arrAllRights[Admin]['view']) {
     $subs[] = $sub;
 
     if (is_dir(ROOT_PATH . '/symfony/plugins/orangehrmBaseAuthorizationPlugin')) {
-        $sub = new MenuItem("userRole", $i18n->__("User Roles"), "./symfony/web/index.php/admin/viewUserRoles", "rightMenu");
-        $subsubs = array();
-        $subs[] = $sub;
+        $authMenuHelper = new AuthMenuHelper();
+        $authMenuItem = $authMenuHelper->getMenuItem();
+        
+        if (!empty($authMenuItem)) {
+            $subs[] = $authMenuItem;
+        }
+
     }
     
     $sub = new MenuItem("email", $i18n->__("Email Notifications"), "#");
