@@ -903,7 +903,13 @@ INSERT INTO `ohrm_display_field` (`display_field_id`, `report_group_id`, `name`,
     (110, 3, 'hs_hr_emp_member_detail.membship_code', 'membershipCode', 'membershipCode',  'false', null, null, 'label', '<xml><getter>ecMobile</getter></xml>', 100, '0', null, true, 15, '---', false, true),
     (112, 3, 'ROUND(DATEDIFF(hs_hr_emp_work_experience.eexp_to_date, hs_hr_emp_work_experience.eexp_from_date)/365,1)', 'Duration', 'expDuration',  'false', null, null, 'label', '<xml><getter>expDuration</getter></xml>', 100, '0', null, true, 10, '---', false, false),
     (113, 3, 'ohrm_emp_termination.termination_date', 'Termination Date', 'terminationDate',  'false', null, null, 'labelDate', '<xml><getter>terminationDate</getter></xml>', 100, '0', null, true, 6, '---', false, false),
-    (114, 3, 'ohrm_emp_termination_reason.name', 'Termination Reason', 'terminationReason',  'false', null, null, 'label', '<xml><getter>terminationReason</getter></xml>', 100, '0', null, true, 6, '---', false, false);
+    (114, 3, 'ohrm_emp_termination_reason.name', 'Termination Reason', 'terminationReason',  'false', null, null, 'label', '<xml><getter>terminationReason</getter></xml>', 100, '0', null, true, 6, '---', false, false),
+    (115, 3, 'ohrm_emp_education.institute', 'Institute', 'getInstitute',  'false', null, null, 'label', '<xml><getter>getInstitute</getter></xml>', 80, '0', null, true, 11, '---', false, false),
+    (116, 3, 'ohrm_emp_education.major', 'Major/Specialization', 'getMajor',  'false', null, null, 'label', '<xml><getter>getMajor</getter></xml>', 80, '0', null, true, 11, '---', false, false),
+    (117, 3, 'ohrm_emp_education.start_date', 'Start Date', 'getStartDate',  'false', null, null, 'labelDate', '<xml><getter>getStartDate</getter></xml>', 80, '0', null, true, 11, '---', false, false),
+    (118, 3, 'ohrm_emp_education.end_date', 'End Date', 'getEndDate',  'false', null, null, 'labelDate', '<xml><getter>getEndDate</getter></xml>', 80, '0', null, true, 11, '---', false, false),
+    (119, 3, 'ohrm_emp_license.license_no', 'License Number', 'getLicenseNo',  'false', null, null, 'label', '<xml><getter>getLicenseNo</getter></xml>', 200, '0', null, true, 14, '---', false, false),
+    (120, 3, 'ohrm_emp_termination.note', 'Termination Note', 'getNote',  'false', null, null, 'label', '<xml><getter>getNote</getter></xml>', 100, '0', null, true, 6, '---', false, false);
 
     
 INSERT INTO `ohrm_group_field` (`group_field_id`, `name`, `group_by_clause`, `group_field_widget`) VALUES 
