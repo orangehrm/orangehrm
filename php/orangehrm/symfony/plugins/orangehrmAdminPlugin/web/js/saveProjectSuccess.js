@@ -558,6 +558,8 @@ function buildActivityList(data){
 }
 
 function isValidForm(){
+    var cusId = $('#addProject_projectId').val();
+    getProjectListAsJson(urlForGetProjectList+cusId);
     
     $.validator.addMethod("uniqueName", function(value, element, params) {
         
@@ -630,6 +632,9 @@ function isValidForm(){
             for (i=0; i < cusCount; i++) {
                 var arrayName = customerList[i].name.toLowerCase();
                 if (inputName == arrayName) {
+                    $('#addProject_customerId').val(customerList[i].id);
+                    var url = urlForGetProjectList+customerList[i].id;
+                    getProjectListAsJson(url);
                     isValid =  true;
                     break;
                 }
