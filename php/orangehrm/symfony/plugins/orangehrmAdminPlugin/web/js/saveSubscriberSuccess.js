@@ -99,7 +99,7 @@ $(document).ready(function() {
         var email = $.trim($('#subscriber_email').val()).toLowerCase();
         for (i=0; i < subsCount; i++) {
 
-            var arrayName = subscriberList[i].email
+            var arrayName = subscriberList[i].email.toLowerCase();
             if (email == arrayName) {
                 temp = false
                 break;
