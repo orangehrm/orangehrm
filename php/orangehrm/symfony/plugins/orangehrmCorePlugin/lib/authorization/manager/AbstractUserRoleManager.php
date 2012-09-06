@@ -35,6 +35,20 @@ abstract class AbstractUserRoleManager {
         return $this->user;
     }
     
+    public function userHasNonPredefinedRole() {
+        $nonPredefined = false;
+        
+        foreach ($this->userRoles as $role) {
+            
+            if (!$role->getIsPredefined()) {
+                $nonPredefined = true;
+                break;
+            }
+        }
+        
+        return $nonPredefined;
+    }
+    
     public abstract function getAccessibleEntities($entityType, $operation = null, $returnType = null, 
             $rolesToExclude = array(), $rolesToInclude = array(), $requestedPermissions = array());
     

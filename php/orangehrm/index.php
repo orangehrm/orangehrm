@@ -83,9 +83,7 @@ if (file_exists('symfony/config/databases.yml')) {
         }
         /* For checking TimesheetPeriodStartDaySet status : Ends */    
         // Check if a user defined user role (isPredefined = false)
-        $systemUserService = new SystemUserService();
-        $user = $systemUserService->getSystemUser($_SESSION['user']);
-        $isPredefinedUserRole = $user->getUserRole()->getIsPredefined();
+        $isPredefinedUserRole = !UserRoleManagerFactory::getUserRoleManager()->userHasNonPredefinedRole();
         
         $allowedToAddEmployee = UserRoleManagerFactory::getUserRoleManager()->isActionAllowed(PluginWorkflowStateMachine::FLOW_EMPLOYEE,
                 Employee::STATE_NOT_EXIST, PluginWorkflowStateMachine::EMPLOYEE_ACTION_ADD);        
