@@ -172,8 +172,10 @@
         
 		
         checkSmtpValidation();
+        checkSendMailValidation();
 		$("#cmbMailSendingMethod").change(function() {
 			checkSmtpValidation();
+			checkSendMailValidation();
         })
 		//When click reset buton
 		$("#resetBtn").click(function() {
@@ -215,6 +217,21 @@
         } else {
             $("#txtSmtpHost").rules("remove", "required");
             $("#txtSmtpPort").rules("remove", "required");
+        }
+	}
+        
+	function checkSendMailValidation(){
+		if($("#cmbMailSendingMethod").val() == 'sendmail'){
+            $("#txtSendmailPath").rules("add", {
+                  required: true,
+                  remote: "<?php echo url_for('admin/isFileExists') ?>",
+                 messages: {
+                   required: '<?php echo __(ValidationMessages::REQUIRED); ?>',
+                   remote: '<?php echo __('File not exists'); ?>'
+                 }
+             });
+        } else {
+            $("#txtSendmailPath").rules("remove", "required");
         }
 	}
 
