@@ -31,21 +31,20 @@ class AttendanceRecordSearchForm extends sfForm {
         ));
 
         if ($trigger) {
-            
+
             $this->setDefault('employeeName', $this->getEmployeeName($employeeId));
             $this->setDefault('date', set_datepicker_date_format($date));
-       
-            } else {
-            
-            $this->setDefault('employeeName', __('Type for hints').'...');
+        } else {
+
+            $this->setDefault('employeeName', __('Type for hints') . '...');
         }
 
         $this->widgetSchema->setNameFormat('attendance[%s]');
 
         $this->setValidators(array(
             'date' => new sfValidatorDate(array(), array('required' => __('Enter Date'))),
-            'employeeName' => new sfValidatorString(array(), array('required' => __('Enter Employee Name'))),
-            'employeeId' => new sfValidatorString(),
+            'employeeName' => new sfValidatorString(array('required' => false)),
+            'employeeId' => new sfValidatorString(array('required' => false)),
         ));
     }
 
@@ -62,8 +61,7 @@ class AttendanceRecordSearchForm extends sfForm {
 
                 $name = $employee->getFullName();
                 $employeeUnique[$employee->getEmpNumber()] = $name;
-                $jsonArray[] = array('name' => $name, 'id' => $employee->getEmpNumber());
-                
+                $jsonArray[] = array('name' => $name, 'id' => $employee->getEmpNumber());              
             }
         }
 
@@ -76,15 +74,11 @@ class AttendanceRecordSearchForm extends sfForm {
 
         $employeeService = new EmployeeService();
         $employee = $employeeService->getEmployee($employeeId);
-        if($employee->getMiddleName()!= null){
-        return $employee->getFirstName() . " " . $employee->getMiddleName()." ". $employee->getLastName();
-        
-        }
-        else{
+        if ($employee->getMiddleName() != null) {
+            return $employee->getFirstName() . " " . $employee->getMiddleName() . " " . $employee->getLastName();
+        } else {
             return $employee->getFirstName() . " " . $employee->getLastName();
         }
     }
 
 }
-
-?>

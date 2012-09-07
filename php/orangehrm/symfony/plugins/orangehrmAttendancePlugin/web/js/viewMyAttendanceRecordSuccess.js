@@ -11,7 +11,7 @@ $(document).ready(function()
         getRelatedAttendanceRecords(employeeId,dateSelected,actionRecorder);
         var rDate = trim($("#attendance_date").val());
         if (rDate == '') {
-            $("#attendance_date").val(displayDateFormat);
+            $("#attendance_date").val(datepickerDateFormat);
         }
 
         //Bind date picker
@@ -49,7 +49,7 @@ $(document).ready(function()
      
         var rDate = trim($("#attendance_date").val());
         if (rDate == '') {
-            $("#attendance_date").val(displayDateFormat);
+            $("#attendance_date").val(datepickerDateFormat);
         }
 
         //Bind date picker

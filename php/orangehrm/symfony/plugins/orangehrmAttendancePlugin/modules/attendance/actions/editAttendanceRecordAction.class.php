@@ -41,6 +41,7 @@ class editAttendanceRecordAction extends sfAction {
 
         $this->actionRecorder = $request->getParameter('actionRecorder');
         $this->errorRows = $request->getParameter('errorRows');
+        $userObj = sfContext::getInstance()->getUser()->getAttribute('user');
         $userId = $userObj->getUserId();
         $userEmployeeNumber = $userObj->getEmployeeNumber();
         $this->records = $this->getAttendanceService()->getAttendanceRecord($this->employeeId, $this->date);

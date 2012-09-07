@@ -14,11 +14,11 @@ $(document).ready(function()
         });
     
         $(".okBtn").click(function() {
-            $(".toDelete").each(function(){
+            $("input[name=chkSelectRow[]]").each(function(){
                 element = $(this)
-                if($( element).is(':checked')){
-      
-                    var id=$(element).attr('id');
+                if($(element).is(':checked')){
+                    
+                    var id = $(element).val();
                   
                     if(deleteAttendanceRecords(id)){           
                         $(element).parent().parent().remove();
@@ -32,7 +32,8 @@ $(document).ready(function()
             }
             );
             $(".dialogBox").dialog('close');
-            getRelatedAttendanceRecords(employeeId,date,actionRecorder);
+//            getRelatedAttendanceRecords(employeeId,date,actionRecorder);
+            $("#reportForm").submit();
                 
         });
     
@@ -90,7 +91,7 @@ function isRowsSelected(){
     var count=0;
     var errFlag=false;
    
-    $(".toDelete").each(function(){
+    $("input[name=chkSelectRow[]]").each(function(){
         element = $(this)
     
         if($( element).is(':checked')){
