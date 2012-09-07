@@ -39,14 +39,10 @@ use_javascript('../../../scripts/jquery/jquery.autocomplete.js');
                     <td><?php echo $form['date']->renderError() ?><?php echo $form['date']->render(); ?>&nbsp;<input id="DateBtn" type="button" name="" value="" class="calendarBtn"style="display: inline;margin:0;float:none; "/></td>
                     <?php echo $form->renderHiddenFields(); ?>
                 </tr>
-                <tr>
-                    <td colspan="2">
-                        <div class="formbuttons">
+            </table>
+            <div class="formbuttons">
                             <input type="button" class="savebutton" id="btView" value="<?php echo __("View"); ?>" onmouseover="moverButton(this);" onmouseout="moutButton(this);"/>              
                         </div>
-                    </td>
-                </tr>
-            </table>
             <input type="hidden" name="pageNo" id="pageNo" value="" />
             <input type="hidden" name="hdnAction" id="hdnAction" value="search" />
         </form>
