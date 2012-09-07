@@ -25,26 +25,20 @@ class AttendanceRecordSearchForm extends sfForm {
         $trigger = $this->getOption('trigger');
 
         $this->setWidgets(array(
-            'employeeName' => new sfWidgetFormInputText(array(), array('class' => 'inputFormatHint', 'id' => 'employee')),
-            'date' => new sfWidgetFormInputText(array(), array('class' => 'date', 'margin' => '0')),
-            'employeeId' => new sfWidgetFormInputHidden(),
+            'employeeName' => new ohrmWidgetEmployeeNameAutoFill(array(), array('class' => 'formInputText')),
+            'date' => new sfWidgetFormInputText(array(), array('class' => 'date', 'margin' => '0'))
         ));
 
         if ($trigger) {
-
             $this->setDefault('employeeName', $this->getEmployeeName($employeeId));
             $this->setDefault('date', set_datepicker_date_format($date));
-        } else {
-
-            $this->setDefault('employeeName', __('Type for hints') . '...');
         }
 
         $this->widgetSchema->setNameFormat('attendance[%s]');
 
         $this->setValidators(array(
             'date' => new sfValidatorDate(array(), array('required' => __('Enter Date'))),
-            'employeeName' => new sfValidatorString(array('required' => false)),
-            'employeeId' => new sfValidatorString(array('required' => false)),
+            'employeeName' => new ohrmValidatorEmployeeNameAutoFill()
         ));
     }
 

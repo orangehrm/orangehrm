@@ -66,11 +66,7 @@ class viewAttendanceRecordAction extends sfAction {
         $this->employeeService = $this->getEmployeeService();
         $values = array('date' => $this->date, 'employeeId' => $this->employeeId, 'trigger' => $this->trigger);
         $this->form = new AttendanceRecordSearchForm(array(), $values);
-        $userObj = $this->getContext()->getUser()->getAttribute("user");
-        $employeeList = $userObj->getEmployeeList();
-        $this->employeeListAsJson = $this->form->getEmployeeListAsJson($employeeList);
         $this->actionRecorder = "viewEmployee";
-
 
         $isPaging = $request->getParameter('pageNo');
 
@@ -104,9 +100,10 @@ class viewAttendanceRecordAction extends sfAction {
                     $userEmployeeNumber = $this->userObj->getEmployeeNumber();
 
                     $post = $this->form->getValues();
-
+                    
                     if (!$this->employeeId) {
-                        $this->employeeId = $post['employeeId'];
+                        $empData = $post['employeeName'];
+                        $this->employeeId = $empData['empId'];
                     }
                     if (!$this->date) {
                         $this->date = $post['date'];
@@ -128,9 +125,10 @@ class viewAttendanceRecordAction extends sfAction {
 
                     $empRecords = array();
                     if (!$this->employeeId) {
-                        $empRecords = $this->employeeService->getEmployeeList('firstName', 'ASC', false);
+//                        $empRecords = $this->employeeService->getEmployeeList('firstName', 'ASC', false);
+                        $empRecords = UserRoleManagerFactory::getUserRoleManager()->getAccessibleEntities('Employee');
                         $count = count($empRecords);
-                    } else {
+                    } else {                        
                         $empRecords = $this->employeeService->getEmployee($this->employeeId);
                         $empRecords = array($empRecords);
                         $count = 1;
