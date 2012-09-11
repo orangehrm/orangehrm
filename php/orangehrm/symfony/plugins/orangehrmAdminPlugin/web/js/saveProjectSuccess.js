@@ -203,7 +203,16 @@ $(document).ready(function() {
         getProjectListAsJson(url);
     }
     
+    $('#addProject_customerName').change(function() {
+        setCustomerId();
+    });
+    
+    $('#addProject_projectName').change(function() {
+        setCustomerId();
+    });
+    
     $('#btnSave').click(function() {
+        setCustomerId();
         
         if($('#btnSave').val() == lang_edit){
             enableWidgets();
@@ -213,10 +222,29 @@ $(document).ready(function() {
             if(isValidForm()){
                 removeTypeHints();
                 setProjectAdmins();
-                $('#frmAddProject').submit()
+                $('#frmAddProject').submit();
             }   
         }
     });
+    
+    function setCustomerId() {
+        
+        var cusCount = customerList.length;
+        var cusName = $('#addProject_customerName').val();
+        var inputName = $.trim(cusName).toLowerCase();
+        if(inputName != ""){
+            var i;
+            for (i=0; i < cusCount; i++) {
+                var arrayName = customerList[i].name.toLowerCase();
+                if (inputName == arrayName) {
+                    $('#addProject_customerId').val(customerList[i].id);
+                    var url = urlForGetProjectList+customerList[i].id;
+                    getProjectListAsJson(url);
+                    break;
+                }
+            }
+        }
+    }
     
     if(isProjectAdmin){
         $('#btnSave').hide();
@@ -558,9 +586,6 @@ function buildActivityList(data){
 }
 
 function isValidForm(){
-    var cusId = $('#addProject_projectId').val();
-    getProjectListAsJson(urlForGetProjectList+cusId);
-    
     $.validator.addMethod("uniqueName", function(value, element, params) {
         
         var temp = true;
@@ -590,6 +615,7 @@ function isValidForm(){
                 }
             }
         }
+        
         return temp;
     });
 
@@ -720,5 +746,5 @@ function isValidForm(){
         }
 
     });
-    return true;
+    return $("#frmAddProject").valid();
 }
