@@ -1,4 +1,5 @@
 <?php
+
 /**
  * OrangeHRM is a comprehensive Human Resource Management (HRM) System that captures
  * all the essential functionalities required for any enterprise.
@@ -25,7 +26,7 @@ class AttendanceRecordSearchForm extends sfForm {
         $trigger = $this->getOption('trigger');
 
         $this->setWidgets(array(
-            'employeeName' => new ohrmWidgetEmployeeNameAutoFill(array(), array('class' => 'formInputText')),
+            'employeeName' => new ohrmWidgetEmployeeNameAutoFill(array('jsonList' => $this->getEmployeeListAsJson()), array('class' => 'formInputText')),
             'date' => new ohrmWidgetDatePicker(array(), array('id' => 'attendance_date'), array('class' => 'formDateInput'))
         ));
 
@@ -42,22 +43,42 @@ class AttendanceRecordSearchForm extends sfForm {
                     array('invalid' => 'Date format should be ' . $inputDatePattern)),
             'employeeName' => new ohrmValidatorEmployeeNameAutoFill()
         ));
+
+        $this->getWidgetSchema()->setLabels($this->getFormLabels());
+        $this->getWidgetSchema()->setFormFormatterName('BreakTags');
     }
 
-    public function getEmployeeListAsJson($employeeList) {
+    /**
+     *
+     * @return array
+     */
+    protected function getFormLabels() {
+        $requiredMarker = ' <span class="required">*</span>';
+
+        $labels = array(
+            'employeeName' => __('Employee Name'),
+            'date' => __('Date') . $requiredMarker
+        );
+
+        return $labels;
+    }
+
+    public function getEmployeeListAsJson() {
 
         $jsonArray = array();
         $employeeService = new EmployeeService();
         $employeeService->setEmployeeDao(new EmployeeDao());
 
+        $employeeList = UserRoleManagerFactory::getUserRoleManager()->getAccessibleEntities('Employee');
         $employeeUnique = array();
+        $jsonArray[] = array('name' => __('All'), 'id' => '');
         foreach ($employeeList as $employee) {
 
             if (!isset($employeeUnique[$employee->getEmpNumber()])) {
 
                 $name = $employee->getFullName();
                 $employeeUnique[$employee->getEmpNumber()] = $name;
-                $jsonArray[] = array('name' => $name, 'id' => $employee->getEmpNumber());              
+                $jsonArray[] = array('name' => $name, 'id' => $employee->getEmpNumber());
             }
         }
 

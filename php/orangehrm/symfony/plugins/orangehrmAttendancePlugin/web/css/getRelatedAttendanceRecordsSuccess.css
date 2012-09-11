@@ -73,3 +73,7 @@ thead td {
 
     font-weight: bold;
 }
+
+br {
+    clear: both;
+}

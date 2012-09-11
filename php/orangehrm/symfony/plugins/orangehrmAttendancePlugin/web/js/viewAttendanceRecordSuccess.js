@@ -37,7 +37,7 @@ $(document).ready(function(){
         
         autoFill('attendance_employeeName_empName', 'attendance_employeeName_empId', employees_attendance_employeeName);
         
-        if($('#attendance_employeeName_empName').val() != '' && $('#attendance_employeeName_empName').val() != typeForHints && $('#attendance_employeeName_empId').val() == ''){
+        if($('#attendance_employeeName_empName').val() != '' && $('#attendance_employeeName_empName').val() != typeForHints && $('#attendance_employeeName_empName').val() != employeeAll && $('#attendance_employeeName_empId').val() == ''){
 
             $('#validationMsg').attr('class', "messageBalloon_failure");
             $('#validationMsg').html(invalidEmpName);

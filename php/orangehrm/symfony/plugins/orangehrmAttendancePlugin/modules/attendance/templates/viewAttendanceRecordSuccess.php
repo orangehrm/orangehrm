@@ -28,21 +28,19 @@ use_javascript('../../../scripts/jquery/jquery.autocomplete.js');
             <h2><?php echo __('View Attendance Record'); ?></h2>
         </div>
         <br class="clear">
+        <?php
+        if ($form->hasErrors()) {
+            echo $form['employeeName']->renderError();
+        }
+        ?>
         <form action="<?php echo url_for("attendance/viewAttendanceRecord"); ?>" id="reportForm" method="post" name="frmAttendanceReport">
+            <?php echo $form->render(); ?>
+            <?php echo $form->renderHiddenFields(); ?>
 
-            <table  border="0" cellpadding="5" cellspacing="0" class="employeeTable">
-                <tr>
-                    <td><?php echo __('Employee Name'); ?></td>
-                    <td><?php echo $form['employeeName']->renderError() ?><?php echo $form['employeeName']->render(); ?></td>
-                </tr>
-                <tr><td><?php echo __('Date') . ' <span class="required">*</span>' ?></td>
-                    <td><?php echo $form['date']->renderError() ?><?php echo $form['date']->render(); ?></td>
-                    <?php echo $form->renderHiddenFields(); ?>
-                </tr>
-            </table>
+            <!-- here we have the button -->
             <div class="formbuttons">
-                            <input type="button" class="savebutton" id="btView" value="<?php echo __("View"); ?>" onmouseover="moverButton(this);" onmouseout="moutButton(this);"/>              
-                        </div>
+                <input type="button" class="savebutton" id="btView" value="<?php echo __("View"); ?>" onmouseover="moverButton(this);" onmouseout="moutButton(this);"/>              
+            </div>
             <input type="hidden" name="pageNo" id="pageNo" value="" />
             <input type="hidden" name="hdnAction" id="hdnAction" value="search" />
         </form>
@@ -58,24 +56,24 @@ use_javascript('../../../scripts/jquery/jquery.autocomplete.js');
 
     <?php if ($showEdit) : ?>
         <div id="formbuttons">
-                <form action="" id="employeeRecordsForm" method="post" style="float: right">
-                    <?php if ($allowedActions['Edit']) : ?>
-                        <input type="button" class="edit" name="button" id="btnEdit"
-                            onmouseover="moverButton(this);" onmouseout="moutButton(this); "
-                            value="<?php echo __('Edit'); ?>" />
-                        <?php endif; ?>
-                        <?php if ($allowedActions['PunchIn']) : ?>
-                        <input type="button" class="punch" name="button" id="btnPunchIn"
-                            onmouseover="moverButton(this);" onmouseout="moutButton(this); "
-                            value="<?php echo __('Add Attendance Records'); ?>" />
-                        <?php endif; ?>
-                        <?php if ($allowedActions['PunchOut']) : ?>
-                        <input type="button" class="punch" name="button" id="btnPunchOut"
-                            onmouseover="moverButton(this);" onmouseout="moutButton(this); "
-                            value="<?php echo __('Add Attendance Records'); ?>" />
-                        <?php endif; ?>
-                </form>
-            </div>
+            <form action="" id="employeeRecordsForm" method="post" style="float: right">
+                <?php if ($allowedActions['Edit']) : ?>
+                    <input type="button" class="edit" name="button" id="btnEdit"
+                           onmouseover="moverButton(this);" onmouseout="moutButton(this); "
+                           value="<?php echo __('Edit'); ?>" />
+                       <?php endif; ?>
+                       <?php if ($allowedActions['PunchIn']) : ?>
+                    <input type="button" class="punch" name="button" id="btnPunchIn"
+                           onmouseover="moverButton(this);" onmouseout="moutButton(this); "
+                           value="<?php echo __('Add Attendance Records'); ?>" />
+                       <?php endif; ?>
+                       <?php if ($allowedActions['PunchOut']) : ?>
+                    <input type="button" class="punch" name="button" id="btnPunchOut"
+                           onmouseover="moverButton(this);" onmouseout="moutButton(this); "
+                           value="<?php echo __('Add Attendance Records'); ?>" />
+                       <?php endif; ?>
+            </form>
+        </div>
     <?php endif; ?>
 </div>
 <br class="clear">
@@ -102,6 +100,7 @@ use_javascript('../../../scripts/jquery/jquery.autocomplete.js');
     var linkForGetRecords='<?php echo url_for('attendance/getRelatedAttendanceRecords'); ?>'
     var linkForProxyPunchInOut='<?php echo url_for('attendance/proxyPunchInPunchOut'); ?>'
     var trigger='<?php echo $trigger; ?>';
+    var employeeAll='<?php echo __('All'); ?>';
     var employeeId='<?php echo $employeeId; ?>';
     var dateSelected='<?php echo $date; ?>';
     var actionRecorder='<?php echo $actionRecorder; ?>';
