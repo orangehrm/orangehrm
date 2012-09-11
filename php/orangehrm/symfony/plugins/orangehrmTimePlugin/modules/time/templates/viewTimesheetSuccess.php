@@ -391,6 +391,7 @@ use_javascript('../../../scripts/jquery/ui/ui.dialog.js');
 	var lang_overlappingTimesheets= "<?php echo __("Timesheet Overlaps with Existing Timesheets"); ?>";
 	var lang_timesheetExists= "<?php echo __("Timesheet Already Exists"); ?>";
 	var lang_invalidDate= "<?php echo __(ValidationMessages::DATE_FORMAT_INVALID, array('%format%' => str_replace('yy', 'yyyy', get_datepicker_date_format($sf_user->getDateFormat())))); ?>";
+        var dateList  = <?php echo json_encode($dateForm->getDateOptions()); ?>;
 
 
 
