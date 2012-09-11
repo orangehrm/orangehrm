@@ -5,9 +5,9 @@ class AttendanceRecordHeaderFactory extends ohrmListConfigurationFactory {
     protected function init() {
 
         $header1 = new ListHeader();
-        $header2 = new ListHeader();
+        $header2 = new RawLabelCellHeader();
         $header3 = new ListHeader();
-        $header4 = new ListHeader();
+        $header4 = new RawLabelCellHeader();
         $header5 = new ListHeader();
         $header6 = new ListHeader();
         $header7 = new ListHeader();
@@ -22,8 +22,8 @@ class AttendanceRecordHeaderFactory extends ohrmListConfigurationFactory {
         $header2->populateFromArray(array(
             'name' => 'Punch In',
             'width' => '15%',
-            'elementType' => 'label',
-            'elementProperty' => array('getter' => 'getPunchInUserTime'),
+            'elementType' => 'rawLabel',
+            'elementProperty' => array('getter' => 'getPunchInUserTimeAndZone'),
         ));
         
         $header3->populateFromArray(array(
@@ -36,8 +36,8 @@ class AttendanceRecordHeaderFactory extends ohrmListConfigurationFactory {
         $header4->populateFromArray(array(
             'name' => 'Punch Out',
             'width' => '15%',
-            'elementType' => 'label',
-            'elementProperty' => array('getter' => 'getPunchOutUserTime'),
+            'elementType' => 'rawLabel',
+            'elementProperty' => array('getter' => 'getPunchOutUserTimeAndZone'),
         ));
         
         $header5->populateFromArray(array(

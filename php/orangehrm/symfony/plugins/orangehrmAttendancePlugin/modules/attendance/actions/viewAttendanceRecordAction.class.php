@@ -158,7 +158,6 @@ class viewAttendanceRecordAction extends sfAction {
                         } else {
                             $attendance = new AttendanceRecord();
                             $attendance->setEmployee($employee);
-                            $attendance->setPunchInUserTime(__('No attendance records to display'));
                             $attendance->setTotal('---');
                             $records[] = $attendance;
                         }
