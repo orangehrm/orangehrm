@@ -9,6 +9,12 @@ $(document).ready(function()
             height: 50
         });
 
+        $("input[name=chkSelectRow[]]").each(function(){
+            if($(this).val() == '') {
+                $(this).remove();
+            }
+        });
+
         $(".cancelBtn").click(function() {
             $(".dialogBox").dialog('close');
         });

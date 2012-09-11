@@ -26,7 +26,7 @@ class AttendanceRecordSearchForm extends sfForm {
 
         $this->setWidgets(array(
             'employeeName' => new ohrmWidgetEmployeeNameAutoFill(array(), array('class' => 'formInputText')),
-            'date' => new sfWidgetFormInputText(array(), array('class' => 'date', 'margin' => '0'))
+            'date' => new ohrmWidgetDatePicker(array(), array('id' => 'attendance_date'), array('class' => 'formDateInput'))
         ));
 
         if ($trigger) {
@@ -36,8 +36,10 @@ class AttendanceRecordSearchForm extends sfForm {
 
         $this->widgetSchema->setNameFormat('attendance[%s]');
 
+        $inputDatePattern = sfContext::getInstance()->getUser()->getDateFormat();
         $this->setValidators(array(
-            'date' => new sfValidatorDate(array(), array('required' => __('Enter Date'))),
+            'date' => new ohrmDateValidator(array('date_format' => $inputDatePattern, 'required' => true),
+                    array('invalid' => 'Date format should be ' . $inputDatePattern)),
             'employeeName' => new ohrmValidatorEmployeeNameAutoFill()
         ));
     }

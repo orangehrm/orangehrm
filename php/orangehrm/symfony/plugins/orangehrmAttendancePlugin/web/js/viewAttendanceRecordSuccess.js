@@ -7,60 +7,29 @@ $(document).ready(function(){
         $('#formbuttons').html('');
     }
     
-    if(trigger){
-        autoFillEmpName(employeeId);
-        $("#reportForm").submit();
-
-        var rDate = trim($("#attendance_date").val());
-        if (rDate == '') {
-            $("#attendance_date").val(datepickerDateFormat);
-        }
-
-        //Bind date picker
-        daymarker.bindElement("#attendance_date",
-        {
-            onSelect: function(date){
-              
-                $("#attendance_date").trigger('change');            
-
-            },
-            dateFormat:datepickerDateFormat
-        });
-
-        $('#DateBtn').click(function(){
-            daymarker.show("#attendance_date");
-        });
-    
-        $('#btView').click(function() {
-            $('#validationMsg').removeAttr('class');
-            $('#validationMsg').html("");
-                
-            var isValidDate= validateInputDate();
-                
-            if(isValidDate){
-                $("#reportForm").submit();
-            }
-        });      
-    }
-
     var rDate = trim($("#attendance_date").val());
     if (rDate == '') {
-        $("#attendance_date").val(datepickerDateFormat);
+        $("#attendance_date").val(displayDateFormat);
     }
 
     //Bind date picker
     daymarker.bindElement("#attendance_date",
     {
-        onSelect: function(date){            
-            $("#attendance_date").trigger('change');            
-        },
-        dateFormat:datepickerDateFormat
+        dateFormat : datepickerDateFormat,
+        onClose: function() {
+            $(this).valid();
+        }
     });
 
-    $('#DateBtn').click(function(){
+    $('#attendance_date_Button').click(function(){
         daymarker.show("#attendance_date");
     });
     
+    if(trigger){
+        autoFillEmpName(employeeId);
+        $("#reportForm").submit();     
+    }
+
     $('#btView').click(function() {
         $('#validationMsg').removeAttr('class');
         $('#validationMsg').html("");
@@ -119,7 +88,7 @@ function validateInputDate(){
 
     var errorStyle = "background-color:#FFDFDF;";
           
-    if((!validateDate($(".date").val(), datepickerDateFormat))){
+    if((!validateDate($("#attendance_date").val(), datepickerDateFormat))){
 
         $('#validationMsg').attr('class', "messageBalloon_failure");
         $('#validationMsg').html(errorForInvalidFormat);

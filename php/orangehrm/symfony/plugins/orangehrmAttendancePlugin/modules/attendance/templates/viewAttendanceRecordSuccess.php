@@ -36,7 +36,7 @@ use_javascript('../../../scripts/jquery/jquery.autocomplete.js');
                     <td><?php echo $form['employeeName']->renderError() ?><?php echo $form['employeeName']->render(); ?></td>
                 </tr>
                 <tr><td><?php echo __('Date') . ' <span class="required">*</span>' ?></td>
-                    <td><?php echo $form['date']->renderError() ?><?php echo $form['date']->render(); ?>&nbsp;<input id="DateBtn" type="button" name="" value="" class="calendarBtn"style="display: inline;margin:0;float:none; "/></td>
+                    <td><?php echo $form['date']->renderError() ?><?php echo $form['date']->render(); ?></td>
                     <?php echo $form->renderHiddenFields(); ?>
                 </tr>
             </table>
@@ -96,7 +96,8 @@ use_javascript('../../../scripts/jquery/jquery.autocomplete.js');
 <script type="text/javascript">
     
     var datepickerDateFormat = '<?php echo get_datepicker_date_format($sf_user->getDateFormat()); ?>';
-    var errorForInvalidFormat='<?php echo __(ValidationMessages::DATE_FORMAT_INVALID, array('%format%' => get_datepicker_date_format($sf_user->getDateFormat()))) ?>';
+    var displayDateFormat = '<?php echo str_replace('yy', 'yyyy', get_datepicker_date_format($sf_user->getDateFormat())); ?>';
+    var errorForInvalidFormat='<?php echo __(ValidationMessages::DATE_FORMAT_INVALID, array('%format%' => str_replace('yy', 'yyyy', get_datepicker_date_format($sf_user->getDateFormat())))) ?>';
     var errorMsge;
     var linkForGetRecords='<?php echo url_for('attendance/getRelatedAttendanceRecords'); ?>'
     var linkForProxyPunchInOut='<?php echo url_for('attendance/proxyPunchInPunchOut'); ?>'
