@@ -12,6 +12,29 @@ $(document).ready(function() {
         }
     });
        
+    // undeleteDialog
+    $("#undeleteDialog").dialog({
+        autoOpen: false,
+        modal: true,
+        width: 355,
+        height:210,
+        position: 'middle'
+    });
+    
+    $("#undeleteYes").click(function(){
+        $('#frmUndeleteCustomer').submit();
+    });
+
+    $("#undeleteNo").click(function(){
+        $(this).attr('disabled', true);
+        $('#addCustomer_customerName').attr('disabled', false);
+        $('#frmAddCustomer').get(0).submit();
+    });
+
+    $("#undeleteCancel").click(function(){
+        $("#undeleteDialog").dialog("close");
+    });
+       
     if(customerId > 0) {
         $('#addCustomerHeading').text(lang_editCustomer);
         $('.formInput').attr('disabled', 'disabled');
@@ -84,7 +107,15 @@ function isValidForm(){
             }
 
         },
-
+        submitHandler: function(form) {            
+            var deletedId = isDeletedCustomer();
+            if (deletedId) {
+                $('#undeleteCustomer_undeleteId').val(deletedId);               
+                $("#undeleteDialog").dialog("open");
+            } else {
+                form.submit();
+            }
+        },
         errorPlacement: function(error, element) {
             error.appendTo(element.next('div.errorHolder'));
 
@@ -92,4 +123,25 @@ function isValidForm(){
 
     });
     return true;
+}
+
+
+/**
+ * Checks if current customer name value matches a deleted customer.
+ * 
+ * @return Customer ID if it matches a deleted customer else false.
+ */
+function isDeletedCustomer() {
+    if ($.trim($("#addCustomer_hdnOriginalCustomerName").val()) ==
+        $.trim($("#addCustomer_customerName").val())) {
+        return false;
+    }
+
+    for (var i = 0; i < deletedCustomers.length; i++) {
+        if (deletedCustomers[i].name.toLowerCase() == 
+            $.trim($('#addCustomer_customerName').val()).toLowerCase()) {
+            return deletedCustomers[i].id;
+        }
+    }
+    return false;
 }

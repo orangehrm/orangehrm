@@ -19,43 +19,54 @@
  */
 class addCustomerAction extends sfAction {
 
-	/**
-	 * @param sfForm $form
-	 * @return
-	 */
-	public function setForm(sfForm $form) {
-		if (is_null($this->form)) {
-			$this->form = $form;
-		}
-	}
+    /**
+     * @param sfForm $form
+     * @return
+     */
+    public function setForm(sfForm $form) {
+        if (is_null($this->form)) {
+            $this->form = $form;
+        }
+    }
 
-	public function execute($request) {
+    protected function getUndeleteForm() {
+        return new UndeleteCustomerForm(array(), array(), true);
+    }
 
-		$usrObj = $this->getUser()->getAttribute('user');
-		if (!$usrObj->isAdmin()) {
-			$this->redirect('pim/viewPersonalDetails');
-		}
+    public function execute($request) {
 
-		$this->customerId = $request->getParameter('customerId');
-		$values = array('customerId' => $this->customerId);
-		$this->setForm(new CustomerForm(array(), $values));
-		
-		if ($this->getUser()->hasFlash('templateMessage')) {
-			list($this->messageType, $this->message) = $this->getUser()->getFlash('templateMessage');
-		}
-		$this->getUser()->setAttribute('addScreen', true);
+        $usrObj = $this->getUser()->getAttribute('user');
+        if (!$usrObj->isAdmin()) {
+            $this->redirect('pim/viewPersonalDetails');
+        }
 
-		if ($request->isMethod('post')) {
+        $this->customerId = $request->getParameter('customerId');
+        $values = array('customerId' => $this->customerId);
+        $this->setForm(new CustomerForm(array(), $values));
 
-			$this->form->bind($request->getParameter($this->form->getName()));
-			if ($this->form->isValid()) {
-				$result = $this->form->save();
-				$this->getUser()->setAttribute('addScreen', false);
-				$this->getUser()->setFlash('templateMessage', array($result['messageType'], $result['message']));
-				$this->redirect('admin/viewCustomers');
-			}
-		}
-	}
+        if ($this->getUser()->hasFlash('templateMessage')) {
+            list($this->messageType, $this->message) = $this->getUser()->getFlash('templateMessage');
+        }
+        $this->getUser()->setAttribute('addScreen', true);
+
+        if ($request->isMethod('post')) {
+
+            $this->form->bind($request->getParameter($this->form->getName()));
+            if ($this->form->isValid()) {
+                $result = $this->form->save();
+                $this->getUser()->setAttribute('addScreen', false);
+                $this->getUser()->setFlash('templateMessage', array($result['messageType'], $result['message']));
+                $this->redirect('admin/viewCustomers');
+            }
+        } else {
+
+            $this->undeleteForm = $this->getUndeleteForm();
+            $customerId = $request->getParameter('customerId'); // This comes as a GET request from Customer List page
+
+            if (!empty($customerId)) {
+                $this->form->setUpdateMode();
+            }
+        }
+    }
 
 }
-
