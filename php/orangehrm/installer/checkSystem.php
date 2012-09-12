@@ -113,16 +113,27 @@ function sysCheckPassed() {
             <td align="right" class="tdValues"><strong>
             <?php
 
-               if(function_exists('mysql_connect')) {
-	            	$mysqlClient = mysql_get_client_info();
+                if(function_exists('mysql_connect')) {
+                    $mysqlClient = mysql_get_client_info();
 
-                  if(intval(substr($mysqlClient,0,1)) < 4 || substr($mysqlClient,0,3) == '4.0') {
-	                  echo "<b><font color='#9E6D6D'>ver 4.1.x or later recommended (reported ver " .$mysqlClient. ')</font></b>';
-                  } else echo "<b><font color='green'>OK (ver " .$mysqlClient. ')</font></b>';
-               } else {
-                  echo "<b><font color='red'>MySQL support not available in PHP settings</font></b>";
-                  $error_found = true;
-               }
+                    // Regular expression that will detects any 
+                    // <digit+>.<digit+>.<digit+> pattern in any string. 
+                    // also assumes that only one occurrence would be 
+                    // found on the $mysqlClient version string.
+                    $versionPattern = '/[0-9]+\.[0-9]+\.[0-9]+/';
+
+                    preg_match($versionPattern, $mysqlClient, $matches);
+                    $mysql_client_version = $matches[0];
+
+                    if (version_compare($mysql_client_version, '4.1.0') < 0) {
+                        echo "<b><font color='#9E6D6D'>ver 4.1.x or later recommended (reported ver " . $mysqlClient . ')</font></b>';
+                    } else
+                        echo "<b><font color='green'>OK (ver " . $mysqlClient . ')</font></b>';
+                } else {
+                    echo "<b><font color='red'>MySQL support not available in PHP settings</font></b>";
+                    $error_found = true;
+                }
+                    
             ?>
             </strong></td>
           </tr>
