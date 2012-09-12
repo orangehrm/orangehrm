@@ -112,7 +112,7 @@ $(document).ready(function() {
     
     if(candidateId != ""){
         var widgetList = new Array('.formInputText', '.contactNo', '#addCandidate_keyWords', '#addCandidate_resume', '.vacancyDrop', '#addCandidate_vacancy',
-        '#addCandidate_appliedDate', '#frmDateBtn', '#addCandidate_comment', '#addCandidate_resumeUpdate_1', '#addCandidate_resumeUpdate_2','#addCandidate_resumeUpdate_3');
+        '#addCandidate_appliedDate', '#frmDateBtn', '#addCandidate_comment', '#addCandidate_resumeUpdate_1', '#addCandidate_resumeUpdate_2','#addCandidate_resumeUpdate_3', '#addCandidate_appliedDate_Button');
         for(i=0; i < widgetList.length; i++) {
             $(widgetList[i]).attr("disabled", "disabled");
         }
