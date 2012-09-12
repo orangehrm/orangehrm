@@ -537,7 +537,7 @@ class EmployeeDaoTest extends PHPUnit_Framework_TestCase {
     public function testDeleteLanguage1() {
 
         $empNumber = 1;
-        $languagesToDelete = array(1 => 2, 2 => 1);
+        $languagesToDelete = array(array(1 => 2), array(2 => 1));
 
         $result = $this->employeeDao->deleteEmployeeLanguages($empNumber, $languagesToDelete);
         $this->assertEquals(2, $result);
@@ -547,7 +547,7 @@ class EmployeeDaoTest extends PHPUnit_Framework_TestCase {
     public function testDeleteLanguage2() {
 
         $empNumber = 1;
-        $languagesToDelete = array(2 => 1);
+        $languagesToDelete = array(array(2 => 1));
 
         $result = $this->employeeDao->deleteEmployeeLanguages($empNumber, $languagesToDelete);
         $this->assertEquals(1, $result);

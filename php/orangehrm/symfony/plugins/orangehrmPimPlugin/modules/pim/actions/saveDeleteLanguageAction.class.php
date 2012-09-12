@@ -65,7 +65,7 @@ class saveDeleteLanguageAction extends basePimAction {
                     foreach ($deleteIds as $value) {
                         $parts = explode("_", $value, 2);
                         if (count($parts) == 2) {
-                            $languagesToDelete[$parts[0]] = $parts[1]; 
+                            $languagesToDelete[] = array($parts[0] => $parts[1]); 
                         }
                     }
 

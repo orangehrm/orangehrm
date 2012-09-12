@@ -591,7 +591,7 @@ class EmployeeServiceTest extends PHPUnit_Framework_TestCase {
      */
     public function testDeleteLanguage() {
         $empNumber = 111;
-        $entriesToDelete = array(1 => 1, 1 => 2);
+        $entriesToDelete = array(array(1 => 1), array(1 => 2));
         
         $mockDao = $this->getMock('EmployeeDao');
         $mockDao->expects($this->once())

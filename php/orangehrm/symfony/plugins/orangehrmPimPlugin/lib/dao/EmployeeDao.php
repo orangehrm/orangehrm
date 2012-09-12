@@ -511,8 +511,10 @@ class EmployeeDao extends BaseDao {
             
             if (is_array($entriesToDelete) && count($entriesToDelete) > 0) {                
                 
-                foreach ($entriesToDelete as $langId => $fluency) {
-                    $q->orWhere('(lang_id = ? and fluency = ?)', array($langId, $fluency));
+                foreach ($entriesToDelete as $lang) {
+                    foreach ($lang as $langId => $fluency) {
+                        $q->orWhere('(lang_id = ? and fluency = ?)', array($langId, $fluency));
+                    }
                 }                
                 
             }
