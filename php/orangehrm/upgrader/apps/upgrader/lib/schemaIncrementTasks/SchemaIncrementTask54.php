@@ -333,6 +333,15 @@ class SchemaIncrementTask54 extends SchemaIncrementTask {
                                                             (3, 39, 1, NULL, 1, 1, 1),
                                                             (3, 40, 1, NULL, NULL, NULL, 1)";
         
+        /* pim report missed display fields */
+        $sql[8] = "INSERT INTO `ohrm_display_field` (`display_field_id`, `report_group_id`, `name`, `label`, `field_alias`, `is_sortable`, `sort_order`, `sort_field`, `element_type`, `element_property`, `width`, `is_exportable`, `text_alignment_style`, `is_value_list`, `display_field_group_id`, `default_value`, `is_encrypted`, `is_meta`) VALUES
+                            (115, 3, 'ohrm_emp_education.institute', 'Institute', 'getInstitute',  'false', null, null, 'label', '<xml><getter>getInstitute</getter></xml>', 80, '0', null, true, 11, '---', false, false),
+                            (116, 3, 'ohrm_emp_education.major', 'Major/Specialization', 'getMajor',  'false', null, null, 'label', '<xml><getter>getMajor</getter></xml>', 80, '0', null, true, 11, '---', false, false),
+                            (117, 3, 'ohrm_emp_education.start_date', 'Start Date', 'getStartDate',  'false', null, null, 'labelDate', '<xml><getter>getStartDate</getter></xml>', 80, '0', null, true, 11, '---', false, false),
+                            (118, 3, 'ohrm_emp_education.end_date', 'End Date', 'getEndDate',  'false', null, null, 'labelDate', '<xml><getter>getEndDate</getter></xml>', 80, '0', null, true, 11, '---', false, false),
+                            (119, 3, 'ohrm_emp_license.license_no', 'License Number', 'getLicenseNo',  'false', null, null, 'label', '<xml><getter>getLicenseNo</getter></xml>', 200, '0', null, true, 14, '---', false, false),
+                            (120, 3, 'ohrm_emp_termination.note', 'Termination Note', 'getNote',  'false', null, null, 'label', '<xml><getter>getNote</getter></xml>', 100, '0', null, true, 6, '---', false, false)";
+        
         $this->sql = $sql;
         
     }
