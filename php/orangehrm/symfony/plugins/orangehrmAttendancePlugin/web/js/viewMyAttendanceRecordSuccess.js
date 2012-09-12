@@ -5,37 +5,35 @@
 
 $(document).ready(function()
 {
+    var rDate = trim($("#attendance_date").val());
+    if (rDate == '') {
+        $("#attendance_date").val(displayDateFormat);
+    }
+
+    //Bind date picker
+    daymarker.bindElement("#attendance_date",
+    {
+        dateFormat : datepickerDateFormat,
+        onClose: function() {
+            $(this).valid();
+        }
+    });
+
+    $('#attendance_date_Button').click(function(){
+        daymarker.show("#attendance_date");
+    });
+    
     if(trigger){
         $("#recordsTable").hide();
      
         getRelatedAttendanceRecords(employeeId,dateSelected,actionRecorder);
-        var rDate = trim($("#attendance_date").val());
-        if (rDate == '') {
-            $("#attendance_date").val(datepickerDateFormat);
-        }
-
-        //Bind date picker
-        daymarker.bindElement("#attendance_date",
-        {
-            onSelect: function(date){
-              
-                $("#attendance_date").trigger('change');            
-
-            },
-            dateFormat:datepickerDateFormat
-        });
-
-        $('#DateBtn').click(function(){
-            daymarker.show("#attendance_date");
-
-        });
     
         $('#attendance_date').change(function() {
             var isValidDate= validateInputDate();
                 
             if(isValidDate){
                    
-                var date=$(".date").val();
+                var date=$("#attendance_date").val();
                 var parsedDate = $.datepicker.parseDate(datepickerDateFormat, date);
                 getRelatedAttendanceRecords(employeeId,$.datepicker.formatDate("yy-mm-dd", parsedDate),actionRecorder);
             }  
@@ -77,7 +75,7 @@ $(document).ready(function()
                 
             if(isValidDate){
                    
-                var date=$(".date").val();
+                var date=$("#attendance_date").val();
                var parsedDate = $.datepicker.parseDate(datepickerDateFormat, date);
                 
                 getRelatedAttendanceRecords(employeeId,$.datepicker.formatDate("yy-mm-dd", parsedDate),actionRecorder);
@@ -95,11 +93,11 @@ function validateInputDate(){
     $(".messageBalloon_success").remove();
     $('#validationMsg').removeAttr('class');
     $('#validationMsg').html("");
-    $(".date").removeAttr('style');
+    $("#attendance_date").removeAttr('style');
 
     var errorStyle = "background-color:#FFDFDF;";
         
-    var date=$(".date").val();
+    var date=$("#attendance_date").val();
     
         
     if(!validateDate(date, datepickerDateFormat)){
