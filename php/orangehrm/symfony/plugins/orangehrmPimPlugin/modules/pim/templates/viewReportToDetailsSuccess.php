@@ -204,7 +204,7 @@
                                             }
                                             if ($supRow == 0) { ?>
                                             <tr>
-                                                <td colspan="3"><?php echo TopLevelMessages::NO_RECORDS_FOUND; ?></td>
+                                                <td colspan="3"><?php echo __(TopLevelMessages::NO_RECORDS_FOUND); ?></td>
                                             </tr>
                                             <?php } ?>
                                             
@@ -285,7 +285,7 @@
                                                             }
                                                             if ($subRow == 0) { ?>
                                                             <tr>
-                                                                <td colspan="3"><?php echo TopLevelMessages::NO_RECORDS_FOUND; ?></td>
+                                                                <td colspan="3"><?php echo __(TopLevelMessages::NO_RECORDS_FOUND); ?></td>
                                                             </tr>
                                                             <?php } ?>
                                                             </tbody>

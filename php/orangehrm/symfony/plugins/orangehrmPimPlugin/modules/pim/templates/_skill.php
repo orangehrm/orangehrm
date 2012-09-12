@@ -109,7 +109,7 @@ $haveSkills = count($form->empSkillList)>0;
                     if ($row == 0) {
                     ?>
                         <tr>
-                            <td colspan="6">&nbsp; <?php echo TopLevelMessages::NO_RECORDS_FOUND; ?></td>
+                            <td colspan="6">&nbsp; <?php echo __(TopLevelMessages::NO_RECORDS_FOUND); ?></td>
                         </tr>
 <?php } ?>
                 </tbody>
