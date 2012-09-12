@@ -1,6 +1,6 @@
 $(document).ready(function() {
-    
-    var validator = $("#frmFilterLeave").validate({
+
+var validator = $("#frmFilterLeave").validate({
 
         rules: {
             'leaveList[calFromDate]' : {
@@ -71,15 +71,20 @@ $(document).ready(function() {
         
         $('#commentSave').show();
         //disable edit comment for ess for pending approval leave
+        
+        var editable = true;
         if(ess_mode == 1 && statusId != leave_status_pending) {
             $('#commentSave').hide();
+            $("#leaveComment").attr("disabled","disabled");
+            editable = false;
+            
         }
-        
+
         $('#leaveId').val(id);
         $('#leaveComment').val(comment);
-        
+
         // If leave comment is empty , enable the edit mode
-        if( $('#leaveComment').val().trim() =="") {
+        if( $('#leaveComment').val().trim() =="" && editable) {
             $("#leaveComment").removeAttr("disabled");
             $("#commentSave").attr("value", lang_save);
         } else {

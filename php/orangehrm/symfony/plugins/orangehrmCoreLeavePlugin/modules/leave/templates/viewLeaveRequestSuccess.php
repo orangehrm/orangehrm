@@ -131,7 +131,17 @@ $messageType = empty($messageType) ? '' : "messageBalloon_{$messageType}";
             //disable edit comment for ess for pending approval leave
             if(ess_mode == 1 && status != leave_status_pending) {
                 $('#commentSave').hide();
+                editable = false;
             }
+            
+            // If leave comment is empty , enable the edit mode
+            if( $('#leaveComment').val().trim() =="" && editable) {
+                $("#leaveComment").removeAttr("disabled");
+                $("#commentSave").attr("value", "<?php echo __('Save'); ?>");
+            } else {
+                $("#leaveComment").attr("disabled","disabled");
+                $("#commentSave").attr("value", "<?php echo __('Edit'); ?>");
+            }            
             
             var typeOfView = (mode == 'compact') ? 'request' : 'leave';
 
