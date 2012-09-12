@@ -16,79 +16,80 @@
 <?php echo javascript_include_tag('orangehrm.datepicker.js') ?>
 
 <?php if (!empty($overlapLeave)) {
-?>
+    ?>
     <div id="duplicateWarning" class="confirmBox" style="margin-left:18px;">
         <div class="confirmInnerBox">
-        <?php echo __('Overlapping Leave Request Found') ?>
+            <?php echo __('Overlapping Leave Request Found') ?>
+        </div>
     </div>
-</div>
 
-<table border="0" cellspacing="0" cellpadding="0" style="margin-left: 18px;" class="simpleList">
-    <thead>
-        <tr>
-            <th width="100px" class="tableMiddleMiddle"><?php echo __("Date") ?></th>
-            <th width="50px" class="tableMiddleMiddle"><?php echo __("No of Hours") ?></th>
-            <th width="100px" class="tableMiddleMiddle"><?php echo __("Leave Period") ?></th>
-            <th width="90px" class="tableMiddleMiddle"><?php echo __("Leave Type") ?></th>
-            <th width="100px" class="tableMiddleMiddle"><?php echo __("Status") ?></th>
-            <th width="150px" class="tableMiddleMiddle"><?php echo __("Comments") ?></th>
-        </tr>
-    </thead>
-    <tbody>
-        <?php foreach ($overlapLeave as $leave) {
-        ?>
+    <table border="0" cellspacing="0" cellpadding="0" style="margin-left: 18px;" class="simpleList">
+        <thead>
             <tr>
-                <td class="odd"><?php echo set_datepicker_date_format($leave->getLeaveDate()) ?></td>
-                <td class="odd"><?php echo $leave->getLeaveLengthHours() ?></td>
-                <td class="odd"><?php echo set_datepicker_date_format($leave->getLeaveRequest()->getLeavePeriod()->getStartDate()) ?></td>
-                <td class="odd"><?php echo $leave->getLeaveRequest()->getLeaveTypeName() ?></td>
-                <td class="odd"><?php echo __($leave->getTextLeaveStatus()); ?></td>
-                <td class="odd"><?php echo $leave->getLeaveComments() ?></td>
+                <th width="100px" class="tableMiddleMiddle"><?php echo __("Date") ?></th>
+                <th width="50px" class="tableMiddleMiddle"><?php echo __("No of Hours") ?></th>
+                <th width="100px" class="tableMiddleMiddle"><?php echo __("Leave Period") ?></th>
+                <th width="90px" class="tableMiddleMiddle"><?php echo __("Leave Type") ?></th>
+                <th width="100px" class="tableMiddleMiddle"><?php echo __("Status") ?></th>
+                <th width="150px" class="tableMiddleMiddle"><?php echo __("Comments") ?></th>
             </tr>
-        <?php } ?>
+        </thead>
+        <tbody>
+            <?php foreach ($overlapLeave as $leave) {
+                ?>
+                <tr>
+                    <td class="odd"><?php echo set_datepicker_date_format($leave->getLeaveDate()) ?></td>
+                    <td class="odd"><?php echo $leave->getLeaveLengthHours() ?></td>
+                    <td class="odd"><?php echo set_datepicker_date_format($leave->getLeaveRequest()->getLeavePeriod()->getStartDate()) ?></td>
+                    <td class="odd"><?php echo $leave->getLeaveRequest()->getLeaveTypeName() ?></td>
+                    <td class="odd"><?php echo __($leave->getTextLeaveStatus()); ?></td>
+                    <td class="odd"><?php echo $leave->getLeaveComments() ?></td>
+                </tr>
+            <?php } ?>
 
-    </tbody>
-</table>
+        </tbody>
+    </table>
 <?php } ?>
-    <div class="formpage">
+<div class="formpage">
     <?php echo isset($templateMessage) ? templateMessage($templateMessage) : ''; ?>
+    <div id="processing"></div>
     <?php if (count($applyLeaveForm->leaveTypeList) > 1) {
-    ?>
+        ?>
         <div class="outerbox">
             <div class="mainHeading"><h2 class="paddingLeft"><?php echo __('Apply Leave') ?></h2></div>
 
-        <?php if ($applyLeaveForm->hasErrors()) {
-        ?>
-        <?php echo $applyLeaveForm['txtEmpID']->renderError(); ?>
-        <?php echo $applyLeaveForm['txtLeaveType']->renderError(); ?>
-        <?php echo $applyLeaveForm['txtFromDate']->renderError(); ?>
-        <?php echo $applyLeaveForm['txtToDate']->renderError(); ?>
-        <?php echo $applyLeaveForm['txtLeaveTotalTime']->renderError(); ?>
-        <?php echo $applyLeaveForm['txtComment']->renderError(); ?>
-        <?php echo $applyLeaveForm['txtFromTime']->renderError(); ?>
-        <?php } ?>
-        <form id="frmLeaveApply" name="frmLeaveApply" method="post" action="">
-            <?php echo $applyLeaveForm->render(); ?>
-            <!-- here we have the button -->
-            <div class="formbuttons paddingLeft">
-                <input type="button" class="applybutton" id="saveBtn" value="<?php echo __('Apply'); ?>" title="<?php echo __('Apply'); ?>"/>
-            </div>
-        </form>
-    </div>
-    <div class="paddingLeftRequired"><span class="required">*</span> <?php echo __(CommonMessages::REQUIRED_FIELD); ?></div>
+            <?php if ($applyLeaveForm->hasErrors()) {
+                ?>
+                <?php echo $applyLeaveForm['txtEmpID']->renderError(); ?>
+                <?php echo $applyLeaveForm['txtLeaveType']->renderError(); ?>
+                <?php echo $applyLeaveForm['txtFromDate']->renderError(); ?>
+                <?php echo $applyLeaveForm['txtToDate']->renderError(); ?>
+                <?php echo $applyLeaveForm['txtLeaveTotalTime']->renderError(); ?>
+                <?php echo $applyLeaveForm['txtComment']->renderError(); ?>
+                <?php echo $applyLeaveForm['txtFromTime']->renderError(); ?>
+            <?php } ?>
+            <form id="frmLeaveApply" name="frmLeaveApply" method="post" action="">
+                <?php echo $applyLeaveForm->render(); ?>
+                <!-- here we have the button -->
+                <div class="formbuttons paddingLeft">
+                    <input type="button" class="applybutton" id="saveBtn" value="<?php echo __('Apply'); ?>" title="<?php echo __('Apply'); ?>"/>
+                </div>
+            </form>
+        </div>
+        <div class="paddingLeftRequired"><span class="required">*</span> <?php echo __(CommonMessages::REQUIRED_FIELD); ?></div>
     <?php } ?>
-    </div>
-    <script type="text/javascript">
-        var datepickerDateFormat = '<?php echo get_datepicker_date_format($sf_user->getDateFormat()); ?>';
-        var displayDateFormat = '<?php echo str_replace('yy', 'yyyy', get_datepicker_date_format($sf_user->getDateFormat())); ?>';
-        var leaveBalanceUrl = '<?php echo url_for('leave/getLeaveBalanceAjax');?>';
-        var lang_invalidDate = '<?php echo __(ValidationMessages::DATE_FORMAT_INVALID, array('%format%' => str_replace('yy', 'yyyy', get_datepicker_date_format($sf_user->getDateFormat())))) ?>';
-        var lang_dateError = '<?php echo __("To date should be after from date") ?>';
+</div>
+<script type="text/javascript">
+    var datepickerDateFormat = '<?php echo get_datepicker_date_format($sf_user->getDateFormat()); ?>';
+    var displayDateFormat = '<?php echo str_replace('yy', 'yyyy', get_datepicker_date_format($sf_user->getDateFormat())); ?>';
+    var leaveBalanceUrl = '<?php echo url_for('leave/getLeaveBalanceAjax'); ?>';
+    var lang_invalidDate = '<?php echo __(ValidationMessages::DATE_FORMAT_INVALID, array('%format%' => str_replace('yy', 'yyyy', get_datepicker_date_format($sf_user->getDateFormat())))) ?>';
+    var lang_dateError = '<?php echo __("To date should be after from date") ?>';
 
-        $(document).ready(function() {
-            $.datepicker.setDefaults({showOn: 'click'});
+    $(document).ready(function() {
+        $.datepicker.setDefaults({showOn: 'click'});
 
-            showTimeControls(false);
+        showTimeControls(false);
 
         var rDate = trim($("#applyleave_txtFromDate").val());
         if (rDate == '') {
@@ -180,18 +181,18 @@
                     dataType: 'json',
                     success: function(data) {
                         if ($('#leaveBalance').length == 0) {
-                           $('#applyleave_leaveBalance').text(data);
-                       }
+                            $('#applyleave_leaveBalance').text(data);
+                        }
 
                     }
                 });
-           }
+            }
         }
 
         // Fetch and display available leave when leave type is changed
-            $('#applyleave_txtLeaveType').change(function() {
-                updateLeaveBalance();
-            });
+        $('#applyleave_txtLeaveType').change(function() {
+            updateLeaveBalance();
+        });
 
         //Validation
         $("#frmLeaveApply").validate({
@@ -307,14 +308,20 @@
 
         });
 
+        $('#processing').html('');
+
         //Click Submit button
         $('#saveBtn').click(function(){
+            $('#processing').html('');
+            $('#messageBalloon_success').remove();
+            $('#messageBalloon_warning').remove();
             if($('#applyleave_txtFromDate').val() == displayDateFormat){
                 $('#applyleave_txtFromDate').val("");
             }
             if($('#applyleave_txtToDate').val() == displayDateFormat){
                 $('#applyleave_txtToDate').val("");
             }
+            $('#processing').html('<div class="messageBalloon_success">'+"<?php echo __('Processing') ;?>"+'...</div>');
             $('#frmLeaveApply').submit();
         });
     });
@@ -390,12 +397,12 @@
 
                 if(!validateDate(toDateValue, datepickerDateFormat)){
                     $('#applyleave_txtToDate').val(fromDateValue);
-                        showTimeControls(true);
-                    }
-                } else {
-                    showTimeControls(false);
-                    $('#applyleave_txtLeaveTotalTime').show();
+                    showTimeControls(true);
                 }
+            } else {
+                showTimeControls(false);
+                $('#applyleave_txtLeaveTotalTime').show();
+            }
         }
     }
 

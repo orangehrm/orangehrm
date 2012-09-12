@@ -1,7 +1,5 @@
 <?php
-
 $messageType = empty($messageType) ? '' : "messageBalloon_{$messageType}";
-
 ?>
 
 
@@ -15,25 +13,26 @@ $messageType = empty($messageType) ? '' : "messageBalloon_{$messageType}";
 
 
 <?php if ($messageType == "messageBalloon_notice") {
-?>
+    ?>
     <div class="<?php echo $messageType; ?>"><?php echo $message; ?></div>
 <?php } ?>
 <div class="outerbox">
-    <div class="mainHeading"><h2><?php echo $title;?></h2></div>
+    <div class="mainHeading"><h2><?php echo $title; ?></h2></div>
 
-            </div> <!-- End of outerbox -->
+</div> <!-- End of outerbox -->
 <?php if ($messageType == "messageBalloon_success") {
-?>
-                <div class="<?php echo $messageType; ?>"><?php echo $message; ?></div>
+    ?>
+    <div class="<?php echo $messageType; ?>"><?php echo $message; ?></div>
 <?php } ?>
+<div id="processing"></div>
 
-            <!--this is ajax message place -->
-            <div id="msgPlace"></div>
-            <!-- end of ajax message place -->
+<!--this is ajax message place -->
+<div id="msgPlace"></div>
+<!-- end of ajax message place -->
 
 <?php include_component('core', 'ohrmList'); ?>
-            <input type="hidden" name="hdnMode" value="<?php echo $mode; ?>" />
-            <!-- comment dialog -->
+<input type="hidden" name="hdnMode" value="<?php echo $mode; ?>" />
+<!-- comment dialog -->
 
 <div id="commentDialog" title="<?php echo __('Leave Comment'); ?>">
     <form action="updateComment" method="post" id="frmCommentSave">
@@ -47,17 +46,20 @@ $messageType = empty($messageType) ? '' : "messageBalloon_{$messageType}";
     </form>
 </div>
 
-            <!-- end of comment dialog-->
+<!-- end of comment dialog-->
 
 
-        <script type="text/javascript">
-            //<![CDATA[
+<script type="text/javascript">
+    //<![CDATA[
 
-    var leaveRequestId = <?php echo $leaveRequestId;?>;
-    var leave_status_pending = '<?php echo PluginLeave::LEAVE_STATUS_LEAVE_PENDING_APPROVAL_TEXT;?>';
+    var leaveRequestId = <?php echo $leaveRequestId; ?>;
+    var leave_status_pending = '<?php echo PluginLeave::LEAVE_STATUS_LEAVE_PENDING_APPROVAL_TEXT; ?>';
     var ess_mode = '<?php echo ($essMode) ? '1' : '0'; ?>';
     
     function handleSaveButton() {
+        $('#processing').html('');
+        $('.messageBalloon_success').remove();
+        $('.messageBalloon_warning').remove();
         $(this).attr('disabled', true);
         $('select[name^="select_leave_action_"]').each(function() {
             var id = $(this).attr('id').replace('select_leave_action_', '');
@@ -78,13 +80,13 @@ $messageType = empty($messageType) ? '' : "messageBalloon_{$messageType}";
         action = action + '/id/' + leaveRequestId;
         
         $('#frmList_ohrmListComponent').attr('action', action);
-        
+        $('#processing').html('<div class="messageBalloon_success">'+"<?php echo __('Processing'); ?>"+'...</div>');
         // check the correct url here
         $('#frmList_ohrmListComponent').submit();
     }
 
     function handleBackButton() {
-        window.location = '<?php echo url_for($backUrl);?>';
+        window.location = '<?php echo url_for($backUrl); ?>';
         return false;
     }
 
@@ -241,6 +243,6 @@ $messageType = empty($messageType) ? '' : "messageBalloon_{$messageType}";
         return comment;
     }
 
-//]]>
+    //]]>
 </script>
 

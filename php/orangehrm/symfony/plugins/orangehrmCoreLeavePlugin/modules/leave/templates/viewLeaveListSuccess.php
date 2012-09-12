@@ -71,7 +71,7 @@ use_javascripts_for_form($form);
     ?>
     <div id="leaveListActionMsg" class="<?php echo $messageType; ?>"><?php echo $message; ?></div>
 <?php } ?>
-
+<div id="processing"></div>
 <!--this is ajax message place -->
 <div id="ajaxCommentSaveMsg"></div>
 <!-- end of ajax message place -->
@@ -104,12 +104,12 @@ use_javascripts_for_form($form);
     var lang_edit = '<?php echo __('Edit'); ?>';
     var lang_save = '<?php echo __('Save'); ?>';
     var lang_length_exceeded_error = '<?php echo __(ValidationMessages::TEXT_LENGTH_EXCEEDS, array('%amount%' => 250)); ?>';    
-    var lang_selectAction = '<?php echo __("Select Action");?>';
-    var leave_status_pending = '<?php echo PluginLeave::LEAVE_STATUS_LEAVE_PENDING_APPROVAL;?>';
+    var lang_selectAction = '<?php echo __("Select Action"); ?>';
+    var leave_status_pending = '<?php echo PluginLeave::LEAVE_STATUS_LEAVE_PENDING_APPROVAL; ?>';
     var ess_mode = '<?php echo ($essMode) ? '1' : '0'; ?>';
     
     function submitPage(pageNo) {
-        //    location.href = '<?php //echo url_for($baseUrl . '?pageNo='); ?>' + pageNo;
+        //    location.href = '<?php //echo url_for($baseUrl . '?pageNo=');  ?>' + pageNo;
         document.frmFilterLeave.pageNo.value = pageNo;
         document.frmFilterLeave.hdnAction.value = 'paging';
         if ($('#leaveList_txtEmployee_empName').val() == lang_typeHint) {
@@ -117,8 +117,14 @@ use_javascripts_for_form($form);
         }
         document.getElementById('frmFilterLeave').submit();        
     }
+    
+    $('#processing').html('');
 
     function handleSaveButton() {
+        $('#processing').html('');
+        $('#messageBalloon_success').remove();
+        $('#messageBalloon_warning').remove();
+        $('#leaveListActionMsg').html('');
         $(this).attr('disabled', true);
         
         $('#noActionsSelectedWarning').remove();
@@ -146,6 +152,7 @@ use_javascripts_for_form($form);
         });  
     
         if (selectedActions > 0) {
+            $('#processing').html('<div class="messageBalloon_success">'+"<?php echo __('Processing'); ?>"+'...</div>');
             $('#frmList_ohrmListComponent').submit();
         } else {
             $('div#ajaxCommentSaveMsg').before('<div id="noActionsSelectedWarning" class="messageBalloon_warning"></div>');

@@ -11,7 +11,7 @@
     <div id="contentContainer">
 
         <?php echo isset($templateMessage) ? templateMessage($templateMessage) : ''; ?>
-
+        <div id="processing"></div>
         <div class="outerbox">
 
             <div id="formHeading" class="mainHeading"><h2><?php echo isset($clues['id']) ? __('Edit Performance Review') : __('Add Performance Review'); ?></h2></div>
@@ -22,61 +22,61 @@
 
                 <div id="formWrapper">
 
-                    <label for="txtEmpName-0"><?php echo __('Employee Name')?> <span class="required">*</span></label>
+                    <label for="txtEmpName-0"><?php echo __('Employee Name') ?> <span class="required">*</span></label>
                     <input id="txtEmpName-0" name="txtEmpName-0" type="text" class="formInputText"
-                           value="<?php echo isset($clues['empName']) ? $clues['empName'] : __('Type for hints').'...' ?>" tabindex="1" <?php if (isset($clues['id'])) { ?>style="display:none;"<?php } ?> />
+                           value="<?php echo isset($clues['empName']) ? $clues['empName'] : __('Type for hints') . '...' ?>" tabindex="1" <?php if (isset($clues['id'])) { ?>style="display:none;"<?php } ?> />
                            <?php if (isset($clues['id'])) {
-                           ?>
+                               ?>
                         <label style="width:auto;"><?php echo $clues['empName']; ?></label>
                     <?php } ?>
-                           <input type="text" name="hdnEmpId-0" id="hdnEmpId-0"
-                                  value="<?php echo isset($clues['empId']) ? $clues['empId'] : '0' ?>" style="display:none; "/>
-                           <div class="errorDiv"></div>
-                           <br class="clear"/>
+                    <input type="text" name="hdnEmpId-0" id="hdnEmpId-0"
+                           value="<?php echo isset($clues['empId']) ? $clues['empId'] : '0' ?>" style="display:none; "/>
+                    <div class="errorDiv"></div>
+                    <br class="clear"/>
 
-                           <label for="txtReviewerName-0"><?php echo __('Reviewer Name')?> <span class="required">*</span></label>
-                           <input id="txtReviewerName-0" name="txtReviewerName-0" type="text" class="formInputText"
-                                  value="<?php echo isset($clues['reviewerName']) ? $clues['reviewerName'] : __('Type for hints').'...' ?>" tabindex="2" />
-                           <input type="text" name="hdnReviewerId-0" id="hdnReviewerId-0"
-                                  value="<?php echo isset($clues['reviewerId']) ? $clues['reviewerId'] : '0' ?>" style="display:none;" />
-                           <div class="errorDiv"></div>
-                           <br class="clear"/>
+                    <label for="txtReviewerName-0"><?php echo __('Reviewer Name') ?> <span class="required">*</span></label>
+                    <input id="txtReviewerName-0" name="txtReviewerName-0" type="text" class="formInputText"
+                           value="<?php echo isset($clues['reviewerName']) ? $clues['reviewerName'] : __('Type for hints') . '...' ?>" tabindex="2" />
+                    <input type="text" name="hdnReviewerId-0" id="hdnReviewerId-0"
+                           value="<?php echo isset($clues['reviewerId']) ? $clues['reviewerId'] : '0' ?>" style="display:none;" />
+                    <div class="errorDiv"></div>
+                    <br class="clear"/>
 
-                           <label for="txtPeriodFromDate-0"><?php echo __('From')?> <span class="required">*</span></label>
-                           <input id="txtPeriodFromDate-0" name="txtPeriodFromDate-0" type="text" class="formInputText"
-                                  value="<?php echo isset($clues['from']) ? set_datepicker_date_format($clues['from']) : ''; ?>" tabindex="3" />
-                           <input id="fromButton" name="fromButton" class="calendarBtn" type="button" value="   " />
-                           <div class="errorDiv"></div>
-                           <br class="clear"/>
+                    <label for="txtPeriodFromDate-0"><?php echo __('From') ?> <span class="required">*</span></label>
+                    <input id="txtPeriodFromDate-0" name="txtPeriodFromDate-0" type="text" class="formInputText"
+                           value="<?php echo isset($clues['from']) ? set_datepicker_date_format($clues['from']) : ''; ?>" tabindex="3" />
+                    <input id="fromButton" name="fromButton" class="calendarBtn" type="button" value="   " />
+                    <div class="errorDiv"></div>
+                    <br class="clear"/>
 
-                           <label for="txtPeriodToDate-0"><?php echo __('To')?> <span class="required">*</span></label>
-                           <input id="txtPeriodToDate-0" name="txtPeriodToDate-0" type="text" class="formInputText"
-                                  value="<?php echo isset($clues['to']) ? set_datepicker_date_format($clues['to']) : ''; ?>" tabindex="4" />
-                           <input id="toButton" name="toButton" class="calendarBtn" type="button" value="   " />
-                           <div class="errorDiv"></div>
-                           <br class="clear"/>
+                    <label for="txtPeriodToDate-0"><?php echo __('To') ?> <span class="required">*</span></label>
+                    <input id="txtPeriodToDate-0" name="txtPeriodToDate-0" type="text" class="formInputText"
+                           value="<?php echo isset($clues['to']) ? set_datepicker_date_format($clues['to']) : ''; ?>" tabindex="4" />
+                    <input id="toButton" name="toButton" class="calendarBtn" type="button" value="   " />
+                    <div class="errorDiv"></div>
+                    <br class="clear"/>
 
-                           <label for="txtDueDate-0"><?php echo __('Due Date')?> <span class="required">*</span></label>
-                           <input id="txtDueDate-0" name="txtDueDate-0" type="text" class="formInputText"
-                                  value="<?php echo isset($clues['due']) ? set_datepicker_date_format($clues['due']) : ''; ?>" tabindex="5" />
-                           <input id="dueButton" name="dueButton" class="calendarBtn" type="button" value="   " />
-                           <div class="errorDiv"></div>
-                           <br class="clear"/>
+                    <label for="txtDueDate-0"><?php echo __('Due Date') ?> <span class="required">*</span></label>
+                    <input id="txtDueDate-0" name="txtDueDate-0" type="text" class="formInputText"
+                           value="<?php echo isset($clues['due']) ? set_datepicker_date_format($clues['due']) : ''; ?>" tabindex="5" />
+                    <input id="dueButton" name="dueButton" class="calendarBtn" type="button" value="   " />
+                    <div class="errorDiv"></div>
+                    <br class="clear"/>
 
-                           <input type="hidden" name="hdnId-0" id="hdnId-0"
-                                  value="<?php echo isset($clues['id']) ? $clues['id'] : '' ?>">
+                    <input type="hidden" name="hdnId-0" id="hdnId-0"
+                           value="<?php echo isset($clues['id']) ? $clues['id'] : '' ?>">
 
-                       </div>
+                </div>
 
-                       <div id="buttonWrapper" class="formbuttons">
-                           <input type="button" class="savebutton" id="saveBtn" value="<?php echo __('Save')?>" tabindex="6" />
+                <div id="buttonWrapper" class="formbuttons">
+                    <input type="button" class="savebutton" id="saveBtn" value="<?php echo __('Save') ?>" tabindex="6" />
 
-                           <input type="button" class="savebutton" id="resetBtn" value="<?php
-                           if (isset($clues['id'])) {
-                               echo __('Reset');
-                           } else {
-                               echo __('Clear');
-                           }
+                    <input type="button" class="savebutton" id="resetBtn" value="<?php
+                    if (isset($clues['id'])) {
+                        echo __('Reset');
+                    } else {
+                        echo __('Clear');
+                    }
                     ?>" tabindex="7" />
 
                 </div>
@@ -84,7 +84,7 @@
             </form>
 
         </div> <!-- outerbox: Ends -->
-<div class="paddingLeftRequired"><span class="required">*</span> <?php echo __(CommonMessages::REQUIRED_FIELD); ?></div>
+        <div class="paddingLeftRequired"><span class="required">*</span> <?php echo __(CommonMessages::REQUIRED_FIELD); ?></div>
     </div> <!-- contentContainer: Ends -->
 
 </div> <!-- content: Ends -->
@@ -164,8 +164,14 @@
             $("#txtDueDate-0").datepicker('show');
         });
 
+        $('#processing').html('');
+
         // Save button
         $('#saveBtn').click(function(){
+            $('#processing').html('');
+            $('#messageBalloon_success').remove();
+            $('#messageBalloon_warning').remove();
+            
             var autoFields = new Array("txtEmpName-0", "txtReviewerName-0");
             var autoHidden = new Array("hdnEmpId-0", "hdnReviewerId-0");
 
@@ -188,6 +194,7 @@
             if($('#txtDueDate-0').val() == displayDateFormat){
                 $('#txtDueDate-0').val("")
             }
+            $('#processing').html('<div class="messageBalloon_success">'+"<?php echo __('Processing') ;?>"+'...</div>');
             $('#frmSave').submit();
         });
 
@@ -252,26 +259,26 @@
             messages: {
                 'txtEmpName-0':{
                     required: '<?php echo __(ValidationMessages::REQUIRED); ?>',
-                    empIdSet:'<?php echo __(ValidationMessages::INVALID)?>'
+                    empIdSet:'<?php echo __(ValidationMessages::INVALID) ?>'
                 },
                 'txtReviewerName-0':{
                     required:'<?php echo __(ValidationMessages::REQUIRED); ?>',
-                    reviewerIdSet:'<?php echo __(ValidationMessages::INVALID)?>'
+                    reviewerIdSet:'<?php echo __(ValidationMessages::INVALID) ?>'
                 },
                 'txtPeriodFromDate-0':{
-                    required: '<?php echo __(ValidationMessages::REQUIRED)?>',
+                    required: '<?php echo __(ValidationMessages::REQUIRED) ?>',
                     valid_date: lang_invalidDate
 
                 },
                 'txtPeriodToDate-0':{
-                    required: '<?php echo __(ValidationMessages::REQUIRED)?>',
+                    required: '<?php echo __(ValidationMessages::REQUIRED) ?>',
                     valid_date: lang_invalidDate ,
                     date_range: lang_dateError
                 },
                 'txtDueDate-0':{
-                    required: '<?php echo __(ValidationMessages::REQUIRED)?>',
+                    required: '<?php echo __(ValidationMessages::REQUIRED) ?>',
                     valid_date: lang_invalidDate ,
-                    date_range: '<?php echo __("Due date should be after from date");?>'
+                    date_range: '<?php echo __("Due date should be after from date"); ?>'
                 }
             },
             errorPlacement: function(error, element) {
