@@ -226,7 +226,8 @@ class SystemUserDao extends BaseDao {
      */
     private function _buildSearchQuery($searchClues) {
 
-        $query = Doctrine_Query:: create()->from('SystemUser u');
+        $query = Doctrine_Query:: create()->from('SystemUser u')
+                ->leftJoin('u.UserRole r');
 
         if (!empty($searchClues['userName'])) {
             $query->addWhere('u.user_name = ?', $searchClues['userName']);

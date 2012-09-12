@@ -27,7 +27,7 @@ class SystemUserHeaderFactory extends ohrmListConfigurationFactory {
 		    'isSortable' => true,
 		    'filters' => array('I18nCellFilter' => array()
                               ),
-		    'sortField' => 'user_role_id',
+		    'sortField' => 'display_name',
 		    'elementType' => 'label',
 		    'elementProperty' => array('getter' => array('getUserRole','getName')),
 		    
