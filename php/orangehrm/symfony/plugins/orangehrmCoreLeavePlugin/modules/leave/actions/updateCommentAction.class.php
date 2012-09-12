@@ -61,6 +61,10 @@ class updateCommentAction extends baseLeaveAction {
             }
         }
 
+        if ($this->getUser()->hasFlash('myLeave')) {
+            $this->getUser()->setFlash('myLeave', true);
+        }
+        
         return $this->renderText($flag);
     }
 
