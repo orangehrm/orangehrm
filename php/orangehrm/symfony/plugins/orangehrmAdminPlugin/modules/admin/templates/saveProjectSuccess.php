@@ -137,7 +137,7 @@
     </div>
 </div>
 
-<div id="undeleteDialog" title="OrangeHRM - <?php echo __('Confirmation Required') ?>"  style="display:none;">
+<div id="undeleteDialog" title="<?php echo __('OrangeHRM - Confirmation Required'); ?>"  style="display:none;">
     <?php echo __('This is a deleted customer. Reactivate again?'); ?><br /><br />
 
     <strong><?php echo __('Yes'); ?></strong> - <?php echo __('Customer will be undeleted'); ?><br />
