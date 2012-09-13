@@ -76,7 +76,7 @@ $havePassports = $numContacts>0;
                                             <?php echo $form['passport_expire_date']->render(array("class" => "formInputText")); ?>
                                             <br class="clear" />
 
-                                            <?php echo $form['i9_status']->renderLabel(__('Eligible Status')); ?>
+                                            <?php echo $form['i9_status']->renderLabel(__('Eligibility Status')); ?>
                                             <?php echo $form['i9_status']->render(array("class" => "formInputText", "maxlength" => 30)); ?>
                                             <br class="clear" />
 
@@ -84,7 +84,7 @@ $havePassports = $numContacts>0;
                                             <?php echo $form['country']->render(array("class" => "formSelect")); ?>
                                             <br class="clear" />
 
-                                            <?php echo $form['i9_review_date']->renderLabel(__('Eligible Review Date')); ?>
+                                            <?php echo $form['i9_review_date']->renderLabel(__('Eligibility Review Date')); ?>
                                             <?php echo $form['i9_review_date']->render(array("class" => "formInputText")); ?>
                                             <br class="clear" />
 
