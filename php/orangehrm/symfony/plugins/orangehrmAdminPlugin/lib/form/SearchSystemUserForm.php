@@ -106,7 +106,7 @@ class SearchSystemUserForm extends BaseForm {
     protected function getFormLabels() {
         $labels = array(
             'userName' => __('Username'),
-            'userType' => __('User Type'),
+            'userType' => __('User Role'),
             'employeeName' => __('Employee Name'),
             'status' => __('Status')
         );
