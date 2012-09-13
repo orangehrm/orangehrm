@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE xliff PUBLIC "-//XLIFF//DTD XLIFF//EN" "http://www.oasis-open.org/committees/xliff/documents/xliff.dtd">
+<xliff version="1.0">
+ <header/>
+ <file source-language="en_US" target-language="zz_ZZ" datatype="plaintext" original="messages" date="2012-03-01T0:09:54Z" product-name="messages">
+  <body>
+   <trans-unit id="1">
+    <source>View Attendance Record</source>
+    <target>FR_View Attendance Record</target>
+   </trans-unit>
+   <trans-unit id="2">
+    <source>Punch In</source>
+    <target>FR_Punch In</target>
+   </trans-unit>
+   <trans-unit id="3">
+    <source>Punch In Note</source>
+    <target>FR_Punch In Note</target>
+   </trans-unit>
+   <trans-unit id="4">
+    <source>Punch Out</source>
+    <target>FR_Punch Out</target>
+   </trans-unit>
+   <trans-unit id="5">
+    <source>Punch Out Note</source>
+    <target>FR_Punch Out Note</target>
+   </trans-unit>
+   <trans-unit id="6">
+    <source>No attendance records to display</source>
+    <target>FR_No attendance records to display</target>
+   </trans-unit>
+   <trans-unit id="7">
+    <source>Punch out Time Should Be Higher Than Punch in Time</source>
+    <target>FR_Punch out Time Should Be Higher Than Punch in Time</target>
+   </trans-unit>
+   <trans-unit id="8">
+    <source>Overlapping Records Found</source>
+    <target>FR_Overlapping Records Found</target>
+   </trans-unit>
+   <trans-unit id="9">
+    <source>Comment should be less than 250 characters</source>
+    <target>FR_Comment should be less than 250 characters</target>
+   </trans-unit>
+   <trans-unit id="10">
+    <source>Punch in/out note</source>
+    <target>FR_Punch in/out note</target>
+   </trans-unit>
+   <trans-unit id="11">
+    <source>Timezone</source>
+    <target>FR_Timezone</target>
+   </trans-unit>
+   <trans-unit id="12">
+    <source>Last punch in time</source>
+    <target>FR_Last punch in time</target>
+   </trans-unit>
+   <trans-unit id="13">
+    <source>In</source>
+    <target>FR_In</target>
+   </trans-unit>
+   <trans-unit id="14">
+    <source>Out</source>
+    <target>FR_Out</target>
+   </trans-unit>
+   <trans-unit id="15">
+    <source>Attendance Configuration</source>
+    <target>FR_Attendance Configuration</target>
+   </trans-unit>
+   <trans-unit id="16">
+    <source>Employee can change current time when punching in/out</source>
+    <target>FR_Employee can change current time when punching in/out</target>
+   </trans-unit>
+   <trans-unit id="17">
+    <source>Employee can edit/delete own attendance records</source>
+    <target>FR_Employee can edit/delete own attendance records</target>
+   </trans-unit>
+   <trans-unit id="18">
+    <source>Supervisor can add/edit/delete attendance records of subordinates</source>
+    <target>FR_Supervisor can add/edit/delete attendance records of subordinates</target>
+   </trans-unit>
+   <trans-unit id="19">
+    <source>My Attendance Records</source>
+    <target>FR_My Attendance Records</target>
+   </trans-unit>
+   <trans-unit id="20">
+    <source>You are not allowed to view this page</source>
+    <target>FR_You are not allowed to view this page</target>
+   </trans-unit>
+   <trans-unit id="21">
+    <source>Add Attendance Records</source>
+    <target>FR_Add Attendance Records</target>
+   </trans-unit>
+   <trans-unit id="22">
+    <source>Should Be a Valid Date in %format% Format</source>
+    <target>FR_Should Be a Valid Date in %format% Format</target>
+   </trans-unit>
+   <trans-unit id="23">
+    <source>Should Be a Valid Time in %format% Format</source>
+    <target>FR_Should Be a Valid Time in %format% Format</target>
+   </trans-unit>
+  </body>
+ </file>
+</xliff>

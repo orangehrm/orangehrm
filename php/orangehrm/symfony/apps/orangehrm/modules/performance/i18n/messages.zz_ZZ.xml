@@ -1,0 +1,177 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE xliff PUBLIC "-//XLIFF//DTD XLIFF//EN" "http://www.oasis-open.org/committees/xliff/documents/xliff.dtd">
+<xliff version="1.0">
+ <header/>
+ <file source-language="en_US" target-language="zz_ZZ" datatype="plaintext" original="messages" date="2012-03-01T0:09:54Z" product-name="messages">
+  <body>
+   <trans-unit id="1">
+    <source>Add Key Performance Indicator</source>
+    <target>FR_Add Key Performance Indicator</target>
+   </trans-unit>
+   <trans-unit id="2">
+    <source>Add Performance Review</source>
+    <target>FR_Add Performance Review</target>
+   </trans-unit>
+   <trans-unit id="3">
+    <source>Being Reviewed</source>
+    <target>FR_Being Reviewed</target>
+   </trans-unit>
+   <trans-unit id="4">
+    <source>Clear</source>
+    <target>FR_Clear</target>
+   </trans-unit>
+   <trans-unit id="5">
+    <source>Copy Key Performance Indicators</source>
+    <target>FR_Copy Key Performance Indicators</target>
+   </trans-unit>
+   <trans-unit id="6">
+    <source>Copy To</source>
+    <target>FR_Copy To</target>
+   </trans-unit>
+   <trans-unit id="7">
+    <source>Define Now</source>
+    <target>FR_Define Now</target>
+   </trans-unit>
+   <trans-unit id="8">
+    <source>Due Date</source>
+    <target>FR_Due Date</target>
+   </trans-unit>
+   <trans-unit id="9">
+    <source>Edit Performance Review</source>
+    <target>FR_Edit Performance Review</target>
+   </trans-unit>
+   <trans-unit id="10">
+    <source>Is Default</source>
+    <target>FR_Is Default</target>
+   </trans-unit>
+   <trans-unit id="11">
+    <source>Key Performance Indicator</source>
+    <target>FR_Key Performance Indicator</target>
+   </trans-unit>
+   <trans-unit id="12">
+    <source>Key Performance Indicators for Job Title</source>
+    <target>FR_Key Performance Indicators for Job Title</target>
+   </trans-unit>
+   <trans-unit id="13">
+    <source>Make Default Scale</source>
+    <target>FR_Make Default Scale</target>
+   </trans-unit>
+   <trans-unit id="14">
+    <source>Max Rate</source>
+    <target>FR_Max Rate</target>
+   </trans-unit>
+   <trans-unit id="15">
+    <source>Maximum Rating</source>
+    <target>FR_Maximum Rating</target>
+   </trans-unit>
+   <trans-unit id="16">
+    <source>Min Rate</source>
+    <target>FR_Min Rate</target>
+   </trans-unit>
+   <trans-unit id="17">
+    <source>Minimum Rating</source>
+    <target>FR_Minimum Rating</target>
+   </trans-unit>
+   <trans-unit id="18">
+    <source>Minimum Rating should be less than Maximum Rating</source>
+    <target>FR_Minimum Rating should be less than Maximum Rating</target>
+   </trans-unit>
+   <trans-unit id="19">
+    <source>No employee exists with this name</source>
+    <target>FR_No employee exists with this name</target>
+   </trans-unit>
+   <trans-unit id="20">
+    <source>No Key Performance Indicators were found for the job title of this employee</source>
+    <target>FR_No Key Performance Indicators were found for the job title of this employee</target>
+   </trans-unit>
+   <trans-unit id="21">
+    <source>No reviewer exists with this name</source>
+    <target>FR_No reviewer exists with this name</target>
+   </trans-unit>
+   <trans-unit id="22">
+    <source>Not Available</source>
+    <target>FR_Not Available</target>
+   </trans-unit>
+   <trans-unit id="23">
+    <source>Performance Review</source>
+    <target>FR_Performance Review</target>
+   </trans-unit>
+   <trans-unit id="24">
+    <source>Rating</source>
+    <target>FR_Rating</target>
+   </trans-unit>
+   <trans-unit id="25">
+    <source>review of</source>
+    <target>FR_review of</target>
+   </trans-unit>
+   <trans-unit id="26">
+    <source>Review Period</source>
+    <target>FR_Review Period</target>
+   </trans-unit>
+   <trans-unit id="27">
+    <source>Reviewer</source>
+    <target>FR_Reviewer</target>
+   </trans-unit>
+   <trans-unit id="28">
+    <source>Reviewer Comments</source>
+    <target>FR_Reviewer Comments</target>
+   </trans-unit>
+   <trans-unit id="29">
+    <source>Reviewer Name</source>
+    <target>FR_Reviewer Name</target>
+   </trans-unit>
+   <trans-unit id="30">
+    <source>Search Key Performance Indicators</source>
+    <target>FR_Search Key Performance Indicators</target>
+   </trans-unit>
+   <trans-unit id="31">
+    <source>Search Performance Reviews</source>
+    <target>FR_Search Performance Reviews</target>
+   </trans-unit>
+   <trans-unit id="32">
+    <source>Select Job Title</source>
+    <target>FR_Select Job Title</target>
+   </trans-unit>
+   <trans-unit id="33">
+    <source>Sub Division</source>
+    <target>FR_Sub Division</target>
+   </trans-unit>
+   <trans-unit id="34">
+    <source>Successfully</source>
+    <target>FR_Successfully</target>
+   </trans-unit>
+   <trans-unit id="35">
+    <source>Update Key Performance Indicator</source>
+    <target>FR_Update Key Performance Indicator</target>
+   </trans-unit>
+   <trans-unit id="36">
+    <source>updated</source>
+    <target>FR_updated</target>
+   </trans-unit>
+   <trans-unit id="37">
+    <source>View KPI List</source>
+    <target>FR_View KPI List</target>
+   </trans-unit>
+   <trans-unit id="38">
+    <source>No Defined Job Titles</source>
+    <target>FR_No Defined Job Titles</target>
+   </trans-unit>
+   <trans-unit id="39">
+    <source>Failed to Add: No Job Title Assigned</source>
+    <target>FR_Failed to Add: No Job Title Assigned</target>
+   </trans-unit>
+   <trans-unit id="40">
+    <source>Comment Should Be Less Than %amount% Characters</source>
+    <target>FR_Comment Should Be Less Than %amount% Characters</target>
+   </trans-unit>
+   <trans-unit id="41">
+    <source>KPI Should Be a Number Within Minimum and Maximum Value</source>
+    <target>FR_KPI Should Be a Number Within Minimum and Maximum Value</target>
+   </trans-unit>
+   <trans-unit id="42">
+    <source>KPI Already Exists, This Operation Deletes Existing KPI</source>
+    <target>FR_KPI Already Exists, This Operation Deletes Existing KPI</target>
+   </trans-unit>
+  </body>
+ </file>
+</xliff>
