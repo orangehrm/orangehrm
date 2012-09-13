@@ -342,6 +342,16 @@ class SchemaIncrementTask54 extends SchemaIncrementTask {
                             (119, 3, 'ohrm_emp_license.license_no', 'License Number', 'getLicenseNo',  'false', null, null, 'label', '<xml><getter>getLicenseNo</getter></xml>', 200, '0', null, true, 14, '---', false, false),
                             (120, 3, 'ohrm_emp_termination.note', 'Termination Note', 'getNote',  'false', null, null, 'label', '<xml><getter>getNote</getter></xml>', 100, '0', null, true, 6, '---', false, false)";
         
+        /* job and salary custom fields + attachments read only for ESS and Supervisor */
+        $sql[9]  = "UPDATE `ohrm_user_role_data_group` SET `can_create` = '0', `can_update` = '0', `can_delete` = '0' WHERE `user_role_id` = '2' AND `data_group_id` = '17'";
+        $sql[10] = "UPDATE `ohrm_user_role_data_group` SET `can_create` = '0', `can_update` = '0', `can_delete` = '0' WHERE `user_role_id` = '2' AND `data_group_id` = '18'";
+        $sql[11] = "UPDATE `ohrm_user_role_data_group` SET `can_create` = '0', `can_update` = '0', `can_delete` = '0' WHERE `user_role_id` = '2' AND `data_group_id` = '20'";
+        $sql[12] = "UPDATE `ohrm_user_role_data_group` SET `can_create` = '0', `can_update` = '0', `can_delete` = '0' WHERE `user_role_id` = '2' AND `data_group_id` = '21'";
+        $sql[13] = "UPDATE `ohrm_user_role_data_group` SET `can_create` = '0', `can_update` = '0', `can_delete` = '0' WHERE `user_role_id` = '3' AND `data_group_id` = '17'";
+        $sql[14] = "UPDATE `ohrm_user_role_data_group` SET `can_create` = '0', `can_update` = '0', `can_delete` = '0' WHERE `user_role_id` = '3' AND `data_group_id` = '18'";
+        $sql[15] = "UPDATE `ohrm_user_role_data_group` SET `can_create` = '0', `can_update` = '0', `can_delete` = '0' WHERE `user_role_id` = '3' AND `data_group_id` = '20'";
+        $sql[16] = "UPDATE `ohrm_user_role_data_group` SET `can_create` = '0', `can_update` = '0', `can_delete` = '0' WHERE `user_role_id` = '3' AND `data_group_id` = '21'";
+        
         $this->sql = $sql;
         
     }
