@@ -30,7 +30,7 @@ class addCustomerAction extends sfAction {
     }
 
     protected function getUndeleteForm() {
-        return new UndeleteCustomerForm(array(), array(), true);
+        return new UndeleteCustomerForm(array(), array('fromAction' => 'addCustomer', 'projectId' => ''), true);
     }
 
     public function execute($request) {

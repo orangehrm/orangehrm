@@ -23,13 +23,18 @@ class undeleteCustomerAction extends orangehrmAction {
 
     public function execute($request) {
         $this->form = $this->getForm();
-
+        $fromAction = 'addCustomer';
+        $undeleteId = '';
+        $projectId = '';
+        
         if ($request->isMethod('post')) {
 
             $this->form->bind($request->getParameter($this->form->getName()));
 
             if ($this->form->isValid()) {
                 $undeleteId = $this->form->getValue('undeleteId');
+                $fromAction = $this->form->getValue('fromAction');
+                $projectId = $this->form->getValue('projectId');
 
                 $this->undeleteCustomer($undeleteId);
             } else {
@@ -38,7 +43,12 @@ class undeleteCustomerAction extends orangehrmAction {
                 $this->getLoggerInstance()->error($this->form);
             }
         }
-        $this->redirect("admin/viewCustomers");
+        if ($fromAction == 'addCustomer') {
+            $this->redirect("admin/viewCustomers");
+        } else if ($fromAction == 'saveProject') {
+//            $this->forward("admin", "saveProject");
+            $this->redirect("admin/saveProject?custId=$undeleteId&projectId=$projectId");
+        }
     }
 
     protected function undeleteCustomer($customerId) {

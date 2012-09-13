@@ -20,9 +20,19 @@
 class UndeleteCustomerForm extends orangehrmForm {
 
     public function configure() {
-
+        $fromAction = $this->getOption('fromAction');
+        $projectId = $this->getOption('projectId');
+        
         $this->setWidget('undeleteId', new sfWidgetFormInputHidden());
         $this->setValidator('undeleteId', new sfValidatorString(array('required' => true)));
+        $this->setWidget('fromAction', new sfWidgetFormInputHidden());
+        $this->setValidator('fromAction', new sfValidatorString(array('required' => true)));
+        $this->setWidget('projectId', new sfWidgetFormInputHidden());
+        $this->setValidator('projectId', new sfValidatorString(array('required' => false)));
+        
+        $this->setDefault('fromAction', $fromAction);
+        $this->setDefault('projectId', $projectId);
+        
         $this->widgetSchema->setNameFormat('undeleteCustomer[%s]');
     }
 

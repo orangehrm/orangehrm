@@ -102,6 +102,27 @@ $(document).ready(function() {
         $("#customerDialog").dialog("close");
     });
     
+    // undeleteDialog
+    $("#undeleteDialog").dialog({
+        autoOpen: false,
+        modal: true,
+        width: 355,
+        height:210,
+        position: 'middle'
+    });
+    
+    $("#undeleteYes").click(function(){
+        $('#frmUndeleteCustomer').submit();
+    });
+
+    $("#undeleteNo").click(function(){
+        saveCustomer(custUrl+'?customerName='+escape($.trim($('#addCustomer_customerName').val()))+'&description='+escape($('#addCustomer_description').val()));
+    });
+
+    $("#undeleteCancel").click(function(){
+        $("#undeleteDialog").dialog("close");
+    });
+    
     $("#btnCopy").click(function(){
         $('.activityDiv').remove();
         $('#errorHolderCopy').text("");
@@ -185,8 +206,15 @@ $(document).ready(function() {
     });
     
     $('#dialogSave').click(function(){
-        if(validateThickBox()){
-            saveCustomer(custUrl+'?customerName='+escape($.trim($('#addCustomer_customerName').val()))+'&description='+escape($('#addCustomer_description').val()));
+        var deletedId = isDeletedCustomer();
+        if (deletedId) {
+            $('#undeleteCustomer_undeleteId').val(deletedId);               
+            $("#undeleteDialog").dialog("open");
+            isValid = false;
+        }else {
+            if(validateThickBox()){
+                saveCustomer(custUrl+'?customerName='+escape($.trim($('#addCustomer_customerName').val()))+'&description='+escape($('#addCustomer_description').val()));
+            }
         }
     });
     
@@ -747,4 +775,20 @@ function isValidForm(){
 
     });
     return $("#frmAddProject").valid();
+}
+
+/**
+ * Checks if current customer name value matches a deleted customer.
+ * 
+ * @return Customer ID if it matches a deleted customer else false.
+ */
+function isDeletedCustomer() {
+
+    for (var i = 0; i < deletedCustomers.length; i++) {
+        if (deletedCustomers[i].name.toLowerCase() == 
+            $.trim($('#addCustomer_customerName').val()).toLowerCase()) {
+            return deletedCustomers[i].id;
+        }
+    }
+    return false;
 }
