@@ -1,5 +1,5 @@
 <?php echo stylesheet_tag('../orangehrmAttendancePlugin/css/getRelatedAttendanceRecordsSuccess'); ?>
-<?php echo javascript_include_tag('../orangehrmAttendancePlugin/js/getRelatedAttendanceRecordsSuccess'); ?>
+<?php echo javascript_include_tag('../orangehrmAttendancePlugin/js/getMyRelatedAttendanceRecordsSuccess'); ?>
 
 <table  border="0" cellpadding="5" cellspacing="0" class="employeeTable">
     <thead id="tableHead" >
