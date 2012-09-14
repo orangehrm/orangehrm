@@ -354,25 +354,29 @@ class SchemaIncrementTask54 extends SchemaIncrementTask {
         
         $sql[17] = "UPDATE `ohrm_user_role_data_group` SET `can_create` = '0', `can_update` = '0', `can_delete` = '0' WHERE `user_role_id` = '3' AND `data_group_id` = '17'";
         $sql[18] = "UPDATE `ohrm_user_role_data_group` SET `can_create` = '0', `can_update` = '0', `can_delete` = '0' WHERE `user_role_id` = '3' AND `data_group_id` = '18'";
-        $sql[19] = "UPDATE `ohrm_user_role_data_group` SET `can_create` = '0', `can_update` = '0', `can_delete` = '0' WHERE `user_role_id` = '3' AND `data_group_id` = '20'";
-        $sql[20] = "UPDATE `ohrm_user_role_data_group` SET `can_create` = '0', `can_update` = '0', `can_delete` = '0' WHERE `user_role_id` = '3' AND `data_group_id` = '21'";
-        $sql[21] = "UPDATE `ohrm_user_role_data_group` SET `can_create` = '0', `can_update` = '0', `can_delete` = '0' WHERE `user_role_id` = '3' AND `data_group_id` = '23'";
-        $sql[22] = "UPDATE `ohrm_user_role_data_group` SET `can_create` = '0', `can_update` = '0', `can_delete` = '0' WHERE `user_role_id` = '3' AND `data_group_id` = '24'";
-        $sql[23] = "UPDATE `ohrm_user_role_data_group` SET `can_create` = '0', `can_update` = '0', `can_delete` = '0' WHERE `user_role_id` = '3' AND `data_group_id` = '27'";
-        $sql[24] = "UPDATE `ohrm_user_role_data_group` SET `can_create` = '0', `can_update` = '0', `can_delete` = '0' WHERE `user_role_id` = '3' AND `data_group_id` = '28'";
+        $sql[19] = "UPDATE `ohrm_user_role_data_group` SET `can_create` = '0', `can_update` = '0', `can_delete` = '0' WHERE `user_role_id` = '3' AND `data_group_id` = '19'";
+        $sql[20] = "UPDATE `ohrm_user_role_data_group` SET `can_create` = '0', `can_update` = '0', `can_delete` = '0' WHERE `user_role_id` = '3' AND `data_group_id` = '20'";
+        $sql[21] = "UPDATE `ohrm_user_role_data_group` SET `can_create` = '0', `can_update` = '0', `can_delete` = '0' WHERE `user_role_id` = '3' AND `data_group_id` = '21'";
+        $sql[22] = "UPDATE `ohrm_user_role_data_group` SET `can_read` = '0' WHERE `user_role_id` = '3' AND `data_group_id` = '19' AND `self`='0'";
+        $sql[23] = "UPDATE `ohrm_user_role_data_group` SET `can_read` = '0' WHERE `user_role_id` = '3' AND `data_group_id` = '20' AND `self`='0'";
+        $sql[24] = "UPDATE `ohrm_user_role_data_group` SET `can_read` = '0' WHERE `user_role_id` = '3' AND `data_group_id` = '21' AND `self`='0'";
+        $sql[25] = "UPDATE `ohrm_user_role_data_group` SET `can_create` = '0', `can_update` = '0', `can_delete` = '0' WHERE `user_role_id` = '3' AND `data_group_id` = '23'";
+        $sql[26] = "UPDATE `ohrm_user_role_data_group` SET `can_create` = '0', `can_update` = '0', `can_delete` = '0' WHERE `user_role_id` = '3' AND `data_group_id` = '24'";
+        $sql[27] = "UPDATE `ohrm_user_role_data_group` SET `can_create` = '0', `can_update` = '0', `can_delete` = '0' WHERE `user_role_id` = '3' AND `data_group_id` = '27'";
+        $sql[28] = "UPDATE `ohrm_user_role_data_group` SET `can_create` = '0', `can_update` = '0', `can_delete` = '0' WHERE `user_role_id` = '3' AND `data_group_id` = '28'";
         
-        $sql[25] = "UPDATE `ohrm_user_role_data_group` SET `can_create` = '0', `can_update` = '0', `can_delete` = '0' WHERE `user_role_id` = '1' AND `data_group_id` = '17' AND `self`='1'";
-        $sql[26] = "UPDATE `ohrm_user_role_data_group` SET `can_create` = '0', `can_update` = '0', `can_delete` = '0' WHERE `user_role_id` = '1' AND `data_group_id` = '18' AND `self`='1'";
-        $sql[27] = "UPDATE `ohrm_user_role_data_group` SET `can_create` = '0', `can_update` = '0', `can_delete` = '0' WHERE `user_role_id` = '1' AND `data_group_id` = '20' AND `self`='1'";
-        $sql[28] = "UPDATE `ohrm_user_role_data_group` SET `can_create` = '0', `can_update` = '0', `can_delete` = '0' WHERE `user_role_id` = '1' AND `data_group_id` = '21' AND `self`='1'";
-        $sql[29] = "UPDATE `ohrm_user_role_data_group` SET `can_create` = '0', `can_update` = '0', `can_delete` = '0' WHERE `user_role_id` = '1' AND `data_group_id` = '23' AND `self`='1'";
-        $sql[30] = "UPDATE `ohrm_user_role_data_group` SET `can_create` = '0', `can_update` = '0', `can_delete` = '0' WHERE `user_role_id` = '1' AND `data_group_id` = '24' AND `self`='1'";
-        $sql[31] = "UPDATE `ohrm_user_role_data_group` SET `can_create` = '0', `can_update` = '0', `can_delete` = '0' WHERE `user_role_id` = '1' AND `data_group_id` = '27' AND `self`='1'";
-        $sql[32] = "UPDATE `ohrm_user_role_data_group` SET `can_create` = '0', `can_update` = '0', `can_delete` = '0' WHERE `user_role_id` = '1' AND `data_group_id` = '28' AND `self`='1'";
+        $sql[29] = "UPDATE `ohrm_user_role_data_group` SET `can_create` = '0', `can_update` = '0', `can_delete` = '0' WHERE `user_role_id` = '1' AND `data_group_id` = '17' AND `self`='1'";
+        $sql[30] = "UPDATE `ohrm_user_role_data_group` SET `can_create` = '0', `can_update` = '0', `can_delete` = '0' WHERE `user_role_id` = '1' AND `data_group_id` = '18' AND `self`='1'";
+        $sql[31] = "UPDATE `ohrm_user_role_data_group` SET `can_create` = '0', `can_update` = '0', `can_delete` = '0' WHERE `user_role_id` = '1' AND `data_group_id` = '20' AND `self`='1'";
+        $sql[32] = "UPDATE `ohrm_user_role_data_group` SET `can_create` = '0', `can_update` = '0', `can_delete` = '0' WHERE `user_role_id` = '1' AND `data_group_id` = '21' AND `self`='1'";
+        $sql[33] = "UPDATE `ohrm_user_role_data_group` SET `can_create` = '0', `can_update` = '0', `can_delete` = '0' WHERE `user_role_id` = '1' AND `data_group_id` = '23' AND `self`='1'";
+        $sql[34] = "UPDATE `ohrm_user_role_data_group` SET `can_create` = '0', `can_update` = '0', `can_delete` = '0' WHERE `user_role_id` = '1' AND `data_group_id` = '24' AND `self`='1'";
+        $sql[35] = "UPDATE `ohrm_user_role_data_group` SET `can_create` = '0', `can_update` = '0', `can_delete` = '0' WHERE `user_role_id` = '1' AND `data_group_id` = '27' AND `self`='1'";
+        $sql[36] = "UPDATE `ohrm_user_role_data_group` SET `can_create` = '0', `can_update` = '0', `can_delete` = '0' WHERE `user_role_id` = '1' AND `data_group_id` = '28' AND `self`='1'";
         
         //label changes
-        $sql[33] = "UPDATE `ohrm_display_field` SET `label` = 'Eligibility Status' WHERE `display_field_id` = 87";
-        $sql[34] = "UPDATE `ohrm_display_field` SET `label` = 'Eligibility Review Date' WHERE `display_field_id` = 89";
+        $sql[37] = "UPDATE `ohrm_display_field` SET `label` = 'Eligibility Status' WHERE `display_field_id` = 87";
+        $sql[38] = "UPDATE `ohrm_display_field` SET `label` = 'Eligibility Review Date' WHERE `display_field_id` = 89";
         
         $this->sql = $sql;
         
