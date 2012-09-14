@@ -364,6 +364,10 @@ class SchemaIncrementTask54 extends SchemaIncrementTask {
         $sql[25] = "UPDATE `ohrm_user_role_data_group` SET `can_create` = '0', `can_update` = '0', `can_delete` = '0' WHERE `user_role_id` = '1' AND `data_group_id` = '27' AND `self`='1'";
         $sql[26] = "UPDATE `ohrm_user_role_data_group` SET `can_create` = '0', `can_update` = '0', `can_delete` = '0' WHERE `user_role_id` = '1' AND `data_group_id` = '28' AND `self`='1'";
         
+        //label changes
+        $sql[27] = "UPDATE `ohrm_display_field` SET `label` = 'Eligibility Status' WHERE `display_field_id` = 87";
+        $sql[28] = "UPDATE `ohrm_display_field` SET `label` = 'Eligibility Review Date' WHERE `display_field_id` = 89";
+        
         $this->sql = $sql;
         
     }
