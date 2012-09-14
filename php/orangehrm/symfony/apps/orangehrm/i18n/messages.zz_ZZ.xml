@@ -5211,7 +5211,23 @@
     <source>Export To CSV</source>
     <target>FR_Export To CSV</target>
    </trans-unit>
-   
+   <trans-unit id="1135">
+    <source>User Role</source>
+    <target>FR_User Role</target>
+   </trans-unit>
+   <trans-unit id="1136">
+    <source>Processing</source>
+    <target>FR_Processing</target>
+   </trans-unit>
+   <trans-unit id="1137">
+    <source>Duration(Hours)</source>
+    <target>FR_Duration(Hours)</target>
+   </trans-unit>
+   <trans-unit id="1138">
+    <source>Successfully Undeleted</source>
+    <target>FR_Successfully Undeleted</target>
+   </trans-unit>
+
   </body>
  </file>
 </xliff>

@@ -16,7 +16,8 @@
     <?php include_component('core', 'ohrmList', $parmetersForListCompoment); ?>
 </div>
 
-<div class="paddingLeftRequired"><span class="required">*</span> <?php echo __('Click on a notification type to add subscribers') ?></div>
+<div class="paddingLeftRequired"><?php echo __('Click on a notification type to add subscribers') ?></div>
+<div class="paddingLeftRequired"><?php echo __('Click on Edit button to enable notifications') ?></div>
 
 <script type="text/javascript">
     	var notificationIds = <?php echo str_replace('&#039;', "'", $form->getEnabledNotificationIdListAsJson()) ?> ;

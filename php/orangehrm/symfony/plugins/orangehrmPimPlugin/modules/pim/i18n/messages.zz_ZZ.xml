@@ -495,7 +495,22 @@
    <trans-unit id="123">
     <source>Edit Membership</source>
     <target>FR_Edit Membership</target>
-   </trans-unit>    
+   </trans-unit>  
+   <trans-unit id="124">
+    <source>Eligibility Status</source>
+    <target>FR_Eligibility Status</target>
+   </trans-unit> 
+   <trans-unit id="125">
+    <source>Eligibility Review Date</source>
+    <target>FR_Eligibility Review Date</target>
+   </trans-unit> 
+   <trans-unit id="126">
+    <source>First (& Middle) Name</source>
+    <target>FR_First (& Middle) Name</target>
+   </trans-unit>
+
+  
+
   </body>
  </file>
 </xliff>

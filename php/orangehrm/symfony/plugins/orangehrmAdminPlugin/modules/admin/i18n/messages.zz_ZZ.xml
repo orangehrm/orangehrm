@@ -517,8 +517,8 @@
     <target>FR_Level Already Exists</target>
    </trans-unit>
    <trans-unit id="129">
-    <source>All date fields should be in YYYY-MM-DD format</source>
-    <target>FR_All date fields should be in YYYY-MM-DD format</target>
+    <source>All date fields should be in yyyy-mm-dd format</source>
+    <target>FR_All date fields should be in yyyy-mm-dd format</target>
    </trans-unit>
    <trans-unit id="130">
     <source>Multiple import files may be required</source>
@@ -532,6 +532,30 @@
     <source>Organization Structure</source>
     <target>FR_Organization Structure</target>
    </trans-unit>   
+   <trans-unit id="134">
+    <source>This is a deleted customer. Reactivate again?</source>
+    <target>FR_This is a deleted customer. Reactivate again?</target>
+   </trans-unit>
+   <trans-unit id="135">
+    <source>Customer will be undeleted</source>
+    <target>FR_Customer will be undeleted</target>
+   </trans-unit>
+   <trans-unit id="136">
+    <source>A new customer will be created with same name</source>
+    <target>FR_A new customer will be created with same name</target>
+   </trans-unit>
+   <trans-unit id="137">
+    <source>Will take no action</source>
+    <target>FR_Will take no action</target>
+   </trans-unit>
+   <trans-unit id="138">
+    <source>Click on Edit button to enable notifications</source>
+    <target>FR_Click on Edit button to enable notifications</target>
+   </trans-unit>
+
+ 
+
+
   </body>
  </file>
 </xliff>
