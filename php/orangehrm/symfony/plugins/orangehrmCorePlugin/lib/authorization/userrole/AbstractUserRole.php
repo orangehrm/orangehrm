@@ -33,10 +33,10 @@ abstract class AbstractUserRole {
     protected $userRoleManager;
     
     protected $roleName;
-    
+ 
     public function __construct($roleName, $userRoleManager) {
         $this->userRoleManager = $userRoleManager;
-        $this->roleName = $roleName;
+        $this->roleName = $roleName;        
     }
 
     public function getSystemUserService() {
@@ -83,7 +83,49 @@ abstract class AbstractUserRole {
     public function setOperationalCountryService($operationalCountryService) {
         $this->operationalCountryService = $operationalCountryService;
     }
-    
+       
+    public function getAccessibleEntities($entityType, $operation = null, $returnType = null, $requiredPermissions = array()) {
+
+        switch ($entityType) {
+            case 'Employee':
+                $entities = $this->getAccessibleEmployees($operation, $returnType, $requiredPermissions);
+                break;
+        }
+        return $entities;
+    }
+
+    public function getAccessibleEntityProperties($entityType, $properties = array(), $orderField = null, $orderBy = null, $requiredPermissions = array()) {
+
+        switch ($entityType) {
+            case 'Employee':
+                $propertyList = $this->getAccessibleEmployeePropertyList($properties, $orderField, $orderBy, $requiredPermissions);
+                break;
+        }
+        return $propertyList;
+    }
+
+    public function getAccessibleEntityIds($entityType, $operation = null, $returnType = null, $requiredPermissions = array()) {   
+        
+        switch ($entityType) {
+            case 'Employee':
+                $ids = $this->getAccessibleEmployeeIds($operation, $returnType, $requiredPermissions);                
+                break;
+            case 'SystemUser':
+                $ids = $this->getAccessibleSystemUserIds($operation, $returnType);
+                break;
+            case 'OperationalCountry':
+                $ids = $this->getAccessibleOperationalCountryIds($operation, $returnType);
+                break;
+            case 'UserRole':
+                $ids = $this->getAccessibleUserRoleIds($operation, $returnType);
+                break;
+            case 'Location':
+                $ids = $this->getAccessibleLocationIds($operation, $returnType);
+                break;
+        }
+        return $ids;
+    }
+
     public abstract function getAccessibleEmployees($operation = null, $returnType = null, $requiredPermissions = array());
     
     public abstract function getAccessibleEmployeePropertyList($properties, $orderField, $orderBy, $requiredPermissions = array());
