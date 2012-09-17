@@ -105,8 +105,11 @@ $messageType = empty($messageType) ? '' : "messageBalloon_{$messageType}";
 
         //open when the pencil mark got clicked
         $('.dialogInvoker').click(function() {
+            $("#leaveComment").attr("disabled","disabled");
             //removing errors message in the comment box
             $("#commentError").html("");
+
+            $("#commentSave").attr("value", "<?php echo __('Edit'); ?>");
 
             /* Extracting the request id */
             var id = $(this).parent().siblings('input[id^="hdnLeaveRequest_"]').val();
@@ -114,18 +117,6 @@ $messageType = empty($messageType) ? '' : "messageBalloon_{$messageType}";
                 var id = $(this).parent().siblings('input[id^="hdnLeave_"]').val();
             }
             
-            var comment = $('#hdnLeaveComment-' + id).val();
-            $('#leaveComment').val(comment);
-            
-            // If leave comment is empty , enable the edit mode
-            if( $('#leaveComment').val().trim() =="") {
-                $("#leaveComment").removeAttr("disabled");
-                $("#commentSave").attr("value", "<?php echo __('Save'); ?>");
-            } else {
-                $("#leaveComment").attr("disabled","disabled");
-                $("#commentSave").attr("value", "<?php echo __('Edit'); ?>");
-            }
-
             /* Extracting the status text */
             var status = $.trim($(this).closest('td').prev('td').text());
 
@@ -135,6 +126,7 @@ $messageType = empty($messageType) ? '' : "messageBalloon_{$messageType}";
                 $('#commentSave').hide();
             }
             
+            var comment = $('#hdnLeaveComment-' + id).val();
             var typeOfView = (mode == 'compact') ? 'request' : 'leave';
 
             $('#leaveId').val(id);
