@@ -39,7 +39,6 @@
 	<li><a href="#overview">Overview</a></li>
 	<li><a href="#pre-requisites">Pre-requisites</a>
 	<ol class="content_table_sub">
-		<li><a href="#appliance">OrangeHRM Appliance for Windows</a></li>
 		<li><a href="#windows">AMP stack for Windows</a></li>
 		<li><a href="#linux">AMP stack for Linux</a></li>
 	</ol>
@@ -80,10 +79,10 @@ who wish to manually configure OrangeHRM can refer the <a class="see"
 	href="../../faq.html">OrangeHRM FAQ</a>.</p>
 <div id="overview" class="section">
 <h2>Overview</h2>
-<p>This Guide describes how to install OrangeHRM 2.2. It is intended
+<p>This Guide describes how to install OrangeHRM. It is intended
 for experienced administrators and novices alike. After installation,
 you can configure users and do other administrative tasks. To install
-OrangeHRM 2.2, ensure that you have the appropriate Pre-requisites: See
+OrangeHRM, ensure that you have the appropriate Pre-requisites: See
 <a href="#pre-requisites" class="see">Pre-requisites</a></p>
 
 <div class="navigate"><a href="javascript:window.history.go(-1);"><img
@@ -106,13 +105,13 @@ OrangeHRM 2.2, ensure that you have the appropriate Pre-requisites: See
 </p>
 <p>If you already have Apache HTTP web server (and PHP5 loaded as an
 Apache Module) and MySQL running, then you have everything you need.
-(Note: OrangeHRM 2.2 requires PHP5)</p>
+(Note: OrangeHRM requires PHP5)</p>
 <p>In case you don't have the requisites setup, you have two options.
 
 <ul>
 	<li>
 		Use OrangeHRM Appliance for Windows. Just install and use. 
-		See <a href="#appliance" class="see">OrangeHRM Appliance for Windows</a>.
+		
 		</li>
 	<li>Use an AMP stack which has Apache, MySQL and PHP
 	pre-configured to work together. See <a href="#windows" class="see">AMP
@@ -125,32 +124,12 @@ Apache Module) and MySQL running, then you have everything you need.
 </ul>
 </p>
 
-<!-- OrangeHRM Appliance -->
-<div id="appliance">
-<h3>OrangeHRM Appliance for Windows - Everything configured for you</h3>
-<div class="info">
-	Default username is Admin and Password is changeThis1St. 
-</div>
-<br/>
-<div class="warning">
-	Remember to change the default password as soon as you log in. 
-</div>
-<p>
-	Click <a class="external" href="http://sourceforge.net/project/showfiles.php?group_id=156477&package_id=238421" target="_blank">here</a> to download.
-	<br/>
-	After downloading you only have to install the appliance using the friendly installer where you will only have
-	to choose the location to install. Everything else is pre-configured.	
-</p>
-</div>
+
 
 <!-- Pre-requisites - windows -->
 
 <div id="windows">
 <h3>AMP stack for Windows</h3>
-<div class="info">
-	It is recommended that you use the OrangeHRM Appliance for Windows.
-	If you use the OrangeHRM Appliance you just have to install and use.
-</div>
 <br/>
 <div class="warning">
 	Remember to enable InnoDB support. 
@@ -214,7 +193,7 @@ that comes with XAMPP Linux or given in the XAMPP site.</p>
 	class="code">nobody.nobody</span><br />
 Type the following in the shell. <span class="code">&lt;orangehrm&gt;</span>
 is the path where the OrangeHRM files are located. <br />
-Ex. /opt/xampp/htdocs/orangehrm2/</p>
+Ex. /opt/xampp/htdocs/orangehrm-[version_no]/</p>
 <p class="bash">$ chown -R nobody.nobody &lt;orangehrm&gt;</p>
 </div>
 
@@ -234,7 +213,7 @@ required later.</p>
 <div id="installation" class="section">
 <h2>Installation</h2>
 <h3 id="copying">Copying files</h3>
-<p>Copy <span class="code">OrangeHRM-ver-2.2.zip</span> into the
+<p>Copy <span class="code">OrangeHRM-[version_no].zip</span> into the
 document root of the Apache HTTP Server.</p>
 
 <div class="notes">
@@ -250,17 +229,17 @@ document root of the Apache HTTP Server.</p>
 </div>
 
 <h3 id="extracting">Extracting</h3>
-<p>Extract <span class="code">OrangeHRM-ver-2.2.zip</span> into the
+<p>Extract <span class="code">OrangeHRM-[version_no].zip</span> into the
 same folder, which would extract everything into a directory called
-'orangehrm2'.</p>
+'orangehrm-[version_no]'.</p>
 
 <h3>Web Installation</h3>
-<p>Using a JavaScript enabled browser go to <span class="code">http://&lt;webhost&gt;/orangehrm2/</span><br />
+<p>Using a JavaScript enabled browser go to <span class="code">http://&lt;webhost&gt;/orangehrm-[version_no]/</span><br />
 <br />
 Where <span class="code">&lt;webhost&gt;</span> is <span class="code">localhost</span>
 if it is installed in the machine you are currenty working on, IP
 address if it is remotely hosted (i.e. external to the machine you are
-using. <br />
+using.) <br />
 <br />
 See <a href="#webinstallation" class="see">Web Installation</a>.</p>
 
@@ -269,8 +248,8 @@ See <a href="#webinstallation" class="see">Web Installation</a>.</p>
 <p>
 <ul>
 	<li><a href="http://www.mozilla.com/firefox/" class="external"
-		target="_blank">Mozilla Firefox</a> 12 or later.</li>
-	<li>Microsoft<sup>&reg;</sup> Internet Explorer 9 or later.</li>
+		target="_blank">Mozilla Firefox</a> 12.</li>
+	<li>Microsoft<sup>&reg;</sup> Internet Explorer 9.</li>
 </ul>
 </p>
 </div>
@@ -293,6 +272,9 @@ See <a href="#webinstallation" class="see">Web Installation</a>.</p>
 briefly what it would be doing to install OrangeHRM</p>
 <p>Click <b>[Next]</b> button in the Welcome screen to proceed with
 the installation.</p>
+<div class="screenshot"><img src="../images/welcome.png"
+	alt="Please refer the INSTALL.HTM in OrangeHRM source for pictures"
+	width="797" height="325" /></div>
 
 <h3 id="license">License Acceptance</h3>
 
@@ -301,6 +283,10 @@ the installation.</p>
 	target="_blank">GNU GENERAL PUBLIC LICENSE</a> and to continue the
 installation you will have to accept the license. If you decline simply
 discontinue the installation and delete all OrangeHRM files you posses.</p>
+
+<div class="screenshot"><img src="../images/license.png"
+	alt="Please refer the INSTALL.HTM in OrangeHRM source for pictures"
+	width="797" height="400" /></div>
 
 <p>Click <b>[I Accept]</b> button in the License Acceptance screen
 if you accept the terms and conditions of the license. Then you will be
@@ -331,6 +317,10 @@ same screen.</p>
 
 <p>Click <b>[Next]</b> button in the System Check screen to
 continue.</p>
+
+<div class="screenshot"><img src="../images/systemcheck.png"
+	alt="Please refer the INSTALL.HTM in OrangeHRM source for pictures"
+	width="797" height="400" /></div>
 
 <div class="notes">
 <h4>OrangeHRM Configuration File  Writeable</h4>
@@ -390,6 +380,18 @@ should read as<br>
 .<br>
 .<br/>
 </p>
+
+<h4 id="howToEnableEventScheduler">How to enable event scheduler in MySQL</h4>
+<p>To enable "event_scheduler" please open "my" (or "my.cnf") file in a text editor and add the text "event_scheduler=ON" under "Basic Settings" section and restart the MySQL server.</p>
+<p class="bash">
+[mysqld]<br>
+#<br>
+# * Basic Settings<br>
+#<br>
+event_scheduler=ON#<br>
+#<br>
+</p>
+
 <p>(in XAMPP for windows my.cnf is found in C:\xampp\mysql\bin\my.cnf)<br>
 (in XAMPP for linux my.cnf is found in /opt/lampp/etc/my.cnf)
 </p>
@@ -402,6 +404,10 @@ should read as<br>
 	border="0" class="top" /></a></div>
 
 <h3 id="DBCreation">Database Creation</h3>
+
+<div class="screenshot"><img src="../images/database.png"
+	alt="Please refer the INSTALL.HTM in OrangeHRM source for pictures"
+	width="797" height="400" /></div>
 
 <p>Enter the relevant information about your MySQL database server
 and database users.<br />
@@ -429,6 +435,11 @@ have OrangeHRM use Privileged user account.</p>
 </div>
 
 <h3 id="adminUsrCrt">Admin User Creation</h3>
+
+<div class="screenshot"><img src="../images/admincreation.png"
+	alt="Please refer the INSTALL.HTM in OrangeHRM source for pictures"
+	width="575" height="325" /></div>
+
 <p>Type in the Admin Username, Password and Confirm Admin User
 Password.<br />
 Click <b>[Next]</b> button in Admin User Creation Screen to continue.</p>
@@ -439,6 +450,11 @@ Click <b>[Next]</b> button in Admin User Creation Screen to continue.</p>
 	border="0" class="top" /></a></div>
 
 <h3 id="confirm">Confirmation</h3>
+
+<div class="screenshot"><img src="../images/confirmation.png"
+	alt="Please refer the INSTALL.HTM in OrangeHRM source for pictures"
+	width="575" height="325" /></div>
+
 <p>Confirm whether the installation details are correct and Click <b>[Install]</b>
 button in the Confirmation screen to install.</p>
 
@@ -526,6 +542,11 @@ name for the database.</p>
 <br />
 
 <h3 id="registration">Registration</h3>
+
+<div class="screenshot"><img src="../images/registration.png"
+	alt="Please refer the INSTALL.HTM in OrangeHRM source for pictures"
+	width="797" height="400" /></div>
+
 <p>If you want be up to date on news about OrangeHRM, please provide
 your e-mail address and a name that the e-mails should be addressed to. It
 will be much appreciated if you register here, then we will know how
@@ -551,6 +572,11 @@ to skip this step and you will not be registered.</p>
 <h3>Login into OrangeHRM</h3>
 <p>Now use the Admin Username and Password you have given earlier to
 login into OrangeHRM.</p>
+
+<div class="screenshot"><img src="../images/login.png"
+	alt="Please refer the INSTALL.HTM in OrangeHRM source for pictures"
+	width="700" height="400" /></div>
+
 <div class="navigate"><a href="javascript:window.history.go(-1);"><img
 	src="../images/back.gif" width="15" height="15" border="0" class="back" /></a>
 <a href="#"><img src="../images/top.gif" width="15" height="15"
