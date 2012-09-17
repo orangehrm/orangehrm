@@ -40,6 +40,9 @@
     <div class="outerbox" style="width:800px">
 
         <div class="mainHeading"><h2 id="addCandidateHeading"><?php echo __("Apply for") . " " . $name; ?></h2></div>
+        
+        <?php include_component('core', 'ohrmPluginPannel', array('location' => 'add_layout_after_main_heading_1')) ?>
+        
         <form name="frmAddCandidate" id="frmAddCandidate" method="post" enctype="multipart/form-data">
 
             <?php echo $form['_csrf_token']; ?>
@@ -76,6 +79,9 @@
                 <br class="clear"/>
                 <label id="toDate" class="helpText"><?php echo __('Last Name'); ?><span class="required">*</span></label>
             </div>
+            
+            <?php include_component('core', 'ohrmPluginPannel', array('location' => 'add_layout_after_main_heading_2')) ?>
+            
             <br class="clear"/>
             <br class="clear"/>
             <div class="newColumn">
@@ -120,6 +126,9 @@
                 <div class="errorHolder below"></div>
             </div>
             <br class="clear" />
+            
+            <?php include_component('core', 'ohrmPluginPannel', array('location' => 'add_layout_after_main_heading_3')) ?>
+            
             <div class="formbuttons">
                 <input type="button" class="savebutton" name="btnSave" id="btnSave"
                        value="<?php echo __("Submit"); ?>"onmouseover="moverButton(this);" onmouseout="moutButton(this);"/><span id="backLink"><?php echo __("Back to Job List"); ?></span>
