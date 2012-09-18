@@ -190,9 +190,13 @@ class BaseService {
     private function _fillPlaceholders($query, $parameters, $fulltext = false) {
         $patterns = array();
         $replacements = array();
+        $pdo = Doctrine_Manager::connection()->getDbh();
         foreach ($parameters as $key => $value) {
             $patterns[] = "/\{{$key}\}/";
-            $replacements[] = ($fulltext) ? preg_replace('/\b([a-zA-z]{3})\b/', '$0_', $value) : $value;
+            $replacement = ($fulltext) ? preg_replace("/\b([a-zA-z_0-9\\-\\+\\*\\#]{3})\b/", "$0_", $value) : $value;
+            
+            // Escape the replacement and remove the quotes from it, because the quotes will be added in the query_extensions.yml files
+            $replacements[] = substr($pdo->quote($replacement), 1, -1);
         }
         return preg_replace($patterns, $replacements, $query);
     }
