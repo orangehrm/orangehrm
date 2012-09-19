@@ -50,7 +50,16 @@ class ohrmAuthorizationFilter extends sfFilter {
         
 
         $logger = Logger::getLogger('filter.ohrmAuthorizationFilter');
-        
+
+        try {
+            $userRoleManager = UserRoleManagerFactory::getUserRoleManager();
+            $this->context->setUserRoleManager($userRoleManager);
+
+        } catch (Exception $e) {
+            $logger->error('Exception: ' . $e);
+            $this->forwardToSecureAction();
+        }
+
         // disable security on non-secure actions
         try {
             $secure = $this->context->getController()->getActionStack()->getLastEntry()->getActionInstance() ->getSecurityValue('is_secure');
@@ -66,9 +75,6 @@ class ohrmAuthorizationFilter extends sfFilter {
         }    
 
         try {
-            $userRoleManager = UserRoleManagerFactory::getUserRoleManager();  
-            $this->context->setUserRoleManager($userRoleManager);
-            
             $permissions = $userRoleManager->getScreenPermissions($moduleName, $actionName);
         } catch (Exception $e) {                    
             $logger->error('Exception: ' . $e);            

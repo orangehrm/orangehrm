@@ -95,7 +95,7 @@ class UserRoleManagerService {
         if ($systemUser instanceof SystemUser) {
             $manager->setUser($systemUser);
         } else {
-            throw new ServiceException('Logged in user does not have corresponding SystemUser record. UserId=' . $userId );
+            //throw new ServiceException('Logged in user does not have corresponding SystemUser record. UserId=' . $userId );
         }
         
         return $manager;
