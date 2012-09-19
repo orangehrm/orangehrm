@@ -116,6 +116,35 @@ class UserRoleManagerServiceTest extends PHPUnit_Framework_TestCase {
         }
     }
     
+    public function testGetUserRoleManagerNoLoggedInUser() {
+        $configDao = $this->getMock('ConfigDao', array('getValue'));
+        $configDao->expects($this->once())
+                ->method('getValue')
+                ->with(UserRoleManagerService::KEY_USER_ROLE_MANAGER_CLASS)
+                ->will($this->returnValue('UnitTestUserRoleManager'));
+        
+
+        $authenticationService = $this->getMock('AuthenticationService', array('getLoggedInUserId'));
+        $authenticationService->expects($this->once())
+                              ->method('getLoggedInUserId')
+                              ->will($this->returnValue(NULL));
+        
+        
+        $systemUserService = $this->getMock('SystemUserService', array('getSystemUser'));
+        $systemUserService->expects($this->once())
+                          ->method('getSystemUser')
+                          ->with(NULL)
+                          ->will($this->returnValue(NULL));
+        
+        $this->service->setConfigDao($configDao);
+        $this->service->setAuthenticationService($authenticationService);
+        $this->service->setSystemUserService($systemUserService);        
+            
+        $manager = $this->service->getUserRoleManager();
+        $this->assertNull($manager->getUser(), "user should be null when no logged in user ");
+            
+    }    
+    
 }
 
 class InvalidUserRoleManager {

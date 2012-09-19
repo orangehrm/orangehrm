@@ -70,6 +70,9 @@ class UserRoleManagerService {
     }
     
     public function getUserRoleManager() {
+        
+        $logger = Logger::getLogger('core.UserRoleManagerService');
+        
         $class = $this->getUserRoleManagerClassName();
         
         $manager = null;
@@ -95,7 +98,9 @@ class UserRoleManagerService {
         if ($systemUser instanceof SystemUser) {
             $manager->setUser($systemUser);
         } else {
-            //throw new ServiceException('Logged in user does not have corresponding SystemUser record. UserId=' . $userId );
+            if ($logger->isInfoEnabled() ) {
+                $logger->info('No logged in system user when creating UserRoleManager');
+            }            
         }
         
         return $manager;
