@@ -105,5 +105,14 @@ abstract class AbstractUserRoleDecorator extends AbstractUserRole {
         }
     }
 
+    protected function mergeEntities($list1, $list2) {
+
+        foreach ($list2 as $id => $ent) {
+            if (!isset($list1[$id])) {
+                $list1[$id] = $ent;
+            }
+        }
+        return $list1;
+    }    
 }
 
