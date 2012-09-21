@@ -26,12 +26,16 @@ require_once $confPath;
 $c = new Conf();
 
 $testDb = 'test_' . $c->dbname;
+$dbUser = $c->dbuser;
+$dbHost = $c->dbhost;
 
 $tempFile = tempnam(sys_get_temp_dir(), 'ohrmtestdb');
  
 echo "Please enter mysql root password when prompted.\n";
 
-$createdbStatement = "DROP DATABASE IF EXISTS {$testDb}; CREATE DATABASE {$testDb};USE {$testDb};\n";
+$createdbStatement = "DROP DATABASE IF EXISTS {$testDb}; CREATE DATABASE {$testDb};USE {$testDb};" .
+                     "GRANT ALL on `{$testDb}`.* to \"{$dbUser}\"@\"{$dbHost}\";\n";
+
 file_put_contents($tempFile, $createdbStatement);
 
 $cmd = "mysqldump -u root -p --add-drop-table --routines {$c->dbname} >> {$tempFile}";
