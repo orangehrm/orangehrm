@@ -73,21 +73,31 @@ class ohrmWidgetSubDivisionList extends sfWidgetForm implements ohrmEnhancedEmbe
 
         foreach ($tree as $node) {
             if ($node->getId() != 1) {
-                $value = $node->getId();
-                $children = $node->getNode()->getChildren();
+                $value = $this->getSubUnitsChain($node);
 
-                if ($children !== false) {
-                    foreach ($children as $childNode) {
-                        $value = $value . "," . $childNode->getId();
-                    }
-                }
                 $choice[$value] = str_repeat('&nbsp;&nbsp;', $node['level'] - 1) . $node['name'];
             }
         }
 //        asort($choice);
         return $choice;
     }
+    
+    /**
+     * Get Sub units chain
+     * @param type $node parent subunit
+     * @return string Chain of subunits ids, separated by commas
+     */
+    public function getSubUnitsChain($node){
+        $value = $node->getId();
+        $children = $node->getNode()->getChildren();
 
+                if ($children !== false) {
+                     foreach ($children as $childNode) {
+                            $value = $value . "," . $this->getSubUnitsChain($childNode);
+                     }
+                }
+         return $value;
+    }
     /**
      * Embeds this widget into the form. Sets label and validator for this widget.
      * @param sfForm $form

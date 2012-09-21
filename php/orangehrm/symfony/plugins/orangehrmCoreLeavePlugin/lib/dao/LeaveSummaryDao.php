@@ -124,7 +124,7 @@ class LeaveSummaryDao extends BaseDao {
             $q = "SELECT * 
             	FROM ( ";
             
-            $q .= self::getLeaveSummarySearchQuery($clues);
+            $q .= $this->getLeaveSummarySearchQuery($clues);
                         
             $q .= " LIMIT $offset,$limit";
     
@@ -151,7 +151,7 @@ class LeaveSummaryDao extends BaseDao {
             $q = "SELECT COUNT(emp_number) 
             	FROM ( ";
     	    
-            $q .= self::getLeaveSummarySearchQuery($clues);
+            $q .= $this->getLeaveSummarySearchQuery($clues);
     
             $pdo = Doctrine_Manager::connection()->getDbh();
             $res = $pdo->query($q);
@@ -176,7 +176,7 @@ class LeaveSummaryDao extends BaseDao {
      * @param Array $clues
      * @return String $query
      */
-    private function getLeaveSummarySearchQuery($clues) {
+    protected function getLeaveSummarySearchQuery($clues) {
         $q = "
  				SELECT 
  					CONCAT_WS(' ',TRIM(CONCAT_WS(' ',a.emp_firstname, a.emp_middle_name)), a.emp_lastname)  as emp_fullname, 
@@ -258,7 +258,7 @@ class LeaveSummaryDao extends BaseDao {
         }
 
         if (!empty($clues['cmbLocation'])) {
-            $where[] = "c.location_id = '{$clues['cmbLocation']}'";
+            $where[] = "c.location_id IN ({$clues['cmbLocation']})";
         }
 
         if(empty($clues['cmbWithTerminated'])) {
