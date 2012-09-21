@@ -67,7 +67,11 @@ class viewLeaveRequestAction extends sfAction {
         }
 
         if (isset($_SESSION['isAdmin']) && $_SESSION['isAdmin'] == 'Yes') {
-            $userMode = 'Admin';
+            if ($this->getMode($requesterEmpNumber) == self::MODE_MY_LEAVE_DETAILED_LIST) {
+                $userMode = 'ESS';
+            } else {
+                $userMode = 'Admin';
+            }
         }
         
         return ($userMode == 'ESS');
