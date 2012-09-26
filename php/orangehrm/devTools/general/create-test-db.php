@@ -33,7 +33,7 @@ $tempFile = tempnam(sys_get_temp_dir(), 'ohrmtestdb');
  
 echo "Please enter mysql root password when prompted.\n";
 
-$createdbStatement = "DROP DATABASE IF EXISTS {$testDb}; CREATE DATABASE {$testDb};USE {$testDb};" .
+$createdbStatement = "DROP DATABASE IF EXISTS `{$testDb}`; CREATE DATABASE `{$testDb}`;USE `{$testDb}`;" .
                      "GRANT ALL on `{$testDb}`.* to \"{$dbUser}\"@\"{$dbHost}\";\n";
 
 file_put_contents($tempFile, $createdbStatement);
