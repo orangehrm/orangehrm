@@ -89,7 +89,13 @@
 
 <script type="text/javascript">
 	var employees = <?php echo str_replace('&#039;', "'", $form->getEmployeeListAsJson());?>;
-	var employeeList = eval(employees);
+    
+    if (employees == null) {
+        var employeeList = new Array();
+    } else {
+        var employeeList = eval(employees);
+    }
+    
 	var workShifts = <?php echo str_replace('&#039;', "'", $form->getWorkShiftListAsJson());?>;
 	var workShiftList = eval(workShifts);
 	var lang_NameRequired = '<?php echo __(ValidationMessages::REQUIRED); ?>';
