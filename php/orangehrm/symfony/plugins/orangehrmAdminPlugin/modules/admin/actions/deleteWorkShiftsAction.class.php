@@ -38,7 +38,9 @@ class deleteWorkShiftsAction extends sfAction {
 			foreach ($toBeDeletedShiftIds as $toBeDeletedShiftId) {
 
 				$shift = $this->getWorkShiftService()->getWorkShiftById($toBeDeletedShiftId);
-				$shift->delete();
+                if ($shift instanceof WorkShift) {
+                    $shift->delete();
+                }
 			}
 			$this->getUser()->setFlash('templateMessage', array('success', __(TopLevelMessages::DELETE_SUCCESS)));
 		}
