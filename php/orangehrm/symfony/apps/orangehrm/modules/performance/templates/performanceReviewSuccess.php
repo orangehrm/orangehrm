@@ -64,7 +64,7 @@
                         <div id="performanceError" class="hide">
                             <div id='messageBalloon_failure' class='messageBalloon_failure' ><ul></ul></div>
                         </div>
-                        <table cellpadding="0" cellspacing="0" class="data-table prData" align="center">
+                        <table cellpadding="0" cellspacing="0" class="data-table prData" align="center" width="100%">
                             <thead>
                                 <tr>
 
@@ -292,7 +292,9 @@
             $('#frmSave :input').removeAttr('readonly');
             if(checkSubmit()){
                 $('#saveMode').val('submit');
-                $('#processing').html('<div class="messageBalloon_success">'+"<?php echo __('Processing'); ?>"+'...</div>');
+                if($('#frmSave').valid()) {
+                    $('#processing').html('<div class="messageBalloon_success">'+"<?php echo __('Processing'); ?>"+'...</div>');
+                }                
                 $('#frmSave').submit();
             }
         });
