@@ -215,7 +215,7 @@
         //Validation
         $("#frmLeaveApply").validate({
             rules: {
-                'assignleave[txtEmployee][empName]':{required: true },
+                'assignleave[txtEmployee][empName]':{validEmployeeName: true },
                 'assignleave[txtLeaveType]':{required: true },
                 'assignleave[txtFromDate]': {
                     required: true,
@@ -248,7 +248,7 @@
             },
             messages: {
                 'assignleave[txtEmployee][empName]':{
-                    required:'<?php echo __(ValidationMessages::REQUIRED); ?>'
+                    validEmployeeName:'<?php echo __(ValidationMessages::REQUIRED); ?>'
                 },
                 'assignleave[txtLeaveType]':{
                     required:'<?php echo __(ValidationMessages::REQUIRED); ?>'
@@ -282,6 +282,18 @@
                     error.insertAfter(element.next());
                 }
             }
+        });
+
+        $.validator.addMethod("validEmployeeName", function(value, element) {
+            
+            var empName = $('#assignleave_txtEmployee_empName').val();
+            
+            if (empName == '' || empName == '<?php echo __('Type for hints') . '...'; ?>') {
+                return false;
+            }
+            
+            return true;
+
         });
 
         $.validator.addMethod("validTotalTime", function(value, element) {
@@ -343,8 +355,13 @@
             if($('#assignleave_txtToDate').val() == displayDateFormat ){
                 $('#assignleave_txtToDate').val("");
             }
-            $('#processing').html('<div class="messageBalloon_success">'+"<?php echo __('Processing') ;?>"+'...</div>');
+            
+            if($('#frmLeaveApply').valid()) {
+                $('#processing').html('<div class="messageBalloon_success">'+"<?php echo __('Processing') ;?>"+'...</div>');
+            }
+            
             $('#frmLeaveApply').submit();
+            
         });
 
         $("#assignleave_txtEmployee_empName").change(function(){
