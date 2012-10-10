@@ -131,26 +131,22 @@ class SupervisorUserRoleDecorator extends UserRoleDecorator {
         }
 
 	public function getAccessibleAttendanceSubMenus() {
-		$topMenuItemArray = $this->user->getAccessibleAttendanceSubMenus();
-		$topMenuItem = new TopMenuItem();
-		$topMenuItem->setDisplayName(__("Employee Records"));
-		$topMenuItem->setLink(SupervisorUserRoleDecorator::VIEW_ATTENDANCE_RECORD_LINK);
-        
-		if ($this->isPluginAvailable('orangehrmAttendanceDataExtractorPlugin')){
-		    $topMenuItem = new TopMenuItem();
-		    $topMenuItem->setDisplayName(__("Export To CSV"));
-		    $topMenuItem->setLink(AdminUserRoleDecorator::CSV_ATTENDANCE_EXPORT);
-		 }
-
-        if ($this->isPluginAvailable('orangehrmAttendanceDataExtractorPlugin')){
+            $topMenuItemArray = $this->user->getAccessibleAttendanceSubMenus();
+            
             $topMenuItem = new TopMenuItem();
-            $topMenuItem->setDisplayName(__("Export To CSV"));
-            $topMenuItem->setLink(AdminUserRoleDecorator::CSV_ATTENDANCE_EXPORT);
-         }
+            $topMenuItem->setDisplayName(__("Employee Records"));
+            $topMenuItem->setLink(SupervisorUserRoleDecorator::VIEW_ATTENDANCE_RECORD_LINK);
+            $topMenuItemArray = $this->__chkAndPutItemsToArray($topMenuItemArray, $topMenuItem);
 
-        $topMenuItemArray = $this->__chkAndPutItemsToArray($topMenuItemArray, $topMenuItem);
-		return $topMenuItemArray;
-	}
+            if ($this->isPluginAvailable('orangehrmAttendanceDataExtractorPlugin')) {
+                $topMenuItem = new TopMenuItem();
+                $topMenuItem->setDisplayName(__("Export To CSV"));
+                $topMenuItem->setLink(AdminUserRoleDecorator::CSV_ATTENDANCE_EXPORT);
+                $topMenuItemArray = $this->__chkAndPutItemsToArray($topMenuItemArray, $topMenuItem);                
+            }
+            
+            return $topMenuItemArray;
+        }
 
 	public function getAccessibleReportSubMenus() {
 
