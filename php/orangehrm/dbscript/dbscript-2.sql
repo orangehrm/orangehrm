@@ -1042,7 +1042,7 @@ INSERT INTO `ohrm_selected_composite_display_field` (`id`, `composite_display_fi
                                                            (3, 2, 2);
 
 INSERT INTO `ohrm_summary_display_field` (`summary_display_field_id`, `function`, `label`, `field_alias`, `is_sortable`, `sort_order`, `sort_field`, `element_type`, `element_property`, `width`, `is_exportable`, `text_alignment_style`, `is_value_list`, `display_field_group_id`, `default_value`) VALUES (1, 'ROUND(COALESCE(sum(duration)/3600, 0),2)', 'Time (Hours)', 'totalduration', 'false', null, null, 'label', '<xml><getter>totalduration</getter></xml>', 100, 'false', 'right', false, null, null),
-                                                (2, 'ROUND(COALESCE(sum(TIMESTAMPDIFF(SECOND , ohrm_attendance_record.punch_in_utc_time , ohrm_attendance_record.punch_out_utc_time))/3600, 0),2)', 'Time (hours)', 'totalduration', 'false', null, null, 'label', '<xml><getter>totalduration</getter></xml>', 100, 'false', 'right', false, null, null);
+                                                (2, 'ROUND(COALESCE(sum(TIMESTAMPDIFF(SECOND , ohrm_attendance_record.punch_in_utc_time , ohrm_attendance_record.punch_out_utc_time))/3600, 0),2)', 'Time (Hours)', 'totalduration', 'false', null, null, 'label', '<xml><getter>totalduration</getter></xml>', 100, 'false', 'right', false, null, null);
 
 INSERT INTO `ohrm_selected_group_field` (`group_field_id`, `summary_display_field_id`, `report_id`) VALUES (1, 1, 1),
                                                (1, 1, 2),

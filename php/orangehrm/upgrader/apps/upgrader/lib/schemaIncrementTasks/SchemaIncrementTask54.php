@@ -378,6 +378,9 @@ class SchemaIncrementTask54 extends SchemaIncrementTask {
         $sql[37] = "UPDATE `ohrm_display_field` SET `label` = 'Eligibility Status' WHERE `display_field_id` = 87";
         $sql[38] = "UPDATE `ohrm_display_field` SET `label` = 'Eligibility Review Date' WHERE `display_field_id` = 89";
         
+        /* Fix for attendance summary total */
+        $sql[39] = "UPDATE `ohrm_summary_display_field` SET `label` = 'Time (Hours)' WHERE `summary_display_field_id` = 2";
+        
         $this->sql = $sql;
         
     }
