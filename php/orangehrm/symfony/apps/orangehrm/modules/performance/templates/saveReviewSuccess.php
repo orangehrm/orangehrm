@@ -194,7 +194,11 @@
             if($('#txtDueDate-0').val() == displayDateFormat){
                 $('#txtDueDate-0').val("")
             }
-            $('#processing').html('<div class="messageBalloon_success">'+"<?php echo __('Processing') ;?>"+'...</div>');
+                        
+            if($('#frmSave').valid()) {
+                $('#processing').html('<div class="messageBalloon_success">'+"<?php echo __('Processing') ;?>"+'...</div>');
+            }            
+            
             $('#frmSave').submit();
         });
 
