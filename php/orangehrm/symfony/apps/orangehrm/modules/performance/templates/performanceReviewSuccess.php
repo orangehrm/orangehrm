@@ -63,7 +63,7 @@
 				   <div id="performanceError" class="hide">
 				   	<div id='messageBalloon_failure' class='messageBalloon_failure' ><ul></ul></div>
 				   </div>
-                        <table cellpadding="0" cellspacing="0" class="data-table prData" align="center" width="100%">
+                        <table cellpadding="0" cellspacing="0" class="data-table prData" align="left" width="100%">
 					<thead>
             		<tr>
 
