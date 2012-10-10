@@ -321,7 +321,11 @@
             if($('#applyleave_txtToDate').val() == displayDateFormat){
                 $('#applyleave_txtToDate').val("");
             }
-            $('#processing').html('<div class="messageBalloon_success">'+"<?php echo __('Processing') ;?>"+'...</div>');
+            
+            if($('#frmLeaveApply').valid()) {
+                $('#processing').html('<div class="messageBalloon_success">'+"<?php echo __('Processing') ;?>"+'...</div>');
+            }            
+            
             $('#frmLeaveApply').submit();
         });
     });
