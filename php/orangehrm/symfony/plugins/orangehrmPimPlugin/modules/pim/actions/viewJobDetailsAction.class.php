@@ -24,14 +24,24 @@
 class viewJobDetailsAction extends basePimAction {
 
     public function execute($request) {
-
+        
         $loggedInEmpNum = $this->getUser()->getEmployeeNumber();
         $loggedInUserName = $_SESSION['fname'];
 
         $job = $request->getParameter('job');
         $empNumber = (isset($job['emp_number'])) ? $job['emp_number'] : $request->getParameter('empNumber');
+        
+        /*
+         * TODO: $empNumber gets empty when uploaded file size exceeds PHP max upload size.
+         * Check for a better solution.
+         */
+        if (empty($empNumber)) {
+            $this->getUser()->setFlash('templateMessage', array('warning', __(TopLevelMessages::FILE_SIZE_SAVE_FAILURE)));
+            $this->redirect($request->getReferer());
+        }
+        
         $this->empNumber = $empNumber;
-
+        
         $this->jobInformationPermission = $this->getDataGroupPermissions('job_details', $empNumber);
         $this->ownRecords = ($loggedInEmpNum == $empNumber) ? true : false;
 
