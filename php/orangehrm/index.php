@@ -748,7 +748,16 @@ if (($_SESSION['empID'] != null) || $arrAllRights[Benefits]['view']) {
 }
    Disabling Benefits module: Ends */
 
+/** Asset Tracker Menu items */
+if (file_exists('symfony/plugins/orangehrmAssetTrackerPlugin/lib/menu/asset_tracker_menu.php')) {    
+    include_once('symfony/plugins/orangehrmAssetTrackerPlugin/lib/menu/asset_tracker_menu.php');
+}
 
+/** Dashboard Menu items */
+if (file_exists('symfony/plugins/orangehrmDashboardPlugin/lib/menu/dashboard_menu.php')) {    
+    include_once('symfony/plugins/orangehrmDashboardPlugin/lib/menu/dashboard_menu.php');
+}
+    
 
 
 
