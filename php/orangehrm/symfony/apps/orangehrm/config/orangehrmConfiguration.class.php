@@ -9,10 +9,11 @@ class orangehrmConfiguration extends sfApplicationConfiguration
   /**
    * Configure doctrine connections to use tablename prefix hs_hr_
    */
-   public function configureDoctrine(Doctrine_Manager $manager) {
-	$manager->setAttribute(Doctrine_Core::ATTR_VALIDATE, Doctrine_Core::VALIDATE_ALL);
+    public function configureDoctrine(Doctrine_Manager $manager) {
+       
+        $manager->setAttribute(Doctrine_Core::ATTR_VALIDATE, Doctrine_Core::VALIDATE_ALL);
         $manager->setAttribute(Doctrine_Core::ATTR_USE_NATIVE_ENUM, true);
-
+        $manager->setAttribute(Doctrine_Core::ATTR_QUERY_CLASS, 'ohrmDoctrineQuery');
 
         //
         // If using encryption, enable dql callbacks. Needed by EncryptionListener
@@ -22,6 +23,6 @@ class orangehrmConfiguration extends sfApplicationConfiguration
         }
 
        //$manager->setAttribute(Doctrine::ATTR_TBLNAME_FORMAT, 'hs_hr_%s');
-   }
+    }
    
 }
