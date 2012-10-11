@@ -185,7 +185,12 @@ $_SESSION['path'] = ROOT_PATH;
 ?>
 <?php
 /* Default modules */
+$showingDefaultPage = false;
+
 if (!isset($_GET['menu_no_top'])) {
+    
+    $showingDefaultPage = true;
+    
     if ($_SESSION['isAdmin'] == 'Yes') {
         $_GET['menu_no_top'] = "hr";
     } else if ($_SESSION['isSupervisor']) {
@@ -805,54 +810,57 @@ if (isset($_SESSION['ladpUser']) && $_SESSION['ladpUser']) {
 
 $optionMenu[] = new MenuItem("logout", __($lang_index_Logout), './symfony/web/index.php/auth/logout', '_parent');
 
-// Decide on home page
-if (($_GET['menu_no_top'] == "eim") && ($arrRights['view'] || $allowAdminView)) {
-    $uniqcode = isset($_GET['uniqcode']) ? $_GET['uniqcode'] : $defaultAdminView;
-    $isAdmin = isset($_GET['isAdmin']) ? ('&amp;isAdmin=' . $_GET['isAdmin']) : '';
+if (!isset($home)) {
+    
+    // Decide on home page
+    if (($_GET['menu_no_top'] == "eim") && ($arrRights['view'] || $allowAdminView)) {
+        $uniqcode = isset($_GET['uniqcode']) ? $_GET['uniqcode'] : $defaultAdminView;
+        $isAdmin = isset($_GET['isAdmin']) ? ('&amp;isAdmin=' . $_GET['isAdmin']) : '';
 
-    /* TODO: Remove this pageNo variable */
-    $pageNo = isset($_GET['pageNo']) ? '&amp;pageNo=1' : '';
-    if (isset($_GET['uri'])) {
+        /* TODO: Remove this pageNo variable */
+        $pageNo = isset($_GET['pageNo']) ? '&amp;pageNo=1' : '';
+        if (isset($_GET['uri'])) {
+            $uri = (substr($_GET['uri'], 0, 11) == 'performance') ? $_GET['uri'] : 'performance/viewReview/mode/new';
+            $home = './symfony/web/index.php/' . $uri;
+        } else {
+            $home = "./symfony/web/index.php/admin/viewOrganizationGeneralInformation"; //TODO: Use this after fully converted to Symfony
+        }
+    } elseif (($_GET['menu_no_top'] == "hr") && $arrRights['view']) {
+
+        $home = "./symfony/web/index.php/pim/viewEmployeeList/reset/1";
+        if (isset($_GET['uri'])) {
+            $home = $_GET['uri'];
+        } elseif (isset($_GET['id'])) {
+            $home = "./symfony/web/index.php/pim/viewPersonalDetails?empNumber=" . $_GET['id'];
+        }
+    } elseif ($_GET['menu_no_top'] == "ess") {
+        $home = './symfony/web/index.php/pim/viewPersonalDetails?empNumber=' . $_SESSION['empID'];
+    } elseif ($_GET['menu_no_top'] == "leave") {
+        $home = $leaveHomePage;
+    } elseif ($_GET['menu_no_top'] == "time") {
+        $home = $timeHomePage;
+    } elseif ($_GET['menu_no_top'] == "benefits") {
+        $home = $beneftisHomePage;
+    } elseif ($_GET['menu_no_top'] == "recruit") {
+        $home = $recruitHomePage;
+    } elseif ($_GET['menu_no_top'] == "performance") {
         $uri = (substr($_GET['uri'], 0, 11) == 'performance') ? $_GET['uri'] : 'performance/viewReview/mode/new';
         $home = './symfony/web/index.php/' . $uri;
     } else {
-        $home = "./symfony/web/index.php/admin/viewOrganizationGeneralInformation"; //TODO: Use this after fully converted to Symfony
-    }
-} elseif (($_GET['menu_no_top'] == "hr") && $arrRights['view']) {
-
-    $home = "./symfony/web/index.php/pim/viewEmployeeList/reset/1";
-    if (isset($_GET['uri'])) {
-        $home = $_GET['uri'];
-    } elseif (isset($_GET['id'])) {
-        $home = "./symfony/web/index.php/pim/viewPersonalDetails?empNumber=" . $_GET['id'];
-    }
-} elseif ($_GET['menu_no_top'] == "ess") {
-    $home = './symfony/web/index.php/pim/viewPersonalDetails?empNumber=' . $_SESSION['empID'];
-} elseif ($_GET['menu_no_top'] == "leave") {
-    $home = $leaveHomePage;
-} elseif ($_GET['menu_no_top'] == "time") {
-    $home = $timeHomePage;
-} elseif ($_GET['menu_no_top'] == "benefits") {
-    $home = $beneftisHomePage;
-} elseif ($_GET['menu_no_top'] == "recruit") {
-    $home = $recruitHomePage;
-} elseif ($_GET['menu_no_top'] == "performance") {
-    $uri = (substr($_GET['uri'], 0, 11) == 'performance') ? $_GET['uri'] : 'performance/viewReview/mode/new';
-    $home = './symfony/web/index.php/' . $uri;
-} else {
-    $rightsCount = 0;
-    foreach ($arrAllRights as $moduleRights) {
-        foreach ($moduleRights as $right) {
-            if ($right) {
-                $rightsCount++;
+        $rightsCount = 0;
+        foreach ($arrAllRights as $moduleRights) {
+            foreach ($moduleRights as $right) {
+                if ($right) {
+                    $rightsCount++;
+                }
             }
         }
-    }
 
-    if ($rightsCount === 0) {
-        $home = 'message.php?case=no-rights&type=notice';
-    } else {
-        $home = "";
+        if ($rightsCount === 0) {
+            $home = 'message.php?case=no-rights&type=notice';
+        } else {
+            $home = "";
+        }
     }
 }
 
