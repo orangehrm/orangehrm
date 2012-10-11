@@ -1,7 +1,8 @@
 $(document).ready(function() {
     
     if (ldapInstalled) {
-        $('.passwordRequired').hide();
+        $("#password_required").hide();
+        $("#rePassword_required").hide();
     }    
 
     $("#chkLogin").attr("checked", true);
@@ -93,7 +94,7 @@ $(document).ready(function() {
     });
 
     $.validator.addMethod("validateReCheckPassword", function(value, element) {
-        if($("#chkLogin").attr('checked') == true && !ldapInstalled) {
+        if($("#chkLogin").attr('checked') == true) {
             if(value != $("#user_password").val()) {
                 return false;
             }

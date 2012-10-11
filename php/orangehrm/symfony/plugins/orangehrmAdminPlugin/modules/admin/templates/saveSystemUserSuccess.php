@@ -58,7 +58,7 @@ use_javascript('../../../scripts/jquery/jquery.autocomplete.js');
     var user_UserPasswordLength     =   '<?php echo __("Should have at least %number% characters", array('%number%' => 4)); ?>';
     var password_user               =   "<?php echo __("Very Weak").",".__("Weak").",".__("Better").",".__("Medium").",".__("Strong").",".__("Strongest")?>";
     var isEditMode                  = <?php echo ($form->edited)?'true':'false'; ?>;
-    var ldapInstalled               = <?php echo ($sf_user->hasAttribute('ldap.available'))?'true':'false'; ?>;
+    var ldapInstalled               = <?php echo ($sf_user->getAttribute('ldap.available'))?'true':'false'; ?>;
     var validator = null;
 
 </script>

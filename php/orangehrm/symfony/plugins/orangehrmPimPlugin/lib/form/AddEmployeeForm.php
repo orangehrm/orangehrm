@@ -146,8 +146,8 @@ class AddEmployeeForm extends sfForm {
             'chkLogin' => __('Create Login Details'),
             'lineSeperator' => '<div class="hrLine" id="lineSeperator">&nbsp;</div>',
             'user_name' => __('User Name') . '<span class="required">*</span>',
-            'user_password' => __('Password') . '<span class="required">*</span>',
-            're_password' => __('Confirm Password') . '<span class="required">*</span>',
+            'user_password' => __('Password') . '<span id="password_required" class="required">*</span>',
+            're_password' => __('Confirm Password') . '<span id="rePassword_required" class="required">*</span>',
             'status' => __('Status') . '<span class="required">*</span>',
 //            'helpText' => '<div class="helpText" style="width:160px;padding-top:5px;">' . __(CommonMessages::FILE_LABEL_IMAGE) . '</div>',
         );

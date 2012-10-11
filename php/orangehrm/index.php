@@ -787,7 +787,7 @@ for ($i=0; $i<$count; $i++) {
 
 $welcomeMessage = preg_replace('/#username/', ((isset($_SESSION['fname'])) ? $_SESSION['fname'] : ''), $i18n->__($lang_index_WelcomeMes));
 
-if (isset($_SESSION['ladpUser']) && $_SESSION['ladpUser'] && $_SESSION['isAdmin'] != "Yes") {
+if (isset($_SESSION['ladpUser']) && $_SESSION['ladpUser']) {
     $optionMenu = array();
 } else {
     $optionMenu[] = new MenuItem("changepassword", $i18n->__($lang_index_ChangePassword),
