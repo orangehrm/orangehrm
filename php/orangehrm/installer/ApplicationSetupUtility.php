@@ -446,7 +446,7 @@ public static function install() {
                       END";
         
         if (!mysql_query($query)) {
-            error_log (date("r")." MySQL Event Error:".mysql_erro()."\n",3, "installer/log.txt");
+            error_log (date("r")." MySQL Event Error:".mysql_error()."\n",3, "installer/log.txt");
             return false;
         }
         
