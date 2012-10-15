@@ -310,8 +310,8 @@ CandidateHistory:
       foreign: empNumber
       type: one
     JobInterview:
-      local: id
-      foreign: interviewId
+      local: interviewId
+      foreign: id
       type: one
 
 JobInterviewAttachment:

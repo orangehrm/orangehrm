@@ -117,7 +117,7 @@ abstract class BaseCandidateHistory extends sfDoctrineRecord
              'foreign' => 'empNumber'));
 
         $this->hasOne('JobInterview', array(
-             'local' => 'id',
-             'foreign' => 'interviewId'));
+             'local' => 'interviewId',
+             'foreign' => 'id'));
     }
 }
