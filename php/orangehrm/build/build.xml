@@ -64,6 +64,7 @@
             <exclude name="build/build.xml"/>
             <exclude name="devDocs/**"/>
             <exclude name="devTools/**"/>
+            <exclude name="nbproject/**"/>
             <exclude name="lib/**/testConf.php"/>
             <exclude name="lib/confs/Conf.php"/>
             <exclude name="lib/confs/cryptokeys/key.ohrm"/>
@@ -88,11 +89,18 @@
             <exclude name="symfony/lib/vendor/symfony/test/**"/>
         </fileset>
     </copy>
-	<copy todir="${dist.dir}">
-		<fileset dir="${project.dir}">
-			<include name="orangehrm-quick-start-guide.html"/>
-		</fileset>
-	</copy>
+
+    <!-- done this way to avoid some quirks in phing behavior -->
+    <delete includeemptydirs="true" failonerror="false" dir="${package.dir}/symfony/log"/>
+    <delete includeemptydirs="true" failonerror="false" dir="${package.dir}/symfony/cache"/>
+    <mkdir dir="${package.dir}/symfony/cache"/>
+    <mkdir dir="${package.dir}/symfony/log"/>
+
+    <copy todir="${dist.dir}">
+	<fileset dir="${project.dir}">
+	    <include name="orangehrm-quick-start-guide.html"/>
+	</fileset>
+    </copy>
   </target>
 
   <target name="dist" depends="build">
@@ -178,14 +186,6 @@
     <delete dir="${dist.dir}"/>
     <delete dir="${reports.dir}" />
     <delete><fileset refid="deleteFiles" /></delete>
-    <delete includeemptydirs="true" failonerror="true">
-            <fileset dir="${project.dir}/symfony/log">
-               <include name="*" />
-            </fileset>
-            <fileset dir="${project.dir}/symfony/cache">
-               <include name="**/**" />
-            </fileset>
-    </delete>
   </target>
 
   <!-- Target run by continuous integration server -->
