@@ -143,7 +143,8 @@ public static function fillData($phase=1, $source='/dbscript/dbscript-') {
 
 	error_log (date("r")." Fill Data Phase $phase - There are ".count($dbScriptStatements)." Statements in the DB script\n",3, "installer/log.txt");
 
-	for($c=0;(count($dbScriptStatements)-1)>$c;$c++)
+	for($c=0;(count($dbScriptStatements)-1)>$c;$c++) {
+                set_time_limit(30);
 		if(!@mysql_query($dbScriptStatements[$c])) {
 			$error = mysql_error() . ". Query: " . $dbScriptStatements[$c];
             $_SESSION['error'] = $error;
@@ -151,9 +152,11 @@ public static function fillData($phase=1, $source='/dbscript/dbscript-') {
 			error_log (date("r")." ".$dbScriptStatements[$c]."\n",3, "installer/log.txt");
 			return;
 		}
+        }
 
-	if(isset($error))
+	if (isset($error)) {
 		return;
+        }
 }
 
 public static function createDBUser() {
