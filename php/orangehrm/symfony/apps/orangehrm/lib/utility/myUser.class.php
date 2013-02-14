@@ -141,10 +141,10 @@ class myUser extends sfBasicSecurityUser {
     
     public function initialize(sfEventDispatcher $dispatcher, sfStorage $storage, $options = array()) {
         parent::initialize($dispatcher, $storage, $options);
-        
         if ($this->isTimedOut()) {
             $authService = new AuthenticationService();
-            $authService->clearCredentials();            
+            $authService->clearCredentials();    
+            $_SESSION = array();
         }
     }
 
