@@ -1,7 +1,6 @@
 <?php
 
-//class myUser extends sfBasicSecurityUser
-class myUser extends sfUser implements sfSecurityUser {
+class myUser extends sfBasicSecurityUser {
 
     private $dateFormat;
     private $timeFormat;
@@ -138,6 +137,15 @@ class myUser extends sfUser implements sfSecurityUser {
     public function getEmployeeNumber() {
         $auth = Auth::instance();
         return $auth->getEmployeeNumber();
+    }
+    
+    public function initialize(sfEventDispatcher $dispatcher, sfStorage $storage, $options = array()) {
+        parent::initialize($dispatcher, $storage, $options);
+        
+        if ($this->isTimedOut()) {
+            $authService = new AuthenticationService();
+            $authService->clearCredentials();            
+        }
     }
 
 }

@@ -35,7 +35,13 @@ all:
     param:
       session_name: PHPSESSID
       session_cache_limiter: nocache
-
+  user:
+     class: myUser
+     param:
+       timeout:         1800
+       logging:         %SF_LOGGING_ENABLED%
+       use_flash:       true
+       default_culture: %SF_DEFAULT_CULTURE%
 #all:
 #  controller:
 #    class: sfFrontWebController
@@ -63,13 +69,7 @@ all:
 #      charset:           %SF_CHARSET%
 #      send_http_headers: true
 #
-#  user:
-#    class: myUser
-#    param:
-#      timeout:         1800
-#      logging:         %SF_LOGGING_ENABLED%
-#      use_flash:       true
-#      default_culture: %SF_DEFAULT_CULTURE%
+
 #
 #  storage:
 #    class: sfSessionStorage
