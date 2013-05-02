@@ -18,4 +18,5 @@ postExecutionFilter:
 cache:     ~
 common:
   class: sfCommonFilter
-execution: ~
+execution:
+  class: orangehrmExecutionFilter

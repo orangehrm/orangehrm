@@ -9,8 +9,6 @@ $(document).ready(function() {
         $("#uploaded").show();
         $("#btnSave").hide();
     }	
-	stretchy(document.getElementById('txtArea'));
-	//stretchy($('#txtArea').val());
 	var isCollapse = false;
 	$("#txtArea").attr('disabled', 'disabled');
 	$("#txtArea").hide();
@@ -57,18 +55,6 @@ $(document).ready(function() {
 
 	
 });
-
-function stretchy(element) {
-	var value= element.value;
-	function update() {
-		var h= element.scrollHeight;
-		if (h>element.offsetHeight || h<element.offsetHeight-48)
-			element.style.height= (h+24)+'px';
-	}
-	element.onkeyup= update;
-	setInterval(update, 1000);
-	update();
-}
 
 function isValidForm(){
 
@@ -143,12 +129,6 @@ function isValidForm(){
 			'addCandidate[keyWords]': {
 				maxlength:lang_noMoreThan250
 			}
-		},
-
-		errorPlacement: function(error, element) {
-
-			error.appendTo(element.next('div.errorHolder'));
-
 		}
 
 	});

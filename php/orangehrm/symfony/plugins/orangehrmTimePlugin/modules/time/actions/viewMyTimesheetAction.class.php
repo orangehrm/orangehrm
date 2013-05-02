@@ -49,9 +49,6 @@ class viewMyTimesheetAction extends sfAction {
                 $timesheet = $this->setTimesheetState($request);
                 $comment = $request->getParameter('Comment');
 
-
-
-
                 if ($request->getParameter('resetAction')) {
 
                     $this->setTimesheetActionLog(Timesheet::RESET_ACTION, $comment, $timesheet->getTimesheetId(), $userId);
@@ -68,7 +65,7 @@ class viewMyTimesheetAction extends sfAction {
 
         $submitted = $request->getParameter('submitted');
         if (isset($submitted)) {
-            $this->successMessage = array('SUCCESS', __("Timesheet Submitted"));
+            $this->successMessage = array('success', __("Timesheet Submitted"));
         }
 
         $startDateOfTheTimesheetForUpdates = $request->getParameter('timesheetStartDate');

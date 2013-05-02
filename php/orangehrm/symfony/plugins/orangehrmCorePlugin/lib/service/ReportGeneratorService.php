@@ -335,7 +335,12 @@ class ReportGeneratorService extends BaseService {
         $clause = $displayField->getName();
         
         if (KeyHandler::keyExists() && $displayField->getIsEncrypted()) {
-            $clause = 'AES_DECRYPT(UNHEX('. $displayField->getName() . '),"' . KeyHandler::readKey() . '")';
+            $pattern = '/(\{\{)(.{0,})(\}\})/';
+            if (preg_match($pattern, $clause)) {
+                $clause = preg_replace($pattern, 'AES_DECRYPT(UNHEX($2),"' . KeyHandler::readKey() . '")', $clause);
+            } else {
+                $clause = 'AES_DECRYPT(UNHEX('. $displayField->getName() . '),"' . KeyHandler::readKey() . '")';
+            }
         }
         if ($displayField->getIsValueList()) {
             $clause = "GROUP_CONCAT(DISTINCT " . $clause . " SEPARATOR '|\\n|' ) ";
@@ -365,7 +370,12 @@ class ReportGeneratorService extends BaseService {
             $fieldName = $field->getName();
             
             if ($isEncryptEnabled && $field->getIsEncrypted()) {
-                $fieldName = 'AES_DECRYPT(UNHEX('. $fieldName . '),"' . KeyHandler::readKey() . '")';
+                $pattern = '/(\{\{)(.{0,})(\}\})/';
+                if (preg_match($pattern, $fieldName)) {
+                    $fieldName = preg_replace($pattern, 'AES_DECRYPT(UNHEX($2),"' . KeyHandler::readKey() . '")', $fieldName);
+                } else {
+                    $fieldName = 'AES_DECRYPT(UNHEX('. $fieldName . '),"' . KeyHandler::readKey() . '")';
+                }
             }
             
             // If null, change to empty string since CONCAT_WS will skip nulls, causing problems with the field list order.

@@ -1,10 +1,151 @@
-<link href="<?php echo public_path('../../themes/orange/css/ui-lightness/jquery-ui-1.7.2.custom.css')?>" rel="stylesheet" type="text/css"/>
-<script type="text/javascript" src="<?php echo public_path('../../scripts/jquery/ui/ui.core.js')?>"></script>
-<script type="text/javascript" src="<?php echo public_path('../../scripts/jquery/ui/ui.datepicker.js')?>"></script>
-<?php echo stylesheet_tag('orangehrm.datepicker.css') ?>
-<?php echo javascript_include_tag('orangehrm.datepicker.js')?>
+<?php 
+use_stylesheet(plugin_web_path('orangehrmPimPlugin', 'css/viewPersonalDetailsSuccess.css'));
+?>
 
-<?php echo stylesheet_tag('../orangehrmPimPlugin/css/viewPersonalDetailsSuccess'); ?>
+<div class="box pimPane" id="employee-details">
+    
+    <?php include_partial('pimLeftMenu', array('empNumber' => $empNumber, 'form' => $form));?>
+    
+    <div class="personalDetails" id="pdMainContainer">
+        
+        <div class="head">
+            <h1><?php echo __('Personal Details'); ?></h1>
+        </div> <!-- head -->
+    
+        <div class="inner">
+
+            <?php if ($personalInformationPermission->canRead()) : ?>
+
+            <?php include_partial('global/flash_messages', array('prefix' => 'personaldetails')); ?>
+
+            <form id="frmEmpPersonalDetails" method="post" action="<?php echo url_for('pim/viewPersonalDetails'); ?>">
+
+                <?php echo $form['_csrf_token']; ?>
+                <?php echo $form['txtEmpID']->render(); ?>
+
+                <fieldset>
+                    <!--
+                    <div class="helpLabelContainer">
+                        <div><label>First Name</label></div>
+                        <div><label>Middle Name</label></div>
+                        <div><label>Last Name</label></div>
+                    </div>
+                    -->
+                    <ol>
+                        <li class="line nameContainer">
+                            <label for="Full_Name" class="hasTopFieldHelp"><?php echo __('Full Name'); ?></label>
+                            <ol class="fieldsInLine">
+                                <li>
+                                    <div class="fieldDescription"><em>*</em> <?php echo __('First Name'); ?></div>
+                                    <?php echo $form['txtEmpFirstName']->render(array("class" => "block default editable", "maxlength" => 30, "title" => __('First Name'))); ?>
+                                </li>
+                                <li>
+                                    <div class="fieldDescription"><?php echo __('Middle Name'); ?></div>
+                                    <?php echo $form['txtEmpMiddleName']->render(array("class" => "block default editable", "maxlength" => 30, "title" => __('Middle Name'))); ?>
+                                </li>
+                                <li>
+                                    <div class="fieldDescription"><em>*</em> <?php echo __('Last Name'); ?></div>
+                                    <?php echo $form['txtEmpLastName']->render(array("class" => "block default editable", "maxlength" => 30, "title" => __('Last Name'))); ?>
+                                </li>
+                            </ol>    
+                        </li>
+                    </ol>
+                    <ol>
+                        <li>
+                            <label for="personal_txtEmployeeId"><?php echo __('Employee Id'); ?></label>
+                            <?php echo $form['txtEmployeeId']->render(array("maxlength" => 10, "class" => "editable")); ?>
+                        </li>
+                        <li>
+                            <label for="personal_txtOtherID"><?php echo __('Other Id'); ?></label>
+                            <?php echo $form['txtOtherID']->render(array("maxlength" => 30, "class" => "editable")); ?>
+                        </li>
+                        <li class="long">
+                            <label for="personal_txtLicenNo"><?php echo __("Driver's License Number"); ?></label>
+                            <?php echo $form['txtLicenNo']->render(array("maxlength" => 30, "class" => "editable")); ?>
+                        </li>
+                        <li>
+                            <label for="personal_txtLicExpDate"><?php echo __('License Expiry Date'); ?></label>
+                            <?php echo $form['txtLicExpDate']->render(array("class"=>"calendar editable")); ?>
+                        </li>
+                        <?php if ($showSSN) : ?>
+                        <li class="new">
+                            <label for="personal_txtNICNo"><?php echo __('SSN Number'); ?></label>
+                            <?php echo $form['txtNICNo']->render(array("class" => "editable", "maxlength" => 30)); ?>
+                        </li>                    
+                        <?php endif; ?>
+                        <?php if ($showSIN) : ?>
+                        <li class="<?php echo !($showSSN)?'new':''; ?>">
+                            <label for="personal_txtSINNo"><?php echo __('SIN Number'); ?></label>
+                            <?php echo $form['txtSINNo']->render(array("class" => "editable", "maxlength" => 30)); ?>
+                        </li>                    
+                        <?php endif; ?>                    
+                    </ol>
+                    <ol>
+                        <li class="radio">
+                            <label for="personal_optGender"><?php echo __("Gender"); ?></label>
+                            <?php echo $form['optGender']->render(array("class"=>"editable")); ?>
+                        </li>
+                        <li>
+                            <label for="personal_cmbMarital"><?php echo __('Marital Status'); ?></label>
+                            <?php echo $form['cmbMarital']->render(array("class"=>"editable")); ?>
+                        </li>
+                        <li class="new">
+                            <label for="personal_cmbNation"><?php echo __("Nationality"); ?></label>
+                            <?php echo $form['cmbNation']->render(array("class"=>"editable")); ?>
+                        </li>
+                        <li>
+                            <label for="personal_DOB"><?php echo __("Date of Birth"); ?></label>
+                            <?php echo $form['DOB']->render(array("class"=>"editable")); ?>
+                        </li>
+                        <?php if(!$showDeprecatedFields) : ?>
+                        <li class="required new">
+                            <em>*</em> <?php echo __(CommonMessages::REQUIRED_FIELD); ?>
+                        </li>
+                        <?php endif; ?>
+                    </ol>    
+                    <?php if($showDeprecatedFields) : ?>    
+                    <ol>
+                        <li>
+                            <label for="personal_txtEmpNickName"><?php echo __("Nick Name"); ?></label>
+                            <?php echo $form['txtEmpNickName']->render(array("maxlength" => 30, "class" => "editable")); ?>
+                        </li>
+                        <li>
+                            <label for="personal_chkSmokeFlag"><?php echo __('Smoker'); ?></label>
+                            <?php echo $form['chkSmokeFlag']->render(array("class" => "editable")); ?>
+                        </li>
+                        <li class="new">
+                            <label for="personal_txtMilitarySer"><?php echo __("Military Service"); ?></label>
+                            <?php echo $form['txtMilitarySer']->render(array("maxlength" => 30, "class" => "editable")); ?>
+                        </li>
+                        <li class="required new">
+                            <em>*</em> <?php echo __(CommonMessages::REQUIRED_FIELD); ?>
+                        </li>                    
+                    </ol>
+                    <?php endif; ?>                        
+
+                    <?php  if ($personalInformationPermission->canUpdate()) : ?>
+                    <p><input type="button" id="btnSave" value="<?php echo __("Edit"); ?>" /></p>
+                    <?php endif; ?>
+
+                </fieldset>
+            </form>
+
+            <?php else : ?>
+            <div><?php echo __(CommonMessages::DONT_HAVE_ACCESS); ?></div>
+            <?php endif; ?>
+
+        </div> <!-- inner -->
+        
+    </div> <!-- pdMainContainer -->
+
+    
+    <?php echo include_component('pim', 'customFields', array('empNumber'=>$empNumber, 'screen' => CustomField::SCREEN_PERSONAL_DETAILS));?>
+    <?php echo include_component('pim', 'attachments', array('empNumber'=>$empNumber, 'screen' => EmployeeAttachment::SCREEN_PERSONAL_DETAILS));?>
+    
+</div> <!-- employee-details -->
+ 
+<?php //echo stylesheet_tag('orangehrm.datepicker.css') ?>
+<?php //echo javascript_include_tag('orangehrm.datepicker.js')?>
 
 <script type="text/javascript">
     //<![CDATA[
@@ -14,6 +155,7 @@
     var lang_firstNameRequired = "<?php echo __(ValidationMessages::REQUIRED); ?>";
     var lang_lastNameRequired = "<?php echo __(ValidationMessages::REQUIRED); ?>";
     var lang_selectGender = "<?php echo __(ValidationMessages::REQUIRED); ?>";
+    var lang_processing = '<?php echo __(CommonMessages::LABEL_PROCESSING);?>';
     var lang_invalidDate = '<?php echo __(ValidationMessages::DATE_FORMAT_INVALID, array('%format%' => str_replace('yy', 'yyyy', get_datepicker_date_format($sf_user->getDateFormat())))) ?>';
     var datepickerDateFormat = '<?php echo get_datepicker_date_format($sf_user->getDateFormat()); ?>';
 
@@ -24,156 +166,4 @@
     //]]>
 </script>
 
-<!-- common table structure to be followed -->
-<table cellspacing="0" cellpadding="0" border="0" width="100%">
-    <tr>
-        <td width="5">&nbsp;</td>
-        <td colspan="2">&nbsp;</td>
-    </tr>
-    <tr>
-        <td>&nbsp;</td>
-        <!-- this space is reserved for menus - dont use -->
-        <td width="200" valign="top">
-        <?php include_partial('leftmenu', array('empNumber' => $empNumber, 'form' => $form));?></td>
-        <td valign="top">
-            <table cellspacing="0" cellpadding="0" border="0" width="90%">
-                <tr>
-                    <td valign="top" width="750">
-                        <!-- this space is for contents -->
-                        <div id="messagebar" class="<?php echo isset($messageType) ? "messageBalloon_{$messageType}" : ''; ?>" style="margin-left: 16px;width: 700px;">
-                            <span style="font-weight: bold;"><?php echo isset($message) ? $message : ''; ?></span>
-                        </div>
-                        <div class="outerbox">
-                            <div class="mainHeading"><h2><?php echo __('Personal Details'); ?></h2></div>
-                            <?php if ($personalInformationPermission->canRead()) {?>
-                            <div>
-                                
-                                <form id="frmEmpPersonalDetails" method="post" action="<?php echo url_for('pim/viewPersonalDetails'); ?>">
-                                    <?php echo $form['_csrf_token']; ?>
-                                    <table cellspacing="0" cellpadding="0" border="0" class="tableArrange">
-                                        <?php echo $form['txtEmpID']->render(); 
-                                        ?>
-                                        <tr>
-                                            <!-- section for full name -->
-                                            <td>
-                                                <table width="100%">
-                                                    <tr>
-                                                        <td><?php echo __('Full Name'); ?></td>
-                                                        <td valign="top"><?php echo $form['txtEmpFirstName']->render(array("class" => "formInputText", "maxlength" => 30)); ?><br class="clear" /></td>
-                                                        <td valign="top"><?php echo $form['txtEmpMiddleName']->render(array("class" => "formInputText", "maxlength" => 30)); ?></td>
-                                                        <td valign="top"><?php echo $form['txtEmpLastName']->render(array("class" => "formInputText", "maxlength" => 30)); ?><br class="clear" /></td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>&nbsp;</td>
-                                                        <td class="helpText"><?php echo __('First Name'); ?><span class="required">*</span></td>
-                                                        <td class="helpText"><?php echo __('Middle Name'); ?></td>
-                                                        <td class="helpText"><?php echo __('Last Name'); ?><span class="required">*</span></td>
-                                                    </tr>
-                                                </table>
-                                                <div class="hrLine" >&nbsp;</div>
-                                            </td>
-                                        </tr>
-                                        
-                                        <tr>                
-                                            <td>
-                                                <!-- section for rest of the contents -->
-                                                <table border="0" width="100%">
-                                                    <tr>
-                                                        <td><?php echo __('Employee Id'); ?></td>
-                                                        <td><?php echo $form['txtEmployeeId']->render(array("class" => "formInputText", "maxlength" => 10)); ?></td>
-                                                        <td <?php echo $showSSN ? '' : "class='hideTr'";?>><?php echo __('SSN Number'); ?></td>
-                                                        <td <?php echo $showSSN ? '' : "class='hideTr'";?>><?php echo $form['txtNICNo']->render(array("class" => "formInputText", "maxlength" => 30)); ?></td>
-                                                    </tr>
-                                                    
-                                                    <tr>
-                                                        <td><?php echo __('Other Id'); ?></td>
-                                                        <td><?php echo $form['txtOtherID']->render(array("class" => "formInputText", "maxlength" => 30)); ?></td>
-                                                        <td <?php echo $showSIN ? '' : "class='hideTr'";?>><?php echo __('SIN Number'); ?></td>
-                                                        <td <?php echo $showSIN ? '' : "class='hideTr'";?>><?php echo $form['txtSINNo']->render(array("class" => "formInputText", "maxlength" => 30)); ?></td>
-
-                                                    </tr>
-                                                    <tr>
-                                                        <td><?php echo __("Driver's License Number"); ?></td>
-                                                        <td><?php echo $form['txtLicenNo']->render(array("class" => "formInputText", "maxlength" => 30)); ?></td>
-                                                        <td><?php echo __('License Expiry Date'); ?></td>
-                                                        <td><?php echo $form['txtLicExpDate']->render(array('class'=>'formInputText')); ?>
-                                                            <br class="clear" />
-                                                        </td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td colspan="4"><br /> <div class="hrLine" >&nbsp;</div></td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td><?php echo __("Gender"); ?></td>
-                                                        <td valign="top"><?php echo $form['optGender']->render(); ?> <br class="clear" /></td>
-                                                        <td><?php echo __('Marital Status'); ?></td>
-                                                        <td><?php echo $form['cmbMarital']->render(array("class" => "formInputText")); ?></td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td><?php echo __("Nationality"); ?></td>
-                                                        <td><?php echo $form['cmbNation']->render(array("class" => "formInputText")); ?></td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td><?php echo __("Date of Birth"); ?></td>
-                                                        <td><?php echo $form['DOB']->render(array("class" => "formInputText")); ?>
-                                                            <br class="clear" />
-                                                        </td>
-                                                        <td>&nbsp;</td>
-                                                        <td>&nbsp;</td>
-                                                    </tr>
-
-                                                    <tr <?php if(!$showDeprecatedFields) {
-                                                        echo "class='hideTr'";
-                                                        }?> >
-                                                        <td colspan="4"><br /> <div class="hrLine" >&nbsp;</div></td>
-                                                    </tr>
-                                                    <tr <?php if(!$showDeprecatedFields) {
-                                                        echo "class='hideTr'";
-                                                        }?> >
-                                                        <td><?php echo __("Nick Name"); ?></td>
-                                                        <td><?php echo $form['txtEmpNickName']->render(array("class" => "formInputText", "maxlength" => 30)); ?></td>
-                                                        <td><?php echo __('Smoker'); ?>&nbsp;<?php echo $form['chkSmokeFlag']->render(); ?></td>
-                                                        <td>&nbsp;</td>
-                                                    </tr>
-                                                    <tr <?php if(!$showDeprecatedFields) {
-                                                        echo "class='hideTr'";
-                                                        }?> >
-                                                        <td><?php echo __("Military Service"); ?></td>
-                                                        <td><?php echo $form['txtMilitarySer']->render(array("class" => "formInputText", "maxlength" => 30)); ?></td>
-                                                        <td>&nbsp;</td>
-                                                        <td>&nbsp;</td>
-                                                    </tr>
-                                                </table>
-                                            </td>
-                                        </tr>
-                                    </table>
-                                    <div class="formbuttons">
-                                        <?php  if ($personalInformationPermission->canUpdate()) { ?>
-                                                    <input type="button" class="savebutton" id="btnSave" value="<?php echo __("Edit"); ?>" tabindex="2" />
-                                        <?php } ?>
-                                    </div>
-                                </form>
-                                
-                            </div>
-                            <?php }else{
-                                ?>
-                            <div class="paddingLeftRequired"><?php echo __(CommonMessages::DONT_HAVE_ACCESS); ?></div>
-                            <?php
-                            }
-?>
-                        </div>
-                        <?php if ($personalInformationPermission->canRead()) {?>
-                        <div class="paddingLeftRequired"><span class="required">*</span> <?php echo __(CommonMessages::REQUIRED_FIELD); ?></div>
-                        <?php }?>
-                        <?php echo include_component('pim', 'customFields', array('empNumber'=>$empNumber, 'screen' => CustomField::SCREEN_PERSONAL_DETAILS));?>
-                        <?php echo include_component('pim', 'attachments', array('empNumber'=>$empNumber, 'screen' => EmployeeAttachment::SCREEN_PERSONAL_DETAILS));?>
-                        
-                    </td>
-                    <td valign="top" align="center">
-                    </td>
-                </tr>
-            </table>
-        </td>
-    </tr>
-</table>
-<?php echo javascript_include_tag('../orangehrmPimPlugin/js/viewPersonalDetailsSuccess'); ?>
+<?php echo javascript_include_tag(plugin_web_path('orangehrmPimPlugin', 'js/viewPersonalDetailsSuccess')); ?>

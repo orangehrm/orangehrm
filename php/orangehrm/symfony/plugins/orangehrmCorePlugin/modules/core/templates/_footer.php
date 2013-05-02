@@ -1,8 +1,7 @@
 <?php
-$styleSheet = 'orange';
-$imagePath = public_path("../../themes/{$styleSheet}/images/login");
-$version = '2.7.1';
-$copyrightYear = '2012';
+$imagePath = theme_path("images/login");
+$version = '3.0.1';
+$copyrightYear = date('Y');
 ?>
 
 <style type="text/css">
@@ -15,7 +14,6 @@ $copyrightYear = '2012';
     }
     
     #spanSocialMedia a img {
-        margin-bottom: -8px;
 		border: none;
     }
 

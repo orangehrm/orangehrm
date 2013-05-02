@@ -649,7 +649,7 @@ class TimesheetDaoTest extends PHPUnit_Framework_TestCase {
         
         $activities = $this->timesheetDao->getProjectActivityListByPorjectId(null);
         $this->assertEquals(array(), $activities);
-    }
+    }    
 
 }
 

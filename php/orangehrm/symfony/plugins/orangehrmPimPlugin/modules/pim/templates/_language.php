@@ -1,133 +1,134 @@
 <?php  
-if (($section == 'language') && isset($message) && isset($messageType)) {
-    $tmpMsgClass = "messageBalloon_{$messageType}";
-    $tmpMsg = $message;
-} else {
-    $tmpMsgClass = '';
-    $tmpMsg = '';
-}
 $haveLanguage = count($form->empLanguageList) > 0;
-?>
-<div id="languageMessagebar" class="<?php echo $tmpMsgClass; ?>">
-    <span style="font-weight: bold;"><?php echo $tmpMsg; ?></span>
-</div>                                 
+?>                         
 
-
-<div class="sectionDiv" id="sectionLanguage">
-    <div style="float: left; width: 450px;"><h3><?php echo __('Languages'); ?></h3></div>
-    <div id="actionLanguage" style="float: left; margin-top: 20px; width: 335px; text-align: right">
-        <?php if ($languagePermissions->canCreate() ) { ?>
-        <input type="button" value="<?php echo __("Add");?>" class="savebutton" id="addLanguage" />&nbsp;
-        <?php } ?>
-        <?php if ($languagePermissions->canDelete() ) { ?>
-        <input type="button" value="<?php echo __("Delete");?>" class="savebutton" id="delLanguage" />
-        <?php } ?>
-    </div>
-
-    <?php if ($languagePermissions->canRead() && (($languagePermissions->canCreate()) || ($languagePermissions->canUpdate() && $haveLanguage))) { ?>
-    <div class="outerbox" id="changeLanguage" style="width:500px; float: left">
-        <div class="mainHeading"><h4 id="headChangeLanguage"><?php echo __('Add Language'); ?></h4></div>
-        <form id="frmLanguage" action="<?php echo url_for('pim/saveDeleteLanguage?empNumber=' . $empNumber . "&option=save"); ?>" method="post">
-
-            <?php echo $form['_csrf_token']; ?>
-            <?php echo $form['emp_number']->render(); ?>
-
-            <?php echo $form['code']->renderLabel(__('Language') . ' <span class="required">*</span>'); ?>
-            <?php echo $form['code']->render(array("class" => "formSelect")); ?>
-            <span id="static_language_code" style="display:none;"></span>            
-            <br class="clear"/>
-
-            <?php echo $form['lang_type']->renderLabel(__('Fluency') . ' <span class="required">*</span>'); ?>
-            <?php echo $form['lang_type']->render(array("class" => "formSelect")); ?>
-            <span id="static_lang_type" style="display:none;"></span>            
-            <br class="clear"/>
-
-            <?php echo $form['competency']->renderLabel(__('Competency') . ' <span class="required">*</span>'); ?>
-            <?php echo $form['competency']->render(array("class" => "formSelect")); ?>
-            <br class="clear"/>
-            
-            <?php echo $form['comments']->renderLabel(__('Comments')); ?>
-            <?php echo $form['comments']->render(array("class" => "formInputText")); ?>
-            <br class="clear"/>
-
-            <?php if (($haveLanguage && $languagePermissions->canUpdate()) || $languagePermissions->canCreate()) { ?>
-            <div class="formbuttons">
-                <input type="button" class="savebutton" id="btnLanguageSave" value="<?php echo __("Save"); ?>" />
-                <input type="button" class="savebutton" id="btnLanguageCancel" value="<?php echo __("Cancel"); ?>" />
-            </div>
-            <?php } ?>
-        </form>
-    </div>
-    <?php } ?>
-    <br class="clear" />
-    <div class="paddingLeftRequired" id="languageRequiredNote"><span class="required">*</span> <?php echo __(CommonMessages::REQUIRED_FIELD); ?></div>
-    
-    <?php if ($languagePermissions->canRead()) { ?>
-    <form id="frmDelLanguage" action="<?php echo url_for('pim/saveDeleteLanguage?empNumber=' . $empNumber . "&option=delete"); ?>" method="post">
-        <div class="outerbox" id="tblLanguage">
-            <table width="100%" cellspacing="0" cellpadding="0" class="data-table" border="0" id="lang_data_table">
-                <thead>
-                <tr>
-                    <?php if ($languagePermissions->canDelete()) { ?>
-                        <td class="check"><input type="checkbox" id="languageCheckAll" /></td>
-                    <?php } else { ?>
-                        <td></td>
-                    <?php } ?>
-                    <td><?php echo __('Language');?></td>
-                    <td><?php echo __('Fluency');?></td>
-                    <td><?php echo __('Competency');?></td>                    
-                    <td><?php echo __('Comments');?></td>
-                </tr>
-                </thead>
-                <tbody>
-                    <?php
-                    $languages = $form->empLanguageList;//var_dump($languages->toArray());die;
-                    $row = 0;
-
-                    foreach ($languages as $language) {                        
-                        $cssClass = ($row % 2) ? 'even' : 'odd';
-                        $languageName = $language->getLanguage()->getName();
-                        ?>
-                    <tr class="<?php echo $cssClass;?>">
-                <td class="check"><input type="hidden" class="code" value="<?php echo htmlspecialchars($language->langId); ?>" />
-                <input type="hidden" class="language_name" value="<?php echo htmlspecialchars($languageName); ?>" />
-                <input type="hidden" class="lang_type" value="<?php echo htmlspecialchars($language->fluency); ?>" />
-                <input type="hidden" class="competency" value="<?php echo htmlspecialchars($language->competency); ?>" />
-
-                <?php if ($languagePermissions->canDelete()) {?>
-                    <input type="checkbox" class="chkbox" value="<?php echo $language->langId . "_" . $language->fluency;?>" name="delLanguage[]"/></td>
-                <?php } else {?>
-                    <input type="hidden" class="chkbox" value="<?php echo $language->langId . "_" . $language->fluency;?>" name="delLanguage[]"/>
-                <?php }?>
-                <td class="name">
-                    <?php if ($languagePermissions->canUpdate()) { ?>
-                    <a href="#" class="edit"><?php echo htmlspecialchars($languageName);?></a>
-                    <?php } else {
-                        echo htmlspecialchars($languageName);
-                        } ?>
-                </td>
-                
-                <td><?php echo htmlspecialchars($form->getLangTypeDesc($language->fluency));?></td>
-                <td><?php echo htmlspecialchars($form->getCompetencyDesc($language->competency));?></td>
-                <td class="comments"><?php echo htmlspecialchars($language->comments);?></td>
-                </tr>
-                    <?php
-                        $row++;
-                    }
-
-                    if ($row == 0) {
-                    ?>
-                        <tr>
-                            <td colspan="6">&nbsp; <?php echo __(TopLevelMessages::NO_RECORDS_FOUND); ?></td>
-                        </tr>
-                    <?php } ?>
-                </tbody>
-            </table>
+<a name="language"></a>
+<?php if ($languagePermissions->canCreate() || ($haveLanguage && $languagePermissions->canUpdate())) { ?>
+    <div id="changeLanguage">
+        <div class="head">
+            <h1 id="headChangeLanguage"><?php echo __('Add Language'); ?></h1>
         </div>
-    </form>
-    <?php } ?>
+            
+        <div class="inner">
+            <form id="frmLanguage" action="<?php echo url_for('pim/saveDeleteLanguage?empNumber=' . 
+                    $empNumber . "&option=save"); ?>" method="post">
+                <fieldset>
+                    <ol>
+                        <?php echo $form->render(); ?>
+                        
+                        <li class="required">
+                            <em>*</em> <?php echo __(CommonMessages::REQUIRED_FIELD); ?>
+                        </li>
+                    </ol>
+                    <p>
+                        <input type="button" class="" id="btnLanguageSave" value="<?php echo __("Save"); ?>" />
+                        <input type="button" class="reset" id="btnLanguageCancel" value="<?php echo __("Cancel"); ?>" />
+                    </p>
+                </fieldset>
+            </form>
+        </div>
+    </div> <!-- changeLanguage -->
+<?php } ?>
 
-</div>
+<div class="miniList" id="tblLanguage">
+    <div class="head">
+        <h1><?php echo __("Languages"); ?></h1>
+    </div>
+
+    <div class="inner">
+
+        <?php if ($languagePermissions->canRead()) : ?>
+
+            <?php include_partial('global/flash_messages', array('prefix' => 'language')); ?>
+
+            <form id="frmDelLanguage" action="<?php echo url_for('pim/saveDeleteLanguage?empNumber=' . 
+                    $empNumber . "&option=delete"); ?>" method="post">
+                <p id="actionLanguage">
+                    <?php if ($languagePermissions->canCreate()) { ?>
+                    <input type="button" value="<?php echo __("Add"); ?>" class="" id="addLanguage" />&nbsp;
+                    <?php } ?>
+                    <?php if ($languagePermissions->canDelete()) { ?>
+                    <input type="button" value="<?php echo __("Delete"); ?>" class="delete" id="delLanguage" />
+                    <?php } ?>
+                </p>
+                <table id="lang_data_table" cellpadding="0" cellspacing="0" width="100%" class="table tablesorter">
+                    <thead>
+                        <tr>
+                            <?php if ($languagePermissions->canDelete()) { ?>
+                            <th class="check" width="2%"><input type="checkbox" id="languageCheckAll" /></th>
+                            <?php } ?>
+                            <th><?php echo __('Language'); ?></th>
+                            <th><?php echo __('Fluency'); ?></th>
+                            <th><?php echo __('Competency'); ?></th>                    
+                            <th><?php echo __('Comments'); ?></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <?php if (!$haveLanguage) { ?>
+                            <tr>
+                                <?php if ($languagePermissions->canDelete()) { ?>
+                                    <td class="check"></td>
+                                <?php } ?>
+                                <td><?php echo __(TopLevelMessages::NO_RECORDS_FOUND); ?></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                            </tr>
+                        <?php } else { ?>                        
+                            <?php
+                            $languages = $form->empLanguageList; //var_dump($languages->toArray());die;
+                            $row = 0;
+                            foreach ($languages as $language) :
+                                $cssClass = ($row % 2) ? 'even' : 'odd';
+                                $languageName = $language->getLanguage()->getName();
+                                ?>
+                                <tr class="<?php echo $cssClass; ?>">
+                                    <td class="check">
+                                        <input type="hidden" class="language_name" 
+                                               value="<?php echo htmlspecialchars($languageName); ?>" />
+                                        <input type="hidden" class="lang_type" 
+                                               value="<?php echo htmlspecialchars($language->fluency); ?>" />
+                                        <input type="hidden" class="competency" 
+                                               value="<?php echo htmlspecialchars($language->competency); ?>" />
+                                        <input type="hidden" class="code" 
+                                               value="<?php echo htmlspecialchars($language->langId); ?>" />
+                                        <?php if ($languagePermissions->canDelete()) { ?>
+                                        <input type="checkbox" class="chkbox" 
+                                               value="<?php echo $language->langId . "_" . $language->fluency; ?>" 
+                                               name="delLanguage[]"/>
+                                        <?php } else { ?>
+                                        <input type="hidden" class="chkbox" 
+                                               value="<?php echo $language->langId . "_" . $language->fluency; ?>" 
+                                               name="delLanguage[]"/>
+                                        <?php } ?>
+                                    </td>
+                                    <td class="name">
+                                        <?php if ($languagePermissions->canUpdate()) { ?>
+                                        <a href="#" class="edit"><?php echo htmlspecialchars($languageName); ?></a>
+                                        <?php } else {
+                                            echo htmlspecialchars($languageName);
+                                        }
+                                        ?>
+                                    </td>
+                                    <td><?php echo htmlspecialchars($form->getLangTypeDesc($language->fluency)); ?></td>
+                                    <td><?php echo htmlspecialchars($form->getCompetencyDesc($language->competency)); ?></td>
+                                    <td class="comments"><?php echo htmlspecialchars($language->comments); ?></td>
+                                </tr>
+                                <?php
+                                $row++;
+                            endforeach;
+                        } ?>
+                    </tbody>
+                </table>
+            </form>
+
+        <?php else : ?>
+            <div><?php echo __(CommonMessages::DONT_HAVE_ACCESS); ?></div>
+        <?php endif; ?>
+
+    </div>
+</div> <!-- miniList-tblLanguage sectionLanguage -->
+
 <script type="text/javascript">
     //<![CDATA[
 
@@ -146,7 +147,10 @@ $haveLanguage = count($form->empLanguageList) > 0;
 //<![CDATA[
 
 $(document).ready(function() {
-
+    
+    $('#language_code').after('<span id="static_language_code" style="display:none;"></span>');
+    $('#language_lang_type').after('<span id="static_lang_type" style="display:none;"></span>');
+    
     function addEditLinks() {
         // called here to avoid double adding links - When in edit mode and cancel is pressed.
         removeEditLinks();
@@ -164,8 +168,9 @@ $(document).ready(function() {
     $("#languageRequiredNote").hide();
 
     //hiding the data table if records are not available
-    if($("div#tblLanguage table.data-table .chkbox").length == 0) {
+    if($("div#tblLanguage .chkbox").length == 0) {
         //$("#tblLanguage").hide();
+        $('div#tblLanguage .check').hide();
         $("#editLanguage").hide();
         $("#delLanguage").hide();
     }
@@ -192,7 +197,7 @@ $(document).ready(function() {
         $("#language_lang_type option").each(function() {
             $(this).show();
         });
-        $("#language_lang_type").val("0");
+        $("#language_lang_type").val("");
         var $table_tr = $("#lang_data_table tr");
         var i=0;
         //hide already added optons for selected language
@@ -270,13 +275,6 @@ $(document).ready(function() {
             'language[lang_type]': {required: lang_languageTypeRequired},
             'language[competency]': {required: lang_competencyRequired},
             'language[comments]' : {maxlength: lang_commentsMaxLength}
-        },
-
-        errorElement : 'div',
-        errorPlacement: function(error, element) {
-            error.insertAfter(element.next(".clear"));
-            error.insertAfter(element.next().next(".clear"));
-
         }
     });
 
@@ -298,6 +296,10 @@ $(document).ready(function() {
         $("#languageCheckAll").show();
         $('#static_language_code').hide().val("");
         $('#static_lang_type').hide().val("");
+        
+        //remove if disabled while edit
+        $('#language_code').removeAttr('disabled');
+        $('#language_lang_type').removeAttr('disabled');
     });
     
     $('form#frmDelLanguage a.edit').live('click', function(event) {
@@ -323,8 +325,8 @@ $(document).ready(function() {
         var langType = parentRow.find('input.lang_type').val();
         var comments = $(this).closest("tr").find('td:last').html();
         
-        $('#language_code').hide().val(code);
-        $("#language_lang_type").hide().val(langType);
+        $('#language_code').val(code).hide();
+        $("#language_lang_type").val(langType).hide();
         var langTypeText = $("#language_lang_type option:selected").text();
         
         $('#static_language_code').text(parentRow.find('input.language_name').val()).show();

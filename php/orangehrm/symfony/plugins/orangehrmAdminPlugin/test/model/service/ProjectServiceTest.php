@@ -357,7 +357,37 @@ class ProjectServiceTest extends PHPUnit_Framework_TestCase {
         $result = $this->projectService->getProjectNameList($projectIdList, true);
         $this->assertEquals($projects, $result);
     }
+    
+    
+    public function testGetProjectActivityCount() {
+        $count = 34;
+        
+        $projectDao = $this->getMock('ProjectDao', array('getProjectActivityCount'));
+        $projectDao->expects($this->once())
+                ->method('getProjectActivityCount')
+                ->with()
+                ->will($this->returnValue($count));
+
+        $this->projectService->setProjectDao($projectDao);
+        $result = $this->projectService->getProjectActivityCount();
+        
+        $this->assertEquals($count, $result);      
+    }
+    
+    public function testGetProjectActivityCountWithDeleted() {
+        $count = 44;
+        
+        $projectDao = $this->getMock('ProjectDao', array('getProjectActivityCount'));
+        $projectDao->expects($this->once())
+                ->method('getProjectActivityCount')
+                ->with(true)
+                ->will($this->returnValue($count));
+
+        $this->projectService->setProjectDao($projectDao);
+        $result = $this->projectService->getProjectActivityCount(true);
+        
+        $this->assertEquals($count, $result);           
+    }        
 	
 }
 
-?>

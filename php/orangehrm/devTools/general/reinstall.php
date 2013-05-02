@@ -93,7 +93,7 @@ function executeDbQueries($rootPath) {
 function getQueries($path) {
     
     $queryString    = trim(file_get_contents($path));
-    $rawQueryList   = explode(';', $queryString);    
+    $rawQueryList   = preg_split('/;\s*$/m', $queryString);    
     $queryList      = array();
     
     foreach ($rawQueryList as $query) {
@@ -105,7 +105,6 @@ function getQueries($path) {
         }
         
     }
-    
     return $queryList;
     
 }

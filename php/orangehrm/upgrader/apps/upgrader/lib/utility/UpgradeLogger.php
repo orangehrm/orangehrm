@@ -2,6 +2,14 @@
 
 class UpgradeLogger {
     
+    public static function writeLogMessage($logMessage) {
+        $logMessage = gmdate("Y-M-d H:i:s", time())." : ".$logMessage. "\n";
+        $file = sfConfig::get('sf_root_dir')."/log/debug.log";
+        $result = file_put_contents($file, $logMessage, FILE_APPEND | LOCK_EX);
+    
+        return $result;
+    }
+    
     public static function writeErrorMessage($logMessage) {
         $logMessage = gmdate("Y-M-d H:i:s", time())." : ".$logMessage;
         $file = sfConfig::get('sf_root_dir')."/log/error.log";

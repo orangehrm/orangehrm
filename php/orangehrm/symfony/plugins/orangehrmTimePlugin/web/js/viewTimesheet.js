@@ -1,67 +1,38 @@
 $(document).ready(function(){
-   
+    $msgDelayTime = 3000; // time that set for msg fading...
     dateTimeFormat= 'yyyy-MM-dd HH:mm';
-    
-    $("#createTimesheet").hide();
-    
-    var rDate = trim($(".date").val());
+
+    var rDate = trim($("#time_date").val());
     if (rDate == '') {
-        $(".date").val(displayDateFormat);
+        $("#time_date").val(displayDateFormat);
     }
 
-    //Bind date picker
-    daymarker.bindElement(".date",
-    {
-        onSelect: function(date){
-
-
-            $(".date").trigger('change');
-        },
-        dateFormat:datepickerDateFormat
-    });
-
-    $('#DateBtn').click(function(){
-        daymarker.show(".date");
-    });
-  
-    $(".date").change(function() {
-        $('#validationMsg').removeAttr('class');
-        $('#validationMsg').html("");
-        var startdate=$(".date").val();
-      
+    $("#addTimesheetBtn").click(function() {
+        var startdate=$("#time_date").val();
         if(validateDate(startdate, datepickerDateFormat)){
-         
             var endDate= calculateEndDate(Date_toYMD()); 
-             
             endDateArray=endDate.split("-");
             try{
             var parsedDate = $.datepicker.parseDate(datepickerDateFormat, startdate);
-            
             var startdate1 =  $.datepicker.formatDate('yy-mm-dd', parsedDate);
             }
             catch(error){
-
+                
             }
             endDate = new Date(endDateArray[0],endDateArray[1]-1,endDateArray[2]);
             var startDateArray=startdate1.split("-");
             var startDate = new Date(startDateArray[0], startDateArray[1]-1, startDateArray[2]);
             var newEndDate= new Date(endDate);
-            if (newEndDate < startDate)
-            { 
-                $('#validationMsg').attr('class', "messageBalloon_failure");
-                $('#validationMsg').html(lang_noFutureTimesheets);
+            if (newEndDate < startDate) {
+                displayMessages('warning', lang_noFutureTimesheets);
             }else{
-             
                 url=createTimesheet+"?startDate="+startdate1+"&employeeId="+employeeId
                 $.getJSON(url, function(data) {
-                
                     if(data[0]==1){
-                        $('#validationMsg').attr('class', "messageBalloon_failure");
-                        $('#validationMsg').html(lang_overlappingTimesheets);
+                        displayMessages('warning', lang_overlappingTimesheets);
                     }
                     if(data[0]==3){
-                        $('#validationMsg').attr('class', "messageBalloon_failure");
-                        $('#validationMsg').html(lang_timesheetExists); 
+                        displayMessages('warning', lang_timesheetExists);
                     }
                     if(data[0]==2){
                         startDate=data[1].split(' ');
@@ -70,24 +41,12 @@ $(document).ready(function(){
                         });
                         $('form#createTimesheetForm').submit();
                     }
-        
-        
                 })
-                
             }
         }
         else{
-            $('#validationMsg').attr('class', "messageBalloon_failure");
-            $('#validationMsg').html(lang_invalidDate);
+            displayMessages('warning', lang_invalidDate);
         }
-    });
-    
-    
-
-    $("#commentDialog").dialog({
-        autoOpen: false,
-        width: 350,
-        height: 225
     });
 
     $("#btnEdit").click(function(){
@@ -98,22 +57,10 @@ $(document).ready(function(){
     });
 
     $("#btnSubmit").click(function(){
-     
         $('form#timesheetFrm').attr({
             action:linkForViewTimesheet+"?state="+submitNextState+"&timesheetStartDate="+date+"&employeeId="+employeeId+"&submitted="+true+"&updateActionLog="+true
         });
         $('form#timesheetFrm').submit();
-    });
-
-    $("#btnReject").click(function(){
-       
-        if(validateComment()){
-
-            $('form#timesheetFrm').attr({
-                action:linkForViewTimesheet+"?state="+rejectNextState+"&timesheetStartDate="+date+"&employeeId="+employeeId+"&updateActionLog="+true
-            });
-            $('form#timesheetFrm').submit();
-        }
     });
 
     $("#btnReset").click(function(){
@@ -123,23 +70,23 @@ $(document).ready(function(){
         $('form#timesheetFrm').submit();
     });
 
+    $("#btnReject").click(function(){
+        $('form#timesheetActionFrm').attr({
+            action:linkForViewTimesheet+"?state="+rejectNextState+"&timesheetStartDate="+date+"&employeeId="+employeeId+
+                "&updateActionLog="+true
+        });
+        $('form#timesheetActionFrm').submit();
+    });
+
     $("#btnApprove").click(function(){
-        if(validateComment()){
-            $('form#timesheetFrm').attr({
-                action:linkForViewTimesheet+"?state="+approveNextState+"&timesheetStartDate="+date+"&employeeId="+employeeId+"&updateActionLog="+true
-            });
-            $('form#timesheetFrm').submit();
-        }
-    });
-    $("#commentCancel").click(function() {
-        $("#commentDialog").dialog('close');
-    });
-    $("#btnAddTimesheet").click(function(){
-        $("#createTimesheet").show();
+        $('form#timesheetActionFrm').attr({ 
+            action:linkForViewTimesheet+"?state="+approveNextState+"&timesheetStartDate="+date+"&employeeId="+employeeId+
+                "&updateActionLog="+true
+        });
+        $('form#timesheetActionFrm').submit();
     });
 
     $(".icon").click(function(){
-
         $("#timeComment").attr("disabled","disabled");
         //removing errors message in the comment box
         $("#commentError").html("");
@@ -151,27 +98,40 @@ $(document).ready(function(){
         var comment = getComment(timesheetItemId);
         var decoded = $("<div/>").html(comment).text();
         $("#timeComment").val(decoded);
-        $("#commentProjectName").text(": " + projectName);
-        $("#commentActivityName").text(": " + activityName);
+        $("#commentProjectName").text(projectName);
+        $("#commentActivityName").text(activityName);
         var parsedDate = $.datepicker.parseDate("yy-mm-dd", comment_date);
-        $("#commentDate").text(":"+" "+$.datepicker.formatDate(datepickerDateFormat, parsedDate));
-        $("#commentDialog").dialog('open');
+        $("#commentDate").text($.datepicker.formatDate(datepickerDateFormat, parsedDate));
     });
-});
 
+    var validator = $("#timesheetActionFrm").validate({
+        rules: {
+            'Comment' : {
+                maxlength: 250
+            }
+        },
+        messages: {
+            'Comment' : {
+                maxlength: erorrMessageForInvalidComment
+            }
+        }
+    });
+    
+    $('#btnAddTimesheet').click(function(){
+        $('#msgDiv').remove();
+    });
+    
+});
 
 var timesheetItemId;
 var question;
 var close= "close";
 
 function clicked(dropdown){
-
     var selectedIndex = document.getElementById('startDates').value;
     var dateString = dateList[selectedIndex];
     var dates = dateString.split(" ");
-
     location.href = linkForViewTimesheet+"?timesheetStartDateFromDropDown="+dates[0]+"&selectedIndex="+selectedIndex+"&employeeId="+employeeId;
-
 }
 
 function getComment(timesheetItemId){
@@ -180,79 +140,39 @@ function getComment(timesheetItemId){
         url: linkToViewComment,
         data: "timesheetItemId="+timesheetItemId,
         async: false,
-
         success: function(msg){
             var array = msg.split('##');
             question = array[0];
             comment_date = array[1];
-
         }
     });
     return question;
 }
 
-function validateComment(){
-
-    errFlag1 = false; 
-    $('#btnApprove').removeAttr('disabled');
-    $('#btnReject').removeAttr('disabled');
-    $("#txtComment").removeAttr('style');
-
-    $('#validationMsg').removeAttr('class');
-    $('#validationMsg').html("");
-
-    var errorStyle = "background-color:#FFDFDF;";
-
-    if ($("#txtComment").val().length > 250) {
-        $('#btnReject').attr('disabled', 'disabled');
-        $('#btnApprove').attr('disabled', 'disabled');
-        $('#validationMsg').attr('class', "messageBalloon_failure");
-        $('#validationMsg').html(erorrMessageForInvalidComment);
-        $("#txtComment").attr('style', errorStyle);
-
-        errFlag1 = true;
-    }
-
-    return !errFlag1;
-
-}
-
-
 String.prototype.isValidDate = function() {
     var IsoDateRe = new RegExp("^([0-9]{4})-([0-9]{2})-([0-9]{2})$");
     var matches = IsoDateRe.exec(this);
-    if (!matches) return false;
-  
-
+    if (!matches) 
+        return false;
     var composedDate = new Date(matches[1], (matches[2] - 1), matches[3]);
-
-    return ((composedDate.getMonth() == (matches[2] - 1)) &&
-        (composedDate.getDate() == matches[3]) &&
+    return ((composedDate.getMonth() == (matches[2] - 1)) && (composedDate.getDate() == matches[3]) && 
         (composedDate.getFullYear() == matches[1]));
-
 }
 
 function calculateEndDate(startDate){
-
     var r = $.ajax({
         type: 'POST',
         url:  returnEndDate,
         data: "startDate="+startDate,
         async: false,
-
         success: function(msg){
            
             var array = msg.split(' ');
             date1 = array[0];
-           
         }
-        
     });
-
     return date1;        
 }
-
-
 
 function Date_toYMD() {
     var dt=new Date();
@@ -267,4 +187,17 @@ function Date_toYMD() {
         day = "0" + day;
     }
     return year + "-" + month + "-" + day;
+}
+
+function displayMessages(messageType, message) {
+    $('#msgDiv').remove();
+    if (messageType != 'reset') {
+        $divClass = 'message '+messageType;
+        $msgDivContent = "<div id='msgDiv' class=' " + $divClass + "' >" + message + 
+            "<a class='messageCloseButton' href='#'>"+closeText+"</a>" + "</div>";
+        $('#validationMsg').after($msgDivContent);
+    }
+//    $('#msgDiv').fadeOut($msgDelayTime, function(){
+//        $('#msgDiv').remove();
+//    });
 }

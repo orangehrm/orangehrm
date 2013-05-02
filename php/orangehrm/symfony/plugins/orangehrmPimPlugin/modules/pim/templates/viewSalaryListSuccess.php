@@ -1,312 +1,266 @@
-<link href="<?php echo public_path('../../themes/orange/css/ui-lightness/jquery-ui-1.7.2.custom.css') ?>" rel="stylesheet" type="text/css"/>
-<script type="text/javascript" src="<?php echo public_path('../../scripts/jquery/ui/ui.core.js') ?>"></script>
-<script type="text/javascript" src="<?php echo public_path('../../scripts/jquery/ui/ui.datepicker.js') ?>"></script>
-<script type="text/javascript" src="<?php echo public_path('../../scripts/jquery/ui/ui.dialog.js') ?>"></script>
-<?php echo stylesheet_tag('../orangehrmPimPlugin/css/viewSalaryListSuccess'); ?>
 
-<table cellspacing="0" cellpadding="0" border="0" width="100%">
-    <tr>
-        <td width="5">&nbsp;</td>
-        <td colspan="2"></td>
-    </tr>
-    <tr>
-        <td>&nbsp;</td>
-        <!-- this space is reserved for menus - dont use -->
-        <td width="200" valign="top">
-            <?php include_partial('leftmenu', array('empNumber' => $empNumber, 'form' => $form)); ?></td>
-        <td valign="top">
-            <table cellspacing="0" cellpadding="0" border="0">
-                <tr>
-                    <td valign="top">
-                        <!-- this space is for contents -->
-                        <div id="mainDiv">
+<div class="box pimPane">
+    
+    <?php include_partial('pimLeftMenu', array('empNumber' => $empNumber, 'form' => $form));?>
+    
+    <?php if ($salaryPermissions->canCreate() || (count($salaryList) > 0 && $salaryPermissions->canUpdate())) { ?>
+    <div id="changeSalary">
+        <div class="head">
+            <h1 id="headchangeSalary"><?php echo __('Add Salary Component'); ?></h1>
+        </div>
+        
+        <div class="inner">
+            <form id="frmSalary" action="<?php echo url_for('pim/viewSalaryList?empNumber=' . $empNumber); ?>" method="post" class="longLabels">
+                <fieldset>
+                    <?php echo $form['_csrf_token']; ?>
+                    <?php echo $form['id']->render(); ?>
+                    <?php echo $form['emp_number']->render(); ?>
+                    <ol>
+                        <li>
+                            <?php echo $form['sal_grd_code']->renderLabel(__('Pay Grade')); ?>
                             <?php
-                            if (isset($message) && isset($messageType)) {
-                                $tmpMsgClass = "messageBalloon_{$messageType}";
-                                $tmpMsg = $message;
+                            if ($form->havePayGrades) {
+                                echo $form['sal_grd_code']->render(array("class" => "formSelect"));
                             } else {
-                                $tmpMsgClass = '';
-                                $tmpMsg = '';
+                                echo $form['sal_grd_code']->render();
+                            ?>
+                                <label id="noSalaryGrade" for="sal_grd_code"><?php echo __("Not Defined"); ?></label>
+                            <?php } ?>
+                        </li>
+                        <li>
+                            <?php echo $form['salary_component']->renderLabel(__('Salary Component') . ' <em>*</em>'); ?>
+                            <?php echo $form['salary_component']->render(array("class" => "formInputText", "maxlength" => 100)); ?>
+                        </li>
+                        <li>
+                            <?php echo $form['payperiod_code']->renderLabel(__('Pay Frequency')); ?>
+                            <?php echo $form['payperiod_code']->render(array("class" => "formSelect")); ?>
+                        </li>
+                        <li>
+                            <?php echo $form['currency_id']->renderLabel(__('Currency') . ' <em>*</em>'); ?>
+                            <?php echo $form['currency_id']->render(array("class" => "formSelect")); ?>
+                        </li>
+                        <li>
+                            <input name="" disabled="disabled" id="minSalary" type="hidden" value=""/>
+                            <input name="" disabled="disabled" id="maxSalary" type="hidden" value=""/>
+                            <?php echo $form['basic_salary']->renderLabel(__('Amount') . ' <em>*</em>'); ?>
+                            <?php echo $form['basic_salary']->render(array("class" => "formInputText", "maxlength" => 12)); ?>
+                            <label for="minSalary" id="minMaxSalaryLbl" class="fieldHelpRight"></label>
+                        </li>
+                        <li class="largeTextBox">
+                            <?php echo $form['comments']->renderLabel(__('Comments')); ?>
+                            <?php echo $form['comments']->render(array("class" => "formInputText")); ?>
+                        </li>
+                        <li>
+                            <?php echo $form['set_direct_debit']->renderLabel(__('Add Direct Deposit Details'), array('id' => 'set_direct_debit_label')); ?>
+                            <?php echo $form['set_direct_debit']->render(); ?>
+                        </li>
+                        <li class="required" id="notDirectDebitSection">
+                            <em>*</em> <?php echo __(CommonMessages::REQUIRED_FIELD); ?>
+                        </li>
+                    </ol>
+                    <ol id="directDebitSection">
+                        <?php echo $directDepositForm['_csrf_token']; ?>
+                        <?php echo $directDepositForm['id']->render(); ?>
+                        <li>
+                            <?php echo $directDepositForm['account']->renderLabel(__('Account Number') . ' <em>*</em>'); ?>
+                            <?php echo $directDepositForm['account']->render(array("class" => "formInputText", "maxlength" => 100)); ?>
+                        </li>
+                        <li>
+                            <?php echo $directDepositForm['account_type']->renderLabel(__('Account Type') . ' <em>*</em>'); ?>
+                            <?php echo $directDepositForm['account_type']->render(array("class" => "formSelect")); ?>
+                        </li>
+                        <li id="accountTypeOther">
+                            <?php echo $directDepositForm['account_type_other']->renderLabel(__('Please Specify') . ' <em>*</em>');?>
+                            <?php echo $directDepositForm['account_type_other']->render(array("class" => "formInputText", "maxlength" => 20)); ?>
+                        </li>
+                        <li> 
+                            <?php echo $directDepositForm['routing_num']->renderLabel(__('Routing Number') . ' <em>*</em>'); ?>
+                            <?php echo $directDepositForm['routing_num']->render(array("class" => "formInputText", "maxlength" => 9)); ?>
+                        </li>
+                        <li>
+                            <?php echo $directDepositForm['amount']->renderLabel(__('Amount') . ' <em>*</em>'); ?>
+                            <?php echo $directDepositForm['amount']->render(array("class" => "formInputText", "maxlength" => 12)); ?>
+                        </li>
+                        <li class="required">
+                            <em>*</em> <?php echo __(CommonMessages::REQUIRED_FIELD); ?>
+                        </li>
+                    </ol>
+                    <p>
+                        <input type="button" class="" id="btnSalarySave" value="<?php echo __("Save"); ?>" />
+                        <?php if (
+                                (count($salaryList) > 0) || 
+                                (count($salaryList) > 0 && $salaryPermissions->canCreate()) || 
+                                (count($salaryList) > 0 && $salaryPermissions->canUpdate())
+                                ) { ?>
+                        <input type="button" class="reset" id="btnSalaryCancel" value="<?php echo __("Cancel"); ?>" />
+                        <?php } ?>
+                    </p>
+                </fieldset>
+            </form>
+        </div> <!-- inner -->
+    </div> <!-- changeSalary-Add-or-Edit-salary -->
+    <?php } ?>
+    
+    <div class="miniList" id="salaryMiniList">
+        <div class="head">
+            <h1><?php echo __("Assigned Salary Components"); ?></h1>
+        </div>
+        
+        <div class="inner">
+            <?php if ($salaryPermissions->canRead()) : ?>
+            
+            <?php include_partial('global/flash_messages', array('prefix' => 'salary')); ?>
+            
+            <form id="frmDelSalary" action="<?php echo url_for('pim/deleteSalary?empNumber=' . $empNumber); ?>" method="post" class="longLabels">
+                <p id="actionSalary">
+                    <?php if ($salaryPermissions->canCreate()) { ?>
+                    <input type="button" value="<?php echo __("Add"); ?>" class="" id="addSalary" />
+                    <?php } ?>
+                    <?php if ($salaryPermissions->canDelete()) { ?>
+                    <input type="button" value="<?php echo __("Delete"); ?>" class="delete" id="delSalary" />
+                    <?php } ?>
+                </p>
+                <table id="tblSalary" class="table hover">
+                    <thead>
+                        <tr>
+                            <?php if ($salaryPermissions->canDelete()) { ?>
+                            <th class="check" style="width:2%"><input type="checkbox" id="salaryCheckAll" /></th>
+                            <?php } ?>
+                            <th class="component"><?php echo __('Salary Component'); ?></th>
+                            <th class="payperiod"><?php echo __('Pay Frequency'); ?></th>
+                            <th class="currency"><?php echo __('Currency'); ?></th>
+                            <th class="amount"><?php echo __('Amount'); ?></th>
+                            <th class="comments"><?php echo __('Comments'); ?></th>
+                            <th class="directDepositCheck"><?php echo __('Show Direct Deposit Details'); ?></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <?php
+                        if (!(count($salaryList) > 0)) { ?>
+                        <tr>
+                            <td class="check"></td>
+                            <td><?php echo __(TopLevelMessages::NO_RECORDS_FOUND); ?></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                        <?php } else { ?>                        
+                        <?php
+                        $row = 0;
+                        foreach ($salaryList as $salary) :
+                            $cssClass = ($row % 2) ? 'even' : 'odd';
+                            //empty($salary->from_date)
+                            $component = $salary->getSalaryName();
+                            $period = $salary->getPayperiod();
+                            $payPeriodName = empty($period) ? '' : htmlspecialchars($period->getName());
+                            $payPeriodCode = empty($period) ? '' : htmlspecialchars($period->getCode());
+                            $currency = $salary->getCurrencyType();
+                            $currencyName = empty($currency) ? '' : __(htmlspecialchars($currency->getCurrencyName()));
+                            $currencyId = empty($currency) ? '' : htmlspecialchars($currency->getCurrencyId());
+                            $amount = $salary->getAmount();
+                            $comments = $salary->getNotes();
+                            $salaryGrade = $salary->getPayGradeId();
+                            $directDeposit = $salary->getDirectDebit();
+                            $hasDirectDeposit = !empty($directDeposit->id);
+                            $accountType = $directDeposit->account_type;
+                            $otherType = "";
+                            if ($hasDirectDeposit) {
+                                if (($directDeposit->account_type != EmployeeDirectDepositForm::ACCOUNT_TYPE_SAVINGS) && 
+                                        ($directDeposit->account_type != EmployeeDirectDepositForm::ACCOUNT_TYPE_CHECKING)) {
+                                    $accountType = EmployeeDirectDepositForm::ACCOUNT_TYPE_OTHER;
+                                    $otherType = $directDeposit->account_type;
+                                }
                             }
                             ?>
-                            <div id="messagebar" class="<?php echo $tmpMsgClass; ?>">
-                                <span style="font-weight: bold;"><?php echo $tmpMsg; ?></span>
-                            </div>
-
-
-                            <?php if ($salaryPermissions->canCreate() || ($salaryPermissions->canUpdate() && count($salaryList) > 0)) : ?>
-                                <div id="changeSalary" class="outerbox" >
-                                    <div class="mainHeading"><h2 id="headchangeSalary"><?php echo __('Add Salary Component'); ?></h2></div>
-                                    <form id="frmSalary" action="<?php echo url_for('pim/viewSalaryList?empNumber=' . $empNumber); ?>" method="post">
-
-                                    <?php echo $form['_csrf_token']; ?>
-                                    <?php echo $form['id']->render(); ?>
-                                    <?php echo $form['emp_number']->render(); ?>
-
-
-                                    <?php
-                                    echo $form['sal_grd_code']->renderLabel(__('Pay Grade'));
-                                    if ($form->havePayGrades) {
-
-                                        echo $form['sal_grd_code']->render(array("class" => "formSelect"));
-                                    } else {
-                                        echo $form['sal_grd_code']->render();
-                                    ?>
-                                        <label id="noSalaryGrade" for="sal_grd_code"><?php echo __("Not Defined"); ?></label>
-                                    <?php
-                                    }
-                                    ?>
-                                    <br class="clear"/>
-
-                                    <?php echo $form['salary_component']->renderLabel(__('Salary Component') . ' <span class="required">*</span>'); ?>
-                                    <?php echo $form['salary_component']->render(array("class" => "formInputText", "maxlength" => 100)); ?>
-                                    <br class="clear"/>
-
-                                    <?php echo $form['payperiod_code']->renderLabel(__('Pay Frequency')); ?>
-                                    <?php echo $form['payperiod_code']->render(array("class" => "formSelect")); ?>
-                                    <br class="clear"/>
-
-                                    <?php echo $form['currency_id']->renderLabel(__('Currency') . ' <span class="required">*</span>'); ?>
-                                    <?php echo $form['currency_id']->render(array("class" => "formSelect")); ?>
-                                    <br class="clear"/>
-
-                                    <input name="" disabled="disabled" id="minSalary" type="hidden" value=""/>
-                                    <input name="" disabled="disabled" id="maxSalary" type="hidden" value=""/>
-                                    <?php echo $form['basic_salary']->renderLabel(__('Amount') . ' <span class="required">*</span>'); ?>
-                                    <?php echo $form['basic_salary']->render(array("class" => "formInputText", "maxlength" => 12)); ?>
-                                    <label for="minSalary" id="minMaxSalaryLbl"></label>
-                                    <br class="clear"/>
-
-                                    <?php echo $form['comments']->renderLabel(__('Comments')); ?>
-                                    <?php echo $form['comments']->render(array("class" => "formInputText")); ?>
-                                    <br class="clear"/>
-
-                                    <?php echo $form['set_direct_debit']->render(); ?>
-                                    <?php echo $form['set_direct_debit']->renderLabel(__('Add Direct Deposit Details'),
-                                            array('id' => 'set_direct_debit_label')); ?>
-
-                                    <br class="clear"/>
-
-                                    <div id="directDebitSection" style="display:none">
-                                        <?php echo $directDepositForm['_csrf_token']; ?>
-                                        <?php echo $directDepositForm['id']->render(); ?>
-
-                                        <?php echo $directDepositForm['account']->renderLabel(__('Account Number') . ' <span class="required">*</span>'); ?>
-                                        <?php echo $directDepositForm['account']->render(array("class" => "formInputText", "maxlength" => 100)); ?>
-
-                                        <br class="clear"/>
-
-                                        <?php echo $directDepositForm['account_type']->renderLabel(__('Account Type') . ' <span class="required">*</span>'); ?>
-                                        <?php echo $directDepositForm['account_type']->render(array("class" => "formSelect")); ?>
-
-                                        <br class="clear"/>
-
-                                        <div id="accountTypeOther">
-                                            <?php echo $directDepositForm['account_type_other']->renderLabel(__('Please Specify') . ' <span class="required">*</span>'); ?>
-                                            <?php echo $directDepositForm['account_type_other']->render(array("class" => "formInputText", "maxlength" => 20)); ?>
-
-                                            <br class="clear"/>
-                                        </div>
-
-                                        <?php echo $directDepositForm['routing_num']->renderLabel(__('Routing Number') . ' <span class="required">*</span>'); ?>
-                                        <?php echo $directDepositForm['routing_num']->render(array("class" => "formInputText", "maxlength" => 9)); ?>
-
-                                            <br class="clear"/>
-
-                                        <?php echo $directDepositForm['amount']->renderLabel(__('Amount') . ' <span class="required">*</span>'); ?>
-                                        <?php echo $directDepositForm['amount']->render(array("class" => "formInputText", "maxlength" => 12)); ?>
-                                            <br class="clear"/>
-                                        </div>
-
-                                        <br class="clear"/>
-
-                                        <?php if ((count($salaryList) > 0 && $salaryPermissions->canUpdate()) || $salaryPermissions->canCreate()) { ?>
-                                        <div class="formbuttons">
-                                            <input type="button" class="savebutton" id="btnSalarySave" value="<?php echo __("Save"); ?>" />
-                                            <?php if ((count($salaryList) > 0) || (count($salaryList) > 0 && $salaryPermissions->canCreate()) || (count($salaryList) > 0 && $salaryPermissions->canUpdate())) { ?>
-                                            <input type="button" class="savebutton" id="btnSalaryCancel" value="<?php echo __("Cancel"); ?>" />
-                                            <?php } ?>
-                                        </div>
-                                        <?php } ?>
-                                    </form>
-                                </div>
-                                <div class="paddingLeftRequired"><span class="required">*</span> <?php echo __(CommonMessages::REQUIRED_FIELD); ?></div>
-                                
-                            <?php endif; ?>
-
-                            <?php if ($salaryPermissions->canRead()) { ?>
-                                
-                                    <?php if (count($salaryList) == 0) { 
-                                        if (!$salaryPermissions->canCreate()) { ?>
-                                        <div class="outerbox">
-                                            <div class="mainHeading"><h2><?php echo __("Assigned Salary Components"); ?></h2></div>
-                                            <span style="width: 500px; padding-left: 8px; padding-top: 3px;"><?php echo __(TopLevelMessages::NO_RECORDS_FOUND); ?></span>
-                                        </div>
-                                    <?php } 
-                                    } else { ?>
-                                <div class="outerbox">
-                                    <div class="mainHeading"><h2><?php echo __('Assigned Salary Components'); ?></h2></div>
-                                    <?php if ($salaryPermissions->canCreate() || $salaryPermissions->canDelete()) { ?>
-                                        <div id="actionSalary" class="actionbuttons">
-                                            <?php if ($salaryPermissions->canCreate()) { ?>
-                                                <input type="button" value="<?php echo __("Add"); ?>" class="savebutton" id="addSalary" />&nbsp;
-                                            <?php } ?>
-                                            <?php if ($salaryPermissions->canDelete()) { ?>
-                                                <input type="button" value="<?php echo __("Delete"); ?>" class="savebutton" id="delSalary" />
-                                            <?php } ?>
-                                        </div>        
-                                    <br class="clear" id="actionClearBr"/>
+                            <tr class="<?php echo $cssClass; ?>">
+                                <?php if (!$essUserMode) {  
+                                $disabled = ($salaryPermissions->canDelete()) ? "" : 'disabled="disabled"';?>
+                                <td class="check">
+                                    <input type="checkbox" <?php echo $disabled;?> class="chkbox" value="<?php echo $salary->id; ?>" name="delSalary[]"/>
+                                </td>
+                                <?php } ?>
+                                <td class="component">
+                                    <input type="hidden" id="code_<?php echo $salary->id; ?>" value="<?php echo $salary->id; ?>" />                                      <?php if($salaryPermissions->canUpdate()) {?>
+                                    <a href="#" class="edit"><?php echo $component;?></a>
+                                    <?php }else{ 
+                                    echo $component;
+                                    }?>
+                                </td>
+                                <td><?php echo __($payPeriodName); ?></td>
+                                <td class="currency"><?php echo $currencyName; ?></td>
+                                <td class="amount"><?php echo $amount; ?></td>
+                                <td class="comments"><?php echo $comments; ?></td>
+                                <td>
+                                    <?php if ($hasDirectDeposit) { ?>
+                                    <input type="checkbox" class="chkbox displayDirectDeposit" value="<?php echo $salary->id; ?>"/>
+                                    <input type="hidden" id="dd_id_<?php echo $salary->id; ?>" value="<?php echo $directDeposit->id; ?>" />
+                                    <input type="hidden" id="dd_account_type_<?php echo $salary->id; ?>" value="<?php echo $accountType; ?>" />
+                                    <input type="hidden" id="dd_other_<?php echo $salary->id; ?>" value="<?php echo $otherType; ?>" />
+                                    <input type="hidden" id="dd_account_<?php echo $salary->id; ?>" value="<?php echo $directDeposit->account; ?>" />
+                                    <input type="hidden" id="dd_routing_num_<?php echo $salary->id; ?>" value="<?php echo $directDeposit->routing_num; ?>" />
+                                    <input type="hidden" id="dd_amount_<?php echo $salary->id; ?>" value="<?php echo $directDeposit->amount; ?>" />
                                     <?php } ?>
-                                    <form id="frmDelSalary" action="<?php echo url_for('pim/deleteSalary?empNumber=' . $empNumber); ?>" method="post">
-                                        <div id="tblSalary">
-                                        <table width="100%" cellspacing="0" cellpadding="0" class="data-table" border="0">
+                                    <input type="hidden" id="sal_grd_code_<?php echo $salary->id; ?>" value="<?php echo htmlspecialchars($salaryGrade); ?>" />
+                                    <input type="hidden" id="currency_id_<?php echo $salary->id; ?>" value="<?php echo htmlspecialchars($currencyId); ?>" />
+                                    <input type="hidden" id="payperiod_code_<?php echo $salary->id; ?>" value="<?php echo htmlspecialchars($payPeriodCode); ?>" />
+                                    <input type="hidden" id="have_dd_<?php echo $salary->id; ?>" value="<?php echo $hasDirectDeposit ? "1" : "0" ?>" />
+                                </td>
+                            </tr>
+                            <?php
+                            if ($hasDirectDeposit) {
+                                $accountTypeStr = "";
+                                if ($accountType == EmployeeDirectDepositForm::ACCOUNT_TYPE_OTHER) {
+                                    $accountTypeStr = $otherType;
+                                } else {
+                                    $accountTypeStr = $directDepositForm->getAccountTypeDescription($accountType);
+                                }
+                                ?>
+                                <tr class="directDepositRow <?php echo $cssClass; ?>" style="display:none;">
+                                    <td colspan="<?php echo $essUserMode ? '6' : '7'?>" class="<?php echo $cssClass; ?>" >
+                                        <span class="directDepositHeading"><h3><?php echo __("Direct Deposit Details"); ?></h3></span>
+                                        <table class="table hover" style="width:60%">
                                             <thead>
                                                 <tr>
-                                                    <?php if (!$essUserMode) { ?>
-                                                        <td class="check"><input type="checkbox" id="salaryCheckAll" /></td>
-                                                    <?php } ?>
-                                                    <td class="component"><?php echo __('Salary Component'); ?></td>
-                                                    <td class="payperiod"><?php echo __('Pay Frequency'); ?></td>
-                                                    <td class="currency"><?php echo __('Currency'); ?></td>
-                                                    <td class="amount"><?php echo __('Amount'); ?></td>
-                                                    <td class="comments"><?php echo __('Comments'); ?></td>
-                                                    <td class="directDepositCheck"><?php echo __('Show Direct Deposit Details'); ?></td>
+                                                    <th><?php echo __("Account Number"); ?></th>
+                                                    <th><?php echo __("Account Type"); ?></th>
+                                                    <th><?php echo __("Routing Number"); ?></th>
+                                                    <th><?php echo __("Amount"); ?></th>
                                                 </tr>
                                             </thead>
                                             <tbody>
-                                            <?php
-                                            $row = 0;
-                                            foreach ($salaryList as $salary) {
-                                                $cssClass = ($row % 2) ? 'even' : 'odd';
-                                                //empty($salary->from_date)
-                                                $component = $salary->getSalaryName();
-                                                $period = $salary->getPayperiod();
-                                                $payPeriodName = empty($period) ? '' : htmlspecialchars($period->getName());
-                                                $payPeriodCode = empty($period) ? '' : htmlspecialchars($period->getCode());
-
-                                                $currency = $salary->getCurrencyType();
-                                                $currencyName = empty($currency) ? '' : __(htmlspecialchars($currency->getCurrencyName()));
-                                                $currencyId = empty($currency) ? '' : htmlspecialchars($currency->getCurrencyId());
-                                                $amount = $salary->getAmount();
-                                                $comments = $salary->getNotes();
-                                                $salaryGrade = $salary->getPayGradeId();
+                                                <tr>
+                                                    <td><?php echo $directDeposit->account; ?></td>
+                                                    <td><?php echo $accountTypeStr; ?></td>
+                                                    <td><?php echo $directDeposit->routing_num; ?></td>
+                                                    <td><?php echo $directDeposit->amount; ?></td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </td>
+                                </tr>
+                            <?php
+                            }
+                            $row++;
+                        endforeach;
+                        } 
+                        ?>
+                    </tbody>
+                </table>
+            </form>
+            <?php else : ?>
+            <div><?php echo __(CommonMessages::DONT_HAVE_ACCESS); ?></div>
+            <?php endif; ?>
+        </div>
+    </div> <!-- miniList-salaryMiniList -->
     
-                                                $directDeposit = $salary->getDirectDebit();
-                                                $hasDirectDeposit = !empty($directDeposit->id);
+    <?php 
+    echo include_component('pim', 'customFields', array('empNumber' => $empNumber, 'screen' => CustomField::SCREEN_SALARY));
+    echo include_component('pim', 'attachments', array('empNumber' => $empNumber, 'screen' => EmployeeAttachment::SCREEN_SALARY)); 
+    ?>
+</div> <!-- Box -->
 
-                                                $accountType = $directDeposit->account_type;
-                                                $otherType = "";
-
-                                                if ($hasDirectDeposit) {
-                                                    if (($directDeposit->account_type != EmployeeDirectDepositForm::ACCOUNT_TYPE_SAVINGS) &&
-                                                        ($directDeposit->account_type != EmployeeDirectDepositForm::ACCOUNT_TYPE_CHECKING)) {
-                                                        $accountType = EmployeeDirectDepositForm::ACCOUNT_TYPE_OTHER;
-                                                        $otherType = $directDeposit->account_type;
-                                                    }
-                                                }
-                                                ?>
-                                                <tr class="<?php echo $cssClass; ?>">
-                                                <?php if (!$essUserMode) {  
-                                                    $disabled = ($salaryPermissions->canDelete()) ? "" : 'disabled="disabled"';?>
-                                                        
-                                                <td class="check">
-                                                    <input type="checkbox" <?php echo $disabled;?> class="chkbox" value="<?php echo $salary->id; ?>" name="delSalary[]"/>
-                                                </td>
-                                                <?php } ?>
-                                                <td class="component">
-                                                    <input type="hidden" id="code_<?php echo $salary->id; ?>" value="<?php echo $salary->id; ?>" />                                                            
-                                                    <?php if($salaryPermissions->canUpdate()) {?>
-                                                        <a href="#" class="edit"><?php echo $component;?></a>
-                                                    <?php }else{ 
-                                                        echo $component;
-                                                    }?>
-                                                </td>
-                                                            
-                                                <td><?php echo __($payPeriodName); ?></td>
-                                                <td class="currency"><?php echo $currencyName; ?></td>
-                                                <td class="amount"><?php echo $amount; ?></td>
-                                                <td class="comments"><?php echo $comments; ?></td>
-                                                <td>
-                                                <?php if ($hasDirectDeposit) { ?>
-                                                    <input type="checkbox" class="chkbox displayDirectDeposit" value="<?php echo $salary->id; ?>"/>
-                                                    <input type="hidden" id="dd_id_<?php echo $salary->id; ?>" value="<?php echo htmlspecialchars($directDeposit->id); ?>" />
-                                                    <input type="hidden" id="dd_account_type_<?php echo $salary->id; ?>" value="<?php echo htmlspecialchars($accountType); ?>" />
-                                                    <input type="hidden" id="dd_other_<?php echo $salary->id; ?>" value="<?php echo htmlspecialchars($otherType); ?>" />
-                                                    <input type="hidden" id="dd_account_<?php echo $salary->id; ?>" value="<?php echo htmlspecialchars($directDeposit->account); ?>" />
-                                                    <input type="hidden" id="dd_routing_num_<?php echo $salary->id; ?>" value="<?php echo htmlspecialchars($directDeposit->routing_num); ?>" />
-                                                    <input type="hidden" id="dd_amount_<?php echo $salary->id; ?>" value="<?php echo htmlspecialchars($directDeposit->amount); ?>" />
-
-                                                <?php } ?>
-
-                                                <input type="hidden" id="sal_grd_code_<?php echo $salary->id; ?>" value="<?php echo htmlspecialchars($salaryGrade); ?>" />
-                                                <input type="hidden" id="currency_id_<?php echo $salary->id; ?>" value="<?php echo htmlspecialchars($currencyId); ?>" />
-                                                <input type="hidden" id="payperiod_code_<?php echo $salary->id; ?>" value="<?php echo htmlspecialchars($payPeriodCode); ?>" />
-                                                <input type="hidden" id="have_dd_<?php echo $salary->id; ?>" value="<?php echo $hasDirectDeposit ? "1" : "0" ?>" />
-
-
-                                                </td>
-                                                </tr>
-                                                <?php
-                                                        if ($hasDirectDeposit) {
-                                                            $accountTypeStr = "";
-                                                            if ($accountType == EmployeeDirectDepositForm::ACCOUNT_TYPE_OTHER) {
-                                                                $accountTypeStr = $otherType;
-                                                            } else {
-                                                                $accountTypeStr = $directDepositForm->getAccountTypeDescription($accountType);
-                                                            }
-                                                ?>
-                                                            <tr class="directDepositRow" style="display:none;">
-                                                                <td colspan="<?php echo $essUserMode ? '6' : '7'?>" class="<?php echo $cssClass; ?>" >
-                                                                    <span class="directDepositHeading"><?php echo __("Direct Deposit Details"); ?></span>
-
-                                                                    <table cellspacing="0" cellpadding="0" border="0" class="directDepositTable" width="80%">
-                                                                        <thead>
-                                                                            <tr>
-                                                                                <td><?php echo __("Account Number"); ?></td>
-                                                                                <td><?php echo __("Account Type"); ?></td>
-                                                                                <td><?php echo __("Routing Number"); ?></td>
-                                                                                <td><?php echo __("Amount"); ?></td>
-                                                                            </tr>
-                                                                        </thead>
-                                                                        <tbody>
-                                                                            <tr>
-                                                                                <td><?php echo htmlspecialchars($directDeposit->account); ?></td>
-                                                                                <td><?php echo htmlspecialchars($accountTypeStr); ?></td>
-                                                                                <td><?php echo htmlspecialchars($directDeposit->routing_num); ?></td>
-                                                                                <td><?php echo htmlspecialchars($directDeposit->amount); ?></td>
-                                                                            </tr>
-                                                                        </tbody>
-                                                            <?php
-                                                            //;
-                                                            //if (isset($x)) {var_dump($x->toArray());}
-                                                            //    echo $salary->EmpDirectdebit->account;
-                                                            //}?>
-                                                        </table>
-                                                    </td>
-                                                </tr>
-                                                <?php } ?>
-                                                <?php $row++;
-                                                    } ?>
-                                                </tbody>
-                                            </table>
-                                        </div>
-                                    </form>
-                                </div>
-                                <?php } 
-                                } ?>
-
-                            <?php echo include_component('pim', 'customFields', array('empNumber' => $empNumber, 'screen' => CustomField::SCREEN_SALARY)); ?>
-                            <?php echo include_component('pim', 'attachments', array('empNumber' => $empNumber, 'screen' => EmployeeAttachment::SCREEN_SALARY)); ?>
-
-                                            </div>
-                                        </td>
-                                        <td valign="top" align="left">
-                                        </td>
-                                    </tr>
-                                </table>
-                            </td>
-                        </tr>
-                    </table>
 <script type="text/javascript">
 //<![CDATA[
 
@@ -340,6 +294,9 @@
 
 <script type="text/javascript"><!--
 //<![CDATA[
+
+    $('#delSalary').attr('disabled', 'disabled');
+
     function clearMessageBar() {
         $("#messagebar").text("").attr('class', "");
     }
@@ -429,39 +386,33 @@
 
     $(document).ready(function() {
 
-        //hide add section
-<?php if (count($salaryList) > 0) { ?>
-        $("#changeSalary").hide();
-        $(".paddingLeftRequired").hide();
-<?php } else { ?>
-        clearDirectDepositFields();
-        $('#directDebitSection').hide();
-<?php } ?>
-
-    //hiding the data table if records are not available
-    
-    var salaryListCount = <?php echo count($salaryList); ?>;
-    
-    if (salaryListCount == 0) {
-        $("#tblSalary").hide();
-        $("#editSalary").hide();
-        $("#delSalary").hide();
-    }
+    $("#changeSalary").hide();
 
     //if check all button clicked
     $("#salaryCheckAll").click(function() {
-        $("div#tblSalary td.check .chkbox").removeAttr("checked");
-        
+        $(".check .chkbox").removeAttr("checked");
         if ($("#salaryCheckAll").attr("checked")) {
-            $("div#tblSalary td.check .chkbox").attr("checked", "checked");
+            $(".check .chkbox").attr("checked", "checked");
+        }
+        
+        if($('.check .chkbox:checkbox:checked').length > 0) {
+            $('#delSalary').removeAttr('disabled');
+        } else {
+            $('#delSalary').attr('disabled', 'disabled');
         }
     });
 
     //remove tick from the all button if any checkbox unchecked
-    $("div#tblSalary td.check .chkbox").click(function() {
+    $(".check .chkbox").click(function() {
         $("#salaryCheckAll").removeAttr('checked');
-        if ($("div#tblSalary td.check .chkbox").length == $("div#tblSalary td.check .chkbox:checked").length) {
+        if ($(".check .chkbox").length == $(".check .chkbox:checked").length) {
             $("#salaryCheckAll").attr('checked', 'checked');
+        }
+        
+        if($('.check .chkbox:checkbox:checked').length > 0) {
+            $('#delSalary').removeAttr('disabled');
+        } else {
+            $('#delSalary').attr('disabled', 'disabled');
         }
     });
 
@@ -469,8 +420,10 @@
         
         if ($(this).attr('checked')) {
             $('#directDebitSection').show();
+            $('#notDirectDebitSection').hide();
         } else {
             $('#directDebitSection').hide();
+            $('#notDirectDebitSection').show();
         }
         
     });
@@ -505,8 +458,7 @@
 
         //changing the headings
         $("#headchangeSalary").text(lang_addSalary);
-        $('div#tblSalary td.check').hide();
-        $('div#tblSalary td.component').attr('colspan', 2);
+        $('.check').hide();
 
         //hiding action button section
         $("#actionSalary").hide();
@@ -525,10 +477,10 @@
 
         //show add form
         $("#changeSalary").show();
-        $(".paddingLeftRequired").show();
 
         // hide direct deposit section
         $('#directDebitSection').hide();
+        $('#notDirectDebitSection').show();
         clearDirectDepositFields();
         $("#salary_set_direct_debit").removeAttr('checked');
 
@@ -536,15 +488,9 @@
 
     //clicking of delete button
     $("#delSalary").click(function(){
-        
-        clearMessageBar();
-        
-        if ($("div#tblSalary td.check .chkbox:checked").length > 0) {
+        if ($(".check .chkbox:checked").length > 0) {
             $("#frmDelSalary").submit();
-        } else {
-            $("#messagebar").attr('class', 'messageBalloon_notice').text(lang_selectSalaryToDelete);
         }
-        
     });
 
     $("#btnSalarySave").click(function() {
@@ -587,7 +533,8 @@
             'salary[basic_salary]': {number:true, validateAmount:true, required: true, min: 0, max:999999999.99},
             'directdeposit[account]': {required: "#salary_set_direct_debit:checked", maxlength:100},
             'directdeposit[account_type]': {required: "#salary_set_direct_debit:checked"},
-            'directdeposit[account_type_other]': {required: function(element) {
+            'directdeposit[account_type_other]': {
+                required: function(element) {
                     if ( $('#salary_set_direct_debit:checked').length &&
                         $('#directdeposit_account_type').val() == "OTHER" ) {
                         return true;
@@ -610,13 +557,6 @@
             'directdeposit[routing_num]': {required: lang_routingNumRequired, digits: lang_routingNumInteger},
             'directdeposit[amount]': {required: lang_amountRequired, number: lang_depositAmountShouldBeNumber, min: lang_negativeAmount, max:lang_tooLargeAmount}
             
-        },
-        
-        errorElement : 'div',
-        errorPlacement: function(error, element) {
-            error.insertAfter(element.next(".clear"));
-            error.insertAfter(element.next().next(".clear"));
-            
         }
     });
     
@@ -624,12 +564,12 @@
         if (canUpdate) {
             // called here to avoid double adding links - When in edit mode and cancel is pressed.
             removeEditLinks();
-            $('div#tblSalary table tbody td.component').wrapInner('<a class="edit" href="#"/>');
+            $('td.component').wrapInner('<a class="edit" href="#"/>');
         }
     }
     $('#accountTypeOther').hide();
     function removeEditLinks() {
-        $('div#tblSalary table tbody td.component a').each(function(index) {
+        $('td.component a').each(function(index) {
             $(this).parent().text($(this).text());
         });
     }
@@ -643,14 +583,13 @@
 
         $('div#changeSalary label.error').hide();
 
-        $("div#tblSalary .chkbox").removeAttr("checked");
-        $('div#tblSalary td.check').show();
-        $('div#tblSalary td.component').attr('colspan', 1);
+        $(".chkbox").removeAttr("checked");
+        $('.check').show();
+        $('td.component').attr('colspan', 1);
 
         //hiding action button section
         $("#actionSalary").show();
         $("#changeSalary").hide();
-        $(".paddingLeftRequired").hide();
 
         $('#salary_id').val('');
 
@@ -715,6 +654,7 @@
             $("#directdeposit_routing_num").val($("#dd_routing_num_" + id).val());
             $("#directdeposit_amount").val($("#dd_amount_" + id).val());
             $('#directDebitSection').show();
+            $('#notDirectDebitSection').hide();
             
             
             if ($("#directdeposit_account_type_other").val() == '') {
@@ -726,6 +666,7 @@
         } else {
             $("#salary_set_direct_debit").removeAttr('checked');
             $('#directDebitSection').hide();
+            $('#notDirectDebitSection').show();
             clearDirectDepositFields();
         }
         
@@ -733,10 +674,7 @@
         
         updateCurrencyList(salGrdCode, currencyId, currencyName);
         
-        $(".paddingLeftRequired").show();
-        
-        $("div#tblSalary td.check").hide();
-        $('div#tblSalary td.component').attr('colspan', 2);
+        $(".check").hide();
         
     });
     

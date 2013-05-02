@@ -1,82 +1,15 @@
-/* 
-    Document   : attachmentsPartial
-    Created on : Jul 20, 2011, 1:56:02 PM
-    Author     : orangehrm
-    Description:
-        Purpose of the stylesheet follows.
-*/
-
-/* 
-   TODO customize this sample style
-   Syntax recommendation http://www.w3.org/TR/REC-CSS2/
-*/
-
-root { 
-	display: block;
+#addPaneAttachments form ol li span {
+    float: none;
+    margin-top: 0;
+    width: 250px;
 }
 
-#addAttachment{
-	width: 800px;
-
-}
-
-.addbutton{
-	margin: 3px;
-}
-
-div#parentPaneAttachments td.comments{
-	max-width: 150px;
-}
-
-div#parentPaneAttachments td.fileLink{
-	max-width: 150px;
-}
-
-label{
-	margin-top: 10px;
-	width: 150px;
-}
-
-.atachment{
-	margin-top: 8px;
-}
-
-.comment{
-	margin-top: 8px;
-}
-
-form#frmRecAttachment label.error {
-	clear:both;
-	color:red;
-	display:block;
-	font-size:11px;
-	margin-top:5px;
-	padding-left:170px !important;
-	width:270px !important;
-	margin-left: 1px !important;
-}
-
-/* Using !important to override !important in IE_Only css */
-input#btnCommentOnly {
-    width:140px!important;
-}
-
-#attachmentEditNote{
-	padding-top: 2px;
-	float: left;
-	margin-top: 18px;
-	padding-left: 5px;
-}
-
-.helpText {
-    font-size: 8pt;
-    color:#888888;
-    padding-left: 170px;
-}
-
-form#frmRecDelAttachments table.data-table td {
-    vertical-align: top;
-    padding-top: 5px;
-    padding-bottom: 3px;
-    height: 16px;
+#addPaneAttachments span.validation-error {
+    color: #AA4935;
+    display: block;
+    font-size: 12px;
+    left: 120px;
+    position: relative !important;
+    top: 8px !important;
+    z-index: 9999;
 }

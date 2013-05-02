@@ -1,62 +1,20 @@
-
-root { 
-	display: block;
+form#frmCandidateVacancyStatus .firstLabel {
+    /*    position: relative;*/
+    padding-left: 12px;
+    margin-top: 6px;
+    width: 150px
 }
 
-#messageBar {
-	margin: 5px 15px 5px 15px;
-	width: 600px
-}
-
-#candidateVacancyStatus {
-	width: 50%;
+form#frmCandidateVacancyStatus .secondLabel {
+    /*    position: relative;*/
+    padding-left: 0px;
+    margin-top: 6px;
+    width: 250px
 }
 
 form#frmCandidateVacancyStatus label {
-	/*    position: relative;*/
-	padding-left: 12px;
-	margin-top: 3px;
-	width: 150px
+    /*    position: relative;*/
+    padding-left: 12px;
+    margin-top: 3px;
+    width: 150px
 }
-form#frmCandidateVacancyStatus .firstLabel {
-	/*    position: relative;*/
-	padding-left: 12px;
-	margin-top: 6px;
-	width: 150px
-}
-form#frmCandidateVacancyStatus .secondLabel {
-	/*    position: relative;*/
-	padding-left: 0px;
-	margin-top: 6px;
-	width: 250px
-}
-
-.newSaveBtn, .savebutton{
-	background:none repeat scroll 0 0 #999966 !important;
-	border-color:#CCCC99 #666633 #666633 #CCCC99 !important;
-	border-style:solid !important;
-	border-width:1px !important;
-	color:#FFFFFF !important;
-	cursor:default;
-	font-size:11px;
-	font-weight:bold !important;
-	width: 160px !important;
-}
-
-div.messageBalloon_success{
-	width: 600px;
-}
-
-div.outerbox{
-	width: 680px;
-}
-
-h3{
-	color:#000000;
-	padding-left: 10px;
-}
-
-#attachmentSubHeadingDiv{
-	float: left;
-}
-

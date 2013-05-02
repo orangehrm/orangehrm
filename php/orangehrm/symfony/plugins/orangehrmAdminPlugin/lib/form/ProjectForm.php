@@ -24,6 +24,7 @@ class ProjectForm extends BaseForm {
 	public $projectId;
 	public $numberOfProjectAdmins = 5;
 	public $edited = false;
+        protected $projectService;
 
 	public function getProjectService() {
 		if (is_null($this->projectService)) {

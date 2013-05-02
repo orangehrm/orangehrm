@@ -46,11 +46,6 @@ class viewSalaryListAction extends basePimAction {
             $this->forward(sfConfig::get('sf_secure_module'), sfConfig::get('sf_secure_action'));
         }
 
-
-        if ($this->getUser()->hasFlash('templateMessage')) {
-            list($this->messageType, $this->message) = $this->getUser()->getFlash('templateMessage');
-        }
-
         $employee = $this->getEmployeeService()->getEmployee($empNumber);
         $params = array('empNumber' => $empNumber, 'ESS' => $this->essMode,
             'employee' => $employee,
@@ -92,7 +87,7 @@ class viewSalaryListAction extends basePimAction {
                                 }
                             }
 
-                            $this->getUser()->setFlash('templateMessage', array('warning', $validationMsg));
+                            $this->getUser()->setFlash('warning', $validationMsg);
                             $directDebitOk = false;
                         }
                     } else {
@@ -105,7 +100,7 @@ class viewSalaryListAction extends basePimAction {
                         $this->setOperationName('UPDATE SALARY');
                         $service->saveEmployeeSalary($salary);                
 
-                        $this->getUser()->setFlash('templateMessage', array('success', __(TopLevelMessages::SAVE_SUCCESS)));  
+                        $this->getUser()->setFlash('salary.success', __(TopLevelMessages::SAVE_SUCCESS));  
                     }
                 }
             } else {
@@ -116,7 +111,7 @@ class viewSalaryListAction extends basePimAction {
                     }
                 }
 
-                $this->getUser()->setFlash('templateMessage', array('warning', $validationMsg));
+                $this->getUser()->setFlash('warning', $validationMsg);
             }
             $this->redirect('pim/viewSalaryList?empNumber=' . $empNumber);  
         } else {

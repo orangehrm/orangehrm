@@ -13,6 +13,11 @@
 class definePredefinedReportAction extends sfAction {
 
     public function execute($request) {
+        
+        /* For highlighting corresponding menu item 
+         * TODO: Currently menu item is hard-coded since this action is only used by PIM Reports
+         */
+        $request->setParameter('initialActionName', 'viewDefinedPredefinedReports');
 
         $adminMode = $this->getUser()->hasCredential(Auth::ADMIN_ROLE);
 
@@ -81,7 +86,7 @@ class definePredefinedReportAction extends sfAction {
                 $reportGeneratorService->saveSelectedDisplayFields($selectedDisplayFields, $reportId);
                 $reportGeneratorService->saveSelectedFilterFields($selectedFilterValues, $reportId, 'Predefined');
                 
-                $this->getUser()->setFlash('templateMessage', array('success', __(TopLevelMessages::SAVE_SUCCESS)));
+                $this->getUser()->setFlash('success', __(TopLevelMessages::SAVE_SUCCESS));
                 $this->redirect('core/viewDefinedPredefinedReports'); 
                 return;
             } 

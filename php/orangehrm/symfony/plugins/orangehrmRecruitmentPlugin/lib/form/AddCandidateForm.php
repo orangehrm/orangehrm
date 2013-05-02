@@ -133,7 +133,7 @@ class AddCandidateForm extends BaseForm {
                         'file_src' => '')),
             'keyWords' => new sfWidgetFormInputText(),
             'comment' => new sfWidgetFormTextArea(),
-            'appliedDate' => new ohrmWidgetDatePickerNew(array(), array('id' => 'addCandidate_appliedDate')),
+            'appliedDate' => new ohrmWidgetDatePicker(array(), array('id' => 'addCandidate_appliedDate')),
             'vacancy' => new sfWidgetFormSelect(array('choices' => $vacancyList)),
             'resumeUpdate' => new sfWidgetFormChoice(array('expanded' => true, 'choices' => $resumeUpdateChoices)),
         ));
@@ -157,7 +157,7 @@ class AddCandidateForm extends BaseForm {
         ));
 
         $this->widgetSchema->setNameFormat('addCandidate[%s]');
-        $this->widgetSchema['appliedDate']->setAttribute('style', 'width:100px');
+        $this->widgetSchema['appliedDate']->setAttribute();
         $this->setDefault('appliedDate', set_datepicker_date_format(date('Y-m-d')));
 
         if ($this->candidateId != null) {

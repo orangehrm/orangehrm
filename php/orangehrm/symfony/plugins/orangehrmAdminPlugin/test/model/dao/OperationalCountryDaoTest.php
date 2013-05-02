@@ -85,6 +85,48 @@ class OperationalCountryDaoTest extends PHPUnit_Framework_TestCase {
             $this->assertEquals($sampleData[$index]['name'], $location->getName());
         }
     }
+    
+    public function testGetOperationalCountriesForLocations() {
+        $sampleData = sfYaml::load($this->fixture);
+        $sampleOperationalCountries = $sampleData['OperationalCountry'];
+        
+        // Empty locations
+        $locationIds = array();
+        $result = $this->dao->getOperationalCountriesForLocations($locationIds);
+
+        // unavalable location
+        $locationIds = array(11);
+        $result = $this->dao->getOperationalCountriesForLocations($locationIds);
+        $this->assertEquals(0, count($result));
+
+        // location without operational country
+        $locationIds = array(4);
+        $result = $this->dao->getOperationalCountriesForLocations($locationIds);
+        $this->assertEquals(0, count($result));
+        
+        
+        $expected = array($sampleOperationalCountries[0]);
+        $locationIds = array(1);
+        $result = $this->dao->getOperationalCountriesForLocations($locationIds);
+        $this->compareOperationalCountries($expected, $result);
+        
+        $expected = array($sampleOperationalCountries[0], $sampleOperationalCountries[1]);
+        $locationIds = array(1, 2, 3, 4);
+        $result = $this->dao->getOperationalCountriesForLocations($locationIds);
+        $this->compareOperationalCountries($expected, $result);
+
+    }
+    
+    protected function compareOperationalCountries($expected, $result) {
+        $this->assertEquals(count($expected), count($result));
+        
+        for ($i = 0; $i < count($result); $i++) {
+            $country = $result[$i];
+            $expectedCountry = $expected[$i];
+            $this->assertEquals($expectedCountry['id'], $country->getId());
+            $this->assertEquals($expectedCountry['country_code'], $country->getCountryCode());
+        }
+    }
 
 }
 

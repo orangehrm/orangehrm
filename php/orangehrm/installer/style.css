@@ -28,13 +28,13 @@ a {
 
 
 .left_Active {
-	background-image : url('../themes/beyondT/pictures/nCurrentTab_left.gif');
+	background-image : url('images/nCurrentTab_left.gif');
 	width:9px;
 	height:19px;
 }
 
 .middle_Active {
-	background-image : url('../themes/beyondT/pictures/nCurrentTab_middle.gif');
+	background-image : url('images/nCurrentTab_middle.gif');
 	height:19px;
 	font-size: 11px;
 	text-transform: capitalize;
@@ -47,19 +47,19 @@ a {
 }
 
 .right_Active {
-	background-image : url('../themes/beyondT/pictures/nCurrentTab_right.gif');
+	background-image : url('images/nCurrentTab_right.gif');
 	width:9px;
 	height:19px;
 }
 
 .left_Inactive {
-	background-image : url('../themes/beyondT/pictures/otherTab_left.png');
+	background-image : url('images/otherTab_left.png');
 	width:9px;
 	height:19px;
 }
 
 .middle_Inactive {
-	background-image : url('../themes/beyondT/pictures/otherTab_middle.png');
+	background-image : url('images/otherTab_middle.png');
 	height:19px;
 	font-size: 11px;
 	text-transform: capitalize;
@@ -72,7 +72,7 @@ a {
 }
 
 .middle_Inactive_tocome {
-	background-image : url('../themes/beyondT/pictures/otherTab_middle.png');
+	background-image : url('images/otherTab_middle.png');
 	height:19px;
 	font-size: 11px;
 	text-transform: capitalize;
@@ -85,7 +85,7 @@ a {
 }
 
 .right_Inactive {
-	background-image : url('../themes/beyondT/pictures/otherTab_right.png');
+	background-image : url('images/otherTab_right.png');
 	width:9px;
 	height:19px;
 }

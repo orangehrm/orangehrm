@@ -65,13 +65,13 @@ $(document).ready(function (){
             $(this).parent().children('.plusMark').show();
             $(this).parent().children('.minusMark').hide();
         }
-        $(this).parent().next().children('.vacancyTitle').css('background-color', '#d5d5d5');
+//        $(this).parent().next().children('.vacancyTitle').css('background-color', '#d5d5d5');
     });
     
     $('.minusMark, .plusMark').hover(function() {
-        $(this).parent().next().children('.vacancyTitle').css('background-color', '#d5d5d5');
+//        $(this).parent().next().children('.vacancyTitle').css('background-color', '#d5d5d5');
     },function() {
-        $(this).parent().next().children('.vacancyTitle').css('background-color', '#fff');
+//        $(this).parent().next().children('.vacancyTitle').css('background-color', '#fff');
     });
     
     $('.apply').click(function() {

@@ -15,49 +15,50 @@
  * You should have received a copy of the GNU General Public License along with this program;
  * if not, write to the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
  * Boston, MA  02110-1301, USA
- */ ?>
-<?php echo stylesheet_tag('../orangehrmTimePlugin/css/defineTimesheetPeriodSuccess'); ?>
-<?php echo javascript_include_tag('../orangehrmTimePlugin/js/defineTimesheetPeriod'); ?>
+ */ 
+?>
+<?php echo javascript_include_tag(plugin_web_path('orangehrmTimePlugin', 'js/defineTimesheetPeriod')); ?>
 
-<div id="messagebar" style="margin-left: 16px;width: 450px;" class="<?php echo isset($messageType) ? "messageBalloon_{$messageType}" : ''; ?>" >
-    <span style="font-weight: bold;"><?php echo isset($message) ? $message : ''; ?></span>
-</div>
-    <div class="outerbox" style="width: 35%">
-
-        <div class="mainHeading"><h2 id="defineTimesheet"><?php echo __('Define Timesheet Period'); ?></h2></div>
-        <form id="definePeriod" method="post">
-
-            <?php echo $form['_csrf_token']; ?>
-            <div>
-		<table><tr>
-		<?php if($isAllowed){?>
-		<td id="startDayLabel"><?php  echo __('First Day of Week').' <span class=required>*</span>';?></td>
-                <td id="startDays"><?php echo $form['startingDays']->render(array("class" => "drpDown", "maxlength" => 20)); ?></td></tr>
-		<?php }else{ ?>
-
-                <br class="clear"/>
-		<tr>
-            <td><b><?php echo __("Timesheet period start day has not been defined. Please contact HR Admin"); ?></b></td>
-		<?php } ?>
-		</tr>
-		</table>
-            </div>
-            <?php if($isAllowed){?>
-	    <div class="formbuttons">
-            
-		    <input type="button" class="savebutton" name="btnSave" id="btnSave"
-                       value="<?php echo __("Save"); ?>"onmouseover="moverButton(this);" onmouseout="moutButton(this);"/>
-               
-            </div> 
-            <?php } ?>
-        </form>
+<div class="box">
+    
+    <div class="head">
+        <h1 id="defineTimesheet"><?php echo __('Define Timesheet Period'); ?></h1>
     </div>
- <?php if($isAllowed){?>
-    <div class="paddingLeftRequired"><span class="required">*</span> <?php echo __(CommonMessages::REQUIRED_FIELD); ?></div>
- <?php } ?>
-    <script type="text/javascript">
-
-    var linkTodefineTimesheetPeriod="<?php echo url_for('time/defineTimesheetPeriod')?>";
-    var required_msge = '<?php echo __(ValidationMessages::REQUIRED); ?>';
-
+    
+    <div class="inner">
+        
+        <?php include_partial('global/flash_messages'); ?>
+        
+        <form id="definePeriod" method="post" action="<?php echo url_for('time/defineTimesheetPeriod')?>">
+            <?php echo $form['_csrf_token']; ?>
+            <fieldset>
+                <ol>
+                    <li>
+                        <?php if ($isAllowed) { ?>
+                            <?php echo $form['startingDays']->renderLabel(__('First Day of Week') . ' <em>*</em>'); ?>
+                            <?php echo $form['startingDays']->render(array("maxlength" => 20)); ?>
+                        <?php } else { ?>                        
+                            <label><?php echo __("Timesheet period start day has not been defined. Please contact HR Admin"); ?></label>
+                        <?php } ?>
+                    </li>
+                    <?php if($isAllowed){?>
+                        <li class="required">
+                            <em>*</em> <?php echo __(CommonMessages::REQUIRED_FIELD); ?>
+                        </li>
+                    <?php } ?>
+                </ol>
+                <?php if ($isAllowed) { ?>
+                <p>
+                    <input type="button" class="" name="btnSave" id="btnSave" value="<?php echo __("Save"); ?>"/>
+                </p>
+                <?php } ?>
+            </fieldset>
+        </form> 
+        
+    </div>
+    
+</div>
+    
+<script type="text/javascript">
+    var lang_required = '<?php echo __(ValidationMessages::REQUIRED);?>';
 </script>

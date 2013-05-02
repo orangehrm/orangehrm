@@ -16,9 +16,6 @@ $(document).ready(function() {
             'tax[stateExemptions]' :{
                 number: lang_negativeAmount, min: lang_negativeAmount, max: lang_tooLargeAmount
             }
-        },
-        errorPlacement: function(error, element) {
-            error.appendTo( element.prev('label') );
         }
     });  // End of validator
 

@@ -70,8 +70,9 @@ class addEmployeeAction extends basePimAction {
                 $photoFile = $request->getFiles();
 
                 //in case if file size exceeds 1MB
-                if($photoFile['photofile']['name'] != "" && ($photoFile['photofile']['size'] == 0 || $photoFile['photofile']['size'] > 1000000)) {
-                    $this->getUser()->setFlash('templateMessage', array('warning', __(TopLevelMessages::FILE_SIZE_SAVE_FAILURE)));
+                if($photoFile['photofile']['name'] != "" && ($photoFile['photofile']['size'] == 0 || 
+                        $photoFile['photofile']['size'] > 1000000)) {
+                    $this->getUser()->setFlash('warning', __(TopLevelMessages::FILE_SIZE_SAVE_FAILURE));
                     $this->redirect('pim/addEmployee');
                 }
 
@@ -84,7 +85,7 @@ class addEmployeeAction extends basePimAction {
 
                     if($user instanceof SystemUser) {
 
-                        $this->getUser()->setFlash('templateMessage', array('warning', __('Failed To Save: User Name Exists')));
+                        $this->getUser()->setFlash('warning', __('Failed To Save: User Name Exists'));
                         $this->redirect('pim/addEmployee');
                     }
                 }
@@ -106,7 +107,7 @@ class addEmployeeAction extends basePimAction {
                         $allowedImageTypes[] = "image/x-png";
 
                         if(!empty($fileType) && !in_array($fileType, $allowedImageTypes)) {
-                            $this->getUser()->setFlash('templateMessage', array('warning', __(TopLevelMessages::FILE_TYPE_SAVE_FAILURE)));
+                            $this->getUser()->setFlash('warning', __(TopLevelMessages::FILE_TYPE_SAVE_FAILURE));
                             $this->redirect('pim/addEmployee');
 
                         } else {
@@ -145,7 +146,7 @@ class addEmployeeAction extends basePimAction {
             $employee = $this->getEmployeeService()->getEmployeeByEmployeeId($employeeId);
 
             if ($employee instanceof Employee) {
-                $this->getUser()->setFlash('templateMessage', array('warning', __('Failed To Save: Employee Id Exists')));
+                $this->getUser()->setFlash('warning', __('Failed To Save: Employee Id Exists'));
                 $this->redirect('pim/addEmployee');
             }
 

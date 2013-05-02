@@ -1,31 +1,16 @@
-.right{
-    text-align: right;
+#scrollWrapper, #tableWrapper {
+    border: none; 
+    overflow: auto;
 }
 
-.left{
-    text-align: left;
+#scrollContainer {
+    height: 1px;
 }
 
-.center{
-    text-align: center;
-}
-
-.headerCell {
-    color: #444444;
-    font-size: 11px;
-}
+#resultTable {
+    overflow: auto;
+} 
 
 table.valueListCell td {
     white-space: nowrap;
-}
-
-table.data-table tbody tr.trHover td {
-    background-color: #CCC;
-}
-
-form#frmList_ohrmListComponent div.formbuttons {
-    float: left;
-    margin-top: 0;
-    padding: 6px;
-    border-top: medium none white;
 }

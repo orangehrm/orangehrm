@@ -1,0 +1,6 @@
+viewJobsSuccess.html:
+  layout: noHeader
+viewJobsSuccess.rss:
+  has_layout: false
+applyVacancySuccess:
+  layout: noHeader

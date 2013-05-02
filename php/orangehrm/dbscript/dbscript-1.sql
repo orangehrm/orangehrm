@@ -363,32 +363,12 @@ create table `ohrm_education` (
 	primary key (`id`)
 ) engine=innodb default charset=utf8;
 
-create table `hs_hr_rights` (
-  `userg_id` varchar(36) not null default '',
-  `mod_id` varchar(36) not null default '',
-  `addition` smallint(5) unsigned default '0',
-  `editing` smallint(5) unsigned default '0',
-  `deletion` smallint(5) unsigned default '0',
-  `viewing` smallint(5) unsigned default '0',
-  primary key  (`mod_id`,`userg_id`)
-) engine=innodb default charset=utf8;
-
-
 create table `ohrm_skill` (
   `id` int not null auto_increment,
   `name` varchar(120) default null,
   `description` text default null,
   primary key  (`id`)
 ) engine=innodb default charset=utf8;
-
-
-create table `hs_hr_user_group` (
-  `userg_id` varchar(36) not null default '',
-  `userg_name` varchar(45) default null,
-  `userg_repdef` smallint(5) unsigned default '0',
-  primary key  (`userg_id`)
-)  engine=innodb default charset=utf8;
-
 
 create table `ohrm_pay_grade_currency` (
   `pay_grade_id` int not null ,
@@ -402,75 +382,6 @@ create table `ohrm_pay_grade` (
   `id` int not null auto_increment,
   `name` varchar(60) default null unique,
   primary key  (`id`)
-) engine=innodb default charset=utf8;
-
-
-create table `hs_hr_empreport` (
-  `rep_code` varchar(13) not null default '',
-  `rep_name` varchar(60) unique default null,
-  `rep_cridef_str` varchar(200) default null,
-  `rep_flddef_str` varchar(200) default null,
-  primary key  (`rep_code`)
-) engine=innodb default charset=utf8;
-
-create table `hs_hr_emprep_usergroup` (
-  `userg_id` varchar(13) not null default '',
-  `rep_code` varchar(13) not null default '',
-  primary key  (`userg_id`,`rep_code`)
-) engine=innodb default charset=utf8;
-
-CREATE TABLE `hs_hr_leave_requests` (
-  `leave_request_id` int(11) NOT NULL,
-  `leave_type_id` varchar(13) NOT NULL,
-  `leave_period_id` int(7) NOT NULL,
-  `leave_type_name` char(50) default NULL,
-  `date_applied` date NOT NULL,
-  `employee_id` int(7) NOT NULL,
-  `leave_comments` varchar(256) default NULL,
-  PRIMARY KEY  (`leave_request_id`,`leave_type_id`,`employee_id`),
-  KEY `employee_id` (`employee_id`),
-  KEY `leave_type_id` (`leave_type_id`),
-  KEY `leave_period_id` (`leave_period_id`),
-  KEY `leave_period_id_2` (`leave_period_id`,`employee_id`,`leave_type_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
-CREATE TABLE `hs_hr_leave` (
-  `leave_id` int(11) NOT NULL,
-  `leave_date` date default NULL,
-  `leave_length_hours` decimal(6,2) unsigned default NULL,
-  `leave_length_days` decimal(4,2) unsigned default NULL,
-  `leave_status` smallint(6) default NULL,
-  `leave_comments` varchar(256) default NULL,
-  `leave_request_id` int(11) NOT NULL,
-  `leave_type_id` varchar(13) NOT NULL,
-  `employee_id` int(7) NOT NULL,
-  `start_time` time default NULL,
-  `end_time` time default NULL,
-  PRIMARY KEY  (`leave_id`,`leave_request_id`,`leave_type_id`,`employee_id`),
-  KEY `leave_request_id` (`leave_request_id`,`leave_type_id`,`employee_id`),
-  KEY `leave_type_id` (`leave_type_id`),
-  KEY `employee_id` (`employee_id`),
-  KEY `type_status` (`leave_request_id`,`leave_status`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
-create table `hs_hr_leavetype` (
-  `leave_type_id` varchar(13) not null,
-  `leave_type_name` varchar(50) default null,
-  `available_flag` smallint(6) default null,
-  `operational_country_id` int unsigned default null,
-  primary key  (`leave_type_id`)
-) engine=innodb default charset=utf8;
-
-create table `hs_hr_employee_leave_quota` (
-  `leave_type_id` varchar(13) not null,
-  `leave_period_id` int(7) NOT NULL,
-  `employee_id` int(7) not null,
-  `no_of_days_allotted` decimal(6,2) default null,
-  `leave_taken` decimal(6,2) default '0.00',
-  `leave_brought_forward` decimal(6,2) default '0.00',
-  `leave_carried_forward` decimal(6,2) default '0.00',
-   primary key  (`leave_type_id`,`employee_id`,`leave_period_id`),
-   KEY `per_emp_type_key` (`leave_period_id`,`employee_id`,`leave_type_id`)
 ) engine=innodb default charset=utf8;
 
 CREATE TABLE `ohrm_holiday` (
@@ -601,72 +512,11 @@ create table `hs_hr_custom_import` (
   key `emp_number` (`import_id`)
 ) engine=innodb default charset=utf8;
 
-create table `hs_hr_hsp` (
-	`id` int not null ,
-	`employee_id` int not null ,
-	`benefit_year` date default null ,
-	`hsp_value` decimal(10,2) not null ,
-	`total_acrued` decimal(10,2) not null ,
-	`accrued_last_updated` date default null ,
-	`amount_per_day` decimal(10,2) not null ,
-	`edited_status` tinyint default 0 ,
-	`termination_date` date default null ,
-	`halted` tinyint default 0 ,
-	`halted_date` date default null ,
-	`terminated` tinyint default 0 ,
-	primary key (`id`),
-	key `employee_id` (`employee_id`)
-) engine=innodb default charset=utf8;
-
-create table `hs_hr_hsp_payment_request` (
-	`id` int not null ,
-	`hsp_id` int not null ,
-	`employee_id` int not null ,
-	`date_incurred` date not null ,
-	`provider_name` varchar(100) default null ,
-	`person_incurring_expense` varchar(100) default null ,
-	`expense_description` varchar(250) default null ,
-	`expense_amount` decimal(10,2) not null ,
-	`payment_made_to` varchar(100) default null ,
-	`third_party_account_number` varchar(50) default null ,
-	`mail_address` varchar(250) default null ,
-	`comments` varchar(250) default null ,
-	`date_paid` date default null ,
-	`check_number` varchar(50) default null ,
-	`status` tinyint default 0 ,
-	`hr_notes` varchar(250) default null ,
-	primary key (`id`),
-	key `employee_id` (`employee_id`),
-	key `hsp_id` (`hsp_id`)
-) engine=innodb default charset=utf8;
-
-create table `hs_hr_hsp_summary` (
-  `summary_id` int(11) NOT NULL,
-  `employee_id` int(11) NOT NULL,
-  `hsp_plan_id` tinyint(2) NOT NULL,
-  `hsp_plan_year` int(6) NOT NULL,
-  `hsp_plan_status` tinyint(2) NOT NULL default '0',
-  `annual_limit` decimal(10,2) NOT NULL default '0.00',
-  `employer_amount` decimal(10,2) NOT NULL default '0.00',
-  `employee_amount` decimal(10,2) NOT NULL default '0.00',
-  `total_accrued` decimal(10,2) NOT NULL default '0.00',
-  `total_used` decimal(10,2) NOT NULL default '0.00',
-  primary key (`summary_id`)
-) engine=innodb default charset=utf8;
-
 create table `hs_hr_emp_locations` (
   `emp_number` int not null,
   `location_id` int not null,
   primary key  (`emp_number`, `location_id`)
 ) engine=innodb default charset=utf8;
-
-CREATE TABLE `hs_hr_leave_period` (
-  `leave_period_id` int(11) NOT NULL,
-  `leave_period_start_date` date NOT NULL,
-  `leave_period_end_date` date NOT NULL,
-  PRIMARY KEY (`leave_period_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
 
 create table `hs_hr_kpi` (
   `id` int(13) not null,
@@ -740,12 +590,14 @@ create table `ohrm_timesheet_action_log`(
 ) engine=innodb default charset=utf8;
 
 create table `ohrm_workflow_state_machine`(
-  `id` bigint(20) not null,
+  `id` bigint(20) not null auto_increment,
   `workflow` varchar(255) not null,
   `state` varchar(255) not null,
   `role` varchar(255) not null,
   `action` varchar(255) not null,
   `resulting_state` varchar(255) not null,
+  `roles_to_notify` text,
+  `priority` int not null default 0 COMMENT 'lowest priority 0',
   primary key (`id`)
 ) engine=innodb default charset=utf8;
 
@@ -1174,6 +1026,31 @@ create table `ohrm_email_subscriber` (
   primary key  (`id`)
 ) engine=innodb default charset=utf8;
 
+create table `ohrm_email` (
+  `id` int(6) not null auto_increment,
+  `name` varchar(100) not null unique,
+  primary key  (`id`),
+  unique key ohrm_email_name(`name`)
+) engine=innodb default charset=utf8;
+
+create table `ohrm_email_template` (
+  `id` int(6) not null auto_increment,
+  `email_id` int(6) not null,
+  `locale` varchar(20),
+  `performer_role` varchar(50) default null,
+  `recipient_role` varchar(50) default null,
+  `subject` varchar(255),
+  `body` text,
+  primary key  (`id`)
+) engine=innodb default charset=utf8;
+
+create table `ohrm_email_processor` (
+  `id` int(6) not null auto_increment,
+  `email_id` int(6) not null,
+  `class_name` varchar(100),
+  primary key  (`id`)
+) engine=innodb default charset=utf8;
+
 create table `ohrm_module` (
   `id` int not null auto_increment,
   `name` varchar(120) default null,
@@ -1198,6 +1075,18 @@ create table ohrm_user_role_screen (
   can_update tinyint(1) not null default '0', 
   can_delete tinyint(1) not null default '0',
   primary key (`id`)
+) engine=innodb default charset=utf8;
+
+create table `ohrm_menu_item` (
+   `id` int not null auto_increment, 
+   `menu_title` varchar(255) not null, 
+   `screen_id` int default null,
+   `parent_id` int default null,
+   `level` tinyint not null,
+   `order_hint` int not null,
+   `url_extras` varchar(255) default null, 
+   `status` tinyint not null default 1,
+   primary key (`id`)
 ) engine=innodb default charset=utf8;
 
 create table `ohrm_upgrade_history` (
@@ -1228,7 +1117,8 @@ create table `ohrm_email_configuration` (
 
 CREATE TABLE ohrm_data_group (
     `id` int AUTO_INCREMENT, 
-    `name` VARCHAR(255), description VARCHAR(255), 
+    `name` VARCHAR(255) NOT NULL UNIQUE, 
+    description VARCHAR(255), 
     `can_read` TINYINT, can_create TINYINT, 
     `can_update` TINYINT, 
     `can_delete` TINYINT, 
@@ -1247,6 +1137,264 @@ CREATE TABLE ohrm_user_role_data_group (
     PRIMARY KEY(id)
 ) ENGINE = INNODB DEFAULT CHARSET=utf8;
 
+CREATE TABLE ohrm_leave_type (
+  `id` int unsigned not null auto_increment,
+  `name` varchar(50) not null,
+  `deleted` tinyint(1) not null default 0,
+  `exclude_in_reports_if_no_entitlement` tinyint(1) not null default 0,
+  `operational_country_id` int unsigned default null,
+  primary key  (`id`)
+) engine=innodb default charset=utf8;
+
+CREATE TABLE ohrm_leave_entitlement_type(
+  `id` int unsigned not null auto_increment,
+  `name` varchar(50) not null,
+  `is_editable`  tinyint(1) not null default 0,
+  PRIMARY KEY(`id`)
+)ENGINE = INNODB DEFAULT CHARSET=utf8;
+
+CREATE TABLE ohrm_leave_entitlement (
+  `id` int unsigned not null auto_increment,
+  emp_number int(7) not null,
+  no_of_days decimal(19,15) not null,
+  days_used decimal(8,4) not null default 0,
+  leave_type_id int unsigned not null,
+  from_date datetime not null,
+  to_date datetime,
+  credited_date datetime,
+  note varchar(255) default null, 
+  entitlement_type int unsigned not null,
+  `deleted` tinyint(1) not null default 0,
+  created_by_id int(10),
+  created_by_name varchar(255),
+  PRIMARY KEY(`id`)
+) ENGINE = INNODB DEFAULT CHARSET=utf8;
+
+CREATE TABLE ohrm_leave_adjustment (
+  `id` int unsigned not null auto_increment,
+  emp_number int(7) not null,
+  no_of_days decimal(19,15) not null,
+  leave_type_id int unsigned not null,
+  from_date datetime,
+  to_date datetime,
+  credited_date datetime,
+  note varchar(255) default null,
+  adjustment_type int unsigned not null default 0, 
+  `deleted` tinyint(1) not null default 0,
+  created_by_id int(10),
+  created_by_name varchar(255),
+  PRIMARY KEY(`id`)
+) ENGINE = INNODB DEFAULT CHARSET=utf8;
+
+-- Do we need the field duplication here (leave_request and leave)?
+CREATE TABLE `ohrm_leave_request` (
+  `id` int unsigned NOT NULL auto_increment,
+  `leave_type_id` int unsigned NOT NULL,
+  `date_applied` date NOT NULL,
+  `emp_number` int(7) NOT NULL,
+  `comments` varchar(256) default NULL,
+  PRIMARY KEY  (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+CREATE TABLE `ohrm_leave` (
+  `id` int(11) NOT NULL  auto_increment,
+  `date` date default NULL,
+  `length_hours` decimal(6,2) unsigned default NULL,
+  `length_days` decimal(6,4) unsigned default NULL,
+  `status` smallint(6) default NULL,
+  `comments` varchar(256) default NULL,
+  `leave_request_id`int unsigned NOT NULL,
+  `leave_type_id` int unsigned NOT NULL,
+  `emp_number` int(7) NOT NULL,
+  `start_time` time default NULL,
+  `end_time` time default NULL,
+  PRIMARY KEY  (`id`),
+  KEY `leave_request_type_emp`(`leave_request_id`,`leave_type_id`,`emp_number`),
+  KEY `request_status` (`leave_request_id`,`status`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+CREATE TABLE `ohrm_leave_comment` (
+  `id` int(11) NOT NULL  auto_increment,
+  `leave_id` int(11) NOT NULL,
+  `created` datetime default NULL,
+  `created_by_name` varchar(255) NOT NULL,
+  `created_by_id` int(10),
+  `created_by_emp_number` int(7) default NULL,
+  `comments` varchar(255) default NULL,
+  PRIMARY KEY  (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+CREATE TABLE `ohrm_leave_request_comment` (
+  `id` int(11) NOT NULL  auto_increment,
+  `leave_request_id` int unsigned NOT NULL,
+  `created` datetime default NULL,
+  `created_by_name` varchar(255) NOT NULL,
+  `created_by_id` int(10),
+  `created_by_emp_number` int(7) default NULL,
+  `comments` varchar(255) default NULL,
+  PRIMARY KEY  (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+create TABLE `ohrm_leave_leave_entitlement` (
+    `id` int(11) NOT NULL   auto_increment,
+    `leave_id` int(11) NOT NULL,
+    `entitlement_id` int unsigned NOT NULL,
+    `length_days` decimal(6,4) unsigned default NULL,
+    PRIMARY KEY  (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+create TABLE `ohrm_leave_entitlement_adjustment` (
+    `id` int(11) NOT NULL   auto_increment,
+    `adjustment_id` int unsigned NOT NULL,
+    `entitlement_id` int unsigned NOT NULL,
+    `length_days` decimal(4,2) unsigned default NULL,
+    PRIMARY KEY  (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+CREATE TABLE `ohrm_leave_period_history` (
+  `id` int(11) NOT NULL auto_increment,
+  `leave_period_start_month` int NOT NULL,
+  `leave_period_start_day` int NOT NULL,
+  `created_at` date NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+CREATE TABLE `ohrm_leave_status` (
+  `id` int(11) NOT NULL auto_increment,
+  `status` smallint(6) NOT NULL,
+  `name` varchar(100) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+ 
+create table `ohrm_advanced_report` (
+  `id` int(10) not null,
+  `name` varchar(100) not null,
+  `definition` longtext not null,
+  primary key (`id`)
+) engine=innodb default charset=utf8;
+
+create table ohrm_home_page (
+    `id` int(11) not null auto_increment,
+    `user_role_id` int not null,
+    `action` varchar(255),
+    `enable_class` varchar(100) default null,
+    `priority` int not null default 0 COMMENT 'lowest priority 0',
+    primary key (`id`)
+) engine=innodb default charset=utf8;
+
+create table ohrm_module_default_page (
+    `id` int(11) not null auto_increment,
+    `module_id` int not null,
+    `user_role_id` int not null,
+    `action` varchar(255),
+    `enable_class` varchar(100) default null,
+    `priority` int not null default 0 COMMENT 'lowest priority 0',
+    primary key (`id`)
+) engine=innodb default charset=utf8;
+
+alter table ohrm_home_page 
+    add foreign key (user_role_id) references ohrm_user_role(id) on delete cascade;
+
+alter table ohrm_module_default_page 
+    add foreign key (user_role_id) references ohrm_user_role(id) on delete cascade,
+    add foreign key (module_id) references ohrm_module(id) on delete cascade;
+
+alter table ohrm_leave_type
+    add foreign key (operational_country_id)
+        references ohrm_operational_country(id) on delete set null;
+
+alter table ohrm_leave_entitlement
+    add foreign key (leave_type_id)
+        references ohrm_leave_type(id) on delete cascade;
+
+alter table ohrm_leave_entitlement
+    add foreign key (emp_number)
+        references hs_hr_employee(emp_number) on delete cascade;
+
+alter table ohrm_leave_entitlement
+    add foreign key (entitlement_type)
+        references ohrm_leave_entitlement_type(id) on delete cascade;
+
+alter table ohrm_leave_entitlement
+    add foreign key (created_by_id)
+        references ohrm_user(`id`) on delete set null;
+
+alter table ohrm_leave_adjustment
+    add foreign key (leave_type_id)
+        references ohrm_leave_type(id) on delete cascade;
+
+alter table ohrm_leave_adjustment
+    add foreign key (emp_number)
+        references hs_hr_employee(emp_number) on delete cascade;
+
+alter table ohrm_leave_adjustment
+    add foreign key (created_by_id)
+        references ohrm_user(`id`) on delete set null;
+
+alter table ohrm_leave_adjustment
+    add foreign key (adjustment_type)
+        references ohrm_leave_entitlement_type(id) on delete cascade;
+
+alter table ohrm_leave_request
+    add constraint foreign key (emp_number)
+        references hs_hr_employee (emp_number) on delete cascade;
+
+alter table ohrm_leave_request
+    add constraint foreign key (leave_type_id)
+        references ohrm_leave_type (id) on delete cascade;
+
+alter table ohrm_leave
+    add foreign key (leave_request_id)
+        references ohrm_leave_request(id) on delete cascade;
+
+alter table ohrm_leave
+    add constraint foreign key (leave_type_id)
+        references ohrm_leave_type (id) on delete cascade;
+
+alter table ohrm_leave_leave_entitlement
+    add constraint foreign key (entitlement_id)
+        references ohrm_leave_entitlement (id) on delete cascade;
+
+alter table ohrm_leave_leave_entitlement
+    add constraint foreign key (leave_id)
+        references ohrm_leave (id) on delete cascade;
+
+alter table ohrm_leave_entitlement_adjustment
+    add constraint foreign key (entitlement_id)
+        references ohrm_leave_entitlement (id) on delete cascade;
+
+alter table ohrm_leave_entitlement_adjustment
+    add constraint foreign key (adjustment_id)
+        references ohrm_leave_adjustment (id) on delete cascade;
+
+alter table ohrm_leave_comment
+    add constraint foreign key (leave_id)
+        references ohrm_leave(id) on delete cascade;
+
+alter table ohrm_leave_comment
+    add constraint foreign key (created_by_id)
+        references ohrm_user(`id`) on delete set NULL;
+
+alter table ohrm_leave_comment
+    add constraint foreign key (created_by_emp_number)
+        references hs_hr_employee(emp_number) on delete cascade;
+
+alter table ohrm_leave_request_comment
+    add constraint foreign key (leave_request_id)
+        references ohrm_leave_request(id) on delete cascade;
+
+alter table ohrm_leave_request_comment
+    add constraint foreign key (created_by_id)
+        references ohrm_user(`id`) on delete set NULL;
+
+alter table ohrm_leave_request_comment
+    add constraint foreign key (created_by_emp_number)
+        references hs_hr_employee(emp_number) on delete cascade;
+
+alter table ohrm_menu_item 
+       add constraint foreign key (screen_id)
+                             references ohrm_screen(id) on delete cascade;
+
 alter table ohrm_user_role_data_group 
        add constraint foreign key (user_role_id)
                              references ohrm_user_role(id) on delete cascade;
@@ -1258,6 +1406,14 @@ alter table ohrm_user_role_data_group
 alter table ohrm_email_subscriber
        add constraint foreign key (notification_id)
                              references ohrm_email_notification(id) on delete cascade;
+
+alter table ohrm_email_template
+    add foreign key (email_id)
+        references ohrm_email(id) on delete cascade;
+
+alter table ohrm_email_processor
+    add foreign key (email_id)
+        references ohrm_email(id) on delete cascade;
 
 alter table ohrm_emp_termination
        add constraint foreign key (reason_id)
@@ -1574,54 +1730,7 @@ alter table hs_hr_emp_us_tax
 alter table hs_hr_emp_contract_extend
        add constraint foreign key (emp_number)
                              references hs_hr_employee(emp_number) on delete cascade;
-
-alter table hs_hr_rights
-       add constraint foreign key (mod_id)
-       						references hs_hr_module (mod_id) on delete cascade;
-
-alter table hs_hr_rights
-       add constraint foreign key (userg_id)
-       						references hs_hr_user_group (userg_id) on delete cascade;
-
-alter table hs_hr_emprep_usergroup
-       add constraint foreign key (userg_id)
-       						references hs_hr_user_group (userg_id) on delete cascade;
-
-alter table hs_hr_emprep_usergroup
-       add constraint foreign key (rep_code)
-       						references hs_hr_empreport (rep_code) on delete cascade;
-
-alter table hs_hr_employee_leave_quota
-       add constraint foreign key (leave_type_id)
-       						references hs_hr_leavetype (leave_type_id) on delete cascade;
-
-alter table hs_hr_employee_leave_quota
-       add constraint foreign key (employee_id)
-       						references hs_hr_employee (emp_number) on delete cascade;
-alter table hs_hr_employee_leave_quota
-       add constraint foreign key (leave_period_id)
-       						references hs_hr_leave_period (leave_period_id) on delete cascade;
        						
-alter table hs_hr_leave_requests
-       add constraint foreign key (employee_id)
-       						references hs_hr_employee (emp_number) on delete cascade;
-alter table hs_hr_leave_requests
-       add constraint foreign key (leave_period_id)
-       						references hs_hr_leave_period (leave_period_id) on delete cascade;
-
-alter table hs_hr_leave_requests
-       add constraint foreign key (leave_type_id)
-       						references hs_hr_leavetype (leave_type_id) on delete cascade;
-
-alter table hs_hr_leave
-		add foreign key (leave_request_id,leave_type_id,employee_id)
-							references hs_hr_leave_requests
-									(leave_request_id,leave_type_id,employee_id) on delete cascade;
-
-alter table hs_hr_leavetype
-    add foreign key (operational_country_id)
-        references ohrm_operational_country(id) on delete set null;
-
 alter table hs_hr_mailnotifications
        add constraint foreign key (user_id)
        						references ohrm_user(id) on delete cascade;
@@ -1636,12 +1745,6 @@ alter table `ohrm_project_admin`
 alter table `ohrm_employee_work_shift`
   add constraint foreign key (`work_shift_id`) references `ohrm_work_shift` (`id`) on delete cascade,
   add constraint foreign key (`emp_number`) references `hs_hr_employee` (`emp_number`) on delete cascade;
-
-alter table `hs_hr_hsp`
-  add constraint foreign key (`employee_id`) references `hs_hr_employee` (`emp_number`) on delete cascade;
-
-alter table `hs_hr_hsp_payment_request`
-  add constraint foreign key (`employee_id`) references `hs_hr_employee` (`emp_number`) on delete cascade;
 
 alter table `hs_hr_emp_locations`
     add constraint foreign key (`location_id`)

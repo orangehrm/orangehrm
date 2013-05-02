@@ -53,7 +53,9 @@ input.punchbutton {
 	cursor: default;
 }
 
-input.plainbtn {
+input.plainbtn, 
+div.box input[type=button],
+div.box input[type=reset] {
 	background:#999966 none repeat scroll 0 0 !important;
 	border-color:#CCCC99 #666633 #666633 #CCCC99 !important;
 	border-style:solid !important;
@@ -227,17 +229,20 @@ br.clear {
 
 /* Data table styling start */
 
-table.data-table {
+table.data-table,
+table.table {
 	width: 100%;
 	border: none;
 	background-color:#FAD163;
 }
 
-table.data-table thead {
+table.data-table thead,
+table.table thead {
 	background-color:#FAD163;
 }
 
-table.data-table thead td {
+table.data-table thead td,
+table.table thead td {
 	padding-top: 4px;
 	padding-bottom: 4px;
 	font-size: 13px;
@@ -246,54 +251,67 @@ table.data-table thead td {
 }
 
 table.data-table thead td a.null,
-table.data-table thead th a.null {
+table.data-table thead th a.null,
+table.table thead td a.null,
+table.table thead th a.null {
 	background: url(../icons/null.png) no-repeat right center;
 	padding-right: 10px;
 }
 
 table.data-table thead td a.ASC,
-table.data-table thead th a.ASC {
+table.data-table thead th a.ASC,
+table.table thead td a.ASC,
+table.table thead th a.ASC {
 	background: url(../icons/ASC.png) no-repeat right center;
 	padding-right: 10px;
 }
 table.data-table thead td a.DESC,
-table.data-table thead th a.DESC {
+table.data-table thead th a.DESC,
+table.table thead td a.DESC,
+table.table thead th a.DESC {
 	background: url(../icons/DESC.png) no-repeat right center;
 	padding-right: 10px;
 }
 
-table.data-table tbody {
+table.data-table tbody,
+table.table tbody {
 	background-color:#ffffff;
 	height:auto;
 	/*overflow:auto;*/
 }
-table.data-table tbody tr {
+table.data-table tbody tr,
+table.table tbody tr {
 	height: 1em;
 }
-table.data-table tbody tr td {
+table.data-table tbody tr td,
+table.table tbody tr td {
 	padding-left: 1px;
 	padding-right: 1px;
 	padding-top: 2px;
 	padding-bottom: 2px;
 }
 
-table.data-table tbody td a {
+table.data-table tbody td a,
+table.table tbody td a {
 	font-size: 12px;
 	color: #000000;
 	text-decoration: underline;
 }
 
-table.data-table tbody td a:hover {
+table.data-table tbody td a:hover,
+table.table tbody td a:hover {
 	font-size: 12px;
 	color: #000000;
 	text-decoration: underline;
 }
 
-table.data-table tr.odd td {
+table.data-table tr.odd td,
+table.table tr.odd td {
 	background-color: white;
 }
 
-table.data-table tr.even td {
+table.data-table tr.even td,
+table.table tr.even td {
 	background-color: #eeeeee;
 }
 
@@ -1658,4 +1676,9 @@ table.simpleList td {
         font-size: 8pt;
         padding-left: 15px;
         padding-top: 5px;
+    }
+    
+    /* Changes for compatibility with new ui. Can be removed after ui conversion */   
+    div.box {
+        margin-left: 15px;
     }

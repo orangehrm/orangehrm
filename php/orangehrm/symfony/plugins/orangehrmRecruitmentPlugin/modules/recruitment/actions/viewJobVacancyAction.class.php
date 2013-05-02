@@ -50,7 +50,7 @@ class viewJobVacancyAction extends baseRecruitmentAction {
     public function execute($request) {
 
         $usrObj = $this->getUser()->getAttribute('user');
-        
+
         if (!$usrObj->isAdmin()) {
             $this->redirect('recruitment/viewCandidates');
         }
@@ -58,17 +58,17 @@ class viewJobVacancyAction extends baseRecruitmentAction {
 
         $isPaging = $request->getParameter('pageNo');
         $vacancyId = $request->getParameter('vacancyId');
-        
+
         $pageNumber = $isPaging;
-        if(!is_null($this->getUser()->getAttribute('vacancyPageNumber')) && !($pageNumber >= 1)) {
+        if (!is_null($this->getUser()->getAttribute('vacancyPageNumber')) && !($pageNumber >= 1)) {
             $pageNumber = $this->getUser()->getAttribute('vacancyPageNumber');
-        }        
+        }
         $this->getUser()->setAttribute('vacancyPageNumber', $pageNumber);
-        
+
         $sortField = $request->getParameter('sortField');
         $sortOrder = $request->getParameter('sortOrder');
         $noOfRecords = JobVacancy::NUMBER_OF_RECORDS_PER_PAGE;
-        $offset = ($pageNumber >= 1) ? (($pageNumber - 1)*$noOfRecords) : ($request->getParameter('pageNo', 1) - 1) * $noOfRecords;
+        $offset = ($pageNumber >= 1) ? (($pageNumber - 1) * $noOfRecords) : ($request->getParameter('pageNo', 1) - 1) * $noOfRecords;
 
         $param = array('allowedVacancyList' => $allowedVacancyList);
         $this->setForm(new ViewJobVacancyForm(array(), $param, true));
@@ -98,12 +98,12 @@ class viewJobVacancyAction extends baseRecruitmentAction {
         $this->parmetersForListCompoment = $params;
         if (empty($isPaging)) {
             if ($request->isMethod('post')) {
-                
+
                 $pageNumber = 1;
                 $this->getUser()->setAttribute('vacancyPageNumber', $pageNumber);
                 $this->form->bind($request->getParameter($this->form->getName()));
-                
-                if ($this->form->isValid()) {                    
+
+                if ($this->form->isValid()) {
                     $srchParams = $this->form->getSearchParamsBindwithFormData();
                     $srchParams['noOfRecords'] = $noOfRecords;
                     $srchParams['offset'] = 0;

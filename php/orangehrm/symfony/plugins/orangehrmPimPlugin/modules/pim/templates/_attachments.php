@@ -1,5 +1,5 @@
 <?php
-/**
+/*
  * OrangeHRM is a comprehensive Human Resource Management (HRM) System that captures
  * all the essential functionalities required for any enterprise.
  * Copyright (C) 2006 OrangeHRM Inc., http://www.orangehrm.com
@@ -18,170 +18,189 @@
  *
  */
 ?>
-<?php use_stylesheet('../orangehrmPimPlugin/css/attachments'); ?>
-<script type="text/javaScript"><!--//--><![CDATA[//><!--
 
 <?php
 $hasAttachments = count($attachmentList) > 0;
-if(isset($_GET['ATT_UPLOAD']) && $_GET['ATT_UPLOAD'] == 'FAILED')
-{
-    echo "alert('" .__("Upload Failed")."');";
-}
-
 ?>
-    //--><!]]></script>
 
-<a name="attachments">&nbsp;</a>
-<div id="attachmentsMessagebar" class="<?php echo isset($attachmentMessageType) ? "messageBalloon_{$attachmentMessageType}" : ''; ?>" style="margin-left: 16px;width: 630px;">
-    <span style="font-weight: bold;"><?php echo isset($attachmentMessage) ? $attachmentMessage : ''; ?></span>
-</div>
-<?php if ($permission->canRead()) { ?>
-<div class="outerbox">
-    <div class="mainHeading"><h2><?php echo __('Attachments'); ?></h2></div>
-    
-<div id="parentPaneAttachments" >
-    <form name="frmEmpAttachment" id="frmEmpAttachment" method="post" enctype="multipart/form-data"
-          action="<?php echo url_for('pim/updateAttachment?empNumber='.$employee->empNumber); ?>">
-    <?php echo $form['_csrf_token']; ?>
-        <input type="hidden" name="EmpID" value="<?php echo $employee->empNumber;?>"/>
-        <input type="hidden" name="seqNO" id="seqNO" value=""/>
-        <input type="hidden" name="screen" value="<?php echo $screen;?>" />
-        <input type="hidden" name="commentOnly" id="commentOnly" value="0" />
+<?php if ($permission->canRead()) : ?>
 
-        <div id="addPaneAttachments" style="display:none" >
-            <div id="attachmentSubHeadingDiv"><h3 id="attachmentSubHeading" style="float:left;"><?php echo __('Add Attachment'); ?></h3><span id="attachmentEditNote"></span></div>
-            <br class="clear"/>
-            <ul class="single_row_form">
-                <li id="fileUploadRow">
-                    <label class="sizeM"><?php echo __("Select File")?> <span class="required">*</span></label>
-                    <div class="input_container input_file">
-                        <input type="hidden" name="MAX_FILE_SIZE" value="1048576" />
-                        <input type="file" name="ufile" id="ufile" class="formInputText" style="width:100%;"/>
-                        <p style="float: none; width: 100%; font-size: 11px;"><?php echo __(CommonMessages::FILE_LABEL_SIZE); ?></p>
-                    </div>
-                    
-                    <div class="clear"></div>
-                </li>
-                <li>
-                    <label class="sizeM"><?php echo __("Comment")?></label>
-                    <div class="input_container">
+<a name="attachments"></a>
+
+<div id="addPaneAttachments">
+    <div class="head" id="saveHeading">
+        <h1><?php echo __('Add Attachment'); ?></h1>
+    </div> <!-- head -->
+    <div class="inner">
+        
+        <?php include_partial('global/flash_messages', array('prefix' => 'saveAttachmentPane')); ?>
+
+        <form name="frmEmpAttachment" id="frmEmpAttachment" method="post" enctype="multipart/form-data" action="<?php echo url_for('pim/updateAttachment?empNumber='.$employee->empNumber); ?>">
+
+            <?php echo $form['_csrf_token']; ?>
+            <input type="hidden" name="EmpID" value="<?php echo $employee->empNumber;?>"/>
+            <input type="hidden" name="seqNO" id="seqNO" value=""/>
+            <input type="hidden" name="screen" value="<?php echo $screen;?>" />
+            <input type="hidden" name="commentOnly" id="commentOnly" value="0" />
+
+            <fieldset>
+                <ol>
+                    <li id="currentFileLi">
+                        <label><?php echo __("Current File")?></label>
+                        <span id="currentFileSpan"></span>
+                    </li>                    
+                    <li class="fieldHelpContainer">
+                        <label id="selectFileSpan" style="height:100%"><?php echo __("Select File")?> <em>*</em></label>
+                        <input type="hidden" name="MAX_FILE_SIZE" value="1048576" />                        
+                        <input type="file" name="ufile" id="ufile" />
+                        <label class="fieldHelpBottom"><?php echo __(CommonMessages::FILE_LABEL_SIZE); ?></label>
+                    </li>
+                    <li class="largeTextBox">
+                        <label><?php echo __("Comment")?></label>
                         <textarea name="txtAttDesc" id="txtAttDesc" rows="3" cols="35" ></textarea>
-                    </div>
-                    <div class="clear"></div>
-                </li>
-            </ul>
+                    </li>
+                    <li class="required"><em>*</em> <?php echo __(CommonMessages::REQUIRED_FIELD); ?></li>
+                </ol>
+                <p>
+                    <input type="button" name="btnSaveAttachment" id="btnSaveAttachment" value="<?php echo __("Upload");?>" />
+                    <input type="button" id="btnCommentOnly" value="<?php echo __("Save Comment Only"); ?>" />
+                    <input type="button" class="cancel" id="cancelButton" value="<?php echo __("Cancel"); ?>" />
+                </p>
+            </fieldset>        
 
+        </form> <!-- frmEmpAttachment -->   
+        
+    </div> <!-- inner -->
+</div> <!-- addPaneAttachments -->
+
+
+<div id="attachmentList" class="miniList">
+    <div class="head">
+        <h1><?php echo __('Attachments'); ?></h1>
+    </div>
+    <div class="inner">
+        
+        <?php include_partial('global/flash_messages', array('prefix' => 'listAttachmentPane')); ?>
+
+        <form name="frmEmpDelAttachments" id="frmEmpDelAttachments" method="post" action="<?php echo url_for('pim/deleteAttachments?empNumber='.$employee->empNumber); ?>">
+
+            <?php echo $deleteForm['_csrf_token']; ?>
+            <input type="hidden" name="EmpID" value="<?php echo $employee->empNumber;?>"/>
+
+            <p id="attachmentActions">
+                <?php if ($permission->canCreate()) : ?>
+                <input type="button" class="addbutton" id="btnAddAttachment" value="<?php echo __("Add");?>" />
+                <?php endif; // $permission->canCreate() ?>
+                <?php if ($permission->canDelete() && $hasAttachments) : ?>
+                 <input type="button" class="delete" id="btnDeleteAttachment" value="<?php echo __("Delete");?>"/>
+                <?php endif; // $permission->canDelete() && $hasAttachments ?>
+            </p>
             
-            <div class="formbuttons">
-                <input type="button" class="savebutton" name="btnSaveAttachment" id="btnSaveAttachment"
-                       value="<?php echo __("Upload");?>"
-                       title="<?php echo __("Upload");?>"
-                       onmouseover="moverButton(this);" onmouseout="moutButton(this);"/>
-                <input type="button" class="plainbtn" id="btnCommentOnly" value="<?php echo __("Save Comment Only"); ?>" />
-                <input type="button" class="plainbtn" id="cancelButton" value="<?php echo __("Cancel"); ?>" />
-            </div>
-        </div>
-    </form>
-
-    <form name="frmEmpDelAttachments" id="frmEmpDelAttachments" method="post" action="<?php echo url_for('pim/deleteAttachments?empNumber='.$employee->empNumber); ?>">
-        <?php echo $deleteForm['_csrf_token']; ?>
-        <input type="hidden" name="EmpID" value="<?php echo $employee->empNumber;?>"/>
-
-        <div class="subHeading"></div>
-        <div class="actionbar" id="attachmentActions">
-            <div class="actionbuttons">
-                               <?php if ($permission->canCreate()) { ?>
-                <input type="button" class="addbutton" id="btnAddAttachment"
-                       onmouseover="moverButton(this);" onmouseout="moutButton(this);"
-                       value="<?php echo __("Add");?>" title="<?php echo __("Add");?>"/>
-            <?php } ?>
-                        <?php	if ($permission->canDelete() && $hasAttachments)
-        { ?>
-                <input type="button" class="delbutton" id="btnDeleteAttachment"
-                       onmouseover="moverButton(this);" onmouseout="moutButton(this);"
-                       value="<?php echo __("Delete");?>" title="<?php echo __("Delete");?>"/>
-
-            <?php 	} ?>
-            </div>
-        </div>
-        <?php if ($hasAttachments) { ?>
-        <table width="100%" cellspacing="0" cellpadding="0" class="data-table" id="tblAttachments">
-            <thead>
-                <tr>
-                    <td class="check"><input type="checkbox" id="attachmentsCheckAll" class="checkboxAtch"/></td>
-                    <td><?php echo __("File Name")?></td>
-                    <td><?php echo __("Description")?></td>
-                    <td><?php echo __("Size")?></td>
-                    <td><?php echo __("Type")?></td>
-                    <td><?php echo __("Date Added")?></td>
-                    <td><?php echo __("Added By")?></td>
-                    <td></td>
-                </tr>
-            </thead>
-            <tbody>
+            <?php if ($hasAttachments) : ?>
+            
+                <table id="tblAttachments" cellpadding="0" cellspacing="0" width="100%" class="table tablesorter">
+                    <thead>
+                        <tr>
+                            <th width="2%"><input type="checkbox" id="attachmentsCheckAll" class="checkboxAtch"/></th>
+                            <th width="15%"><?php echo __("File Name")?></th>
+                            <th width="38%"><?php echo __("Description")?></th>
+                            <th width="10%"><?php echo __("Size")?></th>
+                            <th width="10%"><?php echo __("Type")?></th>
+                            <th width="10%"><?php echo __("Date Added")?></th>
+                            <th width="10%"><?php echo __("Added By")?></th>
+                            <th width="5%"></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        
                         <?php
+                            $disabled = ($permission->canDelete()) ? "" : 'disabled="disabled"';
+                            $row = 0;
+                        ?>
+                        
+                        <?php foreach ($attachmentList as $attachment) : ?>
+                        <?php $cssClass = ($row%2) ? 'even' : 'odd'; ?>
+                            
+                            <tr class="<?php echo $cssClass;?>">
+                                
+                                <td class="center">
+                                    <input type="checkbox" <?php echo $disabled;?> class="checkboxAtch" 
+                                    name="chkattdel[]" value="<?php echo $attachment->attach_id; ?>"/>
+                                </td>
+                                <td>
+                                    <a title="<?php echo __('Click to download'); ?>" target="_blank" class="fileLink tiptip"
+                                    href="<?php echo url_for('pim/viewAttachment?empNumber='.$employee->empNumber . '&attachId=' . $attachment->attach_id);?>">
+                                    <?php echo $attachment->filename; ?></a>
+                                </td>
+                                <td>
+                                    <?php echo $attachment->description; ?>
+                                </td>
+                                <td>
+                                    <?php echo add_si_unit($attachment->size); ?>
+                                </td>
+                                <td>
+                                    <?php echo $attachment->file_type; ?>
+                                </td>
+                                <td>
+                                    <?php echo set_datepicker_date_format($attachment->attached_time); ?>
+                                </td>
+                                <?php
+                                $performedBy = $attachment->attached_by_name;
+                                $performedBy = ($performedBy == 'Admin')?__($performedBy):$performedBy;
+                                ?>
+                                <td>
+                                    <?php echo $performedBy; ?>
+                                </td>
+                                <?php if ($permission->canUpdate()) : ?>                                
+                                <td>
+                                    <a href="#" class="editLink"><?php echo __("Edit"); ?></a>
+                                </td>
+                                <?php else: ?>
+                                <td>
+                                </td>
+                                <?php endif; ?>
+                            </tr>
+                        
+                        <?php $row++; ?>
+                        <?php endforeach; ?>
+                        
+                    </tbody>
+                </table>
+            
+            <?php endif; // $hasAttachments ?>
+            
+        </form> 
 
-        $disabled = ($permission->canDelete()) ? "" : 'disabled="disabled"';
-        $row = 0;
-        foreach ($attachmentList as $attachment)
-        {
-            $cssClass = ($row%2) ? 'even' : 'odd';
-            ?>
-                <tr class="<?php echo $cssClass;?>">
-                    <td class="check"><input type='checkbox' <?php echo $disabled;?> class='checkboxAtch' name='chkattdel[]'
-                               value="<?php echo $attachment->attach_id; ?>"/></td>
-                    <td><a title="<?php echo $attachment->description; ?>" target="_blank" class="fileLink"
-                           href="<?php echo url_for('pim/viewAttachment?empNumber='.$employee->empNumber . '&attachId=' . $attachment->attach_id);?>"><?php echo $attachment->filename; ?></a></td>
-                    <td class="comments">
-                        <?php echo $attachment->description; ?>
-                    </td>
-                    <td><?php echo add_si_unit($attachment->size); ?></td>
-                    <td><?php echo $attachment->file_type; ?></td>
-                    <td><?php echo set_datepicker_date_format($attachment->attached_time); ?></td>
-                    <?php
-                    $performedBy = $attachment->attached_by_name;
-                    
-                    if ($performedBy == 'Admin') {
-                        $performedBy = __($performedBy);
-                    }                    
-                    ?>
-                    <td><?php echo $performedBy; ?></td>
-                    <?php
-                    if ($permission->canUpdate()){
-                    ?>
-                    <td><a href="#" class="editLink"><?php echo __("Edit"); ?></a></td>
-                    <?php }?>
-                </tr>
-            <?php   $row++;
-            }
-            ?>
-            </tbody>
-        </table>
-        <?php } else { ?>
-        <br class="clear" />
-        <?php } ?>
-    </form>
+    </div>
+</div> <!-- attachmentList -->    
+<?php endif; // $permission->canRead() ?>
 
-</div>
-    
-</div>
-<?php } ?>
 <script type="text/javascript">
     //<![CDATA[
     
     var hideAttachmentListOnAdd = <?php echo $hasAttachments ? 'false' : 'true';?>;
-    var lang_EditAttachmentHeading = "<?php echo __("Edit Attachment") . " :" ?>";
+    var lang_EditAttachmentHeading = "<?php echo __("Edit Attachment"); ?>";
     var lang_AddAttachmentHeading = "<?php echo __("Add Attachment"); ?>";
-    var lang_EditAttachmentReplaceFile = "<?php echo __("Replace file");?>";
-    var lang_EditAttachmentWithNewFile = "<?php echo __("with new file");?>";
+    var lang_SelectFile = "<?php echo __("Select File");?>";
+    var lang_ReplaceWith = "<?php echo __("Replace With");?>";
     var lang_PleaseSelectAFile = "<?php echo __(ValidationMessages::REQUIRED);?>";
     var lang_CommentsMaxLength = "<?php echo __(ValidationMessages::TEXT_LENGTH_EXCEEDS, array('%amount%' => 200));?>";
-    var lang_SelectAtLeastOneAttachment = "<?php echo __(TopLevelMessages::SELECT_RECORDS); ?>";  
+    var lang_SelectAtLeastOneAttachment = "<?php echo __(TopLevelMessages::SELECT_RECORDS); ?>";
+    var hasError = <?php echo ($sf_user->hasFlash('saveAttachmentPane.warning'))?'true':'false'; ?>;
 
     var clearAttachmentMessages = true;
     
     $(document).ready(function() {
+        
+        $('#btnDeleteAttachment').attr('disabled', 'disabled');
 
+        if (!hasError) {
+            $('#addPaneAttachments').hide();
+        }
+        
+        $('#currentFileLi').hide();
+        $('#btnCommentOnly').hide();
+        
         $("#frmEmpAttachment").data('add_mode', true);
 
         jQuery.validator.addMethod("attachment",
@@ -216,6 +235,12 @@ if(isset($_GET['ATT_UPLOAD']) && $_GET['ATT_UPLOAD'] == 'FAILED')
             if($("#attachmentsCheckAll").attr("checked")) {
                 $("table#tblAttachments tbody input.checkboxAtch").attr("checked", "checked");
             }
+            
+            if($('table#tblAttachments tbody .checkboxAtch:checkbox:checked').length > 0) {
+                $('#btnDeleteAttachment').removeAttr('disabled');
+            } else {
+                $('#btnDeleteAttachment').attr('disabled', 'disabled');
+            }
         });
 
         //remove tick from the all button if any checkbox unchecked
@@ -224,9 +249,15 @@ if(isset($_GET['ATT_UPLOAD']) && $_GET['ATT_UPLOAD'] == 'FAILED')
             if($("table#tblAttachments tbody input.checkboxAtch").length == $("table#tblAttachments tbody input.checkboxAtch:checked").length) {
                 $("#attachmentsCheckAll").attr('checked', 'checked');
             }
+            
+            if($('table#tblAttachments tbody .checkboxAtch:checkbox:checked').length > 0) {
+                $('#btnDeleteAttachment').removeAttr('disabled');
+            } else {
+                $('#btnDeleteAttachment').attr('disabled', 'disabled');
+            }
         });
-        // Edit a emergency contact in the list
-        $('#frmEmpDelAttachments a.editLink').click(function(event) {
+        // Edit an attachment in the list
+        $('#attachmentList a.editLink').click(function(event) {
             event.preventDefault();
             
             if (clearAttachmentMessages) {
@@ -239,10 +270,9 @@ if(isset($_GET['ATT_UPLOAD']) && $_GET['ATT_UPLOAD'] == 'FAILED')
             var seqNo = row.find('input.checkboxAtch:first').val();
             var fileName = row.find('a.fileLink').text();
             var description = row.find("td:nth-child(3)").text();
-            description = jQuery.trim(description);
+            description = jQuery.trim(description); 
 
             $('#seqNO').val(seqNo);
-            $('#attachmentEditNote').html(lang_EditAttachmentReplaceFile + ' <b>' + fileName + '</b> ' + lang_EditAttachmentWithNewFile);
             $('#ufile').removeAttr("disabled");
             
             $('#txtAttDesc').val(description);
@@ -257,12 +287,21 @@ if(isset($_GET['ATT_UPLOAD']) && $_GET['ATT_UPLOAD'] == 'FAILED')
             
             $("table#tblAttachments input.checkboxAtch").hide();
             
-            $('h3#attachmentSubHeading').text(lang_EditAttachmentHeading);
             $('#addPaneAttachments').show();
+            $('#saveHeading h1').text(lang_EditAttachmentHeading);
+            
+            $('#currentFileLi').show();
+            $('#currentFileSpan').text(fileName);
+            $('#selectFileSpan').text(lang_ReplaceWith);
+            
         });
 
         // Add a emergency contact
         $('#btnAddAttachment').click(function() {
+            
+            $('#currentFileLi').hide();
+            $('#selectFileSpan').text(lang_SelectFile);
+            
             if (clearAttachmentMessages) {
                 $("#attachmentsMessagebar").text("").attr('class', "");
             }
@@ -278,14 +317,14 @@ if(isset($_GET['ATT_UPLOAD']) && $_GET['ATT_UPLOAD'] == 'FAILED')
             
             $('#ufile').removeAttr("disabled");
             $('#attachmentActions').hide();
-            $('h3#attachmentSubHeading').text(lang_AddAttachmentHeading);
+            $('#saveHeading h1').text(lang_AddAttachmentHeading);
             $('#addPaneAttachments').show();
             
             $("table#tblAttachments input.checkboxAtch").hide();
             $("table#tblAttachments a.editLink").hide();
             
             if (hideAttachmentListOnAdd) {
-                $('#frmEmpDelAttachments').hide();
+                $('#attachmentList').hide();
             }
             
         });
@@ -298,23 +337,19 @@ if(isset($_GET['ATT_UPLOAD']) && $_GET['ATT_UPLOAD'] == 'FAILED')
             $('#attachmentActions').show();
             $('#ufile').val('');
             $('#txtAttDesc').val('');
-            $('#frmEmpDelAttachments').show();
+            $('#attachmentList').show();
             $("table#tblAttachments input.checkboxAtch").show();
             $("table#tblAttachments a.editLink").show();            
         });
         
-        $('#btnDeleteAttachment').click(function() {            
-            
-            var checked = $('#frmEmpDelAttachments input:checked').length;
+        $('#btnDeleteAttachment').click(function() {
 
-            if ( checked == 0 )
-            {
-                $("#attachmentsMessagebar").attr('class', 'messageBalloon_notice').text(lang_SelectAtLeastOneAttachment);
-            }
-            else
-            {
+            var checked = $('#attachmentList input:checked').length;
+
+            if (checked > 0) {
                 $('#frmEmpDelAttachments').submit();
             }
+            
         });
 
         $('#btnSaveAttachment').click(function() {

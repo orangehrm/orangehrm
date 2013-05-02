@@ -21,6 +21,8 @@
 class AccessFlowStateMachineService {
 
     private $accessFlowStateMachineDao;
+    
+    private static $allowedWorkflowItemCache = array();
 
     public function getAccessFlowStateMachineDao() {
 
@@ -62,6 +64,14 @@ class AccessFlowStateMachineService {
             
             return $allowedActionArray;
         }
+    }
+    
+    public function getAllowedWorkflowItems($workflow, $state, $role) {
+        $key = $workflow . '-' . $state . '-' . $role;
+        if (!isset(self::$allowedWorkflowItemCache[$key])) {
+            self::$allowedWorkflowItemCache[$key] = $this->getAccessibleFlowStateMachineDao()->getAllowedWorkflowItems($workflow, $state, $role);
+        }
+        return self::$allowedWorkflowItemCache[$key];
     }
     
     /**
@@ -176,6 +186,14 @@ class AccessFlowStateMachineService {
     public function getAllowedCandidateHistoryList($role, $empNumber, $candidateId) {
         $candidateService = new CandidateService();
         return $candidateService->getCanidateHistoryForUserRole($role, $empNumber, $candidateId);
+    }
+    
+    public function getWorkflowItem($id) {
+        return $this->getAccessFlowStateMachineDao()->getWorkflowItem($id);
+    }    
+    
+    public function getWorkflowItemByStateActionAndRole($workFlow, $state, $action, $role) {
+         return $this->getAccessFlowStateMachineDao()->getWorkflowItemByStateActionAndRole($workFlow, $state, $action, $role);
     }
 
 }

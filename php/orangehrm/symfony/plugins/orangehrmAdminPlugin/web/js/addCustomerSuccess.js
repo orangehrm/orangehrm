@@ -1,9 +1,13 @@
 $(document).ready(function() {
    
+    isValidForm();
+   
     $('#addCustomer_customerId').val(customerId);
     $('#btnSave').click(function() {
         if($('#btnSave').val() == lang_edit){
-            $('.formInput').removeAttr('disabled');
+            $(".editable").each(function(){
+                $(this).removeAttr("disabled");
+            });
             $('#btnSave').val(lang_save);
         } else if ($('#btnSave').val() == lang_save){
             if(isValidForm()){  
@@ -11,33 +15,28 @@ $(document).ready(function() {
             }      
         }
     });
-       
-    // undeleteDialog
-    $("#undeleteDialog").dialog({
-        autoOpen: false,
-        modal: true,
-        width: 355,
-        height:210,
-        position: 'middle'
-    });
     
     $("#undeleteYes").click(function(){
         $('#frmUndeleteCustomer').submit();
+        $("#undeleteDialog").toggle();
     });
 
     $("#undeleteNo").click(function(){
         $(this).attr('disabled', true);
         $('#addCustomer_customerName').attr('disabled', false);
         $('#frmAddCustomer').get(0).submit();
+        $("#undeleteDialog").toggle();
     });
-
+    
     $("#undeleteCancel").click(function(){
-        $("#undeleteDialog").dialog("close");
+        $("#undeleteDialog").toggle();
     });
        
     if(customerId > 0) {
         $('#addCustomerHeading').text(lang_editCustomer);
-        $('.formInput').attr('disabled', 'disabled');
+        $(".editable").each(function(){
+            $(this).attr("disabled", "disabled");
+        });
         $('#btnSave').val(lang_edit);
     }
        
@@ -105,26 +104,21 @@ function isValidForm(){
             'addCustomer[description]' : {
                 maxlength: lang_exceed255Charactors
             }
-
+            
         },
         submitHandler: function(form) {            
             var deletedId = isDeletedCustomer();
             if (deletedId) {
-                $('#undeleteCustomer_undeleteId').val(deletedId);               
-                $("#undeleteDialog").dialog("open");
+                $('#undeleteCustomer_undeleteId').val(deletedId);          
+                $('#undeleteDialogLink').click();
             } else {
                 form.submit();
             }
-        },
-        errorPlacement: function(error, element) {
-            error.appendTo(element.next('div.errorHolder'));
-
         }
 
     });
     return true;
 }
-
 
 /**
  * Checks if current customer name value matches a deleted customer.
@@ -132,14 +126,12 @@ function isValidForm(){
  * @return Customer ID if it matches a deleted customer else false.
  */
 function isDeletedCustomer() {
-    if ($.trim($("#addCustomer_hdnOriginalCustomerName").val()) ==
-        $.trim($("#addCustomer_customerName").val())) {
+    if ($.trim($("#addCustomer_hdnOriginalCustomerName").val()) == $.trim($("#addCustomer_customerName").val())) {
         return false;
     }
 
     for (var i = 0; i < deletedCustomers.length; i++) {
-        if (deletedCustomers[i].name.toLowerCase() == 
-            $.trim($('#addCustomer_customerName').val()).toLowerCase()) {
+        if (deletedCustomers[i].name.toLowerCase() == $.trim($('#addCustomer_customerName').val()).toLowerCase()) {
             return deletedCustomers[i].id;
         }
     }

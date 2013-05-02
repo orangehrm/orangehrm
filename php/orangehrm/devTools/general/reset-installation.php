@@ -32,7 +32,7 @@ class InstallCleaner {
     public function dropDatabase($dbHost, $dbPort, $dbName, $dbUser, $dbPassword) {
         
         mysql_connect("$dbHost:$dbPort", $dbUser, $dbPassword);        
-        if (mysql_query("DROP DATABASE {$dbName}")) {
+        if (mysql_query("DROP DATABASE `{$dbName}`")) {
             $this->displayMessage("Database '{$dbName}' was deleted.");
         } else {
             $this->displayMessage("Couldn't delete database '{$dbName}'");

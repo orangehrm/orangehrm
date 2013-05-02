@@ -1,18 +1,6 @@
 $(document).ready(function() {
-   
-    $('#btnSave').click(function() {
-        if(isValidForm()){
-            $('#frmPimCsvImport').submit()
-        }
-    });
-   
-   
-});
-
-function isValidForm(){
- 
-    var validator = $("#frmPimCsvImport").validate({
-
+    
+    $("#frmPimCsvImport").validate({
         rules: {
             'pimCsvImport[csvFile]' : {
                 required:true
@@ -24,13 +12,16 @@ function isValidForm(){
                 required:lang_csvRequired
             }
 
-        },
-        errorPlacement: function(error, element) {
-
-            error.appendTo(element.next('div.errorHolder'));
-
+        }
+    });    
+   
+    $('#btnSave').click(function() {
+        
+        if ($('#frmPimCsvImport').valid()) {
+            $('#btnSave').attr('disabled', 'disabled');
+            $("#btnSave").val(lang_processing);
         }
 
-    });
-    return true;
-}
+        $('#frmPimCsvImport').submit();
+    });   
+});

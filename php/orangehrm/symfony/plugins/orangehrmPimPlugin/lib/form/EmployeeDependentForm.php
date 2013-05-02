@@ -91,7 +91,7 @@ class EmployeeDependentForm extends BaseForm {
         $widgets['name'] = new sfWidgetFormInputText();
         $widgets['relationshipType'] = new sfWidgetFormSelect(array('choices' => $relationshipChoices));
         $widgets['relationship'] = new sfWidgetFormInputText();
-        $widgets['dateOfBirth'] = new ohrmWidgetDatePickerNew(array(), array('id' => 'dependent_dateOfBirth'));
+        $widgets['dateOfBirth'] = new ohrmWidgetDatePicker(array(), array('id' => 'dependent_dateOfBirth'));
         unset($relationshipChoices['']);
         
         return $widgets;

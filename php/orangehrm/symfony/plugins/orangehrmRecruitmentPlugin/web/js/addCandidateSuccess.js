@@ -3,7 +3,7 @@ var toDisable = new Array();
 var item = 0;
 var vacancyId;
 $(document).ready(function() {
-    isValidForm();
+    
     vacancyId = $('#addCandidate_vacancy').val();
     if(candidateStatus != activeStatus) {
         $("#btnSave").attr('disabled', 'disabled');
@@ -32,8 +32,8 @@ $(document).ready(function() {
         result = /\d+(?:\.\d+)?/.exec(this.id);
         if(vacancyString.trim() != "" && result < vacancyList.length){
             if($("#btnSave").attr('value') == lang_edit){
-            }else{
-                $('#deleteConfirmation').dialog('open');
+            } else{
+                $('#deleteConfirmation').modal();
             }
         }
         else{
@@ -52,8 +52,7 @@ $(document).ready(function() {
     $('#btnSave').click(function() {
         var isExistedVacancyGoingToBeDeleted = 0;
         if($("#btnSave").attr('value') == lang_edit) {
-            $('#addCandidateHeading').hide();
-            $('#addCandidate .mainHeading').append('<h2>' + lang_editCandidateTitle + '</h2>');
+            $('#addCandidateHeading').text(lang_editCandidateTitle);
             for(i=0; i < widgetList.length; i++) {
                 $(widgetList[i]).removeAttr("disabled");
             }
@@ -68,13 +67,15 @@ $(document).ready(function() {
             $("#btnSave").attr('value', lang_save);
             $("#btnBack").attr('value', lang_cancel);
             
-        } else if($("#btnSave").attr('value') == lang_save){
+        } else {
             
+            if(isValidForm()) {
+                
                 $('#addCandidate_keyWords.inputFormatHint').val('');
                 getVacancy();
                 if(candidateId != "") {
                     if($('#addCandidate_vacancy').val() != vacancyId && vacancyId != "") {
-                        $('#deleteConfirmationForSave').dialog('open');
+                        $('#deleteConfirmationForSave').modal();
                     } else {
                         $('form#frmAddCandidate').submit();
                     }
@@ -83,10 +84,11 @@ $(document).ready(function() {
                     $('form#frmAddCandidate').submit();
                 }
         }
+        }
 
     });
    
-    $("input[name=addCandidate[resumeUpdate]]").click(function () {
+    $("input.fileEditOptions").click(function () {
         if(attachment != "" && !$('#addCandidate_resumeUpdate_3').attr("checked")){
             $('#addCandidate_resume').val("");
         }
@@ -158,36 +160,12 @@ $(document).ready(function() {
         }
     });
 
-    $('#deleteConfirmation').dialog({
-        autoOpen: false,
-        modal: true,
-        width: 325,
-        height: 50,
-        position: 'middle',
-        open: function() {
-            $('#dialogCancelBtn').focus();
-        }
-    });
-    
-    $('#deleteConfirmationForSave').dialog({
-        autoOpen: false,
-        modal: true,
-        width: 325,
-        height: 50,
-        position: 'middle',
-        open: function() {
-            $('#dialogCancelButton').focus();
-        }
-    });
-
     $('#dialogSaveButton').click(function() {
-        $("#deleteConfirmationForSave").dialog("close");
         $('form#frmAddCandidate').submit();
     });
     
     $('#dialogCancelButton').click(function() {
         $('#addCandidate_vacancy').val(vacancyId);
-        $("#deleteConfirmationForSave").dialog("close");
         $('#actionPane').show();
     });
 
@@ -412,11 +390,6 @@ function isValidForm(){
                 valid_date: lang_validDateMsg,
                 date_range_comp:lang_dateValidation
             }
-
-        },
-        errorPlacement: function(error, element) {
-            error.appendTo(element.prev('label'));
-            error.appendTo(element.next('div.errorHolder'));
 
         }
 

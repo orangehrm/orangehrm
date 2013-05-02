@@ -20,7 +20,7 @@
 
 /**
  * Description of SupervisorUserRoleTest
- *
+ * @group Core
  */
 class SupervisorUserRoleTest extends PHPUnit_Framework_TestCase {
 

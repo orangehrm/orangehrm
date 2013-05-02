@@ -86,8 +86,8 @@ class WorkExperienceForm extends sfForm {
         $widgets['seqno'] = new sfWidgetFormInputHidden();
         $widgets['employer'] = new sfWidgetFormInputText();
         $widgets['jobtitle'] = new sfWidgetFormInputText();
-        $widgets['from_date'] = new ohrmWidgetDatePickerNew(array(), array('id' => 'experience_from_date'));
-        $widgets['to_date'] = new ohrmWidgetDatePickerNew(array(), array('id' => 'experience_to_date'));
+        $widgets['from_date'] = new ohrmWidgetDatePicker(array(), array('id' => 'experience_from_date'));
+        $widgets['to_date'] = new ohrmWidgetDatePicker(array(), array('id' => 'experience_to_date'));
         $widgets['comments'] = new sfWidgetFormTextarea();
 
         return $widgets;

@@ -33,7 +33,7 @@ class deleteSalaryAction extends basePimAction {
 
             if (count($deleteIds) > 0) {
                 $this->getEmployeeService()->deleteEmployeeSalaryComponents($empNumber, $deleteIds);
-                $this->getUser()->setFlash('templateMessage', array('success', __(TopLevelMessages::DELETE_SUCCESS)));
+                $this->getUser()->setFlash('salary.success', __(TopLevelMessages::DELETE_SUCCESS));
             }
 
         }

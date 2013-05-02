@@ -59,10 +59,10 @@ class LanguageForm extends BaseForm {
         
         if (empty($id)) {
             $language = new Language();
-            $message = array('SUCCESS', __(TopLevelMessages::SAVE_SUCCESS));
+            $message = array('messageType' => 'success', 'message' => __(TopLevelMessages::SAVE_SUCCESS));
         } else {
             $language = $this->getLanguageService()->getLanguageById($id);
-            $message = array('SUCCESS', __(TopLevelMessages::UPDATE_SUCCESS));
+            $message = array('messageType' => 'success', 'message' => __(TopLevelMessages::UPDATE_SUCCESS));
         }
         
         $language->setName($this->getValue('name'));

@@ -17,39 +17,53 @@
  * Boston, MA  02110-1301, USA
  */
 ?>
-<?php echo javascript_include_tag('../orangehrmAttendancePlugin/js/configure'); ?>
-<?php echo stylesheet_tag('../orangehrmAttendancePlugin/css/configureSuccess'); ?>
 
-<div id="messagebar" class="<?php echo isset($messageType) ? "messageBalloon_{$messageType}" : ''; ?>" style="margin-left: 16px;width: 470px;">
-    <span style="font-weight: bold;"><?php echo isset($message) ? $message : ''; ?></span>
-</div>
+<style type="text/css">
+    form ol li.checkbox label {
+        width:35%
+    }
+</style>
+    
 
-<div class="outerbox"  style="width: 500px" >
-    <div class="maincontent">
-        <div class="mainHeading">
-            <h2><?php echo __('Attendance Configuration'); ?></h2>
-        </div>
-        <br class="clear">
+<div class="box">
+         
+    <div class="head">
+        <h1><?php echo __('Attendance Configuration'); ?></h1>
+    </div>
+        
+    <div class="inner">
+        
+        <?php include_partial('global/flash_messages'); ?>
+            
         <form  id="configureForm" action=""  method="post">
             <?php echo $form['_csrf_token']; ?>
-            <?php echo $form['configuration1']->render(); ?>
-            <?php echo $form['configuration1']->renderLabel(__('Employee can change current time when punching in/out')); ?>
-            <br class="clear"/>
-
-            <?php echo $form['configuration2']->render(); ?>
-            <?php echo $form['configuration2']->renderLabel(__('Employee can edit/delete own attendance records')); ?>
-            <br class="clear"/>
-
-            <?php echo $form['configuration3']->render(); ?>
-            <?php echo $form['configuration3']->renderLabel(__('Supervisor can add/edit/delete attendance records of subordinates')); ?>
-            <br class="clear"/>
-            <br class="clear"/>
-
-            &nbsp;&nbsp;&nbsp;&nbsp; <input type="submit" class="saveConfiguration" name="button" id="btnSave"
-                                            onmouseover="moverButton(this);" onmouseout="moutButton(this);"
-                                            value="<?php echo __('Save'); ?>" />
-
+            <fieldset>
+                <ol>
+                   <li class="checkbox">
+                        <?php echo $form['configuration1']->renderLabel(__('Employee can change current time when punching in/out')); ?>
+                        <?php echo $form['configuration1']->render(); ?>
+                        </li>
+                        
+                                            
+                    <li class="checkbox">
+                        <?php echo $form['configuration2']->renderLabel(__('Employee can edit/delete own attendance records')); ?>
+                        <?php echo $form['configuration2']->render(); ?>
+                        </li>
+                        
+                    <li class="checkbox">
+                         <?php echo $form['configuration3']->renderLabel(__('Supervisor can add/edit/delete attendance records of subordinates')); ?>
+                         <?php echo $form['configuration3']->render(); ?>
+                         </li>
+                                                                 
+                </ol>
+                <p>
+                    <input type="submit" class="" id="btnSave" value="<?php echo __('Save'); ?>" />
+                </p>
+                    
+            </fieldset>
+                
         </form>
-        <br class="clear">
+            
     </div>
+        
 </div>

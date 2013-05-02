@@ -63,6 +63,19 @@ class EmailNotificationDaoTest extends PHPUnit_Framework_TestCase {
        $result = $this->emailNotificationDao->deleteSubscribers(array(1, 2, 3));
         $this->assertEquals($result, 3);
     }
+    
+    public function testGetEmailNotification() {
+        $notification = $this->emailNotificationDao->getEmailNotification(1);
+        $this->assertTrue($notification instanceof EmailNotification);
+        $this->assertEquals('Leave Applications', $notification->getName());
+        
+        $notification = $this->emailNotificationDao->getEmailNotification(3);
+        $this->assertTrue($notification instanceof EmailNotification);
+        $this->assertEquals('Leave Approvals', $notification->getName());        
+        
+        $notification = $this->emailNotificationDao->getEmailNotification(113);
+        $this->assertTrue($notification === false);
+    }
 
 }
 

@@ -1,8 +1,10 @@
 $(document).ready(function() {
 
-    disableWidgets()
-    //form validation
-    $("#frmGenInfo").validate({
+    $.validator.addMethod("phone", function(value, element) {
+        return (checkPhone(element));
+    });
+
+    $("#frmGenInfo").validate({ 
         rules: {
             'organization[name]': {
                 required: true
@@ -14,7 +16,8 @@ $(document).ready(function() {
                 phone: true
             },
             'organization[email]' : {
-                email: true
+                email: true,
+                onkeyup: 'if_invalid'
             },
             'organization[note]' : {
                 maxlength: 250
@@ -36,41 +39,18 @@ $(document).ready(function() {
             'organization[note]' : {
                 maxlength: lang_exceed255Chars
             }
-        },
-
-        errorElement : 'label',
-        errorPlacement: function(error, element) {
-            error.appendTo( element.prev('label') );
-            error.appendTo(element.next('div.errorHolder'));
         }
     });
-
-    $.validator.addMethod("phone", function(value, element) {
-        return (checkPhone(element));
-    });
-
+    
     $('#btnSaveGenInfo').click(function() {
+
         //if user clicks on Edit make all fields editable
         if($("#btnSaveGenInfo").attr('value') == edit) {
-            enableWidgets()
             $("#btnSaveGenInfo").attr('value', save)
         }
         else {
-            $("#frmGenInfo").submit()
+            $("#frmGenInfo").submit();
         }
     });
     
 });
-
-function disableWidgets(){
-    $('.txtBox').attr('disabled', 'disabled')
-    $('.drpDown').attr('disabled', 'disabled')
-    $('.txtArea').attr('disabled', 'disabled')
-}
-
-function enableWidgets(){
-    $('.txtBox').removeAttr('disabled')
-    $('.drpDown').removeAttr('disabled')
-    $('.txtArea').removeAttr('disabled')
-}
-

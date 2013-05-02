@@ -1,0 +1,40 @@
+form#frmLeaveEntitlementAdd fieldset > ol > li:first-child {
+    margin-bottom: 0;
+}
+
+ol#filter {
+    border-bottom: 0;
+    margin-bottom: 0;
+    padding-bottom: 0;
+}
+
+ol#filter li {
+    float: left;
+    width: auto;
+    margin-right: 140px;
+}    
+ol#filter li:first-child {
+    float: left;
+    width: 100%;
+}
+ol#filter li:first-child label {     
+}    
+
+ol#filter span#ajax_count {
+    margin-left: 20px;
+}
+
+div#employee_list {
+    margin-top: 20px;
+    height: 200px;
+    overflow-y: scroll;
+    margin-left: 20px;
+    margin-right: 20px;
+}
+
+div#preview div.loading_message {
+    float: right; 
+    margin-right: 20px; 
+    margin-top: 10px;
+}
+    

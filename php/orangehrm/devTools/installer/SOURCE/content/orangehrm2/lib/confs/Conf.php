@@ -12,10 +12,10 @@ class Conf {
 
 		$this->dbhost	= 'localhost';
 		$this->dbport 	= '3306';
-		$this->dbname	= 'hr_mysql';
+		$this->dbname	= 'orangehrm_mysql';
 		$this->dbuser	= 'root';
 		$this->dbpass	= '';
-		$this->version = '2.2';
+		$this->version = '3.0.1';
 
 		$this->emailConfiguration = dirname(__FILE__).'mailConf.php';
 		$this->errorLog =  realpath(dirname(__FILE__).'/../logs/').'/';

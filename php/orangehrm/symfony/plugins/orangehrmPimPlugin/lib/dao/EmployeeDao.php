@@ -1087,7 +1087,7 @@ class EmployeeDao extends BaseDao {
      * @return Array of SubordinateId List
      * @throws DaoException
      */
-    public function getSubordinateIdListBySupervisorId($supervisorId, $includeChain = false, $supervisorIdStack = array ()) {
+    public function getSubordinateIdListBySupervisorId($supervisorId, $includeChain = false, $supervisorIdStack = array (), $maxDepth = NULL, $depth = 1) {
         
         try {
             $employeeIdList = array();
@@ -1103,10 +1103,11 @@ class EmployeeDao extends BaseDao {
             
             foreach ($subordinates as $subordinate) {
                 array_push($employeeIdList, $subordinate['erep_sub_emp_number']);
-                if ($includeChain) {
+                
+                if ($includeChain || (!is_null($maxDepth) && ($depth < $maxDepth))) {
                     if (!in_array($subordinate['erep_sub_emp_number'], $supervisorIdStack)) {
                         $supervisorIdStack[] = $subordinate['erep_sub_emp_number'];
-                        $subordinateIdList = $this->getSubordinateIdListBySupervisorId($subordinate['erep_sub_emp_number'], $includeChain, $supervisorIdStack);
+                        $subordinateIdList = $this->getSubordinateIdListBySupervisorId($subordinate['erep_sub_emp_number'], $includeChain, $supervisorIdStack, $maxDepth, $depth + 1);
                         if (count($subordinateIdList) > 0) {
                             foreach ($subordinateIdList as $id) {
                                 array_push($employeeIdList, $id);
@@ -1185,7 +1186,8 @@ class EmployeeDao extends BaseDao {
      * 
      * @todo Use a parameter object
      */
-    public function getSubordinatePropertyListBySupervisorId($supervisorId, $properties, $includeChain = false, $orderField, $orderBy, $includeTerminated = false, $supervisorIdStack = array()) {
+    public function getSubordinatePropertyListBySupervisorId($supervisorId, $properties, $includeChain = false, $orderField = NULL, 
+            $orderBy = NULL, $includeTerminated = false, $supervisorIdStack = array(), $maxDepth = NULL, $depth = 1) {
 
         try {
 
@@ -1213,10 +1215,12 @@ class EmployeeDao extends BaseDao {
             $subordinates =  $q->fetchArray();
             foreach ($subordinates as $subordinate) {
                 $employeePropertyList[$subordinate['subordinateId']] = $subordinate['subordinate'];
-                if ($subordinate['isSupervisor'] && $includeChain) {
+                
+                if ($subordinate['isSupervisor'] && ($includeChain || (!is_null($maxDepth) && ($depth < $maxDepth))) ) {
                     if (!in_array($subordinate['subordinateId'], $supervisorIdStack)) {
                         $supervisorIdStack[] = $subordinate['subordinateId'];
-                        $subordinatePropertyList = $this->getSubordinatePropertyListBySupervisorId($subordinate['subordinateId'], $properties, $includeChain, $orderField, $orderBy, $includeTerminated, $supervisorIdStack);
+                        $subordinatePropertyList = $this->getSubordinatePropertyListBySupervisorId($subordinate['subordinateId'], $properties, 
+                                $includeChain, $orderField, $orderBy, $includeTerminated, $supervisorIdStack, $maxDepth, $depth - 1);
                         if (count($subordinatePropertyList) > 0) {
                             foreach ($subordinatePropertyList as $key => $value) {
                                 $employeePropertyList[$key] = $value;
@@ -1287,35 +1291,37 @@ class EmployeeDao extends BaseDao {
         try {
             $employeeList = array();
 
-            $q = Doctrine_Query::create()
-                            ->select("rt2.subordinateId AS isSupervisor, rt.supervisorId, emp.*")
-                            ->from('ReportTo rt')
-                            ->leftJoin('rt.subordinate emp')
-                            ->leftJoin('emp.ReportTo rt2 ON rt.erep_sub_emp_number = rt2.erep_sup_emp_number')
-                            ->where("rt.supervisorId=$supervisorId");
+            $query = Doctrine_Query::create()
+                    ->from('ReportTo rt')
+                    ->leftJoin('rt.subordinate emp')
+                    ->where('rt.erep_sup_emp_number = ?', $supervisorId);
 
             if ($includeTerminated == false) {
-                $q->addWhere("emp.termination_id IS NULL");
+                $query->addWhere('emp.termination_id IS NULL');
             }
 
-            $reportToList = $q->execute();
-            foreach ($reportToList as $reportTo) {
-                array_push($employeeList, $reportTo->getSubordinate());
-                if ($reportTo['isSupervisor'] && $includeChain) {
-                    if (!in_array($subordinate['subordinateId'], $supervisorIdStack)) {
-                        $supervisorIdStack[] = $subordinate['subordinateId'];
-                        $list = $this->getSubordinateList($reportTo->getSubordinateId(), true, $supervisorIdStack);
-                        if (count($list) > 0) {
-                            foreach ($list as $employee) {
-                                array_push($employeeList, $employee);
+            $subordinates = $query->execute();
+
+
+            foreach ($subordinates as $subordinate) {
+                $employeeList[] = $subordinate->getSubordinate();
+
+                if ($includeChain) {
+                    if (!in_array($subordinate->getSubordinateId(), $supervisorIdStack)) {
+                        $supervisorIdStack[] = $subordinate->getSubordinateId();
+                        $subordinateList = $this->getSubordinateList($subordinate->getSubordinateId(), $includeChain, $supervisorIdStack);
+                        if (count($subordinateList) > 0) {
+                            foreach ($subordinateList as $sub) {
+                                $employeeList[] = $sub;
                             }
                         }
                     }
                 }
             }
+
             return $employeeList;
-            
-        // @codeCoverageIgnoreStart
+
+            // @codeCoverageIgnoreStart
         } catch (Exception $e) {
             throw new DaoException($e->getMessage(), $e->getCode(), $e);
         }
@@ -1929,7 +1935,7 @@ class EmployeeDao extends BaseDao {
                 'cs.name AS subDivision, cs.id AS subDivisionId,' .
                 'j.job_title AS jobTitle, j.id AS jobTitleId, j.is_deleted AS isDeleted, ' .
                 'es.name AS employeeStatus, es.id AS employeeStatusId, '.
-                'GROUP_CONCAT(s.emp_firstname, \'## \', s.emp_lastname) AS supervisors,'.
+                'GROUP_CONCAT(s.emp_firstname, \'## \', s.emp_middle_name, \'## \', s.emp_lastname) AS supervisors,'.
                 'GROUP_CONCAT(DISTINCT loc.id, \'##\',loc.name) AS locationIds';
               
 
@@ -2090,6 +2096,7 @@ class EmployeeDao extends BaseDao {
         $offset     = $parameterHolder->getOffset();
         $limit      = $parameterHolder->getLimit();
         $filters    = $parameterHolder->getFilters();
+        $returnType = $parameterHolder->getReturnType();
 
         $select = '';
         $query = '';
@@ -2117,72 +2124,76 @@ class EmployeeDao extends BaseDao {
         $statement = $conn->prepare($completeQuery);
         $result = $statement->execute($bindParams);
        
-        
-        $employees = new Doctrine_Collection(Doctrine::getTable('Employee'));
+        if ($returnType == EmployeeSearchParameterHolder::RETURN_TYPE_OBJECT) {
+            $employees = new Doctrine_Collection(Doctrine::getTable('Employee'));
 
-        if ($result) {
-            while ($row = $statement->fetch() ) {
-                $employee = new Employee();
+            if ($result) {
+                while ($row = $statement->fetch() ) {
+                    $employee = new Employee();
 
-                $employee->setEmpNumber($row['empNumber']);
-                $employee->setEmployeeId($row['employeeId']);
-                $employee->setFirstName($row['firstName']);
-                $employee->setMiddleName($row['middleName']);
-                $employee->setLastName($row['lastName']);
-                $employee->setTerminationId($row['terminationId']);
+                    $employee->setEmpNumber($row['empNumber']);
+                    $employee->setEmployeeId($row['employeeId']);
+                    $employee->setFirstName($row['firstName']);
+                    $employee->setMiddleName($row['middleName']);
+                    $employee->setLastName($row['lastName']);
+                    $employee->setTerminationId($row['terminationId']);
 
-                $jobTitle = new JobTitle();
-                $jobTitle->setId($row['jobTitleId']);
-                $jobTitle->setJobTitleName($row['jobTitle']);
-                $jobTitle->setIsDeleted($row['isDeleted']);
-                $employee->setJobTitle($jobTitle);
+                    $jobTitle = new JobTitle();
+                    $jobTitle->setId($row['jobTitleId']);
+                    $jobTitle->setJobTitleName($row['jobTitle']);
+                    $jobTitle->setIsDeleted($row['isDeleted']);
+                    $employee->setJobTitle($jobTitle);
 
-                $employeeStatus = new EmploymentStatus();
-                $employeeStatus->setId($row['employeeStatusId']);
-                $employeeStatus->setName($row['employeeStatus']);
-                $employee->setEmployeeStatus($employeeStatus);
+                    $employeeStatus = new EmploymentStatus();
+                    $employeeStatus->setId($row['employeeStatusId']);
+                    $employeeStatus->setName($row['employeeStatus']);
+                    $employee->setEmployeeStatus($employeeStatus);
 
-                $workStation = new SubUnit();
-                $workStation->setName($row['subDivision']);
-                $workStation->setId($row['subDivisionId']);
-                $employee->setSubDivision($workStation);
+                    $workStation = new SubUnit();
+                    $workStation->setName($row['subDivision']);
+                    $workStation->setId($row['subDivisionId']);
+                    $employee->setSubDivision($workStation);
 
-                $supervisorList = isset($row['supervisors'])?$row['supervisors']:'';
+                    $supervisorList = isset($row['supervisors'])?$row['supervisors']:'';
 
-                if (!empty($supervisorList)) {
+                    if (!empty($supervisorList)) {
 
-                    $supervisors = new Doctrine_Collection(Doctrine::getTable('Employee'));
+                        $supervisors = new Doctrine_Collection(Doctrine::getTable('Employee'));
 
-                    $supervisorArray = explode(',', $supervisorList);
-                    foreach ($supervisorArray as $supervisor) {
-                        list($first, $last) = explode('##', $supervisor);
-                        $supervisor = new Employee();
-                        $supervisor->setFirstName($first);
-                        $supervisor->setLastName($last);
-                        $employee->supervisors[] = $supervisor;
+                        $supervisorArray = explode(',', $supervisorList);
+                        foreach ($supervisorArray as $supervisor) {
+                            list($first, $middle, $last) = explode('##', $supervisor);
+                            $supervisor = new Employee();
+                            $supervisor->setFirstName($first);
+                            $supervisor->setMiddleName($middle);
+                            $supervisor->setLastName($last);
+                            $employee->supervisors[] = $supervisor;
+                        }
                     }
-                }
-                
-                $locationList = $row['locationIds'];
 
-                if (!empty($locationList)) {
+                    $locationList = $row['locationIds'];
 
-//                    $locations = new Doctrine_Collection(Doctrine::getTable('EmpLocations'));
+                    if (!empty($locationList)) {
 
-                    $locationArray = explode(',', $locationList);
-                    foreach ($locationArray as $location) {
-                        list($id, $name) = explode('##', $location);
-                        $empLocation = new Location();
-                        $empLocation->setId($id);
-                        $empLocation->setName($name);
-                        $employee->locations[] = $empLocation;
+    //                    $locations = new Doctrine_Collection(Doctrine::getTable('EmpLocations'));
+
+                        $locationArray = explode(',', $locationList);
+                        foreach ($locationArray as $location) {
+                            list($id, $name) = explode('##', $location);
+                            $empLocation = new Location();
+                            $empLocation->setId($id);
+                            $empLocation->setName($name);
+                            $employee->locations[] = $empLocation;
+                        }
                     }
-                }
 
-                $employees[] = $employee;
+                    $employees[] = $employee;
+                }
             }
         }
-
+        else {
+            return $statement->fetchAll();
+        }
         return $employees;
 
     }

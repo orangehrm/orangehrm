@@ -63,9 +63,11 @@ $(document).ready(function() {
     $("#%s").autocomplete(employees, {
 
             formatItem: function(item) {
-
+                return $('<div/>').text(item.name).html();
+            },
+            formatResult: function(item) {
                 return item.name;
-            }
+            }            
             ,matchContains:true
         }).result(function(event, item) {
 

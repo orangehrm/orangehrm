@@ -2,6 +2,16 @@
 
 class LinkCell extends Cell {
 
+    protected function getLabel() {
+        if ($this->hasProperty('labelGetter')) {
+            $label = $this->getValue('labelGetter');
+        } else {
+            $label = $this->getPropertyValue('label', 'Undefined');
+        }
+
+        return $label;
+    }
+    
     public function __toString() {
         $linkable = $this->getPropertyValue('linkable', true);
         
@@ -15,9 +25,12 @@ class LinkCell extends Cell {
             $urlPattern = $this->getPropertyValue('urlPattern');
 
             $url = $urlPattern;
-            foreach ($placeholderGetters as $placeholder => $getter) {
-                $placeholderValue = is_array($this->dataObject) ? $this->dataObject[$getter] : $this->dataObject->$getter();
-                $url = preg_replace("/\{{$placeholder}\}/", $placeholderValue, $url);
+            
+            if (!is_null($placeholderGetters)) {
+                foreach ($placeholderGetters as $placeholder => $getter) {
+                    $placeholderValue = ($this->getDataSourceType() == self::DATASOURCE_TYPE_ARRAY) ? $this->dataObject[$getter] : $this->dataObject->$getter();
+                    $url = preg_replace("/\{{$placeholder}\}/", $placeholderValue, $url);
+                }
             }
 
             if (preg_match('/^index.php/', $url)) {
@@ -29,11 +42,9 @@ class LinkCell extends Cell {
                 'href' => $url,
             );
                 
-            if ($this->hasProperty('labelGetter')) {
-                $label = $this->getValue('labelGetter');
-            } else {
-                $label = $this->getPropertyValue('label', 'Undefined');
-            }
+            $label = $this->getLabel();
+            
+
             return content_tag('a', $label, $linkAttributes) 
                     . $this->getHiddenFieldHTML();
         } else {
@@ -42,6 +53,6 @@ class LinkCell extends Cell {
     }
 
     public function toValue() {
-        return $this->getValue('labelGetter');
+        return $this->getLabel();
     }
 }

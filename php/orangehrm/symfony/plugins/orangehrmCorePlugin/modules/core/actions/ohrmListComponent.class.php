@@ -6,6 +6,7 @@ class ohrmListComponent extends sfComponent {
     protected static $listData;
     protected static $itemsPerPage;
     protected static $headerPartial;
+    protected static $footerPartial;
     protected static $numberOfRecords;
     protected static $definitionsPath;
     protected static $activePlugin;
@@ -57,6 +58,8 @@ class ohrmListComponent extends sfComponent {
         $this->data = self::$listData;
         $this->className = self::$configurationFactory->getClassName();
         $this->partial = self::$headerPartial;
+        $this->footerPartial = self::$footerPartial;
+                
         $this->applyRuntimeDefinitions();
 
         $this->makePluginCalls();
@@ -94,6 +97,13 @@ class ohrmListComponent extends sfComponent {
         self::$headerPartial = $partial;
     }
 
+    /**
+     *
+     * @param string $partial 
+     */
+    public static function setFooterPartial($partial) {
+        self::$footerPartial = $partial;
+    }    
     /**
      *
      * @param int $items 

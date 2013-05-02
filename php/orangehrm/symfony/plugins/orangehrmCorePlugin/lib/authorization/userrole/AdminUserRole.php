@@ -91,5 +91,11 @@ class AdminUserRole extends AbstractUserRole {
 
         return $ids;
     }
+    
+    public function getEmployeesWithRole($entities = array()) {
+        return $this->getSystemUserService()->getEmployeesByUserRole($this->roleName);
+    }
+    
+    
 
 }

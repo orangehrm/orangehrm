@@ -44,10 +44,6 @@ class nationalityAction extends sfAction {
 
         $this->setForm(new NationalityForm());
 
-        if ($this->getUser()->hasFlash('templateMessage')) {
-            list($this->messageType, $this->message) = $this->getUser()->getFlash('templateMessage');
-        }
-
         $nationalityList = $this->getNationalityService()->getNationalityList();
         $this->_setListComponent($nationalityList);
         $params = array();
@@ -57,7 +53,7 @@ class nationalityAction extends sfAction {
             $this->form->bind($request->getParameter($this->form->getName()));
             if ($this->form->isValid()) {
                 $this->form->save();
-                $this->getUser()->setFlash('templateMessage', array('success', __(TopLevelMessages::SAVE_SUCCESS)));
+                $this->getUser()->setFlash('success', __(TopLevelMessages::SAVE_SUCCESS));
                 $this->redirect('admin/nationality');
             }
         }

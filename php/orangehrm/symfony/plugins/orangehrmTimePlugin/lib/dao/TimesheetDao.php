@@ -516,7 +516,7 @@ class TimesheetDao {
         } catch (Exception $ex) {
             throw new DaoException($ex->getMessage());
         }
-    }
+    }    
     
     /**
      * Return an Array of Project Names

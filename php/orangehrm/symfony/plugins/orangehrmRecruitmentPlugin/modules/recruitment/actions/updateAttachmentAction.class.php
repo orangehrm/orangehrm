@@ -41,7 +41,8 @@ class updateAttachmentAction extends sfAction {
 
             if ($this->form->isValid()) {
                 $this->form->save();
-                $this->getUser()->setFlash('attachmentMessage', array('success', __(TopLevelMessages::SAVE_SUCCESS)));
+//                $this->getUser()->setFlash('attachmentMessage', array('success', __(TopLevelMessages::SAVE_SUCCESS)));
+                $this->getUser()->setFlash('jobAttachmentPane.success', __(TopLevelMessages::SAVE_SUCCESS));
             }
         }
         $this->redirect($this->getRequest()->getReferer() . '#attachments');

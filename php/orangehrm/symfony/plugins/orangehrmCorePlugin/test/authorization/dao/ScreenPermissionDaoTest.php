@@ -20,7 +20,7 @@
 
 /**
  * Description of ScreenPermissionDaoTest
- *
+ * @group Core
  */
 class ScreenPermissionDaoTest  extends PHPUnit_Framework_TestCase {
     

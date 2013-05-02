@@ -20,7 +20,7 @@
 
 /**
  * Description of AdminUserRoleTest
- *
+ * @group Core
  */
 class AdminUserRoleTest extends PHPUnit_Framework_TestCase {
 

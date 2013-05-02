@@ -1,0 +1,10 @@
+Hi %recipientFirstName%,
+
+%performerFullName% has rejected leave request of %applicantFullName%. The leave details:
+
+%leaveDetails%
+You were sent this mail, as you have subscribed to OrangeHRM leave rejections.
+
+Thank you.
+
+This is an automated notification.

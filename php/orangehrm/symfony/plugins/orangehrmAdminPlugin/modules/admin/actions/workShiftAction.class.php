@@ -47,9 +47,6 @@ class workShiftAction extends sfAction {
 		}
 		
 		$this->setForm(new WorkShiftForm());
-		if ($this->getUser()->hasFlash('templateMessage')) {
-			list($this->messageType, $this->message) = $this->getUser()->getFlash('templateMessage');
-		}
 		
 		$workShiftList = $this->getWorkShiftService()->getWorkShiftList();
 		$this->_setListComponent($workShiftList);
@@ -60,7 +57,7 @@ class workShiftAction extends sfAction {
 			$this->form->bind($request->getParameter($this->form->getName()));
 			if ($this->form->isValid()) {
 				$this->form->save();
-				$this->getUser()->setFlash('templateMessage', array('success', __(TopLevelMessages::SAVE_SUCCESS)));
+				$this->getUser()->setFlash('success', __(TopLevelMessages::SAVE_SUCCESS));
 				$this->redirect('admin/workShift');
 			}
 		}

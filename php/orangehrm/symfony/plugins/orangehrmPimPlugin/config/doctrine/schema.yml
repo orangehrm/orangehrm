@@ -238,72 +238,6 @@ EmpContract:
       foreign: emp_number
       type: one
 
-EmpJobtitleHistory:
-  tableName: hs_hr_emp_jobtitle_history
-  columns:
-    id:
-      type: integer(4)
-      primary: true
-      autoincrement: true
-    emp_number:
-      type: integer(4)
-      notnull: true
-    code:
-      type: string(15)
-      notnull: true
-    name: string(250)
-    start_date: timestamp(25)
-    end_date: timestamp(25)
-  relations:
-    Employee:
-      local: emp_number
-      foreign: emp_number
-      type: one
-
-EmpLocationHistory:
-  tableName: hs_hr_emp_location_history
-  columns:
-    id:
-      type: integer(4)
-      primary: true
-      autoincrement: true
-    emp_number:
-      type: integer(4)
-      notnull: true
-    code:
-      type: string(15)
-      notnull: true
-    name: string(250)
-    start_date: timestamp(25)
-    end_date: timestamp(25)
-  relations:
-    Employee:
-      local: emp_number
-      foreign: emp_number
-      type: one
-
-EmpSubdivisionHistory:
-  tableName: hs_hr_emp_subdivision_history
-  columns:
-    id:
-      type: integer(4)
-      primary: true
-      autoincrement: true
-    emp_number:
-      type: integer(4)
-      notnull: true
-    code:
-      type: string(15)
-      notnull: true
-    name: string(250)
-    start_date: timestamp(25)
-    end_date: timestamp(25)
-  relations:
-    Employee:
-      local: emp_number
-      foreign: emp_number
-      type: one
-
 EmpEmergencyContact:
   tableName: hs_hr_emp_emergency_contacts
   columns:
@@ -469,7 +403,7 @@ EmployeeSalary:
       type: integer(4)
       notnull: true      
     sal_grd_code as payGradeId:
-      type: string(13)
+      type: integer
       default: null
     currency_id as currencyCode:
       type: string(6)
@@ -480,11 +414,6 @@ EmployeeSalary:
     salary_component as salaryName: string(100)
     comments as notes: string(255)        
   relations:
-    salaryGrade:
-      class: SalaryGrade
-      local: payGradeId
-      foreign: sal_grd_code
-      type: one
     currencyType:
       class: CurrencyType
       local: currencyCode
@@ -505,7 +434,12 @@ EmployeeSalary:
       local: id
       foreign: salary_id
       type: one      
-    
+    payGrade:
+      class: PayGrade
+      local: payGradeId
+      foreign: id
+      type: one  
+      
 EmpDirectdebit:
   tableName: hs_hr_emp_directdebit
   columns:

@@ -56,6 +56,9 @@ class EmailNotificationService extends BaseService {
     public function deleteSubscribers($subscriberIdList){
         return $this->emailNotificationDao->deleteSubscribers($subscriberIdList);
     }
-
+    
+    public function getEmailNotification($id) {
+        return $this->emailNotificationDao->getEmailNotification($id);
+    }
 }
 

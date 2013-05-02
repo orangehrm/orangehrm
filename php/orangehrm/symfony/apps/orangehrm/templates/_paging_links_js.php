@@ -1,6 +1,5 @@
 <?php
 /*
- *
  * OrangeHRM is a comprehensive Human Resource Management (HRM) System that captures
  * all the essential functionalities required for any enterprise.
  * Copyright (C) 2006 OrangeHRM Inc., http://www.orangehrm.com
@@ -16,22 +15,23 @@
  * You should have received a copy of the GNU General Public License along with this program;
  * if not, write to the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
  * Boston, MA  02110-1301, USA
- *
  */
 
-echo "<a href=\"javascript:submitPage(1)\">".__('First')."</a> ";
-echo "<a href=\"javascript:submitPage({$pager->getPreviousPage()})\">".__('Previous')."</a> ";
-
+echo "<ul class=\"paging $location\">";
+echo "<li class=\"desc\">".__($pager->getFirstIndice() . '-' . $pager->getLastIndice() . ' ' . __('of') . ' ' . $pager->getNumResults())."</li> ";
+echo "<li class=\"first\"><a href=\"javascript:submitPage(1)\" class=\"tiptip\" title=\"".__('First')."\">".__('First')."</a></li> ";
+echo "<li class=\"previous\"><a href=\"javascript:submitPage({$pager->getPreviousPage()})\" class=\"tiptip\" title=\"".__('Previous')."\">".__('Previous')."</a></li> ";
 
 foreach ($pager->getLinks() as $page):
 
     if ($page == $pager->getPage()) {
-        echo "<strong>$page</strong> ";
+        echo "<li><a class=\"current\" href=\"#\">$page</a></li> ";
     } else {
-        echo "<a href=\"javascript:submitPage($page)\">$page</a> ";
+        echo "<li><a href=\"javascript:submitPage($page)\">$page</a></li> ";
     }
     
 endforeach;
 
-echo "<a href=\"javascript:submitPage({$pager->getNextPage()})\">".__('Next')."</a> ";
-echo "<a href=\"javascript:submitPage({$pager->getLastPage()})\">".__('Last')."</a>";
+echo "<li class=\"next\"><a href=\"javascript:submitPage({$pager->getNextPage()})\" class=\"tiptip\" title=\"".__('Next')."\">".__('Next')."</a></li> ";
+echo "<li class=\"last\"><a href=\"javascript:submitPage({$pager->getLastPage()})\" class=\"tiptip\" title=\"".__('Last')."\">".__('Last')."</a></li>";
+echo "</ul>";

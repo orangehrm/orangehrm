@@ -310,7 +310,7 @@ class ProjectDao extends BaseDao {
         try {
             $projectIdEscapeString = implode(',', array_fill(0, count($projectIdList), '?'));
             
-            $q = "SELECT COUNT(p.project_id) AS COUNT
+            $q = "SELECT p.project_id AS projectIds
             		FROM ohrm_project p
             		LEFT JOIN ohrm_customer c ON p.customer_id = c.customer_id
             		LEFT JOIN ohrm_project_admin pa ON p.project_id = pa.project_id
@@ -346,7 +346,7 @@ class ProjectDao extends BaseDao {
             $query = $pdo->prepare($q);
             $query->execute($escapeValueArray);
             $results = $query->fetchAll(PDO::FETCH_ASSOC);
-            $count = $results[0]['COUNT'];
+            $count = count($results);
             
             return $count;
             
@@ -572,6 +572,31 @@ class ProjectDao extends BaseDao {
         // @codeCoverageIgnoreEnd
 
     }
+    
+    /**
+     * Get count of project activities in the sytem
+     * 
+     * @param bool $includeDeleted If true, count will include deleted activities
+     * @return int number of activities
+     * @throws DaoException
+     */
+    public function getProjectActivityCount($includeDeleted = false) {
+        try {
+
+            $query = Doctrine_Query::create()
+                    ->from('ProjectActivity');
+
+            if (!$includeDeleted) {
+                $query->andWhere('is_deleted = ?', ProjectActivity::ACTIVE_PROJECT_ACTIVITY);
+            }
+
+            $count = $query->count();
+            return $count;
+
+        } catch (Exception $ex) {
+            throw new DaoException($ex->getMessage());
+        }        
+    }    
     
     /**
      * Returns corresponding sort field

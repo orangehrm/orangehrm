@@ -25,12 +25,14 @@
 ; See readme in this folder for details on how to use this
 ; script to compile the installer.
 ;----------------------------------------------------------
+  ; Compression
+  SetCompressor "lzma"
 
 ;--------------------------------
 ; Product Details
 
   !define ProductName "OrangeHRM"
-  !define ProductVersion "2.7.1"
+  !define ProductVersion "3.0.1"
 
   !define Organization "OrangeHRM Inc."
 
@@ -64,18 +66,22 @@
   !include "Include\StrRep.nsh"
   !include "Include\ReplaceInFile.nsh"
   !include "Include\CheckUserEmailAddress.nsh"
+  !include "Include\Ports.nsh"
+  !include "Include\servicelib.nsh"
+  !include "Include\WriteToFile.nsh"
 
   ; InstallOptions
 
   ReserveFile "AdminUserDetails.ini"
   ReserveFile "ContactDetails.ini"
+  #ReserveFile "CheckApacheAlreadyInstalled.ini"
 
 ;--------------------------------
 ; Register macros
 
   !insertmacro WordReplace
   !insertmacro MUI_RESERVEFILE_INSTALLOPTIONS
-
+  
 ;--------------------------------
 ; Global variables
 
@@ -87,12 +93,15 @@
   Var /GLOBAL Coments
   Var /GLOBAL Updates
   Var /GLOBAL PostStr
+  Var /GLOBAL DefaultInstallDir
+  Var /GLOBAL VerifiedInallDirectory
 
 ;--------------------------------
 ;General
 
   ; Default installation folder
   InstallDir "$PROGRAMFILES\OrangeHRM\${ProductVersion}"
+  Page custom check_os_version
 
   ; Get installation folder from registry if available
   InstallDirRegKey HKCU "Software\OrangeHRM\${ProductVersion}" ""
@@ -103,9 +112,10 @@
   ; Icons
   !define MUI_ICON "${NSISDIR}\Contrib\Graphics\Icons\orange-install.ico"
   !define MUI_UNICON "${NSISDIR}\Contrib\Graphics\Icons\orange-uninstall.ico"
+  !define SHORTCUT_ICON "$INSTDIR\logo.ico"
 
   ; Header
-  !define MUI_HEADERIMAGE
+  !define MUI_HEADERIMAGE "${NSISDIR}\Contrib\Graphics\Icons\orange-uninstall.ico"
   !define MUI_HEADERIMAGE_RIGHT
   !define MUI_HEADERIMAGE_BITMAP "${NSISDIR}\Contrib\Graphics\Header\orange-r.bmp"
   !define MUI_HEADERIMAGE_UNBITMAP "${NSISDIR}\Contrib\Graphics\Header\orange-uninstall-r.bmp"
@@ -119,13 +129,20 @@
 ;--------------------------------
 ; Pages
 
+
+  
   !insertmacro MUI_PAGE_WELCOME
   !insertmacro MUI_PAGE_LICENSE "${SourceLocation}\content\license.txt"
   !insertmacro MUI_PAGE_COMPONENTS
-  Page custom AdminUserDetailsEnter AdminUserDetailsEnterValidate
+  Page custom  AdminUserDetailsEnter AdminUserDetailsEnterValidate
   !insertmacro MUI_PAGE_DIRECTORY
   !insertmacro MUI_PAGE_INSTFILES
-  Page custom ContactDetailsEnter ContactDetailsEnterValidate
+  Page custom  VerifyRegister ContactDetailsEnterValidate
+  !define MUI_FINISHPAGE_NOAUTOCLOSE
+  !define MUI_FINISHPAGE_RUN
+  !define MUI_FINISHPAGE_RUN_NOTCHECKED
+  !define MUI_FINISHPAGE_RUN_TEXT "Run OrangeHRM"
+  !define MUI_FINISHPAGE_RUN_FUNCTION "LaunchLink"
   !insertmacro MUI_PAGE_FINISH
 
   !insertmacro MUI_UNPAGE_WELCOME
@@ -140,12 +157,43 @@
 
 ;--------------------------------
 ; Utility functions
+
+Function LaunchLink
+ExecShell "" "$INSTDIR\start.vbs"
+
+FunctionEnd
+
   Function buildUnixPath
 
     Var /GLOBAL UNIXINSTDIR
     ${WordReplace} "$INSTDIR" "\" "/" "E+" $UNIXINSTDIR
 
   FunctionEnd
+
+
+Function check_os_version
+		ReadEnvStr $0 ProgramW6432
+		StrCmp $0 "" thirtyTwoBit sixtyFourBit
+		sixtyFourBit:
+		    StrCpy $INSTDIR "$PROGRAMFILES64\OrangeHRM\${ProductVersion}"
+			StrCpy $DefaultInstallDir "$INSTDIR"
+			Abort
+		thirtyTwoBit:
+			StrCpy $DefaultInstallDir "$INSTDIR"
+FunctionEnd
+
+Function .onVerifyInstDir
+		StrCmp $VerifiedInallDirectory true PathGood 0
+			ReadEnvStr $0 ProgramW6432
+			StrCmp $0 "" thirtyTwoBit sixtyFourBit
+			sixtyFourBit:
+				StrCmp $DefaultInstallDir $INSTDIR PathGood 0
+					MessageBox MB_OK "Make sure you don't select a location inside Program Files (x86)"
+					StrCpy $VerifiedInallDirectory true
+					Abort
+			thirtyTwoBit:
+		PathGood:
+FunctionEnd
 
 ;--------------------------------
 ; Installer Sections

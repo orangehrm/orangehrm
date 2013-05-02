@@ -75,6 +75,7 @@ class customFieldsComponent extends sfComponent {
         
         if ($this->getUser()->hasFlash('customFieldsMessage')) {  
             list($this->customFieldsMessageType, $this->customFieldsMessage) = $this->getUser()->getFlash('customFieldsMessage');
+            $this->getUser()->setFlash($this->customFieldsMessageType, $this->customFieldsMessage);
         }
         
         $this->employee = $this->getEmployeeService()->getEmployee($this->empNumber);

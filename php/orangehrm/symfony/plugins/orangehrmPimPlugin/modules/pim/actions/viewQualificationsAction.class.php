@@ -86,25 +86,23 @@ class viewQualificationsAction extends basePimAction {
         
         $this->_setMessage();
 
-        $this->setWorkExperienceForm(new WorkExperienceForm(array(), array('empNumber' => $empNumber,'workExperiencePermissions' => $this->workExperiencePermissions), true));
-        $this->setEducationForm(new EmployeeEducationForm(array(), array('empNumber' => $empNumber, 'educationPermissions' => $this->educationPermissions), true));
-        $this->setSkillForm(new EmployeeSkillForm(array(), array('empNumber' => $empNumber, 'skillPermissions' => $this->skillPermissions), true));
-        $this->setLanguageForm(new EmployeeLanguageForm(array(), array('empNumber' => $empNumber, 'languagePermissions' => $this->languagePermissions), true));
-        $this->setLicenseForm(new EmployeeLicenseForm(array(), array('empNumber' => $empNumber, 'licensePermissions' => $this->licensePermissions), true));        
+        $this->setWorkExperienceForm(new WorkExperienceForm(array(), array('empNumber' => $empNumber, 
+            'workExperiencePermissions' => $this->workExperiencePermissions), true));
+        $this->setEducationForm(new EmployeeEducationForm(array(), array('empNumber' => $empNumber, 
+            'educationPermissions' => $this->educationPermissions), true));
+        $this->setSkillForm(new EmployeeSkillForm(array(), array('empNumber' => $empNumber, 
+            'skillPermissions' => $this->skillPermissions), true));
+        $this->setLanguageForm(new EmployeeLanguageForm(array(), array('empNumber' => $empNumber, 
+            'languagePermissions' => $this->languagePermissions), true));
+        $this->setLicenseForm(new EmployeeLicenseForm(array(), array('empNumber' => $empNumber, 
+            'licensePermissions' => $this->licensePermissions), true));        
     }
     
     protected function _setMessage() {
         $this->section = '';
-        $this->message = '';
-        $this->messageType = '';
-        
-        if ($this->getUser()->hasFlash('templateMessage')) {
-            if ($this->getUser()->hasFlash('qualificationSection')) {
-                $this->section = $this->getUser()->getFlash('qualificationSection');
-            }
-            
-            list($this->messageType, $this->message) = $this->getUser()->getFlash('templateMessage');
-        }        
+        if ($this->getUser()->hasFlash('qualificationSection')) {
+            $this->section = $this->getUser()->getFlash('qualificationSection');
+        } 
     }
 }
 ?>

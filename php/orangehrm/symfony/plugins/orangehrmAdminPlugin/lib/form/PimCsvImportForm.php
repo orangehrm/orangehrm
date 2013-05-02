@@ -46,7 +46,7 @@ class PimCsvImportForm extends BaseForm {
 		$file = $this->getValue('csvFile');
 		if (!empty($file)) {
 			if (!($this->isValidResume($file))) {
-				$resultArray['messageType'] = 'warning';
+				$resultArray['messageType'] = 'csvimport.warning';
 				$resultArray['message'] = __('Failed to Import: File Type Not Allowed');
 				return $resultArray;
 			}

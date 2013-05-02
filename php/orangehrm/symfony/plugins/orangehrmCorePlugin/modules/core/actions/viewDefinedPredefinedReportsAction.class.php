@@ -33,7 +33,7 @@ class viewDefinedPredefinedReportsAction extends sfAction {
                 $reportIds = $request->getParameter("chkSelectRow");
                 $results = $reportableService->deleteReports($reportIds);
                 if ($results > 0) {
-                    $this->getUser()->setFlash('templateMessage', array('success', __(TopLevelMessages::DELETE_SUCCESS)));
+                    $this->getUser()->setFlash('success', __(TopLevelMessages::DELETE_SUCCESS));
                     $this->redirect('core/viewDefinedPredefinedReports');
                     return;
                 }

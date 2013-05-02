@@ -81,7 +81,7 @@ class defineCustomFieldAction extends sfAction {
                 $customField->setScreen($form->getValue('screen'));
                 $customField->setExtraData($form->getValue('extra_data'));
                 $customFieldsService->saveCustomField($customField);
-                $this->getUser()->setFlash('templateMessage', array('success', __(TopLevelMessages::SAVE_SUCCESS)));
+                $this->getUser()->setFlash('success', __(TopLevelMessages::SAVE_SUCCESS));
 
             }
         }

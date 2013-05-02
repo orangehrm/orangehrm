@@ -46,7 +46,7 @@ class deleteLanguagesAction extends sfAction {
             $result = $this->getLanguageService()->deleteLanguages($toDeleteIds);
             
             if ($result) {
-                $this->getUser()->setFlash('templateMessage', array('SUCCESS', __(TopLevelMessages::DELETE_SUCCESS))); 
+                $this->getUser()->setFlash('success', __(TopLevelMessages::DELETE_SUCCESS)); 
                 $this->redirect('admin/viewLanguages');
             }            
             

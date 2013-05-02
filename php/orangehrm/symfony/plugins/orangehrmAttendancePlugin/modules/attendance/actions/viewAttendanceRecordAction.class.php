@@ -77,7 +77,7 @@ class viewAttendanceRecordAction extends sfAction {
 
         $records = array();
 
-        $this->_setListComponent($records, $noOfRecords, $pageNumber);
+        $this->_setListComponent($records, $noOfRecords, $pageNumber, null, $this->showEdit);
 
         if (!$this->trigger) {
 
@@ -163,8 +163,7 @@ class viewAttendanceRecordAction extends sfAction {
                         }
                     }
 
-                    $this->_setListComponent($records, $noOfRecords, $pageNumber, $count);
-
+                    
                     $params = array();
                     $this->parmetersForListCompoment = $params;
 
@@ -239,12 +238,16 @@ class viewAttendanceRecordAction extends sfAction {
                             $this->allowedActions['PunchOut'] = true;
                         }
                     }
+                    if ($this->employeeId == '') {
+                        $this->showEdit = FALSE;
+                    }
+                    $this->_setListComponent($records, $noOfRecords, $pageNumber, $count, $this->showEdit, $this->allowedActions);
                 }
             }
         }
     }
 
-    private function _setListComponent($records, $noOfRecords, $pageNumber, $count) {
+    private function _setListComponent($records, $noOfRecords, $pageNumber, $count=null, $showEdit=null, $allowedActions=null) {
 
         $configurationFactory = new AttendanceRecordHeaderFactory();
 
@@ -254,8 +257,31 @@ class viewAttendanceRecordAction extends sfAction {
                 $notSelectable[] = $record->getId();
             }
         }
-
+        
+//        print_r($allowedActions);
+        $buttons = array();
+        if (isset($allowedActions)) {
+            if (isset($showEdit) && $showEdit) {
+                if ($allowedActions['Edit']) :
+                    $buttons['Edit'] = array('label' => __('Edit'), 'type' => 'button',);
+                endif;
+                if ($allowedActions['PunchIn']) :
+                    $buttons['PunchIn'] = array('label' => __('Add Attendance Records'), 'type' => 'button', 'class' => 'punch');
+                endif;
+                if ($allowedActions['PunchOut']) :
+                    $buttons['PunchOut'] = array('label' => __('Add Attendance Records'), 'type' => 'button', 'class' => 'punch');
+                endif;
+            }
+            if ($allowedActions['Delete']) :
+                $buttons['Delete'] = array('label' => __('Delete'),
+                        'type' => 'submit',
+                        'data-toggle' => 'modal',
+                        'data-target' => '#dialogBox',
+                        'class' => 'delete');
+            endif;
+        }
         $configurationFactory->setRuntimeDefinitions(array(
+            'buttons' => $buttons,
             'unselectableRowIds' => $notSelectable,
         ));
 

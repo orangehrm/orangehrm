@@ -8,13 +8,16 @@
  * @property integer $id
  * @property string $name
  * @property Doctrine_Collection $EmployeeSalary
+ * @property Doctrine_Collection $PayGradeCurrency
  * 
- * @method integer             getId()             Returns the current record's "id" value
- * @method string              getName()           Returns the current record's "name" value
- * @method Doctrine_Collection getEmployeeSalary() Returns the current record's "EmployeeSalary" collection
- * @method PayGrade            setId()             Sets the current record's "id" value
- * @method PayGrade            setName()           Sets the current record's "name" value
- * @method PayGrade            setEmployeeSalary() Sets the current record's "EmployeeSalary" collection
+ * @method integer             getId()               Returns the current record's "id" value
+ * @method string              getName()             Returns the current record's "name" value
+ * @method Doctrine_Collection getEmployeeSalary()   Returns the current record's "EmployeeSalary" collection
+ * @method Doctrine_Collection getPayGradeCurrency() Returns the current record's "PayGradeCurrency" collection
+ * @method PayGrade            setId()               Sets the current record's "id" value
+ * @method PayGrade            setName()             Sets the current record's "name" value
+ * @method PayGrade            setEmployeeSalary()   Sets the current record's "EmployeeSalary" collection
+ * @method PayGrade            setPayGradeCurrency() Sets the current record's "PayGradeCurrency" collection
  * 
  * @package    orangehrm
  * @subpackage model\admin\base
@@ -43,5 +46,9 @@ abstract class BasePayGrade extends sfDoctrineRecord
         $this->hasMany('EmployeeSalary', array(
              'local' => 'id',
              'foreign' => 'payGradeId'));
+
+        $this->hasMany('PayGradeCurrency', array(
+             'local' => 'id',
+             'foreign' => 'pay_grade_id'));
     }
 }

@@ -10,19 +10,19 @@
  *
  * @author orangehrm
  */
-class ohrmWidgetJQueryDateRange extends ohrmWidgetDatePicker implements ohrmEmbeddableWidget {
+class ohrmWidgetJQueryDateRange extends ohrmWidgetDatePickerOld implements ohrmEmbeddableWidget {
 
     public function embedWidgetIntoForm(sfForm $form) {
 
         $widgetSchema = $form->getWidgetSchema();
         $validatorSchema = $form->getValidatorSchema();
 
-        $widgetSchema['from_date'] = new ohrmWidgetDatePicker(array(), array('id' => 'from_date'));
+        $widgetSchema['from_date'] = new ohrmWidgetDatePickerOld(array(), array('id' => 'from_date'));
         $widgetSchema['from_date']->setLabel("From ");
         $form->setValidator('from_date', new sfValidatorDate());
 
 
-        $widgetSchema['to_date'] = new ohrmWidgetDatePicker(array(), array('id' => 'to_date'));
+        $widgetSchema['to_date'] = new ohrmWidgetDatePickerOld(array(), array('id' => 'to_date'));
         $widgetSchema['to_date']->setLabel("To ");
         $form->setValidator('to_date', new sfValidatorDate());
 

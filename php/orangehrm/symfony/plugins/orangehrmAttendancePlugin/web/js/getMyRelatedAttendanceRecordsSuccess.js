@@ -1,74 +1,65 @@
 var global = 1
 $(document).ready(function()
-    {
-        $('#msg').removeAttr('class');
-        $('#msg').html("");
-        $("#dialogBox").dialog({
-            autoOpen: false,
-            width: 300,
-            height: 50
-        });
-
-        $(".cancelBtn").click(function() {
-            $(".dialogBox").dialog('close');
-        });
+{
+    $('#btnDelete').attr('disabled', 'disabled');
     
-        $(".okBtn").click(function() {
-            $(".toDelete").each(function(){
-                element = $(this)
-                if($( element).is(':checked')){
+    $('.toDelete').click(function() {
+        if($('.toDelete').is(':checked')) {
+            $('#btnDelete').removeAttr('disabled');
+        } else {
+            $('#btnDelete').attr('disabled','disabled');
+        }
+    });
+    
+    $("#dialogOk").click(function() {
+        $(".toDelete").each(function(){
+            element = $(this)
+            if($( element).is(':checked')){
       
-                    var id=$(element).attr('id');
+                var id=$(element).attr('id');
                   
-                    if(deleteAttendanceRecords(id)){           
-                        $(element).parent().parent().remove();
-                    }
+                if(deleteAttendanceRecords(id)){           
+                    $(element).parent().parent().remove();
+                }
                
-                    else{
-                        alert("Delete not done properly");
+                else{
+                    alert("Delete not done properly");
                    
-                    }
                 }
             }
-            );
-            $(".dialogBox").dialog('close');
-            getRelatedAttendanceRecords(employeeId,date,actionRecorder);
-                
         });
-    
-        $(".edit").click(function(){
-            $('form#employeeRecordsForm').attr({
-                action:linkToEdit+"?employeeId="+employeeId+"&date="+date+"&actionRecorder="+actionRecorder
-            });
-            $('form#employeeRecordsForm').submit();
-        
-        });
-     
-        $("#btnDelete").click(function(){
-            $('#msg').removeAttr('class');
-            $('#msg').html("");
-            if(!isRowsSelected()){
-
-                $('#msg').attr('class', "messageBalloon_warning");
-                $('#msg').html(lang_noRowsSelected);
-
-            }
-            else{
-                
-                $("#dialogBox").dialog('open');
-            }
-        
-        });
-   
-        $(".punch").click(function(){
-            $('form#employeeRecordsForm').attr({
-                action:linkForProxyPunchInOut+"?employeeId="+employeeId+"&date="+date+"&actionRecorder="+actionRecorder
-            });
-            $('form#employeeRecordsForm').submit();
-        
-        });
-    
+        getRelatedAttendanceRecords(employeeId,date,actionRecorder);  
     });
+    
+    $(".edit").click(function(){
+        $('form#employeeRecordsForm').attr({
+            action:linkToEdit+"?employeeId="+employeeId+"&date="+date+"&actionRecorder="+actionRecorder
+        });
+        $('form#employeeRecordsForm').submit();
+        
+    });
+     
+    $("#btnDelete").click(function(){
+        if(!isRowsSelected()){
+            $('#msg').attr('class', "messageBalloon_warning");
+            $('#msg').html(lang_noRowsSelected);
+
+        }
+        else{                
+            $("#dialogBox").modal();
+        }
+        
+    });
+   
+    $(".punch").click(function(){
+        $('form#employeeRecordsForm').attr({
+            action:linkForProxyPunchInOut+"?employeeId="+employeeId+"&date="+date+"&actionRecorder="+actionRecorder
+        });
+        $('form#employeeRecordsForm').submit();
+        
+    });
+    
+});
 
 
 function deleteAttendanceRecords(id){
@@ -108,8 +99,7 @@ function isRowsSelected(){
 
 }
 
-function getRelatedAttendanceRecords(employeeId,date,actionRecorder){
-
+function getRelatedAttendanceRecords(employeeId,date,actionRecorder) {
     $.post(
         linkForGetRecords,
         {
@@ -127,6 +117,5 @@ function getRelatedAttendanceRecords(employeeId,date,actionRecorder){
                     
         });
                     
-    return false;
-        
+    return false;        
 }

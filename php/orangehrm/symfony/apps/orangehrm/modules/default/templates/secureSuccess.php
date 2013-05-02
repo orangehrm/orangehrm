@@ -1,4 +1,9 @@
-<div align="center" >
-<br><br><br>
-<h1>Credentials Required </h1>
+<div class="box">    
+      
+    
+<div class="message warning">
+    <?php echo __(CommonMessages::CREDENTIALS_REQUIRED) ?> 
 </div>
+        <?php include_partial('global/flash_messages'); ?>
+        
+    </div>

@@ -45,7 +45,7 @@ class AttendanceRecordSearchForm extends sfForm {
         ));
 
         $this->getWidgetSchema()->setLabels($this->getFormLabels());
-        $this->getWidgetSchema()->setFormFormatterName('BreakTags');
+
     }
 
     /**
@@ -53,7 +53,7 @@ class AttendanceRecordSearchForm extends sfForm {
      * @return array
      */
     protected function getFormLabels() {
-        $requiredMarker = ' <span class="required">*</span>';
+        $requiredMarker = ' <em> *</em>';
 
         $labels = array(
             'employeeName' => __('Employee Name'),

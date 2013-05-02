@@ -57,8 +57,6 @@ class SearchSystemUserForm extends BaseForm {
         $this->getWidgetSchema()->setNameFormat('searchSystemUser[%s]');
         $this->getWidgetSchema()->setLabels($this->getFormLabels());
 
-        sfWidgetFormSchemaFormatterBreakTags::setNoOfColumns(3);
-        $this->getWidgetSchema()->setFormFormatterName('BreakTags');
     }
 
     /**

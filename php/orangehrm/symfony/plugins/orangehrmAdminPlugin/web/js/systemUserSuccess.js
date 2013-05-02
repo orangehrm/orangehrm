@@ -1,60 +1,46 @@
 $(document).ready(function() {
-    $("label[for='systemUser_chkChangePassword']").hide();
-    $("label[for='systemUser_chkChangeSecPassword']").hide();
-    $("#systemUser_chkChangePassword").hide();
-    $("#systemUser_chkChangeSecPassword").hide();
-    $("#systemUser_chkChangePassword").next("br").attr('class', 'chkChangePasswordBr').hide();
-    $("#systemUser_chkChangeSecPassword").next("br").attr('class', 'chkChangeSecPasswordBr').hide();
+    $("label[for='systemUser_chkChangePassword']").parent('li').addClass('checkChangePassword').hide();
+    $("label[for='systemUser_chkChangeSecPassword']").parent('li').addClass('checkChangeSecPassword').hide();
     $('.secPassReq').hide();    
 
     $(':input.password').each(function(){
-        $(this).prev('label').andSelf().wrapAll('<div class="passwordDiv"/>');
+        $(this).parent('li').addClass('passwordDiv');
     });
     
     $(':input.secPassword').each(function(){
-        $(this).prev('label').andSelf().wrapAll('<div class="secPasswordDiv"/>');
+        $(this).parent('li').addClass('secPasswordDiv');
     });
     
     $('#systemUser_password').after('<label class="score"/>');
     $('#systemUser_secondaryPassword').after('<label class="scoreSec"/>');
 
-    if (isEditMode) {
-        $('.passwordDiv').hide();
-        $('.passwordDiv').next('br').hide();
-        $('.secPasswordDiv').hide();
-        $('.secPasswordDiv').next('br').hide();
-        $("label[for='systemUser_chkChangePassword']").show();
-        $("label[for='systemUser_chkChangeSecPassword']").show();
-        $("#systemUser_chkChangePassword").show();
-        $("#systemUser_chkChangeSecPassword").show();
-        $('.chkChangePasswordBr').show();
-        $('.chkChangeSecPasswordBr').show();
+    if (isEditMode == 'true') {
+        $('.checkChangePassword').show();
+        $('.checkChangeSecPassword').show();
+        $('.passwordDiv').css("display", "none");
+        $('.secPasswordDiv').css("display", "none");
         $('.secPassReq').show();
     }
     
-    if (ldapInstalled) {
+    if (ldapInstalled == 'true') {
         $('.passwordRequired').hide();
     }
     
     $('#systemUser_chkChangePassword').click(function(){
         $("#systemUser_password").val('');
-        if($(this).attr('checked') == true) {
+        if($(this).is(':checked')) {
             $('.passwordDiv').show();
-            $('.passwordDiv').next('br').show();
         } else {
             $('.passwordDiv').hide();
-            $('.passwordDiv').next('br').hide();
         }
     });
     
     $('#systemUser_chkChangeSecPassword').click(function(){
         $("#systemUser_secondaryPassword").val('');
-        if($(this).attr('checked') == true) {
+        if($(this).is(':checked')) {
             $('.secPasswordDiv').show();
-            $('.secPasswordDiv').next('br').show();
         } else {
             $('.secPasswordDiv').hide();
-            $('.secPasswordDiv').next('br').hide();
         }
     });
     
@@ -133,7 +119,8 @@ function isValidForm(){
             },
             'systemUser[password]' : {
                 required:function(element) {
-                    if(($('#systemUser_chkChangePassword').attr('checked') == true || !isEditMode) && !ldapInstalled)
+                    if(($('#systemUser_chkChangePassword').val() == 'on' || (isEditMode == 'false')) && 
+                            (ldapInstalled == 'false'))
                         return true;
                     else
                         return false;

@@ -21,28 +21,28 @@ class AttendanceRecordHeaderFactory extends ohrmListConfigurationFactory {
 
         $header2->populateFromArray(array(
             'name' => 'Punch In',
-            'width' => '15%',
+            'width' => '20%',
             'elementType' => 'rawLabel',
             'elementProperty' => array('getter' => 'getPunchInUserTimeAndZone'),
         ));
         
         $header3->populateFromArray(array(
             'name' => 'Punch In Note',
-            'width' => '20%',
+            'width' => '15%',
             'elementType' => 'label',
             'elementProperty' => array('getter' => 'getPunchInNote'),
         ));
         
         $header4->populateFromArray(array(
             'name' => 'Punch Out',
-            'width' => '15%',
+            'width' => '20%',
             'elementType' => 'rawLabel',
             'elementProperty' => array('getter' => 'getPunchOutUserTimeAndZone'),
         ));
         
         $header5->populateFromArray(array(
             'name' => 'Punch Out Note',
-            'width' => '20%',
+            'width' => '15%',
             'elementType' => 'label',
             'elementProperty' => array('getter' => 'getPunchOutNote'),
         ));

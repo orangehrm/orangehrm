@@ -18,13 +18,24 @@
 */
 ?>
 <?php if ($form->hasErrors()): ?>
-<span class="error">
+
 <?php
 echo $form->renderGlobalErrors();
  
 foreach($form->getWidgetSchema()->getPositions() as $widgetName) {
-  echo $form[$widgetName]->renderError();
+    if ($form[$widgetName]->hasError()) {
+        $label = $form->getWidgetSchema()->getLabel($widgetName);
+        $label = str_replace('<em>*</em>', '', $label);
+?>
+<div class="message error fadable">
+    <?php echo $label . ' : ' . $form[$widgetName]->renderError();?>
+    <a href="#" class="messageCloseButton"><?php echo __('Close');?></a>
+</div>
+
+<?php         
+    }
+    
 }
 ?>
-</span>
 <?php endif; ?>
+

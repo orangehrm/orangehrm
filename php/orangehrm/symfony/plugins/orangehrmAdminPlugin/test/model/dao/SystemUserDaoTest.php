@@ -165,6 +165,26 @@ class SystemUserDaoTest extends PHPUnit_Framework_TestCase {
             $this->assertTrue($userRole instanceof UserRole);
             $this->assertEquals($userRoleNames[$i], $userRole->getName());
         }
-    }    
+    }
+    
+    public function testGetEmployeesByUserRole() {
+        
+        // default
+        $employees = $this->systemUserDao->getEmployeesByUserRole('Admin');        
+        $this->assertEquals(2, count($employees));
+        
+        // with terminated employees
+        $employees = $this->systemUserDao->getEmployeesByUserRole('Admin', false, true);        
+        $this->assertEquals(2, count($employees));
+
+        $employees = $this->systemUserDao->getEmployeesByUserRole('Ess', false, true);        
+        $this->assertEquals(1, count($employees));
+        
+        $employees = $this->systemUserDao->getEmployeesByUserRole('TestAdmin', false, true);        
+        $this->assertEquals(0, count($employees));
+        
+    }
+    
+    
 }
-?>
+

@@ -41,7 +41,7 @@ class viewJobsAction extends sfAction {
      */
     public function execute($request) {
         
-        $this->setLayout(false);        
+//        $this->setLayout(false);        
         $this->publishedVacancies = $this->getVacancyService()->getPublishedVacancies();
         
         $extension = $this->getRequestParameter('extension');   

@@ -37,10 +37,6 @@ class viewOrganizationGeneralInformationAction extends sfAction {
         $employeeService = new EmployeeService();
         $this->employeeCount = $employeeService->getEmployeeCount();
 
-        if ($this->getUser()->hasFlash('templateMessage')) {
-            list($this->messageType, $this->message) = $this->getUser()->getFlash('templateMessage');
-        }
-
         if ($request->isMethod('post')) {
 
             $this->form->bind($request->getParameter($this->form->getName()));
@@ -50,7 +46,7 @@ class viewOrganizationGeneralInformationAction extends sfAction {
                 $organizationName = (!empty($name)) ? $name : __("Organization");
                 $companyStructureService = new CompanyStructureService();
                 $companyStructureService->setOrganizationName($organizationName);
-                list($this->messageType, $this->message) = array('success', __(TopLevelMessages::SAVE_SUCCESS));
+                $this->getUser()->setFlash('generalinformation.success', __(TopLevelMessages::SAVE_SUCCESS));
             }
         }
     }

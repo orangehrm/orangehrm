@@ -1,4 +1,5 @@
 $(document).ready(function() {
+    $('#addEditCurrency').hide();
    
     $('#btnSave').click(function() {  
         
@@ -43,6 +44,7 @@ $(document).ready(function() {
     }).result(function(event, item) {
         $('.curName').html("");
         $('#payGradeCurrency_currencyName').removeClass("error");
+        $('#payGradeCurrency_currencyName').valid();
     });
     
     $('#btnCancel').click(function() {
@@ -59,11 +61,13 @@ $(document).ready(function() {
     
     ///// JQuery for currency list
     
-    $('#btnAddCurrency').click(function() {  
+    $('#btnAddCurrency').click(function() {
+        $('#addEditCurrency').show();
+        
         $('#addPaneCurrency').show();
         $('#actionButtons').show();
         $('#addDeleteBtnDiv').hide();
-        $('.checkboxCurr').hide();
+        $('.check').hide();
         validatorCurr.resetForm();
         $('#currencyHeading').text(lang_addCurrency);
         $('#payGradeCurrency_currencyName').each(function(){
@@ -85,11 +89,13 @@ $(document).ready(function() {
     });
     
     $('#cancelButton').click(function(){
+        $('#addEditCurrency').hide();
+        
         $('#addPaneCurrency').hide();
         $('#actionButtons').hide();
         $('#addDeleteBtnDiv').show();
         $('#currencyHeading').text(lang_assignedCurrency);
-        $('.checkboxCurr').show();
+        $('.check').show();
         validatorCurr.resetForm();
     });
     
@@ -101,6 +107,7 @@ $(document).ready(function() {
     });
     
     $('.editLink').click(function(event) {
+        $('#addEditCurrency').show();
 		
         event.preventDefault();
         
@@ -114,7 +121,7 @@ $(document).ready(function() {
         
         $('#addPaneCurrency').show();
         $('#actionButtons').show();
-        $('.checkboxCurr').hide();
+        $('.check').hide();
         $('#addDeleteBtnDiv').hide();
        
     });
@@ -188,10 +195,6 @@ $(document).ready(function() {
                 maxlength: lang_exceed50Charactors,
                 uniquePayGradeName: lang_uniquePayGradeName
             }
-        },
-        errorPlacement: function(error, element) {
-            error.appendTo(element.next('div.errorHolder'));
-
         }
 
     });
@@ -200,7 +203,7 @@ $(document).ready(function() {
         
         var curCount = currencyList.length;
         var isValid = false;
-        var curName = $('#payGradeCurrency_currencyName').val();
+        var curName = value;
         var inputName = $.trim(curName).toLowerCase();
         if(inputName != ""){
             var i;
@@ -298,7 +301,8 @@ $(document).ready(function() {
                 required:true,
                 maxlength: 50,
                 currencyValidation: true,
-                uniqueName: true
+                uniqueName: true,
+                onkeyup: false
             },
             'payGradeCurrency[minSalary]' : {
                 twoDecimalsMin: true,
@@ -330,10 +334,6 @@ $(document).ready(function() {
                 max:lang_tooLargeAmount,
                 validSalaryRange: lang_validSalaryRange
             }
-        },
-        errorPlacement: function(error, element) {
-            error.appendTo(element.next('div.errorHolder'));
-
         }
 
     });

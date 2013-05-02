@@ -297,9 +297,9 @@ PayGradeCurrency:
       local: currency_id
       foreign: currency_id
       type: one
-    SalaryGrade:
-      local: sal_grd_code
-      foreign: sal_grd_code
+    PayGrade:
+      local: pay_grade_id
+      foreign: id
       type: one      
       
 Skill:

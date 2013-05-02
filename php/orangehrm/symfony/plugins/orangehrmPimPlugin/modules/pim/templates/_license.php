@@ -1,132 +1,135 @@
 <?php  
-if (($section == 'license') && isset($message) && isset($messageType)) {
-    $tmpMsgClass = "messageBalloon_{$messageType}";
-    $tmpMsg = $message;
-} else {
-    $tmpMsgClass = '';
-    $tmpMsg = '';
-}
 $haveLicense = count($form->empLicenseList) > 0;
 ?>
-<div id="licenseMessagebar" class="<?php echo $tmpMsgClass; ?>">
-    <span style="font-weight: bold;"><?php echo $tmpMsg; ?></span>
-</div>
 
-<div class="sectionDiv" id="sectionLicense">
-    <div style="float: left; width: 450px;"><h3><?php echo __('License'); ?></h3></div>
-    <div id="actionLicense" style="float: left; margin-top: 20px; width: 335px; text-align: right">
-        <?php if ($licensePermissions->canCreate() ) { ?>
-        <input type="button" value="<?php echo __("Add");?>" class="savebutton" id="addLicense" />&nbsp;
-        <?php } ?>
-        <?php if ($licensePermissions->canDelete() ) { ?>
-        <input type="button" value="<?php echo __("Delete");?>" class="savebutton" id="delLicense" />
-        <?php } ?>
-    </div>
-
-    <?php if ($licensePermissions->canRead() && (($licensePermissions->canCreate()) || ($licensePermissions->canUpdate() && $haveLicense))) { ?>
-    <div class="outerbox" id="changeLicense" style="width:500px; float: left">
-        <div class="mainHeading"><h4 id="headChangeLicense"><?php echo __('Add License'); ?></h4></div>
-        <form id="frmLicense" action="<?php echo url_for('pim/saveDeleteLicense?empNumber=' . $empNumber . "&option=save"); ?>" method="post">
-
-            <?php echo $form['_csrf_token']; ?>
-            <?php echo $form['emp_number']->render(); ?>
-
-            <?php echo $form['code']->renderLabel(__('License Type') . ' <span class="required">*</span>'); ?>
-            <?php echo $form['code']->render(array("class" => "formSelect")); ?>
-            <span id="static_license_code" style="display:none;"></span>
-            <br class="clear"/>
-
-            <?php echo $form['license_no']->renderLabel(__('License Number')); ?>
-            <?php echo $form['license_no']->render(array("class" => "formInputText", "maxlength" => 50)); ?>
-            <br class="clear"/>
-
-            <?php echo $form['date']->renderLabel(__('Issued Date')); ?>
-            <?php echo $form['date']->render(array("class" => "formInputText")); ?>
-            <br class="clear"/>
-
-            <?php echo $form['renewal_date']->renderLabel(__('Expiry Date')); ?>
-            <?php echo $form['renewal_date']->render(array("class" => "formInputText")); ?>
-            <br class="clear"/>
-
-
-            <?php if (($haveLicense && $licensePermissions->canUpdate()) || $licensePermissions->canCreate()) { ?>
-            <div class="formbuttons">
-                <input type="button" class="savebutton" id="btnLicenseSave" value="<?php echo __("Save"); ?>" />
-                <input type="button" class="savebutton" id="btnLicenseCancel" value="<?php echo __("Cancel"); ?>" />
-            </div>
-            <?php } ?>
-        </form>
-    </div>
-    <?php } ?>
-     <br class="clear" />
-    <div class="paddingLeftRequired" id="licenseRequiredNote"><span class="required">*</span> <?php echo __(CommonMessages::REQUIRED_FIELD); ?></div>
-
-    <?php if ($licensePermissions->canRead()) { ?>
-    <form id="frmDelLicense" action="<?php echo url_for('pim/saveDeleteLicense?empNumber=' . $empNumber . "&option=delete"); ?>" method="post">
-        <div class="outerbox" id="tblLicense">
-            <table width="100%" cellspacing="0" cellpadding="0" class="data-table" border="0">
-                <thead>
-                <tr>
-                    <?php if ($licensePermissions->canDelete()) { ?>
-                        <td class="check"><input type="checkbox" id="licenseCheckAll" /></td>
-                    <?php } else { ?>
-                        <td></td>
-                    <?php } ?>
-                    <td><?php echo __('License Type');?></td>
-                    <td><?php echo __('Issued Date');?></td>                    
-                    <td><?php echo __('Expiry Date');?></td>
-                </tr>
-                </thead>
-                <tbody>
-                    <?php
-                    $licenses = $form->empLicenseList;//var_dump($licenses->toArray());die;
-                    $row = 0;
-
-                    foreach ($licenses as $license) {                        
-                        $cssClass = ($row % 2) ? 'even' : 'odd';
-                        //empty($license->from_date)
-                        $startDate = set_datepicker_date_format($license->licenseIssuedDate);
-                        $endDate = set_datepicker_date_format($license->licenseExpiryDate);
-                        $licenseDesc = htmlspecialchars($license->License->name);
-                        ?>
-                    <tr class="<?php echo $cssClass;?>">
-                <td class="check"><input type="hidden" id="code_<?php echo $license->licenseId;?>" value="<?php echo htmlspecialchars($license->licenseId); ?>" />
-                <input type="hidden" id="code_desc_<?php echo $license->licenseId;?>" value="<?php echo $licenseDesc; ?>" />
-                <input type="hidden" id="license_no_<?php echo $license->licenseId;?>" value="<?php echo htmlspecialchars($license->licenseNo); ?>" />
-                <input type="hidden" id="start_date_<?php echo $license->licenseId;?>" value="<?php echo $startDate; ?>" />
-                <input type="hidden" id="end_date_<?php echo $license->licenseId;?>" value="<?php echo $endDate; ?>" />
-
-                <?php if ($licensePermissions->canDelete()) {?>
-                    <input type="checkbox" class="chkbox" value="<?php echo $license->licenseId;?>" name="delLicense[]"/></td>
-                <?php } else {?>
-                    <input type="hidden" class="chkbox" value="<?php echo $license->licenseId;?>" name="delLicense[]"/>
-                <?php }?>
-                <td class="desc">
-                <?php if ($licensePermissions->canUpdate()) { ?>
-                    <a href="#" class="edit"><?php echo htmlspecialchars($licenseDesc);?></a>
-                <?php } else {
-                        echo htmlspecialchars($licenseDesc);
-                      } ?>
-                </td>
-                <td><?php echo htmlspecialchars($startDate);?></td>
-                <td><?php echo htmlspecialchars($endDate);?></td>
-                <?php
-                        $row++;
-                    }
-
-                    if ($row == 0) {
-                    ?>
-                        <tr>
-                            <td colspan="6">&nbsp; <?php echo __(TopLevelMessages::NO_RECORDS_FOUND); ?></td>
-                        </tr>
-<?php } ?>
-                </tbody>
-            </table>
+<a name="license"></a>
+<?php if ($licensePermissions->canCreate() || ($haveLicense && $licensePermissions->canUpdate())) { ?>
+    <div id="changeLicense">
+        <div class="head">
+            <h1 id="headChangeLicense"><?php echo __('Add License'); ?></h1>
         </div>
-    </form>
-    <?php } ?>
+            
+        <div class="inner">
+            <form id="frmLicense" action="<?php echo url_for('pim/saveDeleteLicense?empNumber=' . 
+                    $empNumber . "&option=save"); ?>" method="post">
+                <fieldset>
+                    <ol>
+                        <?php echo $form->render(); ?>
+                        
+                        <li class="required">
+                            <em>*</em> <?php echo __(CommonMessages::REQUIRED_FIELD); ?>
+                        </li>
+                    </ol>
+                    <p>
+                        <input type="button" class="" id="btnLicenseSave" value="<?php echo __("Save"); ?>" />
+                        <input type="button" class="reset" id="btnLicenseCancel" value="<?php echo __("Cancel"); ?>" />
+                    </p>
+                </fieldset>
+            </form>
+        </div>
+    </div> <!-- changeLicense -->
+<?php } ?>
+    
+<div class="miniList" id="tblLicense">
+    <div class="head">
+        <h1><?php echo __("License"); ?></h1>
+    </div>
 
-</div>
+    <div class="inner">
+
+        <?php if ($licensePermissions->canRead()) : ?>
+
+        <?php include_partial('global/flash_messages', array('prefix' => 'license')); ?>
+        
+            <form id="frmDelLicense" action="<?php echo url_for('pim/saveDeleteLicense?empNumber=' . 
+                    $empNumber . "&option=delete"); ?>" method="post">
+                <p id="actionLicense">
+                    <?php if ($licensePermissions->canCreate()) { ?>
+                    <input type="button" value="<?php echo __("Add"); ?>" class="" id="addLicense" />&nbsp;
+                    <?php } ?>
+                    <?php if ($licensePermissions->canDelete()) { ?>
+                    <input type="button" value="<?php echo __("Delete"); ?>" class="delete" id="delLicense" />
+                    <?php } ?>
+                </p>
+                <table id="" cellpadding="0" cellspacing="0" width="100%" class="table tablesorter">
+                    <thead>
+                        <tr>
+                            <?php if ($licensePermissions->canDelete()) { ?>
+                            <th class="check" width="2%"><input type="checkbox" id="licenseCheckAll" /></th>
+                            <?php } ?>
+                            <th><?php echo __('License Type'); ?></th>
+                            <th><?php echo __('Issued Date'); ?></th>                    
+                            <th><?php echo __('Expiry Date'); ?></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <?php if (!$haveLicense) { ?>
+                            <tr>
+                                <?php if ($licensePermissions->canDelete()) { ?>
+                                <td class="check"></td>
+                                <?php } ?>
+                                <td><?php echo __(TopLevelMessages::NO_RECORDS_FOUND); ?></td>
+                                <td></td>
+                                <td></td>
+                            </tr>
+                        <?php } else { ?>                        
+                            <?php
+                            $licenses = $form->empLicenseList;
+                            $row = 0;
+
+                            foreach ($licenses as $license) :
+                                $cssClass = ($row % 2) ? 'even' : 'odd';
+                                //empty($license->from_date)
+                                $startDate = set_datepicker_date_format($license->licenseIssuedDate);
+                                $endDate = set_datepicker_date_format($license->licenseExpiryDate);
+                                $licenseDesc = htmlspecialchars($license->License->name);
+                                ?>
+                                <tr class="<?php echo $cssClass; ?>">
+                                    <td class="check">
+                                        <input type="hidden" id="code_desc_<?php echo $license->licenseId; ?>" 
+                                               value="<?php echo $licenseDesc; ?>" />
+                                        <input type="hidden" id="license_no_<?php echo $license->licenseId; ?>" 
+                                               value="<?php echo htmlspecialchars($license->licenseNo); ?>" />
+                                        <input type="hidden" id="start_date_<?php echo $license->licenseId; ?>" 
+                                               value="<?php echo $startDate; ?>" />
+                                        <input type="hidden" id="end_date_<?php echo $license->licenseId; ?>" 
+                                               value="<?php echo $endDate; ?>" />
+                                        <input type="hidden" id="code_<?php echo $license->licenseId; ?>" 
+                                               value="<?php echo htmlspecialchars($license->licenseId); ?>" />
+                                        <?php if ($licensePermissions->canDelete()) { ?>
+                                        <input type="checkbox" class="chkbox" value="<?php echo $license->licenseId; ?>" 
+                                               name="delLicense[]"/>
+                                        <?php } else { ?>
+                                        <input type="hidden" class="chkbox" value="<?php echo $license->licenseId; ?>" 
+                                               name="delLicense[]"/>
+                                        <?php } ?>
+                                    </td>   
+                                    <td class="desc">
+                                        <?php if ($licensePermissions->canUpdate()) { ?>
+                                        <a href="#" class="edit"><?php echo $licenseDesc; ?></a>
+                                        <?php } else {
+                                            echo $licenseDesc;
+                                        }
+                                        ?>
+                                    </td>
+                                    <td><?php echo htmlspecialchars($startDate); ?></td>
+                                    <td><?php echo htmlspecialchars($endDate); ?></td>
+                                </tr>
+                                <?php
+                                $row++;
+                            endforeach;
+                        } ?>
+                    </tbody>
+                </table>
+            </form>
+
+        <?php else : ?>
+            <div><?php echo __(CommonMessages::DONT_HAVE_ACCESS); ?></div>
+        <?php endif; ?>
+
+    </div>
+</div> <!-- miniList-tblLicense -->
+
 <script type="text/javascript">
     //<![CDATA[
 
@@ -147,6 +150,8 @@ $haveLicense = count($form->empLicenseList) > 0;
 //<![CDATA[
 
 $(document).ready(function() {
+    //To hide unchanged element into hide and show the value in span while editing
+    $('#license_code').after('<span id="static_license_code" style="display:none;"></span>');
 
 var issuedDate = "";
     function addEditLinks() {
@@ -166,8 +171,9 @@ var issuedDate = "";
     $("#licenseRequiredNote").hide();
 
     //hiding the data table if records are not available
-    if($("div#tblLicense table.data-table .chkbox").length == 0) {
+    if($("div#tblLicense .chkbox").length == 0) {
         //$("#tblLicense").hide();
+        $('div#tblLicense .check').hide();
         $("#editLicense").hide();
         $("#delLicense").hide();
     }
@@ -250,14 +256,6 @@ var issuedDate = "";
             'license[license_no]': {maxlength: lang_licenseNoMaxLength},
             'license[date]': {valid_date: lang_invalidDate},
             'license[renewal_date]': {valid_date: lang_invalidDate, date_range:lang_startDateAfterEndDate}
-        },
-
-        errorElement : 'div',
-        errorPlacement: function(error, element) {
-            error.appendTo(element.prev('label'));
-            error.insertAfter(element.next(".clear"));
-            error.insertAfter(element.next().next(".clear"));
-
         }
     });
 
@@ -268,21 +266,23 @@ var issuedDate = "";
         <?php }?>
 
         licenseValidator.resetForm();
-        
+
         $('div#changeLicense label.error').hide();
 
         $("div#tblLicense .chkbox").removeAttr("checked").show();
-        
+
         //hiding action button section
         $("#actionLicense").show();
         $("#changeLicense").hide();
         $("#licenseRequiredNote").hide();        
         $("#licenseCheckAll").show();
-        
+
         // remove any options already in use
         $("#license_code option[class='added']").remove();
         $('#static_license_code').hide().val("");
 
+        //remove if disabled while edit
+        $('#license_code').removeAttr('disabled');
     });
     
     $('form#frmDelLicense a.edit').live('click', function(event) {
@@ -308,12 +308,12 @@ var issuedDate = "";
         // remove any options already in use
         $("#license_code option[class='added']").remove();
 
-        $('#license_code').hide().
+        $('#license_code').
               append($("<option class='added'></option>").
               attr("value", code).
               text($("#code_desc_" + code).val())); 
 
-        $('#license_code').val(code);
+        $('#license_code').val(code).hide();
 
         $("#license_license_no").val($("#license_no_" + code).val());
         $("#license_date").val($("#start_date_" + code).val());

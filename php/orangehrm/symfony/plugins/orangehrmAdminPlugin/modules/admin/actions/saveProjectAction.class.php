@@ -51,9 +51,12 @@ class saveProjectAction extends sfAction {
     protected function getUndeleteForm($projectId = '') {
         return new UndeleteCustomerForm(array(), array('fromAction' => 'saveProject','projectId' => $projectId), true);
     }
-
+        
     public function execute($request) {
 
+        /* For highlighting corresponding menu item */
+        $request->setParameter('initialActionName', 'viewProjects');
+        
         $usrObj = $this->getUser()->getAttribute('user');
         if (!($usrObj->isAdmin() || $usrObj->isProjectAdmin())) {
             $this->redirect('pim/viewPersonalDetails');
@@ -74,7 +77,7 @@ class saveProjectAction extends sfAction {
             $customerName = $customer->getName();
             $this->form->setDefault('customerName', $customerName);
             print_r($this->customerName);
-            $this->getUser()->setFlash('templateMessage', array('success', __(TopLevelMessages::SAVE_SUCCESS)));
+            $this->getUser()->setFlash('success', __(TopLevelMessages::SAVE_SUCCESS));
         }
 
         if (!empty($this->projectId)) {
@@ -87,14 +90,6 @@ class saveProjectAction extends sfAction {
             $this->parmetersForListCompoment = $params;
         }
 
-        if ($this->getUser()->hasFlash('templateMessage')) {
-            list($this->messageType, $this->message) = $this->getUser()->getFlash('templateMessage');
-        }
-
-        if ($this->getUser()->hasFlash('templateMessageAct')) {
-            list($this->messageTypeAct, $this->messageAct) = $this->getUser()->getFlash('templateMessageAct');
-        }
-
         if ($request->isMethod('post')) {
 
             $this->form->bind($request->getParameter($this->form->getName()));
@@ -102,9 +97,9 @@ class saveProjectAction extends sfAction {
 
                 $projectId = $this->form->save();
                 if ($this->form->edited) {
-                    $this->getUser()->setFlash('templateMessage', array('success', __(TopLevelMessages::UPDATE_SUCCESS)));
+					$this->getUser()->setFlash('project.success', __(TopLevelMessages::UPDATE_SUCCESS));
                 } else {
-                    $this->getUser()->setFlash('templateMessage', array('success', __(TopLevelMessages::SAVE_SUCCESS)));
+					$this->getUser()->setFlash('project.success', __(TopLevelMessages::SAVE_SUCCESS));
                 }
                 $this->redirect('admin/saveProject?projectId=' . $projectId);
             }
@@ -119,7 +114,7 @@ class saveProjectAction extends sfAction {
      * @param <type> $noOfRecords
      * @param <type> $pageNumber
      */
-    private function _setListComponent($customerList, $noOfRecords, $pageNumber) {
+    private function _setListComponent($customerList) {
 
         $configurationFactory = new ProjectActivityHeaderFactory();
         ohrmListComponent::setConfigurationFactory($configurationFactory);

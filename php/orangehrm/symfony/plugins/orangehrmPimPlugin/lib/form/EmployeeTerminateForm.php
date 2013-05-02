@@ -65,7 +65,7 @@ class EmployeeTerminateForm extends BaseForm {
 
         //creating widgets
         $widgets = array(
-            'date' => new ohrmWidgetDatePickerNew(array(), array('id' => 'terminate_date')),
+            'date' => new ohrmWidgetDatePicker(array(), array('id' => 'terminate_date')),
             'reason' => new sfWidgetFormSelect(array('choices' => $terminateReasons)),
             'note' => new sfWidgetFormTextArea()
         );

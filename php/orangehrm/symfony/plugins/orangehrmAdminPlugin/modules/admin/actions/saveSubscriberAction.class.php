@@ -36,6 +36,9 @@ class saveSubscriberAction extends sfAction {
     }
 
     public function execute($request) {
+        
+        /* For highlighting corresponding menu item */
+        $request->setParameter('initialActionName', 'viewEmailNotification');
 
         $this->notificationId = $request->getParameter('notificationId');
         $this->getUser()->setAttribute('notificationId', $this->notificationId);
@@ -47,12 +50,9 @@ class saveSubscriberAction extends sfAction {
         $values = array('notificationId' => $this->notificationId);
         $this->setForm(new SubscriberForm(array(), $values));
 
-        if ($this->getUser()->hasFlash('templateMessage')) {
-            list($this->messageType, $this->message) = $this->getUser()->getFlash('templateMessage');
-        }
-
         $subscriberList = $this->getEmailNotificationService()->getSubscribersByNotificationId($this->notificationId);
-        $this->_setListComponent($subscriberList);
+        $notification = $this->getEmailNotificationService()->getEmailNotification($this->notificationId);
+        $this->_setListComponent($subscriberList, $notification->getName());
         $params = array();
         $this->parmetersForListCompoment = $params;
 
@@ -60,15 +60,18 @@ class saveSubscriberAction extends sfAction {
             $this->form->bind($request->getParameter($this->form->getName()));
             if ($this->form->isValid()) {
                 $this->form->save();
-                $this->getUser()->setFlash('templateMessage', array('success', __(TopLevelMessages::SAVE_SUCCESS)));
+                $this->getUser()->setFlash('success', __(TopLevelMessages::SAVE_SUCCESS));
                 $this->redirect('admin/saveSubscriber?notificationId='.$this->notificationId);
             }
         }
     }
 
-    private function _setListComponent($subscriberList) {
+    private function _setListComponent($subscriberList, $notificationName) {
 
         $configurationFactory = new SubscriberHeaderFactory();
+        $runtimeDefinitions = array('title' => __('Subscribers') . ' : ' . __($notificationName));
+        $configurationFactory->setRuntimeDefinitions($runtimeDefinitions);
+        
         ohrmListComponent::setConfigurationFactory($configurationFactory);
         ohrmListComponent::setListData($subscriberList);
     }

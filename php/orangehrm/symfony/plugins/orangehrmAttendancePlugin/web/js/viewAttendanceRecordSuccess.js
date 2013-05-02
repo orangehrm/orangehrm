@@ -12,42 +12,13 @@ $(document).ready(function(){
         $("#attendance_date").val(displayDateFormat);
     }
 
-    //Bind date picker
-    daymarker.bindElement("#attendance_date",
-    {
-        dateFormat : datepickerDateFormat,
-        onClose: function() {
-            $(this).valid();
-        }
-    });
-
-    $('#attendance_date_Button').click(function(){
-        daymarker.show("#attendance_date");
-    });
-    
     if(trigger){
         autoFillEmpName(employeeId);
         $("#reportForm").submit();     
     }
 
     $('#btView').click(function() {
-        $('#validationMsg').removeAttr('class');
-        $('#validationMsg').html("");
-        var validEmp = true;
-        
-        autoFill('attendance_employeeName_empName', 'attendance_employeeName_empId', employees_attendance_employeeName);
-        
-        if($('#attendance_employeeName_empName').val() != '' && $('#attendance_employeeName_empName').val() != typeForHints && $('#attendance_employeeName_empName').val() != employeeAll && $('#attendance_employeeName_empId').val() == ''){
-
-            $('#validationMsg').attr('class', "messageBalloon_failure");
-            $('#validationMsg').html(invalidEmpName);
-            $("#attendance_employeeName_empName").attr('style', errorStyle);
-            validEmp = false;
-        }    
-
-        var isValidDate= validateInputDate();
-                
-        if(isValidDate && validEmp){
+        if(isValidForm()){
             $("#reportForm").submit();                 
         }
     });
@@ -78,23 +49,53 @@ $(document).ready(function(){
     }
 }); //ready
 
-function validateInputDate(){
+function isValidForm(){
+    var validator = $("#reportForm").validate({
+        rules: {
+            'attendance[employeeName][empName]' : {
+                required: false,
+                validEmployeeName: true
+            },
+            'attendance[date]' : {
+                required: true, 
+                valid_date: function() {
+                    return {
+                        format: datepickerDateFormat, 
+                        required: true, 
+                        displayFormat: displayDateFormat
+                    } 
+                } 
+            }
+        },
+        messages: {
+            'attendance[employeeName][empName]' : {
+                validEmployeeName: invalidEmpName
+            },
+            'attendance[date]' : {
+                required: lang_NameRequired,
+                valid_date: errorForInvalidFormat
+            }
+        }
+    });
+    return true;
+}
 
-    errFlag = false;
-    $(".messageBalloon_success").remove();
-    $('#validationMsg').removeAttr('class');
-    $('#validationMsg').html("");
-    $(".date").removeAttr('style');
+$.validator.addMethod("validEmployeeName", function(value, element) {      
+    return autoFill('attendance_employeeName_empName', 'attendance_employeeName_empId', employees_attendance_employeeName);
+});
 
-    var errorStyle = "background-color:#FFDFDF;";
-          
-    if((!validateDate($("#attendance_date").val(), datepickerDateFormat))){
-
-        $('#validationMsg').attr('class', "messageBalloon_failure");
-        $('#validationMsg').html(errorForInvalidFormat);
-        $("#attendance_date").attr('style', errorStyle);
-        errFlag = true;
-    }  
-    return !errFlag ;
-    
+function autoFill(selector, filler, data) {
+    $("#" + filler).val("");
+    var valid = false;
+    if($("#" + selector).val() == typeForHints || $("#" + selector).val() == '') {
+        valid = true;
+    } else {
+        $.each(data, function(index, item){
+            if(item.name.toLowerCase() == $("#" + selector).val().toLowerCase()) {
+                $("#" + filler).val(item.id);
+                valid = true;
+            }
+        });
+    }
+    return valid;
 }

@@ -140,7 +140,7 @@ class ModuleForm extends BaseForm {
             $this->getModuleService()->updateModuleStatus($modulesToDisable, Module::DISABLED);
         }
         
-        return array('SUCCESS', __(TopLevelMessages::SAVE_SUCCESS));
+        return array('messageType' => 'success', 'message' => __(TopLevelMessages::SAVE_SUCCESS));
         
     }
 

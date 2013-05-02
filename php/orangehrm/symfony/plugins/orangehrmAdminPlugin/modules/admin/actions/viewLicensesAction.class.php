@@ -55,7 +55,7 @@ class viewLicensesAction extends sfAction {
                 $this->_checkDuplicateEntry();
                 
 				$templateMessage = $this->form->save();
-				$this->getUser()->setFlash('templateMessage', $templateMessage);                
+				$this->getUser()->setFlash($templateMessage['messageType'], $templateMessage['message']);                
                 $this->redirect('admin/viewLicenses');
                 
             }
@@ -85,7 +85,7 @@ class viewLicensesAction extends sfAction {
                 return false;
             }
             
-            $this->getUser()->setFlash('templateMessage', array('WARNING', __('Name Already Exists')));
+            $this->getUser()->setFlash('warning', __('Name Already Exists'));
             $this->redirect('admin/viewLicenses');            
             
         }

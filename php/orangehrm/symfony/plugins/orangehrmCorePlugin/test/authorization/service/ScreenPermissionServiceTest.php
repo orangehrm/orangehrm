@@ -20,7 +20,7 @@
 
 /**
  * Description of ScreenPermissionServiceTest
- *
+ * @group Core
  */
 class ScreenPermissionServiceTest extends PHPUnit_Framework_TestCase {
     
@@ -204,6 +204,29 @@ class ScreenPermissionServiceTest extends PHPUnit_Framework_TestCase {
         
         $this->assertTrue($permissions instanceof ResourcePermission);
         $this->verifyPermissions($permissions, false, true, false, true);         
+    }
+    
+    public function testGetScreen() {
+        
+        $module = 'xim';
+        $action = 'doThis';
+        $expected = new Screen();
+        $expected->setId(2);
+        $expected->setName('test');
+        $expected->setModuleId(33);
+        $expected->setActionUrl($action);
+
+    
+        $screenDao = $this->getMock('ScreenDao', array('getScreen'));
+        $screenDao->expects($this->once())
+                ->method('getScreen')
+                ->with($module, $action)
+                ->will($this->returnValue($expected));        
+        
+        $this->service->setScreenDao($screenDao);        
+        
+        $result = $this->service->getScreen($module, $action);
+        $this->assertEquals($expected, $result);
     }
     
     protected function verifyPermissions(ResourcePermission $permission, $read, $create, $update, $delete) {

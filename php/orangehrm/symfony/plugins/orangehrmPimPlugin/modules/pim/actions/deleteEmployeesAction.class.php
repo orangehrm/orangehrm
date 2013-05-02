@@ -48,14 +48,14 @@ class deleteEmployeesAction extends basePimAction {
             $count = $employeeService->deleteEmployees($ids);
 
             if ($count == count($ids)) {
-                $this->getUser()->setFlash('templateMessage', array('success', __(TopLevelMessages::DELETE_SUCCESS)));
+                $this->getUser()->setFlash('success', __(TopLevelMessages::DELETE_SUCCESS));
             } else {
-                $this->getUser()->setFlash('templateMessage', array('failure', __('A Problem Occured When Deleting The Selected Employees')));
+                $this->getUser()->setFlash('failure', __('A Problem Occured When Deleting The Selected Employees'));
             }
 
             $this->redirect('pim/viewEmployeeList');
         } else {
-            $this->getUser()->setFlash('templateMessage', array('warning', __('Contact Admin for delete Credentials')));
+            $this->getUser()->setFlash('warning', __('Contact Admin for delete Credentials'));
             $this->redirect('pim/viewEmployeeList');
         }
     }

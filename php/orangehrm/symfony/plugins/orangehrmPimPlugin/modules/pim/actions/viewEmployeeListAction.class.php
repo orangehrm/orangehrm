@@ -159,7 +159,11 @@ class viewEmployeeListAction extends basePimAction {
                 Employee::STATE_TERMINATED, PluginWorkflowStateMachine::EMPLOYEE_ACTION_DELETE_TERMINATED);
             
             if ($deleteActiveEmployee || $deleteTerminatedEmployee) {
-                $buttons['Delete'] = array('label' => 'Delete', 'type' => 'submit');
+                $buttons['Delete'] = array('label' => 'Delete', 
+                                            'type' => 'submit', 
+                                            'data-toggle' => 'modal', 
+                                            'data-target' => '#deleteConfModal',
+                                            'class' => 'delete');
             }
         }
 

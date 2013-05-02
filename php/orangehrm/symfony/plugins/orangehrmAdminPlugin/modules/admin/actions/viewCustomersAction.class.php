@@ -60,10 +60,7 @@ class viewCustomersAction extends sfAction {
 		$this->getUser()->setAttribute('pageNumber', $pageNumber);
 		$params = array();
 		$this->parmetersForListCompoment = $params;
-
-		if ($this->getUser()->hasFlash('templateMessage')) {
-			list($this->messageType, $this->message) = $this->getUser()->getFlash('templateMessage');
-		}
+        
 	}
 
 	/**

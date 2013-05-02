@@ -51,9 +51,9 @@ class saveDeleteSkillAction extends basePimAction {
                     if ($this->skillForm->isValid()) {
                         $skill = $this->getSkill($this->skillForm);
                         $this->getEmployeeService()->saveEmployeeSkill($skill);
-                        $this->getUser()->setFlash('templateMessage', array('success', __(TopLevelMessages::SAVE_SUCCESS)));
+                        $this->getUser()->setFlash('skill.success', __(TopLevelMessages::SAVE_SUCCESS));
                     } else {
-                        $this->getUser()->setFlash('templateMessage', array('warning', __('Form Validation Failed')));
+                        $this->getUser()->setFlash('skill.warning', __('Form Validation Failed'));
                     }
                 }
             }
@@ -65,7 +65,7 @@ class saveDeleteSkillAction extends basePimAction {
 
                     if (count($deleteIds) > 0) {
                         $this->getEmployeeService()->deleteEmployeeSkills($empNumber, $request->getParameter('delSkill'));
-                        $this->getUser()->setFlash('templateMessage', array('success', __(TopLevelMessages::DELETE_SUCCESS)));
+                        $this->getUser()->setFlash('skill.success', __(TopLevelMessages::DELETE_SUCCESS));
                     }
                 }
             }
@@ -93,5 +93,3 @@ class saveDeleteSkillAction extends basePimAction {
     }
 
 }
-
-?>

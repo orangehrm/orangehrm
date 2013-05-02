@@ -20,87 +20,70 @@
  *
  */
 ?>
-<link href="<?php echo public_path('../../themes/orange/css/ui-lightness/jquery-ui-1.7.2.custom.css') ?>" rel="stylesheet" type="text/css"/>
 
-<?php use_stylesheet('../../../themes/orange/css/ui-lightness/jquery-ui-1.8.13.custom.css'); ?>
-<?php use_javascript('../../../scripts/jquery/ui/ui.core.js'); ?>
-<?php use_javascript('../../../scripts/jquery/ui/ui.dialog.js'); ?>
-<?php use_stylesheet('../../../themes/orange/css/jquery/jquery.autocomplete.css'); ?>
-<?php use_javascript('../../../scripts/jquery/jquery.autocomplete.js'); ?>
-<?php use_stylesheet('../orangehrmAdminPlugin/css/viewSystemUserSuccess'); ?>
-<?php use_javascript('../orangehrmAdminPlugin/js/viewSystemUserSuccess'); ?>
+<?php 
+use_javascript(plugin_web_path('orangehrmAdminPlugin', 'js/viewSystemUserSuccess')); 
+?>
 
-
-<?php echo isset($templateMessage) ? templateMessage($templateMessage) : ''; ?>
-<div id="messagebar" class="<?php echo isset($messageType) ? "messageBalloon_{$messageType}" : ''; ?>" >
-    <span><?php echo isset($message) ? $message : ''; ?></span>
-</div>
-
-<div id="searchProject">
-    <div class="outerbox">
-
-        <div class="mainHeading">
-            <h2><?php echo __("System Users") ?></h2>
-        </div>
-
-        <div class="searchbox">
-            <form id="search_form" method="post" action="<?php echo url_for('admin/viewSystemUsers'); ?>">
-                <div id="formcontent">
-
-                    <?php
-                    echo $form->render();
-                    ?>
-                    <div class="errorHolder"></div>                    
-                </div>
-                <div class="actionbar">
-                    <div class="actionbuttons">
-                        <input
-                            type="button" class="plainbtn" id="searchBtn"
-                            onmouseover="this.className='plainbtn plainbtnhov'"
-                            onmouseout="this.className='plainbtn'" value="<?php echo __("Search") ?>" name="_search" />
-                        <input
-                            type="button" class="plainbtn"
-                            onmouseover="this.className='plainbtn plainbtnhov'" id="resetBtn"
-                            onmouseout="this.className='plainbtn'" value="<?php echo __("Reset") ?>" name="_reset" />
-
-                    </div>
-                    <br class="clear" />
-                </div>
-                <br class="clear" />
-            </form>
-        </div>
+<div id="systemUser-information" class="box searchForm toggableForm">
+    <div class="head">
+        <h1><?php echo __("System Users") ?></h1>
     </div>
-</div>
+    
+    <?php include_partial('global/form_errors', array('form' => $form)); ?>
+    
+    <div class="inner">
+        <form id="search_form" name="frmUserSearch" method="post" action="<?php echo url_for('admin/viewSystemUsers'); ?>">
+            
+            <fieldset>
+                
+                <ol>
+                    <?php echo $form->render(); ?>
+                </ol>
+                
+                <input type="hidden" name="pageNo" id="pageNo" value="" />
+                <input type="hidden" name="hdnAction" id="hdnAction" value="search" />
+                
+                <p>
+                    <input type="button" class="searchbutton" id="searchBtn" value="<?php echo __("Search") ?>" name="_search" />
+                    <input type="button" class="reset" id="resetBtn" value="<?php echo __("Reset") ?>" name="_reset" />
+                </p>
+                
+            </fieldset>
+            
+        </form>
+    </div> <!-- inner -->
+    
+    <a href="#" class="toggle tiptip" title="<?php echo __(CommonMessages::TOGGABLE_DEFAULT_MESSAGE); ?>">&gt;</a>
+    
+</div> <!-- end-of-searchProject -->
 
 <div id="customerList">
     <?php include_component('core', 'ohrmList', $parmetersForListCompoment); ?>
 </div>
 
-<form name="frmHiddenParam" id="frmHiddenParam" method="post" action="<?php echo url_for('admin/viewSystemUsers'); ?>">
-    <input type="hidden" name="pageNo" id="pageNo" value="" />
-    <input type="hidden" name="hdnAction" id="hdnAction" value="search" />
-</form>
-
-<!-- confirmation box -->
-<div id="deleteConfirmation" title="<?php echo __('OrangeHRM - Confirmation Required'); ?>" style="display: none;">
-
-    <br class="clear"/>
-
-    <?php echo __(CommonMessages::DELETE_CONFIRMATION); ?>
-
-    <div class="dialogButtons">
-        <input type="button" id="dialogDeleteBtn" class="savebutton" value="<?php echo __('Ok'); ?>" />
-        <input type="button" id="dialogCancelBtn" class="savebutton" value="<?php echo __('Cancel'); ?>" />
-    </div>
+<!-- Confirmation box HTML: Begins -->
+<div class="modal hide" id="deleteConfModal">
+  <div class="modal-header">
+    <a class="close" data-dismiss="modal">×</a>
+    <h3><?php echo __('OrangeHRM - Confirmation Required'); ?></h3>
+  </div>
+  <div class="modal-body">
+    <p><?php echo __(CommonMessages::DELETE_CONFIRMATION); ?></p>
+  </div>
+  <div class="modal-footer">
+    <input type="button" class="btn" data-dismiss="modal" id="dialogDeleteBtn" value="<?php echo __('Ok'); ?>" />
+    <input type="button" class="btn reset" data-dismiss="modal" value="<?php echo __('Cancel'); ?>" />
+  </div>
 </div>
+<!-- Confirmation box HTML: Ends -->
 
 <script type="text/javascript">
     function submitPage(pageNo) {
-
-        document.frmHiddenParam.pageNo.value = pageNo;
-        document.frmHiddenParam.hdnAction.value = 'paging';
-        document.getElementById('frmHiddenParam').submit();
-
+        document.frmUserSearch.pageNo.value = pageNo;
+        document.frmUserSearch.hdnAction.value = 'paging';
+        $('#search_form input.inputFormatHint').val('');
+        document.getElementById('search_form').submit();
     }
                 
     var addUserUrl          =   '<?php echo url_for('admin/saveSystemUser'); ?>';

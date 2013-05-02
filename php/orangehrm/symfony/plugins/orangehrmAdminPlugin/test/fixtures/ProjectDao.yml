@@ -20,7 +20,8 @@ Project:
 ProjectActivity:
   0: {activityId: 1, projectId: 1, is_deleted: 0, name: 'project activity 1'}
   1: {activityId: 2, projectId: 1, is_deleted: 0, name: 'project activity 2'}
-
+  2: {activityId: 3, projectId: 1, is_deleted: 1, name: 'project activity 3'}
+  
 ProjectAdmin:
   0: {projectId: 1, empNumber: 1}
   1: {projectId: 1, empNumber: 2}

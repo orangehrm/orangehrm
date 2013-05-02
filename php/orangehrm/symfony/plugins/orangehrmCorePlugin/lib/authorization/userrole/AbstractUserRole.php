@@ -125,6 +125,10 @@ abstract class AbstractUserRole {
         }
         return $ids;
     }
+    
+    public function getEmployeesWithRole($entities = array()) {
+        return array();
+    }    
 
     public abstract function getAccessibleEmployees($operation = null, $returnType = null, $requiredPermissions = array());
     
@@ -138,5 +142,6 @@ abstract class AbstractUserRole {
 
     public abstract function getAccessibleUserRoleIds($operation, $returnType);
 
-    public abstract function getAccessibleLocationIds($operation, $returnType);    
+    public abstract function getAccessibleLocationIds($operation, $returnType); 
+    
 }

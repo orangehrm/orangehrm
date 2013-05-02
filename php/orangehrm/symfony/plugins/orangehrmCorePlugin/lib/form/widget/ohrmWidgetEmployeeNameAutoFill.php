@@ -36,15 +36,17 @@ class ohrmWidgetEmployeeNameAutoFill extends sfWidgetFormInput {
         $this->addOption('jsonList', '');
         $this->addOption('loadingMethod','');
         $this->addOption('requiredPermissions', array());
+        $this->addOption('typeHint', __('Type for hints') . '...');
     }    
 
     public function render($name, $value = null, $attributes = array(), $errors = array()) {
 
-        $empNameValue   = isset($value['empName'])?$value['empName']:'';
-        $empIdValue     = isset($value['empId'])?$value['empId']:'';        
+        $empNameValue       = isset($value['empName'])?$value['empName']:'';
+        $empIdValue         = isset($value['empId'])?$value['empId']:'';
+        $attributes['type'] = 'text';
         
         $html           = parent::render($name . '[empName]', $empNameValue, $attributes, $errors);
-        $typeHint       = __('Type for hints') . '...';
+        $typeHint       = $this->getOption('typeHint');
         $hiddenFieldId  = $this->getHiddenFieldId($name);
 
         $javaScript     = sprintf(<<<EOF
@@ -59,7 +61,11 @@ class ohrmWidgetEmployeeNameAutoFill extends sfWidgetFormInput {
                 var typeHint = '%s';
                 var hintClass = 'inputFormatHint';
                 var loadingMethod = '%s';
+                var loadingHint = '%s';
             
+                nameField.data('typeHint', typeHint);
+                nameField.data('loadingHint', loadingHint);
+                
                 nameField.one('focus', function() {
 
                         if ($(this).hasClass(hintClass)) {
@@ -78,9 +84,12 @@ class ohrmWidgetEmployeeNameAutoFill extends sfWidgetFormInput {
 
                     nameField.autocomplete(employees_%s, {
 
-                            formatItem: function(item) {
-                                return item.name;
-                            }
+                        formatItem: function(item) {
+                            return $('<div/>').text(item.name).html();
+                        },
+                        formatResult: function(item) {
+                            return item.name
+                        }
                       ,matchContains:true
                         }).result(function(event, item) {
                             idStoreField.val(item.id);
@@ -89,7 +98,7 @@ class ohrmWidgetEmployeeNameAutoFill extends sfWidgetFormInput {
                     );
                  }else{
                         var value = nameField.val().trim();
-                        nameField.val('%s').addClass('loading');
+                        nameField.val(loadingHint).addClass('ac_loading');
                         $.ajax({
                                url: "%s",
                                data: "",
@@ -99,15 +108,19 @@ class ohrmWidgetEmployeeNameAutoFill extends sfWidgetFormInput {
                                      nameField.autocomplete(employeeList, {
 
                                                 formatItem: function(item) {
-                                                    return item.name;
+                                                    return $('<div/>').text(item.name).html();
+                                                },
+                                                formatResult: function(item) {
+                                                    return item.name
                                                 }
+                                                
                                                 ,matchContains:true
                                             }).result(function(event, item) {
                                                 idStoreField.val(item.id);
                                             }
 
                                         );
-                                         nameField.css("background-image", "none"); 
+                                         nameField.removeClass('ac_loading'); 
                                         
                                          if(value==''){
                                             nameField.val(typeHint).addClass(hintClass);
@@ -130,8 +143,8 @@ EOF
                         $hiddenFieldId,
                         $typeHint,
                         $this->getOption('loadingMethod'),
+                        __('Loading'),                
                         $this->generateId($name),
-                        __('Loading'),
                         url_for('pim/getEmployeeListAjax'));
                         
         

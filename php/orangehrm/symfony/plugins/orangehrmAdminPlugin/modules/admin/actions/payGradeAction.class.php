@@ -39,6 +39,9 @@ class payGradeAction extends sfAction {
 	}
 	
 	public function execute($request) {
+        
+        /* For highlighting corresponding menu item */
+        $request->setParameter('initialActionName', 'viewPayGrades');
 
 		$usrObj = $this->getUser()->getAttribute('user');
 		if (!$usrObj->isAdmin()) {
@@ -62,7 +65,7 @@ class payGradeAction extends sfAction {
 			$this->form->bind($request->getParameter($this->form->getName()));
 			if ($this->form->isValid()) {
 				$payGradeId = $this->form->save();
-				$this->getUser()->setFlash('templateMessage', array('success', __(TopLevelMessages::SAVE_SUCCESS)));
+				$this->getUser()->setFlash('paygrade.success', __(TopLevelMessages::SAVE_SUCCESS));
 				$this->redirect('admin/payGrade?payGradeId='.$payGradeId);
 			}
 		}

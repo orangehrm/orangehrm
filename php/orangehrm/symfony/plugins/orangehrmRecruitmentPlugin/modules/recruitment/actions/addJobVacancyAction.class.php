@@ -61,6 +61,10 @@ class addJobVacancyAction extends baseRecruitmentAction {
      * @param <type> $request
      */
     public function execute($request) {
+
+        /* For highlighting corresponding menu item */
+        $request->setParameter('initialActionName', 'viewJobVacancy');
+
         $usrObj = $this->getUser()->getAttribute('user');
         if (!$usrObj->isAdmin()) {
             $this->redirect('recruitment/viewCandidates');
@@ -81,7 +85,7 @@ class addJobVacancyAction extends baseRecruitmentAction {
             $this->form->bind($request->getParameter($this->form->getName()));
             if ($this->form->isValid()) {
                 $this->vacancyId = $this->form->save();
-                $this->getUser()->setFlash('templateMessage', array('success', __(TopLevelMessages::SAVE_SUCCESS)));
+                $this->getUser()->setFlash('success', __(TopLevelMessages::SAVE_SUCCESS));
                 $this->redirect('recruitment/addJobVacancy?Id=' . $this->vacancyId);
             }
         }

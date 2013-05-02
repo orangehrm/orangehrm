@@ -32,8 +32,8 @@ class terminateEmployementAction extends basePimAction {
         
         $allowedActions = $this->getContext()->getUserRoleManager()->getAllowedActions(WorkflowStateMachine::FLOW_EMPLOYEE, $employee->getState());
         
-        $this->allowActivate = in_array(WorkflowStateMachine::EMPLOYEE_ACTION_REACTIVE, $allowedActions);
-        $this->allowTerminate = in_array(WorkflowStateMachine::EMPLOYEE_ACTION_TERMINATE, $allowedActions);
+        $this->allowActivate = isset($allowedActions[WorkflowStateMachine::EMPLOYEE_ACTION_REACTIVE]);
+        $this->allowTerminate = isset($allowedActions[WorkflowStateMachine::EMPLOYEE_ACTION_TERMINATE]);
 
         $paramForTerminationForm = array('empNumber' => $empNumber, 
                                                                  'employee' => $employee, 
@@ -54,7 +54,7 @@ class terminateEmployementAction extends basePimAction {
             $this->form->bind($request->getParameter($this->form->getName()));
             if ($this->form->isValid()) {
                 $this->form->terminateEmployement($empNumber, $terminatedId);
-                $this->getUser()->setFlash('templateMessage', array('success', __(TopLevelMessages::UPDATE_SUCCESS)));
+                $this->getUser()->setFlash('jobdetails.success', __(TopLevelMessages::UPDATE_SUCCESS));
             }
 
             $this->redirect('pim/viewJobDetails?empNumber=' . $empNumber);

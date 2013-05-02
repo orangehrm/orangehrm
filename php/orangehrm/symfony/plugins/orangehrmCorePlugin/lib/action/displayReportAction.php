@@ -58,6 +58,8 @@ abstract class displayReportAction extends sfAction {
 
     
     public function execute($request) {
+        
+        $this->setInitialActionDetails($request);
 
         $reportId = $request->getParameter("reportId");
         $backRequest = $request->getParameter("backRequest");
@@ -155,6 +157,8 @@ abstract class displayReportAction extends sfAction {
     abstract public function setListHeaderPartial();
 
     abstract public function setValues();
+    
+    abstract public function setInitialActionDetails($request);
 
     public function getConfFactory() {
 

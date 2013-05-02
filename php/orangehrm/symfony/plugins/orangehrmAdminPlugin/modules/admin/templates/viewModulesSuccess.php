@@ -19,74 +19,87 @@
  */
 ?>
 
-<?php use_stylesheet('../orangehrmAdminPlugin/css/viewModulesSuccess'); ?>
+<style type="text/css">
+    form ol li.checkbox label {
+        width:15%
+    }
+</style>
 
-<?php echo isset($templateMessage) ? templateMessage($templateMessage) : ''; ?>
-
-<div id="saveFormDiv">
-    <div class="outerbox">
-
-    <div class="mainHeading"><h2 id="saveFormHeading"><?php echo __('Module Configuration') ?></h2></div>
+<div id="saveFormDiv" class="box">
+    
+    <div class="head">
+        <h1 id="saveFormHeading"> <?php echo __('Module Configuration') ?> </h1>
+    </div>
+    
+    <div class="inner">
+        
+        <?php include_partial('global/flash_messages'); ?>
 
         <form name="frmSave" id="frmSave" method="post" action="<?php echo url_for('admin/viewModules'); ?>">
             
             <?php echo $form['_csrf_token']; ?>
             
-            <!--<div class="errorHolder"></div>-->
+            <fieldset>
+                
+                <ol>
+                    
+                    <li class="checkbox">
+                        <?php echo $form['admin']->renderLabel(__('Enable Admin module') . ' <em>*</em>'); ?>
+                        <?php echo $form['admin']->render(); ?>
+                    </li>
+                    
+                    <li class="checkbox">
+                        <?php echo $form['pim']->renderLabel(__('Enable PIM module') . ' <em>*</em>'); ?>
+                        <?php echo $form['pim']->render(); ?>
+                    </li>
+                    
+                    <li class="checkbox">
+                        <?php echo $form['leave']->renderLabel(__('Enable Leave module')); ?>
+                        <?php echo $form['leave']->render(); ?>
+                    </li>
+                    
+                    <li class="checkbox">
+                        <?php echo $form['time']->renderLabel(__('Enable Time module')); ?>
+                        <?php echo $form['time']->render(); ?>
+                    </li>
+                    
+                    <li class="checkbox">
+                        <?php echo $form['recruitment']->renderLabel(__('Enable Recruitment module')); ?>
+                        <?php echo $form['recruitment']->render(); ?>
+                    </li>
+                    
+                    <li class="checkbox">
+                        <?php echo $form['performance']->renderLabel(__('Enable Performance module')); ?>
+                        <?php echo $form['performance']->render(); ?>
+                    </li>
+                    
+                    <li class="required">
+                        <em>*</em> <?php echo __('compulsory'); ?>
+                    </li>
+                    
+                </ol>
+                
+                <p>
+                    <input type="button" class="" name="btnSave" id="btnSave" value="<?php echo __('Edit'); ?>"/>
+                </p>
+                
+            </fieldset>
             
-            <?php echo $form['admin']->render(); ?>
-            <?php echo $form['admin']->renderLabel(__('Enable Admin module') . ' <span class="required">*</span>'); ?>
-            <br class="clear"/>   
-            
-            <?php echo $form['pim']->render(); ?>
-            <?php echo $form['pim']->renderLabel(__('Enable PIM module') . ' <span class="required">*</span>'); ?>
-            <br class="clear"/>          
-            
-            <?php echo $form['leave']->render(); ?>
-            <?php echo $form['leave']->renderLabel(__('Enable Leave module')); ?>
-            <br class="clear"/>  
-            
-            <?php echo $form['time']->render(); ?>
-            <?php echo $form['time']->renderLabel(__('Enable Time module')); ?>
-            <br class="clear"/>  
-            
-            <?php echo $form['recruitment']->render(); ?>
-            <?php echo $form['recruitment']->renderLabel(__('Enable Recruitment module')); ?>
-            <br class="clear"/>  
-            
-            <?php echo $form['performance']->render(); ?>
-            <?php echo $form['performance']->renderLabel(__('Enable Performance module')); ?>
-            <br class="clear"/>  
-            
-            <?php echo $form['help']->render(); ?>
-            <?php echo $form['help']->renderLabel(__('Enable Help') . ' <span class="required">*</span>'); ?>
-            <br class="clear"/>            
-            
-            <div class="formbuttons">
-                <input type="button" class="savebutton" name="btnSave" id="btnSave"
-                       value="<?php echo __('Edit'); ?>"
-                       title="<?php echo __('Edit'); ?>"
-                       onmouseover="moverButton(this);" onmouseout="moutButton(this);"/>
-            </div>
-
         </form>
     
     </div>
-    
-    <div class="helpText"><span class="required">*</span> <?php echo __('compulsory'); ?></div>
     
 </div> <!-- saveFormDiv -->
 
 
 
-<?php use_javascript('../orangehrmAdminPlugin/js/viewModulesSuccess'); ?>
+<?php use_javascript(plugin_web_path('orangehrmAdminPlugin', 'js/viewModulesSuccess')); ?>
 
 <script type="text/javascript">
 //<![CDATA[	    
     
     var lang_edit = "<?php echo __('Edit'); ?>";
     var lang_save = "<?php echo __('Save'); ?>";
-    var reloadParent = <?php echo isset($templateMessage)?'true':'false'; ?>;
     
 //]]>	
 </script>

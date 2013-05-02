@@ -28,6 +28,17 @@ class EmailNotificationDao extends BaseDao {
 			throw new DaoException($e->getMessage());
 		}
 	}
+        
+	public function getEmailNotification($id) {
+		try {
+			$q = Doctrine_Query :: create()
+				->from('EmailNotification')
+                                ->where('id = ?', $id);
+			return $q->fetchOne();
+		} catch (Exception $e) {
+			throw new DaoException($e->getMessage());
+		}
+	}        
 
 	public function updateEmailNotification($toBeEnabledIds) {
 		try {

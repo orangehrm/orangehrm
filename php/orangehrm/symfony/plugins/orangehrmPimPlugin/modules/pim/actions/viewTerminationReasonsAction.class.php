@@ -42,10 +42,6 @@ class viewTerminationReasonsAction extends sfAction {
         $this->form = new TerminationReasonForm();
         $this->records = $this->getTerminationReasonConfigurationService()->getTerminationReasonList();
         
-		if ($this->getUser()->hasFlash('templateMessage')) {
-            $this->templateMessage = $this->getUser()->getFlash('templateMessage');
-        }        
-        
         if ($request->isMethod('post')) {
             
 			$this->form->bind($request->getParameter($this->form->getName()));
@@ -55,7 +51,7 @@ class viewTerminationReasonsAction extends sfAction {
                 $this->_checkDuplicateEntry();
                 
 				$templateMessage = $this->form->save();
-				$this->getUser()->setFlash('templateMessage', $templateMessage);                
+				$this->getUser()->setFlash($templateMessage['messageType'], $templateMessage['message']);                
                 $this->redirect('pim/viewTerminationReasons');
                 
             }
@@ -85,7 +81,7 @@ class viewTerminationReasonsAction extends sfAction {
                 return false;
             }
             
-            $this->getUser()->setFlash('templateMessage', array('WARNING', __('Name Already Exists')));
+            $this->getUser()->setFlash('warning', __('Name Already Exists'));
             $this->redirect('pim/viewTerminationReasons');            
             
         }

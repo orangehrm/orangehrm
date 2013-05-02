@@ -101,9 +101,15 @@ class viewCandidatesForm extends BaseForm {
             'candidateName' => new sfWidgetFormInputText(),
             'selectedCandidate' => new sfWidgetFormInputHidden(),
             'keywords' => new sfWidgetFormInputText(),
-            'modeOfApplication' => new sfWidgetFormSelect(array('choices' => $modeOfApplication)),
-            'fromDate' => new ohrmWidgetDatePickerNew(array(), array('id' => 'candidateSearch_fromDate')),
-            'toDate' => new ohrmWidgetDatePickerNew(array(), array('id' => 'candidateSearch_toDate'))
+            'dateApplication' => new ohrmWidgetFormDateRange(array(  
+                    'from_date' => new ohrmWidgetDatePicker(array(), array('id' => 'candidateSearch_fromDate')),  
+                    'to_date' => new ohrmWidgetDatePicker(array(), array('id' => 'candidateSearch_toDate')),
+                    'from_label' => 'From',
+                    'to_label' => 'To'
+                )),
+            'modeOfApplication' => new sfWidgetFormSelect(array('choices' => $modeOfApplication)),            
+//            'fromDate' => new ohrmWidgetDatePicker(array(), array('id' => 'candidateSearch_fromDate')),
+//            'toDate' => new ohrmWidgetDatePicker(array(), array('id' => 'candidateSearch_toDate'))
         ));
 
         $inputDatePattern = sfContext::getInstance()->getUser()->getDateFormat();
@@ -118,12 +124,20 @@ class viewCandidatesForm extends BaseForm {
             'selectedCandidate' => new sfValidatorNumber(array('required' => false, 'min' => 0)),
             'keywords' => new sfValidatorString(array('required' => false)),
             'modeOfApplication' => new sfValidatorString(array('required' => false)),
-            'fromDate' => new ohrmDateValidator(array('date_format' => $inputDatePattern, 'required' => false),
-                    array('invalid' => 'Date format should be ' . $inputDatePattern)),
-            'toDate' => new ohrmDateValidator(array('date_format' => $inputDatePattern, 'required' => false),
-                    array('invalid' => 'Date format should be ' . $inputDatePattern)),
+            'dateApplication' => new sfValidatorDateRange(array(  
+                'from_date' => new ohrmDateValidator(array('date_format' => $inputDatePattern, 'required' => false)),  
+                'to_date' => new ohrmDateValidator(array('date_format' => $inputDatePattern, 'required' => false)),
+                'required' => false
+            ), array('invalid' => 'To date should be after from date')),
+//            'fromDate' => new ohrmDateValidator(array('date_format' => $inputDatePattern, 'required' => false),
+//                    array('invalid' => 'Date format should be ' . $inputDatePattern)),
+//            'toDate' => new ohrmDateValidator(array('date_format' => $inputDatePattern, 'required' => false),
+//                    array('invalid' => 'Date format should be ' . $inputDatePattern)),
         ));
+        
         $this->widgetSchema->setNameFormat('candidateSearch[%s]');
+        $this->getWidgetSchema()->setLabels($this->getFormLabels());
+
     }
 
     /**
@@ -132,18 +146,19 @@ class viewCandidatesForm extends BaseForm {
      * @return CandidateSearchParameters
      */
     public function getSearchParamsBindwithFormData(CandidateSearchParameters $searchParam) {
-
+        
         $searchParam->setJobTitleCode($this->getValue('jobTitle'));
         $searchParam->setVacancyId($this->getValue('jobVacancy'));
         $searchParam->setHiringManagerId($this->getValue('hiringManager'));
         $searchParam->setStatus($this->getValue('status'));
         $searchParam->setCandidateId($this->getValue('selectedCandidate'));
         $searchParam->setModeOfApplication($this->getValue('modeOfApplication'));
-        $searchParam->setFromDate($this->getValue('fromDate'));
-        $searchParam->setToDate($this->getValue('toDate'));
+        $dateApplication = $this->getValue('dateApplication');
+        $searchParam->setFromDate($dateApplication['from']);
+        $searchParam->setToDate($dateApplication['to']);
         $searchParam->setKeywords($this->getValue('keywords'));
         $searchParam->setCandidateName($this->getValue('candidateName'));
-
+        
         return $searchParam;
     }
 
@@ -165,8 +180,8 @@ class viewCandidatesForm extends BaseForm {
         $displayFromDate = ($searchParam->getFromDate() == $newSearchParam->getFromDate()) ? "" : $searchParam->getFromDate();
         $displayToDate = ($searchParam->getToDate() == $newSearchParam->getToDate()) ? "" : $searchParam->getToDate();
 
-        $this->setDefault('fromDate', set_datepicker_date_format($displayFromDate));
-        $this->setDefault('toDate', set_datepicker_date_format($displayToDate));
+        $this->setDefault('from_date', ($displayFromDate));
+        $this->setDefault('to_date', ($displayToDate));
         $this->setDefault('keywords', $searchParam->getKeywords());
         $this->setDefault('candidateName', $searchParam->getCandidateName());
     }
@@ -266,6 +281,24 @@ class viewCandidatesForm extends BaseForm {
         }
         $jsonString = json_encode($jsonArray);
         return $jsonString;
+    }
+    
+    protected function getFormLabels() {
+
+        $labels = array(
+            'jobTitle' =>__('Job Title'),
+            'jobVacancy' => __('Vacancy'),
+            'hiringManager' => __('Hiring Manager'),
+            'status' => __('Status'),
+            'candidateName' => __('Candidate Name'),
+            'keywords' => __('Keywords'),
+            'modeOfApplication' => __('Method of Application'),
+            'dateApplication' =>__('Date of Application'),
+            
+        );
+//        'from_date' => __('Date of Application'),  
+//            'to_date' => __('')
+        return $labels;
     }
 
 }

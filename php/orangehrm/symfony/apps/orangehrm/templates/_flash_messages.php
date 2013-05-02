@@ -18,13 +18,61 @@
 */
 ?>
 
-<?php if ($sf_user->hasFlash('success')): ?>
-  <span class="success">
-    <?php echo $sf_user->getFlash('success') ?>
-  </span>
-<?php endif; ?>
-<?php if ($sf_user->hasFlash('error')): ?>
-  <span class="error">
-    <?php echo $sf_user->getFlash('error') ?>
-  </span>
-<?php endif; ?>
+<?php
+
+$messageTypes = array('success', 'warning', 'error');
+$fadableMessages = false;
+
+foreach ($messageTypes as $messageType) :
+
+    $flashName = $messageType;
+
+    if (isset($prefix)) {
+        $flashName = $prefix . '.' . $messageType;
+    }    
+    
+    $cssClass = $messageType;
+    $message = null;
+    if ($sf_user->hasFlash($flashName)) {
+        $message = $sf_user->getFlash($flashName);
+        $cssClass .= ' fadable';
+        $fadableMessages = true;
+    } else if ($sf_user->hasFlash($flashName . '.nofade')) {
+        $message = $sf_user->getFlash($flashName. '.nofade');
+    }
+    if (!is_null($message)) : 
+?>
+<div class="message <?php echo $cssClass;?>">
+<?php
+
+    if (is_array($message) || $message instanceof sfOutputEscaperArrayDecorator) :
+        echo "<ol>";
+        foreach ($message as $m):
+            echo "<li>" . $m . "</li>";
+        endforeach;
+        echo "</ol>";
+    else:
+        echo $message;
+    endif;
+?>   
+    <a href="#" class="messageCloseButton"><?php echo __('Close');?></a>
+</div>
+<?php
+    endif; 
+endforeach;
+
+if ($fadableMessages) :
+?>
+<script type="text/javascript">
+//<![CDATA[
+    $("div.fadable").delay(2000)
+        .fadeOut("slow", function () {
+            $("div.fadable").remove();
+        }); 
+//<![CDATA[
+</script>
+<?php
+endif;
+?>
+
+

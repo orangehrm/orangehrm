@@ -12,12 +12,6 @@ function executeLoadtimeActions() {
        $(this).attr('disabled', 'disabled');
    });
    
-   if (reloadParent) {
-       window.setTimeout(function() {
-       parent.location.reload();
-           }, 500);
-   }
-    
 }
 
 function loadSaveButtonBehavior() {

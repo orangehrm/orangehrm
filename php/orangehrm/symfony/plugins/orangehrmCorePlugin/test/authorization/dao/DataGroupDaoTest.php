@@ -20,7 +20,7 @@
 
 /**
  * Description of DataGroupDaoTest
- *
+ * @group Core
  */
 class DataGroupDaoTest extends PHPUnit_Framework_TestCase {
     
@@ -35,23 +35,43 @@ class DataGroupDaoTest extends PHPUnit_Framework_TestCase {
         TestDataService::truncateSpecificTables(array('SystemUser'));
         TestDataService::populate($this->fixture);
                 
-        $this->dao = new ScreenDao();
+        $this->dao = new DataGroupDao();
     }
     
     
-    public function testGetDataGroupPermission(){
-        $dao = new DataGroupDao();        
-        $permissions = $dao->getDataGroupPermission('pim_1',1);
+    public function testGetDataGroupPermission(){ 
+        $permissions = $this->dao->getDataGroupPermission('pim_1',1);
         $this->assertEquals(1, $permissions->count());
         $this->assertEquals(1,$permissions[0]->getCanRead());
     
     }
     
     public function testGetDataGroups(){
-        $dao = new DataGroupDao();
-        $this->assertEquals(1,sizeof($dao->getDataGroups()));    
+        $this->assertEquals(4,sizeof($this->dao->getDataGroups()));    
     }    
+    
+    public function testGetDataGroupsNoneDefined(){
+        $pdo = Doctrine_Manager::connection()->getDbh();
+        $pdo->exec('DELETE FROM ohrm_data_group');
+        $this->assertEquals(0, sizeof($this->dao->getDataGroups()));    
+    }    
+    
 
+    public function testGetDataGroup() {
+        $dataGroup1 = $this->dao->getDataGroup('pim_1');
+        $this->assertTrue($dataGroup1 instanceof DataGroup);
+        $this->assertEquals(1, $dataGroup1->getId());
+        
+        $dataGroup2 = $this->dao->getDataGroup('pim_2');
+        $this->assertTrue($dataGroup2 instanceof DataGroup);
+        $this->assertEquals(2, $dataGroup2->getId());
+        
+    }
+    
+    public function testGetDataGroupInvalid() {
+        $dataGroup = $this->dao->getDataGroup('xyz_not_exist');
+        $this->assertTrue($dataGroup === false);
+    }
 }
 
 

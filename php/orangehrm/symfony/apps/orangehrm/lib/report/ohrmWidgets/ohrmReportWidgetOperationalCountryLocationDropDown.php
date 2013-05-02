@@ -34,7 +34,10 @@ class ohrmReportWidgetOperationalCountryLocationDropDown extends ohrmWidgetSelec
 
         // Parent requires the 'choices' option.
         $this->addOption('choices', array());
-        $this->addOption('all_option_value', '-1');
+        $this->addOption('set_all_option_value', true);
+        if (isset($options['set_all_option_value']) && $options['set_all_option_value']) {
+            $this->addOption('all_option_value', '-1');
+        }
         $this->addOption('show_all_locations', false);
     }
 
@@ -52,6 +55,7 @@ class ohrmReportWidgetOperationalCountryLocationDropDown extends ohrmWidgetSelec
 
             $choices = array();
             $addedLocationIds = array();
+            $allCountriesAccessible = true;
 
             // adding locations that assigned to operational country first
             $accessibleCountries = UserRoleManagerFactory::getUserRoleManager()->getAccessibleEntityIds('OperationalCountry');
@@ -72,6 +76,8 @@ class ohrmReportWidgetOperationalCountryLocationDropDown extends ohrmWidgetSelec
                         asort($locationChoices);
                         $choices[$country->getCouName()] = $locationChoices;
                     }
+                } else {
+                    $allCountriesAccessible = false;
                 }
             }
 
@@ -86,6 +92,14 @@ class ohrmReportWidgetOperationalCountryLocationDropDown extends ohrmWidgetSelec
                     }
 
                     $choices[$countryName] = $locationChoices;
+                }
+            }
+            
+            if ($allCountriesAccessible) {
+                if ($this->getOption('show_select_option')) {
+                    $this->setOption('select_option_value', -1);                    
+                } else if ($this->getOption('show_all_option') && $this->hasOption('all_option_value')) {
+                    $this->setOption('all_option_value', -1);
                 }
             }
 

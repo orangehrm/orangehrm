@@ -70,14 +70,14 @@
  * @property Nationality $Nationality
  * @property JobCategory $JobCategory
  * @property Doctrine_Collection $AttendanceRecord
- * @property Doctrine_Collection $EmployeeLeaveEntitlement
- * @property Doctrine_Collection $LeaveRequest
  * @property Doctrine_Collection $SystemUser
+ * @property Doctrine_Collection $LeaveEntitlement
+ * @property Doctrine_Collection $LeaveAdjustment
+ * @property Doctrine_Collection $LeaveRequest
+ * @property Doctrine_Collection $LeaveRequestComment
+ * @property Doctrine_Collection $LeaveComment
  * @property Doctrine_Collection $subordinates
  * @property Doctrine_Collection $EmpPicture
- * @property Doctrine_Collection $EmpJobtitleHistory
- * @property Doctrine_Collection $EmpLocationHistory
- * @property Doctrine_Collection $EmpSubdivisionHistory
  * @property Doctrine_Collection $EmployeeImmigrationRecord
  * @property Doctrine_Collection $EmpUsTaxExemption
  * @property Doctrine_Collection $EmployeeMembership
@@ -159,14 +159,14 @@
  * @method Nationality               getNationality()               Returns the current record's "Nationality" value
  * @method JobCategory               getJobCategory()               Returns the current record's "JobCategory" value
  * @method Doctrine_Collection       getAttendanceRecord()          Returns the current record's "AttendanceRecord" collection
- * @method Doctrine_Collection       getEmployeeLeaveEntitlement()  Returns the current record's "EmployeeLeaveEntitlement" collection
- * @method Doctrine_Collection       getLeaveRequest()              Returns the current record's "LeaveRequest" collection
  * @method Doctrine_Collection       getSystemUser()                Returns the current record's "SystemUser" collection
+ * @method Doctrine_Collection       getLeaveEntitlement()          Returns the current record's "LeaveEntitlement" collection
+ * @method Doctrine_Collection       getLeaveAdjustment()           Returns the current record's "LeaveAdjustment" collection
+ * @method Doctrine_Collection       getLeaveRequest()              Returns the current record's "LeaveRequest" collection
+ * @method Doctrine_Collection       getLeaveRequestComment()       Returns the current record's "LeaveRequestComment" collection
+ * @method Doctrine_Collection       getLeaveComment()              Returns the current record's "LeaveComment" collection
  * @method Doctrine_Collection       getSubordinates()              Returns the current record's "subordinates" collection
  * @method Doctrine_Collection       getEmpPicture()                Returns the current record's "EmpPicture" collection
- * @method Doctrine_Collection       getEmpJobtitleHistory()        Returns the current record's "EmpJobtitleHistory" collection
- * @method Doctrine_Collection       getEmpLocationHistory()        Returns the current record's "EmpLocationHistory" collection
- * @method Doctrine_Collection       getEmpSubdivisionHistory()     Returns the current record's "EmpSubdivisionHistory" collection
  * @method Doctrine_Collection       getEmployeeImmigrationRecord() Returns the current record's "EmployeeImmigrationRecord" collection
  * @method Doctrine_Collection       getEmpUsTaxExemption()         Returns the current record's "EmpUsTaxExemption" collection
  * @method Doctrine_Collection       getEmployeeMembership()        Returns the current record's "EmployeeMembership" collection
@@ -247,14 +247,14 @@
  * @method Employee                  setNationality()               Sets the current record's "Nationality" value
  * @method Employee                  setJobCategory()               Sets the current record's "JobCategory" value
  * @method Employee                  setAttendanceRecord()          Sets the current record's "AttendanceRecord" collection
- * @method Employee                  setEmployeeLeaveEntitlement()  Sets the current record's "EmployeeLeaveEntitlement" collection
- * @method Employee                  setLeaveRequest()              Sets the current record's "LeaveRequest" collection
  * @method Employee                  setSystemUser()                Sets the current record's "SystemUser" collection
+ * @method Employee                  setLeaveEntitlement()          Sets the current record's "LeaveEntitlement" collection
+ * @method Employee                  setLeaveAdjustment()           Sets the current record's "LeaveAdjustment" collection
+ * @method Employee                  setLeaveRequest()              Sets the current record's "LeaveRequest" collection
+ * @method Employee                  setLeaveRequestComment()       Sets the current record's "LeaveRequestComment" collection
+ * @method Employee                  setLeaveComment()              Sets the current record's "LeaveComment" collection
  * @method Employee                  setSubordinates()              Sets the current record's "subordinates" collection
  * @method Employee                  setEmpPicture()                Sets the current record's "EmpPicture" collection
- * @method Employee                  setEmpJobtitleHistory()        Sets the current record's "EmpJobtitleHistory" collection
- * @method Employee                  setEmpLocationHistory()        Sets the current record's "EmpLocationHistory" collection
- * @method Employee                  setEmpSubdivisionHistory()     Sets the current record's "EmpSubdivisionHistory" collection
  * @method Employee                  setEmployeeImmigrationRecord() Sets the current record's "EmployeeImmigrationRecord" collection
  * @method Employee                  setEmpUsTaxExemption()         Sets the current record's "EmpUsTaxExemption" collection
  * @method Employee                  setEmployeeMembership()        Sets the current record's "EmployeeMembership" collection
@@ -566,17 +566,29 @@ abstract class BaseEmployee extends sfDoctrineRecord
              'local' => 'empNumber',
              'foreign' => 'employeeId'));
 
-        $this->hasMany('EmployeeLeaveEntitlement', array(
-             'local' => 'empNumber',
-             'foreign' => 'employee_id'));
-
-        $this->hasMany('LeaveRequest', array(
-             'local' => 'empNumber',
-             'foreign' => 'empNumber'));
-
         $this->hasMany('SystemUser', array(
              'local' => 'emp_number',
              'foreign' => 'emp_number'));
+
+        $this->hasMany('LeaveEntitlement', array(
+             'local' => 'emp_number',
+             'foreign' => 'emp_number'));
+
+        $this->hasMany('LeaveAdjustment', array(
+             'local' => 'emp_number',
+             'foreign' => 'emp_number'));
+
+        $this->hasMany('LeaveRequest', array(
+             'local' => 'emp_number',
+             'foreign' => 'emp_number'));
+
+        $this->hasMany('LeaveRequestComment', array(
+             'local' => 'emp_number',
+             'foreign' => 'created_by_emp_number'));
+
+        $this->hasMany('LeaveComment', array(
+             'local' => 'emp_number',
+             'foreign' => 'created_by_emp_number'));
 
         $this->hasMany('Employee as subordinates', array(
              'refClass' => 'ReportTo',
@@ -584,18 +596,6 @@ abstract class BaseEmployee extends sfDoctrineRecord
              'foreign' => 'erep_sub_emp_number'));
 
         $this->hasMany('EmpPicture', array(
-             'local' => 'emp_number',
-             'foreign' => 'emp_number'));
-
-        $this->hasMany('EmpJobtitleHistory', array(
-             'local' => 'emp_number',
-             'foreign' => 'emp_number'));
-
-        $this->hasMany('EmpLocationHistory', array(
-             'local' => 'emp_number',
-             'foreign' => 'emp_number'));
-
-        $this->hasMany('EmpSubdivisionHistory', array(
              'local' => 'emp_number',
              'foreign' => 'emp_number'));
 

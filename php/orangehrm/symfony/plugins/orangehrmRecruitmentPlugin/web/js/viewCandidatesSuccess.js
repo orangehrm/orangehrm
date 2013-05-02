@@ -8,8 +8,11 @@ $(document).ready(function() {
     //Auto complete
     $("#candidateSearch_candidateName").autocomplete(candidates, {
         formatItem: function(item) {
-            return item.name;
+            return $('<div/>').text(item.name).html();
         },
+        formatResult: function(item) {
+            return item.name
+        },  
         matchContains:true
     }).result(function(event, item) {
         $("#candidateSearch_candidateName").valid();
@@ -142,29 +145,29 @@ $(document).ready(function() {
     
     $('#btnDelete').click(function(){
         $('#frmList_ohrmListComponent').submit(function(){
-            $('#deleteConfirmation').dialog('open');
+//            $('#deleteConfirmation').dialog('open');
             return false;
         });
     });
   
-    $("#deleteConfirmation").dialog({
-        autoOpen: false,
-        modal: true,
-        width: 325,
-        height: 50,
-        position: 'middle',
-        open: function() {
-            $('#dialogCancelBtn').focus();
-        }
-    });
+//    $("#deleteConfirmation").dialog({
+//        autoOpen: false,
+//        modal: true,
+//        width: 325,
+//        height: 50,
+//        position: 'middle',
+//        open: function() {
+//            $('#dialogCancelBtn').focus();
+//        }
+//    });
 
     $('#frmList_ohrmListComponent').attr('name','frmList_ohrmListComponent');
     $('#dialogDeleteBtn').click(function() {
         document.frmList_ohrmListComponent.submit();
     });
-    $('#dialogCancelBtn').click(function() {
-        $("#deleteConfirmation").dialog("close");
-    });
+//    $('#dialogCancelBtn').click(function() {
+//        $("#deleteConfirmation").dialog("close");
+//    });
 
     $(':checkbox[name*="chkSelectRow[]"]').each(function() {
         var id = $(this).attr('id');
@@ -208,7 +211,7 @@ $(document).ready(function() {
             'candidateSearch[candidateName]' : {
                 canNameValidation: true
             },
-            'candidateSearch[fromDate]' : {
+            'candidateSearch[dateApplication][from]' : {
                 valid_date: function() {
                     return {
                         format:datepickerDateFormat,
@@ -217,7 +220,7 @@ $(document).ready(function() {
                     }
                 }
             },
-            'candidateSearch[toDate]' : {
+            'candidateSearch[dateApplication][to]' : {
                 valid_date: function() {
                     return {
                         format:datepickerDateFormat,
@@ -238,22 +241,15 @@ $(document).ready(function() {
             'candidateSearch[candidateName]' : {
                 canNameValidation: lang_enterValidName
             },
-            'candidateSearch[fromDate]' : {
+            'candidateSearch[dateApplication][from]' : {
                 valid_date: lang_validDateMsg
             },
-            'candidateSearch[toDate]' : {
+            'candidateSearch[dateApplication][to]' : {
                 valid_date: lang_validDateMsg,
                 date_range: lang_dateError
             }
 
-        },
-        errorPlacement: function(error, element) {
-
-            error.appendTo( element.prev('label') );
-            element.parent().children('div.errorHolder').show();
-            error.appendTo(element.parent().children('div.errorHolder'));
         }
-
     });
 
 });

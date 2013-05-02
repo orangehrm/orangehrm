@@ -35,8 +35,8 @@ class JobInterviewForm extends BaseForm {
     private $defaultTime = '00:00:00';
 
     /**
-     *
-     * @return <type>
+     * 
+     * @return CandidateService
      */
     public function getCandidateService() {
         if (is_null($this->candidateService)) {
@@ -75,7 +75,7 @@ class JobInterviewForm extends BaseForm {
 //creating widgets
         $this->setWidgets(array(
             'name' => new sfWidgetFormInputText(),
-            'date' => new ohrmWidgetDatePickerNew(array(), array('id' => 'jobInterview_date')),
+            'date' => new ohrmWidgetDatePicker(array(), array('id' => 'jobInterview_date')),
             'time' => new sfWidgetFormInputText(),
             'note' => new sfWidgetFormTextArea(),
             'selectedInterviewerList' => new sfWidgetFormInputHidden()

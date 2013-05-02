@@ -1,4 +1,7 @@
 $(document).ready(function() {
+    
+    $('#frmList_ohrmListComponent').append($('#helper_message')); //adding help msg after that table inside form
+    
     $('#btnSave').hide()
 
     var natCount = notificationIdList.length;

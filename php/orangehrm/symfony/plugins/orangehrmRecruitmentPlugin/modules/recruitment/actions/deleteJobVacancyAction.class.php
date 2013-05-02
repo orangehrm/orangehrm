@@ -33,7 +33,7 @@ class deleteJobVacancyAction extends baseRecruitmentAction {
         }
         return $this->vacancyService;
     }
-    
+
     /**
      *
      * @param <type> $request
@@ -44,8 +44,8 @@ class deleteJobVacancyAction extends baseRecruitmentAction {
 
         $isDeletionSucceeded = $this->getVacancyService()->deleteVacancies($toBeDeletedVacancyIds);
 
-            $this->getUser()->setFlash('vacancyDeletionMessageItems', array('success', __(TopLevelMessages::DELETE_SUCCESS)));
-       
+        $this->getUser()->setFlash('success', __(TopLevelMessages::DELETE_SUCCESS));
+
         $this->redirect('recruitment/viewJobVacancy');
     }
 

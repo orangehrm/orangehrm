@@ -47,27 +47,33 @@ Function AdminUserDetailsEnterValidate
 
 FunctionEnd
 
-; Registration functions
-Function ContactDetailsEnter
 
-	!insertmacro MUI_HEADER_TEXT "Registration" "Please take a moment to register"
-    !insertmacro MUI_INSTALLOPTIONS_DISPLAY "ContactDetails.ini"
+Function VerifyRegister
+		MessageBox MB_YESNO|MB_ICONEXCLAMATION "Do you want to Register OrangeHRM ?" IDNO labelno
 
+                  !insertmacro MUI_HEADER_TEXT "Registration" "Please take a moment to register"
+                  !insertmacro MUI_INSTALLOPTIONS_DISPLAY "ContactDetails.ini"
+                  labelno:
+                  
 FunctionEnd
+; Registration functions
 
 Function ContactDetailsEnterValidate
+
 
   !insertmacro MUI_INSTALLOPTIONS_READ $0 "ContactDetails.ini" "Field 2" "State"
   !insertmacro MUI_INSTALLOPTIONS_READ $1 "ContactDetails.ini" "Field 4" "State"
   !insertmacro MUI_INSTALLOPTIONS_READ $2 "ContactDetails.ini" "Field 6" "State"
   !insertmacro MUI_INSTALLOPTIONS_READ $3 "ContactDetails.ini" "Field 8" "State"
+  !insertmacro MUI_INSTALLOPTIONS_READ $4 "ContactDetails.ini" "Field 9" "State"
+  !insertmacro MUI_INSTALLOPTIONS_READ $5 "ContactDetails.ini" "Field 2" "MinLen"
 
   ${CheckUserEmailAddress} "$1" "$R1"
 
   StrCmpS $R1 "1" error done
 
   error:
-  		MessageBox MB_OK|MB_ICONEXCLAMATION "E-mail address provided is invalid"
+  		MessageBox MB_OK|MB_ICONEXCLAMATION "Please Prvide a valid email address. eg: myid@.com"
   		Abort
 
   done:
@@ -75,15 +81,16 @@ Function ContactDetailsEnterValidate
   		StrCpy $ContactEmail "$1"
   		StrCpy $Coments "$2"
   		StrCpy $Updates "$3"
-
   		StrCpy $PostStr "userName=$ContactName&userEmail=$ContactEmail&userComments=$Coments&updates=$Updates"
+		
 
-  		;inetc::post "$PostStr" "http://www.orangehrm.com/registration/registerAcceptor.php" \
+  		inetc::post "$PostStr" "http://www.orangehrm.com/registration/registerAcceptor.php" "$INSTDIR\output.txt" /END
 
-  		nsExec::ExecToLog '"$INSTDIR\php\php" "$INSTDIR\install\register.php" "$PostStr"'
+
+  		;nsExec::ExecToLog '"$INSTDIR\php\php" "$INSTDIR\install\register.php" "$PostStr"'
   		Pop $0
-
-  		StrCmpS $0 "0" success failedToSubmit
+  		StrCmpS $0 "OK" success failedToSubmit
+		
 
   failedToSubmit:
   		MessageBox MB_OK|MB_ICONEXCLAMATION "There was an error submitting the registration information"
@@ -92,7 +99,10 @@ Function ContactDetailsEnterValidate
   success:
   		MessageBox MB_OK|MB_ICONINFORMATION "Your information was successfully received by OrangeHRM"
 
+
+
 FunctionEnd
+
 
 ;--------------------------------
 ; Installer Sections
@@ -143,17 +153,23 @@ SectionGroup /e "OrangeHRM Appliance" SecGrpOrangeHRMAppliance
 
         SetOutPath "$INSTDIR\mysql"
         File /a /r "${SourceLocation}\${XamppPath}\mysql\"
+        File /a /r "${SourceLocation}\content\mysql_installservice.bat"
 
         Call buildUnixPath
         !insertmacro ReplaceInFile "$INSTDIR\mysql\bin\my.cnf" "?INSTDIR" "$UNIXINSTDIR"
 
     SectionEnd
 
-    Section "OrangeHRM 2.7.1" SecOrangeHRM
+    Section "OrangeHRM 3.0.1" SecOrangeHRM
 
         SetOutPath "$INSTDIR\htdocs\${OrangeHRMPath}"
         File /a /r "${SourceLocation}\${OrangeHRMPath}\"
         File /a /r "${SourceLocation}\content\orangehrm2\"
+
+        SetOutPath "$INSTDIR"
+        File /a "${SourceLocation}\content\logo.ico"
+        File /a "${SourceLocation}\content\start.vbs"
+        File /a "${SourceLocation}\content\xampp-control.ini"
 
     SectionEnd
 
@@ -191,9 +207,9 @@ Section "-Register the application"
       WriteRegStr HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\${ProductName}" "UninstallString" "$INSTDIR\uninstall.exe"
 
       WriteRegStr HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\${ProductName}" "InstallLocation" "$INSTDIR"
-      WriteRegStr HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\${ProductName}" "VersionMajor" "2.2"
+      WriteRegStr HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\${ProductName}" "VersionMajor" "3.0.1"
       WriteRegStr HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\${ProductName}" "VersionMinor" "2"
-      WriteRegStr HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\${ProductName}" "DisplayVersion" "2.7.1"
+      WriteRegStr HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\${ProductName}" "DisplayVersion" "3.0.1"
 
       WriteRegStr HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\${ProductName}" "Publisher" "${Organization}"
       WriteRegStr HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\${ProductName}" "HelpLink" "http://orangehrm.com/home/index.php?option=com_content&task=blogsection&id=13&Itemid=87"
@@ -205,10 +221,13 @@ Section "-Register the application"
 
       CreateDirectory "$SMPROGRAMS\${ProductName}\Documentation"
       CreateShortCut "$SMPROGRAMS\${ProductName}\Documentation\Installation Guide.lnk" "$INSTDIR\htdocs\${OrangeHRMPath}\installer\guide\index.html"
-      CreateShortCut "$SMPROGRAMS\${ProductName}\Documentation\Upgrade Guide.lnk" "$INSTDIR\htdocs\${OrangeHRMPath}\upgrader\guide\index.html"
       CreateShortCut "$SMPROGRAMS\${ProductName}\Documentation\FAQ.lnk" "$INSTDIR\htdocs\${OrangeHRMPath}\faq.html"
       CreateDirectory "$SMPROGRAMS\${ProductName}"
       CreateShortCut "$SMPROGRAMS\${ProductName}\XAMPP.lnk" "$INSTDIR\xampp-control.exe"
+      CreateShortCut "$SMPROGRAMS\${ProductName}\OrangeHRM.lnk" "$INSTDIR\start.vbs" ""  "${SHORTCUT_ICON}"
+      CreateShortCut "$SMPROGRAMS\${ProductName}\Uninstall.lnk" "$INSTDIR\Uninstall.exe"
+	  CreateShortCut "$DESKTOP\${ProductName}.lnk" "$INSTDIR\start.vbs" ""  "${SHORTCUT_ICON}"
+
 
 SectionEnd
 
@@ -253,74 +272,191 @@ SectionGroupEnd
 Section "-Complete"
 
       SetOutPath "$INSTDIR\htdocs\orangehrm-${ProductVersion}"
+      
+      ; Create encryption key
+      ; Based on installUtil.php. Concat 4 MD5 Sums
+      pwgen::GeneratePassword 60
+      pop $0
+      md5dll::GetMD5String "$0"
+      pop $1
+
+      pwgen::GeneratePassword 60
+      pop $0
+      md5dll::GetMD5String "$0"
+      pop $2
+
+      pwgen::GeneratePassword 60
+      pop $0
+      md5dll::GetMD5String "$0"
+      pop $3
+
+      pwgen::GeneratePassword 60
+      pop $0
+      md5dll::GetMD5String "$0"
+      pop $4
+
+      StrCpy $5 "$1$2$3$4"
+
+      ${WriteToFile} "$INSTDIR\htdocs\orangehrm-${ProductVersion}\lib\confs\cryptokeys\key.ohrm" "$5"
 
       DetailPrint "Creating OrangeHRM database"
-      nsExec::ExecToLog '"$INSTDIR\mysql\bin\mysql" -u root -e "CREATE DATABASE hr_mysql;"'
+      nsExec::ExecToLog '"$INSTDIR\mysql\bin\mysql" -u root -e "CREATE DATABASE orangehrm_mysql;"'
 
       DetailPrint "Creating OrangeHRM tables"
-      nsExec::ExecToLog '"$INSTDIR\mysql\bin\mysql" -u root -D hr_mysql -e "source $INSTDIR\htdocs\orangehrm-${ProductVersion}\dbscript\dbscript-1.sql"'
+      nsExec::ExecToLog '"$INSTDIR\mysql\bin\mysql" -u root -D orangehrm_mysql -e "source $INSTDIR\htdocs\orangehrm-${ProductVersion}\dbscript\dbscript-1.sql"'
 
       DetailPrint "Filling required data"
-      nsExec::ExecToLog '"$INSTDIR\mysql\bin\mysql" -u root -D hr_mysql -e "source $INSTDIR\htdocs\orangehrm-${ProductVersion}\dbscript\dbscript-2.sql"'
+      nsExec::ExecToLog '"$INSTDIR\mysql\bin\mysql" -u root -D orangehrm_mysql -e "source $INSTDIR\htdocs\orangehrm-${ProductVersion}\dbscript\dbscript-2.sql"'
 
       !insertmacro ReplaceInFile "$INSTDIR\htdocs\orangehrm-${ProductVersion}\dbscript\dbscript-user.sql" "?UserName" "$UserName"
       !insertmacro ReplaceInFile "$INSTDIR\htdocs\orangehrm-${ProductVersion}\dbscript\dbscript-user.sql" "?PasswordHash" "$PasswordHash"
 
       DetailPrint "Creating the admin user"
-      nsExec::ExecToLog '"$INSTDIR\mysql\bin\mysql" -u root -D hr_mysql -e "source $INSTDIR\htdocs\orangehrm-${ProductVersion}\dbscript\dbscript-user.sql"'
+      nsExec::ExecToLog '"$INSTDIR\mysql\bin\mysql" -u root -D orangehrm_mysql -e "source $INSTDIR\htdocs\orangehrm-${ProductVersion}\dbscript\dbscript-user.sql"'
 
       Delete /REBOOTOK "$INSTDIR\htdocs\orangehrm-${ProductVersion}\dbscript\dbscript-user.sql"
 
 SectionEnd
 
-SectionGroup /e "XAMPP Components" SecGrpXamppComponents
+;SectionGroup /e "XAMPP Components" SecGrpXamppComponents
+;
+;    Section "Webalizer" SecWebalizer
+;
+;        SetOutPath "$INSTDIR\webalizer"
+;        File /a /r "${SourceLocation}\${XamppPath}\webalizer\"
+;
+;    SectionEnd
+;
+;    Section "FileZillaFTP" SecFileZillaFTP
+;
+;        SetOutPath "$INSTDIR\FileZillaFTP"
+;        File /a /r "${SourceLocation}\${XamppPath}\FileZillaFTP\"
+;        SetOutPath "$INSTDIR\anonymous"
+;        File /a /r "${SourceLocation}\${XamppPath}\anonymous\"
+;
+;    SectionEnd
+;
+;    Section "MercuryMail" SecMercuryMail
+;
+;        SetOutPath "$INSTDIR\MercuryMail"
+;        File /a /r "${SourceLocation}\${XamppPath}\MercuryMail\"
+;
+;    SectionEnd
+;
+;    Section "perl" SecPerl
+;
+;        SetOutPath "$INSTDIR\perl"
+;        File /a /r "${SourceLocation}\${XamppPath}\perl\"
+;
+;    SectionEnd
+;
+;    Section "webdav" SecWebdav
+;
+;        SetOutPath "$INSTDIR\webdav"
+;        File /a /r "${SourceLocation}\${XamppPath}\webdav\"
+;
+;    SectionEnd
+;
+;SectionGroupEnd
 
-    Section "Webalizer" SecWebalizer
-
-        SetOutPath "$INSTDIR\webalizer"
-        File /a /r "${SourceLocation}\${XamppPath}\webalizer\"
-
-    SectionEnd
-
-    Section "FileZillaFTP" SecFileZillaFTP
-
-        SetOutPath "$INSTDIR\FileZillaFTP"
-        File /a /r "${SourceLocation}\${XamppPath}\FileZillaFTP\"
-        SetOutPath "$INSTDIR\anonymous"
-        File /a /r "${SourceLocation}\${XamppPath}\anonymous\"
-
-    SectionEnd
-
-    Section "MercuryMail" SecMercuryMail
-
-        SetOutPath "$INSTDIR\MercuryMail"
-        File /a /r "${SourceLocation}\${XamppPath}\MercuryMail\"
-
-    SectionEnd
-
-    Section "perl" SecPerl
-
-        SetOutPath "$INSTDIR\perl"
-        File /a /r "${SourceLocation}\${XamppPath}\perl\"
-
-    SectionEnd
-
-    Section "webdav" SecWebdav
-
-        SetOutPath "$INSTDIR\webdav"
-        File /a /r "${SourceLocation}\${XamppPath}\webdav\"
-
-    SectionEnd
-
-SectionGroupEnd
-
-Section "Demo data" SecDemoData
-
-    SetOutPath "$INSTDIR\mysql\data\hr_mysql"
-
-SectionEnd
+;Section "Demo data" SecDemoData
+;
+;    SetOutPath "$INSTDIR\mysql\data\orangehrm_mysql"
+;
+;SectionEnd
 
 Function .onInit
+		MessageBox MB_OK "If you encounter issues in running OrangeHRM, try disabling your virus guard temporarily. Visit www.orangehrm.com/exe-faq.shtml for more details."
+         #MessageBox MB_OK "httpd running"
+         
+         Push "Status"
+         Push "Apache2.2"
+         Push ""
+         Call Service
+         Pop $0 ;response
+
+${If} $0 == "stopped"
+         MessageBox MB_OK|MB_ICONSTOP "Apache web server is already installed. Please consider using OrangeHRM web installer with ZIP version. Visit www.orangehrm.com/exe-faq.shtml for more details."
+         Abort
+${EndIf}
+${If} $0 == "running" 
+
+
+         MessageBox MB_OK|MB_ICONSTOP "Apache web server is already installed. Please consider using OrangeHRM web installer with ZIP version. Visit www.orangehrm.com/exe-faq.shtml for more details."
+         Abort
+         ${Else}
+         Push "Status"
+         Push "mysql"
+         Push ""
+         Call Service
+         Pop $1 ;response
+         ${If} $1 == "running"
+         MessageBox MB_OK|MB_ICONSTOP "MySQL is already installed. Please consider using OrangeHRM web installer with ZIP version. Visit www.orangehrm.com/exe-faq.shtml for more details."
+         Abort
+         ${EndIf}
+${EndIf}
+${If} ${TCPPortOpen} 80
+	 GetTempFileName $0
+     File /oname=$0 `TestPort80.vbs` 
+     nsExec::ExecToStack `"$SYSDIR\CScript.exe" $0 //e:vbscript //B //NOLOGO`
+	 Pop $0
+	 Pop $1
+	 MessageBox MB_OK|MB_ICONSTOP '$1'
+	 Abort
+${EndIf}
+
+; Missing MS C++ 2008 runtime library warning here
+  ReadRegStr $R2 HKLM 'SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\{FF66E9F6-83E7-3A3E-AF14-8DE9A809A6A4}' DisplayVersion
+  ReadRegStr $R3 HKLM 'SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\{350AA351-21FA-3270-8B7A-835434E766AD}' DisplayVersion
+  ReadRegStr $R4 HKLM 'SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\{2B547B43-DB50-3139-9EBE-37D419E0F5FA}' DisplayVersion
+
+  ReadRegStr $R5 HKLM 'SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\{9A25302D-30C0-39D9-BD6F-21E6EC160475}' DisplayVersion
+  ReadRegStr $R6 HKLM 'SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\{8220EEFE-38CD-377E-8595-13398D740ACE}' DisplayVersion
+  ReadRegStr $R7 HKLM 'SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\{5827ECE1-AEB0-328E-B813-6FC68622C1F9}' DisplayVersion
+
+  ReadRegStr $R8 HKLM 'SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\{1F1C2DFC-2D24-3E06-BCB8-725134ADF989}' DisplayVersion
+  ReadRegStr $R9 HKLM 'SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\{4B6C7001-C7D6-3710-913E-5BC23FCE91E6}' DisplayVersion
+  ReadRegStr $R0 HKLM 'SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\{977AD349-C2A8-39DD-9273-285C08987C7B}' DisplayVersion  
+  
+  StrCmp $R2 "" vc9_test2
+  GOTO init_end
+  vc9_test2:
+  StrCmp $R3 "" vc9_test3
+  GOTO init_end
+  vc9_test3:
+  StrCmp $R4 "" vc9_test4
+  GOTO init_end
+  vc9_test4:
+  StrCmp $R5 "" vc9_test5
+  GOTO init_end
+  vc9_test5:
+  StrCmp $R6 "" vc9_test6
+  GOTO init_end
+  vc9_test6:
+  StrCmp $R7 "" vc9_test7
+  GOTO init_end
+  vc9_test7:
+  StrCmp $R8 "" vc9_test8
+  GOTO init_end
+  vc9_test8:
+  StrCmp $R9 "" vc9_test9
+  GOTO init_end
+  vc9_test9:
+  StrCmp $R0 "" no_vc9
+  GOTO init_end
+
+  no_vc9:
+    MessageBox MB_YESNO "Warning: XAMPP (PHP) cannot work without the Microsoft Visual C++ 2008 Redistributable Package. Now open the Microsoft page for this download?" IDNO MsPageOut
+    ExecShell "open" "http://www.microsoft.com/en-us/download/details.aspx?id=5582"
+    GOTO MsPageOut
+    MsPageOut:
+    ; StrCmp $LANGUAGE "1031" lang_de2
+    ; MessageBox MB_YESNO "Perhaps XAMPP do not work without the MS VC++ 2008 runtime library. Still go on with the XAMPP installation?" IDNO GoOut
+    ; GOTO init_end
+    ; GoOut:
+    ; Abort "Exit by user."
+  init_end:
+
   !insertmacro MUI_INSTALLOPTIONS_EXTRACT "AdminUserDetails.ini"
   !insertmacro MUI_INSTALLOPTIONS_EXTRACT "ContactDetails.ini"
 
@@ -331,13 +467,13 @@ Function .onInit
   SectionSetFlags ${SecOrangeHRM} 17
 
   ; Optional sections
-  SectionSetFlags ${SecWebalizer} 0
-  SectionSetFlags ${SecFileZillaFTP} 0
-  SectionSetFlags ${SecMercuryMail} 0
-  SectionSetFlags ${SecPerl} 0
-  SectionSetFlags ${SecWebdav} 0
+  ;SectionSetFlags ${SecWebalizer} 0
+  ;SectionSetFlags ${SecFileZillaFTP} 0
+  ;SectionSetFlags ${SecMercuryMail} 0
+  ;SectionSetFlags ${SecPerl} 0
+  ;SectionSetFlags ${SecWebdav} 0
 
-  SectionSetFlags ${SecDemoData} 16
+  ;SectionSetFlags ${SecDemoData} 16
 
 FunctionEnd
 
@@ -350,7 +486,7 @@ FunctionEnd
   LangString DESC_SecApache ${LANG_ENGLISH} "Apache web server"
   LangString DESC_SecMySQL ${LANG_ENGLISH} "MySQL database server"
   LangString DESC_SecPHP ${LANG_ENGLISH} "PHP Hypertext Preprocessor"
-  LangString DESC_SecOrangeHRM ${LANG_ENGLISH} "OrangeHRM 2.7.1"
+  LangString DESC_SecOrangeHRM ${LANG_ENGLISH} "OrangeHRM 3.0.1"
   LangString DESC_SecGrpExtraComponents ${LANG_ENGLISH} "Extra components to make OrangeHRM better"
 
   LangString DESC_SecSendmail ${LANG_ENGLISH} "Sendmail mail transfer agent"

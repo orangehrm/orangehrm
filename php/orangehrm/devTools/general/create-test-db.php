@@ -31,14 +31,21 @@ $dbHost = $c->dbhost;
 
 $tempFile = tempnam(sys_get_temp_dir(), 'ohrmtestdb');
  
-echo "Please enter mysql root password when prompted.\n";
+
+if ($argc > 1) {
+	$mysqlRootPwd = $argv[1];
+} else {
+	$mysqlRootPwd = "";
+	echo "Please enter mysql root password when prompted.\n";
+}
+
 
 $createdbStatement = "DROP DATABASE IF EXISTS `{$testDb}`; CREATE DATABASE `{$testDb}`;USE `{$testDb}`;" .
                      "GRANT ALL on `{$testDb}`.* to \"{$dbUser}\"@\"{$dbHost}\";\n";
 
 file_put_contents($tempFile, $createdbStatement);
 
-$cmd = "mysqldump -u root -p --add-drop-table --routines {$c->dbname} >> {$tempFile}";
+$cmd = "mysqldump -u root -p{$mysqlRootPwd} --add-drop-table --routines {$c->dbname} >> {$tempFile}";
 
 $output = '';
 $returnStatus = '';
@@ -51,7 +58,7 @@ if ($returnStatus !== 0) {
 }
 
 
-$cmd = "mysql -u root -p < {$tempFile}";
+$cmd = "mysql -u root -p{$mysqlRootPwd}  < {$tempFile}";
 
 exec($cmd, $output, $returnStatus);
 

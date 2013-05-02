@@ -39,8 +39,11 @@ class punchOutAction extends sfAction {
     public function execute($request) {
         
         $this->_checkAuthentication();
+        
+        /* For highlighting corresponding menu item */  
+        $request->setParameter('initialActionName', 'punchIn');          
 
-    $inputDatePattern = sfContext::getInstance()->getUser()->getDateFormat();
+        $inputDatePattern = sfContext::getInstance()->getUser()->getDateFormat();
         $this->userObj = $this->getContext()->getUser()->getAttribute('user');
         $this->employeeId = $this->userObj->getEmployeeNumber();
         $actions = array(PluginWorkflowStateMachine::ATTENDANCE_ACTION_PUNCH_OUT);
@@ -57,7 +60,7 @@ class punchOutAction extends sfAction {
         $attendanceRecord = $this->getAttendanceService()->getLastPunchRecord($this->employeeId, $actionableStatesList);
 
         if (is_null($attendanceRecord)) {
-            $this->getUser()->setFlash('templateMessage', array('success', __(TopLevelMessages::SAVE_SUCCESS)));
+            $this->getUser()->setFlash('success', __(TopLevelMessages::SAVE_SUCCESS));
             $this->redirect("attendance/punchIn");
         }
         $tempPunchInTime = $attendanceRecord->getPunchInUserTime();

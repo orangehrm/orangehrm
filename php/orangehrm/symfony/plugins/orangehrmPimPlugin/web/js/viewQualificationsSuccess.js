@@ -30,6 +30,7 @@ $(document).ready(function() {
 
     //hiding the data table if records are not available
     if($(".chkbox1").length == 0) {
+        $('div#sectionWorkExperience .check').hide();
         $("#editWorkExperience").hide();
         $("#delWorkExperience").hide();
     }
@@ -156,14 +157,6 @@ $(document).ready(function() {
             'experience[comments]': {
                 maxlength: lang_commentLength
             }
-        },
-
-        errorElement : 'div',
-        errorPlacement: function(error, element) {
-            error.appendTo(element.prev('label'));
-            error.insertAfter(element.next(".clear"));
-            error.insertAfter(element.next().next(".clear"));
-
         }
     });
     

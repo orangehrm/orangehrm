@@ -26,6 +26,9 @@ class saveJobTitleAction extends sfAction {
     }
 
     public function execute($request) {
+        
+        /* For highlighting corresponding menu item */
+        $request->setParameter('initialActionName', 'viewJobTitleList');
 
         $usrObj = $this->getUser()->getAttribute('user');
         if (!($usrObj->isAdmin())) {
@@ -40,12 +43,14 @@ class saveJobTitleAction extends sfAction {
         if ($request->isMethod('post')) {
             $this->form->bind($request->getParameter($this->form->getName()), $request->getFiles($this->form->getName()));
             $file = $request->getFiles($this->form->getName());
+           
             if ($_FILES['jobTitle']['size']['jobSpec'] > 1024000) {
-                $this->templateMessage = array('WARNING', __(TopLevelMessages::FILE_SIZE_SAVE_FAILURE));
+                 
+                $this->getUser()->setFlash('jobtitle.warning', __(TopLevelMessages::FILE_SIZE_SAVE_FAILURE));
             }
             if ($this->form->isValid()) {
                 $result = $this->form->save();
-                $this->getUser()->setFlash('templateMessage', array($result['messageType'], $result['message']));
+                $this->getUser()->setFlash($result['messageType'], $result['message']);
                 $this->redirect('admin/viewJobTitleList');
             }
         }

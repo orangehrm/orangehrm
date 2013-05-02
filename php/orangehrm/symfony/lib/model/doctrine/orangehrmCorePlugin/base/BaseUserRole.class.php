@@ -13,6 +13,8 @@
  * @property Doctrine_Collection $DataGroupPermission
  * @property Doctrine_Collection $SystemUser
  * @property Doctrine_Collection $ScreenPermission
+ * @property Doctrine_Collection $HomePage
+ * @property Doctrine_Collection $ModuleDefaultPage
  * 
  * @method integer             getId()                  Returns the current record's "id" value
  * @method string              getName()                Returns the current record's "name" value
@@ -22,6 +24,8 @@
  * @method Doctrine_Collection getDataGroupPermission() Returns the current record's "DataGroupPermission" collection
  * @method Doctrine_Collection getSystemUser()          Returns the current record's "SystemUser" collection
  * @method Doctrine_Collection getScreenPermission()    Returns the current record's "ScreenPermission" collection
+ * @method Doctrine_Collection getHomePage()            Returns the current record's "HomePage" collection
+ * @method Doctrine_Collection getModuleDefaultPage()   Returns the current record's "ModuleDefaultPage" collection
  * @method UserRole            setId()                  Sets the current record's "id" value
  * @method UserRole            setName()                Sets the current record's "name" value
  * @method UserRole            setDisplayName()         Sets the current record's "display_name" value
@@ -30,6 +34,8 @@
  * @method UserRole            setDataGroupPermission() Sets the current record's "DataGroupPermission" collection
  * @method UserRole            setSystemUser()          Sets the current record's "SystemUser" collection
  * @method UserRole            setScreenPermission()    Sets the current record's "ScreenPermission" collection
+ * @method UserRole            setHomePage()            Sets the current record's "HomePage" collection
+ * @method UserRole            setModuleDefaultPage()   Sets the current record's "ModuleDefaultPage" collection
  * 
  * @package    orangehrm
  * @subpackage model\core\base
@@ -79,6 +85,14 @@ abstract class BaseUserRole extends sfDoctrineRecord
              'foreign' => 'user_role_id'));
 
         $this->hasMany('ScreenPermission', array(
+             'local' => 'id',
+             'foreign' => 'user_role_id'));
+
+        $this->hasMany('HomePage', array(
+             'local' => 'id',
+             'foreign' => 'user_role_id'));
+
+        $this->hasMany('ModuleDefaultPage', array(
              'local' => 'id',
              'foreign' => 'user_role_id'));
     }

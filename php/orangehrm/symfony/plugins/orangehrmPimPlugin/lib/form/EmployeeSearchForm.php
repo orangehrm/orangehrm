@@ -78,8 +78,6 @@ class EmployeeSearchForm extends BaseForm {
         
         $this->widgetSchema->setNameFormat('empsearch[%s]');
         $this->getWidgetSchema()->setLabels($this->getFormLabels());
-        sfWidgetFormSchemaFormatterBreakTags::setNoOfColumns(4);
-        $this->getWidgetSchema()->setFormFormatterName('BreakTags');
 
     }
 
@@ -104,18 +102,6 @@ class EmployeeSearchForm extends BaseForm {
         $jsonString = json_encode($jsonArray);
 
         return $jsonString;
-    }
-
-    public function getJobService() {
-        if (is_null($this->jobService)) {
-            $this->jobService = new JobService();
-            $this->jobService->setJobDao(new JobDao());
-        }
-        return $this->jobService;
-    }
-
-    public function setJobService(JobService $jobService) {
-        $this->jobService = $jobService;
     }
 
     private function _setJobTitleWidget() {

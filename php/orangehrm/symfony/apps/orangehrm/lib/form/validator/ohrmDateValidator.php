@@ -46,17 +46,25 @@ class ohrmDateValidator extends sfValidatorBase {
      */
     protected function doClean($value) {
 
-        $date = null;
-        $valid = false;
-
         $trimmedValue = trim($value);
         $pattern = $this->getOption('date_format');
-
-        // If not required and empty or the format pattern, return valid.
-        if (!$this->getOption('required') &&
-                ( ($trimmedValue == '') || (strcasecmp(str_replace('yyyy', 'yy', $trimmedValue), get_datepicker_date_format($pattern)) == 0 ) )) {
-            return null;
+        
+        if (empty($pattern)) {
+            $pattern = sfContext::getInstance()->getUser()->getDateFormat();
         }
+
+        $required = $this->getOption('required');
+        $isDefaultValue = strcasecmp(str_replace('yyyy', 'yy', $trimmedValue), get_datepicker_date_format($pattern)) == 0;
+        
+        if (($trimmedValue == '') || $isDefaultValue) {
+            if (!$required) {
+                // If not required and empty or the format pattern, return valid                
+                return null;                
+            } else {
+                throw new sfValidatorError($this, 'required');                
+            }
+        }
+
         $localizationService = new LocalizationService();
         $result = $localizationService->convertPHPFormatDateToISOFormatDate($pattern, $trimmedValue);
         $valid = ($result == "Invalid date") ? false : true;

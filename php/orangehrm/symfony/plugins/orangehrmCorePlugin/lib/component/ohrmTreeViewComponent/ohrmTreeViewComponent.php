@@ -91,11 +91,14 @@ class ohrmTreeViewComponent extends ohrmComponent {
         $nodeUnitId = $node->getUnitId();
         $displayNodeName = (!empty($nodeUnitId)) ? $nodeUnitId." : ".$nodeName : $nodeName;
         $displayNodeName = escape_once($displayNodeName);
+        $nodeDescription = isset($node['description']) ? __($node['description']) : __($node->getDescription());
+        $displayNodeDescription = escape_once($nodeDescription);
         
-        $listContent .= content_tag('span', $displayNodeName, array(
-                    'id' => 'span_' . $node['id'],
-                    'class' => 'labelNode'
-                ));
+        if (!empty($nodeDescription)) {
+            $listContent .= "<span id=\"span_{$node['id']}\" class=\"labelNode tiptip\" title=\"$displayNodeDescription\">$displayNodeName</span>";
+        } else {
+            $listContent .= "<span id=\"span_{$node['id']}\" class=\"labelNode\">$displayNodeName</span>";
+        }
 
         $listContent .= content_tag('a', $displayNodeName, array(
                     'href' => '#?',
@@ -106,22 +109,22 @@ class ohrmTreeViewComponent extends ohrmComponent {
         $listContent .= '&nbsp;';
 
         if ($this->allowAdd && !in_array($node['level'], $this->addRestrictionLevels)) {
-            $listContent .= content_tag('a', '[ + ]', array(
+            $listContent .= content_tag('a', ' +', array(
                         'href' => '#?',
                         'id' => 'treeLink_addChild_' . $node['id'],
                         'style' => 'text-decoration: none;',
-                        'class' => 'addLink'
+                        'class' => 'addButton'
                     ));
         }
 
         $listContent .= '&nbsp;';
 
         if ($node['id'] != 1 && $this->allowDelete && !in_array($node['level'], $this->deleteRestrictionLevels)) {
-            $listContent .= content_tag('a', '[ x ]', array(
+            $listContent .= content_tag('a', ' x', array(
                         'href' => '#?',
                         'id' => 'treeLink_delete_' . $node['id'],
                         'style' => 'text-decoration: none;',
-                        'class' => 'deleteLink'
+                        'class' => 'deleteButton'
                     ));
         }
 
@@ -212,19 +215,17 @@ class ohrmTreeViewComponent extends ohrmComponent {
 
         $html = '';
 
-        $html .= content_tag('script', '', array(
-                    'type' => 'text/javascript',
-                    'src' => javascript_path('jquery.treeview.min.js'),
-                ));
+        $html .= javascript_include_tag('jquery/jquery.treeview.min.js');
+
         if ($this->type == null) {
             $html .= tag('link', array(
                         'rel' => 'stylesheet',
-                        'href' => stylesheet_path('jquery-treeview/jquery.treeview.css'),
+                        'href' => theme_path('css/jquery/jquery-treeview/jquery.treeview.css'),
                     ));
         } else {
             $html .= tag('link', array(
                         'rel' => 'stylesheet',
-                        'href' => stylesheet_path('jquery-treeview/jquery.treeview_1.css'),
+                        'href' => theme_path('css/jquery/jquery-treeview/jquery.treeview_1.css'),
                     ));
         }
         $this->addScriptContent(array('$(document).ready(function() {', '});'), 'wrap');

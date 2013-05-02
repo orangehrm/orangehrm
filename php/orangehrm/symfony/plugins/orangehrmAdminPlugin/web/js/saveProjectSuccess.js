@@ -1,24 +1,34 @@
 var countArray = new Array();
 var customerProjectList;
+var dialogValidator;
+var hintClass = 'inputFormatHint';
 $(document).ready(function() {
+    customerProjectList='';
+    
+    isValidAddCustomerForm();
 
     counter = 1;
     //Auto complete
     $(".formInputProjectAdmin").autocomplete(employees, {
         formatItem: function(item) {
-            return item.name;
+            return $('<div/>').text(item.name).html();
         },
+        formatResult: function(item) {
+            return item.name
+        },  
         matchContains:true
     }).result(function(event, item) {
-
-        validateProjectAdmins();
+        validateProjectAdminNames();
     });
     
     //customer auto complete
     $(".formInputCustomer").autocomplete(customers, {
         formatItem: function(item) {
-            return item.name;
+            return $('<div/>').text(item.name).html();
         },
+        formatResult: function(item) {
+            return item.name
+        },          
         matchContains:true
     }).result(function(event, item) {
 
@@ -75,91 +85,62 @@ $(document).ready(function() {
         if(countArray.length > 0){
             $("#addButton").show();
         }
-        isValidForm();
-        validateProjectAdmins();
+        validateProjectAdminNames();
         $(this).prev().removeClass('error');
         $(this).next().html('');
 
     });
     
-    $("#customerDialog").dialog({
-        autoOpen: false,
-        modal: true,
-        width: 500,
-        height:'auto',
-        position: 'middle'
-    });
+    /* Type hint for Customer Name */
+    var customerName = $('#addProject_customerName');
+
+    if (customerName.val() == '' || customerName.val() == lang_typeHint) {
+        customerName.val(lang_typeHint).addClass(hintClass);
+    }
+
+    customerName.one('focus', function() {
+        if ($(this).hasClass(hintClass)) {
+            $(this).val("");
+            $(this).removeClass(hintClass);
+        }
+    });    
     
-    $("#copyActivity").dialog({
-        autoOpen: false,
-        modal: true,
-        width: 500,
-        height: 'auto',
-        position: 'middle'
-    });
+    /* Type hint for Project Name in Copy Activity */
+    var projectName = $('#projectName');
     
-    $("#dialogCancel").click(function(){
-        $("#customerDialog").dialog("close");
+    $("#btnCopy").click(function(){
+        if (projectName.val() == '' || projectName.val() == lang_typeHint) {
+            projectName.val(lang_typeHint).addClass(hintClass);
+        }
     });
-    
-    // undeleteDialog
-    $("#undeleteDialog").dialog({
-        autoOpen: false,
-        modal: true,
-        width: 355,
-        height:210,
-        position: 'middle'
+
+    projectName.one('focus', function() {
+        if ($(this).hasClass(hintClass)) {
+            $(this).val("");
+            $(this).removeClass(hintClass);
+        }
     });
-    
+        
+    // undeleteDialog    
     $("#undeleteYes").click(function(){
         $('#frmUndeleteCustomer').submit();
+        $("#undeleteDialog").toggle();
     });
 
     $("#undeleteNo").click(function(){
-        saveCustomer(custUrl+'?customerName='+escape($.trim($('#addCustomer_customerName').val()))+'&description='+escape($('#addCustomer_description').val()));
+        $('#frmAddCustomer').submit();
+        $("#undeleteDialog").toggle();
     });
 
     $("#undeleteCancel").click(function(){
-        $("#undeleteDialog").dialog("close");
-    });
-    
-    $("#btnCopy").click(function(){
-        $('.activityDiv').remove();
-        $('#errorHolderCopy').text("");
-        $('#projectName').addClass("inputFormatHint").val(lang_typeHint);
-        $("#copyActivity").dialog("open");
-        
-    });
-    
-    $('#projectName').keydown(function(){
-        if($('#projectName').val() == lang_typeHint){
-            $('#projectName').val("")
-            $('#projectName').removeClass("inputFormatHint");
-        }
-    });
-   
-    $('#addCustomer_customerName').keyup(function(){
-        validateThickBox();
-    });
-   
-    $('#addCustomer_description').keyup(function(){
-        validateThickBox();
-    });
-    
-    $("#btnCopyCancel").click(function(){
-        $("#copyActivity").dialog("close");
-        $('.activityDiv').remove();
-        $('#errorHolderCopy').text("");
-        $('.project').val("");
+        $("#undeleteDialog").toggle();
     });
     
     $('#btnCopyDig').hide();
     
     $('.formInputProjectAdmin').each(function(){
-        if($(this).parent().css('display') == 'block') {
-            if ($(this).val() == '' || $(this).val() == lang_typeHint) {
-                $(this).addClass("inputFormatHint").val(lang_typeHint);
-            }
+        if ($(this).val() == '' || $(this).val() == lang_typeHint) {
+            $(this).addClass("inputFormatHint").val(lang_typeHint);
         }
     });
     $('.project').each(function(){
@@ -208,15 +189,27 @@ $(document).ready(function() {
     $('#dialogSave').click(function(){
         var deletedId = isDeletedCustomer();
         if (deletedId) {
-            $('#undeleteCustomer_undeleteId').val(deletedId);               
-            $("#undeleteDialog").dialog("open");
+            $('#undeleteCustomer_undeleteId').val(deletedId);
+            $("#undeleteDialog").toggle();
             isValid = false;
         }else {
-            if(validateThickBox()){
-                saveCustomer(custUrl+'?customerName='+escape($.trim($('#addCustomer_customerName').val()))+'&description='+escape($('#addCustomer_description').val()));
-            }
+            if($("#frmAddCustomer").valid()){
+                var customerName = escape($.trim($('#addCustomer_customerName').val()));
+                var customerDescription = escape($('#addCustomer_description').val());
+                saveCustomer(custUrl+'?customerName=' + customerName +'&description=' + customerDescription); 
+            }   
         }
     });
+    
+    $('#dialogCancel').click(function () {
+        dialogValidator.resetForm();
+    });
+    $('#btnCopyCancel').click(function () {
+        $('#projectName').val('');
+        $('#copyActivityList').empty();
+        $('#errorHolderCopy').empty();
+        $('#btnCopyDig').hide();
+    });    
     
     if(projectId>0){
         var noOfInterviewers = $('#addProject_projectAdminList').val();
@@ -231,54 +224,28 @@ $(document).ready(function() {
         getProjectListAsJson(url);
     }
     
-    $('#addProject_customerName').change(function() {
-        setCustomerId();
-    });
-    
-    $('#addProject_projectName').change(function() {
-        setCustomerId();
-    });
-    
     $('#btnSave').click(function() {
-        setCustomerId();
         
         if($('#btnSave').val() == lang_edit){
             enableWidgets();
             $('#addProjectHeading').text(lang_editProject);
             $('#btnSave').val(lang_save);
         } else if($('#btnSave').val() == lang_save){
-            if(isValidForm()){
-                removeTypeHints();
-                setProjectAdmins();
-                $('#frmAddProject').submit();
-            }   
-        }
-    });
-    
-    function setCustomerId() {
-        
-        var cusCount = customerList.length;
-        var cusName = $('#addProject_customerName').val();
-        var inputName = $.trim(cusName).toLowerCase();
-        if(inputName != ""){
-            var i;
-            for (i=0; i < cusCount; i++) {
-                var arrayName = customerList[i].name.toLowerCase();
-                if (inputName == arrayName) {
-                    $('#addProject_customerId').val(customerList[i].id);
-                    var url = urlForGetProjectList+customerList[i].id;
-                    getProjectListAsJson(url);
-                    break;
-                }
+            if(validateProjectAdminNames()){
+                if(isValidForm()){
+                    removeTypeHints();
+                    setProjectAdmins();
+                    $('#frmAddProject').submit()
+                }   
             }
         }
-    }
+    });
     
     if(isProjectAdmin){
         $('#btnSave').hide();
     }
     
-    $('#btnDelete').click(function(){
+    $('#dialogDeleteBtn').click(function(){
         $('#frmList_ohrmListComponent').attr({
             action:deleteActivityUrl+"?projectId="+projectId
         });
@@ -294,12 +261,19 @@ $(document).ready(function() {
     }
     
     $('#btnActSave').click(function(){
+        $('#btnActSave').attr('disabled', 'disabled');
         $('#addProjectActivity_projectId').val(projectId);
-        $('#frmAddActivity').submit();
+        
+        if($('#frmAddActivity').valid()) {
+            $('#frmAddActivity').submit();
+        } else {
+            $('#btnActSave').removeAttr('disabled');
+        }
     });
     
     $('#btnActCancel').click(function(){
         actValidator.resetForm();
+        $('.top').show();
         $('#addActivity').hide();
     });
     
@@ -311,10 +285,12 @@ $(document).ready(function() {
             $('#frmCopyAct').submit();
         } else {
             $('#errorHolderCopy').text(lang_noActivitiesSelected);
+            $('#errorHolderCopy').addClass('validation-error');
         }
     });
     
     $('#btnAdd').click(function(){
+        $('.top').hide();
         $('#addActivity').show();
         $('#addProjectActivity_activityId').val("");
         $('#addProjectActivity_activityName').val("");
@@ -356,6 +332,7 @@ $(document).ready(function() {
         $('#addProjectActivity_activityId').val(activityId);
         $('#addProjectActivity_activityName').val(name);
         $('#addActivityHeading').text(lang_editActivity);
+        $('.top').hide();
         $('#addActivity').show();
         
     });
@@ -408,11 +385,6 @@ $(document).ready(function() {
                 maxlength: lang_exceed100Chars
             }
 
-        },
-        errorPlacement: function(error, element) {
-
-            error.appendTo(element.next('div.errorHolder'));
-
         }
     });
      
@@ -423,7 +395,6 @@ function openDialogue(){
     $('#errorHolderName').html("");
     $('#addCustomer_description').val("");
     $('#errorHolderDesc').html("");
-    $("#customerDialog").dialog("open")
 }
 
 function disableWidgets(){
@@ -431,9 +402,7 @@ function disableWidgets(){
     $('#addProject_projectName').attr('disabled','disabled');
     $('.formInputProjectAdmin').attr('disabled','disabled');
     $('#addProject_description').attr('disabled','disabled');
-    $('#addCustomerLink').hide();
-    $('#addButton').hide();
-    $('.removeText').hide();
+    $('.fieldHelpRight').hide();
     $('#btnSave').val(lang_edit);
     
     
@@ -445,9 +414,7 @@ function enableWidgets(){
     $('#addProject_projectName').removeAttr('disabled');
     $('.formInputProjectAdmin').removeAttr('disabled');
     $('#addProject_description').removeAttr('disabled');
-    $('#addCustomerLink').show();
-    $('#addButton').show();
-    $('.removeText').show();
+    $('.fieldHelpRight').show();
     $('#btnSave').val(lang_save);
     $('#removeButton1').hide();
     
@@ -465,24 +432,29 @@ function removeTypeHints() {
 
 function validateThickBox(){
     
-    $('#errorHolderName').removeClass("error");
+    $('#addCustomer_customerName').removeClass("validation-error");
+    $('#addCustomer_description').removeClass("validation-error");
+    $('#errorHolderName').removeClass("validation-error");
     $('#errorHolderName').html('');
-    $('#errorHolderDesc').removeClass("error");
+    $('#errorHolderDesc').removeClass("validation-error");
     $('#errorHolderDesc').html('');
     var isValid = true;
     
     if($('#addCustomer_customerName').val() == ''){
-        $('#errorHolderName').addClass("error").html(lang_nameRequired);
+        $('#errorHolderName').addClass("validation-error").html(lang_nameRequired);
+        $('#addCustomer_customerName').addClass("validation-error");
         isValid = false;
     }
     
     if($('#addCustomer_customerName').val().length > 50 ){
-        $('#errorHolderName').addClass("error").html(lang_exceed50Chars);
+        $('#errorHolderName').addClass("validation-error").html(lang_exceed50Chars);
+        $('#addCustomer_customerName').addClass("validation-error");
         isValid = false;
     }
     
     if($('#addCustomer_description').val().length > 250 ){
-        $('#errorHolderDesc').addClass("error").html(lang_exceed255Chars);
+        $('#errorHolderDesc').addClass("validation-error").html(lang_exceed255Chars);
+        $('#addCustomer_description').addClass("validation-error");
         isValid = false;
     }
     
@@ -494,7 +466,8 @@ function validateThickBox(){
 
         arrayName = customerList[i].name.toLowerCase();
         if (vcName == arrayName) {
-            $('#errorHolderName').addClass("error").html(lang_uniqueCustomer);
+            $('#errorHolderName').addClass("validation-error").html(lang_uniqueCustomer);
+            $('#addCustomer_customerName').addClass("validation-error");
             isValid = false
             break;
         }
@@ -534,49 +507,29 @@ function setProjectAdmins(){
     $('#addProject_projectAdminList').val(empIdList);
 }
 
-function validateProjectAdmins(){
+function validateProjectAdmins(element){
 
-    var flag = true;
-    $(".messageBalloon_success").remove();
-    $('#projectAdminNameError').removeAttr('class');
-    $('#projectAdminNameError').html("");
-
-    var errorStyle = "background-color:#FFDFDF;";
-    var normalStyle = "background-color:#FFFFFF;";
-    var interviewerNameArray = new Array();
-    var errorElements = new Array();
-    var index = 0;
-    var num = 0;
-
-    $('.formInputProjectAdmin').each(function(){
-        element = $(this);
-        $(element).attr('style', normalStyle);
-        if((element.val() != "") && (element.val() != lang_typeHint)){
-            interviewerNameArray[index] = $(element);
-            index++;
-        }
-    });
-
-    for(var i=0; i<interviewerNameArray.length; i++){
-        var currentElement = interviewerNameArray[i];
-        for(var j=1+i; j<interviewerNameArray.length; j++){
-
-            if(currentElement.val() == interviewerNameArray[j].val() ){
-                errorElements[num] = currentElement;
-                errorElements[++num] = interviewerNameArray[j];
-                num++;
-                $('#projectAdminNameError').html(lang_identical_rows);
-                flag = false;
-
-            }
-        }
-        for(var k=0; k<errorElements.length; k++){
-
-            errorElements[k].attr('style', errorStyle);
+    var temp = false;
+    var paCount = employeeList.length;
+    var i;
+    for (i=0; i < paCount; i++) {
+        hmName = $.trim($('#'+element.id).val()).toLowerCase();
+        arrayName = employeeList[i].name.toLowerCase();
+        if (hmName == arrayName) {
+            $('#'+element.id).val(employeeList[i].name);
+            temp = true;
+            break;
         }
     }
-
-    return flag;
+    if(($('#'+element.id).val() == "") || ($('#'+element.id).val() == lang_typeHint)) {
+        temp = true;
+    }
+        
+    if((element.id != 'addProject_projectAdmin_1') && (($('#'+element.id).val() == "") || ($('#'+element.id).val() == lang_typeHint))) {
+        temp = true;
+    }
+        
+    return temp;
 }
 
 function getProjectListAsJson(url){
@@ -592,6 +545,7 @@ function getActivityList(url){
         $('.activityDiv').remove();
         if(data == "") {
             $('#errorHolderCopy').text(lang_noActivities);
+            $('#errorHolderCopy').addClass('validation-error');
         } else {
             $('#btnCopyDig').show();
             buildActivityList(data);
@@ -601,19 +555,18 @@ function getActivityList(url){
 
 function buildActivityList(data){
     
+    $('#copyActivityList').empty();
+    
     var i;
     for (i=0; i<data.length; i++){
-
-        var newActivity = $(document.createElement('div')).attr("class", 'activityDiv');    
-
-        newActivity.after().html('<input type="checkbox" checked="yes" name="activityNames[]" value="'+data[i].name+'" class="check"/>' +
-            '<span '+'class="activityName"'+'">'+data[i].name+'</span>'+'<br class="clear" />');
-
-        newActivity.appendTo("#copyActivityList");
+        
+        $('#copyActivityList').append('<li><input type="checkbox" checked="yes" name="activityNames[]" value="'+data[i].name+'" class="check"/>' +
+            '<label '+'class="activityName"'+'">'+data[i].name+'</label></li>');
     }
 }
 
 function isValidForm(){
+    
     $.validator.addMethod("uniqueName", function(value, element, params) {
         
         var temp = true;
@@ -643,7 +596,6 @@ function isValidForm(){
                 }
             }
         }
-        
         return temp;
     });
 
@@ -665,14 +617,11 @@ function isValidForm(){
             temp = true;
         }
         
-        if(!temp) {
-            $('#'+element.id).next().next().css('display', 'block');
-        } else {
-            $('#'+element.id).next().next().css('display', 'none');
-        }
-        
         return temp;
-        return true;
+    });
+    
+    $.validator.addMethod("projectAdminDuplicationValidation", function(value, element, params) {
+        return validateProjectAdmins(element);
     });
     
     $.validator.addMethod("customerValidation", function(value, element, params) {
@@ -686,9 +635,6 @@ function isValidForm(){
             for (i=0; i < cusCount; i++) {
                 var arrayName = customerList[i].name.toLowerCase();
                 if (inputName == arrayName) {
-                    $('#addProject_customerId').val(customerList[i].id);
-                    var url = urlForGetProjectList+customerList[i].id;
-                    getProjectListAsJson(url);
                     isValid =  true;
                     break;
                 }
@@ -711,19 +657,24 @@ function isValidForm(){
                 maxlength: 50
             },
             'addProject[projectAdmin_1]' : {
-                projectAdminNameValidation : true
+                projectAdminNameValidation : true,
+                projectAdminDuplicationValidation : true
             },
             'addProject[projectAdmin_2]' : {
-                projectAdminNameValidation : true
+                projectAdminNameValidation : true,
+                projectAdminDuplicationValidation : true
             },
             'addProject[projectAdmin_3]' : {
-                projectAdminNameValidation : true
+                projectAdminNameValidation : true,
+                projectAdminDuplicationValidation : true
             },
             'addProject[projectAdmin_4]' : {
-                projectAdminNameValidation : true
+                projectAdminNameValidation : true,
+                projectAdminDuplicationValidation : true
             },
             'addProject[projectAdmin_5]' : {
-                projectAdminNameValidation : true
+                projectAdminNameValidation : true,
+                projectAdminDuplicationValidation : true
             },
             'addProject[description]' : {
                 maxlength: 255
@@ -742,39 +693,33 @@ function isValidForm(){
                 maxlength: lang_exceed50Chars
             },
             'addProject[projectAdmin_1]' : {
-                projectAdminNameValidation : lang_enterAValidEmployeeName
+                projectAdminNameValidation : lang_enterAValidEmployeeName,
+                projectAdminDuplicationValidation : lang_identical_rows
             },
             'addProject[projectAdmin_2]' : {
-                projectAdminNameValidation : lang_enterAValidEmployeeName
+                projectAdminNameValidation : lang_enterAValidEmployeeName,
+                projectAdminDuplicationValidation : lang_identical_rows
             },
             'addProject[projectAdmin_3]' : {
-                projectAdminNameValidation : lang_enterAValidEmployeeName
+                projectAdminNameValidation : lang_enterAValidEmployeeName,
+                projectAdminDuplicationValidation : lang_identical_rows
             },
             'addProject[projectAdmin_4]' : {
-                projectAdminNameValidation : lang_enterAValidEmployeeName
+                projectAdminNameValidation : lang_enterAValidEmployeeName,
+                projectAdminDuplicationValidation : lang_identical_rows
             },
             'addProject[projectAdmin_5]' : {
-                projectAdminNameValidation : lang_enterAValidEmployeeName
+                projectAdminNameValidation : lang_enterAValidEmployeeName,
+                projectAdminDuplicationValidation : lang_identical_rows
             },
             'addProject[description]' : {
                 maxlength: lang_exceed255Chars
             }
 
-        },
-
-        errorPlacement: function(error, element) {
-            //error.appendTo(element.prev('label'));
-            error.appendTo(element.next().next().next('div.errorHolder'));
-            if(element.next().hasClass('errorHolder')) {
-                error.appendTo(element.next('div.errorHolder'));
-            } else if(element.next().next().hasClass('errorHolder')) {
-                error.appendTo(element.next().next('div.errorHolder'));
-            }
-
         }
-
+        
     });
-    return $("#frmAddProject").valid();
+    return true;
 }
 
 /**
@@ -783,12 +728,106 @@ function isValidForm(){
  * @return Customer ID if it matches a deleted customer else false.
  */
 function isDeletedCustomer() {
-
     for (var i = 0; i < deletedCustomers.length; i++) {
-        if (deletedCustomers[i].name.toLowerCase() == 
-            $.trim($('#addCustomer_customerName').val()).toLowerCase()) {
+        if (deletedCustomers[i].name.toLowerCase() == $.trim($('#addCustomer_customerName').val()).toLowerCase()) {
             return deletedCustomers[i].id;
         }
     }
     return false;
+}
+
+function isValidAddCustomerForm(){
+    
+    dialogValidator = $("#frmAddCustomer").validate({
+        rules: {
+            'addCustomer[customerName]' : {
+                required:true,
+                maxlength: 50,
+                uniqueCustomerName: true
+            },
+            'addCustomer[description]' : {
+                maxlength: 255
+            }
+        },
+        messages: {
+            'addCustomer[customerName]' : {
+                required: lang_nameRequired,
+                maxlength: lang_exceed50Chars,
+                uniqueCustomerName: lang_uniqueCustomer                
+            },
+            'addCustomer[description]' : {
+                maxlength: lang_exceed255Chars
+            }            
+        },
+        submitHandler: function(form) {            
+            var deletedId = isDeletedCustomer();
+            if (deletedId) {
+                $('#undeleteCustomer_undeleteId').val(deletedId);               
+                $("#undeleteDialog").toggle();
+            } else {
+                form.submit();
+            }
+        }
+    });
+    
+    $.validator.addMethod("uniqueCustomerName", function() {
+        var temp = true;
+        var vcCount = customerList.length;
+        var i;
+        vcName = $.trim($('#addCustomer_customerName').val()).toLowerCase();
+        for (i=0; i < vcCount; i++) {
+            arrayName = customerList[i].name.toLowerCase();
+            if (vcName == arrayName) {
+                temp = false
+                break;
+            }
+        }
+        return temp;
+    });
+    
+    return true;
+}
+
+function validateProjectAdminNames(){
+
+    var flag = true;
+
+    var errorClass = "validation-error";
+    var projectAdminNameArray = new Array();
+    var errorElements = new Array();
+    var index = 0;
+    var num = 0;
+
+    $('.formInputProjectAdmin').each(function(){
+        element = $(this);
+        $(element).removeClass(errorClass);
+        var ParantId = $(element).parent('li').attr('id');
+        $("#"+ParantId).find('span.'+errorClass).remove();
+        if((element.val() != "") && (element.val() != lang_typeHint)){
+            projectAdminNameArray[index] = $(element);
+            index++;
+        }
+    });
+
+    if(projectAdminNameArray.length > 0) {
+        for(var i=0; i<projectAdminNameArray.length; i++){        
+            var currentElement = projectAdminNameArray[i];
+        
+            for(var j=0; j<projectAdminNameArray.length; j++){
+                if(currentElement.val() == projectAdminNameArray[j].val() && currentElement.attr('id') != projectAdminNameArray[j].attr('id')){
+                    errorElements[num] = currentElement;
+                    errorElements[++num] = projectAdminNameArray[j];
+                    num++;
+                    projectAdminNameArray[j].after('<span class="'+errorClass+'">'+lang_identical_rows+'</span>');
+                    flag = false;
+                }
+            }
+        
+            for(var k=0; k<errorElements.length; k++){
+                errorElements[k].addClass(errorClass);
+            }
+        }
+    }
+
+    return flag;
 }

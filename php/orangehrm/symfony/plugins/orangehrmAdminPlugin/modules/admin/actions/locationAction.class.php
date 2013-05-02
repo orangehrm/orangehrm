@@ -31,6 +31,9 @@ class locationAction extends sfAction {
 	}
 	
 	public function execute($request) {
+        
+        /* For highlighting corresponding menu item */
+        $request->setParameter('initialActionName', 'viewLocations');
 		
 		$usrObj = $this->getUser()->getAttribute('user');
 		if (!$usrObj->isAdmin()) {
@@ -41,19 +44,15 @@ class locationAction extends sfAction {
 		$values = array('locationId' => $this->locationId);
 		$this->setForm(new LocationForm(array(),$values));
 		
-		if ($this->getUser()->hasFlash('templateMessage')) {
-			list($this->messageType, $this->message) = $this->getUser()->getFlash('templateMessage');
-		}
-		
 		if ($request->isMethod('post')) {
 
 			$this->form->bind($request->getParameter($this->form->getName()));
 			if ($this->form->isValid()) {
 				$locationId = $this->form->save();
 				if ($this->form->edited) {
-					$this->getUser()->setFlash('templateMessage', array('success', __(TopLevelMessages::UPDATE_SUCCESS)));
+                    $this->getUser()->setFlash('success', __(TopLevelMessages::UPDATE_SUCCESS));
 				} else {
-					$this->getUser()->setFlash('templateMessage', array('success', __(TopLevelMessages::SAVE_SUCCESS)));
+					$this->getUser()->setFlash('success', __(TopLevelMessages::SAVE_SUCCESS));
 				}
 				$this->redirect('admin/viewLocations');
 			}

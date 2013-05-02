@@ -22,73 +22,114 @@
  */
 class EmailConfigurationForm extends BaseForm {
 
+    private $emailConfigurationService;
+    private $emailConfiguration;
+
+    /**
+     * 
+     * @return EmailConfigurationService 
+     */
+    public function getEmailConfigurationService() {
+        if (is_null($this->emailConfigurationService)) {
+            $this->emailConfigurationService = new EmailConfigurationService();
+        }
+        return $this->emailConfigurationService;
+    }
+
     public function configure() {
 
         /* Widgests */
+        $this->setWidgets(array(
+            'txtMailAddress' => new sfWidgetFormInputText(),
+            'cmbMailSendingMethod' => new sfWidgetFormSelect(
+                    array(
+                        'choices' => array(
+                            'sendmail' => 'Sendmail',
+                            'smtp' => 'SMTP')
+                        )),
+            'txtSendmailPath' => new sfWidgetFormInputText(),
+            'txtSmtpHost' => new sfWidgetFormInputText(),
+            'txtSmtpPort' => new sfWidgetFormInputText(),
+            'optAuth' => new sfWidgetFormChoice(
+                    array(
+                        'expanded' => true, 
+                        'choices' => array(
+                            'none' => 'No', 
+                            'login' => 'Yes')
+                        )),
+            'txtSmtpUser' => new sfWidgetFormInputText(),
+            'txtSmtpPass' => new sfWidgetFormInputPassword(),
+            'optSecurity' => new sfWidgetFormChoice(
+                    array(
+                        'expanded' => true, 
+                        'choices' => array(
+                            'none' => 'No', 
+                            'ssl' => 'SSL',
+                            'tls'  => 'TLS')
+                        )),            
+            'chkSendTestEmail' => new sfWidgetFormInputCheckbox(),
+            'txtTestEmail' => new sfWidgetFormInputText(),
+        ));
+        
+        // validators
+        $this->setValidators(array(
+            'txtMailAddress' => new sfValidatorEmail(array('required' => true, 'max_length' => 100)),
+            'cmbMailSendingMethod' => new sfValidatorString(array('required' => false, 'max_length' => 100)),
+            'txtSendmailPath' => new sfValidatorString(array('required' => false, 'max_length' => 100)),
+            'txtSmtpHost' => new sfValidatorString(array('required' => false, 'max_length' => 100)),
+            'txtSmtpPort' => new sfValidatorNumber(array('required' => false)),
+            'optAuth' => new sfValidatorString(array('required' => false, 'max_length' => 100)),
+            'txtSmtpUser' => new sfValidatorString(array('required' => false, 'max_length' => 100)),
+            'txtSmtpPass' => new sfValidatorString(array('required' => false, 'max_length' => 100)),
+            'optSecurity' => new sfValidatorString(array('required' => false, 'max_length' => 100)),
+            'chkSendTestEmail' => new sfValidatorPass(array('required' => false)),
+            'txtTestEmail' => new sfValidatorEmail(array('required' => false, 'max_length' => 100)),
+        ));
+        
+        $this->widgetSchema['txtSmtpPass']->setOption('always_render_empty', false);
 
-        /*$formWidgets['cmbMailType'] = new sfWidgetFormChoice(array('choices' => array('SMTP', 'Sendmail')));
-        $formWidgets['txtSentAs'] = new sfWidgetFormInputText();
-
-        $formWidgets['txtSmtpHost'] = new sfWidgetFormInputText();
-        $formWidgets['txtSmtpPort'] = new sfWidgetFormInputText();
-        $formWidgets['optSmtpAuth'] = new sfWidgetFormChoice(array('expanded' => true, 'choices' => array('No', 'Yes')));
-        $formWidgets['txtSmtpUsername'] = new sfWidgetFormInputText();
-        $formWidgets['txtSmtpPassword'] = new sfWidgetFormInputText();
-        $formWidgets['optSmtpSecurity'] = new sfWidgetFormChoice(array('expanded' => true, 'choices' => array('No', 'SSL', 'TLS')));
-
-        $formWidgets['txtSendmailPath'] = new sfWidgetFormInputText();
-
-        $formWidgets['chkTestEmail'] = new sfWidgetFormChoice(array('expanded' => true, 'multiple' => true, 'choices' => array('Send Test Email')));
-        $formWidgets['txtTestEmail'] = new sfWidgetFormInputText();*/
-
-        /* Validators */
-
-        /*$formValidators['cmbMailType'] = new sfValidatorChoice(array('choices' => array('SMTP', 'Sendmail')));
-        $formValidators['txtSentAs'] = new sfValidatorString(array('required' => true));
-
-        $formValidators['txtSmtpHost'] = new sfValidatorString(array('required' => false));
-        $formValidators['txtSmtpPort'] = new sfValidatorString(array('required' => false));
-        $formValidators['optSmtpAuth'] = new sfValidatorString(array('required' => false));
-        $formValidators['txtSmtpUsername'] = new sfValidatorString(array('required' => false));
-        $formValidators['txtSmtpPassword'] = new sfValidatorString(array('required' => false));
-        $formValidators['optSmtpSecurity'] = new sfValidatorString(array('required' => false));
-
-        $formValidators['txtSendmailPath'] = new sfValidatorString(array('required' => false));
-
-        $formValidators['chkTestEmail'] = new sfValidatorString(array('required' => false));
-        $formValidators['txtTestEmail'] = new sfValidatorString(array('required' => false));
-
-    	$this->setWidgets($formWidgets);
-    	$this->setValidators($formValidators);*/
-
+        // Set Default valuse
+        $this->emailConfiguration= $this->getEmailConfigurationService()->getEmailConfiguration();
+        $this->__setDefaultValues($this->emailConfiguration);
+        
         $this->widgetSchema->setNameFormat('emailConfigurationForm[%s]');
-
+        
      }
-
-    public function populateEmailConfiguration($request) {
-
-        $emailConfigurationService = new EmailConfigurationService();
-        $emailConfiguration = $emailConfigurationService->getEmailConfiguration();
-
-        $stmpPort = $request->getParameter('txtSmtpPort');
-        $emailConfiguration->setMailType($request->getParameter('cmbMailSendingMethod'));
-        $emailConfiguration->setSentAs($request->getParameter('txtMailAddress'));
-        $emailConfiguration->setSmtpHost($request->getParameter('txtSmtpHost'));
-        $emailConfiguration->setSmtpPort($stmpPort ? $stmpPort : NULL);
-        $emailConfiguration->setSmtpUsername($request->getParameter('txtSmtpUser'));
-        $emailConfiguration->setSmtpPassword($request->getParameter('txtSmtpPass'));
-        $emailConfiguration->setSmtpAuthType($request->getParameter('optAuth'));
-        $emailConfiguration->setSmtpSecurityType($request->getParameter('optSecurity'));
-        $emailConfiguration->setSendmailPath($request->getParameter('txtSendmailPath'));
-
-        return $emailConfiguration;
-
+     
+     private function __setDefaultValues(EmailConfiguration $emailConfiguration) {
+         $this->setDefaults(array(
+             'txtMailAddress' => $emailConfiguration->getSentAs(),
+             'cmbMailSendingMethod' => $emailConfiguration->getMailType(),
+             'txtSendmailPath' => $emailConfiguration->getSendmailPath(),
+             'txtSmtpHost' => $emailConfiguration->getSmtpHost(),
+             'txtSmtpPort' => $emailConfiguration->getSmtpPort(),
+             'optAuth' => $emailConfiguration->getSmtpAuthType(),
+             'txtSmtpUser' => $emailConfiguration->getSmtpUsername(),
+             'txtSmtpPass' => $emailConfiguration->getSmtpPassword(),
+             'optSecurity' => $emailConfiguration->getSmtpSecurityType(),
+             'txtTestEmail' => '',
+         ));
     }
-
-
-
-
-
+    
+    /**
+     *  
+     */
+    public function save() {
+        $this->emailConfiguration = (!empty($this->emailConfiguration)) ? $this->emailConfiguration : new EmailConfiguration();
+        
+        $stmpPort = $this->getValue('txtSmtpPort');
+        $this->emailConfiguration->setSentAs($this->getValue('txtMailAddress'));
+        $this->emailConfiguration->setMailType($this->getValue('cmbMailSendingMethod'));
+        $this->emailConfiguration->setSendmailPath($this->getValue('txtSendmailPath'));
+        $this->emailConfiguration->setSmtpHost($this->getValue('txtSmtpHost'));
+        $this->emailConfiguration->setSmtpPort($stmpPort ? $stmpPort : NULL);
+        $this->emailConfiguration->setSmtpAuthType($this->getValue('optAuth'));
+        $this->emailConfiguration->setSmtpUsername($this->getValue('txtSmtpUser'));
+        $this->emailConfiguration->setSmtpPassword($this->getValue('txtSmtpPass'));
+        $this->emailConfiguration->setSmtpSecurityType($this->getValue('optSecurity'));
+        $this->getEmailConfigurationService()->saveEmailConfiguration($this->emailConfiguration);
+    }
+    
 }
 
 ?>

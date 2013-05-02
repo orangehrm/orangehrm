@@ -1,18 +1,19 @@
 function ohrmList_init() {
-    $('.data-table > tbody > tr').hover(function() {  // highlight on mouse over
-        $(this).addClass("trHover");
-    },
-    function() {
-        $(this).removeClass("trHover");
-    }
-);
 
     $('#ohrmList_chkSelectAll').click(function() {
-        $('.data-table input[id^="ohrmList_chkSelectRecord_"]').attr('checked', $(this).attr('checked'));
+        
+        var valueToSet = false;
+        
+        if ($(this).attr('checked') == 'checked') {
+            valueToSet = true;
+        }        
+        
+        $('table.table input[id^="ohrmList_chkSelectRecord_"]').attr('checked', valueToSet);
+        
     });
 
-    $('.data-table input[id^="ohrmList_chkSelectRecord_"]').click(function() {
-        var selectorCheckboxes = $('.data-table input[id^="ohrmList_chkSelectRecord_"]');
+    $('table.table input[id^="ohrmList_chkSelectRecord_"]').click(function() {
+        var selectorCheckboxes = $('table.table input[id^="ohrmList_chkSelectRecord_"]');
         var isAllChecked = (selectorCheckboxes.size() == selectorCheckboxes.filter(':checked').size());
         $('#ohrmList_chkSelectAll').attr('checked', isAllChecked);
     });

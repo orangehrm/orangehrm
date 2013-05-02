@@ -867,12 +867,12 @@ class EmployeeService extends BaseService {
      * @param boolean $includeChain Include Supervisor chain or not
      * @return Array An array of employee IDs
      */
-    public function getSubordinateIdListBySupervisorId($supervisorId, $includeChain = null) {
+    public function getSubordinateIdListBySupervisorId($supervisorId, $includeChain = null, $maxDepth = NULL) {
         if (is_null($includeChain)) {
             $configService = $this->getConfigurationService();
             $includeChain = $configService->isSupervisorChainSuported();
         }
-        return $this->getEmployeeDao()->getSubordinateIdListBySupervisorId($supervisorId, $includeChain);
+        return $this->getEmployeeDao()->getSubordinateIdListBySupervisorId($supervisorId, $includeChain, array(), $maxDepth);
     }
     
     /**
@@ -915,10 +915,10 @@ class EmployeeService extends BaseService {
      * @param Boolean $includeTerminated Include Terminated employees or not
      * @return Array Employee Property List 
      */    
-    public function getSubordinatePropertyListBySupervisorId($supervisorId, $properties, $orderField, $orderBy, $includeTerminated = false) {
+    public function getSubordinatePropertyListBySupervisorId($supervisorId, $properties, $orderField, $orderBy, $includeTerminated = false, $maxDepth = NULL) {
         $configService = $this->getConfigurationService();
         $includeChain = $configService->isSupervisorChainSuported();
-        return $this->getEmployeeDao()->getSubordinatePropertyListBySupervisorId($supervisorId, $properties, $includeChain, $orderField, $orderBy, $includeTerminated);
+        return $this->getEmployeeDao()->getSubordinatePropertyListBySupervisorId($supervisorId, $properties, $includeChain, $orderField, $orderBy, $includeTerminated, array(), $maxDepth);
     }
 
     /**
@@ -1084,14 +1084,12 @@ class EmployeeService extends BaseService {
         $noOfDays = floor($timeStampDiff / $secondsOfDay);
         $fromYear = date("Y", strtotime($fromDate));
         $toYear = date("Y", strtotime($toDate));
-        $ctr = $fromYear;
-        $daysCount = 0;
 
         list($fY, $fM, $fD) = explode("-", $fromDate);
         list($tY, $tM, $tD) = explode("-", $toDate);
         $years = $tY - $fY;
 
-        $temp = date("Y") . "-" . $fM . "-" . $fD;
+        $temp = $fromYear . "-" . $fM . "-" . $fD;
         $newFromMonthDay = date("m-d", strtotime("-1 day", strtotime($temp)));
         $toMonthDay = $tM . "-" . $tD;
 

@@ -18,27 +18,38 @@
  * Boston, MA  02110-1301, USA
  */
 class listMailConfigurationAction extends sfAction {
+    
+    public function setForm(sfForm $form) {
+        if (is_null($this->form)) {
+            $this->form = $form;
+        }
+    }
 
     public function execute($request) {
         
         $this->_checkAuthentication();
         
-        $emailConfigurationService = new EmailConfigurationService();
-        $emailConfiguration = $emailConfigurationService->getEmailConfiguration();
-        $this->mailAddress = $emailConfiguration->getSentAs();
-        $this->sendMailPath = $emailConfiguration->getSendmailPath();
-        $this->smtpAuth = $emailConfiguration->getSmtpAuthType();
-        $this->smtpSecurity = $emailConfiguration->getSmtpSecurityType();
-        $this->smtpHost = $emailConfiguration->getSmtpHost();
-        $this->smtpPort = $emailConfiguration->getSmtpPort();
-        $this->smtpUser = $emailConfiguration->getSmtpUsername();
-        $this->smtpPass = $emailConfiguration->getSmtpPassword();
-        $this->emailType = $emailConfiguration->getMailType();
-
-        if ($this->getUser()->hasFlash('templateMessage')) {
-            $this->templateMessage = $this->getUser()->getFlash('templateMessage');
-        }
+        $this->setForm(new EmailConfigurationForm());
         
+        if ($request->isMethod('post')) {
+            $this->form->bind($request->getParameter($this->form->getName()));      
+            if ($this->form->isValid()) {
+                $this->form->save();
+                
+                if ($this->form->getValue('chkSendTestEmail') == 'on') {
+                    $emailService = new EmailService();
+                    $result = $emailService->sendTestEmail($this->form->getValue('txtTestEmail'));
+                    if ($result) {
+                        $this->getUser()->setFlash('success', __('Successfully Saved. Test Email Sent'));
+                    } else {
+                        $this->getUser()->setFlash('warning', __("Successfully Saved. Test Email Not Sent"));
+                    }
+                } else {
+                    $this->getUser()->setFlash('success', __(TopLevelMessages::SAVE_SUCCESS));
+                }
+                $this->redirect('admin/listMailConfiguration');
+            }
+        }
     }
     
     protected function _checkAuthentication() {

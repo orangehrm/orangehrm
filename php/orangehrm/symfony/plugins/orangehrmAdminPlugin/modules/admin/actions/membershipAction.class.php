@@ -44,10 +44,6 @@ class membershipAction extends sfAction {
 
         $this->setForm(new MembershipForm());
 
-        if ($this->getUser()->hasFlash('templateMessage')) {
-            list($this->messageType, $this->message) = $this->getUser()->getFlash('templateMessage');
-        }
-
         $membershipList = $this->getMembershipService()->getMembershipList();
         $this->_setListComponent($membershipList);
         $params = array();
@@ -57,7 +53,7 @@ class membershipAction extends sfAction {
             $this->form->bind($request->getParameter($this->form->getName()));
             if ($this->form->isValid()) {
                 $this->form->save();
-                $this->getUser()->setFlash('templateMessage', array('success', __(TopLevelMessages::SAVE_SUCCESS)));
+                $this->getUser()->setFlash('success', __(TopLevelMessages::SAVE_SUCCESS));
                 $this->redirect('admin/membership');
             }
         }

@@ -331,5 +331,17 @@ class ProjectService extends BaseService {
 	public function getSearchProjectListCount($srchClues, $allowedProjectList) {
 		return $this->getProjectDao()->getSearchProjectListCount($srchClues, $allowedProjectList);
 	}
+        
+    
+    /**
+     * Get count of project activities in the sytem
+     * 
+     * @param bool $includeDeleted If true, count will include deleted activities
+     * @return int number of activities
+     * @throws DaoException
+     */
+    public function getProjectActivityCount($includeDeleted = false) {
+        return $this->getProjectDao()->getProjectActivityCount($includeDeleted);    
+    }        
 
 }

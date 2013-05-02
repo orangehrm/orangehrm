@@ -33,10 +33,10 @@ class deleteSystemUsersAction extends sfAction {
 		if (!empty($toBeDeletedUserIds)) {
 			$delete = true;
                         $this->getSystemUserService()->deleteSystemUsers($toBeDeletedUserIds);
-                        $this->getUser()->setFlash('templateMessage', array('success', __(TopLevelMessages::DELETE_SUCCESS)));
+                        $this->getUser()->setFlash('success', __(TopLevelMessages::DELETE_SUCCESS));
 			
 		}else{
-                    $this->getUser()->setFlash('templateMessage', array('warning', __(TopLevelMessages::SELECT_RECORDS)));
+                    $this->getUser()->setFlash('warning', __(TopLevelMessages::SELECT_RECORDS));
                 }
 
 		$this->redirect('admin/viewSystemUsers');

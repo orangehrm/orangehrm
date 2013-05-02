@@ -40,10 +40,6 @@ class configurePimAction extends basePimAction {
             $this->forward('leave', 'viewMyLeaveList');
         }
 
-        if ($this->getUser()->hasFlash('templateMessage')) {
-            list($this->messageType, $this->message) = $this->getUser()->getFlash('templateMessage');
-        }
-
         $param = array('orangeconfig' => OrangeConfig::getInstance());
 
 
@@ -58,8 +54,11 @@ class configurePimAction extends basePimAction {
                 $this->_saveConfigValue($post, 'chkShowSSN', ConfigService::KEY_PIM_SHOW_SSN);
                 $this->_saveConfigValue($post, 'chkShowSIN', ConfigService::KEY_PIM_SHOW_SIN);
                 $this->_saveConfigValue($post, 'chkShowTax', ConfigService::KEY_PIM_SHOW_TAX_EXEMPTIONS);
+                
+                $isTaxMenuEnabled = ($post['chkShowTax'] == 'on')?true:false;
+                $this->getUser()->setAttribute('pim.leftMenu.isTaxMenuEnabled', $isTaxMenuEnabled);
 
-                $this->getUser()->setFlash('templateMessage', array('success', __(TopLevelMessages::SAVE_SUCCESS)));
+                $this->getUser()->setFlash('success', __(TopLevelMessages::SAVE_SUCCESS));
                 $this->redirect('pim/configurePim');
             }
         }

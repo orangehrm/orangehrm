@@ -17,7 +17,7 @@ class JobCandidateVacancy extends PluginJobCandidateVacancy {
     }
 
     public function getCandidateName() {
-        $name = $this->getJobCandidate()->getFirstName() . " " . $this->getJobCandidate()->getLastName();
+        $name = $this->getJobCandidate()->getFullName();
         return $name;
     }
 

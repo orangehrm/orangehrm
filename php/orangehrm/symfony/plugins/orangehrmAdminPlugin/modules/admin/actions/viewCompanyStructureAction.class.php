@@ -22,6 +22,10 @@ class viewCompanyStructureAction extends sfAction {
 
     private $companyStructureService;
 
+    /**
+     * 
+     * @return CompanyStructureService 
+     */
     public function getCompanyStructureService() {
         if (is_null($this->companyStructureService)) {
             $this->companyStructureService = new CompanyStructureService();

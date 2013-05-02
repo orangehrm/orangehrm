@@ -8,8 +8,9 @@ $(document).ready(function() {
     $('#empStatus').hide();
     
     $('#btnAdd').click(function() {
+        $('.top').hide();
+        
         $('#empStatus').show();
-        $('#btnAdd').hide();
         $('#empStatus_name').val('');
         $('#empStatus_empStatusId').val('');
         $('#empStatusHeading').html(lang_addEmpStatus);
@@ -17,8 +18,9 @@ $(document).ready(function() {
     });
     
     $('#btnCancel').click(function() {
+        $('.top').show();
+        
         $('#empStatus').hide();
-        $('#btnAdd').show();
         validator.resetForm();
     });
     
@@ -60,17 +62,6 @@ $(document).ready(function() {
             $('#deleteConfirmation').dialog('open');
             return false;
         });
-    });
-
-    $("#deleteConfirmation").dialog({
-        autoOpen: false,
-        modal: true,
-        width: 325,
-        height: 50,
-        position: 'middle',
-        open: function() {
-            $('#dialogCancelBtn').focus();
-        }
     });
 
     $('#frmList_ohrmListComponent').attr('name','frmList_ohrmListComponent');
@@ -126,11 +117,6 @@ $(document).ready(function() {
                 uniqueName: lang_uniqueName
             }
 
-        },
-
-        errorPlacement: function(error, element) {
-            error.appendTo(element.next('div.errorHolder'));
-
         }
 
     });
@@ -143,6 +129,6 @@ function getEmploymentInfo(url){
         $('#empStatus_name').val(data.name);
         $('#empStatus').show();
         $(".messageBalloon_success").remove();
-        $('#btnAdd').hide();
+        $('.top').hide();
     });
 }

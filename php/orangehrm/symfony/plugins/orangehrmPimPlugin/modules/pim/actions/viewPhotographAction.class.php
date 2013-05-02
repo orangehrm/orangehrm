@@ -81,9 +81,6 @@ class viewPhotographAction extends basePimAction {
         $this->photographPermissions = $this->getDataGroupPermissions('photograph', $empNumber);
         $param = array('empNumber' => $empNumber, 'photographPermissions' => $this->photographPermissions);
         $this->setForm(new EmployeePhotographForm(array(), $param, true));
-        $this->fileModify = 0;
-        $this->newWidth = 0;
-        $this->newHeight = 0;
 
         //this is for saving a picture
         if ($this->photographPermissions->canUpdate()) {
@@ -96,8 +93,8 @@ class viewPhotographAction extends basePimAction {
                 //in case if file size exceeds 1MB
                 if ($photoFile['photofile']['size'] == 0 || $photoFile['photofile']['size'] > 1000000) {
 
-                    $this->messageType = "warning";
-                    $this->message = __(TopLevelMessages::FILE_SIZE_SAVE_FAILURE);
+                    $this->getUser()->setFlash('warning', __(TopLevelMessages::FILE_SIZE_SAVE_FAILURE));
+                    
                 }
 
                 if ($this->form->isValid()) {
@@ -113,20 +110,18 @@ class viewPhotographAction extends basePimAction {
 
                     if (!in_array($fileType, $allowedImageTypes)) {
 
-                        $this->messageType = "warning";
-                        $this->message = __(TopLevelMessages::FILE_TYPE_SAVE_FAILURE);
+                        $this->getUser()->setFlash('warning', __(TopLevelMessages::FILE_TYPE_SAVE_FAILURE));
+                        
                     } else {
 
                         list($width, $height) = getimagesize($photoFile['photofile']['tmp_name']);
 
-                        //flags from server
-                        $this->fileModify = 1;
                         $this->showDeleteButton = 1;
 
                         $this->pictureSizeAdjust($height, $width);
                         $this->saveEmployeePicture($empNumber, $photoFile);
-                        $this->messageType = "success";
-                        $this->message = __('Successfully Uploaded');
+                        $this->getUser()->setFlash('success', __('Successfully Uploaded'));
+                        
                     }
                 }
             }
@@ -140,25 +135,13 @@ class viewPhotographAction extends basePimAction {
                 $employeeService->deleteEmployeePicture($empNumber);
 
                 $this->showDeleteButton = 0;
-                $this->fileModify = 1;
-
-                //set default picture size
-                $this->newWidth = 150;
-                $this->newHeight = 176;
-
-                $this->messageType = "success";
-                $this->message = __(TopLevelMessages::DELETE_SUCCESS);
-            }
-            else {
+                $this->getUser()->setFlash('success', __(TopLevelMessages::DELETE_SUCCESS));
+                
+            } else {
                 $this->showDeleteButton = 0;
-                $this->fileModify = 1;
 
-                //set default picture size
-                $this->newWidth = 150;
-                $this->newHeight = 176;
-
-                $this->messageType = "warning";
-                $this->message = __("Failed to remove");
+                $this->getUser()->setFlash('warning', __("Failed to Delete"));
+                
             }
         }        
     }
@@ -184,27 +167,27 @@ class viewPhotographAction extends basePimAction {
 
     private function pictureSizeAdjust($imgHeight, $imgWidth) {
 
-        if ($imgHeight > 180 || $imgWidth > 150) {
+        if ($imgHeight > 200 || $imgWidth > 200) {
             $newHeight = 0;
             $newWidth = 0;
 
-            $propHeight = floor(($imgHeight / $imgWidth) * 150);
-            $propWidth = floor(($imgWidth / $imgHeight) * 180);
+            $propHeight = floor(($imgHeight / $imgWidth) * 200);
+            $propWidth = floor(($imgWidth / $imgHeight) * 200);
 
-            if ($propHeight <= 180) {
+            if ($propHeight <= 200) {
                 $newHeight = $propHeight;
-                $newWidth = 150;
+                $newWidth = 200;
             }
 
-            if ($propWidth <= 150) {
+            if ($propWidth <= 200) {
                 $newWidth = $propWidth;
-                $newHeight = 180;
+                $newHeight = 200;
             }
         } else {
-            if($imgHeight <= 180)
+            if($imgHeight <= 200)
                 $newHeight = $imgHeight;
             
-            if($imgWidth <= 150)
+            if($imgWidth <= 200)
                 $newWidth = $imgWidth;
         }
 

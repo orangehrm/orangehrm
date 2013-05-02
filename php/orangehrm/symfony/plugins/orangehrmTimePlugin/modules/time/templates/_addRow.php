@@ -17,16 +17,29 @@
  * Boston, MA  02110-1301, USA
  */
 ?>
-<?php echo javascript_include_tag('../orangehrmTimePlugin/js/editTimesheet'); ?>
-<table  class = "data-table" cellpadding ="0" border="0" cellspacing="0">
-	<tr>
-	    <td><?php echo $form['initialRows'][$num]['toDelete'] ?></td>
-                <?php echo $form['initialRows'][$num]['projectId'] ?><td>&nbsp;<?php echo $form['initialRows'][$num]['projectName']->renderError() ?><?php echo $form['initialRows'][$num]['projectName'] ?></td>
-		<?php echo $form['initialRows'][$num]['projectActivityId'] ?><td>&nbsp;<?php echo $form['initialRows'][$num]['projectActivityName']->renderError() ?><?php echo $form['initialRows'][$num]['projectActivityName'] ?></td>
-		<?php for ($j = 0; $j < $noOfDays; $j++) { ?>
-			<?php echo $form['initialRows'][$num]['TimesheetItemId'.$j] ?><td style="text-align:center"><?php echo $form['initialRows'][$num][$j]->renderError() ?><div style="float: left; padding-left: 20px"><?php echo $form['initialRows'][$num][$j] ?></div><div id="img" style="float: left; padding-left: 2px"><?php echo image_tag('callout.png', 'id=commentBtn_'.$j.'_' . $num . " class=commentIcon") ?></div></td>
-		<?php } ?>
-	</tr>
+<?php echo javascript_include_tag(plugin_web_path('orangehrmTimePlugin', 'js/editTimesheet')); ?>
+<table id="newRow">
+    <tr class="<?php echo ($num & 1) ? 'even' : 'odd' ?>">
+        <td id="">
+            <?php echo $form['initialRows'][$num]['toDelete'] ?>
+        </td>
+        <td>
+            <?php echo $form['initialRows'][$num]['projectName']->renderError() ?>
+            <?php echo $form['initialRows'][$num]['projectName']->render(array("class" => "project", "size" => 25)); ?>
+            <?php echo $form['initialRows'][$num]['projectId'] ?>
+        </td>
+        <td>
+            <?php echo $form['initialRows'][$num]['projectActivityName']->renderError() ?>
+            <?php echo $form['initialRows'][$num]['projectActivityName']->render(array("class" => "projectActivity")); ?>
+            <?php echo $form['initialRows'][$num]['projectActivityId'] ?>
+        </td>
+        <?php for ($j = 0; $j < $noOfDays; $j++) { ?>
+            <td class="center comments">
+                <?php echo $form['initialRows'][$num][$j]->renderError() ?>
+                <?php echo $form['initialRows'][$num][$j]->render(array("class" => "timeBox")) ?>
+                <?php echo image_tag(theme_path('images/comment.png'), 'id=commentBtn_' . $j . '_' . $num . " class=commentIcon ") ?>
+                <?php echo $form['initialRows'][$num]['TimesheetItemId' . $j] ?>
+            </td>
+        <?php } ?>
+    </tr>
 </table>
-
-

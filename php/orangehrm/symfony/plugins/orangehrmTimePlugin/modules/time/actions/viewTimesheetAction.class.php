@@ -41,6 +41,8 @@ class viewTimesheetAction extends sfAction {
     }
 
     public function execute($request) {
+        /* For highlighting corresponding menu item */  
+        $request->setParameter('initialActionName', 'viewEmployeeTimesheet');  
 
         $employeeId = $request->getParameter('employeeId');
 
@@ -74,7 +76,7 @@ class viewTimesheetAction extends sfAction {
         /* Error message when there is no timesheet to view */
         if ($this->getContext()->getUser()->hasFlash('errorMessage')) {
 
-            $this->messageData = array('NOTICE', __($this->getContext()->getUser()->getFlash('errorMessage')));
+            $this->messageData = array('warning', __($this->getContext()->getUser()->getFlash('errorMessage')));
         } else {
 
 
@@ -83,7 +85,7 @@ class viewTimesheetAction extends sfAction {
 
             if ($dateOptions == null) {
 
-                $this->messageData = array('NOTICE', __("No Accessible Timesheets"));
+                $this->messageData = array('warning', __("No Accessible Timesheets"));
             }
 
             if ($this->getContext()->getUser()->hasFlash('TimesheetStartDate')) {                 //this is admin or supervisor accessing the viewTimesheet from by clicking the "view" button
@@ -126,7 +128,7 @@ class viewTimesheetAction extends sfAction {
 
                     $state = $request->getParameter('state');
                     if (isset($state)) {
-                        $this->successMessage = array('SUCCESS', __("Timesheet " . ucwords(strtolower($state))));
+                        $this->successMessage = array('success', __("Timesheet " . ucwords(strtolower($state))));
                     }
                     $comment = $request->getParameter('Comment');
                     $this->timesheet->setState($state);
@@ -143,7 +145,7 @@ class viewTimesheetAction extends sfAction {
 
                         $submitted = $request->getParameter('submitted');
                         if (isset($submitted)) {
-                            $this->successMessage = array('SUCCESS', __("Timesheet Submitted"));
+                            $this->successMessage = array('success', __("Timesheet Submitted"));
                         }
                     }
                 }

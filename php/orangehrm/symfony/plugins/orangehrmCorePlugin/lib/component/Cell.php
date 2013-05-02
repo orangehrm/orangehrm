@@ -39,7 +39,7 @@ abstract class Cell implements PopulatableFromArray {
             $this->dataSourceType = self::DATASOURCE_TYPE_ARRAY;
         }
 
-        $this->dataObject = ($dataObject instanceof sfOutputEscaperArrayDecorator) ? $dataObject->getRawValue() : $dataObject;
+        $this->dataObject = $dataObject;
     }
 
     public function setHeader($header) {
@@ -142,5 +142,10 @@ abstract class Cell implements PopulatableFromArray {
 
         return false;
     }
+    
+    public function getDataSourceType() {
+        return $this->dataSourceType;
+    }
+    
 
 }

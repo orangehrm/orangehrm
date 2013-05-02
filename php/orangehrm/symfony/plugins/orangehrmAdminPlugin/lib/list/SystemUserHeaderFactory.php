@@ -7,7 +7,7 @@ class SystemUserHeaderFactory extends ohrmListConfigurationFactory {
 		$header1 = new ListHeader();
 		$header2 = new ListHeader();
 		$header3 = new ListHeader();
-                $header4 = new ListHeader();
+        $header4 = new ListHeader();
 
 		$header1->populateFromArray(array(
 		    'name' => 'Username',
@@ -23,7 +23,7 @@ class SystemUserHeaderFactory extends ohrmListConfigurationFactory {
 		
 		$header2->populateFromArray(array(
 		    'name' => 'User Role',
-		    'width' => '33%',
+		    'width' => '20%',
 		    'isSortable' => true,
 		    'filters' => array('I18nCellFilter' => array()
                               ),
@@ -43,9 +43,9 @@ class SystemUserHeaderFactory extends ohrmListConfigurationFactory {
 		    
 		));
                 
-                $header4->populateFromArray(array(
+        $header4->populateFromArray(array(
 		    'name' => 'Status',
-		    'width' => '33%',
+		    'width' => '14%',
 		    'isSortable' => true,
             'filters' => array('I18nCellFilter' => array()
                               ),

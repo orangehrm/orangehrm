@@ -1,4 +1,4 @@
-<?php echo use_stylesheet('../orangehrmCorePlugin/css/_ohrmList.css'); ?>
+<?php echo use_stylesheet(plugin_web_path('orangehrmCorePlugin', 'css/_ohrmList.css')); ?>
 <?php
 if ($tableWidth == 'auto') {
     $outboxWidth = 0;
@@ -13,8 +13,7 @@ if ($tableWidth == 'auto') {
 function renderActionBar($buttons, $condition = true) {
     if ($condition && count($buttons) > 0) {
 ?>
-        <div class="actionbar">
-            <div class="formbuttons">
+
         <?php
         foreach ($buttons as $key => $buttonProperties) {
             $button = new Button();
@@ -23,29 +22,24 @@ function renderActionBar($buttons, $condition = true) {
             echo $button->__toString(), "\n";
         }
         ?>
-    </div>
 
-    <br class="clear" />
-
-   
-</div>
  <?php } ?>
 <?php
 }
 
-function printAssetPaths($assets, $assestsPath = '') {
+function printAssetPaths($assets, $plugin = '') {
 
     if (count($assets) > 0) {
 
         foreach ($assets as $key => $asset) {
             $assetType = substr($asset, strrpos($asset, '.') + 1);
 
-            if ($assestsPath == '') {
+            if ($plugin == '') {
                 echo javascript_include_tag($asset);
             } elseif ($assetType == 'js') {
-                echo javascript_include_tag($assestsPath . 'js/' . $asset);
+                echo javascript_include_tag(plugin_web_path($plugin, 'js/' . $asset));
             } elseif ($assetType == 'css') {
-                echo stylesheet_tag($assestsPath . 'css/' . $asset);
+                echo stylesheet_tag(plugin_web_path($plugin, 'css/' . $asset));
             } else {
                 echo $assetType;
             }
@@ -63,11 +57,39 @@ function printButtonEventBindings($buttons) {
         }
     }
 }
-?>
-<div class="outerbox" style="padding-right: 15px; width: <?php echo $outboxWidth; ?>">
-<?php if (!empty($title)) { ?>
-        <div class="mainHeading"><h2><?php echo __($title); ?></h2></div>
 
+function getHeaderCellClassHtml($isSortable, $sortOrder) {
+    
+    if ($isSortable) {
+        
+        $headerCellClassHtml = ' class="header"';
+    
+        if ($sortOrder == 'ASC') {
+            $headerCellClassHtml = ' class="header headerSortUp"';
+        } elseif ($sortOrder == 'DESC') {
+            $headerCellClassHtml = ' class="header headerSortDown"';
+        }
+        
+        return $headerCellClassHtml;
+    
+    }
+    
+    return '';
+    
+}                            
+
+?>
+<div class="box<?php echo empty($title)?' noHeader':''; ?>" id="search-results">
+    
+    <?php if (!empty($title)) { ?>
+        <div class="head"><h1><?php echo __($title); ?></h1></div>
+    <?php } ?>
+    
+    <div class="inner">
+    
+<?php if (!empty($title)) { ?>
+        
+        
 <?php if ($partial != null): ?>
         <div style="padding-left: 5px; padding-top: 5px;">
 <?php
@@ -81,40 +103,54 @@ function printButtonEventBindings($buttons) {
     <?php include_component('core', 'ohrmPluginPannel', array('location' => 'widget-panel-1')) ?>
     <?php include_component('core', 'ohrmPluginPannel', array('location' => 'widget-panel-2')) ?>
         
-    <form method="<?php echo $formMethod; ?>" action="<?php echo public_path($formAction); ?>" id="frmList_ohrmListComponent">
+    <?php
+        if ($formAction == '#') {
+            $formUrl = '#';
+        } else if (strpos($formAction, 'index.php') === FALSE) {
+            $formUrl = url_for($formAction);
+        } else {
+            $formUrl = public_path($formAction);
+        }
+    ?>
+        
+    <form method="<?php echo $formMethod; ?>" action="<?php echo $formUrl; ?>" name="frmList_ohrmListComponent" id="frmList_ohrmListComponent">
+        
+<?php if (count($buttons) > 0 || isset($extraButtons) || $pager->haveToPaginate()) : ?>        
+ <div class="top">          
+        
 <?php
     if (count($buttons) > 0) {
         renderActionBar($buttons, $buttonsPosition === ohrmListConfigurationFactory::BEFORE_TABLE);
-        echo "<br class=\"clear\" />";
+        //echo "<br class=\"clear\" />";
     }
 
     if (isset($extraButtons)) {
         renderActionBar($extraButtons);
-        echo "<br class=\"clear\" />";
+        //echo "<br class=\"clear\" />";
     }
 
     include_component('core', 'ohrmPluginPannel', array('location' => 'list-component-before-table-action-bar'));
+    
+    if ($pager->haveToPaginate()) {
+        include_partial('global/paging_links_js', array('pager' => $pager, 'location' => 'top'));
+    }    
+    
 ?>
+</div> <!-- top --> 
+
+<?php endif; ?>         
+
+        <?php include_partial('global/flash_messages'); ?>
+         
         <div id="helpText" class="helpText"></div>
-        <?php if ($pager->haveToPaginate()) {
- ?>
-            <div class="navigationHearder">
-                <div class="pagingbar"><?php include_partial('global/paging_links_js', array('pager' => $pager)); ?></div>
-                <br class="clear" />
+
+        <div id="scrollWrapper">
+            <div id="scrollContainer">
             </div>
-<?php } ?>
-
-        <table style="border-collapse: collapse; width: <?php echo $tableWidth; ?>; text-align: left;" class="data-table">
-            <colgroup align="right">
-<?php if ($hasSelectableRows) { ?>
-                    <col width="50" />
-<?php } ?>
-                <?php foreach ($columns as $header) {
- ?>
-                    <col width="<?php echo $header->getWidth(); ?>" />
-                <?php } ?>
-            </colgroup>
-
+        </div>        
+        <div id="tableWrapper">
+        <table class="table hover" id="resultTable">
+            
                     <?php
                     
                     $headerRow1 = '';
@@ -131,7 +167,7 @@ function printButtonEventBindings($buttons) {
                         $selectAllRowspan = $showGroupHeaders ? 2 : 1;     
                         
                         $headerRow1 .= content_tag('th', $selectAllCheckbox->__toString(),
-                                                   array('rowspan' => $selectAllRowspan)) . "\n";
+                                                   array('rowspan' => $selectAllRowspan, 'class' => 'checkbox-col')) . "\n";
                     }
 
 
@@ -163,6 +199,9 @@ function printButtonEventBindings($buttons) {
                         }
                         
                         foreach ($group->getHeaders() as $header) {
+                            
+                            $sortOrderStyle = 'null';
+                            
                             if ($header->isSortable()) {
                                 $nextSortOrder = ($currentSortOrder == 'ASC') ? 'DESC' : 'ASC';
                                 $nextSortOrder = ($currentSortField == $header->getSortField()) ? $nextSortOrder : 'ASC';
@@ -188,10 +227,9 @@ function printButtonEventBindings($buttons) {
                                         )
                                 );
                             }
-
-                            $headerCellHtml = '<th style="text-align: ' . $header->getTextAlignmentStyleForHeader() . '"' .
-                                              ' rowspan="' . $rowspan .
-                                              '">' . $headerCell->__toString() . "</th>\n";
+                            
+                            $headerCellClassHtml = getHeaderCellClassHtml($header->isSortable(), $sortOrderStyle);
+                            $headerCellHtml = '<th rowspan="' . $rowspan . '" style="width:' . $header->getWidth() . '"' . $headerCellClassHtml . '>' . $headerCell->__toString() . "</th>\n";                            
                             
                             if ($group->showHeader()) {
                                 $headerRow2 .= $headerCellHtml;
@@ -277,11 +315,14 @@ function printButtonEventBindings($buttons) {
                     }
                 ?>
                 </tbody>
-            <?php if ($hasSummary) {
+            <?php if ($hasSummary && $data->count() > 0) {
  ?>
                         <tfoot>
-                            <tr>
+                            <tr class="total">
                     <?php
+                        if ($hasSelectableRows) {
+                            echo "<td>&nbsp;</td>";
+                        }                      
                         $firstHeader = true;
                         foreach ($columns as $header) {
                             if ($header->getName() == $summary['summaryField']) {
@@ -290,16 +331,15 @@ function printButtonEventBindings($buttons) {
                                     $aggregateValue = $summary['summaryLabel'] . ':' . $aggregateValue;
                                     $firstHeader = false;
                                 }
-                                //echo tag('td', $aggregateValue);
                                 echo "<td class='right'>" . $aggregateValue . '</td>';
                             } else {
                                 $tdValue = '&nbsp;';
+                                
                                 if ($firstHeader) {
                                     $tdValue = $summary['summaryLabel'];
-                                    $firstHeader = false;
+                                    $firstHeader = false;                                    
                                 }
-                                //echo tag('td', $tdValue);
-                                echo "<td>" . $tdValue . '</td>';
+                                echo "<td>" . __($tdValue) . '</td>';
                             }
                         }
                     ?>
@@ -307,27 +347,36 @@ function printButtonEventBindings($buttons) {
                 </tfoot>
 <?php } ?>
                 </table>
-
+        </div> <!-- tableWrapper -->
+        <div class="bottom"><p>
 <?php renderActionBar($buttons, $buttonsPosition === ohrmListConfigurationFactory::AFTER_TABLE); ?>
-                    <br class="clear" />
-<?php if ($pager->haveToPaginate()) { ?>
-            <div class="navigationHearder">
-                <div class="pagingbar"><?php include_partial('global/paging_links_js', array('pager' => $pager)); ?></div>
-                <br class="clear" />
+
+<?php 
+    if ($pager->haveToPaginate()) {
+        include_partial('global/paging_links_js', array('pager' => $pager, 'location' => 'bottom'));
+    }
+?>
             </div>
-<?php } ?>
+        </form> <!-- frmList_ohrmListComponent --> 
+                
+<?php if ($footerPartial != null): ?>
+        <div style="padding-left: 5px; padding-top: 5px;">
+<?php
+        include_partial($footerPartial, $sf_data->getRaw('params'));
+?>
+    </div>
+<?php endif; ?>
+        
+    </div> <!-- inner -->
+        
+</div> <!-- search-results -->
 
-                </form>
-
-            </div>
-
-<?php echo javascript_include_tag('../orangehrmCorePlugin/js/_ohrmList.js'); ?>
+<?php echo javascript_include_tag(plugin_web_path('orangehrmCorePlugin', 'js/_ohrmList.js')); ?>
 
 <?php
-                    $assestsPath = "../{$pluginName}/";
 
                     if (isset($assets)) {
-                        printAssetPaths($assets, $assestsPath);
+                        printAssetPaths($assets, $pluginName);
                     }
 
                     if (isset($extraAssets)) {
@@ -355,6 +404,21 @@ function printButtonEventBindings($buttons) {
                         printButtonEventBindings($extraButtons);
                     }
 ?>
+                        });
+                                              
+<?php if (isset($enableTopScrolling) && $enableTopScrolling === true) : ?>
+
+    $("#scrollContainer").css('width', $("#resultTable").width() + 'px');
+
+    $("#scrollWrapper").scroll(function(){
+        $("#tableWrapper")
+            .scrollLeft($("#scrollWrapper").scrollLeft());
     });
+    $("#tableWrapper").scroll(function(){
+        $("#scrollWrapper")
+            .scrollLeft($("#tableWrapper").scrollLeft());
+    });
+        
+<?php endif; ?>
 
 </script>

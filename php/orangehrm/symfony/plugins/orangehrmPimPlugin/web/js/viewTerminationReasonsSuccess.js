@@ -34,11 +34,6 @@ function validateData() {
                 /*remote: lang_nameExists*/
             }
 
-        },
-
-        errorPlacement: function(error, element) {
-            error.appendTo(element.next('div.errorHolder'));
-
         }
 
     });
@@ -53,7 +48,7 @@ function executeLoadtimeActions() {
     $('table.data-table tbody tr:even').addClass('even');
     
     if (recordsCount == 0) {
-        $('#recordsListTable td.check').hide();
+        $('#recordsListTable .check').hide();
     }    
     
 }
@@ -90,10 +85,11 @@ function loadAddForm() {
     
     $("#btnAdd").click(function(){
         
+        $('#listActions').hide();
         $('#saveFormDiv').show();
         $('#saveFormHeading').text(lang_addFormHeading);
         
-        $('#recordsListTable td.check').hide();
+        $('#recordsListTable .check').hide();
         
         for (i in saveFormFieldIds) {
             $('#'+saveFormFieldIds[i]).val('');
@@ -133,7 +129,7 @@ function loadEditForm() {
         
         _clearErrorMessages();
 
-        $('#recordsListTable td.check').hide();
+        $('#recordsListTable .check').hide();
         $('#listActions').hide();
 
     });
@@ -146,14 +142,14 @@ function loadCancelButtonBehavior() {
         
         $('#saveFormDiv').hide();
         
-        $('#recordsListTable td.check').show();
+        $('#recordsListTable .check').show();
         
         _addRecordLinks();
 
         $('#listActions').show();
         
         if (recordsCount == 0) {
-            $('#recordsListTable td.check').hide();
+            $('#recordsListTable .check').hide();
         }         
         
     });

@@ -13,13 +13,7 @@ $(document).ready(function() {
     }
 
     $("#btnSave").click(function() {
-
-        //remove any status msg
-        $("#messagebar").text("");
-        $("#messagebar").removeAttr("class");
-
         $("#frmPhoto").submit();
-
     });
 
     //form validation
@@ -48,28 +42,7 @@ $(document).ready(function() {
         return true;
     });
 
-    $("#deleteConfirmation").dialog({
-        autoOpen: false,
-        modal: true,
-        width: 325,
-        height: 50,
-        position: 'middle'
-    });
-
-    $("#btnDelete").click(function() {
-        //remove any status msg
-        $("#messagebar").text("");
-        $("#messagebar").removeAttr("class");
-
-        $("#deleteConfirmation").dialog('open');
-    });
-
-    $("#btnNo").click(function() {
-        $("#deleteConfirmation").dialog('close');
-    });
-
     $("#btnYes").click(function() {
-        $("#deleteConfirmation").dialog('close');
-        navigateUrl(deleteUrl);
+        window.location.href = deleteUrl;
     });
 });

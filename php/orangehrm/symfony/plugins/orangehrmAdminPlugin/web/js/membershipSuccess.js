@@ -8,7 +8,7 @@ $(document).ready(function() {
 
     $('#btnAdd').click(function() {
         $('#membership').show();
-        $('#btnAdd').hide();
+        $('.top').hide();
         $('#membership_name').val('');
         $('#membership_membershipId').val('');
         $('#membershipHeading').html(lang_addMembership);
@@ -17,7 +17,8 @@ $(document).ready(function() {
 
     $('#btnCancel').click(function() {
         $('#membership').hide();
-        $('#btnAdd').show();
+        $('.top').show();
+        $('#btnDelete').show();
         validator.resetForm();
     });
 
@@ -59,17 +60,6 @@ $(document).ready(function() {
             $('#deleteConfirmation').dialog('open');
             return false;
         });
-    });
-
-    $("#deleteConfirmation").dialog({
-        autoOpen: false,
-        modal: true,
-        width: 325,
-        height: 50,
-        position: 'middle',
-        open: function() {
-            $('#dialogCancelBtn').focus();
-        }
     });
 
     $('#frmList_ohrmListComponent').attr('name','frmList_ohrmListComponent');
@@ -125,13 +115,8 @@ $(document).ready(function() {
                 uniqueName: lang_uniqueName
             }
 
-        },
-
-        errorPlacement: function(error, element) {
-            error.appendTo(element.next('div.errorHolder'));
-
         }
-
+        
     });
 });
 
@@ -142,6 +127,6 @@ function getMembershipInfo(url){
         $('#membership_name').val(data.name);
         $('#membership').show();
         $(".messageBalloon_success").remove();
-        $('#btnAdd').hide();
+        $('.top').hide();
     });
 }

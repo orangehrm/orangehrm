@@ -50,7 +50,9 @@ class SearchLocationForm extends BaseForm {
 		    'country' => new sfValidatorString(array('required' => false, 'max_length' => 100)),
 		));
 
+        $this->getWidgetSchema()->setLabels($this->getFormLabels());
 		$this->widgetSchema->setNameFormat('searchLocation[%s]');
+
 	}
 
 	public function setDefaultDataToWidgets($searchClues) {
@@ -71,6 +73,19 @@ class SearchLocationForm extends BaseForm {
 		}
 		return $list;
 	}
+    
+    /**
+     *
+     * @return array
+     */
+    protected function getFormLabels() {
+        $labels = array(
+            'name' => __('Location Name'),
+            'city' => __('City'),
+            'country' => __('Country')
+        );
+        return $labels;
+    }
 
 }
 

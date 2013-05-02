@@ -38,15 +38,13 @@ class saveSystemUserAction extends sfAction {
     }
 
     public function execute($request) {
-
+        
+        /* For highlighting corresponding menu item */
+        $request->setParameter('initialActionName', 'viewSystemUsers');
 
         $this->userId = $request->getParameter('userId');
         $values = array('userId' => $this->userId, 'sessionUser' => $this->getUser()->getAttribute('user'));
         $this->setForm(new SystemUserForm(array(), $values));
-
-        if ($this->getUser()->hasFlash('templateMessage')) {
-            list($this->messageType, $this->message) = $this->getUser()->getFlash('templateMessage');
-        }
 
         if ($request->getParameter('userId')) {
             $userRoleManager = $this->getContext()->getUserRoleManager();
@@ -64,13 +62,13 @@ class saveSystemUserAction extends sfAction {
                 $savedUser = $this->form->save();
 
                 if ($this->form->edited) {
-                    $this->getUser()->setFlash('templateMessage', array('success', __(TopLevelMessages::UPDATE_SUCCESS)));
+                    $this->getUser()->setFlash('success', __(TopLevelMessages::UPDATE_SUCCESS));
                 } else {
                     if ($savedUser instanceof SystemUser) { // sets flash values for admin/viewSystemUsers pre filter for further actions if needed
                         $this->getUser()->setFlash("new.user.id", $savedUser->getId()); //
                         $this->getUser()->setFlash("new.user.role.id", $savedUser->getUserRoleId());
                     }
-                    $this->getUser()->setFlash('templateMessage', array('success', __(TopLevelMessages::SAVE_SUCCESS)));
+                    $this->getUser()->setFlash('success', __(TopLevelMessages::SAVE_SUCCESS));
                 }
                 $this->redirect('admin/viewSystemUsers');
             }

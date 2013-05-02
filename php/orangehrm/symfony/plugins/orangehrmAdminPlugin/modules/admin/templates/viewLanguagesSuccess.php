@@ -19,14 +19,16 @@
  */
 ?>
 
-<?php use_stylesheet('../orangehrmAdminPlugin/css/viewLanguagesSuccess'); ?>
+<?php 
+use_javascript(plugin_web_path('orangehrmAdminPlugin', 'js/viewLanguagesSuccess'));
+?>
 
-<?php echo isset($templateMessage) ? templateMessage($templateMessage) : ''; ?>
-
-<div id="saveFormDiv">
-    <div class="outerbox">
-
-    <div class="mainHeading"><h2 id="saveFormHeading">Add Language</h2></div>
+<div class="box" id="saveFormDiv">
+    <div class="head">
+            <h1 id="saveFormHeading">Add Language</h1>
+    </div>
+    
+    <div class="inner">
 
         <form name="frmSave" id="frmSave" method="post" action="<?php echo url_for('admin/viewLanguages'); ?>">
             
@@ -34,57 +36,72 @@
             
             <?php echo $form['id']->render(); ?>
             
-            <?php echo $form['name']->renderLabel(__('Name'). ' <span class="required">*</span>'); ?>
-            <?php echo $form['name']->render(array("class" => "formInputText", "maxlength" => 120)); ?>
-            <div class="errorHolder"></div>
-            <br class="clear"/>
-            
-            <div class="formbuttons">
-                <input type="button" class="savebutton" name="btnSave" id="btnSave"
-                       value="<?php echo __('Save'); ?>"
-                       title="<?php echo __('Save'); ?>"
-                       onmouseover="moverButton(this);" onmouseout="moutButton(this);"/>
-                <input type="button" id="btnCancel" class="cancelbutton" value="<?php echo __('Cancel'); ?>"/>
-            </div>
+            <fieldset>
+                
+                <ol>
+                    
+                    <li>
+                        <?php echo $form['name']->renderLabel(__('Name'). ' <em>*</em>'); ?>
+                        <?php echo $form['name']->render(array("class" => "block default editable valid", "maxlength" => 120)); ?>
+                    </li>
+                    
+                    <li class="required">
+                        <em>*</em> <?php echo __(CommonMessages::REQUIRED_FIELD); ?>
+                    </li>
+                    
+                </ol>
+                
+                <p>
+                    <input type="button" class="addbutton" name="btnSave" id="btnSave" value="<?php echo __('Save'); ?>"/>
+                    <input type="button" id="btnCancel" class="reset" value="<?php echo __('Cancel'); ?>"/>
+                </p>
+                
+            </fieldset>
 
         </form>
     
-    </div>
-    
-<div class="paddingLeftRequired"><span class="required">*</span> <?php echo __(CommonMessages::REQUIRED_FIELD); ?></div>    
+    </div> 
     
 </div> <!-- saveFormDiv -->
 
 <!-- Listi view -->
 
-<div id="recordsListDiv">
-    <div class="outerbox">
+<div id="recordsListDiv" class="box miniList">
+    <div class="head">
+            <h1><?php echo __('Languages'); ?></h1>
+    </div>
+    
+    <div class="inner">
+        
+        <?php include_partial('global/flash_messages'); ?>
+    
         <form name="frmList" id="frmList" method="post" action="<?php echo url_for('admin/deleteLanguages'); ?>">
-            <div class="mainHeading"><h2><?php echo __('Languages'); ?></h2></div>
 
-            <div class="actionbar" id="listActions">
-                <div class="actionbuttons">
-                    <input type="button" class="addbutton" id="btnAdd" 
-                           onmouseover="moverButton(this);" onmouseout="moutButton(this);" value="<?php echo __('Add'); ?>" title="<?php echo __('Add'); ?>"/>
-                    <input type="button" class="delbutton" id="btnDel" 
-                           onmouseover="moverButton(this);" onmouseout="moutButton(this);" value="<?php echo __('Delete'); ?>" title="<?php echo __('Delete'); ?>"/>
-                </div>
-            </div>
-
-            <table width="550" cellspacing="0" cellpadding="0" class="data-table" id="recordsListTable">
+            <p id="listActions">
+                <input type="button" class="addbutton" id="btnAdd" value="<?php echo __('Add'); ?>"/>
+                <input type="button" class="delete" id="btnDel"value="<?php echo __('Delete'); ?>"/>
+            </p>
+            
+            <table class="table hover" id="recordsListTable">
                 <thead>
                     <tr>
-                        <td class="check"><input type="checkbox" id="checkAll" class="checkbox" /></td>
-                        <td><?php echo __('Name'); ?></td>
+                        <th class="check"  style="width:2%"><input type="checkbox" id="checkAll" class="checkboxAtch" /></th>
+                        <th  style="width:98%"><?php echo __('Name'); ?></th>
                     </tr>
                 </thead>
                 <tbody>
                     
-                    <?php foreach($records as $record): ?>
+                    <?php
+                    $row = 0;
+                    $cssClass = ($row%2) ? 'even' : 'odd';
+                    foreach($records as $record): 
+                        $cssClass = ($row%2) ? 'even' : 'odd';
+                        $row++;
+                    ?>
                     
-                    <tr>
+                    <tr class="<?php echo $cssClass;?>">
                         <td class="check">
-                            <input type="checkbox" class="checkbox" name="chkListRecord[]" value="<?php echo $record->getId(); ?>" />
+                            <input type="checkbox" class="checkboxAtch" name="chkListRecord[]" value="<?php echo $record->getId(); ?>" />
                         </td>
                         <td class="tdName tdValue">
                             <a href="#"><?php echo $record->getName(); ?></a>
@@ -94,7 +111,7 @@
                     <?php endforeach; ?>
                     
                     <?php if (count($records) == 0) : ?>
-                    <tr>
+                    <tr class="<?php echo 'even';?>">
                         <td>
                             <?php echo __(TopLevelMessages::NO_RECORDS_FOUND); ?>
                         </td>
@@ -105,10 +122,7 @@
             </table>
         </form>
     </div>
-</div> <!-- recordsListDiv -->    
-
-
-<?php use_javascript('../orangehrmAdminPlugin/js/viewLanguagesSuccess'); ?>
+</div> <!-- recordsListDiv -->
 
 <script type="text/javascript">
 //<![CDATA[	    

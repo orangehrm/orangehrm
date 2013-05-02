@@ -38,8 +38,8 @@ class ohrmReportWidgetJoinedDate extends sfWidgetForm implements ohrmEnhancedEmb
         $this->addOption($this->id . '_' . 'from', new ohrmWidgetDatePicker(array(), array('id' => $this->id . '_' . 'from')));
         $this->addOption($this->id . '_' . 'to', new ohrmWidgetDatePicker(array(), array('id' => $this->id . '_' . 'to')));
 
-
-        $this->addOption('template', '%comparision% &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp %from% &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp %to%');
+        $this->addOption('template', '%comparision% %from% %to%');
+        
     }
 
     public function render($name, $value = null, $attributes = array(), $errors = array()) {
@@ -58,46 +58,47 @@ $(document).ready(function() {
 
     var idValue = '%s';
     var joinedDateFormat = '%s';
+    var displayDateFormat = joinedDateFormat.replace('yy', 'yyyy');
 
     if($('#' + idValue + '_comparision').val() == ''){
         $('#' + idValue + '_from').hide().val('');
+        $('#' + idValue + '_from').next('img.ui-datepicker-trigger').hide();
         $('#' + idValue + '_to').hide().val('');
-        $('#' + idValue + '_from_Button').hide();
-        $('#' + idValue + '_to_Button').hide();
+        $('#' + idValue + '_to').next('img.ui-datepicker-trigger').hide();
     }
 
     $('#' + idValue + '_comparision').change(function(){
         if($('#' + idValue + '_comparision').val() == ''){
 
             $('#' + idValue + '_from').hide().val('');
-            $('#' + idValue + '_from_Button').hide();
-            $('#' + idValue + '_to_Button').hide();
+            $('#' + idValue + '_from').next('img.ui-datepicker-trigger').hide();
             $('#' + idValue + '_to').hide().val('');
+            $('#' + idValue + '_to').next('img.ui-datepicker-trigger').hide();            
         }else if($('#' + idValue + '_comparision').val() == '1'){
             $('#' + idValue + '_from').show();
+            $('#' + idValue + '_from').next('img.ui-datepicker-trigger').show();
             $('#' + idValue + '_to').hide().val('');
-            $('#' + idValue + '_from_Button').show().css('display', 'inline');
-            $('#' + idValue + '_to_Button').hide();
+            $('#' + idValue + '_to').next('img.ui-datepicker-trigger').hide();
         }else if($('#' + idValue + '_comparision').val() == '2'){
             $('#' + idValue + '_from').show();
+            $('#' + idValue + '_from').next('img.ui-datepicker-trigger').show();
             $('#' + idValue + '_to').hide().val('');
-            $('#' + idValue + '_from_Button').show().css('display', 'inline');
-            $('#' + idValue + '_to_Button').hide();
+            $('#' + idValue + '_to').next('img.ui-datepicker-trigger').hide();
         }else if($('#' + idValue + '_comparision').val() == '3'){
             $('#' + idValue + '_from').show();
+            $('#' + idValue + '_from').next('img.ui-datepicker-trigger').show();
             $('#' + idValue + '_to').show();
-            $('#' + idValue + '_from_Button').show().css('display', 'inline');
-            $('#' + idValue + '_to_Button').show().css('display', 'inline');
+            $('#' + idValue + '_to').next('img.ui-datepicker-trigger').show();
         }
         
         if ($('#' + idValue + '_from').is(":visible")) {
             if ($('#' + idValue + '_from').val() == '') {
-                $('#' + idValue + '_from').val(joinedDateFormat);
+                $('#' + idValue + '_from').val(displayDateFormat);
             }
         }
         if ($('#' + idValue + '_to').is(":visible")) {
             if ($('#' + idValue + '_to').val() == '') {
-                $('#' + idValue + '_to').val(joinedDateFormat);
+                $('#' + idValue + '_to').val(displayDateFormat);
             }
         }
         

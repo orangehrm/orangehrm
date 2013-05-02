@@ -51,6 +51,10 @@ class PluginAllTests
         $suite = new PHPUnit_Framework_TestSuite('PluginAllTest');
         $config = new ProjectConfiguration();
         
+        // Add the apps/orangehrm unit tests
+        require_once(dirname(__FILE__) . '/AppsOrangeHRMAllTests.php');
+        $suite->addTestSuite('AppsOrangeHRMAllTests');
+        
         $enabledPlugins = $config->getPlugins();
         $pluginDirs     = new DirectoryIterator( dirname(__FILE__). '/../plugins' );
         $omitDirs       = array(".", "..", ".svn");

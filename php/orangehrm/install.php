@@ -24,7 +24,7 @@ include_once('lib/confs/log_settings.php');
 $rootPath = realpath(dirname(__FILE__));
 
 define('ROOT_PATH', $rootPath);
-require(ROOT_PATH . '/lib/utils/installUtil.php');
+require(ROOT_PATH . '/installer/utils/installUtil.php');
 
 function sockComm($postArr) {
 

@@ -92,15 +92,6 @@ UniqueId:
     field_name:
       type: string(50)
       notnull: true
-           
-CompanyGeninfo:
-  tableName: hs_hr_geninfo
-  columns:
-    code:
-      type: string(13)
-      primary: true
-    geninfo_keys: string(200)
-    geninfo_values: string(800)
  
 Country:
   tableName: hs_hr_country
@@ -143,49 +134,6 @@ Province:
       fixed: true
       default: us
       notnull: true
- 
-CompanyProperty:
-  tableName: hs_hr_comp_property
-  columns:
-    prop_id:
-      type: integer(4)
-      primary: true
-      autoincrement: true
-    prop_name:
-      type: string(250)
-      notnull: true
-    emp_id: integer(4)
-  
-SalaryGrade:
-  tableName: ohrm_pay_grade
-  columns:
-    sal_grd_code:
-      type: string(13)
-      primary: true
-    sal_grd_name: string(60)    
-  relations:
-    EmpBasicsalary:
-      local: sal_grd_code
-      foreign: sal_grd_code
-      type: many
-    JobTitle:
-      local: sal_grd_code
-      foreign: sal_grd_code
-      type: many
-    SalaryCurrencyDetail:
-      local: sal_grd_code
-      foreign: sal_grd_code
-      type: many
-
-JobSpecifications:
-  tableName: hs_hr_job_spec
-  columns:
-    jobspec_id:
-      type: integer(4)
-      primary: true
-    jobspec_name: string(50)
-    jobspec_desc: string(2147483647)
-    jobspec_duties: string(2147483647)
  
 EmployeeSkill:
   tableName: hs_hr_emp_skill

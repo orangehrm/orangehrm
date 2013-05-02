@@ -1,0 +1,20 @@
+saveKpiSuccess:
+  layout: freshorange
+  
+updateKpiSuccess: 
+  layout: freshorange
+  
+copyKpiSuccess:
+  layout: freshorange
+
+listDefineKpiSuccess:
+  layout: freshorange
+  
+viewReviewSuccess:
+  layout: freshorange
+
+saveReviewSuccess:
+  layout: freshorange
+
+performanceReviewSuccess:
+  layout: freshorange

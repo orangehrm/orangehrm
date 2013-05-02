@@ -55,7 +55,8 @@ class punchInAction extends sfAction {
 
 
         if ($this->getUser()->hasFlash('templateMessage')) {
-            list($this->messageType, $this->message) = $this->getUser()->getFlash('templateMessage');
+            list($messageType, $message) = $this->getUser()->getFlash('templateMessage');
+            $this->getUser()->setFlash($messageType, $message);
         }
         $attendanceRecord = $this->getAttendanceService()->getLastPunchRecord($this->employeeId, $actionableStatesList);
 

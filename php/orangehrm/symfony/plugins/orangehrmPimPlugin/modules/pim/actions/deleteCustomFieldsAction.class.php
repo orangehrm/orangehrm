@@ -62,9 +62,9 @@ class deleteCustomFieldsAction extends basePimAction {
                 if (count($request->getParameter('chkLocID')) > 0) {
                     $customFieldsService = $this->getCustomFieldService();
                     $customFieldsService->deleteCustomFields($request->getParameter('chkLocID'));
-                    $this->getUser()->setFlash('templateMessage', array('success', __(TopLevelMessages::DELETE_SUCCESS)));
+                    $this->getUser()->setFlash('success', __(TopLevelMessages::DELETE_SUCCESS));
                 } else {
-                    $this->getUser()->setFlash('templateMessage', array('notice', __(TopLevelMessages::SELECT_RECORDS)));
+                    $this->getUser()->setFlash('notice', __(TopLevelMessages::SELECT_RECORDS));
                 }
             }
             $this->redirect('pim/listCustomFields');

@@ -182,7 +182,7 @@ class ohrmWidgetSelectableGroupDropDown extends sfWidgetFormSelect {
 
     public function getStylesheets() {
         $styleSheets = parent::getStylesheets();
-        $styleSheets['/orangehrmCorePlugin/css/ohrmWidgetSelectableGroupDropDown.css'] = 'all';
+        $styleSheets[plugin_web_path('orangehrmCorePlugin', 'css/ohrmWidgetSelectableGroupDropDown.css')] = 'all';
 
         return($styleSheets);
     }

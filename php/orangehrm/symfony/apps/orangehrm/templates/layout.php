@@ -9,7 +9,8 @@ $cultureElements = explode('_', $sf_user->getCulture());
     <?php include_http_metas() ?>
     <?php include_metas() ?>
     <?php include_title() ?>
-
+        <link href="<?php echo theme_path('images/favicon.ico')?>" rel="icon" type="image/gif"/>
+        
 	<link href="<?php echo public_path('../../themes/orange/css/style.css')?>" rel="stylesheet" type="text/css"/>
         <link href="<?php echo public_path('../../themes/orange/css/layout.css')?>" rel="stylesheet" type="text/css"/>
 	<link href="<?php echo public_path('../../themes/orange/css/message.css')?>" rel="stylesheet" type="text/css"/>
@@ -37,20 +38,81 @@ $cultureElements = explode('_', $sf_user->getCulture());
     <?php echo include_javascripts();?>
     <?php echo include_stylesheets();?>
     
+<!-- Elements of new UI: Begin -->    
+<link href="<?php echo public_path('../../symfony/web/themes/default/css/header.css')?>" rel="stylesheet" type="text/css"/>      
+<!-- Elements of new UI: End -->    
+    
   </head>
   <body>
-  
-    <?php echo $sf_content ?>
+      
+        <div id="wrapper">
+
+            <div id="branding">
+                <img src="<?php echo public_path('../../symfony/web/themes/default/images/logo.png')?>" width="283" height="56" alt="OrangeHRM">
+                <a href="#" class="subscribe">Join OrangeHRM Community</a>
+                <a href="#" id="welcome"><?php echo __('Welcome') . ' ' . $sf_user->getAttribute('auth.firstName'); ?></a>
+                <div id="welcome-menu">
+                    <ul>
+                        <li><a href="<?php echo url_for('admin/changeUserPassword'); ?>">Change Password</a></li>
+                        <li><a href="<?php echo url_for('auth/logout'); ?>">Logout</a></li>
+                    </ul>
+                </div>
+                <div style="color:#FF0000; font-size: 20px; display: inline; margin-left: 200px"><b>NOT CONVERTED</b></div>
+                <a href="#" id="help">Help &amp; Training</a>
+                <div id="help-menu">
+                    <ul>
+                        <li><a href="#">Link 1</a></li>
+                        <li><a href="#">Link 2</a></li>
+                        <li><a href="#">Link 3</a></li>
+                        <li><a href="#">Link 4</a></li>
+                    </ul>
+                </div>
+            </div> <!-- branding -->      
+            
+            <?php include_component('core', 'mainMenu'); ?>
+
+            <div id="content-old-screens" style="padding-top:35px;min-height: 250px;">
+
+                  <?php echo $sf_content ?>
+
+            </div> <!-- content -->
+          
+        </div> <!-- wrapper -->      
+     
+    <script type="text/javascript">
+    //<![CDATA[
     <?php $skipRoundBorder = $sf_request->getAttribute('skipRoundBorder');
     if (!isset($skipRoundBorder)) { ?>
-	<script type="text/javascript">
-//<![CDATA[	    
-
+	
     	if (document.getElementById && document.createElement) {
 	 			roundBorder('outerbox');
-			}
-//]]>	
-	</script>    
+		}
+            
+        $(document).ready(function() {        
+
+            $("#welcome").click(function () {
+                $("#welcome-menu").slideToggle("fast");
+                $(this).toggleClass("activated");
+                return false;
+            });
+            
+            /* Highlighting firstLevelMenu: Begins */
+            $(".firstLevelMenu").click(function () {
+
+                $(".firstLevelMenu").each(function(){
+                    $(this).parent('li').removeClass('current');
+                });
+
+                $(this).parent('li').addClass('current');
+
+            });
+            /* Highlighting firstLevelMenu: Ends */
+            
+
+        });            
+	    
     <?php } ?>
+    //]]>
+    </script>
   </body>
 </html>

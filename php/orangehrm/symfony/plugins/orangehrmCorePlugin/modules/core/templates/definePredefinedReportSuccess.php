@@ -1,230 +1,220 @@
 <?php
-use_stylesheet('../../../themes/orange/css/jquery/jquery.autocomplete.css');
-use_stylesheet('../../../themes/orange/css/ui-lightness/jquery-ui-1.7.2.custom.css');
-use_stylesheet('orangehrm.datepicker.css');
-
-use_javascript('../../../scripts/jquery/ui/ui.core.js');
-use_javascript('../../../scripts/jquery/ui/ui.dialog.js');
-use_javascript('../../../scripts/jquery/jquery.autocomplete.js');
-use_javascript('../../../scripts/jquery/ui/ui.datepicker.js');
+echo stylesheet_tag(theme_path('css/orangehrm.datepicker.css'));
 use_javascript('orangehrm.datepicker.js');
 ?>
-<div id="defineReportContainer">
-    <div id="messagebar" class="<?php echo isset($messageType) ? "messageBalloon_{$messageType}" : ''; ?>" >
-        <span style="font-weight: bold;"><?php echo isset($message) ? __($message) : ''; ?></span>
+<div class="box single">
+   
+    <div class="head">
+        <h1><?php echo __("Define Report"); ?></h1>
     </div>
-    <div class="outerbox">
-        <div class="maincontent">
-            <div class="mainHeading">
-                <h2><?php echo __("Define Report"); ?></h2>
-            </div>
-
-            <?php echo $form->renderFormTag(url_for('core/definePredefinedReport'), array('id' => 'defineReportForm')); ?>
-            <fieldset id="name_fieldset">
-                <?php
-                $form->getWidgetSchema()->setFormFormatterName('list');
-                echo $form['_csrf_token'];
-                echo $form['report_id']->render();
-
-                echo $form['report_name']->renderLabel(__("Report Name") . "<span class='required'> * </span>");
-                echo $form['report_name']->render();
-                echo $form['report_name']->renderError();
+    <div class="inner">
+        <?php echo $form->renderFormTag(url_for('core/definePredefinedReport'), array('id' => 'defineReportForm')); ?>
+        <fieldset id="name_fieldset">
+            <?php
+            $form->getWidgetSchema()->setFormFormatterName('list');
+            echo $form['_csrf_token'];
+            echo $form['report_id']->render();
+            ?>
+            <ol>
+                <li>
+                <?php 
+                    echo $form['report_name']->renderLabel(__("Report Name") . "<span class='required'> * </span>");
+                    echo $form['report_name']->render();
+                    echo $form['report_name']->renderError();
                 ?>
-            </fieldset>
-            <fieldset id="criteria_selection">
-                <?php
-                echo $form['criteria_list']->renderLabel(__("Selection Criteria"));
-                echo $form['criteria_list']->render();
-                echo $form['criteria_list']->renderError();
-                ?>
-                <input type="button" class="savebutton" id="btnAddConstraint" value="<?php echo __("Add"); ?>"  />
-            </fieldset>
-            <fieldset id="criteria_fieldset_inactive">
-
-                <ul id="filter_fields_inactive" style="display:none;">
+                </li>
+            </ol>
+        </fieldset>
+        <fieldset id="criteria_selection">
+            <ol>
+                <li>
                     <?php
-                    foreach ($form->filterWidgets as $filterName => $label) {
-
-                        if (!isset($form->selectedFilterWidgets[$filterName])) {
-                            $formField = $form[$filterName];
-
-                            echo "<li id='li_" . $filterName . "' >" . $formField->renderLabel() .
-                            $formField->render() .
-                            $formField->renderError() .
-                            "</li>";
-                        }
-                    }
+                    echo $form['criteria_list']->renderLabel(__("Selection Criteria"));
+                    echo $form['criteria_list']->render(array("class" => "drpDown", "maxlength" => 30));
+                    echo $form['criteria_list']->renderError();
                     ?>
-                </ul>
-            </fieldset>
-            <fieldset id="criteria_fieldset">
-                <legend><?php echo __("Selected Criteria"); ?></legend>
-                <ul id="filter_fields">
-                    
-                    <?php
-                    
-                    $requiredFilterNames = array();
-                    
-                    foreach ($form->requiredFilterWidgets as $widget) {
-
+                   <a class="fieldHelpRight" id="btnAddConstraint"><?php echo __("Add"); ?></a>
+                </li>
+            </ol>
+        </fieldset>
+        <fieldset id="criteria_fieldset_inactive">
+    
+            <ul id="filter_fields_inactive" style="display:none;">
+                <?php
+                foreach ($form->filterWidgets as $filterName => $label) {
+    
+                    if (!isset($form->selectedFilterWidgets[$filterName])) {
                         $formField = $form[$filterName];
-                        echo "<li id='li_" . $filterName . "' class='requiredFilter'>" . $formField->renderLabel() .
+    
+                        echo "<li id='li_" . $filterName . "' >" . $formField->renderLabel() .
                         $formField->render() .
                         $formField->renderError() .
                         "</li>";
-                        $requiredFilterNames[] = $filterName;
                     }
+                }
+                ?>
+            </ul>
+        </fieldset>
+        <fieldset id="criteria_fieldset">
+            <ol id="filter_fields">
+                <li>
+            <?php echo __("Selected Criteria"); ?>
+                </li>
+            
+                <?php
+                
+                $requiredFilterNames = array();
+                
+                foreach ($form->requiredFilterWidgets as $widget) {
+    
+                    $filterName = $widget->getName();
+                    $formField = $form[$filterName];
+                    echo "<li id='li_" . $filterName . "' class='requiredFilter'>" . $formField->renderLabel() .
+                    $formField->render() .
+                    $formField->renderError() .
+                    "</li>";
+                    $requiredFilterNames[] = $filterName;
+                }
+                
+                foreach ($form->selectedFilterWidgets as $filterName => $label) {
+    
+                    if (!in_array($filterName, $requiredFilterNames)) {
                     
-                    foreach ($form->selectedFilterWidgets as $filterName => $label) {
-
-                        if (!in_array($filterName, $requiredFilterNames)) {
-                        
-                            $formField = $form[$filterName];
-                            echo "<li id='li_" . $filterName . "' ><a href='#'>X</a>" . $formField->renderLabel() .
-                            $formField->render() .
-                            $formField->renderError() .
-                            "</li>";
-                        
-                        }
+                        $formField = $form[$filterName];
+                        echo "<li id='li_" . $filterName . "' ><a href=\"#\" class=\"closeText\">X</a>" . $formField->renderLabel() .
+                        $formField->render() .
+                        $formField->renderError() .
+                        "</li>";
+                    
                     }
-                    
-                    ?>
-                </ul>                
+                }
+                
+                ?>
+        </ol>
+        </fieldset>
+        <fieldset id="display_field_selection">
+            <ol>
+                <li>
+            <?php
+                echo $form['display_groups']->renderLabel(__("Display Field Groups"));
+                echo $form['display_groups']->render();
+                echo $form['display_groups']->renderError();
+            ?>
+                <a class="fieldHelpRight" id="btnAddDisplayGroup"><?php echo __("Add"); ?></a>
+                <br />
+                </li>
+                <li>
+            <?php
+                echo $form['display_field_list']->renderLabel(__("Display Fields"));
+                echo $form['display_field_list']->render();
+                echo $form['display_field_list']->renderError();
+            ?>
+                <a class="fieldHelpRight" id="btnAddDisplayField"><?php echo __("Add"); ?></a>
+                </li>
+                </ol>
             </fieldset>
-            <fieldset id="display_field_selection">
+            <fieldset id="display_fieldset">
+                <ol id="display_groups">
+                <li>
+                    <?php echo __("Display Fields"); ?>
+                </li>
+    
+                
                 <?php
-                    echo $form['display_groups']->renderLabel(__("Display Field Groups"));
-                    echo $form['display_groups']->render();
-                    echo $form['display_groups']->renderError();
+                foreach ($form->displayFieldGroups as $group => $fields) {
+                    $groupId = str_replace('display_group_', '', $group);
+                    $selected = in_array($groupId, $form->selectedDisplayFieldGroups);
+    
+                    // find if any of the fields in this group are selected.
+                    $fieldIds = array();
+                    foreach ($fields as $field) {
+                        $fieldIds[] = str_replace('display_field_', '', $field);
+                    }
+                    $selectedGroupFields = array_intersect($fieldIds, $form->selectedDisplayFields);
+                    $visible = count($selectedGroupFields) > 0 ? '' : 'style="display:none;"';
+    
+                    $groupAttrs = array();
+                    if ($selected) {
+                        $groupAttrs = array('checked' => 'checked');
+                    }
                 ?>
-                    <input type="button" class="savebutton" id="btnAddDisplayGroup" value="<?php echo __("Add"); ?>"  />
-                    <br />
-                <?php
-                    echo $form['display_field_list']->renderLabel(__("Display Fields"));
-                    echo $form['display_field_list']->render();
-                    echo $form['display_field_list']->renderError();
-                ?>
-                    <input type="button" class="savebutton" id="btnAddDisplayField" value="<?php echo __("Add"); ?>"  />
-                </fieldset>
-                <fieldset id="display_fieldset">
-                    <legend><?php echo __("Display Fields"); ?></legend>
-
-                    <ul id="display_groups">
+                    <li <?php echo $visible; ?>><a href="#" class="closeText">X</a>
                     <?php
-                    foreach ($form->displayFieldGroups as $group => $fields) {
-                        $groupId = str_replace('display_group_', '', $group);
-                        $selected = in_array($groupId, $form->selectedDisplayFieldGroups);
-
-                        // find if any of the fields in this group are selected.
-                        $fieldIds = array();
-                        foreach ($fields as $field) {
-                            $fieldIds[] = str_replace('display_field_', '', $field);
-                        }
-                        $selectedGroupFields = array_intersect($fieldIds, $form->selectedDisplayFields);
-                        $visible = count($selectedGroupFields) > 0 ? '' : 'style="display:none;"';
-
-                        $groupAttrs = array();
-                        if ($selected) {
-                            $groupAttrs = array('checked' => 'checked');
-                        }
+                    echo $form[$group]->renderLabel() . $form[$group]->render($groupAttrs) . $form[$group]->renderError();
                     ?>
-                        <li <?php echo $visible; ?>><a href="#">X</a>
+                    <ul class="display_field_ul">
                         <?php
-                        echo $form[$group]->renderLabel() . $form[$group]->render($groupAttrs) . $form[$group]->renderError();
+                        foreach ($fields as $field) {
+                            $fieldId = str_replace('display_field_', '', $field);
+                            $fieldSelected = in_array($fieldId, $form->selectedDisplayFields);
+                            $visible = $fieldSelected ? '' : 'style="display:none"';
                         ?>
-                        <ul class="display_field_ul">
+                            <li <?php echo $visible; ?>><a href="#" class="closeText">X</a>
                             <?php
-                            foreach ($fields as $field) {
-                                $fieldId = str_replace('display_field_', '', $field);
-                                $fieldSelected = in_array($fieldId, $form->selectedDisplayFields);
-                                $visible = $fieldSelected ? '' : 'style="display:none"';
-                            ?>
-                                <li <?php echo $visible; ?>><a href="#">X</a>
-                                <?php
-                                $attrs = array('style' => 'display:none;');
-                                if ($fieldSelected) {
-                                    $attrs['checked'] = 'checked';
-                                }
-                                echo $form[$field]->renderLabel() . $form[$field]->render($attrs) . $form[$field]->renderError();
-                                ?>
-                            </li>
-                            <?php
+                            $attrs = array('style' => 'display:none;');
+                            if ($fieldSelected) {
+                                $attrs['checked'] = 'checked';
                             }
+                            echo $form[$field]->renderLabel() . $form[$field]->render($attrs) . $form[$field]->renderError();
                             ?>
-                        </ul>
-                    </li>
-                    <?php
+                        </li>
+                        <?php
                         }
-                    ?>
+                        ?>
                     </ul>
-                </fieldset>
-
-                <div class="formbuttons">
-                    <input type="button" class="savebutton" id="btnSave" value="<?php echo __("Save"); ?>"  />
-                    <input type="button" class="savebutton" id="btnCancel" value="<?php echo __("Cancel"); ?>" />
-                </div>
-                </form>
-            </div>
+                </li>
+                <?php
+                    }
+                ?>
+                <li class="required line">
+                      <em>*</em> <?php echo __(CommonMessages::REQUIRED_FIELD); ?>
+                </li>
+                </ol>
+            </fieldset>
+         
+        
+        <div class="formbuttons">
+            <input type="button" id="btnSave" value="<?php echo __("Save"); ?>"  />
+            <input type="button" class="cancel" id="btnCancel" value="<?php echo __("Cancel"); ?>" />
         </div>
-        <div class="paddingLeftRequired"><span class="required">*</span> <?php echo __(CommonMessages::REQUIRED_FIELD); ?></div>
+        </form>
+        </div>
     </div>
 
     <style type="text/css">
         label {
-            width: 220px;
+            width: 220px !important;
         }
         
         ul#display_groups li {
             display: list-item;
         }
-
-        ul#display_groups li label {
-            display: inline-block;
-            float: none;
-            width: 270px;
+        
+        .error_list li {
+            margin-left: 240px;
         }
 
-        ul#display_groups li ul {
-            margin-left: 20px;
+        .box a {
+            margin-right: 10px;
+            float: left;
         }
-
-        ul#filter_fields li {
-            display: list-item;
-        }
-
-        ul#filter_fields li label {
-            display: inline-block;
-            float: none;
-            width: 200px;
-        }
-
-        ul#filter_fields li a {
-            display: inline-block;
-            float: none;
-            margin-left: 10px;
-            color: red;
-        }
-
-        ul#filter_fields li input[type="text"] {
-            padding-left: 0px;
-        }
-
-        ul#display_groups li a {
-            display: inline-block;
-            float: none;
-            margin-left: 10px;
-            color: red;
-        }
-
-        ul#filter_fields li ul.error_list {
-            display: inline-block;
-            float: none;
+        
+        .display_field_ul {
             margin-left: 10px;
         }
         
-        ul#filter_fields li.requiredFilter {
-            padding-left: 18px;
+        #display_field_selection label, #name_fieldset label, #criteria_selection label {
+            width: 240px !important;
         }
+        
+        form ol li span.validation-error {
+            left: 240px;
+        }
+        
+        #li_include label {
+            margin-left: 20px;
+        }
+
 
         div#defineReportContainer {
             width: 900px;
@@ -239,36 +229,23 @@ use_javascript('orangehrm.datepicker.js');
             border-color: #FAD163;
         }
 
-        #report_report_name,
-        #report_criteria_list,
-        #btnAddConstraint,
-        #report_display_groups,
-        #btnAddDisplayGroup,
-        #report_display_field_list,
-        #btnAddDisplayField {
-            margin-top: 10px;
-        }
-
         .paddingLeftRequired{
             font-size: 8pt;
             padding-left: 15px;
             padding-top: 5px;
         }
 
-        div.error{
-            padding-left: 240px;
+        input[type="checkbox"] {
+            width: 14px;
+        }
+        
+        #joined_date_from, #joined_date_to, #age_group_value1, #age_group_value2, #service_period_value1, #service_period_value2 {
+            margin-left: 20px;
+        }
+        #age_group_value1, #age_group_value2, #service_period_value1, #service_period_value2 {
+            width: 192px;
         }
 
-        fieldset#name_fieldset ul.error_list li{
-            padding-left: 140px;
-        }
-
-        select#report_criteria_list,
-        select#report_display_groups,
-        select#report_display_field_list{
-            width: 150px;
-            height: 18px;
-        }
     </style>
     <script type="text/javascript">
     var datepickerDateFormat = '<?php echo get_datepicker_date_format($sf_user->getDateFormat()); ?>';
@@ -277,44 +254,6 @@ use_javascript('orangehrm.datepicker.js');
     <script type="text/javascript">
     $(document).ready(function() {
 
-        var rDate = trim($("#joined_date_from").val());
-
-            if (rDate == '') {
-                $("#joined_date_from").val(datepickerDateFormat);
-            }
-
-        //Bind date picker
-        daymarker.bindElement("#joined_date_from",
-        {
-            onSelect: function(date){
-
-            },
-            dateFormat : datepickerDateFormat
-        });
-
-        $('#joined_date_from_Button').click(function(){
-            daymarker.show("#joined_date_from");
-    });
-
-        var rDate = trim($("#joined_date_to").val());
-            if (rDate == '') {
-                $("#joined_date_to").val(datepickerDateFormat);
-            }
-
-        //Bind date picker
-        daymarker.bindElement("#joined_date_to",
-        {
-            onSelect: function(date){
-
-            },
-            dateFormat : datepickerDateFormat
-        });
-
-        $('#joined_date_to_Button').click(function(){
-            daymarker.show("#joined_date_to");
-    });
-
-           
         $('#filter_fields_inactive').find(':input').attr('disabled', 'disabled');
     
         // update display fields
@@ -369,7 +308,7 @@ use_javascript('orangehrm.datepicker.js');
         $('#report_display_groups').change(function(){
             updateDisplayFieldList();
         });
-        $('ul#filter_fields li a').live('click', function(event) {
+        $('ol#filter_fields li a').live('click', function(event) {
             event.preventDefault();
         
             var li = $(this).parent();
@@ -391,7 +330,7 @@ use_javascript('orangehrm.datepicker.js');
             $("#btnAddConstraint").removeAttr('disabled');
         });
     
-        $('ul#display_groups > li a').live('click', function(event) {
+        $('ol#display_groups > li a').live('click', function(event) {
             event.preventDefault();
             var li = $(this).parent();
             li.find('li').each(function() {
@@ -409,7 +348,7 @@ use_javascript('orangehrm.datepicker.js');
             updateDisplayFieldList();
         });
 
-        $('ul#display_groups ul.display_field_ul li a').live('click', function(event) {
+        $('ol#display_groups ul.display_field_ul li a').live('click', function(event) {
             event.preventDefault();
             var li = $(this).parent();
             li.find('input').attr('checked', false);
@@ -429,7 +368,7 @@ use_javascript('orangehrm.datepicker.js');
         
             var selectedItem = $('#report_criteria_list option:selected').remove().val();
         
-            var delLink = $('<a/>').attr('href', '#').text('X');
+        var delLink = $('<a/>').attr('href', '#').text('X').addClass('closeText');
         
             /*var delLink = $('<a/>').attr('href', '#').text('X').click(function() {
         var li = $(this).parent();
@@ -532,6 +471,7 @@ use_javascript('orangehrm.datepicker.js');
         //form validation
         var reportValidator =
             $("#defineReportForm").validate({
+            ignore: [], // reset the ignore list. by default hidden fields are ignored when validating
             rules: {
                 'report[report_name]': {required: true},
                 'display_fields[]': {required: true, minlength: 1}
@@ -540,7 +480,7 @@ use_javascript('orangehrm.datepicker.js');
                 'report[report_name]': '<?php echo __(ValidationMessages::REQUIRED);?>',
                 'display_fields[]': '<?php echo __(ValidationMessages::REQUIRED);?>'
             },
-            errorElement : 'div',
+            errorElement : 'span',
             errorPlacement: function(error, element) {
                 var elementId = element.attr('id');
                 
@@ -558,7 +498,7 @@ use_javascript('orangehrm.datepicker.js');
         }
 
         $("#btnCancel").click(function(){
-            navigateUrl("viewDefinedPredefinedReports");
+            window.location.href = 'viewDefinedPredefinedReports';
         });
     });
 </script>

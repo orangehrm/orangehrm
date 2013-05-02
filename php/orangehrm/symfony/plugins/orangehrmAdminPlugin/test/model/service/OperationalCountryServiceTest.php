@@ -125,7 +125,47 @@ class OperationalCountryServiceTest extends PHPUnit_Framework_TestCase {
         
         $this->service->getLocationsMappedToOperationalCountry($operationalCountry);
     }
+    
+    /**
+     * @covers OperationalCountryService::getOperationalCountriesForLocations
+     */
+    public function testGetOperationalCountriesForLocations_Success() {
+        $locationIdList = array(1, 3, 4, 5);
+        
+        $sriLanka = new Country();
+        $sriLanka->setName('Sri Lanka');
+        
+        $operationalCountryList = array();
+        $operationalCountryList[] = new OperationalCountry();
+        $operationalCountryList[] = new OperationalCountry();
+        $operationalCountryList[] = new OperationalCountry();
+        
+        $operationalCountryDaoMock = $this->getMock('OperationalCountryDao', array('getOperationalCountriesForLocations'));
+        $operationalCountryDaoMock->expects($this->once())
+                ->method('getOperationalCountriesForLocations')
+                ->with($locationIdList)
+                ->will($this->returnValue($operationalCountryList));
+        $this->service->setOperationalCountryDao($operationalCountryDaoMock);
+        
+        $result = $this->service->getOperationalCountriesForLocations($locationIdList);
+        $this->assertEquals($operationalCountryList, $result);
+    }
+    
+    /**
+     * @covers OperationalCountryService::getOperationalCountriesForLocations
+     * @expectedException DaoException
+     */
+    public function testGetOperationalCountriesForLocations_WithException() {
+        $operationalCountry = new OperationalCountry();
+        
+        $operationalCountryDaoMock = $this->getMock('OperationalCountryDao', array('getOperationalCountriesForLocations'));
+        $operationalCountryDaoMock->expects($this->once())
+                ->method('getOperationalCountriesForLocations')
+                ->will($this->throwException(new DaoException));
+        $this->service->setOperationalCountryDao($operationalCountryDaoMock);
+        
+        $this->service->getOperationalCountriesForLocations($operationalCountry);
+    }    
 
 }
 
-?>

@@ -99,7 +99,7 @@ class EmployeeMembershipForm extends BaseForm {
     
     /**
      * Set membership widgets 
-     * @return \ohrmWidgetDatePickerNew 
+     * @return \ohrmWidgetDatePicker 
      */
     private function getMembershipWidgets() {
         $empNumber = $this->getOption('empNumber');
@@ -112,8 +112,8 @@ class EmployeeMembershipForm extends BaseForm {
         $widgets['subscriptionPaidBy'] = new sfWidgetFormSelect(array('choices' => $subscriptionPaidBy));
         $widgets['subscriptionAmount'] = new sfWidgetFormInputText();
         $widgets['currency'] = new sfWidgetFormSelect(array('choices' => $currency));
-        $widgets['subscriptionCommenceDate'] = new ohrmWidgetDatePickerNew(array(), array('id' => 'membership_subscriptionCommenceDate'));
-        $widgets['subscriptionRenewalDate'] = new ohrmWidgetDatePickerNew(array(), array('id' => 'membership_subscriptionRenewalDate'));
+        $widgets['subscriptionCommenceDate'] = new ohrmWidgetDatePicker(array(), array('id' => 'membership_subscriptionCommenceDate'));
+        $widgets['subscriptionRenewalDate'] = new ohrmWidgetDatePicker(array(), array('id' => 'membership_subscriptionRenewalDate'));
         return $widgets;
     }
     

@@ -33,7 +33,7 @@ class updateNotificationAction extends sfAction {
 
         $toBeUpdatedIds = $request->getParameter('chkSelectRow');
         $this->getEmailNotificationService()->updateEmailNotification($toBeUpdatedIds);
-        $this->getUser()->setFlash('templateMessage', array('success', __(TopLevelMessages::SAVE_SUCCESS)));
+        $this->getUser()->setFlash('success', __(TopLevelMessages::SAVE_SUCCESS));
         $this->redirect('admin/viewEmailNotification');
     }
 

@@ -1,4 +1,7 @@
 $(document).ready(function() {
+    
+    $('#immigrationDataPane').hide();
+    $('#btnDelete').attr('disabled', 'disabled');
 
     var issuedDate = "";
     var passportIssueDate = $("#immigration_passport_issue_date");
@@ -44,27 +47,14 @@ $(document).ready(function() {
             'immigration[passport_expire_date]' : {valid_date: lang_invalidDate, date_range: lang_issuedGreaterExpiry},
             'immigration[i9_review_date]' : {valid_date: lang_invalidDate},
             'immigration[comments]': {maxlength: lang_commentLength}
-        },
-
-        errorElement : 'label',
-        errorPlacement: function(error, element) {
-            error.appendTo(element.prev('label'));
-            error.insertBefore(element.next(".clear"));
-
         }
     });
   
     //enable, dissable views on loading
     //this is to findout whether passport details already entered
-    if(havePassports) {
-        $(".paddingLeftRequired").hide();
-        $("#immigrationDataPane").hide();
-    } else {
-        $("#btnCancel").hide();
+    if(!(havePassports)) {
+        $(".check").hide();
         $("#immigrationHeading").text(lang_addImmigrationHeading);
-        $(".paddingLeftRequired").show();
-        $("#immigrationDataPane").show();
-        $("#immidrationList").hide();
     }
 
     //on clicking of add button
@@ -74,8 +64,8 @@ $(document).ready(function() {
         $("#immigrationHeading").text(lang_addImmigrationHeading);
         $(".paddingLeftRequired").show();
         $("#immigrationDataPane").show();
-        $('form#frmImmigrationDelete table.data-table input.checkbox').hide();
-        $("form#frmImmigrationDelete div.actionbar").hide();
+        $('.check').hide();
+        $("#listActions").hide();
         removeEditLinks();
         $("#messagebar").attr("class", "").text('');                
     });
@@ -93,8 +83,8 @@ $(document).ready(function() {
 
         $(".paddingLeftRequired").hide();
         $("#immigrationDataPane").hide();
-        $('form#frmImmigrationDelete table.data-table input.checkbox').show();
-        $("form#frmImmigrationDelete div.actionbar").show();
+        $('.check').show();
+        $("#listActions").show();
         if(canUpdate){
             addEditLinks();
         }
@@ -119,8 +109,8 @@ $(document).ready(function() {
         
         var code = $(this).closest("tr").find('input.checkbox:first').val();
         fillDataToImmigrationDataPane(code);
-        $('form#frmImmigrationDelete table.data-table input.checkbox').hide();
-        $("form#frmImmigrationDelete div.actionbar").hide();
+        $('.check').hide();
+        $("#listActions").hide();
         $("#messagebar").attr("class", "").text('');        
         
         loadDefaultDateMasks();
@@ -133,6 +123,12 @@ $(document).ready(function() {
         if($("#immigrationCheckAll").attr("checked")) {
             $("form#frmImmigrationDelete table tbody .checkbox").attr("checked", "checked");
         }
+        
+        if($('form#frmImmigrationDelete table tbody .checkbox:checkbox:checked').length > 0) {
+            $('#btnDelete').removeAttr('disabled');
+        } else {
+            $('#btnDelete').attr('disabled', 'disabled');
+        }
     });
 
     //remove tick from the all button if any checkbox unchecked
@@ -140,6 +136,12 @@ $(document).ready(function() {
         $("#immigrationCheckAll").removeAttr('checked');
         if($("form#frmImmigrationDelete table tbody .checkbox").length == $("form#frmImmigrationDelete table tbody .checkbox:checked").length) {
             $("#immigrationCheckAll").attr('checked', 'checked');
+        }
+        
+        if($('form#frmImmigrationDelete table tbody .checkbox:checkbox:checked').length > 0) {
+            $('#btnDelete').removeAttr('disabled');
+        } else {
+            $('#btnDelete').attr('disabled', 'disabled');
         }
     });     
     
@@ -161,11 +163,14 @@ $(document).ready(function() {
 //function to load data for updating
 function fillDataToImmigrationDataPane(seqno) {
 
-    var controls = new Array("number", "passport_issue_date", "passport_expire_date", "i9_status", "country", "i9_review_date", "comments");
-    for(i=0; i < controls.length; i++) {
-        //this is to say something like $('#immigration_number').val($("#number_" + seqno).val());
-        $("#immigration_" + controls[i]).val($("#" + controls[i] + "_" + seqno).val());
-    }
+    $('#immigration_number').val(recordsAsJSON[seqno].number);
+    $('#immigration_passport_issue_date').val(recordsAsJSON[seqno].issuedDate);
+    $('#immigration_passport_expire_date').val(recordsAsJSON[seqno].expiryDate);
+    $('#immigration_i9_status').val(recordsAsJSON[seqno].status);
+    $('#immigration_country').val(recordsAsJSON[seqno].countryCode);
+    $('#immigration_i9_review_date').val(recordsAsJSON[seqno].reviewDate);
+    $('#immigration_comments').val(recordsAsJSON[seqno].notes);
+
     $("#immigration_seqno").val(seqno);
 
     var typeFlag = $("#type_flag_" + seqno).val();

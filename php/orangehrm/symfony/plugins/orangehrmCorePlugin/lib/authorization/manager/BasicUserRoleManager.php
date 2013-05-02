@@ -34,6 +34,10 @@ class BasicUserRoleManager extends AbstractUserRoleManager {
     protected $locationService;
     protected $dataGroupService;
     protected $subordinates = null;   
+    protected $menuService;
+    protected $projectService;
+    protected $vacancyService;
+    protected $homePageDao;
     
     protected $userRoleClasses;
 
@@ -59,7 +63,7 @@ class BasicUserRoleManager extends AbstractUserRoleManager {
                     }
 
                     foreach ($configuraiton as $roleName => $roleObj) {
-                        $this->userRoleClasses[$roleName] = new $roleObj['class']($this, $roleName);
+                        $this->userRoleClasses[$roleName] = new $roleObj['class']($roleName, $this);
                     }
                 }
             }
@@ -80,7 +84,7 @@ class BasicUserRoleManager extends AbstractUserRoleManager {
                     }
 
                     foreach ($configuraiton as $roleName => $roleObj) {
-                        $this->userRoleClasses[$roleName] = new $roleObj['class']($this, $roleName ,$this->userRoleClasses[$roleName]);
+                        $this->userRoleClasses[$roleName] = new $roleObj['class']($roleName, $this, $this->userRoleClasses[$roleName]);
                     }
                 }
             }
@@ -154,6 +158,59 @@ class BasicUserRoleManager extends AbstractUserRoleManager {
     public function setEmployeeService($employeeService) {
         $this->employeeService = $employeeService;
     }
+    
+    public function getMenuService() {
+        
+        if (!$this->menuService instanceof MenuService) {
+            $this->menuService = new MenuService();
+        }
+        
+        return $this->menuService;
+        
+    }
+    
+    public function setMenuService(MenuService $menuService) {
+        $this->menuService = $menuService;
+    }
+    
+    public function getProjectService() {
+        
+        if (is_null($this->projectService)) {
+            $this->projectService = new ProjectService();
+        }
+        
+        return $this->projectService;
+        
+    }
+
+    public function setProjectService($projectService) {
+        $this->projectService = $projectService;
+    }
+    
+    public function getVacancyService() {
+        
+        if (is_null($this->vacancyService)) {
+            $this->vacancyService = new VacancyService();
+        }
+        
+        return $this->vacancyService;
+        
+    }
+
+    public function setVacancyService($vacancyService) {
+        $this->vacancyService = $vacancyService;
+    }    
+    
+    public function getHomePageDao() {
+        if (!$this->homePageDao instanceof HomePageDao) {
+            $this->homePageDao = new HomePageDao();
+        }
+        return $this->homePageDao;
+    }
+
+    public function setHomePageDao($homePageDao) {
+        $this->homePageDao = $homePageDao;
+    }    
 
     public function getAccessibleEntities($entityType, $operation = null, $returnType = null,
             $rolesToExclude = array(), $rolesToInclude = array(), $requiredPermissions = array()) {
@@ -251,11 +308,14 @@ class BasicUserRoleManager extends AbstractUserRoleManager {
      * @param type $action
      * @return boolean 
      */
-    public function isActionAllowed($workFlowId, $state, $action){
+    public function isActionAllowed($workFlowId, $state, $action, $rolesToExclude = array(), $rolesToInclude = array(), $entities = array()){
         $accessFlowStateMachineService = new AccessFlowStateMachineService();
         $isAllowed = FALSE;
-        foreach ($this->userRoles as $role) {
-           $isAllowed = $accessFlowStateMachineService->isActionAllowed($workFlowId, $state, $role, $action);
+        
+        $filteredRoles = $this->filterRoles($this->userRoles, $rolesToExclude, $rolesToInclude, $entities);
+        
+        foreach ($filteredRoles as $role) {
+           $isAllowed = $accessFlowStateMachineService->isActionAllowed($workFlowId, $state, $role->getName(), $action);
            if($isAllowed){
                break;
            }
@@ -264,23 +324,44 @@ class BasicUserRoleManager extends AbstractUserRoleManager {
     }
     
     /**
-     * Get allowed Actions for User
+     * Get allowed Workflow action items for User
      * 
-     * @param type $workflow
-     * @param type $state
-     * @return actionsArray 
+     * @param string $workflow Workflow Name
+     * @param string $state Workflow state
+     * @return array Array of workflow items with action name as array index 
      */
-    public function getAllowedActions($workflow, $state){
+    public function getAllowedActions($workflow, $state, $rolesToExclude = array(), $rolesToInclude = array(), $entities = array()){
         $accessFlowStateMachineService = new AccessFlowStateMachineService();
-        $allAction = array();
-        foreach ($this->userRoles as $role) {
-            $userAction = $accessFlowStateMachineService->getAllowedActions($workflow, $state, $role);     
-            
-            if (count($userAction) > 0) {
-                $allAction = array_unique(array_merge($allAction, $userAction));
+        $allActions = array();
+        
+        $filteredRoles = $this->filterRoles($this->userRoles, $rolesToExclude, $rolesToInclude, $entities);
+        
+        foreach ($filteredRoles as $role) {        
+            $workFlowItems = $accessFlowStateMachineService->getAllowedWorkflowItems($workflow, $state, $role->getName());     
+
+            if (count($workFlowItems) > 0) {
+                $allActions = $this->getUniqueActionsBasedOnPriority($allActions, $workFlowItems);
             }
         }
-        return $allAction;
+        return $allActions;
+    }
+    
+    protected function getUniqueActionsBasedOnPriority($currentItems, $itemsToMerge) {
+        
+        foreach($itemsToMerge as $item) {
+            $actionName = $item->getAction();
+            if (!isset($currentItems[$actionName])) {
+                $currentItems[$actionName] = $item;
+            } else {                
+                $existing = $currentItems[$actionName];
+                
+                if ($item->getPriority() > $existing->getPriority()) {
+                    $currentItems[$actionName] = $item;
+                }
+            }
+        }
+        
+        return $currentItems;        
     }
     
 
@@ -315,10 +396,27 @@ class BasicUserRoleManager extends AbstractUserRoleManager {
 
         return $accessible;
     }
+    
+    public function getEmployeesWithRole($roleName, $entities = array()) {
+        
+        $employees = array();
+        $roleClass = $this->getUserRoleClass($roleName);
+        if (!empty($roleClass)) {
+            $employees = $roleClass->getEmployeesWithRole($entities);
+        }
+        
+        return $employees;
+    }
 
     public function getAccessibleModules() {
         
     }
+    
+    public function getAccessibleMenuItemDetails() {
+        
+        return $this->getMenuService()->getMenuItemDetails($this->userRoles);
+        
+    }    
 
     public function isModuleAccessible($module) {
         
@@ -347,12 +445,30 @@ class BasicUserRoleManager extends AbstractUserRoleManager {
         // Check for supervisor:
         $empNumber = $user->getEmpNumber();
         if (!empty($empNumber)) {
+            
+            if ($user->getUserRole()->getName() != 'ESS') {
+                $roles[] = $this->getSystemUserService()->getUserRole('ESS');
+            }
+            
+            if ($this->isProjectAdmin($empNumber)) {
+                $roles[] = $this->getSystemUserService()->getUserRole('ProjectAdmin');
+            }
+            
+            if ($this->isHiringManager($empNumber)) {
+                $roles[] = $this->getSystemUserService()->getUserRole('HiringManager');
+            }
+            
+            if ($this->isInterviewer($empNumber)) {
+                $roles[] = $this->getSystemUserService()->getUserRole('Interviewer');
+            }            
+            
             if ($this->getEmployeeService()->isSupervisor($empNumber)) {
                 $supervisorRole = $this->getSystemUserService()->getUserRole('Supervisor');
                 if (!empty($supervisorRole)) {
                     $roles[] = $supervisorRole;
                 }
-            }
+            }                        
+            
         }
         
         
@@ -400,6 +516,15 @@ class BasicUserRoleManager extends AbstractUserRoleManager {
         return $empList1;
     }
     
+    /**
+     * Filter the given $userRoles array according to the given parameters
+     * 
+     * @param Array $userRoles Array of UserRole objects
+     * @param Array $rolesToExclude Array of User role names to exclude. These user roles will be removed from $userRoles
+     * @param Array $rolesToInclude Array of User role names to include. If not empty, only these user roles will be included.
+     * @param Array $entities Array of details relevent to deciding if a particular user role applies to this 
+     * @return Array $userRoles array filtered as described above.
+     */
     protected function filterRoles($userRoles, $rolesToExclude, $rolesToInclude, $entities = array()) {
 
         
@@ -436,8 +561,20 @@ class BasicUserRoleManager extends AbstractUserRoleManager {
                 $include = true;
                 
                 if ($role->getName() == 'Supervisor') {
+                                    
+                    // If Employee entitiy is given, supervisor role will only 
+                    // apply if current employee is the supervisor for the given employee
                     if (isset($entities['Employee'])) {
                         if (!$this->isSupervisorFor($entities['Employee'])) {
+                            $include = false;
+                        }
+                    }
+                } else if ($role->getName() == 'ESS') {
+                    
+                    // If Employee entity is given, the ESS role will only apply
+                    // If current logged in employee is the same as the passed entity.
+                    if (isset($entities['Employee'])) {
+                        if ($this->user->getEmpNumber() != $entities['Employee']) {
                             $include = false;
                         }
                     }
@@ -467,6 +604,18 @@ class BasicUserRoleManager extends AbstractUserRoleManager {
         return false;
     }
     
+    protected function isProjectAdmin($empNumber) {
+        return $this->getProjectService()->isProjectAdmin($empNumber);
+    }
+    
+    private function isHiringManager($empNumber) {
+        return $this->getVacancyService()->isHiringManager($empNumber);
+    }
+    
+    private function isInterviewer($empNumber) {
+        return $this->getVacancyService()->isInterviewer($empNumber);
+    }    
+
     public function getDataGroupService() {
          if (empty($this->dataGroupService)) {
             $this->dataGroupService = new DataGroupService();
@@ -529,6 +678,59 @@ class BasicUserRoleManager extends AbstractUserRoleManager {
         return $resourcePermission;
     }
     
+    public function getModuleDefaultPage($module) {
+        $action = NULL;
+        
+        $userRoleIds = array();
+        foreach ($this->userRoles as $role) {
+            $userRoleIds[] = $role->getId();
+        }
+        $defaultPages = $this->getHomePageDao()->getModuleDefaultPagesInPriorityOrder($module, $userRoleIds);
+
+        foreach ($defaultPages as $defaultPage) {
+            $enabled = true;
+            $enableClass = $defaultPage->getEnableClass();
+
+            if (!empty($enableClass) && class_exists($enableClass)) {
+                $enableClassInstance = new $enableClass();
+                if ($enableClassInstance instanceof HomePageEnablerInterface) {
+                    $enabled = $enableClassInstance->isEnabled($this->getUser());
+                }
+            }
+            
+            if ($enabled) {
+                $action = $defaultPage->getAction();
+                break;
+            }
+        }
+        
+        return $action;        
+    }
     
-    
+    public function getHomePage() {
+        $action = NULL;
+        
+        $userRoleIds = array();
+        foreach ($this->userRoles as $role) {
+            $userRoleIds[] = $role->getId();
+        }
+        $defaultPages = $this->getHomePageDao()->getHomePagesInPriorityOrder($userRoleIds);
+        
+        foreach ($defaultPages as $defaultPage) {
+            $enabled = true;
+            $enableClass = $defaultPage->getEnableClass();
+            if (!empty($enableClass) && class_exists($enableClass)) {
+                $enableClassInstance = new $enableClass();
+                if ($enableClassInstance instanceof HomePageEnablerInterface) {
+                    $enabled = $enableClassInstance->isEnabled($this->getUser());
+                }
+            }
+            if ($enabled) {
+                $action = $defaultPage->getAction();
+                break;
+            }
+        }
+        
+        return $action;        
+    }    
 }

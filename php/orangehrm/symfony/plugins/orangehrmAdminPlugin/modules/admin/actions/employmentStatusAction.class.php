@@ -61,7 +61,7 @@ class employmentStatusAction extends sfAction {
 			$this->form->bind($request->getParameter($this->form->getName()));
 			if ($this->form->isValid()) {
 				$this->form->save();
-				$this->getUser()->setFlash('templateMessage', array('success', __(TopLevelMessages::SAVE_SUCCESS)));
+				$this->getUser()->setFlash('success', __(TopLevelMessages::SAVE_SUCCESS));
 				$this->redirect('admin/employmentStatus');
 			}
 		}

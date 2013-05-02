@@ -74,39 +74,27 @@ class updateReportToDetailAction extends basePimAction {
                     $value = $this->form->save();
                     
                     if ($value[2] == 'failed') {
-                        $this->getUser()->setFlash('templateMessage', array('failure', __(TopLevelMessages::SAVE_FAILURE)));
+                        $this->getUser()->setFlash('failure', __(TopLevelMessages::SAVE_FAILURE));
                     } else if ($value[2] == 'updated') {
-                        $this->getUser()->setFlash('templateMessage', array('success', __(TopLevelMessages::UPDATE_SUCCESS)));
+                        $this->getUser()->setFlash('success', __(TopLevelMessages::UPDATE_SUCCESS));
                     } else if ($value[2] == 'saved') {
-                        $this->getUser()->setFlash('templateMessage', array('success', __(TopLevelMessages::SAVE_SUCCESS)));
+                        $this->getUser()->setFlash('success', __(TopLevelMessages::SAVE_SUCCESS));
                     }
-//                    if ($value[0] == ReportTo::SUPERVISOR) {
-//                        if ($value[1]) {
-//                            $this->getUser()->setFlash('templateMessage', array('success', __(TopLevelMessages::UPDATE_SUCCESS)));
-//                        } else {
-//                            $this->getUser()->setFlash('templateMessage', array('success', __(TopLevelMessages::SAVE_SUCCESS)));
-//                        }
-//                    }
-//                    if ($value[0] == ReportTo::SUBORDINATE) {
-//                        if ($value[1]) {
-//                            $this->getUser()->setFlash('templateMessage', array('success', __(TopLevelMessages::UPDATE_SUCCESS)));
-//                        } else {
-//                            $this->getUser()->setFlash('templateMessage', array('success', __(TopLevelMessages::SAVE_SUCCESS)));
-//                        }
-//                    }
                 }
             }
         }
 
         $empNumber = $request->getParameter('empNumber');
 
+        $section = ($this->form->getValue('type_flag') == ReportTo::SUPERVISOR) ? 'supervisor' : 'subordinates';
+        $this->getUser()->setFlash('reportTo', $section);
         $this->redirect('pim/viewReportToDetails?empNumber=' . $empNumber);
     }
 
     protected function _checkDuplicateEntry($empNumber) {
 
         if (empty($id) && $this->getReportingMethodConfigurationService()->isExistingReportingMethodName($this->form->getValue('reportingMethod'))) {
-            $this->getUser()->setFlash('templateMessage', array('warning', __('Name Already Exists')));
+            $this->getUser()->setFlash('warning', __('Name Already Exists'));
             $this->redirect('pim/viewReportToDetails?empNumber=' . $empNumber);
         }
     }

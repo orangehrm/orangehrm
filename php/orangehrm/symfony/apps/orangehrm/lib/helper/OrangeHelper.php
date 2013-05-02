@@ -21,7 +21,6 @@
 /**
  * Helper functions for orangehrm specific actions
  */
-require_once ROOT_PATH . '/lib/common/CommonFunctions.php';
 
 /**
  * Formats the employee number as expected by other components, by 
@@ -133,8 +132,37 @@ function templateMessage($errors) {
 
 }
 
+/**
+ * String format the given number with SI unit prefix for units.
+ *
+ * Method has an accuracy of 2 d.p
+ *
+ * e.g. 1000 => 1K
+ *
+ * @param Integer number
+ * @return String formatted
+ */
 function add_si_unit($number) {
-    return CommonFunctions::formatSiUnitPrefix($number);
+    switch ($number) {
+        case $number >= 1000000000000 : $prefix = " T";
+            $divisor = 1000000000000;
+            break;
+        case $number >= 1000000000 : $prefix = " G";
+            $divisor = 1000000000;
+            break;
+        case $number >= 1000000 : $prefix = " M";
+            $divisor = 1000000;
+            break;
+        case $number >= 1000 : $prefix = " k";
+            $divisor = 1000;
+            break;
+        default : $prefix = "";
+            $divisor = 1;
+            break;
+    }
+    $formatted = round(($number / $divisor), 2) . "{$prefix}";
+
+    return $formatted;
 }
 
 function formatDate($currentDate, $formatData) {
@@ -156,13 +184,64 @@ function formatDate($currentDate, $formatData) {
     
 }
 
-
 /**
- * @see CommonFunctions::escapeForJavascript
+ * Escape string for use in javascript
+ *
+ * Escapes characters \, ", ' in the string by adding a \ in front.
+ *
+ * (based on http://code.google.com/p/doctype/wiki/ArticleXSSInJavaScript)
+ *
+ * @param String $string String to be escaped
+ * @return String escaped string
  */
 function escapeForJavascript($string) {
-    return CommonFunctions::escapeForJavascript($string);
+        $charArray = str_split($string);
+        $escapedString = '';
+
+        foreach($charArray as $char) {
+                switch ($char) {
+                        case "'":
+                                $escapedString .= "\\x27";
+                                break;
+                        case "\"":
+                                $escapedString .= "\\x22";
+                                break;
+                        case '\\':
+                                $escapedString .= "\\\\";
+                                break;
+                        case "\n":
+                                $escapedString .= "\\n";
+                                break;
+                        case "\r":
+                                $escapedString .= "\\r";
+                                break;
+        case "\t":
+            $escapedString .= "\\t";
+            break;                    
+                        case "\f":
+                                $escapedString .= "\\f";
+                                break;
+        case "&":
+            $escapedString .= "\\x26";
+                                break;
+        case "<":
+            $escapedString .= "\\x3c";
+                                break;
+        case ">": 
+            $escapedString .= "\\x3e";
+                                break;
+        case "=":
+            $escapedString .= "\\x3d";
+                                break;                    
+
+                        default :
+                                $escapedString .= $char;
+                                break;
+                }
+        }
+        return $escapedString;
 }
+        
 
 /**
  * Escapes any special characters to html entities and make it safe for including into a web page.
@@ -172,4 +251,51 @@ function escapeForJavascript($string) {
  */
 function escapeHtml($value) {
     return htmlspecialchars($value, ENT_QUOTES);
+}
+
+function displayMainMessage($messageType, $message) {
+    
+    $message = "<div class=\"message $messageType fadable\">$message<a href=\"#\" class=\"messageCloseButton\">Close</a></div>";
+    
+    $message .= '<script type="text/javascript">
+                //<![CDATA[
+                    $("div.fadable").delay(2000)
+                        .fadeOut("slow", function () {
+                            $("div.fadable").remove();
+                        }); 
+                //<![CDATA[
+                </script>';
+    
+    return $message;
+    
+}
+
+function theme_path($path) {
+    
+    $sfUser = sfContext::getInstance()->getUser();
+    
+    if (!$sfUser->hasAttribute('meta.themeName')) {
+        $themeName = OrangeConfig::getInstance()->getAppConfValue(ConfigService::KEY_THEME_NAME);
+        if (empty($themeName)) {
+            $themeName = 'default';
+        }
+        $sfUser->setAttribute('meta.themeName', $themeName);
+    }
+
+    $themeName = $sfUser->getAttribute('meta.themeName'); 
+    
+    $resourceDir = sfConfig::get('ohrm_resource_dir');
+    $themePath = public_path($resourceDir . '/themes/' . $themeName . '/');
+    $themePath = empty($path)? $themePath : $themePath . $path;
+    
+    return $themePath;
+    
+}
+
+function plugin_web_path($plugin, $path) {
+    
+    $resourceDir = sfConfig::get('ohrm_resource_dir');
+    $path = public_path($resourceDir . '/' . $plugin . '/' . $path);
+    
+    return $path;    
 }

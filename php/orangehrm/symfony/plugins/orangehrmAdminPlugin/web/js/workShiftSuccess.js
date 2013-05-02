@@ -23,7 +23,7 @@ $(document).ready(function() {
     $('#btnAdd').click(function() {
         resetMultipleSelectBoxes();
         $('#workShift').show();
-        $('#btnAdd').hide();
+        $('.top').hide();
         $('#workShift_name').val('');
         $('#workShift_hours').val('');
         $('#workShift_workShiftId').val('');
@@ -33,7 +33,7 @@ $(document).ready(function() {
     
     $('#btnCancel').click(function() {
         $('#workShift').hide();
-        $('#btnAdd').show();
+        $('.top').show();
         validator.resetForm();
     });
     
@@ -72,30 +72,9 @@ $(document).ready(function() {
         }
     });
 
-    $('#btnDelete').click(function(){
-        $('#frmList_ohrmListComponent').submit(function(){
-            $('#deleteConfirmation').dialog('open');
-            return false;
-        });
-    });
-
-    $("#deleteConfirmation").dialog({
-        autoOpen: false,
-        modal: true,
-        width: 325,
-        height: 50,
-        position: 'middle',
-        open: function() {
-            $('#dialogCancelBtn').focus();
-        }
-    });
-
     $('#frmList_ohrmListComponent').attr('name','frmList_ohrmListComponent');
     $('#dialogDeleteBtn').click(function() {
         document.frmList_ohrmListComponent.submit();
-    });
-    $('#dialogCancelBtn').click(function() {
-        $("#deleteConfirmation").dialog("close");
     });
         
     $.validator.addMethod("uniqueName", function(value, element, params) {
@@ -156,11 +135,6 @@ $(document).ready(function() {
                 min: lang_possitiveNumber,
                 max: lang_lessThan24
             }
-        },
-
-        errorPlacement: function(error, element) {
-            error.appendTo(element.next('div.errorHolder'));
-
         }
 
     });
@@ -174,7 +148,7 @@ function getWorkShiftInfo(url){
         $('#workShift_hours').val(data.hoursPerDay);
         $('#workShift').show();
         $(".messageBalloon_success").remove();
-        $('#btnAdd').hide();
+        $('.top').hide();
     });
 }
 

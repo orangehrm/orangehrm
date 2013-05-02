@@ -13,6 +13,10 @@ class ViewPredefinedReportsSearchForm extends sfForm {
         $this->setValidators(array(
             'search' => new sfValidatorString(array('required' => false))
         ));
+        
+        $this->widgetSchema->setLabels(array(
+            'search' => __('Report Name')
+        ));
     }
 
     public function getReportListAsJson($reportList) {

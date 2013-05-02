@@ -96,7 +96,7 @@ class LinkCellTest extends PHPUnit_Framework_TestCase {
 
         public function testConditionalLinkableCells() {
         $dataObject = new LinkCellTestDataObject();
-        $conditionalParams = new sfOutputEscaperArrayDecorator('', array(3));
+        $conditionalParams = new sfOutputEscaperArrayDecorator('htmlentities', array(3));
         
         $this->linkCell->setDataObject($dataObject);
         $this->linkCell->setProperties(array(
@@ -112,7 +112,7 @@ class LinkCellTest extends PHPUnit_Framework_TestCase {
         $expectedLink = 'Label';
         $this->assertEquals($expectedLink, $this->linkCell->__toString());
         
-        $conditionalParams = new sfOutputEscaperArrayDecorator('', array(2));
+        $conditionalParams = new sfOutputEscaperArrayDecorator('htmlentities', array(2));
         $this->linkCell->setProperties(array(
             'labelGetter' => 'getLabel',
             'linkable' => array('isEven', $conditionalParams),

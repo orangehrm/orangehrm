@@ -19,17 +19,11 @@
 
 define('ROOT_PATH', dirname(__FILE__));
 
-require_once ROOT_PATH . '/lib/common/Language.php';
-$lan = new Language();
-require_once ROOT_PATH . '/language/default/lang_default_full.php';
-require_once($lan->getLangPath("full.php"));
-
 $url = 'symfony/web/index.php/recruitmentApply/jobs.html';
-//$url = 'lib/controllers/PublicController.php?recruitcode=ApplicantViewJobs';
 ?>
 <html>
 <head>
-<title><?php echo $lang_Recruit_ApplicantVacancyList_Title; ?></title>
+<title>Job Vacancies</title>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 </head>
 <body leftmargin="0" topmargin="0" marginwidth="0" marginheight="0">

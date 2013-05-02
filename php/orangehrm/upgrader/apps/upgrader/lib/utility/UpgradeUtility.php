@@ -46,6 +46,8 @@ class UpgradeUtility {
     public function executeSql($query) {
         $result = mysqli_query($this->dbConnection, $query);
         
+        UpgradeLogger::writeLogMessage('Executing SQL:' . $query);
+        
         if (!$result) {
             $logMessage = 'MySQL Error: ' . mysqli_error($this->dbConnection) . ". \nQuery: $query\n";
             UpgradeLogger::writeErrorMessage($logMessage);
@@ -100,7 +102,7 @@ class Conf {
         }
         \$this->dbuser    = '$dbOHRMUser';
         \$this->dbpass  = '$dbOHRMPassword';
-        \$this->version = '2.7-rc.1';
+        \$this->version = '3.0.1';
 
         \$this->emailConfiguration = dirname(__FILE__).'/mailConf.php';
         \$this->errorLog =  realpath(dirname(__FILE__).'/../logs/').'/';
@@ -193,12 +195,20 @@ CONFCONT;
      */
     public function getEndIncrementNumber() {
         
-        return 54;
+        return 56;
         
     }
     
     public function getVersionAndIncrementerNumbers() {
         
+        /*
+         * NOTE: The increment numbers listed here
+         * are the schema increment to start with when upgrading the given
+         * version. 
+         * 
+         * Not the schema increment number that corresponds to that versions db schema.
+         * 
+         */
         /*
         $a['2.6']       = zz;
         $a['2.6.0.1']   = zz;
@@ -223,6 +233,8 @@ CONFCONT;
         $a['2.6.12']    = 49;
         $a['2.6.12.1']  = 50;
         $a['2.7']       = 51;
+        $a['2.7.1']     = 55;
+        $a['3.0']       = 56;
         
         return $a;
         
@@ -233,18 +245,20 @@ CONFCONT;
      */
     public function getNewVersion() {
         
-        return '2.7.1';
+        return '3.0.1';
         
     }
     
     /**
      * @todo Get the current version of the system
+     * 
+     * unused, therefore commented out.
      */
-    public function getCurrentVersion($incrementNumber) {
+    /*public function getCurrentVersion($incrementNumber) {
         
         return '2.11.3';
         
-    }
+    }*/
     
     /**
      * @todo Check for upgrade info table and return true/false
@@ -308,6 +322,8 @@ CONFCONT;
     public function getNotes($startIncNumber, $endIncNumber) {
         
         $notes = array();
+        
+        $notes[] = "If you have enabled data encryption in your current version, you need to copy the file 'lib/confs/cryptokeys/key.ohrm' from your current installation to corresponding location in the new version.";
         
         for ($i = $startIncNumber; $i <= $endIncNumber; $i++) {
             

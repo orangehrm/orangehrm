@@ -59,7 +59,7 @@ class updateAttachmentAction extends basePimAction {
                     }
 
                     $this->form->save();
-                    $this->getUser()->setFlash('attachmentMessage', array('success', __(TopLevelMessages::SAVE_SUCCESS)));
+                    $this->getUser()->setFlash('listAttachmentPane.success', __(TopLevelMessages::SAVE_SUCCESS));
                 } else {
 
                     $validationMsg = '';
@@ -69,7 +69,7 @@ class updateAttachmentAction extends basePimAction {
                         }
                     }
 
-                    $this->getUser()->setFlash('attachmentMessage', array('warning', $validationMsg));
+                    $this->getUser()->setFlash('saveAttachmentPane.warning',$validationMsg);
                     $this->getUser()->setFlash('attachmentComments', $request->getParameter('txtAttDesc'));
                     $this->getUser()->setFlash('attachmentSeqNo', $request->getParameter('seqNO'));
                 }

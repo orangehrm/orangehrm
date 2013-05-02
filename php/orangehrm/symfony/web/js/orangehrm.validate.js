@@ -4,6 +4,51 @@
  *
  **/
 
+/** Set default for jquery validator */
+(function($){
+    
+    // Remember default onkeyup function
+    var jqValidatorDefaultOnKeyUp = jQuery.validator.defaults.onkeyup;
+    
+    $.validator.setDefaults({
+        errorElement : 'span',
+        errorClass : 'validation-error',
+
+        // If element has onkeyup:false, do not run onkeyup validation for that element.
+        onkeyup: function(element) {
+            var elementName = jQuery(element).attr('name');
+            if (this.settings.rules[elementName] != undefined) {
+                
+                var applyDefaultFunction = true;
+                
+                // onkeyup: 'if_invalid': apply onkeyup only if element is invalid
+                // onkeyup: false: do not apply onkeyup
+                //
+                if ((this.settings.rules[elementName].onkeyup === false) || 
+                    ( (this.settings.rules[elementName].onkeyup === 'if_invalid') && 
+                      (this.invalid[element.name] === undefined)
+                    )) {
+                    applyDefaultFunction = false;
+                }
+                
+                if (applyDefaultFunction) {
+                  jqValidatorDefaultOnKeyUp.apply(this, arguments);
+                }
+            }
+        }     
+    });
+
+}(jQuery));    
+
+/**
+ * Dummy validation method used to add onkeyup: rules to the validation rules.
+ * See above for where this is being used.
+ */
+$.validator.addMethod("onkeyup",
+    function(value, element, params) {
+        return true;
+    });
+    
 /**
  * valid_date validator method.
  *
@@ -131,8 +176,14 @@ $.validator.addMethod("phone", function(value, element) {
 $.validator.addMethod('date_range', function(value, element, params) {
 
     var valid = false;
-    var fromDate = $.trim(params.fromDate);
-    var toDate = $.trim(value);
+
+    if (params.fromDate != undefined) {
+        var fromDate = $.trim(params.fromDate);
+        var toDate = $.trim(value);
+    } else {
+        var fromDate = $.trim(value); 
+        var toDate = $.trim(params.toDate);       
+    }
     var format = params.format;
     var displayFormat = '';
 
@@ -151,5 +202,45 @@ $.validator.addMethod('date_range', function(value, element, params) {
             valid = true;
         }
     }
+    return valid;
+});
+
+/** Check if input value is the default (eg: type for... hint)
+ *
+ * Use as follows:
+ *
+ * To check for one default:
+ *   'name': {
+ *      required: true,
+ *      no_default_value: function() {
+ *        return {
+ *          defaults: 'Type for hints...'
+ *        }
+ *      }
+ *    },
+ *    
+ * For more than one default, use:
+ *  defaults: ['loading...', 'Type for hints...']   
+ */                    
+$.validator.addMethod("no_default_value", function(value, element, params) {
+    var valid = true;
+    
+    if (params.defaults) {
+        
+        // If defaults is an array, check for each element
+        if (params.defaults instanceof Array) {
+            for (var i = 0; i < params.defaults.length; i++) {
+                if (value == params.defaults[i]) {
+                    valid = false;
+                    break;
+                }
+            }            
+        } else {
+            if (value == params.defaults) {
+                valid = false;
+            }
+        }
+    }
+
     return valid;
 });

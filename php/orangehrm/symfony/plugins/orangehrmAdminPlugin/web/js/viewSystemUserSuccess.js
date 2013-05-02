@@ -31,17 +31,6 @@ $(document).ready(function() {
         });
     });
 
-    $("#deleteConfirmation").dialog({
-        autoOpen: false,
-        modal: true,
-        width: 325,
-        height: 50,
-        position: 'middle',
-        open: function() {
-            $('#dialogCancelBtn').focus();
-        }
-    });
-
     $('#frmList_ohrmListComponent').attr('name','frmList_ohrmListComponent');
     $('#dialogDeleteBtn').click(function() {
         document.frmList_ohrmListComponent.submit();
@@ -64,6 +53,12 @@ $(document).ready(function() {
         $("#searchSystemUser_status option[value='']").attr("selected", "selected");
         window.location.replace(viewUserUrl);
     });
+    
+    /* Delete confirmation controls: Begin */
+        $('#dialogDeleteBtn').click(function() {
+            document.frmList_ohrmListComponent.submit();
+        });
+        /* Delete confirmation controls: End */
     
 });
 

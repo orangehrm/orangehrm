@@ -36,11 +36,8 @@ class ButtonTest extends PHPUnit_Framework_TestCase {
         $this->button->setIdentifier('Save');
         $expectedAttributes = array(
             'type="button"',
-            'class="plainbtn"',
             'id="btnSave"',
             'name="btnSave"',
-            'onmouseover="this.className=\'plainbtn plainbtnhov\'"',
-            'onmouseout="this.className=\'plainbtn\'"',
             'value="Save"',
         );
         $html = $this->button->__toString();
@@ -61,11 +58,8 @@ class ButtonTest extends PHPUnit_Framework_TestCase {
         ));
         $expectedAttributes = array(
             'type="submit"',
-            'class="longbtn"',
             'id="cmdSearch"',
             'name="_search"',
-            'onmouseover="this.className=\'longbtn longbtnhov\'"',
-            'onmouseout="this.className=\'longbtn\'"',
             'value="Search"',
         );
         $html = $this->button->__toString();

@@ -1,6 +1,6 @@
 $(document).ready(function() {
     
-    if (ldapInstalled) {
+    if (ldapInstalled == 'true') {
         $("#password_required").hide();
         $("#rePassword_required").hide();
     }    
@@ -9,20 +9,12 @@ $(document).ready(function() {
 
     $("#addEmployeeTbl td div:empty").remove();
     $("#addEmployeeTbl td:empty").remove();
-    $("label[for='lineSeperator']").parent('td').attr('colspan', 4);
-    $("label[for='lineSeperator']").replaceWith($("label[for='lineSeperator']").html());
-        
-    $("label[for='user_name']").closest("tr").attr('class', 'loginSectionRow');
-    $("label[for='user_password']").closest("tr").attr('class', 'loginSectionRow');
-
-    $('#photofile').after('<div class="helpText" style="width:160px;padding-top:10px;">'+fileHelpText+'</div>');
+    
+    $('#photofile').after('<label class="fieldHelpBottom">'+fieldHelpBottom+'</label>');
 
     if(createUserAccount == 0) {
         //hiding login section by default
-        $("#lineSeperator").hide();
-        $("#loginSection").hide();
-        $(".loginSectionRow").hide();
-
+        $(".loginSection").hide();
         $("#chkLogin").removeAttr("checked");
     }
 
@@ -32,19 +24,15 @@ $(document).ready(function() {
     });
 
     $("#chkLogin").click(function() {
-        $("#lineSeperator").hide();
-        $("#loginSection").hide();
-        $(".loginSectionRow").hide();
+        $(".loginSection").hide();
 
         $("#user_name").val("");
         $("#user_password").val("");
         $("#re_password").val("");
-        $("#status").val("");
+        $("#status").val("Enabled");
 
-        if($("#chkLogin").attr('checked') == true) {
-            $("#lineSeperator").show();
-            $("#loginSection").show();
-            $(".loginSectionRow").show();
+        if($("#chkLogin").is(':checked')) {
+            $(".loginSection").show();
         }
     });
 
@@ -53,9 +41,9 @@ $(document).ready(function() {
         rules: {
             'firstName': {required: true },
             'lastName': { required: true },
-            'user_name': { validateLoginName: true },
-            'user_password': {validatePassword: true},
-            're_password': {validateReCheckPassword: true},
+            'user_name': { validateLoginName: true, onkeyup: 'if_invalid'},
+            'user_password': {validatePassword: true, onkeyup: 'if_invalid'},
+            're_password': {validateReCheckPassword: true, onkeyup: 'if_invalid'},
             'status': {validateStatusRequired: true },
             'location': {required: true }
         },
@@ -67,16 +55,15 @@ $(document).ready(function() {
             're_password': {validateReCheckPassword: lang_unMatchingPassword},
             'status': {validateStatusRequired: lang_statusRequired },
             'location': {required: lang_locationRequired }
-        },
-        errorElement : 'div'
+        }
     });
 
     $.validator.addMethod("validateLoginName", function(value, element) {
-        if($("#chkLogin").attr('checked') == true && !ldapInstalled) {
+        if($("#chkLogin").is(':checked') && !(ldapInstalled == 'true')) {
             if(value.length < 5) {
                 return false;
             }
-        } else if ($("#chkLogin").attr('checked') == true && ldapInstalled) {
+        } else if ($("#chkLogin").is(':checked') && (ldapInstalled == 'true')) {
             if(value.length < 1) {
                 return false;
             }
@@ -85,7 +72,7 @@ $(document).ready(function() {
     });
 
     $.validator.addMethod("validatePassword", function(value, element) {
-        if($("#chkLogin").attr('checked') == true && !ldapInstalled) {
+        if($("#chkLogin").is(':checked') && !(ldapInstalled == 'true')) {
             if(value.length < 4) {
                 return false;
             }
@@ -94,7 +81,7 @@ $(document).ready(function() {
     });
 
     $.validator.addMethod("validateReCheckPassword", function(value, element) {
-        if($("#chkLogin").attr('checked') == true) {
+        if($("#chkLogin").is(':checked')) {
             if(value != $("#user_password").val()) {
                 return false;
             }
@@ -103,7 +90,7 @@ $(document).ready(function() {
     });
 
     $.validator.addMethod("validateStatusRequired", function(value, element) {
-        if($("#chkLogin").attr('checked') == true) {
+        if($("#chkLogin").is(':checked')) {
             if(value == "") {
                 return false;
             }

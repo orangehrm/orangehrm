@@ -1,20 +1,30 @@
-<table>
+<dl class="search-params">
+
      <?php if(isset ($empName)):?>
-     <tr><td style="width: 80px;"><?php echo " ".__("Employee Name");?></td><td><?php echo $empName;?></td></tr>
+     <dt><?php echo __("Employee Name");?></dt><dd><?php echo $empName;?></dd>
      <?php endif;?>
 
      <?php if(isset ($employeeStatus)):?>
-     <tr><td style="width: 80px;"><?php echo " ".__("Employment Status")." ";?></td><td><?php echo $employeeStatus;?></td></tr>
+     <dt><?php echo __("Employment Status")." ";?></dt>
+     <dd><?php echo $employeeStatus;?></dd>
      <?php endif;?>
 
      <?php if(isset ($jobTitle)):?>
-     <tr><td style="width: 80px;"><?php echo " ".__("Job Title");?></td><td><?php echo $jobTitle;?></td></tr>
+     <dt><?php echo __("Job Title");?></dt>
+     <dd><?php echo $jobTitle;?></dd>
      <?php endif;?>
 
      <?php if(isset ($subUnit)):?>
-     <tr><td style="width: 80px;"><?php echo " ".__("Sub Unit");?></td><td><?php echo $subUnit;?></td></tr>
+     <dt><?php echo __("Sub Unit");?></dt>
+     <dd><?php echo $subUnit;?></dd>
      <?php endif;?>
 
-     <?php if(!(($attendanceDateRangeFrom == "YYYY-MM-DD") || ($attendanceDateRangeFrom  == ""))) {?><tr><td style="width: 80px;"><?php echo " ".__("From");?></td><td><?php echo set_datepicker_date_format($attendanceDateRangeFrom);?></td></tr><?php } ?>
-     <?php if(!(($attendanceDateRangeTo == "YYYY-MM-DD") || ($attendanceDateRangeTo  == ""))) {?><tr><td style="width: 80px;"><?php echo " ".__("To");?></td><td><?php echo set_datepicker_date_format($attendanceDateRangeTo);?></td></tr><?php } ?>
-</table>
+     <?php if(!(($attendanceDateRangeFrom == "YYYY-MM-DD") || ($attendanceDateRangeFrom  == ""))) :?>
+     <dt><?php echo __("From");?></dt>
+     <dd><?php echo set_datepicker_date_format($attendanceDateRangeFrom);?></dd>
+     <?php endif; ?>
+     <?php if(!(($attendanceDateRangeTo == "YYYY-MM-DD") || ($attendanceDateRangeTo  == ""))) :?>
+     <dt><?php echo __("To");?></dt>
+     <dd><?php echo set_datepicker_date_format($attendanceDateRangeTo);?></dd>
+     <?php endif; ?>
+</dl>

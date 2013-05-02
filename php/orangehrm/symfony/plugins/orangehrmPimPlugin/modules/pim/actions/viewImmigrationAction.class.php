@@ -30,6 +30,7 @@ class viewImmigrationAction extends basePimAction {
     }
 
     public function execute($request) {
+        
         $loggedInEmpNum = $this->getUser()->getEmployeeNumber();
         $this->showBackButton = true;
         $immigration = $request->getParameter('immigration');
@@ -51,12 +52,7 @@ class viewImmigrationAction extends basePimAction {
         if (!$this->IsActionAccessible($empNumber)) {
             $this->forward(sfConfig::get('sf_secure_module'), sfConfig::get('sf_secure_action'));
         }
-
-
-        if ($this->getUser()->hasFlash('templateMessage')) {
-            list($this->messageType, $this->message) = $this->getUser()->getFlash('templateMessage');
-        }
-
+        
         if ($this->immigrationPermission->canUpdate() || $this->immigrationPermission->canCreate()) {
             if ($request->isMethod('post')) {
 
@@ -65,7 +61,7 @@ class viewImmigrationAction extends basePimAction {
                 if ($this->form->isValid()) {
                     $empPassport = $this->form->populateEmployeePassport();
                     $this->getEmployeeService()->saveEmployeeImmigrationRecord($empPassport);
-                    $this->getUser()->setFlash('templateMessage', array('success', __(TopLevelMessages::SAVE_SUCCESS)));
+                    $this->getUser()->setFlash('immigration.success', __(TopLevelMessages::SAVE_SUCCESS));
                     $this->redirect('pim/viewImmigration?empNumber=' . $empNumber);
                 }
             }

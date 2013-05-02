@@ -1,9 +1,8 @@
 <?php
-$styleSheet = 'orange';
-$imagePath = public_path("../../themes/{$styleSheet}/images/login");
+$imagePath = theme_path("images/login");
 ?>
 <style type="text/css">
-    <!--
+
     body {
         background-color: #FFFFFF;
         height: 700px;
@@ -12,7 +11,9 @@ $imagePath = public_path("../../themes/{$styleSheet}/images/login");
     img {
         border: none;
     }
-
+    #btnLogin {
+        padding: 0;
+    }
     input:not([type="image"]) {
         background-color: transparent;
         border: none;
@@ -64,7 +65,6 @@ $imagePath = public_path("../../themes/{$styleSheet}/images/login");
         font-family: Arial, Helvetica, sans-serif;
         font-size: 11px;
         color: #666666;
-        height: 16px;
         vertical-align: middle;
         padding-top:0;
     }
@@ -93,6 +93,8 @@ $imagePath = public_path("../../themes/{$styleSheet}/images/login");
         height: 26px;
         border: none;
         color:#FFFFFF;
+        font-weight: bold;
+        font-size: 13px;
     }
 
     #divLink {

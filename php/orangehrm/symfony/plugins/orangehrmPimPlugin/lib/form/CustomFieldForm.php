@@ -69,12 +69,12 @@ class CustomFieldForm extends BaseForm {
                          CustomField::SCREEN_EMERGENCY_CONTACTS => __('Emergency Contacts'),
                          CustomField::SCREEN_DEPENDENTS => __('Dependents'),
                          CustomField::SCREEN_IMMIGRATION => __('Immigration'),
-                         CustomField::SCREEN_QUALIFICATIONS => __('Qualifications'),
-                         CustomField::SCREEN_TAX_EXEMPTIONS => __('Tax Exemptions'),
-                         CustomField::SCREEN_SALARY => __('Salary'),
                          CustomField::SCREEN_JOB => __('Job'),
+                         CustomField::SCREEN_SALARY => __('Salary'),
+                         CustomField::SCREEN_TAX_EXEMPTIONS => __('Tax Exemptions'),
                          CustomField::SCREEN_REPORT_TO => __('Report-to'),
-                         CustomField::SCREEN_MEMBERSHIP => __('Membership')
+                         CustomField::SCREEN_QUALIFICATIONS => __('Qualifications'),
+                         CustomField::SCREEN_MEMBERSHIP => __('Memberships')
                         );
         return $screens;
     }

@@ -17,7 +17,6 @@
   // if not, write to the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
   // Boston, MA  02110-1301, USA
  */
-require_once ROOT_PATH . '/lib/common/LocaleUtil.php';
 
 /**
  * Form class for employee contact detail
@@ -30,6 +29,7 @@ class EmployeeJobDetailsForm extends BaseForm {
     public $empTermination;
     private $companyStructureService;
     private $jobTitleService;
+    public $isJoinDateChanged = false;
 
     public function getJobTitleService() {
         if (is_null($this->jobTitleService)) {
@@ -42,6 +42,8 @@ class EmployeeJobDetailsForm extends BaseForm {
     const CONTRACT_KEEP = 1;
     const CONTRACT_DELETE = 2;
     const CONTRACT_UPLOAD = 3;
+    
+    
 
     public function configure() {
 
@@ -77,14 +79,14 @@ class EmployeeJobDetailsForm extends BaseForm {
             // TODO: Use sfWidgetFormChoice() instead
             'job_title' => new sfWidgetFormSelect(array('choices' => $jobTitles)),
             'emp_status' => new sfWidgetFormSelect(array('choices' => $employeeStatuses)), // employement status
-            'terminated_date' => new ohrmWidgetDatePickerNew(array(), array('id' => 'job_terminated_date')),
+            'terminated_date' => new ohrmWidgetDatePicker(array(), array('id' => 'job_terminated_date')),
             'termination_reason' => new sfWidgetFormTextarea(),
             'eeo_category' => new sfWidgetFormSelect(array('choices' => $eeoCategories)),
             'sub_unit' => new sfWidgetFormSelect(array('choices' => $subDivisions)), // sub division id
             'location' => new sfWidgetFormSelect(array('choices' => $locations)), // sub division name (not used)
-            'joined_date' => new ohrmWidgetDatePickerNew(array(), array('id' => 'job_joined_date')),
-            'contract_start_date' => new ohrmWidgetDatePickerNew(array(), array('id' => 'job_contract_start_date')),
-            'contract_end_date' => new ohrmWidgetDatePickerNew(array(), array('id' => 'job_contract_end_date')),
+            'joined_date' => new ohrmWidgetDatePicker(array(), array('id' => 'job_joined_date')),
+            'contract_start_date' => new ohrmWidgetDatePicker(array(), array('id' => 'job_contract_start_date')),
+            'contract_end_date' => new ohrmWidgetDatePicker(array(), array('id' => 'job_contract_end_date')),
             'contract_file' => new sfWidgetFormInputFile(),
             'contract_update' => new sfWidgetFormChoice(array('expanded' => true, 'choices' => $contractUpdateChoices)),
         ));
@@ -164,6 +166,9 @@ class EmployeeJobDetailsForm extends BaseForm {
                     'callback' => array($this, 'postValidate')
                 ))
         );
+        
+        $formExtension = PluginFormMergeManager::instance();
+        $formExtension->mergeForms($this, 'viewJobDetails', 'EmployeeJobDetailsForm');        
     }
 
     public function postValidate($validator, $values) {
@@ -187,7 +192,7 @@ class EmployeeJobDetailsForm extends BaseForm {
 
         $employeeService = new EmployeeService();
         $employee = $employeeService->getEmployee($this->getValue('emp_number'));
-
+        $joinedDate = $employee->joined_date;
         $jobTitle = $this->getValue('job_title');
         $employee->job_title_code = $jobTitle;
         $empStatus = $this->getValue('emp_status');
@@ -205,6 +210,10 @@ class EmployeeJobDetailsForm extends BaseForm {
         }
         $employee->work_station = $this->getValue('sub_unit');
         $employee->joined_date = $this->getValue('joined_date');
+        
+        if( $joinedDate != '' && $joinedDate != $this->getValue('joined_date')){
+            $this->isJoinDateChanged = true ;
+        }
 
         // Location
 
@@ -403,6 +412,10 @@ class EmployeeJobDetailsForm extends BaseForm {
 
             $empAttachment->save();
         }
+    }
+    
+    public function getIsJoinDateChanged(){
+        return $this->isJoinDateChanged;
     }
 
 }

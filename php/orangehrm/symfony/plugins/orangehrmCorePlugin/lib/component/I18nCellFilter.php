@@ -19,8 +19,7 @@
  */
 
 /**
- * Description of I18nCellFilter
- *
+ * Cell filter to convert given value to configured language
  */
 class I18nCellFilter extends ohrmCellFilter {
     

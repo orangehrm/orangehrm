@@ -1,16 +1,22 @@
 $(document).ready(function() {
 
     if($("#btnSave").attr('value') == lang_edit) {
-        $(".drpDown").attr('disabled', 'disabled');
-        $(".formInput").attr('disabled', 'disabled');
-        $(".formSelect").attr('disabled', 'disabled');
-        $(".formInputText").attr('disabled', 'disabled');
+        $("#addJobVacancy_jobTitle").attr('disabled', 'disabled');
+        $("#addJobVacancy_name").attr('disabled', 'disabled');
+        $("#addJobVacancy_hiringManager").attr('disabled', 'disabled');
+        $("#addJobVacancy_noOfPositions").attr('disabled', 'disabled');
+        $("#addJobVacancy_description").attr('disabled', 'disabled');
+        $("#addJobVacancy_status").attr('disabled', 'disabled');
+        $("#addJobVacancy_publishedInFeed").attr('disabled', 'disabled');
     }
     //Auto complete
     $("#addJobVacancy_hiringManager").autocomplete(hiringManagers, {
         formatItem: function(item) {
-            return item.name;
+            return $('<div/>').text(item.name).html();
         },
+        formatResult: function(item) {
+            return item.name
+        },  
         matchContains:true
     }).result(function(event, item) {
         //$("#candidateSearch_selectedCandidate").val(item.id);
@@ -23,10 +29,14 @@ $(document).ready(function() {
 
         //if user clicks on Edit make all fields editable
         if($("#btnSave").attr('value') == lang_edit) {
-            $(".drpDown").removeAttr("disabled");
-            $(".formSelect").removeAttr("disabled");
-            $(".formInput").removeAttr("disabled");
-            $(".formInputText").removeAttr("disabled");
+            $("#addJobVacancy_jobTitle").removeAttr("disabled");
+            $("#addJobVacancy_name").removeAttr("disabled");
+            $("#addJobVacancy_hiringManager").removeAttr("disabled");
+            $("#addJobVacancy_noOfPositions").removeAttr("disabled");
+            $("#addJobVacancy_description").removeAttr("disabled");
+            $("#addJobVacancy_status").removeAttr("disabled");
+            $("#addJobVacancy_publishedInFeed").removeAttr("disabled");
+            
             $("#btnSave").attr('value', lang_save);
             $("#btnBack").attr('value', lang_cancel);
             return;
@@ -137,7 +147,7 @@ function isValidForm(){
                 hiringManagerNameValidation: true
             },
             'addJobVacancy[description]' : {
-            	maxlength:40000
+                maxlength:40000
             }
 
         },
@@ -158,19 +168,9 @@ function isValidForm(){
                 hiringManagerNameValidation:lang_enterAValidEmployeeName
             },
             'addJobVacancy[description]' : {
-            	maxlength: lang_descriptionLength
+                maxlength: lang_descriptionLength
             }
-
-        },
-        //        errorElement : 'label',
-        errorPlacement: function(error, element) {
-            //            error.appendTo( element.prev('label') );
-            error.insertBefore(element.next(".clear"));
-
-        //these are specially for date boxes
-        //            error.insertBefore(element.next().next(".clear"))
         }
-
     });
     return true;
 }

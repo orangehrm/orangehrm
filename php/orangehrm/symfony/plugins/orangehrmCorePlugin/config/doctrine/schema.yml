@@ -50,6 +50,11 @@ WorkflowStateMachine:
       name: resulting_state as resultingState
       type: string(255)
       notnull: true
+    roles_to_notify:
+      type: clob
+      notnull: false
+    priority:
+      type: int      
 
 ReportGroup:
   tableName: ohrm_report_group
@@ -709,4 +714,205 @@ DataGroupPermission:
     UserRole:
       local: user_role_id
       foreign: id
-      type: one      
+      type: one    
+
+MenuItem:
+  tableName: ohrm_menu_item
+  columns:
+    id:
+      type: integer
+      primary: true
+      autoincrement: true
+    menu_title as menuTitle: string(255)
+    screen_id as screenId: integer
+    parent_id as parentId: integer
+    level: integer
+    order_hint as orderHint: integer
+    url_extras as urlExtras: string(255)
+    status: integer
+  relations:
+    Screen:
+      local: screenId
+      foreign: id
+      type: one  
+Email:
+  tableName: ohrm_email
+  columns:
+    id:
+      type: integer(4)
+      fixed: false
+      unsigned: false
+      primary: true
+      autoincrement: true
+    name:
+      type: string(100)
+      fixed: false
+      unsigned: false
+      primary: false
+      notnull: true
+      autoincrement: false
+  relations:
+    EmailProcessor:
+      local: id
+      foreign: email_id
+      type: many
+    EmailTemplate:
+      local: id
+      foreign: email_id
+      type: many
+      
+EmailTemplate:
+  connection: doctrine
+  tableName: ohrm_email_template
+  columns:
+    id:
+      type: integer(4)
+      fixed: false
+      unsigned: false
+      primary: true
+      autoincrement: true
+    email_id:
+      type: integer(4)
+      fixed: false
+      unsigned: false
+      primary: false
+      notnull: true
+      autoincrement: false
+    locale:
+      type: string(20)
+      fixed: false
+      unsigned: false
+      primary: false
+      notnull: false
+      autoincrement: false
+    performer_role:
+      type: string(50)
+      notnull: false
+      default: null
+    recipient_role:
+      type: string(50)
+      notnull: false
+      default: null
+    subject:
+      type: string(255)
+      fixed: false
+      unsigned: false
+      primary: false
+      notnull: false
+      autoincrement: false
+    body:
+      type: string()
+      fixed: false
+      unsigned: false
+      primary: false
+      notnull: false
+      autoincrement: false
+  relations:
+    Email:
+      local: email_id
+      foreign: id
+      type: one 
+
+EmailProcessor:
+  connection: doctrine
+  tableName: ohrm_email_processor
+  columns:
+    id:
+      type: integer(4)
+      fixed: false
+      unsigned: false
+      primary: true
+      autoincrement: true
+    email_id:
+      type: integer(4)
+      fixed: false
+      unsigned: false
+      primary: false
+      notnull: true
+      autoincrement: false
+    class_name:
+      type: string(100)
+      fixed: false
+      unsigned: false
+      primary: false
+      notnull: false
+      autoincrement: false
+  relations:
+    Email:
+      local: email_id
+      foreign: id
+      type: one    
+
+AdvancedReport:
+  tableName: ohrm_advanced_report
+  columns:
+    id:
+      type: integer
+      notnull: true
+      primary: true
+    name:
+      type: string(100)
+      notnull: true
+    definition:
+      type: clob
+      notnull: true      
+      
+HomePage:
+  tableName: ohrm_home_page
+  columns:
+    id:
+      type: integer
+      primary: true
+      autoincrement: true
+    user_role_id:
+      type: integer
+      notnull: true
+    action:
+      type: string(255)
+      notnull: false
+    enable_class:
+      type: string(100)
+      notnull: false
+    priority:
+      type: integer
+      default: '0'
+      notnull: true
+  relations:
+    UserRole:
+      local: user_role_id
+      foreign: id
+      type: one
+      
+ModuleDefaultPage:
+  tableName: ohrm_module_default_page
+  columns:
+    id:
+      type: integer
+      primary: true
+      autoincrement: true
+    module_id:
+      type: integer
+      notnull: true
+    user_role_id:
+      type: integer
+      notnull: true
+    action:
+      type: string(255)
+      notnull: false
+    enable_class:
+      type: string(100)
+      notnull: false
+    priority:
+      type: integer(4)
+      default: '0'
+      notnull: true
+  relations:
+    UserRole:
+      local: user_role_id
+      foreign: id
+      type: one
+    Module:
+      local: module_id
+      foreign: id
+      type: one
+      

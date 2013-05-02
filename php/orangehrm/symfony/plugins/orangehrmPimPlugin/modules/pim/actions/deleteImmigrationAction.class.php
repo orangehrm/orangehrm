@@ -31,7 +31,7 @@ class deleteImmigrationAction extends basePimAction {
             }
             if ($this->immigrationPermission->canDelete()) {
                 $this->getEmployeeService()->deleteEmployeeImmigrationRecords($empNumber, $deleteIds);
-                $this->getUser()->setFlash('templateMessage', array('success', __(TopLevelMessages::DELETE_SUCCESS)));
+                $this->getUser()->setFlash('immigration.success', __(TopLevelMessages::DELETE_SUCCESS));
                 $this->redirect('pim/viewImmigration?empNumber=' . $empNumber);
             }
         }

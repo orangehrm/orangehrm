@@ -100,14 +100,15 @@ class ohrmWidgetCheckboxGroup extends sfWidgetFormSelectCheckbox {
 $(document).ready(function() {
 
     $('#{all.checkbox.id}').click(function() {
-       $('#{container.id} input[type="checkbox"]').attr('checked', $(this).attr('checked'));
+       var checked = $(this).is(":checked");
+       $('#{container.id} input[type="checkbox"]').attr('checked', checked);
     });
                                 
     $('#{container.id} input[type="checkbox"]').click(function() {
-        var check = $(this).attr('checked');
-        if (!check) {
-            $('#{all.checkbox.id}').attr('checked', false);
-        }
+        var notCheckedCount = $('#{container.id} input[name="{field.name}"]:not(:checked)').length;
+        var check = (notCheckedCount == 0);
+
+        $('#{all.checkbox.id}').attr('checked', check);
     });
 });
 
@@ -116,7 +117,8 @@ EOF;
 
             $templateVars = array(
                 '{all.checkbox.id}' => $allOptionId,
-                '{container.id}' => $this->getId()
+                '{container.id}' => $this->getId(),
+                '{field.name}' => $name
             );
 
             $javascript = strtr($template, $templateVars);
@@ -212,9 +214,14 @@ EOF;
         }
 
         $html = "";
+        
+        $class = $this->getOption('class');
+        if ($labelFirst) {
+            $class .= ' label_first';
+        }
 
         if ($rows) {
-            $html = $this->renderContentTag('div', implode($this->getOption('separator'), $rows), array('class' => $this->getOption('class'),
+            $html = $this->renderContentTag('div', implode($this->getOption('separator'), $rows), array('class' => $class,
                 'id' => $widget->getId()));
         }
 
@@ -223,7 +230,7 @@ EOF;
 
     public function getStylesheets() {
         $styleSheets = parent::getStylesheets();
-        $styleSheets['/orangehrmCorePlugin/css/ohrmWidgetCheckboxGroup.css'] = 'all';
+        $styleSheets[plugin_web_path('orangehrmCorePlugin', 'css/ohrmWidgetCheckboxGroup.css')] = 'all';
 
         return($styleSheets);
     }

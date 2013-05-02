@@ -43,6 +43,18 @@ class displayEmployeeReportAction extends displayReportAction {
     public function setValues() {
         
     }
+    
+    public function setInitialActionDetails($request) {
+
+        $initialActionName = $request->getParameter('initialActionName', '');
+
+        if (empty($initialActionName)) {
+            $request->setParameter('initialActionName', 'displayEmployeeReportCriteria');
+        } else {
+            $request->setParameter('initialActionName', $initialActionName);
+        }        
+        
+    }
 
 }
 

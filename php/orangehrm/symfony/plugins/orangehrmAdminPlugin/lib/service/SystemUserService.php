@@ -221,5 +221,9 @@ class SystemUserService extends BaseService{
      public function updatePassword($userId, $password) {
          return $this->getSystemUserDao()->updatePassword($userId, md5($password));
      }
+     
+     public function getEmployeesByUserRole($roleName, $includeInactive = false, $includeTerminated = false) {
+         return $this->getSystemUserDao()->getEmployeesByUserRole($roleName);
+     }
     
 }

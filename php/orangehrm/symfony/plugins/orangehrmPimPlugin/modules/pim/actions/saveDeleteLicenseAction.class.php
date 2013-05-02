@@ -49,10 +49,10 @@ class saveDeleteLicenseAction extends basePimAction {
                     $license = $this->getLicense($this->licenseForm);
                     if (!empty($license)){
                         $this->getEmployeeService()->saveEmployeeLicense($license);
-                        $this->getUser()->setFlash('templateMessage', array('success', __(TopLevelMessages::SAVE_SUCCESS)));
+                        $this->getUser()->setFlash('license.success', __(TopLevelMessages::SAVE_SUCCESS));
                     }
                 } else {
-                    $this->getUser()->setFlash('templateMessage', array('warning', __('Form Validation Failed')));
+                    $this->getUser()->setFlash('license.warning', __('Form Validation Failed'));
                 }
             }
 
@@ -63,7 +63,7 @@ class saveDeleteLicenseAction extends basePimAction {
 
                     if(count($deleteIds) > 0) {
                         $this->getEmployeeService()->deleteEmployeeLicenses($empNumber, $request->getParameter('delLicense'));
-                        $this->getUser()->setFlash('templateMessage', array('success', __(TopLevelMessages::DELETE_SUCCESS)));
+                        $this->getUser()->setFlash('license.success', __(TopLevelMessages::DELETE_SUCCESS));
                     }
                 }
             }
@@ -102,4 +102,3 @@ class saveDeleteLicenseAction extends basePimAction {
                 
     }
 }
-?>

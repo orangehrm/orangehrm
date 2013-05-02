@@ -8,7 +8,7 @@ $(document).ready(function() {
 
     $('#btnAdd').click(function() {
         $('#subscriber').show();
-        $('#btnAdd').hide();
+        $('.top').hide();
         $('#subscriber_name').val('');
         $('#subscriber_email').val('');
         $('#subscriber_subscriberId').val('');
@@ -22,7 +22,7 @@ $(document).ready(function() {
 
     $('#btnCancel').click(function() {
         $('#subscriber').hide();
-        $('#btnAdd').show();
+        $('.top').show();
         validator.resetForm();
     });
 
@@ -64,17 +64,6 @@ $(document).ready(function() {
             $('#deleteConfirmation').dialog('open');
             return false;
         });
-    });
-
-    $("#deleteConfirmation").dialog({
-        autoOpen: false,
-        modal: true,
-        width: 325,
-        height: 50,
-        position: 'middle',
-        open: function() {
-            $('#dialogCancelBtn').focus();
-        }
     });
 
     $('#frmList_ohrmListComponent').attr('name','frmList_ohrmListComponent');
@@ -125,7 +114,8 @@ $(document).ready(function() {
                 required:true,
                 maxlength: 100,
                 uniqueEmail:true,
-                email:true
+                email:true,
+                onkeyup: 'if_invalid'                
             }
         },
         messages: {
@@ -140,11 +130,6 @@ $(document).ready(function() {
                 email: lang_validEmail
             }
 
-        },
-
-        errorPlacement: function(error, element) {
-            error.appendTo(element.next('div.errorHolder'));
-
         }
 
     });
@@ -158,6 +143,6 @@ function getSubscriberInfo(url){
         $('#subscriber_email').val(data.email);
         $('#subscriber').show();
         $(".messageBalloon_success").remove();
-        $('#btnAdd').hide();
+        $('.top').hide();
     });
 }

@@ -19,108 +19,121 @@
  */
 ?>
 
-<link href="<?php echo public_path('../../themes/orange/css/ui-lightness/jquery-ui-1.7.2.custom.css') ?>" rel="stylesheet" type="text/css"/>
-<script type="text/javascript" src="<?php echo public_path('../../scripts/jquery/ui/ui.core.js') ?>"></script>
-<script type="text/javascript" src="<?php echo public_path('../../scripts/jquery/ui/ui.datepicker.js') ?>"></script>
+<?php echo javascript_include_tag(plugin_web_path('orangehrmAdminPlugin', 'js/viewOrganizationGeneralInformationSuccess')); ?>
 
-<?php echo javascript_include_tag('../orangehrmAdminPlugin/js/viewOrganizationGeneralInformationSuccess'); ?>
-<?php echo stylesheet_tag('../orangehrmAdminPlugin/css/viewOrganizationGeneralInformationSuccess'); ?>
+<div id="general-info" class="box twoColumn">
+        
+    <div class="head">
+        <h1 id="genInfoHeading"><?php echo __('General Information'); ?></h1>
+    </div>
 
-<div id="messagebar"  class="<?php echo isset($messageType) ? "messageBalloon_{$messageType}" : ''; ?>" >
-    <span><?php echo isset($message) ? $message : ''; ?></span>
-</div>
-
-<div id="genInfo">
-    <div class="outerbox">
-        <div class="mainHeading"><h2 id="genInfoHeading"><?php echo __('General Information'); ?></h2></div>
-        <form name="frmGenInfo" id="frmGenInfo" method="post" action="<?php echo url_for('admin/viewOrganizationGeneralInformation'); ?>">
+    <div class="inner">
+        
+        <?php include_partial('global/flash_messages', array('prefix' => 'generalinformation')); ?>
+        
+        <form name="frmGenInfo" id="frmGenInfo" method="post" action="<?php echo url_for('admin/viewOrganizationGeneralInformation'); ?>" class="clickToEditForm">
 
             <?php echo $form['_csrf_token']; ?>
-            <br class="clear"/>
+            
+            <fieldset>
+                
+                <ol>
+                    
+                    <li>
+                        <?php echo $form['name']->renderLabel(__('Organization Name') . ' <em>*</em>'); ?>
+                        <?php echo $form['name']->render(array("maxlength" => 100)); ?>
+                    </li>
+                    
+                    <li>
+                        <?php echo $form['taxId']->renderLabel(__('Tax ID')); ?>
+                        <?php echo $form['taxId']->render(array("maxlength" => 30)); ?>
+                    </li>
+                    
+                    <li>
+                        <label><?php echo __("Number of Employees") ?></label>
+                        <span id="numOfEmployees"><?php echo $employeeCount; ?></span>
+                    </li>
+                    
+                    <li>
+                        <?php echo $form['registraionNumber']->renderLabel(__('Registration Number')); ?>
+                        <?php echo $form['registraionNumber']->render(array("maxlength" => 30)); ?>
+                    </li>
+                    
+                </ol>
+                
+                <ol>
+                    
+                    <li>
+                        <?php echo $form['phone']->renderLabel(__('Phone')); ?>
+                        <?php echo $form['phone']->render(array("maxlength" => 30)); ?>
+                    </li>
+                    
+                    <li>
+                        <?php echo $form['fax']->renderLabel(__('Fax')); ?>
+                        <?php echo $form['fax']->render(array("maxlength" => 30)); ?>
+                    </li>
+                    
+                    <li>
+                        <?php echo $form['email']->renderLabel(__('Email')); ?>
+                        <?php echo $form['email']->render(array("maxlength" => 30)); ?>
+                    </li>
+                    
+                </ol>
+                
+                <ol>
+                    
+                    <li>
+                        <?php echo $form['street1']->renderLabel(__('Address Street 1')); ?>
+                        <?php echo $form['street1']->render(array("maxlength" => 100)); ?>
+                    </li>
 
-            <div class="leftDiv">
-                <?php echo $form['name']->renderLabel(__('Organization Name') . ' <span class="required">*</span>'); ?>
-                <?php echo $form['name']->render(array("class" => "txtBox", "maxlength" => 100)); ?>
-                <br class="clear"/>
+                    <li>
+                        <?php echo $form['street2']->renderLabel(__('Address Street 2')); ?>
+                        <?php echo $form['street2']->render(array("maxlength" => 100)); ?>
+                    </li>                    
 
-                <label><?php echo __("Number of Employees") ?></label>
-                <div id="numOfEmployees"><?php echo $employeeCount; ?></div>
-            </div>
-
-
-            <div class="rightDiv">
-                <?php echo $form['taxId']->renderLabel(__('Tax ID')); ?>
-                <?php echo $form['taxId']->render(array("class" => "txtBox", "maxlength" => 30)); ?>
-                <br class="clear"/>
-
-                <?php echo $form['registraionNumber']->renderLabel(__('Registration Number')); ?>
-                <?php echo $form['registraionNumber']->render(array("class" => "txtBox", "maxlength" => 30)); ?>
-            </div>
-
-            <br class="clear"/>
-            <br />
-            <div class="hrLine"></div>
-            <br class="clear"/>
-            <div class="leftDiv">
-                <?php echo $form['phone']->renderLabel(__('Phone')); ?>
-                <?php echo $form['phone']->render(array("class" => "txtBox", "maxlength" => 30)); ?>
-                <br class="clear"/>
-
-                <?php echo $form['fax']->renderLabel(__('Fax')); ?>
-                <?php echo $form['fax']->render(array("class" => "txtBox", "maxlength" => 30)); ?>
-            </div>
-
-            <div class="rightDiv">
-                <?php echo $form['email']->renderLabel(__('Email')); ?>
-                <?php echo $form['email']->render(array("class" => "txtBox", "maxlength" => 30)); ?>
-            </div>
-            <br class="clear"/>
-            <br />
-            <div class="hrLine" ></div>
-            <br class="clear"/>
-
-            <div class="leftDiv">
-                <?php echo $form['street1']->renderLabel(__('Address Street 1')); ?>
-                <?php echo $form['street1']->render(array("class" => "txtBox", "maxlength" => 100)); ?>
-                <br class="clear"/>
-
-                <?php echo $form['street2']->renderLabel(__('Address Street 2')); ?>
-                <?php echo $form['street2']->render(array("class" => "txtBox", "maxlength" => 100)); ?>
-                <br class="clear"/>
-
-                <?php echo $form['city']->renderLabel(__('City')); ?>
-                <?php echo $form['city']->render(array("class" => "txtBox", "maxlength" => 30)); ?>
-            </div>
-            <div class="rightDiv">
-                <?php echo $form['province']->renderLabel(__('State/Province')); ?>
-                <?php echo $form['province']->render(array("class" => "txtBox", "maxlength" => 30)); ?>
-                <br class="clear"/>
-
-                <?php echo $form['zipCode']->renderLabel(__('Zip/Postal Code')); ?>
-                <?php echo $form['zipCode']->render(array("class" => "txtBox", "maxlength" => 30)); ?>
-                <br class="clear"/>
-
-                <?php echo $form['country']->renderLabel(__('Country')); ?>
-                <?php echo $form['country']->render(array("class" => "drpDown", "maxlength" => 30)); ?>
-            </div>
-            <br class="clear"/>
-            <div class="leftDiv">
-                <?php echo $form['note']->renderLabel(__('Note')); ?>
-                <?php echo $form['note']->render(array("class" => "txtArea", "maxlength" => 255)); ?>
-                <div class="errorHolder"></div>
-            </div>
-            <br class="clear"/>
-
-            <div class="formbuttons">
-                <input type="button" class="savebutton" name="btnSaveGenInfo" id="btnSaveGenInfo"
-                       value="<?php echo __("Edit"); ?>"
-                       onmouseover="moverButton(this);" onmouseout="moutButton(this);"/>
-            </div>
+                    <li>
+                        <?php echo $form['city']->renderLabel(__('City')); ?>
+                        <?php echo $form['city']->render(array("maxlength" => 30)); ?>
+                    </li>                    
+                    
+                    <li>
+                        <?php echo $form['province']->renderLabel(__('State/Province')); ?>
+                        <?php echo $form['province']->render(array("maxlength" => 30)); ?>
+                    </li>
+                    
+                    <li>
+                        <?php echo $form['zipCode']->renderLabel(__('Zip/Postal Code')); ?>
+                        <?php echo $form['zipCode']->render(array("maxlength" => 30)); ?>
+                    </li>
+                    
+                    <li>
+                        <?php echo $form['country']->renderLabel(__('Country')); ?>
+                        <?php echo $form['country']->render(array("class" => "drpDown", "maxlength" => 30)); ?>
+                    </li>
+                    
+                    <li class="largeTextBox">
+                        <?php echo $form['note']->renderLabel(__('Note')); ?>
+                        <?php echo $form['note']->render(array("class" => "txtArea", "maxlength" => 255)); ?>
+                    </li>
+                    
+                    <li class="required line">
+                          <em>*</em> <?php echo __(CommonMessages::REQUIRED_FIELD); ?>
+                    </li>
+                    
+                </ol>
+                
+                <p>
+                    <input type="button" class="addbutton editButton" name="btnSaveGenInfo" id="btnSaveGenInfo" value="<?php echo __("Edit"); ?>"/>
+                </p>
+                
+            </fieldset>
+            
         </form>
+        
     </div>
+    
 </div>
-
-<div class="paddingLeftRequired"><span class="required">*</span> <?php echo __(CommonMessages::REQUIRED_FIELD); ?></div>
 
 <script type="text/javascript">
 

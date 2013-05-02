@@ -16,7 +16,7 @@ class Location extends PluginLocation {
 	const NO_OF_RECORDS_PER_PAGE = 50;
 
 	public function getCountryName() {
-		return ucwords(strtolower($this->getCountry()->getName()));
+		return $this->getCountry()->getCouName();
 	}
 	
 	public function getNumberOfEmployees() {

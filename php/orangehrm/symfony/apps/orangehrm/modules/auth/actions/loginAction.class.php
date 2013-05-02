@@ -7,6 +7,7 @@ class loginAction extends sfAction {
      * @param sfRequest $request A request object
      */
     public function execute($request) {
+        
         $loginForm = new LoginForm();
         $this->message = $this->getUser()->getFlash('message');
         $this->form = $loginForm;

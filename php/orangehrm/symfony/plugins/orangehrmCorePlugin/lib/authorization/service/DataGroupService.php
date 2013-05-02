@@ -26,31 +26,56 @@ class DataGroupService {
     
     public $dao;
     
+    /**
+     * Get the Data group dao
+     * @return DataGroupDao dao instance
+     */
     public function getDao() {
+        if (empty($this->dao)) {
+            $this->dao = new DataGroupDao();
+        }
         return $this->dao;
     }
 
-    public function setDao($dao) {
+    /**
+     * Set the data group dao
+     * @param DataGroupDao $dao
+     */
+    public function setDao(DataGroupDao $dao) {
         $this->dao = $dao;
     }
     
     /**
-     *
-     * @param type $dataGroup
-     * @param type $userRoleId
-     * @return Doctrine_Collection 
+     * Get Data Group permissions 
+     * 
+     * @param mixed $dataGroup A single data group name (string), an array of data group names or null (to return all data group permissions)
+     * @param int $userRoleId User role id
+     * @param bool $selfPermission If true, self permissions are returned. If false non-self permissions are returned
+     * 
+     * @return Doctrine_Collection Collection of DataGroupPermission objects
      */
-    public function getDataGroupPermission( $dataGroup = null, $userRoleId , $selfPermission = false){
-        return $this->getDao()->getDataGroupPermission( $dataGroup, $userRoleId, $selfPermission );
+    public function getDataGroupPermission($dataGroup, $userRoleId , $selfPermission = false){
+        return $this->getDao()->getDataGroupPermission($dataGroup, $userRoleId, $selfPermission );
     }
     
     /**
-     *
-     * @return Doctrine_Collection 
+     * Get All defined data groups in the system
+     * 
+     * @return Doctrine_Collection Colelction of DataGroup objects
      */
     public function getDataGroups(){
-        return $this->dao->getDataGroups();
+        return $this->getDao()->getDataGroups();
     }
+    
+    /**
+     * Get Data Group with given name
+     * 
+     * @param string $name Data Group name
+     * @return DataGroup DataGroup or false if no match.
+     */
+    public function getDataGroup($name) {
+        return $this->getDao()->getDataGroup($name);       
+    }    
 
 
 }

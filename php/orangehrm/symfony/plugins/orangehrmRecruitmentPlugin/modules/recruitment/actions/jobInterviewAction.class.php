@@ -56,6 +56,9 @@ class jobInterviewAction extends sfAction {
      */
     public function execute($request) {
 
+        /* For highlighting corresponding menu item */
+        $request->setParameter('initialActionName', 'viewCandidates');
+
         $usrObj = $this->getUser()->getAttribute('user');
         $allowedCandidateList = $usrObj->getAllowedCandidateList();
         $allowedVacancyList = $usrObj->getAllowedVacancyList();

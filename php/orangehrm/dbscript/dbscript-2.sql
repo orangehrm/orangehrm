@@ -466,7 +466,6 @@ INSERT INTO `hs_hr_province`(`id`, `province_name`, `province_code`, `cou_code`)
     (64, 'Armed Forces Middle East', 'AE', 'US'),
     (65, 'Armed Forces Pacific', 'AP', 'US');
 
-INSERT INTO `hs_hr_user_group` VALUES ('USG001','Admin','1');
 INSERT INTO `hs_hr_module` VALUES ('MOD001','Admin','OrangeHRM','info@orangehrm.com','VER001','HR Admin'),
 								  ('MOD002','PIM','OrangeHRM','info@orangehrm.com','VER001','HR Functions'),
 								  ('MOD004','Report','OrangeHRM','info@orangehrm.com','VER001','Reporting'),
@@ -475,15 +474,6 @@ INSERT INTO `hs_hr_module` VALUES ('MOD001','Admin','OrangeHRM','info@orangehrm.
 								  ('MOD007', 'Benefits', 'OrangeHRM', 'info@orangehrm.com', 'VER001', 'Benefits Tracking'),
  	 							('MOD008', 'Recruitment', 'OrangeHRM', 'info@orangehrm.com', 'VER001', 'Recruitment'),
  	 							('MOD009', 'Performance', 'OrangeHRM', 'info@orangehrm.com', 'VER001', 'Performance');
-INSERT INTO `hs_hr_rights` ( `userg_id` , `mod_id` , `addition` , `editing` , `deletion` , `viewing` )
-        VALUES  ('USG001', 'MOD001', '1', '1', '1', '1'),
-		('USG001', 'MOD002', '1', '1', '1', '1'),
-		('USG001', 'MOD004', '1', '1', '1', '1'),
-		('USG001', 'MOD005', '1', '1', '1', '1'),
-		('USG001', 'MOD006', '1', '1', '1', '1'),
-		('USG001', 'MOD007', '1', '1', '1', '1'),
- 	 	('USG001', 'MOD008', '1', '1', '1', '1'),
- 	 	('USG001', 'MOD009', '1', '1', '1', '1');
 
 INSERT INTO `ohrm_work_week` VALUES (1, NULL, 0, 0, 0, 0, 0, 8, 8);
 
@@ -514,7 +504,12 @@ INSERT INTO `hs_hr_config`(`key`, `value`) VALUES ('ldap_server', ''),
     ('admin.localization.use_browser_language', 'No'),
     ('admin.localization.default_date_format', 'Y-m-d'),
     ('authorize_user_role_manager_class', 'BasicUserRoleManager'),
-    ('include_supervisor_chain', 'No');
+    ('include_supervisor_chain', 'No'),
+    ('leave.entitlement_consumption_algorithm', 'FIFOEntitlementConsumptionStrategy'),
+    ('leave.work_schedule_implementation', 'BasicWorkSchedule'),
+    ('themeName', 'default'),
+    ('leave.leavePeriodStatus',1),
+    ('leave.include_pending_leave_in_balance', 1);
 
 INSERT INTO `ohrm_emp_reporting_method`(`reporting_method_id`, `reporting_method_name`) VALUES(1, 'Direct'),
       (2, 'Indirect');
@@ -523,19 +518,14 @@ INSERT INTO `ohrm_emp_reporting_method`(`reporting_method_id`, `reporting_method
 INSERT INTO `hs_hr_unique_id`(last_id, table_name, field_name) VALUES
     (0, 'hs_hr_employee', 'emp_number'),
     (6, 'hs_hr_module', 'mod_id'),
-    (1, 'hs_hr_user_group', 'userg_id'),
-    (0, 'hs_hr_empreport', 'rep_code'),
     (0, 'hs_hr_leave', 'leave_id'),
     (0, 'hs_hr_leavetype', 'leave_type_id'),
     (0, 'hs_hr_leave_requests', 'leave_request_id'),
     (0, 'hs_hr_custom_export', 'export_id'),
     (0, 'hs_hr_custom_import', 'import_id'),
     (0, 'hs_hr_pay_period', 'id'),
-    (0, 'hs_hr_hsp_summary', 'summary_id'),
-    (0, 'hs_hr_hsp_payment_request', 'id'),
     (0, 'hs_hr_kpi', 'id'),
     (0, 'hs_hr_performance_review', 'id'),
-    (0, 'hs_hr_leave_period', 'leave_period_id'),
     (2, 'ohrm_emp_reporting_method', 'reporting_method_id'),
     (0, 'ohrm_timesheet', 'timesheet_id'),
     (0, 'ohrm_timesheet_action_log', 'timesheet_action_log_id'),
@@ -543,98 +533,121 @@ INSERT INTO `hs_hr_unique_id`(last_id, table_name, field_name) VALUES
     (0,'ohrm_attendance_record', 'id'),
     (0, 'ohrm_job_vacancy', 'id'),
     (0, 'ohrm_job_candidate', 'id'),
-    (85,'ohrm_workflow_state_machine', 'id'),
+    (106,'ohrm_workflow_state_machine', 'id'),
     (0, 'ohrm_job_candidate_attachment', 'id'),
     (0, 'ohrm_job_vacancy_attachment', 'id'),
     (0, 'ohrm_job_candidate_vacancy', 'id'),
     (0, 'ohrm_job_candidate_history', 'id'),
     (0, 'ohrm_job_interview', 'id');
 
-INSERT INTO `ohrm_workflow_state_machine` VALUES ('1','0','INITIAL','SYSTEM','7','NOT SUBMITTED'),
-                                   ('2','0','SUBMITTED','ADMIN','2','APPROVED'),
-                                   ('3','0','SUBMITTED','ADMIN','3','REJECTED'),
-                                   ('4','0','SUBMITTED','ADMIN','0','SUBMITTED'),
-                                   ('5','0','SUBMITTED','ADMIN','5','SUBMITTED'),
-                                   ('6','0','SUBMITTED','SUPERVISOR','2','APPROVED'),
-                                   ('7','0','SUBMITTED','SUPERVISOR','3','REJECTED'),
-                                   ('8','0','SUBMITTED','SUPERVISOR','5','SUBMITTED'),
-                                   ('9','0','SUBMITTED','SUPERVISOR','0','SUBMITTED'),
-                                   ('10','0','SUBMITTED','ESS USER','0','SUBMITTED'),
-                                   ('11','0','SUBMITTED','ESS USER','5','SUBMITTED'),
-                                   ('12','0','NOT SUBMITTED','ESS USER','1','SUBMITTED'),
-                                   ('13','0','NOT SUBMITTED','ESS USER','5','NOT SUBMITTED'),
-                                   ('14','0','NOT SUBMITTED','ESS USER','6','NOT SUBMITTED'),
-                                   ('15','0','NOT SUBMITTED','ESS USER','0','NOT SUBMITTED'),
-                                   ('16','0','NOT SUBMITTED','SUPERVISOR','0','NOT SUBMITTED'),
-                                   ('17','0','NOT SUBMITTED','SUPERVISOR','5','NOT SUBMITTED'),
-                                   ('18','0','NOT SUBMITTED','SUPERVISOR','1','SUBMITTED'),
-                                   ('19','0','NOT SUBMITTED','ADMIN','0','NOT SUBMITTED'),
-                                   ('20','0','NOT SUBMITTED','ADMIN','5','NOT SUBMITTED'),
-                                   ('21','0','NOT SUBMITTED','ADMIN','1','SUBMITTED'),
-                                   ('22','0','REJECTED','ESS USER','1','SUBMITTED'),
-                                   ('23','0','REJECTED','ESS USER','0','REJECTED'),
-                                   ('24','0','REJECTED','ESS USER','5','REJECTED'),
-                                   ('25','0','REJECTED','SUPERVISOR','1','SUBMITTED'),
-                                   ('26','0','REJECTED','SUPERVISOR','0','REJECTED'),
-                                   ('27','0','REJECTED','SUPERVISOR','5','REJECTED'),
-                                   ('28','0','REJECTED','ADMIN','0','REJECTED'),
-                                   ('29','0','REJECTED','ADMIN','5','SUBMITTED'),
-                                   ('30','0','REJECTED','ADMIN','1','SUBMITTED'),
-                                   ('31','0','APPROVED','ESS USER','0','APPROVED'),
-                                   ('32','0','APPROVED','SUPERVISOR','0','APPROVED'),
-                                   ('33','0','APPROVED','ADMIN','0','APPROVED'),
-                                   ('34','0','APPROVED','ADMIN','4','SUBMITTED'),
-                                   ('35','1','PUNCHED IN','ESS USER','1','PUNCHED OUT'),
-                                   ('36','1','INITIAL','ESS USER','0','PUNCHED IN'),
-                                   ('37','2','INITIAL','ADMIN','1','APPLICATION INITIATED'),
-                                   ('38','2','APPLICATION INITIATED','ADMIN','2','SHORTLISTED'),
-                                   ('39','2','APPLICATION INITIATED','ADMIN','3','REJECTED'),
-                                   ('40','2','SHORTLISTED','ADMIN','4','INTERVIEW SCHEDULED'),
-                                   ('41','2','SHORTLISTED','ADMIN','3','REJECTED'),
-                                   ('42','2','INTERVIEW SCHEDULED','ADMIN','3','REJECTED'),
-                                   ('43','2','INTERVIEW SCHEDULED','ADMIN','5','INTERVIEW PASSED'),
-                                   ('44','2','INTERVIEW SCHEDULED','ADMIN','6','INTERVIEW FAILED'),
-                                   ('45','2','INTERVIEW PASSED','ADMIN','4','INTERVIEW SCHEDULED'),
-                                   ('46','2','INTERVIEW PASSED','ADMIN','7','JOB OFFERED'),
-                                   ('47','2','INTERVIEW PASSED','ADMIN','3','REJECTED'),
-                                   ('48','2','INTERVIEW FAILED','ADMIN','3','REJECTED'),
-                                   ('49','2','JOB OFFERED','ADMIN','8','OFFER DECLINED'),
-                                   ('50','2','JOB OFFERED','ADMIN','3','REJECTED'),
-                                   ('51','2','JOB OFFERED','ADMIN','9','HIRED'),
-                                   ('52','2','OFFER DECLINED','ADMIN','3','REJECTED'),
-                                   ('53','2','INITIAL','HIRING MANAGER','1','APPLICATION INITIATED'),
-                                   ('54','2','APPLICATION INITIATED','HIRING MANAGER','2','SHORTLISTED'),
-                                   ('55','2','APPLICATION INITIATED','HIRING MANAGER','3','REJECTED'),
-                                   ('56','2','SHORTLISTED','HIRING MANAGER','4','INTERVIEW SCHEDULED'),
-                                   ('57','2','SHORTLISTED','HIRING MANAGER','3','REJECTED'),
-                                   ('58','2','INTERVIEW SCHEDULED','HIRING MANAGER','3','REJECTED'),
-                                   ('59','2','INTERVIEW SCHEDULED','HIRING MANAGER','5','INTERVIEW PASSED'),
-                                   ('60','2','INTERVIEW SCHEDULED','HIRING MANAGER','6','INTERVIEW FAILED'),
-                                   ('61','2','INTERVIEW PASSED','HIRING MANAGER','4','INTERVIEW SCHEDULED'),
-                                   ('62','2','INTERVIEW PASSED','HIRING MANAGER','7','JOB OFFERED'),
-                                   ('63','2','INTERVIEW PASSED','HIRING MANAGER','3','REJECTED'),
-                                   ('64','2','INTERVIEW FAILED','HIRING MANAGER','3','REJECTED'),
-                                   ('65','2','JOB OFFERED','HIRING MANAGER','8','OFFER DECLINED'),
-                                   ('66','2','JOB OFFERED','HIRING MANAGER','3','REJECTED'),
-                                   ('67','2','JOB OFFERED','HIRING MANAGER','9','HIRED'),
-                                   ('68','2','OFFER DECLINED','HIRING MANAGER','3','REJECTED'),
-                                   ('69','2','INTERVIEW SCHEDULED','INTERVIEWER','5','INTERVIEW PASSED'),
-                                   ('70','2','INTERVIEW SCHEDULED','INTERVIEWER','6','INTERVIEW FAILED'),
-                                    ('71','1','INITIAL','ADMIN','5','PUNCHED IN'),
-                                    ('72','1','PUNCHED IN','ADMIN','6','PUNCHED OUT'),
-                                    ('73','1','PUNCHED IN','ADMIN','2','PUNCHED IN'),
-                                    ('74','1','PUNCHED IN','ADMIN','7','N/A'),
-                                    ('75','1','PUNCHED OUT','ADMIN','2','PUNCHED OUT'),
-                                    ('76','1','PUNCHED OUT','ADMIN','3','PUNCHED OUT'),
-                                    ('77','1','PUNCHED OUT','ADMIN','7','N/A'),
-                                    ('78','0','INITIAL','ADMIN','7','NOT SUBMITTED'),
-                                    ('79','0','INITIAL','ESS USER','7','NOT SUBMITTED'),
-                                    ('80','0','INITIAL','SUPERVISOR','7','NOT SUBMITTED'),
-                                    ('81','3','NOT_EXIST','ADMIN','1','ACTIVE'),
-                                    ('82','3','ACTIVE','ADMIN','2','NOT_EXIST'),
-                                    ('83','3','ACTIVE','ADMIN','3','TERMINATED'),
-                                    ('84','3','TERMINATED','ADMIN','4','ACTIVE'),
-                                    ('85','3','TERMINATED','ADMIN','5','NOT_EXIST');
+INSERT INTO `ohrm_workflow_state_machine`(`id`, `workflow`,`state`,`role`,`action`,`resulting_state`, `roles_to_notify`, `priority`)  
+                            VALUES ('1','0','INITIAL','SYSTEM','7','NOT SUBMITTED', '', 0),
+                                   ('2','0','SUBMITTED','ADMIN','2','APPROVED', '', 0),
+                                   ('3','0','SUBMITTED','ADMIN','3','REJECTED', '', 0),
+                                   ('4','0','SUBMITTED','ADMIN','0','SUBMITTED', '', 0),
+                                   ('5','0','SUBMITTED','ADMIN','5','SUBMITTED', '', 0),
+                                   ('6','0','SUBMITTED','SUPERVISOR','2','APPROVED', '', 0),
+                                   ('7','0','SUBMITTED','SUPERVISOR','3','REJECTED', '', 0),
+                                   ('8','0','SUBMITTED','SUPERVISOR','5','SUBMITTED', '', 0),
+                                   ('9','0','SUBMITTED','SUPERVISOR','0','SUBMITTED', '', 0),
+                                   ('10','0','SUBMITTED','ESS USER','0','SUBMITTED', '', 0),
+                                   ('11','0','SUBMITTED','ESS USER','5','SUBMITTED', '', 0),
+                                   ('12','0','NOT SUBMITTED','ESS USER','1','SUBMITTED', '', 0),
+                                   ('13','0','NOT SUBMITTED','ESS USER','5','NOT SUBMITTED', '', 0),
+                                   ('14','0','NOT SUBMITTED','ESS USER','6','NOT SUBMITTED', '', 0),
+                                   ('15','0','NOT SUBMITTED','ESS USER','0','NOT SUBMITTED', '', 0),
+                                   ('16','0','NOT SUBMITTED','SUPERVISOR','0','NOT SUBMITTED', '', 0),
+                                   ('17','0','NOT SUBMITTED','SUPERVISOR','5','NOT SUBMITTED', '', 0),
+                                   ('18','0','NOT SUBMITTED','SUPERVISOR','1','SUBMITTED', '', 0),
+                                   ('19','0','NOT SUBMITTED','ADMIN','0','NOT SUBMITTED', '', 0),
+                                   ('20','0','NOT SUBMITTED','ADMIN','5','NOT SUBMITTED', '', 0),
+                                   ('21','0','NOT SUBMITTED','ADMIN','1','SUBMITTED', '', 0),
+                                   ('22','0','REJECTED','ESS USER','1','SUBMITTED', '', 0),
+                                   ('23','0','REJECTED','ESS USER','0','REJECTED', '', 0),
+                                   ('24','0','REJECTED','ESS USER','5','REJECTED', '', 0),
+                                   ('25','0','REJECTED','SUPERVISOR','1','SUBMITTED', '', 0),
+                                   ('26','0','REJECTED','SUPERVISOR','0','REJECTED', '', 0),
+                                   ('27','0','REJECTED','SUPERVISOR','5','REJECTED', '', 0),
+                                   ('28','0','REJECTED','ADMIN','0','REJECTED', '', 0),
+                                   ('29','0','REJECTED','ADMIN','5','SUBMITTED', '', 0),
+                                   ('30','0','REJECTED','ADMIN','1','SUBMITTED', '', 0),
+                                   ('31','0','APPROVED','ESS USER','0','APPROVED', '', 0),
+                                   ('32','0','APPROVED','SUPERVISOR','0','APPROVED', '', 0),
+                                   ('33','0','APPROVED','ADMIN','0','APPROVED', '', 0),
+                                   ('34','0','APPROVED','ADMIN','4','SUBMITTED', '', 0),
+                                   ('35','1','PUNCHED IN','ESS USER','1','PUNCHED OUT', '', 0),
+                                   ('36','1','INITIAL','ESS USER','0','PUNCHED IN', '', 0),
+                                   ('37','2','INITIAL','ADMIN','1','APPLICATION INITIATED', '', 0),
+                                   ('38','2','APPLICATION INITIATED','ADMIN','2','SHORTLISTED', '', 0),
+                                   ('39','2','APPLICATION INITIATED','ADMIN','3','REJECTED', '', 0),
+                                   ('40','2','SHORTLISTED','ADMIN','4','INTERVIEW SCHEDULED', '', 0),
+                                   ('41','2','SHORTLISTED','ADMIN','3','REJECTED', '', 0),
+                                   ('42','2','INTERVIEW SCHEDULED','ADMIN','3','REJECTED', '', 0),
+                                   ('43','2','INTERVIEW SCHEDULED','ADMIN','5','INTERVIEW PASSED', '', 0),
+                                   ('44','2','INTERVIEW SCHEDULED','ADMIN','6','INTERVIEW FAILED', '', 0),
+                                   ('45','2','INTERVIEW PASSED','ADMIN','4','INTERVIEW SCHEDULED', '', 0),
+                                   ('46','2','INTERVIEW PASSED','ADMIN','7','JOB OFFERED', '', 0),
+                                   ('47','2','INTERVIEW PASSED','ADMIN','3','REJECTED', '', 0),
+                                   ('48','2','INTERVIEW FAILED','ADMIN','3','REJECTED', '', 0),
+                                   ('49','2','JOB OFFERED','ADMIN','8','OFFER DECLINED', '', 0),
+                                   ('50','2','JOB OFFERED','ADMIN','3','REJECTED', '', 0),
+                                   ('51','2','JOB OFFERED','ADMIN','9','HIRED', '', 0),
+                                   ('52','2','OFFER DECLINED','ADMIN','3','REJECTED', '', 0),
+                                   ('53','2','INITIAL','HIRING MANAGER','1','APPLICATION INITIATED', '', 0),
+                                   ('54','2','APPLICATION INITIATED','HIRING MANAGER','2','SHORTLISTED', '', 0),
+                                   ('55','2','APPLICATION INITIATED','HIRING MANAGER','3','REJECTED', '', 0),
+                                   ('56','2','SHORTLISTED','HIRING MANAGER','4','INTERVIEW SCHEDULED', '', 0),
+                                   ('57','2','SHORTLISTED','HIRING MANAGER','3','REJECTED', '', 0),
+                                   ('58','2','INTERVIEW SCHEDULED','HIRING MANAGER','3','REJECTED', '', 0),
+                                   ('59','2','INTERVIEW SCHEDULED','HIRING MANAGER','5','INTERVIEW PASSED', '', 0),
+                                   ('60','2','INTERVIEW SCHEDULED','HIRING MANAGER','6','INTERVIEW FAILED', '', 0),
+                                   ('61','2','INTERVIEW PASSED','HIRING MANAGER','4','INTERVIEW SCHEDULED', '', 0),
+                                   ('62','2','INTERVIEW PASSED','HIRING MANAGER','7','JOB OFFERED', '', 0),
+                                   ('63','2','INTERVIEW PASSED','HIRING MANAGER','3','REJECTED', '', 0),
+                                   ('64','2','INTERVIEW FAILED','HIRING MANAGER','3','REJECTED', '', 0),
+                                   ('65','2','JOB OFFERED','HIRING MANAGER','8','OFFER DECLINED', '', 0),
+                                   ('66','2','JOB OFFERED','HIRING MANAGER','3','REJECTED', '', 0),
+                                   ('67','2','JOB OFFERED','HIRING MANAGER','9','HIRED', '', 0),
+                                   ('68','2','OFFER DECLINED','HIRING MANAGER','3','REJECTED', '', 0),
+                                   ('69','2','INTERVIEW SCHEDULED','INTERVIEWER','5','INTERVIEW PASSED', '', 0),
+                                   ('70','2','INTERVIEW SCHEDULED','INTERVIEWER','6','INTERVIEW FAILED', '', 0),
+                                    ('71','1','INITIAL','ADMIN','5','PUNCHED IN', '', 0),
+                                    ('72','1','PUNCHED IN','ADMIN','6','PUNCHED OUT', '', 0),
+                                    ('73','1','PUNCHED IN','ADMIN','2','PUNCHED IN', '', 0),
+                                    ('74','1','PUNCHED IN','ADMIN','7','N/A', '', 0),
+                                    ('75','1','PUNCHED OUT','ADMIN','2','PUNCHED OUT', '', 0),
+                                    ('76','1','PUNCHED OUT','ADMIN','3','PUNCHED OUT', '', 0),
+                                    ('77','1','PUNCHED OUT','ADMIN','7','N/A', '', 0),
+                                    ('78','0','INITIAL','ADMIN','7','NOT SUBMITTED', '', 0),
+                                    ('79','0','INITIAL','ESS USER','7','NOT SUBMITTED', '', 0),
+                                    ('80','0','INITIAL','SUPERVISOR','7','NOT SUBMITTED', '', 0),
+                                    ('81','3','NOT_EXIST','ADMIN','1','ACTIVE', '', 0),
+                                    ('82','3','ACTIVE','ADMIN','2','NOT_EXIST', '', 0),
+                                    ('83','3','ACTIVE','ADMIN','3','TERMINATED', '', 0),
+                                    ('84','3','TERMINATED','ADMIN','4','ACTIVE', '', 0),
+                                    ('85','3','TERMINATED','ADMIN','5','NOT_EXIST', '', 0),
+                                    (86, '4', 'INITIAL', 'ESS', 'APPLY', 'PENDING APPROVAL', 'supervisor,subscriber', 0),
+                                    (87, '4', 'INITIAL', 'ADMIN', 'ASSIGN', 'SCHEDULED', 'ess,supervisor,subscriber', 0),
+                                    (88, '4', 'INITIAL', 'SUPERVISOR', 'ASSIGN', 'SCHEDULED', 'ess,supervisor,subscriber', 0),
+                                    (89, '4', 'PENDING APPROVAL', 'ADMIN', 'APPROVE', 'SCHEDULED', 'ess,subscriber', 0),
+                                    (90, '4', 'PENDING APPROVAL', 'SUPERVISOR', 'APPROVE', 'SCHEDULED', 'ess,subscriber', 0),
+                                    (91, '4', 'PENDING APPROVAL', 'ESS', 'CANCEL', 'CANCELLED', 'supervisor,subscriber', 0),
+                                    (92, '4', 'PENDING APPROVAL', 'ADMIN', 'CANCEL', 'CANCELLED', 'ess,subscriber', 0),
+                                    (93, '4', 'PENDING APPROVAL', 'SUPERVISOR', 'CANCEL', 'CANCELLED', 'ess,subscriber', 0),
+                                    (94, '4', 'PENDING APPROVAL', 'ADMIN', 'REJECT', 'REJECTED', 'ess,subscriber', 0),
+                                    (95, '4', 'PENDING APPROVAL', 'SUPERVISOR', 'REJECT', 'REJECTED', 'ess,subscriber', 0),
+                                    (96, '4', 'SCHEDULED', 'ESS', 'CANCEL', 'CANCELLED', 'supervisor,subscriber', 0),
+                                    (97, '4', 'SCHEDULED', 'ADMIN', 'CANCEL', 'CANCELLED', 'ess,subscriber', 0),
+                                    (98, '4', 'SCHEDULED', 'SUPERVISOR', 'CANCEL', 'CANCELLED', 'ess,subscriber', 0),
+                                    (99, '4', 'TAKEN', 'ADMIN', 'CANCEL', 'CANCELLED', 'ess,subscriber', 0),
+                                    (100, '4', 'LEAVE TYPE DELETED PENDING APPROVAL', 'ESS', 'CANCEL', 'CANCELLED', 'supervisor,subscriber', 0),
+                                    (101, '4', 'LEAVE TYPE DELETED PENDING APPROVAL', 'ADMIN', 'CANCEL', 'CANCELLED', 'ess,subscriber', 0),
+                                    (102, '4', 'LEAVE TYPE DELETED PENDING APPROVAL', 'SUPERVISOR', 'CANCEL', 'CANCELLED', 'ess,subscriber', 0),
+                                    (103, '4', 'LEAVE TYPE DELETED SCHEDULED', 'ESS', 'CANCEL', 'CANCELLED', 'supervisor,subscriber', 0),
+                                    (104, '4', 'LEAVE TYPE DELETED SCHEDULED', 'ADMIN', 'CANCEL', 'CANCELLED', 'ess,subscriber', 0),
+                                    (105, '4', 'LEAVE TYPE DELETED SCHEDULED', 'SUPERVISOR', 'CANCEL', 'CANCELLED', 'ess,subscriber', 0),
+                                    (106, '4', 'LEAVE TYPE DELETED TAKEN', 'ADMIN', 'CANCEL', 'CANCELLED', 'ess,subscriber', 0);
+
                                     
 INSERT INTO `ohrm_report_group` (`report_group_id`, `name`, `core_sql`) VALUES 
    (1,'timesheet', 'SELECT selectCondition FROM ohrm_project_activity LEFT JOIN (SELECT * FROM ohrm_timesheet_item WHERE whereCondition1) AS ohrm_timesheet_item  ON (ohrm_timesheet_item.activity_id = ohrm_project_activity.activity_id) LEFT JOIN ohrm_project ON (ohrm_project.project_id = ohrm_project_activity.project_id) LEFT JOIN hs_hr_employee ON (hs_hr_employee.emp_number = ohrm_timesheet_item.employee_id) LEFT JOIN ohrm_timesheet ON (ohrm_timesheet.timesheet_id = ohrm_timesheet_item.timesheet_id) LEFT JOIN ohrm_customer ON (ohrm_customer.customer_id = ohrm_project.customer_id) WHERE whereCondition2 groupByClause ORDER BY ohrm_customer.name, ohrm_project.name, ohrm_project_activity.name, hs_hr_employee.emp_lastname, hs_hr_employee.emp_firstname'),
@@ -1069,7 +1082,8 @@ INSERT INTO `ohrm_user_role` (`id`, `name`, `display_name`, `is_assignable`, `is
 (3, 'Supervisor', 'Supervisor', 0, 1),
 (4, 'ProjectAdmin', 'ProjectAdmin', 0, 1),
 (5, 'Interviewer', 'Interviewer', 0, 1),
-(6, 'Offerer', 'Offerer', 0, 1);
+(6, 'HiringManager', 'HiringManager', 0, 1),
+(7, 'Reviewer', 'Reviewer', 0, 1);
 
 INSERT INTO `ohrm_nationality` (`id`, `name`) VALUES
 (1, 'Afghan'),
@@ -1304,12 +1318,150 @@ INSERT INTO ohrm_screen (`id`, `name`, `module_id`, `action_url`) VALUES
 (16, 'Leave List', 4, 'viewLeaveList'),
 (17, 'Assign Leave', 4, 'assignLeave'),
 (18, 'View Leave Summary', 4, 'viewLeaveSummary'),
-(19, 'Save Leave Entitlements', 4, 'saveLeaveEntitlements');
+(19, 'Save Leave Entitlements', 4, 'saveLeaveEntitlements'),
+(20, 'General Information', 2, 'viewOrganizationGeneralInformation'),
+(21, 'Location List', 2, 'viewLocations'),
+(22, 'View Company Structure', 2, 'viewCompanyStructure'),
+(23, 'Job Title List', 2, 'viewJobTitleList'),
+(24, 'Pay Grade List', 2, 'viewPayGrades'),
+(25, 'Employment Status List', 2, 'employmentStatus'),
+(26, 'Job Category List', 2, 'jobCategory'),
+(27, 'Work Shift List', 2, 'workShift'),
+(28, 'Skill List', 2, 'viewSkills'),
+(29, 'Education List', 2, 'viewEducation'),
+(30, 'License List', 2, 'viewLicenses'),
+(31, 'Language List', 2, 'viewLanguages'),
+(32, 'Membership List', 2, 'membership'),
+(33, 'Nationality List', 2, 'nationality'),
+(34, 'Add/Edit Mail Configuration', 2, 'listMailConfiguration'),
+(35, 'Notification List', 2, 'viewEmailNotification'),
+(36, 'Customer List', 2, 'viewCustomers'),
+(37, 'Project List', 2, 'viewProjects'),
+(38, 'Localization', 2, 'localization'),
+(39, 'Module Configuration', 2, 'viewModules'),
+(40, 'Configure PIM', 3, 'configurePim'),
+(41, 'Custom Field List', 3, 'listCustomFields'),
+(42, 'Data Import', 2, 'pimCsvImport'),
+(43, 'Reporting Method List', 3, 'viewReportingMethods'),
+(44, 'Termination Reason List', 3, 'viewTerminationReasons'),
+(45, 'PIM Reports List', 1, 'viewDefinedPredefinedReports'),
+(46, 'View MyInfo', 3, 'viewMyDetails'),
+(47, 'Define Leave Period', 4, 'defineLeavePeriod'),
+(48, 'View My Leave List', 4, 'viewMyLeaveList'),
+(49, 'Apply Leave', 4, 'applyLeave'),
+(50, 'Define Timesheet Start Date', 5, 'defineTimesheetPeriod'),
+(51, 'View My Timesheet', 5, 'viewMyTimesheet'),
+(52, 'View Employee Timesheet', 5, 'viewEmployeeTimesheet'),
+(53, 'View My Attendance', 6, 'viewMyAttendanceRecord'),
+(54, 'Punch In/Out', 6, 'punchIn'),
+(55, 'View Employee Attendance', 6, 'viewAttendanceRecord'),
+(56, 'Attendance Configuration', 6, 'configure'),
+(57, 'View Employee Report Criteria', 5, 'displayProjectReportCriteria'),
+(58, 'View Project Report Criteria', 5, 'displayEmployeeReportCriteria'),
+(59, 'View Attendance Report Criteria', 5, 'displayAttendanceSummaryReportCriteria'),
+(60, 'Candidate List', 7, 'viewCandidates'),
+(61, 'Vacancy List', 7, 'viewJobVacancy'),
+(62, 'KPI List', 9, 'listDefineKpi'),
+(63, 'Add/Edit KPI', 9, 'saveKpi'),
+(64, 'Copy KPI', 9, 'copyKpi'),
+(65, 'Add Review', 9, 'saveReview'),
+(66, 'Review List', 9, 'viewReview'),
+(67, 'View Time Module', 5, 'viewTimeModule'),
+(68, 'View Leave Module', 4, 'viewLeaveModule'),
+(69, 'Leave Entitlements', 4, 'viewLeaveEntitlements'),
+(70, 'My Leave Entitlements', 4, 'viewMyLeaveEntitlements'),
+(71, 'Delete Leave Entitlements', 4, 'deleteLeaveEntitlements'),
+(72, 'Add Leave Entitlement', 4, 'addLeaveEntitlement'),
+(73, 'Edit Leave Entitlement', 4, 'editLeaveEntitlement'),
+(74, 'View Admin Module', 2, 'viewAdminModule'),
+(75, 'View PIM Module', 3, 'viewPimModule'),
+(76, 'View Recruitment Module', 7, 'viewRecruitmentModule'),
+(77, 'View Performance Module', 9, 'viewPerformanceModule'),
+(78, 'Leave Balance Report', 4, 'viewLeaveBalanceReport'),
+(79, 'My Leave Balance Report', 4, 'viewMyLeaveBalanceReport');
+
+INSERT INTO ohrm_menu_item (`id`, `menu_title`, `screen_id`, `parent_id`, `level`, `order_hint`, `url_extras`, `status`) VALUES
+(1, 'Admin', 74, NULL, 1, 100, NULL, 1),
+(2, 'User Management', NULL, 1, 2, 100, NULL, 1),
+(3, 'Project Info', NULL, 52, 2, 400, NULL, 0),
+(4, 'Customers', 36, 3, 3, 100, NULL, 0),
+(5, 'Projects', 37, 3, 3, 200, NULL, 0),
+(6, 'Job', NULL, 1, 2, 300, NULL, 1),
+(7, 'Job Titles', 23, 6, 3, 100, NULL, 1),
+(8, 'Pay Grades', 24, 6, 3, 200, NULL, 1),
+(9, 'Employment Status', 25, 6, 3, 300, NULL, 1),
+(10, 'Job Categories', 26, 6, 3, 400, NULL, 1),
+(11, 'Work Shifts', 27, 6, 3, 500, NULL, 1),
+(12, 'Organization', NULL, 1, 2, 400, NULL, 1),
+(13, 'General Information', 20, 12, 3, 100, NULL, 1),
+(14, 'Locations', 21, 12, 3, 200, NULL, 1),
+(15, 'Structure', 22, 12, 3, 300, NULL, 1),
+(16, 'Qualifications', NULL, 1, 2, 500, NULL, 1),
+(17, 'Skills', 28, 16, 3, 100, NULL, 1),
+(18, 'Education', 29, 16, 3, 200, NULL, 1),
+(19, 'Licenses', 30, 16, 3, 300, NULL, 1),
+(20, 'Languages', 31, 16, 3, 400, NULL, 1),
+(21, 'Memberships', 32, 16, 3, 500, NULL, 1),
+(22, 'Nationalities', 33, 1, 2, 700, NULL, 1),
+(23, 'Configuration', NULL, 1, 2, 900, NULL, 1),
+(24, 'Email Configuration', 34, 23, 3, 100, NULL, 1),
+(25, 'Email Subscriptions', 35, 23, 3, 200, NULL, 1),
+(27, 'Localization', 38, 23, 3, 300, NULL, 1),
+(28, 'Modules', 39, 23, 3, 400, NULL, 1),
+(30, 'PIM', 75, NULL, 1, 200, NULL, 1),
+(31, 'Configuration', NULL, 30, 2, 100, NULL, 1),
+(32, 'Optional Fields', 40, 31, 3, 100, NULL, 1),
+(33, 'Custom Fields', 41, 31, 3, 200, NULL, 1),
+(34, 'Data Import', 42, 31, 3, 300, NULL, 1),
+(35, 'Reporting Methods', 43, 31, 3, 400, NULL, 1),
+(36, 'Termination Reasons', 44, 31, 3, 500, NULL, 1),
+(37, 'Employee List', 5, 30, 2, 200, '/reset/1', 1),
+(38, 'Add Employee', 4, 30, 2, 300, NULL, 1),
+(39, 'Reports', 45, 30, 2, 400, '/reportGroup/3/reportType/PIM_DEFINED', 1),
+(40, 'My Info', 46, NULL, 1, 700, NULL, 1),
+(41, 'Leave', 68, NULL, 1, 300, NULL, 1),
+(42, 'Configure', NULL, 41, 2, 500, NULL, 0),
+(43, 'Leave Period', 47, 42, 3, 100, NULL, 0),
+(44, 'Leave Types', 7, 42, 3, 200, NULL, 0),
+(45, 'Work Week', 14, 42, 3, 300, NULL, 0),
+(46, 'Holidays', 11, 42, 3, 400, NULL, 0),
+(48, 'Leave List', 16, 41, 2, 600, '/reset/1', 0),
+(49, 'Assign Leave', 17, 41, 2, 700, NULL, 0),
+(50, 'My Leave', 48, 41, 2, 200, '/reset/1', 0),
+(51, 'Apply', 49, 41, 2, 100, NULL, 0),
+(52, 'Time', 67, NULL, 1, 400, NULL, 1),
+(53, 'Timesheets', NULL, 52, 2, 100, NULL, 1),
+(54, 'My Timesheets', 51, 53, 3, 100, NULL, 0),
+(55, 'Employee Timesheets', 52, 53, 3, 200, NULL, 0),
+(56, 'Attendance', NULL, 52, 2, 200, NULL, 1),
+(57, 'My Records', 53, 56, 3, 100, NULL, 0),
+(58, 'Punch In/Out', 54, 56, 3, 200, NULL, 0),
+(59, 'Employee Records', 55, 56, 3, 300, NULL, 0),
+(60, 'Configuration', 56, 56, 3, 400, NULL, 0),
+(61, 'Reports', NULL, 52, 2, 300, NULL, 1),
+(62, 'Project Reports', 57, 61, 3, 100, '?reportId=1', 0),
+(63, 'Employee Reports', 58, 61, 3, 200, '?reportId=2', 0),
+(64, 'Attendance Summary', 59, 61, 3, 300, '?reportId=4', 0),
+(65, 'Recruitment', 76, NULL, 1, 500, NULL, 1),
+(66, 'Candidates', 60, 65, 2, 100, NULL, 1),
+(67, 'Vacancies', 61, 65, 2, 200, NULL, 1),
+(68, 'Performance', 77, NULL, 1, 600, NULL, 1),
+(69, 'KPI List', 62, 68, 2, 100, NULL, 1),
+(70, 'Add KPI', 63, 68, 2, 200, NULL, 1),
+(71, 'Copy KPI', 64, 68, 2, 300, NULL, 1),
+(72, 'Add Review', 65, 68, 2, 400, NULL, 1),
+(73, 'Reviews', 66, 68, 2, 500, '/mode/new', 1),
+(74, 'Entitlements', NULL, 41, 2, 300, NULL, 0),
+(75, 'Add Entitlements', 72, 74, 3, 100, NULL, 0),
+(76, 'My Entitlements', 70, 74, 3, 300, '/reset/1', 0),
+(77, 'Employee Entitlements', 69, 74, 3, 200, '/reset/1', 0),
+(78, 'Reports', NULL, 41, 2, 400, NULL, 0),
+(79, 'Leave Entitlements and Usage Report', 78, 78, 3, 100, NULL, 0),
+(80, 'My Leave Entitlements and Usage Report', 79, 78, 3, 200, NULL, 0),
+(81, 'Users', 1, 2, 3, 100, NULL, 1);
 
 INSERT INTO ohrm_user_role_screen (user_role_id, screen_id, can_read, can_create, can_update, can_delete) VALUES
 (1, 1, 1, 1, 1, 1),
-(2, 1, 0, 0, 0, 0),
-(3, 1, 0, 0, 0, 0),
 (1, 2, 1, 1, 1, 1),
 (2, 2, 0, 0, 0, 0),
 (3, 2, 0, 0, 0, 0),
@@ -1329,13 +1481,98 @@ INSERT INTO ohrm_user_role_screen (user_role_id, screen_id, can_read, can_create
 (1, 13, 1, 1, 1, 1),
 (1, 14, 1, 1, 1, 1),
 (1, 16, 1, 1, 1, 0),
-(2, 16, 1, 1, 1, 0),
+(3, 16, 1, 1, 1, 0),
 (1, 17, 1, 1, 1, 0),
-(2, 17, 1, 1, 1, 0),
+(3, 17, 1, 1, 1, 0),
 (1, 18, 1, 1, 1, 0),
 (2, 18, 1, 0, 0, 0),
 (3, 18, 1, 0, 0, 0),
-(1, 19, 1, 1, 1, 1);
+(1, 19, 1, 1, 1, 1),
+(1, 20, 1, 1, 1, 1),
+(1, 21, 1, 1, 1, 1),
+(1, 22, 1, 1, 1, 1),
+(1, 23, 1, 1, 1, 1),
+(1, 24, 1, 1, 1, 1),
+(1, 25, 1, 1, 1, 1),
+(1, 26, 1, 1, 1, 1),
+(1, 27, 1, 1, 1, 1),
+(1, 28, 1, 1, 1, 1),
+(1, 29, 1, 1, 1, 1),
+(1, 30, 1, 1, 1, 1),
+(1, 31, 1, 1, 1, 1),
+(1, 32, 1, 1, 1, 1),
+(1, 33, 1, 1, 1, 1),
+(1, 34, 1, 1, 1, 1),
+(1, 35, 1, 1, 1, 1),
+(1, 36, 1, 1, 1, 1),
+(1, 37, 1, 1, 1, 1),
+(4, 37, 1, 0, 0, 0),
+(1, 38, 1, 1, 1, 1),
+(1, 39, 1, 1, 1, 1),
+(1, 40, 1, 1, 1, 1),
+(1, 41, 1, 1, 1, 1),
+(1, 42, 1, 1, 1, 1),
+(1, 43, 1, 1, 1, 1),
+(1, 44, 1, 1, 1, 1),
+(1, 45, 1, 1, 1, 1),
+(2, 46, 1, 1, 1, 1),
+(1, 47, 1, 1, 1, 1),
+(2, 48, 1, 1, 1, 0),
+(2, 49, 1, 1, 1, 1),
+(1, 50, 1, 1, 1, 1),
+(2, 50, 1, 0, 0, 0),
+(2, 51, 1, 1, 1, 1),
+(1, 52, 1, 1, 1, 1),
+(3, 52, 1, 1, 1, 1),
+(2, 53, 1, 1, 0, 0),
+(2, 54, 1, 1, 1, 1),
+(1, 55, 1, 1, 0, 1),
+(3, 55, 1, 1, 0, 0),
+(1, 56, 1, 1, 1, 1),
+(1, 57, 1, 1, 1, 1),
+(4, 57, 1, 1, 1, 1),
+(1, 58, 1, 1, 1, 1),
+(3, 58, 1, 1, 1, 1),
+(1, 59, 1, 1, 1, 1),
+(3, 59, 1, 1, 1, 1),
+(1, 60, 1, 1, 1, 1),
+(6, 60, 1, 1, 1, 1),
+(5, 60, 1, 0, 1, 0),
+(1, 61, 1, 1, 1, 1),
+(1, 62, 1, 1, 1, 1),
+(1, 63, 1, 1, 1, 1),
+(1, 64, 1, 1, 1, 1),
+(1, 65, 1, 1, 1, 1),
+(1, 66, 1, 1, 1, 1),
+(2, 66, 1, 0, 1, 0),
+(7, 66, 1, 0, 1, 0),
+(1, 67, 1, 1, 1, 1),
+(2, 67, 1, 0, 1, 0),
+(3, 67, 1, 0, 1, 0),
+(1, 68, 1, 1, 1, 1),
+(2, 68, 1, 0, 1, 0),
+(3, 68, 1, 0, 1, 0),
+(1, 69, 1, 1, 1, 1),
+-- (2, 69, 0, 0, 0, 0),
+(3, 69, 1, 0, 0, 0),
+-- (1, 70, 0, 0, 0, 0),
+(2, 70, 1, 0, 0, 0),
+-- (3, 70, 0, 0, 0, 0),
+(1, 71, 1, 0, 0, 1),
+(1, 72, 1, 1, 1, 0),
+(1, 73, 1, 0, 1, 0),
+(1, 74, 1, 1, 1, 1),
+(1, 75, 1, 1, 1, 1),
+(3, 75, 1, 1, 1, 1),
+(1, 76, 1, 1, 1, 1),
+(5, 76, 1, 1, 1, 1),
+(6, 76, 1, 1, 1, 1),
+(1, 77, 1, 1, 1, 1),
+(2, 77, 1, 1, 1, 1),
+(7, 77, 1, 1, 1, 1),
+(1, 78, 1, 0, 0, 0),
+(3, 78, 1, 0, 0, 0),
+(2, 79, 1, 0, 0, 0);
 
 INSERT INTO `ohrm_data_group` (`id`, `name`, `description`, `can_read`, `can_create`, `can_update`, `can_delete`) VALUES
 (1, 'personal_information', 'PIM - Personal Details', 1, NULL, 1, NULL),
@@ -1377,7 +1614,8 @@ INSERT INTO `ohrm_data_group` (`id`, `name`, `description`, `can_read`, `can_cre
 (37, 'membership_attachment', 'PIM - Membership - Attachments', 1, 1, 1, 1),
 (38, 'membership_custom_fields', 'PIM - Membership - Custom Fields', 1, NULL, 1, NULL),
 (39, 'photograph', 'PIM - Employee Photograph', 1, NULL, 1, 1),
-(40, 'leave_summary', 'Leave - Leave Summary', 1, NULL, 1, NULL);
+(40, 'leave_entitlements', 'Leave - Leave Entitlements', 1, 1, 1, 1),
+(41, 'leave_entitlements_usage_report', 'Leave - Leave Entitlements and Usage Report', 1, NULL, NULL, NULL);
 
 INSERT INTO `ohrm_user_role_data_group` (`user_role_id`, `data_group_id`, `can_read`, `can_create`, `can_update`, `can_delete`, `self`) VALUES
 (1, 1, 1, NULL, 1, NULL, 0),
@@ -1419,7 +1657,8 @@ INSERT INTO `ohrm_user_role_data_group` (`user_role_id`, `data_group_id`, `can_r
 (1, 37, 1, 1, 1, 1, 0),
 (1, 38, 1, NULL, 1, NULL, 0),
 (1, 39, 1, NULL, 1, 1, 0),
-(1, 40, 1, NULL, 1, NULL, 0),
+(1, 40, 1, 1, 1, 1, 0),
+(1, 41, 1, NULL, NULL, NULL, 0),
 
 (1, 1, 1, NULL, 1, NULL, 1),
 (1, 2, 1, 1, 1, 1, 1),
@@ -1460,7 +1699,8 @@ INSERT INTO `ohrm_user_role_data_group` (`user_role_id`, `data_group_id`, `can_r
 (1, 37, 1, 1, 1, 1, 1),
 (1, 38, 1, NULL, 1, NULL, 1),
 (1, 39, 1, NULL, 1, 1, 1),
-(1, 40, 1, NULL, 1, NULL, 1),
+(1, 40, 1, 1, 1, 1, 1),
+(1, 41, 1, NULL, NULL, NULL, 1),
 
 (2, 1, 1, NULL, 1, NULL, 1),
 (2, 2, 1, 1, 1, 1, 1),
@@ -1501,7 +1741,8 @@ INSERT INTO `ohrm_user_role_data_group` (`user_role_id`, `data_group_id`, `can_r
 (2, 37, 1, 1, 1, 1, 1),
 (2, 38, 1, NULL, 1, NULL, 1),
 (2, 39, 1, NULL, 1, 1, 1),
-(2, 40, 1, NULL, NULL, NULL, 1),
+(2, 40, 1, 0, 0, 0, 1),
+(2, 41, 1, NULL, NULL, NULL, 1),
 
 (3, 1, 1, NULL, 1, NULL, 0),
 (3, 2, 1, 1, 1, 1, 0),
@@ -1542,7 +1783,8 @@ INSERT INTO `ohrm_user_role_data_group` (`user_role_id`, `data_group_id`, `can_r
 (3, 37, 1, 1, 1, 1, 0),
 (3, 38, 1, NULL, 1, NULL, 0),
 (3, 39, 1, NULL, 1, 1, 0),
-(3, 40, 1, NULL, NULL, NULL, 0),
+(3, 40, 1, 0, 0, 0, 0),
+(3, 41, 1, NULL, NULL, NULL, 0),
 
 (3, 1, 1, NULL, 1, NULL, 1),
 (3, 2, 1, 1, 1, 1, 1),
@@ -1583,7 +1825,9 @@ INSERT INTO `ohrm_user_role_data_group` (`user_role_id`, `data_group_id`, `can_r
 (3, 37, 1, 1, 1, 1, 1),
 (3, 38, 1, NULL, 1, NULL, 1),
 (3, 39, 1, NULL, 1, 1, 1),
-(3, 40, 1, NULL, NULL, NULL, 1);
+(3, 40, 1, 0, 0, 0, 1),
+(3, 41, 1, NULL, NULL, NULL, 1);
+
 
 INSERT INTO `ohrm_job_category` (`name`) VALUES ('Officials and Managers'),
                                                 ('Professionals'),
@@ -1594,3 +1838,573 @@ INSERT INTO `ohrm_job_category` (`name`) VALUES ('Officials and Managers'),
                                                 ('Craft Workers'),
                                                 ('Service Workers'),
                                                 ('Laborers and Helpers');
+
+INSERT INTO ohrm_email(`id`, `name`) VALUES 
+    (1, 'leave.apply'),
+    (2, 'leave.assign'),
+    (3, 'leave.approve'),
+    (4, 'leave.cancel'),
+    (5, 'leave.reject'),
+    (6, 'leave.change');
+
+INSERT INTO ohrm_email_template(`id`, `email_id`, `locale`, `performer_role`, `recipient_role`,`body`, `subject`) VALUES 
+    (1, 1, 'en_US', NULL, 'supervisor', 'orangehrmLeavePlugin/modules/leave/templates/mail/en_US/apply/leaveApplicationBody.txt', 'orangehrmLeavePlugin/modules/leave/templates/mail/en_US/apply/leaveApplicationSubject.txt'),
+    (2, 1, 'en_US', NULL, 'subscriber', 'orangehrmLeavePlugin/modules/leave/templates/mail/en_US/apply/leaveApplicationSubscriberBody.txt', 'orangehrmLeavePlugin/modules/leave/templates/mail/en_US/apply/leaveApplicationSubject.txt'),
+    (3, 3, 'en_US', NULL, 'ess', 'orangehrmLeavePlugin/modules/leave/templates/mail/en_US/approve/leaveApprovalBody.txt', 'orangehrmLeavePlugin/modules/leave/templates/mail/en_US/approve/leaveApprovalSubject.txt'),
+    (4, 3, 'en_US', NULL, 'subscriber', 'orangehrmLeavePlugin/modules/leave/templates/mail/en_US/approve/leaveApprovalSubscriberBody.txt', 'orangehrmLeavePlugin/modules/leave/templates/mail/en_US/approve/leaveApprovalSubscriberSubject.txt'),
+    (5, 2, 'en_US', NULL, 'ess', 'orangehrmLeavePlugin/modules/leave/templates/mail/en_US/assign/leaveAssignmentBody.txt', 'orangehrmLeavePlugin/modules/leave/templates/mail/en_US/assign/leaveAssignmentSubject.txt'),
+    (6, 2, 'en_US', NULL, 'supervisor', 'orangehrmLeavePlugin/modules/leave/templates/mail/en_US/assign/leaveAssignmentBodyForSupervisors.txt', 'orangehrmLeavePlugin/modules/leave/templates/mail/en_US/assign/leaveAssignmentSubjectForSupervisors.txt'),
+    (7, 2, 'en_US', NULL, 'subscriber', 'orangehrmLeavePlugin/modules/leave/templates/mail/en_US/assign/leaveAssignmentSubscriberBody.txt', 'orangehrmLeavePlugin/modules/leave/templates/mail/en_US/assign/leaveAssignmentSubscriberSubject.txt'),
+    (8, 4, 'en_US', 'ess', 'supervisor', 'orangehrmLeavePlugin/modules/leave/templates/mail/en_US/cancel/leaveEmployeeCancellationBody.txt', 'orangehrmLeavePlugin/modules/leave/templates/mail/en_US/cancel/leaveEmployeeCancellationSubject.txt'),
+    (9, 4, 'en_US', 'ess', 'subscriber', 'orangehrmLeavePlugin/modules/leave/templates/mail/en_US/cancel/leaveEmployeeCancellationSubscriberBody.txt', 'orangehrmLeavePlugin/modules/leave/templates/mail/en_US/cancel/leaveEmployeeCancellationSubscriberSubject.txt'),
+    (10, 4, 'en_US', NULL, 'ess', 'orangehrmLeavePlugin/modules/leave/templates/mail/en_US/cancel/leaveCancellationBody.txt', 'orangehrmLeavePlugin/modules/leave/templates/mail/en_US/cancel/leaveCancellationSubject.txt'),
+    (11, 4, 'en_US', NULL, 'subscriber', 'orangehrmLeavePlugin/modules/leave/templates/mail/en_US/cancel/leaveCancellationSubscriberBody.txt', 'orangehrmLeavePlugin/modules/leave/templates/mail/en_US/cancel/leaveCancellationSubscriberSubject.txt'),
+    (12, 5, 'en_US', NULL, 'ess', 'orangehrmLeavePlugin/modules/leave/templates/mail/en_US/reject/leaveRejectionBody.txt', 'orangehrmLeavePlugin/modules/leave/templates/mail/en_US/reject/leaveRejectionSubject.txt'),
+    (13, 5, 'en_US', NULL, 'subscriber', 'orangehrmLeavePlugin/modules/leave/templates/mail/en_US/reject/leaveRejectionSubscriberBody.txt', 'orangehrmLeavePlugin/modules/leave/templates/mail/en_US/reject/leaveRejectionSubscriberSubject.txt'),
+    (14, 6, 'en_US', NULL, 'ess', 'orangehrmLeavePlugin/modules/leave/templates/mail/en_US/change/leaveChangeBody.txt', 'orangehrmLeavePlugin/modules/leave/templates/mail/en_US/change/leaveChangeSubject.txt'),
+    (15, 6, 'en_US', NULL, 'subscriber', 'orangehrmLeavePlugin/modules/leave/templates/mail/en_US/change/leaveChangeSubscriberBody.txt', 'orangehrmLeavePlugin/modules/leave/templates/mail/en_US/change/leaveChangeSubscriberSubject.txt');
+
+INSERT INTO  ohrm_email_processor(`id`, `email_id`, `class_name`) VALUES 
+    (1, 1, 'LeaveEmailProcessor'),
+    (2, 2, 'LeaveEmailProcessor'),
+    (3, 3, 'LeaveEmailProcessor'),
+    (4, 4, 'LeaveEmailProcessor'),
+    (5, 5, 'LeaveEmailProcessor'),
+    (6, 6, 'LeaveChangeMailProcessor');
+
+INSERT INTO ohrm_leave_entitlement_type(`id`,`name`,`is_editable`) VALUES
+    (1,'Added',1);
+
+INSERT INTO ohrm_advanced_report (id, name, definition) VALUES
+(1, 'Leave Entitlements and Usage Report', '
+<report>
+    <settings>
+        <csv>
+            <include_group_header>1</include_group_header>
+            <include_header>1</include_header>
+        </csv>
+    </settings>
+<filter_fields>
+	<input_field type="text" name="empNumber" label="Employee Number"></input_field>
+	<input_field type="text" name="fromDate" label="From"></input_field>
+        <input_field type="text" name="toDate" label="To"></input_field>
+        <input_field type="text" name="asOfDate" label="AsOf"></input_field>
+</filter_fields> 
+
+<sub_report type="sql" name="mainTable">       
+    <query>FROM ohrm_leave_type WHERE (deleted = 0) OR (SELECT count(l.id) FROM ohrm_leave l WHERE l.status = 3 AND l.leave_type_id = ohrm_leave_type.id) > 0 ORDER BY ohrm_leave_type.id</query>
+    <id_field>leaveTypeId</id_field>
+    <display_groups>
+        <display_group name="leavetype" type="one" display="true">
+            <group_header></group_header>
+            <fields>
+                <field display="false">
+                    <field_name>ohrm_leave_type.id</field_name>
+                    <field_alias>leaveTypeId</field_alias>
+                    <display_name>Leave Type ID</display_name>
+                    <width>1</width>	
+                </field>   
+                <field display="false">
+                    <field_name>ohrm_leave_type.exclude_in_reports_if_no_entitlement</field_name>
+                    <field_alias>exclude_if_no_entitlement</field_alias>
+                    <display_name>Exclude</display_name>
+                    <width>1</width>	
+                </field>  
+                <field display="false">
+                    <field_name>ohrm_leave_type.deleted</field_name>
+                    <field_alias>leave_type_deleted</field_alias>
+                    <display_name>Leave Type Deleted</display_name>
+                    <width>1</width>	
+                </field>  
+                <field display="true">
+                    <field_name>ohrm_leave_type.name</field_name>
+                    <field_alias>leaveType</field_alias>
+                    <display_name>Leave Type</display_name>
+                    <width>160</width>	
+                </field>s                                                                                                     
+            </fields>
+        </display_group>
+    </display_groups> 
+</sub_report>
+
+<sub_report type="sql" name="entitlementsTotal">
+                    <query>
+
+FROM (
+SELECT ohrm_leave_entitlement.id as id, 
+       ohrm_leave_entitlement.leave_type_id as leave_type_id,
+       ohrm_leave_entitlement.no_of_days as no_of_days,
+       sum(IF(ohrm_leave.status = 2, ohrm_leave_leave_entitlement.length_days, 0)) AS scheduled,
+       sum(IF(ohrm_leave.status = 3, ohrm_leave_leave_entitlement.length_days, 0)) AS taken
+       
+FROM ohrm_leave_entitlement LEFT JOIN ohrm_leave_leave_entitlement ON
+    ohrm_leave_entitlement.id = ohrm_leave_leave_entitlement.entitlement_id
+    LEFT JOIN ohrm_leave ON ohrm_leave.id = ohrm_leave_leave_entitlement.leave_id AND 
+    ( $X{&gt;,ohrm_leave.date,toDate} OR $X{&lt;,ohrm_leave.date,fromDate} )
+
+WHERE ohrm_leave_entitlement.deleted=0 AND $X{=,ohrm_leave_entitlement.emp_number,empNumber} AND 
+    $X{IN,ohrm_leave_entitlement.leave_type_id,leaveTypeId} AND
+    (
+      ( $X{&lt;=,ohrm_leave_entitlement.from_date,fromDate} AND $X{&gt;=,ohrm_leave_entitlement.to_date,fromDate} ) OR
+      ( $X{&lt;=,ohrm_leave_entitlement.from_date,toDate} AND $X{&gt;=,ohrm_leave_entitlement.to_date,toDate} ) OR 
+      ( $X{&gt;=,ohrm_leave_entitlement.from_date,fromDate} AND $X{&lt;=,ohrm_leave_entitlement.to_date,toDate} ) 
+    )
+    
+GROUP BY ohrm_leave_entitlement.id
+) AS A
+
+GROUP BY A.leave_type_id
+ORDER BY A.leave_type_id
+
+</query>
+    <id_field>leaveTypeId</id_field>
+    <display_groups>
+            <display_group name="g2" type="one" display="true">
+                <group_header></group_header>
+                <fields>
+                    <field display="false">
+                        <field_name>A.leave_type_id</field_name>
+                        <field_alias>leaveTypeId</field_alias>
+                        <display_name>Leave Type ID</display_name>
+                        <width>1</width>
+                    </field>                                
+                    <field display="true">
+                        <field_name>sum(A.no_of_days) - sum(A.scheduled) - sum(A.taken)</field_name>
+                        <field_alias>entitlement_total</field_alias>
+                        <display_name>Leave Entitlements (Days)</display_name>
+                        <width>120</width>
+                        <align>right</align>
+                        <link>leave/viewLeaveEntitlements?empNumber=$P{empNumber}&amp;fromDate=$P{fromDate}&amp;toDate=$P{toDate}&amp;leaveTypeId=$P{leaveTypeId}&amp;stddate=1</link>
+                    </field>                                
+                </fields>
+            </display_group>
+    </display_groups>
+</sub_report>
+
+<sub_report type="sql" name="pendingQuery">
+<query>
+FROM ohrm_leave_type LEFT JOIN 
+ohrm_leave ON ohrm_leave_type.id = ohrm_leave.leave_type_id AND
+$X{=,ohrm_leave.emp_number,empNumber} AND
+ohrm_leave.status = 1 AND
+$X{&gt;=,ohrm_leave.date,fromDate} AND $X{&lt;=,ohrm_leave.date,toDate}
+WHERE
+ohrm_leave_type.deleted = 0 AND
+$X{IN,ohrm_leave_type.id,leaveTypeId}
+
+GROUP BY ohrm_leave_type.id
+ORDER BY ohrm_leave_type.id
+</query>
+    <id_field>leaveTypeId</id_field>
+    <display_groups>
+            <display_group name="g6" type="one" display="true">
+                <group_header></group_header>
+                <fields>
+                    <field display="false">
+                        <field_name>ohrm_leave_type.id</field_name>
+                        <field_alias>leaveTypeId</field_alias>
+                        <display_name>Leave Type ID</display_name>
+                        <width>1</width>
+                    </field>                                
+                    <field display="true">
+                        <field_name>sum(length_days)</field_name>
+                        <field_alias>pending</field_alias>
+                        <display_name>Leave Pending Approval (Days)</display_name>
+                        <width>120</width>
+                        <align>right</align>
+                        <link>leave/viewLeaveList?empNumber=$P{empNumber}&amp;fromDate=$P{fromDate}&amp;toDate=$P{toDate}&amp;leaveTypeId=$P{leaveTypeId}&amp;status=1&amp;stddate=1</link>
+                    </field>                                
+                </fields>
+            </display_group>
+    </display_groups>
+    </sub_report>
+
+<sub_report type="sql" name="scheduledQuery">
+<query>
+FROM ohrm_leave_type LEFT JOIN 
+ohrm_leave ON ohrm_leave_type.id = ohrm_leave.leave_type_id AND
+$X{=,ohrm_leave.emp_number,empNumber} AND
+ohrm_leave.status = 2 AND
+$X{&gt;=,ohrm_leave.date,fromDate} AND $X{&lt;=,ohrm_leave.date,toDate}
+WHERE
+ohrm_leave_type.deleted = 0 AND
+$X{IN,ohrm_leave_type.id,leaveTypeId}
+
+GROUP BY ohrm_leave_type.id
+ORDER BY ohrm_leave_type.id
+</query>
+    <id_field>leaveTypeId</id_field>
+    <display_groups>
+            <display_group name="g5" type="one" display="true">
+                <group_header></group_header>
+                <fields>
+                    <field display="false">
+                        <field_name>ohrm_leave_type.id</field_name>
+                        <field_alias>leaveTypeId</field_alias>
+                        <display_name>Leave Type ID</display_name>
+                        <width>1</width>
+                    </field>                                
+                    <field display="true">
+                        <field_name>sum(length_days)</field_name>
+                        <field_alias>scheduled</field_alias>
+                        <display_name>Leave Scheduled (Days)</display_name>
+                        <width>120</width>
+                        <align>right</align>
+                        <link>leave/viewLeaveList?empNumber=$P{empNumber}&amp;fromDate=$P{fromDate}&amp;toDate=$P{toDate}&amp;leaveTypeId=$P{leaveTypeId}&amp;status=2&amp;stddate=1</link>
+                    </field>                                
+                </fields>
+            </display_group>
+    </display_groups>
+    </sub_report>
+
+<sub_report type="sql" name="takenQuery">
+<query>
+FROM ohrm_leave WHERE $X{=,emp_number,empNumber} AND
+status = 3 AND
+$X{IN,ohrm_leave.leave_type_id,leaveTypeId} AND
+$X{&gt;=,ohrm_leave.date,fromDate} AND $X{&lt;=,ohrm_leave.date,toDate}
+GROUP BY leave_type_id
+ORDER BY ohrm_leave.leave_type_id
+</query>
+    <id_field>leaveTypeId</id_field>
+    <display_groups>
+            <display_group name="g4" type="one" display="true">
+                <group_header></group_header>
+                <fields>
+                    <field display="false">
+                        <field_name>ohrm_leave.leave_type_id</field_name>
+                        <field_alias>leaveTypeId</field_alias>
+                        <display_name>Leave Type ID</display_name>
+                        <width>1</width>
+                    </field>                                
+                    <field display="true">
+                        <field_name>sum(length_days)</field_name>
+                        <field_alias>taken</field_alias>
+                        <display_name>Leave Taken (Days)</display_name>
+                        <width>120</width>
+                        <align>right</align>
+                        <link>leave/viewLeaveList?empNumber=$P{empNumber}&amp;fromDate=$P{fromDate}&amp;toDate=$P{toDate}&amp;leaveTypeId=$P{leaveTypeId}&amp;status=3&amp;stddate=1</link>
+                    </field>                                
+                </fields>
+            </display_group>
+    </display_groups>
+    </sub_report>
+
+<sub_report type="sql" name="unused">       
+    <query>FROM ohrm_leave_type WHERE deleted = 0 AND $X{IN,ohrm_leave_type.id,leaveTypeId} ORDER BY ohrm_leave_type.id</query>
+    <id_field>leaveTypeId</id_field>
+    <display_groups>
+        <display_group name="unused" type="one" display="true">
+            <group_header></group_header>
+            <fields>
+                <field display="false">
+                    <field_name>ohrm_leave_type.id</field_name>
+                    <field_alias>leaveTypeId</field_alias>
+                    <display_name>Leave Type ID</display_name>
+                    <width>1</width>	
+                </field>   
+                <field display="true">
+                    <field_name>ohrm_leave_type.name</field_name>
+                    <field_alias>unused</field_alias>
+                    <display_name>Leave Balance (Days)</display_name>
+                    <width>160</width>	
+                    <align>right</align>
+                </field>                                                                                                     
+            </fields>
+        </display_group>
+    </display_groups> 
+</sub_report>
+
+
+    <join>             
+        <join_by sub_report="mainTable" id="leaveTypeId"></join_by>              
+        <join_by sub_report="entitlementsTotal" id="leaveTypeId"></join_by> 
+        <join_by sub_report="pendingQuery" id="leaveTypeId"></join_by>  
+        <join_by sub_report="scheduledQuery" id="leaveTypeId"></join_by>  
+        <join_by sub_report="takenQuery" id="leaveTypeId"></join_by>  
+        <join_by sub_report="unused" id="leaveTypeId"></join_by>  
+
+    </join>
+    <page_limit>100</page_limit>        
+</report>'); 
+
+INSERT INTO ohrm_advanced_report (id, name, definition) VALUES
+(2, 'Leave Entitlements and Usage Report', '
+<report>
+    <settings>
+        <csv>
+            <include_group_header>1</include_group_header>
+            <include_header>1</include_header>
+        </csv>
+    </settings>
+<filter_fields>
+	<input_field type="text" name="leaveType" label="Leave Type"></input_field>
+	<input_field type="text" name="fromDate" label="From"></input_field>
+        <input_field type="text" name="toDate" label="To"></input_field>
+        <input_field type="text" name="asOfDate" label="AsOf"></input_field>
+        <input_field type="text" name="emp_numbers" label="employees"></input_field>
+        <input_field type="text" name="job_title" label="Job Title"></input_field>
+        <input_field type="text" name="location" label="Location"></input_field>
+        <input_field type="text" name="sub_unit" label="Sub Unit"></input_field>
+        <input_field type="text" name="terminated" label="Terminated"></input_field>
+</filter_fields> 
+
+<sub_report type="sql" name="mainTable">       
+    <query>FROM hs_hr_employee 
+    LEFT JOIN hs_hr_emp_locations ON hs_hr_employee.emp_number = hs_hr_emp_locations.emp_number
+    WHERE $X{IN,hs_hr_employee.emp_number,emp_numbers} 
+    AND $X{=,hs_hr_employee.job_title_code,job_title}
+    AND $X{IN,hs_hr_employee.work_station,sub_unit}
+    AND $X{IN,hs_hr_emp_locations.location_id,location}
+    AND $X{IS NULL,hs_hr_employee.termination_id,terminated}
+    ORDER BY hs_hr_employee.emp_lastname</query>
+    <id_field>empNumber</id_field>
+    <display_groups>
+        <display_group name="personalDetails" type="one" display="true">
+            <group_header></group_header>
+            <fields>
+                <field display="false">
+                    <field_name>hs_hr_employee.emp_number</field_name>
+                    <field_alias>empNumber</field_alias>
+                    <display_name>Employee Number</display_name>
+                    <width>1</width>	
+                </field>                
+                <field display="false">
+                    <field_name>hs_hr_employee.termination_id</field_name>
+                    <field_alias>termination_id</field_alias>
+                    <display_name>Termination ID</display_name>
+                    <width>1</width>	
+                </field>   
+                <field display="true">
+                    <field_name>CONCAT(hs_hr_employee.emp_firstname, \' \', hs_hr_employee.emp_lastname)</field_name>
+                    <field_alias>employeeName</field_alias>
+                    <display_name>Employee</display_name>
+                    <width>150</width>
+                </field>                                                                                               
+            </fields>
+        </display_group>
+    </display_groups> 
+</sub_report>
+
+<sub_report type="sql" name="entitlementsTotal">
+                    <query>
+
+FROM (
+SELECT ohrm_leave_entitlement.id as id, 
+       ohrm_leave_entitlement.emp_number as emp_number,
+       ohrm_leave_entitlement.no_of_days as no_of_days,
+       sum(IF(ohrm_leave.status = 2, ohrm_leave_leave_entitlement.length_days, 0)) AS scheduled,
+       sum(IF(ohrm_leave.status = 3, ohrm_leave_leave_entitlement.length_days, 0)) AS taken
+       
+FROM ohrm_leave_entitlement LEFT JOIN ohrm_leave_leave_entitlement ON
+    ohrm_leave_entitlement.id = ohrm_leave_leave_entitlement.entitlement_id
+    LEFT JOIN ohrm_leave ON ohrm_leave.id = ohrm_leave_leave_entitlement.leave_id AND 
+    ( $X{&gt;,ohrm_leave.date,toDate} OR $X{&lt;,ohrm_leave.date,fromDate} )
+
+WHERE ohrm_leave_entitlement.deleted=0 AND $X{=,ohrm_leave_entitlement.leave_type_id,leaveType}
+    AND $X{IN,ohrm_leave_entitlement.emp_number,empNumber} AND
+    (
+      ( $X{&lt;=,ohrm_leave_entitlement.from_date,fromDate} AND $X{&gt;=,ohrm_leave_entitlement.to_date,fromDate} ) OR
+      ( $X{&lt;=,ohrm_leave_entitlement.from_date,toDate} AND $X{&gt;=,ohrm_leave_entitlement.to_date,toDate} ) OR 
+      ( $X{&gt;=,ohrm_leave_entitlement.from_date,fromDate} AND $X{&lt;=,ohrm_leave_entitlement.to_date,toDate} ) 
+    )
+    
+GROUP BY ohrm_leave_entitlement.id
+) AS A
+
+GROUP BY A.emp_number
+ORDER BY A.emp_number
+
+</query>
+    <id_field>empNumber</id_field>
+    <display_groups>
+            <display_group name="g2" type="one" display="true">
+                <group_header></group_header>
+                <fields>
+                    <field display="false">
+                        <field_name>A.emp_number</field_name>
+                        <field_alias>empNumber</field_alias>
+                        <display_name>Emp Number</display_name>
+                        <width>1</width>
+                    </field>                                
+                    <field display="true">
+                        <field_name>sum(A.no_of_days) - sum(A.scheduled) - sum(A.taken)</field_name>
+                        <field_alias>entitlement_total</field_alias>
+                        <display_name>Leave Entitlements (Days)</display_name>
+                        <width>120</width>
+                        <align>right</align>
+                        <link>leave/viewLeaveEntitlements?empNumber=$P{empNumber}&amp;fromDate=$P{fromDate}&amp;toDate=$P{toDate}&amp;leaveTypeId=$P{leaveTypeId}&amp;stddate=1</link>
+                    </field>                                
+                </fields>
+            </display_group>
+    </display_groups>
+</sub_report>
+
+<sub_report type="sql" name="pendingQuery">
+<query>
+FROM ohrm_leave WHERE $X{=,ohrm_leave.leave_type_id,leaveType} AND
+status = 1 AND
+$X{IN,ohrm_leave.emp_number,empNumber} AND
+$X{&gt;=,ohrm_leave.date,fromDate} AND $X{&lt;=,ohrm_leave.date,toDate}
+GROUP BY emp_number
+ORDER BY ohrm_leave.emp_number
+</query>
+    <id_field>empNumber</id_field>
+    <display_groups>
+            <display_group name="g6" type="one" display="true">
+                <group_header></group_header>
+                <fields>
+                    <field display="false">
+                        <field_name>ohrm_leave.emp_number</field_name>
+                        <field_alias>empNumber</field_alias>
+                        <display_name>Emp Number</display_name>
+                        <width>1</width>
+                    </field>                                
+                    <field display="true">
+                        <field_name>sum(length_days)</field_name>
+                        <field_alias>pending</field_alias>
+                        <display_name>Leave Pending Approval (Days)</display_name>
+                        <width>121</width>
+                        <align>right</align>
+                        <link>leave/viewLeaveList?empNumber=$P{empNumber}&amp;fromDate=$P{fromDate}&amp;toDate=$P{toDate}&amp;leaveTypeId=$P{leaveTypeId}&amp;status=1&amp;stddate=1</link>
+                    </field>                                
+                </fields>
+            </display_group>
+    </display_groups>
+</sub_report>
+
+
+<sub_report type="sql" name="scheduledQuery">
+<query>
+FROM ohrm_leave WHERE $X{=,ohrm_leave.leave_type_id,leaveType} AND
+status = 2 AND
+$X{IN,ohrm_leave.emp_number,empNumber} AND
+$X{&gt;=,ohrm_leave.date,fromDate} AND $X{&lt;=,ohrm_leave.date,toDate}
+GROUP BY emp_number
+ORDER BY ohrm_leave.emp_number
+</query>
+    <id_field>empNumber</id_field>
+    <display_groups>
+            <display_group name="g5" type="one" display="true">
+                <group_header></group_header>
+                <fields>
+                    <field display="false">
+                        <field_name>ohrm_leave.emp_number</field_name>
+                        <field_alias>empNumber</field_alias>
+                        <display_name>Emp Number</display_name>
+                        <width>1</width>
+                    </field>                                
+                    <field display="true">
+                        <field_name>sum(length_days)</field_name>
+                        <field_alias>scheduled</field_alias>
+                        <display_name>Leave Scheduled (Days)</display_name>
+                        <width>121</width>
+                        <align>right</align>
+                        <link>leave/viewLeaveList?empNumber=$P{empNumber}&amp;fromDate=$P{fromDate}&amp;toDate=$P{toDate}&amp;leaveTypeId=$P{leaveTypeId}&amp;status=2&amp;stddate=1</link>
+                    </field>                                
+                </fields>
+            </display_group>
+    </display_groups>
+</sub_report>
+
+<sub_report type="sql" name="takenQuery">
+<query>
+FROM ohrm_leave WHERE $X{=,ohrm_leave.leave_type_id,leaveType} AND
+status = 3 AND
+$X{IN,ohrm_leave.emp_number,empNumber} AND
+$X{&gt;=,ohrm_leave.date,fromDate} AND $X{&lt;=,ohrm_leave.date,toDate}
+GROUP BY emp_number
+ORDER BY ohrm_leave.emp_number
+</query>
+    <id_field>empNumber</id_field>
+    <display_groups>
+            <display_group name="g4" type="one" display="true">
+                <group_header></group_header>
+                <fields>
+                    <field display="false">
+                        <field_name>ohrm_leave.emp_number</field_name>
+                        <field_alias>empNumber</field_alias>
+                        <display_name>Emp Number</display_name>
+                        <width>1</width>
+                    </field>                                
+                    <field display="true">
+                        <field_name>sum(length_days)</field_name>
+                        <field_alias>taken</field_alias>
+                        <display_name>Leave Taken (Days)</display_name>
+                        <width>120</width>
+                        <align>right</align>
+                        <link>leave/viewLeaveList?empNumber=$P{empNumber}&amp;fromDate=$P{fromDate}&amp;toDate=$P{toDate}&amp;leaveTypeId=$P{leaveTypeId}&amp;status=3&amp;stddate=1</link>
+                    </field>                                
+                </fields>
+            </display_group>
+    </display_groups>
+</sub_report>
+<sub_report type="sql" name="unused">       
+    <query>FROM hs_hr_employee WHERE $X{IN,hs_hr_employee.emp_number,empNumber} ORDER BY hs_hr_employee.emp_number</query>
+    <id_field>empNumber</id_field>
+    <display_groups>
+        <display_group name="unused" type="one" display="true">
+            <group_header></group_header>
+            <fields>    
+                <field display="false">
+                    <field_name>hs_hr_employee.emp_number</field_name>
+                    <field_alias>empNumber</field_alias>
+                    <display_name>Employee Number</display_name>
+                    <width>1</width>	
+                </field>                
+                <field display="true">
+                    <field_name>hs_hr_employee.emp_firstname</field_name>
+                    <field_alias>unused</field_alias>
+                    <display_name>Leave Balance (Days)</display_name>
+                    <width>150</width>
+                    <align>right</align>
+                </field> 
+                                                                                               
+            </fields>
+        </display_group>
+    </display_groups> 
+</sub_report>
+    <join>             
+        <join_by sub_report="mainTable" id="empNumber"></join_by>            
+        <join_by sub_report="entitlementsTotal" id="empNumber"></join_by> 
+        <join_by sub_report="pendingQuery" id="empNumber"></join_by>
+        <join_by sub_report="scheduledQuery" id="empNumber"></join_by>
+        <join_by sub_report="takenQuery" id="empNumber"></join_by> 
+        <join_by sub_report="unused" id="empNumber"></join_by>  
+    </join>
+    <page_limit>20</page_limit>       
+</report>'); 
+ 
+
+INSERT INTO `ohrm_leave_status` (`status`,`name`) VALUES
+(-1, 'REJECTED'),
+(0, 'CANCELLED'),
+(1, 'PENDING APPROVAL'),
+(2, 'SCHEDULED'),
+(3, 'TAKEN'),
+(4, 'WEEKEND'),
+(5, 'HOLIDAY');
+
+INSERT INTO ohrm_home_page (`user_role_id`, `action`, `enable_class`, `priority`) VALUES 
+(1, 'pim/viewEmployeeList', NULL, 10),
+(2, 'pim/viewMyDetails', NULL, 0);
+
+INSERT INTO ohrm_module_default_page (`module_id`, `user_role_id`, `action`, `enable_class`, `priority`) VALUES 
+(2, 1, 'admin/viewSystemUsers', NULL, 20),
+(3, 1, 'pim/viewEmployeeList', NULL, 20),
+(3, 3, 'pim/viewEmployeeList', NULL, 10),
+(3, 2, 'pim/viewMyDetails', NULL, 0),
+(4, 1, 'leave/viewLeaveList/reset/1', NULL, 20),
+(4, 3, 'leave/viewLeaveList/reset/1', NULL, 10),
+(4, 2, 'leave/viewMyLeaveList', NULL, 0),
+(4, 1, 'leave/defineLeavePeriod', 'LeavePeriodDefinedHomePageEnabler', 100),
+(4, 2, 'leave/showLeavePeriodNotDefinedWarning', 'LeavePeriodDefinedHomePageEnabler', 90),
+(5, 1, 'time/viewEmployeeTimesheet', NULL, 20),
+(5, 2, 'time/viewMyTimesheet', NULL, 0),
+(5, 1, 'time/defineTimesheetPeriod', 'TimesheetPeriodDefinedHomePageEnabler', 100),
+(5, 2, 'time/defineTimesheetPeriod', 'TimesheetPeriodDefinedHomePageEnabler', 100),
+(7, 1, 'recruitment/viewCandidates', NULL, 20),
+(7, 5, 'recruitment/viewCandidates', NULL, 10),
+(7, 6, 'recruitment/viewCandidates', NULL, 5),
+(9, 1, 'performance/viewReview', NULL, 20),
+(9, 2, 'performance/viewReview', NULL, 0);

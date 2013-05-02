@@ -35,10 +35,10 @@ class EditAttendanceRecordForm extends sfForm {
                 $this->setWidget('recordId_' . $i, new sfWidgetFormInputHidden());
                 $this->setWidget('InOffset_' . $i, new sfWidgetFormInputHidden());
                 $this->setWidget('OutOffset_' . $i, new sfWidgetFormInputHidden());
-                $this->setWidget('punchInDate_' . $i, new sfWidgetFormInputText());
+                $this->setWidget('punchInDate_' . $i, new ohrmWidgetDatePicker());
                 $this->setWidget('punchInTime_' . $i, new sfWidgetFormInputText());
                 $this->setWidget('inNote_' . $i, new sfWidgetFormInputText(array(), array('class' => 'inNote')));
-                $this->setWidget('punchOutDate_' . $i, new sfWidgetFormInputText());
+                $this->setWidget('punchOutDate_' . $i, new ohrmWidgetDatePicker());
                 $this->setWidget('punchOutTime_' . $i, new sfWidgetFormInputText());
                 $this->setWidget('outNote_' . $i, new sfWidgetFormInputText(array(), array('class' => 'outNote')));
             }
@@ -47,12 +47,10 @@ class EditAttendanceRecordForm extends sfForm {
                 $this->setValidator('recordId_' . $i, new sfValidatorString());
                 $this->setValidator('InOffset_' . $i, new sfValidatorString());
                 $this->setValidator('OutOffset_' . $i, new sfValidatorString());
-                $this->setValidator('punchInDate_' . $i, new ohrmDateValidator(array('date_format' => $inputDatePattern, 'required' => true),
-                    array('invalid' => 'Date format should be ' . $inputDatePattern)));
+                $this->setValidator('punchInDate_' . $i, new ohrmDateValidator(array('date_format' => $inputDatePattern, 'required' => true), array('invalid' => 'Date format should be ' . $inputDatePattern)));
                 $this->setValidator('punchInTime_' . $i, new sfValidatorDateTime(array('required' => __('Enter Punch In Time'))));
                 $this->setValidator('inNote_' . $i, new sfValidatorString(array('required' => false, 'max_length' => 255)));
-                $this->setValidator('punchOutDate_' . $i, new ohrmDateValidator(array('date_format' => $inputDatePattern, 'required' => false),
-                    array('invalid' => 'Date format should be ' . $inputDatePattern)));
+                $this->setValidator('punchOutDate_' . $i, new ohrmDateValidator(array('date_format' => $inputDatePattern, 'required' => false), array('invalid' => 'Date format should be ' . $inputDatePattern)));
                 $this->setValidator('punchOutTime_' . $i, new sfValidatorDateTime(array('required' => false)));
                 $this->setValidator('outNote_' . $i, new sfValidatorString(array('required' => false, 'max_length' => 255)));
             }

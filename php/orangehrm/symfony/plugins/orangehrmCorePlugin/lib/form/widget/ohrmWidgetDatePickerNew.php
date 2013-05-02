@@ -45,7 +45,7 @@ class ohrmWidgetDatePickerNew extends sfWidgetFormInput {
 
     $(document).ready(function(){
 
-        var rDate = trim($("#%s").val());
+        var rDate = $.trim($("#%s").val());
             if (rDate == '') {
                 $("#%s").val(displayDateFormat);
             }

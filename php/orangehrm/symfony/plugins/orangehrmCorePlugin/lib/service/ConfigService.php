@@ -41,6 +41,8 @@ class ConfigService extends BaseService {
     const KEY_IS_LEAVE_PERIOD_START_ON_FEB_29 = 'leave.isLeavePeriodStartOnFeb29th';
     const KEY_LEAVE_PERIOD_START_DATE = 'leave.leavePeriodStartDate';
     const KEY_INCLUDE_SUPERVISOR_CHAIN = 'include_supervisor_chain'; 
+    const KEY_THEME_NAME = 'themeName';
+    const KEY_LEAVE_PERIOD_STATUS = 'leave.leavePeriodStatus';
 
     /**
      * Get ConfigDao
@@ -131,6 +133,15 @@ class ConfigService extends BaseService {
     }
     
     /**
+     * Get Value: Whether timesheet period has been set
+     * @return bool Returns true if timesheet period has been set
+     */
+    public function isTimesheetPeriodDefined() {
+        $val = $this->_getConfigValue(self::KEY_TIMESHEET_PERIOD_SET);
+        return ($val == 'Yes');
+    }    
+    
+    /**
      * Retrun is Supervisor Chain suported
      * @return boolean is Supervisor Chain suported
      */
@@ -203,7 +214,24 @@ class ConfigService extends BaseService {
         $val = $this->_getConfigValue(self::KEY_PIM_SHOW_TAX_EXEMPTIONS);
         return ($val == 1);
     }
+    
+    public function setThemeName($value) {
+        $this->_setConfigValue(self::KEY_THEME_NAME, $value);
+    }
 
+    public function getThemeName() {
+        return $this->_getConfigValue(self::KEY_THEME_NAME);
+    }  
+    
+    public function setLeavePeriodStatus($value) {
+        $this->_setConfigValue(self::KEY_LEAVE_PERIOD_STATUS, $value);
+    }
+
+    public function getLeavePeriodStatus() {
+        return $this->_getConfigValue(self::KEY_LEAVE_PERIOD_STATUS);
+    } 
+
+    
     public function setAdminLocalizationDefaultLanguage($value){
         $this->_setConfigValue(self::KEY_ADMIN_LOCALIZATION_DEFAULT_LANGUAGE, $value);
     }

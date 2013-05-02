@@ -19,6 +19,22 @@
  */
 class defineTimesheetPeriodAction extends sfAction {
 
+    protected $menuService;
+    
+    public function getMenuService() {
+        
+        if (!$this->menuService instanceof MenuService) {
+            $this->menuService = new MenuService();
+        }
+        
+        return $this->menuService;
+        
+    }
+    
+    public function setMenuService(MenuService $menuService) {
+        $this->menuService = $menuService;
+    }    
+    
     public function execute($request) {
 
         $this->userObj = $this->getContext()->getUser()->getAttribute('user');
@@ -31,11 +47,13 @@ class defineTimesheetPeriodAction extends sfAction {
             $this->form->bind($request->getParameter($this->form->getName()));
             if ($this->form->isValid()) {
                 $results = $this->form->save();
+                $this->getMenuService()->enableModuleMenuItems('time');
+                $this->getMenuService()->enableModuleMenuItems('attendance');
+                $this->getMenuService()->enableModuleMenuItems('admin', array('Project Info', 'Customers', 'Projects'));
+                $this->getUser()->getAttributeHolder()->remove(mainMenuComponent::MAIN_MENU_USER_ATTRIBUTE);
             }
-            $this->redirect('time/proceedTimesheetPeriod');
+            $this->redirect('time/viewEmployeeTimesheet');
         }
     }
 
 }
-
-?>

@@ -12,6 +12,7 @@ class TopLevelMessages {
     const SELECT_RECORDS = "Select Records to Delete";
     const FILE_TYPE_SAVE_FAILURE = "Failed to Save: File Type Not Allowed";
     const FILE_SIZE_SAVE_FAILURE = "Failed to Save: File Size Exceeded";
+    const ACCESS_DENIED = "Access Denied";
     
 }
 

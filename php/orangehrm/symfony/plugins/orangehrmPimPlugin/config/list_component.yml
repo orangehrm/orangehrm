@@ -9,6 +9,6 @@ Employee:
   summary: []
   buttonsPosition: before-data
   formMethod: post
-  formAction: 'index.php/pim/deleteEmployees'
+  formAction: 'pim/deleteEmployees'
   assets: []
   jsInitMethods: []

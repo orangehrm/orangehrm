@@ -1,108 +1,78 @@
 
-<table cellspacing="0" cellpadding="0" border="0" width="100%">
-    <tr>
-        <td width="5">&nbsp;</td>
-        <td colspan="2"></td>
-    </tr>
-    <tr>
-        <td>&nbsp;</td>
-        <!-- this space is reserved for menus - dont use -->
-        <td width="200" valign="top">
-            <?php include_partial('leftmenu', array('empNumber' => $empNumber, 'form' => $form));?>
-        </td>
-        <td valign="top">
-            <table cellspacing="0" cellpadding="0" border="0" width="90%">
-                <tr>
-                    <td valign="top" width="750">
-                    <!-- this space is for contents -->
-                        <div id="messagebar" class="<?php echo isset($messageType) ? "messageBalloon_{$messageType}" : ''; ?>" style="margin-left: 16px;width: 550px;">
-                            <span style="font-weight: bold;"><?php echo isset($message) ? $message : ''; ?></span>
-                        </div>
-                    <?php if ($taxExemptionPermission->canRead()) { ?>
-                        <div class="outerbox" id="outerbox">
-                        <div class="mainHeading"><h2><?php echo __('Tax Exemptions'); ?></h2></div>
-                        <div>
-                            <form id="frmEmpTaxExemptions" method="post" action="<?php echo url_for('pim/viewUsTaxExemptions'); ?>">
-                                <?php echo $form['_csrf_token']; ?>
-                                <?php echo $form['empNumber']->render(); ?>
-                                    
-                                <br />
-                                <span class="label"><?php echo __("Federal Income Tax") ?></span>
-                                <div>
-                                    <?php echo $form['federalStatus']->renderLabel(__("Status")); ?>
-                                    <?php echo $form['federalStatus']->render(array("class" => "drpDown")); ?>
-                                    <br class="clear" />
-                                </div>
-                                <div>
-                                    <?php echo $form['federalExemptions']->renderLabel(__("Exemptions")); ?>
-                                    <?php echo $form['federalExemptions']->render(array("class" => "txtBox", "maxlength" => 2, 'size' => 10)); ?>
-                                    <br class="clear" />
-                                    <br class="clear" />
-                                    <br class="clear" />
-                                </div>
-                                <span class="label"><?php echo __("State Income Tax") ?></span>
-                                <div>
-                                    <?php echo $form['state']->renderLabel(__("State")); ?>
-                                    <?php echo $form['state']->render(array("class" => "drpDown")); ?>
-                                    <br class="clear" />
-                                </div>
-                                <div>
-                                    <?php echo $form['stateStatus']->renderLabel(__("Status")); ?>
-                                    <?php echo $form['stateStatus']->render(array("class" => "drpDown")); ?>
-                                    <br class="clear" />
-                                </div>
-                                <div>
-                                    <?php echo $form['stateExemptions']->renderLabel(__("Exemptions")); ?>
-                                    <?php echo $form['stateExemptions']->render(array("class" => "txtBox", "maxlength" => 2, 'size' => 10)); ?>
-                                    <br class="clear" />
-                                    <br class="clear" />
-                                    <br class="clear" />
-                                </div>
-                                <div>
-                                    <?php echo $form['unempState']->renderLabel(__("Unemployment State")); ?>
-                                    <?php echo $form['unempState']->render(array("class" => "drpDown")); ?>
-                                    <br class="clear" />
-                                </div>
-                                <div>
-                                    <?php echo $form['workState']->renderLabel(__("Work State")); ?>
-                                    <?php echo $form['workState']->render(array("class" => "drpDown")); ?>
-                                    <br class="clear" />
-                                </div>
-                                
-                                 <div class="formbuttons">
-                                     <?php if($taxExemptionPermission->canUpdate()){ ?>
-                                        <input type="button" class="savebutton" id="btnSave" value="<?php echo __("Edit"); ?>" tabindex="2" />
-                                     <?php }?>
-                                 </div>                             
-                            </form>
-                        </div>
-                    </div>
+<?php echo javascript_include_tag(plugin_web_path('orangehrmPimPlugin', 'js/viewUsTaxExemptionsSuccess')); ?>
+
+<div class="box pimPane">
+    
+    <?php include_partial('pimLeftMenu', array('empNumber' => $empNumber, 'form' => $form)); ?>
+        
+    <?php if ($taxExemptionPermission->canRead()) { ?>
+    <div class="head">
+        <h1><?php echo __('Tax Exemptions'); ?></h1>
+    </div>
+
+    <div class="inner">
+
+        <?php include_partial('global/flash_messages'); ?>
+
+        <form id="frmEmpTaxExemptions" method="post" action="<?php echo url_for('pim/viewUsTaxExemptions'); ?>">
+            <?php echo $form['_csrf_token']; ?>
+            <?php echo $form['empNumber']->render(); ?>
+            <fieldset>
+                <ol>
+                    <li>
+                        <h2><?php echo __("Federal Income Tax") ?></h2>
+                    </li>
+                    <li>
+                        <?php echo $form['federalStatus']->renderLabel(__("Status")); ?>
+                        <?php echo $form['federalStatus']->render(array("class" => "drpDown")); ?>
+                    </li>
+                    <li>
+                        <?php echo $form['federalExemptions']->renderLabel(__("Exemptions")); ?>
+                        <?php echo $form['federalExemptions']->render(array("class" => "txtBox", "maxlength" => 2, 'size' => 10)); ?>
+                    </li>
+                    <li>
+                        <h2><?php echo __("State Income Tax") ?></h2>
+                    </li>
+                    <li>
+                        <?php echo $form['state']->renderLabel(__("State")); ?>
+                        <?php echo $form['state']->render(array("class" => "drpDown")); ?>
+                    </li>
+                    <li>
+                        <?php echo $form['stateStatus']->renderLabel(__("Status")); ?>
+                        <?php echo $form['stateStatus']->render(array("class" => "drpDown")); ?>
+                    </li>
+                    <li>
+                        <?php echo $form['stateExemptions']->renderLabel(__("Exemptions")); ?>
+                        <?php echo $form['stateExemptions']->render(array("class" => "txtBox", "maxlength" => 2, 'size' => 10)); ?>
+                    </li>
+                    <li>
+                        
+                    </li>
+                    <li>
+                        <?php echo $form['unempState']->renderLabel(__("Unemployment State")); ?>
+                        <?php echo $form['unempState']->render(array("class" => "drpDown")); ?>
+                    </li>
+                    <li>
+                        <?php echo $form['workState']->renderLabel(__("Work State")); ?>
+                        <?php echo $form['workState']->render(array("class" => "drpDown")); ?>
+                    </li>
+                </ol>
+                <p>
+                    <?php if ($taxExemptionPermission->canUpdate()) { ?>
+                    <input type="button" class="savebutton" id="btnSave" value="<?php echo __("Edit"); ?>" tabindex="2" />
                     <?php } ?>
-                    <?php echo include_component('pim', 'customFields', array('empNumber'=>$empNumber, 'screen' => CustomField::SCREEN_TAX_EXEMPTIONS));?>
-                    <?php echo include_component('pim', 'attachments', array('empNumber'=>$empNumber, 'screen' => EmployeeAttachment::SCREEN_TAX_EXEMPTIONS));?>
-                    </td>
-                    <td valign="top" align="center">
-                    </td>
-                </tr>
-            </table>
-        </td>
-    </tr>
-</table>
-
-
-<link href="<?php echo public_path('../../themes/orange/css/ui-lightness/jquery-ui-1.7.2.custom.css')?>" rel="stylesheet" type="text/css"/>
-<script type="text/javascript" src="<?php echo public_path('../../scripts/jquery/ui/ui.core.js')?>"></script>
-<script type="text/javascript" src="<?php echo public_path('../../scripts/jquery/ui/ui.datepicker.js')?>"></script>
-<?php echo stylesheet_tag('orangehrm.datepicker.css') ?>
-<?php echo javascript_include_tag('orangehrm.datepicker.js')?>
-
-<?php $browser = $_SERVER['HTTP_USER_AGENT']; ?>
-    <?php if (strstr($browser, "MSIE 8.0")):?>
-        <link href="<?php echo public_path('../../themes/orange/IE_style.css')?>" rel="stylesheet" type="text/css"/>
-    <?php else:?>
-        <?php echo stylesheet_tag('../orangehrmPimPlugin/css/viewUsTaxExemptionsSuccess'); ?>
-    <?php endif;?>
-<?php echo javascript_include_tag('../orangehrmPimPlugin/js/viewUsTaxExemptionsSuccess'); ?>
+                </p>
+            </fieldset>
+        </form>
+    </div> <!-- inner -->
+    <?php } ?>
+    
+    <?php 
+    echo include_component('pim', 'customFields', array('empNumber' => $empNumber, 'screen' => CustomField::SCREEN_TAX_EXEMPTIONS)); 
+    echo include_component('pim', 'attachments', array('empNumber' => $empNumber, 'screen' => EmployeeAttachment::SCREEN_TAX_EXEMPTIONS));
+    ?>
+    
+</div> <!-- Box -->
 
 <script type="text/javascript">
     //<![CDATA[

@@ -50,6 +50,9 @@ class changeCandidateVacancyStatusAction extends baseRecruitmentAction {
      */
     public function execute($request) {
 
+        /* For highlighting corresponding menu item */
+        $request->setParameter('initialActionName', 'viewCandidates');
+
         $usrObj = $this->getUser()->getAttribute('user');
         if (!($usrObj->isAdmin() || $usrObj->isHiringManager() || $usrObj->isInterviewer())) {
             $this->redirect('pim/viewPersonalDetails');
@@ -61,7 +64,7 @@ class changeCandidateVacancyStatusAction extends baseRecruitmentAction {
         if ($this->getUser()->hasFlash('templateMessage')) {
             list($this->messageType, $this->message) = $this->getUser()->getFlash('templateMessage');
         }
-
+        
         $id = $request->getParameter('id');
         if (!empty($id)) {
             $history = $this->getCandidateService()->getCandidateHistoryById($id);
@@ -70,7 +73,7 @@ class changeCandidateVacancyStatusAction extends baseRecruitmentAction {
             if ($action == WorkflowStateMachine::RECRUITMENT_APPLICATION_ACTION_SHEDULE_INTERVIEW || $action == WorkflowStateMachine::RECRUITMENT_APPLICATION_ACTION_SHEDULE_2ND_INTERVIEW) {
                 if ($this->getUser()->hasFlash('templateMessage')) {
                     list($this->messageType, $this->message) = $this->getUser()->getFlash('templateMessage');
-                    $this->getUser()->setFlash('templateMessage', array($this->messageType, $this->message));
+                    $this->getUser()->setFlash($this->messageType, $this->message);
                 }
                 $this->redirect('recruitment/jobInterview?historyId=' . $id . '&interviewId=' . $this->interviewId);
             }
@@ -111,10 +114,10 @@ class changeCandidateVacancyStatusAction extends baseRecruitmentAction {
             if ($this->form->isValid()) {
                 $result = $this->form->performAction();
                 if (isset($result['messageType'])) {
-                    $this->getUser()->setFlash('templateMessage', array($result['messageType'], $result['message']));
+                    $this->getUser()->setFlash($result['messageType'], $result['message']);
                 } else {
                     $message = __(TopLevelMessages::UPDATE_SUCCESS);
-                    $this->getUser()->setFlash('templateMessage', array('success', $message));
+                    $this->getUser()->setFlash('success', $message);
                 }
                 $this->redirect('recruitment/changeCandidateVacancyStatus?id=' . $this->form->historyId);
             }

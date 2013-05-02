@@ -25,11 +25,11 @@ class ohrmWidgetDateRange extends sfWidgetForm implements ohrmEmbeddableWidget {
     public function configure($options = array(), $attributes = array()) {
 
         $this->id = $attributes['id'];
-        $this->addOption($this->id . '_' . 'from_date', new ohrmWidgetDatePickerNew(array(), array('id' => $this->id . '_' . 'from_date')));
-        $this->addOption($this->id . '_' . 'to_date', new ohrmWidgetDatePickerNew(array(), array('id' => $this->id . '_' . 'to_date')));
+        $this->addOption($this->id . '_' . 'from_date', new ohrmWidgetDatePicker(array(), array('id' => $this->id . '_' . 'from_date')));
+        $this->addOption($this->id . '_' . 'to_date', new ohrmWidgetDatePicker(array(), array('id' => $this->id . '_' . 'to_date')));
 
 
-        $this->addOption('template', __('From').' &nbsp %from_date% &nbsp&nbsp&nbsp&nbsp&nbsp '.__('To').' &nbsp %to_date%');
+        $this->addOption('template', '<label class="sublabel1">'.__('From').'</label>%from_date%<label class="sublabel2">'.__('To').'</label>%to_date%');
     }
 
     public function render($name, $value = null, $attributes = array(), $errors = array()) {
@@ -115,6 +115,29 @@ class ohrmWidgetDateRange extends sfWidgetForm implements ohrmEmbeddableWidget {
 
         return "( " . $fieldName . " " . $this->getWhereClauseCondition() . " '" . $fromDate . "' AND '" . $toDate . "' )";
     }
+    
+    public function getJavaScripts() {
+        
+        $parentJs = parent::getJavaScripts();
+        
+        $fromDateWidget = $this->getOption($this->attributes['id'] . '_' . 'from_date');                
+        $fromWidgetJs = $fromDateWidget->getJavaScripts();       
+
+        $javaScripts = array_merge($parentJs, $fromWidgetJs);
+        
+        return $javaScripts;        
+    }
+    
+    public function getStylesheets() {
+        $parentCss = parent::getStylesheets();
+        
+        $fromDateWidget = $this->getOption($this->attributes['id'] . '_' . 'from_date');
+        $fromWidgetCss = $fromDateWidget->getStylesheets();
+        
+        $css = array_merge($parentCss, $fromWidgetCss);
+        
+        return $css;
+    }    
 
 }
 

@@ -63,6 +63,8 @@ class addCandidateAction extends sfAction {
      * @param <type> $request
      */
     public function execute($request) {
+         /* For highlighting corresponding menu item */  
+        $request->setParameter('initialActionName', 'viewCandidates');
 
         $userObj = $this->getUser()->getAttribute('user');
         $allowedVacancyList = $userObj->getAllowedVacancyList();
@@ -78,10 +80,7 @@ class addCandidateAction extends sfAction {
         $param = array('candidateId' => $this->candidateId, 'allowedVacancyList' => $allowedVacancyList, 'empNumber' => $userObj->getEmployeeNumber(), 'isAdmin' => $userObj->isAdmin());
         $this->setForm(new AddCandidateForm(array(), $param, true));
 
-        if ($this->getUser()->hasFlash('templateMessage')) {
-            list($this->messageType, $this->message) = $this->getUser()->getFlash('templateMessage');
-        }
-
+       
         $vacancyProperties = array('name', 'id', 'status' );
         $this->jobVacancyList = $this->getVacancyService()->getVacancyPropertyList($vacancyProperties);
         
@@ -114,10 +113,10 @@ class addCandidateAction extends sfAction {
 
             if (($_FILES['addCandidate']['size']['resume'] > 1024000) || ($_FILES['addCandidate']['error']['resume'] && $_FILES['addCandidate']['name']['resume'])) {
                 $title = ($this->candidateId > 0) ? __('Editing Candidate') : __('Adding Candidate');	 
-                $this->templateMessage = array('WARNING', '' . __(TopLevelMessages::FILE_SIZE_SAVE_FAILURE));
+                $this->getUser()->setFlash('addcandidate.warning', __(TopLevelMessages::FILE_SIZE_SAVE_FAILURE));
             } elseif ($_FILES == null) {
                 $title = ($this->candidateId > 0) ? __('Editing Candidate') : __('Adding Candidate');
-                $this->getUser()->setFlash('templateMessage', array('warning', __(TopLevelMessages::FILE_SIZE_SAVE_FAILURE)));
+                $this->getUser()->setFlash('addcandidate.warning', __(TopLevelMessages::FILE_SIZE_SAVE_FAILURE));
                 $this->redirect('recruitment/addCandidate');
             } else {
                 $this->form->bind($request->getParameter($this->form->getName()), $request->getFiles($this->form->getName()));
@@ -133,7 +132,7 @@ class addCandidateAction extends sfAction {
                         $this->invalidFile = true;
                     } else {
                         $this->candidateId = $result['candidateId'];
-                        $this->getUser()->setFlash('templateMessage', array('success', __(TopLevelMessages::SAVE_SUCCESS)));
+                        $this->getUser()->setFlash('addcandidate.success', __(TopLevelMessages::SAVE_SUCCESS));
                         $this->redirect('recruitment/addCandidate?id=' . $this->candidateId);
                     }
                 }

@@ -33,6 +33,7 @@ class viewEmergencyContactsAction extends basePimAction {
     }
 
     public function execute($request) {
+        
         $loggedInEmpNum = $this->getUser()->getEmployeeNumber();
         $this->showBackButton = true;
         
@@ -52,10 +53,6 @@ class viewEmergencyContactsAction extends basePimAction {
         
         if (!$this->IsActionAccessible($empNumber)) {
             $this->forward(sfConfig::get('sf_secure_module'), sfConfig::get('sf_secure_action'));
-        }
-
-        if ($this->getUser()->hasFlash('templateMessage')) {
-            list($this->messageType, $this->message) = $this->getUser()->getFlash('templateMessage');
         }
 
         $essMode = !$adminMode && !empty($loggedInEmpNum) && ($empNumber == $loggedInEmpNum);

@@ -1,91 +1,95 @@
-<link href="<?php echo public_path('../../themes/orange/css/ui-lightness/jquery-ui-1.7.2.custom.css') ?>" rel="stylesheet" type="text/css"/>
+<?php use_javascript(plugin_web_path('orangehrmAdminPlugin', 'js/workShiftSuccess')); ?>
 
-<script type="text/javascript" src="<?php echo public_path('../../scripts/jquery/ui/ui.core.js') ?>"></script>
-<script type="text/javascript" src="../../scripts/archive.js"></script>
-<script type="text/javascript" src="../../scripts/octopus.js"></script>
+<div id="workShift" class="box">
+    
+    <div class="head">
+        <h1 id="workShiftHeading"><?php echo __("Work Shift"); ?></h1>
+    </div>
+    
+    <div class="inner">
 
-<?php use_stylesheet('../../../themes/orange/css/ui-lightness/jquery-ui-1.8.13.custom.css'); ?>
-<?php use_javascript('../../../scripts/jquery/ui/ui.core.js'); ?>
-<?php use_javascript('../../../scripts/jquery/ui/ui.dialog.js'); ?>
-<?php use_stylesheet('../orangehrmAdminPlugin/css/workShiftSuccess'); ?>
-<?php use_javascript('../orangehrmAdminPlugin/js/workShiftSuccess'); ?>
-<?php echo isset($templateMessage) ? templateMessage($templateMessage) : ''; ?>
-<div id="messagebar" class="<?php echo isset($messageType) ? "messageBalloon_{$messageType}" : ''; ?>" >
-	<span><?php echo isset($message) ? $message : ''; ?></span>
-</div>
-
-<div id="workShift">
-    <div class="outerbox">
-
-        <div class="mainHeading"><h2 id="workShiftHeading"><?php echo __("Work Shift"); ?></h2></div>
         <form name="frmWorkShift" id="frmWorkShift" method="post" action="<?php echo url_for('admin/workShift'); ?>" >
 
             <?php echo $form['_csrf_token']; ?>
             <?php echo $form->renderHiddenFields(); ?>
-            <br class="clear"/>
-
-	    <?php echo $form['name']->renderLabel(__('Shift Name'). ' <span class="required">*</span>'); ?>
-            <?php echo $form['name']->render(array("class" => "formInput", "maxlength" => 52)); ?>
-            <div class="errorHolder"></div>
-	    <br class="clear"/>
-	    
-	    <?php echo $form['hours']->renderLabel(__('Hours Per Day'). ' <span class="required">*</span>'); ?>
-            <?php echo $form['hours']->render(array("class" => "formInput")); ?>
-            <div class="errorHolder"></div>
-	    <br class="clear"/>
-	    <br class="clear"/>
-	    
-	    <div id="selectManyTable">
-	    <table border="0">
-		<tbody>
-		<tr>
-		    <th width="100" style=""><?php echo __("Available Employees"); ?></th>
-		    <th width="100">
-		    </th><th width="125" style=""><?php echo __("Assigned Employees"); ?></th>
-		</tr>
-		<tr>
-		    <td width="100">
-			<?php echo $form['availableEmp']->render(array("class" => "selectMany", "size" => 10)); ?>	
-		    </td>
-		    <td align="center" width="100">
-				<input type="button" style="width: 80%;" value="<?php echo __("Add"). " >"; ?>" onmouseout="moutButton(this)" onmouseover="moverButton(this)" class="plainbtn" id="btnAssignEmployee" name="btnAssignEmployee"><br><br>
-				<input type="button" style="width: 80%;" value="<?php echo "< ".__("Remove"); ?>" onmouseout="moutButton(this)" onmouseover="moverButton(this)" class="plainbtn" id="btnRemoveEmployee" name="btnRemoveEmployee">
-		    </td>
-		    <td>
-			<?php echo $form['assignedEmp']->render(array("class" => "selectMany", "size" => 10)); ?>
-       		    </td>
-		</tr>
-	        </tbody>
-	    </table>
-	    </div>
-	    
-	    <br class="clear"/>
-	    
-	    <div class="actionbuttons">
-                    <input type="button" class="savebutton" name="btnSave" id="btnSave"
-                           value="<?php echo __("Save"); ?>"onmouseover="moverButton(this);" onmouseout="moutButton(this);"/>
-                    <input type="button" class="cancelbutton" name="btnCancel" id="btnCancel"
-                           value="<?php echo __("Cancel"); ?>"onmouseover="moverButton(this);" onmouseout="moutButton(this);"/>
-	    </div>
-	</form>
+            
+            <fieldset>
+                
+                <ol>                    
+                    <li>
+                        <?php echo $form['name']->renderLabel(__('Shift Name'). ' <em>*</em>'); ?>
+                        <?php echo $form['name']->render(array("maxlength" => 52)); ?>
+                    </li>
+                    <li>
+                        <?php echo $form['hours']->renderLabel(__('Hours Per Day'). ' <em>*</em>'); ?>
+                        <?php echo $form['hours']->render(); ?>
+                    </li>
+                    <p id="selectManyTable">
+                        <table border="0" width="45%" class="">
+                            <tbody>
+                                <tr>
+                                    <td width="35%" style="font-weight:bold; height: 20px">
+                                        <?php echo __("Available Employees"); ?>
+                                    </td>
+                                    <td width="30%"></td>
+                                    <td width="35%" style="font-weight:bold;"><?php echo __("Assigned Employees"); ?></td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <?php echo $form['availableEmp']->render(array("class" => "selectMany", "size" => 10, "style" => "width: 100%")); ?>	
+                                    </td>
+                                    <td align="center" style="vertical-align: middle">
+                                        <!--
+                                        <input type="button" style="width: 70%;" value="<?php echo __("Add"). " >"; ?>" class="" id="btnAssignEmployee" name="btnAssignEmployee">
+                                        <input type="button" style="width: 70%;" value="<?php echo "< ".__("Remove"); ?>" class="delete" id="btnRemoveEmployee" name="btnRemoveEmployee">
+                                        -->
+                                        <a href="#" class="" id="btnAssignEmployee"><?php echo __("Add"). " >>"; ?></a><br /><br />
+                                        <a href="#" class="delete" id="btnRemoveEmployee"><?php echo __("Remove") . " <<"; ?></a>
+                                    </td>
+                                    <td>
+                                        <?php echo $form['assignedEmp']->render(array("class" => "selectMany", "size" => 10, "style" => "width: 100%")); ?>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </p>
+                    <li class="required">
+                        <em>*</em> <?php echo __(CommonMessages::REQUIRED_FIELD); ?>
+                    </li>                    
+                </ol>
+                
+                <p>
+                    <input type="button" class="" name="btnSave" id="btnSave" value="<?php echo __("Save"); ?>"/>
+                    <input type="button" class="reset" name="btnCancel" id="btnCancel" value="<?php echo __("Cancel"); ?>"/>
+                </p>
+                
+            </fieldset>
+            
+        </form>
+        
     </div>
-    <div class="paddingLeftRequired"><span class="required">*</span> <?php echo __(CommonMessages::REQUIRED_FIELD); ?></div>
+    
 </div>
 
 <div id="customerList">
     <?php include_component('core', 'ohrmList', $parmetersForListCompoment); ?>
 </div>
 
-<!-- confirmation box -->
-<div id="deleteConfirmation" title="<?php echo __('OrangeHRM - Confirmation Required'); ?>" style="display: none;">
-
-    <?php echo __(CommonMessages::DELETE_CONFIRMATION); ?>
-
-    <div class="dialogButtons">
-        <input type="button" id="dialogDeleteBtn" class="savebutton" value="<?php echo __('Ok'); ?>" />
-        <input type="button" id="dialogCancelBtn" class="savebutton" value="<?php echo __('Cancel'); ?>" />
+<!-- Confirmation box HTML: Begins -->
+<div class="modal hide" id="deleteConfModal">
+    <div class="modal-header">
+        <a class="close" data-dismiss="modal">×</a>
+        <h3><?php echo __('OrangeHRM - Confirmation Required'); ?></h3>
+    </div>
+    <div class="modal-body">
+        <p><?php echo __(CommonMessages::DELETE_CONFIRMATION); ?></p>
+    </div>
+    <div class="modal-footer">
+        <input type="button" class="btn" data-dismiss="modal" id="dialogDeleteBtn" value="<?php echo __('Ok'); ?>" />
+        <input type="button" class="btn reset" data-dismiss="modal" value="<?php echo __('Cancel'); ?>" />
     </div>
 </div>
+<!-- Confirmation box HTML: Ends -->
 
 <script type="text/javascript">
 	var employees = <?php echo str_replace('&#039;', "'", $form->getEmployeeListAsJson());?>;

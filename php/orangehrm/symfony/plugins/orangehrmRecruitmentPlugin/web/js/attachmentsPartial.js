@@ -1,149 +1,174 @@
 
 $(document).ready(function() {
-	
-	$("#frmRecAttachment").data('add_mode', true);
-	
-	$('#btnCommentOnly').hide();
-	$('#btnAddAttachment').click(function(){
-		$('h3#attachmentSubHeading').text(lang_AddAttachmentHeading);
-		$('.editLink').hide();
-		$("label.error[generated='true']").css('display', 'none');
-		$('#recruitmentAttachment_ufile').val('');
-		if (clearAttachmentMessages) {
-			$("#attachmentsMessagebar").text("").attr('class', "");
-		}
-		$('#btnCommentOnly').hide();
-		$('#recruitmentAttachment_recruitmentId').val('');
-		$('#attachmentEditNote').text('');
-		$('#recruitmentAttachment_comment').val('');
-		$('#addPaneAttachments').show();
-		$('#btnAddAttachment').hide();
-		$('#btnDeleteAttachment').hide();
-		$('#actionButtons').show();
-	});
-	
-	$('#athCancelButton').click(function(){
-		validator.resetForm();		
-		$('.editLink').show();
-		$('#addPaneAttachments').hide();
-		$('#btnAddAttachment').show();
-		$('#btnDeleteAttachment').show();
-		$('#actionButtons').hide();
-	});
+    
+    $('#btnDeleteAttachment').attr('disabled', 'disabled');
+    
+    
 
-	//if check all button clicked
-	$("#attachmentsCheckAll").click(function() {
-		$("table#tblAttachments tbody input.checkboxAtch").removeAttr("checked");
-		if($("#attachmentsCheckAll").attr("checked")) {
-			$("table#tblAttachments tbody input.checkboxAtch").attr("checked", "checked");
-		}
-	});
+    $('#addPaneAttachments').hide();
+    $("#frmRecAttachment").data('add_mode', true);
 
-	//remove tick from the all button if any checkbox unchecked
-	$("table#tblAttachments tbody input.checkboxAtch").click(function() {
-		$("#attachmentsCheckAll").removeAttr('checked');
-		if($("table#tblAttachments tbody input.checkboxAtch").length == $("table#tblAttachments tbody input.checkboxAtch:checked").length) {
-			$("#attachmentsCheckAll").attr('checked', 'checked');
-		}
-	});
+    jQuery.validator.addMethod("attachment",
+        function() {
 
-	$('#btnSaveAttachment').click(function(){
-		$('#recruitmentAttachment_vacancyId').val(id);
-		$("#frmRecAttachment").data('add_mode', true);
-		//		if(isValidForm()){
-		$('#frmRecAttachment').submit();
-	//		}
-	});
+            var addMode = $("#frmRecAttachment").data('add_mode');
+            if (!addMode) {
+                return true;
+            } else {
+                var file = $('#recruitmentAttachment_ufile').val();
+                return file != "";
+            }
+        }, ""
+        );
+    var attachmentValidator =
+    $("#frmRecAttachment").validate({
 
-	$('#btnDeleteAttachment').click(function() {
+        rules: {
+            'recruitmentAttachment[ufile]' : {
+                attachment:true
+            },
+            'recruitmentAttachment[comment]': {
+                maxlength: 250
+            }
+        },
+        messages: {
+            'recruitmentAttachment[ufile]': lang_PleaseSelectAFile,
+            'recruitmentAttachment[comment]': {
+                maxlength: lang_CommentsMaxLength
+            }
+        }
+            
+    });
 
-		var checked = $('#frmRecDelAttachments input:checked').length;
+    //if check all button clicked
+    $("#attachmentsCheckAll").click(function() {
+        $("table#tblAttachments tbody input.checkboxAtch").removeAttr("checked");
+        if($("#attachmentsCheckAll").attr("checked")) {
+            $("table#tblAttachments tbody input.checkboxAtch").attr("checked", "checked");
+        }
+        if($('table#tblAttachments tbody .checkboxAtch:checkbox:checked').length > 0) {
+            $('#btnDeleteAttachment').removeAttr('disabled');
+        } else {
+            $('#btnDeleteAttachment').attr('disabled', 'disabled');
+        }
+    });
 
-		if ( checked == 0 )
-		{
-			$("#attachmentsMessagebar").attr('class', 'messageBalloon_notice').text(lang_SelectAtLeastOneAttachment);
-		}
-		else
-		{
-			$('#frmRecDelAttachments').submit();
-		}
-	});
+    //remove tick from the all button if any checkbox unchecked
+    $("table#tblAttachments tbody input.checkboxAtch").click(function() {
+        $("#attachmentsCheckAll").removeAttr('checked');
+        if($("table#tblAttachments tbody input.checkboxAtch").length == $("table#tblAttachments tbody input.checkboxAtch:checked").length) {
+            $("#attachmentsCheckAll").attr('checked', 'checked');
+        }
+        if($('table#tblAttachments tbody .checkboxAtch:checkbox:checked').length > 0) {
+            $('#btnDeleteAttachment').removeAttr('disabled');
+        } else {
+            $('#btnDeleteAttachment').attr('disabled', 'disabled');
+        }
+    });
+    // Edit an attachment in the list
+    $('#attachmentList a.editLink').click(function(event) {
+        event.preventDefault();
+            
+        if (clearAttachmentMessages) {
+            $("#attachmentsMessagebar").text("").attr('class', "");
+        }
+            
+        attachmentValidator.resetForm();
+            
+        var row = $(this).closest("tr");
+        var seqNo = row.find('input.checkboxAtch:first').val();
+        var fileName = row.find('a.fileLink').text();
+        var description = row.find("td:nth-child(5)").text();
+        description = jQuery.trim(description); 
 
-	$('#frmRecDelAttachments a.editLink').click(function(event) {
-		
-		event.preventDefault();
+        $('#recruitmentAttachment_recruitmentId').val(seqNo);
+        $('#recruitmentAttachment_ufile').removeAttr("disabled");
+            
+        $('#recruitmentAttachment_comment').val(description);
 
-		if (clearAttachmentMessages) {
-			$("#attachmentsMessagebar").text("").attr('class', "");
-		}
-		validator.resetForm();
-		var row = $(this).closest("tr");
-		var seqNo = row.find('input.checkboxAtch:first').val();
-		var fileName = row.find('a.fileLink').text();
-		var description = row.find("td:nth-child(5)").text();
-		description = jQuery.trim(description);
-	
-		$('#recruitmentAttachment_recruitmentId').val(seqNo);
-		$('#attachmentEditNote').html(lang_EditAttachmentReplaceFile + ' <b>' + fileName + '</b> ' + lang_EditAttachmentWithNewFile);
-		$('#recruitmentAttachment_ufile').removeAttr("disabled");
-		$('#recruitmentAttachment_comment').val(description);
-		$('#btnCommentOnly').show();
-		$('#addPaneAttachments').show();
-		$('#btnAddAttachment').hide();
-		$('#btnDeleteAttachment').hide();
-		$('#actionButtons').show();
-		// hide validation error messages
-		$('#attachmentActions').hide();
-		$("table#tblAttachments input.checkboxAtch").hide();
+        $("#frmRecAttachment").data('add_mode', false);
 
-		$('h3#attachmentSubHeading').text(lang_EditAttachmentHeading);
-		$('#addPaneAttachments').show();
-	});
+        $('#btnCommentOnly').show();
 
-	$('#btnCommentOnly').click(function() {
-		$('#recruitmentAttachment_commentOnly').val('1');
-		$("#frmRecAttachment").data('add_mode', false);
-		//		if(isValidForm()){
-		$('#frmRecAttachment').submit();
-	//		}
-	});
+        // hide validation error messages
+        $("label.error1col[generated='true']").css('display', 'none');
+        $('#attachmentActions').hide();
+            
+        $("table#tblAttachments input.checkboxAtch").hide();
+            
+        $('#addPaneAttachments').show();
+        $('#saveHeading h1').text(lang_EditAttachmentHeading);
+            
+        $('#currentFileLi').show();
+        $('#currentFileSpan').text(fileName);
+        $('#selectFileSpan').text(lang_ReplaceWith);
+            
+    });
 
-	$.validator.addMethod("attachment", function(value, element, params) {
+    $('#btnAddAttachment').click(function() {
+            
+        $('#currentFileLi').hide();
+        $('#selectFileSpan').text(lang_SelectFile);
+            
+        if (clearAttachmentMessages) {
+            $("#attachmentsMessagebar").text("").attr('class', "");
+        }
+        $('#recruitmentAttachment_recruitmentId').val('');
+        $('#attachmentEditNote').text('');
+        $('#recruitmentAttachment_comment').val('');
 
-		var addMode = $("#frmRecAttachment").data('add_mode');
-		if (!addMode) {
-			return true;
-		} else {
-			var file = $('#recruitmentAttachment_ufile').val();
-			return file != "";
-		}
-	});
+        $("#frmRecAttachment").data('add_mode', true);
+        $('#btnCommentOnly').hide();
 
-	var validator = $("#frmRecAttachment").validate({
+        // hide validation error messages
+        $("label.error1col[generated='true']").css('display', 'none');
+            
+        $('#recruitmentAttachment_ufile').removeAttr("disabled");
+        $('#attachmentActions').hide();
+        $('#saveHeading h1').text(lang_AddAttachmentHeading);
+        $('#addPaneAttachments').show();
+            
+        $("table#tblAttachments input.checkboxAtch").hide();
+        $("table#tblAttachments a.editLink").hide();
+            
+        if (hideAttachmentListOnAdd) {
+            $('#attachmentList').hide();
+        }
+            
+    });
+        
+    $('#cancelButton').click(function() {
+        $("#attachmentsMessagebar").text("").attr('class', "");
+            
+        attachmentValidator.resetForm();
+        $('#addPaneAttachments').hide();
+        $('#attachmentActions').show();
+        $('#recruitmentAttachment_ufile').val('');
+        $('#recruitmentAttachment_comment').val('');
+        $('#attachmentList').show();
+        $("table#tblAttachments input.checkboxAtch").show();
+        $("table#tblAttachments a.editLink").show();            
+    });
+        
+    $('#btnDeleteAttachment').click(function() {
 
-		rules: {
-			'recruitmentAttachment[ufile]' : {
-				attachment:true
-			},
-			'recruitmentAttachment[comment]': {
-				maxlength: 250
-			}
-		},
-		messages: {
-			'recruitmentAttachment[ufile]': lang_PleaseSelectAFile,
-			'recruitmentAttachment[comment]': {
-				maxlength: lang_CommentsMaxLength
-			}
-		},
+        var checked = $('#attachmentList input:checked').length;
 
-		errorPlacement: function(error, element) {
+        if (checked > 0) {
+            $('#frmRecDelAttachments').submit();
+        }
+            
+    });
 
-			error.insertBefore(element.next(".clear"));
-			//error.appendTo(element.next('div.errorHolder'));
-
-		}
-
-	});
-
-
+    $('#btnSaveAttachment').click(function() {
+        $('#recruitmentAttachment_vacancyId').val(id);
+        $("#frmRecAttachment").data('add_mode', true);
+        $('#frmRecAttachment').submit();
+    });
+        
+    $('#btnCommentOnly').click(function() {
+        $('#recruitmentAttachment_commentOnly').val('1');
+        $("#frmRecAttachment").data('add_mode', false);
+        $('#frmRecAttachment').submit();
+    });
 });

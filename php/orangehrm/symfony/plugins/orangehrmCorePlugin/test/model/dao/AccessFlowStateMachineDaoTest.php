@@ -107,6 +107,32 @@ class AccessFlowStateMachineDaoTest extends PHPUnit_Framework_TestCase {
                 'ACTIVE', 'ADMIN', PluginWorkflowStateMachine::EMPLOYEE_ACTION_ADD);
         $this->assertTrue(!$isAllowed); 
     }
+    
+    public function testGetAllowedWorkflowItemsExisting() {
+        $items = $this->accessFlowStateMachineDao->getAllowedWorkflowItems('Time', 'SUBMITTED', 'ADMIN');
+        $this->assertEquals(1, count($items));
+        $this->assertEquals(1, $items[0]->getId());        
+    }
+    public function testGetAllowedWorkflowItemsAllStates() {
+        $items = $this->accessFlowStateMachineDao->getAllowedWorkflowItems('Time', NULL, 'ADMIN');
+        $this->assertEquals(3, count($items));
+    }  
+    public function testGetAllowedWorkflowItemsNotExisting() {
+        $items = $this->accessFlowStateMachineDao->getAllowedWorkflowItems('Time', 'SUBMITTED', 'XYZ');
+        $this->assertEquals(0, count($items));    
+    }    
+    public function testGetWorkflowItemsByStateActionAndRole() {
+        $item = $this->accessFlowStateMachineDao->getWorkflowItemByStateActionAndRole('Time', 'SUBMITTED', 'APPROVE', 'ADMIN');
+        $this->assertTrue($item instanceof WorkflowStateMachine);
+        $this->assertEquals(1, $item->getId());
+        
+        $item = $this->accessFlowStateMachineDao->getWorkflowItemByStateActionAndRole('Time', 'NOT SUBMITTED', 'SAVE', 'ESS USER');
+        $this->assertTrue($item instanceof WorkflowStateMachine);
+        $this->assertEquals(4, $item->getId());
+        
+        $item = $this->accessFlowStateMachineDao->getWorkflowItemByStateActionAndRole('Time', 'NOT SUBMITTED', 'SAVE', 'XYZ');
+        $this->assertTrue(!$item); 
+    }
 }
 
-?>  
+

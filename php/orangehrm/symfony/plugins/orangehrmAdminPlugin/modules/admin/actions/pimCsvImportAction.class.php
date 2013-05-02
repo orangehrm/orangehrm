@@ -35,16 +35,12 @@ class pimCsvImportAction extends baseCsvImportAction {
 
 		$this->setForm(new PimCsvImportForm());
 
-		if ($this->getUser()->hasFlash('templateMessage')) {
-			list($this->messageType, $this->message) = $this->getUser()->getFlash('templateMessage');
-		}
-
 		if ($request->isMethod('post')) {
 
 			$this->form->bind($request->getParameter($this->form->getName()), $request->getFiles($this->form->getName()));
 			$file = $request->getFiles($this->form->getName());
 			if ($_FILES['pimCsvImport']['size']['csvFile'] > 1024000 || $_FILES == null) {
-				$this->getUser()->setFlash('templateMessage', array('warning', __('Failed to Import: File Size Exceeded')));
+                $this->getUser()->setFlash('warning', __('Failed to Import: File Size Exceeded'));
 				$this->redirect('admin/pimCsvImport');
 			}
 			if ($this->form->isValid()) {
@@ -53,11 +49,12 @@ class pimCsvImportAction extends baseCsvImportAction {
 				if (isset($result['messageType'])) {
 					$this->messageType = $result['messageType'];
 					$this->message = $result['message'];
+                    $this->getUser()->setFlash($result['messageType'], $result['message']);
 				} else {
 				    if($result != 0) {
-					   $this->getUser()->setFlash('templateMessage', array('success', __('Number of Records Imported').": ".$result));
+                       $this->getUser()->setFlash('csvimport.success', __('Number of Records Imported').": ".$result);
 				    } else {
-				        $this->getUser()->setFlash('templateMessage', array('warning', __('Failed to Import: No Compatible Records')));
+                        $this->getUser()->setFlash('warning', __('Failed to Import: No Compatible Records'));
 				    }
 					$this->redirect('admin/pimCsvImport');
 				}

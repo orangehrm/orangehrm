@@ -7,33 +7,31 @@
  * 
  * @property integer $id
  * @property integer $empNumber
- * @property string $payGradeId
+ * @property integer $payGradeId
  * @property string $currencyCode
  * @property string $amount
  * @property string $payPeriodId
  * @property string $salaryName
  * @property string $notes
- * @property SalaryGrade $salaryGrade
  * @property CurrencyType $currencyType
  * @property Employee $employee
  * @property Payperiod $payperiod
  * @property EmpDirectdebit $directDebit
- * @property PayGrade $PayGrade
+ * @property PayGrade $payGrade
  * 
  * @method integer        getId()           Returns the current record's "id" value
  * @method integer        getEmpNumber()    Returns the current record's "empNumber" value
- * @method string         getPayGradeId()   Returns the current record's "payGradeId" value
+ * @method integer        getPayGradeId()   Returns the current record's "payGradeId" value
  * @method string         getCurrencyCode() Returns the current record's "currencyCode" value
  * @method string         getAmount()       Returns the current record's "amount" value
  * @method string         getPayPeriodId()  Returns the current record's "payPeriodId" value
  * @method string         getSalaryName()   Returns the current record's "salaryName" value
  * @method string         getNotes()        Returns the current record's "notes" value
- * @method SalaryGrade    getSalaryGrade()  Returns the current record's "salaryGrade" value
  * @method CurrencyType   getCurrencyType() Returns the current record's "currencyType" value
  * @method Employee       getEmployee()     Returns the current record's "employee" value
  * @method Payperiod      getPayperiod()    Returns the current record's "payperiod" value
  * @method EmpDirectdebit getDirectDebit()  Returns the current record's "directDebit" value
- * @method PayGrade       getPayGrade()     Returns the current record's "PayGrade" value
+ * @method PayGrade       getPayGrade()     Returns the current record's "payGrade" value
  * @method EmployeeSalary setId()           Sets the current record's "id" value
  * @method EmployeeSalary setEmpNumber()    Sets the current record's "empNumber" value
  * @method EmployeeSalary setPayGradeId()   Sets the current record's "payGradeId" value
@@ -42,12 +40,11 @@
  * @method EmployeeSalary setPayPeriodId()  Sets the current record's "payPeriodId" value
  * @method EmployeeSalary setSalaryName()   Sets the current record's "salaryName" value
  * @method EmployeeSalary setNotes()        Sets the current record's "notes" value
- * @method EmployeeSalary setSalaryGrade()  Sets the current record's "salaryGrade" value
  * @method EmployeeSalary setCurrencyType() Sets the current record's "currencyType" value
  * @method EmployeeSalary setEmployee()     Sets the current record's "employee" value
  * @method EmployeeSalary setPayperiod()    Sets the current record's "payperiod" value
  * @method EmployeeSalary setDirectDebit()  Sets the current record's "directDebit" value
- * @method EmployeeSalary setPayGrade()     Sets the current record's "PayGrade" value
+ * @method EmployeeSalary setPayGrade()     Sets the current record's "payGrade" value
  * 
  * @package    orangehrm
  * @subpackage model\pim\base
@@ -70,9 +67,8 @@ abstract class BaseEmployeeSalary extends sfDoctrineRecord
              'notnull' => true,
              'length' => 4,
              ));
-        $this->hasColumn('sal_grd_code as payGradeId', 'string', 13, array(
-             'type' => 'string',
-             'length' => 13,
+        $this->hasColumn('sal_grd_code as payGradeId', 'integer', null, array(
+             'type' => 'integer',
              ));
         $this->hasColumn('currency_id as currencyCode', 'string', 6, array(
              'type' => 'string',
@@ -101,10 +97,6 @@ abstract class BaseEmployeeSalary extends sfDoctrineRecord
     public function setUp()
     {
         parent::setUp();
-        $this->hasOne('SalaryGrade as salaryGrade', array(
-             'local' => 'payGradeId',
-             'foreign' => 'sal_grd_code'));
-
         $this->hasOne('CurrencyType as currencyType', array(
              'local' => 'currencyCode',
              'foreign' => 'currency_id'));
@@ -121,7 +113,7 @@ abstract class BaseEmployeeSalary extends sfDoctrineRecord
              'local' => 'id',
              'foreign' => 'salary_id'));
 
-        $this->hasOne('PayGrade', array(
+        $this->hasOne('PayGrade as payGrade', array(
              'local' => 'payGradeId',
              'foreign' => 'id'));
     }

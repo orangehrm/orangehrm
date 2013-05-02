@@ -3,7 +3,7 @@
 class orangehrmPimPluginAllTests {
 
     protected function setUp() {
-
+        
     }
 
     public static function suite() {
@@ -12,6 +12,7 @@ class orangehrmPimPluginAllTests {
 
         /* Dao Test Cases */
         $suite->addTestFile(dirname(__FILE__) . '/model/dao/EmployeeDaoTest.php');
+        $suite->addTestFile(dirname(__FILE__) . '/model/dao/EmployeeDaoReportingChainTest.php');
         $suite->addTestFile(dirname(__FILE__) . '/model/dao/ReportingMethodConfigurationDaoTest.php');
         $suite->addTestFile(dirname(__FILE__) . '/model/dao/TerminationReasonConfigurationDaoTest.php');
         $suite->addTestFile(dirname(__FILE__) . '/model/dao/EmployeeListDaoTest.php');
@@ -19,12 +20,11 @@ class orangehrmPimPluginAllTests {
 
         /* Service Test Cases */
         $suite->addTestFile(dirname(__FILE__) . '/model/service/EmployeeServiceTest.php');
-        
+
         /* ParameterHolder Test Cases */
-        $suite->addTestFile(dirname(__FILE__) . '/model/parameterholder/EmployeeSearchParameterHolderTest.php');        
+        $suite->addTestFile(dirname(__FILE__) . '/model/parameterholder/EmployeeSearchParameterHolderTest.php');
 
         return $suite;
-
     }
 
     public static function main() {
@@ -36,5 +36,4 @@ class orangehrmPimPluginAllTests {
 if (PHPUnit_MAIN_METHOD == 'orangehrmPimPluginAllTests::main') {
     orangehrmPimPluginAllTests::main();
 }
-
 ?>

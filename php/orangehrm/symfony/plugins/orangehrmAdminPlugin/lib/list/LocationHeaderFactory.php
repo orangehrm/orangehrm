@@ -12,7 +12,7 @@ class LocationHeaderFactory extends ohrmListConfigurationFactory {
 
 		$header1->populateFromArray(array(
 		    'name' => 'Name',
-		    'width' => '19%',
+		    'width' => '25%',
 		    'isSortable' => true,
 		    'sortField' => 'name',
 		    'elementType' => 'link',
@@ -25,7 +25,7 @@ class LocationHeaderFactory extends ohrmListConfigurationFactory {
 		
 		$header2->populateFromArray(array(
 		    'name' => 'City',
-		    'width' => '19%',
+		    'width' => '20%',
 		    'isSortable' => true,
 		    'sortField' => 'city',
 		    'elementType' => 'label',
@@ -34,9 +34,9 @@ class LocationHeaderFactory extends ohrmListConfigurationFactory {
 
 		$header3->populateFromArray(array(
 		    'name' => 'Country',
-		    'width' => '19%',
+		    'width' => '20%',
 		    'isSortable' => true,
-            'sortField' => 'countryName',
+                    'sortField' => 'countryName',
 		    'filters' => array('I18nCellFilter' => array()
                               ),
 		    'elementType' => 'label',
@@ -45,7 +45,7 @@ class LocationHeaderFactory extends ohrmListConfigurationFactory {
 		
 		$header4->populateFromArray(array(
 		    'name' => 'Phone',
-		    'width' => '19%',
+		    'width' => '18%',
 		    'isSortable' => true,
 		    'sortField' => 'phone',
 		    'elementType' => 'label',
@@ -54,7 +54,7 @@ class LocationHeaderFactory extends ohrmListConfigurationFactory {
 		
 		$header5->populateFromArray(array(
 		    'name' => 'Number of Employees',
-		    'width' => '19%',
+		    'width' => '15%',
 		    'isSortable' => true,
             'sortField' => 'numberOfEmployees',
 		    'elementType' => 'label',

@@ -14,7 +14,6 @@
  * @property Doctrine_Collection $employees
  * @property Doctrine_Collection $definekpi
  * @property Doctrine_Collection $JobVacancy
- * @property SalaryGrade $SalaryGrade
  * @property Doctrine_Collection $DefineKpi
  * @property Doctrine_Collection $PerformanceReview
  * 
@@ -27,7 +26,6 @@
  * @method Doctrine_Collection        getEmployees()                  Returns the current record's "employees" collection
  * @method Doctrine_Collection        getDefinekpi()                  Returns the current record's "definekpi" collection
  * @method Doctrine_Collection        getJobVacancy()                 Returns the current record's "JobVacancy" collection
- * @method SalaryGrade                getSalaryGrade()                Returns the current record's "SalaryGrade" value
  * @method Doctrine_Collection        getDefineKpi()                  Returns the current record's "DefineKpi" collection
  * @method Doctrine_Collection        getPerformanceReview()          Returns the current record's "PerformanceReview" collection
  * @method JobTitle                   setId()                         Sets the current record's "id" value
@@ -39,7 +37,6 @@
  * @method JobTitle                   setEmployees()                  Sets the current record's "employees" collection
  * @method JobTitle                   setDefinekpi()                  Sets the current record's "definekpi" collection
  * @method JobTitle                   setJobVacancy()                 Sets the current record's "JobVacancy" collection
- * @method JobTitle                   setSalaryGrade()                Sets the current record's "SalaryGrade" value
  * @method JobTitle                   setDefineKpi()                  Sets the current record's "DefineKpi" collection
  * @method JobTitle                   setPerformanceReview()          Sets the current record's "PerformanceReview" collection
  * 
@@ -96,10 +93,6 @@ abstract class BaseJobTitle extends sfDoctrineRecord
         $this->hasMany('JobVacancy', array(
              'local' => 'id',
              'foreign' => 'jobTitleCode'));
-
-        $this->hasOne('SalaryGrade', array(
-             'local' => 'sal_grd_code',
-             'foreign' => 'sal_grd_code'));
 
         $this->hasMany('DefineKpi', array(
              'local' => 'id',

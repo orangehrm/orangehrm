@@ -88,6 +88,14 @@ class viewReportToDetailsAction extends basePimAction {
         $this->supDetails = $this->getEmployeeService()->getImmediateSupervisors($this->empNumber);
         $this->subDetails = $this->getEmployeeService()->getSubordinateListForEmployee($this->empNumber);
 
+        $this->_setMessage();
+    }
+    
+    protected function _setMessage() {
+        $this->section = '';
+        if ($this->getUser()->hasFlash('reportTo')) {
+            $this->section = $this->getUser()->getFlash('reportTo');
+        } 
     }
 
 }

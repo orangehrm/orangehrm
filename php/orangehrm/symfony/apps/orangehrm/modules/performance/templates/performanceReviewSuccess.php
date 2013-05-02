@@ -1,421 +1,331 @@
-<script type="text/javascript" src="<?php echo public_path('../../scripts/jquery/jquery.validate.js');?>"></script>
-
-<?php echo stylesheet_tag('performance/performanceReviewSuccess'); ?>
-
-
-<div id="content">
-	<div id="performanceReviewcontentContainer">
-	<?php echo isset($templateMessage) ? templateMessage($templateMessage) : ''; ?>
-        <div class="outerbox">
-            <div id="formHeading" class="mainHeading"><h2><?php echo __("Performance Review")?></h2></div>
-
-			<form action="#" id="frmSave" class="content_inner" method="post">
-
-                        <?php echo $form['_csrf_token']; ?>
-
-			<input type="hidden" name="id" id="id" value="<?php echo $performanceReview->getId()?>"/>
-			<input type="hidden" name="saveMode" id="saveMode" value="" />
-
-              	<div id="formWrapper">
-                     <label class="detailHearder"><?php echo __("Employee")?></label>
-                     <label class="detail"><?php echo $performanceReview->getEmployee()->getFirstName()?> <?php echo $performanceReview->getEmployee()->getLastName()?></label>
-                   <br class="clear"/>
-                   <label class="detailHearder"><?php echo __("Job Title")?></label>
-                     <label class="detail"><?php echo htmlspecialchars_decode($performanceReview->getJobTitle()->getJobTitleName())?> </label>
-                   <br class="clear"/>
-				     <label class="detailHearder"><?php echo __("Reviewer")?></label>
-                     <label class="detail"><?php echo $performanceReview->getReviewer()->getFirstName()?> <?php echo $performanceReview->getReviewer()->getLastName()?></label>
-                   <br class="clear"/>
-				     <label class="detailHearder"><?php echo __("Review Period")?></label>
-                                     <label class="detail"><?php echo set_datepicker_date_format($performanceReview->getPeriodFrom())?>-<?php echo set_datepicker_date_format($performanceReview->getPeriodTo())?></label>
-                   <br class="clear"/>
-					 <label class="detailHearder"><?php echo __("Status")?></label>
-                     <label class="detail"><?php echo __($performanceReview->getTextStatus())?> </label>
-                   <br class="clear"/>
-					 <?php if( count($performanceReview->getPerformanceReviewComment()) > 0){?>
-					 <label class="detailHearder"><?php echo __("Notes")?></label>
-					 <label class="detail">
-
-						 <table width="600px">
-						 <th>
-						 	<tr>
-						 		<td width="100px"><b><?php echo __("Date")?></b></td>
-						 		<td width="150px"><b><?php echo __("Employee")?></b></td>
-						 		<td width="350px"><b><?php echo __("Comment")?></b></td>
-						 	</tr>
-						 </th>
-	                     <?php foreach( $performanceReview->getPerformanceReviewComment() as $comment){?>
-	                     	<tr>
-                                    <td ><?php echo set_datepicker_date_format($comment->getCreateDate())?></td>
-	                     		<td ><?php echo ($comment->getEmployee()->getFullName() != '')? $comment->getEmployee()->getFullName():__('Admin')?></td>
-	                     		<td ><?php echo $comment->getComment()?></td>
-	                     	</tr>
-
-	                     <?php }?>
-	                     </table>
-
-                     </label>
-                   <br class="clear"/>
-                   <?php }?>
-
-				   <div id="tableWrapper">
-				   <input type="hidden" name="validRate" id="validRate" value="1" />
-				   <div id="performanceError" class="hide">
-				   	<div id='messageBalloon_failure' class='messageBalloon_failure' ><ul></ul></div>
-				   </div>
-                        <table cellpadding="0" cellspacing="0" class="data-table prData" align="left" width="100%">
-					<thead>
-            		<tr>
-
-            			<td width="10px" scope="col">
-
-						</td>
-						<td width="490px" scope="col">
-						<?php echo __("Key Performance Indicator")?>
-						</td>
-						<td scope="col" width="100">
-						 <?php echo __("Min Rate")?>
-						</td>
-						<td scope="col" width="100">
-						 <?php echo __("Max Rate")?>
-						</td>
-						<td scope="col" width="100">
-						 <?php echo __("Rating")?>
-						</td>
-						<td scope="col" width="200">
-						 <?php echo __("Reviewer Comments")?>
-						</td>
-            		</tr>
-    			</thead>
-            	<tbody>
-            	<?php foreach( $kpiList as $kpi){?>
-            		<tr class="odd">
-            				<td class="">
-
-				 			</td>
-		       				<td >
-				 				<?php echo $kpi->getKpi()?>
-				 			</td>
-				 			<td >
-				 				 <?php echo ($kpi->getMinRate()!= '')?$kpi->getMinRate():'-'?>
-				 			</td>
-				 			<td >
-				 				 <?php echo ($kpi->getMaxRate() !='')?$kpi->getMaxRate():'-'?>
-				 			</td>
-							<td  >
-								<input type="hidden" name="max<?php echo $kpi->getId()?>" id="max<?php echo $kpi->getId()?>" value="<?php echo $kpi->getMaxRate()?>" />
-								<input type="hidden" name="min<?php echo $kpi->getId()?>" id="min<?php echo $kpi->getId()?>" value="<?php echo $kpi->getMinRate()?>" />
-				 				 <input id="txtRate<?php echo $kpi->getId()?>"  name="txtRate[<?php echo $kpi->getId()?>]" type="text"  class="smallInput" value="<?php echo trim($kpi->getRate())?>"  maxscale="<?php echo $kpi->getMaxRate()?>" minscale="<?php echo $kpi->getMinRate()?>" valiadate="1" />
-				 			</td>
-							<td class="">
-				 				<textarea id='txtComments' class="reviwerComment" name='txtComments[<?php echo $kpi->getId()?>]'
-                    rows="4" cols="76" ><?php echo htmlspecialchars_decode(trim($kpi->getComment()))?></textarea>
-				 			</td>
-
-				 	</tr>
-				 <?php } ?>
-
-					</tbody>
-				</table>
-				</div>
-				<?php if(($isHrAdmin || $isReviwer) && ($performanceReview->getState() != PerformanceReview::PERFORMANCE_REVIEW_STATUS_APPROVED)){?>
-				  <label class="detailHearder"><?php echo __("Note")?></label>
-                     <textarea id='txtMainComment' name='txtMainComment' class="formTextArea"
-                    rows="4" cols="60" ></textarea>
-                   <br class="clear"/>
-                 <?php }?>
-               </div>
-            </form>
-				<div id="buttonWrapper" class="formbuttons">&nbsp;
-                    <?php if(($isReviwer && ($performanceReview->getState() <= PerformanceReview::PERFORMANCE_REVIEW_STATUS_BEING_REVIWED || $performanceReview->getState()==PerformanceReview::PERFORMANCE_REVIEW_STATUS_REJECTED)) || ( $isHrAdmin && $performanceReview->getState() != PerformanceReview::PERFORMANCE_REVIEW_STATUS_APPROVED)){?>
-                    <input type="button" class="savebutton" id="saveBtn"
-                        value="<?php echo __("Edit")?>"  />
-                      <?php }?>
-
-                    <?php if( $isReviwer && ( $performanceReview->getState() == PerformanceReview::PERFORMANCE_REVIEW_STATUS_SCHDULED ||  $performanceReview->getState() == PerformanceReview::PERFORMANCE_REVIEW_STATUS_BEING_REVIWED ||  $performanceReview->getState() == PerformanceReview::PERFORMANCE_REVIEW_STATUS_REJECTED)){?>
-					<input type="button" class="savebutton" id="submitBtn"
-                        value="<?php echo __("Submit")?>"  />
-                     <?php } ?>
-
-                     <?php if( $isHrAdmin && $performanceReview->getState() == PerformanceReview::PERFORMANCE_REVIEW_STATUS_SUBMITTED){?>
-                     <input type="button" class="savebutton" id="rejectBtn"
-                        value="<?php echo __("Reject")?>"  />
-                      <?php } ?>
-
-                      <?php if( $isHrAdmin && ( $performanceReview->getState() == PerformanceReview::PERFORMANCE_REVIEW_STATUS_SUBMITTED )){?>
-                      <input type="button" class="savebutton" id="approveBtn"
-                        value="<?php echo __("Approve")?>"  />
-                      <?php }?>
-
-                      <input type="button" class="savebutton" id="backBtn" value="<?php echo __("Back");?>" />
-
-                </div>
+<style type="text/css">
+    table.table td {
+        vertical-align: top;
+    }
+    table.data {
+        width: 85%;
+    }
+</style>
 
 
+<div class="box miniList" id="performanceReviewcontentContainer">
 
-        </div>
- 	</div>
+    <div class="head" id="formHeading" >
+        <h1><?php echo __("Performance Review") ?></h1>
+    </div>
 
+    <div class="inner">
 
- </div>
-  <script type="text/javascript">
+        <?php include_partial('global/flash_messages'); ?>
 
-	//Check autosave
-  	function autosave()
-	  {
-	      var t = setTimeout("autosave()", 20000);
+        <form action="#" id="frmSave" class="content_inner" method="post">
 
-	      var title = $("#txt_title").val();
-	      var content = $("#txt_content").val();
+            <?php echo $form['_csrf_token']; ?>
+            <input type="hidden" name="id" id="id" value="<?php echo $performanceReview->getId() ?>"/>
+            <input type="hidden" name="saveMode" id="saveMode" value="" />
 
-	      if (title.length > 0 || content.length > 0)
-	      {
-	          $.ajax(
-	          {
-	              type: "POST",
-	              url: "autosave.php",
-	              data: "article_id=" + <?php echo $article_id ?>
-	  + "&title=" + title + "&content=" + content,
-	              cache: false,
-	              success: function(message)
-	              {
-	                  $("#timestamp").empty().append(message);
-	              }
-	          });
-	      }
-	  }
+            <fieldset>
+                <ol>
+                    <li>
+                        <label><?php echo __("Employee") ?></label>
+                        <label class="line"><?php echo $performanceReview->getEmployee()->getFirstName() ?> 
+                            <?php echo $performanceReview->getEmployee()->getLastName() ?></label>
+                    </li>
+                    <li>
+                        <label><?php echo __("Job Title") ?></label>
+                        <label class="line"><?php echo $performanceReview->getJobTitle()->getJobTitleName(); ?> </label>
+                    </li>
+                    <li>
+                        <label><?php echo __("Reviewer") ?></label>
+                        <label class="line"><?php echo $performanceReview->getReviewer()->getFirstName() ?> <?php echo $performanceReview->getReviewer()->getLastName() ?></label>
+                    </li>
+                    <li>
+                        <label><?php echo __("Review Period") ?></label>
+                        <label class="line"><?php echo set_datepicker_date_format($performanceReview->getPeriodFrom()) ?>-<?php echo set_datepicker_date_format($performanceReview->getPeriodTo()) ?></label>
+                    </li>
+                    <li>
+                        <label><?php echo __("Status") ?></label>
+                        <label class="line"><?php echo __($performanceReview->getTextStatus()) ?> </label>
+                    </li>
+                    <?php if (count($performanceReview->getPerformanceReviewComment()) > 0) { ?>
+                        <li>
+                            <label><?php echo __("Notes") ?></label>
+                            <table class="table data">
+                                <tr>
+                                    <th style="width:20%"><?php echo __("Date") ?></th>
+                                    <th style="width:30%"><?php echo __("Employee") ?></th>
+                                    <th style="width:50%"><?php echo __("Comment") ?></th>
+                                </tr>
+                                <?php
+                                $i = 1;
+                                foreach ($performanceReview->getPerformanceReviewComment() as $comment) {
+                                    ?>
+                                    <tr class="<?php echo ($i % 2 == 0) ? 'even' : 'odd'; ?>">
+                                        <td ><?php echo set_datepicker_date_format($comment->getCreateDate()) ?></td>
+                                        <td ><?php echo ($comment->getEmployee()->getFullName() != '') ? $comment->getEmployee()->getFullName() : __('Admin') ?></td>
+                                        <td ><?php echo $comment->getComment() ?></td>
+                                    </tr>
+                                    <?php
+                                    $i++;
+                                }
+                                ?>
+                            </table>
+                        </li>
+                    <?php } ?>
+                </ol>
+            </fieldset>
+            <input type="hidden" name="validRate" id="validRate" value="1" />
 
-      //Check submit
-	  function checkSubmit(){
-		  var valid	=	true ;
-		  var msg	=	'';
-		  $("input.smallInput").each(function() {
-			  max	=	parseFloat($(this).attr('maxscale'));
-			  min =   parseFloat($(this).attr('minscale'));
-			  rate =  parseFloat(this.value) ;
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th style="width:40%" scope="col"><?php echo __("Key Performance Indicator") ?></th>
+                        <th scope="col" style="width:10%"><?php echo __("Min Rate") ?></th>
+                        <th scope="col" style="width:10%"><?php echo __("Max Rate") ?></th>
+                        <th scope="col" style="width:10%"><?php echo __("Rating") ?></th>
+                        <th scope="col" style="width:30%"><?php echo __("Reviewer Comments") ?></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <?php
+                    $i = 1;
+                    foreach ($kpiList as $kpi) {
+                        ?>
+                        <tr class="<?php echo ($i % 2 == 0) ? 'even' : 'odd'; ?>">
+                            <td >
+                                <?php echo $kpi->getKpi() ?>
+                            </td>
+                            <td >
+                                <?php echo ($kpi->getMinRate() != '') ? $kpi->getMinRate() : '-' ?>
+                            </td>
+                            <td >
+                                <?php echo ($kpi->getMaxRate() != '') ? $kpi->getMaxRate() : '-' ?>
+                            </td>
+                            <td  >
+                                <input type="hidden" name="max<?php echo $kpi->getId() ?>" id="max<?php echo $kpi->getId() ?>" value="<?php echo $kpi->getMaxRate() ?>" />
+                                <input type="hidden" name="min<?php echo $kpi->getId() ?>" id="min<?php echo $kpi->getId() ?>" value="<?php echo $kpi->getMinRate() ?>" />
+                                <input id="txtRate<?php echo $kpi->getId() ?>"  name="txtRate[<?php echo $kpi->getId() ?>]" type="text"  class="smallInput" value="<?php echo trim($kpi->getRate()) ?>"  maxscale="<?php echo $kpi->getMaxRate() ?>" minscale="<?php echo $kpi->getMinRate() ?>" valiadate="1" />
+                                <span class="validation-error"></span>
+                            </td>
+                            <td class="">
+                                <textarea id='txtComments' class="reviwerComment" name='txtComments[<?php echo $kpi->getId() ?>]'
+                                          rows="2" cols="40"><?php echo trim($kpi->getComment()); ?></textarea>
+                                <span class="validation-error"></span>
+                            </td>
+                        </tr>
+                        <?php
+                        $i++;
+                    }
+                    ?>
+                    <?php
+                    if (($isHrAdmin || $isReviwer) &&
+                            ($performanceReview->getState() != PerformanceReview::PERFORMANCE_REVIEW_STATUS_APPROVED)) :
+                        ?>                        
+                        <tr class="<?php echo ($i % 2 == 0) ? 'even' : 'odd'; ?>">
+                            <td colspan="4" style="text-align:right"><?php echo __("Note") ?></td>
+                            <td>
+                                <textarea id='txtMainComment' name='txtMainComment' class="formTextArea" rows="2" cols="40" ></textarea>
+                                <span class="validation-error"></span>
+                            </td>
+                        </tr>
+<?php endif; ?>                        
+                </tbody>
+            </table>
 
-			  if( !isNaN(max) || !isNaN(min)){
-				  if( isNaN(rate)){
-					  valid = false;
-					  $(this).css('background-color', '#ffeeee');
-					  $(this).css('border', 'solid 1px #ffdddd');
-				  }else{
-					  if( (rate > max) || (rate <min) ){
-							$(this).css('background-color', '#ffeeee');
-							$(this).css('border', 'solid 1px #ffdddd');
-							 valid = false;
+            <p style="margin-top:10px">
+                <?php if (($isReviwer && ($performanceReview->getState() <= PerformanceReview::PERFORMANCE_REVIEW_STATUS_BEING_REVIWED || $performanceReview->getState() == PerformanceReview::PERFORMANCE_REVIEW_STATUS_REJECTED)) || ( $isHrAdmin && $performanceReview->getState() != PerformanceReview::PERFORMANCE_REVIEW_STATUS_APPROVED)) { ?>
+                    <input type="button" class="" id="saveBtn" value="<?php echo __("Edit") ?>"  />
+                <?php } ?>
 
-						}else{
-							$(this).css('background-color', '#ffffff');
-							$(this).css('border', 'solid 1px #000000');
-						}
-				  }
+                <?php if ($isReviwer && ( $performanceReview->getState() == PerformanceReview::PERFORMANCE_REVIEW_STATUS_SCHDULED || $performanceReview->getState() == PerformanceReview::PERFORMANCE_REVIEW_STATUS_BEING_REVIWED || $performanceReview->getState() == PerformanceReview::PERFORMANCE_REVIEW_STATUS_REJECTED)) { ?>
+                    <input type="button" class="" id="submitBtn" value="<?php echo __("Submit") ?>"  />
+                <?php } ?>
 
-			  }
-		  });
-		  if( !valid ){
-			  msg	=	'<?php echo __('KPI Should Be a Number Within Minimum and Maximum Value');?>';
-			  $("#messageBalloon_failure ul").html('<li>'+msg+'</li>');
-			  $("#performanceError").show();
-		  }
-		  return valid ;
-	  }
+                <?php if ($isHrAdmin && $performanceReview->getState() == PerformanceReview::PERFORMANCE_REVIEW_STATUS_SUBMITTED) { ?>
+                    <input type="button" class="delete" id="rejectBtn" value="<?php echo __("Reject") ?>"  />
+                <?php } ?>
 
+                <?php if ($isHrAdmin && ( $performanceReview->getState() == PerformanceReview::PERFORMANCE_REVIEW_STATUS_SUBMITTED )) { ?>
+                    <input type="button" class="" id="approveBtn" value="<?php echo __("Approve") ?>"  />
+                <?php } ?>
 
-	  //Check save
-	  function checkSave(){
-		  var valid	=	true ;
-		  var msg	=	'';
-		  $("input.smallInput").each(function() {
-			  max	=	parseFloat($(this).attr('maxscale'));
-			  min =   parseFloat($(this).attr('minscale'));
-			  rate =  parseFloat(this.value) ;
+                <input type="button" class="reset" id="backBtn" value="<?php echo __("Back"); ?>" />
+            </p>
+        </form>
 
-			  if(!isNaN(this.value)){
-				  if( isNaN(rate)){
-					  valid = false;
-					  $(this).css('background-color', '#ffeeee');
-					  $(this).css('border', 'solid 1px #ffdddd');
-				  }else{
-					  if( (rate > max) || (rate <min) ){
-							$(this).css('background-color', '#ffeeee');
-							$(this).css('border', 'solid 1px #ffdddd');
-							 valid = false;
+    </div> <!-- inner -->
 
-						}else{
-							$(this).css('background-color', '#ffffff');
-							$(this).css('border', 'solid 1px #000000');
-						}
-				  }
+</div> <!-- performanceReviewcontentContainer -->
 
-			  }
-		  });
-		  if( !valid ){
-			  msg	=	'<?php echo __('KPI Should Be a Number Within Minimum and Maximum Value');?>';
-			  $("#messageBalloon_failure ul").html('<li>'+msg+'</li>');
-			  $("#performanceError").show();
-		  }
-		  return valid ;
-	  }
+<script type="text/javascript">
+    
+    function clearErrors() {
+        
+        $("span.validation-error").each(function(){
+            $(this).empty();
+        });
+        
+        $("input.smallInput").each(function(){
+            $(this).removeClass('validation-error');
+        });        
+        
+    }
 
-	  $(document).ready(function(){
-		  	var mode	=	'edit';
+    //Check submit
+    function checkSubmit(){
+        
+        clearErrors();
+        
+        var valid = true ;
+        
+        $("input.smallInput").each(function() {
+            
+            max	=	parseFloat($(this).attr('maxscale'));
+            min =   parseFloat($(this).attr('minscale'));
+            rate =  parseFloat(this.value) ;
+            
+            if (this.value != '' && isNaN(rate)) {
+                valid = false;                
+                $(this).addClass('validation-error');
+                $(this).next('span.validation-error').text('<?php echo __('Should be a number'); ?>');
+            }
 
-			//Disable all fields
-			$('#frmSave :input').attr('readonly', true);
-			$('#saveBtn').removeAttr('readonly');
+            if( !isNaN(max) || !isNaN(min)){
+                
+                if( isNaN(rate)){
+                    
+                    valid = false;
+                    $(this).addClass('validation-error');
+                    $(this).next('span.validation-error').text('<?php echo __('Should be a number'); ?>');
+                    
+                } else {
+                    
+                    if( (rate > max) || (rate <min) ){
+                        
+                        valid = false;                        
+                        $(this).addClass('validation-error');
+                        $(this).next('span.validation-error').text('<?php echo __('Should be within Min and Max'); ?>');
 
-			//When click edit button
-			 $("#saveBtn").click(function() {
-					if( mode == 'edit')
-					{
-						$('#saveBtn').attr('value', "<?php echo __("Save")?>");
-						$('#frmSave :input').removeAttr('readonly');
-						mode = 'save';
-					}else
-					{
-                  if(checkSubmit()){
-                     $('#saveMode').val('save');
-                     $('#frmSave').submit();
-                  }
-					}
-				});
+                    }
+                    
+                }
 
-			//When Submit button click
-				$("#submitBtn").click(function() {
-					$('#frmSave :input').removeAttr('readonly');
-					if(checkSubmit()){
-						$('#saveMode').val('submit');
-						$('#frmSave').submit();
-					}
-				});
+            }
+        });
 
-			//When Submit button click
-				$("#rejectBtn").click(function() {
-					$('#frmSave :input').removeAttr('readonly');
-					$('#saveMode').val('reject');
-					$('#frmSave').submit();
-				});
+        return valid ;
+        
+    }
 
-			//When Submit button click
-				$("#approveBtn").click(function() {
-					$('#frmSave :input').removeAttr('readonly');
-					$('#saveMode').val('approve');
-					$('#frmSave').submit();
-				});
+    $(document).ready(function(){
+        var mode	=	'edit';
 
-			// Back button
-				$("#backBtn").click(function() {
-					location.href = "<?php echo url_for('performance/viewReview');?>";
-				});
+        //Disable all fields
+        $('#frmSave :input').attr("disabled", "disabled");
+        
+        //enable buttons
+        $('#backBtn').removeAttr("disabled");
+        <?php if (($isReviwer && ($performanceReview->getState() <= PerformanceReview::PERFORMANCE_REVIEW_STATUS_BEING_REVIWED || $performanceReview->getState() == PerformanceReview::PERFORMANCE_REVIEW_STATUS_REJECTED)) || ( $isHrAdmin && $performanceReview->getState() != PerformanceReview::PERFORMANCE_REVIEW_STATUS_APPROVED)) { ?>
+            $('#saveBtn').removeAttr("disabled");
+        <?php } ?>
 
-			//Validate search form
-				 $("#frmSave").validate({
+        <?php if ($isReviwer && ( $performanceReview->getState() == PerformanceReview::PERFORMANCE_REVIEW_STATUS_SCHDULED || $performanceReview->getState() == PerformanceReview::PERFORMANCE_REVIEW_STATUS_BEING_REVIWED || $performanceReview->getState() == PerformanceReview::PERFORMANCE_REVIEW_STATUS_REJECTED)) { ?>
+            $('#submitBtn').removeAttr("disabled");
+        <?php } ?>
 
-					 rules: {
-					 	txtMainComment: {maxlength: 250},
-					 	validRate: {minmax:true	}
+        <?php if ($isHrAdmin && $performanceReview->getState() == PerformanceReview::PERFORMANCE_REVIEW_STATUS_SUBMITTED) { ?>
+            $('#rejectBtn').removeAttr("disabled");
+        <?php } ?>
 
-				 	 },
-				 	 messages: {
-				 		txtMainComment: "<?php echo __(ValidationMessages::TEXT_LENGTH_EXCEEDS, array('%amount%' => 250))?>",
-				 		validRate: ""
-				 	 }
-				 });
+        <?php if ($isHrAdmin && ( $performanceReview->getState() == PerformanceReview::PERFORMANCE_REVIEW_STATUS_SUBMITTED )) { ?>
+            $('#approveBtn').removeAttr("disabled");
+        <?php } ?>          
 
+        //When click edit button
+        $("#saveBtn").click(function() {
+            if( mode == 'edit')
+            {
+                $('#saveBtn').attr('value', "<?php echo __("Save") ?>");
+                $('#frmSave :input').removeAttr("disabled");
+                mode = 'save';
+            } else {
+                if(checkSubmit()){
+                    $('#saveMode').val('save');
+                    $('#frmSave').submit();
+                }
+            }
+        });
 
-				 $.validator.addMethod("minmax", function(value, element) {
+        //When Submit button click
+        $("#submitBtn").click(function() {
+            $('#frmSave :input').removeAttr("disabled");
+            if(checkSubmit()){
+                $('#saveMode').val('submit');
+                $('#frmSave').submit();
+            }
+        });
 
-					 	if($('#validRate').val() == '1' )
-							return true;
-					 	else
-					 		return false;
-					});
+        //When Submit button click
+        $("#rejectBtn").click(function() {
+            $('#frmSave :input').removeAttr("disabled");                    
+            $('#saveMode').val('reject');
+            $('#frmSave').submit();
+        });
 
-				// check keyup on scale inputs
-					$("#frmSave").delegate("keyup", "input.smallInput", function(event) {
-						var id ;
-						var max ;
-						var min ;
-						var rate ;
-						var msg ;
-						var error = false;
-						$("input.smallInput").each(function() {
+        //When Submit button click
+        $("#approveBtn").click(function() {
+            $('#frmSave :input').removeAttr("disabled");
+            $('#saveMode').val('approve');
+            $('#frmSave').submit();
+        });
 
-							id	=	$(this).attr('id');
-							max	=	parseFloat($(this).attr('maxscale'));
-							min =   parseFloat($(this).attr('minscale'));
-							rate =  parseFloat(this.value) ;
-							if(!isNaN(this.value)){
+        // Back button
+        $("#backBtn").click(function() {
+            location.href = "<?php echo url_for('performance/viewReview'); ?>";
+        });
 
-								if( (rate > max) || (rate <min) ){
-									$(this).css('background-color', '#ffeeee');
-									$(this).css('border', 'solid 1px #ffdddd');
-									msg = '<?php echo __('KPI Should Be a Number Within Minimum and Maximum Value')?>';
-									error = true;
+        $.validator.addMethod("minmax", function(value, element) {
 
-								}else{
-									$(this).css('background-color', '#ffffff');
-									$(this).css('border', 'solid 1px #000000');
-								}
-							}else{
-								$(this).css('background-color', '#ffeeee');
-								$(this).css('border', 'solid 1px #ffdddd');
-								msg = '<?php echo __('KPI Should Be a Number Within Minimum and Maximum Value')?>';
-								error = true;
-							}
-						});
+            if($('#validRate').val() == '1' )
+                return true;
+            else
+                return false;
+        });
 
-						if(error){
-							$("#messageBalloon_failure ul").html('<li>'+msg+'</li>');
-							$("#performanceError").show();
-							$('#validRate').val('0');
-						}else
-						{
-							$("#performanceError").hide();
-							$('#validRate').val('1');
-						}
+        //Check Reviwer comment
+        $("#frmSave").delegate("keyup", "textarea.reviwerComment", function(event) {
+            validateReviewerComment();
+        });
 
-						return false;
-					});
+        function validateReviewerComment() {
 
-					//Check Reviwer comment
-					$("#frmSave").delegate("keyup", "textarea.reviwerComment", function(event) {
-                  validateReviewerComment();
-					});
+            var flag = true;
 
-               function validateReviewerComment() {
-                  var error = false;
-                  var msg ;
-                  var flag = false;
+            $("textarea.reviwerComment").each(function() {
+                if(this.value.length >= 2000 ){
+                    flag = false;
+                    $(this).addClass('validation-error');
+                    $(this).next('span.validation-error').text('<?php echo __(ValidationMessages::TEXT_LENGTH_EXCEEDS, array('%amount%' => 2000)) ?>');                    
+                }
+            });
+            
+            var mainComment = $('#txtMainComment');
+            
+            if (mainComment.val().length > 250) {
+                flag = false;
+                mainComment.addClass('validation-error');
+                mainComment.next('span.validation-error').text('<?php echo __(ValidationMessages::TEXT_LENGTH_EXCEEDS, array('%amount%' => 250)) ?>');
+            }
 
-						$("textarea.reviwerComment").each(function() {
-							if(this.value.length >= 2000 ){
-								$(this).css('background-color', '#ffeeee');
-								$(this).css('border', 'solid 1px #ffdddd');
-								error = true;
-							}else{
-								$(this).css('background-color', '#ffffff');
-								$(this).css('border', 'solid 1px #000000');
-                        flag = true;
-							}
-						});
+            return flag;
+            
+        }
 
-						if(error){
-							$("#messageBalloon_failure ul").html('<li><?php echo __('Comment Should Be Less Than %amount% Characters', array('%amount%' => 2000));?></li>');
-							$("#performanceError").show();
-							$('#validRate').val('0');
-						}else{
-							$("#performanceError").hide();
-							$('#validRate').val('1');
-						}
-                  return flag;
-               }
-
-               //make sure all validations are performed before submit
-               $("#frmSave").submit(function() {
-                  flag = validateReviewerComment();
-                  return flag;
-               });
-		});
-  </script>
+        //make sure all validations are performed before submit
+        $("#frmSave").submit(function() {
+            flag = validateReviewerComment();
+            return flag;
+        });
+        
+    });
+</script>

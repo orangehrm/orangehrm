@@ -48,9 +48,6 @@ class jobCategoryAction extends sfAction {
 		}
 		
 		$this->setForm(new JobCategoryForm());
-		if ($this->getUser()->hasFlash('templateMessage')) {
-			list($this->messageType, $this->message) = $this->getUser()->getFlash('templateMessage');
-		}
 		
 		$jobCatList = $this->getJobCategoryService()->getJobCategoryList();
 		$this->_setListComponent($jobCatList);
@@ -61,7 +58,7 @@ class jobCategoryAction extends sfAction {
 			$this->form->bind($request->getParameter($this->form->getName()));
 			if ($this->form->isValid()) {
 				$this->form->save();
-				$this->getUser()->setFlash('templateMessage', array('success', __(TopLevelMessages::SAVE_SUCCESS)));
+				$this->getUser()->setFlash('success', __(TopLevelMessages::SAVE_SUCCESS));
 				$this->redirect('admin/jobCategory');
 			}
 		}

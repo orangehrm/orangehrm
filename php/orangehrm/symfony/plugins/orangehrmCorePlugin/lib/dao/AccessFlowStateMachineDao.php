@@ -41,6 +41,25 @@ class AccessFlowStateMachineDao {
             throw new DaoException($ex->getMessage());
         }
     }
+    
+    public function getAllowedWorkflowItems($flow, $state, $role) {
+        try {
+            $query = Doctrine_Query::create()
+                    ->from("WorkflowStateMachine")
+                    ->where("workflow = ?", $flow)
+                    ->andWhere("role = ?", $role);
+
+            if ($state != null) {
+                $query->andWhere("state = ?", $state);
+            }
+
+            $results = $query->execute();
+
+            return $results;
+        } catch (Exception $ex) {
+            throw new DaoException($ex->getMessage());
+        }
+    }
 
     public function getNextState($flow, $state, $role, $action) {
 
@@ -209,6 +228,33 @@ class AccessFlowStateMachineDao {
         } catch (Exception $ex) {
             throw new DaoException($ex->getMessage());
         }
+    }
+    
+    public function getWorkflowItem($id) {
+        try {
+            $q = Doctrine_Query:: create()
+                    ->from("WorkflowStateMachine")
+                    ->where("id = ?", $id);
+
+            return $results = $q->fetchOne();
+        } catch (Exception $e) {
+            throw new DaoException($e->getMessage());
+        }
+    }
+    
+    public function getWorkflowItemByStateActionAndRole($workFlow, $state, $action, $role) {
+        try {
+            $q = Doctrine_Query:: create()
+                    ->from("WorkflowStateMachine")
+                    ->where("workflow = ?", $workFlow)
+                    ->andWhere("state = ?", $state)
+                    ->andWhere("action = ?", $action)
+                    ->andWhere("role = ?", $role);
+
+            return $results = $q->fetchOne();
+        } catch (Exception $e) {
+            throw new DaoException($e->getMessage());
+        }        
     }
 
 }

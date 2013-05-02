@@ -30,13 +30,14 @@ Section "Uninstall"
       ; UnRegister the db server as a service
       DetailPrint "Uninstalling MySQL database server service"
       nsExec::ExecToLog '"$INSTDIR\mysql\mysql_uninstallservice.bat" -path "$INSTDIR\mysql"'
-
-      Delete "$INSTDIR\Uninstall.exe"
+    
+      
 
       RMDir /REBOOTOK /r "$INSTDIR"
       RMDir /REBOOTOK /r "$SMPROGRAMS\${ProductName}"
 
       DeleteRegKey HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\${ProductName}"
       DeleteRegKey /ifempty HKCU "Software\${ProductName}\${ProductVersion}"
+	  Delete "$DESKTOP\${ProductName}.lnk"
 
 SectionEnd

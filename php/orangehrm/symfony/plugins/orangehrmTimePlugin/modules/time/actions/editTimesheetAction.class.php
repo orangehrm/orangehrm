@@ -61,12 +61,18 @@ class editTimesheetAction extends sfAction {
     }
 
     public function execute($request) {
-
-
+        
+        
 
         $userObj = $this->getContext()->getUser()->getAttribute('user');
         $employeeIdOfTheUser = $userObj->getEmployeeNumber();
 
+        /* For highlighting corresponding menu item */  
+        if ($userObj->isAdmin()) {
+            $request->setParameter('initialActionName', 'viewEmployeeTimesheet'); 
+        } else {
+            $request->setParameter('initialActionName', 'viewMyTimesheet'); 
+        }
         $this->backAction = $request->getParameter('actionName');
         $this->timesheetId = $request->getParameter('timesheetId');
         $this->employeeId = $request->getParameter('employeeId');
@@ -110,7 +116,7 @@ class editTimesheetAction extends sfAction {
             if ($request->getParameter('btnSave')) {
                 $backAction = $this->backAction;
                 $this->getTimesheetService()->saveTimesheetItems($request->getParameter('initialRows'), $this->employeeId, $this->timesheetId, $this->currentWeekDates, $this->totalRows);
-                $this->messageData = array('SUCCESS', __(TopLevelMessages::SAVE_SUCCESS));
+                $this->messageData = array('success', __(TopLevelMessages::SAVE_SUCCESS));
                 $startingDate = $this->timesheetService->getTimesheetById($this->timesheetId)->getStartDate();
                 $this->redirect('time/' . $backAction . '?' . http_build_query(array('message' => $this->messageData, 'timesheetStartDate' => $startingDate, 'employeeId' => $this->employeeId)));
             }
@@ -120,7 +126,7 @@ class editTimesheetAction extends sfAction {
             if ($request->getParameter('buttonRemoveRows')) {
 
 
-                $this->messageData = array('SUCCESS', __('Successfully Removed'));
+                $this->messageData = array('success', __('Successfully Removed'));
             }
         }
     }

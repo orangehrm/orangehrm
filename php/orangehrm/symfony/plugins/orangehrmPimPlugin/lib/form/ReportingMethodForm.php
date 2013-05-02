@@ -59,10 +59,10 @@ class ReportingMethodForm extends BaseForm {
         
         if (empty($id)) {
             $reportingMethod = new ReportingMethod();
-            $message = array('SUCCESS', __(TopLevelMessages::SAVE_SUCCESS));
+            $message = array('messageType' => 'success', 'message' => __(TopLevelMessages::SAVE_SUCCESS));
         } else {
             $reportingMethod = $this->getReportingMethodConfigurationService()->getReportingMethod($id);
-            $message = array('SUCCESS', __(TopLevelMessages::UPDATE_SUCCESS));
+            $message = array('messageType' => 'success', 'message' => __(TopLevelMessages::UPDATE_SUCCESS));
         }
         
         $reportingMethod->setName($this->getValue('name'));

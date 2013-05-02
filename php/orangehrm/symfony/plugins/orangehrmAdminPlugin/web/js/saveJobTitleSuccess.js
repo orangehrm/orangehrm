@@ -55,11 +55,6 @@ $(document).ready(function() {
             'jobTitle[note]' : {
                 maxlength: lang_exceed400Chars
             }
-        },
-
-        errorPlacement: function(error, element) {
-            error.appendTo(element.prev('label'));
-            error.appendTo(element.next('div.errorHolder'));
         }
     });
 
@@ -79,13 +74,18 @@ $(document).ready(function() {
         window.location.replace(viewJobTitleListUrl);
     });
 
-    $("input[name=jobTitle[jobSpecUpdate]]").click(function () {
-        if ($('#jobTitle_jobSpecUpdate_3').attr("checked")) {
-            $('#fileUploadSection').show();
-        } else {
-            $('#jobTitle_jobSpec').val("")
-            $('#fileUploadSection').hide();
-        }
+    $("#jobTitle_jobSpecUpdate_3").click(function () {
+        $('#fileUploadSection').show();
+    });
+    
+    $("#jobTitle_jobSpecUpdate_2").click(function () {
+        $('#jobTitle_jobSpec').val("")
+        $('#fileUploadSection').hide();
+    });
+    
+    $("#jobTitle_jobSpecUpdate_1").click(function () {
+        $('#jobTitle_jobSpec').val("")
+        $('#fileUploadSection').hide();
     });
 });
 

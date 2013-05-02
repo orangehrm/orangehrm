@@ -64,6 +64,17 @@ class displayProjectActivityDetailsReportAction extends displayReportAction {
 
         return $values;
     }
+      public function setInitialActionDetails($request) {
+
+        $initialActionName = $request->getParameter('initialActionName', '');
+
+        if (empty($initialActionName)) {
+            $request->setParameter('initialActionName', 'displayProjectReportCriteria');
+        } else {
+            $request->setParameter('initialActionName', $initialActionName);
+        }        
+        
+    }
 
 }
 

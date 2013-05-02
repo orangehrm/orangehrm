@@ -56,7 +56,7 @@ class undeleteCustomerAction extends orangehrmAction {
         $customerService->undeleteCustomer($customerId);
 
         $message = __('Successfully Undeleted');
-        $this->getUser()->setFlash('templateMessage', array('success', $message));
+        $this->getUser()->setFlash('project.success', $message);
     }
 
     protected function getForm() {

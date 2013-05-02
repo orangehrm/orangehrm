@@ -1,3 +1,77 @@
+New & Changed Features for OrangeHRM ver 3.0.1
+    New Features
+    ------------
+    Upgrader from 2.7.1 available
+    Configurable home page and module default page
+
+    Bug Fixes
+    ---------
+    0004716 - Employee auto completion records are not loaded with expected width in Leave Entitlements and Usage Report search page
+    0004659 - It doesn't give any result when viewing the leave list by selecting the "All" check box
+    0004715 - If employee is not assigned to a defined Location, Those employee are not shown at Leave Entitlements and Usage Report
+    0004379 - Assign Leave->There should be a confirmation message if the leave balance become minus after assigning
+    0004895 - When assigning leave for 3 hours and 5 hours for a same leave type, leave balance is given as -1.01 (should be -1))
+    0004929 - Although a day has set as "Half Day", an employee can apply for leave up to 8 hours (within more than one time)
+    0004958 - If Location defined in the system, we can't add leave entitlement for all employees
+    0004957 - Deleted leave type display without having deleted prefix in Employee Entitlements
+    0004956 - Can't Apply/Assign leave after upgrade and change the date format
+    0004959 - Leave Periods are not properly upgraded if it is not default period
+    0004967 - It shows encrypted value for salary when encryption enabled
+    0005028 - Email configuration password is showing when install 2.7.1 with encrypt mode
+    0004395 - When employee applies for leaves for multiple days, it allows to specify time as well
+            - Show progress dialog when adding entitlement to a single employee.
+            - Show required asterix in leave entitlements and usage report
+            - Changes to "Leave Entitlements and Usage Report": Entitlements column is now a link to "Employee Entitlements".  Values with 0.00 in columns are also links.
+            - Fix validation of employee name field in bulk assign entitlements mode.
+            - Remove permission to admin menu from project admins since project menu is now under time module
+            - fix link to leave entitlements from my leave entitlements and usage report
+            - Add top level jobs.php to redirect to vacancy page for backwards compatibility
+            - Performance->Reviews as ESS users. Search & Cancel buttons are not working for ESS users
+
+New & Changed Features for OrangeHRM ver 3.0
+
+    New Features
+    ------------
+    All UI's converted to new UI theme
+    New implementation of open source leave module
+
+    Changes
+    -------
+    Email log is moved to symfony/log/email.log
+    When adding subscribers to email notifications, display notification name in heading.
+
+    Bug Fixes
+    0000415 - [recruitmentApply] - When have a long sentence for description of vacancy, it display in one line all over the page till end
+    0000414 - Review Period-> When date format is long,it displayed in 3 lines
+    0000413 - [ Time -> Timesheet]No records Found Message is not converted in view timesheet
+    0000412 - [AddJobVacancy] - 'Should be less than 40000 characters' message appears inside text box
+    0000411 - Employee list: Supervisor name doesn't show the middle name in the list
+    0000410 - [viewJobDetails] - When take the mouse over the record, it doesn't get selected
+    0000409 - [CompanyStructure] - Validation messages are not cleared properly.
+    0000408 - Custom Fields: Delete confirmation pop-up: Two sentences looks like a broken sentence
+    0000407 - [Pim->listCustomFields]- Drop down values for custom fields should be in the tab order in PIM
+    0000406 - [PIM -> Immigration] - "Assigned Immigration Documents" need to be renamed as "Assigned Immigration Records"
+    0000405 - [PIM->Memberships] - Membership – Tab should be renamed as Memberships.
+    0000404 - [PIM -> Attachment Comment] - Length validation is appearing in middle of the text box
+    0000403 - [Recruitment/jobInterview] - Required validation appears near "Interviewer Name" text box.
+    0000402 - [Recruitment/jobInterview] - "Type for hints" help text is missing in newly added text box.
+    0000401 - [Performance/Review] - "Reject" and "Approve" buttons in detailed review form is not enabled in view mode
+    0000400 - [Performance/Review] - Submit Button is not enabled in detailed review form view mode
+    0000399 - Unicode characters are displayed not as it is in following lists in PIM > Qualification
+    0000398 - Pagination is not implemented in Admin > Project Info > Project list
+    0000397 - [Performance/saveReview]- "When save review without having KPI's defined for job title,error message is not correct
+    0000396 - [Admin/saveProject]- When click Edit , it take a long time for 'Add Customer' link to be appeared.
+    0000395 - Reset doesn't clear the validation message of test mail address field in email configuration.
+    0000394 - Login Details, Status * should be 'Enable' by default
+    0000390 - Direct deposit Detail-> Account Number is not properly display when add special values
+    0000389 - Job title is not properly display in Add KPI and KPI List
+    0000388 - [XSS Injection] - XSS attacks is possible for Performance module
+    0000387 - [Performance] - Search Performance Review page alignment issue
+    0000386 - [XSS Injection] - It is possible to have XSS injection in Add Project form
+    0000385 - [XSS Injection] - Possible in Admin->Project Info-Projects search page
+    0000384 - [XSS Injection] - XSS injection is possible for employee name
+    0000383 - [XSS Injection] - XSS injection is possible for Number field in Immigration
+
 New & Changed Features for OrangeHRM ver  2.7.1-rc.1
 
     New Features

@@ -99,5 +99,9 @@ class ScreenPermissionService {
         
         return $permission;
     }
+    
+    public function getScreen($module, $actionUrl) {
+        return $this->getScreenDao()->getScreen($module, $actionUrl);
+    }
 }
 

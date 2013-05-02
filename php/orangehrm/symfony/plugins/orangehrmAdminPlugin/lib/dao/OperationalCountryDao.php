@@ -33,6 +33,31 @@ class OperationalCountryDao extends BaseDao {
             throw new DaoException($e->getMessage());
         }
     }
+    
+    /**
+     * Get operational countries for the given locations
+     * 
+     * @param Array $locationIds Array of location IDs
+     * @return Doctrine_Collection of Operational countries
+     * @throws DaoException
+     */
+    public function getOperationalCountriesForLocations($locationIds) {
+        try {
+            if (empty($locationIds)) {
+                return new Doctrine_Collection('OperationalCountry');
+            } else {
+                $query = Doctrine_Query::create()
+                        ->from('OperationalCountry oc')
+                        ->leftJoin('oc.Country c')
+                        ->leftJoin('c.Location l')
+                        ->whereIn('l.id', $locationIds)
+                        ->orderBy('c.cou_name ASC');
+                return $query->execute();
+            }
+        } catch (Exception $e) {
+            throw new DaoException($e->getMessage());
+        }        
+    }
 
 }
 

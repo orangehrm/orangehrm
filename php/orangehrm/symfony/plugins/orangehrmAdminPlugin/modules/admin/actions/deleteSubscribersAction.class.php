@@ -35,7 +35,7 @@ class deleteSubscribersAction extends sfAction {
 
         $notificationId = $this->getUser()->getAttribute('notificationId');
         $this->getEmailNotificationService()->deleteSubscribers($toBeDeletedIds);
-        $this->getUser()->setFlash('templateMessage', array('success', __(TopLevelMessages::DELETE_SUCCESS)));
+        $this->getUser()->setFlash('success', __(TopLevelMessages::DELETE_SUCCESS));
         $this->redirect('admin/saveSubscriber?notificationId='.$notificationId);
     }
 

@@ -18,14 +18,10 @@
  *
  */
 ?>
-<link href="<?php echo public_path('../../themes/orange/css/ui-lightness/jquery-ui-1.7.2.custom.css') ?>" rel="stylesheet" type="text/css"/>
-<script type="text/javascript" src="<?php echo public_path('../../scripts/jquery/ui/ui.core.js') ?>"></script>
-<script type="text/javascript" src="<?php echo public_path('../../scripts/jquery/ui/ui.datepicker.js') ?>"></script>
-<?php echo stylesheet_tag('orangehrm.datepicker.css') ?>
-<?php echo javascript_include_tag('orangehrm.datepicker.js') ?>
-<?php
-use_stylesheet('../orangehrmPimPlugin/css/viewMembershipsSuccess');
-use_javascript('../orangehrmPimPlugin/js/viewMembershipsSuccess');
+<?php use_javascripts_for_form($form); ?>
+<?php use_stylesheets_for_form($form); ?>
+<?php 
+use_javascript(plugin_web_path('orangehrmPimPlugin', 'js/viewMembershipsSuccess'));
 
 $numMemDetails = count($membershipDetails);
 $hasMemDetails = $numMemDetails > 0;
@@ -43,169 +39,171 @@ $allowEdit = true;
         ?>
     </span>
 <?php endif; ?>
-<table cellspacing="0" cellpadding="0" border="0" >
-    <tr>
-        <td width="5">&nbsp;</td>
-        <td colspan="2"></td>
-    </tr>
-    <tr>
-        <td>&nbsp;</td>
-        <!-- this space is reserved for menus - dont use -->
-        <td width="200" valign="top">
-            <?php include_partial('leftmenu', array('empNumber' => $empNumber, 'form' => $form)); ?></td>
-        <td valign="top" width="1000">
-            <div class="formpage2col">
-                <div id="messagebar" class="<?php echo isset($messageType) ? "messageBalloon_{$messageType}" : ''; ?>" >
-                    <span style="font-weight: bold;"><?php echo isset($message) ? $message : ''; ?></span>
-                </div>
+
+<div class="box pimPane">
+    
+    <?php include_partial('pimLeftMenu', array('empNumber' => $empNumber, 'form' => $form)); ?>
+        
+    <?php if ($membershipPermissions->canCreate() || ($hasMemDetails && $membershipPermissions->canUpdate())) { ?>
+        <div id="addPaneMembership">
+            <div class="head">
+                <h1 id="membershipHeading"><?php echo __('Add Membership'); ?></h1>
+            </div>
                 
-                <?php if ($membershipPermissions->canRead() && (($membershipPermissions->canCreate()) || ($membershipPermissions->canUpdate() && $hasMemDetails))) { ?>
-                <div id="addPaneMembership" style="display:none;">
-                    <div class="outerbox">
-
-                        <div class="mainHeading"><h2 id="membershipHeading"><?php echo __('Add Membership'); ?></h2></div>
-                            <form name="frmEmpMembership" id="frmEmpMembership" method="post" action="<?php echo url_for('pim/updateMembership?empNumber=' . $empNumber); ?>">
-
-                                <?php echo $form['_csrf_token']; ?>
-                                <?php echo $form["empNumber"]->render(); ?>
-
-                                <?php echo $form['membership']->renderLabel(__('Membership') . ' <span class="required">*</span>'); ?>
+            <div class="inner">
+                <form name="frmEmpMembership" id="frmEmpMembership" method="post" 
+                      action="<?php echo url_for('pim/updateMembership?empNumber=' . $empNumber); ?>" class="longLabels">
+                    
+                    <?php echo $form['_csrf_token']; ?>
+                    <?php echo $form["empNumber"]->render(); ?>
+                    <fieldset>
+                        <ol>
+                            <li>
+                                <?php echo $form['membership']->renderLabel(__('Membership') . ' <em>*</em>'); ?>
                                 <?php echo $form['membership']->render(array("class" => "drpDown", "maxlength" => 50)); ?>
-                                <div id="nameContainer"></div>
-                                <br class="clear"/>
-
+                            </li>
+                            <li>
                                 <?php echo $form['subscriptionPaidBy']->renderLabel(__('Subscription Paid By')); ?>
                                 <?php echo $form['subscriptionPaidBy']->render(array("class" => "drpDown", "maxlength" => 50)); ?>
-                                <br class="clear"/>
-
+                            </li>
+                            <li>
                                 <?php echo $form['subscriptionAmount']->renderLabel(__('Subscription Amount')); ?>
                                 <?php echo $form['subscriptionAmount']->render(array("class" => "formInputM", "maxlength" => 13)); ?>
-                                <br class="clear"/>
-
+                            </li>
+                            <li>
                                 <?php echo $form['currency']->renderLabel(__('Currency')); ?>
                                 <?php echo $form['currency']->render(array("class" => "drpDown", "maxlength" => 50)); ?>
-                                <br class="clear"/>
-
+                            </li>
+                            <li>
                                 <?php echo $form['subscriptionCommenceDate']->renderLabel(__('Subscription Commence Date')); ?>
                                 <?php echo $form['subscriptionCommenceDate']->render(array("class" => "formDateInput")); ?>
-                                <br class="clear"/>
-
+                            </li>
+                            <li>
                                 <?php echo $form['subscriptionRenewalDate']->renderLabel(__('Subscription Renewal Date')); ?>
                                 <?php echo $form['subscriptionRenewalDate']->render(array("class" => "formDateInput")); ?>
-                                <br class="clear"/>
-
-                            <?php if (($hasMemDetails && $membershipPermissions->canUpdate()) || $membershipPermissions->canCreate()) {
-                                ?>
-                                <div class="formbuttons">
-                                    <input type="button" class="savebutton" name="btnSaveMembership" id="btnSaveMembership"
-                                           value="<?php echo __("Save"); ?>"
-                                           title="<?php echo __("Save"); ?>"
-                                           onmouseover="moverButton(this);" onmouseout="moutButton(this);"/>
-                                    <input type="button" id="btnCancel" class="cancelbutton" value="<?php echo __("Cancel"); ?>"/>
-                                </div>
-                            <?php } ?>
-                        </form>
-                    </div>
-                </div>
-                <?php } ?>
-                
-                <?php if ($membershipPermissions->canRead()) { ?>
-                
-                <?php if ((!$hasMemDetails) && (!$membershipPermissions->canCreate())) { ?>
-                <div class="outerbox">
-                    <div class="mainHeading"><h2 id="membershipHeading"><?php echo __("Assigned Memberships"); ?></h2></div>
-                    <span style="width: 500px; padding-left: 8px; padding-top: 3px;">
-                        <?php echo __(TopLevelMessages::NO_RECORDS_FOUND); ?></span>
-                </div>
-                
-                <?php } else { ?>
-                    <div class="outerbox" id="listMembershipDetails">
-                        <form name="frmEmpDelMemberships" id="frmEmpDelMemberships" method="post" action="<?php echo url_for('pim/deleteMemberships?empNumber=' . $empNumber); ?>">
-                            <?php echo $deleteForm['_csrf_token']->render(); ?>
-                            <?php echo $deleteForm['empNumber']->render(); ?>
-                            
-                            <div class="mainHeading"><h2><?php echo __("Assigned Memberships"); ?></h2></div>
-                            
-                            <?php if ($membershipPermissions->canCreate() || $membershipPermissions->canDelete()) { ?>
-                            <div class="actionbar" id="listActions">
-                                <div class="actionbuttons">
-                                    <?php if ($membershipPermissions->canCreate()) { ?>
-
-                                        <input type="button" class="addbutton" id="btnAddMembershipDetail" onmouseover="moverButton(this);" onmouseout="moutButton(this);" value="<?php echo __("Add"); ?>" title="<?php echo __("Add"); ?>"/>
-                                        <?php $savedMemship = '';
-                                        foreach ($membershipDetails as $memshipDetail) {
-                                            $savedMemship = $savedMemship . '' . $memshipDetail->getMembership()->getId() . '^';                                                        
-                                        }?>
-                                    <?php } ?>
-                                    <?php if ($membershipPermissions->canDelete()) { ?>
-
-                                        <input type="button" class="delbutton" id="delMemsBtn" onmouseover="moverButton(this);" onmouseout="moutButton(this);" value="<?php echo __("Delete"); ?>" title="<?php echo __("Delete"); ?>"/>
-                                    <?php } ?>
-                                </div>
-                            </div>
-                            <?php } ?>
-                            
-                            <table width="550" cellspacing="0" cellpadding="0" class="data-table" id="mem_list">
-                                <thead>
-                                    <tr>
-                                    <?php if ($membershipPermissions->canDelete()) { ?>
-                                    <td class="check"><input type='checkbox' id='checkAllMem' class="checkboxMem" /></td>
-                                    <?php } else {?>
-                                    <input type='hidden' class='checkboxMem' id='checkAllMem' />
-                                    <?php } ?>
-                                    <td class="memshipCode"><?php echo __("Membership"); ?></td>
-                                    <td><?php echo __("Subscription Paid By"); ?></td>
-                                    <td class="memshipAmount"><?php echo __("Subscription Amount"); ?></td>
-                                    <td><?php echo __("Currency"); ?></td>
-                                    <td><?php echo __("Subscription Commence Date"); ?></td>
-                                    <td><?php echo __("Subscription Renewal Date"); ?></td>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <?php
-                                    $row = 0;
-                                    foreach ($membershipDetails as $memship) {
-                                        $cssClass = ($row % 2) ? 'even' : 'odd';
-                                        echo '<tr class="' . $cssClass . '">';
-                                        $chkBoxValue = $empNumber . " " . $memship->membershipId; ?>
-                                        <?php if ($membershipPermissions->canDelete()) { ?>
-                                            <td class='check'><input type='checkbox' class='checkboxMem' name='chkmemdel[]' value='<?php echo $chkBoxValue ?>'/></td>
-                                        <?php } else { ?>
-                                            <input type='hidden' class='checkboxMem' value="<?php echo $chkBoxValue; ?>"/>
-                                        <?php } ?>
-                                        <?php $newMembership = $memship->getMembership(); ?>
-                                        <td class="memshipCode" valign="top"><?php if ($membershipPermissions->canUpdate()) { ?>
-                                            <a href="#"><?php echo $newMembership->name; ?></a>
-                                        <?php } else {
-                                            echo $newMembership; } ?>
-                                        </td>
-                                        <?php
-                                        echo "<td class='memship' valigh='top'>" . $memship->subscriptionPaidBy . '</td>';
-                                        echo "<td  class='memshipAmount1' valigh='top'>" . $memship->subscriptionFee . '</td>';
-                                        echo "<td class='memship'valigh='top'>" . $memship->subscriptionCurrency . '</td>';
-                                        echo "<td class='memship'valigh='top'>" . set_datepicker_date_format($memship->subscriptionCommenceDate) . '</td>';
-                                        echo "<td class='memship'valigh='top'>" . set_datepicker_date_format($memship->subscriptionRenewalDate) . '</td>';
-                                        echo '</tr>';
-                                        $row++;
-                                    } ?>
-                                </tbody>
-                            </table>
-                        </form>
-                    </div>
-                <?php }
-                } ?>
-                <?php if ($membershipPermissions->canCreate()) { ?>
-                <div class="paddingLeftRequired"><span class="required">*</span> <?php echo __(CommonMessages::REQUIRED_FIELD); ?></div>
-                <?php } ?>
-<?php echo include_component('pim', 'customFields', array('empNumber' => $empNumber, 'screen' => CustomField::SCREEN_MEMBERSHIP)); ?>
-<?php echo include_component('pim', 'attachments', array('empNumber' => $empNumber, 'screen' => EmployeeAttachment::SCREEN_MEMBERSHIP)); ?>
+                            </li>
+                            <li class="required">
+                                <em>*</em> <?php echo __(CommonMessages::REQUIRED_FIELD); ?>
+                            </li>
+                        </ol>
+                        <p>
+                            <input type="button" class="" name="btnSaveMembership" id="btnSaveMembership" value="<?php echo __("Save"); ?>" />
+                            <input type="button" id="btnCancel" class="reset" value="<?php echo __("Cancel"); ?>"/>
+                        </p>
+                    </fieldset>
+                </form>
             </div>
-        </td>
-        <!-- To be moved to layout file -->
-        <td valign="top" style="text-align:left;">
-        </td>
-    </tr>
-</table>
+        </div> <!-- addPaneMembership -->
+    <?php } ?>
+        
+    <div class="miniList" id="listMembershipDetails">
+        <div class="head">
+            <h1><?php echo __("Assigned Memberships"); ?></h1>
+        </div>
+            
+        <div class="inner">
+            
+            <?php include_partial('global/flash_messages', array('prefix' => 'memberships')); ?>
+            
+            <?php if ($membershipPermissions->canRead()) : ?>
+                    
+                <?php include_partial('global/flash_messages'); ?>
+                <form name="frmEmpDelMemberships" id="frmEmpDelMemberships" method="post" 
+                      action="<?php echo url_for('pim/deleteMemberships?empNumber=' . $empNumber); ?>">
+                    <?php echo $deleteForm['_csrf_token']->render(); ?>
+                    <?php echo $deleteForm['empNumber']->render(); ?>
+                    <p id="listActions">
+                        <?php if ($membershipPermissions->canCreate()) { ?>
+                            <input type="button" class="" id="btnAddMembershipDetail" value="<?php echo __("Add"); ?>"/>
+                            <?php
+                            $savedMemship = '';
+                            foreach ($membershipDetails as $memshipDetail) {
+                                $savedMemship = $savedMemship . '' . $memshipDetail->getMembership()->getId() . '^';
+                            }
+                        } ?>
+                        <?php if ($membershipPermissions->canDelete()) { ?>
+                            <input type="button" class="delete" id="delMemsBtn" value="<?php echo __("Delete"); ?>" />
+                        <?php } ?>
+                    </p>
+                    <table id="" class="table hover">
+                        <thead>
+                            <tr>
+                                <?php if ($membershipPermissions->canDelete()) { ?>
+                                <th class="check" style="width:2%"><input type='checkbox' id='checkAllMem' class="checkboxMem" /></th>
+                                <?php } else {?>
+                                <input type='hidden' class='checkboxMem' id='checkAllMem' />
+                                <?php } ?>
+                                <th class="memshipCode"><?php echo __("Membership"); ?></th>
+                                <th><?php echo __("Subscription Paid By"); ?></th>
+                                <th class="memshipAmount"><?php echo __("Subscription Amount"); ?></th>
+                                <th><?php echo __("Currency"); ?></th>
+                                <th><?php echo __("Subscription Commence Date"); ?></th>
+                                <th><?php echo __("Subscription Renewal Date"); ?></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <?php if (!$hasMemDetails) { ?>
+                                <tr>
+                                    <?php if ($membershipPermissions->canDelete()) { ?>
+                                    <td class="check"></td>
+                                    <?php } ?>
+                                    <td><?php echo __(TopLevelMessages::NO_RECORDS_FOUND); ?></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                </tr>
+                            <?php } else { ?>    
+                                <?php
+                                $row = 0;
+                                foreach ($membershipDetails as $memship) :
+                                    $cssClass = ($row % 2) ? 'even' : 'odd';
+                                    echo '<tr class="' . $cssClass . '">';
+                                    $chkBoxValue = $empNumber . " " . $memship->membershipId;
+                                    ?>
+                                    <?php if ($membershipPermissions->canDelete()) { ?>
+                                    <td class='check'>
+                                        <input type='checkbox' class='checkboxMem' name='chkmemdel[]' value='<?php echo $chkBoxValue ?>'/>
+                                    </td>
+                                    <?php } else { ?>
+                                        <input type='hidden' class='checkboxMem' value="<?php echo $chkBoxValue; ?>"/>
+                                    <?php } ?>
+                                    <?php $newMembership = $memship->getMembership(); ?>
+                                    <td class="memshipCode" valign="top"><?php if ($membershipPermissions->canUpdate()) { ?>
+                                        <a href="#"><?php echo $newMembership->name; ?></a>
+                                        <?php } else {
+                                            echo $newMembership;
+                                        }
+                                        ?>
+                                    </td>
+                                    <?php
+                                    echo "<td class='memship' valigh='top'>" . $memship->subscriptionPaidBy . '</td>';
+                                    echo "<td  class='memshipAmount1' valigh='top'>" . $memship->subscriptionFee . '</td>';
+                                    echo "<td class='memship'valigh='top'>" . $memship->subscriptionCurrency . '</td>';
+                                    echo "<td class='memship'valigh='top'>" . set_datepicker_date_format($memship->subscriptionCommenceDate) . '</td>';
+                                    echo "<td class='memship'valigh='top'>" . set_datepicker_date_format($memship->subscriptionRenewalDate) . '</td>';
+                                    echo '</tr>';
+                                    $row++;
+                                endforeach;
+                            } 
+                            ?>
+                        </tbody>
+                    </table>
+                </form>
+                    
+            <?php else : ?>
+                <div><?php echo __(CommonMessages::DONT_HAVE_ACCESS); ?></div>
+            <?php endif; ?>
+        </div>
+    </div> <!-- miniList-listMembershipDetails -->
+        
+    <?php 
+    echo include_component('pim', 'customFields', array('empNumber' => $empNumber, 'screen' => CustomField::SCREEN_MEMBERSHIP));
+    echo include_component('pim', 'attachments', array('empNumber' => $empNumber, 'screen' => EmployeeAttachment::SCREEN_MEMBERSHIP)); 
+    ?>
+    
+</div> <!-- Box -->
 
 <script type="text/javascript">
     //<![CDATA[

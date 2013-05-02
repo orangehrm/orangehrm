@@ -18,81 +18,99 @@
  *
  */
 ?>
+<?php use_javascript(plugin_web_path('orangehrmAdminPlugin', 'js/saveJobTitleSuccess')); ?>
 
-<link href="<?php echo public_path('../../themes/orange/css/ui-lightness/jquery-ui-1.7.2.custom.css') ?>" rel="stylesheet" type="text/css"/>
-<script type="text/javascript" src="<?php echo public_path('../../scripts/jquery/ui/ui.core.js') ?>"></script>
-
-<?php use_stylesheet('../orangehrmAdminPlugin/css/saveJobTitleSuccess'); ?>
-<?php use_javascript('../orangehrmAdminPlugin/js/saveJobTitleSuccess'); ?>
-<?php echo isset($templateMessage) ? templateMessage($templateMessage) : ''; ?>
-<div id="messagebar" class="<?php echo isset($messageType) ? "messageBalloon_{$messageType}" : ''; ?>" >
-    <span style="font-weight: bold;"><?php echo isset($message) ? $message : ''; ?></span>
-</div>
-
-<div id="saveHobTitle">
-    <div class="outerbox">
+<div id="saveHobTitle" class="box">
+    
+    <div class="head">
         <?php $heading = (empty($form->jobTitleId)) ? __("Add Job Title") : __("Edit Job Title") ?>
-        <div class="mainHeading"><h2 id="saveHobTitleHeading"><?php echo $heading; ?></h2></div>
-        <form name="frmSavejobTitle" id="frmSavejobTitle" method="post" action="<?php echo url_for('admin/saveJobTitle?jobTitleId=' . $form->jobTitleId); ?>" enctype="multipart/form-data">
+        <h1 id="saveHobTitleHeading"><?php echo $heading; ?></h1>
+    </div>
+    
+    <div class="inner">       
+        
+        <?php include_partial('global/flash_messages', array('prefix' => 'jobtitle')); ?>
+        
+        <form name="frmSavejobTitle" id="frmSavejobTitle" method="post" action="<?php echo url_for('admin/saveJobTitle?jobTitleId=' . $form->jobTitleId); ?>" enctype="multipart/form-data" class="<?php echo empty($form->jobTitleId)?'':'clickToEditForm'; ?>">
 
             <?php echo $form['_csrf_token']; ?>
-            <br class="clear"/>
+            
+            <fieldset>
+                
+                <ol>
+                    
+                    <li>
+                        <?php echo $form['jobTitle']->renderLabel(__('Job Title') . ' <em>*</em>'); ?>
+                        <?php echo $form['jobTitle']->render(array("maxlength" => 100)); ?>
+                    </li>
+                    
+                    <li class="largeTextBox">
+                        <?php echo $form['jobDescription']->renderLabel(__('Job Description')); ?>
+                        <?php echo $form['jobDescription']->render(array("maxlength" => 400)); ?>
+                    </li>
+                    
+                    <?php
+                        if (empty($form->attachment->id)) {
+                    ?>
+                    <li>
+                        <?php
+                            echo $form['jobSpec']->renderLabel(__('Job Specification'), array());
+                            echo $form['jobSpec']->render();
+                            echo "<label class=\"fieldHelpBottom\">" . __(CommonMessages::FILE_LABEL_SIZE) . "</label>";
+                        ?>
+                    </li>      
+                    
+                    <?php } else { ?>
+                        <?php
+                            $attachment = $form->attachment;
+                            $linkHtml = "<span id=\"fileLink\"><a target=\"_blank\" href=\"";
+                            $linkHtml .= url_for('admin/viewJobSpec?attachId=' . $attachment->getId());
+                            $linkHtml .= "\">{$attachment->getFileName()}</a></span>";
+                            ?>
+                    <li>
 
-            <?php echo $form['jobTitle']->renderLabel(__('Job Title') . ' <span class="required">*</span>'); ?>
-            <?php echo $form['jobTitle']->render(array("class" => "formInputText", "maxlength" => 100)); ?>
-            <br class="clear"/>
-
-            <?php echo $form['jobDescription']->renderLabel(__('Job Description')); ?>
-            <?php echo $form['jobDescription']->render(array("class" => "formInputTextArea", "maxlength" => 400)); ?>
-            <div class="errorHolder"></div>
-            <br class="clear"/>
-
-            <?php
-            if (empty($form->attachment->id)) {
-                echo $form['jobSpec']->renderLabel(__('Job Specification'), array("class " => "formInputFileUpload"));
-                echo $form['jobSpec']->render(array("class " => "duplexBox", "size" => 32));
-                echo "<br class=\"clear\"/>";
-                echo "<span id=\"cvHelp\" class=\"helpText\">" . __(CommonMessages::FILE_LABEL_SIZE) . "</span>";
-                echo "<br class=\"clear\"/>";
-            } else {
-                $attachment = $form->attachment;
-                $linkHtml = "<div id=\"fileLink\"><a target=\"_blank\" class=\"fileLink\" href=\"";
-                $linkHtml .= url_for('admin/viewJobSpec?attachId=' . $attachment->getId());
-                $linkHtml .= "\">{$attachment->getFileName()}</a></div>";
-
-                echo $form['jobSpecUpdate']->renderLabel(__('Job Specification'));
-                echo $linkHtml;
-                echo "<br class=\"clear\"/>";
-                echo "<div id=\"radio\">";
-                echo $form['jobSpecUpdate']->render(array("class" => ""));
-                echo "<br class=\"clear\"/>";
-                echo "</div>";
-                echo "<div id=\"fileUploadSection\">";
-                echo $form['jobSpec']->renderLabel(' ');
-                echo $form['jobSpec']->render(array("class " => "duplexBox", "size" => 32));
-                echo "<br class=\"clear\"/>";
-                echo "<span id=\"cvHelp\" class=\"helpText\">" . __(CommonMessages::FILE_LABEL_SIZE) . "</span>";
-                echo "</div>";
-            }
-            ?>
-
-            <?php echo $form['note']->renderLabel(__('Note')); ?>
-            <?php echo $form['note']->render(array("class" => "formInputTextArea", "maxlength" => 400)); ?>
-            <div class="errorHolder"></div>
-            <br class="clear"/>
-
-            <div class="formbuttons">
-                <input type="button" class="savebutton" name="btnSave" id="btnSave"
-                       value="<?php echo __("Save"); ?>"onmouseover="moverButton(this);" onmouseout="moutButton(this);"/>
-                <input type="button" class="cancelbutton" name="btnCancel" id="btnCancel"
-                       value="<?php echo __("Cancel"); ?>"onmouseover="moverButton(this);" onmouseout="moutButton(this);"/>
-            </div>
+<?php
+                            echo $form['jobSpecUpdate']->renderLabel(__('Job Specification'));
+                            echo $linkHtml;
+                            ?>
+                    </li>
+                    <li class="radio noLabel" id="radio">
+                        <?php
+                            echo $form['jobSpecUpdate']->render();
+                        ?>
+                    </li>
+                    <li id="fileUploadSection" class="noLabel">
+                        <?php 
+                            echo $form['jobSpec']->renderLabel(' ');
+                            echo $form['jobSpec']->render();
+                            echo "<label class=\"fieldHelpBottom\">" . __(CommonMessages::FILE_LABEL_SIZE) . "</label>";
+                        ?>
+                    </li>
+                    <?php } ?>
+                    
+                    <li class="largeTextBox">
+                        <?php echo $form['note']->renderLabel(__('Note')); ?>
+                        <?php echo $form['note']->render(); ?>
+                    </li>
+                    
+                    <li class="required">
+                        <em>*</em> <?php echo __(CommonMessages::REQUIRED_FIELD); ?>
+                    </li>
+                    
+                </ol>
+                
+                <p>
+                    <input type="button" class="editButton" name="btnSave" id="btnSave" value="<?php echo empty($form->jobTitleId)?__("Save"):__("Edit"); ?>"/>
+                    <input type="button" class="reset" name="btnCancel" id="btnCancel" value="<?php echo __("Cancel"); ?>"/>
+                </p>
+                
+            </fieldset>
 
         </form>
+        
     </div>
-</div>
 
-<div class="paddingLeftRequired"><span class="required">*</span> <?php echo __(CommonMessages::REQUIRED_FIELD); ?></div>
+</div>
 
 <script type="text/javascript">
     //<![CDATA[

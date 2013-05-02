@@ -91,9 +91,9 @@ class EmployeeImmigrationDetailsForm extends sfForm {
         $widgets['country'] = new sfWidgetFormSelect(array('choices' => $this->countries));
         $widgets['number'] = new sfWidgetFormInputText();
         $widgets['i9_status'] = new sfWidgetFormInputText();
-        $widgets['passport_issue_date'] =new ohrmWidgetDatePickerNew(array(), array('id' => 'immigration_passport_issue_date'));
-        $widgets['passport_expire_date'] = new ohrmWidgetDatePickerNew(array(), array('id' => 'immigration_passport_expire_date'));
-        $widgets['i9_review_date'] = new ohrmWidgetDatePickerNew(array(), array('id' => 'immigration_i9_review_date'));
+        $widgets['passport_issue_date'] =new ohrmWidgetDatePicker(array(), array('id' => 'immigration_passport_issue_date'));
+        $widgets['passport_expire_date'] = new ohrmWidgetDatePicker(array(), array('id' => 'immigration_passport_expire_date'));
+        $widgets['i9_review_date'] = new ohrmWidgetDatePicker(array(), array('id' => 'immigration_i9_review_date'));
         $widgets['comments'] =  new sfWidgetFormTextarea();
         
         return $widgets;

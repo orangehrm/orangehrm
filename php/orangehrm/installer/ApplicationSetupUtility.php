@@ -18,7 +18,7 @@
  *
  */
 
-require_once ROOT_PATH.'/lib/common/UniqueIDGenerator.php';
+require_once ROOT_PATH.'/installer/utils/UniqueIDGenerator.php';
 
 
 class ApplicationSetupUtility {
@@ -139,8 +139,9 @@ public static function fillData($phase=1, $source='/dbscript/dbscript-') {
 
 	error_log (date("r")." Fill Data Phase $phase - Read DB script\n",3, "installer/log.txt");
 
-	$dbScriptStatements = explode(";", $query);
-
+	// Match ; followed by whitespaces and new line. Does not match ; inside a query.
+        $dbScriptStatements   = preg_split('/;\s*$/m', $query);  
+    
 	error_log (date("r")." Fill Data Phase $phase - There are ".count($dbScriptStatements)." Statements in the DB script\n",3, "installer/log.txt");
 
 	for($c=0;(count($dbScriptStatements)-1)>$c;$c++) {
@@ -262,7 +263,7 @@ class Conf {
 		}
 		\$this->dbuser    = '$dbOHRMUser';
 		\$this->dbpass	= '$dbOHRMPassword';
-		\$this->version = '2.7.1';
+		\$this->version = '3.0.1';
 
 		\$this->emailConfiguration = dirname(__FILE__).'/mailConf.php';
 		\$this->errorLog =  realpath(dirname(__FILE__).'/../logs/').'/';
@@ -350,7 +351,7 @@ public static function writeLog() {
 	fclose($handle);
 }
 
-public static function install() {
+public static function install() { 
    if (isset($_SESSION['INSTALLING'])) {
 	switch ($_SESSION['INSTALLING']) {
 		case 0	:	self::writeLog();

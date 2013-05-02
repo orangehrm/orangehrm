@@ -19,7 +19,6 @@
  * 
  */
 
-class ServiceException extends Exception
-{
+class ServiceException extends OrangeHRMBaseException {
 	
 }

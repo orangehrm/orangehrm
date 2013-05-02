@@ -1,5 +1,42 @@
-<?php echo stylesheet_tag('../orangehrmPimPlugin/css/addEmployeeSuccess'); ?>
-<?php echo javascript_include_tag('../orangehrmPimPlugin/js/addEmployeeSuccess'); ?>
+
+<?php echo javascript_include_tag(plugin_web_path('orangehrmPimPlugin', 'js/addEmployeeSuccess')); ?>
+
+<div class="box">
+
+<?php if (isset($credentialMessage)) { ?>
+
+<div class="message warning">
+    <?php echo __(CommonMessages::CREDENTIALS_REQUIRED) ?> 
+</div>
+
+<?php } else { ?>
+
+    <div class="head">
+        <h1><?php echo __('Add Employee'); ?></h1>
+    </div>
+
+    <div class="inner" id="addEmployeeTbl">
+        <?php include_partial('global/flash_messages'); ?>        
+        <form id="frmAddEmp" method="post" action="<?php echo url_for('pim/addEmployee'); ?>" 
+              enctype="multipart/form-data">
+            <fieldset>
+                <ol>
+                    <?php echo $form->render(); ?>
+                    <li class="required">
+                        <em>*</em> <?php echo __(CommonMessages::REQUIRED_FIELD); ?>
+                    </li>
+                </ol>
+                <p>
+                    <input type="button" class="" id="btnSave" value="<?php echo __("Save"); ?>"  />
+                </p>
+            </fieldset>
+        </form>
+    </div>
+
+<?php } ?>
+    
+</div> <!-- Box -->    
+
 <script type="text/javascript">
     //<![CDATA[
     //we write javascript related stuff here, but if the logic gets lengthy should use a seperate js file
@@ -14,30 +51,7 @@
     var lang_locationRequired = "<?php echo __(ValidationMessages::REQUIRED); ?>";
     var cancelNavigateUrl = "<?php echo public_path("../../index.php?menu_no_top=hr"); ?>";
     var createUserAccount = "<?php echo $createUserAccount; ?>";
-    var ldapInstalled = <?php echo ($sf_user->getAttribute('ldap.available'))?'true':'false'; ?>;
-    var fileHelpText = <?php echo  '"'.__(CommonMessages::FILE_LABEL_IMAGE).'"'; ?>;
+    var ldapInstalled = '<?php echo ($sf_user->getAttribute('ldap.available')) ? 'true' : 'false'; ?>';
+    var fieldHelpBottom = <?php echo '"' . __(CommonMessages::FILE_LABEL_IMAGE) . '. ' . __('Recommended dimensions: 200px X 200px') . '"'; ?>;
     //]]>
 </script>
-<?php if (isset($credentialMessage)) { ?>
-<div align="center" >
-    <br><br><br>
-    <h1 style="color: red">Credentials Required </h1>
-</div>
-<?php } else { ?>
-<div id="messagebar" class="<?php echo isset($messageType) ? "messageBalloon_{$messageType}" : ''; ?>" style="margin-left: 16px;width: 700px;">
-    <span style="font-weight: bold;"><?php echo isset($message) ? $message : ''; ?></span>
-</div>
-<div class="outerbox" style="">
-    <div class="mainHeading"><h2><?php echo __('Add Employee'); ?></h2></div>
-    <div>
-        <form id="frmAddEmp" method="post" action="<?php echo url_for('pim/addEmployee'); ?>" enctype="multipart/form-data" style="width: auto">
-            <table id="addEmployeeTbl"><?php echo $form->render(); ?> </table>                       
-            <div class="formbuttons">
-                <input type="button" class="savebutton" id="btnSave" value="<?php echo __("Save"); ?>"  />
-                <input type="button" class="savebutton" id="btnCancel" value="<?php echo __("Cancel"); ?>" />
-            </div>
-        </form>
-    </div>
-</div>
-<div class="paddingLeftRequired"><span class="required">*</span> <?php echo __(CommonMessages::REQUIRED_FIELD); ?></div>
-<?php } ?>

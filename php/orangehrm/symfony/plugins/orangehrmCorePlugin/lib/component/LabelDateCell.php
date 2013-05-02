@@ -13,7 +13,7 @@ class LabelDateCell extends Cell {
 
         $isValueList = $this->getPropertyValue('isValueList', false);
 
-        if ($isValueList && is_array($value)) {
+        if ($isValueList && (is_array($value) || $value instanceof sfOutputEscaperArrayDecorator)) {
 
             $lines = $value;
             if (count($lines) >= 1) {

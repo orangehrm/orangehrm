@@ -1,57 +1,64 @@
-<?php echo stylesheet_tag('orangehrm.datepicker.css') ?>
-<link href="<?php echo public_path('../../themes/orange/css/ui-lightness/jquery-ui-1.7.2.custom.css') ?>" rel="stylesheet" type="text/css"/>
-<script type="text/javascript" src="<?php echo public_path('../../scripts/jquery/ui/ui.core.js') ?>"></script>
-<script type="text/javascript" src="<?php echo public_path('../../scripts/jquery/ui/ui.datepicker.js') ?>"></script>
-<?php echo javascript_include_tag('orangehrm.datepicker.js') ?>
-<?php
-use_stylesheet('../../../themes/orange/css/jquery/jquery.autocomplete.css');
-use_stylesheet('../../../themes/orange/css/ui-lightness/jquery-ui-1.7.2.custom.css');
-
-use_javascript('../../../scripts/jquery/ui/ui.core.js');
-use_javascript('../../../scripts/jquery/ui/ui.dialog.js');
-use_javascript('../../../scripts/jquery/jquery.autocomplete.js');
-?>
-
-<div id="validationMsg" style="margin-left: 16px; width: 470px"><?php echo isset($messageData) ? templateMessage($messageData) : ''; ?></div>
-<div class="outerbox"  style="width: 500px">
-    <div class="maincontent">
-        <div class="mainHeading">
-            <h2><?php echo __('Attendance Total Summary Report'); ?></h2>
-        </div>
-        <br class="clear">
+<?php use_stylesheets_for_form($form) ?>
+<?php use_javascripts_for_form($form) ?>
+<div class="box" id="attendance-summary">
+       <div class="head"><h1><?php echo __('Attendance Total Summary Report'); ?></h1></div>
+        <div class="inner">
+            <?php include_partial('global/flash_messages'); ?>
+            
         <form action="<?php echo url_for("time/displayAttendanceSummaryReport?reportId=" . $reportId); ?>" id="attendanceTotalSummaryReportForm" method="post">
+            
+            <?php echo $form['_csrf_token']; ?>
+            <fieldset>
+                <ol>
+                                                                   
+                    <li> 
+                        <label><?php echo __('Employee Name'.' <em>*</em>') ?></label>
+                        <?php echo $form['empName']->render(); ?>
+                    
+                    </li>
+                            
+                    <li>
+                        <label><?php echo __('Job Title') ?></label>
+                        <?php echo $form['jobTitle']->renderError() ?><?php echo $form['jobTitle']->render(); ?>
+                    </li>
+                            
+                    <li>
+                        <label><?php echo __('Sub Unit') ?></label>
+                        <?php echo $form['subUnit']->renderError() ?><?php echo $form['subUnit']->render(); ?>
+                    </li>
+                            
+                    <li>
+                        <label><?php echo __('Employment Status') ?></label>
+                        <?php echo $form['employeeStatus']->renderError() ?><?php echo $form['employeeStatus']->render(); ?>
+                    </li> 
+                    <li>
+                        <label><?php echo __('From') ?></label>
+                       <?php echo $form['fromDate']->render(); ?>
+                    </li> 
+                    <li>
+                        <label><?php echo __('To') ?></label>
+                        <?php echo $form['toDate']->render(); ?>
+                    </li> 
+                            
+                    <li class="required">
+                        <em>*</em> <?php echo __(CommonMessages::REQUIRED_FIELD); ?>
+                    </li>
 
-            <table  border="0" cellpadding="5" cellspacing="0" id="attendanceSummaryReportForm">
-                <tr>
-                    <td><?php echo __('Employee Name') ?><span class="required">*</span></td>
-                    <td><?php echo $form['empName']->render(); ?><div class="errorContainer"></div></td>
-                </tr>
-                <tr>
-                    <td><?php echo __('Job Title') ?></td>
-                    <td><?php echo $form['jobTitle']->renderError() ?><?php echo $form['jobTitle']->render(); ?></td>
-                </tr>
-                <tr>
-                    <td><?php echo __('Sub Unit') ?></td>
-                    <td><?php echo $form['subUnit']->renderError() ?><?php echo $form['subUnit']->render(); ?></td>
-                </tr>
-                <tr><td><?php echo __('Employment Status') ?></td>
-                    <td><?php echo $form['employeeStatus']->renderError() ?><?php echo $form['employeeStatus']->render(); ?></td>
-                </tr>
-                <tr><td><?php echo __('From') ?></td>
-                    <td><?php echo $form['fromDate']->render(); ?><div class="errorContainer"></div></td>
-                </tr>
-                <tr><td><?php echo __('To') ?></td>
-                    <td><?php echo $form['toDate']->render(); ?><div class="errorContainer"></div></td>
-                </tr>
-            </table>
+                </ol>
+
+                <p>
+                    <input type="submit" id="viewbutton" value="<?php echo __('View') ?>" />
+                    
+                </p>
+              
+              
+            
             <?php echo $form->renderHiddenFields(); ?>
-            <div class="formbuttons">
-                <td colspan="2"><input type="submit" id="viewbutton" class="viewbutton" value="<?php echo __('View') ?>"/></td>
-            </div>
+            
+            </fieldset> 
         </form>
     </div>
 </div>
-<div class="paddingLeftRequired"><span class="required">*</span> <?php echo __(CommonMessages::REQUIRED_FIELD); ?></div>
 <script type="text/javascript">
 
     var datepickerDateFormat = '<?php echo get_datepicker_date_format($sf_user->getDateFormat()); ?>';
@@ -92,11 +99,14 @@ use_javascript('../../../scripts/jquery/jquery.autocomplete.js');
         $("#employee_name").autocomplete(employees, {
 
             formatItem: function(item) {
-
-                return item.name;
-            }
+                return $('<div/>').text(item.name).html();
+            },
+            formatResult: function(item) {
+                return item.name
+            }              
             ,matchContains:true
         }).result(function(event, item) {
+            $(this).valid();
         }
     );
 
@@ -118,7 +128,8 @@ use_javascript('../../../scripts/jquery/jquery.autocomplete.js');
             rules: {
                 'attendanceTotalSummary[empName]': {
                     required:true,
-                    employeeValidation: true
+                    employeeValidation: true,
+                    onkeyup: false
                 },
                 'attendanceTotalSummary[fromDate]':{
                     valid_date: function() {
@@ -158,9 +169,6 @@ use_javascript('../../../scripts/jquery/jquery.autocomplete.js');
                     valid_date: lang_invalidDate ,
                     date_range: lang_dateError
                 }
-            },
-            errorPlacement: function(error, element) {
-                error.appendTo(element.siblings(".errorContainer"));
             }
         });
 
@@ -231,14 +239,4 @@ use_javascript('../../../scripts/jquery/jquery.autocomplete.js');
         return isValid;
     }); 
 </script>
-<style type="text/css" media="all">
-    label.error{
-        padding-left: 0px;
-    }
 
-    .paddingLeftRequired{
-        font-size: 8pt;
-        padding-left: 15px;
-        padding-top: 5px;
-    }
-</style>

@@ -49,8 +49,7 @@ class viewEmployeeTimesheetAction extends sfAction {
                 $dateOptions = $startDaysListForm->getDateOptions();
 
                 if ($dateOptions == null) {
-
-                    $this->getContext()->getUser()->setFlash('errorMessage', __("No Timesheets Found"));
+                    $this->getContext()->getUser()->setFlash('warning.nofade', __('No Timesheets Found'));
                     $this->redirect('time/createTimesheetForSubourdinate?' . http_build_query(array('employeeId' => $this->employeeId)));
                 }
 

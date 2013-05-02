@@ -85,6 +85,8 @@ class EmployeeLanguageForm extends sfForm {
         $this->setValidators($validators);
         
         $this->widgetSchema->setNameFormat('language[%s]');
+        $this->getWidgetSchema()->setLabels($this->getFormLabels());
+       
     }
     
     /**
@@ -140,6 +142,21 @@ class EmployeeLanguageForm extends sfForm {
         }
 
         return $list;
+    }
+    
+    /**
+     *
+     * @return array
+     */
+    protected function getFormLabels() {
+        $required = '<em> *</em>';
+        $labels = array(
+            'code' => __('Language') . $required,
+            'lang_type' => __('Fluency') . $required,
+            'competency' => __('Competency') . $required,
+            'comments' => __('Comments'),
+        );
+        return $labels;
     }
 }
 ?>

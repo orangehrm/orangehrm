@@ -1,45 +1,39 @@
 
-<?php
-use_stylesheet('../../../themes/orange/css/jquery/jquery.autocomplete.css');
-use_stylesheet('../../../themes/orange/css/ui-lightness/jquery-ui-1.7.2.custom.css');
-
-use_javascript('../../../scripts/jquery/ui/ui.core.js');
-use_javascript('../../../scripts/jquery/ui/ui.dialog.js');
-use_javascript('../../../scripts/jquery/jquery.autocomplete.js');
-?>
-<?php use_stylesheet('../orangehrmAdminPlugin/css/changeUserPasswordSuccess'); ?>
-<?php use_javascript('../orangehrmAdminPlugin/js/changeUserPasswordSuccess'); ?>
-<?php use_javascript('../orangehrmAdminPlugin/js/password_strength'); ?>
-
-<div id="messagebar">
-<?php echo isset($templateMessage) ? templateMessage($templateMessage) : ''; ?>
-</div>
-    
-<div id="systemUser">
-    <div class="outerbox">
-
-        <div class="mainHeading"><h2 id="UserHeading"><?php echo __("Change Password"); ?></h2></div>
+<?php use_javascript(plugin_web_path('orangehrmAdminPlugin', 'js/changeUserPasswordSuccess')); ?>
+<?php use_javascript(plugin_web_path('orangehrmAdminPlugin', 'js/password_strength')); ?>
+   
+<div id="systemUser"class="box">
+        <div class="head"><h1 id="UserHeading"><?php echo __("Change Password"); ?></h1></div>
+        <div class="inner">
+            <?php include_partial('global/flash_messages'); ?>
         <form name="frmChangePassword" id="frmChangePassword" method="post" action="" >
-
-            <div id="usernameValue">
-            <label><?php echo __('Username'); ?></label>
+            <?php echo $form['_csrf_token']; ?>
+            <fieldset>
+                
+                <ol>
+                    
+                    <li>
+            
+            <label><?php echo __('Username'. ' <em>*</em>'); ?></label>
             <label class="valueHolder"><?php echo $username; ?></label>
-            </div>
-            <br class="clear"/>
             <?php echo $form->render(); ?>
-            <br class="clear"/>
+            </li>
+            <li class="required">
+                        <em>*</em> <?php echo __(CommonMessages::REQUIRED_FIELD); ?>
+            </li>
+     
+                </ol>
+                
+                <p>
+                <input type="button" name="btnSave" id="btnSave" value="<?php echo __("Save"); ?>" />
+                <input type="button" class="reset" name="btnCancel" id="btnCancel" value="<?php echo __("Cancel"); ?>" />
+            </p>
+            </fieldset>
+                </form>
+        </div>
 
-            <div class="formbuttons">
-                <input type="button" class="savebutton" name="btnSave" id="btnSave"
-                       value="<?php echo __("Save"); ?>"onmouseover="moverButton(this);" onmouseout="moutButton(this);"/>
-                <input type="button" class="cancelbutton" name="btnCancel" id="btnCancel"
-                       value="<?php echo __("Cancel"); ?>"onmouseover="moverButton(this);" onmouseout="moutButton(this);"/>
-            </div>
-
-        </form>
+        
     </div>
-</div>
-<div class="paddingLeftRequired"><span class="required">*</span> <?php echo __(CommonMessages::REQUIRED_FIELD); ?></div>
 
 <script type="text/javascript">
 	

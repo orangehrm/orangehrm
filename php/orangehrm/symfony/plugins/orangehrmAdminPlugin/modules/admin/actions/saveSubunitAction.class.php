@@ -44,11 +44,11 @@ class saveSubunitAction extends sfAction {
                 $object->messageType = 'success';
                 $object->message = __(TopLevelMessages::SAVE_SUCCESS);
             } else {
-                $object->messageType = 'failure';
+                $object->messageType = 'warning';
                 $object->message = __('Failed to Save');
             }
         } catch (Exception $e) {
-            $object->messageType = 'failure';
+            $object->messageType = 'warning';
             $object->message = __('Name Already Exists');
         }
 

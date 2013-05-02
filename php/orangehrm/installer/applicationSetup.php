@@ -18,7 +18,7 @@
  *
  */
 
-require_once ROOT_PATH.'/lib/common/UniqueIDGenerator.php';
+require_once ROOT_PATH.'/installer/utils/UniqueIDGenerator.php';
 require_once ROOT_PATH.'/installer/ApplicationSetupUtility.php';
-  
+
 ApplicationSetupUtility::install();

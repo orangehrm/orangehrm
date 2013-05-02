@@ -68,9 +68,7 @@ class configureAction extends sfAction {
 
         $this->form = new ConfigureForm();
 
-        if ($this->getUser()->hasFlash('templateMessage')) {
-            list($this->messageType, $this->message) = $this->getUser()->getFlash('templateMessage');
-        }
+       
 
 
         if ($request->isMethod('post')) {
@@ -212,7 +210,7 @@ class configureAction extends sfAction {
 
 
 
-                $this->getUser()->setFlash('templateMessage', array('success', __(TopLevelMessages::SAVE_SUCCESS)));
+                $this->getUser()->setFlash('success', __(TopLevelMessages::SAVE_SUCCESS));
 
                 $this->redirect('attendance/configure');
             }

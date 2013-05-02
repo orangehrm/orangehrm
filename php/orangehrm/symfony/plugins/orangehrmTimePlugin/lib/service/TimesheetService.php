@@ -396,7 +396,7 @@ class TimesheetService {
      * @param String $orderBy Sort order
      * @return Array of Project Names
      */
-    public function getProjectNameList($excludeDeletedProjects = true, $orderField, $orderBy) {
+    public function getProjectNameList($excludeDeletedProjects = true, $orderField = 'project_id', $orderBy = 'ASC') {
         return $this->getTimesheetDao()->getProjectNameList($excludeDeletedProjects, $orderField, $orderBy);
     }
 

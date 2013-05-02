@@ -73,12 +73,12 @@ class copyActivityAction extends sfAction {
 					$activities->add($activity);
 				}
 				$activities->save();
-				$this->getUser()->setFlash('templateMessageAct', array('success', __('Successfully Copied')));
+				$this->getUser()->setFlash('success', __('Successfully Copied'));
 			} else {
-				$this->getUser()->setFlash('templateMessageAct', array('failure', __('Name Already Exists')));
+				$this->getUser()->setFlash('error', __('Name Already Exists'));
 			}
 			
-			$this->redirect('admin/saveProject?projectId=' . $projectId);
+			$this->redirect('admin/saveProject?projectId=' . $projectId . '#ProjectActivities');
 		}
 	}
 

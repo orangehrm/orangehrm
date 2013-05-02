@@ -249,13 +249,16 @@ class AttendanceActions extends sfActions {
         $attendanceRecordId = $request->getParameter('id');
 
         $this->isDeleted = $this->getAttendanceService()->deleteAttendanceRecords($attendanceRecordId);
+        
+        $this->getUser()->setFlash('success', __(TopLevelMessages::DELETE_SUCCESS));
 
         return $this->renderText($this->isDeleted);
     }
 
     public function executeProxyPunchInPunchOut($request) {
-
-
+        /* For highlighting corresponding menu item */  
+        $request->setParameter('initialActionName', 'viewAttendanceRecord');  
+        
         $this->punchInTime = null;
         $this->punchInUtcTime = null;
         $this->punchInNote = null;
@@ -391,6 +394,7 @@ class AttendanceActions extends sfActions {
             $attendanceRecord->setPunchOutNote($comment);
             $this->getAttendanceService()->savePunchRecord($attendanceRecord);
         }
+        return sfView::NONE;
     }
 
     public function allowedToPerformAction($flow, $action, $state, $userObject) {

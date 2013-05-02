@@ -1,39 +1,82 @@
-<link href="<?php echo public_path('../../themes/orange/css/ui-lightness/jquery-ui-1.7.2.custom.css') ?>" rel="stylesheet" type="text/css"/>
-<script type="text/javascript" src="<?php echo public_path('../../scripts/jquery/ui/ui.core.js') ?>"></script>
 <?php echo javascript_include_tag('jquery.tooltip.js') ?>
-<?php use_stylesheet('../../../themes/orange/css/ui-lightness/jquery-ui-1.7.2.custom.css'); ?>
-<?php use_javascript('../../../scripts/jquery/ui/ui.core.js'); ?>
-<?php use_javascript('../../../scripts/jquery/ui/ui.dialog.js'); ?>
+<?php use_javascript(plugin_web_path('orangehrmAdminPlugin', '/js/viewCompanyStructureSuccess')); ?>
 
-<?php use_stylesheet('../orangehrmAdminPlugin/css/viewCompanyStructureSuccess'); ?>
-<?php use_javascript('../orangehrmAdminPlugin/js/viewCompanyStructureSuccess'); ?>
+<style type="text/css">
+    p {
+        margin-top: 10px;
+    }
+</style>
 
-<div id="messageDiv"></div>
-<br class="clear"/>
-<label id="heading"><?php echo __("Organization Structure") ?></label>
-<br class="clear"/>
-<br class="clear"/>
-<div id="divCompanyStructureContainer"><?php $tree->render(); ?></div>
-<br class="clear"/>
-<br class="clear"/>
-<input type="button" class="editbutton" name="btnEdit" id="btnEdit"
-       value="<?php echo __("Edit"); ?>"onmouseover="moverButton(this);" onmouseout="moutButton(this);"/>
-
-<div id="unitDialog" title="">
-    <div id="divSubunitFormContainer"><?php $form->render();
-$form->printRequiredFieldsNotice(); ?></div>
-</div>
-
-<div id="dltDialog" title="<?php echo __("OrangeHRM - Confirmation Required"); ?>"  style="display:none;">
-    <br class="clear"/>
-    <div id="dltConfirmationMsg"></div>
-    <input type="hidden" id="dltNodeId" value=""/>
-    <div class="dialogButtons">
-        <input type="button" id="dialogYes" class="savebutton" value="<?php echo __('Ok'); ?>" />
-        <input type="button" id="dialogNo" class="savebutton" value="<?php echo __('Cancel'); ?>" />
+<div class="box">
+    <div class="head">
+        <h1><?php echo __("Organization Structure") ?></h1>
+    </div>
+    
+    <div class="inner" >
+        <div id="messageDiv"></div>
+        <ol id="divCompanyStructureContainer">
+            <?php $tree->render(); ?>
+        </ol>
+        <p><input type="button" class="" name="btnEdit" id="btnEdit" value="<?php echo __("Edit"); ?>"/></p>
     </div>
 </div>
 
+<!-- unitDialog-Dialog -->
+<div class="modal hide" id="unitDialog">
+    <div class="modal-header">
+        <a class="close" data-dismiss="modal">×</a>
+        <h3 id="title"><?php echo "OrangeHRM - ".__("Edit Unit"); ?></h3>
+    </div>
+    <div class="modal-body">
+        <form  id="ohrmFormComponent_Form" action=""  method="post">
+            <?php echo $form['_csrf_token']->render(); ?>
+            <fieldset>
+                <ol>
+                    <li>
+                        <input type="hidden" name="hdnId" id="hdnId">
+                        <label for="txtUnit_Id"><?php echo __('Unit Id');?></label>
+                        <input type="text" id="txtUnit_Id" name="txtUnit_Id">
+                    </li>
+                    <li>
+                        <label for="txtName"><?php echo __('Name'); ?><em> *</em></label>
+                        <input type="text" id="txtName" name="txtName">
+                    </li>
+                    <li class="largeTextBox">
+                        <label for="txtDescription"><?php echo __('Description');?></label>
+                        <textarea id="txtDescription" name="txtDescription"></textarea>
+                        <input type="hidden" id="hdnParent" name="hdnParent">
+                    </li>
+                    <li id="lastElement" class="required">
+                        <em>*</em> <?php echo __(CommonMessages::REQUIRED_FIELD); ?>
+                    </li>
+                </ol>
+            </fieldset>
+        </form> 
+    </div>
+    <div class="modal-footer">
+        <input type="button" id="btnSave" class="" value="<?php echo __('Save'); ?>"/>
+        <input type="button" id="btnCancel" class="reset" data-dismiss="modal" value="<?php echo __('Cancel'); ?>"/>
+    </div>
+</div> <!-- unitDialog -->
+
+<!-- dltDialog-Dialog -->
+<div class="modal hide" id="dltDialog">
+    <div class="modal-header">
+        <a class="close" data-dismiss="modal">×</a>
+        <h3><?php echo __("OrangeHRM - Confirmation Required"); ?></h3>
+    </div>
+    <div class="modal-body">
+        <form  id="unitDeleteFrm" action=""  method="post">
+            <input type="hidden" id="dltNodeId" value=""/>
+        </form>
+        <p><?php echo __("Units under selected unit will also be deleted"); ?></p>
+        <p><?php echo __("Delete?"); ?></p>
+    </div>
+    <div class="modal-footer">
+        <input type="button" id="dialogYes" class="" value="<?php echo __('Ok'); ?>" />
+        <input type="button" id="dialogNo" class="reset" value="<?php echo __('Cancel'); ?>" />
+    </div>
+</div> <!-- dltDialog -->
 
 <script type="text/javascript">
     var lang_edit = "<?php echo __("Edit"); ?>";
@@ -51,6 +94,7 @@ $form->printRequiredFieldsNotice(); ?></div>
     var getSubunitUrl = '<?php echo public_path('index.php/admin/getSubunit'); ?>';
     var saveSubunitUrl = '<?php echo public_path('index.php/admin/saveSubunit'); ?>';
     var viewCompanyStructureHtmlUrl = '<?php echo public_path('index.php/admin/viewCompanyStructureHtml'); ?>/seed/';
+    var closeText = '<?php echo __('Close');?>';
 </script>
 
 <?php $tree->printJavascript(); ?>

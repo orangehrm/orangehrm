@@ -113,7 +113,7 @@ class Employee extends PluginEmployee {
         $supervisorNames = array();
 
         foreach ($this->supervisors as $supervisor ) {
-            $supervisorNames[] = trim($supervisor->firstName . ' ' . $supervisor->lastName);
+            $supervisorNames[] = trim(trim($supervisor->firstName . ' ' . $supervisor->middleName) . ' ' . $supervisor->lastName);
         }
 
         return implode(', ', $supervisorNames);

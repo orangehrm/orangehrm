@@ -11,6 +11,13 @@ OrangeHRM is distributed in the hope that it will be useful, but WITHOUT ANY WAR
 without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. 
 See the GNU General Public License for more details.
 
+Installing
+----------
+1. Install OrangeHRM using the web installer
+
+Deprecated Notes
+----------------
+
 The source that you have downloaded(ZIP archive) in which this was enclosed, is of the 
 directory structure as follows; ( since release of OrangeHRM version 0.1 we have altered 
 the directory structure, for further details please refer to the changelog.txt

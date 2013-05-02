@@ -1,4 +1,3 @@
-    <script type="text/javascript" src="<?php echo public_path('../../scripts/jquery/jquery.validate.js')?>"></script>
    <div class="formpage">
         <div class="navigation">
         	<input type="button" class="backbutton" id="btnBack"

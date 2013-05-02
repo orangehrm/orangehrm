@@ -24,11 +24,12 @@ class CreateTimesheetForm extends sfForm {
 
     public function configure() {
 
-        $this->formWidgets['date'] = new sfWidgetFormInputText(array(), array('class' => 'date formDateInput', 'margin' => '0'));
+        $this->formWidgets['date'] = new ohrmWidgetDatePicker(array(), array('id' => 'time_date'));
 
         $this->setWidgets($this->formWidgets);
-
-        $this->formValidators['date'] = new sfValidatorDate(array(), array('required' => false));
+        
+        $inputDatePattern = sfContext::getInstance()->getUser()->getDateFormat();
+        $this->formValidators['date'] = new ohrmDateValidator(array('date_format' => $inputDatePattern, 'required' => false), array('invalid' => "Date format should be $inputDatePattern"));
         $this->widgetSchema->setNameFormat('time[%s]');
 
         $this->setValidators($this->formValidators);

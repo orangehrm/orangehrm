@@ -71,6 +71,9 @@ class EmployeeLicenseForm extends sfForm {
         $this->setValidators($validators);
         
         $this->widgetSchema->setNameFormat('license[%s]');
+        
+        $this->getWidgetSchema()->setLabels($this->getFormLabels());
+
     }
     
     /**
@@ -82,8 +85,8 @@ class EmployeeLicenseForm extends sfForm {
         
         $widgets['code'] = new sfWidgetFormSelect(array('choices' => $this->_getLicenseList()));
         $widgets['license_no'] = new sfWidgetFormInputText();
-        $widgets['date'] = new ohrmWidgetDatePickerNew(array(), array('id' => 'license_date'));
-        $widgets['renewal_date'] = new ohrmWidgetDatePickerNew(array(), array('id' => 'license_renewal_date'));
+        $widgets['date'] = new ohrmWidgetDatePicker(array(), array('id' => 'license_date'));
+        $widgets['renewal_date'] = new ohrmWidgetDatePicker(array(), array('id' => 'license_renewal_date'));
         return $widgets;        
     }
 
@@ -119,6 +122,21 @@ class EmployeeLicenseForm extends sfForm {
             }
         }
         return $list;
+    }
+    
+    /**
+     *
+     * @return array
+     */
+    protected function getFormLabels() {
+        $required = '<em> *</em>';
+        $labels = array(
+            'code' => __('License Type') . $required,
+            'license_no' => __('License Number'),
+            'date' => __('Issued Date'),
+            'renewal_date' => __('Expiry Date'),
+        );
+        return $labels;
     }
 }
 ?>

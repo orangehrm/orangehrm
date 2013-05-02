@@ -90,5 +90,16 @@ class displayAttendanceSummaryReportAction extends displayReportAction {
         $form = new AttendanceTotalSummaryReportForm();
         $this->setForm($form);
     }
+    public function setInitialActionDetails($request) {
+
+        $initialActionName = $request->getParameter('initialActionName', '');
+
+        if (empty($initialActionName)) {
+            $request->setParameter('initialActionName', 'displayAttendanceSummaryReportCriteria');
+        } else {
+            $request->setParameter('initialActionName', $initialActionName);
+        }        
+        
+    }
 
 }

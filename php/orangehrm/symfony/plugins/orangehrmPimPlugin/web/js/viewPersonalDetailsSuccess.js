@@ -13,29 +13,37 @@ $(document).ready(function() {
             'personal[txtEmpLastName]': { required: lang_lastNameRequired },
             'personal[DOB]': { valid_date: lang_invalidDate },
             'personal[txtLicExpDate]': { valid_date: lang_invalidDate }
-        },
-        errorElement : 'div',
-        errorPlacement: function(error, element) {
-            error.insertAfter(element.next(".clear"));
-            error.insertAfter(element.next().next(".clear"));
-            error.insertAfter(element.next().next().next(".clear"));
-            error.insertAfter(element.parent().parent().next(".clear"));
         }
     });
 
-//on form loading
-    var list = new Array('form#frmEmpPersonalDetails .formInputText', '.calendarBtn', '#personal_optGender_1', '#personal_optGender_2', '#personal_chkSmokeFlag');
-    for(i=0; i < list.length; i++) {
-        $(list[i]).attr("disabled", "disabled");
-    }
-
+    $(".editable").each(function(){
+        $(this).attr("disabled", "disabled");
+    });
+    
+    // Disable calendar elements
+    $(".editable.calendar").datepicker('disable');
+    
     $("#btnSave").click(function() {
         //if user clicks on Edit make all fields editable
         if($("#btnSave").attr('value') == edit) {
-            for(i=0; i < list.length; i++) {
-                $(list[i]).removeAttr("disabled");
-            }
-
+            
+            $("#pdMainContainer .editable").each(function(){
+                $(this).removeAttr("disabled");
+            });            
+            
+            // Enable calendar elements that are not in readOnlyFields array
+            $(".editable.calendar").each(function() {
+                var fieldId = $(this).attr('id');
+                
+                if (fieldId.indexOf('personal_') == 0) {
+                    var idWithoutPrefix = fieldId.slice(9);
+                    if (-1 == jQuery.inArray(idWithoutPrefix, readOnlyFields)) {
+                        $(this).datepicker('enable');
+                    }
+                }
+            });
+            
+            
             // handle read only fields                
             for (var j = 0; j < readOnlyFields.length; j++) {
                 var fieldId = '#personal_' + readOnlyFields[j];
@@ -44,10 +52,6 @@ $(document).ready(function() {
                 
                 $('input[name="' + fieldName + '"]').attr('disabled', 'disabled');
                 field.attr('disabled', 'disabled');
-                if (field.hasClass('ohrm_datepicker')) {
-                    field.next('.calendarBtn').attr('disabled', 'disabled');
-                    
-                }
             }
 
             $("#btnSave").attr('value', save);
@@ -55,7 +59,10 @@ $(document).ready(function() {
         }
 
         if($("#btnSave").attr('value') == save) {
+            if ($("#frmEmpPersonalDetails").valid()) {
+                $("#btnSave").val(lang_processing);
+            }
             $("#frmEmpPersonalDetails").submit();
         }
     });
-});
+    });

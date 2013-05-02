@@ -40,7 +40,7 @@ class LoggerRendererSymfonyForm implements LoggerRendererObject {
         // Render form fields values and errors
         foreach ($form->getFormFieldSchema() as $name => $formField) {
             
-            $value = $form->getValue($name);
+            $value = $formField->getValue();
             
              $str .= "Field: $name, Value = $value";
         
@@ -50,7 +50,16 @@ class LoggerRendererSymfonyForm implements LoggerRendererObject {
             }
             
             $str .= "\n";
-        }            
+        } 
+        
+        if ($form->hasGlobalErrors()) {
+            $str .= "Global Errors:\n";
+            $globalErrors = $form->getGlobalErrors();
+            
+            foreach ($globalErrors as $error) {
+                $str .= $error . "\n";
+            }
+        }
 
         return $str;
     }

@@ -242,11 +242,11 @@ class SystemUserDao extends BaseDao {
         if (!empty($searchClues['employeeId'])) {
             $query->addWhere('u.emp_number = ?', $searchClues['employeeId']);
         }
-        if ($searchClues['status'] != '') {
+        if (isset($searchClues['status']) && $searchClues['status'] != '') {
             $query->addWhere('u.status = ?', $searchClues['status']);
         }
 
-        if ($searchClues['location'] && $searchClues['location'] != '-1') {
+        if (isset($searchClues['location']) && $searchClues['location'] && $searchClues['location'] != '-1') {
             $query->leftJoin('u.Employee e');
             $query->leftJoin('e.EmpLocations l');
             $query->whereIn('l.location_id', explode(',', $searchClues['location']));
@@ -294,5 +294,28 @@ class SystemUserDao extends BaseDao {
         }
         
     }
+    
+     public function getEmployeesByUserRole($roleName, $includeInactive = false, $includeTerminated = false) {
+         
+        try {
+            $query = Doctrine_Query::create()
+                   ->from('Employee e')
+                   ->innerJoin('e.SystemUser s')
+                   ->leftJoin('s.UserRole r')
+                   ->where('r.name = ?', $roleName);
+
+           if (!$includeInactive) {
+               $query->andWhere('s.deleted = 0');
+           }
+
+           if (!$includeTerminated) {
+               $query->andWhere('e.termination_id IS NULL');
+           }
+
+           return $query->execute();        
+        } catch (Exception $e) {
+            throw new DaoException($e->getMessage(), $e->getCode(), $e);
+        }
+     }    
     
 }

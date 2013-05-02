@@ -113,7 +113,7 @@ class LabelCellTest extends PHPUnit_Framework_TestCase {
     }
 
     public function testToStringWithDecoratedArrayDataSource() {
-        $dataSource = new sfOutputEscaperArrayDecorator('', array('name' => 'Kayla Abbey', 'age' => 25));
+        $dataSource = new sfOutputEscaperArrayDecorator('htmlentities', array('name' => 'Kayla Abbey', 'age' => 25));
 
         $this->labelCell->setDataObject($dataSource);
 
@@ -123,7 +123,7 @@ class LabelCellTest extends PHPUnit_Framework_TestCase {
         $this->labelCell->setProperties(array('getter' => 'age'));
         $this->assertEquals('25', $this->labelCell->__toString());
 
-        $dataSource = new sfOutputEscaperArrayDecorator('', array('Kayla Abbey', 25));
+        $dataSource = new sfOutputEscaperArrayDecorator('htmlentities', array('Kayla Abbey', 25));
 
         $this->labelCell->setDataObject($dataSource);
 

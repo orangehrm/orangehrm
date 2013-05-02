@@ -27,6 +27,8 @@ class editAttendanceRecordAction extends sfAction {
     }
     
     public function execute($request) {
+        /* For highlighting corresponding menu item */  
+        $request->setParameter('initialActionName', 'viewAttendanceRecord');
 
         $userObj = sfContext::getInstance()->getUser()->getAttribute('user');
         

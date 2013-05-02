@@ -86,8 +86,8 @@ class EmployeeEducationForm extends sfForm {
             'major' => new sfWidgetFormInputText(),
             'year' => new sfWidgetFormInputText(),
             'gpa' => new sfWidgetFormInputText(),
-            'start_date' => new ohrmWidgetDatePickerNew(array(), array('id' => 'education_start_date')),
-            'end_date' => new ohrmWidgetDatePickerNew(array(), array('id' => 'education_end_date'))
+            'start_date' => new ohrmWidgetDatePicker(array(), array('id' => 'education_start_date')),
+            'end_date' => new ohrmWidgetDatePicker(array(), array('id' => 'education_end_date'))
         );
         return $widgets;
     }

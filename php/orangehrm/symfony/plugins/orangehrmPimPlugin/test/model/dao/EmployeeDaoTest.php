@@ -224,6 +224,7 @@ class EmployeeDaoTest extends PHPUnit_Framework_TestCase {
 
     /**
      * Test for getSubordinateListForEmployee returns ReportTo doctrine collection
+     * @group ReportingChain
      */
     public function testGetSubordinateListForEmployee() {
 
@@ -897,6 +898,9 @@ class EmployeeDaoTest extends PHPUnit_Framework_TestCase {
         $this->assertEquals(count($empList), $result);
     }
 
+    /**
+     * @group ReportingChain 
+     */
     public function testGetSubordinateList() {
         $repToList = TestDataService::loadObjectList('ReportTo', $this->fixture, 'ReportTo');
         foreach ($repToList as $repTo) {
@@ -907,6 +911,58 @@ class EmployeeDaoTest extends PHPUnit_Framework_TestCase {
 
         $chain = $this->employeeDao->getSubordinateList($supervisorId, false, true);
         $this->assertTrue(count($chain) > 0);
+    }
+
+    /**
+     * @group ReportingChain 
+     */
+    public function testGetSubordinateList_ReportingChain_Simple2LevelHierarchy() {
+        $chain = $this->employeeDao->getSubordinateList(3, false, true);
+        $this->assertTrue(is_array($chain));
+        $this->assertEquals(2, count($chain));
+
+        list($subordinate1, $subordinate2) = $chain;
+
+        $this->assertTrue($subordinate1 instanceof Employee);
+        $this->assertEquals(1, $subordinate1->getEmpNumber());
+
+        $this->assertTrue($subordinate2 instanceof Employee);
+        $this->assertEquals(2, $subordinate2->getEmpNumber());
+    }
+
+    /**
+     * @group ReportingChain 
+     */
+    public function testGetSubordinateList_ReportingChain_3LevelHierarchy() {
+        $chain = $this->employeeDao->getSubordinateList(5, false, true);
+        $this->assertTrue(is_array($chain));
+        $this->assertEquals(3, count($chain));
+
+        list($subordinate1, $subordinate2, $subordinate3) = $chain;
+
+        $this->assertTrue($subordinate1 instanceof Employee);
+        $this->assertEquals(3, $subordinate1->getEmpNumber());
+
+        $this->assertTrue($subordinate2 instanceof Employee);
+        $this->assertEquals(1, $subordinate2->getEmpNumber());
+
+        $this->assertTrue($subordinate3 instanceof Employee);
+        $this->assertEquals(2, $subordinate3->getEmpNumber());
+
+        $chain = $this->employeeDao->getSubordinateList(4, false, true);
+        $this->assertTrue(is_array($chain));
+        $this->assertEquals(3, count($chain));
+
+        list($subordinate1, $subordinate2, $subordinate3) = $chain;
+
+        $this->assertTrue($subordinate1 instanceof Employee);
+        $this->assertEquals(3, $subordinate1->getEmpNumber());
+
+        $this->assertTrue($subordinate2 instanceof Employee);
+        $this->assertEquals(1, $subordinate2->getEmpNumber());
+
+        $this->assertTrue($subordinate3 instanceof Employee);
+        $this->assertEquals(2, $subordinate3->getEmpNumber());
     }
 
     public function testDeleteEmployees() {
@@ -1202,7 +1258,10 @@ class EmployeeDaoTest extends PHPUnit_Framework_TestCase {
         $propertyArray['employeeId'] = $employee->getEmployeeId();
         $this->compareArrays($propertyArray, $employeePropertyList[0]);
     }
-    
+
+    /**
+     * @group ReportingChain 
+     */
     public function testGetSubordinateIdListBySupervisorId() {
 
         $subordinateIdList = $this->employeeDao->getSubordinateIdListBySupervisorId(3, true);
@@ -1245,7 +1304,10 @@ class EmployeeDaoTest extends PHPUnit_Framework_TestCase {
         $this->compareArrays($supervisorIdArray, $supervisorIdList);
 
     }
-    
+
+    /**
+     * @group ReportingChain 
+     */
     public function testGetSubordinatePropertyListBySupervisorId() {
         
         $properties = array();

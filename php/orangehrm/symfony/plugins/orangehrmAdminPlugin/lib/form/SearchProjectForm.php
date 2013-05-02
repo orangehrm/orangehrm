@@ -62,7 +62,9 @@ class SearchProjectForm extends BaseForm {
 		    'projectAdmin' => new sfValidatorString(array('required' => false, 'max_length' => 100))
 		));
 
+        $this->getWidgetSchema()->setLabels($this->getFormLabels());
 		$this->widgetSchema->setNameFormat('searchProject[%s]');
+
 	}
 
 	public function setDefaultDataToWidgets($searchClues) {
@@ -131,6 +133,19 @@ class SearchProjectForm extends BaseForm {
         }
         $jsonString = json_encode($jsonArray);
         return $jsonString;
+    }
+    
+    /**
+     *
+     * @return array
+     */
+    protected function getFormLabels() {
+        $labels = array(
+            'customer' => __('Customer Name'),
+		    'project' => __('Project'),
+		    'projectAdmin' => __('Project Admin')
+        );
+        return $labels;
     }
 
 }

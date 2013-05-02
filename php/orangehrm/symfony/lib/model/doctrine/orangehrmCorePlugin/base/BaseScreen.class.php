@@ -11,6 +11,7 @@
  * @property string $action_url
  * @property Module $Module
  * @property Doctrine_Collection $ScreenPermission
+ * @property Doctrine_Collection $MenuItem
  * 
  * @method integer             getId()               Returns the current record's "id" value
  * @method string              getName()             Returns the current record's "name" value
@@ -18,12 +19,14 @@
  * @method string              getActionUrl()        Returns the current record's "action_url" value
  * @method Module              getModule()           Returns the current record's "Module" value
  * @method Doctrine_Collection getScreenPermission() Returns the current record's "ScreenPermission" collection
+ * @method Doctrine_Collection getMenuItem()         Returns the current record's "MenuItem" collection
  * @method Screen              setId()               Sets the current record's "id" value
  * @method Screen              setName()             Sets the current record's "name" value
  * @method Screen              setModuleId()         Sets the current record's "module_id" value
  * @method Screen              setActionUrl()        Sets the current record's "action_url" value
  * @method Screen              setModule()           Sets the current record's "Module" value
  * @method Screen              setScreenPermission() Sets the current record's "ScreenPermission" collection
+ * @method Screen              setMenuItem()         Sets the current record's "MenuItem" collection
  * 
  * @package    orangehrm
  * @subpackage model\core\base
@@ -63,5 +66,9 @@ abstract class BaseScreen extends sfDoctrineRecord
         $this->hasMany('ScreenPermission', array(
              'local' => 'id',
              'foreign' => 'screen_id'));
+
+        $this->hasMany('MenuItem', array(
+             'local' => 'id',
+             'foreign' => 'screenId'));
     }
 }

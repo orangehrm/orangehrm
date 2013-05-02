@@ -23,17 +23,29 @@
  *
  */
 class DataGroupDao {
+    
+    public function getDataGroup($name) {
+        try {
+            $query = Doctrine_Query::create()
+                    ->from('DataGroup d')
+                    ->where('d.name = ?', $name);
+            return $query->fetchOne();
+        } catch (Exception $e) {
+            throw new DaoException($e->getMessage());
+        }        
+    }
+    
+    
     /*
      * Get non pre defined UserRoles
      * 
      * @return Array Array of UserRole objects
      */
 
-    public function getDataGroupPermission($dataGroupName = null, $userRoleId, $selfPermission = false) {
+    public function getDataGroupPermission($dataGroupName, $userRoleId, $selfPermission = false) {
         
        if(!is_array($dataGroupName) && $dataGroupName != null){
-           $dataGroupNameArray [] = $dataGroupName;
-           $dataGroupName = $dataGroupNameArray;
+           $dataGroupName = array($dataGroupName);
        }
        
         try {

@@ -5211,7 +5211,206 @@
     <source>Export To CSV</source>
     <target>Export To CSV</target>
    </trans-unit>
-   
+   <trans-unit id="1135">
+    <source>User Role</source>
+    <target>User Role</target>
+   </trans-unit>
+   <trans-unit id="1136">
+    <source>Processing</source>
+    <target>Processing</target>
+   </trans-unit>
+   <trans-unit id="1137">
+    <source>Duration(Hours)</source>
+    <target>Duration(Hours)</target>
+   </trans-unit>
+   <trans-unit id="1138">
+    <source>Successfully Undeleted</source>
+    <target>Successfully Undeleted</target>
+   </trans-unit>
+   <trans-unit id="1139">
+    <source>Credentials Required</source>
+    <target>Credentials Required</target>
+   </trans-unit>
+   <trans-unit id="1140">
+    <source>Expand for Options</source>
+    <target>Expand for Options</target>
+   </trans-unit>
+   <trans-unit id="1141">
+    <source>Hide Options</source>
+    <target>Hide Options</target>
+   </trans-unit>
+   <trans-unit id="1142">
+    <source>Help &amp; Training</source>
+    <target>Help &amp; Training</target>
+   </trans-unit>   
+   <trans-unit id="1143">
+    <source>Join OrangeHRM Community</source>
+    <target>Join OrangeHRM Community</target>
+   </trans-unit>
+   <trans-unit id="1144">
+    <source>Qualifications</source>
+    <target>Qualifications</target>
+   </trans-unit> 
+   <trans-unit id="1145">
+    <source>Current File</source>
+    <target>Current File</target>
+   </trans-unit>
+   <trans-unit id="1146">
+    <source>Replace With</source>
+    <target>Replace With</target>
+   </trans-unit>
+   <trans-unit id="1147">
+    <source>Access Denied</source>
+    <target>Access Denied</target>
+   </trans-unit>  
+   <trans-unit id="1148">
+    <source>Add Another</source>
+    <target>Add Another</target>
+   </trans-unit>      
+   <trans-unit id="1149">
+    <source>Start Month</source>
+    <target>Start Month</target>
+   </trans-unit>   
+   <trans-unit id="1150">
+    <source>Cancelled</source>
+    <target>Cancelled</target>
+   </trans-unit>     
+   <trans-unit id="1151">
+    <source>Add Leave Entitlement</source>
+    <target>Add Leave Entitlement</target>
+   </trans-unit>       
+   <trans-unit id="1152">
+    <source>Add to Multiple Employees</source>
+    <target>Add to Multiple Employees</target>
+   </trans-unit>     
+   <trans-unit id="1153">
+    <source>Entitlement</source>
+    <target>Entitlement</target>
+   </trans-unit>   
+   <trans-unit id="1154">
+    <source>Matches one employee</source>
+    <target>Matches one employee</target>
+   </trans-unit>   
+   <trans-unit id="1155">
+    <source>Matches %count% employees</source>
+    <target>Matches %count% employees</target>
+   </trans-unit>   
+   <trans-unit id="1156">
+    <source>No matching employees</source>
+    <target>No matching employees</target>
+   </trans-unit>      
+   <trans-unit id="1157">
+    <source>Entitlements</source>
+    <target>Entitlements</target>
+   </trans-unit>   
+   <trans-unit id="1158">
+    <source>Add Entitlements</source>
+    <target>Add Entitlements</target>
+   </trans-unit>   
+   <trans-unit id="1159">
+    <source>Employee Entitlements</source>
+    <target>Employee Entitlements</target>
+   </trans-unit>               
+   <trans-unit id="1160">
+    <source>Valid From</source>
+    <target>Valid From</target>
+   </trans-unit>    
+   <trans-unit id="1161">
+    <source>Valid To</source>
+    <target>Valid To</target>
+   </trans-unit>       
+   <trans-unit id="1162">
+    <source>No employees match the selected filters</source>
+    <target>No employees match the selected filters</target>
+   </trans-unit>       
+   <trans-unit id="1163">
+    <source>Leave Entitlements and Usage Report</source>
+    <target>Leave Entitlements and Usage Report</target>
+   </trans-unit>  
+   <trans-unit id="1164">
+    <source>My Leave Entitlements and Usage Report</source>
+    <target>My Leave Entitlements and Usage Report</target>
+   </trans-unit> 
+   <trans-unit id="1165">
+    <source>Matching Employees</source>
+    <target>Matching Employees</target>
+   </trans-unit>
+   <trans-unit id="1166">
+    <source>Generate For</source>
+    <target>Generate For</target>
+   </trans-unit>     
+   <trans-unit id="1167">
+    <source>Confirm</source>
+    <target>Confirm</target>
+   </trans-unit>   
+   <trans-unit id="1168">
+    <source>To date should be after From date</source>
+    <target>To date should be after From date</target>
+   </trans-unit>    
+   <trans-unit id="1169">
+    <source>My Entitlements</source>
+    <target>My Entitlements</target>
+   </trans-unit>     
+   <trans-unit id="1170">
+    <source>Should be a number with upto %count% decimal places</source>
+    <target>Should be a number with upto %count% decimal places</target>
+   </trans-unit>  
+   <trans-unit id="1171">
+    <source>Author</source>
+    <target>Author</target>
+   </trans-unit>
+   <trans-unit id="1172">
+    <source>View Leave Request Comments</source>
+    <target>View Leave Request Comments</target>
+   </trans-unit>      
+   <trans-unit id="1173">
+    <source>User Management</source>
+    <target>User Management</target>
+   </trans-unit>                                     
+   <trans-unit id="1174">
+    <source>Initial Balance</source>
+    <target>Initial Balance</target>
+   </trans-unit> 
+   <trans-unit id="1175">
+    <source>Leave Date</source>
+    <target>Leave Date</target>
+   </trans-unit> 
+   <trans-unit id="1176">
+    <source>Available Balance</source>
+    <target>Available Balance</target>
+   </trans-unit>   
+   <trans-unit id="1177">
+    <source>Balance not sufficient</source>
+    <target>Balance not sufficient</target>
+   </trans-unit>     
+   <trans-unit id="1178">
+    <source>Email Configuration</source>
+    <target>Email Configuration</target>
+   </trans-unit>  
+   <trans-unit id="1179">
+    <source>Email Subscriptions</source>
+    <target>Email Subscriptions</target>
+   </trans-unit>
+   <trans-unit id="1180">
+       <source>Assets</source>
+       <target>Assets</target>
+   </trans-unit>
+   <trans-unit id="1181">
+       <source>View Assets</source>
+       <target>View Assets</target>
+   </trans-unit>
+   <trans-unit id="1182">
+       <source>Brands</source>
+       <target>Brands</target>
+   </trans-unit>
+   <trans-unit id="1183">
+       <source>Categories</source>
+       <target>Categories</target>
+   </trans-unit>
+   <trans-unit id="1184">
+       <source>Vendors</source>
+       <target>Vendors</target>
+   </trans-unit>                                                                                                                                                                                                                                                                                                                                                                                          
   </body>
  </file>
 </xliff>

@@ -34,6 +34,7 @@ class viewDependentsAction extends basePimAction {
     }
 
     public function execute($request) {
+
         $loggedInEmpNum = $this->getUser()->getEmployeeNumber();
         $this->showBackButton = true;
 
@@ -44,10 +45,6 @@ class viewDependentsAction extends basePimAction {
         $this->dependentPermissions = $this->getDataGroupPermissions('dependents', $empNumber);
 
         $adminMode = $this->getUser()->hasCredential(Auth::ADMIN_ROLE);
-
-        if ($this->getUser()->hasFlash('templateMessage')) {
-            list($this->messageType, $this->message) = $this->getUser()->getFlash('templateMessage');
-        }
 
         //hiding the back button if its self ESS view
         if ($loggedInEmpNum == $empNumber) {

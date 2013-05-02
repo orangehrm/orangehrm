@@ -19,6 +19,8 @@ class AccessFlowStateMachineServiceTest extends PHPUnit_Framework_TestCase {
         $this->accessFlowStateMachineService = new AccessFlowStateMachineService();
 
         $this->fixture = sfConfig::get('sf_plugins_dir') . '/orangehrmCorePlugin/test/fixtures/AccessFlowStateMachineService.yml';
+        
+        TestDataService::populate($this->fixture);        
     }
     
     public function testGetAccessFlowStateMachineDao(){
@@ -75,6 +77,27 @@ class AccessFlowStateMachineServiceTest extends PHPUnit_Framework_TestCase {
 
         $this->assertNull($retrievedActionsArray);
     }
+    
+    public function testGetAllowedWorkflowItems() {
+        $flow = "Time";
+        $state = "SUBMITTED";
+        $role = "ESS USER";
+        $fetchedRecord1 = TestDataService::fetchObject('WorkflowStateMachine', 10);
+        $fetchedRecord2 = TestDataService::fetchObject('WorkflowStateMachine', 12);
+        $expected = Doctrine_Collection::create('WorkflowStateMachine');
+        $expected->add($fetchedRecord1);
+        $expected->add($fetchedRecord2);
+
+        $acessFlowStateMachineDaoMock = $this->getMock('AccessFlowStateMachineDao', array('getAllowedWorkflowItems'));
+        $acessFlowStateMachineDaoMock->expects($this->once())
+                ->method('getAllowedWorkflowItems')
+                ->with($flow, $state, $role)
+                ->will($this->returnValue($expected));
+
+        $this->accessFlowStateMachineService->setAccessFlowStateMachineDao($acessFlowStateMachineDaoMock);
+        $results = $this->accessFlowStateMachineService->getAllowedWorkflowItems($flow, $state, $role);        
+        $this->assertEquals($expected, $results);     
+    } 
 
     public function testGetNextState() {
 
@@ -229,6 +252,22 @@ class AccessFlowStateMachineServiceTest extends PHPUnit_Framework_TestCase {
         $this->assertTrue($isAllowed);       
     }
 
+    public function testGetWorkflowItemsByStateActionAndRole() {
+        $item = new WorkflowStateMachine();
+        $item->fromArray(array('id' => 9, 'workflow' => Time, 'state' => 'APPROVED', 'role' => 'SUPERVISOR',
+            'action' => 'VIEW TIMESHEET','resulting_state' => 'APPROVED'));
+        $accessFlowStateMachineDaoMock = $this->getMock('AccessFlowStateMachineDao', array('getWorkflowItemByStateActionAndRole'));
+
+        $accessFlowStateMachineDaoMock->expects($this->once())
+                ->method('getWorkflowItemByStateActionAndRole')
+                ->with('Time', 'NOT SUBMITTED', 'SAVE', 'XYZ')
+                ->will($this->returnValue($item));
+        
+        $this->accessFlowStateMachineService->setAccessFlowStateMachineDao($accessFlowStateMachineDaoMock);
+        
+        $result = $this->accessFlowStateMachineService->getWorkflowItemByStateActionAndRole('Time', 'NOT SUBMITTED', 'SAVE', 'XYZ');
+        $this->assertEquals($item, $result);
+    }    
+
 }
 
-?>

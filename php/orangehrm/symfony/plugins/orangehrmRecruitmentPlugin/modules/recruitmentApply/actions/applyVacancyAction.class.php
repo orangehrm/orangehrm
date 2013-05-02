@@ -29,7 +29,7 @@ class applyVacancyAction extends sfAction {
             $this->form = $form;
         }
     }
-    
+
     /**
      *
      * @return ApplyVacancyForm 
@@ -60,51 +60,44 @@ class applyVacancyAction extends sfAction {
 
         $this->vacancyId = $request->getParameter('id');
         //$this->candidateId = $request->getParameter('candidateId');
-	$this->getResponse()->setTitle(__("Vacancy Apply Form"));
+        $this->getResponse()->setTitle(__("Vacancy Apply Form"));
         //$param = array('candidateId' => $this->candidateId);
         $this->setForm(new ApplyVacancyForm(array(), $param, true));
 
-        if ($this->getUser()->hasFlash('templateMessage')) {
-            list($this->messageType, $this->message) = $this->getUser()->getFlash('templateMessage');
-        }
         if (!empty($this->vacancyId)) {
             $vacancy = $this->getVacancyService()->getVacancyById($this->vacancyId);
-	    if(empty ($vacancy)){
-		   $this->redirect('recruitmentApply/jobs.html');
-	    }
+            if (empty($vacancy)) {
+                $this->redirect('recruitmentApply/jobs.html');
+            }
             $this->description = $vacancy->getDescription();
             $this->name = $vacancy->getName();
         } else {
-		$this->redirect('recruitmentApply/jobs.html');
-	}
+            $this->redirect('recruitmentApply/jobs.html');
+        }
         if ($request->isMethod('post')) {
 
             $this->form->bind($request->getParameter($this->form->getName()), $request->getFiles($this->form->getName()));
             $file = $request->getFiles($this->form->getName());
-            
-            if ($_FILES['addCandidate']['size']['resume'] > 1024000 ) {
-                 $this->templateMessage = array ('WARNING', __(TopLevelMessages::FILE_SIZE_SAVE_FAILURE));
-	    } else if ($_FILES == null){
-		 $this->getUser()->setFlash('templateMessage', array('warning', __(TopLevelMessages::FILE_SIZE_SAVE_FAILURE)));
-		 $this->redirect('recruitmentApply/applyVacancy?id=' . $this->vacancyId);
+
+            if ($_FILES['addCandidate']['size']['resume'] > 1024000) {
+                $this->getUser()->setFlash('applyVacancy.warning', __(TopLevelMessages::FILE_SIZE_SAVE_FAILURE));
+            } else if ($_FILES == null) {
+                $this->getUser()->setFlash('applyVacancy.warning', __(TopLevelMessages::FILE_SIZE_SAVE_FAILURE));
+                $this->redirect('recruitmentApply/applyVacancy?id=' . $this->vacancyId);
             } else {
 
-                if ($this->form->isValid()) { 
-                    
-                    $result = $this->form->save();                   
+                if ($this->form->isValid()) {
+
+                    $result = $this->form->save();
                     if (isset($result['messageType'])) {
-                        $this->messageType = $result['messageType'];
-                        $this->message = $result['message'];
+                        $this->getUser()->setFlash('applyVacancy.' . $result['messageType'], $result['message']);
                     } else {
                         $this->candidateId = $result['candidateId'];
-			if(!empty ($this->candidateId)){
-			    $this->messageType = 'success';
-                            $this->message = __('Application Received');
-			}
-			
-                        //$this->getUser()->setFlash('templateMessage', array('success', __('Your Application for the Position of ' . $this->name . ' Was Received')));
-                        //$this->redirect('recruitmentApply/applyVacancy?id=' . $this->vacancyId . '&candidateId=' . $this->form->candidateId);
-                    }                    
+                        if (!empty($this->candidateId)) {
+                            $this->getUser()->setFlash('applyVacancy.success', __('Application Received'));
+                            $this->getUser()->setFlash('applyVacancy.warning', null);
+                        }
+                    }
                 }
             }
         }

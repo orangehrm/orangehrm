@@ -19,125 +19,119 @@
  */
 ?>
 
-<link href="<?php echo public_path('../../themes/orange/css/ui-lightness/jquery-ui-1.7.2.custom.css') ?>" rel="stylesheet" type="text/css"/>
-<script type="text/javascript" src="<?php echo public_path('../../scripts/jquery/ui/ui.core.js') ?>"></script>
-<?php use_stylesheet('../orangehrmRecruitmentPlugin/css/applyVacancySuccess'); ?>
-<?php use_javascript('../orangehrmRecruitmentPlugin/js/applyVacancySuccess'); ?>
-<?php $browser = $_SERVER['HTTP_USER_AGENT']; ?>
-<?php if (strstr($browser, "MSIE 8.0")): ?>
-    <?php $keyWrdWidth = 'width: 276px' ?>
-    <?php $resumeWidth = 37 ?>
-<?php else: ?>
-    <?php $keyWrdWidth = 'width: 271px' ?>
-    <?php $resumeWidth = 38; ?>
-<?php endif; ?>
+<?php use_javascript(plugin_web_path('orangehrmRecruitmentPlugin', 'js/applyVacancySuccess')); ?>
 
-<?php echo isset($templateMessage) ? templateMessage($templateMessage) : ''; ?>
-<div id="messagebar" class="<?php echo isset($messageType) ? "messageBalloon_{$messageType}" : ''; ?>" >
-	<span><?php echo isset($message) ? $message : ''; ?></span>
-</div>
-<div id="addCandidate">
-    <div class="outerbox" style="width:800px">
+<style type="text/css">
+    #content {
+        padding-top: 0;
+    }
+</style>
 
-        <div class="mainHeading"><h2 id="addCandidateHeading"><?php echo __("Apply for") . " " . $name; ?></h2></div>
+<div id="addCandidate" class="box">
+
+        <div class="head"><h1 id="addCandidateHeading"><?php echo __("Apply for") . " " . $name; ?></h1></div>
         
         <?php include_component('core', 'ohrmPluginPannel', array('location' => 'add_layout_after_main_heading_1')) ?>
         
+        <div class="inner">
+            
+        <?php include_partial('global/flash_messages', array('prefix' => 'applyVacancy')); ?>
+        
         <form name="frmAddCandidate" id="frmAddCandidate" method="post" enctype="multipart/form-data">
 
+            <fieldset>
+                
             <?php echo $form['_csrf_token']; ?>
             <?php echo $form["vacancyList"]->render(); ?>
 
-            <br class="clear"/>
+            <ol>
+                
+                <li>
+                    <label><?php echo __('Description'); ?> <span  id="extend">[+]</span></label>
+                    <div id="txtArea" style="width:100%;margin-left: 150px">
+                        <?php echo $description ?>
+                    </div>
+                </li>
+                
+                <li class="line nameContainer">
 
-            <div class="description">
-                <div style="float:left"><label><?php echo __('Description'); ?><span  id="extend">[+]</span></label></div>
-                <br class="clear"/>
-                <div id="description">
-                    <textarea id="txtArea" cols="88" rows="1" onkeyup="expandtextarea(this)"><?php echo $description ?></textarea>
-                </div>
-            </div>
-            <br class="clear"/>
-            <div class="nameColumn" id="firstNameDiv">
-                <label><?php echo __('Full Name'); ?></label>
-            </div>
-            <div class="column">
-                <?php echo $form['firstName']->render(array("class" => "formInputText", "maxlength" => 35)); ?>
-                <div class="errorHolder"></div>
-                <br class="clear"/>
-                <label id="frmDate" class="helpText"><?php echo __('First Name'); ?><span class="required">*</span></label>
-            </div>
-            <div class="column" id="middleNameDiv">
-                <?php echo $form['middleName']->render(array("class" => "formInputText", "maxlength" => 35)); ?>
-                <div class="errorHolder"></div>
-                <br class="clear"/>
-                <label id="toDate" class="helpText"><?php echo __('Middle Name'); ?></label>
-            </div>
-            <div class="column" id="middleNameDiv">
-                <?php echo $form['lastName']->render(array("class" => "formInputText", "maxlength" => 35)); ?>
-                <div class="errorHolder"></div>
-                <br class="clear"/>
-                <label id="toDate" class="helpText"><?php echo __('Last Name'); ?><span class="required">*</span></label>
-            </div>
-            
+                    <label class="hasTopFieldHelp"><?php echo __('Full Name'); ?></label>
+                    <ol class="fieldsInLine">
+                        <li>
+                            <div class="fieldDescription"><em>*</em> <?php echo __('First Name'); ?></div>
+                            <?php echo $form['firstName']->render(array("class" => "formInputText", "maxlength" => 35)); ?>
+                        </li>
+                        <li>
+                            <div class="fieldDescription"><?php echo __('Middle Name'); ?></div>
+                             <?php echo $form['middleName']->render(array("class" => "formInputText", "maxlength" => 35)); ?>
+                        </li>
+                        <li>
+                            <div class="fieldDescription"><em>*</em> <?php echo __('Last Name'); ?></div>
+                            <?php echo $form['lastName']->render(array("class" => "formInputText", "maxlength" => 35)); ?>
+                        </li>
+                    </ol>                        
+
+                </li>                
+                
             <?php include_component('core', 'ohrmPluginPannel', array('location' => 'add_layout_after_main_heading_2')) ?>
             
-            <br class="clear"/>
-            <br class="clear"/>
-            <div class="newColumn">
+            <li>
                 <?php echo $form['email']->renderLabel(__('Email'). ' <span class="required">*</span>'); ?>
                 <?php echo $form['email']->render(array("class" => "formInputText")); ?>
-                <div class="errorHolder below"></div>
-            </div>
-            <div class="newColumn">
+            </li>
+            
+            <li>
                 <?php echo $form['contactNo']->renderLabel(__('Contact No'), array("class " => "contactNoLable")); ?>
                 <?php echo $form['contactNo']->render(array("class" => "contactNo")); ?>
-                <div class="errorHolder cntact"></div>
-            </div>
-            <br class="clear" />
-
-            <div class="hrLine" >&nbsp;</div>
-            <br class="clear" />
-            <div class="resumeDiv">
-
-                <?php
-                if ($candidateId == "") {
-                    echo $form['resume']->renderLabel(__('Resume'). '<span class="required">*</span>', array("class " => "resume"));
-                    echo $form['resume']->render(array("class " => "duplexBox", "size" => $resumeWidth));
-                    echo "<div class=\"errorHolder below\"></div><br class=\"clear\"/>";
-                    echo "<span id=\"cvHelp\" class=\"helpText\">" . __(CommonMessages::FILE_LABEL_DOC) . "</span>";
-                } else {
-		    echo "<span class=\"resumeUp\">".__('Resume')."</span>";
-                    echo "<span class=\"fileLink\">".__('Uploaded')."</span>";
-
-                }
-                ?>
-	    </div>
-            <br class="clear"/>
-            <div>
+            </li>
+            
+        </ol>
+        <ol>    
+            
+            <li class="fieldHelpContainer">
+            <?php if ($candidateId == "") : ?>
+            
+                <?php echo $form['resume']->renderLabel(__('Resume') . ' <span class="required">*</span>'); ?>
+                <?php echo $form['resume']->render(array("class " => "duplexBox")); ?>
+                <?php echo "<label class=\"fieldHelpBottom\">" . __(CommonMessages::FILE_LABEL_DOC) . "</label>"; ?>
+            
+            <?php else : ?>
+                
+                <?php echo $form['resume']->renderLabel(__('Resume')); ?>
+                <?php echo "<span class=\"fileLink\">".__('Uploaded')."</span>"; ?>
+            
+            <?php endif; ?>
+            </li>
+            
+            <li>
                 <?php echo $form['keyWords']->renderLabel(__('Keywords'), array("class " => "keywrd")); ?>
                 <?php echo $form['keyWords']->render(array("class" => "keyWords")); ?>
-                <div class="errorHolder below"></div>
-            </div>
-            <br class="clear" />
-            <div>
+            </li>
+            
+            <li>
                 <?php echo $form['comment']->renderLabel(__('Notes'), array("class " => "comment")); ?>
                 <?php echo $form['comment']->render(array("class" => "formInputText","id" => "notes", "cols" => 43, "rows" => 4)); ?>
-                <div class="errorHolder below"></div>
-            </div>
-            <br class="clear" />
+            </li>
             
             <?php include_component('core', 'ohrmPluginPannel', array('location' => 'add_layout_after_main_heading_3')) ?>
             
-            <div class="formbuttons">
-                <input type="button" class="savebutton" name="btnSave" id="btnSave"
-                       value="<?php echo __("Submit"); ?>"onmouseover="moverButton(this);" onmouseout="moutButton(this);"/><span id="backLink"><?php echo __("Back to Job List"); ?></span>
-            </div>
+            <li class="required new">
+                <em>*</em> <?php echo __(CommonMessages::REQUIRED_FIELD); ?>
+            </li>
+            
+            </ol>
+            
+            <p>
+                <input type="button" class="savebutton" name="btnSave" id="btnSave" value="<?php echo __("Submit"); ?>" /> <a id="backLink" href="<?php echo url_for('recruitmentApply/jobs') ?>"><?php echo __("Back to Job List"); ?></a>
+            </p>
+            
+            </fieldset>
 
         </form>
+        
+        </div> <!-- inner -->
+        
     </div>
-    <div class="paddingLeftRequired"><span class="required">*</span> <?php echo __(CommonMessages::REQUIRED_FIELD); ?></div>
-</div>
 
 <script type="text/javascript">
     //<![CDATA[

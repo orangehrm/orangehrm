@@ -8,7 +8,7 @@ $(document).ready(function() {
 
     $('#btnAdd').click(function() {
         $('#nationality').show();
-        $('#btnAdd').hide();
+        $('.top').hide();
         $('#nationality_name').val('');
         $('#nationality_nationalityId').val('');
         $('#nationalityHeading').html(lang_addNationality);
@@ -17,7 +17,8 @@ $(document).ready(function() {
 
     $('#btnCancel').click(function() {
         $('#nationality').hide();
-        $('#btnAdd').show();
+        $('.top').show();
+        $('#btnDelete').show();
         validator.resetForm();
     });
 
@@ -59,17 +60,6 @@ $(document).ready(function() {
             $('#deleteConfirmation').dialog('open');
             return false;
         });
-    });
-
-    $("#deleteConfirmation").dialog({
-        autoOpen: false,
-        modal: true,
-        width: 325,
-        height: 50,
-        position: 'middle',
-        open: function() {
-            $('#dialogCancelBtn').focus();
-        }
     });
 
     $('#frmList_ohrmListComponent').attr('name','frmList_ohrmListComponent');
@@ -125,11 +115,6 @@ $(document).ready(function() {
                 uniqueName: lang_uniqueName
             }
 
-        },
-
-        errorPlacement: function(error, element) {
-            error.appendTo(element.next('div.errorHolder'));
-
         }
 
     });
@@ -142,6 +127,6 @@ function getNationalityInfo(url){
         $('#nationality_name').val(data.name);
         $('#nationality').show();
         $(".messageBalloon_success").remove();
-        $('#btnAdd').hide();
+        $('.top').hide();
     });
 }

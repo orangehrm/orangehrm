@@ -30,9 +30,9 @@ if (!mysql_connect($conf->dbhost.":".$conf->dbport, $conf->dbuser, $conf->dbpass
 if (!mysql_select_db($conf->dbname)) { echo mysql_error(); exit(0); }
 
 // Truncating tables
-if (!mysql_query("TRUNCATE TABLE `ohrm_emp_termination`")) { echo mysql_error(); die; }
-if (!mysql_query("TRUNCATE TABLE `hs_hr_employee`")) { echo mysql_error(); die; }
-if (!mysql_query("TRUNCATE TABLE `ohrm_user`")) { echo mysql_error(); die; }
+if (!mysql_query("DELETE from `hs_hr_employee`")) { echo mysql_error(); die; }
+if (!mysql_query("DELETE from `ohrm_emp_termination`")) { echo mysql_error(); die; }
+if (!mysql_query("DELETE from `ohrm_user`")) { echo mysql_error(); die; }
 
 // Default admin
 $q = "INSERT INTO `ohrm_user` ( `user_name`, `user_password`,`user_role_id`) VALUES ('admin', '21232f297a57a5a743894a0e4a801fc3', 1)";
@@ -323,7 +323,7 @@ USERSQLSTR;
     if (!mysql_query($userSql)) { echo mysql_error(); die; }
 }
 // Sets Last ID at `hs_hr_unique_id`
-if (!mysql_query("UPDATE `hs_hr_unique_id` SET `last_id` = '".count($employees)."' WHERE `id` = '8' AND `table_name` = 'hs_hr_employee'")) { echo mysql_error(); exit(0); }
+if (!mysql_query("UPDATE `hs_hr_unique_id` SET `last_id` = '".count($employees)."' WHERE `field_name` = 'emp_number' AND `table_name` = 'hs_hr_employee'")) { echo mysql_error(); exit(0); }
 
 //End
 echo "<h2>Successfully Created " . count($employees) . " employees and their user accounts!</h2>";

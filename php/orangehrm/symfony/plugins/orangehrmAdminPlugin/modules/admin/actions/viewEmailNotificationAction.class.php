@@ -43,9 +43,6 @@ class viewEmailNotificationAction extends sfAction {
             $this->redirect('pim/viewPersonalDetails');
         }
 
-        if ($this->getUser()->hasFlash('templateMessage')) {
-            list($this->messageType, $this->message) = $this->getUser()->getFlash('templateMessage');
-        }
         $this->setForm(new EmailNotificationListForm());
         $emailNotificationList = $this->getEmailNotificationService()->getEmailNotificationList();
         $this->_setListComponent($emailNotificationList);

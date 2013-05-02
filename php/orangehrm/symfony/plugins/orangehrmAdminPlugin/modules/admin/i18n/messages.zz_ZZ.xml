@@ -517,8 +517,8 @@
     <target>FR_Level Already Exists</target>
    </trans-unit>
    <trans-unit id="129">
-    <source>All date fields should be in yyyy-mm-dd format</source>
-    <target>FR_All date fields should be in yyyy-mm-dd format</target>
+    <source>All date fields should be in YYYY-MM-DD format</source>
+    <target>FR_All date fields should be in YYYY-MM-DD format</target>
    </trans-unit>
    <trans-unit id="130">
     <source>Multiple import files may be required</source>

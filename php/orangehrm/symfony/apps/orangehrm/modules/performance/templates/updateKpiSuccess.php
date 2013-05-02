@@ -1,66 +1,67 @@
-<script type="text/javascript" src="<?php echo public_path('../../scripts/jquery/jquery.validate.js');?>"></script>
-<!-- TODO: port this to a main style sheet -->
-<style type="text/css">
-    #txtDescription {
-        margin-left: 0;
-    }
-</style>
-<div id="content">
-	<div id="contentContainer">
-        <div class="outerbox">
-            <div id="formHeading" class="mainHeading"><h2><?php echo __('Update Key Performance Indicator')?></h2></div>
-			
-			<form action="#" id="frmSave" class="content_inner" method="post">
-              <div id="formWrapper">
-                       <label for="txtLocationCode"><?php echo __('Job Title')?><span class="required">*</span></label>
-                     <select name="txtJobTitle" id="txtJobTitle" class="formSelect" tabindex="1" >
+<div class="box" >
+            
+    <div class="head"><h1><?php echo __('Update Key Performance Indicator') ?></h1></div>
+        
+    <div class="inner">
+        
+        <?php include_partial('global/flash_messages'); ?>
+            
+        <form id="frmSave" method="post">
+            
+            <?php echo $form['_csrf_token']; ?>
+            
+            <fieldset>
+                
+                <ol>
+                    
+                    <li>
+                        <label for="txtLocationCode"><?php echo __('Job Title' . ' <em>*</em>')?></label>
+                        <select name="txtJobTitle" id="txtJobTitle" tabindex="1" >
                      	<option value=""><?php echo __('Select Job Title')?></option>
 	                     <?php foreach($listJobTitle as $jobTitle){?>
-                        <option value="<?php echo $jobTitle->getId()?>" <?php if($kpi->getJobtitlecode() ==  $jobTitle->getId()){ echo "selected";}?>><?php echo htmlspecialchars_decode($jobTitle->getJobTitleName())?><?php echo ($jobTitle->getIsDeleted()==JobTitle::DELETED)?' ('.__('Deleted').')':''?></option>
+                        <option value="<?php echo $jobTitle->getId()?>" <?php if($kpi->getJobtitlecode() ==  $jobTitle->getId()){ echo "selected";}?>><?php echo $jobTitle->getJobTitleName(); ?><?php echo ($jobTitle->getIsDeleted()==JobTitle::DELETED)?' ('.__('Deleted').')':''?></option>
 	                     <?php }?>
-                     </select>
-                   <br class="clear"/>
-                   <label for="txtDescription"><?php echo __('Key Performance Indicator')?><span class="required">*</span></label>
-                   <textarea id='txtDescription' name='txtDescription' class="formTextArea"
-                    rows="3" cols="20" tabindex="2"><?php echo $kpi->getDesc()?></textarea>
-             		 <br class="clear"/>
-             		 <label for="txtMinRate"><?php echo __('Minimum Rating')?></label>
-                    <input id="txtMinRate"  name="txtMinRate" type="text"  class="formInputText" value="<?php echo $kpi->getMin()?>" tabindex="3" />
-             		 <br class="clear"/>
-             		 <label for="txtMaxRate"><?php echo __('Maximum Rating')?></label>
-                    <input id="txtMaxRate"  name="txtMaxRate" type="text"  class="formInputText" value="<?php echo $kpi->getMax()?>" tabindex="4" />
-             		 <br class="clear"/>
-             		  <label for="chkDefaultScale"><?php echo __('Make Default Scale')?></label>
-                    <input type="checkbox" name="chkDefaultScale" id="chkDefaultScale" class="alignCheckbox"  value="1"  <?php if($kpi->getDefault()){?>checked="checked" <?php }?> tabindex="5" ></input>
-             		 <br class="clear"/>
-             	</div>
-				<div id="buttonWrapper" class="formbuttons">
-                    <input type="button" class="savebutton" id="saveBtn"
-                        value="<?php echo __('Save')?>" tabindex="6" />
+                        </select>
+                    </li>
                         
-                     <input type="button" class="savebutton" id="resetBtn"
-                        value="<?php echo __('Reset')?>" tabindex="7" />
+                    <li class="largeTextBox">
+                        <label for="txtDescription"><?php echo __('Key Performance Indicator' . ' <em>*</em>')?></label>
+                        <textarea id='txtDescription' name='txtDescription' rows="3" cols="20" tabindex="2"><?php echo $kpi->getDesc()?></textarea>
+                    </li>
+                        
+                    <li>
+                        <label for="txtMinRate"><?php echo __('Minimum Rating')?></label>
+                        <input id="txtMinRate"  name="txtMinRate" type="text"  value="<?php echo $kpi->getMin()?>" tabindex="3" />
+             		</li>
+                        
+                    <li>
+                        <label for="txtMaxRate"><?php echo __('Maximum Rating')?></label>
+                        <input id="txtMaxRate"  name="txtMaxRate" type="text"  value="<?php echo $kpi->getMax()?>" tabindex="4" />
+             		</li>
+                        
+                    <li>
+                        <label for="chkDefaultScale"><?php echo __('Make Default Scale')?></label>
+                        <input type="checkbox" name="chkDefaultScale" id="chkDefaultScale" value="1"  <?php if($kpi->getDefault()){?>checked="checked" <?php }?> tabindex="5" ></input>
+             		</li>  
+                        
+                    <li class="required">
+                        <em>*</em> <?php echo __(CommonMessages::REQUIRED_FIELD); ?>
+                    </li>
+                        
+                </ol>
                     
-                </div>  
-              
-            </form>
-        </div>
- 	</div>
+                <p>
+                    <input type="button" id="saveBtn" value="<?php echo __('Save') ?>" tabindex="6" />
+                    <input type="button" class="reset" id="resetBtn" value="<?php echo __('Reset') ?>" tabindex="7" />
+                </p>
+                    
+            </fieldset>  
+            
+        </form>            
+    </div>
+</div>
 
 
- 	   <script type="text/javascript">
-
-
-</script>
-   <script type="text/javascript">
-	    
-
-    	if (document.getElementById && document.createElement) {
-	 			roundBorder('outerbox');
-				//roundBorder('outerboxList');
-			}
-	
-	</script> 
 	
 	 <script type="text/javascript">
 

@@ -54,7 +54,7 @@ class deleteDependentsAction extends basePimAction {
                 if ($dependentsToDelete) {
                     $service = new EmployeeService();
                     $count = $service->deleteEmployeeDependents($empNumber, $dependentsToDelete);
-                    $this->getUser()->setFlash('templateMessage', array('success', __(TopLevelMessages::DELETE_SUCCESS)));
+                    $this->getUser()->setFlash('viewDependents.success', __(TopLevelMessages::DELETE_SUCCESS));
                 }
             }
         }

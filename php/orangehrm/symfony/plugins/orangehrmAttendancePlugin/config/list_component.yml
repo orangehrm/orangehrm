@@ -8,8 +8,8 @@ AttendanceRecordList:
   hasSummary: false
   summary: []
   buttons:
-    Delete:
-      label: Delete
-  buttonsPosition: after-data
+  buttonsPosition: before-data
+  formMethod: post
+  formAction: '#'
   assets: []
   jsInitMethods: [] 

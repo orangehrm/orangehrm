@@ -78,10 +78,6 @@ class viewLocationsAction extends sfAction {
 		$params = array();
 		$this->parmetersForListCompoment = $params;
 
-		if ($this->getUser()->hasFlash('templateMessage')) {
-			list($this->messageType, $this->message) = $this->getUser()->getFlash('templateMessage');
-		}
-
 		if ($request->isMethod('post')) {
 			$offset = 0;
 			$pageNumber = 1;

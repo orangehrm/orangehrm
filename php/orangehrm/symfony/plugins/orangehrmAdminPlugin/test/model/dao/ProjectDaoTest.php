@@ -235,4 +235,25 @@ class ProjectDaoTest extends PHPUnit_Framework_TestCase {
         $result = $this->projectDao->getProjectNameList(null);
         $this->assertNull($result);
     }
+    
+    
+    public function testGetProjectActivityCount() {
+        $count = $this->projectDao->getProjectActivityCount();
+        $this->assertEquals(2, $count);
+    }
+    
+    public function testGetProjectActivityCountWithDeleted() {
+        $includeDeleted = true;
+        $count = $this->projectDao->getProjectActivityCount($includeDeleted);
+        $this->assertEquals(3, $count);
+    }    
+    
+    public function testGetProjectActivityCountWithNoActivities() {
+        $query = Doctrine_Query::create()
+                ->delete()
+                ->from('ProjectActivity');        
+        $query->execute();
+        $count = $this->projectDao->getProjectActivityCount();
+        $this->assertEquals(0, $count);        
+    }    
 }

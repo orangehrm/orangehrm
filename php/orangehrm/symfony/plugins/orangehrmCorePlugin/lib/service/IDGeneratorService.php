@@ -50,10 +50,6 @@ class IDGeneratorService extends BaseService {
                 $prefix = 'EEC';
                 break;
 
-            case 'SalaryGrade':
-                $prefix = 'SAL';
-                break;
-
             case 'EmployeeStatus':
                 $prefix = 'EST';
                 break;
@@ -108,10 +104,6 @@ class IDGeneratorService extends BaseService {
 
             case 'EmployeeReport':
                 $prefix = 'REP';
-                break;
-
-            case 'LeaveType':
-                $prefix = 'LTY';
                 break;
 
             case 'LeaveRequest':

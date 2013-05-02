@@ -49,11 +49,11 @@ class deletePayGradeCurrencyAction extends sfAction {
 				}				
 			}
 
-            $this->getUser()->setFlash('templateMessage', array('success', __(TopLevelMessages::DELETE_SUCCESS)));
+            $this->getUser()->setFlash('success', __(TopLevelMessages::DELETE_SUCCESS));
 			
 		}
 
-		$this->redirect('admin/payGrade?payGradeId='.$payGradeId);
+		$this->redirect('admin/payGrade?payGradeId='.$payGradeId . '#Currencies');
 	}
 
 }

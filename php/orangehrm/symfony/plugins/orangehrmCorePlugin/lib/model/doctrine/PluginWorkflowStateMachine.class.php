@@ -51,6 +51,7 @@ abstract class PluginWorkflowStateMachine extends BaseWorkflowStateMachine {
     const FLOW_ATTENDANCE = 1;
     const FLOW_RECRUITMENT = 2;
     const FLOW_EMPLOYEE = 3;
+    const FLOW_LEAVE = 4;
 
     public function getRecruitmentActionName($action) {
         $actionName = "";
@@ -117,5 +118,20 @@ abstract class PluginWorkflowStateMachine extends BaseWorkflowStateMachine {
                 break;
         }
         return $actionName;
+    }
+    
+    /**
+     * Return roles to notify as an array of Role 
+     * @return array
+     */
+    public function getRolesToNotifyAsArray() {
+        $roles = array();
+        
+        $roleNames = parent::getRolesToNotify();
+        if (!empty($roleNames)) {
+            // filters out items that eval to false
+            $roles = array_filter(explode(',', $roleNames));
+        }
+        return $roles;
     }
 }

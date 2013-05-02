@@ -42,11 +42,11 @@ class changeUserPasswordAction extends sfAction {
 
                 if (!$systemUserService->isCurrentPassword($this->userId, $this->form->getValue('currentPassword'))) {
 
-                    $this->getUser()->setFlash('templateMessage', array('WARNING', __('Current Password Is Wrong')));
+                    $this->getUser()->setFlash('warning', __('Current Password Is Wrong'));
                     $this->redirect('admin/changeUserPassword');
                 } else {
                     $this->form->save();
-                    $this->getUser()->setFlash('templateMessage', array('SUCCESS', __('Successfully Changed')));
+                    $this->getUser()->setFlash('success', __('Successfully Changed'));
                     $this->redirect('admin/changeUserPassword');
                 }
             }

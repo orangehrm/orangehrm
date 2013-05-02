@@ -1,4 +1,15 @@
 $(document).ready(function() {
+    //hide adding part...
+    $("#addPaneReportTo").hide();
+    
+    //Remove check box fields if NO_RECORDS
+    if (!haveSupervisors) {
+        $('#sup_list .check').hide();
+    }
+    if (!haveSubordinates) {
+        $('#sub_list .check').hide();
+    }
+    
     $("#reportto_supervisorName_empName").click(function() {
         $("#reportto_supervisorName_empName").val('').removeClass("inputFormatHint");
     });
@@ -18,14 +29,16 @@ $(document).ready(function() {
 
     hideShowSupervisorSubordinate();
     $('.radio_list input').live('click', function() {
-        hideShowSupervisorSubordinate();$("#reportto_supervisorName_empName").val(typeForHints)
+        hideShowSupervisorSubordinate();
+        $("#reportto_supervisorName_empName").val(typeForHints);
+        $("#reportto_subordinateName_empName").val(typeForHints);
     });
     
     if(essMode){
         $('#supListActions').hide();
-        $('#sup_list td.check').hide();
+        $('#sup_list .check').hide();
         $('#subListActions').hide();
-        $('#sub_list td.check').hide();
+        $('#sub_list .check').hide();
         removeEditLinks();
     }
 
@@ -46,16 +59,6 @@ $(document).ready(function() {
             $(".checkboxSup").removeAttr('checked');
         }
     });
-
-    if (haveSupervisors || haveSubordinates) {
-        $(".paddingLeftRequired").hide();
-        $("#addPaneReportTo").hide();
-    } else {
-        $("#btnCancel").hide();
-        $(".paddingLeftRequired").show();
-        $("#addPaneReportTo").show();
-        $("#listReportToDetails").hide();
-    }
 
     $(".checkboxSup").click(function() {
         $("#checkAllSup").removeAttr('checked');
@@ -93,9 +96,9 @@ $(document).ready(function() {
 
         // Hide list action buttons and checkbox
         $('#supListActions').hide();
-        $('#sup_list td.check').hide();
+        $('#sup_list .check').hide();
         $('#subListActions').hide();
-        $('#sub_list td.check').hide();
+        $('#sub_list .check').hide();
         removeEditLinks();
         $('div#messagebar').hide();
         $('#addPaneReportTo').css('display', 'block');
@@ -115,9 +118,9 @@ $(document).ready(function() {
 
         // Hide list action buttons and checkbox
         $('#supListActions').hide();
-        $('#sup_list td.check').hide();
+        $('#sup_list .check').hide();
         $('#subListActions').hide();
-        $('#sub_list td.check').hide();
+        $('#sub_list .check').hide();
         removeEditLinks();
         $('div#messagebar').hide();
         $('#addPaneReportTo').css('display', 'block');
@@ -125,13 +128,17 @@ $(document).ready(function() {
 
     // Cancel in add pane
     $('#btnCancel').click(function() {
+        
+        //remove if disabled while edit
+        $('#reportto_supervisorName_empName').removeAttr('disabled');
+        $('#reportto_subordinateName_empName').removeAttr('disabled');
 
         clearAddForm('supervisor');
         $('#addPaneReportTo').css('display', 'none');
         $('#supListActions').show();
-        $('#sup_list td.check').show();
+        $('#sup_list .check').show();
         $('#subListActions').show();
-        $('#sub_list td.check').show();
+        $('#sub_list .check').show();
         addEditLinks();
         $('div#messagebar').hide();
         $(".paddingLeftRequired").hide();
@@ -181,12 +188,12 @@ $(document).ready(function() {
         $('#reportto_subordinateName_empName').hide();
         $('label[for="reportto_subordinateName"]').hide();
         $('label[for="reportto_supervisorName"]').show();
-        $('#reportto_supervisorName_empName').hide();
+        $('#reportto_supervisorName_empName').attr('disabled','disabled');
         $('.radio_list').hide();
 
         $('#name').text(name);
         $('#name').show();
-        $('#reportto_reportingMethodType').val(reportingMethodType);
+        $('#reportto_reportingMethodType').val(tempArray[2]);
 
         $(".paddingLeftRequired").show();
         $("#reportToHeading").text(editSupervisor);
@@ -194,9 +201,9 @@ $(document).ready(function() {
         // hide validation error messages
 
         $('#supListActions').hide();
-        $('#sup_list td.check').hide();
+        $('#sup_list .check').hide();
         $('#subListActions').hide();
-        $('#sub_list td.check').hide();
+        $('#sub_list .check').hide();
         hideShowReportingMethodOther();
         $('#addPaneReportTo').css('display', 'block');
     });
@@ -223,12 +230,12 @@ $(document).ready(function() {
         $('#reportto_supervisorName_empName').hide();
         $('label[for="reportto_supervisorName"]').hide();
         $('label[for="reportto_subordinateName"]').show();
-        $('#reportto_subordinateName_empName').hide();
+        $('#reportto_subordinateName_empName').attr('disabled','disabled').show();
         $('.radio_list').hide();
 
         $('#name').text(name1);
         $('#name').show();
-        $('#reportto_reportingMethodType').val(reportingMethodType);
+        $('#reportto_reportingMethodType').val(tempArray[2]);
 
         $(".paddingLeftRequired").show();
         $("#reportToHeading").text(editSubordinate);
@@ -236,9 +243,9 @@ $(document).ready(function() {
         // hide validation error messages
 
         $('#supListActions').hide();
-        $('#sup_list td.check').hide();
+        $('#sup_list .check').hide();
         $('#subListActions').hide();
-        $('#sub_list td.check').hide();
+        $('#sub_list .check').hide();
         hideShowReportingMethodOther();
         $('#addPaneReportTo').css('display', 'block');
     });
@@ -249,7 +256,7 @@ function hideShowSupervisorSubordinate() {
     if (!($("#frmAddReportTo #nameType").length > 0)) {
         $('<input type="hidden" name="nameType" id="nameType">').insertAfter('#frmAddReportTo #reportto_empNumber');
     }
-    if ($("#reportto_type_flag_1").attr('checked') == true) {
+    if ($("#reportto_type_flag_1").is(':checked')) {
         $('#frmAddReportTo #nameType').val('supervisor');
         $('#reportto_supervisorName_empName').show();
         $('label[for="reportto_supervisorName"]').show();
@@ -257,7 +264,7 @@ function hideShowSupervisorSubordinate() {
         $('#reportto_subordinateName_empId').val('');
         $('label[for="reportto_subordinateName"]').hide();
         $('#reportto_subordinateName_empName').hide();
-    } else if ($("#reportto_type_flag_2").attr('checked') == true) {
+    } else if ($("#reportto_type_flag_2").is(':checked')) {
         $('#frmAddReportTo #nameType').val('subordinate');
         $('#reportto_supervisorName_empName').val('');
         $('#reportto_supervisorName_empId').val('');

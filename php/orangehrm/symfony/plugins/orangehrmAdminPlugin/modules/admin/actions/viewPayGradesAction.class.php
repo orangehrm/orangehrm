@@ -43,9 +43,6 @@ class viewPayGradesAction extends sfAction {
 		$this->_setListComponent($payGradeList);
 		$params = array();
 		$this->parmetersForListCompoment = $params;
-		if ($this->getUser()->hasFlash('templateMessage')) {
-			list($this->messageType, $this->message) = $this->getUser()->getFlash('templateMessage');
-		}
 	}
 
 	private function _setListComponent($payGradeList) {

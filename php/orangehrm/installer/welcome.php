@@ -25,15 +25,14 @@ function welcomeSubmit() {
 }
 </script>
 	<div id="content">
-		<h2>Welcome to the OrangeHRM ver 2.7.1 Setup Wizard</h2>
+		<h2>Welcome to the OrangeHRM ver 3.0.1 Setup Wizard</h2>
 
 
 		<p>This installer creates the OrangeHRM database tables and sets the
         configuration files that you need to start.</p>
-                
                 <p>
                     If you already use OrangeHRM, consider <a href="../upgrader/web/index.php/">upgrading</a>.
-                </p>
+                </p>              
                 
         <p>
 		Click <b>[Next]</b> to Start the Wizard.</p>

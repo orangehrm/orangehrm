@@ -48,7 +48,7 @@ abstract class PluginAttendanceRecord extends BaseAttendanceRecord {
         $value = __('No attendance records to display');
         if ($this->getPunchInUserTime()) {
             $inUserTimeArray = explode(" ", $this->getPunchInUserTime());
-            $value = set_datepicker_date_format($inUserTimeArray[0]) . " " . $inUserTimeArray[1] . '<br><d style="color:#98a09f;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;GMT ' . $this->getPunchInTimeOffset() . '</span>';
+            $value = set_datepicker_date_format($inUserTimeArray[0]) . " " . $inUserTimeArray[1] . '<span class="helpText"> GMT ' . $this->getPunchInTimeOffset() . '</span>';
         }
 
         return $value;
@@ -59,7 +59,7 @@ abstract class PluginAttendanceRecord extends BaseAttendanceRecord {
         $value = '';
         if ($this->getPunchOutUserTime()) {
             $outUserTimeArray = explode(" ", $this->getPunchOutUserTime());
-            $value = set_datepicker_date_format($outUserTimeArray[0]) . " " . $outUserTimeArray[1] . '<br><d style="color:#98a09f;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;GMT ' . $this->getPunchOutTimeOffset() . '</span>';
+            $value = set_datepicker_date_format($outUserTimeArray[0]) . " " . $outUserTimeArray[1] . '<span class="helpText"> GMT ' . $this->getPunchOutTimeOffset() . '</span>';
         }
 
         return $value;

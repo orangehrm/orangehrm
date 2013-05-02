@@ -1,4 +1,10 @@
 $(document).ready(function() {
+    
+    var state_li = "location_state_li";
+    var province_li = "location_province_li";
+    $('#location_state').parent('li').prop('id', state_li);    
+    $('#location_province').parent('li').prop('id', province_li); 
+    
     setCountryState();
     
     //on changing of country
@@ -44,12 +50,14 @@ function setCountryState() {
     var hide = "display:none;";
     var show = "display:block;";
 
-    $("#location_state").hide();
-    $("#location_province").show();
-
     if($("#location_country").val() == 'US') {
-        $("#location_state").show();
-        $("#location_province").hide();
+        $('#location_state_li').show();
+        $('#location_province_li').hide();
+        
+    } else {
+        $('#location_state_li').hide();
+        $('#location_province_li').show();
+        
     }
 }
     
@@ -155,10 +163,6 @@ function isValidForm(){
                 maxlength: lang_Max255Chars
             }
 
-        },
-
-        errorPlacement: function(error, element) {
-            error.appendTo(element.next('div.errorHolder'));
         }
 
     });

@@ -1,62 +1,58 @@
-<link href="<?php echo public_path('../../themes/orange/css/ui-lightness/jquery-ui-1.7.2.custom.css') ?>" rel="stylesheet" type="text/css"/>
 
-<script type="text/javascript" src="<?php echo public_path('../../scripts/jquery/ui/ui.core.js') ?>"></script>
+<?php 
+use_javascript(plugin_web_path('orangehrmAdminPlugin', 'js/membershipSuccess'));
+?>
 
-<?php use_stylesheet('../../../themes/orange/css/ui-lightness/jquery-ui-1.8.13.custom.css'); ?>
-<?php use_javascript('../../../scripts/jquery/ui/ui.core.js'); ?>
-<?php use_javascript('../../../scripts/jquery/ui/ui.dialog.js'); ?>
-<?php use_stylesheet('../orangehrmAdminPlugin/css/membershipSuccess'); ?>
-<?php use_javascript('../orangehrmAdminPlugin/js/membershipSuccess'); ?>
-
-<?php echo isset($templateMessage) ? templateMessage($templateMessage) : ''; ?>
-<div id="messagebar" class="<?php echo isset($messageType) ? "messageBalloon_{$messageType}" : ''; ?>" >
-	<span><?php echo isset($message) ? $message : ''; ?></span>
-</div>
-
-<div id="membership">
-    <div class="outerbox">
-
-        <div class="mainHeading"><h2 id="membershipHeading"><?php echo __("Add Membership"); ?></h2></div>
+<div id="membership" class="box">
+    
+    <div class="head"><h1 id="membershipHeading"><?php echo __("Add Membership"); ?></h1></div>
+    
+    <div class="inner">
+        
         <form name="frmMembership" id="frmMembership" method="post" action="<?php echo url_for('admin/membership'); ?>" >
-
             <?php echo $form['_csrf_token']; ?>
             <?php echo $form->renderHiddenFields(); ?>
-            <br class="clear"/>
-
-	    <div class="newColumn">
-                <?php echo $form['name']->renderLabel(__('Name'). ' <span class="required">*</span>'); ?>
-                <?php echo $form['name']->render(array("class" => "formInput", "maxlength" => 100)); ?>
-                <div class="errorHolder"></div>
-            </div>
-	    <br class="clear"/>
-
-	    <div class="actionbuttons">
-                    <input type="button" class="savebutton" name="btnSave" id="btnSave"
-                           value="<?php echo __("Save"); ?>"onmouseover="moverButton(this);" onmouseout="moutButton(this);"/>
-                    <input type="button" class="cancelbutton" name="btnCancel" id="btnCancel"
-                           value="<?php echo __("Cancel"); ?>"onmouseover="moverButton(this);" onmouseout="moutButton(this);"/>
-	    </div>
-
-	</form>
+           <fieldset>
+                <ol>
+                    <li>
+                        <?php echo $form['name']->renderLabel(__('Name') . ' <em>*</em>'); ?>
+                        <?php echo $form['name']->render(array("class" => "block default editable valid", "maxlength" => 100)); ?>
+                    </li>
+                    
+                    <li class="required">
+                        <em>*</em> <?php echo __(CommonMessages::REQUIRED_FIELD); ?>
+                    </li>                    
+                </ol> 
+                
+                <p>
+                    <input type="button" class="savebutton" name="btnSave" id="btnSave" value="<?php echo __("Save"); ?>"/>
+                    <input type="button" class="reset" name="btnCancel" id="btnCancel" value="<?php echo __("Cancel");?>"/>
+                </p>
+            </fieldset>
+        </form>
     </div>
-<div class="paddingLeftRequired"><span class="required">*</span> <?php echo __(CommonMessages::REQUIRED_FIELD); ?></div>
 </div>
 
-
-<div id="membershipList">
+<div id="membershipList">  
+    <!-- List component -->
     <?php include_component('core', 'ohrmList', $parmetersForListCompoment); ?>
 </div>
 
-<!-- confirmation box -->
-<div id="deleteConfirmation" title="<?php echo __('OrangeHRM - Confirmation Required'); ?>" style="display: none;">
-
-    <?php echo __(CommonMessages::DELETE_CONFIRMATION); ?>
-
-    <div class="dialogButtons">
-        <input type="button" id="dialogDeleteBtn" class="savebutton" value="<?php echo __('Ok'); ?>" />
-        <input type="button" id="dialogCancelBtn" class="savebutton" value="<?php echo __('Cancel'); ?>" />
-    </div>
+<!-- Confirmation box HTML: Begins -->
+<div class="modal hide" id="deleteConfModal">
+  <div class="modal-header">
+    <a class="close" data-dismiss="modal">×</a>
+    <h3><?php echo __('OrangeHRM - Confirmation Required'); ?></h3>
+  </div>
+  <div class="modal-body">
+    <p><?php echo __(CommonMessages::DELETE_CONFIRMATION); ?></p>
+  </div>
+  <div class="modal-footer">
+    <input type="button" class="btn" data-dismiss="modal" id="dialogDeleteBtn" value="<?php echo __('Ok'); ?>" />
+    <input type="button" class="btn reset" data-dismiss="modal" value="<?php echo __('Cancel'); ?>" />
+  </div>
 </div>
+<!-- Confirmation box HTML: Ends -->
 
 <script type="text/javascript">
 	var memberships = <?php echo str_replace('&#039;', "'", $form->getMembershipListAsJson()) ?> ;

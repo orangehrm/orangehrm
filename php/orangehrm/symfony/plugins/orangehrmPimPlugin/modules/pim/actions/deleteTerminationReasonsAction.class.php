@@ -48,7 +48,7 @@ class deleteTerminationReasonsAction extends sfAction {
             $result = $this->getTerminationReasonConfigurationService()->deleteTerminationReasons($toDeleteIds);
             
             if ($result) {
-                $this->getUser()->setFlash('templateMessage', array('SUCCESS', __(TopLevelMessages::DELETE_SUCCESS))); 
+                $this->getUser()->setFlash('success', __(TopLevelMessages::DELETE_SUCCESS)); 
                 $this->redirect('pim/viewTerminationReasons');
             }            
             
@@ -71,7 +71,7 @@ class deleteTerminationReasonsAction extends sfAction {
         if (!empty($toDeleteIds)) {
             
             if ($this->getTerminationReasonConfigurationService()->isReasonInUse($toDeleteIds)) {
-                $this->getUser()->setFlash('templateMessage', array('WARNING', __('Termination Reason(s) in Use')));
+                $this->getUser()->setFlash('warning', __('Termination Reason(s) in Use'));
                 $this->redirect('pim/viewTerminationReasons');
             }
             

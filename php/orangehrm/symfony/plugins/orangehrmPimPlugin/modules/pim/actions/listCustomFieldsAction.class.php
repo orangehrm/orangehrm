@@ -77,7 +77,9 @@ class listCustomFieldsAction extends sfAction {
             
             if ($request->getParameter('sort')) {
                 $sortBy = $request->getParameter('sort');
-                $sortOrder = $request->getParameter('order');                
+                $sortOrder = $request->getParameter('order');
+                $this->sortField = $sortBy;
+                $this->sortOrder = $sortOrder;
             }
             $this->sorter->setSort(array($sortBy, $sortOrder));
             $this->listCustomField = $customFieldsService->getCustomFieldList(null, $sortBy, $sortOrder);            

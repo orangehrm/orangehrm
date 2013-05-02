@@ -11,6 +11,7 @@ Default:
     summaryField: 'Time (Hours)'
     summaryFunction: SUM
     summaryFieldDecimals: 2
+  enableTopScrolling: false
   buttons: []
   buttonsPosition: before-data
   formMethod: post
@@ -165,13 +166,14 @@ Candidate:
       function: addCandidate
     Delete:
       label: Delete
+      data-toggle: modal
+      data-target: '#deleteConfirmation'
+      class: delete
       type: submit
   buttonsPosition: before-data
   formMethod: post
-  formAction: 'index.php/recruitment/deleteCandidateVacancies'
+  formAction: 'recruitment/deleteCandidateVacancies'
   assets:
-    - viewCandidatesSuccess.js
-    - viewCandidatesSuccess.css
   jsInitMethods: []
 
 JobVacancy:
@@ -189,10 +191,13 @@ JobVacancy:
       function: addJobVacancy
     Delete:
       label: Delete
+      data-toggle: modal
+      data-target: '#deleteConfirmation'
+      class: delete
       type: submit
   buttonsPosition: before-data
   formMethod: post
-  formAction: 'index.php/recruitment/deleteJobVacancy'
+  formAction: 'recruitment/deleteJobVacancy'
   assets:
     - viewJobVacancySuccess.js
     - viewJobVacancySuccess.css
@@ -213,9 +218,12 @@ Customer:
     Delete:
       label: Delete
       type: submit
+      class: delete
+      data-toggle: modal 
+      data-target: '#deleteConfModal'
   buttonsPosition: before-data
   formMethod: post
-  formAction: 'index.php/admin/deleteCustomer'
+  formAction: 'admin/deleteCustomer'
   assets: []
   jsInitMethods: []
 
@@ -234,9 +242,12 @@ Project:
     Delete:
       label: Delete
       type: submit
+      class: delete
+      data-toggle: modal 
+      data-target: '#deleteConfModal'
   buttonsPosition: before-data
   formMethod: post
-  formAction: 'index.php/admin/deleteProject'
+  formAction: 'admin/deleteProject'
   assets: []
   jsInitMethods: []
 
@@ -254,8 +265,14 @@ ProjectActivity:
       label: Add
     Delete:
       label: Delete
+      class: delete
+      data-toggle: modal 
+      data-target: '#deleteConfModal'
     Copy:
       label: Copy From
+      class: reset
+      data-toggle: modal 
+      data-target: '#copyActivityModal'
   buttonsPosition: before-data
   formMethod: post
   formAction: '#'
@@ -275,8 +292,6 @@ CandidateHistory:
   buttonsPosition: ''
   formMethod: post
   formAction: '#'
-  assets:
-    - addCandidateSuccess.css
   jsInitMethods: []
 
 PimPredefinedReport:
@@ -292,7 +307,8 @@ PimPredefinedReport:
   buttonsPosition: ''
   formMethod: post
   formAction: '#'
-  assets: []
+  enableTopScrolling: true
+  assets: [display_report.css]
   jsInitMethods: []
 
 ViewPredefinedReport:
@@ -311,10 +327,13 @@ ViewPredefinedReport:
       function: addPredefinedReport
     Delete:
       label: Delete
+      class: delete
       type: submit
+      data-toggle: modal 
+      data-target: '#deleteConfModal'
   buttonsPosition: before-data
   formMethod: post
-  formAction: 'index.php/core/viewDefinedPredefinedReports'
+  formAction: 'core/viewDefinedPredefinedReports'
   assets: []
   jsInitMethods: []
 
@@ -333,9 +352,12 @@ JobTitle:
     Delete:
       label: Delete
       type: submit
+      class: delete
+      data-toggle: modal 
+      data-target: '#deleteConfModal'
   buttonsPosition: before-data
   formMethod: post
-  formAction: 'index.php/admin/deleteJobTitle'
+  formAction: 'admin/deleteJobTitle'
   assets: []
   jsInitMethods: []
   
@@ -354,9 +376,12 @@ Location:
     Delete:
       label: Delete
       type: submit
+      class: delete
+      data-toggle: modal 
+      data-target: '#deleteConfModal'
   buttonsPosition: before-data
   formMethod: post
-  formAction: 'index.php/admin/deleteLocations'
+  formAction: 'admin/deleteLocations'
   assets: []
   jsInitMethods: []
 
@@ -375,9 +400,12 @@ EmploymentStatus:
     Delete:
       label: Delete
       type: submit
+      class: delete
+      data-toggle: modal 
+      data-target: '#deleteConfModal'
   buttonsPosition: before-data
   formMethod: post
-  formAction: 'index.php/admin/deleteEmploymentStatus'
+  formAction: 'admin/deleteEmploymentStatus'
   assets: []
   jsInitMethods: []
 
@@ -396,9 +424,12 @@ JobCategory:
     Delete:
       label: Delete
       type: submit
+      class: delete
+      data-toggle: modal 
+      data-target: '#deleteConfModal'
   buttonsPosition: before-data
   formMethod: post
-  formAction: 'index.php/admin/deleteJobCategory'
+  formAction: 'admin/deleteJobCategory'
   assets: []
   jsInitMethods: []
 
@@ -417,9 +448,12 @@ PayGrade:
     Delete:
       label: Delete
       type: submit
+      class: delete
+      data-toggle: modal 
+      data-target: '#deleteConfModal'
   buttonsPosition: before-data
   formMethod: post
-  formAction: 'index.php/admin/deletePayGrades'
+  formAction: 'admin/deletePayGrades'
   assets: []
   jsInitMethods: []
   
@@ -439,9 +473,12 @@ SystemUser:
     Delete:
       label: Delete
       type: submit
+      class: delete
+      data-toggle: modal 
+      data-target: '#deleteConfModal'
   buttonsPosition: before-data
   formMethod: post
-  formAction: 'index.php/admin/deleteSystemUsers'
+  formAction: 'admin/deleteSystemUsers'
   assets: []
   jsInitMethods: []
 
@@ -460,9 +497,12 @@ Membership:
     Delete:
       label: Delete
       type: submit
+      class: delete
+      data-toggle: modal 
+      data-target: '#deleteConfModal'
   buttonsPosition: before-data
   formMethod: post
-  formAction: 'index.php/admin/deleteMemberships'
+  formAction: 'admin/deleteMemberships'
   assets: []
   jsInitMethods: []
 
@@ -481,9 +521,12 @@ Nationality:
     Delete:
       label: Delete
       type: submit
+      class: delete
+      data-toggle: modal 
+      data-target: '#deleteConfModal'
   buttonsPosition: before-data
   formMethod: post
-  formAction: 'index.php/admin/deleteNationalities'
+  formAction: 'admin/deleteNationalities'
   assets: []
   jsInitMethods: []
 
@@ -504,7 +547,7 @@ EmailNotification:
       type: submit
   buttonsPosition: before-data
   formMethod: post
-  formAction: 'index.php/admin/updateNotification'
+  formAction: 'admin/updateNotification'
   assets: []
   jsInitMethods: []
 
@@ -523,9 +566,12 @@ WorkShift:
     Delete:
       label: Delete
       type: submit
+      class: delete
+      data-toggle: modal 
+      data-target: '#deleteConfModal'
   buttonsPosition: before-data
   formMethod: post
-  formAction: 'index.php/admin/deleteWorkShifts'
+  formAction: 'admin/deleteWorkShifts'
   assets: []
   jsInitMethods: []
 
@@ -544,10 +590,14 @@ Subscriber:
     Delete:
       label: Delete
       type: submit
+      class: delete
+      data-toggle: modal 
+      data-target: '#deleteConfModal'
     Back:
       label: Back
+      class: reset
   buttonsPosition: before-data
   formMethod: post
-  formAction: 'index.php/admin/deleteSubscribers'
+  formAction: 'admin/deleteSubscribers'
   assets: []
   jsInitMethods: []

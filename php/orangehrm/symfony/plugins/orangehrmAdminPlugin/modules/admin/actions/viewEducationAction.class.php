@@ -55,7 +55,7 @@ class viewEducationAction extends sfAction {
                 $this->_checkDuplicateEntry();
                 
 				$templateMessage = $this->form->save();
-				$this->getUser()->setFlash('templateMessage', $templateMessage);                
+				$this->getUser()->setFlash($templateMessage['messageType'], $templateMessage['message']);                
                 $this->redirect('admin/viewEducation');
                 
             }
@@ -85,7 +85,7 @@ class viewEducationAction extends sfAction {
                 return false;
             }
             
-            $this->getUser()->setFlash('templateMessage', array('WARNING', __('Level Already Exists')));
+            $this->getUser()->setFlash('warning', __('Level Already Exists'));
             $this->redirect('admin/viewEducation');            
             
         }

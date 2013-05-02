@@ -1,0 +1,10 @@
+Hi %recipientFirstName%,
+
+%performerFullName% has assigned leave to %assigneeFullName%. The leave details:
+
+%leaveDetails%
+You were sent this mail, as you have subscribed to OrangeHRM leave assignments.
+
+Thank you.
+
+This is an automated notification.

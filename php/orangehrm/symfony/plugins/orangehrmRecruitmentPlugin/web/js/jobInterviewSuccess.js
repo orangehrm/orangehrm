@@ -1,4 +1,4 @@
-var counter;
+var countArray = new Array();
 $(document).ready(function() {
     counter = 1;
     //Auto complete
@@ -10,26 +10,36 @@ $(document).ready(function() {
     }).result(function(event, item) {
         //$("#candidateSearch_selectedCandidate").val(item.id);
         //$("label.error").hide();
-        validateInterviewerNames()
+        validateInterviewerNames();
     });
-
+    
+    for(var i = 0; i <= numberOfInterviewers-2; i++){
+        $('#interviewer_'+(i+2)).hide();
+        countArray[i] = i+2;
+    }
+    countArray = countArray.reverse();
+    
     $("#addButton").live('click', function(){
-        counter++;
-        if(counter == numberOfInterviewers){
+
+        if(countArray.length == 1){
             $("#addButton").hide();
-        }        
-        $('#interviewer_'+counter).show();
+        }      
+        var index = countArray.pop();
+        $('#interviewer_'+index).show();
+        if ($('#jobInterview_interviewer_'+index).val() == '' || $('#jobInterview_interviewer_'+index).val() == lang_typeHint) {
+            $('#jobInterview_interviewer_'+index).addClass("inputFormatHint").val(lang_typeHint);
+        }
     });
     
     $('.removeText').live('click', function(){
         var result = /\d+(?:\.\d+)?/.exec(this.id);
         $('#interviewer_'+result).hide();
         $('#jobInterview_interviewer_'+result).val("");
-        counter--;
-        if(counter < numberOfInterviewers){
+        countArray.push(result);
+        if(countArray.length > 0){
             $("#addButton").show();
         }
-        validateInterviewerNames()
+        validateInterviewerNames();
         $(this).prev().removeClass('error');
         $(this).next().empty();
         $(this).next().hide();
@@ -38,7 +48,7 @@ $(document).ready(function() {
     $('.interviwerErrorContainers').css('display', 'none');
 
     $('.formInputInterviewer').each(function(){
-        if($(this).parent().css('display') == 'block') {
+        if($(this).parent().css('display') != 'none') {
             if ($(this).val() == '' || $(this).val() == lang_typeHint) {
                 $(this).addClass("inputFormatHint").val(lang_typeHint);
             }
@@ -46,7 +56,6 @@ $(document).ready(function() {
     });
    
     $('.formInputInterviewer').one('focus', function() {
-        
         if ($(this).hasClass("inputFormatHint")) {
             $(this).val("");
             $(this).removeClass("inputFormatHint");
@@ -56,8 +65,11 @@ $(document).ready(function() {
 
     if($("#saveBtn").attr('value') == lang_edit) {
         $(".formInputInterviewer").attr('disabled', 'disabled');
-        $(".formInputText").attr('disabled', 'disabled');
-        $(".calendarBtn").attr('disabled', 'disabled');
+        $("#jobInterview_name").attr('disabled', 'disabled');
+        $(".calendar").attr('disabled', 'disabled');
+        $(".ui-datepicker-trigger").attr('disabled', 'disabled');
+        $("#jobInterview_time").attr('disabled', 'disabled');
+        $("#jobInterview_note").attr('disabled', 'disabled');
         $(".addText").hide();
         $(".removeText").hide();
 
@@ -71,13 +83,18 @@ $(document).ready(function() {
         if($("#saveBtn").attr('value') == lang_edit) {
             $('#jobInterviewHeading').text(lang_editInterviewDetails)
             $(".formInputInterviewer").removeAttr("disabled");
-            $(".formInputText").removeAttr("disabled");
-            $(".calendarBtn").removeAttr("disabled");
+            $("#jobInterview_name").removeAttr("disabled");
+            $(".calendar").removeAttr("disabled");
+            $(".ui-datepicker-trigger").removeAttr("disabled");
+            $("#jobInterview_time").removeAttr("disabled");
+            $("#jobInterview_note").removeAttr("disabled");
             if (counter < 5){
                 $(".addText").show();
             }
             $(".removeText").show();
-            if($('.interviewer').filter(function(){return ( $(this).css('display') === 'block' );}).length == 1) {
+            if($('.interviewer').filter(function(){
+                return ( $(this).css('display') === 'block' );
+            }).length == 1) {
                 $('#removeButton1').hide();
             }
             $("#saveBtn").attr('value', lang_save);
@@ -90,10 +107,12 @@ $(document).ready(function() {
             return;
         }
         if($("#saveBtn").attr('value') == lang_save) {
-            if(isValidForm()){
-                removeTypeHints();
-                validateInterviewers()
-                $('#frmJobInterview').submit();
+            if(validateInterviewerNames()){
+                if(isValidForm()){
+                    removeTypeHints();
+                    validateInterviewers();                
+                    $('#frmJobInterview').submit();
+                }
             }
         }
     });
@@ -120,7 +139,9 @@ $(document).ready(function() {
         }
     });
 
-    if($('.interviewer').filter(function(){return ( $(this).css('display') === 'block' );}).length <=1) {
+    if($('.interviewer').filter(function(){
+        return ( $(this).css('display') === 'block' );
+    }).length <=1) {
         $('#removeButton1').hide();
     }
     
@@ -163,13 +184,8 @@ function removeTypeHints() {
 function validateInterviewerNames(){
 
     var flag = true;
-    $(".messageBalloon_success").remove();
-    //$(".messageBalloon_failure").remove()
-    $('#interviewerNameError').removeAttr('class');
-    $('#interviewerNameError').html("");
 
-    var errorStyle = "background-color:#FFDFDF;";
-    var normalStyle = "background-color:#FFFFFF;";
+    var errorClass = "validation-error";
     var interviewerNameArray = new Array();
     var errorElements = new Array();
     var index = 0;
@@ -177,29 +193,32 @@ function validateInterviewerNames(){
 
     $('.formInputInterviewer').each(function(){
         element = $(this);
-        $(element).attr('style', normalStyle);
+        $(element).removeClass(errorClass);
+        var ParantId = $(element).parent('li').attr('id');
+        $("#"+ParantId).find('span.'+errorClass).remove();
         if((element.val() != "") && (element.val() != lang_typeHint)){
             interviewerNameArray[index] = $(element);
             index++;
         }
     });
 
-    for(var i=0; i<interviewerNameArray.length; i++){
-        var currentElement = interviewerNameArray[i];
-        for(var j=1+i; j<interviewerNameArray.length; j++){
-
-            if(currentElement.val() == interviewerNameArray[j].val() ){
-                errorElements[num] = currentElement;
-                errorElements[++num] = interviewerNameArray[j];
-                num++;
-                $('#interviewerNameError').html(lang_identical_rows);
-                flag = false;
-
+    if(interviewerNameArray.length > 0) {
+        for(var i=0; i<interviewerNameArray.length; i++){        
+            var currentElement = interviewerNameArray[i];
+        
+            for(var j=0; j<interviewerNameArray.length; j++){
+                if(currentElement.val() == interviewerNameArray[j].val() && currentElement.attr('id') != interviewerNameArray[j].attr('id')){
+                    errorElements[num] = currentElement;
+                    errorElements[++num] = interviewerNameArray[j];
+                    num++;
+                    interviewerNameArray[j].after('<span class="validation-error">'+lang_identical_rows+'</span>');
+                    flag = false;
+                }
             }
-        }
-        for(var k=0; k<errorElements.length; k++){
-
-            errorElements[k].attr('style', errorStyle);
+        
+            for(var k=0; k<errorElements.length; k++){
+                errorElements[k].addClass(errorClass);
+            }
         }
     }
 
@@ -227,12 +246,6 @@ function isValidForm(){
         
         if((element.id != 'jobInterview_interviewer_1') && (($('#'+element.id).val() == "") || ($('#'+element.id).val() == lang_typeHint))) {
             temp = true;
-        }
-        
-        if(!temp) {
-            $('#'+element.id).next().next().css('display', 'block');
-        } else {
-            $('#'+element.id).next().next().css('display', 'none');
         }
         
         return temp;
@@ -280,23 +293,28 @@ function isValidForm(){
             },
             
             'jobInterview[interviewer_1]' : {
-                hiringManagerNameValidation: true
+                hiringManagerNameValidation: true,
+                required: $(this).is(":visible")
             },
             
             'jobInterview[interviewer_2]' : {
-                hiringManagerNameValidation: true
+                hiringManagerNameValidation: true,
+                required: $(this).is(":visible")
             },
             
             'jobInterview[interviewer_3]' : {
-                hiringManagerNameValidation: true
+                hiringManagerNameValidation: true,
+                required: $(this).is(":visible")
             },
             
             'jobInterview[interviewer_4]' : {
-                hiringManagerNameValidation: true
+                hiringManagerNameValidation: true,
+                required: $(this).is(":visible")
             },
             
             'jobInterview[interviewer_5]' : {
-                hiringManagerNameValidation: true
+                hiringManagerNameValidation: true,
+                required: $(this).is(":visible")
             },
 
             'jobInterview[date]' : {
@@ -321,23 +339,28 @@ function isValidForm(){
             },
 
             'jobInterview[interviewer_1]' : {
-                hiringManagerNameValidation:lang_enterAValidEmployeeName
+                hiringManagerNameValidation:lang_enterAValidEmployeeName,
+                required: lang_interviewerRequired
             },
             
             'jobInterview[interviewer_2]' : {
-                hiringManagerNameValidation:lang_enterAValidEmployeeName
+                hiringManagerNameValidation:lang_enterAValidEmployeeName,
+                required: lang_interviewerRequired
             },
             
             'jobInterview[interviewer_3]' : {
-                hiringManagerNameValidation:lang_enterAValidEmployeeName
+                hiringManagerNameValidation:lang_enterAValidEmployeeName,
+                required: lang_interviewerRequired
             },
             
             'jobInterview[interviewer_4]' : {
-                hiringManagerNameValidation:lang_enterAValidEmployeeName
+                hiringManagerNameValidation:lang_enterAValidEmployeeName,
+                required: lang_interviewerRequired
             },
             
             'jobInterview[interviewer_5]' : {
-                hiringManagerNameValidation:lang_enterAValidEmployeeName
+                hiringManagerNameValidation:lang_enterAValidEmployeeName,
+                required: lang_interviewerRequired
             },
 
             'jobInterview[date]' : {
@@ -348,22 +371,10 @@ function isValidForm(){
             'jobInterview[time]' : {
                 timeValidation: lang_validTimeRequired
             }
-        },
-
-        errorPlacement: function(error, element) {
-            error.appendTo(element.prev('label'));
-            
-            if(element.next().hasClass('errorHolder')) {
-                error.appendTo(element.next('div.errorHolder'));
-            } else if(element.next().next().hasClass('errorHolder')) {
-                error.appendTo(element.next().next('div.errorHolder'));
-            }
-            
         }
-
     });
-    return true;
     
+    return validator.valid();   
 }
 
 function isSheduledTimeFreeJson(shedulingDate, shedulingTime) {

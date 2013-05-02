@@ -59,10 +59,10 @@ class TerminationReasonForm extends BaseForm {
         
         if (empty($id)) {
             $terminationReason = new TerminationReason();
-            $message = array('SUCCESS', __(TopLevelMessages::SAVE_SUCCESS));
+            $message = array('messageType' => 'success', 'message' => __(TopLevelMessages::SAVE_SUCCESS));
         } else {
             $terminationReason = $this->getTerminationReasonConfigurationService()->getTerminationReason($id);
-            $message = array('SUCCESS', __(TopLevelMessages::UPDATE_SUCCESS));
+            $message = array('messageType' => 'success', 'message' => __(TopLevelMessages::UPDATE_SUCCESS));
         }
         
         $terminationReason->setName($this->getValue('name'));

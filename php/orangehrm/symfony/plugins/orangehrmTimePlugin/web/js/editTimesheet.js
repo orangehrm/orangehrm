@@ -19,8 +19,22 @@ var classStr;
 var activityId;
 var date;
 var cmnt;
+var hiddenCommentInput;
 $(document).ready(function() {
     var currentId;
+
+    var validator = $("#frmCommentSave").validate({
+        rules: {
+            'timeComment' : {
+                maxlength: 2000
+            }
+        },
+        messages: {
+            'timeComment' : {
+                maxlength: erorrMessageForInvalidComment
+            }
+        }
+    });
 
     $(".project").click(function(){
         element = $(this)
@@ -28,17 +42,14 @@ $(document).ready(function() {
             this.value = "";
             $(this).removeClass("inputFormatHint");
         }
-      
     });
     
     $(".project").focus(function(){
         element = $(this);
-        
         if (element.data('init') != true) {
             initAutoComplete(element);
             element.data('init', true);
         }
-      
     });
 
     $(".deletedRow").attr("disabled", "disabled");
@@ -48,26 +59,26 @@ $(document).ready(function() {
         if($(element).val() == typeForHints){
             $(element).addClass("inputFormatHint");
         }
-	$(element).val($(element).val().replace("##", ""));
+        $(element).val($(element).val().replace("##", ""));
     });
 
     //Auto complete
     function initAutoComplete(element) {
         element.autocomplete(projectsForAutoComplete, {
-
             formatItem: function(item) {
-                var temp = $("<div/>").html(item.name).text();
+                var temp = $("<div/>").text(item.name).html();
                 return temp.replace("##", "");
-            }
-            ,
+            },
+            formatResult: function(item) {
+                var temp = item.name;
+                return temp.replace("##", "");
+            },
             matchContains:true
         }).result(function(event, item) {
-    
             currentId = $(this).attr('id');
-    
             var temparray = currentId.split('_');
             var temp = '#'+temparray[0]+'_'+temparray[1]+'_'+'projectActivityName';
-            var decodedfullName = $("<div/>").html(item.name).text();
+            var decodedfullName = $("<div/>").text(item.name).html();
            
             var array = decodedfullName.split(' - ##');
     
@@ -75,8 +86,7 @@ $(document).ready(function() {
                 type: 'POST',
                 url: getActivitiesLink,
                 data: {
-                    customerName: array[0],
-                    projectName: array[1]
+                    projectId: item.id
                 },
                
                 success: function(msg){
@@ -94,207 +104,129 @@ $(document).ready(function() {
                     }
                 }
             }).responseText;
-        }
-        );
+        });
     }
 
-    $("#commentDialog").dialog({
-        autoOpen: false,
-        width: 350,
-        height: 235
-    });
-
-    $("#commentCancel").click(function() {
-        $("#commentDialog").dialog('close');
-    });
-
     $("#commentSave").click(function() {
-
-        if(validateTimehseetItemComment()){
-		
-            $("#commentError").html("");
+        if ($("#frmCommentSave").valid()) {
             var comment = $("#timeComment").val();
-
-   
-            saveComment(timesheetId, activityId, date, comment, employeeId);
-            $("#commentDialog").dialog('close');
+            if (comment != '') {
+                var timesheetItemId = saveComment(timesheetId, activityId, date, comment, employeeId);
+                if (hiddenCommentInput != '') {                    
+                    $("#"+hiddenCommentInput).val(timesheetItemId); 
+                }
+            }
+            $('#commentDialog').modal('hide');
         }
-	
-    });
-
-    $(".plainbtn").click(function(e){
-        $(this).addClass("e-clicked");
     });
 
     $('#timesheetForm').submit(function(){
-        $('#validationMsg').removeAttr('class');
-        if( $(this).find(".e-clicked").attr("id") == "submitSave" ){
-            var projectFlag = validateProject();
-            if(!projectFlag) {
-                $('#btnSave').attr('disabled', 'disabled');
-                $('#validationMsg').attr('class', "messageBalloon_failure");
-                return false;
-            }
-            var inputFlag = validateInput();
-            if(!inputFlag){
-                $('#validationMsg').attr('class', "messageBalloon_failure");
-                return false;
-            }
-            var rowFlag = validateRow();
-            if(!rowFlag){
-                $('#validationMsg').attr('class', "messageBalloon_failure");
-                return false;
-            }
+        var projectFlag = validateProject();
+        if(!projectFlag) {
+            $('#btnSave').attr('disabled', 'disabled');
+            return false;
         }
-        if( $(this).find(".e-clicked").attr("id") == "submitRemoveRows" ){
-            var deleteFlag = false;
-            $('.toDelete').each(function(){
-                element = $(this);
-                if($(element).is(':checked')){
-                    deleteFlag =  true;
-                }
-            });
-            if(!deleteFlag){
-                $('#validationMsg').html(select_a_row);
-                $('#validationMsg').attr('class', "messageBalloon_failure");
-            }
-            return deleteFlag;
+        var inputFlag = validateInput();
+        if(!inputFlag){
+            return false;
         }
-        $( this ).find("input[type=\"submit\"]").removeClass("e-clicked");
-
+        var rowFlag = validateRow();
+        if(!rowFlag){
+            return false;
+        }
     });
-    function validateInput() {
-		
-        var flag = true;
-        $(".messageBalloon_success").remove();
-        $('#validationMsg').removeAttr('class');
-        $('#validationMsg').html("");
 
+    function validateInput() {
+        var flag = true;
+        displayMessages('reset', '');
         var errorStyle = "background-color:#FFDFDF;";
-        $('.items').each(function(){
+        $('.timeBox').each(function(){
             element = $(this);
-            $(element).removeAttr('style');
-    
+            $(element).removeClass('validation-error');
             if($(element).val()){
                 if(!(/^[0-9]+\.?[0-9]?[0-9]?$/).test($(element).val())) {
                     var temp = $(element).val().split(":");
                     if(!(/^[0-9]+\.?[0-9]?[0-9]?$/).test(temp[0]) || !(/^[0-9]+\.?[0-9]?[0-9]?$/).test(temp[1])){
-                        $('#validationMsg').html(lang_not_numeric);
-                        $(element).attr('style', errorStyle);
+                        displayMessages('warning', lang_not_numeric);
+                        $(element).addClass('validation-error');
                         flag = false;
                     }else if(temp[0]>23 || temp[1]>59){
-                        $('#validationMsg').html(lang_not_numeric);
-                        $(element).attr('style', errorStyle);
+                        displayMessages('warning', lang_not_numeric);
+                        $(element).addClass('validation-error');
                         flag = false;
                     }
-
                 }
-
                 else  {
                     if(parseFloat($(element).val()) > 24) {
-                        $('#validationMsg').html(lang_not_numeric);
-                        var errorStyle = "background-color:#FFDFDF;";
-                        $(element).attr('style', errorStyle);
+                        displayMessages('warning', lang_not_numeric);
+                        $(element).addClass('validation-error');
                         flag = false;
                     }
                 }
-
-            
-            
                 if(flag){
-          
                     id=element.attr('id');
                     idArray= id.split("_");
-                    var errorStyle = "background-color:#FFDFDF;";
                     var flag1=  validateVerticalTotal(idArray[2]);
-                 
                     if(!flag1){
-                        $('#validationMsg').html(incorrect_total);
-                        $(element).attr('style', errorStyle);
-                                         
+                        $(element).addClass('validation-error');
+                        displayMessages('warning', incorrect_total);  
                         flag=false;
                     }
                     else{
-                        $(".messageBalloon_success").remove();
-                        $('#validationMsg').removeAttr('class');
+                        displayMessages('reset', '');
                     }
-                                            
-                
                 }
             }
         });
-
         return flag;
     }
 
-    $('.items').change(function() {
+    $('.timeBox').change(function() {
         var flag = validateInput();
         if(!flag) {
-           
             $('#btnSave').attr('disabled', 'disabled');
-            $('#validationMsg').attr('class', "messageBalloon_failure");
         }
         else{
             $('#btnSave').removeAttr('disabled');
         }
-       
-
     });
     
     function validateVerticalTotal(id){
-    
         var total=0;
-        
         var error=false;
         for(j=0;j<rows-1;j++){
-       
-
             if((/^[0-9]+\.?[0-9]?[0-9]?$/).test($("#initialRows_"+j+"_"+id).val())) {
                 var temp=parseFloat($("#initialRows_"+j+"_"+id).val());
-            
                 total=total+temp;
             } else if ($("#initialRows_"+j+"_"+id).val() == '') {
-            	total=total;
+                total=total;
             } else{
                 var temp = $("#initialRows_"+j+"_"+id).val().split(":");
                 temp[0]= parseFloat(temp[0]);
                 temp[1]= parseFloat(temp[1])
-               
                 total=total+(temp[0]*3600+temp[1]*60)/3600;
             }
         }
-       
         if(total>24){
-           
             error=true;
-           
-          
         }
-
-       
         return !error;
     }
 
 
     function validateRow() {
-
         var flag = true;
-        $(".messageBalloon_success").remove();
-        //$(".messageBalloon_failure").remove()
-        $('#validationMsg').removeAttr('class');
-        $('#validationMsg').html("");
-
+        displayMessages('reset', '');
         var errorStyle = "background-color:#FFDFDF; width: 225px;";
         var normalStyle = "background-color:#FFFFFF; width: 225px;";
         var projectActivityElementArray = new Array();
         var index = 0;
-
         $('.projectActivity').each(function(){
             element = $(this);
-            $(element).attr('style', normalStyle);
+            $(element).removeClass('validation-error');
             if($(element).val()==-1){
-                $('#validationMsg').html(please_select_an_activity);
-                $(element).attr('style', errorStyle);
+                $(element).addClass('validation-error');
+                displayMessages('warning', please_select_an_activity);  
                 flag = false;
             }
             projectActivityElementArray[index] = $(element);
@@ -305,24 +237,21 @@ $(document).ready(function() {
             var currentElement = projectActivityElementArray[i];
             for(var j=1+i; j<projectActivityElementArray.length; j++){
                 if(currentElement.val() == projectActivityElementArray[j].val() ){
-                    currentElement.attr('style', errorStyle);
-                    $('#validationMsg').html(rows_are_duplicate);
-                    projectActivityElementArray[j].attr('style', errorStyle);
+                    currentElement.addClass('validation-error');
+                    displayMessages('warning', rows_are_duplicate);  
+                    projectActivityElementArray[j].addClass('validation-error');
                     flag = false;
                 }
             }
         }
-
         return flag;
     }
 
     $('.projectActivity').bind('change',(function() {
-    
         var flag = validateRow();
         if(!flag) {
             $('#btnSave').attr('disabled', 'disabled');
             $('#btnSave').attr('background', 'grey')
-            $('#validationMsg').attr('class', "messageBalloon_failure");
         }
         else{
             $('#btnSave').removeAttr('disabled');
@@ -330,83 +259,61 @@ $(document).ready(function() {
     
     }));
 
-    function validateProject() {
-
+    function validateProject() {        
         var flag = true;
-        $(".messageBalloon_success").remove();
-        $('#validationMsg').removeAttr('class');
-        $('#validationMsg').html("");
-
+        displayMessages('reset', '');
         var errorStyle = "background-color:#FFDFDF;";
         var normalStyle = "background-color:#FFFFFF;";
         var projectCount = projectsArray.length;
         $('input.project').each(function(){
             element = $(this);
-            $(element).attr('style', normalStyle);
+            $(element).removeClass('validation-error');
             proName = $.trim($(element).val()).toLowerCase();
             var temp = false;
             var i;
             for (i=0; i < projectCount; i++) {
                 arrayName = projectsArray[i].name.toLowerCase().replace("##", "");
-                arrayName = $("<div/>").html(arrayName).text();
+                arrayName = $("<div/>").text(arrayName).html();
                 if (proName == arrayName) {
                     
                     temp = true;
                     break;
                 }
             }
-
             if(!temp){
-                $('#validationMsg').html(project_name_is_wrong);
-                $(element).attr('style', errorStyle);
+                displayMessages('warning', project_name_is_wrong);
+                $(element).addClass('validation-error');
                 flag = false;
             }
         });
         return flag;
     }
 
-    $('#timeComment').keyup(function() {
-        
-       
-        var flag = validateTimehseetItemComment();
-        if(!flag) {
-            $('#commentSave').attr('disabled', 'disabled');
-        //$('#validationMsg').attr('class', "messageBalloon_failure");
-        }
-        else{
-            $('#commentSave').removeAttr('disabled');
-            $('#commentCancel').removeAttr('disabled');
-            $("#timeComment").removeAttr('style');
-        }
-
-    });
-
     $('.commentIcon').click(function(){
-
+        hiddenCommentInput = null;
         $("#commentError").html("");
+        $('#frmCommentSave').validate().resetForm();
+        $('#timeComment').removeClass('validation-error');
         $("#timeComment").val("");
         classStr = $(this).attr("id").split("_");
         deleteStr = $(this).attr("class").split(" ");
-        
         if(deleteStr[1] == "deletedRow"){
-            $("#timeComment").attr("disabled", "disabled")
-            $("#commentSave").hide()
+            $("#timeComment").attr("disabled", "disabled");
+            $("#commentSave").hide();
         }else{
-            $("#timeComment").removeAttr("disabled")
-            $("#commentSave").show()
+            $("#timeComment").removeAttr("disabled");
+            $("#commentSave").show();
         }
         var rowNo = classStr[2];
+        hiddenCommentInput = "initialRows_" + classStr[2] + "_TimesheetItemId" + classStr[1];
         date = currentWeekDates[classStr[1]];
         var activityNameId = "initialRows_"+rowNo+"_projectActivityName";
         activityId = $("#"+activityNameId).val();
         var comment = getComment(timesheetId,activityId,date,employeeId);
-
         $("#timeComment").val(comment);
         var projectNameId = "initialRows_"+rowNo+"_projectName";
         var activityNameId = "initialRows_"+rowNo+"_projectActivityName";
-
         var projectName = $.trim($("#"+projectNameId).val()).toLowerCase();
-
         var errorStyle = "background-color:#FFDFDF;";
         var projectCount = projectsArray.length;
         var temp = false;
@@ -420,52 +327,21 @@ $(document).ready(function() {
                 break;
             }
         }
-
-        if($("#"+projectNameId).val()=="" || $("#"+projectNameId).val()=="Type for hints..." || $("#"+activityNameId).val()=='-1'){
-            $('#validationMsg').attr('class', "messageBalloon_failure");
-            $('#validationMsg').html(lang_selectProjectAndActivity);
+        if($("#"+projectNameId).val()=="" || $("#"+projectNameId).val() == typeForHints || $("#"+activityNameId).val()=='-1'){
+            displayMessages('warning', lang_selectProjectAndActivity);  
         } else if( temp==false){
-            $('#validationMsg').attr('class', "messageBalloon_failure");
-            $('#validationMsg').html(lang_enterExistingProject);
-        }else{
-            $("#commentProjectName").text(":"+" "+$("#"+projectNameId).val());
-            $("#commentActivityName").text(":"+" "+$("#"+activityNameId+" :selected").text());
+            displayMessages('warning', lang_enterExistingProject);  
+        } else {
+            $("#commentProjectName").text($("#"+projectNameId).val());
+            $("#commentActivityName").text($("#"+activityNameId+" :selected").text());
             var parsedDate = $.datepicker.parseDate("yy-mm-dd", date);
-            $("#commentDate").text(":"+" "+$.datepicker.formatDate(datepickerDateFormat, parsedDate));
-            $("#commentDialog").dialog('open');
+            $("#commentDate").text($.datepicker.formatDate(datepickerDateFormat, parsedDate));
+            $("#commentDialog").modal();
         }
-
     });
 
-
-    function validateTimehseetItemComment(){
-
-        errFlag1 = false;
-
-
-        $('#commentError').html("");
-
-        var errorStyle = "background-color:#FFDFDF;";
-
-        if ($('#timeComment').val().length > 2000) {
-            $('#commentSave').attr('disabled', 'disabled');
-            $('#commentCancel').attr('disabled', 'disabled');
-            //   $('#validationMsg').attr('class', "messageBalloon_failure");
-            $('#commentError').html(erorrMessageForInvalidComment);
-            $('#timeComment').attr('style', errorStyle);
-
-            errFlag1 = true;
-        }
-
-        return !errFlag1;
-
-
-    }
-
     function saveComment(timesheetId,activityId,date,comment,employeeId) {
-
         var data = 'timesheetId=' + timesheetId + '&activityId=' + activityId + '&date=' + date+ '&comment=' + encodeURIComponent(comment)+ '&employeeId=' + employeeId;
-
         var r=$.ajax({
             type: 'POST',
             url: commentlink,
@@ -473,11 +349,9 @@ $(document).ready(function() {
             async: false
         }).responseText;
         return r;
-
     }
 
     function getComment(timesheetId, activityId, date, employeeId){
-	
         var r = $.ajax({
             type: 'POST',
             url: linkToGetComment,
@@ -489,7 +363,6 @@ $(document).ready(function() {
         });
         return cmnt;
     }
-
 });
 
 

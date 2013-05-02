@@ -53,9 +53,9 @@ class saveDeleteWorkExperienceAction extends basePimAction {
                         $workExperience = $this->getWorkExperience($this->workExperienceForm);
                         $this->setOperationName(($workExperience->getSeqno() == '') ? 'ADD WORK EXPERIENCE' : 'CHANGE WORK EXPERIENCE');
                         $this->getEmployeeService()->saveEmployeeWorkExperience($workExperience);
-                        $this->getUser()->setFlash('templateMessage', array('success', __(TopLevelMessages::SAVE_SUCCESS)));
+                        $this->getUser()->setFlash('workexperience.success', __(TopLevelMessages::SAVE_SUCCESS));
                     } else {
-                        $this->getUser()->setFlash('templateMessage', array('warning', __('Form Validation Failed.')));
+                        $this->getUser()->setFlash('workexperience.warning', __('Form Validation Failed.'));
                     }
                 }
             }
@@ -68,7 +68,7 @@ class saveDeleteWorkExperienceAction extends basePimAction {
                     if (count($deleteIds) > 0) {
                         $this->setOperationName('DELETE WORK EXPERIENCE');
                         $this->getEmployeeService()->deleteEmployeeWorkExperienceRecords($empNumber, $request->getParameter('delWorkExp'));
-                        $this->getUser()->setFlash('templateMessage', array('success', __(TopLevelMessages::DELETE_SUCCESS)));
+                        $this->getUser()->setFlash('workexperience.success', __(TopLevelMessages::DELETE_SUCCESS));
                     }
                 }
             }

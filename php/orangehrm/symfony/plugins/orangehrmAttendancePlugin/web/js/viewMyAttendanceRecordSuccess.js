@@ -9,19 +9,6 @@ $(document).ready(function()
     if (rDate == '') {
         $("#attendance_date").val(displayDateFormat);
     }
-
-    //Bind date picker
-    daymarker.bindElement("#attendance_date",
-    {
-        dateFormat : datepickerDateFormat,
-        onClose: function() {
-            $(this).valid();
-        }
-    });
-
-    $('#attendance_date_Button').click(function(){
-        daymarker.show("#attendance_date");
-    });
     
     if(trigger){
         $("#recordsTable").hide();
@@ -50,25 +37,6 @@ $(document).ready(function()
             $("#attendance_date").val(datepickerDateFormat);
         }
 
-        //Bind date picker
-        daymarker.bindElement("#attendance_date",
-        {
-            onSelect: function(date){
-              
-                $("#attendance_date").trigger('change');            
-
-            },
-            dateFormat:datepickerDateFormat
-        });
-
-        $('#DateBtn').click(function(){
-
-
-            daymarker.show("#attendance_date");
-
-
-        });
-    
         $('#attendance_date').change(function() {
     
             var isValidDate= validateInputDate();
@@ -101,7 +69,7 @@ function validateInputDate(){
     
         
     if(!validateDate(date, datepickerDateFormat)){
-        $('#validationMsg').attr('class', "messageBalloon_failure");
+        $('#validationMsg').attr('class', "message warning");
         $('#validationMsg').html(errorForInvalidFormat);
         $("#attendance_date").attr('style', errorStyle);
         errFlag = true;

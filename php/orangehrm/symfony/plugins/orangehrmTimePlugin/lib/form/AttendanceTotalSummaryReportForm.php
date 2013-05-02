@@ -38,8 +38,8 @@ class AttendanceTotalSummaryReportForm extends sfForm {
         $this->setWidgets(array(
             'empName' => new sfWidgetFormInputText(array(), array('id' => 'employee_name')),
             'employeeId' => new sfWidgetFormInputHidden(),
-            'fromDate' => new ohrmWidgetDatePickerNew(array(), array('id' => 'from_date')),
-            'toDate' => new ohrmWidgetDatePickerNew(array(), array('id' => 'to_date'))
+            'fromDate' => new ohrmWidgetDatePicker(array(), array('id' => 'from_date')),
+            'toDate' => new ohrmWidgetDatePicker(array(), array('id' => 'to_date'))
         ));
 
 //        Setting job titles
@@ -59,18 +59,6 @@ class AttendanceTotalSummaryReportForm extends sfForm {
         $this->setValidator('toDate', new ohrmDateValidator(array('date_format' => $inputDatePattern, 'required' => false),
                         array('invalid' => 'Date format should be ' . $inputDatePattern)));
         $this->widgetSchema->setNameFormat('attendanceTotalSummary[%s]');
-    }
-
-    public function getJobService() {
-        if (is_null($this->jobService)) {
-            $this->jobService = new JobService();
-            $this->jobService->setJobDao(new JobDao());
-        }
-        return $this->jobService;
-    }
-
-    public function setJobService(JobService $jobService) {
-        $this->jobService = $jobService;
     }
 
     private function _setJobTitleWidget() {

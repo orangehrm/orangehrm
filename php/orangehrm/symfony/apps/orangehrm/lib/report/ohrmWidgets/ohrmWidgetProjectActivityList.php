@@ -20,6 +20,7 @@
 class ohrmWidgetProjectActivityList extends sfWidgetForm implements ohrmEmbeddableWidget {
 
     private $whereClauseCondition;
+    protected $projectService;
 
     public function configure($options = array(), $attributes = array()) {
 
@@ -110,20 +111,10 @@ EOF
 
         $activityNameList = array();
 
-        $projectService = new ProjectService();
-        $projectList = $projectService->getActiveProjectList();
-        $projectId = -1;
+        $projectService = $this->getProjectService();
+        $activityCount = $projectService->getProjectActivityCount();
 
-        foreach ($projectList as $project) {
-
-            $projectId = $project->getProjectId();
-            break;
-        }
-
-        $timesheetDao = new TimesheetDao();
-        $activityList = $timesheetDao->getProjectActivitiesByPorjectId($projectId);
-
-        if ($activityList != null) {
+        if ($activityCount > 0) {
             $activityNameList[-1] = __("All");
         } else {
             $activityNameList[null] = "--".__("No Project Activities")."--";
@@ -190,6 +181,19 @@ EOF
             return $whereClausePart;
         }
     }
+    
+    public function getProjectService() {
+        if (is_null($this->projectService)) {
+            $this->projectService = new ProjectService();
+        }
+        return $this->projectService;
+    }
+
+    public function setProjectService($projectService) {
+        $this->projectService = $projectService;
+    }
+
+
 
 }
 

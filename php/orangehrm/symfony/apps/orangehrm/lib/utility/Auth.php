@@ -60,8 +60,6 @@ class Auth {
 
     // User Id
     private $loggedInUserId;
-    /** TODO: userg_repdef field in hs_hr_user_group doesn't seem to be used at all: Remove
-     */
     /**
      * Private constructor. Use instance() method to get singleton instance
      */
@@ -189,21 +187,6 @@ class Auth {
      */
     public function _getRightsForUserGroup($group) {
 
-        /*$db = Doctrine:: :: instance();
-        $query = $db->where('userg_id', $group)->get('hs_hr_rights');
-
-        if ($query->count() > 0) {        	
-            foreach ($query->result() as $row) {
-
-                $rights = new Rights();
-                $rights->view = ($row->viewing == 1);
-				$rights->edit =  ($row->editing == 1);
-				$rights->add = ($row->addition == 1);
-				$rights->delete = ($row->deletion == 1);
-
-                $this->permissions[$row->mod_id] = $rights;
-            }
-        }*/
     }
 }
 

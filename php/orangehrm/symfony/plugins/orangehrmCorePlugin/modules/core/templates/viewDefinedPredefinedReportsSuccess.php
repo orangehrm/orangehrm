@@ -1,71 +1,47 @@
-<?php
-use_stylesheet('../../../themes/orange/css/jquery/jquery.autocomplete.css');
-use_stylesheet('../../../themes/orange/css/ui-lightness/jquery-ui-1.7.2.custom.css');
-
-use_javascript('../../../scripts/jquery/ui/ui.core.js');
-use_javascript('../../../scripts/jquery/ui/ui.dialog.js');
-use_javascript('../../../scripts/jquery/jquery.autocomplete.js');
-?>
-<div id="predefinedReportsOuter">
-    <div id="messagebar" class="<?php echo isset($messageType) ? "messageBalloon_{$messageType}" : ''; ?>" >
-        <span style="font-weight: bold;"><?php echo isset($message) ? __($message) : ''; ?></span>
+<div class="box toggableForm">
+   
+    <div class="head">
+        <h1><?php echo __("Employee Reports"); ?></h1>
     </div>
-    <div class="outerbox" style="width: 590px;">
-        <div class="maincontent">
-            <div class="mainHeading">
-                <h2><?php echo __("Employee Reports"); ?></h2>
-            </div>
-            <br class="clear">
-            <form action="<?php echo url_for("core/viewDefinedPredefinedReports"); ?>" id="searchForm" method="post">
-                <div class="searchbox">
-                    <label for="search_search"><?php echo __('Report Name') . ' :' ?></label>
-                    <?php echo $searchForm['search']->render(); ?>
-                    <input type="submit" class="searchButton" value="<?php echo __('Search') ?>" />
-                    <input type="button" class="resetButton" value="<?php echo __('Reset') ?>" />
-                    <?php echo $searchForm->renderHiddenFields(); ?>
-                    <br class="clear"/>
-                </div>
-            </form>
-
-        </div>
+    <div class="inner" >
+        <form action="<?php echo url_for("core/viewDefinedPredefinedReports"); ?>" id="searchForm" method="post">
+            <fieldset>
+                
+                <ol>
+                    <li>
+                    <?php echo $searchForm->render(); ?>
+                    </li>
+                </ol>
+                
+                <p>
+                   <input type="submit" class="searchBtn" value="<?php echo __('Search') ?>" name="_search" />
+                <input type="button" class="reset" value="<?php echo __('Reset') ?>" name="_reset" />
+                <?php echo $searchForm->renderHiddenFields(); ?>
+                </p>
+                
+            </fieldset>
+        </form>
     </div>
-</div>
-
-<!-- confirmation box -->
-<div id="deleteConfirmation" title="<?php echo __('OrangeHRM - Confirmation Required'); ?>" style="display: none;">
-    <?php echo __(CommonMessages::DELETE_CONFIRMATION); ?>
-    <div class="dialogButtons">
-        <input type="button" id="dialogDeleteBtn" class="savebutton" value="<?php echo __('Ok'); ?>" />
-        <input type="button" id="dialogCancelBtn" class="savebutton" value="<?php echo __('Cancel'); ?>" />
-    </div>
+    <a href="#" class="toggle tiptip" title="Expand for options">&gt;</a>
 </div>
 
 <?php include_component('core', 'ohrmList', $parmetersForListComponent); ?>
 
-<style type="text/css">
-
-    .searchButton,.resetButton{
-        background: none repeat scroll 0 0 #999966 !important;
-        border-color: #CCCC99 #666633 #666633 #CCCC99 !important;
-        border-style: solid !important;
-        border-width: 1px !important;
-        color: #FFFFFF !important;
-        cursor: default;
-        font-size: 11px;
-        font-weight: bold !important;
-        min-width: 75px;
-        width: auto;
-    }
-
-    table.data-table th, table.data-table tbody tr td {
-        padding-left: 10px;
-    }
-
-    div#predefinedReportsOuter {
-        width: 600px;
-    }
-
-</style>
+<!-- Confirmation box HTML: Begins -->
+<div class="modal hide" id="deleteConfModal">
+  <div class="modal-header">
+    <a class="close" data-dismiss="modal">×</a>
+    <h3><?php echo __('OrangeHRM - Confirmation Required'); ?></h3>
+  </div>
+  <div class="modal-body">
+    <p><?php echo __(CommonMessages::DELETE_CONFIRMATION); ?></p>
+  </div>
+  <div class="modal-footer">
+    <input type="button" class="btn" data-dismiss="modal" id="dialogDeleteBtn" value="<?php echo __('Ok'); ?>" />
+    <input type="button" class="btn reset" data-dismiss="modal" value="<?php echo __('Cancel'); ?>" />
+  </div>
+</div>
+<!-- Confirmation box HTML: Ends -->
 
 <script type="text/javascript">
 
@@ -99,7 +75,7 @@ use_javascript('../../../scripts/jquery/jquery.autocomplete.js');
             }
         });
     
-        $(".resetButton").click(function() {
+        $(".reset").click(function() {
             $("#search_search").val("");
             $('#searchForm').submit();
         });
@@ -111,35 +87,11 @@ use_javascript('../../../scripts/jquery/jquery.autocomplete.js');
             }
             ,matchContains:true
         }).result(function(event, item) {
-        }
-    );
-        
-        $('#frmList_ohrmListComponent').submit(function (){
-            $('#deleteConfirmation').dialog('open');
-            return false;
-        });
-   
-   
-        $("#deleteConfirmation").dialog({
-            autoOpen: false,
-            modal: true,
-            width: 325,
-            height: 50,
-            position: 'middle',
-            open: function() {
-                $('#dialogCancelBtn').focus();
-            }
         });
 
         $('#dialogDeleteBtn').click(function() {        
-            $("#deleteConfirmation").dialog("close");
             document.frmList_ohrmListComponent.submit();
         });
-    
-        $('#dialogCancelBtn').click(function() {
-            $("#deleteConfirmation").dialog("close");
-        });
-        
     });
     
     function addPredefinedReport(){

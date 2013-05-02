@@ -81,8 +81,8 @@
     <target>FR_Assigned Emergency Contacts</target>
    </trans-unit>
    <trans-unit id="20">
-    <source>Assigned Immigration Documents</source>
-    <target>FR_Assigned Immigration Documents</target>
+    <source>Assigned Immigration Records</source>
+    <target>FR_Assigned Immigration Records</target>
    </trans-unit>
    <trans-unit id="21">
     <source>Assigned Memberships</source>

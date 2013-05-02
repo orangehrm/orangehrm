@@ -54,7 +54,7 @@ class deleteMembershipsAction extends basePimAction {
 
                     $service = new EmployeeService();
                     $service->deleteEmployeeMemberships($empNumber, $membershipIds);
-                    $this->getUser()->setFlash('templateMessage', array('success', __(TopLevelMessages::DELETE_SUCCESS)));
+                    $this->getUser()->setFlash('memberships.success', __(TopLevelMessages::DELETE_SUCCESS));
                 
                 }
             
