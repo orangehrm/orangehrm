@@ -868,11 +868,11 @@ class SchemaIncrementTask55 extends SchemaIncrementTask {
         //SELECT l.`id`, l.`new_entitlement_id`, l.length_days FROM `ohrm_leave` l WHERE l.status<>4 AND l.status<>5;";
         //add leave request comments
         $sql[] = "INSERT INTO `ohrm_leave_request_comment` (`leave_request_id`, `created`, `created_by_name`, `created_by_id`, `created_by_emp_number`, `comments`)
-    SELECT l.`id`, now(), 'record created by upgrade', 1, (SELECT u.`emp_number` FROM `ohrm_user` u WHERE u.`id` = 1), l.`comments` FROM `ohrm_leave_request` l;";
+    SELECT l.`id`, now(), 'Author not tracked prior to v3.0', 1, (SELECT u.`emp_number` FROM `ohrm_user` u WHERE u.`id` = 1), l.`comments` FROM `ohrm_leave_request` l;";
 
         //add leave comments
         $sql[] = "INSERT INTO `ohrm_leave_comment` (`leave_id`, `created`, `created_by_name`, `created_by_id`, `created_by_emp_number`, `comments`)
-SELECT l.`id`, now(), 'record created by upgrade', 1, (SELECT u.`emp_number` FROM `ohrm_user` u WHERE u.`id` = 1), l.`comments` FROM `ohrm_leave` l;";
+SELECT l.`id`, now(), 'Author not tracked prior to v3.0', 1, (SELECT u.`emp_number` FROM `ohrm_user` u WHERE u.`id` = 1), l.`comments` FROM `ohrm_leave` l;";
 
         //Update Time (hours) to Time (Hours) - labels should be consistent for gettin the total
         $sql[] = "UPDATE `ohrm_summary_display_field` SET `label` = 'Time (Hours)' WHERE `summary_display_field_id` = 2;";
@@ -946,8 +946,6 @@ SELECT l.`id`, now(), 'record created by upgrade', 1, (SELECT u.`emp_number` FRO
                     $added1 = $this->upgradeUtility->executeSql($insertOhrmLeaveEntitlementSql);
 
                     if ($added1) {
-                        echo ">>>Added ohrm_leave_entitlement <br/>";
-
                         $lastIdRes = $this->upgradeUtility->executeSql("SELECT LAST_INSERT_ID()");
                         $lastIdRow = mysqli_fetch_row($lastIdRes);
                         $new_entitlement_id = $lastIdRow[0];
@@ -1017,7 +1015,8 @@ SELECT l.`id`, now(), 'record created by upgrade', 1, (SELECT u.`emp_number` FRO
             $endDate->add(new DateInterval('P1Y'));
             
             $firstHistoryItem = $leavePeriodHistoryList[0];
-            
+            UpgradeLogger::writeLogMessage('$firstHistoryItem:' . print_r($firstHistoryItem, true));
+
             $firstCreatedDate = new DateTime($firstHistoryItem['created_at']);
             $startDate = new DateTime($firstCreatedDate->format('Y')."-".$firstHistoryItem['leave_period_start_month']."-".
                     $firstHistoryItem['leave_period_start_day']);
@@ -1084,11 +1083,12 @@ SELECT l.`id`, now(), 'record created by upgrade', 1, (SELECT u.`emp_number` FRO
                 throw new Exception("query failed");
             }            
             while ($row = mysqli_fetch_array($result)) {
-                $leavePeriods = $row;
+                $leavePeriods[] = $row;
             }
             
             $this->leavePeriodList = $this->getGeneratedLeavePeriodList($leavePeriods);
 
+            UpgradeLogger::writeLogMessage("Leave Period List: " . print_r($this->leavePeriodList, true));
         }
         
         return $this->leavePeriodList;
