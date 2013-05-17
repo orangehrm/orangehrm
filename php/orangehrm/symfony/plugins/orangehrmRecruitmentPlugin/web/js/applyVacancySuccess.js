@@ -77,7 +77,7 @@ function isValidForm(){
 			'addCandidate[email]' : {
 				required:true,
 				email:true,
-				maxlength:30
+				maxlength:100
 
 			},
 
