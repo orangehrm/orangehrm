@@ -121,6 +121,7 @@ class viewPhotographAction extends basePimAction {
                         $this->pictureSizeAdjust($height, $width);
                         $this->saveEmployeePicture($empNumber, $photoFile);
                         $this->getUser()->setFlash('success', __('Successfully Uploaded'));
+                        $this->redirect('pim/viewPhotograph?empNumber=' . $empNumber);
                         
                     }
                 }
