@@ -205,14 +205,17 @@ class SystemUserDao extends BaseDao {
             $sortField = empty($searchClues['sortField']) ? 'user_name' : $searchClues['sortField'];
             $sortOrder = empty($searchClues['sortOrder']) ? 'ASC' : $searchClues['sortOrder'];
             $offset = empty($searchClues['offset']) ? 0 : $searchClues['offset'];
-            $limit = empty($searchClues['limit']) ? SystemUser::NO_OF_RECORDS_PER_PAGE : $searchClues['limit'];
+            $limit = empty($searchClues['limit']) ? 0 : $searchClues['limit'];
 
             $q = $this->_buildSearchQuery($searchClues);
 
-            $q->orderBy($sortField . ' ' . $sortOrder)
-                    ->offset($offset)
+            $q->orderBy($sortField . ' ' . $sortOrder);
+            
+            if ($limit) {
+                $q->offset($offset)
                     ->limit($limit);
-
+            }
+            
             return $q->execute();
         } catch (Exception $e) {
             throw new DaoException($e->getMessage(), $e->getCode(), $e);
