@@ -27,8 +27,14 @@ class ApplyLeaveForm extends sfForm {
 
     protected $leavePeriodService;    
     protected $configService;
+    protected $workScheduleService;
+    protected $workSchedule;
 
-
+    const ALL_DAYS = 'all';
+    const START_DAY_ONLY = 'start';
+    const END_DAY_ONLY = 'end';
+    const START_AND_END_DAY = 'start_end';
+    
     public function getConfigService() {
         
         if (!$this->configService instanceof ConfigService) {
@@ -55,6 +61,32 @@ class ApplyLeaveForm extends sfForm {
     }
     
     /**
+     * Get work schedule service
+     * @return WorkScheduleService
+     */
+    public function getWorkScheduleService() {
+        if (!($this->workScheduleService instanceof WorkScheduleService)) {
+            $this->workScheduleService = new WorkScheduleService();
+        }
+        return $this->workScheduleService;
+    }
+
+    /**
+     *
+     * @param WorkScheduleService $service 
+     */
+    public function setWorkScheduleService(WorkScheduleService $service) {
+        $this->workScheduleService = $service;
+    }    
+    
+    protected function getWorkSchedule() {
+        if (is_null($this->workSchedule)) {
+            $this->workSchedule = $this->getWorkScheduleService()->getWorkSchedule($this->getEmployeeNumber());
+        }
+        return $this->workSchedule;
+    }
+    
+    /**
      * Configure ApplyLeaveForm
      *
      */
@@ -65,9 +97,20 @@ class ApplyLeaveForm extends sfForm {
         $this->setWidgets($this->getFormWidgets());
         $this->setValidators($this->getFormValidators());
 
+        $workSchedule = $this->getWorkSchedule();
+        $workScheduleStartEndTime = $workSchedule->getWorkShiftStartEndTime();
+        
         $this->setDefault('txtEmpID', $this->getEmployeeNumber());
-        $this->setDefault('txtEmpWorkShift', $this->getWorkShiftLength());
+        $this->setDefault('txtEmpWorkShift', $workSchedule->getWorkShiftLength());
         $this->setDefault('leaveBalance', '--');
+        
+        $specifyTimeDefault = array('time' => 
+            array('from' => $workScheduleStartEndTime['start_time'], 
+                  'to' => $workScheduleStartEndTime['end_time']));
+        
+        $this->setDefault('duration', $specifyTimeDefault);
+        $this->setDefault('firstDuration', $specifyTimeDefault);
+        $this->setDefault('secondDuration', $specifyTimeDefault);
 
         $this->getValidatorSchema()->setPostValidator(new sfValidatorCallback(array('callback' => array($this, 'postValidation'))));
 
@@ -166,58 +209,90 @@ class ApplyLeaveForm extends sfForm {
 
         $fromDateTimeStamp = strtotime($values['txtFromDate']);
         $toDateTimeStamp = strtotime($values['txtToDate']);
-
-        $fromTime = $values['time']['from'];
-        $fromTimetimeStamp = strtotime($fromTime);
         
-        $toTime = $values['time']['to'];
-        $toTimetimeStamp = strtotime($toTime);        
-
-        if ($fromDateTimeStamp === FALSE) {
-            $errorList['txtFromDate'] = new sfValidatorError($validator, 'Invalid From date');
-        }
-        
-        if ($toDateTimeStamp === FALSE) {
-            $errorList['txtToDate'] = new sfValidatorError($validator, 'Invalid To date');
-        }
-        
-        if ((is_int($fromDateTimeStamp) && is_int($toDateTimeStamp)) && ($toDateTimeStamp - $fromDateTimeStamp) < 0) {
-            $errorList['txtFromDate'] = new sfValidatorError($validator, ' From Date should be a previous date to To Date');
-        }
+        if (is_int($fromDateTimeStamp) && is_int($toDateTimeStamp)) {
+            if (($values['txtFromDate'] == $values['txtToDate'])) {
+                // Single Day leave request
+                $duration = $values['duration'];
+                $durationType = $duration['duration'];
+                if ($durationType == 'specify_time') {
+                    
+                    $error = $this->validateTimeRange($duration['time']);
+                    if (!is_null($error)) {
+                        $errorList['duration'] = $error;
+                    }
+                }
                 
-        if (($values['txtFromDate'] == $values['txtToDate']) && (is_int($fromTimetimeStamp) && is_int($toTimetimeStamp)) && ($toTimetimeStamp - $fromTimetimeStamp) < 0) {
-            $errorList['time'] = new sfValidatorError($validator, ' From time should be a previous time to To time');
+                // For compatibility, set total leave time
+                $values['txtLeaveTotalTime'] = $this->getDuration($duration['time']['from'], $duration['time']['to']);
+                
+            } else {
+                // Multi Day leave request
+                
+                $partialDayOption = $values['partialDays'];
+                if ($partialDayOption != '') {
+                    // check first duration
+                    if ($values['firstDuration']['duration'] == 'specify_time') {
+                        $error = $this->validateTimeRange($values['firstDuration']['time']);
+                        if (!is_null($error)) {
+                            $errorList['firstDuration'] = $error;
+                        }               
+                    }
+                    // check second duration
+                    if ($partialDayOption == 'start_end') {
+                        if ($values['secondDuration']['duration'] == 'specify_time') {
+
+                            $error = $this->validateTimeRange($values['secondDuration']['time']);
+                            if (!is_null($error)) {
+                                $errorList['secondDuration'] = $error;
+                            }                         
+                        }
+                    }
+                }
+
+                if (($toDateTimeStamp - $fromDateTimeStamp) < 0) {
+                    $errorList['txtFromDate'] = new sfValidatorError($validator, ' From date should be a before to date');
+                }
+            }
         }
 
-        $duration = $this->getWidget('time')->getTimeDifference($fromTime, $toTime);
-        
-        if (($values['txtFromDate'] == $values['txtToDate']) && empty($duration)) {
-            $errorList['time'] = new sfValidatorError($validator, 'Total hours required');
-        }
-        
-        if (($values['txtFromDate'] == $values['txtToDate']) && ($duration == 0 || $duration > 24)) {
-            $errorList['time'] = new sfValidatorError($validator, 'Invalid Total hours');
-        }
-        
         $maxDate = $this->getLeaveAssignDateLimit();
         $maxTimeStamp = strtotime($maxDate);
         
         if (is_int($toDateTimeStamp) && ($toDateTimeStamp > $maxTimeStamp)) {
             $errorList['txtToDate'] = new sfValidatorError($validator, __('Cannot assign leave beyond ') . $maxDate);
-        }  
-        
+        }           
+
         if (count($errorList) > 0) {
 
             throw new sfValidatorErrorSchema($validator, $errorList);
-        }
-
+        }     
+        
         $values['txtFromDate'] = date('Y-m-d', $fromDateTimeStamp);
         $values['txtToDate'] = date('Y-m-d', $toDateTimeStamp);
-        $values['txtLeaveTotalTime'] = $duration;
 
         return $values;
     }
 
+    /**
+     * @returns NULL or sfValidatorError
+     */
+    protected function validateTimeRange($duration, $validator) {
+        $error = NULL;
+        
+        $fromTime = $duration['from'];
+        $fromTimetimeStamp = strtotime($fromTime);
+        $toTime = $duration['to'];
+        $toTimetimeStamp = strtotime($toTime);
+        if (!is_int($fromTimetimeStamp) || !is_int($fromTimetimeStamp)) {
+            $error = new sfValidatorError($validator, ' Invalid time values selected');
+        } else if (($toTimetimeStamp - $fromTimetimeStamp) < 0) {
+            $error = new sfValidatorError($validator, ' From time should be before to time');
+        }
+        
+        return $error;
+    }
+    
     protected function getLeaveAssignDateLimit() {
         // If leave period is defined (enforced or not enforced), don't allow apply assign beyond next Leave period
         // If no leave period, don't allow apply/assign beyond next calender year
@@ -315,10 +390,11 @@ class ApplyLeaveForm extends sfForm {
             }else
                 $timeDeference = number_format($posts['txtEmpWorkShift'] / 2, 3);
         }else {
-            if ($posts['txtToDate'] == $posts['txtFromDate'])
+            if ($posts['txtToDate'] == $posts['txtFromDate']) {
                 $timeDeference = $posts['txtLeaveTotalTime'];
-            else
-                $timeDeference = $this->getWorkShiftLength();
+            } else {
+                $timeDeference = $this->getWorkSchedule()->getWorkShiftLength();
+            }
         }
 
         return $timeDeference;
@@ -396,21 +472,6 @@ class ApplyLeaveForm extends sfForm {
     }
 
     /**
-     * get work shift length
-     * @return int
-     */
-    private function getWorkShiftLength() {
-
-        $employeeService = new EmployeeService();
-        $employeeWorkShift = $employeeService->getEmployeeWorkShift($this->getEmployeeNumber());
-        if ($employeeWorkShift != null) {
-
-            return $employeeWorkShift->getWorkShift()->getHoursPerDay();
-        }else
-            return WorkShift::DEFAULT_WORK_SHIFT_LENGTH;
-    }
-
-    /**
      * Date increment
      *
      * @param int $timestamp
@@ -482,6 +543,13 @@ class ApplyLeaveForm extends sfForm {
      * @return array
      */
     protected function getFormWidgets() {
+        $partialDayChoices = array(
+            '' => __('None'), 
+            self::ALL_DAYS => __('All Days'), 
+            self::START_DAY_ONLY => __('Start Day Only'), 
+            self::END_DAY_ONLY => __('End Day Only'),
+            self::START_AND_END_DAY => __('Start and End Day'));
+        
         $widgets = array(
             'txtEmpID' => new sfWidgetFormInputHidden(),
             'txtEmpWorkShift' => new sfWidgetFormInputHidden(),
@@ -489,12 +557,10 @@ class ApplyLeaveForm extends sfForm {
             'leaveBalance' => new ohrmWidgetDiv(),            
             'txtFromDate' => new ohrmWidgetDatePicker(array(), array('id' => 'applyleave_txtFromDate')),
             'txtToDate' => new ohrmWidgetDatePicker(array(), array('id' => 'applyleave_txtToDate')),
-            'time' => new ohrmWidgetFormTimeRange(array(
-                    'from_time' => new ohrmWidgetTimeDropDown(),
-                    'to_time' => new ohrmWidgetTimeDropDown())),
-            //'txtFromTime' => new sfWidgetFormChoice(array('choices' => $this->getTimeChoices())),
-            //'txtToTime' => new sfWidgetFormChoice(array('choices' => $this->getTimeChoices())),
-            //'txtLeaveTotalTime' => new sfWidgetFormInput(array(), array('readonly' => 'readonly')),
+            'duration' => new ohrmWidgetFormLeaveDuration(),
+            'partialDays' => new sfWidgetFormChoice(array('choices' => $partialDayChoices)),
+            'firstDuration' => new ohrmWidgetFormLeaveDuration(array('enable_full_day' => false)),
+            'secondDuration' => new ohrmWidgetFormLeaveDuration(array('enable_full_day' => false)),
             'txtComment' => new sfWidgetFormTextarea(array(), array('rows' => '3', 'cols' => '30'))
         );
 
@@ -516,8 +582,11 @@ class ApplyLeaveForm extends sfForm {
                     array('invalid' => 'Date format should be ' . $inputDatePattern)),
             'txtToDate' => new ohrmDateValidator(array('date_format' => $inputDatePattern, 'required' => true),
                     array('invalid' => 'Date format should be ' . $inputDatePattern)),
-            'txtComment' => new sfValidatorString(array('required' => false, 'trim' => true, 'max_length' => 1000)),
-            'time' => new sfValidatorPass()
+            'duration' => new sfValidatorPass(),
+            'partialDays' => new sfValidatorPass(),
+            'firstDuration' => new sfValidatorPass(),
+            'secondDuration' => new sfValidatorPass(),               
+            'txtComment' => new sfValidatorString(array('required' => false, 'trim' => true, 'max_length' => 1000))
         );
 
         return $validators;
@@ -535,11 +604,25 @@ class ApplyLeaveForm extends sfForm {
             'leaveBalance' => __('Leave Balance'),
             'txtFromDate' => __('From Date') . $requiredMarker,
             'txtToDate' => __('To Date') . $requiredMarker,
+            'duration' => __('Duration'),
+            'partialDays' => __('Partial Days'),
+            'firstDuration' => __('Duration'),
+            'secondDuration' => __('Duration'),            
             'txtComment' => __('Comment'),
         );
         
         return $labels;
     }
+    
+    protected function getDuration($fromTime, $toTime) {
+        list($startHour, $startMin) = explode(':', $fromTime);
+        list($endHour, $endMin) = explode(':', $toTime);
+
+        $durationMinutes = (intVal($endHour) - intVal($startHour)) * 60 + (intVal($endMin) - intVal($startMin));
+        $hours = $durationMinutes / 60;
+
+        return number_format($hours, 2);
+    }      
 
 }
 

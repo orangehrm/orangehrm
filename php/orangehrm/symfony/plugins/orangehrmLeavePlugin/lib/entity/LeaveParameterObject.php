@@ -11,6 +11,12 @@ class LeaveParameterObject {
     protected $leaveTotalTime;
     protected $comment;
     protected $workShiftLength;
+    protected $multiDayLeave;
+    protected $multiDayPartialOption;
+    protected $singleDayDuration;
+    protected $firstMultiDayDuration;
+    protected $secondMultiDayDuration;
+    
 
     public function __construct(array $formParameters) {
         $this->employeeNumber = $formParameters['txtEmpID']; // TODO: Make this employee number
@@ -22,8 +28,48 @@ class LeaveParameterObject {
         $this->leaveTotalTime = $formParameters['txtLeaveTotalTime'];
         $this->comment = $formParameters['txtComment'];
         $this->workShiftLength = $formParameters['txtEmpWorkShift'];
+        $this->multiDayLeave = $this->fromDate != $this->toDate;
+        $this->multiDayPartialOption = $formParameters['partialDays'];
+        $this->singleDayDuration = $this->getLeaveDurationObject($formParameters['duration']);
+        $this->firstMultiDayDuration = $this->getLeaveDurationObject($formParameters['firstDuration']);
+        $this->secondMultiDayDuration = $this->getLeaveDurationObject($formParameters['secondDuration']);
+    }
+    
+    protected function getLeaveDurationObject($parameters) {
+        $durationObj = new LeaveDuration();
+        $type = $parameters['duration'];
+        $durationObj->setType($type);
+        if ($type == LeaveDuration::HALF_DAY) {
+            $durationObj->setAmPm($parameters['ampm']);
+        } else if ($type == LeaveDuration::SPECIFY_TIME) {
+            $durationObj->setFromTime($parameters['time']['from']);
+            $durationObj->setToTime($parameters['time']['to']);
+        }
+        return $durationObj;
+    }
+    
+    public function isMultiDayLeave() {
+        return $this->multiDayLeave;
+    }
+  
+
+    public function getMultiDayPartialOption() {
+        return $this->multiDayPartialOption;
     }
 
+    public function getSingleDayDuration() {
+        return $this->singleDayDuration;
+    }
+
+    public function getFirstMultiDayDuration() {
+        return $this->firstMultiDayDuration;
+    }
+
+    public function getSecondMultiDayDuration() {
+        return $this->secondMultiDayDuration;
+    }
+
+    
     public function getEmployeeNumber() {
         return $this->employeeNumber;
     }

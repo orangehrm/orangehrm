@@ -51,9 +51,13 @@ class getWorkshiftAjaxAction extends sfAction {
         $empNumber = $request->getParameter('empNumber');
         
         $workSchedule = $this->getWorkScheduleService()->getWorkSchedule($empNumber);        
-        $workShiftLength = $workSchedule->getWorkShiftLength();        
+        $workShiftLength = $workSchedule->getWorkShiftLength();
+        $startEndTime = $workSchedule->getWorkShiftStartEndTime();
 
-        $result = array('workshift' => $workShiftLength);
+        $result = array('workshift' => $workShiftLength,
+                        'start_time' => date('H:i', strtotime($startEndTime['start_time'])),
+                        'end_time' => date('H:i', strtotime($startEndTime['end_time']))
+            );
         $response = $this->getResponse();
         $response->setHttpHeader('Expires', '0');
         $response->setHttpHeader("Cache-Control", "must-revalidate, post-check=0, pre-check=0");

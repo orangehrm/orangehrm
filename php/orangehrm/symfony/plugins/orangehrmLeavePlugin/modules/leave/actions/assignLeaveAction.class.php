@@ -78,13 +78,13 @@ class assignLeaveAction extends baseLeaveAction {
         
         $this->form = $this->getAssignLeaveForm($this->leaveTypes);        
         $this->overlapLeave = 0;
+        $this->workshiftLengthExceeded = false;
 
         if ($request->isMethod('post')) {
             $this->form->bind($request->getParameter($this->form->getName()));
             if ($this->form->isValid()) {
                 try {
                     $leaveParameters = $this->getLeaveParameterObject($this->form->getValues());
-                    
                     $success = $this->getLeaveAssignmentService()->assignLeave($leaveParameters);
                     
                     if ($success) {
@@ -95,6 +95,8 @@ class assignLeaveAction extends baseLeaveAction {
                     }
                 } catch (LeaveAllocationServiceException $e) {
                     $this->getUser()->setFlash('warning', __($e->getMessage()));
+                    $this->overlapLeave = $this->getLeaveAssignmentService()->getOverlapLeave();
+                    $this->workshiftLengthExceeded = true;
                 }
             }
         }

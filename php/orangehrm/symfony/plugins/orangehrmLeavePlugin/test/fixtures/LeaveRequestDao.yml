@@ -72,6 +72,7 @@ LeaveRequest:
   17: {id: 18, leave_type_id: 2, date_applied: '2010-03-15', emp_number: 5, comments: 'my comment7'}
   18: {id: 19, leave_type_id: 1, date_applied: '2010-08-20', emp_number: 5, comments: 'my comment8'}
   19: {id: 20, leave_type_id: 4, date_applied: '2011-01-01', emp_number: 6, comments: 'my comment8'}
+  20: {id: 21, leave_type_id: 4, date_applied: '2011-04-02', emp_number: 6, comments: 'my comment9'}
   
 Leave:
   0: {id: 1, length_hours: 8, length_days: 1, leave_request_id: 1, leave_type_id: 1, emp_number: 1, date: '2010-09-01', status: 1}
@@ -109,6 +110,7 @@ Leave:
   32: {id: 33, length_hours: 1, length_days: 1, leave_request_id: 20, leave_type_id: 4, emp_number: 6, date: '2011-01-01', status: 1, start_time: '10:00', end_time: '11:00'}
   33: {id: 34, length_hours: 1, length_days: 1, leave_request_id: 20, leave_type_id: 4, emp_number: 6, date: '2011-01-01', status: 1, start_time: '11:00', end_time: '12:00'}
   34: {id: 35, length_hours: 1, length_days: 0.25, leave_request_id: 20, leave_type_id: 4, emp_number: 6, date: '2011-01-01', status: 1, start_time: '13:00', end_time: '14:00'}
+  35: {id: 36, length_hours: 1, length_days: 0.25, leave_request_id: 21, leave_type_id: 4, emp_number: 6, date: '2011-04-02', status: 1, start_time: '13:00', end_time: '14:00'}
 
 LeaveEntitlementType:
   0: {id: 1, name: 'Added'}

@@ -347,6 +347,51 @@ class ConfigServiceTest extends PHPUnit_Framework_TestCase {
         $this->assertFalse($returnVal);
     }
     
+    public function testGetDefaultWorkShiftStartTime() {        
+        $startTime = '09:30';
+        $this->validateGetMethod('getDefaultWorkShiftStartTime', ConfigService::KEY_ADMIN_DEFAULT_WORKSHIFT_START_TIME, $startTime);
+    }   
+    
+    public function testSetDefaultWorkShiftStartTime() {  
+        $startTime = '11:30';        
+        $this->validateSetMethod('setDefaultWorkShiftStartTime', ConfigService::KEY_ADMIN_DEFAULT_WORKSHIFT_START_TIME, $startTime);
+
+    }    
+    
+    public function testGetDefaultWorkShiftEndTime() {        
+        $startTime = '09:30';
+        $this->validateGetMethod('getDefaultWorkShiftEndTime', ConfigService::KEY_ADMIN_DEFAULT_WORKSHIFT_END_TIME, $startTime);
+    }   
+    
+    public function testSetDefaultWorkShiftEndTime() {  
+        $startTime = '11:30';        
+        $this->validateSetMethod('setDefaultWorkShiftEndTime', ConfigService::KEY_ADMIN_DEFAULT_WORKSHIFT_END_TIME, $startTime);
+
+    }    
+    
+    protected function validateGetMethod($method, $key, $expected) {        
+        $mockDao = $this->getMock('ConfigDao');
+        $mockDao->expects($this->once())
+                 ->method('getValue')
+                 ->with($key)
+                 ->will($this->returnValue($expected));
+
+        $this->configService->setConfigDao($mockDao);
+
+        $returnVal = $this->configService->$method();
+        $this->assertEquals($returnVal, $expected);        
+    }
+    
+    protected function validateSetMethod($method, $key, $value) {        
+        $mockDao = $this->getMock('ConfigDao');
+        $mockDao->expects($this->once())
+                 ->method('setValue')
+                 ->with($key, $value);
+
+        $this->configService->setConfigDao($mockDao);
+
+        $this->configService->$method($value);        
+    }
+    
 }
 
-?>

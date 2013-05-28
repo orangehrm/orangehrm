@@ -18,7 +18,7 @@ class DetailedLeaveListConfigurationFactory extends ohrmListConfigurationFactory
 
         $header1->populateFromArray(array(
             'name' => 'Date',
-            'width' => '15%',
+            'width' => '20%',
             'isSortable' => false,
             'elementType' => 'label',
             'textAlignmentStyle' => 'left',
@@ -51,7 +51,7 @@ class DetailedLeaveListConfigurationFactory extends ohrmListConfigurationFactory
         
         $header4->populateFromArray(array(
             'name' => 'Duration (Hours)',
-            'width' => '10%',
+            'width' => '8%',
             'isSortable' => false,
             'elementType' => 'label',
             'textAlignmentStyle' => 'right',
@@ -60,7 +60,7 @@ class DetailedLeaveListConfigurationFactory extends ohrmListConfigurationFactory
 
         $header5->populateFromArray(array(
             'name' => 'Status',
-            'width' => '15%',
+            'width' => '12%',
             'isSortable' => false,
             'elementType' => 'label',
             'filters' => array('CallbackCellFilter' => array('callback' => array('strtolower','ucwords')),

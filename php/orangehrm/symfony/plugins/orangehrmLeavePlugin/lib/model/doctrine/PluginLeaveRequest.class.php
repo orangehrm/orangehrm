@@ -107,7 +107,7 @@ abstract class PluginLeaveRequest extends BaseLeaveRequest {
         $leaveCount = count($this->leave);
 
         if ($leaveCount == 1) {
-            return set_datepicker_date_format($this->leave[0]->getDate());
+            return $this->leave[0]->getFormattedLeaveDateToView();
         } else {
             $firstDate = $this->leave[0]->getDate();
             $lastDate = $this->leave[$leaveCount - 1]->getDate();

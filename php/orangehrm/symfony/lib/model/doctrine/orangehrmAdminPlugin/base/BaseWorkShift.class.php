@@ -8,15 +8,21 @@
  * @property integer $id
  * @property string $name
  * @property decimal $hoursPerDay
+ * @property time $start_time
+ * @property time $end_time
  * @property Doctrine_Collection $EmployeeWorkShift
  * 
  * @method integer             getId()                Returns the current record's "id" value
  * @method string              getName()              Returns the current record's "name" value
  * @method decimal             getHoursPerDay()       Returns the current record's "hoursPerDay" value
+ * @method time                getStartTime()         Returns the current record's "start_time" value
+ * @method time                getEndTime()           Returns the current record's "end_time" value
  * @method Doctrine_Collection getEmployeeWorkShift() Returns the current record's "EmployeeWorkShift" collection
  * @method WorkShift           setId()                Sets the current record's "id" value
  * @method WorkShift           setName()              Sets the current record's "name" value
  * @method WorkShift           setHoursPerDay()       Sets the current record's "hoursPerDay" value
+ * @method WorkShift           setStartTime()         Sets the current record's "start_time" value
+ * @method WorkShift           setEndTime()           Sets the current record's "end_time" value
  * @method WorkShift           setEmployeeWorkShift() Sets the current record's "EmployeeWorkShift" collection
  * 
  * @package    orangehrm
@@ -44,6 +50,14 @@ abstract class BaseWorkShift extends sfDoctrineRecord
              'notnull' => true,
              'scale' => false,
              'length' => 4,
+             ));
+        $this->hasColumn('start_time', 'time', null, array(
+             'type' => 'time',
+             'notnull' => true,
+             ));
+        $this->hasColumn('end_time', 'time', null, array(
+             'type' => 'time',
+             'notnull' => 'true;',
              ));
     }
 

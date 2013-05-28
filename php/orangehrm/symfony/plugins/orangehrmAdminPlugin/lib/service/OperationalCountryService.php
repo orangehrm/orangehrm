@@ -58,4 +58,7 @@ class OperationalCountryService extends BaseService {
         return $this->getOperationalCountryDao()->getOperationalCountriesForLocations($locationIds);     
     }    
 
+    public function getOperationalCountriesForEmployees($empNumbers) {
+        return $this->getOperationalCountryDao()->getOperationalCountriesForEmployees($empNumbers);
+    }
 }

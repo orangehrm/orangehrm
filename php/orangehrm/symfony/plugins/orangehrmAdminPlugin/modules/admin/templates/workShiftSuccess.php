@@ -1,6 +1,6 @@
 <?php use_javascript(plugin_web_path('orangehrmAdminPlugin', 'js/workShiftSuccess')); ?>
 
-<div id="workShift" class="box">
+<div id="workShift" class="box" <?php echo $hideForm ? "style='display:none'" : "";?> >
     
     <div class="head">
         <h1 id="workShiftHeading"><?php echo __("Work Shift"); ?></h1>
@@ -8,6 +8,8 @@
     
     <div class="inner">
 
+        <?php include_partial('global/form_errors', array('form' => $form)); ?>
+        
         <form name="frmWorkShift" id="frmWorkShift" method="post" action="<?php echo url_for('admin/workShift'); ?>" >
 
             <?php echo $form['_csrf_token']; ?>
@@ -17,13 +19,13 @@
                 
                 <ol>                    
                     <li>
-                        <?php echo $form['name']->renderLabel(__('Shift Name'). ' <em>*</em>'); ?>
-                        <?php echo $form['name']->render(array("maxlength" => 52)); ?>
+                        <?php echo $form['name']->renderLabel(); ?>
+                        <?php echo $form['name']->render(); ?>
                     </li>
                     <li>
-                        <?php echo $form['hours']->renderLabel(__('Hours Per Day'). ' <em>*</em>'); ?>
-                        <?php echo $form['hours']->render(); ?>
-                    </li>
+                        <?php echo $form['workHours']->renderLabel(); ?>
+                        <?php echo $form['workHours']->render(); ?>
+                    </li>                   
                     <p id="selectManyTable">
                         <table border="0" width="45%" class="">
                             <tbody>
@@ -39,10 +41,6 @@
                                         <?php echo $form['availableEmp']->render(array("class" => "selectMany", "size" => 10, "style" => "width: 100%")); ?>	
                                     </td>
                                     <td align="center" style="vertical-align: middle">
-                                        <!--
-                                        <input type="button" style="width: 70%;" value="<?php echo __("Add"). " >"; ?>" class="" id="btnAssignEmployee" name="btnAssignEmployee">
-                                        <input type="button" style="width: 70%;" value="<?php echo "< ".__("Remove"); ?>" class="delete" id="btnRemoveEmployee" name="btnRemoveEmployee">
-                                        -->
                                         <a href="#" class="" id="btnAssignEmployee"><?php echo __("Add"). " >>"; ?></a><br /><br />
                                         <a href="#" class="delete" id="btnRemoveEmployee"><?php echo __("Remove") . " <<"; ?></a>
                                     </td>
@@ -92,25 +90,19 @@
 <!-- Confirmation box HTML: Ends -->
 
 <script type="text/javascript">
-	var employees = <?php echo str_replace('&#039;', "'", $form->getEmployeeListAsJson());?>;
-    
-    if (employees == null) {
-        var employeeList = new Array();
-    } else {
-        var employeeList = eval(employees);
-    }
-    
-	var workShifts = <?php echo str_replace('&#039;', "'", $form->getWorkShiftListAsJson());?>;
-	var workShiftList = eval(workShifts);
-	var lang_NameRequired = '<?php echo __(ValidationMessages::REQUIRED); ?>';
+	var employeeList = <?php echo $form->getEmployeeListAsJson();?>;
+	var workShiftList = <?php echo $form->getWorkShiftListAsJson();?>;
+        
+        var defaultStartTime = '<?php echo $default['start_time'];?>';
+        var defaultEndTime = '<?php echo $default['end_time'];?>';
+
+	var workShiftInfoUrl = "<?php echo url_for("admin/getWorkShiftInfoJson?id="); ?>";
+	var workShiftEmpInfoUrl = "<?php echo url_for("admin/getWorkShiftEmpInfoJson?id="); ?>";
+
+	var lang_Required = '<?php echo __(ValidationMessages::REQUIRED); ?>';
 	var lang_exceed50Charactors = '<?php echo __(ValidationMessages::TEXT_LENGTH_EXCEEDS, array('%amount%' => 50)); ?>';
-	var lang_hoursRequired = '<?php echo __(ValidationMessages::REQUIRED); ?>';
-	var lang_notNumeric = '<?php echo __("Should be a positive number"); ?>';
 	var lang_addWorkShift = "<?php echo __("Add Work Shift"); ?>";
 	var lang_editWorkShift = "<?php echo __("Edit Work Shift"); ?>";
-	var lang_possitiveNumber = "<?php echo __("Should be a positive number"); ?>";
-	var lang_lessThan24 = '<?php echo __("Should be less than %amount%", array("%amount%" => '24')); ?>';
 	var lang_nameAlreadyExist = '<?php echo __(ValidationMessages::ALREADY_EXISTS); ?>';
-	var workShiftInfoUrl = "<?php echo url_for("admin/getWorkShiftInfoJson?id="); ?>";
-	var workShiftEmpInfoUrl = "<?php echo url_for("admin/getWorkShiftEmpInfoJson?id="); ?>";	
+        var lang_FromTimeLessThanToTime = "<?php echo __('From time should be less than To time'); ?>";
 </script>

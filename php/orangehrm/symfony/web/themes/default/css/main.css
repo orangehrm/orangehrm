@@ -853,7 +853,6 @@ input[type=submit].reset {
 
 form ol li label.time_range_label {
     width:auto;
-    margin-left: 20px;
     margin-right: 10px;
 }
 form ol li select.timepicker {

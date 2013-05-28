@@ -43,6 +43,8 @@ class ConfigService extends BaseService {
     const KEY_INCLUDE_SUPERVISOR_CHAIN = 'include_supervisor_chain'; 
     const KEY_THEME_NAME = 'themeName';
     const KEY_LEAVE_PERIOD_STATUS = 'leave.leavePeriodStatus';
+    const KEY_ADMIN_DEFAULT_WORKSHIFT_START_TIME = 'admin.default_workshift_start_time';
+    const KEY_ADMIN_DEFAULT_WORKSHIFT_END_TIME = 'admin.default_workshift_end_time';
 
     /**
      * Get ConfigDao
@@ -278,6 +280,38 @@ class ConfigService extends BaseService {
     
     public function setLeavePeriodStartDate($startDate) {
         $this->_setConfigValue(self::KEY_LEAVE_PERIOD_START_DATE, $startDate);
+    }     
+    
+    /**
+     * Get default workshift start time
+     * @return String 
+     */
+    public function getDefaultWorkShiftStartTime() {
+        return $this->_getConfigValue(self::KEY_ADMIN_DEFAULT_WORKSHIFT_START_TIME);
+    }
+    
+    /**
+     * Set workshift default start time
+     * @param String $startTime Time in HH:MM format
+     */
+    public function setDefaultWorkShiftStartTime($startTime) {
+        $this->_setConfigValue(self::KEY_ADMIN_DEFAULT_WORKSHIFT_START_TIME, $startTime);
+    } 
+    
+    /**
+     * Get default workshift end time
+     * @return String 
+     */
+    public function getDefaultWorkShiftEndTime() {
+        return $this->_getConfigValue(self::KEY_ADMIN_DEFAULT_WORKSHIFT_END_TIME);
+    }
+    
+    /**
+     * Set workshift default end time
+     * @param String $endTime Time in HH:MM format
+     */
+    public function setDefaultWorkShiftEndTime($endTime) {
+        $this->_setConfigValue(self::KEY_ADMIN_DEFAULT_WORKSHIFT_END_TIME, $endTime);
     }     
 
 }

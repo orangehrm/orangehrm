@@ -171,5 +171,9 @@ class TestWorkScheduleValidClass implements WorkScheduleInterface {
     public function isWeekend($day, $fullDay) {
         
     }
+
+    public function getWorkShiftStartEndTime() {
+        
+    }
 }
 

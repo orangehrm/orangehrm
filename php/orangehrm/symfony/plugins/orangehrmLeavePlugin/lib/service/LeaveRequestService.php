@@ -633,30 +633,34 @@ class LeaveRequestService extends BaseService {
         
         foreach ($leaveList as $leave) {
 
-            $entitlementChanges = array();
-            
-            $removeLinkedEntitlements = (($newState == Leave::LEAVE_STATUS_LEAVE_CANCELLED) || 
-                    ($newState == Leave::LEAVE_STATUS_LEAVE_REJECTED));
-            
+            $currentState = $leave->getStatus();
+            if (($currentState != Leave::LEAVE_STATUS_LEAVE_WEEKEND) && 
+                    ($currentState != Leave::LEAVE_STATUS_LEAVE_HOLIDAY)) {
+                $entitlementChanges = array();
 
-            $strategy = $this->getLeaveEntitlementService()->getLeaveEntitlementStrategy();     
-            
-            if ($removeLinkedEntitlements) {                
-                $entitlementChanges = $strategy->handleLeaveCancel($leave);
-            }
-            
-            $leave->setStatus($newState);
-            
-            if (!is_null($comments)) {
-                if (is_array($comments)) {
-                    $comment = isset($comments[$leave->getId()]) ? $comments[$leave->getId()] : '';
-                } else {
-                    $comment = $comments;
+                $removeLinkedEntitlements = (($newState == Leave::LEAVE_STATUS_LEAVE_CANCELLED) || 
+                        ($newState == Leave::LEAVE_STATUS_LEAVE_REJECTED));
+
+
+                $strategy = $this->getLeaveEntitlementService()->getLeaveEntitlementStrategy();     
+
+                if ($removeLinkedEntitlements) {                
+                    $entitlementChanges = $strategy->handleLeaveCancel($leave);
                 }
-                $leave->setComments($comment);
-            }
+
+                $leave->setStatus($newState);
             
-            $dao->changeLeaveStatus($leave, $entitlementChanges, $removeLinkedEntitlements);
+                if (!is_null($comments)) {
+                    if (is_array($comments)) {
+                        $comment = isset($comments[$leave->getId()]) ? $comments[$leave->getId()] : '';
+                    } else {
+                        $comment = $comments;
+                    }
+                    $leave->setComments($comment);
+                }
+
+                $dao->changeLeaveStatus($leave, $entitlementChanges, $removeLinkedEntitlements);
+            }
         }                
     }
     

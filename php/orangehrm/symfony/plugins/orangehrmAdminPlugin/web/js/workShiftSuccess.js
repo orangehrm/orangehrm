@@ -18,16 +18,17 @@ $(document).ready(function() {
 
     });
     
-    $('#workShift').hide();
-    
     $('#btnAdd').click(function() {
         resetMultipleSelectBoxes();
-        $('#workShift').show();
-        $('.top').hide();
+        
         $('#workShift_name').val('');
-        $('#workShift_hours').val('');
+        $('#workShift_workHours_from').val(defaultStartTime);
+        $('#workShift_workHours_to').val(defaultEndTime);
         $('#workShift_workShiftId').val('');
+        fillTotalTime();
         $('#workShiftHeading').html(lang_addWorkShift);
+        $('#workShift').show();
+        $('.top').hide();        
         $(".messageBalloon_success").remove();
     });
     
@@ -76,6 +77,16 @@ $(document).ready(function() {
     $('#dialogDeleteBtn').click(function() {
         document.frmList_ohrmListComponent.submit();
     });
+    
+    // Bind On change event of From Time
+    $('#workShift_workHours_from').change(function() {
+        fillTotalTime();
+    });
+
+    // Bind On change event of To Time
+    $('#workShift_workHours_to').change(function() {
+        fillTotalTime();
+    });    
         
     $.validator.addMethod("uniqueName", function(value, element, params) {
         
@@ -107,6 +118,18 @@ $(document).ready(function() {
         return temp;
     });
     
+    $.validator.addMethod("validWorkHours", function(value, element) {
+        var valid = true;
+
+        var totalTime = getTotalTime();
+        if (parseFloat(totalTime) <= 0) {
+            valid = false;
+        }
+
+        return valid;  
+    });
+        
+        
     var validator = $("#frmWorkShift").validate({
 
         rules: {
@@ -115,37 +138,68 @@ $(document).ready(function() {
                 uniqueName: true,
                 maxlength: 50
             },
-            'workShift[hours]' : {
-                required:true,
-                number: true,
-                min: 1,
-                max: 24
+            'workShift[workHours][from]':{
+                required: true, 
+                validWorkHours: true
+            },
+            'workShift[workHours][to]':{
+                required: true
             }
-
         },
         messages: {
             'workShift[name]' : {
-                required: lang_NameRequired,
+                required: lang_Required,
                 uniqueName: lang_nameAlreadyExist,
                 maxlength: lang_exceed50Charactors
             },
-            'workShift[hours]' : {
-                required: lang_hoursRequired,
-                number: lang_notNumeric,
-                min: lang_possitiveNumber,
-                max: lang_lessThan24
-            }
+            'workShift[workHours][from]':{
+                required : lang_Required,
+                validWorkHours: lang_FromTimeLessThanToTime
+            },
+            'workShift[workHours][to]':{
+                required : lang_Required
+            }            
         }
 
     });
 });
+
+function fillTotalTime() {        
+    var total = getTotalTime();
+    if (isNaN(total)) {
+        total = '';
+    }
+
+    $('input.time_range_duration').val(total);
+    $('#workShift_workHours_from').valid();
+    $('#workShift_workHours_to').valid();
+}
+
+function getTotalTime() {
+    var total = 0;
+    var fromTime = ($('#workShift_workHours_from').val()).split(":");
+    var fromdate = new Date();
+    fromdate.setHours(fromTime[0],fromTime[1]);
+        
+    var toTime = ($('#workShift_workHours_to').val()).split(":");
+    var todate = new Date();
+    todate.setHours(toTime[0],toTime[1]);        
+        
+    var difference = todate - fromdate;
+    var floatDeference	=	parseFloat(difference/3600000) ;
+    total = Math.round(floatDeference*Math.pow(10,2))/Math.pow(10,2);
+        
+    return total;        
+}
 
 function getWorkShiftInfo(url){
     
     $.getJSON(url, function(data) {
         $('#workShift_workShiftId').val(data.id);
         $('#workShift_name').val(data.name);
-        $('#workShift_hours').val(data.hoursPerDay);
+        $('#workShift_workHours_from').val(data.start_time);
+        $('#workShift_workHours_to').val(data.end_time);
+        fillTotalTime();
         $('#workShift').show();
         $(".messageBalloon_success").remove();
         $('.top').hide();

@@ -17,6 +17,11 @@ abstract class PluginLeave extends BaseLeave {
     const LEAVE_STATUS_LEAVE_PENDING_APPROVAL_TEXT = 'Pending Approval';
     
     const PENDING_APPROVAL_STATUS_PREFIX = 'PENDING APPROVAL';
+    
+    const DURATION_TYPE_FULL_DAY = 0;
+    const DURATION_TYPE_HALF_DAY_AM = 1;
+    const DURATION_TYPE_HALF_DAY_PM = 2;
+    const DURATION_TYPE_SPECIFY_TIME = 3;
 
     private static $leaveStatusText = array(
         self::LEAVE_STATUS_LEAVE_REJECTED => 'REJECTED',
@@ -153,7 +158,21 @@ abstract class PluginLeave extends BaseLeave {
     }
 
     public function getFormattedLeaveDateToView() {
-        return set_datepicker_date_format($this->getDate());
+        $date = set_datepicker_date_format($this->getDate());
+        
+        // check if partial leave
+        $durationType = $this->getDurationType();
+        
+        if ($durationType != self::DURATION_TYPE_FULL_DAY) {
+            $time = date('H:i', strtotime($this->getStartTime())) . ' - ' . date('H:i', strtotime($this->getEndTime()));
+            $date .= ' (' . $time . ')';
+            
+            if (($durationType == self::DURATION_TYPE_HALF_DAY_AM) || 
+                    ($durationType == self::DURATION_TYPE_HALF_DAY_PM)) {
+                $date .= ' ' . __('Half Day');
+            }
+        }
+        return $date;
     }
 
     public function getLatestCommentAsText() {

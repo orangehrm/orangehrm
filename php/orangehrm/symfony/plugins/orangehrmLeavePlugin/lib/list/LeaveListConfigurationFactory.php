@@ -19,7 +19,7 @@ class LeaveListConfigurationFactory extends ohrmListConfigurationFactory {
 
         $header1->populateFromArray(array(
             'name' => 'Date',
-            'width' => '19%',
+            'width' => '24%',
             'isSortable' => false,
             'elementType' => 'link',
             'textAlignmentStyle' => 'left',
@@ -32,7 +32,7 @@ class LeaveListConfigurationFactory extends ohrmListConfigurationFactory {
 
         $header2->populateFromArray(array(
             'name' => 'Employee Name',
-            'width' => '20%',
+            'width' => '18%',
             'isSortable' => false,
             'elementType' => 'link',
             'textAlignmentStyle' => 'left',
@@ -54,7 +54,7 @@ class LeaveListConfigurationFactory extends ohrmListConfigurationFactory {
 
         $header4->populateFromArray(array(
             'name' => 'Number of Days',
-            'width' => '12%',
+            'width' => '9%',
             'isSortable' => false,
             'elementType' => 'label',
             'textAlignmentStyle' => 'right',

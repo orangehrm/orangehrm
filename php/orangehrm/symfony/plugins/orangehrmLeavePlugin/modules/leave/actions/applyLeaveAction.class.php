@@ -99,6 +99,7 @@ class applyLeaveAction extends baseLeaveAction {
         $this->applyLeaveForm = $this->getApplyLeaveForm($this->leaveTypes);
 
         $this->overlapLeaves = 0;
+        $this->workshiftLengthExceeded = true;
 
         //this section is to save leave request
         if ($request->isMethod('post')) {
@@ -116,6 +117,8 @@ class applyLeaveAction extends baseLeaveAction {
                     }
                 } catch (LeaveAllocationServiceException $e) {
                     $this->getUser()->setFlash('warning', __($e->getMessage()));
+                    $this->overlapLeave = $this->getLeaveApplicationService()->getOverlapLeave();
+                    $this->workshiftLengthExceeded = true;
                 }
             }
         }

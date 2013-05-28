@@ -509,7 +509,9 @@ INSERT INTO `hs_hr_config`(`key`, `value`) VALUES ('ldap_server', ''),
     ('leave.work_schedule_implementation', 'BasicWorkSchedule'),
     ('themeName', 'default'),
     ('leave.leavePeriodStatus',1),
-    ('leave.include_pending_leave_in_balance', 1);
+    ('leave.include_pending_leave_in_balance', 1),
+    ('admin.default_workshift_start_time', '09:00'),
+    ('admin.default_workshift_end_time', '17:00');
 
 INSERT INTO `ohrm_emp_reporting_method`(`reporting_method_id`, `reporting_method_name`) VALUES(1, 'Direct'),
       (2, 'Indirect');

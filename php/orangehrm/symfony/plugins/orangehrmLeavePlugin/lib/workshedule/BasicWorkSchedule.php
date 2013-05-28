@@ -31,6 +31,22 @@ class BasicWorkSchedule implements WorkScheduleInterface {
     protected $employeeService;
     protected $workWeekService;
     protected $holidayService;    
+    protected $workShiftService;
+    
+    /**
+     * 
+     * @return WorkShiftService
+     */
+    public function getWorkShiftService() {
+        if (!($this->workShiftService instanceof WorkShiftService)) {
+            $this->workShiftService = new WorkShiftService();
+        }             
+        return $this->workShiftService;
+    }
+
+    public function setWorkShiftService(WorkShiftService$workShiftService) {
+        $this->workShiftService = $workShiftService;
+    }    
     
     protected function getEmployeeService() {
         if (!($this->employeeService instanceof EmployeeService)) {
@@ -97,6 +113,21 @@ class BasicWorkSchedule implements WorkScheduleInterface {
         
         return $workShiftLength;
     }
+    
+    public function getWorkShiftStartEndTime() {
+        $workshift = $this->getEmployeeService()->getEmployeeWorkShift($this->empNumber);
+        if ($workshift == null) {
+            $startEndTime = $this->getWorkShiftService()->getWorkShiftDefaultStartAndEndTime();
+        } else {
+            $workShift = $workshift->getWorkShift();
+            $startEndTime = array(
+                'start_time' => $workShift->getStartTime(),
+                'end_time' => $workShift->getEndTime()
+            );
+        }
+        
+        return $startEndTime;
+    }    
     
     public function isWeekend($day, $fullDay) {
         return $this->getWorkWeekService()->isWeekend($day, $fullDay);

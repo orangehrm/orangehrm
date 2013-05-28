@@ -4,7 +4,7 @@ use_stylesheets_for_form($form);
 use_stylesheet(plugin_web_path('orangehrmLeavePlugin', 'css/assignLeaveSuccess.css'));
 ?>
 
-<?php include_partial('overlapping_leave', array('overlapLeave' => $overlapLeave));?>
+<?php include_partial('overlapping_leave', array('overlapLeave' => $overlapLeave, 'workshiftLengthExceeded' => $workshiftLengthExceeded));?>
 
 <div class="box" id="assign-leave">
     <div class="head">
@@ -158,6 +158,9 @@ use_stylesheet(plugin_web_path('orangehrmLeavePlugin', 'css/assignLeaveSuccess.c
     var lang_DurationShouldBeLessThanWorkshift = "<?php echo __('Duration should be less than work shift length'); ?>";
     var lang_validEmployee = "<?php echo __(ValidationMessages::INVALID); ?>";
     var lang_BalanceNotSufficient = "<?php echo __("Balance not sufficient");?>";
+    var lang_Duration = "<?php echo __('Duration');?>";
+    var lang_StartDay = "<?php echo __('Start Day');?>";
+    var lang_EndDay = "<?php echo __('End Day');?>";
 //]]>    
 </script>    
     

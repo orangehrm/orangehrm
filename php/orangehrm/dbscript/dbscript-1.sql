@@ -463,6 +463,8 @@ create table `ohrm_work_shift` (
   `id` int(11) not null auto_increment,
   `name` varchar(250) not null,
   `hours_per_day` decimal(4,2) not null,
+  `start_time` time not null,
+  `end_time` time not null,
   primary key  (`id`)
 ) engine=innodb default charset=utf8;
 
@@ -1208,6 +1210,7 @@ CREATE TABLE `ohrm_leave` (
   `emp_number` int(7) NOT NULL,
   `start_time` time default NULL,
   `end_time` time default NULL,
+  `duration_type` tinyint NOT NULL default 0,
   PRIMARY KEY  (`id`),
   KEY `leave_request_type_emp`(`leave_request_id`,`leave_type_id`,`emp_number`),
   KEY `request_status` (`leave_request_id`,`status`)

@@ -4,7 +4,7 @@ $(document).ready(function() {
     lastLeaveBalance = 0.0;
     
     if (haveLeaveTypes) {
-        showTimeControls(false);
+        showTimeControls(false, false);
         
         // Auto complete
         $("#assignleave_txtEmployee_empName").autocomplete(employees_assignleave_txtEmployee, {
@@ -40,22 +40,25 @@ $(document).ready(function() {
             updateLeaveBalance();
         });          
         
+        $('#assignleave_partialDays').change(function() {
+            handlePartialDayChange(true);
+        });
+        
         //Show From if same date
-        if(trim($("#assignleave_txtFromDate").val()) != displayDateFormat && trim($("#assignleave_txtToDate").val()) != displayDateFormat){
-            if( trim($("#assignleave_txtFromDate").val()) == trim($("#assignleave_txtToDate").val()) && trim($("#assignleave_txtFromDate").val()) != '') {
-                showTimeControls(true);
-            }
+        if(trim($("#assignleave_txtFromDate").val()) == displayDateFormat || trim($("#assignleave_txtToDate").val()) == displayDateFormat 
+            || trim($("#assignleave_txtFromDate").val()) == '' || trim($("#assignleave_txtToDate").val()) == '') {
+                showTimeControls(false, false);
+        } else if (trim($("#assignleave_txtFromDate").val()) == trim($("#assignleave_txtToDate").val())) {
+            showTimeControls(true, false);
+        } else {
+            showTimeControls(false, true);
         }
         
-        // Bind On change event of From Time
-        $('#assignleave_time_from').change(function() {
-            fillTotalTime();
+        // Bind On change event of time elements
+        $('select.timepicker').change(function() {
+            fillTotalTime($(this));
         });
         
-        // Bind On change event of To Time
-        $('#assignleave_time_to').change(function() {
-            fillTotalTime();
-        });
         
         // Fetch and display available leave when leave type is changed
         $('#assignleave_txtLeaveType').change(function() {
@@ -111,16 +114,36 @@ $(document).ready(function() {
                 'assignleave[txtComment]': {
                     maxlength: 250
                 },
-                'assignleave[time][from]':{
+                'assignleave[duration][time][from]':{
                     required: false, 
                     validWorkShift : true, 
                     validTotalTime: true, 
                     validToTime: true
                 },
-                'assignleave[time][to]':{
+                'assignleave[duration][time][to]':{
                     required: false, 
                     validTotalTime: true
-                }
+                },
+                'assignleave[firstDuration][time][from]':{
+                    required: false, 
+                    validWorkShift : true, 
+                    validTotalTime: true, 
+                    validToTime: true
+                },
+                'assignleave[firstDuration][time][to]':{
+                    required: false, 
+                    validTotalTime: true
+                },
+                'assignleave[secondDuration][time][from]':{
+                    required: false, 
+                    validWorkShift : true, 
+                    validTotalTime: true, 
+                    validToTime: true
+                },
+                'assignleave[secondDuration][time][to]':{
+                    required: false, 
+                    validTotalTime: true
+                }                        
             },
             messages: {
                 'assignleave[txtEmployee][empName]':{
@@ -142,12 +165,28 @@ $(document).ready(function() {
                 'assignleave[txtComment]':{
                     maxlength: lang_CommentLengthExceeded
                 },
-                'assignleave[time][from]':{
+                'assignleave[duration][time][from]':{
                     validTotalTime : lang_Required,
                     validWorkShift : lang_DurationShouldBeLessThanWorkshift,
                     validToTime: lang_FromTimeLessThanToTime
                 },
-                'assignleave[time][to]':{
+                'assignleave[duration][time][to]':{
+                    validTotalTime : lang_Required
+                },
+                'assignleave[firstDuration][time][from]':{
+                    validTotalTime : lang_Required,
+                    validWorkShift : lang_DurationShouldBeLessThanWorkshift,
+                    validToTime: lang_FromTimeLessThanToTime
+                },
+                'assignleave[firstDuration][time][to]':{
+                    validTotalTime : lang_Required
+                },
+                'assignleave[secondDuration][time][from]':{
+                    validTotalTime : lang_Required,
+                    validWorkShift : lang_DurationShouldBeLessThanWorkshift,
+                    validToTime: lang_FromTimeLessThanToTime
+                },
+                'assignleave[secondDuration][time][to]':{
                     validTotalTime : lang_Required
                 }
             },
@@ -159,8 +198,18 @@ $(document).ready(function() {
                     var fromdate = $('#assignleave_txtFromDate').val();
                     var todate = $('#assignleave_txtToDate').val();
                     if (fromdate == todate) {
-                        var totalTime = getTotalTime();
                         var workShift = $('#assignleave_txtEmpWorkShift').val();
+                        var totalTime;
+                                
+                        if ($('#assignleave_duration_duration').val() == 'half_day') {
+                            totalTime = parseFloat(workShift) / 2;
+                        } else if ($('#assignleave_duration_duration').val() == 'full_day') {
+                            totalTime = workShift;
+                        } else {
+                            totalTime = getTotalTime($('#assignleave_duration_time_from').val(), $('#assignleave_duration_time_to').val());
+                        }
+                                
+                        
                         var leaveInDays = totalTime / parseFloat(workShift);
                         
                         if (!isNaN(leaveInDays)) {
@@ -183,10 +232,8 @@ $(document).ready(function() {
         
         $.validator.addMethod("validTotalTime", function(value, element) {
             var valid = true;
-            var fromdate = $('#assignleave_txtFromDate').val();
-            var todate = $('#assignleave_txtToDate').val();
-            
-            if (fromdate == todate) {
+
+            if ($(element).is(':visible')) {  
                              
                 if (value == '') {
                     valid = false;
@@ -197,36 +244,35 @@ $(document).ready(function() {
         });
         
         $.validator.addMethod("validWorkShift", function(value, element) {
-            var valid = true;
-            var fromdate = $('#assignleave_txtFromDate').val();
-            var todate = $('#assignleave_txtToDate').val();
             
-            if (fromdate == todate) {
-                var totalTime = getTotalTime();
+            var valid = true;
+            
+            if ($(element).is(':visible')) {            
+                var fromElement = $(element).parent('span').children('select.timepicker').first();    
+                var toElement = fromElement.siblings('select.timepicker').first();
+
+                var totalTime = getTotalTime(fromElement.val(), toElement.val());
                 var workShift = $('#assignleave_txtEmpWorkShift').val();
                 if (parseFloat(totalTime) > parseFloat(workShift)) {
                     valid = false;
                 }
-
             }
-            
             return valid;            
         });
         
         $.validator.addMethod("validToTime", function(value, element) {
             var valid = true;
             
-            var fromdate = $('#assignleave_txtFromDate').val();
-            var todate = $('#assignleave_txtToDate').val();
-            
-            if (fromdate == todate) {
-                var totalTime = getTotalTime();
+            if ($(element).is(':visible')) {            
+                var fromElement = $(element).parent('span').children('select.timepicker').first();    
+                var toElement = fromElement.siblings('select.timepicker').first();
+
+                var totalTime = getTotalTime(fromElement.val(), toElement.val());
                 if (parseFloat(totalTime) <= 0) {
                     valid = false;
                 }
-
             }
-            
+
             return valid;  
         });
         
@@ -379,61 +425,92 @@ function updateLeaveBalance() {
         });
     }
 }
+                
+function showTimeControls(showOneDay, showMultiDay) {
         
-function showTimeControls(show) {
+    var oneDayControlIds = ['assignleave_duration_duration'];
         
-    var timeControlIds = ['assignleave_time_from'];
-        
-    $.each(timeControlIds, function(index, value) {
+    $.each(oneDayControlIds, function(index, value) {
             
-        if (show) {
+        if (showOneDay) {
             $('#' + value).parent('li').show();
         } else {
             $('#' + value).parent('li').hide();
         }
     });
-}
     
-function showTimepaneFromDate(theDate, datepickerDateFormat){
-    var Todate = trim($("#assignleave_txtToDate").val());
-    if(Todate == datepickerDateFormat) {
-        $("#assignleave_txtFromDate").val(theDate);
-        $("#assignleave_txtToDate").val(theDate);
-    } else{
-        showTimeControls((Todate == theDate));
+    var multiDayControlIds = ['assignleave_partialDays'];
+    
+    
+    $.each(multiDayControlIds, function(index, value) {
+            
+        if (showMultiDay) {
+            $('#' + value).parent('li').show();
+        } else {
+            $('#' + value).parent('li').hide();
+        }
+    }); 
+    
+    handlePartialDayChange($('#assignleave_partialDays').is(':visible'));
+} 
+
+function handlePartialDayChange(showMultiDay) {
+    
+    var partialDay = $('#assignleave_partialDays').val();
+    var startLabel = false;
+    var endLabel = false;
+        
+    if (!showMultiDay || partialDay === '') {
+        $('#assignleave_firstDuration_duration').parent('li').hide();
+        $('#assignleave_secondDuration_duration').parent('li').hide();
+    } else if (partialDay === 'all' || partialDay === 'start') {
+        $('#assignleave_firstDuration_duration').parent('li').show();
+        $('#assignleave_secondDuration_duration').parent('li').hide();
+        startLabel = partialDay === 'all' ? lang_Duration : lang_StartDay;
+    } else if (partialDay === 'end') {
+        $('#assignleave_firstDuration_duration').parent('li').show();
+        $('#assignleave_secondDuration_duration').parent('li').hide();
+        endLabel = lang_EndDay;
+    } else if (partialDay === 'start_end') {
+        $('#assignleave_firstDuration_duration').parent('li').show();
+        $('#assignleave_secondDuration_duration').parent('li').show(); 
+        startLabel = lang_StartDay;
+        endLabel = lang_EndDay;
+    } 
+    
+    if (startLabel) {
+        $('#assignleave_firstDuration_duration').parent('li').children('label:first-child').text(startLabel);
     }
-    $("#assignleave_txtFromDate").valid();
-    $("#assignleave_txtToDate").valid();
-}
+    if (endLabel) {
+        $('#assignleave_secondDuration_duration').parent('li').children('label:first-child').text(endLabel);
+    }
     
-function showTimepaneToDate(theDate){
-    var fromDate	=	trim($("#assignleave_txtFromDate").val());
-        
-    showTimeControls((fromDate == theDate));
-        
-    $("#assignleave_txtFromDate").valid();
-    $("#assignleave_txtToDate").valid();
 }
     
 //Calculate Total time
-function fillTotalTime() {        
-    var total = getTotalTime();
+function fillTotalTime(element) {
+
+    var fromElement = element.parent('span').children('select.timepicker').first();    
+    var toElement = fromElement.siblings('select.timepicker').first();
+    var durationElement = fromElement.siblings('input.time_range_duration').first();
+    
+    var total = getTotalTime(fromElement.val(), toElement.val());
     if (isNaN(total)) {
         total = '';
     }
 
-    $('input.time_range_duration').val(total);
-    $('#assignleave_time_from').valid();
-    $('#assignleave_time_to').valid();
+    durationElement.val(total);
+    fromElement.valid();
+    toElement.valid();
 }
     
-function getTotalTime() {
+function getTotalTime(from, to) {
     var total = 0;
-    var fromTime = ($('#assignleave_time_from').val()).split(":");
+    var fromTime = from.split(":");
     var fromdate = new Date();
     fromdate.setHours(fromTime[0],fromTime[1]);
         
-    var toTime = ($('#assignleave_time_to').val()).split(":");
+    var toTime = to.split(":");
     var todate = new Date();
     todate.setHours(toTime[0],toTime[1]);        
         
@@ -445,9 +522,10 @@ function getTotalTime() {
 }
     
 function fromDateBlur(date) {
-    var singleDayLeaveRequest = false;
+
     var fromDateValue = trim(date);
     if (fromDateValue != displayDateFormat && fromDateValue != "") {
+        var singleDayLeaveRequest = false;        
         var toDateValue = trim($("#assignleave_txtToDate").val());
         if (validateDate(fromDateValue, datepickerDateFormat)) {
             if (fromDateValue == toDateValue) {
@@ -459,9 +537,12 @@ function fromDateBlur(date) {
                 singleDayLeaveRequest = true;
             }
         }
+        showTimeControls(singleDayLeaveRequest, !singleDayLeaveRequest);
+    } else {
+        showTimeControls(false, false);
     }
 
-    showTimeControls(singleDayLeaveRequest);
+    
 }
     
 function toDateBlur(date) {
@@ -472,10 +553,13 @@ function toDateBlur(date) {
 
         if (validateDate(fromDateValue, datepickerDateFormat) && validateDate(toDateValue, datepickerDateFormat)) {
             singleDayLeaveRequest = (fromDateValue == toDateValue);
+            showTimeControls(singleDayLeaveRequest, !singleDayLeaveRequest);
+        } else {
+            showTimeControls(false, false);
         }
+    } else {
+        showTimeControls(false, false);
     }
-
-    showTimeControls(singleDayLeaveRequest);
 }
     
 function setEmployeeWorkshift(empNumber) {
@@ -486,6 +570,23 @@ function setEmployeeWorkshift(empNumber) {
         dataType: 'json',
         success: function(data){
             $('#assignleave_txtEmpWorkShift').val(data.workshift);
+            
+            // update start/end time of time range widgets that are not visible
+            if (!$('#assignleave_duration_specify_time_content').is(':visible')) {
+                $('#assignleave_duration_time_from').val(data.start_time);
+                $('#assignleave_duration_time_to').val(data.end_time);
+                fillTotalTime($('#assignleave_duration_time_from'));
+            }            
+            if (!$('#assignleave_firstDuration_specify_time_content').is(':visible')) {
+                $('#assignleave_firstDuration_time_from').val(data.start_time);
+                $('#assignleave_firstDuration_time_to').val(data.end_time);
+                fillTotalTime($('#assignleave_firstDuration_time_from'));
+            }
+            if (!$('#assignleave_secondDuration_specify_time_content').is(':visible')) {
+                $('#assignleave_secondDuration_time_from').val(data.start_time);
+                $('#assignleave_secondDuration_time_to').val(data.end_time);
+                fillTotalTime($('#assignleave_secondDuration_time_from'));
+            }            
         }
     });
         

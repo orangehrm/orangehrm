@@ -4,7 +4,7 @@ use_stylesheets_for_form($applyLeaveForm);
 use_stylesheet(plugin_web_path('orangehrmLeavePlugin', 'css/assignLeaveSuccess.css'));
 ?>
 
-<?php include_partial('overlapping_leave', array('overlapLeave' => $overlapLeave));?>
+<?php include_partial('overlapping_leave', array('overlapLeave' => $overlapLeave, 'workshiftLengthExceeded' => $workshiftLengthExceeded));?>
 
 <div class="box" id="apply-leave">
     <div class="head">
@@ -118,10 +118,13 @@ use_stylesheet(plugin_web_path('orangehrmLeavePlugin', 'css/assignLeaveSuccess.c
         var lang_dateError = '<?php echo __("To date should be after from date") ?>';
         var lang_details = '<?php echo __("view details") ?>';
         var lang_BalanceNotSufficient = "<?php echo __("Balance not sufficient");?>";
-    
+        var lang_Duration = "<?php echo __('Duration');?>";
+        var lang_StartDay = "<?php echo __('Start Day');?>";
+        var lang_EndDay = "<?php echo __('End Day');?>";
+
         $(document).ready(function() {            
 
-            showTimeControls(false);
+            showTimeControls(false, false);
 
 
         updateLeaveBalance();
@@ -136,22 +139,23 @@ use_stylesheet(plugin_web_path('orangehrmLeavePlugin', 'css/assignLeaveSuccess.c
             updateLeaveBalance();
         });        
 
-        //Show From if same date
-        if(trim($("#applyleave_txtFromDate").val()) != displayDateFormat && trim($("#applyleave_txtToDate").val()) != displayDateFormat){
-            if( trim($("#applyleave_txtFromDate").val()) == trim($("#applyleave_txtToDate").val())) {
-                showTimeControls(true);
-            }
+        $('#applyleave_partialDays').change(function() {
+            handlePartialDayChange(true);
+        });
+        
+        if(trim($("#applyleave_txtFromDate").val()) == displayDateFormat || trim($("#applyleave_txtToDate").val()) == displayDateFormat 
+            || trim($("#applyleave_txtFromDate").val()) == '' || trim($("#applyleave_txtToDate").val()) == '') {
+                showTimeControls(false, false);
+        } else if (trim($("#applyleave_txtFromDate").val()) == trim($("#applyleave_txtToDate").val())) {
+            showTimeControls(true, false);
+        } else {
+            showTimeControls(false, true);
         }
-
-        // Bind On change event of From Time
-        $('#applyleave_time_from').change(function() {
-            fillTotalTime();
-        });
-
-        // Bind On change event of To Time
-        $('#applyleave_time_to').change(function() {
-            fillTotalTime();
-        });
+        
+        // Bind On change event of time elements
+        $('select.timepicker').change(function() {
+            fillTotalTime($(this));
+        });        
         
         $('#applyleave_txtLeaveType').change(function() {
             updateLeaveBalance();
@@ -286,8 +290,12 @@ use_stylesheet(plugin_web_path('orangehrmLeavePlugin', 'css/assignLeaveSuccess.c
                     }
                 },
                 'applyleave[txtComment]': {maxlength: 250},
-                'applyleave[time][from]':{ required: false, validWorkShift : true, validTotalTime: true, validToTime: true},
-                'applyleave[time][to]':{ required: false,validTotalTime: true}
+                'applyleave[duration][time][from]':{ required: false, validWorkShift : true, validTotalTime: true, validToTime: true},
+                'applyleave[duration][time][to]':{ required: false,validTotalTime: true},
+                'applyleave[firstDuration][time][from]':{ required: false, validWorkShift : true, validTotalTime: true, validToTime: true},
+                'applyleave[firstDuration][time][to]':{ required: false,validTotalTime: true},
+                'applyleave[secondDuration][time][from]':{ required: false, validWorkShift : true, validTotalTime: true, validToTime: true},
+                'applyleave[secondDuration][time][to]':{ required: false,validTotalTime: true}                
             },
             messages: {
                 'applyleave[txtLeaveType]':{
@@ -305,23 +313,37 @@ use_stylesheet(plugin_web_path('orangehrmLeavePlugin', 'css/assignLeaveSuccess.c
                 'applyleave[txtComment]':{
                     maxlength:"<?php echo __(ValidationMessages::TEXT_LENGTH_EXCEEDS, array('%amount%' => 250)); ?>"
                 },
-                'applyleave[time][from]':{
+                'applyleave[duration][time][from]':{
                     validTotalTime : "<?php echo __(ValidationMessages::REQUIRED); ?>",
                     validWorkShift : "<?php echo __('Duration should be less than work shift length'); ?>",
                     validToTime:"<?php echo __('From time should be less than To time'); ?>"
                 },
-                'applyleave[time][to]':{
+                'applyleave[duration][time][to]':{
                     validTotalTime : "<?php echo __(ValidationMessages::REQUIRED); ?>"
-                }
+                },
+                'applyleave[firstDuration][time][from]':{
+                    validTotalTime : "<?php echo __(ValidationMessages::REQUIRED); ?>",
+                    validWorkShift : "<?php echo __('Duration should be less than work shift length'); ?>",
+                    validToTime:"<?php echo __('From time should be less than To time'); ?>"
+                },
+                'applyleave[firstDuration][time][to]':{
+                    validTotalTime : "<?php echo __(ValidationMessages::REQUIRED); ?>"
+                },
+                'applyleave[secondDuration][time][from]':{
+                    validTotalTime : "<?php echo __(ValidationMessages::REQUIRED); ?>",
+                    validWorkShift : "<?php echo __('Duration should be less than work shift length'); ?>",
+                    validToTime:"<?php echo __('From time should be less than To time'); ?>"
+                },
+                'applyleave[secondDuration][time][to]':{
+                    validTotalTime : "<?php echo __(ValidationMessages::REQUIRED); ?>"
+                }                         
             }
         });
         
         $.validator.addMethod("validTotalTime", function(value, element) {
             var valid = true;
-            var fromdate = $('#applyleave_txtFromDate').val();
-            var todate = $('#applyleave_txtToDate').val();
             
-            if (fromdate == todate) {
+           if ($(element).is(':visible')) { 
                              
                 if (value == '') {
                     valid = false;
@@ -332,38 +354,37 @@ use_stylesheet(plugin_web_path('orangehrmLeavePlugin', 'css/assignLeaveSuccess.c
         });
         
         $.validator.addMethod("validWorkShift", function(value, element) {
-            var valid = true;
-            var fromdate = $('#applyleave_txtFromDate').val();
-            var todate = $('#applyleave_txtToDate').val();
             
-            if (fromdate == todate) {
-                var totalTime = getTotalTime();
+            var valid = true;
+            
+            if ($(element).is(':visible')) {            
+                var fromElement = $(element).parent('span').children('select.timepicker').first();    
+                var toElement = fromElement.siblings('select.timepicker').first();
+
+                var totalTime = getTotalTime(fromElement.val(), toElement.val());
                 var workShift = $('#applyleave_txtEmpWorkShift').val();
                 if (parseFloat(totalTime) > parseFloat(workShift)) {
                     valid = false;
                 }
-
             }
-            
             return valid;            
-        });
+        });        
         
         $.validator.addMethod("validToTime", function(value, element) {
             var valid = true;
             
-            var fromdate = $('#applyleave_txtFromDate').val();
-            var todate = $('#applyleave_txtToDate').val();
-            
-            if (fromdate == todate) {
-                var totalTime = getTotalTime();
+            if ($(element).is(':visible')) {            
+                var fromElement = $(element).parent('span').children('select.timepicker').first();    
+                var toElement = fromElement.siblings('select.timepicker').first();
+
+                var totalTime = getTotalTime(fromElement.val(), toElement.val());
                 if (parseFloat(totalTime) <= 0) {
                     valid = false;
                 }
-
             }
-            
+
             return valid;  
-        });
+        });        
 
         //Click Submit button
         $('#applyBtn').click(function(){
@@ -376,76 +397,106 @@ use_stylesheet(plugin_web_path('orangehrmLeavePlugin', 'css/assignLeaveSuccess.c
             $('#frmLeaveApply').submit();
         });
     });
-
-    function showTimeControls(show) {
-
-        var timeControlIds = ['applyleave_time_from'];
+    
+    function showTimeControls(showOneDay, showMultiDay) {
         
-        $.each(timeControlIds, function(index, value) {
+        var oneDayControlIds = ['applyleave_duration_duration'];
 
-            if (show) {
+        $.each(oneDayControlIds, function(index, value) {
+
+            if (showOneDay) {
                 $('#' + value).parent('li').show();
             } else {
                 $('#' + value).parent('li').hide();
             }
         });
-    }
 
-    function showTimepaneFromDate(theDate, displayDateFormat){
-        var Todate = trim($("#applyleave_txtToDate").val());
-        if(Todate == displayDateFormat) {
-            $("#applyleave_txtFromDate").val(theDate);
-            $("#applyleave_txtToDate").val(theDate);
-            showTimeControls(true);
-        } else {
-            showTimeControls((Todate == theDate));
+        var multiDayControlIds = ['applyleave_partialDays'];
+
+
+        $.each(multiDayControlIds, function(index, value) {
+
+            if (showMultiDay) {
+                $('#' + value).parent('li').show();
+            } else {
+                $('#' + value).parent('li').hide();
+            }
+        }); 
+
+        handlePartialDayChange($('#applyleave_partialDays').is(':visible'));
+    } 
+    
+    function handlePartialDayChange(showMultiDay) {
+
+        var partialDay = $('#applyleave_partialDays').val();
+        var startLabel = false;
+        var endLabel = false;
+
+        if (!showMultiDay || partialDay === '') {
+            $('#applyleave_firstDuration_duration').parent('li').hide();
+            $('#applyleave_secondDuration_duration').parent('li').hide();
+        } else if (partialDay === 'all' || partialDay === 'start') {
+            $('#applyleave_firstDuration_duration').parent('li').show();
+            $('#applyleave_secondDuration_duration').parent('li').hide();
+            startLabel = partialDay === 'all' ? lang_Duration : lang_StartDay;
+        } else if (partialDay === 'end') {
+            $('#applyleave_firstDuration_duration').parent('li').hide();
+            $('#applyleave_secondDuration_duration').parent('li').show();   
+            endLabel = lang_EndDay;
+        } else if (partialDay === 'start_end') {
+            $('#applyleave_firstDuration_duration').parent('li').show();
+            $('#applyleave_secondDuration_duration').parent('li').show(); 
+            startLabel = lang_StartDay;
+            endLabel = lang_EndDay;
+        } 
+
+        if (startLabel) {
+            $('#applyleave_firstDuration_duration').parent('li').children('label:first-child').text(startLabel);
         }
-        $("#applyleave_txtFromDate").valid();
-        $("#applyleave_txtToDate").valid();
-    }
+        if (endLabel) {
+            $('#applyleave_secondDuration_duration').parent('li').children('label:first-child').text(endLabel);
+        }
 
-    function showTimepaneToDate(theDate){
-        var fromDate	=	trim($("#applyleave_txtFromDate").val());
+    }    
 
-        showTimeControls((fromDate == theDate));
+    function fillTotalTime(element) {
 
-        $("#applyleave_txtFromDate").valid();
-        $("#applyleave_txtToDate").valid();
-    }
+        var fromElement = element.parent('span').children('select.timepicker').first();    
+        var toElement = fromElement.siblings('select.timepicker').first();
+        var durationElement = fromElement.siblings('input.time_range_duration').first();
 
-    function fillTotalTime() {        
-        var total = getTotalTime();
+        var total = getTotalTime(fromElement.val(), toElement.val());
         if (isNaN(total)) {
             total = '';
         }
 
-        $('input.time_range_duration').val(total);
-        $('#applyleave_time_from').valid();
-        $('#applyleave_time_to').valid();        
+        durationElement.val(total);
+        fromElement.valid();
+        toElement.valid();
     }
-    
-    function getTotalTime() {
+
+    function getTotalTime(from, to) {
         var total = 0;
-        var fromTime = ($('#applyleave_time_from').val()).split(":");
+        var fromTime = from.split(":");
         var fromdate = new Date();
         fromdate.setHours(fromTime[0],fromTime[1]);
-        
-        var toTime = ($('#applyleave_time_to').val()).split(":");
+
+        var toTime = to.split(":");
         var todate = new Date();
         todate.setHours(toTime[0],toTime[1]);        
-        
+
         var difference = todate - fromdate;
         var floatDeference	=	parseFloat(difference/3600000) ;
         total = Math.round(floatDeference*Math.pow(10,2))/Math.pow(10,2);
-        
+
         return total;        
     }
-    
 
     function fromDateBlur(date) {
-        var singleDayLeaveRequest = false;
+
         var fromDateValue = trim(date);
         if (fromDateValue != displayDateFormat && fromDateValue != "") {
+            var singleDayLeaveRequest = false;        
             var toDateValue = trim($("#applyleave_txtToDate").val());
             if (validateDate(fromDateValue, datepickerDateFormat)) {
                 if (fromDateValue == toDateValue) {
@@ -457,9 +508,12 @@ use_stylesheet(plugin_web_path('orangehrmLeavePlugin', 'css/assignLeaveSuccess.c
                     singleDayLeaveRequest = true;
                 }
             }
+            showTimeControls(singleDayLeaveRequest, !singleDayLeaveRequest);
+        } else {
+            showTimeControls(false, false);
         }
 
-        showTimeControls(singleDayLeaveRequest);
+
     }
 
     function toDateBlur(date) {
@@ -470,10 +524,13 @@ use_stylesheet(plugin_web_path('orangehrmLeavePlugin', 'css/assignLeaveSuccess.c
 
             if (validateDate(fromDateValue, datepickerDateFormat) && validateDate(toDateValue, datepickerDateFormat)) {
                 singleDayLeaveRequest = (fromDateValue == toDateValue);
+                showTimeControls(singleDayLeaveRequest, !singleDayLeaveRequest);
+            } else {
+                showTimeControls(false, false);
             }
+        } else {
+            showTimeControls(false, false);
         }
-
-        showTimeControls(singleDayLeaveRequest);
-    }    
+    }   
     //]]>
 </script>

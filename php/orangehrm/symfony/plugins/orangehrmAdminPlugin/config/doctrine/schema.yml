@@ -425,6 +425,12 @@ WorkShift:
       name: hours_per_day as hoursPerDay
       notnull: true
       scale: false
+    start_time:
+      type: time
+      notnull: true
+    end_time:
+      type: time
+      notnull: true;
   relations:
     EmployeeWorkShift:
       local: id

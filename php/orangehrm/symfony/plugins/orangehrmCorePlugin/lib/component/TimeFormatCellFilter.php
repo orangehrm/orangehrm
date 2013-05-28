@@ -16,19 +16,47 @@
  * You should have received a copy of the GNU General Public License along with this program;
  * if not, write to the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
  * Boston, MA  02110-1301, USA
- *
  */
 
 /**
- * Work schedule interface
+ * Formats a time 
+ *
  */
-interface WorkScheduleInterface {
-    
-    public function setEmpNumber($empNumber);
-    public function getWorkShiftLength();
-    public function getWorkShiftStartEndTime();
-    public function isWeekend($day, $fullDay);    
-    public function isHalfDay($day);
-    public function isHoliday($day);    
-    public function isHalfdayHoliday($day);
+class TimeFormatCellFilter extends ohrmCellFilter {
+
+    protected $format = "H:i";
+    protected $default = "";
+
+    public function getFormat() {
+        return $this->format;
+    }
+
+    public function setFormat($format) {
+        $this->format = $format;
+    }
+    public function getDefault() {
+        return $this->default;
+    }
+
+    public function setDefault($default) {
+        $this->default = $default;
+    }
+
+    public function filter($value) {
+
+        $valid = false;
+        
+        if (!empty($value)) {
+            $time = strtotime($value);
+            $valid = $time !== FALSE;
+        }
+        
+        if ($valid) {
+            return date($this->getFormat(), $time);
+        } else {
+            return $this->getDefault();
+        }
+
+    }
+
 }

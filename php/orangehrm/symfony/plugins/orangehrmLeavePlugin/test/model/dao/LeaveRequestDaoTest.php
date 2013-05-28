@@ -164,9 +164,9 @@
 
     /* Tests for getOverlappingLeave() */
 
-    public function testGetOverlappingLeave1() {
+    public function testGetOverlappingLeaveMultipleFullDayLeave() {
 
-       $leaveList = $this->leaveRequestDao->getOverlappingLeave('2010-01-01', '2010-12-31', 1,'00:00:00','00:00:00' );
+       $leaveList = $this->leaveRequestDao->getOverlappingLeave('2010-01-01', '2010-12-31', 1);
 
         foreach ($leaveList as $leave) {
             $this->assertTrue($leave instanceof Leave);
@@ -222,31 +222,19 @@
     public function testGetOverlappingLeaveInSameDay5() {
 
        $leaveList = $this->leaveRequestDao->getOverlappingLeave('2011-01-01', '2011-01-01', 6,'12:00:00','13:00:00' );
-
-        foreach ($leaveList as $leave) {
-            $this->assertTrue($leave instanceof Leave);
-        }
-        $this->assertEquals(0, count($leaveList));
+       $this->assertEquals(0, count($leaveList));
     }
     
     public function testGetOverlappingLeaveInSameDay6() {
 
        $leaveList = $this->leaveRequestDao->getOverlappingLeave('2011-01-01', '2011-01-01', 6,'09:00:00','10:00:00' );
-
-        foreach ($leaveList as $leave) {
-            $this->assertTrue($leave instanceof Leave);
-        }
-        $this->assertEquals(0, count($leaveList));
+       $this->assertEquals(0, count($leaveList));
     }
     
     public function testGetOverlappingLeaveInSameDay7() {
 
        $leaveList = $this->leaveRequestDao->getOverlappingLeave('2011-01-01', '2011-01-01', 6,'15:00:00','16:00:00' );
-
-        foreach ($leaveList as $leave) {
-            $this->assertTrue($leave instanceof Leave);
-        }
-        $this->assertEquals(0, count($leaveList));
+       $this->assertEquals(0, count($leaveList));
     }
     
     public function testGetOverlappingLeaveInSameDay8() {
@@ -282,11 +270,7 @@
     public function testGetOverlappingLeaveInSameDay11() {
 
        $leaveList = $this->leaveRequestDao->getOverlappingLeave('2011-01-01', '2011-01-01', 6, '09:00:00','10:00:00');
-
-        foreach ($leaveList as $leave) {
-            $this->assertTrue($leave instanceof Leave);
-        }
-        $this->assertEquals(0, count($leaveList));
+       $this->assertEquals(0, count($leaveList));
     }
     
     public function testGetOverlappingLeaveInSameDay12() {
@@ -299,16 +283,313 @@
         $this->assertEquals(1, count($leaveList));
     }
     
-    public function testGetOverlappingLeaveInSameDay13() {
-
-       $leaveList = $this->leaveRequestDao->getOverlappingLeave('2011-01-01', '2011-01-01', 6, '09:00:00','10:30:00');
-
-        foreach ($leaveList as $leave) {
-            $this->assertTrue($leave instanceof Leave);
-        }
+    public function testGetOverlappingLeaveMultiDayFullNoOverlap() {
+       
+       $leaveList = $this->leaveRequestDao->getOverlappingLeave('2011-01-05', '2011-01-10', 6);
+        $this->assertEquals(0, count($leaveList));
+    }    
+    
+    public function testGetOverlappingLeaveMultiDayFullOverlapWithFullDay() {
+       
+        $leaveList = $this->leaveRequestDao->getOverlappingLeave('2010-08-01', '2010-08-10', 1);
         $this->assertEquals(1, count($leaveList));
+
+        $dates = array('2010-08-09');
+        for ($i = 0; $i < count($leaveList); $i++) {
+            $leave = $leaveList[$i];
+            $this->assertTrue($leave instanceof Leave);
+            $this->assertEquals($dates[$i], $leave->getDate());
+        }
+    }       
+    
+    public function testGetOverlappingLeaveMultiDayFullOverlapWithPartialDay() {
+       
+        $leaveList = $this->leaveRequestDao->getOverlappingLeave('2010-12-30', '2011-01-01', 6);
+        $this->assertEquals(3, count($leaveList));
+
+        $dates = array('2011-01-01', '2011-01-01', '2011-01-01');
+        for ($i = 0; $i < count($leaveList); $i++) {
+            $leave = $leaveList[$i];
+            $this->assertTrue($leave instanceof Leave);
+            $this->assertEquals($dates[$i], $leave->getDate());
+        }
+    }     
+    
+    public function testGetOverlappingLeaveMultiDayPartialStartDayFullDayNonStart() {
+       
+        $leaveList = $this->leaveRequestDao->getOverlappingLeave('2010-08-01', '2010-08-10', 1, '10:00:00', '13:00:00');
+        $this->assertEquals(1, count($leaveList));
+
+        $dates = array('2010-08-09');
+        for ($i = 0; $i < count($leaveList); $i++) {
+            $leave = $leaveList[$i];
+            $this->assertTrue($leave instanceof Leave);
+            $this->assertEquals($dates[$i], $leave->getDate());
+        }
+    }  
+    
+    public function testGetOverlappingLeaveMultiDayPartialStartDayFullDayNonStartNoMatch() {
+       
+        $leaveList = $this->leaveRequestDao->getOverlappingLeave('2010-08-01', '2010-08-08', 1, '10:00:00', '13:00:00');
+        $this->assertEquals(0, count($leaveList));
+    }    
+    
+    public function testGetOverlappingLeaveMultiDayPartialStartDayPartialDayNonStart() {
+       
+        $leaveList = $this->leaveRequestDao->getOverlappingLeave('2011-04-01', '2011-04-03', 6, '10:00:00', '13:00:00');
+        $this->assertEquals(1, count($leaveList));
+
+        $dates = array('2011-04-02');
+        for ($i = 0; $i < count($leaveList); $i++) {
+            $leave = $leaveList[$i];
+            $this->assertTrue($leave instanceof Leave);
+            $this->assertEquals($dates[$i], $leave->getDate());
+        }
+    }       
+    
+    public function testGetOverlappingLeaveMultiDayPartialStartDayFullDayEnd() {
+       
+        $leaveList = $this->leaveRequestDao->getOverlappingLeave('2010-08-01', '2010-08-09', 1, '10:00:00', '13:00:00');
+        $this->assertEquals(1, count($leaveList));
+
+        $dates = array('2010-08-09');
+        for ($i = 0; $i < count($leaveList); $i++) {
+            $leave = $leaveList[$i];
+            $this->assertTrue($leave instanceof Leave);
+            $this->assertEquals($dates[$i], $leave->getDate());
+        }
+    }    
+
+    public function testGetOverlappingLeaveMultiDayPartialStartDayPartialDayEnd() {
+       
+        $leaveList = $this->leaveRequestDao->getOverlappingLeave('2011-03-30', '2011-04-02', 6, '10:00:00', '13:20:00');
+        $this->assertEquals(1, count($leaveList));
+
+        $dates = array('2011-04-02');
+        for ($i = 0; $i < count($leaveList); $i++) {
+            $leave = $leaveList[$i];
+            $this->assertTrue($leave instanceof Leave);
+            $this->assertEquals($dates[$i], $leave->getDate());
+        }
+    }    
+    
+    public function testGetOverlappingLeaveMultiDayPartialStartDayPartialDayStartNoMatch() {
+       
+        $leaveList = $this->leaveRequestDao->getOverlappingLeave('2011-04-02', '2011-04-06', 6, '10:00:00', '13:00:00');
+        $this->assertEquals(0, count($leaveList));
+    }    
+    
+    public function testGetOverlappingLeaveMultiDayPartialStartDayPartialDayStart() {
+       
+        $leaveList = $this->leaveRequestDao->getOverlappingLeave('2011-04-02', '2011-04-06', 6, '10:00:00', '13:20:00');
+        $this->assertEquals(1, count($leaveList));
+
+        $dates = array('2011-04-02');
+        for ($i = 0; $i < count($leaveList); $i++) {
+            $leave = $leaveList[$i];
+            $this->assertTrue($leave instanceof Leave);
+            $this->assertEquals($dates[$i], $leave->getDate());
+        }
+    }     
+    
+    public function testGetOverlappingLeaveMultiDayPartialStartDayFullDayStart() {
+       
+        $leaveList = $this->leaveRequestDao->getOverlappingLeave('2010-08-20', '2010-08-25', 1, '10:00:00', '13:20:00');
+        $this->assertEquals(1, count($leaveList));
+
+        $dates = array('2010-08-20');
+        for ($i = 0; $i < count($leaveList); $i++) {
+            $leave = $leaveList[$i];
+            $this->assertTrue($leave instanceof Leave);
+            $this->assertEquals($dates[$i], $leave->getDate());
+        }
+    }    
+    
+    public function testGetOverlappingLeaveMultiDayPartialStartDayEndDay() {
+       
+        $leaveList = $this->leaveRequestDao->getOverlappingLeave('2011-01-01', '2011-04-02', 6, '14:00:00', '15:20:00', false, 
+                '12:00:00', '13:00:00');
+        $this->assertEquals(0, count($leaveList));
+    }     
+    
+    public function testGetOverlappingLeaveMultiDayPartialStartDayEndDayStartMatch() {
+       
+        $leaveList = $this->leaveRequestDao->getOverlappingLeave('2011-01-01', '2011-04-02', 6, '13:50:00', '15:20:00', false, 
+                '12:00:00', '13:00:00');
+        $this->assertEquals(1, count($leaveList));
+        
+        $dates = array('2011-01-01');
+        for ($i = 0; $i < count($leaveList); $i++) {
+            $leave = $leaveList[$i];
+            $this->assertTrue($leave instanceof Leave);
+            $this->assertEquals($dates[$i], $leave->getDate());
+        }        
+    }    
+    
+    public function testGetOverlappingLeaveMultiDayPartialStartDayEndDayEndMatch() {
+       
+        $leaveList = $this->leaveRequestDao->getOverlappingLeave('2011-01-01', '2011-04-02', 6, '14:00:00', '15:20:00', false, 
+                '12:10:00', '13:10:00');
+        $this->assertEquals(1, count($leaveList));
+        
+        $dates = array('2011-04-02');
+        for ($i = 0; $i < count($leaveList); $i++) {
+            $leave = $leaveList[$i];
+            $this->assertTrue($leave instanceof Leave);
+            $this->assertEquals($dates[$i], $leave->getDate());
+        }        
+    }     
+    
+    public function testGetOverlappingLeaveMultiDayPartialStartDayEndDayBothMatch() {
+       
+        $leaveList = $this->leaveRequestDao->getOverlappingLeave('2011-01-01', '2011-04-02', 6, '13:50:00', '15:20:00', false, 
+                '12:10:00', '13:10:00');
+        $this->assertEquals(2, count($leaveList));
+        
+        $dates = array('2011-01-01', '2011-04-02');
+        for ($i = 0; $i < count($leaveList); $i++) {
+            $leave = $leaveList[$i];
+            $this->assertTrue($leave instanceof Leave);
+            $this->assertEquals($dates[$i], $leave->getDate());
+        }        
+    }    
+    
+    public function testGetOverlappingLeaveMultiDayPartialAllDaysMatchPartialDayMiddle() {
+       
+        $leaveList = $this->leaveRequestDao->getOverlappingLeave('2011-03-30', '2011-04-05', 6, '13:50:00', '15:20:00', true);
+        $this->assertEquals(1, count($leaveList));
+        
+        $dates = array('2011-04-02');
+        for ($i = 0; $i < count($leaveList); $i++) {
+            $leave = $leaveList[$i];
+            $this->assertTrue($leave instanceof Leave);
+            $this->assertEquals($dates[$i], $leave->getDate());
+        }        
+    }    
+    
+    public function testGetOverlappingLeaveMultiDayPartialAllDaysMatchPartialDayStart() {
+       
+        $leaveList = $this->leaveRequestDao->getOverlappingLeave('2011-04-02', '2011-04-05', 6, '13:50:00', '15:20:00', true);
+        $this->assertEquals(1, count($leaveList));
+        
+        $dates = array('2011-04-02');
+        for ($i = 0; $i < count($leaveList); $i++) {
+            $leave = $leaveList[$i];
+            $this->assertTrue($leave instanceof Leave);
+            $this->assertEquals($dates[$i], $leave->getDate());
+        }        
+    }    
+    
+    public function testGetOverlappingLeaveMultiDayPartialAllDaysMatchPartialDayEnd() {
+       
+        $leaveList = $this->leaveRequestDao->getOverlappingLeave('2011-03-25', '2011-04-02', 6, '13:50:00', '15:20:00', true);
+        $this->assertEquals(1, count($leaveList));
+        
+        $dates = array('2011-04-02');
+        for ($i = 0; $i < count($leaveList); $i++) {
+            $leave = $leaveList[$i];
+            $this->assertTrue($leave instanceof Leave);
+            $this->assertEquals($dates[$i], $leave->getDate());
+        }        
+    }    
+    
+    public function testGetOverlappingLeaveMultiDayPartialAllDaysMatchFullDayMiddle() {
+       
+        $leaveList = $this->leaveRequestDao->getOverlappingLeave('2010-08-10', '2010-08-13', 1, '13:50:00', '15:20:00', true);
+        $this->assertEquals(1, count($leaveList));
+        
+        $dates = array('2010-08-11');
+        for ($i = 0; $i < count($leaveList); $i++) {
+            $leave = $leaveList[$i];
+            $this->assertTrue($leave instanceof Leave);
+            $this->assertEquals($dates[$i], $leave->getDate());
+        }        
+    }      
+    
+    public function testGetOverlappingLeaveMultiDayPartialAllDaysMatchFullDayStart() {
+       
+        $leaveList = $this->leaveRequestDao->getOverlappingLeave('2010-08-20', '2010-08-23', 1, '13:50:00', '15:20:00', true);
+        $this->assertEquals(1, count($leaveList));
+        
+        $dates = array('2010-08-20');
+        for ($i = 0; $i < count($leaveList); $i++) {
+            $leave = $leaveList[$i];
+            $this->assertTrue($leave instanceof Leave);
+            $this->assertEquals($dates[$i], $leave->getDate());
+        }        
+    }   
+    
+    public function testGetOverlappingLeaveMultiDayPartialAllDaysMatchFullDayEnd() {
+       
+        $leaveList = $this->leaveRequestDao->getOverlappingLeave('2010-08-01', '2010-08-09', 1, '13:50:00', '15:20:00', true);
+        $this->assertEquals(1, count($leaveList));
+        
+        $dates = array('2010-08-09');
+        for ($i = 0; $i < count($leaveList); $i++) {
+            $leave = $leaveList[$i];
+            $this->assertTrue($leave instanceof Leave);
+            $this->assertEquals($dates[$i], $leave->getDate());
+        }        
+    }  
+    
+    public function testGetOverlappingLeaveMultiDayPartialEndDayMatchPartialDayEnd() {
+       
+        $leaveList = $this->leaveRequestDao->getOverlappingLeave('2011-03-25', '2011-04-02', 6, null, null, false, '13:50:00', '15:20:00');
+        $this->assertEquals(1, count($leaveList));
+        
+        $dates = array('2011-04-02');
+        for ($i = 0; $i < count($leaveList); $i++) {
+            $leave = $leaveList[$i];
+            $this->assertTrue($leave instanceof Leave);
+            $this->assertEquals($dates[$i], $leave->getDate());
+        }       
+    }     
+    
+    public function testGetOverlappingLeaveMultiDayPartialEndDayMatchPartialDayEndNoMatch() {
+       
+        $leaveList = $this->leaveRequestDao->getOverlappingLeave('2011-03-25', '2011-04-02', 6, null, null, false, '12:50:00', '13:00:00');
+        $this->assertEquals(0, count($leaveList));       
     }
     
+    public function testGetOverlappingLeaveMultiDayPartialEndDayMatchFullDayEnd() {
+       
+        $leaveList = $this->leaveRequestDao->getOverlappingLeave('2010-08-01', '2010-08-09', 1, null, null, false, '13:50:00', '15:20:00');
+        $this->assertEquals(1, count($leaveList));
+        
+        $dates = array('2010-08-09');
+        for ($i = 0; $i < count($leaveList); $i++) {
+            $leave = $leaveList[$i];
+            $this->assertTrue($leave instanceof Leave);
+            $this->assertEquals($dates[$i], $leave->getDate());
+        }       
+    } 
+    
+    public function testGetOverlappingLeaveMultiDayPartialEndDayMatchFullDayStart() {
+       
+        $leaveList = $this->leaveRequestDao->getOverlappingLeave('2010-08-20', '2010-08-25', 1, null, null, false, '13:50:00', '15:20:00');
+        $this->assertEquals(1, count($leaveList));
+        
+        $dates = array('2010-08-20');
+        for ($i = 0; $i < count($leaveList); $i++) {
+            $leave = $leaveList[$i];
+            $this->assertTrue($leave instanceof Leave);
+            $this->assertEquals($dates[$i], $leave->getDate());
+        }       
+    }     
+    
+    public function testGetOverlappingLeaveMultiDayPartialEndDayMatchFullDayMiddle() {
+       
+        $leaveList = $this->leaveRequestDao->getOverlappingLeave('2010-08-03', '2010-08-10', 1, null, null, false, '13:50:00', '15:20:00');
+        $this->assertEquals(1, count($leaveList));
+        
+        $dates = array('2010-08-09');
+        for ($i = 0; $i < count($leaveList); $i++) {
+            $leave = $leaveList[$i];
+            $this->assertTrue($leave instanceof Leave);
+            $this->assertEquals($dates[$i], $leave->getDate());
+        }       
+    }     
+    /* Tests for getOverlappingLeave() */
     
     
     public function testGetTotalLeaveDuration (){
@@ -355,7 +636,7 @@
         $leaveIds = $this->getLeaveIdsFromDb();
         
         // These are the leave requests defined in the fixture (LeaveRequestDao.yml
-        $expected = range(1,20);
+        $expected = range(1,21);
         $this->assertEquals($expected, $leaveRequestIds);
         
         $leaveRequestData = $this->_getLeaveRequestData();
@@ -392,7 +673,7 @@
         $leaveIds = $this->getLeaveIdsFromDb();
         
         // These are the leave requests defined in the fixture (LeaveRequestDao.yml
-        $expected = range(1,20);
+        $expected = range(1,21);
         $this->assertEquals($expected, $leaveRequestIds);
         
         $leaveRequestData = $this->_getLeaveRequestData();
@@ -449,7 +730,7 @@
         $leaveIds = $this->getLeaveIdsFromDb();
         
         // These are the leave requests defined in the fixture (LeaveRequestDao.yml
-        $expected = range(1,20);
+        $expected = range(1,21);
         $this->assertEquals($expected, $leaveRequestIds);
         
         $leaveRequestData = $this->_getLeaveRequestData();
@@ -550,7 +831,7 @@
         $leaveIds = $this->getLeaveIdsFromDb();
         
         // These are the leave requests defined in the fixture (LeaveRequestDao.yml
-        $expected = range(1,20);
+        $expected = range(1,21);
         $this->assertEquals($expected, $leaveRequestIds);
         
         $leaveRequestData = $this->_getLeaveRequestData();
@@ -668,7 +949,7 @@
         $entitlementAssignmentIds = $this->getEntitlementAssignmentIdsFromDb();
         
         // These are the leave requests defined in the fixture (LeaveRequestDao.yml
-        $expected = range(1,20);
+        $expected = range(1,21);
         $this->assertEquals($expected, $leaveRequestIds);
         
         $leaveRequestData = $this->_getLeaveRequestData();
@@ -880,21 +1161,21 @@
 
         /* Checking count */
 
-        $this->assertEquals(20, count($requestList));
-        $this->assertEquals(20, $requestCount);
+        $this->assertEquals(21, count($requestList));
+        $this->assertEquals(21, $requestCount);
 
         
         /* Checking values and order */
 
-        $this->assertEquals(19, $requestList[0]->getId());
-        $this->assertEquals(1, $requestList[0]->getLeaveTypeId());
-        $this->assertEquals('2010-08-20', $requestList[0]->getDateApplied());
-        $this->assertEquals(5, $requestList[0]->getEmpNumber());
+        $this->assertEquals(21, $requestList[0]->getId());
+        $this->assertEquals(4, $requestList[0]->getLeaveTypeId());
+        $this->assertEquals('2011-04-02', $requestList[0]->getDateApplied());
+        $this->assertEquals(6, $requestList[0]->getEmpNumber());
 
-        $this->assertEquals(9, $requestList[18]->getId());
-        $this->assertEquals(3, $requestList[18]->getLeaveTypeId());
-        $this->assertEquals('2010-06-08', $requestList[18]->getDateApplied());
-        $this->assertEquals(1, $requestList[18]->getEmpNumber());
+        $this->assertEquals(9, $requestList[19]->getId());
+        $this->assertEquals(3, $requestList[19]->getLeaveTypeId());
+        $this->assertEquals('2010-06-08', $requestList[19]->getDateApplied());
+        $this->assertEquals(1, $requestList[19]->getEmpNumber());
 
     }
     
@@ -919,8 +1200,8 @@
 
         /* Checking count */
 
-        $this->assertEquals(9, count($requestList));
-        $this->assertEquals(9, $requestCount);
+        $this->assertEquals(10, count($requestList));
+        $this->assertEquals(10, $requestCount);
     }
 
     public function testSearchLeaveRequestsDateRange() {
@@ -1220,7 +1501,7 @@
         $searchParameters->setParameter('subUnit', 2);
         $searchParameters->setParameter('noOfRecordsPerPage', 50);
         $leaveFixture = $this->fixture['LeaveRequest'];
-        $expected = array($leaveFixture[18], $leaveFixture[19], $leaveFixture[16],
+        $expected = array($leaveFixture[20], $leaveFixture[18], $leaveFixture[19], $leaveFixture[16],
                           $leaveFixture[13], $leaveFixture[12], $leaveFixture[11],
                           $leaveFixture[15], $leaveFixture[17]);
         
@@ -1294,7 +1575,7 @@
         $searchParameters->setParameter('locations', array(3,4));
 
         $leaveFixture = $this->fixture['LeaveRequest'];
-        $expected = array($leaveFixture[18], $leaveFixture[19], $leaveFixture[16],
+        $expected = array($leaveFixture[20], $leaveFixture[18], $leaveFixture[19], $leaveFixture[16],
                           $leaveFixture[15], $leaveFixture[17]);
             
         $searchResult = $this->leaveRequestDao->searchLeaveRequests($searchParameters);

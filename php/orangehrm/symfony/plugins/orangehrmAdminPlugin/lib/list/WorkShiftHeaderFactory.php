@@ -6,7 +6,9 @@ class WorkShiftHeaderFactory extends ohrmListConfigurationFactory {
 
 		$header1 = new ListHeader();
 		$header2 = new ListHeader();
-
+		$header3 = new ListHeader();
+		$header4 = new ListHeader();
+                
 		$header1->populateFromArray(array(
 		    'name' => 'Shift Name',
 		    'elementType' => 'link',
@@ -16,12 +18,28 @@ class WorkShiftHeaderFactory extends ohrmListConfigurationFactory {
 		));
 		
 		$header2->populateFromArray(array(
+		    'name' => 'From',
+		    'elementType' => 'label',
+                    'filters' => array('TimeFormatCellFilter' => array()
+                              ),                    
+		    'elementProperty' => array('getter' => 'getStartTime'),
+		));
+                
+		$header3->populateFromArray(array(
+		    'name' => 'To',
+		    'elementType' => 'label',
+                    'filters' => array('TimeFormatCellFilter' => array()
+                              ),                    
+		    'elementProperty' => array('getter' => 'getEndTime'),
+		));
+                
+		$header4->populateFromArray(array(
 		    'name' => 'Hours Per Day',
 		    'elementType' => 'label',
 		    'elementProperty' => array('getter' => 'getHoursPerDay'),
 		));
 
-		$this->headers = array($header1, $header2);
+		$this->headers = array($header1, $header2, $header3, $header4);
 	}
 
 	public function getClassName() {

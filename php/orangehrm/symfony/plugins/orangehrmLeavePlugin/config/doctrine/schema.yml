@@ -373,6 +373,8 @@ Leave:
       primary: false
       notnull: false
       autoincrement: false
+    duration_type:
+      type: int
   relations:
     LeaveEntitlements:
       class: LeaveEntitlement

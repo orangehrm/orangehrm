@@ -170,32 +170,54 @@ class LeaveEmailProcessor implements orangehrmMailProcessor {
             }
         }
         
+        // Format:
+        // Date(s)                                     Duration            Comments  
+        // ========================================================================
+        // 2013-06-04 (09:00 - 12:00) Half Day         8.00        
         
         // Length of tab (4 spaces) : "    "
 
-        $details = "Date(s)                Duration (Hours)";
+        $details = "Date(s)                                     Duration (Hours)";
         if ($displayIndividualComments) {
             $details .= "            Comments";
         }
         $details .= "\n";
-        $details .= "=========================";
+        $details .= "====================================================";
         if ($displayIndividualComments) {
-            $details .= "=========================";
+            $details .= "====================";
         }        
         
         $details .= "\n";
+        $dateLengthWithTimeAndHalfTime = 27;
+        $dateLengthWithTime = 13;
 
         foreach ($data['days'] as $leave) {
-
-            $leaveDate = set_datepicker_date_format($leave->getDate());
+            
+            $leaveDate = $leave->getFormattedLeaveDateToView();
+            $dateLength = strlen($leaveDate);
+            
+            $durationPad = 0;
+            
+            if ($dateLength < $dateLengthWithTime) {
+                // These padding lengths are based on gmail. They can vary based on the font used to view the email
+                $durationPad = 10;
+            } else if ($dateLength < $dateLengthWithTimeAndHalfTime) {
+                // These padding lengths are based on gmail. They can vary based on the font used to view the email
+                $durationPad = 4;
+            }
+            
+            $durationPadSpaces = str_repeat(' ', $durationPad);
+             
+            $leaveDate = str_pad($leaveDate, 35, " ", STR_PAD_RIGHT);
+            
             $leaveDuration = round($leave->getLengthHours(), 2);
 
             if ($leaveDuration > 0) {
 
                 $leaveDuration = $this->_fromatDuration($leaveDuration);
-                $details .= "$leaveDate            $leaveDuration";
+                $details .= "{$leaveDate}         {$durationPadSpaces}{$leaveDuration}";
                 if ($displayIndividualComments) {
-                    $details .= "                " . $this->trimComment($leave->getLatestCommentAsText());
+                    $details .= "        " . $this->trimComment($leave->getLatestCommentAsText());
                 }
                 $details .= "\n";
 

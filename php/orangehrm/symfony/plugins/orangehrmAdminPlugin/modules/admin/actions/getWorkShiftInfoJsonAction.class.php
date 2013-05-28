@@ -31,8 +31,16 @@ class getWorkShiftInfoJsonAction extends sfAction {
 
 		$service = new WorkShiftService();
 		$workShift = $service->getWorkShiftById($workShiftId);
+                
+                $workShiftFields = array(
+                    'id' => $workShift->getId(),
+                    'name' => $workShift->getName(),
+                    'hoursPerDay' => $workShift->getHoursPerDay(),
+                    'start_time' => date('H:i', strtotime($workShift->getStartTime())),
+                    'end_time' => date('H:i', strtotime($workShift->getEndTime()))
+                );
 
-		return $this->renderText(json_encode($workShift->toArray()));
+		return $this->renderText(json_encode($workShiftFields));
 	}
 }
 
