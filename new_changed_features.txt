@@ -1,4 +1,4 @@
-New & Changed Features for OrangeHRM ver 3.1
+New & Changed Features for OrangeHRM ver 3.1 
     New Features
     ------------
     Ability to apply for half day / partial day leave for a single day or range of days
