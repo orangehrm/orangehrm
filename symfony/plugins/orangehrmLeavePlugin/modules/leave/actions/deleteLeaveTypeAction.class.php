@@ -17,11 +17,15 @@ class deleteLeaveTypeAction extends orangehrmAction {
                 $this->getUser()->setFlash('notice', __(TopLevelMessages::SELECT_RECORDS));
             } else {
 
-                $leaveTypeService = $this->getLeaveTypeService();
-                
-                $leaveTypeIds = $request->getParameter('chkSelectRow');
-                $leaveTypeService->deleteLeaveType($leaveTypeIds);
-                $this->getUser()->setFlash('success', __(TopLevelMessages::DELETE_SUCCESS));
+                $form = new DefaultListForm(array(), array(), true) ;
+                $form->bind($request->getParameter($form->getName()));
+                if ($form->isValid()) {
+                    $leaveTypeService = $this->getLeaveTypeService();
+
+                    $leaveTypeIds = $request->getParameter('chkSelectRow');
+                    $leaveTypeService->deleteLeaveType($leaveTypeIds);
+                    $this->getUser()->setFlash('success', __(TopLevelMessages::DELETE_SUCCESS));
+                }
             }
             
             $this->redirect('leave/leaveTypeList');

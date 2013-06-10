@@ -35,25 +35,28 @@ class deleteEmployeesAction extends basePimAction {
         
 
         if ($allowedToDeleteActive || $allowedToDeleteTerminated) {
-            $ids = $request->getParameter('chkSelectRow');
+            $form = new DefaultListForm(array(), array(), true) ;
+            $form->bind($request->getParameter($form->getName()));
+            if ($form->isValid()) {
+                $ids = $request->getParameter('chkSelectRow');
 
-            $userRoleManager = $this->getContext()->getUserRoleManager();
-            if (!$userRoleManager->areEntitiesAccessible('Employee', $ids)) {
-                $this->forward(sfConfig::get('sf_secure_module'), sfConfig::get('sf_secure_action'));
+                $userRoleManager = $this->getContext()->getUserRoleManager();
+                if (!$userRoleManager->areEntitiesAccessible('Employee', $ids)) {
+                    $this->forward(sfConfig::get('sf_secure_module'), sfConfig::get('sf_secure_action'));
+                }
+
+                $this->_checkLastAdminDeletion($ids);
+
+                $employeeService = $this->getEmployeeService();               
+                $count = $employeeService->deleteEmployees($ids);
+
+                if ($count == count($ids)) {
+                    $this->getUser()->setFlash('success', __(TopLevelMessages::DELETE_SUCCESS));
+                } else {
+                    $this->getUser()->setFlash('failure', __('A Problem Occured When Deleting The Selected Employees'));
+                }
             }
-            
-            $this->_checkLastAdminDeletion($ids);
-
-            $employeeService = $this->getEmployeeService();               
-            $count = $employeeService->deleteEmployees($ids);
-
-            if ($count == count($ids)) {
-                $this->getUser()->setFlash('success', __(TopLevelMessages::DELETE_SUCCESS));
-            } else {
-                $this->getUser()->setFlash('failure', __('A Problem Occured When Deleting The Selected Employees'));
-            }
-
-            $this->redirect('pim/viewEmployeeList');
+                $this->redirect('pim/viewEmployeeList');
         } else {
             $this->getUser()->setFlash('warning', __('Contact Admin for delete Credentials'));
             $this->redirect('pim/viewEmployeeList');
