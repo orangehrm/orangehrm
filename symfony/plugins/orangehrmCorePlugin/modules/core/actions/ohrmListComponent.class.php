@@ -10,6 +10,7 @@ class ohrmListComponent extends sfComponent {
     protected static $numberOfRecords;
     protected static $definitionsPath;
     protected static $activePlugin;
+    protected static $listForm ;
 
     public static $pageNumber = 0;
 
@@ -59,6 +60,8 @@ class ohrmListComponent extends sfComponent {
         $this->className = self::$configurationFactory->getClassName();
         $this->partial = self::$headerPartial;
         $this->footerPartial = self::$footerPartial;
+        $this->listForm = ( empty( self::$listForm) )? new DefaultListForm(array(),array(),true) :  self::$listForm ;
+          
                 
         $this->applyRuntimeDefinitions();
 
@@ -89,6 +92,24 @@ class ohrmListComponent extends sfComponent {
         self::$listData = $data;
     }
 
+     /**
+     *
+     * @return mixed
+     */
+    public static function getListForm() {
+        
+        
+        return self::$listForm;
+    }
+    
+    /**
+     *
+     * @param mixed $data 
+     */
+    public static function setListForm($form) {
+        self::$listForm = $form;
+    }
+    
     /**
      *
      * @param string $partial 

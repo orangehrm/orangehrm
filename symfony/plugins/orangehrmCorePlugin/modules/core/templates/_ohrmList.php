@@ -114,7 +114,7 @@ function getHeaderCellClassHtml($isSortable, $sortOrder) {
     ?>
         
     <form method="<?php echo $formMethod; ?>" action="<?php echo $formUrl; ?>" name="frmList_ohrmListComponent" id="frmList_ohrmListComponent">
-        
+        <?php echo $listForm->render() ?>
 <?php if (count($buttons) > 0 || isset($extraButtons) || $pager->haveToPaginate()) : ?>        
  <div class="top">          
         
