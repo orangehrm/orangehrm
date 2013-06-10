@@ -43,13 +43,16 @@ class deleteEducationAction extends sfAction {
         
         if (!empty($toDeleteIds) && $request->isMethod('post')) {
             
-            $result = $this->getEducationService()->deleteEducations($toDeleteIds);
-            
-            if ($result) {
-                $this->getUser()->setFlash('success', __(TopLevelMessages::DELETE_SUCCESS)); 
-                $this->redirect('admin/viewEducation');
-            }            
-            
+            $form = new DefaultListForm(array(), array(), true) ;
+            $form->bind($request->getParameter($form->getName()));
+            if ($form->isValid()) {
+                $result = $this->getEducationService()->deleteEducations($toDeleteIds);
+            }
+                if ($result) {
+                    $this->getUser()->setFlash('success', __(TopLevelMessages::DELETE_SUCCESS)); 
+                    
+                }            
+            $this->redirect('admin/viewEducation');
         }       
         
     }
