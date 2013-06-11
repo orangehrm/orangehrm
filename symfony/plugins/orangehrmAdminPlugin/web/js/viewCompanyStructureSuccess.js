@@ -20,7 +20,8 @@ $(document).ready(function() {
             url: deleteSubunitUrl,
             type: 'post',
             data: {
-                'subunitId': nodeId
+                'subunitId': nodeId,
+                'defaultList[_csrf_token]': $('#defaultList__csrf_token').val()
             },
             dataType: 'json',
             success: function(obj) {

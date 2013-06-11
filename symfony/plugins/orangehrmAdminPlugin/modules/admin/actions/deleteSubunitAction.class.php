@@ -38,9 +38,14 @@ class deleteSubunitAction extends sfAction {
         $id = trim($request->getParameter('subunitId'));
 
         try {
-            $subunit = $this->getCompanyStructureService()->getSubunitById($id);
-            $result = $this->getCompanyStructureService()->deleteSubunit($subunit);
-
+            $form = new DefaultListForm(array(), array(), true);
+            $form->bind($request->getParameter($form->getName()));
+            
+            if ($form->isValid()) {
+                $subunit = $this->getCompanyStructureService()->getSubunitById($id);
+                $result = $this->getCompanyStructureService()->deleteSubunit($subunit);
+            }
+            
             if ($result) {
                 $object->messageType = 'success';
                 $object->message = __(TopLevelMessages::DELETE_SUCCESS);

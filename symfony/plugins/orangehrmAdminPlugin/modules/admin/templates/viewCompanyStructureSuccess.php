@@ -15,6 +15,7 @@
     <div class="inner" >
         <div id="messageDiv"></div>
         <ol id="divCompanyStructureContainer">
+            <?php echo $listForm ?>
             <?php $tree->render(); ?>
         </ol>
         <p><input type="button" class="" name="btnEdit" id="btnEdit" value="<?php echo __("Edit"); ?>"/></p>

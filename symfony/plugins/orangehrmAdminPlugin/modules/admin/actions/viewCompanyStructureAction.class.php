@@ -51,6 +51,8 @@ class viewCompanyStructureAction extends sfAction {
         $this->tree = $tree;
 
         $this->form = new SubunitForm();
+        
+        $this->listForm = new DefaultListForm( array(),array(),true);
     }
 
 }
