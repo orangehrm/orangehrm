@@ -244,6 +244,8 @@ class performanceActions extends sfActions {
      * @return unknown_type
      */
     public function executeUpdateKpi(sfWebRequest $request) {
+        
+         $this->form = new SaveKpiForm(array(), array(), true);
 
         /* For highlighting corresponding menu item */
         $request->setParameter('initialActionName', 'listDefineKpi');
@@ -257,30 +259,33 @@ class performanceActions extends sfActions {
         $this->kpi = $kpi;
 
         if ($request->isMethod('post')) {
+             $this->form->bind($request->getParameter($this->form->getName()));
 
-            $kpi->setJobtitlecode($request->getParameter('txtJobTitle'));
-            $kpi->setDesc(trim($request->getParameter('txtDescription')));
+            if ($this->form->isValid()) {   
+                $kpi->setJobtitlecode($request->getParameter('txtJobTitle'));
+                $kpi->setDesc(trim($request->getParameter('txtDescription')));
 
-            if (trim($request->getParameter('txtMinRate')) != "") {
-                $kpi->setMin($request->getParameter('txtMinRate'));
-            } else {
-                $kpi->setMin(null);
+                if (trim($request->getParameter('txtMinRate')) != "") {
+                    $kpi->setMin($request->getParameter('txtMinRate'));
+                } else {
+                    $kpi->setMin(null);
+                }
+
+                if (trim($request->getParameter('txtMaxRate')) != "") {
+                    $kpi->setMax($request->getParameter('txtMaxRate'));
+                } else {
+                    $kpi->setMax(null);
+                }
+
+                if ($request->getParameter('chkDefaultScale') == 1) {
+                    $kpi->setDefault(1);
+                } else {
+                    $kpi->setDefault(0);
+                }
+
+                $kpiService->saveKpi($kpi);
+                $this->getUser()->setFlash('success', __(TopLevelMessages::UPDATE_SUCCESS));
             }
-
-            if (trim($request->getParameter('txtMaxRate')) != "") {
-                $kpi->setMax($request->getParameter('txtMaxRate'));
-            } else {
-                $kpi->setMax(null);
-            }
-
-            if ($request->getParameter('chkDefaultScale') == 1) {
-                $kpi->setDefault(1);
-            } else {
-                $kpi->setDefault(0);
-            }
-
-            $kpiService->saveKpi($kpi);
-            $this->getUser()->setFlash('success', __(TopLevelMessages::UPDATE_SUCCESS));
             $this->redirect('performance/listDefineKpi');
         }
     }
