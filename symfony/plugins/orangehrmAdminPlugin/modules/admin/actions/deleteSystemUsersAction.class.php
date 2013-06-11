@@ -25,15 +25,18 @@ class deleteSystemUsersAction extends sfAction {
 	 * @param <type> $request
 	 */
 	public function execute($request) {
-
+                $form = new DefaultListForm(array(), array(), true);
+                $form->bind($request->getParameter($form->getName()));
 		$toBeDeletedUserIds = $request->getParameter('chkSelectRow');
                 
                 
 
 		if (!empty($toBeDeletedUserIds)) {
+                    if ($form->isValid()) {
 			$delete = true;
                         $this->getSystemUserService()->deleteSystemUsers($toBeDeletedUserIds);
                         $this->getUser()->setFlash('success', __(TopLevelMessages::DELETE_SUCCESS));
+                    }
 			
 		}else{
                     $this->getUser()->setFlash('warning', __(TopLevelMessages::SELECT_RECORDS));

@@ -81,7 +81,7 @@ use_javascript(plugin_web_path('orangehrmAdminPlugin', 'js/viewSkillsSuccess'));
         <?php include_partial('global/flash_messages'); ?>
         
         <form name="frmList" id="frmList" method="post" action="<?php echo url_for('admin/deleteSkills'); ?>">
-            
+            <?php echo $listForm ?>
             <p id="listActions">
                 <input type="button" class="addbutton" id="btnAdd" value="<?php echo __('Add'); ?>"/>
                 <input type="button" class="delete" id="btnDel" value="<?php echo __('Delete'); ?>"/>

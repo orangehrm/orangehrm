@@ -30,10 +30,13 @@ class deleteNationalitiesAction extends sfAction {
     }
 
     public function execute($request) {
-
+        $form = new DefaultListForm(array(), array(), true);
+        $form->bind($request->getParameter($form->getName()));
         $toBeDeletedIds = $request->getParameter('chkSelectRow');
-        $this->getNationalityService()->deleteNationalities($toBeDeletedIds);
-        $this->getUser()->setFlash('success', __(TopLevelMessages::DELETE_SUCCESS));
+        if ($form->isValid()) {
+            $this->getNationalityService()->deleteNationalities($toBeDeletedIds);
+            $this->getUser()->setFlash('success', __(TopLevelMessages::DELETE_SUCCESS));
+        }
         $this->redirect('admin/nationality');
     }
 

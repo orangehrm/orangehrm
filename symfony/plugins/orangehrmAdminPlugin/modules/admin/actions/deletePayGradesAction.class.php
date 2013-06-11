@@ -31,17 +31,19 @@ class deletePayGradesAction extends sfAction {
 	}
 	
 	public function execute($request) {
-
+                $form = new DefaultListForm(array(), array(), true);
+                $form->bind($request->getParameter($form->getName()));
 		$toBeDeletedPayGradeIds = $request->getParameter('chkSelectRow');
 
 		if (!empty($toBeDeletedPayGradeIds)) {
 
 			foreach ($toBeDeletedPayGradeIds as $toBeDeletedPayGradeId) {
-
+                            if ($form->isValid()) {
 				$payGrade = $this->getPayGradeService()->getPayGradeById($toBeDeletedPayGradeId);
 				$payGrade->delete();
-			}
-			$this->getUser()->setFlash('success', __(TopLevelMessages::DELETE_SUCCESS));
+                                $this->getUser()->setFlash('success', __(TopLevelMessages::DELETE_SUCCESS));
+                            }
+			}			
 		}
 
 		$this->redirect('admin/viewPayGrades');

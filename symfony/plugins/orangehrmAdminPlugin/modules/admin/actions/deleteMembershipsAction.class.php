@@ -30,10 +30,13 @@ class deleteMembershipsAction extends sfAction {
     }
 
     public function execute($request) {
-
+        $form = new DefaultListForm(array(), array(), true);
+        $form->bind($request->getParameter($form->getName()));
         $toBeDeletedIds = $request->getParameter('chkSelectRow');
-        $this->getMembershipService()->deleteMemberships($toBeDeletedIds);
-        $this->getUser()->setFlash('success', __(TopLevelMessages::DELETE_SUCCESS));
+        if ($form->isValid()) {
+            $this->getMembershipService()->deleteMemberships($toBeDeletedIds);
+            $this->getUser()->setFlash('success', __(TopLevelMessages::DELETE_SUCCESS));
+        }
         $this->redirect('admin/membership');
     }
 

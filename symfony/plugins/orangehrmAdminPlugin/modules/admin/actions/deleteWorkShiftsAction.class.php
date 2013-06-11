@@ -30,19 +30,23 @@ class deleteWorkShiftsAction extends sfAction {
 	}
 	
 	public function execute($request) {
-
+                $form = new DefaultListForm(array(), array(), true);
+                $form->bind($request->getParameter($form->getName())); 
 		$toBeDeletedShiftIds = $request->getParameter('chkSelectRow');
 
 		if (!empty($toBeDeletedShiftIds)) {
 
 			foreach ($toBeDeletedShiftIds as $toBeDeletedShiftId) {
-
-				$shift = $this->getWorkShiftService()->getWorkShiftById($toBeDeletedShiftId);
+                                if ($form->isValid()) {
+                                    $shift = $this->getWorkShiftService()->getWorkShiftById($toBeDeletedShiftId);
+                                    
                 if ($shift instanceof WorkShift) {
                     $shift->delete();
                 }
-			}
+			
 			$this->getUser()->setFlash('success', __(TopLevelMessages::DELETE_SUCCESS));
+                                }
+                        }
 		}
 
 		$this->redirect('admin/workShift');

@@ -57,7 +57,7 @@ class viewReportingMethodsAction extends sfAction {
             }
             
         }
-        
+       $this->listForm = new DefaultListForm(array(), array(), true);  
     }
     
     protected function _checkAuthentication() {

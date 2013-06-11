@@ -77,7 +77,7 @@
         <?php include_partial('global/flash_messages'); ?>
         
         <form name="frmList" id="frmList" method="post" action="<?php echo url_for('pim/deleteReportingMethods'); ?>">
-            
+            <?php echo $listForm?>
             <fieldset>
                 
                 <p id="listActions">

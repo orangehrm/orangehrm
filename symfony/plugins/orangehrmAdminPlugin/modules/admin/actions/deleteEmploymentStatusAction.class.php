@@ -29,17 +29,19 @@ class deleteEmploymentStatusAction extends sfAction {
 	}
 	
 	public function execute($request) {
-
+                $form = new DefaultListForm(array(), array(), true);
+                $form->bind($request->getParameter($form->getName()));
 		$toBeDeletedStausIds = $request->getParameter('chkSelectRow');
 
 		if (!empty($toBeDeletedStausIds)) {
 
 			foreach ($toBeDeletedStausIds as $toBeDeletedStausId) {
-
+                            if ($form->isValid()) {
 				$status = $this->getEmploymentStatusService()->getEmploymentStatusById($toBeDeletedStausId);
 				$status->delete();
-			}
-			$this->getUser()->setFlash('success', __(TopLevelMessages::DELETE_SUCCESS));
+                                $this->getUser()->setFlash('success', __(TopLevelMessages::DELETE_SUCCESS));
+                            }
+			}			
 		}
 
 		$this->redirect('admin/employmentStatus');

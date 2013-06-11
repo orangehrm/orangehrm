@@ -35,15 +35,15 @@
                     <li>
                         <input type="hidden" name="hdnId" id="hdnId">
                         <label for="txtUnit_Id"><?php echo __('Unit Id');?></label>
-                        <input type="text" id="txtUnit_Id" name="txtUnit_Id">
+                        <?php echo $form['txtUnit_Id']->render(array("class" => "formInputText")); ?>
                     </li>
                     <li>
-                        <label for="txtName"><?php echo __('Name'); ?><em> *</em></label>
-                        <input type="text" id="txtName" name="txtName">
+                        <label for="txtName"><?php echo __('Name'); ?></label>
+                        <?php echo $form['txtName']->render(array("class" => "formInputText")); ?>
                     </li>
                     <li class="largeTextBox">
                         <label for="txtDescription"><?php echo __('Description');?></label>
-                        <textarea id="txtDescription" name="txtDescription"></textarea>
+                        <?php echo $form['txtDescription']->render(array("class" => "formInputText")); ?>
                         <input type="hidden" id="hdnParent" name="hdnParent">
                     </li>
                     <li id="lastElement" class="required">

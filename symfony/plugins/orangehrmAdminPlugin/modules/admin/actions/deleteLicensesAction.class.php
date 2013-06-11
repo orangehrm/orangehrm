@@ -42,14 +42,15 @@ class deleteLicensesAction extends sfAction {
         $toDeleteIds = $request->getParameter('chkListRecord');
         
         if (!empty($toDeleteIds) && $request->isMethod('post')) {
-            
-            $result = $this->getLicenseService()->deleteLicenses($toDeleteIds);
-            
+            $form = new DefaultListForm(array(), array(), true);
+            $form->bind($request->getParameter($form->getName()));
+            if ($form->isValid()) {
+                $result = $this->getLicenseService()->deleteLicenses($toDeleteIds);
+            }
             if ($result) {
                 $this->getUser()->setFlash('success', __(TopLevelMessages::DELETE_SUCCESS)); 
-                $this->redirect('admin/viewLicenses');
             }            
-            
+            $this->redirect('admin/viewLicenses');
         }       
         
     }

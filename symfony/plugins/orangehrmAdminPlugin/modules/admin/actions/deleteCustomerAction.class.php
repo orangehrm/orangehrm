@@ -33,7 +33,8 @@ class deleteCustomerAction extends sfAction {
 	 * @param <type> $request
 	 */
 	public function execute($request) {
-
+                $form = new DefaultListForm(array(), array(), true);
+                $form->bind($request->getParameter($form->getName()));
 		$toBeDeletedCustomerIds = $request->getParameter('chkSelectRow');
 
 		if (!empty($toBeDeletedCustomerIds)) {
@@ -47,10 +48,12 @@ class deleteCustomerAction extends sfAction {
 			}
 			if ($delete) {
 				foreach ($toBeDeletedCustomerIds as $toBeDeletedCustomerId) {
-
+                                    if ($form->isValid()) {
 					$customer = $this->getCustomerService()->deleteCustomer($toBeDeletedCustomerId);
+                                        $this->getUser()->setFlash('success', __(TopLevelMessages::DELETE_SUCCESS));
+                                    }
 				}
-				$this->getUser()->setFlash('success', __(TopLevelMessages::DELETE_SUCCESS));
+				
 			} else {
 				$this->getUser()->setFlash('error', __('Not Allowed to Delete Customer(s) Which Have Time Logged Against'));
 			}

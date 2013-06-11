@@ -30,14 +30,17 @@ class deleteJobTitleAction extends sfAction {
     }
 
     public function execute($request) {
-
+        $form = new DefaultListForm(array(), array(), true);
+        $form->bind($request->getParameter($form->getName()));
         $toBeDeletedJobTitleIds = $request->getParameter('chkSelectRow');
 
         if (!empty($toBeDeletedJobTitleIds)) {
-            $this->getJobTitleService()->deleteJobTitle($toBeDeletedJobTitleIds);
-            $this->getUser()->setFlash('success', __(TopLevelMessages::DELETE_SUCCESS));
-            $this->redirect('admin/viewJobTitleList');
+            if ($form->isValid()) {
+                $this->getJobTitleService()->deleteJobTitle($toBeDeletedJobTitleIds);
+                $this->getUser()->setFlash('success', __(TopLevelMessages::DELETE_SUCCESS));
+            }
         }
+        $this->redirect('admin/viewJobTitleList');
     }
 
 }

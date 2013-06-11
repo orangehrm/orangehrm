@@ -42,14 +42,15 @@ class deleteSkillsAction extends sfAction {
         $toDeleteIds = $request->getParameter('chkListRecord');
         
         if (!empty($toDeleteIds) && $request->isMethod('post')) {
-            
-            $result = $this->getSkillService()->deleteSkills($toDeleteIds);
-            
+            $form = new DefaultListForm(array(), array(), true);
+            $form->bind($request->getParameter($form->getName()));
+            if ($form->isValid()) {
+                $result = $this->getSkillService()->deleteSkills($toDeleteIds);
+            }
             if ($result) {
                 $this->getUser()->setFlash('success', __(TopLevelMessages::DELETE_SUCCESS)); 
-                $this->redirect('admin/viewSkills');
             }            
-            
+            $this->redirect('admin/viewSkills');
         }       
         
     }
