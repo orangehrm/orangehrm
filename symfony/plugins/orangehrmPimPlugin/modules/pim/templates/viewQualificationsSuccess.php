@@ -189,7 +189,7 @@ $haveWorkExperience = count($workExperienceForm->workExperiences)>0;
     <!-- this is education section -->
     <?php
     include_partial('education', array('empNumber' => $empNumber, 'form' => $educationForm, 
-        'section' => $section, 'educationPermissions' => $educationPermissions));
+        'section' => $section, 'educationPermissions' => $educationPermissions,'listForm'=>$listForm));
     ?>
 
     <!-- this is skills section -->

@@ -72,6 +72,7 @@ $haveEducation = count($form->empEducationList) > 0;
 
         <form id="frmDelEducation" action="<?php echo url_for('pim/saveDeleteEducation?empNumber=' . 
                 $empNumber . "&option=delete"); ?>" method="post">
+                <?php echo $listForm ?>
             <div id="tblEducation">
                 <p id="actionEducation">
                     <?php if ($educationPermissions->canCreate()) { ?>

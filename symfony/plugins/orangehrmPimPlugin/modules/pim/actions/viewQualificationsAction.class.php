@@ -95,7 +95,9 @@ class viewQualificationsAction extends basePimAction {
         $this->setLanguageForm(new EmployeeLanguageForm(array(), array('empNumber' => $empNumber, 
             'languagePermissions' => $this->languagePermissions), true));
         $this->setLicenseForm(new EmployeeLicenseForm(array(), array('empNumber' => $empNumber, 
-            'licensePermissions' => $this->licensePermissions), true));        
+            'licensePermissions' => $this->licensePermissions), true));  
+        
+        $this->listForm = new DefaultListForm(array(),array(),true);
     }
     
     protected function _setMessage() {
