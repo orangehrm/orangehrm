@@ -29,7 +29,7 @@
         <?php include_partial('global/flash_messages'); ?>
         
         <form id="frmConfigPim" name="frmConfigPim" method="post" action="<?php echo url_for('pim/configurePim') ?>" >
-            
+            <?php echo $form['_csrf_token']; ?>
             <fieldset>
                 
                 

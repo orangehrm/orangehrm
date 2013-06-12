@@ -43,7 +43,7 @@ class configurePimAction extends basePimAction {
         $param = array('orangeconfig' => OrangeConfig::getInstance());
 
 
-        $this->setForm(new ConfigPimForm(array(), $param, false));
+        $this->setForm(new ConfigPimForm(array(), $param, true));
         if ($request->isMethod('post')) {
 
             $this->form->bind($request->getParameter($this->form->getName()));

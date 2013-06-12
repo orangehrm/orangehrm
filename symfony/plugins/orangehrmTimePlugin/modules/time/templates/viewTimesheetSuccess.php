@@ -325,6 +325,7 @@ $actionName = sfContext::getInstance()->getActionName();
     <div class="modal-body">
 
         <form action="updateComment" method="post" id="frmCommentSave">
+            <?php echo $formToImplementCsrfToken['_csrf_token']; ?>
             <fieldset>
                 <ol>
                     <li class="line">
