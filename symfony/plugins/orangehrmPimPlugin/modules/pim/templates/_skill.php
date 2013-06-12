@@ -57,6 +57,7 @@ $haveSkills = count($form->empSkillList)>0;
 
         <form id="frmDelSkill" action="<?php echo url_for('pim/saveDeleteSkill?empNumber=' . 
                 $empNumber . "&option=delete"); ?>" method="post">
+            <?php echo $listForm ?>
             <p id="actionSkill">
                 <?php if ($skillPermissions->canCreate() ) { ?>
                 <input type="button" value="<?php echo __("Add");?>" class="" id="addSkill" />

@@ -96,6 +96,7 @@ $haveWorkExperience = count($workExperienceForm->workExperiences)>0;
 
                 <form id="frmDelWorkExperience" action="<?php echo url_for('pim/saveDeleteWorkExperience?empNumber=' . 
                         $empNumber . "&option=delete"); ?>" method="post">
+                    <?php echo $listForm ?>
                     <p id="actionWorkExperience">
                         <?php if ($workExperiencePermissions->canCreate() ) { ?>
                         <input type="button" value="<?php echo __("Add");?>" class="" id="addWorkExperience" />
@@ -195,19 +196,19 @@ $haveWorkExperience = count($workExperienceForm->workExperiences)>0;
     <!-- this is skills section -->
     <?php
     include_partial('skill', array('empNumber' => $empNumber, 'form' => $skillForm, 
-        'section' => $section, 'skillPermissions' => $skillPermissions));
+        'section' => $section, 'skillPermissions' => $skillPermissions,'listForm'=>$listForm));
     ?>
     
     <!-- this is Languages section -->
     <?php
     include_partial('language', array('empNumber' => $empNumber, 'form' => $languageForm, 
-        'section' => $section, 'languagePermissions' => $languagePermissions));
+        'section' => $section, 'languagePermissions' => $languagePermissions,'listForm'=>$listForm));
     ?>
     
     <!-- this is Licenses section -->
     <?php
     include_partial('license', array('empNumber' => $empNumber, 'form' => $licenseForm, 
-        'section' => $section, 'licensePermissions' => $licensePermissions));
+        'section' => $section, 'licensePermissions' => $licensePermissions,'listForm'=>$listForm));
     ?>
     
     <?php echo include_component('pim', 'customFields', array('empNumber'=>$empNumber, 'screen' => CustomField::SCREEN_QUALIFICATIONS));?>

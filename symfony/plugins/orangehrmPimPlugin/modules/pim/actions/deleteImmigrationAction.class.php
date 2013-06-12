@@ -20,6 +20,8 @@
 class deleteImmigrationAction extends basePimAction {
 
     public function execute($request) {
+        $form = new DefaultListForm(array(), array(), true);
+        $form->bind($request->getParameter($form->getName()));
         $deleteIds = $request->getParameter('chkImmigration');
         $empNumber = $request->getParameter('empNumber');
         
@@ -30,8 +32,10 @@ class deleteImmigrationAction extends basePimAction {
                 $this->forward(sfConfig::get('sf_secure_module'), sfConfig::get('sf_secure_action'));
             }
             if ($this->immigrationPermission->canDelete()) {
-                $this->getEmployeeService()->deleteEmployeeImmigrationRecords($empNumber, $deleteIds);
-                $this->getUser()->setFlash('immigration.success', __(TopLevelMessages::DELETE_SUCCESS));
+                if ($form->isValid()) {
+                    $this->getEmployeeService()->deleteEmployeeImmigrationRecords($empNumber, $deleteIds);
+                    $this->getUser()->setFlash('immigration.success', __(TopLevelMessages::DELETE_SUCCESS));
+                }
                 $this->redirect('pim/viewImmigration?empNumber=' . $empNumber);
             }
         }

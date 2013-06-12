@@ -28,12 +28,15 @@ class deleteSalaryAction extends basePimAction {
         
 
         if ($request->isMethod('post')) {
-
+            $form = new DefaultListForm(array(), array(), true);
+            $form->bind($request->getParameter($form->getName()));
             $deleteIds = $request->getParameter('delSalary');
 
             if (count($deleteIds) > 0) {
+                if ($form->isValid()) {
                 $this->getEmployeeService()->deleteEmployeeSalaryComponents($empNumber, $deleteIds);
                 $this->getUser()->setFlash('salary.success', __(TopLevelMessages::DELETE_SUCCESS));
+                }
             }
 
         }

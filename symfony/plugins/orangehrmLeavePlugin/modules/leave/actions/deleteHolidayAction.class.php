@@ -52,13 +52,17 @@ class deleteHolidayAction extends sfAction {
      * @param sfWebRequest $request
      */ 
     public function execute($request) {
-
+        $form = new DefaultListForm(array(), array(), true) ;
+        $form->bind($request->getParameter($form->getName()));
         $holidayIds = $request->getPostParameter('chkSelectRow[]');
 
         if (!empty($holidayIds)) {
 
             foreach ($holidayIds as $key => $id) {
-                $this->getHolidayService()->deleteHoliday($id);
+                if ($form->isValid()) {
+                    $this->getHolidayService()->deleteHoliday($id);
+                    $this->getUser()->setFlash('success', __(TopLevelMessages::DELETE_SUCCESS));
+                }
             }
 
             $this->getUser()->setFlash('templateMessage', array('SUCCESS', __(TopLevelMessages::DELETE_SUCCESS)));

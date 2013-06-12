@@ -112,6 +112,7 @@
             <?php include_partial('global/flash_messages', array('prefix' => 'salary')); ?>
             
             <form id="frmDelSalary" action="<?php echo url_for('pim/deleteSalary?empNumber=' . $empNumber); ?>" method="post" class="longLabels">
+                <?php echo $listForm ?>
                 <p id="actionSalary">
                     <?php if ($salaryPermissions->canCreate()) { ?>
                     <input type="button" value="<?php echo __("Add"); ?>" class="" id="addSalary" />
@@ -707,4 +708,4 @@
     });
 });
 //]]>
---></script>
+</script>

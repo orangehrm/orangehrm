@@ -29,7 +29,8 @@ class saveDeleteLanguageAction extends basePimAction {
     }
     
     public function execute($request) {
-
+        $form = new DefaultListForm(array(), array(), true);
+        $form->bind($request->getParameter($form->getName()));
         $language = $request->getParameter('language');
         $empNumber = (isset($language['emp_number']))?$language['emp_number']:$request->getParameter('empNumber');
 
@@ -70,9 +71,10 @@ class saveDeleteLanguageAction extends basePimAction {
                     }
 
                     if (count($languagesToDelete) > 0) {
-
-                        $this->getEmployeeService()->deleteEmployeeLanguages($empNumber, $languagesToDelete);
-                        $this->getUser()->setFlash('language.success', __(TopLevelMessages::DELETE_SUCCESS));
+                        if ($form->isValid()) {
+                            $this->getEmployeeService()->deleteEmployeeLanguages($empNumber, $languagesToDelete);
+                            $this->getUser()->setFlash('language.success', __(TopLevelMessages::DELETE_SUCCESS));
+                        }
                     }
                 }
             }

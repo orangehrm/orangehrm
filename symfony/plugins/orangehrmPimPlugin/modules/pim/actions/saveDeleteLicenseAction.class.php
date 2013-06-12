@@ -29,7 +29,8 @@ class saveDeleteLicenseAction extends basePimAction {
     }
     
     public function execute($request) {
-
+        $form = new DefaultListForm(array(), array(), true);
+        $form->bind($request->getParameter($form->getName()));
         $license = $request->getParameter('license');
         $empNumber = (isset($license['emp_number']))?$license['emp_number']:$request->getParameter('empNumber');
 
@@ -62,8 +63,10 @@ class saveDeleteLicenseAction extends basePimAction {
                     $deleteIds = $request->getParameter('delLicense');
 
                     if(count($deleteIds) > 0) {
-                        $this->getEmployeeService()->deleteEmployeeLicenses($empNumber, $request->getParameter('delLicense'));
-                        $this->getUser()->setFlash('license.success', __(TopLevelMessages::DELETE_SUCCESS));
+                        if ($form->isValid()) {
+                            $this->getEmployeeService()->deleteEmployeeLicenses($empNumber, $request->getParameter('delLicense'));
+                            $this->getUser()->setFlash('license.success', __(TopLevelMessages::DELETE_SUCCESS));
+                        }
                     }
                 }
             }

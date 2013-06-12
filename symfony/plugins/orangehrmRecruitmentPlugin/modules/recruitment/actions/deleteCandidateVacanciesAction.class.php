@@ -34,11 +34,13 @@ class deleteCandidateVacanciesAction extends sfAction {
     }
 
     public function execute($request) {
-
+        $form = new DefaultListForm(array(), array(), true);
+        $form->bind($request->getParameter($form->getName()));
         $candidateVacancyIds = $request->getParameter("chkSelectRow");
-        $toBeDeletedCandiates = $this->getCandidateService()->processCandidatesVacancyArray($candidateVacancyIds);
-        $isDeleteSuccess = $this->getCandidateService()->deleteCandidate($toBeDeletedCandiates);
-        
+        if ($form->isValid()) {
+            $toBeDeletedCandiates = $this->getCandidateService()->processCandidatesVacancyArray($candidateVacancyIds);
+            $isDeleteSuccess = $this->getCandidateService()->deleteCandidate($toBeDeletedCandiates);
+        }
         if($isDeleteSuccess) {
             $this->getUser()->setFlash('success', __(TopLevelMessages::DELETE_SUCCESS));
         }

@@ -30,7 +30,8 @@ class saveDeleteSkillAction extends basePimAction {
     }
 
     public function execute($request) {
-
+        $form = new DefaultListForm(array(), array(), true);
+        $form->bind($request->getParameter($form->getName()));
         $skill = $request->getParameter('skill');
         $empNumber = (isset($skill['emp_number'])) ? $skill['emp_number'] : $request->getParameter('empNumber');
 
@@ -64,8 +65,10 @@ class saveDeleteSkillAction extends basePimAction {
                     $deleteIds = $request->getParameter('delSkill');
 
                     if (count($deleteIds) > 0) {
-                        $this->getEmployeeService()->deleteEmployeeSkills($empNumber, $request->getParameter('delSkill'));
-                        $this->getUser()->setFlash('skill.success', __(TopLevelMessages::DELETE_SUCCESS));
+                        if ($form->isValid()) {
+                            $this->getEmployeeService()->deleteEmployeeSkills($empNumber, $request->getParameter('delSkill'));
+                            $this->getUser()->setFlash('skill.success', __(TopLevelMessages::DELETE_SUCCESS));
+                        }
                     }
                 }
             }

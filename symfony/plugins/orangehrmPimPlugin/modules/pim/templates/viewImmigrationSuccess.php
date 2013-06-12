@@ -97,6 +97,7 @@ $havePassports = $numContacts>0;
             <?php include_partial('global/flash_messages', array('prefix' => 'immigration')); ?>
             
             <form name="frmImmigrationDelete" id="frmImmigrationDelete" method="post" action="<?php echo url_for('pim/deleteImmigration?empNumber=' . $empNumber); ?>">
+                <?php echo $listForm ?>
                 <p id="listActions">
                     <?php if ($immigrationPermission->canCreate()) { ?>
                     <input type="button" class="" id="btnAdd" value="<?php echo __("Add"); ?>" />

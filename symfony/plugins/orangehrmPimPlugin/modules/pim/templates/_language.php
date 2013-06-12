@@ -43,6 +43,7 @@ $haveLanguage = count($form->empLanguageList) > 0;
 
             <form id="frmDelLanguage" action="<?php echo url_for('pim/saveDeleteLanguage?empNumber=' . 
                     $empNumber . "&option=delete"); ?>" method="post">
+                <?php echo $listForm ?>
                 <p id="actionLanguage">
                     <?php if ($languagePermissions->canCreate()) { ?>
                     <input type="button" value="<?php echo __("Add"); ?>" class="" id="addLanguage" />&nbsp;

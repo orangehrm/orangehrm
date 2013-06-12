@@ -39,13 +39,16 @@ class deleteLeaveEntitlementsAction extends sfAction {
 
     // protected by screen permissions.     
     public function execute($request) {
-        
+        $form = new DefaultListForm(array(), array(), true);
+        $form->bind($request->getParameter($form->getName()));
         $ids = $request->getParameter('chkSelectRow');
         
         if (count($ids) > 0) {
             try{
-                $this->getLeaveEntitlementService()->deleteLeaveEntitlements($ids);
-                $this->getUser()->setFlash('success', __(TopLevelMessages::DELETE_SUCCESS));
+                if ($form->isValid()) {
+                    $this->getLeaveEntitlementService()->deleteLeaveEntitlements($ids);
+                    $this->getUser()->setFlash('success', __(TopLevelMessages::DELETE_SUCCESS));
+                }
             }catch(Exception $e){
                 $this->getUser()->setFlash('warning.nofade',$e->getMessage());
             }

@@ -75,7 +75,7 @@
         <?php include_partial('global/flash_messages'); ?>
         
         <form name="frmList" id="frmList" method="post" action="<?php echo url_for('pim/deleteTerminationReasons'); ?>">
-            
+            <?php echo $listForm ?>
             <fieldset>
                 <p id="listActions">
                     <input type="button" class="addbutton" id="btnAdd" value="<?php echo __('Add'); ?>"/>

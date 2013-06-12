@@ -43,6 +43,7 @@ $haveLicense = count($form->empLicenseList) > 0;
         
             <form id="frmDelLicense" action="<?php echo url_for('pim/saveDeleteLicense?empNumber=' . 
                     $empNumber . "&option=delete"); ?>" method="post">
+                <?php echo $listForm ?>
                 <p id="actionLicense">
                     <?php if ($licensePermissions->canCreate()) { ?>
                     <input type="button" value="<?php echo __("Add"); ?>" class="" id="addLicense" />&nbsp;

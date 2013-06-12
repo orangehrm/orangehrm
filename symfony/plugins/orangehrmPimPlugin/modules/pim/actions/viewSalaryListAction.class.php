@@ -119,6 +119,7 @@ class viewSalaryListAction extends basePimAction {
                 $this->salaryList = $this->getEmployeeService()->getEmployeeSalaries($empNumber);
             }
         }
+        $this->listForm = new DefaultListForm(array(), array(), true);
     }
 
 }

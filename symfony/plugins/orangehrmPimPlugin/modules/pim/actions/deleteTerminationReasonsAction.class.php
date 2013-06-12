@@ -44,14 +44,15 @@ class deleteTerminationReasonsAction extends sfAction {
         $this->_checkReasonsInUse($toDeleteIds);
         
         if (!empty($toDeleteIds) && $request->isMethod('post')) {
-            
-            $result = $this->getTerminationReasonConfigurationService()->deleteTerminationReasons($toDeleteIds);
-            
+            $form = new DefaultListForm(array(), array(), true);
+            $form->bind($request->getParameter($form->getName()));
+            if ($form->isValid()) {
+                $result = $this->getTerminationReasonConfigurationService()->deleteTerminationReasons($toDeleteIds);
+            }
             if ($result) {
                 $this->getUser()->setFlash('success', __(TopLevelMessages::DELETE_SUCCESS)); 
-                $this->redirect('pim/viewTerminationReasons');
             }            
-            
+            $this->redirect('pim/viewTerminationReasons');
         }       
         
     }

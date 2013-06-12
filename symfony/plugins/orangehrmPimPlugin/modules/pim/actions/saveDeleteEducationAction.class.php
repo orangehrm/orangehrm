@@ -29,7 +29,8 @@ class saveDeleteEducationAction extends basePimAction {
     }
     
     public function execute($request) {
-
+        $form = new DefaultListForm(array(), array(), true);
+        $form->bind($request->getParameter($form->getName()));
         $education = $request->getParameter('education');
         $empNumber = (isset($education['emp_number']))?$education['emp_number']:$request->getParameter('empNumber');
 
@@ -63,8 +64,10 @@ class saveDeleteEducationAction extends basePimAction {
                     $deleteIds = $request->getParameter('delEdu');
 
                     if(count($deleteIds) > 0) {
-                        $this->getEmployeeService()->deleteEmployeeEducationRecords($empNumber, $request->getParameter('delEdu'));
-                        $this->getUser()->setFlash('education.success', __(TopLevelMessages::DELETE_SUCCESS));
+                        if ($form->isValid()) {
+                            $this->getEmployeeService()->deleteEmployeeEducationRecords($empNumber, $request->getParameter('delEdu'));
+                            $this->getUser()->setFlash('education.success', __(TopLevelMessages::DELETE_SUCCESS));
+                        }
                     }
                 }
             }

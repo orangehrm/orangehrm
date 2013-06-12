@@ -30,7 +30,8 @@ class saveDeleteWorkExperienceAction extends basePimAction {
     }
 
     public function execute($request) {
-
+        $form = new DefaultListForm(array(), array(), true);
+        $form->bind($request->getParameter($form->getName()));
         $experience = $request->getParameter('experience');
         $empNumber = (isset($experience['emp_number'])) ? $experience['emp_number'] : $request->getParameter('empNumber');
 
@@ -67,8 +68,10 @@ class saveDeleteWorkExperienceAction extends basePimAction {
 
                     if (count($deleteIds) > 0) {
                         $this->setOperationName('DELETE WORK EXPERIENCE');
-                        $this->getEmployeeService()->deleteEmployeeWorkExperienceRecords($empNumber, $request->getParameter('delWorkExp'));
-                        $this->getUser()->setFlash('workexperience.success', __(TopLevelMessages::DELETE_SUCCESS));
+                        if ($form->isValid()) {
+                            $this->getEmployeeService()->deleteEmployeeWorkExperienceRecords($empNumber, $request->getParameter('delWorkExp'));
+                            $this->getUser()->setFlash('workexperience.success', __(TopLevelMessages::DELETE_SUCCESS));
+                        }
                     }
                 }
             }
