@@ -516,7 +516,15 @@ abstract class AbstractLeaveAllocationService extends BaseService {
             // Full Day Off
             $durationInHours = 0;
         } else if ($isHalfday || $isHalfDayHoliday) {
-            $durationInHours = $this->getDurationInHours($duration->getFromTime(), $duration->getToTime());
+            
+            if ($duration->getType() == LeaveDuration::FULL_DAY) {
+                $durationInHours = $workScheduleDuration;
+            } else if ($duration->getType() == LeaveDuration::HALF_DAY) {
+                $durationInHours = $workScheduleDuration / 2;
+            } else {
+                $durationInHours = $this->getDurationInHours($duration->getFromTime(), $duration->getToTime());
+            }   
+            
             $halfDayHours = ($workScheduleDuration / 2);
             if ($durationInHours > $halfDayHours) {
                 $durationInHours = $halfDayHours;
