@@ -14,6 +14,7 @@
         <?php include_partial('global/form_errors', array('form' => $form)); ?>
 
         <form action="#" id="frmSearch" name="frmSearch" method="post">
+            <?php echo $searchForm ?>
             <input type="hidden" name="mode" value="search" >
             <fieldset>	
                 <ol>

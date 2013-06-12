@@ -138,7 +138,8 @@ class performanceActions extends sfActions {
     public function executeListDefineKpi(sfWebRequest $request) {
 
         $this->form = new ListKpiForm(array(), array(), true);
-
+        $this->searchForm = new SearchKpiForm( array(), array(), true );
+        
         $this->listJobTitle = $this->getJobTitleService()->getJobTitleList("", "", false);
 
         $kpiService = $this->getKpiService();
@@ -149,26 +150,28 @@ class performanceActions extends sfActions {
         $this->pager = new SimplePager('KpiList', sfConfig::get('app_items_per_page'));
         $this->pager->setPage(($request->getParameter('page') != '') ? $request->getParameter('page') : 0);
 
-        if ($request->getParameter('mode') == 'search') {
-            $jobTitleId = $request->getParameter('txtJobTitle');
-            if ($jobTitleId != 'all') {
-                $this->searchJobTitle = $this->getJobTitleService()->getJobTitleById($jobTitleId);
+        if ($request->isMethod('post')) {
+            
+            $this->searchForm->bind($request->getParameter($this->searchForm->getName()));
+            if ($this->searchForm->isValid()) {
+                $jobTitleId = $request->getParameter('txtJobTitle');
+                if ($jobTitleId != 'all') {
+                    $this->searchJobTitle = $this->getJobTitleService()->getJobTitleById($jobTitleId);
 
-                $this->kpiList = $kpiService->getKpiForJobTitle($jobTitleId);
-            } else {
+                    $this->kpiList = $kpiService->getKpiForJobTitle($jobTitleId);
+                } else {
 
-                $this->pager->setNumResults($kpiService->getCountKpiList());
-                $this->pager->init();
-                $offset = $this->pager->getOffset();
-                $offset = empty($offset) ? 0 : $offset;
-                $limit = $this->pager->getMaxPerPage();
+                    $this->pager->setNumResults($kpiService->getCountKpiList());
+                    $this->pager->init();
+                    $offset = $this->pager->getOffset();
+                    $offset = empty($offset) ? 0 : $offset;
+                    $limit = $this->pager->getMaxPerPage();
 
-                $this->kpiList = $kpiService->getKpiList($offset, $limit);
-                $this->kpiList = $kpiService->getKpiList();
+                    $this->kpiList = $kpiService->getKpiList($offset, $limit);
+                    $this->kpiList = $kpiService->getKpiList();
+                }
             }
-        } else {
-
-
+        }else{
             $this->pager->setNumResults($kpiService->getCountKpiList());
             $this->pager->init();
 
@@ -178,6 +181,7 @@ class performanceActions extends sfActions {
 
             $this->kpiList = $kpiService->getKpiList($offset, $limit);
         }
+       
 
         $this->hasKpi = ( count($this->kpiList) > 0 ) ? true : false;
     }
