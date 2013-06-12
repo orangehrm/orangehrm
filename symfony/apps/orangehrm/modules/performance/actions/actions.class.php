@@ -784,17 +784,20 @@ class performanceActions extends sfActions {
                     array('invalid' => 'Date format should be ' . $inputDatePattern));
         
         if ($request instanceof sfWebRequest) {
-
-            $clues['from'] = $dateValidator->clean($request->getParameter('txtPeriodFromDate' . $suffix));
-            $clues['to'] = $dateValidator->clean($request->getParameter('txtPeriodToDate' . $suffix));
-            $clues['due'] = $dateValidator->clean($request->getParameter('txtDueDate' . $suffix));
-            $clues['jobCode'] = $request->getParameter('txtJobTitleCode' . $suffix);
-            $clues['divisionId'] = $request->getParameter('txtSubDivisionId' . $suffix);
-            $clues['empName'] = $request->getParameter('txtEmpName' . $suffix);
-            $clues['empId'] = empty($clues['empName']) ? 0 : $request->getParameter('hdnEmpId' . $suffix);
-            $clues['reviewerName'] = $request->getParameter('txtReviewerName' . $suffix);
-            $clues['reviewerId'] = empty($clues['reviewerName']) ? 0 : $request->getParameter('hdnReviewerId' . $suffix);
-            $clues['pageNo'] = $request->getParameter('hdnPageNo' . $suffix);
+            $form = new ViewReviewForm(array(),array(),true);
+            $form->bind($request->getParameter($form->getName()));
+            if ($form->isValid()) {
+                $clues['from'] = $dateValidator->clean($request->getParameter('txtPeriodFromDate' . $suffix));
+                $clues['to'] = $dateValidator->clean($request->getParameter('txtPeriodToDate' . $suffix));
+                $clues['due'] = $dateValidator->clean($request->getParameter('txtDueDate' . $suffix));
+                $clues['jobCode'] = $request->getParameter('txtJobTitleCode' . $suffix);
+                $clues['divisionId'] = $request->getParameter('txtSubDivisionId' . $suffix);
+                $clues['empName'] = $request->getParameter('txtEmpName' . $suffix);
+                $clues['empId'] = empty($clues['empName']) ? 0 : $request->getParameter('hdnEmpId' . $suffix);
+                $clues['reviewerName'] = $request->getParameter('txtReviewerName' . $suffix);
+                $clues['reviewerId'] = empty($clues['reviewerName']) ? 0 : $request->getParameter('hdnReviewerId' . $suffix);
+                $clues['pageNo'] = $request->getParameter('hdnPageNo' . $suffix);
+            }
         } elseif ($request instanceof PerformanceReview) {
 
 
