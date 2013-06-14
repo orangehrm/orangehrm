@@ -30,10 +30,13 @@ class updateNotificationAction extends sfAction {
     }
 
     public function execute($request) {
-
+        $form = new DefaultListForm(array(), array(), true);
+        $form->bind($request->getParameter($form->getName()));
         $toBeUpdatedIds = $request->getParameter('chkSelectRow');
-        $this->getEmailNotificationService()->updateEmailNotification($toBeUpdatedIds);
-        $this->getUser()->setFlash('success', __(TopLevelMessages::SAVE_SUCCESS));
+        if ($form->isValid()) {
+            $this->getEmailNotificationService()->updateEmailNotification($toBeUpdatedIds);
+            $this->getUser()->setFlash('success', __(TopLevelMessages::SAVE_SUCCESS));
+        }
         $this->redirect('admin/viewEmailNotification');
     }
 

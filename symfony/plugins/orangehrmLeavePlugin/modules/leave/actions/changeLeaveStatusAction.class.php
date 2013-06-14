@@ -29,7 +29,8 @@ class changeLeaveStatusAction extends baseCoreLeaveAction {
     public function execute($request) {
 
         if ($request->isMethod('post')) {
-
+            $form = new DefaultListForm(array(), array(), true);
+            $form->bind($request->getParameter($form->getName()));
             $changes = $request->getParameter('leaveRequest');
             $changeType = 'change_leave_request';
             $leaveComments = $request->getParameter('leaveComments');
@@ -73,10 +74,11 @@ class changeLeaveStatusAction extends baseCoreLeaveAction {
             }
 
             //try {
-
+            if ($form->isValid()) {
                 $this->getLeaveRequestService()->changeLeaveStatus($changes, $changeType, $changeComments, $changedByUserType, $_SESSION['empNumber']);
                 $this->getUser()->setFlash('message', __(TopLevelMessages::UPDATE_SUCCESS));
                 $this->getUser()->setFlash('messageType', 'success');
+            }
             //} catch (Exception $e) {
             //    $this->getUser()->setFlash('message', $e->getMessage());
             //    $this->getUser()->setFlash('messageType', 'failure');
