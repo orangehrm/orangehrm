@@ -24,6 +24,8 @@
  */
 class ConfigDao extends BaseDao {
 
+    private $logger;
+    
     /**
      * Get Logger instance. Creates if not already created.
      *
