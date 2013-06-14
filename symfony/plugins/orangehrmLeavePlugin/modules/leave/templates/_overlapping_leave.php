@@ -1,5 +1,5 @@
 <?php
-if (!empty($overlapLeave)) {
+if (!empty($overlapLeave) && count($overlapLeave) > 0) {
     if ($workshiftLengthExceeded) {
         $heading = __('Workshift Length Exceeded Due To the Following Leave Requests:');
     } else {
