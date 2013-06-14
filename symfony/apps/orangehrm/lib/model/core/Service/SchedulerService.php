@@ -42,6 +42,22 @@ class SchedulerService
     private $classObject = null;
     private $method = '';
     private $params = array();
+    
+    private $logger;
+    
+    /**
+     * Get Logger instance. Creates if not already created.
+     *
+     * @return Logger
+     */
+    protected function getLogger() {
+        if (is_null($this->logger)) {
+            $this->logger = Logger::getLogger('core.SchedulerService');
+        }
+
+        return($this->logger);
+    }
+    
     /**
      * Public method for the user to add his chedule
      * @param string $className
@@ -132,30 +148,32 @@ class SchedulerService
      */
     private function logSchedule($schedule, $logType, $message='')
     {
-        ////
-        // TODO :- insted of echo add in to a log file log/scheduler.log
-        ////
         switch ($logType)
         {
             case self::SCHEDULE_TRACK_START;
-                echo "\n==========================================\n";
-                echo "START ". $schedule['class'] . " => " . $schedule['method']. "\n";
-                echo ($message!="")?"\t [" . $message . "]\n\n":"\n";
+                $msg = "\n==========================================\n";
+                $msg .= "START ". $schedule['class'] . " => " . $schedule['method']. "\n";
+                $msg .= ($message!="")?"\t [" . $message . "]\n\n":"\n";
+                $this->getLogger()->info($msg);
+
                 break;
 
             case self::SCHEDULE_TRACK_FINISHED:
-                echo "FINISHED ". $schedule['class'] . " => " . $schedule['method']. "\n";
-                echo ($message!="")?"\t [" . $message . "]\n\n":"\n";
+                $msg = "FINISHED ". $schedule['class'] . " => " . $schedule['method']. "\n";
+                $msg .= ($message!="")?"\t [" . $message . "]\n\n":"\n";
+                $this->getLogger()->info($msg);
                 break;
 
             case self::SCHEDULE_TRACK_SUCCESS:
-                echo "SUCCESS in ". $schedule['class'] . " => " . $schedule['method']. "\n";
-                echo ($message!="")?"\t [" . $message . "]\n\n":"\n";
+                $msg =  "SUCCESS in ". $schedule['class'] . " => " . $schedule['method']. "\n";
+                $msg .=  ($message!="")?"\t [" . $message . "]\n\n":"\n";
+                $this->getLogger()->info($msg);
                 break;
 
             case self::SCHEDULE_TRACK_ERROR:
-                echo "ERROR found in ". $schedule['class'] . " => " . $schedule['method']. "\n";
-                echo ($message!="")?"\t [" . $message . "]\n\n":"\n";
+                $msg = "ERROR found in ". $schedule['class'] . " => " . $schedule['method']. "\n";
+                $msg .= ($message!="")?"\t [" . $message . "]\n\n":"\n";
+                $this->getLogger()->error($msg);
                 break;
         }
     }
