@@ -50,7 +50,7 @@ class viewCompanyStructureAction extends sfAction {
         $tree->getPropertyObject()->setTreeObject($treeObject);
         $this->tree = $tree;
 
-        $this->form = new SubunitForm();
+        $this->form = new SubunitForm(array(),array(),true);
         
         $this->listForm = new DefaultListForm( array(),array(),true);
     }

@@ -208,7 +208,7 @@ class ohrmTreeViewComponent extends ohrmComponent {
         ", 'hideForm');
 
         $this->addScriptFunction("
-            $('form[id^=\"ohrmFormComponent_Form\"] :input').filter(':not([type=\"button\"])').val('');
+            $('form[id^=\"ohrmFormComponent_Form\"] :input').filter(':not([type=\"hidden\"])').val('');
             $('.idValueLabel').html('');
             $('#lblParentNotice').remove();
         ", 'clearForm');
