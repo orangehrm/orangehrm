@@ -39,7 +39,7 @@ class defineTimesheetPeriodAction extends sfAction {
 
         $this->userObj = $this->getContext()->getUser()->getAttribute('user');
         $this->isAllowed = $this->userObj->isAllowedToDefineTimeheetPeriod();
-        $this->form = new DefineTimesheetPeriodForm();
+        $this->form = new DefineTimesheetPeriodForm(array(),array(),true);
         
 
         if ($request->isMethod('post')) {
@@ -51,8 +51,9 @@ class defineTimesheetPeriodAction extends sfAction {
                 $this->getMenuService()->enableModuleMenuItems('attendance');
                 $this->getMenuService()->enableModuleMenuItems('admin', array('Project Info', 'Customers', 'Projects'));
                 $this->getUser()->getAttributeHolder()->remove(mainMenuComponent::MAIN_MENU_USER_ATTRIBUTE);
+                $this->redirect('time/viewEmployeeTimesheet');
             }
-            $this->redirect('time/viewEmployeeTimesheet');
+            
         }
     }
 
