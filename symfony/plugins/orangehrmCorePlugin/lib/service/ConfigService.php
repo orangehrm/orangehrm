@@ -25,6 +25,7 @@
 class ConfigService extends BaseService {
 
     private $configDao;
+    private $logger;
 
     const KEY_LEAVE_PERIOD_DEFINED = "leave_period_defined";
     const KEY_PIM_SHOW_DEPRECATED = "pim_show_deprecated_fields";
