@@ -31,6 +31,7 @@ class viewJobDetailsAction extends basePimAction {
         $job = $request->getParameter('job');
         $empNumber = (isset($job['emp_number'])) ? $job['emp_number'] : $request->getParameter('empNumber');
         
+        $this->activeEmploymentForm = new ActiveEmploymentForm( array(),array(),true);
         /*
          * TODO: $empNumber gets empty when uploaded file size exceeds PHP max upload size.
          * Check for a better solution.

@@ -227,6 +227,9 @@
         <input type="button"  id="dialogCancel" name="dialogCancel" class="btn reset" data-dismiss="modal" value="<?php echo __('Cancel'); ?>" />
     </div>
 </div>
+<form id="activeEmploymentForm" name="activeEmploymentForm" method="post" action="<?php echo url_for('pim/activateEmployement?empNumber=' . $empNumber); ?>">
+    <?php echo $activeEmploymentForm ?>
+</form>
 <?php } ?>
 <!-- Terminate Employment box HTML: Ends -->
 
@@ -260,7 +263,8 @@
                $('#terminateModal').click();
             }
             else{
-                window.location.replace(activateEmployementUrl);
+                $('#activeEmploymentForm').submit();
+                //window.location.replace(activateEmployementUrl);
             }
         })
         
