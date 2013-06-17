@@ -7,7 +7,6 @@
             
         <form action="<?php echo url_for("time/displayAttendanceSummaryReport?reportId=" . $reportId); ?>" id="attendanceTotalSummaryReportForm" method="post">
             
-            <?php echo $form['_csrf_token']; ?>
             <fieldset>
                 <ol>
                                                                    
