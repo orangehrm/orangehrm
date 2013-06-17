@@ -48,7 +48,7 @@ class updateCommentAction extends baseCoreLeaveAction {
     }
     
     public function execute($request) {
-
+        
         $leaveRequestService = $this->getLeaveRequestService();
         $leaveRequestId = trim($request->getParameter("leaveRequestId"));
         $leaveId = trim($request->getParameter("leaveId"));
@@ -69,9 +69,12 @@ class updateCommentAction extends baseCoreLeaveAction {
 
                     
         if ($leaveRequestId != "") {
+            $form = new LeaveCommentForm( array(),array(),true);
             
-            $savedComment = $leaveRequestService->saveLeaveRequestComment($leaveRequestId, 
-                $comment, $createdBy, $loggedInUserId, $loggedInEmpNumber);
+            if ($form->getCSRFToken() == $request->getParameter("token")) {
+                $savedComment = $leaveRequestService->saveLeaveRequestComment($leaveRequestId, 
+                    $comment, $createdBy, $loggedInUserId, $loggedInEmpNumber);
+            }
         }
 
         if ($leaveId != "") {

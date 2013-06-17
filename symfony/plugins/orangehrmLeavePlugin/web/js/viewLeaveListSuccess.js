@@ -85,7 +85,8 @@ $(document).ready(function() {
         /* Posting the comment */
         var data = {
             leaveRequestId: $('#leaveId').val(),
-            leaveComment: rawComment
+            leaveComment: rawComment,
+            token : $('#leaveComment__csrf_token').val()
         }
 
         $.ajax({
