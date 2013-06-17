@@ -245,14 +245,16 @@ class AttendanceActions extends sfActions {
     }
 
     public function executeDeleteAttendanceRecords($request) {
+        $form = new DefaultListForm(array(), array(), true);
+        $form->bind($request->getParameter($form->getName()));
+        if ($form->isValid()) {
+            $attendanceRecordId = $request->getParameter('id');
+            $this->isDeleted = $this->getAttendanceService()->deleteAttendanceRecords($attendanceRecordId);
 
-        $attendanceRecordId = $request->getParameter('id');
-
-        $this->isDeleted = $this->getAttendanceService()->deleteAttendanceRecords($attendanceRecordId);
+            $this->getUser()->setFlash('success', __(TopLevelMessages::DELETE_SUCCESS));
         
-        $this->getUser()->setFlash('success', __(TopLevelMessages::DELETE_SUCCESS));
-
         return $this->renderText($this->isDeleted);
+        }
     }
 
     public function executeProxyPunchInPunchOut($request) {
