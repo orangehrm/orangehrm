@@ -179,6 +179,7 @@ form ol li.largeTextBox textarea {
 
 </div> <!-- Box -->
 
+<?php echo $listForm ?>
 <!-- comment-Dialog -->
 <div class="modal hide" id="commentDialog">
     <div class="modal-header">

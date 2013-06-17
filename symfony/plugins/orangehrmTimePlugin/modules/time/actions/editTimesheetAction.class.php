@@ -62,7 +62,7 @@ class editTimesheetAction extends sfAction {
 
     public function execute($request) {
         
-        
+        $this->listForm = new DefaultListForm(array(),array(),true);
 
         $userObj = $this->getContext()->getUser()->getAttribute('user');
         $employeeIdOfTheUser = $userObj->getEmployeeNumber();

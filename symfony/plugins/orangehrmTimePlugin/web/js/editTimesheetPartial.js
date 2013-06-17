@@ -23,10 +23,11 @@ $(document).ready(function() {
                     var activityId=array[1];
                     var timesheetId=array[2];
                     var employeeId=array[3];
+                    var token = $('#defaultList__csrf_token').val();
                     var r = $.ajax({
                         type: 'POST',
                         url: linkToDeleteRow,
-                        data: "timesheetId="+timesheetId+"&activityId="+activityId+"&projectId="+projectId+"&employeeId="+employeeId,
+                        data: "timesheetId="+timesheetId+"&activityId="+activityId+"&projectId="+projectId+"&employeeId="+employeeId+"&t="+token,
                         async: false,
                         success: function(state){
                             status=state;

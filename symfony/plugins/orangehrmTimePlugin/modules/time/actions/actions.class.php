@@ -158,13 +158,18 @@ class timeActions extends sfActions {
     }
 
     public function executeDeleteRows(sfWebRequest $request) {
+        $form = new DefaultListForm(array(),array(),true);
+        
         $employeeId = $request->getParameter("employeeId");
         $timesheetId = $request->getParameter("timesheetId");
         $projectId = $request->getParameter('projectId');
         $activityId = $request->getParameter('activityId');
-
+        
         $timesheetService = new TimesheetService();
-        $this->state = $timesheetService->deleteTimesheetItems($employeeId, $timesheetId, $projectId, $activityId);
+            if( $form->getCSRFToken() == $request->getParameter('t')){
+                $this->state = $timesheetService->deleteTimesheetItems($employeeId, $timesheetId, $projectId, $activityId);
+            }
+        
     }
 
     public function executeOverLappingTimesheetError(sfWebRequest $request) {
