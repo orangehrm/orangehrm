@@ -73,7 +73,7 @@ use_javascripts_for_form($form);
     <form action="updateComment" method="post" id="frmCommentSave">
         <input type="hidden" id="leaveId" />
         <input type="hidden" id="leaveOrRequest" />        
-        
+        <?php echo $leavecommentForm ?>
         <div id="existingComments">  
             <span><?php echo __('Loading') . '...';?></span>
         </div>

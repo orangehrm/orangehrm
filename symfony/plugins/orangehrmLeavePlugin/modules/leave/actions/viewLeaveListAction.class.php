@@ -86,6 +86,8 @@ class viewLeaveListAction extends sfAction {
         
         $this->mode = $mode = $this->getMode();
         $this->essMode = $this->isEssMode();
+        
+        $this->leavecommentForm = new LeaveCommentForm(array(),array(),true);
 
         $this->form = $this->getLeaveListForm($mode);
         $values = array();
