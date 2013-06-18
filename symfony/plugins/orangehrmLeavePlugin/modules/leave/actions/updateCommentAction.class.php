@@ -78,8 +78,12 @@ class updateCommentAction extends baseCoreLeaveAction {
         }
 
         if ($leaveId != "") {
+            $form = new LeaveCommentForm( array(),array(),true);
+            
+            if ($form->getCSRFToken() == $request->getParameter("token")) {
             $savedComment = $leaveRequestService->saveLeaveComment($leaveId, 
-                $comment, $createdBy, $loggedInUserId, $loggedInEmpNumber);             
+                $comment, $createdBy, $loggedInUserId, $loggedInEmpNumber);
+            }
         }
         
         if (!empty($savedComment)) {

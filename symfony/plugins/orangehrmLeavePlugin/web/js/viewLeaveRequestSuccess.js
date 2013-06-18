@@ -105,7 +105,8 @@ $(document).ready(function(){
         
         // Comment will be encoded by jquery .ajax method
         var data = {
-            leaveComment: rawComment
+            leaveComment: rawComment,
+            token : $('#leaveComment__csrf_token').val()
         };
         
         if (leaveOrRequest == 'leave') {
