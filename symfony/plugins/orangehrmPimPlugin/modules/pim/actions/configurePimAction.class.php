@@ -59,8 +59,9 @@ class configurePimAction extends basePimAction {
                 $this->getUser()->setAttribute('pim.leftMenu.isTaxMenuEnabled', $isTaxMenuEnabled);
 
                 $this->getUser()->setFlash('success', __(TopLevelMessages::SAVE_SUCCESS));
-                $this->redirect('pim/configurePim');
+                
             }
+            $this->redirect('pim/configurePim');
         }
     }
 
