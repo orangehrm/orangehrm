@@ -195,6 +195,8 @@ class SchemaIncrementTask48 extends SchemaIncrementTask {
             $result[] = $this->upgradeUtility->executeSql($this->sql[$i]);
         }
         
+        $this->updateHsHrPerformanceReview();
+        
         $this->checkTransactionComplete($result);
         $this->updateOhrmUpgradeInfo($this->transactionComplete, $this->incrementNumber);
         $this->upgradeUtility->finalizeTransaction($this->transactionComplete);
@@ -1927,6 +1929,29 @@ EOT;
             }
         }
         return $success;
+    }
+    
+    private function updateHsHrPerformanceReview() {
+        $reviews = $this->upgradeUtility->executeSql("SELECT * FROM hs_hr_performance_review");
+        $success = true;
+        if($reviews) {
+            while($row = $this->upgradeUtility->fetchArray($reviews))
+            {
+                $jobTitleCode = $this->jobTitleMapArray[$row['job_title_code']];
+                $preJobTitleCode = $row['job_title_code'];
+                if ($jobTitleCode) {
+                    $sql = "UPDATE hs_hr_performance_review SET 
+                     job_title_code = '$jobTitleCode'
+                     WHERE job_title_code = '$preJobTitleCode'";
+                    
+                    $result = $this->upgradeUtility->executeSql($sql);
+                    if(!$result) {
+                        $success = false;
+                    }
+                }
+            }
+        }
+        return $success; 
     }
     
     private function updateHsHrEmployeeTerminationId() {
