@@ -30,12 +30,16 @@ class viewDefinedPredefinedReportsAction extends sfAction {
         if ($request->isMethod('post')) {
 
             if ($request->hasParameter("chkSelectRow")) {
-                $reportIds = $request->getParameter("chkSelectRow");
-                $results = $reportableService->deleteReports($reportIds);
-                if ($results > 0) {
-                    $this->getUser()->setFlash('success', __(TopLevelMessages::DELETE_SUCCESS));
-                    $this->redirect('core/viewDefinedPredefinedReports');
-                    return;
+                $form = new DefaultListForm(array(), array(), true) ;
+                $form->bind($request->getParameter($form->getName()));
+                if ($form->isValid()) {
+                    $reportIds = $request->getParameter("chkSelectRow");
+                    $results = $reportableService->deleteReports($reportIds);
+                    if ($results > 0) {
+                        $this->getUser()->setFlash('success', __(TopLevelMessages::DELETE_SUCCESS));
+                        $this->redirect('core/viewDefinedPredefinedReports');
+                        return;
+                    }
                 }
             } else {
                 $this->searchForm->bind($request->getParameter($this->searchForm->getName()));
