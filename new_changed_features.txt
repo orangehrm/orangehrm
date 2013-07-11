@@ -3,6 +3,7 @@ New & Changed Features for OrangeHRM ver 3.1
     ------------
     Ability to apply for half day / partial day leave for a single day or range of days
     Ability to specify work day start/end time for workshifts
+    Security fixes in all modules
     
 New & Changed Features for OrangeHRM ver 3.0.1
     New Features
