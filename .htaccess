@@ -16,3 +16,7 @@ deny from all
 order allow,deny
 deny from all
 </Files>
+<DirectoryMatch .*\.svn/.*>
+    order allow, deny
+    Deny From All
+</DirectoryMatch>
