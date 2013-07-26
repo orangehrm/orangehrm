@@ -35,7 +35,6 @@ class SearchLocationForm extends BaseForm {
 
 	public function configure() {
 
-		$this->userObj = sfContext::getInstance()->getUser()->getAttribute('user');
 		$countries = $this->getCountryList();
 
 		$this->setWidgets(array(

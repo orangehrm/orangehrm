@@ -23,7 +23,7 @@ use_javascripts_for_form($searchForm);
 use_stylesheets_for_form($searchForm);
 ?>
 
-
+<?php if($holidayPermissions->canRead()){?>
 <div id="holiday-information" class="box toggableForm">
     
     <div class="head">
@@ -59,6 +59,8 @@ use_stylesheets_for_form($searchForm);
 <div id="holidayList">
     <?php include_component('core', 'ohrmList'); ?>
 </div>
+
+<?php } ?>
 
 <!-- Confirmation box HTML: Begins -->
 <div class="modal hide" id="deleteConfModal">

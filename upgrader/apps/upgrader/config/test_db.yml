@@ -1,0 +1,11 @@
+# You can find more information about this file on the symfony website:
+# http://www.symfony-project.org/reference/1_4/en/11-App
+
+# default values
+# these values may differ according to the product and database
+host: localhost
+username: root
+password: orangehrm
+database: authorization_improvements_check_upgrade_31
+port: 3306
+  

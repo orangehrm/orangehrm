@@ -7,11 +7,9 @@ class displayPredefinedReportAction extends displayReportAction {
         /* For highlighting corresponding menu item 
          * TODO: Currently menu item is hard-coded since this action is only used by PIM Reports
          */
-        $request->setParameter('initialActionName', 'viewDefinedPredefinedReports');        
-        
-        $adminMode = $this->getUser()->hasCredential(Auth::ADMIN_ROLE);
+        $this->reportPermissions = $this->getDataGroupPermissions('pim_reports');
 
-        if(!$adminMode){
+        if(!$this->reportPermissions->canRead()){
             return $this->renderText("You are not allowed to view this page!");
         }
         

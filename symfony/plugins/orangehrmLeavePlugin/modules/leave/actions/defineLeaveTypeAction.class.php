@@ -1,35 +1,43 @@
 <?php
 
-class defineLeaveTypeAction extends orangehrmAction {
+class defineLeaveTypeAction extends baseLeaveAction {
 
     protected $leaveTypeService;
 
     public function execute($request) {
 
+        $this->leaveTypePermissions = $this->getDataGroupPermissions('leave_types');
+        $leaveTypeId = $request->getParameter('id'); // This comes as a GET request from Leave Type List page
+        
+        $valuesForForm = array('leaveTypePermissions' => $this->leaveTypePermissions, 'leaveTypeId' => $leaveTypeId);
+
         /* For highlighting corresponding menu item */
         $request->setParameter('initialActionName', 'leaveTypeList');
 
-        $this->form = $this->getForm();
+        $this->form = $this->getForm($valuesForForm);
 
         if ($request->isMethod('post')) {
+            if ($this->leaveTypePermissions->canCreate() || $this->leaveTypePermissions->canUpdate()) {
+                $this->form->bind($request->getParameter($this->form->getName()));
 
-            $this->form->bind($request->getParameter($this->form->getName()));
+                if ($this->form->isValid()) {
+                    $leaveType = $this->form->getLeaveTypeObject();
+                    $this->saveLeaveType($leaveType);
 
-            if ($this->form->isValid()) {
-                $leaveType = $this->form->getLeaveTypeObject();
-                $this->saveLeaveType($leaveType);
 
-                
-                $eventType = ( $this->form->getValue('hdnLeaveTypeId') > 0) ? LeaveEvents::LEAVE_TYPE_UPDATE : LeaveEvents::LEAVE_TYPE_ADD;
-                $this->dispatcher->notify(new sfEvent($this, $eventType,
-                                array('leaveType' => $leaveType)));
+                    $eventType = ( $this->form->getValue('hdnLeaveTypeId') > 0) ? LeaveEvents::LEAVE_TYPE_UPDATE : LeaveEvents::LEAVE_TYPE_ADD;
+                    $this->dispatcher->notify(new sfEvent($this, $eventType,
+                                    array('leaveType' => $leaveType)));
 
-                $this->redirect("leave/leaveTypeList");
+                    $this->redirect("leave/leaveTypeList");
+                }
             }
         } else {
+            if ($this->leaveTypePermissions->canCreate()) {
+                $this->undeleteForm = $this->getUndeleteForm();
+            }
 
-            $this->undeleteForm = $this->getUndeleteForm();
-            $leaveTypeId = $request->getParameter('id'); // This comes as a GET request from Leave Type List page
+            $this->leaveTypeId = $leaveTypeId;
 
             if (!empty($leaveTypeId)) {
                 $this->form->setDefaultValues($leaveTypeId);
@@ -44,8 +52,8 @@ class defineLeaveTypeAction extends orangehrmAction {
         $this->getUser()->setFlash('success', $message);
     }
 
-    protected function getForm() {
-        $form = new LeaveTypeForm(array(), array(), true);
+    protected function getForm($valuesForForm) {
+        $form = new LeaveTypeForm(array(), $valuesForForm, true);
         $form->setLeaveTypeService($this->getLeaveTypeService());
         return $form;
     }

@@ -63,9 +63,11 @@ class AddJobVacancyForm extends BaseForm {
         if (isset($this->vacancyId)) {
             $vacancy = $this->getVacancyDetails($this->vacancyId);
         }
+        
+        $vacancyPermissions = $this->getOption('vacancyPermissions');
 
         //creating widgets
-        $this->setWidgets(array(
+        $widgets = array(
             'jobTitle' => new sfWidgetFormSelect(array('choices' => $jobTitleList)),
             'name' => new sfWidgetFormInputText(),
             'hiringManager' => new sfWidgetFormInputText(),
@@ -74,12 +76,12 @@ class AddJobVacancyForm extends BaseForm {
             'description' => new sfWidgetFormTextArea(),
             'status' => new sfWidgetFormInputCheckbox(array(), array('value' => 'on')),
             'publishedInFeed' => new sfWidgetFormInputCheckbox(array(), array('value' => 'on')),
-        ));
+        );
 
         $inputDatePattern = sfContext::getInstance()->getUser()->getDateFormat();
 
         //Setting validators
-        $this->setValidators(array(
+        $validators = array(
             'jobTitle' => new sfValidatorString(array('required' => true)),
             'name' => new sfValidatorString(array('required' => true)),
             'hiringManager' => new sfValidatorString(array('required' => true)),
@@ -88,7 +90,20 @@ class AddJobVacancyForm extends BaseForm {
             'description' => new sfValidatorString(array('required' => false, 'max_length' => 41000)),
             'status' => new sfValidatorString(array('required' => false)),
             'publishedInFeed' => new sfValidatorString(array('required' => false)),
-        ));
+        );
+        
+        // check create and update permissions
+        if((!$vacancyPermissions->canCreate() && empty($this->vacancyId)) || 
+                (!$vacancyPermissions->canUpdate() && $this->vacancyId > 0)){
+
+            foreach ($widgets as $widget){
+                $widget->setAttribute('disabled', 'disabled');
+            }
+        }
+        
+        $this->setWidgets($widgets);
+        $this->setValidators($validators);
+               
         $this->widgetSchema->setNameFormat('addJobVacancy[%s]');
         if (isset($vacancy) && $vacancy != null) {
             $this->setDefault('jobTitle', $vacancy->getJobTitleCode());

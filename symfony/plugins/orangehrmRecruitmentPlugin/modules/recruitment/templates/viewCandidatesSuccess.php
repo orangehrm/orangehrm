@@ -90,9 +90,9 @@
     var datepickerDateFormat = '<?php echo get_datepicker_date_format($sf_user->getDateFormat()); ?>';
     var lang_validDateMsg = '<?php echo __(ValidationMessages::DATE_FORMAT_INVALID, array('%format%' => str_replace('yy', 'yyyy', get_datepicker_date_format($sf_user->getDateFormat())))) ?>';
     var candidates = <?php echo str_replace('&#039;', "'", $form->getCandidateListAsJson()) ?> ;
-    var vacancyListUrl = '<?php echo url_for('recruitment/getVacancyListForJobTitleJson?jobTitle='); ?>';
-    var hiringManagerListUrlForJobTitle = '<?php echo url_for('recruitment/getHiringManagerListJson?jobTitle='); ?>';
-    var hiringManagerListUrlForVacancyId = '<?php echo url_for('recruitment/getHiringManagerListJson?vacancyId='); ?>';
+    var vacancyListUrl = '<?php echo url_for('recruitment/getVacancyListForJobTitleJson?mode=' . getVacancyListForJobTitleJsonAction::MODE_CANDIDATES . '&jobTitle='); ?>';
+    var hiringManagerListUrlForJobTitle = '<?php echo url_for('recruitment/getHiringManagerListJson?mode=' . getVacancyListForJobTitleJsonAction::MODE_CANDIDATES . '&jobTitle='); ?>';
+    var hiringManagerListUrlForVacancyId = '<?php echo url_for('recruitment/getHiringManagerListJson?mode=' . getVacancyListForJobTitleJsonAction::MODE_CANDIDATES . '&vacancyId='); ?>';
     var addCandidateUrl = '<?php echo url_for('recruitment/addCandidate'); ?>';
     var lang_all = '<?php echo __("All") ?>';
     var lang_dateError = '<?php echo __("To date should be after from date") ?>';

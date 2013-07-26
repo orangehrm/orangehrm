@@ -17,40 +17,60 @@
  * if not, write to the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
  * Boston, MA  02110-1301, USA
  */
-class viewPayGradesAction extends sfAction {
+class viewPayGradesAction extends baseAdminAction {
 
-	private $payGradeService;
+    private $payGradeService;
 
-	public function getPayGradeService() {
-		if (is_null($this->payGradeService)) {
-			$this->payGradeService = new PayGradeService();
-			$this->payGradeService->setPayGradeDao(new PayGradeDao());
-		}
-		return $this->payGradeService;
-	}
+    public function getPayGradeService() {
+        if (is_null($this->payGradeService)) {
+            $this->payGradeService = new PayGradeService();
+            $this->payGradeService->setPayGradeDao(new PayGradeDao());
+        }
+        return $this->payGradeService;
+    }
 
-	public function execute($request) {
+    public function execute($request) {
 
-		$usrObj = $this->getUser()->getAttribute('user');
-		if (!($usrObj->isAdmin())) {
-			$this->redirect('pim/viewPersonalDetails');
-		}
+        $usrObj = $this->getUser()->getAttribute('user');
 
-		$sortField = $request->getParameter('sortField');
-		$sortOrder = $request->getParameter('sortOrder');
+        $this->payGradePermissions = $this->getDataGroupPermissions('pay_grades');
 
-		$payGradeList = $this->getPayGradeService()->getPayGradeList($sortField, $sortOrder);
-		$this->_setListComponent($payGradeList);
-		$params = array();
-		$this->parmetersForListCompoment = $params;
-	}
+        if ($this->payGradePermissions->canRead()) {
+            $sortField = $request->getParameter('sortField');
+            $sortOrder = $request->getParameter('sortOrder');
 
-	private function _setListComponent($payGradeList) {
+            $payGradeList = $this->getPayGradeService()->getPayGradeList($sortField, $sortOrder);
+            $this->_setListComponent($payGradeList, $this->payGradePermissions);
+            $params = array();
+            $this->parmetersForListCompoment = $params;
+        }
+    }
 
-		$configurationFactory = new PayGradeHeaderFactory();
-		ohrmListComponent::setConfigurationFactory($configurationFactory);
-		ohrmListComponent::setListData($payGradeList);
-	}
+    private function _setListComponent($payGradeList, $permissions) {
+        $runtimeDefinitions = array();
+        $buttons = array();
+
+        if ($permissions->canCreate()) {
+            $buttons['Add'] = array('label' => 'Add');
+        }
+
+        if (!$permissions->canDelete()) {
+            $runtimeDefinitions['hasSelectableRows'] = false;
+        } else if ($permissions->canDelete()) {
+            $buttons['Delete'] = array('label' => 'Delete',
+                'type' => 'submit',
+                'data-toggle' => 'modal',
+                'data-target' => '#deleteConfModal',
+                'class' => 'delete');
+        }
+
+        $runtimeDefinitions['buttons'] = $buttons;
+
+        $configurationFactory = new PayGradeHeaderFactory();
+        $configurationFactory->setRuntimeDefinitions($runtimeDefinitions);
+        ohrmListComponent::setConfigurationFactory($configurationFactory);
+        ohrmListComponent::setListData($payGradeList);
+    }
 
 }
 

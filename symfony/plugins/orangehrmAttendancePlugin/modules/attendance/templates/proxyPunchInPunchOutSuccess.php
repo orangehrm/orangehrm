@@ -13,6 +13,7 @@ if (in_array(PluginWorkflowStateMachine::ATTENDANCE_ACTION_PUNCH_OUT, $sf_data->
     
 }
 
+if($attendanceManagePermissios->canRead()){
 ?>
 
 <div class="box">
@@ -77,6 +78,7 @@ if (in_array(PluginWorkflowStateMachine::ATTENDANCE_ACTION_PUNCH_OUT, $sf_data->
     </div>
     
 </div>
+<?php }?>
 
 <script type="text/javascript">
     //<![CDATA[

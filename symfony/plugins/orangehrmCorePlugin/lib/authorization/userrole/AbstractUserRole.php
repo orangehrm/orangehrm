@@ -28,9 +28,13 @@ abstract class AbstractUserRole {
     protected $employeeService;
     protected $systemUserService;
     protected $operationalCountryService;
-    protected $locationService;
+    protected $locationService;       
+    protected $projectService;
+    protected $vacancyService;
     
     protected $userRoleManager;
+    
+    protected $employeeNumber;
     
     protected $roleName;
  
@@ -38,6 +42,17 @@ abstract class AbstractUserRole {
         $this->userRoleManager = $userRoleManager;
         $this->roleName = $roleName;        
     }
+    
+    public function getEmployeeNumber() {
+        if(empty($this->employeeNumber)) {
+            $this->employeeNumber = sfContext::getInstance()->getUser()->getEmployeeNumber();
+        }
+        return $this->employeeNumber;
+    }
+
+    public function setEmployeeNumber($employeeNumber) {
+        $this->employeeNumber = $employeeNumber;
+    }    
 
     public function getSystemUserService() {
         if (empty($this->systemUserService)) {
@@ -83,45 +98,114 @@ abstract class AbstractUserRole {
     public function setOperationalCountryService($operationalCountryService) {
         $this->operationalCountryService = $operationalCountryService;
     }
-       
+    
+    /**
+     * Get the Project Data Access Object
+     * @return ProjectService
+     */
+    public function getProjectService() {
+        if (is_null($this->projectService)) {
+            $this->projectService = new ProjectService();
+        }
+        return $this->projectService;
+    }
+
+    /**
+     * Set Project Service Access Object
+     * @param ProjectService $projectService
+     * @return void
+     */
+    public function setProjectService(ProjectService $projectService) {
+        $this->projectService = $projectService;
+    }    
+    
+    /**
+     * Get VacancyService
+     * @return VacancyService
+     */
+    public function getVacancyService() {
+        if (is_null($this->vacancyService)) {
+            $this->vacancyService = new VacancyService();
+        }        
+        return $this->vacancyService;
+    }
+
+    /**
+     * Set Vacancy Service
+     * @param VacancyService $vacancyService
+     */
+    public function setVacancyService(VacancyService $vacancyService) {
+        $this->vacancyService = $vacancyService;
+    }
+
+        
     public function getAccessibleEntities($entityType, $operation = null, $returnType = null, $requiredPermissions = array()) {
 
-        switch ($entityType) {
-            case 'Employee':
-                $entities = $this->getAccessibleEmployees($operation, $returnType, $requiredPermissions);
-                break;
+        $permitted = $this->areRequiredPermissionsAvailable($requiredPermissions);
+        
+        if ($permitted) {
+            switch ($entityType) {
+                case 'Employee':
+                    $entities = $this->getAccessibleEmployees($operation, $returnType, $requiredPermissions);
+                    break;
+                case 'Project':
+                    $entities = $this->getAccessibleProjects($operation, $returnType, $requiredPermissions);
+                    break;
+                case 'Vacancy':
+                    $entities = $this->getAccessibleVacancies($operation, $returnType, $requiredPermissions);
+                    break;                
+
+            }
+        } else {
+            $entities = array();
         }
         return $entities;
     }
 
     public function getAccessibleEntityProperties($entityType, $properties = array(), $orderField = null, $orderBy = null, $requiredPermissions = array()) {
 
-        switch ($entityType) {
-            case 'Employee':
-                $propertyList = $this->getAccessibleEmployeePropertyList($properties, $orderField, $orderBy, $requiredPermissions);
-                break;
+        $permitted = $this->areRequiredPermissionsAvailable($requiredPermissions);
+        if ($permitted) {
+            switch ($entityType) {
+                case 'Employee':
+                    $propertyList = $this->getAccessibleEmployeePropertyList($properties, $orderField, $orderBy, $requiredPermissions);
+                    break;
+            }
+        } else {
+            $propertyList = array();
         }
         return $propertyList;
     }
 
     public function getAccessibleEntityIds($entityType, $operation = null, $returnType = null, $requiredPermissions = array()) {   
         
-        switch ($entityType) {
-            case 'Employee':
-                $ids = $this->getAccessibleEmployeeIds($operation, $returnType, $requiredPermissions);                
-                break;
-            case 'SystemUser':
-                $ids = $this->getAccessibleSystemUserIds($operation, $returnType);
-                break;
-            case 'OperationalCountry':
-                $ids = $this->getAccessibleOperationalCountryIds($operation, $returnType);
-                break;
-            case 'UserRole':
-                $ids = $this->getAccessibleUserRoleIds($operation, $returnType);
-                break;
-            case 'Location':
-                $ids = $this->getAccessibleLocationIds($operation, $returnType);
-                break;
+        $permitted = $this->areRequiredPermissionsAvailable($requiredPermissions);
+        if ($permitted) {        
+            switch ($entityType) {
+                case 'Employee':
+                    $ids = $this->getAccessibleEmployeeIds($operation, $returnType, $requiredPermissions);                
+                    break;
+                case 'SystemUser':
+                    $ids = $this->getAccessibleSystemUserIds($operation, $returnType);
+                    break;
+                case 'OperationalCountry':
+                    $ids = $this->getAccessibleOperationalCountryIds($operation, $returnType);
+                    break;
+                case 'UserRole':
+                    $ids = $this->getAccessibleUserRoleIds($operation, $returnType);
+                    break;
+                case 'Location':
+                    $ids = $this->getAccessibleLocationIds($operation, $returnType);
+                    break;
+                case 'Project':
+                    $ids = $this->getAccessibleProjectIds($operation, $returnType);
+                    break;            
+                case 'Vacancy':
+                    $ids = $this->getAccessibleVacancyIds($operation, $returnType, $requiredPermissions);
+                    break;                    
+            }
+        } else {
+            $ids = array();
         }
         return $ids;
     }
@@ -130,6 +214,22 @@ abstract class AbstractUserRole {
         return array();
     }    
 
+    public function getAccessibleProjects($operation = null, $returnType = null, $requiredPermissions = array()) {
+        return array();
+    }
+    
+    public function getAccessibleProjectIds($operation =  null, $returnType = null) {
+        return array();
+    }
+    
+    public function getAccessibleVacancies($operation = null, $returnType = null, $requiredPermissions = array()) {
+        return array();
+    }    
+    
+    public function getAccessibleVacancyIds($operation = null, $returnType = null, $requiredPermissions = array()) {
+        return array();
+    }        
+    
     public abstract function getAccessibleEmployees($operation = null, $returnType = null, $requiredPermissions = array());
     
     public abstract function getAccessibleEmployeePropertyList($properties, $orderField, $orderBy, $requiredPermissions = array());
@@ -144,4 +244,36 @@ abstract class AbstractUserRole {
 
     public abstract function getAccessibleLocationIds($operation, $returnType); 
     
+    protected function areRequiredPermissionsAvailable($requiredPermissions = array()) {
+        $permitted = true;
+        
+        foreach ($requiredPermissions as $permissionType => $permissions) {
+            if ($permissionType == BasicUserRoleManager::PERMISSION_TYPE_DATA_GROUP) {
+                foreach ($permissions as $dataGroupName => $requestedResourcePermission) {
+                    $dataGroupPermissions = $this->userRoleManager->getDataGroupPermissions($dataGroupName, array(), array($this->roleName));
+
+                    if ($permitted && $requestedResourcePermission->canRead()) {
+                        $permitted = $permitted && $dataGroupPermissions->canRead();
+                    }
+
+                    if ($permitted && $requestedResourcePermission->canCreate()) {
+                        $permitted = $dataGroupPermissions->canCreate();
+                    }
+
+                    if ($permitted && $requestedResourcePermission->canUpdate()) {
+                        $permitted = $dataGroupPermissions->canUpdate();
+                    }
+
+                    if ($permitted && $requestedResourcePermission->canDelete()) {
+                        $permitted = $dataGroupPermissions->canDelete();
+                    }                        
+                }
+            } else if ($permissionType == BasicUserRoleManager::PERMISSION_TYPE_ACTION) {
+                $permitted = true;
+            }
+        } 
+        
+        return $permitted;
+    }
+        
 }

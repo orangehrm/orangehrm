@@ -91,6 +91,7 @@ class displayAttendanceSummaryReportAction extends displayReportAction {
         $this->setForm($form);
     }
     public function setInitialActionDetails($request) {
+        $this->attendancePermissions = $this->getDataGroupPermissions('attendance_summary');
 
         $initialActionName = $request->getParameter('initialActionName', '');
 

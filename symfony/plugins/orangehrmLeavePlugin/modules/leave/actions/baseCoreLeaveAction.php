@@ -137,5 +137,16 @@ abstract class baseCoreLeaveAction extends sfAction {
 
         return $userDetails;
     }
+    
+    
+     /**
+     * Get data group permissions
+     *
+     * @param type $dataGroups
+     * @return type
+     */
+    public function getDataGroupPermissions($dataGroups) {
+        return $this->getContext()->getUserRoleManager()->getDataGroupPermissions($dataGroups, array(), array(), false, array());
+    }
 
 }

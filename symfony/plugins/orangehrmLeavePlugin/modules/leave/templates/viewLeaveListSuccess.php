@@ -27,7 +27,7 @@ use_javascripts_for_form($form);
         <?php include_partial('global/form_errors', array('form' => $form)); ?>
     </div>
 <?php endif; ?>
-
+<?php if($leaveListPermissions->canRead()){?>
 <div class="box toggableForm" id="leave-list-search">
     <div class="head">
         <h1><?php echo __($form->getTitle());?></h1>
@@ -111,6 +111,7 @@ use_javascripts_for_form($form);
   </div>
 </div>
 <!-- Leave Balance Popup end -->
+<?php }?>
 
 <script type="text/javascript">
     //<![CDATA[

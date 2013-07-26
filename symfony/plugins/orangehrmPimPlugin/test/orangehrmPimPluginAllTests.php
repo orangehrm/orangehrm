@@ -20,6 +20,7 @@ class orangehrmPimPluginAllTests {
 
         /* Service Test Cases */
         $suite->addTestFile(dirname(__FILE__) . '/model/service/EmployeeServiceTest.php');
+        $suite->addTestFile(dirname(__FILE__) . '/model/service/PIMLeftMenuServiceTest.php');
 
         /* ParameterHolder Test Cases */
         $suite->addTestFile(dirname(__FILE__) . '/model/parameterholder/EmployeeSearchParameterHolderTest.php');

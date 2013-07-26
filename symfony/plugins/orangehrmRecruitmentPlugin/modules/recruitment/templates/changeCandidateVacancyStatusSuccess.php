@@ -20,7 +20,7 @@
 ?>
 <?php use_stylesheet(plugin_web_path('orangehrmRecruitmentPlugin', 'css/changeCandidateVacancyStatusSuccess')); ?>
 <?php use_javascript(plugin_web_path('orangehrmRecruitmentPlugin', 'js/changeCandidateVacancyStatusSuccess')); ?>
-
+<?php if($candidatePermissions->canRead()){?>
 <div class="box" id="addJobVacancy">
 
     <div class="head">
@@ -70,21 +70,23 @@
                     </li>
                 </ol>
                 <p>
-                    <?php if (!($form->id > 0)): ?>
-                        <input type="button" class="savebutton" name="actionBtn" id="actionBtn" value="<?php echo __($form->actionName); ?>"/>
-                    <?php elseif ($enableEdit): ?>
-                        <input type="button" class="savebutton" name="btnSave" id="btnSave" value="<?php echo __('Edit'); ?>"/>
-                    <?php endif; ?>
+                    <?php if($candidatePermissions->canUpdate()){?>
+                        <?php if (!($form->id > 0)): ?>
+                            <input type="button" class="savebutton" name="actionBtn" id="actionBtn" value="<?php echo __($form->actionName); ?>"/>
+                        <?php elseif ($enableEdit): ?>
+                            <input type="button" class="savebutton" name="btnSave" id="btnSave" value="<?php echo __('Edit'); ?>"/>
+                        <?php endif; ?>
+                    <?php }?>
                     <input type="button" class="cancelbutton" name="cancelBtn" id="cancelBtn" value="<?php echo __("Back"); ?>"/>
                 </p>
             </fieldset>
         </form>
     </div>
     <?php if (!empty($interviewId)) { ?>
-        <?php echo include_component('recruitment', 'attachments', array('id' => $interviewId, 'screen' => JobInterview::TYPE)); ?>
+        <?php echo include_component('recruitment', 'attachments', array('id' => $interviewId, 'screen' => JobInterview::TYPE, 'permissions'=>$candidatePermissions)); ?>
     <?php } ?>
 </div>
-
+<?php }?>
 
 <script type="text/javascript">
     //<![CDATA[

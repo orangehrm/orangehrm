@@ -24,10 +24,13 @@ class ohrmReportWidgetEmployeeListAutoFill extends sfWidgetForm implements ohrmE
     public function configure($options = array(), $attributes = array()) {
 
         $this->id = $attributes['id'];
+        $this->addOption('data_groups', array());
+        
+        $commonOptions = $options;
+        unset($commonOptions['data_groups']);
 
-        $this->addOption($this->id . '_' . 'empName', new sfWidgetFormInputText($options, $attributes));
-        $this->addOption($this->id . '_' . 'empId', new sfWidgetFormInputHidden($options, $attributes));
-
+        $this->addOption($this->id . '_' . 'empName', new sfWidgetFormInputText($commonOptions, $attributes));
+        $this->addOption($this->id . '_' . 'empId', new sfWidgetFormInputHidden($commonOptions, $attributes));
 
         $this->addOption('template', '%empId%%empName%');
     }
@@ -64,6 +67,23 @@ class ohrmReportWidgetEmployeeListAutoFill extends sfWidgetForm implements ohrmE
         $invalidMessage = __(ValidationMessages::INVALID);
         $typeHint = __('Type for hints') . ' ...';
         
+        $userRoleManager = UserRoleManagerFactory::getUserRoleManager();
+        
+        $requiredPermissions = array();
+        $dataGroups = $this->getOption('data_groups');
+        
+        if (is_array($dataGroups) && count($dataGroups) > 0) {
+            $permission = new ResourcePermission(true, false, false, false);
+            $dataGroupPermissions = array();
+            foreach ($dataGroups as $dataGroup) {
+                $dataGroupPermissions[$dataGroup] = $permission;
+            }
+            
+            $requiredPermissions[BasicUserRoleManager::PERMISSION_TYPE_DATA_GROUP] = $dataGroupPermissions;
+        }
+                    
+        $employeeList = $userRoleManager->getAccessibleEntities('Employee', 
+                null, null, array(), array(), $requiredPermissions);
         $javaScript = $javaScript = sprintf(<<<EOF
 <script type="text/javascript">
 
@@ -164,7 +184,7 @@ function validateInput(){
  </script>
 EOF
                         ,
-                        $this->getEmployeeListAsJson(sfContext::getInstance()->getUser()->getAttribute("user")->getEmployeeList()),
+                        $this->getEmployeeListAsJson($employeeList),
                         $this->attributes['id'],
                         $this->attributes['id'],
                         $typeHint,

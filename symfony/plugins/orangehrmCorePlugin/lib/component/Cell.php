@@ -147,5 +147,95 @@ abstract class Cell implements PopulatableFromArray {
         return $this->dataSourceType;
     }
     
+    /**
+     * Gets the value of the given element property.
+     * 
+     * Supports placeholders and label getters.
+     * Ex: If property name is 'label'
+     * First looks for property named 'label'
+     * If not found, looks for property 'labelGetter' and uses that to get the value
+     * 
+     * Once value is found, looks for property 'labelPlaceholders'.
+     * If found, users that to replace any placeholders in the property.
+     * 
+     * Ex:
+     * <pre>
+     * 'elementProperty' => array(
+     *     'id' => 'ohrmList_chkSelectRecord_{id}',
+     *     'name' => 'chkSelectRow[]',
+     *     'valueGetter' => 'getId',
+     *     'label' => 'Enable',
+     *     'placeholderGetters' => array('id' => 'getId'),
+     * )
+     * </pre>
+     * 
+     * @param string $name Property name
+     * @param mixed $default Default value to return if property is not available
+     * @return mixed property value with any placeholders replaced
+     */
+    public function getParsedPropertyValue($name, $default = null) {
+        
+        // Get value
+        $value = $this->getPropertyValue($name);
+        if (is_null($value)) {
+            $getter = $this->getPropertyValue($name . 'Getter');
+            if (!is_null($getter)) {
+                $value = $this->getDataObjectProperty($getter);
+            }
+        }
+        
+        // Replace any placeholders
+        if (!empty($value)) {
+            if (strpos($value, '{') !== false) {
+
+                $placeHolderGetters = $this->getPropertyValue('placeholderGetters');
+                
+                if ($placeHolderGetters instanceof sfOutputEscaperArrayDecorator || is_array($placeHolderGetters)) {                    
+                    $patterns = array();
+                    $replacements = array();        
+
+                    foreach ($placeHolderGetters as $placeholder => $getter) {
+                        $placeholderValue = $this->getDataObjectProperty($getter);
+                        $patterns[] = "/\{{$placeholder}\}/";
+                        $replacements[] = $placeholderValue;                        
+                    }
+                    
+                    $value = preg_replace($patterns, $replacements, $value);                    
+                }
+            } 
+        }
+        
+        return is_null($value) ? $default : $value;
+    }    
+    
+    /**
+     * Get property value from data object.
+     * Checks for key if array,
+     * Checks for method or property if object.
+     * 
+     * @param string $property Propery Name
+     * @return Property value Property value, or null if not available.
+     */
+    public function getDataObjectProperty($property) {
+        $value = null;
+        if ($this->getDataSourceType() == self::DATASOURCE_TYPE_ARRAY) {
+
+            if (isset($this->dataObject[$property])) {
+                $value =  $this->dataObject[$property];                    
+            }
+        } else {
+            
+            // Data source is an object (usually a sfOutputEscaperObjectDecorator
+            // wrapping a Doctrine_Record object 
+            if (isset($this->dataObject->$property)) {
+                
+                $value = $this->dataObject->$property;
+            } else if (is_callable(array($this->dataObject, $property))) {
+                $value = $this->dataObject->$property();
+            }
+        }   
+
+        return $value;
+    }
 
 }

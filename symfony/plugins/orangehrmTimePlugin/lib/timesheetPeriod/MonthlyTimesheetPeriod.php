@@ -54,8 +54,7 @@ class MonthlyTimesheetPeriod extends TimesheetPeriod {
 
     public function getDatesOfTheTimesheetPeriod($startDate, $endDate) {
         
-         $userObj = sfContext::getInstance()->getUser()->getAttribute('user');
-        $clientTimeZoneOffset = $userObj->getUserTimeZoneOffset();
+        $clientTimeZoneOffset = sfContext::getInstance()->getUser()->getUserTimeZoneOffset();
         $serverTimezoneOffset = ((int) date('Z'));
         $timeStampDiff = $clientTimeZoneOffset * 3600 - $serverTimezoneOffset;
         

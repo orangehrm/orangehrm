@@ -1,7 +1,7 @@
 <?php
 use_javascript(plugin_web_path('orangehrmAdminPlugin', 'js/addCustomerSuccess')); 
 ?>
-
+<?php if(($customerPermissions->canCreate() && empty($customerId)) || ($customerPermissions->canUpdate() && $customerId > 0)){?>
 <div class="box"  id="addCustomer">
     <div class="head">
         <h1 id="addCustomerHeading"><?php echo __("Add Customer"); ?></h1>
@@ -10,7 +10,6 @@ use_javascript(plugin_web_path('orangehrmAdminPlugin', 'js/addCustomerSuccess'))
     <div class="inner">
             
         <?php include_partial('global/flash_messages'); ?>
-       
         <form name="frmAddCustomer" id="frmAddCustomer" method="post" action="<?php echo url_for('admin/addCustomer'); ?>" >
             
             <?php echo $form['_csrf_token']; ?>
@@ -76,6 +75,7 @@ use_javascript(plugin_web_path('orangehrmAdminPlugin', 'js/addCustomerSuccess'))
         <input type="button" id="undeleteCancel" class="btn reset" data-dismiss="modal" value="<?php echo __('Cancel'); ?>" />
     </div>
 </div> <!-- undeleteDialog -->
+<?php }?>
 
 <script type="text/javascript">
 	var customers = <?php echo str_replace('&#039;', "'", $form->getCustomerListAsJson()) ?> ;

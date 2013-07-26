@@ -1,7 +1,14 @@
 <?php
 
 class EmployeeListConfigurationFactory extends ohrmListConfigurationFactory {
-
+    
+    const LINK_NONE = 0;
+    const LINK_ALL_EMPLOYEES = 1;    
+    const LINK_ACTIVE_EMPLOYEES = 2;
+    const LINK_DELETED_EMPLOYEES = 3;
+    
+    protected static $linkSetting = self::LINK_NONE;
+    
     public function init() {
         sfContext::getInstance()->getConfiguration()->loadHelpers('OrangeDate');
         
@@ -23,7 +30,8 @@ class EmployeeListConfigurationFactory extends ohrmListConfigurationFactory {
             'elementProperty' => array(
                 'labelGetter' => array('getEmployeeId'),
                 'placeholderGetters' => array('id' => 'getEmpNumber'),
-                'urlPattern' => public_path('index.php/pim/viewPersonalDetails/empNumber/{id}'),
+                'linkable' => $this->getLinkable(),
+                'urlPattern' => public_path('index.php/pim/viewEmployee/empNumber/{id}'),
             ),
         ));
 
@@ -37,7 +45,8 @@ class EmployeeListConfigurationFactory extends ohrmListConfigurationFactory {
             'elementProperty' => array(
                 'labelGetter' => array('getFirstAndMiddleName'),
                 'placeholderGetters' => array('id' => 'getEmpNumber'),
-                'urlPattern' => public_path('index.php/pim/viewPersonalDetails/empNumber/{id}'),
+                'linkable' => $this->getLinkable(),
+                'urlPattern' => public_path('index.php/pim/viewEmployee/empNumber/{id}'),
             ),
         ));
 
@@ -51,7 +60,8 @@ class EmployeeListConfigurationFactory extends ohrmListConfigurationFactory {
             'elementProperty' => array(
                 'labelGetter' => array('getFullLastName'),
                 'placeholderGetters' => array('id' => 'getEmpNumber'),
-                'urlPattern' => public_path('index.php/pim/viewPersonalDetails/empNumber/{id}'),
+                'linkable' => $this->getLinkable(),
+                'urlPattern' => public_path('index.php/pim/viewEmployee/empNumber/{id}'),
             ),
         ));
 
@@ -100,5 +110,23 @@ class EmployeeListConfigurationFactory extends ohrmListConfigurationFactory {
     
     public function getClassName() {
         return 'Employee';
+    }
+    
+    public static function getLinkSetting() {
+        return self::$linkSetting;
+    }
+    
+    public static function setLinkSetting($setting) {
+        self::$linkSetting = $setting;
+    }
+    
+    public function getLinkable() {
+        $linkable = false;
+        
+        if (self::$linkSetting == self::LINK_ALL_EMPLOYEES) {
+            $linkable = true;            
+        }
+        
+        return $linkable;
     }
 }

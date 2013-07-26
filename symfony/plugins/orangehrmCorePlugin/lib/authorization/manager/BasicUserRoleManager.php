@@ -40,6 +40,7 @@ class BasicUserRoleManager extends AbstractUserRoleManager {
     protected $homePageDao;
     
     protected $userRoleClasses;
+    protected $decoratorClasses;
 
     public function __construct() {
         $this->_init();
@@ -84,6 +85,12 @@ class BasicUserRoleManager extends AbstractUserRoleManager {
                     }
 
                     foreach ($configuraiton as $roleName => $roleObj) {
+                        if (!isset($this->decoratorClasses[$roleName])) {
+                            $this->decoratorClasses[$roleName] = array($roleObj['class']);
+                        } else {
+                            $this->decoratorClasses[$roleName][] = $roleObj['class'];
+                        }
+
                         $this->userRoleClasses[$roleName] = new $roleObj['class']($roleName, $this, $this->userRoleClasses[$roleName]);
                     }
                 }
@@ -315,7 +322,12 @@ class BasicUserRoleManager extends AbstractUserRoleManager {
         $filteredRoles = $this->filterRoles($this->userRoles, $rolesToExclude, $rolesToInclude, $entities);
         
         foreach ($filteredRoles as $role) {
-           $isAllowed = $accessFlowStateMachineService->isActionAllowed($workFlowId, $state, $role->getName(), $action);
+           $roleName = $role->getName();
+           if ($roleName == 'ESS' && $workFlowId != 4) {
+               $roleName = 'ESS User';
+           }
+           
+           $isAllowed = $accessFlowStateMachineService->isActionAllowed($workFlowId, $state, $roleName, $action);
            if($isAllowed){
                break;
            }
@@ -336,14 +348,53 @@ class BasicUserRoleManager extends AbstractUserRoleManager {
         
         $filteredRoles = $this->filterRoles($this->userRoles, $rolesToExclude, $rolesToInclude, $entities);
         
-        foreach ($filteredRoles as $role) {        
-            $workFlowItems = $accessFlowStateMachineService->getAllowedWorkflowItems($workflow, $state, $role->getName());     
+        foreach ($filteredRoles as $role) {
+            $roleName = $role->getName();
+           if ($roleName == 'ESS' && $workFlowId != 4) {
+               $roleName = 'ESS User';
+           }
+            
+            $workFlowItems = $accessFlowStateMachineService->getAllowedWorkflowItems($workflow, $state, $roleName);     
 
             if (count($workFlowItems) > 0) {
                 $allActions = $this->getUniqueActionsBasedOnPriority($allActions, $workFlowItems);
             }
         }
         return $allActions;
+    }
+    
+    /**
+     * Given an array of actions, returns the states for which those actions can be applied
+     * by the current logged in user
+     * 
+     * @param string $workflow Workflow 
+     * @param array $actions Array of Action names
+     * @param array $rolesToExclude
+     * @param array $rolesToInclude
+     * @param array $entities
+     * 
+     * @return array Array of states
+     */
+    public function getActionableStates($workflow, $actions, $rolesToExclude = array(), $rolesToInclude = array(), $entities = array()) {
+
+        $accessFlowStateMachineService = new AccessFlowStateMachineService();
+        $actionableStates = array();
+        
+        $filteredRoles = $this->filterRoles($this->userRoles, $rolesToExclude, $rolesToInclude, $entities);
+        
+        foreach ($filteredRoles as $role) {   
+            $roleName = $role->getName();
+           if ($roleName == 'ESS' && $workFlowId != 4) {
+               $roleName = 'ESS User';
+           }
+           
+            $states = $accessFlowStateMachineService->getActionableStates($workflow, $roleName, $actions); 
+
+            if (!empty($states)) {
+                $actionableStates = array_unique(array_merge($actionableStates, $states));
+            }
+        }
+        return $actionableStates;
     }
     
     protected function getUniqueActionsBasedOnPriority($currentItems, $itemsToMerge) {

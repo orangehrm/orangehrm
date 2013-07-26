@@ -24,11 +24,11 @@
 <?php 
 use_javascript(plugin_web_path('orangehrmAdminPlugin', 'js/viewJobTitleListSuccess')); 
 ?>
-
+<?php if($jobTitlePermissions->canRead()){?>
 <div id="jobTitleList">
     <?php include_component('core', 'ohrmList', $parmetersForListCompoment); ?>
 </div>
-
+<?php }?>
 <!-- comment dialog -->
 
 <div id="commentDialog" title="<?php echo __('Job Description'); ?>" style="display: none">

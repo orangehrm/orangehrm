@@ -112,13 +112,18 @@ class AuthenticationService extends BaseService {
      */
     protected function setBasicUserAttributes(SystemUser $user) {
         $sfUser = sfContext::getInstance()->getUser();
+        
+        $userRole = $user->getUserRole();
+        
         $sfUser->setAttribute('auth.userId', $user->getId());
         $sfUser->setAttribute('auth.userGroup', $user->getUsergId());
         $sfUser->setAttribute('auth.isAdmin', $user->getIsAdmin());
         $sfUser->setAttribute('auth.empId', $user->getEmployee()->getEmployeeId());
         $sfUser->setAttribute('auth.empNumber', $user->getEmpNumber());
         $sfUser->setAttribute('auth.firstName', $user->getName());
-        $sfUser->setAttribute('auth.userRole', $user->getUserRole()->getName());
+        $sfUser->setAttribute('auth.userRole', $userRole->getName());
+        $sfUser->setAttribute('auth.userRoleId', $userRole->getId());
+        $sfUser->setAttribute('auth.userRole.predefined', $userRole->getIsPredefined());
     }
 
     /**

@@ -1,6 +1,6 @@
 <?php
 
-class viewLeaveListAction extends sfAction {
+class viewLeaveListAction extends baseLeaveAction {
 
     protected $leavePeriodService;
     protected $employeeService;
@@ -64,13 +64,13 @@ class viewLeaveListAction extends sfAction {
 
     protected function getMode() {
         $mode = LeaveListForm::MODE_ADMIN_LIST;
-        
+
         return $mode;
     }
 
     protected function isEssMode() {
-         $userMode = 'ESS';
-         
+        $userMode = 'ESS';
+
         if ($_SESSION['isSupervisor']) {
             $userMode = 'Supervisor';
         }
@@ -78,33 +78,32 @@ class viewLeaveListAction extends sfAction {
         if (isset($_SESSION['isAdmin']) && $_SESSION['isAdmin'] == 'Yes') {
             $userMode = 'Admin';
         }
-        
+
         return ($userMode == 'ESS');
     }
 
-    public function execute($request) {        
-        
+    public function execute($request) {
+
         $this->mode = $mode = $this->getMode();
         $this->essMode = $this->isEssMode();
-        
+        $this->leaveListPermissions = $this->getPermissions();
         $this->leavecommentForm = new LeaveCommentForm(array(),array(),true);
-
         $this->form = $this->getLeaveListForm($mode);
         $values = array();
 
         $page = $request->getParameter('hdnAction') == 'search' ? 1 : $request->getParameter('pageNo', 1);
-        
+
         // Check for parametes sent from direct links
         // (PIM: 'txtEmpID' will be available as a get parameter)
         // (Leave Summary Links: leavePeriodId, leaveTypeId and status)
         $empNumber = $request->getParameter('empNumber');
-        
+
         $fromDateParam = $request->getParameter('fromDate');
         $toDateParam = $request->getParameter('toDate');
         $leaveTypeId = $request->getParameter('leaveTypeId');
         $leaveStatusId = $request->getParameter('status');
         $stdDate = $request->getParameter('stddate');
-        
+
         if ($request->isMethod('post')) {
 
             $this->form->bind($request->getParameter($this->form->getName()));
@@ -121,30 +120,29 @@ class viewLeaveListAction extends sfAction {
                     }
                 }
             }
-
         } else if ($request->hasParameter('reset')) {
-              $values = $this->form->getDefaults();    
-              
-              // Defaults have localized dates, therefore, convert to standard format 
-              $values['calFromDate'] = $this->_getStandardDate($values['calFromDate']);
-              $values['calToDate'] = $this->_getStandardDate($values['calToDate']);
-              $this->_setFilters($mode, $values);                            
+            $values = $this->form->getDefaults();
+
+            // Defaults have localized dates, therefore, convert to standard format 
+            $values['calFromDate'] = $this->_getStandardDate($values['calFromDate']);
+            $values['calToDate'] = $this->_getStandardDate($values['calToDate']);
+            $this->_setFilters($mode, $values);
         } else {
-            
+
             // If request was link from another page:
             if (!empty($empNumber)) {
                 $employee = $this->getEmployeeService()->getEmployee($empNumber);
 
                 // set default to employee name field.
                 if (!empty($employee)) {
-                    
+
                     // Get Default settings and override as needed.
-                    $values = $this->form->getDefaults();    
+                    $values = $this->form->getDefaults();
 
                     // Defaults have localized dates, therefore, convert to standard format 
                     $values['calFromDate'] = $this->_getStandardDate($values['calFromDate']);
-                    $values['calToDate'] = $this->_getStandardDate($values['calToDate']);                    
-                    
+                    $values['calToDate'] = $this->_getStandardDate($values['calToDate']);
+
                     $employeeName = $employee->getFullName();
                     $terminationId = $employee->getTerminationId();
                     $empData = array('empName' => $employeeName, 'empId' => $employee->getEmpNumber());
@@ -159,12 +157,12 @@ class viewLeaveListAction extends sfAction {
                     }
                     if (!empty($fromDateParam) && !empty($toDateParam)) {
 
-                        if (empty($stdDate) || $stdDate != 1) {                        
+                        if (empty($stdDate) || $stdDate != 1) {
                             $values['calFromDate'] = $this->_getStandardDate($fromDateParam);
                             $values['calToDate'] = $this->_getStandardDate($toDateParam);
                         } else {
                             $values['calFromDate'] = $fromDateParam;
-                            $values['calToDate'] = $toDateParam;                            
+                            $values['calToDate'] = $toDateParam;
                         }
                         $this->form->setDefault('calFromDate', set_datepicker_date_format($values['calFromDate']));
                         $this->form->setDefault('calToDate', set_datepicker_date_format($values['calToDate']));
@@ -177,11 +175,10 @@ class viewLeaveListAction extends sfAction {
                         $values['chkSearchFilter'] = $leaveStatusId;
                         $this->form->setDefault('chkSearchFilter', array($leaveStatusId));
                     }
-                    
+
                     $this->_setFilters($mode, $values);
                 }
-                
-            } else {           
+            } else {
 
                 // (paging, direct access of leave list)
                 $values = $this->_getFilters($mode);
@@ -206,7 +203,7 @@ class viewLeaveListAction extends sfAction {
         $toDate = $this->_getFilterValue($values, 'calToDate', null);
         $empData = $this->_getFilterValue($values, 'txtEmployee', null);
         $employeeName = $empData['empName'];
-                
+
         $message = $this->getUser()->getFlash('message', '');
         $messageType = $this->getUser()->getFlash('messageType', '');
 
@@ -223,7 +220,7 @@ class viewLeaveListAction extends sfAction {
                     'employeeName' => $employeeName
                 ));
 
-        
+
         $result = $this->searchLeaveRequests($searchParams, $page);
         $list = $result['list'];
         $recordCount = $result['meta']['record_count'];
@@ -236,48 +233,49 @@ class viewLeaveListAction extends sfAction {
         $list = empty($list) ? null : $list;
         $this->form->setList($list);
         //$this->form->setEmployeeList($this->getEmployeeList());
-        
+
         $this->message = $message;
         $this->messageType = $messageType;
         $this->baseUrl = $mode == LeaveListForm::MODE_MY_LEAVE_LIST ? 'leave/viewMyLeaveList' : 'leave/viewLeaveList';
 
         $this->_setPage($mode, $page);
-        
-        $this->setListComponent($list, $recordCount, $page);
-        
+
+        if ($this->leaveListPermissions->canRead()) {
+            $this->setListComponent($list, $recordCount, $page);
+        }
         $balanceRequest = array();
-        
+
         foreach ($list as $row) {
             $dates = $row->getLeaveStartAndEndDate();
             $balanceRequest[] = array($row->getEmpNumber(), $row->getLeaveTypeId(), $dates[0], $dates[1]);
         }
-        
+
         $this->balanceQueryData = json_encode($balanceRequest);
 
         $this->setTemplate('viewLeaveList');
     }
-    
+
     protected function searchLeaveRequests($searchParams, $page) {
         $result = $this->getLeaveRequestService()->searchLeaveRequests($searchParams, $page, false, false, true, true);
         return $result;
     }
-    
+
     protected function setListComponent($leaveList, $count, $page) {
-        
+
         ohrmListComponent::setConfigurationFactory($this->getListConfigurationFactory());
         ohrmListComponent::setActivePlugin('orangehrmLeavePlugin');
         ohrmListComponent::setListData($leaveList);
         ohrmListComponent::setItemsPerPage(sfConfig::get('app_items_per_page'));
-        ohrmListComponent::setNumberOfRecords($count);      
+        ohrmListComponent::setNumberOfRecords($count);
         ohrmListComponent::setPageNumber($page);
     }
-    
+
     protected function getListConfigurationFactory() {
         $loggedInEmpNumber = $this->getUser()->getAttribute('auth.empNumber');
         LeaveListConfigurationFactory::setListMode($this->mode);
         LeaveListConfigurationFactory::setLoggedInEmpNumber($loggedInEmpNumber);
         $configurationFactory = new LeaveListConfigurationFactory();
-        
+
         return $configurationFactory;
     }
 
@@ -285,7 +283,7 @@ class viewLeaveListAction extends sfAction {
         $this->form = new LeaveListForm($mode);
         return $this->form;
     }
-    
+
     /**
      * Get employee number search filter
      * 
@@ -294,20 +292,20 @@ class viewLeaveListAction extends sfAction {
      * @return mixed Array of employee numbers or an employee number.
      */
     protected function getEmployeeFilter($mode, $empNumber) {
-        
+
         $loggedInEmpNumber = $this->getUser()->getAttribute('auth.empNumber');
-        
+
         // default filter to null. Will fetch all employees
         $employeeFilter = null;
-            
+
         if ($mode == LeaveListForm::MODE_MY_LEAVE_LIST) {
-            
+
             $employeeFilter = $loggedInEmpNumber;
         } else {
             $manager = $this->getContext()->getUserRoleManager();
             $requiredPermissions = array(
                 BasicUserRoleManager::PERMISSION_TYPE_ACTION => array('view_leave_list'));
-                
+
             $accessibleEmpIds = $manager->getAccessibleEntityIds('Employee', null, null, array(), array(), $requiredPermissions);
 
             if (empty($empNumber)) {
@@ -318,10 +316,10 @@ class viewLeaveListAction extends sfAction {
                 } else {
                     // Requested employee is not accessible. 
                     $employeeFilter = array();
-                }           
-            }                
+                }
+            }
         }
-        
+
         return $employeeFilter;
     }
 
@@ -331,7 +329,7 @@ class viewLeaveListAction extends sfAction {
         $employeeList = array();
 
         if (Auth::instance()->hasRole(Auth::ADMIN_ROLE)) {
-            $properties = array("empNumber","firstName", "middleName", "lastName", 'termination_id');
+            $properties = array("empNumber", "firstName", "middleName", "lastName", 'termination_id');
             $employeeList = UserRoleManagerFactory::getUserRoleManager()->getAccessibleEntityProperties('Employee', $properties);
         }
 
@@ -340,9 +338,8 @@ class viewLeaveListAction extends sfAction {
         }
 
         return $employeeList;
-        
     }
-    
+
     /**
      * Set's the current page number in the user session.
      * @param $page int Page Number
@@ -401,13 +398,17 @@ class viewLeaveListAction extends sfAction {
 
         return false;
     }
-    
+
     protected function _getStandardDate($localizedDate) {
         $localizationService = new LocalizationService();
         $format = sfContext::getInstance()->getUser()->getDateFormat();
         $trimmedValue = trim($localizedDate);
-        $result = $localizationService->convertPHPFormatDateToISOFormatDate($format, $trimmedValue);   
+        $result = $localizationService->convertPHPFormatDateToISOFormatDate($format, $trimmedValue);
         return $result;
+    }
+    
+    protected function getPermissions(){
+        return $this->getDataGroupPermissions('leave_list', false);
     }
 
 }

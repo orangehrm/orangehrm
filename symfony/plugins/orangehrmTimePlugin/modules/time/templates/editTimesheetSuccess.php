@@ -34,7 +34,6 @@ form ol li.largeTextBox textarea {
 </style>
 
 <!--<div id="validationMsg"><?php echo isset($messageData) ? templateMessage($messageData) : ''; ?></div>-->
-
 <div class="box editTimesheet noHeader" id="edit-timesheet">
     <div class="inner">
         

@@ -1,5 +1,7 @@
 <?php use_javascripts_for_form($form); ?>
 <?php use_stylesheets_for_form($form); ?>
+
+<?php if($leaveTypePermissions->canRead()){ ?>
 <?php if ($form->hasErrors()): ?>
     <div class="messagebar">
         <?php include_partial('global/form_errors', array('form' => $form)); ?>
@@ -29,7 +31,7 @@
 
             <p>
                 <?php
-                $actionButtons = $form->getActionButtons();
+                $actionButtons = $form->getActionButtons($leaveTypeId);
 
                 foreach ($actionButtons as $button) {
                     echo $button->render(null), "\n";
@@ -90,7 +92,7 @@
       action="<?php echo url_for('leave/undeleteLeaveType'); ?>" method="post">
           <?php echo $undeleteForm; ?>
 </form>
-
+<?php }?>
 <script type="text/javascript">
     //<![CDATA[
 

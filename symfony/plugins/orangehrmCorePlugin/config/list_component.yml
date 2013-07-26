@@ -160,16 +160,6 @@ Candidate:
   tableWidth: 100%
   hasSummary: false
   summary: []
-  buttons:
-    Add:
-      label: Add
-      function: addCandidate
-    Delete:
-      label: Delete
-      data-toggle: modal
-      data-target: '#deleteConfirmation'
-      class: delete
-      type: submit
   buttonsPosition: before-data
   formMethod: post
   formAction: 'recruitment/deleteCandidateVacancies'
@@ -185,16 +175,6 @@ JobVacancy:
   tableWidth: 100%
   hasSummary: false
   summary: []
-  buttons:
-    Add:
-      label: Add
-      function: addJobVacancy
-    Delete:
-      label: Delete
-      data-toggle: modal
-      data-target: '#deleteConfirmation'
-      class: delete
-      type: submit
   buttonsPosition: before-data
   formMethod: post
   formAction: 'recruitment/deleteJobVacancy'
@@ -212,15 +192,6 @@ Customer:
   tableWidth: 100%
   hasSummary: false
   summary: []
-  buttons:
-    Add:
-      label: Add
-    Delete:
-      label: Delete
-      type: submit
-      class: delete
-      data-toggle: modal 
-      data-target: '#deleteConfModal'
   buttonsPosition: before-data
   formMethod: post
   formAction: 'admin/deleteCustomer'
@@ -236,15 +207,6 @@ Project:
   tableWidth: 100%
   hasSummary: false
   summary: []
-  buttons:
-    Add:
-      label: Add
-    Delete:
-      label: Delete
-      type: submit
-      class: delete
-      data-toggle: modal 
-      data-target: '#deleteConfModal'
   buttonsPosition: before-data
   formMethod: post
   formAction: 'admin/deleteProject'
@@ -253,26 +215,12 @@ Project:
 
 ProjectActivity:
   pluginName: orangehrmAdminPlugin
-  hasSelectableRows: true
   unselectableRowIds: []
   idValueGetter: getActivityId
   title: "<?php echo __("Activities");?>"
   tableWidth: 100%
   hasSummary: false
   summary: []
-  buttons:
-    Add:
-      label: Add
-    Delete:
-      label: Delete
-      class: delete
-      data-toggle: modal 
-      data-target: '#deleteConfModal'
-    Copy:
-      label: Copy From
-      class: reset
-      data-toggle: modal 
-      data-target: '#copyActivityModal'
   buttonsPosition: before-data
   formMethod: post
   formAction: '#'
@@ -321,16 +269,6 @@ ViewPredefinedReport:
   hasSummary: false
   isValueList: ''
   summary: []
-  buttons:
-    Add:
-      label: Add
-      function: addPredefinedReport
-    Delete:
-      label: Delete
-      class: delete
-      type: submit
-      data-toggle: modal 
-      data-target: '#deleteConfModal'
   buttonsPosition: before-data
   formMethod: post
   formAction: 'core/viewDefinedPredefinedReports'
@@ -346,15 +284,6 @@ JobTitle:
   tableWidth: 100%
   hasSummary: false
   summary: []
-  buttons:
-    Add:
-      label: Add
-    Delete:
-      label: Delete
-      type: submit
-      class: delete
-      data-toggle: modal 
-      data-target: '#deleteConfModal'
   buttonsPosition: before-data
   formMethod: post
   formAction: 'admin/deleteJobTitle'
@@ -442,15 +371,6 @@ PayGrade:
   tableWidth: 100%
   hasSummary: false
   summary: []
-  buttons:
-    Add:
-      label: Add
-    Delete:
-      label: Delete
-      type: submit
-      class: delete
-      data-toggle: modal 
-      data-target: '#deleteConfModal'
   buttonsPosition: before-data
   formMethod: post
   formAction: 'admin/deletePayGrades'
@@ -532,7 +452,7 @@ Nationality:
 
 EmailNotification:
   pluginName: orangehrmAdminPlugin
-  hasSelectableRows: true
+  hasSelectableRows: false
   unselectableRowIds: []
   idValueGetter: getId
   title: "<?php echo __("Email Notification");?>"

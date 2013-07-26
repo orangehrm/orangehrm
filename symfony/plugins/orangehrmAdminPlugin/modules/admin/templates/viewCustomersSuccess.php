@@ -24,11 +24,11 @@
 <?php
 use_javascript(plugin_web_path('orangehrmAdminPlugin', 'js/viewCustomersSuccess')); 
 ?>
-
+<?php if($customerPermissions->canRead()){?>
 <div id="customerList">
     <?php include_component('core', 'ohrmList', $parmetersForListCompoment); ?>
 </div>
-
+<?php }?>
 <form name="frmHiddenParam" id="frmHiddenParam" method="post" action="<?php echo url_for('admin/viewCustomers'); ?>">
                 <input type="hidden" name="pageNo" id="pageNo" value="<?php //echo $form->pageNo;   ?>" />
                 <input type="hidden" name="hdnAction" id="hdnAction" value="search" />

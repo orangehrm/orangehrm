@@ -1,4 +1,6 @@
 <?php use_javascript(plugin_web_path('orangehrmLeavePlugin', 'js/viewLeaveRequestSuccess.js'));?>
+
+<?php if($leaveListPermissions->canRead()){?>
 <div id="processing"></div>
 
 <!--this is ajax message place -->
@@ -38,6 +40,7 @@
   </div>
 </div>
 <!-- end of comment dialog-->
+<?php }?>
 
 <script type="text/javascript">
     //<![CDATA[

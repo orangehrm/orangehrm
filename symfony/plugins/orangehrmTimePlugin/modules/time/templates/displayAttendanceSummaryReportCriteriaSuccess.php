@@ -1,5 +1,6 @@
 <?php use_stylesheets_for_form($form) ?>
 <?php use_javascripts_for_form($form) ?>
+<?php if($attendancePermissions->canRead()){?>
 <div class="box" id="attendance-summary">
        <div class="head"><h1><?php echo __('Attendance Total Summary Report'); ?></h1></div>
         <div class="inner">
@@ -58,6 +59,7 @@
         </form>
     </div>
 </div>
+<?php }?>
 <script type="text/javascript">
 
     var datepickerDateFormat = '<?php echo get_datepicker_date_format($sf_user->getDateFormat()); ?>';

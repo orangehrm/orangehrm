@@ -22,6 +22,7 @@ class CustomerForm extends BaseForm {
 
     private $updateMode = false;
     private $customerService;
+    private $customerPermissions;
 
     public function getCustomerService() {
         if (is_null($this->customerService)) {
@@ -32,25 +33,33 @@ class CustomerForm extends BaseForm {
     }
 
     public function configure() {
-
+        
         $this->customerId = $this->getOption('customerId');
         if (isset($this->customerId)) {
             $customer = $this->getCustomerService()->getCustomerById($this->customerId);
         }
+        
+        $this->customerPermissions = $this->getOption('customerPermissions');
 
-        $this->setWidgets(array(
-            'customerId' => new sfWidgetFormInputHidden(),
-            'customerName' => new sfWidgetFormInputText(),
-            'hdnOriginalCustomerName' => new sfWidgetFormInputHidden(),
-            'description' => new sfWidgetFormTextArea(),
-        ));
+        $widgets = array('customerId' => new sfWidgetFormInputHidden());
+        $validators = array('customerId' => new sfValidatorNumber(array('required' => false)));
 
-        $this->setValidators(array(
-            'customerId' => new sfValidatorNumber(array('required' => false)),
-            'customerName' => new sfValidatorString(array('required' => true, 'max_length' => 52)),
-            'hdnOriginalCustomerName' => new sfValidatorString(array('required' => false)),
-            'description' => new sfValidatorString(array('required' => false, 'max_length' => 255)),
-        ));
+        if ($this->customerPermissions->canRead()) {
+            $customerWidgets = $this->getCustomerWidgets();
+            $customerValidators = $this->getCustomerValidators();
+
+            if (!($this->customerPermissions->canUpdate() || $this->customerPermissions->canCreate())) {
+                foreach ($customerWidgets as $widgetName => $widget) {
+                    $widget->setAttribute('disabled', 'disabled');
+                }
+            }
+
+            $widgets = array_merge($widgets, $customerWidgets);
+            $validators = array_merge($validators, $customerValidators);
+        }
+        
+        $this->setWidgets($widgets);
+        $this->setValidators($validators);
 
         $this->widgetSchema->setNameFormat('addCustomer[%s]');
 
@@ -113,6 +122,26 @@ class CustomerForm extends BaseForm {
             }
         }
         return json_encode($list);
+    }
+
+    public function getCustomerWidgets() {
+        $widgets = array();
+
+        $widgets['customerName'] = new sfWidgetFormInputText();
+        $widgets['hdnOriginalCustomerName'] = new sfWidgetFormInputHidden();
+        $widgets['description'] = new sfWidgetFormTextArea();
+
+        return $widgets;
+    }
+
+    public function getCustomerValidators() {
+        $validators = array();
+
+        $validators['customerName'] = new sfValidatorString(array('required' => true, 'max_length' => 52));
+        $validators['hdnOriginalCustomerName'] = new sfValidatorString(array('required' => false));
+        $validators['description'] = new sfValidatorString(array('required' => false, 'max_length' => 255));
+
+        return $validators;
     }
 
 }

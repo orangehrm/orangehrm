@@ -15,5 +15,9 @@ class viewMyLeaveListAction extends viewLeaveListAction {
        
         return true;
     }
+    
+    protected function getPermissions(){
+        return $this->getDataGroupPermissions('leave_list', true);
+    }
 
 }

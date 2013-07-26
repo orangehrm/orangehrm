@@ -5,7 +5,7 @@
  *
  * @author sujith
  */
-class viewLeaveRequestAction extends sfAction {
+class viewLeaveRequestAction extends baseLeaveAction {
 
     const MODE_ADMIN_DETAILED_LIST = 'detailed_hr_admin_list';
     const MODE_MY_LEAVE_DETAILED_LIST = 'my_leave_detailed_list';
@@ -49,17 +49,16 @@ class viewLeaveRequestAction extends sfAction {
             } else {
                 $this->forward(sfConfig::get('sf_secure_module'), sfConfig::get('sf_secure_action'));
             }
-            
         }
 
         return $mode;
     }
-    
+
     protected function isEssMode($requesterEmpNumber) {
-         $userMode = 'ESS';
-         
+        $userMode = 'ESS';
+
         if ($_SESSION['isSupervisor']) {
-            if($this->getMode($requesterEmpNumber) == self::MODE_MY_LEAVE_DETAILED_LIST) {
+            if ($this->getMode($requesterEmpNumber) == self::MODE_MY_LEAVE_DETAILED_LIST) {
                 $userMode = 'ESS';
             } else {
                 $userMode = 'Supervisor';
@@ -73,7 +72,7 @@ class viewLeaveRequestAction extends sfAction {
                 $userMode = 'Admin';
             }
         }
-        
+
         return ($userMode == 'ESS');
     }
 
@@ -109,32 +108,41 @@ class viewLeaveRequestAction extends sfAction {
     }
 
     public function execute($request) {
-        
+
         $this->backUrl = stripos($request->getReferer(), 'viewMyLeaveList') === FALSE ?
                 'leave/viewLeaveList' : 'leave/viewMyLeaveList';
-        
+
         if ($this->getUser()->hasFlash('myLeave')) {
             $myLeave = $this->getUser()->getFlash('myLeave');
             if ($myLeave) {
                 $this->backUrl = 'leave/viewMyLeaveList';
             }
         }
- 
+
         if ($this->backUrl === 'leave/viewMyLeaveList') {
             $request->setParameter('initialActionName', 'viewMyLeaveList');
             $this->getUser()->setFlash('myLeave', true);
         } else {
-            $request->setParameter('initialActionName', 'viewLeaveList');    
+            $request->setParameter('initialActionName', 'viewLeaveList');
         }
-        
+
         $this->leaveRequestId = $request->getParameter('id');
 
 
         $leaveRequest = $this->getLeaveRequestService()->fetchLeaveRequest($this->leaveRequestId);
         $employee = $leaveRequest->getEmployee();
-        
+
+        $empNumber = $employee->getEmpNumber();
+        $loggedInEmpNumber = $this->getUser()->getAttribute('auth.empNumber');
+        $self = false;
+        if ($loggedInEmpNumber == $empNumber) {
+            $self = true;
+        }
+
+        $this->leaveListPermissions = $this->getDataGroupPermissions('leave_list', $self);
+
         $this->requestComments = $leaveRequest->getLeaveRequestComment();
-        
+
         $this->mode = $this->getMode($employee->getEmpNumber());
         $this->essMode = $this->isEssMode($employee->getEmpNumber());
         $this->leavecommentForm = new LeaveCommentForm(array(),array(),true);
@@ -143,7 +151,9 @@ class viewLeaveRequestAction extends sfAction {
         $this->title = $this->getTitle($this->mode, $employee, $list);
         $this->baseUrl = 'leave/viewLeaveRequest';
 
-        $this->setListComponent($list);
+        if ($this->leaveListPermissions->canRead()) {
+            $this->setListComponent($list);
+        }
         $this->setTemplate('viewLeaveRequest');
     }
 
@@ -154,18 +164,17 @@ class viewLeaveRequestAction extends sfAction {
         ohrmListComponent::setListData($leaveList);
         ohrmListComponent::setItemsPerPage(sfConfig::get('app_items_per_page'));
         ohrmListComponent::setNumberOfRecords(count($leaveList));
-      
     }
 
     protected function getListConfigurationFactory() {
         $loggedInEmpNumber = $this->getUser()->getAttribute('auth.empNumber');
-         
+
         DetailedLeaveListConfigurationFactory::setListMode($this->mode);
         DetailedLeaveListConfigurationFactory::setLoggedInEmpNumber($loggedInEmpNumber);
         $configurationFactory = new DetailedLeaveListConfigurationFactory();
         $configurationFactory->setRuntimeDefinitions(array(
-			    'title' => $this->title
-			)); 
+            'title' => $this->title
+        ));
         return $configurationFactory;
     }
 

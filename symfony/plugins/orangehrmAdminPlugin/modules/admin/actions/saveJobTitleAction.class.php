@@ -17,7 +17,7 @@
  * if not, write to the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
  * Boston, MA  02110-1301, USA
  */
-class saveJobTitleAction extends sfAction {
+class saveJobTitleAction extends baseAdminAction {
 
     public function setForm(sfForm $form) {
         if (is_null($this->form)) {
@@ -26,32 +26,34 @@ class saveJobTitleAction extends sfAction {
     }
 
     public function execute($request) {
-        
+
         /* For highlighting corresponding menu item */
         $request->setParameter('initialActionName', 'viewJobTitleList');
 
         $usrObj = $this->getUser()->getAttribute('user');
-        if (!($usrObj->isAdmin())) {
-            $this->redirect('pim/viewPersonalDetails');
-        }
+
+        $this->jobTitlePermissions = $this->getDataGroupPermissions('job_titles');
+
         $this->getUser()->setAttribute('addScreen', true);
         $jobTitleId = $request->getParameter('jobTitleId');
-        $values = array('jobTitleId' => $jobTitleId);
+        $values = array('jobTitleId' => $jobTitleId, 'jobTitlePermissions' => $this->jobTitlePermissions);
 
         $this->setForm(new JobTitleForm(array(), $values));
 
         if ($request->isMethod('post')) {
-            $this->form->bind($request->getParameter($this->form->getName()), $request->getFiles($this->form->getName()));
-            $file = $request->getFiles($this->form->getName());
-           
-            if ($_FILES['jobTitle']['size']['jobSpec'] > 1024000) {
-                 
-                $this->getUser()->setFlash('jobtitle.warning', __(TopLevelMessages::FILE_SIZE_SAVE_FAILURE));
-            }
-            if ($this->form->isValid()) {
-                $result = $this->form->save();
-                $this->getUser()->setFlash($result['messageType'], $result['message']);
-                $this->redirect('admin/viewJobTitleList');
+            if ($this->jobTitlePermissions->canCreate() || $this->jobTitlePermissions->canUpdate()) {
+                $this->form->bind($request->getParameter($this->form->getName()), $request->getFiles($this->form->getName()));
+                $file = $request->getFiles($this->form->getName());
+
+                if ($_FILES['jobTitle']['size']['jobSpec'] > 1024000) {
+
+                    $this->getUser()->setFlash('jobtitle.warning', __(TopLevelMessages::FILE_SIZE_SAVE_FAILURE));
+                }
+                if ($this->form->isValid()) {
+                    $result = $this->form->save();
+                    $this->getUser()->setFlash($result['messageType'], $result['message']);
+                    $this->redirect('admin/viewJobTitleList');
+                }
             }
         }
     }

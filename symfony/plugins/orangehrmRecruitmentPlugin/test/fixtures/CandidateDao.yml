@@ -27,6 +27,7 @@ JobCandidate:
   8: {id: 8, firstName: 'Kamal', lastName: 'Karunarathne', contactNumber: '0777-754075', keywords: 'surveryer, qc', status: 1, modeOfApplication: 2, dateOfApplication: '2010-06-04', email: 'chinthaka@mymail.com'}  
   9: {id: 9, firstName: 'Kamal', lastName: 'Karunarathne', contactNumber: '0777-555555', keywords: 'surveryer, qc', status: 1, modeOfApplication: 2, dateOfApplication: '2010-06-04', email: 'chinthaka@mymail.com'}  
   10: {id: 10, firstName: 'Namal', lastName: 'Karunarathne', contactNumber: '0777-555666', keywords: 'surveryer, qc', status: 2, modeOfApplication: 2, dateOfApplication: '2010-06-04', email: 'chinthaka@mymail.com'}
+  11: {id: 11, firstName: ' John ', middleName: ' Denis ', lastName: ' Connor ', contactNumber: '0777-555666', keywords: 'coder, developer', status: 1, modeOfApplication: 2, dateOfApplication: '2010-06-04', email: 'john_connor@mymail.com'}
  
 JobCandidateVacancy:
   0: {id: 1, candidateId: 1, vacancyId: 1, status: 'SHORTLISTED', appliedDate: '2011-06-03'}

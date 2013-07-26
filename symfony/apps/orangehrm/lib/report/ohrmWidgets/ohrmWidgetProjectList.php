@@ -59,13 +59,16 @@ class ohrmWidgetProjectList extends sfWidgetForm implements ohrmEmbeddableWidget
     private function _getProjectList() {
 
         $projectNameList = array();
-        $userObj = sfContext::getInstance()->getUser()->getAttribute("user");
-        $projectList = $userObj->getActiveProjectList();
+
+        $userRoleManager = sfContext::getInstance()->getUserRoleManager();
+        $projectList = $userRoleManager->getAccessibleEntities('Project');
 
         if (!empty($projectList)) {
             
             foreach ($projectList as $project) {
-                $projectNameList[$project->getProjectId()] = $project->getCustomer()->getName() . " - " . $project->getName();
+                if ($project->getIsDeleted() == 0) {
+                    $projectNameList[$project->getProjectId()] = $project->getCustomer()->getName() . " - " . $project->getName();
+                }
             }
             
             // order by customer name, project name
@@ -86,11 +89,20 @@ class ohrmWidgetProjectList extends sfWidgetForm implements ohrmEmbeddableWidget
      */
     public function embedWidgetIntoForm(sfForm &$form) {
 
-        $userObj = sfContext::getInstance()->getUser()->getAttribute("user");
-        $projectList = $userObj->getActiveProjectList();
+        $activeProjectFound = false;
+        
+        $userRoleManager = sfContext::getInstance()->getUserRoleManager();
+        $projectList = $userRoleManager->getAccessibleEntities('Project');
+        foreach ($projectList as $project) {
+            if ($project->getIsDeleted() != 0) {
+                $activeProjectFound = true;
+                break;
+            }
+        }
+        
         $requiredMess = __('Select a project');
 
-        if ($projectList == null) {
+        if (!$activeProjectFound) {
             $requiredMess = __("No Projects Defined");
         }
 

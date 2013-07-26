@@ -17,7 +17,7 @@
  * if not, write to the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
  * Boston, MA  02110-1301, USA
  */
-class deleteJobTitleAction extends sfAction {
+class deleteJobTitleAction extends baseAdminAction {
 
     private $jobTitleService;
 
@@ -30,17 +30,21 @@ class deleteJobTitleAction extends sfAction {
     }
 
     public function execute($request) {
-        $form = new DefaultListForm(array(), array(), true);
-        $form->bind($request->getParameter($form->getName()));
-        $toBeDeletedJobTitleIds = $request->getParameter('chkSelectRow');
-
-        if (!empty($toBeDeletedJobTitleIds)) {
+        $jobTitlePermissions = $this->getDataGroupPermissions('job_titles');
+        if ($jobTitlePermissions->canDelete()) {
+            
+            $form = new DefaultListForm(array(), array(), true);
+            $form->bind($request->getParameter($form->getName()));
             if ($form->isValid()) {
-                $this->getJobTitleService()->deleteJobTitle($toBeDeletedJobTitleIds);
-                $this->getUser()->setFlash('success', __(TopLevelMessages::DELETE_SUCCESS));
+                $toBeDeletedJobTitleIds = $request->getParameter('chkSelectRow');
+
+                if (!empty($toBeDeletedJobTitleIds)) {
+                    $this->getJobTitleService()->deleteJobTitle($toBeDeletedJobTitleIds);
+                    $this->getUser()->setFlash('success', __(TopLevelMessages::DELETE_SUCCESS));
+                    $this->redirect('admin/viewJobTitleList');
+                }
             }
         }
-        $this->redirect('admin/viewJobTitleList');
     }
 
 }

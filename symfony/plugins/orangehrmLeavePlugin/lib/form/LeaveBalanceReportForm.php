@@ -109,8 +109,10 @@ class LeaveBalanceReportForm extends BaseForm {
         $user = sfContext::getInstance()->getUser();
         if ($user->getAttribute('auth.isSupervisor')) {
             $locationOptions['show_all_locations'] = true;
+        } else {
+            $locationOptions['show_all_locations'] = false;
         }
-        
+
         $this->setWidget('location', new ohrmReportWidgetOperationalCountryLocationDropDown($locationOptions));
         $this->setWidget('sub_unit', new ohrmWidgetSubDivisionList());
         $this->setWidget('include_terminated', new sfWidgetFormInputCheckbox(array('value_attribute_value' => 'on')));           

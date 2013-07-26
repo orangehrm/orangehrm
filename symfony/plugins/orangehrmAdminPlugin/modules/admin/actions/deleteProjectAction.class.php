@@ -10,48 +10,53 @@
  *
  * @author orangehrm
  */
-class deleteProjectAction extends sfAction {
+class deleteProjectAction extends baseAdminAction {
 
-	private $projectService;
+    private $projectService;
 
-	public function getProjectService() {
-		if (is_null($this->projectService)) {
-			$this->projectService = new ProjectService();
-			$this->projectService->setProjectDao(new ProjectDao());
-		}
-		return $this->projectService;
-	}
+    public function getProjectService() {
+        if (is_null($this->projectService)) {
+            $this->projectService = new ProjectService();
+            $this->projectService->setProjectDao(new ProjectDao());
+        }
+        return $this->projectService;
+    }
 
-	/**
-	 *
-	 * @param <type> $request
-	 */
-	public function execute($request) {
+    /**
+     *
+     * @param <type> $request
+     */
+    public function execute($request) {
 
-		$toBeDeletedProjectIds = $request->getParameter('chkSelectRow');
+        $toBeDeletedProjectIds = $request->getParameter('chkSelectRow');
 
-		if (!empty($toBeDeletedProjectIds)) {
-			$delete = true;
-			foreach ($toBeDeletedProjectIds as $toBeDeletedProjectId) {
-				$deletable = $this->getProjectService()->hasProjectGotTimesheetItems($toBeDeletedProjectId);
-				if ($deletable) {
-					$delete = false;
-					break;
-				}
-			}
-			if ($delete) {
-				foreach ($toBeDeletedProjectIds as $toBeDeletedProjectId) {
+        $projectPermissions = $this->getDataGroupPermissions('time_projects');
 
-					$customer = $this->getProjectService()->deleteProject($toBeDeletedProjectId);
-				}
-				$this->getUser()->setFlash('success', __(TopLevelMessages::DELETE_SUCCESS));
-			} else {
-				$this->getUser()->setFlash('error', __('Not Allowed to Delete Project(s) Which Have Time Logged Against Them'));
-			}
-		}
+        if ($projectPermissions->canDelete()) {
 
-		$this->redirect('admin/viewProjects');
-	}
+            if (!empty($toBeDeletedProjectIds)) {
+                $delete = true;
+                foreach ($toBeDeletedProjectIds as $toBeDeletedProjectId) {
+                    $deletable = $this->getProjectService()->hasProjectGotTimesheetItems($toBeDeletedProjectId);
+                    if ($deletable) {
+                        $delete = false;
+                        break;
+                    }
+                }
+                if ($delete) {
+                    foreach ($toBeDeletedProjectIds as $toBeDeletedProjectId) {
+
+                        $customer = $this->getProjectService()->deleteProject($toBeDeletedProjectId);
+                    }
+                    $this->getUser()->setFlash('success', __(TopLevelMessages::DELETE_SUCCESS));
+                } else {
+                    $this->getUser()->setFlash('error', __('Not Allowed to Delete Project(s) Which Have Time Logged Against Them'));
+                }
+            }
+
+            $this->redirect('admin/viewProjects');
+        }
+    }
 
 }
 

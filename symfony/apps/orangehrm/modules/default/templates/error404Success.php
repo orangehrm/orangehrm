@@ -17,6 +17,13 @@
  * Boston, MA  02110-1301, USA
  */
 ?>
-
-<h1>Invalid Request</h1>
+<div class="box">    
+      
+    
+<div class="message warning">
+    <?php echo __('Invalid Request') ?> 
+</div>
+        <?php include_partial('global/flash_messages'); ?>
+        
+</div>
 

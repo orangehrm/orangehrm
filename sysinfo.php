@@ -120,7 +120,7 @@ function chk_memory($limit=9, $recommended=16) {
 return $msg;
 }
 
-$ohrmVersion = "3.1";
+$ohrmVersion = "3.1.1-beta.3";
 
 if (@include_once ROOT_PATH."/lib/confs/Conf.php-distribution") {
 	$conf = new Conf();
@@ -240,5 +240,7 @@ function reload() {
 		<br />
 		<input class="button" type="button" name="Re-check" value="Re-check" onClick="reload();" tabindex="3">
 </div>
-<div id="footer"><a href="http://www.orangehrm.com" target="_blank" tabindex="37">OrangeHRM</a> SysInfo ver 0.1 &copy; OrangeHRM Inc 2005 - 2011 All rights reserved. </div>
+<div id="footer">
+    <?php include_once(ROOT_PATH . "/symfony/apps/orangehrm/templates/_copyright.php");?>
+</div>
 </div>

@@ -45,19 +45,24 @@ class deleteMembershipsAction extends basePimAction {
                 if (!$empNumber) {
                     throw new PIMServiceException("No Employee ID given");
                 }
-
-                $membershipDetails  = $this->_getSelectedMembershipDetails($request->getParameter('chkmemdel', array()));
-                $empNumber          = $membershipDetails[0];
-                $membershipIds      = $membershipDetails[1];  
-
-                if (!empty($empNumber) && !empty($membershipIds)) {
-
-                    $service = new EmployeeService();
-                    $service->deleteEmployeeMemberships($empNumber, $membershipIds);
-                    $this->getUser()->setFlash('memberships.success', __(TopLevelMessages::DELETE_SUCCESS));
                 
+                $selectedRecordIds = $request->getParameter('chkmemdel', array());
+                
+                if (count($selectedRecordIds) > 0) {
+
+                    $membershipDetails  = $this->_getSelectedMembershipDetails($request->getParameter('chkmemdel', array()));
+                    $empNumber          = $membershipDetails[0];
+                    $membershipIds      = $membershipDetails[1];  
+
+                    if (!empty($empNumber) && !empty($membershipIds)) {
+
+                        $service = new EmployeeService();
+                        $service->deleteEmployeeMemberships($empNumber, $membershipIds);
+                        $this->getUser()->setFlash('memberships.success', __(TopLevelMessages::DELETE_SUCCESS));
+
+                    }
                 }
-            
+
             }
         }
         $this->redirect('pim/viewMemberships?empNumber=' . $empNumber);

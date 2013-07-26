@@ -12,19 +12,6 @@
  */
 class EssUserRole extends AbstractUserRole {
 
-    protected $employeeNumber;
-
-    public function getEmployeeNumber() {
-        if (empty($this->employeeNumber)) {
-            $this->employeeNumber = sfContext::getInstance()->getUser()->getEmployeeNumber();
-        }
-        return $this->employeeNumber;
-    }
-
-    public function setEmployeeNumber($employeeNumber) {
-        $this->employeeNumber = $employeeNumber;
-    }
-
     public function getAccessibleEmployeeIds($operation = null, $returnType = null, $requiredPermissions = array()) {
         return array();
     }

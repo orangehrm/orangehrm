@@ -268,6 +268,38 @@ class AccessFlowStateMachineServiceTest extends PHPUnit_Framework_TestCase {
         $result = $this->accessFlowStateMachineService->getWorkflowItemByStateActionAndRole('Time', 'NOT SUBMITTED', 'SAVE', 'XYZ');
         $this->assertEquals($item, $result);
     }    
+    
+    public function testDeleteWorkflowRecordsForUserRole() {
+        $flow = "Time";
+        $role = "ADMIN";
+
+        $mockDao = $this->getMock('AccessFlowStateMachineDao', array('deleteWorkflowRecordsForUserRole'));
+        $mockDao->expects($this->once())
+                ->method('deleteWorkflowRecordsForUserRole')
+                ->with($flow, $role)
+                ->will($this->returnValue(true));
+
+        $this->accessFlowStateMachineService->setAccessFlowStateMachineDao($mockDao);
+        $returnedValue = $this->accessFlowStateMachineService->deleteWorkflowRecordsForUserRole($flow, $role);
+
+        $this->assertTrue($returnedValue);
+    }    
+    
+    public function testHandleUserRoleRename() {
+        $oldName = "ADMIN";
+        $newName = "MANAGER";
+
+        $mockDao = $this->getMock('AccessFlowStateMachineDao', array('handleUserRoleRename'));
+        $mockDao->expects($this->once())
+                ->method('handleUserRoleRename')
+                ->with($oldName, $newName)
+                ->will($this->returnValue(true));
+
+        $this->accessFlowStateMachineService->setAccessFlowStateMachineDao($mockDao);
+        $returnedValue = $this->accessFlowStateMachineService->handleUserRoleRename($oldName, $newName);
+
+        $this->assertTrue($returnedValue);        
+    }
 
 }
 

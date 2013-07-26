@@ -42,7 +42,7 @@ class LeaveTypeListConfigurationFactory extends ohrmListConfigurationFactory {
 
         $this->headers = array($header);
     }
-
+    
     public function getClassName() {
         return 'LeaveTypeList';
     }

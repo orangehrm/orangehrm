@@ -248,24 +248,6 @@ class viewCandidatesForm extends BaseForm {
     }
 
     /**
-     * Returns Action List
-     * @return array
-     */
-    private function getActionList() {
-
-        $list = array("" => __('All'));
-        $userObj = sfContext::getInstance()->getUser()->getAttribute('user');
-        $allowedActions = $userObj->getAllowedActions(PluginWorkflowStateMachine::FLOW_RECRUITMENT, "");
-
-        foreach ($allowedActions as $action) {
-            if ($action != 0) {
-                $list[$action] = $this->getActionName($action);
-            }
-        }
-        return $list;
-    }
-
-    /**
      * Returns Candidate json list
      * @return JsonCandidate List
      */

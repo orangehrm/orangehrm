@@ -31,6 +31,7 @@ class AddCandidateForm extends BaseForm {
     public $allowedVacancyList;
     public $empNumber;
     private $isAdmin;
+    private $candidatePermissions;
     private $allowedFileTypes = array(
         "docx" => "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
         "doc" => "application/msword",
@@ -101,6 +102,8 @@ class AddCandidateForm extends BaseForm {
         $this->allowedVacancyList = $this->getOption('allowedVacancyList');
         $this->empNumber = $this->getOption('empNumber');
                 $this->isAdmin = $this->getOption('isAdmin');
+                
+        $this->candidatePermissions = $this->getOption('candidatePermissions');
         $attachmentList = $this->attachment;
         if (count($attachmentList) > 0) {
             $this->attachment = $attachmentList[0];
@@ -121,7 +124,7 @@ class AddCandidateForm extends BaseForm {
             self::CONTRACT_UPLOAD => __('Replace Current'));
 
         // creating widgets
-        $this->setWidgets(array(
+        $widgets = array(
             'firstName' => new sfWidgetFormInputText(),
             'middleName' => new sfWidgetFormInputText(),
             'lastName' => new sfWidgetFormInputText(),
@@ -136,11 +139,11 @@ class AddCandidateForm extends BaseForm {
             'appliedDate' => new ohrmWidgetDatePicker(array(), array('id' => 'addCandidate_appliedDate')),
             'vacancy' => new sfWidgetFormSelect(array('choices' => $vacancyList)),
             'resumeUpdate' => new sfWidgetFormChoice(array('expanded' => true, 'choices' => $resumeUpdateChoices)),
-        ));
+        );
 
         $inputDatePattern = sfContext::getInstance()->getUser()->getDateFormat();
 
-        $this->setValidators(array(
+        $validators = array(
             'firstName' => new sfValidatorString(array('required' => true, 'max_length' => 35)),
             'middleName' => new sfValidatorString(array('required' => false, 'max_length' => 35)),
             'lastName' => new sfValidatorString(array('required' => true, 'max_length' => 35)),
@@ -154,8 +157,18 @@ class AddCandidateForm extends BaseForm {
                     array('invalid' => 'Date format should be ' . $inputDatePattern)),
             'vacancy' => new sfValidatorString(array('required' => false)),
             'resumeUpdate' => new sfValidatorString(array('required' => false)),
-        ));
-
+        );
+        
+            
+        if(!($this->candidatePermissions->canCreate() && empty($this->candidateId)) || ($this->candidatePermissions->canUpdate() && $this->candidateId > 0)){
+            foreach ($widgets as $widget){
+                $widget->setAttribute('disabled', 'disabled');
+            }
+        }
+        
+        $this->setWidgets($widgets);
+        $this->setValidators($validators);
+        
         $this->widgetSchema->setNameFormat('addCandidate[%s]');
         $this->widgetSchema['appliedDate']->setAttribute();
         $this->setDefault('appliedDate', set_datepicker_date_format(date('Y-m-d')));
@@ -186,9 +199,12 @@ class AddCandidateForm extends BaseForm {
         $list = array("" => "-- " . __('Select') . " --");
         $vacancyProperties = array('name', 'id', 'hiringManagerId');
         $activeVacancyList = $this->getVacancyService()->getVacancyPropertyList($vacancyProperties, JobVacancy::ACTIVE);
+        
+        $predefined = sfContext::getInstance()->getUser()->getAttribute('auth.userRole.predefined');
         foreach ($activeVacancyList as $vacancy) {
             $vacancyId = $vacancy['id'];
-            if (in_array($vacancyId, $this->allowedVacancyList) && ($vacancy['hiringManagerId'] == $this->empNumber || $this->isAdmin)) {
+            if (in_array($vacancyId, $this->allowedVacancyList) && ($vacancy['hiringManagerId'] == $this->empNumber || $this->isAdmin
+                    || !$predefined)) {
                 $list[$vacancyId] = $vacancy['name'];
              }
         }

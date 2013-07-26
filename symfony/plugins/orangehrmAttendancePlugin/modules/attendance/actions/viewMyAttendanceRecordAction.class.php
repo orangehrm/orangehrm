@@ -15,8 +15,7 @@ class viewMyAttendanceRecordAction extends sfAction {
     public function execute($request) {
 
         $this->attendanceService = $this->getAttendanceService();
-        $userObj = $this->getContext()->getUser()->getAttribute("user");
-        $this->employeeId = $userObj->getEmployeeNumber();
+        $this->employeeId = $this->getContext()->getUser()->getEmployeeNumber();
         $this->date = $this->request->getParameter('date');
         $this->trigger = $request->getParameter('trigger');
         $this->actionRecorder="viewMy";

@@ -1,6 +1,6 @@
 
 <?php use_javascript(plugin_web_path('orangehrmTimePlugin', 'js/viewEmployeeTimesheet')); ?>
-
+<?php if($timesheetPermissions->canRead()){?>
 <div class="box">
     <div class="head">
         <h1><?php echo __("Select Employee"); ?></h1>
@@ -82,7 +82,7 @@
         </div>
     </div>
 <?php endif; ?>
-
+<?php }?>
 <script type="text/javascript">
     var employees = <?php echo str_replace('&#039;', "'", $form->getEmployeeListAsJson()) ?> ;
     var employeesArray = eval(employees);

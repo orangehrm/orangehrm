@@ -1,6 +1,6 @@
 <?php
 
-abstract class baseRecruitmentAction extends sfAction {
+abstract class baseRecruitmentAction extends baseAction {
 
     public function preExecute() {
 
@@ -19,5 +19,4 @@ abstract class baseRecruitmentAction extends sfAction {
         ));
         $sessionVariableManager->registerVariables();
     }
-
 }

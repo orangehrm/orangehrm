@@ -17,7 +17,7 @@
  * if not, write to the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
  * Boston, MA  02110-1301, USA
  */
-class viewProjectsAction extends sfAction {
+class viewProjectsAction extends baseAdminAction {
 
     private $projectService;
 
@@ -41,58 +41,61 @@ class viewProjectsAction extends sfAction {
      */
     public function execute($request) {
 
-        $usrObj = $this->getUser()->getAttribute('user');
-        if (!($usrObj->isAdmin() || $usrObj->isProjectAdmin())) {
-            $this->redirect('pim/viewPersonalDetails');
-        }
-        $allowedProjectList = $usrObj->getAllowedProjectList();
+        $this->projectPermissions = $this->getDataGroupPermissions('time_projects');
+
+        $userRoleManager = sfContext::getInstance()->getUserRoleManager();
+        $allowedProjectList = $userRoleManager->getAccessibleEntityIds('Project'); 
+        
         $isPaging = $request->getParameter('pageNo');
         $sortField = $request->getParameter('sortField');
         $sortOrder = $request->getParameter('sortOrder');
         $projectId = $request->getParameter('projectId');
 
-        $this->setForm(new SearchProjectForm());
+        if ($this->projectPermissions->canRead()) {
+            $this->setForm(new SearchProjectForm());
 
-        $pageNumber = $isPaging;
-        if ($projectId > 0 && $this->getUser()->hasAttribute('pageNumber')) {
-            $pageNumber = $this->getUser()->getAttribute('pageNumber');
-        }
-	$limit = Project::NO_OF_RECORDS_PER_PAGE;
-        $offset = ($pageNumber >= 1) ? (($pageNumber - 1) * $limit) : ($request->getParameter('pageNo', 1) - 1) * $limit;
-        $searchClues = $this->_setSearchClues($sortField, $sortOrder, $offset, $limit);
-        if (!empty($sortField) && !empty($sortOrder) || $isPaging > 0 || $projectId > 0) {
-            if ($this->getUser()->hasAttribute('searchClues')) {
-                $searchClues = $this->getUser()->getAttribute('searchClues');
-                $searchClues['offset'] = $offset;
-                $searchClues['sortField'] = $sortField;
-                $searchClues['sortOrder'] = $sortOrder;
-                $this->form->setDefaultDataToWidgets($searchClues);
+
+            $pageNumber = $isPaging;
+            if ($projectId > 0 && $this->getUser()->hasAttribute('pageNumber')) {
+                $pageNumber = $this->getUser()->getAttribute('pageNumber');
             }
-        } else {
-            $this->getUser()->setAttribute('searchClues', $searchClues);
-        }
-
-        $projectList = $this->getProjectService()->searchProjects($searchClues, $allowedProjectList);
-        $projectListCount = $this->getProjectService()->getSearchProjectListCount($searchClues, $allowedProjectList);
-        $this->_setListComponent($projectList, $limit, $pageNumber, $projectListCount, $usrObj);
-        $this->getUser()->setAttribute('pageNumber', $pageNumber);
-        $params = array();
-        $this->parmetersForListCompoment = $params;
-
-        if ($this->getUser()->hasFlash('templateMessage')) {
-            list($this->messageType, $this->message) = $this->getUser()->getFlash('templateMessage');
-        }
-
-        if ($request->isMethod('post')) {
-            $offset = 0;
-            $pageNumber = 1;
-            $this->form->bind($request->getParameter($this->form->getName()));
-            if ($this->form->isValid()) {
-                $searchClues = $this->_setSearchClues($sortField, $sortOrder, $offset, $limit);
+            $limit = Project::NO_OF_RECORDS_PER_PAGE;
+            $offset = ($pageNumber >= 1) ? (($pageNumber - 1) * $limit) : ($request->getParameter('pageNo', 1) - 1) * $limit;
+            $searchClues = $this->_setSearchClues($sortField, $sortOrder, $offset, $limit);
+            if (!empty($sortField) && !empty($sortOrder) || $isPaging > 0 || $projectId > 0) {
+                if ($this->getUser()->hasAttribute('searchClues')) {
+                    $searchClues = $this->getUser()->getAttribute('searchClues');
+                    $searchClues['offset'] = $offset;
+                    $searchClues['sortField'] = $sortField;
+                    $searchClues['sortOrder'] = $sortOrder;
+                    $this->form->setDefaultDataToWidgets($searchClues);
+                }
+            } else {
                 $this->getUser()->setAttribute('searchClues', $searchClues);
-                $searchedProjectList = $this->getProjectService()->searchProjects($searchClues, $allowedProjectList);
-                $projectListCount = $this->getProjectService()->getSearchProjectListCount($searchClues, $allowedProjectList);
-                $this->_setListComponent($searchedProjectList, $limit, $pageNumber, $projectListCount, $usrObj);
+            }
+
+            $projectList = $this->getProjectService()->searchProjects($searchClues, $allowedProjectList);
+            $projectListCount = $this->getProjectService()->getSearchProjectListCount($searchClues, $allowedProjectList);
+            $this->_setListComponent($projectList, $limit, $pageNumber, $projectListCount, $this->projectPermissions);
+            $this->getUser()->setAttribute('pageNumber', $pageNumber);
+            $params = array();
+            $this->parmetersForListCompoment = $params;
+
+            if ($this->getUser()->hasFlash('templateMessage')) {
+                list($this->messageType, $this->message) = $this->getUser()->getFlash('templateMessage');
+            }
+
+            if ($request->isMethod('post')) {
+                $offset = 0;
+                $pageNumber = 1;
+                $this->form->bind($request->getParameter($this->form->getName()));
+                if ($this->form->isValid()) {
+                    $searchClues = $this->_setSearchClues($sortField, $sortOrder, $offset, $limit);
+                    $this->getUser()->setAttribute('searchClues', $searchClues);
+                    $searchedProjectList = $this->getProjectService()->searchProjects($searchClues, $allowedProjectList);
+                    $projectListCount = $this->getProjectService()->getSearchProjectListCount($searchClues, $allowedProjectList);
+                    $this->_setListComponent($searchedProjectList, $limit, $pageNumber, $projectListCount, $this->projectPermissions);
+                }
             }
         }
     }
@@ -103,16 +106,29 @@ class viewProjectsAction extends sfAction {
      * @param <type> $noOfRecords
      * @param <type> $pageNumber
      */
-    private function _setListComponent($projectList, $limit, $pageNumber, $recordCount, $usrObj) {
+    private function _setListComponent($projectList, $limit, $pageNumber, $recordCount, $permissions) {
 
         $configurationFactory = new ProjectHeaderFactory();
-        if (!$usrObj->isAdmin()) {
-            $configurationFactory->setRuntimeDefinitions(array(
-                'hasSelectableRows' => false,
-                'buttons' => array(),
-            ));
+        $runtimeDefinitions = array();
+        $buttons = array();
+
+        if ($permissions->canCreate()) {
+            $buttons['Add'] = array('label' => 'Add');
         }
 
+        if (!$permissions->canDelete()) {
+            $runtimeDefinitions['hasSelectableRows'] = false;
+        } else if ($permissions->canDelete()) {
+            $buttons['Delete'] = array('label' => 'Delete',
+                'type' => 'submit',
+                'data-toggle' => 'modal',
+                'data-target' => '#deleteConfModal',
+                'class' => 'delete');
+        }
+        
+        $runtimeDefinitions['buttons'] = $buttons;
+        
+        $configurationFactory->setRuntimeDefinitions($runtimeDefinitions);
         ohrmListComponent::setPageNumber($pageNumber);
         ohrmListComponent::setConfigurationFactory($configurationFactory);
         ohrmListComponent::setListData($projectList);

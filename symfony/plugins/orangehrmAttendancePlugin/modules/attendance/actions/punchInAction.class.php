@@ -40,12 +40,16 @@ class punchInAction extends sfAction {
         
         $this->_checkAuthentication();
 
+        $userRoleManager = $this->getContext()->getUserRoleManager();
+        
         $this->editmode = null;
-        $this->userObj = $this->getContext()->getUser()->getAttribute('user');
-        $this->employeeId = $this->userObj->getEmployeeNumber();
+        $this->employeeId = $this->getUser()->getEmployeeNumber();
         $actions = array(PluginWorkflowStateMachine::ATTENDANCE_ACTION_PUNCH_OUT);
-        $actionableStatesList = $this->userObj->getActionableAttendanceStates($actions);
-        $timeZoneOffset = $this->userObj->getUserTimeZoneOffset();
+                
+        $actionableStatesList = $userRoleManager->getActionableStates(WorkflowStateMachine::FLOW_ATTENDANCE, 
+                            $actions, array(), array(), array('Employee' => $this->employeeId));
+        
+        $timeZoneOffset = $this->getUser()->getUserTimeZoneOffset();
         $timeStampDiff = $timeZoneOffset * 3600 - date('Z');
         $this->currentDate = date('Y-m-d', time() + $timeStampDiff);
         $this->currentTime = date('H:i', time() + $timeStampDiff);
@@ -63,7 +67,9 @@ class punchInAction extends sfAction {
 
         if (is_null($attendanceRecord)) {
            
-            $this->allowedActions = $this->userObj->getAllowedActions(WorkflowStateMachine::FLOW_ATTENDANCE, AttendanceRecord::STATE_INITIAL);
+            $allowedWorkflowItems = $userRoleManager->getAllowedActions(PluginWorkflowStateMachine::FLOW_ATTENDANCE, 
+                    AttendanceRecord::STATE_INITIAL, array(), array(), array('Employee' => $this->employeeId));
+            $this->allowedActions = array_keys($allowedWorkflowItems);            
         } else {
 
             $this->redirect("attendance/punchOut");
@@ -82,7 +88,6 @@ class punchInAction extends sfAction {
 
         if ($request->isMethod('post')) {
 
-            $accessFlowStateMachineService = new AccessFlowStateMachineService();
             $attendanceRecord = new AttendanceRecord();
             $attendanceRecord->setEmployeeId($this->employeeId);
 
@@ -98,7 +103,8 @@ class punchInAction extends sfAction {
                     $punchInNote = $this->request->getParameter('note');
                     $timeZoneOffset = $this->request->getParameter('timeZone');
 
-                    $nextState = $this->userObj->getNextState(WorkflowStateMachine::FLOW_ATTENDANCE, AttendanceRecord::STATE_INITIAL, WorkflowStateMachine::ATTENDANCE_ACTION_PUNCH_IN);
+                    $punchInAction = $allowedWorkflowItems[PluginWorkflowStateMachine::ATTENDANCE_ACTION_PUNCH_IN];
+                    $nextState = $punchInAction->getResultingState();                    
 
                     $punchIndateTime = strtotime($punchInDate . " " . $punchIntime);
 
@@ -120,7 +126,9 @@ class punchInAction extends sfAction {
 
                     $punchInEditModeTime = mktime(date('H', strtotime($punchIntime)), date('i', strtotime($punchIntime)), 0, date('m', strtotime($punchInDate)), date('d', strtotime($punchInDate)), date('Y', strtotime($punchInDate)));
 
-                    $nextState = $this->userObj->getNextState(WorkflowStateMachine::FLOW_ATTENDANCE, AttendanceRecord::STATE_INITIAL, WorkflowStateMachine::ATTENDANCE_ACTION_PUNCH_IN);
+                    $punchInAction = $allowedWorkflowItems[PluginWorkflowStateMachine::ATTENDANCE_ACTION_PUNCH_IN];
+                    $nextState = $punchInAction->getResultingState();       
+                    
                     $attendanceRecord = $this->setAttendanceRecord($attendanceRecord, $nextState, date('Y-m-d H:i', $punchInEditModeTime - $timeZoneOffset), date('Y-m-d H:i', $punchInEditModeTime), $timeZoneOffset / 3600, $punchInNote);
                     $this->redirect("attendance/punchOut");
 
@@ -143,11 +151,10 @@ class punchInAction extends sfAction {
     
     protected function _checkAuthentication($empNumber) {
         
-        $user = $this->getUser()->getAttribute('user');        
-        $logedInEmpNumber   = $user->getEmployeeNumber();
+        $loggedInEmpNumber = $this->getUser()->getEmployeeNumber();        
 
-        if (empty($logedInEmpNumber)) {
-            $this->redirect('auth/login');
+        if (empty($loggedInEmpNumber)) {
+            $this->forward(sfConfig::get('sf_secure_module'), sfConfig::get('sf_secure_action'));
         }
         
     }

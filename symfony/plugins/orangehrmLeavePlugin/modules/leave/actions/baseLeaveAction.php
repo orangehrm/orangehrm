@@ -1,6 +1,6 @@
 <?php
 
-abstract class baseLeaveAction extends sfAction {
+abstract class baseLeaveAction extends orangehrmAction {
 
     protected $leaveTypeService;
 
@@ -21,5 +21,14 @@ abstract class baseLeaveAction extends sfAction {
      */
     protected function setLeaveTypeService(LeaveTypeService $service) {
         $this->leaveTypeService = $service;
+    }
+    
+    /**
+     * 
+     * @param type $dataGroups
+     * @return type
+     */
+    public function getDataGroupPermissions($dataGroups, $self = false) {
+        return $this->getContext()->getUserRoleManager()->getDataGroupPermissions($dataGroups, array(), array(), $self, array());
     }
 }

@@ -23,6 +23,7 @@ class JobTitleForm extends BaseForm {
     private $jobTitleService;
     public $jobTitleId;
     public $attachment;
+    private $jobTitlePermissions;
 
     public function getJobTitleService() {
         if (is_null($this->jobTitleService)) {
@@ -39,27 +40,23 @@ class JobTitleForm extends BaseForm {
     public function configure() {
 
         $this->jobTitleId = $this->getOption('jobTitleId');
+        $this->jobTitlePermissions = $this->getOption('jobTitlePermissions');
 
-        $jobSpecUpdateChoices = array(self::CONTRACT_KEEP => __('Keep Current'),
-            self::CONTRACT_DELETE => __('Delete Current'),
-            self::CONTRACT_UPLOAD => __('Replace Current'));
+        $jobTitleWidgets = array();
+        $jobTitleValidators = array();
+        
+        if ($this->jobTitlePermissions->canRead()) {
+            $jobTitleWidgets = $this->getJobTitleWidgets();
+            $jobTitleValidators = $this->getJobTitleValidators();
 
-        $this->setWidgets(array(
-            'jobTitle' => new sfWidgetFormInputText(),
-            'jobDescription' => new sfWidgetFormTextArea(),
-            'note' => new sfWidgetFormTextArea(),
-            'jobSpec' => new sfWidgetFormInputFile(),
-            'jobSpecUpdate' => new sfWidgetFormChoice(array('expanded' => true, 'choices' => $jobSpecUpdateChoices))
-        ));
-
-        $this->setValidators(array(
-            'jobTitle' => new sfValidatorString(array('required' => true, 'max_length' => 100)),
-            'jobDescription' => new sfValidatorString(array('required' => false, 'max_length' => 400, 'trim' => true)),
-            'note' => new sfValidatorString(array('required' => false, 'max_length' => 400, 'trim' => true)),
-            'jobSpec' => new sfValidatorFile(array('required' => false, 'max_size' => 1024000,
-                'validated_file_class' => 'orangehrmValidatedFile')),
-            'jobSpecUpdate' => new sfValidatorString(array('required' => false))
-        ));
+            if (!($this->jobTitlePermissions->canUpdate() || $this->jobTitlePermissions->canCreate())) {
+                foreach ($jobTitleWidgets as $widgetName => $widget) {
+                    $widget->setAttribute('disabled', 'disabled');
+                }
+            }
+        }
+        $this->setWidgets($jobTitleWidgets);
+        $this->setValidators($jobTitleValidators);
 
         $this->widgetSchema->setNameFormat('jobTitle[%s]');
 
@@ -134,6 +131,36 @@ class JobTitleForm extends BaseForm {
             $list[] = array('id' => $job->getId(), 'name' => $job->getJobTitleName());
         }
         return json_encode($list);
+    }
+
+    public function getJobTitleWidgets() {
+        $jobSpecUpdateChoices = $this->getJobSpecUpdateChoices();
+
+        $widgets = array();
+        $widgets['jobTitle'] = new sfWidgetFormInputText();
+        $widgets['jobDescription'] = new sfWidgetFormTextArea();
+        $widgets['note'] = new sfWidgetFormTextArea();
+        $widgets['jobSpec'] = new sfWidgetFormInputFile();
+        $widgets['jobSpecUpdate'] = new sfWidgetFormChoice(array('expanded' => true, 'choices' => $jobSpecUpdateChoices));
+
+        return $widgets;
+    }
+
+    public function getJobTitleValidators() {
+        $validators = array();
+        $validators['jobTitle'] = new sfValidatorString(array('required' => true, 'max_length' => 100));
+        $validators['jobDescription'] = new sfValidatorString(array('required' => false, 'max_length' => 400, 'trim' => true));
+        $validators['note'] = new sfValidatorString(array('required' => false, 'max_length' => 400, 'trim' => true));
+        $validators['jobSpec'] = new sfValidatorFile(array('required' => false, 'max_size' => 1024000, 'validated_file_class' => 'orangehrmValidatedFile'));
+        $validators['jobSpecUpdate'] = new sfValidatorString(array('required' => false));
+        return $validators;
+    }
+
+    public function getJobSpecUpdateChoices() {
+        $jobSpecUpdateChoices = array(self::CONTRACT_KEEP => __('Keep Current'),
+            self::CONTRACT_DELETE => __('Delete Current'),
+            self::CONTRACT_UPLOAD => __('Replace Current'));
+        return $jobSpecUpdateChoices;
     }
 
 }

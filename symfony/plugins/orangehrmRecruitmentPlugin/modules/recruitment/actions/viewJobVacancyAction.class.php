@@ -51,9 +51,8 @@ class viewJobVacancyAction extends baseRecruitmentAction {
 
         $usrObj = $this->getUser()->getAttribute('user');
 
-        if (!$usrObj->isAdmin()) {
-            $this->redirect('recruitment/viewCandidates');
-        }
+        $this->vacancyPermissions = $this->getDataGroupPermissions('recruitment_vacancies');
+
         $allowedVacancyList = $usrObj->getAllowedVacancyList();
 
         $isPaging = $request->getParameter('pageNo');
@@ -93,7 +92,9 @@ class viewJobVacancyAction extends baseRecruitmentAction {
         $srchParams['offset'] = $offset;
         $vacancyList = $this->getVacancyService()->searchVacancies($srchParams);
 
-        $this->_setListComponent($vacancyList, $noOfRecords, $srchParams, $pageNumber);
+        if ($this->vacancyPermissions->canRead()) {
+            $this->_setListComponent($vacancyList, $noOfRecords, $srchParams, $pageNumber, $this->vacancyPermissions);
+        }
         $params = array();
         $this->parmetersForListCompoment = $params;
         if (empty($isPaging)) {
@@ -109,7 +110,7 @@ class viewJobVacancyAction extends baseRecruitmentAction {
                     $srchParams['offset'] = 0;
                     $this->getUser()->setAttribute('searchParameters', $srchParams);
                     $vacancyList = $this->getVacancyService()->searchVacancies($srchParams);
-                    $this->_setListComponent($vacancyList, $noOfRecords, $srchParams, $pageNumber);
+                    $this->_setListComponent($vacancyList, $noOfRecords, $srchParams, $pageNumber, $this->vacancyPermissions);
                 }
             }
         }
@@ -121,8 +122,30 @@ class viewJobVacancyAction extends baseRecruitmentAction {
      * @param <type> $noOfRecords
      * @param <type> $srchParams
      */
-    private function _setListComponent($vacancyList, $noOfRecords, $srchParams, $pageNumber) {
+    private function _setListComponent($vacancyList, $noOfRecords, $srchParams, $pageNumber, $permissions) {
+        $runtimeDefinitions = array();
+        $buttons = array();
+
+        if ($permissions->canCreate()) {
+            $buttons['Add'] = array('label' => 'Add',
+                'function' => 'addJobVacancy');
+        }
+
+        if (!$permissions->canDelete()) {
+            $runtimeDefinitions['hasSelectableRows'] = false;
+        } else if ($permissions->canDelete()) {
+            $buttons['Delete'] = array('label' => 'Delete',
+                'type' => 'submit',
+                'data-toggle' => 'modal',
+                'data-target' => '#deleteConfirmation',
+                'class' => 'delete');
+        }
+
+        $runtimeDefinitions['buttons'] = $buttons;
+        
         $configurationFactory = new JobVacancyHeaderFactory();
+        $configurationFactory->setRuntimeDefinitions($runtimeDefinitions);
+        
         ohrmListComponent::setPageNumber($pageNumber);
         ohrmListComponent::setConfigurationFactory($configurationFactory);
         ohrmListComponent::setListData($vacancyList);

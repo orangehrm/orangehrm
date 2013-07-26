@@ -29,25 +29,11 @@ class viewEmailNotificationAction extends sfAction {
         return $this->emailNotoficationService;
     }
 
-    public function setForm(sfForm $form) {
-        if (is_null($this->form)) {
-            $this->form = $form;
-        }
-    }
-
 
     public function execute($request) {
-
-        $usrObj = $this->getUser()->getAttribute('user');
-        if (!$usrObj->isAdmin()) {
-            $this->redirect('pim/viewPersonalDetails');
-        }
-
-        $this->setForm(new EmailNotificationListForm());
         $emailNotificationList = $this->getEmailNotificationService()->getEmailNotificationList();
         $this->_setListComponent($emailNotificationList);
-        $params = array();
-        $this->parmetersForListCompoment = $params;
+        $this->parmetersForListCompoment = array();
     }
 
     private function _setListComponent($emailNotificationList) {

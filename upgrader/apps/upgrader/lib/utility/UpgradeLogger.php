@@ -10,8 +10,20 @@ class UpgradeLogger {
         return $result;
     }
     
-    public static function writeErrorMessage($logMessage) {
+    public static function writeErrorMessage($logMessage, $includeStackTrace = false) {
         $logMessage = gmdate("Y-M-d H:i:s", time())." : ".$logMessage . "\n";
+        
+        // Using debug_backtrace resulted in very high memory usage. 
+        // Therfore, using an exception to get the stack trace.
+        if ($includeStackTrace) {
+            try {
+                throw new Exception();
+            } catch (Exception $e) {
+                $stackTrace = $e->getTraceAsString();
+                $logMessage .= "\nStackTrace:$stackTrace\n";
+            }             
+        }
+ 
         $file = sfConfig::get('sf_root_dir')."/log/error.log";
         $result = file_put_contents($file, $logMessage, FILE_APPEND | LOCK_EX);
     

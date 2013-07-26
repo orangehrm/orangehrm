@@ -487,7 +487,31 @@
    <trans-unit id="121">
     <source>Failed to Delete: At Least One Admin Should Exist</source>
     <target>Failed to Delete: At Least One Admin Should Exist</target>
+   </trans-unit>   
+   <trans-unit id="122">
+    <source>Add Membership</source>
+    <target>FR_Add Membership</target>
+   </trans-unit>
+   <trans-unit id="123">
+    <source>Edit Membership</source>
+    <target>FR_Edit Membership</target>
+   </trans-unit>  
+   <trans-unit id="124">
+    <source>Eligibility Status</source>
+    <target>FR_Eligibility Status</target>
+   </trans-unit> 
+   <trans-unit id="125">
+    <source>Eligibility Review Date</source>
+    <target>FR_Eligibility Review Date</target>
    </trans-unit>    
+   <trans-unit id="126">
+    <source>You do not have credentials to access PIM for employee %employee_name%</source>
+    <target>You do not have credentials to access PIM for employee %employee_name%</target>
+   </trans-unit>
+   <trans-unit id="127">
+    <source>Employee with Employee Number %emp_number% not found!</source>
+    <target>Employee with Employee Number %emp_number% not found!</target>
+   </trans-unit>          
   </body>
  </file>
 </xliff>

@@ -19,6 +19,19 @@
  */
 class saveSystemUserAction extends sfAction {
 
+    private $systemUserService;
+
+    public function getSystemUserService() {        
+        if (is_null($this->systemUserService)) {
+            $this->systemUserService = new SystemUserService();
+        }
+        return $this->systemUserService;
+    }    
+    
+    public function setSystemUserService($systemUserService) {
+        $this->systemUserService = $systemUserService;
+    }
+
     /**
      * @param sfForm $form
      * @return
@@ -59,15 +72,29 @@ class saveSystemUserAction extends sfAction {
 
             $this->form->bind($request->getParameter($this->form->getName()));
             if ($this->form->isValid()) {
+                
+                $userId = $this->form->getValue('userId');
+                $userRoleModified = false;
+                if (!empty($userId)) {
+                    $user = $this->getSystemUserService()->getSystemUser($userId);
+                    if ($user instanceof SystemUser) {
+                        $newRoleId = $this->form->getValue('userType');
+                        $userRoleModified = $newRoleId != $user->getUserRoleId();
+                    }
+                }
+            
                 $savedUser = $this->form->save();
+                if ($savedUser instanceof SystemUser) { // sets flash values for admin/viewSystemUsers pre filter for further actions if needed
+                    $this->getUser()->setFlash("new.user.id", $savedUser->getId()); //
+                    $this->getUser()->setFlash("new.user.role.id", $savedUser->getUserRoleId());
+                    $this->getUser()->setFlash("new.user.edited", $this->form->edited);
+                    $this->getUser()->setFlash("new.user.role.modified", $userRoleModified);
+                }                
 
                 if ($this->form->edited) {
                     $this->getUser()->setFlash('success', __(TopLevelMessages::UPDATE_SUCCESS));
                 } else {
-                    if ($savedUser instanceof SystemUser) { // sets flash values for admin/viewSystemUsers pre filter for further actions if needed
-                        $this->getUser()->setFlash("new.user.id", $savedUser->getId()); //
-                        $this->getUser()->setFlash("new.user.role.id", $savedUser->getUserRoleId());
-                    }
+
                     $this->getUser()->setFlash('success', __(TopLevelMessages::SAVE_SUCCESS));
                 }
                 $this->redirect('admin/viewSystemUsers');

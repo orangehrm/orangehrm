@@ -34,8 +34,12 @@ class ExceptionCatcherFilter extends sfFilter {
             $logger = Logger::getLogger('filter.ExceptionCatcherFilter');
             $logger->error('Uncaught Exception: ' . $e);
             
-            echo "<h2>An internal error occurred. Please contact your system administrator. </h2>";
-
+            $message = __('An internal error occurred. Please contact your system administrator.');
+        
+            $this->context->getUser()->setFlash('error.nofade', $message, false);
+            $this->context->getController()->forward('core', 'displayMessage');
+            
+            throw new sfStopException();            
         }
 
     }

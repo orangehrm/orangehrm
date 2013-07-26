@@ -42,7 +42,7 @@ $allowEdit = true;
 
 <div class="box pimPane">
     
-    <?php include_partial('pimLeftMenu', array('empNumber' => $empNumber, 'form' => $form)); ?>
+    <?php echo include_component('pim', 'pimLeftMenu', array('empNumber'=>$empNumber, 'form' => $form));?>
         
     <?php if ($membershipPermissions->canCreate() || ($hasMemDetails && $membershipPermissions->canUpdate())) { ?>
         <div id="addPaneMembership">
@@ -121,14 +121,14 @@ $allowEdit = true;
                                 $savedMemship = $savedMemship . '' . $memshipDetail->getMembership()->getId() . '^';
                             }
                         } ?>
-                        <?php if ($membershipPermissions->canDelete()) { ?>
+                        <?php if ($membershipPermissions->canDelete() && $hasMemDetails) { ?>
                             <input type="button" class="delete" id="delMemsBtn" value="<?php echo __("Delete"); ?>" />
                         <?php } ?>
                     </p>
                     <table id="" class="table hover">
                         <thead>
                             <tr>
-                                <?php if ($membershipPermissions->canDelete()) { ?>
+                                <?php if ($membershipPermissions->canDelete() && $hasMemDetails) { ?>
                                 <th class="check" style="width:2%"><input type='checkbox' id='checkAllMem' class="checkboxMem" /></th>
                                 <?php } else {?>
                                 <input type='hidden' class='checkboxMem' id='checkAllMem' />
@@ -144,15 +144,8 @@ $allowEdit = true;
                         <tbody>
                             <?php if (!$hasMemDetails) { ?>
                                 <tr>
-                                    <?php if ($membershipPermissions->canDelete()) { ?>
-                                    <td class="check"></td>
-                                    <?php } ?>
                                     <td><?php echo __(TopLevelMessages::NO_RECORDS_FOUND); ?></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
+                                    <td colspan="5"></td>
                                 </tr>
                             <?php } else { ?>    
                                 <?php
@@ -193,7 +186,7 @@ $allowEdit = true;
                 </form>
                     
             <?php else : ?>
-                <div><?php echo __(CommonMessages::DONT_HAVE_ACCESS); ?></div>
+                <div><?php echo __(CommonMessages::RESTRICTED_SECTION); ?></div>
             <?php endif; ?>
         </div>
     </div> <!-- miniList-listMembershipDetails -->

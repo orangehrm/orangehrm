@@ -13,9 +13,13 @@ abstract class SchemaIncrementTask {
         $this->dbInfo = $dbInfo;
     }
     
-    public function execute() {
+    public function initDB(){
         $this->upgradeUtility = new UpgradeUtility();
         $this->upgradeUtility->getDbConnection($this->dbInfo['host'],$this->dbInfo['username'],$this->dbInfo['password'],$this->dbInfo['database'],$this->dbInfo['port']);
+    }
+    
+    public function execute() {
+        $this->initDB();
         $this->createOhrmUpgradeStatus($this->incrementNumber);
         $this->loadSql();
     }

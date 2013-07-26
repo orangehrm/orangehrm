@@ -25,7 +25,11 @@ use_javascript(plugin_web_path('orangehrmLeavePlugin', 'js/leaveTypeListSuccess'
 
 
 <div id="mainDiv"> 
-    <?php include_component('core', 'ohrmList'); ?>	
+    <?php 
+    if($leaveTypePermissions->canRead()){
+        include_component('core', 'ohrmList'); 
+    }
+    ?>	
 </div> 
 
 <!-- Confirmation box HTML: Begins -->

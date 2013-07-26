@@ -12,11 +12,12 @@ $files = array(
     'devTools/installer/SPEC/main.nsi', 
     'installer/ApplicationSetupUtility.php', 
     'installer/welcome.php', 
+    'installer/guide/index.html', 
     'lib/confs/Conf.php-distribution', 
     'orangehrm-quick-start-guide.html', 
-    'symfony/apps/orangehrm/templates/freshorange.php', 
-    'symfony/plugins/orangehrmCorePlugin/modules/core/templates/_footer.php', 
-    'sysinfo.php'   
+    'symfony/apps/orangehrm/templates/_copyright.php', 
+    'sysinfo.php',
+    'faq.html'   
 );
 
 if ($argc != 3) {

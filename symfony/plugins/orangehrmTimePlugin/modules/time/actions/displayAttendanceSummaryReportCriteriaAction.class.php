@@ -17,19 +17,15 @@
  * if not, write to the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
  * Boston, MA  02110-1301, USA
  */
-class displayAttendanceSummaryReportCriteriaAction extends sfAction {
+class displayAttendanceSummaryReportCriteriaAction extends baseTimeAction {
 
     public function execute($request) {
-
-        $userObj = $this->getContext()->getUser()->getAttribute('user');
-        $accessibleMenus = $userObj->getAccessibleReportSubMenus();
         $hasRight = false;
 
-        foreach ($accessibleMenus as $menu) {
-            if ($menu->getDisplayName() === __("Attendance Summary")) {
-                $hasRight = true;
-                break;
-            }
+        $this->attendancePermissions = $this->getDataGroupPermissions('attendance_summary');
+        
+        if($this->attendancePermissions->canRead()){
+            $hasRight = true;
         }
 
         if (!$hasRight) {
@@ -38,19 +34,24 @@ class displayAttendanceSummaryReportCriteriaAction extends sfAction {
 
         $this->reportId = $request->getParameter("reportId");
         
-        $employeeList = $userObj->getEmployeeListForAttendanceTotalSummaryReport();
+        $userRoleManager = $this->getContext()->getUserRoleManager();
+        
+        $properties = array("empNumber","firstName", "middleName", "lastName", "termination_id");
+        $requiredPermissions = array(
+            BasicUserRoleManager::PERMISSION_TYPE_DATA_GROUP => array(
+                'attendance_summary' => new ResourcePermission(true, false, false, false)
+            )
+        );
+        
+        $employeeList = $userRoleManager->getAccessibleEntityProperties('Employee', $properties,
+                null, null, array(), array(), $requiredPermissions);
 
         if (is_array($employeeList)) {
             $lastRecord = end($employeeList);
-            $this->lastEmpNumber = $lastRecord->getEmpNumber();
-        } else {
-            
-            $this->lastEmpNumber = $employeeList->getLast()->getEmpNumber();
+            $this->lastEmpNumber = $lastRecord['empNumber'];
         }
 
-        $this->form = new AttendanceTotalSummaryReportForm();
-
-        $this->form->emoloyeeList = $employeeList;
+        $this->form = new AttendanceTotalSummaryReportForm(array(), array('employeeList' => $employeeList));
     }
 
 }

@@ -23,7 +23,7 @@
 use_stylesheet(plugin_web_path('orangehrmRecruitmentPlugin', 'css/addJobVacancySuccess'));
 use_javascript(plugin_web_path('orangehrmRecruitmentPlugin', 'js/addJobVacancySuccess'));
 ?>
-
+<?php if(($vacancyPermissions->canRead() && isset($vacancyId)) || ($vacancyPermissions->canCreate() && empty($vacancyId))){?>
 <div class="box" id="addJobVacancy">
 
     <div class="head">
@@ -84,22 +84,25 @@ use_javascript(plugin_web_path('orangehrmRecruitmentPlugin', 'js/addJobVacancySu
                 </ol>
                 <p>
                     <?php if (isset($vacancyId)) { ?>
+                        <?php if($vacancyPermissions->canUpdate() && isset($vacancyId)){?>
                         <input type="button" class="savebutton" name="btnSave" id="btnSave" value="<?php echo __("Edit"); ?>"/>
+                        <?php }?>
                         <input type="button" class="backbutton" name="btnBack" id="btnBack" value="<?php echo __("Back"); ?>"/>
                     <?php } else { ?>
+                        <?php if($vacancyPermissions->canCreate() && empty($vacancyId)){?>
                         <input type="button" class="savebutton" name="btnSave" id="btnSave"value="<?php echo __("Save"); ?>"/>
-                    <?php } ?>
+                    <?php }} ?>
                 </p>
             </fieldset>
         </form>
     </div>
     <?php
     if (isset($vacancyId)) {
-        echo include_component('recruitment', 'attachments', array('id' => $vacancyId, 'screen' => JobVacancy::TYPE));
+        echo include_component('recruitment', 'attachments', array('id' => $vacancyId, 'screen' => JobVacancy::TYPE, 'permissions' => $vacancyPermissions));
     }
     ?>
 </div>
-
+<?php }?>
 <script type="text/javascript">
     //<![CDATA[
     var hiringManagers = <?php echo str_replace('&#039;', "'", $form->getHiringManagerListAsJson()) ?> ;

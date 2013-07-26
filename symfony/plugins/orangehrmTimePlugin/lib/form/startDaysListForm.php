@@ -24,32 +24,30 @@ class startDaysListForm extends sfFormSymfony {
 
     public function getStartAndEndDates($employeeId) {
     
-        $userEmployeeNumber = null;
         $timesheetService = new TimesheetService();
 
         $timesheets = $timesheetService->getTimesheetByEmployeeId($employeeId);
         $dateOptions = array();
         $dateOptionsToDrpDwn = array();
 
-        $userObj = sfContext::getInstance()->getUser()->getAttribute('user');
-        $userId = $userObj->getUserId();
-        $userEmployeeNumber = $userObj->getEmployeeNumber();
-
-        if ($userEmployeeNumber == $employeeId) {
-            $user = new User();
-            $decoratedUser = new EssUserRoleDecorator($user);
-        } else {
-            $userRoleFactory = new UserRoleFactory();
-            $decoratedUser = $userRoleFactory->decorateUserRole($userId, $employeeId, $userEmployeeNumber);
-        }
+        $userRoleManager = sfContext::getInstance()->getUserRoleManager();
+        $user = $userRoleManager->getUser();
+        
+        $excludeRoles = array();
+        $includeRoles = $employeeId == $user->getEmpNumber() ? array('ESS') : array();
+        $entities = array('Employee' => $employeeId);
 
         $i = 0;
 	if($timesheets != null){
+            
+        $dataGroupPermissions = $userRoleManager->getDataGroupPermissions(array('time_employee_timesheets'), array(), array(), $employeeId == $user->getEmpNumber(), $entities);
+            
         foreach ($timesheets as $timesheet) {
 
-            $allowedActions = $decoratedUser->getAllowedActions(WorkflowStateMachine::FLOW_TIME_TIMESHEET, $timesheet->getState());
+            $allowedActions = $userRoleManager->getAllowedActions(WorkflowStateMachine::FLOW_TIME_TIMESHEET, 
+                    $timesheet->getState(), $excludeRoles, $includeRoles, $entities);
 
-            if (in_array(WorkflowStateMachine::TIMESHEET_ACTION_VIEW, $allowedActions)) {
+            if (isset($allowedActions[WorkflowStateMachine::TIMESHEET_ACTION_VIEW]) || $dataGroupPermissions->canRead()) {
 
                 $dateOptions[$i] = $timesheet->getStartDate(). " ".__("to")." " . $timesheet->getEndDate();
                 $dateOptionsToDrpDwn[$i] = set_datepicker_date_format($timesheet->getStartDate() ). " ".__("to")." "  . set_datepicker_date_format($timesheet->getEndDate());

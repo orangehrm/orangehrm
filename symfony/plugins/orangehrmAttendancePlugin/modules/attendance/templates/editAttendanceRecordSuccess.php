@@ -1,6 +1,6 @@
 
 <?php echo javascript_include_tag(plugin_web_path('orangehrmAttendancePlugin', 'js/editAttendanceRecordSuccess')); ?>
-
+<?php if($attendanceManagePermissios->canRead()){?>
 <div class="box miniList ">
     
     <div class="head">
@@ -171,6 +171,7 @@
         <input type="button" id="commentCancel" data-dismiss="modal" class="reset" value="<?php echo __('Cancel'); ?>" />
     </div>
 </div> <!-- commentDialog -->
+<?php }?>
 
 <script type="text/javascript">
   

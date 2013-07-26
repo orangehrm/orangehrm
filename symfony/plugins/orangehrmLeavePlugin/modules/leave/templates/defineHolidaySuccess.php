@@ -19,7 +19,7 @@
 ?>
 <?php use_javascripts_for_form($form); ?>
 <?php use_stylesheets_for_form($form); ?>
-
+<?php if($holidayPermissions->canRead()){?>
 <div id="location" class="box single">
 
     <div class="head">
@@ -43,9 +43,11 @@
 
                 <p>
 
-                <div class="formbuttons">            
+                <div class="formbuttons">    
+                    <?php if(($holidayPermissions->canCreate() && empty($id)) || ($holidayPermissions->canUpdate() && $id > 0)){?>
                     <input type="button" class="savebutton" id="saveBtn" value="<?php echo __('Save'); ?>" />
-                    <input type="button" class="reset" name="btnCancel" id="btnCancel" value="<?php echo __("Cancel"); ?>"/>               
+                    <input type="button" class="reset" name="btnCancel" id="btnCancel" value="<?php echo __("Cancel"); ?>"/> 
+                    <?php }?>
                 </div>
 
                 </p>
@@ -55,7 +57,7 @@
         </form>
     </div>
 </div>
-
+<?php }?>
 <script type="text/javascript">
     //<![CDATA[
     
@@ -64,7 +66,8 @@
 
     var lang_Required = '<?php echo __(ValidationMessages::REQUIRED); ?>';
     var lang_DateFormatIsWrong = '<?php echo __(ValidationMessages::DATE_FORMAT_INVALID, array('%format%' => str_replace('yy', 'yyyy', get_datepicker_date_format($sf_user->getDateFormat())))) ?>';
-    var lang_NameIsOverLimit = "<?php echo __(ValidationMessages::TEXT_LENGTH_EXCEEDS, array('%amount%' => 200)); ?>";        
+    var lang_NameIsOverLimit = "<?php echo __(ValidationMessages::TEXT_LENGTH_EXCEEDS, array('%amount%' => 200)); ?>";
+    var disableWidgets = <?php echo ($editMode && !$holidayPermissions->canUpdate()) || (!$editMode && !$holidayPermissions->canCreate()) ? 'true' : 'false';?>;
 
     //]]>
 </script>

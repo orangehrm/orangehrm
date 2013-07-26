@@ -42,7 +42,8 @@ class SearchProjectForm extends BaseForm {
 	}
 	
     private function setAllowedProjectList() {
-        $this->allowedProjectList = $this->userObj->getAllowedProjectList();
+        $userRoleManager = sfContext::getInstance()->getUserRoleManager();
+        $this->allowedProjectList = $userRoleManager->getAccessibleEntityIds('Project');        
     }
 
 	public function configure() {

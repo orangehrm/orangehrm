@@ -17,67 +17,91 @@
  * if not, write to the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
  * Boston, MA  02110-1301, USA
  */
-class viewCustomersAction extends sfAction {
+class viewCustomersAction extends baseAdminAction {
 
-	private $customerService;
+    private $customerService;
 
-	public function getCustomerService() {
-		if (is_null($this->customerService)) {
-			$this->customerService = new CustomerService();
-			$this->customerService->setCustomerDao(new CustomerDao());
-		}
-		return $this->customerService;
-	}
+    public function getCustomerService() {
+        if (is_null($this->customerService)) {
+            $this->customerService = new CustomerService();
+            $this->customerService->setCustomerDao(new CustomerDao());
+        }
+        return $this->customerService;
+    }
 
-	/**
-	 *
-	 * @param <type> $request
-	 */
-	public function execute($request) {
+    /**
+     *
+     * @param <type> $request
+     */
+    public function execute($request) {
 
-		$usrObj = $this->getUser()->getAttribute('user');
-		if (!$usrObj->isAdmin()) {
-			$this->redirect('pim/viewPersonalDetails');
-		}
-		$customerId = $request->getParameter('customerId');
+        $usrObj = $this->getUser()->getAttribute('user');
 
-		$isPaging = $request->getParameter('pageNo');
-		$sortField = $request->getParameter('sortField');
-		$sortOrder = $request->getParameter('sortOrder');
+        $this->customerPermissions = $this->getDataGroupPermissions('time_customers');
 
-		$pageNumber = $isPaging;
-		if ($customerId > 0 && $this->getUser()->hasAttribute('pageNumber')) {
-			$pageNumber = $this->getUser()->getAttribute('pageNumber');
-		}
-		if ($this->getUser()->getAttribute('addScreen') && $this->getUser()->hasAttribute('pageNumber')) {
-			$pageNumber = $this->getUser()->getAttribute('pageNumber');
-		}
+        $customerId = $request->getParameter('customerId');
 
-		$noOfRecords = Customer::NO_OF_RECORDS_PER_PAGE;
-		$offset = ($pageNumber >= 1) ? (($pageNumber - 1) * $noOfRecords) : ($request->getParameter('pageNo', 1) - 1) * $noOfRecords;
-		$customerList = $this->getCustomerService()->getCustomerList($noOfRecords, $offset, $sortField, $sortOrder);
-		$this->_setListComponent($customerList, $noOfRecords, $pageNumber);
-		$this->getUser()->setAttribute('pageNumber', $pageNumber);
-		$params = array();
-		$this->parmetersForListCompoment = $params;
-        
-	}
+        $isPaging = $request->getParameter('pageNo');
+        $sortField = $request->getParameter('sortField');
+        $sortOrder = $request->getParameter('sortOrder');
 
-	/**
-	 *
-	 * @param <type> $customerList
-	 * @param <type> $noOfRecords
-	 * @param <type> $pageNumber
-	 */
-	private function _setListComponent($customerList, $noOfRecords, $pageNumber) {
+        $pageNumber = $isPaging;
+        if ($customerId > 0 && $this->getUser()->hasAttribute('pageNumber')) {
+            $pageNumber = $this->getUser()->getAttribute('pageNumber');
+        }
+        if ($this->getUser()->getAttribute('addScreen') && $this->getUser()->hasAttribute('pageNumber')) {
+            $pageNumber = $this->getUser()->getAttribute('pageNumber');
+        }
+        if ($this->customerPermissions->canRead()) {
+            $noOfRecords = Customer::NO_OF_RECORDS_PER_PAGE;
+            $offset = ($pageNumber >= 1) ? (($pageNumber - 1) * $noOfRecords) : ($request->getParameter('pageNo', 1) - 1) * $noOfRecords;
+            $customerList = $this->getCustomerService()->getCustomerList($noOfRecords, $offset, $sortField, $sortOrder);
+            $this->_setListComponent($customerList, $noOfRecords, $pageNumber, $this->customerPermissions);
+            $this->getUser()->setAttribute('pageNumber', $pageNumber);
+            $params = array();
+            $this->parmetersForListCompoment = $params;
+        }
+    }
 
-		$configurationFactory = new CustomerHeaderFactory();
-		ohrmListComponent::setPageNumber($pageNumber);
-		ohrmListComponent::setConfigurationFactory($configurationFactory);
-		ohrmListComponent::setListData($customerList);
-		ohrmListComponent::setItemsPerPage($noOfRecords);
-		ohrmListComponent::setNumberOfRecords($this->getCustomerService()->getCustomerCount());
-	}
+    /**
+     *
+     * @param <type> $customerList
+     * @param <type> $noOfRecords
+     * @param <type> $pageNumber
+     */
+    private function _setListComponent($customerList, $noOfRecords, $pageNumber, $permissions) {
+        $runtimeDefinitions = array();
+        $buttons = array();
+
+        if ($permissions->canCreate()) {
+            $buttons['Add'] = array('label' => 'Add');
+        }
+
+        if (!$permissions->canDelete()) {
+            $runtimeDefinitions['hasSelectableRows'] = false;
+        } else if ($permissions->canDelete()) {
+            $buttons['Delete'] = array('label' => 'Delete',
+                'type' => 'submit',
+                'data-toggle' => 'modal',
+                'data-target' => '#deleteConfModal',
+                'class' => 'delete');
+        }
+        $isLinkable = false;
+        if($permissions->canUpdate()){
+            $isLinkable = true;
+        }
+
+        $runtimeDefinitions['buttons'] = $buttons;
+   
+        $configurationFactory = new CustomerHeaderFactory();
+        $configurationFactory->setIsLinkable($isLinkable);
+        $configurationFactory->setRuntimeDefinitions($runtimeDefinitions);
+        ohrmListComponent::setPageNumber($pageNumber);
+        ohrmListComponent::setConfigurationFactory($configurationFactory);
+        ohrmListComponent::setListData($customerList);
+        ohrmListComponent::setItemsPerPage($noOfRecords);
+        ohrmListComponent::setNumberOfRecords($this->getCustomerService()->getCustomerCount());
+    }
 
 }
 

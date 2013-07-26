@@ -24,6 +24,22 @@ class AttendanceTotalSummaryReportForm extends sfForm {
     public $emoloyeeList;
     private $jobTitleService;
     private $empStatusService;
+    private $employeeService;
+
+    public function getEmployeeService() {
+
+        if (is_null($this->employeeService)) {
+
+            $this->employeeService = new EmployeeService();
+        }
+
+        return $this->employeeService;
+    }
+
+    public function setEmployeeService(EmployeeService $employeeService) {
+
+        $this->employeeService = $employeeService;
+    }    
 
     public function getJobTitleService() {
         if (is_null($this->jobTitleService)) {
@@ -128,19 +144,29 @@ class AttendanceTotalSummaryReportForm extends sfForm {
     public function getEmployeeListAsJson() {
 
         $jsonArray = array();
-        $employeeService = new EmployeeService();
-        $employeeService->setEmployeeDao(new EmployeeDao());
 
         $employeeUnique = array();
-        foreach ($this->emoloyeeList as $employee) {
+        $employeeList = $this->getOption('employeeList');
+        
+        foreach ($employeeList as $employee) {
+            $empNumber = $employee['empNumber'];
+            if (!isset($employeeUnique[$empNumber])) {
 
-            if (!isset($employeeUnique[$employee->getEmpNumber()])) {
-
-                $name = $employee->getFullName();
-                $employeeUnique[$employee->getEmpNumber()] = $name;
-                $jsonArray[] = array('name' => __($name), 'id' => $employee->getEmpNumber());
+                $name = trim(trim($employee['firstName'] . ' ' . $employee['middleName'], ' ') . ' ' . $employee['lastName']);
+                
+                if (!empty($employee['termination_id'])) {
+                    $name .= " (" . __('Past Employee') . ")";
+                }
+                $employeeUnique[$empNumber] = $name;
+                $jsonArray[] = array('name' => $name, 'id' => $empNumber);
                 
             }
+        }
+        
+        // Add ALL option if all employees are accessible (typically for global admin)
+        $employeeCount = $this->getEmployeeService()->getEmployeeCount(true);
+        if (count($jsonArray) == $employeeCount) {
+            array_unshift($jsonArray, array('name' => __('All'), 'id' => '-1'));
         }
 
         $jsonString = json_encode($jsonArray);

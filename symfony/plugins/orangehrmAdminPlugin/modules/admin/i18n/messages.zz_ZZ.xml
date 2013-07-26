@@ -552,10 +552,10 @@
     <source>Click on Edit button to enable notifications</source>
     <target>FR_Click on Edit button to enable notifications</target>
    </trans-unit>
-
- 
-
-
+   <trans-unit id="139">
+    <source>To enable notifications click on Edit button and select the relevant check-box</source>
+    <target>FR_To enable notifications click on Edit button and select the relevant check-box</target>
+   </trans-unit>
   </body>
  </file>
 </xliff>

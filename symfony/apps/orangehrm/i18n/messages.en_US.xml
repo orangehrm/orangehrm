@@ -5410,7 +5410,15 @@
    <trans-unit id="1184">
        <source>Vendors</source>
        <target>Vendors</target>
-   </trans-unit>                                                                                                                                                                                                                                                                                                                                                                                          
+   </trans-unit>
+   <trans-unit id="1185">
+       <source>You do not have permission to view this section</source>
+       <target>You do not have permission to view this section</target>
+   </trans-unit>   
+   <trans-unit id="1186">
+       <source>Enabled</source>
+       <target>Enabled</target>
+   </trans-unit>                                                                                                                                                                                                                                                                                                                                                                                                
   </body>
  </file>
 </xliff>

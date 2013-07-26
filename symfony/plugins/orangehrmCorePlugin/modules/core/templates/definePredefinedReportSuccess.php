@@ -2,12 +2,16 @@
 echo stylesheet_tag(theme_path('css/orangehrm.datepicker.css'));
 use_javascript('orangehrm.datepicker.js');
 ?>
+
 <div class="box single">
    
     <div class="head">
         <h1><?php echo __("Define Report"); ?></h1>
     </div>
     <div class="inner">
+        <?php include_partial('global/flash_messages'); ?>
+        
+        <?php if(($reportPermissions->canCreate() && empty($reportId)) || ($reportPermissions->canUpdate() && $reportId > 0)){?>
         <?php echo $form->renderFormTag(url_for('core/definePredefinedReport'), array('id' => 'defineReportForm')); ?>
         <fieldset id="name_fieldset">
             <?php
@@ -177,9 +181,11 @@ use_javascript('orangehrm.datepicker.js');
             <input type="button" id="btnSave" value="<?php echo __("Save"); ?>"  />
             <input type="button" class="cancel" id="btnCancel" value="<?php echo __("Cancel"); ?>" />
         </div>
+        <?php }?>
         </form>
         </div>
     </div>
+
 
     <style type="text/css">
         label {

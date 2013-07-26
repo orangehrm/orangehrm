@@ -603,9 +603,10 @@ class CandidateDao extends BaseDao {
 
         if (!empty($candidateName)) {
 
-            $candidateFullNameClause = "concat_ws(' ', jc.first_name, " .
-                    "IF(jc.middle_name <> '', jc.middle_name, NULL), " .
-                    "jc.last_name)";
+            // Trimming to avoid issues with names that have leading/trailing spaces (due to bug in older jobs.php)
+            $candidateFullNameClause = "concat_ws(' ', trim(jc.first_name), " .
+                    "IF(trim(jc.middle_name) <> '', trim(jc.middle_name), NULL), " .
+                    "trim(jc.last_name))";
 
             // Replace multiple spaces in string with single space
             $candidateName = preg_replace('!\s+!', ' ', $candidateName);

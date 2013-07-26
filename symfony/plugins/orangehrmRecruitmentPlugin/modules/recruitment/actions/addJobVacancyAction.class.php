@@ -65,13 +65,10 @@ class addJobVacancyAction extends baseRecruitmentAction {
         /* For highlighting corresponding menu item */
         $request->setParameter('initialActionName', 'viewJobVacancy');
 
-        $usrObj = $this->getUser()->getAttribute('user');
-        if (!$usrObj->isAdmin()) {
-            $this->redirect('recruitment/viewCandidates');
-        }
+        $this->vacancyPermissions = $this->getDataGroupPermissions('recruitment_vacancies');
 
         $this->vacancyId = $request->getParameter('Id');
-        $values = array('vacancyId' => $this->vacancyId);
+        $values = array('vacancyId' => $this->vacancyId, 'vacancyPermissions' => $this->vacancyPermissions);
         $this->setForm(new AddJobVacancyForm(array(), $values));
 
         if ($this->getUser()->hasFlash('templateMessage')) {
@@ -81,12 +78,16 @@ class addJobVacancyAction extends baseRecruitmentAction {
         }
 
         if ($request->isMethod('post')) {
-
-            $this->form->bind($request->getParameter($this->form->getName()));
-            if ($this->form->isValid()) {
-                $this->vacancyId = $this->form->save();
-                $this->getUser()->setFlash('success', __(TopLevelMessages::SAVE_SUCCESS));
-                $this->redirect('recruitment/addJobVacancy?Id=' . $this->vacancyId);
+            if ($this->vacancyPermissions->canCreate() || $this->vacancyPermissions->canUpdate()) {
+                $this->form->bind($request->getParameter($this->form->getName()));
+                if ($this->form->isValid()) {
+                    $this->vacancyId = $this->form->save();
+                    $this->getUser()->setFlash('success', __(TopLevelMessages::SAVE_SUCCESS));
+                    $this->redirect('recruitment/addJobVacancy?Id=' . $this->vacancyId);
+                } else {
+                    Logger::getLogger('recruitment.addJobVacancy')->error($this->form);
+                    $this->getUser()->setFlash('warning', __(TopLevelMessages::SAVE_FAILURE), false);
+                }
             }
         }
     }

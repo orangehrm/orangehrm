@@ -33,6 +33,7 @@ class JobInterviewForm extends BaseForm {
     private $selectedCandidateVacancy;
     private $interviewService;
     private $defaultTime = '00:00:00';
+    private $candidatePermissions;
 
     /**
      * 
@@ -61,6 +62,7 @@ class JobInterviewForm extends BaseForm {
         $this->id = $this->getOption('id');
         $this->interviewId = $this->getOption('interviewId');
         $this->historyId = $this->getOption('historyId');
+        $this->candidatePermissions = $this->getOption('candidatePermissions');
 
 
         if ($this->candidateVacancyId > 0 && ($this->selectedAction == WorkflowStateMachine::RECRUITMENT_APPLICATION_ACTION_SHEDULE_INTERVIEW || $this->selectedAction == WorkflowStateMachine::RECRUITMENT_APPLICATION_ACTION_SHEDULE_2ND_INTERVIEW)) {
@@ -97,12 +99,20 @@ class JobInterviewForm extends BaseForm {
         for ($i = 1; $i <= $this->numberOfInterviewers; $i++) {
             $this->setValidator('interviewer_' . $i, new sfValidatorString(array('required' => false, 'max_length' => 100)));
         }
-        
+
+        if (!$this->candidatePermissions->canUpdate()) {
+            $schema = $this->getWidgetSchema();
+            $fields = $schema->getFields();
+
+            foreach ($fields as $name => $widget) {
+                $widget->setAttribute('disabled', 'disabled');
+            }
+        }
         $this->validatorSchema->setPostValidator(
                 new sfValidatorCallback(array(
                     'callback' => array($this, 'postValidate')
                 ))
-        );        
+        );
 
         $this->widgetSchema->setNameFormat('jobInterview[%s]');
 
@@ -110,28 +120,27 @@ class JobInterviewForm extends BaseForm {
             $this->setDefaultValues($this->id);
         }
     }
-    
+
     public function postValidate($validator, $values) {
 
         $time = $values['time'];
         $timeParts = explode(':', trim($time));
-        
+
         if (empty($timeParts)) {
             return $values;
         }
-        
-        $hour = (int)$timeParts[0];
-        $minutes = (int)$timeParts[1];
-        
+
+        $hour = (int) $timeParts[0];
+        $minutes = (int) $timeParts[1];
+
         if ($hour > 24 || $minutes > 59 || ($hour == 24 && $minutes > 0)) {
             $message = __('Invalid');
             $error = new sfValidatorError($validator, $message);
-            throw new sfValidatorErrorSchema($validator, array('time' => $error));            
+            throw new sfValidatorErrorSchema($validator, array('time' => $error));
         }
-        
+
         return $values;
-        
-    }     
+    }
 
     private function setDefaultValues($interviewId) {
 
@@ -267,13 +276,13 @@ class JobInterviewForm extends BaseForm {
         $employeeService = new EmployeeService();
         $employeeService->setEmployeeDao(new EmployeeDao());
 
-        $properties = array("empNumber","firstName", "middleName", "lastName", 'termination_id');
+        $properties = array("empNumber", "firstName", "middleName", "lastName", 'termination_id');
         $employeeList = $employeeService->getEmployeePropertyList($properties, 'lastName', 'ASC', true);
-        
+
         foreach ($employeeList as $employee) {
             $empNumber = $employee['empNumber'];
-            $name = trim(trim($employee['firstName'] . ' ' . $employee['middleName'],' ') . ' ' . $employee['lastName']);
-            
+            $name = trim(trim($employee['firstName'] . ' ' . $employee['middleName'], ' ') . ' ' . $employee['lastName']);
+
             $jsonArray[] = array('name' => $name, 'id' => $empNumber);
         }
 
@@ -291,6 +300,6 @@ class JobInterviewForm extends BaseForm {
         }
         return $interviewersStr;
     }
-    
+
 }
 

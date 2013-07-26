@@ -23,6 +23,8 @@
  */
 class viewEmployeeListAction extends basePimAction {
 
+    protected $leftMenuService;
+    
     /**
      * Index action. Displays employee list
      *      `
@@ -180,7 +182,12 @@ class viewEmployeeListAction extends basePimAction {
     }
     
     protected function getListConfigurationFactory() {
+        $isPimAccessible = $this->getLeftMenuService()->isPimAccessible(null, false);
+        $linkSetting = $isPimAccessible ? EmployeeListConfigurationFactory::LINK_ALL_EMPLOYEES : EmployeeListConfigurationFactory::LINK_NONE;
+        EmployeeListConfigurationFactory::setLinkSetting($linkSetting);
+        
         $configurationFactory = new EmployeeListConfigurationFactory();        
+
         return $configurationFactory;
     }
 
@@ -243,4 +250,22 @@ class viewEmployeeListAction extends basePimAction {
         return $value;
     }
 
+    /**
+     * Get PIMLeftMenuService
+     * @returns PIMLeftMenuService
+     */
+    public function getLeftMenuService() {
+        if (is_null($this->leftMenuService)) {
+            $this->leftMenuService = new PIMLeftMenuService();
+        }
+        return $this->leftMenuService;
+    }
+
+    /**
+     * Set PIMLeftMenuService
+     * @param PIMLeftMenuService $leftMenuService
+     */
+    public function setLeftMenuService(PIMLeftMenuService $leftMenuService) {
+        $this->leftMenuService = $leftMenuService;
+    }    
 }

@@ -11,22 +11,28 @@
  * @property string $action_url
  * @property Module $Module
  * @property Doctrine_Collection $ScreenPermission
+ * @property Doctrine_Collection $DataGroup
+ * @property Doctrine_Collection $DataGroupScreenPermission
  * @property Doctrine_Collection $MenuItem
  * 
- * @method integer             getId()               Returns the current record's "id" value
- * @method string              getName()             Returns the current record's "name" value
- * @method integer             getModuleId()         Returns the current record's "module_id" value
- * @method string              getActionUrl()        Returns the current record's "action_url" value
- * @method Module              getModule()           Returns the current record's "Module" value
- * @method Doctrine_Collection getScreenPermission() Returns the current record's "ScreenPermission" collection
- * @method Doctrine_Collection getMenuItem()         Returns the current record's "MenuItem" collection
- * @method Screen              setId()               Sets the current record's "id" value
- * @method Screen              setName()             Sets the current record's "name" value
- * @method Screen              setModuleId()         Sets the current record's "module_id" value
- * @method Screen              setActionUrl()        Sets the current record's "action_url" value
- * @method Screen              setModule()           Sets the current record's "Module" value
- * @method Screen              setScreenPermission() Sets the current record's "ScreenPermission" collection
- * @method Screen              setMenuItem()         Sets the current record's "MenuItem" collection
+ * @method integer             getId()                        Returns the current record's "id" value
+ * @method string              getName()                      Returns the current record's "name" value
+ * @method integer             getModuleId()                  Returns the current record's "module_id" value
+ * @method string              getActionUrl()                 Returns the current record's "action_url" value
+ * @method Module              getModule()                    Returns the current record's "Module" value
+ * @method Doctrine_Collection getScreenPermission()          Returns the current record's "ScreenPermission" collection
+ * @method Doctrine_Collection getDataGroup()                 Returns the current record's "DataGroup" collection
+ * @method Doctrine_Collection getDataGroupScreenPermission() Returns the current record's "DataGroupScreenPermission" collection
+ * @method Doctrine_Collection getMenuItem()                  Returns the current record's "MenuItem" collection
+ * @method Screen              setId()                        Sets the current record's "id" value
+ * @method Screen              setName()                      Sets the current record's "name" value
+ * @method Screen              setModuleId()                  Sets the current record's "module_id" value
+ * @method Screen              setActionUrl()                 Sets the current record's "action_url" value
+ * @method Screen              setModule()                    Sets the current record's "Module" value
+ * @method Screen              setScreenPermission()          Sets the current record's "ScreenPermission" collection
+ * @method Screen              setDataGroup()                 Sets the current record's "DataGroup" collection
+ * @method Screen              setDataGroupScreenPermission() Sets the current record's "DataGroupScreenPermission" collection
+ * @method Screen              setMenuItem()                  Sets the current record's "MenuItem" collection
  * 
  * @package    orangehrm
  * @subpackage model\core\base
@@ -64,6 +70,15 @@ abstract class BaseScreen extends sfDoctrineRecord
              'foreign' => 'id'));
 
         $this->hasMany('ScreenPermission', array(
+             'local' => 'id',
+             'foreign' => 'screen_id'));
+
+        $this->hasMany('DataGroup', array(
+             'refClass' => 'DataGroupScreenPermission',
+             'local' => 'screen_id',
+             'foreign' => 'data_group_id'));
+
+        $this->hasMany('DataGroupScreenPermission', array(
              'local' => 'id',
              'foreign' => 'screen_id'));
 

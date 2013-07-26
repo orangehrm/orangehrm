@@ -85,6 +85,132 @@ class CellTest extends PHPUnit_Framework_TestCase {
         $this->assertEquals($filteredValue, $this->cell->publicFilter($value));         
     }
     
+    public function testGetParsedPropertyValuePlain() {
+        $name = 'id';
+        $value = 'ohrmList_chkSelectRecord';
+        $properties = array($name => $value);
+        $this->cell->setProperties($properties);
+        $result = $this->cell->getParsedPropertyValue($name);
+        $this->assertEquals($value, $result);        
+    }
+    
+    public function testGetParsedPropertyValueWithGetterDataObject() {
+        $name = 'id';
+        $value = 'ohrmList_chkSelectRecord';
+        $properties = array('idGetter' => 'getId');
+        
+        $dataObject = new TestDataObject();
+        $dataObject->setId($value);
+        
+        $this->cell->setProperties($properties);        
+        $this->cell->setDataObject($dataObject);
+        
+        $result = $this->cell->getParsedPropertyValue($name);
+        $this->assertEquals($value, $result);         
+        
+    }
+    
+    public function testGetParsedPropertyValueWithGetterPropertyDataObject() {
+        $name = 'id';
+        $value = 'ohrmList_chkSelectRecord';
+        $properties = array('idGetter' => 'id');
+        
+        $dataObject = new stdClass();
+        $dataObject->id = $value;
+        
+        $this->cell->setProperties($properties);        
+        $this->cell->setDataObject($dataObject);
+        
+        $result = $this->cell->getParsedPropertyValue($name);
+        $this->assertEquals($value, $result);                 
+    }    
+    
+    public function testGetParsedPropertyValueWithGetterDataArray() {
+        $name = 'id';
+        $value = 'ohrmList_chkSelectRecord';
+        $properties = array('idGetter' => 'test_id');
+        
+        $dataObject = array('test_id' => $value);
+        
+        $this->cell->setProperties($properties);        
+        $this->cell->setDataObject($dataObject);
+        
+        $result = $this->cell->getParsedPropertyValue($name);
+        $this->assertEquals($value, $result);                 
+    }
+    
+    public function testGetParsedPropertyValueWithPlaceHolders() {
+
+        $properties = array(
+            'id' => 'ohrmList_chkSelectRecord_{id}',
+            'placeholderGetters' => array('id' => 'id')
+            );
+        
+        $dataObject = new stdClass();
+        $dataObject->id = 'xyz';
+        
+        $this->cell->setDataObject($dataObject);
+        
+        $this->cell->setProperties($properties);
+        $result = $this->cell->getParsedPropertyValue('id');
+        $this->assertEquals('ohrmList_chkSelectRecord_xyz', $result);             
+    }    
+    
+    public function testGetParsedPropertyValueWithManyPlaceHolders() {
+
+        $properties = array(
+            'id' => 'ohrmList_{age}{mf}SelectRecord_{id}',
+            'placeholderGetters' => array(
+                'id' => 'getId',
+                'age' => 'getAge',
+                'mf' => 'getMf')
+        );
+
+        $dataObject = new TestDataObject();
+        $dataObject->setId('abcd');
+        $dataObject->setAge(33);
+        $dataObject->setMf('M');
+        
+        $expected = 'ohrmList_33MSelectRecord_abcd';
+        
+        $this->cell->setDataObject($dataObject);        
+        $this->cell->setProperties($properties);
+        
+        $result = $this->cell->getParsedPropertyValue('id');
+        
+        $this->assertEquals($expected, $result);             
+    }    
+    
+    public function testGetParsedPropertyValueMultipleValues() {
+
+        $properties = array(
+            'id' => 'ohrmList_chkSelectRecord_{id}',
+            'name' => 'chkSelectRow[]',
+            'valueGetter' => 'getId',
+            'label' => 'Enable',
+            'placeholderGetters' => array('id' => 'getId'),
+        );
+
+        $dataObject = new TestDataObject();
+        $dataObject->setId(2);
+        
+        $this->cell->setDataObject($dataObject);        
+        $this->cell->setProperties($properties);        
+
+        $id = $this->cell->getParsedPropertyValue('id');
+        $this->assertEquals('ohrmList_chkSelectRecord_2', $id);
+        
+        $name = $this->cell->getParsedPropertyValue('name');
+        $this->assertEquals('chkSelectRow[]', $name);
+        
+        $value = $this->cell->getParsedPropertyValue('value');
+        $this->assertEquals('2', $value);
+        
+        $labelName = $this->cell->getParsedPropertyValue('label');
+        $this->assertEquals('Enable', $labelName);
+        
+    }
+
 }
 
 class TestConcreteCell extends Cell {
@@ -98,3 +224,33 @@ class TestConcreteCell extends Cell {
     
 }
 
+class TestDataObject {
+    
+    protected $id;
+    protected $age;
+    protected $mf;
+    
+    public function getId() {
+        return $this->id;
+    }
+
+    public function setId($id) {
+        $this->id = $id;
+    }
+    public function getAge() {
+        return $this->age;
+    }
+
+    public function setAge($age) {
+        $this->age = $age;
+    }
+
+    public function getMf() {
+        return $this->mf;
+    }
+
+    public function setMf($mf) {
+        $this->mf = $mf;
+    }
+
+}

@@ -1,6 +1,8 @@
 <?php use_stylesheet(plugin_web_path('orangehrmLeavePlugin', 'css/defineLeavePeriodSuccess.css')); ?>
 <?php use_javascript(plugin_web_path('orangehrmLeavePlugin', 'js/defineLeavePeriodSuccess.js')); ?>
 
+<?php if($leavePeriodPermissions->canRead()) {?>
+
 <div id="location" class="box">
 
     <div class="head">
@@ -37,14 +39,18 @@
                         </span>
                     </li>
                     <?php } ?>
+                    <?php if($leavePeriodPermissions->canUpdate()) {?>
                     <li class="required">
                         <em>*</em> <?php echo __(CommonMessages::REQUIRED_FIELD); ?>
                     </li>
+                    <?php }?>
                 </ol>
 
                 <p>
+                    <?php if($leavePeriodPermissions->canUpdate()) {?>
                     <input type="button" class="addbutton" name="btnEdit" id="btnEdit" value="<?php echo ($isLeavePeriodDefined) ? __("Edit") : __("Save"); ?>"/>
-                    <?php if ($isLeavePeriodDefined) { ?>
+                    <?php } ?>
+                    <?php if ($isLeavePeriodDefined && $leavePeriodPermissions->canUpdate()) { ?>
                         <input type="button" class="reset hide" name="btnReset" id="btnReset" value="<?php echo __("Reset")?>"/>
                     <?php } ?>
                 </p>
@@ -54,6 +60,7 @@
         </form>
     </div>
 </div>
+<?php }?>
 <script type="text/javascript">
     var isLeavePeriodDefined = <?php echo ($isLeavePeriodDefined) ? 'true' : 'false' ?>;
     var isEditMode = <?php echo ($isLeavePeriodDefined) ? 'false' : 'true' ?>;

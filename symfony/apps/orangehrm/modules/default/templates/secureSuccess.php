@@ -6,4 +6,4 @@
 </div>
         <?php include_partial('global/flash_messages'); ?>
         
-    </div>
+</div>

@@ -169,7 +169,7 @@ $imagePath = theme_path("images/login");
 
 </div>
 
-<?php include_partial('core/footer'); ?>
+<?php include_partial('global/footer_copyright_social_links'); ?>
 
 <script type="text/javascript">
     

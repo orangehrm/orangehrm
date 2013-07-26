@@ -182,9 +182,7 @@ class viewLeaveEntitlementsAction extends sfAction {
         
         $configurationFactory = $this->getListConfigurationFactory($showLeaveType);
 
-        $dataGroupPermission = $this->getDataGroupPermissions();
-        $screenPermissions = $this->getContext()->get('screen_permissions');
-        $permissions = $screenPermissions->andWith($dataGroupPermission);
+        $permissions = $this->getDataGroupPermissions();
                 
         $runtimeDefinitions = array();
         $buttons = array();

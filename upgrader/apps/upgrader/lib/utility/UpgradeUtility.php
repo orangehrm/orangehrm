@@ -50,7 +50,7 @@ class UpgradeUtility {
         
         if (!$result) {
             $logMessage = 'MySQL Error: ' . mysqli_error($this->dbConnection) . ". \nQuery: $query\n";
-            UpgradeLogger::writeErrorMessage($logMessage);
+            UpgradeLogger::writeErrorMessage($logMessage, true);
         }
 
         return $result;
@@ -195,7 +195,7 @@ CONFCONT;
      */
     public function getEndIncrementNumber() {
         
-        return 57;
+        return 58;
         
     }
     
@@ -236,6 +236,7 @@ CONFCONT;
         $a['2.7.1']     = 55;
         $a['3.0']       = 56;
         $a['3.0.1']     = 57;
+        $a['3.1']       = 58;
         
         return $a;
         
@@ -246,7 +247,7 @@ CONFCONT;
      */
     public function getNewVersion() {
         
-        return '3.1';
+        return '3.1.1';
         
     }
     

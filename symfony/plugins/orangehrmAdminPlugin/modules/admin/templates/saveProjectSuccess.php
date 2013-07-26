@@ -2,6 +2,7 @@
 use_javascript(plugin_web_path('orangehrmAdminPlugin', 'js/saveProjectSuccess')); 
 ?>
 
+<?php if($projectPermissions->canRead()){?>
 <div id="addProject" class="box">
     
     <div class="head">
@@ -9,7 +10,7 @@ use_javascript(plugin_web_path('orangehrmAdminPlugin', 'js/saveProjectSuccess'))
     </div>
     
     <div class="inner">
-
+        <?php include_partial('global/form_errors', array('form' => $form)); ?>
         <?php include_partial('global/flash_messages', array('prefix' => 'project')); ?>
         
         <form name="frmAddProject" id="frmAddProject" method="post" action="<?php echo url_for('admin/saveProject'); ?>" >
@@ -24,7 +25,9 @@ use_javascript(plugin_web_path('orangehrmAdminPlugin', 'js/saveProjectSuccess'))
                     <li>
                         <?php echo $form['customerName']->renderLabel(__('Customer Name') . ' <em>*</em>'); ?>
                         <?php echo $form['customerName']->render(array("class" => "formInputCustomer", "maxlength" => 52)); ?>
+                        <?php if($customerPermissions->canCreate()){?>
                         <a id="addCustomerLink" class="btn2 fieldHelpRight" data-toggle="modal" href="#customerDialog" ><?php echo __('Add Customer') ?></a>
+                        <?php }?>
                     </li>
                     
                     <li>
@@ -58,7 +61,9 @@ use_javascript(plugin_web_path('orangehrmAdminPlugin', 'js/saveProjectSuccess'))
                 </ol>
                 
                 <p>
+                    <?php if(($projectPermissions->canCreate() && empty($projectId)) || ($projectPermissions->canUpdate() && $projectId > 0)){?>
                     <input type="button" class="" name="btnSave" id="btnSave" value="<?php echo __("Save"); ?>"/>
+                    <?php }?>
                     <input type="button" class="reset" name="btnCancel" id="btnCancel" value="<?php echo __("Cancel"); ?>"/>
                 </p>
                 
@@ -120,6 +125,7 @@ use_javascript(plugin_web_path('orangehrmAdminPlugin', 'js/saveProjectSuccess'))
 <?php } ?>
 
 <!-- Add customer window -->
+<?php if($customerPermissions->canCreate()){?>
 <div class="modal hide" id="customerDialog">
     <div class="modal-header">
         <a class="close" data-dismiss="modal">×</a>
@@ -150,6 +156,7 @@ use_javascript(plugin_web_path('orangehrmAdminPlugin', 'js/saveProjectSuccess'))
                value="<?php echo __('Cancel'); ?>" />
     </div>
 </div>
+<?php }?>
 <!-- End-of-Add-customer-window -->
 
 <!-- undeleted project form -->
@@ -231,6 +238,8 @@ use_javascript(plugin_web_path('orangehrmAdminPlugin', 'js/saveProjectSuccess'))
 </div>
 <!-- Confirmation box HTML: Ends -->
 
+<?php }?>
+
 <script type="text/javascript">
     var employees = <?php echo str_replace('&#039;', "'", $form->getEmployeeListAsJson()) ?> ;
     var employeeList = eval(employees);
@@ -238,7 +247,7 @@ use_javascript(plugin_web_path('orangehrmAdminPlugin', 'js/saveProjectSuccess'))
     var customerList = eval(customers);
     var customerProjects = <?php echo str_replace('&#039;', "'", $form->getCustomerProjectListAsJson()); ?> ;
     var customerProjectsList = eval(customerProjects);
-    var deletedCustomers = <?php echo str_replace('&#039;', "'", $customerForm->getDeletedCustomerListAsJson()) ?> ;
+    var deletedCustomers = <?php echo str_replace('&#039;', "'", $customerForm->getDeletedCustomerListAsJson()); ?> ;
     <?php if ($projectId > 0) { ?>
         var activityList = <?php echo str_replace('&#039;', "'", $form->getActivityListAsJson($projectId)); ?>;
     <?php } ?>
@@ -272,4 +281,5 @@ use_javascript(plugin_web_path('orangehrmAdminPlugin', 'js/saveProjectSuccess'))
     var lang_editActivity = '<?php echo __("Edit Project Activity"); ?>';
     var lang_addActivity = '<?php echo __("Add Project Activity"); ?>';
     var isProjectAdmin = '<?php echo $isProjectAdmin; ?>';
+    var dontHavePermission = '<?php echo (!$projectPermissions->canCreate() || !$projectPermissions->canUpdate()); ?>';
 </script>

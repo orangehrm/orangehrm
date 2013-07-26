@@ -26,7 +26,7 @@ use_javascript(plugin_web_path('orangehrmRecruitmentPlugin', 'js/attachmentsPart
 <?php
 $hasAttachments = count($attachmentList) > 0;
 ?>
-
+<?php if($permissions->canUpdate()){?>
 <a name="attachments"></a>
 
 <div id="addPaneAttachments">
@@ -66,7 +66,9 @@ $hasAttachments = count($attachmentList) > 0;
         </form>
     </div> <!-- inner -->
 </div> <!-- addPaneAttachments -->
+<?php }?>
 
+<?php if($permissions->canRead()){?>
 <div id="attachmentList" class="miniList">
     <div class="head">
         <h1><?php echo __('Attachments'); ?></h1>
@@ -75,22 +77,28 @@ $hasAttachments = count($attachmentList) > 0;
         <?php include_partial('global/flash_messages', array('prefix' => 'jobAttachmentPane')); ?>
         <form name="frmRecDelAttachments" id="frmRecDelAttachments" method="post" action="<?php echo url_for('recruitment/deleteAttachments?screen=' . $screen); ?>">
             <?php echo $deleteForm['_csrf_token']; ?>
+            <?php if ($permissions->canUpdate()){?>
             <p id="attachmentActions">
                 <input type="button" class="addbutton" id="btnAddAttachment" value="<?php echo __("Add"); ?>" />
                 <?php if ($hasAttachments) : ?>
                     <input type="button" class="delete" id="btnDeleteAttachment" value="<?php echo __("Delete"); ?>"/>
                 <?php endif; // $hasAttachments ?>
             </p>
+            <?php }?>
             <?php if ($hasAttachments) : ?>
                 <table id="tblAttachments" cellpadding="0" cellspacing="0" width="100%" class="table tablesorter">
                     <thead>
                         <tr>
-                            <th width="2%"><input type="checkbox" id="attachmentsCheckAll" class="checkboxAtch"/></th>
+                            <?php if ($permissions->canUpdate()){?>
+                                <th width="2%"><input type="checkbox" id="attachmentsCheckAll" class="checkboxAtch"/></th>
+                            <?php }?>
                             <th><?php echo __("File Name") ?></th>                   
                             <th><?php echo __("Size") ?></th>
                             <th><?php echo __("Type") ?></th>
                             <th><?php echo __("Comment") ?></th>
-                            <th></td>
+                            <?php if ($permissions->canUpdate()){?>
+                                <th></td>
+                            <?php }?>
                         </tr>
                     </thead>
                     <tbody>
@@ -101,16 +109,27 @@ $hasAttachments = count($attachmentList) > 0;
                             $cssClass = ($row % 2) ? 'even' : 'odd';
                             ?>
                             <tr class="<?php echo $cssClass; ?>">
-                                <td class="check"><input type='checkbox' class='checkboxAtch' name='delAttachments[]'
+                                <?php if ($permissions->canUpdate()){?>
+                                <td class="check">
+                                    <input type='checkbox' class='checkboxAtch' name='delAttachments[]'
                                                          value="<?php echo $attachment->id; ?>"/></td>
-                                <td><a title="<?php echo $attachment->fileName; ?>" target="_blank" class="fileLink"
-                                       href="<?php echo url_for('recruitment/viewAttachment?attachId=' . $attachment->id . '&screen=' . $screen); ?>"><?php echo $attachment->fileName; ?></a></td>
+                                <?php }?>
+                                <td>
+                                    <?php if ($permissions->canUpdate()){?>
+                                        <a title="<?php echo $attachment->fileName; ?>" target="_blank" class="fileLink"
+                                            href="<?php echo url_for('recruitment/viewAttachment?attachId=' . $attachment->id . '&screen=' . $screen); ?>"><?php echo $attachment->fileName; ?></a>
+                                    <?php }else{
+                                       echo $attachment->fileName; 
+                                    }?>
+                                </td>
                                 <td><?php echo add_si_unit($attachment->fileSize); ?></td>
                                 <td><?php echo $attachment->fileType; ?></td>
                                 <td class="comments">
                                     <?php echo $attachment->comment; ?>
                                 </td>
+                                <?php if ($permissions->canUpdate()){?>
                                 <td><a href="#" class="editLink"><?php echo __("Edit"); ?></a></td>
+                                <?php }?>
                             </tr>
                             <?php
                             $row++;
@@ -122,6 +141,7 @@ $hasAttachments = count($attachmentList) > 0;
         </form> 
     </div>
 </div> <!-- attachmentList -->   
+<?php }?>
 
 <script type="text/javascript">
     //<![CDATA[

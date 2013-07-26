@@ -18,6 +18,9 @@
  * Boston, MA  02110-1301, USA
  */
 class getVacancyListForJobTitleJsonAction extends sfAction {
+    
+    const MODE_CANDIDATES = 'candidates';
+    const MODE_VACANCIES = 'vacancies';
 
     /**
      *
@@ -26,18 +29,29 @@ class getVacancyListForJobTitleJsonAction extends sfAction {
      */
     public function execute($request) {
 
-        $allowedVacancyList = $this->getUser()->getAttribute('user')->getAllowedVacancyList();
-
         $this->setLayout(false);
         sfConfig::set('sf_web_debug', false);
         sfConfig::set('sf_debug', false);
 
-        $vacancyList = array();
-
         if ($this->getRequest()->isXmlHttpRequest()) {
             $this->getResponse()->setHttpHeader('Content-Type', 'application/json; charset=utf-8');
-        }
-
+        }        
+        
+        $userRoleManager = $this->getContext()->getUserRoleManager();
+        
+        $mode = $request->getParameter('mode');
+        
+        $dataGroupName = $mode == self::MODE_CANDIDATES ? 'recruitment_candidates' : 'recruitment_vacancies';
+        
+        $requiredPermissions = array(
+            BasicUserRoleManager::PERMISSION_TYPE_DATA_GROUP => array(
+                $dataGroupName => new ResourcePermission(true, false, false, false)
+            )
+        );
+            
+        $allowedVacancyList = $userRoleManager->getAccessibleEntityIds('Vacancy', 
+                null, null, array(), array(), $requiredPermissions);
+        
         $jobTitle = $request->getParameter('jobTitle');
 
         $vacancyService = new VacancyService();

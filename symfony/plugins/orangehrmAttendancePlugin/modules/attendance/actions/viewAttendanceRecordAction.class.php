@@ -17,7 +17,7 @@
  * if not, write to the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
  * Boston, MA  02110-1301, USA
  */
-class viewAttendanceRecordAction extends sfAction {
+class viewAttendanceRecordAction extends baseAttendanceAction {
 
     private $employeeService;
 
@@ -38,20 +38,17 @@ class viewAttendanceRecordAction extends sfAction {
 
     public function execute($request) {
 
-        $this->userObj = $this->getContext()->getUser()->getAttribute('user');
-        $accessibleMenus = $this->userObj->getAccessibleAttendanceSubMenus();
-        $hasRight = false;
+        $loggedInEmpNumber = $this->getContext()->getUser()->getEmployeeNumber();
+        
+        $userRoleManager = $this->getContext()->getUserRoleManager();
+        
         $this->parmetersForListCompoment = array();
         $this->showEdit = false;
 
-        foreach ($accessibleMenus as $menu) {
-            if ($menu->getDisplayName() === __("Employee Records")) {
-                $hasRight = true;
-                break;
-            }
-        }
+        $this->attendanceManagePermissios = $this->getDataGroupPermissions('attendance_records');
 
-        if (!$hasRight) {
+
+        if (!$this->attendanceManagePermissios->canRead()) {
             return $this->renderText(__("You are not allowed to view this page") . "!");
         }
 
@@ -77,10 +74,11 @@ class viewAttendanceRecordAction extends sfAction {
 
         $records = array();
 
-        $this->_setListComponent($records, $noOfRecords, $pageNumber, null, $this->showEdit);
+        if ($this->attendanceManagePermissios->canRead()) {
+            $this->_setListComponent($records, $noOfRecords, $pageNumber, null, $this->showEdit);
+        }
 
         if (!$this->trigger) {
-
 
             if ($request->isMethod('post')) {
 
@@ -95,12 +93,9 @@ class viewAttendanceRecordAction extends sfAction {
                     $this->allowedActions['Edit'] = false;
                     $this->allowedActions['PunchIn'] = false;
                     $this->allowedActions['PunchOut'] = false;
-                    $this->userObj = $this->getContext()->getUser()->getAttribute('user');
-                    $userId = $this->userObj->getUserId();
-                    $userEmployeeNumber = $this->userObj->getEmployeeNumber();
 
                     $post = $this->form->getValues();
-                    
+
                     if (!$this->employeeId) {
                         $empData = $post['employeeName'];
                         $this->employeeId = $empData['empId'];
@@ -112,9 +107,6 @@ class viewAttendanceRecordAction extends sfAction {
                     if ($this->employeeId) {
                         $this->showEdit = true;
                     }
-
-                    $userRoleFactory = new UserRoleFactory();
-                    $this->decoratedUser = $decoratedUser = $userRoleFactory->decorateUserRole($userId, $this->employeeId, $userEmployeeNumber);
 
                     $isPaging = $request->getParameter('hdnAction') == 'search' ? 1 : $request->getParameter('pageNo', 1);
 
@@ -128,7 +120,7 @@ class viewAttendanceRecordAction extends sfAction {
 //                        $empRecords = $this->employeeService->getEmployeeList('firstName', 'ASC', false);
                         $empRecords = UserRoleManagerFactory::getUserRoleManager()->getAccessibleEntities('Employee');
                         $count = count($empRecords);
-                    } else {                        
+                    } else {
                         $empRecords = $this->employeeService->getEmployee($this->employeeId);
                         $empRecords = array($empRecords);
                         $count = 1;
@@ -162,13 +154,13 @@ class viewAttendanceRecordAction extends sfAction {
                             $records[] = $attendance;
                         }
                     }
-
                     
                     $params = array();
                     $this->parmetersForListCompoment = $params;
 
                     $actions = array(PluginWorkflowStateMachine::ATTENDANCE_ACTION_EDIT_PUNCH_OUT_TIME, PluginWorkflowStateMachine::ATTENDANCE_ACTION_EDIT_PUNCH_IN_TIME);
-                    $actionableStates = $decoratedUser->getActionableAttendanceStates($actions);
+                    $actionableStates = $userRoleManager->getActionableStates(WorkflowStateMachine::FLOW_ATTENDANCE, 
+                            $actions, array(), array(), array('Employee' => $loggedInEmpNumber));
                     $recArray = array();
 
                     if ($records != null) {
@@ -176,7 +168,7 @@ class viewAttendanceRecordAction extends sfAction {
                             foreach ($actionableStates as $state) {
                                 foreach ($records as $record) {
                                     if ($state == $record->getState()) {
-                                        $this->allowedActions['Edit'] = true;
+                                            $this->allowedActions['Edit'] = true;
                                         break;
                                     }
                                 }
@@ -184,13 +176,14 @@ class viewAttendanceRecordAction extends sfAction {
                         }
 
                         $actions = array(PluginWorkflowStateMachine::ATTENDANCE_ACTION_DELETE);
-                        $actionableStates = $decoratedUser->getActionableAttendanceStates($actions);
+                        $actionableStates = $userRoleManager->getActionableStates(WorkflowStateMachine::FLOW_ATTENDANCE, 
+                            $actions, array(), array(), array('Employee' => $loggedInEmpNumber));
 
                         if ($actionableStates != null) {
                             foreach ($actionableStates as $state) {
                                 foreach ($records as $record) {
                                     if ($state == $record->getState()) {
-                                        $this->allowedActions['Delete'] = true;
+                                            $this->allowedActions['Delete'] = true;
                                         break;
                                     }
                                 }
@@ -198,17 +191,20 @@ class viewAttendanceRecordAction extends sfAction {
                         }
 
                         foreach ($records as $record) {
-                            $this->allowedToDelete[] = $this->allowedToPerformAction(WorkflowStateMachine::FLOW_ATTENDANCE, PluginWorkflowStateMachine::ATTENDANCE_ACTION_DELETE, $record->getState(), $decoratedUser);
+                            $this->allowedToDelete[] = $userRoleManager->isActionAllowed(WorkflowStateMachine::FLOW_ATTENDANCE, $record->getState(), PluginWorkflowStateMachine::ATTENDANCE_ACTION_DELETE, array(), array(), array('Employee' => $loggedInEmpNumber));
                             $recArray[] = $record;
                         }
                     } else {
                         $attendanceRecord = null;
                     }
 
+                    /** 
+                     * TODO: Following code looks overly complicated. Simplify
+                     */
                     $actions = array(PluginWorkflowStateMachine::ATTENDANCE_ACTION_PROXY_PUNCH_IN, PluginWorkflowStateMachine::ATTENDANCE_ACTION_PROXY_PUNCH_OUT);
                     $allowedActionsList = array();
-
-                    $actionableStates = $decoratedUser->getActionableAttendanceStates($actions);
+                    $actionableStates = $userRoleManager->getActionableStates(WorkflowStateMachine::FLOW_ATTENDANCE, 
+                            $actions, array(), array(), array('Employee' => $loggedInEmpNumber));
 
                     if ($actionableStates != null) {
                         if (!empty($recArray)) {
@@ -221,45 +217,50 @@ class viewAttendanceRecordAction extends sfAction {
                         }
 
                         foreach ($actionableStates as $actionableState) {
-
-                            $allowedActionsArray = $decoratedUser->getAllowedActions(PluginWorkflowStateMachine::FLOW_ATTENDANCE, $actionableState);
+  
+                            $allowedActionsArray = $userRoleManager->getAllowedActions(WorkflowStateMachine::FLOW_ATTENDANCE, 
+                                $actionableState, array(), array(), array('Employee' => $loggedInEmpNumber));
+                            
                             if (!is_null($allowedActionsArray)) {
 
-                                $allowedActionsList = array_unique(array_merge($allowedActionsArray, $allowedActionsList));
+                                $allowedActionsList = array_unique(array_merge(array_keys($allowedActionsArray), $allowedActionsList));
                             }
                         }
 
                         if ((is_null($attendanceRecord)) && (in_array(WorkflowStateMachine::ATTENDANCE_ACTION_PROXY_PUNCH_IN, $allowedActionsList))) {
-
-                            $this->allowedActions['PunchIn'] = true;
+                                $this->allowedActions['PunchIn'] = true;
                         }
                         if ((!is_null($attendanceRecord)) && (in_array(WorkflowStateMachine::ATTENDANCE_ACTION_PROXY_PUNCH_OUT, $allowedActionsList))) {
-
-                            $this->allowedActions['PunchOut'] = true;
+                                $this->allowedActions['PunchOut'] = true;
                         }
                     }
                     if ($this->employeeId == '') {
                         $this->showEdit = FALSE;
                     }
+                    
                     $this->_setListComponent($records, $noOfRecords, $pageNumber, $count, $this->showEdit, $this->allowedActions);
                 }
             }
         }
     }
 
-    private function _setListComponent($records, $noOfRecords, $pageNumber, $count=null, $showEdit=null, $allowedActions=null) {
+    private function _setListComponent($records, $noOfRecords, $pageNumber, $count = null, $showEdit = null, $allowedActions = null) {
 
         $configurationFactory = new AttendanceRecordHeaderFactory();
+        $userRoleManager = $this->getContext()->getUserRoleManager();
+        $loggedInEmpNumber = $this->getUser()->getEmployeeNumber();
 
         $notSelectable = array();
         foreach ($records as $record) {
-            if (!$this->allowedToPerformAction(WorkflowStateMachine::FLOW_ATTENDANCE, PluginWorkflowStateMachine::ATTENDANCE_ACTION_DELETE, $record->getState(), $this->decoratedUser)) {
+            if (!$userRoleManager->isActionAllowed(WorkflowStateMachine::FLOW_ATTENDANCE, 
+                    $record->getState(), WorkflowStateMachine::ATTENDANCE_ACTION_DELETE, 
+                    array(), array(), array('Employee' => $loggedInEmpNumber))) {          
                 $notSelectable[] = $record->getId();
             }
         }
-        
-//        print_r($allowedActions);
+
         $buttons = array();
+        $canSelect = false;
         if (isset($allowedActions)) {
             if (isset($showEdit) && $showEdit) {
                 if ($allowedActions['Edit']) :
@@ -273,16 +274,18 @@ class viewAttendanceRecordAction extends sfAction {
                 endif;
             }
             if ($allowedActions['Delete']) :
+                $canSelect = true;
                 $buttons['Delete'] = array('label' => __('Delete'),
-                        'type' => 'submit',
-                        'data-toggle' => 'modal',
-                        'data-target' => '#dialogBox',
-                        'class' => 'delete');
+                    'type' => 'submit',
+                    'data-toggle' => 'modal',
+                    'data-target' => '#dialogBox',
+                    'class' => 'delete');
             endif;
         }
         $configurationFactory->setRuntimeDefinitions(array(
             'buttons' => $buttons,
             'unselectableRowIds' => $notSelectable,
+            'hasSelectableRows' => $canSelect
         ));
 
         ohrmListComponent::setActivePlugin('orangehrmAttendancePlugin');
@@ -292,17 +295,6 @@ class viewAttendanceRecordAction extends sfAction {
         ohrmListComponent::setItemsPerPage($noOfRecords);
         ohrmListComponent::setNumberOfRecords($count);
     }
-
-    public function allowedToPerformAction($flow, $action, $state, $userObject) {
-        //  $userObj = $this->getContext()->getUser()->getAttribute('user');
-        $actionsArray = $userObject->getAllowedActions($flow, $state);
-
-        if (in_array($action, $actionsArray)) {
-            return true;
-        } else {
-            return false;
-        }
-    }
-
+    
 }
 

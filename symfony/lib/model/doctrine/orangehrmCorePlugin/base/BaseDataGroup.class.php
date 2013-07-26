@@ -12,24 +12,30 @@
  * @property integer $canCreate
  * @property integer $canUpdate
  * @property integer $canDelete
+ * @property Doctrine_Collection $Screens
+ * @property Doctrine_Collection $DataGroupScreenPermission
  * @property Doctrine_Collection $DataGroupPermission
  * 
- * @method integer             getId()                  Returns the current record's "id" value
- * @method string              getName()                Returns the current record's "name" value
- * @method string              getDescription()         Returns the current record's "description" value
- * @method integer             getCanRead()             Returns the current record's "canRead" value
- * @method integer             getCanCreate()           Returns the current record's "canCreate" value
- * @method integer             getCanUpdate()           Returns the current record's "canUpdate" value
- * @method integer             getCanDelete()           Returns the current record's "canDelete" value
- * @method Doctrine_Collection getDataGroupPermission() Returns the current record's "DataGroupPermission" collection
- * @method DataGroup           setId()                  Sets the current record's "id" value
- * @method DataGroup           setName()                Sets the current record's "name" value
- * @method DataGroup           setDescription()         Sets the current record's "description" value
- * @method DataGroup           setCanRead()             Sets the current record's "canRead" value
- * @method DataGroup           setCanCreate()           Sets the current record's "canCreate" value
- * @method DataGroup           setCanUpdate()           Sets the current record's "canUpdate" value
- * @method DataGroup           setCanDelete()           Sets the current record's "canDelete" value
- * @method DataGroup           setDataGroupPermission() Sets the current record's "DataGroupPermission" collection
+ * @method integer             getId()                        Returns the current record's "id" value
+ * @method string              getName()                      Returns the current record's "name" value
+ * @method string              getDescription()               Returns the current record's "description" value
+ * @method integer             getCanRead()                   Returns the current record's "canRead" value
+ * @method integer             getCanCreate()                 Returns the current record's "canCreate" value
+ * @method integer             getCanUpdate()                 Returns the current record's "canUpdate" value
+ * @method integer             getCanDelete()                 Returns the current record's "canDelete" value
+ * @method Doctrine_Collection getScreens()                   Returns the current record's "Screens" collection
+ * @method Doctrine_Collection getDataGroupScreenPermission() Returns the current record's "DataGroupScreenPermission" collection
+ * @method Doctrine_Collection getDataGroupPermission()       Returns the current record's "DataGroupPermission" collection
+ * @method DataGroup           setId()                        Sets the current record's "id" value
+ * @method DataGroup           setName()                      Sets the current record's "name" value
+ * @method DataGroup           setDescription()               Sets the current record's "description" value
+ * @method DataGroup           setCanRead()                   Sets the current record's "canRead" value
+ * @method DataGroup           setCanCreate()                 Sets the current record's "canCreate" value
+ * @method DataGroup           setCanUpdate()                 Sets the current record's "canUpdate" value
+ * @method DataGroup           setCanDelete()                 Sets the current record's "canDelete" value
+ * @method DataGroup           setScreens()                   Sets the current record's "Screens" collection
+ * @method DataGroup           setDataGroupScreenPermission() Sets the current record's "DataGroupScreenPermission" collection
+ * @method DataGroup           setDataGroupPermission()       Sets the current record's "DataGroupPermission" collection
  * 
  * @package    orangehrm
  * @subpackage model\core\base
@@ -75,6 +81,15 @@ abstract class BaseDataGroup extends sfDoctrineRecord
     public function setUp()
     {
         parent::setUp();
+        $this->hasMany('Screen as Screens', array(
+             'refClass' => 'DataGroupScreenPermission',
+             'local' => 'data_group_id',
+             'foreign' => 'screen_id'));
+
+        $this->hasMany('DataGroupScreenPermission', array(
+             'local' => 'id',
+             'foreign' => 'data_group_id'));
+
         $this->hasMany('DataGroupPermission', array(
              'local' => 'id',
              'foreign' => 'data_group_id'));

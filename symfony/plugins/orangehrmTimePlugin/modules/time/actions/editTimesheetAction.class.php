@@ -17,7 +17,7 @@
  * if not, write to the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
  * Boston, MA  02110-1301, USA
  */
-class editTimesheetAction extends sfAction {
+class editTimesheetAction extends baseTimeAction {
 
     private $timesheetService;
     private $timesheetPeriodService;
@@ -64,23 +64,26 @@ class editTimesheetAction extends sfAction {
         
         $this->listForm = new DefaultListForm(array(),array(),true);
 
-        $userObj = $this->getContext()->getUser()->getAttribute('user');
-        $employeeIdOfTheUser = $userObj->getEmployeeNumber();
-
-        /* For highlighting corresponding menu item */  
-        if ($userObj->isAdmin()) {
-            $request->setParameter('initialActionName', 'viewEmployeeTimesheet'); 
-        } else {
-            $request->setParameter('initialActionName', 'viewMyTimesheet'); 
-        }
         $this->backAction = $request->getParameter('actionName');
         $this->timesheetId = $request->getParameter('timesheetId');
         $this->employeeId = $request->getParameter('employeeId');
 
-        $this->_checkAuthentication($this->employeeId, $userObj);
+        $loggedInEmpNumber = $this->getContext()->getUser()->getEmployeeNumber();
 
-        if ($this->employeeId == $employeeIdOfTheUser) {
-            $this->employeeName == null;
+        /* For highlighting corresponding menu item */
+        if ($this->employeeId == $loggedInEmpNumber) {
+            $request->setParameter('initialActionName', 'viewMyTimesheet');
+        } else {
+            $request->setParameter('initialActionName', 'viewEmployeeTimesheet');            
+        }
+
+
+        $this->timesheetPermissions = $this->getDataGroupPermissions('time_employee_timesheets', $this->employeeId);
+
+        $this->_checkAuthentication($this->employeeId);
+
+        if ($this->employeeId == $loggedInEmpNumber) {
+            $this->employeeName = null;
         } else {
             $this->employeeName = $this->getEmployeeName($this->employeeId);
         }
@@ -112,7 +115,6 @@ class editTimesheetAction extends sfAction {
 
         if ($request->isMethod('post')) {
 
-
             if ($request->getParameter('btnSave')) {
                 
                 if( $this->timesheetForm->getCSRFtoken() == $request->getParameter('_csrf_token')){
@@ -126,8 +128,6 @@ class editTimesheetAction extends sfAction {
             }
 
             if ($request->getParameter('buttonRemoveRows')) {
-
-
                 $this->messageData = array('success', __('Successfully Removed'));
             }
         }
@@ -135,25 +135,17 @@ class editTimesheetAction extends sfAction {
 
     protected function _checkAuthentication($empNumber, $user) {
 
-        $logedInEmpNumber = $user->getEmployeeNumber();
+        $loggedInEmpNumber = $this->getUser()->getEmployeeNumber();
 
-        if ($logedInEmpNumber == $empNumber) {
+        if ($loggedInEmpNumber == $empNumber) {
             return;
         }
 
-        if ($user->isAdmin()) {
-            return;
+        $userRoleManager = $this->getContext()->getUserRoleManager();
+        if (!$userRoleManager->isEntityAccessible('Employee', $empNumber)) {
+            $this->forward(sfConfig::get('sf_secure_module'), sfConfig::get('sf_secure_action'));
         }
 
-        $subordinateIdList = $this->getEmployeeService()->getSubordinateIdListBySupervisorId($logedInEmpNumber);
-
-        if (empty($subordinateIdList)) {
-            $this->redirect('auth/login');
-        }
-
-        if (!in_array($empNumber, $subordinateIdList)) {
-            $this->redirect('auth/login');
-        }
     }
 
     private function getEmployeeName($employeeId) {

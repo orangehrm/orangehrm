@@ -1,7 +1,7 @@
 
 <div class="box pimPane">
     
-    <?php include_partial('pimLeftMenu', array('empNumber' => $empNumber, 'form' => $form));?>
+    <?php echo include_component('pim', 'pimLeftMenu', array('empNumber'=>$empNumber, 'form' => $form));?>
     
     <?php if ($salaryPermissions->canCreate() || (count($salaryList) > 0 && $salaryPermissions->canUpdate())) { ?>
     <div id="changeSalary">
@@ -117,14 +117,14 @@
                     <?php if ($salaryPermissions->canCreate()) { ?>
                     <input type="button" value="<?php echo __("Add"); ?>" class="" id="addSalary" />
                     <?php } ?>
-                    <?php if ($salaryPermissions->canDelete()) { ?>
+                    <?php if ($salaryPermissions->canDelete() && count($salaryList) > 0) { ?>
                     <input type="button" value="<?php echo __("Delete"); ?>" class="delete" id="delSalary" />
                     <?php } ?>
                 </p>
                 <table id="tblSalary" class="table hover">
                     <thead>
                         <tr>
-                            <?php if ($salaryPermissions->canDelete()) { ?>
+                            <?php if ($salaryPermissions->canDelete() && count($salaryList) > 0) { ?>
                             <th class="check" style="width:2%"><input type="checkbox" id="salaryCheckAll" /></th>
                             <?php } ?>
                             <th class="component"><?php echo __('Salary Component'); ?></th>
@@ -139,13 +139,8 @@
                         <?php
                         if (!(count($salaryList) > 0)) { ?>
                         <tr>
-                            <td class="check"></td>
                             <td><?php echo __(TopLevelMessages::NO_RECORDS_FOUND); ?></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
+                            <td colspan="5"></td>
                         </tr>
                         <?php } else { ?>                        
                         <?php
@@ -251,7 +246,7 @@
                 </table>
             </form>
             <?php else : ?>
-            <div><?php echo __(CommonMessages::DONT_HAVE_ACCESS); ?></div>
+            <div><?php echo __(CommonMessages::RESTRICTED_SECTION); ?></div>
             <?php endif; ?>
         </div>
     </div> <!-- miniList-salaryMiniList -->

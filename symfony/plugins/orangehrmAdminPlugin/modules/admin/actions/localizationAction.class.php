@@ -61,8 +61,6 @@ class localizationAction extends sfAction {
      * @param <type> $request
      */
     public function execute($request) {
-        
-        $this->_checkAuthentication();
 
         $this->setForm(new LocalizationForm());
         $languages = $this->getRequest()->getLanguages();
@@ -92,17 +90,7 @@ class localizationAction extends sfAction {
                 $this->redirect("admin/localization");
             }
         }
-    }
-    
-    protected function _checkAuthentication() {
-        
-        $user = $this->getUser()->getAttribute('user');
-        
-		if (!$user->isAdmin()) {
-			$this->redirect('auth/login');
-		}
-        
-    }      
+    }   
 
 }
 

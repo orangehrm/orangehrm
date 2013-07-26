@@ -24,7 +24,7 @@
 <?php
 use_javascript(plugin_web_path('orangehrmRecruitmentPlugin', 'js/jobInterviewSuccess'));
 ?>
-
+<?php if($candidatePermissions->canRead()){?>
 <div class="box" id="jobInterview">
     <div class="head">
         <h1><?php echo __("Schedule Interview"); ?></h1>
@@ -60,11 +60,13 @@ use_javascript(plugin_web_path('orangehrmRecruitmentPlugin', 'js/jobInterviewSuc
                                 <label class="firstLabel"><?php echo __('Interviewer Name') . ' <em>*</em>'; ?></label>
                                 <?php endif; ?>                                
                                 <?php echo $form['interviewer_' . $i]->render(array("class" => "formInputInterviewer", "maxlength" => 100)); ?>                
-                                <?php if($i != 1) { ?>
-                                    <a class="removeText fieldHelpRight" id=<?php echo "removeButton" . $i ?>><?php echo __('Remove'); ?></a>
-                                <?php } else { ?>
-                                    <a class="addText fieldHelpRight" id='addButton'><?php echo __('Add Another'); ?></a>
-                                <?php } ?>                                
+                                <?php if($candidatePermissions->canUpdate()){?>
+                                    <?php if($i != 1) { ?>
+                                        <a class="removeText fieldHelpRight" id=<?php echo "removeButton" . $i ?>><?php echo __('Remove'); ?></a>
+                                    <?php } else { ?>
+                                        <a class="addText fieldHelpRight" id='addButton'><?php echo __('Add Another'); ?></a>
+                                    <?php } ?>       
+                                <?php }?>
                             </li>
                         <?php } ?>
                     <li>
@@ -87,22 +89,24 @@ use_javascript(plugin_web_path('orangehrmRecruitmentPlugin', 'js/jobInterviewSuc
                     </li>
                 </ol>
                 <p>
-                    <?php if (empty($interviewId)) { ?>
-                        <input type="button" name="actionBtn" id="saveBtn" value="<?php echo __('Save'); ?>"/>
-                    <?php } else { ?>
-                        <input type="button" name="actionBtn" id="saveBtn" value="<?php echo __('Edit'); ?>"/>
-                    <?php } ?>
+                    <?php if($candidatePermissions->canUpdate()){?>
+                        <?php if (empty($interviewId)) { ?>
+                            <input type="button" name="actionBtn" id="saveBtn" value="<?php echo __('Save'); ?>"/>
+                        <?php } else { ?>
+                            <input type="button" name="actionBtn" id="saveBtn" value="<?php echo __('Edit'); ?>"/>
+                        <?php } ?>
+                    <?php }?>
                     <input type="button" name="cancelButton" id="cancelButton" value="<?php echo __("Back"); ?>"/>
                 </p>
         </form>
     </div>
     <?php
     if (isset($interviewId)) {
-        echo include_component('recruitment', 'attachments', array('id' => $interviewId, 'screen' => JobInterview::TYPE));
+        echo include_component('recruitment', 'attachments', array('id' => $interviewId, 'screen' => JobInterview::TYPE, 'permissions'=>$candidatePermissions));
     }
     ?>
 </div>
-
+<?php }?>
 
 <script type="text/javascript">
     //<![CDATA[

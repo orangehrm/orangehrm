@@ -24,7 +24,7 @@ abstract class displayReportCriteriaAction extends sfAction {
     public function execute($request) {
 
         $reportId = $request->getParameter("reportId");
-       
+
         $reportGeneratorService = new ReportGeneratorService();
         $runtimeFilterFieldWidgetNamesAndLabelsList = $reportGeneratorService->getRuntimeFilterFieldWidgetNamesAndLabels($reportId);
         $this->reportName = $reportGeneratorService->getReportName($reportId);
@@ -33,7 +33,7 @@ abstract class displayReportCriteriaAction extends sfAction {
         $selectedRuntimeFilterFieldList = $reportGeneratorService->getSelectedRuntimeFilterFields($reportId);
 
         $ohrmFormGenerator = new ohrmFormGenerator();
-        $this->reportForm = $ohrmFormGenerator->generateForm($runtimeFilterFieldWidgetNamesAndLabelsList);
+        $this->reportForm = $ohrmFormGenerator->generateForm($runtimeFilterFieldWidgetNamesAndLabelsList, $this->getDataGroups());
 
         if ($request->isMethod('post')) {
 
@@ -69,4 +69,12 @@ abstract class displayReportCriteriaAction extends sfAction {
     public function hasStaticColumns(){
         return false;
     }
+    
+    public function getDataGroupPermissions($dataGroups) {
+        return $this->getContext()->getUserRoleManager()->getDataGroupPermissions($dataGroups, array(), array(), false, array());
+    }
+    
+    public function getDataGroups() {
+        return array();
+    }    
 }

@@ -87,7 +87,67 @@ class VacancyDao extends BaseDao {
             throw new DaoException($e->getMessage());
         }
     }
+    
+    public function getVacancyIdList() {
+        try {
+            $q = Doctrine_Query::create()
+                    ->select('jv.id')
+                    ->from('JobVacancy jv');
+            $result = $q->execute(array(), Doctrine_Core::HYDRATE_SINGLE_SCALAR);
+            if (!is_array($result)) {
+                $result = array($result);
+            }
+            return $result;
+        } catch (Exception $e) {
+            throw new DaoException($e->getMessage());
+        }        
+    }
 
+    public function getVacancyIdListForHiringManager($empNumber) {
+        try {
+            $q = Doctrine_Query::create()
+                    ->select('jv.id')
+                    ->from('JobVacancy jv')
+                    ->where('jv.hiringManagerId = ?', $empNumber);
+
+            $result = $q->execute(array(), Doctrine_Core::HYDRATE_SINGLE_SCALAR);
+            if (!is_array($result)) {
+                $result = array($result);
+            }            
+            return $result;
+        } catch (Exception $e) {
+            throw new DaoException($e->getMessage());
+        }
+    }
+    
+    public function getVacancyIdListForInterviewer($empNumber) {
+        try {
+            $q = Doctrine_Query::create()
+                    ->select('jv.id')
+                    ->from('JobVacancy jv')
+                    ->leftJoin('jv.JobCandidateVacancy jcv')
+                    ->leftJoin('jcv.JobInterview ji')
+                    ->leftJoin('ji.JobInterviewInterviewer jii')
+                    ->where('jii.interviewerId = ?', $empNumber);
+            $result = $q->execute(array(), Doctrine_Core::HYDRATE_SINGLE_SCALAR);
+            if (!is_array($result)) {
+                $result = array($result);
+            }            
+            return $result;
+                
+        } catch (Exception $e) {
+            throw new DaoException($e->getMessage());
+        }        
+    }
+    
+    /**
+     * Depcrecated
+     * @param type $role
+     * @param type $empNumber
+     * @return type
+     * @throws DaoException
+     * @deprecated since version 3.1.1
+     */
     public function getVacancyListForUserRole($role, $empNumber) {
         try {
             $q = Doctrine_Query :: create()

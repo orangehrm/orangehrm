@@ -16,6 +16,8 @@
  * if not, write to the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
  * Boston, MA  02110-1301, USA
  */
+
+if($attendancePermissios->canRead()){
 ?>
 
 <style type="text/css">
@@ -57,7 +59,9 @@
                                                                  
                 </ol>
                 <p>
-                    <input type="submit" class="" id="btnSave" value="<?php echo __('Save'); ?>" />
+                    <?php if($attendancePermissios->canUpdate()){?>
+                        <input type="submit" class="" id="btnSave" value="<?php echo __('Save'); ?>" />
+                    <?php }?>
                 </p>
                     
             </fieldset>
@@ -67,3 +71,4 @@
     </div>
         
 </div>
+<?php }?>

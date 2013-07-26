@@ -348,6 +348,9 @@ textarea {
 	color:#777;
 	font-size:12px;
 }
+#social-icons {
+    margin-top: 5px;
+}
 .box {
 	margin:20px;
 	position:relative;

@@ -139,6 +139,10 @@ class myUser extends sfBasicSecurityUser {
         return $auth->getEmployeeNumber();
     }
     
+    public function getUserTimeZoneOffset() {
+        return $this->getAttribute('system.timeZoneOffset', 0);
+    }
+    
     public function initialize(sfEventDispatcher $dispatcher, sfStorage $storage, $options = array()) {
         parent::initialize($dispatcher, $storage, $options);
         if ($this->isTimedOut()) {

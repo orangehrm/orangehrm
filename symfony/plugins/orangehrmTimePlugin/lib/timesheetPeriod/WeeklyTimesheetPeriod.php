@@ -23,9 +23,7 @@ class WeeklyTimesheetPeriod extends TimesheetPeriod {
 
     public function calculateDaysInTheTimesheetPeriod($currentDate, $xml) {
 
-
-        $userObj = sfContext::getInstance()->getUser()->getAttribute('user');
-        $clientTimeZoneOffset = $userObj->getUserTimeZoneOffset();
+        $clientTimeZoneOffset = sfContext::getInstance()->getUser()->getUserTimeZoneOffset();
         date_default_timezone_set($this->getLocalTimezone($clientTimeZoneOffset));
         $this->startDate = $xml->StartDate;
         $day = date('N', strtotime($currentDate));

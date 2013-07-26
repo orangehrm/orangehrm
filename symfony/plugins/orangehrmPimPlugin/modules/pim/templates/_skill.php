@@ -132,7 +132,7 @@ $haveSkills = count($form->empSkillList)>0;
         </form>
 
         <?php else : ?>
-            <div><?php echo __(CommonMessages::DONT_HAVE_ACCESS); ?></div>
+            <div><?php echo __(CommonMessages::RESTRICTED_SECTION); ?></div>
         <?php endif; ?>
 
     </div>

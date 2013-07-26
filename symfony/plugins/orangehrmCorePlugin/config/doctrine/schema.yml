@@ -665,6 +665,7 @@ ScreenPermission:
       local: screen_id
       foreign: id
       type: one 
+      
 DataGroup:
   tableName: ohrm_data_group
   columns:
@@ -684,6 +685,34 @@ DataGroup:
       type: integer(1)
     can_delete as canDelete:
       type: integer(1)
+  relations:
+    Screens:
+      class: Screen
+      refClass: DataGroupScreenPermission
+      local: data_group_id
+      foreign: screen_id
+      
+DataGroupScreenPermission:
+  tableName: ohrm_data_group_screen
+  columns:
+    id:
+      type: integer
+      autoincrement: true
+      primary: true
+    data_group_id:
+      type: integer
+    screen_id: 
+      type: integer
+    permission: integer
+  relations:
+    DataGroup:
+      local: data_group_id
+      foreign: id
+      type: one
+    Screen:
+      local: screen_id
+      foreign: id
+      type: one
 
 DataGroupPermission:
   tableName: ohrm_user_role_data_group

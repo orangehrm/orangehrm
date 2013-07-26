@@ -1,6 +1,8 @@
 <?php
 stylesheet_tag(theme_path('css/orangehrm.datepicker.css'));
 use_javascript('orangehrm.datepicker.js');
+
+if($employeeReportsPermissions->canRead()){
 ?>
 <div class="box">
     <div class="head"><h1 id="reportToHeading"><?php echo __($reportName); ?></h1></div>
@@ -30,7 +32,7 @@ use_javascript('orangehrm.datepicker.js');
           </form>
     </div>
 </div>
-
+<?php }?>
      <script type="text/javascript">
             var datepickerDateFormat = '<?php echo get_datepicker_date_format($sf_user->getDateFormat()); ?>';
             var lang_dateError = '<?php echo __("To date should be after from date") ?>';

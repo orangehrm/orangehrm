@@ -301,5 +301,42 @@ class VacancyDaoTest extends PHPUnit_Framework_TestCase {
         $result = $this->vacancyDao->searchVacanciesCount($srchParams);
         $this->assertEquals($result, 1);
     }
+    
+    public function testGetVacancyIdList() {
+        $result = $this->vacancyDao->getVacancyIdList();
+        $expected = array(1, 2, 3, 4, 5);
+        sort($expected);        
+        sort($result);
 
+        $this->assertEquals(count($expected), count($result));
+        $this->assertEquals($expected, $result);
+    }
+    
+    public function testGetVacancyIdListForHiringManager() {
+        $result = $this->vacancyDao->getVacancyIdListForHiringManager(1);
+        $expected = array(1, 5);
+        sort($expected);        
+        sort($result);
+
+        $this->assertEquals(count($expected), count($result));
+        $this->assertEquals($expected, $result);        
+    }
+    
+    public function testGetVacancyIdListForNotHiringManager() {
+        $result = $this->vacancyDao->getVacancyIdListForHiringManager(5);
+        $expected = array();
+
+        $this->assertEquals(count($expected), count($result));
+        $this->assertEquals($expected, $result);        
+    }    
+
+    public function testGetVacancyIdListForInterviewer() {
+        $result = $this->vacancyDao->getVacancyIdListForInterviewer(3);
+        $expected = array(1);
+        sort($expected);        
+        sort($result);
+
+        $this->assertEquals(count($expected), count($result));
+        $this->assertEquals($expected, $result);        
+    }
 }

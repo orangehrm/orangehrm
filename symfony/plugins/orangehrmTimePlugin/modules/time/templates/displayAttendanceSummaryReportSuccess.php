@@ -1,1 +1,6 @@
-<?php include_component('core', 'ohrmList', $parmetersForListComponent); ?>
+<?php
+
+if ($attendancePermissions->canRead()) {
+    include_component('core', 'ohrmList', $parmetersForListComponent);
+}
+?>

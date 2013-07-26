@@ -17,12 +17,23 @@
  * if not, write to the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
  * Boston, MA  02110-1301, USA
  */
-abstract class displayReportAction extends sfAction {
+abstract class displayReportAction extends basePimReportAction {
 
     private $confFactory;
     private $form;
     protected $reportName = 'pim-report';
     protected $reportTitle = 'PIM Report';
+    
+    /**
+     * Get Logger instance
+     * @return Logger
+     */
+    protected function getLoggerInstance() {
+        if (is_null($this->logger)) {
+            $this->logger = Logger::getLogger('core.report.displayReportAction');
+        }
+        return $this->logger;
+    }
     
     /**
      *
@@ -125,8 +136,16 @@ abstract class displayReportAction extends sfAction {
 
 
         $params = (!empty($paramArray)) ? $paramArray : $this->setParametersForListComponent();
-        $rawDataSet = $reportableGeneratorService->generateReportDataSet($reportId, $sql);
-
+        
+        try {
+            $rawDataSet = $reportableGeneratorService->generateReportDataSet($reportId, $sql);
+        } catch (Exception $e) {
+            $this->getLoggerInstance()->error($e->getMessage(), $e);
+            $this->getUser()->setFlash(displayMessageAction::MESSAGE_HEADING, __('Report could not be generated'), false);
+            $this->getUser()->setFlash('error.nofade', __('Please run the report again.'), false);
+            $this->forward('core', 'displayMessage');
+        }
+        
         $dataSet = self::escapeData($rawDataSet);
         
         $headerGroups = $reportableGeneratorService->getHeaderGroups($reportId);
@@ -183,7 +202,7 @@ abstract class displayReportAction extends sfAction {
     public function setForm($form) {
         $this->form = $form;
     }
-    
+       
     public function initilizeDataRetriever(ohrmListConfigurationFactory $configurationFactory, BaseService $dataRetrievalService, $dataRetrievalMethod, array $dataRetrievalParams) {
         $dataRetriever = new ExportDataRetriever();
         $dataRetriever->setConfigurationFactory($configurationFactory);

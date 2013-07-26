@@ -531,7 +531,31 @@
    <trans-unit id="132">
     <source>Organization Structure</source>
     <target>Organization Structure</target>
+   </trans-unit>  
+   <trans-unit id="134">
+    <source>This is a deleted customer. Reactivate again?</source>
+    <target>This is a deleted customer. Reactivate again?</target>
+   </trans-unit>
+   <trans-unit id="135">
+    <source>Customer will be undeleted</source>
+    <target>Customer will be undeleted</target>
+   </trans-unit>
+   <trans-unit id="136">
+    <source>A new customer will be created with same name</source>
+    <target>A new customer will be created with same name</target>
+   </trans-unit>
+   <trans-unit id="137">
+    <source>Will take no action</source>
+    <target>Will take no action</target>
    </trans-unit>   
+   <trans-unit id="138">
+    <source>Click on Edit button to enable notifications</source>
+    <target>Click on Edit button to enable notifications</target>
+   </trans-unit>
+   <trans-unit id="139">
+    <source>To enable notifications click on Edit button and select the relevant check-box</source>
+    <target>To enable notifications click on Edit button and select the relevant check-box</target>
+   </trans-unit>    
   </body>
  </file>
 </xliff>

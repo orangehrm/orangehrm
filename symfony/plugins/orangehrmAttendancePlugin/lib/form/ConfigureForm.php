@@ -1,4 +1,5 @@
 <?php
+
 /**
  * OrangeHRM is a comprehensive Human Resource Management (HRM) System that captures
  * all the essential functionalities required for any enterprise.
@@ -17,19 +18,35 @@
  * Boston, MA  02110-1301, USA
  */
 class ConfigureForm extends sfForm {
+    private $attendancePermissios;
     const ADMIN_USER = "ADMIN";
     const ESS_USER = "ESS USER";
-    const SUPERVISOR="SUPERVISOR";
+    const SUPERVISOR = "SUPERVISOR";
 
     public function configure() {
 
+        $this->attendancePermissios = $this->getOption('attendancePermissios');
 
-
-        $this->setWidgets(array(
+        $widgets = array(
             'configuration1' => new sfWidgetFormInputCheckbox(array(), array('class' => 'configuration')),
             'configuration2' => new sfWidgetFormInputCheckbox(array(), array('class' => 'configuration')),
             'configuration3' => new sfWidgetFormInputCheckbox(array(), array('class' => 'configuration')),
-        ));
+        );
+
+        $validators = array(
+            'configuration1' => new sfValidatorPass(),
+            'configuration2' => new sfValidatorPass(),
+            'configuration3' => new sfValidatorPass(),
+        );
+
+        if (!($this->attendancePermissios->canUpdate())) {
+            foreach ($widgets as $widgetName => $widget) {
+                $widget->setAttribute('disabled', 'disabled');
+            }
+        }
+
+        $this->setWidgets($widgets);
+        $this->setValidators($validators);
 
         $this->widgetSchema->setNameFormat('attendance[%s]');
 
@@ -45,13 +62,6 @@ class ConfigureForm extends sfForm {
         if ($arrayOfSavedConfigurations['configuration3']) {
             $this->setDefault('configuration3', 'on');
         }
-
-
-        $this->setValidators(array(
-            'configuration1' => new sfValidatorPass(),
-            'configuration2' => new sfValidatorPass(),
-            'configuration3' => new sfValidatorPass(),
-        ));
     }
 
     public function getSavedConfigurationSettings() {
@@ -66,7 +76,7 @@ class ConfigureForm extends sfForm {
         $recordExists3 = $attendanceService->getSavedConfiguration(PluginWorkflowStateMachine::FLOW_ATTENDANCE, PluginAttendanceRecord::STATE_PUNCHED_IN, ConfigureForm::ESS_USER, PluginWorkflowStateMachine::ATTENDANCE_ACTION_EDIT_PUNCH_IN_TIME, PluginAttendanceRecord::STATE_PUNCHED_IN);
         $recordExists4 = $attendanceService->getSavedConfiguration(PluginWorkflowStateMachine::FLOW_ATTENDANCE, PluginAttendanceRecord::STATE_PUNCHED_OUT, ConfigureForm::ESS_USER, PluginWorkflowStateMachine::ATTENDANCE_ACTION_EDIT_PUNCH_OUT_TIME, PluginAttendanceRecord::STATE_PUNCHED_OUT);
         $recordExists13 = $attendanceService->getSavedConfiguration(PluginWorkflowStateMachine::FLOW_ATTENDANCE, PluginAttendanceRecord::STATE_PUNCHED_OUT, ConfigureForm::ESS_USER, PluginWorkflowStateMachine::ATTENDANCE_ACTION_EDIT_PUNCH_IN_TIME, PluginAttendanceRecord::STATE_PUNCHED_OUT);
-        
+
         $recordExists5 = $attendanceService->getSavedConfiguration(PluginWorkflowStateMachine::FLOW_ATTENDANCE, PluginAttendanceRecord::STATE_PUNCHED_IN, ConfigureForm::ESS_USER, PluginWorkflowStateMachine::ATTENDANCE_ACTION_DELETE, PluginAttendanceRecord::STATE_NA);
         $recordExists6 = $attendanceService->getSavedConfiguration(PluginWorkflowStateMachine::FLOW_ATTENDANCE, PluginAttendanceRecord::STATE_PUNCHED_OUT, ConfigureForm::ESS_USER, PluginWorkflowStateMachine::ATTENDANCE_ACTION_DELETE, PluginAttendanceRecord::STATE_NA);
 

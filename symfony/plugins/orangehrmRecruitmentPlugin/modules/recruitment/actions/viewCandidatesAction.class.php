@@ -17,7 +17,7 @@
  * if not, write to the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
  * Boston, MA  02110-1301, USA
  */
-class viewCandidatesAction extends sfAction {
+class viewCandidatesAction extends baseAction {
 
     private $candidateService;
 
@@ -57,15 +57,29 @@ class viewCandidatesAction extends sfAction {
      */
     public function execute($request) {
 
+        $userRoleManager = $this->getContext()->getUserRoleManager();
+        $requiredPermissions = array(
+            BasicUserRoleManager::PERMISSION_TYPE_DATA_GROUP => array(
+                'recruitment_candidates' => new ResourcePermission(true, false, false, false)
+            )
+        );
+            
+        $allowedVacancyList = $userRoleManager->getAccessibleEntityIds('Vacancy', 
+                null, null, array(), array(), $requiredPermissions);
+
         $usrObj = $this->getUser()->getAttribute('user');
         $allowedCandidateList = $usrObj->getAllowedCandidateList();
-        $allowedVacancyList = $usrObj->getAllowedVacancyList();
+        
+        
         $allowedCandidateListToDelete = $usrObj->getAllowedCandidateListToDelete();
 
+        $this->candidaatePermissions = $this->getDataGroupPermissions('recruitment_candidates');
+
         $isAdmin = $usrObj->isAdmin();
-        if (!($usrObj->isAdmin() || $usrObj->isHiringManager() || $usrObj->isInterviewer())) {
+        if (!($usrObj->isAdmin() || $usrObj->isHiringManager() || $usrObj->isInterviewer() || $this->candidaatePermissions->canRead())) {
             $this->redirect('pim/viewPersonalDetails');
         }
+
         $param = array('allowedCandidateList' => $allowedCandidateList, 'allowedVacancyList' => $allowedVacancyList, 'allowedCandidateListToDelete' => $allowedCandidateListToDelete);
         list($this->messageType, $this->message) = $this->getUser()->getFlash('candidateListMessageItems');
         $candidateId = $request->getParameter('candidateId');
@@ -103,8 +117,9 @@ class viewCandidatesAction extends sfAction {
         $searchParam->setAllowedVacancyList($allowedVacancyList);
         $searchParam->setOffset($offset);
         $candidates = $this->getCandidateService()->searchCandidates($searchParam);
-        $this->_setListComponent($usrObj, $candidates, $noOfRecords, $searchParam, $pageNumber);
-
+        if ($this->candidaatePermissions->canRead()) {
+            $this->_setListComponent($usrObj, $candidates, $noOfRecords, $searchParam, $pageNumber, $this->candidaatePermissions);
+        }
         $params = array();
         $this->parmetersForListCompoment = $params;
         if (empty($isPaging)) {
@@ -119,7 +134,7 @@ class viewCandidatesAction extends sfAction {
                     $srchParams = $this->form->getSearchParamsBindwithFormData($searchParam);
                     $this->getUser()->setAttribute('searchParameters', $srchParams);
                     $candidates = $this->getCandidateService()->searchCandidates($srchParams);
-                    $this->_setListComponent($usrObj, $candidates, $noOfRecords, $searchParam, $pageNumber);
+                    $this->_setListComponent($usrObj, $candidates, $noOfRecords, $searchParam, $pageNumber, $this->candidaatePermissions);
                 }
             }
         }
@@ -131,16 +146,34 @@ class viewCandidatesAction extends sfAction {
      * @param <type> $noOfRecords
      * @param CandidateSearchParameters $searchParam
      */
-    private function _setListComponent($usrObj, $candidates, $noOfRecords, CandidateSearchParameters $searchParam, $pageNumber) {
+    private function _setListComponent($usrObj, $candidates, $noOfRecords, CandidateSearchParameters $searchParam, $pageNumber, $permissions) {
+        $runtimeDefinitions = array();
+        $buttons = array();
 
+        if ($permissions->canCreate()) {
+            $buttons['Add'] = array('label' => 'Add');
+        }
+
+        if (!$permissions->canDelete()) {
+            $runtimeDefinitions['hasSelectableRows'] = false;
+        } else if ($permissions->canDelete()) {
+            $buttons['Delete'] = array('label' => 'Delete',
+                'type' => 'submit',
+                'data-toggle' => 'modal',
+                'data-target' => '#deleteConfirmation',
+                'class' => 'delete');
+        }
+
+        $runtimeDefinitions['buttons'] = $buttons;
         $configurationFactory = new CandidateHeaderFactory();
 
-        if (!($usrObj->isAdmin() || $usrObj->isHiringManager())) {
-            $configurationFactory->setRuntimeDefinitions(array(
-                'hasSelectableRows' => false,
-                'buttons' => array(),
-            ));
-        }
+//        if (!($usrObj->isAdmin() || $usrObj->isHiringManager())) {
+//            $configurationFactory->setRuntimeDefinitions(array(
+//                'hasSelectableRows' => false,
+//                'buttons' => array(),
+//            ));
+//        }
+        $configurationFactory->setRuntimeDefinitions($runtimeDefinitions);
         ohrmListComponent::setPageNumber($pageNumber);
         ohrmListComponent::setConfigurationFactory($configurationFactory);
         ohrmListComponent::setListData($candidates);

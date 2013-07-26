@@ -6,10 +6,11 @@ class EmailNotificationHeaderFactory extends ohrmListConfigurationFactory {
 
         $header1 = new ListHeader();
         $header2 = new ListHeader();
+        $header3 = new ListHeader();
 
         $header1->populateFromArray(array(
             'name' => 'Notification Type',
-            'width' => '49%',
+            'width' => '30%',
             'isSortable' => false,
             'filters' => array('I18nCellFilter' => array()
                               ),
@@ -22,12 +23,26 @@ class EmailNotificationHeaderFactory extends ohrmListConfigurationFactory {
         
         $header2->populateFromArray(array(
             'name' => 'Subscribers',
-            'width' => '49%',
+            'width' => '60%',
             'elementType' => 'label',
             'elementProperty' => array('getter' => 'getSubscriberList'),
         ));
+        
+        $header3->populateFromArray(array(
+            'name' => 'Enabled',
+            'width' => '10%',
+            'elementType' => 'checkbox',
+            'textAlignmentStyle' => 'center',
+            'elementProperty' => array(
+                'id' => 'ohrmList_chkSelectRecord_{id}',
+                'name' => 'chkSelectRow[]',
+                'valueGetter' => 'getId',
+                'checkedGetter' => 'isEnable',
+                'placeholderGetters' => array('id' => 'getId'),
+             ),
+        ));
 
-        $this->headers = array($header1, $header2);
+        $this->headers = array($header1, $header2, $header3);
     }
 
     public function getClassName() {

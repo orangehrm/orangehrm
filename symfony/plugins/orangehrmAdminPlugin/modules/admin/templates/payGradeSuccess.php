@@ -6,6 +6,7 @@ use_javascript(plugin_web_path('orangehrmAdminPlugin', 'js/payGradeSuccess'));
 
 <?php $hasCurrencies = !empty($currencyList) && count($currencyList) > 0; ?>
 
+<?php if($payGradePermissions->canRead()){ ?>
 <div id="payGrade" class="box">
     
     <div class="head">
@@ -31,7 +32,9 @@ use_javascript(plugin_web_path('orangehrmAdminPlugin', 'js/payGradeSuccess'));
                 </ol>
 
                 <p>
+                    <?php if(($payGradePermissions->canCreate() && empty($payGradeId)) || ($payGradePermissions->canUpdate() && ($payGradeId > 0))){?>
                     <input type="button" class="addbutton" name="btnSave" id="btnSave" value="<?php echo __("Save"); ?>"/>
+                    <?php }?>
                     <input type="button" class="reset" name="btnCancel" id="btnCancel" value="<?php echo __("Cancel"); ?>"/>
                 </p>
                 
@@ -84,7 +87,9 @@ use_javascript(plugin_web_path('orangehrmAdminPlugin', 'js/payGradeSuccess'));
                 </ol>    
                 
                 <p id="actionButtons" style="display: none">
+                    <?php if($payGradePermissions->canCreate() || $payGradePermissions->canUpdate()){?>
                     <input type="button" class="addbutton" name="btnSaveCurrency" id="btnSaveCurrency" value="<?php echo __("Save"); ?>"/>
+                    <?php }?>
                     <input type="button" class="reset" id="cancelButton" value="<?php echo __("Cancel"); ?>"/>
                 </p>
                 
@@ -112,18 +117,21 @@ use_javascript(plugin_web_path('orangehrmAdminPlugin', 'js/payGradeSuccess'));
             <?php echo $deleteForm['_csrf_token']; ?>
             
             <p id="addDeleteBtnDiv">
+                <?php if($payGradePermissions->canCreate() || $payGradePermissions->canUpdate()){?>
                 <input type="button" class="addbutton" id="btnAddCurrency" value="<?php echo __("Add"); ?>"/>
                 <?php if ($hasCurrencies) { ?>
                 
                 <input type="button" class="delete" id="btnDeleteCurrency" value="<?php echo __("Delete"); ?>"/>
                     
-                <?php } ?>
+                <?php } }?>
             </p>
             
             <table class="table hover" id="tblCurrencies">
                 <thead>
                     <tr>
+                        <?php if($payGradePermissions->canCreate() || $payGradePermissions->canUpdate()){?>
                         <th class="check" style="width:2%"><input type="checkbox" id="currencyCheckAll" class="checkboxCurr"/></th>
+                        <?php }?>
                         <th style="width:40%"><?php echo __("Currency") ?></th>
                         <th style="width:34%"><?php echo __("Minimum Salary") ?></th>
                         <th style="width:34%"><?php echo __("Maximum Salary") ?></th>
@@ -138,8 +146,12 @@ use_javascript(plugin_web_path('orangehrmAdminPlugin', 'js/payGradeSuccess'));
                         $cssClass = ($row % 2) ? 'even' : 'odd';
                 ?>
                         <tr class="<?php echo $cssClass; ?>">
+                            <?php if($payGradePermissions->canCreate() || $payGradePermissions->canUpdate()){?>
                             <td class="check"><input type='checkbox' class='checkboxCurr' name='delCurrencies[]' value="<?php echo $currency->currency_id; ?>"/></td>
                             <td><a href="#" class="editLink"><?php echo __($currency->getCurrencyType()->getCurrencyName()); ?></a></td>
+                            <?php }else{?>
+                                <td><?php echo __($currency->getCurrencyType()->getCurrencyName()); ?></td>
+                            <?php }?>
                             <td class=""><?php echo number_format($currency->minSalary, 2, '.', ','); ?></td>
                             <td class=""><?php echo number_format($currency->maxSalary, 2, '.', ','); ?></td>
                         </tr>
@@ -166,7 +178,9 @@ use_javascript(plugin_web_path('orangehrmAdminPlugin', 'js/payGradeSuccess'));
     
 </div>
 
-<?php } ?>
+<?php } 
+}
+?>
 
 <script type="text/javascript">
     var currencies = <?php echo str_replace('&#039;', "'", $form->getCurrencyListAsJson()); ?> ;

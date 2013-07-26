@@ -38,7 +38,7 @@ class ohrmReportWidgetOperationalCountryLocationDropDown extends ohrmWidgetSelec
         if (isset($options['set_all_option_value']) && $options['set_all_option_value']) {
             $this->addOption('all_option_value', '-1');
         }
-        $this->addOption('show_all_locations', false);
+        $this->addOption('show_all_locations', true);
     }
 
     /**

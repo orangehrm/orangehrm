@@ -230,8 +230,7 @@ class TimesheetForm extends sfForm {
 
     public function getDatesOfTheTimesheetPeriod($startDate, $endDate) {
 
-        $userObj = sfContext::getInstance()->getUser()->getAttribute('user');
-        $clientTimeZoneOffset = $userObj->getUserTimeZoneOffset();
+        $clientTimeZoneOffset = sfContext::getInstance()->getUser()->getUserTimeZoneOffset();
         date_default_timezone_set($this->getLocalTimezone($clientTimeZoneOffset));
 
         if ($startDate < $endDate) {

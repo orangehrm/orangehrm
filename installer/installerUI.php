@@ -132,7 +132,7 @@ switch ($currScreen) {
 ?>
 
 </form>
-<div id="footer"><a href="http://www.orangehrm.com" target="_blank" tabindex="37">OrangeHRM</a> Web Installation Wizard ver 0.2 &copy; OrangeHRM Inc 2005 - 2013 All rights reserved. </div>
+<div id="footer"><?php include_once(ROOT_PATH . "/symfony/apps/orangehrm/templates/_copyright.php");?></div>  
 </div>
 </body>
 </html>

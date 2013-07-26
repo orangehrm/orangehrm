@@ -10,7 +10,7 @@ default:
     #robots:       index, follow
 
   has_layout:     true
-  layout:         layout
+  layout:         freshorange
 
 loginSuccess:
   layout: noHeader

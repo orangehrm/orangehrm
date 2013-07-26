@@ -39,7 +39,7 @@ class LeaveListConfigurationFactory extends ohrmListConfigurationFactory {
             'elementProperty' => array(
                 'labelGetter' => array('getEmployee', 'getFullName'),
                 'placeholderGetters' => array('id' => 'getEmpNumber'),
-                'urlPattern' => public_path('index.php/pim/viewPersonalDetails/empNumber/{id}'),
+                'urlPattern' => public_path('index.php/pim/viewEmployee/empNumber/{id}'),
             ),
         ));
 

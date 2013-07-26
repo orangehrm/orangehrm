@@ -24,7 +24,7 @@
 <?php 
 use_javascript(plugin_web_path('orangehrmAdminPlugin', 'js/viewProjectsSuccess')); 
 ?>
-
+<?php if($projectPermissions->canRead()){?>
 <div id="searchProject" class="box searchForm toggableForm">
     <div class="head">
             <h1 id="searchProjectHeading"><?php echo __("Projects"); ?></h1>
@@ -56,7 +56,7 @@ use_javascript(plugin_web_path('orangehrmAdminPlugin', 'js/viewProjectsSuccess')
     <input type="hidden" name="pageNo" id="pageNo"/>
     <input type="hidden" name="hdnAction" id="hdnAction" value="search" />
 </form>
-
+<?php }?>
 <!-- Confirmation box HTML: Begins -->
 <div class="modal hide" id="deleteConfModal">
   <div class="modal-header">

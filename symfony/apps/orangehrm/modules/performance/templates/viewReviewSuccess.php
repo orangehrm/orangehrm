@@ -163,11 +163,14 @@ use_javascript('orangehrm.datepicker.js');
                     </thead>
 
                     <tbody>
-                        <?php if (count($reviews) > 0) { ?>   
-                            <?php
+                        <?php 
+                        $validReviews = 0;
+                        if (count($reviews) > 0) {   
+
                             $i = 0;
                             foreach ($reviews as $review) {
                                 if ($review->getEmployee()) {
+                                    $validReviews++;
                                     $rowClass = ($i % 2) ? 'even' : 'odd';
                                     $empName = $review->getEmployee()->getFirstName() . ' ' . $review->getEmployee()->getLastName();
                                     ?>
@@ -240,7 +243,13 @@ use_javascript('orangehrm.datepicker.js');
                                 } // End of if condition
                             } // End of foreach
                             ?>
-                        <?php } else { // End of checking $reviews count ?>
+                        <?php } ?> 
+                                    
+                        <?php 
+                        // Checking $validReviews this instead of count($reviews) to handle cases where there are reviews but some
+                        // of them do not have a linked employee because that employee is deleted, but review is not deleted
+                        // due to earlier bug in system.
+                            if ($validReviews == 0) { ?>
                             <tr>
                                 <td></td>
                                 <td><?php echo __(TopLevelMessages::NO_RECORDS_FOUND); ?></td>

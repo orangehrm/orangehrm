@@ -1,6 +1,6 @@
 <div class="box pimPane">
     
-    <?php include_partial('pimLeftMenu', array('empNumber' => $empNumber, 'form' => $form));?>
+    <?php echo include_component('pim', 'pimLeftMenu', array('empNumber'=>$empNumber, 'form' => $form));?>
     
         <div class="head">
             <h1><?php echo __('Photograph'); ?></h1>

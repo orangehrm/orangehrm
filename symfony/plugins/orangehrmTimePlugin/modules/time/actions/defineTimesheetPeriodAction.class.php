@@ -37,8 +37,6 @@ class defineTimesheetPeriodAction extends sfAction {
     
     public function execute($request) {
 
-        $this->userObj = $this->getContext()->getUser()->getAttribute('user');
-        $this->isAllowed = $this->userObj->isAllowedToDefineTimeheetPeriod();
         $this->form = new DefineTimesheetPeriodForm(array(),array(),true);
         
 

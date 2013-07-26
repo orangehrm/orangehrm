@@ -46,6 +46,7 @@ class displayProjectReportAction extends displayReportAction {
         
     }
     public function setInitialActionDetails($request) {
+        $this->projectReportPermissions = $this->getDataGroupPermissions('time_project_reports');
 
         $initialActionName = $request->getParameter('initialActionName', '');
 

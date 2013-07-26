@@ -1,6 +1,9 @@
 <?php
 
 class CustomerHeaderFactory extends ohrmListConfigurationFactory {
+    private $isLinkable;
+    
+    
 	
 		protected function init() {
 
@@ -15,6 +18,7 @@ class CustomerHeaderFactory extends ohrmListConfigurationFactory {
 		    'elementType' => 'link',
 		    'elementProperty' => array(
 			'labelGetter' => 'getName',
+                        'linkable' => $this->isLinkable,
 			'placeholderGetters' => array('id' => 'getCustomerId'),
 			'urlPattern' => 'addCustomer?customerId={id}'),
 		));
@@ -32,6 +36,10 @@ class CustomerHeaderFactory extends ohrmListConfigurationFactory {
 	public function getClassName() {
 		return 'Customer';
 	}
+        
+        public function setIsLinkable($isLinkable){
+            $this->isLinkable = $isLinkable;
+        }
 }
 
 ?>

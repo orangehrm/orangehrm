@@ -20,15 +20,13 @@
 class displayEmployeeReportCriteriaAction extends displayReportCriteriaAction {
 
     public function execute($request) {
-        $this->userObj = $this->getContext()->getUser()->getAttribute('user');
-        $accessibleMenus = $this->userObj->getAccessibleReportSubMenus();
-        $hasRight = false;
 
-        foreach ($accessibleMenus as $menu) {
-            if ($menu->getDisplayName() === __("Employee Reports")) {
-                $hasRight = true;
-                break;
-            }
+        $hasRight = false;
+        
+        $this->employeeReportsPermissions = $this->getDataGroupPermissions('time_employee_reports');
+        
+        if($this->employeeReportsPermissions->canRead()){
+            $hasRight = true;
         }
 
         if (!$hasRight) {
@@ -52,6 +50,10 @@ class displayEmployeeReportCriteriaAction extends displayReportCriteriaAction {
 
     public function setStaticColumns($formValues) {
         
+    }
+    
+    public function getDataGroups() {
+        return array('time_employee_reports');
     }
 
 }

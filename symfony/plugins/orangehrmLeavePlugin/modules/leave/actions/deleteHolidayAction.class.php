@@ -1,4 +1,5 @@
 <?php
+
 /*
  *
  * OrangeHRM is a comprehensive Human Resource Management (HRM) System that captures
@@ -22,7 +23,7 @@
 /**
  * delete holiday(s)
  */
-class deleteHolidayAction extends sfAction {
+class deleteHolidayAction extends baseLeaveAction {
 
     private $holidayService;
 
@@ -45,33 +46,37 @@ class deleteHolidayAction extends sfAction {
     public function setHolidayService(HolidayService $holidayService) {
         $this->holidayService = $holidayService;
     }
-    
-    
+
     /**
      * view Holiday list
      * @param sfWebRequest $request
-     */ 
+     */
     public function execute($request) {
-        $form = new DefaultListForm(array(), array(), true) ;
-        $form->bind($request->getParameter($form->getName()));
-        $holidayIds = $request->getPostParameter('chkSelectRow[]');
 
-        if (!empty($holidayIds)) {
+        $holidayPermissions = $this->getDataGroupPermissions('holidays');
 
-            foreach ($holidayIds as $key => $id) {
+        if ($holidayPermissions->canDelete()) {            
+
+            $holidayIds = $request->getPostParameter('chkSelectRow[]');            
+            if (!empty($holidayIds)) {
+
+                $form = new DefaultListForm(array(), array(), true) ;
+                $form->bind($request->getParameter($form->getName()));  
+                
                 if ($form->isValid()) {
-                    $this->getHolidayService()->deleteHoliday($id);
-                    $this->getUser()->setFlash('success', __(TopLevelMessages::DELETE_SUCCESS));
+                    foreach ($holidayIds as $key => $id) {
+                        $this->getHolidayService()->deleteHoliday($id);
+                    }
+                    $this->getUser()->setFlash('success', __(TopLevelMessages::DELETE_SUCCESS));                    
+                } else {
+                    $this->getUser()->setFlash('warning', __(TopLevelMessages::ACCESS_DENIED));
                 }
+            } else {
+                $this->getUser()->setFlash('warning', __(TopLevelMessages::SELECT_RECORDS));
             }
 
-            $this->getUser()->setFlash('templateMessage', array('SUCCESS', __(TopLevelMessages::DELETE_SUCCESS)));
-        } else {
-            $this->getUser()->setFlash('templateMessage', array('NOTICE', __(TopLevelMessages::SELECT_RECORDS)));
+            $this->redirect('leave/viewHolidayList');
         }
-
-
-        $this->redirect('leave/viewHolidayList');
     }
 
 }

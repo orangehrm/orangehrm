@@ -58,21 +58,21 @@ $(document).ready(function(){
 
     $("#btnSubmit").click(function(){
         $('form#timesheetFrm').attr({
-            action:linkForViewTimesheet+"?state="+submitNextState+"&timesheetStartDate="+date+"&employeeId="+employeeId+"&submitted="+true+"&updateActionLog="+true
+            action:linkForViewTimesheet+"?act="+submitAction+"&timesheetStartDate="+date+"&employeeId="+employeeId+"&submitted="+true+"&updateActionLog="+true
         });
         $('form#timesheetFrm').submit();
     });
 
     $("#btnReset").click(function(){
         $('form#timesheetFrm').attr({
-            action:linkForViewTimesheet+"?state="+resetNextState+"&timesheetStartDate="+date+"&employeeId="+employeeId+"&updateActionLog="+true+"&resetAction="+true
+            action:linkForViewTimesheet+"?act="+resetAction+"&timesheetStartDate="+date+"&employeeId="+employeeId+"&updateActionLog="+true+"&resetAction="+true
         });
         $('form#timesheetFrm').submit();
     });
 
     $("#btnReject").click(function(){
         $('form#timesheetActionFrm').attr({
-            action:linkForViewTimesheet+"?state="+rejectNextState+"&timesheetStartDate="+date+"&employeeId="+employeeId+
+            action:linkForViewTimesheet+"?act="+rejectAction+"&timesheetStartDate="+date+"&employeeId="+employeeId+
                 "&updateActionLog="+true
         });
         $('form#timesheetActionFrm').submit();
@@ -80,7 +80,7 @@ $(document).ready(function(){
 
     $("#btnApprove").click(function(){
         $('form#timesheetActionFrm').attr({ 
-            action:linkForViewTimesheet+"?state="+approveNextState+"&timesheetStartDate="+date+"&employeeId="+employeeId+
+            action:linkForViewTimesheet+"?act="+approveAction+"&timesheetStartDate="+date+"&employeeId="+employeeId+
                 "&updateActionLog="+true
         });
         $('form#timesheetActionFrm').submit();

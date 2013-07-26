@@ -241,7 +241,7 @@ $(document).ready(function() {
         }
     });
     
-    if(isProjectAdmin){
+    if(isProjectAdmin && dontHavePermission){
         $('#btnSave').hide();
     }
     

@@ -1,7 +1,13 @@
 <?php
 
 class ProjectActivityHeaderFactory extends ohrmListConfigurationFactory {
-	
+    private $allowEdit;
+    
+    public function setAllowEdit($allowEdit) {
+        $this->allowEdit = $allowEdit;
+    }
+
+    	
 	protected function init() {
 
 		$header1 = new ListHeader();
@@ -11,6 +17,7 @@ class ProjectActivityHeaderFactory extends ohrmListConfigurationFactory {
 		    'width' => '98%',
 		    'elementType' => 'link',
 		     'elementProperty' => array(
+                        'linkable' => $this->allowEdit,
 			'labelGetter' => 'getName',
 			'urlPattern' => 'javascript:'),
 		));

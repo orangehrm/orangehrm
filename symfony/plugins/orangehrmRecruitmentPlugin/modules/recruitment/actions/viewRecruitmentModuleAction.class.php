@@ -38,9 +38,28 @@ class viewRecruitmentModuleAction extends sfAction {
     }    
 
     public function execute($request) {
+        $defaultPath = $this->getHomePageService()->getRecruitmentModuleDefaultPath();
+        if (empty($defaultPath)) {
+            $candidatesPermission = $this->getDataGroupPermissions('recruitment_candidates');
+            if ($candidatesPermission->canRead()) {
+                $defaultPath = 'recruitment/viewCandidates';
+            } else {
+                $vacanciesPermission = $this->getDataGroupPermissions('recruitment_vacancies');
+                if ($vacanciesPermission->canRead()) {
+                    $defaultPath = 'recruitment/viewJobVacancy';
+                }
+            }
+        }
 
-        $this->redirect($this->getHomePageService()->getRecruitmentModuleDefaultPath());
-        
+        if (empty($defaultPath)) {
+            $this->forward(sfConfig::get('sf_secure_module'), sfConfig::get('sf_secure_action'));
+        } else {
+            $this->redirect($defaultPath);
+        }
     }
+    
+    public function getDataGroupPermissions($dataGroups) {
+        return $this->getContext()->getUserRoleManager()->getDataGroupPermissions($dataGroups);
+    }    
 
 }

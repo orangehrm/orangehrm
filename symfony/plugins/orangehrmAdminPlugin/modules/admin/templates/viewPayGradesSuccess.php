@@ -2,11 +2,11 @@
 <?php 
 use_javascript(plugin_web_path('orangehrmAdminPlugin', 'js/viewPayGradesSuccess')); 
 ?>
-
+<?php if($payGradePermissions->canRead()){?>
 <div id="jobTitleList">
     <?php include_component('core', 'ohrmList', $parmetersForListCompoment); ?>
 </div>
-
+<?php }?>
 <!-- Confirmation box HTML: Begins -->
 <div class="modal hide" id="deleteConfModal">
   <div class="modal-header">

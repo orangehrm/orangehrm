@@ -17,11 +17,11 @@
  * if not, write to the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
  * Boston, MA  02110-1301, USA
  */
-
 class WorkWeekForm extends sfForm {
 
     private $workWeekService;
     private $workWeekEntity;
+    private $workWeekPermissions;
 
     /**
      * Sets WorkWeekService
@@ -66,17 +66,20 @@ class WorkWeekForm extends sfForm {
      */
     public function configure() {
 
+        $this->workWeekPermissions = $this->getDefault('workWeekPermissions');
+
         $this->setWorkWeekEntity($this->getDefault('workWeekEntity'));
 
+        $widgets = $this->getDayLengthWidgets();
+
         $this->setValidators($this->getDayLengthValidators());
-        $this->setWidgets($this->getDayLengthWidgets());
+        $this->setWidgets($widgets);
         $this->setDefaults($this->getDayLengthDefaults());
 
         $this->widgetSchema->setLabels($this->getDayLengthLabels());
         $this->widgetSchema->setNameFormat('WorkWeek[%s]');
 
         $this->validatorSchema->setPostValidator(new sfValidatorCallback(array('callback' => array($this, 'validateWorkWeekValue'))));
-        
     }
 
     /**
@@ -87,7 +90,7 @@ class WorkWeekForm extends sfForm {
     public function getWorkWeekObjects($data) {
 
         $daysList = WorkWeek::getDaysList();
-        
+
         $workWeekList = array();
 
         foreach ($data as $day => $length) {
@@ -126,7 +129,7 @@ class WorkWeekForm extends sfForm {
                 }
             }
         }
-        
+
         return $values;
     }
 
@@ -141,13 +144,13 @@ class WorkWeekForm extends sfForm {
         foreach ($dayLengths as $dayLength => $dayLengthTerm) {
             $dayLengths[$dayLength] = __($dayLengthTerm);
         }
-        
+
         $formWidgets = array();
         $daysOfWeek = WorkWeek::getDaysList();
 
         foreach ($daysOfWeek as $day) {
             $formWidgets['day_length_' . $day] = new sfWidgetFormSelect(
-                    array('choices' => $dayLengths)
+                            array('choices' => $dayLengths), array('disabled' => 'disabled')
             );
         }
 
@@ -164,13 +167,13 @@ class WorkWeekForm extends sfForm {
 
         return $formLabels;
     }
-    
+
     protected final function getDayLengthValidators() {
         $formValidators = array();
-        
+
         $daysOfWeek = WorkWeek::getDaysList();
         $choices = array_keys(WorkWeek::getDaysLengthList());
-        
+
         foreach ($daysOfWeek as $day) {
 
             $validator = new sfValidatorChoice(
@@ -182,13 +185,13 @@ class WorkWeekForm extends sfForm {
                                 'required' => 'Value for ' . $day . ' is required',
                             )
             );
-            
+
             $formValidators['day_length_' . $day] = $validator;
         }
-        
+
         return $formValidators;
     }
-    
+
     protected final function getDayLengthDefaults() {
         $formDefaults = array();
         $daysOfWeek = WorkWeek::getDaysList();
@@ -199,13 +202,13 @@ class WorkWeekForm extends sfForm {
 
         return $formDefaults;
     }
-    
+
     public function getJavaScripts() {
         $javaScripts = parent::getJavaScripts();
         $javaScripts[] = plugin_web_path('orangehrmLeavePlugin', 'js/defineWorkWeekSuccess.js');
         $javaScripts[] = plugin_web_path('orangehrmLeavePlugin', 'js/defineWorkWeekSuccessValidate.js');
 
         return $javaScripts;
-    }    
+    }
 
 }

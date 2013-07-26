@@ -30,8 +30,6 @@ class pimCsvImportAction extends baseCsvImportAction {
 	}
 
 	public function execute($request) {
-        
-        $this->_checkAuthentication();
 
 		$this->setForm(new PimCsvImportForm());
 
@@ -60,18 +58,7 @@ class pimCsvImportAction extends baseCsvImportAction {
 				}
 			}
 		}
-	}
-    
-    protected function _checkAuthentication() {
-        
-        $user = $this->getUser()->getAttribute('user');
-        
-		if (!$user->isAdmin()) {
-			$this->redirect('auth/login');
-		}
-        
-    }    
+	}  
 
 }
 
-?>

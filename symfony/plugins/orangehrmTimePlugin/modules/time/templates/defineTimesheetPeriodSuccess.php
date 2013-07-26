@@ -34,24 +34,16 @@
             <fieldset>
                 <ol>
                     <li>
-                        <?php if ($isAllowed) { ?>
                             <?php echo $form['startingDays']->renderLabel(__('First Day of Week') . ' <em>*</em>'); ?>
                             <?php echo $form['startingDays']->render(array("maxlength" => 20)); ?>
-                        <?php } else { ?>                        
-                            <label><?php echo __("Timesheet period start day has not been defined. Please contact HR Admin"); ?></label>
-                        <?php } ?>
                     </li>
-                    <?php if($isAllowed){?>
-                        <li class="required">
-                            <em>*</em> <?php echo __(CommonMessages::REQUIRED_FIELD); ?>
-                        </li>
-                    <?php } ?>
+                    <li class="required">
+                        <em>*</em> <?php echo __(CommonMessages::REQUIRED_FIELD); ?>
+                    </li>
                 </ol>
-                <?php if ($isAllowed) { ?>
                 <p>
                     <input type="button" class="" name="btnSave" id="btnSave" value="<?php echo __("Save"); ?>"/>
                 </p>
-                <?php } ?>
             </fieldset>
         </form> 
         

@@ -53,8 +53,10 @@ class changeCandidateVacancyStatusAction extends baseRecruitmentAction {
         /* For highlighting corresponding menu item */
         $request->setParameter('initialActionName', 'viewCandidates');
 
+        $this->candidatePermissions = $this->getDataGroupPermissions('recruitment_candidates');
+
         $usrObj = $this->getUser()->getAttribute('user');
-        if (!($usrObj->isAdmin() || $usrObj->isHiringManager() || $usrObj->isInterviewer())) {
+        if (!($usrObj->isAdmin() || $usrObj->isHiringManager() || $usrObj->isInterviewer() || $this->candidatePermissions->canRead())) {
             $this->redirect('pim/viewPersonalDetails');
         }
         $allowedCandidateList = $usrObj->getAllowedCandidateList();
@@ -64,8 +66,9 @@ class changeCandidateVacancyStatusAction extends baseRecruitmentAction {
         if ($this->getUser()->hasFlash('templateMessage')) {
             list($this->messageType, $this->message) = $this->getUser()->getFlash('templateMessage');
         }
-        
+
         $id = $request->getParameter('id');
+        $this->id = $id;
         if (!empty($id)) {
             $history = $this->getCandidateService()->getCandidateHistoryById($id);
             $action = $history->getAction();
@@ -89,7 +92,7 @@ class changeCandidateVacancyStatusAction extends baseRecruitmentAction {
         $this->selectedAction = $request->getParameter('selectedAction');
         $param = array();
         if ($id > 0) {
-            $param = array('id' => $id);
+            $param = array('id' => $id, 'candidatePermissions' => $this->candidatePermissions);
         }
         if ($candidateVacancyId > 0 && $this->selectedAction != "") {
             $candidateVacancy = $this->getCandidateService()->getCandidateVacancyById($candidateVacancyId);
@@ -97,7 +100,7 @@ class changeCandidateVacancyStatusAction extends baseRecruitmentAction {
             if ($nextActionList[$this->selectedAction] == "" || !in_array($candidateVacancy->getCandidateId(), $allowedCandidateList)) {
                 $this->redirect('recruitment/viewCandidates');
             }
-            $param = array('candidateVacancyId' => $candidateVacancyId, 'selectedAction' => $this->selectedAction);
+            $param = array('candidateVacancyId' => $candidateVacancyId, 'selectedAction' => $this->selectedAction, 'candidatePermissions' => $this->candidatePermissions);
             $this->performedAction = $this->selectedAction;
         }
 
@@ -109,17 +112,18 @@ class changeCandidateVacancyStatusAction extends baseRecruitmentAction {
 //            $this->enableEdit = false;
 //        }
         if ($request->isMethod('post')) {
-
-            $this->form->bind($request->getParameter($this->form->getName()));
-            if ($this->form->isValid()) {
-                $result = $this->form->performAction();
-                if (isset($result['messageType'])) {
-                    $this->getUser()->setFlash($result['messageType'], $result['message']);
-                } else {
-                    $message = __(TopLevelMessages::UPDATE_SUCCESS);
-                    $this->getUser()->setFlash('success', $message);
+            if ($this->candidatePermissions->canUpdate()) {
+                $this->form->bind($request->getParameter($this->form->getName()));
+                if ($this->form->isValid()) {
+                    $result = $this->form->performAction();
+                    if (isset($result['messageType'])) {
+                        $this->getUser()->setFlash($result['messageType'], $result['message']);
+                    } else {
+                        $message = __(TopLevelMessages::UPDATE_SUCCESS);
+                        $this->getUser()->setFlash('success', $message);
+                    }
+                    $this->redirect('recruitment/changeCandidateVacancyStatus?id=' . $this->form->historyId);
                 }
-                $this->redirect('recruitment/changeCandidateVacancyStatus?id=' . $this->form->historyId);
             }
         }
     }

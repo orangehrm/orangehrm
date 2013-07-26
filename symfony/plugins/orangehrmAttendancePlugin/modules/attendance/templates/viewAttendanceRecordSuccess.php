@@ -2,6 +2,7 @@
 <?php echo javascript_include_tag(plugin_web_path('orangehrmAttendancePlugin', 'js/viewAttendanceRecordSuccess')); ?>
 <?php echo javascript_include_tag(plugin_web_path('orangehrmAttendancePlugin', 'js/getRelatedAttendanceRecordsSuccess')); ?>
 
+<?php if($attendanceManagePermissios->canRead()){?>
 <div class="box">
 
     <div class="head">
@@ -63,6 +64,7 @@
     </div>
 </div>
 <!-- Confirmation box HTML: Ends -->
+<?php }?>
 
 <script type="text/javascript">
     

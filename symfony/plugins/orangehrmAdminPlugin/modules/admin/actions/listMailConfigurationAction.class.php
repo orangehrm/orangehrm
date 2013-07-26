@@ -27,8 +27,6 @@ class listMailConfigurationAction extends sfAction {
 
     public function execute($request) {
         
-        $this->_checkAuthentication();
-        
         $this->setForm(new EmailConfigurationForm());
         
         if ($request->isMethod('post')) {
@@ -50,16 +48,6 @@ class listMailConfigurationAction extends sfAction {
                 $this->redirect('admin/listMailConfiguration');
             }
         }
-    }
-    
-    protected function _checkAuthentication() {
-        
-        $user = $this->getUser()->getAttribute('user');
-        
-		if (!$user->isAdmin()) {
-			$this->redirect('auth/login');
-		}
-        
-    }    
+    } 
 
 }

@@ -19,7 +19,7 @@
  */
 class ohrmFormGenerator {
 
-    public function generateForm($widgetNameList) {
+    public function generateForm($widgetNameList, $dataGroups = array()) {
 
         $form = new ReportForm();
 
@@ -33,6 +33,10 @@ class ohrmFormGenerator {
             }else{
                 $ohrmWidget = new $widgetName(array(), array('id' => $labelName));
             }
+                        
+            if ($ohrmWidget->hasOption('data_groups')) {
+                $ohrmWidget->setOption('data_groups', $dataGroups);
+            }
             
             $ohrmWidget->embedWidgetIntoForm($form);
         }
@@ -40,7 +44,7 @@ class ohrmFormGenerator {
         return $form;
     }
 
-    public function generatePredefinedForm($filterFields, $displayFieldGroups, $reportId = null, $reportName = null) {
+    public function generatePredefinedForm($filterFields, $displayFieldGroups, $reportId = null, $reportName = null, $dataGroups = array()) {
         
         $form = new DefineReportForm();
 
@@ -69,6 +73,10 @@ class ohrmFormGenerator {
                 
                 $widget = new $widgetClass(array(), $attributes);
                 $widget->embedWidgetIntoForm($form);
+                
+                if ($widget->hasOption('data_groups')) {
+                    $widget->setOption('data_groups', $dataGroups);
+                }                
                 
                 $form->filterWidgets[$name] = $form->getWidgetSchema()->getLabel($name);
                 if (!$required) {

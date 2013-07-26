@@ -1,6 +1,6 @@
 <?php use_javascripts_for_form($workWeekForm); ?>
 <?php use_stylesheets_for_form($workWeekForm); ?>
-
+<?php if($workWeekPermissions->canRead()){?>
 <div id="location" class="box single">
 
     <div class="head">
@@ -20,8 +20,7 @@
 
                 <p>
                     <?php 
-                        $permissions = $sf_context->get('screen_permissions');
-                        if ($permissions->canUpdate()) {
+                        if ($workWeekPermissions->canUpdate()) {
                     ?>
                                 <div class="formbuttons">            
                                     <input type="button" class="savebutton" id="saveBtn" value="<?php echo __('Edit'); ?>" />
@@ -35,13 +34,15 @@
         </form>
         </div>
 </div>
+<?php include_slot('define_work_week_end');?>
+<?php }?>
 <script type="text/javascript">
         //<![CDATA[
         var permissions = {
-            canRead: <?php echo $permissions->canRead() ? 'true' : 'false';?>,
-            canCreate: <?php echo $permissions->canCreate() ? 'true' : 'false';?>,            
-            canUpdate: <?php echo $permissions->canUpdate() ? 'true' : 'false';?>,
-            canDelete: <?php echo $permissions->canDelete() ? 'true' : 'false';?>
+            canRead: <?php echo $workWeekPermissions->canRead() ? 'true' : 'false';?>,
+            canCreate: <?php echo $workWeekPermissions->canCreate() ? 'true' : 'false';?>,            
+            canUpdate: <?php echo $workWeekPermissions->canUpdate() ? 'true' : 'false';?>,
+            canDelete: <?php echo $workWeekPermissions->canDelete() ? 'true' : 'false';?>
         };
         
         var lang_Save = "<?php echo __('Save') ?>";

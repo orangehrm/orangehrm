@@ -24,3 +24,5 @@ viewTimesheetSuccess:
   layout: freshorange
 editTimesheetSuccess:
   layout: freshorange
+timesheetPeriodNotDefinedSuccess:
+  layout: freshorange

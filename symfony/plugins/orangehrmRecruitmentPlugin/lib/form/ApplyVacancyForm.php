@@ -83,11 +83,11 @@ class ApplyVacancyForm extends BaseForm {
         ));
 
         $this->setValidators(array(
-            'firstName' => new sfValidatorString(array('required' => true, 'max_length' => 35)),
-            'middleName' => new sfValidatorString(array('required' => false, 'max_length' => 35)),
-            'lastName' => new sfValidatorString(array('required' => true, 'max_length' => 35)),
-            'email' => new sfValidatorEmail(array('required' => true, 'max_length' => 100)),
-            'contactNo' => new sfValidatorString(array('required' => false, 'max_length' => 35)),
+            'firstName' => new sfValidatorString(array('required' => true, 'max_length' => 35, 'trim' => true)),
+            'middleName' => new sfValidatorString(array('required' => false, 'max_length' => 35,'trim' => true)),
+            'lastName' => new sfValidatorString(array('required' => true, 'max_length' => 35, 'trim' => true)),
+            'email' => new sfValidatorEmail(array('required' => true, 'max_length' => 100, 'trim' => true)),
+            'contactNo' => new sfValidatorString(array('required' => false, 'max_length' => 35, 'trim' => true)),
             'resume' => new sfValidatorFile(array('required' => true, 'max_size' => 1024000, 'validated_file_class' => 'orangehrmValidatedFile')),
             'keyWords' => new sfValidatorString(array('required' => false, 'max_length' => 255)),
             'comment' => new sfValidatorString(array('required' => false)),

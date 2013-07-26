@@ -17,27 +17,31 @@
  * if not, write to the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
  * Boston, MA  02110-1301, USA
  */
-class addProjectActivityAction extends sfAction {
+class addProjectActivityAction extends baseAdminAction {
 
-	public function execute($request) {
+    public function execute($request) {
 
-		$this->form = new AddProjectActivityForm();
-		if ($request->isMethod('post')) {
+        $projectPermissions = $this->getDataGroupPermissions('time_projects');
 
-			$this->form->bind($request->getParameter($this->form->getName()));
-			if ($this->form->isValid()) {
-				
-				$projectId = $this->form->save();
-				if($this->form->edited){
-					$this->getUser()->setFlash('success', __(TopLevelMessages::UPDATE_SUCCESS));
-				} else {
-					$this->getUser()->setFlash('success', __(TopLevelMessages::SAVE_SUCCESS));
-				}
-				$this->redirect('admin/saveProject?projectId=' . $projectId . '#ProjectActivities');
-			}
-		}
-		$this->redirect('admin/viewProjects');
-	}
+        $this->form = new AddProjectActivityForm();
+        if ($request->isMethod('post')) {
+            if ($projectPermissions->canCreate() || $projectPermissions->canUpdate()) {
+
+                $this->form->bind($request->getParameter($this->form->getName()));
+                if ($this->form->isValid()) {
+
+                    $projectId = $this->form->save();
+                    if ($this->form->edited) {
+                        $this->getUser()->setFlash('success', __(TopLevelMessages::UPDATE_SUCCESS));
+                    } else {
+                        $this->getUser()->setFlash('success', __(TopLevelMessages::SAVE_SUCCESS));
+                    }
+                    $this->redirect('admin/saveProject?projectId=' . $projectId . '#ProjectActivities');
+                }
+            }
+        }
+        $this->redirect('admin/viewProjects');
+    }
 
 }
 

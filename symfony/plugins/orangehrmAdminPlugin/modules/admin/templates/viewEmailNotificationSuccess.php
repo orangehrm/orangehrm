@@ -30,25 +30,13 @@ use_javascript(plugin_web_path('orangehrmAdminPlugin', 'js/emailNotificationSucc
 </div>
 
 
-<!-- help messages are added after the list table printes -->
+<!-- help messages are added after the list table prints -->
 
 <ul id="helper_message" class="helpList">
     <li>
-        * <?php echo __(' Click on a notification type to add subscribers') ?>
+        * <?php echo __('Click on a notification type to add subscribers') ?>
     </li>
     <li>
-        * <?php echo __(' Click on Edit button to enable notifications') ?>
+        * <?php echo __('To enable notifications click on Edit button and select the relevant check-box') ?>
     </li>
 </ul>
-
-
-<script type="text/javascript">
-    var notificationIds = <?php echo str_replace('&#039;', "'", $form->getEnabledNotificationIdListAsJson()) ?> ;
-    var notificationIdList = eval(notificationIds);
-	var lang_NameRequired = '<?php echo __(ValidationMessages::REQUIRED); ?>';
-	var lang_exceed50Charactors = '<?php echo __(ValidationMessages::TEXT_LENGTH_EXCEEDS, array('%amount%' => 100)); ?>';
-	var nationalityInfoUrl = "<?php echo url_for("admin/getNationalityJson?id="); ?>";
-	var lang_editNationality = "<?php echo __("Edit Nationality"); ?>";
-	var lang_addNationality = "<?php echo __("Add Nationality"); ?>";
-	var lang_uniqueName = '<?php echo __(ValidationMessages::ALREADY_EXISTS); ?>';
-</script>

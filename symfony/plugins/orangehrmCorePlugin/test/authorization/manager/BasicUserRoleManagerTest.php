@@ -1084,6 +1084,55 @@ class BasicUserRoleManagerTest extends PHPUnit_Framework_TestCase {
         }
         $this->assertEquals(0, count($expected));
     }
+    
+    public function testGetActionableStatesValidActionsAndRole() {
+        $users = TestDataService::loadObjectList('SystemUser', $this->fixture, 'SystemUser');
+        
+        $defaultAdmin = $users[5];
+        $this->manager->setUser($defaultAdmin);
+        
+        $workflow = 3;
+        $actions = array('1', '2', '3');
+        $expected = array('ACTIVE', 'NOT EXIST');
+
+        $states = $this->manager->getActionableStates($workflow, $actions);
+        $this->assertTrue(is_array($states));
+        
+        sort($states);
+        $this->assertEquals($expected, $states);
+    }   
+    
+    public function testGetActionableStatesInvalidAction() {
+        $users = TestDataService::loadObjectList('SystemUser', $this->fixture, 'SystemUser');
+        
+        $defaultAdmin = $users[5];
+        $this->manager->setUser($defaultAdmin);
+        
+        $workflow = 3;
+        $actions = array('11');
+        $expected = array();
+
+        $states = $this->manager->getActionableStates($workflow, $actions);
+        $this->assertTrue(is_array($states));
+
+        $this->assertEquals(0, count($states));
+    }    
+    
+    public function testGetActionableStatesUserRoleWithNoWorkflowAccess() {
+        $users = TestDataService::loadObjectList('SystemUser', $this->fixture, 'SystemUser');
+        
+        $ess = $users[1];
+        $this->manager->setUser($ess);
+        
+        $workflow = 3;
+        $actions = array('1', '2', '3');
+        $expected = array('ACTIVE', 'NOT EXIST');
+
+        $states = $this->manager->getActionableStates($workflow, $actions);
+        $this->assertTrue(is_array($states));
+
+        $this->assertEquals(0, count($states));
+    }    
 }
 
 /* Extend class to get access to protected method */

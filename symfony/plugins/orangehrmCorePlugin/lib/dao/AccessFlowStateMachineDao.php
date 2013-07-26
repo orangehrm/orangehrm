@@ -149,6 +149,35 @@ class AccessFlowStateMachineDao {
             throw new DaoException($e->getMessage());
         }
     }
+    
+    public function deleteWorkflowRecordsForUserRole($flow, $role) {
+        try {
+            $q = Doctrine_Query:: create()
+                    ->delete('WorkflowStateMachine')
+                    ->where("role = ?", $role);
+            
+            if (!is_null($flow)) {
+                $q->andWhere("workflow = ?", $flow);
+            }
+
+            return $q->execute();
+        } catch (Exception $e) {
+            throw new DaoException($e->getMessage(), $e->getCode(), $e);
+        }        
+    }
+    
+    public function handleUserRoleRename($oldName, $newName) {
+        try {
+            $q = Doctrine_Query::create()
+                    ->update('WorkflowStateMachine w')
+                    ->set('w.role', '?', $newName)
+                    ->where("w.role = ?", $oldName);
+            
+            return $q->execute();
+        } catch (Exception $e) {
+            throw new DaoException($e->getMessage(), $e->getCode(), $e);
+        }         
+    }
 
     public function getAllAlowedRecruitmentApplicationStates($flow, $role) {
 

@@ -17,60 +17,61 @@
  * if not, write to the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
  * Boston, MA  02110-1301, USA
  */
+class payGradeAction extends baseAdminAction {
 
-class payGradeAction extends sfAction {
-	
-	/**
-	 * @param sfForm $form
-	 * @return
-	 */
-	public function setForm(sfForm $form) {
-		if (is_null($this->form)) {
-			$this->form = $form;
-		}
-	}
-	
-	public function getPayGradeService() {
-		if (is_null($this->payGradeService)) {
-			$this->payGradeService = new PayGradeService();
-			$this->payGradeService->setPayGradeDao(new PayGradeDao());
-		}
-		return $this->payGradeService;
-	}
-	
-	public function execute($request) {
-        
+    /**
+     * @param sfForm $form
+     * @return
+     */
+    public function setForm(sfForm $form) {
+        if (is_null($this->form)) {
+            $this->form = $form;
+        }
+    }
+
+    public function getPayGradeService() {
+        if (is_null($this->payGradeService)) {
+            $this->payGradeService = new PayGradeService();
+            $this->payGradeService->setPayGradeDao(new PayGradeDao());
+        }
+        return $this->payGradeService;
+    }
+
+    public function execute($request) {
+
         /* For highlighting corresponding menu item */
         $request->setParameter('initialActionName', 'viewPayGrades');
 
-		$usrObj = $this->getUser()->getAttribute('user');
-		if (!$usrObj->isAdmin()) {
-			$this->redirect('pim/viewPersonalDetails');
-		}
-		$this->payGradeId = $request->getParameter('payGradeId');
-		if(!empty($this->payGradeId)){
-			$this->currencyForm = new PayGradeCurrencyForm();
-			$this->deleteForm = new DeletePayGradeCurrenciesForm();
-			$this->currencyList = $this->getPayGradeService()->getCurrencyListByPayGradeId($this->payGradeId);
-		}		
-		$values = array('payGradeId' => $this->payGradeId);
-		$this->setForm(new PayGradeForm(array(), $values));
-		
-		if ($this->getUser()->hasFlash('templateMessage')) {
-			list($this->messageType, $this->message) = $this->getUser()->getFlash('templateMessage');
-		}
-		
-		if ($request->isMethod('post')) {
+        $usrObj = $this->getUser()->getAttribute('user');
 
-			$this->form->bind($request->getParameter($this->form->getName()));
-			if ($this->form->isValid()) {
-				$payGradeId = $this->form->save();
-				$this->getUser()->setFlash('paygrade.success', __(TopLevelMessages::SAVE_SUCCESS));
-				$this->redirect('admin/payGrade?payGradeId='.$payGradeId);
-			}
-		}
-	}
-	
+        $this->payGradePermissions = $this->getDataGroupPermissions('pay_grades');
+
+        $this->payGradeId = $request->getParameter('payGradeId');
+        if (!empty($this->payGradeId)) {
+            $this->currencyForm = new PayGradeCurrencyForm();
+            $this->deleteForm = new DeletePayGradeCurrenciesForm();
+            $this->currencyList = $this->getPayGradeService()->getCurrencyListByPayGradeId($this->payGradeId);
+        }
+        $values = array('payGradeId' => $this->payGradeId, 'payGradePermissions' => $this->payGradePermissions);
+
+        $this->setForm(new PayGradeForm(array(), $values));
+
+        if ($this->getUser()->hasFlash('templateMessage')) {
+            list($this->messageType, $this->message) = $this->getUser()->getFlash('templateMessage');
+        }
+
+        if ($request->isMethod('post')) {
+            if ($this->payGradePermissions->canCreate() || $this->payGradePermissions->canUpdate()) {
+                $this->form->bind($request->getParameter($this->form->getName()));
+                if ($this->form->isValid()) {
+                    $payGradeId = $this->form->save();
+                    $this->getUser()->setFlash('paygrade.success', __(TopLevelMessages::SAVE_SUCCESS));
+                    $this->redirect('admin/payGrade?payGradeId=' . $payGradeId);
+                }
+            }
+        }
+    }
+
 }
 
 ?>

@@ -19,44 +19,46 @@
  */
 class attachmentsComponent extends sfComponent {
 
-	/**
-	 * Get RecruitmentAttachmentService
-	 * @returns RecruitmentAttachmentService
-	 */
-	public function getRecruitmentAttachmentService() {
-		if (is_null($this->recruitmentAttachmentService)) {
-			$this->recruitmentAttachmentService = new RecruitmentAttachmentService();
-			$this->recruitmentAttachmentService->setRecruitmentAttachmentDao(new RecruitmentAttachmentDao());
-		}
-		return $this->recruitmentAttachmentService;
-	}
+    /**
+     * Get RecruitmentAttachmentService
+     * @returns RecruitmentAttachmentService
+     */
+    public function getRecruitmentAttachmentService() {
+        if (is_null($this->recruitmentAttachmentService)) {
+            $this->recruitmentAttachmentService = new RecruitmentAttachmentService();
+            $this->recruitmentAttachmentService->setRecruitmentAttachmentDao(new RecruitmentAttachmentDao());
+        }
+        return $this->recruitmentAttachmentService;
+    }
 
-	/**
-	 * Execute method of component
-	 *
-	 * @param type $request
-	 */
-	public function execute($request) {
+    /**
+     * Execute method of component
+     *
+     * @param type $request
+     */
+    public function execute($request) {
 
-		$this->scrollToAttachments = false;
+        $this->scrollToAttachments = false;
 
-		if ($this->getUser()->hasFlash('attachmentMessage')) {
+        if ($this->getUser()->hasFlash('attachmentMessage')) {
 
-			$this->scrollToAttachments = true;
-			list($this->attachmentMessageType, $this->attachmentMessage) = $this->getUser()->getFlash('attachmentMessage');
-		}
+            $this->scrollToAttachments = true;
+            list($this->attachmentMessageType, $this->attachmentMessage) = $this->getUser()->getFlash('attachmentMessage');
+        }
 
-		//$attachments = $this->getRecruitmentAttachmentService()->getVacancyAttachment($this->id);
-		$attachments = $this->getRecruitmentAttachmentService()->getAttachments($this->id, $this->screen);
-		$this->attachmentList = array();
-		if (!empty($attachments)) {
-			foreach ($attachments as $attachment) {
-				$this->attachmentList[] = $attachment;
-			}
-		}
-		$param = array('screen' => $this->screen);
-		$this->form = new RecruitmentAttachmentForm(array(), $param, true);
-		$this->deleteForm = new RecruitmentAttachmentDeleteForm(array(), $param, true);
-	}
+        //$attachments = $this->getRecruitmentAttachmentService()->getVacancyAttachment($this->id);
+        $attachments = $this->getRecruitmentAttachmentService()->getAttachments($this->id, $this->screen);
+        $this->attachmentList = array();
+        if (!empty($attachments)) {
+            foreach ($attachments as $attachment) {
+                $this->attachmentList[] = $attachment;
+            }
+        }
+        $param = array('screen' => $this->screen);
+        if ($this->permissions->canUpdate()) {
+            $this->form = new RecruitmentAttachmentForm(array(), $param, true);
+            $this->deleteForm = new RecruitmentAttachmentDeleteForm(array(), $param, true);
+        }
+    }
 
 }

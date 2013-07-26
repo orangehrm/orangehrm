@@ -28,14 +28,24 @@ class HolidayForm extends sfForm {
      */
     public function configure() {
 
-        $this->setWidgets($this->getFormWidgets());
+        $holidayPermissions = $this->getDefault('holidayPermissions');
+        $id = $this->getDefault('holidayId');
+
+        $widgets = $this->getFormWidgets();
+
+        if (!(($holidayPermissions->canCreate() && empty($id)) || ($holidayPermissions->canUpdate() && $id > 0))) {
+            foreach ($widgets as $widgetName => $widget) {
+                $widget->setAttribute('disabled', 'disabled');
+            }
+        }
+
+        $this->setWidgets($widgets);
         $this->setValidators($this->getFormValidators());
-        
+
         $this->getValidatorSchema()->setOption('allow_extra_fields', true);
 
         $this->getWidgetSchema()->setLabels($this->getFormLabels());
         $this->getWidgetSchema()->setNameFormat('holiday[%s]');
-
     }
 
     /**
@@ -197,26 +207,27 @@ class HolidayForm extends sfForm {
      */
     protected function getFormLabels() {
         $labels = array();
-        
-        
+
+
         sfContext::getInstance()->getConfiguration()->loadHelpers('Tag');
 
         $requiredLabel = '<em>*</em>';
-        
-        $labels['description'] = __('Name').' '. $requiredLabel;
-        $labels['date'] = __('Date').' '.$requiredLabel;
+
+        $labels['description'] = __('Name') . ' ' . $requiredLabel;
+        $labels['date'] = __('Date') . ' ' . $requiredLabel;
         $labels['recurring'] = __('Repeats Annually');
         $labels['length'] = __('Full Day/Half Day');
-        
+
         return $labels;
     }
-    
+
     public function getJavaScripts() {
         $javaScripts = parent::getJavaScripts();
         $javaScripts[] = plugin_web_path('orangehrmLeavePlugin', 'js/defineHolidaySuccess.js');
         $javaScripts[] = plugin_web_path('orangehrmLeavePlugin', 'js/defineHolidaySuccessValidate.js');
 
         return $javaScripts;
-    }    
+    }
+
 }
 

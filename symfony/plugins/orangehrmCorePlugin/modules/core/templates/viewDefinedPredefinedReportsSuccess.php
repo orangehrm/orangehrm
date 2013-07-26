@@ -1,3 +1,5 @@
+
+<?php if($reportPermissions->canRead()){?>
 <div class="box toggableForm">
    
     <div class="head">
@@ -27,6 +29,8 @@
 </div>
 
 <?php include_component('core', 'ohrmList', $parmetersForListComponent); ?>
+
+<?php }?>
 
 <!-- Confirmation box HTML: Begins -->
 <div class="modal hide" id="deleteConfModal">

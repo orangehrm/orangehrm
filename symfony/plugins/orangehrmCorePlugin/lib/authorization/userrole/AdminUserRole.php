@@ -24,7 +24,7 @@
  * @author Chameera Senarathna
  */
 class AdminUserRole extends AbstractUserRole {
-
+    
     public function getAccessibleEmployeeIds($operation = null, $returnType = null, $requiredPermissions = array()) {
 
         return $this->getEmployeeService()->getEmployeeIdList(false);
@@ -96,6 +96,24 @@ class AdminUserRole extends AbstractUserRole {
         return $this->getSystemUserService()->getEmployeesByUserRole($this->roleName);
     }
     
-    
+    /**
+     * Returns all projects (active and inactive)
+     */
+    public function getAccessibleProjects($operation = null, $returnType = null, $requiredPermissions = array()) {
+        $activeProjectList = $this->getProjectService()->getAllProjects();
+        return $activeProjectList;
+    }
 
+    /**
+     * Returns all project ids (active and inactive)
+     */
+    public function getAccessibleProjectIds($operation = null, $returnType = null) {
+        return $this->getProjectService()->getProjectListForUserRole(null, null);
+    }
+
+    public function getAccessibleVacancyIds($operation = null, $returnType = null, $requiredPermissions = array()) {
+        return $this->getVacancyService()->getVacancyIdList();
+    }
+
+    
 }

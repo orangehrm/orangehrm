@@ -504,9 +504,14 @@
     <source>Eligibility Review Date</source>
     <target>FR_Eligibility Review Date</target>
    </trans-unit> 
-
-  
-
+   <trans-unit id="126">
+    <source>You do not have credentials to access PIM for employee %employee_name%</source>
+    <target>FR_You do not have credentials to access PIM for employee %employee_name%</target>
+   </trans-unit>
+   <trans-unit id="127">
+    <source>Employee with Employee Number %emp_number% not found!</source>
+    <target>FR_Employee with Employee Number %emp_number% not found!</target>
+   </trans-unit>   
   </body>
  </file>
 </xliff>

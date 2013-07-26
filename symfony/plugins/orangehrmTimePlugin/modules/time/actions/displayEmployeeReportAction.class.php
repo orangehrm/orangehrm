@@ -45,6 +45,7 @@ class displayEmployeeReportAction extends displayReportAction {
     }
     
     public function setInitialActionDetails($request) {
+        $this->employeeReportsPermissions = $this->getDataGroupPermissions('time_employee_reports');
 
         $initialActionName = $request->getParameter('initialActionName', '');
 

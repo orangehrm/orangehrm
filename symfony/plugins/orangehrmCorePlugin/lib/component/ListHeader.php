@@ -15,7 +15,8 @@ class ListHeader extends ComponentProperty {
         'selectMultiple', // TODO: Make this values dash-separated
         'comment',
         'treeLink',
-        'linkDate'
+        'linkDate',
+        'checkbox'
     );
     private $textAlignmentStyles = array(
         'left',

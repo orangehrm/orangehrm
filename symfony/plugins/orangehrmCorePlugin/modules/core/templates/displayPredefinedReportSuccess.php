@@ -1,5 +1,11 @@
 
-   <?php include_component('core', 'ohrmList', $parmetersForListComponent); ?>
+<?php
+
+if ($reportPermissions->canRead()) {
+
+    include_component('core', 'ohrmList', $parmetersForListComponent);
+}
+?>
 
 
 

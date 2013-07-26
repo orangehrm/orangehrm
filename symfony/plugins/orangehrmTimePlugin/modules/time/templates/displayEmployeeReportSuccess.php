@@ -1,2 +1,7 @@
-<?php include_component('core', 'ohrmList', $parmetersForListComponent); ?>
+<?php
+
+if ($employeeReportsPermissions->canRead()) {
+    include_component('core', 'ohrmList', $parmetersForListComponent);
+}
+?>
 

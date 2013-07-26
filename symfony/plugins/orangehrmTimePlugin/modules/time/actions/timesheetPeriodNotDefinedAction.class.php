@@ -16,30 +16,16 @@
  * You should have received a copy of the GNU General Public License along with this program;
  * if not, write to the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
  * Boston, MA  02110-1301, USA
+ */
+
+/**
+ * Description of timesheetPeriodNotDefinedAction
  *
  */
-class EmailNotificationListForm extends BaseForm {
-    private $emailNotoficationService;
-
-    public function getEmailNotificationService() {
-        if (is_null($this->emailNotoficationService)) {
-            $this->emailNotoficationService = new EmailNotificationService();
-            $this->emailNotoficationService->setEmailNotificationDao(new EmailNotificationDao());
-        }
-        return $this->emailNotoficationService;
-    }
-
-    public function configure() {
-        $this->widgetSchema->setNameFormat('emailNotification[%s]');
-    }
-
-     public function getEnabledNotificationIdListAsJson() {
-        $list = array();
-        $IdList = $this->getEmailNotificationService()->getEnabledEmailNotificationIdList();
-        foreach ($IdList as $id) {
-            $list[] = array('id' => $id->getId());
-        }
-        return json_encode($list);
+class timesheetPeriodNotDefinedAction extends baseTimeAction {
+    
+    public function execute($request) {
+        
     }
 }
 

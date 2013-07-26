@@ -50,6 +50,7 @@ foreach ($jobVacancyList as $vacancy) {
     margin:1px 10px 0 10px;
 }    
 </style>
+<?php if($candidatePermissions->canRead()){?>
 <div class="box" id="addCandidate">
 
     <div class="head"><h1 id="addCandidateHeading"><?php echo $title; ?></h1></div>
@@ -170,7 +171,9 @@ foreach ($jobVacancyList as $vacancy) {
                 <p>
 
                     <?php if ($edit): ?>
+                        <?php if(($candidatePermissions->canCreate() && empty($candidateId)) || ($candidatePermissions->canUpdate() && $candidateId > 0)) {?>
                         <input type="button"id="btnSave" value="<?php echo __("Save"); ?>"/>
+                        <?php }?>
                     <?php endif; ?>
                     <?php if ($candidateId > 0): ?>
                         <input type="button" id="btnBack" value="<?php echo __("Back"); ?>"/>
@@ -221,7 +224,7 @@ foreach ($jobVacancyList as $vacancy) {
     </div>
 </div>
 <!-- Confirmation box remove vacancies & save HTML: Ends -->
-
+<?php }?>
 <script type="text/javascript">
     //<![CDATA[
     var datepickerDateFormat = '<?php echo get_datepicker_date_format($sf_user->getDateFormat()); ?>';

@@ -17,44 +17,46 @@
  * if not, write to the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
  * Boston, MA  02110-1301, USA
  */
-class deletePayGradeCurrencyAction extends sfAction {
+class deletePayGradeCurrencyAction extends baseAdminAction {
 
-	private $payGradeService;
+    private $payGradeService;
 
+    public function getPayGradeService() {
+        if (is_null($this->payGradeService)) {
+            $this->payGradeService = new PayGradeService();
+            $this->payGradeService->setPayGradeDao(new PayGradeDao());
+        }
+        return $this->payGradeService;
+    }
 
-	public function getPayGradeService() {
-		if (is_null($this->payGradeService)) {
-			$this->payGradeService = new PayGradeService();
-			$this->payGradeService->setPayGradeDao(new PayGradeDao());
-		}
-		return $this->payGradeService;
-	}
-	
-	/**
-	 *
-	 * @param <type> $request 
-	 */
-	public function execute($request) {
+    /**
+     *
+     * @param <type> $request 
+     */
+    public function execute($request) {
 
-		$payGradeId = $request->getParameter('payGradeId');
-		$this->form = new DeletePayGradeCurrenciesForm();
+        $payGradePermissions = $this->getDataGroupPermissions('pay_grades');
 
-		$this->form->bind($request->getParameter($this->form->getName()));
-		if ($this->form->isValid()) {
-			$currenciesToDelete = $request->getParameter('delCurrencies', array());
-			if ($currenciesToDelete) {
-				for ($i = 0; $i < sizeof($currenciesToDelete); $i++) {
-					$currency = $this->getPayGradeService()->getCurrencyByCurrencyIdAndPayGradeId($currenciesToDelete[$i], $payGradeId);
-					$currency->delete();
-				}				
-			}
+        $payGradeId = $request->getParameter('payGradeId');
+        $this->form = new DeletePayGradeCurrenciesForm();
 
-            $this->getUser()->setFlash('success', __(TopLevelMessages::DELETE_SUCCESS));
-			
-		}
+        $this->form->bind($request->getParameter($this->form->getName()));
+        if ($this->form->isValid()) {
+            if ($payGradePermissions->canCreate() || $payGradePermissions->canUpdate()) {
+                $currenciesToDelete = $request->getParameter('delCurrencies', array());
+                if ($currenciesToDelete) {
+                    for ($i = 0; $i < sizeof($currenciesToDelete); $i++) {
+                        $currency = $this->getPayGradeService()->getCurrencyByCurrencyIdAndPayGradeId($currenciesToDelete[$i], $payGradeId);
+                        $currency->delete();
+                    }
+                }
 
-		$this->redirect('admin/payGrade?payGradeId='.$payGradeId . '#Currencies');
-	}
+                $this->getUser()->setFlash('success', __(TopLevelMessages::DELETE_SUCCESS));
+            }
+
+            $this->redirect('admin/payGrade?payGradeId=' . $payGradeId . '#Currencies');
+        }
+    }
 
 }
 

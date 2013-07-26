@@ -1,5 +1,5 @@
 $(document).ready(function() {
-   $('#frmWorkWeek select').attr('disabled','disabled');
+   
 
     $('#saveBtn').click(function() {                
         if($(this).val() == lang_Edit) {

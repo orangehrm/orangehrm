@@ -18,7 +18,7 @@
  * Boston, MA  02110-1301, USA
  *
  */
-class jobInterviewAction extends sfAction {
+class jobInterviewAction extends baseAction {
 
     /**
      * @param sfForm $form
@@ -59,6 +59,8 @@ class jobInterviewAction extends sfAction {
         /* For highlighting corresponding menu item */
         $request->setParameter('initialActionName', 'viewCandidates');
 
+        $this->candidatePermissions = $this->getDataGroupPermissions('recruitment_candidates');
+
         $usrObj = $this->getUser()->getAttribute('user');
         $allowedCandidateList = $usrObj->getAllowedCandidateList();
         $allowedVacancyList = $usrObj->getAllowedVacancyList();
@@ -77,14 +79,14 @@ class jobInterviewAction extends sfAction {
         $param = array();
         if ($candidateVacancyId > 0 && $selectedAction != "") {
             $interviewHistory = $this->getJobInterviewService()->getInterviewScheduledHistoryByInterviewId($this->interviewId);
-            $param = array('interviewId' => $this->interviewId, 'candidateVacancyId' => $candidateVacancyId, 'selectedAction' => $selectedAction, 'historyId' => (!empty($interviewHistory)) ? $interviewHistory->getId() : null);
+            $param = array('interviewId' => $this->interviewId, 'candidateVacancyId' => $candidateVacancyId, 'selectedAction' => $selectedAction, 'historyId' => (!empty($interviewHistory)) ? $interviewHistory->getId() : null, 'candidatePermissions' => $this->candidatePermissions);
         }
 
         if (!empty($this->historyId) && !empty($this->interviewId)) {
             $history = $this->getCandidateService()->getCandidateHistoryById($this->historyId);
             $candidateVacancyId = $this->getCandidateService()->getCandidateVacancyByCandidateIdAndVacancyId($history->getCandidateId(), $history->getVacancyId());
             $selectedAction = $history->getAction();
-            $param = array('id' => $this->interviewId, 'candidateVacancyId' => $candidateVacancyId, 'selectedAction' => $selectedAction);
+            $param = array('id' => $this->interviewId, 'candidateVacancyId' => $candidateVacancyId, 'selectedAction' => $selectedAction, 'candidatePermissions' => $this->candidatePermissions);
         }
         if (!$this->getCandidateService()->isHiringManager($candidateVacancyId, $empNumber) && $this->getCandidateService()->isInterviewer($candidateVacancyId, $empNumber)) {
             $this->editHiringManager = false;
@@ -97,16 +99,17 @@ class jobInterviewAction extends sfAction {
         }
 
         if ($request->isMethod('post')) {
-
-            $this->form->bind($request->getParameter($this->form->getName()));
-            if ($this->form->isValid()) {
-                $result = $this->form->save();
-                if (isset($result['messageType'])) {
-                    $this->getUser()->setFlash('templateMessage', array($result['messageType'], $result['message']));
-                } else {
-                    $this->getUser()->setFlash('templateMessage', array('success', __('Successfully Scheduled')));
+            if ($this->candidatePermissions->canUpdate()) {
+                $this->form->bind($request->getParameter($this->form->getName()));
+                if ($this->form->isValid()) {
+                    $result = $this->form->save();
+                    if (isset($result['messageType'])) {
+                        $this->getUser()->setFlash('templateMessage', array($result['messageType'], $result['message']));
+                    } else {
+                        $this->getUser()->setFlash('templateMessage', array('success', __('Successfully Scheduled')));
+                    }
+                    $this->redirect('recruitment/changeCandidateVacancyStatus?id=' . $this->form->historyId);
                 }
-                $this->redirect('recruitment/changeCandidateVacancyStatus?id=' . $this->form->historyId);
             }
         }
     }

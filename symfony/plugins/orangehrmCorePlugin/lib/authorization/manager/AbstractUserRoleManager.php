@@ -85,6 +85,8 @@ abstract class AbstractUserRoleManager {
     
     protected abstract function getAllowedActions($workFlowId, $state, $rolesToExclude = array(), $rolesToInclude = array(), $entities = array());
     
+    public abstract function getActionableStates($workflow, $actions, $rolesToExclude = array(), $rolesToInclude = array(), $entities = array());
+
     //public abstract function getDataGroupPermissions ($dataGroupName, $rolesToExclude = array(), $rolesToInclude = array());
     public abstract function getModuleDefaultPage($module);
     public abstract function getHomePage();

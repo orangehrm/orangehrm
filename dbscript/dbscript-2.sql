@@ -1358,8 +1358,8 @@ INSERT INTO ohrm_screen (`id`, `name`, `module_id`, `action_url`) VALUES
 (54, 'Punch In/Out', 6, 'punchIn'),
 (55, 'View Employee Attendance', 6, 'viewAttendanceRecord'),
 (56, 'Attendance Configuration', 6, 'configure'),
-(57, 'View Employee Report Criteria', 5, 'displayProjectReportCriteria'),
-(58, 'View Project Report Criteria', 5, 'displayEmployeeReportCriteria'),
+(57, 'View Project Report Criteria', 5, 'displayProjectReportCriteria'),
+(58, 'View Employee Report Criteria', 5, 'displayEmployeeReportCriteria'),
 (59, 'View Attendance Report Criteria', 5, 'displayAttendanceSummaryReportCriteria'),
 (60, 'Candidate List', 7, 'viewCandidates'),
 (61, 'Vacancy List', 7, 'viewJobVacancy'),
@@ -1380,7 +1380,30 @@ INSERT INTO ohrm_screen (`id`, `name`, `module_id`, `action_url`) VALUES
 (76, 'View Recruitment Module', 7, 'viewRecruitmentModule'),
 (77, 'View Performance Module', 9, 'viewPerformanceModule'),
 (78, 'Leave Balance Report', 4, 'viewLeaveBalanceReport'),
-(79, 'My Leave Balance Report', 4, 'viewMyLeaveBalanceReport');
+(79, 'My Leave Balance Report', 4, 'viewMyLeaveBalanceReport'),
+(80, 'Save Job Title', 2, 'saveJobTitle'),
+(81, 'Delete Job Title', 2, 'deleteJobTitle'),
+(82, 'Save Pay Grade', 2, 'payGrade'),
+(83, 'Delete Pay Grade', 2, 'deletePayGrades'),
+(84, 'Save Pay Grade Currency', 2, 'savePayGradeCurrency'),
+(85, 'Delete Pay Grade Currency', 2, 'deletePayGradeCurrency'),
+(86, 'Add Customer', 2, 'addCustomer'),
+(87, 'Delete Customer', 2, 'deleteCustomer'),
+(88, 'Save Project', 2, 'saveProject'),
+(89, 'Delete Project', 2, 'deleteProject'),
+(90, 'Add Project Adtivity', 2, 'addProjectActivity'),
+(91, 'Delete Project Adtivity', 2, 'deleteProjectActivity'),
+(92, 'Define PIM reports', 1, 'definePredefinedReport'),
+(93, 'Display PIM reports', 1, 'displayPredefinedReport'),
+(94, 'Add Job Vacancy', 7, 'addJobVacancy'),
+(95, 'Delete Job Vacancy', 7, 'deleteJobVacancy'),
+(96, 'Add Candidate', 7, 'addCandidate'),
+(97, 'Delete Candidate', 7, 'deleteCandidateVacancies'),
+(98, 'View Leave Request', 4, 'viewLeaveRequest'),
+(99, 'Change Leave Status', 4, 'changeLeaveStatus'),
+(100, 'Terminate Employment', 3, 'terminateEmployement'),
+(101, 'View Attendance Summary Report', 5, 'displayAttendanceSummaryReport'),
+(102, 'View Project Activity Details Report', 5, 'displayProjectActivityDetailsReport');
 
 INSERT INTO ohrm_menu_item (`id`, `menu_title`, `screen_id`, `parent_id`, `level`, `order_hint`, `url_extras`, `status`) VALUES
 (1, 'Admin', 74, NULL, 1, 100, NULL, 1),
@@ -1522,7 +1545,6 @@ INSERT INTO ohrm_user_role_screen (user_role_id, screen_id, can_read, can_create
 (2, 48, 1, 1, 1, 0),
 (2, 49, 1, 1, 1, 1),
 (1, 50, 1, 1, 1, 1),
-(2, 50, 1, 0, 0, 0),
 (2, 51, 1, 1, 1, 1),
 (1, 52, 1, 1, 1, 1),
 (3, 52, 1, 1, 1, 1),
@@ -1574,7 +1596,41 @@ INSERT INTO ohrm_user_role_screen (user_role_id, screen_id, can_read, can_create
 (7, 77, 1, 1, 1, 1),
 (1, 78, 1, 0, 0, 0),
 (3, 78, 1, 0, 0, 0),
-(2, 79, 1, 0, 0, 0);
+(2, 79, 1, 0, 0, 0),
+
+(1, 80, 1, 1, 1, 1),
+(1, 81, 1, 1, 1, 1),
+(1, 82, 1, 1, 1, 1),
+(1, 83, 1, 1, 1, 1),
+(1, 84, 1, 1, 1, 1),
+(1, 85, 1, 1, 1, 1),
+(1, 86, 1, 1, 1, 1),
+(1, 87, 1, 1, 1, 1),
+(1, 88, 1, 1, 1, 1),
+(4, 88, 1, 1, 1, 1),
+(1, 89, 1, 1, 1, 1),
+(1, 90, 1, 1, 1, 1),
+(4, 90, 1, 1, 1, 1),
+(1, 91, 1, 1, 1, 1),
+(4, 91, 1, 1, 1, 1),
+(1, 92, 1, 1, 1, 1),
+(1, 93, 1, 1, 1, 1),
+(1, 94, 1, 1, 1, 1),
+(1, 95, 1, 1, 1, 1),
+(1, 96, 1, 1, 1, 1),
+(5, 96, 1, 1, 1, 1),
+(6, 96, 1, 1, 1, 1),
+(1, 97, 1, 1, 1, 1),
+(6, 97, 1, 1, 1, 1),
+(1, 98, 1, 1, 1, 1),
+(2, 98, 1, 1, 1, 1),
+(3, 98, 1, 1, 1, 1),
+(1, 99, 1, 1, 1, 1),
+(1, 100, 1, 0, 0, 0),
+(1, 101, 1, 1, 1, 1),
+(3, 101, 1, 1, 1, 1),
+(1, 102, 1, 1, 1, 1),
+(4, 102, 1, 1, 1, 1);
 
 INSERT INTO `ohrm_data_group` (`id`, `name`, `description`, `can_read`, `can_create`, `can_update`, `can_delete`) VALUES
 (1, 'personal_information', 'PIM - Personal Details', 1, NULL, 1, NULL),
@@ -1617,7 +1673,25 @@ INSERT INTO `ohrm_data_group` (`id`, `name`, `description`, `can_read`, `can_cre
 (38, 'membership_custom_fields', 'PIM - Membership - Custom Fields', 1, NULL, 1, NULL),
 (39, 'photograph', 'PIM - Employee Photograph', 1, NULL, 1, 1),
 (40, 'leave_entitlements', 'Leave - Leave Entitlements', 1, 1, 1, 1),
-(41, 'leave_entitlements_usage_report', 'Leave - Leave Entitlements and Usage Report', 1, NULL, NULL, NULL);
+(41, 'leave_entitlements_usage_report', 'Leave - Leave Entitlements and Usage Report', 1, NULL, NULL, NULL),
+(42, 'job_titles', 'Admin - Job Titles', 1, 1, 1, 1),
+(43, 'pay_grades', 'Admin - Pay Grades', 1, 1, 1, 1),
+(44, 'time_customers', 'Time - Project Info - Customers', 1, 1, 1, 1),
+(45, 'time_projects', 'Time - Project Info - Projects', 1, 1, 1, 1),
+(46, 'pim_reports', 'PIM - Reports', 1, 1, 1, 1),
+(47, 'attendance_configuration', 'Time - Attendance Configuration', 1, 0, 1, 0),
+(48, 'attendance_records', 'Time - Attendance Records', 1, 0, 0, 0),
+(49, 'time_project_reports', 'Time - Project Reports', 1, 0, 0, 0),
+(50, 'time_employee_reports', 'Time - Employee Reports', 1, 0, 0, 0),
+(51, 'attendance_summary', 'Time - Attendance Summary', 1, 0, 0, 0),
+(52, 'leave_period', 'Leave - Leave Period', 1, 0, 1, 0),
+(53, 'leave_types', 'Leave - Leave Types', 1, 1, 1, 1),
+(54, 'work_week', 'Leave - Work Week', 1, 0, 1, 0),
+(55, 'holidays', 'Leave - Holidays', 1, 1, 1, 1),
+(56, 'recruitment_vacancies', 'Recruitment - Vacancies', 1, 1, 1, 1),
+(57, 'recruitment_candidates', 'Recruitment - Candidates', 1, 1, 1, 1),
+(58, 'time_employee_timesheets', 'Time - Employee Timesheets', 1, 0, 0, 0),
+(59, 'leave_list', 'Leave - Leave List', 1, 0, 0, 0);
 
 INSERT INTO `ohrm_user_role_data_group` (`user_role_id`, `data_group_id`, `can_read`, `can_create`, `can_update`, `can_delete`, `self`) VALUES
 (1, 1, 1, NULL, 1, NULL, 0),
@@ -1828,8 +1902,181 @@ INSERT INTO `ohrm_user_role_data_group` (`user_role_id`, `data_group_id`, `can_r
 (3, 38, 1, NULL, 1, NULL, 1),
 (3, 39, 1, NULL, 1, 1, 1),
 (3, 40, 1, 0, 0, 0, 1),
-(3, 41, 1, NULL, NULL, NULL, 1);
+(3, 41, 1, NULL, NULL, NULL, 1),
 
+(1, 42, 1, 1, 1, 1, 0),
+(2, 42, 0, 0, 0, 0, 0),
+(3, 42, 0, 0, 0, 0, 0),
+
+(1, 43, 1, 1, 1, 1, 0),
+(2, 43, 0, 0, 0, 0, 0),
+(3, 43, 0, 0, 0, 0, 0),
+
+(1, 44, 1, 1, 1, 1, 0),
+(2, 44, 0, 0, 0, 0, 0),
+(3, 44, 0, 0, 0, 0, 0),
+
+(1, 45, 1, 1, 1, 1, 0),
+(2, 45, 0, 0, 0, 0, 0),
+(3, 45, 0, 0, 0, 0, 0),
+(4, 45, 1, 0, 1, 0, 0),
+
+(1, 46, 1, 1, 1, 1, 0),
+(2, 46, 0, 0, 0, 0, 0),
+(3, 46, 0, 0, 0, 0, 0),
+
+(1, 47, 1, NULL, 1, NULL, 0),
+(2, 47, 0, 0, 0, 0, 0),
+(3, 47, 0, 0, 0, 0, 0),
+
+(1, 48, 1, 0, 0, 0, 0),
+(2, 48, 0, 0, 0, 0, 0),
+(2, 48, 1, 0, 0, 0, 1),
+(3, 48, 1, 0, 0, 0, 0),
+
+(1, 49, 1, 0, 0, 0, 0),
+(2, 49, 0, 0, 0, 0, 0),
+(3, 49, 0, 0, 0, 0, 0),
+(4, 49, 1, 0, 0, 0, 0),
+
+(1, 50, 1, 0, 0, 0, 0),
+(2, 50, 0, 0, 0, 0, 0),
+(3, 50, 1, 0, 0, 0, 0),
+
+(1, 51, 1, 0, 0, 0, 0),
+(2, 51, 0, 0, 0, 0, 0),
+(3, 51, 1, 0, 0, 0, 0),
+
+(1, 52, 1, NULL, 1, NULL, 0),
+(2, 52, 0, 0, 0, 0, 0),
+(3, 52, 0, 0, 0, 0, 0),
+
+(1, 53, 1, 1, 1, 1, 0),
+(2, 53, 0, 0, 0, 0, 0),
+(3, 53, 0, 0, 0, 0, 0),
+
+(1, 54, 1, 0, 1, 0, 0),
+(2, 54, 0, 0, 0, 0, 0),
+(3, 54, 0, 0, 0, 0, 0),
+
+(1, 55, 1, 1, 1, 1, 0),
+(2, 55, 0, 0, 0, 0, 0),
+(3, 55, 0, 0, 0, 0, 0),
+
+(1, 56, 1, 1, 1, 1, 0),
+(2, 56, 0, 0, 0, 0, 0),
+(3, 56, 0, 0, 0, 0, 0),
+
+(1, 57, 1, 1, 1, 1, 0),
+(6, 57, 1, 1, 1, 1, 0),
+(5, 57, 1, 0, 1, 0, 0),
+
+(1, 58, 1, 0, 0, 0, 0),
+(2, 58, 0, 0, 0, 0, 0),
+(2, 58, 1, 0, 0, 0, 1),
+(3, 58, 1, 0, 0, 0, 0),
+
+(1, 59, 1, 0, 0, 0, 0),
+(2, 59, 1, 0, 0, 0, 1),
+(3, 59, 1, 0, 0, 0, 0);
+
+INSERT INTO `ohrm_data_group_screen`(`data_group_id`, `screen_id`, `permission`) VALUES
+(40, 69, 1),
+(40, 72, 2),
+(40, 72, 3),
+(40, 71, 4),
+
+(41, 78, 1),
+
+(42, 23, 1),
+(42, 80, 2),
+(42, 80, 3),
+(42, 81, 4),
+
+(43, 24, 1),
+(43, 82, 2),
+(43, 82, 3),
+(43, 83, 4),
+(43, 84, 2),
+(43, 84, 3),
+(43, 85, 2),
+(43, 85, 3),
+
+(42, 74, 1),
+(43, 74, 1),
+
+(44, 36, 1),
+(44, 86, 2),
+(44, 86, 3),
+(44, 87, 4),
+
+(45, 37, 1),
+(45, 88, 1),
+(45, 88, 2),
+(45, 88, 3),
+(45, 89, 4),
+(45, 90, 2),
+(45, 90, 3),
+(45, 91, 2),
+(45, 91, 3),
+
+(46, 45, 1),
+(46, 45, 4),
+(46, 92, 2),
+(46, 92, 3),
+(46, 93, 1),
+
+(47, 56, 1),
+(47, 56, 3),
+
+(48, 55, 1),
+
+(49, 57, 1),
+(49, 102, 1),
+
+(50, 58, 1),
+
+(51, 59, 1),
+(51, 101, 1),
+
+(52, 47, 1),
+(52, 47, 3),
+
+(53, 7, 1),
+(53, 8, 1),
+(53, 8, 2),
+(53, 8, 3),
+(53, 9, 2),
+(53, 10, 4),
+
+(54, 14, 1),
+(54, 14, 3),
+
+(55, 11, 1),
+(55, 12, 2),
+(55, 12, 3),
+(55, 13, 4),
+
+(56, 61, 1),
+(56, 94, 1),
+(56, 94, 2),
+(56, 94, 3),
+(56, 95, 4),
+
+(57, 60, 1),
+(57, 96, 1),
+(57, 96, 2),
+(57, 96, 3),
+(57, 97, 4),
+
+(56, 76, 1),
+(57, 76, 1),
+
+(58, 52, 1),
+
+(59, 16, 1),
+(59, 98, 1),
+(59, 99, 1);
 
 INSERT INTO `ohrm_job_category` (`name`) VALUES ('Officials and Managers'),
                                                 ('Professionals'),
@@ -2404,7 +2651,7 @@ INSERT INTO ohrm_module_default_page (`module_id`, `user_role_id`, `action`, `en
 (5, 1, 'time/viewEmployeeTimesheet', NULL, 20),
 (5, 2, 'time/viewMyTimesheet', NULL, 0),
 (5, 1, 'time/defineTimesheetPeriod', 'TimesheetPeriodDefinedHomePageEnabler', 100),
-(5, 2, 'time/defineTimesheetPeriod', 'TimesheetPeriodDefinedHomePageEnabler', 100),
+(5, 2, 'time/timesheetPeriodNotDefined', 'TimesheetPeriodDefinedHomePageEnabler', 100),
 (7, 1, 'recruitment/viewCandidates', NULL, 20),
 (7, 5, 'recruitment/viewCandidates', NULL, 10),
 (7, 6, 'recruitment/viewCandidates', NULL, 5),

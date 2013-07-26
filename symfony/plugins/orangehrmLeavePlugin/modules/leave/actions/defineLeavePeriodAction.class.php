@@ -1,4 +1,5 @@
 <?php
+
 /*
  *
  * OrangeHRM is a comprehensive Human Resource Management (HRM) System that captures
@@ -17,7 +18,7 @@
  * if not, write to the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
  * Boston, MA  02110-1301, USA
  *
-*/
+ */
 
 /**
  * defineLeavePeriodAction
@@ -27,20 +28,19 @@ class defineLeavePeriodAction extends baseLeaveAction {
     private $leavePeriodService;
     private $leaveRequestService;
     protected $menuService;
-    
+
     public function getMenuService() {
-        
+
         if (!$this->menuService instanceof MenuService) {
             $this->menuService = new MenuService();
         }
-        
+
         return $this->menuService;
-        
     }
-    
+
     public function setMenuService(MenuService $menuService) {
         $this->menuService = $menuService;
-    }  
+    }
 
     public function getLeavePeriodService() {
 
@@ -57,7 +57,7 @@ class defineLeavePeriodAction extends baseLeaveAction {
      * @return LeaveRequestService
      */
     public function getLeaveRequestService() {
-        if(is_null($this->leaveRequestService)) {
+        if (is_null($this->leaveRequestService)) {
             $this->leaveRequestService = new LeaveRequestService();
             $this->leaveRequestService->setLeaveRequestDao(new LeaveRequestDao());
         }
@@ -69,23 +69,27 @@ class defineLeavePeriodAction extends baseLeaveAction {
      * @return
      */
     public function setForm(sfForm $form) {
-        if(is_null($this->form)) {
-            $this->form	= $form;
+        if (is_null($this->form)) {
+            $this->form = $form;
         }
     }
 
     public function execute($request) {
-        
-        if (!Auth::instance()->hasRole(Auth::ADMIN_ROLE)) {
+
+        $this->leavePeriodPermissions = $this->getDataGroupPermissions('leave_period');
+
+        if (!Auth::instance()->hasRole(Auth::ADMIN_ROLE) && !$this->leavePeriodPermissions->canRead()) {
             $this->forward('leave', 'showLeavePeriodNotDefinedWarning');
         }
 
-        $this->setForm(new LeavePeriodForm(array(), array(), true));
+        $values = array('leavePeriodPermissions' => $this->leavePeriodPermissions);
+
+        $this->setForm(new LeavePeriodForm(array(), $values, true));
         $this->isLeavePeriodDefined = OrangeConfig::getInstance()->getAppConfValue(ConfigService::KEY_LEAVE_PERIOD_DEFINED);
         $this->latestSatrtDate = $this->getLeavePeriodService()->getCurrentLeavePeriodStartDateAndMonth();
         if ($this->isLeavePeriodDefined) {
             $this->currentLeavePeriod = $this->getLeavePeriodService()->getCurrentLeavePeriodByDate(date('Y-m-d'));
-            $endDate = date('F d',  strtotime($this->currentLeavePeriod[1]));
+            $endDate = date('F d', strtotime($this->currentLeavePeriod[1]));
             $startMonthValue = $this->latestSatrtDate->getLeavePeriodStartMonth();
             $startDateValue = $this->latestSatrtDate->getLeavePeriodStartDay();
         } else {
@@ -104,28 +108,34 @@ class defineLeavePeriodAction extends baseLeaveAction {
 
         // this section is for saving leave period
         if ($request->isMethod('post')) {
-            $leavePeriodService = $this->getLeavePeriodService();
+            if ($this->leavePeriodPermissions->canUpdate()) {
+                $leavePeriodService = $this->getLeavePeriodService();
 
-            $this->form->bind($request->getParameter($this->form->getName()));
-            if($this->form->isValid()) {
+                $this->form->bind($request->getParameter($this->form->getName()));
+                if ($this->form->isValid()) {
 
-                $leavePeriodHistory = new LeavePeriodHistory();
-                $leavePeriodHistory->setLeavePeriodStartMonth($this->form->getValue('cmbStartMonth'));
-                $leavePeriodHistory->setLeavePeriodStartDay($this->form->getValue('cmbStartDate'));
-                $leavePeriodHistory->setCreatedAt(date('Y-m-d'));
-                
-                $this->getLeavePeriodService()->saveLeavePeriodHistory($leavePeriodHistory);
-                
-                $this->getMenuService()->enableModuleMenuItems('leave');
-                $this->getUser()->getAttributeHolder()->remove(mainMenuComponent::MAIN_MENU_USER_ATTRIBUTE);
-                
-                $this->getUser()->setFlash('success', __(TopLevelMessages::SAVE_SUCCESS));
+                    $leavePeriodHistory = new LeavePeriodHistory();
+                    $leavePeriodHistory->setLeavePeriodStartMonth($this->form->getValue('cmbStartMonth'));
+                    $leavePeriodHistory->setLeavePeriodStartDay($this->form->getValue('cmbStartDate'));
+                    $leavePeriodHistory->setCreatedAt(date('Y-m-d'));
 
-                $this->redirect('leave/defineLeavePeriod');
+                    $this->getLeavePeriodService()->saveLeavePeriodHistory($leavePeriodHistory);
+
+                    // Enable leave module menu items the first time leave period is defined
+                    if (!$this->isLeavePeriodDefined) {
+                        $this->getMenuService()->enableModuleMenuItems('leave');
+                    }
+                    
+                    $this->getUser()->getAttributeHolder()->remove(mainMenuComponent::MAIN_MENU_USER_ATTRIBUTE);
+
+                    $this->getUser()->setFlash('success', __(TopLevelMessages::SAVE_SUCCESS));
+
+                    $this->redirect('leave/defineLeavePeriod');
+                }
             }
         }
     }
 
-    
 }
+
 ?>

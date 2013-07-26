@@ -133,6 +133,64 @@ class AccessFlowStateMachineDaoTest extends PHPUnit_Framework_TestCase {
         $item = $this->accessFlowStateMachineDao->getWorkflowItemByStateActionAndRole('Time', 'NOT SUBMITTED', 'SAVE', 'XYZ');
         $this->assertTrue(!$item); 
     }
+    
+    public function testDeleteWorkflowRecordsForUserRole() {
+        $ids = $this->getWorkflowItemIdsForRole('Time', 'ADMIN');
+        $this->assertTrue(count($ids) > 0);
+        
+        $supervisorIds = $this->getWorkflowItemIdsForRole('Time', 'SUPERVISOR');
+        $this->accessFlowStateMachineDao->deleteWorkflowRecordsForUserRole('Time', 'ADMIN');
+        $ids = $this->getWorkflowItemIdsForRole('Time', 'ADMIN');
+        $this->assertEquals(0, count($ids));   
+        
+        // verify other items not deleted
+        $supervisorIdsAfter = $this->getWorkflowItemIdsForRole('Time', 'SUPERVISOR');
+        $this->assertEquals(count($supervisorIds), count($supervisorIdsAfter));
+    }
+    
+    public function testDeleteWorkflowRecordsForUserRoleAllWorkflows() {
+        $ids = $this->getWorkflowItemIdsForRole('Time', 'ADMIN');
+        $this->assertTrue(count($ids) > 0);
+        
+        $employeeWorkflowItems = $this->getWorkflowItemIdsForRole('3', 'ADMIN');
+        $this->assertTrue(count($employeeWorkflowItems) > 0);
+         
+        $this->accessFlowStateMachineDao->deleteWorkflowRecordsForUserRole(null, 'ADMIN');
+        
+        $ids = $this->getWorkflowItemIdsForRole('Time', 'ADMIN');
+        $this->assertEquals(0, count($ids));   
+        
+        $employeeWorkflowItems = $this->getWorkflowItemIdsForRole('3', 'ADMIN');
+        $this->assertEquals(0, count($employeeWorkflowItems));
+    }    
+    
+    public function testHandleUserRoleRename() {
+        $oldName = 'ADMIN';
+        $newName = 'SECRETARY';
+        
+        $oldIds = $this->getWorkflowItemIdsForRole('Time', $oldName);
+        $this->assertTrue(count($oldIds) > 0);
+        $newIds = $this->getWorkflowItemIdsForRole('Time', $newName);
+        $this->assertEquals(0, count($newIds));
+        
+        $this->accessFlowStateMachineDao->handleUserRoleRename($oldName, $newName);
+        
+        $oldIdsAfterRename = $this->getWorkflowItemIdsForRole('Time', $oldName);
+        $this->assertEquals(0, count($oldIdsAfterRename));
+        
+        $newIdsAfterRename = $this->getWorkflowItemIdsForRole('Time', $newName);
+        $this->assertEquals(count($oldIds), count($newIdsAfterRename));        
+    }
+    
+    protected function getWorkflowItemIdsForRole($flow, $role) {
+        $conn = Doctrine_Manager::connection()->getDbh();
+        
+        $query = "SELECT id from ohrm_workflow_state_machine WHERE workflow = ? AND role = ?";
+        $statement = $conn->prepare($query);
+        $this->assertTrue($statement->execute(array($flow, $role)));
+        $ids = $statement->fetchAll(PDO::FETCH_COLUMN, 0);
+        return $ids;             
+    }
 }
 
 

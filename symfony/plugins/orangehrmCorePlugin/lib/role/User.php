@@ -44,15 +44,18 @@ class User {
 	private $employeeListForAttendanceTotalSummaryReport;
 	private $employeeNameList = null;
 
+        // Not in use
 	public function getEmployeeListForAttendanceTotalSummaryReport() {
 		return $this->employeeListForAttendanceTotalSummaryReport;
 	}
 
+        // Not in use
 	public function getAccessibleTimeMenus() {
 
 		return $this->topMenuItemsArray;
 	}
 
+        // Not in use
 	public function getActionableTimesheets() {
 
 		return $this->actionableTimesheets;
@@ -62,6 +65,7 @@ class User {
         return $this->employeeNameList;
     }
 
+        // Not in use
 	public function getAccessibleTimeSubMenus() {
 
 		return $this->topMenuItemsArray;
@@ -77,19 +81,20 @@ class User {
 		return $this->applicationStates;
 	}
 
+        // Not in use
 	public function getAccessibleConfigurationSubMenus() {
 		return $this->topMenuItemsArray;
 	}
-
+        // Not in use
 	public function getAccessibleReportSubMenus() {
 		return $this->topMenuItemsArray;
 	}
-
+        // Not in use
 	public function getAccessibleAttendanceSubMenus() {
 
 		return $this->topMenuItemsArray;
 	}
-
+        // Not in use
 	public function getAccessibleRecruitmentMenus() {
 		return $this->topMenuItemsArray;
 	}
@@ -130,14 +135,17 @@ class User {
 		$this->userId = $userId;
 	}
 
+        // Not needed
 	public function setUserTimeZoneOffset($timeZoneOffset) {
 		$this->userTimeZoneOffset = $timeZoneOffset;
 	}
 
+        // Not in use
 	public function getUserTimeZoneOffset() {
 		return $this->userTimeZoneOffset;
 	}
 
+        // Not in use
 	public function isAllowedToDefineTimeheetPeriod() {
 		return $this->canDefineTimesheetPeriod;
 	}

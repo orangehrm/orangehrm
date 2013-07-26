@@ -493,6 +493,27 @@ class CandidateDaoTest extends PHPUnit_Framework_TestCase {
         $candidateVacancyList = $this->candidateDao->searchCandidates($this->candidateDao->buildSearchQuery($searchParam));
         $this->assertTrue($candidateVacancyList[0] instanceof CandidateSearchParameters);
     }
+    
+    /**
+     * Check that search works for a candidate name that has leading/trailing spaces (due to a bug in jobs.php).
+     * UI will display the trimmed version and pass the trimmed version to the search function.
+     * 
+     * eg: Name in DB (quoted here to show spaces): ' John ', ' D ', ' Conner'
+     * search method gets 'John D Conner' and has to compare it with the values in the db.
+     *  
+     */
+    public function testGetCandidateListForCandidateNameWithSpaces() {
+        $searchParam = new CandidateSearchParameters();
+        $searchParam->setCandidateName('John Denis Connor');
+        $searchParam->setCandidateStatus(JobCandidate::ACTIVE);
+
+        $searchQuery = $this->candidateDao->buildSearchQuery($searchParam);
+        $candidateVacancyList = $this->candidateDao->searchCandidates($searchQuery);
+
+        $this->assertEquals(1, count($candidateVacancyList));
+        $this->assertTrue($candidateVacancyList[0] instanceof CandidateSearchParameters);        
+        $this->assertEquals(11, $candidateVacancyList[0]->getCandidateId());
+    }
 
     public function testSaveCandidate() {
 
@@ -684,7 +705,7 @@ class CandidateDaoTest extends PHPUnit_Framework_TestCase {
 
     public function testGetCandidateListForAdminRole() {
         $candidatesForAdmin = $this->candidateDao->getCandidateListForUserRole(AdminUserRoleDecorator::ADMIN_USER, null);
-        $this->assertEquals(count($candidatesForAdmin), 10);
+        $this->assertEquals(count($candidatesForAdmin), 11);
     }
 
     public function testGetCandidateHistoryForHiringManagerRole() {

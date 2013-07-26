@@ -36,6 +36,7 @@ class UpgraderTests {
     public static function suite() {
         $suite = new PHPUnit_Framework_TestSuite('PHPUnit');
         $suite->addTestFile(dirname(__FILE__) . '/schemaIncrementTasks/SchemaIncrementTask55Test.php');
+        $suite->addTestFile(dirname(__FILE__) . '/schemaIncrementTasks/SchemaIncrementTask58Test.php');
 
         return $suite;
     }

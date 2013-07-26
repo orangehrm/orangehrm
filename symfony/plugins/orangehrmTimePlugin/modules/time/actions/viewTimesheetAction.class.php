@@ -17,7 +17,7 @@
  * if not, write to the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
  * Boston, MA  02110-1301, USA
  */
-class viewTimesheetAction extends sfAction {
+class viewTimesheetAction extends baseTimeAction {
 
     private $timesheetService;
     private $timesheetPeriodService;
@@ -45,13 +45,15 @@ class viewTimesheetAction extends sfAction {
         $request->setParameter('initialActionName', 'viewEmployeeTimesheet');  
 
         $employeeId = $request->getParameter('employeeId');
+        
+        $this->timesheetPermissions = $this->getDataGroupPermissions('time_employee_timesheets', $employeeId);
 
         $this->_checkAuthentication($employeeId);
 
-        /* Decorated user object in the user session, which can be used only to get user's employee number, user id, employee list and accessible Time menus */
-        $this->userObj = $this->getContext()->getUser()->getAttribute('user');
-        $userId = $this->userObj->getUserId();
-        $userEmployeeNumber = $this->userObj->getEmployeeNumber();
+        $userRoleManager = $this->getContext()->getUserRoleManager();
+        $user = $userRoleManager->getUser();
+        $userId = $user->getId();
+
         $this->employeeName = $this->getEmployeeName($employeeId);
 
         $this->createTimesheetForm = new CreateTimesheetForm();
@@ -126,42 +128,52 @@ class viewTimesheetAction extends sfAction {
 
                 if ($this->formToImplementCsrfToken->isValid()) {
 
-                    $state = $request->getParameter('state');
-                    if (isset($state)) {
+                    $action = $request->getParameter('act');
+
+                    // check if action allowed and get next state
+                    $excludeRoles = array();
+                    $includeRoles = array();
+                    $entities = array('Employee' => $employeeId);
+                                           
+                    $allowedActions = $userRoleManager->getAllowedActions(PluginWorkflowStateMachine::FLOW_TIME_TIMESHEET, $this->currentState, $excludeRoles, $includeRoles, $entities);
+                    
+                    if (isset($allowedActions[$action])) {
+                        
+                        $state = $allowedActions[$action]->getResultingState();
                         $this->successMessage = array('success', __("Timesheet " . ucwords(strtolower($state))));
-                    }
-                    $comment = $request->getParameter('Comment');
-                    $this->timesheet->setState($state);
-                    $this->timesheet = $this->getTimesheetService()->saveTimesheet($this->timesheet);
+                        
+                        $comment = $request->getParameter('Comment');
+                        $this->timesheet->setState($state);
+                        $this->timesheet = $this->getTimesheetService()->saveTimesheet($this->timesheet);
 
-                    if ($request->getParameter('updateActionLog')) {
+                        if ($request->getParameter('updateActionLog')) {
 
-                        if ($request->getParameter('resetAction')) {
+                            if ($action == WorkflowStateMachine::TIMESHEET_ACTION_RESET) {
 
-                            $this->setTimesheetActionLog(Timesheet::RESET_ACTION, $comment, $this->timesheet->getTimesheetId(), $userId);
-                        } else {
-                            $this->setTimesheetActionLog($state, $comment, $this->timesheet->getTimesheetId(), $userId);
+                                $this->setTimesheetActionLog(Timesheet::RESET_ACTION, $comment, $this->timesheet->getTimesheetId(), $userId);
+                            } else {
+                                $this->setTimesheetActionLog($state, $comment, $this->timesheet->getTimesheetId(), $userId);
+                            }
+
+                            if ($action == WorkflowStateMachine::TIMESHEET_ACTION_SUBMIT) {
+                                $this->successMessage = array('success', __("Timesheet Submitted"));
+                            }
                         }
-
-                        $submitted = $request->getParameter('submitted');
-                        if (isset($submitted)) {
-                            $this->successMessage = array('success', __("Timesheet Submitted"));
-                        }
-                    }
+                    }                    
                 }
             }
 
             $this->currentState = $this->timesheet->getState();
-
-            //decorate the user according the role that he plays on the employee who timesheet is being viewed.
-            $userRoleFactory = new UserRoleFactory();
-            $decoratedUser = $userRoleFactory->decorateUserRole($userId, $employeeId, $userEmployeeNumber);
-            $this->allowedToCreateTimesheets = $decoratedUser->getAllowedActions(PluginWorkflowStateMachine::FLOW_TIME_TIMESHEET, PluginTimesheet::STATE_INITIAL);
-            $this->allowedActions = $decoratedUser->getAllowedActions(PluginWorkflowStateMachine::FLOW_TIME_TIMESHEET, $this->currentState);
-            $this->submitNextState = $decoratedUser->getNextState(PluginWorkflowStateMachine::FLOW_TIME_TIMESHEET, $this->currentState, PluginWorkflowStateMachine::TIMESHEET_ACTION_SUBMIT);
-            $this->approveNextState = $decoratedUser->getNextState(PluginWorkflowStateMachine::FLOW_TIME_TIMESHEET, $this->currentState, PluginWorkflowStateMachine::TIMESHEET_ACTION_APPROVE);
-            $this->rejectNextState = $decoratedUser->getNextState(PluginWorkflowStateMachine::FLOW_TIME_TIMESHEET, $this->currentState, PluginWorkflowStateMachine::TIMESHEET_ACTION_REJECT);
-            $this->resetNextState = $decoratedUser->getNextState(PluginWorkflowStateMachine::FLOW_TIME_TIMESHEET, $this->currentState, PluginWorkflowStateMachine::TIMESHEET_ACTION_RESET);
+            
+            $excludeRoles = array();
+            $includeRoles = array();
+            $entities = array('Employee' => $employeeId);
+                                           
+            $initialStateActions = $userRoleManager->getAllowedActions(PluginWorkflowStateMachine::FLOW_TIME_TIMESHEET, PluginTimesheet::STATE_INITIAL, $excludeRoles, $includeRoles, $entities);
+            $this->allowedToCreateTimesheets = isset($initialStateActions[WorkflowStateMachine::TIMESHEET_ACTION_CREATE]);
+            
+            $this->allowedActions = $userRoleManager->getAllowedActions(PluginWorkflowStateMachine::FLOW_TIME_TIMESHEET, $this->currentState, $excludeRoles, $includeRoles, $entities);
+            
             $this->rowDates = $form->getDatesOfTheTimesheetPeriod($this->timesheet->getStartDate(), $this->timesheet->getEndDate());
             $this->actionLogRecords = $this->getTimesheetService()->getTimesheetActionLogByTimesheetId($this->timesheet->getTimesheetId());
         }
@@ -232,22 +244,12 @@ class viewTimesheetAction extends sfAction {
 
     protected function _checkAuthentication($empNumber) {
 
-        $user = $this->getUser()->getAttribute('user');
-
-        if ($user->isAdmin()) {
-            return;
+        $userRoleManager = $this->getContext()->getUserRoleManager();
+        
+        if (!$userRoleManager->isEntityAccessible('Employee', $empNumber)) {
+            $this->forward(sfConfig::get('sf_secure_module'), sfConfig::get('sf_secure_action'));
         }
 
-        $logedInEmpNumber = $user->getEmployeeNumber();
-        $subordinateIdList = $this->getEmployeeService()->getSubordinateIdListBySupervisorId($logedInEmpNumber);
-
-        if (empty($subordinateIdList)) {
-            $this->redirect('auth/login');
-        }
-
-        if (!in_array($empNumber, $subordinateIdList)) {
-            $this->redirect('auth/login');
-        }
     }
 
 }

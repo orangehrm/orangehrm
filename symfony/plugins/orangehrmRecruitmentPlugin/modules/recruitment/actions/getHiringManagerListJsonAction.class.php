@@ -26,13 +26,24 @@ class getHiringManagerListJsonAction extends sfAction {
      */
     public function execute($request) {
 
-        $allowedVacancyList = $this->getUser()->getAttribute('user')->getAllowedVacancyList();
-
         $this->setLayout(false);
         sfConfig::set('sf_web_debug', false);
         sfConfig::set('sf_debug', false);
 
-        $hiringManagerList = array();
+        $userRoleManager = $this->getContext()->getUserRoleManager();
+        
+        $mode = $request->getParameter('mode');
+        
+        $dataGroupName = $mode == self::MODE_CANDIDATES ? 'recruitment_candidates' : 'recruitment_vacancies';
+        
+        $requiredPermissions = array(
+            BasicUserRoleManager::PERMISSION_TYPE_DATA_GROUP => array(
+                $dataGroupName => new ResourcePermission(true, false, false, false)
+            )
+        );
+            
+        $allowedVacancyList = $userRoleManager->getAccessibleEntityIds('Vacancy', 
+                null, null, array(), array(), $requiredPermissions);
 
         if ($this->getRequest()->isXmlHttpRequest()) {
             $this->getResponse()->setHttpHeader('Content-Type', 'application/json; charset=utf-8');

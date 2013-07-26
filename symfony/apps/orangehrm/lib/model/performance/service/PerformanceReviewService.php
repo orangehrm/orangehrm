@@ -342,7 +342,10 @@ class PerformanceReviewService extends BaseService {
         $resultList = $this->performanceReviewDao->searchPerformanceReview(array('reviewerId' => $reviewerId));
 
         foreach ($resultList as $reviewee) {
-            $jsonString[] = array('name' => $reviewee->getEmployee()->getFullName(), 'id' => $reviewee->getEmployee()->getEmpNumber());
+            $employee = $reviewee->getEmployee();
+            if ($employee instanceof Employee) {
+                $jsonString[] = array('name' => $employee->getFullName(), 'id' => $employee->getEmpNumber());
+            }
         }
 
         if ($addSelf) {

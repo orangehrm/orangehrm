@@ -6,6 +6,7 @@
 class LeavePeriodForm extends sfForm {
 
     public function configure() {
+        $leavePeriodPermissions = $this->getOption('leavePeriodPermissions');
 
         $leavePeriodService = new LeavePeriodService();
         $month = "-- " . __("Month") . " --";
@@ -15,31 +16,39 @@ class LeavePeriodForm extends sfForm {
         $datesChoiceList = array($date);
 
         $currentLeavePeriod = $leavePeriodService->getCurrentLeavePeriodStartDateAndMonth();
-        
+
         if ($currentLeavePeriod instanceof LeavePeriodHistory) {
             $datesChoiceList = array_merge($datesChoiceList, $leavePeriodService->getListOfDates($currentLeavePeriod->getLeavePeriodStartMonth()));
         }
 
-        $this->setWidgets(array(
+        $widgets = array(
             'cmbStartMonth' => new sfWidgetFormSelect(array(
                 'choices' => $monthsChoiceList,
-                    )),
+            )),
             'cmbStartDate' => new sfWidgetFormSelect(array(
                 'choices' => $datesChoiceList,
-                    )),
-        ));
-        $this->setValidators(array(
+            )),
+        );
+
+        $validators = array(
             'cmbStartMonth' => new sfValidatorString(array('required' => false)),
             'cmbStartDate' => new sfValidatorString(array('required' => false)),
-            
-        ));
+        );
+        
+        if (!$leavePeriodPermissions->canUpdate()) {
+            foreach ($widgets as $widgetName => $widget) {
+                $widget->setAttribute('disabled', 'disabled');
+            }
+        }
+        
+        $this->setWidgets($widgets);
+        $this->setValidators($validators);
 
         $this->widgetSchema->setNameFormat('leaveperiod[%s]');
         $this->getWidgetSchema()->setLabels($this->getFormLabels());
-
     }
-    
-     /**
+
+    /**
      * 
      * @return string 
      */
@@ -48,7 +57,6 @@ class LeavePeriodForm extends sfForm {
         $labels = array(
             'cmbStartMonth' => __('Start Month') . $requiredMarker,
             'cmbStartDate' => __('Start Date') . $requiredMarker,
-		    
         );
         return $labels;
     }

@@ -26,7 +26,7 @@
 
 <div class="box pimPane" id="">
     
-    <?php include_partial('pimLeftMenu', array('empNumber' => $empNumber, 'form' => $form));?>
+    <?php echo include_component('pim', 'pimLeftMenu', array('empNumber'=>$empNumber, 'form' => $form));?>
     
     <div class="">
         <div class="head">
@@ -175,7 +175,7 @@
             </form>
             
             <?php else : ?>
-            <div><?php echo __(CommonMessages::DONT_HAVE_ACCESS); ?></div>
+            <div><?php echo __(CommonMessages::RESTRICTED_SECTION); ?></div>
             <?php endif; ?>
         </div> <!-- inner -->
     </div>

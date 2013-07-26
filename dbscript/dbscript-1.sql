@@ -534,7 +534,7 @@ create table `hs_hr_kpi` (
 create table `hs_hr_performance_review` (
   `id` int(13) not null,
   `employee_id` int(13) not null,
-  `reviewer_id` int(13) not null,
+  `reviewer_id` int(13) null,
   `creator_id` varchar(36) default null,
   `job_title_code` varchar(10) not null,
   `sub_division_id` int(13) default null,  
@@ -1295,6 +1295,14 @@ create table ohrm_module_default_page (
     primary key (`id`)
 ) engine=innodb default charset=utf8;
 
+CREATE TABLE ohrm_data_group_screen (
+    `id` int AUTO_INCREMENT, 
+    `data_group_id` int, 
+    `screen_id` int, 
+    `permission` int,
+    PRIMARY KEY(`id`)
+) ENGINE = INNODB DEFAULT CHARSET=utf8;
+
 alter table ohrm_home_page 
     add foreign key (user_role_id) references ohrm_user_role(id) on delete cascade;
 
@@ -1793,3 +1801,18 @@ alter table ohrm_user_role_screen
 alter table ohrm_user_role_screen
        add constraint foreign key (screen_id)
                              references ohrm_screen(id) on delete cascade;
+
+alter table ohrm_data_group_screen
+    add foreign key (data_group_id) references ohrm_data_group(id) on delete cascade;
+
+alter table ohrm_data_group_screen
+    add foreign key (screen_id) references ohrm_screen(id) on delete cascade;
+
+
+alter table hs_hr_performance_review
+    add constraint foreign key (employee_id)
+        references hs_hr_employee (emp_number) on delete cascade;
+
+alter table hs_hr_performance_review
+    add constraint foreign key (reviewer_id)
+        references hs_hr_employee (emp_number) on delete set null;

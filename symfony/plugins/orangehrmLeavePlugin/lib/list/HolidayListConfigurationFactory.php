@@ -23,6 +23,7 @@
  *
  */
 class HolidayListConfigurationFactory extends ohrmListConfigurationFactory {
+    private $isLinkable;
 
     protected function init() {
 
@@ -35,6 +36,7 @@ class HolidayListConfigurationFactory extends ohrmListConfigurationFactory {
             'sortField' => null,
             'elementType' => 'link',
             'elementProperty' => array(
+                'linkable' => $this->isLinkable,
                 'labelGetter' => 'getDescription',
                 'placeholderGetters' => array('id' => 'getId'),
                 'urlPattern' => 'index.php/leave/defineHoliday?hdnEditId={id}'),
@@ -93,6 +95,14 @@ class HolidayListConfigurationFactory extends ohrmListConfigurationFactory {
     public function getClassName() {
         return 'HolidayList';
     }
+    
+    public function setIsLinkable($isLinkable) {
+        $this->isLinkable = $isLinkable;
+    }
+    
+    public function getIsLinkable() {
+        return $this->isLinkable;
+    }    
 
 }
 
