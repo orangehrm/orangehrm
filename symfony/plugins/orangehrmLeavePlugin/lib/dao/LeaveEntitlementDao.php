@@ -391,7 +391,7 @@ class LeaveEntitlementDao extends BaseDao {
                 }
 
 
-                $updateQuery = sprintf(" UPDATE ohrm_leave_entitlement SET no_of_days=no_of_days+ %d WHERE id IN (%s)", $leaveEntitlement->getNoOfDays(), implode(',', $updateEntitlementIdList));
+                $updateQuery = sprintf(" UPDATE ohrm_leave_entitlement SET no_of_days=no_of_days+ %f WHERE id IN (%s)", $leaveEntitlement->getNoOfDays(), implode(',', $updateEntitlementIdList));
                 $updateStmt = $pdo->prepare($updateQuery);
                 $updateStmt->execute();
             }
