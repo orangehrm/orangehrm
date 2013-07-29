@@ -171,10 +171,10 @@
                             }
                             ?>
                             <tr class="<?php echo $cssClass; ?>">
-                                <?php if (!$essUserMode) {  
-                                $disabled = ($salaryPermissions->canDelete()) ? "" : 'disabled="disabled"';?>
+                                <?php if (!$essUserMode && $salaryPermissions->canDelete()) { ?>
+
                                 <td class="check">
-                                    <input type="checkbox" <?php echo $disabled;?> class="chkbox" value="<?php echo $salary->id; ?>" name="delSalary[]"/>
+                                    <input type="checkbox" class="chkbox" value="<?php echo $salary->id; ?>" name="delSalary[]"/>
                                 </td>
                                 <?php } ?>
                                 <td class="component">
@@ -214,7 +214,7 @@
                                 }
                                 ?>
                                 <tr class="directDepositRow <?php echo $cssClass; ?>" style="display:none;">
-                                    <td colspan="<?php echo $essUserMode ? '6' : '7'?>" class="<?php echo $cssClass; ?>" >
+                                    <td colspan="<?php echo $essUserMode || !$salaryPermissions->canDelete() ? '6' : '7'?>" class="<?php echo $cssClass; ?>" >
                                         <span class="directDepositHeading"><h3><?php echo __("Direct Deposit Details"); ?></h3></span>
                                         <table class="table hover" style="width:60%">
                                             <thead>
