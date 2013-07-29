@@ -47,10 +47,14 @@ class payGradeAction extends baseAdminAction {
         $this->payGradePermissions = $this->getDataGroupPermissions('pay_grades');
 
         $this->payGradeId = $request->getParameter('payGradeId');
+        
         if (!empty($this->payGradeId)) {
             $this->currencyForm = new PayGradeCurrencyForm();
             $this->deleteForm = new DeletePayGradeCurrenciesForm();
             $this->currencyList = $this->getPayGradeService()->getCurrencyListByPayGradeId($this->payGradeId);
+            $this->title = $this->payGradePermissions->canUpdate() ? __('Edit Pay Grade') : ('View Pay Grade');
+        } else {
+            $this->title = __("Add Pay Grade");
         }
         $values = array('payGradeId' => $this->payGradeId, 'payGradePermissions' => $this->payGradePermissions);
 
@@ -69,6 +73,12 @@ class payGradeAction extends baseAdminAction {
                     $this->redirect('admin/payGrade?payGradeId=' . $payGradeId);
                 }
             }
+        } else {
+            // check permissions
+            if ((empty($this->payGradeId) && !$this->payGradePermissions->canCreate()) 
+                    || (!empty($this->payGradeId) && !$this->payGradePermissions->canRead())) {
+                $this->forward(sfConfig::get('sf_secure_module'), sfConfig::get('sf_secure_action'));
+            }             
         }
     }
 

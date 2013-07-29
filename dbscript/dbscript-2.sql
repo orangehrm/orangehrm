@@ -1996,12 +1996,11 @@ INSERT INTO `ohrm_data_group_screen`(`data_group_id`, `screen_id`, `permission`)
 (42, 81, 4),
 
 (43, 24, 1),
+(43, 82, 1),
 (43, 82, 2),
 (43, 82, 3),
 (43, 83, 4),
-(43, 84, 2),
 (43, 84, 3),
-(43, 85, 2),
 (43, 85, 3),
 
 (42, 74, 1),
@@ -2078,8 +2077,7 @@ INSERT INTO `ohrm_data_group_screen`(`data_group_id`, `screen_id`, `permission`)
 
 (59, 16, 1),
 (59, 98, 1),
-(59, 99, 1),
-(59, 99, 3);
+(59, 99, 1);
 
 INSERT INTO `ohrm_job_category` (`name`) VALUES ('Officials and Managers'),
                                                 ('Professionals'),

@@ -55,7 +55,6 @@ $(document).ready(function() {
         $('#payGrade_name').attr('disabled','disabled');
         $('#btnSave').val(lang_edit);
         $('#payGradeCurrency_payGradeId').val(payGradeId);
-        $('#payGradeHeading').text(lang_editPayGrade);
     }
     
     

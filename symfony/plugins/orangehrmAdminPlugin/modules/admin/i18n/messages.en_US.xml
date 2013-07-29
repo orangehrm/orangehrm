@@ -555,7 +555,11 @@
    <trans-unit id="139">
     <source>To enable notifications click on Edit button and select the relevant check-box</source>
     <target>To enable notifications click on Edit button and select the relevant check-box</target>
-   </trans-unit>    
+   </trans-unit>
+   <trans-unit id="140">
+    <source>View Pay Grade</source>
+    <target>View Pay Grade</target>
+   </trans-unit>          
   </body>
  </file>
 </xliff>

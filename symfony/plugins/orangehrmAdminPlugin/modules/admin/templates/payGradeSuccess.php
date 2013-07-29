@@ -10,7 +10,7 @@ use_javascript(plugin_web_path('orangehrmAdminPlugin', 'js/payGradeSuccess'));
 <div id="payGrade" class="box">
     
     <div class="head">
-        <h1 id="payGradeHeading"><?php echo __("Add Pay Grade"); ?></h1>
+        <h1 id="payGradeHeading"><?php echo $title; ?></h1>
     </div>
     
     <div class="inner">
@@ -87,7 +87,7 @@ use_javascript(plugin_web_path('orangehrmAdminPlugin', 'js/payGradeSuccess'));
                 </ol>    
                 
                 <p id="actionButtons" style="display: none">
-                    <?php if($payGradePermissions->canCreate() || $payGradePermissions->canUpdate()){?>
+                    <?php if($payGradePermissions->canUpdate()){?>
                     <input type="button" class="addbutton" name="btnSaveCurrency" id="btnSaveCurrency" value="<?php echo __("Save"); ?>"/>
                     <?php }?>
                     <input type="button" class="reset" id="cancelButton" value="<?php echo __("Cancel"); ?>"/>
@@ -117,7 +117,7 @@ use_javascript(plugin_web_path('orangehrmAdminPlugin', 'js/payGradeSuccess'));
             <?php echo $deleteForm['_csrf_token']; ?>
             
             <p id="addDeleteBtnDiv">
-                <?php if($payGradePermissions->canCreate() || $payGradePermissions->canUpdate()){?>
+                <?php if ($payGradePermissions->canUpdate()) {?>
                 <input type="button" class="addbutton" id="btnAddCurrency" value="<?php echo __("Add"); ?>"/>
                 <?php if ($hasCurrencies) { ?>
                 
@@ -129,7 +129,7 @@ use_javascript(plugin_web_path('orangehrmAdminPlugin', 'js/payGradeSuccess'));
             <table class="table hover" id="tblCurrencies">
                 <thead>
                     <tr>
-                        <?php if($payGradePermissions->canCreate() || $payGradePermissions->canUpdate()){?>
+                        <?php if ($payGradePermissions->canUpdate()) {?>
                         <th class="check" style="width:2%"><input type="checkbox" id="currencyCheckAll" class="checkboxCurr"/></th>
                         <?php }?>
                         <th style="width:40%"><?php echo __("Currency") ?></th>
@@ -146,7 +146,7 @@ use_javascript(plugin_web_path('orangehrmAdminPlugin', 'js/payGradeSuccess'));
                         $cssClass = ($row % 2) ? 'even' : 'odd';
                 ?>
                         <tr class="<?php echo $cssClass; ?>">
-                            <?php if($payGradePermissions->canCreate() || $payGradePermissions->canUpdate()){?>
+                            <?php if ($payGradePermissions->canUpdate()){?>
                             <td class="check"><input type='checkbox' class='checkboxCurr' name='delCurrencies[]' value="<?php echo $currency->currency_id; ?>"/></td>
                             <td><a href="#" class="editLink"><?php echo __($currency->getCurrencyType()->getCurrencyName()); ?></a></td>
                             <?php }else{?>
@@ -161,7 +161,9 @@ use_javascript(plugin_web_path('orangehrmAdminPlugin', 'js/payGradeSuccess'));
                 } else {
                 ?>
                     <tr class="<?php echo $cssClass; ?>">
+                        <?php if ($payGradePermissions->canUpdate()) {?>
                         <td class="check"></td>
+                        <?php } ?>
                         <td><?php echo __(TopLevelMessages::NO_RECORDS_FOUND); ?></td>
                         <td></td>
                         <td></td>
@@ -195,8 +197,6 @@ use_javascript(plugin_web_path('orangehrmAdminPlugin', 'js/payGradeSuccess'));
     var payGradeId = "<?php echo $payGradeId; ?>";
     var lang_edit = "<?php echo __("Edit"); ?>";
     var lang_save = "<?php echo __("Save"); ?>";
-    var lang_editPayGrade = "<?php echo __("Edit Pay Grade"); ?>";
-    var lang_addPayGrade = "<?php echo __("Add Pay Grade"); ?>";
     var lang_currencyRequired = '<?php echo __(ValidationMessages::REQUIRED); ?>';
     var lang_salaryShouldBeNumeric = '<?php echo __("Should be a positive number"); ?>';
     var lang_validCurrency = '<?php echo __(ValidationMessages::INVALID); ?>';
