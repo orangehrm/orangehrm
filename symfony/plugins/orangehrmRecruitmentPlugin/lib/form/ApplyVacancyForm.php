@@ -22,6 +22,8 @@ class ApplyVacancyForm extends BaseForm {
 
     private $candidateService;
     private $recruitmentAttachmentService;
+    private $workflowService;
+    
     public $attachment;
     public $candidateId;
     private $allowedFileTypes = array(
@@ -60,7 +62,14 @@ class ApplyVacancyForm extends BaseForm {
         }
         return $this->recruitmentAttachmentService;
     }
-
+    
+    public function getWorkflowService() {
+        if (is_null($this->workflowService)) {
+            $this->workflowService = new AccessFlowStateMachineService();        
+        }
+        return $this->workflowService;
+    }
+    
     public function configure() {
 
         $this->candidateId = $this->getOption('candidateId');
@@ -204,7 +213,7 @@ class ApplyVacancyForm extends BaseForm {
             $candidateVacancy = new JobCandidateVacancy();
             $candidateVacancy->candidateId = $candidateId;
             $candidateVacancy->vacancyId = $vacnacyId;
-            $candidateVacancy->status = "APPLICATION INITIATED";
+            $candidateVacancy->status = $this->getResultingStateForJobApplication();
             $candidateVacancy->appliedDate = date('Y-m-d');
             $candidateService = $this->getCandidateService();
             $candidateService->saveCandidateVacancy($candidateVacancy);
@@ -216,6 +225,29 @@ class ApplyVacancyForm extends BaseForm {
             $history->candidateVacancyName = $candidateVacancy->getVacancyName();
             $this->getCandidateService()->saveCandidateHistory($history);
         }
+    }
+
+    /**
+     * Get the resulting state of a job application
+     */
+    protected function getResultingStateForJobApplication() {
+            
+        $resultingState = NULL;
+        
+        // Since job application is done by a non-logged in user, current workflow does not support configuring
+        // this via the workflow state machine.
+        // Therefore, we set the state to ADMIN workflow item for the INITIAL state.
+        $workFlowItems = $this->getWorkflowService()->getAllowedWorkflowItems(WorkflowStateMachine::FLOW_RECRUITMENT, 'INITIAL', 'ADMIN');     
+
+        if (count($workFlowItems) > 0) {
+            $item = $workFlowItems[0];
+            $resultingState = $item->getResultingState();
+        }        
+        
+        if (is_null($resultingState)) {
+            throw new RecruitmentExeption('No workflow items found for job vacancy INITIAL state for ADMIN');
+        }
+        return $resultingState;
     }
 
     /**

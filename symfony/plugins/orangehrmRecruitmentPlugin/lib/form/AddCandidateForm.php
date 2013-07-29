@@ -396,23 +396,34 @@ class AddCandidateForm extends BaseForm {
             $candidateVacancy = new JobCandidateVacancy();
             $candidateVacancy->candidateId = $candidateId;
             $candidateVacancy->vacancyId = $vacnacy;
-            $candidateVacancy->status = "APPLICATION INITIATED";
-            if ($this->getValue('appliedDate') == "") {
-                $candidateVacancy->appliedDate = date('Y-m-d');
+            
+            // Get correct status for candidate vacancy
+            $userRoleManager = UserRoleManagerFactory::getUserRoleManager();
+            $workflowItems = $userRoleManager->getAllowedActions(WorkflowStateMachine::FLOW_RECRUITMENT, 'INITIAL');
+            
+            if (isset($workflowItems[WorkflowStateMachine::RECRUITMENT_APPLICATION_ACTION_ATTACH_VACANCY])) {
+                
+                $workflowItem = $workflowItems[WorkflowStateMachine::RECRUITMENT_APPLICATION_ACTION_ATTACH_VACANCY];
+                $candidateVacancy->status = $workflowItem->getResultingState();
+                if ($this->getValue('appliedDate') == "") {
+                    $candidateVacancy->appliedDate = date('Y-m-d');
+                } else {
+                    $candidateVacancy->appliedDate = $this->getValue('appliedDate');
+                }
+                $candidateService = $this->getCandidateService();
+                $candidateService->saveCandidateVacancy($candidateVacancy);
+                $history = new CandidateHistory();
+                $history->candidateId = $candidateId;
+                $history->action = WorkflowStateMachine::RECRUITMENT_APPLICATION_ACTION_ATTACH_VACANCY;
+                $history->vacancyId = $candidateVacancy->getVacancyId();
+                $history->performedBy = $this->addedBy;
+                $date = date('Y-m-d');
+                $history->performedDate = $date . " " . date('H:i:s');
+                $history->candidateVacancyName = $candidateVacancy->getVacancyName();
+                $this->getCandidateService()->saveCandidateHistory($history);
             } else {
-                $candidateVacancy->appliedDate = $this->getValue('appliedDate');
+                throw new RecruitmentExeption('No workflow items found for job vacancy INITIAL state');
             }
-            $candidateService = $this->getCandidateService();
-            $candidateService->saveCandidateVacancy($candidateVacancy);
-            $history = new CandidateHistory();
-            $history->candidateId = $candidateId;
-            $history->action = WorkflowStateMachine::RECRUITMENT_APPLICATION_ACTION_ATTACH_VACANCY;
-            $history->vacancyId = $candidateVacancy->getVacancyId();
-            $history->performedBy = $this->addedBy;
-            $date = date('Y-m-d');
-            $history->performedDate = $date . " " . date('H:i:s');
-            $history->candidateVacancyName = $candidateVacancy->getVacancyName();
-            $this->getCandidateService()->saveCandidateHistory($history);
         }
     }
 

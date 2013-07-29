@@ -322,10 +322,7 @@ class BasicUserRoleManager extends AbstractUserRoleManager {
         $filteredRoles = $this->filterRoles($this->userRoles, $rolesToExclude, $rolesToInclude, $entities);
         
         foreach ($filteredRoles as $role) {
-           $roleName = $role->getName();
-           if ($roleName == 'ESS' && $workFlowId != 4) {
-               $roleName = 'ESS User';
-           }
+           $roleName = $this->fixUserRoleNameForWorkflowStateMachine($role->getName(), $workFlowId);
            
            $isAllowed = $accessFlowStateMachineService->isActionAllowed($workFlowId, $state, $roleName, $action);
            if($isAllowed){
@@ -349,11 +346,7 @@ class BasicUserRoleManager extends AbstractUserRoleManager {
         $filteredRoles = $this->filterRoles($this->userRoles, $rolesToExclude, $rolesToInclude, $entities);
         
         foreach ($filteredRoles as $role) {
-            $roleName = $role->getName();
-           if ($roleName == 'ESS' && $workFlowId != 4) {
-               $roleName = 'ESS User';
-           }
-            
+            $roleName = $this->fixUserRoleNameForWorkflowStateMachine($role->getName(), $workflow);
             $workFlowItems = $accessFlowStateMachineService->getAllowedWorkflowItems($workflow, $state, $roleName);     
 
             if (count($workFlowItems) > 0) {
@@ -784,4 +777,15 @@ class BasicUserRoleManager extends AbstractUserRoleManager {
         
         return $action;        
     }    
+    
+    protected function fixUserRoleNameForWorkflowStateMachine($roleName, $workflow) {
+        $fixedName = $roleName;
+        if ($roleName == 'ESS' && $workflow != WorkflowStateMachine::FLOW_LEAVE) {
+            $fixedName = 'ESS User';
+        } else if ($roleName == 'HiringManager' && $workflow == WorkflowStateMachine::FLOW_RECRUITMENT) {
+            $fixedName = 'HIRING MANAGER';
+        }
+
+        return $fixedName;
+    }
 }
