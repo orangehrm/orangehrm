@@ -25,8 +25,7 @@
 <div id="saveHobTitle" class="box">
     <?php if ($jobTitlePermissions->canRead()) { ?>
     <div class="head">
-        <?php $heading = (empty($form->jobTitleId)) ? __("Add Job Title") : __("Edit Job Title") ?>
-        <h1 id="saveHobTitleHeading"><?php echo $heading; ?></h1>
+        <h1 id="saveHobTitleHeading"><?php echo $title; ?></h1>
     </div>
     
     <div class="inner">       

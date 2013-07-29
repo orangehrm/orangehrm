@@ -559,7 +559,11 @@
    <trans-unit id="140">
     <source>View Pay Grade</source>
     <target>View Pay Grade</target>
-   </trans-unit>          
+   </trans-unit>        
+   <trans-unit id="141">
+    <source>View Job Title</source>
+    <target>View Job Title</target>
+   </trans-unit>
   </body>
  </file>
 </xliff>

@@ -30,8 +30,6 @@ class saveJobTitleAction extends baseAdminAction {
         /* For highlighting corresponding menu item */
         $request->setParameter('initialActionName', 'viewJobTitleList');
 
-        $usrObj = $this->getUser()->getAttribute('user');
-
         $this->jobTitlePermissions = $this->getDataGroupPermissions('job_titles');
 
         $this->getUser()->setAttribute('addScreen', true);
@@ -55,6 +53,18 @@ class saveJobTitleAction extends baseAdminAction {
                     $this->redirect('admin/viewJobTitleList');
                 }
             }
+        } else {
+            // check permissions
+            if ((empty($jobTitleId) && !$this->jobTitlePermissions->canCreate()) 
+                    || (!empty($jobTitleId) && !$this->jobTitlePermissions->canRead())) {
+                $this->forward(sfConfig::get('sf_secure_module'), sfConfig::get('sf_secure_action'));
+            }                
+        }
+        
+        if (empty($jobTitleId)) {
+            $this->title = __("Add Job Title");
+        } else {
+            $this->title = $this->jobTitlePermissions->canUpdate() ? __("Edit Job Title") : __("View Job Title");
         }
     }
 

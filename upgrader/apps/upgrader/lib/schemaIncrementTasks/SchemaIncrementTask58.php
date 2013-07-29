@@ -250,6 +250,7 @@ class SchemaIncrementTask58 extends SchemaIncrementTask {
                     ({$dataGroupIds['leave_entitlements_usage_report']}, {$screenIds['viewLeaveBalanceReport']}, 1),
 
                     (" . ($dataGroupId) . ", {$screenIds['viewJobTitleList']}, 1),
+                    (" . ($dataGroupId) . ", " . ($screenId) . ", 1)
                     (" . ($dataGroupId) . ", " . ($screenId) . ", 2),
                     (" . ($dataGroupId) . ", " . ($screenId) . ", 3),
                     (" . ($dataGroupId) . ", " . ($screenId+1) . ", 4),

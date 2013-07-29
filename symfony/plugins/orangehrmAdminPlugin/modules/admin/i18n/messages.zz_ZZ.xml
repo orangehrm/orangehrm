@@ -560,6 +560,10 @@
     <source>View Pay Grade</source>
     <target>FR_View Pay Grade</target>
    </trans-unit>   
+   <trans-unit id="141">
+    <source>View Job Title</source>
+    <target>FR_View Job Title</target>
+   </trans-unit>      
   </body>
  </file>
 </xliff>
