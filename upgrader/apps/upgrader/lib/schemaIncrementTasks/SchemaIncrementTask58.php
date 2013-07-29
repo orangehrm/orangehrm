@@ -135,7 +135,9 @@ class SchemaIncrementTask58 extends SchemaIncrementTask {
                     ({$userRoleIds['Admin']}, " . ($screenId+18) . ", 1, 1, 1, 1),
                     ({$userRoleIds['ESS']}, " . ($screenId+18) . ", 1, 1, 1, 1),
                     ({$userRoleIds['Supervisor']}, " . ($screenId+18) . ", 1, 1, 1, 1),
-                    ({$userRoleIds['Admin']}, " . ($screenId+19) . ", 1, 1, 1, 1),
+                    ({$userRoleIds['Admin']}, " . ($screenId+19) . ", 1, 0, 1, 0),
+                    ({$userRoleIds['ESS']}, " . ($screenId+19) . ", 1, 0, 1, 0),
+                    ({$userRoleIds['Supervisor']}, " . ($screenId+19) . ", 1, 0, 1, 0),
                     ({$userRoleIds['Admin']}, " . ($screenId+20) . ", 1, 0, 0, 0),    
                     ({$userRoleIds['Admin']}, " . ($screenId+21) . ", 1, 1, 1, 1),
                     ({$userRoleIds['Supervisor']}, " . ($screenId+21) . ", 1, 1, 1, 1),
@@ -335,7 +337,8 @@ class SchemaIncrementTask58 extends SchemaIncrementTask {
 
                     (" . ($dataGroupId+17) . ", {$screenIds['viewLeaveList']}, 1),
                     (" . ($dataGroupId+17) . ", " . ($screenId+18) . ", 1),
-                    (" . ($dataGroupId+17) . ", " . ($screenId+19) . ", 1);";
+                    (" . ($dataGroupId+17) . ", " . ($screenId+19) . ", 1),
+                    (" . ($dataGroupId+17) . ", " . ($screenId+19) . ", 3);";
 
         $sql[11] = "UPDATE ohrm_module_default_page SET action='time/timesheetPeriodNotDefined'
                     WHERE module_id=5 AND user_role_id={$userRoleIds['ESS']};";
