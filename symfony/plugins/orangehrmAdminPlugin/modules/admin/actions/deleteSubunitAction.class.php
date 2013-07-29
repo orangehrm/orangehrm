@@ -41,21 +41,28 @@ class deleteSubunitAction extends sfAction {
             $form = new DefaultListForm(array(), array(), true);
             $form->bind($request->getParameter($form->getName()));
             
+            $object = new stdClass();
+            
             if ($form->isValid()) {
                 $subunit = $this->getCompanyStructureService()->getSubunitById($id);
                 $result = $this->getCompanyStructureService()->deleteSubunit($subunit);
-            }
             
-            if ($result) {
-                $object->messageType = 'success';
-                $object->message = __(TopLevelMessages::DELETE_SUCCESS);
+                if ($result) {
+                    $object->messageType = 'success';
+                    $object->message = __(TopLevelMessages::DELETE_SUCCESS);
+                } else {
+                    $object->messageType = 'error';
+                    $object->message = __(TopLevelMessages::DELETE_FAILURE);
+                }
             } else {
-                $object->messageType = 'failure';
-                $object->message = __('Failed to Delete Subunit');
+                $object->messageType = 'error';
+                $object->message = __(TopLevelMessages::VALIDATION_FAILED);
             }
         } catch (Exception $e) {
-            $object->messageType = 'failure';
-            $object->message = __('Failed to Delete Subunit');
+            $logger = Logger::getLogger('admin.subunit');
+            $logger->error('Error deleting subunut: ' . $e);
+            $object->messageType = 'error';
+            $object->message = __(TopLevelMessages::DELETE_FAILURE);
         }
 
         @ob_clean();

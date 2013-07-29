@@ -5418,7 +5418,15 @@
    <trans-unit id="1186">
        <source>Enabled</source>
        <target>Enabled</target>
-   </trans-unit>                                                                                                                                                                                                                                                                                                                                                                                                
+   </trans-unit> 
+   <trans-unit id="1187">
+       <source>Failed to Delete</source>
+       <target>Failed to Delete</target>
+   </trans-unit>  
+   <trans-unit id="1188">
+       <source>Validation Failed</source>
+       <target>Validation Failed</target>
+   </trans-unit>                                                                                                                                                                                                                                                                                                                                                                                                         
   </body>
  </file>
 </xliff>
