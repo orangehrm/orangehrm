@@ -146,10 +146,10 @@ class AttendanceActions extends sfActions {
             'PunchOut' => false,
         );
         
-        $userRoleManager = $this->getContext()->getUserRoleManager;        
+        $userRoleManager = $this->getContext()->getUserRoleManager();        
 
-        $userId = $userRoleManager->getUser()->getId();
-        $userEmployeeNumber = $this->getUser()->getEmployeeNumber();
+        $userEmployeeNumber = $userRoleManager->getUser()->getEmpNumber();
+
         $this->employeeId = $request->getParameter('employeeId');
         $this->date = $request->getParameter('date');
         $this->actionRecorder = $request->getParameter('actionRecorder');
@@ -207,7 +207,7 @@ class AttendanceActions extends sfActions {
             }
 
             foreach ($this->records as $record) {
-                $this->allowedToDelete[] = $this->isActionAllowed(WorkflowStateMachine::FLOW_ATTENDANCE, $record->getState(), PluginWorkflowStateMachine::ATTENDANCE_ACTION_DELETE, 
+                $this->allowedToDelete[] = $userRoleManager->isActionAllowed(WorkflowStateMachine::FLOW_ATTENDANCE, $record->getState(), PluginWorkflowStateMachine::ATTENDANCE_ACTION_DELETE, 
                         $excludeRoles, $includeRoles, $entities);
                 $recArray[] = $record;
             }
