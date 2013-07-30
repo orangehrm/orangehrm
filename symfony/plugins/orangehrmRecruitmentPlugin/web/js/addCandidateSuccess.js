@@ -119,9 +119,7 @@ $(document).ready(function() {
             $(widgetList[i]).attr("disabled", "disabled");
         }
 
-        if(editRights == 1){
-            $('.actionDrpDown').attr("disabled", "disabled");
-        } else if(candidateStatus != activeStatus) {
+        if (candidateStatus != activeStatus) {
             $('.actionDrpDown').attr('disabled', 'disabled');
         }
         $('#fileUploadSection').hide();
