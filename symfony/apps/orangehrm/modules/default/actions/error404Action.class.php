@@ -19,15 +19,12 @@
  */
 
 /**
- * Displays a simple page with a heading and a flash message
+ * Description of error404Action
+ *
  */
-class displayMessageAction extends baseMessageAction {
-    
-    const MESSAGE_HEADING = 'message.heading';
-    
+class error404Action extends baseMessageAction {
     public function execute($request) {
         $this->highlightPreviousMenu($request);
-        $this->title = $this->getUser()->getFlash(self::MESSAGE_HEADING, __('Error'));
-    }
+    }    
 }
 

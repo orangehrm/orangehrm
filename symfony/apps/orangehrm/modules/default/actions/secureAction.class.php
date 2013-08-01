@@ -19,15 +19,13 @@
  */
 
 /**
- * Displays a simple page with a heading and a flash message
+ * Used to display credentials required message
+ *
  */
-class displayMessageAction extends baseMessageAction {
-    
-    const MESSAGE_HEADING = 'message.heading';
+class secureAction extends baseMessageAction {
     
     public function execute($request) {
         $this->highlightPreviousMenu($request);
-        $this->title = $this->getUser()->getFlash(self::MESSAGE_HEADING, __('Error'));
     }
 }
 

@@ -18,16 +18,29 @@
  * Boston, MA  02110-1301, USA
  */
 
-/**
- * Displays a simple page with a heading and a flash message
- */
-class displayMessageAction extends baseMessageAction {
-    
-    const MESSAGE_HEADING = 'message.heading';
-    
+class indexAction extends sfAction {
+
+    protected $homePageService;
+
+    public function getHomePageService() {
+
+        if (!$this->homePageService instanceof HomePageService) {
+            $this->homePageService = new HomePageService($this->getUser());
+        }
+
+        return $this->homePageService;
+    }
+
+    public function setHomePageService($homePageService) {
+        $this->homePageService = $homePageService;
+    }
+
+    /**
+     * Executes index action
+     *
+     * @param sfRequest $request A request object
+     */
     public function execute($request) {
-        $this->highlightPreviousMenu($request);
-        $this->title = $this->getUser()->getFlash(self::MESSAGE_HEADING, __('Error'));
+        $this->redirect($this->getHomePageService()->getPathAfterLoggingIn($this->getContext()));
     }
 }
-
