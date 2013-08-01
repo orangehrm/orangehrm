@@ -31,12 +31,7 @@ class definePredefinedReportAction extends basePimReportAction {
         $filterWidgets = $reportableService->getFilterFieldsForReportGroup($this->reportGroup);
 
         $reportId = $request->getParameter('reportId');
-        $this->reportId = $reportId;
-        if(!(($this->reportPermissions->canCreate() && empty($this->reportId)) || ($this->reportPermissions->canUpdate() && $this->reportId > 0))){
-            $this->getUser()->setFlash('warning.nofade', CommonMessages::CREDENTIALS_REQUIRED);
-        }
-        
-        $reportName;
+        $this->reportId = $reportId;       
 
         if (!empty($reportId)) {
             $report = $reportableService->getReport($reportId);
@@ -72,6 +67,11 @@ class definePredefinedReportAction extends basePimReportAction {
 
                     $selectedFilterValues = $this->form->getSelectedFilterValues();
 
+                    if ((empty($reportId) && !$this->reportPermissions->canCreate()) || 
+                            (!empty($reportId) && !$this->reportPermissions->canUpdate())) {
+                        $this->forward(sfConfig::get('sf_secure_module'), sfConfig::get('sf_secure_action'));
+                    }                    
+                    
                     // If report_id not available, create report
                     if (empty($reportId)) {
                         $report = $reportableService->saveReport($reportName, $this->reportGroup, true, $this->reportType);
@@ -96,6 +96,12 @@ class definePredefinedReportAction extends basePimReportAction {
                 }
             }
         } else {
+            
+            if ((empty($this->reportId) && !$this->reportPermissions->canCreate()) || 
+                    (!empty($this->reportId) && !$this->reportPermissions->canUpdate())) {
+                $this->forward(sfConfig::get('sf_secure_module'), sfConfig::get('sf_secure_action'));
+            }             
+            
             // Get filters, display field groups and display fields for report
             if (!empty($reportId)) {
                 $selectedDisplayFieldGroups = $reportableService->getSelectedDisplayFieldGroups($reportId);
