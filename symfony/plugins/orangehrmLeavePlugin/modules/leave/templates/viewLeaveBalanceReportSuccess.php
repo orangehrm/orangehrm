@@ -114,8 +114,22 @@ use_stylesheet(plugin_web_path('orangehrmLeavePlugin', 'css/viewLeaveBalanceRepo
                                         $link = str_replace('viewLeaveList', 'viewMyLeaveList', $link);
                                         $link = str_replace('viewLeaveEntitlements', 'viewMyLeaveEntitlements', $link);
                                     }
-                                    $url = $reportBuilder->replaceHeaderParam($link, $mergedLinkParams);
-                                    echo link_to(esc_specialchars(__($column)), $url);
+                                    $linkParts = explode('/', $link, 2);
+                                    $module = $linkParts[0];
+                                    $action = strstr($linkParts[1], '?', true);
+                                    if ($action == false) {
+                                        $action = strstr($linkParts[1], '/', true);
+                                    }
+                                    if ($action == false) {
+                                        $action = $linkParts[1];
+                                    }
+                                    $permissions = $sf_context->getUserRoleManager()->getScreenPermissions($module, $action);
+                                    if ($permissions->canRead()) {
+                                        $url = $reportBuilder->replaceHeaderParam($link, $mergedLinkParams);
+                                        echo link_to(esc_specialchars(__($column)), $url);
+                                    } else {
+                                        echo esc_specialchars(__($column));
+                                    }
 
                                 } else {
                                     echo esc_specialchars(__($column));
