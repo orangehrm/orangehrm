@@ -133,6 +133,10 @@ $hasAttachments = count($attachmentList) > 0;
                                 </td>
                                 <?php }?>
                                 <td>
+                                    <?php if (!$permission->canDelete()){?>
+                                        <input type="hidden" <?php echo $disabled;?> 
+                                               name="chkattid[]" value="<?php echo $attachment->attach_id; ?>"/>                                    
+                                    <?php }?>
                                     <a title="<?php echo __('Click to download'); ?>" target="_blank" class="fileLink tiptip"
                                     href="<?php echo url_for('pim/viewAttachment?empNumber='.$employee->empNumber . '&attachId=' . $attachment->attach_id);?>">
                                     <?php echo $attachment->filename; ?></a>
@@ -271,10 +275,19 @@ $hasAttachments = count($attachmentList) > 0;
             
             attachmentValidator.resetForm();
             
-            var row = $(this).closest("tr");
-            var seqNo = row.find('input.checkboxAtch:first').val();
+            var row = $(this).closest("tr");            
             var fileName = row.find('a.fileLink').text();
-            var description = row.find("td:nth-child(3)").text();
+            var seqNo;
+            var description;
+            
+            var checkBox = row.find('input.checkboxAtch:first');
+            if (checkBox.length > 0) {
+                seqNo = checkBox.val();
+                description = row.find("td:nth-child(3)").text();
+            } else {
+                seqNo = row.find('input[type=hidden]:first').val();
+                description = row.find("td:nth-child(2)").text();                
+            }
             description = jQuery.trim(description); 
 
             $('#seqNO').val(seqNo);
