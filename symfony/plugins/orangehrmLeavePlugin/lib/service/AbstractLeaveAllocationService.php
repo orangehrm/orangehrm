@@ -332,15 +332,30 @@ abstract class AbstractLeaveAllocationService extends BaseService {
 
         for ($timeStamp = $from; $timeStamp <= $to; $timeStamp = $this->incDate($timeStamp)) {
             $date = date('Y-m-d', $timeStamp);
-            
+            echo $date . ":";
             $existingDuration = $this->getLeaveRequestService()->getTotalLeaveDuration($empNumber, $date);
             
             $lastDay = ($timeStamp == $to);
             $duration = $this->getApplicableLeaveDuration($leaveAssignmentData, $firstDay, $lastDay);            
             $firstDay = false;  
             
+            $workingDayLength = $workShiftLength;
+            
+            if ($this->isHoliday($date, $leaveAssignmentData) || $this->isWeekend($date, $leaveAssignmentData)) {
+                if ($logger->isDebugEnabled()) {
+                    $logger->debug("Skipping $date since it is a weekend/holiday");
+                }
+                continue;
+            }
+            
+            // Reduce workshiftLength for half days
+            $halfDay = $this->isHalfDay($date, $leaveAssignmentData);
+            if ($halfDay) {
+                $workingDayLength = $workShiftLength / 2;
+            }
+            
             if ($duration->getType() == LeaveDuration::FULL_DAY) {
-                $leaveHours = $workShiftLength;
+                $leaveHours = $workingDayLength;
             } else if ($duration->getType() == LeaveDuration::HALF_DAY) {
                 $leaveHours = $workShiftLength / 2;
             } else if ($duration->getType() == LeaveDuration::SPECIFY_TIME) {
@@ -348,14 +363,7 @@ abstract class AbstractLeaveAllocationService extends BaseService {
             } else {
                 $logger->error("Unexpected duration type in applyMoreThanAllowedForADay(): " . print_r($duration->getType(), true));
                 $leaveHours = 0;
-            }
-          
-            $workingDayLength = $workShiftLength;
-            
-            if ($this->isHalfDay($date, $leaveAssignmentData)) {
-                $workingDayLength = $workShiftLength / 2;
-            }
-            
+            }                     
 
             if ($logger->isDebugEnabled()) {
                 $logger->debug("date=$date, existing leave duration=$existingDuration, " . 
@@ -627,14 +635,14 @@ abstract class AbstractLeaveAllocationService extends BaseService {
         $workSchedule = $this->getWorkScheduleService()->getWorkSchedule($empNumber);
 
         /* This is to check weekday half days */
-        $flag = $workSchedule->isHalfDay($day);
+        $isHalfDay = $workSchedule->isHalfDay($day);
 
-        if (!$flag) {
+        if (!$isHalfDay) {
             /* This checks for weekend half day */
-            return $workSchedule->isWeekend($day, false);
+            $isHalfDay = $workSchedule->isWeekend($day, false);
         }
 
-        return $flag;
+        return $isHalfDay;
     }
     
     protected function isWeekend($day, LeaveParameterObject $leaveAssignmentData) { 
