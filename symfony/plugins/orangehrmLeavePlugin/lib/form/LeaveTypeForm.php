@@ -19,7 +19,7 @@
  */
 class LeaveTypeForm extends orangehrmForm {
 
-    private $leaveTypePermissions;
+    protected $leaveTypePermissions;
     private $updateMode = false;
     private $leaveTypeService;
 

@@ -7,6 +7,7 @@ class defineLeaveTypeAction extends baseLeaveAction {
     public function execute($request) {
 
         $this->leaveTypePermissions = $this->getDataGroupPermissions('leave_types');
+        
         $leaveTypeId = $request->getParameter('id'); // This comes as a GET request from Leave Type List page
         
         $valuesForForm = array('leaveTypePermissions' => $this->leaveTypePermissions, 'leaveTypeId' => $leaveTypeId);
@@ -32,9 +33,10 @@ class defineLeaveTypeAction extends baseLeaveAction {
                     $this->redirect("leave/leaveTypeList");
                 }
             }
-        } else {
-            
-            if (empty($leaveTypeId) && !$this->leaveTypePermissions->canCreate()) {
+        } else {            
+                    
+            if (!$this->leaveTypePermissions->canRead() || 
+                    (empty($leaveTypeId) && !$this->leaveTypePermissions->canCreate())) {
                $this->forward(sfConfig::get('sf_secure_module'), sfConfig::get('sf_secure_action'));   
             }
             
