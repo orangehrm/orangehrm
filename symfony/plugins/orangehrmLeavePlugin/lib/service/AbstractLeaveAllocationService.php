@@ -332,7 +332,7 @@ abstract class AbstractLeaveAllocationService extends BaseService {
 
         for ($timeStamp = $from; $timeStamp <= $to; $timeStamp = $this->incDate($timeStamp)) {
             $date = date('Y-m-d', $timeStamp);
-            echo $date . ":";
+            
             $existingDuration = $this->getLeaveRequestService()->getTotalLeaveDuration($empNumber, $date);
             
             $lastDay = ($timeStamp == $to);
