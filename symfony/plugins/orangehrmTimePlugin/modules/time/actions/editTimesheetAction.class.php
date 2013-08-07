@@ -121,7 +121,19 @@ class editTimesheetAction extends baseTimeAction {
                     $backAction = $this->backAction;
                     $this->getTimesheetService()->saveTimesheetItems($request->getParameter('initialRows'), $this->employeeId, $this->timesheetId, $this->currentWeekDates, $this->totalRows);
                     $this->messageData = array('success', __(TopLevelMessages::SAVE_SUCCESS));
-                    $startingDate = $this->timesheetService->getTimesheetById($this->timesheetId)->getStartDate();
+                    
+                    $timeSheet = $this->getTimesheetService()->getTimesheetById($this->timesheetId);
+                    
+                    $resultingState = $this->getResultingState($timeSheet, 
+                            PluginWorkflowStateMachine::TIMESHEET_ACTION_MODIFY,
+                            $loggedInEmpNumber == $timesheet->getEmployeeId());
+                    
+                    if ($resultingState != $timeSheet->getState()) {
+                        $timesheet->setState($resultingState);
+                        $this->getTimesheetService()->saveTimesheet($timesheet);
+                    }
+                    
+                    $startingDate = $timeSheet->getStartDate();
                     $this->redirect('time/' . $backAction . '?' . http_build_query(array('message' => $this->messageData, 'timesheetStartDate' => $startingDate, 'employeeId' => $this->employeeId)));
                  }
 
@@ -132,7 +144,7 @@ class editTimesheetAction extends baseTimeAction {
             }
         }
     }
-
+    
     protected function _checkAuthentication($empNumber, $user) {
 
         $loggedInEmpNumber = $this->getUser()->getEmployeeNumber();
