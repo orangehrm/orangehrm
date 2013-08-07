@@ -2,7 +2,7 @@
 <?php echo javascript_include_tag(plugin_web_path('orangehrmAttendancePlugin', 'js/viewAttendanceRecordSuccess')); ?>
 <?php echo javascript_include_tag(plugin_web_path('orangehrmAttendancePlugin', 'js/getRelatedAttendanceRecordsSuccess')); ?>
 
-<?php if($attendanceManagePermissios->canRead()){?>
+<?php if($attendancePermissions->canRead()){?>
 <div class="box">
 
     <div class="head">

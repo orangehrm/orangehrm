@@ -45,10 +45,10 @@ class viewAttendanceRecordAction extends baseAttendanceAction {
         $this->parmetersForListCompoment = array();
         $this->showEdit = false;
 
-        $this->attendanceManagePermissios = $this->getDataGroupPermissions('attendance_records');
+        $this->attendancePermissions = $this->getDataGroupPermissions('attendance_records');
 
 
-        if (!$this->attendanceManagePermissios->canRead()) {
+        if (!$this->attendancePermissions->canRead()) {
             return $this->renderText(__("You are not allowed to view this page") . "!");
         }
 
@@ -74,7 +74,7 @@ class viewAttendanceRecordAction extends baseAttendanceAction {
 
         $records = array();
 
-        if ($this->attendanceManagePermissios->canRead()) {
+        if ($this->attendancePermissions->canRead()) {
             $this->_setListComponent($records, $noOfRecords, $pageNumber, null, $this->showEdit);
         }
 

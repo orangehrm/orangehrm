@@ -13,7 +13,7 @@ if (in_array(PluginWorkflowStateMachine::ATTENDANCE_ACTION_PUNCH_OUT, $sf_data->
     
 }
 
-if($attendanceManagePermissios->canRead()){
+if($attendancePermissions->canRead()){
 ?>
 
 <div class="box">

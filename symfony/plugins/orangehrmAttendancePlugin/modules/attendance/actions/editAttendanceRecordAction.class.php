@@ -31,7 +31,7 @@ class editAttendanceRecordAction extends baseAttendanceAction {
 
         $userRoleManager = $this->getContext()->getUserRoleManager();
         
-        $this->attendanceManagePermissios = $this->getDataGroupPermissions('attendance_records');
+        $this->attendancePermissions = $this->getDataGroupPermissions('attendance_records');
 
         $this->editPunchIn = array();
         $this->editPunchOut = array();

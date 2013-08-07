@@ -1,6 +1,6 @@
 
 <?php echo javascript_include_tag(plugin_web_path('orangehrmAttendancePlugin', 'js/editAttendanceRecordSuccess')); ?>
-<?php if($attendanceManagePermissios->canRead()){?>
+<?php if($attendancePermissions->canRead()){?>
 <div class="box miniList ">
     
     <div class="head">
