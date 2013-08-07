@@ -59,11 +59,8 @@ class LeaveTypeForm extends orangehrmForm {
 
         $this->setWidgets($widgets);
 
-
-        if ($this->leaveTypePermissions->canCreate() || $this->leaveTypePermissions->canUpdate()) {
-            $this->getWidgetSchema()->setLabel('txtLeaveTypeName', __('Name') . ' <em>*</em>');
-            $this->getWidgetSchema()->setLabel('excludeIfNoEntitlement', '<a id="exclude_link" href="#">' . __('Is entitlement situational') . '</a>');
-        }
+        $this->getWidgetSchema()->setLabel('txtLeaveTypeName', __('Name') . ' <em>*</em>');
+        $this->getWidgetSchema()->setLabel('excludeIfNoEntitlement', '<a id="exclude_link" href="#">' . __('Is entitlement situational') . '</a>');
 
         $this->setValidators($validators);
         $this->widgetSchema->setNameFormat('leaveType[%s]');
