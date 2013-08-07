@@ -3,11 +3,15 @@ function handleSaveButton() {
     $('.messageBalloon_success').remove();
     $('.messageBalloon_warning').remove();
     $(this).attr('disabled', true);
+    
+    var selectedActions = 0;
+    
     $('select[name^="select_leave_action_"]').each(function() {
         var id = $(this).attr('id').replace('select_leave_action_', '');
         if ($(this).val() == '') {
             $('#hdnLeaveRequest_' + id).attr('disabled', true);
         } else {
+            selectedActions++;
             $('#hdnLeaveRequest_' + id).val('WF' + $(this).val());
         }
 
@@ -18,15 +22,28 @@ function handleSaveButton() {
         }
     });
 
-    var action = $('#frmList_ohrmListComponent').attr('action');
-    action = action + '/id/' + leaveRequestId;
+    if (selectedActions > 0) {
+        var action = $('#frmList_ohrmListComponent').attr('action');
+        action = action + '/id/' + leaveRequestId;
 
-    $('#frmList_ohrmListComponent').attr('action', action);
+        $('#frmList_ohrmListComponent').attr('action', action);
 
-    $('#helpText').before('<div class="message success">' + lang_Processing + '</div>');
+        $('#helpText').before('<div class="message success">' + lang_Processing + '</div>');
 
-    // check the correct url here
-    $('#frmList_ohrmListComponent').submit();
+        // check the correct url here
+        $('#frmList_ohrmListComponent').submit();
+    } else {
+        $('#helpText').before('<div class="message warning fadable">' + lang_selectAction + '<a href="#" class="messageCloseButton">' + lang_Close + '</a></div>');
+        setTimeout(function(){
+            $("div.fadable").fadeOut("slow", function () {
+                $("div.fadable").remove();
+            });
+        }, 2000);
+        $(this).attr('disabled', false);      
+        return false;
+    }
+        
+
 }
 
 function handleBackButton() {

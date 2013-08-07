@@ -61,6 +61,8 @@
     var lang_LengthExceeded = '<?php echo __(ValidationMessages::TEXT_LENGTH_EXCEEDS, array('%amount%' => 255)); ?>';
     var lang_LeaveComments = '<?php echo __('Leave Comments'); ?>';
     var lang_LeaveRequestComments = '<?php echo __('Leave Request Comments'); ?>';
+    var lang_selectAction = '<?php echo __("Select Action");?>';
+    var lang_Close = '<?php echo __('Close');?>';    
     var getCommentsUrl = '<?php echo url_for('leave/getLeaveCommentsAjax'); ?>';
     var commentUpdateUrl = '<?php echo public_path('index.php/leave/updateComment'); ?>';
     var backUrl = '<?php echo url_for($backUrl); ?>';     
