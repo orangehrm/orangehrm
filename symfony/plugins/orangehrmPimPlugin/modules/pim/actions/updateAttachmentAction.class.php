@@ -46,7 +46,7 @@ class updateAttachmentAction extends basePimAction {
             
             $permission = $this->getDataGroupPermissions($screen. '_attachment', $request->getParameter('EmpID'));
 
-            if ((empty($attachId) && $permission->canCreate()) || $permission->canUpdate()) {
+            if ((empty($attachId) && $permission->canCreate()) || (!empty($attachId) && $permission->canUpdate())) {
 
                 // Handle the form submission
                 $this->form->bind($request->getPostParameters(), $request->getFiles());
@@ -73,6 +73,8 @@ class updateAttachmentAction extends basePimAction {
                     $this->getUser()->setFlash('attachmentComments', $request->getParameter('txtAttDesc'));
                     $this->getUser()->setFlash('attachmentSeqNo', $request->getParameter('seqNO'));
                 }
+            } else {
+                $this->forward(sfConfig::get('sf_secure_module'), sfConfig::get('sf_secure_action')); 
             }
         }
 
