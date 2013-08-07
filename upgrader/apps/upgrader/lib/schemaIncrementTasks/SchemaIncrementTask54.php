@@ -79,16 +79,22 @@ class SchemaIncrementTask54 extends SchemaIncrementTask {
                         add constraint foreign key (data_group_id)
                              references ohrm_data_group(id) on delete cascade";
         
+        $workflowId = $this->getNextWorkflowId();
         
-        $sql[4] = "INSERT INTO `ohrm_workflow_state_machine` VALUES
-                                    ('81','3','NOT_EXIST','ADMIN','1','ACTIVE'),
-                                    ('82','3','ACTIVE','ADMIN','2','NOT_EXIST'),
-                                    ('83','3','ACTIVE','ADMIN','3','TERMINATED'),
-                                    ('84','3','TERMINATED','ADMIN','4','ACTIVE'),
-                                    ('85','3','TERMINATED','ADMIN','5','NOT_EXIST')"; 
+        UpgradeLogger::writeLogMessage('next workflow id:' . $workflowId);
         
-        $sql[5] = "UPDATE `hs_hr_unique_id` SET `last_id` = 85 WHERE `table_name` = 'ohrm_workflow_state_machine' AND `field_name` = 'id'";
-    
+        $sql[4] = "INSERT INTO `ohrm_workflow_state_machine`(`id`, workflow, state, role, action, resulting_state) VALUES
+                    ('" . ($workflowId)     . "','3','NOT_EXIST', 'ADMIN','1','ACTIVE'),
+                    ('" . ($workflowId + 1) . "','3','ACTIVE',    'ADMIN','2','NOT_EXIST'),
+                    ('" . ($workflowId + 2) . "','3','ACTIVE',    'ADMIN','3','TERMINATED'),
+                    ('" . ($workflowId + 3) . "','3','TERMINATED','ADMIN','4','ACTIVE'),
+                    ('" . ($workflowId + 4) . "','3','TERMINATED','ADMIN','5','NOT_EXIST')"; 
+        
+        // update last id
+        $sql[5] = "UPDATE `hs_hr_unique_id` SET
+            last_id = (select MAX(`id`) FROM ohrm_workflow_state_machine) 
+            WHERE table_name = 'ohrm_workflow_state_machine' AND `field_name` = 'id';";
+        
         $sql[6] = "INSERT INTO `ohrm_data_group` (`id`, `name`, `description`, `can_read`, `can_create`, `can_update`, `can_delete`) VALUES
                                                     (1, 'personal_information', 'Personal Details', 1, NULL, 1, NULL),
                                                     (2, 'personal_attachment', 'Attachments in Personal Details', 1, 1, 1, 1),
@@ -383,6 +389,22 @@ class SchemaIncrementTask54 extends SchemaIncrementTask {
         
         $this->sql = $sql;
         
+    }
+    
+    protected function getNextWorkflowId() {
+        return $this->getScalarValueFromQuery('SELECT MAX(id) FROM ohrm_workflow_state_machine');
+    }
+    
+    protected function getScalarValueFromQuery($query) {
+        $result = $this->upgradeUtility->executeSql($query);
+        $row = mysqli_fetch_row($result);
+        
+        $logMessage = print_r($row, true);
+        UpgradeLogger::writeLogMessage($logMessage);
+        $value = $row[0];        
+        UpgradeLogger::writeLogMessage('value = ' . $value . ' value + 1 = ' . ($value + 1));        
+        
+        return $value + 1;        
     }
     
     public function getNotes() {        
