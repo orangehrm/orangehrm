@@ -33,6 +33,11 @@ class defineLeaveTypeAction extends baseLeaveAction {
                 }
             }
         } else {
+            
+            if (empty($leaveTypeId) && !$this->leaveTypePermissions->canCreate()) {
+               $this->forward(sfConfig::get('sf_secure_module'), sfConfig::get('sf_secure_action'));   
+            }
+            
             if ($this->leaveTypePermissions->canCreate()) {
                 $this->undeleteForm = $this->getUndeleteForm();
             }
@@ -44,6 +49,17 @@ class defineLeaveTypeAction extends baseLeaveAction {
                 $this->form->setUpdateMode();
             }
         }
+        
+        $title = __('View Leave Type');
+        if ($this->form->isUpdateMode()) {
+            if ($this->leaveTypePermissions->canUpdate()) {
+                $title = __('Edit Leave Type');
+            }
+        } else {
+            $title = __('Add Leave Type');
+        }
+        
+        $this->title = $title;
     }
 
     protected function saveLeaveType(LeaveType $leaveType) {

@@ -10,7 +10,7 @@
 
 <div class="box" id="add-leave-type">
     <div class="head">
-        <h1><?php echo $form->isUpdateMode() ? __('Edit Leave Type') : __('Add Leave Type'); ?></h1>
+        <h1><?php echo $title; ?></h1>
     </div>
     <div class="inner">
         <?php include_partial('global/flash_messages'); ?>

@@ -372,6 +372,10 @@
     <source>Click OK to confirm leave assignment.</source>
     <target>Click OK to confirm leave assignment.</target>
    </trans-unit>       
+   <trans-unit id="91">
+    <source>View Leave Type</source>
+    <target>View Leave Type</target>
+   </trans-unit>   
   </body>
  </file>
 </xliff>
