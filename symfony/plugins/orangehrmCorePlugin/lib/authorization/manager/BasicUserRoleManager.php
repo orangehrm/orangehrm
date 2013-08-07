@@ -376,11 +376,7 @@ class BasicUserRoleManager extends AbstractUserRoleManager {
         $filteredRoles = $this->filterRoles($this->userRoles, $rolesToExclude, $rolesToInclude, $entities);
         
         foreach ($filteredRoles as $role) {   
-            $roleName = $role->getName();
-           if ($roleName == 'ESS' && $workFlowId != 4) {
-               $roleName = 'ESS User';
-           }
-           
+            $roleName = $this->fixUserRoleNameForWorkflowStateMachine($role->getName(), $workflow);
             $states = $accessFlowStateMachineService->getActionableStates($workflow, $roleName, $actions); 
 
             if (!empty($states)) {
