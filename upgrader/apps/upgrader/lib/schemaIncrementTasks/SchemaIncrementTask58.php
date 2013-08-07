@@ -362,6 +362,9 @@ class SchemaIncrementTask58 extends SchemaIncrementTask {
                         add constraint foreign key (reviewer_id)
                             references hs_hr_employee (emp_number) on delete set null;";
 
+        // Deleting action SAVE from Time work flow since it is not in use
+        $sql[17] = "DELETE FROM ohrm_workflow_state_machine WHERE workflow = 0 and action = '6'";
+        
         $this->sql = $sql;
     }
 

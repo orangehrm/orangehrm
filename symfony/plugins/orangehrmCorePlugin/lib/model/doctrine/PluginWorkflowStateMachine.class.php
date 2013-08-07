@@ -17,7 +17,6 @@ abstract class PluginWorkflowStateMachine extends BaseWorkflowStateMachine {
     const TIMESHEET_ACTION_REJECT = 3;
     const TIMESHEET_ACTION_RESET = 4;
     const TIMESHEET_ACTION_MODIFY = 5;
-    const TIMESHEET_ACTION_SAVE = 6;
     const TIMESHEET_ACTION_CREATE = 7;
     const ATTENDANCE_ACTION_PUNCH_IN=0;
     const ATTENDANCE_ACTION_PUNCH_OUT=1;

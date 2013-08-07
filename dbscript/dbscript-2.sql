@@ -556,7 +556,6 @@ INSERT INTO `ohrm_workflow_state_machine`(`id`, `workflow`,`state`,`role`,`actio
                                    ('11','0','SUBMITTED','ESS USER','5','SUBMITTED', '', 0),
                                    ('12','0','NOT SUBMITTED','ESS USER','1','SUBMITTED', '', 0),
                                    ('13','0','NOT SUBMITTED','ESS USER','5','NOT SUBMITTED', '', 0),
-                                   ('14','0','NOT SUBMITTED','ESS USER','6','NOT SUBMITTED', '', 0),
                                    ('15','0','NOT SUBMITTED','ESS USER','0','NOT SUBMITTED', '', 0),
                                    ('16','0','NOT SUBMITTED','SUPERVISOR','0','NOT SUBMITTED', '', 0),
                                    ('17','0','NOT SUBMITTED','SUPERVISOR','5','NOT SUBMITTED', '', 0),
