@@ -138,7 +138,21 @@ class LeaveEntitlementDao extends BaseDao {
             }
             
             if (is_array($entitlementTypes) && count($entitlementTypes) > 0) {
-                $q->andWhereIn('le.entitlement_type', $entitlementTypes);
+                
+                // We are not using andWhereIn(), because it causes the error:
+                // 'Invalid parameter number: mixed named and positional parameters'.
+                // This is because andWhereIn() adds positional parameters (? marks),
+                // while we are using named parameters for the other parts of the query.
+                // Therefore, we are building the whereIn() part using named parameters here.                
+                $count = 0;         
+                $namedParams = array();
+                foreach($entitlementTypes as $entitlementType) {
+                    $count++;
+                    $namedParam = ':et' . $count;
+                    $namedParams[] = $namedParam;                    
+                    $params[$namedParam] = $entitlementType;
+                }
+                $q->andWhere('le.entitlement_type IN (' . implode(',', $namedParams) . ')');
             }
             
             if (!empty($empIdList)) {

@@ -281,6 +281,20 @@ class LeaveEntitlementDaoTest extends PHPUnit_Framework_TestCase {
         $this->_compareEntitlements($expected, $results);          
     }    
     
+    public function testSearchByEntitlementTypeWithOtherParams() {
+        $parameterHolder = new LeaveEntitlementSearchParameterHolder();
+        $entitlementList = TestDataService::loadObjectList('LeaveEntitlement', $this->fixture, 'LeaveEntitlement');
+         
+        
+        // only entitlement type 1 and leave type 1
+        $parameterHolder->setEntitlementTypes(array(1));
+        $parameterHolder->setLeaveTypeId(1);
+        $expected = array($entitlementList[0]);
+        $results = $this->dao->searchLeaveEntitlements($parameterHolder);
+        
+        $this->_compareEntitlements($expected, $results);                
+    }    
+    
     public function testGetLeaveEntitlement() {
         $id = 3;
         $leaveEntitlement = $this->dao->getLeaveEntitlement($id);
