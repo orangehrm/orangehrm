@@ -138,6 +138,7 @@ use_stylesheets_for_form($form);
     var lang_matchesMany = '<?php echo __('Matches %count% employees');?>';
     var lang_matchesNone = '<?php echo __('No matching employees');?>';
     var lang_required = '<?php echo __(ValidationMessages::REQUIRED); ?>';
+    var lang_invalid = '<?php echo __(ValidationMessages::INVALID); ?>';
     var lang_number = '<?php echo __("Should be a number with upto %count% decimal places", array('%count%' => 2)); ?>';
     var lang_valid_entitlement = '<?php echo __("Used amount exceeds the current amount"); ?>';
     var validEntitlemnetUrl =  '<?php echo url_for('leave/isValidEntitlemnetAjax');?>';

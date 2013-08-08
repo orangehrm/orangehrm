@@ -252,23 +252,30 @@
         }
         return isValid;
     });        
+    
+    $.validator.addMethod("checkEmployeeNameNotChanged", function(value, element, params) {
+        
+        var isValid = true;
+
+        var idField = $('#entitlements_employee_empId');
+        if (idField.val() !== '') {
+            var inputFieldName = $('#entitlements_employee_empName').val();
+            var lastSelectedName = idField.data('item.name');
+            
+            isValid = ($.trim(inputFieldName) === $.trim(lastSelectedName));
+        }
+
+        return isValid;
+    });        
  
         $('#frmLeaveEntitlementAdd').validate({
                 ignore: [],
                 rules: {
-                    'entitlements[employee][empName]': {
+                    'entitlements[employee][empId]': {
                         required: function(element) {
                             return !$('#entitlements_filters_bulk_assign').is(':checked');
                         },
-                        no_default_value: function(element) {
-                            if ($('#entitlements_filters_bulk_assign').is(':checked')) {
-                                return false;
-                            } else {
-                                return {
-                                    defaults: $(element).data('typeHint')
-                                }
-                            }
-                        }
+                        checkEmployeeNameNotChanged: true
                     },
                     'entitlements[leave_type]':{required: true },
                     'entitlements[date][from]': {
@@ -312,9 +319,9 @@
                     
                 },
                 messages: {
-                    'entitlements[employee][empName]':{
+                    'entitlements[employee][empId]':{
                         required:lang_required,
-                        no_default_value:lang_required
+                        checkEmployeeNameNotChanged:lang_invalid
                     },
                     'entitlements[leave_type]':{
                         required:lang_required
