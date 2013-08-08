@@ -101,6 +101,7 @@ class LeaveEntitlementDao extends BaseDao {
             $hydrationMode = $searchParameters->getHydrationMode();
             $orderField = $searchParameters->getOrderField();
             $order = $searchParameters->getOrderBy();
+            $entitlementTypes = $searchParameters->getEntitlementTypes();
 
             $params = array();
 
@@ -135,6 +136,11 @@ class LeaveEntitlementDao extends BaseDao {
             if (!empty($idList)) {
                 $q->andWhereIn('le.id', $idList);
             }
+            
+            if (is_array($entitlementTypes) && count($entitlementTypes) > 0) {
+                $q->andWhereIn('le.entitlement_type', $entitlementTypes);
+            }
+            
             if (!empty($empIdList)) {
                 
                 // filter empIdList and create comma separated string.

@@ -32,6 +32,7 @@ class LeaveEntitlementSearchParameterHolder extends SearchParameterHolder {
     protected $idList = array();
     protected $empIdList = array();
     protected $hydrationMode = null;
+    protected $entitlementTypes = array();
     
     public function getHydrationMode() {
         return $this->hydrationMode;
@@ -110,4 +111,14 @@ class LeaveEntitlementSearchParameterHolder extends SearchParameterHolder {
     public function setValidDate($validDate) {
         $this->validDate = $validDate;
     }
+    
+    public function getEntitlementTypes() {
+        return $this->entitlementTypes;
+    }
+
+    public function setEntitlementTypes(array $entitlementTypes) {
+        $this->entitlementTypes = $entitlementTypes;
+    }
+
+    
 }

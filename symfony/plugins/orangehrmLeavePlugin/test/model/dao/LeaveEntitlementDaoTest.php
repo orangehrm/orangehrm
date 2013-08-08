@@ -249,6 +249,38 @@ class LeaveEntitlementDaoTest extends PHPUnit_Framework_TestCase {
         $this->_compareEntitlements($expected, $results);         
     }
     
+    public function testSearchByEntitlementType() {
+        $parameterHolder = new LeaveEntitlementSearchParameterHolder();
+        $entitlementList = TestDataService::loadObjectList('LeaveEntitlement', $this->fixture, 'LeaveEntitlement');
+        
+        // default - all non deleted
+        $expected = array($entitlementList[0], $entitlementList[2], $entitlementList[3], $entitlementList[5], $entitlementList[1]);
+        $results = $this->dao->searchLeaveEntitlements($parameterHolder);
+        
+        $this->_compareEntitlements($expected, $results);          
+        
+        // only entitlement type 1
+        $parameterHolder->setEntitlementTypes(array(1));
+        $expected = array($entitlementList[0], $entitlementList[2], $entitlementList[3], $entitlementList[1]);
+        $results = $this->dao->searchLeaveEntitlements($parameterHolder);
+        
+        $this->_compareEntitlements($expected, $results);           
+        
+        // only entitlement type 2
+        $parameterHolder->setEntitlementTypes(array(2));
+        $expected = array($entitlementList[5]);
+        $results = $this->dao->searchLeaveEntitlements($parameterHolder);
+        
+        $this->_compareEntitlements($expected, $results); 
+        
+        // entitlement types 1 and 2
+        $parameterHolder->setEntitlementTypes(array(1, 2));
+        $expected = array($entitlementList[0], $entitlementList[2], $entitlementList[3], $entitlementList[5], $entitlementList[1]);
+        $results = $this->dao->searchLeaveEntitlements($parameterHolder);
+        
+        $this->_compareEntitlements($expected, $results);          
+    }    
+    
     public function testGetLeaveEntitlement() {
         $id = 3;
         $leaveEntitlement = $this->dao->getLeaveEntitlement($id);
