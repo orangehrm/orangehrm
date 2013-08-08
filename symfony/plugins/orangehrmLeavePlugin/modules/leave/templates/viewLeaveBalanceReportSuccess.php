@@ -254,9 +254,24 @@ use_stylesheet(plugin_web_path('orangehrmLeavePlugin', 'css/viewLeaveBalanceRepo
             return isValid;
         });        
         
+        $.validator.addMethod("triggerEmpIdValidation", function(value, element, params) {        
+           $('#leave_balance_employee_empId').valid();
+           return true;
+        }); 
+
+        $('#leave_balance_employee_empName').result(function(event, item) {
+           $('#leave_balance_employee_empId').val(item.id)
+               .data('item.name', item.name)
+               .valid();
+        });        
+        
         $('#frmLeaveBalanceReport').validate({
                 ignore: [],    
                 rules: {
+                    'leave_balance[employee][empName]': {
+                        triggerEmpIdValidation: true,
+                        onkeyup: 'if_invalid'
+                    },                    
                     'leave_balance[employee][empId]': {
                         required: function(element) {
                             return $("#leave_balance_report_type").val() == employeeReport;

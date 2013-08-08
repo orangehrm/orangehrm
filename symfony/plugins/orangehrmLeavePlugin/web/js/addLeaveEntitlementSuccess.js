@@ -268,9 +268,24 @@
         return isValid;
     });        
  
+     $.validator.addMethod("triggerEmpIdValidation", function(value, element, params) {        
+        $('#entitlements_employee_empId').valid();
+        return true;
+    }); 
+    
+    $('#entitlements_employee_empName').result(function(event, item) {
+        $('#entitlements_employee_empId').val(item.id)
+            .data('item.name', item.name)
+            .valid();
+    });
+    
         $('#frmLeaveEntitlementAdd').validate({
                 ignore: [],
                 rules: {
+                    'entitlements[employee][empName]': {
+                        triggerEmpIdValidation: true,
+                        onkeyup: 'if_invalid'
+                    },
                     'entitlements[employee][empId]': {
                         required: function(element) {
                             return !$('#entitlements_filters_bulk_assign').is(':checked');
