@@ -164,7 +164,12 @@ class SchemaIncrementTask58 extends SchemaIncrementTask {
                     (" . ($dataGroupId+16) . ", 'time_employee_timesheets', 'Time - Employee Timesheets', 1, 0, 0, 0),
                     (" . ($dataGroupId+17) . ", 'leave_list', 'Leave - Leave List', 1, 0, 0, 0);";
 
-        $sql[9] = "INSERT INTO `ohrm_user_role_data_group` (`user_role_id`, `data_group_id`, `can_read`, `can_create`, `can_update`, `can_delete`, `self`) VALUES
+        // Delete all Admin self permissions (since they duplicate ESS self permission), except for leave_entitlements
+        // Admin can add leave_entitlements for himself.
+        
+        $sql[9] = "DELETE FROM `ohrm_user_role_data_group` WHERE user_role_id = {$userRoleIds['Admin']} AND self = 1 AND data_group_id != {$dataGroupIds['leave_entitlements']}";
+        
+        $sql[10] = "INSERT INTO `ohrm_user_role_data_group` (`user_role_id`, `data_group_id`, `can_read`, `can_create`, `can_update`, `can_delete`, `self`) VALUES
                     ({$userRoleIds['Admin']}, " . ($dataGroupId) . ", 1, 1, 1, 1, 0),
                     ({$userRoleIds['ESS']}, " . ($dataGroupId) . ", 0, 0, 0, 0, 0),
                     ({$userRoleIds['Supervisor']}, " . ($dataGroupId) . ", 0, 0, 0, 0, 0),
@@ -241,7 +246,7 @@ class SchemaIncrementTask58 extends SchemaIncrementTask {
                     ({$userRoleIds['ESS']}, " . ($dataGroupId+17) . ", 1, 0, 0, 0, 1),
                     ({$userRoleIds['Supervisor']}, " . ($dataGroupId+17) . ", 1, 0, 0, 0, 0);";
 
-        $sql[10] = "INSERT INTO `ohrm_data_group_screen`(`data_group_id`, `screen_id`, `permission`) VALUES
+        $sql[11] = "INSERT INTO `ohrm_data_group_screen`(`data_group_id`, `screen_id`, `permission`) VALUES
                     ({$dataGroupIds['leave_entitlements']}, {$screenIds['viewLeaveEntitlements']}, 1),
                     ({$dataGroupIds['leave_entitlements']}, {$screenIds['addLeaveEntitlement']}, 2),
                     ({$dataGroupIds['leave_entitlements']}, {$screenIds['addLeaveEntitlement']}, 3),
@@ -339,31 +344,31 @@ class SchemaIncrementTask58 extends SchemaIncrementTask {
                     (" . ($dataGroupId+17) . ", " . ($screenId+18) . ", 1),
                     (" . ($dataGroupId+17) . ", " . ($screenId+19) . ", 1);";
 
-        $sql[11] = "UPDATE ohrm_module_default_page SET action='time/timesheetPeriodNotDefined'
+        $sql[12] = "UPDATE ohrm_module_default_page SET action='time/timesheetPeriodNotDefined'
                     WHERE module_id=5 AND user_role_id={$userRoleIds['ESS']};";
 
 
         // Allow null in reviewer_id
-        $sql[12] = "ALTER TABLE hs_hr_performance_review 
+        $sql[13] = "ALTER TABLE hs_hr_performance_review 
                         CHANGE reviewer_id reviewer_id int(13) null;";
         
         // Delete records with invalid employee_id (linked to deleted ids)        
-        $sql[13] = "delete from hs_hr_performance_review where employee_id not in (select emp_number from hs_hr_employee);";
+        $sql[14] = "delete from hs_hr_performance_review where employee_id not in (select emp_number from hs_hr_employee);";
         
         // Set reviewer_id = null where reviewer employee is deleted
-        $sql[14] = "update hs_hr_performance_review set reviewer_id = null where reviewer_id not in (select emp_number from hs_hr_employee);";
+        $sql[15] = "update hs_hr_performance_review set reviewer_id = null where reviewer_id not in (select emp_number from hs_hr_employee);";
         
         // Add constraints
-        $sql[15] = "alter table hs_hr_performance_review
+        $sql[16] = "alter table hs_hr_performance_review
                         add constraint foreign key (employee_id)
                             references hs_hr_employee (emp_number) on delete cascade;";
 
-        $sql[16] = "alter table hs_hr_performance_review
+        $sql[17] = "alter table hs_hr_performance_review
                         add constraint foreign key (reviewer_id)
                             references hs_hr_employee (emp_number) on delete set null;";
 
         // Deleting action SAVE from Time work flow since it is not in use
-        $sql[17] = "DELETE FROM ohrm_workflow_state_machine WHERE workflow = 0 and action = '6'";
+        $sql[18] = "DELETE FROM ohrm_workflow_state_machine WHERE workflow = 0 and action = '6'";
         
         $this->sql = $sql;
     }
