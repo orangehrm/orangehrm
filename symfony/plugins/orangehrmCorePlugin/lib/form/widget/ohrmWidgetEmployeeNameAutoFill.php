@@ -63,6 +63,10 @@ class ohrmWidgetEmployeeNameAutoFill extends sfWidgetFormInput {
                 var loadingMethod = '%s';
                 var loadingHint = '%s';
             
+                if (idStoreField.val() != '') {
+                    idStoreField.data('item.name', nameField.val());
+                }
+                
                 nameField.data('typeHint', typeHint);
                 nameField.data('loadingHint', loadingHint);
                 
@@ -93,6 +97,7 @@ class ohrmWidgetEmployeeNameAutoFill extends sfWidgetFormInput {
                       ,matchContains:true
                         }).result(function(event, item) {
                             idStoreField.val(item.id);
+                            idStoreField.data('item.name', item.name);
                         }
 
                     );
@@ -117,6 +122,7 @@ class ohrmWidgetEmployeeNameAutoFill extends sfWidgetFormInput {
                                                 ,matchContains:true
                                             }).result(function(event, item) {
                                                 idStoreField.val(item.id);
+                                                idStoreField.data('item.name', item.name);
                                             }
 
                                         );
