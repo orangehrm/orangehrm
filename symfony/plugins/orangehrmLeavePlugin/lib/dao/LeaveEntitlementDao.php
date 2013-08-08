@@ -745,5 +745,24 @@ class LeaveEntitlementDao extends BaseDao {
             throw new DaoException($e->getMessage(), 0, $e);
         }
     }
+    
+    /**
+     * Get List of LeaveEntitlementTypes
+     * 
+     * @param string $orderField field to order by
+     * @param string $orderBy order (ASC/DESC)
+     * @return Collection of LeaveEntitlementType
+     * @throws DaoException on an error
+     */
+    public function getLeaveEntitlementTypeList($orderField = 'name', $orderBy = 'ASC') {
+        try {
+            $q = Doctrine_Query::create()->from('LeaveEntitlementType let')
+                    ->addOrderBy($orderField . ' ' . $orderBy);
+            $results = $q->execute();
+            return $results;
+        } catch (Exception $e) {
+            throw new DaoException($e->getMessage(), 0, $e);
+        }        
+    }
 
 }

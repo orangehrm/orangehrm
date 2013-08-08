@@ -190,4 +190,15 @@ class LeaveEntitlementService extends BaseService {
         return $this->getLeaveEntitlementDao()->getMatchingEntitlements($empNumber, $leaveTypeId, $fromDate, $toDate);
     }
 
+    /**
+     * Get List of LeaveEntitlementTypes
+     * 
+     * @param string $orderField field to order by
+     * @param string $orderBy order (ASC/DESC)
+     * @return Collection of LeaveEntitlementType
+     * @throws DaoException on an error
+     */    
+    public function getLeaveEntitlementTypeList($orderField = 'name', $orderBy = 'ASC') {
+        return $this->getLeaveEntitlementDao()->getLeaveEntitlementTypeList($orderField, $orderBy);
+    }    
 }

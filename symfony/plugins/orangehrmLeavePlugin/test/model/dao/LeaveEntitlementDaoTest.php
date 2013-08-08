@@ -878,6 +878,35 @@ class LeaveEntitlementDaoTest extends PHPUnit_Framework_TestCase {
             $this->assertEquals(1, $results[0]['length_days']);
         }    
     }
+    
+    public function testGetLeaveEntitlementTypeListDefaultSort() {
+        $entitlementTypeList = TestDataService::loadObjectList('LeaveEntitlementType', $this->fixture, 'LeaveEntitlementType');
+        $expected = array($entitlementTypeList[1], $entitlementTypeList[0]);
+        $result = $this->dao->getLeaveEntitlementTypeList();
+        $this->compareEntitlementTypes($expected, $result);
+    }
+    
+    public function testGetLeaveEntitlementTypeListSpecificSort() {
+        $entitlementTypeList = TestDataService::loadObjectList('LeaveEntitlementType', $this->fixture, 'LeaveEntitlementType');
+        $expected = array($entitlementTypeList[0], $entitlementTypeList[1]);
+        $result = $this->dao->getLeaveEntitlementTypeList('id', 'ASC');
+        $this->compareEntitlementTypes($expected, $result);
+    }    
+    
+    protected function compareEntitlementTypes($expected, $results) {
+        $this->assertEquals(count($expected), count($results));
+        
+        for ($i = 0; $i < count($expected); $i++) {         
+            $this->compareEntitlementType($expected[$i], $results[$i]);
+        }
+    }    
+    
+    protected function compareEntitlementType($expected, $actual) {
+        $this->assertEquals($expected->getId(), $actual->getId());
+        $this->assertEquals($expected->getName(), $actual->getName());
+        $this->assertEquals($expected->getIsEditable(), $actual->getIsEditable());
+        
+    }
 }
 
     

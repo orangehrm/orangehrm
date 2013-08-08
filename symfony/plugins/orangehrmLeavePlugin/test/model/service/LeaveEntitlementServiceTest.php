@@ -139,4 +139,26 @@ class LeaveEntitlementServiceTest extends PHPUnit_Framework_TestCase {
         $this->assertEquals($leaveEntitlement, $result);        
     }
     
+    public function testGetLeaveEntitlementTypeList() {
+
+        $sortField = 'id';
+        $sortOrder = 'DESC';
+        $leaveEntitlementTypeList = new Doctrine_Collection('LeaveEntitlementType');
+        
+        $leaveEntitlementType = new LeaveEntitlementType();
+        $leaveEntitlementType->setId(1);
+        $leaveEntitlementType->setName('ADD');
+        $leaveEntitlementTypeList[] = $leaveEntitlementType;        
+        
+        $mockDao = $this->getMock('LeaveEntitlementDao', array('getLeaveEntitlementTypeList'));
+        $mockDao->expects($this->once())
+                ->method('getLeaveEntitlementTypeList')
+                ->with($sortField, $sortOrder)
+                ->will($this->returnValue($leaveEntitlementTypeList));
+
+        $this->service->setLeaveEntitlementDao($mockDao);
+        $result = $this->service->getLeaveEntitlementTypeList($sortField, $sortOrder);
+
+        $this->assertEquals($leaveEntitlementTypeList, $result);        
+    }    
 }
