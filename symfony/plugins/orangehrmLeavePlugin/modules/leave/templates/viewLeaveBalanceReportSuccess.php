@@ -239,20 +239,32 @@ use_stylesheet(plugin_web_path('orangehrmLeavePlugin', 'css/viewLeaveBalanceRepo
             toggleReportType();
         });
         
+        $.validator.addMethod("checkEmployeeNameNotChanged", function(value, element, params) {
+
+            var isValid = true;
+
+            var idField = $('#leave_balance_employee_empId');
+            if (idField.val() !== '') {
+                var inputFieldName = $('#leave_balance_employee_empName').val();
+                var lastSelectedName = idField.data('item.name');
+
+                isValid = ($.trim(inputFieldName) === $.trim(lastSelectedName));
+            }
+
+            return isValid;
+        });        
+        
         $('#frmLeaveBalanceReport').validate({
+                ignore: [],    
                 rules: {
-                    'leave_balance[employee][empName]': {
+                    'leave_balance[employee][empId]': {
                         required: function(element) {
                             return $("#leave_balance_report_type").val() == employeeReport;
                         },
-                        no_default_value: function(element) {
-                            return {
-                                defaults: $(element).data('typeHint')
-                            }
-                        }
+                        checkEmployeeNameNotChanged: true
                     },
                     'leave_balance[leave_type]':{required: function(element) {
-                            return $("#leave_balance_report_type").val() == employeeReport;
+                            return $("#leave_balance_report_type").val() == leaveTypeReport;
                         } 
                     },
                     'leave_balance[date][from]': {
@@ -285,9 +297,9 @@ use_stylesheet(plugin_web_path('orangehrmLeavePlugin', 'css/viewLeaveBalanceRepo
                     
                 },
                 messages: {
-                    'leave_balance[employee][empName]':{
+                    'leave_balance[employee][empId]':{
                         required:'<?php echo __(ValidationMessages::REQUIRED); ?>',
-                        no_default_value:'<?php echo __(ValidationMessages::REQUIRED); ?>'
+                        checkEmployeeNameNotChanged:'<?php echo __(ValidationMessages::INVALID); ?>'
                     },
                     'leave_balance[leave_type]':{
                         required:'<?php echo __(ValidationMessages::REQUIRED); ?>'
