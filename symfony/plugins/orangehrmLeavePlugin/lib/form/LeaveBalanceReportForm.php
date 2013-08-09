@@ -103,15 +103,8 @@ class LeaveBalanceReportForm extends BaseForm {
          
         $this->setWidget('job_title',  new sfWidgetFormChoice(array('choices' => $this->getJobTitleChoices())));
         
-        $locationOptions = array('set_all_option_value' => true, 'all_option_value' => NULL);
-        
-        // Special case for supervisor - can see all operational countries
-        $user = sfContext::getInstance()->getUser();
-        if ($user->getAttribute('auth.isSupervisor')) {
-            $locationOptions['show_all_locations'] = true;
-        } else {
-            $locationOptions['show_all_locations'] = false;
-        }
+        $locationOptions = array('set_all_option_value' => true, 'all_option_value' => NULL, 
+            'show_all_locations' => false);
 
         $this->setWidget('location', new ohrmReportWidgetOperationalCountryLocationDropDown($locationOptions));
         $this->setWidget('sub_unit', new ohrmWidgetSubDivisionList());
