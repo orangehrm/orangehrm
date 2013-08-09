@@ -49,7 +49,7 @@ abstract class AbstractUserRoleDecorator extends AbstractUserRole {
         }
     }
 
-    public function getAccessibleEmployeeIds($operation, $returnType, $requiredPermissions = array()) {
+    public function getAccessibleEmployeeIds($operation = null, $returnType = null, $requiredPermissions = array()) {
         if (is_null($this->decoratedUserRole)) {
             return array();
         } else {
@@ -73,7 +73,7 @@ abstract class AbstractUserRoleDecorator extends AbstractUserRole {
         }
     }
 
-    public function getAccessibleLocationIds($operation, $returnType) {
+    public function getAccessibleLocationIds($operation = null, $returnType = null, $requiredPermissions = array()) {
         if (is_null($this->decoratedUserRole)) {
             return array();
         } else {
@@ -81,7 +81,7 @@ abstract class AbstractUserRoleDecorator extends AbstractUserRole {
         }
     }
 
-    public function getAccessibleOperationalCountryIds($operation, $returnType) {
+    public function getAccessibleOperationalCountryIds($operation = null, $returnType = null, $requiredPermissions = array()) {
         if (is_null($this->decoratedUserRole)) {
             return array();
         } else {
@@ -89,7 +89,7 @@ abstract class AbstractUserRoleDecorator extends AbstractUserRole {
         }
     }
 
-    public function getAccessibleSystemUserIds($operation, $returnType) {
+    public function getAccessibleSystemUserIds($operation = null, $returnType = null, $requiredPermissions = array()) {
         if (is_null($this->decoratedUserRole)) {
             return array();
         } else {
@@ -97,7 +97,7 @@ abstract class AbstractUserRoleDecorator extends AbstractUserRole {
         }
     }
 
-    public function getAccessibleUserRoleIds($operation, $returnType) {
+    public function getAccessibleUserRoleIds($operation = null, $returnType = null, $requiredPermissions = array()) {
         if (is_null($this->decoratedUserRole)) {
             return array();
         } else {

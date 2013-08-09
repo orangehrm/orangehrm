@@ -48,7 +48,7 @@ class AdminUserRole extends AbstractUserRole {
         return $employeesWithIds;
     }
 
-    public function getAccessibleLocationIds($operation, $returnType) {
+    public function getAccessibleLocationIds($operation = null, $returnType = null, $requiredPermissions = array()) {
 
         $locations = $this->getLocationService()->getLocationList();
 
@@ -61,7 +61,7 @@ class AdminUserRole extends AbstractUserRole {
         return $ids;
     }
 
-    public function getAccessibleOperationalCountryIds($operation, $returnType) {
+    public function getAccessibleOperationalCountryIds($operation = null, $returnType = null, $requiredPermissions = array()) {
 
         $operationalCountries = $this->getOperationalCountryService()->getOperationalCountryList();
 
@@ -74,12 +74,12 @@ class AdminUserRole extends AbstractUserRole {
         return $ids;
     }
 
-    public function getAccessibleSystemUserIds($operation, $returnType) {
+    public function getAccessibleSystemUserIds($operation = null, $returnType = null, $requiredPermissions = array()) {
 
         return $this->getSystemUserService()->getSystemUserIdList();
     }
 
-    public function getAccessibleUserRoleIds($operation, $returnType) {
+    public function getAccessibleUserRoleIds($operation = null, $returnType = null, $requiredPermissions = array()) {
 
         $userRoles = $this->getSystemUserService()->getAssignableUserRoles();
 
@@ -107,7 +107,7 @@ class AdminUserRole extends AbstractUserRole {
     /**
      * Returns all project ids (active and inactive)
      */
-    public function getAccessibleProjectIds($operation = null, $returnType = null) {
+    public function getAccessibleProjectIds($operation = null, $returnType = null, $requiredPermissions = array()) {
         return $this->getProjectService()->getProjectListForUserRole(null, null);
     }
 

@@ -186,19 +186,19 @@ abstract class AbstractUserRole {
                     $ids = $this->getAccessibleEmployeeIds($operation, $returnType, $requiredPermissions);                
                     break;
                 case 'SystemUser':
-                    $ids = $this->getAccessibleSystemUserIds($operation, $returnType);
+                    $ids = $this->getAccessibleSystemUserIds($operation, $returnType, $requiredPermissions);
                     break;
                 case 'OperationalCountry':
-                    $ids = $this->getAccessibleOperationalCountryIds($operation, $returnType);
+                    $ids = $this->getAccessibleOperationalCountryIds($operation, $returnType, $requiredPermissions);
                     break;
                 case 'UserRole':
-                    $ids = $this->getAccessibleUserRoleIds($operation, $returnType);
+                    $ids = $this->getAccessibleUserRoleIds($operation, $returnType, $requiredPermissions);
                     break;
                 case 'Location':
-                    $ids = $this->getAccessibleLocationIds($operation, $returnType);
+                    $ids = $this->getAccessibleLocationIds($operation, $returnType, $requiredPermissions);
                     break;
                 case 'Project':
-                    $ids = $this->getAccessibleProjectIds($operation, $returnType);
+                    $ids = $this->getAccessibleProjectIds($operation, $returnType, $requiredPermissions);
                     break;            
                 case 'Vacancy':
                     $ids = $this->getAccessibleVacancyIds($operation, $returnType, $requiredPermissions);
@@ -218,7 +218,7 @@ abstract class AbstractUserRole {
         return array();
     }
     
-    public function getAccessibleProjectIds($operation =  null, $returnType = null) {
+    public function getAccessibleProjectIds($operation = null, $returnType = null, $requiredPermissions = array()) {
         return array();
     }
     
@@ -234,15 +234,15 @@ abstract class AbstractUserRole {
     
     public abstract function getAccessibleEmployeePropertyList($properties, $orderField, $orderBy, $requiredPermissions = array());
     
-    public abstract function getAccessibleEmployeeIds($operation, $returnType, $requiredPermissions = array());
+    public abstract function getAccessibleEmployeeIds($operation = null, $returnType = null, $requiredPermissions = array());
 
-    public abstract function getAccessibleSystemUserIds($operation, $returnType);
+    public abstract function getAccessibleSystemUserIds($operation = null, $returnType = null, $requiredPermissions = array());
 
-    public abstract function getAccessibleOperationalCountryIds($operation, $returnType);
+    public abstract function getAccessibleOperationalCountryIds($operation = null, $returnType = null, $requiredPermissions = array());
 
-    public abstract function getAccessibleUserRoleIds($operation, $returnType);
+    public abstract function getAccessibleUserRoleIds($operation = null, $returnType = null, $requiredPermissions = array());
 
-    public abstract function getAccessibleLocationIds($operation, $returnType); 
+    public abstract function getAccessibleLocationIds($operation = null, $returnType = null, $requiredPermissions = array()); 
     
     protected function areRequiredPermissionsAvailable($requiredPermissions = array()) {
         $permitted = true;

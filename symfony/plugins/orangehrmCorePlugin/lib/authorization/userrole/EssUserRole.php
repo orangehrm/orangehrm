@@ -24,22 +24,22 @@ class EssUserRole extends AbstractUserRole {
         return array();
     }
 
-    public function getAccessibleLocationIds($operation, $returnType) {
+    public function getAccessibleLocationIds($operation = null, $returnType = null, $requiredPermissions = array()) {
 
         return array();
     }
 
-    public function getAccessibleOperationalCountryIds($operation, $returnType) {
+    public function getAccessibleOperationalCountryIds($operation = null, $returnType = null, $requiredPermissions = array()) {
 
         return array();
     }
 
-    public function getAccessibleSystemUserIds($operation, $returnType) {
+    public function getAccessibleSystemUserIds($operation = null, $returnType = null, $requiredPermissions = array()) {
 
         return array();
     }
 
-    public function getAccessibleUserRoleIds($operation, $returnType) {
+    public function getAccessibleUserRoleIds($operation = null, $returnType = null, $requiredPermissions = array()) {
 
         return array();
     }
