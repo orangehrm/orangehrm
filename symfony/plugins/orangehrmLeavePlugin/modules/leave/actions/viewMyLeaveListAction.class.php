@@ -20,4 +20,7 @@ class viewMyLeaveListAction extends viewLeaveListAction {
         return $this->getDataGroupPermissions('leave_list', true);
     }
 
+    protected function getCommentPermissions(){
+        return $this->getDataGroupPermissions('leave_list_comments', true);
+    }    
 }

@@ -24,9 +24,10 @@
 /**
  * updateComment
  */
-class updateCommentAction extends baseCoreLeaveAction {
+class updateCommentAction extends baseLeaveAction {
     
     protected $employeeService;
+    protected $leaveRequestService;
     
     /**
      *
@@ -46,6 +47,29 @@ class updateCommentAction extends baseCoreLeaveAction {
     public function setEmployeeService(EmployeeService $service) {
         $this->employeeService = $service;
     }
+    
+    /**
+     *
+     * @return LeaveRequestService
+     */
+    public function getLeaveRequestService() {
+        if (is_null($this->leaveRequestService)) {
+            $leaveRequestService = new LeaveRequestService();
+            $leaveRequestService->setLeaveRequestDao(new LeaveRequestDao());
+            $this->leaveRequestService = $leaveRequestService;
+        }
+
+        return $this->leaveRequestService;
+    }
+
+    /**
+     *
+     * @param LeaveRequestService $leaveRequestService
+     * @return void
+     */
+    public function setLeaveRequestService(LeaveRequestService $leaveRequestService) {
+        $this->leaveRequestService = $leaveRequestService;
+    }    
     
     public function execute($request) {
         
@@ -69,20 +93,32 @@ class updateCommentAction extends baseCoreLeaveAction {
 
                     
         if ($leaveRequestId != "") {
-            $form = new LeaveCommentForm( array(),array(),true);
             
-            if ($form->getCSRFToken() == $request->getParameter("token")) {
-                $savedComment = $leaveRequestService->saveLeaveRequestComment($leaveRequestId, 
-                    $comment, $createdBy, $loggedInUserId, $loggedInEmpNumber);
+            $leaveRequest = $this->getLeaveRequestService()->fetchLeaveRequest($leaveRequestId);            
+            $permissions = $this->getCommentPermissions($loggedInEmpNumber == $leaveRequest->getEmpNumber());
+
+            if ($permissions->canCreate()) {
+                $form = new LeaveCommentForm( array(),array(),true);
+
+                if ($form->getCSRFToken() == $request->getParameter("token")) {
+                    $savedComment = $leaveRequestService->saveLeaveRequestComment($leaveRequestId, 
+                        $comment, $createdBy, $loggedInUserId, $loggedInEmpNumber);
+                }
             }
         }
 
         if ($leaveId != "") {
-            $form = new LeaveCommentForm( array(),array(),true);
+            $leave = $this->getLeaveRequestService()->readLeave($leaveId);
             
-            if ($form->getCSRFToken() == $request->getParameter("token")) {
-            $savedComment = $leaveRequestService->saveLeaveComment($leaveId, 
-                $comment, $createdBy, $loggedInUserId, $loggedInEmpNumber);
+            $permissions = $this->getCommentPermissions($loggedInEmpNumber == $leave->getEmpNumber());
+            if ($permissions->canCreate()) {
+            
+                $form = new LeaveCommentForm( array(),array(),true);
+
+                if ($form->getCSRFToken() == $request->getParameter("token")) {
+                $savedComment = $leaveRequestService->saveLeaveComment($leaveId, 
+                    $comment, $createdBy, $loggedInUserId, $loggedInEmpNumber);
+                }
             }
         }
         
@@ -116,5 +152,9 @@ class updateCommentAction extends baseCoreLeaveAction {
 
         return ($userMode == 'ESS');
     }
+    
+    protected function getCommentPermissions($self){
+        return $this->getDataGroupPermissions('leave_list_comments', $self);
+    }    
 
 }

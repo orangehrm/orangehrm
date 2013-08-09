@@ -77,18 +77,20 @@ use_javascripts_for_form($form);
         <div id="existingComments">  
             <span><?php echo __('Loading') . '...';?></span>
         </div>
-        
+        <?php if ($commentPermissions->canCreate()):?>
         <br class="clear" />
         <br class="clear" />
         <textarea name="leaveComment" id="leaveComment" cols="40" rows="4" class="commentTextArea"></textarea>
         <br class="clear" />
         <span id="commentError" style="padding-left: 2px;" class="validation-error"></span>
-
+        <?php endif;?>
     </form>        
     </p>
   </div>
   <div class="modal-footer">
+    <?php if ($commentPermissions->canCreate()):?>
     <input type="button" class="btn" id="commentSave" value="<?php echo __('Save'); ?>" />
+    <?php endif;?>
     <input type="button" class="btn reset" data-dismiss="modal" id="commentCancel" value="<?php echo __('Cancel'); ?>" />
   </div>
 </div>

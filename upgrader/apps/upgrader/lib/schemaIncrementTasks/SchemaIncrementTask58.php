@@ -162,7 +162,8 @@ class SchemaIncrementTask58 extends SchemaIncrementTask {
                     (" . ($dataGroupId+14) . ", 'recruitment_vacancies', 'Recruitment - Vacancies', 1, 1, 1, 1),
                     (" . ($dataGroupId+15) . ", 'recruitment_candidates', 'Recruitment - Candidates', 1, 1, 1, 1),
                     (" . ($dataGroupId+16) . ", 'time_employee_timesheets', 'Time - Employee Timesheets', 1, 0, 0, 0),
-                    (" . ($dataGroupId+17) . ", 'leave_list', 'Leave - Leave List', 1, 0, 0, 0);";
+                    (" . ($dataGroupId+17) . ", 'leave_list', 'Leave - Leave List', 1, 0, 0, 0),
+                    (" . ($dataGroupId+18) . ", 'leave_list_comments', 'Leave - Leave List - Comments', 0, 1, 0, 0);";
 
         // Delete all Admin self permissions (since they duplicate ESS self permission), except for leave_entitlements
         // Admin can add leave_entitlements for himself.
@@ -244,8 +245,11 @@ class SchemaIncrementTask58 extends SchemaIncrementTask {
 
                     ({$userRoleIds['Admin']}, " . ($dataGroupId+17) . ", 1, 0, 0, 0, 0),
                     ({$userRoleIds['ESS']}, " . ($dataGroupId+17) . ", 1, 0, 0, 0, 1),
-                    ({$userRoleIds['Supervisor']}, " . ($dataGroupId+17) . ", 1, 0, 0, 0, 0);";
-
+                    ({$userRoleIds['Supervisor']}, " . ($dataGroupId+17) . ", 0, 1, 0, 0, 0),
+                    ({$userRoleIds['Admin']}, " . ($dataGroupId+18) . ", 0, 1, 0, 0, 0),
+                    ({$userRoleIds['ESS']}, " . ($dataGroupId+18) . ", 0, 1, 0, 0, 1),
+                    ({$userRoleIds['Supervisor']}, " . ($dataGroupId+18) . ", 0, 1, 0, 0, 0);";
+                        
         $sql[11] = "INSERT INTO `ohrm_data_group_screen`(`data_group_id`, `screen_id`, `permission`) VALUES
                     ({$dataGroupIds['leave_entitlements']}, {$screenIds['viewLeaveEntitlements']}, 1),
                     ({$dataGroupIds['leave_entitlements']}, {$screenIds['addLeaveEntitlement']}, 2),

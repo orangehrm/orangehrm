@@ -140,6 +140,7 @@ class viewLeaveRequestAction extends baseLeaveAction {
         }
 
         $this->leaveListPermissions = $this->getDataGroupPermissions('leave_list', $self);
+        $this->commentPermissions = $this->getDataGroupPermissions('leave_list_comments', $self);
 
         $this->requestComments = $leaveRequest->getLeaveRequestComment();
 
@@ -177,5 +178,5 @@ class viewLeaveRequestAction extends baseLeaveAction {
         ));
         return $configurationFactory;
     }
-
-}
+    
+}     

@@ -87,6 +87,7 @@ class viewLeaveListAction extends baseLeaveAction {
         $this->mode = $mode = $this->getMode();
         $this->essMode = $this->isEssMode();
         $this->leaveListPermissions = $this->getPermissions();
+        $this->commentPermissions = $this->getCommentPermissions();
         $this->leavecommentForm = new LeaveCommentForm(array(),array(),true);
         $this->form = $this->getLeaveListForm($mode);
         $values = array();
@@ -410,5 +411,9 @@ class viewLeaveListAction extends baseLeaveAction {
     protected function getPermissions(){
         return $this->getDataGroupPermissions('leave_list', false);
     }
+    
+    protected function getCommentPermissions(){
+        return $this->getDataGroupPermissions('leave_list_comments', false);
+    }    
 
 }

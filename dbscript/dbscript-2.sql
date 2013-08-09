@@ -1692,7 +1692,8 @@ INSERT INTO `ohrm_data_group` (`id`, `name`, `description`, `can_read`, `can_cre
 (56, 'recruitment_vacancies', 'Recruitment - Vacancies', 1, 1, 1, 1),
 (57, 'recruitment_candidates', 'Recruitment - Candidates', 1, 1, 1, 1),
 (58, 'time_employee_timesheets', 'Time - Employee Timesheets', 1, 0, 0, 0),
-(59, 'leave_list', 'Leave - Leave List', 1, 0, 0, 0);
+(59, 'leave_list', 'Leave - Leave List', 1, 0, 0, 0),
+(60, 'leave_list_comments', 'Leave - Leave List - Comments', 0, 1, 0, 0);
 
 INSERT INTO `ohrm_user_role_data_group` (`user_role_id`, `data_group_id`, `can_read`, `can_create`, `can_update`, `can_delete`, `self`) VALUES
 (1, 1, 1, NULL, 1, NULL, 0),
@@ -1940,7 +1941,11 @@ INSERT INTO `ohrm_user_role_data_group` (`user_role_id`, `data_group_id`, `can_r
 
 (1, 59, 1, 0, 0, 0, 0),
 (2, 59, 1, 0, 0, 0, 1),
-(3, 59, 1, 0, 0, 0, 0);
+(3, 59, 1, 0, 0, 0, 0),
+
+(1, 60, 0, 1, 0, 0, 0),
+(2, 60, 0, 1, 0, 0, 1),
+(3, 60, 0, 1, 0, 0, 0);
 
 INSERT INTO `ohrm_data_group_screen`(`data_group_id`, `screen_id`, `permission`) VALUES
 (40, 69, 1),
