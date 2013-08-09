@@ -18,7 +18,6 @@
  * @property integer $created_by
  * @property Employee $Employee
  * @property UserRole $UserRole
- * @property Doctrine_Collection $UserUserRole
  * @property Doctrine_Collection $LeaveEntitlement
  * @property Doctrine_Collection $LeaveAdjustment
  * @property Doctrine_Collection $LeaveRequestComment
@@ -39,7 +38,6 @@
  * @method integer             getCreatedBy()           Returns the current record's "created_by" value
  * @method Employee            getEmployee()            Returns the current record's "Employee" value
  * @method UserRole            getUserRole()            Returns the current record's "UserRole" value
- * @method Doctrine_Collection getUserUserRole()        Returns the current record's "UserUserRole" collection
  * @method Doctrine_Collection getLeaveEntitlement()    Returns the current record's "LeaveEntitlement" collection
  * @method Doctrine_Collection getLeaveAdjustment()     Returns the current record's "LeaveAdjustment" collection
  * @method Doctrine_Collection getLeaveRequestComment() Returns the current record's "LeaveRequestComment" collection
@@ -59,7 +57,6 @@
  * @method SystemUser          setCreatedBy()           Sets the current record's "created_by" value
  * @method SystemUser          setEmployee()            Sets the current record's "Employee" value
  * @method SystemUser          setUserRole()            Sets the current record's "UserRole" value
- * @method SystemUser          setUserUserRole()        Sets the current record's "UserUserRole" collection
  * @method SystemUser          setLeaveEntitlement()    Sets the current record's "LeaveEntitlement" collection
  * @method SystemUser          setLeaveAdjustment()     Sets the current record's "LeaveAdjustment" collection
  * @method SystemUser          setLeaveRequestComment() Sets the current record's "LeaveRequestComment" collection
@@ -132,10 +129,6 @@ abstract class BaseSystemUser extends sfDoctrineRecord
         $this->hasOne('UserRole', array(
              'local' => 'user_role_id',
              'foreign' => 'id'));
-
-        $this->hasMany('UserUserRole', array(
-             'local' => 'id',
-             'foreign' => 'user_id'));
 
         $this->hasMany('LeaveEntitlement', array(
              'local' => 'id',

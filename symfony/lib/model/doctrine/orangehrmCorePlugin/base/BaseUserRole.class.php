@@ -11,7 +11,6 @@
  * @property boolean $is_assignable
  * @property boolean $is_predefined
  * @property Doctrine_Collection $DataGroupPermission
- * @property Doctrine_Collection $UserUserRole
  * @property Doctrine_Collection $SystemUser
  * @property Doctrine_Collection $ScreenPermission
  * @property Doctrine_Collection $HomePage
@@ -23,7 +22,6 @@
  * @method boolean             getIsAssignable()        Returns the current record's "is_assignable" value
  * @method boolean             getIsPredefined()        Returns the current record's "is_predefined" value
  * @method Doctrine_Collection getDataGroupPermission() Returns the current record's "DataGroupPermission" collection
- * @method Doctrine_Collection getUserUserRole()        Returns the current record's "UserUserRole" collection
  * @method Doctrine_Collection getSystemUser()          Returns the current record's "SystemUser" collection
  * @method Doctrine_Collection getScreenPermission()    Returns the current record's "ScreenPermission" collection
  * @method Doctrine_Collection getHomePage()            Returns the current record's "HomePage" collection
@@ -34,7 +32,6 @@
  * @method UserRole            setIsAssignable()        Sets the current record's "is_assignable" value
  * @method UserRole            setIsPredefined()        Sets the current record's "is_predefined" value
  * @method UserRole            setDataGroupPermission() Sets the current record's "DataGroupPermission" collection
- * @method UserRole            setUserUserRole()        Sets the current record's "UserUserRole" collection
  * @method UserRole            setSystemUser()          Sets the current record's "SystemUser" collection
  * @method UserRole            setScreenPermission()    Sets the current record's "ScreenPermission" collection
  * @method UserRole            setHomePage()            Sets the current record's "HomePage" collection
@@ -80,10 +77,6 @@ abstract class BaseUserRole extends sfDoctrineRecord
     {
         parent::setUp();
         $this->hasMany('DataGroupPermission', array(
-             'local' => 'id',
-             'foreign' => 'user_role_id'));
-
-        $this->hasMany('UserUserRole', array(
              'local' => 'id',
              'foreign' => 'user_role_id'));
 
