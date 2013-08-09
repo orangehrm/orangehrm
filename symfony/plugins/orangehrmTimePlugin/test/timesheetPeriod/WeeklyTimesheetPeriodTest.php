@@ -42,10 +42,8 @@ class WeeklyTimesheetPeriodTest extends PHPUnit_Framework_TestCase {
         
         // This is necessary to make timeStampDiff 0 in MonthlyTimesheetPeriod::getDatesOfTheTimesheetPeriod
         // $timeStampDiff = $clientTimeZoneOffset * 3600 - $serverTimezoneOffset;
-        $userObj = new User();
-        $serverTimezoneOffset = ((int) date('Z'));
-        $userObj->setUserTimeZoneOffset($serverTimezoneOffset / 3600);
-        sfContext::getInstance()->getUser()->setAttribute('user', $userObj);        
+        $serverTimezoneOffset = ((int) date('Z'));  
+        sfContext::getInstance()->getUser()->setAttribute('system.timeZoneOffset', $serverTimezoneOffset / 3600);
 
         $datesArray = $this->weeklyTimesheetPeriod->calculateDaysInTheTimesheetPeriod($currentDate, $xmlString);
         $this->assertEquals($datesArray[0], "2011-04-18 00:00");
