@@ -253,7 +253,7 @@ class SchemaIncrementTask58 extends SchemaIncrementTask {
         $sql[11] = "INSERT INTO `ohrm_data_group_screen`(`data_group_id`, `screen_id`, `permission`) VALUES
                     ({$dataGroupIds['leave_entitlements']}, {$screenIds['viewLeaveEntitlements']}, 1),
                     ({$dataGroupIds['leave_entitlements']}, {$screenIds['addLeaveEntitlement']}, 2),
-                    ({$dataGroupIds['leave_entitlements']}, {$screenIds['addLeaveEntitlement']}, 3),
+                    ({$dataGroupIds['leave_entitlements']}, {$screenIds['editLeaveEntitlement']}, 3),
                     ({$dataGroupIds['leave_entitlements']}, {$screenIds['deleteLeaveEntitlements']}, 4),
 
                     ({$dataGroupIds['leave_entitlements_usage_report']}, {$screenIds['viewLeaveBalanceReport']}, 1),

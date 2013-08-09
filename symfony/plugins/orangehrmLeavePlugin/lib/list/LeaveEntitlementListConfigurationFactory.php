@@ -78,7 +78,7 @@ class LeaveEntitlementListConfigurationFactory extends ohrmListConfigurationFact
                 'linkable' => $this->allowEdit,
                 'labelGetter' => 'getFromDate',
                 'placeholderGetters' => array('id' => 'getId'),
-                'urlPattern' => public_path('index.php/leave/addLeaveEntitlement/id/{id}')                
+                'urlPattern' => public_path('index.php/leave/editLeaveEntitlement/id/{id}')                
             )
         ));
         $headers[] = $header2;
@@ -93,7 +93,7 @@ class LeaveEntitlementListConfigurationFactory extends ohrmListConfigurationFact
                 'linkable' => $this->allowEdit,
                 'labelGetter' => 'getToDate',
                 'placeholderGetters' => array('id' => 'getId'),
-                'urlPattern' => public_path('index.php/leave/addLeaveEntitlement/id/{id}'),                
+                'urlPattern' => public_path('index.php/leave/editLeaveEntitlement/id/{id}'),                
             )
         ));
         $headers[] = $header3;
@@ -109,7 +109,7 @@ class LeaveEntitlementListConfigurationFactory extends ohrmListConfigurationFact
                 'linkable' => $this->allowEdit,
                 'labelGetter' => array('getNoOfDays'),
                 'placeholderGetters' => array('id' => 'getId'),
-                'urlPattern' => public_path('index.php/leave/addLeaveEntitlement/id/{id}'),
+                'urlPattern' => public_path('index.php/leave/editLeaveEntitlement/id/{id}'),
             ),            
         ));
         $headers[] = $header4;

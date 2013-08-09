@@ -1950,7 +1950,7 @@ INSERT INTO `ohrm_user_role_data_group` (`user_role_id`, `data_group_id`, `can_r
 INSERT INTO `ohrm_data_group_screen`(`data_group_id`, `screen_id`, `permission`) VALUES
 (40, 69, 1),
 (40, 72, 2),
-(40, 72, 3),
+(40, 73, 3),
 (40, 71, 4),
 
 (41, 78, 1),
