@@ -149,6 +149,35 @@ class LocationDao extends BaseDao {
 			throw new DaoException($e->getMessage());
 		}
 	}
+        
+    /**
+     * Get LocationIds for Employees with the given employee numbers
+     * 
+     * @param Array $empNumbers Array of employee numbers
+     * @return Array of locationIds of the given employees
+     */
+    public function getLocationIdsForEmployees($empNumbers) {
+        try {
+            $locationIds = array();
+            
+            if (count($empNumbers) > 0) {
+                $q = Doctrine_Query :: create()
+                        ->select('DISTINCT l.locationId')
+                        ->from('EmpLocations l')
+                        ->whereIn('l.empNumber', $empNumbers);
+                $locationIds = $q->execute(array(), Doctrine_Core::HYDRATE_SINGLE_SCALAR);
+                
+                if (is_string($locationIds)) {
+                    $locationIds = array($locationIds);
+                }                
+            }
+            
+            return $locationIds;
+            
+        } catch (Exception $e) {
+            throw new DaoException($e->getMessage());
+        }
+    }
     
     /**
      * Returns corresponding sort field
@@ -175,4 +204,4 @@ class LocationDao extends BaseDao {
     }
 }
 
-?>
+

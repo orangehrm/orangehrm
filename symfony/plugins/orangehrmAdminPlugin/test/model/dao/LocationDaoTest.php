@@ -108,6 +108,47 @@ class LocationDaoTest extends PHPUnit_Framework_TestCase {
 		$result = $this->locationDao->getSearchLocationListCount($srchClues);
 		$this->assertEquals($result, 2);
 	}
+        
+        public function testGetLocationIdsForEmployees() {
+            $empNumbers = array(1, 2, 3, 4, 5);
+            $locationIds = $this->locationDao->getLocationIdsForEmployees($empNumbers);
+            $expected = array(1, 2);
+            
+            sort($locationIds);
+            $this->assertEquals($expected, $locationIds);
+        }
+        
+        public function testGetLocationIdsForEmployeesOneEmployee() {
+            $empNumbers = array(1);
+            $locationIds = $this->locationDao->getLocationIdsForEmployees($empNumbers);
+            $expected = array(1);
+
+            $this->assertEquals($expected, $locationIds);
+        }     
+        
+        public function testGetLocationIdsForEmployeesNoEmployees() {
+            $empNumbers = array();
+            $locationIds = $this->locationDao->getLocationIdsForEmployees($empNumbers);
+            $expected = array();
+
+            $this->assertEquals($expected, $locationIds);
+        }      
+        
+        public function testGetLocationIdsForEmployeesEmployeesWithoutLocations() {
+            $empNumbers = array(5);
+            $locationIds = $this->locationDao->getLocationIdsForEmployees($empNumbers);
+            $expected = array();
+
+            $this->assertEquals($expected, $locationIds);
+        }        
+        
+        public function testGetLocationIdsForEmployeesInvalidEmployees() {
+            $empNumbers = array(100, 101, 102);
+            $locationIds = $this->locationDao->getLocationIdsForEmployees($empNumbers);
+            $expected = array();
+
+            $this->assertEquals($expected, $locationIds);
+        }          
+        
 }
 
-?>

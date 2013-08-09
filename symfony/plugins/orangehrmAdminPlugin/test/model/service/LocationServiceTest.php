@@ -121,4 +121,21 @@ class LocationServiceTest extends PHPUnit_Framework_TestCase {
 		$result = $this->locationService->getLocationList();
 		$this->assertEquals($result,$locationList);
 	}
+        
+	public function testGetLocationIdsForEmployees() {
+
+		$empNumbers = array(2, 34, 1, 20);
+                $locationIds = array(2, 3, 1);
+
+		$locationDao = $this->getMock('LocationDao');
+		$locationDao->expects($this->once())
+			->method('getLocationIdsForEmployees')
+                        ->with($empNumbers)
+			->will($this->returnValue($locationIds));
+
+		$this->locationService->setLocationDao($locationDao);
+
+		$result = $this->locationService->getLocationIdsForEmployees($empNumbers);
+		$this->assertEquals($locationIds, $result);
+	}        
 }
