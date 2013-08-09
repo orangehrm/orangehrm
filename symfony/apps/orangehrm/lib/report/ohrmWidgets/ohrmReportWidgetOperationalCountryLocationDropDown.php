@@ -202,7 +202,7 @@ class ohrmReportWidgetOperationalCountryLocationDropDown extends ohrmWidgetSelec
         $locationList = array();
         $locations = $locationService->getLocationList();
 
-        $accessibleLocations = UserRoleManagerFactory::getUserRoleManager()->getAccessibleEntityIds('Location');
+        $accessibleLocations = UserRoleManagerFactory::getUserRoleManager()->getAccessibleEntityIds('Location', BasicUserRoleManager::OPERATION_VIEW);
 
         foreach ($locations as $location) {
             if ($showAll || in_array($location->id, $accessibleLocations)) {

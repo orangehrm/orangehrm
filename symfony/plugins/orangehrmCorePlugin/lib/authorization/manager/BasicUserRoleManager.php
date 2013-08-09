@@ -27,6 +27,10 @@ class BasicUserRoleManager extends AbstractUserRoleManager {
     const PERMISSION_TYPE_DATA_GROUP = 'data_group';
     const PERMISSION_TYPE_ACTION = 'action';
     
+    const OPERATION_VIEW = 'view';
+    const OPERATION_EDIT = 'edit';
+    const OPERATION_DELETE = 'delete';
+    
     protected $employeeService;
     protected $systemUserService;
     protected $screenPermissionService;
