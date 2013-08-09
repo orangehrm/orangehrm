@@ -57,6 +57,8 @@ class viewEmployeeAction extends basePimAction {
         $this->empNumber = $request->getParameter('empNumber');
         
         $self = $loggedInEmpNum == $this->empNumber;
+        
+        // Check if currently logged in user has access to at least one pim left menu
         $menuService = $this->getLeftMenuService();
         $menuService->clearCachedMenu($this->empNumber);
         $menu = $menuService->getMenuItems($this->empNumber, $self);
