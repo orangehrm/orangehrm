@@ -29,7 +29,7 @@ class ReportGeneratorServiceTest extends PHPUnit_Framework_TestCase {
 
         $this->reportGeneratorService = new ReportGeneratorService();
         TestDataService::populate(sfConfig::get('sf_plugins_dir') . '/orangehrmCorePlugin/test/fixtures/ReportGeneratorService.yml');
-        $this->fixture = sfConfig::get('sf_plugins_dir') . '/orangehrmCorePlugin/test/fixtures/ReportGeneratorService.yml';
+        $this->fixture = sfConfig::get('sf_plugins_dir') . '/orangehrmCorePlugin/test/fixtures/ReportGeneratorService.yml';      
     }
 
     /* Test getReportName */
@@ -166,6 +166,9 @@ class ReportGeneratorServiceTest extends PHPUnit_Framework_TestCase {
         $decoratedUser = $simpleUserRoleFactory->decorateUserRole($userObj, $userRoleArray);
 
         sfContext::getInstance()->getUser()->setAttribute("user", $decoratedUser);
+                
+        $userRoleManager = new UnitTestUserRoleManager();
+        sfContext::getInstance()->setUserRoleManager($userRoleManager);          
 
 //        $selectedRuntimeFilterFields = TestDataService::loadObjectList('FilterField', $this->fixture, 'FilterField');
         $selectedRuntimeFilterFields = new Doctrine_Collection("FilterField");
