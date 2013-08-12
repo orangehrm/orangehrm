@@ -12,24 +12,21 @@
  * @property integer $length
  * @property integer $operational_country_id
  * @property OperationalCountry $OperationalCountry
- * @property Doctrine_Collection $HolidayLocation
  * 
- * @method integer             getId()                     Returns the current record's "id" value
- * @method integer             getRecurring()              Returns the current record's "recurring" value
- * @method string              getDescription()            Returns the current record's "description" value
- * @method date                getDate()                   Returns the current record's "date" value
- * @method integer             getLength()                 Returns the current record's "length" value
- * @method integer             getOperationalCountryId()   Returns the current record's "operational_country_id" value
- * @method OperationalCountry  getOperationalCountry()     Returns the current record's "OperationalCountry" value
- * @method Doctrine_Collection getHolidayLocation()        Returns the current record's "HolidayLocation" collection
- * @method Holiday             setId()                     Sets the current record's "id" value
- * @method Holiday             setRecurring()              Sets the current record's "recurring" value
- * @method Holiday             setDescription()            Sets the current record's "description" value
- * @method Holiday             setDate()                   Sets the current record's "date" value
- * @method Holiday             setLength()                 Sets the current record's "length" value
- * @method Holiday             setOperationalCountryId()   Sets the current record's "operational_country_id" value
- * @method Holiday             setOperationalCountry()     Sets the current record's "OperationalCountry" value
- * @method Holiday             setHolidayLocation()        Sets the current record's "HolidayLocation" collection
+ * @method integer            getId()                     Returns the current record's "id" value
+ * @method integer            getRecurring()              Returns the current record's "recurring" value
+ * @method string             getDescription()            Returns the current record's "description" value
+ * @method date               getDate()                   Returns the current record's "date" value
+ * @method integer            getLength()                 Returns the current record's "length" value
+ * @method integer            getOperationalCountryId()   Returns the current record's "operational_country_id" value
+ * @method OperationalCountry getOperationalCountry()     Returns the current record's "OperationalCountry" value
+ * @method Holiday            setId()                     Sets the current record's "id" value
+ * @method Holiday            setRecurring()              Sets the current record's "recurring" value
+ * @method Holiday            setDescription()            Sets the current record's "description" value
+ * @method Holiday            setDate()                   Sets the current record's "date" value
+ * @method Holiday            setLength()                 Sets the current record's "length" value
+ * @method Holiday            setOperationalCountryId()   Sets the current record's "operational_country_id" value
+ * @method Holiday            setOperationalCountry()     Sets the current record's "OperationalCountry" value
  * 
  * @package    orangehrm
  * @subpackage model\leave\base
@@ -76,9 +73,5 @@ abstract class BaseHoliday extends sfDoctrineRecord
         $this->hasOne('OperationalCountry', array(
              'local' => 'operational_country_id',
              'foreign' => 'id'));
-
-        $this->hasMany('HolidayLocation', array(
-             'local' => 'id',
-             'foreign' => 'holiday_id'));
     }
 }
