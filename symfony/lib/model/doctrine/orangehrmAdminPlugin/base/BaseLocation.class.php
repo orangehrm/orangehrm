@@ -17,31 +17,34 @@
  * @property string $notes
  * @property Country $country
  * @property Doctrine_Collection $employees
+ * @property Doctrine_Collection $HolidayLocation
  * 
- * @method integer             getId()          Returns the current record's "id" value
- * @method string              getName()        Returns the current record's "name" value
- * @method string              getCountryCode() Returns the current record's "countryCode" value
- * @method string              getProvince()    Returns the current record's "province" value
- * @method string              getCity()        Returns the current record's "city" value
- * @method string              getAddress()     Returns the current record's "address" value
- * @method string              getZipCode()     Returns the current record's "zipCode" value
- * @method string              getPhone()       Returns the current record's "phone" value
- * @method string              getFax()         Returns the current record's "fax" value
- * @method string              getNotes()       Returns the current record's "notes" value
- * @method Country             getCountry()     Returns the current record's "country" value
- * @method Doctrine_Collection getEmployees()   Returns the current record's "employees" collection
- * @method Location            setId()          Sets the current record's "id" value
- * @method Location            setName()        Sets the current record's "name" value
- * @method Location            setCountryCode() Sets the current record's "countryCode" value
- * @method Location            setProvince()    Sets the current record's "province" value
- * @method Location            setCity()        Sets the current record's "city" value
- * @method Location            setAddress()     Sets the current record's "address" value
- * @method Location            setZipCode()     Sets the current record's "zipCode" value
- * @method Location            setPhone()       Sets the current record's "phone" value
- * @method Location            setFax()         Sets the current record's "fax" value
- * @method Location            setNotes()       Sets the current record's "notes" value
- * @method Location            setCountry()     Sets the current record's "country" value
- * @method Location            setEmployees()   Sets the current record's "employees" collection
+ * @method integer             getId()              Returns the current record's "id" value
+ * @method string              getName()            Returns the current record's "name" value
+ * @method string              getCountryCode()     Returns the current record's "countryCode" value
+ * @method string              getProvince()        Returns the current record's "province" value
+ * @method string              getCity()            Returns the current record's "city" value
+ * @method string              getAddress()         Returns the current record's "address" value
+ * @method string              getZipCode()         Returns the current record's "zipCode" value
+ * @method string              getPhone()           Returns the current record's "phone" value
+ * @method string              getFax()             Returns the current record's "fax" value
+ * @method string              getNotes()           Returns the current record's "notes" value
+ * @method Country             getCountry()         Returns the current record's "country" value
+ * @method Doctrine_Collection getEmployees()       Returns the current record's "employees" collection
+ * @method Doctrine_Collection getHolidayLocation() Returns the current record's "HolidayLocation" collection
+ * @method Location            setId()              Sets the current record's "id" value
+ * @method Location            setName()            Sets the current record's "name" value
+ * @method Location            setCountryCode()     Sets the current record's "countryCode" value
+ * @method Location            setProvince()        Sets the current record's "province" value
+ * @method Location            setCity()            Sets the current record's "city" value
+ * @method Location            setAddress()         Sets the current record's "address" value
+ * @method Location            setZipCode()         Sets the current record's "zipCode" value
+ * @method Location            setPhone()           Sets the current record's "phone" value
+ * @method Location            setFax()             Sets the current record's "fax" value
+ * @method Location            setNotes()           Sets the current record's "notes" value
+ * @method Location            setCountry()         Sets the current record's "country" value
+ * @method Location            setEmployees()       Sets the current record's "employees" collection
+ * @method Location            setHolidayLocation() Sets the current record's "HolidayLocation" collection
  * 
  * @package    orangehrm
  * @subpackage model\admin\base
@@ -108,5 +111,9 @@ abstract class BaseLocation extends sfDoctrineRecord
              'refClass' => 'EmpLocations',
              'local' => 'location_id',
              'foreign' => 'emp_number'));
+
+        $this->hasMany('HolidayLocation', array(
+             'local' => 'id',
+             'foreign' => 'location_id'));
     }
 }

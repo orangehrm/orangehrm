@@ -191,7 +191,7 @@ class addLeaveEntitlementAction extends sfAction {
     }  
     
     protected function getLeaveEntitlement($values) {
-        
+       
        if(isset($values['filters']['bulk_assign'])){
            $leaveEntitlement = new LeaveEntitlement(); 
            $leaveEntitlement->setNoOfDays($values['entitlement']);
@@ -209,12 +209,19 @@ class addLeaveEntitlementAction extends sfAction {
 
                     $entitlementList = $this->getLeaveEntitlementService()->getMatchingEntitlements($empNumber, $leaveTypeId, $fromDate, $toDate);                               
 
-                    if(count($entitlementList) > 0){
-                        $leaveEntitlement = $entitlementList->getFirst();
-
-                        $newValue = $leaveEntitlement->getNoOfDays()+$values['entitlement'];
-                        $leaveEntitlement->setNoOfDays($newValue);
-                    }else{
+                    // See if there is an added type entitlement
+                    $addNew = true;
+                    foreach ($entitlementList as $existingEntitlement) {
+                        if (LeaveEntitlement::ENTITLEMENT_TYPE_ADD == $existingEntitlement->getEntitlementType()) {
+                            
+                            $leaveEntitlement = $existingEntitlement;
+                            $newValue = $leaveEntitlement->getNoOfDays()+$values['entitlement'];
+                            $leaveEntitlement->setNoOfDays($newValue); 
+                            $addNew = false;
+                        }
+                    }
+                    
+                    if ($addNew) {
                         $leaveEntitlement = new LeaveEntitlement(); 
                         $leaveEntitlement->setNoOfDays($values['entitlement']);
                     }
@@ -222,7 +229,7 @@ class addLeaveEntitlementAction extends sfAction {
                     $leaveEntitlement = new LeaveEntitlement(); 
                     $leaveEntitlement->setNoOfDays($values['entitlement']);
                 }
-        }
+            }
 
         }
             
