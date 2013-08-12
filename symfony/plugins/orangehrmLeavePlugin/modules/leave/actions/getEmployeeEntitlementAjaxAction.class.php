@@ -54,13 +54,12 @@ class getEmployeeEntitlementAjaxAction  extends sfAction {
             $entitlementList = $this->getEntitlementService()->searchLeaveEntitlements( $leaveEntitlementSearchParameterHolder );
             $oldValue = 0;
             $newValue = $parameters['ent'];
-            if(count($entitlementList) > 0){
-                $existingLeaveEntitlement = $entitlementList->getFirst();
-                $oldValue = $existingLeaveEntitlement->getNoOfDays();
-                
-            } 
             
-            return array($oldValue, $newValue+$oldValue);
+            foreach ($entitlementList as $existingEntitlement) {
+                $oldValue += $existingEntitlement->getNoOfDays();
+            }
+            
+            return array($oldValue, $newValue + $oldValue);
         
     }
     
