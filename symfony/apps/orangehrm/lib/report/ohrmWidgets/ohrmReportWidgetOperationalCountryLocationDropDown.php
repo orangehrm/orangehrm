@@ -27,6 +27,8 @@ class ohrmReportWidgetOperationalCountryLocationDropDown extends ohrmWidgetSelec
 
     private $operationalCountryService;
     private $choices = null;
+    
+    const ALL_OPTION_TOTAL = 'total';
 
     protected function configure($options = array(), $attributes = array()) {
 
@@ -99,7 +101,12 @@ class ohrmReportWidgetOperationalCountryLocationDropDown extends ohrmWidgetSelec
                 if ($this->getOption('show_select_option')) {
                     $this->setOption('select_option_value', -1);                    
                 } else if ($this->getOption('show_all_option') && $this->hasOption('all_option_value')) {
-                    $this->setOption('all_option_value', -1);
+                    $allOptionValue = $this->getOption('all_option_value');
+                    if ($allOptionValue == self::ALL_OPTION_TOTAL) {                        
+                        $this->setOption('all_option_value', null);
+                    } else {
+                        $this->setOption('all_option_value', -1);
+                    }
                 }
             }
 
