@@ -42,13 +42,17 @@ class getEmployeeEntitlementAjaxAction  extends sfAction {
     
     protected function getEmployeeEntitlement($parameters) {
 
-        
+            $localizationService = new LocalizationService();
+            $inputDatePattern = sfContext::getInstance()->getUser()->getDateFormat();
+            
+            $fromDate = $localizationService->convertPHPFormatDateToISOFormatDate($inputDatePattern, $parameters['fd']);
+            $toDate = $localizationService->convertPHPFormatDateToISOFormatDate($inputDatePattern, $parameters['td']);
             
             $leaveEntitlementSearchParameterHolder = new LeaveEntitlementSearchParameterHolder();
             $leaveEntitlementSearchParameterHolder->setEmpNumber($parameters['empId']);
-            $leaveEntitlementSearchParameterHolder->setFromDate($parameters['fd']);
+            $leaveEntitlementSearchParameterHolder->setFromDate($fromDate);
             $leaveEntitlementSearchParameterHolder->setLeaveTypeId($parameters['lt']);
-            $leaveEntitlementSearchParameterHolder->setToDate($parameters['td']);
+            $leaveEntitlementSearchParameterHolder->setToDate($toDate);
             
             
             $entitlementList = $this->getEntitlementService()->searchLeaveEntitlements( $leaveEntitlementSearchParameterHolder );
