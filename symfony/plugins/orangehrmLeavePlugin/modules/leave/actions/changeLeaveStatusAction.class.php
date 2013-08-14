@@ -73,16 +73,10 @@ class changeLeaveStatusAction extends baseCoreLeaveAction {
                 }
             }
 
-            //try {
             if ($form->isValid()) {
-                $this->getLeaveRequestService()->changeLeaveStatus($changes, $changeType, $changeComments, $changedByUserType, $_SESSION['empNumber']);
-                $this->getUser()->setFlash('message', __(TopLevelMessages::UPDATE_SUCCESS));
-                $this->getUser()->setFlash('messageType', 'success');
+                $this->getLeaveRequestService()->changeLeaveStatus($changes, $changeType, $changeComments, $changedByUserType, $_SESSION['empNumber']);                
+                $this->getUser()->setFlash('success', __(TopLevelMessages::UPDATE_SUCCESS)); 
             }
-            //} catch (Exception $e) {
-            //    $this->getUser()->setFlash('message', $e->getMessage());
-            //    $this->getUser()->setFlash('messageType', 'failure');
-            //}
         }
 
         if ($changedByUserType == SystemUser::USER_TYPE_EMPLOYEE) {
