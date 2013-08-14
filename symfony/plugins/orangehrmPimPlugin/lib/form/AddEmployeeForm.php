@@ -158,16 +158,22 @@ class AddEmployeeForm extends sfForm {
 
         return $labels;
     }
-
-    public function save() {
-
+    
+    public function getEmployee(){
         $posts = $this->getValues();
-        $file = $posts['photofile'];
         $employee = new Employee();
         $employee->firstName = $posts['firstName'];
         $employee->lastName = $posts['lastName'];
         $employee->middleName = $posts['middleName'];
         $employee->employeeId = $posts['employeeId'];
+        return $employee;
+    }
+
+    public function save() {
+
+        $posts = $this->getValues();
+        $file = $posts['photofile'];
+        $employee = $this->getEmployee();
 
         $employeeService = $this->getEmployeeService();
         $employeeService->saveEmployee($employee);

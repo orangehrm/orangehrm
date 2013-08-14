@@ -24,5 +24,6 @@
  */
 class EmployeeEvents {
     const JOINED_DATE_CHANGED = 'employee_join_date_changed';
-    
+    const EMPLOYEE_ADDED = 'employee_added';
+    const EMPLOYEES_DELETED = 'employees_deleted';
 }

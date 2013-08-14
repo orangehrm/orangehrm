@@ -114,6 +114,9 @@ class addEmployeeAction extends basePimAction {
                             unset($_SESSION['addEmployeePost']);
                             $this->form->createUserAccount = $this->createUserAccount;
                             $empNumber = $this->form->save();
+                            
+                            $this->dispatcher->notify(new sfEvent($this, EmployeeEvents::EMPLOYEE_ADDED,
+                                array('employee' => $this->form->getEmployee(), 'emp_number'=> $empNumber)));
 
                             $this->redirect('pim/viewPersonalDetails?empNumber='. $empNumber);
                         }

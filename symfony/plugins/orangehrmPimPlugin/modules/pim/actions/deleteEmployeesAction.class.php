@@ -51,6 +51,8 @@ class deleteEmployeesAction extends basePimAction {
                 $count = $employeeService->deleteEmployees($ids);
 
                 if ($count == count($ids)) {
+                    $this->dispatcher->notify(new sfEvent($this, EmployeeEvents::EMPLOYEES_DELETED,
+                                array('emp_numbers'=> $ids)));
                     $this->getUser()->setFlash('success', __(TopLevelMessages::DELETE_SUCCESS));
                 } else {
                     $this->getUser()->setFlash('failure', __('A Problem Occured When Deleting The Selected Employees'));
