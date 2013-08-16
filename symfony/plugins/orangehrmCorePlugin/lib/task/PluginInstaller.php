@@ -90,8 +90,11 @@ class PluginInstaller {
     
     /**
      * do symfoony tasks
+     * @param $skipCommonTasks Skip common tasks like symfony cc, orangehrm:publish-assets
+     * orangehrm:build-model. 
+     * 
      */
-    protected function doSymfonyTaks() {
+    protected function doSymfonyTaks($skipCommonTasks = false) {
 
         $commands_list = $this->installData['symfony_commands'];
 
@@ -101,15 +104,58 @@ class PluginInstaller {
         }
     }
     
-    public function installPlugin($pluginName) {
+    public function installPlugin($pluginName, $skipCommonTasks = false) {
         $this->readInstallerData($pluginName);
         $this->buildDataTables();
-        $this->doSymfonyTaks();        
+        $this->doSymfonyTaks($skipCommonTasks);      
+        $version = $this->getPluginVersion($pluginName);
+        $this->savePluginVersion($pluginName, $version);
     }
     
-    protected function log($message) {
-        $this->task->logSection('orangehrm', $message);
+    protected function log($message, $size = null, $style = 'INFO') {
+        $this->task->logSection('orangehrm', $message, $size, $style);
     }
     
-  
+    protected function getPluginVersion($pluginName) {
+        $version = null;
+        
+        $pluginDir = sfConfig::get('sf_plugins_dir') . DIRECTORY_SEPARATOR . $pluginName;
+        if (!is_dir($pluginDir)) {
+            throw new sfCommandException("Plugin $pluginName is not available under the plugins directory");
+        }
+        
+        $appYmlFile = $pluginDir . DIRECTORY_SEPARATOR . "config" . DIRECTORY_SEPARATOR . "app.yml";
+        
+        if (is_file($appYmlFile) && is_readable($appYmlFile)) {
+
+            try {
+                $this->log('Reading ' . $appYmlFile);
+                $appYml = sfYaml::load($appYmlFile);
+                if (isset($appYml['all'][$pluginName]['version'])) {
+                    $version = $appYml['all'][$pluginName]['version'];
+                }
+            } catch (Exception $e) {
+                throw new sfCommandException('Error loading plugin installer.yml file. ' . $e->getMessage());
+                $message = "Error loading plugin $appYmlFile file. " . $e->getMessage();
+                $this->log($message, null, 'ERROR');
+            }
+        } else {
+            $this->log($appYmlFile . ' not found. Plugin version number cannot be determined', null, 'ERROR');
+        }
+        return $version;
+    }
+    
+    protected function savePluginVersion($pluginName, $version) {
+        
+        $sql = "INSERT INTO ohrm_plugin(name, version) VALUES(:name, :version) "
+               . " ON DUPLICATE KEY UPDATE version = :version";
+        $pdo = Doctrine_Manager::getInstance()->getCurrentConnection()->getDbh();
+        
+        $stmt = $pdo->prepare($sql);
+        $result = $stmt->execute(array(':name' => $pluginName, ':version' => $version));
+        if (!$result) {
+            $this->log("Failed to update plugin version for $pluginName plugin", null, 'ERROR');
+        }
+    }
+    
 }

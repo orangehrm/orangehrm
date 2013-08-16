@@ -1303,6 +1303,14 @@ CREATE TABLE ohrm_data_group_screen (
     PRIMARY KEY(`id`)
 ) ENGINE = INNODB DEFAULT CHARSET=utf8;
 
+CREATE TABLE ohrm_plugin (
+    `id` int not null auto_increment,
+    `name` varchar(100) not null,
+    `version` varchar(32),
+    primary key (`id`),
+    key (`name`)
+) engine=innodb default charset=utf8;
+
 alter table ohrm_home_page 
     add foreign key (user_role_id) references ohrm_user_role(id) on delete cascade;
 

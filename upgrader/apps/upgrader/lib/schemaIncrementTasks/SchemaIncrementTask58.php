@@ -374,6 +374,14 @@ class SchemaIncrementTask58 extends SchemaIncrementTask {
         // Deleting action SAVE from Time work flow since it is not in use
         $sql[18] = "DELETE FROM ohrm_workflow_state_machine WHERE workflow = 0 and action = '6'";
         
+        $sql[19] = "CREATE TABLE ohrm_plugin (
+                    `id` int not null AUTO_INCREMENT, 
+                    `name` varchar(100) not null,
+                    `version` varchar(32),
+                    primary key (`id`),
+                    key (`name`)
+                ) ENGINE = INNODB DEFAULT CHARSET=utf8;";        
+    
         $this->sql = $sql;
     }
 
