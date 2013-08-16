@@ -108,7 +108,16 @@ class ohrmReportWidgetOperationalCountryLocationDropDown extends ohrmWidgetSelec
                         $this->setOption('all_option_value', -1);
                     }
                 }
+            } else {
+                if ($this->getOption('show_all_option') && $this->hasOption('all_option_value')) {
+                    $allOptionValue = $this->getOption('all_option_value');
+                    if ($allOptionValue == self::ALL_OPTION_TOTAL) {                        
+                        $this->setOption('all_option_value', null);
+                    }                
+                }
             }
+            
+            
 
             $this->choices = $choices;
         }
