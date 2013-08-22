@@ -38,16 +38,10 @@ class addCustomerAction extends baseAdminAction {
         /* For highlighting corresponding menu item */
         $request->setParameter('initialActionName', 'viewCustomers');
 
-        $usrObj = $this->getUser()->getAttribute('user');
-
         $this->customerPermissions = $this->getDataGroupPermissions('time_customers');
 
         $this->customerId = $request->getParameter('customerId');
-        
-        if(!(($this->customerPermissions->canCreate() && empty($this->customerId)) || ($this->customerPermissions->canUpdate() && $this->customerId > 0))){
-            $this->forward(sfConfig::get('sf_secure_module'), sfConfig::get('sf_secure_action'));
-        }
-        
+                
         $values = array('customerId' => $this->customerId, 'customerPermissions' => $this->customerPermissions);
         
         $this->setForm(new CustomerForm(array(), $values));
@@ -59,18 +53,27 @@ class addCustomerAction extends baseAdminAction {
 
                 $this->form->bind($request->getParameter($this->form->getName()));
                 if ($this->form->isValid()) {
-                    $result = $this->form->save();
-                    $this->getUser()->setAttribute('addScreen', false);
-                    $this->getUser()->setFlash($result['messageType'], $result['message']);
-                    $this->redirect('admin/viewCustomers');
+                    $customerId = $this->form->getValue('customerId');
+
+                    if (($this->customerPermissions->canCreate() && empty($customerId)) || 
+                            ($this->customerPermissions->canUpdate() && $customerId > 0)) {
+                        $result = $this->form->save();
+                        $this->getUser()->setAttribute('addScreen', false);
+                        $this->getUser()->setFlash($result['messageType'], $result['message']);
+                        $this->redirect('admin/viewCustomers');
+                    } else {
+                        $this->forward(sfConfig::get('sf_secure_module'), sfConfig::get('sf_secure_action'));
+                    }
                 }
             }
         } else {
-
+            if (!(($this->customerPermissions->canCreate() && empty($this->customerId)) || 
+                    ($this->customerPermissions->canUpdate() && $this->customerId > 0))) {
+                $this->forward(sfConfig::get('sf_secure_module'), sfConfig::get('sf_secure_action'));                
+            }
             $this->undeleteForm = $this->getUndeleteForm();
-            $customerId = $request->getParameter('customerId'); // This comes as a GET request from Customer List page
 
-            if (!empty($customerId)) {
+            if (!empty($this->customerId)) {
                 $this->form->setUpdateMode();
             }
         }
