@@ -139,35 +139,32 @@ class viewEmployeeListAction extends basePimAction {
         
         $configurationFactory = $this->getListConfigurationFactory();
 
-        $permissions = $this->getContext()->get('screen_permissions');
         $runtimeDefinitions = array();
         $buttons = array();
+        
+        $allowedToAddEmployee = $this->getContext()->getUserRoleManager()->isActionAllowed(PluginWorkflowStateMachine::FLOW_EMPLOYEE, 
+            Employee::STATE_NOT_EXIST, PluginWorkflowStateMachine::EMPLOYEE_ACTION_ADD);
 
-        if ($permissions->canCreate()) {
-            $allowedToAddEmployee = $this->getContext()->getUserRoleManager()->isActionAllowed(PluginWorkflowStateMachine::FLOW_EMPLOYEE, 
-                Employee::STATE_NOT_EXIST, PluginWorkflowStateMachine::EMPLOYEE_ACTION_ADD);
-            
-            if ($allowedToAddEmployee) {
-                $buttons['Add'] = array('label' => 'Add');
-            }            
-        }
-        if (!$permissions->canDelete()) {
-            $runtimeDefinitions['hasSelectableRows'] = false;
+        if ($allowedToAddEmployee) {
+            $buttons['Add'] = array('label' => 'Add');
+        }            
+                            
+        $deleteActiveEmployee = $this->getContext()->getUserRoleManager()->isActionAllowed(PluginWorkflowStateMachine::FLOW_EMPLOYEE, 
+            Employee::STATE_ACTIVE, PluginWorkflowStateMachine::EMPLOYEE_ACTION_DELETE_ACTIVE);
+
+        $deleteTerminatedEmployee = $this->getContext()->getUserRoleManager()->isActionAllowed(PluginWorkflowStateMachine::FLOW_EMPLOYEE, 
+            Employee::STATE_TERMINATED, PluginWorkflowStateMachine::EMPLOYEE_ACTION_DELETE_TERMINATED);
+
+        if ($deleteActiveEmployee || $deleteTerminatedEmployee) {
+            $buttons['Delete'] = array('label' => 'Delete', 
+                                        'type' => 'submit', 
+                                        'data-toggle' => 'modal', 
+                                        'data-target' => '#deleteConfModal',
+                                        'class' => 'delete');
         } else {
-            $deleteActiveEmployee = $this->getContext()->getUserRoleManager()->isActionAllowed(PluginWorkflowStateMachine::FLOW_EMPLOYEE, 
-                Employee::STATE_ACTIVE, PluginWorkflowStateMachine::EMPLOYEE_ACTION_DELETE_ACTIVE);
-            
-            $deleteTerminatedEmployee = $this->getContext()->getUserRoleManager()->isActionAllowed(PluginWorkflowStateMachine::FLOW_EMPLOYEE, 
-                Employee::STATE_TERMINATED, PluginWorkflowStateMachine::EMPLOYEE_ACTION_DELETE_TERMINATED);
-            
-            if ($deleteActiveEmployee || $deleteTerminatedEmployee) {
-                $buttons['Delete'] = array('label' => 'Delete', 
-                                            'type' => 'submit', 
-                                            'data-toggle' => 'modal', 
-                                            'data-target' => '#deleteConfModal',
-                                            'class' => 'delete');
-            }
+            $runtimeDefinitions['hasSelectableRows'] = false;            
         }
+
 
         $runtimeDefinitions['buttons'] = $buttons;
         $configurationFactory->setRuntimeDefinitions($runtimeDefinitions);
