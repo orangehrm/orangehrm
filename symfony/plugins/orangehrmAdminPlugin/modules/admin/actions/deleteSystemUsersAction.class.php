@@ -33,7 +33,20 @@ class deleteSystemUsersAction extends sfAction {
 
 		if (!empty($toBeDeletedUserIds)) {
                     if ($form->isValid()) {
-			$delete = true;
+                        
+                        $accessibleIds = $this->getContext()->getUserRoleManager()->getAccessibleEntityIds('SystemUser');
+                        
+                        $delete = true;
+                        foreach ($toBeDeletedUserIds as $id) {
+                            if (!in_array($id, $accessibleIds)) {
+                                $delete = false;
+                                break;
+                            }
+                        }
+			if (!$delete) {
+                            $this->forward(sfConfig::get('sf_secure_module'), sfConfig::get('sf_secure_action'));
+                        }
+                        
                         $this->getSystemUserService()->deleteSystemUsers($toBeDeletedUserIds);
                         $this->getUser()->setFlash('success', __(TopLevelMessages::DELETE_SUCCESS));
                     }
