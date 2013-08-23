@@ -58,6 +58,7 @@ class jobInterviewAction extends baseAction {
 
         /* For highlighting corresponding menu item */
         $request->setParameter('initialActionName', 'viewCandidates');
+        $userRoleManager = $this->getContext()->getUserRoleManager();
 
         $this->candidatePermissions = $this->getDataGroupPermissions('recruitment_candidates');
 
@@ -78,6 +79,21 @@ class jobInterviewAction extends baseAction {
 
         $param = array();
         if ($candidateVacancyId > 0 && $selectedAction != "") {
+            $candidateVacancy = $this->getCandidateService()->getCandidateVacancyById($candidateVacancyId);
+
+            // check if user can perform action on candidate
+            if (!empty($this->interviewId) && $request->isMethod('post')) {
+                $allowedStates = $userRoleManager->getActionableStates(WorkflowStateMachine::FLOW_RECRUITMENT, 
+                        array($selectedAction));
+                $actionAllowed = !empty($allowedStates);
+            } else {
+                $actionAllowed = $userRoleManager->isActionAllowed(WorkflowStateMachine::FLOW_RECRUITMENT, 
+                        $candidateVacancy->getStatus(), $selectedAction);
+            }
+            if ($actionAllowed) {
+                $this->candidatePermissions = new ResourcePermission(true, true, true, true);
+            }
+            
             $interviewHistory = $this->getJobInterviewService()->getInterviewScheduledHistoryByInterviewId($this->interviewId);
             $param = array('interviewId' => $this->interviewId, 'candidateVacancyId' => $candidateVacancyId, 'selectedAction' => $selectedAction, 'historyId' => (!empty($interviewHistory)) ? $interviewHistory->getId() : null, 'candidatePermissions' => $this->candidatePermissions);
         }
@@ -86,6 +102,14 @@ class jobInterviewAction extends baseAction {
             $history = $this->getCandidateService()->getCandidateHistoryById($this->historyId);
             $candidateVacancyId = $this->getCandidateService()->getCandidateVacancyByCandidateIdAndVacancyId($history->getCandidateId(), $history->getVacancyId());
             $selectedAction = $history->getAction();
+            
+            // check if user can perform this history action
+            $allowedStates = $userRoleManager->getActionableStates(WorkflowStateMachine::FLOW_RECRUITMENT, 
+                    array($selectedAction));
+            if (!empty($allowedStates)) {
+                $this->candidatePermissions = new ResourcePermission(true, true, true, true);
+            }
+            
             $param = array('id' => $this->interviewId, 'candidateVacancyId' => $candidateVacancyId, 'selectedAction' => $selectedAction, 'candidatePermissions' => $this->candidatePermissions);
         }
         if (!$this->getCandidateService()->isHiringManager($candidateVacancyId, $empNumber) && $this->getCandidateService()->isInterviewer($candidateVacancyId, $empNumber)) {

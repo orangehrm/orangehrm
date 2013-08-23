@@ -52,6 +52,7 @@ class changeCandidateVacancyStatusAction extends baseRecruitmentAction {
 
         /* For highlighting corresponding menu item */
         $request->setParameter('initialActionName', 'viewCandidates');
+        $userRoleManager = $this->getContext()->getUserRoleManager();
 
         $this->candidatePermissions = $this->getDataGroupPermissions('recruitment_candidates');
 
@@ -72,6 +73,14 @@ class changeCandidateVacancyStatusAction extends baseRecruitmentAction {
         if (!empty($id)) {
             $history = $this->getCandidateService()->getCandidateHistoryById($id);
             $action = $history->getAction();
+            
+            // check if user can perform this history action
+            $allowedStates = $userRoleManager->getActionableStates(WorkflowStateMachine::FLOW_RECRUITMENT, 
+                    array($action));
+            if (!empty($allowedStates)) {
+                $this->candidatePermissions = new ResourcePermission(true, true, true, true);
+            }
+            
             $this->interviewId = $history->getInterviewId();
             if ($action == WorkflowStateMachine::RECRUITMENT_APPLICATION_ACTION_SHEDULE_INTERVIEW || $action == WorkflowStateMachine::RECRUITMENT_APPLICATION_ACTION_SHEDULE_2ND_INTERVIEW) {
                 if ($this->getUser()->hasFlash('templateMessage')) {
@@ -87,6 +96,7 @@ class changeCandidateVacancyStatusAction extends baseRecruitmentAction {
                     $this->enableEdit = true;
                 }
             }
+            
         }
         $candidateVacancyId = $request->getParameter('candidateVacancyId');
         $this->selectedAction = $request->getParameter('selectedAction');
@@ -100,8 +110,18 @@ class changeCandidateVacancyStatusAction extends baseRecruitmentAction {
             if ($nextActionList[$this->selectedAction] == "" || !in_array($candidateVacancy->getCandidateId(), $allowedCandidateList)) {
                 $this->redirect('recruitment/viewCandidates');
             }
+            
+            // check if user can perform action on candidate
+            $actionAllowed = $userRoleManager->isActionAllowed(WorkflowStateMachine::FLOW_RECRUITMENT, 
+                    $candidateVacancy->getStatus(), $this->selectedAction);
+           
+            if ($actionAllowed) {
+                $this->candidatePermissions = new ResourcePermission(true, true, true, false);
+            }
+            
             $param = array('candidateVacancyId' => $candidateVacancyId, 'selectedAction' => $this->selectedAction, 'candidatePermissions' => $this->candidatePermissions);
-            $this->performedAction = $this->selectedAction;
+            $this->performedAction = $this->selectedAction;                                     
+            
         }
 
         $this->setForm(new CandidateVacancyStatusForm(array(), $param, true));
@@ -110,9 +130,10 @@ class changeCandidateVacancyStatusAction extends baseRecruitmentAction {
 //        }
 //        if (!in_array($this->form->candidateId, $allowedCandidateListToDelete)) {
 //            $this->enableEdit = false;
-//        }
+//        }        
         if ($request->isMethod('post')) {
             if ($this->candidatePermissions->canUpdate()) {
+                
                 $this->form->bind($request->getParameter($this->form->getName()));
                 if ($this->form->isValid()) {
                     $result = $this->form->performAction();
