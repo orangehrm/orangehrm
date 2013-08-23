@@ -108,8 +108,9 @@ foreach($form->getWidgetSchema()->getPositions() as $widgetName) {
                 </p>
                 <table id="dependent_list" class="table hover">
                     <thead>
-                        <tr>
+                        <tr><?php if ($dependentPermissions->canDelete()) { ?>
                             <th class="check" style="width:2%"><input type='checkbox' id='checkAll' class="checkbox" /></th>
+                            <?php } ?>
                             <th class="dependentName"><?php echo __("Name"); ?></th>
                             <th><?php echo __("Relationship"); ?></th>
                             <th><?php echo __("Date of Birth"); ?></th>
