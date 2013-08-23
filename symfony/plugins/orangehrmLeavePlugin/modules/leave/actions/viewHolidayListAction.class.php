@@ -158,6 +158,11 @@ class viewHolidayListAction extends baseLeaveAction {
         } else {
             $configurationFactory->setIsLinkable(false);
         }
+        
+        $readOnlyIds = $this->getUnselectableHolidayIds();
+        if (count($readOnlyIds) > 0) {
+            $runtimeDefinitions['unselectableRowIds'] = $readOnlyIds;
+        }        
 
         $configurationFactory->setRuntimeDefinitions($runtimeDefinitions);
         ohrmListComponent::setActivePlugin('orangehrmLeavePlugin');
@@ -172,5 +177,9 @@ class viewHolidayListAction extends baseLeaveAction {
     protected function getListConfigurationFactory() {
         return new HolidayListConfigurationFactory();
     }
+    
+    protected function getUnselectableHolidayIds() {
+        return array();
+    }    
 
 }
