@@ -245,7 +245,7 @@ class SchemaIncrementTask58 extends SchemaIncrementTask {
 
                     ({$userRoleIds['Admin']}, " . ($dataGroupId+17) . ", 1, 0, 0, 0, 0),
                     ({$userRoleIds['ESS']}, " . ($dataGroupId+17) . ", 1, 0, 0, 0, 1),
-                    ({$userRoleIds['Supervisor']}, " . ($dataGroupId+17) . ", 0, 1, 0, 0, 0),
+                    ({$userRoleIds['Supervisor']}, " . ($dataGroupId+17) . ", 1, 0, 0, 0, 0),
                     ({$userRoleIds['Admin']}, " . ($dataGroupId+18) . ", 0, 1, 0, 0, 0),
                     ({$userRoleIds['ESS']}, " . ($dataGroupId+18) . ", 0, 1, 0, 0, 1),
                     ({$userRoleIds['Supervisor']}, " . ($dataGroupId+18) . ", 0, 1, 0, 0, 0);";
