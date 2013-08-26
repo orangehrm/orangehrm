@@ -490,19 +490,19 @@
    </trans-unit>   
    <trans-unit id="122">
     <source>Add Membership</source>
-    <target>FR_Add Membership</target>
+    <target>Add Membership</target>
    </trans-unit>
    <trans-unit id="123">
     <source>Edit Membership</source>
-    <target>FR_Edit Membership</target>
+    <target>Edit Membership</target>
    </trans-unit>  
    <trans-unit id="124">
     <source>Eligibility Status</source>
-    <target>FR_Eligibility Status</target>
+    <target>Eligibility Status</target>
    </trans-unit> 
    <trans-unit id="125">
     <source>Eligibility Review Date</source>
-    <target>FR_Eligibility Review Date</target>
+    <target>Eligibility Review Date</target>
    </trans-unit>    
    <trans-unit id="126">
     <source>You do not have credentials to access PIM for employee %employee_name%</source>
