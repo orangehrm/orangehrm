@@ -74,7 +74,7 @@
                     </li>
                     
                     <li class="required">
-                        <em>*</em> <?php echo __('compulsory'); ?>
+                        <em>*</em> <?php echo __(CommonMessages::REQUIRED_FIELD); ?>
                     </li>
                     
                 </ol>
