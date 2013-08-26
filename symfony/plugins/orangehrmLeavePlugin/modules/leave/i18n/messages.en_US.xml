@@ -375,7 +375,55 @@
    <trans-unit id="91">
     <source>View Leave Type</source>
     <target>View Leave Type</target>
+   </trans-unit>
+   <trans-unit id="92">
+    <source>Specify Time</source>
+    <target>Specify Time</target>
+   </trans-unit>                 
+   <trans-unit id="93">
+    <source>Partial Days</source>
+    <target>Partial Days</target>
+   </trans-unit>                 
+   <trans-unit id="94">
+    <source>None</source>
+    <target>None</target>
+   </trans-unit>    
+   <trans-unit id="95">
+    <source>All Days</source>
+    <target>All Days</target>
+   </trans-unit>     
+   <trans-unit id="96">
+    <source>Start Day Only</source>
+    <target>Start Day Only</target>
+   </trans-unit>     
+   <trans-unit id="97">
+    <source>End Day Only</source>
+    <target>End Day Only</target>
+   </trans-unit>     
+   <trans-unit id="98">
+    <source>Start and End Day</source>
+    <target>Start and End Day</target>
+   </trans-unit>     
+   <trans-unit id="99">
+    <source>Morning</source>
+    <target>Morning</target>
    </trans-unit>   
+   <trans-unit id="100">
+    <source>Afternoon</source>
+    <target>Afternoon</target>
+   </trans-unit>   
+   <trans-unit id="101">
+    <source>Morning</source>
+    <target>Morning</target>
+   </trans-unit>   
+   <trans-unit id="102">
+    <source>Start Day</source>
+    <target>Start Day</target>
+   </trans-unit>
+   <trans-unit id="103">
+    <source>End Day</source>
+    <target>End Day</target>
+   </trans-unit>      
   </body>
  </file>
 </xliff>

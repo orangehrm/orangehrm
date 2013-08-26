@@ -384,6 +384,54 @@
     <source>View Leave Type</source>
     <target>FR_View Leave Type</target>
    </trans-unit>                 
+   <trans-unit id="92">
+    <source>Specify Time</source>
+    <target>FR_Specify Time</target>
+   </trans-unit>                 
+   <trans-unit id="93">
+    <source>Partial Days</source>
+    <target>FR_Partial Days</target>
+   </trans-unit>                 
+   <trans-unit id="94">
+    <source>None</source>
+    <target>FR_None</target>
+   </trans-unit>    
+   <trans-unit id="95">
+    <source>All Days</source>
+    <target>FR_All Days</target>
+   </trans-unit>     
+   <trans-unit id="96">
+    <source>Start Day Only</source>
+    <target>FR_Start Day Only</target>
+   </trans-unit>     
+   <trans-unit id="97">
+    <source>End Day Only</source>
+    <target>FR_End Day Only</target>
+   </trans-unit>     
+   <trans-unit id="98">
+    <source>Start and End Day</source>
+    <target>FR_Start and End Day</target>
+   </trans-unit>     
+   <trans-unit id="99">
+    <source>Morning</source>
+    <target>FR_Morning</target>
+   </trans-unit>   
+   <trans-unit id="100">
+    <source>Afternoon</source>
+    <target>FR_Afternoon</target>
+   </trans-unit>   
+   <trans-unit id="101">
+    <source>Morning</source>
+    <target>FR_Morning</target>
+   </trans-unit>   
+   <trans-unit id="102">
+    <source>Start Day</source>
+    <target>FR_Start Day</target>
+   </trans-unit>
+   <trans-unit id="103">
+    <source>End Day</source>
+    <target>FR_End Day</target>
+   </trans-unit>      
   </body>
  </file>
 </xliff>
