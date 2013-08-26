@@ -142,8 +142,7 @@ class addCandidateAction extends baseAction {
                         $result = $this->form->save();
 
                         if (isset($result['messageType'])) {
-                            $this->messageType = $result['messageType'];
-                            $this->message = $result['message'];
+                            $this->getUser()->setFlash('addcandidate.warning', $result['message']);
                             $this->invalidFile = true;
                         } else {
                             $this->candidateId = $result['candidateId'];
