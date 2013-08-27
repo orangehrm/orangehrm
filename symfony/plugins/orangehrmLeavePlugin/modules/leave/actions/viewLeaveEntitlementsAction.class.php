@@ -73,7 +73,12 @@ class viewLeaveEntitlementsAction extends sfAction {
     }
     
     protected function getDataGroupPermissions() {
-        return $this->getContext()->getUserRoleManager()->getDataGroupPermissions(array('leave_entitlements'));
+        $self = false;
+        if (!empty($this->empNumber) && ($this->empNumber == $this->getUser()->getAttribute('auth.empNumber'))) {
+            $self = true;
+        }
+
+        return $this->getContext()->getUserRoleManager()->getDataGroupPermissions(array('leave_entitlements'), array(), array(), $self);
     }
     
     protected function getDefaultFilters() {
@@ -140,8 +145,8 @@ class viewLeaveEntitlementsAction extends sfAction {
         
         if ($this->showResultTable) {
             $searchParameters = $this->getSearchParameterObject($filters);
-            $empNumber = $searchParameters->getEmpNumber();
-            if (empty($empNumber)) {
+            $this->empNumber = $searchParameters->getEmpNumber();
+            if (empty($this->empNumber)) {
                 $this->showResultTable = false;
             } else {
                 $results = $this->searchLeaveEntitlements($searchParameters);

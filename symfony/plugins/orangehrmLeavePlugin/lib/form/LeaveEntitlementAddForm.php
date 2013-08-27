@@ -31,6 +31,13 @@ class LeaveEntitlementAddForm extends LeaveEntitlementForm {
         $this->embedForm('filters', $this->bulkAssignForm, '<ol id="filter">%content%</ol>');    
         
         parent::configure();
+        
+        $requiredPermissions = array(
+            BasicUserRoleManager::PERMISSION_TYPE_ACTION => array('add_entitlements'));
+        $employeeWidget = $this->getWidget('employee');
+        $employeeWidget->setOption('requiredPermissions', $requiredPermissions);
+        $this->setWidget('employee', $employeeWidget);
+        
         $this->setWidget('id', new sfWidgetFormInputHidden());
         $this->setValidator('id', new sfValidatorNumber(array('required' => false, 'min' => 1)));                
         

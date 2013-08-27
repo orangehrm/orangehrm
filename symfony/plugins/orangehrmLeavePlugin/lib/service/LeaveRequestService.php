@@ -709,10 +709,12 @@ class LeaveRequestService extends BaseService {
             $includeRoles = array();
             $excludeRoles = array();
             
+            $userRoleManager = $this->getUserRoleManager();
+            
             $empNumber = $request->getEmpNumber();
 
             // If looking at own leave request, only consider ESS role
-            if ($empNumber == $loggedInEmpNumber) {
+            if ($empNumber == $loggedInEmpNumber && $userRoleManager->essRightsToOwnWorkflow()) {
                 $includeRoles = array('ESS');
             }            
             
@@ -724,7 +726,7 @@ class LeaveRequestService extends BaseService {
                 $status = Leave::LEAVE_STATUS_LEAVE_TYPE_DELETED_TEXT . ' ' . $status;
             }
 
-            $workFlowItems = $this->getUserRoleManager()->getAllowedActions(WorkflowStateMachine::FLOW_LEAVE, 
+            $workFlowItems = $userRoleManager->getAllowedActions(WorkflowStateMachine::FLOW_LEAVE, 
                     $status, $excludeRoles, $includeRoles, array('Employee' => $empNumber));
 
             foreach ($workFlowItems as $item) {
@@ -741,9 +743,11 @@ class LeaveRequestService extends BaseService {
         
         $includeRoles = array();
         $excludeRoles = array();
+        
+        $userRoleManager = $this->getUserRoleManager();
 
         // If looking at own leave, only consider ESS role
-        if ($leave->getEmpNumber() == $loggedInEmpNumber) {
+        if ($leave->getEmpNumber() == $loggedInEmpNumber && $userRoleManager->essRightsToOwnWorkflow()) {
             $includeRoles = array('ESS');
         }
         
@@ -755,7 +759,7 @@ class LeaveRequestService extends BaseService {
             $status = Leave::LEAVE_STATUS_LEAVE_TYPE_DELETED_TEXT . ' ' . $status;
         }
         
-        $workFlowItems = $this->getUserRoleManager()->getAllowedActions(WorkflowStateMachine::FLOW_LEAVE, 
+        $workFlowItems = $userRoleManager->getAllowedActions(WorkflowStateMachine::FLOW_LEAVE, 
                 $status, $excludeRoles, $includeRoles, array('Employee' => $leave->getEmpNumber()));
 
         foreach ($workFlowItems as $item) {

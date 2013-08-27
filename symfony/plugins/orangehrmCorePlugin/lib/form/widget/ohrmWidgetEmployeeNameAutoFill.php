@@ -48,7 +48,14 @@ class ohrmWidgetEmployeeNameAutoFill extends sfWidgetFormInput {
         $html           = parent::render($name . '[empName]', $empNameValue, $attributes, $errors);
         $typeHint       = $this->getOption('typeHint');
         $hiddenFieldId  = $this->getHiddenFieldId($name);
-
+        
+        $requiredPermissions = $this->getOption('requiredPermissions');
+        if (!empty($requiredPermissions)) {
+            $ajaxRequiredPermissions = 'required_permissions=' . json_encode($requiredPermissions);
+        } else {
+            $ajaxRequiredPermissions = '';
+        }
+        
         $javaScript     = sprintf(<<<EOF
         <script type="text/javascript">
 
@@ -106,7 +113,7 @@ class ohrmWidgetEmployeeNameAutoFill extends sfWidgetFormInput {
                         nameField.val(loadingHint).addClass('ac_loading');
                         $.ajax({
                                url: "%s",
-                               data: "",
+                               data: '%s',
                                dataType: 'json',
                                success: function(employeeList){
 
@@ -151,7 +158,8 @@ EOF
                         $this->getOption('loadingMethod'),
                         __('Loading'),                
                         $this->generateId($name),
-                        url_for('pim/getEmployeeListAjax'));
+                        url_for('pim/getEmployeeListAjax'),
+                        $ajaxRequiredPermissions);
                         
         
 

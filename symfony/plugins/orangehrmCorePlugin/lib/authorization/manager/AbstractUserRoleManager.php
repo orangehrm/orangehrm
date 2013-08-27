@@ -90,5 +90,9 @@ abstract class AbstractUserRoleManager {
     //public abstract function getDataGroupPermissions ($dataGroupName, $rolesToExclude = array(), $rolesToInclude = array());
     public abstract function getModuleDefaultPage($module);
     public abstract function getHomePage();
+    
+    public function essRightsToOwnWorkflow() {
+        return true;
+    }
 }
 

@@ -45,7 +45,9 @@ class viewTimesheetAction extends baseTimeAction {
         $request->setParameter('initialActionName', 'viewEmployeeTimesheet');  
 
         $employeeId = $request->getParameter('employeeId');
-        
+                    
+        $loggedInEmpNumber = $this->getUser()->getEmployeeNumber();
+                    
         $this->timesheetPermissions = $this->getDataGroupPermissions('time_employee_timesheets', $employeeId);
 
         $this->_checkAuthentication($employeeId);
@@ -133,6 +135,11 @@ class viewTimesheetAction extends baseTimeAction {
                     // check if action allowed and get next state
                     $excludeRoles = array();
                     $includeRoles = array();
+                    
+                    if ($loggedInEmpNumber == $employeeId && $userRoleManager->essRightsToOwnWorkflow()) {
+                        $includeRoles = array('ESS');
+                    }
+             
                     $entities = array('Employee' => $employeeId);
                                            
                     $allowedActions = $userRoleManager->getAllowedActions(PluginWorkflowStateMachine::FLOW_TIME_TIMESHEET, $this->currentState, $excludeRoles, $includeRoles, $entities);
@@ -167,6 +174,10 @@ class viewTimesheetAction extends baseTimeAction {
             
             $excludeRoles = array();
             $includeRoles = array();
+            if ($loggedInEmpNumber == $employeeId && $userRoleManager->essRightsToOwnWorkflow()) {
+                $includeRoles = array('ESS');
+            }
+                    
             $entities = array('Employee' => $employeeId);
                                            
             $initialStateActions = $userRoleManager->getAllowedActions(PluginWorkflowStateMachine::FLOW_TIME_TIMESHEET, PluginTimesheet::STATE_INITIAL, $excludeRoles, $includeRoles, $entities);

@@ -158,9 +158,16 @@ class viewAttendanceRecordAction extends baseAttendanceAction {
                     $params = array();
                     $this->parmetersForListCompoment = $params;
 
+                    $rolesToExclude = array();
+                    $rolesToInclude = array();
+                    
+                    if ($this->employeeId == $loggedInEmpNumber && $userRoleManager->essRightsToOwnWorkflow()) {
+                        $rolesToInclude = array('ESS');
+                    }
+                    
                     $actions = array(PluginWorkflowStateMachine::ATTENDANCE_ACTION_EDIT_PUNCH_OUT_TIME, PluginWorkflowStateMachine::ATTENDANCE_ACTION_EDIT_PUNCH_IN_TIME);
                     $actionableStates = $userRoleManager->getActionableStates(WorkflowStateMachine::FLOW_ATTENDANCE, 
-                            $actions, array(), array(), array('Employee' => $this->employeeId));
+                            $actions, $rolesToExclude, $rolesToInclude, array('Employee' => $this->employeeId));
                     $recArray = array();
 
                     if ($records != null) {
@@ -177,7 +184,7 @@ class viewAttendanceRecordAction extends baseAttendanceAction {
 
                         $actions = array(PluginWorkflowStateMachine::ATTENDANCE_ACTION_DELETE);
                         $actionableStates = $userRoleManager->getActionableStates(WorkflowStateMachine::FLOW_ATTENDANCE, 
-                            $actions, array(), array(), array('Employee' => $this->employeeId));
+                            $actions, $rolesToExclude, $rolesToInclude, array('Employee' => $this->employeeId));
 
                         if ($actionableStates != null) {
                             foreach ($actionableStates as $state) {
@@ -204,7 +211,7 @@ class viewAttendanceRecordAction extends baseAttendanceAction {
                     $actions = array(PluginWorkflowStateMachine::ATTENDANCE_ACTION_PROXY_PUNCH_IN, PluginWorkflowStateMachine::ATTENDANCE_ACTION_PROXY_PUNCH_OUT);
                     $allowedActionsList = array();
                     $actionableStates = $userRoleManager->getActionableStates(WorkflowStateMachine::FLOW_ATTENDANCE, 
-                            $actions, array(), array(), array('Employee' => $this->employeeId));
+                            $actions, $rolesToExclude, $rolesToInclude, array('Employee' => $this->employeeId));
 
                     if ($actionableStates != null) {
                         if (!empty($recArray)) {
