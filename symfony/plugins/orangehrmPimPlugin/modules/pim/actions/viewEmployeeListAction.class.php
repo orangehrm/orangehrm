@@ -165,7 +165,11 @@ class viewEmployeeListAction extends basePimAction {
             $runtimeDefinitions['hasSelectableRows'] = false;            
         }
 
-
+        $unDeletableIds = $this->getUndeletableEmpNumbers();
+        if (count($unDeletableIds) > 0) {
+            $runtimeDefinitions['unselectableRowIds'] = $unDeletableIds;
+        }
+        
         $runtimeDefinitions['buttons'] = $buttons;
         $configurationFactory->setRuntimeDefinitions($runtimeDefinitions);
         
@@ -265,4 +269,8 @@ class viewEmployeeListAction extends basePimAction {
     public function setLeftMenuService(PIMLeftMenuService $leftMenuService) {
         $this->leftMenuService = $leftMenuService;
     }    
+    
+    public function getUndeletableEmpNumbers() {
+        return array();
+    }
 }
