@@ -26,13 +26,8 @@ class editAttendanceRecordAction extends baseAttendanceAction {
     }
 
     public function execute($request) {
-        /* For highlighting corresponding menu item */
-        $request->setParameter('initialActionName', 'viewAttendanceRecord');
-
         $userRoleManager = $this->getContext()->getUserRoleManager();
-        
-        $this->attendancePermissions = $this->getDataGroupPermissions('attendance_records');
-
+                
         $this->editPunchIn = array();
         $this->editPunchOut = array();
         $this->employeeId = $request->getParameter('employeeId');
@@ -48,6 +43,20 @@ class editAttendanceRecordAction extends baseAttendanceAction {
         $userId = $userRoleManager->getUser()->getId();
         
         $userEmployeeNumber = $this->getUser()->getEmployeeNumber();
+        
+        if ($this->actionRecorder == "viewMy" && $userEmployeeNumber == $this->employeeId) {
+            $initialAction = 'viewMyAttendanceRecord';
+            $self = true;
+        } else {
+            $initialAction = 'viewAttendanceRecord';
+            $self = false;
+        }
+        $this->attendancePermissions = $this->getDataGroupPermissions('attendance_records', $self);
+
+        /* For highlighting corresponding menu item */
+        $request->setParameter('initialActionName', $initialAction);
+        
+        
         $this->records = $this->getAttendanceService()->getAttendanceRecord($this->employeeId, $this->date);
         $totalRows = sizeOf($this->records);
 
@@ -55,21 +64,19 @@ class editAttendanceRecordAction extends baseAttendanceAction {
         $this->editAttendanceForm = new EditAttendanceRecordForm(array(), $values);
         $formSubmitAction = $request->getParameter('formSubmitAction');
 
-
+        $rolesToExclude = array();
+        $rolesToInclude = array();
+        $entities = array('Employee' => $this->employeeId);
         if ($this->actionRecorder == "viewEmployee") {
-            $userRoleFactory = new UserRoleFactory();
-            $decoratedUser = $userRoleFactory->decorateUserRole($userId, $this->employeeId, $userEmployeeNumber);
         }
         if ($this->actionRecorder == "viewMy") {
-
-            $user = new User();
-            $decoratedUser = new EssUserRoleDecorator($user);
+            $rolesToInclude = array('ESS');
         }
         $i = 1;
         foreach ($this->records as $record) {
 
-
-            $allowedActionsForCurrentRecord = $decoratedUser->getAllowedActions(WorkflowStateMachine::FLOW_ATTENDANCE, $record->getState());
+            $allowedWorkflowItems = $userRoleManager->getAllowedActions(WorkflowStateMachine::FLOW_ATTENDANCE, $record->getState(), $rolesToExclude, $rolesToInclude, $entities);
+            $allowedActionsForCurrentRecord = array_keys($allowedWorkflowItems);
 
             if (in_array(WorkflowStateMachine::ATTENDANCE_ACTION_EDIT_PUNCH_IN_TIME, $allowedActionsForCurrentRecord)) {
 

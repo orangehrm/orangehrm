@@ -4,6 +4,7 @@
 <div class="box miniList noHeader" id="recordsTable">
     <div class="inner">
         <?php include_partial('global/flash_messages'); ?>
+        <?php echo isset($listForm) ? $listForm->render() : ''; ?>
         <form action="" id="employeeRecordsForm" method="post">
             <div class="top">
                 <?php if ($allowedActions['Edit']) : ?>

@@ -12,8 +12,8 @@
  */
 abstract class baseAttendanceAction extends sfAction {
 
-    public function getDataGroupPermissions($dataGroups) {
-        return $this->getContext()->getUserRoleManager()->getDataGroupPermissions($dataGroups, array(), array(), false, array());
+    public function getDataGroupPermissions($dataGroups, $self = false) {
+        return $this->getContext()->getUserRoleManager()->getDataGroupPermissions($dataGroups, array(), array(), $self, array());
     }
 
 }

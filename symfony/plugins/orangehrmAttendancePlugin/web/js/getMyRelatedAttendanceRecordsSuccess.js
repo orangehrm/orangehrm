@@ -67,7 +67,8 @@ function deleteAttendanceRecords(id){
         type: 'POST',
         url: linkToDeleteRecords,
         data: {
-            id:id
+            id:id,
+            'defaultList[_csrf_token]': $('#defaultList__csrf_token').val()            
         },
         async: false,
         success: function(status){

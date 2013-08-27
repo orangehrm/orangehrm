@@ -154,6 +154,7 @@ class AttendanceActions extends sfActions {
         $this->date = $request->getParameter('date');
         $this->actionRecorder = $request->getParameter('actionRecorder');
         
+        $this->listForm = new DefaultListForm(array(), array(), true);
 
         $excludeRoles = array();
         $includeRoles = array();

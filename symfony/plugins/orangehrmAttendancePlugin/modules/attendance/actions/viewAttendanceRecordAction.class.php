@@ -160,7 +160,7 @@ class viewAttendanceRecordAction extends baseAttendanceAction {
 
                     $actions = array(PluginWorkflowStateMachine::ATTENDANCE_ACTION_EDIT_PUNCH_OUT_TIME, PluginWorkflowStateMachine::ATTENDANCE_ACTION_EDIT_PUNCH_IN_TIME);
                     $actionableStates = $userRoleManager->getActionableStates(WorkflowStateMachine::FLOW_ATTENDANCE, 
-                            $actions, array(), array(), array('Employee' => $loggedInEmpNumber));
+                            $actions, array(), array(), array('Employee' => $this->employeeId));
                     $recArray = array();
 
                     if ($records != null) {
@@ -177,7 +177,7 @@ class viewAttendanceRecordAction extends baseAttendanceAction {
 
                         $actions = array(PluginWorkflowStateMachine::ATTENDANCE_ACTION_DELETE);
                         $actionableStates = $userRoleManager->getActionableStates(WorkflowStateMachine::FLOW_ATTENDANCE, 
-                            $actions, array(), array(), array('Employee' => $loggedInEmpNumber));
+                            $actions, array(), array(), array('Employee' => $this->employeeId));
 
                         if ($actionableStates != null) {
                             foreach ($actionableStates as $state) {
@@ -191,7 +191,7 @@ class viewAttendanceRecordAction extends baseAttendanceAction {
                         }
 
                         foreach ($records as $record) {
-                            $this->allowedToDelete[] = $userRoleManager->isActionAllowed(WorkflowStateMachine::FLOW_ATTENDANCE, $record->getState(), PluginWorkflowStateMachine::ATTENDANCE_ACTION_DELETE, array(), array(), array('Employee' => $loggedInEmpNumber));
+                            $this->allowedToDelete[] = $userRoleManager->isActionAllowed(WorkflowStateMachine::FLOW_ATTENDANCE, $record->getState(), PluginWorkflowStateMachine::ATTENDANCE_ACTION_DELETE, array(), array(), array('Employee' => $this->employeeId));
                             $recArray[] = $record;
                         }
                     } else {
@@ -204,7 +204,7 @@ class viewAttendanceRecordAction extends baseAttendanceAction {
                     $actions = array(PluginWorkflowStateMachine::ATTENDANCE_ACTION_PROXY_PUNCH_IN, PluginWorkflowStateMachine::ATTENDANCE_ACTION_PROXY_PUNCH_OUT);
                     $allowedActionsList = array();
                     $actionableStates = $userRoleManager->getActionableStates(WorkflowStateMachine::FLOW_ATTENDANCE, 
-                            $actions, array(), array(), array('Employee' => $loggedInEmpNumber));
+                            $actions, array(), array(), array('Employee' => $this->employeeId));
 
                     if ($actionableStates != null) {
                         if (!empty($recArray)) {
@@ -219,7 +219,7 @@ class viewAttendanceRecordAction extends baseAttendanceAction {
                         foreach ($actionableStates as $actionableState) {
   
                             $allowedActionsArray = $userRoleManager->getAllowedActions(WorkflowStateMachine::FLOW_ATTENDANCE, 
-                                $actionableState, array(), array(), array('Employee' => $loggedInEmpNumber));
+                                $actionableState, array(), array(), array('Employee' => $this->employeeId));
                             
                             if (!is_null($allowedActionsArray)) {
 
@@ -254,7 +254,7 @@ class viewAttendanceRecordAction extends baseAttendanceAction {
         foreach ($records as $record) {
             if (!$userRoleManager->isActionAllowed(WorkflowStateMachine::FLOW_ATTENDANCE, 
                     $record->getState(), WorkflowStateMachine::ATTENDANCE_ACTION_DELETE, 
-                    array(), array(), array('Employee' => $loggedInEmpNumber))) {          
+                    array(), array(), array('Employee' => $this->employeeId))) {          
                 $notSelectable[] = $record->getId();
             }
         }
