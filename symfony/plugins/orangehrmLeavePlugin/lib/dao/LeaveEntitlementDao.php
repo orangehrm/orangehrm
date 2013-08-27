@@ -554,7 +554,7 @@ class LeaveEntitlementDao extends BaseDao {
 
         $sql .= ' GROUP BY le.id';
         
-        $dateLimits = $this->getLeaveEntitlementStrategy()->getLeaveWithoutEntitlementDateLimitsForLeaveBalance($asAtDate, $date);
+        $dateLimits = $this->getLeaveEntitlementStrategy()->getLeaveWithoutEntitlementDateLimitsForLeaveBalance($asAtDate, $date, $empNumber, $leaveTypeId);
 
         if (is_array($dateLimits) && count($dateLimits) > 0) {
             $sql .= ' UNION ALL ' .

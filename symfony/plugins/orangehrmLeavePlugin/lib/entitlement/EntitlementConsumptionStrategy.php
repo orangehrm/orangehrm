@@ -41,12 +41,14 @@ interface EntitlementConsumptionStrategy {
      * 
      * @param String $balanceStartDate Date string for balance start date
      * @param String $balanceEndDate Date string for balance end date
+     * @param int $empNumber
+     * @param int $leaveTypeId
      * 
      * @return Mixed Array with two dates giving period inside which leave without entitlements should count towards the leave balance.
      *               If false is returned, leave without entitlements are not considered for leave balance.
      * 
      */
-    public function getLeaveWithoutEntitlementDateLimitsForLeaveBalance($balanceStartDate, $balanceEndDate);
+    public function getLeaveWithoutEntitlementDateLimitsForLeaveBalance($balanceStartDate, $balanceEndDate, $empNumber = null, $leaveTypeId = null);
     
     /**
      * Get leave period

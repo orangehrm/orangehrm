@@ -680,18 +680,18 @@ class FIFOEntitlementConsumptionStrategy implements EntitlementConsumptionStrate
         return $this->getDao()->handleLeavePeriodChange($leavePeriodForToday, $oldMonth, $oldDay, $newMonth, $newDay);        
     }
 
-    public function getLeaveWithoutEntitlementDateLimitsForLeaveBalance($balanceStartDate, $balanceEndDate) {
+    public function getLeaveWithoutEntitlementDateLimitsForLeaveBalance($balanceStartDate, $balanceEndDate, $empNumber = null, $leaveTypeId = null) {
         
         $limits = false;
         
-        $startPeriod = $this->getLeavePeriodService()->getCurrentLeavePeriodByDate($balanceStartDate);
+        $startPeriod = $this->getLeavePeriod($balanceStartDate, $empNumber, $leaveTypeId);
         
         if (is_array($startPeriod) && count($startPeriod) == 2) {
             $startDate = $startPeriod[0];
             $endDate = $startPeriod[1];
 
             if (!empty($balanceEndDate)) {
-                $endPeriod = $this->getLeavePeriodService()->getCurrentLeavePeriodByDate($balanceEndDate);
+                $endPeriod = $this->getLeavePeriod($balanceEndDate, $empNumber, $leaveTypeId);
                 if (is_array($endPeriod) && isset($endPeriod[1])) {
                     $endDate = $endPeriod[1];
                 }
