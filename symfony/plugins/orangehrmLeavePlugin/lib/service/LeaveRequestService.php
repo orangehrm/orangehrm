@@ -714,7 +714,7 @@ class LeaveRequestService extends BaseService {
             $empNumber = $request->getEmpNumber();
 
             // If looking at own leave request, only consider ESS role
-            if ($empNumber == $loggedInEmpNumber && $userRoleManager->essRightsToOwnWorkflow()) {
+            if ($empNumber == $loggedInEmpNumber && ($userRoleManager->essRightsToOwnWorkflow() || !$userRoleManager->isEntityAccessible('Employee', $empNumber))) {
                 $includeRoles = array('ESS');
             }            
             
@@ -747,7 +747,7 @@ class LeaveRequestService extends BaseService {
         $userRoleManager = $this->getUserRoleManager();
 
         // If looking at own leave, only consider ESS role
-        if ($leave->getEmpNumber() == $loggedInEmpNumber && $userRoleManager->essRightsToOwnWorkflow()) {
+        if ($leave->getEmpNumber() == $loggedInEmpNumber && ($userRoleManager->essRightsToOwnWorkflow() || !$userRoleManager->isEntityAccessible('Employee', $empNumber))) {
             $includeRoles = array('ESS');
         }
         
