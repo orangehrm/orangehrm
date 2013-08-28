@@ -103,7 +103,6 @@ class getLeaveBalanceAjaxAction extends sfAction {
                 );
                 
                 foreach ($leaveDays as $k => $leave) {
-                    
                     $leaveDate = $leave->getDate();
                     
                     // Get next leave period if request spans leave periods.
@@ -122,7 +121,7 @@ class getLeaveBalanceAjaxAction extends sfAction {
                         $leaveByPeriods[$leavePeriodNdx]['days'][$localizedDate] = array('length' => 0, 'balance' => false, 
                             'desc' => ucfirst(strtolower($leave->getTextLeaveStatus())));
                     } else {
-                        $leaveByPeriods[$leavePeriodNdx]['days'][$localizedDate] = array('length' => 1, 'balance' => false, 'desc' => '');
+                        $leaveByPeriods[$leavePeriodNdx]['days'][$localizedDate] = array('length' => $leave->getLengthDays(), 'balance' => false, 'desc' => '');
                     }
                 }                 
             }            
