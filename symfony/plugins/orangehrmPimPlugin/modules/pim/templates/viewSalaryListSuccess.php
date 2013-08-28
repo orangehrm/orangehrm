@@ -288,7 +288,7 @@
 //]]>
 </script>
 
-<script type="text/javascript"><!--
+<script type="text/javascript">
 //<![CDATA[
 
     $('#delSalary').attr('disabled', 'disabled');
