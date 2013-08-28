@@ -114,6 +114,9 @@
     </div>
 
 </div>
+<div id="footer">
+    <?php include_partial('global/copyright');?>
+</div>
 <?php
 /*
  * Get short description to show in default view in view job list

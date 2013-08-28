@@ -132,7 +132,9 @@
         </div> <!-- inner -->
         
     </div>
-
+    <div id="footer">
+        <?php include_partial('global/copyright');?>
+    </div>
 <script type="text/javascript">
     //<![CDATA[
     var description	= '<?php $description; ?>';
