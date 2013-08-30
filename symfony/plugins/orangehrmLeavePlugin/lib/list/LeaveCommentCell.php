@@ -8,7 +8,7 @@ class LeaveCommentCell extends Cell {
         $id = $this->getPropertyValue('namePattern');
         
         $imageHTML = tag('img', array(
-            'src' => public_path('../../themes/orange/icons/callout-left.png'),
+            'src' => theme_path('images/callout-left.png'),
             'title' => 'Click here to edit',
             'alt' => 'Edit',
             'class' => 'callout dialogInvoker',
