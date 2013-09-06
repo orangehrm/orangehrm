@@ -9,7 +9,7 @@
   </div>
   <div class="modal-footer">
     <input type="button" class="btn" data-dismiss="modal" id="dialogDeleteBtn" value="<?php echo __('Ok'); ?>" />
-    <input type="button" class="btn reset" data-dismiss="modal" value="<?php echo __('Cancel'); ?>" />
+    <input type="button" class="btn cancel" data-dismiss="modal" value="<?php echo __('Cancel'); ?>" />
   </div>
 </div>
 <!-- Confirmation box HTML: Ends -->
