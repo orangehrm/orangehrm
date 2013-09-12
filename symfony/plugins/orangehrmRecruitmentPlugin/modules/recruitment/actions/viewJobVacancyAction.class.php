@@ -66,7 +66,7 @@ class viewJobVacancyAction extends baseRecruitmentAction {
 
         $sortField = $request->getParameter('sortField');
         $sortOrder = $request->getParameter('sortOrder');
-        $noOfRecords = JobVacancy::NUMBER_OF_RECORDS_PER_PAGE;
+        $noOfRecords = sfConfig::get('app_items_per_page');
         $offset = ($pageNumber >= 1) ? (($pageNumber - 1) * $noOfRecords) : ($request->getParameter('pageNo', 1) - 1) * $noOfRecords;
 
         $param = array('allowedVacancyList' => $allowedVacancyList);
