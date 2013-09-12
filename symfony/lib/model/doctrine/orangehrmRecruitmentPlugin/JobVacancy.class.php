@@ -15,7 +15,6 @@ class JobVacancy extends PluginJobVacancy {
     const CLOSED = 2;
     const PUBLISHED = 1;
     const NOT_PUBLISHED = 0;
-    const NUMBER_OF_RECORDS_PER_PAGE = 50;
     const TYPE = "VACANCY";
 
     public function getHiringManagerName() {
