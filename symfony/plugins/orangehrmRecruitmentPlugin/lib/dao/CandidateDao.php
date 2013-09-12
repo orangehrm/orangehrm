@@ -80,7 +80,7 @@ class CandidateDao extends BaseDao {
                 		WHERE jc.id IN ({$escapeString}) AND
                 		jc.status = ?";
                 
-                $escapeValueArray = $allowedCandidateIdList;
+                $escapeValueArray = array_values($allowedCandidateIdList);
                 $escapeValueArray[] = $status;
                 
                 $query = $pdo->prepare($q); 
