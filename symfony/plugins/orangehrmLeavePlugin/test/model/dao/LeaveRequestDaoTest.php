@@ -38,6 +38,7 @@
             $fixtureFile = sfConfig::get('sf_plugins_dir') . '/orangehrmLeavePlugin/test/fixtures/LeaveRequestDao.yml';
             TestDataService::populate($fixtureFile);
             $this->fixture = sfYaml::load($fixtureFile);
+            sfConfig::set('app_items_per_page', 50);
            
     	
     }
