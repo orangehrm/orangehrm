@@ -32,7 +32,7 @@ class BasicUserRoleManagerTest extends PHPUnit_Framework_TestCase {
      */
     protected function setUp() {        
         $this->fixture = sfConfig::get('sf_plugins_dir') . '/orangehrmCorePlugin/test/fixtures/BasicUserRoleManager.yml';
-        TestDataService::truncateSpecificTables(array('SystemUser'));
+        TestDataService::truncateSpecificTables(array('SystemUser', 'Project', 'JobCandidate', 'JobVacancy', 'JobInterview'));
         TestDataService::populate($this->fixture);
                 
         $this->manager = new BasicUserRoleManager();
