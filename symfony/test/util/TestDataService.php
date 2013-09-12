@@ -281,6 +281,17 @@ class TestDataService {
                 "\nQuery: [" . $query . "]\n" . "Fixture: " . self::$lastFixture . "\n\n";
             }
 
+            // Clear table cache
+            if (is_array(self::$data)) {
+                foreach (self::$data as $alias => $values) {
+
+                    $table = Doctrine::getTable($alias);
+                    if (!empty($table)) {
+                        $table->clear();
+                    }
+                }            
+            }
+            
             self::_enableConstraints();
         }
     }
@@ -323,9 +334,10 @@ class TestDataService {
         $tableNames = array();
         
         foreach ($aliasArray as $alias) {
-            $table = Doctrine::getTable($alias)->getTableName();
+            $table = Doctrine::getTable($alias);
             if (!empty($table)) {
-                $tableNames[] = $table;
+                $tableNames[] = $table->getTableName();
+                $table->clear();
             } else {
                 echo __FILE__ . ':' . __LINE__ . ") Skipping unknown table alias: " . $alias . "\n";
             }
@@ -358,7 +370,11 @@ class TestDataService {
 
     public static function fetchObject($alias, $primaryKey) {
 
-        return Doctrine::getTable($alias)->find($primaryKey);
+        $table = Doctrine::getTable($alias);
+        $table->clear();
+        $result = $table->find($primaryKey);
+        
+        return $result;
     }
 
     public static function loadObjectList($alias, $fixture, $key) {
