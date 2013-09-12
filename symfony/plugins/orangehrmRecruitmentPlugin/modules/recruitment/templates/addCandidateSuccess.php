@@ -176,7 +176,7 @@ foreach ($jobVacancyList as $vacancy) {
                         <?php }?>
                     <?php endif; ?>
                     <?php if ($candidateId > 0): ?>
-                        <input type="button" id="btnBack" value="<?php echo __("Back"); ?>"/>
+                        <input type="button" class="cancel" id="btnBack" value="<?php echo __("Back"); ?>"/>
                     <?php endif; ?>
 
                 </p>

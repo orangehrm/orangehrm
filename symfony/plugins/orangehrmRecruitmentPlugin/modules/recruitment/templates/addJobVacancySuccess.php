@@ -87,7 +87,7 @@ use_javascript(plugin_web_path('orangehrmRecruitmentPlugin', 'js/addJobVacancySu
                         <?php if($vacancyPermissions->canUpdate() && isset($vacancyId)){?>
                         <input type="button" class="savebutton" name="btnSave" id="btnSave" value="<?php echo __("Edit"); ?>"/>
                         <?php }?>
-                        <input type="button" class="backbutton" name="btnBack" id="btnBack" value="<?php echo __("Back"); ?>"/>
+                        <input type="button" class="cancel" name="btnBack" id="btnBack" value="<?php echo __("Back"); ?>"/>
                     <?php } else { ?>
                         <?php if($vacancyPermissions->canCreate() && empty($vacancyId)){?>
                         <input type="button" class="savebutton" name="btnSave" id="btnSave"value="<?php echo __("Save"); ?>"/>
