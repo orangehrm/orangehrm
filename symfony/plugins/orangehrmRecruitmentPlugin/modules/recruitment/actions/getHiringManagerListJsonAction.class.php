@@ -34,7 +34,7 @@ class getHiringManagerListJsonAction extends sfAction {
         
         $mode = $request->getParameter('mode');
         
-        $dataGroupName = $mode == self::MODE_CANDIDATES ? 'recruitment_candidates' : 'recruitment_vacancies';
+        $dataGroupName = $mode == getVacancyListForJobTitleJsonAction::MODE_CANDIDATES ? 'recruitment_candidates' : 'recruitment_vacancies';
         
         $requiredPermissions = array(
             BasicUserRoleManager::PERMISSION_TYPE_DATA_GROUP => array(
