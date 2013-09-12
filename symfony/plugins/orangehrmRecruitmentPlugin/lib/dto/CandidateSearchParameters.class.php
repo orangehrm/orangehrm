@@ -262,9 +262,7 @@ class CandidateSearchParameters {
     }
 
     public function setLimit($limit) {
-        if (!empty($limit)) {
-            $this->limit = $limit;
-        }
+        $this->limit = $limit;
     }
 
     public function setAttachmentId($attachmentId) {

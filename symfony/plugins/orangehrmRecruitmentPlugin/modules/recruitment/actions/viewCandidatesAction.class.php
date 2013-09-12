@@ -97,6 +97,7 @@ class viewCandidatesAction extends baseAction {
 
         $searchParam->setIsAdmin($isAdmin);
         $searchParam->setEmpNumber($usrObj->getEmployeeNumber());
+        $searchParam->setLimit(sfConfig::get('app_items_per_page'));
         $noOfRecords = $searchParam->getLimit();
         $offset = ($pageNumber >= 1) ? (($pageNumber - 1) * $noOfRecords) : ($request->getParameter('pageNo', 1) - 1) * $noOfRecords;
         $searchParam->setAdditionalParams($request->getParameter('additionalParams', array()));
