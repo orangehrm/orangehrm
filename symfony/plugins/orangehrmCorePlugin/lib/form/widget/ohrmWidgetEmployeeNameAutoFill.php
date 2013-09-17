@@ -199,7 +199,7 @@ EOF
         $loadingMethod = $this->getOption('loadingMethod');
         $requiredPermissions = $this->getOption('requiredPermissions');
         
-        if (is_array($employeeList)) {
+        if (is_array($employeeList) || $employeeList instanceof Doctrine_Collection) {
             return $employeeList;
         }
 
