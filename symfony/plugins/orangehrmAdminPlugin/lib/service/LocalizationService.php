@@ -46,6 +46,8 @@ class LocalizationService {
         } catch (Exception $e) {
             return "Invalid date";
         }
+
+        return null;
     }
 
     private function __getSymfonyDateFormatPattern($pattern) {
