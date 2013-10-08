@@ -75,7 +75,10 @@ class pimLeftMenuComponent extends sfComponent {
                 array('photograph'), array(), array(), $self, $entities);
  
         $this->menuItems = $this->getLeftMenuService()->getMenuItems($this->empNumber, $self);
-        $this->currentAction = $this->getContext()->getActionName();
+
+        if (!isset($this->currentAction)) {
+            $this->currentAction = $this->getContext()->getActionName();
+        }
         $this->empPicture = $this->getEmployeeService()->getEmployeePicture($this->empNumber);
     }
 }
