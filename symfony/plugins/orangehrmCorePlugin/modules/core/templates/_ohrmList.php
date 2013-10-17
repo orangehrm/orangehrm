@@ -115,7 +115,7 @@ function getHeaderCellClassHtml($isSortable, $sortOrder) {
         
     <form method="<?php echo $formMethod; ?>" action="<?php echo $formUrl; ?>" name="frmList_ohrmListComponent" id="frmList_ohrmListComponent">
         <?php echo $listForm->render() ?>
-<?php if (count($buttons) > 0 || isset($extraButtons) || $pager->haveToPaginate()) : ?>        
+<?php if ((count($buttons) > 0 && $buttonsPosition === ohrmListConfigurationFactory::BEFORE_TABLE)  || isset($extraButtons) || $pager->haveToPaginate()) : ?>        
  <div class="top">          
         
 <?php
@@ -348,15 +348,17 @@ function getHeaderCellClassHtml($isSortable, $sortOrder) {
 <?php } ?>
                 </table>
         </div> <!-- tableWrapper -->
-        <div class="bottom"><p>
-<?php renderActionBar($buttons, $buttonsPosition === ohrmListConfigurationFactory::AFTER_TABLE); ?>
-
-<?php 
-    if ($pager->haveToPaginate()) {
-        include_partial('global/paging_links_js', array('pager' => $pager, 'location' => 'bottom'));
-    }
-?>
+        <?php if ((count($buttons) > 0 && $buttonsPosition === ohrmListConfigurationFactory::AFTER_TABLE) || $pager->haveToPaginate()) : ?>
+            <div class="bottom">
+                <?php renderActionBar($buttons, $buttonsPosition === ohrmListConfigurationFactory::AFTER_TABLE); ?>
+                
+                <?php 
+                    if ($pager->haveToPaginate()) {
+                        include_partial('global/paging_links_js', array('pager' => $pager, 'location' => 'bottom'));
+                    }
+                ?>
             </div>
+        <?php endif;?>
         </form> <!-- frmList_ohrmListComponent --> 
                 
 <?php if ($footerPartial != null): ?>

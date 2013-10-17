@@ -434,6 +434,13 @@ textarea {
 	float:right;
 	padding:15px 0 0 ;
 }
+
+.box div.bottom {
+    border-top:1px solid #dedede;
+    margin-top:10px;
+    padding-top:10px;
+}
+
 .miniList p {
     margin-bottom: 10px;
     padding-top: 0;
