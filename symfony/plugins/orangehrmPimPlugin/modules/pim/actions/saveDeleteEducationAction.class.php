@@ -29,7 +29,7 @@ class saveDeleteEducationAction extends basePimAction {
     }
     
     public function execute($request) {
-        $form = new DefaultListForm(array(), array(), true);
+        $form = new DefaultListForm();
         $form->bind($request->getParameter($form->getName()));
         $education = $request->getParameter('education');
         $empNumber = (isset($education['emp_number']))?$education['emp_number']:$request->getParameter('empNumber');

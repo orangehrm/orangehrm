@@ -97,7 +97,7 @@ class viewQualificationsAction extends basePimAction {
         $this->setLicenseForm(new EmployeeLicenseForm(array(), array('empNumber' => $empNumber, 
             'licensePermissions' => $this->licensePermissions), true));  
         
-        $this->listForm = new DefaultListForm(array(),array(),true);
+        $this->listForm = new DefaultListForm();
     }
     
     protected function _setMessage() {

@@ -25,7 +25,7 @@ class deleteSystemUsersAction extends sfAction {
 	 * @param <type> $request
 	 */
 	public function execute($request) {
-                $form = new DefaultListForm(array(), array(), true);
+                $form = new DefaultListForm();
                 $form->bind($request->getParameter($form->getName()));
 		$toBeDeletedUserIds = $request->getParameter('chkSelectRow');
                 

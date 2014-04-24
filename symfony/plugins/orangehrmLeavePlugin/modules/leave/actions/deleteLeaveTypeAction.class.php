@@ -18,7 +18,7 @@ class deleteLeaveTypeAction extends baseLeaveAction {
                     $this->getUser()->setFlash('notice', __(TopLevelMessages::SELECT_RECORDS));
                 } else {
                     if ($this->leaveTypePermissions->canDelete()) {
-                        $form = new DefaultListForm(array(), array(), true);
+                        $form = new DefaultListForm();
                         $form->bind($request->getParameter($form->getName()));
                         if ($form->isValid()) {
                             $leaveTypeService = $this->getLeaveTypeService();

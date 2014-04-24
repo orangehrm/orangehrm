@@ -65,7 +65,7 @@ class viewImmigrationAction extends basePimAction {
                     $this->redirect('pim/viewImmigration?empNumber=' . $empNumber);
                 }
             }
-            $this->listForm = new DefaultListForm(array(), array(), true);
+            $this->listForm = new DefaultListForm();
         }
     }
 

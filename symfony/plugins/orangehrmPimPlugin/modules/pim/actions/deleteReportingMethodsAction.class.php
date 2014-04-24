@@ -42,7 +42,7 @@ class deleteReportingMethodsAction extends sfAction {
         $toDeleteIds = $request->getParameter('chkListRecord');
         
         if (!empty($toDeleteIds) && $request->isMethod('post')) {
-            $form = new DefaultListForm(array(), array(), true);
+            $form = new DefaultListForm();
             $form->bind($request->getParameter($form->getName()));
             if ($form->isValid()) {
             $result = $this->getReportingMethodConfigurationService()->deleteReportingMethods($toDeleteIds);

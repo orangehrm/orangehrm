@@ -61,7 +61,7 @@ class viewSkillsAction extends sfAction {
             }
             
         }
-        $this->listForm = new DefaultListForm(array(), array(), true);
+        $this->listForm = new DefaultListForm();
     }
     
     protected function _checkAuthentication() {

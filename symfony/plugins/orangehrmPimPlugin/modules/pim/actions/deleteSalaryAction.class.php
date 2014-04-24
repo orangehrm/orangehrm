@@ -28,7 +28,7 @@ class deleteSalaryAction extends basePimAction {
         
 
         if ($request->isMethod('post')) {
-            $form = new DefaultListForm(array(), array(), true);
+            $form = new DefaultListForm();
             $form->bind($request->getParameter($form->getName()));
             $deleteIds = $request->getParameter('delSalary');
 

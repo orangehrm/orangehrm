@@ -29,7 +29,7 @@ class saveDeleteLanguageAction extends basePimAction {
     }
     
     public function execute($request) {
-        $form = new DefaultListForm(array(), array(), true);
+        $form = new DefaultListForm();
         $form->bind($request->getParameter($form->getName()));
         $language = $request->getParameter('language');
         $empNumber = (isset($language['emp_number']))?$language['emp_number']:$request->getParameter('empNumber');

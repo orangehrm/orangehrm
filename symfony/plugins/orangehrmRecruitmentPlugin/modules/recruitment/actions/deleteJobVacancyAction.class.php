@@ -43,7 +43,7 @@ class deleteJobVacancyAction extends baseRecruitmentAction {
 
         if ($vacancyPermissions->canDelete()) {
             
-            $form = new DefaultListForm(array(), array(), true);
+            $form = new DefaultListForm();
             $form->bind($request->getParameter($form->getName()));
             if ($form->isValid()) {        
 

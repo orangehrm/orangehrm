@@ -39,7 +39,7 @@ class deleteLeaveEntitlementsAction extends sfAction {
 
     // protected by screen permissions.     
     public function execute($request) {
-        $form = new DefaultListForm(array(), array(), true);
+        $form = new DefaultListForm();
         $form->bind($request->getParameter($form->getName()));
         $ids = $request->getParameter('chkSelectRow');
         

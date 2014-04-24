@@ -158,7 +158,7 @@ class timeActions extends sfActions {
     }
 
     public function executeDeleteRows(sfWebRequest $request) {
-        $form = new DefaultListForm(array(),array(),true);
+        $form = new DefaultListForm();
         
         $employeeId = $request->getParameter("employeeId");
         $timesheetId = $request->getParameter("timesheetId");

@@ -30,7 +30,7 @@ class updateNotificationAction extends sfAction {
     }
 
     public function execute($request) {
-        $form = new DefaultListForm(array(), array(), true);
+        $form = new DefaultListForm();
         $form->bind($request->getParameter($form->getName()));
         $toBeUpdatedIds = $request->getParameter('chkSelectRow');
         if ($form->isValid()) {

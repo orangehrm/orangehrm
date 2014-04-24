@@ -30,7 +30,7 @@ class deleteMembershipsAction extends sfAction {
     }
 
     public function execute($request) {
-        $form = new DefaultListForm(array(), array(), true);
+        $form = new DefaultListForm();
         $form->bind($request->getParameter($form->getName()));
         $toBeDeletedIds = $request->getParameter('chkSelectRow');
         if ($form->isValid()) {

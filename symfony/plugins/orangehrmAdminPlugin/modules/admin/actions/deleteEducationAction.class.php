@@ -43,7 +43,7 @@ class deleteEducationAction extends sfAction {
         
         if (!empty($toDeleteIds) && $request->isMethod('post')) {
             
-            $form = new DefaultListForm(array(), array(), true) ;
+            $form = new DefaultListForm() ;
             $form->bind($request->getParameter($form->getName()));
             if ($form->isValid()) {
                 $result = $this->getEducationService()->deleteEducations($toDeleteIds);

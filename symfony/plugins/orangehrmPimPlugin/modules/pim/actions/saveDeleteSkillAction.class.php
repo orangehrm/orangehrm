@@ -30,7 +30,7 @@ class saveDeleteSkillAction extends basePimAction {
     }
 
     public function execute($request) {
-        $form = new DefaultListForm(array(), array(), true);
+        $form = new DefaultListForm();
         $form->bind($request->getParameter($form->getName()));
         $skill = $request->getParameter('skill');
         $empNumber = (isset($skill['emp_number'])) ? $skill['emp_number'] : $request->getParameter('empNumber');

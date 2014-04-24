@@ -20,7 +20,7 @@
 class deleteImmigrationAction extends basePimAction {
 
     public function execute($request) {
-        $form = new DefaultListForm(array(), array(), true);
+        $form = new DefaultListForm();
         $form->bind($request->getParameter($form->getName()));
         $deleteIds = $request->getParameter('chkImmigration');
         $empNumber = $request->getParameter('empNumber');

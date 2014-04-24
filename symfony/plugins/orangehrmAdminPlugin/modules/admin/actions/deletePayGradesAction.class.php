@@ -35,7 +35,7 @@ class deletePayGradesAction extends baseAdminAction {
 
         if ($payGradePermissions->canDelete()) {
             
-            $form = new DefaultListForm(array(), array(), true);
+            $form = new DefaultListForm();
             $form->bind($request->getParameter($form->getName())); 
             
             if ($form->isValid()) {

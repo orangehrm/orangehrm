@@ -33,7 +33,7 @@ class deleteJobTitleAction extends baseAdminAction {
         $jobTitlePermissions = $this->getDataGroupPermissions('job_titles');
         if ($jobTitlePermissions->canDelete()) {
             
-            $form = new DefaultListForm(array(), array(), true);
+            $form = new DefaultListForm();
             $form->bind($request->getParameter($form->getName()));
             if ($form->isValid()) {
                 $toBeDeletedJobTitleIds = $request->getParameter('chkSelectRow');

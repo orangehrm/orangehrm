@@ -29,7 +29,7 @@ class changeLeaveStatusAction extends baseCoreLeaveAction {
     public function execute($request) {
 
         if ($request->isMethod('post')) {
-            $form = new DefaultListForm(array(), array(), true);
+            $form = new DefaultListForm();
             $form->bind($request->getParameter($form->getName()));
             $changes = $request->getParameter('leaveRequest');
             $changeType = 'change_leave_request';

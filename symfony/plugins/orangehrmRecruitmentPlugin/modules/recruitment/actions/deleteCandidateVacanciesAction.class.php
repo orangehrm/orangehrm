@@ -37,7 +37,7 @@ class deleteCandidateVacanciesAction extends baseAction {
 
         if ($candidatePermissions->canDelete()) {
             
-            $form = new DefaultListForm(array(), array(), true);
+            $form = new DefaultListForm();
             $form->bind($request->getParameter($form->getName()));
             if ($form->isValid()) {
                 $candidateVacancyIds = $request->getParameter("chkSelectRow");

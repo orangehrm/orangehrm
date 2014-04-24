@@ -62,7 +62,7 @@ class viewEducationAction extends sfAction {
             
         }
         
-        $this->listForm = new DefaultListForm(array(),array(),true);
+        $this->listForm = new DefaultListForm();
         
     }
     

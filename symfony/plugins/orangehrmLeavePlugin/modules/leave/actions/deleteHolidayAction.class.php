@@ -60,7 +60,7 @@ class deleteHolidayAction extends baseLeaveAction {
             $holidayIds = $request->getPostParameter('chkSelectRow[]');            
             if (!empty($holidayIds)) {
 
-                $form = new DefaultListForm(array(), array(), true) ;
+                $form = new DefaultListForm() ;
                 $form->bind($request->getParameter($form->getName()));  
                 
                 if ($form->isValid()) {

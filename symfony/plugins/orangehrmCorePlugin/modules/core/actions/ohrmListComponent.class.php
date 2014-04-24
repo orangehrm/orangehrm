@@ -60,7 +60,7 @@ class ohrmListComponent extends sfComponent {
         $this->className = self::$configurationFactory->getClassName();
         $this->partial = self::$headerPartial;
         $this->footerPartial = self::$footerPartial;
-        $this->listForm = ( empty( self::$listForm) )? new DefaultListForm(array(),array(),true) :  self::$listForm ;
+        $this->listForm = ( empty( self::$listForm) )? new DefaultListForm() :  self::$listForm ;
           
                 
         $this->applyRuntimeDefinitions();

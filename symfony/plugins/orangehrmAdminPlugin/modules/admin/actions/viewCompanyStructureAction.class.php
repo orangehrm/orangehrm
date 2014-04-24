@@ -52,7 +52,7 @@ class viewCompanyStructureAction extends sfAction {
 
         $this->form = new SubunitForm(array(),array(),true);
         
-        $this->listForm = new DefaultListForm( array(),array(),true);
+        $this->listForm = new DefaultListForm();
     }
 
 }

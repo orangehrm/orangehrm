@@ -30,7 +30,7 @@ class saveDeleteWorkExperienceAction extends basePimAction {
     }
 
     public function execute($request) {
-        $form = new DefaultListForm(array(), array(), true);
+        $form = new DefaultListForm();
         $form->bind($request->getParameter($form->getName()));
         $experience = $request->getParameter('experience');
         $empNumber = (isset($experience['emp_number'])) ? $experience['emp_number'] : $request->getParameter('empNumber');

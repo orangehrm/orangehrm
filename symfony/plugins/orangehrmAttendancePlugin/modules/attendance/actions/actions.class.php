@@ -154,7 +154,7 @@ class AttendanceActions extends sfActions {
         $this->date = $request->getParameter('date');
         $this->actionRecorder = $request->getParameter('actionRecorder');
         
-        $this->listForm = new DefaultListForm(array(), array(), true);
+        $this->listForm = new DefaultListForm();
 
         $excludeRoles = array();
         $includeRoles = array();
@@ -257,7 +257,7 @@ class AttendanceActions extends sfActions {
     }
 
     public function executeDeleteAttendanceRecords($request) {
-        $form = new DefaultListForm(array(), array(), true);
+        $form = new DefaultListForm();
         $form->bind($request->getParameter($form->getName()));
         if ($form->isValid()) {
             $attendanceRecordId = $request->getParameter('id');

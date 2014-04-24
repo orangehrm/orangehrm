@@ -29,7 +29,7 @@ class saveDeleteLicenseAction extends basePimAction {
     }
     
     public function execute($request) {
-        $form = new DefaultListForm(array(), array(), true);
+        $form = new DefaultListForm();
         $form->bind($request->getParameter($form->getName()));
         $license = $request->getParameter('license');
         $empNumber = (isset($license['emp_number']))?$license['emp_number']:$request->getParameter('empNumber');

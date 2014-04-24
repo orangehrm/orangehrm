@@ -62,7 +62,7 @@ class editTimesheetAction extends baseTimeAction {
 
     public function execute($request) {
         
-        $this->listForm = new DefaultListForm(array(),array(),true);
+        $this->listForm = new DefaultListForm();
 
         $this->backAction = $request->getParameter('actionName');
         $this->timesheetId = $request->getParameter('timesheetId');
