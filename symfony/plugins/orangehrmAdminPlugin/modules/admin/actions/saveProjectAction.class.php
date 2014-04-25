@@ -68,6 +68,14 @@ class saveProjectAction extends baseAdminAction {
         }
         $this->projectId = $request->getParameter('projectId');
         $this->custId = $request->getParameter('custId');
+        
+        if ($this->projectId) {
+            $userRoleManager = $this->getContext()->getUserRoleManager();
+            $isAccessible = $userRoleManager->isEntityAccessible('Project', $this->projectId);
+            if (!$isAccessible) {
+                $this->forward(sfConfig::get('sf_secure_module'), sfConfig::get('sf_secure_action'));
+            }
+        }
 
         $values = array('projectId' => $this->projectId, 'projectPermissions' => $this->projectPermissions);
         $this->setForm(new ProjectForm(array(), $values));
