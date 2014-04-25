@@ -22,7 +22,7 @@ class JobTitleDao extends BaseDao {
     public function getJobTitleList($sortField='jobTitleName', $sortOrder='ASC', $activeOnly = true, $limit = null, $offset = null) {
 
         $sortField = ($sortField == "") ? 'jobTitleName' : $sortField;
-        $sortOrder = ($sortOrder == "") ? 'ASC' : $sortOrder;
+        $sortOrder = strcasecmp($sortOrder, 'DESC') === 0 ? 'DESC' : 'ASC';
 
         try {
             $q = Doctrine_Query :: create()

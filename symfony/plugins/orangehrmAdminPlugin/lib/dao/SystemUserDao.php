@@ -203,7 +203,7 @@ class SystemUserDao extends BaseDao {
             
             // Set defaults to sort order and limits           
             $sortField = empty($searchClues['sortField']) ? 'user_name' : $searchClues['sortField'];
-            $sortOrder = empty($searchClues['sortOrder']) ? 'ASC' : $searchClues['sortOrder'];
+            $sortOrder = strcasecmp($searchClues['sortOrder'], 'DESC') === 0 ? 'DESC' : 'ASC';
             $offset = empty($searchClues['offset']) ? 0 : $searchClues['offset'];
             $limit = empty($searchClues['limit']) ? 0 : $searchClues['limit'];
 

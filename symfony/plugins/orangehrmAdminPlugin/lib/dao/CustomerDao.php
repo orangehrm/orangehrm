@@ -31,7 +31,7 @@ class CustomerDao extends BaseDao {
     public function getCustomerList($limit = 50, $offset = 0, $sortField = 'name', $sortOrder = 'ASC', $activeOnly = true) {
 
         $sortField = ($sortField == "") ? 'name' : $sortField;
-        $sortOrder = ($sortOrder == "") ? 'ASC' : $sortOrder;
+        $sortOrder = strcasecmp($sortOrder, 'DESC') === 0 ? 'DESC' : 'ASC';
 
         try {
             $q = Doctrine_Query :: create()

@@ -72,7 +72,7 @@ class LocationDao extends BaseDao {
                 }
                 
 		$sortField = $this->_getSortField($srchClues['sortField']);
-		$sortOrder = ($srchClues['sortOrder'] == "") ? 'ASC' : $srchClues['sortOrder'];
+                $sortOrder = strcasecmp($srchClues['sortOrder'], 'DESC') === 0 ? 'DESC' : 'ASC';
 		$offset = ($srchClues['offset'] == "") ? 0 : $srchClues['offset'];
 		$limit = ($srchClues['limit'] == "") ? 50 : $srchClues['limit'];
 
