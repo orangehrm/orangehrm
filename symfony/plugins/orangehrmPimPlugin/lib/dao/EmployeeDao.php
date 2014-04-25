@@ -874,6 +874,7 @@ class EmployeeDao extends BaseDao {
     public function getEmployeeList($orderField = 'lastName', $orderBy = 'ASC', $includeTerminatedEmployees = false) {
         try {
             $q = Doctrine_Query :: create()->from('Employee');
+            $orderBy = strcasecmp($orderBy, 'DESC') === 0 ? 'DESC' : 'ASC';
             $q->orderBy($orderField . ' ' . $orderBy);
 
             if (!$includeTerminatedEmployees) {
@@ -943,6 +944,7 @@ class EmployeeDao extends BaseDao {
                 }
                 
                 if ($orderField && $orderBy) {
+                    $orderBy = strcasecmp($orderBy, 'DESC') === 0 ? 'DESC' : 'ASC';
                     $q->orderBy($orderField . ' ' . $orderBy);
                 }
 
@@ -973,9 +975,7 @@ class EmployeeDao extends BaseDao {
                 $orderField = 'lastName';
             }
             
-            if ($orderBy != 'ASC' || $orderBy != 'DESC') {
-                $orderBy = 'ASC';
-            }
+            $orderBy = strcasecmp($orderBy, 'DESC') === 0 ? 'DESC' : 'ASC';
             
             $q = Doctrine_Query :: create()
                             ->from('Employee e')
@@ -1209,6 +1209,7 @@ class EmployeeDao extends BaseDao {
             }
             
             if($orderField && $orderBy) {
+                $orderBy = strcasecmp($orderBy, 'DESC') === 0 ? 'DESC' : 'ASC';
                 $q->orderBy('e.'.$orderField . ' ' . $orderBy);
             }
               

@@ -38,6 +38,8 @@ class CustomFieldConfigurationDao extends BaseDao {
                 $q->where('screen = ?', $screen);
             }
 
+            // Only allow DESC or ASC for security
+            $orderBy = strcasecmp($orderBy, 'DESC') === 0 ? 'DESC' : 'ASC';
             $q->orderBy($orderField . ' ' . $orderBy);
 
             return $q->execute();
