@@ -34,6 +34,7 @@ class UserService extends BaseService {
     {
     	try
         {
+                $orderBy = strcasecmp($orderBy, 'DESC') === 0 ? 'DESC' : 'ASC';
 	    	$q = Doctrine_Query::create()
 			    ->from('UserGroup')
 			    ->orderBy($orderField.' '.$orderBy);
@@ -107,7 +108,7 @@ class UserService extends BaseService {
 	    	$searchValue	=	trim($searchValue);
         	$q 				= 	Doctrine_Query::create( )
 				   				 ->from('UserGroup') 
-				    			 ->where("$searchMode = '$searchValue'");
+				    			 ->where("$searchMode = ?", $searchValue);
 				    
 			$userGroupList = $q->execute();
 			
@@ -145,7 +146,7 @@ class UserService extends BaseService {
     {
     	try
         {
-	    	
+	    	$orderBy = strcasecmp($orderBy, 'DESC') === 0 ? 'DESC' : 'ASC';
         	$q = Doctrine_Query::create()
 			    ->from('Users u')
 			    ->where('u.is_admin=?',$isAdmin)
@@ -236,7 +237,7 @@ class UserService extends BaseService {
 	    	$searchValue	=	trim($searchValue);
         	$q 				= 	Doctrine_Query::create( )
 				   				 ->from('Users u') 
-				    			 ->where("$searchMode = '$searchValue' AND u.is_admin=?",$isAdmin);
+				    			 ->where("$searchMode = ? AND u.is_admin = ?", array($searchValue, $isAdmin));
 				    
 			
 			$userList = $q->execute();
@@ -308,7 +309,7 @@ class UserService extends BaseService {
         {
 	    	$q = Doctrine_Query::create()
 			    ->from('ModuleRights')
-			    ->where("userg_id='".$userGrop->getUsergId()."'");
+			    ->where("userg_id = ?", $userGrop->getUsergId());
 			
 			$rightList = $q->execute();
 			  
@@ -346,7 +347,7 @@ class UserService extends BaseService {
         {
         	$q = Doctrine_Query::create()
 				    ->delete('ModuleRights')
-				    ->where("userg_id='".$userGrop->getUsergId()."'");
+				    ->where("userg_id = ?", $userGrop->getUsergId());
 
 				   
 			$numDeleted = $q->execute();
