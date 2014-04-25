@@ -33,24 +33,27 @@ class deleteProjectAction extends baseAdminAction {
         $projectPermissions = $this->getDataGroupPermissions('time_projects');
 
         if ($projectPermissions->canDelete()) {
-
-            if (!empty($toBeDeletedProjectIds)) {
-                $delete = true;
-                foreach ($toBeDeletedProjectIds as $toBeDeletedProjectId) {
-                    $deletable = $this->getProjectService()->hasProjectGotTimesheetItems($toBeDeletedProjectId);
-                    if ($deletable) {
-                        $delete = false;
-                        break;
-                    }
-                }
-                if ($delete) {
+            $form = new DefaultListForm();
+            $form->bind($request->getParameter($form->getName()));
+            if ($form->isValid()) {
+                if (!empty($toBeDeletedProjectIds)) {
+                    $delete = true;
                     foreach ($toBeDeletedProjectIds as $toBeDeletedProjectId) {
-
-                        $customer = $this->getProjectService()->deleteProject($toBeDeletedProjectId);
+                        $deletable = $this->getProjectService()->hasProjectGotTimesheetItems($toBeDeletedProjectId);
+                        if ($deletable) {
+                            $delete = false;
+                            break;
+                        }
                     }
-                    $this->getUser()->setFlash('success', __(TopLevelMessages::DELETE_SUCCESS));
-                } else {
-                    $this->getUser()->setFlash('error', __('Not Allowed to Delete Project(s) Which Have Time Logged Against Them'));
+                    if ($delete) {
+                        foreach ($toBeDeletedProjectIds as $toBeDeletedProjectId) {
+
+                            $customer = $this->getProjectService()->deleteProject($toBeDeletedProjectId);
+                        }
+                        $this->getUser()->setFlash('success', __(TopLevelMessages::DELETE_SUCCESS));
+                    } else {
+                        $this->getUser()->setFlash('error', __('Not Allowed to Delete Project(s) Which Have Time Logged Against Them'));
+                    }
                 }
             }
 
