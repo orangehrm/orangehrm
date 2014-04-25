@@ -35,15 +35,15 @@
                 <ol>
                     <li>
                         <label class="firstLabel"><?php echo __('Candidate Name'); ?></label>
-                        <label class="secondLabel"><?php echo $form->candidateName; ?></label>
+                        <label class="secondLabel"><?php echo htmlspecialchars($form->candidateName); ?></label>
                     </li>
                     <li>
                         <label class="firstLabel"><?php echo __('Vacancy'); ?></label>
-                        <label class="secondLabel"><?php echo $form->vacancyName; ?></label>
+                        <label class="secondLabel"><?php echo htmlspecialchars($form->vacancyName); ?></label>
                     </li>
                     <li>
                         <label class="firstLabel"><?php echo __('Hiring Manager'); ?></label>
-                        <label class="secondLabel"><?php echo $form->hiringManagerName; ?></label>
+                        <label class="secondLabel"><?php echo htmlspecialchars($form->hiringManagerName); ?></label>
                     </li>
                     <li>
                         <label class="firstLabel"><?php echo __('Current Status'); ?></label>
@@ -56,7 +56,7 @@
                         </li>
                         <li>
                             <label class="firstLabel"><?php echo __('Performed By'); ?></label>
-                            <label class="secondLabel"><?php echo __($form->performedBy); ?></label>
+                            <label class="secondLabel"><?php echo htmlspecialchars($form->performedBy); ?></label>
                         </li>
                         <li>
                             <label class="firstLabel"><?php echo __('Performed Date'); ?></label>

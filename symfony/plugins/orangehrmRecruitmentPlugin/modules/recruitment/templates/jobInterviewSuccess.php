@@ -39,11 +39,11 @@ use_javascript(plugin_web_path('orangehrmRecruitmentPlugin', 'js/jobInterviewSuc
                 <ol>
                     <li>
                         <label class="firstLabel"><?php echo __('Candidate Name'); ?></label>
-                        <label class="secondLabel line"><?php echo $form->candidateName; ?></label>
+                        <label class="secondLabel line"><?php echo htmlspecialchars($form->candidateName); ?></label>
                     </li>
                     <li>
                         <label class="firstLabel"><?php echo __('Vacancy Name'); ?></label>
-                        <label class="secondLabel line"><?php echo $form->vacancyName; ?></label>
+                        <label class="secondLabel line"><?php echo htmlspecialchars($form->vacancyName); ?></label>
                     </li>
                     <li>
                         <label class="firstLabel"><?php echo __('Current Status'); ?></label>
