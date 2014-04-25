@@ -112,6 +112,7 @@ class editTimesheetAction extends baseTimeAction {
             $this->totalRows = sizeOf($this->timesheetItemValuesArray);
             $this->timesheetForm = new TimesheetForm(array(), $values);
         }
+        $this->formToImplementCsrfToken = new TimesheetFormToImplementCsrfTokens();
 
         if ($request->isMethod('post')) {
 

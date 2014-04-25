@@ -111,7 +111,7 @@ $(document).ready(function() {
         if ($("#frmCommentSave").valid()) {
             var comment = $("#timeComment").val();
             if (comment != '') {
-                var timesheetItemId = saveComment(timesheetId, activityId, date, comment, employeeId);
+                var timesheetItemId = saveComment(timesheetId, activityId, date, comment, employeeId, $("input#time__csrf_token").val());
                 if (hiddenCommentInput != '') {                    
                     $("#"+hiddenCommentInput).val(timesheetItemId); 
                 }
@@ -340,8 +340,8 @@ $(document).ready(function() {
         }
     });
 
-    function saveComment(timesheetId,activityId,date,comment,employeeId) {
-        var data = 'timesheetId=' + timesheetId + '&activityId=' + activityId + '&date=' + date+ '&comment=' + encodeURIComponent(comment)+ '&employeeId=' + employeeId;
+    function saveComment(timesheetId,activityId,date,comment,employeeId,csrfToken) {
+        var data = 'timesheetId=' + timesheetId + '&activityId=' + activityId + '&date=' + date+ '&comment=' + encodeURIComponent(comment)+ '&employeeId=' + employeeId + '&csrfToken=' + csrfToken;
         var r=$.ajax({
             type: 'POST',
             url: commentlink,
