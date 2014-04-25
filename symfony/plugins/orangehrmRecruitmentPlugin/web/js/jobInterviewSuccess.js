@@ -4,7 +4,7 @@ $(document).ready(function() {
     //Auto complete
     $(".formInputInterviewer").autocomplete(employees, {
         formatItem: function(item) {
-            return item.name;
+            return $('<div/>').text(item.name).html();
         },
         matchContains:true
     }).result(function(event, item) {

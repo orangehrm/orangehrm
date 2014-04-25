@@ -267,10 +267,12 @@ function getHiringManagerListJson(url, para){
         var optionHtml = '<option value="">'+lang_all+'</option>';
 
         for (var i = 0; i < numOptions; i++) {
-            if(data[i].id == para){
-                optionHtml += '<option selected="selected" value="' + data[i].id + '">' + data[i].name + '</option>';
-            }else{
-                optionHtml += '<option value="' + data[i].id + '">' + data[i].name + '</option>';
+            // escape name
+            var name = $('<div/>').text(data[i].name).html();
+            if (data[i].id == para) {
+                optionHtml += '<option selected="selected" value="' + data[i].id + '">' + name + '</option>';
+            } else {
+                optionHtml += '<option value="' + data[i].id + '">' + name + '</option>';
             }
         }
 
@@ -290,12 +292,12 @@ function getVacancyListJson(vcUrl, para){
         var optionHtml = '<option value="">'+lang_all+'</option>';
 
         for (var i = 0; i < numOptions; i++) {
-
-            if(data[i].id == para){
-                optionHtml += '<option selected="selected" value="' + data[i].id + '">' + data[i].name + '</option>';
-            }
-            else{
-                optionHtml += '<option value="' + data[i].id + '">' + data[i].name + '</option>';
+            // escape name
+            var name = $('<div/>').text(data[i].name).html();
+            if (data[i].id == para) {
+                optionHtml += '<option selected="selected" value="' + data[i].id + '">' + name + '</option>';
+            } else {
+                optionHtml += '<option value="' + data[i].id + '">' + name + '</option>';
             }
         }
 
