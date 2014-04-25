@@ -173,7 +173,7 @@ EOF
         $hiddenName = $name . '[empId]';
         $hiddenId   = $this->getHiddenFieldId($name);
         
-        return "<input type=\"hidden\" name=\"$hiddenName\" id=\"$hiddenId\" value=\"$value\" />";
+        return "<input type='hidden' name='$hiddenName' id='$hiddenId' value='" . self::escapeOnce($value) . "' />";
         
     }
     
