@@ -133,6 +133,7 @@ use_javascript(plugin_web_path('orangehrmAdminPlugin', 'js/saveProjectSuccess'))
     </div>
     <div class="modal-body">
         <form name="frmAddCustomer" id="frmAddCustomer" method="post" action="" >
+            <?php echo $formToImplementCsrfToken['_csrf_token']; ?>
             <fieldset>
                 <ol>
                     <li>

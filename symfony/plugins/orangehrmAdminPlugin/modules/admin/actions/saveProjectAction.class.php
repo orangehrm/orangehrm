@@ -74,6 +74,7 @@ class saveProjectAction extends baseAdminAction {
 
         $valuesForCustomer = array('customerPermissions' => $this->customerPermissions);
         $this->customerForm = new CustomerForm(array(), $valuesForCustomer);
+        $this->formToImplementCsrfToken = new TimesheetFormToImplementCsrfTokens();
 
         if ($this->custId > 0) {
             $customer = $this->getCustomerService()->getCustomerById($this->custId);

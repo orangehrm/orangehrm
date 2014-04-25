@@ -22,6 +22,12 @@ class saveCustomerJsonAction extends sfAction {
 		$this->setLayout(false);
 		sfConfig::set('sf_web_debug', false);
 		sfConfig::set('sf_debug', false);
+                
+                $csrfToken = $request->getParameter('csrfToken');
+                $form = new TimesheetFormToImplementCsrfTokens();
+                if ($form->getCSRFToken() != $csrfToken) {
+                    return sfView::NONE;
+                }
 
 		if ($this->getRequest()->isXmlHttpRequest()) {
 			$this->getResponse()->setHttpHeader('Content-Type', 'application/json; charset=utf-8');

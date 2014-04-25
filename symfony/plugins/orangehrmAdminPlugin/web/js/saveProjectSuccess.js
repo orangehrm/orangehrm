@@ -196,7 +196,7 @@ $(document).ready(function() {
             if($("#frmAddCustomer").valid()){
                 var customerName = escape($.trim($('#addCustomer_customerName').val()));
                 var customerDescription = escape($('#addCustomer_description').val());
-                saveCustomer(custUrl+'?customerName=' + customerName +'&description=' + customerDescription); 
+                saveCustomer(custUrl+'?customerName=' + customerName +'&description=' + customerDescription + '&csrfToken=' + $("input#time__csrf_token").val()); 
             }   
         }
     });
