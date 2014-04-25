@@ -30,12 +30,14 @@ class deleteSubscribersAction extends sfAction {
     }
 
     public function execute($request) {
-
-        $toBeDeletedIds = $request->getParameter('chkSelectRow');
-
-        $notificationId = $this->getUser()->getAttribute('notificationId');
-        $this->getEmailNotificationService()->deleteSubscribers($toBeDeletedIds);
-        $this->getUser()->setFlash('success', __(TopLevelMessages::DELETE_SUCCESS));
+        $form = new DefaultListForm();
+        $form->bind($request->getParameter($form->getName()));
+        if ($form->isValid()) {
+            $toBeDeletedIds = $request->getParameter('chkSelectRow');
+            $notificationId = $this->getUser()->getAttribute('notificationId');
+            $this->getEmailNotificationService()->deleteSubscribers($toBeDeletedIds);
+            $this->getUser()->setFlash('success', __(TopLevelMessages::DELETE_SUCCESS));
+        }       
         $this->redirect('admin/saveSubscriber?notificationId='.$notificationId);
     }
 
