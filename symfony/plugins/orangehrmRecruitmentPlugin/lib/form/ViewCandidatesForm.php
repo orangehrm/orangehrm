@@ -116,14 +116,14 @@ class viewCandidatesForm extends BaseForm {
 
         //Setting validators
         $this->setValidators(array(
-            'jobTitle' => new sfValidatorString(array('required' => false)),
-            'jobVacancy' => new sfValidatorString(array('required' => false)),
-            'hiringManager' => new sfValidatorString(array('required' => false)),
-            'status' => new sfValidatorString(array('required' => false)),
+            'jobTitle' => new sfValidatorChoice(array('required' => false, 'choices' => array_keys($jobTitleList))),
+            'jobVacancy' => new sfValidatorChoice(array('required' => false, 'choices' => array_keys($jobVacancyList))),
+            'hiringManager' => new sfValidatorChoice(array('required' => false, 'choices' => array_keys($hiringManagerList))),
+            'status' => new sfValidatorChoice(array('required' => false, 'choices' => array_keys($statusList))),
             'candidateName' => new sfValidatorString(array('required' => false)),
             'selectedCandidate' => new sfValidatorNumber(array('required' => false, 'min' => 0)),
             'keywords' => new sfValidatorString(array('required' => false)),
-            'modeOfApplication' => new sfValidatorString(array('required' => false)),
+            'modeOfApplication' => new sfValidatorChoice(array('required' => false, 'choices' => array_keys($modeOfApplication))),
             'dateApplication' => new sfValidatorDateRange(array(  
                 'from_date' => new ohrmDateValidator(array('date_format' => $inputDatePattern, 'required' => false)),  
                 'to_date' => new ohrmDateValidator(array('date_format' => $inputDatePattern, 'required' => false)),

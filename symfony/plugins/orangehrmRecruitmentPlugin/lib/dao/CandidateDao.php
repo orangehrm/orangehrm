@@ -460,17 +460,27 @@ class CandidateDao extends BaseDao {
     public function buildSearchQuery(CandidateSearchParameters $paramObject, $countQuery = false) {
 
         try {
+            $pdo = Doctrine_Manager::connection()->getDbh();
+            
             $query = ($countQuery) ? "SELECT COUNT(*)" : "SELECT jc.id, jc.first_name, jc.middle_name, jc.last_name, jc.date_of_application, jcv.status, jv.name, e.emp_firstname, e.emp_middle_name, e.emp_lastname, e.termination_id, jv.status as vacancyStatus, jv.id as vacancyId, ca.id as attachmentId, jc.status as candidateStatus";
             $query .= "  FROM ohrm_job_candidate jc";
             $query .= " LEFT JOIN ohrm_job_candidate_vacancy jcv ON jc.id = jcv.candidate_id";
             $query .= " LEFT JOIN ohrm_job_vacancy jv ON jcv.vacancy_id = jv.id";
             $query .= " LEFT JOIN hs_hr_employee e ON jv.hiring_manager_id = e.emp_number";
             $query .= " LEFT JOIN ohrm_job_candidate_attachment ca ON jc.id = ca.candidate_id";
-            $query .= ' WHERE jc.date_of_application  BETWEEN ' . "'{$paramObject->getFromDate()}'" . ' AND ' . "'{$paramObject->getToDate()}'";
+            $query .= ' WHERE jc.date_of_application BETWEEN ' .
+                    $pdo->quote($paramObject->getFromDate(), PDO::PARAM_STR) . ' AND ' .
+                    $pdo->quote($paramObject->getToDate(), PDO::PARAM_STR);
 
             $candidateStatuses = $paramObject->getCandidateStatus();
             if (!empty($candidateStatuses)) {
-                $query .= " AND jc.status IN (" . implode(",", $candidateStatuses) . ")";
+                $query .= " AND jc.status IN (";
+                $comma = '';
+                foreach ($candidateStatuses as $candidateStatus) {
+                    $query .= $comma . $pdo->quote($candidateStatus, PDO::PARAM_INT);
+                    $comma = ',';
+                }
+                $query .= ")";
             }
 
             $query .= $this->_buildKeywordsQueryClause($paramObject->getKeywords());
@@ -493,11 +503,10 @@ class CandidateDao extends BaseDao {
     private function _buildKeywordsQueryClause($keywords) {
         $keywordsQueryClause = '';
         if (!empty($keywords)) {
-            $keywords = str_replace("'", "\'", $keywords);
+            $dbh = Doctrine_Manager::connection()->getDbh();
             $words = explode(',', $keywords);
-            $length = count($words);
-            for ($i = 0; $i < $length; $i++) {
-                $keywordsQueryClause .= ' AND jc.keywords LIKE ' . "'" . '%' . trim($words[$i]) . '%' . "'";
+            foreach ($words as $word) {
+                $keywordsQueryClause .= ' AND jc.keywords LIKE ' . $dbh->quote('%' . trim($word) . '%');
             }
         }
 
@@ -512,7 +521,7 @@ class CandidateDao extends BaseDao {
      */
     private function _buildSortQueryClause($sortField, $sortOrder) {
         $sortQuery = '';
-
+        $sortOrder = strcasecmp($sortOrder, 'DESC') === 0 ? 'DESC' : 'ASC';
         if ($sortField == 'jc.first_name') {
             $sortQuery = 'jc.last_name ' . $sortOrder . ', ' . 'jc.first_name ' . $sortOrder;
         } elseif ($sortField == 'e.emp_firstname') {
@@ -584,7 +593,8 @@ class CandidateDao extends BaseDao {
     private function _addAdditionalWhereClause(&$where, $field, $value, $operator = '=') {
         if (!empty($value)) {
             if ($operator === '=') {
-                $value = "'{$value}'";
+                $dbh = Doctrine_Manager::connection()->getDbh();
+                $value = $dbh->quote($value);
             }
             $where[] = "{$field}  {$operator} {$value}";
         }
@@ -610,7 +620,9 @@ class CandidateDao extends BaseDao {
 
             // Replace multiple spaces in string with single space
             $candidateName = preg_replace('!\s+!', ' ', $candidateName);
-            $candidateName = "'%" . $candidateName . "%'";
+            $candidateName = "%" . $candidateName . "%";
+            $dbh = Doctrine_Manager::connection()->getDbh();
+            $candidateName = $dbh->quote($candidateName);
 
             $this->_addAdditionalWhereClause($where, $candidateFullNameClause, $candidateName, 'LIKE');
         }
