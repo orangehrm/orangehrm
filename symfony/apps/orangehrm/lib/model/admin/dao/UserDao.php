@@ -14,6 +14,7 @@ class UserDao extends BaseDao {
     */
    public function getUserGroupList($orderField = 'userg_id', $orderBy = 'ASC') {
       try {
+          $orderBy = strcasecmp($orderBy, 'DESC') === 0 ? 'DESC' : 'ASC';
          $q = Doctrine_Query::create()
              ->from('UserGroup')
              ->orderBy($orderField.' '.$orderBy);
@@ -124,6 +125,7 @@ class UserDao extends BaseDao {
     */
    public function getUsersList($isAdmin='Yes', $orderField='id', $orderBy='ASC') {
       try {
+          $orderBy = strcasecmp($orderBy, 'DESC') === 0 ? 'DESC' : 'ASC';
          $q = Doctrine_Query::create()
              ->from('Users u')
              ->where('u.is_admin = ?', $isAdmin)

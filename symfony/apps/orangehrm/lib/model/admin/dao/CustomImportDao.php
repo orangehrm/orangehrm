@@ -14,7 +14,8 @@ class CustomImportDao extends BaseDao {
     */
    public function getCustomImportList($orderField = 'import_id', $orderBy = 'ASC') {
       try {
-         $q = Doctrine_Query::create()
+            $orderBy = strcasecmp($orderBy, 'DESC') === 0 ? 'DESC' : 'ASC';
+            $q = Doctrine_Query::create()
 			    ->from('CustomImport ci')
 			    ->orderBy($orderField . ' ' . $orderBy);
 

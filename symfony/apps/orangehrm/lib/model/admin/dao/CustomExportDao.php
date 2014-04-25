@@ -14,8 +14,8 @@ class CustomExportDao extends BaseDao {
     */
    public function getCustomExportList($orderField = 'export_id', $orderBy = 'ASC') {
       try{
-
-         $q = Doctrine_Query::create()
+            $orderBy = strcasecmp($orderBy, 'DESC') === 0 ? 'DESC' : 'ASC';
+            $q = Doctrine_Query::create()
 			    ->from('CustomExport ce')
 			    ->orderBy($orderField . ' ' . $orderBy);
 
