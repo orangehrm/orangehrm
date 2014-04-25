@@ -178,7 +178,7 @@ class KpiDao extends BaseDao {
 	    	
         	$q = Doctrine_Query::create ()
 			->delete ( 'DefineKpi' )
-			->where ( "jobtitlecode='$toJobTitleCode'"  );
+			->where ( "jobtitlecode = ?", $toJobTitleCode );
 			$numDeleted = $q->execute ();
 			
 			return true;
@@ -199,7 +199,7 @@ class KpiDao extends BaseDao {
 	    	
         	$q = Doctrine_Query::create( )
 				    ->from('DefineKpi kpi') 
-				    ->where("kpi.job_title_code='".$jobTitleId."' AND kpi.is_active = '1'" );
+				    ->where("kpi.job_title_code = ? AND kpi.is_active = '1'", $jobTitleId );
 				    
 			$kpiList = $q->execute();
 			
