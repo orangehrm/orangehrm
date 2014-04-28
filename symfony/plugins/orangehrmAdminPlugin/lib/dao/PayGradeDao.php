@@ -40,7 +40,7 @@ class PayGradeDao extends BaseDao {
 	public function getPayGradeList($sortField='name', $sortOrder='ASC') {
 
 		$sortField = ($sortField == "") ? 'name' : $sortField;
-		$sortOrder = ($sortOrder == "") ? 'ASC' : $sortOrder;
+		$sortOrder = ($sortOrder == "DESC") ? 'DESC' : 'ASC';
 
 		try {
 			$q = Doctrine_Query :: create()

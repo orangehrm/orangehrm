@@ -98,14 +98,14 @@ class ProjectDao extends BaseDao {
             
             if (!empty($projectIdList)) {
                 
-                $projectIdString = implode(',', $projectIdList);
+                $escapeString = implode(',', array_fill(0, count($projectIdList), '?'));
                 $q = "SELECT p.customer_id 
                			FROM ohrm_project AS p
-                		WHERE p.project_id IN ({$projectIdString})";
+                		WHERE p.project_id IN ({$escapeString})";
                 
                 $pdo = Doctrine_Manager::connection()->getDbh();
                 $query = $pdo->prepare($q); 
-                $query->execute();
+                $query->execute($projectIdList);
                 $results = $query->fetchAll(PDO::FETCH_COLUMN, 0);
                 
             }
@@ -133,11 +133,11 @@ class ProjectDao extends BaseDao {
             
             if (!empty($projectIdList)) {
                 
-                $projectIdString = implode(',', $projectIdList);
+                $escapeString = implode(',', array_fill(0, count($projectIdList), '?'));
                 
                 $q = "SELECT p.project_id AS projectId, p.name
                 			FROM ohrm_project AS p
-                			WHERE p.project_id IN ({$projectIdString})";
+                			WHERE p.project_id IN ({$escapeString})";
             
                 
                 if ($excludeDeletedProjects) {
@@ -146,7 +146,7 @@ class ProjectDao extends BaseDao {
 
                 $pdo = Doctrine_Manager::connection()->getDbh();
                 $query = $pdo->prepare($q); 
-                $query->execute();
+                $query->execute($projectIdList);
                 $results = $query->fetchAll(PDO::FETCH_ASSOC);
             }
             
@@ -204,6 +204,7 @@ class ProjectDao extends BaseDao {
 	 */
 	public function getActiveProjectList($orderField='project_id', $orderBy='ASC') {
 		try {
+                        $orderBy = (strcasecmp($orderBy, 'DESC') == 0) ? 'DESC' : 'ASC';
 			$q = Doctrine_Query::create()
 				->from('Project')
 				->where('is_deleted = ?', Project::ACTIVE_PROJECT)
@@ -259,6 +260,7 @@ class ProjectDao extends BaseDao {
 			if ($activeOnly == true) {
 				$q->addWhere('is_deleted = ?', Project::ACTIVE_PROJECT);
 			}
+                        $orderBy = (strcasecmp($orderBy, 'DESC') == 0) ? 'DESC' : 'ASC';
 			$q->andWhereIn('project_id', $projectIdArray)
 				->orderBy($orderField . ' ' . $orderBy);
 

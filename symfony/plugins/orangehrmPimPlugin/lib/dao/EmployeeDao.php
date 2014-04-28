@@ -1202,7 +1202,7 @@ class EmployeeDao extends BaseDao {
             $q->from('ReportTo rt')
               ->leftJoin('rt.subordinate e')
               ->leftJoin('e.ReportTo rt2 ON rt.erep_sub_emp_number = rt2.erep_sup_emp_number')
-              ->where("rt.supervisorId=$supervisorId");
+              ->where("rt.supervisorId = ?", $supervisorId);
             
             if ($includeTerminated == false) {
                 $q->addWhere("e.termination_id IS NULL");
