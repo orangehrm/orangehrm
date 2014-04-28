@@ -64,7 +64,7 @@ class WorkWeekDao extends BaseDao {
         try {
             $q = Doctrine_Query::create()
                     ->delete('WorkWeek')
-                    ->where('id', $id);
+                    ->where('id = ?', $id);
             
             $affectedRecords = $q->execute();
 

@@ -101,6 +101,7 @@ class LeaveEntitlementDao extends BaseDao {
             $hydrationMode = $searchParameters->getHydrationMode();
             $orderField = $searchParameters->getOrderField();
             $order = $searchParameters->getOrderBy();
+            $order = (strcasecmp($order, 'DESC') == 0) ? 'DESC' : 'ASC';
             $entitlementTypes = $searchParameters->getEntitlementTypes();
 
             $params = array();
@@ -487,6 +488,7 @@ class LeaveEntitlementDao extends BaseDao {
                     '(:toDate BETWEEN le.from_date AND le.to_date) OR ' .
                     '(le.from_date BETWEEN :fromDate AND :toDate)');
 
+            $order = (strcasecmp($order, 'DESC') == 0) ? 'DESC' : 'ASC';
             $orderClause = $orderField . ' ' . $order;
             $orderClause = trim($orderClause);
 
@@ -770,6 +772,7 @@ class LeaveEntitlementDao extends BaseDao {
      */
     public function getLeaveEntitlementTypeList($orderField = 'name', $orderBy = 'ASC') {
         try {
+            $orderBy = (strcasecmp($orderBy, 'DESC') == 0) ? 'DESC' : 'ASC';
             $q = Doctrine_Query::create()->from('LeaveEntitlementType let')
                     ->addOrderBy($orderField . ' ' . $orderBy);
             $results = $q->execute();

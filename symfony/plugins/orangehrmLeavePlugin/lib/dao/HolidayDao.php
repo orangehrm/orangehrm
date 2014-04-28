@@ -135,7 +135,7 @@ class HolidayDao extends BaseDao {
             $q = Doctrine_Query::create()
                     ->select('*')
                     ->from('Holiday h')
-                    ->where("h.recurring = 1 OR h.date BETWEEN '" . date("Y-m-d", $startDateTimeStamp) . "' AND '" . date("Y-m-d", $endDateTimeStamp) . "'")
+                    ->where("h.recurring = 1 OR h.date BETWEEN ? AND ?", array(date("Y-m-d", $startDateTimeStamp), date("Y-m-d", $endDateTimeStamp)))
                     ->orderBy('h.date ASC');
 
             $holidayList = $q->execute();

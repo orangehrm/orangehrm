@@ -356,44 +356,61 @@ class LeaveRequestDao extends BaseDao {
                     $endDayEndTime = '23:59:00';
                 }
                 
-                $or [] = "('" . $leaveStartDate . " " . $startDayStartTime . "'<= CONCAT(`date`,' ',start_time) AND CONCAT(`date`,' ',end_time) <='" . $leaveEndDate . " " . $startDayEndTime . "')";
-                $or [] = "(CONCAT(`date`,' ',start_time) <='" . $leaveStartDate . " " . $startDayStartTime . "' AND '" . $leaveEndDate . " " . $startDayEndTime . "' <= CONCAT(`date`,' ',end_time))";
-                $or [] = "('" . $leaveStartDate . " " . $startDayStartTime . "'< CONCAT(`date`,' ',start_time) AND CONCAT(`date`,' ',start_time) <'" . $leaveEndDate . " " . $startDayEndTime . "')";
-                $or [] = "('" . $leaveStartDate . " " . $startDayStartTime . "'< CONCAT(`date`,' ',end_time) AND CONCAT(`date`,' ',end_time) <'" . $leaveEndDate . " " . $startDayEndTime . "')";
-                $or [] = "('" . $leaveStartDate . " " . $startDayStartTime . "'= CONCAT(`date`,' ',end_time) AND CONCAT(`date`,' ',end_time) ='" . $leaveEndDate . " " . $startDayEndTime . "')";
-                $or [] = "((`date` ='" . $leaveEndDate . "') AND ((start_time = '00:00:00' AND end_time='00:00:00') OR (start_time IS NULL AND end_time IS NULL)))";
+                $startDateAndTime = $leaveStartDate . " " . $startDayStartTime;
+                $endDateAndTime = $leaveEndDate . " " . $startDayEndTime;
+                
+                $orParams = array();
+                $or [] = "(? <= CONCAT(`date`,' ',start_time) AND CONCAT(`date`,' ',end_time) <= ?)";
+                $orParams[] = $startDateAndTime;
+                $orParams[] = $endDateAndTime;
+                $or [] = "(CONCAT(`date`,' ',start_time) <= ? AND ? <= CONCAT(`date`,' ',end_time))";
+                $orParams[] = $startDateAndTime;
+                $orParams[] = $endDateAndTime;
+                $or [] = "(? < CONCAT(`date`,' ',start_time) AND CONCAT(`date`,' ',start_time) < ?)";
+                $orParams[] = $startDateAndTime;
+                $orParams[] = $endDateAndTime;
+                $or [] = "(? < CONCAT(`date`,' ',end_time) AND CONCAT(`date`,' ',end_time) < ?)";
+                $orParams[] = $startDateAndTime;
+                $orParams[] = $endDateAndTime;
+                $or [] = "(? = CONCAT(`date`,' ',end_time) AND CONCAT(`date`,' ',end_time) = ?)";
+                $orParams[] = $startDateAndTime;
+                $orParams[] = $endDateAndTime;
+                $or [] = "((`date` = ?) AND ((start_time = '00:00:00' AND end_time='00:00:00') OR (start_time IS NULL AND end_time IS NULL)))";
+                $orParams[] = $leaveEndDate;
 
                 $orString = implode(" OR ", $or);
                 $orString = "(" . $orString . ")";
-                $q->andWhere($orString);                
+                $q->andWhere($orString, $orParams);                
             } else {
                 
-                // first get all overlapping leave, disregarding time periods
-                $conditionString = "( `date` <='$leaveEndDate' AND `date` >= '$leaveStartDate')";                
-                $q->andWhere($conditionString);
+                // first get all overlapping leave, disregarding time periods          
+                $q->andWhere("( `date` <= ? AND `date` >= ?)", array($leaveEndDate, $leaveStartDate));
                                 
             
                 if ($allDaysPartial) {
                     // will overlap with full days or if time period overlaps
                     $q->andWhere("(start_time = '00:00:00' AND end_time='00:00:00') OR (start_time IS NULL AND end_time IS NULL) " . 
-                            "OR  (('$startDayStartTime' < end_time) AND ('$startDayEndTime' > start_time))");                 
+                            "OR  ((? < end_time) AND (? > start_time))",
+                            array($startDayStartTime, $startDayEndTime));                 
                     
                 } else { 
                     
                     // Start Day condition                    
                     if (!is_null($startDayStartTime) && !is_null($startDayEndTime)) {
-                        $q->andWhere("`date` <> '$leaveStartDate' " . 
-                                "OR  ('$startDayStartTime' < end_time AND '$startDayEndTime' > start_time) " .
+                        $q->andWhere("`date` <> ? " . 
+                                "OR  (? < end_time AND ? > start_time) " .
                                 "OR (start_time = '00:00:00' AND end_time='00:00:00') " .
-                                "OR (start_time IS NULL AND end_time IS NULL)");  
+                                "OR (start_time IS NULL AND end_time IS NULL)",
+                                array($leaveStartDate, $startDayStartTime, $startDayEndTime));  
                     }
                     
                     // End Day condition                    
                     if (!is_null($endDayStartTime) && !is_null($endDayEndTime)) {
-                        $q->andWhere("(`date` <> '$leaveEndDate') " . 
-                                "OR  (('$endDayStartTime' < end_time) AND ('$endDayEndTime' > start_time)) " .
+                        $q->andWhere("(`date` <> ?) " . 
+                                "OR  ((? < end_time) AND (? > start_time)) " .
                                 "OR (start_time = '00:00:00' AND end_time='00:00:00') " .
-                                "OR (start_time IS NULL AND end_time IS NULL)");   
+                                "OR (start_time IS NULL AND end_time IS NULL)",
+                                array($leaveEndDate, $endDayStartTime, $endDayEndTime));   
                     }
 
 
