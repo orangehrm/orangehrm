@@ -538,7 +538,8 @@ class TimesheetDao {
                 $q .= " WHERE p.is_deleted = 0";
             }
             
-            if ($orderField && $orderBy) {
+            if ($orderField) {
+                $orderBy = (strcasecmp($orderBy, 'DESC') == 0) ? 'DESC' : 'ASC';
                 $q .= " ORDER BY {$orderField} {$orderBy}";
             }
             
@@ -700,6 +701,7 @@ class TimesheetDao {
      */
     public function getProjectList($orderField='project_id', $orderBy='ASC', $deleted =0) {
         try {
+            $orderBy = (strcasecmp($orderBy, 'DESC') == 0) ? 'DESC' : 'ASC';
             $q = Doctrine_Query::create()
                     ->from('Project')
                     ->andWhere('is_deleted = ?', $deleted)
@@ -720,6 +722,7 @@ class TimesheetDao {
      */
     public function getProjectListForValidation($orderField='project_id', $orderBy='ASC') {
         try {
+            $orderBy = (strcasecmp($orderBy, 'DESC') == 0) ? 'DESC' : 'ASC';
             $q = Doctrine_Query::create()
                     ->from('Project')
                     ->orderBy($orderField . ' ' . $orderBy);
