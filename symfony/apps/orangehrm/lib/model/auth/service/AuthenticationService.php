@@ -78,6 +78,8 @@ class AuthenticationService extends BaseService {
                 throw new AuthenticationServiceException('Account disabled');
             }
 
+            session_regenerate_id(TRUE);
+            
             $this->setBasicUserAttributes($user);
             $this->setBasicUserAttributesToSession($user);
             $this->setRoleBasedUserAttributes($user);

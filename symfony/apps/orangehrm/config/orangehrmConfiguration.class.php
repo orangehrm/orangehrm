@@ -3,6 +3,10 @@
 class orangehrmConfiguration extends sfApplicationConfiguration
 {
   public function configure() {
+      // Cookie settings for increased security
+      ini_set('session.use_only_cookies', "1");
+      ini_set('session.cookie_httponly', "1");
+      
       ProjectConfiguration::getActive()->loadHelpers(array('I18N', 'OrangeDate', 'Orange', 'Url'));
       sfWidgetFormSchema::setDefaultFormFormatterName('Default');
   }

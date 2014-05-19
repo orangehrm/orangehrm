@@ -10,7 +10,13 @@ class CookieManager {
      * @param string $path 
      */
     public function setCookie($name, $value = null, $expire = null, $path = null) {
-        setcookie($name, $value, $expire, $path);
+        if (version_compare(PHP_VERSION, '5.2.0') >= 0) { 
+            // Specify httponly variable if using php >= 5.2.0
+            setcookie($name, $value, $expire, $path, '', false, true);
+        } else {
+            setcookie($name, $value, $expire, $path);
+        }
+                
     }
 
     /**
