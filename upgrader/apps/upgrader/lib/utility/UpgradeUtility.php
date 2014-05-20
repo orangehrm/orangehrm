@@ -102,7 +102,7 @@ class Conf {
         }
         \$this->dbuser    = '$dbOHRMUser';
         \$this->dbpass  = '$dbOHRMPassword';
-        \$this->version = '3.0.1';
+        \$this->version = '3.1.2';
 
         \$this->emailConfiguration = dirname(__FILE__).'/mailConf.php';
         \$this->errorLog =  realpath(dirname(__FILE__).'/../logs/').'/';
@@ -195,7 +195,7 @@ CONFCONT;
      */
     public function getEndIncrementNumber() {
         
-        return 58;
+        return 59;
         
     }
     
@@ -237,6 +237,7 @@ CONFCONT;
         $a['3.0']       = 56;
         $a['3.0.1']     = 57;
         $a['3.1']       = 58;
+        $a['3.1.1']       = 59;
         
         return $a;
         
@@ -247,7 +248,7 @@ CONFCONT;
      */
     public function getNewVersion() {
         
-        return '3.1.1';
+        return '3.1.2';
         
     }
     

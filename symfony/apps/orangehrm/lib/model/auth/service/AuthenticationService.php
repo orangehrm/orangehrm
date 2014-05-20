@@ -2,26 +2,26 @@
 
 class AuthenticationService extends BaseService {
 
-    private $authenticationDao;
+    private $systemUserService;
     private $cookieManager;
 
     /**
      *
-     * @param AuthenticationDao $dao 
+     * @param SystemUserService $dao 
      */
-    public function setAuthenticationDao($dao) {
-        $this->authenticationDao = $dao;
+    public function setSystemUserService($service) {
+        $this->systemUserService = $service;
     }
 
     /**
      *
-     * @return AuthenticationDao 
+     * @return SystemUserService 
      */
-    public function getAuthenticationDao() {
-        if (!isset($this->authenticationDao)) {
-            $this->authenticationDao = new AuthenticationDao();
+    public function getSystemUserService() {
+        if (!isset($this->systemUserService)) {
+            $this->systemUserService = new SystemUserService();
         }
-        return $this->authenticationDao;
+        return $this->systemUserService;
     }
 
     /**
@@ -50,7 +50,7 @@ class AuthenticationService extends BaseService {
      * @return bool 
      */
     public function hasValidCredentials($username, $password) {
-        $user = $this->getAuthenticationDao()->getCredentials($username, md5($password));
+        $user = $this->getSystemUserService()->getCredentials($username, $password);
         return (!(is_null($user) || !$user));
     }
 
@@ -63,7 +63,7 @@ class AuthenticationService extends BaseService {
      * @throws AuthenticationServiceException
      */
     public function setCredentials($username, $password, $additionalData) {
-        $user = $this->getAuthenticationDao()->getCredentials($username, md5($password));
+        $user = $this->getSystemUserService()->getCredentials($username, $password);
 
         if (is_null($user) || !$user) {
             return false;

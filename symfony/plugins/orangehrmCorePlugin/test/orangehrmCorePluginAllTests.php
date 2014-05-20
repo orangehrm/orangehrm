@@ -74,6 +74,9 @@ class orangehrmCorePluginAllTests {
         /* Extensions to Doctrine Models */
         $suite->addTestFile(dirname(__FILE__) . '/model/doctrine/PluginWorkflowStateMachineTest.php');        
 
+        /* Cache tests */
+        $suite->addTestFile(dirname(__FILE__) . '/cache/ohrmKeyValueCacheTest.php');
+        
         /* Authorization */
         $suite->addTestFile(dirname(__FILE__) . '/authorization/service/UserRoleManagerServiceTest.php');
         $suite->addTestFile(dirname(__FILE__) . '/authorization/manager/BasicUserRoleManagerTest.php');

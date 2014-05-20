@@ -77,4 +77,23 @@ class ConfigDao extends BaseDao {
         }
        
     }
+    
+    public function getAllValues() {
+        try {
+            $values = array();
+            
+            $q = Doctrine_Query::create()
+                 ->select('c.key as keyVal, c.value as Val')
+                 ->from('Config c');
+            $results = $q->execute(array(), Doctrine::HYDRATE_SCALAR);
+
+            foreach ($results as $row) {
+                $values[$row['c_keyVal']] = $row['c_Val'];
+            }
+            return $values;
+            
+        } catch (Exception $e) {
+            throw new DaoException($e->getMessage(), $e->getCode(), $e);
+        }        
+    }
 }

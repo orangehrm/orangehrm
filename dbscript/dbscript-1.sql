@@ -961,7 +961,7 @@ create table `ohrm_user`(
         `user_role_id` int(10) not null,
         `emp_number` int(13) DEFAULT NULL,
         `user_name` varchar(40) unique,
-        `user_password` varchar(40) DEFAULT NULL,
+        `user_password` varchar(255) DEFAULT NULL,
         `deleted` tinyint(1) NOT NULL DEFAULT '0',
         `status` tinyint(1) NOT NULL DEFAULT '1',
         `date_entered` datetime null default null,

@@ -19,7 +19,8 @@
  */
 
 require_once ROOT_PATH.'/installer/utils/UniqueIDGenerator.php';
-
+require_once ROOT_PATH.'/symfony/lib/vendor/phpass/PasswordHash.php';
+require_once ROOT_PATH.'/symfony/lib/vendor/phpseclib/Crypt/Random.php';
 
 class ApplicationSetupUtility {
 
@@ -160,6 +161,36 @@ public static function fillData($phase=1, $source='/dbscript/dbscript-') {
         }
 }
 
+    public static function insertCsrfKey() {
+        $csrfKey = self::createCsrfKey();
+
+        self::connectDB();
+
+        if (!@mysql_select_db($_SESSION['dbInfo']['dbName'])) {
+            $_SESSION['error'] = 'Unable to access OrangeHRM Database!';
+            return;
+        }
+
+        error_log (date("r")." Fill Data Phase $phase - Connected to the DB Server\n",3, "installer/log.txt");
+        
+        $query = "INSERT INTO `hs_hr_config` ( `key`, `value`) VALUES ('csrf_secret', '{$csrfKey}');";
+
+        if (!mysql_query($query)) {
+            $_SESSION['error'] = 'Unable to initialize csrf key';
+            return;
+        }
+    }
+
+    public static function createCsrfKey() {
+        $csrfKey = '';
+
+        while (strlen($csrfKey) <= 50) {
+            $csrfKey .= base_convert(crypt_random(), 10, 32);
+        }
+
+        return $csrfKey;
+    }
+
 public static function createDBUser() {
 
 if ($_SESSION['dbCreateMethod'] == 'new') {
@@ -218,7 +249,9 @@ public static function createUser() {
 		return;
 	}
 
-	$query = "INSERT INTO `ohrm_user` ( `user_name`, `user_password`,`user_role_id`) VALUES ('" .$_SESSION['defUser']['AdminUserName']. "','".md5($_SESSION['defUser']['AdminPassword'])."','1')";
+        $passwordHasher = new PasswordHash(12, false);
+        $hash = $passwordHasher->HashPassword($_SESSION['defUser']['AdminPassword']);
+	$query = "INSERT INTO `ohrm_user` ( `user_name`, `user_password`,`user_role_id`) VALUES ('" .$_SESSION['defUser']['AdminUserName']. "','".$hash."','1')";
 
 	if(!mysql_query($query)) {
 		$_SESSION['error'] = 'Unable to Create OrangeHRM Admin User Account';
@@ -382,7 +415,8 @@ public static function install() {
 
 		case 2	:	error_log (date("r")." Fill Data Phase 2 - Starting\n",3, "installer/log.txt");
 					self::fillData(2);
-                    self::createMysqlEvents();
+                                        self::createMysqlEvents();
+                                        self::insertCsrfKey();
 					error_log (date("r")." Fill Data Phase 2 - Done\n",3, "installer/log.txt");
 					if (!isset($error) || !isset($_SESSION['error'])) {
 						$res = self::initUniqueIDs();

@@ -46,7 +46,6 @@ class validateCredentialsAction extends sfAction {
     public function getAuthenticationService() {
         if (!isset($this->authenticationService)) {
             $this->authenticationService = new AuthenticationService();
-            $this->authenticationService->setAuthenticationDao(new AuthenticationDao());
         }
         return $this->authenticationService;
     }

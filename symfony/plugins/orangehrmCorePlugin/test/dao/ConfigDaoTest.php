@@ -55,6 +55,21 @@ class ConfigDaoTest extends PHPUnit_Framework_TestCase {
         }
 
     }
+    
+    public function testGetAllValues() {
+        $result = $this->configDao->getAllValues();
+
+        // Test values in fixtures.yml
+        $fixtureObjects = TestDataService::loadObjectList('Config', $this->fixture, 'Config');
+        
+        foreach($fixtureObjects as $config) {
+            $this->assertTrue(isset($result[$config->key]));
+            $this->assertEquals($config->value, $result[$config->key]);            
+        }        
+        
+        $this->assertEquals(count($fixtureObjects), count($result));
+        
+    }
 
     /**
      * Checks if value set
@@ -75,5 +90,3 @@ class ConfigDaoTest extends PHPUnit_Framework_TestCase {
         return ($value == 1);
     }
 }
-
-?>

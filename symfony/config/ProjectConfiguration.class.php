@@ -27,11 +27,39 @@ class ProjectConfiguration extends sfProjectConfiguration
     } else {
         sfConfig::set('ohrm_resource_dir', sfConfig::get('sf_web_dir'));
     }
+
+    $this->dispatcher->connect('context.load_factories', array($this,
+            'loadFactoriesListener'));
   }
   
   public function configureDoctrine(Doctrine_Manager $manager)
   {
     // Enable callbacks so that softDelete behavior can be used
     $manager->setAttribute(Doctrine_Core::ATTR_USE_DQL_CALLBACKS, true);
+  }
+  
+  /**
+   * Listens for the context.load_factories event. By this time, all core
+   * classes are loaded, and we can add any initialization which needs to
+   * run after classes are loaded.
+   * 
+   * @param sfEvent $event
+   */
+  public function loadFactoriesListener(sfEvent $event) {
+
+    // Create key cache for hs_hr_config values
+    $ohrmConfigCache = new ohrmKeyValueCache('config', function() {
+        $configService = new ConfigService();
+        return $configService->getAllValues();  
+    });
+
+    sfContext::getInstance()->setOhrmConfigCache($ohrmConfigCache);
+
+    // use csrf_secret from hs_hr_config (overrides value in settings.yml)
+    $csrfSecret = $ohrmConfigCache->get('csrf_secret');
+
+    if (!empty($csrfSecret)) {
+        sfForm::enableCSRFProtection($csrfSecret);
+    }    
   }
 }

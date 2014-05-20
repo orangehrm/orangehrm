@@ -30,23 +30,23 @@ class AuthenticationServiceTest extends PHPUnit_Framework_TestCase {
     }
 
     /**
-     * Tests the getAuthenticationDao() method
+     * Tests the getSystemUserService() method
      */
-    public function testGetAuthenticationDao() {
-        $this->assertTrue($this->authService->getAuthenticationDao() instanceof AuthenticationDao);
+    public function testGetSystemUserService() {
+        $this->assertTrue($this->authService->getSystemUserService() instanceof SystemUserService);
 
-        $dao = new AuthenticationDao();
-        $this->authService->setAuthenticationDao($dao);
-        $this->assertEquals($dao, $this->authService->getAuthenticationDao());
+        $service = new SystemUserService();
+        $this->authService->setSystemUserService($service);
+        $this->assertEquals($service, $this->authService->getSystemUserService());
     }
 
     /**
-     * Tests the setAuthenticationDao() method
+     * Tests the setSystemUserService() method
      */
-    public function testSetAuthenticationDao() {
-        $dao = new AuthenticationDao();
-        $this->authService->setAuthenticationDao($dao);
-        $this->assertEquals($dao, $this->authService->getAuthenticationDao());
+    public function testSetSystemUserService() {
+        $service = new SystemUserService();
+        $this->authService->setSystemUserService($dao);
+        $this->assertEquals($service, $this->authService->getSystemUserService());
     }
 
     public function testGetCookieManager() {
@@ -73,10 +73,10 @@ class AuthenticationServiceTest extends PHPUnit_Framework_TestCase {
         $user = new Users();
         $user->setUserName('test_user');
 
-        $mockDao = $this->getMock('AuthenticationDao', array('getCredentials'));
-        $mockDao->expects($this->once())
+        $mockService = $this->getMock('SystemUserService', array('getCredentials'));
+        $mockService->expects($this->once())
                 ->method('getCredentials')
-                ->with('test_user', md5('test_password'))
+                ->with('test_user', 'test_password')
                 ->will($this->returnValue($user));
 
         $mockCookieManager = $this->getMock('CookieManager', array('setCookie'));
@@ -84,7 +84,7 @@ class AuthenticationServiceTest extends PHPUnit_Framework_TestCase {
                 ->method('setCookie')
                 ->with('Loggedin', 'True', 0, '/');
 
-        $this->authService->setAuthenticationDao($mockDao);
+        $this->authService->setSystemUserService($mockService);
         $this->authService->setCookieManager($mockCookieManager);
 
         $result = $this->authService->setCredentials('test_user', 'test_password', array());
@@ -93,4 +93,3 @@ class AuthenticationServiceTest extends PHPUnit_Framework_TestCase {
 
 }
 
-?>

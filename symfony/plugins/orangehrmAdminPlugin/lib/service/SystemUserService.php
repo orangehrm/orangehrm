@@ -22,6 +22,8 @@ class SystemUserService extends BaseService{
     
     protected $systemUserDao = null;
     
+    /** @property PasswordHash $passwordHasher */
+    private $passwordHasher;    
 
     /**
      *
@@ -37,7 +39,20 @@ class SystemUserService extends BaseService{
     public function setSystemUserDao($systemUserDao) {
         $this->systemUserDao = $systemUserDao;
     }
+    
+    public function getPasswordHasher() {
+        if (empty($this->passwordHasher)) {
+            // 2^12 iterations and do not use less secure portable mode
+            $this->passwordHasher = new PasswordHash(12, false);
+        }        
+        return $this->passwordHasher;
+    }
 
+    public function setPasswordHasher($passwordHasher) {
+        $this->passwordHasher = $passwordHasher;
+    }
+
+    
     /**
      * Save System User
      * 
@@ -47,9 +62,8 @@ class SystemUserService extends BaseService{
     public function saveSystemUser(SystemUser $systemUser,$changePassword = false){
         
         try {
-            
             if ($changePassword) {
-                $systemUser->setUserPassword(md5($systemUser->getUserPassword()));
+                $systemUser->setUserPassword($this->hashPassword($systemUser->getUserPassword()));
             }
 
             return $this->getSystemUserDao()->saveSystemUser($systemUser);
@@ -203,7 +217,10 @@ class SystemUserService extends BaseService{
              return false;
          }
          
-         if ($systemUser->getUserPassword() == md5($password)) {
+         $hash = $systemUser->getUserPassword();
+         if ($this->checkPasswordHash($password, $hash)) {       
+             return true;
+         } else if ($this->checkForOldHash($password, $hash)) {
              return true;
          }
          
@@ -219,11 +236,69 @@ class SystemUserService extends BaseService{
       * @return int 
       */     
      public function updatePassword($userId, $password) {
-         return $this->getSystemUserDao()->updatePassword($userId, md5($password));
+         return $this->getSystemUserDao()->updatePassword($userId, $this->hashPassword($password));
      }
      
      public function getEmployeesByUserRole($roleName, $includeInactive = false, $includeTerminated = false) {
          return $this->getSystemUserDao()->getEmployeesByUserRole($roleName);
      }
+     
+     
+     public function getCredentials($userName, $password) {
+         $user = $this->getSystemUserDao()->isExistingSystemUser($userName);
+         if ($user) {
+            $hash = $user->getUserPassword();
+            if ($this->checkPasswordHash($password, $hash)) {       
+                return $user;
+            } else if ($this->checkForOldHash($password, $hash)) {
+                
+                // password matches, but in old format. Need to update hash
+                $user->setUserPassword($password);
+                return $this->saveSystemUser($user, true);
+            }
+         }
+         
+         return false;
+     }
+     
+    /**
+    * Hash password for storage 
+    * @param string $password
+    * @return hashed password
+    */
+    public function hashPassword($password) {
+
+        $hashser = $this->getPasswordHasher();
+        $hash = $hashser->HashPassword($password);
+        return $hash;
+    }
+    
+    /**
+     * Checks if the password hash matches the password.
+     * @param string $password
+     * @param string $hash
+     * @return boolean
+     */
+    public function checkPasswordHash($password, $hash) {
+        $hashser =  $this->getPasswordHasher();
+        return $hashser->CheckPassword($password, $hash);
+    }
+    
+    /**
+     * Check if password matches hash for hashes stored using older hash methods.
+     * 
+     * @param string $password
+     * @param string $hash
+     * @return boolean
+     */
+    public function checkForOldHash($password, $hash) {
+        $valid = false;
+        
+        if ($hash == md5($password)) {
+            $valid = true;
+        }
+        
+        return $valid;
+    }    
     
 }

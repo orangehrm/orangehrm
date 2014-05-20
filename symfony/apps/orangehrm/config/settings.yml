@@ -21,7 +21,7 @@ test:
 
 all:
   .settings:
-    # Form security secret (CSRF protection)
+    # NOTE: OrangeHRM uses csrf_secret value stored in hs_hr_config, not the value below.
     csrf_secret:       'kafkasipi3#iadfsakf'     # Unique secret to enable CSRF protection or false to disable
 
     # Output escaping settings

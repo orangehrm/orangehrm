@@ -536,7 +536,7 @@ SystemUser:
     user_name:
       string(40)
     user_password:
-      string(40)
+      string(255)
     deleted:
       type: integer(1)
       default: '0'

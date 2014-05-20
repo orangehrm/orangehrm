@@ -369,6 +369,17 @@ class ConfigServiceTest extends PHPUnit_Framework_TestCase {
 
     }    
     
+    public function testGetAllValues() {
+        $allValues = array('k1' => 'v1', 'k2' => 'v2');
+        $mockDao = $this->getMock('ConfigDao', array('getAllValues'));
+        $mockDao->expects($this->once())
+                 ->method('getAllValues')
+                 ->will($this->returnValue($allValues));
+
+        $this->configService->setConfigDao($mockDao);        
+        $this->assertEquals($allValues, $this->configService->getAllValues());        
+    }
+    
     protected function validateGetMethod($method, $key, $expected) {        
         $mockDao = $this->getMock('ConfigDao');
         $mockDao->expects($this->once())

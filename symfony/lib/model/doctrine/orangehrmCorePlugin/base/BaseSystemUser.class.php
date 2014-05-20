@@ -89,9 +89,9 @@ abstract class BaseSystemUser extends sfDoctrineRecord
              'type' => 'string',
              'length' => 40,
              ));
-        $this->hasColumn('user_password', 'string', 40, array(
+        $this->hasColumn('user_password', 'string', 255, array(
              'type' => 'string',
-             'length' => 40,
+             'length' => 255,
              ));
         $this->hasColumn('deleted', 'integer', 1, array(
              'type' => 'integer',

@@ -314,5 +314,13 @@ class ConfigService extends BaseService {
     public function setDefaultWorkShiftEndTime($endTime) {
         $this->_setConfigValue(self::KEY_ADMIN_DEFAULT_WORKSHIFT_END_TIME, $endTime);
     }     
+    
+    /**
+     * Get all defined config values as a key=>value array
+     * @return Array
+     */
+    public function getAllValues() {
+        return $this->getConfigDao()->getAllValues();
+    }
 
 }

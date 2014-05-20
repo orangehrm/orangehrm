@@ -221,11 +221,11 @@ class AddEmployeeForm extends sfForm {
                 $user->setDateEntered(date('Y-m-d H:i:s'));
                 $user->setCreatedBy(sfContext::getInstance()->getUser()->getAttribute('user')->getUserId());
                 $user->user_name = $posts['user_name'];
-                $user->user_password = md5($posts['user_password']);
+                $user->user_password = $posts['user_password'];
                 $user->emp_number = $empNumber;
                 $user->setStatus(($posts['status'] == 'Enabled') ? '1' : '0');
                 $user->setUserRoleId(2);
-                $userService->saveSystemUser($user);
+                $userService->saveSystemUser($user, true);
             }
             
             $this->_handleLdapEnabledUser($posts, $empNumber);            
@@ -275,10 +275,10 @@ class AddEmployeeForm extends sfForm {
             $user->setDateEntered(date('Y-m-d H:i:s'));
             $user->setCreatedBy($sfUser->getAttribute('user')->getUserId());
             $user->user_name = $postedValues['user_name'];
-            $user->user_password = md5('');
+            $user->user_password = '';
             $user->emp_number = $empNumber;
             $user->setUserRoleId(2);
-            $this->getUserService()->saveSystemUser($user);            
+            $this->getUserService()->saveSystemUser($user, true);            
             
         }
         
