@@ -5426,7 +5426,11 @@
    <trans-unit id="1188">
        <source>Validation Failed</source>
        <target>FR_Validation Failed</target>
-   </trans-unit>        
+   </trans-unit>
+   <trans-unit id="1189">
+       <source>Csrf token validation failed</source>
+       <target>FR_Csrf token validation failed</target>
+   </trans-unit>
   </body>
  </file>
 </xliff>

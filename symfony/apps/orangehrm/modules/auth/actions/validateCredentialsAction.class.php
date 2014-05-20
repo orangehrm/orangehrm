@@ -8,7 +8,12 @@ class validateCredentialsAction extends sfAction {
     public function execute($request) {
         
         if ($request->isMethod(sfWebRequest::POST)) {
-            
+            $loginForm = new LoginForm();
+            $csrfToken = $request->getParameter('_csrf_token');
+            if ($csrfToken != $loginForm->getCSRFToken()) {
+                $this->getUser()->setFlash('message', __('Csrf token validation failed'), true);
+                $this->forward('auth', 'retryLogin');
+            }
             $username = $request->getParameter('txtUsername');
             $password = $request->getParameter('txtPassword');
             $additionalData = array(

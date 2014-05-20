@@ -144,6 +144,9 @@ $imagePath = theme_path("images/login");
     <form id="frmLogin" method="post" action="<?php echo url_for('auth/validateCredentials'); ?>">
         <input type="hidden" name="actionID"/>
         <input type="hidden" name="hdnUserTimeZoneOffset" id="hdnUserTimeZoneOffset" value="0" />
+        <?php 
+            echo $form->renderHiddenFields(); // rendering csrf_token 
+        ?>
         <div id="logInPanelHeading"><?php echo __('LOGIN Panel'); ?></div>
 
         <div id="divUsername" class="textInputContainer">
