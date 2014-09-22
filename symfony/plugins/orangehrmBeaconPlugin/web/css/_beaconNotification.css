@@ -12,12 +12,13 @@
         
 }
 .notification-body{
-    clear: left;
-    float: left;
+    clear: right;
+    float: right;
 }
 .notification-header {
     padding: 2px;
-    
+     clear: right;
+    float: right;
 }
 .notification-header h3{
     font: bolder 1.3em sans-serif;

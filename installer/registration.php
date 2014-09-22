@@ -94,7 +94,7 @@
         <div class="wrapper_content_div" style="font-family: arial,helvetica,sans-serif;font-size: 14px;">
             <h3 style="float: left;">Contribute to OrangeHRM by sending us your usage data</h3> <br>
             <div class="registrationWrapper" style="width: 900px;height: 200px;display: block;overflow: scroll;margin-left: 100px;border: #000 solid thin;padding: 5px;">
-            <p  ><span style="font-family: arial,helvetica,sans-serif;"><span>By enabling the <span>heartbeat</span> you allow</span>&nbsp; OrangeHRM to </span><span style="font-family: arial,helvetica,sans-serif;"><span style="font-family: arial,helvetica,sans-serif;">collect statistics about </span>usage in order to improve the software. It runs in the background and periodically sends data to the OrangeHRM Portal to . OrangeHRM would like to keep track of the number of users it has around the world, with demographic information.</span><br /><br /></p>
+            <p  ><span style="font-family: arial,helvetica,sans-serif;"><span>By enabling the <span>heartbeat</span> you allow</span>&nbsp; OrangeHRM to </span><span style="font-family: arial,helvetica,sans-serif;"><span style="font-family: arial,helvetica,sans-serif;">collect statistics about </span>usage in order to improve the software. It runs in the background and periodically sends data to the OrangeHRM Portal. OrangeHRM would like to keep track of the number of users it has around the world, with demographic information.</span><br /><br /></p>
                 <div>By enabling the heartbeat you will also be entitled to receive the following:<br /></div>
                 <ul>
                     <li>Bug fixes and other patches</li>
@@ -117,7 +117,7 @@
                 </li>
                 <li>
                 <input type = "checkbox" name="hearbeatSelect" id = "hearbeatSelect" checked="checked"/>
-                <label for = "" style="width: 300px;">I would like to send usage data to orangehrm</label>
+                <label for = "" style="width: 300px;">I would like to send usage data to OrangeHRM</label>
                 </li>
             </ul>
             <?php }?>

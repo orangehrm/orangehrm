@@ -81,7 +81,7 @@ class sendBeaconMessageAjaxAction extends sfAction {
      */
     public function sendRegistrationMessage() {
         echo 'registering \n';
-        $url = "https://192.168.1.134/Symfony/web/app.php/register";
+        $url = "http://192.168.1.134/Symfony/web/app.php/register";
         $data = http_build_query(array(
             'remoteAddr' => urlencode($_SERVER['REMOTE_ADDR']),
             'host' => urlencode($_SERVER['HTTP_HOST']),
@@ -147,7 +147,7 @@ class sendBeaconMessageAjaxAction extends sfAction {
 
     public function sendBeaconFlash() {
         echo 'flashing \n';
-        $url = "https://192.168.1.134/Symfony/web/app.php/flash";
+        $url = "http://192.168.1.134/Symfony/web/app.php/flash";
         $data = $this->getBeaconDatapointService()->resolveAllDatapoints();
         $uuid = base64_decode($this->getBeaconConfigService()->getBeaconUuid());
 
@@ -174,9 +174,10 @@ class sendBeaconMessageAjaxAction extends sfAction {
                 'content' => $contentJSON
             )
         );
-
+        var_dump($contentJSON);
         $sslContext = stream_context_create($contextOpts);
         $result = file_get_contents($url, null, $sslContext);
+        var_dump($result);
         $headers = $http_response_header;
 
 //        $ch = curl_init();
@@ -204,7 +205,7 @@ class sendBeaconMessageAjaxAction extends sfAction {
 
     public function getBeaconMessages() {
         echo "messages \n";
-        $url = "https://192.168.1.134/Symfony/web/app.php/messages";
+        $url = "http://192.168.1.134/Symfony/web/app.php/messages";
         $uuid = base64_decode($this->getBeaconConfigService()->getBeaconUuid());
 
         $content = array();
