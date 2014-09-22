@@ -1,0 +1,15 @@
+#displayAbout.modal {
+    width: 600px;
+    left: 45%;
+    top: 45%;
+   
+    
+}
+
+#displayAbout .modal-body {
+    max-height: 800px;
+}
+
+#displayAbout label {
+    width: 300px;
+}

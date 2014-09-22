@@ -1824,3 +1824,46 @@ alter table hs_hr_performance_review
 alter table hs_hr_performance_review
     add constraint foreign key (reviewer_id)
         references hs_hr_employee (emp_number) on delete set null;
+
+-- 
+-- SET @admin_module_id := (SELECT `id` FROM `ohrm_module` WHERE `name` = 'admin');
+-- 
+-- INSERT INTO `ohrm_screen` (`name`,`module_id`,`action_url`) VALUES
+-- ('Beacon Registration',@admin_module_id,'beaconRegistration');
+-- 
+-- SET @beacon_screen_id := (SELECT LAST_INSERT_ID());
+-- 
+-- SET @admin_menu_id := (SELECT `id` FROM `ohrm_menu_item` WHERE `menu_title` = 'Admin');
+
+-- INSERT INTO ohrm_menu_item (`menu_title`, `screen_id`, `parent_id`, `level`, `order_hint`, `url_extras`, `status`) VALUES
+-- ('Beacon', @beacon_screen_id, @admin_menu_id, 2, 1000, NULL, 1);
+-- 
+-- SET @admin_role_id := (SELECT `id` FROM ohrm_user_role WHERE `name` = 'Admin');
+-- 
+-- INSERT INTO ohrm_user_role_screen (user_role_id, screen_id, can_read, can_create, can_update, can_delete) VALUES
+-- (@admin_role_id, @beacon_screen_id, 1, 1, 1, 1);
+
+CREATE TABLE `ohrm_datapoint_type` (
+    `id` INT AUTO_INCREMENT, 
+    `name` VARCHAR(100) NOT NULL, 
+    `action_class` VARCHAR(100) NOT NULL, 
+    PRIMARY KEY(id)
+) ENGINE = INNODB DEFAULT CHARSET=utf8;
+
+
+CREATE TABLE `ohrm_datapoint` (
+    `id` INT AUTO_INCREMENT, 
+    `name` VARCHAR(100), 
+    `datapoint_type_id` INT NOT NULL, 
+    `definition` LONGTEXT NOT NULL, 
+    PRIMARY KEY(`id`),
+    FOREIGN KEY (`datapoint_type_id`) REFERENCES `ohrm_datapoint_type` (`id`) ON DELETE CASCADE
+) ENGINE = INNODB DEFAULT CHARSET=utf8;
+
+CREATE TABLE `ohrm_beacon_notification` (
+    `id` INT AUTO_INCREMENT, 
+    `name` VARCHAR(100) NOT NULL, 
+    `expiry_date` TIMESTAMP NOT NULL, 
+    `definition` LONGTEXT NOT NULL, PRIMARY KEY(id)
+) ENGINE = INNODB DEFAULT CHARSET=utf8;
+

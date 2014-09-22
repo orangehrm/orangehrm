@@ -1,0 +1,5 @@
+all:
+
+  orangehrmBeaconPlugin:
+
+    version: '1.0'

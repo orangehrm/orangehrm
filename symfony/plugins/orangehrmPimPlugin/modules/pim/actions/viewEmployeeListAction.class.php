@@ -31,7 +31,7 @@ class viewEmployeeListAction extends basePimAction {
      * @param sfWebRequest $request
      */
     public function execute($request) {
-        
+      
         if ($this->getUser()->hasFlash('templateMessage')) {
             list($this->messageType, $this->message) = $this->getUser()->getFlash('templateMessage');
         }

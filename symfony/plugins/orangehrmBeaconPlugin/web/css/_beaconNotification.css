@@ -1,0 +1,27 @@
+.notification-bar{
+    display: block;
+    width: 400px;
+    height: 60px;
+    z-index: 1000;
+    float: right;
+    /*border: #000 solid thin;*/
+    margin: 5px 5px 5px 60px;
+    padding: 5px;
+    overflow: hidden;
+    word-wrap: break-word;
+        
+}
+.notification-body{
+    clear: left;
+    float: left;
+}
+.notification-header {
+    padding: 2px;
+    
+}
+.notification-header h3{
+    font: bolder 1.3em sans-serif;
+}
+#branding img {
+    float: left;
+}

@@ -4,9 +4,22 @@ class validateCredentialsAction extends sfAction {
 
     protected $authenticationService;
     protected $homePageService;
+    protected $beaconCommunicationService;
+    
+    
+    /**
+     * 
+     * @return BeaconCommunicationsService
+     */
+    public function getBeaconCommunicationService() {
+        if(is_null($this->beaconCommunicationService)) {
+            $this->beaconCommunicationService = new BeaconCommunicationsService();            
+        }
+        return $this->beaconCommunicationService;
+    }
 
     public function execute($request) {
-        
+
         if ($request->isMethod(sfWebRequest::POST)) {
             $loginForm = new LoginForm();
             $csrfToken = $request->getParameter('_csrf_token');
@@ -23,22 +36,20 @@ class validateCredentialsAction extends sfAction {
             try {
 
                 $success = $this->getAuthenticationService()->setCredentials($username, $password, $additionalData);
-                
-                if ($success) {                    
-                    $this->redirect($this->getHomePageService()->getPathAfterLoggingIn($this->getContext()));
+
+                if ($success) {
                     
+                    $this->getBeaconCommunicationService()->setBeaconActivation();
+                    $this->redirect($this->getHomePageService()->getPathAfterLoggingIn($this->getContext()));
                 } else {
                     $this->getUser()->setFlash('message', __('Invalid credentials'), true);
                     $this->forward('auth', 'retryLogin');
                 }
-                
             } catch (AuthenticationServiceException $e) {
-                
+
                 $this->getUser()->setFlash('message', $e->getMessage(), false);
                 $this->forward('auth', 'login');
-                
             }
-            
         }
 
         return sfView::NONE;
@@ -54,20 +65,18 @@ class validateCredentialsAction extends sfAction {
         }
         return $this->authenticationService;
     }
-    
+
     public function getHomePageService() {
-        
+
         if (!$this->homePageService instanceof HomePageService) {
             $this->homePageService = new HomePageService($this->getUser());
         }
-        
+
         return $this->homePageService;
-        
     }
 
     public function setHomePageService($homePageService) {
         $this->homePageService = $homePageService;
     }
-    
 
 }

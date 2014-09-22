@@ -96,4 +96,6 @@ class ConfigDao extends BaseDao {
             throw new DaoException($e->getMessage(), $e->getCode(), $e);
         }        
     }
+    
+    
 }

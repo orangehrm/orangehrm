@@ -511,7 +511,11 @@ INSERT INTO `hs_hr_config`(`key`, `value`) VALUES ('ldap_server', ''),
     ('leave.leavePeriodStatus',1),
     ('leave.include_pending_leave_in_balance', 1),
     ('admin.default_workshift_start_time', '09:00'),
-    ('admin.default_workshift_end_time', '17:00');
+    ('admin.default_workshift_end_time', '17:00'),
+    ('report.mysql_group_concat_max_len', 2048),
+    ('beacon.activation_acceptance_status','off'),
+    ('beacon.company_name',''),
+    ('auth.logins',0);
 
 INSERT INTO `ohrm_emp_reporting_method`(`reporting_method_id`, `reporting_method_name`) VALUES(1, 'Direct'),
       (2, 'Indirect');
@@ -1300,6 +1304,7 @@ INSERT INTO `ohrm_module` (`id`, `name`, `status`) VALUES
 (7, 'recruitment', 1),
 (8, 'recruitmentApply', 1),
 (9, 'performance', 1);
+
 
 INSERT INTO ohrm_screen (`id`, `name`, `module_id`, `action_url`) VALUES
 (1, 'User List', 2, 'viewSystemUsers'),
@@ -2624,3 +2629,21 @@ INSERT INTO ohrm_module_default_page (`module_id`, `user_role_id`, `action`, `en
 (7, 6, 'recruitment/viewCandidates', NULL, 5),
 (9, 1, 'performance/viewReview', NULL, 20),
 (9, 2, 'performance/viewReview', NULL, 0);
+
+INSERT INTO `hs_hr_config`(`key`,`value`) VALUES 
+('beacon.activiation_status','off'),
+('beacon.uuid',0),
+('beacon.next_flash_time','0000-00-00'),
+('beacon.lock','unlocked'),
+('beacon.flash_period','120'),
+('admin.product_type','os');
+
+
+
+INSERT INTO `ohrm_module` (`name`,`status`) VALUES
+('communication',1);
+INSERT INTO `ohrm_datapoint_type`(`id`,`name`,`action_class`)  VALUES 
+(1,'config','configDatapointProcessor'),
+(2,'count','countDatapointProcessor'),
+(3, 'session', 'sessionDatapointProcessor'),
+(4,'organization','OrganizationDataProcessor');

@@ -24,7 +24,7 @@
  */
 class ConfigService extends BaseService {
 
-    private $configDao;
+    protected $configDao;
     private $logger;
 
     const KEY_LEAVE_PERIOD_DEFINED = "leave_period_defined";
@@ -46,7 +46,7 @@ class ConfigService extends BaseService {
     const KEY_LEAVE_PERIOD_STATUS = 'leave.leavePeriodStatus';
     const KEY_ADMIN_DEFAULT_WORKSHIFT_START_TIME = 'admin.default_workshift_start_time';
     const KEY_ADMIN_DEFAULT_WORKSHIFT_END_TIME = 'admin.default_workshift_end_time';
-
+    const KEY_AUTH_LOGINS = 'auth.logins';
     /**
      * Get ConfigDao
      * @return ConfigDao
@@ -322,5 +322,16 @@ class ConfigService extends BaseService {
     public function getAllValues() {
         return $this->getConfigDao()->getAllValues();
     }
+    
+     public function incrementLogins() {
+        $currentValue = (int)$this->_getConfigValue(self::KEY_AUTH_LOGINS);
+        $this->_setConfigValue(self::KEY_AUTH_LOGINS, ++$currentValue);        
+    }
+    
+    public function getLogins() {
+        $this->_getConfigValue(self::KEY_AUTH_LOGINS);
+    }
+    
+    
 
 }
