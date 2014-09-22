@@ -796,7 +796,7 @@ class EmployeeService extends BaseService {
      * @todo Change parameter to include terminated and change logic [DONE]
      */
     public function getEmployeeCount($includeTerminated = false) {
-        return $this->getEmployeeDao()->getEmployeeCount($includeTerminated = false);
+        return $this->getEmployeeDao()->getEmployeeCount($includeTerminated);
     }
 
     /**

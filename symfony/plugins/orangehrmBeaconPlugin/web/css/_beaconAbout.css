@@ -3,7 +3,6 @@
     left: 45%;
     top: 45%;
    
-    
 }
 
 #displayAbout .modal-body {
@@ -12,4 +11,8 @@
 
 #displayAbout label {
     width: 300px;
+}
+
+#displayAbout .aboutLink {
+    color: blue;
 }

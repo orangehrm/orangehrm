@@ -33,6 +33,7 @@ class beaconAboutComponent extends sfComponent {
                 $this->companyName = $companyInfo->getName();
                 $this->version = '3.1.2';
                 $totalEmployeeCount = $employeeService->getEmployeeCount(true);
+                
                 $this->activeEmployeeCount = $employeeService->getEmployeeCount(false);
                 $this->terminatedEmployeeCount = $totalEmployeeCount - $this->activeEmployeeCount;
             }

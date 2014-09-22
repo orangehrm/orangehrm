@@ -1050,7 +1050,7 @@ class EmployeeDao extends BaseDao {
             if (!$includeTerminated) {
                 $q->where("termination_id IS NULL");
             }
-
+            
             return $q->count();
             
         // @codeCoverageIgnoreStart
