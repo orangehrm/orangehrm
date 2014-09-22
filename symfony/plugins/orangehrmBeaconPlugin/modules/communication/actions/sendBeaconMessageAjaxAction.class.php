@@ -81,7 +81,7 @@ class sendBeaconMessageAjaxAction extends sfAction {
      */
     public function sendRegistrationMessage() {
         echo 'registering \n';
-        $url = "http://192.168.1.134/Symfony/web/app.php/register";
+        $url = "http://test.orangehrm.com/OHRMLive/opensource-updates/web/register";
         $data = http_build_query(array(
             'remoteAddr' => urlencode($_SERVER['REMOTE_ADDR']),
             'host' => urlencode($_SERVER['HTTP_HOST']),
@@ -147,7 +147,7 @@ class sendBeaconMessageAjaxAction extends sfAction {
 
     public function sendBeaconFlash() {
         echo 'flashing \n';
-        $url = "http://192.168.1.134/Symfony/web/app.php/flash";
+        $url = "http://test.orangehrm.com/OHRMLive/opensource-updates/web/flash";
         $data = $this->getBeaconDatapointService()->resolveAllDatapoints();
         $uuid = base64_decode($this->getBeaconConfigService()->getBeaconUuid());
 
@@ -205,7 +205,7 @@ class sendBeaconMessageAjaxAction extends sfAction {
 
     public function getBeaconMessages() {
         echo "messages \n";
-        $url = "http://192.168.1.134/Symfony/web/app.php/messages";
+        $url = "http://test.orangehrm.com/OHRMLive/opensource-updates/web/messages";
         $uuid = base64_decode($this->getBeaconConfigService()->getBeaconUuid());
 
         $content = array();
