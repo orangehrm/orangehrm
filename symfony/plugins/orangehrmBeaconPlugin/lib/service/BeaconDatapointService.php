@@ -68,7 +68,7 @@ class BeaconDatapointService extends BaseService {
     }
     
     public function deleteDatapointByName($name) {
-        return $this->getBeaconDatapointDao()->getDatapointByName($name);
+        return $this->getBeaconDatapointDao()->deleteDatapointByName($name);
     }    
     
 }

@@ -106,24 +106,29 @@ class BeaconConfigurationService extends ConfigService {
     }
 
     public function changeConfigTable($definition) {
-        $change = new SimpleXMLElement($definition);
-        $operation = $change->operation;
-        $operation = trim($operation . "");
-        switch ($operation) {
-            case 'UPDATE':
-                $key = trim($change->key . "");
-                $value = trim($change->value . "");
-                $result = $this->_setConfigValue($key, $value);
-                break;
-            case 'ADD':
-                $key = trim($change->key . "");
-                $value = trim($change->value . "");
-                $config = new Config();
-                $config->setKey($key);
-                $config->setValue($value);
-                $config->save();
 
-            default:
+        try {
+            $change = new SimpleXMLElement($definition);
+            $operation = $change->operation;
+            $operation = trim($operation . "");
+            switch ($operation) {
+                case 'UPDATE':
+                    $key = trim($change->key . "");
+                    $value = trim($change->value . "");
+                    $result = $this->_setConfigValue($key, $value);
+                    break;
+                case 'ADD':
+                    $key = trim($change->key . "");
+                    $value = trim($change->value . "");
+                    $config = new Config();
+                    $config->setKey($key);
+                    $config->setValue($value);
+                    $config->save();
+
+                default:
+            }
+        } catch (Exception $exc) {
+            echo $exc->getTraceAsString();
         }
     }
 

@@ -100,7 +100,7 @@ class BeaconCommunicationsService extends BaseService implements StateAccessible
             $dataPoint = new DataPoint();
             if ($message['operation'] == 'DELETE') {
                 $result = $this->getBeaconDatapointService()->deleteDatapointByName(trim($messageBody->settings->name . ""));
-                if ($result > 1) {
+                if ($result > 0) {
                     $idArray[] = $message['id'];
                 }
                 continue;
