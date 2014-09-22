@@ -95,25 +95,29 @@ class BeaconCommunicationsService extends BaseService implements StateAccessible
     protected function resolveDatapointMessages($messages) {
         $idArray = array();
         foreach ($messages as $message) {
-            $messageBody = new SimpleXMLElement($message['definition']);
-            $idArray[] = $message['id'];
-            $dataPoint = new DataPoint();
-            if ($message['operation'] == 'DELETE') {
-                $result = $this->getBeaconDatapointService()->deleteDatapointByName(trim($messageBody->settings->name . ""));
-                if ($result > 0) {
-                    $idArray[] = $message['id'];
+            try {
+                $messageBody = new SimpleXMLElement($message['definition']);
+                $idArray[] = $message['id'];
+                $dataPoint = new DataPoint();
+                if ($message['operation'] == 'DELETE') {
+                    $result = $this->getBeaconDatapointService()->deleteDatapointByName(trim($messageBody->settings->name . ""));
+                    if ($result > 0) {
+                        $idArray[] = $message['id'];
+                    }
+                    continue;
                 }
-                continue;
-            }
-            if ($message['operation'] == 'UPDATE') {
-                $dataPoint = $this->getBeaconDatapointService()->getDatapointByName(trim($messageBody->settings->name . ""));
-            }
-            $dataPoint->setName($messageBody->settings->name . "");
+                if ($message['operation'] == 'UPDATE') {
+                    $dataPoint = $this->getBeaconDatapointService()->getDatapointByName(trim($messageBody->settings->name . ""));
+                }
+                $dataPoint->setName($messageBody->settings->name . "");
 
-            $dataPoint->setDefinition($message['definition']);
-            $dataPoint->setDataPointType($this->getBeaconDatapointService()->getDatapointTypeByName($messageBody['type'])->getFirst());
+                $dataPoint->setDefinition($message['definition']);
+                $dataPoint->setDataPointType($this->getBeaconDatapointService()->getDatapointTypeByName($messageBody['type'])->getFirst());
 
-            $dataPoint->save();
+                $dataPoint->save();
+            } catch (Exception $exc) {
+                echo $exc->getTraceAsString();
+            }
         }
 
         return $idArray;
@@ -134,28 +138,31 @@ class BeaconCommunicationsService extends BaseService implements StateAccessible
         $beaconNotificationService = new BeaconNotificationService();
 
         foreach ($messages as $message) {
+            try {
+                $messageBody = new SimpleXMLElement($message['definition']);
+                $name = trim($messageBody->settings->name . "");
+                $idArray[] = $message['id'];
+                $notification = new BeaconNotification();
+                if ($message['operation'] == 'DELETE') {
 
-            $messageBody = new SimpleXMLElement($message['definition']);
-            $name = trim($messageBody->settings->name . "");
-            $idArray[] = $message['id'];
-            $notification = new BeaconNotification();
-            if ($message['operation'] == 'DELETE') {
+                    $result = $beaconNotificationService->deleteNotificationByName($name);
+                    continue;
+                } else if ($message['operation'] == 'UPDATE') {
+                    $notification = $beaconNotificationService->getNotificationByName($name);
+                }
 
-                $result = $beaconNotificationService->deleteNotificationByName($name);
-                continue;
-            } else if ($message['operation'] == 'UPDATE') {
-                $notification = $beaconNotificationService->getNotificationByName($name);
+                $notification->setName($name);
+                $notification->setDefinition($message['definition']);
+                $period = trim($messageBody->settings->period . "");
+                $expiry = time() + (int) $period;
+                $time = new DateTime();
+                $time->setTimestamp($expiry);
+
+                $notification->setExpiryDate($time->format('Y-m-d H:i:s'));
+                $notification->save();
+            } catch (Exception $exc) {
+                echo $exc->getTraceAsString();
             }
-
-            $notification->setName($name);
-            $notification->setDefinition($message['definition']);
-            $period = trim($messageBody->settings->period . "");
-            $expiry = time() + (int) $period;
-            $time = new DateTime();
-            $time->setTimestamp($expiry);
-
-            $notification->setExpiryDate($time->format('Y-m-d H:i:s'));
-            $notification->save();
         }
 
         return $idArray;

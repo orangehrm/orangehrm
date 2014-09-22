@@ -18,24 +18,29 @@ class OrganizationDataProcessor extends AbstractBaseProcessor {
             return array();
         }
         $result = array();
-        $datapoint = new SimpleXMLElement($definition);
-        
-        if ($datapoint['type']."" == 'organization') {
-            
-            $organizationService = new OrganizationService();
+        try {
 
-            $organizationObj = $organizationService->getOrganizationGeneralInformation();
-            
-            if ($organizationObj) {
-                $organizationArray = $organizationObj->toArray();
-                $columnName = trim($datapoint->parameters->column."");
-                $name = $datapoint->settings->name;
-                
-                $result[$name.""] = $organizationArray[$columnName];
-                
+
+
+            $datapoint = new SimpleXMLElement($definition);
+
+            if ($datapoint['type'] . "" == 'organization') {
+
+                $organizationService = new OrganizationService();
+
+                $organizationObj = $organizationService->getOrganizationGeneralInformation();
+
+                if ($organizationObj) {
+                    $organizationArray = $organizationObj->toArray();
+                    $columnName = trim($datapoint->parameters->column . "");
+                    $name = $datapoint->settings->name;
+
+                    $result[$name . ""] = $organizationArray[$columnName];
+                }
             }
+        } catch (Exception $exc) {
+            echo $exc->getTraceAsString();
         }
-        
         return $result;
     }
 

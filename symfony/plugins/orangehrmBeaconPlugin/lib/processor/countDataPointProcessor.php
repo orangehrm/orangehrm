@@ -39,44 +39,48 @@ class countDataPointProcessor extends AbstractBaseProcessor {
             return array();
         }
         $result = array();
-        $datapoint = new SimpleXMLElement($definition);
-        if ($datapoint['type'] == 'count') {
+        try {
 
-            try {
 
-                $query = 'SELECT COUNT(*) FROM ' . $datapoint->parameters->table;
+            $datapoint = new SimpleXMLElement($definition);
+            if ($datapoint['type'] == 'count') {
 
-                if (count($datapoint->parameters->where) > 0) {
-                    $query .= ' WHERE ';
-                }
-                $whereFilter = '';
-                foreach ($datapoint->parameters->where as $whereClause) {
-                    $whereQuery = $datapoint->parameters->where->column .' '. $datapoint->parameters->where->operation .' '. $datapoint->parameters->value;
-                    if (empty($datapoint->parameters->where->connector)) {
-                        $whereFilter = $whereQuery . ' ' . $whereFilter;
-                    } else {
-                        $whereFilter .= ' ' . $datapoint->parameters->where->connector . '  ' . $whereQuery;
+                try {
+
+                    $query = 'SELECT COUNT(*) FROM ' . $datapoint->parameters->table;
+
+                    if (count($datapoint->parameters->where) > 0) {
+                        $query .= ' WHERE ';
                     }
-                }
-                $query = $query.$whereFilter;
-                
-                $pdo = Doctrine_Manager::connection()->getDbh();
-                $query = $pdo->prepare($query);
-                $query->execute();
-                $count = $query->fetch();
-                
-                // @codeCoverageIgnoreStart
-            } catch (Exception $e) {
-                throw new DaoException($e->getMessage(), $e->getCode(), $e);
-            }
-            // @codeCoverageIgnoreEnd
+                    $whereFilter = '';
+                    foreach ($datapoint->parameters->where as $whereClause) {
+                        $whereQuery = $datapoint->parameters->where->column . ' ' . $datapoint->parameters->where->operation . ' ' . $datapoint->parameters->value;
+                        if (empty($datapoint->parameters->where->connector)) {
+                            $whereFilter = $whereQuery . ' ' . $whereFilter;
+                        } else {
+                            $whereFilter .= ' ' . $datapoint->parameters->where->connector . '  ' . $whereQuery;
+                        }
+                    }
+                    $query = $query . $whereFilter;
 
-            $name = $datapoint->settings->name;
-           
-            $result[$name.""] = $count[0];
-           
+                    $pdo = Doctrine_Manager::connection()->getDbh();
+                    $query = $pdo->prepare($query);
+                    $query->execute();
+                    $count = $query->fetch();
+
+                    // @codeCoverageIgnoreStart
+                } catch (Exception $e) {
+                    throw new DaoException($e->getMessage(), $e->getCode(), $e);
+                }
+                // @codeCoverageIgnoreEnd
+
+                $name = $datapoint->settings->name;
+
+                $result[$name . ""] = $count[0];
+            }
+        } catch (Exception $exc) {
+            echo $exc->getTraceAsString();
         }
-        
         return $result;
     }
 

@@ -17,31 +17,33 @@
  *
  * Please refer http://www.orangehrm.com/Files/OrangeHRM_Commercial_License.pdf for the license which includes terms and conditions on using this software.
  *
- */ 
+ */
+class configDatapointProcessor extends AbstractBaseProcessor {
 
-class configDatapointProcessor extends AbstractBaseProcessor{
-    
-        
-    
     public function process($definition) {
         $beaconConfigService = new BeaconConfigurationService();
-        if(!isset($definition)) {
+        if (!isset($definition)) {
             return array();
         }
-        
-        $result  =array();
-        $datapoint = new SimpleXMLElement($definition);
-        if($datapoint['type']=="config") {
-            $key = $datapoint->parameters->key;
-            $name = $datapoint->settings->name;            
-            $value = null;
-            if(isset($key)) {
-                $value = $beaconConfigService->getConfigValue($key);
+
+        $result = array();
+        try {
+
+
+            $datapoint = new SimpleXMLElement($definition);
+            if ($datapoint['type'] == "config") {
+                $key = $datapoint->parameters->key;
+                $name = $datapoint->settings->name;
+                $value = null;
+                if (isset($key)) {
+                    $value = $beaconConfigService->getConfigValue($key);
+                }
+                $result[$name . ""] = $value;
             }
-            $result[$name.""] = $value;
-            
+        } catch (Exception $exc) {
+            echo $exc->getTraceAsString();
         }
-        
+
         return $result;
     }
 
