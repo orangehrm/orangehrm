@@ -29,12 +29,12 @@ if ($aboutEnabled) {
                     </ul>
                 </div>
                 <ol></ol>
-                <?php if($beaconAcceptance=='off') { ?>
+                <?php if($beaconAcceptance!='on') { ?>
                 <br>
                 <div id="heartbeatDescription">
                 <p><span style="font-family: arial,helvetica,sans-serif;"><span>By enabling the <span>heartbeat</span> you allow</span>&nbsp; OrangeHRM to </span><span style="font-family: arial,helvetica,sans-serif;"><span style="font-family: arial,helvetica,sans-serif;">collect statistics about </span>usage in order to improve the software. It runs in the background and periodically sends data to the OrangeHRM Portal. OrangeHRM would like to keep track of the number of users it has around the world, with demographic information.</span><br /><br /></p>
                 <div>By enabling the heartbeat you will also be entitled to receive the following:<br /><br /></div>
-                <ul>
+                <ul style="list-style-type: circle; margin-left: 30px;">
                     <li>Bug fixes and other patches</li>
                     <li>Upgrades</li>
                     <li>Security updates</li>
@@ -56,7 +56,7 @@ if ($aboutEnabled) {
             <div class="modal-footer">
                 <br class="clear"/>
             <span id="messageToDisplayAbout" style="padding-left: 2px; display: none" class=""></span>
-                <input type="button" class="btn"  id="heartbeatSubmitBtn" data-dismiss="modal" value="<?php echo __('Save'); ?>" />
+                <input type="button" class="btn"  id="heartbeatSubmitBtn" data-dismiss="modal" value="<?php echo __('Ok'); ?>" />
                 <input type="button" class="btn reset" data-dismiss="modal" value="<?php echo __('Cancel'); ?>" />
             </div>
              <?php } ?>
