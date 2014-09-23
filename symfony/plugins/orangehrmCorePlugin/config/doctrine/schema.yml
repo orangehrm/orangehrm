@@ -944,4 +944,36 @@ ModuleDefaultPage:
       local: module_id
       foreign: id
       type: one
+  
+Login:
+  tableName: ohrm_login
+  columns: 
+    id:
+      type: integer
+      primary: true
+      autoincrement: true
+    user_id:
+      type: integer
+      notnull: true
+      name: user_id as userId      
+    user_name:
+      type: string(255)
+      name: user_name as userName
+    user_role_name:
+      type: string
+      notnull: true
+      name: user_role_name as userRoleName
+    user_role_predefined:
+      name: user_role_predefined as userRolePredefined
+      type: boolean
+      notnull: true
+    login_time:
+      type: timestamp(25)
+      name: login_time AS loginTime
+  relations:
+    User:
+      local: user_id
+      foreign: id
+      type: one
+    
       

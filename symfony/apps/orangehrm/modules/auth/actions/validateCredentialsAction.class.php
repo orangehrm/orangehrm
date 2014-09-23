@@ -5,7 +5,7 @@ class validateCredentialsAction extends sfAction {
     protected $authenticationService;
     protected $homePageService;
     protected $beaconCommunicationService;
-    
+    protected $loginService;
     
     /**
      * 
@@ -16,6 +16,13 @@ class validateCredentialsAction extends sfAction {
             $this->beaconCommunicationService = new BeaconCommunicationsService();            
         }
         return $this->beaconCommunicationService;
+    }
+    
+    public function getLoginService() {
+        if(is_null($this->loginService)) {
+            $this->loginService = new LoginService();
+        }
+        return $this->loginService;
     }
 
     public function execute($request) {
@@ -40,7 +47,9 @@ class validateCredentialsAction extends sfAction {
                 if ($success) {
                     
                     $this->getBeaconCommunicationService()->setBeaconActivation();
+                    $this->getLoginService()->addLogin();
                     $this->redirect($this->getHomePageService()->getPathAfterLoggingIn($this->getContext()));
+                    
                 } else {
                     $this->getUser()->setFlash('message', __('Invalid credentials'), true);
                     $this->forward('auth', 'retryLogin');
@@ -77,6 +86,10 @@ class validateCredentialsAction extends sfAction {
 
     public function setHomePageService($homePageService) {
         $this->homePageService = $homePageService;
+    }
+    
+    public function getForm() {
+        return null;
     }
 
 }

@@ -47,7 +47,7 @@ class orangehrmPostExecutionFilter extends sfFilter {
 
             $serviceInstance = $this->getServiceClassInstance($service);
             if (method_exists($serviceInstance, $method)) {
-
+                
                 if ($execLevel == self::PRE_EXEC) {
                     $request = $this->getContext()->getRequest();
                     $returnValue = $serviceInstance->$method($request);

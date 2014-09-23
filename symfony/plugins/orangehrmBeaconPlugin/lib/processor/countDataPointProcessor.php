@@ -46,15 +46,27 @@ class countDataPointProcessor extends AbstractBaseProcessor {
             if ($datapoint['type'] == 'count') {
 
                 try {
-
-                    $query = 'SELECT COUNT(*) FROM ' . $datapoint->parameters->table;
+                    if (empty($datapoint->parameters->distinct)) {
+                        $query = 'SELECT COUNT(*) FROM ' . $datapoint->parameters->table;
+                    } else {
+                        $query = "SELECT COUNT( DISTINCT `";
+                        foreach ($datapoint->parameters->distinct as $distinct) {
+                            $query.= $distinct . "` ,";
+                        }
+                        $query = substr($query, 0, -1); //remove last unnecessary comma
+                        $query .= ") FROM " . $datapoint->parameters->table;
+                    }
 
                     if (count($datapoint->parameters->where) > 0) {
                         $query .= ' WHERE ';
                     }
                     $whereFilter = '';
                     foreach ($datapoint->parameters->where as $whereClause) {
-                        $whereQuery = $datapoint->parameters->where->column . ' ' . $datapoint->parameters->where->operation . ' ' . $datapoint->parameters->value;
+                        $whereQuery = $datapoint->parameters->where->column . " " . $datapoint->parameters->where->operation . " ";
+
+                        if(!empty($datapoint->parameters->where->value->asXML())) {
+                            $whereQuery.= is_numeric($datapoint->parameters->where->value . "") ? $datapoint->parameters->where->value . "" : "'" . $datapoint->parameters->where->value . "'";
+                        }
                         if (empty($datapoint->parameters->where->connector)) {
                             $whereFilter = $whereQuery . ' ' . $whereFilter;
                         } else {
@@ -62,7 +74,7 @@ class countDataPointProcessor extends AbstractBaseProcessor {
                         }
                     }
                     $query = $query . $whereFilter;
-
+                    var_dump($query);
                     $pdo = Doctrine_Manager::connection()->getDbh();
                     $query = $pdo->prepare($query);
                     $query->execute();

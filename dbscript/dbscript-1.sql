@@ -1867,3 +1867,11 @@ CREATE TABLE `ohrm_beacon_notification` (
     `definition` LONGTEXT NOT NULL, PRIMARY KEY(id)
 ) ENGINE = INNODB DEFAULT CHARSET=utf8;
 
+CREATE TABLE `ohrm_login` (
+    `id` INT AUTO_INCREMENT, 
+    `user_id` BIGINT NOT NULL, 
+    `user_name` VARCHAR(255), 
+    `user_role_name` TEXT NOT NULL, 
+    `user_role_predefined` TINYINT(1) NOT NULL, 
+    `login_time` TIMESTAMP DEFAULT CURRENT_TIMESTAMP, PRIMARY KEY(id)
+) ENGINE = INNODB DEFAULT CHARSET=utf8;

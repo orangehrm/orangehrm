@@ -30,8 +30,10 @@ class PluginExecutionManager {
     }
 
     public function getPostExecuteMethodStack($module, $action) {
+        
         if (array_key_exists($module, $this->postExecuteMethodStack)) {
             if (array_key_exists($action, $this->postExecuteMethodStack[$module])) {
+                
                 return $this->postExecuteMethodStack[$module][$action];
             } else {
                 return array();

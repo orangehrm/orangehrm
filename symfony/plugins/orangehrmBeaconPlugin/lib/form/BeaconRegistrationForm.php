@@ -34,7 +34,7 @@ class BeaconRegistrationForm extends sfForm{
             'registration'=> new sfValidatorString(array('required'=>false))
         ));
         
-        $this->setDefault('registration', $this->getBeaconConfigurationService()->getBeaconActivationAcceptanceStatus()=='on');
+        $this->setDefault('registration', true);
         
         $this->getWidgetSchema()->setLabels(array(
             'registration' => __('I would like to send usage data to OrangeHRM')

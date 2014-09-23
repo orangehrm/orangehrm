@@ -76,6 +76,8 @@ CREATE TABLE ohrm_leave_status (id INT AUTO_INCREMENT, status SMALLINT, name VAR
 CREATE TABLE ohrm_leave_type (id INT UNSIGNED AUTO_INCREMENT, name VARCHAR(50) NOT NULL, exclude_in_reports_if_no_entitlement TINYINT(1), deleted TINYINT DEFAULT '0' NOT NULL, operational_country_id INT UNSIGNED, PRIMARY KEY(id)) ENGINE = INNODB;
 CREATE TABLE ohrm_license (id BIGINT AUTO_INCREMENT, name VARCHAR(100), PRIMARY KEY(id)) ENGINE = INNODB;
 CREATE TABLE ohrm_location (id BIGINT AUTO_INCREMENT, name VARCHAR(110), country_code VARCHAR(3), province VARCHAR(60), city VARCHAR(60), address VARCHAR(255), zip_code VARCHAR(35), phone VARCHAR(35), fax VARCHAR(35), notes VARCHAR(255), PRIMARY KEY(id)) ENGINE = INNODB;
+CREATE TABLE ohrm_login (id BIGINT AUTO_INCREMENT, user_id BIGINT NOT NULL, user_name VARCHAR(255), user_role_name TEXT NOT NULL, user_role_predefined TINYINT(1) NOT NULL, login_time DATETIME, PRIMARY KEY(id)) ENGINE = INNODB;
+CREATE TABLE ohrm_module_default_page (id BIGINT AUTO_INCREMENT, user_id BIGINT NOT NULL, user_name VARCHAR(255), userrolename TEXT NOT NULL, user_role_predefined TINYINT(1) NOT NULL, login_time DATETIME, PRIMARY KEY(id)) ENGINE = INNODB;
 CREATE TABLE ohrm_membership (id BIGINT AUTO_INCREMENT, name VARCHAR(100), PRIMARY KEY(id)) ENGINE = INNODB;
 CREATE TABLE ohrm_menu_item (id BIGINT AUTO_INCREMENT, menu_title VARCHAR(255), screen_id BIGINT, parent_id BIGINT, level BIGINT, order_hint BIGINT, url_extras VARCHAR(255), status BIGINT, PRIMARY KEY(id)) ENGINE = INNODB;
 CREATE TABLE ohrm_module (id BIGINT AUTO_INCREMENT, name VARCHAR(120), status BIGINT, PRIMARY KEY(id)) ENGINE = INNODB;

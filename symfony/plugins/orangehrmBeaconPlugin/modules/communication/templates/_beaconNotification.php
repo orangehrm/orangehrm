@@ -7,7 +7,7 @@
           <h3>  <?php echo $notificationHeader; ?></h3>
     </div>
         <div class="notification-body" id = "notificationBody">
-            <?php echo $notificationBody; ?>
+            <?php echo html_entity_decode($notificationBody); ?>
         </div>
     </div>
     <?php
