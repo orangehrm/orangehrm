@@ -32,8 +32,8 @@ class configDatapointProcessor extends AbstractBaseProcessor {
 
             $datapoint = new SimpleXMLElement($definition);
             if ($datapoint['type'] == "config") {
-                $key = $datapoint->parameters->key;
-                $name = $datapoint->settings->name;
+                $key = trim($datapoint->parameters->key."");
+                $name = trim($datapoint->settings->name."");
                 $value = null;
                 if (isset($key)) {
                     $value = $beaconConfigService->getConfigValue($key);

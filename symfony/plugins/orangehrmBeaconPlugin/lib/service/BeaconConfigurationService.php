@@ -68,7 +68,7 @@ class BeaconConfigurationService extends ConfigService {
         return $this->_getConfigValue(self::KEY_BEACON_NEXT_FLASH_TIME);
     }
 
-    public function setBeaconNextFlashTime($value = '0000-00-00') {
+    public function setBeaconNextFlashTime($value = '0') {
         return $this->_setConfigValue(self::KEY_BEACON_NEXT_FLASH_TIME, $value);
     }
 

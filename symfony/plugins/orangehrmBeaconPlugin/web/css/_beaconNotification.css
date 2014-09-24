@@ -14,14 +14,18 @@
 .notification-body{
     clear: right;
     float: right;
+   display: block;
 }
 .notification-header {
-    padding: 2px;
-     clear: right;
+      clear: right;
+    display: block;
     float: right;
+    max-height: 1.5em;
+    overflow: hidden;
+    padding: 2px;
 }
 .notification-header h3{
-    font: bolder 1.3em sans-serif;
+    font: bolder 1em sans-serif;
 }
 #branding img {
     float: left;
