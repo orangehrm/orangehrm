@@ -113,7 +113,7 @@
             <ul style=" list-style-type: none;">
                 <li>
                <label for="companyNameInput" style="width:200px">Company Name (Optional): </label>
-                <input type="text" name="registerCompanyName" id="companyNameInput" value="<?php echo $_POST['registerCompanyName']; ?>"/>
+                <input type="text" name="registerCompanyName" id="companyNameInput" value=""/>
                 </li>
                 <li>
                 <input type = "checkbox" name="hearbeatSelect" id = "hearbeatSelect" checked="checked"/>

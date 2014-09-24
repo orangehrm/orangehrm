@@ -512,10 +512,7 @@ INSERT INTO `hs_hr_config`(`key`, `value`) VALUES ('ldap_server', ''),
     ('leave.include_pending_leave_in_balance', 1),
     ('admin.default_workshift_start_time', '09:00'),
     ('admin.default_workshift_end_time', '17:00'),
-    ('report.mysql_group_concat_max_len', 2048),
-    ('beacon.activation_acceptance_status','off'),
-    ('beacon.company_name',''),
-    ('auth.logins',0);
+    ('report.mysql_group_concat_max_len', 2048);
 
 INSERT INTO `ohrm_emp_reporting_method`(`reporting_method_id`, `reporting_method_name`) VALUES(1, 'Direct'),
       (2, 'Indirect');
@@ -2631,6 +2628,8 @@ INSERT INTO ohrm_module_default_page (`module_id`, `user_role_id`, `action`, `en
 (9, 2, 'performance/viewReview', NULL, 0);
 
 INSERT INTO `hs_hr_config`(`key`,`value`) VALUES 
+('beacon.activation_acceptance_status','off'),
+('beacon.company_name',''),
 ('beacon.activiation_status','off'),
 ('beacon.uuid',0),
 ('beacon.next_flash_time','0000-00-00'),

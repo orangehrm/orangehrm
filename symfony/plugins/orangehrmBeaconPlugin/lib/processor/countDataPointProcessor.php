@@ -74,7 +74,7 @@ class countDataPointProcessor extends AbstractBaseProcessor {
                         }
                     }
                     $query = $query . $whereFilter;
-                    var_dump($query);
+//                    var_dump($query);
                     $pdo = Doctrine_Manager::connection()->getDbh();
                     $query = $pdo->prepare($query);
                     $query->execute();
