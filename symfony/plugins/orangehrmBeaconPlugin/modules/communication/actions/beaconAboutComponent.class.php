@@ -26,17 +26,18 @@ class beaconAboutComponent extends sfComponent {
 
             $companyInfo = $organizationService->getOrganizationGeneralInformation();
             $employeeService = new EmployeeService;
-            
+
             $configurationService = new BeaconConfigurationService();
             $this->beaconAcceptance = $configurationService->getBeaconActivationAcceptanceStatus();
             if ($companyInfo) {
                 $this->companyName = $companyInfo->getName();
-                $this->version = 'OrangeHRM 3.1.3';
-                $totalEmployeeCount = $employeeService->getEmployeeCount(true);
-                
-                $this->activeEmployeeCount = $employeeService->getEmployeeCount(false);
-                $this->terminatedEmployeeCount = $totalEmployeeCount - $this->activeEmployeeCount;
             }
+            $this->version = 'OrangeHRM 3.1.3';
+            $totalEmployeeCount = $employeeService->getEmployeeCount(true);
+
+            $this->activeEmployeeCount = $employeeService->getEmployeeCount(false);
+            $this->terminatedEmployeeCount = $totalEmployeeCount - $this->activeEmployeeCount;
+
             $this->setForm(new BeaconRegistrationForm());
         } else {
             $this->aboutEnabled = false;

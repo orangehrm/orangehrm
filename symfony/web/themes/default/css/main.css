@@ -50,7 +50,7 @@ textarea {
 	padding:2px 32px 1px 1px;
 	text-decoration:none;
 	position:absolute;
-	top:55px;
+	top:70px;
 	right:35px;
 	z-index:999;
 }
@@ -61,7 +61,7 @@ textarea {
 	background:#454648;
 	z-index:1100;
 	position:absolute;
-	top:75px;
+	top:88px;
 	right:30px;
 	-webkit-border-radius: 3px;
 	-moz-border-radius: 3px;
