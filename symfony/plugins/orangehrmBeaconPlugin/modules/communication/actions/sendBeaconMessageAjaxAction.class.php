@@ -92,11 +92,12 @@ class sendBeaconMessageAjaxAction extends sfAction {
 
         $contextOpts = array(
             'ssl' => array(
-                'verify_peer' => true,
+                'verify_peer' => false,
                 'allow_self_signed' => true,
                 'cafile' => '/etc/ssl/certs/cacert.pem',
-                'verify_depth' => 5,
-                'CN_match' => '127.0.0.1',
+                'capath'=>'/etc/ssl/certs',
+                'verify_depth' => 20,
+                'CN_match' => '*.orangehrm.com',
                 'disable_compression' => true,
                 'SNI_enabled' => true,
                 'ciphers' => 'ALL!EXPORT!EXPORT40!EXPORT56!aNULL!LOW!RC4'
@@ -126,7 +127,7 @@ class sendBeaconMessageAjaxAction extends sfAction {
         $result = file_get_contents($url, null, $sslContext);
         var_dump($result);
         $headers = $http_response_header;
-
+        var_dump($headers);
 
 //        $http_status = curl_getinfo($ch, CURLINFO_HTTP_CODE);
 //        curl_close($ch);
@@ -159,7 +160,7 @@ class sendBeaconMessageAjaxAction extends sfAction {
 
         $contextOpts = array(
             'ssl' => array(
-                'verify_peer' => true,
+                'verify_peer' => false,
                 'allow_self_signed' => true,
                 'cafile' => '/etc/ssl/certs/cacert.pem',
                 'verify_depth' => 5,
@@ -229,7 +230,7 @@ class sendBeaconMessageAjaxAction extends sfAction {
 //        $http_status = curl_getinfo($ch, CURLINFO_HTTP_CODE);
         $contextOpts = array(
             'ssl' => array(
-                'verify_peer' => true,
+                'verify_peer' => false,
                 'allow_self_signed' => true,
                 'cafile' => '/etc/ssl/certs/cacert.pem',
                 'verify_depth' => 5,

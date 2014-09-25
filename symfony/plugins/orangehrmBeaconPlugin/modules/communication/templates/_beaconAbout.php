@@ -52,14 +52,16 @@ if ($aboutEnabled) {
                                 <?php echo $form->render(); ?>
                             </li>
                         </ol>
-                    </div>
 
-                    <div class="modal-footer">
-                        <br class="clear"/>
-                        <span id="messageToDisplayAbout" style="padding-left: 2px; display: none" class=""></span>
-                        <input type="button" class="btn"  id="heartbeatSubmitBtn" data-dismiss="modal" value="<?php echo __('Ok'); ?>" />
-                        <input type="button" class="btn reset" data-dismiss="modal" value="<?php echo __('Cancel'); ?>" />
-                    </div></div>
+
+                        <div class="modal-footer">
+                            <br class="clear"/>
+                            <span id="messageToDisplayAbout" style="padding-left: 2px; display: none" class=""></span>
+                            <input type="button" class="btn"  id="heartbeatSubmitBtn" data-dismiss="modal" value="<?php echo __('Ok'); ?>" />
+                            <input type="button" class="btn reset" data-dismiss="modal" value="<?php echo __('Cancel'); ?>" />
+                        </div>
+                    </div>
+                </div>
             <?php } ?>
         </form>
     </div>
@@ -85,7 +87,7 @@ if ($aboutEnabled) {
             $(this).closest('form').ajaxSubmit(function() {
                 $('#messageToDisplayAbout').html('Saved');
                 $('#registration-section').css(
-                        'display','none');
+                        'display', 'none');
                 $('#displayAbout').modal('hide');
                 $('#messageToDisplayAbout').css(
                         'display', 'block');
