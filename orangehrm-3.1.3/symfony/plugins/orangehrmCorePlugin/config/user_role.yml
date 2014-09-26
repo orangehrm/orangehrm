@@ -1,0 +1,12 @@
+Admin:
+  class: AdminUserRole
+Supervisor:
+  class: SupervisorUserRole
+ESS:
+  class: EssUserRole
+ProjectAdmin:
+  class: ProjectAdminUserRole
+HiringManager:
+  class: HiringManagerUserRole
+Interviewer:
+  class: InterviewerUserRole

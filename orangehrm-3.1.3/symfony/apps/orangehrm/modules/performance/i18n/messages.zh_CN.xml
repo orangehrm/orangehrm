@@ -1,0 +1,179 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE xliff PUBLIC "-//XLIFF//DTD XLIFF//EN" "http://www.oasis-open.org/committees/xliff/documents/xliff.dtd">
+<xliff version="1.0">
+ <header/>
+ <file source-language="en_US" target-language="zh_CN" datatype="plaintext" original="messages" date="2012-08-22T5:41:00Z" product-name="messages">
+  <body>
+   <trans-unit id="1">
+    <source>Add Key Performance Indicator</source>
+    <target>添加关键绩效指标</target>
+   </trans-unit>
+   <trans-unit id="2">
+    <source>Add Performance Review</source>
+    <target>添加绩效评估</target>
+   </trans-unit>
+   <trans-unit id="3">
+    <source>Being Reviewed</source>
+    <target>正在审查</target>
+   </trans-unit>
+   <trans-unit id="4">
+    <source>Clear</source>
+    <target>清除</target>
+   </trans-unit>
+   <trans-unit id="5">
+    <source>Comment Should Be Less Than %amount% Characters</source>
+    <target>评价字数请少于 %amount% 字</target>
+   </trans-unit>
+   <trans-unit id="6">
+    <source>Copy Key Performance Indicators</source>
+    <target>复制关键绩效指标</target>
+   </trans-unit>
+   <trans-unit id="7">
+    <source>Copy To</source>
+    <target>复制到</target>
+   </trans-unit>
+   <trans-unit id="8">
+    <source>Define Now</source>
+    <target>现在定义</target>
+   </trans-unit>
+   <trans-unit id="9">
+    <source>Due Date</source>
+    <target>截止日期</target>
+   </trans-unit>
+   <trans-unit id="10">
+    <source>Edit Performance Review</source>
+    <target>编辑绩效评估</target>
+   </trans-unit>
+   <trans-unit id="11">
+    <source>Failed to Add: No Job Title Assigned</source>
+    <target>添加失败：未分配职称</target>
+   </trans-unit>
+   <trans-unit id="12">
+    <source>Is Default</source>
+    <target>是默认</target>
+   </trans-unit>
+   <trans-unit id="13">
+    <source>Key Performance Indicator</source>
+    <target>关键绩效指标</target>
+   </trans-unit>
+   <trans-unit id="14">
+    <source>Key Performance Indicators for Job Title</source>
+    <target>职称的关键绩效指标</target>
+   </trans-unit>
+   <trans-unit id="15">
+    <source>KPI Already Exists, This Operation Deletes Existing KPI</source>
+    <target>KPI的已经存在，该操作将删除现有的KPI</target>
+   </trans-unit>
+   <trans-unit id="16">
+    <source>KPI Should Be a Number Within Minimum and Maximum Value</source>
+    <target>KPI的应该是一个介于最小值和最大值之间的数字</target>
+   </trans-unit>
+   <trans-unit id="17">
+    <source>Make Default Scale</source>
+    <target>设为默认比例</target>
+   </trans-unit>
+   <trans-unit id="18">
+    <source>Max Rate</source>
+    <target>最大速率</target>
+   </trans-unit>
+   <trans-unit id="19">
+    <source>Maximum Rating</source>
+    <target>最高评级</target>
+   </trans-unit>
+   <trans-unit id="20">
+    <source>Min Rate</source>
+    <target>最小速率</target>
+   </trans-unit>
+   <trans-unit id="21">
+    <source>Minimum Rating</source>
+    <target>最低评级</target>
+   </trans-unit>
+   <trans-unit id="22">
+    <source>Minimum Rating should be lesser than Maximum Rating</source>
+    <target>最低评级应比最高评级低</target>
+   </trans-unit>
+   <trans-unit id="23">
+    <source>No Defined Job Titles</source>
+    <target>没有定义的职称</target>
+   </trans-unit>
+   <trans-unit id="24">
+    <source>No employee exists with this name</source>
+    <target>没有叫这个名字的员工</target>
+   </trans-unit>
+   <trans-unit id="25">
+    <source>No Key Performance Indicators were found for the job title of this employee</source>
+    <target>这名雇员的职称没有关键绩效指标</target>
+   </trans-unit>
+   <trans-unit id="26">
+    <source>No reviewer exists with this name</source>
+    <target>没有叫这个名字的面试官</target>
+   </trans-unit>
+   <trans-unit id="27">
+    <source>Not Available</source>
+    <target>不可用</target>
+   </trans-unit>
+   <trans-unit id="28">
+    <source>Performance Review</source>
+    <target>绩效评估</target>
+   </trans-unit>
+   <trans-unit id="29">
+    <source>Rating</source>
+    <target>评级</target>
+   </trans-unit>
+   <trans-unit id="30">
+    <source>review of</source>
+    <target>评估</target>
+   </trans-unit>
+   <trans-unit id="31">
+    <source>Review Period</source>
+    <target>评估期间</target>
+   </trans-unit>
+   <trans-unit id="32">
+    <source>Reviewer</source>
+    <target>评估人</target>
+   </trans-unit>
+   <trans-unit id="33">
+    <source>Reviewer Comments</source>
+    <target>评估人意见</target>
+   </trans-unit>
+   <trans-unit id="34">
+    <source>Reviewer Name</source>
+    <target>评估人姓名</target>
+   </trans-unit>
+   <trans-unit id="35">
+    <source>Search Key Performance Indicators</source>
+    <target>搜索关键绩效指标</target>
+   </trans-unit>
+   <trans-unit id="36">
+    <source>Search Performance Reviews</source>
+    <target>搜索绩效考核</target>
+   </trans-unit>
+   <trans-unit id="37">
+    <source>Select Job Title</source>
+    <target>选择职称</target>
+   </trans-unit>
+   <trans-unit id="38">
+    <source>Sub Division</source>
+    <target>分区</target>
+   </trans-unit>
+   <trans-unit id="39">
+    <source>Successfully</source>
+    <target>成功地</target>
+   </trans-unit>
+   <trans-unit id="40">
+    <source>Update Key Performance Indicator</source>
+    <target>更新关键绩效指标</target>
+   </trans-unit>
+   <trans-unit id="41">
+    <source>updated</source>
+    <target>已更新</target>
+   </trans-unit>
+   <trans-unit id="42">
+    <source>View KPI List</source>
+    <target>查看KPI列表</target>
+   </trans-unit>
+  </body>
+ </file>
+</xliff>
+<!-- Contributed By:   ,   ,   ,   ,   ,  Fen xiao ,  Li Monolith , Alice Lieu , ds cao , Edwin Li , Huai Zhenchang , Jessie Wang , Jet Chan , Kobe Omnipotent , Letla Jia , Li Yue , Lihui Jiang , Muse Sun , Patrick Dong , Peng Wei , Qi Feng , Qing Sina , sasf safasf , Sunny Zhang , Troy.Dom Troy.Dom , Wenqiang Niu , Yang Ren , Yue Li -->
+

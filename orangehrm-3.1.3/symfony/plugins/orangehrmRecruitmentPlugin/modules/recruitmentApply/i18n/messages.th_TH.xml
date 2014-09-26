@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE xliff PUBLIC "-//XLIFF//DTD XLIFF//EN" "http://www.oasis-open.org/committees/xliff/documents/xliff.dtd">
+<xliff version="1.0">
+ <header/>
+ <file source-language="en_US" target-language="th_TH" datatype="plaintext" original="messages" date="2012-08-23T2:36:01Z" product-name="messages">
+  <body>
+   <trans-unit id="1">
+    <source>Application Received</source>
+    <target>ได้รับใบสมัครแล้ว</target>
+   </trans-unit>
+   <trans-unit id="2">
+    <source>Uploaded</source>
+    <target>อัปโหลด</target>
+   </trans-unit>
+   <trans-unit id="3">
+    <source>Vacancy Apply Form</source>
+    <target>แบบฟอร์มสมัครงาน</target>
+   </trans-unit>
+  </body>
+ </file>
+</xliff>
+<!-- Contributed By: Dam Phanchot , Pornruedee Thatsanamethin , Pun Sorpitiphorn , Suthep Suthep , Tiyada Noon -->
+

@@ -1,0 +1,7 @@
+rendering:
+  class: sfRenderingFilter
+  param:
+    type: rendering
+
+myFilter:
+  class: myFilter

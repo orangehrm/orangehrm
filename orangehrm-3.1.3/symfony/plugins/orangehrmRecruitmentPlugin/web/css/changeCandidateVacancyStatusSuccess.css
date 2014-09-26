@@ -1,0 +1,20 @@
+form#frmCandidateVacancyStatus .firstLabel {
+    /*    position: relative;*/
+    padding-left: 12px;
+    margin-top: 6px;
+    width: 150px
+}
+
+form#frmCandidateVacancyStatus .secondLabel {
+    /*    position: relative;*/
+    padding-left: 0px;
+    margin-top: 6px;
+    width: 250px
+}
+
+form#frmCandidateVacancyStatus label {
+    /*    position: relative;*/
+    padding-left: 12px;
+    margin-top: 3px;
+    width: 150px
+}

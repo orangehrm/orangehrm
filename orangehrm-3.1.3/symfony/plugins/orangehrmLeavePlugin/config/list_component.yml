@@ -1,0 +1,90 @@
+LeaveEntitlement:
+  pluginName: orangehrmLeavePlugin
+  hasSelectableRows: true
+  unselectableRowIds: []
+  idValueGetter: getId
+  title: ''
+  tableWidth: 100%
+  hasSummary: true
+  summary:
+    summaryLabel: 'Total'
+    summaryField: 'Days'
+    summaryFunction: SUM
+    summaryFieldDecimals: 2
+  buttonsPosition: before-data
+  formMethod: post
+  formAction: 'leave/deleteLeaveEntitlements'
+  assets: []
+  jsInitMethods: []
+  
+HolidayList:
+  pluginName: orangehrmLeavePlugin
+  hasSelectableRows: true
+  unselectableRowIds: []
+  idValueGetter: getId
+  title: ''
+  tableWidth: 100%
+  hasSummary: false
+  summary: []
+  buttonsPosition: before-data
+  formMethod: post
+  formAction: 'leave/deleteHoliday'
+  assets:
+  jsInitMethods: []  
+  
+LeaveTypeList:
+  pluginName: orangehrmLeavePlugin
+  hasSelectableRows: true
+  unselectableRowIds: []
+  idValueGetter: getId
+  title: '<?php echo __("Leave Types");?>'
+  tableWidth: 100%
+  hasSummary: false
+  summary: []  
+  buttonsPosition: before-data
+  formMethod: post
+  formAction: 'leave/deleteLeaveType'
+  assets: []
+  jsInitMethods: []
+  
+LeaveRequest:
+  pluginName: orangehrmLeavePlugin
+  hasSelectableRows: false
+  unselectableRowIds: []
+  idValueGetter: getEmpNumber
+  title: ''
+  tableWidth: 100%
+  hasSummary: false
+  summary: []
+  buttons:
+    Save:
+      label: Save
+      function: handleSaveButton
+  buttonsPosition: after-data
+  formMethod: post
+  formAction: 'leave/changeLeaveStatus'
+  assets: []
+  jsInitMethods: [setPage]
+
+Leave:
+  pluginName: orangehrmLeavePlugin
+  hasSelectableRows: false
+  unselectableRowIds: []
+  idValueGetter: getEmpNumber
+  title: ''
+  tableWidth: 100%
+  hasSummary: false
+  summary: []
+  buttons:
+    Save:
+      label: Save
+      function: handleSaveButton
+    Back:
+      label: Back
+      function: handleBackButton
+      class: reset       
+  buttonsPosition: after-data
+  formMethod: post
+  formAction: 'leave/changeLeaveStatus'
+  assets: []
+  jsInitMethods: []   

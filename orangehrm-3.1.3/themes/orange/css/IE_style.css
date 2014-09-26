@@ -1,0 +1,349 @@
+/**
+ * OrangeHRM is a comprehensive Human Resource Management (HRM) System that captures
+ * all the essential functionalities required for any enterprise.
+ * Copyright (C) 2006 OrangeHRM Inc., http://www.orangehrm.com
+ *
+ * OrangeHRM is free software; you can redistribute it and/or modify it under the terms of
+ * the GNU General Public License as published by the Free Software Foundation; either
+ * version 2 of the License, or (at your option) any later version.
+ *
+ * OrangeHRM is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY;
+ * without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+ * See the GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License along with this program;
+ * if not, write to the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
+ * Boston, MA  02110-1301, USA
+ *
+*/
+/* IE Specific styles to overcome IE behaviour */
+
+/* Added to prevent main heading being hidden in list views. Sets hasLayout */
+div.mainHeading,
+div.subHeading {
+    zoom: 1;
+}
+
+div.messagebar {
+    zoom: 1;
+}
+
+/* Button min-width fix for IE. Without this fix, IE assumes width is min-width */
+input.editbutton,
+input.savebutton,
+input.applybutton,
+input.backbutton,
+input.updatebutton,
+input.clearbutton,
+input.inserttimebutton,
+input.cancelbutton,
+input.resetbutton,
+input.addbutton,
+input.delbutton,
+input.rejectbutton,
+input.resetbutton,
+input.exportbutton,
+input.assignbutton,
+input.viewbutton,
+input.detailsbutton,
+input.submitbutton,
+input.searchbutton {
+    text-align:center;
+    overflow:visible;
+    width:75px !important;
+    padding-left: 4px;
+    padding-right: 4px;
+}
+
+input.plainbtn {
+    text-align:center;
+    overflow:visible;
+    width:75px !important;
+    padding-left: 4px;
+    padding-right: 4px;
+}
+
+input.longbtn {
+    text-align:center;
+    overflow:visible;
+    width:120px !important;
+    padding-left: 4px;
+    padding-right: 4px;
+}
+
+input.extralongbtn {
+    text-align:center;
+    overflow:visible;
+    width:175px !important;
+    padding-left: 4px;
+    padding-right: 4px;
+}
+
+div.formbuttons {
+    text-align: left;
+    width:auto;
+    height:auto;
+    margin-left:5px;
+    margin-right:5px;
+    margin-top:15px;
+    display:block;
+    padding-top: 10px;;
+    padding-bottom: 10px;
+    float:none;
+    border-top: 1px solid #FAD163;
+}
+
+.label{
+    padding-left: 10px;
+    font-weight: bold;
+    font-size: 13px;
+}
+
+.drpDown {
+    margin-top: 5px;
+    width: 228px;
+}
+
+form input.txtBox {
+    border: 1px solid #888888;
+    width: 224px;
+    vertical-align:middle;
+    height:14px;
+    margin-top: 5px;
+}
+
+form#frmJobInterview input.formInputInterviewer {
+    width: 266px;
+}
+
+label.error {
+    clear: both;
+    color: red;
+    display: block;
+    font-size: 11px;
+    margin-top: 5px;
+    padding-left: 140px;
+    width: 140px !important;
+}
+
+/* PIM Job specific styles : Begin */
+
+form#frmEmpJobDetails textarea {
+    margin-top: 5px;
+}
+
+
+.drpDownR {
+    margin-top: 5px;
+    width: 168px;
+}
+
+form input.txtBoxR {
+    border: 1px solid #888888;
+    width: 164px;
+    vertical-align:middle;
+    height:14px;
+    margin-top: 5px;
+}
+
+form#frmEmpTaxExemptions label {
+    margin-top: 6px;
+    width: 140px;
+}
+form#frmEmpTaxExemptions label.error {
+    margin-top: 5px;
+    width: 200px !important;
+    padding-left: 140px;
+}
+form input.formInputM{
+    border: 1px solid #888888;
+    width: 317px;
+    vertical-align:middle;
+    height:14px;
+    margin-top: 5px;
+}
+
+
+table#sup_list td.check {
+    width: 30px;
+    vertical-align: top;
+    padding-top: 6px;
+}
+
+table#sub_list td.check {
+    width: 30px;
+    vertical-align: top;
+    padding-top: 6px;
+}
+
+table#sup_list td.supName {
+    padding-top: 6px;
+    text-align: left;
+}
+
+table#sub_list td.subName {
+    padding-top: 6px;
+    text-align: left;
+}
+
+.checkboxSup, .radio {
+    background-color: #FFFFFF;
+    border: 1px solid #888888;
+    font-size: 11px;
+    padding-left: 4px;
+    padding-right: 4px;
+    background-color: transparent;
+    border: 0 none;
+    margin: 0;
+    vertical-align: bottom;
+}
+
+.checkboxSub, .radio {
+    background-color: #FFFFFF;
+    border: 1px solid #888888;
+    font-size: 11px;
+    padding-left: 4px;
+    padding-right: 4px;
+    background-color: transparent;
+    border: 0 none;
+    margin: 0;
+    vertical-align: bottom;
+}
+
+table#sup_list td {
+    padding-left: 8px;
+    padding-right: 8px;
+    text-align:left;
+    vertical-align: text-top
+}
+
+table#sub_list td {
+    padding-left: 8px;
+    padding-right: 8px;
+    text-align:left;
+    vertical-align: text-top
+}
+
+
+form#frmAddReportTo label label.error {
+    clear: both;
+    color: red;
+    display: block;
+    font-size: 11px;
+    margin-top: 5px;
+    padding-left: 140px;
+    width: 180px !important;
+}
+
+form#frmAddReportTo ul.radio_list {
+    padding-left: 140px;
+    padding-top: 10px;
+    padding-bottom: 8px;
+}
+
+form#frmAddReportTo ul.radio_list li { display: inline;}
+form#frmAddReportTo ul.radio_list li label { display: inline; padding-left:10px; width:90px; padding-top: 0px;}
+form#frmAddReportTo ul.radio_list li input { float:left; margin-top:5px; }
+
+form#frmAddReportTo label {
+    margin-top: 6px;
+    width: 140px
+}
+
+
+#listReportToSupDetails{
+    width: 450px
+}
+
+#listReportToSubDetails{
+    width: 450px
+}
+
+.paddingLeftRequired {
+    padding-left: 15px;
+    padding-top: 5px;
+    font-size: 8pt;
+}
+
+div.subActionbuttons {
+    background-color: white;
+    float: left;
+    padding: 2px;
+/*    width: 30%;*/
+}
+
+div.supActionbuttons {
+    background-color: white;
+    float: left;
+    padding: 2px;
+/*    width: 30%;*/
+}
+/* PIM Job specific styles : End */
+
+.notes {
+	width: 320px;
+}
+
+#addCandidate form#frmAddCandidate input#addCandidate_keyWords {
+    width: 298px;
+}
+
+html body div#addCandidate div.outerbox div.maincontent form#frmAddCandidate div#actionPane div select#viewCandidateAction_5.actionDrpDown {
+    width: 135px;
+}
+
+#addCustomer_customerName{
+    width: 305px
+}
+#addProject_description{
+    width: 295px;
+}
+#location_name{
+    width: 305px;
+}
+#location_province{
+    width: 305px;
+}
+#location_city{
+    width: 305px;
+}
+#location_zipCode{
+    width: 305px;
+}
+#location_phone{
+    width: 305px;
+}
+#location_fax{
+    width: 305px;
+}
+form#frmGenInfo div.leftDiv textarea#organization_note.txtArea{
+    width:195px;
+}
+
+form#frmGenInfo div.rightDiv select#organization_country.drpDown{
+width: 205px;
+}
+
+form#frmList_ohrmListComponent div.actionbar div.formbuttons{
+    width: 400px;
+}
+
+#empsearch_termination{
+    width: 160px;
+}
+
+/* recruitment specific */
+
+form#frmCandidateVacancyStatus .savebutton {
+    width: 110px !important;
+}
+
+/* leave summary specific */
+
+form#frmLeaveSummarySearch #leaveSummary_txtEmpName_empName {
+    width: 196px !important;
+}
+
+form#search_form #searchBtn, form#search_form #resetBtn {
+    width: 85px !important;
+}

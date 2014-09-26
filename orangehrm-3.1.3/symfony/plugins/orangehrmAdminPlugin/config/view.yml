@@ -1,0 +1,98 @@
+membershipSuccess:
+  layout: freshorange
+  javascripts:    [-*]
+  stylesheets:    [-*]
+nationalitySuccess:
+  layout: freshorange
+  javascripts:    [-*]
+  stylesheets:    [-*]
+viewSystemUsersSuccess:
+  layout: freshorange
+  javascripts:    [-*]
+  stylesheets:    [-*]
+viewEmailNotificationSuccess:
+  layout: freshorange
+  javascripts:    [-*]
+  stylesheets:    [-*]
+viewCustomersSuccess:
+  layout: freshorange
+  javascripts:    [-*]
+  stylesheets:    [-*]
+viewProjectsSuccess:
+  layout: freshorange
+  javascripts:    [-*]
+  stylesheets:    [-*]
+viewJobTitleListSuccess:
+  layout: freshorange
+  javascripts:    [-*]
+  stylesheets:    [-*]
+addCustomerSuccess:
+  layout: freshorange
+  javascripts:    [-*]
+  stylesheets:    [-*]
+viewSkillsSuccess:
+  layout: freshorange
+  javascripts:    [-*]
+  stylesheets:    [-*]
+viewEducationSuccess:
+  layout: freshorange
+  javascripts:    [-*]
+  stylesheets:    [-*]
+viewLicensesSuccess:
+  layout: freshorange
+  javascripts:    [-*]
+  stylesheets:    [-*]
+viewLanguagesSuccess:
+  layout: freshorange
+  javascripts:    [-*]
+  stylesheets:    [-*]
+viewPayGradesSuccess:
+  layout: freshorange
+  javascripts:    [-*]
+  stylesheets:    [-*]
+employmentStatusSuccess:
+  layout: freshorange
+  javascripts:    [-*]
+  stylesheets:    [-*]
+jobCategorySuccess:
+  layout: freshorange
+  javascripts:    [-*]
+  stylesheets:    [-*]
+workShiftSuccess:
+  layout: freshorange
+  javascripts:    [-*]
+  stylesheets:    [-*]
+viewLocationsSuccess:
+  layout: freshorange
+  javascripts:    [-*]
+  stylesheets:    [-*]
+payGradeSuccess:
+  layout: freshorange
+  javascripts:    [-*]
+  stylesheets:    [-*]
+locationSuccess:
+  layout: freshorange
+viewOrganizationGeneralInformationSuccess:
+  layout: freshorange
+  javascripts:    [-*]
+  stylesheets:    [-*]
+saveJobTitleSuccess:
+  layout: freshorange
+  javascripts:    [-*]
+  stylesheets:    [-*]
+saveSystemUserSuccess:
+  layout: freshorange
+saveSubscriberSuccess:
+  layout: freshorange
+localizationSuccess:
+  layout: freshorange
+listMailConfigurationSuccess:
+  layout: freshorange
+viewModulesSuccess:
+  layout: freshorange
+saveProjectSuccess:
+  layout: freshorange
+changeUserPasswordSuccess:
+  layout: freshorange
+viewCompanyStructureSuccess:
+  layout: freshorange

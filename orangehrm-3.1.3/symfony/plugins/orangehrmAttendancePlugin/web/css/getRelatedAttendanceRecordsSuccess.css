@@ -1,0 +1,79 @@
+
+root { 
+    display: block;
+}
+.employeeTable{
+    border-collapse: collapse;
+
+}
+table.employeeTable thead td{
+    text-align: left;
+    width: 500px;
+}
+
+#tableHead{
+    background-color: #FAD163;
+    font-weight: bold;
+
+}
+
+thead td {
+    background-color: #FAD163;
+    color: #444444;
+    font-size: 13px;
+    font-weight: bold;
+    padding-bottom: 4px;
+    padding-top: 4px;
+}
+
+.edit,.delete,.punch{
+
+    background: none repeat scroll 0 0 #999966 !important;
+    border-color: #CCCC99 #666633 #666633 #CCCC99 !important;
+    border-style: solid !important;
+    border-width: 1px !important;
+    color: #FFFFFF !important;
+    cursor: default;
+    font-size: 11px;
+    font-weight: bold !important;
+    min-width: 75px;
+    width: auto;
+}
+.formbuttons{
+    border-top: 1px solid #FAD163;
+    display: block;
+    float: none;
+    height: auto;
+    margin-left: 5px;
+    margin-right: 5px;
+    margin-top: 15px;
+    padding-bottom: 10px;
+    padding-top: 10px;
+    text-align: left;
+    width: auto;
+}
+
+.toDelete{
+    margin-top: 0px;
+}
+
+.odd{
+    background-color: #FFFFFF;
+
+}
+
+.even{
+    background-color: #DDDDDD;
+}
+#noRecordsColumn{
+
+    text-align:center;
+}
+#totalVerticalValue{
+
+    font-weight: bold;
+}
+
+br {
+    clear: both;
+}

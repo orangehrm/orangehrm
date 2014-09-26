@@ -1,0 +1,4 @@
+<Files dummy.jpg>
+order allow,deny
+deny from all
+</Files>

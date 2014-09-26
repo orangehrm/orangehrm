@@ -1,0 +1,311 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE xliff PUBLIC "-//XLIFF//DTD XLIFF//EN" "http://www.oasis-open.org/committees/xliff/documents/xliff.dtd">
+<xliff version="1.0">
+ <header/>
+ <file source-language="en_US" target-language="bg_BG" datatype="plaintext" original="messages" date="2012-08-22T5:56:33Z" product-name="messages">
+  <body>
+   <trans-unit id="1">
+    <source>Active</source>
+    <target>Активен</target>
+   </trans-unit>
+   <trans-unit id="2">
+    <source>Add another</source>
+    <target>Добавяне на друг</target>
+   </trans-unit>
+   <trans-unit id="3">
+    <source>Add Candidate</source>
+    <target>Добави кандидат</target>
+   </trans-unit>
+   <trans-unit id="4">
+    <source>Add Job Vacancy</source>
+    <target>Добави за свободните работни места</target>
+   </trans-unit>
+   <trans-unit id="5">
+    <source>Adding Candidate</source>
+    <target>Добавяне на кандидат</target>
+   </trans-unit>
+   <trans-unit id="6">
+    <source>Application Initiated</source>
+    <target>Заявление Иницииран</target>
+   </trans-unit>
+   <trans-unit id="7">
+    <source>applied for the</source>
+    <target>прилага за</target>
+   </trans-unit>
+   <trans-unit id="8">
+    <source>Archived</source>
+    <target>Архив</target>
+   </trans-unit>
+   <trans-unit id="9">
+    <source>Are you sure you want to remove job vacancy of the candidate</source>
+    <target>Сигурни ли сте че искате да премахнете свободно работно място на кандидата</target>
+   </trans-unit>
+   <trans-unit id="10">
+    <source>as failed</source>
+    <target>като не успя</target>
+   </trans-unit>
+   <trans-unit id="11">
+    <source>as passed</source>
+    <target>като премина</target>
+   </trans-unit>
+   <trans-unit id="12">
+    <source>assigned the job vacancy</source>
+    <target>възложено свободно работно място</target>
+   </trans-unit>
+   <trans-unit id="13">
+    <source>by</source>
+    <target>от</target>
+   </trans-unit>
+   <trans-unit id="14">
+    <source>Candidate</source>
+    <target>Кандидат</target>
+   </trans-unit>
+   <trans-unit id="15">
+    <source>Candidate Name</source>
+    <target>Името на Кандидата</target>
+   </trans-unit>
+   <trans-unit id="16">
+    <source>Candidate's History</source>
+    <target>Кандидат-История</target>
+   </trans-unit>
+   <trans-unit id="17">
+    <source>candidateName</source>
+    <target>candidateName</target>
+   </trans-unit>
+   <trans-unit id="18">
+    <source>Cannot assign same interviewer twice</source>
+    <target>Не може да се определя два пъти една и съща интервюиращия</target>
+   </trans-unit>
+   <trans-unit id="19">
+    <source>Cannot assign same vacancy twice</source>
+    <target>Не може да се определя два пъти една и съща свободно работно място</target>
+   </trans-unit>
+   <trans-unit id="20">
+    <source>Click on a candidate to perform actions</source>
+    <target>Кликнете върху кандидат за извършване на действия</target>
+   </trans-unit>
+   <trans-unit id="21">
+    <source>Closed</source>
+    <target>Затворен</target>
+   </trans-unit>
+   <trans-unit id="22">
+    <source>Continue</source>
+    <target>Продължете</target>
+   </trans-unit>
+   <trans-unit id="23">
+    <source>Date of Application</source>
+    <target>Дата на прилагане</target>
+   </trans-unit>
+   <trans-unit id="24">
+    <source>Decline Offer</source>
+    <target>Откажете Оферта</target>
+   </trans-unit>
+   <trans-unit id="25">
+    <source>Details</source>
+    <target>Детайли</target>
+   </trans-unit>
+   <trans-unit id="26">
+    <source>Edit Candidate</source>
+    <target>Редактиране на кандидат</target>
+   </trans-unit>
+   <trans-unit id="27">
+    <source>Edit Interview Details</source>
+    <target>Редактиране на Интервю Детайли</target>
+   </trans-unit>
+   <trans-unit id="28">
+    <source>Edit Job Vacancy</source>
+    <target>Редактиране за свободните работни места</target>
+   </trans-unit>
+   <trans-unit id="29">
+    <source>Editing Candidate</source>
+    <target>Редактиране на кандидат</target>
+   </trans-unit>
+   <trans-unit id="30">
+    <source>from the</source>
+    <target>от</target>
+   </trans-unit>
+   <trans-unit id="31">
+    <source>Hire</source>
+    <target>Наемане</target>
+   </trans-unit>
+   <trans-unit id="32">
+    <source>Hired</source>
+    <target>Нает</target>
+   </trans-unit>
+   <trans-unit id="33">
+    <source>hired</source>
+    <target>нает</target>
+   </trans-unit>
+   <trans-unit id="34">
+    <source>Hiring Manager</source>
+    <target>Отдаване под наем мениджър</target>
+   </trans-unit>
+   <trans-unit id="35">
+    <source>Interview Failed</source>
+    <target>Интервю Неуспешно</target>
+   </trans-unit>
+   <trans-unit id="36">
+    <source>Interview Passed</source>
+    <target>Интервю Приет</target>
+   </trans-unit>
+   <trans-unit id="37">
+    <source>Interview Scheduled</source>
+    <target>Интервю Планирана</target>
+   </trans-unit>
+   <trans-unit id="38">
+    <source>Interview Title</source>
+    <target>Интервю Заглавие</target>
+   </trans-unit>
+   <trans-unit id="39">
+    <source>Interviewer Name</source>
+    <target>Интервюиращ Име</target>
+   </trans-unit>
+   <trans-unit id="40">
+    <source>Job Offered</source>
+    <target>Работа предлагам</target>
+   </trans-unit>
+   <trans-unit id="41">
+    <source>Job Vacancy</source>
+    <target>Свободните работни места</target>
+   </trans-unit>
+   <trans-unit id="42">
+    <source>Manual</source>
+    <target>Наръчник</target>
+   </trans-unit>
+   <trans-unit id="43">
+    <source>Mark Interview Failed</source>
+    <target>Неуспешно Марк Интервю</target>
+   </trans-unit>
+   <trans-unit id="44">
+    <source>Mark Interview Passed</source>
+    <target>Марк Интервю Приет</target>
+   </trans-unit>
+   <trans-unit id="45">
+    <source>marked</source>
+    <target>маркиран</target>
+   </trans-unit>
+   <trans-unit id="46">
+    <source>marked the offer as declined</source>
+    <target>маркирана оферта, като отказа</target>
+   </trans-unit>
+   <trans-unit id="47">
+    <source>Method of Application</source>
+    <target>Метод на приложение</target>
+   </trans-unit>
+   <trans-unit id="48">
+    <source>No Actions</source>
+    <target>Няма действия</target>
+   </trans-unit>
+   <trans-unit id="49">
+    <source>No active job vacancies to display</source>
+    <target>Няма активни свободни работни места за показване</target>
+   </trans-unit>
+   <trans-unit id="50">
+    <source>Number of Positions</source>
+    <target>Брой позиции</target>
+   </trans-unit>
+   <trans-unit id="51">
+    <source>Offer Declined</source>
+    <target>Оферта Отхвърлено</target>
+   </trans-unit>
+   <trans-unit id="52">
+    <source>Offer Job</source>
+    <target>Предложение за работа</target>
+   </trans-unit>
+   <trans-unit id="53">
+    <source>offered the job</source>
+    <target>offred на работа</target>
+   </trans-unit>
+   <trans-unit id="54">
+    <source>on</source>
+    <target>на</target>
+   </trans-unit>
+   <trans-unit id="55">
+    <source>Online</source>
+    <target>Online</target>
+   </trans-unit>
+   <trans-unit id="56">
+    <source>Performed Action</source>
+    <target>Извършва действие</target>
+   </trans-unit>
+   <trans-unit id="57">
+    <source>Performed Date</source>
+    <target>Извършва Дата</target>
+   </trans-unit>
+   <trans-unit id="58">
+    <source>Publish in RSS feed(1) and web page(2)</source>
+    <target>Публикува избраните фуражи (1) и уеб страница (2)</target>
+   </trans-unit>
+   <trans-unit id="59">
+    <source>Remove?</source>
+    <target>Премахване?</target>
+   </trans-unit>
+   <trans-unit id="60">
+    <source>removed</source>
+    <target>премахнати</target>
+   </trans-unit>
+   <trans-unit id="61">
+    <source>RSS Feed URL</source>
+    <target>RSS Feed URL</target>
+   </trans-unit>
+   <trans-unit id="62">
+    <source>Schedule Interview</source>
+    <target>График Интервю</target>
+   </trans-unit>
+   <trans-unit id="63">
+    <source>scheduled</source>
+    <target>планиран</target>
+   </trans-unit>
+   <trans-unit id="64">
+    <source>Shortlist</source>
+    <target>Кратък списък</target>
+   </trans-unit>
+   <trans-unit id="65">
+    <source>Shortlisted</source>
+    <target>В списъка</target>
+   </trans-unit>
+   <trans-unit id="66">
+    <source>Shortlisted for</source>
+    <target>В списъка за</target>
+   </trans-unit>
+   <trans-unit id="67">
+    <source>Should be less than current date</source>
+    <target>Трябва да бъде по-малко от текущата дата</target>
+   </trans-unit>
+   <trans-unit id="68">
+    <source>Successfully Scheduled</source>
+    <target>Успешно Планирана</target>
+   </trans-unit>
+   <trans-unit id="69">
+    <source>This action will remove previous vacancy</source>
+    <target>Това действие ще премахне предишната свободно работно място</target>
+   </trans-unit>
+   <trans-unit id="70">
+    <source>Vacancy</source>
+    <target>Вакантно място</target>
+   </trans-unit>
+   <trans-unit id="71">
+    <source>Vacancy Name</source>
+    <target>Vacancy Име</target>
+   </trans-unit>
+   <trans-unit id="72">
+    <source>View Action History</source>
+    <target>Преглед на История за действие</target>
+   </trans-unit>
+   <trans-unit id="73">
+    <source>View Interview Details</source>
+    <target>Интервю Детайли</target>
+   </trans-unit>
+   <trans-unit id="74">
+    <source>Web Page URL</source>
+    <target>URL адрес на уеб страница</target>
+   </trans-unit>
+   <trans-unit id="75">
+    <source>with</source>
+    <target>с</target>
+   </trans-unit>
+  </body>
+ </file>
+</xliff>
+<!-- Contributed By:   , Jeni  Mincheva -->
+

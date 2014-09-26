@@ -1,0 +1,23 @@
+# supported languages
+#
+# Please enter in ascending alphabetical order of 'value' (language name)
+languages:
+#  0: {key: 'fr_CA', value: 'French - Canada'}  
+  1: {key: 'en_US', value: 'US English'}  
+  2: {key: 'fr_FR', value: 'French - France'}
+#  3: {key: 'ja_JP', value: 'Japanese'}
+  4: {key: 'es_ES', value: 'Spanish - Spain'}
+  5: {key: 'om_ET', value: 'Oromo'}
+  6: {key: 'id_ID', value: 'Indonesian'}
+  7: {key: 'zh_CN', value: 'Chinese - China'}
+  8: {key: 'bg_BG', value: 'Bulgarian - Bulgaria'}
+  9: {key: 'da_DK', value: 'Danish - Denmark'}
+  10: {key: 'es_AR', value: 'Spanish - Argentina'}
+  11: {key: 'vi_VN', value: 'Vietnamese - Viet Nam'}
+  12: {key: 'es_BZ', value: 'Spanish - Belize'}
+  13: {key: 'th_TH', value: 'Thai - Thailand'}
+#  14: {key: 'zz_ZZ', value: 'test - TEST'}
+
+
+
+

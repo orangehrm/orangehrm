@@ -1,0 +1,57 @@
+DataPointType:
+  tableName: ohrm_datapoint_type
+  columns:
+    id:
+      type: integer
+      primary: true
+      autoincrement: true
+    name: 
+      type: string(100)
+      notnull: true
+    action_class:
+      name: action_class as actionClass
+      type: string(255)
+      notnull: true
+      
+DataPoint:
+  tableName: ohrm_datapoint
+  columns:
+    id: 
+      type: integer
+      primary: true
+      autoincrement: true
+    name:
+      type: string(100)
+    datapoint_type_id:
+      name: datapoint_type_id as datapointTypeId
+      type: integer
+      notnull: true
+    definition:
+      type: clob
+      notnull: true
+  relations:
+    DataPointType:
+      local: datapoint_type_id
+      foreign: id
+      
+      
+BeaconNotification:
+  tableName: ohrm_beacon_notification
+  columns: 
+    id:
+      type: integer
+      primary: true
+      autoincrement: true
+    name:
+      type: string(100)
+      notnull: true
+    expiry_date:
+      type: timestamp(25)  
+      name: expiry_date as expiryDate
+      notnull: true
+    definition:
+      type: clob
+      notnull: true
+   
+   
+     

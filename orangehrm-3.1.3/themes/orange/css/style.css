@@ -1,0 +1,1684 @@
+/**
+ * OrangeHRM is a comprehensive Human Resource Management (HRM) System that captures
+ * all the essential functionalities required for any enterprise.
+ * Copyright (C) 2006 OrangeHRM Inc., http://www.orangehrm.com
+ *
+ * OrangeHRM is free software; you can redistribute it and/or modify it under the terms of
+ * the GNU General Public License as published by the Free Software Foundation; either
+ * version 2 of the License, or (at your option) any later version.
+ *
+ * OrangeHRM is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY;
+ * without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+ * See the GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License along with this program;
+ * if not, write to the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
+ * Boston, MA  02110-1301, USA
+ *
+ */
+
+/* New confirmed styles */
+
+/* Buttons */
+/* Multiple classes used to make it easier to change styling per button later */
+input.backbutton,
+input.editbutton,
+input.savebutton,
+input.applybutton,
+input.approvebutton,
+input.updatebutton,
+input.clearbutton,
+input.inserttimebutton,
+input.cancelbutton,
+input.resetbutton,
+input.addbutton,
+input.delbutton,
+input.rejectbutton,
+input.exportbutton,
+input.assignbutton,
+input.viewbutton,
+input.detailsbutton,
+input.submitbutton,
+input.searchbutton,
+input.punchbutton {
+	background:#999966 none repeat scroll 0 0 !important;
+	border-color:#CCCC99 #666633 #666633 #CCCC99 !important;
+	border-style:solid !important;
+	border-width:1px !important;
+	color:#FFFFFF !important;
+	font-size: 11px;
+	font-weight:bold !important;
+	min-width:75px;
+	width: auto;
+	cursor: default;
+}
+
+input.plainbtn, 
+div.box input[type=button],
+div.box input[type=reset] {
+	background:#999966 none repeat scroll 0 0 !important;
+	border-color:#CCCC99 #666633 #666633 #CCCC99 !important;
+	border-style:solid !important;
+	border-width:1px !important;
+	color:#FFFFFF !important;
+	font-size: 11px;
+	font-weight:bold !important;
+	min-width:75px;
+	width: auto;
+	cursor: default;
+}
+
+input.csvplainbtn {
+	background:#999966 none repeat scroll 0 0 !important;
+	border-color:#CCCC99 #666633 #666633 #CCCC99 !important;
+	border-style:solid !important;
+	border-width:1px !important;
+	color:#FFFFFF !important;
+	font-size: 11px;
+	font-weight:bold !important;
+	min-width:80px;
+	width: auto;
+	cursor: default;
+}
+
+input.longbtn {
+	background:#999966 none repeat scroll 0 0 !important;
+	border-color:#CCCC99 #666633 #666633 #CCCC99 !important;
+	border-style:solid !important;
+	border-width:1px !important;
+	color:#FFFFFF !important;
+	font-size: 11px;
+	font-weight:bold !important;
+	min-width:120px;
+	width: auto;
+	cursor: default;
+}
+
+input.extralongbtn {
+	background:#999966 none repeat scroll 0 0 !important;
+	border-color:#CCCC99 #666633 #666633 #CCCC99 !important;
+	border-style:solid !important;
+	border-width:1px !important;
+	color:#FFFFFF !important;
+	font-size: 11px;
+	font-weight:bold !important;
+	min-width:175px;
+	width: auto;
+	cursor: default;
+}
+
+input.backbuttonhov,
+input.editbuttonhov,
+input.savebuttonhov,
+input.applybuttonhov,
+input.approvebuttonhov,
+input.inserttimebuttonhov,
+input.updatebuttonhov,
+input.clearbuttonhov,
+input.cancelbuttonhov,
+input.resetbuttonhov,
+input.addbuttonhov,
+input.delbuttonhov,
+input.rejectbuttonhov,
+input.exportbuttonhov,
+input.assignbuttonhov,
+input.viewbuttonhov,
+input.detailsbuttonhov,
+input.submitbuttonhov,
+input.searchbuttonhov,
+input.punchbuttonhov,
+input.plainbtnhov,
+input.longbtnhov,
+input.extralongbtnhov {
+	border-color: #c63 #c63 #930 #930 !important;
+}
+
+/* Back button */
+a.backbutton {
+	display:block;
+	width:65px;
+	height:20px;
+	cursor: default;
+	background: url(../pictures/btn_backdual.gif) no-repeat left top;
+}
+a.backbutton:hover {
+	background-position: 0 -20px;
+}
+a.backbutton span {
+	display:none;
+}
+
+/* TODO: Rename to pageTitle or formTitle */
+div.mainHeading {
+	padding: 4px 0px 7px 8px;
+	width:auto;
+	border:0;
+	background-color: #FAD163;
+	color: black;
+	text-align:left;
+}
+
+div.subHeading {
+	padding: 1px 0px 4px 8px;
+	width:auto;
+	border:0;
+	background-color: #FAD163;
+	color: black;
+	text-align:left;
+}
+div.subHeading h3 {
+	color: black;
+	font-family: Arial, Verdana, Helvetica, sans-serif;
+	font-size: 15px;
+	font-weight: bold;
+	margin-bottom: 0px;
+	margin-top: 0px;
+}
+
+
+
+/* message bar - eg: successfully updated */
+div.messagebar span {
+	font-size: 10px;
+	padding-left: 4px;
+}
+
+/* TODO: Take out the width */
+div.messagebar {
+    width: auto;
+    text-align: left;
+    margin: 0;
+    padding: 2px 0 2px 0px;
+    border-top: 0;
+    border-bottom:1px solid #FAD163;
+    background-color: white;
+}
+
+div.searchbox {
+    width: auto;
+    margin: 0;
+    padding: 6px 0 6px 0;
+    border-top: 0;
+    border-bottom:1px solid #FAD163;
+    background-color: white;
+}
+
+div.searchbox label {
+	font-weight: bold;
+	color: black;
+	float: left;
+	padding-left: 0 0 0 4px;
+    margin: 0px 4px 0px 0px;
+    text-align: left;
+    width: auto;
+}
+
+div.searchbox input,
+div.searchbox select {
+	margin-right: 30px;
+	float:left;
+}
+
+div.searchbox input.plainbtn {
+	margin-right: 4px;
+}
+
+br.clear {
+	clear:both;
+}
+
+/* Data table styling start */
+
+table.data-table,
+table.table {
+	width: 100%;
+	border: none;
+	background-color:#FAD163;
+}
+
+table.data-table thead,
+table.table thead {
+	background-color:#FAD163;
+}
+
+table.data-table thead td,
+table.table thead td {
+	padding-top: 4px;
+	padding-bottom: 4px;
+	font-size: 13px;
+	color: #444444;
+	font-weight: bold;
+}
+
+table.data-table thead td a.null,
+table.data-table thead th a.null,
+table.table thead td a.null,
+table.table thead th a.null {
+	background: url(../icons/null.png) no-repeat right center;
+	padding-right: 10px;
+}
+
+table.data-table thead td a.ASC,
+table.data-table thead th a.ASC,
+table.table thead td a.ASC,
+table.table thead th a.ASC {
+	background: url(../icons/ASC.png) no-repeat right center;
+	padding-right: 10px;
+}
+table.data-table thead td a.DESC,
+table.data-table thead th a.DESC,
+table.table thead td a.DESC,
+table.table thead th a.DESC {
+	background: url(../icons/DESC.png) no-repeat right center;
+	padding-right: 10px;
+}
+
+table.data-table tbody,
+table.table tbody {
+	background-color:#ffffff;
+	height:auto;
+	/*overflow:auto;*/
+}
+table.data-table tbody tr,
+table.table tbody tr {
+	height: 1em;
+}
+table.data-table tbody tr td,
+table.table tbody tr td {
+	padding-left: 1px;
+	padding-right: 1px;
+	padding-top: 2px;
+	padding-bottom: 2px;
+}
+
+table.data-table tbody td a,
+table.table tbody td a {
+	font-size: 12px;
+	color: #000000;
+	text-decoration: underline;
+}
+
+table.data-table tbody td a:hover,
+table.table tbody td a:hover {
+	font-size: 12px;
+	color: #000000;
+	text-decoration: underline;
+}
+
+table.data-table tr.odd td,
+table.table tr.odd td {
+	background-color: white;
+}
+
+table.data-table tr.even td,
+table.table tr.even td {
+	background-color: #eeeeee;
+}
+
+/* Data table styling end */
+
+/* Start search page styling */
+.outerbox .formcontent {
+    background-color: #FFF;
+	border:0px solid #FAD163;
+	border-width:0 2px;
+
+	/* Height given to give hasLayout to avoid peekaboo bug in IE */
+	height: 100%;
+}
+
+div.actionbar {
+	background-color:white;
+	width:100%;
+	display:block;
+	float:left;
+}
+
+div.actionbuttons {
+	background-color:white;
+	padding: 2px;
+	width:35%;
+	float:left;
+}
+
+div.noresultsbar {
+	background-color:#FFF7D7;
+	padding-top: 4px;
+	width: auto;
+	float:left;
+}
+
+div.pagingbar {
+	background-color:inherit;
+	text-align: left;
+	padding-top: 1px;
+	padding-bottom: 1px;
+	padding-right:2px;
+	width: auto;
+	display:block;
+	float:right;
+}
+
+div.pagingbar span.inactive {
+	color:gray;
+	font-size:11px;
+}
+/* End search page styling */
+
+/* Results table in pim */
+div.pimpanel div.actionbar {
+	border-top: 1px solid #FAD163;
+	border-bottom: 1px solid #FAD163;
+}
+
+div.pimpanel div.actionbar div.actionbuttons {
+	padding: 3px 0 3px 3px;
+	width: 80%;
+}
+
+/* Start round border styles */
+.outerbox .top .left{
+	float:left;
+	width:8px;
+	height:2px;
+	background: #FAD163 url(../pictures/topleft.gif) no-repeat top left;
+}
+
+.outerbox .top .right{
+	float:right;
+	width:8px;
+	height:2px;
+	background: #FAD163 url(../pictures/topright.gif) no-repeat top right;
+}
+
+.outerbox .top .middle{
+	margin:0 8px;
+	background:#FAD163;
+	height:2px;
+}
+.outerbox .bottom .left{
+	float:left;
+	width:8px;
+	height:2px;
+	background: #FAD163 url(../pictures/bottomleft.gif) no-repeat bottom left;
+}
+
+.outerbox .bottom .right{
+	float:right;
+	width:8px;
+	height:2px;
+	background: #FAD163 url(../pictures/bottomright.gif) no-repeat bottom right;
+}
+
+.outerbox .bottom .middle{
+	margin:0 8px;
+	background:#FAD163;
+	height:2px;
+}
+.outerbox .maincontent {
+    background-color: white;
+	border:0px solid #FAD163;
+	border-width:0 2px;
+
+	/* Height given to give hasLayout to avoid peekaboo bug in IE */
+	height: auto;
+	/*height: 100%;*/
+}
+
+    .maincontent ul{
+        padding: 0; margin: 0;
+    }
+    .maincontent ul li{
+        padding: 0; margin: 0;
+        list-style: none;
+    }
+    .maincontent ul li .left{
+        float: left;
+        width: 290px;
+    }
+    .maincontent ul li .right{
+        float: right;
+        width: 290px;
+    }
+    .maincontent .clear{
+        float: none;
+        clear: both;
+    }
+
+    
+.outerbox .top div, .outerbox .bottom div{
+	font-size:0;
+}
+.outerbox {
+	margin-top: 10px;
+	margin-left: 15px;
+	width: 98%;
+}
+/* End round border styles */
+
+/* Start form page styling */
+
+/* Main div for page */
+div.formpageNarrow {
+    width: 400px;
+}
+div.formpage {
+	width: 530px;
+}
+div.formpage2col {
+	width: 680px;
+}
+
+div.formpage3col {
+    width: 700px;
+}
+
+/* div with back button */
+div.navigation {
+	margin-top:5px;
+	margin-left:15px;
+}
+
+/* Styling for required mark */
+span.required {
+	color: red;
+}
+
+/* Error in a single field, shown next to it */
+div.fielderror {
+	display:block;
+	float: left;
+	margin:10px;
+	color: red;
+}
+
+/* Required field notice */
+div.requirednotice {
+	margin-left:16px;
+    margin-top:5px;
+}
+
+div.fieldHint {
+	display:block;
+	float:left;
+    margin-left: 10px;
+    font-style: italic;
+}
+
+label.sideHint {
+	font-size:10px;
+	width:120px;
+	color:#999999;
+	font-style:italic;
+}
+
+/* Form elements */
+select.formSelect, input.formInputText,textarea.formTextArea, input.formDateInput,
+input.fileselect, span.formValue, span.formLabel, span.wideFormLabel, span.wideFormValue,
+div.wideFormValue, select.formTimeSelect, input.formFileInput {
+    display: block;
+    float: left;
+    margin-top: 5px;
+    margin-left: 2px;
+}
+
+label
+{
+   width: 10px;
+    display: block;
+    float: left;
+    margin: 10px 0px 2px 0px;	
+   	
+}
+
+input.formRadio, input.formCheckbox {
+	display: block;
+	float: left;
+	margin: 10px 0 2px 0;
+}
+
+input.formCheckboxWide {
+    display: block;
+    float: left;
+    margin: 10px 100px 0 0;
+}
+input.alignCheckbox {
+	display: block;
+	float: left;
+	margin: 10px 0 2px 0px;
+}
+
+span.formFieldContainer {
+	display:block;
+	float:left;
+	width:150px;
+	margin-left: 10px;
+}
+
+label, span.formLabel, span.wideFormLabel {
+    text-align: left;
+    width: 120px;
+    padding-left: 20px;
+}
+label.optionlabel {
+	width: auto;
+	margin-right:2px;
+}
+
+select.formSelect, input.formInputText,textarea.formTextArea, span.formValue, span.wideFormValue, div.wideFormValue {
+    margin-left: 10px;
+    width: 150px;
+}
+
+input.formFileInput {
+    margin-left: 10px;
+}
+
+select.formSelect {
+    width: 160px;
+}
+
+select.formTimeSelect {
+    margin-left: 10px;
+    width: 5em;
+}
+
+input.formInputText, textarea.formTextArea, span.formValue {
+    padding-left: 4px;
+    padding-right: 4px;
+}
+
+textarea.formTextArea {
+    width: 250px;
+}
+
+input.longField {
+	width: 300px;
+}
+
+input.empPopupButton, input[type=button].empPopupButton {
+    display: block;
+    float: left;
+    margin-top: 10px;
+    margin-left: 10px;
+}
+
+select.countrySelect {
+	width:auto;
+}
+
+span.wideFormLabel {
+    width:200px;
+}
+span.wideFormValue, div.wideFormValue {
+    width:250px;
+}
+
+/* Date input*/
+input.formDateInput {
+	margin-left: 10px;
+	padding-left: 4px;
+	padding-right: 4px;
+	width: 150px;
+}
+input.calendarBtn, input[type=button].calendarBtn {
+	display: block;
+	float: left;
+	border: 0;
+	margin-top: 6px;
+	margin-left: 6px;
+	width: 16px;
+	height: 16px;
+	background-image: url(../icons/calendar.gif);
+	background-repeat: no-repeat;
+	background-position: center;
+}
+
+/* Div with buttons (save, edit, cancel) in form */
+div.formbuttons {
+	text-align: left;
+	width:auto !important;
+	height:auto;
+	margin-left:5px;
+	margin-right:5px;
+	margin-top:15px;
+	display:block;
+	padding-top: 10px;;
+	padding-bottom: 10px;
+	float:none;
+	border-top: 1px solid #FAD163;
+}
+
+div.loading {
+	display: none;
+    text-align:right;
+    background-position: right;
+    background-image: url(../icons/loading.gif);
+    background-repeat: no-repeat;
+}
+div.loading span {
+    vertical-align:text-top;
+}
+
+/* End form page styling */
+
+/* PIM specific styling */
+#toggleContractLayerLink {
+	margin-left:50px;
+	background-position: left;
+	background-image: url(../icons/contract_show.png);
+	background-repeat: no-repeat;
+	padding-left: 20px;
+	outline: none;
+}
+
+#toggleContractLayerLink.show {
+	background-image: url(../icons/contract_show.png);
+}
+
+#toggleContractLayerLink.hide {
+	background-image: url(../icons/contract_hide.png);
+}
+
+#toggleJobHistoryLayerLink {
+	margin-left:10px;
+	background-position: left;
+	background-image: url(../icons/contract_show.png);
+	background-repeat: no-repeat;
+	padding-left: 20px;
+	outline: none;
+}
+
+#toggleJobHistoryLayerLink.show {
+	background-image: url(../icons/contract_show.png);
+}
+
+#toggleJobHistoryLayerLink.hide {
+	background-image: url(../icons/contract_hide.png);
+}
+
+div.addPane {
+    display: none;
+}
+
+/* Sub lists in PIM */
+
+td.tabForm {
+	padding: 0;
+	border-top: 1px solid #FAD163;
+	border-right: 1px solid #FAD163;
+	border-bottom: 1px solid #FAD163;
+	border-left: 1px solid #FAD163;
+}
+
+td.leftList {
+	padding: 0;
+	border-right: 1px solid #FAD163;
+}
+td.rightList {
+	padding: 0;
+	border: 0;
+}
+/* End PIM specific styling */
+
+/* Start generic styling */
+.hide {
+    display:none;
+}
+
+.show {
+    display: block;
+}
+
+tr.show {
+    display: table-row;
+}
+
+/*------------------------------------------------------------------ End confirmed styles -----------------------------------------------------*/
+
+/* Default Styles */
+
+thead th{
+	padding-right: 5px;
+	padding-left: 5px;
+}
+
+body {
+	margin: 0px 0px 0px 0px;
+	font-family: Arial, Verdana, Helvetica, sans-serif;
+	color: #444444;
+	font-size: 12px;
+	background-color: #ffffff;
+	}
+
+.body {
+	font-size: 12px;
+	}
+
+table,td {
+	color: #000000;
+	font-size: 12px;
+	}
+
+p {
+	MARGIN-TOP: 0px;
+	MARGIN-BOTTOM: 10px;
+	}
+
+form {
+	margin: 0px;
+	}
+
+h1 {
+	color: #EA1313;
+	font-family: Arial, Verdana, Helvetica, sans-serif;
+	font-size: 20px;
+	font-weight: bold;
+	margin-bottom: 8px;
+    padding-left: 10px;
+	}
+
+h2 {
+	color: black;
+	font-family: Arial, Verdana, Helvetica, sans-serif;
+	font-size: 18px;
+	font-weight: bold;
+	margin-bottom: 0px;
+	margin-top: 0px;
+	}
+
+h3 {
+	color: #7f0000;
+	font-family: Arial, Verdana, Helvetica, sans-serif;
+	font-size: 16px;
+	font-weight: bold;
+	margin-bottom: 4px;
+	}
+
+h4 {
+	color: #333333;
+	font-family: Arial, Verdana, Helvetica, sans-serif;
+	font-size: 14px;
+	font-weight: bold;
+	margin-bottom: 2px;
+	}
+
+h5 {
+	color: #333333;
+	font-family: Arial, Verdana, Helvetica, sans-serif;
+	font-size: 13px;
+	font-weight: bold;
+	margin-bottom: 1px;
+	}
+
+LI {
+	LIST-STYLE-TYPE: square;
+	margin-left: 6px;
+	MARGIN-BOTTOM: 2px;
+	}
+
+UL {
+	MARGIN-TOP: 2px;
+	}
+
+hr {
+	height: 1px;
+}
+a:link, a:visited {
+	color: #444444;
+	font-size: 11px;
+/*	text-decoration: underline; */
+	}
+a:hover {
+/*	color: #666666;
+	text-decoration: underline; */
+	}
+/* Form Styles */
+
+.button {
+	font-size: 11px;
+	color: #666666;
+	font-weight: bold;
+	background-image: url(../pictures/btn_bg.gif);
+	}
+
+.buttonOn {
+	border: 1px solid #444444;
+	background-color: #ffffff;
+	font-size: 11px;
+	color: #444444;
+	font-weight: normal;
+	}
+
+/* Select padding-left set to 0 to match input boxes, since select boxes seem to have padding anyway */
+select {
+	border: 1px solid #888888;
+	font-size: 11px;
+	background-color: #ffffff;
+	padding-left: 0px;
+	}     
+    input {
+            font-size: 11px;
+    }      
+    
+input:not([type=image]) {
+	border: 1px solid #888888;
+	font-size: 11px;
+	background-color: #ffffff;
+	padding-left: 4px;
+	padding-right: 4px;
+	}
+
+textarea {
+	font-family: Arial, Verdana, Helvetica, sans-serif;
+	border: 1px solid #888888;
+	font-size: 12px;
+	background-color: #ffffff;
+	padding-left: 4px;
+	padding-right: 4px;
+	}
+.checkbox,.radio {
+	border:0px;
+	background-color: transparent;
+	margin: 0px;
+	vertical-align: bottom;
+	}
+
+
+/* Content Specific Styles */
+	/* body text */
+	.contentBox {
+		background-color: #efefef;
+		border: 1px #9e9e9e solid;
+		padding: 5px;
+	}
+	.teamNoticeBox {
+		background-color: #eeeeee;
+		border: 1px #980000 solid;
+		padding-left: 5px;
+		padding-right: 5px;
+		color: #00568C;
+	}
+	a.body:link, a.body:visited {
+		color: #444444;
+		font-size: 12px;
+/*		text-decoration: underline;*/
+		}
+
+	a.body:hover {
+/*		color: #666666;
+		text-decoration: underline; */
+		}
+
+	/*for the main screen navigation tabs*/
+	.currentTab {
+		color: #333333;
+		font-size: 12px;
+		font-weight: bold;
+		padding-top: 1px;
+		background : url(../pictures/nCurrentTab_middle.gif);
+		}
+	a.currentTab:link, a.currentTab:visited {
+		color: #333333;
+		text-decoration: none;
+		}
+	a.currentTab:hover {
+		color: #666666;
+		text-decoration: none;
+		}
+	.currentTabLeft {
+		background : url(../pictures/nCurrentTab_left.gif);
+		}
+	.currentTabRight {
+		background : url(../pictures/nCurrentTab_right.gif);
+		}
+	.tabSpace {
+		background : url(../pictures/emptyTabSpace.gif);
+		}
+
+	.otherTab {
+		font-size: 12px;
+		font-weight: bold;
+		}
+	td.otherTab {
+		background-image : url(../pictures/otherTab_middle.png);
+		}
+	a.otherTab:link, a.otherTab:visited {
+		color: #6e6e6e;
+		text-decoration: none;
+		}
+	a.otherTab:hover {
+		color: #3C3C3C;
+		text-decoration: none;
+		}
+	.otherTabLeft {
+		background : url(../pictures/otherTab_left.png);
+		}
+	.otherTabRight {
+		background : url(../pictures/otherTab_right.png);
+		}
+	.tabSeparator {
+		padding-left:7px;
+		background-image :url(../pictures/nCurrentTab_left.gif);
+	}
+	.tabRow {
+		background-color: white;
+	}
+	.tabContainer {
+		width: 100%;
+		background-color: #E5E5E5;
+/*		border-width: 0px;
+		border-collapse: collapse;
+		border-spacing: 0px;
+		margin: 0px;
+		padding: 0px;*/
+	}
+	.tabLeftSpace {
+	}
+	#companyLogoHeader{
+		background : url(../pictures/orange3.png) no-repeat top left;
+		width: 264px;
+		height: 62px;
+		margin-left: 10px;
+		border-width: 0px;
+		float:left;
+		display:block;
+	}
+	#rightHeaderImage {
+		/*background : url(../pictures/top_img.jpg) no-repeat top right;*/
+		width: 300px;
+		height: 62px;
+		float:right;
+		display:block;
+	}
+	.companyLogoHeader {
+		background : url(../pictures/orange3.png) no-repeat 10px 1px;
+		width: 264px;
+		height: 62px;
+		margin-left: 10px;
+		border-width: 0px;
+		}
+	.headerRight {
+		background : url(../pictures/top_img.jpg) no-repeat top right;
+		width: 300px;
+		height: 62px;
+		}
+
+	.subMenuTDIcon {
+		font-size: 11px;
+		color: #ffffff;
+		background-color: #efefef;
+		padding-bottom: 2px;
+		padding-top: 1px;
+		padding-left: 3px;
+		padding-right: 3px;
+		border-right: 1px solid #fefefe;
+		}
+	.subMenuTD {
+		font-size: 11px;
+		color: #ffffff;
+		background-color: #DFDFDF;
+		padding-bottom: 2px;
+		padding-top: 1px;
+		border-bottom: 1px solid #EDEDED;
+		}
+	a.subMenuLink:link, a.subMenuLink:visited {
+		color: #444444;
+		text-decoration: none;
+		border-bottom: 0px;
+		padding-left: 0px;
+		}
+	a.subMenuLink:hover {
+		color: #666666;
+		text-decoration: none;
+		border-bottom: 0px;
+		}
+	.bugtrackerLeftCol {
+		height: 800;
+		width: 158;
+		background-color: #FFB121;
+	}
+
+	/*welcome user and date bar and last view*/
+	.moduleTitle {
+	border-bottom: 1px solid #aaaaaa;
+	color: black;
+	}
+	.welcome {
+		font-size: 12px;
+		font-weight: bold;
+		color: #333333;
+		background-color: #FF9900;
+		border-bottom: 1px solid #000000;
+		padding-left: 10px;
+		}
+	.searchField {
+		border: 1px solid #323232;
+		font-size: 11px;
+		background-color: #ffffff;
+	}
+
+        td.search a {
+               color: #444444;
+        }
+	.search {
+		color: #ffffff;
+		background-color: #FF9900;
+		border-bottom: 1px solid #000000;
+		padding-right: 10px;
+		text-align: right;
+		}
+	.searchSeparator {
+		border-bottom: 1px solid #000000;
+		background-color: #FF9900;
+		background-image: url(../pictures/nSearchSeparator.gif);
+		padding-right: 10px;
+		width: 12px;
+		height: 20px;
+		}
+	.searchButton {
+		background-color: transparent;
+		border: 0px;
+		padding-right: 10px;
+		}
+
+	.lastView {
+		color: #666666;
+		background-color: #dddddd;
+		padding-left: 10px;
+		border-bottom: 1px solid #cccccc;
+		}
+
+	a.lastViewLink:link, a.lastViewLink:visited {
+		color: #444444;
+/*		text-decoration: underline;*/
+		border-bottom: 0px;
+		padding-left: 0px;
+		}
+	a.lastViewLink:hover {
+/*		color: #666666;*/
+		text-decoration: none;
+		border-bottom: 0px;
+		}
+
+	/*left column styles*/
+	table.leftColumnModuleHead th {
+		font-size: 12px;
+		color: #444444;
+		text-align: left;
+		padding: 0px;
+	}
+
+
+	/*right main content (suffix S1 stands for Style 1) */
+	.listView {
+		border: 1px solid #9E9E9E;
+	}
+	.listViewThS1 {
+		font-size: 11px;
+		color: #666666;
+		font-weight: bold;
+		text-align: left;
+/*		background-image: url(images/listViewBg.png); */
+		padding-left: 5px;
+		padding-right: 5px;
+		border-bottom: 1px solid #cccccc;
+
+	}
+	a.listViewThLinkS1:link, a.listViewThLinkS1:visited {
+		color: #444444;
+		font-weight: bold;
+		text-decoration: none;
+		}
+	a.listViewThLinkS1:hover {
+	color: #222222;
+	text-decoration: none;
+		}
+	a.listViewTdLinkS1:link, a.listViewTdLinkS1:visited {
+	font-size: 12px;
+	color: #000000;
+	text-decoration: none;
+
+		}
+	a.listViewTdLinkS1:hover {
+/*	text-decoration: underline; */
+		}
+	.evenListRowS1 {
+		font-size: 12px;
+		color: #000000;
+		padding-left: 5px;
+		padding-right: 5px;
+		padding-bottom: 4px;
+		padding-top: 2px;
+	}
+
+	.oddListRowS1 {
+		font-size: 12px;
+		color: #000000;
+		padding-left: 5px;
+		padding-right: 5px;
+		padding-bottom: 4px;
+		padding-top: 2px;
+	}
+
+	.listViewHRS1 {
+		background-color: #cccccc;
+	}
+	.pageNumbers {
+		color: #444444;
+	}
+	.listViewPaginationTdS1 {
+		font-size: 10px;
+		color: #999999;
+		background-color: #eeeeee;
+		padding-right: 5px;
+		padding-left: 5px;
+		border-top: 1px solid #ffffff;
+		border-bottom: 1px solid #9E9E9E;
+	}
+	a.listViewPaginationLinkS1:link, a.listViewPaginationLinkS1:visited {
+		color: #E90000;
+		font-size: 10px;
+		font-weight: normal;
+		text-decoration: none;
+		}
+	a.listViewPaginationLinkS1:hover {
+		color: #ff0000;
+		font-size: 10px;
+		text-decoration: none;
+		}
+	a.utilsLink:link, a.utilsLink:visited {
+		color: #B20000;
+		font-size: 11px;
+		font-weight: normal;
+		text-decoration: none;
+
+		}
+	a.utilsLink:hover {
+		color: #FF0000;
+		font-size: 11px;
+		text-decoration: none;
+		}
+
+	h4.dataLabel {
+/*		color: #666666;  */
+		font-size: 14px;
+		font-weight: bold;
+		margin-bottom: 2px;
+	}
+
+	h5.dataLabel {
+		color: #888888;
+		font-size: 13px;
+		font-weight: bold;
+		margin-bottom: 1px;
+		margin-top: 1px;
+	}
+	.dataLabel {
+		font-weight: bold;
+		vertical-align : top;
+	}
+	.dataField {
+		font-weight: normal;
+		vertical-align : top;
+	}
+
+
+	/* main tab panel views */
+	.tabDetailView {
+		border: 1px solid #444444;
+		background-color: #cccccc;
+	}
+
+	.tabDetailViewDF {
+	font-size: 12px;
+		color: #000000;
+		background-color: #fafafa;
+		font-weight: bold;
+		padding-right: 4px;
+		padding-left: 4px;
+		padding-top: 2px;
+		padding-bottom: 2px;
+		vertical-align: top;
+		font-weight: bold;
+	}
+
+	/* misc font displays */
+	.required {
+		color: #ff0000;
+	}
+	.failure {
+		color: #ff0000;
+	}
+	.warning {
+		color: #E0B662;
+	}
+	.success {
+		color: #005500;
+	}
+	.notice {
+		#000000;
+	}
+	.dateFormat {
+		font-weight: normal;
+		font-style: italic;
+		font-size: 10px;
+	}
+
+	.tm {
+		font-size: 8px;
+		font-family: Verdana;
+	}
+
+/* menu styles */
+a.rollmenu:link, a.rollmenu:visited {
+	color: #444444;
+	font-size: 11px;
+}
+.rollmenu
+{
+	padding-right: 2px;
+	display: block;
+	padding-left: 2px;
+	font-size: 11px;
+	padding-bottom: 2px;
+	color: #000000;
+	line-height: normal;
+	padding-top: 2px;
+	border-top: #FFCE73 1px solid;
+	border-left: #FFCE73 1px solid;
+	border-right: #D8B114 1px solid;
+	border-bottom: #D8B114 1px solid;
+	font-family: "Arial", "Helvetica", "sans-serif";
+	background-color: #FFCC00;
+	text-decoration: none
+}
+.rollmenu:hover
+{
+	background-color: #EDC112;
+	border-top: #FFCE73 1px solid;
+	border-left: #FFCE73 1px solid;
+	border-right: #D8B114 1px solid;
+	border-bottom: #D8B114 1px solid;
+	text-decoration: none
+}
+#menuhead
+{
+	background-color: #EDC112;
+	font-weight:bold;
+	padding-right: 2px;
+	display: block;
+	padding-left: 2px;
+	font-size: 11px;
+	padding-bottom: 2px;
+	border-top: #FFCE73 1px solid;
+	border-left: #FFCE73 1px solid;
+	border-right: #D8B114 1px solid;
+	border-bottom: #D8B114 1px solid;
+	color: #000000;
+	line-height: normal;
+	padding-top: 2px;
+	font-family: "Arial", "Helvetica", "sans-serif";
+	text-decoration: none
+}
+#menu1
+{
+	left: 1px;
+	visibility: hidden;
+	position: absolute;
+	top: 1px;
+	background-color: transparent
+}
+#menu2
+{
+	left: 1px;
+	visibility: hidden;
+	position: absolute;
+	top: 1px;
+	background-color: transparent
+}
+#menu3
+{
+	left: 1px;
+	visibility: hidden;
+	position: absolute;
+	top: 1px;
+	background-color: transparent
+}
+#menu4
+{
+	left: 1px;
+	visibility: hidden;
+	position: absolute;
+	top: 1px;
+	background-color: transparent
+}
+/* menu styles */
+.searchHeadings {
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: 14px;
+	font-weight: bold;
+	color: #333333;
+}
+
+.ERR {
+    color: #FF0000;
+    background-color: #FFDDDD;
+}
+
+.odd {
+    background-color: #fffbed;
+}
+
+.even {
+    background-color: #FFF7D7;
+}
+
+.r2_c1 {
+    background: url('../pictures/table_r2_c1.gif') repeat-y right;
+}
+
+.r1_c1 {
+    background: url('../pictures/table_r1_c1.gif') no-repeat right top;
+}
+
+.r1_c3 {
+    background: url('../pictures/table_r1_c3.gif') no-repeat left top;
+}
+
+.r1_c2 {
+    background: url('../pictures/table_r1_c2.gif') repeat-x left top;
+}
+
+.r3_c1 {
+    background: url('../pictures/table_r3_c1.gif') no-repeat right bottom;
+}
+
+.r3_c3 {
+    background: url('../pictures/table_r3_c3.gif') no-repeat left bottom;
+}
+
+.r3_c2 {
+    background: url('../pictures/table_r3_c2.gif') repeat-x left bottom;
+}
+
+.r2_c3 {
+    background: url('../pictures/table_r2_c3.gif') repeat-y left;
+}
+
+.cmb {
+	width: 130px;
+}
+
+#notice {
+	padding-left: 10px;
+}
+
+.button1 {
+	border:none;
+}
+
+textarea {
+	border: 1px solid #888888;
+	font-size: 11px;
+	background-color: #ffffff;
+}
+
+.tableTopLeft {
+	background:url(../pictures/table_r1_c1.gif) no-repeat top right;
+	width:12px;
+	height:11px;
+}
+
+.tableTopMiddle {
+	background:url(../pictures/table_r1_c2.gif) repeat-x top;
+}
+
+.tableTopRight {
+	background:url(../pictures/table_r1_c3.gif) no-repeat top left;
+	width:12px;
+	height:11px;
+}
+
+/* Styles needed for rounded box (css) */
+.north {
+    background: url(../pictures/table_r1_c2.gif) repeat-x top;
+}
+.east {
+    background: url(../pictures/table_r2_c3.gif) repeat-y right;
+}
+.south {
+    background: url(../pictures/table_r3_c2.gif) repeat-x bottom;
+}
+.west {
+    background: url(../pictures/table_r2_c1.gif) repeat-y left;
+}
+.ne {
+    background: url(../pictures/table_r1_c3.gif) no-repeat top right;
+}
+.se {
+    background: url(../pictures/table_r3_c3.gif) no-repeat bottom right;
+}
+.sw {
+    background: url(../pictures/table_r3_c1.gif) no-repeat bottom left;
+}
+.nw {
+    background: url(../pictures/table_r1_c1.gif) no-repeat top left;
+}
+.roundbox_content {
+    padding:15px;
+}
+
+*:not([type=image]):disabled {
+	background-color: #F6F4F1;
+	color: #666562;
+}
+
+input:not([readonly]):not([type=image]):focus, select:focus, textarea:focus {
+	background-color: #FFFFD9;
+}
+
+*[readonly] {
+	color:#B8B6B0
+}
+
+table.simpleList {
+        border-width: 1px;
+        border-collapse: collapse;
+        border-style: solid;
+        border-color: gray;
+        margin:5px 0 0 5px;
+}
+table.simpleList th {
+        border-width: 0px 0px 1px 0px;
+        padding: 3px 3px 3px 5px;
+        border-style: solid;
+        border-color: gray;
+        color: black;
+        font-weight: bold;
+}
+table.simpleList td {
+        border-width: 0px;
+        padding: 3px 3px 3px 5px;
+}
+
+.inputFormatHint {
+	color: #D8D8D8;
+}
+
+
+    :disabled:not([type="image"]) {
+        background-color:#FFFFFF;
+        color:#444444;
+    }
+
+    input[type=text] {
+        border: 1px solid #888888;
+    }
+
+    form input.formInputText{
+        border: 1px solid #888888;
+	}
+
+    table.historyTable th {
+        border-width: 0px;
+        padding: 3px 3px 3px 5px;
+        text-align: left;
+    }
+    table.historyTable td {
+        border-width: 0px;
+        padding: 3px 3px 3px 5px;
+        text-align: left;
+    }
+
+    #active {
+        width: 15px;
+        height: 15px;
+        background-color: transparent;
+        vertical-align: bottom;
+    }
+
+    #txtDesc {
+        width: 330px;
+        height: 150px;
+    }
+
+	#nohiringmanagers {
+		font-style: italic;
+		color: red;
+        padding-left: 10px;
+        width: 400px;
+        border: 1px;
+	}
+
+	#employeeSearchAC {
+ 	    width:15em; /* set width here */
+ 	    padding-bottom:2em;
+        margin: 10px 0px 2px 10px;
+ 	}
+
+    #employeeSearchAC li {
+        list-style-type:none;
+    }
+
+ 	#employeeSearchAC {
+ 	    z-index:9000; /* z-index needed on top instance for ie & sf absolute inside relative issue */
+ 	}
+
+ 	#txtEmployeeSearch {
+ 	    _position:absolute; /* abs pos needed for ie quirks */
+ 	}
+
+ 	#frmGenerateAttendanceReport div.searchbox input {
+ 	  margin-right:2px;
+ 	}
+
+    #frmGenerateAttendanceReport div.searchbox input.calendarBtn {
+      margin-top:0px;
+    }
+
+    #frmGenerateAttendanceReport #employeeSearchAC {
+      margin-top:0;
+    }
+
+    #frmGenerateAttendanceReport #employeeSearchAC input#txtEmployeeSearch {
+      float:none;
+    }
+
+   form input.loginText {
+      border: 1px solid #888888;
+      width:6em;
+      vertical-align:middle;
+      height:14px;
+    }
+
+    span.timeFormatHint {
+      font-size:10px;
+      color:#999999;
+      padding-left:6px;
+    }   
+	
+	
+	
+	
+	table.report_tabler tr .headerSortUp { 
+	    background-image:  url(../pictures/desc.gif);
+	    background-color: #ffc72f; 
+	} 
+	table.report_tabler th.headerSortDown { 
+	    background-image: url(../pictures/asc.gif); 
+	    background-color: #ffc72f; 
+	} 
+	
+	table.report_table {
+		width: 100%;	
+	}
+	
+	table.report_table thead tr th {
+		background-image: url(../pictures/small.gif);
+		background-color: #e6EEEE;
+		cursor: pointer; 
+	    font-weight: bold; 
+	    background-repeat: no-repeat; 
+	    background-position: center right;	   
+		background-color: #ffe18f;		
+		border-bottom : 1px solid #d5d5d5;
+		border-right : 1px solid #d5d5d5;		
+		font-size: 8pt;
+		padding: 4px;
+		padding-right: 20px;
+	}
+	
+	table.report_table tbody tr td {		
+		padding: 4px;
+		background-color: #ffffff;		
+		border-bottom : 1px solid #d5d5d5;
+		border-right : 1px solid #d5d5d5;
+		vertical-align: top;		
+	}
+	table.report_table tbody tr td li {		
+		margin-left: 20px;			
+	}
+	
+	table.report_table tbody tr.odd td {
+		background-color:#F0F0F6;
+	}
+	
+	table.report_table tbody tr.even td {
+		background-color:#eeeeee;		
+	}
+	table.report_table thead tr .headerSortUp {
+		background-color: #d2a428;
+		background-image: url(../pictures/asc.gif); 
+	}
+	
+	table.report_table thead tr .headerSortDown {
+		background-color: #d2a428;
+		background-image: url(../pictures/desc.gif);
+	}
+	
+	label.valueLabel {
+		width: 160px;
+		font-weight: bold;
+	}
+
+   .outerBorder {
+      width: 600px;
+      border:2px #FAD163 solid;
+	}
+
+    .smallHelpText {
+       font-size: 8pt;
+       color:black;
+    }
+    
+    .paddingLeftRequired{
+        font-size: 8pt;
+        padding-left: 15px;
+        padding-top: 5px;
+    }
+    
+    /* Changes for compatibility with new ui. Can be removed after ui conversion */   
+    div.box {
+        margin-left: 15px;
+    }

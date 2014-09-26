@@ -1,0 +1,366 @@
+<?xml version="1.0" encoding="UTF-8"?> 
+<!DOCTYPE xliff PUBLIC "-//XLIFF//DTD XLIFF//EN" "http://www.oasis-open.org/committees/xliff/documents/xliff.dtd"> 
+<xliff version="1.0"> 
+ <header/> 
+ <file source-language="en_US" target-language="ja_JP" datatype="plaintext" original="messages" date="2012-02-22T20:18:09Z" product-name="messages"> 
+  <body> 
+   <trans-unit id="1"> 
+    <source>Action</source> 
+    <target>アクション</target> 
+    <note/> 
+   </trans-unit> 
+   <trans-unit id="2"> 
+    <source>Actions Performed on the Timesheet</source> 
+    <target>タイムシート上で実行されるアクション</target> 
+    <note/> 
+   </trans-unit> 
+   <trans-unit id="3"> 
+    <source>Activity Name</source> 
+    <target>アクティビティ名</target> 
+    <note/> 
+   </trans-unit> 
+   <trans-unit id="4"> 
+    <source>Add Row</source> 
+    <target>行を追加します。</target> 
+    <note/> 
+   </trans-unit> 
+   <trans-unit id="5"> 
+    <source>Add Timesheet</source> 
+    <target>タイムシートを追加します。</target> 
+    <note/> 
+   </trans-unit> 
+   <trans-unit id="6"> 
+    <source>Approve</source> 
+    <target>承認する</target> 
+    <note/> 
+   </trans-unit> 
+   <trans-unit id="7"> 
+    <source>Approved</source> 
+    <target>承認された</target> 
+    <note/> 
+   </trans-unit> 
+   <trans-unit id="8"> 
+    <source>Attendance Total Summary Report</source> 
+    <target>出席者の合計サマリー·レポート</target> 
+    <note/> 
+   </trans-unit> 
+   <trans-unit id="9"> 
+    <source>Comment</source> 
+    <target>コメント</target> 
+    <note/> 
+   </trans-unit> 
+   <trans-unit id="10"> 
+    <source>Define Timesheet Period</source> 
+    <target>タイムシート期間を定義します。</target> 
+    <note/> 
+   </trans-unit> 
+   <trans-unit id="11"> 
+    <source>Deleted Employee</source> 
+    <target>削除された従業員</target> 
+    <note/> 
+   </trans-unit> 
+   <trans-unit id="12"> 
+    <source>Deleted project activities are not editable</source> 
+    <target>削除されたプロジェクト活動は編集できません</target> 
+    <note/> 
+   </trans-unit> 
+   <trans-unit id="13"> 
+    <source>Deleted projects/activities are marked with an asterik</source> 
+    <target>削除されたプロジェクト/活動がasterikが付いています</target> 
+    <note/> 
+   </trans-unit> 
+   <trans-unit id="14"> 
+    <source>Edit Timesheet for</source> 
+    <target>のためにタイムシートを編集します。</target> 
+    <note/> 
+   </trans-unit> 
+   <trans-unit id="15"> 
+    <source>Edit Timesheet for Month</source> 
+    <target>今月のタイムシートを編集します。</target> 
+    <note/> 
+   </trans-unit> 
+   <trans-unit id="16"> 
+    <source>Edit Timesheet for Week</source> 
+    <target>週のタイムシートを編集します。</target> 
+    <note/> 
+   </trans-unit> 
+   <trans-unit id="17"> 
+    <source>Edit timesheet for week starting</source> 
+    <target>始まる週のタイムシートを編集します。</target> 
+    <note/> 
+   </trans-unit> 
+   <trans-unit id="18"> 
+    <source>Employee</source> 
+    <target>従業員</target> 
+    <note/> 
+   </trans-unit> 
+   <trans-unit id="19"> 
+    <source>Employee name</source> 
+    <target>従業員の名前</target> 
+    <note/> 
+   </trans-unit> 
+   <trans-unit id="20"> 
+    <source>Employee Report</source> 
+    <target>従業員レポート</target> 
+    <note/> 
+   </trans-unit> 
+   <trans-unit id="21"> 
+    <source>Should Be Less Than 24 and in HH:MM or Decimal Format</source> 
+    <target>または10進数形式：24未満で、HH:MMでなければなりません</target> 
+    <note/> 
+   </trans-unit> 
+   <trans-unit id="22"> 
+    <source>Enter Employee Name</source> 
+    <target>従業員の名前を入力する</target> 
+    <note/> 
+   </trans-unit> 
+   <trans-unit id="23"> 
+    <source>First Day of Week</source> 
+    <target>週の最初の曜日</target> 
+    <note/> 
+   </trans-unit> 
+   <trans-unit id="24"> 
+    <source>for</source> 
+    <target>のために</target> 
+    <note/> 
+   </trans-unit> 
+   <trans-unit id="25"> 
+    <source>for Month starting on</source> 
+    <target>ヶ月に開始するための</target> 
+    <note/> 
+   </trans-unit> 
+   <trans-unit id="26"> 
+    <source>for Week</source> 
+    <target>ウィーク</target> 
+    <note/> 
+   </trans-unit> 
+   <trans-unit id="27"> 
+    <source>Fri</source> 
+    <target>金</target> 
+    <note/> 
+   </trans-unit> 
+   <trans-unit id="28"> 
+    <source>hours</source> 
+    <target>時間</target> 
+    <note/> 
+   </trans-unit> 
+   <trans-unit id="29"> 
+    <source>Invalid Date</source> 
+    <target>無効な日付</target> 
+    <note/> 
+   </trans-unit> 
+   <trans-unit id="30"> 
+    <source>Invalid Employee Name</source> 
+    <target>無効な従業員名</target> 
+    <note/> 
+   </trans-unit> 
+   <trans-unit id="31"> 
+    <source>Failed to Create: Future Timesheets Not Allowed</source> 
+    <target>許可されていません今後のタイムシート：作成に失敗しました。</target> 
+    <note/> 
+   </trans-unit> 
+   <trans-unit id="32"> 
+    <source>Mon</source> 
+    <target>モン</target> 
+    <note/> 
+   </trans-unit> 
+   <trans-unit id="33"> 
+    <source>No Accessible Timesheets</source> 
+    <target>ないアクセスタイムシートません</target> 
+    <note/> 
+   </trans-unit> 
+   <trans-unit id="34"> 
+    <source>Not Submitted</source> 
+    <target>提出していない</target> 
+    <note/> 
+   </trans-unit> 
+   <trans-unit id="35"> 
+    <source>Performed By</source> 
+    <target>によって実行される</target> 
+    <note/> 
+   </trans-unit> 
+   <trans-unit id="36"> 
+    <source>Proceed with Time Module</source> 
+    <target>時間モジュールに進みます</target> 
+    <note/> 
+   </trans-unit> 
+   <trans-unit id="37"> 
+    <source>Project Activity Details Report</source> 
+    <target>プロジェクト活動の詳細報告</target> 
+    <note/> 
+   </trans-unit> 
+   <trans-unit id="38"> 
+    <source>Project Name</source> 
+    <target>プロジェクト名</target> 
+    <note/> 
+   </trans-unit> 
+   <trans-unit id="39"> 
+    <source>Project Report</source> 
+    <target>プロジェクト報告</target> 
+    <note/> 
+   </trans-unit> 
+   <trans-unit id="40"> 
+    <source>Reject</source> 
+    <target>拒否する</target> 
+    <note/> 
+   </trans-unit> 
+   <trans-unit id="41"> 
+    <source>Rejected</source> 
+    <target>拒否され</target> 
+    <note/> 
+   </trans-unit> 
+   <trans-unit id="42"> 
+    <source>Remove Rows</source> 
+    <target>行を削除</target> 
+    <note/> 
+   </trans-unit> 
+   <trans-unit id="43"> 
+    <source>Reset</source> 
+    <target>リセット</target> 
+    <note/> 
+   </trans-unit> 
+   <trans-unit id="44"> 
+    <source>Sat</source> 
+    <target>土</target> 
+    <note/> 
+   </trans-unit> 
+   <trans-unit id="45"> 
+    <source>Select a Day to Create Timesheet</source> 
+    <target>タイムシートを作成する日を選択します。</target> 
+    <note/> 
+   </trans-unit> 
+   <trans-unit id="46"> 
+    <source>Select Employee</source> 
+    <target>従業員を選択します。</target> 
+    <note/> 
+   </trans-unit> 
+   <trans-unit id="47"> 
+    <source>Status:</source> 
+    <target>ステータス：</target> 
+    <note/> 
+   </trans-unit> 
+   <trans-unit id="48"> 
+    <source>Submit</source> 
+    <target>提出する</target> 
+    <note/> 
+   </trans-unit> 
+   <trans-unit id="49"> 
+    <source>Submitted</source> 
+    <target>投稿</target> 
+    <note/> 
+   </trans-unit> 
+   <trans-unit id="50"> 
+    <source>Sun</source> 
+    <target>太陽</target> 
+    <note/> 
+   </trans-unit> 
+   <trans-unit id="51"> 
+    <source>Thu</source> 
+    <target>木</target> 
+    <note/> 
+   </trans-unit> 
+   <trans-unit id="52"> 
+    <source>Time (hours)</source> 
+    <target>時間（時間）</target> 
+    <note/> 
+   </trans-unit> 
+   <trans-unit id="53"> 
+    <source>Duplicate Records Found</source> 
+    <target>見つかったレコードを複製する</target> 
+    <note/> 
+   </trans-unit> 
+   <trans-unit id="54"> 
+    <source>Timesheet for</source> 
+    <target>のタイムシート</target> 
+    <note/> 
+   </trans-unit> 
+   <trans-unit id="55"> 
+    <source>Timesheet Period</source> 
+    <target>タイムシート期間</target> 
+    <note/> 
+   </trans-unit> 
+   <trans-unit id="56"> 
+    <source>Timesheet period start day has been set</source> 
+    <target>タイムシート期間の開始日が設定されています</target> 
+    <note/> 
+   </trans-unit> 
+   <trans-unit id="57"> 
+    <source>Timesheet period start day has not been defiend. Please contact HR Admin</source> 
+    <target>タイムシート期間の開始日はdefiendされていません。 HR管理者に連絡してください</target> 
+    <note/> 
+   </trans-unit> 
+   <trans-unit id="58"> 
+    <source>Timesheets Pending Action</source> 
+    <target>タイムシートは、アクションを保留</target> 
+    <note/> 
+   </trans-unit> 
+   <trans-unit id="59"> 
+    <source>Total</source> 
+    <target>合計</target> 
+    <note/> 
+   </trans-unit> 
+   <trans-unit id="60"> 
+    <source>Tue</source> 
+    <target>火曜</target> 
+    <note/> 
+   </trans-unit> 
+   <trans-unit id="61"> 
+    <source>View</source> 
+    <target>表示</target> 
+    <note/> 
+   </trans-unit> 
+   <trans-unit id="62"> 
+    <source>Wed</source> 
+    <target>結婚</target> 
+    <note/> 
+   </trans-unit> 
+   <trans-unit id="63"> 
+    <source>Week</source> 
+    <target>週</target> 
+    <note/> 
+   </trans-unit> 
+   <trans-unit id="64"> 
+    <source>Select a Project and an Activity</source> 
+    <target>プロジェクトとアクティビティを選択します。</target> 
+    <note/> 
+   </trans-unit> 
+   <trans-unit id="65"> 
+    <source>Select Records to Remove</source> 
+    <target>削除するレコードを選択します。</target> 
+    <note/> 
+   </trans-unit> 
+   <trans-unit id="66"> 
+    <source>Timesheet Already Exists</source> 
+    <target>タイムシートが既に存在</target> 
+    <note/> 
+   </trans-unit> 
+   <trans-unit id="67"> 
+    <source>Timesheet Submitted</source> 
+    <target>タイムシート提出</target> 
+    <note/> 
+   </trans-unit> 
+   <trans-unit id="68"> 
+    <source>No Timesheets Found</source> 
+    <target>ないタイムシートが見つかりません</target> 
+    <note/> 
+   </trans-unit> 
+   <trans-unit id="69"> 
+    <source>No Changes to Delete</source> 
+    <target>変更はありません削除する</target> 
+    <note/> 
+   </trans-unit> 
+   <trans-unit id="76">
+    <source>Total Should Be Less Than 24 Hours</source>
+    <target>合計が24時間未満である必要があります</target>
+   </trans-unit>
+   <trans-unit id="76">
+    <source>Timesheet Approved</source>
+    <target>タイムシートが承認されました</target>
+   </trans-unit>
+   <trans-unit id="76">
+    <source>Timesheet Rejected</source>
+    <target>タイムシートが拒否されました</target>
+   </trans-unit>
+  </body> 
+ </file> 
+</xliff> 

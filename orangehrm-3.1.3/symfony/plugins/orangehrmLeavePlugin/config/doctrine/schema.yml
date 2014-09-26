@@ -1,0 +1,673 @@
+LeavePeriodHistory:
+  tableName: ohrm_leave_period_history
+  columns:
+    id:
+      type: integer(4)
+      fixed: false
+      unsigned: false
+      primary: true
+      autoincrement: true
+    leave_period_start_month:
+      type: integer(7)
+    leave_period_start_day:
+      type: integer(7)
+    created_at:
+      type: date
+
+LeaveEntitlementType:
+  tableName: ohrm_leave_entitlement_type
+  columns:
+    id:
+      type: integer(4)
+      fixed: false
+      unsigned: false
+      primary: true
+      autoincrement: true
+    name:
+      type: string(50)
+      fixed: false
+      unsigned: false
+      primary: false
+      notnull: true
+      autoincrement: false
+    is_editable:
+      type: integer(1)
+      fixed: false
+      unsigned: false
+      primary: false
+      default: '0'
+      notnull: true
+      autoincrement: false
+
+LeaveEntitlement:
+  tableName: ohrm_leave_entitlement
+  columns:
+    id:
+      type: integer(4)
+      fixed: false
+      unsigned: false
+      primary: true
+      autoincrement: true
+    emp_number:
+      type: integer(7)
+      fixed: false
+      unsigned: false
+      primary: false
+      autoincrement: false
+    no_of_days:
+      type: decimal(6)
+      scale: false      
+      primary: false
+      notnull: true
+      autoincrement: false
+    days_used:
+      type: 'decimal(4, 2)'
+      fixed: false
+      primary: false
+      notnull: false
+      autoincrement: false    
+    leave_type_id:
+      type: integer(4)
+      fixed: false
+      unsigned: true
+      primary: false
+      notnull: true
+      autoincrement: false
+    from_date:
+      type: timestamp(25)
+      fixed: false
+      unsigned: false
+      primary: false
+      notnull: true
+      autoincrement: false
+    to_date:
+      type: timestamp(25)
+      fixed: false
+      unsigned: false
+      primary: false
+      notnull: false
+      autoincrement: false
+    credited_date:
+      type: timestamp(25)
+      fixed: false
+      unsigned: false
+      primary: false
+      notnull: false
+      autoincrement: false
+    note:
+      type: string(255)
+      fixed: false
+      unsigned: false
+      primary: false
+      notnull: false
+      autoincrement: false
+    entitlement_type:
+      type: integer(4)
+      fixed: false
+      unsigned: false
+      primary: false
+      notnull: true
+      autoincrement: false
+    deleted:
+      type: integer(1)
+      fixed: false
+      unsigned: false
+      primary: false
+      default: '0'
+      notnull: true
+      autoincrement: false
+    created_by_id:
+      type: integer(10)
+      fixed: false
+      unsigned: false
+      primary: false
+      notnull: false
+      autoincrement: false
+    created_by_name:
+      type: string(255)
+      fixed: false
+      unsigned: false
+      primary: false
+      notnull: false
+      autoincrement: false      
+  relations:
+    LeaveType:
+      local: leave_type_id
+      foreign: id
+      type: one
+    Employee:
+      local: emp_number
+      foreign: emp_number
+      type: one
+    SystemUser:
+      local: created_by_id
+      foreign: id
+      type: one
+    LeaveEntitlementType:
+      local: entitlement_type
+      foreign: id
+      type: one
+
+LeaveAdjustment:
+  tableName: ohrm_leave_adjustment
+  columns:
+    id:
+      type: integer(4)
+      fixed: false
+      unsigned: false
+      primary: true
+      autoincrement: true
+    emp_number:
+      type: integer(7)
+      fixed: false
+      unsigned: false
+      primary: false
+      autoincrement: false
+    no_of_days:
+      type: decimal(6)
+      scale: false      
+      primary: false
+      notnull: true
+      autoincrement: false
+    leave_type_id:
+      type: integer(4)
+      fixed: false
+      unsigned: true
+      primary: false
+      notnull: true
+      autoincrement: false
+    from_date:
+      type: timestamp(25)
+      fixed: false
+      unsigned: false
+      primary: false
+      notnull: true
+      autoincrement: false
+    to_date:
+      type: timestamp(25)
+      fixed: false
+      unsigned: false
+      primary: false
+      notnull: false
+      autoincrement: false
+    credited_date:
+      type: timestamp(25)
+      fixed: false
+      unsigned: false
+      primary: false
+      notnull: false
+      autoincrement: false
+    note:
+      type: string(255)
+      fixed: false
+      unsigned: false
+      primary: false
+      notnull: false
+      autoincrement: false
+    adjustment_type:
+      type: integer(4)
+      fixed: false
+      unsigned: false
+      primary: false
+      notnull: true
+      default: '0'
+      autoincrement: false
+    deleted:
+      type: integer(1)
+      fixed: false
+      unsigned: false
+      primary: false
+      default: '0'
+      notnull: true
+      autoincrement: false
+    created_by_id:
+      type: integer(10)
+      fixed: false
+      unsigned: false
+      primary: false
+      notnull: false
+      autoincrement: false
+    created_by_name:
+      type: string(255)
+      fixed: false
+      unsigned: false
+      primary: false
+      notnull: false
+      autoincrement: false      
+  relations:
+    LeaveType:
+      local: leave_type_id
+      foreign: id
+      type: one
+    Employee:
+      local: emp_number
+      foreign: emp_number
+      type: one
+    SystemUser:
+      local: created_by_id
+      foreign: id
+      type: one
+    LeaveEntitlementType:
+      local: adjustment_type
+      foreign: id
+      type: one
+
+LeaveType:
+  tableName: ohrm_leave_type
+  columns:
+    id:
+      type: integer(4)
+      fixed: false
+      unsigned: true
+      primary: true
+      autoincrement: true
+    name:
+      type: string(50)
+      fixed: false
+      unsigned: false
+      primary: false
+      notnull: true
+      autoincrement: false
+    exclude_in_reports_if_no_entitlement:
+      type: boolean    
+    deleted:
+      type: integer(1)
+      fixed: false
+      unsigned: false
+      primary: false
+      default: '0'
+      notnull: true
+      autoincrement: false
+    operational_country_id:
+      type: integer(4)
+      fixed: false
+      unsigned: true
+      primary: false
+      notnull: false
+      autoincrement: false
+  relations:
+    OperationalCountry:
+      local: operational_country_id
+      foreign: id
+      type: one
+    LeaveEntitlement:
+      local: id
+      foreign: leave_type_id
+      type: many
+Leave:
+  tableName: ohrm_leave
+  columns:
+    id:
+      type: integer(4)
+      fixed: false
+      unsigned: false
+      primary: true
+      autoincrement: true
+    date:
+      type: date(25)
+      fixed: false
+      unsigned: false
+      primary: false
+      notnull: false
+      autoincrement: false
+    length_hours:
+      type: 'decimal(6, 2)'
+      fixed: false
+      unsigned: true
+      primary: false
+      notnull: false
+      autoincrement: false
+    length_days:
+      type: 'decimal(4, 2)'
+      fixed: false
+      unsigned: true
+      primary: false
+      notnull: false
+      autoincrement: false
+    status:
+      type: integer(2)
+      fixed: false
+      unsigned: false
+      primary: false
+      notnull: false
+      autoincrement: false
+    comments:
+      type: string(256)
+      fixed: false
+      unsigned: false
+      primary: false
+      notnull: false
+      autoincrement: false
+    leave_request_id:
+      type: integer(4)
+      fixed: false
+      unsigned: true
+      primary: false
+      notnull: true
+      autoincrement: false
+    leave_type_id:
+      type: integer(4)
+      fixed: false
+      unsigned: true
+      primary: false
+      notnull: true
+      autoincrement: false
+    emp_number:
+      type: integer(4)
+      fixed: false
+      unsigned: false
+      primary: false
+      notnull: true
+      autoincrement: false
+    start_time:
+      type: time(25)
+      fixed: false
+      unsigned: false
+      primary: false
+      notnull: false
+      autoincrement: false
+    end_time:
+      type: time(25)
+      fixed: false
+      unsigned: false
+      primary: false
+      notnull: false
+      autoincrement: false
+    duration_type:
+      type: int
+  relations:
+    LeaveEntitlements:
+      class: LeaveEntitlement
+      refClass: LeaveLeaveEntitlement
+      foreignAlias: leave
+      local: leave_id
+      foreign: entitlement_id
+    LeaveRequest:
+      local: leave_request_id
+      foreign: id
+      type: one
+    LeaveType:
+      local: leave_type_id
+      foreign: id
+      type: one
+
+LeaveLeaveEntitlement:
+  tableName: ohrm_leave_leave_entitlement
+  columns:
+    id:
+      type: integer(4)
+      fixed: false
+      unsigned: false
+      primary: true
+      autoincrement: true
+    leave_id:
+      type: integer(4)
+      fixed: false
+      unsigned: false
+      primary: false
+      notnull: false
+      autoincrement: false      
+    entitlement_id:
+      type: integer(4)
+      fixed: false
+      unsigned: true
+      primary: false
+      notnull: false
+      autoincrement: false
+    length_days:
+      type: 'decimal(4, 2)'
+      fixed: false
+      unsigned: true
+      primary: false
+      notnull: false
+      autoincrement: false    
+      
+LeaveEntitlementAdjustment:
+  tableName: ohrm_leave_entitlement_adjustment
+  columns:
+    id:
+      type: integer(4)
+      fixed: false
+      unsigned: false
+      primary: true
+      autoincrement: true
+    adjustment_id:
+      type: integer(4)
+      fixed: false
+      unsigned: false
+      primary: false
+      notnull: false
+      autoincrement: false      
+    entitlement_id:
+      type: integer(4)
+      fixed: false
+      unsigned: true
+      primary: false
+      notnull: false
+      autoincrement: false
+    length_days:
+      type: 'decimal(4, 2)'
+      fixed: false
+      unsigned: true
+      primary: false
+      notnull: false
+      autoincrement: false 
+      
+LeaveRequest:
+  tableName: ohrm_leave_request
+  columns:
+    id:
+      type: integer(4)
+      fixed: false
+      unsigned: true
+      primary: true
+      autoincrement: true
+    leave_type_id:
+      type: integer(4)
+      fixed: false
+      unsigned: true
+      primary: false
+      notnull: true
+      autoincrement: false
+    date_applied:
+      type: date(25)
+      fixed: false
+      unsigned: false
+      primary: false
+      notnull: true
+      autoincrement: false
+    emp_number:
+      type: integer(4)
+      fixed: false
+      unsigned: false
+      primary: false
+      notnull: true
+      autoincrement: false
+    comments:
+      type: string(256)
+      fixed: false
+      unsigned: false
+      primary: false
+      notnull: false
+      autoincrement: false
+  relations:
+    LeaveType:
+      local: leave_type_id
+      foreign: id
+      type: one
+    Employee:
+      local: emp_number
+      foreign: emp_number
+      type: one
+    Leave:
+      local: id
+      foreign: leave_request_id
+      type: many
+
+WorkWeek:
+  tableName: ohrm_work_week
+  columns:
+    id:
+      type: integer(4)
+      primary: true
+    operational_country_id:
+      type: integer(4)
+      notnull: false
+    mon:
+      type: integer(4)
+      notnull: true
+    tue:
+      type: integer(4)
+      notnull: true
+    wed:
+      type: integer(4)
+      notnull: true
+    thu:
+      type: integer(4)
+      notnull: true
+    fri:
+      type: integer(4)
+      notnull: true
+    sat:
+      type: integer(4)
+      notnull: true
+    sun:
+      type: integer(4)
+      notnull: true
+  relations:
+    OperationalCountry:
+      local: operational_country_id
+      foreign: id
+      type: one
+
+Holiday:
+  tableName: ohrm_holiday
+  columns:
+    id:
+      type: integer(4)
+      primary: true
+      autoincrement: true
+    recurring:
+      type: integer(1)
+      default: '0'
+    description: string(2147483647)
+    date: date(25)
+    length: integer(4)
+    operational_country_id: integer(4)
+  relations:
+    OperationalCountry:
+      local: operational_country_id
+      foreign: id
+      type: one
+      
+LeaveRequestComment:
+  tableName: ohrm_leave_request_comment
+  columns:
+    id:
+      type: integer(4)
+      primary: true
+      autoincrement: true
+    leave_request_id:
+      type: integer(4)
+      unsigned: true
+      notnull: true
+    created:
+      type: datetime
+      fixed: false
+      unsigned: false
+      primary: false
+      notnull: false
+      autoincrement: false
+    created_by_name:
+      type: string(255)
+      notnull: true      
+    created_by_id:
+      type: integer(10)
+      notnull: false
+    created_by_emp_number:
+      type: integer(4)
+      notnull: false
+    comments:
+      type: string(255)
+      notnull: false
+  relations:
+    Employee:
+      local: created_by_emp_number
+      foreign: emp_number
+      type: one
+    SystemUser:
+      local: created_by_id
+      foreign: id
+      type: one      
+    LeaveRequest:
+      local: leave_request_id
+      foreign: id
+      type: one
+  
+LeaveComment:
+  tableName: ohrm_leave_comment
+  columns:
+    id:
+      type: integer(4)
+      primary: true
+      autoincrement: true
+    leave_id:
+      type: integer(4)
+      unsigned: true
+      notnull: true
+    created:
+      type: datetime
+      fixed: false
+      unsigned: false
+      primary: false
+      notnull: false
+      autoincrement: false
+    created_by_name:
+      type: string(255)
+      notnull: true      
+    created_by_id:
+      type: integer(10)
+      notnull: false
+    created_by_emp_number:
+      type: integer(4)
+      notnull: false
+    comments:
+      type: string(255)
+      notnull: false
+  relations:
+    Employee:
+      local: created_by_emp_number
+      foreign: emp_number
+      type: one
+    SystemUser:
+      local: created_by_id
+      foreign: id
+      type: one      
+    Leave:
+      local: leave_id
+      foreign: id
+      type: one
+      
+LeaveStatus:
+  tableName: ohrm_leave_status
+  columns:
+    id:
+      type: integer(4)
+      fixed: false
+      unsigned: false
+      primary: true
+      autoincrement: true
+    status:
+      type: integer(2)
+      fixed: false
+      unsigned: false
+      primary: false
+      notnull: false
+      autoincrement: false    
+    name:
+      type: string(100)
+      fixed: false
+      unsigned: false
+      primary: false
+      notnull: true
+      autoincrement: false

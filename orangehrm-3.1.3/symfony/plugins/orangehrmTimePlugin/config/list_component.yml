@@ -1,0 +1,112 @@
+Default:
+  pluginName: orangehrmTimePlugin
+  hasSelectableRows: false
+  unselectableRowIds: []
+  idValueGetter: getId
+  title: 'OrangeHRM List'
+  hasSummary: true
+  summary:
+    summaryLabel: 'Total'
+    summaryField: 'Time (Hours)'
+    summaryFunction: SUM
+    summaryFieldDecimals: 2
+  buttons: []
+  buttonsPosition: before-data
+  formMethod: post
+  formAction: '#'
+  assets: []
+  jsInitMethods: []
+
+ProjectReport:
+  pluginName: orangehrmTimePlugin
+  hasSelectableRows: false
+  unselectableRowIds: []
+  idValueGetter: activityname
+  title: 'Project Report'
+  hasSummary: true
+  summary:
+    summaryLabel: 'Total'
+    summaryField: 'Time (Hours)'
+    summaryFunction: SUM
+    summaryFieldDecimals: 2
+  buttons: []
+  buttonsPosition: before-data
+  formMethod: post
+  formAction: '#'
+  assets: []
+  jsInitMethods: []
+
+EmployeeReport:
+  pluginName: orangehrmTimePlugin
+  hasSelectableRows: false
+  unselectableRowIds: []
+  idValueGetter: activityname
+  title: 'Employee Report'
+  hasSummary: true
+  summary:
+    summaryLabel: 'Total'
+    summaryField: 'Time (Hours)'
+    summaryFunction: SUM
+    summaryFieldDecimals: 2
+  buttons: []
+  buttonsPosition: before-data
+  formMethod: post
+  formAction: '#'
+  assets: []
+  jsInitMethods: []
+  
+ProjectActivityDetailsReport:
+  pluginName: orangehrmTimePlugin
+  hasSelectableRows: false
+  unselectableRowIds: []
+  idValueGetter: employeeName
+  title: 'Project Activity Details Report'
+  hasSummary: false
+  summary: []
+  buttons:
+    Back:
+      label: Back
+      function: handleBackButton
+  buttonsPosition: after-data
+  formMethod: post
+  formAction: '#'
+  assets: []
+  jsInitMethods: []
+
+AttendanceTotalSummaryReport:
+  pluginName: orangehrmTimePlugin
+  hasSelectableRows: false
+  unselectableRowIds: []
+  idValueGetter: employeeName
+  title: 'Attendance Total Summary Report'
+  hasSummary: true
+  summary:
+    summaryLabel: 'Total'
+    summaryField: 'Time (Hours)'
+    summaryFunction: SUM
+    summaryFieldDecimals: 2
+  buttons: []
+  buttonsPosition: before-data
+  formMethod: post
+  formAction: '#'
+  assets: []
+  jsInitMethods: []
+
+AttendanceSummaryReport:
+  pluginName: orangehrmTimePlugin
+  hasSelectableRows: false
+  unselectableRowIds: []
+  idValueGetter: employeeName
+  title: 'Attendance Total Summary Report'
+  hasSummary: true
+  summary:
+    summaryLabel: 'Total'
+    summaryField: 'Time (Hours)'
+    summaryFunction: SUM
+    summaryFieldDecimals: 2
+  buttons: []
+  buttonsPosition: before-data
+  formMethod: post
+  formAction: '#'
+  assets: []
+  jsInitMethods: []  

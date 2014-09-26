@@ -1,0 +1,16 @@
+#scrollWrapper, #tableWrapper {
+    border: none; 
+    overflow: auto;
+}
+
+#scrollContainer {
+    height: 1px;
+}
+
+#resultTable {
+    overflow: auto;
+} 
+
+table.valueListCell td {
+    white-space: nowrap;
+}

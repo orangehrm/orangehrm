@@ -1,0 +1,42 @@
+viewEmployeeListSuccess:
+  layout: freshorange
+viewPhotographSuccess:
+  layout: freshorange
+viewPersonalDetailsSuccess:
+  layout: freshorange
+configurePimSuccess:
+  layout: freshorange
+listCustomFieldsSuccess:
+  layout: freshorange
+pimCsvImportSuccess:
+  layout: freshorange
+viewReportingMethodsSuccess:
+  layout: freshorange
+viewTerminationReasonsSuccess:
+  layout: freshorange
+contactDetailsSuccess:
+  layout: freshorange
+viewEmergencyContactsSuccess:
+  layout: freshorange
+viewDependentsSuccess:
+  layout: freshorange
+viewImmigrationSuccess:
+  layout: freshorange
+viewJobDetailsSuccess:
+  layout: freshorange
+viewDefinedPredefinedReportsSuccess:
+  layout: freshorange
+definePredefinedReportSuccess:
+  layout: freshorange
+viewSalaryListSuccess:
+  layout: freshorange
+viewMembershipsSuccess:
+  layout: freshorange
+viewQualificationsSuccess:
+  layout: freshorange
+viewReportToDetailsSuccess:
+  layout: freshorange
+viewUsTaxExemptionsSuccess:
+  layout: freshorange
+addEmployeeSuccess:
+  layout: freshorange

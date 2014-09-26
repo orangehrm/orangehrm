@@ -1,0 +1,5124 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE xliff PUBLIC "-//XLIFF//DTD XLIFF//EN" "http://www.oasis-open.org/committees/xliff/documents/xliff.dtd">
+<xliff version="1.0">
+ <header/>
+ <file source-language="en_US" target-language="es_ES" datatype="plaintext" original="messages" date="2012-03-01T0:25:45Z" product-name="messages">
+  <body>
+   <trans-unit id="1">
+    <source>1M Max, any larger attachments will be ignored</source>
+    <target>1M Max, los archivos adjuntos más grandes se tendrá en cuenta</target>
+   </trans-unit>
+   <trans-unit id="2">
+    <source>Add</source>
+    <target>Añadir</target>
+   </trans-unit>
+   <trans-unit id="3">
+    <source>Add Attachment</source>
+    <target>Agregar archivo adjunto</target>
+   </trans-unit>
+   <trans-unit id="4">
+    <source>Add Employee</source>
+    <target>Agregar Empleado</target>
+   </trans-unit>
+   <trans-unit id="5">
+    <source>Add KPI</source>
+    <target>Agregar KPI</target>
+   </trans-unit>
+   <trans-unit id="6">
+    <source>Add Review</source>
+    <target>Agregar Comentario</target>
+   </trans-unit>
+   <trans-unit id="7">
+    <source>Add Salary Component</source>
+    <target>Agregar componente salarial</target>
+   </trans-unit>
+   <trans-unit id="8">
+    <source>Add-Ons</source>
+    <target>Add-Ons</target>
+   </trans-unit>
+   <trans-unit id="9">
+    <source>Added By</source>
+    <target>Añadido por</target>
+   </trans-unit>
+   <trans-unit id="10">
+    <source>Address</source>
+    <target>Dirección</target>
+   </trans-unit>
+   <trans-unit id="11">
+    <source>Admin</source>
+    <target>Administración</target>
+   </trans-unit>
+   <trans-unit id="12">
+    <source>Afghan</source>
+    <target>Afgano</target>
+    <note>A nationality name</note>
+   </trans-unit>
+   <trans-unit id="13">
+    <source>Afghanistan</source>
+    <target>Afganistán</target>
+    <note>A country name</note>
+   </trans-unit>
+   <trans-unit id="14">
+    <source>Afghanistan Afghani</source>
+    <target>Afganistán Afganistán</target>
+    <note>A currency name</note>
+   </trans-unit>
+   <trans-unit id="15">
+    <source>Age Group</source>
+    <target>Grupo de Edad</target>
+   </trans-unit>
+   <trans-unit id="16">
+    <source>Alabama</source>
+    <target>Alabama</target>
+    <note>A US state name</note>
+   </trans-unit>
+   <trans-unit id="17">
+    <source>Alaska</source>
+    <target>Alaska</target>
+    <note>A US state name</note>
+   </trans-unit>
+   <trans-unit id="18">
+    <source>Albania</source>
+    <target>Albania</target>
+    <note>A country name</note>
+   </trans-unit>
+   <trans-unit id="19">
+    <source>Albanian</source>
+    <target>Albanés</target>
+    <note>A nationality name</note>
+   </trans-unit>
+   <trans-unit id="20">
+    <source>Albanian Lek</source>
+    <target>Lek albanés</target>
+    <note>A currency name</note>
+   </trans-unit>
+   <trans-unit id="21">
+    <source>Algeria</source>
+    <target>Argelia</target>
+    <note>A country name</note>
+   </trans-unit>
+   <trans-unit id="22">
+    <source>Algerian</source>
+    <target>Argelino</target>
+    <note>A nationality name</note>
+   </trans-unit>
+   <trans-unit id="23">
+    <source>Algerian Dinar</source>
+    <target>Dinar argelino</target>
+    <note>A currency name</note>
+   </trans-unit>
+   <trans-unit id="24">
+    <source>All</source>
+    <target>Todo</target>
+   </trans-unit>
+   <trans-unit id="25">
+    <source>Allows numbers and only + - / ( )</source>
+    <target>Permite números y sólo + - / ()</target>
+   </trans-unit>
+   <trans-unit id="26">
+    <source>Already exists</source>
+    <target>Ya existe</target>
+   </trans-unit>
+   <trans-unit id="27">
+    <source>Name Already Exists</source>
+    <target>El nombre ya existe</target>
+   </trans-unit>
+   <trans-unit id="28">
+    <source>American</source>
+    <target>Americano</target>
+    <note>A nationality name</note>
+   </trans-unit>
+   <trans-unit id="29">
+    <source>American Samoa</source>
+    <target>Samoa Americana</target>
+    <note>A country name</note>
+   </trans-unit>
+   <trans-unit id="30">
+    <source>Amount</source>
+    <target>Cantidad</target>
+   </trans-unit>
+   <trans-unit id="31">
+    <source>Andorra</source>
+    <target>Andorra</target>
+    <note>A country name</note>
+   </trans-unit>
+   <trans-unit id="32">
+    <source>Andorran</source>
+    <target>Andorra</target>
+    <note>A nationality name</note>
+   </trans-unit>
+   <trans-unit id="33">
+    <source>Angola</source>
+    <target>Angola</target>
+    <note>A country name</note>
+   </trans-unit>
+   <trans-unit id="34">
+    <source>Angolan</source>
+    <target>Angola</target>
+    <note>A nationality name</note>
+   </trans-unit>
+   <trans-unit id="35">
+    <source>Angolan New Kwanza</source>
+    <target>Angola Nuevo Kwanza</target>
+    <note>A currency name</note>
+   </trans-unit>
+   <trans-unit id="36">
+    <source>Anguilla</source>
+    <target>Anguila</target>
+    <note>A country name</note>
+   </trans-unit>
+   <trans-unit id="37">
+    <source>Antarctica</source>
+    <target>Antártida</target>
+    <note>A country name</note>
+   </trans-unit>
+   <trans-unit id="38">
+    <source>Antigua and Barbuda</source>
+    <target>Antigua y Barbuda</target>
+    <note>A country name</note>
+   </trans-unit>
+   <trans-unit id="39">
+    <source>Antiguans</source>
+    <target>De Antigua</target>
+    <note>A nationality name</note>
+   </trans-unit>
+   <trans-unit id="40">
+    <source>Apply</source>
+    <target>Aplicar</target>
+   </trans-unit>
+   <trans-unit id="41">
+    <source>April</source>
+    <target>Abril</target>
+   </trans-unit>
+   <trans-unit id="42">
+    <source>are required</source>
+    <target>Se requieren</target>
+   </trans-unit>
+   <trans-unit id="43">
+    <source>Argentina</source>
+    <target>Argentina</target>
+    <note>A country name</note>
+   </trans-unit>
+   <trans-unit id="44">
+    <source>Argentina Pesos</source>
+    <target>Argentina Pesos</target>
+    <note>A currency name</note>
+   </trans-unit>
+   <trans-unit id="45">
+    <source>Argentine Peso</source>
+    <target>Peso argentino</target>
+    <note>A currency name</note>
+   </trans-unit>
+   <trans-unit id="46">
+    <source>Argentinean</source>
+    <target>Argentino</target>
+    <note>A nationality name</note>
+   </trans-unit>
+   <trans-unit id="47">
+    <source>Arizona</source>
+    <target>Arizona</target>
+    <note>A US state name</note>
+   </trans-unit>
+   <trans-unit id="48">
+    <source>Arkansas</source>
+    <target>Arkansas</target>
+    <note>A US state name</note>
+   </trans-unit>
+   <trans-unit id="49">
+    <source>Armed Forces Americas (except Canada)</source>
+    <target>Las Fuerzas Armadas de América (excepto Canadá)</target>
+    <note>A US state name</note>
+   </trans-unit>
+   <trans-unit id="50">
+    <source>Armed Forces Middle East</source>
+    <target>Las Fuerzas Armadas del Oriente Medio</target>
+    <note>A US state name</note>
+   </trans-unit>
+   <trans-unit id="51">
+    <source>Armed Forces Pacific</source>
+    <target>De las Fuerzas Armadas del Pacífico</target>
+    <note>A US state name</note>
+   </trans-unit>
+   <trans-unit id="52">
+    <source>Armenia</source>
+    <target>Armenia</target>
+    <note>A country name</note>
+   </trans-unit>
+   <trans-unit id="53">
+    <source>Armenian</source>
+    <target>Armenio</target>
+    <note>A nationality name</note>
+   </trans-unit>
+   <trans-unit id="54">
+    <source>Aruba</source>
+    <target>Aruba</target>
+    <note>A country name</note>
+   </trans-unit>
+   <trans-unit id="55">
+    <source>Aruban Florin</source>
+    <target>Aruba Florin</target>
+    <note>A currency name</note>
+   </trans-unit>
+   <trans-unit id="56">
+    <source>Assign Leave</source>
+    <target>Asignar Agregar</target>
+   </trans-unit>
+   <trans-unit id="57">
+    <source>Assigned Salary Components</source>
+    <target>Asignación de componentes salariales</target>
+   </trans-unit>
+   <trans-unit id="58">
+    <source>Attachment Size Exceeded</source>
+    <target>Adjunto Tamaño superado</target>
+   </trans-unit>
+   <trans-unit id="59">
+    <source>Attendance</source>
+    <target>Asistencia</target>
+   </trans-unit>
+   <trans-unit id="60">
+    <source>Attendance Summary</source>
+    <target>Asistencia Resumen</target>
+   </trans-unit>
+   <trans-unit id="61">
+    <source>Audit Trail</source>
+    <target>Registro de auditoría</target>
+   </trans-unit>
+   <trans-unit id="62">
+    <source>August</source>
+    <target>Agosto</target>
+   </trans-unit>
+   <trans-unit id="63">
+    <source>Australia</source>
+    <target>Australia</target>
+    <note>A country name</note>
+   </trans-unit>
+   <trans-unit id="64">
+    <source>Australian</source>
+    <target>Australiano</target>
+    <note>A nationality name</note>
+   </trans-unit>
+   <trans-unit id="65">
+    <source>Australian Dollar</source>
+    <target>Dólar Australiano</target>
+    <note>A currency name</note>
+   </trans-unit>
+   <trans-unit id="66">
+    <source>Austria</source>
+    <target>Austria</target>
+    <note>A country name</note>
+   </trans-unit>
+   <trans-unit id="67">
+    <source>Austrian</source>
+    <target>Austriaco</target>
+    <note>A nationality name</note>
+   </trans-unit>
+   <trans-unit id="68">
+    <source>Azerbaijan</source>
+    <target>Azerbaiyán</target>
+    <note>A country name</note>
+   </trans-unit>
+   <trans-unit id="69">
+    <source>Azerbaijani</source>
+    <target>Azerbaiyán</target>
+    <note>A nationality name</note>
+   </trans-unit>
+   <trans-unit id="70">
+    <source>Back</source>
+    <target>Espalda</target>
+   </trans-unit>
+   <trans-unit id="71">
+    <source>Bahamas</source>
+    <target>Las Bahamas</target>
+    <note>A country name</note>
+   </trans-unit>
+   <trans-unit id="72">
+    <source>Bahamian</source>
+    <target>Bahamas</target>
+    <note>A nationality name</note>
+   </trans-unit>
+   <trans-unit id="73">
+    <source>Bahamian Dollar</source>
+    <target>Dólar de Bahamas</target>
+    <note>A currency name</note>
+   </trans-unit>
+   <trans-unit id="74">
+    <source>Bahrain</source>
+    <target>Bahrein</target>
+    <note>A country name</note>
+   </trans-unit>
+   <trans-unit id="75">
+    <source>Bahraini</source>
+    <target>Bahrein</target>
+    <note>A nationality name</note>
+   </trans-unit>
+   <trans-unit id="76">
+    <source>Bahraini Dinar</source>
+    <target>Dinar de Bahréin</target>
+    <note>A currency name</note>
+   </trans-unit>
+   <trans-unit id="77">
+    <source>Bangladesh</source>
+    <target>Bangladesh</target>
+    <note>A country name</note>
+   </trans-unit>
+   <trans-unit id="78">
+    <source>Bangladeshi</source>
+    <target>Bangladesh</target>
+    <note>A nationality name</note>
+   </trans-unit>
+   <trans-unit id="79">
+    <source>Bangladeshi Taka</source>
+    <target>Taka de Bangladesh</target>
+    <note>A currency name</note>
+   </trans-unit>
+   <trans-unit id="80">
+    <source>Barbadian</source>
+    <target>Barbados</target>
+    <note>A nationality name</note>
+   </trans-unit>
+   <trans-unit id="81">
+    <source>Barbados</source>
+    <target>Barbados</target>
+    <note>A country name</note>
+   </trans-unit>
+   <trans-unit id="82">
+    <source>Barbados Dollar</source>
+    <target>Dólar de Barbados</target>
+    <note>A currency name</note>
+   </trans-unit>
+   <trans-unit id="83">
+    <source>Barbudans</source>
+    <target>Barbudans</target>
+    <note>A nationality name</note>
+   </trans-unit>
+   <trans-unit id="84">
+    <source>Basic</source>
+    <target>Básico</target>
+   </trans-unit>
+   <trans-unit id="85">
+    <source>Batswana</source>
+    <target>Botswana</target>
+    <note>A nationality name</note>
+   </trans-unit>
+   <trans-unit id="86">
+    <source>Belarus</source>
+    <target>Belarús</target>
+    <note>A country name</note>
+   </trans-unit>
+   <trans-unit id="87">
+    <source>Belarusian</source>
+    <target>Belarús</target>
+    <note>A nationality name</note>
+   </trans-unit>
+   <trans-unit id="88">
+    <source>Belgian</source>
+    <target>Belga</target>
+    <note>A nationality name</note>
+   </trans-unit>
+   <trans-unit id="89">
+    <source>Belgium</source>
+    <target>Bélgica</target>
+    <note>A country name</note>
+   </trans-unit>
+   <trans-unit id="90">
+    <source>Belize</source>
+    <target>Belice</target>
+    <note>A country name</note>
+   </trans-unit>
+   <trans-unit id="91">
+    <source>Belize Dollar</source>
+    <target>Dólar de Belice</target>
+    <note>A currency name</note>
+   </trans-unit>
+   <trans-unit id="92">
+    <source>Belizean</source>
+    <target>Belice</target>
+    <note>A nationality name</note>
+   </trans-unit>
+   <trans-unit id="93">
+    <source>Benin</source>
+    <target>Benin</target>
+    <note>A country name</note>
+   </trans-unit>
+   <trans-unit id="94">
+    <source>Beninese</source>
+    <target>Benin</target>
+    <note>A nationality name</note>
+   </trans-unit>
+   <trans-unit id="95">
+    <source>Bermuda</source>
+    <target>Bermuda</target>
+    <note>A country name</note>
+   </trans-unit>
+   <trans-unit id="96">
+    <source>Bermudian Dollar</source>
+    <target>Dólar de Bermudas</target>
+    <note>A currency name</note>
+   </trans-unit>
+   <trans-unit id="97">
+    <source>Bhutan</source>
+    <target>Bután</target>
+    <note>A country name</note>
+   </trans-unit>
+   <trans-unit id="98">
+    <source>Bhutan Ngultrum</source>
+    <target>Bután Ngultrum</target>
+    <note>A currency name</note>
+   </trans-unit>
+   <trans-unit id="99">
+    <source>Bhutanese</source>
+    <target>Bhután</target>
+    <note>A nationality name</note>
+   </trans-unit>
+   <trans-unit id="100">
+    <source>Blog</source>
+    <target>Blog</target>
+   </trans-unit>
+   <trans-unit id="101">
+    <source>Bolivia</source>
+    <target>Bolivia</target>
+    <note>A country name</note>
+   </trans-unit>
+   <trans-unit id="102">
+    <source>Bolivian</source>
+    <target>Boliviano</target>
+    <note>A nationality name</note>
+   </trans-unit>
+   <trans-unit id="103">
+    <source>Bolivian Boliviano</source>
+    <target>Boliviano</target>
+    <note>A currency name</note>
+   </trans-unit>
+   <trans-unit id="104">
+    <source>Bosnia and Herzegovina</source>
+    <target>Bosnia y Herzegovina</target>
+    <note>A country name</note>
+   </trans-unit>
+   <trans-unit id="105">
+    <source>Bosnian</source>
+    <target>Bosnio</target>
+    <note>A nationality name</note>
+   </trans-unit>
+   <trans-unit id="106">
+    <source>Botswana</source>
+    <target>Botswana</target>
+    <note>A country name</note>
+   </trans-unit>
+   <trans-unit id="107">
+    <source>Botswana Pula</source>
+    <target>Botswana Pula</target>
+    <note>A currency name</note>
+   </trans-unit>
+   <trans-unit id="108">
+    <source>Bouvet Island</source>
+    <target>Isla Bouvet</target>
+    <note>A country name</note>
+   </trans-unit>
+   <trans-unit id="109">
+    <source>Brazil</source>
+    <target>Brasil</target>
+    <note>A country name</note>
+   </trans-unit>
+   <trans-unit id="110">
+    <source>Brazilian</source>
+    <target>Brasileño</target>
+    <note>A nationality name</note>
+   </trans-unit>
+   <trans-unit id="111">
+    <source>Brazilian Real</source>
+    <target>Real brasileño</target>
+    <note>A currency name</note>
+   </trans-unit>
+   <trans-unit id="112">
+    <source>British</source>
+    <target>Británico</target>
+    <note>A nationality name</note>
+   </trans-unit>
+   <trans-unit id="113">
+    <source>British Indian Ocean Territory</source>
+    <target>British Indian Ocean Territory</target>
+    <note>A country name</note>
+   </trans-unit>
+   <trans-unit id="114">
+    <source>Brunei Darussalam</source>
+    <target>Brunei Darussalam</target>
+    <note>A country name</note>
+   </trans-unit>
+   <trans-unit id="115">
+    <source>Brunei Dollar</source>
+    <target>Dólar de Brunei</target>
+    <note>A currency name</note>
+   </trans-unit>
+   <trans-unit id="116">
+    <source>Bruneian</source>
+    <target>Brunei</target>
+    <note>A nationality name</note>
+   </trans-unit>
+   <trans-unit id="117">
+    <source>Bug Tracker</source>
+    <target>Bug Tracker</target>
+   </trans-unit>
+   <trans-unit id="118">
+    <source>Bulgaria</source>
+    <target>Bulgaria</target>
+    <note>A country name</note>
+   </trans-unit>
+   <trans-unit id="119">
+    <source>Bulgarian</source>
+    <target>Búlgaro</target>
+    <note>A nationality name</note>
+   </trans-unit>
+   <trans-unit id="120">
+    <source>Bulgarian Lev</source>
+    <target>Lev búlgaro</target>
+    <note>A currency name</note>
+   </trans-unit>
+   <trans-unit id="121">
+    <source>Burkina Faso</source>
+    <target>Burkina Faso</target>
+    <note>A country name</note>
+   </trans-unit>
+   <trans-unit id="122">
+    <source>Burkinabe</source>
+    <target>Burkina Faso</target>
+    <note>A nationality name</note>
+   </trans-unit>
+   <trans-unit id="123">
+    <source>Burmese</source>
+    <target>Birmano</target>
+    <note>A nationality name</note>
+   </trans-unit>
+   <trans-unit id="124">
+    <source>Burundi</source>
+    <target>Burundi</target>
+    <note>A country name</note>
+   </trans-unit>
+   <trans-unit id="125">
+    <source>Burundi Franc</source>
+    <target>Franco de Burundi</target>
+    <note>A currency name</note>
+   </trans-unit>
+   <trans-unit id="126">
+    <source>Burundian</source>
+    <target>Burundi</target>
+    <note>A nationality name</note>
+   </trans-unit>
+   <trans-unit id="127">
+    <source>California</source>
+    <target>California</target>
+    <note>A US state name</note>
+   </trans-unit>
+   <trans-unit id="128">
+    <source>Cambodia</source>
+    <target>Camboya</target>
+    <note>A country name</note>
+   </trans-unit>
+   <trans-unit id="129">
+    <source>Cambodian</source>
+    <target>Camboyano</target>
+    <note>A nationality name</note>
+   </trans-unit>
+   <trans-unit id="130">
+    <source>Cameroon</source>
+    <target>Camerún</target>
+    <note>A country name</note>
+   </trans-unit>
+   <trans-unit id="131">
+    <source>Cameroonian</source>
+    <target>Camerún</target>
+    <note>A nationality name</note>
+   </trans-unit>
+   <trans-unit id="132">
+    <source>Canada</source>
+    <target>Canadá</target>
+    <note>A country name</note>
+   </trans-unit>
+   <trans-unit id="133">
+    <source>Canadian</source>
+    <target>Canadiense</target>
+    <note>A nationality name</note>
+   </trans-unit>
+   <trans-unit id="134">
+    <source>Canadian Dollar</source>
+    <target>Dólar Canadiense</target>
+    <note>A currency name</note>
+   </trans-unit>
+   <trans-unit id="135">
+    <source>Cancel</source>
+    <target>Cancelar</target>
+   </trans-unit>
+   <trans-unit id="136">
+    <source>Candidates</source>
+    <target>Los candidatos</target>
+   </trans-unit>
+   <trans-unit id="137">
+    <source>Cape Verde</source>
+    <target>Cabo Verde</target>
+    <note>A country name</note>
+   </trans-unit>
+   <trans-unit id="138">
+    <source>Cape Verde Escudo</source>
+    <target>Escudo Cabo Verde</target>
+    <note>A currency name</note>
+   </trans-unit>
+   <trans-unit id="139">
+    <source>Cape Verdean</source>
+    <target>Cabo Verde</target>
+    <note>A nationality name</note>
+   </trans-unit>
+   <trans-unit id="140">
+    <source>Cayman Islands</source>
+    <target>Las Islas Caimán</target>
+    <note>A country name</note>
+   </trans-unit>
+   <trans-unit id="141">
+    <source>Cayman Islands Dollar</source>
+    <target>Dólar de las Islas Caimán</target>
+    <note>A currency name</note>
+   </trans-unit>
+   <trans-unit id="142">
+    <source>Central African</source>
+    <target>África Central</target>
+    <note>A nationality name</note>
+   </trans-unit>
+   <trans-unit id="143">
+    <source>Central African Republic</source>
+    <target>República Centroafricana</target>
+    <note>A country name</note>
+   </trans-unit>
+   <trans-unit id="144">
+    <source>CFA Franc BCEAO</source>
+    <target>Franco CFA BCEAO</target>
+    <note>A currency name</note>
+   </trans-unit>
+   <trans-unit id="145">
+    <source>CFP Franc</source>
+    <target>PPC Franco</target>
+    <note>A currency name</note>
+   </trans-unit>
+   <trans-unit id="146">
+    <source>CFA Franc BEAC</source>
+    <target>Franco CFA BEAC</target>
+    <note>A currency name</note>
+   </trans-unit>
+   <trans-unit id="147">
+    <source>Chad</source>
+    <target>Chad</target>
+    <note>A country name</note>
+   </trans-unit>
+   <trans-unit id="148">
+    <source>Chadian</source>
+    <target>Chad</target>
+    <note>A nationality name</note>
+   </trans-unit>
+   <trans-unit id="149">
+    <source>Change Password</source>
+    <target>Cambiar la contraseña</target>
+   </trans-unit>
+   <trans-unit id="150">
+    <source>Checking</source>
+    <target>De cheques</target>
+   </trans-unit>
+   <trans-unit id="151">
+    <source>Chile</source>
+    <target>Chile</target>
+    <note>A country name</note>
+   </trans-unit>
+   <trans-unit id="152">
+    <source>Cote D'Ivoire</source>
+    <target>Costa de Marfil</target>
+    <note>A country name</note>
+   </trans-unit>
+   <trans-unit id="153">
+    <source>Chilean</source>
+    <target>Chileno</target>
+    <note>A nationality name</note>
+   </trans-unit>
+   <trans-unit id="154">
+    <source>Chilean Peso</source>
+    <target>Peso Chileno</target>
+    <note>A currency name</note>
+   </trans-unit>
+   <trans-unit id="155">
+    <source>Tongan Pa'anga</source>
+    <target>Tonga Pa'anga</target>
+    <note>A currency name</note>
+   </trans-unit>
+   <trans-unit id="156">
+    <source>China</source>
+    <target>China</target>
+    <note>A country name</note>
+   </trans-unit>
+   <trans-unit id="157">
+    <source>Chinese</source>
+    <target>Chino</target>
+    <note>A nationality name</note>
+   </trans-unit>
+   <trans-unit id="158">
+    <source>Chinese Yuan Renminbi</source>
+    <target>Yuan chino</target>
+    <note>A currency name</note>
+   </trans-unit>
+   <trans-unit id="159">
+    <source>Christmas Island</source>
+    <target>Isla de Navidad</target>
+    <note>A country name</note>
+   </trans-unit>
+   <trans-unit id="160">
+    <source>Cocos (Keeling) Islands</source>
+    <target>Islas Cocos (Keeling)</target>
+    <note>A country name</note>
+   </trans-unit>
+   <trans-unit id="161">
+    <source>Colombia</source>
+    <target>Colombia</target>
+    <note>A country name</note>
+   </trans-unit>
+   <trans-unit id="162">
+    <source>Colombian</source>
+    <target>Colombiano</target>
+    <note>A nationality name</note>
+   </trans-unit>
+   <trans-unit id="163">
+    <source>Colombian Peso</source>
+    <target>Peso colombiano</target>
+    <note>A currency name</note>
+   </trans-unit>
+   <trans-unit id="164">
+    <source>Colorado</source>
+    <target>Colorado</target>
+    <note>A US state name</note>
+   </trans-unit>
+   <trans-unit id="165">
+    <source>Comment</source>
+    <target>Comentario</target>
+   </trans-unit>
+   <trans-unit id="166">
+    <source>Comments</source>
+    <target>Comentarios</target>
+   </trans-unit>
+   <trans-unit id="167">
+    <source>Comoran</source>
+    <target>Comoras</target>
+    <note>A nationality name</note>
+   </trans-unit>
+   <trans-unit id="168">
+    <source>Comoros</source>
+    <target>Las Comoras</target>
+    <note>A country name</note>
+   </trans-unit>
+   <trans-unit id="169">
+    <source>Comoros Franc</source>
+    <target>Comoras Franco</target>
+    <note>A currency name</note>
+   </trans-unit>
+   <trans-unit id="170">
+    <source>Company</source>
+    <target>Empresa</target>
+   </trans-unit>
+   <trans-unit id="171">
+    <source>Competency</source>
+    <target>Competencia</target>
+   </trans-unit>
+   <trans-unit id="172">
+    <source>Configuration</source>
+    <target>Configuración</target>
+   </trans-unit>
+   <trans-unit id="173">
+    <source>Configure</source>
+    <target>Configurar</target>
+   </trans-unit>
+   <trans-unit id="174">
+    <source>Configure Security Authentication</source>
+    <target>Configuración de la autenticación de seguridad</target>
+   </trans-unit>
+   <trans-unit id="175">
+    <source>Congo</source>
+    <target>Congo</target>
+    <note>A country name</note>
+   </trans-unit>
+   <trans-unit id="176">
+    <source>Congo, the Democratic Republic of the</source>
+    <target>Congo, la República Democrática del</target>
+    <note>A country name</note>
+   </trans-unit>
+   <trans-unit id="177">
+    <source>Congolese</source>
+    <target>Congo</target>
+    <note>A nationality name</note>
+   </trans-unit>
+   <trans-unit id="178">
+    <source>Connecticut</source>
+    <target>Connecticut</target>
+    <note>A US state name</note>
+   </trans-unit>
+   <trans-unit id="179">
+    <source>Contact Details</source>
+    <target>Datos de contacto</target>
+   </trans-unit>
+   <trans-unit id="180">
+    <source>Contract End Date</source>
+    <target>Fecha de finalización del contrato</target>
+   </trans-unit>
+   <trans-unit id="181">
+    <source>Contract Not Renewed</source>
+    <target>Contrato no se renueva</target>
+   </trans-unit>
+   <trans-unit id="182">
+    <source>Contract Start Date</source>
+    <target>Fecha de inicio del contrato</target>
+   </trans-unit>
+   <trans-unit id="183">
+    <source>Cook Islands</source>
+    <target>Las Islas Cook</target>
+    <note>A country name</note>
+   </trans-unit>
+   <trans-unit id="184">
+    <source>Copy KPI</source>
+    <target>Copia de KPI</target>
+   </trans-unit>
+   <trans-unit id="185">
+    <source>Costa Rica</source>
+    <target>Costa Rica</target>
+    <note>A country name</note>
+   </trans-unit>
+   <trans-unit id="186">
+    <source>Costa Rican</source>
+    <target>Costarricense</target>
+    <note>A nationality name</note>
+   </trans-unit>
+   <trans-unit id="187">
+    <source>Costa Rican Colon</source>
+    <target>Colón costarricense</target>
+    <note>A currency name</note>
+   </trans-unit>
+   <trans-unit id="188">
+    <source>Country</source>
+    <target>País</target>
+   </trans-unit>
+   <trans-unit id="189">
+    <source>Croatia</source>
+    <target>Croacia</target>
+    <note>A country name</note>
+   </trans-unit>
+   <trans-unit id="190">
+    <source>Croatian</source>
+    <target>Croata</target>
+    <note>A nationality name</note>
+   </trans-unit>
+   <trans-unit id="191">
+    <source>Croatian Kuna</source>
+    <target>Kuna croata</target>
+    <note>A currency name</note>
+   </trans-unit>
+   <trans-unit id="192">
+    <source>Cuba</source>
+    <target>Cuba</target>
+    <note>A country name</note>
+   </trans-unit>
+   <trans-unit id="193">
+    <source>Cuban</source>
+    <target>Cubano</target>
+    <note>A nationality name</note>
+   </trans-unit>
+   <trans-unit id="194">
+    <source>Cuban Peso</source>
+    <target>Peso Cubano</target>
+    <note>A currency name</note>
+   </trans-unit>
+   <trans-unit id="195">
+    <source>Currency</source>
+    <target>Moneda</target>
+   </trans-unit>
+   <trans-unit id="196">
+    <source>Current and Past Employees</source>
+    <target>Los empleados actuales y anteriores</target>
+   </trans-unit>
+   <trans-unit id="197">
+    <source>Current Employees Only</source>
+    <target>Sólo los empleados actuales</target>
+   </trans-unit>
+   <trans-unit id="198">
+    <source>Current Status</source>
+    <target>Estado actual</target>
+   </trans-unit>
+   <trans-unit id="199">
+    <source>Custom Fields</source>
+    <target>Campos personalizados</target>
+   </trans-unit>
+   <trans-unit id="200">
+    <source>Customers</source>
+    <target>Clientes</target>
+   </trans-unit>
+   <trans-unit id="201">
+    <source>Customizations</source>
+    <target>Personalizaciones</target>
+   </trans-unit>
+   <trans-unit id="202">
+    <source>Cypriot</source>
+    <target>Chipre</target>
+    <note>A nationality name</note>
+   </trans-unit>
+   <trans-unit id="203">
+    <source>Cyprus</source>
+    <target>Chipre</target>
+    <note>A country name</note>
+   </trans-unit>
+   <trans-unit id="204">
+    <source>Cyprus Pound</source>
+    <target>Libra chipriota</target>
+    <note>A currency name</note>
+   </trans-unit>
+   <trans-unit id="205">
+    <source>Czech</source>
+    <target>Checo</target>
+    <note>A nationality name</note>
+   </trans-unit>
+   <trans-unit id="206">
+    <source>Czech Koruna</source>
+    <target>Corona checa</target>
+    <note>A currency name</note>
+   </trans-unit>
+   <trans-unit id="207">
+    <source>Czech Republic</source>
+    <target>La República Checa</target>
+    <note>A country name</note>
+   </trans-unit>
+   <trans-unit id="208">
+    <source>Danish</source>
+    <target>Danés</target>
+    <note>A nationality name</note>
+   </trans-unit>
+   <trans-unit id="209">
+    <source>Danish Krona</source>
+    <target>Corona Danesa</target>
+    <note>A currency name</note>
+   </trans-unit>
+   <trans-unit id="210">
+    <source>Data Import</source>
+    <target>Importación de datos</target>
+   </trans-unit>
+   <trans-unit id="211">
+    <source>Date</source>
+    <target>Fecha</target>
+   </trans-unit>
+   <trans-unit id="212">
+    <source>Date Added</source>
+    <target>Fecha Alta</target>
+   </trans-unit>
+   <trans-unit id="213">
+    <source>Date of Birth</source>
+    <target>Fecha de Nacimiento</target>
+   </trans-unit>
+   <trans-unit id="214">
+    <source>Days</source>
+    <target>Días</target>
+   </trans-unit>
+   <trans-unit id="215">
+    <source>Deceased</source>
+    <target>Fallecido</target>
+   </trans-unit>
+   <trans-unit id="216">
+    <source>December</source>
+    <target>Diciembre</target>
+   </trans-unit>
+   <trans-unit id="217">
+    <source>Define Report</source>
+    <target>Definir Informe</target>
+   </trans-unit>
+   <trans-unit id="218">
+    <source>Defined Custom Fields</source>
+    <target>Campos definidos por encargo</target>
+   </trans-unit>
+   <trans-unit id="219">
+    <source>Delaware</source>
+    <target>Delaware</target>
+    <note>A US state name</note>
+   </trans-unit>
+   <trans-unit id="220">
+    <source>Delete</source>
+    <target>Borrar</target>
+   </trans-unit>
+   <trans-unit id="221">
+    <source>Delete Current</source>
+    <target>Eliminar actual</target>
+   </trans-unit>
+   <trans-unit id="222">
+    <source>Denmark</source>
+    <target>Dinamarca</target>
+    <note>A country name</note>
+   </trans-unit>
+   <trans-unit id="223">
+    <source>Dependents</source>
+    <target>Dependientes</target>
+   </trans-unit>
+   <trans-unit id="224">
+    <source>Description</source>
+    <target>Descripción</target>
+   </trans-unit>
+   <trans-unit id="225">
+    <source>Dimensions</source>
+    <target>Dimensiones</target>
+   </trans-unit>
+   <trans-unit id="226">
+    <source>Direct</source>
+    <target>Direct</target>
+   </trans-unit>
+   <trans-unit id="227">
+    <source>Direct Deposit Account Number</source>
+    <target>Depósito Directo Número de Cuenta</target>
+   </trans-unit>
+   <trans-unit id="228">
+    <source>Direct Deposit Account Type</source>
+    <target>Depósito Directo Tipo de Cuenta</target>
+   </trans-unit>
+   <trans-unit id="229">
+    <source>Direct Deposit Amount</source>
+    <target>Monto del Depósito Directo</target>
+   </trans-unit>
+   <trans-unit id="230">
+    <source>Direct Deposit Details</source>
+    <target>Detalles del Depósito Directo</target>
+   </trans-unit>
+   <trans-unit id="231">
+    <source>Direct Deposit Routing Number</source>
+    <target>Depósito Directo Número de enrutamiento</target>
+   </trans-unit>
+   <trans-unit id="232">
+    <source>Disabled</source>
+    <target>Discapacitado</target>
+   </trans-unit>
+   <trans-unit id="233">
+    <source>Dismissed</source>
+    <target>Despedido</target>
+   </trans-unit>
+   <trans-unit id="234">
+    <source>Display Field Groups</source>
+    <target>Mostrar los grupos de campo</target>
+   </trans-unit>
+   <trans-unit id="235">
+    <source>Display Fields</source>
+    <target>Mostrar los campos</target>
+   </trans-unit>
+   <trans-unit id="236">
+    <source>District of Columbia</source>
+    <target>Distrito de Columbia</target>
+    <note>A US state name</note>
+   </trans-unit>
+   <trans-unit id="237">
+    <source>Djibouti</source>
+    <target>Yibuti</target>
+    <note>A country name</note>
+   </trans-unit>
+   <trans-unit id="238">
+    <source>Djibouti Franc</source>
+    <target>Yibuti Franco</target>
+    <note>A currency name</note>
+   </trans-unit>
+   <trans-unit id="239">
+    <source>Document Type</source>
+    <target>Tipo de documento</target>
+   </trans-unit>
+   <trans-unit id="240">
+    <source>Dominica</source>
+    <target>Dominica</target>
+    <note>A country name</note>
+   </trans-unit>
+   <trans-unit id="241">
+    <source>Dominican</source>
+    <target>Dominicano</target>
+    <note>A nationality name</note>
+   </trans-unit>
+   <trans-unit id="242">
+    <source>Dominican Peso</source>
+    <target>Peso dominicano</target>
+    <note>A currency name</note>
+   </trans-unit>
+   <trans-unit id="243">
+    <source>Dominican Republic</source>
+    <target>República Dominicana</target>
+    <note>A country name</note>
+   </trans-unit>
+   <trans-unit id="244">
+    <source>Driver License Number</source>
+    <target>Número de Licencia</target>
+   </trans-unit>
+   <trans-unit id="245">
+    <source>Driver's License Number</source>
+    <target>Licencia de Conducir</target>
+   </trans-unit>
+   <trans-unit id="246">
+    <source>Duration</source>
+    <target>Duración</target>
+   </trans-unit>
+   <trans-unit id="247">
+    <source>Dutch</source>
+    <target>Holandés</target>
+    <note>A nationality name</note>
+   </trans-unit>
+   <trans-unit id="248">
+    <source>Duties</source>
+    <target>Deberes</target>
+   </trans-unit>
+   <trans-unit id="249">
+    <source>East Timorese</source>
+    <target>Timor Oriental</target>
+    <note>A nationality name</note>
+   </trans-unit>
+   <trans-unit id="250">
+    <source>Eastern Caribbean Dollars</source>
+    <target>Dólares del Caribe Oriental</target>
+    <note>A currency name</note>
+   </trans-unit>
+   <trans-unit id="251">
+    <source>Ecuador</source>
+    <target>Ecuador</target>
+    <note>A country name</note>
+   </trans-unit>
+   <trans-unit id="252">
+    <source>Ecuador Sucre</source>
+    <target>Ecuador Sucre</target>
+    <note>A currency name</note>
+   </trans-unit>
+   <trans-unit id="253">
+    <source>Ecuadorean</source>
+    <target>Ecuador</target>
+    <note>A nationality name</note>
+   </trans-unit>
+   <trans-unit id="254">
+    <source>Edit</source>
+    <target>Editar</target>
+   </trans-unit>
+   <trans-unit id="255">
+    <source>Edit Attachment</source>
+    <target>Editar anexo</target>
+   </trans-unit>
+   <trans-unit id="256">
+    <source>Edit Immigration</source>
+    <target>Edición de Inmigración</target>
+   </trans-unit>
+   <trans-unit id="257">
+    <source>Edit Salary Component</source>
+    <target>Editar componente de sueldos</target>
+   </trans-unit>
+   <trans-unit id="258">
+    <source>Education</source>
+    <target>Educación</target>
+   </trans-unit>
+   <trans-unit id="259">
+    <source>Egypt</source>
+    <target>Egipto</target>
+    <note>A country name</note>
+   </trans-unit>
+   <trans-unit id="260">
+    <source>Egyptian</source>
+    <target>Egipcio</target>
+    <note>A nationality name</note>
+   </trans-unit>
+   <trans-unit id="261">
+    <source>Egyptian Pound</source>
+    <target>Libra egipcia</target>
+    <note>A currency name</note>
+   </trans-unit>
+   <trans-unit id="262">
+    <source>El Salvador</source>
+    <target>El Salvador</target>
+    <note>A country name</note>
+   </trans-unit>
+   <trans-unit id="263">
+    <source>El Salvador Colon</source>
+    <target>El Salvador Colón</target>
+    <note>A currency name</note>
+   </trans-unit>
+   <trans-unit id="264">
+    <source>Eligible</source>
+    <target>Elegible</target>
+   </trans-unit>
+   <trans-unit id="265">
+    <source>Eligible Review Date</source>
+    <target>Fecha de revisión Elegible</target>
+   </trans-unit>
+   <trans-unit id="266">
+    <source>Eligible Status</source>
+    <target>Estado de derecho</target>
+   </trans-unit>
+   <trans-unit id="267">
+    <source>Email Notifications</source>
+    <target>Notificaciones por correo electrónico</target>
+   </trans-unit>
+   <trans-unit id="268">
+    <source>Emergency Contacts</source>
+    <target>Contactos de Emergencia</target>
+   </trans-unit>
+   <trans-unit id="269">
+    <source>Emirian</source>
+    <target>Emirian</target>
+    <note>A nationality name</note>
+   </trans-unit>
+   <trans-unit id="270">
+    <source>Employee</source>
+    <target>Empleado</target>
+   </trans-unit>
+   <trans-unit id="271">
+    <source>Employee First Name</source>
+    <target>Nombre del Empleado</target>
+   </trans-unit>
+   <trans-unit id="272">
+    <source>Employee Id</source>
+    <target>Identificación del empleado</target>
+   </trans-unit>
+   <trans-unit id="273">
+    <source>Employee Last Name</source>
+    <target>Empleado Apellido</target>
+   </trans-unit>
+   <trans-unit id="274">
+    <source>Employee List</source>
+    <target>Lista de empleados</target>
+   </trans-unit>
+   <trans-unit id="275">
+    <source>Employee Middle Name</source>
+    <target>Nombre del Empleado Medio</target>
+   </trans-unit>
+   <trans-unit id="276">
+    <source>Employee Name</source>
+    <target>Nombre del Empleado</target>
+   </trans-unit>
+   <trans-unit id="277">
+    <source>Employee Records</source>
+    <target>Los registros de los empleados</target>
+   </trans-unit>
+   <trans-unit id="278">
+    <source>Employee Reports</source>
+    <target>Informes de los empleados</target>
+   </trans-unit>
+   <trans-unit id="279">
+    <source>Employee Timesheets</source>
+    <target>Los partes de horas de empleados</target>
+   </trans-unit>
+   <trans-unit id="280">
+    <source>Employment Status</source>
+    <target>Estado de Empleo</target>
+   </trans-unit>
+   <trans-unit id="281">
+    <source>Enabled</source>
+    <target>Habilitado</target>
+   </trans-unit>
+   <trans-unit id="282">
+    <source>End Date</source>
+    <target>Fecha de finalización</target>
+   </trans-unit>
+   <trans-unit id="283">
+    <source>End date should be after start date</source>
+    <target>Fecha de finalización debe ser posterior a la fecha de inicio</target>
+   </trans-unit>
+   <trans-unit id="284">
+    <source>Equatorial Guinea</source>
+    <target>Guinea Ecuatorial</target>
+    <note>A country name</note>
+   </trans-unit>
+   <trans-unit id="285">
+    <source>Equatorial Guinean</source>
+    <target>Guinea Ecuatorial</target>
+    <note>A nationality name</note>
+   </trans-unit>
+   <trans-unit id="286">
+    <source>Eritrea</source>
+    <target>Eritrea</target>
+    <note>A country name</note>
+   </trans-unit>
+   <trans-unit id="287">
+    <source>Eritrean</source>
+    <target>Eritrea</target>
+    <note>A nationality name</note>
+   </trans-unit>
+   <trans-unit id="288">
+    <source>ESS</source>
+    <target>ESS</target>
+   </trans-unit>
+   <trans-unit id="289">
+    <source>Estonia</source>
+    <target>Estonia</target>
+    <note>A country name</note>
+   </trans-unit>
+   <trans-unit id="290">
+    <source>Estonian</source>
+    <target>Estonia</target>
+    <note>A nationality name</note>
+   </trans-unit>
+   <trans-unit id="291">
+    <source>Estonian Krona</source>
+    <target>Corona de Estonia</target>
+    <note>A currency name</note>
+   </trans-unit>
+   <trans-unit id="292">
+    <source>Ethiopia</source>
+    <target>Etiopía</target>
+    <note>A country name</note>
+   </trans-unit>
+   <trans-unit id="293">
+    <source>Ethiopian</source>
+    <target>Etíope</target>
+    <note>A nationality name</note>
+   </trans-unit>
+   <trans-unit id="294">
+    <source>Ethiopian Birr</source>
+    <target>Birr etíope</target>
+    <note>A currency name</note>
+   </trans-unit>
+   <trans-unit id="295">
+    <source>Euro</source>
+    <target>Euro</target>
+    <note>A currency name</note>
+   </trans-unit>
+   <trans-unit id="296">
+    <source>Expected format: admin@example.com</source>
+    <target>El formato previsto: admin@example.com</target>
+   </trans-unit>
+   <trans-unit id="297">
+    <source>Expiry Date</source>
+    <target>Fecha de Expiración</target>
+   </trans-unit>
+   <trans-unit id="298">
+    <source>Expiry date should be after issued date</source>
+    <target>Fecha de caducidad debe ser posterior a la fecha de emisión</target>
+   </trans-unit>
+   <trans-unit id="299">
+    <source>Failed to Save</source>
+    <target>Error al Guardar</target>
+   </trans-unit>
+   <trans-unit id="300">
+    <source>Falkland Islands (Malvinas)</source>
+    <target>Islas Malvinas (Falkland)</target>
+    <note>A country name</note>
+   </trans-unit>
+   <trans-unit id="301">
+    <source>Falkland Islands Pound</source>
+    <target>Libra de las Islas Malvinas</target>
+    <note>A currency name</note>
+   </trans-unit>
+   <trans-unit id="302">
+    <source>Faroe Islands</source>
+    <target>Las Islas Feroe</target>
+    <note>A country name</note>
+   </trans-unit>
+   <trans-unit id="303">
+    <source>February</source>
+    <target>Febrero</target>
+   </trans-unit>
+   <trans-unit id="304">
+    <source>Federated States of Micronesia</source>
+    <target>Estados Federados de Micronesia</target>
+    <note>A US state name</note>
+   </trans-unit>
+   <trans-unit id="305">
+    <source>Female</source>
+    <target>Femenino</target>
+   </trans-unit>
+   <trans-unit id="306">
+    <source>Field</source>
+    <target>Campo</target>
+   </trans-unit>
+   <trans-unit id="307">
+    <source>Fields</source>
+    <target>Campos</target>
+   </trans-unit>
+   <trans-unit id="308">
+    <source>Fields marked with an asterisk</source>
+    <target>Los campos marcados con un asterisco</target>
+   </trans-unit>
+   <trans-unit id="309">
+    <source>Fiji</source>
+    <target>Fiyi</target>
+    <note>A country name</note>
+   </trans-unit>
+   <trans-unit id="310">
+    <source>Fiji Dollar</source>
+    <target>Fiyi dólar</target>
+    <note>A currency name</note>
+   </trans-unit>
+   <trans-unit id="311">
+    <source>Fijian</source>
+    <target>Fiyi</target>
+    <note>A nationality name</note>
+   </trans-unit>
+   <trans-unit id="312">
+    <source>File Name</source>
+    <target>Nombre de archivo</target>
+   </trans-unit>
+   <trans-unit id="313">
+    <source>Filipino</source>
+    <target>Filipino</target>
+    <note>A nationality name</note>
+   </trans-unit>
+   <trans-unit id="314">
+    <source>Finland</source>
+    <target>Finlandia</target>
+    <note>A country name</note>
+   </trans-unit>
+   <trans-unit id="315">
+    <source>Finnish</source>
+    <target>Finlandés</target>
+    <note>A nationality name</note>
+   </trans-unit>
+   <trans-unit id="316">
+    <source>First</source>
+    <target>Primero</target>
+   </trans-unit>
+   <trans-unit id="317">
+    <source>First Name</source>
+    <target>Nombre</target>
+   </trans-unit>
+   <trans-unit id="318">
+    <source>Florida</source>
+    <target>Florida</target>
+    <note>A US state name</note>
+   </trans-unit>
+   <trans-unit id="319">
+    <source>Fluency</source>
+    <target>Fluidez</target>
+   </trans-unit>
+   <trans-unit id="320">
+    <source>Forum</source>
+    <target>Foro</target>
+   </trans-unit>
+   <trans-unit id="321">
+    <source>France</source>
+    <target>Francia</target>
+    <note>A country name</note>
+   </trans-unit>
+   <trans-unit id="322">
+    <source>French</source>
+    <target>Francés</target>
+    <note>A nationality name</note>
+   </trans-unit>
+   <trans-unit id="323">
+    <source>French Guiana</source>
+    <target>Francés de Guayana</target>
+    <note>A country name</note>
+   </trans-unit>
+   <trans-unit id="324">
+    <source>French Polynesia</source>
+    <target>Polinesia francés</target>
+    <note>A country name</note>
+   </trans-unit>
+   <trans-unit id="325">
+    <source>French Southern Territories</source>
+    <target>Territorios Franceses del Sur</target>
+    <note>A country name</note>
+   </trans-unit>
+   <trans-unit id="326">
+    <source>Friday</source>
+    <target>Viernes</target>
+   </trans-unit>
+   <trans-unit id="327">
+    <source>From</source>
+    <target>De</target>
+   </trans-unit>
+   <trans-unit id="328">
+    <source>Full Name</source>
+    <target>Nombre completo</target>
+   </trans-unit>
+   <trans-unit id="329">
+    <source>Full Time Contract</source>
+    <target>Contrato Tiempo Completo</target>
+   </trans-unit>
+   <trans-unit id="330">
+    <source>Full Time Internship</source>
+    <target>Prácticas Tiempo Completo</target>
+   </trans-unit>
+   <trans-unit id="331">
+    <source>Full Time Permanent</source>
+    <target>Tiempo completo Permanente</target>
+   </trans-unit>
+   <trans-unit id="332">
+    <source>Gabon</source>
+    <target>Gabón</target>
+    <note>A country name</note>
+   </trans-unit>
+   <trans-unit id="333">
+    <source>Gabonese</source>
+    <target>Gabón</target>
+    <note>A nationality name</note>
+   </trans-unit>
+   <trans-unit id="334">
+    <source>Gambia</source>
+    <target>Gambia</target>
+    <note>A country name</note>
+   </trans-unit>
+   <trans-unit id="335">
+    <source>Gambian</source>
+    <target>Gambia</target>
+    <note>A nationality name</note>
+   </trans-unit>
+   <trans-unit id="336">
+    <source>Gambian Dalasi</source>
+    <target>Dalasi gambiano</target>
+    <note>A currency name</note>
+   </trans-unit>
+   <trans-unit id="337">
+    <source>Gender</source>
+    <target>Género</target>
+   </trans-unit>
+   <trans-unit id="338">
+    <source>General Information</source>
+    <target>Información General</target>
+   </trans-unit>
+   <trans-unit id="339">
+    <source>Georgia</source>
+    <target>Georgia</target>
+    <note>A country name</note>
+   </trans-unit>
+   <trans-unit id="340">
+    <source>Georgian</source>
+    <target>Georgiano</target>
+    <note>A nationality name</note>
+   </trans-unit>
+   <trans-unit id="341">
+    <source>German</source>
+    <target>Alemán</target>
+    <note>A nationality name</note>
+   </trans-unit>
+   <trans-unit id="342">
+    <source>Germany</source>
+    <target>Alemania</target>
+    <note>A country name</note>
+   </trans-unit>
+   <trans-unit id="343">
+    <source>Ghana</source>
+    <target>Ghana</target>
+    <note>A country name</note>
+   </trans-unit>
+   <trans-unit id="344">
+    <source>Ghanaian</source>
+    <target>Ghanés</target>
+    <note>A nationality name</note>
+   </trans-unit>
+   <trans-unit id="345">
+    <source>Ghanaian Cedi</source>
+    <target>Ghana Cedi</target>
+    <note>A currency name</note>
+   </trans-unit>
+   <trans-unit id="346">
+    <source>Gibraltar</source>
+    <target>Gibraltar</target>
+    <note>A country name</note>
+   </trans-unit>
+   <trans-unit id="347">
+    <source>Gibraltar Pound</source>
+    <target>Libra de Gibraltar</target>
+    <note>A currency name</note>
+   </trans-unit>
+   <trans-unit id="348">
+    <source>Gold (oz.)</source>
+    <target>Oro (oz)</target>
+    <note>A currency name</note>
+   </trans-unit>
+   <trans-unit id="349">
+    <source>Good</source>
+    <target>Bueno</target>
+   </trans-unit>
+   <trans-unit id="350">
+    <source>Greater Than</source>
+    <target>Mayor que</target>
+   </trans-unit>
+   <trans-unit id="351">
+    <source>Greece</source>
+    <target>Grecia</target>
+    <note>A country name</note>
+   </trans-unit>
+   <trans-unit id="352">
+    <source>Greek</source>
+    <target>Griego</target>
+    <note>A nationality name</note>
+   </trans-unit>
+   <trans-unit id="353">
+    <source>Greenland</source>
+    <target>Groenlandia</target>
+    <note>A country name</note>
+   </trans-unit>
+   <trans-unit id="354">
+    <source>Grenada</source>
+    <target>Granada</target>
+    <note>A country name</note>
+   </trans-unit>
+   <trans-unit id="355">
+    <source>Grenadian</source>
+    <target>Granada</target>
+    <note>A nationality name</note>
+   </trans-unit>
+   <trans-unit id="356">
+    <source>Guadeloupe</source>
+    <target>Guadalupe</target>
+    <note>A country name</note>
+   </trans-unit>
+   <trans-unit id="357">
+    <source>Guam</source>
+    <target>Guam</target>
+    <note>A country name</note>
+   </trans-unit>
+   <trans-unit id="358">
+    <source>Guatemala</source>
+    <target>Guatemala</target>
+    <note>A country name</note>
+   </trans-unit>
+   <trans-unit id="359">
+    <source>Guatemalan</source>
+    <target>Guatemalteco</target>
+    <note>A nationality name</note>
+   </trans-unit>
+   <trans-unit id="360">
+    <source>Guatemalan Quetzal</source>
+    <target>Quetzal guatemalteco</target>
+    <note>A currency name</note>
+   </trans-unit>
+   <trans-unit id="361">
+    <source>Guinea</source>
+    <target>Guinea</target>
+    <note>A country name</note>
+   </trans-unit>
+   <trans-unit id="362">
+    <source>Guinea Franc</source>
+    <target>Franco guineano</target>
+    <note>A currency name</note>
+   </trans-unit>
+   <trans-unit id="363">
+    <source>Guinea-Bissau</source>
+    <target>Guinea-Bissau</target>
+    <note>A country name</note>
+   </trans-unit>
+   <trans-unit id="364">
+    <source>Guinea-Bissauan</source>
+    <target>Guinea-Bissauan</target>
+    <note>A nationality name</note>
+   </trans-unit>
+   <trans-unit id="365">
+    <source>Guinean</source>
+    <target>Guinea</target>
+    <note>A nationality name</note>
+   </trans-unit>
+   <trans-unit id="366">
+    <source>Guyana</source>
+    <target>Guayana</target>
+    <note>A country name</note>
+   </trans-unit>
+   <trans-unit id="367">
+    <source>Guyanan Dollar</source>
+    <target>Dólar guyanés</target>
+    <note>A currency name</note>
+   </trans-unit>
+   <trans-unit id="368">
+    <source>Guyanese</source>
+    <target>Guyana</target>
+    <note>A nationality name</note>
+   </trans-unit>
+   <trans-unit id="369">
+    <source>Haiti</source>
+    <target>Haití</target>
+    <note>A country name</note>
+   </trans-unit>
+   <trans-unit id="370">
+    <source>Haitian</source>
+    <target>Haitiano</target>
+    <note>A nationality name</note>
+   </trans-unit>
+   <trans-unit id="371">
+    <source>Haitian Gourde</source>
+    <target>Haití Gourde</target>
+    <note>A currency name</note>
+   </trans-unit>
+   <trans-unit id="372">
+    <source>Hawaii</source>
+    <target>Hawai</target>
+    <note>A US state name</note>
+   </trans-unit>
+   <trans-unit id="373">
+    <source>Heard Island and Mcdonald Islands</source>
+    <target>Islas Heard y McDonald</target>
+    <note>A country name</note>
+   </trans-unit>
+   <trans-unit id="374">
+    <source>Help</source>
+    <target>Ayuda</target>
+   </trans-unit>
+   <trans-unit id="375">
+    <source>Herzegovinian</source>
+    <target>Herzegovina</target>
+    <note>A nationality name</note>
+   </trans-unit>
+   <trans-unit id="376">
+    <source>Hide Details</source>
+    <target>Ocultar detalles</target>
+   </trans-unit>
+   <trans-unit id="377">
+    <source>Holidays</source>
+    <target>Vacaciones</target>
+   </trans-unit>
+   <trans-unit id="378">
+    <source>Holy See (Vatican City State)</source>
+    <target>Santa Sede (Ciudad del Vaticano)</target>
+    <note>A country name</note>
+   </trans-unit>
+   <trans-unit id="379">
+    <source>Home Telephone</source>
+    <target>Teléfono de la casa</target>
+   </trans-unit>
+   <trans-unit id="380">
+    <source>Honduran</source>
+    <target>Honduras</target>
+    <note>A nationality name</note>
+   </trans-unit>
+   <trans-unit id="381">
+    <source>Honduran Lempira</source>
+    <target>Lempira hondureña</target>
+    <note>A currency name</note>
+   </trans-unit>
+   <trans-unit id="382">
+    <source>Honduras</source>
+    <target>Honduras</target>
+    <note>A country name</note>
+   </trans-unit>
+   <trans-unit id="383">
+    <source>Hong Kong</source>
+    <target>Hong Kong</target>
+    <note>A country name</note>
+   </trans-unit>
+   <trans-unit id="384">
+    <source>Hong Kong Dollar</source>
+    <target>Dólar de Hong Kong</target>
+    <note>A currency name</note>
+   </trans-unit>
+   <trans-unit id="385">
+    <source>Hungarian</source>
+    <target>Húngaro</target>
+    <note>A nationality name</note>
+   </trans-unit>
+   <trans-unit id="386">
+    <source>Hungarian Forint</source>
+    <target>Florín húngaro</target>
+    <note>A currency name</note>
+   </trans-unit>
+   <trans-unit id="387">
+    <source>Hungary</source>
+    <target>Hungría</target>
+    <note>A country name</note>
+   </trans-unit>
+   <trans-unit id="388">
+    <source>I-Kiribati</source>
+    <target>I-Kiribati</target>
+    <note>A nationality name</note>
+   </trans-unit>
+   <trans-unit id="389">
+    <source>Iceland</source>
+    <target>Islandia</target>
+    <note>A country name</note>
+   </trans-unit>
+   <trans-unit id="390">
+    <source>Iceland Krona</source>
+    <target>Corona islandesa</target>
+    <note>A currency name</note>
+   </trans-unit>
+   <trans-unit id="391">
+    <source>Icelander</source>
+    <target>Islandés</target>
+    <note>A nationality name</note>
+   </trans-unit>
+   <trans-unit id="392">
+    <source>Id</source>
+    <target>Identificación</target>
+   </trans-unit>
+   <trans-unit id="393">
+    <source>Idaho</source>
+    <target>Idaho</target>
+    <note>A US state name</note>
+   </trans-unit>
+   <trans-unit id="394">
+    <source>Illinois</source>
+    <target>Illinois</target>
+    <note>A US state name</note>
+   </trans-unit>
+   <trans-unit id="395">
+    <source>IMF Special Drawing Right</source>
+    <target>Derecho Especial de Giro del FMI</target>
+    <note>A currency name</note>
+   </trans-unit>
+   <trans-unit id="396">
+    <source>Immigration</source>
+    <target>Inmigración</target>
+   </trans-unit>
+   <trans-unit id="397">
+    <source>Include</source>
+    <target>Incluir</target>
+   </trans-unit>
+   <trans-unit id="398">
+    <source>Include Header</source>
+    <target>Incluir cabecera</target>
+   </trans-unit>
+   <trans-unit id="399">
+    <source>Include Past Employees</source>
+    <target>Incluir a los empleados anteriores</target>
+   </trans-unit>
+   <trans-unit id="400">
+    <source>India</source>
+    <target>India</target>
+    <note>A country name</note>
+   </trans-unit>
+   <trans-unit id="401">
+    <source>Indian</source>
+    <target>Indio</target>
+    <note>A nationality name</note>
+   </trans-unit>
+   <trans-unit id="402">
+    <source>Indian Rupee</source>
+    <target>Rupia india</target>
+    <note>A currency name</note>
+   </trans-unit>
+   <trans-unit id="403">
+    <source>Indiana</source>
+    <target>Indiana</target>
+    <note>A US state name</note>
+   </trans-unit>
+   <trans-unit id="404">
+    <source>Indirect</source>
+    <target>Indirecto</target>
+   </trans-unit>
+   <trans-unit id="405">
+    <source>Individual</source>
+    <target>Individual</target>
+   </trans-unit>
+   <trans-unit id="406">
+    <source>Indonesia</source>
+    <target>Indonesia</target>
+    <note>A country name</note>
+   </trans-unit>
+   <trans-unit id="407">
+    <source>Indonesian</source>
+    <target>Indonesio</target>
+    <note>A nationality name</note>
+   </trans-unit>
+   <trans-unit id="408">
+    <source>Indonesian Rupiah</source>
+    <target>Rupia indonesia</target>
+    <note>A currency name</note>
+   </trans-unit>
+   <trans-unit id="409">
+    <source>Invalid File Type</source>
+    <target>Tipo de archivo no válido</target>
+   </trans-unit>
+   <trans-unit id="410">
+    <source>Iowa</source>
+    <target>Iowa</target>
+    <note>A US state name</note>
+   </trans-unit>
+   <trans-unit id="411">
+    <source>Iran, Islamic Republic of</source>
+    <target>Irán, República Islámica del</target>
+    <note>A country name</note>
+   </trans-unit>
+   <trans-unit id="412">
+    <source>Iranian</source>
+    <target>Iraní</target>
+    <note>A nationality name</note>
+   </trans-unit>
+   <trans-unit id="413">
+    <source>Iranian Rial</source>
+    <target>Rial iraní</target>
+    <note>A currency name</note>
+   </trans-unit>
+   <trans-unit id="414">
+    <source>Iraq</source>
+    <target>Irak</target>
+    <note>A country name</note>
+   </trans-unit>
+   <trans-unit id="415">
+    <source>Iraqi</source>
+    <target>Iraquí</target>
+    <note>A nationality name</note>
+   </trans-unit>
+   <trans-unit id="416">
+    <source>Iraqi Dinar</source>
+    <target>Dinar iraquí</target>
+    <note>A currency name</note>
+   </trans-unit>
+   <trans-unit id="417">
+    <source>Ireland</source>
+    <target>Irlanda</target>
+    <note>A country name</note>
+   </trans-unit>
+   <trans-unit id="418">
+    <source>Irish</source>
+    <target>Irlandés</target>
+    <note>A nationality name</note>
+   </trans-unit>
+   <trans-unit id="419">
+    <source>Israel</source>
+    <target>Israel</target>
+    <note>A country name</note>
+   </trans-unit>
+   <trans-unit id="420">
+    <source>Israeli</source>
+    <target>Israelí</target>
+    <note>A nationality name</note>
+   </trans-unit>
+   <trans-unit id="421">
+    <source>Israeli New Shekel</source>
+    <target>Nuevo shekel israelí</target>
+    <note>A currency name</note>
+   </trans-unit>
+   <trans-unit id="422">
+    <source>Issued By</source>
+    <target>Emitido por</target>
+   </trans-unit>
+   <trans-unit id="423">
+    <source>Issued Date</source>
+    <target>Fecha de emisión</target>
+   </trans-unit>
+   <trans-unit id="424">
+    <source>Italian</source>
+    <target>Italiano</target>
+    <note>A nationality name</note>
+   </trans-unit>
+   <trans-unit id="425">
+    <source>Italy</source>
+    <target>Italia</target>
+    <note>A country name</note>
+   </trans-unit>
+   <trans-unit id="426">
+    <source>Ivorian</source>
+    <target>Costa de Marfil</target>
+    <note>A nationality name</note>
+   </trans-unit>
+   <trans-unit id="427">
+    <source>Jamaica</source>
+    <target>Jamaica</target>
+    <note>A country name</note>
+   </trans-unit>
+   <trans-unit id="428">
+    <source>Jamaican</source>
+    <target>Jamaicano</target>
+    <note>A nationality name</note>
+   </trans-unit>
+   <trans-unit id="429">
+    <source>Jamaican Dollar</source>
+    <target>Dólar Jamaiquino</target>
+    <note>A currency name</note>
+   </trans-unit>
+   <trans-unit id="430">
+    <source>January</source>
+    <target>Enero</target>
+   </trans-unit>
+   <trans-unit id="431">
+    <source>Japan</source>
+    <target>Japón</target>
+    <note>A country name</note>
+   </trans-unit>
+   <trans-unit id="432">
+    <source>Japanese</source>
+    <target>Japonés</target>
+    <note>A nationality name</note>
+   </trans-unit>
+   <trans-unit id="433">
+    <source>Japanese Yen</source>
+    <target>Yen Japonés</target>
+    <note>A currency name</note>
+   </trans-unit>
+   <trans-unit id="434">
+    <source>Job</source>
+    <target>Trabajo</target>
+   </trans-unit>
+   <trans-unit id="435">
+    <source>Job Categories</source>
+    <target>Categorías del Trabajo</target>
+   </trans-unit>
+   <trans-unit id="436">
+    <source>Job Category</source>
+    <target>Categoría de trabajo</target>
+   </trans-unit>
+   <trans-unit id="437">
+    <source>Job Specification</source>
+    <target>Trabajo específico</target>
+   </trans-unit>
+   <trans-unit id="438">
+    <source>Job Title</source>
+    <target>Título del Trabajo</target>
+   </trans-unit>
+   <trans-unit id="439">
+    <source>Job Titles</source>
+    <target>Profesiones</target>
+   </trans-unit>
+   <trans-unit id="440">
+    <source>Join the OrangeHRM User Community</source>
+    <target>Únete a la comunidad de usuarios OrangeHRM</target>
+   </trans-unit>
+   <trans-unit id="441">
+    <source>Joined Date</source>
+    <target>Fecha de Registro</target>
+   </trans-unit>
+   <trans-unit id="442">
+    <source>Jordan</source>
+    <target>Jordania</target>
+    <note>A country name</note>
+   </trans-unit>
+   <trans-unit id="443">
+    <source>Jordanian</source>
+    <target>Jordania</target>
+    <note>A nationality name</note>
+   </trans-unit>
+   <trans-unit id="444">
+    <source>Jordanian Dinar</source>
+    <target>Dinar jordano</target>
+    <note>A currency name</note>
+   </trans-unit>
+   <trans-unit id="445">
+    <source>July</source>
+    <target>Julio</target>
+   </trans-unit>
+   <trans-unit id="446">
+    <source>June</source>
+    <target>Junio</target>
+   </trans-unit>
+   <trans-unit id="447">
+    <source>Kampuchean Riel</source>
+    <target>Riel camboyano</target>
+    <note>A currency name</note>
+   </trans-unit>
+   <trans-unit id="448">
+    <source>Kansas</source>
+    <target>Kansas</target>
+    <note>A US state name</note>
+   </trans-unit>
+   <trans-unit id="449">
+    <source>Kazakhstan</source>
+    <target>Kazajstán</target>
+    <note>A country name</note>
+   </trans-unit>
+   <trans-unit id="450">
+    <source>Kazakhstan Tenge</source>
+    <target>Kazajstán Tenge</target>
+    <note>A currency name</note>
+   </trans-unit>
+   <trans-unit id="451">
+    <source>Kazakhstani</source>
+    <target>Kazajo</target>
+    <note>A nationality name</note>
+   </trans-unit>
+   <trans-unit id="452">
+    <source>Keep Current</source>
+    <target>Mantenga actual</target>
+   </trans-unit>
+   <trans-unit id="453">
+    <source>Kentucky</source>
+    <target>Kentucky</target>
+    <note>A US state name</note>
+   </trans-unit>
+   <trans-unit id="454">
+    <source>Kenya</source>
+    <target>Kenia</target>
+    <note>A country name</note>
+   </trans-unit>
+   <trans-unit id="455">
+    <source>Kenyan</source>
+    <target>Kenia</target>
+    <note>A nationality name</note>
+   </trans-unit>
+   <trans-unit id="456">
+    <source>Kenyan Shilling</source>
+    <target>Chelín keniano</target>
+    <note>A currency name</note>
+   </trans-unit>
+   <trans-unit id="457">
+    <source>Kiribati</source>
+    <target>Kiribati</target>
+    <note>A country name</note>
+   </trans-unit>
+   <trans-unit id="458">
+    <source>Kittian and Nevisian</source>
+    <target>Kittian y Nevisian</target>
+    <note>A nationality name</note>
+   </trans-unit>
+   <trans-unit id="459">
+    <source>Korea, Democratic People's Republic of</source>
+    <target>República de Corea, Popular Democrática de</target>
+    <note>A country name</note>
+   </trans-unit>
+   <trans-unit id="460">
+    <source>Korea, Republic of</source>
+    <target>Corea del Sur</target>
+    <note>A country name</note>
+   </trans-unit>
+   <trans-unit id="461">
+    <source>Korean Won</source>
+    <target>Won de Corea del</target>
+    <note>A currency name</note>
+   </trans-unit>
+   <trans-unit id="462">
+    <source>KPI List</source>
+    <target>Lista KPI</target>
+   </trans-unit>
+   <trans-unit id="463">
+    <source>Kuwait</source>
+    <target>Kuwait</target>
+    <note>A country name</note>
+   </trans-unit>
+   <trans-unit id="464">
+    <source>Kuwaiti</source>
+    <target>Kuwait</target>
+    <note>A nationality name</note>
+   </trans-unit>
+   <trans-unit id="465">
+    <source>Kuwaiti Dinar</source>
+    <target>Dinar kuwaití</target>
+    <note>A currency name</note>
+   </trans-unit>
+   <trans-unit id="466">
+    <source>Kyrgyz</source>
+    <target>Kirguistán</target>
+    <note>A nationality name</note>
+   </trans-unit>
+   <trans-unit id="467">
+    <source>Kyrgyzstan</source>
+    <target>Kirguistán</target>
+    <note>A country name</note>
+   </trans-unit>
+   <trans-unit id="468">
+    <source>Language</source>
+    <target>Lengua</target>
+   </trans-unit>
+   <trans-unit id="469">
+    <source>Languages</source>
+    <target>Idiomas</target>
+   </trans-unit>
+   <trans-unit id="470">
+    <source>Lao Kip</source>
+    <target>Kip de Laos</target>
+    <note>A currency name</note>
+   </trans-unit>
+   <trans-unit id="471">
+    <source>Lao People's Democratic Republic</source>
+    <target>Democrática Popular Lao, República</target>
+    <note>A country name</note>
+   </trans-unit>
+   <trans-unit id="472">
+    <source>Laotian</source>
+    <target>Laos</target>
+    <note>A nationality name</note>
+   </trans-unit>
+   <trans-unit id="473">
+    <source>Last</source>
+    <target>Pasado</target>
+   </trans-unit>
+   <trans-unit id="474">
+    <source>Last Name</source>
+    <target>Apellido</target>
+   </trans-unit>
+   <trans-unit id="475">
+    <source>Latvia</source>
+    <target>Letonia</target>
+    <note>A country name</note>
+   </trans-unit>
+   <trans-unit id="476">
+    <source>Latvian</source>
+    <target>Letón</target>
+    <note>A nationality name</note>
+   </trans-unit>
+   <trans-unit id="477">
+    <source>Latvian Lats</source>
+    <target>Lats letones</target>
+    <note>A currency name</note>
+   </trans-unit>
+   <trans-unit id="478">
+    <source>Layed off</source>
+    <target>Despidieron a</target>
+   </trans-unit>
+   <trans-unit id="479">
+    <source>Leave</source>
+    <target>Dejar</target>
+   </trans-unit>
+   <trans-unit id="480">
+    <source>Leave Balance (Days)</source>
+    <target>Deja Saldo (días)</target>
+   </trans-unit>
+   <trans-unit id="481">
+    <source>Leave Calendar</source>
+    <target>Deja Calendario</target>
+   </trans-unit>
+   <trans-unit id="482">
+    <source>Leave Entitled (Days)</source>
+    <target>Deja el título (Días)</target>
+   </trans-unit>
+   <trans-unit id="483">
+    <source>Leave List</source>
+    <target>Deja la lista de</target>
+   </trans-unit>
+   <trans-unit id="484">
+    <source>Leave Period</source>
+    <target>Período de licencia</target>
+   </trans-unit>
+   <trans-unit id="485">
+    <source>Leave Scheduled (Days)</source>
+    <target>Deja programadas (días)</target>
+   </trans-unit>
+   <trans-unit id="486">
+    <source>Leave Summary</source>
+    <target>Deja Resumen</target>
+   </trans-unit>
+   <trans-unit id="487">
+    <source>Leave Taken (Days)</source>
+    <target>Deja la toma (días)</target>
+   </trans-unit>
+   <trans-unit id="488">
+    <source>Leave Types</source>
+    <target>Deja los tipos de</target>
+   </trans-unit>
+   <trans-unit id="489">
+    <source>Lebanese</source>
+    <target>Libanés</target>
+    <note>A nationality name</note>
+   </trans-unit>
+   <trans-unit id="490">
+    <source>Lebanese Pound</source>
+    <target>Libra libanesa</target>
+    <note>A currency name</note>
+   </trans-unit>
+   <trans-unit id="491">
+    <source>Lebanon</source>
+    <target>Líbano</target>
+    <note>A country name</note>
+   </trans-unit>
+   <trans-unit id="492">
+    <source>Lesotho</source>
+    <target>Lesoto</target>
+    <note>A country name</note>
+   </trans-unit>
+   <trans-unit id="493">
+    <source>Lesotho Loti</source>
+    <target>Lesotho Loti</target>
+    <note>A currency name</note>
+   </trans-unit>
+   <trans-unit id="494">
+    <source>Less Than</source>
+    <target>Menos que</target>
+   </trans-unit>
+   <trans-unit id="495">
+    <source>Level</source>
+    <target>Nivel</target>
+   </trans-unit>
+   <trans-unit id="496">
+    <source>Liberia</source>
+    <target>Liberia</target>
+    <note>A country name</note>
+   </trans-unit>
+   <trans-unit id="497">
+    <source>Liberian</source>
+    <target>Liberia</target>
+    <note>A nationality name</note>
+   </trans-unit>
+   <trans-unit id="498">
+    <source>Liberian Dollar</source>
+    <target>Dólar liberiano</target>
+    <note>A currency name</note>
+   </trans-unit>
+   <trans-unit id="499">
+    <source>Libyan</source>
+    <target>Libio</target>
+    <note>A nationality name</note>
+   </trans-unit>
+   <trans-unit id="500">
+    <source>Libyan Arab Jamahiriya</source>
+    <target>Jamahiriya Árabe Libia</target>
+    <note>A country name</note>
+   </trans-unit>
+   <trans-unit id="501">
+    <source>Libyan Dinar</source>
+    <target>Dinar libio</target>
+    <note>A currency name</note>
+   </trans-unit>
+   <trans-unit id="502">
+    <source>License</source>
+    <target>Licencia</target>
+   </trans-unit>
+   <trans-unit id="503">
+    <source>License Expiry Date</source>
+    <target>Fecha de caducidad de licencia</target>
+   </trans-unit>
+   <trans-unit id="504">
+    <source>License Number</source>
+    <target>Número de licencia</target>
+   </trans-unit>
+   <trans-unit id="505">
+    <source>License Type</source>
+    <target>Tipo de licencia</target>
+   </trans-unit>
+   <trans-unit id="506">
+    <source>Licenses</source>
+    <target>Licencias</target>
+   </trans-unit>
+   <trans-unit id="507">
+    <source>Liechtenstein</source>
+    <target>Liechtenstein</target>
+    <note>A country name</note>
+   </trans-unit>
+   <trans-unit id="508">
+    <source>Liechtensteiner</source>
+    <target>Liechtensteiner</target>
+    <note>A nationality name</note>
+   </trans-unit>
+   <trans-unit id="509">
+    <source>Lithuania</source>
+    <target>Lituania</target>
+    <note>A country name</note>
+   </trans-unit>
+   <trans-unit id="510">
+    <source>Lithuanian</source>
+    <target>Lituano</target>
+    <note>A nationality name</note>
+   </trans-unit>
+   <trans-unit id="511">
+    <source>Lithuanian Litas</source>
+    <target>Litas</target>
+    <note>A currency name</note>
+   </trans-unit>
+   <trans-unit id="512">
+    <source>Localization</source>
+    <target>Localización</target>
+   </trans-unit>
+   <trans-unit id="513">
+    <source>Location</source>
+    <target>Ubicación</target>
+   </trans-unit>
+   <trans-unit id="514">
+    <source>Locations</source>
+    <target>Ubicaciones</target>
+   </trans-unit>
+   <trans-unit id="515">
+    <source>Logout</source>
+    <target>Cerrar sesión</target>
+   </trans-unit>
+   <trans-unit id="516">
+    <source>Louisiana</source>
+    <target>Luisiana</target>
+    <note>A US state name</note>
+   </trans-unit>
+   <trans-unit id="517">
+    <source>Luxembourg</source>
+    <target>Luxemburgo</target>
+    <note>A country name</note>
+   </trans-unit>
+   <trans-unit id="518">
+    <source>Luxembourger</source>
+    <target>Luxemburgués</target>
+    <note>A nationality name</note>
+   </trans-unit>
+   <trans-unit id="519">
+    <source>Macao</source>
+    <target>Macao</target>
+    <note>A country name</note>
+   </trans-unit>
+   <trans-unit id="520">
+    <source>Macau Pataca</source>
+    <target>Pataca de Macao</target>
+    <note>A currency name</note>
+   </trans-unit>
+   <trans-unit id="521">
+    <source>Macedonia, the Former Yugoslav Republic of</source>
+    <target>Macedonia, Antigua República Yugoslava de</target>
+    <note>A country name</note>
+   </trans-unit>
+   <trans-unit id="522">
+    <source>Macedonian</source>
+    <target>Macedonia</target>
+    <note>A nationality name</note>
+   </trans-unit>
+   <trans-unit id="523">
+    <source>Madagascar</source>
+    <target>Madagascar</target>
+    <note>A country name</note>
+   </trans-unit>
+   <trans-unit id="524">
+    <source>Maine</source>
+    <target>Maine</target>
+    <note>A US state name</note>
+   </trans-unit>
+   <trans-unit id="525">
+    <source>Malagasy</source>
+    <target>Madagascar</target>
+    <note>A nationality name</note>
+   </trans-unit>
+   <trans-unit id="526">
+    <source>Malagasy Franc</source>
+    <target>Franco malgache</target>
+    <note>A currency name</note>
+   </trans-unit>
+   <trans-unit id="527">
+    <source>Malawi</source>
+    <target>Malawi</target>
+    <note>A country name</note>
+   </trans-unit>
+   <trans-unit id="528">
+    <source>Malawi Kwacha</source>
+    <target>Malawi Kwacha</target>
+    <note>A currency name</note>
+   </trans-unit>
+   <trans-unit id="529">
+    <source>Malawian</source>
+    <target>Malawi</target>
+    <note>A nationality name</note>
+   </trans-unit>
+   <trans-unit id="530">
+    <source>Malaysia</source>
+    <target>Malasia</target>
+    <note>A country name</note>
+   </trans-unit>
+   <trans-unit id="531">
+    <source>Malaysian</source>
+    <target>Malasio</target>
+    <note>A nationality name</note>
+   </trans-unit>
+   <trans-unit id="532">
+    <source>Malaysian Ringgit</source>
+    <target>Ringgit de Malasia</target>
+    <note>A currency name</note>
+   </trans-unit>
+   <trans-unit id="533">
+    <source>Maldivan</source>
+    <target>Maldivan</target>
+    <note>A nationality name</note>
+   </trans-unit>
+   <trans-unit id="534">
+    <source>Maldive Rufiyaa</source>
+    <target>Maldivas Rufiyaa</target>
+    <note>A currency name</note>
+   </trans-unit>
+   <trans-unit id="535">
+    <source>Maldives</source>
+    <target>Maldivas</target>
+    <note>A country name</note>
+   </trans-unit>
+   <trans-unit id="536">
+    <source>Male</source>
+    <target>Masculino</target>
+   </trans-unit>
+   <trans-unit id="537">
+    <source>Mali</source>
+    <target>Malí</target>
+    <note>A country name</note>
+   </trans-unit>
+   <trans-unit id="538">
+    <source>Malian</source>
+    <target>Malí</target>
+    <note>A nationality name</note>
+   </trans-unit>
+   <trans-unit id="539">
+    <source>Malta</source>
+    <target>Malta</target>
+    <note>A country name</note>
+   </trans-unit>
+   <trans-unit id="540">
+    <source>Maltese</source>
+    <target>Maltés</target>
+    <note>A nationality name</note>
+   </trans-unit>
+   <trans-unit id="541">
+    <source>Maltese Lira</source>
+    <target>Lira maltesa</target>
+    <note>A currency name</note>
+   </trans-unit>
+   <trans-unit id="542">
+    <source>March</source>
+    <target>Marzo</target>
+   </trans-unit>
+   <trans-unit id="543">
+    <source>Marital Status</source>
+    <target>Estado civil</target>
+   </trans-unit>
+   <trans-unit id="544">
+    <source>Marshall Islands</source>
+    <target>Las Islas Marshall</target>
+    <note>A country name</note>
+   </trans-unit>
+   <trans-unit id="545">
+    <source>Marshallese</source>
+    <target>De las Islas Marshall</target>
+    <note>A nationality name</note>
+   </trans-unit>
+   <trans-unit id="546">
+    <source>Martinique</source>
+    <target>Martinica</target>
+    <note>A country name</note>
+   </trans-unit>
+   <trans-unit id="547">
+    <source>Maryland</source>
+    <target>Maryland</target>
+    <note>A US state name</note>
+   </trans-unit>
+   <trans-unit id="548">
+    <source>Massachusetts</source>
+    <target>Massachusetts</target>
+    <note>A US state name</note>
+   </trans-unit>
+   <trans-unit id="549">
+    <source>Mauritania</source>
+    <target>Mauritania</target>
+    <note>A country name</note>
+   </trans-unit>
+   <trans-unit id="550">
+    <source>Mauritanian</source>
+    <target>Mauritano</target>
+    <note>A nationality name</note>
+   </trans-unit>
+   <trans-unit id="551">
+    <source>Mauritanian Ouguiya</source>
+    <target>Mauritania Ouguiya</target>
+    <note>A currency name</note>
+   </trans-unit>
+   <trans-unit id="552">
+    <source>Mauritian</source>
+    <target>Mauriciano</target>
+    <note>A nationality name</note>
+   </trans-unit>
+   <trans-unit id="553">
+    <source>Mauritius</source>
+    <target>Mauricio</target>
+    <note>A country name</note>
+   </trans-unit>
+   <trans-unit id="554">
+    <source>Mauritius Rupee</source>
+    <target>Mauricio Rupia</target>
+    <note>A currency name</note>
+   </trans-unit>
+   <trans-unit id="555">
+    <source>May</source>
+    <target>Mayo</target>
+   </trans-unit>
+   <trans-unit id="556">
+    <source>Mayotte</source>
+    <target>Mayotte</target>
+    <note>A country name</note>
+   </trans-unit>
+   <trans-unit id="557">
+    <source>Membership</source>
+    <target>Afiliación</target>
+   </trans-unit>
+   <trans-unit id="558">
+    <source>Memberships</source>
+    <target>Membresías</target>
+   </trans-unit>
+   <trans-unit id="559">
+    <source>Mexican</source>
+    <target>Mexicano</target>
+    <note>A nationality name</note>
+   </trans-unit>
+   <trans-unit id="560">
+    <source>Mexican New Peso</source>
+    <target>Nuevo Peso Mexicano</target>
+    <note>A currency name</note>
+   </trans-unit>
+   <trans-unit id="561">
+    <source>Mexican Peso</source>
+    <target>Peso mexicano</target>
+    <note>A currency name</note>
+   </trans-unit>
+   <trans-unit id="562">
+    <source>Mexico</source>
+    <target>México</target>
+    <note>A country name</note>
+   </trans-unit>
+   <trans-unit id="563">
+    <source>Michigan</source>
+    <target>Michigan</target>
+    <note>A US state name</note>
+   </trans-unit>
+   <trans-unit id="564">
+    <source>Micronesia, Federated States of</source>
+    <target>Micronesia, Estados Federados de</target>
+    <note>A country name</note>
+   </trans-unit>
+   <trans-unit id="565">
+    <source>Micronesian</source>
+    <target>Micronesia</target>
+    <note>A nationality name</note>
+   </trans-unit>
+   <trans-unit id="566">
+    <source>Middle</source>
+    <target>Medio</target>
+   </trans-unit>
+   <trans-unit id="567">
+    <source>Middle Name</source>
+    <target>Segundo nombre</target>
+   </trans-unit>
+   <trans-unit id="568">
+    <source>Minnesota</source>
+    <target>Minnesota</target>
+    <note>A US state name</note>
+   </trans-unit>
+   <trans-unit id="569">
+    <source>Mississippi</source>
+    <target>Misisipí</target>
+    <note>A US state name</note>
+   </trans-unit>
+   <trans-unit id="570">
+    <source>Missouri</source>
+    <target>Misuri</target>
+    <note>A US state name</note>
+   </trans-unit>
+   <trans-unit id="571">
+    <source>Mobile</source>
+    <target>Móvil</target>
+   </trans-unit>
+   <trans-unit id="572">
+    <source>Modules</source>
+    <target>Módulos</target>
+   </trans-unit>
+   <trans-unit id="573">
+    <source>Moldova, Republic of</source>
+    <target>Moldova, República de</target>
+    <note>A country name</note>
+   </trans-unit>
+   <trans-unit id="574">
+    <source>Moldovan</source>
+    <target>Moldavo</target>
+    <note>A nationality name</note>
+   </trans-unit>
+   <trans-unit id="575">
+    <source>Monacan</source>
+    <target>Monacan</target>
+    <note>A nationality name</note>
+   </trans-unit>
+   <trans-unit id="576">
+    <source>Monaco</source>
+    <target>Mónaco</target>
+    <note>A country name</note>
+   </trans-unit>
+   <trans-unit id="577">
+    <source>Monday</source>
+    <target>Lunes</target>
+   </trans-unit>
+   <trans-unit id="578">
+    <source>Mongolia</source>
+    <target>Mongolia</target>
+    <note>A country name</note>
+   </trans-unit>
+   <trans-unit id="579">
+    <source>Mongolian</source>
+    <target>Mongol</target>
+    <note>A nationality name</note>
+   </trans-unit>
+   <trans-unit id="580">
+    <source>Mongolian Tugrik</source>
+    <target>Mongolia Tugrik</target>
+    <note>A currency name</note>
+   </trans-unit>
+   <trans-unit id="581">
+    <source>Montana</source>
+    <target>Montana</target>
+    <note>A US state name</note>
+   </trans-unit>
+   <trans-unit id="582">
+    <source>Month</source>
+    <target>Mes</target>
+   </trans-unit>
+   <trans-unit id="583">
+    <source>Montserrat</source>
+    <target>Montserrat</target>
+    <note>A country name</note>
+   </trans-unit>
+   <trans-unit id="584">
+    <source>Moroccan</source>
+    <target>Marroquí</target>
+    <note>A nationality name</note>
+   </trans-unit>
+   <trans-unit id="585">
+    <source>Moroccan Dirham</source>
+    <target>Dirham marroquí</target>
+    <note>A currency name</note>
+   </trans-unit>
+   <trans-unit id="586">
+    <source>Morocco</source>
+    <target>Marruecos</target>
+    <note>A country name</note>
+   </trans-unit>
+   <trans-unit id="587">
+    <source>Mosotho</source>
+    <target>Mosotho</target>
+    <note>A nationality name</note>
+   </trans-unit>
+   <trans-unit id="588">
+    <source>Mother Tongue</source>
+    <target>Idioma materno</target>
+   </trans-unit>
+   <trans-unit id="589">
+    <source>Motswana</source>
+    <target>Motswana</target>
+    <note>A nationality name</note>
+   </trans-unit>
+   <trans-unit id="590">
+    <source>Mozambican</source>
+    <target>Mozambiqueño</target>
+    <note>A nationality name</note>
+   </trans-unit>
+   <trans-unit id="591">
+    <source>Mozambique</source>
+    <target>Mozambique</target>
+    <note>A country name</note>
+   </trans-unit>
+   <trans-unit id="592">
+    <source>Mozambique Metical</source>
+    <target>Mozambique Metical</target>
+    <note>A currency name</note>
+   </trans-unit>
+   <trans-unit id="593">
+    <source>My Leave</source>
+    <target>Mi licencia</target>
+   </trans-unit>
+   <trans-unit id="594">
+    <source>My Records</source>
+    <target>Mis registros</target>
+   </trans-unit>
+   <trans-unit id="595">
+    <source>My Timesheets</source>
+    <target>Mis partes de horas</target>
+   </trans-unit>
+   <trans-unit id="596">
+    <source>Myanmar</source>
+    <target>Myanmar</target>
+    <note>A country name</note>
+   </trans-unit>
+   <trans-unit id="597">
+    <source>Myanmar Kyat</source>
+    <target>Myanmar Kyat</target>
+    <note>A currency name</note>
+   </trans-unit>
+   <trans-unit id="598">
+    <source>Name</source>
+    <target>Nombre</target>
+   </trans-unit>
+   <trans-unit id="599">
+    <source>Name exists</source>
+    <target>Nombre existe</target>
+   </trans-unit>
+   <trans-unit id="600">
+    <source>Namibia</source>
+    <target>Namibia</target>
+    <note>A country name</note>
+   </trans-unit>
+   <trans-unit id="601">
+    <source>Namibia Dollar</source>
+    <target>Dólar de Namibia</target>
+    <note>A currency name</note>
+   </trans-unit>
+   <trans-unit id="602">
+    <source>Namibian</source>
+    <target>Namibio</target>
+    <note>A nationality name</note>
+   </trans-unit>
+   <trans-unit id="603">
+    <source>Nationalities</source>
+    <target>Nacionalidades</target>
+   </trans-unit>
+   <trans-unit id="604">
+    <source>Nationality</source>
+    <target>Nacionalidad</target>
+   </trans-unit>
+   <trans-unit id="605">
+    <source>Nauru</source>
+    <target>Nauru</target>
+    <note>A country name</note>
+   </trans-unit>
+   <trans-unit id="606">
+    <source>Nauruan</source>
+    <target>Nauru</target>
+    <note>A nationality name</note>
+   </trans-unit>
+   <trans-unit id="607">
+    <source>Nebraska</source>
+    <target>Nebraska</target>
+    <note>A US state name</note>
+   </trans-unit>
+   <trans-unit id="608">
+    <source>Nepal</source>
+    <target>Nepal</target>
+    <note>A country name</note>
+   </trans-unit>
+   <trans-unit id="609">
+    <source>Nepalese</source>
+    <target>Nepalés</target>
+    <note>A nationality name</note>
+   </trans-unit>
+   <trans-unit id="610">
+    <source>Nepalese Rupee</source>
+    <target>Nepal Rupia</target>
+    <note>A currency name</note>
+   </trans-unit>
+   <trans-unit id="611">
+    <source>Netherlands</source>
+    <target>Países Bajos</target>
+    <note>A country name</note>
+   </trans-unit>
+   <trans-unit id="612">
+    <source>Netherlands Antilles</source>
+    <target>Antillas Holandesas</target>
+    <note>A country name</note>
+   </trans-unit>
+   <trans-unit id="613">
+    <source>Nevada</source>
+    <target>Nevada</target>
+    <note>A US state name</note>
+   </trans-unit>
+   <trans-unit id="614">
+    <source>New Caledonia</source>
+    <target>Nueva Caledonia</target>
+    <note>A country name</note>
+   </trans-unit>
+   <trans-unit id="615">
+    <source>New Hampshire</source>
+    <target>New Hampshire</target>
+    <note>A US state name</note>
+   </trans-unit>
+   <trans-unit id="616">
+    <source>New Jersey</source>
+    <target>Nueva Jersey</target>
+    <note>A US state name</note>
+   </trans-unit>
+   <trans-unit id="617">
+    <source>New Mexico</source>
+    <target>Nuevo México</target>
+    <note>A US state name</note>
+   </trans-unit>
+   <trans-unit id="618">
+    <source>New York</source>
+    <target>Nueva York</target>
+    <note>A US state name</note>
+   </trans-unit>
+   <trans-unit id="619">
+    <source>New Zaire</source>
+    <target>Nueva Zaire</target>
+    <note>A currency name</note>
+   </trans-unit>
+   <trans-unit id="620">
+    <source>New Zealand</source>
+    <target>Nueva Zelanda</target>
+    <note>A country name</note>
+   </trans-unit>
+   <trans-unit id="621">
+    <source>New Zealand Dollar</source>
+    <target>Dólar de Nueva Zelanda</target>
+    <note>A currency name</note>
+   </trans-unit>
+   <trans-unit id="622">
+    <source>New Zealander</source>
+    <target>Neozelandés</target>
+    <note>A nationality name</note>
+   </trans-unit>
+   <trans-unit id="623">
+    <source>Next</source>
+    <target>Próximo</target>
+   </trans-unit>
+   <trans-unit id="624">
+    <source>Nicaragua</source>
+    <target>Nicaragua</target>
+    <note>A country name</note>
+   </trans-unit>
+   <trans-unit id="625">
+    <source>Nicaraguan</source>
+    <target>Nicaragüense</target>
+    <note>A nationality name</note>
+   </trans-unit>
+   <trans-unit id="626">
+    <source>Nicaraguan Cordoba Oro</source>
+    <target>Córdoba nicaragüense</target>
+    <note>A currency name</note>
+   </trans-unit>
+   <trans-unit id="627">
+    <source>Niger</source>
+    <target>Níger</target>
+    <note>A country name</note>
+   </trans-unit>
+   <trans-unit id="628">
+    <source>Nigeria</source>
+    <target>Nigeria</target>
+    <note>A country name</note>
+   </trans-unit>
+   <trans-unit id="629">
+    <source>Nigerian</source>
+    <target>Nigeriano</target>
+    <note>A nationality name</note>
+   </trans-unit>
+   <trans-unit id="630">
+    <source>Nigerian Naira</source>
+    <target>Nigeria Naira</target>
+    <note>A currency name</note>
+   </trans-unit>
+   <trans-unit id="631">
+    <source>Nigerien</source>
+    <target>Níger</target>
+    <note>A nationality name</note>
+   </trans-unit>
+   <trans-unit id="632">
+    <source>Niue</source>
+    <target>Niue</target>
+    <note>A country name</note>
+   </trans-unit>
+   <trans-unit id="633">
+    <source>NL Antillian Guilder</source>
+    <target>NL Florín Antillian</target>
+    <note>A currency name</note>
+   </trans-unit>
+   <trans-unit id="634">
+    <source>No</source>
+    <target>No</target>
+   </trans-unit>
+   <trans-unit id="635">
+    <source>No Project Activities</source>
+    <target>No hay Actividades del proyecto</target>
+   </trans-unit>
+   <trans-unit id="636">
+    <source>No Projects</source>
+    <target>No hay proyectos</target>
+   </trans-unit>
+   <trans-unit id="637">
+    <source>No Records Found</source>
+    <target>No se encontraron registros</target>
+   </trans-unit>
+   <trans-unit id="638">
+    <source>No records to display</source>
+    <target>No hay registros para mostrar</target>
+   </trans-unit>
+   <trans-unit id="639">
+    <source>Norfolk Island</source>
+    <target>Norfolk Island</target>
+    <note>A country name</note>
+   </trans-unit>
+   <trans-unit id="640">
+    <source>North Carolina</source>
+    <target>Carolina del Norte</target>
+    <note>A US state name</note>
+   </trans-unit>
+   <trans-unit id="641">
+    <source>North Dakota</source>
+    <target>Dakota del Norte</target>
+    <note>A US state name</note>
+   </trans-unit>
+   <trans-unit id="642">
+    <source>North Korean</source>
+    <target>Corea del Norte</target>
+    <note>A nationality name</note>
+   </trans-unit>
+   <trans-unit id="643">
+    <source>North Korean Won</source>
+    <target>Won de Corea del Norte</target>
+    <note>A currency name</note>
+   </trans-unit>
+   <trans-unit id="644">
+    <source>Northern Irish</source>
+    <target>Norirlandés</target>
+    <note>A nationality name</note>
+   </trans-unit>
+   <trans-unit id="645">
+    <source>Northern Mariana Islands</source>
+    <target>Islas Marianas del Norte</target>
+    <note>A country name</note>
+   </trans-unit>
+   <trans-unit id="646">
+    <source>Norway</source>
+    <target>Noruega</target>
+    <note>A country name</note>
+   </trans-unit>
+   <trans-unit id="647">
+    <source>Norwegian</source>
+    <target>Noruego</target>
+    <note>A nationality name</note>
+   </trans-unit>
+   <trans-unit id="648">
+    <source>Norwegian Krona</source>
+    <target>Corona noruega</target>
+    <note>A currency name</note>
+   </trans-unit>
+   <trans-unit id="649">
+    <source>Not Defined</source>
+    <target>No definido</target>
+   </trans-unit>
+   <trans-unit id="650">
+    <source>Notes</source>
+    <target>Notas</target>
+   </trans-unit>
+   <trans-unit id="651">
+    <source>November</source>
+    <target>De noviembre</target>
+   </trans-unit>
+   <trans-unit id="652">
+    <source>Number</source>
+    <target>Número</target>
+   </trans-unit>
+   <trans-unit id="653">
+    <source>October</source>
+    <target>Octubre</target>
+   </trans-unit>
+   <trans-unit id="654">
+    <source>Ohio</source>
+    <target>Ohio</target>
+    <note>A US state name</note>
+   </trans-unit>
+   <trans-unit id="655">
+    <source>Oklahoma</source>
+    <target>Oklahoma</target>
+    <note>A US state name</note>
+   </trans-unit>
+   <trans-unit id="656">
+    <source>Oman</source>
+    <target>Omán</target>
+    <note>A country name</note>
+   </trans-unit>
+   <trans-unit id="657">
+    <source>Omani</source>
+    <target>Omaní</target>
+    <note>A nationality name</note>
+   </trans-unit>
+   <trans-unit id="658">
+    <source>Omani Rial</source>
+    <target>Rial omaní</target>
+    <note>A currency name</note>
+   </trans-unit>
+   <trans-unit id="659">
+    <source>Only Include Approved Timesheets</source>
+    <target>Sólo incluir partes de horas aprobadas</target>
+   </trans-unit>
+   <trans-unit id="660">
+    <source>Optional Fields</source>
+    <target>Campos opcionales</target>
+   </trans-unit>
+   <trans-unit id="661">
+    <source>or</source>
+    <target>o</target>
+   </trans-unit>
+   <trans-unit id="662">
+    <source>OrangeHRM - Confirmation Required</source>
+    <target>OrangeHRM - se requiere confirmación</target>
+   </trans-unit>
+   <trans-unit id="663">
+    <source>Oregon</source>
+    <target>Oregón</target>
+    <note>A US state name</note>
+   </trans-unit>
+   <trans-unit id="664">
+    <source>Organization</source>
+    <target>Organización</target>
+   </trans-unit>
+   <trans-unit id="665">
+    <source>Other</source>
+    <target>Otro</target>
+   </trans-unit>
+   <trans-unit id="666">
+    <source>Other Email</source>
+    <target>E-mail Otros</target>
+   </trans-unit>
+   <trans-unit id="667">
+    <source>Other Id</source>
+    <target>ID</target>
+   </trans-unit>
+   <trans-unit id="668">
+    <source>Pakistan</source>
+    <target>Pakistán</target>
+    <note>A country name</note>
+   </trans-unit>
+   <trans-unit id="669">
+    <source>Pakistan Rupee</source>
+    <target>Rupia paquistaní</target>
+    <note>A currency name</note>
+   </trans-unit>
+   <trans-unit id="670">
+    <source>Pakistani</source>
+    <target>Paquistaní</target>
+    <note>A nationality name</note>
+   </trans-unit>
+   <trans-unit id="671">
+    <source>Palau</source>
+    <target>Palau</target>
+    <note>A country name</note>
+   </trans-unit>
+   <trans-unit id="672">
+    <source>Palauan</source>
+    <target>Palau</target>
+    <note>A nationality name</note>
+   </trans-unit>
+   <trans-unit id="673">
+    <source>Palestinian Territory, Occupied</source>
+    <target>Territorio Palestino Ocupado</target>
+    <note>A country name</note>
+   </trans-unit>
+   <trans-unit id="674">
+    <source>Palladium (oz.)</source>
+    <target>Palladium (oz)</target>
+    <note>A currency name</note>
+   </trans-unit>
+   <trans-unit id="675">
+    <source>Panama</source>
+    <target>Panamá</target>
+    <note>A country name</note>
+   </trans-unit>
+   <trans-unit id="676">
+    <source>Panamanian</source>
+    <target>Panameño</target>
+    <note>A nationality name</note>
+   </trans-unit>
+   <trans-unit id="677">
+    <source>Panamanian Balboa</source>
+    <target>Balboa Panameño</target>
+    <note>A currency name</note>
+   </trans-unit>
+   <trans-unit id="678">
+    <source>Papua New Guinea</source>
+    <target>Papua Nueva Guinea</target>
+    <note>A country name</note>
+   </trans-unit>
+   <trans-unit id="679">
+    <source>Papua New Guinea Kina</source>
+    <target>Kina Papua Nueva Guinea</target>
+    <note>A currency name</note>
+   </trans-unit>
+   <trans-unit id="680">
+    <source>Papua New Guinean</source>
+    <target>Papua Nueva Guinea</target>
+    <note>A nationality name</note>
+   </trans-unit>
+   <trans-unit id="681">
+    <source>Paraguay</source>
+    <target>Paraguay</target>
+    <note>A country name</note>
+   </trans-unit>
+   <trans-unit id="682">
+    <source>Paraguay Guarani</source>
+    <target>Paraguay Guarani</target>
+    <note>A currency name</note>
+   </trans-unit>
+   <trans-unit id="683">
+    <source>Paraguayan</source>
+    <target>Paraguayo</target>
+    <note>A nationality name</note>
+   </trans-unit>
+   <trans-unit id="684">
+    <source>Part Time Contract</source>
+    <target>Parte contrato a tiempo</target>
+   </trans-unit>
+   <trans-unit id="685">
+    <source>Part Time Internship</source>
+    <target>Parte de prácticas Tiempo</target>
+   </trans-unit>
+   <trans-unit id="686">
+    <source>Part Time Permanent</source>
+    <target>Parte Permanente Tiempo</target>
+   </trans-unit>
+   <trans-unit id="687">
+    <source>Past Employee</source>
+    <target>Empleado Pasado</target>
+   </trans-unit>
+   <trans-unit id="688">
+    <source>Past Employees Only</source>
+    <target>Los empleados anteriores sólo</target>
+   </trans-unit>
+   <trans-unit id="689">
+    <source>Pay Frequency</source>
+    <target>Frecuencia de pago</target>
+   </trans-unit>
+   <trans-unit id="690">
+    <source>Pay Grade</source>
+    <target>El grado de pago</target>
+   </trans-unit>
+   <trans-unit id="691">
+    <source>Pay Grades</source>
+    <target>Pagar Grados</target>
+   </trans-unit>
+   <trans-unit id="692">
+    <source>Pennsylvania</source>
+    <target>Pensilvania</target>
+    <note>A US state name</note>
+   </trans-unit>
+   <trans-unit id="693">
+    <source>Performance</source>
+    <target>Rendimiento</target>
+   </trans-unit>
+   <trans-unit id="694">
+    <source>Personal</source>
+    <target>Personal</target>
+   </trans-unit>
+   <trans-unit id="695">
+    <source>Peru</source>
+    <target>Perú</target>
+    <note>A country name</note>
+   </trans-unit>
+   <trans-unit id="696">
+    <source>Peruvian</source>
+    <target>Peruano</target>
+    <note>A nationality name</note>
+   </trans-unit>
+   <trans-unit id="697">
+    <source>Peruvian Nuevo Sol</source>
+    <target>Nuevo Sol peruano</target>
+    <note>A currency name</note>
+   </trans-unit>
+   <trans-unit id="698">
+    <source>Philippine Peso</source>
+    <target>Peso filipino</target>
+    <note>A currency name</note>
+   </trans-unit>
+   <trans-unit id="699">
+    <source>Philippines</source>
+    <target>Filipinas</target>
+    <note>A country name</note>
+   </trans-unit>
+   <trans-unit id="700">
+    <source>Physically Disabled/Compensated</source>
+    <target>Personas con Discapacidad Física / compensado</target>
+   </trans-unit>
+   <trans-unit id="701">
+    <source>PIM</source>
+    <target>PIM</target>
+   </trans-unit>
+   <trans-unit id="702">
+    <source>PIM Sample Report</source>
+    <target>Ejemplo de informe de PIM</target>
+   </trans-unit>
+   <trans-unit id="703">
+    <source>Pitcairn</source>
+    <target>Pitcairn</target>
+    <note>A country name</note>
+   </trans-unit>
+   <trans-unit id="704">
+    <source>Platinum (oz.)</source>
+    <target>Platino (oz)</target>
+    <note>A currency name</note>
+   </trans-unit>
+   <trans-unit id="705">
+    <source>Poland</source>
+    <target>Polonia</target>
+    <note>A country name</note>
+   </trans-unit>
+   <trans-unit id="706">
+    <source>Polish</source>
+    <target>Polaco</target>
+    <note>A nationality name</note>
+   </trans-unit>
+   <trans-unit id="707">
+    <source>Polish Zloty</source>
+    <target>Zloty polaco</target>
+    <note>A currency name</note>
+   </trans-unit>
+   <trans-unit id="708">
+    <source>Poor</source>
+    <target>Pobre</target>
+   </trans-unit>
+   <trans-unit id="709">
+    <source>Portugal</source>
+    <target>Portugal</target>
+    <note>A country name</note>
+   </trans-unit>
+   <trans-unit id="710">
+    <source>Portuguese</source>
+    <target>Portugués</target>
+    <note>A nationality name</note>
+   </trans-unit>
+   <trans-unit id="711">
+    <source>Pound Sterling</source>
+    <target>Libra esterlina</target>
+    <note>A currency name</note>
+   </trans-unit>
+   <trans-unit id="712">
+    <source>Previous</source>
+    <target>Anterior</target>
+   </trans-unit>
+   <trans-unit id="713">
+    <source>Program</source>
+    <target>Programa</target>
+   </trans-unit>
+   <trans-unit id="714">
+    <source>Project Date Range</source>
+    <target>Proyecto intervalo de fechas</target>
+   </trans-unit>
+   <trans-unit id="715">
+    <source>Project Info</source>
+    <target>Información del Proyecto</target>
+   </trans-unit>
+   <trans-unit id="716">
+    <source>Project Reports</source>
+    <target>Informes de Proyectos</target>
+   </trans-unit>
+   <trans-unit id="717">
+    <source>Projects</source>
+    <target>Proyectos</target>
+   </trans-unit>
+   <trans-unit id="718">
+    <source>Puerto Rico</source>
+    <target>Puerto Rico</target>
+    <note>A country name</note>
+   </trans-unit>
+   <trans-unit id="719">
+    <source>Punch In/Out</source>
+    <target>Punch In / Out</target>
+   </trans-unit>
+   <trans-unit id="720">
+    <source>Qatar</source>
+    <target>Qatar</target>
+    <note>A country name</note>
+   </trans-unit>
+   <trans-unit id="721">
+    <source>Qatari</source>
+    <target>Qatar</target>
+    <note>A nationality name</note>
+   </trans-unit>
+   <trans-unit id="722">
+    <source>Qatari Rial</source>
+    <target>Qatarí</target>
+    <note>A currency name</note>
+   </trans-unit>
+   <trans-unit id="723">
+    <source>Qualification</source>
+    <target>Calificación</target>
+   </trans-unit>
+   <trans-unit id="724">
+    <source>Range</source>
+    <target>Serie</target>
+   </trans-unit>
+   <trans-unit id="725">
+    <source>Reading</source>
+    <target>Lectura</target>
+   </trans-unit>
+   <trans-unit id="726">
+    <source>Records Per Page</source>
+    <target>Registros por página</target>
+   </trans-unit>
+   <trans-unit id="727">
+    <source>Recruitment</source>
+    <target>Reclutamiento</target>
+   </trans-unit>
+   <trans-unit id="728">
+    <source>Relationship</source>
+    <target>Relación</target>
+   </trans-unit>
+   <trans-unit id="729">
+    <source>Replace Current</source>
+    <target>Reemplazará a la actual</target>
+   </trans-unit>
+   <trans-unit id="730">
+    <source>Replace file</source>
+    <target>Reemplazar el archivo</target>
+   </trans-unit>
+   <trans-unit id="731">
+    <source>Report Name</source>
+    <target>Nombre del informe</target>
+   </trans-unit>
+   <trans-unit id="732">
+    <source>Reporting Method</source>
+    <target>Método de informes</target>
+   </trans-unit>
+   <trans-unit id="733">
+    <source>Reporting Methods</source>
+    <target>Los métodos de notificación</target>
+   </trans-unit>
+   <trans-unit id="734">
+    <source>Reports</source>
+    <target>Informes</target>
+   </trans-unit>
+   <trans-unit id="735">
+    <source>Required</source>
+    <target>Necesario</target>
+   </trans-unit>
+   <trans-unit id="736">
+    <source>required field</source>
+    <target>campo obligatorio</target>
+   </trans-unit>
+   <trans-unit id="737">
+    <source>Reset</source>
+    <target>Reajustar</target>
+   </trans-unit>
+   <trans-unit id="738">
+    <source>Resigned</source>
+    <target>Resignado</target>
+   </trans-unit>
+   <trans-unit id="739">
+    <source>Resigned - Company Requested</source>
+    <target>Resignado - Sociedad solicitó</target>
+   </trans-unit>
+   <trans-unit id="740">
+    <source>Resigned - Self Proposed</source>
+    <target>Resignado - Propuesta de Auto</target>
+   </trans-unit>
+   <trans-unit id="741">
+    <source>Retired</source>
+    <target>Retirado</target>
+   </trans-unit>
+   <trans-unit id="742">
+    <source>Reunion</source>
+    <target>Reunión</target>
+    <note>A country name</note>
+   </trans-unit>
+   <trans-unit id="743">
+    <source>Reviews</source>
+    <target>Comentarios</target>
+   </trans-unit>
+   <trans-unit id="744">
+    <source>Rhode Island</source>
+    <target>Rhode Island</target>
+    <note>A US state name</note>
+   </trans-unit>
+   <trans-unit id="745">
+    <source>Romania</source>
+    <target>Rumania</target>
+    <note>A country name</note>
+   </trans-unit>
+   <trans-unit id="746">
+    <source>Romanian</source>
+    <target>Rumano</target>
+    <note>A nationality name</note>
+   </trans-unit>
+   <trans-unit id="747">
+    <source>Romanian Leu</source>
+    <target>Leu rumano</target>
+    <note>A currency name</note>
+   </trans-unit>
+   <trans-unit id="748">
+    <source>Routing Number</source>
+    <target>Número de ruta</target>
+   </trans-unit>
+   <trans-unit id="749">
+    <source>Run</source>
+    <target>Ejecutar</target>
+   </trans-unit>
+   <trans-unit id="750">
+    <source>Russia Rubles</source>
+    <target>Rusia rublos</target>
+    <note>A currency name</note>
+   </trans-unit>
+   <trans-unit id="751">
+    <source>Russian</source>
+    <target>Ruso</target>
+    <note>A nationality name</note>
+   </trans-unit>
+   <trans-unit id="752">
+    <source>Russian Federation</source>
+    <target>Federación de Rusia</target>
+    <note>A country name</note>
+   </trans-unit>
+   <trans-unit id="753">
+    <source>Russian Rouble</source>
+    <target>Rublo ruso</target>
+    <note>A currency name</note>
+   </trans-unit>
+   <trans-unit id="754">
+    <source>Rwanda</source>
+    <target>Ruanda</target>
+    <note>A country name</note>
+   </trans-unit>
+   <trans-unit id="755">
+    <source>Rwandan</source>
+    <target>Ruanda</target>
+    <note>A nationality name</note>
+   </trans-unit>
+   <trans-unit id="756">
+    <source>Saint Helena</source>
+    <target>Santa Helena</target>
+    <note>A country name</note>
+   </trans-unit>
+   <trans-unit id="757">
+    <source>Saint Kitts and Nevis</source>
+    <target>Saint Kitts y Nevis</target>
+    <note>A country name</note>
+   </trans-unit>
+   <trans-unit id="758">
+    <source>Saint Lucia</source>
+    <target>Santa Lucía</target>
+    <note>A country name</note>
+   </trans-unit>
+   <trans-unit id="759">
+    <source>Saint Lucian</source>
+    <target>Santa Lucía</target>
+    <note>A nationality name</note>
+   </trans-unit>
+   <trans-unit id="760">
+    <source>Saint Pierre and Miquelon</source>
+    <target>San Pedro y Miquelón</target>
+    <note>A country name</note>
+   </trans-unit>
+   <trans-unit id="761">
+    <source>Saint Vincent and the Grenadines</source>
+    <target>San Vicente y las Granadinas</target>
+    <note>A country name</note>
+   </trans-unit>
+   <trans-unit id="762">
+    <source>Salary</source>
+    <target>Sueldo</target>
+   </trans-unit>
+   <trans-unit id="763">
+    <source>Salary Component</source>
+    <target>Salario de componentes</target>
+   </trans-unit>
+   <trans-unit id="764">
+    <source>Salvadoran</source>
+    <target>Salvadoreño</target>
+    <note>A nationality name</note>
+   </trans-unit>
+   <trans-unit id="765">
+    <source>Samoa</source>
+    <target>Samoa</target>
+    <note>A country name</note>
+   </trans-unit>
+   <trans-unit id="766">
+    <source>Samoan</source>
+    <target>Samoa</target>
+    <note>A nationality name</note>
+   </trans-unit>
+   <trans-unit id="767">
+    <source>Samoan Tala</source>
+    <target>Tala de Samoa</target>
+    <note>A currency name</note>
+   </trans-unit>
+   <trans-unit id="768">
+    <source>San Marinese</source>
+    <target>San Marinese</target>
+    <note>A nationality name</note>
+   </trans-unit>
+   <trans-unit id="769">
+    <source>San Marino</source>
+    <target>San Marino</target>
+    <note>A country name</note>
+   </trans-unit>
+   <trans-unit id="770">
+    <source>Sao Tome and Principe</source>
+    <target>Santo Tomé y Príncipe</target>
+    <note>A country name</note>
+   </trans-unit>
+   <trans-unit id="771">
+    <source>Sao Tome/Principe Dobra</source>
+    <target>Santo Tomé / Príncipe Dobra</target>
+    <note>A currency name</note>
+   </trans-unit>
+   <trans-unit id="772">
+    <source>Sao Tomean</source>
+    <target>Santo Tomé y Príncipe</target>
+    <note>A nationality name</note>
+   </trans-unit>
+   <trans-unit id="773">
+    <source>Saturday</source>
+    <target>Sábado</target>
+   </trans-unit>
+   <trans-unit id="774">
+    <source>Saudi</source>
+    <target>Arabia</target>
+    <note>A nationality name</note>
+   </trans-unit>
+   <trans-unit id="775">
+    <source>Saudi Arabia</source>
+    <target>Arabia Saudita</target>
+    <note>A country name</note>
+   </trans-unit>
+   <trans-unit id="776">
+    <source>Saudi Arabia Riyal</source>
+    <target>Arabia Saudita Riyal</target>
+    <note>A currency name</note>
+   </trans-unit>
+   <trans-unit id="777">
+    <source>Save</source>
+    <target>Ahorrar</target>
+   </trans-unit>
+   <trans-unit id="778">
+    <source>Save Comment Only</source>
+    <target>Guardar único comentario</target>
+   </trans-unit>
+   <trans-unit id="779">
+    <source>Savings</source>
+    <target>Ahorros</target>
+   </trans-unit>
+   <trans-unit id="780">
+    <source>Score</source>
+    <target>Puntuación</target>
+   </trans-unit>
+   <trans-unit id="781">
+    <source>Scottish</source>
+    <target>Escocés</target>
+    <note>A nationality name</note>
+   </trans-unit>
+   <trans-unit id="782">
+    <source>Search</source>
+    <target>Buscar</target>
+   </trans-unit>
+   <trans-unit id="783">
+    <source>Select</source>
+    <target>Seleccionar</target>
+   </trans-unit>
+   <trans-unit id="784">
+    <source>Select Comparison</source>
+    <target>Seleccione Comparación</target>
+   </trans-unit>
+   <trans-unit id="785">
+    <source>Select File</source>
+    <target>Seleccione Archivo</target>
+   </trans-unit>
+   <trans-unit id="786">
+    <source>Select Records to Delete</source>
+    <target>Seleccione Eliminar registros</target>
+   </trans-unit>
+   <trans-unit id="787">
+    <source>Select Salary Grade</source>
+    <target>Seleccione Grado de Salario</target>
+   </trans-unit>
+   <trans-unit id="788">
+    <source>Selected Criteria</source>
+    <target>Criterios de Selección</target>
+   </trans-unit>
+   <trans-unit id="789">
+    <source>Selection Criteria</source>
+    <target>Criterios de selección</target>
+   </trans-unit>
+   <trans-unit id="790">
+    <source>Senegal</source>
+    <target>Senegal</target>
+    <note>A country name</note>
+   </trans-unit>
+   <trans-unit id="791">
+    <source>Senegalese</source>
+    <target>Senegal</target>
+    <note>A nationality name</note>
+   </trans-unit>
+   <trans-unit id="792">
+    <source>September</source>
+    <target>Septiembre</target>
+   </trans-unit>
+   <trans-unit id="793">
+    <source>Serbia and Montenegro</source>
+    <target>Serbia y Montenegro</target>
+    <note>A country name</note>
+   </trans-unit>
+   <trans-unit id="794">
+    <source>Serbian</source>
+    <target>Serbio</target>
+    <note>A nationality name</note>
+   </trans-unit>
+   <trans-unit id="795">
+    <source>Service Period</source>
+    <target>El servicio de las</target>
+   </trans-unit>
+   <trans-unit id="796">
+    <source>Seychelles</source>
+    <target>Seychelles</target>
+    <note>A country name</note>
+   </trans-unit>
+   <trans-unit id="797">
+    <source>Seychelles Rupee</source>
+    <target>Rupia de Seychelles</target>
+    <note>A currency name</note>
+   </trans-unit>
+   <trans-unit id="798">
+    <source>Seychellois</source>
+    <target>Seychelles</target>
+    <note>A nationality name</note>
+   </trans-unit>
+   <trans-unit id="799">
+    <source>Should be a number</source>
+    <target>Debe ser un número</target>
+   </trans-unit>
+   <trans-unit id="800">
+    <source>Should be a positive number</source>
+    <target>En caso de ser un número positivo</target>
+   </trans-unit>
+   <trans-unit id="801">
+    <source>Should be a valid date in %format% format</source>
+    <target>En caso de ser una fecha válida en el formato% formato%</target>
+   </trans-unit>
+   <trans-unit id="802">
+    <source>Should be less than %amount%</source>
+    <target>En caso de ser menor que%% del importe</target>
+   </trans-unit>
+   <trans-unit id="803">
+    <source>Should be less than %amount% characters</source>
+    <target>En caso de ser menor de caracteres% Monto%</target>
+   </trans-unit>
+   <trans-unit id="804">
+    <source>Should be within Min/Max values</source>
+    <target>En caso de estar dentro de mín / máx de los valores</target>
+   </trans-unit>
+   <trans-unit id="805">
+    <source>Show Direct Deposit Details</source>
+    <target>Mostrar detalles de Depósito Directo</target>
+   </trans-unit>
+   <trans-unit id="806">
+    <source>Sierra Leone</source>
+    <target>Sierra Leona</target>
+    <note>A country name</note>
+   </trans-unit>
+   <trans-unit id="807">
+    <source>Sierra Leone Leone</source>
+    <target>Sierra Leona Leona</target>
+    <note>A currency name</note>
+   </trans-unit>
+   <trans-unit id="808">
+    <source>Sierra Leonean</source>
+    <target>Sierra Leona</target>
+    <note>A nationality name</note>
+   </trans-unit>
+   <trans-unit id="809">
+    <source>Silver (oz.)</source>
+    <target>Plata (oz)</target>
+    <note>A currency name</note>
+   </trans-unit>
+   <trans-unit id="810">
+    <source>Singapore</source>
+    <target>Singapur</target>
+    <note>A country name</note>
+   </trans-unit>
+   <trans-unit id="811">
+    <source>Singapore Dollar</source>
+    <target>Dólar de Singapur</target>
+    <note>A currency name</note>
+   </trans-unit>
+   <trans-unit id="812">
+    <source>Singaporean</source>
+    <target>Singapur</target>
+    <note>A nationality name</note>
+   </trans-unit>
+   <trans-unit id="813">
+    <source>Size</source>
+    <target>Tamaño</target>
+   </trans-unit>
+   <trans-unit id="814">
+    <source>Skill</source>
+    <target>Habilidad</target>
+   </trans-unit>
+   <trans-unit id="815">
+    <source>Skills</source>
+    <target>Habilidades</target>
+   </trans-unit>
+   <trans-unit id="816">
+    <source>Slovak Koruna</source>
+    <target>Corona eslovaca</target>
+    <note>A currency name</note>
+   </trans-unit>
+   <trans-unit id="817">
+    <source>Slovakia</source>
+    <target>Eslovaquia</target>
+    <note>A country name</note>
+   </trans-unit>
+   <trans-unit id="818">
+    <source>Slovakian</source>
+    <target>Eslovaquia</target>
+    <note>A nationality name</note>
+   </trans-unit>
+   <trans-unit id="819">
+    <source>Slovenia</source>
+    <target>Eslovenia</target>
+    <note>A country name</note>
+   </trans-unit>
+   <trans-unit id="820">
+    <source>Slovenian</source>
+    <target>Esloveno</target>
+    <note>A nationality name</note>
+   </trans-unit>
+   <trans-unit id="821">
+    <source>Solomon Islander</source>
+    <target>Las Islas Salomón</target>
+    <note>A nationality name</note>
+   </trans-unit>
+   <trans-unit id="822">
+    <source>Solomon Islands</source>
+    <target>Las Islas Salomón</target>
+    <note>A country name</note>
+   </trans-unit>
+   <trans-unit id="823">
+    <source>Solomon Islands Dollar</source>
+    <target>Dólar de las Islas Salomón</target>
+    <note>A currency name</note>
+   </trans-unit>
+   <trans-unit id="824">
+    <source>Somali</source>
+    <target>Somalí</target>
+    <note>A nationality name</note>
+   </trans-unit>
+   <trans-unit id="825">
+    <source>Somali Shilling</source>
+    <target>Chelín somalí</target>
+    <note>A currency name</note>
+   </trans-unit>
+   <trans-unit id="826">
+    <source>Somalia</source>
+    <target>Somalia</target>
+    <note>A country name</note>
+   </trans-unit>
+   <trans-unit id="827">
+    <source>Sort in Ascending Order</source>
+    <target>Ordenar en orden ascendente</target>
+   </trans-unit>
+   <trans-unit id="828">
+    <source>Sort in Descending Order</source>
+    <target>Ordenar en orden descendente</target>
+   </trans-unit>
+   <trans-unit id="829">
+    <source>South Africa</source>
+    <target>Sudáfrica</target>
+    <note>A country name</note>
+   </trans-unit>
+   <trans-unit id="830">
+    <source>South African</source>
+    <target>Sudáfrica</target>
+    <note>A nationality name</note>
+   </trans-unit>
+   <trans-unit id="831">
+    <source>South African Rand</source>
+    <target>Rand sudafricano</target>
+    <note>A currency name</note>
+   </trans-unit>
+   <trans-unit id="832">
+    <source>South Carolina</source>
+    <target>Carolina del Sur</target>
+    <note>A US state name</note>
+   </trans-unit>
+   <trans-unit id="833">
+    <source>South Dakota</source>
+    <target>Dakota del Sur</target>
+    <note>A US state name</note>
+   </trans-unit>
+   <trans-unit id="834">
+    <source>South Georgia and the South Sandwich Islands</source>
+    <target>Georgia del Sur e Islas Sandwich del Sur</target>
+    <note>A country name</note>
+   </trans-unit>
+   <trans-unit id="835">
+    <source>South Korean</source>
+    <target>Surcoreano</target>
+    <note>A nationality name</note>
+   </trans-unit>
+   <trans-unit id="836">
+    <source>Spain</source>
+    <target>España</target>
+    <note>A country name</note>
+   </trans-unit>
+   <trans-unit id="837">
+    <source>Spanish</source>
+    <target>Español</target>
+    <note>A nationality name</note>
+   </trans-unit>
+   <trans-unit id="838">
+    <source>Speaking</source>
+    <target>Hablando</target>
+   </trans-unit>
+   <trans-unit id="839">
+    <source>Sri Lanka</source>
+    <target>Sri Lanka</target>
+    <note>A country name</note>
+   </trans-unit>
+   <trans-unit id="840">
+    <source>Sri Lanka Rupee</source>
+    <target>Rupia de Sri Lanka</target>
+    <note>A currency name</note>
+   </trans-unit>
+   <trans-unit id="841">
+    <source>Sri Lankan</source>
+    <target>Sri Lanka</target>
+    <note>A nationality name</note>
+   </trans-unit>
+   <trans-unit id="842">
+    <source>St. Helena Pound</source>
+    <target>Santa Elena Libra</target>
+    <note>A currency name</note>
+   </trans-unit>
+   <trans-unit id="843">
+    <source>Start Date</source>
+    <target>Fecha de inicio</target>
+   </trans-unit>
+   <trans-unit id="844">
+    <source>Start date should be before end date</source>
+    <target>Fecha de inicio debe ser anterior a la fecha de finalización</target>
+   </trans-unit>
+   <trans-unit id="845">
+    <source>State</source>
+    <target>Estado</target>
+   </trans-unit>
+   <trans-unit id="846">
+    <source>Status</source>
+    <target>Estado</target>
+   </trans-unit>
+   <trans-unit id="847">
+    <source>Structure</source>
+    <target>Estructura</target>
+   </trans-unit>
+   <trans-unit id="848">
+    <source>Sub Unit</source>
+    <target>Unidad Sub</target>
+   </trans-unit>
+   <trans-unit id="849">
+    <source>Subordinates</source>
+    <target>Los subordinados</target>
+   </trans-unit>
+   <trans-unit id="850">
+    <source>Subscribe</source>
+    <target>Suscribir</target>
+   </trans-unit>
+   <trans-unit id="851">
+    <source>Subscription Amount</source>
+    <target>Suscripción Cantidad</target>
+   </trans-unit>
+   <trans-unit id="852">
+    <source>Subscription Commence Date</source>
+    <target>Suscripción Comenzar Fecha</target>
+   </trans-unit>
+   <trans-unit id="853">
+    <source>Subscription Paid By</source>
+    <target>Suscripción pagado por</target>
+   </trans-unit>
+   <trans-unit id="854">
+    <source>Subscription Renewal Date</source>
+    <target>Suscripción Fecha de Renovación</target>
+   </trans-unit>
+   <trans-unit id="855">
+    <source>Successfully Added</source>
+    <target>Agregado con éxito</target>
+   </trans-unit>
+   <trans-unit id="856">
+    <source>Successfully Deleted</source>
+    <target>Se ha eliminado correctamente</target>
+   </trans-unit>
+   <trans-unit id="857">
+    <source>Successfully Saved</source>
+    <target>Guardado correctamente</target>
+   </trans-unit>
+   <trans-unit id="858">
+    <source>Successfully Updated</source>
+    <target>Se ha actualizado correctamente</target>
+   </trans-unit>
+   <trans-unit id="859">
+    <source>Successfully Uploaded</source>
+    <target>Subido con éxito</target>
+   </trans-unit>
+   <trans-unit id="860">
+    <source>Sudan</source>
+    <target>Sudán</target>
+    <note>A country name</note>
+   </trans-unit>
+   <trans-unit id="861">
+    <source>Sudanese</source>
+    <target>Sudanés</target>
+    <note>A nationality name</note>
+   </trans-unit>
+   <trans-unit id="862">
+    <source>Sudanese Dinar</source>
+    <target>Dinar sudanés</target>
+    <note>A currency name</note>
+   </trans-unit>
+   <trans-unit id="863">
+    <source>Sudanese Pound</source>
+    <target>Libra sudanesa</target>
+    <note>A currency name</note>
+   </trans-unit>
+   <trans-unit id="864">
+    <source>Sunday</source>
+    <target>Domingo</target>
+   </trans-unit>
+   <trans-unit id="865">
+    <source>Supervisor</source>
+    <target>Supervisor</target>
+   </trans-unit>
+   <trans-unit id="866">
+    <source>Supervisor Name</source>
+    <target>Nombre de Supervisor</target>
+   </trans-unit>
+   <trans-unit id="867">
+    <source>Supervisors</source>
+    <target>Los supervisores</target>
+   </trans-unit>
+   <trans-unit id="868">
+    <source>Support</source>
+    <target>Apoyar</target>
+   </trans-unit>
+   <trans-unit id="869">
+    <source>Suriname</source>
+    <target>Suriname</target>
+    <note>A country name</note>
+   </trans-unit>
+   <trans-unit id="870">
+    <source>Surinamer</source>
+    <target>Surinamés</target>
+    <note>A nationality name</note>
+   </trans-unit>
+   <trans-unit id="871">
+    <source>Surinamese Dollar</source>
+    <target>Dólar de Suriname</target>
+    <note>A currency name</note>
+   </trans-unit>
+   <trans-unit id="872">
+    <source>Svalbard and Jan Mayen</source>
+    <target>Svalbard y Jan Mayen</target>
+    <note>A country name</note>
+   </trans-unit>
+   <trans-unit id="873">
+    <source>Swazi</source>
+    <target>Swazi</target>
+    <note>A nationality name</note>
+   </trans-unit>
+   <trans-unit id="874">
+    <source>Swaziland</source>
+    <target>Suazilandia</target>
+    <note>A country name</note>
+   </trans-unit>
+   <trans-unit id="875">
+    <source>Swaziland Lilangeni</source>
+    <target>Suazilandia Lilangeni</target>
+    <note>A currency name</note>
+   </trans-unit>
+   <trans-unit id="876">
+    <source>Sweden</source>
+    <target>Suecia</target>
+    <note>A country name</note>
+   </trans-unit>
+   <trans-unit id="877">
+    <source>Swedish</source>
+    <target>Sueco</target>
+    <note>A nationality name</note>
+   </trans-unit>
+   <trans-unit id="878">
+    <source>Swedish Krona</source>
+    <target>Corona Sueca</target>
+    <note>A currency name</note>
+   </trans-unit>
+   <trans-unit id="879">
+    <source>Swiss</source>
+    <target>Swiss</target>
+    <note>A nationality name</note>
+   </trans-unit>
+   <trans-unit id="880">
+    <source>Swiss Franc</source>
+    <target>Franco Suizo</target>
+    <note>A currency name</note>
+   </trans-unit>
+   <trans-unit id="881">
+    <source>Switzerland</source>
+    <target>Suiza</target>
+    <note>A country name</note>
+   </trans-unit>
+   <trans-unit id="882">
+    <source>Syrian</source>
+    <target>Siria</target>
+    <note>A nationality name</note>
+   </trans-unit>
+   <trans-unit id="883">
+    <source>Syrian Arab Republic</source>
+    <target>República Árabe Siria</target>
+    <note>A country name</note>
+   </trans-unit>
+   <trans-unit id="884">
+    <source>Syrian Pound</source>
+    <target>Libra siria</target>
+    <note>A currency name</note>
+   </trans-unit>
+   <trans-unit id="885">
+    <source>Taiwan</source>
+    <target>Taiwan</target>
+    <note>A country name</note>
+   </trans-unit>
+   <trans-unit id="886">
+    <source>Taiwan Dollar</source>
+    <target>Dólar de Taiwán</target>
+    <note>A currency name</note>
+   </trans-unit>
+   <trans-unit id="887">
+    <source>Taiwanese</source>
+    <target>Taiwanés</target>
+    <note>A nationality name</note>
+   </trans-unit>
+   <trans-unit id="888">
+    <source>Tajik</source>
+    <target>Tayikistán</target>
+    <note>A nationality name</note>
+   </trans-unit>
+   <trans-unit id="889">
+    <source>Tajikistan</source>
+    <target>Tayikistán</target>
+    <note>A country name</note>
+   </trans-unit>
+   <trans-unit id="890">
+    <source>Tanzania, United Republic of</source>
+    <target>Tanzania, República Unida de</target>
+    <note>A country name</note>
+   </trans-unit>
+   <trans-unit id="891">
+    <source>Tanzanian</source>
+    <target>Tanzania</target>
+    <note>A nationality name</note>
+   </trans-unit>
+   <trans-unit id="892">
+    <source>Tanzanian Shilling</source>
+    <target>Chelín tanzano</target>
+    <note>A currency name</note>
+   </trans-unit>
+   <trans-unit id="893">
+    <source>Tennessee</source>
+    <target>Tennessee</target>
+    <note>A US state name</note>
+   </trans-unit>
+   <trans-unit id="894">
+    <source>Terminated</source>
+    <target>Finalizado</target>
+   </trans-unit>
+   <trans-unit id="895">
+    <source>Termination Reasons</source>
+    <target>Razones de terminación</target>
+   </trans-unit>
+   <trans-unit id="896">
+    <source>Texas</source>
+    <target>Texas</target>
+    <note>A US state name</note>
+   </trans-unit>
+   <trans-unit id="897">
+    <source>Thai</source>
+    <target>Tailandés</target>
+    <note>A nationality name</note>
+   </trans-unit>
+   <trans-unit id="898">
+    <source>Thai Baht</source>
+    <target>Baht tailandés</target>
+    <note>A currency name</note>
+   </trans-unit>
+   <trans-unit id="899">
+    <source>Thailand</source>
+    <target>Tailandia</target>
+    <note>A country name</note>
+   </trans-unit>
+   <trans-unit id="900">
+    <source>Thursday</source>
+    <target>Jueves</target>
+   </trans-unit>
+   <trans-unit id="901">
+    <source>Time</source>
+    <target>Tiempo</target>
+   </trans-unit>
+   <trans-unit id="902">
+    <source>Timesheets</source>
+    <target>Los partes de horas</target>
+   </trans-unit>
+   <trans-unit id="903">
+    <source>Timor-Leste</source>
+    <target>Timor-Leste</target>
+    <note>A country name</note>
+   </trans-unit>
+   <trans-unit id="904">
+    <source>To</source>
+    <target>A</target>
+   </trans-unit>
+   <trans-unit id="905">
+    <source>to</source>
+    <target>a</target>
+   </trans-unit>
+   <trans-unit id="906">
+    <source>To date should be after from date</source>
+    <target>Hasta la fecha debe ser posterior a partir de la fecha</target>
+   </trans-unit>
+   <trans-unit id="907">
+    <source>Togo</source>
+    <target>Togo</target>
+    <note>A country name</note>
+   </trans-unit>
+   <trans-unit id="908">
+    <source>Togolese</source>
+    <target>Togo</target>
+    <note>A nationality name</note>
+   </trans-unit>
+   <trans-unit id="909">
+    <source>Tokelau</source>
+    <target>Tokelau</target>
+    <note>A country name</note>
+   </trans-unit>
+   <trans-unit id="910">
+    <source>Tonga</source>
+    <target>Tonga</target>
+    <note>A country name</note>
+   </trans-unit>
+   <trans-unit id="911">
+    <source>Tongan</source>
+    <target>Tonga</target>
+    <note>A nationality name</note>
+   </trans-unit>
+   <trans-unit id="912">
+    <source>Training</source>
+    <target>Formación</target>
+   </trans-unit>
+   <trans-unit id="913">
+    <source>Trinidad and Tobago</source>
+    <target>Trinidad y Tobago</target>
+    <note>A country name</note>
+   </trans-unit>
+   <trans-unit id="914">
+    <source>Trinidad/Tobago Dollar</source>
+    <target>Trinidad / Tobago Dólar</target>
+    <note>A currency name</note>
+   </trans-unit>
+   <trans-unit id="915">
+    <source>Trinidadian or Tobagonian</source>
+    <target>Trinidad de Tobago o</target>
+    <note>A nationality name</note>
+   </trans-unit>
+   <trans-unit id="916">
+    <source>Tuesday</source>
+    <target>Martes</target>
+   </trans-unit>
+   <trans-unit id="917">
+    <source>Tunisia</source>
+    <target>Túnez</target>
+    <note>A country name</note>
+   </trans-unit>
+   <trans-unit id="918">
+    <source>Tunisian</source>
+    <target>Tunecino</target>
+    <note>A nationality name</note>
+   </trans-unit>
+   <trans-unit id="919">
+    <source>Tunisian Dinar</source>
+    <target>Dinar tunecino</target>
+    <note>A currency name</note>
+   </trans-unit>
+   <trans-unit id="920">
+    <source>Turkey</source>
+    <target>Turquía</target>
+    <note>A country name</note>
+   </trans-unit>
+   <trans-unit id="921">
+    <source>Turkish</source>
+    <target>Turco</target>
+    <note>A nationality name</note>
+   </trans-unit>
+   <trans-unit id="922">
+    <source>Turkish Lira</source>
+    <target>Lira turca</target>
+    <note>A currency name</note>
+   </trans-unit>
+   <trans-unit id="923">
+    <source>Turkmenistan</source>
+    <target>Turkmenistán</target>
+    <note>A country name</note>
+   </trans-unit>
+   <trans-unit id="924">
+    <source>Turks and Caicos Islands</source>
+    <target>Islas Turcas y Caicos</target>
+    <note>A country name</note>
+   </trans-unit>
+   <trans-unit id="925">
+    <source>Tuvalu</source>
+    <target>Tuvalu</target>
+    <note>A country name</note>
+   </trans-unit>
+   <trans-unit id="926">
+    <source>Tuvaluan</source>
+    <target>Tuvalu</target>
+    <note>A nationality name</note>
+   </trans-unit>
+   <trans-unit id="927">
+    <source>Type</source>
+    <target>Tipo</target>
+   </trans-unit>
+   <trans-unit id="928">
+    <source>Type Employee Id</source>
+    <target>Tipo de identificación del empleado</target>
+   </trans-unit>
+   <trans-unit id="929">
+    <source>Type for hints</source>
+    <target>Tipo de pistas</target>
+   </trans-unit>
+   <trans-unit id="930">
+    <source>Uganda</source>
+    <target>Uganda</target>
+    <note>A country name</note>
+   </trans-unit>
+   <trans-unit id="931">
+    <source>Uganda Shilling</source>
+    <target>Uganda Shilling</target>
+    <note>A currency name</note>
+   </trans-unit>
+   <trans-unit id="932">
+    <source>Ugandan</source>
+    <target>Uganda</target>
+    <note>A nationality name</note>
+   </trans-unit>
+   <trans-unit id="933">
+    <source>Ukraine</source>
+    <target>Ucrania</target>
+    <note>A country name</note>
+   </trans-unit>
+   <trans-unit id="934">
+    <source>Ukraine Hryvnia</source>
+    <target>Ucrania Hryvnia</target>
+    <note>A currency name</note>
+   </trans-unit>
+   <trans-unit id="935">
+    <source>Ukrainian</source>
+    <target>Ucranio</target>
+    <note>A nationality name</note>
+   </trans-unit>
+   <trans-unit id="936">
+    <source>United Arab Emirates</source>
+    <target>Emiratos Árabes Unidos</target>
+    <note>A country name</note>
+   </trans-unit>
+   <trans-unit id="937">
+    <source>United Kingdom</source>
+    <target>Reino Unido</target>
+    <note>A country name</note>
+   </trans-unit>
+   <trans-unit id="938">
+    <source>United States</source>
+    <target>Estados Unidos</target>
+    <note>A country name</note>
+   </trans-unit>
+   <trans-unit id="939">
+    <source>United States Dollar</source>
+    <target>Dólar estadounidense</target>
+    <note>A currency name</note>
+   </trans-unit>
+   <trans-unit id="940">
+    <source>United States Minor Outlying Islands</source>
+    <target>Estados Unidos Islas menores alejadas de</target>
+    <note>A country name</note>
+   </trans-unit>
+   <trans-unit id="941">
+    <source>Uruguay</source>
+    <target>Uruguay</target>
+    <note>A country name</note>
+   </trans-unit>
+   <trans-unit id="942">
+    <source>Uruguayan</source>
+    <target>Uruguayo</target>
+    <note>A nationality name</note>
+   </trans-unit>
+   <trans-unit id="943">
+    <source>Uruguayan Peso</source>
+    <target>Peso uruguayo</target>
+    <note>A currency name</note>
+   </trans-unit>
+   <trans-unit id="944">
+    <source>Users</source>
+    <target>Usuarios</target>
+   </trans-unit>
+   <trans-unit id="945">
+    <source>Utah</source>
+    <target>Utah</target>
+    <note>A US state name</note>
+   </trans-unit>
+   <trans-unit id="946">
+    <source>Utd. Arab Emir. Dirham</source>
+    <target>Utd. Emir. Dirham</target>
+    <note>A currency name</note>
+   </trans-unit>
+   <trans-unit id="947">
+    <source>Uzbekistan</source>
+    <target>Uzbekistán</target>
+    <note>A country name</note>
+   </trans-unit>
+   <trans-unit id="948">
+    <source>Uzbekistani</source>
+    <target>Uzbekistán</target>
+    <note>A nationality name</note>
+   </trans-unit>
+   <trans-unit id="949">
+    <source>Vacancies</source>
+    <target>Vacantes</target>
+   </trans-unit>
+   <trans-unit id="950">
+    <source>Vanuatu</source>
+    <target>Vanuatu</target>
+    <note>A country name</note>
+   </trans-unit>
+   <trans-unit id="951">
+    <source>Vanuatu Vatu</source>
+    <target>Vanuatu Vatu</target>
+    <note>A currency name</note>
+   </trans-unit>
+   <trans-unit id="952">
+    <source>Venezuela</source>
+    <target>Venezuela</target>
+    <note>A country name</note>
+   </trans-unit>
+   <trans-unit id="953">
+    <source>Venezuelan</source>
+    <target>Venezolano</target>
+    <note>A nationality name</note>
+   </trans-unit>
+   <trans-unit id="954">
+    <source>Venezuelan Bolivar</source>
+    <target>Bolívar venezolano</target>
+    <note>A currency name</note>
+   </trans-unit>
+   <trans-unit id="955">
+    <source>Vermont</source>
+    <target>Vermont</target>
+    <note>A US state name</note>
+   </trans-unit>
+   <trans-unit id="956">
+    <source>Viet Nam</source>
+    <target>Viet Nam</target>
+    <note>A country name</note>
+   </trans-unit>
+   <trans-unit id="957">
+    <source>Vietnamese</source>
+    <target>Vietnamita</target>
+    <note>A nationality name</note>
+   </trans-unit>
+   <trans-unit id="958">
+    <source>Vietnamese Dong</source>
+    <target>Dong de Vietnam</target>
+    <note>A currency name</note>
+   </trans-unit>
+   <trans-unit id="959">
+    <source>View Details</source>
+    <target>Ver detalles</target>
+   </trans-unit>
+   <trans-unit id="960">
+    <source>Virgin Islands</source>
+    <target>Islas Vírgenes</target>
+    <note>A US state name</note>
+   </trans-unit>
+   <trans-unit id="961">
+    <source>Virgin Islands, British</source>
+    <target>Islas Vírgenes Británicas</target>
+    <note>A country name</note>
+   </trans-unit>
+   <trans-unit id="962">
+    <source>Virgin Islands, U.s.</source>
+    <target>Islas Vírgenes, EE.UU.</target>
+    <note>A country name</note>
+   </trans-unit>
+   <trans-unit id="963">
+    <source>Virginia</source>
+    <target>Virginia</target>
+    <note>A US state name</note>
+   </trans-unit>
+   <trans-unit id="964">
+    <source>Wallis and Futuna</source>
+    <target>Wallis y Futuna</target>
+    <note>A country name</note>
+   </trans-unit>
+   <trans-unit id="965">
+    <source>Washington</source>
+    <target>Washington</target>
+    <note>A US state name</note>
+   </trans-unit>
+   <trans-unit id="966">
+    <source>Wednesday</source>
+    <target>Miércoles</target>
+   </trans-unit>
+   <trans-unit id="967">
+    <source>Welcome #username</source>
+    <target>Bienvenido # nombre de usuario</target>
+   </trans-unit>
+   <trans-unit id="968">
+    <source>Welsh</source>
+    <target>Galés</target>
+    <note>A nationality name</note>
+   </trans-unit>
+   <trans-unit id="969">
+    <source>West Virginia</source>
+    <target>Virginia Occidental</target>
+    <note>A US state name</note>
+   </trans-unit>
+   <trans-unit id="970">
+    <source>Western Sahara</source>
+    <target>El Sáhara Occidental</target>
+    <note>A country name</note>
+   </trans-unit>
+   <trans-unit id="971">
+    <source>Win Exciting OrangeHRM Goodies</source>
+    <target>Gana emocionantes extras OrangeHRM</target>
+   </trans-unit>
+   <trans-unit id="972">
+    <source>Wisconsin</source>
+    <target>Wisconsin</target>
+    <note>A US state name</note>
+   </trans-unit>
+   <trans-unit id="973">
+    <source>with new file</source>
+    <target>con el nuevo archivo</target>
+   </trans-unit>
+   <trans-unit id="974">
+    <source>Work Email</source>
+    <target>Trabajo E-mail</target>
+   </trans-unit>
+   <trans-unit id="975">
+    <source>Work Experience</source>
+    <target>Experiencia laboral</target>
+   </trans-unit>
+   <trans-unit id="976">
+    <source>Work Shifts</source>
+    <target>Los turnos de trabajo</target>
+   </trans-unit>
+   <trans-unit id="977">
+    <source>Work Telephone</source>
+    <target>Teléfono del trabajo</target>
+   </trans-unit>
+   <trans-unit id="978">
+    <source>Work Week</source>
+    <target>Semana laboral</target>
+   </trans-unit>
+   <trans-unit id="979">
+    <source>Writing</source>
+    <target>Escrito</target>
+   </trans-unit>
+   <trans-unit id="980">
+    <source>Wyoming</source>
+    <target>Wyoming</target>
+    <note>A US state name</note>
+   </trans-unit>
+   <trans-unit id="981">
+    <source>Year</source>
+    <target>Año</target>
+   </trans-unit>
+   <trans-unit id="982">
+    <source>Years of Experience</source>
+    <target>Años de experiencia</target>
+   </trans-unit>
+   <trans-unit id="983">
+    <source>Yemen</source>
+    <target>Yemen</target>
+    <note>A country name</note>
+   </trans-unit>
+   <trans-unit id="984">
+    <source>Yemeni Riyal</source>
+    <target>Rial yemení</target>
+    <note>A currency name</note>
+   </trans-unit>
+   <trans-unit id="985">
+    <source>Yemenite</source>
+    <target>Yemenita</target>
+    <note>A nationality name</note>
+   </trans-unit>
+   <trans-unit id="986">
+    <source>Yes</source>
+    <target>Sí</target>
+   </trans-unit>
+   <trans-unit id="987">
+    <source>Yugoslav Dinar</source>
+    <target>Dinar yugoslavo</target>
+    <note>A currency name</note>
+   </trans-unit>
+   <trans-unit id="988">
+    <source>Yugoslavian Dinar</source>
+    <target>Dinar yugoslavo</target>
+    <note>A currency name</note>
+   </trans-unit>
+   <trans-unit id="989">
+    <source>Zambia</source>
+    <target>Zambia</target>
+    <note>A country name</note>
+   </trans-unit>
+   <trans-unit id="990">
+    <source>Zambian</source>
+    <target>Zambia</target>
+    <note>A nationality name</note>
+   </trans-unit>
+   <trans-unit id="991">
+    <source>Zambian Kwacha</source>
+    <target>Zambia Kwacha</target>
+    <note>A currency name</note>
+   </trans-unit>
+   <trans-unit id="992">
+    <source>Zimbabwe</source>
+    <target>Zimbabue</target>
+    <note>A country name</note>
+   </trans-unit>
+   <trans-unit id="993">
+    <source>Zimbabwe Dollar</source>
+    <target>Zimbabwe Dólar</target>
+    <note>A currency name</note>
+   </trans-unit>
+   <trans-unit id="994">
+    <source>Zimbabwean</source>
+    <target>Zimbabwe</target>
+    <note>A nationality name</note>
+   </trans-unit>
+   <trans-unit id="995">
+    <source>Passwords do not match</source>
+    <target>Las contraseñas no coinciden</target>
+   </trans-unit>
+   <trans-unit id="996">
+    <source>Invalid</source>
+    <target>Inválido</target>
+   </trans-unit>
+   <trans-unit id="997">
+    <source>Should be less than %number% digits</source>
+    <target>En caso de ser menor de dígitos% número%</target>
+   </trans-unit>
+   <trans-unit id="998">
+    <source>Due date should be after from date</source>
+    <target>La fecha de vencimiento debe ser posterior a partir de la fecha</target>
+   </trans-unit>
+   <trans-unit id="999">
+    <source>Successfully removed</source>
+    <target>Eliminado con éxito</target>
+   </trans-unit>
+   <trans-unit id="1000">
+    <source>Ok</source>
+    <target>Ok</target>
+   </trans-unit>
+   <trans-unit id="1001">
+    <source>Delete records?</source>
+    <target>Eliminar registros?</target>
+   </trans-unit>
+   <trans-unit id="1002">
+    <source>Select an Employee</source>
+    <target>Seleccionar a un empleado</target>
+   </trans-unit>
+   <trans-unit id="1003">
+    <source>Delete?</source>
+    <target>Eliminar?</target>
+   </trans-unit>
+   <trans-unit id="1004">
+    <source>Successfully Assigned</source>
+    <target>Asignado correctamente</target>
+   </trans-unit>
+   <trans-unit id="1005">
+    <source>Should be greater than %amount%</source>
+    <target>En caso de ser mayor que%% del importe</target>
+   </trans-unit>
+   <trans-unit id="1006">
+    <source>Successfully Submitted</source>
+    <target>Enviado con éxito</target>
+   </trans-unit>
+   <trans-unit id="1007">
+    <source>Invalid Employee</source>
+    <target>Empleado no válido</target>
+   </trans-unit>
+   <trans-unit id="1008">
+    <source>Accepts .docx, .doc, .odt, .pdf, .rtf, .txt up to 1MB</source>
+    <target>Acepta. Docx,. Doc,. Odt,. Pdf,. Rtf, txt. Hasta 1MB</target>
+   </trans-unit>
+   <trans-unit id="1009">
+    <source>Accepts jpg, .png, .gif up to 1MB</source>
+    <target>Acepta jpg,. Png,. Gif hasta 1MB</target>
+   </trans-unit>
+   <trans-unit id="1010">
+    <source>Accepts up to 1MB</source>
+    <target>Acepta hasta 1MB</target>
+   </trans-unit>
+   <trans-unit id="1011">
+    <source>Failed to Save: File Type Not Allowed</source>
+    <target>Error al Guardar: Tipo de archivo no permitido</target>
+   </trans-unit>
+   <trans-unit id="1012">
+    <source>Failed to Save: File Size Exceeded</source>
+    <target>Error al Guardar: Tamaño del archivo superó</target>
+   </trans-unit>
+   <trans-unit id="1013">
+    <source>No Employees Available</source>
+    <target>No hay empleados disponibles</target>
+   </trans-unit>
+   <trans-unit id="1014">
+    <source>Should have at least %number% characters</source>
+    <target>En caso de tener por lo menos los caracteres% número%</target>
+   </trans-unit>
+   <trans-unit id="1015">
+    <source>Successfully Copied</source>
+    <target>Copiado con éxito</target>
+   </trans-unit>
+   <trans-unit id="1016">
+    <source>LOGIN Panel</source>
+    <target>Grupo LOGIN</target>
+   </trans-unit>
+   <trans-unit id="1017">
+    <source>LOGIN</source>
+    <target>LOGIN</target>
+   </trans-unit>
+   <trans-unit id="1018">
+    <source>Should be greater than first value</source>
+    <target>En caso de ser mayor que el primer valor</target>
+   </trans-unit>
+   <trans-unit id="1019">
+    <source>Joined After</source>
+    <target>Después se unió a</target>
+   </trans-unit>
+   <trans-unit id="1020">
+    <source>Joined Before</source>
+    <target>Registrado Antes de</target>
+   </trans-unit>
+   <trans-unit id="1021">
+    <source>Joined in Between</source>
+    <target>Se incorporó en Entre</target>
+   </trans-unit>
+   <trans-unit id="1022">
+    <source>Successfully Changed</source>
+    <target>Cambiado con éxito</target>
+   </trans-unit>
+   <trans-unit id="1023">
+    <source>Username</source>
+    <target>Nombre de usuario</target>
+   </trans-unit>
+   <trans-unit id="1024">
+    <source>Password</source>
+    <target>Contraseña</target>
+   </trans-unit>
+   <trans-unit id="1025">
+    <source>Username cannot be empty</source>
+    <target>Nombre de usuario no puede estar vacío</target>
+   </trans-unit>
+   <trans-unit id="1026">
+    <source>Password cannot be empty</source>
+    <target>La contraseña no puede estar vacío</target>
+   </trans-unit>
+   <trans-unit id="1027">
+    <source>Invalid credentials</source>
+    <target>Credenciales no válidas</target>
+   </trans-unit>
+   <trans-unit id="1028">
+    <source>Europe/Belgrade</source>
+    <target>Europa / Belgrado</target>
+    <note>A time zone name</note>
+   </trans-unit>
+   <trans-unit id="1029">
+    <source>Europe/Minsk</source>
+    <target>Europa / Minsk</target>
+    <note>A time zone name</note>
+   </trans-unit>
+   <trans-unit id="1030">
+    <source>Asia/Kuwait</source>
+    <target>Asia / Kuwait</target>
+    <note>A time zone name</note>
+   </trans-unit>
+   <trans-unit id="1031">
+    <source>Asia/Muscat</source>
+    <target>Asia / Muscat</target>
+    <note>A time zone name</note>
+   </trans-unit>
+   <trans-unit id="1032">
+    <source>Asia/Yekaterinburg</source>
+    <target>Asia / Yekaterinburg</target>
+    <note>A time zone name</note>
+   </trans-unit>
+   <trans-unit id="1033">
+    <source>Asia/Kolkata</source>
+    <target>Asia / Kolkata</target>
+    <note>A time zone name</note>
+   </trans-unit>
+   <trans-unit id="1034">
+    <source>Asia/Dhaka</source>
+    <target>Asia / Dhaka</target>
+    <note>A time zone name</note>
+   </trans-unit>
+   <trans-unit id="1035">
+    <source>Asia/Krasnoyarsk</source>
+    <target>Asia / Krasnoyarsk</target>
+    <note>A time zone name</note>
+   </trans-unit>
+   <trans-unit id="1036">
+    <source>Asia/Brunei</source>
+    <target>Asia / Brunei</target>
+    <note>A time zone name</note>
+   </trans-unit>
+   <trans-unit id="1037">
+    <source>Asia/Seoul</source>
+    <target>Asia / Seúl</target>
+    <note>A time zone name</note>
+   </trans-unit>
+   <trans-unit id="1038">
+    <source>Australia/Darwin</source>
+    <target>Australia / Darwin</target>
+    <note>A time zone name</note>
+   </trans-unit>
+   <trans-unit id="1039">
+    <source>Australia/Canberra</source>
+    <target>Australia / Canberra</target>
+    <note>A time zone name</note>
+   </trans-unit>
+   <trans-unit id="1040">
+    <source>Asia/Magadan</source>
+    <target>Asia / Magadan</target>
+    <note>A time zone name</note>
+   </trans-unit>
+   <trans-unit id="1041">
+    <source>Pacific/Fiji</source>
+    <target>Del Pacífico / Fiyi</target>
+    <note>A time zone name</note>
+   </trans-unit>
+   <trans-unit id="1042">
+    <source>Pacific/Midway</source>
+    <target>Pacífico / Midway</target>
+    <note>A time zone name</note>
+   </trans-unit>
+   <trans-unit id="1043">
+    <source>Pacific/Honolulu</source>
+    <target>Pacífico / Honolulu</target>
+    <note>A time zone name</note>
+   </trans-unit>
+   <trans-unit id="1044">
+    <source>America/Anchorage</source>
+    <target>América / Anchorage</target>
+    <note>A time zone name</note>
+   </trans-unit>
+   <trans-unit id="1045">
+    <source>America/Los_Angeles</source>
+    <target>America / Los_Angeles</target>
+    <note>A time zone name</note>
+   </trans-unit>
+   <trans-unit id="1046">
+    <source>America/Denver</source>
+    <target>America / Denver</target>
+    <note>A time zone name</note>
+   </trans-unit>
+   <trans-unit id="1047">
+    <source>America/Tegucigalpa</source>
+    <target>Latina / Tegucigalpa</target>
+    <note>A time zone name</note>
+   </trans-unit>
+   <trans-unit id="1048">
+    <source>America/New_York</source>
+    <target>America / New_York</target>
+    <note>A time zone name</note>
+   </trans-unit>
+   <trans-unit id="1049">
+    <source>America/Halifax</source>
+    <target>America / Halifax</target>
+    <note>A time zone name</note>
+   </trans-unit>
+   <trans-unit id="1050">
+    <source>America/St_Johns</source>
+    <target>América / St_Johns</target>
+    <note>A time zone name</note>
+   </trans-unit>
+   <trans-unit id="1051">
+    <source>America/Argentina/Buenos_Aires</source>
+    <target>América / Argentina / Buenos_Aires</target>
+    <note>A time zone name</note>
+   </trans-unit>
+   <trans-unit id="1052">
+    <source>Atlantic/South_Georgia</source>
+    <target>Atlantic / South_Georgia</target>
+    <note>A time zone name</note>
+   </trans-unit>
+   <trans-unit id="1053">
+    <source>Atlantic/Azores</source>
+    <target>Atlantic / Azores</target>
+    <note>A time zone name</note>
+   </trans-unit>
+   <trans-unit id="1054">
+    <source>Upload</source>
+    <target>Subir</target>
+   </trans-unit>
+   <trans-unit id="1055">
+    <source>Type in years</source>
+    <target>Escriba años</target>
+   </trans-unit>
+   <trans-unit id="1056">
+    <source>Hours</source>
+    <target>Horas</target>
+   </trans-unit>
+   <trans-unit id="1057">
+    <source>Deleted Employee</source>
+    <target>Empleado eliminados</target>
+   </trans-unit>
+   <trans-unit id="1058">
+    <source>Total</source>
+    <target>Total</target>
+   </trans-unit>
+   <trans-unit id="1059">
+    <source>compulsory</source>
+    <target>obligatorio</target>
+   </trans-unit>
+   <trans-unit id="1060">
+    <source>Termination Date</source>
+    <target>Fecha de Terminación</target>
+   </trans-unit>
+   <trans-unit id="1061">
+    <source>Termination Reason</source>
+    <target>Terminación de la Razón</target>
+   </trans-unit>
+   <trans-unit id="1062">
+    <source>Activity Name</source>
+    <target>Nombre de la actividad</target>
+   </trans-unit>
+   <trans-unit id="1063">
+    <source>Add Education</source>
+    <target>Añadir Educación</target>
+   </trans-unit>
+   <trans-unit id="1064">
+    <source>Add Language</source>
+    <target>Agregar idioma</target>
+   </trans-unit>
+   <trans-unit id="1065">
+    <source>Add License</source>
+    <target>Agregar licencia</target>
+   </trans-unit>
+   <trans-unit id="1066">
+    <source>Add Skill</source>
+    <target>Añadir Habilidad</target>
+   </trans-unit>
+   <trans-unit id="1067">
+    <source>Address Street 1</source>
+    <target>Dirección 1</target>
+   </trans-unit>
+   <trans-unit id="1068">
+    <source>Address Street 2</source>
+    <target>Dirección 2</target>
+   </trans-unit>
+   <trans-unit id="1069">
+    <source>City</source>
+    <target>Ciudad</target>
+   </trans-unit>
+   <trans-unit id="1070">
+    <source>Confirm Password</source>
+    <target>Confirm Password</target>
+   </trans-unit>
+   <trans-unit id="1071">
+    <source>Copy</source>
+    <target>Copiar</target>
+   </trans-unit>
+   <trans-unit id="1072">
+    <source>Copy From</source>
+    <target>Copiar desde</target>
+   </trans-unit>
+   <trans-unit id="1073">
+    <source>Project Name</source>
+    <target>Nombre del proyecto</target>
+   </trans-unit>
+   <trans-unit id="1074">
+    <source>Deleted</source>
+    <target>Eliminados</target>
+   </trans-unit>
+   <trans-unit id="1075">
+    <source>Edit Education</source>
+    <target>Editar Educación</target>
+   </trans-unit>
+   <trans-unit id="1076">
+    <source>Edit Language</source>
+    <target>Editar Idioma</target>
+   </trans-unit>
+   <trans-unit id="1077">
+    <source>Edit License</source>
+    <target>Editar Licencia</target>
+   </trans-unit>
+   <trans-unit id="1078">
+    <source>Edit Skill</source>
+    <target>Editar Habilidad</target>
+   </trans-unit>
+   <trans-unit id="1079">
+    <source>State/Province</source>
+    <target>Estado / Provincia</target>
+   </trans-unit>
+   <trans-unit id="1080">
+    <source>Zip/Postal Code</source>
+    <target>Zip / Código Postal</target>
+   </trans-unit>
+   <trans-unit id="1081">
+    <source>Approve</source>
+    <target>Aprobar</target>
+   </trans-unit>
+   <trans-unit id="1082">
+    <source>format</source>
+    <target>formato</target>
+   </trans-unit>
+   <trans-unit id="1083">
+    <source>Scheduled</source>
+    <target>Programado</target>
+   </trans-unit>
+   <trans-unit id="1084">
+    <source>Invalid Date</source>
+    <target>Fecha no válida</target>
+   </trans-unit>
+   <trans-unit id="1085">
+    <source>Note</source>
+    <target>Nota</target>
+   </trans-unit>
+   <trans-unit id="1086">
+    <source>Invalid Employee Name</source>
+    <target>Nombre del empleado no válido</target>
+   </trans-unit>
+   <trans-unit id="1087">
+    <source>Action</source>
+    <target>Acción</target>
+   </trans-unit>
+   <trans-unit id="1088">
+    <source>Active Job Vacancies</source>
+    <target>Las vacantes de empleo activo</target>
+   </trans-unit>
+   <trans-unit id="1089">
+    <source>added</source>
+    <target>añadido</target>
+   </trans-unit>
+   <trans-unit id="1090">
+    <source>Apply for</source>
+    <target>Solicitar</target>
+   </trans-unit>
+   <trans-unit id="1091">
+    <source>Attachments</source>
+    <target>Archivos adjuntos</target>
+   </trans-unit>
+   <trans-unit id="1092">
+    <source>Back to Job List</source>
+    <target>Regreso a la Lista de tareas</target>
+   </trans-unit>
+   <trans-unit id="1093">
+    <source>Collapse all</source>
+    <target>Contraer todo</target>
+   </trans-unit>
+   <trans-unit id="1094">
+    <source>Contact No</source>
+    <target>Póngase en contacto con No</target>
+   </trans-unit>
+   <trans-unit id="1095">
+    <source>Download</source>
+    <target>Descargar</target>
+   </trans-unit>
+   <trans-unit id="1096">
+    <source>Email</source>
+    <target>E-mail</target>
+   </trans-unit>
+   <trans-unit id="1097">
+    <source>Expand all</source>
+    <target>Expandir todo</target>
+   </trans-unit>
+   <trans-unit id="1098">
+    <source>for</source>
+    <target>para</target>
+   </trans-unit>
+   <trans-unit id="1099">
+    <source>Keywords</source>
+    <target>Palabras clave</target>
+   </trans-unit>
+   <trans-unit id="1100">
+    <source>Performed By</source>
+    <target>Interpretada por</target>
+   </trans-unit>
+   <trans-unit id="1101">
+    <source>Reject</source>
+    <target>Rechazar</target>
+   </trans-unit>
+   <trans-unit id="1102">
+    <source>Rejected</source>
+    <target>Rechazado</target>
+   </trans-unit>
+   <trans-unit id="1103">
+    <source>rejected</source>
+    <target>rechazado</target>
+   </trans-unit>
+   <trans-unit id="1104">
+    <source>Remove</source>
+    <target>Quitar</target>
+   </trans-unit>
+   <trans-unit id="1105">
+    <source>Resume</source>
+    <target>Reanudar</target>
+   </trans-unit>
+   <trans-unit id="1106">
+    <source>Select Action</source>
+    <target>Seleccione Acción</target>
+   </trans-unit>
+   <trans-unit id="1107">
+    <source>Submit</source>
+    <target>Presentar</target>
+   </trans-unit>
+   <trans-unit id="1108">
+    <source>View</source>
+    <target>Ver</target>
+   </trans-unit>
+   <trans-unit id="1109">
+    <source>Enter comma separated words</source>
+    <target>Introduzca las palabras separadas por comas</target>
+   </trans-unit>
+   <trans-unit id="1110">
+    <source>Approved</source>
+    <target>Aprobado</target>
+   </trans-unit>
+   <trans-unit id="1111">
+    <source>Submitted</source>
+    <target>Enviado</target>
+   </trans-unit>
+  </body>
+ </file>
+</xliff>

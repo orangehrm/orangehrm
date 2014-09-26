@@ -1,0 +1,84 @@
+Employee:
+  0: {empNumber: 1, firstName: 'Kayla', lastName: 'Abbey'}
+  1: {empNumber: 2, firstName: 'Ashley', lastName: 'Abel'}
+  2: {empNumber: 3, firstName: 'Renukshan', lastName: 'Saputhanthri'}
+  3: {empNumber: 4, firstName: 'Chaturanga', lastName: 'Namal'}
+  4: {empNumber: 5, firstName: 'Indiran', lastName: 'Nadarajah'}
+
+JobTitle:
+  0: {id: 1, jobTitleName: 'SE', jobDescription: 'Software Engineer', isDeleted: 0}
+  1: {id: 2, jobTitleName: 'Architect', jobDescription: 'Software Architect', isDeleted: 0}
+
+JobVacancy:
+  0: {id: 1, jobTitleCode: 1, hiringManagerId: 1, name: 'Software Engineer 2011', description: 'SE for 2011', noOfPositions: 2, status: 1, publishedInFeed: 1, definedTime: '2011-06-03 10:20:15', updatedTime: '2011-06-03 10:20:15'}
+  1: {id: 2, jobTitleCode: 2, hiringManagerId: 2, name: 'Software Architect 2011', description: 'Architect for 2011', noOfPositions: 1, status: 1, publishedInFeed: 0, definedTime: '2011-06-05 11:54:35', updatedTime: '2011-06-05 11:54:35'}
+  2: {id: 3, jobTitleCode: 2, hiringManagerId: 3, name: 'Software Architect 2010', description: 'Architect for 2011', noOfPositions: 1, status: 1, publishedInFeed: 1, definedTime: '2011-06-07 14:58:35', updatedTime: '2011-06-07 14:58:35'}
+  3: {id: 4, jobTitleCode: 1, hiringManagerId: 4, name: 'Software Architect 2012', description: 'Architect for 2012', noOfPositions: 1, status: 2, publishedInFeed: 1, definedTime: '2011-06-09 19:16:29', updatedTime: '2011-06-09 19:16:29'}
+  4: {id: 5, jobTitleCode: 1, hiringManagerId: 1, name: 'Accountant Grade 1', description: 'Accountant grade 1', noOfPositions: 1, status: 2, publishedInFeed: 1, definedTime: '2011-06-09 17:16:29', updatedTime: '2011-06-09 18:16:29'}
+
+JobCandidate:
+  0: {id: 1, firstName: 'Yasitha', lastName: 'Pandi', contactNumber: '0372243567', keywords: 'java,mysql,oracle', status: 1, modeOfApplication: 1, dateOfApplication: '2011-06-03', email: 'namal@gmail.com', addedPerson: 1}
+  1: {id: 2, firstName: 'Chanaka', lastName: 'Bandara', contactNumber: '0352243224', keywords: 'java,mysql,oracle', status: 1, modeOfApplication: 2, dateOfApplication: '2011-06-07', email: 'ren@gmail.com', addedPerson: 1}
+  3: {id: 3, firstName: 'Chanaka', lastName: 'Gunara', contactNumber: '035223224', keywords: 'java,mysql,oracle', status: 1, modeOfApplication: 1, dateOfApplication: '2011-06-02', email: 'ren@gmail.com', addedPerson: 2}
+  4: {id: 4, firstName: 'Chinthaka', lastName: 'Welagedara', contactNumber: '0352657224', keywords: 'java,mysql,oracle', status: 1, modeOfApplication: 2, dateOfApplication: '2011-06-06', email: 'ren@gmail.com', addedPerson: 2}
+  5: {id: 5, firstName: 'Chinthaka', middleName: 'Malith', lastName: 'Suneth', contactNumber: '0777-754075', keywords: 'myob,java,visual basic, civil, psychotherapy,oracle', status: 1, modeOfApplication: 2, dateOfApplication: '2010-06-04', email: 'chinthaka@mymail.com'}
+  6: {id: 6, firstName: 'Kamal', middleName: 'S', lastName: 'Karunarathne', contactNumber: '0777-754075', keywords: 'surveryer, qc', status: 1, modeOfApplication: 2, dateOfApplication: '2010-06-04', email: 'chinthaka@mymail.com'}  
+  7: {id: 7, firstName: 'Kamal', middleName: 'S', lastName: 'Karunarathne', contactNumber: '0777-555555', keywords: 'surveryer, qc', status: 1, modeOfApplication: 2, dateOfApplication: '2010-06-04', email: 'chinthaka@mymail.com'}  
+  8: {id: 8, firstName: 'Kamal', lastName: 'Karunarathne', contactNumber: '0777-754075', keywords: 'surveryer, qc', status: 1, modeOfApplication: 2, dateOfApplication: '2010-06-04', email: 'chinthaka@mymail.com'}  
+  9: {id: 9, firstName: 'Kamal', lastName: 'Karunarathne', contactNumber: '0777-555555', keywords: 'surveryer, qc', status: 1, modeOfApplication: 2, dateOfApplication: '2010-06-04', email: 'chinthaka@mymail.com'}  
+  10: {id: 10, firstName: 'Namal', lastName: 'Karunarathne', contactNumber: '0777-555666', keywords: 'surveryer, qc', status: 2, modeOfApplication: 2, dateOfApplication: '2010-06-04', email: 'chinthaka@mymail.com'}
+  11: {id: 11, firstName: ' John ', middleName: ' Denis ', lastName: ' Connor ', contactNumber: '0777-555666', keywords: 'coder, developer', status: 1, modeOfApplication: 2, dateOfApplication: '2010-06-04', email: 'john_connor@mymail.com'}
+ 
+JobCandidateVacancy:
+  0: {id: 1, candidateId: 1, vacancyId: 1, status: 'SHORTLISTED', appliedDate: '2011-06-03'}
+  1: {id: 2, candidateId: 2, vacancyId: 1, status: 'INTERVIEW SCHEDULED', appliedDate: '2011-06-04'}
+  2: {id: 3, candidateId: 1, vacancyId: 3, status: 'INTERVIEW FAILED', appliedDate: '2011-06-05'}
+  3: {id: 4, candidateId: 2, vacancyId: 2, status: 'INTERVIEW PASSED', appliedDate: '2011-06-06'}
+  4: {id: 5, candidateId: 3, vacancyId: 3, status: 'INTERVIEW SCHEDULED', appliedDate: '2011-06-07'}
+  5: {id: 6, candidateId: 3, vacancyId: 1, status: 'REJECTED', appliedDate: '2011-06-07'}
+  6: {id: 7, candidateId: 3, vacancyId: 2, status: 'JOB OFFERED', appliedDate: '2011-06-07'}
+  7: {id: 8, candidateId: 2, vacancyId: 3, status: 'INTERVIEW PASSED', appliedDate: '2011-06-07'}
+  8: {id: 9, candidateId: 4, vacancyId: 1, status: 'SHORTLISTED', appliedDate: '2011-06-07'}
+  9: {id: 10, candidateId: 4, vacancyId: 2, status: 'INTERVIEW SCHEDULED', appliedDate: '2011-06-07'}
+  10: {id: 11, candidateId: 5, vacancyId: 3, status: 'SHORTLISTED', appliedDate: '2011-06-07'}
+
+JobCandidateAttachment:
+  0: {id: 1, candidateId: 1, file_name: 'xyz.txt', file_type: '.txt', file_size: '512', attachment_type: '1'}
+  1: {id: 2, candidateId: 2, file_name: 'abc.txt', file_type: '.txt', file_size: '256', attachment_type: '1'}
+  2: {id: 3, candidateId: 3, file_name: 'resume.pdf', file_type: '.pdf', file_size: '625', attachment_type: '1'}
+
+JobVacancyAttachment:
+  0: {id: 1, vacancyId: 1, file_name: 'xyz.txt', file_type: '.txt', file_size: '512', attachment_type: '1', comment: 'This is my first attachment'}
+  1: {id: 2, vacancyId: 1, file_name: 'abc.txt', file_type: '.txt', file_size: '256', attachment_type: '1', comment: 'I attached my Resume'}
+  2: {id: 3, vacancyId: 2, file_name: 'resume.pdf', file_type: '.pdf', file_size: '625', attachment_type: '1', comment: 'This is my CV'}
+
+JobInterview:
+  0: {id: 1, candidateVacancyId: 1, candidateId: 1, interviewName: 'HR Interview', interviewDate: '2011-08-03', interviewTime: '09:00:00', note: 'HR interview'}
+  1: {id: 2, candidateVacancyId: 1, candidateId: 1, interviewName: 'Technical Interview', interviewDate: '2011-08-18', interviewTime: '00:00:00', note: 'HR interview'}
+
+JobInterviewInterviewer:
+  0: {interviewId: 1, interviewerId: 3}
+  1: {interviewId: 1, interviewerId: 4}
+  2: {interviewId: 1, interviewerId: 5}
+
+CandidateHistory:
+  0: {id: 1, candidateId: 1, interviewId: 1, action: 1, performedBy: 3, performedDate: '2011-06-07', note: 'This is my first note'}
+  1: {id: 2, candidateId: 1, interviewId: 1, action: 1, performedBy: 4, performedDate: '2011-06-13', note: 'This is my second note'}
+  2: {id: 3, candidateId: 1, interviewId: 1, action: 4, performedBy: 4, performedDate: '2011-06-13', note: 'This is my third note'}
+  3: {id: 4, candidateId: 1, interviewId: 1, action: 2, performedBy: 4, performedDate: '2011-06-13', note: 'This is my test note'}
+  4: {id: 5, candidateId: 1, interviewId: 1, action: 3, performedBy: 4, performedDate: '2011-06-13', note: 'This is my test note'}
+  5: {id: 6, candidateId: 1, interviewId: 1, action: 5, performedBy: 4, performedDate: '2011-06-13', note: 'This is my test note'}
+  6: {id: 7, candidateId: 1, interviewId: 1, action: 6, performedBy: 4, performedDate: '2011-06-13', note: 'This is my test note'}
+  7: {id: 8, candidateId: 1, interviewId: 1, action: 7, performedBy: 4, performedDate: '2011-06-13', note: 'This is my test note'}
+  8: {id: 9, candidateId: 1, interviewId: 1, action: 8, performedBy: 4, performedDate: '2011-06-13', note: 'This is my test note'}
+  9: {id: 10, candidateId: 1, interviewId: 1, action: 9, performedBy: 4, performedDate: '2011-06-13', note: 'This is my test note'}
+  10: {id: 11, candidateId: 1, interviewId: 1, action: 10, performedBy: 4, performedDate: '2011-06-13', note: 'This is my test note'}
+  11: {id: 12, candidateId: 1, interviewId: 1, action: 15, performedBy: 4, performedDate: '2011-06-13', note: 'This is my third note'}
+  12: {id: 13, candidateId: 1, interviewId: 1, action: 16, performedBy: 4, performedDate: '2011-06-13', note: 'This is my third note'}
+  13: {id: 14, candidateId: 1, interviewId: 1, action: 17, performedBy: 4, performedDate: '2011-06-13', note: 'This is my third note'}
+  14: {id: 15, candidateId: 1, interviewId: 2, action: 4, performedBy: 4, performedDate: '2011-06-13', note: 'This is my third note', interviewers: '1_3_'}
+
+JobInterviewAttachment:
+  0: {id: 1, interviewId: 1, file_name: 'resume.pdf', file_type: '.txt', file_size: '512', attachment_type: '1', comment: 'This is my first attachment'}
+  1: {id: 2, interviewId: 1, file_name: 'xyz.txt', file_type: '.txt', file_size: '256', attachment_type: '1', comment: 'I attached my Resume'}
+  2: {id: 3, interviewId: 2, file_name: 'cv.pdf', file_type: '.pdf', file_size: '625', attachment_type: '1', comment: 'This is my CV'}

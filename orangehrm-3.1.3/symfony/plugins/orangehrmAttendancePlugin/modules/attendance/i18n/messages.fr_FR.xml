@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE xliff PUBLIC "-//XLIFF//DTD XLIFF//EN" "http://www.oasis-open.org/committees/xliff/documents/xliff.dtd">
+<xliff version="1.0">
+ <header/>
+ <file source-language="en_US" target-language="fr_FR" datatype="plaintext" original="messages" date="2012-08-23T1:01:54Z" product-name="messages">
+  <body>
+   <trans-unit id="1">
+    <source>Add Attendance Records</source>
+    <target>Ajouter des dossiers de présence</target>
+   </trans-unit>
+   <trans-unit id="2">
+    <source>Attendance Configuration</source>
+    <target>Configuration de présence</target>
+   </trans-unit>
+   <trans-unit id="3">
+    <source>Comment should be less than 250 characters</source>
+    <target>Commentaire doit être inférieur à 250 caractères</target>
+   </trans-unit>
+   <trans-unit id="4">
+    <source>Employee can change current time when punching in/out</source>
+    <target>Le salarié peut changer l'heure actuelle lors du pointage</target>
+   </trans-unit>
+   <trans-unit id="5">
+    <source>Employee can edit/delete own attendance records</source>
+    <target>Le salarié peut modifier ou supprimer ses propres enregistrements de présence</target>
+   </trans-unit>
+   <trans-unit id="6">
+    <source>In</source>
+    <target>Dans</target>
+   </trans-unit>
+   <trans-unit id="7">
+    <source>Last punch in time</source>
+    <target>Dernier horaire pointage</target>
+   </trans-unit>
+   <trans-unit id="8">
+    <source>My Attendance Records</source>
+    <target>Mes dossiers de présence</target>
+   </trans-unit>
+   <trans-unit id="9">
+    <source>No attendance records to display</source>
+    <target>Aucun historique de présence à afficher</target>
+   </trans-unit>
+   <trans-unit id="10">
+    <source>Out</source>
+    <target>Dehors</target>
+   </trans-unit>
+   <trans-unit id="11">
+    <source>Overlapping Records Found</source>
+    <target>Documents qui se chevauchent trouvés</target>
+   </trans-unit>
+   <trans-unit id="12">
+    <source>Punch In</source>
+    <target>Pointer </target>
+   </trans-unit>
+   <trans-unit id="13">
+    <source>Punch In Note</source>
+    <target>Note sur l'arrivée</target>
+   </trans-unit>
+   <trans-unit id="14">
+    <source>Punch in/out note</source>
+    <target>Note sur pointage</target>
+   </trans-unit>
+   <trans-unit id="15">
+    <source>Punch Out</source>
+    <target>Pointer</target>
+   </trans-unit>
+   <trans-unit id="16">
+    <source>Punch Out Note</source>
+    <target>Note sur le départ</target>
+   </trans-unit>
+   <trans-unit id="17">
+    <source>Punch out Time Should Be Higher Than Punch in Time</source>
+    <target>Pointage sortie doit être supérieur à pointage arrivée en temps</target>
+   </trans-unit>
+   <trans-unit id="18">
+    <source>Should Be a Valid Date in %format% Format</source>
+    <target>Doit être une date valide au format %format% </target>
+   </trans-unit>
+   <trans-unit id="19">
+    <source>Should Be a Valid Time in %format% Format</source>
+    <target>Doit être une heure valide au format %format%</target>
+   </trans-unit>
+   <trans-unit id="20">
+    <source>Supervisor can add/edit/delete attendance records of subordinates</source>
+    <target>Le superviseur peut ajouter / modifier / supprimer les enregistrements de présence de ses subordonnés</target>
+   </trans-unit>
+   <trans-unit id="21">
+    <source>Timezone</source>
+    <target>Fuseau horaire</target>
+   </trans-unit>
+   <trans-unit id="22">
+    <source>View Attendance Record</source>
+    <target>Voir historique de présence</target>
+   </trans-unit>
+   <trans-unit id="23">
+    <source>You are not allowed to view this page</source>
+    <target>Vous n'êtes pas autorisé à afficher cette page</target>
+   </trans-unit>
+  </body>
+ </file>
+</xliff>
+<!-- Contributed By:   ,   ,   ,   ,  ANDY Mitchell , Abdo Kalil , Alagics Sixela , Alain  Hops , Alde Alde , Bob Mar , Christophe Chassat , Domenech Bruno , erf dfee , Fabien RICHARD , Fabien Valoggia , Faycal Chabane , Follin Guillaume , Kais Derouiche , Lionel Agbohouto , Luigi Ditello , Meriem BENMERADI , Michael French , Nicolas  Mariage , Patrick JUVEL , Thierry Ferrandiz -->
+

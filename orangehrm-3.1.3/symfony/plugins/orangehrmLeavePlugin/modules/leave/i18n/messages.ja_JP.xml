@@ -1,0 +1,395 @@
+<?xml version="1.0" encoding="UTF-8"?> 
+<!DOCTYPE xliff PUBLIC "-//XLIFF//DTD XLIFF//EN" "http://www.oasis-open.org/committees/xliff/documents/xliff.dtd"> 
+<xliff version="1.0"> 
+ <header/> 
+ <file source-language="en_US" target-language="ja_JP" datatype="plaintext" original="messages" date="2012-02-22T20:15:28Z" product-name="messages"> 
+  <body> 
+   <trans-unit id="1"> 
+    <source>A new leave type will be created with same name</source> 
+    <target>新しい休暇の種類が同じ名前で作成されます。</target> 
+    <note/> 
+   </trans-unit> 
+   <trans-unit id="2"> 
+    <source>Actions</source> 
+    <target>アクション</target> 
+    <note/> 
+   </trans-unit> 
+   <trans-unit id="3"> 
+    <source>Apply Leave</source> 
+    <target>コメントは適用さ</target> 
+    <note/> 
+   </trans-unit> 
+   <trans-unit id="4"> 
+    <source>Approve</source> 
+    <target>承認する</target> 
+    <note/> 
+   </trans-unit> 
+   <trans-unit id="5"> 
+    <source>Assign</source> 
+    <target>割り当てる</target> 
+    <note/> 
+   </trans-unit> 
+   <trans-unit id="6"> 
+    <source>At Least One Day Should Be a Working Day</source> 
+    <target>少なくとも一日は営業日である必要があります。</target> 
+    <note/> 
+   </trans-unit> 
+   <trans-unit id="7"> 
+    <source>Cancel</source> 
+    <target>キャンセル</target> 
+    <note/> 
+   </trans-unit> 
+   <trans-unit id="8"> 
+    <source>Canceled</source> 
+    <target>キャンセル</target> 
+    <note/> 
+   </trans-unit> 
+   <trans-unit id="9"> 
+    <source>characters</source> 
+    <target>文字</target> 
+    <note/> 
+   </trans-unit> 
+   <trans-unit id="10"> 
+    <source>Comment</source> 
+    <target>コメント</target> 
+    <note/> 
+   </trans-unit> 
+   <trans-unit id="11"> 
+    <source>Confirmation Required</source> 
+    <target>確認が必要</target> 
+    <note/> 
+   </trans-unit> 
+   <trans-unit id="12"> 
+    <source>Current Leave Period</source> 
+    <target>現在の休業期間</target> 
+    <note/> 
+   </trans-unit> 
+   <trans-unit id="13"> 
+    <source>Date format should be</source> 
+    <target>日付の形式はでなければなりません</target> 
+    <note/> 
+   </trans-unit> 
+   <trans-unit id="14"> 
+    <source>Define Leave Type</source> 
+    <target>タイプを残す定義</target> 
+    <note/> 
+   </trans-unit> 
+   <trans-unit id="15"> 
+    <source>Deleted</source> 
+    <target>削除された</target> 
+    <note/> 
+   </trans-unit> 
+   <trans-unit id="16"> 
+    <source>Duration</source> 
+    <target>持続</target> 
+    <note/> 
+   </trans-unit> 
+   <trans-unit id="17"> 
+    <source>Duration (Hours)</source> 
+    <target>期間（時間）</target> 
+    <note/> 
+   </trans-unit> 
+   <trans-unit id="18"> 
+    <source>End Date</source> 
+    <target>終了日</target> 
+    <note/> 
+   </trans-unit> 
+   <trans-unit id="19"> 
+    <source>Following Year</source> 
+    <target>次の年</target> 
+    <note/> 
+   </trans-unit> 
+   <trans-unit id="20"> 
+    <source>For Leap Years</source> 
+    <target>うるう年の</target> 
+    <note/> 
+   </trans-unit> 
+   <trans-unit id="21"> 
+    <source>For Non-Leap Years</source> 
+    <target>非うるう年の</target> 
+    <note/> 
+   </trans-unit> 
+   <trans-unit id="22"> 
+    <source>format</source> 
+    <target>フォーマット</target> 
+    <note/> 
+   </trans-unit> 
+   <trans-unit id="23"> 
+    <source>From Date</source> 
+    <target>日から</target> 
+    <note/> 
+   </trans-unit> 
+   <trans-unit id="24"> 
+    <source>From Time</source> 
+    <target>時間から</target> 
+    <note/> 
+   </trans-unit> 
+   <trans-unit id="25"> 
+    <source>From time should be lesser than To time</source> 
+    <target>時々よりも小さくしてください</target> 
+    <note/> 
+   </trans-unit> 
+   <trans-unit id="26"> 
+    <source>Full Day</source> 
+    <target>丸一日</target> 
+    <note/> 
+   </trans-unit> 
+   <trans-unit id="27"> 
+    <source>Go to Detailed View</source> 
+    <target>詳細ビューに移動します</target> 
+    <note/> 
+   </trans-unit> 
+   <trans-unit id="28"> 
+    <source>Half Day</source> 
+    <target>半日</target> 
+    <note/> 
+   </trans-unit> 
+   <trans-unit id="29"> 
+    <source>Holiday</source> 
+    <target>休日</target> 
+    <note/> 
+   </trans-unit> 
+   <trans-unit id="30"> 
+    <source>Hours</source> 
+    <target>時間</target> 
+    <note/> 
+   </trans-unit> 
+   <trans-unit id="31"> 
+    <source>Leave Balance</source> 
+    <target>バランスを残す</target> 
+    <note/> 
+   </trans-unit> 
+   <trans-unit id="32"> 
+    <source>Leave Comment</source> 
+    <target>コメントを残しましょう！</target> 
+    <note/> 
+   </trans-unit> 
+   <trans-unit id="33"> 
+    <source>Leave Entitled</source> 
+    <target>と題されたまま</target> 
+    <note/> 
+   </trans-unit> 
+   <trans-unit id="34"> 
+    <source>Leave Period Does Not Exist</source> 
+    <target>期間が存在しないままに</target> 
+    <note/> 
+   </trans-unit> 
+   <trans-unit id="35"> 
+    <source>Leave Request</source> 
+    <target>リクエストを残す</target> 
+    <note/> 
+   </trans-unit> 
+   <trans-unit id="36"> 
+    <source>Leave Scheduled</source> 
+    <target>スケジュールされたままに</target> 
+    <note/> 
+   </trans-unit> 
+   <trans-unit id="37"> 
+    <source>Leave Taken</source> 
+    <target>撮影したままに</target> 
+    <note/> 
+   </trans-unit> 
+   <trans-unit id="38"> 
+    <source>Leave Type</source> 
+    <target>タイプを残す</target> 
+    <note/> 
+   </trans-unit> 
+   <trans-unit id="39"> 
+    <source>Leave type will be undeleted</source> 
+    <target>残すタイプは、未削除されます。</target> 
+    <note/> 
+   </trans-unit> 
+   <trans-unit id="40"> 
+    <source>My Leave Details</source> 
+    <target>私の休暇の詳細</target> 
+    <note/> 
+   </trans-unit> 
+   <trans-unit id="41"> 
+    <source>My Leave List</source> 
+    <target>私の脱退リスト</target> 
+    <note/> 
+   </trans-unit> 
+   <trans-unit id="42"> 
+    <source>Name of Holiday</source> 
+    <target>ホテルの名前</target> 
+    <note/> 
+   </trans-unit> 
+   <trans-unit id="43"> 
+    <source>No Leave Types with Leave Balance</source> 
+    <target>脱退バランスとの休暇タイプません</target> 
+    <note/> 
+   </trans-unit> 
+   <trans-unit id="44"> 
+    <source>No of Hours</source> 
+    <target>時間のない</target> 
+    <note/> 
+   </trans-unit> 
+   <trans-unit id="45"> 
+    <source>No Records Found</source> 
+    <target>関連する情報はありません</target> 
+    <note/> 
+   </trans-unit> 
+   <trans-unit id="46"> 
+    <source>Non Working Day</source> 
+    <target>非就業日</target> 
+    <note/> 
+   </trans-unit> 
+   <trans-unit id="47"> 
+    <source>Non-working Day</source> 
+    <target>非稼働日</target> 
+    <note/> 
+   </trans-unit> 
+   <trans-unit id="48"> 
+    <source>Number of Days</source> 
+    <target>日数</target> 
+    <note/> 
+   </trans-unit> 
+   <trans-unit id="49"> 
+    <source>Pending Approval</source> 
+    <target>承認待ちの</target> 
+    <note/> 
+   </trans-unit> 
+   <trans-unit id="50"> 
+    <source>Reject</source> 
+    <target>拒否する</target> 
+    <note/> 
+   </trans-unit> 
+   <trans-unit id="51"> 
+    <source>Rejected</source> 
+    <target>拒否され</target> 
+    <note/> 
+   </trans-unit> 
+   <trans-unit id="52"> 
+    <source>Repeats Annually</source> 
+    <target>毎年繰り返される</target> 
+    <note/> 
+   </trans-unit> 
+   <trans-unit id="53"> 
+    <source>Scheduled</source> 
+    <target>予定の</target> 
+    <note/> 
+   </trans-unit> 
+   <trans-unit id="54"> 
+    <source>Select Action</source> 
+    <target>アクションを選択します。</target> 
+    <note/> 
+   </trans-unit> 
+   <trans-unit id="55"> 
+    <source>Show Leave with Status</source> 
+    <target>ステータスにコメントを表示</target> 
+    <note/> 
+   </trans-unit> 
+   <trans-unit id="56"> 
+    <source>Start Date</source> 
+    <target>開始日</target> 
+    <note/> 
+   </trans-unit> 
+   <trans-unit id="57"> 
+    <source>Taken</source> 
+    <target>撮影した</target> 
+    <note/> 
+   </trans-unit> 
+   <trans-unit id="58"> 
+    <source>Overlapping Leave Request Found</source> 
+    <target>重複脱退要求が見つかりました</target> 
+    <note/> 
+   </trans-unit> 
+   <trans-unit id="59"> 
+    <source>This is a deleted leave type. Reactivate it?</source> 
+    <target>これは削除された休暇の種類です。それを再度アクティブに？</target> 
+    <note/> 
+   </trans-unit> 
+   <trans-unit id="60"> 
+    <source>To Date</source> 
+    <target>これまでに</target> 
+    <note/> 
+   </trans-unit> 
+   <trans-unit id="61"> 
+    <source>To Time</source> 
+    <target>時間に</target> 
+    <note/> 
+   </trans-unit> 
+   <trans-unit id="62"> 
+    <source>Total Hours</source> 
+    <target>総実労働時間</target> 
+    <note/> 
+   </trans-unit> 
+   <trans-unit id="63"> 
+    <source>Total time is greater than the shift length</source> 
+    <target>合計時間は、シフトの長さより大きい</target> 
+    <note/> 
+   </trans-unit> 
+   <trans-unit id="64"> 
+    <source>Will take no action</source> 
+    <target>行動を全く取らないでしょう</target> 
+    <note/> 
+   </trans-unit> 
+   <trans-unit id="65"> 
+    <source>Failed to Submit: No Working Days Selected</source> 
+    <target>送信に失敗しました：なし営業日選択されていません</target> 
+    <note/> 
+   </trans-unit> 
+   <trans-unit id="66"> 
+    <source>Successfully Undeleted</source> 
+    <target>成功した復元しました</target> 
+    <note/> 
+   </trans-unit> 
+   <trans-unit id="67"> 
+    <source>Failed to Save: Date Already Assigned</source> 
+    <target>既に割り当てられた日付：保存に失敗しました。</target> 
+    <note/> 
+   </trans-unit> 
+   <trans-unit id="68"> 
+    <source>Failed to Assign: Work Shift Length Exceeded</source> 
+    <target>作業シフトの長さを超えて：割り当てに失敗しました。</target> 
+    <note/> 
+   </trans-unit> 
+   <trans-unit id="69"> 
+    <source>Failed to Submit: Work Shift Length Exceeded</source> 
+    <target>作業シフトの長さを超えて：送信に失敗しました。</target> 
+    <note/> 
+   </trans-unit> 
+   <trans-unit id="70"> 
+    <source>Failed to Submit: Leave Balance Exceeded</source> 
+    <target>バランスが超過コメント：送信に失敗しました。</target> 
+    <note/> 
+   </trans-unit> 
+   <trans-unit id="71"> 
+    <source>Should be less than work shift length</source> 
+    <target>作業シフトの長さ未満でなければなりません</target> 
+    <note/> 
+   </trans-unit> 
+   <trans-unit id="72"> 
+    <source>Leave Period Not Defined</source> 
+    <target>期間定義されていないを残す</target> 
+    <note/> 
+   </trans-unit> 
+   <trans-unit id="73"> 
+    <source>Full Day/Half Day</source> 
+    <target>一日/半日</target> 
+    <note/> 
+   </trans-unit> 
+   <trans-unit id="74"> 
+    <source>Leave Request (%date_range%) %name%</source> 
+    <target>要求（%date_range%）を%name%を残す</target> 
+    <note/> 
+   </trans-unit> 
+   <trans-unit id="83">
+    <source>Failed to Assign</source>
+    <target>割り当てに失敗しました。</target>
+   </trans-unit>
+   <trans-unit id="83">
+    <source>Failed to Submit</source>
+    <target>送信に失敗しました。</target>
+   </trans-unit>
+   <trans-unit id="83">
+    <source>Add Leave Type</source>
+    <target>タイプを残すに追加</target>
+   </trans-unit>
+   <trans-unit id="83">
+    <source>Edit Leave Type</source>
+    <target>タイプを残す編集</target>
+   </trans-unit>
+  </body> 
+ </file> 
+</xliff> 

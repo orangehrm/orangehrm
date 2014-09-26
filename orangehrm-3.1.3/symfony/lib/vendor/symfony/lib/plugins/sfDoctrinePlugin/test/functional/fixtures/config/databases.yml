@@ -1,0 +1,15 @@
+all:
+  doctrine1:
+    class:          sfDoctrineDatabase
+    param:
+      dsn:          sqlite:///%SF_DATA_DIR%/database1.sqlite
+  doctrine2:
+    class:          sfDoctrineDatabase
+    param:
+      dsn:          sqlite:///%SF_DATA_DIR%/database2.sqlite
+  doctrine3:
+    class:          sfDoctrineDatabase
+    param:
+      dsn:          sqlite:///%SF_DATA_DIR%/database3.sqlite
+      attributes:
+        export:     tables

@@ -1,0 +1,23 @@
+/*.prData textarea {
+	margin: 10px 10px 0 0;
+}*/
+
+.prData tr {
+	vertical-align: top;
+}
+
+table.prData thead tr td, table.prData tbody tr td {
+	padding: 10px 20px 10px 0px;
+}
+
+.savebutton {
+	margin: 5px 2px 5px 10px;
+}
+
+.detailHearder {
+	margin: 10px 5px 7px 14px;
+}
+
+h2 {
+	margin: 5px 5px 5px 16px;
+}

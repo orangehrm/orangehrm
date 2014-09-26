@@ -1,0 +1,29 @@
+root { 
+    display: block;
+}
+#tablehead{
+    font-weight: bold;
+}
+
+.inputFormatHint {
+    color: #D8D8D8;
+}
+.viewbutton1{
+
+    background: none repeat scroll 0 0 #999966 !important;
+    border-color: #CCCC99 #666633 #666633 #CCCC99 !important;
+    border-style: solid !important;
+    border-width: 1px !important;
+    color: #FFFFFF !important;
+    cursor: default;
+    font-size: 11px;
+    font-weight: bold !important;
+    min-width: 75px;
+    width: auto;
+}
+
+.paddingLeftRequired {
+    padding-left: 15px;
+    padding-top: 5px;
+    font-size: 8pt;
+}

@@ -1,0 +1,24 @@
+root { 
+    display: block;
+}
+
+table.data-table tbody tr td {
+    padding: 3px 7px;
+}
+
+.right {
+    padding-right: 5px;
+    text-align: right;
+}
+
+form#frmList_ohrmListComponent table.data-table thead tr th{
+    padding-left: 7px;
+    padding-top: 3px;
+    padding-bottom: 3px;
+}
+html body div.outerbox div.maincontent form#frmList_ohrmListComponent table.data-table tfoot tr td{
+    padding-left: 7px;
+}
+
+
+

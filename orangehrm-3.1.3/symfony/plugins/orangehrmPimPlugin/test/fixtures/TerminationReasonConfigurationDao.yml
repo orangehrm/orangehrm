@@ -1,0 +1,11 @@
+TerminationReason:
+  0: {id: 1, name: 'Resigned'}
+  1: {id: 2, name: 'Dismissed'}
+  2: {id: 3, name: 'Laid-off'} 
+
+EmployeeTerminationRecord:
+  0: {id: 1, reasonId: 1, date: '2011-12-09'}   
+  
+Employee:
+  0: {empNumber: 1, firstName: 'Kayla', lastName: 'Abbey'}
+  1: {empNumber: 2, firstName: 'Ashley', lastName: 'Abel', termination_id: 1}  

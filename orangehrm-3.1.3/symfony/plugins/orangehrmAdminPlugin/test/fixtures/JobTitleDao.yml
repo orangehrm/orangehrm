@@ -1,0 +1,8 @@
+JobTitle:
+  0: {id: 1, jobTitleName: 'Software Architect', isDeleted: 0}
+  1: {id: 2, jobTitleName: 'Software Engineer', isDeleted: 0}
+  2: {id: 3, jobTitleName: 'Quality Assuarance', isDeleted: 0}
+  3: {id: 4, jobTitleName: 'Sales Person', isDeleted: 1}
+
+#JobSpecificationAttachment:
+#  0: {id: 1, jobTitleId: 1, fileName: 'Software architect spec', fileType: '.txt', fileSize: 10, fileContent: ''}

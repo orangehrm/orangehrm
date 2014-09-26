@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE xliff PUBLIC "-//XLIFF//DTD XLIFF//EN" "http://www.oasis-open.org/committees/xliff/documents/xliff.dtd">
+<xliff version="1.0">
+ <header/>
+ <file source-language="en_US" target-language="id_ID" datatype="plaintext" original="messages" date="2012-04-17T0:35:13Z" product-name="messages">
+  <body>
+   <trans-unit id="1">
+    <source>Add Attendance Records</source>
+    <target>Tambahkan Catatan Kehadiran</target>
+   </trans-unit>
+   <trans-unit id="2">
+    <source>Attendance Configuration</source>
+    <target>Konfigurasi Kehadiran </target>
+   </trans-unit>
+   <trans-unit id="3">
+    <source>Comment should be less than 250 characters</source>
+    <target>Komentar harus kurang dari 250 karakter</target>
+   </trans-unit>
+   <trans-unit id="4">
+    <source>Employee can change current time when punching in/out</source>
+    <target>Karyawan dapat mengubah waktu / jam pada saat melakukan absensi Masuk / Keluar</target>
+   </trans-unit>
+   <trans-unit id="5">
+    <source>Employee can edit/delete own attendance records</source>
+    <target>Karyawan dapat menyunting / menghapus catatan kehadirannya sendiri</target>
+   </trans-unit>
+   <trans-unit id="6">
+    <source>In</source>
+    <target>Masuk</target>
+   </trans-unit>
+   <trans-unit id="7">
+    <source>Last punch in time</source>
+    <target>Jam Keluar Terakhir</target>
+   </trans-unit>
+   <trans-unit id="8">
+    <source>My Attendance Records</source>
+    <target>Rekaman Kehadiran Saya </target>
+   </trans-unit>
+   <trans-unit id="9">
+    <source>No attendance records to display</source>
+    <target>Tidak ada catatan Kehadiran untuk ditampilkan</target>
+   </trans-unit>
+   <trans-unit id="10">
+    <source>Out</source>
+    <target>Keluar</target>
+   </trans-unit>
+   <trans-unit id="11">
+    <source>Overlapping Records Found</source>
+    <target>Catatan Tumpang Tindih Ditemukan</target>
+   </trans-unit>
+   <trans-unit id="12">
+    <source>Punch In</source>
+    <target>Masuk (Hadir)</target>
+   </trans-unit>
+   <trans-unit id="13">
+    <source>Punch In Note</source>
+    <target>Catatan Hadir</target>
+   </trans-unit>
+   <trans-unit id="14">
+    <source>Punch in/out note</source>
+    <target>Catatatan Masuk / Keluar</target>
+   </trans-unit>
+   <trans-unit id="15">
+    <source>Punch Out</source>
+    <target>Keluar (Pulang)</target>
+   </trans-unit>
+   <trans-unit id="16">
+    <source>Punch Out Note</source>
+    <target>Catatan Keluar </target>
+   </trans-unit>
+   <trans-unit id="17">
+    <source>Punch out Time Should Be Higher Than Punch in Time</source>
+    <target>Jam Keluar harus lebih besar dari jam Masuk</target>
+   </trans-unit>
+   <trans-unit id="18">
+    <source>Should Be a Valid Date in %format% Format</source>
+    <target>Harus berupa Tanggal yang Valid dalam format %format% </target>
+   </trans-unit>
+   <trans-unit id="19">
+    <source>Should Be a Valid Time in %format% Format</source>
+    <target>Harus berupa Jam yang Valid dalam format %format% </target>
+   </trans-unit>
+   <trans-unit id="20">
+    <source>Supervisor can add/edit/delete attendance records of subordinates</source>
+    <target>Pengawas (supervisor) dapat menambahkan / menyunting / menghapus catatan kehadiran dari bawahannya</target>
+   </trans-unit>
+   <trans-unit id="21">
+    <source>Timezone</source>
+    <target>Zona Waktu</target>
+   </trans-unit>
+   <trans-unit id="22">
+    <source>View Attendance Record</source>
+    <target>Lihat Catatan Kehadiran</target>
+   </trans-unit>
+   <trans-unit id="23">
+    <source>You are not allowed to view this page</source>
+    <target>Anda tidak diizinkan untuk melihat halaman ini</target>
+   </trans-unit>
+  </body>
+ </file>
+</xliff>
+<!-- Contributed By:   ,  Bambang Widya Putra , Boedhie Cool , Gondhez Alkatraz , Tituk Novianto , Trenggana Natadirja -->

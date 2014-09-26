@@ -1,0 +1,16 @@
+## YAML Template.
+---
+WorkflowStateMachine:
+  0: {id: 1, workflow: Time, state: 'SUBMITTED', role: 'ADMIN',action: 'APPROVE',resulting_state: 'APPROVED'}
+  1: {id: 2, workflow: Time, state: 'SUBMITTED',role: 'SUPERVISOR',action: 'REJECT',resulting_state: 'REJECTED'}
+  2: {id: 3, workflow: Time, state: 'NOT SUBMITTED', role: 'ESS USER',action: 'SUBMIT',resulting_state: 'SUBMITTED'}
+  3: {id: 4, workflow: Time, state: 'NOT SUBMITTED', role: 'ESS USER',action: 'SAVE',resulting_state: 'NOT SUBMITTED'}
+  4: {id: 5, workflow: Time, state: 'SUPERVISOR APPROVED',role: 'ADMIN',action: 'REJECT',resulting_state: 'APPROVED'}
+  5: {id: 6, workflow: Time, state: 'SUPERVISOR APPROVED',role: 'ADMIN',action: 'VIEW TIMESHEET',resulting_state: 'SUPERVISOR APPROVED'}
+  6: {id: 7, workflow: Time, state: 'SUPERVISOR APPROVED',role: 'ESS USER',action: 'VIEW TIMESHEET',resulting_state: 'SUPERVISOR APPROVED'}
+  7: {id: 8, workflow: Time, state: 'REJECTED',role: 'ESS USER',action: 'SUBMIT',resulting_state: 'SUBMITTED'}
+  8: {id: 9, workflow: Time, state: 'APPROVED',role: 'SUPERVISOR',action: 'VIEW TIMESHEET',resulting_state: 'APPROVED'}
+  9: {id: 10, workflow: Time, state: 'SUBMITTED',role: 'ESS USER',action: 'VIEW TIMESHEET',resulting_state: 'SUBMITTED'}
+  10: {id: 11, workflow: Time, state: 'NOT SUBMITTED',role: 'ESS USER',action: 'VIEW TIMESHEET',resulting_state: 'NOT SUBMITTED'}
+  11: {id: 12, workflow: Time, state: 'SUBMITTED',role: 'ESS USER',action: 'SUBMIT',resulting_state: 'SUBMITTED'}
+  12: {id: 13, workflow: 3, state: 'NOT EXIST',role: 'ADMIN',action: '1',resulting_state: 'ACTIVE'}

@@ -1,0 +1,349 @@
+EmpLocations:
+  tableName: hs_hr_emp_locations
+  columns:
+    emp_number as empNumber:
+      type: integer
+      primary: true
+    location_id as locationId:
+      type: integer
+      primary: true      
+
+EmpChildren:
+  tableName: hs_hr_emp_children
+  columns:
+    emp_number:
+      type: integer(4)
+      primary: true
+    ec_seqno as seqno:
+      type: decimal(2)
+      primary: true
+    ec_name as name:
+      type: string(100)
+      default: ''
+    ec_date_of_birth as dob: date(25)
+  relations:
+    Employee:
+      local: emp_number
+      foreign: emp_number
+      type: one      
+           
+EmpWorkExperience:
+  tableName: hs_hr_emp_work_experience
+  columns:
+    emp_number:
+      type: integer(4)
+      primary: true
+    eexp_seqno as seqno:
+      type: decimal(10)
+      primary: true
+    eexp_employer as employer: string(100)
+    eexp_jobtit as jobtitle: string(120)
+    eexp_from_date as from_date: timestamp(25)
+    eexp_to_date as to_date: timestamp(25)
+    eexp_comments as comments: string(200)
+    eexp_internal as internal: integer(4)
+  relations:
+    Employee:
+      local: emp_number
+      foreign: emp_number
+      type: one
+      
+Country:
+  tableName: hs_hr_country
+  columns:
+    cou_code:
+      type: string(2)
+      fixed: true
+      primary: true
+    name:
+      type: string(80)
+      default: ''
+      notnull: true
+    cou_name:
+      type: string(80)
+      default: ''
+      notnull: true
+    iso3:
+      type: string(3)
+      fixed: true
+    numcode: integer(2)
+  relations:
+    locations:
+      class: Location
+      local: cou_code
+      foreign: country
+      type: many
+      
+UniqueId:
+  tableName: hs_hr_unique_id
+  columns:
+    id:
+      type: integer(4)
+      primary: true
+      autoincrement: true
+    last_id:
+      type: integer(4)
+      unsigned: 1
+      notnull: true
+    table_name:
+      name: table_name as dbTable
+      type: string(50)
+      notnull: true
+    field_name:
+      type: string(50)
+      notnull: true
+ 
+Country:
+  tableName: hs_hr_country
+  columns:
+    cou_code:
+      type: string(2)
+      fixed: true
+      primary: true
+    name:
+      type: string(80)
+      default: ''
+      notnull: true
+    cou_name:
+      type: string(80)
+      default: ''
+      notnull: true
+    iso3:
+      type: string(3)
+      fixed: true
+    numcode: integer(2)
+  
+Province:
+  tableName: hs_hr_province
+  columns:
+    id:
+      type: integer(4)
+      primary: true
+      autoincrement: true
+    province_name:
+      type: string(40)
+      default: ''
+      notnull: true
+    province_code:
+      type: string(2)
+      fixed: true
+      default: ''
+      notnull: true
+    cou_code:
+      type: string(2)
+      fixed: true
+      default: us
+      notnull: true
+ 
+EmployeeSkill:
+  tableName: hs_hr_emp_skill
+  columns:
+    emp_number:
+      type: integer(4)
+      default: '0'
+      notnull: true
+      primary: true
+    skill_id as skillId:
+      type: integer
+      notnull: true
+      primary: true
+    years_of_exp:
+      type: decimal(2)
+    comments:
+      type: string(100)
+      default: ''
+      notnull: true
+  relations:
+    Employee:
+      local: emp_number
+      foreign: emp_number
+      type: one
+    Skill:
+      local: skillId
+      foreign: id
+      type: one
+
+CurrencyType:
+  tableName: hs_hr_currency_type
+  columns:
+    code:
+      type: integer(4)
+      default: '0'
+      notnull: true
+    currency_id as id:
+      type: string(3)
+      fixed: true
+      primary: true
+    currency_name as name:
+      type: string(70)
+      default: ''
+      notnull: true
+  relations:
+    EmpBasicsalary:
+      local: currency_id
+      foreign: currency_id
+      type: many
+    SalaryCurrencyDetail:
+      local: currency_id
+      foreign: currency_id
+      type: many
+
+Payperiod:
+  tableName: hs_hr_payperiod
+  columns:
+    payperiod_code as code:
+      type: string(13)
+      primary: true
+    payperiod_name as name: string(100)
+  relations:
+    EmpBasicsalary:
+      local: payperiod_code
+      foreign: payperiod_code
+      type: many
+       
+CurrencyType:
+  tableName: hs_hr_currency_type
+  columns:
+    code:
+      type: integer(4)
+      default: '0'
+      notnull: true
+    currency_id:
+      type: string(3)
+      fixed: true
+      primary: true
+    currency_name:
+      type: string(70)
+      default: ''
+      notnull: true
+
+DefineKpi:
+  tableName: hs_hr_kpi
+  columns:
+    id:
+      name: id as id
+      type: integer(4)
+      primary: true
+    job_title_code:
+      name: job_title_code as jobtitlecode
+      type: string(13)
+    description: 
+      name: description as desc
+      type: string(200)
+    rate_min: 
+      name: rate_min as min
+      type: float
+    rate_max: 
+      name: rate_max as max
+      type: float
+    rate_default: 
+      name: rate_default as default
+      type: integer(1)
+    is_active:
+      name: is_active as isactive
+      type: integer(1)
+  relations:
+    JobTitle:
+      class: JobTitle
+      local: jobtitlecode
+      foreign: id
+
+PerformanceReview:
+  tableName: hs_hr_performance_review
+  columns:
+    id:
+      name: id as id
+      type: integer(13)
+      primary: true
+    employee_id:
+      name: employee_id as employeeId
+      type: integer(13)
+    reviewer_id:
+      name: reviewer_id as reviewerId
+      type: integer(13)
+    creator_id:
+      name: creator_id as creatorId
+      type: string(36)
+    job_title_code:
+      name: job_title_code as jobTitleCode
+      type: string(10)
+    sub_division_id:
+      name: sub_division_id as subDivisionId
+      type: integer(13)
+    creation_date:
+      name: creation_date as creationDate
+      type: date(25)
+    period_from:
+      name: period_from as periodFrom
+      type: date(25)
+    period_to:
+      name: period_to as periodTo
+      type: date(25)
+    due_date:
+      name: due_date as dueDate
+      type: date(25)
+    state:
+      name: state as state
+      type: integer(2)
+    kpis:
+      name: kpis as kpis
+      type: string
+  relations:
+    Employee:
+      class: Employee
+      local: employeeId
+      foreign: emp_number
+    Reviewer:
+      class: Employee
+      local: reviewerId
+      foreign: emp_number
+    Creator:
+      class: SystemUser
+      local: creatorId
+      foreign: id
+    PerformanceReviewComment:
+      class: PerformanceReviewComment
+      local: id
+      foreign: pr_id
+      type: many
+    JobTitle:
+      class: JobTitle
+      local: jobTitleCode
+      foreign: id
+      type: one
+    SubDivision:
+      class: Subunit
+      local: subDivisionId
+      foreign: id
+      type: one
+
+PerformanceReviewComment:
+  tableName: hs_hr_performance_review_comments
+  columns:
+    id:
+      name: id as id
+      type: integer(13)
+      primary: true
+      autoincrement: true
+    pr_id:
+      name: pr_id as performanceReviewId
+      type: integer(13)
+    employee_id:
+      name: employee_id as employeeId
+      type: integer(13)
+    comment:
+      name: comment as comment
+      type: string(1000)
+    create_date:
+      name: create_date as createDate
+      type: date(25)
+  relations:
+    Employee:
+      class: Employee
+      local: employeeId
+      foreign: emp_number
+    PerformanceReview:
+      class: PerformanceReview
+      local: pr_id
+      foreign: id
+      type: one

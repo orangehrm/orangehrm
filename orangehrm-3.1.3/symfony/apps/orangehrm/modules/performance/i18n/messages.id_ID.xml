@@ -1,0 +1,178 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE xliff PUBLIC "-//XLIFF//DTD XLIFF//EN" "http://www.oasis-open.org/committees/xliff/documents/xliff.dtd">
+<xliff version="1.0">
+ <header/>
+ <file source-language="en_US" target-language="id_ID" datatype="plaintext" original="messages" date="2012-04-17T0:36:23Z" product-name="messages">
+  <body>
+   <trans-unit id="1">
+    <source>Add Key Performance Indicator</source>
+    <target>Tambahkan KPI - Key Performance Indicator</target>
+   </trans-unit>
+   <trans-unit id="2">
+    <source>Add Performance Review</source>
+    <target>Tambahkan Performance Review</target>
+   </trans-unit>
+   <trans-unit id="3">
+    <source>Being Reviewed</source>
+    <target>Sedang Di-Review</target>
+   </trans-unit>
+   <trans-unit id="4">
+    <source>Clear</source>
+    <target>Batal/Hapus</target>
+   </trans-unit>
+   <trans-unit id="5">
+    <source>Comment Should Be Less Than %amount% Characters</source>
+    <target>Komentar harus kurang dari %amount% karakter</target>
+   </trans-unit>
+   <trans-unit id="6">
+    <source>Copy Key Performance Indicators</source>
+    <target>Salin KPI - Key Performance Indicator</target>
+   </trans-unit>
+   <trans-unit id="7">
+    <source>Copy To</source>
+    <target>Salin Untuk</target>
+   </trans-unit>
+   <trans-unit id="8">
+    <source>Define Now</source>
+    <target>Tentukan Sekarang</target>
+   </trans-unit>
+   <trans-unit id="9">
+    <source>Due Date</source>
+    <target>Tanggal jatuh tempo</target>
+   </trans-unit>
+   <trans-unit id="10">
+    <source>Edit Performance Review</source>
+    <target>Sunting Tinjauan Kinerja</target>
+   </trans-unit>
+   <trans-unit id="11">
+    <source>Failed to Add: No Job Title Assigned</source>
+    <target>Gagal Add: Tidak ada Job Title Ditugaskan</target>
+   </trans-unit>
+   <trans-unit id="12">
+    <source>Is Default</source>
+    <target>Default</target>
+   </trans-unit>
+   <trans-unit id="13">
+    <source>Key Performance Indicator</source>
+    <target>KPI - Key Performance Indicator</target>
+   </trans-unit>
+   <trans-unit id="14">
+    <source>Key Performance Indicators for Job Title</source>
+    <target>Kunci Indikator Kinerja untuk Job Title</target>
+   </trans-unit>
+   <trans-unit id="15">
+    <source>KPI Already Exists, This Operation Deletes Existing KPI</source>
+    <target>KPI Sudah Ada, Menghapus Operasi ini sudah ada KPI</target>
+   </trans-unit>
+   <trans-unit id="16">
+    <source>KPI Should Be a Number Within Minimum and Maximum Value</source>
+    <target>KPI Harus Nomor Dalam Nilai Minimum dan Maksimum</target>
+   </trans-unit>
+   <trans-unit id="17">
+    <source>Make Default Scale</source>
+    <target>Membuat Skala default</target>
+   </trans-unit>
+   <trans-unit id="18">
+    <source>Max Rate</source>
+    <target>Max Tingkat</target>
+   </trans-unit>
+   <trans-unit id="19">
+    <source>Maximum Rating</source>
+    <target>Maksimum Penilaian</target>
+   </trans-unit>
+   <trans-unit id="20">
+    <source>Min Rate</source>
+    <target>Min Tingkat</target>
+   </trans-unit>
+   <trans-unit id="21">
+    <source>Minimum Rating</source>
+    <target>Minimum Penilaian</target>
+   </trans-unit>
+   <trans-unit id="22">
+    <source>Minimum Rating should be lesser than Maximum Rating</source>
+    <target>Penilaian minimum harus lebih rendah daripada Nilai Maksimum</target>
+   </trans-unit>
+   <trans-unit id="23">
+    <source>No Defined Job Titles</source>
+    <target>Tidak ada Job Judul Ditetapkan</target>
+   </trans-unit>
+   <trans-unit id="24">
+    <source>No employee exists with this name</source>
+    <target>Tidak ada karyawan ada dengan nama ini</target>
+   </trans-unit>
+   <trans-unit id="25">
+    <source>No Key Performance Indicators were found for the job title of this employee</source>
+    <target>Tidak ada Key Performance Indicator yang ditemukan untuk jabatan karyawan ini</target>
+   </trans-unit>
+   <trans-unit id="26">
+    <source>No reviewer exists with this name</source>
+    <target>Resensi tidak ada dengan nama ini</target>
+   </trans-unit>
+   <trans-unit id="27">
+    <source>Not Available</source>
+    <target>Tidak Tersedia</target>
+   </trans-unit>
+   <trans-unit id="28">
+    <source>Performance Review</source>
+    <target>Tinjauan Kinerja</target>
+   </trans-unit>
+   <trans-unit id="29">
+    <source>Rating</source>
+    <target>Penilaian</target>
+   </trans-unit>
+   <trans-unit id="30">
+    <source>review of</source>
+    <target>review</target>
+   </trans-unit>
+   <trans-unit id="31">
+    <source>Review Period</source>
+    <target>Tinjauan Periode</target>
+   </trans-unit>
+   <trans-unit id="32">
+    <source>Reviewer</source>
+    <target>Reviewer</target>
+   </trans-unit>
+   <trans-unit id="33">
+    <source>Reviewer Comments</source>
+    <target>Reviewer Comments</target>
+   </trans-unit>
+   <trans-unit id="34">
+    <source>Reviewer Name</source>
+    <target>Reviewer Nama</target>
+   </trans-unit>
+   <trans-unit id="35">
+    <source>Search Key Performance Indicators</source>
+    <target>Cari Key Performance Indicator</target>
+   </trans-unit>
+   <trans-unit id="36">
+    <source>Search Performance Reviews</source>
+    <target>Pencarian Pertunjukan Ulasan</target>
+   </trans-unit>
+   <trans-unit id="37">
+    <source>Select Job Title</source>
+    <target>Pilih Job Title</target>
+   </trans-unit>
+   <trans-unit id="38">
+    <source>Sub Division</source>
+    <target>Sub Bagian</target>
+   </trans-unit>
+   <trans-unit id="39">
+    <source>Successfully</source>
+    <target>Berhasil</target>
+   </trans-unit>
+   <trans-unit id="40">
+    <source>Update Key Performance Indicator</source>
+    <target>Update Key Performance Indicator</target>
+   </trans-unit>
+   <trans-unit id="41">
+    <source>updated</source>
+    <target>diperbarui</target>
+   </trans-unit>
+   <trans-unit id="42">
+    <source>View KPI List</source>
+    <target>Lihat Daftar KPI</target>
+   </trans-unit>
+  </body>
+ </file>
+</xliff>
+<!-- Contributed By:   ,  Bambang Widya Putra , Boedhie Cool , Gondhez Alkatraz , Tituk Novianto , Trenggana Natadirja -->

@@ -1,0 +1,8 @@
+Hi %recipientFirstName%,
+
+%performerFullName% has done the following changes to your leave request for following days:
+
+%leaveDetails%
+Thank you.
+
+This is an automated notification.

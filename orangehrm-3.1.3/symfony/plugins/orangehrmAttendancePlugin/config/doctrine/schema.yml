@@ -1,0 +1,44 @@
+## YAML Template.
+---
+
+AttendanceRecord:
+  tableName: ohrm_attendance_record
+  columns:
+    id:
+      type: integer
+      primary: true
+    employee_id:
+      name: employee_id as employeeId
+      type: integer
+      notnull: true
+    punch_in_utc_time:
+      name: punch_in_utc_time as punchInUtcTime
+      type: datetime
+    punch_in_note:
+      name: punch_in_note as punchInNote
+      type: string(255)
+    punch_in_time_offset:
+      name: punch_in_time_offset as punchInTimeOffset
+      type: string(255)
+    punch_in_user_time:
+      name: punch_in_user_time as punchInUserTime
+      type: datetime
+    punch_out_utc_time:
+      name: punch_out_utc_time as punchOutUtcTime
+      type: datetime
+    punch_out_note:
+      name: punch_out_note as punchOutNote
+      type: string(255)
+    punch_out_time_offset:
+      name: punch_out_time_offset as punchOutTimeOffset
+      type: string(255)
+    punch_out_user_time:
+      name: punch_out_user_time as punchOutUserTime
+      type: datetime
+    state:
+      type: string(255)
+      notnull: true
+  relations:
+    Employee:     
+      local: employeeId
+      foreign: empNumber

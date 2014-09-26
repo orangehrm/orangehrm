@@ -1,0 +1,23 @@
+<?xml version="1.0" ?>
+<xliff version="1.0">
+  <file orginal="global" source-language="en" datatype="plaintext">
+    <body>
+      <trans-unit id="4">
+        <source>an english sentence</source>
+        <target>une phrase en français</target>
+      </trans-unit>
+      <trans-unit id="1">
+        <source>another english sentence</source>
+        <target>une autre phrase en français</target>
+      </trans-unit>
+      <trans-unit id="2">
+        <source>Current timestamp is %timestamp%</source>
+        <target>Le timestamp courant est %timestamp%</target>
+      </trans-unit>
+      <trans-unit id="5">
+        <source>1 minute</source>
+        <target>1 menit</target>
+      </trans-unit>
+    </body>
+  </file>
+</xliff>

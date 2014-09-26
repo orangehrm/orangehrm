@@ -1,0 +1,5304 @@
+<?xml version="1.0" encoding="UTF-8"?> 
+<!DOCTYPE xliff PUBLIC "-//XLIFF//DTD XLIFF//EN" "http://www.oasis-open.org/committees/xliff/documents/xliff.dtd"> 
+<xliff version="1.0"> 
+ <header/> 
+ <file source-language="en_US" target-language="ja_JP" datatype="plaintext" original="messages" date="2012-02-22T19:54:00Z" product-name="messages"> 
+  <body> 
+   <trans-unit id="1"> 
+    <source>Win Exciting OrangeHRM Goodies</source> 
+    <target>エキサイティングOrangeHRMのグッズを勝ち取る</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="2"> 
+    <source>Join the OrangeHRM User Community</source> 
+    <target>OrangeHRMユーザコミュニティに参加する</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="3"> 
+    <source>1M Max, any larger attachments will be ignored</source> 
+    <target>1Mマックスは、任意の大きな添付ファイルは無視されます。</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="4"> 
+    <source>Add</source> 
+    <target>加える</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="5"> 
+    <source>Add Attachment</source> 
+    <target>添付ファイルを追加します。</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="6"> 
+    <source>Add Employee</source> 
+    <target>従業員を追加します。</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="7"> 
+    <source>Add KPI</source> 
+    <target>KPIを追加します。</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="8"> 
+    <source>Add Review</source> 
+    <target>レビューを追加</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="9"> 
+    <source>Add Salary Component</source> 
+    <target>給与コンポーネントを追加する</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="10"> 
+    <source>Add-Ons</source> 
+    <target>アドオン</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="11"> 
+    <source>Added By</source> 
+    <target>によって追加された</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="12"> 
+    <source>Address</source> 
+    <target>アドレス</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="13"> 
+    <source>Admin</source> 
+    <target>管理</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="14"> 
+    <source>Afghan</source> 
+    <target>アフガニスタンの</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="15"> 
+    <source>Afghanistan</source> 
+    <target>アフガニスタン</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="16"> 
+    <source>Afghanistan Afghani</source> 
+    <target>アフガニスタンアフガニスタン</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="17"> 
+    <source>Age Group</source> 
+    <target>年齢層</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="18"> 
+    <source>Alabama</source> 
+    <target>アラバマ州</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="19"> 
+    <source>Alaska</source> 
+    <target>アラスカ州</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="20"> 
+    <source>Albania</source> 
+    <target>アルバニア</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="21"> 
+    <source>Albanian</source> 
+    <target>アルバニア語</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="22"> 
+    <source>Albanian Lek</source> 
+    <target>アルバニア·レク</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="23"> 
+    <source>Algeria</source> 
+    <target>アルジェリア</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="24"> 
+    <source>Algerian</source> 
+    <target>アルジェリアの</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="25"> 
+    <source>Algerian Dinar</source> 
+    <target>アルジェリアディナール</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="26"> 
+    <source>All</source> 
+    <target>すべて</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="27"> 
+    <source>Allows numbers and only + - / ( )</source> 
+    <target>数字を可能とし、唯一の+ - /（）</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="28"> 
+    <source>Already exists</source> 
+    <target>すでに存在している</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="29"> 
+    <source>Name Already Exists</source> 
+    <target>名は既に存在します</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="30"> 
+    <source>American</source> 
+    <target>アメリカン</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="31"> 
+    <source>American Samoa</source> 
+    <target>米サモア</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="32"> 
+    <source>Amount</source> 
+    <target>量</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="33"> 
+    <source>Andorra</source> 
+    <target>アンドラ</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="34"> 
+    <source>Andorran</source> 
+    <target>アンドラ</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="35"> 
+    <source>Angola</source> 
+    <target>アンゴラ</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="36"> 
+    <source>Angolan</source> 
+    <target>アンゴラ人</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="37"> 
+    <source>Angolan New Kwanza</source> 
+    <target>アンゴラ新クワンザ</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="38"> 
+    <source>Anguilla</source> 
+    <target>アングィラ</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="39"> 
+    <source>Antarctica</source> 
+    <target>南極</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="40"> 
+    <source>Antigua and Barbuda</source> 
+    <target>アンチグアバーブーダ</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="41"> 
+    <source>Antiguans</source> 
+    <target>適用される</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="42"> 
+    <source>Apply</source> 
+    <target>適用される</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="43"> 
+    <source>April</source> 
+    <target>4月</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="44"> 
+    <source>are required</source> 
+    <target>必要とされる</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="45"> 
+    <source>Argentina</source> 
+    <target>アルゼンチン</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="46"> 
+    <source>Argentina Pesos</source> 
+    <target>アルゼンチン·ペソ</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="47"> 
+    <source>Argentine Peso</source> 
+    <target>アルゼンチンペソ</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="48"> 
+    <source>Argentinean</source> 
+    <target>アルゼンチン</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="49"> 
+    <source>Arizona</source> 
+    <target>アリゾナ州</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="50"> 
+    <source>Arkansas</source> 
+    <target>アーカンソー州</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="51"> 
+    <source>Armed Forces Americas (except Canada)</source> 
+    <target>国軍アメリカ大陸（カナダを除く）</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="52"> 
+    <source>Armed Forces Middle East</source> 
+    <target>国軍中東</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="53"> 
+    <source>Armed Forces Pacific</source> 
+    <target>国軍太平洋</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="54"> 
+    <source>Armenia</source> 
+    <target>アルメニア</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="55"> 
+    <source>Armenian</source> 
+    <target>アルメニア人</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="56"> 
+    <source>Aruba</source> 
+    <target>アルバ</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="57"> 
+    <source>Aruban Florin</source> 
+    <target>Arubanフローリン</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="58"> 
+    <source>Assign Leave</source> 
+    <target>コメント割り当てる</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="59"> 
+    <source>Assigned Salary Components</source> 
+    <target>割り当てられた給与のコンポーネント</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="60"> 
+    <source>Attachment Size Exceeded</source> 
+    <target>添付ファイルのサイズを超過</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="61"> 
+    <source>Attendance</source> 
+    <target>出席者</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="62"> 
+    <source>Attendance Summary</source> 
+    <target>出席者の概要</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="63"> 
+    <source>Audit Trail</source> 
+    <target>監査証跡</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="64"> 
+    <source>August</source> 
+    <target>8月</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="65"> 
+    <source>Australia</source> 
+    <target>オーストラリア</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="66"> 
+    <source>Australian</source> 
+    <target>オーストラリア人</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="67"> 
+    <source>Australian Dollar</source> 
+    <target>豪ドル</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="68"> 
+    <source>Austria</source> 
+    <target>オーストリア</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="69"> 
+    <source>Austrian</source> 
+    <target>オーストリアの</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="70"> 
+    <source>Azerbaijan</source> 
+    <target>アゼルバイジャン</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="71"> 
+    <source>Azerbaijani</source> 
+    <target>アゼルバイジャン語</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="72"> 
+    <source>Back</source> 
+    <target>バック</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="73"> 
+    <source>Bahamas</source> 
+    <target>バハマ</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="74"> 
+    <source>Bahamian</source> 
+    <target>バハマ</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="75"> 
+    <source>Bahamian Dollar</source> 
+    <target>バハマドル</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="76"> 
+    <source>Bahrain</source> 
+    <target>バーレーン</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="77"> 
+    <source>Bahraini</source> 
+    <target>バーレーンの</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="78"> 
+    <source>Bahraini Dinar</source> 
+    <target>バーレーンディナール</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="79"> 
+    <source>Bangladesh</source> 
+    <target>バングラデシュ</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="80"> 
+    <source>Bangladeshi</source> 
+    <target>バングラデシュ</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="81"> 
+    <source>Bangladeshi Taka</source> 
+    <target>バングラデシュタカ</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="82"> 
+    <source>Barbadian</source> 
+    <target>バルバドス</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="83"> 
+    <source>Barbados</source> 
+    <target>バルバドス</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="84"> 
+    <source>Barbados Dollar</source> 
+    <target>バルバドスドル</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="85"> 
+    <source>Barbudans</source> 
+    <target>バルバドスドル</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="86"> 
+    <source>Basic</source> 
+    <target>基本的な</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="87"> 
+    <source>Batswana</source> 
+    <target>ベラルーシ</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="88"> 
+    <source>Belarus</source> 
+    <target>ベラルーシ</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="89"> 
+    <source>Belarusian</source> 
+    <target>ベラルーシ語</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="90"> 
+    <source>Belgian</source> 
+    <target>ベルギーの</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="91"> 
+    <source>Belgium</source> 
+    <target>ベルギー</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="92"> 
+    <source>Belize</source> 
+    <target>ベリーズ</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="93"> 
+    <source>Belize Dollar</source> 
+    <target>ベリーズドル</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="94"> 
+    <source>Belizean</source> 
+    <target>ベリーズの</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="95"> 
+    <source>Benin</source> 
+    <target>ベナン</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="96"> 
+    <source>Beninese</source> 
+    <target>ベニンの</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="97"> 
+    <source>Bermuda</source> 
+    <target>バミューダ</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="98"> 
+    <source>Bermudian Dollar</source> 
+    <target>バミューダドル</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="99"> 
+    <source>Bhutan</source> 
+    <target>ブータン</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="100"> 
+    <source>Bhutan Ngultrum</source> 
+    <target>ブータン·ニュルタム</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="101"> 
+    <source>Bhutanese</source> 
+    <target>ブータン人</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="102"> 
+    <source>Blog</source> 
+    <target>ブログ</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="103"> 
+    <source>Bolivia</source> 
+    <target>ボリビア</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="104"> 
+    <source>Bolivian</source> 
+    <target>ボリビア</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="105"> 
+    <source>Bolivian Boliviano</source> 
+    <target>ボリビアーノ</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="106"> 
+    <source>Bosnia and Herzegovina</source> 
+    <target>ボスニア·ヘルツェゴビナ</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="107"> 
+    <source>Bosnian</source> 
+    <target>ボスニア語</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="108"> 
+    <source>Botswana</source> 
+    <target>ボツワナ</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="109"> 
+    <source>Botswana Pula</source> 
+    <target>ボツワナ·プラ</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="110"> 
+    <source>Bouvet Island</source> 
+    <target>ブーベ島</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="111"> 
+    <source>Brazil</source> 
+    <target>ブラジル</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="112"> 
+    <source>Brazilian</source> 
+    <target>ブラジル人</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="113"> 
+    <source>Brazilian Real</source> 
+    <target>ブラジルレアル</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="114"> 
+    <source>British</source> 
+    <target>英国の</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="115"> 
+    <source>British Indian Ocean Territory</source> 
+    <target>イギリス領インド洋地域</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="116"> 
+    <source>Brunei Darussalam</source> 
+    <target>ブルネイ·ダルサラーム国</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="117"> 
+    <source>Brunei Dollar</source> 
+    <target>ブルネイドル</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="118"> 
+    <source>Bruneian</source> 
+    <target>ブルネイ人</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="119"> 
+    <source>Bug Tracker</source> 
+    <target>バグトラッカー</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="120"> 
+    <source>Bulgaria</source> 
+    <target>ブルガリア</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="121"> 
+    <source>Bulgarian</source> 
+    <target>ブルガリア語</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="122"> 
+    <source>Bulgarian Lev</source> 
+    <target>ブルガリアレフ</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="123"> 
+    <source>Burkina Faso</source> 
+    <target>ブルキナファソ</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="124"> 
+    <source>Burkinabe</source> 
+    <target>ビルマ語</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="125"> 
+    <source>Burmese</source> 
+    <target>ビルマ語</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="126"> 
+    <source>Burundi</source> 
+    <target>ブルンジ</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="127"> 
+    <source>Burundi Franc</source> 
+    <target>ブルンジフラン</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="128"> 
+    <source>Burundian</source> 
+    <target>ブルンジ</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="129"> 
+    <source>California</source> 
+    <target>カリフォルニア州</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="130"> 
+    <source>Cambodia</source> 
+    <target>カンボジア</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="131"> 
+    <source>Cambodian</source> 
+    <target>カンボジアの</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="132"> 
+    <source>Cameroon</source> 
+    <target>カメルーン</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="133"> 
+    <source>Cameroonian</source> 
+    <target>カメルーンの</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="134"> 
+    <source>Canada</source> 
+    <target>カナダ</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="135"> 
+    <source>Canadian</source> 
+    <target>カナダの</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="136"> 
+    <source>Canadian Dollar</source> 
+    <target>カナダドル</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="137"> 
+    <source>Cancel</source> 
+    <target>キャンセル</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="138"> 
+    <source>Candidates</source> 
+    <target>候補</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="139"> 
+    <source>Cape Verde</source> 
+    <target>カーボベルデ</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="140"> 
+    <source>Cape Verde Escudo</source> 
+    <target>カーボベルデ·エスクード</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="141"> 
+    <source>Cape Verdean</source> 
+    <target>カーボベルデ</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="142"> 
+    <source>Cayman Islands</source> 
+    <target>ケイマン諸島</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="143"> 
+    <source>Cayman Islands Dollar</source> 
+    <target>ケイマン諸島ドル</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="144"> 
+    <source>Central African</source> 
+    <target>中央アフリカ</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="145"> 
+    <source>Central African Republic</source> 
+    <target>中央アフリカ共和国</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="146"> 
+    <source>CFA Franc BCEAO</source> 
+    <target>CFAフランBCEAO</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="146"> 
+    <source>CFP Franc</source> 
+    <target>CFPフラン</target> 
+    <note>A time zone name</note> 
+   </trans-unit>   
+   <trans-unit id="147"> 
+    <source>CFA Franc BEAC</source> 
+    <target>CFAフランBEAC</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="148"> 
+    <source>Chad</source> 
+    <target>チャド</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="149"> 
+    <source>Chadian</source> 
+    <target>チャドの</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="150"> 
+    <source>Change Password</source> 
+    <target>パスワードを変更する</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="151"> 
+    <source>Checking</source> 
+    <target>点検</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="152"> 
+    <source>Chile</source> 
+    <target>チリ</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="153"> 
+    <source>Chilean</source> 
+    <target>チリの</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="154"> 
+    <source>Chilean Peso</source> 
+    <target>チリペソ</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="155"> 
+    <source>China</source> 
+    <target>中国</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="156"> 
+    <source>Chinese</source> 
+    <target>中華料理</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="157"> 
+    <source>Chinese Yuan Renminbi</source> 
+    <target>中国人民元</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="158"> 
+    <source>Christmas Island</source> 
+    <target>クリスマス島</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="159"> 
+    <source>Cocos (Keeling) Islands</source> 
+    <target>ココス（キーリング）諸島</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="160"> 
+    <source>Colombia</source> 
+    <target>コロンビア</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="161"> 
+    <source>Colombian</source> 
+    <target>コロンビアの</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="162"> 
+    <source>Colombian Peso</source> 
+    <target>コロンビアペソ</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="163"> 
+    <source>Colorado</source> 
+    <target>コロラド州</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="164"> 
+    <source>Comment</source> 
+    <target>コメント</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="165"> 
+    <source>Comments</source> 
+    <target>コメント</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="166"> 
+    <source>Comoran</source> 
+    <target>コモロ</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="167"> 
+    <source>Comoros</source> 
+    <target>コモロ</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="168"> 
+    <source>Comoros Franc</source> 
+    <target>コモロ·フラン</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="169"> 
+    <source>Company</source> 
+    <target>会社</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="170"> 
+    <source>Competency</source> 
+    <target>コンピテンシー</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="171"> 
+    <source>Configuration</source> 
+    <target>設定</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="172"> 
+    <source>Configure</source> 
+    <target>設定する</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="173"> 
+    <source>Configure Security Authentication</source> 
+    <target>セキュリティ認証を設定する</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="174"> 
+    <source>Congo</source> 
+    <target>コンゴ</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="175"> 
+    <source>Congo, the Democratic Republic of the</source> 
+    <target>コンゴ民主共和国</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="176"> 
+    <source>Congolese</source> 
+    <target>コンゴ人</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="177"> 
+    <source>Connecticut</source> 
+    <target>コネチカット</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="178"> 
+    <source>Contact Details</source> 
+    <target>連絡先の詳細</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="179"> 
+    <source>Contract End Date</source> 
+    <target>契約終了日</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="180"> 
+    <source>Contract Not Renewed</source> 
+    <target>契約更新しない</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="181"> 
+    <source>Contract Start Date</source> 
+    <target>契約開始日</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="182"> 
+    <source>Cook Islands</source> 
+    <target>クック諸島</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="183"> 
+    <source>Copy KPI</source> 
+    <target>コピーKPI</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="184"> 
+    <source>Costa Rica</source> 
+    <target>コスタリカ</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="185"> 
+    <source>Costa Rican</source> 
+    <target>コスタリカの</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="186"> 
+    <source>Costa Rican Colon</source> 
+    <target>コスタリカコロン</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="187"> 
+    <source>Country</source> 
+    <target>国</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="188"> 
+    <source>Croatia</source> 
+    <target>クロアチア</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="189"> 
+    <source>Croatian</source> 
+    <target>クロアチア語</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="190"> 
+    <source>Croatian Kuna</source> 
+    <target>クロアチア·クーナ</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="191"> 
+    <source>Cuba</source> 
+    <target>キューバ</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="192"> 
+    <source>Cuban</source> 
+    <target>キューバの</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="193"> 
+    <source>Cuban Peso</source> 
+    <target>キューバペソ</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="194"> 
+    <source>Currency</source> 
+    <target>通貨</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="195"> 
+    <source>Current and Past Employees</source> 
+    <target>現在と過去の従業員</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="196"> 
+    <source>Current Employees Only</source> 
+    <target>現在の従業員のみ</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="197"> 
+    <source>Current Status</source> 
+    <target>現在の状態</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="198"> 
+    <source>Custom Fields</source> 
+    <target>カスタムフィールド</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="199"> 
+    <source>Customers</source> 
+    <target>お客さま</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="200"> 
+    <source>Customizations</source> 
+    <target>カスタマイズ</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="201"> 
+    <source>Cypriot</source> 
+    <target>キプロス島の</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="202"> 
+    <source>Cyprus</source> 
+    <target>キプロス</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="203"> 
+    <source>Cyprus Pound</source> 
+    <target>キプロスポンド</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="204"> 
+    <source>Czech</source> 
+    <target>チェコ語</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="205"> 
+    <source>Czech Koruna</source> 
+    <target>チェココルナ</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="206"> 
+    <source>Czech Republic</source> 
+    <target>チェコ共和国</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="207"> 
+    <source>Danish</source> 
+    <target>デンマーク語</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="208"> 
+    <source>Danish Krona</source> 
+    <target>デンマーククローナ</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="209"> 
+    <source>Data Import</source> 
+    <target>データのインポート</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="210"> 
+    <source>Date</source> 
+    <target>日付</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="211"> 
+    <source>Date Added</source> 
+    <target>追加された日付</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="212"> 
+    <source>Date of Birth</source> 
+    <target>誕生日</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="213"> 
+    <source>Days</source> 
+    <target>日</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="214"> 
+    <source>Deceased</source> 
+    <target>故人</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="215"> 
+    <source>December</source> 
+    <target>12月</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="216"> 
+    <source>Define Report</source> 
+    <target>レポートを定義します。</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="217"> 
+    <source>Defined Custom Fields</source> 
+    <target>定義されたカスタムフィールド</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="218"> 
+    <source>Delaware</source> 
+    <target>デラウェア州</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="219"> 
+    <source>Delete</source> 
+    <target>削除する</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="220"> 
+    <source>Delete Current</source> 
+    <target>現在の削除</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="221"> 
+    <source>Denmark</source> 
+    <target>デンマーク</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="222"> 
+    <source>Dependents</source> 
+    <target>扶養家族</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="223"> 
+    <source>Description</source> 
+    <target>説明</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="224"> 
+    <source>Dimensions</source> 
+    <target>大きさ</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="225"> 
+    <source>Direct</source> 
+    <target>ダイレクト</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="226"> 
+    <source>Direct Deposit Account Number</source> 
+    <target>直接預金口座番号</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="227"> 
+    <source>Direct Deposit Account Type</source> 
+    <target>直接預金口座の種類</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="228"> 
+    <source>Direct Deposit Amount</source> 
+    <target>ダイレクト預金額</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="229"> 
+    <source>Direct Deposit Details</source> 
+    <target>ダイレクト入金の詳細</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="230"> 
+    <source>Direct Deposit Routing Number</source> 
+    <target>ダイレクト預金ルーティング番号</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="231"> 
+    <source>Disabled</source> 
+    <target>無効にする</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="232"> 
+    <source>Dismissed</source> 
+    <target>解雇</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="233"> 
+    <source>Display Field Groups</source> 
+    <target>フィールドグループの表示</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="234"> 
+    <source>Display Fields</source> 
+    <target>フィールドを表示</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="235"> 
+    <source>District of Columbia</source> 
+    <target>コロンビア特別区</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="236"> 
+    <source>Djibouti</source> 
+    <target>ジブチ</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="237"> 
+    <source>Djibouti Franc</source> 
+    <target>ジブチ·フラン</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="238"> 
+    <source>Document Type</source> 
+    <target>ドキュメントの種類</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="239"> 
+    <source>Dominica</source> 
+    <target>ドミニカ国</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="240"> 
+    <source>Dominican</source> 
+    <target>ドミニカ共和国の</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="241"> 
+    <source>Dominican Peso</source> 
+    <target>ドミニカペソ</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="242"> 
+    <source>Dominican Republic</source> 
+    <target>ドミニカ共和国</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="243"> 
+    <source>Driver License Number</source> 
+    <target>運転免許証番号</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="244"> 
+    <source>Driver's License Number</source> 
+    <target>運転免許証番号</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="245"> 
+    <source>Duration</source> 
+    <target>持続</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="246"> 
+    <source>Dutch</source> 
+    <target>オランダ語</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="247"> 
+    <source>Duties</source> 
+    <target>職務</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="248"> 
+    <source>East Timorese</source> 
+    <target>東ティモール人</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="249"> 
+    <source>Eastern Caribbean Dollars</source> 
+    <target>東のカリブドル</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="250"> 
+    <source>Ecuador</source> 
+    <target>エクアドル</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="251"> 
+    <source>Ecuador Sucre</source> 
+    <target>エクアドルスクレ</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="252"> 
+    <source>Ecuadorean</source> 
+    <target>エクアドル</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="253"> 
+    <source>Edit</source> 
+    <target>編集</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="254"> 
+    <source>Edit Attachment :</source> 
+    <target>添付ファイルを編集します。</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="255"> 
+    <source>Edit Immigration</source> 
+    <target>編集移民</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="256"> 
+    <source>Edit Salary Component</source> 
+    <target>給与コンポーネントを編集する</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="257"> 
+    <source>Education</source> 
+    <target>教育</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="258"> 
+    <source>Egypt</source> 
+    <target>エジプト</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="259"> 
+    <source>Egyptian</source> 
+    <target>エジプト人</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="260"> 
+    <source>Egyptian Pound</source> 
+    <target>エジプトポンド</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="261"> 
+    <source>El Salvador</source> 
+    <target>エルサルバドル</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="262"> 
+    <source>El Salvador Colon</source> 
+    <target>エルサルバドル·コロン</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="263"> 
+    <source>Eligible</source> 
+    <target>適格</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="264"> 
+    <source>Eligible Review Date</source> 
+    <target>適格レビュー日</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="265"> 
+    <source>Eligible Status</source> 
+    <target>対象のステータス</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="266"> 
+    <source>Email Notifications</source> 
+    <target>電子メール通知</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="267"> 
+    <source>Emergency Contacts</source> 
+    <target>緊急連絡先</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="268"> 
+    <source>Emirian</source> 
+    <target>Emirian</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="269"> 
+    <source>Employee</source> 
+    <target>従業員</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="270"> 
+    <source>Employee First Name</source> 
+    <target>従業員ファーストネーム</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="271"> 
+    <source>Employee Id</source> 
+    <target>従業員ID</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="272"> 
+    <source>Employee Last Name</source> 
+    <target>従業員の姓</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="273"> 
+    <source>Employee List</source> 
+    <target>従業員のリスト</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="274"> 
+    <source>Employee Middle Name</source> 
+    <target>従業員のミドルネーム</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="275"> 
+    <source>Employee Name</source> 
+    <target>従業員名</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="276"> 
+    <source>Employee Records</source> 
+    <target>従業員レコード</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="277"> 
+    <source>Employee Reports</source> 
+    <target>従業員レポート</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="278"> 
+    <source>Employee Timesheets</source> 
+    <target>従業員のタイムシート</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="279"> 
+    <source>Employment Status</source> 
+    <target>雇用状況</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="280"> 
+    <source>Enabled</source> 
+    <target>使用可能</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="281"> 
+    <source>End Date</source> 
+    <target>終了日</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="282"> 
+    <source>End date should be after start date</source> 
+    <target>終了日は開始日の後でなければなりません</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="283"> 
+    <source>Equatorial Guinea</source> 
+    <target>赤道ギニア</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="284"> 
+    <source>Equatorial Guinean</source> 
+    <target>赤道ギニア</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="285"> 
+    <source>Eritrea</source> 
+    <target>エリトリア</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="286"> 
+    <source>Eritrean</source> 
+    <target>エリトリア</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="287"> 
+    <source>ESS</source> 
+    <target>ESS</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="288"> 
+    <source>Estonia</source> 
+    <target>エストニア</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="289"> 
+    <source>Estonian</source> 
+    <target>エストニア語</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="290"> 
+    <source>Estonian Krona</source> 
+    <target>エストニア語クローナ</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="291"> 
+    <source>Ethiopia</source> 
+    <target>エチオピア</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="292"> 
+    <source>Ethiopian</source> 
+    <target>エチオピアの</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="293"> 
+    <source>Ethiopian Birr</source> 
+    <target>エチオピア</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="294"> 
+    <source>Euro</source> 
+    <target>ユーロ</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="295"> 
+    <source>Expected format: admin@example.com</source> 
+    <target>予想される形式：admin@example.com</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="296"> 
+    <source>Expiry Date</source> 
+    <target>有効期限</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="297"> 
+    <source>Expiry date should be after issued date</source> 
+    <target>有効期限は、発行された日付より後でなければなりません</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="298"> 
+    <source>Failed to Save</source> 
+    <target>保存に失敗しました。</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="299"> 
+    <source>Falkland Islands (Malvinas)</source> 
+    <target>フォークランド諸島（マルビナス）</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="300"> 
+    <source>Falkland Islands Pound</source> 
+    <target>フォークランド諸島ポンド</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="301"> 
+    <source>Faroe Islands</source> 
+    <target>フェロー諸島</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="302"> 
+    <source>February</source> 
+    <target>2月</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="303"> 
+    <source>Federated States of Micronesia</source> 
+    <target>ミクロネシア連邦</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="304"> 
+    <source>Female</source> 
+    <target>女性</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="305"> 
+    <source>Field</source> 
+    <target>フィールド</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="306"> 
+    <source>Fields</source> 
+    <target>フィールズ</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="307"> 
+    <source>Fields marked with an asterisk</source> 
+    <target>アスタリクで印がついている欄</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="308"> 
+    <source>Fiji</source> 
+    <target>フィジー</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="309"> 
+    <source>Fiji Dollar</source> 
+    <target>フィジードル</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="310"> 
+    <source>Fijian</source> 
+    <target>フィジーの</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="311"> 
+    <source>File Name</source> 
+    <target>ファイル名</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="312"> 
+    <source>Filipino</source> 
+    <target>フィリピン人</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="313"> 
+    <source>Finland</source> 
+    <target>フィンランド</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="314"> 
+    <source>Finnish</source> 
+    <target>フィンランド語</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="315"> 
+    <source>First</source> 
+    <target>最初の</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="316"> 
+    <source>First Name</source> 
+    <target>ファーストネーム</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="317"> 
+    <source>Florida</source> 
+    <target>フロリダ州</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="318"> 
+    <source>Fluency</source> 
+    <target>流ちょうさ</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="319"> 
+    <source>Forum</source> 
+    <target>フォーラム</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="320"> 
+    <source>France</source> 
+    <target>フランス</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="321"> 
+    <source>French</source> 
+    <target>フランス語</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="322"> 
+    <source>French Guiana</source> 
+    <target>仏領ギアナ</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="323"> 
+    <source>French Polynesia</source> 
+    <target>フランス領ポリネシア</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="324"> 
+    <source>French Southern Territories</source> 
+    <target>フランス南部領</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="325"> 
+    <source>Friday</source> 
+    <target>金曜日</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="326"> 
+    <source>From</source> 
+    <target>から</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="327"> 
+    <source>Full Name</source> 
+    <target>フルネーム</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="328"> 
+    <source>Full Time Contract</source> 
+    <target>フルタイムの契約</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="329"> 
+    <source>Full Time Internship</source> 
+    <target>フルタイムのインターンシップ</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="330"> 
+    <source>Full Time Permanent</source> 
+    <target>永久的なフルタイム</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="331"> 
+    <source>Gabon</source> 
+    <target>ガボン</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="332"> 
+    <source>Gabonese</source> 
+    <target>ガボンの</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="333"> 
+    <source>Gambia</source> 
+    <target>ガンビア</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="334"> 
+    <source>Gambian</source> 
+    <target>ガンビア</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="335"> 
+    <source>Gambian Dalasi</source> 
+    <target>ガンビアダラシ</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="336"> 
+    <source>Gender</source> 
+    <target>性別</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="337"> 
+    <source>General Information</source> 
+    <target>一般的な情報</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="338"> 
+    <source>Georgia</source> 
+    <target>ジョージア州</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="339"> 
+    <source>Georgian</source> 
+    <target>ジョージアン</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="340"> 
+    <source>German</source> 
+    <target>ドイツ語</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="341"> 
+    <source>Germany</source> 
+    <target>ドイツ</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="342"> 
+    <source>Ghana</source> 
+    <target>ガーナ</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="343"> 
+    <source>Ghanaian</source> 
+    <target>ガーナ人</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="344"> 
+    <source>Ghanaian Cedi</source> 
+    <target>ガーナセディ</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="345"> 
+    <source>Gibraltar</source> 
+    <target>ジブラルタル</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="346"> 
+    <source>Gibraltar Pound</source> 
+    <target>ジブラルタルポンド</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="347"> 
+    <source>Gold (oz.)</source> 
+    <target>ゴールド（オンス）</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="348"> 
+    <source>Good</source> 
+    <target>良い</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="349"> 
+    <source>Greater Than</source> 
+    <target>よりも大きい</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="350"> 
+    <source>Greece</source> 
+    <target>ギリシャ</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="351"> 
+    <source>Greek</source> 
+    <target>ギリシャ語</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="352"> 
+    <source>Greenland</source> 
+    <target>グリーンランド</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="353"> 
+    <source>Grenada</source> 
+    <target>グレナダ</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="354"> 
+    <source>Grenadian</source> 
+    <target>グレナダの</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="355"> 
+    <source>Guadeloupe</source> 
+    <target>グアドループ島</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="356"> 
+    <source>Guam</source> 
+    <target>グアム島</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="357"> 
+    <source>Guatemala</source> 
+    <target>グアテマラ</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="358"> 
+    <source>Guatemalan</source> 
+    <target>グアテマラの</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="359"> 
+    <source>Guatemalan Quetzal</source> 
+    <target>グアテマラケツァール</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="360"> 
+    <source>Guinea</source> 
+    <target>ギニー</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="361"> 
+    <source>Guinea Franc</source> 
+    <target>ギニア·フラン</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="362"> 
+    <source>Guinea-Bissau</source> 
+    <target>ギニアビサウ</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="363"> 
+    <source>Guinea-Bissauan</source> 
+    <target>ギニア·Bissauan</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="364"> 
+    <source>Guinean</source> 
+    <target>ギニアの</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="365"> 
+    <source>Guyana</source> 
+    <target>ガイアナ</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="366"> 
+    <source>Guyanan Dollar</source> 
+    <target>ガイアナドル</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="367"> 
+    <source>Guyanese</source> 
+    <target>ガイアナ</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="368"> 
+    <source>Haiti</source> 
+    <target>ハイチ</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="369"> 
+    <source>Haitian</source> 
+    <target>ハイチ人</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="370"> 
+    <source>Haitian Gourde</source> 
+    <target>ハイチグールド</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="371"> 
+    <source>Hawaii</source> 
+    <target>ハワイ</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="372"> 
+    <source>Heard Island and Mcdonald Islands</source> 
+    <target>ハード島とマクドナルド諸島</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="373"> 
+    <source>Help</source> 
+    <target>助け</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="374"> 
+    <source>Herzegovinian</source> 
+    <target>詳細を隠す</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="375"> 
+    <source>Hide Details</source> 
+    <target>詳細を隠す</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="376"> 
+    <source>Holidays</source> 
+    <target>休日</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="377"> 
+    <source>Holy See (Vatican City State)</source> 
+    <target>ローマ法王庁（バチカン市国）</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="378"> 
+    <source>Home Telephone</source> 
+    <target>家庭用電話</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="379"> 
+    <source>Honduran</source> 
+    <target>ホンジュラスの</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="380"> 
+    <source>Honduran Lempira</source> 
+    <target>ホンジュラスレンピラ</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="381"> 
+    <source>Honduras</source> 
+    <target>ホンジュラス</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="382"> 
+    <source>Hong Kong</source> 
+    <target>香港</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="383"> 
+    <source>Hong Kong Dollar</source> 
+    <target>香港ドル</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="384"> 
+    <source>Hungarian</source> 
+    <target>ハンガリー語</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="385"> 
+    <source>Hungarian Forint</source> 
+    <target>ハンガリーフォリント</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="386"> 
+    <source>Hungary</source> 
+    <target>ハンガリー</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="387"> 
+    <source>I-Kiribati</source> 
+    <target>I-キリバス</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="388"> 
+    <source>Iceland</source> 
+    <target>アイスランド</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="389"> 
+    <source>Iceland Krona</source> 
+    <target>アイスランドクローナ</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="390"> 
+    <source>Icelander</source> 
+    <target>アイスランド</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="391"> 
+    <source>Id</source> 
+    <target>イド</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="392"> 
+    <source>Idaho</source> 
+    <target>アイダホ州</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="393"> 
+    <source>Illinois</source> 
+    <target>イリノイ州</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="394"> 
+    <source>IMF Special Drawing Right</source> 
+    <target>国際通貨基金（IMF）特別引出権</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="395"> 
+    <source>Immigration</source> 
+    <target>移民</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="396"> 
+    <source>Include</source> 
+    <target>含まれる</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="397"> 
+    <source>Include Header</source> 
+    <target>ヘッダを含む</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="398"> 
+    <source>Include Past Employees</source> 
+    <target>過去の従業員を含む</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="399"> 
+    <source>India</source> 
+    <target>インド</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="400"> 
+    <source>Indian</source> 
+    <target>インディアン</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="401"> 
+    <source>Indian Rupee</source> 
+    <target>インドルピー</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="402"> 
+    <source>Indiana</source> 
+    <target>インディアナ州</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="403"> 
+    <source>Indirect</source> 
+    <target>間接的な</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="404"> 
+    <source>Individual</source> 
+    <target>個々の</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="405"> 
+    <source>Indonesia</source> 
+    <target>インドネシア</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="406"> 
+    <source>Indonesian</source> 
+    <target>インドネシア語</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="407"> 
+    <source>Indonesian Rupiah</source> 
+    <target>インドネシアルピア</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="408"> 
+    <source>Invalid File Type</source> 
+    <target>無効なファイルの種類</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="409"> 
+    <source>Iowa</source> 
+    <target>アイオワ州</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="410"> 
+    <source>Iran, Islamic Republic of</source> 
+    <target>イラン·イスラム共和国</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="411"> 
+    <source>Iranian</source> 
+    <target>イランの</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="412"> 
+    <source>Iranian Rial</source> 
+    <target>イランリアル</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="413"> 
+    <source>Iraq</source> 
+    <target>イラク</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="414"> 
+    <source>Iraqi</source> 
+    <target>イラクの</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="415"> 
+    <source>Iraqi Dinar</source> 
+    <target>イラクディナール</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="416"> 
+    <source>Ireland</source> 
+    <target>アイルランド</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="417"> 
+    <source>Irish</source> 
+    <target>アイリッシュ</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="418"> 
+    <source>Israel</source> 
+    <target>イスラエル</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="419"> 
+    <source>Israeli</source> 
+    <target>イスラエルの</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="420"> 
+    <source>Israeli New Shekel</source> 
+    <target>イスラエルの新しいシケル</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="421"> 
+    <source>Issued By</source> 
+    <target>によって発行された</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="422"> 
+    <source>Issued Date</source> 
+    <target>発行日</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="423"> 
+    <source>Italian</source> 
+    <target>イタリア語</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="424"> 
+    <source>Italy</source> 
+    <target>イタリア</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="425"> 
+    <source>Ivorian</source> 
+    <target>コー​​トジボワールの</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="426"> 
+    <source>Jamaica</source> 
+    <target>ジャマイカ</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="427"> 
+    <source>Jamaican</source> 
+    <target>ジャマイカ</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="428"> 
+    <source>Jamaican Dollar</source> 
+    <target>ジャマイカドル</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="429"> 
+    <source>January</source> 
+    <target>1月</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="430"> 
+    <source>Japan</source> 
+    <target>日本</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="431"> 
+    <source>Japanese</source> 
+    <target>日本の</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="432"> 
+    <source>Japanese Yen</source> 
+    <target>日本円</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="433"> 
+    <source>Job</source> 
+    <target>仕事</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="434"> 
+    <source>Job Categories</source> 
+    <target>仕事のカテゴリ</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="435"> 
+    <source>Job Category</source> 
+    <target>職種</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="436"> 
+    <source>Job Specification</source> 
+    <target>仕事の仕様</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="437"> 
+    <source>Job Title</source> 
+    <target>職名</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="438"> 
+    <source>Job Titles</source> 
+    <target>仕事のタイトル</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="439"> 
+    <source>Joined Date</source> 
+    <target>入社日</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="440"> 
+    <source>Jordan</source> 
+    <target>ヨルダン</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="441"> 
+    <source>Jordanian</source> 
+    <target>ヨルダンの</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="442"> 
+    <source>Jordanian Dinar</source> 
+    <target>ヨルダンディナール</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="443"> 
+    <source>July</source> 
+    <target>7月</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="444"> 
+    <source>June</source> 
+    <target>6月</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="445"> 
+    <source>Kampuchean Riel</source> 
+    <target>カンボジアのリエル</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="446"> 
+    <source>Kansas</source> 
+    <target>カンザス州</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="447"> 
+    <source>Kazakhstan</source> 
+    <target>カザフスタン</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="448"> 
+    <source>Kazakhstan Tenge</source> 
+    <target>カザフスタンテンゲ</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="449"> 
+    <source>Kazakhstani</source> 
+    <target>カザフスタン</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="450"> 
+    <source>Keep Current</source> 
+    <target>最新の状態に保つ</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="451"> 
+    <source>Kentucky</source> 
+    <target>ケンタッキー州</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="452"> 
+    <source>Kenya</source> 
+    <target>ケニア</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="453"> 
+    <source>Kenyan</source> 
+    <target>ケニアの</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="454"> 
+    <source>Kenyan Shilling</source> 
+    <target>ケニアシリング</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="455"> 
+    <source>Kiribati</source> 
+    <target>キリバス</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="456"> 
+    <source>Kittian and Nevisian</source> 
+    <target>キリバス</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="457"> 
+    <source>Korea, Republic of</source> 
+    <target>韓国、共和国の</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="458"> 
+    <source>Korean Won</source> 
+    <target>韓国ウォン</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="459"> 
+    <source>KPI List</source> 
+    <target>KPIリスト</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="460"> 
+    <source>Kuwait</source> 
+    <target>クウェート</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="461"> 
+    <source>Kuwaiti</source> 
+    <target>クウェート</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="462"> 
+    <source>Kuwaiti Dinar</source> 
+    <target>クウェートディナール</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="463"> 
+    <source>Kyrgyz</source> 
+    <target>キルギス</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="464"> 
+    <source>Kyrgyzstan</source> 
+    <target>キルギスタン</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="465"> 
+    <source>Language</source> 
+    <target>言語</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="466"> 
+    <source>Languages</source> 
+    <target>言語</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="467"> 
+    <source>Lao Kip</source> 
+    <target>ラオス·キップ</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="468"> 
+    <source>Laotian</source> 
+    <target>ラオス人</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="469"> 
+    <source>Last</source> 
+    <target>最後に</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="470"> 
+    <source>Last Name</source> 
+    <target>姓</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="471"> 
+    <source>Latvia</source> 
+    <target>ラトビア</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="472"> 
+    <source>Latvian</source> 
+    <target>ラトビアの</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="473"> 
+    <source>Latvian Lats</source> 
+    <target>ラトビア</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="474"> 
+    <source>Layed off</source> 
+    <target>レイオフ</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="475"> 
+    <source>Leave</source> 
+    <target>残す</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="476"> 
+    <source>Leave Balance (Days)</source> 
+    <target>（日）のバランスを残す</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="477"> 
+    <source>Leave Calendar</source> 
+    <target>カレンダーを残す</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="478"> 
+    <source>Leave Entitled (Days)</source> 
+    <target>（日）と題されたまま</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="479"> 
+    <source>Leave List</source> 
+    <target>リストを残す</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="480"> 
+    <source>Leave Period</source> 
+    <target>期間を残す</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="481"> 
+    <source>Leave Scheduled (Days)</source> 
+    <target>（日）スケジュールされたままに</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="482"> 
+    <source>Leave Summary</source> 
+    <target>要約を残す</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="483"> 
+    <source>Leave Taken (Days)</source> 
+    <target>（日）撮影のままに</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="484"> 
+    <source>Leave Types</source> 
+    <target>型を残す</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="485"> 
+    <source>Lebanese</source> 
+    <target>レバノン人</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="486"> 
+    <source>Lebanese Pound</source> 
+    <target>レバノンポンド</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="487"> 
+    <source>Lebanon</source> 
+    <target>レバノン</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="488"> 
+    <source>Lesotho</source> 
+    <target>レソト</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="489"> 
+    <source>Lesotho Loti</source> 
+    <target>レソトロティ</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="490"> 
+    <source>Less Than</source> 
+    <target>以下</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="491"> 
+    <source>Level</source> 
+    <target>レベル</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="492"> 
+    <source>Liberia</source> 
+    <target>リベリア</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="493"> 
+    <source>Liberian</source> 
+    <target>リベリアの</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="494"> 
+    <source>Liberian Dollar</source> 
+    <target>リベリア·ドル</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="495"> 
+    <source>Libyan</source> 
+    <target>リビアの</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="496"> 
+    <source>Libyan Arab Jamahiriya</source> 
+    <target>リビア</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="497"> 
+    <source>Libyan Dinar</source> 
+    <target>リビアディナール</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="498"> 
+    <source>License</source> 
+    <target>ライセンス</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="499"> 
+    <source>License Expiry Date</source> 
+    <target>ライセンス有効期限</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="500"> 
+    <source>License Number</source> 
+    <target>免許証番号</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="501"> 
+    <source>License Type</source> 
+    <target>ライセンスの種類</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="502"> 
+    <source>Licenses</source> 
+    <target>ライセンス</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="503"> 
+    <source>Liechtenstein</source> 
+    <target>リヒテンシュタイン</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="504"> 
+    <source>Liechtensteiner</source> 
+    <target>Liechtensteine​​r</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="505"> 
+    <source>Lithuania</source> 
+    <target>リトアニア</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="506"> 
+    <source>Lithuanian</source> 
+    <target>リトアニア語</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="507"> 
+    <source>Lithuanian Litas</source> 
+    <target>リトアニアリタス</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="508"> 
+    <source>Localization</source> 
+    <target>ローカライゼーション</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="509"> 
+    <source>Location</source> 
+    <target>場所</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="510"> 
+    <source>Locations</source> 
+    <target>場所</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="511"> 
+    <source>Logout</source> 
+    <target>ログアウト</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="512"> 
+    <source>Louisiana</source> 
+    <target>ルイジアナ州</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="513"> 
+    <source>Luxembourg</source> 
+    <target>ルクセンブルク</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="514"> 
+    <source>Luxembourger</source> 
+    <target>ルクセンブルク</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="515"> 
+    <source>Macao</source> 
+    <target>マカオ</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="516"> 
+    <source>Macau Pataca</source> 
+    <target>マカオ·パタカ</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="517"> 
+    <source>Macedonia, the Former Yugoslav Republic of</source> 
+    <target>マケドニア旧ユーゴスラビア共和国</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="518"> 
+    <source>Macedonian</source> 
+    <target>マケドニア語</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="519"> 
+    <source>Madagascar</source> 
+    <target>マダガスカル</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="520"> 
+    <source>Maine</source> 
+    <target>メイン</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="521"> 
+    <source>Malagasy</source> 
+    <target>マダガスカルの</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="522"> 
+    <source>Malagasy Franc</source> 
+    <target>マダガスカルフラン</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="523"> 
+    <source>Malawi</source> 
+    <target>マラウイ</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="524"> 
+    <source>Malawi Kwacha</source> 
+    <target>マラウイクワチャ</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="525"> 
+    <source>Malawian</source> 
+    <target>マラウイの</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="526"> 
+    <source>Malaysia</source> 
+    <target>マレーシア</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="527"> 
+    <source>Malaysian</source> 
+    <target>マレーシアの</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="528"> 
+    <source>Malaysian Ringgit</source> 
+    <target>マレーシアリンギット</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="529"> 
+    <source>Maldivan</source> 
+    <target>マレーシアリンギット</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="530"> 
+    <source>Maldive Rufiyaa</source> 
+    <target>モルジブモルジブ</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="531"> 
+    <source>Maldives</source> 
+    <target>モルディブ</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="532"> 
+    <source>Male</source> 
+    <target>男性</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="533"> 
+    <source>Mali</source> 
+    <target>庭師</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="534"> 
+    <source>Malian</source> 
+    <target>マリ</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="535"> 
+    <source>Malta</source> 
+    <target>マルタ</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="536"> 
+    <source>Maltese</source> 
+    <target>マルタ語</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="537"> 
+    <source>Maltese Lira</source> 
+    <target>マルタのリラ</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="538"> 
+    <source>March</source> 
+    <target>3月</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="539"> 
+    <source>Marital Status</source> 
+    <target>配偶者の有無</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="540"> 
+    <source>Marshall Islands</source> 
+    <target>マーシャル諸島共和国</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="541"> 
+    <source>Marshallese</source> 
+    <target>マーシャル</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="542"> 
+    <source>Martinique</source> 
+    <target>マルティニーク島</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="543"> 
+    <source>Maryland</source> 
+    <target>メリーランド州</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="544"> 
+    <source>Massachusetts</source> 
+    <target>マサチューセッツ州</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="545"> 
+    <source>Mauritania</source> 
+    <target>モーリタニア</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="546"> 
+    <source>Mauritanian</source> 
+    <target>モーリタニアの</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="547"> 
+    <source>Mauritanian Ouguiya</source> 
+    <target>モーリタニアOuguiya</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="548"> 
+    <source>Mauritian</source> 
+    <target>モーリシャスの</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="549"> 
+    <source>Mauritius</source> 
+    <target>モーリシャス</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="550"> 
+    <source>Mauritius Rupee</source> 
+    <target>モーリシャスルピー</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="551"> 
+    <source>May</source> 
+    <target>5月</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="552"> 
+    <source>Mayotte</source> 
+    <target>マヨット島</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="553"> 
+    <source>Membership</source> 
+    <target>メンバーシップ</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="554"> 
+    <source>Memberships</source> 
+    <target>メンバーシップ</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="555"> 
+    <source>Mexican</source> 
+    <target>メキシコ人</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="556"> 
+    <source>Mexican New Peso</source> 
+    <target>メキシコペソ</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="557"> 
+    <source>Mexican Peso</source> 
+    <target>メキシコペソ</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="558"> 
+    <source>Mexico</source> 
+    <target>メキシコ</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="559"> 
+    <source>Michigan</source> 
+    <target>ミシガン州</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="560"> 
+    <source>Micronesia, Federated States of</source> 
+    <target>ミクロネシア連邦</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="561"> 
+    <source>Micronesian</source> 
+    <target>ミクロネシアの</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="562"> 
+    <source>Middle</source> 
+    <target>真ん中</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="563"> 
+    <source>Middle Name</source> 
+    <target>ミドルネーム</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="564"> 
+    <source>Minnesota</source> 
+    <target>ミネソタ州</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="565"> 
+    <source>Mississippi</source> 
+    <target>ミシシッピ州</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="566"> 
+    <source>Missouri</source> 
+    <target>ミズーリ州</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="567"> 
+    <source>Mobile</source> 
+    <target>携帯電話</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="568"> 
+    <source>Modules</source> 
+    <target>モジュール</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="569"> 
+    <source>Moldova, Republic of</source> 
+    <target>モルドバ共和国の</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="570"> 
+    <source>Moldovan</source> 
+    <target>モルドバ人</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="571"> 
+    <source>Monacan</source> 
+    <target>モルドバ人</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="572"> 
+    <source>Monaco</source> 
+    <target>モナコ</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="573"> 
+    <source>Monday</source> 
+    <target>月曜日</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="574"> 
+    <source>Mongolia</source> 
+    <target>モンゴル国</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="575"> 
+    <source>Mongolian</source> 
+    <target>モンゴル語</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="576"> 
+    <source>Mongolian Tugrik</source> 
+    <target>モンゴルのTugrik</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="577"> 
+    <source>Montana</source> 
+    <target>モンタナ州</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="578"> 
+    <source>Month</source> 
+    <target>月</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="579"> 
+    <source>Montserrat</source> 
+    <target>モントセラト</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="580"> 
+    <source>Moroccan</source> 
+    <target>モロッコ</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="581"> 
+    <source>Moroccan Dirham</source> 
+    <target>モロッコディルハム</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="582"> 
+    <source>Morocco</source> 
+    <target>モロッコ</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="583"> 
+    <source>Mosotho</source> 
+    <target>Mosotho</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="584"> 
+    <source>Mother Tongue</source> 
+    <target>母国語</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="585"> 
+    <source>Motswana</source> 
+    <target>Motswana</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="586"> 
+    <source>Mozambican</source> 
+    <target>モザンビークの</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="587"> 
+    <source>Mozambique</source> 
+    <target>モザンビーク</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="588"> 
+    <source>Mozambique Metical</source> 
+    <target>モザンビークモザンビーク</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="589"> 
+    <source>My Leave</source> 
+    <target>私の休暇</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="590"> 
+    <source>My Records</source> 
+    <target>私の記録</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="591"> 
+    <source>My Timesheets</source> 
+    <target>自分のタイムシート</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="592"> 
+    <source>Myanmar</source> 
+    <target>ビルマ</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="593"> 
+    <source>Myanmar Kyat</source> 
+    <target>ミャンマーチャット</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="594"> 
+    <source>Name</source> 
+    <target>名</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="595"> 
+    <source>Name exists</source> 
+    <target>名前が存在する</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="596"> 
+    <source>Namibia</source> 
+    <target>ナミビア</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="597"> 
+    <source>Namibia Dollar</source> 
+    <target>ナミビア·ドル</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="598"> 
+    <source>Namibian</source> 
+    <target>ナミビア</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="599"> 
+    <source>Nationalities</source> 
+    <target>国籍</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="600"> 
+    <source>Nationality</source> 
+    <target>国籍</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="601"> 
+    <source>Nauru</source> 
+    <target>ナウル</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="602"> 
+    <source>Nauruan</source> 
+    <target>Nauruan</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="603"> 
+    <source>Nebraska</source> 
+    <target>ネブラスカ州</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="604"> 
+    <source>Nepal</source> 
+    <target>ネパール</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="605"> 
+    <source>Nepalese</source> 
+    <target>ネパール人</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="606"> 
+    <source>Nepalese Rupee</source> 
+    <target>ネパールルピー</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="607"> 
+    <source>Netherlands</source> 
+    <target>オランダ</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="608"> 
+    <source>Netherlands Antilles</source> 
+    <target>オランダ領アンティル諸島</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="609"> 
+    <source>Nevada</source> 
+    <target>ネバダ州</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="610"> 
+    <source>New Caledonia</source> 
+    <target>ニューカレドニア</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="611"> 
+    <source>New Hampshire</source> 
+    <target>ニューハンプシャー州</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="612"> 
+    <source>New Jersey</source> 
+    <target>ニュージャージー州</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="613"> 
+    <source>New Mexico</source> 
+    <target>ニューメキシコ州</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="614"> 
+    <source>New York</source> 
+    <target>ニューヨーク州</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="615"> 
+    <source>New Zaire</source> 
+    <target>新ザイール</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="616"> 
+    <source>New Zealand</source> 
+    <target>ニュージーランド</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="617"> 
+    <source>New Zealand Dollar</source> 
+    <target>ニュージーランドドル</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="618"> 
+    <source>New Zealander</source> 
+    <target>ニュージーランド</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="619"> 
+    <source>Next</source> 
+    <target>次の</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="620"> 
+    <source>Nicaragua</source> 
+    <target>ニカラグア</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="621"> 
+    <source>Nicaraguan</source> 
+    <target>ニカラグア人</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="622"> 
+    <source>Nicaraguan Cordoba Oro</source> 
+    <target>ニカラグアコルドバオロ</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="623"> 
+    <source>Niger</source> 
+    <target>ニジェール</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="624"> 
+    <source>Nigeria</source> 
+    <target>ナイジェリア</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="625"> 
+    <source>Nigerian</source> 
+    <target>ナイジェリアの</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="626"> 
+    <source>Nigerian Naira</source> 
+    <target>ナイジェリア·ナイラ</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="627"> 
+    <source>Nigerien</source> 
+    <target>ニジェール人</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="628"> 
+    <source>Niue</source> 
+    <target>ニウエ</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="629"> 
+    <source>NL Antillian Guilder</source> 
+    <target>NL領アンティルギルダー</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="630"> 
+    <source>No</source> 
+    <target>なし</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="631"> 
+    <source>No Project Activities</source> 
+    <target>ないプロジェクト活動なし</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="632"> 
+    <source>No Projects</source> 
+    <target>いいえプロジェクトません</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="633"> 
+    <source>No Records Found</source> 
+    <target>関連する情報はありません</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="634"> 
+    <source>No records to display</source> 
+    <target>表示するレコードはありません</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="635"> 
+    <source>Norfolk Island</source> 
+    <target>ノーフォーク島</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="636"> 
+    <source>North Carolina</source> 
+    <target>ノースカロライナ州</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="637"> 
+    <source>North Dakota</source> 
+    <target>ノースダコタ州</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="638"> 
+    <source>North Korean</source> 
+    <target>北朝鮮の</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="639"> 
+    <source>North Korean Won</source> 
+    <target>北朝鮮ウォン</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="640"> 
+    <source>Northern Irish</source> 
+    <target>北アイルランドの</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="641"> 
+    <source>Northern Mariana Islands</source> 
+    <target>北マリアナ諸島連邦</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="642"> 
+    <source>Norway</source> 
+    <target>ノルウェー</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="643"> 
+    <source>Norwegian</source> 
+    <target>ノルウェーの</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="644"> 
+    <source>Norwegian Krona</source> 
+    <target>ノルウェークローナ</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="645"> 
+    <source>Not Defined</source> 
+    <target>定義されていない</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="646"> 
+    <source>Notes</source> 
+    <target>注釈</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="647"> 
+    <source>November</source> 
+    <target>11月</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="648"> 
+    <source>Number</source> 
+    <target>数</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="649"> 
+    <source>October</source> 
+    <target>10月</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="650"> 
+    <source>Ohio</source> 
+    <target>オハイオ州</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="651"> 
+    <source>Oklahoma</source> 
+    <target>オクラホマ州</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="652"> 
+    <source>Oman</source> 
+    <target>オマーン</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="653"> 
+    <source>Omani</source> 
+    <target>オマーンの</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="654"> 
+    <source>Omani Rial</source> 
+    <target>オマーンリアル</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="655"> 
+    <source>Optional Fields</source> 
+    <target>オプションフィールド</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="656"> 
+    <source>or</source> 
+    <target>または</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="657"> 
+    <source>OrangeHRM - Confirmation Required</source> 
+    <target>OrangeHRM - 確認が必要</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="658"> 
+    <source>Oregon</source> 
+    <target>オレゴン州</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="659"> 
+    <source>Organization</source> 
+    <target>組織</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="660"> 
+    <source>Other</source> 
+    <target>その他</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="661"> 
+    <source>Other Email</source> 
+    <target>他の電子メール</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="662"> 
+    <source>Other Id</source> 
+    <target>他のID</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="663"> 
+    <source>Pakistan</source> 
+    <target>パキスタン</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="664"> 
+    <source>Pakistan Rupee</source> 
+    <target>パキスタンルピー</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="665"> 
+    <source>Pakistani</source> 
+    <target>パキスタンの</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="666"> 
+    <source>Palau</source> 
+    <target>パラオ</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="667"> 
+    <source>Palauan</source> 
+    <target>パラオ</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="668"> 
+    <source>Palestinian Territory, Occupied</source> 
+    <target>パレスチナ自治区、</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="669"> 
+    <source>Palladium (oz.)</source> 
+    <target>パラジウム（オンス）</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="670"> 
+    <source>Panama</source> 
+    <target>パナマ</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="671"> 
+    <source>Panamanian</source> 
+    <target>パナマの</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="672"> 
+    <source>Panamanian Balboa</source> 
+    <target>パナマバルボア</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="673"> 
+    <source>Papua New Guinea</source> 
+    <target>パプアニューギニア</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="674"> 
+    <source>Papua New Guinea Kina</source> 
+    <target>パプアニューギニア·キナ</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="675"> 
+    <source>Papua New Guinean</source> 
+    <target>パプアニューギニア</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="676"> 
+    <source>Paraguay</source> 
+    <target>パラグアイ</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="677"> 
+    <source>Paraguay Guarani</source> 
+    <target>パラグアイグアラニ</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="678"> 
+    <source>Paraguayan</source> 
+    <target>パラグアイの</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="679"> 
+    <source>Part Time Contract</source> 
+    <target>パートタイム契約</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="680"> 
+    <source>Part Time Internship</source> 
+    <target>パートタイムのインターンシップ</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="681"> 
+    <source>Part Time Permanent</source> 
+    <target>永久的なパートタイム</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="682"> 
+    <source>Past Employee</source> 
+    <target>過去の従業員</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="683"> 
+    <source>Past Employees Only</source> 
+    <target>過去の従業員のみ</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="684"> 
+    <source>Pay Frequency</source> 
+    <target>周波数を支払う</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="685"> 
+    <source>Pay Grade</source> 
+    <target>グレードを支払う</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="686"> 
+    <source>Pay Grades</source> 
+    <target>グレードを支払う</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="687"> 
+    <source>Pennsylvania</source> 
+    <target>ペンシルベニア州</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="688"> 
+    <source>Performance</source> 
+    <target>パフォーマンス</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="689"> 
+    <source>Personal</source> 
+    <target>個人的な</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="690"> 
+    <source>Peru</source> 
+    <target>ペルー</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="691"> 
+    <source>Peruvian</source> 
+    <target>ペルーの</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="692"> 
+    <source>Peruvian Nuevo Sol</source> 
+    <target>ペルー·ヌエボ·ソル</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="693"> 
+    <source>Philippine Peso</source> 
+    <target>フィリピンペソ</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="694"> 
+    <source>Philippines</source> 
+    <target>フィリピン</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="695"> 
+    <source>Physically Disabled/Compensated</source> 
+    <target>物理的に無効/補償</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="696"> 
+    <source>PIM</source> 
+    <target>補償</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="697"> 
+    <source>PIM Sample Report</source> 
+    <target>サンサンプル·レポート</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="698"> 
+    <source>Pitcairn</source> 
+    <target>ピトケアン</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="699"> 
+    <source>Platinum (oz.)</source> 
+    <target>白金（オンス）</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="700"> 
+    <source>Poland</source> 
+    <target>ポーランド</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="701"> 
+    <source>Polish</source> 
+    <target>ポーランド語</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="702"> 
+    <source>Polish Zloty</source> 
+    <target>ポーランドズロチ</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="703"> 
+    <source>Poor</source> 
+    <target>貧しい</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="704"> 
+    <source>Portugal</source> 
+    <target>ポルトガル</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="705"> 
+    <source>Portuguese</source> 
+    <target>ポルトガル語</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="706"> 
+    <source>Pound Sterling</source> 
+    <target>ポンド</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="707"> 
+    <source>Previous</source> 
+    <target>前</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="708"> 
+    <source>Program</source> 
+    <target>プログラム</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="709"> 
+    <source>Project Info</source> 
+    <target>プロジェクト情報</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="710"> 
+    <source>Project Reports</source> 
+    <target>プロジェクトレポート</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="711"> 
+    <source>Projects</source> 
+    <target>プロジェクト</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="712"> 
+    <source>Puerto Rico</source> 
+    <target>プエルトリコ</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="713"> 
+    <source>Punch In/Out</source> 
+    <target>パンチイン/アウト</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="714"> 
+    <source>Qatar</source> 
+    <target>カタール</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="715"> 
+    <source>Qatari</source> 
+    <target>カタールの</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="716"> 
+    <source>Qatari Rial</source> 
+    <target>カタールリアル</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="717"> 
+    <source>Qualification</source> 
+    <target>資格</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="718"> 
+    <source>Range</source> 
+    <target>範囲</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="719"> 
+    <source>Reading</source> 
+    <target>読書</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="720"> 
+    <source>Records Per Page</source> 
+    <target>ページあたりのレコード</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="721"> 
+    <source>Recruitment</source> 
+    <target>募集</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="722"> 
+    <source>Relationship</source> 
+    <target>関係</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="723"> 
+    <source>Replace Current</source> 
+    <target>現在の設定と置き換える</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="724"> 
+    <source>Replace file</source> 
+    <target>ファイルを置き換える</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="725"> 
+    <source>Report Name</source> 
+    <target>レポート名</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="726"> 
+    <source>Reporting Method</source> 
+    <target>法を報告する</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="727"> 
+    <source>Reporting Methods</source> 
+    <target>報告方法</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="728"> 
+    <source>Reports</source> 
+    <target>レポート</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="729"> 
+    <source>Required</source> 
+    <target>必須</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="730"> 
+    <source>required field</source> 
+    <target>必須フィールド</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="731"> 
+    <source>Reset</source> 
+    <target>リセット</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="732"> 
+    <source>Resigned</source> 
+    <target>あきらめた</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="733"> 
+    <source>Resigned - Company Requested</source> 
+    <target>辞任 - 当社は、要求された</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="734"> 
+    <source>Resigned - Self Proposed</source> 
+    <target>辞任 - 自己の候補</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="735"> 
+    <source>Retired</source> 
+    <target>引退した</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="736"> 
+    <source>Reunion</source> 
+    <target>再会</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="737"> 
+    <source>Reviews</source> 
+    <target>レビュー</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="738"> 
+    <source>Rhode Island</source> 
+    <target>ロードアイランド州</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="739"> 
+    <source>Romania</source> 
+    <target>ルーマニア</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="740"> 
+    <source>Romanian</source> 
+    <target>ルーマニア語</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="741"> 
+    <source>Romanian Leu</source> 
+    <target>ルーマニア·レイ</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="742"> 
+    <source>Routing Number</source> 
+    <target>ルーティング番号</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="743"> 
+    <source>Run</source> 
+    <target>実行</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="744"> 
+    <source>Russia Rubles</source> 
+    <target>ロシアルーブル</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="745"> 
+    <source>Russian</source> 
+    <target>ロシア</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="746"> 
+    <source>Russian Federation</source> 
+    <target>ロシア連邦</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="747"> 
+    <source>Russian Rouble</source> 
+    <target>ロシア·ルーブル</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="748"> 
+    <source>Rwanda</source> 
+    <target>ルワンダ</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="749"> 
+    <source>Rwandan</source> 
+    <target>ルワンダの</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="750"> 
+    <source>Saint Helena</source> 
+    <target>セント·ヘレナ島</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="751"> 
+    <source>Saint Kitts and Nevis</source> 
+    <target>セントクリストファーネイビス</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="752"> 
+    <source>Saint Lucia</source> 
+    <target>セントルシア</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="753"> 
+    <source>Saint Lucian</source> 
+    <target>聖ルシアン</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="754"> 
+    <source>Saint Pierre and Miquelon</source> 
+    <target>サンピエール島·ミクロン島</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="755"> 
+    <source>Saint Vincent and the Grenadines</source> 
+    <target>セントビンセントおよびグレナディーン諸島</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="756"> 
+    <source>Salary</source> 
+    <target>給与</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="757"> 
+    <source>Salary Component</source> 
+    <target>給与のコンポーネント</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="758"> 
+    <source>Salvadoran</source> 
+    <target>エルサルバドル</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="759"> 
+    <source>Samoa</source> 
+    <target>サモア</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="760"> 
+    <source>Samoan</source> 
+    <target>サモア語</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="761"> 
+    <source>Samoan Tala</source> 
+    <target>サモア·タラ</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="762"> 
+    <source>San Marinese</source> 
+    <target>サンMarinese</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="763"> 
+    <source>San Marino</source> 
+    <target>サンマリノ</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="764"> 
+    <source>Sao Tome and Principe</source> 
+    <target>サントメプリンシペ</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="765"> 
+    <source>Sao Tome/Principe Dobra</source> 
+    <target>サントメ·プリンシペ/プリンチペドブラ</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="766"> 
+    <source>Sao Tomean</source> 
+    <target>サンパウロTomean</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="767"> 
+    <source>Saturday</source> 
+    <target>土曜日</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="768"> 
+    <source>Saudi</source> 
+    <target>サウジ</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="769"> 
+    <source>Saudi Arabia</source> 
+    <target>サウジアラビア</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="770"> 
+    <source>Saudi Arabia Riyal</source> 
+    <target>サウジアラビアリヤル</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="771"> 
+    <source>Save</source> 
+    <target>保存</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="772"> 
+    <source>Save Comment Only</source> 
+    <target>コメントだけを保存</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="773"> 
+    <source>Savings</source> 
+    <target>貯蓄</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="774"> 
+    <source>Score</source> 
+    <target>スコア</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="775"> 
+    <source>Scottish</source> 
+    <target>スコットランドの</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="776"> 
+    <source>Search</source> 
+    <target>検索</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="777"> 
+    <source>Select</source> 
+    <target>選択する</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="778"> 
+    <source>Select Comparison</source> 
+    <target>比較を選択します。</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="779"> 
+    <source>Select File</source> 
+    <target>ファイルを選択します。</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="780"> 
+    <source>Select Records to Delete</source> 
+    <target>削除するレコードを選択します。</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="781"> 
+    <source>Select Salary Grade</source> 
+    <target>給与グレードを選択します。</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="782"> 
+    <source>Selected Criteria</source> 
+    <target>選択した条件</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="783"> 
+    <source>Selection Criteria</source> 
+    <target>選択基準</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="784"> 
+    <source>Senegal</source> 
+    <target>セネガル</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="785"> 
+    <source>Senegalese</source> 
+    <target>セネガル</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="786"> 
+    <source>September</source> 
+    <target>9月</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="787"> 
+    <source>Serbia and Montenegro</source> 
+    <target>セルビア·モンテネグロ</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="788"> 
+    <source>Serbian</source> 
+    <target>セルビア語</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="789"> 
+    <source>Service Period</source> 
+    <target>サービス時間</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="790"> 
+    <source>Seychelles</source> 
+    <target>セーシェル</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="791"> 
+    <source>Seychelles Rupee</source> 
+    <target>セーシェル·ルピー</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="792"> 
+    <source>Seychellois</source> 
+    <target>セーシェル</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="793"> 
+    <source>Should be a number</source> 
+    <target>数でなければなりません</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="794"> 
+    <source>Should be a positive number</source> 
+    <target>正の数でなければなりません</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="795"> 
+    <source>Should be a valid date in %format% format</source> 
+    <target>%format%の形式で有効な日付でなければなりません</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="796"> 
+    <source>Should be less than %amount%</source> 
+    <target>%amount%未満でなければなりません</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="797"> 
+    <source>Should be less than %amount% characters</source> 
+    <target>%amount%文字未満でなければなりません</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="798"> 
+    <source>Should be within Min/Max values</source> 
+    <target>最小/最大値の範囲内でなければなりません</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="799"> 
+    <source>Show Direct Deposit Details</source> 
+    <target>ダイレクト入金の詳細を表示する</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="800"> 
+    <source>Sierra Leone</source> 
+    <target>シエラレオネ</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="801"> 
+    <source>Sierra Leone Leone</source> 
+    <target>シエラレオネ</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="802"> 
+    <source>Sierra Leonean</source> 
+    <target>シエラレオネ</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="803"> 
+    <source>Silver (oz.)</source> 
+    <target>銀（オンス）</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="804"> 
+    <source>Singapore</source> 
+    <target>シンガポール</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="805"> 
+    <source>Singapore Dollar</source> 
+    <target>シンガポールドル</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="806"> 
+    <source>Singaporean</source> 
+    <target>シンガポール人</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="807"> 
+    <source>Size</source> 
+    <target>サイズ</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="808"> 
+    <source>Skill</source> 
+    <target>スキル</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="809"> 
+    <source>Skills</source> 
+    <target>スキル</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="810"> 
+    <source>Slovak Koruna</source> 
+    <target>スロバキアコルナ</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="811"> 
+    <source>Slovakia</source> 
+    <target>スロバキア</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="812"> 
+    <source>Slovakian</source> 
+    <target>スロバキア</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="813"> 
+    <source>Slovenia</source> 
+    <target>スロベニア</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="814"> 
+    <source>Slovenian</source> 
+    <target>スロベニア語</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="815"> 
+    <source>Solomon Islander</source> 
+    <target>ソロモン諸島</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="816"> 
+    <source>Solomon Islands</source> 
+    <target>ソロモン諸島</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="817"> 
+    <source>Solomon Islands Dollar</source> 
+    <target>ソロモン諸島ドル</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="818"> 
+    <source>Somali</source> 
+    <target>ソマリ</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="819"> 
+    <source>Somali Shilling</source> 
+    <target>ソマリアシリング</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="820"> 
+    <source>Somalia</source> 
+    <target>ソマリア</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="821"> 
+    <source>Sort in Ascending Order</source> 
+    <target>昇順で並べ替え</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="822"> 
+    <source>Sort in Descending Order</source> 
+    <target>降順に並べ替え</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="823"> 
+    <source>South Africa</source> 
+    <target>南アフリカ</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="824"> 
+    <source>South African</source> 
+    <target>南アフリカ</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="825"> 
+    <source>South African Rand</source> 
+    <target>南アフリカランド</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="826"> 
+    <source>South Carolina</source> 
+    <target>サウスカロライナ州</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="827"> 
+    <source>South Dakota</source> 
+    <target>サウスダコタ州</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="828"> 
+    <source>South Georgia and the South Sandwich Islands</source> 
+    <target>サウスジョージア·サウスサンドウィッチ諸島</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="829"> 
+    <source>South Korean</source> 
+    <target>韓国の</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="830"> 
+    <source>Spain</source> 
+    <target>スペイン</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="831"> 
+    <source>Spanish</source> 
+    <target>スペイン語</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="832"> 
+    <source>Speaking</source> 
+    <target>話す</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="833"> 
+    <source>Sri Lanka</source> 
+    <target>スリランカ</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="834"> 
+    <source>Sri Lanka Rupee</source> 
+    <target>スリランカルピー</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="835"> 
+    <source>Sri Lankan</source> 
+    <target>スリランカの</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="836"> 
+    <source>St. Helena Pound</source> 
+    <target>セントヘレナ·ポンド</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="837"> 
+    <source>Start Date</source> 
+    <target>開始日</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="838"> 
+    <source>Start date should be before end date</source> 
+    <target>開始日が終了日より前の日付でなければなりません</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="839"> 
+    <source>State</source> 
+    <target>状態</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="840"> 
+    <source>Status</source> 
+    <target>ステータス</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="841"> 
+    <source>Structure</source> 
+    <target>構造</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="842"> 
+    <source>Sub Unit</source> 
+    <target>サブユニット</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="843"> 
+    <source>Subordinates</source> 
+    <target>部下</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="844"> 
+    <source>Subscribe</source> 
+    <target>購読する</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="845"> 
+    <source>Subscription Amount</source> 
+    <target>サブスクリプションの量</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="846"> 
+    <source>Subscription Commence Date</source> 
+    <target>サブスクリプションには、日付の開始について</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="847"> 
+    <source>Subscription Paid By</source> 
+    <target>で有料サブスクリプション</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="848"> 
+    <source>Subscription Renewal Date</source> 
+    <target>サブスクリプションの更新日</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="849"> 
+    <source>Successfully Added</source> 
+    <target>正常に追加</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="850"> 
+    <source>Successfully Deleted</source> 
+    <target>正常に削除されました</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="851"> 
+    <source>Successfully Saved</source> 
+    <target>正常に保存され</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="852"> 
+    <source>Successfully Updated</source> 
+    <target>正常に更新されました</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="853"> 
+    <source>Successfully Uploaded</source> 
+    <target>正常にアップロード</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="854"> 
+    <source>Sudan</source> 
+    <target>スーダン</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="855"> 
+    <source>Sudanese</source> 
+    <target>スーダンの</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="856"> 
+    <source>Sudanese Dinar</source> 
+    <target>スーダンディナール</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="857"> 
+    <source>Sudanese Pound</source> 
+    <target>スーダン·ポンド</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="858"> 
+    <source>Sunday</source> 
+    <target>日曜日</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="859"> 
+    <source>Supervisor</source> 
+    <target>スーパーバイザー</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="860"> 
+    <source>Supervisor Name</source> 
+    <target>スーパーバイザ名</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="861"> 
+    <source>Supervisors</source> 
+    <target>監督</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="862"> 
+    <source>Support</source> 
+    <target>サポート</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="863"> 
+    <source>Suriname</source> 
+    <target>スリナム</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="864"> 
+    <source>Surinamer</source> 
+    <target>Surinamer</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="865"> 
+    <source>Surinamese Dollar</source> 
+    <target>スリナムドル</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="866"> 
+    <source>Svalbard and Jan Mayen</source> 
+    <target>スバールバル諸島ヤンマイエン島</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="867"> 
+    <source>Swazi</source> 
+    <target>スワジ語</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="868"> 
+    <source>Swaziland</source> 
+    <target>スワジランド</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="869"> 
+    <source>Swaziland Lilangeni</source> 
+    <target>スワジランドLilangeni</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="870"> 
+    <source>Sweden</source> 
+    <target>スウェーデン</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="871"> 
+    <source>Swedish</source> 
+    <target>スウェーデン語</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="872"> 
+    <source>Swedish Krona</source> 
+    <target>スウェーデンクローナ</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="873"> 
+    <source>Swiss</source> 
+    <target>スイス</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="874"> 
+    <source>Swiss Franc</source> 
+    <target>スイスフラン</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="875"> 
+    <source>Switzerland</source> 
+    <target>スイス</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="876"> 
+    <source>Syrian</source> 
+    <target>シリアの</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="877"> 
+    <source>Syrian Arab Republic</source> 
+    <target>シリアアラブ共和国</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="878"> 
+    <source>Syrian Pound</source> 
+    <target>シリアポンド</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="879"> 
+    <source>Taiwan</source> 
+    <target>台湾</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="880"> 
+    <source>Taiwan Dollar</source> 
+    <target>台湾ドル</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="881"> 
+    <source>Taiwanese</source> 
+    <target>台湾の</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="882"> 
+    <source>Tajik</source> 
+    <target>タジク人</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="883"> 
+    <source>Tajikistan</source> 
+    <target>タジキスタン</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="884"> 
+    <source>Tanzania, United Republic of</source> 
+    <target>タンザニア連合共和国</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="885"> 
+    <source>Tanzanian</source> 
+    <target>タンザニアの</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="886"> 
+    <source>Tanzanian Shilling</source> 
+    <target>タンザニアシリング</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="887"> 
+    <source>Tennessee</source> 
+    <target>テネシー州</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="888"> 
+    <source>Terminated</source> 
+    <target>終了する</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="889"> 
+    <source>Termination Reasons</source> 
+    <target>終了の理由</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="890"> 
+    <source>Texas</source> 
+    <target>テキサス州</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="891"> 
+    <source>Thai</source> 
+    <target>タイ語</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="892"> 
+    <source>Thai Baht</source> 
+    <target>タイバーツ</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="893"> 
+    <source>Thailand</source> 
+    <target>タイ</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="894"> 
+    <source>Thursday</source> 
+    <target>木曜日</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="895"> 
+    <source>Time</source> 
+    <target>時間</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="896"> 
+    <source>Timesheets</source> 
+    <target>タイムシート</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="897"> 
+    <source>Timor-Leste</source> 
+    <target>東ティモール</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="898"> 
+    <source>To</source> 
+    <target>へ</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="899"> 
+    <source>to</source> 
+    <target>へ</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="900"> 
+    <source>To date should be after from date</source> 
+    <target>日付、日付からした後でなければなりません</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="901"> 
+    <source>Togo</source> 
+    <target>トーゴ</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="902"> 
+    <source>Togolese</source> 
+    <target>トーゴ</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="903"> 
+    <source>Tokelau</source> 
+    <target>トケラウ諸島</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="904"> 
+    <source>Tonga</source> 
+    <target>トンガ</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="905"> 
+    <source>Tongan</source> 
+    <target>トンガ語</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="906"> 
+    <source>Training</source> 
+    <target>トレーニング</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="907"> 
+    <source>Trinidad and Tobago</source> 
+    <target>トリニダード·トバゴ</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="908"> 
+    <source>Trinidad/Tobago Dollar</source> 
+    <target>トリニダード/トバゴドル</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="909"> 
+    <source>Trinidadian or Tobagonian</source> 
+    <target>トリニダードまたはトリニダードまたは</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="910"> 
+    <source>Tuesday</source> 
+    <target>火曜日</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="911"> 
+    <source>Tunisia</source> 
+    <target>チュニジア</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="912"> 
+    <source>Tunisian</source> 
+    <target>チュニジアの</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="913"> 
+    <source>Tunisian Dinar</source> 
+    <target>チュニジアディナール</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="914"> 
+    <source>Turkey</source> 
+    <target>トルコ</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="915"> 
+    <source>Turkish</source> 
+    <target>トルコ語</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="916"> 
+    <source>Turkish Lira</source> 
+    <target>トルコリラ</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="917"> 
+    <source>Turkmenistan</source> 
+    <target>トルクメニスタン</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="918"> 
+    <source>Turks and Caicos Islands</source> 
+    <target>タークスカイコス諸島</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="919"> 
+    <source>Tuvalu</source> 
+    <target>ツバル</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="920"> 
+    <source>Tuvaluan</source> 
+    <target>ツバルの</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="921"> 
+    <source>Type</source> 
+    <target>タイプ</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="922"> 
+    <source>Type Employee Id</source> 
+    <target>型の従業員ID</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="923"> 
+    <source>Type for hints</source> 
+    <target>ヒントの種類</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="924"> 
+    <source>Uganda</source> 
+    <target>ウガンダ</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="925"> 
+    <source>Uganda Shilling</source> 
+    <target>ウガンダシリング</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="926"> 
+    <source>Ugandan</source> 
+    <target>ウガンダの</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="927"> 
+    <source>Ukraine</source> 
+    <target>ウクライナ</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="928"> 
+    <source>Ukraine Hryvnia</source> 
+    <target>ウクライナグリブナ</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="929"> 
+    <source>Ukrainian</source> 
+    <target>ウクライナ語</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="930"> 
+    <source>United Arab Emirates</source> 
+    <target>アラブ首長国連邦</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="931"> 
+    <source>United Kingdom</source> 
+    <target>イギリス</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="932"> 
+    <source>United States</source> 
+    <target>米国</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="933"> 
+    <source>United States Dollar</source> 
+    <target>米ドル</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="934"> 
+    <source>United States Minor Outlying Islands</source> 
+    <target>アメリカ合衆国外諸島</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="935"> 
+    <source>Uruguay</source> 
+    <target>ウルグアイ</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="936"> 
+    <source>Uruguayan</source> 
+    <target>ウルグアイ</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="937"> 
+    <source>Uruguayan Peso</source> 
+    <target>ウルグアイペソ</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="938"> 
+    <source>Users</source> 
+    <target>ユーザー</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="939"> 
+    <source>Utah</source> 
+    <target>ユタ州</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="940"> 
+    <source>Utd. Arab Emir. Dirham</source> 
+    <target>ユナイテッド。アラブのエミール。ディルハム</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="941"> 
+    <source>Uzbekistan</source> 
+    <target>ウズベキスタン</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="942"> 
+    <source>Uzbekistani</source> 
+    <target>ウズベキスタン</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="943"> 
+    <source>Vacancies</source> 
+    <target>欠員</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="944"> 
+    <source>Vanuatu</source> 
+    <target>バヌアツ</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="945"> 
+    <source>Vanuatu Vatu</source> 
+    <target>バヌアツ·バツ</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="946"> 
+    <source>Venezuela</source> 
+    <target>ベネズエラ</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="947"> 
+    <source>Venezuelan</source> 
+    <target>ベネズエラの</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="948"> 
+    <source>Venezuelan Bolivar</source> 
+    <target>ベネズエラボリバル</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="949"> 
+    <source>Vermont</source> 
+    <target>バーモント州</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="950"> 
+    <source>Viet Nam</source> 
+    <target>ベトナム</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="951"> 
+    <source>Vietnamese</source> 
+    <target>ベトナムの</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="952"> 
+    <source>Vietnamese Dong</source> 
+    <target>ベトナムドン</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="953"> 
+    <source>View Details</source> 
+    <target>詳細を見る</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="954"> 
+    <source>Virgin Islands</source> 
+    <target>バージン諸島</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="955"> 
+    <source>Virgin Islands, British</source> 
+    <target>イギリス領バージン諸島</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="956"> 
+    <source>Virgin Islands, U.s.</source> 
+    <target>米領バージン諸島</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="957"> 
+    <source>Virginia</source> 
+    <target>バージニア州</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="958"> 
+    <source>Wallis and Futuna</source> 
+    <target>ウォリス·フトゥーナ</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="959"> 
+    <source>Washington</source> 
+    <target>ワシントン</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="960"> 
+    <source>Wednesday</source> 
+    <target>水曜日</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="961"> 
+    <source>Welcome #username</source> 
+    <target>＃ユーザ名を歓迎</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="962"> 
+    <source>Welsh</source> 
+    <target>ウェールズ語</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="963"> 
+    <source>West Virginia</source> 
+    <target>ウェストバージニア州</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="964"> 
+    <source>Western Sahara</source> 
+    <target>西サハラ</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="965"> 
+    <source>Wisconsin</source> 
+    <target>ウィスコンシン州</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="966"> 
+    <source>with new file</source> 
+    <target>新しいファイルで</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="967"> 
+    <source>Work Email</source> 
+    <target>勤務先のメールアドレス</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="968"> 
+    <source>Work Experience</source> 
+    <target>実務経験</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="969"> 
+    <source>Work Shifts</source> 
+    <target>仕事のシフト</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="970"> 
+    <source>Work Telephone</source> 
+    <target>仕事の電話</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="971"> 
+    <source>Work Week</source> 
+    <target>週間労働時間</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="972"> 
+    <source>Writing</source> 
+    <target>書き込み</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="973"> 
+    <source>Wyoming</source> 
+    <target>ワイオミング州</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="974"> 
+    <source>Year</source> 
+    <target>年</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="975"> 
+    <source>Years of Experience</source> 
+    <target>長年の経験</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="976"> 
+    <source>Yemen</source> 
+    <target>イエメン</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="977"> 
+    <source>Yemeni Riyal</source> 
+    <target>イエメン·リヤル</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="978"> 
+    <source>Yemenite</source> 
+    <target>イエメン</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="979"> 
+    <source>Yes</source> 
+    <target>はい</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="980"> 
+    <source>Yugoslav Dinar</source> 
+    <target>ユーゴスラビアディナール</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="981"> 
+    <source>Yugoslavian Dinar</source> 
+    <target>ユーゴスラビアディナール</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="982"> 
+    <source>Zambia</source> 
+    <target>ザンビア</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="983"> 
+    <source>Zambian</source> 
+    <target>ザンビアの</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="984"> 
+    <source>Zambian Kwacha</source> 
+    <target>ザンビアクワチャ</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="985"> 
+    <source>Zimbabwe</source> 
+    <target>ジンバブエ</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="986"> 
+    <source>Zimbabwe Dollar</source> 
+    <target>ジンバブエドル</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="987"> 
+    <source>Zimbabwean</source> 
+    <target>ジンバブエの</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="988"> 
+    <source>Passwords do not match</source> 
+    <target>パスワードが一致しません</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="989"> 
+    <source>Invalid</source> 
+    <target>無効</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="990"> 
+    <source>Should be less than %number% digits</source> 
+    <target>%number%桁数未満でなければなりません</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="991"> 
+    <source>Due date should be after from date</source> 
+    <target>期日は、日付からした後でなければなりません</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="992"> 
+    <source>Successfully removed</source> 
+    <target>正常に削除</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="993"> 
+    <source>Ok</source> 
+    <target>良い</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="994"> 
+    <source>Delete records?</source> 
+    <target>レコードを削除しますか？</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="995"> 
+    <source>Select an Employee</source> 
+    <target>従業員を選択します。</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="996"> 
+    <source>Delete?</source> 
+    <target>削除しますか？</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="997"> 
+    <source>Successfully Assigned</source> 
+    <target>正常に割り当てられ</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="998"> 
+    <source>Should be greater than %amount%</source> 
+    <target>%amount%以上でなければなりません</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="999"> 
+    <source>Successfully Submitted</source> 
+    <target>正常に送信され</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="1000"> 
+    <source>Invalid Employee</source> 
+    <target>無効な従業員</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="1001"> 
+    <source>Should be less than %amount%</source> 
+    <target>%amount%未満でなければなりません</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="1002"> 
+    <source>Accepts .docx, .doc, .odt, .pdf, .rtf, .txt up to 1MB</source> 
+    <target>受け入れます。DOCX、DOC、。ODT、PDFファイル、。rtfファイル、。txtの最大1MBまで</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="1003"> 
+    <source>Accepts jpg, .png, .gif up to 1MB</source> 
+    <target>JPG、PNG、GIFは最大1MBまで受け付ける</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="1004"> 
+    <source>Accepts up to 1MB</source> 
+    <target>最大1MBまで受け付ける</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="1005"> 
+    <source>Failed to Save: File Type Not Allowed</source> 
+    <target>保存に失敗しました：許可されていないファイル·タイプ</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="1006"> 
+    <source>Failed to Save: File Size Exceeded</source> 
+    <target>保存に失敗しました：ファイルサイズの超過</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="1007"> 
+    <source>No Employees Available</source> 
+    <target>利用可能な従業員ません</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="1008"> 
+    <source>Should have at least %number% characters</source> 
+    <target>少なくとも%number%文字が必要です</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="1009"> 
+    <source>Successfully Copied</source> 
+    <target>正常にコピーされ</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="1010"> 
+    <source>LOGIN Panel</source> 
+    <target>ログインパネル</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="1011"> 
+    <source>LOGIN</source> 
+    <target>ログイン</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="1012"> 
+    <source>Should be greater than first value</source> 
+    <target>最初の値よりも大きくなければなりません</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="1013"> 
+    <source>Joined After</source> 
+    <target>後に参加</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="1014"> 
+    <source>Joined Before</source> 
+    <target>前に入社</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="1015"> 
+    <source>Joined in Between</source> 
+    <target>間に加わった</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="1016"> 
+    <source>Successfully Changed</source> 
+    <target>正常に変更</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="1017"> 
+    <source>Username</source> 
+    <target>ユーザ名</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="1018"> 
+    <source>Password</source> 
+    <target>パスワード</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="1019"> 
+    <source>Username cannot be empty</source> 
+    <target>ユーザー名は空にすることはできません</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="1020"> 
+    <source>Password cannot be empty</source> 
+    <target>パスワードを空にすることはできません</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="1021"> 
+    <source>Invalid credentials</source> 
+    <target>無効な資格情報</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="1022"> 
+    <source>Europe/Belgrade</source> 
+    <target>ヨーロッパ/ベオグラード</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="1023"> 
+    <source>Europe/Minsk</source> 
+    <target>ヨーロッパ/ミンスク</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="1024"> 
+    <source>Asia/Kuwait</source> 
+    <target>アジア/クウェート</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="1025"> 
+    <source>Asia/Muscat</source> 
+    <target>アジア/マスカット</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="1026"> 
+    <source>Asia/Yekaterinburg</source> 
+    <target>アジア/エカテリンブルグ</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="1027"> 
+    <source>Asia/Kolkata</source> 
+    <target>アジア/コルカタ</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="1028"> 
+    <source>Asia/Dhaka</source> 
+    <target>アジア/ダッカ</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="1029"> 
+    <source>Asia/Krasnoyarsk</source> 
+    <target>アジア/クラスノヤルスク</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="1030"> 
+    <source>Asia/Brunei</source> 
+    <target>アジア/ブルネイ</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="1031"> 
+    <source>Asia/Seoul</source> 
+    <target>アジア/ソウル</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="1032"> 
+    <source>Australia/Darwin</source> 
+    <target>オーストラリア/ダーウィン</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="1033"> 
+    <source>Australia/Canberra</source> 
+    <target>オーストラリア/キャンベラ</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="1034"> 
+    <source>Asia/Magadan</source> 
+    <target>アジア/マガダン</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="1035"> 
+    <source>Pacific/Fiji</source> 
+    <target>パシフィック/フィジー</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="1036"> 
+    <source>Pacific/Midway</source> 
+    <target>太平洋/ミッドウェイ</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="1037"> 
+    <source>Pacific/Honolulu</source> 
+    <target>太平洋/ホノルル</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="1038"> 
+    <source>America/Anchorage</source> 
+    <target>アメリカ/アンカレッジ</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="1039"> 
+    <source>America/Los_Angeles</source> 
+    <target>アメリカ/ ロサンゼルス</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="1040"> 
+    <source>America/Denver</source> 
+    <target>アメリカ/デンバー</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="1041"> 
+    <source>America/Tegucigalpa</source> 
+    <target>アメリカ/テグシガルパ</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="1042"> 
+    <source>America/New_York</source> 
+    <target>アメリカ/ニューヨーク州</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="1043"> 
+    <source>America/Halifax</source> 
+    <target>アメリカ/ハリファックス</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="1044"> 
+    <source>America/St_Johns</source> 
+    <target>アメリカ/ セントジョンズ</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="1045"> 
+    <source>America/Argentina/Buenos_Aires</source> 
+    <target>アメリカ/アルゼンチン/ ブエノスアイレス</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="1046"> 
+    <source>Atlantic/South_Georgia</source> 
+    <target>大西洋/ サウスジョージア島</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="1047"> 
+    <source>Atlantic/Azores</source> 
+    <target>大西洋/アゾレス諸島</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="1048"> 
+    <source>Upload</source> 
+    <target>アップロード</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="1049"> 
+    <source>Type in years</source> 
+    <target>年を入力します</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="1050"> 
+    <source>Hours</source> 
+    <target>時間</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="1051"> 
+    <source>Deleted Employee</source> 
+    <target>削除された従業員</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="1052"> 
+    <source>Total</source> 
+    <target>合計</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="1053"> 
+    <source>compulsory</source> 
+    <target>強制的な</target> 
+   </trans-unit>
+   <trans-unit id="465">
+    <source>Korea, Democratic People's Republic of</source>
+    <target>韓国民主人民共和国</target>
+    <note>A country name</note>
+    </trans-unit>
+    <trans-unit id="465">
+    <source>Lao People's Democratic Republic</source>
+    <target>ラオス人民民主共和国</target>
+    <note>A country name</note>
+    </trans-unit>
+    <trans-unit id="724">
+    <source>Project Date Range</source>
+    <target>プロジェクトの日付範囲</target>
+    </trans-unit>
+    <trans-unit id="668">
+    <source>Only Include Approved Timesheets</source>
+    <target>唯一の承認されたタイムシートを含める</target>
+   </trans-unit>
+   <trans-unit id="1825"> 
+    <source>Termination Date</source> 
+    <target>終了日</target> 
+   </trans-unit>
+   <trans-unit id="1825"> 
+    <source>Termination Reason</source> 
+    <target>退職理由</target> 
+   </trans-unit>
+  </body> 
+ </file> 
+</xliff> 

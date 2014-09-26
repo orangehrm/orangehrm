@@ -1,0 +1,6 @@
+index:
+  credentials:  [[Admin, Supervisor, Manager]]
+
+delete:
+  credentials:  [Admin]
+  

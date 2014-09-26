@@ -1,0 +1,11 @@
+Country:
+  0: {cou_code: 'LK', name: 'SRI LANKA', cou_name: 'Sri Lanka', iso3: 'LKA', numcode: 144 }
+
+OperationalCountry:
+  0: { id: 1, country_code: 'LK' }
+
+Holiday:
+  0: {id: 1, recurring: 1, description: 'Public Holiday', date: '2010-05-27', length: 4}
+  1: {id: 2, recurring: 0, description: 'Fullmoon Day', date: '2010-05-28', length: 8, operational_country_id: 1}
+  2: {id: 3, recurring: 1, description: 'Home Holiday', date: '2010-06-21', length: 4}
+  3: {id: 4, recurring: 0, description: 'Personal Holiday', date: '2010-08-28', length: 8}

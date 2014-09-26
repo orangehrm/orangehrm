@@ -1,0 +1,178 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE xliff PUBLIC "-//XLIFF//DTD XLIFF//EN" "http://www.oasis-open.org/committees/xliff/documents/xliff.dtd">
+<xliff version="1.0">
+ <header/>
+ <file source-language="en_US" target-language="om_ET" datatype="plaintext" original="messages" date="2012-04-17T0:25:00Z" product-name="messages">
+  <body>
+   <trans-unit id="1">
+    <source>Add Key Performance Indicator</source>
+    <target>Agarsiiftuu Raawwii Dabali</target>
+   </trans-unit>
+   <trans-unit id="2">
+    <source>Add Performance Review</source>
+    <target>Madaallii Raawwii Dabali</target>
+   </trans-unit>
+   <trans-unit id="3">
+    <source>Being Reviewed</source>
+    <target>Madaalamaa Jira</target>
+   </trans-unit>
+   <trans-unit id="4">
+    <source>Clear</source>
+    <target>Haqi</target>
+   </trans-unit>
+   <trans-unit id="5">
+    <source>Comment Should Be Less Than %amount% Characters</source>
+    <target>Yaadni Barreefamu %amount% gadi tahuu qaba</target>
+   </trans-unit>
+   <trans-unit id="6">
+    <source>Copy Key Performance Indicators</source>
+    <target>Agarsiiftuu Raawwii Garagalchi</target>
+   </trans-unit>
+   <trans-unit id="7">
+    <source>Copy To</source>
+    <target>Gara Kanatti Garagalchi</target>
+   </trans-unit>
+   <trans-unit id="8">
+    <source>Define Now</source>
+    <target>Amma Ibsi</target>
+   </trans-unit>
+   <trans-unit id="9">
+    <source>Due Date</source>
+    <target>Guyyaa Raawwatamu</target>
+   </trans-unit>
+   <trans-unit id="10">
+    <source>Edit Performance Review</source>
+    <target>Madaallii Raawwii Gulaali</target>
+   </trans-unit>
+   <trans-unit id="11">
+    <source>Failed to Add: No Job Title Assigned</source>
+    <target>Dabaluu hin dandeenye: Gitni hojii kenname hin jiru</target>
+   </trans-unit>
+   <trans-unit id="12">
+    <source>Is Default</source>
+    <target>Durtii</target>
+   </trans-unit>
+   <trans-unit id="13">
+    <source>Key Performance Indicator</source>
+    <target>Agarsiiftuu Raawwii</target>
+   </trans-unit>
+   <trans-unit id="14">
+    <source>Key Performance Indicators for Job Title</source>
+    <target>Agarsiiftuu Raawwii Gita Hojii</target>
+   </trans-unit>
+   <trans-unit id="15">
+    <source>KPI Already Exists, This Operation Deletes Existing KPI</source>
+    <target>Agarsiiftuun Raawwii kun Duraanuu jira, Gochi kun kan duraan ture balleessa.</target>
+   </trans-unit>
+   <trans-unit id="16">
+    <source>KPI Should Be a Number Within Minimum and Maximum Value</source>
+    <target>Agarsiiftuun Raawwii Lakkoofsa Qabxii Guddichaa fi Xiqqicha gidduu tahuu qaba</target>
+   </trans-unit>
+   <trans-unit id="17">
+    <source>Make Default Scale</source>
+    <target>Safara Turtii Taasisi</target>
+   </trans-unit>
+   <trans-unit id="18">
+    <source>Max Rate</source>
+    <target>Qabxii Guddichi</target>
+   </trans-unit>
+   <trans-unit id="19">
+    <source>Maximum Rating</source>
+    <target>Qabxii Guddaan</target>
+   </trans-unit>
+   <trans-unit id="20">
+    <source>Min Rate</source>
+    <target>Qabxii Xiqqichi</target>
+   </trans-unit>
+   <trans-unit id="21">
+    <source>Minimum Rating</source>
+    <target>Qabxii Xiqqaan</target>
+   </trans-unit>
+   <trans-unit id="22">
+    <source>Minimum Rating should be lesser than Maximum Rating</source>
+    <target>Qabxii Xiqqichi Qabxii Guddichaan gadi tahuu qaba</target>
+   </trans-unit>
+   <trans-unit id="23">
+    <source>No Defined Job Titles</source>
+    <target>Gitni Hojii Ibsame Hin jiru</target>
+   </trans-unit>
+   <trans-unit id="24">
+    <source>No employee exists with this name</source>
+    <target>Hojjetaan Maqaa kana qabu hin jiru</target>
+   </trans-unit>
+   <trans-unit id="25">
+    <source>No Key Performance Indicators were found for the job title of this employee</source>
+    <target>Gita hojii hojjetaa kanaaf agarsiiftuun raawwii hojii hin kaawamne</target>
+   </trans-unit>
+   <trans-unit id="26">
+    <source>No reviewer exists with this name</source>
+    <target>Maqaa kanaan madaalliin kaawame hin jiru</target>
+   </trans-unit>
+   <trans-unit id="27">
+    <source>Not Available</source>
+    <target>Hin Jiru</target>
+   </trans-unit>
+   <trans-unit id="28">
+    <source>Performance Review</source>
+    <target>Madaallii Raawwii</target>
+   </trans-unit>
+   <trans-unit id="29">
+    <source>Rating</source>
+    <target>Qabxii Raawwii</target>
+   </trans-unit>
+   <trans-unit id="30">
+    <source>review of</source>
+    <target>Madaallii kan</target>
+   </trans-unit>
+   <trans-unit id="31">
+    <source>Review Period</source>
+    <target>Yeroo Madaallii</target>
+   </trans-unit>
+   <trans-unit id="32">
+    <source>Reviewer</source>
+    <target>Nama Madaalu</target>
+   </trans-unit>
+   <trans-unit id="33">
+    <source>Reviewer Comments</source>
+    <target>Yaada Nama Madaaluu</target>
+   </trans-unit>
+   <trans-unit id="34">
+    <source>Reviewer Name</source>
+    <target>Maqaa nama madaaluu</target>
+   </trans-unit>
+   <trans-unit id="35">
+    <source>Search Key Performance Indicators</source>
+    <target>Agarsiiftuu Raawwii Hojii Barbaadi</target>
+   </trans-unit>
+   <trans-unit id="36">
+    <source>Search Performance Reviews</source>
+    <target>Madaalliiwwan Raawwii Barbaadi</target>
+   </trans-unit>
+   <trans-unit id="37">
+    <source>Select Job Title</source>
+    <target>Gita Hojii Filadhu</target>
+   </trans-unit>
+   <trans-unit id="38">
+    <source>Sub Division</source>
+    <target>Kutaa Hojii</target>
+   </trans-unit>
+   <trans-unit id="39">
+    <source>Successfully</source>
+    <target>Sirriitti</target>
+   </trans-unit>
+   <trans-unit id="40">
+    <source>Update Key Performance Indicator</source>
+    <target>Agarsiiftuu Raawwii Haaromsi</target>
+   </trans-unit>
+   <trans-unit id="41">
+    <source>updated</source>
+    <target>Haaromfameera</target>
+   </trans-unit>
+   <trans-unit id="42">
+    <source>View KPI List</source>
+    <target>Agarsiiftuu Raawwii Tarreessi Mul'isi</target>
+   </trans-unit>
+  </body>
+ </file>
+</xliff>
+<!-- Contributed By:   -->

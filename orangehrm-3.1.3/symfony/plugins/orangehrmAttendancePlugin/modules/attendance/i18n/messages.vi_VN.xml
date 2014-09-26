@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE xliff PUBLIC "-//XLIFF//DTD XLIFF//EN" "http://www.oasis-open.org/committees/xliff/documents/xliff.dtd">
+<xliff version="1.0">
+ <header/>
+ <file source-language="en_US" target-language="vi_VN" datatype="plaintext" original="messages" date="2012-08-23T1:18:56Z" product-name="messages">
+  <body>
+   <trans-unit id="1">
+    <source>Add Attendance Records</source>
+    <target>Thêm Hồ sơ tham dự</target>
+   </trans-unit>
+   <trans-unit id="2">
+    <source>Attendance Configuration</source>
+    <target>Cấu hình tham dự</target>
+   </trans-unit>
+   <trans-unit id="3">
+    <source>Comment should be less than 250 characters</source>
+    <target>Bình luận nên được ít hơn 250 ký tự</target>
+   </trans-unit>
+   <trans-unit id="4">
+    <source>Employee can change current time when punching in/out</source>
+    <target>Nhân viên có thể thay đổi thời gian hiện tại khi đấm vào / ra</target>
+   </trans-unit>
+   <trans-unit id="5">
+    <source>Employee can edit/delete own attendance records</source>
+    <target>Nhân viên có thể chỉnh sửa / xóa hồ sơ tham dự của</target>
+   </trans-unit>
+   <trans-unit id="6">
+    <source>In</source>
+    <target>Trong</target>
+   </trans-unit>
+   <trans-unit id="7">
+    <source>Last punch in time</source>
+    <target>Cú đấm cuối cùng trong thời gian</target>
+   </trans-unit>
+   <trans-unit id="8">
+    <source>My Attendance Records</source>
+    <target>Hồ sơ tham dự của tôi</target>
+   </trans-unit>
+   <trans-unit id="9">
+    <source>No attendance records to display</source>
+    <target>Không có thông tin tham dự để hiển thị</target>
+   </trans-unit>
+   <trans-unit id="10">
+    <source>Out</source>
+    <target>Out</target>
+   </trans-unit>
+   <trans-unit id="11">
+    <source>Overlapping Records Found</source>
+    <target>Ghi chồng lên nhau được tìm thấy</target>
+   </trans-unit>
+   <trans-unit id="12">
+    <source>Punch In</source>
+    <target>Cú đấm Trong</target>
+   </trans-unit>
+   <trans-unit id="13">
+    <source>Punch In Note</source>
+    <target>Cú đấm Trong chú giải</target>
+   </trans-unit>
+   <trans-unit id="14">
+    <source>Punch in/out note</source>
+    <target>Đấm vào / ra lưu ý</target>
+   </trans-unit>
+   <trans-unit id="15">
+    <source>Punch Out</source>
+    <target>Đấm Out</target>
+   </trans-unit>
+   <trans-unit id="16">
+    <source>Punch Out Note</source>
+    <target>Đấm Out Lưu ý</target>
+   </trans-unit>
+   <trans-unit id="17">
+    <source>Punch out Time Should Be Higher Than Punch in Time</source>
+    <target>Đấm ra thời gian nên là cao hơn cú đấm trong thời gian</target>
+   </trans-unit>
+   <trans-unit id="18">
+    <source>Should Be a Valid Date in %format% Format</source>
+    <target>Ngày hợp lệ phải có định dạng %format%</target>
+   </trans-unit>
+   <trans-unit id="19">
+    <source>Should Be a Valid Time in %format% Format</source>
+    <target>Thời gian hợp lệ phải có định dạng %format%</target>
+   </trans-unit>
+   <trans-unit id="20">
+    <source>Supervisor can add/edit/delete attendance records of subordinates</source>
+    <target>Giám sát có thể thêm / sửa / xóa các bản ghi sự tham gia của cấp dưới</target>
+   </trans-unit>
+   <trans-unit id="21">
+    <source>Timezone</source>
+    <target>Múi giờ</target>
+   </trans-unit>
+   <trans-unit id="22">
+    <source>View Attendance Record</source>
+    <target>Xem thông tin tham dự</target>
+   </trans-unit>
+   <trans-unit id="23">
+    <source>You are not allowed to view this page</source>
+    <target>Bạn không được phép xem trang này</target>
+   </trans-unit>
+  </body>
+ </file>
+</xliff>
+<!-- Contributed By:   ,   ,  Nguyen Ninh , Adam Jimi , Do Nguyen , Duong Minh Hieu , Khanh Ho , Le Thanh Duong , Liem Chau , Linh Trinh , Nguyen Huu Tuan , Phu Dang , Phu Luong , Thanh Pham , Tran Quoc Ninh , Van Nguyen -->
+

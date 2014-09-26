@@ -1,0 +1,55 @@
+## YAML Template.
+---
+
+Employee:
+  0: { firstName: myname1, lastName: last1, employeeId: 1, empNumber: 1 }
+  1: { firstName: myname2, lastName: last2, employeeId: 2, empNumber: 2 }
+
+UserRole:
+  0: {id: 1, name: 'Admin', display_name: Admin}
+
+SystemUser:
+  0: {id: 3, user_name: 'user3', user_role_id: 1}
+  1: {id: 4, user_name: 'user4', user_role_id: 1}
+
+Customer:
+  0: {customer_id: 1, name: 'user', description: 'main customer', is_deleted: 0 }
+  1: {customer_id: 2, name: 'user', description: 'main customer', is_deleted: 0 }
+  2: {customer_id: 3, name: 'user', description: 'main customer', is_deleted: 0 }
+
+Project:
+  0: {project_id: 1, customer_id: 1, name: 'OrangeHRM', description: 'firstproject', is_deleted: 0 }
+  1: {project_id: 2, customer_id: 2, name: 'OrangeHRM2', description: 'secondproject', is_deleted: 0 }
+  2: {project_id: 3, customer_id: 3, name: 'OrangeHRM3', description: 'thirdproject', is_deleted: 1 }
+
+ProjectActivity:
+  0: {activity_id: 1, project_id: 1, name: 'Activity1 For Pro1', is_deleted: 0 }
+  1: {activity_id: 2, project_id: 1, name: 'Activity2 For Pro1', is_deleted: 1 }
+  
+Timesheet:
+  0: {timesheet_id: 1, employee_id: 1, state: 'CREATED', start_date: '2011-04-18',end_date: '2011-04-19'}
+  1: {timesheet_id: 2, employee_id: 2, state: 'SUBMITTED', start_date: '2011-04-22',end_date: '2011-04-19'}
+  2: {timesheet_id: 3, employee_id: 3, state: 'ACCEPTED', start_date: '2011-04-18',end_date: '2011-04-19'}
+  3: {timesheet_id: 4, employee_id: 4, state: 'REJECTED', start_date: '2011-04-18',end_date: '2011-05-19'}
+  4: {timesheet_id: 5, employee_id: 5, state: 'SUBMITTED', start_date: '2011-03-19',end_date: '2011-04-20'}
+  5: {timesheet_id: 6, employee_id: 6, state: 'SUPERVISOR APPROVED', start_date: '2011-03-19',end_date: '2011-04-07'}
+  6: {timesheet_id: 7, employee_id: 7, state: 'SUPERVISOR APPROVED', start_date: '2011-04-19',end_date: '2011-04-25'}
+  7: {timesheet_id: 8, employee_id: 1, state: 'ACCEPTED', start_date: '2011-04-22',end_date: '2011-04-28'}
+  8: {timesheet_id: 9, employee_id: 6, state: 'SUPERVISOR APPROVED', start_date: '2011-02-19',end_date: '2011-02-25'}
+  9: {timesheet_id: 10, employee_id: 8, state: 'CREATED', start_date: '2010-02-27',end_date: '2010-03-06'}
+  10: {timesheet_id: 11, employee_id: 2, state: 'ACCEPTED', start_date: '2011-04-18',end_date: '2011-04-28'}
+
+TimesheetItem:
+  0: {timesheet_item_id: 1, timesheet_id: 1, date: '2011-04-12', duration: 7200, comment: 'Good', project_id: 1, employee_id: 1, activity_id: 1}
+  1: {timesheet_item_id: 2, timesheet_id: 1, date: '2011-04-13', duration: 1000, comment: 'Very Good', project_id: 1, employee_id: 2, activity_id: 1}
+  2: {timesheet_item_id: 3, timesheet_id: 2, date: '2011-04-12', duration: 8000, comment: 'Not Bad', project_id: 1, employee_id: 1, activity_id: 1}
+  3: {timesheet_item_id: 4, timesheet_id: 3, date: '2011-04-12', duration: 3890, comment: 'Poor', project_id: 1, employee_id: 1, activity_id: 1}
+  4: {timesheet_item_id: 5, timesheet_id: 1, date: '2011-04-15', duration: 1000, comment: 'Good', project_id: 1, employee_id: 2, activity_id: 1}
+  5: {timesheet_item_id: 6, timesheet_id: 1, date: '2011-04-10', duration: 1000, comment: 'Poor', project_id: 1, employee_id: 2, activity_id: 1}
+  
+
+TimesheetActionLog:
+  0: {timesheet_action_log_id: 1, comment: 'ACCEPTED', date_time: '2011-04-18', performed_by: 3, timesheet_id: 1, action: 'ACCEPTED'}
+  1: {timesheet_action_log_id: 2, comment: 'REJECTED', date_time: '2011-04-19', performed_by: 4, timesheet_id: 1, action: 'REJECTED'}
+  2: {timesheet_action_log_id: 3, comment: 'REJECTED', date_time: '2011-04-21', performed_by: 3, timesheet_id: 2, action: 'REJECTED'}
+  3: {timesheet_action_log_id: 4, comment: 'ACCEPTED', date_time: '2011-04-24', performed_by: 3, timesheet_id: 3, action: 'ACCEPTED'}
