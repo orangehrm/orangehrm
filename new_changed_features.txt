@@ -1,3 +1,10 @@
+New & Changed Features for OrangeHRM ver 3.1.2
+    New Features
+    ------------
+    Changed Registration page during installation to a much simpler one 
+    Removed 'Help' and 'Join Community' items from the application header
+    Added 'About' menu item to the 'welcome' menu, which contains logout and change password
+
 New & Changed Features for OrangeHRM ver 3.1.1
     New Features
     ------------
