@@ -1,1 +1,0 @@
-a:1:{s:8:"required";a:3:{s:3:"php";a:1:{s:3:"min";s:5:"5.1.0";}s:13:"pearinstaller";a:1:{s:3:"min";s:5:"1.4.1";}s:7:"package";a:5:{s:4:"name";s:13:"sfMainPackage";s:7:"channel";s:16:"pear.example.com";s:3:"min";s:5:"1.1.0";s:3:"max";s:5:"1.2.0";s:7:"exclude";s:5:"1.2.0";}}}

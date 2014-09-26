@@ -1,4 +1,0 @@
-EmploymentStatus:
-  0: { id: 1, name: 'Full Time' }
-  1: { id: 2, name: 'Part Time' }
-  2: { id: 3, name: 'Intern' }
