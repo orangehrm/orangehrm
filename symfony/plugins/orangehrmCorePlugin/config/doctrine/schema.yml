@@ -971,7 +971,7 @@ Login:
       type: timestamp(25)
       name: login_time AS loginTime
   relations:
-    User:
+    SystemUser:
       local: user_id
       foreign: id
       type: one
