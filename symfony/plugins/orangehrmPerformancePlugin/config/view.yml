@@ -1,0 +1,36 @@
+saveKpiSuccess:
+  layout: freshorange
+  javascripts:    [-*]
+  stylesheets:    [-*]
+searchKpiSuccess:
+  layout: freshorange
+  javascripts:    [-*]
+  stylesheets:    [-*]
+saveReviewSuccess:
+  layout: freshorange
+  javascripts:    [-*]
+  stylesheets:    [-*]
+searchPerformancReviewSuccess:
+  layout: freshorange
+  javascripts:    [-*]
+  stylesheets:    [-*]
+reviewEvaluateByAdminSuccess:
+  layout: freshorange
+  javascripts:    [-*]
+  stylesheets:    [-*]
+reviewEvaluateSuccess:
+  layout: freshorange
+  javascripts:    [-*]
+  stylesheets:    [-*]
+performanceReviewProgressSuccess:
+  layout: freshorange
+  javascripts:    [-*]
+  stylesheets:    [-*]
+myPerformanceReviewSuccess:
+  layout: freshorange
+  javascripts:    [-*]
+  stylesheets:    [-*]
+searchEvaluatePerformancReviewSuccess:
+  layout: freshorange
+  javascripts:    [-*]
+  stylesheets:    [-*]

@@ -1,0 +1,24 @@
+link1:
+  name: Apply Leave
+  url: 'leave/applyLeave'
+  plugin: orangehrmLeavePlugin
+  target: '_self'
+  image: 'ApplyLeave.png'
+  ohrm_module: 'leave'
+  
+link2:
+  name: My Leave
+  url: 'leave/viewMyLeaveList/reset/1'
+  plugin: orangehrmLeavePlugin
+  target: '_self'
+  image: 'MyLeave.png'
+  ohrm_module: 'leave'
+  
+link3:
+  name: My Timesheet
+  url: 'time/viewMyTimesheet'
+  plugin: orangehrmTimePlugin
+  target: '_self'
+  image: 'MyTimesheet.png'
+  ohrm_module: 'time'
+    

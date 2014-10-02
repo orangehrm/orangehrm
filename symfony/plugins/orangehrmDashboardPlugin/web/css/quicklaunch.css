@@ -1,0 +1,43 @@
+#dashboard-quick-launch-panel-container{
+    width:auto; /* Width and Height you can change */
+    height:100%; /* Height of the menu container, 4 li elements, each li have 27px height so total 108*/
+    border-radius : 5px;  
+    -moz-border-radius : 5px;  
+    -webkit-border-radius : 5px;
+    font-family: Arial,Verdana,Helvetica,sans-serif; 
+    margin:0 auto;
+}
+#dashboard-quick-launch-panel-menu_holder{
+    overflow:hidden; /* make the overflow as hidden, like a mask layer*/
+    height:100%; /* Height of the menu holder, same as the container*/
+    position:relative;
+    width:100%;
+}
+#dashboard-quick-launch-panel-slider {
+    margin:0;
+    padding:0px;
+    position:relative;
+    width:100%;
+}
+#dashboard-quick-launch-panel-slider li{
+    background:#FAD163;
+    padding:5px;
+    margin: 0px;
+    border-bottom:1px solid #FFE7AD;
+    color:#000;
+    text-align:left;
+    list-style-type: decimal !important;
+    list-style-position: inside;
+}
+#dashboard-quick-launch-panel-slider li:hover{
+    color:#000;
+    background:#FFE7AD;
+}
+
+.odd {
+    background:#BBBBBB !important;
+}
+
+.even {
+    background:#fff !important;  
+}

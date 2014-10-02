@@ -1,0 +1,3 @@
+all:
+  orangehrmDashboardPlugin:
+    version: '1.0'  

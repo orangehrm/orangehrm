@@ -1,0 +1,4 @@
+performanceTracker:  
+  addPerformanceTrackerLog:
+    list-component-before-table-action-bar:
+      - { module: performanceTracker, component: exportToCSV }

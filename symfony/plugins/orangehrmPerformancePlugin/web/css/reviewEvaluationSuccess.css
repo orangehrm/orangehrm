@@ -1,0 +1,148 @@
+/* 
+    Document   : saveAppraisalHeaderSuccess
+    Created on : Feb 28, 2012, 12:18:22 PM
+    Author     : nadeera
+    Description:
+        Purpose of the stylesheet follows.
+*/
+
+div.error {
+    padding-left: 156px;
+    padding-top: 1px !important;
+    text-align: left;
+    width: auto;
+    font-size: 11px;
+}
+br{
+    clear: both;
+}
+
+.lableName{
+    font-weight: bold;
+    width: 150px;
+    padding-left: 15px;
+}
+
+.lableValue{
+    width: 150px !important;
+}
+
+.longLabel{
+    width: 620px !important;
+    margin-left: 15px;
+    text-align: justify;
+}
+
+div.instructions{
+    margin: 10px 0px 10px 0px; 
+    border-color: #dedede;
+    padding: 5px;
+    border-style: solid;
+    border-width: 1px;
+}
+
+div.reviewInfo{
+    background-color: #fdfdfd;
+    border-width: 1px;
+    border-color:  #dedede;
+    border-style: solid;
+    margin-right: 20px;
+}
+
+div.evaluation {
+    margin: 10px 0px 10px 0px;    
+}
+
+.evaluation table{
+    border-collapse: collapse;
+    border-color: #dedede; 
+    width: 100%;
+}
+
+.evaluation table th{
+    background-color: #dedede;
+}
+
+.evaluation table td,th{
+    border-collapse: collapse;
+    border-color: #dedede; 
+    padding: 7px;
+    vertical-align: top;
+}
+
+td.rightAlign  {
+    text-align: right !important;
+}
+
+input[type="text"].rightAlign {
+    text-align: right !important;
+    width: 50px !important;
+}
+
+textarea.comment {
+    width: 500px;
+}
+
+div.reviewers{
+    width: 40%;
+    background-color: #fdfdfd; 
+}
+
+div.instructions{
+    background-color: #fdfdfd;
+    margin-left: 20px;
+    margin-right: 20px;
+    border-width: 0px;
+}
+
+.box .smallerHeader h1 {
+    background: url("../../themes/default/images/h1-bg.png") repeat-x scroll left bottom #F3F3F3;
+    border: 1px solid #DEDEDE;
+    border-top-left-radius: 3px;
+    border-top-right-radius: 3px;
+    color: #5D5D5D;
+    font-size: 15px;
+    line-height: 15px;
+    padding: 9px 10px;
+}
+
+#review-details dl {
+    display: block;
+    clear: both;
+}
+
+#review-details dt {
+    width: 150px;
+    display: block;
+    float: left;
+    margin-right: 5px;
+    padding-left: 3px;
+}
+
+#review-details dd {
+    width: 200px;
+    display: block;
+    float: left;
+    width: 200px;
+}
+
+
+form table span.validation-error {
+    color: #AA4935;
+    display: block;
+    font-size: 12px;
+    width: 70px;
+}
+
+.trReviewHeight{
+    height: 20px;
+    vertical-align: middle;
+}
+
+.expandTable{
+    width: 97%;
+}
+
+#induvidualEvaluate{
+    width: 400px;
+}
