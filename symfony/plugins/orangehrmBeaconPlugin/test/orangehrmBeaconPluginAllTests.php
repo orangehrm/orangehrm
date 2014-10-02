@@ -1,6 +1,6 @@
 <?php
 
-class orangehrmBeaconPluginPluginAllTests {
+class orangehrmBeaconPluginAllTests {
 
 
     protected function setUp() {
@@ -12,9 +12,7 @@ class orangehrmBeaconPluginPluginAllTests {
 
         $suite = new PHPUnit_Framework_TestSuite('orangehrmBeaconPluginAllTest');
 
-        /* Rule Test Cases */
-
-        $suite->addTestFile(dirname(__FILE__) . '';
+        //$suite->addTestFile(dirname(__FILE__) . '';
         
         /* Service Test Cases */
         
@@ -38,6 +36,6 @@ class orangehrmBeaconPluginPluginAllTests {
 
 if (PHPUnit_MAIN_METHOD == 'orangehrmBeaconPluginAllTests::main') {
 
-    orangehrmBeaconPlugin::main();
+    orangehrmBeaconPluginPluginAllTests::main();
 
 }
