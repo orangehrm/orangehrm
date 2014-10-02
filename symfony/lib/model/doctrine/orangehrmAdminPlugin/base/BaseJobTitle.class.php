@@ -12,10 +12,9 @@
  * @property integer $isDeleted
  * @property JobSpecificationAttachment $JobSpecificationAttachment
  * @property Doctrine_Collection $employees
- * @property Doctrine_Collection $definekpi
- * @property Doctrine_Collection $JobVacancy
- * @property Doctrine_Collection $DefineKpi
+ * @property Doctrine_Collection $Kpi
  * @property Doctrine_Collection $PerformanceReview
+ * @property Doctrine_Collection $JobVacancy
  * 
  * @method integer                    getId()                         Returns the current record's "id" value
  * @method string                     getJobTitleName()               Returns the current record's "jobTitleName" value
@@ -24,10 +23,9 @@
  * @method integer                    getIsDeleted()                  Returns the current record's "isDeleted" value
  * @method JobSpecificationAttachment getJobSpecificationAttachment() Returns the current record's "JobSpecificationAttachment" value
  * @method Doctrine_Collection        getEmployees()                  Returns the current record's "employees" collection
- * @method Doctrine_Collection        getDefinekpi()                  Returns the current record's "definekpi" collection
- * @method Doctrine_Collection        getJobVacancy()                 Returns the current record's "JobVacancy" collection
- * @method Doctrine_Collection        getDefineKpi()                  Returns the current record's "DefineKpi" collection
+ * @method Doctrine_Collection        getKpi()                        Returns the current record's "Kpi" collection
  * @method Doctrine_Collection        getPerformanceReview()          Returns the current record's "PerformanceReview" collection
+ * @method Doctrine_Collection        getJobVacancy()                 Returns the current record's "JobVacancy" collection
  * @method JobTitle                   setId()                         Sets the current record's "id" value
  * @method JobTitle                   setJobTitleName()               Sets the current record's "jobTitleName" value
  * @method JobTitle                   setJobDescription()             Sets the current record's "jobDescription" value
@@ -35,10 +33,9 @@
  * @method JobTitle                   setIsDeleted()                  Sets the current record's "isDeleted" value
  * @method JobTitle                   setJobSpecificationAttachment() Sets the current record's "JobSpecificationAttachment" value
  * @method JobTitle                   setEmployees()                  Sets the current record's "employees" collection
- * @method JobTitle                   setDefinekpi()                  Sets the current record's "definekpi" collection
- * @method JobTitle                   setJobVacancy()                 Sets the current record's "JobVacancy" collection
- * @method JobTitle                   setDefineKpi()                  Sets the current record's "DefineKpi" collection
+ * @method JobTitle                   setKpi()                        Sets the current record's "Kpi" collection
  * @method JobTitle                   setPerformanceReview()          Sets the current record's "PerformanceReview" collection
+ * @method JobTitle                   setJobVacancy()                 Sets the current record's "JobVacancy" collection
  * 
  * @package    orangehrm
  * @subpackage model\admin\base
@@ -86,19 +83,15 @@ abstract class BaseJobTitle extends sfDoctrineRecord
              'local' => 'id',
              'foreign' => 'job_title_code'));
 
-        $this->hasMany('DefineKpi as definekpi', array(
-             'local' => 'id',
-             'foreign' => 'job_title_code'));
-
-        $this->hasMany('JobVacancy', array(
+        $this->hasMany('Kpi', array(
              'local' => 'id',
              'foreign' => 'jobTitleCode'));
 
-        $this->hasMany('DefineKpi', array(
-             'local' => 'id',
-             'foreign' => 'jobtitlecode'));
-
         $this->hasMany('PerformanceReview', array(
+             'local' => 'id',
+             'foreign' => 'jobTitleCode'));
+
+        $this->hasMany('JobVacancy', array(
              'local' => 'id',
              'foreign' => 'jobTitleCode'));
     }

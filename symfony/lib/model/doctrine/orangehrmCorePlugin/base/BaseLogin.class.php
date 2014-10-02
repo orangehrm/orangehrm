@@ -11,20 +11,22 @@
  * @property string $userRoleName
  * @property boolean $userRolePredefined
  * @property timestamp $loginTime
+ * @property SystemUser $SystemUser
  * 
- * @method integer   getId()                 Returns the current record's "id" value
- * @method integer   getUserId()             Returns the current record's "userId" value
- * @method string    getUserName()           Returns the current record's "userName" value
- * @method string    getUserRoleName()       Returns the current record's "userRoleName" value
- * @method boolean   getUserRolePredefined() Returns the current record's "userRolePredefined" value
- * @method timestamp getLoginTime()          Returns the current record's "loginTime" value
- * @method Login     setId()                 Sets the current record's "id" value
- * @method Login     setUserId()             Sets the current record's "userId" value
- * @method Login     setUserName()           Sets the current record's "userName" value
- * @method Login     setUserRoleName()       Sets the current record's "userRoleName" value
- * @method Login     setUserRolePredefined() Sets the current record's "userRolePredefined" value
- * @method Login     setLoginTime()          Sets the current record's "loginTime" value
- * @property  $
+ * @method integer    getId()                 Returns the current record's "id" value
+ * @method integer    getUserId()             Returns the current record's "userId" value
+ * @method string     getUserName()           Returns the current record's "userName" value
+ * @method string     getUserRoleName()       Returns the current record's "userRoleName" value
+ * @method boolean    getUserRolePredefined() Returns the current record's "userRolePredefined" value
+ * @method timestamp  getLoginTime()          Returns the current record's "loginTime" value
+ * @method SystemUser getSystemUser()         Returns the current record's "SystemUser" value
+ * @method Login      setId()                 Sets the current record's "id" value
+ * @method Login      setUserId()             Sets the current record's "userId" value
+ * @method Login      setUserName()           Sets the current record's "userName" value
+ * @method Login      setUserRoleName()       Sets the current record's "userRoleName" value
+ * @method Login      setUserRolePredefined() Sets the current record's "userRolePredefined" value
+ * @method Login      setLoginTime()          Sets the current record's "loginTime" value
+ * @method Login      setSystemUser()         Sets the current record's "SystemUser" value
  * 
  * @package    orangehrm
  * @subpackage model\core\base
@@ -66,7 +68,7 @@ abstract class BaseLogin extends sfDoctrineRecord
     public function setUp()
     {
         parent::setUp();
-        $this->hasMany('User', array(
+        $this->hasOne('SystemUser', array(
              'local' => 'user_id',
              'foreign' => 'id'));
     }
