@@ -296,7 +296,7 @@ class Conf {
 		}
 		\$this->dbuser    = '$dbOHRMUser';
 		\$this->dbpass	= '$dbOHRMPassword';
-		\$this->version = '3.1.3';
+		\$this->version = '3.2';
 
 		\$this->emailConfiguration = dirname(__FILE__).'/mailConf.php';
 		\$this->errorLog =  realpath(dirname(__FILE__).'/../logs/').'/';
@@ -402,7 +402,8 @@ public static function install() {
 					break;
 
 		case 1	:	error_log (date("r")." Fill Data Phase 1 - Starting\n",3, "installer/log.txt");
-					self::fillData();
+					self::fillData();                                        
+                                        self::createMysqlProcedures();
 					error_log (date("r")." Fill Data Phase 1 - Done\n",3, "installer/log.txt");
 					if (!isset($error) || !isset($_SESSION['error'])) {
 						$_SESSION['INSTALLING'] = 2;
@@ -490,6 +491,40 @@ public static function install() {
         
         return true;
         
+    }
+    
+    public static function createMysqlProcedures(){
+        self::connectDB();
+        
+        $sql = array();
+        $sql[] = "DROP FUNCTION IF EXISTS dashboard_get_subunit_parent_id;";
+        
+        $sql[] = "CREATE FUNCTION  dashboard_get_subunit_parent_id
+                (
+                  id INT
+                )
+                RETURNS INT
+                DETERMINISTIC
+                READS SQL DATA
+                BEGIN
+                SELECT (SELECT t2.id 
+                               FROM ohrm_subunit t2 
+                               WHERE t2.lft < t1.lft AND t2.rgt > t1.rgt    
+                               ORDER BY t2.rgt-t1.rgt ASC LIMIT 1) INTO @parent
+                FROM ohrm_subunit t1 WHERE t1.id = id;
+
+                RETURN @parent;
+
+                END;";
+        
+        foreach($sql as $query){
+            if (!mysql_query($query)) {
+                error_log (date("r")." MySQL Procedure Error:".mysql_error()."\n",3, "installer/log.txt");
+                return false;
+            }
+        }
+        
+        return true;
     }
 
 }

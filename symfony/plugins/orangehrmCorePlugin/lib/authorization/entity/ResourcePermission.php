@@ -59,6 +59,20 @@ class ResourcePermission {
         
         return $permission;
     }
+    
+    /**
+     * 
+     * @param array $permissions
+     * @param boolean $defaulft
+     * @return ResourcePermission
+     */
+    public static function fromArray(array $permissions, $defaulft = false) {
+        $canRead = isset($permissions['canRead']) ? $permissions['canRead'] : $defaulft;
+        $canCreate = isset($permissions['canCreate']) ? $permissions['canCreate'] : $defaulft;
+        $canUpdate = isset($permissions['canUpdate']) ? $permissions['canUpdate'] : $defaulft;
+        $canDelete = isset($permissions['canDelete']) ? $permissions['canDelete'] : $defaulft;
+        return new self($canRead, $canCreate, $canUpdate, $canDelete);
+    }
 
 }
 

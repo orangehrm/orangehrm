@@ -1299,9 +1299,7 @@ INSERT INTO `ohrm_module` (`id`, `name`, `status`) VALUES
 (5, 'time', 1),
 (6, 'attendance', 1),
 (7, 'recruitment', 1),
-(8, 'recruitmentApply', 1),
-(9, 'performance', 1);
-
+(8, 'recruitmentApply', 1);
 
 INSERT INTO ohrm_screen (`id`, `name`, `module_id`, `action_url`) VALUES
 (1, 'User List', 2, 'viewSystemUsers'),
@@ -1364,11 +1362,6 @@ INSERT INTO ohrm_screen (`id`, `name`, `module_id`, `action_url`) VALUES
 (59, 'View Attendance Report Criteria', 5, 'displayAttendanceSummaryReportCriteria'),
 (60, 'Candidate List', 7, 'viewCandidates'),
 (61, 'Vacancy List', 7, 'viewJobVacancy'),
-(62, 'KPI List', 9, 'listDefineKpi'),
-(63, 'Add/Edit KPI', 9, 'saveKpi'),
-(64, 'Copy KPI', 9, 'copyKpi'),
-(65, 'Add Review', 9, 'saveReview'),
-(66, 'Review List', 9, 'viewReview'),
 (67, 'View Time Module', 5, 'viewTimeModule'),
 (68, 'View Leave Module', 4, 'viewLeaveModule'),
 (69, 'Leave Entitlements', 4, 'viewLeaveEntitlements'),
@@ -1379,7 +1372,6 @@ INSERT INTO ohrm_screen (`id`, `name`, `module_id`, `action_url`) VALUES
 (74, 'View Admin Module', 2, 'viewAdminModule'),
 (75, 'View PIM Module', 3, 'viewPimModule'),
 (76, 'View Recruitment Module', 7, 'viewRecruitmentModule'),
-(77, 'View Performance Module', 9, 'viewPerformanceModule'),
 (78, 'Leave Balance Report', 4, 'viewLeaveBalanceReport'),
 (79, 'My Leave Balance Report', 4, 'viewMyLeaveBalanceReport'),
 (80, 'Save Job Title', 2, 'saveJobTitle'),
@@ -1471,12 +1463,6 @@ INSERT INTO ohrm_menu_item (`id`, `menu_title`, `screen_id`, `parent_id`, `level
 (65, 'Recruitment', 76, NULL, 1, 500, NULL, 1),
 (66, 'Candidates', 60, 65, 2, 100, NULL, 1),
 (67, 'Vacancies', 61, 65, 2, 200, NULL, 1),
-(68, 'Performance', 77, NULL, 1, 600, NULL, 1),
-(69, 'KPI List', 62, 68, 2, 100, NULL, 1),
-(70, 'Add KPI', 63, 68, 2, 200, NULL, 1),
-(71, 'Copy KPI', 64, 68, 2, 300, NULL, 1),
-(72, 'Add Review', 65, 68, 2, 400, NULL, 1),
-(73, 'Reviews', 66, 68, 2, 500, '/mode/new', 1),
 (74, 'Entitlements', NULL, 41, 2, 300, NULL, 0),
 (75, 'Add Entitlements', 72, 74, 3, 100, NULL, 0),
 (76, 'My Entitlements', 70, 74, 3, 300, '/reset/1', 0),
@@ -1564,13 +1550,6 @@ INSERT INTO ohrm_user_role_screen (user_role_id, screen_id, can_read, can_create
 (6, 60, 1, 1, 1, 1),
 (5, 60, 1, 0, 1, 0),
 (1, 61, 1, 1, 1, 1),
-(1, 62, 1, 1, 1, 1),
-(1, 63, 1, 1, 1, 1),
-(1, 64, 1, 1, 1, 1),
-(1, 65, 1, 1, 1, 1),
-(1, 66, 1, 1, 1, 1),
-(2, 66, 1, 0, 1, 0),
-(7, 66, 1, 0, 1, 0),
 (1, 67, 1, 1, 1, 1),
 (2, 67, 1, 0, 1, 0),
 (3, 67, 1, 0, 1, 0),
@@ -1592,9 +1571,6 @@ INSERT INTO ohrm_user_role_screen (user_role_id, screen_id, can_read, can_create
 (1, 76, 1, 1, 1, 1),
 (5, 76, 1, 1, 1, 1),
 (6, 76, 1, 1, 1, 1),
-(1, 77, 1, 1, 1, 1),
-(2, 77, 1, 1, 1, 1),
-(7, 77, 1, 1, 1, 1),
 (1, 78, 1, 0, 0, 0),
 (3, 78, 1, 0, 0, 0),
 (2, 79, 1, 0, 0, 0),
@@ -2623,9 +2599,7 @@ INSERT INTO ohrm_module_default_page (`module_id`, `user_role_id`, `action`, `en
 (5, 2, 'time/timesheetPeriodNotDefined', 'TimesheetPeriodDefinedHomePageEnabler', 100),
 (7, 1, 'recruitment/viewCandidates', NULL, 20),
 (7, 5, 'recruitment/viewCandidates', NULL, 10),
-(7, 6, 'recruitment/viewCandidates', NULL, 5),
-(9, 1, 'performance/viewReview', NULL, 20),
-(9, 2, 'performance/viewReview', NULL, 0);
+(7, 6, 'recruitment/viewCandidates', NULL, 5);
 
 INSERT INTO `hs_hr_config`(`key`,`value`) VALUES 
 ('beacon.activation_acceptance_status','off'),
@@ -2646,3 +2620,159 @@ INSERT INTO `ohrm_datapoint_type`(`id`,`name`,`action_class`)  VALUES
 (2,'count','countDatapointProcessor'),
 (3, 'session', 'sessionDatapointProcessor'),
 (4,'organization','OrganizationDataProcessor');
+
+SET @admin_user_role_id := (SELECT id FROM ohrm_user_role WHERE name = 'Admin' LIMIT 1);
+SET @ess_user_role_id := (SELECT id FROM ohrm_user_role WHERE name = 'ESS' LIMIT 1);
+
+SET @admin_home_page := (SELECT id FROM ohrm_home_page WHERE user_role_id = @admin_user_role_id LIMIT 1);
+SET @ess_home_page := (SELECT id FROM ohrm_home_page WHERE user_role_id = @ess_user_role_id LIMIT 1);
+
+UPDATE ohrm_home_page SET action = 'dashboard/index', priority = '15' WHERE user_role_id = @admin_home_page;
+UPDATE ohrm_home_page SET action = 'dashboard/index', priority = '5' WHERE user_role_id = @ess_home_page;
+
+INSERT INTO ohrm_module (name, status) VALUES ('dashboard', 1);
+SET @dashboard_module := (SELECT id FROM ohrm_module WHERE name = 'dashboard' LIMIT 1);
+
+INSERT INTO ohrm_screen (name, module_id, action_url) VALUES ('Dashboard', @dashboard_module, 'index');
+SET @dashboard_screen := (SELECT id FROM ohrm_screen WHERE name = 'Dashboard' LIMIT 1);
+
+INSERT INTO ohrm_menu_item (menu_title, screen_id, parent_id, level, order_hint, url_extras, status) VALUES
+('Dashboard', @dashboard_screen, NULL, 1, 800, NULL, 1);
+
+INSERT INTO ohrm_user_role_screen (user_role_id, screen_id, can_read, can_create, can_update, can_delete) VALUES
+(@admin_user_role_id, @dashboard_screen, 1, 0, 0, 0),
+(@ess_user_role_id, @dashboard_screen, 1, 0, 0, 0);
+
+INSERT INTO `ohrm_reviewer_group` (`id`, `name`,`piority`) VALUES
+(1, 'Supervisor',1),
+(2, 'Employee',2);
+
+SET @admin_role_id := (SELECT `id` FROM ohrm_user_role WHERE `name` = 'Admin');  
+SET @ess_role_id := (SELECT `id` FROM ohrm_user_role WHERE `name` = 'ESS');
+SET @supervisor_role_id := (SELECT `id` FROM ohrm_user_role WHERE `name` = 'Supervisor');
+
+INSERT INTO `ohrm_module` (`name`, `status`) VALUES ('performance', 1);  
+
+SET @module_id := (SELECT LAST_INSERT_ID());
+
+INSERT INTO ohrm_screen (`name`, `module_id`, `action_url`) VALUES  
+('Save KPI', @module_id, 'saveKpi');  
+SET @save_kpi_screen_id := (SELECT LAST_INSERT_ID());   
+
+INSERT INTO ohrm_screen (`name`, `module_id`, `action_url`) VALUES  
+('Saearch KPI', @module_id, 'searchKpi');  
+SET @search_kpi_screen_id := (SELECT LAST_INSERT_ID());
+
+INSERT INTO ohrm_screen (`name`, `module_id`, `action_url`) VALUES  
+('My Reviews', @module_id, 'myPerformanceReview');  
+SET @my_reviews_screen_id := (SELECT LAST_INSERT_ID());  
+
+INSERT INTO ohrm_screen (`name`, `module_id`, `action_url`) VALUES  
+('View Progress', @module_id, 'performanceReviewProgress');  
+SET @review_progress_screen_id := (SELECT LAST_INSERT_ID()); 
+
+INSERT INTO ohrm_screen (`name`, `module_id`, `action_url`) VALUES  
+('Add Review', @module_id, 'saveReview');  
+SET @add_review_screen_id := (SELECT LAST_INSERT_ID());
+
+INSERT INTO ohrm_screen (`name`, `module_id`, `action_url`) VALUES  
+('Review Evaluate', @module_id, 'reviewEvaluate');  
+SET @review_evaluate_screen_id := (SELECT LAST_INSERT_ID());
+
+INSERT INTO ohrm_screen (`name`, `module_id`, `action_url`) VALUES  
+('Review Evaluate By Admin', @module_id, 'reviewEvaluateByAdmin');  
+SET @review_evaluate_admin_screen_id := (SELECT LAST_INSERT_ID());
+
+INSERT INTO ohrm_screen (`name`, `module_id`, `action_url`) VALUES  
+('Search Evaluate Performance', @module_id, 'searchEvaluatePerformancReview');  
+SET @search_evaluate_performance_screen_id := (SELECT LAST_INSERT_ID());
+
+INSERT INTO ohrm_screen (`name`, `module_id`, `action_url`) VALUES  
+('Search Performance Review', @module_id, 'searchPerformancReview');  
+SET @search_performance_review_screen_id := (SELECT LAST_INSERT_ID());
+
+INSERT INTO ohrm_menu_item (`menu_title`, `screen_id`, `parent_id`, `level`, `order_hint`, `url_extras`, `status`) VALUES  
+('Performance', @my_reviews_screen_id, NULL, 1, 700, '', 1);
+SET @performance_menu_id := (SELECT `id` FROM ohrm_menu_item WHERE `menu_title` = 'Performance' AND `level` = 1); 
+
+INSERT INTO ohrm_menu_item (`menu_title`, `screen_id`, `parent_id`, `level`, `order_hint`, `url_extras`, `status`) VALUES  
+('Configure KPI', NULL, @performance_menu_id, 2, 100, '', 1);
+SET @ConfigureKPI_screen_id := (SELECT LAST_INSERT_ID());
+
+INSERT INTO ohrm_menu_item (`menu_title`, `screen_id`, `parent_id`, `level`, `order_hint`, `url_extras`, `status`) VALUES  
+('Manage Reviews', NULL, @performance_menu_id, 2, 200, '', 1);
+SET @Manage_Reviews_screen_id := (SELECT LAST_INSERT_ID());
+
+
+INSERT INTO ohrm_menu_item (`menu_title`, `screen_id`, `parent_id`, `level`, `order_hint`, `url_extras`, `status`) VALUES  
+('KPI', @search_kpi_screen_id, @ConfigureKPI_screen_id, 3, 100, '', 1),
+('Manage Reviews', @search_performance_review_screen_id, @Manage_Reviews_screen_id, 3, 100, '', 1),
+('My Reviews', @my_reviews_screen_id, @Manage_Reviews_screen_id, 3, 200, '', 1),
+('Review List', @search_evaluate_performance_screen_id, @Manage_Reviews_screen_id, 3, 300, '', 1);
+      
+INSERT INTO ohrm_user_role_screen (user_role_id, screen_id, can_read, can_create, can_update, can_delete) VALUES  
+(@admin_role_id, @save_kpi_screen_id, 1, 1, 1, 0),
+(@admin_role_id, @search_kpi_screen_id, 1, 1, 1, 1),
+(@admin_role_id, @my_reviews_screen_id, 1, 0, 1, 0),
+(@admin_role_id, @review_progress_screen_id, 1, 0, 0, 0),
+(@admin_role_id, @add_review_screen_id, 1, 1, 1, 0),
+(@admin_role_id, @review_evaluate_admin_screen_id, 1, 1, 1, 0),
+(@admin_role_id, @search_performance_review_screen_id, 1, 1, 1, 1),
+(@ess_role_id, @search_evaluate_performance_screen_id, 1, 0, 1, 0),
+(@ess_role_id, @review_evaluate_screen_id, 1, 1, 1, 0),
+(@ess_role_id, @my_reviews_screen_id, 1, 0, 1, 0),
+(@supervisor_role_id, @review_progress_screen_id, 1, 0, 0, 0),
+(@supervisor_role_id, @review_evaluate_admin_screen_id, 1, 1, 1, 0);
+
+SET @admin_user_role := (SELECT id FROM ohrm_user_role WHERE name = 'Admin');
+SET @ess_user_role := (SELECT id FROM ohrm_user_role WHERE name = 'ESS');
+
+INSERT INTO `ohrm_module`( `name`, `status`) VALUES
+('performanceTracker', 1);
+SET @performance_module_id:= (SELECT LAST_INSERT_ID());
+
+-- Admin Section. Manage Trackers.
+INSERT INTO `ohrm_screen` (`name`, `module_id`, `action_url`) VALUES
+( 'Manage_Trackers', @performance_module_id, 'addPerformanceTracker');
+SET @manage_performance_trackers_screen_id :=  (SELECT LAST_INSERT_ID());
+
+SET @performance_menu_id:= (SELECT id FROM ohrm_menu_item where menu_title = 'Performance');
+INSERT INTO ohrm_menu_item (`menu_title`, `screen_id`, `parent_id`, `level`, `order_hint`, `url_extras`, `status`) VALUES
+('Manage Trackers', @manage_performance_trackers_screen_id, @performance_menu_id, 2, 700, NULL, 1);
+
+INSERT INTO ohrm_user_role_screen (user_role_id, screen_id, can_read, can_create, can_update, can_delete) VALUES
+(@admin_user_role, @manage_performance_trackers_screen_id, 1, 1, 1, 1),
+(@ess_user_role, @manage_performance_trackers_screen_id, 0, 0, 0, 0);
+
+-- Admin/ ESS Section Employee Trackers.
+INSERT INTO ohrm_screen (`name`, `module_id`, `action_url`) VALUES
+( 'Employee_Trackers', @performance_module_id, 'viewEmployeePerformanceTrackerList');
+SET @employee_trackers_screen_id :=  (SELECT LAST_INSERT_ID());
+
+INSERT INTO ohrm_menu_item (`menu_title`, `screen_id`, `parent_id`, `level`, `order_hint`, `url_extras`, `status`) VALUES
+('Employee Trackers', @employee_trackers_screen_id, @performance_menu_id, 2, 800, NULL, 1);
+
+INSERT INTO ohrm_user_role_screen (user_role_id, screen_id, can_read, can_create, can_update, can_delete) VALUES
+(@admin_user_role, @employee_trackers_screen_id, 1, 1, 1, 1),
+(@ess_user_role, @employee_trackers_screen_id, 1, 1, 1, 0);
+
+-- ESS secetion. My Trackers.
+INSERT INTO ohrm_screen (`name`, `module_id`, `action_url`) VALUES
+( 'My_Trackers', @performance_module_id, 'viewMyPerformanceTrackerList');
+SET @my_trackers_screen_id :=  (SELECT LAST_INSERT_ID());
+
+INSERT INTO ohrm_menu_item (`menu_title`, `screen_id`, `parent_id`, `level`, `order_hint`, `url_extras`, `status`) VALUES
+('My Trackers', @my_trackers_screen_id, @performance_menu_id, 2, 700, NULL, 1);
+
+INSERT INTO ohrm_user_role_screen (user_role_id, screen_id, can_read, can_create, can_update, can_delete) VALUES
+(@admin_user_role, @my_trackers_screen_id, 0, 0, 0, 0),
+(@ess_user_role, @my_trackers_screen_id, 1, 0, 1, 0);
+
+-- Tracker Logs. (No menu item)
+INSERT INTO ohrm_screen (`name`, `module_id`, `action_url`) VALUES
+( 'Employee_Tracker_Logs', @performance_module_id, 'addPerformanceTrackerLog');
+SET @employee_tracker_logs_screen_id :=  (SELECT LAST_INSERT_ID());
+
+INSERT INTO ohrm_user_role_screen (user_role_id, screen_id, can_read, can_create, can_update, can_delete) VALUES
+(@admin_user_role, @employee_tracker_logs_screen_id, 1, 1, 1, 0),
+(@ess_user_role, @employee_tracker_logs_screen_id, 1, 0, 0, 0);
