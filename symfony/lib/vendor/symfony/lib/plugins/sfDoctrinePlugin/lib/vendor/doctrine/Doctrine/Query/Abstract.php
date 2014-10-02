@@ -1149,7 +1149,7 @@ abstract class Doctrine_Query_Abstract
         $copy->free();
 
         if ($componentsBefore !== $componentsAfter) {
-            return array_diff($componentsAfter, $componentsBefore);
+            return Doctrine_Lib::arrayDiffSimple($componentsAfter, $componentsBefore);
         } else {
             return $componentsAfter;
         }
