@@ -70,7 +70,7 @@ class PerforamanceReviewDaoTest extends PHPUnit_Framework_TestCase {
 
     public function testGetReviewRating() {
         $dao = new PerformanceReviewDao();
-        $this->assertEquals(0, sizeof($dao->searchRating(($parameters['id']))));
+        $this->assertEquals(2, sizeof($dao->searchRating(($parameters['id']))));
     }
 
 }
