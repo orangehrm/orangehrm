@@ -10,7 +10,7 @@ class PerformanceTrackListAdminConfigurationFactory extends ohrmListConfiguratio
                 $header4 = new ListHeader();
                 
 		$header4->populateFromArray(array(
-		    'name' => 'Tracker Name',
+		    'name' => 'Tracker',
 		    'elementType' => 'link',
 		    'elementProperty' => array(
 			'labelGetter' => array('getter' => 'getTrackerName'),

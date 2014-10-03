@@ -5,7 +5,7 @@ use_stylesheets_for_form($form);
 <div id="performanceTracker" class="box">
         
     <div class="head">
-        <h1 id="performanceTrackerHeading"><?php echo __("performance Trackers"); ?></h1>
+        <h1 id="performanceTrackerHeading"><?php echo __("Add Performance Tracker"); ?></h1>
     </div>
     
     <div class="inner">

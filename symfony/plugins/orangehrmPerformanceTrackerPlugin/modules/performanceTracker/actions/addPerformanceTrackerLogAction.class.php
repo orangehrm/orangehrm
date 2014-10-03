@@ -118,7 +118,7 @@ class addPerformanceTrackerLogAction extends basePerformanceAction {
                     $this->title = __('My Tracker Logs') . ' - ' . $performanceTrack->getTrackerName();
                 } else {
                     $this->employeeName = $performanceTrack->getEmployee()->getFirstAndLastNames();
-                    $this->title = __('Performance Tracker Log List of ') . $this->employeeName;
+                    $this->title = $performanceTrack->getTrackerName().__(' Tracker Log ') . "( ".$this->employeeName." )";
                 }
             }
 

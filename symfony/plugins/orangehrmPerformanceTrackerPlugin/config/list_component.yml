@@ -3,7 +3,7 @@ PerformanceTrack:
   hasSelectableRows: false
   unselectableRowIds: []
   idValueGetter: getId
-  title: 'Performance Trackers List'
+  title: 'Performance Trackers'
   tableWidth: 100%
   hasSummary: false
   summary: []
@@ -15,7 +15,7 @@ PerformanceTrackAdmin:
   hasSelectableRows: true
   unselectableRowIds: []
   idValueGetter: getId
-  title: 'Manage Performance Trackers'
+  title: 'Performance Trackers'
   tableWidth: 100%
   hasSummary: false
   summary: []

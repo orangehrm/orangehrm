@@ -13,7 +13,7 @@
 class viewEmployeePerformanceTrackerListAction extends viewPerformanceTrackerListAction {
 
     public function execute($request) {
-        $listTitle = __('Performance Trackers List');
+        $listTitle = __('Performance Trackers');
         $this->setTitle($listTitle);
         $this->setPerformanceTrackList();
         $initalAction = 'viewEmployeePerformanceTrackerList';
