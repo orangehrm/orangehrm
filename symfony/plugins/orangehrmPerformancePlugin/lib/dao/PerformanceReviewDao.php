@@ -34,14 +34,22 @@ class PerformanceReviewDao extends BaseDao {
      * @throws DaoException 
      */
     public function searchReview($parameters, $orderby = null) {
-        
-        if($orderby == null ){
-            $orderby = 'e.emp_firstname,r.group.piority';
+        if ($orderby['orderBy'] == null) {
+            $sortFeild = 'e.emp_firstname,r.group.piority';
+        }
+
+        if ($orderby['orderBy'] == 'employeeId') {
+            $sortFeild = "e.emp_firstname";
         }
         
-        if( $orderby == 'piority'){
-            $orderby = "r.group.piority";
+        if ($orderby['orderBy'] == 'due_date') {
+            $sortFeild = "dueDate";
         }
+        
+        $sortBy = strcasecmp($orderby['sortOrder'], 'DESC') === 0 ? 'DESC' : 'ASC';
+
+        $offset = ($parameters['page'] > 0) ? (($parameters['page'] - 1) * $parameters['limit']) : 0;
+
         try {
 
             $query = Doctrine_Query:: create()->from('PerformanceReview p');
@@ -92,41 +100,46 @@ class PerformanceReviewDao extends BaseDao {
                         }
                     }
                 }
-            }          
-
-            $query->orderBy($orderby); 
+            }
+            $query->orderBy($sortFeild.' '.$sortBy);
+            
+            $query->offset($offset);
+            
+            if ($parameters['limit'] != null) {
+                $query->limit($parameters['limit']);
+            }
             return $query->execute();
         } catch (Exception $e) {
             throw new DaoException($e->getMessage(), $e->getCode(), $e);
         }
     }
-    
-/**
- *
- * @param type $reviwerEmployeeId
- * @return type 
- */
-    public function getReviwerEmployeeList( $reviwerEmployeeId ){
+
+    /**
+     *
+     * @param type $reviwerEmployeeId
+     * @return type 
+     */
+    public function getReviwerEmployeeList($reviwerEmployeeId) {
         try {
 
             $query = Doctrine_Query:: create()
-                      ->from('PerformanceReview p');
-            
+                    ->from('PerformanceReview p');
+
             $query->leftJoin("p.Employee e");
             $query->leftJoin("p.reviewers r");
 
-            
+
             $query->andWhere('r.employeeNumber = ?', $reviwerEmployeeId);
             $query->andWhere('e.empNumber != ?', $reviwerEmployeeId);
 
-            
+
             $query->orderBy('e.emp_firstname');
             return $query->execute();
         } catch (Exception $e) {
             throw new DaoException($e->getMessage(), $e->getCode(), $e);
         }
     }
-    
+
     /**
      *
      * @param integer $ids
@@ -172,16 +185,16 @@ class PerformanceReviewDao extends BaseDao {
      * @throws DaoException 
      */
     public function searchRating($parameters = null) {
-        
-        
+
+
         try {
             $q = Doctrine_Query::create()->from('ReviewerRating');
-            if (isset($parameters['id']) && sizeof($parameters) == 1) {               
+            if (isset($parameters['id']) && sizeof($parameters) == 1) {
                 $q->whereIn('id', $parameters['id']);
-                return $q->fetchOne();               
-            } else {   
-                if(is_array($parameters)){
-                    foreach ($parameters as $key=>$parameter) {
+                return $q->fetchOne();
+            } else {
+                if (is_array($parameters)) {
+                    foreach ($parameters as $key => $parameter) {
                         if (strlen($parameter) > 0) {
                             switch ($key) {
                                 case 'reviewId':

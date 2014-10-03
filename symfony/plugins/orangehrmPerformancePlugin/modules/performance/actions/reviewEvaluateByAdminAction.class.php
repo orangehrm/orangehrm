@@ -53,7 +53,7 @@ class reviewEvaluateByAdminAction extends basePeformanceAction {
         } else {
             $request->setParameter('initialActionName', 'searchPerformancReview');
             $this->backUrl = 'performance/searchPerformancReview';
-        };
+        }
 
         $this->_checkAuthentication($request);
 

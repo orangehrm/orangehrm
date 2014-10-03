@@ -82,7 +82,7 @@ class PerformanceReviewSearchForm extends BasePefromanceSearchForm {
      *
      * @return type 
      */
-    public function searchReviews() {        
+    public function searchReviews($limit, $page = 1, $sortOrder = null, $sortFeild = null) {        
         
         $serachParams ['employeeName'] =  $this->getValue('employeeName');
         $serachParams ['jobTitleCode'] =  $this->getValue('jobTitleCode');
@@ -90,8 +90,13 @@ class PerformanceReviewSearchForm extends BasePefromanceSearchForm {
         $serachParams ['to'] = (strtotime( $this->getValue('toDate')))?  $this->getValue('toDate') :"";
         $serachParams ['reviewerId'] =  ($this->getValue('reviwerNumber') > 0)?$this->getValue('reviwerNumber'):"";
         $serachParams['status']         =   ($this->getValue('status') > 0 )? $this->getValue('status') :"" ;
-
-       return $this->getPerformanceReviewService()->searchReview($serachParams);
+        $serachParams['limit']         =   $limit;
+        $serachParams['page']         =   $page;
+        
+        $orderBy['orderBy'] = $sortFeild;
+        $orderBy['sortOrder'] = $sortOrder;
+        
+       return $this->getPerformanceReviewService()->searchReview($serachParams, $orderBy);
        
     }
     
@@ -105,5 +110,16 @@ class PerformanceReviewSearchForm extends BasePefromanceSearchForm {
             'btnSearch' => new ohrmWidgetButton('btnSearch', 'Search', array()),
             'btnReset' => new ohrmWidgetButton('btnReset', 'Reset', array('class' => 'reset')),
         );
+    }
+    
+    public function getCountReviewList(){
+        $serachParams ['employeeName'] =  $this->getValue('employeeName');
+        $serachParams ['jobTitleCode'] =  $this->getValue('jobTitleCode');
+        $serachParams ['from'] = (strtotime($this->getValue('fromDate')))? $this->getValue('fromDate') :"";
+        $serachParams ['to'] = (strtotime( $this->getValue('toDate')))?  $this->getValue('toDate') :"";
+        $serachParams ['reviewerId'] = ($this->getValue('reviwerNumber') > 0)?$this->getValue('reviwerNumber'):"";
+        $serachParams['status'] = ($this->getValue('status') > 0 )? $this->getValue('status') :"" ;
+        $serachParams['limit'] = null;
+        return $this->getPerformanceReviewService()->getCountReviewList($serachParams);
     }
 }

@@ -39,8 +39,8 @@ class SearchReviewListConfigurationFactory extends ohrmListConfigurationFactory 
 
         $header1->populateFromArray(array(
             'name' => 'Employee',
-            'isSortable' => false,
-            'sortField' => null,
+            'isSortable' => true,
+            'sortField' => 'employeeId',
             'elementType' => 'label',
             'elementProperty' => array('getter' => array('getEmployee', 'getFullName')),
             
@@ -49,8 +49,8 @@ class SearchReviewListConfigurationFactory extends ohrmListConfigurationFactory 
        
         $header2->populateFromArray(array(
             'name' => 'Due Date',
-            'isSortable' => false,
-            'sortField' => null,
+            'isSortable' => true,
+            'sortField' => 'due_date',
             'elementType' => 'DueDate',
 
             

@@ -86,12 +86,16 @@ class PerformanceReviewService {
      * @param type $id
      * @return type 
      */
-    public function searchReviewRating( $parameters ){
-        
+    public function searchReviewRating( $parameters ){        
         return $this->getDao()->searchRating($parameters);
     }
     
      public function getReviwerEmployeeList( $reviwerEmployeeId ){
          return $this->getDao()->getReviwerEmployeeList( $reviwerEmployeeId );
+     }
+     
+     public function getCountReviewList($parameters){
+         $reviewList = $this->getDao()->searchReview($parameters);
+         return count($reviewList);
      }
 }

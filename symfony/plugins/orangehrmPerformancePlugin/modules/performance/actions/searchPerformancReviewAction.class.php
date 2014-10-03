@@ -13,10 +13,18 @@
 class searchPerformancReviewAction extends basePeformanceAction {
 
     public $searchReviewForm;
-    
-    
+    private $pageNumber;
+
+    public function getPageNumber() {
+        return $this->pageNumber;
+    }
+
+    public function setPageNumber($pageNumber) {
+        $this->pageNumber = $pageNumber;
+    }
+
     public function preExecute() {
-       $this->_checkAuthentication();
+        $this->_checkAuthentication();
     }
 
     /**
@@ -42,6 +50,10 @@ class searchPerformancReviewAction extends basePeformanceAction {
     public function execute($request) {
 
         $form = $this->getSearchReviewForm();
+        
+        $page = $request->getParameter('hdnAction') == 'search' ? 1 : $request->getParameter('pageNo', 1);
+        
+        $this->setPageNumber($page);
 
         if ($request->isMethod('post')) {
             $form->bind($request->getParameter($form->getName()));
@@ -65,8 +77,11 @@ class searchPerformancReviewAction extends basePeformanceAction {
         }
 
         $form->setUser($this->getUser());
-        $reviews = $form->searchReviews();
-        $this->setListComponent($reviews);
+        $sortFeild = $request->getParameter('sortField');
+        $sortOrder = $request->getParameter('sortOrder');
+        $reviews = $form->searchReviews(sfConfig::get('app_items_per_page'), $page, $sortOrder, $sortFeild);
+        $countReview = $form->getCountReviewList();
+        $this->setListComponent($reviews,$countReview);
         $this->form = $form;
     }
 
@@ -74,17 +89,17 @@ class searchPerformancReviewAction extends basePeformanceAction {
      *
      * @param Doctrine_Collection $reviews 
      */
-    protected function setListComponent($reviews) {
+    protected function setListComponent($reviews,$countReview) {
+        $pageNumber = $this->getPageNumber();
 
         $configurationFactory = $this->getListConfigurationFactory();
 
         ohrmListComponent::setActivePlugin('orangehrmPerformancePlugin');
         ohrmListComponent::setConfigurationFactory($configurationFactory);
         ohrmListComponent::setListData($reviews);
-        ohrmListComponent::setPageNumber(0);
-        $numRecords = count($reviews);
-        ohrmListComponent::setItemsPerPage($numRecords);
-        ohrmListComponent::setNumberOfRecords($numRecords);
+        ohrmListComponent::setPageNumber($pageNumber);
+        ohrmListComponent::setItemsPerPage(sfConfig::get('app_items_per_page'));
+        ohrmListComponent::setNumberOfRecords($countReview);
     }
 
     /**

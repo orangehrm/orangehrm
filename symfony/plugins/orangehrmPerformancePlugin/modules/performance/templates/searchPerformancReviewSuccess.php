@@ -120,6 +120,7 @@
         $("#performanceReview360SearchForm_reviwerName").val('');
         $("#performanceReview360SearchForm_department").val('0');
         $("#performanceReview360SearchForm_status").val('0');
+        $("#pageNo").val('0');
         $("#fromDate").val('yyyy-mm-dd');
         $("#toDate").val('yyyy-mm-dd');
         $('#performanceReview360SearchForm').submit();
@@ -149,5 +150,13 @@
                 $(this).removeClass("inputFormatHint");
             }
         }); 
+        
+        function submitPage(pageNo) {
+            document.performanceReview360SearchForm.pageNo.value = pageNo;
+            document.performanceReview360SearchForm.hdnAction.value = 'paging';
+            $('#performanceReview360SearchForm input.inputFormatHint').val('');
+            $('#performanceReview360SearchForm input.ac_loading').val('');
+            document.getElementById('performanceReview360SearchForm').submit();
+        }
     
 </script>
