@@ -31,7 +31,6 @@ class SearchReviewListConfigurationFactory extends ohrmListConfigurationFactory 
         $header2 = new DueDateHeader();
         $header3 = new ReviewPeriodHeader();
         $header4 = new ListHeader();
-        $header5 = new ListHeader();
         $header6 = new ManagePerformanceActionHeader();        
         $header7 = new ListHeader();
         
@@ -40,7 +39,6 @@ class SearchReviewListConfigurationFactory extends ohrmListConfigurationFactory 
 
         $header1->populateFromArray(array(
             'name' => 'Employee',
-            'width' => '25%',
             'isSortable' => false,
             'sortField' => null,
             'elementType' => 'label',
@@ -51,7 +49,6 @@ class SearchReviewListConfigurationFactory extends ohrmListConfigurationFactory 
        
         $header2->populateFromArray(array(
             'name' => 'Due Date',
-            'width' => '15%',
             'isSortable' => false,
             'sortField' => null,
             'elementType' => 'DueDate',
@@ -61,7 +58,6 @@ class SearchReviewListConfigurationFactory extends ohrmListConfigurationFactory 
         
         $header3->populateFromArray(array(
             'name' => 'Review Period',
-            'width' => '20%',
             'isSortable' => false,
             'sortField' => null,
             'elementType' => 'ReviewPeriod',
@@ -71,7 +67,6 @@ class SearchReviewListConfigurationFactory extends ohrmListConfigurationFactory 
 
          $header4->populateFromArray(array(
             'name' => 'Work Period End Date',
-            'width' => '10%',
             'isSortable' => false,
             'sortField' => null,
             'elementType' => 'label',
@@ -82,7 +77,6 @@ class SearchReviewListConfigurationFactory extends ohrmListConfigurationFactory 
         
          $header4->populateFromArray(array(
             'name' => 'Job Title',
-            'width' => '10%',
             'isSortable' => false,
             'sortField' => null,
             'elementType' => 'label',
@@ -90,19 +84,8 @@ class SearchReviewListConfigurationFactory extends ohrmListConfigurationFactory 
             
         ));
         
-        $header5->populateFromArray(array(
-            'name' => 'Department',
-            'width' => '10%',
-            'isSortable' => false,
-            'sortField' => null,
-            'elementType' => 'label',
-            'elementProperty' => array('getter' => array('getDepartment', 'getName')),
-            
-        ));
-        
        $header6->populateFromArray(array(
             'name' => 'Status',
-            'width' => '10%',
             'isSortable' => false,
             'sortField' => null,
             'elementType' => 'ManagePerformanceAction',
@@ -115,7 +98,6 @@ class SearchReviewListConfigurationFactory extends ohrmListConfigurationFactory 
        
        $header7->populateFromArray(array(
             'name' => 'Evaluate',
-            'width' => '15%',
             'isSortable' => false,
             'sortField' => null,
             'elementType' => 'link',
@@ -127,7 +109,7 @@ class SearchReviewListConfigurationFactory extends ohrmListConfigurationFactory 
 
         ));
         
-        $this->headers = array($header1, $header2, $header3, $header4, $header5,  $header6, $header7);
+        $this->headers = array($header1, $header2, $header3, $header4, $header6, $header7);
     }
 
     /**

@@ -36,8 +36,7 @@ class KpiSearchForm extends BasePefromanceSearchForm {
      */
     protected function getFormWidgets() {
         $widgets = array(
-            'jobTitleCode' => new sfWidgetFormChoice(array('choices' => $this->getJobTitleListAsArrayWithAllOption()), array('class' => 'formSelect')),
-            'department' => new sfWidgetFormChoice(array('choices' => $this->getSubDivisionChoices()), array('class' => 'formSelect'))
+            'jobTitleCode' => new sfWidgetFormChoice(array('choices' => $this->getJobTitleListAsArrayWithAllOption()), array('class' => 'formSelect'))
         );
         return $widgets;
     }
@@ -49,8 +48,7 @@ class KpiSearchForm extends BasePefromanceSearchForm {
     protected function getFormValidators() {
 
         $validators = array(
-            'jobTitleCode' => new sfValidatorString(array('required' => false)),
-            'department' => new sfValidatorString(array('required' => false))
+            'jobTitleCode' => new sfValidatorString(array('required' => false))
         );
         return $validators;
     }
@@ -61,8 +59,7 @@ class KpiSearchForm extends BasePefromanceSearchForm {
      */
     protected function getFormLabels() {
         $labels = array(
-            'jobTitleCode' => __('Job Title'),
-            'department' =>  __('Department')
+            'jobTitleCode' => __('Job Title')
         );
         return $labels;
     }
@@ -74,7 +71,6 @@ class KpiSearchForm extends BasePefromanceSearchForm {
     public function searchKpi() {
         
         $serachParams ['jobCode'] =  $this->getValue('jobTitleCode');
-        $serachParams ['department'] =  ($this->getValue('department')>0)?$this->getValue('department'):"";
 
         return $this->getKpiService()->searchKpi($serachParams);
     }

@@ -1,4 +1,3 @@
-
 div.reviewers{
     margin-left: 20px;
     background-color: #fdfdfd; 
@@ -172,4 +171,8 @@ form ol li span.validation-error {
 
 .expandTable{
     width: 97%;
+}
+
+form table span.validation-error{
+    width: auto;
 }

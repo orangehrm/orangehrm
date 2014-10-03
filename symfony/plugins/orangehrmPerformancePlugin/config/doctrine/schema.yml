@@ -70,7 +70,7 @@ PerformanceReview:
       type: clob(65532)
     final_rate:
       name: final_rate as finalRate
-      type: integer(11)   
+      type: decimal
   relations:
     reviewerRating:
       class: ReviewerRating

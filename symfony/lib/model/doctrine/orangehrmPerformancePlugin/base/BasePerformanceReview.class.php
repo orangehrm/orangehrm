@@ -16,7 +16,7 @@
  * @property date $completedDate
  * @property timestamp $activatedDate
  * @property clob $finalComment
- * @property integer $finalRate
+ * @property decimal $finalRate
  * @property Doctrine_Collection $reviewerRating
  * @property Doctrine_Collection $reviewers
  * @property JobTitle $JobTitle
@@ -34,7 +34,7 @@
  * @method date                getCompletedDate()   Returns the current record's "completedDate" value
  * @method timestamp           getActivatedDate()   Returns the current record's "activatedDate" value
  * @method clob                getFinalComment()    Returns the current record's "finalComment" value
- * @method integer             getFinalRate()       Returns the current record's "finalRate" value
+ * @method decimal             getFinalRate()       Returns the current record's "finalRate" value
  * @method Doctrine_Collection getReviewerRating()  Returns the current record's "reviewerRating" collection
  * @method Doctrine_Collection getReviewers()       Returns the current record's "reviewers" collection
  * @method JobTitle            getJobTitle()        Returns the current record's "JobTitle" value
@@ -108,9 +108,8 @@ abstract class BasePerformanceReview extends sfDoctrineRecord
              'type' => 'clob',
              'length' => 65532,
              ));
-        $this->hasColumn('final_rate as finalRate', 'integer', 11, array(
-             'type' => 'integer',
-             'length' => 11,
+        $this->hasColumn('final_rate as finalRate', 'decimal', null, array(
+             'type' => 'decimal',
              ));
     }
 

@@ -32,8 +32,7 @@ class PerformanceReviewSearchForm extends BasePefromanceSearchForm {
             
             'employeeName' => new sfWidgetFormInputText(),
             'employeeNumber' => new sfWidgetFormInputHidden(),
-            'jobTitleCode' => new sfWidgetFormChoice(array('choices' => $this->getJobTitleListAsArrayWithAllOption()), array('class' => 'formSelect')),
-            'department' => new sfWidgetFormChoice(array('choices' => $this->getSubDivisionChoices()), array('class' => 'formSelect')),            
+            'jobTitleCode' => new sfWidgetFormChoice(array('choices' => $this->getJobTitleListAsArrayWithAllOption()), array('class' => 'formSelect')),           
             'status' => new sfWidgetFormChoice(array('choices' => $this->getPerformanceReviewStatusAsArray(true)), array('class' => 'formSelect')),
             'fromDate' => new ohrmWidgetDatePicker(array(), array('id' => 'fromDate')),
             'toDate' => new ohrmWidgetDatePicker(array(), array('id' => 'toDate')),
@@ -53,8 +52,7 @@ class PerformanceReviewSearchForm extends BasePefromanceSearchForm {
         $validators = array(
             'employeeName' => new sfValidatorString(array('required' => false)),
             'employeeNumber' => new sfValidatorString(array('required' => false)),
-            'jobTitleCode' => new sfValidatorString(array('required' => false)),
-            'department' => new sfValidatorString(array('required' => false)),           
+            'jobTitleCode' => new sfValidatorString(array('required' => false)),          
             'fromDate' => new sfValidatorString(array('required' => false)),
             'toDate' => new sfValidatorString(array('required' => false)),
             'status' =>  new sfValidatorString(array('required' => false)),
@@ -72,7 +70,6 @@ class PerformanceReviewSearchForm extends BasePefromanceSearchForm {
         $labels = array(
             'employeeName' => __('Employee Name'),           
             'jobTitleCode' => __('Job Title'),
-            'department' =>  __('Department'),
             'fromDate' =>  __('From Date'),
             'toDate' =>  __('To Date'),
             'status' =>  __('Status'),
@@ -89,7 +86,6 @@ class PerformanceReviewSearchForm extends BasePefromanceSearchForm {
         
         $serachParams ['employeeName'] =  $this->getValue('employeeName');
         $serachParams ['jobTitleCode'] =  $this->getValue('jobTitleCode');
-        $serachParams ['departmentId'] =  ($this->getValue('department') > 0 )? $this->getValue('department') :""; 
         $serachParams ['from'] =  (strtotime($this->getValue('fromDate')))? $this->getValue('fromDate') :"";
         $serachParams ['to'] = (strtotime( $this->getValue('toDate')))?  $this->getValue('toDate') :"";
         $serachParams ['reviewerId'] =  ($this->getValue('reviwerNumber') > 0)?$this->getValue('reviwerNumber'):"";

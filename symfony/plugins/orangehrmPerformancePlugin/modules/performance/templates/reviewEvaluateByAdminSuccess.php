@@ -20,7 +20,6 @@ Doctrine_Manager::getInstance()->setAttribute(Doctrine::ATTR_USE_DQL_CALLBACKS, 
                     <tr style="height: 6px"><td></td></tr>
                     <tr class="trReviewHeight"><td class="tableColoumnWidth" ><label class="labelName"><?php echo __("Employee Name"); ?></label></td><td class="tableColoumnWidthname" ></td> <td><label class="labelValue"><?php echo $form->getReview()->getEmployee()->getFullName() ?></label></td></tr>
                     <tr class="trReviewHeight"><td class="tableColoumnWidth" ><label class="labelName"><?php echo __("Job Title"); ?></label></td> <td class="tableColoumnWidthname" > </td> <td><label class="labelValue"><?php echo $form->getReview()->getJobTitle()->getJobTitleName() ?></label></td></tr>
-                    <tr class="trReviewHeight"><td class="tableColoumnWidth" ><label class="labelName"><?php echo __("Department"); ?></label></td> <td class="tableColoumnWidthname" ></td> <td><label class="labelValue"><?php echo $form->getReview()->getDepartment()->getName() ?></label></td></tr>
                     <tr class="trReviewHeight"><td class="tableColoumnWidth" ><label class="labelName"><?php echo __("Review Period"); ?></label></td> <td></td> <td id="reviewColoumnId" ><label class="labelValue"><?php echo set_datepicker_date_format($form->getReview()->getWorkPeriodStart()) . " To " . set_datepicker_date_format($form->getReview()->getWorkPeriodEnd()); ?></label></td></tr>
                     <tr class="trReviewHeight"><td class="tableColoumnWidth" ><label class="labelName"><?php echo __("Review Due Date"); ?></label></td><td></td>  <td><label class="labelValue"><?php echo set_datepicker_date_format($form->getReview()->getDueDate()) ?></label></td></tr>
                     <tr class="trReviewHeight"><td class="tableColoumnWidth" ><label class="labelName"><?php echo __("Status"); ?></label></td> <td></td> <td><label class="labelValue"><?php echo __(ReviewStatusFactory::getInstance()->getStatus($form->getReview()->getStatusId())->getName()) ?></label></td></tr>
@@ -210,7 +209,7 @@ Doctrine_Manager::getInstance()->setAttribute(Doctrine::ATTR_USE_DQL_CALLBACKS, 
                     <h3><?php echo __('OrangeHRM - Confirmation Required'); ?></h3>
                 </div>
                 <div class="modal-body">
-                    <p><?php echo __("After completion, the review will be made read-only for all the reviewers.") . "\n" . __("This action cannot be undone.") . "\n" . __("Are you sure you want to continue?"); ?></p>
+                    <p><?php echo __("The review will be made read-only after completion.") . __("This action cannot be undone.") . __("Are you sure you want to continue?"); ?></p>
                     <br/>
                 </div>
                 <div class="modal-footer">
@@ -320,7 +319,7 @@ Doctrine_Manager::getInstance()->setAttribute(Doctrine::ATTR_USE_DQL_CALLBACKS, 
 
         $.validator.addMethod('positiveNumber',
                 function (value) {
-                    if (value > 0) {
+                    if (!parseFloat(value) > 0) {
                         return value.match("^[1-9][0-9]*$");
                     } else {
                         return true;
@@ -329,8 +328,8 @@ Doctrine_Manager::getInstance()->setAttribute(Doctrine::ATTR_USE_DQL_CALLBACKS, 
 
 
     });
-    var minMsg = "<?php echo __('Please enter a value less than or equal to') ?>";
-    var maxMsg = "<?php echo __('Please enter a value greater than or equal to') ?>";
+    var minMsg = "<?php echo __('Rating should be less than or equal to ') ?>";
+    var maxMsg = "<?php echo __('Rating should be greater than or equal to ') ?>";
     jQuery.extend(jQuery.validator.messages, {
         max: jQuery.validator.format(minMsg + "{0}."),
         min: jQuery.validator.format(maxMsg + "{0}.")
