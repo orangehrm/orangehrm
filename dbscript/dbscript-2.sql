@@ -2696,7 +2696,7 @@ INSERT INTO ohrm_menu_item (`menu_title`, `screen_id`, `parent_id`, `level`, `or
 SET @performance_menu_id := (SELECT `id` FROM ohrm_menu_item WHERE `menu_title` = 'Performance' AND `level` = 1); 
 
 INSERT INTO ohrm_menu_item (`menu_title`, `screen_id`, `parent_id`, `level`, `order_hint`, `url_extras`, `status`) VALUES  
-('Configure KPI', NULL, @performance_menu_id, 2, 100, '', 1);
+('Configure', NULL, @performance_menu_id, 2, 100, '', 1);
 SET @ConfigureKPI_screen_id := (SELECT LAST_INSERT_ID());
 
 INSERT INTO ohrm_menu_item (`menu_title`, `screen_id`, `parent_id`, `level`, `order_hint`, `url_extras`, `status`) VALUES  
@@ -2705,7 +2705,7 @@ SET @Manage_Reviews_screen_id := (SELECT LAST_INSERT_ID());
 
 
 INSERT INTO ohrm_menu_item (`menu_title`, `screen_id`, `parent_id`, `level`, `order_hint`, `url_extras`, `status`) VALUES  
-('KPI', @search_kpi_screen_id, @ConfigureKPI_screen_id, 3, 100, '', 1),
+('KPIs', @search_kpi_screen_id, @ConfigureKPI_screen_id, 3, 100, '', 1),
 ('Manage Reviews', @search_performance_review_screen_id, @Manage_Reviews_screen_id, 3, 100, '', 1),
 ('My Reviews', @my_reviews_screen_id, @Manage_Reviews_screen_id, 3, 200, '', 1),
 ('Review List', @search_evaluate_performance_screen_id, @Manage_Reviews_screen_id, 3, 300, '', 1);
@@ -2738,7 +2738,7 @@ SET @manage_performance_trackers_screen_id :=  (SELECT LAST_INSERT_ID());
 
 SET @performance_menu_id:= (SELECT id FROM ohrm_menu_item where menu_title = 'Performance');
 INSERT INTO ohrm_menu_item (`menu_title`, `screen_id`, `parent_id`, `level`, `order_hint`, `url_extras`, `status`) VALUES
-('Manage Trackers', @manage_performance_trackers_screen_id, @performance_menu_id, 2, 700, NULL, 1);
+('Trackers', @manage_performance_trackers_screen_id, @ConfigureKPI_screen_id, 3, 200, NULL, 1);
 
 INSERT INTO ohrm_user_role_screen (user_role_id, screen_id, can_read, can_create, can_update, can_delete) VALUES
 (@admin_user_role, @manage_performance_trackers_screen_id, 1, 1, 1, 1),
