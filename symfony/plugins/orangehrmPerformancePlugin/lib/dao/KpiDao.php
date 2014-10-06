@@ -101,17 +101,17 @@ class KpiDao extends BaseDao {
     }
 
     /**
-     * Search KPI by Jobtitle and Department
+     * Search KPI by Jobtitle
      *
      * @param array $parameters
      * @return Doctrine_Collection
      * @throws DaoException 
      */
-    public function searchKpiByJobtitleAndDepartment($parameters = null) {
+    public function searchKpiByJobTitle($parameters = null) {
         try {
 
             $query = Doctrine_Query:: create()->from('Kpi');
-            $query->where('((jobTitleCode = ? OR department_code = ?) AND (deleted_at IS NULL))', array($parameters['jobCode'], $parameters['department']));
+            $query->where('((jobTitleCode = ?) AND (deleted_at IS NULL))', array($parameters['jobCode']));
 
             $query->orderBy('kpi_indicators');
             return $query->execute();

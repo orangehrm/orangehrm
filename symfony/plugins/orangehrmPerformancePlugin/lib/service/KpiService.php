@@ -62,13 +62,13 @@ class KpiService {
     }
 
     /**
-     * Search KPI by Jobtitle and Department
+     * Search KPI by Jobtitle
      *
      * @param array $parameters
      * @return Doctrine_Collection
      */
-    public function searchKpiByJobtitleAndDepartment($parameters = null) {
-        return $this->getDao()->searchKpiByJobtitleAndDepartment($parameters);
+    public function searchKpiByJobTitle($parameters = null) {
+        return $this->getDao()->searchKpiByJobTitle($parameters);
     }
 
 }

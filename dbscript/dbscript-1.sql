@@ -1834,7 +1834,6 @@ CREATE TABLE `ohrm_login` (
 CREATE TABLE `ohrm_kpi` (
   `id` bigint(20) NOT NULL AUTO_INCREMENT,
   `job_title_code` varchar(10) DEFAULT NULL,
-  `department_code` varchar(10) DEFAULT NULL,
   `kpi_indicators` varchar(255) DEFAULT NULL,
   `min_rating` int(7) DEFAULT NULL,
   `max_rating` int(7) DEFAULT NULL,

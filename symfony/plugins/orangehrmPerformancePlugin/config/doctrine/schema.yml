@@ -9,9 +9,6 @@ Kpi:
     job_title_code:
       name: job_title_code as jobTitleCode
       type: string(10)
-    department_code:
-      name: department_code as departmentCode
-      type: string(10)
     kpi_indicators:
       type: varchar(255)
     min_rating:
@@ -23,11 +20,6 @@ Kpi:
   relations:
     JobTitle:
       local: jobTitleCode
-      foreign: id
-      type: one
-    Department:
-      class: Subunit
-      local: department_code
       foreign: id
       type: one
       

@@ -49,8 +49,7 @@ class DefineKpiForm extends BasePefromanceSearchForm {
     protected function getFormWidgets() {
         $widgets = array(
             'id' => new sfWidgetFormInputHidden(),
-            'jobTitleCode' => new sfWidgetFormChoice(array('choices' => $this->getJobTitleListAsArrayWithSelectOption()), array('class' => 'formSelect')),
-            'department' => new sfWidgetFormChoice(array('choices' => $this->getSubDivisionChoicesWithSelectOption()), array('class' => 'formSelect')),   
+            'jobTitleCode' => new sfWidgetFormChoice(array('choices' => $this->getJobTitleListAsArrayWithSelectOption()), array('class' => 'formSelect')),  
             'keyPerformanceIndicators' => new sfWidgetFormInput(array(), array('class' => 'formInputText')),
             'minRating' => new sfWidgetFormInput(array(), array('class' => 'formInputText')),
             'maxRating' => new sfWidgetFormInput(array(), array('class' => 'formInputText')),
@@ -73,8 +72,7 @@ class DefineKpiForm extends BasePefromanceSearchForm {
             'keyPerformanceIndicators' => new sfValidatorString(array('required' => true)),
             'minRating' => new sfValidatorString(array('required' => false)),
             'maxRating' => new sfValidatorString(array('required' => false)),
-            'makeDefault' => new sfValidatorString(array('required' => false)),
-            'department' => new sfValidatorString(array('required' => false))
+            'makeDefault' => new sfValidatorString(array('required' => false))
         );
         return $validators;
     }
@@ -91,8 +89,7 @@ class DefineKpiForm extends BasePefromanceSearchForm {
             'keyPerformanceIndicators' => __('Key Performance Indicator') . $requiredMarker,
             'minRating' => __('Minimum Rating'). $requiredMarker,
             'maxRating' => __('Maximum Rating'). $requiredMarker,
-            'makeDefault' => __('Make Default Scale'),
-            'department' => __('Department').$requiredMarker,
+            'makeDefault' => __('Make Default Scale')
         );
         return $labels;
     }
@@ -114,11 +111,6 @@ class DefineKpiForm extends BasePefromanceSearchForm {
            $kpi->setMaxRating($values['maxRating']); 
         }
         
-        if ($values['department'] > 0) {
-            $kpi->setDepartmentCode($values['department']);
-        }
-        
-
         if ($values['makeDefault'] == 'on') {
             $kpi->setDefaultKpi(1);
         } else {

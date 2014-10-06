@@ -178,12 +178,10 @@ class SaveReviewForm extends BasePefromanceSearchForm {
     public function createRatings($review) {
 
         $jobTitleId = $review->getEmployee()->getJobTitle()->getId();
-        $dipartmentId = $review->getEmployee()->getSubDivision()->getId();
 
         $parameters ['jobCode'] = $review->getEmployee()->getJobTitle()->getId();
-        $parameters ['department'] = $review->getEmployee()->getSubDivision()->getId();
 
-        $kpis = $this->getKpiService()->searchKpiByJobtitleAndDepartment($parameters);
+        $kpis = $this->getKpiService()->searchKpiByJobTitle($parameters);
         foreach ($review->getReviewers() as $reviewer) {
             foreach ($kpis as $kpi) {
                 $rating = new ReviewerRating();
