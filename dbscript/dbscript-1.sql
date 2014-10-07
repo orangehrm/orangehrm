@@ -1855,7 +1855,7 @@ CREATE TABLE `ohrm_performance_review` (
   `completed_date` date DEFAULT NULL,  
   `activated_date` DATETIME DEFAULT NULL,
   `final_comment` text CHARACTER SET utf8 COLLATE utf8_bin,
-  `final_rate` int(7) DEFAULT NULL,
+  `final_rate` DECIMAL(18, 2) DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `employee_number` (`employee_number`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
@@ -1881,7 +1881,7 @@ CREATE TABLE `ohrm_reviewer_group` (
 
 CREATE TABLE `ohrm_reviewer_rating` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `rating` double DEFAULT NULL,
+  `rating` DECIMAL(18, 2) DEFAULT NULL,
   `kpi_id` int(7) DEFAULT NULL,
   `review_id` int(7) DEFAULT NULL,
   `reviewer_id` int(7) NOT NULL,

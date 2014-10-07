@@ -15,7 +15,7 @@ require_once sfConfig::get('sf_root_dir') . '/../symfony/lib/vendor/phpseclib/Cr
 class SchemaIncrementTask60 extends SchemaIncrementTask {
 
     public function execute() {
-        $this->incrementNumber = 59;
+        $this->incrementNumber = 60;
         parent::execute();
 
         $result = array();
