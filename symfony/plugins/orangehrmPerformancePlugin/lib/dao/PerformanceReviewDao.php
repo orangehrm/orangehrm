@@ -22,9 +22,10 @@ class PerformanceReviewDao extends BaseDao {
             $review->save();
             $review->refresh();
             return $review;
+            //@codeCoverageIgnoreStart
         } catch (Exception $e) {
             throw new DaoException($e->getMessage(), $e->getCode(), $e);
-        }
+        }//@codeCoverageIgnoreEnd
     }
 
     /**
@@ -76,9 +77,6 @@ class PerformanceReviewDao extends BaseDao {
                                 case 'jobTitleCode':
                                     $query->andWhere('jobTitleCode = ?', $parameter);
                                     break;
-                                case 'departmentId':
-                                    $query->andWhere('departmentId = ?', $parameter);
-                                    break;
                                 case 'from':
                                     $query->andWhere('dueDate >= ?', $parameter);
                                     break;
@@ -109,9 +107,10 @@ class PerformanceReviewDao extends BaseDao {
                 $query->limit($parameters['limit']);
             }
             return $query->execute();
+            //@codeCoverageIgnoreStart
         } catch (Exception $e) {
             throw new DaoException($e->getMessage(), $e->getCode(), $e);
-        }
+        }//@codeCoverageIgnoreEnd
     }
 
     /**
@@ -135,9 +134,10 @@ class PerformanceReviewDao extends BaseDao {
 
             $query->orderBy('e.emp_firstname');
             return $query->execute();
+            //@codeCoverageIgnoreStart
         } catch (Exception $e) {
             throw new DaoException($e->getMessage(), $e->getCode(), $e);
-        }
+        }//@codeCoverageIgnoreEnd
     }
 
     /**
@@ -155,9 +155,10 @@ class PerformanceReviewDao extends BaseDao {
                 $q->execute();
             }
             return true;
+            //@codeCoverageIgnoreStart
         } catch (Exception $e) {
             throw new DaoException($e->getMessage(), $e->getCode(), $e);
-        }
+        }//@codeCoverageIgnoreEnd
     }
 
     /**
@@ -173,9 +174,10 @@ class PerformanceReviewDao extends BaseDao {
                     ->whereIn('review_id', $id);
             $q->execute();
             return true;
+            //@codeCoverageIgnoreStart
         } catch (Exception $e) {
             throw new DaoException($e->getMessage(), $e->getCode(), $e);
-        }
+        }//@codeCoverageIgnoreEnd
     }
 
     /**
@@ -210,11 +212,12 @@ class PerformanceReviewDao extends BaseDao {
                         }
                     }
                 }
+                //@codeCoverageIgnoreStart
                 return $q->execute();
             }
         } catch (Exception $e) {
             throw new DaoException($e->getMessage(), $e->getCode(), $e);
-        }
+        }//@codeCoverageIgnoreEnd
     }
 
 }

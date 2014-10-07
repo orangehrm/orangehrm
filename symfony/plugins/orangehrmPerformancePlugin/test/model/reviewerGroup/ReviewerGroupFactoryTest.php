@@ -11,15 +11,20 @@
  * @author nadeera
  */
 class ReviewerGroupFactoryTest extends PHPUnit_Framework_TestCase {
-    
-    public function testTestGetGroupObjectByType2(){
+
+    public function testGetInstance() {
+        $groupFactory = ReviewerGroupFactory::getInstance();
+        $this->assertTrue($groupFactory instanceof ReviewerGroupFactory);
+    }
+
+    public function testTestGetGroupObjectByType2() {
         $groupFactory = new ReviewerGroupFactory();
         $this->assertTrue($groupFactory->getReviewer('supervisors') instanceof SupervisorReviewerGroup);
     }
-    
-    public function testTestGetGroupObjectByType3(){
+
+    public function testTestGetGroupObjectByType3() {
         $groupFactory = new ReviewerGroupFactory();
         $this->assertTrue($groupFactory->getReviewer('selfReviewer') instanceof SelfReviewerGroup);
-      
     }
+
 }

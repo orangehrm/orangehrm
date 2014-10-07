@@ -40,8 +40,6 @@ class KpiDaoTest extends PHPUnit_Framework_TestCase {
     public function testSearcKpi1() {
 
         $dao = new KpiDao();
-
-        $kpi = new Kpi();
         $kpis = $dao->searchKpi();
         $this->assertEquals(3, sizeof($kpis));
     }
@@ -49,16 +47,35 @@ class KpiDaoTest extends PHPUnit_Framework_TestCase {
     public function testSearcKpi2() {
 
         $dao = new KpiDao();
-
-        $kpi = new Kpi();
-        $kpis = $dao->searchKpi();
-        $this->assertEquals(1, sizeof(array('jobCode' => 1)));
+        $kpis = $dao->searchKpi(array('jobCode' => 1));
+        $this->assertEquals(count($kpis), sizeof(array('jobCode' => 1)));
     }
     
     public function testDeleteKpi() {
 
         $dao = new KpiDao();
         $this->assertTrue($dao->deleteKpi(array("1")));
+    }
+    
+    public function testSearcKpi3() {
+
+        $dao = new KpiDao();
+        $kpis = $dao->searchKpi(array('id' => 2));
+        $this->assertEquals($kpis['id'], 2);
+    }
+    
+    public function testSearcKpi4() {
+
+        $dao = new KpiDao();
+        $kpis = $dao->searchKpi(array('isDefault' => 1));
+        $this->assertEquals(count($kpis), 1);
+    }
+    
+    public function testSearchKpiByJobTitle() {
+
+        $dao = new KpiDao();
+        $kpis = $dao->searchKpiByJobTitle(array('jobCode' => 2));
+        $this->assertEquals(count($kpis), 1);
     }
 
 }

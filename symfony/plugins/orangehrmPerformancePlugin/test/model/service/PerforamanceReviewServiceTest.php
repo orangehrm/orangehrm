@@ -30,7 +30,7 @@ class PerforamanceReviewServiceTest extends PHPUnit_Framework_TestCase {
         $review = $service->saveReview($review);
         $this->assertTrue(is_object($review));
     }
-    
+
     public function testSearchReview() {
 
         $review = new PerformanceReview();
@@ -73,7 +73,7 @@ class PerforamanceReviewServiceTest extends PHPUnit_Framework_TestCase {
         $this->assertEquals(1, $service->deleteReviewersByReviewId(1));
     }
 
-    public function testGetReviewRating() {
+    public function testSearchReviewRating() {
         $array = array(0 => 1);
         $daoMock = $this->getMock("PerformanceReviewDao", array("searchRating"));
         $daoMock->expects($this->any())
@@ -84,6 +84,48 @@ class PerforamanceReviewServiceTest extends PHPUnit_Framework_TestCase {
         $service->setDao($daoMock);
 
         $this->assertEquals($array, $service->searchReviewRating(1));
+    }
+
+    public function testGetReviewRating() {
+        $array = array(0 => 1);
+        $daoMock = $this->getMock("PerformanceReviewDao", array("searchRating"));
+        $daoMock->expects($this->any())
+                ->method('searchRating')
+                ->will($this->returnValue(array(1)));
+
+        $service = new PerformanceReviewService();
+        $service->setDao($daoMock);
+
+        $this->assertEquals($array, $service->getReviewRating(1));
+    }
+
+    public function testGetReviwerEmployeeList() {
+        $array = array(0 => 1);
+        $daoMock = $this->getMock("PerformanceReviewDao", array("getReviwerEmployeeList"));
+        $daoMock->expects($this->any())
+                ->method('getReviwerEmployeeList')
+                ->will($this->returnValue(array(1)));
+
+        $service = new PerformanceReviewService();
+        $service->setDao($daoMock);
+
+        $result = $service->getReviwerEmployeeList(2);
+
+        $this->assertEquals($array, $result);
+    }
+
+    public function testGetCountReviewList() {
+        $daoMock = $this->getMock("PerformanceReviewDao", array("getCountReviewList"));
+        $daoMock->expects($this->any())
+                ->method('getCountReviewList')
+                ->will($this->returnValue(array(1)));
+
+        $service = new PerformanceReviewService();
+        $service->setDao($daoMock);
+
+        $result = $service->getCountReviewList(array());
+
+        $this->assertEquals(3, $result);
     }
 
 }

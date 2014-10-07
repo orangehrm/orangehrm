@@ -111,5 +111,65 @@ class ReviewStatusTest extends PHPUnit_Framework_TestCase {
         $status = new ReviewStatusInactive();
         $this->assertTrue($status->isActivateEnabled());
     }
+    
+    public function testGetNextStatusId1() {
+        $status = new ReviewStatusActivated();
+        $this->assertEquals(3, $status->getNextStatus());
+    }
+
+    public function testGetNextStatusId2() {
+        $status = new ReviewStatusApproved();
+        $this->assertEquals(4, $status->getNextStatus());
+    }
+
+    public function testGetNextStatusId3() {
+        $status = new ReviewStatusInProgress();
+        $this->assertEquals(3, $status->getNextStatus());
+    }
+
+    public function testGetNextStatusId4() {
+        $status = new ReviewStatusInactive();
+        $this->assertEquals(1, $status->getNextStatus());
+    }
+    
+    public function testIsEvaluationsEditableForReviewStatusActivated() {
+        $status = new ReviewStatusActivated();
+        $this->assertTrue($status->isEvaluationsEditable());
+    }
+
+    public function testIsEvaluationsEditableForReviewStatusApproved() {
+        $status = new ReviewStatusApproved();
+        $this->assertFalse($status->isEvaluationsEditable());
+    }
+
+    public function testIsEvaluationsEditableForReviewStatusInProgress() {
+        $status = new ReviewStatusInProgress();
+        $this->assertTrue($status->isEvaluationsEditable());
+    }
+
+    public function testIsEvaluationsEditableForReviewStatusInactive() {
+        $status = new ReviewStatusInactive();
+        $this->assertFalse($status->isEvaluationsEditable());
+    }
+    
+    public function testIsEvaluationsCompleateEnabledForReviewStatusActivated() {
+        $status = new ReviewStatusActivated();
+        $this->assertTrue($status->isEvaluationsCompleateEnabled());
+    }
+
+    public function testIsEvaluationsCompleateEnabledForrReviewStatusApproved() {
+        $status = new ReviewStatusApproved();
+        $this->assertFalse($status->isEvaluationsCompleateEnabled());
+    }
+
+    public function testIsEvaluationsCompleateEnabledForReviewStatusInProgress() {
+        $status = new ReviewStatusInProgress();
+        $this->assertTrue($status->isEvaluationsCompleateEnabled());
+    }
+
+    public function testIsEvaluationsCompleateEnabledForReviewStatusInactive() {
+        $status = new ReviewStatusInactive();
+        $this->assertFalse($status->isEvaluationsCompleateEnabled());
+    }
 
 }

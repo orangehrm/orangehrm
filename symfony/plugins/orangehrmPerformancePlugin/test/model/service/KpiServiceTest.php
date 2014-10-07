@@ -74,5 +74,17 @@ class KpiServiceTest extends PHPUnit_Framework_TestCase {
 
         $this->assertEquals(1, sizeof($service->searchKpi(array('1', '2'))));
     }
+    
+    public function testSearchKpiByJobTitle(){
+        $daoMock = $this->getMock("KpiDao", array("searchKpiByJobTitle"));
+        $daoMock->expects($this->any())
+                ->method('searchKpiByJobTitle')
+                ->will($this->returnValue(array(1)));
+
+        $service = new KpiService();
+        $service->setDao($daoMock);
+
+        $this->assertEquals(1, sizeof($service->searchKpiByJobTitle(array('jobCode'=>'1'))));
+    }
 
 }

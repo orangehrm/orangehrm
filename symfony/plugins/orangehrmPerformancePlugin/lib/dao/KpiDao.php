@@ -35,9 +35,10 @@ class KpiDao extends BaseDao {
             $kpi->save();
             $kpi->refresh();
             return $kpi;
+            //@codeCoverageIgnoreStart
         } catch (Exception $e) {
             throw new DaoException($e->getMessage(), $e->getCode(), $e);
-        }
+        }//@codeCoverageIgnoreEnd
     }
 
     /**
@@ -61,9 +62,6 @@ class KpiDao extends BaseDao {
                                 case 'jobCode':
                                     $query->andWhere('jobTitleCode = ?', $parameter);
                                     break;
-                                case 'department':
-                                    $query->andWhere('department_code = ?', $parameter);
-                                    break;
                                 case 'isDefault':
                                     $query->andWhere('default_kpi = ?', $parameter);
                                     break;
@@ -76,9 +74,10 @@ class KpiDao extends BaseDao {
             }
             $query->orderBy('kpi_indicators');
             return $query->execute();
+            //@codeCoverageIgnoreStart
         } catch (Exception $e) {
             throw new DaoException($e->getMessage(), $e->getCode(), $e);
-        }
+        }//@codeCoverageIgnoreEnd
     }
 
     /**
@@ -95,9 +94,10 @@ class KpiDao extends BaseDao {
                 $q->execute();
             }
             return true;
+            //@codeCoverageIgnoreStart
         } catch (Exception $e) {
             throw new DaoException($e->getMessage(), $e->getCode(), $e);
-        }
+        }//@codeCoverageIgnoreEnd
     }
 
     /**
@@ -115,9 +115,10 @@ class KpiDao extends BaseDao {
 
             $query->orderBy('kpi_indicators');
             return $query->execute();
+            //@codeCoverageIgnoreStart
         } catch (Exception $e) {
             throw new DaoException($e->getMessage(), $e->getCode(), $e);
-        }
+        }//@codeCoverageIgnoreEnd
     }
 
 }
