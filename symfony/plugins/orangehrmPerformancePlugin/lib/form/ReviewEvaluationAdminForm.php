@@ -60,7 +60,7 @@ class ReviewEvaluationAdminForm extends ReviewEvaluationForm {
             'evaluationsAction' => new sfValidatorString(array('required' => false)),
             'hrAdminComments' => new sfValidatorString(array('required' => false)),
             'finalRating' => new sfValidatorString(array('required' => false)),
-            'completedDate' => new sfValidatorString(array('required' => false))
+            'completedDate' => new ohrmDateValidator(array('required' => false))
         );
         return $validators;
     }

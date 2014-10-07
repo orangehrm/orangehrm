@@ -191,9 +191,7 @@ if ($form->isFinalRatingVisible()) {
         <h3><?php echo __('OrangeHRM - Confirmation Required'); ?></h3>
     </div>
     <div class="modal-body">
-        <p><?php echo __("After completion, the review will be made read-only for all the reviewers.") . "\n" . __("This action cannot be undone.") . "\n" . __("Are you sure you want to continue?"); ?></p>
-        <br/>
-        <p><?php echo __(CommonMessages::DELETE_CONFIRMATION); ?></p>
+        <p><?php echo __("The review will be made read-only after completion.") . __("This action cannot be undone.") . __("Are you sure you want to continue?"); ?></p>
     </div>
     <div class="modal-footer">
         <input type="button" class="btn" data-dismiss="modal" id="dialogDeleteBtn" value="<?php echo __('Ok'); ?>" />
@@ -234,8 +232,8 @@ if ($form->isFinalRatingVisible()) {
             }
         });
     });
-    var minMsg = "<?php echo __('Please enter a value less than or equal to') ?>";
-    var maxMsg = "<?php echo __('Please enter a value greater than or equal to') ?>";
+    var minMsg = "<?php echo __('Rating should be less than or equal to ') ?>";
+    var maxMsg = "<?php echo __('Rating should be greater than or equal to ') ?>";
     jQuery.extend(jQuery.validator.messages, {
         max: jQuery.validator.format(minMsg + "{0}."),
         min: jQuery.validator.format(maxMsg + "{0}.")

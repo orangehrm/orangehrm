@@ -74,9 +74,9 @@ class SaveReviewForm extends BasePefromanceSearchForm {
             'employee' => new sfValidatorString(array('required' => false)),
             'supervisorReviewerId' => new sfValidatorString(array('required' => false)),
             'supervisorReviewer' => new sfValidatorString(array('required' => false)),
-            'workPeriodStartDate' => new sfValidatorString(array('required' => false)),
-            'workPeriodEndDate' => new sfValidatorString(array('required' => false)),
-            'dueDate' => new sfValidatorString(array('required' => false))
+            'workPeriodStartDate' => new ohrmDateValidator(array('required' => false)),
+            'workPeriodEndDate' => new ohrmDateValidator(array('required' => false)),
+            'dueDate' => new ohrmDateValidator(array('required' => false))
         );
 
         return $validators;
@@ -163,6 +163,7 @@ class SaveReviewForm extends BasePefromanceSearchForm {
                 $review->save();
                 return true;
             } else {
+                $this->setTemplateMessage(implode("<br/>", $errorMessages));
                 $review->setStatusId(ReviewStatusInactive::getInstance()->getStatusId());
                 $review->save();
                 return false;
