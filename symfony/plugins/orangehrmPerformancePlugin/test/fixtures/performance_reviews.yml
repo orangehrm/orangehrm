@@ -17,7 +17,7 @@ Employee:
 PerformanceReview:
   0: {id: 5, status_id: 1, employee_number: 1, work_period_start: '2011-01-01', work_period_end: '2011-01-01', job_title_code: 1, due_date: '2011-01-01'}
   1: {id: 6, status_id: 1, employee_number: 2, work_period_start: '2011-01-02', work_period_end: '2011-01-03', job_title_code: 2, due_date: '2011-01-01'}
-  2: {id: 7, status_id: 1, employee_number: 2, work_period_start: '2011-01-02', work_period_end: '2011-01-03', job_title_code: 2, due_date: '2011-01-01'}
+  2: {id: 7, status_id: 1, employee_number: 2, work_period_start: '2011-01-02', work_period_end: '2011-01-03', job_title_code: 2, due_date: '2011-01-05'}
   
 Reviewer:
   0: {id: 1, review_id: 5, employee_number: 2, status: 1, reviewer_group_id: 1, completed_date: 'null', comment: 'Test Comment 1'}

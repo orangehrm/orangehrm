@@ -520,19 +520,8 @@ class SchemaIncrementTask61 extends SchemaIncrementTask {
                 } else {
                     $rate = 0;
                 }
-                $finalRate = ($finalRate + $rate) / 2;
                 $this->upgradeUtility->executeSql("INSERT INTO `ohrm_reviewer_rating`(`rating`, `kpi_id`, `review_id`, `reviewer_id`, `comment`) VALUES "
                         . "(" . ($rate > 0 ? $rate : '0') . "," . $this->upgradeUtility->escapeString($kpi['id']) . "," . $this->upgradeUtility->escapeString($reviewId) . "," . $this->upgradeUtility->escapeString($reviewerReviewId['id']) . ",'".$this->upgradeUtility->escapeString($kpi['comment'])."')");
-            }
-            $stateId = $this->getStateId($state);
-            if ($stateId == 4) {
-                $commentResult = $this->upgradeUtility->executeSql("SELECT `hs_hr_performance_review_comments`.`comment` FROM `hs_hr_performance_review_comments` LEFT JOIN `hs_hr_performance_review` ON `hs_hr_performance_review_comments`.`pr_id` = `hs_hr_performance_review`.`id` WHERE `hs_hr_performance_review_comments`.`pr_id` = " . $reviewId . " AND `hs_hr_performance_review_comments`.`employee_id` != `hs_hr_performance_review`.`employee_id` ORDER BY `hs_hr_performance_review_comments`.`id` DESC LIMIT 1");
-                if (mysqli_num_rows($commentResult) > 0) {
-                    $comment = mysqli_fetch_array($commentResult, MYSQLI_ASSOC);
-                } else {
-                    $comment['comment'] = 'null';
-                }
-                $this->upgradeUtility->executeSql("UPDATE `ohrm_performance_review` SET `final_comment` ='" . $comment['comment'] . "',`final_rate` = '" . $finalRate . "' WHERE `id` = " . $reviewId);
             }
         }
     }
