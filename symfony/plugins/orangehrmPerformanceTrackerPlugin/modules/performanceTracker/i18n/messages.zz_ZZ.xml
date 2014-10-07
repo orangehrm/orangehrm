@@ -9,8 +9,8 @@
     <target>FR_Remaining number of custom fields</target>
    </trans-unit>
    <trans-unit id="2">
-    <source>Manage Performance Trackers</source>
-    <target>FR_Manage Performance Trackers</target>
+    <source>Performance Trackers</source>
+    <target>FR_Performance Trackers</target>
    </trans-unit>
    <trans-unit id="3">
     <source>manage Performance Tracker Log</source>
@@ -45,8 +45,8 @@
     <target>FR_Peformance Tracker Exists for this employee!!</target>
    </trans-unit>
    <trans-unit id="11">
-    <source>performance Trackers</source>
-    <target>FR_Peformance Trackers</target>
+    <source>Add Performance Tracker</source>
+    <target>FR_Add Performance Tracker</target>
    </trans-unit>
    <trans-unit id="12">
     <source>Performance Tracker Log Comment</source>
@@ -90,11 +90,11 @@
    </trans-unit>
    <trans-unit id="22">
     <source>Performance Trackers List</source>
-    <target>FR_Performance Trackers List</target>
+    <target>FR_Performance Trackers</target>
    </trans-unit>
    <trans-unit id="23">
-    <source>Performance Tracker Log List of </source>
-    <target>FR_Performance Tracker Log List of </target>
+    <source> - Tracker Log </source>
+    <target> - FR_Tracker Log </target>
    </trans-unit>
    <trans-unit id="24">
     <source>Clear</source>
@@ -111,6 +111,10 @@
    <trans-unit id="27">
     <source>My Performance Trackers List</source>
     <target>FR_My Performance Trackers List</target>
+   </trans-unit>
+   <trans-unit id="28">
+    <source>Tracker</source>
+    <target>FR_Tracker</target>
    </trans-unit>
    <trans-unit id="28">
     <source>Tracker Name</source>

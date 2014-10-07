@@ -30,7 +30,6 @@ class MyPerformanceReviewListConfigurationFactory extends ohrmListConfigurationF
         $header2 = new ListHeader();
         $header3 = new ReviewPeriodHeader();
         $header4 = new ListHeader();
-        $header5 = new ListHeader();
         $header6 = new ListHeader();
         $header7 = new ListHeader();
         $header8 = new ListHeader();
@@ -80,16 +79,6 @@ class MyPerformanceReviewListConfigurationFactory extends ohrmListConfigurationF
             
         ));
 
-        $header5->populateFromArray(array(
-            'name' => 'Department',
-            'width' => '10%',
-            'isSortable' => false,
-            'sortField' => null,
-            'elementType' => 'label',
-            'elementProperty' => array('getter' => array('getDepartment', 'getName')),
-            
-        ));
-
         
         $reviewStatus = array();
         $reviewStatus [ReviewStatusActivated::getInstance()->getStatusId()] = ReviewStatusActivated::getInstance()->getName() ;
@@ -133,7 +122,7 @@ class MyPerformanceReviewListConfigurationFactory extends ohrmListConfigurationF
         ));
  
         
-        $this->headers = array($header1, $header2, $header3, $header4, $header5, $header6, $header7);
+        $this->headers = array($header1, $header2, $header3, $header4, $header6, $header7);
     }
 
     /**

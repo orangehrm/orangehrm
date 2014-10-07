@@ -134,7 +134,6 @@ class DefineKpiForm extends BasePefromanceSearchForm {
             $this->setDefault('minRating', $kpi->getMinRating());
             $this->setDefault('maxRating', $kpi->getMaxRating());
             $this->setDefault('makeDefault', $kpi->getDefaultKpi());
-            $this->setDefault('department', $kpi->getDepartmentCode());
             
         } else {
             

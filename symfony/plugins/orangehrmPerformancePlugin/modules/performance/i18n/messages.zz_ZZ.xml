@@ -379,8 +379,8 @@
     <target>FR_Should be less than %amount% characters</target>
    </trans-unit>
    <trans-unit id="90">
-    <source>Please enter a value less than or equal to %number%</source>
-    <target>FR_Please enter a value less than or equal to %number%</target>
+    <source>Rating should be less than or equal to %number%</source>
+    <target>FR_Rating should be less than or equal to %number%</target>
    </trans-unit>
    <trans-unit id="91">
     <source>Max rating should be greater than Min rating</source>
@@ -407,8 +407,8 @@
     <target>FR_Select</target>
    </trans-unit>    
    <trans-unit id="97">
-    <source>After completion, the review will be made read-only for all the reviewers.</source>
-    <target>FR_After completion, the review will be made read-only for all the reviewers.</target>
+    <source>The review will be made read-only after completion.</source>
+    <target>FR_The review will be made read-only after completion.</target>
    </trans-unit> 
    <trans-unit id="98">
     <source>This action cannot be undone.</source>
@@ -423,12 +423,12 @@
     <target>FR_Peer Evaluation Form</target>
    </trans-unit> 
    <trans-unit id="101"> 
-    <source>Please enter a value less than or equal to</source>
-    <target>FR_Please enter a value less than or equal to</target>
+    <source>Rating should be less than or equal to </source>
+    <target>FR_Rating should be less than or equal to </target>
    </trans-unit> 
    <trans-unit id="102"> 
-    <source>Please enter a value greater than or equal to</source>
-    <target>FR_Please enter a value greater than or equal to</target>
+    <source>Rating should be greater than or equal to </source>
+    <target>FR_Rating should be greater than or equal to </target>
    </trans-unit> 
    <trans-unit id="103"> 
     <source>In Progress</source>

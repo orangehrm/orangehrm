@@ -20,7 +20,7 @@
                         </tr>
                     <?php endforeach; ?>                    
                 <?php else: ?>
-                        <tr class="odd"><td><?php echo DashboardService::NO_REC_MESSAGE; ?></td></tr>
+                        <tr class="odd"><td><?php echo __(DashboardService::NO_REC_MESSAGE); ?></td></tr>
                 <?php endif; ?>
             </tbody>  
         </table>

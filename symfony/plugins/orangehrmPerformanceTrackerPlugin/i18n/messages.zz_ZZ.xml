@@ -5,8 +5,8 @@
  <file source-language="en_US" target-language="zz_ZZ" datatype="plaintext" original="messages" date="2012-03-01T0:09:54Z" product-name="messages">
   <body>
    <trans-unit id="1">
-    <source>Manage Trackers</source>
-    <target>FR_Manage Trackers</target>
+    <source>Trackers</source>
+    <target>FR_Trackers</target>
    </trans-unit>
    <trans-unit id="2">
     <source>Employee Trackers</source>
