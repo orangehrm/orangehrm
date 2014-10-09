@@ -61,7 +61,7 @@ class sendBeaconMessageAjaxAction extends sfAction {
         if ($this->getUser()->hasAttribute(BeaconCommunicationsService::BEACON_ACTIVATION_REQUIRED) && $this->getUser()->getAttribute(BeaconCommunicationsService::BEACON_ACTIVATION_REQUIRED)) {
             $this->getUser()->setAttribute(BeaconCommunicationsService::BEACON_ACTIVATION_REQUIRED, false);
             $result = $this->sendRegistrationMessage();
-            if ($result) {
+            if ($result && $this->getBeaconConfigService()->getBeaconActivationAcceptanceStatus()=='on') {
                 $this->getBeaconMessages();
                 $this->sendBeaconFlash();
             }
@@ -83,10 +83,12 @@ class sendBeaconMessageAjaxAction extends sfAction {
         echo 'registering \n';
         $url = "https://opensource-updates.orangehrm.com/app.php/register";
         $data = http_build_query(array(
-            'remoteAddr' => urlencode($_SERVER['REMOTE_ADDR']),
-            'host' => urlencode($_SERVER['HTTP_HOST']),
+            'serverAddr' => array_key_exists('SERVER_ADDR',$_SERVER)?urlencode($_SERVER['SERVER_ADDR']):urlencode($_SERVER['LOCAL_ADDR']),
+            'host' => urlencode(php_uname("s")." ".php_uname("r")),
+            'httphost'=> urlencode($_SERVER['HTTP_HOST']),
             'phpVersion' => urlencode(constant('PHP_VERSION')),
-            'server' => urlencode($_SERVER['SERVER_SOFTWARE'])
+            'server' => urlencode($_SERVER['SERVER_SOFTWARE']),           
+            'ohrmVersion'=> urlencode('Open Source 3.1.4'),            
         ));
 
 
@@ -212,9 +214,9 @@ class sendBeaconMessageAjaxAction extends sfAction {
         $content = array();
         $content['uuid'] = urlencode($uuid);
         $content['type'] = 'REQ';
-
+        
         $contentJSON = json_encode($content);
-
+        var_dump($contentJSON);
 //        $ch = curl_init();
 //
 //        curl_setopt($ch, CURLOPT_URL, $url);

@@ -63,18 +63,18 @@ class countDataPointProcessor extends AbstractBaseProcessor {
                     $whereFilter = '';
                     foreach ($datapoint->parameters->where as $whereClause) {
                         $whereQuery = $datapoint->parameters->where->column . " " . $datapoint->parameters->where->operation . " ";
-
-                        if(!empty($datapoint->parameters->where->value->asXML())) {
+                        
+                        if($datapoint->parameters->where->value."" !=null || $datapoint->parameters->where->value.""!= "") {
                             $whereQuery.= is_numeric($datapoint->parameters->where->value . "") ? $datapoint->parameters->where->value . "" : "'" . $datapoint->parameters->where->value . "'";
                         }
-                        if (empty($datapoint->parameters->where->connector)) {
+                        if ($datapoint->parameters->where->connector."" == null || $datapoint->parameters->where->connector.""== "") {
                             $whereFilter = $whereQuery . ' ' . $whereFilter;
                         } else {
                             $whereFilter .= ' ' . $datapoint->parameters->where->connector . '  ' . $whereQuery;
                         }
                     }
                     $query = $query . $whereFilter;
-//                    var_dump($query);
+                   
                     $pdo = Doctrine_Manager::connection()->getDbh();
                     $query = $pdo->prepare($query);
                     $query->execute();

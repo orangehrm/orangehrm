@@ -28,8 +28,6 @@ class configDatapointProcessor extends AbstractBaseProcessor {
 
         $result = array();
         try {
-
-
             $datapoint = new SimpleXMLElement($definition);
             if ($datapoint['type'] == "config") {
                 $key = trim($datapoint->parameters->key."");

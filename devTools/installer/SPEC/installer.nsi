@@ -77,11 +77,11 @@ Function ContactDetailsEnterValidate
   		Abort
 
   done:
-  		StrCpy $ContactName "$0"
-  		StrCpy $ContactEmail "$1"
-  		StrCpy $Coments "$2"
-  		StrCpy $Updates "$3"
-  		StrCpy $PostStr "userName=$ContactName&userEmail=$ContactEmail&userComments=$Coments&updates=$Updates"
+  		;StrCpy $ContactName "$0"
+  		;StrCpy $ContactEmail "$1"
+  		;StrCpy $Coments "$2"
+  		;StrCpy $Updates "$3"
+  		;StrCpy $PostStr "userName=$ContactName&userEmail=$ContactEmail&userComments=$Coments&updates=$Updates"
 		
 
   		inetc::post "$PostStr" "http://www.orangehrm.com/registration/registerAcceptor.php" "$INSTDIR\output.txt" /END
@@ -160,7 +160,7 @@ SectionGroup /e "OrangeHRM Appliance" SecGrpOrangeHRMAppliance
 
     SectionEnd
 
-    Section "OrangeHRM 3.1.3" SecOrangeHRM
+    Section "OrangeHRM 3.1.4" SecOrangeHRM
 
         SetOutPath "$INSTDIR\htdocs\${OrangeHRMPath}"
         File /a /r "${SourceLocation}\${OrangeHRMPath}\"
@@ -207,9 +207,9 @@ Section "-Register the application"
       WriteRegStr HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\${ProductName}" "UninstallString" "$INSTDIR\uninstall.exe"
 
       WriteRegStr HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\${ProductName}" "InstallLocation" "$INSTDIR"
-      WriteRegStr HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\${ProductName}" "VersionMajor" "3.1.3"
+      WriteRegStr HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\${ProductName}" "VersionMajor" "3.1.4"
       WriteRegStr HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\${ProductName}" "VersionMinor" "2"
-      WriteRegStr HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\${ProductName}" "DisplayVersion" "3.1.3"
+      WriteRegStr HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\${ProductName}" "DisplayVersion" "3.1.4"
 
       WriteRegStr HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\${ProductName}" "Publisher" "${Organization}"
       WriteRegStr HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\${ProductName}" "HelpLink" "http://orangehrm.com/home/index.php?option=com_content&task=blogsection&id=13&Itemid=87"
@@ -315,6 +315,8 @@ Section "-Complete"
       nsExec::ExecToLog '"$INSTDIR\mysql\bin\mysql" -u root -D orangehrm_mysql -e "source $INSTDIR\htdocs\orangehrm-${ProductVersion}\dbscript\dbscript-user.sql"'
 
       Delete /REBOOTOK "$INSTDIR\htdocs\orangehrm-${ProductVersion}\dbscript\dbscript-user.sql"
+      DetailPrint "Registering Product"
+      inetc::post "register" "http://127.0.0.1/orangehrm-3.1.4/installer/registrationMessage.php" "$INSTDIR\output.txt" 
 
 SectionEnd
 
@@ -486,7 +488,7 @@ FunctionEnd
   LangString DESC_SecApache ${LANG_ENGLISH} "Apache web server"
   LangString DESC_SecMySQL ${LANG_ENGLISH} "MySQL database server"
   LangString DESC_SecPHP ${LANG_ENGLISH} "PHP Hypertext Preprocessor"
-  LangString DESC_SecOrangeHRM ${LANG_ENGLISH} "OrangeHRM 3.1.3"
+  LangString DESC_SecOrangeHRM ${LANG_ENGLISH} "OrangeHRM 3.1.4"
   LangString DESC_SecGrpExtraComponents ${LANG_ENGLISH} "Extra components to make OrangeHRM better"
 
   LangString DESC_SecSendmail ${LANG_ENGLISH} "Sendmail mail transfer agent"

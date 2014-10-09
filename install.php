@@ -22,7 +22,7 @@
 include_once('lib/confs/log_settings.php');
 
 $rootPath = realpath(dirname(__FILE__));
-include_once ('lib/confs/Conf.php');
+//include_once ('lib/confs/Conf.php');
 define('ROOT_PATH', $rootPath);
 require(ROOT_PATH . '/installer/utils/installUtil.php');
 global $dbConnection;
@@ -67,6 +67,7 @@ global $dbConnection;
 //}
 
 function saveBeaconData() {
+    include_once ('lib/confs/Conf.php');
     $conf = new Conf();
     global $dbConnection;
 //db credentials
@@ -96,7 +97,7 @@ function createDbConnection($host, $username, $password, $dbname, $port) {
     }
 
     if (!$dbConnection) {
-        die('Could not connect: ' . mysqli_connect_error());
+        return;
     }
     $dbConnection->set_charset("utf8");
     //mysqli_autocommit($dbConnection, FALSE);
@@ -105,11 +106,9 @@ function createDbConnection($host, $username, $password, $dbname, $port) {
 
 function executeSql($query) {
     global $dbConnection;
-    echo ".";
+    
     $result = mysqli_query($dbConnection, $query);
-    if (mysqli_error($dbConnection)) {
-        echo "\n" . $query . "::" . mysqli_error($dbConnection) . "\n";
-    }
+   
     return $result;
 }
 

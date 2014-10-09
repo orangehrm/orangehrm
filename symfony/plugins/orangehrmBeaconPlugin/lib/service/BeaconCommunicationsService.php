@@ -100,16 +100,16 @@ class BeaconCommunicationsService extends BaseService implements StateAccessible
                 $idArray[] = $message['id'];
                 $dataPoint = new DataPoint();
                 if ($message['operation'] == 'DELETE') {
-                    $result = $this->getBeaconDatapointService()->deleteDatapointByName(trim($messageBody->settings->name . ""));
+                    $result = $this->getBeaconDatapointService()->deleteDatapointByName($message['name']);
                     if ($result > 0) {
                         $idArray[] = $message['id'];
                     }
                     continue;
                 }
                 if ($message['operation'] == 'UPDATE') {
-                    $dataPoint = $this->getBeaconDatapointService()->getDatapointByName(trim($messageBody->settings->name . ""));
+                    $dataPoint = $this->getBeaconDatapointService()->getDatapointByName($message['name']);
                 }
-                $dataPoint->setName($messageBody->settings->name . "");
+                $dataPoint->setName($message['name']);
 
                 $dataPoint->setDefinition($message['definition']);
                 $dataPoint->setDataPointType($this->getBeaconDatapointService()->getDatapointTypeByName($messageBody['type'])->getFirst());
@@ -140,7 +140,7 @@ class BeaconCommunicationsService extends BaseService implements StateAccessible
         foreach ($messages as $message) {
             try {
                 $messageBody = new SimpleXMLElement($message['definition']);
-                $name = trim($messageBody->settings->name . "");
+                $name = $message['name'];
                 $idArray[] = $message['id'];
                 $notification = new BeaconNotification();
                 if ($message['operation'] == 'DELETE') {
