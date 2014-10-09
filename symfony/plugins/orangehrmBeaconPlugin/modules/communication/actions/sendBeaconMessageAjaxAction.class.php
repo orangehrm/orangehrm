@@ -88,7 +88,7 @@ class sendBeaconMessageAjaxAction extends sfAction {
             'httphost'=> urlencode($_SERVER['HTTP_HOST']),
             'phpVersion' => urlencode(constant('PHP_VERSION')),
             'server' => urlencode($_SERVER['SERVER_SOFTWARE']),           
-            'ohrmVersion'=> urlencode('Open Source 3.1.4'),            
+            'ohrmVersion'=> urlencode('Open Source 3.2'),            
         ));
 
 
