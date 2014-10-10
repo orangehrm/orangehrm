@@ -115,6 +115,7 @@ class PerforamanceReviewServiceTest extends PHPUnit_Framework_TestCase {
     }
 
     public function testGetCountReviewList() {
+        $serachParams['limit'] = null;
         $daoMock = $this->getMock("PerformanceReviewDao", array("getCountReviewList"));
         $daoMock->expects($this->any())
                 ->method('getCountReviewList')
@@ -123,7 +124,7 @@ class PerforamanceReviewServiceTest extends PHPUnit_Framework_TestCase {
         $service = new PerformanceReviewService();
         $service->setDao($daoMock);
 
-        $result = $service->getCountReviewList(array());
+        $result = $service->getCountReviewList($serachParams);
 
         $this->assertEquals(3, $result);
     }
