@@ -85,7 +85,20 @@ class indexAction extends BaseDashboardAction {
                         'left' => 0,
                         'ohrm_module' => 'pim',
                         'loadDefault' => 'false'
-                    )), array(
+                    )),
+                array(
+                    'name' => 'Legend',
+                    'attributes' => array(
+                        'width' => 300,
+                        'height' => 281,
+                        'module_name' => 'dashboard',
+                        'action_name' => 'baseLegend',
+                        'top' => 0,
+                        'left' => 13,
+                        'ohrm_module' => 'pim',
+                        'loadDefault' => 'true'
+                    )),
+                array(
                     'name' => 'Pending Leave Requests',
                     'attributes' => array(
                         'width' => 300,

@@ -19,23 +19,17 @@
  */
 
 /**
- * Description of GraphMetaData
+ * Description of baseLegendAction
  */
-class GraphMetaData {
-    public $legend;
+class baseLegendAction extends BaseDashboardAction {
     
-    public function __construct() {
-        $this->legend = new GraphLegendData();
-    }
-    
-    public function getLegend() {
-        return $this->legend;
+    public function preExecute() {
+        parent::preExecute();
+        $this->setLayout(false);
     }
 
-    public function setLegend(GraphLegendData $legend) {
-        $this->legend = $legend;
+    public function execute($request) {
+        
     }
-
-
 
 }

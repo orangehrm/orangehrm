@@ -51,6 +51,20 @@ function visualizePieChart(data, graph, properties, divId) {
         
         $.extend(true, chartOptions, legendLabel);
     }
+    
+    if( graph.legend.legendDivId){
+        legendDivId = graph.legend.legendDivId;        
+    }
+    
+    if (graph.legend.useSeparateContainer) {
+        var legendContainer = {
+            legend: {
+                container: '#' + legendDivId + '_legend'
+            }
+        }; 
+        
+        $.extend(true, chartOptions, legendContainer);        
+    }
           
     for (var idx in data) {
         var item = {

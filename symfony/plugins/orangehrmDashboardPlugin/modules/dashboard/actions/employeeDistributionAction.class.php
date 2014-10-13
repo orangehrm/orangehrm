@@ -45,11 +45,13 @@ class employeeDistributionAction extends BaseDashboardAction {
             $pieChart->setDataFormatter($dataFormatter);
             $metaDataObject = new GraphMetaData();
             $legend = new GraphLegendData();
+            $legend->setLegendDivId('div_legend_pim_employee_distribution');
+            $legend->setUseSeparateContainer(true);
             $legend->setLabels($dataFormatter->extractLabels($this->data, 'name'));
             $metaDataObject->setLegend($legend);
             $pieChart->setData($this->data);
             $pieChart->setPropertes(array(
-                'show-legend' => false,
+                'show-legend' => true,
                 'show-labels' => true,
                 'interactive' => true,
                 'suffixForValueHover' => 'Employee(s)',

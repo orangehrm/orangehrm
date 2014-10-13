@@ -25,8 +25,27 @@ class GraphLegendData {
 
     const DEFAULT_NO_OF_COLUMNS = 3;
 
-    private $labels;
-    private $noOfColumns;
+    public $labels;
+    public $noOfColumns;
+    public $legendDivId;
+    public $useSeparateContainer;
+    
+    public function getUseSeparateContainer() {
+        return $this->useSeparateContainer;
+    }
+
+    public function setUseSeparateContainer($useSeparateContainer) {
+        $this->useSeparateContainer = $useSeparateContainer;
+    }
+
+        
+    public function getLegendDivId() {
+        return $this->legendDivId;
+    }
+
+    public function setLegendDivId($legendDivId) {
+        $this->legendDivId = $legendDivId;
+    }
 
     public function __construct() {
         $this->labels = array();
