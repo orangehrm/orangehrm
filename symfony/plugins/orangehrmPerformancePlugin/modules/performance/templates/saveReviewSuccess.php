@@ -313,6 +313,12 @@
                     valid_date: function () {
                         return {
                             format: datepickerDateFormat
+                        }                                
+                    },
+                    date_range: function () {
+                        return {
+                            format: datepickerDateFormat,
+                            fromDate: $("#saveReview360Form_workPeriodStartDate").val()
                         }
                     }
                 },
@@ -348,7 +354,8 @@
             messages: {
                 'saveReview360Form[dueDate]': {
                     required: '<?php echo __(ValidationMessages::REQUIRED); ?>',
-                    valid_date: lang_invalidDate
+                    valid_date: lang_invalidDate,
+                    date_range: '<?php echo __("End date should be after Start date") ?>'
                 },
                 'saveReview360Form[employeeId]': {
                     required: '<?php echo __(ValidationMessages::REQUIRED); ?>'
