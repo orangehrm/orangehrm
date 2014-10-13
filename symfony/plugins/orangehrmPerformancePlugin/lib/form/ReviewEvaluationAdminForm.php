@@ -92,7 +92,7 @@ class ReviewEvaluationAdminForm extends ReviewEvaluationForm {
        }
        
        if(strlen($this->getValue('finalRating'))>0){
-            $review->setFinalRate($this->getValue('finalRating'));
+            $review->setFinalRate(round($this->getValue('finalRating'),2));
        }
 
        if(strlen($this->getValue('completedDate'))>0){
