@@ -17,8 +17,8 @@
  * Boston, MA  02110-1301, USA
  *
  */
-$cupath = realpath(dirname(__FILE__) . '/../');
-define('ROOT_PATH', $cupath);
+//$cupath = realpath(dirname(__FILE__) . '/../');
+//define('ROOT_PATH', $cupath);
 //require(ROOT_PATH . '/installer/registrationMessage.php');
 
 ?>

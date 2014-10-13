@@ -163,7 +163,7 @@ public static function fillData($phase=1, $source='/dbscript/dbscript-') {
 
     public static function insertCsrfKey() {
         $csrfKey = self::createCsrfKey();
-
+        $phase = isset($_SESSION['INSTALLING'])?isset($_SESSION['INSTALLING']):2;
         self::connectDB();
 
         if (!@mysql_select_db($_SESSION['dbInfo']['dbName'])) {
