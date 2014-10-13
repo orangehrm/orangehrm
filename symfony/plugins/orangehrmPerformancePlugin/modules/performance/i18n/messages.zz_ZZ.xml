@@ -498,7 +498,22 @@
     <source>Evaluation by Peers</source>
     <target>FR_Evaluation by Peers</target>
    </trans-unit>
-            
+   <trans-unit id="120"> 
+    <source>Supervisor Reviewer</source>
+    <target>FR_Supervisor Reviewer</target>
+   </trans-unit>            
+   <trans-unit id="121"> 
+    <source>General Comment : </source>
+    <target>FR_General Comment : </target>
+   </trans-unit>            
+   <trans-unit id="122"> 
+    <source>Admin Comments</source>
+    <target>FR_Admin Comments</target>
+   </trans-unit>            
+   <trans-unit id="123"> 
+    <source>Evaluation by Admin</source>
+    <target>FR_Evaluation by Admin</target>
+   </trans-unit>            
   </body>
  </file>
 </xliff>
