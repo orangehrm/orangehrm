@@ -44,7 +44,7 @@ class PerformanceTrackListConfigurationFactory extends ohrmListConfigurationFact
             'elementProperty' => array('getter' => 'getModifiedDate'),
         ));
 
-        $this->headers = array($header1, $header2, $header3, $header4);
+        $this->headers = array( $header2, $header1,$header3, $header4);
     }
 
     public function getClassName() {

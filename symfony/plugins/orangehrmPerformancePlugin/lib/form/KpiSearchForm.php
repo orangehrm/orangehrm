@@ -68,10 +68,19 @@ class KpiSearchForm extends BasePefromanceSearchForm {
      *
      * @return type 
      */
-    public function searchKpi() {
+    public function searchKpi($page) {
         
         $serachParams ['jobCode'] =  $this->getValue('jobTitleCode');
+        $serachParams ['page'] =  $page;
+        $serachParams ['limit'] =  sfConfig::get('app_items_per_page');        
 
         return $this->getKpiService()->searchKpi($serachParams);
+    }
+    
+    public function getKpiCount(){
+        $serachParams ['jobCode'] =  $this->getValue('jobTitleCode');
+        $serachParams['limit'] = null;
+        
+        return $this->getKpiService()->getKpiCount($serachParams);
     }
 }

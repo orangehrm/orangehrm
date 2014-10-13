@@ -71,4 +71,9 @@ class KpiService {
         return $this->getDao()->searchKpiByJobTitle($parameters);
     }
 
+    public function getKpiCount($serachParams) {
+        $kpiList = $this->getDao()->searchKpi($serachParams);
+        return count($kpiList);
+    }
+
 }

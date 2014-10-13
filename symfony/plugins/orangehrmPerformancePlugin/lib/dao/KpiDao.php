@@ -50,6 +50,8 @@ class KpiDao extends BaseDao {
     public function searchKpi($parameters = null) {
         try {
             $query = Doctrine_Query:: create()->from('Kpi');
+            
+            $offset = ($parameters['page'] > 0) ? (($parameters['page'] - 1) * $parameters['limit']) : 0;
 
             if (!empty($parameters)) {
                 if (isset($parameters['id']) && $parameters['id'] > 0) {
@@ -71,6 +73,11 @@ class KpiDao extends BaseDao {
                         }
                     }
                 }
+            }
+            $query->offset($offset);
+            
+            if ($parameters['limit'] != null) {
+                $query->limit($parameters['limit']);
             }
             $query->orderBy('kpi_indicators');
             return $query->execute();

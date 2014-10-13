@@ -13,6 +13,15 @@
 class addPerformanceTrackerAction extends basePerformanceAction {
 
     public $performanceTrack;
+    private $pageNumber;
+
+    public function getPageNumber() {
+        return $this->pageNumber;
+    }
+
+    public function setPageNumber($pageNumber) {
+        $this->pageNumber = $pageNumber;
+    }
 
     public function preExecute() {
         
@@ -36,8 +45,12 @@ class addPerformanceTrackerAction extends basePerformanceAction {
 
 	$request->setParameter('initialActionName', 'addPerformanceTracker');
         //set performance track list
-        $performanceTrackList = $this->getPerformanceTrackerService()->getPerformanceTrackList();
-        $this->_setListComponent($performanceTrackList);
+        $page = $request->getParameter('hdnAction') == 'search' ? 1 : $request->getParameter('pageNo', 1);
+        $this->setPageNumber($page);
+        $searchParameter = array('page'=>$page, 'limit'=>sfConfig::get('app_items_per_page'));
+        $performanceTrackList = $this->getPerformanceTrackerService()->getPerformanceTrackList($searchParameter);
+        $performanceTrackListCount = $this->getPerformanceTrackerService()->getPerformanceTrackListCount();
+        $this->_setListComponent($performanceTrackList, $performanceTrackListCount);
         $params = array();
         $this->parmetersForListCompoment = $params;
 
@@ -56,11 +69,16 @@ class addPerformanceTrackerAction extends basePerformanceAction {
 
     }
 
-    private function _setListComponent($performanceTrackList) {
+    private function _setListComponent($performanceTrackList, $performanceTrackListCount) {
+        $pageNumber = $this->getPageNumber();
         $configurationFactory = new PerformanceTrackListAdminConfigurationFactory();
         ohrmListComponent::setConfigurationFactory($configurationFactory);
         ohrmListComponent::setActivePlugin('orangehrmPerformanceTrackerPlugin');
         ohrmListComponent::setListData($performanceTrackList);
+        ohrmListComponent::setPageNumber($pageNumber);
+        $numRecords = $performanceTrackListCount;
+        ohrmListComponent::setItemsPerPage(sfConfig::get('app_items_per_page'));
+        ohrmListComponent::setNumberOfRecords($numRecords);
     }
 
 

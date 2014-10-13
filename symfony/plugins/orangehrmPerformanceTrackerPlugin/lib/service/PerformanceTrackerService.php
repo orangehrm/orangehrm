@@ -129,8 +129,8 @@ class PerformanceTrackerService extends BaseService {
         return $this->getPerformanceTrackDao()->getPerformanceReviewersIdListByTrackId($reviewId);
     }
 
-    public function getPerformanceTrackListByReviewer($reviewerId) {
-        return $this->getPerformanceTrackDao()->getPerformanceTrackListByReviewer($reviewerId);
+    public function getPerformanceTrackListByReviewer($searchParameter) {
+        return $this->getPerformanceTrackDao()->getPerformanceTrackListByReviewer($searchParameter);
     }
 
     public function getPerformanceTrackerLogListByReviewer($reviewerId) {
@@ -141,8 +141,8 @@ class PerformanceTrackerService extends BaseService {
         return $this->getPerformanceTrackDao()->getPerformanceTrackerLogListByTrack($trackId);
     }
 
-    public function getPerformanceTrackList() {
-        return $this->getPerformanceTrackDao()->getPerformanceTrackList();
+    public function getPerformanceTrackList($searchParameter) {
+        return $this->getPerformanceTrackDao()->getPerformanceTrackList($searchParameter);
     }
 
     public function getPerformanceTrackerLogList() {
@@ -210,6 +210,18 @@ class PerformanceTrackerService extends BaseService {
         
         $csvBuilder = new CSVBuilder();
         return $csvBuilder->createCSVString($headers, $csvResultSet);
+    }
+    
+    public function getPerformanceTrackListCount() {
+        $searchParameter = array('limit' => null);
+        $trackerList = $this->getPerformanceTrackDao()->getPerformanceTrackList($searchParameter);
+        return count($trackerList);
+    }
+    
+    public function getPerformanceTrackListCountByReviewer($searchParameter){
+        $searchParameter['limit'] =  null;
+        $trackerList = $this->getPerformanceTrackDao()->getPerformanceTrackListByReviewer($searchParameter);
+        return count($trackerList);
     }
 
 }

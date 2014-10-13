@@ -44,8 +44,6 @@ class PerformanceTrackerDao extends BaseDao {
         // @codeCoverageIgnoreEnd        
     }
 
-
-
     /**
      * Retrieve PerformanceTrack by performanceTrackId, must make this retrieve domain object
      * @param int $performanceTrackId
@@ -128,12 +126,21 @@ class PerformanceTrackerDao extends BaseDao {
      *
      * @return type 
      */
-    public function getPerformanceTrackList() {
+    public function getPerformanceTrackList($parameters) {
         try {
+
+            $offset = ($parameters['page'] > 0) ? (($parameters['page'] - 1) * $parameters['limit']) : 0;
+
             $q = Doctrine_Query :: create()
                     ->from('PerformanceTrack pt')
+                    ->leftJoin('pt.Employee e')
                     ->where('pt.status=?', PerformanceTrack::STATUS_ACTIVE)
-                    ->orderBy('added_date DESC');
+                    ->orderBy('e.firstName ASC');
+            $q->offset($offset);
+
+            if ($parameters['limit'] != null) {
+                $q->limit($parameters['limit']);
+            }
             return $q->execute();
         } catch (Exception $e) {
             throw new DaoException($e->getMessage());
@@ -146,13 +153,22 @@ class PerformanceTrackerDao extends BaseDao {
      * @returns boolean
      * @throws DaoException
      */
-    public function getPerformanceTrackListByReviewer($reviewerId) {
+    public function getPerformanceTrackListByReviewer($parameters) {
         try {
+            
+            $offset = ($parameters['page'] > 0) ? (($parameters['page'] - 1) * $parameters['limit']) : 0;
+            
             $q = Doctrine_Query :: create()
                     ->from('PerformanceTrack p')
-                    ->where('p.PerformanceTrackerReviewer.reviewer_id =?', $reviewerId)
+                    ->where('p.PerformanceTrackerReviewer.reviewer_id =?', $parameters['reviewerId'])
                     ->andWhere('p.status=?', PerformanceTrack::STATUS_ACTIVE)
                     ->orderBy('added_date ASC');
+            
+            $q->offset($offset);
+
+            if ($parameters['limit'] != null) {
+                $q->limit($parameters['limit']);
+            }
 
             return $q->execute();
             // @codeCoverageIgnoreStart
@@ -233,7 +249,7 @@ class PerformanceTrackerDao extends BaseDao {
             $q = Doctrine_Query :: create()
                     ->from('PerformanceTrackerLog ptl')
                     ->where('ptl.PerformanceTrack.emp_number =?', $empNumber)
-                    ->andWhere('ptl.status=?',  PerformanceTrackerLog::STATUS_ACTIVE)
+                    ->andWhere('ptl.status=?', PerformanceTrackerLog::STATUS_ACTIVE)
                     ->orderBy('added_date DESC');
             return $q->execute();
             // @codeCoverageIgnoreStart
