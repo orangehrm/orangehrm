@@ -39,7 +39,7 @@
                         <?php echo $form['txtUnit_Id']->render(array("class" => "formInputText")); ?>
                     </li>
                     <li>
-                        <label for="txtName"><?php echo __('Name'); ?></label>
+                        <label for="txtName"><?php echo __('Name').' <em>*</em>'; ?></label>
                         <?php echo $form['txtName']->render(array("class" => "formInputText")); ?>
                     </li>
                     <li class="largeTextBox">
