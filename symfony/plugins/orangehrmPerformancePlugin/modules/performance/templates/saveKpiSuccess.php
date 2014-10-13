@@ -46,10 +46,8 @@
         
         $("#searchKpi").validate({
             rules: {
-                'defineKpi360[jobTitleCode]':{required: false },
-                'defineKpi360[department]':{required: false, jobOrDepartmentValidation: true },
+                'defineKpi360[jobTitleCode]':{required: true },
                 'defineKpi360[keyPerformanceIndicators]':{required: true, maxlength:100 },
-                'defineKpi360[kpiGroup]':{required: true },
                 'defineKpi360[minRating]':{ required: true, min: 0, max:100, number:true,  positiveNumber: true, maxMinValidation: true },
                 'defineKpi360[maxRating]':{ required: true, min: 0, max:100, number:true,  positiveNumber: true, maxMinValidation: true } 
             },
@@ -57,21 +55,14 @@
                 'defineKpi360[jobTitleCode]':{
                     required:'<?php echo __(ValidationMessages::REQUIRED); ?>'
                 },
-                'defineKpi360[department]':{
-                    required:'<?php echo __(ValidationMessages::REQUIRED); ?>',
-                    jobOrDepartmentValidation: '<?php echo __("Select either job title or department") ?>'
-                },
                 'defineKpi360[keyPerformanceIndicators]':{
                     required:'<?php echo __(ValidationMessages::REQUIRED); ?>',
                     maxlength: '<?php echo __(ValidationMessages::TEXT_LENGTH_EXCEEDS, array('%amount%' => 100)); ?>'
                 },
-                'defineKpi360[kpiGroup]':{
-                    required:'<?php echo __(ValidationMessages::REQUIRED); ?>'
-                },
                 'defineKpi360[minRating]':{
                     required:'<?php echo __(ValidationMessages::REQUIRED); ?>',
                     number:'<?php echo __(ValidationMessages::VALID_NUMBER); ?>',
-                    min:'<?php echo __(ValidationMessages::GREATER_THAN, array('%number%' => 1)); ?>',
+                    min:'<?php echo __(ValidationMessages::GREATER_THAN, array('%number%' => 0)); ?>',
                     max:'<?php echo __(ValidationMessages::LESS_THAN, array('%number%' => 100)); ?>',
                     maxMinValidation:'<?php echo __(PerformanceValidationMessages::MAX_SHOULD_BE_GREATER_THAN_MIN); ?>'
                     
@@ -79,7 +70,7 @@
                 'defineKpi360[maxRating]':{
                     required:'<?php echo __(ValidationMessages::REQUIRED); ?>',
                     number:'<?php echo __(ValidationMessages::VALID_NUMBER); ?>',
-                    min:'<?php echo __(ValidationMessages::GREATER_THAN, array('%number%' => 1)); ?>',
+                    min:'<?php echo __(ValidationMessages::GREATER_THAN, array('%number%' => 0)); ?>',
                     max:'<?php echo __(ValidationMessages::LESS_THAN, array('%number%' => 100)); ?>',
                     maxMinValidation:'<?php echo __(PerformanceValidationMessages::MAX_SHOULD_BE_GREATER_THAN_MIN); ?>'
                     
@@ -89,10 +80,10 @@
         
         $.validator.addMethod('positiveNumber',
         function (value) { 
-            if(value>0){
-                return value.match("^[1-9][0-9]*$");   
+            if(value>=0 && parseInt(value) >= 0){
+                return /^[0-9][0-9]*$/.test(value);    
             } else {
-                return true;
+                return false;
             } 
         }, '<?php echo __(PerformanceValidationMessages::ONLY_INTEGER_ALLOWED); ?>');
         

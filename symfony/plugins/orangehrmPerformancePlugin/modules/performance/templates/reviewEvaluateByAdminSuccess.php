@@ -320,7 +320,7 @@ Doctrine_Manager::getInstance()->setAttribute(Doctrine::ATTR_USE_DQL_CALLBACKS, 
         $.validator.addMethod('positiveNumber',
                 function (value) {
                     if (!parseFloat(value) > 0) {
-                        return value.match("^[1-9][0-9]*$");
+                        return /^[0-9][0-9]*$/.test(value);
                     } else {
                         return true;
                     }
