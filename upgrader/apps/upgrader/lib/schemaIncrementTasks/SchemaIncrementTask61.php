@@ -58,8 +58,8 @@ class SchemaIncrementTask61 extends SchemaIncrementTask {
                 `id` bigint(20) NOT NULL AUTO_INCREMENT,
                 `job_title_code` varchar(10) DEFAULT NULL,
                 `kpi_indicators` varchar(255) DEFAULT NULL,
-                `min_rating` int(7) DEFAULT NULL,
-                `max_rating` int(7) DEFAULT NULL,
+                `min_rating` int(7) DEFAULT 0,
+                `max_rating` int(7) DEFAULT 0,
                 `default_kpi` smallint(1) DEFAULT NULL,
                 `deleted_at` datetime DEFAULT NULL,
                 PRIMARY KEY (`id`)
