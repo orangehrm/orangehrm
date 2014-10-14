@@ -1,9 +1,4 @@
 <?php use_stylesheets_for_form($form); ?>
-<script type="text/css">
-    #performanceReview360SearchForm fieldset ol li input.calendar {
-    width: 80%;
-}
-</script>
 <?php if ($form->hasErrors()): ?>
     <div class="messagebar">
         <?php include_partial('global/form_errors', array('form' => $form)); ?>

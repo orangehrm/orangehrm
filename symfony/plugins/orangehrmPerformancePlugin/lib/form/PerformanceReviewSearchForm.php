@@ -122,4 +122,12 @@ class PerformanceReviewSearchForm extends BasePefromanceSearchForm {
         $serachParams['limit'] = null;
         return $this->getPerformanceReviewService()->getCountReviewList($serachParams);
     }
+    
+    public function getStylesheets() {
+        $stylesheets = parent::getStylesheets();
+        $stylesheets[plugin_web_path('orangehrmPerformancePlugin','css/searchReviewSuccess.css')] = 'all';
+        return $stylesheets;
+        
+    }
+
 }
