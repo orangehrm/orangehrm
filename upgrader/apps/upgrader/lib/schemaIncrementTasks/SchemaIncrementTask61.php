@@ -136,8 +136,8 @@ class SchemaIncrementTask61 extends SchemaIncrementTask {
                 PRIMARY KEY (`id`), 
                 KEY `ohrm_performance_track_fk1_idx` (`emp_number`), 
                 KEY `ohrm_performance_track_fk2_idx` (`added_by`), 
-                CONSTRAINT `ohrm_performance_track_fk1` FOREIGN KEY (`emp_number`) REFERENCES `hs_hr_employee` (`emp_number`) ON DELETE SET NULL ON UPDATE CASCADE, 
-                CONSTRAINT `ohrm_performance_track_fk2` FOREIGN KEY (`added_by`) REFERENCES `hs_hr_employee` (`emp_number`) ON DELETE SET NULL ON UPDATE CASCADE 
+                CONSTRAINT `ohrm_performance_track_fk1` FOREIGN KEY (`emp_number`) REFERENCES `hs_hr_employee` (`emp_number`) ON DELETE CASCADE ON UPDATE CASCADE, 
+                CONSTRAINT `ohrm_performance_track_fk2` FOREIGN KEY (`added_by`) REFERENCES `hs_hr_employee` (`emp_number`) ON DELETE CASCADE ON UPDATE CASCADE 
               ) ENGINE=InnoDB  DEFAULT CHARSET=utf8;";
 
         $sql[] = "CREATE TABLE `ohrm_performance_tracker_log` ( 
