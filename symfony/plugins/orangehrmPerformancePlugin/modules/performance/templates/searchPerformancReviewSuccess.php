@@ -1,4 +1,9 @@
 <?php use_stylesheets_for_form($form); ?>
+<script type="text/css">
+    #performanceReview360SearchForm fieldset ol li input.calendar {
+    width: 80%;
+}
+</script>
 <?php if ($form->hasErrors()): ?>
     <div class="messagebar">
         <?php include_partial('global/form_errors', array('form' => $form)); ?>
@@ -38,125 +43,125 @@
 <?php include_component('core', 'ohrmList'); ?>
 <?php include_partial('global/delete_confirmation'); ?>
 <script>
-    $(document).ready(function() {
-        
-        var resetUrl = '<?php echo url_for('performance/searchPerformancReview' . '?reset=1'); ?>';  
-        var employees = <?php echo str_replace('&#039;', "'", $form->getEmployeeListAsJson()) ?> ;        
+    $(document).ready(function () {
+
+        var resetUrl = '<?php echo url_for('performance/searchPerformancReview' . '?reset=1'); ?>';
+        var employees = <?php echo str_replace('&#039;', "'", $form->getEmployeeListAsJson()) ?>;
         var typeHint = '<?php echo __("Type for hints") . "..."; ?>';
-        
+
         $('#btnDelete').attr('disabled', 'disabled');
-        
-        $("#ohrmList_chkSelectAll").change(function() {
-            if($(":checkbox").length == 1) {
-                $('#btnDelete').attr('disabled','disabled');
+
+        $("#ohrmList_chkSelectAll").change(function () {
+            if ($(":checkbox").length == 1) {
+                $('#btnDelete').attr('disabled', 'disabled');
             }
             else {
-                if($("#ohrmList_chkSelectAll").is(':checked')) {
+                if ($("#ohrmList_chkSelectAll").is(':checked')) {
                     $('#btnDelete').removeAttr('disabled');
                 } else {
-                    $('#btnDelete').attr('disabled','disabled');
+                    $('#btnDelete').attr('disabled', 'disabled');
                 }
             }
         });
-        
-        $(':checkbox[name*="chkSelectRow[]"]').click(function() {
-            if($(':checkbox[name*="chkSelectRow[]"]').is(':checked')) {
+
+        $(':checkbox[name*="chkSelectRow[]"]').click(function () {
+            if ($(':checkbox[name*="chkSelectRow[]"]').is(':checked')) {
                 $('#btnDelete').removeAttr('disabled');
             } else {
-                $('#btnDelete').attr('disabled','disabled');
+                $('#btnDelete').attr('disabled', 'disabled');
             }
         });
-        
-        $('#dialogDeleteBtn').click(function() {
+
+        $('#dialogDeleteBtn').click(function () {
             $('#frmList_ohrmListComponent').submit();
         });
 
-        
+
         $("#performanceReview360SearchForm_employeeName").autocomplete(employees, {
-            formatItem: function(item) {
+            formatItem: function (item) {
                 return item.name;
             }
-            ,matchContains:true
-        }).result(function(event, item) {
+            , matchContains: true
+        }).result(function (event, item) {
         }
-    );
-        
+        );
+
         $("#performanceReview360SearchForm_reviwerName").autocomplete(employees, {
-            formatItem: function(item) {
+            formatItem: function (item) {
                 return item.name;
             }
-            ,matchContains:true
-        }).result(function(event, item) {
+            , matchContains: true
+        }).result(function (event, item) {
             $('#performanceReview360SearchForm_reviwerNumber').val(item.id);
         }
-    );
-       
-                            
+        );
 
-        
-        
-        
-        $('#btnSearch').click(function(){
+
+
+
+
+
+        $('#btnSearch').click(function () {
             $("#empsearch_isSubmitted").val('yes');
             $("#performanceReview360SearchForm_employeeName.inputFormatHint'").val('');
             $("#performanceReview360SearchForm_reviwerName.inputFormatHint'").val('');
             $('#performanceReview360SearchForm').submit();
-        });   
-        
-        $('#btnAdd').click(function(){
+        });
+
+        $('#btnAdd').click(function () {
             $('#performanceReview360SearchForm').attr("action", "<?php echo public_path('index.php/performance/saveReview'); ?>");
             $('#performanceReview360SearchForm').attr("method", "get");
             $('#performanceReview360SearchForm').submit();
         });
-        
-        $('#btnDelete').click(function(){
+
+        $('#btnDelete').click(function () {
             $('#frmList_ohrmListComponent').attr("action", "<?php echo public_path('index.php/performance/deleteReview'); ?>");
         });
-               
-        $('#btnReset').click(function(){
-        $("#empsearch_isSubmitted").val('yes');
-        $("#performanceReview360SearchForm_employeeName").val('');
-        $("#performanceReview360SearchForm_jobTitleCode").val('');
-        $("#performanceReview360SearchForm_reviwerName").val('');
-        $("#performanceReview360SearchForm_department").val('0');
-        $("#performanceReview360SearchForm_status").val('0');
-        $("#pageNo").val('0');
-        $("#fromDate").val('yyyy-mm-dd');
-        $("#toDate").val('yyyy-mm-dd');
-        $('#performanceReview360SearchForm').submit();
+
+        $('#btnReset').click(function () {
+            $("#empsearch_isSubmitted").val('yes');
+            $("#performanceReview360SearchForm_employeeName").val('');
+            $("#performanceReview360SearchForm_jobTitleCode").val('');
+            $("#performanceReview360SearchForm_reviwerName").val('');
+            $("#performanceReview360SearchForm_department").val('0');
+            $("#performanceReview360SearchForm_status").val('0');
+            $("#pageNo").val('0');
+            $("#fromDate").val('yyyy-mm-dd');
+            $("#toDate").val('yyyy-mm-dd');
+            $('#performanceReview360SearchForm').submit();
         });
-       
+
         if ($("#performanceReview360SearchForm_employeeName").val() == '') {
-            $("#performanceReview360SearchForm_employeeName").val(typeHint).addClass("inputFormatHint");            
+            $("#performanceReview360SearchForm_employeeName").val(typeHint).addClass("inputFormatHint");
         }
-        
-         if ($("#performanceReview360SearchForm_reviwerName").val() == '') {
-             $("#performanceReview360SearchForm_reviwerName").val(typeHint).addClass("inputFormatHint");            
-        } 
+
+        if ($("#performanceReview360SearchForm_reviwerName").val() == '') {
+            $("#performanceReview360SearchForm_reviwerName").val(typeHint).addClass("inputFormatHint");
+        }
     });
-            
-       
-        
-                $("#performanceReview360SearchForm_employeeName").one('focus', function() {
-            if ($(this).hasClass("inputFormatHint")) {
-                $(this).val("");
-                $(this).removeClass("inputFormatHint");
-            }
-        }); 
-        
-                $("#performanceReview360SearchForm_reviwerName").one('focus', function() {
-            if ($(this).hasClass("inputFormatHint")) {
-                $(this).val("");
-                $(this).removeClass("inputFormatHint");
-            }
-        }); 
-        
-        function submitPage(pageNo) {
-            document.performanceReview360SearchForm.pageNo.value = pageNo;
-            document.performanceReview360SearchForm.hdnAction.value = 'paging';
-            $('#performanceReview360SearchForm input.inputFormatHint').val('');
-            $('#performanceReview360SearchForm input.ac_loading').val('');
-            document.getElementById('performanceReview360SearchForm').submit();
+
+
+
+    $("#performanceReview360SearchForm_employeeName").one('focus', function () {
+        if ($(this).hasClass("inputFormatHint")) {
+            $(this).val("");
+            $(this).removeClass("inputFormatHint");
         }
-    
+    });
+
+    $("#performanceReview360SearchForm_reviwerName").one('focus', function () {
+        if ($(this).hasClass("inputFormatHint")) {
+            $(this).val("");
+            $(this).removeClass("inputFormatHint");
+        }
+    });
+
+    function submitPage(pageNo) {
+        document.performanceReview360SearchForm.pageNo.value = pageNo;
+        document.performanceReview360SearchForm.hdnAction.value = 'paging';
+        $('#performanceReview360SearchForm input.inputFormatHint').val('');
+        $('#performanceReview360SearchForm input.ac_loading').val('');
+        document.getElementById('performanceReview360SearchForm').submit();
+    }
+
 </script>

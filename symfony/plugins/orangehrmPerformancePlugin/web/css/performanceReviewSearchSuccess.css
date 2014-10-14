@@ -69,3 +69,7 @@ div.reviewers{
     width: 40%;
     background-color: #fdfdfd; 
 }
+
+#evaluatePerformanceReview360SearchForm fieldset ol li input.calendar{
+    width: 80%;
+}
