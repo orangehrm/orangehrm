@@ -15,9 +15,9 @@ class OrganizationDataProcessor extends AbstractBaseProcessor {
 
     public function process($definition) {
         if (!isset($definition)) {
-            return array();
+            return null;
         }
-        $result = array();
+        $result = null;
         try {
 
 
@@ -35,7 +35,7 @@ class OrganizationDataProcessor extends AbstractBaseProcessor {
                     $columnName = trim($datapoint->parameters->column . "");
                     $name = $datapoint->settings->name;
 
-                    $result[$name . ""] = $organizationArray[$columnName];
+                    $result = $organizationArray[$columnName];
                 }
             }
         } catch (Exception $exc) {

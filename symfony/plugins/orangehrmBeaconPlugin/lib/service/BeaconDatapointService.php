@@ -45,12 +45,13 @@ class BeaconDatapointService extends BaseService {
         $results = array();
         foreach ($datapoints as $point) {
             $datapointProcessor = $point->getDataPointType()->getActionClass();
+            $name = $point->getName();
             if(isset($datapointProcessor)) {
                 $processor = new $datapointProcessor();                
                 $currentResult = $processor->process($point->getDefinition());
                 
                 if(isset($currentResult)) {
-                    $results = array_merge($results, $currentResult);
+                    $results[$name] =  $currentResult;
                 }
             }
         }

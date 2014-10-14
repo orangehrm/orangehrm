@@ -23,10 +23,10 @@ class configDatapointProcessor extends AbstractBaseProcessor {
     public function process($definition) {
         $beaconConfigService = new BeaconConfigurationService();
         if (!isset($definition)) {
-            return array();
+            return null;
         }
 
-        $result = array();
+        $result = null;
         try {
             $datapoint = new SimpleXMLElement($definition);
             if ($datapoint['type'] == "config") {
@@ -36,7 +36,7 @@ class configDatapointProcessor extends AbstractBaseProcessor {
                 if (isset($key)) {
                     $value = $beaconConfigService->getConfigValue($key);
                 }
-                $result[$name . ""] = $value;
+                $result = $value;
             }
         } catch (Exception $exc) {
             echo $exc->getTraceAsString();

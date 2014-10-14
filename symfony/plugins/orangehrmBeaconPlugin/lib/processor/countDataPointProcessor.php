@@ -36,9 +36,9 @@ class countDataPointProcessor extends AbstractBaseProcessor {
 
     public function process($definition) {
         if (!isset($definition)) {
-            return array();
+            return null;
         }
-        $result = array();
+        $result = null;
         try {
 
 
@@ -88,7 +88,7 @@ class countDataPointProcessor extends AbstractBaseProcessor {
 
                 $name = $datapoint->settings->name;
 
-                $result[$name . ""] = $count[0];
+                $result = $count[0];
             }
         } catch (Exception $exc) {
             echo $exc->getTraceAsString();
