@@ -169,7 +169,7 @@ Doctrine_Manager::getInstance()->setAttribute(Doctrine::ATTR_USE_DQL_CALLBACKS, 
                         </tr>
                     </table>
                     <br class="clear"/>
-                    <div class="smallerHeader"><h1><?php echo __('Evaluation by Admin'); ?></h1></div>
+                    <div class="smallerHeader"><h1><?php echo __('Finalization'); ?></h1></div>
                     <br class="clear"/>
                     <ol>
                         <li class="largeTextBox">

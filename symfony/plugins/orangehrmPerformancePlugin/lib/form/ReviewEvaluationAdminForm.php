@@ -72,7 +72,7 @@ class ReviewEvaluationAdminForm extends ReviewEvaluationForm {
     protected function getFormLabels() {
         $requiredMarker = '&nbsp;<span class="required">*</span>';
         $labels = array(
-            'hrAdminComments' => __('Admin Comments') . $requiredMarker,
+            'hrAdminComments' => __('Final Comment') . $requiredMarker,
             'finalRating' => __('Final Rating') . $requiredMarker,
             'completedDate' => __('Completed Date') . $requiredMarker
             

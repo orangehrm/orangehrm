@@ -507,12 +507,12 @@
     <target>FR_General Comment : </target>
    </trans-unit>            
    <trans-unit id="122"> 
-    <source>Admin Comments</source>
-    <target>FR_Admin Comments</target>
+    <source>Final Comment</source>
+    <target>FR_Final Comment</target>
    </trans-unit>            
    <trans-unit id="123"> 
-    <source>Evaluation by Admin</source>
-    <target>FR_Evaluation by Admin</target>
+    <source>Finalization</source>
+    <target>FR_Finalization</target>
    </trans-unit>            
    <trans-unit id="124"> 
     <source>Invalid Supervisor</source>
