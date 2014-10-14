@@ -73,7 +73,7 @@ Doctrine_Manager::getInstance()->setAttribute(Doctrine::ATTR_USE_DQL_CALLBACKS, 
                 foreach ($form->getReviewers() as $reviewer) {
 
                     if (($reviewer->getGroup()->getId() == 2 && $reviewer->getStatus() == 3) || $reviewer->getGroup()->getId() != 2) {
-                        if ($reviewerGroupId != $reviewer->getReviewerGroupId()) {
+                        if ($reviewer->getReviewerGroupId() != 2) {
                             $reviewerGroupId = $reviewer->getReviewerGroupId();
                             $columNumber = 1;
                             ?>

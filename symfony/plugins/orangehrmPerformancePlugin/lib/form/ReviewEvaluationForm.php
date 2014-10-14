@@ -62,24 +62,22 @@ class ReviewEvaluationForm extends BasePefromanceSearchForm {
         $ratings = array();
 
         foreach ($review->getReviewers()->getFirst()->getRating() as $rating) {
-                 $ratings [$rating->getKpi()->getKpiIndicators()."_".$rating->getKpi()->getId()."_".$rating->getId()] = $rating;
+            $ratings [$rating->getKpi()->getKpiIndicators() . "_" . $rating->getKpi()->getId() . "_" . $rating->getId()] = $rating;
         }
         ksort($ratings);
         return $ratings;
     }
-    
 
-    public function getSortedRatings($ratings){
-       
+    public function getSortedRatings($ratings) {
+
         $ratingsArray = array();
 
         foreach ($ratings as $rating) {
-             $ratingsArray [$rating->getKpi()->getKpiIndicators()."_".$rating->getKpi()->getId()."_".$rating->getId()] = $rating;
+            $ratingsArray [$rating->getKpi()->getKpiIndicators() . "_" . $rating->getKpi()->getId() . "_" . $rating->getId()] = $rating;
         }
 
         ksort($ratingsArray);
         return $ratingsArray;
-
     }
 
     public function getReviewers() {
@@ -87,21 +85,20 @@ class ReviewEvaluationForm extends BasePefromanceSearchForm {
         $review = $this->getPerformanceReviewService()->searchReview($parameters);
         return $review->getReviewers();
     }
-    
-    public function getReviewer(){
+
+    public function getReviewer() {
         $parameters ['id'] = $this->getReviewId();
         $parameters ['reviewerId'] = $this->getReviewerId();
-        
+
         $reviewers = $this->getPerformanceReviewService()->searchReview($parameters)->getReviewers();
-        if(sizeof($reviewers)>0){
+        if (sizeof($reviewers) > 0) {
             return $this->getPerformanceReviewService()->searchReview($parameters)->getReviewers()->getFirst();
         } else {
             return new Reviewer();
         }
-        
     }
 
-        /**
+    /**
      *
      * @param type $reviewEvaluation 
      */
@@ -124,8 +121,8 @@ class ReviewEvaluationForm extends BasePefromanceSearchForm {
      */
     public function getStylesheets() {
         $styleSheets = parent::getStylesheets();
-        $styleSheets[plugin_web_path('orangehrmPerformancePlugin','css/reviewEvaluationSuccess.css')] = 'all';
-        $styleSheets[plugin_web_path('orangehrmPerformancePlugin','css/reviewEvaluateByAdminSuccess.css')] = 'all';
+        $styleSheets[plugin_web_path('orangehrmPerformancePlugin', 'css/reviewEvaluationSuccess.css')] = 'all';
+        $styleSheets[plugin_web_path('orangehrmPerformancePlugin', 'css/reviewEvaluateByAdminSuccess.css')] = 'all';
         return $styleSheets;
     }
 
@@ -182,25 +179,37 @@ class ReviewEvaluationForm extends BasePefromanceSearchForm {
         if ($this->isEditable()) {
             $postParameters = $request->getPostParameters();
             foreach ($postParameters['rating_id'] as $key => $ratingId) {
-                if ($this->isValidRatingId($ratingId)){                    
+                if ($this->isValidRatingId($ratingId)) {
                     $rating = $this->getPerformanceReviewService()->getReviewRating($ratingId);
-                    $rating->setRating( $this->filterPostValues( round($postParameters['rating'][$key],2)));
-                    $rating->setComment( $this->filterPostValues( $postParameters['comment'][$key]));
+                    $rating->setRating($this->filterPostValues(round($postParameters['rating'][$key], 2)));
+                    $rating->setComment($this->filterPostValues($postParameters['comment'][$key]));
                     $rating->save();
                 }
             }
-            
+
             if ($this->getValue('action') == 'complete') {
                 $reviewer = $rating->getReviewer();
-                $comment = $postParameters['general_comment'][$reviewer->getGroup()->getId()];
-                $status = ReviewerReviewStatusFactory::getInstance()->getStatus('completed');
-                $reviewer->setStatus($status->getStatusId());
-                $reviewer->setCompletedDate(date("Y-m-d H:i:s"));
-                $reviewer->setComment($comment);
-                $reviewer->save();
+                if ($reviewer->getGroup()->getId() == 2) {
+                    $comment = $postParameters['general_comment'][$reviewer->getGroup()->getId()];
+                    $status = ReviewerReviewStatusFactory::getInstance()->getStatus('completed');
+                    $reviewer->setStatus($status->getStatusId());
+                    $reviewer->setCompletedDate(date("Y-m-d H:i:s"));
+                    $reviewer->setComment($comment);
+                    $reviewer->save();
+                } else {
+                    $reviewers = $this->getReviewers();
+                    foreach ($reviewers as $reviewer) {
+                        $comment = $postParameters['general_comment'][$reviewer->getGroup()->getId()];
+                        $status = ReviewerReviewStatusFactory::getInstance()->getStatus('completed');
+                        $reviewer->setStatus($status->getStatusId());
+                        $reviewer->setCompletedDate(date("Y-m-d H:i:s"));
+                        $reviewer->setComment($comment);
+                        $reviewer->save();
+                    }
+                }
             }
 
-            if ($this->getValue('action') == 'save') {           
+            if ($this->getValue('action') == 'save') {
                 $reviewer = $rating->getReviewer();
                 $comment = $postParameters['general_comment'][$reviewer->getGroup()->getId()];
                 $status = ReviewerReviewStatusFactory::getInstance()->getStatus('inProgress');
@@ -208,13 +217,13 @@ class ReviewEvaluationForm extends BasePefromanceSearchForm {
                 $reviewer->setComment($comment);
                 $reviewer->save();
             }
-            
-             $review = $this->getPerformanceReviewService()->searchReview($this->getReviewId());
-             $status = $this->getReviewStatusFactory()->getStatus($reviewer->getReview()->getStatusId());
-             $review = $reviewer->getReview();
-             $review->setStatusId($status->getNextStatus());
-             $review->save();
-             return $review;
+
+            $review = $this->getPerformanceReviewService()->searchReview($this->getReviewId());
+            $status = $this->getReviewStatusFactory()->getStatus($reviewer->getReview()->getStatusId());
+            $review = $reviewer->getReview();
+            $review->setStatusId($status->getNextStatus());
+            $review->save();
+            return $review;
         }
     }
 
@@ -234,21 +243,20 @@ class ReviewEvaluationForm extends BasePefromanceSearchForm {
      *
      * @return boolean
      */
-    public function isFinalRatingVisible(){
-          /* TODO: Control Circle */
-        if($this->getReview()->getEmployeeNumber() == $this->getReviewerId()){
+    public function isFinalRatingVisible() {
+        /* TODO: Control Circle */
+        if ($this->getReview()->getEmployeeNumber() == $this->getReviewerId()) {
             $parameters ['id'] = $this->getReviewId();
             $review = $this->getPerformanceReviewService()->searchReview($parameters);
 
-            if (ReviewStatusFactory::getInstance()->getStatus($review->getStatusId())->isFinalRatingVisible() ) {
+            if (ReviewStatusFactory::getInstance()->getStatus($review->getStatusId())->isFinalRatingVisible()) {
                 return true;
             } else {
                 return false;
             }
         } else {
-           return false;
+            return false;
         }
-        
     }
 
     /**
@@ -273,16 +281,17 @@ class ReviewEvaluationForm extends BasePefromanceSearchForm {
             return false;
         }
     }
-    
+
     /**
      *
      * @return string 
      */
-    public function getGoBackUrl(){        
-        if($this->getReview()->getEmployeeNumber() == $this->getReviewerId()){
+    public function getGoBackUrl() {
+        if ($this->getReview()->getEmployeeNumber() == $this->getReviewerId()) {
             return "performance/myPerformanceReview";
         } else {
-           return "performance/searchEvaluatePerformancReview";
+            return "performance/searchEvaluatePerformancReview";
         }
     }
+
 }

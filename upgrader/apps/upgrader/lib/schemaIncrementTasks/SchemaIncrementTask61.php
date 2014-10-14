@@ -403,7 +403,7 @@ class SchemaIncrementTask61 extends SchemaIncrementTask {
             if ($isActive == '1') {
                 $isActive = 'null';
             } else {
-                $isActive = "'".date('Y-m-d')."'";
+                $isActive = "'" . date('Y-m-d') . "'";
             }
 
             $this->upgradeUtility->executeSql("INSERT INTO `ohrm_kpi`(`id`, `job_title_code`, `kpi_indicators`, `min_rating`, `max_rating`, `default_kpi`,`deleted_at`) VALUES "
@@ -420,10 +420,10 @@ class SchemaIncrementTask61 extends SchemaIncrementTask {
             $reviewerId = $row['reviewer_id'];
             $jobTitleCode = $row['job_title_code'];
             $subDivisionId = $row['sub_division_id'];
-            $creationDate = "'".date('Y-m-d', strtotime($row['creation_date']))."'";
-            $periodFrom = "'".date('Y-m-d', strtotime($row['period_from']))."'";
-            $periodTo = "'".date('Y-m-d', strtotime($row['period_to']))."'";
-            $dueDate = "'".date('Y-m-d', strtotime($row['due_date']))."'";
+            $creationDate = "'" . date('Y-m-d', strtotime($row['creation_date'])) . "'";
+            $periodFrom = "'" . date('Y-m-d', strtotime($row['period_from'])) . "'";
+            $periodTo = "'" . date('Y-m-d', strtotime($row['period_to'])) . "'";
+            $dueDate = "'" . date('Y-m-d', strtotime($row['due_date'])) . "'";
             $state = $row['state'];
             $kpis = $row['kpis'];
 
@@ -442,7 +442,11 @@ class SchemaIncrementTask61 extends SchemaIncrementTask {
             }
 
             $this->upgradeUtility->executeSql("INSERT INTO `ohrm_performance_review`(`id`, `status_id`, `employee_number`, `work_period_start`, `work_period_end`, `job_title_code`, `department_id`, `due_date`, `completed_date`, `activated_date`) VALUES"
-                    . "(" . $this->upgradeUtility->escapeString($reviewId) . ", " . $this->upgradeUtility->escapeString($stateId) . "," . $this->upgradeUtility->escapeString($employeeId) . "," . $periodFrom . "," . $periodTo . "," . $this->upgradeUtility->escapeString($jobTitleCode) . "," . $this->upgradeUtility->escapeString($subDivisionId) . "," . $dueDate . ",".$completedDate.",".$activatedDate.")");
+                    . "(" . $this->upgradeUtility->escapeString($reviewId) . ", " . $this->upgradeUtility->escapeString($stateId) . "," . $this->upgradeUtility->escapeString($employeeId) . "," . $periodFrom . "," . $periodTo . "," . $this->upgradeUtility->escapeString($jobTitleCode) . "," . $this->upgradeUtility->escapeString($subDivisionId) . "," . $dueDate . "," . $completedDate . "," . $activatedDate . ")");
+
+            $reviewerState = $this->getReviewerState($state);
+            $this->upgradeUtility->executeSql("INSERT INTO `ohrm_reviewer`(`review_id`, `employee_number`, `status`, `reviewer_group_id`, `completed_date`, `comment`) VALUES "
+                    . "(" . $this->upgradeUtility->escapeString($reviewId) . "," . $this->upgradeUtility->escapeString($reviewerId) . "," . $this->upgradeUtility->escapeString($reviewerState) . "," . $this->upgradeUtility->escapeString('1') . "," . $completedDate . "," . $this->upgradeUtility->escapeString('NULL') . ")");
 
             if ($stateId >= 2) {
                 $this->transferKpisToReviewer($reviewId, $reviewerId, $state, $completedDate, $kpis);
@@ -475,9 +479,6 @@ class SchemaIncrementTask61 extends SchemaIncrementTask {
     }
 
     public function transferKpisToReviewer($reviewId, $reviewerId, $state, $completedDate, $kpisXml) {
-        $reviewerState = $this->getReviewerState($state);
-        $this->upgradeUtility->executeSql("INSERT INTO `ohrm_reviewer`(`review_id`, `employee_number`, `status`, `reviewer_group_id`, `completed_date`, `comment`) VALUES "
-                . "(" . $this->upgradeUtility->escapeString($reviewId) . "," . $this->upgradeUtility->escapeString($reviewerId) . "," . $this->upgradeUtility->escapeString($reviewerState) . "," . $this->upgradeUtility->escapeString('1') . ",".$completedDate.",".$this->upgradeUtility->escapeString('NULL') . ")");
         $xmlDoc = new DOMDocument();
         $xmlDoc->loadXML($kpisXml);
         $x = $xmlDoc->documentElement;
@@ -520,7 +521,7 @@ class SchemaIncrementTask61 extends SchemaIncrementTask {
                     $rate = 0;
                 }
                 $this->upgradeUtility->executeSql("INSERT INTO `ohrm_reviewer_rating`(`rating`, `kpi_id`, `review_id`, `reviewer_id`, `comment`) VALUES "
-                        . "(" . ($rate > 0 ? $rate : '0') . "," . $this->upgradeUtility->escapeString($kpi['id']) . "," . $this->upgradeUtility->escapeString($reviewId) . "," . $this->upgradeUtility->escapeString($reviewerReviewId['id']) . ",'".$this->upgradeUtility->escapeString($kpi['comment'])."')");
+                        . "(" . ($rate > 0 ? $rate : '0') . "," . $this->upgradeUtility->escapeString($kpi['id']) . "," . $this->upgradeUtility->escapeString($reviewId) . "," . $this->upgradeUtility->escapeString($reviewerReviewId['id']) . ",'" . $this->upgradeUtility->escapeString($kpi['comment']) . "')");
             }
         }
     }
