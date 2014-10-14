@@ -5431,6 +5431,10 @@
        <source>Csrf token validation failed</source>
        <target>FR_Csrf token validation failed</target>
    </trans-unit>
+   <trans-unit id="1190">
+    <source>About</source>
+    <target>FR_About</target>
+   </trans-unit>
   </body>
  </file>
 </xliff>

@@ -1914,8 +1914,8 @@ CREATE TABLE `ohrm_performance_track` (
   PRIMARY KEY (`id`), 
   KEY `ohrm_performance_track_fk1_idx` (`emp_number`), 
   KEY `ohrm_performance_track_fk2_idx` (`added_by`), 
-  CONSTRAINT `ohrm_performance_track_fk1` FOREIGN KEY (`emp_number`) REFERENCES `hs_hr_employee` (`emp_number`) ON DELETE NO ACTION ON UPDATE NO ACTION, 
-  CONSTRAINT `ohrm_performance_track_fk2` FOREIGN KEY (`added_by`) REFERENCES `hs_hr_employee` (`emp_number`) ON DELETE NO ACTION ON UPDATE NO ACTION 
+  CONSTRAINT `ohrm_performance_track_fk1` FOREIGN KEY (`emp_number`) REFERENCES `hs_hr_employee` (`emp_number`) ON DELETE SET NULL ON UPDATE CASCADE, 
+  CONSTRAINT `ohrm_performance_track_fk2` FOREIGN KEY (`added_by`) REFERENCES `hs_hr_employee` (`emp_number`) ON DELETE SET NULL ON UPDATE CASCADE 
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8;
 
 
@@ -1934,9 +1934,9 @@ CREATE TABLE `ohrm_performance_tracker_log` (
   KEY `ohrm_performance_tracker_log_fk1_idx` (`performance_track_id`), 
   KEY `ohrm_performance_tracker_log_fk2_idx` (`reviewer_id`), 
   KEY `fk_ohrm_performance_tracker_log_1` (`user_id`), 
-  CONSTRAINT `fk_ohrm_performance_tracker_log_1` FOREIGN KEY (`user_id`) REFERENCES `ohrm_user` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION, 
+  CONSTRAINT `fk_ohrm_performance_tracker_log_1` FOREIGN KEY (`user_id`) REFERENCES `ohrm_user` (`id`) ON DELETE CASCADE ON UPDATE CASCADE, 
   CONSTRAINT `ohrm_performance_tracker_log_fk1` FOREIGN KEY (`performance_track_id`) REFERENCES `ohrm_performance_track` (`id`) ON DELETE CASCADE ON UPDATE CASCADE, 
-  CONSTRAINT `ohrm_performance_tracker_log_fk2` FOREIGN KEY (`reviewer_id`) REFERENCES `hs_hr_employee` (`emp_number`) ON DELETE CASCADE ON UPDATE NO ACTION 
+  CONSTRAINT `ohrm_performance_tracker_log_fk2` FOREIGN KEY (`reviewer_id`) REFERENCES `hs_hr_employee` (`emp_number`) ON DELETE CASCADE ON UPDATE CASCADE 
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 
@@ -1950,5 +1950,5 @@ CREATE TABLE `ohrm_performance_tracker_reviewer` (
   KEY `ohrm_performance_tracker_reviewer_fk1_idx` (`performance_track_id`), 
   KEY `ohrm_performance_tracker_reviewer_fk2_idx` (`reviewer_id`), 
   CONSTRAINT `ohrm_performance_tracker_reviewer_fk1` FOREIGN KEY (`performance_track_id`) REFERENCES `ohrm_performance_track` (`id`) ON DELETE CASCADE ON UPDATE CASCADE, 
-  CONSTRAINT `ohrm_performance_tracker_reviewer_fk2` FOREIGN KEY (`reviewer_id`) REFERENCES `hs_hr_employee` (`emp_number`) ON DELETE CASCADE ON UPDATE NO ACTION 
+  CONSTRAINT `ohrm_performance_tracker_reviewer_fk2` FOREIGN KEY (`reviewer_id`) REFERENCES `hs_hr_employee` (`emp_number`) ON DELETE CASCADE ON UPDATE CASCADE 
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
