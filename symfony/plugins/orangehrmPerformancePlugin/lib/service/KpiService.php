@@ -58,6 +58,12 @@ class KpiService {
      * @return Doctrine_Collection 
      */
     public function deleteKpi($ids) {
+        foreach($ids as $id){
+            $kpi = $this->getKpiById($id);
+            if($kpi instanceof Kpi){
+                $kpi->delete();
+            }
+        }
         return $this->getDao()->deleteKpi($ids);
     }
 
@@ -74,6 +80,19 @@ class KpiService {
     public function getKpiCount($serachParams) {
         $kpiList = $this->getDao()->searchKpi($serachParams);
         return count($kpiList);
+    }
+    
+    public function getKpiById($id){
+        return $this->getDao()->getKpiById($id);
+    }
+    
+    public function softDeleteKpi($ids) {
+        foreach($ids as $id){
+            $kpi = $this->getKpiById($id);
+            if($kpi instanceof Kpi){
+                $kpi->delete();
+            }
+        }
     }
 
 }

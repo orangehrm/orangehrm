@@ -74,6 +74,7 @@ class KpiDao extends BaseDao {
                     }
                 }
             }
+            $query->andWhere('deleted_at IS NULL');
             $query->offset($offset);
             
             if ($parameters['limit'] != null) {
@@ -125,6 +126,16 @@ class KpiDao extends BaseDao {
             //@codeCoverageIgnoreStart
         } catch (Exception $e) {
             throw new DaoException($e->getMessage(), $e->getCode(), $e);
+        }//@codeCoverageIgnoreEnd
+    }
+    
+    public function getKpiById($id){
+        try{
+            $result = Doctrine :: getTable('Kpi')->find($id);
+            return $result;
+            //@codeCoverageIgnoreStart
+        } catch (Exception $ex) {
+            throw new DaoException($ex->getMessage(), $ex->getCode(), $ex);
         }//@codeCoverageIgnoreEnd
     }
 

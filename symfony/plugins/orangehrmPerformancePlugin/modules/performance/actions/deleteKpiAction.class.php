@@ -46,7 +46,7 @@ class deleteKpiAction extends basePeformanceAction {
             $rowsToBeDeleted = $request->getParameter('chkSelectRow');
 
             if (sizeof($rowsToBeDeleted) > 0) {
-                $this->getKpiService()->deleteKpi($rowsToBeDeleted);
+                $this->getKpiService()->softDeleteKpi($rowsToBeDeleted);
                 $this->getUser()->setFlash('success', __(TopLevelMessages::DELETE_SUCCESS));
             } else {
                 $this->getUser()->setFlash('error', __(TopLevelMessages::SELECT_RECORDS));
