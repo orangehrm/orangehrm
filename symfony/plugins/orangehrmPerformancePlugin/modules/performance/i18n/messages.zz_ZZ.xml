@@ -514,6 +514,10 @@
     <source>Evaluation by Admin</source>
     <target>FR_Evaluation by Admin</target>
    </trans-unit>            
+   <trans-unit id="124"> 
+    <source>Invalid Supervisor</source>
+    <target>FR_Invalid Supervisor</target>
+   </trans-unit>            
   </body>
  </file>
 </xliff>

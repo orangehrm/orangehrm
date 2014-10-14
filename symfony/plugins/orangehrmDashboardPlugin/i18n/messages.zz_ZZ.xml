@@ -60,6 +60,10 @@
     <source>No Data to Display</source>
     <target>FR_No Data to Display</target>
    </trans-unit>
+   <trans-unit id="15">
+    <source>Legend</source>
+    <target>FR_Legend</target>
+   </trans-unit>
   </body>
  </file>
 </xliff>

@@ -174,7 +174,7 @@ class SaveReviewForm extends BasePefromanceSearchForm {
             return true;
         }else{
             $errorMessages = array();
-            $errorMessages [] = __("Supervisor is not Valid");
+            $errorMessages [] = __("Invalid Supervisor");
             $this->setTemplateMessage(implode("<br/>", $errorMessages));
         }
     }
