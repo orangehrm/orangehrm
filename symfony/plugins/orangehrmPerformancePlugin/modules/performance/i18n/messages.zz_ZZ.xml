@@ -447,8 +447,8 @@
     <target>FR_Completed</target>
    </trans-unit>
    <trans-unit id="107"> 
-    <source>Should be a positive integer</source>
-    <target>FR_Should be a positive integer</target>
+    <source>Should be a positive value</source>
+    <target>FR_Should be a positive value</target>
    </trans-unit>
    <trans-unit id="108"> 
     <source>Subordinate Evaluation Form</source>

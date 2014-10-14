@@ -2692,7 +2692,7 @@ INSERT INTO ohrm_screen (`name`, `module_id`, `action_url`) VALUES
 SET @search_performance_review_screen_id := (SELECT LAST_INSERT_ID());
 
 INSERT INTO ohrm_menu_item (`menu_title`, `screen_id`, `parent_id`, `level`, `order_hint`, `url_extras`, `status`) VALUES  
-('Performance', @my_reviews_screen_id, NULL, 1, 700, '', 1);
+('Performance', NULL, NULL, 1, 700, '', 1);
 SET @performance_menu_id := (SELECT `id` FROM ohrm_menu_item WHERE `menu_title` = 'Performance' AND `level` = 1); 
 
 INSERT INTO ohrm_menu_item (`menu_title`, `screen_id`, `parent_id`, `level`, `order_hint`, `url_extras`, `status`) VALUES  
@@ -2713,7 +2713,6 @@ INSERT INTO ohrm_menu_item (`menu_title`, `screen_id`, `parent_id`, `level`, `or
 INSERT INTO ohrm_user_role_screen (user_role_id, screen_id, can_read, can_create, can_update, can_delete) VALUES  
 (@admin_role_id, @save_kpi_screen_id, 1, 1, 1, 0),
 (@admin_role_id, @search_kpi_screen_id, 1, 1, 1, 1),
-(@admin_role_id, @my_reviews_screen_id, 1, 0, 1, 0),
 (@admin_role_id, @review_progress_screen_id, 1, 0, 0, 0),
 (@admin_role_id, @add_review_screen_id, 1, 1, 1, 0),
 (@admin_role_id, @review_evaluate_admin_screen_id, 1, 1, 1, 0),

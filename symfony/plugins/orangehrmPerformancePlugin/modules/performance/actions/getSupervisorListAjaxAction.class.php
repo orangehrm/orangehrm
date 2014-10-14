@@ -19,10 +19,9 @@ class getSupervisorListAjaxAction extends basePeformanceAction {
         $employeeService = new EmployeeService();
         $employeeService->setEmployeeDao(new EmployeeDao());
         
-        $employeeList = $employeeService->getEmployee($request->getGetParameter('id'))->getSupervisors();
-      
-        foreach ($employeeList as $employee) {
-
+        $supervisorList = $employeeService->getSupervisorIdListBySubordinateId($request->getGetParameter('id'));
+        foreach ($supervisorList as $supervisorId) {
+            $employee = $employeeService->getEmployee($supervisorId);
             $name = $employee->getFirstName() . " " . $employee->getMiddleName();
             $name = trim(trim($name) . " " . $employee->getLastName());
 

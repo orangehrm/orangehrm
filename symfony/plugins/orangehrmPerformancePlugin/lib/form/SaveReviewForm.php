@@ -90,7 +90,7 @@ class SaveReviewForm extends BasePefromanceSearchForm {
         $requiredMarker = ' <span class="required">*</span>';
         $labels = array(
             'employee' => __("Employee") . $requiredMarker,
-            'supervisorReviewer' => __("Supervisor Reviewer").$requiredMarker,
+            'supervisorReviewer' => __("Supervisor Reviewer") . $requiredMarker,
             'workPeriodStartDate' => __("Work Period Start Date") . $requiredMarker,
             'workPeriodEndDate' => __("Work Period End Date") . $requiredMarker,
             'dueDate' => __("Due Date") . $requiredMarker
@@ -105,71 +105,78 @@ class SaveReviewForm extends BasePefromanceSearchForm {
     public function saveForm($postData) {
 
         $formValues = $this->getValues();
+        $isSupervisorValid = true;
         $reviewers = array();
         if ($postData['saveReview360Form']['supervisorReviewerId']) {
             $reviewers['supervisors'] = array($postData['saveReview360Form']['supervisorReviewerId']);
         }
 
         if ($formValues['reviewId'] > 0) {
-            $review = $this->getPerformanceReviewService()->searchReview(array('id' => $formValues['reviewId']));
+            $review = $this->getPerformanceReviewService()->searchReview(array('id' => $formValues['reviewId']));            
         } else {
             $review = new PerformanceReview();
+            $isSupervisorValid = $this->isSupervisorValid($formValues ['employeeId'], $postData['saveReview360Form']['supervisorReviewerId']);
         }
+        if ($isSupervisorValid) {
+            $review->setEmployeeNumber($formValues ['employeeId']);
+            $review->setWorkPeriodStart(date("Y-m-d", strtotime($formValues ['workPeriodStartDate'])));
+            $review->setWorkPeriodEnd(date("Y-m-d", strtotime($formValues ['workPeriodEndDate'])));
+            $review->setDueDate(date("Y-m-d", strtotime($formValues ['dueDate'])));
 
-        $review->setEmployeeNumber($formValues ['employeeId']);
-        $review->setWorkPeriodStart(date("Y-m-d", strtotime($formValues ['workPeriodStartDate'])));
-        $review->setWorkPeriodEnd(date("Y-m-d", strtotime($formValues ['workPeriodEndDate'])));
-        $review->setDueDate(date("Y-m-d", strtotime($formValues ['dueDate'])));
+            $employee = $this->getEmployeeService()->getEmployee($formValues ['employeeId']);
 
-        $employee = $this->getEmployeeService()->getEmployee($formValues ['employeeId']);
-
-        $review->setJobTitleCode($employee->getJobTitleCode());
-        $review->setDepartmentId($employee->getWorkStation());
-        $review->save();
-
-        $postData['reviewers'] = $reviewers;
-        $review = $this->createReviewers($postData['reviewers'], $review);
-        $review->save();
-
-        $this->setReview($review);
-
-        if ($formValues['formAction'] == 'save') {
-            $review->setStatusId(ReviewStatusInactive::getInstance()->getStatusId());
+            $review->setJobTitleCode($employee->getJobTitleCode());
+            $review->setDepartmentId($employee->getWorkStation());
             $review->save();
-        } else if ($formValues['formAction'] == 'activate') {           
-                
-            $review = $this->createRatings($review);
+
+            $postData['reviewers'] = $reviewers;
+            $review = $this->createReviewers($postData['reviewers'], $review);
             $review->save();
-            $errorMessages = array();
-            $employee = $this->getEmployeeService()->getEmployee($this->getValue('employeeId'));
 
-            if ($employee->getJobTitle()->getId() == null && $employee->getSubDivision()->getId() == null) {
-                $errorMessages [] = __("Cannot activate review for employees who doesn't have Job Title and/or Sub-Division");
-            }
+            $this->setReview($review);
 
-            if (!isset($postData['reviewers'])) {
-                $errorMessages [] = __("Cannot activate review without reviewers");
-            } else {
-                if (sizeof($review->getReviewerRating()) == 0) {
-                    $errorMessages [] = __("Cannot activate review without KPIs");
-                }
-            }
-
-
-
-            if (sizeof($errorMessages) == 0) {
-                $review->setStatusId(ReviewStatusActivated::getInstance()->getStatusId());
-                $review->setActivatedDate(date("Y-m-d H:i:s"));
-                $review->save();
-                return true;
-            } else {
-                $this->setTemplateMessage(implode("<br/>", $errorMessages));
+            if ($formValues['formAction'] == 'save') {
                 $review->setStatusId(ReviewStatusInactive::getInstance()->getStatusId());
                 $review->save();
-                return false;
+            } else if ($formValues['formAction'] == 'activate') {
+
+                $review = $this->createRatings($review);
+                $review->save();
+                $errorMessages = array();
+                $employee = $this->getEmployeeService()->getEmployee($this->getValue('employeeId'));
+
+                if ($employee->getJobTitle()->getId() == null && $employee->getSubDivision()->getId() == null) {
+                    $errorMessages [] = __("Cannot activate review for employees who doesn't have Job Title and/or Sub-Division");
+                }
+
+                if (!isset($postData['reviewers'])) {
+                    $errorMessages [] = __("Cannot activate review without reviewers");
+                } else {
+                    if (sizeof($review->getReviewerRating()) == 0) {
+                        $errorMessages [] = __("Cannot activate review without KPIs");
+                    }
+                }
+
+
+
+                if (sizeof($errorMessages) == 0) {
+                    $review->setStatusId(ReviewStatusActivated::getInstance()->getStatusId());
+                    $review->setActivatedDate(date("Y-m-d H:i:s"));
+                    $review->save();
+                    return true;
+                } else {
+                    $this->setTemplateMessage(implode("<br/>", $errorMessages));
+                    $review->setStatusId(ReviewStatusInactive::getInstance()->getStatusId());
+                    $review->save();
+                    return false;
+                }
             }
+            return true;
+        }else{
+            $errorMessages = array();
+            $errorMessages [] = __("Supervisor is not Valid");
+            $this->setTemplateMessage(implode("<br/>", $errorMessages));
         }
-        return true;
     }
 
     /**
@@ -299,6 +306,15 @@ class SaveReviewForm extends BasePefromanceSearchForm {
      */
     public function isActivateEnabled() {
         return $this->getPerformanceReviewStatus()->isActivateEnabled();
+    }
+
+    public function isSupervisorValid($empId, $supervisorId) {
+        $supervisorsId = $this->getEmployeeService()->getSupervisorIdListBySubordinateId($empId);
+        if (in_array($supervisorId, $supervisorsId)) {
+            return true;
+        } else {
+            return false;
+        }
     }
 
 }

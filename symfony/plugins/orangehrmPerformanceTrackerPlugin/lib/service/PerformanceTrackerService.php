@@ -157,8 +157,8 @@ class PerformanceTrackerService extends BaseService {
         return $this->getPerformanceTrackDao()->getTrackReviewersIdListByReview($reviewId);
     }
 
-    public function getPerformanceTrackerByEmployee($empNumber) {
-        return $this->getPerformanceTrackDao()->getPerformanceTrackerByEmployee($empNumber);
+    public function getPerformanceTrackerByEmployee($parameters) {
+        return $this->getPerformanceTrackDao()->getPerformanceTrackerByEmployee($parameters);
     }
 
     public function getPerformanceTrackerLogByEmployeeNumber($empNumber) {
@@ -221,6 +221,12 @@ class PerformanceTrackerService extends BaseService {
     public function getPerformanceTrackListCountByReviewer($searchParameter){
         $searchParameter['limit'] =  null;
         $trackerList = $this->getPerformanceTrackDao()->getPerformanceTrackListByReviewer($searchParameter);
+        return count($trackerList);
+    }
+    
+    public function getPerformanceTrackListCountByEmployee($searchParameter){
+        $searchParameter['limit'] =  null;
+        $trackerList = $this->getPerformanceTrackDao()->getPerformanceTrackerByEmployee($searchParameter);
         return count($trackerList);
     }
 

@@ -88,7 +88,7 @@ class EvaluatePerformanceReviewSearchForm extends BasePefromanceSearchForm {
      *
      * @return type 
      */
-    public function searchReviews() {
+    public function searchReviews($page) {
         $searchParams = array();
         if ($this->getValues()) {
             if ($this->getValue('employeeName') != __('Type for hints...')) {
@@ -114,6 +114,8 @@ class EvaluatePerformanceReviewSearchForm extends BasePefromanceSearchForm {
 
         $searchParams['reviewerId'] = ($this->getUser()->getEmployeeNumber() > 0) ? $this->getUser()->getEmployeeNumber() : 0;
         $searchParams['employeeNotIn'] = array($this->getUser()->getEmployeeNumber());
+        $searchParams['page'] = $page;
+        $searchParams['limit'] = sfConfig::get('app_items_per_page');
 
 
         return $this->getPerformanceReviewService()->searchReview($searchParams);
@@ -148,6 +150,36 @@ class EvaluatePerformanceReviewSearchForm extends BasePefromanceSearchForm {
         $jsonString = json_encode($jsonArray);
 
         return $jsonString;
+    }
+
+    public function getCountReviewList() {
+        $searchParams = array();
+        if ($this->getValues()) {
+            if ($this->getValue('employeeName') != __('Type for hints...')) {
+                $searchParams ['employeeName'] = $this->getValue('employeeName');
+            }
+            $searchParams ['jobTitleCode'] = $this->getValue('jobTitleCode');
+            $searchParams ['departmentId'] = ($this->getValue('department') > 0 ) ? $this->getValue('department') : "";
+            $searchParams ['from'] = (strtotime($this->getValue('fromDate'))) ? $this->getValue('fromDate') : "";
+            $searchParams ['to'] = (strtotime($this->getValue('toDate'))) ? $this->getValue('toDate') : "";
+            if ($this->getValue('status') > 0) {
+                $searchParams['status'] = $this->getValue('status');
+            }
+        }
+
+        if (!isset($searchParams['status'])) {
+            $statusArray [] = $this->getReviewStatusFactory()->getStatus('activated')->getStatusId();
+            $statusArray [] = $this->getReviewStatusFactory()->getStatus('inProgress')->getStatusId();
+            $statusArray [] = $this->getReviewStatusFactory()->getStatus('approved')->getStatusId();
+
+
+            $searchParams['status'] = $statusArray;
+        }
+
+        $searchParams['reviewerId'] = ($this->getUser()->getEmployeeNumber() > 0) ? $this->getUser()->getEmployeeNumber() : 0;
+        $searchParams['employeeNotIn'] = array($this->getUser()->getEmployeeNumber());
+        $searchParams['limit'] = null;
+        return $this->getPerformanceReviewService()->getCountReviewList($searchParams);
     }
 
 }

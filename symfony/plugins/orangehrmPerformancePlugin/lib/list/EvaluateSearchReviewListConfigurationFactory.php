@@ -36,11 +36,11 @@ class EvaluateSearchReviewListConfigurationFactory extends ohrmListConfiguration
         $header3 = new ReviewPeriodHeader();
         $header4 = new ListHeader();
         $header5 = new ListHeader();
-        $header7 = new ListHeader();
-        
+        $header6 = new ListHeader();
+
         if ($this->isSupervisor) {
             $header1 = new ListHeader();
-            $header6 = new ManagePerformanceActionHeader();
+            $header7 = new ManagePerformanceActionHeader();
 
             $header1->populateFromArray(array(
                 'name' => 'Employee',
@@ -51,9 +51,29 @@ class EvaluateSearchReviewListConfigurationFactory extends ohrmListConfiguration
                 'elementProperty' => array('getter' => array('getEmployee', 'getFullName')),
             ));
 
-            $header6->populateFromArray(array(
-                'name' => 'Status',
-                'width' => '10%',
+            $reviewStatus = array();
+        $reviewStatus [ReviewStatusActivated::getInstance()->getStatusId()] = ReviewStatusActivated::getInstance()->getName();
+        $reviewStatus [ReviewStatusApproved::getInstance()->getStatusId()] = ReviewStatusApproved::getInstance()->getName();
+        $reviewStatus [ReviewStatusInProgress::getInstance()->getStatusId()] = ReviewStatusInProgress::getInstance()->getName();
+        $reviewStatus [ReviewStatusInactive::getInstance()->getStatusId()] = ReviewStatusInactive::getInstance()->getName();
+
+        $header6->populateFromArray(array(
+            'name' => 'Status',
+            'width' => '10%',
+            'isSortable' => false,
+            'sortField' => null,
+            'filters' => array('EnumCellFilter' => array(
+                    'enum' => $reviewStatus,
+                    'default' => ''),
+                'I18nCellFilter' => array()
+            ),
+            'elementType' => 'label',
+            'textAlignmentStyle' => 'left',
+            'elementProperty' => array('getter' => 'getStatusId'),
+        ));
+
+            $header7->populateFromArray(array(
+                'name' => 'Action',
                 'isSortable' => false,
                 'sortField' => null,
                 'elementType' => 'ManagePerformanceAction',
@@ -61,22 +81,9 @@ class EvaluateSearchReviewListConfigurationFactory extends ohrmListConfiguration
                     'placeholderGetters' => array('id' => 'getId'),
                     'urlPattern' => 'index.php/performance/performanceReviewProgress?id={id}'),
             ));
-
-            $header7->populateFromArray(array(
-                'name' => 'Evaluate',
-                'width' => '15%',
-                'isSortable' => false,
-                'sortField' => null,
-                'elementType' => 'link',
-                'textAlignmentStyle' => 'left',
-                'elementProperty' => array(
-                    'label' => __('Evaluate'),
-                    'placeholderGetters' => array('id' => 'getId'),
-                    'urlPattern' => 'index.php/performance/reviewEvaluateByAdmin?id={id}'),
-            ));
         } else {
             $header1 = new PerformanceEvaluationLinkHeader();
-            $header6 = new ListHeader();
+            $header7 = new ListHeader();
 
             $header1->populateFromArray(array(
                 'name' => 'Employee',

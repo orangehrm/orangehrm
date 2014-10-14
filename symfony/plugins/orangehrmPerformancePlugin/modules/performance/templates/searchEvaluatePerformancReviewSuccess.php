@@ -11,6 +11,8 @@
             <fieldset>                
                 <ol>
                     <?php echo $form->render(); ?>
+                    <input type="hidden" name="pageNo" id="pageNo" value="" />
+                    <input type="hidden" name="hdnAction" id="hdnAction" value="search" />     
                 </ol>                            
                 <p>
                     <input type="button" class="applybutton" id="searchBtn" value="<?php echo __('Search'); ?>" title="<?php echo __('Search'); ?>"/> 
@@ -82,4 +84,12 @@
         $('#evaluatePerformanceReview360SearchForm').submit();
         });
     });
+    
+    function submitPage(pageNo) {
+            document.evaluatePerformanceReviewSearchForm.pageNo.value = pageNo;
+            document.evaluatePerformanceReviewSearchForm.hdnAction.value = 'paging';
+            $('#evaluatePerformanceReview360SearchForm input.inputFormatHint').val('');
+            $('#evaluatePerformanceReview360SearchForm input.ac_loading').val('');
+            document.getElementById('evaluatePerformanceReview360SearchForm').submit();
+        }
 </script>

@@ -155,15 +155,15 @@ class PerformanceTrackerDao extends BaseDao {
      */
     public function getPerformanceTrackListByReviewer($parameters) {
         try {
-            
+
             $offset = ($parameters['page'] > 0) ? (($parameters['page'] - 1) * $parameters['limit']) : 0;
-            
+
             $q = Doctrine_Query :: create()
                     ->from('PerformanceTrack p')
                     ->where('p.PerformanceTrackerReviewer.reviewer_id =?', $parameters['reviewerId'])
                     ->andWhere('p.status=?', PerformanceTrack::STATUS_ACTIVE)
                     ->orderBy('added_date ASC');
-            
+
             $q->offset($offset);
 
             if ($parameters['limit'] != null) {
@@ -228,14 +228,19 @@ class PerformanceTrackerDao extends BaseDao {
         // @codeCoverageIgnoreEnd
     }
 
-    public function getPerformanceTrackerByEmployee($empNumber) {
+    public function getPerformanceTrackerByEmployee($parameters) {
         try {
+            $offset = ($parameters['page'] > 0) ? (($parameters['page'] - 1) * $parameters['limit']) : 0;
             $q = Doctrine_Query :: create()
                     ->from('PerformanceTrack pt')
-                    ->where('pt.emp_number =?', $empNumber)
+                    ->where('pt.emp_number =?', $parameters['employeeId'])
                     ->andWhere('pt.status =?', PluginPerformanceTrack::STATUS_ACTIVE)
                     ->orderBy('added_date DESC');
+            $q->offset($offset);
 
+            if ($parameters['limit'] != null) {
+                $q->limit($parameters['limit']);
+            }
             return $q->execute();
             // @codeCoverageIgnoreStart
         } catch (Exception $e) {

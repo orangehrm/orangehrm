@@ -176,3 +176,7 @@ form ol li span.validation-error {
 form table span.validation-error{
     width: auto;
 }
+
+#reviewEvaluation_hrAdminComments {
+    width: 600px;
+}

@@ -26,6 +26,8 @@ class ManagePerformanceActionCell extends Cell {
 
             if($this->dataObject->getStatusId() == ReviewStatusInactive::getInstance()->getStatusId() ){
                 $urlPattern = 'saveReview?hdnEditId={id}';
+            }else{
+                $urlPattern = 'reviewEvaluateByAdmin?id={id}';
             }
             
             $url = $urlPattern;
@@ -52,12 +54,8 @@ class ManagePerformanceActionCell extends Cell {
                 return content_tag('a', __('Edit Details'), $linkAttributes) 
                         . $this->getHiddenFieldHTML();
             }
-            if($this->dataObject->getStatusId() == ReviewStatusActivated::getInstance()->getStatusId() || $this->dataObject->getStatusId() == ReviewStatusInProgress::getInstance()->getStatusId() ){
-                return content_tag('a', __('View Progress'), $linkAttributes) 
-                        . $this->getHiddenFieldHTML();
-            }
-            if($this->dataObject->getStatusId() == ReviewStatusApproved::getInstance()->getStatusId()){
-                return content_tag('a', __('View Details'), $linkAttributes) 
+            else{
+                return content_tag('a', __('Evaluate'), $linkAttributes) 
                         . $this->getHiddenFieldHTML();
             }
         } else {

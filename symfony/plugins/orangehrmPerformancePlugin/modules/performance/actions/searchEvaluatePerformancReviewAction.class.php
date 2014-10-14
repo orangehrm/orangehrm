@@ -13,6 +13,15 @@
 class searchEvaluatePerformancReviewAction extends basePeformanceAction {
 
     public $searchReviewForm;
+    private $pageNumber;
+
+    public function getPageNumber() {
+        return $this->pageNumber;
+    }
+
+    public function setPageNumber($pageNumber) {
+        $this->pageNumber = $pageNumber;
+    }
 
     /**
      *
@@ -37,8 +46,9 @@ class searchEvaluatePerformancReviewAction extends basePeformanceAction {
     public function execute($request) {
 
         $form = $this->getSearchReviewForm();
-        
+
         $isSupervisor = $this->getUser()->getAttribute('auth.isSupervisor', false);
+        $page = $request->getParameter('hdnAction') == 'search' ? 1 : $request->getParameter('pageNo', 1);
 
         if ($request->isMethod('post')) {
             $form->bind($request->getParameter($form->getName()));
@@ -52,8 +62,9 @@ class searchEvaluatePerformancReviewAction extends basePeformanceAction {
         }
 
         $form->setUser($this->getUser());
-        $reviews = $form->searchReviews();
-        $this->setListComponent($reviews, $isSupervisor);
+        $reviews = $form->searchReviews($page);
+        $reviewsCount = $form->getCountReviewList();
+        $this->setListComponent($reviews, $isSupervisor, $reviewsCount);
         $this->form = $form;
 
         $message = $this->getUser()->getFlash('templateMessage');
@@ -71,16 +82,16 @@ class searchEvaluatePerformancReviewAction extends basePeformanceAction {
      *
      * @param Doctrine_Collection $reviews 
      */
-    protected function setListComponent($reviews, $isSupervisor) {
-
+    protected function setListComponent($reviews, $isSupervisor, $reviewsCount) {
+        $pageNumber = $this->getPageNumber();
         $configurationFactory = $this->getListConfigurationFactory($isSupervisor);
 
         ohrmListComponent::setActivePlugin('orangehrmPerformancePlugin');
         ohrmListComponent::setConfigurationFactory($configurationFactory);
         ohrmListComponent::setListData($reviews);
-        ohrmListComponent::setPageNumber(0);
-        $numRecords = count($reviews);
-        ohrmListComponent::setItemsPerPage($numRecords);
+        ohrmListComponent::setPageNumber($pageNumber);
+        $numRecords = $reviewsCount;
+        ohrmListComponent::setItemsPerPage(sfConfig::get('app_items_per_page'));
         ohrmListComponent::setNumberOfRecords($numRecords);
     }
 
@@ -89,7 +100,7 @@ class searchEvaluatePerformancReviewAction extends basePeformanceAction {
      * @return \EvaluateSearchReviewListConfigurationFactory 
      */
     protected function getListConfigurationFactory($isSupervisor) {
-            return new EvaluateSearchReviewListConfigurationFactory($isSupervisor);
+        return new EvaluateSearchReviewListConfigurationFactory($isSupervisor);
     }
 
 }

@@ -31,11 +31,8 @@ class SearchReviewListConfigurationFactory extends ohrmListConfigurationFactory 
         $header2 = new DueDateHeader();
         $header3 = new ReviewPeriodHeader();
         $header4 = new ListHeader();
-        $header6 = new ManagePerformanceActionHeader();        
-        $header7 = new ListHeader();
-        
-        
-        
+        $header6 = new ManagePerformanceActionHeader();
+        $header5 = new ListHeader();
 
         $header1->populateFromArray(array(
             'name' => 'Employee',
@@ -43,73 +40,73 @@ class SearchReviewListConfigurationFactory extends ohrmListConfigurationFactory 
             'sortField' => 'employeeId',
             'elementType' => 'label',
             'elementProperty' => array('getter' => array('getEmployee', 'getFullName')),
-            
         ));
-        
-       
+
+
         $header2->populateFromArray(array(
             'name' => 'Due Date',
             'isSortable' => true,
             'sortField' => 'due_date',
             'elementType' => 'DueDate',
+        ));
 
-            
-        ));        
-        
         $header3->populateFromArray(array(
             'name' => 'Review Period',
             'isSortable' => false,
             'sortField' => null,
             'elementType' => 'ReviewPeriod',
             'elementProperty' => array('getter' => 'getWorkPeriodStart'),
-            
-        ));        
+        ));
 
-         $header4->populateFromArray(array(
+        $header4->populateFromArray(array(
             'name' => 'Work Period End Date',
             'isSortable' => false,
             'sortField' => null,
             'elementType' => 'label',
             'elementProperty' => array('getter' => 'getWorkPeriodEnd'),
-            
         ));
 
-        
-         $header4->populateFromArray(array(
+
+        $header4->populateFromArray(array(
             'name' => 'Job Title',
             'isSortable' => false,
             'sortField' => null,
             'elementType' => 'label',
             'elementProperty' => array('getter' => array('getJobTitle', 'getJobTitle')),
-            
         ));
-        
-       $header6->populateFromArray(array(
-            'name' => 'Status',
+
+        $header6->populateFromArray(array(
+            'name' => 'Action',
             'isSortable' => false,
             'sortField' => null,
             'elementType' => 'ManagePerformanceAction',
             'elementProperty' => array(
                 'placeholderGetters' => array('id' => 'getId'),
                 'urlPattern' => 'index.php/performance/performanceReviewProgress?id={id}'),
-           
-            
         ));
-       
-       $header7->populateFromArray(array(
-            'name' => 'Evaluate',
+
+        $reviewStatus = array();
+        $reviewStatus [ReviewStatusActivated::getInstance()->getStatusId()] = ReviewStatusActivated::getInstance()->getName();
+        $reviewStatus [ReviewStatusApproved::getInstance()->getStatusId()] = ReviewStatusApproved::getInstance()->getName();
+        $reviewStatus [ReviewStatusInProgress::getInstance()->getStatusId()] = ReviewStatusInProgress::getInstance()->getName();
+        $reviewStatus [ReviewStatusInactive::getInstance()->getStatusId()] = ReviewStatusInactive::getInstance()->getName();
+
+        $header5->populateFromArray(array(
+            'name' => 'Status',
+            'width' => '10%',
             'isSortable' => false,
             'sortField' => null,
-            'elementType' => 'link',
+            'filters' => array('EnumCellFilter' => array(
+                    'enum' => $reviewStatus,
+                    'default' => ''),
+                'I18nCellFilter' => array()
+            ),
+            'elementType' => 'label',
             'textAlignmentStyle' => 'left',
-            'elementProperty' => array(
-                'label' => __('Evaluate'),
-                'placeholderGetters' => array('id' => 'getId'),
-                'urlPattern' => 'index.php/performance/reviewEvaluateByAdmin?id={id}'),
-
+            'elementProperty' => array('getter' => 'getStatusId'),
         ));
-        
-        $this->headers = array($header1, $header2, $header3, $header4, $header6, $header7);
+
+        $this->headers = array($header1, $header2, $header3, $header4, $header5, $header6);
     }
 
     /**
