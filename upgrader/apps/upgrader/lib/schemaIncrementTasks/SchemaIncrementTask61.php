@@ -300,7 +300,8 @@ class SchemaIncrementTask61 extends SchemaIncrementTask {
 (@ess_role_id, @search_evaluate_performance_screen_id, 1, 0, 1, 0),
 (@ess_role_id, @review_evaluate_screen_id, 1, 1, 1, 0),
 (@ess_role_id, @my_reviews_screen_id, 1, 0, 1, 0),
-(@supervisor_role_id, @review_evaluate_admin_screen_id, 1, 1, 1, 0);";
+(@supervisor_role_id, @review_evaluate_admin_screen_id, 1, 1, 1, 0),
+(@ess_role_id, @review_evaluate_admin_screen_id, 1, 1, 1, 0);";
 
         $sql[] = "SET @admin_user_role := (SELECT id FROM ohrm_user_role WHERE name = 'Admin');";
         $sql[] = "SET @ess_user_role := (SELECT id FROM ohrm_user_role WHERE name = 'ESS');";
