@@ -24,6 +24,7 @@ class PerformanceValidationMessages extends ValidationMessages {
     const ONLY_INTEGER_ALLOWED = "Should be a positive value";
     const MAX_SHOULD_BE_GREATER_THAN_MIN = "Max rating should be greater than Min rating";
     const VALID_NUMBER  ="Should be a valid number";
+    const INVALID_SUPERVIOSR  ="Invalid Supervisor";
   
 }
 

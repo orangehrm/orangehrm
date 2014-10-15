@@ -134,6 +134,7 @@
         var leaveBalanceUrl = '<?php echo url_for('leave/getLeaveBalanceAjax'); ?>';
         var lang_invalidDate = '<?php echo __(ValidationMessages::DATE_FORMAT_INVALID, array('%format%' => get_datepicker_date_format($sf_user->getDateFormat()))) ?>';
         var lang_dateError = '<?php echo __("To date should be after from date") ?>';
+        var reviewId = '<?php echo $form['reviewId']->getValue(); ?>';
 
         $.datepicker.setDefaults({showOn: 'click'});
 
@@ -304,7 +305,7 @@
             rules: {
                 'saveReview360Form[employeeId]': {required: true},
                 'saveReview360Form[employee]': {required: true},
-                'saveReview360Form[supervisorReviewer]': {required: true},
+                'saveReview360Form[supervisorReviewer]': {required: true,isSupervisor: true},
                 'saveReview360Form[supervisorReviewerId]': {required: true},
                 'saveReview360Form[workPeriodStartDate]': {required: true},
                 'saveReview360Form[workPeriodEndDate]': {required: true},
@@ -380,6 +381,20 @@
                 }
             }
         });
+        $.validator.addMethod('isSupervisor',
+        function (value) { 
+            if(reviewId > 0){
+                return true;   
+            } else{
+               var supervisorId = $('#saveReview360Form_supervisorReviewerId').val();
+               for(var i=0; i < supervisorList.length; i++){
+                   if(supervisorList[i].id == supervisorId){
+                       return true;
+                   }
+               }               
+               return false;
+            } 
+        }, '<?php echo __(PerformanceValidationMessages::INVALID_SUPERVIOSR); ?>');
 
         /**
          * @param employeeData Json Array
