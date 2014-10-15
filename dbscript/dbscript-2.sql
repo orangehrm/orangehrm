@@ -2713,7 +2713,8 @@ INSERT INTO ohrm_user_role_screen (user_role_id, screen_id, can_read, can_create
 (@ess_role_id, @search_evaluate_performance_screen_id, 1, 0, 1, 0),
 (@ess_role_id, @review_evaluate_screen_id, 1, 1, 1, 0),
 (@ess_role_id, @my_reviews_screen_id, 1, 0, 1, 0),
-(@supervisor_role_id, @review_evaluate_admin_screen_id, 1, 1, 1, 0);
+(@supervisor_role_id, @review_evaluate_admin_screen_id, 1, 1, 1, 0),
+(@ess_role_id, @review_evaluate_admin_screen_id, 1, 1, 1, 0);
 
 SET @admin_user_role := (SELECT id FROM ohrm_user_role WHERE name = 'Admin');
 SET @ess_user_role := (SELECT id FROM ohrm_user_role WHERE name = 'ESS');
