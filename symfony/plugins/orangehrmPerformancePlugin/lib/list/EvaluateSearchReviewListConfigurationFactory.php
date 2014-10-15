@@ -24,10 +24,10 @@
  */
 class EvaluateSearchReviewListConfigurationFactory extends ohrmListConfigurationFactory {
 
-    private $isSupervisor;
+    private $isReviewer;
 
-    public function __construct($isSupervisor) {
-        $this->isSupervisor = $isSupervisor;
+    public function __construct($isReviewer) {
+        $this->isReviewer = $isReviewer;
     }
 
     protected function init() {
@@ -38,7 +38,7 @@ class EvaluateSearchReviewListConfigurationFactory extends ohrmListConfiguration
         $header5 = new ListHeader();
         $header6 = new ListHeader();
 
-        if ($this->isSupervisor) {
+        if ($this->isReviewer) {
             $header1 = new ListHeader();
             $header7 = new ManagePerformanceActionHeader();
 

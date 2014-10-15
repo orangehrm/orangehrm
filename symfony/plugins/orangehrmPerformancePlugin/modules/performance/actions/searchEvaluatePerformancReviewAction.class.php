@@ -45,9 +45,9 @@ class searchEvaluatePerformancReviewAction extends basePeformanceAction {
 
     public function execute($request) {
 
-        $form = $this->getSearchReviewForm();
+        $form = $this->getSearchReviewForm();  
 
-        $isSupervisor = $this->getUser()->getAttribute('auth.isSupervisor', false);
+        $isReviewer = $this->isReviewer();
         $page = $request->getParameter('hdnAction') == 'search' ? 1 : $request->getParameter('pageNo', 1);
 
         if ($request->isMethod('post')) {
@@ -64,7 +64,7 @@ class searchEvaluatePerformancReviewAction extends basePeformanceAction {
         $form->setUser($this->getUser());
         $reviews = $form->searchReviews($page);
         $reviewsCount = $form->getCountReviewList();
-        $this->setListComponent($reviews, $isSupervisor, $reviewsCount);
+        $this->setListComponent($reviews, $isReviewer, $reviewsCount);
         $this->form = $form;
 
         $message = $this->getUser()->getFlash('templateMessage');
@@ -82,9 +82,9 @@ class searchEvaluatePerformancReviewAction extends basePeformanceAction {
      *
      * @param Doctrine_Collection $reviews 
      */
-    protected function setListComponent($reviews, $isSupervisor, $reviewsCount) {
+    protected function setListComponent($reviews, $isReviewer, $reviewsCount) {
         $pageNumber = $this->getPageNumber();
-        $configurationFactory = $this->getListConfigurationFactory($isSupervisor);
+        $configurationFactory = $this->getListConfigurationFactory($isReviewer);
 
         ohrmListComponent::setActivePlugin('orangehrmPerformancePlugin');
         ohrmListComponent::setConfigurationFactory($configurationFactory);
@@ -99,8 +99,17 @@ class searchEvaluatePerformancReviewAction extends basePeformanceAction {
      *
      * @return \EvaluateSearchReviewListConfigurationFactory 
      */
-    protected function getListConfigurationFactory($isSupervisor) {
-        return new EvaluateSearchReviewListConfigurationFactory($isSupervisor);
+    protected function getListConfigurationFactory($isReviewer) {
+        return new EvaluateSearchReviewListConfigurationFactory($isReviewer);
+    }
+
+    public function isReviewer() {
+        $valid = false;
+        $reviews = $this->getPerformanceReviewService()->getReviewsByReviewerId($this->getUser()->getAttribute('auth.empNumber'));
+        foreach ($reviews as $review){
+            $valid = $valid || $this->checkIsReviwer($review->getId());            
+        }
+        return $valid;
     }
 
 }

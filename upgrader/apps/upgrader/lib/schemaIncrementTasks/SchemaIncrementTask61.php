@@ -206,6 +206,8 @@ class SchemaIncrementTask61 extends SchemaIncrementTask {
         $sql[] = "DELETE FROM ohrm_module_default_page WHERE module_id = @performance_module_id";
 
         $sql[] = "DELETE FROM ohrm_module WHERE id = @performance_module_id";
+        
+        $sql[] = "DELETE FROM ohrm_email_notification WHERE name = 'Performance Review Submissions'";
 
         $sql[] = "SET @admin_user_role_id := (SELECT id FROM ohrm_user_role WHERE name = 'Admin' LIMIT 1);";
         $sql[] = "SET @ess_user_role_id := (SELECT id FROM ohrm_user_role WHERE name = 'ESS' LIMIT 1);";
@@ -252,10 +254,6 @@ class SchemaIncrementTask61 extends SchemaIncrementTask {
         $sql[] = "SET @my_reviews_screen_id := (SELECT LAST_INSERT_ID());";
 
         $sql[] = "INSERT INTO ohrm_screen (`name`, `module_id`, `action_url`) VALUES  
-('View Progress', @module_id, 'performanceReviewProgress');";
-        $sql[] = "SET @review_progress_screen_id := (SELECT LAST_INSERT_ID());";
-
-        $sql[] = "INSERT INTO ohrm_screen (`name`, `module_id`, `action_url`) VALUES  
 ('Add Review', @module_id, 'saveReview');";
         $sql[] = "SET @add_review_screen_id := (SELECT LAST_INSERT_ID());";
 
@@ -296,14 +294,12 @@ class SchemaIncrementTask61 extends SchemaIncrementTask {
         $sql[] = "INSERT INTO ohrm_user_role_screen (user_role_id, screen_id, can_read, can_create, can_update, can_delete) VALUES  
 (@admin_role_id, @save_kpi_screen_id, 1, 1, 1, 0),
 (@admin_role_id, @search_kpi_screen_id, 1, 1, 1, 1),
-(@admin_role_id, @review_progress_screen_id, 1, 0, 0, 0),
 (@admin_role_id, @add_review_screen_id, 1, 1, 1, 0),
 (@admin_role_id, @review_evaluate_admin_screen_id, 1, 1, 1, 0),
 (@admin_role_id, @search_performance_review_screen_id, 1, 1, 1, 1),
 (@ess_role_id, @search_evaluate_performance_screen_id, 1, 0, 1, 0),
 (@ess_role_id, @review_evaluate_screen_id, 1, 1, 1, 0),
 (@ess_role_id, @my_reviews_screen_id, 1, 0, 1, 0),
-(@supervisor_role_id, @review_progress_screen_id, 1, 0, 0, 0),
 (@supervisor_role_id, @review_evaluate_admin_screen_id, 1, 1, 1, 0);";
 
         $sql[] = "SET @admin_user_role := (SELECT id FROM ohrm_user_role WHERE name = 'Admin');";

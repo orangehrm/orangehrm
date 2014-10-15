@@ -13,7 +13,7 @@
 class saveReviewAction extends basePeformanceAction {
 
     public $saveReviewForm;
-
+    
     public function preExecute() {
         $this->_checkAuthentication();
     }
@@ -68,6 +68,13 @@ class saveReviewAction extends basePeformanceAction {
             $form->loadFormData($request->getParameter('hdnEditId'));
         }
         $this->form = $form;
+    }
+    
+    protected function _checkAuthentication($request = null) {
+        $user = $this->getUser()->getAttribute('user');
+        if (!($user->isAdmin())) {
+            $this->forward(sfConfig::get('sf_secure_module'), sfConfig::get('sf_secure_action'));
+        }
     }
 
 }

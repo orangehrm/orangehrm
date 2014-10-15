@@ -1287,9 +1287,7 @@ INSERT INTO `ohrm_email_notification` (`id`, `name`, `is_enable`) VALUES
 (2, 'Leave Assignments', 0),
 (3, 'Leave Approvals', 0),
 (4, 'Leave Cancellations', 0),
-(5, 'Leave Rejections', 0),
-#(6, 'HSP Notifications', 0),
-(7, 'Performance Review Submissions', 0);
+(5, 'Leave Rejections', 0);
 
 INSERT INTO `ohrm_module` (`id`, `name`, `status`) VALUES
 (1, 'core', 1),
@@ -2668,10 +2666,6 @@ INSERT INTO ohrm_screen (`name`, `module_id`, `action_url`) VALUES
 SET @my_reviews_screen_id := (SELECT LAST_INSERT_ID());  
 
 INSERT INTO ohrm_screen (`name`, `module_id`, `action_url`) VALUES  
-('View Progress', @module_id, 'performanceReviewProgress');  
-SET @review_progress_screen_id := (SELECT LAST_INSERT_ID()); 
-
-INSERT INTO ohrm_screen (`name`, `module_id`, `action_url`) VALUES  
 ('Add Review', @module_id, 'saveReview');  
 SET @add_review_screen_id := (SELECT LAST_INSERT_ID());
 
@@ -2713,14 +2707,12 @@ INSERT INTO ohrm_menu_item (`menu_title`, `screen_id`, `parent_id`, `level`, `or
 INSERT INTO ohrm_user_role_screen (user_role_id, screen_id, can_read, can_create, can_update, can_delete) VALUES  
 (@admin_role_id, @save_kpi_screen_id, 1, 1, 1, 0),
 (@admin_role_id, @search_kpi_screen_id, 1, 1, 1, 1),
-(@admin_role_id, @review_progress_screen_id, 1, 0, 0, 0),
 (@admin_role_id, @add_review_screen_id, 1, 1, 1, 0),
 (@admin_role_id, @review_evaluate_admin_screen_id, 1, 1, 1, 0),
 (@admin_role_id, @search_performance_review_screen_id, 1, 1, 1, 1),
 (@ess_role_id, @search_evaluate_performance_screen_id, 1, 0, 1, 0),
 (@ess_role_id, @review_evaluate_screen_id, 1, 1, 1, 0),
 (@ess_role_id, @my_reviews_screen_id, 1, 0, 1, 0),
-(@supervisor_role_id, @review_progress_screen_id, 1, 0, 0, 0),
 (@supervisor_role_id, @review_evaluate_admin_screen_id, 1, 1, 1, 0);
 
 SET @admin_user_role := (SELECT id FROM ohrm_user_role WHERE name = 'Admin');

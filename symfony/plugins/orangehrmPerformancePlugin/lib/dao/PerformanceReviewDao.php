@@ -42,11 +42,11 @@ class PerformanceReviewDao extends BaseDao {
         if ($orderby['orderBy'] == 'employeeId') {
             $sortFeild = "e.emp_firstname";
         }
-        
+
         if ($orderby['orderBy'] == 'due_date') {
             $sortFeild = "dueDate";
         }
-        
+
         $sortBy = strcasecmp($orderby['sortOrder'], 'DESC') === 0 ? 'DESC' : 'ASC';
 
         $offset = ($parameters['page'] > 0) ? (($parameters['page'] - 1) * $parameters['limit']) : 0;
@@ -99,10 +99,10 @@ class PerformanceReviewDao extends BaseDao {
                     }
                 }
             }
-            $query->orderBy($sortFeild.' '.$sortBy);
-            
+            $query->orderBy($sortFeild . ' ' . $sortBy);
+
             $query->offset($offset);
-            
+
             if ($parameters['limit'] != null) {
                 $query->limit($parameters['limit']);
             }
@@ -215,6 +215,28 @@ class PerformanceReviewDao extends BaseDao {
                 //@codeCoverageIgnoreStart
                 return $q->execute();
             }
+        } catch (Exception $e) {
+            throw new DaoException($e->getMessage(), $e->getCode(), $e);
+        }//@codeCoverageIgnoreEnd
+    }
+
+    public function getReviewById($id) {
+        try {
+            $result = Doctrine :: getTable('PerformanceReview')->find($id);
+            return $result;
+            //@codeCoverageIgnoreStart
+        } catch (Exception $e) {
+            throw new DaoException($e->getMessage(), $e->getCode(), $e);
+        }//@codeCoverageIgnoreEnd
+    }
+
+    public function getReviewsByReviewerId($reviwerId) {
+        try {
+            $query = Doctrine_Query:: create()->from('PerformanceReview p');
+            $query->leftJoin("p.reviewers r");
+            $query->andWhere('r.employeeNumber = ?', $reviwerId);
+            return $query->execute();
+            //@codeCoverageIgnoreStart
         } catch (Exception $e) {
             throw new DaoException($e->getMessage(), $e->getCode(), $e);
         }//@codeCoverageIgnoreEnd

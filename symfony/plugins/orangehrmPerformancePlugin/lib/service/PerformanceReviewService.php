@@ -98,4 +98,12 @@ class PerformanceReviewService {
          $reviewList = $this->getDao()->searchReview($parameters);
          return count($reviewList);
      }
+     
+     public function getReviewById($id){
+         return $this->getDao()->getReviewById($id);
+     }
+     
+     public function getReviewsByReviewerId($reviwerId){
+         return $this->getDao()->getReviewsByReviewerId($reviwerId);
+     }
 }

@@ -14,15 +14,6 @@ class reviewEvaluateByAdminAction extends basePeformanceAction {
 
     public $reviewEvaluationForm;
 
-    protected function _checkAuthentication($request = null) {
-
-        if ($this->getUser()->getAttribute('user')->isAdmin()) {
-            return true;
-        } else {
-            return false;
-        }
-    }
-
     /**
      *
      * @return ReviewEvaluationAdminForm 
@@ -47,7 +38,7 @@ class reviewEvaluateByAdminAction extends basePeformanceAction {
     }
 
     public function execute($request) {
-        if ($this->getUser()->getAttribute('auth.isSupervisor', false)) {
+        if ($this->checkIsReviwer($request->getParameter('id'))) {
             $request->setParameter('initialActionName', 'searchEvaluatePerformancReview');
             $this->backUrl = 'performance/searchEvaluatePerformancReview';
         } else {
