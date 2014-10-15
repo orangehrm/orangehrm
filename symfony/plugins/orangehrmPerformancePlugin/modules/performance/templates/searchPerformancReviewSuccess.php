@@ -119,6 +119,7 @@
             $("#performanceReview360SearchForm_jobTitleCode").val('');
             $("#performanceReview360SearchForm_reviwerName").val('');
             $("#performanceReview360SearchForm_department").val('0');
+            $("#performanceReview360SearchForm_reviwerNumber").val('');
             $("#performanceReview360SearchForm_status").val('0');
             $("#pageNo").val('0');
             $("#fromDate").val('yyyy-mm-dd');

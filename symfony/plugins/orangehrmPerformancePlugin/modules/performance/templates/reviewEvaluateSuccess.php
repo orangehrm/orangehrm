@@ -40,7 +40,7 @@ Doctrine_Manager::getInstance()->setAttribute(Doctrine::ATTR_USE_DQL_CALLBACKS, 
                         <tbody>
                             <?php foreach ($form->getReviewers() as $reviewer) { ?>
                                 <tr>
-                                    <td><?php echo $reviewer->getGroup()->getName() ?></td>
+                                    <td><?php echo __($reviewer->getGroup()->getName()) ?></td>
                                     <td ><?php echo $reviewer->getEmployee()->getFullName() ?></td>
                                     <td ><?php echo ReviewerReviewStatusFactory::getInstance()->getStatus($reviewer->getStatus())->getName() ?></td>
                                 </tr>
@@ -156,7 +156,7 @@ if ($form->isFinalRatingVisible()) {
                 <div style="width: 800px;">
                     <ol>
                         <li>
-                    <label class="lableName"><?php echo __("Admin Comment") . (' '); ?></label><label class="longLabel"><?php echo nl2br($form->getReview()->getFinalComment()); ?></label>
+                    <label class="lableName"><?php echo __("Final Comment") . (' '); ?></label><label class="longLabel"><?php echo nl2br($form->getReview()->getFinalComment()); ?></label>
                         </li> 
                     <li>
                     <label class="lableName"><?php echo __("Final Rating") . (' '); ?></label> <label class="lableValue"><?php echo $form->getReview()->getfinalRate(); ?></label>
