@@ -35,4 +35,11 @@ class deleteReviewAction extends basePeformanceAction {
         $this->form = $form;
         $this->redirect('performance/searchPerformancReview');
     }
+    
+    protected function _checkAuthentication($request = null) {
+        $user = $this->getUser()->getAttribute('user');
+        if (!($user->isAdmin())) {
+            $this->forward(sfConfig::get('sf_secure_module'), sfConfig::get('sf_secure_action'));
+        }
+    }
 }
