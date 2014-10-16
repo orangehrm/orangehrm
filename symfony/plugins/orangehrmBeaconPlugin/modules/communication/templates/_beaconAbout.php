@@ -69,7 +69,16 @@ if ($aboutEnabled) {
 
 <script type="text/javascript">
     $(document).ready(function() {
-
+        
+       <?php if($beaconRequired){ ?>
+               $.ajax({
+            url: '<?php echo url_for('communication/sendBeaconMessageAjax'); ?>',
+            type: "GET",
+            success: function(data) {
+                //alert(data);
+            }
+        });
+       <?php } ?>
         $('#aboutDisplayLink').click(function(event) {
             event.stopImmediatePropagation();
             $('#messageToDisplayAbout').css(

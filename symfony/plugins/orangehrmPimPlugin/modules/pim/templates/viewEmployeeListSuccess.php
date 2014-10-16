@@ -56,13 +56,7 @@
 <script type="text/javascript">
 
     $(document).ready(function() {
-        $.ajax({
-            url: '<?php echo url_for('communication/sendBeaconMessageAjax'); ?>',
-            type: "GET",
-            success: function(data) {
-                //alert(data);
-            }
-        });
+        
         var supervisors = <?php echo str_replace('&#039;', "'", $form->getSupervisorListAsJson()) ?>;
 
         $('#btnDelete').attr('disabled', 'disabled');

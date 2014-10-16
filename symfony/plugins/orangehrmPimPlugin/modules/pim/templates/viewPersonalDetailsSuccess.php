@@ -163,12 +163,7 @@ use_stylesheet(plugin_web_path('orangehrmPimPlugin', 'css/viewPersonalDetailsSuc
     
     var readOnlyFields = <?php echo json_encode($form->getReadOnlyWidgetNames());?>
     
-    $.ajax({
-    url: '<?php echo url_for('communication/sendBeaconMessageAjax'); ?>',
-    type: "GET",
-    success: function(data) {
-        //alert(data);
-    }
+   
 })
     //]]>
 </script>
