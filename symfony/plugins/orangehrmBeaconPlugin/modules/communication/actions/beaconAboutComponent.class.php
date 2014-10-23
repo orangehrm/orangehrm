@@ -44,6 +44,10 @@ class beaconAboutComponent extends sfComponent {
             $this->setForm(new BeaconRegistrationForm());
         } else {
             $this->aboutEnabled = false;
+             $this->beaconRequired = ($this->getUser()->hasAttribute(BeaconCommunicationsService::BEACON_ACTIVATION_REQUIRED) 
+                    && $this->getUser()->getAttribute(BeaconCommunicationsService::BEACON_ACTIVATION_REQUIRED))||
+                    ($this->getUser()->hasAttribute(BeaconCommunicationsService::BEACON_FLASH_REQUIRED) &&
+                    $this->getUser()->getAttribute(BeaconCommunicationsService::BEACON_FLASH_REQUIRED));
         }
     }
 
