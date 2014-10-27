@@ -16,3 +16,12 @@
 #displayAbout .aboutLink {
     color: blue;
 }
+
+#heartbeatDescription ul {
+    list-style-type: disc; 
+    padding-left: 20px;
+}
+
+#heartbeatDescription a {
+    color: blue;
+}

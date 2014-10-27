@@ -124,24 +124,22 @@
     <div class="wrapper" style="width: 900px;">
         <div class="wrapper_content_div" style="font-family: arial,helvetica,sans-serif;font-size: 14px;">
             <h3 style="float: left;">Contribute to OrangeHRM by sending us your usage data</h3> <br>
-            <div class="registrationWrapper" style="width: 900px;height: 200px;display: block;overflow: scroll;margin-left: 100px;border: #000 solid thin;padding: 5px;">
-                <p  ><span style="font-family: arial,helvetica,sans-serif;"><span>By enabling the <span>heartbeat</span> you allow</span>&nbsp; OrangeHRM to </span><span style="font-family: arial,helvetica,sans-serif;"><span style="font-family: arial,helvetica,sans-serif;">collect statistics about </span>usage in order to improve the software. It runs in the background and periodically sends data to the OrangeHRM Portal. OrangeHRM would like to keep track of the number of users it has around the world, with demographic information.</span><br /><br /></p>
-                <div>By enabling the heartbeat you will also be entitled to receive the following:<br /></div>
+             <div class="registrationWrapper" style="width: 750px;height: 200px; display: block;overflow: scroll;border: #000 solid thin;padding: 5px;">
+                <p  ><span style="font-family: arial,helvetica,sans-seif;"><span>By enabling the <span>heartbeat</span> you allow</span>&nbsp; OrangeHRM to </span><span style="font-family: arial,helvetica,sans-serif;"><span style="font-family: arial,helvetica,sans-serif;">collect statistics about </span>usage in order to improve the user experience and performance. This function runs in the background and periodically sends data to the OrangeHRM Portal. THE DATA ARE JUST NUMBER TOTALS AND THEY DO NOT INCLUDE ANY PERSONAL INFORMATION.  Heartbeat tracks the number of users around the world and logs the time it takes to run database queries.</span><br /><br /></p>
+                <div>Also by enabling Heartbeat you will receive the following:<br /></div>
                 <ul>
                     <li>Bug fixes and other patches</li>
                     <li>Upgrades</li>
                     <li>Security updates</li>
                     <li>Other useful information about OrangeHRM</li>
                 </ul>
-                <div>
-                    <p>Information we get is primarily non-personally-identifying information and we do not collect any information that we could use to identify an individual.</p>
-                    We collect this non-personally-identifying information in order to improve user experience and performance. For instance we log the time it takes to run database queries so that we can improve performance.</div>
-                <p><br />We take the private nature of your personal information very seriously, and are committed to protecting it. To do that, we've set up procedures to ensure that your information is handled responsibly and in accordance with applicable data protection and privacy laws. We're grateful for your trust, and we'll act that way.<br /><br />Please contact us with any questions or comments about this on <a href="mailto:legal@orangehrm.com" target="_blank">legal@orangehrm.com</a>.</p>
+                
+                <p><br />Please contact us with any questions or comments at <a href="mailto:legal@orangehrm.com" target="_blank">legal@orangehrm.com</a>.</p>
 
             </div> 
             <!--    <div class="wrapper" style="width: 900px;">-->
             <?php if (!isset($reqAccept) || !$reqAccept) { ?>
-                <ul style=" list-style-type: none;">
+                <ul style=" list-style-type: none; padding-left: 0px;">
                     <li>
                         <label for="companyNameInput" style="width:200px">Company Name (Optional): </label>
                         <input type="text" name="registerCompanyName" id="companyNameInput" value=""/>
@@ -157,16 +155,16 @@
 
 
         <?php
-        if (isset($reqAccept)) {
-
-            if ($reqAccept) {
-                ?>
-                <p>Registration information was collected, and Succesfully sent to OrangeHRM.com</p>
-            <?php } else { ?>
-                <p class="error">Registration information was collected, but NOT sent to OrangeHRM.com, please click Retry to try again, or click Skip to proceed and login into OrangeHRM</p>
+//        if (isset($reqAccept)) {
+//
+//            if ($reqAccept) {
+//                ?>
+                <!--<p>Registration information was collected, and Succesfully sent to OrangeHRM.com</p>-->
+            <?php//} else { ?>
+                <!--<p class="error">Registration information was collected, but NOT sent to OrangeHRM.com, please click Retry to try again, or click Skip to proceed and login into OrangeHRM</p>-->
                 <?php
-            }
-        }
+//            }
+//        }
 
 //        if (!isset($reqAccept) || (!$reqAccept)) {
 //            
@@ -220,21 +218,15 @@
                 </div>
                 <br style="clear: both"/>-->
         <?php // } ?>
-        <div style="margin-left: 490px; padding-top: 20px;">
-            <?php if (!isset($reqAccept)) { ?>
+        <div style=" margin-top: 10px;float: left; clear: left;margin-bottom: 10px;">
+            
 
                 <div>
     <!--                    <input name="button" type="button" onclick="noREG();" value="Skip" tabindex="11"/>-->
                     <input name="btnRegister" type="button" onclick="regInfo();" value="Finish" tabindex="1"/>
 
                 </div>
-            <?php } elseif ($reqAccept) { ?>
-                <input name="button" type="button" onclick="login();" value="Login to OrangeHRM" tabindex="10"/>
-            <?php } else { ?>
-                <input name="button" type="button" onclick="noREG();" value="Skip" tabindex="11"/>
-                <input name="btnRegister" type="button" onclick="regInfo();" value="Retry" tabindex="1"/>
-            <?php }
-            ?>
+           
         </div>    
     </div>
     <br class="clear"/>

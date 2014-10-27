@@ -49,11 +49,9 @@ FunctionEnd
 
 
 Function VerifyRegister
-		MessageBox MB_YESNO|MB_ICONEXCLAMATION "Do you want to Register OrangeHRM ?" IDNO labelno
-
-                  !insertmacro MUI_HEADER_TEXT "Registration" "Please take a moment to register"
-                  !insertmacro MUI_INSTALLOPTIONS_DISPLAY "ContactDetails.ini"
-                  labelno:
+		
+   !insertmacro MUI_INSTALLOPTIONS_DISPLAY "ContactDetails.ini"
+                  
                   
 FunctionEnd
 ; Registration functions
@@ -62,12 +60,8 @@ Function ContactDetailsEnterValidate
 
 
   !insertmacro MUI_INSTALLOPTIONS_READ $0 "ContactDetails.ini" "Field 2" "State"
-  !insertmacro MUI_INSTALLOPTIONS_READ $1 "ContactDetails.ini" "Field 4" "State"
-  !insertmacro MUI_INSTALLOPTIONS_READ $2 "ContactDetails.ini" "Field 6" "State"
-  !insertmacro MUI_INSTALLOPTIONS_READ $3 "ContactDetails.ini" "Field 8" "State"
-  !insertmacro MUI_INSTALLOPTIONS_READ $4 "ContactDetails.ini" "Field 9" "State"
-  !insertmacro MUI_INSTALLOPTIONS_READ $5 "ContactDetails.ini" "Field 2" "MinLen"
-
+  !insertmacro MUI_INSTALLOPTIONS_READ $1 "ContactDetails.ini" "Field 3" "State"
+  
   ${CheckUserEmailAddress} "$1" "$R1"
 
   StrCmpS $R1 "1" error done
@@ -77,16 +71,15 @@ Function ContactDetailsEnterValidate
   		Abort
 
   done:
-  		;StrCpy $ContactName "$0"
-  		;StrCpy $ContactEmail "$1"
-  		;StrCpy $Coments "$2"
-  		;StrCpy $Updates "$3"
-  		;StrCpy $PostStr "userName=$ContactName&userEmail=$ContactEmail&userComments=$Coments&updates=$Updates"
+  		;StrCpy $CompanyName "$0"
+  		;StrCpy $Consent "$1"
+  		
 		
 
   		inetc::post "$PostStr" "http://www.orangehrm.com/registration/registerAcceptor.php" "$INSTDIR\output.txt" /END
 
-
+                nsExec::ExecToLog '"$INSTDIR\mysql\bin\mysql" -u root -D orangehrm_mysql -e "INSERT INTO `ohrm_organization_gen_info`(`name`) VALUES ('$CompanyName')"'
+                nsExec::ExecToLog '"$INSTDIR\mysql\bin\mysql" -u root -D orangehrm_mysql -e "INSERT INTO `ohrm_organization_gen_info`(`name`) VALUES ('$CompanyName')"'
   		;nsExec::ExecToLog '"$INSTDIR\php\php" "$INSTDIR\install\register.php" "$PostStr"'
   		Pop $0
   		StrCmpS $0 "OK" success failedToSubmit
@@ -226,7 +219,7 @@ Section "-Register the application"
       CreateShortCut "$SMPROGRAMS\${ProductName}\XAMPP.lnk" "$INSTDIR\xampp-control.exe"
       CreateShortCut "$SMPROGRAMS\${ProductName}\OrangeHRM.lnk" "$INSTDIR\start.vbs" ""  "${SHORTCUT_ICON}"
       CreateShortCut "$SMPROGRAMS\${ProductName}\Uninstall.lnk" "$INSTDIR\Uninstall.exe"
-	  CreateShortCut "$DESKTOP\${ProductName}.lnk" "$INSTDIR\start.vbs" ""  "${SHORTCUT_ICON}"
+        CreateShortCut "$DESKTOP\${ProductName}.lnk" "$INSTDIR\start.vbs" ""  "${SHORTCUT_ICON}"
 
 
 SectionEnd

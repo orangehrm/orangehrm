@@ -24,27 +24,29 @@ if ($aboutEnabled) {
                             <p><?php echo __('Active Employees: ') . $activeEmployeeCount; ?></p>
                         </li>
                         <li>
-                            <p><?php echo __('Terminated Employees: ') . $terminatedEmployeeCount; ?></p>
+                            <p><?php echo __('Employees Terminated: ') . $terminatedEmployeeCount; ?></p>
                         </li>
                     </ul>
                 </div>
-                <ol></ol>
+               
                 <?php if ($beaconAcceptance != 'on') { ?>
+                
                     <br>
                     <div id = "registration-section">
+                         <ol style = "margin-top: 8px;"></ol>
                         <div id="heartbeatDescription">
-                            <p><span style="font-family: arial,helvetica,sans-serif;"><span>By enabling the <span>heartbeat</span> you allow</span>&nbsp; OrangeHRM to </span><span style="font-family: arial,helvetica,sans-serif;"><span style="font-family: arial,helvetica,sans-serif;">collect statistics about </span>usage in order to improve the software. It runs in the background and periodically sends data to the OrangeHRM Portal. OrangeHRM would like to keep track of the number of users it has around the world, with demographic information.</span><br /><br /></p>
-                            <div>By enabling the heartbeat you will also be entitled to receive the following:<br /><br /></div>
-                            <ul style="list-style-type: circle; margin-left: 30px;">
+
+                            <p  ><span style="font-family: arial,helvetica,sans-seif;"><span>By enabling the <span>heartbeat</span> you allow</span>&nbsp; OrangeHRM to </span><span style="font-family: arial,helvetica,sans-serif;"><span style="font-family: arial,helvetica,sans-serif;">collect statistics about </span>usage in order to improve the user experience and performance. This function runs in the background and periodically sends data to the OrangeHRM Portal. THE DATA ARE JUST NUMBER TOTALS AND THEY DO NOT INCLUDE ANY PERSONAL INFORMATION.  Heartbeat tracks the number of users around the world and logs the time it takes to run database queries.</span><br /><br /></p>
+                            <div>Also by enabling Heartbeat you will receive the following:<br /></div>
+                            <ul style="">
                                 <li>Bug fixes and other patches</li>
                                 <li>Upgrades</li>
                                 <li>Security updates</li>
                                 <li>Other useful information about OrangeHRM</li>
                             </ul>
-                            <div>
-                                <p>Information we get is primarily non-personally-identifying information and we do not collect any information that we could use to identify an individual.</p>
-                                We collect this non-personally-identifying information in order to improve user experience and performance. For instance we log the time it takes to run database queries so that we can improve performance.</div>
-                            <p><br />We take the private nature of your personal information very seriously, and are committed to protecting it. To do that, we've set up procedures to ensure that your information is handled responsibly and in accordance with applicable data protection and privacy laws. We're grateful for your trust, and we'll act that way.<br /><br />Please contact us with any questions or comments about this on <a class = "aboutLink" href="mailto:legal@orangehrm.com" target="_blank">legal@orangehrm.com</a>.</p>
+
+                            <p><br />Please contact us with any questions or comments at <a href="mailto:legal@orangehrm.com" target="_blank" style="color: blue;">legal@orangehrm.com</a>.</p>
+
 
                         </div>
                         <ol>
@@ -69,16 +71,16 @@ if ($aboutEnabled) {
 
 <script type="text/javascript">
     $(document).ready(function() {
-        
-       <?php if($beaconRequired){ ?>
-               $.ajax({
-            url: '<?php echo url_for('communication/sendBeaconMessageAjax'); ?>',
-            type: "GET",
-            success: function(data) {
-                //alert(data);
-            }
-        });
-       <?php } ?>
+
+<?php if ($beaconRequired) { ?>
+            $.ajax({
+                url: '<?php echo url_for('communication/sendBeaconMessageAjax'); ?>',
+                type: "GET",
+                success: function(data) {
+                    //alert(data);
+                }
+            });
+<?php } ?>
         $('#aboutDisplayLink').click(function(event) {
             event.stopImmediatePropagation();
             $('#messageToDisplayAbout').css(
@@ -100,6 +102,9 @@ if ($aboutEnabled) {
                 $('#displayAbout').modal('hide');
                 $('#messageToDisplayAbout').css(
                         'display', 'block');
+                $('#welcome-menu').css(
+                    'display','none'
+                );
             });
         });
 

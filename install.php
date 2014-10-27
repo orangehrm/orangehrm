@@ -83,7 +83,7 @@ function saveBeaconData() {
     }
     $companyName = trim(addslashes($_POST['registerCompanyName']));
    
-    executeSql("UPDATE `hs_hr_config` SET `value` = '" . $companyName . "' WHERE `key` = 'beacon.company_name'");
+    
     executeSql("INSERT INTO `ohrm_organization_gen_info`(`name`) VALUES ('".$companyName."') ");
     mysqli_close($dbConnection);
     return true;

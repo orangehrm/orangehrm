@@ -137,7 +137,7 @@
   Page custom  AdminUserDetailsEnter AdminUserDetailsEnterValidate
   !insertmacro MUI_PAGE_DIRECTORY
   !insertmacro MUI_PAGE_INSTFILES
-  Page custom  VerifyRegister ContactDetailsEnterValidate
+  
   !define MUI_FINISHPAGE_NOAUTOCLOSE
   !define MUI_FINISHPAGE_RUN
   !define MUI_FINISHPAGE_RUN_NOTCHECKED
@@ -159,6 +159,7 @@
 ; Utility functions
 
 Function LaunchLink
+Page custom  VerifyRegister ContactDetailsEnterValidate
 ExecShell "" "$INSTDIR\start.vbs"
 
 FunctionEnd

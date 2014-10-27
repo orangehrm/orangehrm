@@ -26,7 +26,7 @@ class beaconNotificationComponent extends sfComponent {
 
     public function execute($request) {
         $this->notificationEnabled = false;
-        if ($this->getUser()->getAttribute('auth.isAdmin') == 'Yes') {
+//        if ($this->getUser()->getAttribute('auth.isAdmin') == 'Yes') {
             $count = 0;
             $notification = null;
 
@@ -45,9 +45,9 @@ class beaconNotificationComponent extends sfComponent {
                 $this->notificationEnabled = true;
                 $notificationXML = new SimpleXMLElement($notification->getDefinition());
                 $this->notificationHeader = trim($notificationXML->content->header . "");
-                $this->notificationBody = trim($notificationXML->content->body);
+                $this->notificationBody = trim($notificationXML->content->body."");
             }
-        }
+//        }
     }
 
 //put your code here
