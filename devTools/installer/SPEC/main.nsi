@@ -32,7 +32,7 @@
 ; Product Details
 
   !define ProductName "OrangeHRM"
-  !define ProductVersion "3.2"
+  !define ProductVersion "3.2.1"
 
   !define Organization "OrangeHRM Inc."
 
@@ -61,7 +61,9 @@
   !include "MUI.nsh"
 
   ; Macros
-
+    XPStyle on
+    !include nsDialogs.nsh
+    !include LogicLib.nsh
   !include "Include\WordFunc.nsh"
   !include "Include\StrRep.nsh"
   !include "Include\ReplaceInFile.nsh"
@@ -71,7 +73,7 @@
   !include "Include\WriteToFile.nsh"
 
   ; InstallOptions
-
+    !include "Registration.nsdinc"
   ReserveFile "AdminUserDetails.ini"
   ReserveFile "ContactDetails.ini"
   #ReserveFile "CheckApacheAlreadyInstalled.ini"
@@ -137,7 +139,7 @@
   Page custom  AdminUserDetailsEnter AdminUserDetailsEnterValidate
   !insertmacro MUI_PAGE_DIRECTORY
   !insertmacro MUI_PAGE_INSTFILES
-  
+  Page custom fnc_Registration_Show Func_save_data
   !define MUI_FINISHPAGE_NOAUTOCLOSE
   !define MUI_FINISHPAGE_RUN
   !define MUI_FINISHPAGE_RUN_NOTCHECKED
@@ -159,7 +161,7 @@
 ; Utility functions
 
 Function LaunchLink
-Page custom  VerifyRegister ContactDetailsEnterValidate
+
 ExecShell "" "$INSTDIR\start.vbs"
 
 FunctionEnd
@@ -194,6 +196,21 @@ Function .onVerifyInstDir
 					Abort
 			thirtyTwoBit:
 		PathGood:
+FunctionEnd
+
+Function Func_save_data
+	
+	${NSD_GetText} $hCtl_Registration_TextBox3 $0
+	${NSD_GetState} $hCtl_Registration_CheckBox1 $1
+	${If} $1 == 1
+		nsExec::ExecToLog '"$INSTDIR\mysql\bin\mysql" -u root -D orangehrm_mysql -e "UPDATE hs_hr_config SET `value`= 'on' WHERE `key`='beacon.activation_acceptance_status'"'
+	${Else} 
+		nsExec::ExecToLog '"$INSTDIR\mysql\bin\mysql" -u root -D orangehrm_mysql -e "UPDATE hs_hr_config SET `value`= 'off' WHERE `key`='beacon.activation_acceptance_status'"'
+	${EndIf}
+	
+	
+	nsExec::ExecToLog '"$INSTDIR\mysql\bin\mysql" -u root -D orangehrm_mysql -e "INSERT INTO `ohrm_organization_gen_info`(`name`) VALUES ('$0')"'
+    
 FunctionEnd
 
 ;--------------------------------
