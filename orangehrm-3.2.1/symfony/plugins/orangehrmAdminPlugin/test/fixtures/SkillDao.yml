@@ -1,0 +1,4 @@
+Skill:
+  0: {id: 1, name: 'Driving', description: 'Ability to drive'}
+  1: {id: 2, name: 'Skydiving'}
+  2: {id: 3, name: 'Sign Language', description: 'Ability to communicate with disabled people'}

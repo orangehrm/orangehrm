@@ -1,0 +1,158 @@
+﻿<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE xliff PUBLIC "-//XLIFF//DTD XLIFF//EN" "http://www.oasis-open.org/committees/xliff/documents/xliff.dtd" >
+<xliff version="1.0">
+  <file original="global" source-language="en" datatype="plaintext">
+    <header />
+    <body>
+      <!-- Actions -->
+      <trans-unit>
+        <source>New</source>
+        <target>Novo</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Edit</source>
+        <target>Uredi</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Delete</source>
+        <target>Izbriši</target>
+      </trans-unit>
+      <trans-unit>
+        <source>List</source>
+        <target>Navedi</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Save</source>
+        <target>Shrani</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Save and add</source>
+        <target>Shrani in dodaj</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Cancel</source>
+        <target>Razveljavi</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Choose an action</source>
+        <target>Izberi aktivnost</target>
+      </trans-unit>
+      <trans-unit>
+        <source>go</source>
+        <target>Pojdi</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Back to list</source>
+        <target>Nazaj na seznam</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Are you sure?</source>
+        <target>Ste prepričani?</target>
+      </trans-unit>
+
+      <!-- Filters -->
+      <trans-unit>
+        <source>Reset</source>
+        <target>Znova</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Filter</source>
+        <target>Filtriraj</target>
+      </trans-unit>
+
+      <!-- List -->
+      <trans-unit>
+        <source>No result</source>
+        <target>Ni rezultatov</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Actions</source>
+        <target>Aktivnosti</target>
+      </trans-unit>
+      <trans-unit>
+        <source>(page %%page%%/%%nb_pages%%)</source>
+        <target>(stran %%page%%/%%nb_pages%%)</target>
+      </trans-unit>
+      <trans-unit>
+        <source>asc</source>
+        <target>navzgor</target>
+      </trans-unit>
+      <trans-unit>
+        <source>desc</source>
+        <target>navzdol</target>
+      </trans-unit>
+      <trans-unit>
+        <source>[0] no result|[1] 1 result|(1,+Inf] %1% results</source>
+        <target><![CDATA[[0] ni rezultatov|{n: n == 1 || n % 100 == 1}%1% rezultat|{n: n==2 || n % 100 == 2}%1% rezultata|{n: n == 3 || n == 4 || n % 100 == 3 || n % 100 == 4 }%1% rezultati|(4,+Inf]%1% rezultatov]]></target>
+      </trans-unit>
+      <trans-unit>
+        <source>Checked</source>
+        <target>Označeno</target>
+      </trans-unit>
+
+      <!-- Pagination -->
+      <trans-unit>
+        <source>First page</source>
+        <target>Prva stran</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Previous page</source>
+        <target>Prejšnja stran</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Next page</source>
+        <target>Naslednja stran</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Last page</source>
+        <target>Zadnja stran</target>
+      </trans-unit>
+
+      <!-- Form -->
+      <trans-unit>
+        <source>The item was created successfully.</source>
+        <target>Predmet ste uspešno dodali.</target>
+      </trans-unit>
+      <trans-unit>
+        <source>The item was updated successfully.</source>
+        <target>Predmet ste uspešno shranili.</target>
+      </trans-unit>
+      <trans-unit>
+        <source>The item was created successfully. You can add another one below.</source>
+        <target>Predmet ste uspešno dodali. Lahko dodate novega.</target>
+      </trans-unit>
+      <trans-unit>
+        <source>The item was updated successfully. You can add another one below.</source>
+        <target>Predmet ste uspešno shranili. Lahko dodate novega.</target>
+      </trans-unit>
+      <trans-unit>
+        <source>The item has not been saved due to some errors.</source>
+        <target>Predmeta zaradi napake niste uspeli shraniti.</target>
+      </trans-unit>
+      <trans-unit>
+        <source>The item was deleted successfully.</source>
+        <target>Predmet ste uspešno izbrisali.</target>
+      </trans-unit>
+      <trans-unit>
+        <source>You must at least select one item.</source>
+        <target>Izbrati morate vsaj en predmet.</target>
+      </trans-unit>
+      <trans-unit>
+        <source>You must select an action to execute on the selected items.</source>
+        <target>Izbrati morate aktivnost za izbrane predmete.</target>
+      </trans-unit>
+      <trans-unit>
+        <source>A problem occurs when deleting the selected items as some items do not exist anymore.</source>
+        <target>Pri brisanju izbranih predmetov se je pojavila napaka, ker določeni predmeti ne obstajajo več.</target>
+      </trans-unit>
+      <trans-unit>
+        <source>The selected items have been deleted successfully.</source>
+        <target>Izbrane predmete ste uspešno izbrisali.</target>
+      </trans-unit>
+      <trans-unit>
+        <source>A problem occurs when deleting the selected items.</source>
+        <target>Pri brisanju izbranih predmetov se je pojavila napaka.</target>
+      </trans-unit>
+    </body>
+  </file>
+</xliff>

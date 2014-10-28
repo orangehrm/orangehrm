@@ -1,0 +1,315 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE xliff PUBLIC "-//XLIFF//DTD XLIFF//EN" "http://www.oasis-open.org/committees/xliff/documents/xliff.dtd">
+<xliff version="1.0">
+ <header/>
+ <file source-language="en_US" target-language="vi_VN" datatype="plaintext" original="messages" date="2012-08-23T1:19:12Z" product-name="messages">
+  <body>
+   <trans-unit id="1">
+    <source>Active</source>
+    <target>Hoạt động</target>
+   </trans-unit>
+   <trans-unit id="2">
+    <source>Add another</source>
+    <target>Thêm một</target>
+   </trans-unit>
+   <trans-unit id="3">
+    <source>Add Candidate</source>
+    <target>Thêm ứng cử viên</target>
+   </trans-unit>
+   <trans-unit id="4">
+    <source>Add Job Vacancy</source>
+    <target>Thêm tin tuyển dụng việc làm</target>
+   </trans-unit>
+   <trans-unit id="5">
+    <source>Adding Candidate</source>
+    <target>Thêm ứng cử viên</target>
+   </trans-unit>
+   <trans-unit id="6">
+    <source>Application Initiated</source>
+    <target>Ứng dụng khởi động</target>
+   </trans-unit>
+   <trans-unit id="7">
+    <source>applied for the</source>
+    <target>áp dụng cho</target>
+   </trans-unit>
+   <trans-unit id="8">
+    <source>Archived</source>
+    <target>Lưu trữ</target>
+   </trans-unit>
+   <trans-unit id="9">
+    <source>Are you sure you want to remove job vacancy of the candidate</source>
+    <target>Bạn có chắc bạn muốn loại bỏ vị trí tuyển dụng việc làm của ứng cử viên</target>
+   </trans-unit>
+   <trans-unit id="10">
+    <source>as failed</source>
+    <target>là thất bại</target>
+   </trans-unit>
+   <trans-unit id="11">
+    <source>as passed</source>
+    <target>đã được thông qua</target>
+   </trans-unit>
+   <trans-unit id="12">
+    <source>assigned the job vacancy</source>
+    <target>được giao vị trí tuyển dụng việc làm</target>
+   </trans-unit>
+   <trans-unit id="13">
+    <source>by</source>
+    <target>bởi</target>
+   </trans-unit>
+   <trans-unit id="14">
+    <source>Candidate</source>
+    <target>Ứng cử viên</target>
+   </trans-unit>
+   <trans-unit id="15">
+    <source>Candidate Name</source>
+    <target>Tên Ưng Viên</target>
+   </trans-unit>
+   <trans-unit id="16">
+    <source>Candidate's History</source>
+    <target>Lịch sử của ứng viên</target>
+   </trans-unit>
+   <trans-unit id="17">
+    <source>candidateName</source>
+    <target>candidateName</target>
+   </trans-unit>
+   <trans-unit id="18">
+    <source>Cannot assign same interviewer twice</source>
+    <target>Không thể chỉ định người phỏng vấn cùng một hai lần</target>
+   </trans-unit>
+   <trans-unit id="19">
+    <source>Cannot assign same vacancy twice</source>
+    <target>Không thể chỉ định vị trí tuyển dụng cùng một hai lần</target>
+   </trans-unit>
+   <trans-unit id="20">
+    <source>Click on a candidate to perform actions</source>
+    <target>Nhấp chuột vào một ứng cử viên để thực hiện hành động</target>
+   </trans-unit>
+   <trans-unit id="21">
+    <source>Closed</source>
+    <target>Đóng cửa</target>
+   </trans-unit>
+   <trans-unit id="22">
+    <source>Continue</source>
+    <target>Tiếp tục</target>
+   </trans-unit>
+   <trans-unit id="23">
+    <source>Date of Application</source>
+    <target>Ngày áp dụng</target>
+   </trans-unit>
+   <trans-unit id="24">
+    <source>Decline Offer</source>
+    <target>Từ chối Cung cấp</target>
+   </trans-unit>
+   <trans-unit id="25">
+    <source>Details</source>
+    <target>Thông tin chi tiết</target>
+   </trans-unit>
+   <trans-unit id="26">
+    <source>Edit Candidate</source>
+    <target>Chỉnh sửa Candidate</target>
+   </trans-unit>
+   <trans-unit id="27">
+    <source>Edit Interview Details</source>
+    <target>Chỉnh sửa Chi tiết Phỏng vấn</target>
+   </trans-unit>
+   <trans-unit id="28">
+    <source>Edit Job Vacancy</source>
+    <target>Chỉnh sửa tin tuyển dụng việc làm</target>
+   </trans-unit>
+   <trans-unit id="29">
+    <source>Editing Candidate</source>
+    <target>Chỉnh sửa Candidate</target>
+   </trans-unit>
+   <trans-unit id="30">
+    <source>from the</source>
+    <target>từ</target>
+   </trans-unit>
+   <trans-unit id="31">
+    <source>Hire</source>
+    <target>Thuê</target>
+   </trans-unit>
+   <trans-unit id="32">
+    <source>Hired</source>
+    <target>Cho thuê</target>
+   </trans-unit>
+   <trans-unit id="33">
+    <source>hired</source>
+    <target>cho thuê</target>
+   </trans-unit>
+   <trans-unit id="34">
+    <source>Hiring Manager</source>
+    <target>Thuê quản lý</target>
+   </trans-unit>
+   <trans-unit id="35">
+    <source>Interview Failed</source>
+    <target>Cuộc phỏng vấn không thành công</target>
+   </trans-unit>
+   <trans-unit id="36">
+    <source>Interview Passed</source>
+    <target>Phỏng vấn Passed</target>
+   </trans-unit>
+   <trans-unit id="37">
+    <source>Interview Scheduled</source>
+    <target>Phỏng vấn theo lịch trình</target>
+   </trans-unit>
+   <trans-unit id="38">
+    <source>Interview Title</source>
+    <target>Phỏng vấn Tiêu đề</target>
+   </trans-unit>
+   <trans-unit id="39">
+    <source>Interviewer Name</source>
+    <target>Phỏng vấn Name</target>
+   </trans-unit>
+   <trans-unit id="40">
+    <source>Job Offered</source>
+    <target>Công việc Cung cấp</target>
+   </trans-unit>
+   <trans-unit id="41">
+    <source>Job Vacancy</source>
+    <target>Việc làm trống</target>
+   </trans-unit>
+   <trans-unit id="42">
+    <source>Manual</source>
+    <target>Hướng dẫn sử dụng</target>
+   </trans-unit>
+   <trans-unit id="43">
+    <source>Mark Interview Failed</source>
+    <target>Đánh dấu phỏng vấn không thành công</target>
+   </trans-unit>
+   <trans-unit id="44">
+    <source>Mark Interview Passed</source>
+    <target>Đánh dấu phỏng vấn trôi qua</target>
+   </trans-unit>
+   <trans-unit id="45">
+    <source>marked</source>
+    <target>đánh dấu</target>
+   </trans-unit>
+   <trans-unit id="46">
+    <source>marked the offer as declined</source>
+    <target>đánh dấu sự đề nghị là từ chối</target>
+   </trans-unit>
+   <trans-unit id="47">
+    <source>Method of Application</source>
+    <target>Phương pháp áp dụng</target>
+   </trans-unit>
+   <trans-unit id="48">
+    <source>No Actions</source>
+    <target>Không có Actions</target>
+   </trans-unit>
+   <trans-unit id="49">
+    <source>No active job vacancies to display</source>
+    <target>Không có công việc của vị trí tuyển dụng hoạt động để hiển thị</target>
+   </trans-unit>
+   <trans-unit id="50">
+    <source>Number of Positions</source>
+    <target>Số lượng Chứng khoán</target>
+   </trans-unit>
+   <trans-unit id="51">
+    <source>Offer Declined</source>
+    <target>Tên sản phẩm bị từ chối</target>
+   </trans-unit>
+   <trans-unit id="52">
+    <source>Offer Job</source>
+    <target>Cung cấp việc làm</target>
+   </trans-unit>
+   <trans-unit id="53">
+    <source>offered the job</source>
+    <target>cung cấp công việc</target>
+   </trans-unit>
+   <trans-unit id="54">
+    <source>offred the job</source>
+    <target>offred công việc</target>
+   </trans-unit>
+   <trans-unit id="55">
+    <source>on</source>
+    <target>trên</target>
+   </trans-unit>
+   <trans-unit id="56">
+    <source>Online</source>
+    <target>Trực tuyến</target>
+   </trans-unit>
+   <trans-unit id="57">
+    <source>Performed Action</source>
+    <target>Thực hiện hành động</target>
+   </trans-unit>
+   <trans-unit id="58">
+    <source>Performed Date</source>
+    <target>Thực hiện ngày</target>
+   </trans-unit>
+   <trans-unit id="59">
+    <source>Publish in RSS feed(1) and web page(2)</source>
+    <target>Xuất bản trong RSS feed (1) và trang web (2)</target>
+   </trans-unit>
+   <trans-unit id="60">
+    <source>Remove?</source>
+    <target>Hủy bỏ?</target>
+   </trans-unit>
+   <trans-unit id="61">
+    <source>removed</source>
+    <target>loại bỏ</target>
+   </trans-unit>
+   <trans-unit id="62">
+    <source>RSS Feed URL</source>
+    <target>RSS nguồn cấp dữ liệu URL</target>
+   </trans-unit>
+   <trans-unit id="63">
+    <source>Schedule Interview</source>
+    <target>Lịch trình phỏng vấn</target>
+   </trans-unit>
+   <trans-unit id="64">
+    <source>scheduled</source>
+    <target>dự kiến</target>
+   </trans-unit>
+   <trans-unit id="65">
+    <source>Shortlist</source>
+    <target>Yêu cầu thông tin</target>
+   </trans-unit>
+   <trans-unit id="66">
+    <source>Shortlisted</source>
+    <target>Lọt vào danh sách</target>
+   </trans-unit>
+   <trans-unit id="67">
+    <source>Shortlisted for</source>
+    <target>Lọt vào danh sách cho</target>
+   </trans-unit>
+   <trans-unit id="68">
+    <source>Should be less than current date</source>
+    <target>Nên được ít hơn so với ngày hiện tại</target>
+   </trans-unit>
+   <trans-unit id="69">
+    <source>Successfully Scheduled</source>
+    <target>Thành công theo lịch trình</target>
+   </trans-unit>
+   <trans-unit id="70">
+    <source>This action will remove previous vacancy</source>
+    <target>Hành động này sẽ loại bỏ các vị trí tuyển dụng trước đây</target>
+   </trans-unit>
+   <trans-unit id="71">
+    <source>Vacancy</source>
+    <target>Vị trí tuyển dụng</target>
+   </trans-unit>
+   <trans-unit id="72">
+    <source>Vacancy Name</source>
+    <target>Vị trí tuyển dụng Tên</target>
+   </trans-unit>
+   <trans-unit id="73">
+    <source>View Action History</source>
+    <target>Lịch sử hành động</target>
+   </trans-unit>
+   <trans-unit id="74">
+    <source>View Interview Details</source>
+    <target>Thông tin chi tiết Phỏng vấn</target>
+   </trans-unit>
+   <trans-unit id="75">
+    <source>Web Page URL</source>
+    <target>URL Trang Web</target>
+   </trans-unit>
+   <trans-unit id="76">
+    <source>with</source>
+    <target>với</target>
+   </trans-unit>
+  </body>
+ </file>
+</xliff>
+<!-- Contributed By:   ,   ,  Nguyen Ninh , Adam Jimi , Do Nguyen , Duong Minh Hieu , Khanh Ho , Le Thanh Duong , Liem Chau , Linh Trinh , Nguyen Huu Tuan , Phu Dang , Phu Luong , Thanh Pham , Tran Quoc Ninh , Van Nguyen -->
+

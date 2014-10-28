@@ -1,0 +1,37 @@
+.addText{
+    color: #363636;
+    text-decoration: underline;
+    /*	padding-left: 140px;*/
+    float: left;
+    cursor: pointer;
+}
+
+.removeText{
+    color: #363636;
+    text-decoration: underline;
+    padding-left: 128px;
+    cursor: pointer;
+    float: left;
+
+}
+
+.actionDrpDown{
+    width: 150px;
+    -moz-border-radius:3px 3px 3px 3px;
+    background-color: #CDCDCD !important;
+    border-color:#CCCCCC #BBBBBB #A0A0A0;
+    border-left:1px solid #BBBBBB;
+    border-right:1px solid #BBBBBB;
+    border-style:solid;
+    border-width:1px;
+    color:#000000;
+    cursor:pointer;
+    font:98% arial,sans-serif;
+    margin:0 8px 0 0;
+    outline:medium none;
+    padding:3px 8px;
+    text-align:left;
+    vertical-align:middle;
+    white-space:nowrap;
+    width: 170px !important;
+}

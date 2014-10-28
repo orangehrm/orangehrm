@@ -1,0 +1,8 @@
+ohrmList:
+  buttons: []
+#    ExportToCSV: { label: 'Export to CSV', function: 'exportToCSV', class: 'longbtn' }
+#    ExportToPDF: { label: 'Export to PDF', function: 'exportToPDF', class: 'longbtn' }
+  assets:
+    - ../../plugins/orangehrmCSVExportPlugin/web/js/csv-export.js
+    - ../../plugins/orangehrmPDFExportPlugin/web/js/pdf-export.js
+  calls: []

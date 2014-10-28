@@ -1,0 +1,16 @@
+since OrangeHRM ver 0.1 the folder structure had been altered as 
+specified here
+
+/lib/CommonMethods 		changed to 		/lib/common
+/lib/Confs 				changed to 		/lib/confs
+						added 			/lib/dao which contains all DAO which previously resided in /lib/models/
+/lib/ExceptionHandling	changed to 		/lib/exception
+						added			/lib/extractor to contain all data extractors
+/lib/Logs				changed to 		/lib/logs
+/lib/Models				changed to 		/lib/models
+/lib/Models/bugs		changed to 		/lib/models/maintenance
+/lib/companyinfo 		all contents moved to /lib/models/eimadmin
+						added			/lib/models/report which contains report definiton/generation objects
+						added			/templates which contains all UI templates
+
+for changed features and plaese refer new_changed_features.txt

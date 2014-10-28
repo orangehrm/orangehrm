@@ -1,0 +1,7 @@
+myFilter:
+  class: myFilter
+
+execution:
+  class: sfExecutionFilter
+  param:
+    type: execution

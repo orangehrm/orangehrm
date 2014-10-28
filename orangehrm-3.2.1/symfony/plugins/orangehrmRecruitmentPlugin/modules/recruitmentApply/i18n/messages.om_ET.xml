@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE xliff PUBLIC "-//XLIFF//DTD XLIFF//EN" "http://www.oasis-open.org/committees/xliff/documents/xliff.dtd">
+<xliff version="1.0">
+ <header/>
+ <file source-language="en_US" target-language="om_ET" datatype="plaintext" original="messages" date="2012-04-17T0:24:38Z" product-name="messages">
+  <body>
+   <trans-unit id="1">
+    <source>Application Received</source>
+    <target>Iyyatni Fudhatameera</target>
+   </trans-unit>
+   <trans-unit id="2">
+    <source>Uploaded</source>
+    <target>Ol Fe'ameera</target>
+   </trans-unit>
+   <trans-unit id="3">
+    <source>Vacancy Apply Form</source>
+    <target>Unkaa Bakki Hojii Duwwaa Itti Iyyatamu</target>
+   </trans-unit>
+  </body>
+ </file>
+</xliff>
+<!-- Contributed By:   -->

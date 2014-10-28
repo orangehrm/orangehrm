@@ -1,0 +1,185 @@
+PerformanceTrack: 
+  tableName: ohrm_performance_track
+  columns:
+    id:
+      type: integer(4)
+      fixed: false
+      unsigned: false
+      primary: true
+      autoincrement: true
+    tracker_name:
+      type: string(200)
+      notnull: true
+    emp_number:
+      type: integer(4)
+      fixed: false
+      unsigned: false
+      primary: false
+      notnull: true
+      autoincrement: false
+    added_date:
+      type: timestamp(25)
+      fixed: false
+      unsigned: false
+      primary: false
+      notnull: false
+      autoincrement: false 
+    modified_date:
+      type: timestamp(25)
+      fixed: false
+      unsigned: false
+      primary: false
+      notnull: false
+      autoincrement: false
+    status:
+      type: integer(4)
+      fixed: false
+      unsigned: false
+      primary: false
+      notnull: false
+      autoincrement: false
+  relations: 
+    Employee:
+      class: Employee
+      local: emp_number
+      foreign: emp_number
+      type: one
+    PerformanceTrackerLog:
+      local: id
+      foreign: performance_track_id
+      type: many
+    PerformanceTrackerReviewer:
+      local: id
+      foreign: performance_track_id
+      type: many
+PerformanceTrackerLog: 
+  tableName: ohrm_performance_tracker_log
+  columns:
+    id:
+      type: integer(4)
+      fixed: false
+      unsigned: false
+      primary: true
+      autoincrement: true
+    performance_track_id:
+      type: integer(4)
+      fixed: false
+      unsigned: false
+      primary: false
+      notnull: false
+      autoincrement: false
+    log:
+      type: string(500)
+      fixed: false
+      unsigned: false
+      primary: false
+      notnull: false
+      autoincrement: false
+    comment:
+      type: string(3000)
+      fixed: false
+      unsigned: false
+      primary: false
+      notnull: false
+      autoincrement: false
+    status:
+      type: integer(2)
+      fixed: false
+      unsigned: false
+      primary: false
+      notnull: false
+      autoincrement: false
+    achievement:
+      type: integer(2)
+      fixed: false
+      unsigned: false
+      primary: false
+      notnull: false
+      autoincrement: false
+    added_date:
+      type: timestamp(25)
+      fixed: false
+      unsigned: false
+      primary: false
+      notnull: false
+      autoincrement: false
+    modified_date:
+      type: timestamp(25)
+      fixed: false
+      unsigned: false
+      primary: false
+      notnull: false
+      autoincrement: false
+    reviewer_id:
+      type: integer(4)
+      fixed: false
+      unsigned: false
+      primary: false
+      notnull: false
+      autoincrement: false
+    user_id:
+      type: integer(10)
+      fixed: false
+      unsigned: false
+      primary: false
+      notnull: false
+      autoincrement: false
+  relations:
+    PerformanceTrack:
+      local: performance_track_id
+      foreign: id
+      type: one
+    Employee:
+      local: reviewer_id
+      foreign: emp_number
+      type: one
+    SystemUser:
+      local: user_id
+      foreign: id
+      type: one
+PerformanceTrackerReviewer: 
+  tableName: ohrm_performance_tracker_reviewer
+  columns:
+    id:
+      type: integer(4)
+      fixed: false
+      unsigned: false
+      primary: true
+      autoincrement: true
+    performance_track_id:
+      type: integer(4)
+      fixed: false
+      unsigned: false
+      primary: false
+      notnull: true
+      autoincrement: false
+    reviewer_id:
+      type: integer(4)
+      fixed: false
+      unsigned: false
+      primary: false
+      notnull: true
+      autoincrement: false
+    added_date:
+      type: timestamp(25)
+      fixed: false
+      unsigned: false
+      primary: false
+      notnull: false
+      autoincrement: false
+    status:
+      type: integer(4)
+      fixed: false
+      unsigned: false
+      primary: false
+      notnull: false
+      autoincrement: false
+  relations:
+    PerformanceTrack:
+      local: performance_track_id
+      foreign: id
+      type: one
+    Employee:
+      local: reviewer_id
+      foreign: emp_number
+      type: one

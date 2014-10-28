@@ -1,0 +1,534 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE xliff PUBLIC "-//XLIFF//DTD XLIFF//EN" "http://www.oasis-open.org/committees/xliff/documents/xliff.dtd">
+<xliff version="1.0">
+ <header/>
+ <file source-language="en_US" target-language="om_ET" datatype="plaintext" original="messages" date="2012-04-17T0:20:21Z" product-name="messages">
+  <body>
+   <trans-unit id="1">
+    <source>Activities</source>
+    <target>Dalagaa</target>
+   </trans-unit>
+   <trans-unit id="2">
+    <source>Add Another</source>
+    <target>Dabali</target>
+   </trans-unit>
+   <trans-unit id="3">
+    <source>Add Currency</source>
+    <target>Qarshii Dabali</target>
+   </trans-unit>
+   <trans-unit id="4">
+    <source>Add Customer</source>
+    <target>Maamila Dabali</target>
+   </trans-unit>
+   <trans-unit id="5">
+    <source>Add Employment Status</source>
+    <target>Haala Qacarrii Dabali</target>
+   </trans-unit>
+   <trans-unit id="6">
+    <source>Add Job Category</source>
+    <target>Ramaddii Hojii Dabali</target>
+   </trans-unit>
+   <trans-unit id="7">
+    <source>Add Job Title</source>
+    <target>Gita Hojii Dabali</target>
+   </trans-unit>
+   <trans-unit id="8">
+    <source>Add Location</source>
+    <target>Bakka Dabali</target>
+   </trans-unit>
+   <trans-unit id="9">
+    <source>Add Membership</source>
+    <target>Miseensummaa Dabali</target>
+   </trans-unit>
+   <trans-unit id="10">
+    <source>Add Nationality</source>
+    <target>Lammummaa Dabali</target>
+   </trans-unit>
+   <trans-unit id="11">
+    <source>Add Pay Grade</source>
+    <target>Sadarkaa Miindaa Dabali</target>
+   </trans-unit>
+   <trans-unit id="12">
+    <source>Add Project</source>
+    <target>Pirojektii Dabali</target>
+   </trans-unit>
+   <trans-unit id="13">
+    <source>Add Project Activity</source>
+    <target>Dalagaawwan Projektii Dabali</target>
+   </trans-unit>
+   <trans-unit id="14">
+    <source>Add Subscriber</source>
+    <target>Maamilummaa Dabali</target>
+   </trans-unit>
+   <trans-unit id="15">
+    <source>Add Unit</source>
+    <target>Kutaa Hojii Dabali</target>
+   </trans-unit>
+   <trans-unit id="16">
+    <source>Add User</source>
+    <target>Fayyadamaa Dabali</target>
+   </trans-unit>
+   <trans-unit id="17">
+    <source>Add Work Shift</source>
+    <target>Waljijjiirraa Hojii Dabali</target>
+   </trans-unit>
+   <trans-unit id="18">
+    <source>All date fields should be in YYYY-MM-DD format</source>
+    <target>Guyyan hundi dhangii BBBB-JJ-GG tahuu qaba</target>
+   </trans-unit>
+   <trans-unit id="19">
+    <source>Assigned Currencies</source>
+    <target>Qarshiiwwan kennaman</target>
+   </trans-unit>
+   <trans-unit id="20">
+    <source>Assigned Employees</source>
+    <target>Gabaastota</target>
+   </trans-unit>
+   <trans-unit id="21">
+    <source>Available Employees</source>
+    <target>Hojjetoota Jiran</target>
+   </trans-unit>
+   <trans-unit id="22">
+    <source>Better</source>
+    <target>Gaarii</target>
+   </trans-unit>
+   <trans-unit id="23">
+    <source>Click on a notification type to add subscribers</source>
+    <target>Maamilummaa Dabaluuf, akaakuu hubachiisaa irratti cuqaasi</target>
+   </trans-unit>
+   <trans-unit id="24">
+    <source>Column order should not be changed</source>
+    <target>Duraa duubni tarjaalee hin jijjiiramu</target>
+   </trans-unit>
+   <trans-unit id="25">
+    <source>Company Structure</source>
+    <target>Caasaa Dhaabataa</target>
+   </trans-unit>
+   <trans-unit id="26">
+    <source>Confirm New Password</source>
+    <target>Jecha Darbii Haaraa Mirkaneessi</target>
+   </trans-unit>
+   <trans-unit id="27">
+    <source>Copy Activity</source>
+    <target>Dalagaa Garagalchi</target>
+   </trans-unit>
+   <trans-unit id="28">
+    <source>CSV Data Import</source>
+    <target>Deetaa Galchuu CSV</target>
+   </trans-unit>
+   <trans-unit id="29">
+    <source>Current Password</source>
+    <target>Jecha Darbii Amma Jiru</target>
+   </trans-unit>
+   <trans-unit id="30">
+    <source>Current Password Is Wrong</source>
+    <target>Jechi Darbii Amma Jiru Sirrii Miti</target>
+   </trans-unit>
+   <trans-unit id="31">
+    <source>Customer</source>
+    <target>Maamila</target>
+   </trans-unit>
+   <trans-unit id="32">
+    <source>Customer Name</source>
+    <target>Maqaa Maamilaa</target>
+   </trans-unit>
+   <trans-unit id="33">
+    <source>Date Format</source>
+    <target>Dhangii Guyyaa</target>
+   </trans-unit>
+   <trans-unit id="34">
+    <source>Description is not specified</source>
+    <target>Ibsi hin kaawamne</target>
+   </trans-unit>
+   <trans-unit id="35">
+    <source>Done</source>
+    <target>Hojjetameera</target>
+   </trans-unit>
+   <trans-unit id="36">
+    <source>Each import file should be configured for 100 records or less</source>
+    <target>Tokkoo tokkon deetaa galchamuu qabuu galmeewwan 100 fi isaa gadiin qindaa'uu qaba</target>
+   </trans-unit>
+   <trans-unit id="37">
+    <source>Edit Currency</source>
+    <target>Qarshii Gulaali</target>
+   </trans-unit>
+   <trans-unit id="38">
+    <source>Edit Customer</source>
+    <target>Maamila Gulaali</target>
+   </trans-unit>
+   <trans-unit id="39">
+    <source>Edit Employment Status</source>
+    <target>Haala Qaxarrii Gulaali</target>
+   </trans-unit>
+   <trans-unit id="40">
+    <source>Edit Job Category</source>
+    <target>Ramaddii Hojii Gulaali</target>
+   </trans-unit>
+   <trans-unit id="41">
+    <source>Edit Job Title</source>
+    <target>Gita Hojii Gulaali</target>
+   </trans-unit>
+   <trans-unit id="42">
+    <source>Edit Location</source>
+    <target>Bakka Gulaali</target>
+   </trans-unit>
+   <trans-unit id="43">
+    <source>Edit Membership</source>
+    <target>Miseensummaa Gulaali</target>
+   </trans-unit>
+   <trans-unit id="44">
+    <source>Edit Nationality</source>
+    <target>Lammummaa Gulaali</target>
+   </trans-unit>
+   <trans-unit id="45">
+    <source>Edit Pay Grade</source>
+    <target>Sadarkaa Miindaa Gulaali</target>
+   </trans-unit>
+   <trans-unit id="46">
+    <source>Edit Project</source>
+    <target>Pirojektii Gulaali</target>
+   </trans-unit>
+   <trans-unit id="47">
+    <source>Edit Project Activity</source>
+    <target>Dalagaawwan Pirojektii Gulaali</target>
+   </trans-unit>
+   <trans-unit id="48">
+    <source>Edit Subscriber</source>
+    <target>Maamilummaa Gulaali</target>
+   </trans-unit>
+   <trans-unit id="49">
+    <source>Edit Unit</source>
+    <target>Kutaa Hojii Gulaali</target>
+   </trans-unit>
+   <trans-unit id="50">
+    <source>Edit User</source>
+    <target>Fayyadamaa Gulaali</target>
+   </trans-unit>
+   <trans-unit id="51">
+    <source>Edit Work Shift</source>
+    <target>Waljijjiirraa Hojii Gulaali</target>
+   </trans-unit>
+   <trans-unit id="52">
+    <source>Email Notification</source>
+    <target>Yaadachiisa Ergaa-e</target>
+   </trans-unit>
+   <trans-unit id="53">
+    <source>Enable Admin module</source>
+    <target>Muraa Bulchaa Dandeessisi</target>
+   </trans-unit>
+   <trans-unit id="54">
+    <source>Enable Benefits module</source>
+    <target>Muraa Faayidaa Dandeessisi</target>
+   </trans-unit>
+   <trans-unit id="55">
+    <source>Enable Help</source>
+    <target>Gargaarsa Dandeessisi</target>
+   </trans-unit>
+   <trans-unit id="56">
+    <source>Enable Leave module</source>
+    <target>Muraa Boqonnaa Dandeessisi</target>
+   </trans-unit>
+   <trans-unit id="57">
+    <source>Enable Performance module</source>
+    <target>Muraa Raawwii Dandeessisi</target>
+   </trans-unit>
+   <trans-unit id="58">
+    <source>Enable PIM module</source>
+    <target>Muraa Odeeffannoo Dhuunfaa Dandeessisi</target>
+   </trans-unit>
+   <trans-unit id="59">
+    <source>Enable Recruitment module</source>
+    <target>Muraa Qaxarrii Dandeessisi</target>
+   </trans-unit>
+   <trans-unit id="60">
+    <source>Enable Time module</source>
+    <target>Muraa Yeroo Dandeessisi</target>
+   </trans-unit>
+   <trans-unit id="61">
+    <source>Failed to Import: File Size Exceeded</source>
+    <target>Galchuu hin dandeenye: Hammamtaan faayila kanaa Baay'ateera</target>
+   </trans-unit>
+   <trans-unit id="62">
+    <source>Failed to Import: File Type Not Allowed</source>
+    <target>Galchuu hin dandeenye: Akaakuun faayilaa kanaa hin Eeyyamamu</target>
+   </trans-unit>
+   <trans-unit id="63">
+    <source>Failed to Import: No Compatible Records</source>
+    <target>Galchuu hin dandeenye: Galmeen deetaa kana waliin deemu hin jiru</target>
+   </trans-unit>
+   <trans-unit id="64">
+    <source>Fax</source>
+    <target>Faaksii</target>
+   </trans-unit>
+   <trans-unit id="65">
+    <source>First Name and Last Name are compulsory</source>
+    <target>Maqaan Jalqabaa fi Maqaan Abbaa Dirqama</target>
+   </trans-unit>
+   <trans-unit id="66">
+    <source>Following languages are supported</source>
+    <target>Afaanotni armaan gadii irratti ni hojjeta</target>
+   </trans-unit>
+   <trans-unit id="67">
+    <source>Hours Per Day</source>
+    <target>Guyyaatti Sa'aatii</target>
+   </trans-unit>
+   <trans-unit id="68">
+    <source>If gender is specified, value should be either</source>
+    <target>Saalli adda baafamnaan, gatiin isaa akkana tahuu qaba</target>
+   </trans-unit>
+   <trans-unit id="69">
+    <source>Job Description</source>
+    <target>Ibsa Hojii</target>
+   </trans-unit>
+   <trans-unit id="70">
+    <source>Language and font help</source>
+    <target>Gargaarsa afaaniifi boca qubeewwanii</target>
+   </trans-unit>
+   <trans-unit id="71">
+    <source>Leave Applications</source>
+    <target>Iyyata Boqonnaa</target>
+   </trans-unit>
+   <trans-unit id="72">
+    <source>Leave Approvals</source>
+    <target>Boqonnaa Mirkaneessuu</target>
+   </trans-unit>
+   <trans-unit id="73">
+    <source>Leave Assignments</source>
+    <target>Boqonnaa Kennuu</target>
+   </trans-unit>
+   <trans-unit id="74">
+    <source>Leave Cancellations</source>
+    <target>Boqonnaa Haquu</target>
+   </trans-unit>
+   <trans-unit id="75">
+    <source>Leave Rejections</source>
+    <target>Boqonnaa Dhorkuu</target>
+   </trans-unit>
+   <trans-unit id="76">
+    <source>Level Already Exists</source>
+    <target>Gulantaan kun duraanuu jira</target>
+   </trans-unit>
+   <trans-unit id="77">
+    <source>Location Name</source>
+    <target>Maqaa Bakkaa</target>
+   </trans-unit>
+   <trans-unit id="78">
+    <source>Mail Configuration</source>
+    <target>Qindoomina Ergaa</target>
+   </trans-unit>
+   <trans-unit id="79">
+    <source>Mail Sent As</source>
+    <target>Ergaan akkanatti ergama</target>
+   </trans-unit>
+   <trans-unit id="80">
+    <source>Maximum Salary</source>
+    <target>Miindaa Guddicha</target>
+   </trans-unit>
+   <trans-unit id="81">
+    <source>Medium</source>
+    <target>G/Galeessa</target>
+   </trans-unit>
+   <trans-unit id="82">
+    <source>Minimum Salary</source>
+    <target>Miindaa Xiqqicha</target>
+   </trans-unit>
+   <trans-unit id="83">
+    <source>Module Configuration</source>
+    <target>Qindoomina Muraawwanii</target>
+   </trans-unit>
+   <trans-unit id="84">
+    <source>Multiple import files may be required</source>
+    <target>Faayilli Galchuuf oolu baay'achuun ni mala</target>
+   </trans-unit>
+   <trans-unit id="85">
+    <source>New Password</source>
+    <target>Jecha Darbii Haaraa</target>
+   </trans-unit>
+   <trans-unit id="86">
+    <source>No activities selected</source>
+    <target>Dalagaawwan hin filatamne</target>
+   </trans-unit>
+   <trans-unit id="87">
+    <source>No assigned activities</source>
+    <target>Dalagaawwan hin kennamne</target>
+   </trans-unit>
+   <trans-unit id="88">
+    <source>Not Allowed to Delete Customer(s) Which Have Time Logged Against</source>
+    <target>Maamila kana balleessuun hin danda'amu</target>
+   </trans-unit>
+   <trans-unit id="89">
+    <source>Not Allowed to Delete Project Activites Which Have Time Logged Against</source>
+    <target>Dalagawwan projektii kanaa balleessuun hin danda'amu</target>
+   </trans-unit>
+   <trans-unit id="90">
+    <source>Notification Type</source>
+    <target>Akaakuu Yaadachiisaa</target>
+   </trans-unit>
+   <trans-unit id="91">
+    <source>Number of Employees</source>
+    <target>Baay'ina Hojjettootaa</target>
+   </trans-unit>
+   <trans-unit id="92">
+    <source>Number of Records Imported</source>
+    <target>Baay'ina Galmeewwan seenanii</target>
+   </trans-unit>
+   <trans-unit id="93">
+    <source>OrangeHRM - Supported Languages</source>
+    <target>Afaanota OrangeHRM'n Fayyadamu</target>
+   </trans-unit>
+   <trans-unit id="94">
+    <source>Organization Name</source>
+    <target>Maqaa Dhaabbataa</target>
+   </trans-unit>
+   <trans-unit id="95">
+    <source>Path to Sendmail</source>
+    <target>Toora ergaa-e</target>
+   </trans-unit>
+   <trans-unit id="96">
+    <source>Performance Review Submissions</source>
+    <target>Gamaaggama Raawwii Erguu</target>
+   </trans-unit>
+   <trans-unit id="97">
+    <source>Phone</source>
+    <target>Bilbila</target>
+   </trans-unit>
+   <trans-unit id="98">
+    <source>Project</source>
+    <target>Pirojektii</target>
+   </trans-unit>
+   <trans-unit id="99">
+    <source>Project Admin</source>
+    <target>Bulchaa Pirojektii</target>
+   </trans-unit>
+   <trans-unit id="100">
+    <source>Project Admins</source>
+    <target>Bulchitoota Pirojektii</target>
+   </trans-unit>
+   <trans-unit id="101">
+    <source>Projects under selected customer will also be deleted</source>
+    <target>Pirojektiin Maamila kana jala jiru ille ni bada</target>
+   </trans-unit>
+   <trans-unit id="102">
+    <source>Registration Number</source>
+    <target>Lakk Galmee</target>
+   </trans-unit>
+   <trans-unit id="103">
+    <source>Sample CSV file</source>
+    <target>Fakkeenya Faayila CSV</target>
+   </trans-unit>
+   <trans-unit id="104">
+    <source>Send Test Email</source>
+    <target>Yaalii Ergaa-e Ergi</target>
+   </trans-unit>
+   <trans-unit id="105">
+    <source>Sending Method</source>
+    <target>Mala Ittiin Ergamu</target>
+   </trans-unit>
+   <trans-unit id="106">
+    <source>Shift Name</source>
+    <target>Maqaa Waljijjiirraa</target>
+   </trans-unit>
+   <trans-unit id="107">
+    <source>Should be higher than Minimum Salary</source>
+    <target>Mindaa xiqqichaan ol tahuu qaba</target>
+   </trans-unit>
+   <trans-unit id="108">
+    <source>SMTP Password</source>
+    <target>Jecha Darbii SMTP</target>
+   </trans-unit>
+   <trans-unit id="109">
+    <source>SMTP Port</source>
+    <target>Buufata SMTP</target>
+   </trans-unit>
+   <trans-unit id="110">
+    <source>SMTP User</source>
+    <target>Fayyadamaa SMTP</target>
+   </trans-unit>
+   <trans-unit id="111">
+    <source>SSL</source>
+    <target>SSL</target>
+   </trans-unit>
+   <trans-unit id="112">
+    <source>Strong</source>
+    <target>Cimaa</target>
+   </trans-unit>
+   <trans-unit id="113">
+    <source>Strongest</source>
+    <target>Cimicha</target>
+   </trans-unit>
+   <trans-unit id="114">
+    <source>Subscribers</source>
+    <target>Maamilummaa</target>
+   </trans-unit>
+   <trans-unit id="115">
+    <source>Successfully Saved. Test Email Not Sent</source>
+    <target>Sirriitti olkaawameera, ergaa-e hin ergamne</target>
+   </trans-unit>
+   <trans-unit id="116">
+    <source>Successfully Saved. Test Email Sent</source>
+    <target>Sirriitti olkaawameera, ergaa-e ergameera</target>
+   </trans-unit>
+   <trans-unit id="117">
+    <source>Supported languages</source>
+    <target>Afaanota Fayyadamu</target>
+   </trans-unit>
+   <trans-unit id="118">
+    <source>System Users</source>
+    <target>Fayyadamtoota</target>
+   </trans-unit>
+   <trans-unit id="119">
+    <source>Tax ID</source>
+    <target>Eenyummaa Kaffalaa Gibiraa</target>
+   </trans-unit>
+   <trans-unit id="120">
+    <source>Test Email Address</source>
+    <target>Teessoo Ergaa-e Yaali</target>
+   </trans-unit>
+   <trans-unit id="121">
+    <source>This unit will be added under</source>
+    <target>Kutaan hojii kun kutaa kana jalatti dabalama</target>
+   </trans-unit>
+   <trans-unit id="122">
+    <source>TLS</source>
+    <target>TLS</target>
+   </trans-unit>
+   <trans-unit id="123">
+    <source>Unit Id</source>
+    <target>Eenyummaa Kutaa</target>
+   </trans-unit>
+   <trans-unit id="124">
+    <source>Units under selected unit will also be deleted</source>
+    <target>Kutaaleen hojii kutaa kana jala jiran illee ni badu</target>
+   </trans-unit>
+   <trans-unit id="125">
+    <source>Use browser language if set</source>
+    <target>Yoo jiraate, afaan iyyaafataa fayyadami</target>
+   </trans-unit>
+   <trans-unit id="126">
+    <source>Use SMTP Authentication</source>
+    <target>Dhugoomsa SMTP Fayyadami</target>
+   </trans-unit>
+   <trans-unit id="127">
+    <source>User Secure Connection</source>
+    <target>Waliindha Nagaqabeessa Fayyadamaa</target>
+   </trans-unit>
+   <trans-unit id="128">
+    <source>User Type</source>
+    <target>Akaakuu Fayyadamaa</target>
+   </trans-unit>
+   <trans-unit id="129">
+    <source>Very Weak</source>
+    <target>Baay'ee Dadhabaa</target>
+   </trans-unit>
+   <trans-unit id="130">
+    <source>Weak</source>
+    <target>Dadhabaa</target>
+   </trans-unit>
+   <trans-unit id="131">
+    <source>Zip Code</source>
+    <target>Lakk Sanduuqa Poostaa</target>
+   </trans-unit>
+  </body>
+ </file>
+</xliff>
+<!-- Contributed By:   -->

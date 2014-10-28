@@ -1,0 +1,265 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE xliff PUBLIC "-//XLIFF//DTD XLIFF//EN" "http://www.oasis-open.org/committees/xliff/documents/xliff.dtd">
+<xliff version="1.0">
+ <header/>
+ <file source-language="en_US" target-language="es_ES" datatype="plaintext" original="messages" date="2012-03-01T0:25:45Z" product-name="messages">
+  <body>
+   <trans-unit id="1">
+    <source>A new leave type will be created with same name</source>
+    <target>Un tipo de licencia se creará una nueva con el mismo nombre</target>
+   </trans-unit>
+   <trans-unit id="2">
+    <source>Actions</source>
+    <target>Acciones</target>
+   </trans-unit>
+   <trans-unit id="3">
+    <source>Apply Leave</source>
+    <target>Aplicar Agregar</target>
+   </trans-unit>
+   <trans-unit id="4">
+    <source>Assign</source>
+    <target>Asignar</target>
+   </trans-unit>
+   <trans-unit id="5">
+    <source>At Least One Day Should Be a Working Day</source>
+    <target>Al menos un día debe ser un día de trabajo</target>
+   </trans-unit>
+   <trans-unit id="6">
+    <source>Canceled</source>
+    <target>Cancelado</target>
+   </trans-unit>
+   <trans-unit id="7">
+    <source>characters</source>
+    <target>personajes</target>
+   </trans-unit>
+   <trans-unit id="8">
+    <source>Confirmation Required</source>
+    <target>Se requiere confirmación de</target>
+   </trans-unit>
+   <trans-unit id="9">
+    <source>Current Leave Period</source>
+    <target>Período de licencia actual</target>
+   </trans-unit>
+   <trans-unit id="10">
+    <source>Date format should be</source>
+    <target>El formato de fecha debe ser</target>
+   </trans-unit>
+   <trans-unit id="11">
+    <source>Define Leave Type</source>
+    <target>Definir Deja Tipo</target>
+   </trans-unit>
+   <trans-unit id="12">
+    <source>Duration (Hours)</source>
+    <target>Duración (horas)</target>
+   </trans-unit>
+   <trans-unit id="13">
+    <source>Following Year</source>
+    <target>Año Después</target>
+   </trans-unit>
+   <trans-unit id="14">
+    <source>For Leap Years</source>
+    <target>Para los años bisiestos</target>
+   </trans-unit>
+   <trans-unit id="15">
+    <source>For Non-Leap Years</source>
+    <target>Para los años bisiestos no</target>
+   </trans-unit>
+   <trans-unit id="16">
+    <source>From Date</source>
+    <target>Desde la fecha</target>
+   </trans-unit>
+   <trans-unit id="17">
+    <source>From Time</source>
+    <target>De Tiempo</target>
+   </trans-unit>
+   <trans-unit id="18">
+    <source>From time should be lesser than To time</source>
+    <target>De vez debe ser menor que al tiempo</target>
+   </trans-unit>
+   <trans-unit id="19">
+    <source>Full Day</source>
+    <target>Día completo</target>
+   </trans-unit>
+   <trans-unit id="20">
+    <source>Go to Detailed View</source>
+    <target>Ir a la vista detallada</target>
+   </trans-unit>
+   <trans-unit id="21">
+    <source>Half Day</source>
+    <target>Medio Día</target>
+   </trans-unit>
+   <trans-unit id="22">
+    <source>Holiday</source>
+    <target>Fiesta</target>
+   </trans-unit>
+   <trans-unit id="23">
+    <source>Leave Balance</source>
+    <target>Deja Saldo</target>
+   </trans-unit>
+   <trans-unit id="24">
+    <source>Leave Comment</source>
+    <target>Deja un comentario!</target>
+   </trans-unit>
+   <trans-unit id="25">
+    <source>Leave Entitled</source>
+    <target>Deja el título</target>
+   </trans-unit>
+   <trans-unit id="26">
+    <source>Leave Period Does Not Exist</source>
+    <target>Período de licencia no existe</target>
+   </trans-unit>
+   <trans-unit id="27">
+    <source>Leave Request</source>
+    <target>Deja Solicitud</target>
+   </trans-unit>
+   <trans-unit id="28">
+    <source>Leave Scheduled</source>
+    <target>Deja programadas</target>
+   </trans-unit>
+   <trans-unit id="29">
+    <source>Leave Taken</source>
+    <target>Deja la toma</target>
+   </trans-unit>
+   <trans-unit id="30">
+    <source>Leave Type</source>
+    <target>Deja Tipo</target>
+   </trans-unit>
+   <trans-unit id="31">
+    <source>Leave type will be undeleted</source>
+    <target>Deja tipo se podría recuperar</target>
+   </trans-unit>
+   <trans-unit id="32">
+    <source>My Leave Details</source>
+    <target>Dejar mis datos</target>
+   </trans-unit>
+   <trans-unit id="33">
+    <source>My Leave List</source>
+    <target>Mi lista de la licencia</target>
+   </trans-unit>
+   <trans-unit id="34">
+    <source>Name of Holiday</source>
+    <target>Nombre de vacaciones</target>
+   </trans-unit>
+   <trans-unit id="35">
+    <source>No Leave Types with Leave Balance</source>
+    <target>No hay tipos de licencia con balance de licencia</target>
+   </trans-unit>
+   <trans-unit id="36">
+    <source>No of Hours</source>
+    <target>N º de Horas</target>
+   </trans-unit>
+   <trans-unit id="37">
+    <source>Non Working Day</source>
+    <target>Día no laborable</target>
+   </trans-unit>
+   <trans-unit id="38">
+    <source>Non-working Day</source>
+    <target>Día no laborable</target>
+   </trans-unit>
+   <trans-unit id="39">
+    <source>Number of Days</source>
+    <target>Número de días</target>
+   </trans-unit>
+   <trans-unit id="40">
+    <source>Pending Approval</source>
+    <target>Pendiente de aprobación</target>
+   </trans-unit>
+   <trans-unit id="41">
+    <source>Repeats Annually</source>
+    <target>Periodicidad anual</target>
+   </trans-unit>
+   <trans-unit id="42">
+    <source>Show Leave with Status</source>
+    <target>Mostrar Agregar con estado</target>
+   </trans-unit>
+   <trans-unit id="43">
+    <source>Taken</source>
+    <target>Tomado</target>
+   </trans-unit>
+   <trans-unit id="44">
+    <source>Overlapping Leave Request Found</source>
+    <target>Solicitud de licencia superposición encontrados</target>
+   </trans-unit>
+   <trans-unit id="45">
+    <source>This is a deleted leave type. Reactivate it?</source>
+    <target>Este es un tipo licencia eliminada. Vuelva a ella?</target>
+   </trans-unit>
+   <trans-unit id="46">
+    <source>To Date</source>
+    <target>Conocer</target>
+   </trans-unit>
+   <trans-unit id="47">
+    <source>To Time</source>
+    <target>Para Tiempo</target>
+   </trans-unit>
+   <trans-unit id="48">
+    <source>Total Hours</source>
+    <target>Total de horas</target>
+   </trans-unit>
+   <trans-unit id="49">
+    <source>Total time is greater than the shift length</source>
+    <target>El tiempo total es mayor que la longitud de desplazamiento</target>
+   </trans-unit>
+   <trans-unit id="50">
+    <source>Will take no action</source>
+    <target>No tomará ninguna acción</target>
+   </trans-unit>
+   <trans-unit id="51">
+    <source>Failed to Submit: No Working Days Selected</source>
+    <target>Error al enviar: No Días de trabajo seleccionado</target>
+   </trans-unit>
+   <trans-unit id="52">
+    <source>Successfully Undeleted</source>
+    <target>Han recuperado con éxito</target>
+   </trans-unit>
+   <trans-unit id="53">
+    <source>Failed to Save: Date Already Assigned</source>
+    <target>Error al Guardar: fecha ya asignada</target>
+   </trans-unit>
+   <trans-unit id="54">
+    <source>Failed to Assign: Work Shift Length Exceeded</source>
+    <target>No se pudo asignar: Trabajo Shift ha superado el</target>
+   </trans-unit>
+   <trans-unit id="55">
+    <source>Failed to Submit: Work Shift Length Exceeded</source>
+    <target>Error al enviar: Trabajo Shift ha superado el</target>
+   </trans-unit>
+   <trans-unit id="56">
+    <source>Failed to Submit: Leave Balance Exceeded</source>
+    <target>Error al enviar: Deja de balance superó los</target>
+   </trans-unit>
+   <trans-unit id="57">
+    <source>Should be less than work shift length</source>
+    <target>En caso de ser menor que la longitud de trabajo por turnos</target>
+   </trans-unit>
+   <trans-unit id="58">
+    <source>Leave Period Not Defined</source>
+    <target>Deja No hay periodos definidos</target>
+   </trans-unit>
+   <trans-unit id="59">
+    <source>Full Day/Half Day</source>
+    <target>Full Day / Día de la mitad</target>
+   </trans-unit>
+   <trans-unit id="60">
+    <source>Leave Request (%date_range%) %name%</source>
+    <target>Deja Solicitud (%% date_range)% name%</target>
+   </trans-unit>
+   <trans-unit id="61">
+    <source>Failed to Assign</source>
+    <target>No se ha podido asignar</target>
+   </trans-unit>
+   <trans-unit id="62">
+    <source>Failed to Submit</source>
+    <target>Error al enviar</target>
+   </trans-unit>
+   <trans-unit id="63">
+    <source>Add Leave Type</source>
+    <target>Añadir Deja Tipo</target>
+   </trans-unit>
+   <trans-unit id="64">
+    <source>Edit Leave Type</source>
+    <target>Editar Deja Tipo</target>
+   </trans-unit>
+  </body>
+ </file>
+</xliff>

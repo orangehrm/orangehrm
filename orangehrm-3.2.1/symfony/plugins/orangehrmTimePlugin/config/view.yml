@@ -1,0 +1,28 @@
+defineTimesheetPeriodSuccess:
+  layout: freshorange
+proceedTimesheetPeriodSuccess:
+  layout: freshorange
+viewEmployeeTimesheetSuccess:
+  layout: freshorange
+displayAttendanceSummaryReportCriteriaSuccess:
+  layout: freshorange
+displayProjectReportCriteriaSuccess:
+  layout: freshorange
+displayEmployeeReportCriteriaSuccess:
+  layout: freshorange
+displayEmployeeReportSuccess:
+  layout: freshorange
+displayProjectReportSuccess:
+  layout: freshorange
+displayProjectActivityDetailsReportSuccess:
+  layout: freshorange
+displayAttendanceSummaryReportSuccess:
+  layout: freshorange
+createTimesheetForSubourdinateSuccess:
+  layout: freshorange
+viewTimesheetSuccess:
+  layout: freshorange
+editTimesheetSuccess:
+  layout: freshorange
+timesheetPeriodNotDefinedSuccess:
+  layout: freshorange

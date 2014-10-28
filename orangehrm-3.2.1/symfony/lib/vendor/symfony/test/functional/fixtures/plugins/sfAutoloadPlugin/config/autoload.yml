@@ -1,0 +1,11 @@
+autoload:
+  sfAutoloadPlugin_lib:
+    name:       sfAutoloadPlugin lib
+    path:       <?php echo dirname(__FILE__)."/../lib\n" ?>
+    exclude:    [vendor]
+    recursive:  true
+
+  not_in_lib_class:
+    name:       NotInLib class
+    files:
+      NotInLib: <?php echo dirname(__FILE__)."/NotInLib.class.php\n" ?>

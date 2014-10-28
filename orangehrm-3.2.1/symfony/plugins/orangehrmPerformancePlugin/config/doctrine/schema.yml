@@ -1,0 +1,197 @@
+Kpi:
+  tableName: ohrm_kpi
+  actAs: [SoftDelete]
+  columns:
+    id:
+      type: integer(6)
+      primary: true
+      autoincrement: true
+    job_title_code:
+      name: job_title_code as jobTitleCode
+      type: string(10)
+    kpi_indicators:
+      type: varchar(255)
+    min_rating:
+      type: integer(11)
+    max_rating:
+      type: integer(11)
+    default_kpi:
+      type: integer(2)
+  relations:
+    JobTitle:
+      local: jobTitleCode
+      foreign: id
+      type: one
+      
+PerformanceReview:
+  tableName: ohrm_performance_review
+  columns:
+    id:
+      type: integer(6)
+      primary: true
+      autoincrement: true
+    status_id:
+      name: status_id as statusId
+      type: integer(11)
+    employee_number:
+      name: employee_number as employeeNumber
+      type: integer(11)
+    work_period_start:
+      name: work_period_start as workPeriodStart
+      type: date
+    work_period_end:
+      name: work_period_end as workPeriodEnd
+      type: date
+    job_title_code:
+      name: job_title_code as jobTitleCode
+      type: integer
+    department_id:
+      name: department_id as departmentId
+      type: integer  
+    due_date:
+      name: due_date as dueDate
+      type: date
+    completed_date:
+      name: completed_date as completedDate
+      type: date
+    activated_date:
+      name: activated_date as activatedDate
+      type: timestamp(25)
+    final_comment:
+      name: final_comment as finalComment
+      type: clob(65532)
+    final_rate:
+      name: final_rate as finalRate
+      type: decimal
+  relations:
+    reviewerRating:
+      class: ReviewerRating
+      local: id
+      foreign: review_id
+      type: many
+    reviewers:
+      class: Reviewer
+      local: id
+      foreign: review_id
+      type: many
+    JobTitle:
+      local: jobTitleCode
+      foreign: id
+      type: one   
+    Department:
+      class: Subunit
+      local: departmentId
+      foreign: id
+      type: one
+    Employee:
+      class: Employee
+      local: employee_number
+      foreign: emp_number
+      type: one
+      
+ReviewerRating:
+  tableName: ohrm_reviewer_rating
+  columns:
+    id:
+      type: integer(6)
+      primary: true
+      autoincrement: true
+    rating:
+      name: rating as rating
+      type: decimal
+      notnull: false
+    kpi_id:
+      name: kpi_id as kpiId
+      type: integer(11)
+    review_id:
+      name: review_id as reviewId
+      type: integer(11)
+    reviewer_id:
+      name: reviewer_id as reviewerId
+      type: integer(11)  
+    comment:
+      name: comment as comment
+      type: clob(65532)
+  relations:
+    performanceReview:
+      class: PerformanceReview
+      local: review_id
+      foreign: id
+      type: one
+    reviewer:
+      class: Reviewer
+      local: reviewer_id
+      foreign: id
+      type: one
+    kpi:
+      class: Kpi
+      local: kpi_id
+      foreign: id
+      type: one
+
+Reviewer:
+  tableName: ohrm_reviewer
+  columns:
+    id:
+      type: integer(6)
+      primary: true
+      autoincrement: true
+    review_id:
+      name: review_id as reviewId
+      type: integer(11)      
+    employee_number:
+      name: employee_number as employeeNumber
+      type: integer(11)
+    status:
+      name: status as status
+      type: integer(11)
+    reviewer_group_id:
+      name: reviewer_group_id as reviewerGroupId
+      type: integer(11)    
+    completed_date:
+      name: completed_date as completedDate
+      type: timestamp(25)
+    comment:
+      name: comment as comment
+      type: clob(65532)
+  relations:
+    rating:
+      class: ReviewerRating
+      local: id
+      foreign: reviewer_id
+      type: many
+    group:
+      class: ReviewerGroup
+      local: reviewer_group_id
+      foreign: id
+      type: one
+    review:
+      class: PerformanceReview
+      local: review_id
+      foreign: id
+      type: one      
+    Employee:
+      class: Employee
+      local: employee_number
+      foreign: emp_number
+      type: one
+      
+      
+ReviewerGroup:
+  tableName: ohrm_reviewer_group
+  columns:
+    id:
+      type: integer(6)
+      primary: true
+      autoincrement: true
+    name:
+      name: name as name
+      type: string(20)
+    piority:
+      type: integer(6)
+  relations:
+    rating:
+      class: Reviewer
+      local: id
+      foreign: reviewer_group_id
+      type: many

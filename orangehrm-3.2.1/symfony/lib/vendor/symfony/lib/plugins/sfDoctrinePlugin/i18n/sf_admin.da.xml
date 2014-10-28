@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE xliff PUBLIC "-//XLIFF//DTD XLIFF//EN" "http://www.oasis-open.org/committees/xliff/documents/xliff.dtd" >
+<xliff version="1.0">
+  <file original="global" source-language="en" datatype="plaintext">
+    <header />
+    <body>
+      <!-- Actions -->
+      <trans-unit>
+        <source>New</source>
+        <target>Ny</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Edit</source>
+        <target>Rediger</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Delete</source>
+        <target>Slet</target>
+      </trans-unit>
+      <trans-unit>
+        <source>List</source>
+        <target>Liste</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Save</source>
+        <target>Gem</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Save and add</source>
+        <target>Gem og tilføj</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Cancel</source>
+        <target>Annuler</target>
+      </trans-unit>
+
+      <!-- Filters -->
+      <trans-unit>
+        <source>Reset</source>
+        <target>Nulstil</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Filter</source>
+        <target>Filtrer</target>
+      </trans-unit>
+
+      <!-- List -->
+      <trans-unit>
+        <source>No result</source>
+        <target>Intet resultat</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Actions</source>
+        <target>Handlinger</target>
+      </trans-unit>
+      <trans-unit>
+        <source>(page %%page%%/%%nb_pages%%)</source>
+        <target>(side %%page%% af %%nb_pages%%)</target>
+      </trans-unit>
+      <trans-unit>
+        <source>asc</source>
+        <target>stigende</target>
+      </trans-unit>
+      <trans-unit>
+        <source>desc</source>
+        <target>faldende</target>
+      </trans-unit>
+
+      <!-- Pagination -->
+      <trans-unit>
+        <source>First page</source>
+        <target>Første side</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Previous page</source>
+        <target>Forrige side</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Next page</source>
+        <target>Næste side</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Last page</source>
+        <target>Sidste side</target>
+      </trans-unit>
+
+      <!-- Form -->
+      <trans-unit>
+        <source>The item was created successfully.</source>
+        <target>Elementet er blevet tilføjet.</target>
+      </trans-unit>
+      <trans-unit>
+        <source>The item was updated successfully.</source>
+        <target>Elementet er blevet opdateret.</target>
+      </trans-unit>
+      <trans-unit>
+        <source>The item was created successfully. You can add another one below.</source>
+        <target>Elementet er blevet tilføjet, du kan tilføje endnu et element herunder.</target>
+      </trans-unit>
+      <trans-unit>
+        <source>The item was updated successfully. You can add another one below.</source>
+        <target>Elementet er blevet opdateret, du kan tilføje endnu et herunder.</target>
+      </trans-unit>
+      <trans-unit>
+        <source>The item has not been saved due to some errors.</source>
+        <target>Elementet er ikke blevet tilføjet, pga. fejl.</target>
+      </trans-unit>
+      <trans-unit>
+        <source>The item was deleted successfully.</source>
+        <target>Elementet er blevet slettet.</target>
+      </trans-unit>
+      <trans-unit>
+        <source>You must at least select one item.</source>
+        <target>Du skal vælge mindst et element.</target>
+      </trans-unit>
+      <trans-unit>
+        <source>You must select an action to execute on the selected items.</source>
+        <target>Du skal vælge en handling, at udføre på de valgte elementer.</target>
+      </trans-unit>
+      <trans-unit>
+        <source>A problem occurs when deleting the selected items as some items do not exist anymore.</source>
+        <target>Et problem opstod ved sletning af de valgte elementer, da nogen af disse ikke eksisterer mere.</target>
+      </trans-unit>
+      <trans-unit>
+        <source>The selected items have been deleted successfully.</source>
+        <target>De valgte elementer er blevet slettet.</target>
+      </trans-unit>
+      <trans-unit>
+        <source>A problem occurs when deleting the selected items.</source>
+        <target>Der var et problem, med at slette de valgte elementer.</target>
+      </trans-unit>
+    </body>
+  </file>
+</xliff>

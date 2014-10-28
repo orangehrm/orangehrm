@@ -1,0 +1,112 @@
+
+root { 
+    display: block;
+}
+
+div.messageBar {
+    margin: 5px 15px 5px 15px;
+}
+
+form#frmSrchCandidates label {
+    /*    position: relative;*/
+    margin-top: 6px;
+    width: 150px
+}
+
+div.dateadded label{
+    width: 30px;
+    padding-left:20px;
+    padding-right:0px;
+
+}
+
+form#frmSrchCandidates label label.error {
+    width:145px !important; /* Need to overide important in messages.css */
+    padding-left:150px;
+}
+
+.paddingLeftRequired {
+    padding-left: 15px;
+    padding-top: 5px;
+    font-size: 8pt;
+}
+
+.drpDown {
+    margin-top: 5px;
+    width: 45%;
+}
+
+form input.formInput {
+    height:14px;
+    margin-top: 5px;
+}
+
+form input.formDateInput {
+    width: 35%;
+    /*    height:14px;*/
+    margin-top: 5px;
+}
+div .column {
+    float:left;
+    width:30%;
+}
+#frmDateDiv {
+    float:left;
+    width:32%;
+}
+#toDateDiv {
+    float:left;
+    width:32%;
+}
+
+.helpText {
+    color: #888888;
+    font-size: 8pt;
+}
+
+#frmDate{
+    padding-left: 170px;
+}
+
+#toDate{
+    padding-left: 0px !important;
+}
+
+table.data-table tbody tr td {
+    padding: 2px 8px;
+}
+table.data-table th {
+    padding: 2px 8px;
+}
+
+form#frmSrchCandidates div.errorHolder label.error {
+    padding-left: 0px;
+    width:145px;
+}
+
+div.formbuttons {
+    background-color: white;
+    float: left;
+    padding: 6px;
+    width: 35%;
+    border-top:white;
+    margin-top:0px;
+}
+
+.trHover{
+    cursor: auto;
+}
+
+#btnSrch{
+    margin: 5px 0px 5px 10px;
+}
+
+#frmList_ohrmListComponent div.actionbar div#helpText.helpText{
+    text-align: left;
+}
+
+#helpMessage{
+    padding-top: 0px;
+    padding-bottom: 3px;
+    padding-left: 10px;
+}

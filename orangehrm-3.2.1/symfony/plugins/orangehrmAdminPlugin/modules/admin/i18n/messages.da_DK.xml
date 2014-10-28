@@ -1,0 +1,535 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE xliff PUBLIC "-//XLIFF//DTD XLIFF//EN" "http://www.oasis-open.org/committees/xliff/documents/xliff.dtd">
+<xliff version="1.0">
+ <header/>
+ <file source-language="en_US" target-language="da_DK" datatype="plaintext" original="messages" date="2012-08-22T5:48:39Z" product-name="messages">
+  <body>
+   <trans-unit id="1">
+    <source>Activities</source>
+    <target>Aktiviteter</target>
+   </trans-unit>
+   <trans-unit id="2">
+    <source>Add Another</source>
+    <target>Tilføj en anden</target>
+   </trans-unit>
+   <trans-unit id="3">
+    <source>Add Currency</source>
+    <target>Tilføj Valuta</target>
+   </trans-unit>
+   <trans-unit id="4">
+    <source>Add Customer</source>
+    <target>Tilføj Kunde</target>
+   </trans-unit>
+   <trans-unit id="5">
+    <source>Add Employment Status</source>
+    <target>Tilføj Beskæftigelsesstatus</target>
+   </trans-unit>
+   <trans-unit id="6">
+    <source>Add Job Category</source>
+    <target>Tilføj Jobkategori</target>
+   </trans-unit>
+   <trans-unit id="7">
+    <source>Add Job Title</source>
+    <target>Tilføj Stillingsbetegnelse</target>
+   </trans-unit>
+   <trans-unit id="8">
+    <source>Add Location</source>
+    <target>Tilføj Placering</target>
+   </trans-unit>
+   <trans-unit id="9">
+    <source>Add Membership</source>
+    <target>Tilføj Medlemskab</target>
+   </trans-unit>
+   <trans-unit id="10">
+    <source>Add Nationality</source>
+    <target>Tilføj Nationalitet</target>
+   </trans-unit>
+   <trans-unit id="11">
+    <source>Add Pay Grade</source>
+    <target>Tilføj Lønramme</target>
+   </trans-unit>
+   <trans-unit id="12">
+    <source>Add Project</source>
+    <target>Tilføj Projekt</target>
+   </trans-unit>
+   <trans-unit id="13">
+    <source>Add Project Activity</source>
+    <target>Tilføj Projektaktivitet</target>
+   </trans-unit>
+   <trans-unit id="14">
+    <source>Add Subscriber</source>
+    <target>Tilføj Abonnement</target>
+   </trans-unit>
+   <trans-unit id="15">
+    <source>Add Unit</source>
+    <target>Tilføj Unit</target>
+   </trans-unit>
+   <trans-unit id="16">
+    <source>Add User</source>
+    <target>Tilføj Bruger</target>
+   </trans-unit>
+   <trans-unit id="17">
+    <source>Add Work Shift</source>
+    <target>Tilføj Arbejdsskift</target>
+   </trans-unit>
+   <trans-unit id="18">
+    <source>All date fields should be in YYYY-MM-DD format</source>
+    <target>Alle datofelter skal være i ÅÅÅÅ-MM-DD format</target>
+   </trans-unit>
+   <trans-unit id="19">
+    <source>Assigned Currencies</source>
+    <target>Tildelte Valuta</target>
+   </trans-unit>
+   <trans-unit id="20">
+    <source>Assigned Employees</source>
+    <target>Tildelte Medarbejdere</target>
+   </trans-unit>
+   <trans-unit id="21">
+    <source>Available Employees</source>
+    <target>Tilgængelige Medarbejdere</target>
+   </trans-unit>
+   <trans-unit id="22">
+    <source>Better</source>
+    <target>Bedre</target>
+   </trans-unit>
+   <trans-unit id="23">
+    <source>Click on a notification type to add subscribers</source>
+    <target>Klik på en anmeldelse, til at tilføje abonnenter</target>
+   </trans-unit>
+   <trans-unit id="24">
+    <source>Column order should not be changed</source>
+    <target>Kolonne orden bør ikke ændres</target>
+   </trans-unit>
+   <trans-unit id="25">
+    <source>Company Structure</source>
+    <target>Virksomhedsstruktur</target>
+   </trans-unit>
+   <trans-unit id="26">
+    <source>Confirm New Password</source>
+    <target>Bekræft ny adgangskode</target>
+   </trans-unit>
+   <trans-unit id="27">
+    <source>Copy Activity</source>
+    <target>Kopier Aktivitet</target>
+   </trans-unit>
+   <trans-unit id="28">
+    <source>CSV Data Import</source>
+    <target>CSV Dataimport</target>
+   </trans-unit>
+   <trans-unit id="29">
+    <source>Current Password</source>
+    <target>Nuværende adgangskode</target>
+   </trans-unit>
+   <trans-unit id="30">
+    <source>Current Password Is Wrong</source>
+    <target>Nuværende adgangskode er forkert</target>
+   </trans-unit>
+   <trans-unit id="31">
+    <source>Customer</source>
+    <target>Kunde</target>
+   </trans-unit>
+   <trans-unit id="32">
+    <source>Customer Name</source>
+    <target>Kundenavn</target>
+   </trans-unit>
+   <trans-unit id="33">
+    <source>Date Format</source>
+    <target>Datoformat</target>
+   </trans-unit>
+   <trans-unit id="34">
+    <source>Description is not specified</source>
+    <target>Beskrivelse ikke angivet</target>
+   </trans-unit>
+   <trans-unit id="35">
+    <source>Done</source>
+    <target>Udført</target>
+   </trans-unit>
+   <trans-unit id="36">
+    <source>Each import file should be configured for 100 records or less</source>
+    <target>Hver import fil skal konfigureres til 100 poster eller mindre</target>
+   </trans-unit>
+   <trans-unit id="37">
+    <source>Edit Currency</source>
+    <target>Rediger Valuta</target>
+   </trans-unit>
+   <trans-unit id="38">
+    <source>Edit Customer</source>
+    <target>Rediger Kunde</target>
+   </trans-unit>
+   <trans-unit id="39">
+    <source>Edit Employment Status</source>
+    <target>Rediger Beskæftigelse status</target>
+   </trans-unit>
+   <trans-unit id="40">
+    <source>Edit Job Category</source>
+    <target>Rediger Job Kategori</target>
+   </trans-unit>
+   <trans-unit id="41">
+    <source>Edit Job Title</source>
+    <target>Rediger Stillingsbetegnelse</target>
+   </trans-unit>
+   <trans-unit id="42">
+    <source>Edit Location</source>
+    <target>Rediger Placering</target>
+   </trans-unit>
+   <trans-unit id="43">
+    <source>Edit Membership</source>
+    <target>Rediger Medlemskab</target>
+   </trans-unit>
+   <trans-unit id="44">
+    <source>Edit Nationality</source>
+    <target>Rediger Nationalitet</target>
+   </trans-unit>
+   <trans-unit id="45">
+    <source>Edit Pay Grade</source>
+    <target>Rediger Lønramme</target>
+   </trans-unit>
+   <trans-unit id="46">
+    <source>Edit Project</source>
+    <target>Rediger Project</target>
+   </trans-unit>
+   <trans-unit id="47">
+    <source>Edit Project Activity</source>
+    <target>Rediger Projekt Aktivitet</target>
+   </trans-unit>
+   <trans-unit id="48">
+    <source>Edit Subscriber</source>
+    <target>Rediger Subscriber</target>
+   </trans-unit>
+   <trans-unit id="49">
+    <source>Edit Unit</source>
+    <target>Rediger Unit</target>
+   </trans-unit>
+   <trans-unit id="50">
+    <source>Edit User</source>
+    <target>Rediger Bruger</target>
+   </trans-unit>
+   <trans-unit id="51">
+    <source>Edit Work Shift</source>
+    <target>Rediger arbejdsskift</target>
+   </trans-unit>
+   <trans-unit id="52">
+    <source>Email Notification</source>
+    <target>Email Anmeldelse</target>
+   </trans-unit>
+   <trans-unit id="53">
+    <source>Enable Admin module</source>
+    <target>Aktiver Admin modul</target>
+   </trans-unit>
+   <trans-unit id="54">
+    <source>Enable Benefits module</source>
+    <target>Aktiver Fordele modul</target>
+   </trans-unit>
+   <trans-unit id="55">
+    <source>Enable Help</source>
+    <target>Aktiver Hjælp</target>
+   </trans-unit>
+   <trans-unit id="56">
+    <source>Enable Leave module</source>
+    <target>Aktiver Fravær og ferie modul</target>
+   </trans-unit>
+   <trans-unit id="57">
+    <source>Enable Performance module</source>
+    <target>Aktiver Modulet</target>
+   </trans-unit>
+   <trans-unit id="58">
+    <source>Enable PIM module</source>
+    <target>Aktiver PIM-modul</target>
+   </trans-unit>
+   <trans-unit id="59">
+    <source>Enable Recruitment module</source>
+    <target>Aktiver Rekruttering modul</target>
+   </trans-unit>
+   <trans-unit id="60">
+    <source>Enable Time module</source>
+    <target>Aktiver Time modul</target>
+   </trans-unit>
+   <trans-unit id="61">
+    <source>Failed to Import: File Size Exceeded</source>
+    <target>Kunne ikke importere: Filstørrelse overskredet</target>
+   </trans-unit>
+   <trans-unit id="62">
+    <source>Failed to Import: File Type Not Allowed</source>
+    <target>Kunne ikke importere: Filtypen er ikke tilladt</target>
+   </trans-unit>
+   <trans-unit id="63">
+    <source>Failed to Import: No Compatible Records</source>
+    <target>Kunne ikke importere: Ingen Kompatible Records</target>
+   </trans-unit>
+   <trans-unit id="64">
+    <source>Fax</source>
+    <target>Fax</target>
+   </trans-unit>
+   <trans-unit id="65">
+    <source>First Name and Last Name are compulsory</source>
+    <target>Fornavn og Efternavn er obligatoriske</target>
+   </trans-unit>
+   <trans-unit id="66">
+    <source>Following languages are supported</source>
+    <target>Følgende sprog understøttes</target>
+   </trans-unit>
+   <trans-unit id="67">
+    <source>Hours Per Day</source>
+    <target>Timer per dag</target>
+   </trans-unit>
+   <trans-unit id="68">
+    <source>If gender is specified, value should be either</source>
+    <target>Hvis køn er angivet, skal værdien være enten</target>
+   </trans-unit>
+   <trans-unit id="69">
+    <source>Job Description</source>
+    <target>Jobbeskrivelse</target>
+   </trans-unit>
+   <trans-unit id="70">
+    <source>Language and font help</source>
+    <target>Sprog og font hjælp</target>
+   </trans-unit>
+   <trans-unit id="71">
+    <source>Leave Applications</source>
+    <target>Fravær og ferie Applikationer</target>
+   </trans-unit>
+   <trans-unit id="72">
+    <source>Leave Approvals</source>
+    <target>Fravær og ferie Godkendelser</target>
+   </trans-unit>
+   <trans-unit id="73">
+    <source>Leave Assignments</source>
+    <target>Fravær og ferie Opgaver</target>
+   </trans-unit>
+   <trans-unit id="74">
+    <source>Leave Cancellations</source>
+    <target>Fravær og ferie Aflysninger</target>
+   </trans-unit>
+   <trans-unit id="75">
+    <source>Leave Rejections</source>
+    <target>Fravær og ferie Afvisninger</target>
+   </trans-unit>
+   <trans-unit id="76">
+    <source>Level Already Exists</source>
+    <target>Niveau, der allerede eksisterer</target>
+   </trans-unit>
+   <trans-unit id="77">
+    <source>Location Name</source>
+    <target>Stednavn</target>
+   </trans-unit>
+   <trans-unit id="78">
+    <source>Mail Configuration</source>
+    <target>Mail configurering</target>
+   </trans-unit>
+   <trans-unit id="79">
+    <source>Mail Sent As</source>
+    <target>Mail Sendt som</target>
+   </trans-unit>
+   <trans-unit id="80">
+    <source>Maximum Salary</source>
+    <target>Maksimal Løn</target>
+   </trans-unit>
+   <trans-unit id="81">
+    <source>Medium</source>
+    <target>Medium</target>
+   </trans-unit>
+   <trans-unit id="82">
+    <source>Minimum Salary</source>
+    <target>Mindste Løn</target>
+   </trans-unit>
+   <trans-unit id="83">
+    <source>Module Configuration</source>
+    <target>Modulkonfiguration</target>
+   </trans-unit>
+   <trans-unit id="84">
+    <source>Multiple import files may be required</source>
+    <target>Flere importere filer kan være påkrævet</target>
+   </trans-unit>
+   <trans-unit id="85">
+    <source>New Password</source>
+    <target>Ny adgangskode</target>
+   </trans-unit>
+   <trans-unit id="86">
+    <source>No activities selected</source>
+    <target>Ingen udvalgte aktiviteter</target>
+   </trans-unit>
+   <trans-unit id="87">
+    <source>No assigned activities</source>
+    <target>Ingen tildelt aktiviteter</target>
+   </trans-unit>
+   <trans-unit id="88">
+    <source>Not Allowed to Delete Customer(s) Which Have Time Logged Against</source>
+    <target>Ikke tilladelse til at slette kunde (r), som har tid Logget imod</target>
+   </trans-unit>
+   <trans-unit id="89">
+    <source>Not Allowed to Delete Project Activites Which Have Time Logged Against</source>
+    <target>Ikke tilladelse til at slette Project Activites som har tid logget imod</target>
+   </trans-unit>
+   <trans-unit id="90">
+    <source>Notification Type</source>
+    <target>Anmeldelsestype</target>
+   </trans-unit>
+   <trans-unit id="91">
+    <source>Number of Employees</source>
+    <target>Antal medarbejdere</target>
+   </trans-unit>
+   <trans-unit id="92">
+    <source>Number of Records Imported</source>
+    <target>Antal importerede punkter</target>
+   </trans-unit>
+   <trans-unit id="93">
+    <source>OrangeHRM - Supported Languages</source>
+    <target>OrangeHRM - Understøttede sprog</target>
+   </trans-unit>
+   <trans-unit id="94">
+    <source>Organization Name</source>
+    <target>Organisationens navn</target>
+   </trans-unit>
+   <trans-unit id="95">
+    <source>Path to Sendmail</source>
+    <target>Sti til Sendmail</target>
+   </trans-unit>
+   <trans-unit id="96">
+    <source>Performance Review Submissions</source>
+    <target>Præstation bedømmelse forslag</target>
+   </trans-unit>
+   <trans-unit id="97">
+    <source>Phone</source>
+    <target>Telefon</target>
+   </trans-unit>
+   <trans-unit id="98">
+    <source>Project</source>
+    <target>Projekt</target>
+   </trans-unit>
+   <trans-unit id="99">
+    <source>Project Admin</source>
+    <target>Projekt Admin</target>
+   </trans-unit>
+   <trans-unit id="100">
+    <source>Project Admins</source>
+    <target>Projekt Admins</target>
+   </trans-unit>
+   <trans-unit id="101">
+    <source>Projects under selected customer will also be deleted</source>
+    <target>Projekter under valgte kunde vil også blive slettet</target>
+   </trans-unit>
+   <trans-unit id="102">
+    <source>Registration Number</source>
+    <target>Registreringsnummer</target>
+   </trans-unit>
+   <trans-unit id="103">
+    <source>Sample CSV file</source>
+    <target>Eksempel på CSV-fil</target>
+   </trans-unit>
+   <trans-unit id="104">
+    <source>Send Test Email</source>
+    <target>Send test email</target>
+   </trans-unit>
+   <trans-unit id="105">
+    <source>Sending Method</source>
+    <target>Sende Metode</target>
+   </trans-unit>
+   <trans-unit id="106">
+    <source>Shift Name</source>
+    <target>Skift navn</target>
+   </trans-unit>
+   <trans-unit id="107">
+    <source>Should be higher than Minimum Salary</source>
+    <target>Skal være højere end mindstelønnen</target>
+   </trans-unit>
+   <trans-unit id="108">
+    <source>SMTP Password</source>
+    <target>SMTP-adgangskode</target>
+   </trans-unit>
+   <trans-unit id="109">
+    <source>SMTP Port</source>
+    <target>SMTP Port</target>
+   </trans-unit>
+   <trans-unit id="110">
+    <source>SMTP User</source>
+    <target>SMTP-brugernavn</target>
+   </trans-unit>
+   <trans-unit id="111">
+    <source>SSL</source>
+    <target>SSL</target>
+   </trans-unit>
+   <trans-unit id="112">
+    <source>Strong</source>
+    <target>Stærk</target>
+   </trans-unit>
+   <trans-unit id="113">
+    <source>Strongest</source>
+    <target>Stærkest</target>
+   </trans-unit>
+   <trans-unit id="114">
+    <source>Subscribers</source>
+    <target>Abonnenter</target>
+   </trans-unit>
+   <trans-unit id="115">
+    <source>Successfully Saved. Test Email Not Sent</source>
+    <target>Gemt. Test e-mail ikke sendt</target>
+   </trans-unit>
+   <trans-unit id="116">
+    <source>Successfully Saved. Test Email Sent</source>
+    <target>Gemt. Test E-mail sendt</target>
+   </trans-unit>
+   <trans-unit id="117">
+    <source>Supported languages</source>
+    <target>Understøttede sprog</target>
+   </trans-unit>
+   <trans-unit id="118">
+    <source>System Users</source>
+    <target>Systembrugere</target>
+   </trans-unit>
+   <trans-unit id="119">
+    <source>Tax ID</source>
+    <target>Skat ID</target>
+   </trans-unit>
+   <trans-unit id="120">
+    <source>Test Email Address</source>
+    <target>Test e-mail adresse</target>
+   </trans-unit>
+   <trans-unit id="121">
+    <source>This unit will be added under</source>
+    <target>Denne enhed vil blive tilføjet under</target>
+   </trans-unit>
+   <trans-unit id="122">
+    <source>TLS</source>
+    <target>TLS</target>
+   </trans-unit>
+   <trans-unit id="123">
+    <source>Unit Id</source>
+    <target>Unit Id</target>
+   </trans-unit>
+   <trans-unit id="124">
+    <source>Units under selected unit will also be deleted</source>
+    <target>Enheder under valgte enhed vil også blive slettet</target>
+   </trans-unit>
+   <trans-unit id="125">
+    <source>Use browser language if set</source>
+    <target>Brug browserens sprog, hvis sæt</target>
+   </trans-unit>
+   <trans-unit id="126">
+    <source>Use SMTP Authentication</source>
+    <target>Brug SMTP-godkendelse</target>
+   </trans-unit>
+   <trans-unit id="127">
+    <source>User Secure Connection</source>
+    <target>Bruger Sikker forbindelse</target>
+   </trans-unit>
+   <trans-unit id="128">
+    <source>User Type</source>
+    <target>Brugertype</target>
+   </trans-unit>
+   <trans-unit id="129">
+    <source>Very Weak</source>
+    <target>Meget svag</target>
+   </trans-unit>
+   <trans-unit id="130">
+    <source>Weak</source>
+    <target>Svag</target>
+   </trans-unit>
+   <trans-unit id="131">
+    <source>Zip Code</source>
+    <target>Zip Code</target>
+   </trans-unit>
+  </body>
+ </file>
+</xliff>
+<!-- Contributed By:   ,   -->
+

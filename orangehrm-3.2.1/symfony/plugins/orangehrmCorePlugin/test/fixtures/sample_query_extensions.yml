@@ -1,0 +1,68 @@
+SampleService_ForSelect:
+  sampleMethod1:
+    select:
+      - { field: emp_middle_name }
+    where: []
+    orderBy: []
+
+  sampleMethod2:
+    select:
+      - { field: emp_middle_name }
+      - { field: job_title_code }
+      - { field: joined_date }
+    where: []
+    orderBy: []
+  sampleMethod3:
+    select:
+      - { field: emp_middle_name, alias: middleName }
+    where: []
+    orderBy: []
+  sampleMethod4:
+    select:
+      - { field: emp_middle_name, alias: middleName }
+      - { field: job_title_code }
+      - { field: joined_date, alias: active }
+    where: []
+    orderBy: []
+  sampleMethod5:
+    select:
+      - {table: e, field: emp_middle_name }
+    where: []
+    orderBy: []
+  sampleMethod6:
+    select:
+      - {table: e, field: emp_middle_name }
+      - {table: e, field: job_title_code }
+      - joined_date
+    where: []
+    orderBy: []
+
+SampleService_ForWhere:
+  sampleMethod1:
+    select: []
+    where:
+      - { field: emp_middle_name, operator: =, value: Charles }
+    orderBy: []
+  sampleMethod2:
+    select: []
+    where:
+      - { field: emp_middle_name, operator: =, value: Charles }
+      - { field: joined_date, operator: =, value: 1 }
+    orderBy: []
+
+SampleService_ForOrderBy:
+  sampleMethod1:
+    select: []
+    where: []
+    orderBy:
+      - { field: emp_firstname, position: after }
+  sampleMethod2:
+    select: []
+    where: []
+    orderBy:
+      - { field: emp_firstname, position: before }
+  sampleMethod3:
+    select: []
+    where: []
+    orderBy:
+      - { field: 'emp_firstname`, `job_title_code`, `joined_date', position: before }

@@ -1,0 +1,21 @@
+generator:
+  class: sfDoctrineGenerator
+  param:
+    model_class:           Article
+    theme:                 admin
+    non_verbose_templates: true
+    with_show:             false
+    singular:              ~
+    plural:                ~
+    route_prefix:          my_articles
+    with_doctrine_route:     1
+
+    config:
+      actions: ~
+      fields:  ~
+      list:
+        table_method: testAdminGenTableMethod
+      filter:  ~
+      form:    ~
+      edit:    ~
+      new:     ~

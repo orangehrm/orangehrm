@@ -1,0 +1,10 @@
+Hi %recipientFirstName%,
+
+%performerFullName% has assigned leave to %assigneeFullName%. The leave details:
+
+%leaveDetails%
+You were sent this mail, as you are a supervisor assigned for %assigneeFullName%.
+
+Thank you.
+
+This is an automated notification.

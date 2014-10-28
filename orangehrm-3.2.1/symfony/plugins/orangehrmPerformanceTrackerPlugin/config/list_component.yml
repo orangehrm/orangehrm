@@ -1,0 +1,51 @@
+PerformanceTrack:
+  pluginName: orangehrmPerformanceTrackerPlugin
+  hasSelectableRows: false
+  unselectableRowIds: []
+  idValueGetter: getId
+  title: 'Performance Trackers'
+  tableWidth: 100%
+  hasSummary: false
+  summary: []
+  buttonsPosition: before-data
+  assets: []
+  jsInitMethods: []
+PerformanceTrackAdmin:
+  pluginName: orangehrmPerformanceTrackerPlugin
+  hasSelectableRows: true
+  unselectableRowIds: []
+  idValueGetter: getId
+  title: 'Performance Trackers'
+  tableWidth: 100%
+  hasSummary: false
+  summary: []
+  buttons:
+    Add:      
+      label: Add
+    Delete:
+      label: Delete
+      class: delete
+      data-target: '#deleteConfModal'
+      data-toggle: modal 
+  buttonsPosition: before-data
+  formMethod: post
+  formAction: 'index.php/performanceTracker/deletePerformanceTracker'
+  assets: []
+  jsInitMethods: []
+PerformanceTrackerLog:
+  pluginName: orangehrmPerformanceTrackerPlugin
+  hasSelectableRows: false
+  unselectableRowIds: []
+  idValueGetter: getId
+  title: ''
+  tableWidth: 100%
+  hasSummary: false
+  summary: []
+  buttons:
+    Add:      
+      label: Add
+  buttonsPosition: before-data
+  formMethod: post
+  formAction: 'index.php/performanceTracker/deletePerformanceTrackLogItem'
+  assets: []
+  jsInitMethods: []

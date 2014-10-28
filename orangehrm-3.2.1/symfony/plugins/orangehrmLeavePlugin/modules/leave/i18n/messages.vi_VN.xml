@@ -1,0 +1,267 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE xliff PUBLIC "-//XLIFF//DTD XLIFF//EN" "http://www.oasis-open.org/committees/xliff/documents/xliff.dtd">
+<xliff version="1.0">
+ <header/>
+ <file source-language="en_US" target-language="vi_VN" datatype="plaintext" original="messages" date="2012-08-23T1:18:16Z" product-name="messages">
+  <body>
+   <trans-unit id="1">
+    <source>A new leave type will be created with same name</source>
+    <target>Một loại nghỉ phép mới sẽ được tạo ra với cùng tên</target>
+   </trans-unit>
+   <trans-unit id="2">
+    <source>Actions</source>
+    <target>Hoạt động</target>
+   </trans-unit>
+   <trans-unit id="3">
+    <source>Add Leave Type</source>
+    <target>Để Loại</target>
+   </trans-unit>
+   <trans-unit id="4">
+    <source>Apply Leave</source>
+    <target>Áp dụng lại</target>
+   </trans-unit>
+   <trans-unit id="5">
+    <source>Assign</source>
+    <target>Chỉ định</target>
+   </trans-unit>
+   <trans-unit id="6">
+    <source>At Least One Day Should Be a Working Day</source>
+    <target>Ít nhất một ngày nên là một ngày làm việc</target>
+   </trans-unit>
+   <trans-unit id="7">
+    <source>Canceled</source>
+    <target>Bị hủy bỏ</target>
+   </trans-unit>
+   <trans-unit id="8">
+    <source>characters</source>
+    <target>nhân vật</target>
+   </trans-unit>
+   <trans-unit id="9">
+    <source>Confirmation Required</source>
+    <target>Xác nhận yêu cầu</target>
+   </trans-unit>
+   <trans-unit id="10">
+    <source>Current Leave Period</source>
+    <target>Leave Thời gian hiện tại</target>
+   </trans-unit>
+   <trans-unit id="11">
+    <source>Date format should be</source>
+    <target>Định dạng ngày nên được</target>
+   </trans-unit>
+   <trans-unit id="12">
+    <source>Define Leave Type</source>
+    <target>Xác định lại Loại</target>
+   </trans-unit>
+   <trans-unit id="13">
+    <source>Duration (Hours)</source>
+    <target>Thời gian (giờ)</target>
+   </trans-unit>
+   <trans-unit id="14">
+    <source>Edit Leave Type</source>
+    <target>Chỉnh sửa lại Loại</target>
+   </trans-unit>
+   <trans-unit id="15">
+    <source>Failed to Assign</source>
+    <target>Không chỉ định</target>
+   </trans-unit>
+   <trans-unit id="16">
+    <source>Failed to Assign: Work Shift Length Exceeded</source>
+    <target>Không Chỉ định: Chiều dài làm việc ca vượt quá</target>
+   </trans-unit>
+   <trans-unit id="17">
+    <source>Failed to Save: Date Already Assigned</source>
+    <target>Không: ngày đã được chỉ định</target>
+   </trans-unit>
+   <trans-unit id="18">
+    <source>Failed to Submit</source>
+    <target>Không để gửi</target>
+   </trans-unit>
+   <trans-unit id="19">
+    <source>Failed to Submit: Leave Balance Exceeded</source>
+    <target>Không để gửi: Để cân bằng vượt quá</target>
+   </trans-unit>
+   <trans-unit id="20">
+    <source>Failed to Submit: No Working Days Selected</source>
+    <target>Không để gửi: Không có ngày làm việc lựa chọn</target>
+   </trans-unit>
+   <trans-unit id="21">
+    <source>Failed to Submit: Work Shift Length Exceeded</source>
+    <target>Không để gửi: Chiều dài làm việc ca vượt quá</target>
+   </trans-unit>
+   <trans-unit id="22">
+    <source>Following Year</source>
+    <target>Sau năm</target>
+   </trans-unit>
+   <trans-unit id="23">
+    <source>For Leap Years</source>
+    <target>Năm nhuận</target>
+   </trans-unit>
+   <trans-unit id="24">
+    <source>For Non-Leap Years</source>
+    <target>Không Leap Years</target>
+   </trans-unit>
+   <trans-unit id="25">
+    <source>From Date</source>
+    <target>Từ ngày</target>
+   </trans-unit>
+   <trans-unit id="26">
+    <source>From Time</source>
+    <target>Từ Time</target>
+   </trans-unit>
+   <trans-unit id="27">
+    <source>From time should be lesser than To time</source>
+    <target>Từ thời gian nên được ít hơn so với thời gian</target>
+   </trans-unit>
+   <trans-unit id="28">
+    <source>Full Day</source>
+    <target>Full Day</target>
+   </trans-unit>
+   <trans-unit id="29">
+    <source>Full Day/Half Day</source>
+    <target>Day / Ngày Một nửa</target>
+   </trans-unit>
+   <trans-unit id="30">
+    <source>Go to Detailed View</source>
+    <target>Xem chi tiết</target>
+   </trans-unit>
+   <trans-unit id="31">
+    <source>Half Day</source>
+    <target>Nửa ngày</target>
+   </trans-unit>
+   <trans-unit id="32">
+    <source>Holiday</source>
+    <target>Kỳ nghỉ</target>
+   </trans-unit>
+   <trans-unit id="33">
+    <source>Leave Balance</source>
+    <target>Để cân bằng</target>
+   </trans-unit>
+   <trans-unit id="34">
+    <source>Leave Comment</source>
+    <target>Bình luận</target>
+   </trans-unit>
+   <trans-unit id="35">
+    <source>Leave Entitled</source>
+    <target>Để lại tiêu đề</target>
+   </trans-unit>
+   <trans-unit id="36">
+    <source>Leave Period Does Not Exist</source>
+    <target>Để lại Thời gian không không tồn tại</target>
+   </trans-unit>
+   <trans-unit id="37">
+    <source>Leave Period Not Defined</source>
+    <target>Để lại Không Xác định Thời gian</target>
+   </trans-unit>
+   <trans-unit id="38">
+    <source>Leave Request</source>
+    <target>Để lại yêu cầu</target>
+   </trans-unit>
+   <trans-unit id="39">
+    <source>Leave Request (%date_range%) %name%</source>
+    <target>Đơn nghỉ phép (%date_range%)</target>
+   </trans-unit>
+   <trans-unit id="40">
+    <source>Leave Scheduled</source>
+    <target>Để lại theo lịch trình</target>
+   </trans-unit>
+   <trans-unit id="41">
+    <source>Leave Taken</source>
+    <target>Để lại Taken</target>
+   </trans-unit>
+   <trans-unit id="42">
+    <source>Leave Type</source>
+    <target>Để Loại</target>
+   </trans-unit>
+   <trans-unit id="43">
+    <source>Leave type will be undeleted</source>
+    <target>Loại để lại sẽ được bỏ xoá</target>
+   </trans-unit>
+   <trans-unit id="44">
+    <source>My Leave Details</source>
+    <target>Chi tiết của tôi Leave</target>
+   </trans-unit>
+   <trans-unit id="45">
+    <source>My Leave List</source>
+    <target>Danh sách của tôi Leave</target>
+   </trans-unit>
+   <trans-unit id="46">
+    <source>Name of Holiday</source>
+    <target>Tên của khách sạn Holiday</target>
+   </trans-unit>
+   <trans-unit id="47">
+    <source>No Leave Types with Leave Balance</source>
+    <target>Không có loại Leave Balance Leave</target>
+   </trans-unit>
+   <trans-unit id="48">
+    <source>No of Hours</source>
+    <target>Không có giờ</target>
+   </trans-unit>
+   <trans-unit id="49">
+    <source>Non Working Day</source>
+    <target>Không làm việc ngày</target>
+   </trans-unit>
+   <trans-unit id="50">
+    <source>Non-working Day</source>
+    <target>-Ngày làm việc</target>
+   </trans-unit>
+   <trans-unit id="51">
+    <source>Number of Days</source>
+    <target>Số ngày</target>
+   </trans-unit>
+   <trans-unit id="52">
+    <source>Overlapping Leave Request Found</source>
+    <target>Chồng chéo Leave Yêu cầu được tìm thấy</target>
+   </trans-unit>
+   <trans-unit id="53">
+    <source>Pending Approval</source>
+    <target>Trong khi chờ phê duyệt</target>
+   </trans-unit>
+   <trans-unit id="54">
+    <source>Repeats Annually</source>
+    <target>Lặp đi lặp lại hàng năm</target>
+   </trans-unit>
+   <trans-unit id="55">
+    <source>Should be less than work shift length</source>
+    <target>Nên được ít hơn chiều dài ca làm việc</target>
+   </trans-unit>
+   <trans-unit id="56">
+    <source>Show Leave with Status</source>
+    <target>Hiện Để lại với trạng thái</target>
+   </trans-unit>
+   <trans-unit id="57">
+    <source>Successfully Undeleted</source>
+    <target>Thành công xóa được</target>
+   </trans-unit>
+   <trans-unit id="58">
+    <source>Taken</source>
+    <target>Thực hiện</target>
+   </trans-unit>
+   <trans-unit id="59">
+    <source>This is a deleted leave type. Reactivate it?</source>
+    <target>Đây là một loại nghỉ phép đã bị xóa. Kích hoạt lại nó?</target>
+   </trans-unit>
+   <trans-unit id="60">
+    <source>To Date</source>
+    <target>Đến ngày</target>
+   </trans-unit>
+   <trans-unit id="61">
+    <source>To Time</source>
+    <target>Giờ</target>
+   </trans-unit>
+   <trans-unit id="62">
+    <source>Total Hours</source>
+    <target>Tổng số giờ</target>
+   </trans-unit>
+   <trans-unit id="63">
+    <source>Total time is greater than the shift length</source>
+    <target>Tổng số thời gian là lớn hơn chiều dài thay đổi</target>
+   </trans-unit>
+   <trans-unit id="64">
+    <source>Will take no action</source>
+    <target>Sẽ không có hành động</target>
+   </trans-unit>
+  </body>
+ </file>
+</xliff>
+<!-- Contributed By:   ,   ,  Nguyen Ninh , Adam Jimi , Do Nguyen , Duong Minh Hieu , Khanh Ho , Le Thanh Duong , Liem Chau , Linh Trinh , Nguyen Huu Tuan , Phu Dang , Phu Luong , Thanh Pham , Tran Quoc Ninh , Van Nguyen -->
+

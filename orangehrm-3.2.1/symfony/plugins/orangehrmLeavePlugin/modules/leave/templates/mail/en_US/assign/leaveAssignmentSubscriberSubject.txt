@@ -1,0 +1,1 @@
+Leave Notification - %performerFullName% Has Assigned Leave to %assigneeFullName%

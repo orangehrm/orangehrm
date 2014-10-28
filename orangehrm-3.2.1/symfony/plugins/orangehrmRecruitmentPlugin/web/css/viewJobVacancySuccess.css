@@ -1,0 +1,85 @@
+form#frmSrchJobVacancy .actionbar {
+    border-top: 1px solid #FAD163;
+    margin-top: 5px;
+    padding-top: 5px;
+}
+
+form#frmSrchJobVacancy div#formcontent select,
+form#frmSrchJobVacancy div#formcontent input {
+    padding-left:0px;
+    padding-right:0px;
+    padding-top: 1px;
+    padding-bottom: 1px;
+    width:11.1%;
+    margin-bottom: 5px;
+}
+
+form#frmSrchJobVacancy div#formcontent label {
+    width: 7.4%;
+    margin-bottom: 5px;
+    padding-left: 2px;
+}
+
+form#frmSrchJobVacancy div#formcontent select {
+    width:11.3%;
+}
+
+/* Move to style.css */
+table.data-table thead td {
+    font-weight: bold;
+    font-size: 13px;
+    height: 26px;
+    padding-left:1px;
+    padding-right:1px;
+}
+
+table.data-table thead td a {
+    font-weight: bold;
+    font-size: 13px;
+    height: 26px;
+}
+
+table.data-table tbody td {
+    font-size: 12px;
+    height: 24px;
+}
+table.data-table tbody td a {
+    font-size: 12px;
+}
+
+table.data-table tbody td input.checkbox,
+table.data-table thead td input.checkbox{
+    margin-left:5px;
+}
+
+table.data-table td.emp_check {
+    width: 50px;
+}
+
+table.data-table td.emp_id {
+    width: 50px;
+}
+
+table.data-table td.emp_first {
+    min-width: 150px;
+}
+
+table.data-table td.emp_last {
+    min-width: 100px;
+}
+
+form#frmDelete table#emp_list.data-table thead tr td.emp_id{
+    width: 80px;
+}
+
+form#frmSrchJobVacancy div#formcontent label{
+    font-weight: normal;
+}
+
+html body div.outerbox div.maincontent div.searchbox form#frmSrchJobVacancy div#formcontent select#empsearch_termination{
+       width:15.5%;
+}
+
+br{
+    clear: both;
+}

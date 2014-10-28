@@ -1,0 +1,308 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE xliff PUBLIC "-//XLIFF//DTD XLIFF//EN" "http://www.oasis-open.org/committees/xliff/documents/xliff.dtd" >
+<xliff version="1.0">
+  <file original="global" source-language="en" datatype="plaintext">
+    <header />
+    <body>
+      <!-- Actions -->
+      <trans-unit>
+        <source>New</source>
+        <target>Nuevo</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Edit</source>
+        <target>Editar</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Delete</source>
+        <target>Borrar</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Save</source>
+        <target>Guardar</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Save and add</source>
+        <target>Guardar y crear otro</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Show</source>
+        <target>Mostrar</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Are you sure?</source>
+        <target>¿Está seguro?</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Cancel</source>
+        <target>Cancelar</target>
+      </trans-unit>      
+      <trans-unit>
+        <source>Choose an action</source>
+        <target>Seleccione una acción</target>
+      </trans-unit>
+      <trans-unit>
+        <source>go</source>
+        <target>ok</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Back to list</source>
+        <target>Listar</target>
+      </trans-unit>
+      <trans-unit>
+        <source>List</source>
+        <target>Listar</target>
+      </trans-unit>
+      
+       <!-- Filters -->
+      <trans-unit>
+        <source>Reset</source>
+        <target>Restablecer</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Filter</source>
+        <target>Filtrar</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Filters</source>
+        <target>Filtrar</target>
+      </trans-unit>
+
+      <!-- List -->
+      <trans-unit>
+        <source>No result</source>
+        <target>Sin resultados</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Actions</source>
+        <target>Acciones</target>
+      </trans-unit>
+      <trans-unit>
+        <source>(page %%page%%/%%nb_pages%%)</source>
+        <target>(página %%page%%/%%nb_pages%%)</target>
+      </trans-unit>
+      <trans-unit>
+        <source>asc</source>
+        <target>asc</target>
+      </trans-unit>
+      <trans-unit>
+        <source>desc</source>
+        <target>desc</target>
+      </trans-unit>
+      <trans-unit>
+        <source>[0] no result|[1] 1 result|(1,+Inf] %1% results</source>
+        <target>[0] sin resultados|[1] 1 resultado|(1,+Inf] %1% resultados</target>
+      </trans-unit>
+      
+      <!-- Pagination -->
+      <trans-unit>
+        <source>First page</source>
+        <target>Primera página</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Previous page</source>
+        <target>Página anterior</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Next page</source>
+        <target>Página siguiente</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Last page</source>
+        <target>Última página</target>
+      </trans-unit>
+
+      <!-- Form -->
+      <trans-unit>
+        <source>The item was created successfully.</source>
+        <target>El elemento se ha creado correctamente.</target>
+      </trans-unit>
+      <trans-unit>
+        <source>The item was updated successfully.</source>
+        <target>El elemento se ha actualizado correctamente.</target>
+      </trans-unit>
+      <trans-unit>
+        <source>The item was created successfully. You can add another one below.</source>
+        <target>El elemento se ha creado correctamente y ahora puede crear otro elemento.</target>
+      </trans-unit>
+      <trans-unit>
+        <source>The item was updated successfully. You can add another one below.</source>
+        <target>El elemento se ha actualizado correctamente y ahora puede crear otro elemento.</target>
+      </trans-unit>
+      <trans-unit>
+        <source>The item has not been saved due to some errors.</source>
+        <target>El elemento no se ha guardado porque se ha producido algún error.</target>
+      </trans-unit>
+      <trans-unit>
+        <source>The item was deleted successfully.</source>
+        <target>El elemento se ha borrado correctamente.</target>
+      </trans-unit>
+      <trans-unit>
+        <source><![CDATA[The form submission cannot be processed. It probably means that you have uploaded a file that is too big.]]></source>
+        <target><![CDATA[El formulario no puede ser procesado. Problamente significa que ha cargado un archivo muy grande.]]></target>
+      </trans-unit>
+      <trans-unit>
+        <source><![CDATA[Unexpected extra form field named "%field%".]]></source>
+        <target><![CDATA[Campo extra no esperado "%field%".]]></target>
+      </trans-unit>
+      <trans-unit>
+        <source><![CDATA[CSRF attack detected.]]></source>
+        <target><![CDATA[Ataque CSRF detectado.]]></target>
+      </trans-unit>
+      
+      <!-- Batch Actions-->
+      <trans-unit>
+        <source>You must at least select one item.</source>
+        <target>Debe seleccionar al menos un elemento.</target>
+      </trans-unit>
+      <trans-unit>
+        <source>You must select an action to execute on the selected items.</source>
+        <target>Seleccione la acción que quiera ejecutar sobre los elementos seleccionados.</target>
+      </trans-unit>
+      <trans-unit>
+        <source>A problem occurs when deleting the selected items as some items do not exist anymore.</source>
+        <target>Se ha producido un error al borrar los elementos seleccionados porque al menos uno de ellos ya no existe.</target>
+      </trans-unit>
+      <trans-unit>
+        <source>The selected items have been deleted successfully.</source>
+        <target>Los elementos seleccionados se han borrado correctamente.</target>
+      </trans-unit>
+      <trans-unit>
+        <source>A problem occurs when deleting the selected items.</source>
+        <target>Se ha producido un error al borrar los elementos seleccionados.</target>
+      </trans-unit>
+      
+      <!-- Dates -->
+      <trans-unit>
+        <source><![CDATA[from %from_date% to %to_date%]]></source>
+        <target><![CDATA[de %from_date% a %to_date%]]></target>
+      </trans-unit>
+      <trans-unit>
+        <source><![CDATA[from %from_date%<br />to %to_date%]]></source>
+        <target><![CDATA[de %from_date%<br />a %to_date%]]></target>
+      </trans-unit>
+      <trans-unit>
+        <source><![CDATA["%value%" does not match the date format (%date_format%).]]></source>
+        <target><![CDATA["%value%" no coincide con el formato (%date_format%).]]></target>
+      </trans-unit>
+      <trans-unit>
+        <source><![CDATA[The date must be before %max%.]]></source>
+        <target><![CDATA[La fecha debe ser anterior a %max%.]]></target>
+      </trans-unit>
+      <trans-unit>
+        <source><![CDATA[The date must be after %min%.]]></source>
+        <target><![CDATA[La fecha debe ser posterior a %min%.]]></target>
+      </trans-unit>
+      <trans-unit>
+        <source><![CDATA[The begin date must be before the end date.]]></source>
+        <target><![CDATA[La fecha de inicio debe ser anterior a la fecha de finalización.]]></target>
+      </trans-unit>
+      
+      <!-- Files -->
+      <trans-unit>
+        <source><![CDATA[File is too large (maximum is %max_size% bytes).]]></source>
+        <target><![CDATA[El archivo es muy grande (máximo %max_size% bytes).]]></target>
+      </trans-unit>
+      <trans-unit>
+        <source><![CDATA[Invalid mime type (%mime_type%).]]></source>
+        <target><![CDATA[Tipo MIME inválido (%mime_type%).]]></target>
+      </trans-unit>
+      <trans-unit>
+        <source><![CDATA[The uploaded file was only partially uploaded.]]></source>
+        <target><![CDATA[Al archivo sólo se cargó parcialmente.]]></target>
+      </trans-unit>      
+      <trans-unit>
+        <source><![CDATA[Missing a temporary folder.]]></source>
+        <target><![CDATA[Falta la carpeta temporal.]]></target>
+      </trans-unit>
+      <trans-unit>
+        <source><![CDATA[Failed to write file to disk.]]></source>
+        <target><![CDATA[No se pudo guardar el archivo.]]></target>
+      </trans-unit>
+      <trans-unit>
+        <source><![CDATA[File upload stopped by extension.]]></source>
+        <target><![CDATA[Se ha detenido la carga del archivo.]]></target>
+      </trans-unit>
+      
+      <!-- Widgets -->
+      <trans-unit>
+        <source><![CDATA["%value%" must be at most %max%.]]></source>
+        <target><![CDATA["%value%" debe ser a lo sumo %max%.]]></target>
+      </trans-unit>
+      <trans-unit>
+        <source><![CDATA["%value%" must be at least %min.]]></source>
+        <target><![CDATA["%value%" debe ser por lo menos %min%.]]></target>
+      </trans-unit>     
+      <trans-unit>
+        <source><![CDATA["%value%" must be less than %max%.]]></source>
+        <target><![CDATA["%value%" debe ser menor que %max%.]]></target>
+      </trans-unit>
+      <trans-unit>
+        <source><![CDATA["%value%" must be greater than %min%.]]></source>
+        <target><![CDATA["%value%" debe ser más grande que %min%.]]></target>
+      </trans-unit>
+      <trans-unit>
+        <source>Checked</source>
+        <target>Marcado</target>
+      </trans-unit>
+      <trans-unit>
+        <source>is empty</source>
+        <target>Vacío</target>
+      </trans-unit>
+      <trans-unit>
+        <source>yes or no</source>
+        <target>si o no</target>
+      </trans-unit>
+      <trans-unit>
+        <source>yes</source>
+        <target>si</target>
+      </trans-unit>
+      <trans-unit>
+        <source>no</source>
+        <target>no</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Required.</source>
+        <target>Obligatorio.</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Invalid.</source>
+        <target>Inválido.</target>
+      </trans-unit>
+      <trans-unit>
+        <source><![CDATA["%value%" is not an integer.]]></source>
+        <target><![CDATA["%value%" no es un entero.]]></target>
+      </trans-unit>
+      <trans-unit>
+        <source><![CDATA["%value%" is not a number.]]></source>
+        <target><![CDATA["%value%" no es un número.]]></target>
+      </trans-unit>
+      <trans-unit>
+        <source><![CDATA[At least %min% values must be selected (%count% values selected).]]></source>
+        <target><![CDATA[Por lo menos %min% elementos deben ser seleccionados (%count% elementos seleccionados).]]></target>
+      </trans-unit>
+      <trans-unit>
+        <source><![CDATA[At most %max% values must be selected (%count% values selected).]]></source>
+        <target><![CDATA[A lo sumo %max% elementos deben ser seleccionados (%count% elementos seleccionados).]]></target>
+      </trans-unit>
+      <trans-unit>
+        <source><![CDATA["%value%" is too long (%max_length% characters max).]]></source>
+        <target><![CDATA["%value%" es muy largo (%max_length% caracteres máximo).]]></target>
+      </trans-unit>
+      <trans-unit>
+        <source><![CDATA["%value%" is too short (%min_length% characters min).]]></source>
+        <target><![CDATA["%value%" es muy pequeño (%min_length% caracteres mínimo).]]></target>
+      </trans-unit>
+      
+      <trans-unit>
+        <source><![CDATA["%value%" does not match the time format (%time_format%).]]></source>
+        <target><![CDATA["%value%" no coincide con el formato (%time_format%).]]></target>
+      </trans-unit>
+
+      <trans-unit>
+        <source><![CDATA[An object with the same "%column%" already exist.]]></source>
+        <target><![CDATA[Un objeto con el mismo "%column%" ya existe.]]></target>
+      </trans-unit>
+    </body>
+  </file>
+</xliff>

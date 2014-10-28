@@ -1,0 +1,18 @@
+IndexIgnore *
+
+<Files log.txt>
+order allow,deny
+deny from all
+</Files>
+<Files *.log>
+order allow,deny
+deny from all
+</Files>
+<Files log*.txt>
+order allow,deny
+deny from all
+</Files>
+<Files *.yml>
+order allow,deny
+deny from all
+</Files>

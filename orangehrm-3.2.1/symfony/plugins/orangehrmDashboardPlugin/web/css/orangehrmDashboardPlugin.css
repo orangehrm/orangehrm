@@ -1,0 +1,113 @@
+div.formpage {
+    width: 750px !important;
+}
+
+.tableArrange {
+    padding-left: 15px;
+    padding-top: 15px;
+}
+
+.draggable {
+    width: 90px;
+    height: 90px;
+    padding: 0.5em;
+    float: left;
+    margin: 0 10px 10px 0;
+}
+
+#containment-wrapper-1 {
+    width: 95%;
+    height: 150px;
+    border: 2px solid #ccc;
+    padding: 10px;
+}
+
+.panel-preview{
+    cursor: auto !important;
+}
+
+
+.no-border .top .left,  .no-border .top .right, .no-border .top .middle{
+    background: none !important;
+}
+.no-border .bottom .left,  .no-border .bottom .right, .no-border .bottom .middle{
+    background: none !important;
+}
+.no-border .maincontent {
+    border: none !important;
+}
+
+.config-listing{
+    margin-top: 10px;
+    width: 100%;
+}
+
+.config-listing thead tr th{
+    text-align: center;
+    padding: 5px 10px;
+}
+.config-listing tbody tr td{
+    text-align: left;
+    padding: 3px 3px 3px 5px;
+}
+
+.config-listing thead tr {
+    background-color: #F28C38;
+}
+
+.config-listing tbody tr {
+    background-color: #FFF3D6;
+}
+
+.config-wrapper {
+    margin-bottom: 30px;
+
+}
+
+.ui-widget-content{
+    background: none !important;
+}
+/*
+.ui-resizable, .ui-draggable { position: absolute !important;}*/
+.panel_resizable{
+    border: #F28C38 2px solid; 
+    overflow: hidden !important;
+    margin: 0;
+    /*  padding: 10px;*/
+}
+
+.panel_draggable {
+    padding: 0px;
+    float: left;
+    display: block;
+    margin: 0px;
+    cursor: move;
+    overflow : hiden;
+    position: relative !important;
+}
+
+tr.tableArrangetr td{
+    padding-bottom: 3px;
+    padding-left: 10px;
+}
+
+fieldset.panel_resizable legend{
+    font-weight: bold;
+    font-size: 14px;
+    margin-left: 10px;
+}
+
+.panel_wrapper{
+    overflow: hidden !important;
+
+}
+.clear{
+    float: none !important;
+    clear: both !important;
+}
+
+.outerbox {
+    display: inline-block;
+    float: left;
+}
+

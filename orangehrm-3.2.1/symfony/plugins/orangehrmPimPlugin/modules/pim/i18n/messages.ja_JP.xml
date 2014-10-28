@@ -1,0 +1,729 @@
+<?xml version="1.0" encoding="UTF-8"?> 
+<!DOCTYPE xliff PUBLIC "-//XLIFF//DTD XLIFF//EN" "http://www.oasis-open.org/committees/xliff/documents/xliff.dtd"> 
+<xliff version="1.0"> 
+ <header/> 
+ <file source-language="en_US" target-language="ja_JP" datatype="plaintext" original="messages" date="2012-02-22T20:08:55Z" product-name="messages"> 
+  <body> 
+   <trans-unit id="1"> 
+    <source>Remaining number of custom fields</source> 
+    <target>カスタムフィールドの残りの数</target> 
+    <note/> 
+   </trans-unit> 
+   <trans-unit id="2"> 
+    <source>Account Number</source> 
+    <target>口座番号</target> 
+    <note/> 
+   </trans-unit> 
+   <trans-unit id="3"> 
+    <source>Account Type</source> 
+    <target>口座の種類</target> 
+    <note/> 
+   </trans-unit> 
+   <trans-unit id="4"> 
+    <source>Activate Employement</source> 
+    <target>Employementをアクティブにする</target> 
+    <note/> 
+   </trans-unit> 
+   <trans-unit id="5"> 
+    <source>Add Custom Field</source> 
+    <target>カスタムフィールドを追加</target> 
+    <note/> 
+   </trans-unit> 
+   <trans-unit id="6"> 
+    <source>Add Dependent</source> 
+    <target>依存を追加します。</target> 
+    <note/> 
+   </trans-unit> 
+   <trans-unit id="7"> 
+    <source>Add Direct Deposit Details</source> 
+    <target>ダイレクト入金の詳細を追加します。</target> 
+    <note/> 
+   </trans-unit> 
+   <trans-unit id="8"> 
+    <source>Add Education</source> 
+    <target>教育を追加します。</target> 
+    <note/> 
+   </trans-unit> 
+   <trans-unit id="9"> 
+    <source>Add Emergency Contact</source> 
+    <target>緊急連絡先を追加します。</target> 
+    <note/> 
+   </trans-unit> 
+   <trans-unit id="10"> 
+    <source>Add Immigration</source> 
+    <target>移民を追加します。</target> 
+    <note/> 
+   </trans-unit> 
+   <trans-unit id="11"> 
+    <source>Add Language</source> 
+    <target>言語を追加します。</target> 
+    <note/> 
+   </trans-unit> 
+   <trans-unit id="12"> 
+    <source>Add License</source> 
+    <target>ライセンスを追加します。</target> 
+    <note/> 
+   </trans-unit> 
+   <trans-unit id="13"> 
+    <source>Add Membership Details</source> 
+    <target>メンバーシップの詳細を追加します。</target> 
+    <note/> 
+   </trans-unit> 
+   <trans-unit id="14"> 
+    <source>Add Reporting Method</source> 
+    <target>報告方法を追加します。</target> 
+    <note/> 
+   </trans-unit> 
+   <trans-unit id="15"> 
+    <source>Add Skill</source> 
+    <target>スキルを追加します。</target> 
+    <note/> 
+   </trans-unit> 
+   <trans-unit id="16"> 
+    <source>Add Subordinate</source> 
+    <target>部下に追加</target> 
+    <note/> 
+   </trans-unit> 
+   <trans-unit id="17"> 
+    <source>Add Supervisor</source> 
+    <target>スーパーバイザーを追加します。</target> 
+    <note/> 
+   </trans-unit> 
+   <trans-unit id="18"> 
+    <source>Add Supervisor/Subordinate</source> 
+    <target>スーパバイザ/下位を追加します。</target> 
+    <note/> 
+   </trans-unit> 
+   <trans-unit id="19"> 
+    <source>Add Termination Reason</source> 
+    <target>終了の理由を追加します。</target> 
+    <note/> 
+   </trans-unit> 
+   <trans-unit id="20"> 
+    <source>Add Work Experience</source> 
+    <target>職務経験を追加する</target> 
+    <note/> 
+   </trans-unit> 
+   <trans-unit id="21"> 
+    <source>Address Street 1</source> 
+    <target>アドレス·ストリート1</target> 
+    <note/> 
+   </trans-unit> 
+   <trans-unit id="22"> 
+    <source>Address Street 2</source> 
+    <target>住所ストリート2</target> 
+    <note/> 
+   </trans-unit> 
+   <trans-unit id="23"> 
+    <source>All customs fields are in use</source> 
+    <target>すべての税関フィールドが使用されている</target> 
+    <note/> 
+   </trans-unit> 
+   <trans-unit id="24"> 
+    <source>Assigned Dependents</source> 
+    <target>割り当てられた扶養</target> 
+    <note/> 
+   </trans-unit> 
+   <trans-unit id="25"> 
+    <source>Assigned Emergency Contacts</source> 
+    <target>割り当てられた緊急連絡先</target> 
+    <note/> 
+   </trans-unit> 
+   <trans-unit id="26"> 
+    <source>Assigned Immigration Documents</source> 
+    <target>割り当てられた移民のドキュメント</target> 
+    <note/> 
+   </trans-unit> 
+   <trans-unit id="27"> 
+    <source>Assigned Memberships</source> 
+    <target>割り当てられたメンバーシップ</target> 
+    <note/> 
+   </trans-unit> 
+   <trans-unit id="28"> 
+    <source>Assigned Subordinates</source> 
+    <target>割り当てられた部下</target> 
+    <note/> 
+   </trans-unit> 
+   <trans-unit id="29"> 
+    <source>Assigned Supervisors</source> 
+    <target>割り当てられた監督</target> 
+    <note/> 
+   </trans-unit> 
+   <trans-unit id="30"> 
+    <source>At least one phone number is required</source> 
+    <target>少なくとも1つの電話番号は必須です</target> 
+    <note/> 
+   </trans-unit> 
+   <trans-unit id="31"> 
+    <source>Attachments</source> 
+    <target>添付ファイル</target> 
+    <note/> 
+   </trans-unit> 
+   <trans-unit id="32"> 
+    <source>Bi Weekly</source> 
+    <target>双方向毎週</target> 
+    <note/> 
+   </trans-unit> 
+   <trans-unit id="33"> 
+    <source>child</source> 
+    <target>子</target> 
+    <note/> 
+   </trans-unit> 
+   <trans-unit id="34"> 
+    <source>Child</source> 
+    <target>子</target> 
+    <note/> 
+   </trans-unit> 
+   <trans-unit id="35"> 
+    <source>City</source> 
+    <target>シティ</target> 
+    <note/> 
+   </trans-unit> 
+   <trans-unit id="36"> 
+    <source>Configure PIM</source> 
+    <target>PIMを設定する</target> 
+    <note/> 
+   </trans-unit> 
+   <trans-unit id="37"> 
+    <source>Confirm</source> 
+    <target>確認する</target> 
+    <note/> 
+   </trans-unit> 
+   <trans-unit id="38"> 
+    <source>Confirm Password</source> 
+    <target>パスワードの確認</target> 
+    <note/> 
+   </trans-unit> 
+   <trans-unit id="39"> 
+    <source>Contract Details</source> 
+    <target>契約の詳細</target> 
+    <note/> 
+   </trans-unit> 
+   <trans-unit id="40"> 
+    <source>Country Specific Information</source> 
+    <target>国固有の情報</target> 
+    <note/> 
+   </trans-unit> 
+   <trans-unit id="41"> 
+    <source>Create Login Details</source> 
+    <target>ログイン情報を作成します。</target> 
+    <note/> 
+   </trans-unit> 
+   <trans-unit id="42"> 
+    <source>Custom</source> 
+    <target>カスタム</target> 
+    <note/> 
+   </trans-unit> 
+   <trans-unit id="43"> 
+    <source>Custom Field Name</source> 
+    <target>カスタムフィールド名</target> 
+    <note/> 
+   </trans-unit> 
+   <trans-unit id="44"> 
+    <source>Date of Expiry</source> 
+    <target>有効期限の日付</target> 
+    <note/> 
+   </trans-unit> 
+   <trans-unit id="45"> 
+    <source>Defined Custom Fields</source> 
+    <target>定義されたカスタムフィールド</target> 
+    <note/> 
+   </trans-unit> 
+   <trans-unit id="46"> 
+    <source>Deleted</source> 
+    <target>削除された</target> 
+    <note/> 
+   </trans-unit> 
+   <trans-unit id="47"> 
+    <source>Direct Deposit</source> 
+    <target>ダイレクト預金</target> 
+    <note/> 
+   </trans-unit> 
+   <trans-unit id="48"> 
+    <source>Document</source> 
+    <target>ドキュメント</target> 
+    <note/> 
+   </trans-unit> 
+   <trans-unit id="49"> 
+    <source>Document No</source> 
+    <target>ドキュメント番号</target> 
+    <note/> 
+   </trans-unit> 
+   <trans-unit id="50"> 
+    <source>Drop Down</source> 
+    <target>ドロップダウン</target> 
+    <note/> 
+   </trans-unit> 
+   <trans-unit id="51"> 
+    <source>Edit Custom Field</source> 
+    <target>カスタムフィールドを編集します。</target> 
+    <note/> 
+   </trans-unit> 
+   <trans-unit id="52"> 
+    <source>Edit Dependent</source> 
+    <target>依存編集</target> 
+    <note/> 
+   </trans-unit> 
+   <trans-unit id="53"> 
+    <source>Edit Education</source> 
+    <target>編集教育</target> 
+    <note/> 
+   </trans-unit> 
+   <trans-unit id="54"> 
+    <source>Edit Emergency Contact</source> 
+    <target>緊急連絡先を編集します。</target> 
+    <note/> 
+   </trans-unit> 
+   <trans-unit id="55"> 
+    <source>Edit Employement Termination</source> 
+    <target>終端を編集 終端を編集</target> 
+    <note/> 
+   </trans-unit> 
+   <trans-unit id="56"> 
+    <source>Edit Language</source> 
+    <target>編集言語</target> 
+    <note/> 
+   </trans-unit> 
+   <trans-unit id="57"> 
+    <source>Edit License</source> 
+    <target>ライセンスを編集します。</target> 
+    <note/> 
+   </trans-unit> 
+   <trans-unit id="58"> 
+    <source>Edit Membership Detail</source> 
+    <target>メンバーシップの詳細を編集します。</target> 
+    <note/> 
+   </trans-unit> 
+   <trans-unit id="59"> 
+    <source>Edit Reporting Method</source> 
+    <target>報告方法を編集します。</target> 
+    <note/> 
+   </trans-unit> 
+   <trans-unit id="60"> 
+    <source>Edit Skill</source> 
+    <target>スキルを編集します。</target> 
+    <note/> 
+   </trans-unit> 
+   <trans-unit id="61"> 
+    <source>Edit Subordinate</source> 
+    <target>下位編集</target> 
+    <note/> 
+   </trans-unit> 
+   <trans-unit id="62"> 
+    <source>Edit Supervisor</source> 
+    <target>編集スーパーバイザー</target> 
+    <note/> 
+   </trans-unit> 
+   <trans-unit id="63"> 
+    <source>Edit Termination Reason</source> 
+    <target>終了の理由を編集します。</target> 
+    <note/> 
+   </trans-unit> 
+   <trans-unit id="64"> 
+    <source>Edit Work Experience</source> 
+    <target>仕事の経験を編集</target> 
+    <note/> 
+   </trans-unit> 
+   <trans-unit id="65"> 
+    <source>Emergency Contact(s)</source> 
+    <target>緊急連絡先（S）</target> 
+    <note/> 
+   </trans-unit> 
+   <trans-unit id="66"> 
+    <source>Employee Information</source> 
+    <target>従業員情報</target> 
+    <note/> 
+   </trans-unit> 
+   <trans-unit id="67"> 
+    <source>Employment</source> 
+    <target>雇用</target> 
+    <note/> 
+   </trans-unit> 
+   <trans-unit id="68"> 
+    <source>Employment Contract</source> 
+    <target>雇用契約</target> 
+    <note/> 
+   </trans-unit> 
+   <trans-unit id="69"> 
+    <source>Enter a number</source> 
+    <target>番号を入力</target> 
+    <note/> 
+   </trans-unit> 
+   <trans-unit id="70"> 
+    <source>Enter allowed options separated by commas</source> 
+    <target>コンマで区切られた使用可能なオプションを入力します。</target> 
+    <note/> 
+   </trans-unit> 
+   <trans-unit id="71"> 
+    <source>Ethnic Race</source> 
+    <target>エスニックレース</target> 
+    <note/> 
+   </trans-unit> 
+   <trans-unit id="72"> 
+    <source>Exemptions</source> 
+    <target>免除</target> 
+    <note/> 
+   </trans-unit> 
+   <trans-unit id="73"> 
+    <source>Federal Income Tax</source> 
+    <target>連邦所得税</target> 
+    <note/> 
+   </trans-unit> 
+   <trans-unit id="74"> 
+    <source>Field Name</source> 
+    <target>フィールド名</target> 
+    <note/> 
+   </trans-unit> 
+   <trans-unit id="75"> 
+    <source>Field Type</source> 
+    <target>フィールドタイプ</target> 
+    <note/> 
+   </trans-unit> 
+   <trans-unit id="76"> 
+    <source>From date should be before to date</source> 
+    <target>日付から日付までの前になければなりません</target> 
+    <note/> 
+   </trans-unit> 
+   <trans-unit id="77"> 
+    <source>GPA/Score</source> 
+    <target>GPA /スコア</target> 
+    <note/> 
+   </trans-unit> 
+   <trans-unit id="78"> 
+    <source>Hourly</source> 
+    <target>毎時</target> 
+    <note/> 
+   </trans-unit> 
+   <trans-unit id="79"> 
+    <source>Institute</source> 
+    <target>機関</target> 
+    <note/> 
+   </trans-unit> 
+   <trans-unit id="80"> 
+    <source>Invalid File Type</source> 
+    <target>無効なファイルの種類</target> 
+    <note/> 
+   </trans-unit> 
+   <trans-unit id="81"> 
+    <source>Issued date should be before expiration date</source> 
+    <target>発行日は有効期限が切れる前になければなりません</target> 
+    <note/> 
+   </trans-unit> 
+   <trans-unit id="82"> 
+    <source>Leave</source> 
+    <target>残す</target> 
+    <note/> 
+   </trans-unit> 
+   <trans-unit id="83"> 
+    <source>Major/Specialization</source> 
+    <target>メジャー/専門</target> 
+    <note/> 
+   </trans-unit> 
+   <trans-unit id="84"> 
+    <source>Married</source> 
+    <target>結婚した</target> 
+    <note/> 
+   </trans-unit> 
+   <trans-unit id="85"> 
+    <source>Max</source> 
+    <target>マックス</target> 
+    <note/> 
+   </trans-unit> 
+   <trans-unit id="86"> 
+    <source>Membership</source> 
+    <target>メンバーシップ</target> 
+    <note/> 
+   </trans-unit> 
+   <trans-unit id="87"> 
+    <source>Membership Type</source> 
+    <target>会員の種類</target> 
+    <note/> 
+   </trans-unit> 
+   <trans-unit id="88"> 
+    <source>Military Service</source> 
+    <target>兵役</target> 
+    <note/> 
+   </trans-unit> 
+   <trans-unit id="89"> 
+    <source>Min</source> 
+    <target>ミン</target> 
+    <note/> 
+   </trans-unit> 
+   <trans-unit id="90"> 
+    <source>Monthly</source> 
+    <target>毎月</target> 
+    <note/> 
+   </trans-unit> 
+   <trans-unit id="91"> 
+    <source>Monthly on first pay of month.</source> 
+    <target>月の最初の給料で毎月。</target> 
+    <note/> 
+   </trans-unit> 
+   <trans-unit id="92"> 
+    <source>N/A</source> 
+    <target>N / A</target> 
+    <note/> 
+   </trans-unit> 
+   <trans-unit id="93"> 
+    <source>Nick Name</source> 
+    <target>ニックの名前</target> 
+    <note/> 
+   </trans-unit> 
+   <trans-unit id="94"> 
+    <source>Non Resident Alien</source> 
+    <target>非居住外国人</target> 
+    <note/> 
+   </trans-unit> 
+   <trans-unit id="95"> 
+    <source>Not Applicable</source> 
+    <target>適用されない</target> 
+    <note/> 
+   </trans-unit> 
+   <trans-unit id="96"> 
+    <source>Note</source> 
+    <target>注意</target> 
+    <note/> 
+   </trans-unit> 
+   <trans-unit id="97"> 
+    <source>Other</source> 
+    <target>その他</target> 
+    <note/> 
+   </trans-unit> 
+   <trans-unit id="98"> 
+    <source>other</source> 
+    <target>その他</target> 
+    <note/> 
+   </trans-unit> 
+   <trans-unit id="99"> 
+    <source>Passport</source> 
+    <target>パスポート</target> 
+    <note/> 
+   </trans-unit> 
+   <trans-unit id="100"> 
+    <source>Password</source> 
+    <target>パスワード</target> 
+    <note/> 
+   </trans-unit> 
+   <trans-unit id="101"> 
+    <source>Personal Details</source> 
+    <target>個人的な詳細</target> 
+    <note/> 
+   </trans-unit> 
+   <trans-unit id="102"> 
+    <source>Photograph</source> 
+    <target>写真</target> 
+    <note/> 
+   </trans-unit> 
+   <trans-unit id="103"> 
+    <source>Please Specify</source> 
+    <target>指定してください。</target> 
+    <note/> 
+   </trans-unit> 
+   <trans-unit id="104"> 
+    <source>Qualifications</source> 
+    <target>資格</target> 
+    <note/> 
+   </trans-unit> 
+   <trans-unit id="105"> 
+    <source>Reason</source> 
+    <target>理由</target> 
+    <note/> 
+   </trans-unit> 
+   <trans-unit id="106"> 
+    <source>Report-to</source> 
+    <target>レポートへ</target> 
+    <note/> 
+   </trans-unit> 
+   <trans-unit id="107"> 
+    <source>Screen</source> 
+    <target>画面</target> 
+    <note/> 
+   </trans-unit> 
+   <trans-unit id="108"> 
+    <source>Select a Photograph</source> 
+    <target>写真を選択します。</target> 
+    <note/> 
+   </trans-unit> 
+   <trans-unit id="109"> 
+    <source>Select Membership</source> 
+    <target>メンバーシップを選択します。</target> 
+    <note/> 
+   </trans-unit> 
+   <trans-unit id="110"> 
+    <source>Select Options</source> 
+    <target>[オプション]を選択します</target> 
+    <note/> 
+   </trans-unit> 
+   <trans-unit id="111"> 
+    <source>Semi Monthly</source> 
+    <target>半月間</target> 
+    <note/> 
+   </trans-unit> 
+   <trans-unit id="112"> 
+    <source>Show Deprecated Fields</source> 
+    <target>廃止されたフィールドを表示</target> 
+    <note/> 
+   </trans-unit> 
+   <trans-unit id="113"> 
+    <source>Show Nick Name, Smoker and Military Service in Personal Details</source> 
+    <target>個人情報のニック·ネーム、喫煙と兵役を表示する</target> 
+    <note/> 
+   </trans-unit> 
+   <trans-unit id="114"> 
+    <source>Show SIN field in Personal Details</source> 
+    <target>個人情報のSINフィールドを表示</target> 
+    <note/> 
+   </trans-unit> 
+   <trans-unit id="115"> 
+    <source>Show SSN field in Personal Details</source> 
+    <target>個人情報のSSNフィールドを表示</target> 
+    <note/> 
+   </trans-unit> 
+   <trans-unit id="116"> 
+    <source>Show US Tax Exemptions menu</source> 
+    <target>米国の免税メニューを表示する</target> 
+    <note/> 
+   </trans-unit> 
+   <trans-unit id="117"> 
+    <source>SIN Number</source> 
+    <target>SIN番号</target> 
+    <note/> 
+   </trans-unit> 
+   <trans-unit id="118"> 
+    <source>Single</source> 
+    <target>シングル</target> 
+    <note/> 
+   </trans-unit> 
+   <trans-unit id="119"> 
+    <source>Smoker</source> 
+    <target>喫煙者</target> 
+    <note/> 
+   </trans-unit> 
+   <trans-unit id="120"> 
+    <source>SSN Number</source> 
+    <target>SSN番号</target> 
+    <note/> 
+   </trans-unit> 
+   <trans-unit id="121"> 
+    <source>State Income Tax</source> 
+    <target>州所得税</target> 
+    <note/> 
+   </trans-unit> 
+   <trans-unit id="122"> 
+    <source>State/Province</source> 
+    <target>州/地方</target> 
+    <note/> 
+   </trans-unit> 
+   <trans-unit id="123"> 
+    <source>Status</source> 
+    <target>ステータス</target> 
+    <note/> 
+   </trans-unit> 
+   <trans-unit id="124"> 
+    <source>Subordinate</source> 
+    <target>下位</target> 
+    <note/> 
+   </trans-unit> 
+   <trans-unit id="125"> 
+    <source>Tax Exemptions</source> 
+    <target>税金の免除</target> 
+    <note/> 
+   </trans-unit> 
+   <trans-unit id="126"> 
+    <source>Terminate Employement</source> 
+    <target>Employementを終了</target> 
+    <note/> 
+   </trans-unit> 
+   <trans-unit id="127"> 
+    <source>Terminated Date</source> 
+    <target>終了日</target> 
+    <note/> 
+   </trans-unit> 
+   <trans-unit id="128"> 
+    <source>Terminated on</source> 
+    <target>で終了</target> 
+    <note/> 
+   </trans-unit> 
+   <trans-unit id="129"> 
+    <source>Terminated Reason</source> 
+    <target>停止した理由</target> 
+    <note/> 
+   </trans-unit> 
+   <trans-unit id="130"> 
+    <source>Text or Number</source> 
+    <target>テキストまたは番号</target> 
+    <note/> 
+   </trans-unit> 
+   <trans-unit id="131"> 
+    <source>To date should be after From date</source> 
+    <target>日付に日付FROMの後でなければなりません</target> 
+    <note/> 
+   </trans-unit> 
+   <trans-unit id="132"> 
+    <source>Unemployment State</source> 
+    <target>失業の状態</target> 
+    <note/> 
+   </trans-unit> 
+   <trans-unit id="133"> 
+    <source>User Name</source> 
+    <target>ユーザ名</target> 
+    <note/> 
+   </trans-unit> 
+   <trans-unit id="134"> 
+    <source>Visa</source> 
+    <target>ビザ</target> 
+    <note/> 
+   </trans-unit> 
+   <trans-unit id="135"> 
+    <source>Weekly</source> 
+    <target>毎週</target> 
+    <note/> 
+   </trans-unit> 
+   <trans-unit id="136"> 
+    <source>Work experience</source> 
+    <target>実務経験</target> 
+    <note/> 
+   </trans-unit> 
+   <trans-unit id="137"> 
+    <source>Work State</source> 
+    <target>作業状態</target> 
+    <note/> 
+   </trans-unit> 
+   <trans-unit id="138"> 
+    <source>Zip/Postal Code</source> 
+    <target>郵便番号/郵便番号</target> 
+    <note/> 
+   </trans-unit> 
+   <trans-unit id="139"> 
+    <source>Renewal date should be after commence date</source> 
+    <target>更新日は、日付を開始した後でなければなりません</target> 
+    <note/> 
+   </trans-unit> 
+   <trans-unit id="140"> 
+    <source>Should have at least %number% characters</source> 
+    <target>少なくとも％番号％文字が必要です</target> 
+    <note/> 
+   </trans-unit> 
+   <trans-unit id="141"> 
+    <source>Delete photograph?</source> 
+    <target>写真を削除しますか？</target> 
+    <note/> 
+   </trans-unit> 
+   <trans-unit id="142"> 
+    <source>Failed To Save: User Name Exists</source> 
+    <target>保存に失敗しました：ユーザー名が存在</target> 
+    <note/> 
+   </trans-unit> 
+   <trans-unit id="143"> 
+    <source>Failed To Save: Employee Id Exists</source> 
+    <target>従業員IDは存在します。保存に失敗しました</target> 
+    <note/> 
+   </trans-unit> 
+   <trans-unit id="144"> 
+    <source>Will be deleted from all employees</source> 
+    <target>すべての従業員から削除されます。</target> 
+    <note/> 
+   </trans-unit> 
+  </body> 
+ </file> 
+</xliff> 

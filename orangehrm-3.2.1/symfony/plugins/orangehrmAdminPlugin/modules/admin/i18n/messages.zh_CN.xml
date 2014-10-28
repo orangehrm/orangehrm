@@ -1,0 +1,535 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE xliff PUBLIC "-//XLIFF//DTD XLIFF//EN" "http://www.oasis-open.org/committees/xliff/documents/xliff.dtd">
+<xliff version="1.0">
+ <header/>
+ <file source-language="en_US" target-language="zh_CN" datatype="plaintext" original="messages" date="2012-08-22T5:37:57Z" product-name="messages">
+  <body>
+   <trans-unit id="1">
+    <source>Activities</source>
+    <target>活动</target>
+   </trans-unit>
+   <trans-unit id="2">
+    <source>Add Another</source>
+    <target>添加一个</target>
+   </trans-unit>
+   <trans-unit id="3">
+    <source>Add Currency</source>
+    <target>添加货币</target>
+   </trans-unit>
+   <trans-unit id="4">
+    <source>Add Customer</source>
+    <target>添加客户</target>
+   </trans-unit>
+   <trans-unit id="5">
+    <source>Add Employment Status</source>
+    <target>添加雇用状态</target>
+   </trans-unit>
+   <trans-unit id="6">
+    <source>Add Job Category</source>
+    <target>添加职位类别</target>
+   </trans-unit>
+   <trans-unit id="7">
+    <source>Add Job Title</source>
+    <target>添加职称</target>
+   </trans-unit>
+   <trans-unit id="8">
+    <source>Add Location</source>
+    <target>添加地点</target>
+   </trans-unit>
+   <trans-unit id="9">
+    <source>Add Membership</source>
+    <target>添加会员资格</target>
+   </trans-unit>
+   <trans-unit id="10">
+    <source>Add Nationality</source>
+    <target>添加国籍</target>
+   </trans-unit>
+   <trans-unit id="11">
+    <source>Add Pay Grade</source>
+    <target>添加薪资级别</target>
+   </trans-unit>
+   <trans-unit id="12">
+    <source>Add Project</source>
+    <target>添加项目</target>
+   </trans-unit>
+   <trans-unit id="13">
+    <source>Add Project Activity</source>
+    <target>添加项目活动</target>
+   </trans-unit>
+   <trans-unit id="14">
+    <source>Add Subscriber</source>
+    <target>添加订阅</target>
+   </trans-unit>
+   <trans-unit id="15">
+    <source>Add Unit</source>
+    <target>添加组</target>
+   </trans-unit>
+   <trans-unit id="16">
+    <source>Add User</source>
+    <target>添加用户</target>
+   </trans-unit>
+   <trans-unit id="17">
+    <source>Add Work Shift</source>
+    <target>添加工作班次</target>
+   </trans-unit>
+   <trans-unit id="18">
+    <source>All date fields should be in YYYY-MM-DD format</source>
+    <target>所有日期字段应该是YYYY-MM-DD格式</target>
+   </trans-unit>
+   <trans-unit id="19">
+    <source>Assigned Currencies</source>
+    <target>指定货币</target>
+   </trans-unit>
+   <trans-unit id="20">
+    <source>Assigned Employees</source>
+    <target>指定员工</target>
+   </trans-unit>
+   <trans-unit id="21">
+    <source>Available Employees</source>
+    <target>现有员工</target>
+   </trans-unit>
+   <trans-unit id="22">
+    <source>Better</source>
+    <target>更好</target>
+   </trans-unit>
+   <trans-unit id="23">
+    <source>Click on a notification type to add subscribers</source>
+    <target>点击一个通知类型来添加订阅</target>
+   </trans-unit>
+   <trans-unit id="24">
+    <source>Column order should not be changed</source>
+    <target>列顺序不应被改变</target>
+   </trans-unit>
+   <trans-unit id="25">
+    <source>Company Structure</source>
+    <target>公司组织架构</target>
+   </trans-unit>
+   <trans-unit id="26">
+    <source>Confirm New Password</source>
+    <target>确认新密码</target>
+   </trans-unit>
+   <trans-unit id="27">
+    <source>Copy Activity</source>
+    <target>复制活动</target>
+   </trans-unit>
+   <trans-unit id="28">
+    <source>CSV Data Import</source>
+    <target>CSV数据导入</target>
+   </trans-unit>
+   <trans-unit id="29">
+    <source>Current Password</source>
+    <target>当前密码</target>
+   </trans-unit>
+   <trans-unit id="30">
+    <source>Current Password Is Wrong</source>
+    <target>当前密码错误</target>
+   </trans-unit>
+   <trans-unit id="31">
+    <source>Customer</source>
+    <target>客户</target>
+   </trans-unit>
+   <trans-unit id="32">
+    <source>Customer Name</source>
+    <target>客户名称</target>
+   </trans-unit>
+   <trans-unit id="33">
+    <source>Date Format</source>
+    <target>日期格式</target>
+   </trans-unit>
+   <trans-unit id="34">
+    <source>Description is not specified</source>
+    <target>未填写描述</target>
+   </trans-unit>
+   <trans-unit id="35">
+    <source>Done</source>
+    <target>完成</target>
+   </trans-unit>
+   <trans-unit id="36">
+    <source>Each import file should be configured for 100 records or less</source>
+    <target>每个导入文件应配置为100个记录或更少</target>
+   </trans-unit>
+   <trans-unit id="37">
+    <source>Edit Currency</source>
+    <target>编辑货币</target>
+   </trans-unit>
+   <trans-unit id="38">
+    <source>Edit Customer</source>
+    <target>编辑客户</target>
+   </trans-unit>
+   <trans-unit id="39">
+    <source>Edit Employment Status</source>
+    <target>编辑雇用状态</target>
+   </trans-unit>
+   <trans-unit id="40">
+    <source>Edit Job Category</source>
+    <target>编辑职位类别</target>
+   </trans-unit>
+   <trans-unit id="41">
+    <source>Edit Job Title</source>
+    <target>编辑职称</target>
+   </trans-unit>
+   <trans-unit id="42">
+    <source>Edit Location</source>
+    <target>编辑地点</target>
+   </trans-unit>
+   <trans-unit id="43">
+    <source>Edit Membership</source>
+    <target>编辑会员资格</target>
+   </trans-unit>
+   <trans-unit id="44">
+    <source>Edit Nationality</source>
+    <target>编辑国籍</target>
+   </trans-unit>
+   <trans-unit id="45">
+    <source>Edit Pay Grade</source>
+    <target>编辑薪资级别</target>
+   </trans-unit>
+   <trans-unit id="46">
+    <source>Edit Project</source>
+    <target>编辑项目</target>
+   </trans-unit>
+   <trans-unit id="47">
+    <source>Edit Project Activity</source>
+    <target>编辑项目活动</target>
+   </trans-unit>
+   <trans-unit id="48">
+    <source>Edit Subscriber</source>
+    <target>编辑订阅</target>
+   </trans-unit>
+   <trans-unit id="49">
+    <source>Edit Unit</source>
+    <target>编辑组</target>
+   </trans-unit>
+   <trans-unit id="50">
+    <source>Edit User</source>
+    <target>编辑用户</target>
+   </trans-unit>
+   <trans-unit id="51">
+    <source>Edit Work Shift</source>
+    <target>编辑工作班次</target>
+   </trans-unit>
+   <trans-unit id="52">
+    <source>Email Notification</source>
+    <target>电子邮件通知</target>
+   </trans-unit>
+   <trans-unit id="53">
+    <source>Enable Admin module</source>
+    <target>启用管理模块</target>
+   </trans-unit>
+   <trans-unit id="54">
+    <source>Enable Benefits module</source>
+    <target>启用福利模块</target>
+   </trans-unit>
+   <trans-unit id="55">
+    <source>Enable Help</source>
+    <target>启用帮助模块</target>
+   </trans-unit>
+   <trans-unit id="56">
+    <source>Enable Leave module</source>
+    <target>启用休假模块</target>
+   </trans-unit>
+   <trans-unit id="57">
+    <source>Enable Performance module</source>
+    <target>启用绩效模块</target>
+   </trans-unit>
+   <trans-unit id="58">
+    <source>Enable PIM module</source>
+    <target>启用员工信息管理模块</target>
+   </trans-unit>
+   <trans-unit id="59">
+    <source>Enable Recruitment module</source>
+    <target>启用招聘模块</target>
+   </trans-unit>
+   <trans-unit id="60">
+    <source>Enable Time module</source>
+    <target>启用时间模块</target>
+   </trans-unit>
+   <trans-unit id="61">
+    <source>Failed to Import: File Size Exceeded</source>
+    <target>导入失败：文件大小超限</target>
+   </trans-unit>
+   <trans-unit id="62">
+    <source>Failed to Import: File Type Not Allowed</source>
+    <target>导入失败：文件类型不允许</target>
+   </trans-unit>
+   <trans-unit id="63">
+    <source>Failed to Import: No Compatible Records</source>
+    <target>导入失败：没有兼容的记录</target>
+   </trans-unit>
+   <trans-unit id="64">
+    <source>Fax</source>
+    <target>传真</target>
+   </trans-unit>
+   <trans-unit id="65">
+    <source>First Name and Last Name are compulsory</source>
+    <target>名字和姓氏是必要的</target>
+   </trans-unit>
+   <trans-unit id="66">
+    <source>Following languages are supported</source>
+    <target>支持下列语言</target>
+   </trans-unit>
+   <trans-unit id="67">
+    <source>Hours Per Day</source>
+    <target>每天的小时数</target>
+   </trans-unit>
+   <trans-unit id="68">
+    <source>If gender is specified, value should be either</source>
+    <target>如果性别已指定，值应为</target>
+   </trans-unit>
+   <trans-unit id="69">
+    <source>Job Description</source>
+    <target>职位描述</target>
+   </trans-unit>
+   <trans-unit id="70">
+    <source>Language and font help</source>
+    <target>语言和字体帮助</target>
+   </trans-unit>
+   <trans-unit id="71">
+    <source>Leave Applications</source>
+    <target>休假申请</target>
+   </trans-unit>
+   <trans-unit id="72">
+    <source>Leave Approvals</source>
+    <target>休假审批</target>
+   </trans-unit>
+   <trans-unit id="73">
+    <source>Leave Assignments</source>
+    <target>分配休假</target>
+   </trans-unit>
+   <trans-unit id="74">
+    <source>Leave Cancellations</source>
+    <target>取消休假</target>
+   </trans-unit>
+   <trans-unit id="75">
+    <source>Leave Rejections</source>
+    <target>拒绝休假申请</target>
+   </trans-unit>
+   <trans-unit id="76">
+    <source>Level Already Exists</source>
+    <target>级别已经存在</target>
+   </trans-unit>
+   <trans-unit id="77">
+    <source>Location Name</source>
+    <target>地点名称</target>
+   </trans-unit>
+   <trans-unit id="78">
+    <source>Mail Configuration</source>
+    <target>邮件配置</target>
+   </trans-unit>
+   <trans-unit id="79">
+    <source>Mail Sent As</source>
+    <target>邮件已发送，作为</target>
+   </trans-unit>
+   <trans-unit id="80">
+    <source>Maximum Salary</source>
+    <target>最高薪资</target>
+   </trans-unit>
+   <trans-unit id="81">
+    <source>Medium</source>
+    <target>中等</target>
+   </trans-unit>
+   <trans-unit id="82">
+    <source>Minimum Salary</source>
+    <target>最低薪资</target>
+   </trans-unit>
+   <trans-unit id="83">
+    <source>Module Configuration</source>
+    <target>模块配置</target>
+   </trans-unit>
+   <trans-unit id="84">
+    <source>Multiple import files may be required</source>
+    <target>可能需要多个导入文件</target>
+   </trans-unit>
+   <trans-unit id="85">
+    <source>New Password</source>
+    <target>新密码</target>
+   </trans-unit>
+   <trans-unit id="86">
+    <source>No activities selected</source>
+    <target>没有选中的活动</target>
+   </trans-unit>
+   <trans-unit id="87">
+    <source>No assigned activities</source>
+    <target>没有分配的活动</target>
+   </trans-unit>
+   <trans-unit id="88">
+    <source>Not Allowed to Delete Customer(s) Which Have Time Logged Against</source>
+    <target>不允许删除有考勤记录的客户</target>
+   </trans-unit>
+   <trans-unit id="89">
+    <source>Not Allowed to Delete Project Activites Which Have Time Logged Against</source>
+    <target>不允许删除有考勤记录的项目活动</target>
+   </trans-unit>
+   <trans-unit id="90">
+    <source>Notification Type</source>
+    <target>通知类型</target>
+   </trans-unit>
+   <trans-unit id="91">
+    <source>Number of Employees</source>
+    <target>员工人数</target>
+   </trans-unit>
+   <trans-unit id="92">
+    <source>Number of Records Imported</source>
+    <target>导入的记录数</target>
+   </trans-unit>
+   <trans-unit id="93">
+    <source>OrangeHRM - Supported Languages</source>
+    <target>OrangeHRM-支持的语言</target>
+   </trans-unit>
+   <trans-unit id="94">
+    <source>Organization Name</source>
+    <target>组织名称</target>
+   </trans-unit>
+   <trans-unit id="95">
+    <source>Path to Sendmail</source>
+    <target>邮件服务器路径</target>
+   </trans-unit>
+   <trans-unit id="96">
+    <source>Performance Review Submissions</source>
+    <target>绩效审查意见书</target>
+   </trans-unit>
+   <trans-unit id="97">
+    <source>Phone</source>
+    <target>电话</target>
+   </trans-unit>
+   <trans-unit id="98">
+    <source>Project</source>
+    <target>项目</target>
+   </trans-unit>
+   <trans-unit id="99">
+    <source>Project Admin</source>
+    <target>项目管理</target>
+   </trans-unit>
+   <trans-unit id="100">
+    <source>Project Admins</source>
+    <target>项目管理员</target>
+   </trans-unit>
+   <trans-unit id="101">
+    <source>Projects under selected customer will also be deleted</source>
+    <target>所选客户下的项目也将被删除</target>
+   </trans-unit>
+   <trans-unit id="102">
+    <source>Registration Number</source>
+    <target>注册号码</target>
+   </trans-unit>
+   <trans-unit id="103">
+    <source>Sample CSV file</source>
+    <target>CSV示例文件</target>
+   </trans-unit>
+   <trans-unit id="104">
+    <source>Send Test Email</source>
+    <target>发送测试电子邮件</target>
+   </trans-unit>
+   <trans-unit id="105">
+    <source>Sending Method</source>
+    <target>发送方式</target>
+   </trans-unit>
+   <trans-unit id="106">
+    <source>Shift Name</source>
+    <target>班次名称</target>
+   </trans-unit>
+   <trans-unit id="107">
+    <source>Should be higher than Minimum Salary</source>
+    <target>应高于最低薪资</target>
+   </trans-unit>
+   <trans-unit id="108">
+    <source>SMTP Password</source>
+    <target>SMTP密码</target>
+   </trans-unit>
+   <trans-unit id="109">
+    <source>SMTP Port</source>
+    <target>SMTP端口</target>
+   </trans-unit>
+   <trans-unit id="110">
+    <source>SMTP User</source>
+    <target>SMTP用户</target>
+   </trans-unit>
+   <trans-unit id="111">
+    <source>SSL</source>
+    <target>SSL</target>
+   </trans-unit>
+   <trans-unit id="112">
+    <source>Strong</source>
+    <target>强</target>
+   </trans-unit>
+   <trans-unit id="113">
+    <source>Strongest</source>
+    <target>最强</target>
+   </trans-unit>
+   <trans-unit id="114">
+    <source>Subscribers</source>
+    <target>订阅</target>
+   </trans-unit>
+   <trans-unit id="115">
+    <source>Successfully Saved. Test Email Not Sent</source>
+    <target>保存成功。测试电子邮件未发送</target>
+   </trans-unit>
+   <trans-unit id="116">
+    <source>Successfully Saved. Test Email Sent</source>
+    <target>保存成功。测试电子邮件已发送</target>
+   </trans-unit>
+   <trans-unit id="117">
+    <source>Supported languages</source>
+    <target>支持的语言</target>
+   </trans-unit>
+   <trans-unit id="118">
+    <source>System Users</source>
+    <target>系统用户</target>
+   </trans-unit>
+   <trans-unit id="119">
+    <source>Tax ID</source>
+    <target>税务识别号</target>
+   </trans-unit>
+   <trans-unit id="120">
+    <source>Test Email Address</source>
+    <target>测试电子邮件地址</target>
+   </trans-unit>
+   <trans-unit id="121">
+    <source>This unit will be added under</source>
+    <target>该组将被加在如下组的下面，</target>
+   </trans-unit>
+   <trans-unit id="122">
+    <source>TLS</source>
+    <target>TLS</target>
+   </trans-unit>
+   <trans-unit id="123">
+    <source>Unit Id</source>
+    <target>组识别号</target>
+   </trans-unit>
+   <trans-unit id="124">
+    <source>Units under selected unit will also be deleted</source>
+    <target>所选组下的组也将被删除</target>
+   </trans-unit>
+   <trans-unit id="125">
+    <source>Use browser language if set</source>
+    <target>如已设置，使用浏览器语言</target>
+   </trans-unit>
+   <trans-unit id="126">
+    <source>Use SMTP Authentication</source>
+    <target>使用SMTP验证</target>
+   </trans-unit>
+   <trans-unit id="127">
+    <source>User Secure Connection</source>
+    <target>用户安全连接</target>
+   </trans-unit>
+   <trans-unit id="128">
+    <source>User Type</source>
+    <target>用户类型</target>
+   </trans-unit>
+   <trans-unit id="129">
+    <source>Very Weak</source>
+    <target>很弱</target>
+   </trans-unit>
+   <trans-unit id="130">
+    <source>Weak</source>
+    <target>弱</target>
+   </trans-unit>
+   <trans-unit id="131">
+    <source>Zip Code</source>
+    <target>邮政编码</target>
+   </trans-unit>
+  </body>
+ </file>
+</xliff>
+<!-- Contributed By:   ,   ,   ,   ,   ,  Fen xiao ,  Li Monolith , Alice Lieu , ds cao , Edwin Li , Huai Zhenchang , Jessie Wang , Jet Chan , Kobe Omnipotent , Letla Jia , Li Yue , Lihui Jiang , Muse Sun , Patrick Dong , Peng Wei , Qi Feng , Qing Sina , sasf safasf , Sunny Zhang , Troy.Dom Troy.Dom , Wenqiang Niu , Yang Ren , Yue Li -->
+

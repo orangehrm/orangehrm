@@ -1,0 +1,141 @@
+/**
+ * OrangeHRM is a comprehensive Human Resource Management (HRM) System that captures
+ * all the essential functionalities required for any enterprise.
+ * Copyright (C) 2006 OrangeHRM Inc., http://www.orangehrm.com
+ *
+ * OrangeHRM is free software; you can redistribute it and/or modify it under the terms of
+ * the GNU General Public License as published by the Free Software Foundation; either
+ * version 2 of the License, or (at your option) any later version.
+ *
+ * OrangeHRM is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY;
+ * without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+ * See the GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License along with this program;
+ * if not, write to the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
+ * Boston, MA  02110-1301, USA
+ *
+ */
+
+/* This CSS file is used for styling job vacancy related public pages
+ * i.e. Job vacancy list page and job application page, which are 
+ * Visible outside of OrangeHRM to people who have not logged into OrangeHRM.
+ * 
+ * These pages will possibly be integrated with a company website and will need
+ * to be styled to match that.
+ */
+
+/* Job Vacancy List */
+
+body {
+    margin-top: auto;
+    margin-left: auto;
+    margin-right: auto;
+    width: 780px;
+}
+
+div.jobHeading {
+    height:2.3em;
+}
+
+div.jobHeading span.jobTitle {
+    display:block;
+    float:left;
+    width:200px;
+    font-size:1.5em;
+}
+
+div.jobHeading span.jobSummary {
+    display:block;
+    float:left;
+    font-size: 1em;
+    font-style: italic;
+}
+
+div.jobDetails {
+    padding: 5px 5px 5px 5px;
+}
+
+div.jobDetails div.jobDescription {
+
+}
+
+div.jobDetails input.applyButton {
+    
+}
+
+div.jobHeading a {
+    text-decoration: none;
+    display:block;
+    height:2.3em;
+    padding-top: 0.25em;
+    padding-bottom: 0.25em;
+    padding-left:10px;
+    padding-right:10px;        
+}
+
+div.jobHeading a:focus {
+    outline:none
+}
+
+div.odd {
+    background: white;
+}
+
+div.even {
+    background: #EEEEEE;
+}
+div.odd a.collapsed {
+    background: white url(../icons/collapsed.gif) no-repeat scroll 98% 50%;
+}
+
+div.even a.collapsed {    
+    background: #EEEEEE url(../icons/collapsed.gif) no-repeat scroll 98% 50%;
+}
+
+div.odd a.expanded {
+    background: #d3c5b6 url(../icons/expanded.gif) no-repeat scroll 98% 50%;
+}
+
+div.even a.expanded {    
+    background: #d3c5b6 url(../icons/expanded.gif) no-repeat scroll 98% 50%;
+}
+
+div.jobHeading a:hover {
+    background-color:#f4c088;
+}
+
+div.jobHeading a:hover span.jobTitle, div.jobHeading a.expanded span.jobTitle {
+    font-weight: bold;
+    color: black;
+}
+
+div.novacancies {
+    padding-left:10px;
+}
+
+div.actionbar {
+    width: 100%;
+    display:block;
+    border-bottom: 1px solid #FAD163; 
+    text-align:right;   
+}
+
+div.actionbar a {
+    margin: 11px 5px 5px 5px;
+    padding-right: 10px;    
+    outline: none;
+}
+
+div.applydiv {
+    text-align: left;
+    width:auto;
+    height:auto;
+    margin:3px 5px 5px 2px;
+    padding: 2px 0;   
+    display:block;
+    float:none;
+    border-bottom: 1px solid #FAD163;
+}
+/* Vacancy list styling end */		
+

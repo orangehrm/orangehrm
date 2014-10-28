@@ -1,0 +1,102 @@
+<?xml version="1.0" ?>
+
+<project name="OrangeHRM-PerformanceTrackerAddon" basedir="." default="dist">
+
+    <resolvepath propertyName="project.dir" file=".."/>
+    <resolvepath propertyName="dist.dir" file="dist"/>
+    <property name="symfony.dir" value="../../../"/>
+
+    <taskdef name="getymlproperty" classname="GetYmlPropertyTask" classpath="${symfony.dir}/plugins/orangehrmCorePlugin/lib/task/phing"/>
+    <getymlproperty ymlFile="${project.dir}/config/app.yml" ymlProperty="all_orangehrmPerformanceTrackerPlugin_version" 
+	symfonyDir="${symfony.dir}" returnProperty="addon.version"/>
+    
+    <property name="addon.name" value="PerformanceTracker" />
+    
+    <property name="stage.dir" value="${dist.dir}/${package.name}-stage"/>
+    <property name="package.dir" value="${dist.dir}/${package.name}"/>
+  
+    <svnlastrevision workingcopy="${project.dir}" propertyname="svn.revision"/>
+    
+    <property name="package.name" value="orangehrm${addon.name}Plugin"/>
+    
+    <property name="base.name" value="addOn-${addon.name}-${addon.version}-${svn.revision}"/>
+
+    <target name="prepare">
+        <echo msg="Preparing build..." />
+        <mkdir dir="${dist.dir}" />
+        <mkdir dir="${package.dir}" />
+        <mkdir dir="${stage.dir}" />
+        <touch file="release-revision-${svn.revision}.txt" />
+    </target>
+
+    <target name="build" depends="prepare">
+        <echo>Copying files...</echo>
+        <copy todir="${stage.dir}">
+            <fileset dir="${project.dir}">
+                <include name="**"/>
+                <include name="**/*.htaccess"/>
+                <exclude name="build/**"/>
+                <exclude name="test/**"/>
+            </fileset>
+        </copy>
+    </target>
+
+    <target name="encrypt" depends="build">
+        
+        <fail unless="encrypt.passphrase" message="Passphrase not set. Please define it in the phing command line using the format: -Dencrypt.passphrase=&lt;passphrase&gt;" />
+
+        <echo>Encrypting files...</echo>
+        <exec command="./symfony orangehrm:encrypt-plugin ${stage.dir} ${package.dir} ${encrypt.passphrase}" dir="${symfony.dir}" />
+    </target>
+
+    <target name="dist" depends="encrypt">
+        <echo message="Creating archives ..." />
+
+        <zip destfile="${dist.dir}/${base.name}.zip">
+            <fileset dir="${dist.dir}">
+                <include name="${package.name}/**"/>
+                <exclude name="*.zip"/>
+                <exclude name="*.tar.gz"/>
+            </fileset>
+        </zip>
+        <tar destfile="${dist.dir}/${base.name}.tar.gz" compression="gzip">
+            <fileset dir="${dist.dir}">
+                <include name="${package.name}/**"/>
+                <exclude name="*.zip"/>
+                <exclude name="*.tar.gz"/>
+            </fileset>
+        </tar>
+    </target>
+
+    <fileset dir="./" id="deleteFiles">
+        <include name="release-revision-*.txt" />
+    </fileset>
+
+    <target name="clean">
+        <echo msg="Cleaning up..."/>
+        <delete dir="${dist.dir}"/>
+        <delete>
+            <fileset refid="deleteFiles" />
+        </delete>
+    </target>
+ 
+  <!-- Test coverage for old classes -->
+    <target name="coverage-lib" depends="prepare">
+        <exec command="phpunit --coverage-html ${test.coverage.dir}/lib ${project.dir}/lib/AllTests.php"
+		checkreturn="true" dir="${project.basedir}" passthru="true"/>
+        <phingcall target="fix-ids"/>
+    </target>
+
+
+    <target name="lint" depends="prepare">
+        <phplint>
+            <fileset dir="${project.dir}/lib">
+                <include name="**/*.php"/>
+            </fileset>
+            <fileset dir="${project.dir}/templates">
+                <include name="**/*.php"/>
+            </fileset>
+        </phplint>
+    </target>
+
+</project>

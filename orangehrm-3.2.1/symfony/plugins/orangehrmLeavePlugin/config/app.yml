@@ -1,0 +1,3 @@
+# default values
+all:
+  orangehrm_core_leave_plugin_default_work_shift_length_hours: 8

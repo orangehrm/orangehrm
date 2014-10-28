@@ -1,0 +1,105 @@
+div.pagingbar a,
+div.pagingbar span {
+	padding-left: 0px;
+	padding-right: 2px;
+}
+
+div.pagingbar span {
+	color: gray;
+}
+
+/* Messages Styling */
+.error_list li{
+    color: #FF0000;
+}
+.error_list{
+    margin-bottom: 0;
+    padding-left: 20px;
+}
+.formCheckbox{
+    margin-left: 10px !important;
+}
+
+/* form styling - refactor*/
+.formInputText, .formCheckbox, .formSelect, input.formRadio, input.formCheckbox, .formDateInput{
+    float: left !important;
+    margin-left: 0px !important;
+}
+
+.input_container{
+    float: left;
+}
+.input_container textarea{
+    float: left;
+}
+.input_container .error{
+    padding-left: 0px;
+}
+
+.input_file .error{
+    width: 100% !important;
+}
+
+
+span.formFieldContainer{
+    margin-left: 0px;
+}
+
+label.optionlabel{
+    padding-left: 0px;
+}
+
+input.formRadio{
+    margin-right: 10px !important;
+}
+
+label.sizeL{
+    width: 160px;
+}
+
+label.sizeXL{
+    width: 190px;
+}
+
+label.sizeM{
+    width: 130px;
+}
+
+.maincontent fieldset{
+    margin: 0;
+    padding: 0;
+    border: none;
+    padding-bottom: 10px;
+    border-bottom: #9b9999 1px solid;
+}
+
+.maincontent fieldset legend{
+    padding-left: 10px;
+    padding-top: 10px;
+}
+
+.label_result_element{
+    margin-top: 10px;
+    font-weight: bold;
+}
+
+div.dialogButtons {
+    margin-top: 20px;
+    text-align: center;
+    vertical-align: bottom;
+}
+
+.trHover {
+    background-color: #ccc;
+    cursor: pointer;
+}
+
+table.data-table th {
+    width: auto;
+    text-align: left;
+    padding-left: 2px;
+}
+
+.loading {
+    background: white url('../images/loading.gif') right center no-repeat;
+}

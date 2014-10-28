@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE xliff PUBLIC "-//XLIFF//DTD XLIFF//EN" "http://www.oasis-open.org/committees/xliff/documents/xliff.dtd">
+<xliff version="1.0">
+ <header/>
+ <file source-language="en_US" target-language="id_ID" datatype="plaintext" original="messages" date="2012-04-17T0:36:02Z" product-name="messages">
+  <body>
+   <trans-unit id="1">
+    <source>Application Received</source>
+    <target>Aplikasi Lamaran Diterima</target>
+   </trans-unit>
+   <trans-unit id="2">
+    <source>Uploaded</source>
+    <target>Unggah</target>
+   </trans-unit>
+   <trans-unit id="3">
+    <source>Vacancy Apply Form</source>
+    <target>Formulir Pengiriman Lamaran Kerja </target>
+   </trans-unit>
+  </body>
+ </file>
+</xliff>
+<!-- Contributed By:   ,  Bambang Widya Putra , Boedhie Cool , Gondhez Alkatraz , Tituk Novianto , Trenggana Natadirja -->

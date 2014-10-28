@@ -1,0 +1,487 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE xliff PUBLIC "-//XLIFF//DTD XLIFF//EN" "http://www.oasis-open.org/committees/xliff/documents/xliff.dtd">
+<xliff version="1.0">
+ <header/>
+ <file source-language="en_US" target-language="bg_BG" datatype="plaintext" original="messages" date="2012-08-22T5:55:13Z" product-name="messages">
+  <body>
+   <trans-unit id="1">
+    <source>Account Number</source>
+    <target>Номер на сметката</target>
+   </trans-unit>
+   <trans-unit id="2">
+    <source>Account Type</source>
+    <target>Тип Сметка</target>
+   </trans-unit>
+   <trans-unit id="3">
+    <source>Activate Employment</source>
+    <target>Активирайте Employement</target>
+   </trans-unit>
+   <trans-unit id="4">
+    <source>Add Custom Field</source>
+    <target>Добави персонализирано поле</target>
+   </trans-unit>
+   <trans-unit id="5">
+    <source>Add Dependent</source>
+    <target>Добави зависимост</target>
+   </trans-unit>
+   <trans-unit id="6">
+    <source>Add Direct Deposit Details</source>
+    <target>Добавяне на пряк депозит</target>
+   </trans-unit>
+   <trans-unit id="7">
+    <source>Add Emergency Contact</source>
+    <target>Добави свържете с аварийния</target>
+   </trans-unit>
+   <trans-unit id="8">
+    <source>Add Immigration</source>
+    <target>Добави имиграцията</target>
+   </trans-unit>
+   <trans-unit id="9">
+    <source>Add Membership Details</source>
+    <target>Добави за членство Детайли</target>
+   </trans-unit>
+   <trans-unit id="10">
+    <source>Add Reporting Method</source>
+    <target>Добави метод на отчитане</target>
+   </trans-unit>
+   <trans-unit id="11">
+    <source>Add Subordinate</source>
+    <target>Добави подчинят</target>
+   </trans-unit>
+   <trans-unit id="12">
+    <source>Add Supervisor</source>
+    <target>Добави надзорен орган</target>
+   </trans-unit>
+   <trans-unit id="13">
+    <source>Add Supervisor/Subordinate</source>
+    <target>Добавяне на надзорен орган / подчинен</target>
+   </trans-unit>
+   <trans-unit id="14">
+    <source>Add Termination Reason</source>
+    <target>Добави Причина Прекратяване</target>
+   </trans-unit>
+   <trans-unit id="15">
+    <source>Add Work Experience</source>
+    <target>Добави професионален опит</target>
+   </trans-unit>
+   <trans-unit id="16">
+    <source>All customs fields are in use</source>
+    <target>Всички полета са в употреба</target>
+   </trans-unit>
+   <trans-unit id="17">
+    <source>Assigned Dependents</source>
+    <target>Присвоени зависимите</target>
+   </trans-unit>
+   <trans-unit id="18">
+    <source>Assigned Emergency Contacts</source>
+    <target>Емисионни Контакти Спешни</target>
+   </trans-unit>
+   <trans-unit id="19">
+    <source>Assigned Immigration Documents</source>
+    <target>Емисионни Документи имиграцията</target>
+   </trans-unit>
+   <trans-unit id="20">
+    <source>Assigned Memberships</source>
+    <target>Присвоени Членства</target>
+   </trans-unit>
+   <trans-unit id="21">
+    <source>Assigned Subordinates</source>
+    <target>Присвоени подчинените</target>
+   </trans-unit>
+   <trans-unit id="22">
+    <source>Assigned Supervisors</source>
+    <target>Присвоени надзорници</target>
+   </trans-unit>
+   <trans-unit id="23">
+    <source>At least one phone number is required</source>
+    <target>Най-малко един телефонен номер се изисква</target>
+   </trans-unit>
+   <trans-unit id="24">
+    <source>Bi Weekly</source>
+    <target>Би Weekly</target>
+   </trans-unit>
+   <trans-unit id="25">
+    <source>child</source>
+    <target>дете</target>
+   </trans-unit>
+   <trans-unit id="26">
+    <source>Child</source>
+    <target>Дете</target>
+   </trans-unit>
+   <trans-unit id="27">
+    <source>Configure PIM</source>
+    <target>Конфигуриране на PIM</target>
+   </trans-unit>
+   <trans-unit id="28">
+    <source>Confirm</source>
+    <target>Потвърдете</target>
+   </trans-unit>
+   <trans-unit id="29">
+    <source>Contract Details</source>
+    <target>Договор Детайли</target>
+   </trans-unit>
+   <trans-unit id="30">
+    <source>Country Specific Information</source>
+    <target>Специфична за страната информация</target>
+   </trans-unit>
+   <trans-unit id="31">
+    <source>Create Login Details</source>
+    <target>Създаване на вход</target>
+   </trans-unit>
+   <trans-unit id="32">
+    <source>Custom</source>
+    <target>Обичай</target>
+   </trans-unit>
+   <trans-unit id="33">
+    <source>Custom Field Name</source>
+    <target>Име на персонализирано поле</target>
+   </trans-unit>
+   <trans-unit id="34">
+    <source>Date of Expiry</source>
+    <target>Датата на изтичане</target>
+   </trans-unit>
+   <trans-unit id="35">
+    <source>Delete photograph?</source>
+    <target>Изтриване на снимка?</target>
+   </trans-unit>
+   <trans-unit id="36">
+    <source>Direct Deposit</source>
+    <target>Директен депозит</target>
+   </trans-unit>
+   <trans-unit id="37">
+    <source>Document</source>
+    <target>Документ</target>
+   </trans-unit>
+   <trans-unit id="38">
+    <source>Document No</source>
+    <target>Документ №</target>
+   </trans-unit>
+   <trans-unit id="39">
+    <source>Drop Down</source>
+    <target>Падащо меню</target>
+   </trans-unit>
+   <trans-unit id="40">
+    <source>Edit Custom Field</source>
+    <target>Редактиране на потребителски поле</target>
+   </trans-unit>
+   <trans-unit id="41">
+    <source>Edit Dependent</source>
+    <target>Редактиране на зависимост</target>
+   </trans-unit>
+   <trans-unit id="42">
+    <source>Edit Emergency Contact</source>
+    <target>Редактирайте се свържете с аварийния</target>
+   </trans-unit>
+   <trans-unit id="43">
+    <source>Edit Employment Termination</source>
+    <target>Редактиране Прекратяване Employement</target>
+   </trans-unit>
+   <trans-unit id="44">
+    <source>Edit Membership Detail</source>
+    <target>Редактиране Детайли за членство</target>
+   </trans-unit>
+   <trans-unit id="45">
+    <source>Edit Reporting Method</source>
+    <target>Редактиране метод на отчитане</target>
+   </trans-unit>
+   <trans-unit id="46">
+    <source>Edit Subordinate</source>
+    <target>Редактиране на подчинена</target>
+   </trans-unit>
+   <trans-unit id="47">
+    <source>Edit Supervisor</source>
+    <target>Редактиране на надзорен орган</target>
+   </trans-unit>
+   <trans-unit id="48">
+    <source>Edit Termination Reason</source>
+    <target>Редактиране Причина Прекратяване</target>
+   </trans-unit>
+   <trans-unit id="49">
+    <source>Edit Work Experience</source>
+    <target>Редактиране професионален опит</target>
+   </trans-unit>
+   <trans-unit id="50">
+    <source>Emergency Contact(s)</source>
+    <target>Контактите при аварийни случаи (а)</target>
+   </trans-unit>
+   <trans-unit id="51">
+    <source>Employee Information</source>
+    <target>Employee Information</target>
+   </trans-unit>
+   <trans-unit id="52">
+    <source>Employment</source>
+    <target>Работа</target>
+   </trans-unit>
+   <trans-unit id="53">
+    <source>Employment Contract</source>
+    <target>Трудов договор</target>
+   </trans-unit>
+   <trans-unit id="54">
+    <source>Enter a number</source>
+    <target>Въведете номер</target>
+   </trans-unit>
+   <trans-unit id="55">
+    <source>Enter allowed options separated by commas</source>
+    <target>Въведете позволените опции, разделени със запетая</target>
+   </trans-unit>
+   <trans-unit id="56">
+    <source>Ethnic Race</source>
+    <target>Етническа Race</target>
+   </trans-unit>
+   <trans-unit id="57">
+    <source>Exemptions</source>
+    <target>Освобождаване</target>
+   </trans-unit>
+   <trans-unit id="58">
+    <source>Failed To Save: Employee Id Exists</source>
+    <target>Неуспешно за да запазите: Служител Id съществува</target>
+   </trans-unit>
+   <trans-unit id="59">
+    <source>Failed To Save: User Name Exists</source>
+    <target>Неуспешно за да запазите: Потребителско име съществува</target>
+   </trans-unit>
+   <trans-unit id="60">
+    <source>Federal Income Tax</source>
+    <target>Федерален данък</target>
+   </trans-unit>
+   <trans-unit id="61">
+    <source>Field Name</source>
+    <target>Име на поле</target>
+   </trans-unit>
+   <trans-unit id="62">
+    <source>Field Type</source>
+    <target>Тип на полето</target>
+   </trans-unit>
+   <trans-unit id="63">
+    <source>From date should be before to date</source>
+    <target>От дата трябва да бъде преди към днешна дата</target>
+   </trans-unit>
+   <trans-unit id="64">
+    <source>GPA/Score</source>
+    <target>GPA / Резултат</target>
+   </trans-unit>
+   <trans-unit id="65">
+    <source>Hourly</source>
+    <target>Всеки час</target>
+   </trans-unit>
+   <trans-unit id="66">
+    <source>Institute</source>
+    <target>Институт</target>
+   </trans-unit>
+   <trans-unit id="67">
+    <source>Issued date should be before expiration date</source>
+    <target>Издаден дата трябва да бъде преди изтичане срока на годност</target>
+   </trans-unit>
+   <trans-unit id="68">
+    <source>Major/Specialization</source>
+    <target>Майор / Специализация</target>
+   </trans-unit>
+   <trans-unit id="69">
+    <source>Married</source>
+    <target>Женен</target>
+   </trans-unit>
+   <trans-unit id="70">
+    <source>Max</source>
+    <target>Max</target>
+   </trans-unit>
+   <trans-unit id="71">
+    <source>Membership Type</source>
+    <target>Тип членство</target>
+   </trans-unit>
+   <trans-unit id="72">
+    <source>Military Service</source>
+    <target>Военна служба</target>
+   </trans-unit>
+   <trans-unit id="73">
+    <source>Min</source>
+    <target>Мин.</target>
+   </trans-unit>
+   <trans-unit id="74">
+    <source>Monthly</source>
+    <target>Месечен</target>
+   </trans-unit>
+   <trans-unit id="75">
+    <source>Monthly on first pay of month.</source>
+    <target>Ежемесечно на първо плащаме на месец.</target>
+   </trans-unit>
+   <trans-unit id="76">
+    <source>N/A</source>
+    <target>N / A</target>
+   </trans-unit>
+   <trans-unit id="77">
+    <source>Nick Name</source>
+    <target>Ник Име</target>
+   </trans-unit>
+   <trans-unit id="78">
+    <source>Non Resident Alien</source>
+    <target>Non Resident Alien</target>
+   </trans-unit>
+   <trans-unit id="79">
+    <source>Not Applicable</source>
+    <target>Не е приложимо</target>
+   </trans-unit>
+   <trans-unit id="80">
+    <source>other</source>
+    <target>друг</target>
+   </trans-unit>
+   <trans-unit id="81">
+    <source>Passport</source>
+    <target>Паспорт</target>
+   </trans-unit>
+   <trans-unit id="82">
+    <source>Personal Details</source>
+    <target>Лични данни</target>
+   </trans-unit>
+   <trans-unit id="83">
+    <source>Photograph</source>
+    <target>Снимка</target>
+   </trans-unit>
+   <trans-unit id="84">
+    <source>Please Specify</source>
+    <target>Моля, посочете</target>
+   </trans-unit>
+   <trans-unit id="85">
+    <source>Qualifications</source>
+    <target>Квалификационна</target>
+   </trans-unit>
+   <trans-unit id="86">
+    <source>Reason</source>
+    <target>Причина</target>
+   </trans-unit>
+   <trans-unit id="87">
+    <source>Remaining number of custom fields</source>
+    <target>Оставащия брой потребителски полета</target>
+   </trans-unit>
+   <trans-unit id="88">
+    <source>Renewal date should be after commence date</source>
+    <target>Дата за подновяване трябва да бъде след датата за започване на</target>
+   </trans-unit>
+   <trans-unit id="89">
+    <source>Report-to</source>
+    <target>Доклад за</target>
+   </trans-unit>
+   <trans-unit id="90">
+    <source>Screen</source>
+    <target>Екран</target>
+   </trans-unit>
+   <trans-unit id="91">
+    <source>Select a Photograph</source>
+    <target>Изберете снимка</target>
+   </trans-unit>
+   <trans-unit id="92">
+    <source>Select Membership</source>
+    <target>Изберете членство</target>
+   </trans-unit>
+   <trans-unit id="93">
+    <source>Select Options</source>
+    <target>Изберете Опции</target>
+   </trans-unit>
+   <trans-unit id="94">
+    <source>Semi Monthly</source>
+    <target>Полу на месец</target>
+   </trans-unit>
+   <trans-unit id="95">
+    <source>Show Deprecated Fields</source>
+    <target>Покажи непрепоръчителен полета</target>
+   </trans-unit>
+   <trans-unit id="96">
+    <source>Show Nick Name, Smoker and Military Service in Personal Details</source>
+    <target>Покажи номер, Пушене и военната служба в Лични данни</target>
+   </trans-unit>
+   <trans-unit id="97">
+    <source>Show SIN field in Personal Details</source>
+    <target>Покажи област SIN в лични детайли</target>
+   </trans-unit>
+   <trans-unit id="98">
+    <source>Show SSN field in Personal Details</source>
+    <target>Покажи област SSN в лични детайли</target>
+   </trans-unit>
+   <trans-unit id="99">
+    <source>Show US Tax Exemptions menu</source>
+    <target>Показване на САЩ Данък Освобождаване меню</target>
+   </trans-unit>
+   <trans-unit id="100">
+    <source>SIN Number</source>
+    <target>SIN Брой</target>
+   </trans-unit>
+   <trans-unit id="101">
+    <source>Single</source>
+    <target>Единичен</target>
+   </trans-unit>
+   <trans-unit id="102">
+    <source>Smoker</source>
+    <target>Пушач</target>
+   </trans-unit>
+   <trans-unit id="103">
+    <source>SSN Number</source>
+    <target>SSN Брой</target>
+   </trans-unit>
+   <trans-unit id="104">
+    <source>State Income Tax</source>
+    <target>Данък върху доходите</target>
+   </trans-unit>
+   <trans-unit id="105">
+    <source>Subordinate</source>
+    <target>Подчинят</target>
+   </trans-unit>
+   <trans-unit id="106">
+    <source>Tax Exemptions</source>
+    <target>Освобождаване от данъци</target>
+   </trans-unit>
+   <trans-unit id="107">
+    <source>Terminate Employment</source>
+    <target>Прекратяване Employement</target>
+   </trans-unit>
+   <trans-unit id="108">
+    <source>Terminated Date</source>
+    <target>Прекратен Дата</target>
+   </trans-unit>
+   <trans-unit id="109">
+    <source>Terminated on</source>
+    <target>Прекратено на</target>
+   </trans-unit>
+   <trans-unit id="110">
+    <source>Terminated Reason</source>
+    <target>Прекратен Причина</target>
+   </trans-unit>
+   <trans-unit id="111">
+    <source>Text or Number</source>
+    <target>Текст или брой</target>
+   </trans-unit>
+   <trans-unit id="112">
+    <source>To date should be after From date</source>
+    <target>Към днешна дата трябва да бъде след От дата</target>
+   </trans-unit>
+   <trans-unit id="113">
+    <source>Unemployment State</source>
+    <target>Безработицата членка</target>
+   </trans-unit>
+   <trans-unit id="114">
+    <source>User Name</source>
+    <target>Потребителско име</target>
+   </trans-unit>
+   <trans-unit id="115">
+    <source>Visa</source>
+    <target>Виза</target>
+   </trans-unit>
+   <trans-unit id="116">
+    <source>Weekly</source>
+    <target>Седмично</target>
+   </trans-unit>
+   <trans-unit id="117">
+    <source>Will be deleted from all employees</source>
+    <target>Ще бъдат изтрити от всички служители</target>
+   </trans-unit>
+   <trans-unit id="118">
+    <source>Work experience</source>
+    <target>Професионален опит</target>
+   </trans-unit>
+   <trans-unit id="119">
+    <source>Work State</source>
+    <target>Работата на държавната</target>
+   </trans-unit>
+  </body>
+ </file>
+</xliff>
+<!-- Contributed By:   , Jeni  Mincheva -->
+

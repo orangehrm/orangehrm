@@ -1,0 +1,60 @@
+viewLeaveEntitlementsSuccess:
+  layout: freshorange
+  javascripts:    [-*]
+  stylesheets:    [-*]  
+addLeaveEntitlementSuccess:
+  layout: freshorange
+  javascripts:    [-*]
+  stylesheets:    [-*]     
+viewLeaveBalanceReportSuccess:
+  layout: freshorange
+  javascripts:    [-*]
+  stylesheets:    [-*]   
+viewMyLeaveBalanceReportSuccess:
+  layout: freshorange
+  javascripts:    [-*]
+  stylesheets:    [-*]         
+applyLeaveSuccess:
+  layout: freshorange
+  javascripts:    [-*]
+  stylesheets:    [-*]      
+assignLeaveSuccess:
+  layout: freshorange
+  javascripts:    [-*]
+  stylesheets:    [-*]   
+viewLeaveListSuccess:
+  layout: freshorange
+  javascripts:    [-*]
+  stylesheets:    [-*]
+defineLeavePeriodSuccess:
+  layout: freshorange
+  javascripts:    [-*]
+  stylesheets:    [-*]
+showLeavePeriodNotDefinedWarningSuccess:
+  layout: freshorange
+  javascripts:    [-*]
+  stylesheets:    [-*]
+defineWorkWeekSuccess:
+  layout: freshorange
+  javascripts:    [-*]
+  stylesheets:    [-*]
+viewHolidayListSuccess:
+  layout: freshorange
+  javascripts:    [-*]
+  stylesheets:    [-*]
+defineHolidaySuccess:
+  layout: freshorange
+  javascripts:    [-*]
+  stylesheets:    [-*]
+leaveTypeListSuccess:
+  layout: freshorange
+  javascripts:    [-*]
+  stylesheets:    [-*]  
+defineLeaveTypeSuccess:
+  layout: freshorange
+  javascripts:    [-*]
+  stylesheets:    [-*]    
+viewLeaveRequestSuccess:  
+  layout: freshorange
+  javascripts:    [-*]
+  stylesheets:    [-*]      

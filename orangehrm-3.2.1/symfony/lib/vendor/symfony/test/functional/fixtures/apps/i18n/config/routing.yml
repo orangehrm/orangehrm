@@ -1,0 +1,7 @@
+# default rules
+homepage:
+  url:   /
+  param: { module: i18n, action: index }
+
+default:
+  url:   /:sf_culture/:module/:action/*

@@ -1,0 +1,102 @@
+/* 
+    Document   : editTimesheetSuccess.css
+    Created on : Apr 22, 2011, 8:32:32 AM
+    Author     : orangehrm
+    Description:
+        Purpose of the stylesheet follows.
+*/
+
+/* 
+   TODO customize this sample style
+   Syntax recommendation http://www.w3.org/TR/REC-CSS2/
+*/
+
+root { 
+    display: block;
+}
+
+.toggler { width: 500px; height: 200px; }
+#button { padding: .5em 1em; text-decoration: none; }
+#effect { width: 240px; height: 135px; padding: 0.4em; position: relative; }
+#effect h3 { margin: 0; padding: 0.4em; text-align: center; }
+
+#commentBox {
+    background-color: #c4d1e3;
+    width: 500px;
+    padding-top: 0px;
+    border: none;
+}
+
+.outer{
+    padding: opx;
+    border: .2em thin #d8d8e4;
+    border-width: .05em;
+    border-style: solid;
+    border-color: #d8d8e4;
+    width: 585px;
+}
+
+.plainbtn{
+
+    position: relative;
+
+}
+
+#comments{
+    border-color: #fee6a4;
+    height: 16px;
+
+
+}
+
+.nub{
+    background: url(../../images/nub.gif) no-repeat scroll center top transparent;
+    height: 15px;
+    position: absolute;
+    width: 18px;
+    border: none;
+}
+
+.TimesheetTable{
+    border-collapse:collapse;
+}
+
+.TimesheetTable td{
+    padding-bottom: 0px;
+    padding-top: 0px;
+}
+
+#divTable{
+    border-collapse:collapse;
+}
+
+#btnSave[disabled]{
+
+    background-color:Transparent;
+    color: #d8d8e4;
+    text-decoration: none;
+}
+
+.outerbox{
+	min-width: 98%;
+	padding-right: 10px;
+}
+
+#projectName,#activityName{
+    
+    padding-left: 6px;
+}
+
+.paddingLeftRequired {
+    padding-left: 15px;
+    padding-top: 5px;
+    font-size: 8pt;
+}
+
+#submitRemoveRows {
+    width: 120px !important;
+}
+
+#btnAddRow {
+    width: 120px !important;
+}

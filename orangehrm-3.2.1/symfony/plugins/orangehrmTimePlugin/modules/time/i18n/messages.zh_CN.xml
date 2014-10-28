@@ -1,0 +1,223 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE xliff PUBLIC "-//XLIFF//DTD XLIFF//EN" "http://www.oasis-open.org/committees/xliff/documents/xliff.dtd">
+<xliff version="1.0">
+ <header/>
+ <file source-language="en_US" target-language="zh_CN" datatype="plaintext" original="messages" date="2012-08-22T5:39:05Z" product-name="messages">
+  <body>
+   <trans-unit id="1">
+    <source>Actions Performed on the Timesheet</source>
+    <target>在工时表上执行的动作</target>
+   </trans-unit>
+   <trans-unit id="2">
+    <source>Add Row</source>
+    <target>添加行</target>
+   </trans-unit>
+   <trans-unit id="3">
+    <source>Add Timesheet</source>
+    <target>添加工时表</target>
+   </trans-unit>
+   <trans-unit id="4">
+    <source>Attendance Total Summary Report</source>
+    <target>出勤汇总报告</target>
+   </trans-unit>
+   <trans-unit id="5">
+    <source>Define Timesheet Period</source>
+    <target>定义工时表期间</target>
+   </trans-unit>
+   <trans-unit id="6">
+    <source>Deleted project activities are not editable</source>
+    <target>已删除的项目活动不可编辑</target>
+   </trans-unit>
+   <trans-unit id="7">
+    <source>Deleted projects/activities are marked with an asterik</source>
+    <target>已删除的项目/活动都用星号标注</target>
+   </trans-unit>
+   <trans-unit id="8">
+    <source>Duplicate Records Found</source>
+    <target>发现重复记录</target>
+   </trans-unit>
+   <trans-unit id="9">
+    <source>Edit Timesheet for</source>
+    <target>编辑工时表，为</target>
+   </trans-unit>
+   <trans-unit id="10">
+    <source>Edit Timesheet for Month</source>
+    <target>编辑月工时表</target>
+   </trans-unit>
+   <trans-unit id="11">
+    <source>Edit Timesheet for Week</source>
+    <target>编辑周工时表</target>
+   </trans-unit>
+   <trans-unit id="12">
+    <source>Edit timesheet for week starting</source>
+    <target>编辑起始一周的工时表</target>
+   </trans-unit>
+   <trans-unit id="13">
+    <source>Employee name</source>
+    <target>员工姓名</target>
+   </trans-unit>
+   <trans-unit id="14">
+    <source>Employee Report</source>
+    <target>员工报告</target>
+   </trans-unit>
+   <trans-unit id="15">
+    <source>Enter Employee Name</source>
+    <target>输入员工姓名</target>
+   </trans-unit>
+   <trans-unit id="16">
+    <source>Failed to Create: Future Timesheets Not Allowed</source>
+    <target>创建失败：未来的工时表不允许</target>
+   </trans-unit>
+   <trans-unit id="17">
+    <source>First Day of Week</source>
+    <target>每周的第一天</target>
+   </trans-unit>
+   <trans-unit id="18">
+    <source>for Month starting on</source>
+    <target>月，开始于</target>
+   </trans-unit>
+   <trans-unit id="19">
+    <source>for Week</source>
+    <target>周，</target>
+   </trans-unit>
+   <trans-unit id="20">
+    <source>Fri</source>
+    <target>周五</target>
+   </trans-unit>
+   <trans-unit id="21">
+    <source>hours</source>
+    <target>小时</target>
+   </trans-unit>
+   <trans-unit id="22">
+    <source>Mon</source>
+    <target>周一</target>
+   </trans-unit>
+   <trans-unit id="23">
+    <source>No Accessible Timesheets</source>
+    <target>没有可进入的工时表</target>
+   </trans-unit>
+   <trans-unit id="24">
+    <source>No Changes to Delete</source>
+    <target>没有要删除的变化</target>
+   </trans-unit>
+   <trans-unit id="25">
+    <source>No Timesheets Found</source>
+    <target>未找到工时表</target>
+   </trans-unit>
+   <trans-unit id="26">
+    <source>Not Submitted</source>
+    <target>未提交</target>
+   </trans-unit>
+   <trans-unit id="27">
+    <source>Proceed with Time Module</source>
+    <target>继续进行考勤模块</target>
+   </trans-unit>
+   <trans-unit id="28">
+    <source>Project Activity Details Report</source>
+    <target>项目活动详情报告</target>
+   </trans-unit>
+   <trans-unit id="29">
+    <source>Project Report</source>
+    <target>项目报告</target>
+   </trans-unit>
+   <trans-unit id="30">
+    <source>Remove Rows</source>
+    <target>删除行</target>
+   </trans-unit>
+   <trans-unit id="31">
+    <source>Sat</source>
+    <target>周六</target>
+   </trans-unit>
+   <trans-unit id="32">
+    <source>Select a Day to Create Timesheet</source>
+    <target>选择一天以创建工时表</target>
+   </trans-unit>
+   <trans-unit id="33">
+    <source>Select a Project and an Activity</source>
+    <target>选择一个项目和活动</target>
+   </trans-unit>
+   <trans-unit id="34">
+    <source>Select Employee</source>
+    <target>选择员工</target>
+   </trans-unit>
+   <trans-unit id="35">
+    <source>Select Records to Remove</source>
+    <target>选择要删除的记录</target>
+   </trans-unit>
+   <trans-unit id="36">
+    <source>Should Be Less Than 24 and in HH:MM or Decimal Format</source>
+    <target>应小于24且格式为HH：MM或十进制</target>
+   </trans-unit>
+   <trans-unit id="37">
+    <source>Status:</source>
+    <target>状态：</target>
+   </trans-unit>
+   <trans-unit id="38">
+    <source>Sun</source>
+    <target>周日</target>
+   </trans-unit>
+   <trans-unit id="39">
+    <source>Thu</source>
+    <target>周四</target>
+   </trans-unit>
+   <trans-unit id="40">
+    <source>Timesheet Already Exists</source>
+    <target>工时表已存在</target>
+   </trans-unit>
+   <trans-unit id="41">
+    <source>Timesheet Approved</source>
+    <target>工时表已批准</target>
+   </trans-unit>
+   <trans-unit id="42">
+    <source>Timesheet for</source>
+    <target>工时表，</target>
+   </trans-unit>
+   <trans-unit id="43">
+    <source>Timesheet Period</source>
+    <target>工时表期间</target>
+   </trans-unit>
+   <trans-unit id="44">
+    <source>Timesheet period start day has been set</source>
+    <target>工时表期间起始日已设置</target>
+   </trans-unit>
+   <trans-unit id="45">
+    <source>Timesheet period start day has not been defiend. Please contact HR Admin</source>
+    <target>工时表期间的起始日未定义。请联系人力资源管理员</target>
+   </trans-unit>
+   <trans-unit id="46">
+    <source>Timesheet period start day has not been defined. Please contact HR Admin</source>
+    <target>工时表期间的起始日未定义。请联系人力资源管理员</target>
+   </trans-unit>
+   <trans-unit id="47">
+    <source>Timesheet Rejected</source>
+    <target>工时表已驳回</target>
+   </trans-unit>
+   <trans-unit id="48">
+    <source>Timesheet Submitted</source>
+    <target>工时表已提交</target>
+   </trans-unit>
+   <trans-unit id="49">
+    <source>Timesheets Pending Action</source>
+    <target>需要后续动作的工时表</target>
+   </trans-unit>
+   <trans-unit id="50">
+    <source>Total Should Be Less Than 24 Hours</source>
+    <target>总数要少于24小时</target>
+   </trans-unit>
+   <trans-unit id="51">
+    <source>Tue</source>
+    <target>周二</target>
+   </trans-unit>
+   <trans-unit id="52">
+    <source>Wed</source>
+    <target>周三</target>
+   </trans-unit>
+   <trans-unit id="53">
+    <source>Week</source>
+    <target>周</target>
+   </trans-unit>
+  </body>
+ </file>
+</xliff>
+<!-- Contributed By:   ,   ,   ,   ,   ,  Fen xiao ,  Li Monolith , Alice Lieu , ds cao , Edwin Li , Huai Zhenchang , Jessie Wang , Jet Chan , Kobe Omnipotent , Letla Jia , Li Yue , Lihui Jiang , Muse Sun , Patrick Dong , Peng Wei , Qi Feng , Qing Sina , sasf safasf , Sunny Zhang , Troy.Dom Troy.Dom , Wenqiang Niu , Yang Ren , Yue Li -->
+

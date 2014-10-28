@@ -1,0 +1,47 @@
+/* 
+    Document   : proxyPunchInOutSuccess
+    Created on : Aug 9, 2011, 12:46:46 PM
+    Author     : orangehrm
+    Description:
+        Purpose of the stylesheet follows.
+*/
+
+/* 
+   TODO customize this sample style
+   Syntax recommendation http://www.w3.org/TR/REC-CSS2/
+*/
+
+root { 
+    display: block;
+}
+
+.punchInbutton, .punchOutbutton{
+
+    background: none repeat scroll 0 0 #999966 !important;
+    border-color: #CCCC99 #666633 #666633 #CCCC99 !important;
+    border-style: solid !important;
+    border-width: 1px !important;
+    color: #FFFFFF !important;
+    cursor: default;
+    font-size: 11px;
+    font-weight: bold !important;
+    min-width: 75px;
+    width: auto;
+}
+
+form#punchTimeForm label {
+    position: relative;
+    margin-top: 6px;
+    width: 60px
+}
+
+.punchTable td{
+
+     padding-left: 5px;
+    padding-right: 5px;
+}
+
+#attendance_date_Button {
+    margin-bottom:-4px;
+    margin-left:4px;
+}

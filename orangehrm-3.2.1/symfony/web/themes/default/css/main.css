@@ -1,0 +1,1702 @@
+/* ================ HTML element styles: Begin ================ */
+body {
+	font-family:Arial, Helvetica, sans-serif;
+	font-size:13px;
+	color:#5d5d5d;
+}
+a {
+	outline:none;
+    color:#5d5d5d;
+}
+textarea {
+    font-family:Arial, Helvetica, sans-serif;
+}
+/* ================ HTML element styles: End ================ */
+
+/* ================ Application header styles: Begin ================ */
+#branding {
+	height:91px;
+	padding:0 25px 0 25px;
+}
+#branding img {
+	margin:14px 0 0 0;
+}
+.subscribe {
+	padding:10px 15px 12px 15px;
+	font-size:13px;
+	color:#fff;
+	text-decoration:none;
+	-moz-border-radius-bottomright: 3px;
+	-webkit-border-bottom-right-radius: 3px;
+	border-bottom-right-radius: 3px;
+	-moz-border-radius-bottomleft: 3px;
+	-webkit-border-bottom-left-radius: 3px;
+	border-bottom-left-radius: 3px;
+	background: rgb(40, 134, 49);
+	background: -moz-linear-gradient(90deg, rgb(40, 134, 49) 20%, rgb(124, 202, 132) 100%);
+	background: -webkit-linear-gradient(90deg, rgb(40, 134, 49) 20%, rgb(124, 202, 132) 100%);
+	background: -o-linear-gradient(90deg, rgb(40, 134, 49) 20%, rgb(124, 202, 132) 100%);
+	background: -ms-linear-gradient(90deg, rgb(40, 134, 49) 20%, rgb(124, 202, 132) 100%);
+	background: linear-gradient(90deg, rgb(40, 134, 49) 20%, rgb(124, 202, 132) 100%);
+	float:right;
+}
+.subscribe:hover {
+	background: #288832;
+	color:#fff;
+}
+#welcome {
+	color:#5d5d5d;
+	background: url(../images/welcome-down.png) no-repeat center right;
+	padding:2px 32px 1px 1px;
+	text-decoration:none;
+	position:absolute;
+	top:70px;
+	right:35px;
+	z-index:999;
+}
+#wrapper .activated-welcome {
+	background: url(../images/welcome-up.png) no-repeat center right;
+}
+#welcome-menu {
+	background:#454648;
+	z-index:1100;
+	position:absolute;
+	top:88px;
+	right:30px;
+	-webkit-border-radius: 3px;
+	-moz-border-radius: 3px;
+	border-radius: 3px;
+	padding:5px 10px;
+	display:none;
+	min-width:122px;
+}
+#welcome-menu li a {
+	color:#fff;
+	line-height:20px;
+	text-decoration:none;
+}
+#welcome-menu li a:hover {
+	text-decoration:underline;
+}
+#help {
+	color:#f28c38;
+	background: url(../images/help-down.png) no-repeat center right;
+	padding:2px 15px 1px 1px;
+	text-decoration:none;
+	z-index:999;
+	float:right;
+	margin:10px 15px 0 0;
+}
+#wrapper .activated-help {
+	background: url(../images/help-up.png) no-repeat center right;
+}
+#help-menu {
+	background:#454648;
+	z-index:9998;
+	position:absolute;
+	top:30px;
+	right:230px;
+	-webkit-border-radius: 3px;
+	-moz-border-radius: 3px;
+	border-radius: 3px;
+	padding:5px 10px;
+	display:none;
+	min-width:122px;
+}
+#help-menu li a {
+	color:#fff;
+	line-height:20px;
+	text-decoration:none;
+}
+#help-menu li a:hover {
+	text-decoration:underline;
+}
+/* ================ Application header styles: End ================ */
+
+/* ================ Main menu styles: Begin ================ */
+.menu {
+	height:40px;
+	background:url(../images/nav-bg.png) left bottom repeat-x;
+	position:relative;
+	z-index:10;
+}
+/*
+.nocurrent {
+	z-index:30;
+}
+.homecurrent {
+	z-index:20;
+}
+*/
+.menu ul {
+	padding:0;
+	margin:0;
+	list-style:none; 
+	padding:0 25px;
+}
+.menu > ul {
+	float:left;
+}
+.menu > ul > li {
+	float:left;
+	margin-right:5px;
+}
+.menu > ul > li > a {
+	display:block;
+	color:#5d5d5d;
+	line-height:40px;
+	background:transparent;
+	text-decoration:none;
+	padding:0 0 0 10px;
+	font-size:14px;
+	-moz-border-radius-topleft: 3px;
+	-webkit-border-top-left-radius: 3px;
+	 border-top-left-radius: 3px;
+	-moz-border-radius-topright: 3px;
+	-webkit-border-top-right-radius: 3px;
+	border-top-right-radius: 3px;
+}
+.menu > ul > li > a b {
+	display:block;
+	background:transparent;
+	padding:0 10px 0 0;
+	font-weight:normal;
+	-moz-border-radius-topleft: 3px;
+	-webkit-border-top-left-radius: 3px;
+	 border-top-left-radius: 3px;
+	-moz-border-radius-topright: 3px;
+	-webkit-border-top-right-radius: 3px;
+	border-top-right-radius: 3px;
+}
+.menu > ul > li > ul {
+	position:absolute;
+	left:-9999px;
+	height:36px;
+    background:#d8d8d8;
+	opacity:0;
+	padding:4px 0 0 25px;
+	width:100%;
+	-moz-transition: opacity 0.5s;
+	-ms-transition: opacity 0.5s;
+	-o-transition: opacity 0.5s;
+	-webkit-transition: opacity 0.5s;
+	transition: opacity 0.5s;
+}
+.menu > ul > li.current > ul {
+    position:absolute;
+    left:-9999px;
+    height:36px;
+    background:url(../images/sub-nav.png) left bottom repeat-x;
+    opacity:0;
+    padding:4px 0 0 25px;
+    width:100%;
+    -moz-transition: opacity 0.5s;
+    -ms-transition: opacity 0.5s;
+    -o-transition: opacity 0.5s;
+    -webkit-transition: opacity 0.5s;
+    transition: opacity 0.5s;
+}
+.menu > ul > li > ul > li {
+	float:left;
+	position:relative;
+}
+.menu > ul > li > ul > li > a {
+	display:block;
+    color:#333;
+	line-height:30px;
+	text-decoration:none;
+	padding:0 10px;
+	font-size:14px;
+	-webkit-border-radius: 3px;
+	-moz-border-radius: 3px;
+	border-radius: 3px;
+	margin-right:5px;
+}
+.menu > ul > li.current > ul > li > a {
+	display:block;
+	color:#fff;
+	line-height:30px;
+	text-decoration:none;
+	padding:0 10px;
+	font-size:14px;
+	-webkit-border-radius: 3px;
+	-moz-border-radius: 3px;
+	border-radius: 3px;
+	margin-right:5px;
+}
+.menu > ul > li > ul > li > a.arrow {
+	padding: 0 20px 0 10px;
+    background:url(../images/sub-nav-arrow-n.png) no-repeat 92% 48%;
+}
+.menu > ul > li.current > ul > li > a.arrow {
+	padding: 0 20px 0 10px;
+	background:url(../images/sub-nav-arrow.png) no-repeat 92% 48%;
+}
+.menu > ul > li > ul > li > ul {
+	position:absolute;
+	left:-9999px;
+	background:#555657;
+	padding:10px;
+	-moz-border-radius-topright: 3px;
+	-webkit-border-top-right-radius: 3px;
+	border-top-right-radius: 3px;
+	-moz-border-radius-bottomright: 3px;
+	-webkit-border-bottom-right-radius: 3px;
+	border-bottom-right-radius: 3px;
+	-moz-border-radius-bottomleft: 3px;
+	-webkit-border-bottom-left-radius: 3px;
+	border-bottom-left-radius: 3px;
+}
+.menu > ul > li > ul > li > ul > li > a {
+	display:block;
+	color:#ababab;
+	text-decoration:none;
+	padding:3px 5px 3px 0;
+	white-space:nowrap;
+	font-size:14px;
+	line-height:20px;
+}
+.menu > ul > li:hover > a {
+	background:url(../images/top-nav-selected1.png);
+	color:#333;
+}
+.menu > ul > li:hover > a b {
+	background:url(../images/top-nav-selected1.png);
+}
+.menu ul li:hover {
+	direction:ltr;
+}
+.menu > ul > li:hover > ul {
+	left:0;
+	opacity:1;
+}
+.menu > ul > li > ul > li:hover > a {
+	color:#fff; background:#555657;
+}
+.menu > ul > li > ul > li:hover > a.arrow {
+	background:#555657 url(../images/sub-nav-arrow-s.png) no-repeat 92% 48%;
+}
+.menu > ul > li > ul > li:hover > ul {
+	left:0px;
+	top:27px;
+	-moz-transform: scaleY(1);
+	-ms-transform: scaleY(1);
+	-o-transform: scaleY(1);
+	-webkit-transform: scaleY(1);
+	transform: scaleY(1);
+}
+.menu > ul > li > ul > li > ul > li > a:hover {
+	color:#fff;
+}
+.menu > ul > li.current > a {
+	background:#f28c38;
+	color:#fff;
+}
+.menu > ul > li.current > a b {
+	background:#f28c38;
+}
+.menu > ul > li.current > ul {
+	left:0;
+	opacity:1;
+}
+.menu > ul:hover > li.current > a {
+	background:#f28c38;
+}
+.menu > ul:hover > li.current > a b {
+	background:#f28c38;
+}
+.menu > ul:hover > li.current > ul {
+	left:-9999px;
+}
+.menu > ul:hover > li.current:hover > a {
+	background:#f28c38;
+}
+.menu > ul:hover > li.current:hover > a b {
+	background:#f28c38;
+}
+.menu > ul:hover > li.current:hover > ul {
+	left:0;
+	opacity:1;
+}
+.menu > ul > li > ul > li.selected > a {
+	background:#555657;
+	color:#fff;
+}
+.menu > ul > li > ul > li.selected > a.arrow {
+	background:#555657 url(../images/sub-nav-arrow-s.png) no-repeat 92% 48%;
+}
+.menu > ul > li > ul > li.current > a b {
+	background:#555657;
+}
+.menu > ul > li > ul > li.current > ul {
+	left:0;
+	opacity:1;
+}
+/* ================ Main menu styles: End ================ */
+
+/* ================ Main div styles: Begin ================ */
+#wrapper {
+	min-width:940px;
+	overflow:hidden;
+}
+#content {
+	padding-top:35px;
+}
+#footer {
+	text-align:center;
+	padding:0 0 30px 0;
+	color:#777;
+	font-size:12px;
+}
+#social-icons {
+    margin-top: 5px;
+}
+.box {
+	margin:20px;
+	position:relative;
+}
+.box a {
+    text-decoration: underline;
+    cursor: pointer;
+}
+.box div.top {
+	width:100%;
+	margin-bottom:10px;
+	border-bottom:1px solid #dedede;
+	padding-bottom:13px;
+	overflow:hidden;
+}
+.box .inner {
+	background:#f7f6f6;
+	padding:15px;
+	border:1px solid #dedede;
+	border-top:none;
+	-moz-border-radius-bottomright: 3px;
+	-webkit-border-bottom-right-radius: 3px;
+	border-bottom-right-radius: 3px;
+	-moz-border-radius-bottomleft: 3px;
+	-webkit-border-bottom-left-radius: 3px;
+	border-bottom-left-radius: 3px;
+	overflow:hidden;
+	margin-bottom:19px;
+}
+.box .head {
+	position:relative;
+}
+.box .head h1 {
+	background: #f3f3f3 url(../images/h1-bg.png) left bottom repeat-x;
+	font-size:18px;
+	color:#5d5d5d;
+	padding:9px 15px;
+	line-height:20px;
+	border:1px solid #dedede;
+	-moz-border-radius-topleft: 3px;
+	-webkit-border-top-left-radius: 3px;
+	 border-top-left-radius: 3px;
+	-moz-border-radius-topright: 3px;
+	-webkit-border-top-right-radius: 3px;
+	border-top-right-radius: 3px;
+}
+.box h2 {
+    font-weight: bold;
+    font-size: 15px;
+}
+.box h3 {
+    font-weight: bold;
+    font-size: 13px;
+}
+.noHeader .inner {
+	border:1px solid #dedede;
+	-webkit-border-radius: 3px;
+	-moz-border-radius: 3px;
+	border-radius: 3px;
+}
+.box .toggle {
+	background: url(../images/toggle-down.png) no-repeat 99% 50%;
+	width:9px;
+	height:8px;
+	text-indent:-9999px;
+	display:block;
+	position:absolute;
+	top:0;
+	left:0;
+	width:100%;
+	height:40px;
+}
+.box .toggle.activated	{
+	background: url(../images/toggle-up.png) no-repeat 99% 50%;
+}
+.box ul.top {
+	float:right;
+	padding: 10px 0 0 ;    
+}
+.box ul.bottom {
+	float:right;
+	padding:15px 0 0 ;
+}
+
+.box div.bottom {
+    border-top:1px solid #dedede;
+    margin-top:10px;
+    padding-top:10px;
+}
+
+.miniList p {
+    margin-bottom: 10px;
+    padding-top: 0;
+}
+/* ================ Main div styles: End ================ */
+
+/* ================ General class styles: Begin ================ */
+.normal {
+    margin: 0;
+    border: none;
+}
+.hide {display:none;}
+
+.show {
+  display: block;
+}
+.fade {
+  opacity: 0;
+  -webkit-transition: opacity 0.15s linear;
+     -moz-transition: opacity 0.15s linear;
+      -ms-transition: opacity 0.15s linear;
+       -o-transition: opacity 0.15s linear;
+          transition: opacity 0.15s linear;
+}
+.inputFormatHint {
+    color: #A9A9A9;
+}
+
+label.fieldHelpBottom {
+    display:block;
+    float:left;
+    color: #A9A9A9;
+    clear: left;
+    margin-left: 150px;
+    width: auto;
+}
+
+li.noLabel label.fieldHelpBottom {
+    margin-left: 0px;
+}
+
+
+.fieldHelpRight {
+    margin-left: 5px;
+}
+.boldText {
+    font-weight: bold;
+}
+.required {
+	color:#aa4935;
+}
+.helpText { /* Used in attendance/viewAttendanceRecord */
+	color:#a9a9a9;
+}
+.borderBottom {
+    padding-bottom: 10px;
+    border-bottom:1px solid #dedede;
+}
+/* ================ General class styles: End ================ */
+
+/* ================ Form styles: Begin ================ */
+input:disabled, select:disabled, textarea:disabled {
+    background-color: #DDD;
+}
+form ol {
+	border-bottom:1px solid #dedede;
+	overflow:hidden;
+    padding-bottom: 5px;  /* ruchira: fix overlap between validation error in last input field */    
+    margin-bottom: 10px;
+}
+form ol li {
+	float:left;
+	position:relative;
+    width:90%;
+    margin:3px 0 12px 0;
+}
+form ol li label {
+	display:block;
+	color:#5d5d5d;
+	width:150px;
+	float:left;
+}
+form ol li label.line {
+    width: auto;
+    margin-right: 10px;
+}
+
+/* eg: From label for date range. Left margin is 0 */
+form ol li label.sublabel1 {
+	width:auto;
+        margin-left: 0px;
+        margin-right: 10px;
+}
+
+/* eg: To label for date range */
+form ol li label.sublabel2 {
+	width:auto;
+        margin-left: 20px;
+        margin-right: 10px;
+}
+
+ /* TODO: Check whether .label is in use */
+/* 
+form ol li .label {
+	display:block;
+	color:#5d5d5d;
+	width:150px;
+	float:left;
+}
+form ol li .label {
+	height:50px;
+	margin:0;
+}
+*/
+form ol li input {
+	float:left;
+	width:225px;
+}
+form input, form select,  form textarea {
+	font-size:13px;
+	border:1px solid #d2d1d1;
+	color:#5d5d5d;
+	-webkit-border-radius: 3px;
+	-moz-border-radius: 3px;
+	border-radius: 3px;
+	outline:none;
+	padding:4px 6px;
+    background-color: #FFF;
+}
+form ol li select {
+    float:left;
+    width:239px;
+	height:25px;
+	margin-top:1px;
+    padding:3px 6px;
+}
+
+form ol li select.auto-width {
+    min-width:239px;
+    width: auto;
+}
+
+form ol li textarea {
+	float:left;
+	width:250px;
+	height:80px;
+}
+form ol li input[type=text] {
+    height:16px;
+
+}
+form ol li input[type="file"] {
+    margin-bottom: 5px;
+}
+form ol li input.calendar {
+	width:165px;
+	float:left;
+}
+form ol li.line {
+	width:100%;
+}
+form ol li.new {
+	clear:left;
+}
+form ol li.noLabel { /*TODO: Check whether this is the proper way. Used in 'saveJobTitle' */
+	margin-left: 150px;
+}
+form ol li.noLabel .fieldHelpBottom {
+	left: 0;
+}
+form ol li.required {
+	float:left;
+	width:425px;
+	margin-top:9px;
+	color:#a9a9a9;
+	font-size:11px;
+}
+div.searchForm ol li.required {
+    clear:both;
+}
+
+form ol li.required em {
+	color:#aa4935;
+}
+
+form ol li label em {
+	color:#aa4935;
+}
+form ol li.helpText { /* Used in Recruitment > Add Job Vacancy */
+	float:left;
+	margin-top:9px;
+	color:#a9a9a9;
+	font-size:12px;
+}
+/* ------------- longLabels styles ------------- */
+form.longLabels ol li label { /* Used in pim/viewMemberships, admin/listMailConfiguration*/
+    width: 180px;
+}
+form.longLabels ol li span.validation-error {
+	left:180px;
+}
+/* ------------- Checkbox styles ------------- */
+form ol li.checkbox input { /* Used in Admin > Localization */
+	width:auto;
+	border:none;
+}
+form ol li.checkbox label {
+	display:inline;
+	margin-right:25px;
+	line-height:20px;
+    width:90%;
+}
+form ol li.labelRight {
+    padding-left: 150px;
+}
+form ol li.labelRight label {
+    width:90%;
+    line-height:20px;
+}
+/* ------------- Radio styles ------------- */
+form ol li.radio input {
+	width:auto;
+	border:none;
+}
+form ol li.radio label {
+	display:inline;
+	line-height:20px;
+}
+form ol li.radio input[type=radio] {
+    margin-left: 0px;
+}
+form ol li.radio {
+	margin-bottom:0;
+}
+form ol li.radio label {
+    margin-top: 0px;
+}
+form ol li.radio ul.radio_list li {
+    display: inline;
+    width: auto;
+}
+form ol li.radio ul.radio_list li label {
+    width: auto;
+    margin-right: 10px;
+    margin-top: 0;
+}
+/* ------------- File input styles ------------- */
+input[type="file"] {
+    height: 24px;
+}
+/* ------------- Button styles ------------- */
+form p {
+	text-align:left;
+    padding-top: 5px;
+}
+input[type="button"], input[type="submit"], input[type="reset"] {
+	background:#33ac3f;
+	color:#fff;
+	font-size:15px;
+	padding:8px 20px;
+	border:none;
+	-webkit-border-radius: 3px;
+	-moz-border-radius: 3px;
+	border-radius: 3px;
+	margin-right:4px;
+}
+input.reset, input.cancel, input[type="reset"] {
+	background:#848484;
+}
+input.delete {
+	background:#aa4935;
+}
+/* ------------- Checkbox & Radio universal styles ------------- */
+input[type=checkbox] {
+    margin: 3px 3px 0 0;
+    width: auto;
+	border: none;
+    padding: 0;
+}
+input[type=radio] {
+    margin: 3px 3px 0 0;
+	border: none;
+    padding: 0;
+    background: transparent;
+}
+input[type=radio]:disabled {
+    background: transparent;
+}
+/* ------------- Full Name styles ------------- */
+form ol.fieldsInLine {
+    border: none;
+    margin: 0;
+    padding-bottom: 2px;
+    padding-top: 0;
+}
+form ol.fieldsInLine li {
+    width: 218px;
+}
+form ol.fieldsInLine li input[type=text] {
+	width:192px;
+}
+form ol li.nameContainer {
+    margin-bottom: 0;
+    padding-bottom: 0;
+}
+form ol li ol.fieldsInLine li {
+    text-align: center;
+}
+form ol li label.hasTopFieldHelp {
+    margin-top: 20px;
+}
+form ol li div.fieldDescription {
+    margin-bottom: 5px;
+	color:#a9a9a9;
+	font-size:11px;    
+}
+form ol li div.fieldDescription em {
+	color:#aa4935;
+}
+form ol li ol.fieldsInLine li span.validation-error {
+	left: 0;
+    top: 38px;
+}
+/* ------------- Button hovering styles ------------- */
+/* 
+ * Button hovering effects 
+ * Note: we are not using pure css using :hover because :hover applies to even disabled elements.
+ * The pseudo class :enabled is not supported in IE < 9.
+ */
+input[type=button].hover,
+input[type=submit].hover {
+    background-color: #086912;
+}
+
+input[type=button],
+input[type=submit] {
+    background-color: #33ac3f;
+}
+
+input[type=button].cancel.hover,
+input[type=submit].cancel.hover {
+    background-color: #4d4d4d;
+}
+
+input[type=button].cancel,
+input[type=submit].cancel {
+    background-color: #848484;
+}
+
+input[type=button].delete.hover,
+input[type=submit].delete.hover {
+    background-color: #782918;
+}
+input[type=button].delete,
+input[type=submit].delete {
+    background-color: #aa4935;
+}
+
+input[type=button].reset.hover,
+input[type=reset].reset.hover,
+input[type=submit].reset.hover {
+    background-color: #4d4d4d;
+}
+
+input[type=button].reset,
+input[type=reset].reset,
+input[type=submit].reset {
+    background-color: #848484;
+}
+
+/* ================ Form styles: End ================ */
+
+/* ================ searchForm styles: Begin ================ */
+.searchForm form ol li {
+    margin:0 0 15px 0;
+    width:25%;
+}
+.searchForm form ol li label {
+	display:block;
+	color:#5d5d5d;
+	margin-bottom:5px;
+}
+.searchForm form ol li input {
+	float:left;
+	width:80%;
+}
+.searchForm form ol li select {
+	float:left;
+	width:84%;    
+}
+.searchForm form ol li input.calendar {
+	width:165px;
+}
+.searchForm form ol li input[type=checkbox] {
+	width:auto;
+}
+/* ================ searchForm styles: end ================ */
+
+/* ================ Two column styles: Begin ================ */
+.twoColumn form ol li {
+	width:50%;
+}
+.twoColumn form ol li.line {
+	width:100%;
+}
+/* ================ Two column styles: End ================ */
+
+/* ================ Widget specific styles: Begin ================ */
+.ui-datepicker-trigger {
+	margin: 0 0 0 5px;
+    display: block;
+    float: left;
+}
+.searchForm form ol li label.date_range_label {
+    width:auto;
+    margin-left:  0px;
+    margin-right: 10px;
+    clear: both;
+}
+
+form ol li label.time_range_label {
+    width:auto;
+    margin-right: 10px;
+}
+form ol li select.timepicker {
+    width: 70px;
+    margin-left: 0px;
+    margin-right: 10px;
+}
+form ol li input.time_range_duration {
+    width: auto;
+    width: 60px;
+    margin-left: 0px;
+    margin-right: 10px;
+}
+/* ================ Widget specific styles: End ================ */
+
+/* ================ Paging styles: Begin ================ */
+.paging li {
+	display:inline;
+}
+.paging a {
+	-webkit-border-radius: 3px;
+	-moz-border-radius: 3px;
+	border-radius: 3px;
+	padding:3px 8px;
+	color:#5d5d5d;
+	text-decoration:none;
+	float:left;
+	margin:0 2px;
+}
+.paging a:hover {
+	background:#eaeaea;
+}
+.paging a.current {
+	background:#33ac3f;
+	color:#fff;
+}
+.paging li.first a, .paging li.previous a, .paging li.next a, .paging li.last a {
+	padding:1px 8px;
+	text-indent:-9999px;
+}
+.paging li.first a {
+	background: url(../images/paging-first.png) no-repeat 0 0;
+	margin:3px 0 0 0;
+}
+.paging li.previous a {
+	background: url(../images/paging-previous.png) no-repeat 0 0;
+	margin:2px 0 0 5px;
+}
+.paging li.next a {
+	background: url(../images/paging-next.png) no-repeat 0 0;
+	margin:2px 0 0 7px;
+}
+.paging li.last a {
+	background: url(../images/paging-last.png) no-repeat 0 0;
+	margin:3px 0 0 0;
+}
+.paging li.desc {
+	float:left;
+	color:#666;
+	margin:3px 0 0 0;
+	padding-right:10px;
+}
+/* ================ Paging styles: End ================ */
+
+/* ================ Table styles: Begin ================ */
+table.table {
+    width: 100%;
+    border-spacing:0;
+    border-collapse:collapse;    
+}
+table.table th {
+	background:#f28c38;
+	color:#fff;
+	padding:7px;
+	border:1px solid #fff;
+	text-align:left;
+}
+table.table th a {
+	color:#fff;
+        text-decoration: none;
+        display: inline-block;
+        width: 100%;
+}
+table.table th.center, table.table td.center {
+	text-align:center;
+}
+table.table td {
+	padding:7px;
+	background:#fff;
+	line-height:20px;
+}
+table.table td.comments input {
+	float:left;
+}
+table.table td.comments img {
+	float:left;
+	margin:2px 0 0 2px;
+}
+table thead tr .header {
+	background-image: url(../images/tablesorter-bg.png);
+	background-repeat: no-repeat;
+	background-position: 95% 55%;
+	cursor: pointer;
+}
+table.nosort thead tr .header {
+	background-image: none;
+	cursor: default;
+}
+table tbody tr.odd td {
+	background-color:#eaeaea;
+}
+table tbody tr.total td {
+	background-color:#555657;
+	color:#fff;
+}
+table tbody tr td strong {
+	color:#333;
+	font-weight:bold;
+}
+table tbody tr.total td strong {
+	font-weight:bold;
+	color:#fff;
+}
+table thead tr .headerSortUp {
+	background-image: url(../images/tablesorter-asc.png);
+}
+table thead tr .headerSortDown {
+	background-image: url(../images/tablesorter-dsc.png);
+}
+table.table th.checkbox-col {
+    width: 10px;
+}
+table.table td.right {
+    text-align: right;
+}
+table.table td left {
+    text-align: left;
+}
+
+table tfoot tr.total td {
+	background-color:#555657;
+	color:#fff;
+}
+table tfoot tr td strong {
+	color:#333;
+	font-weight:bold;
+}
+table tfoot tr.total td strong {
+	font-weight:bold;
+	color:#fff;
+}
+table.hover tr:hover, 
+table.hover tr:hover td, 
+table.hover tr:hover td table tbody tr,
+table.hover tr:hover td table tbody tr td {
+    background-color:#CCC;
+}
+table.data th { /* Used in performance/performanceReview */
+    background: #FFFFFF;
+    color: inherit;
+    border: none;
+    font-weight: bold;    
+}
+
+/* ================ Table styles: End ================ */
+
+/* ================ Definition list styles: Begin ================ */
+dl.search-params dt {
+    clear: left;
+    float: left;
+    width: 150px;
+    margin: 0;
+    padding: 5px;
+    font-weight: bold;
+}
+
+dl.search-params dd {
+    margin-left: 150px;
+    padding: 5px;
+}
+
+dl.search-params dt.total {
+
+}
+
+dl.search-params dd.total {
+
+}
+
+/* ================ Definition list styles: End ================ */
+
+/* ================ List styles: Begin ================ */
+ul.disc { /* Used in admin/pimCsvImport */
+    list-style: disc;
+    margin-left: 13px;
+    line-height: 25px;
+}
+ul.helpList li { /* Used in admin/viewEmailNotification */
+	color:#a9a9a9;
+	font-size:12px;
+    margin: 5px 0 0 0;
+}
+/* ================ List styles: End ================ */
+
+/* ================ Top level message styles: Begin ================ */
+.message {
+	border:1px solid #d2d1d1;
+	color:#5d5d5d;
+	-webkit-border-radius: 3px;
+	-moz-border-radius: 3px;
+	border-radius: 3px;
+	font-weight:bold;
+	padding:14px;
+	margin-bottom:15px;
+	position:relative;
+	letter-spacing:1px;
+}
+.message a.messageCloseButton {
+	text-indent:-9999px;
+	width:23px;
+	height:23px;
+	position:absolute;
+	top:10px;
+	right:12px;
+}
+.warning {
+	border:1px solid #f8e3a4;
+	color:#e79400;
+	background-color:#fff4c7;
+}
+.warning a {
+    color:#e79400;
+}
+.warning a.messageCloseButton {
+	background:url(../images/warning-btn.png) no-repeat;
+    color:#e79400;
+}
+.error {
+	border:1px solid #d48574;
+	color:#aa4935;
+	background-color:#f1c6bd;
+}
+a.error {
+	border: 0;
+	color:#aa4935;
+	background-color: inherit;
+}
+
+.error a {
+	background:url(../images/error-btn.png) no-repeat;
+}
+.success {
+	border:1px solid #cdeba4;
+	color:#6ea800;
+	background-color:#e0f2c7;
+}
+.success a {
+	background:url(../images/success-btn.png) no-repeat;
+}
+
+div.message ol {
+    border-bottom: 0;
+    margin: 0;
+    padding: 0;
+}
+
+div.message ol li {
+    margin: 3px 0 10px;
+}
+
+/* ================ Top level message styles: End ================ */
+
+/* ================ Field level message styles: Begin ================ */
+form select.validation-error,
+form input.validation-error,
+form textarea.validation-error {
+    border-color: #aa4935;
+    color: #aa4935;
+    background: #FFFFFE;
+}
+
+form span.validation-error {
+    color: #aa4935;
+}
+form ol li span.validation-error {
+    font-size: 12px;    
+	display:block;
+	/*z-index:9999; This makes error to appear over menu */
+	position:absolute;
+	top:21px;
+	left:150px;
+    margin-top: 6px; 
+}
+form table span.validation-error {  /* Used in performance/performanceReview */
+    font-size: 12px;
+    color: #aa4935;
+	display:block;
+}
+form ol li.largeTextBox span.validation-error {
+    top:85px;
+}
+form ol li.fieldHelpContainer span.validation-error {
+    top:33px;
+}
+form ol li.noLabel span.validation-error {
+    left: 0;
+}
+.searchForm form ol li span.validation-error {
+    font-size: 12px;
+    color: #aa4935;
+    display:block;
+    float:left;
+    margin-top: 1px;
+    top: 44px;
+    left: 0;
+}
+ul.error_list li { /* For Symfony form errors. Used in PIM Define Reports */
+    color: #aa4935;
+}
+.score { /* Used for password strength indicator */
+    float:left; 
+    margin-left:5px; 
+    padding:2px; 
+    margin-top:5px; 
+    font-weight: bold;  
+    width:100px; 
+    text-align:center; 
+}
+.scoreSec { /* Used for password strength indicator */
+    float:left; 
+    margin-left:5px; 
+    padding:2px; 
+    margin-top:5px; 
+    font-weight: bold;  
+    width:100px; 
+    text-align:center; 
+}
+/* ================ Field level message styles: End ================ */
+
+/* ================ Modal box styles: Begin ================ */
+.close {
+	position:absolute;
+	right:10px;
+	bottom:80px;
+	display:none;
+}
+.modal-open .dropdown-menu {
+  z-index: 2050;
+}
+
+.modal-open .dropdown.open {
+  *z-index: 2050;
+}
+
+.modal-open .popover {
+  z-index: 2060;
+}
+
+.modal-open .tooltip {
+  z-index: 2070;
+}
+.modal-open form ol li span.validation-error {
+    font-size: 12px;
+    color: #aa4935;
+	display:block;
+	position:absolute;
+	top:21px;
+	left:115px;
+    margin-top: 6px; 
+}
+.modal-open form ol li.largeTextBox span.validation-error {
+    font-size: 12px;
+    color: #aa4935;
+	display:block;
+	position:absolute;
+	top:105px;
+	left:115px;
+    margin-top: 6px; 
+}
+.modal-backdrop {
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  z-index: 1040;
+  background-color: #000000;
+}
+
+.modal-backdrop.fade {
+  opacity: 0;
+}
+
+.modal-backdrop,
+.modal-backdrop.fade.in {
+  opacity: 0.8;
+  filter: alpha(opacity=80);
+}
+
+.modal {
+  position: fixed;
+  top: 50%;
+  left: 55%;
+  z-index: 9999;
+  width: 410px;
+  margin: -250px 0 0 -280px;
+  overflow: auto;
+  border: 1px solid #999;
+  border: 1px solid rgba(0, 0, 0, 0.3);
+  /* hack to target IE6 and IE7 */
+  *border: 1px solid #999;
+  -webkit-border-radius: 6px;
+     -moz-border-radius: 6px;
+          border-radius: 6px;
+  -webkit-box-shadow: 0 3px 7px rgba(0, 0, 0, 0.3);
+     -moz-box-shadow: 0 3px 7px rgba(0, 0, 0, 0.3);
+          box-shadow: 0 3px 7px rgba(0, 0, 0, 0.3);
+  -webkit-background-clip: padding-box;
+     -moz-background-clip: padding-box;
+          background-clip: padding-box;
+}
+
+.modal.fade {
+  top: -25%;
+  -webkit-transition: opacity 0.3s linear, top 0.3s ease-out;
+     -moz-transition: opacity 0.3s linear, top 0.3s ease-out;
+      -ms-transition: opacity 0.3s linear, top 0.3s ease-out;
+       -o-transition: opacity 0.3s linear, top 0.3s ease-out;
+          transition: opacity 0.3s linear, top 0.3s ease-out;
+}
+
+.modal.fade.in {
+  top: 50%;
+}
+
+.modal.midsize {
+  width: 600px;
+  left: 48%;
+}
+
+.modal.large {
+  width: 800px;
+  left: 40%;  
+}
+
+.modal-header {
+  padding: 12px 15px;
+  background-color:#f28c38;
+  -moz-border-radius-topleft: 4px;
+-webkit-border-top-left-radius: 4px;
+ border-top-left-radius: 4px;
+-moz-border-radius-topright: 4px;
+-webkit-border-top-right-radius: 4px;
+border-top-right-radius: 4px;
+font-size:18px;
+color:#fff;
+}
+
+.modal-header .close {
+	background: url(../images/close.png) no-repeat 0 0;
+	display:block;
+	width:22px;
+	height:22px;
+	position:absolute;
+	top:9px;
+	right:10px;
+	text-indent:-9999px;
+	cursor:pointer;
+}
+
+.modal-body {
+	min-height:50px;
+  max-height: 400px;
+  padding: 15px;
+  overflow-y: auto;
+  background-color:#f7f6f6;
+  color:#5d5d5d;
+}
+
+.modal-form {
+  margin-bottom: 0;
+}
+
+.modal-footer {
+  padding: 0 15px 15px 15px;
+  margin-bottom: 0;
+  text-align: left;
+  background-color: #f7f6f6;
+  -webkit-border-radius: 0 0 6px 6px;
+     -moz-border-radius: 0 0 6px 6px;
+          border-radius: 0 0 6px 6px;
+}
+
+.modal-footer:before,
+.modal-footer:after {
+  display: table;
+  content: "";
+}
+
+.modal-footer:after {
+  clear: both;
+}
+
+.modal-footer .btn + .btn {
+  margin-bottom: 0;
+}
+
+.modal-footer .btn-group .btn + .btn {
+  margin-left: -1px;
+}
+
+.modal form ol {
+	border-bottom:none;
+	margin:0;
+	padding:0;
+    border-bottom: 1px solid #DEDEDE;
+}
+.modal form ol li {
+	width:360px;
+}
+.modal form ol li.line {
+	width: 100%;
+}
+.modal form ol label {
+	float:left;
+	width:115px;
+	padding-top:3px;
+}
+.modal form ol label.line {
+	width: auto;
+}
+.modal form ol input {
+	width:220px;
+}
+
+.modal form ol input.calendar {
+	width:190px;
+	float:left;
+}
+.modal form ol select {
+	width:233px;
+}
+.modal form ol textarea {
+	width:220px;
+	height:100px;
+}
+.modal form ol li.required {
+    margin-top: 0;
+}
+.modal form ul.checkList li label {
+    width: 95%;
+}
+.modal form input[type=checkbox] {
+    margin: 3px 3px 0 0;
+    width: auto;
+	border: none;
+    padding: 0;
+}
+/* ================ Modal box styles: End ================ */
+
+/* ================ Hyperlink styles: Begin ================ */
+a.closeText {
+    color:#aa4935;
+    text-decoration: none;
+}
+/* ================ Hyperlink styles: End ================ */
+
+/* ================ Ajax loader styles: Begin ================ */
+.loading_message {
+    background: url('../images/loading.gif') right center no-repeat;
+    padding-right: 18px;
+}
+/* ================ Ajax loader styles: End ================ */
+
+/* ================ Timesheet styles: Begin ================ */
+.timesheet table.table td.right {
+    padding-right: 1px;
+}
+
+.timesheet table.table td.right.total {
+    padding-right: 17px;
+}
+
+.timesheet table.table tr.total td.right {
+    padding-right: 17px;
+}
+
+.timesheet table.table td.right span.commentIcon {
+    display: inline-block;
+    width: 14px;
+    margin-left: 2px;
+}
+.timesheet .top h3 {
+	font-size:18px;
+	float:left;
+	margin-top: 2px;
+}
+.editTimesheet .top h3 {
+	font-size:18px;
+	float:left;
+	margin:0 0 10px 0;
+}
+.timesheet .top select {
+	width:200px;
+	float:left;
+	height:28px;
+	margin: 0 5px 0 10px;
+}
+.timesheet .top button {
+	float:left;
+	margin:0 0 5px 10px;
+}
+.timesheet .bottom {
+	border-top:1px solid #dedede;
+	margin-top:10px;
+	padding-top:10px;
+}
+.timesheet .bottom em {
+	font-size:14px;
+	float:left;
+}
+.timesheet .bottom p {
+	text-align:right;
+}
+/*
+.editTimesheet input {
+	width:40px;
+}
+*/
+input.timeBox {
+	width:40px;
+}
+/*
+.editTimesheet input.main-input {
+	width:150px;
+	float:left;
+}
+*/
+#projectColumn, #activityColumn { /* Used in view timesheets */
+    min-width: 200px;
+}
+div#timesheet table.table tbody tr td.comments, div#edit-timesheet table.table tbody tr td.comments {
+    white-space: nowrap;
+    min-width: 70px;
+}
+
+.editTimesheet table.table td {
+    vertical-align: top;
+}
+.editTimesheet .toDelete {
+    margin-top: 6px;
+}
+.editTimesheet input[type="button"], .editTimesheet input[type="submit"] {
+    margin-left: 5px;
+}
+.editTimesheet select, .editTimesheet input, .editTimesheet .checkbox-input {
+	float:left;
+}
+.editTimesheet .checkbox-input {
+	clear:both;
+	margin:0 0 10px 7px;
+}
+.editTimesheet .bottom {
+	border-top:1px solid #dedede;
+	margin-top:10px;
+	padding-top:10px;
+}
+.editTimesheet .bottom .required {
+	float:left;
+	width:425px;
+	color:#a9a9a9;
+	font-size:11px;
+	text-align:left;
+}
+.editTimesheet .bottom .required em {
+	color:#aa4935;
+}
+.editTimesheet input.project {
+    width: 280px;
+}
+/* ================ Timesheet styles: End ================ */
+
+/* ================ PIM sidebar styles: Begin ================ */
+#sidebar {
+	width:202px;
+	float:left;
+	margin:0 17px 0 0;
+	min-height:300px;
+}
+#sidebar #sidenav {
+	margin:19px 0 0 0;
+	padding:7px;
+	background: #f28c38 url(../images/sidebar-nav-bg.png) repeat-y top right;
+	-webkit-border-radius: 3px;
+	-moz-border-radius: 3px;
+	border-radius: 3px;
+}
+#sidebar #sidenav a {
+	color:#fff;
+	display:block;
+	-webkit-border-radius: 3px;
+	-moz-border-radius: 3px;
+	border-radius: 3px;
+	padding:7px 7px;
+	width:174px;
+	text-decoration:none;
+	margin-bottom:5px;
+	border-bottom:1px solid #f19a52;
+}
+#sidebar #sidenav a:hover {
+	background-color:#ce6d1d;
+}
+
+#sidebar #sidenav a.disabled {
+    background-color: #CE6D1D;
+}
+
+#sidebar #sidenav .selected a {
+	background-color:#555657;
+	color:#fff;
+	border-bottom:none;
+}
+/* ================ PIM sidebar styles: End ================ */
+
+/* ================ PIM styles: Begin ================ */
+.pimPane {
+	width:97%;
+	float:left;
+}
+.pimPane .head, .pimPane .inner {
+	margin-left:220px;
+}
+.pimPane #profile-pic h1 {
+	background: #f3f3f3 url(../images/h1-bg.png) left bottom repeat-x;
+	font-size:14px;
+	color:#5d5d5d;
+	padding:9px 15px;
+	line-height:20px;
+	border:1px solid #dedede;
+	-moz-border-radius-topleft: 3px;
+	-webkit-border-top-left-radius: 3px;
+	 border-top-left-radius: 3px;
+	-moz-border-radius-topright: 3px;
+	-webkit-border-top-right-radius: 3px;
+	border-top-right-radius: 3px;
+}
+.pimPane #profile-pic img {
+	border-top:none;
+}
+.pimPane form p.normal {
+	float:left;
+}
+.pimPane form p.required {
+	float:left;
+	width:425px;
+	margin-top:0px;
+	color:#a9a9a9;
+	font-size:11px;
+}
+.pimPane form p.required em {
+	color:#aa4935;
+}
+.pimPane form ol li label { /* Used in attachments */
+    margin-top: 0; 
+}
+.pimPane div.imageHolder {
+    height: 200px;
+    width: 200px;
+    text-align: center;
+    border: 1px solid #DEDEDE;
+    border-top: none;
+	-moz-border-radius-bottomright: 3px;
+	-webkit-border-bottom-right-radius: 3px;
+	border-bottom-right-radius: 3px;
+	-moz-border-radius-bottomleft: 3px;
+	-webkit-border-bottom-left-radius: 3px;
+	border-bottom-left-radius: 3px;    
+}
+/* ================ PIM styles: End ================ */
+
+/* ================ Personal Details styles: Begin ================ */
+div.personalDetails {
+    min-width: 1190px;
+}
+
+.personalDetails form ol {
+    padding-top: 5px;
+	margin-bottom:9px;
+	position:relative;
+}
+.personalDetails form ol li {
+	/*float:left;*/
+	width:435px;
+}
+.personalDetails form ol li input[type=text] {
+	width:192px;
+}
+.personalDetails form ol li select {
+	width:206px;
+}
+.personalDetails form ol li input.calendar {
+	width:165px;
+}
+.personalDetails form ol li.line {
+	float:left;
+	width:100%;
+}
+.personalDetails form ol li.long, .personalDetails form ol li.new {
+	clear:both;
+}
+.personalDetails form ol li.long label {
+	margin-top:0px;
+}
+.personalDetails form ol li label {
+    width: 150px;
+}
+.personalDetails form ol li .block {
+	float:left;
+	margin-right:12px;
+}
+.personalDetails form ol li .default {
+	color:#5d5d5d;
+}
+.personalDetails form ol li .defaulttext {
+	color:#a4a4a4;
+}
+.personalDetails form p {
+	padding-top: 0px;
+}
+.personalDetails form ol.fieldsInLine li {
+    width: 218px;
+    margin-bottom: 0;
+}
+.personalDetails form ol li label.hasTopFieldHelp {
+    margin-top: 23px;
+}
+/* ================ Personal Details styles: End ================ */

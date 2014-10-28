@@ -1,0 +1,29 @@
+prod:
+  .settings:
+    no_script_name:         false
+    logging_enabled:        false
+
+dev:
+  .settings:
+    error_reporting:        <?php echo (E_ALL | E_STRICT)."\n" ?>
+    web_debug:              true
+    cache:                  false
+    no_script_name:         false
+    etag:                   false
+
+test:
+  .settings:
+    error_reporting:        <?php echo ((E_ALL | E_STRICT) ^ E_NOTICE)."\n" ?>
+    cache:                  false
+    web_debug:              false
+    no_script_name:         false
+    etag:                   false
+
+all:
+  .settings:
+    # Form security secret (CSRF protection)
+    csrf_secret:       false     # Unique secret to enable CSRF protection or false to disable
+
+    # Output escaping settings
+    escaping_strategy:      false            # Determines how variables are made available to templates. Accepted values: true, false.
+    escaping_method:        ESC_SPECIALCHARS # Function or helper used for escaping. Accepted values: ESC_RAW, ESC_ENTITIES, ESC_JS, ESC_JS_NO_ENTITIES, and ESC_SPECIALCHARS.

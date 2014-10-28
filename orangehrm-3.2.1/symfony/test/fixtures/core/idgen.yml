@@ -1,0 +1,16 @@
+IDGenerator:
+  ID_001:
+    entity: Location
+    prefix: LOC
+  ID_002:
+    entity: JobCategory
+    prefix: EEC
+  ID_003:
+    entity: CompanyProperty
+    prefix: EEC
+  ID_004:
+    entity: SalaryGrade
+    prefix: SAL
+  ID_005:
+    entity: EmployeeStatus
+    prefix: EST

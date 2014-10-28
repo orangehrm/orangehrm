@@ -1,0 +1,310 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE xliff PUBLIC "-//XLIFF//DTD XLIFF//EN" "http://www.oasis-open.org/committees/xliff/documents/xliff.dtd">
+<xliff version="1.0">
+ <header/>
+ <file source-language="en_US" target-language="id_ID" datatype="plaintext" original="messages" date="2012-04-17T0:35:38Z" product-name="messages">
+  <body>
+   <trans-unit id="1">
+    <source>Active</source>
+    <target>Aktif</target>
+   </trans-unit>
+   <trans-unit id="2">
+    <source>Add another</source>
+    <target>Tambah jumlah</target>
+   </trans-unit>
+   <trans-unit id="3">
+    <source>Add Candidate</source>
+    <target>Tambahkan Calon</target>
+   </trans-unit>
+   <trans-unit id="4">
+    <source>Add Job Vacancy</source>
+    <target>Tambahkan Job Vacancy</target>
+   </trans-unit>
+   <trans-unit id="5">
+    <source>Adding Candidate</source>
+    <target>Menambahkan Calon</target>
+   </trans-unit>
+   <trans-unit id="6">
+    <source>Application Initiated</source>
+    <target>Aplikasi Diprakarsai</target>
+   </trans-unit>
+   <trans-unit id="7">
+    <source>applied for the</source>
+    <target>diterapkan untuk</target>
+   </trans-unit>
+   <trans-unit id="8">
+    <source>Archived</source>
+    <target>Arsip</target>
+   </trans-unit>
+   <trans-unit id="9">
+    <source>Are you sure you want to remove job vacancy of the candidate</source>
+    <target>Anda yakin ingin menghapus lowongan pekerjaan calon</target>
+   </trans-unit>
+   <trans-unit id="10">
+    <source>as failed</source>
+    <target>sebagai gagal</target>
+   </trans-unit>
+   <trans-unit id="11">
+    <source>as passed</source>
+    <target>sebagai berlalu</target>
+   </trans-unit>
+   <trans-unit id="12">
+    <source>assigned the job vacancy</source>
+    <target>menugaskan lowongan pekerjaan</target>
+   </trans-unit>
+   <trans-unit id="13">
+    <source>by</source>
+    <target>oleh</target>
+   </trans-unit>
+   <trans-unit id="14">
+    <source>Candidate</source>
+    <target>Calon</target>
+   </trans-unit>
+   <trans-unit id="15">
+    <source>Candidate Name</source>
+    <target>Calon Nama</target>
+   </trans-unit>
+   <trans-unit id="16">
+    <source>Candidate's History</source>
+    <target>Calon Sejarah</target>
+   </trans-unit>
+   <trans-unit id="17">
+    <source>candidateName</source>
+    <target>candidateName</target>
+   </trans-unit>
+   <trans-unit id="18">
+    <source>Cannot assign same interviewer twice</source>
+    <target>Tidak dapat menetapkan pewawancara yang sama dua kali</target>
+   </trans-unit>
+   <trans-unit id="19">
+    <source>Cannot assign same vacancy twice</source>
+    <target>Tidak dapat menetapkan kekosongan yang sama dua kali</target>
+   </trans-unit>
+   <trans-unit id="20">
+    <source>Click on a candidate to perform actions</source>
+    <target>Klik pada kandidat untuk melakukan tindakan</target>
+   </trans-unit>
+   <trans-unit id="21">
+    <source>Closed</source>
+    <target>Tutup</target>
+   </trans-unit>
+   <trans-unit id="22">
+    <source>Continue</source>
+    <target>Terus</target>
+   </trans-unit>
+   <trans-unit id="23">
+    <source>Date of Application</source>
+    <target>Tanggal Aplikasi</target>
+   </trans-unit>
+   <trans-unit id="24">
+    <source>Decline Offer</source>
+    <target>Tolak Penawaran</target>
+   </trans-unit>
+   <trans-unit id="25">
+    <source>Details</source>
+    <target>Rincian</target>
+   </trans-unit>
+   <trans-unit id="26">
+    <source>Edit Candidate</source>
+    <target>Edit Calon</target>
+   </trans-unit>
+   <trans-unit id="27">
+    <source>Edit Interview Details</source>
+    <target>Edit Rincian Wawancara</target>
+   </trans-unit>
+   <trans-unit id="28">
+    <source>Edit Job Vacancy</source>
+    <target>Edit Job Vacancy</target>
+   </trans-unit>
+   <trans-unit id="29">
+    <source>Editing Candidate</source>
+    <target>Mengedit Calon</target>
+   </trans-unit>
+   <trans-unit id="30">
+    <source>from the</source>
+    <target>dari</target>
+   </trans-unit>
+   <trans-unit id="31">
+    <source>Hire</source>
+    <target>Menyewa</target>
+   </trans-unit>
+   <trans-unit id="32">
+    <source>Hired</source>
+    <target>Dipekerjakan</target>
+   </trans-unit>
+   <trans-unit id="33">
+    <source>hired</source>
+    <target>disewa</target>
+   </trans-unit>
+   <trans-unit id="34">
+    <source>Hiring Manager</source>
+    <target>Mempekerjakan Manajer</target>
+   </trans-unit>
+   <trans-unit id="35">
+    <source>Interview Failed</source>
+    <target>Wawancara Gagal</target>
+   </trans-unit>
+   <trans-unit id="36">
+    <source>Interview Passed</source>
+    <target>Wawancara Lulus</target>
+   </trans-unit>
+   <trans-unit id="37">
+    <source>Interview Scheduled</source>
+    <target>Wawancara Terjadwal</target>
+   </trans-unit>
+   <trans-unit id="38">
+    <source>Interview Title</source>
+    <target>Wawancara Judul</target>
+   </trans-unit>
+   <trans-unit id="39">
+    <source>Interviewer Name</source>
+    <target>Pewawancara Nama</target>
+   </trans-unit>
+   <trans-unit id="40">
+    <source>Job Offered</source>
+    <target>Job Ditawarkan</target>
+   </trans-unit>
+   <trans-unit id="41">
+    <source>Job Vacancy</source>
+    <target>Lowongan Kerja</target>
+   </trans-unit>
+   <trans-unit id="42">
+    <source>Manual</source>
+    <target>Pedoman</target>
+   </trans-unit>
+   <trans-unit id="43">
+    <source>Mark Interview Failed</source>
+    <target>Wawancara Mark Gagal</target>
+   </trans-unit>
+   <trans-unit id="44">
+    <source>Mark Interview Passed</source>
+    <target>Wawancara Mark Lulus</target>
+   </trans-unit>
+   <trans-unit id="45">
+    <source>marked</source>
+    <target>ditandai</target>
+   </trans-unit>
+   <trans-unit id="46">
+    <source>marked the offer as declined</source>
+    <target>ditandai tawaran itu sebagai menolak</target>
+   </trans-unit>
+   <trans-unit id="47">
+    <source>Method of Application</source>
+    <target>Metode Aplikasi</target>
+   </trans-unit>
+   <trans-unit id="48">
+    <source>No Actions</source>
+    <target>Tidak ada Tindakan</target>
+   </trans-unit>
+   <trans-unit id="49">
+    <source>No active job vacancies to display</source>
+    <target>Tidak ada lowongan pekerjaan aktif untuk menampilkan</target>
+   </trans-unit>
+   <trans-unit id="50">
+    <source>Number of Positions</source>
+    <target>Jumlah Posisi</target>
+   </trans-unit>
+   <trans-unit id="51">
+    <source>Offer Declined</source>
+    <target>Penawaran Ditolak</target>
+   </trans-unit>
+   <trans-unit id="52">
+    <source>Offer Job</source>
+    <target>Tawarkan Kerja</target>
+   </trans-unit>
+   <trans-unit id="53">
+    <source>offered the job</source>
+    <target>offered pekerjaan</target>
+   </trans-unit>
+   <trans-unit id="54">
+    <source>on</source>
+    <target>pada</target>
+   </trans-unit>
+   <trans-unit id="55">
+    <source>Online</source>
+    <target>Online</target>
+   </trans-unit>
+   <trans-unit id="56">
+    <source>Performed Action</source>
+    <target>Dilakukan Aksi</target>
+   </trans-unit>
+   <trans-unit id="57">
+    <source>Performed Date</source>
+    <target>Dilakukan Tanggal</target>
+   </trans-unit>
+   <trans-unit id="58">
+    <source>Publish in RSS feed(1) and web page(2)</source>
+    <target>Publikasikan di RSS Feed (1) dan halaman web (2)</target>
+   </trans-unit>
+   <trans-unit id="59">
+    <source>Remove?</source>
+    <target>Hapus?</target>
+   </trans-unit>
+   <trans-unit id="60">
+    <source>removed</source>
+    <target>dihapus</target>
+   </trans-unit>
+   <trans-unit id="61">
+    <source>RSS Feed URL</source>
+    <target>RSS Feed URL</target>
+   </trans-unit>
+   <trans-unit id="62">
+    <source>Schedule Interview</source>
+    <target>Jadwal Wawancara</target>
+   </trans-unit>
+   <trans-unit id="63">
+    <source>scheduled</source>
+    <target>dijadwalkan</target>
+   </trans-unit>
+   <trans-unit id="64">
+    <source>Shortlist</source>
+    <target>Daftar singkat</target>
+   </trans-unit>
+   <trans-unit id="65">
+    <source>Shortlisted</source>
+    <target>Terpilih</target>
+   </trans-unit>
+   <trans-unit id="66">
+    <source>Shortlisted for</source>
+    <target>Terpilih untuk</target>
+   </trans-unit>
+   <trans-unit id="67">
+    <source>Should be less than current date</source>
+    <target>Harus kurang dari tanggal</target>
+   </trans-unit>
+   <trans-unit id="68">
+    <source>Successfully Scheduled</source>
+    <target>Berhasil Terjadwal</target>
+   </trans-unit>
+   <trans-unit id="69">
+    <source>This action will remove previous vacancy</source>
+    <target>Tindakan ini akan menghapus kekosongan sebelumnya</target>
+   </trans-unit>
+   <trans-unit id="70">
+    <source>Vacancy</source>
+    <target>Lowongan</target>
+   </trans-unit>
+   <trans-unit id="71">
+    <source>Vacancy Name</source>
+    <target>Lowongan Nama</target>
+   </trans-unit>
+   <trans-unit id="72">
+    <source>View Action History</source>
+    <target>Lihat Riwayat Aksi</target>
+   </trans-unit>
+   <trans-unit id="73">
+    <source>View Interview Details</source>
+    <target>Lihat Rincian Wawancara</target>
+   </trans-unit>
+   <trans-unit id="74">
+    <source>Web Page URL</source>
+    <target>Web Page URL</target>
+   </trans-unit>
+   <trans-unit id="75">
+    <source>with</source>
+    <target>dengan</target>
+   </trans-unit>
+  </body>
+ </file>
+</xliff>
+<!-- Contributed By:   ,  Bambang Widya Putra , Boedhie Cool , Gondhez Alkatraz , Tituk Novianto , Trenggana Natadirja -->

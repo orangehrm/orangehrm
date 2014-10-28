@@ -1,0 +1,49 @@
+#content {
+    min-height: 400px;
+    padding-left: 10px;
+}
+
+#logoContainer {
+    padding-bottom: 10px;
+}
+
+label.error {
+    color: red;
+    clear: both;
+    display: block;
+    font-size: 11px;
+    margin-top: 5px;
+    width: 128px !important;
+}
+
+span.required {
+    position: relative;
+    color: red;
+    margin-left: 5px;
+}
+
+div.messageBalloon_warning {
+    border: solid 1px #FE9;
+    background-color: #FFE;
+    color: #600;
+    width: 530px;
+    font-size: 14px;
+    padding: 8px 8px 8px 20px;
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+
+table.displayTable {
+    border: 3px solid #090;
+    border-collapse: collapse;
+    margin-bottom: 10px;
+}
+
+table.displayTable td {
+    border: 2px solid #090;
+    vertical-align: middle;
+    width: 150px;
+    height: 30px;
+    padding: 10px;
+}
+

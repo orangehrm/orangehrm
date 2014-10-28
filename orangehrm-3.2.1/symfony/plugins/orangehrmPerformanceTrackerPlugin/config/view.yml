@@ -1,0 +1,8 @@
+addPerformanceTrackerSuccess:
+  layout: freshorange
+addPerformanceTrackerLogSuccess:
+  layout: freshorange
+viewPerformanceTrackerListSuccess:
+  layout: freshorange
+viewPerformanceTrackerLogListSuccess:
+  layout: freshorange

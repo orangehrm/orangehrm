@@ -1,0 +1,27 @@
+#displayAbout.modal {
+    width: 600px;
+    left: 45%;
+    top: 45%;
+   
+}
+
+#displayAbout .modal-body {
+    max-height: 800px;
+}
+
+#displayAbout label {
+    width: 300px;
+}
+
+#displayAbout .aboutLink {
+    color: blue;
+}
+
+#heartbeatDescription ul {
+    list-style-type: disc; 
+    padding-left: 20px;
+}
+
+#heartbeatDescription a {
+    color: blue;
+}

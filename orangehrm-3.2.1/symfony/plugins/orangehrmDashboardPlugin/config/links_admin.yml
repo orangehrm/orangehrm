@@ -1,0 +1,26 @@
+link1:
+  name: Assign Leave
+  url: 'leave/assignLeave'
+  plugin: orangehrmLeavePlugin
+  target: '_self'
+  image: 'ApplyLeave.png'
+  requiredPermissions: {'workflow_action': {4: {'state': 'INITIAL', 'action': 'ASSIGN'}}}
+  ohrm_module: 'leave'
+  
+link2:
+  name: Leave List
+  url: 'leave/viewLeaveList/reset/1'
+  plugin: orangehrmLeavePlugin
+  target: '_self'
+  image: 'MyLeave.png'
+  requiredPermissions: {'data_group': {'leave_list': {'canRead': true, 'canCreate': false, 'canUpdate': false, 'canDelete': false}}}
+  ohrm_module: 'leave'
+  
+link3:
+  name: Timesheets
+  url: 'time/viewEmployeeTimesheet'
+  plugin: orangehrmTimePlugin
+  target: '_self'
+  image: 'MyTimesheet.png'
+  requiredPermissions: {'data_group': {'time_employee_timesheets': {'canRead': true, 'canCreate': false, 'canUpdate': false, 'canDelete': false}}}
+  ohrm_module: 'time'

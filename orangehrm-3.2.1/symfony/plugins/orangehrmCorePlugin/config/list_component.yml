@@ -1,0 +1,523 @@
+Default:
+  pluginName: orangehrmCorePlugin
+  hasSelectableRows: false
+  unselectableRowIds: []
+  idValueGetter: getId
+  title: 'OrangeHRM List'
+  tableWidth: auto
+  hasSummary: true
+  summary:
+    summaryLabel: 'Total'
+    summaryField: 'Time (Hours)'
+    summaryFunction: SUM
+    summaryFieldDecimals: 2
+  enableTopScrolling: false
+  buttons: []
+  buttonsPosition: before-data
+  formMethod: post
+  formAction: '#'
+  assets: []
+  jsInitMethods: []
+
+Nationality:
+  pluginName: orangehrmCorePlugin
+  hasSelectableRows: true
+  unselectableRowIds: []
+  idValueGetter: getNatCode
+  title: 'Nationality & Race : Nationality'
+  tableWidth: auto
+  hasSummary: false
+  summary: []
+  buttons:
+    Add:
+      label: Add
+      function: addNationality
+    Delete:
+      label: Delete
+      type: submit
+  buttonsPosition: before-data
+  formMethod: post
+  formAction: '#'
+  assets:
+    - nationality.js
+    - nationality.css
+  jsInitMethods: []
+
+AncientNationality:
+  pluginName: orangehrmCorePlugin
+  hasSelectableRows: false
+  unselectableRowIds: []
+  idValueGetter: '0'
+  title: 'Ancient Nationalities'
+  tableWidth: auto
+  hasSummary: false
+  summary: []
+  buttons:
+    Add:
+      label: Add
+      function: addNationality
+    Delete:
+      label: Delete
+      type: submit
+  buttonsPosition: before-data
+  formMethod: post
+  formAction: '#'
+  assets:
+    - nationality.js
+    - nationality.css
+  jsInitMethods: [] 
+
+ProjectReport:
+  pluginName: orangehrmTimePlugin
+  hasSelectableRows: false
+  unselectableRowIds: []
+  idValueGetter: activityname
+  title: 'Project Report'
+  tableWidth: auto
+  hasSummary: true
+  summary:
+    summaryLabel: 'Total'
+    summaryField: 'Time (Hours)'
+    summaryFunction: SUM
+    summaryFieldDecimals: 2
+  buttons: []
+  buttonsPosition: before-data
+  formMethod: post
+  formAction: '#'
+  assets:
+    - report.css
+  jsInitMethods: []
+
+EmployeeReport:
+  pluginName: orangehrmTimePlugin
+  hasSelectableRows: false
+  unselectableRowIds: []
+  idValueGetter: activityname
+  title: 'Employee Report'
+  tableWidth: auto
+  hasSummary: true
+  summary:
+    summaryLabel: 'Total'
+    summaryField: 'Time (Hours)'
+    summaryFunction: SUM
+    summaryFieldDecimals: 2
+  buttons: []
+  buttonsPosition: before-data
+  formMethod: post
+  formAction: '#'
+  assets:
+    - report.css
+  jsInitMethods: []
+  
+ProjectActivityDetailsReport:
+  pluginName: orangehrmTimePlugin
+  hasSelectableRows: false
+  unselectableRowIds: []
+  idValueGetter: employeeName
+  title: 'Project Activity Details Report'
+  tableWidth: auto
+  hasSummary: false
+  summary: []
+  buttons:
+    Back:
+      label: Back
+      function: handleBackButton
+  buttonsPosition: after-data
+  formMethod: post
+  formAction: '#'
+  assets:
+    - report.js
+    - report.css
+  jsInitMethods: []
+
+AttendanceSummaryReport:
+  pluginName: orangehrmTimePlugin
+  hasSelectableRows: false
+  unselectableRowIds: []
+  idValueGetter: employeeName
+  title: 'Attendance Total Summary Report'
+  tableWidth: auto
+  hasSummary: true
+  summary:
+    summaryLabel: 'Total'
+    summaryField: 'Time (Hours)'
+    summaryFunction: SUM
+    summaryFieldDecimals: 2
+  buttons: []
+  buttonsPosition: before-data
+  formMethod: post
+  formAction: '#'
+  assets:
+    - report.css
+  jsInitMethods: []
+
+Candidate:
+  pluginName: orangehrmRecruitmentPlugin
+  hasSelectableRows: true
+  unselectableRowIds: []
+  idValueGetter: getCandidateAndVacancyId
+  title: ''
+  tableWidth: 100%
+  hasSummary: false
+  summary: []
+  buttonsPosition: before-data
+  formMethod: post
+  formAction: 'recruitment/deleteCandidateVacancies'
+  assets:
+  jsInitMethods: []
+
+JobVacancy:
+  pluginName: orangehrmRecruitmentPlugin
+  hasSelectableRows: true
+  unselectableRowIds: []
+  idValueGetter: getId
+  title: ''
+  tableWidth: 100%
+  hasSummary: false
+  summary: []
+  buttonsPosition: before-data
+  formMethod: post
+  formAction: 'recruitment/deleteJobVacancy'
+  assets:
+    - viewJobVacancySuccess.js
+    - viewJobVacancySuccess.css
+  jsInitMethods: []
+
+Customer:
+  pluginName: orangehrmAdminPlugin
+  hasSelectableRows: true
+  unselectableRowIds: []
+  idValueGetter: getCustomerId
+  title: "<?php echo __("Customers");?>"
+  tableWidth: 100%
+  hasSummary: false
+  summary: []
+  buttonsPosition: before-data
+  formMethod: post
+  formAction: 'admin/deleteCustomer'
+  assets: []
+  jsInitMethods: []
+
+Project:
+  pluginName: orangehrmAdminPlugin
+  hasSelectableRows: true
+  unselectableRowIds: []
+  idValueGetter: projectId
+  title: ''
+  tableWidth: 100%
+  hasSummary: false
+  summary: []
+  buttonsPosition: before-data
+  formMethod: post
+  formAction: 'admin/deleteProject'
+  assets: []
+  jsInitMethods: []
+
+ProjectActivity:
+  pluginName: orangehrmAdminPlugin
+  unselectableRowIds: []
+  idValueGetter: getActivityId
+  title: "<?php echo __("Activities");?>"
+  tableWidth: 100%
+  hasSummary: false
+  summary: []
+  buttonsPosition: before-data
+  formMethod: post
+  formAction: '#'
+  assets: []
+  jsInitMethods: []
+
+CandidateHistory:
+  pluginName: orangehrmRecruitmentPlugin
+  hasSelectableRows: false
+  unselectableRowIds: []
+  idValueGetter: getId
+  title: "<?php echo __("Candidate's History");?>"
+  tableWidth: 100%
+  hasSummary: false
+  summary: []
+  buttons: []
+  buttonsPosition: ''
+  formMethod: post
+  formAction: '#'
+  jsInitMethods: []
+
+PimPredefinedReport:
+  pluginName: orangehrmCorePlugin
+  hasSelectableRows: false
+  unselectableRowIds: []
+  idValueGetter: '0'
+  title: ''
+  tableWidth: auto
+  hasSummary: false
+  summary: []
+  buttons: []
+  buttonsPosition: ''
+  formMethod: post
+  formAction: '#'
+  enableTopScrolling: true
+  assets: [display_report.css]
+  jsInitMethods: []
+
+ViewPredefinedReport:
+  pluginName: orangehrmCorePlugin
+  hasSelectableRows: true
+  unselectableRowIds: []
+  idValueGetter: getReportId
+  title: ''
+  tableWidth: auto
+  hasSummary: false
+  isValueList: ''
+  summary: []
+  buttonsPosition: before-data
+  formMethod: post
+  formAction: 'core/viewDefinedPredefinedReports'
+  assets: []
+  jsInitMethods: []
+
+JobTitle:
+  pluginName: orangehrmAdminPlugin
+  hasSelectableRows: true
+  unselectableRowIds: []
+  idValueGetter: getId
+  title: "<?php echo __("Job Titles");?>"
+  tableWidth: 100%
+  hasSummary: false
+  summary: []
+  buttonsPosition: before-data
+  formMethod: post
+  formAction: 'admin/deleteJobTitle'
+  assets: []
+  jsInitMethods: []
+  
+Location:
+  pluginName: orangehrmAdminPlugin
+  hasSelectableRows: true
+  unselectableRowIds: []
+  idValueGetter: getId
+  title: ''
+  tableWidth: 100%
+  hasSummary: false
+  summary: []
+  buttons:
+    Add:
+      label: Add
+    Delete:
+      label: Delete
+      type: submit
+      class: delete
+      data-toggle: modal 
+      data-target: '#deleteConfModal'
+  buttonsPosition: before-data
+  formMethod: post
+  formAction: 'admin/deleteLocations'
+  assets: []
+  jsInitMethods: []
+
+EmploymentStatus:
+  pluginName: orangehrmAdminPlugin
+  hasSelectableRows: true
+  unselectableRowIds: []
+  idValueGetter: getId
+  title: "<?php echo __("Employment Status");?>"
+  tableWidth: 100%
+  hasSummary: false
+  summary: []
+  buttons:
+    Add:
+      label: Add
+    Delete:
+      label: Delete
+      type: submit
+      class: delete
+      data-toggle: modal 
+      data-target: '#deleteConfModal'
+  buttonsPosition: before-data
+  formMethod: post
+  formAction: 'admin/deleteEmploymentStatus'
+  assets: []
+  jsInitMethods: []
+
+JobCategory:
+  pluginName: orangehrmAdminPlugin
+  hasSelectableRows: true
+  unselectableRowIds: []
+  idValueGetter: getId
+  title: "<?php echo __("Job Categories");?>"
+  tableWidth: 100%
+  hasSummary: false
+  summary: []
+  buttons:
+    Add:
+      label: Add
+    Delete:
+      label: Delete
+      type: submit
+      class: delete
+      data-toggle: modal 
+      data-target: '#deleteConfModal'
+  buttonsPosition: before-data
+  formMethod: post
+  formAction: 'admin/deleteJobCategory'
+  assets: []
+  jsInitMethods: []
+
+PayGrade:
+  pluginName: orangehrmAdminPlugin
+  hasSelectableRows: true
+  unselectableRowIds: []
+  idValueGetter: getId
+  title: "<?php echo __("Pay Grades");?>"
+  tableWidth: 100%
+  hasSummary: false
+  summary: []
+  buttonsPosition: before-data
+  formMethod: post
+  formAction: 'admin/deletePayGrades'
+  assets: []
+  jsInitMethods: []
+  
+SystemUser:
+  pluginName: orangehrmAdminPlugin
+  hasSelectableRows: true
+  unselectableRowIds: []
+  idValueGetter: getId
+  title: ''
+  tableWidth: 100%
+  hasSummary: false
+  summary: []
+  buttons:
+    Add:
+      label: Add
+      function: addSystemUser
+    Delete:
+      label: Delete
+      type: submit
+      class: delete
+      data-toggle: modal 
+      data-target: '#deleteConfModal'
+  buttonsPosition: before-data
+  formMethod: post
+  formAction: 'admin/deleteSystemUsers'
+  assets: []
+  jsInitMethods: []
+
+Membership:
+  pluginName: orangehrmAdminPlugin
+  hasSelectableRows: true
+  unselectableRowIds: []
+  idValueGetter: getId
+  title: "<?php echo __("Memberships");?>"
+  tableWidth: 100%
+  hasSummary: false
+  summary: []
+  buttons:
+    Add:
+      label: Add
+    Delete:
+      label: Delete
+      type: submit
+      class: delete
+      data-toggle: modal 
+      data-target: '#deleteConfModal'
+  buttonsPosition: before-data
+  formMethod: post
+  formAction: 'admin/deleteMemberships'
+  assets: []
+  jsInitMethods: []
+
+Nationality:
+  pluginName: orangehrmAdminPlugin
+  hasSelectableRows: true
+  unselectableRowIds: []
+  idValueGetter: getId
+  title: "<?php echo __("Nationalities");?>"
+  tableWidth: 100%
+  hasSummary: false
+  summary: []
+  buttons:
+    Add:
+      label: Add
+    Delete:
+      label: Delete
+      type: submit
+      class: delete
+      data-toggle: modal 
+      data-target: '#deleteConfModal'
+  buttonsPosition: before-data
+  formMethod: post
+  formAction: 'admin/deleteNationalities'
+  assets: []
+  jsInitMethods: []
+
+EmailNotification:
+  pluginName: orangehrmAdminPlugin
+  hasSelectableRows: false
+  unselectableRowIds: []
+  idValueGetter: getId
+  title: "<?php echo __("Email Notification");?>"
+  tableWidth: 100%
+  hasSummary: false
+  summary: []
+  buttons:
+    Edit:
+      label: Edit
+    Save:
+      label: Save
+      type: submit
+  buttonsPosition: before-data
+  formMethod: post
+  formAction: 'admin/updateNotification'
+  assets: []
+  jsInitMethods: []
+
+WorkShift:
+  pluginName: orangehrmAdminPlugin
+  hasSelectableRows: true
+  unselectableRowIds: []
+  idValueGetter: getId
+  title: "<?php echo __("Work Shifts");?>"
+  tableWidth: 100%
+  hasSummary: false
+  summary: []
+  buttons:
+    Add:
+      label: Add
+    Delete:
+      label: Delete
+      type: submit
+      class: delete
+      data-toggle: modal 
+      data-target: '#deleteConfModal'
+  buttonsPosition: before-data
+  formMethod: post
+  formAction: 'admin/deleteWorkShifts'
+  assets: []
+  jsInitMethods: []
+
+Subscriber:
+  pluginName: orangehrmAdminPlugin
+  hasSelectableRows: true
+  unselectableRowIds: []
+  idValueGetter: getId
+  title: "<?php echo __("Subscribers");?>"
+  tableWidth: 100%
+  hasSummary: false
+  summary: []
+  buttons:
+    Add:
+      label: Add
+    Delete:
+      label: Delete
+      type: submit
+      class: delete
+      data-toggle: modal 
+      data-target: '#deleteConfModal'
+    Back:
+      label: Back
+      class: reset
+  buttonsPosition: before-data
+  formMethod: post
+  formAction: 'admin/deleteSubscribers'
+  assets: []
+  jsInitMethods: []

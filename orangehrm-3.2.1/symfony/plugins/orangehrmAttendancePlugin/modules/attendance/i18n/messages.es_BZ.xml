@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE xliff PUBLIC "-//XLIFF//DTD XLIFF//EN" "http://www.oasis-open.org/committees/xliff/documents/xliff.dtd">
+<xliff version="1.0">
+ <header/>
+ <file source-language="en_US" target-language="es_BZ" datatype="plaintext" original="messages" date="2012-08-23T1:33:15Z" product-name="messages">
+  <body>
+   <trans-unit id="1">
+    <source>Add Attendance Records</source>
+    <target>Añadir registros de asistencia</target>
+   </trans-unit>
+   <trans-unit id="2">
+    <source>Attendance Configuration</source>
+    <target>La asistencia de configuración</target>
+   </trans-unit>
+   <trans-unit id="3">
+    <source>Comment should be less than 250 characters</source>
+    <target>Comentario debe ser inferior a 250 caracteres</target>
+   </trans-unit>
+   <trans-unit id="4">
+    <source>Employee can change current time when punching in/out</source>
+    <target>Empleado puede cambiar la hora actual cuando ocurra la perforación de entrada / salida</target>
+   </trans-unit>
+   <trans-unit id="5">
+    <source>Employee can edit/delete own attendance records</source>
+    <target>Empleado puede editar / borrar los registros propios de asistencia</target>
+   </trans-unit>
+   <trans-unit id="6">
+    <source>In</source>
+    <target>En</target>
+   </trans-unit>
+   <trans-unit id="7">
+    <source>Last punch in time</source>
+    <target>Último tiempo al fichar</target>
+   </trans-unit>
+   <trans-unit id="8">
+    <source>My Attendance Records</source>
+    <target>Mis Registros de asistencia</target>
+   </trans-unit>
+   <trans-unit id="9">
+    <source>No attendance records to display</source>
+    <target>No registros de asistencia para mostrar</target>
+   </trans-unit>
+   <trans-unit id="10">
+    <source>Out</source>
+    <target>Fuera</target>
+   </trans-unit>
+   <trans-unit id="11">
+    <source>Overlapping Records Found</source>
+    <target>Superposición de registros encontrados</target>
+   </trans-unit>
+   <trans-unit id="12">
+    <source>Punch In</source>
+    <target>Perforacion al entrar</target>
+   </trans-unit>
+   <trans-unit id="13">
+    <source>Punch In Note</source>
+    <target>Nota de perforacion al entrar</target>
+   </trans-unit>
+   <trans-unit id="14">
+    <source>Punch in/out note</source>
+    <target>Nota al Fichar/Perforar</target>
+   </trans-unit>
+   <trans-unit id="15">
+    <source>Punch Out</source>
+    <target>Perforacion al salir</target>
+   </trans-unit>
+   <trans-unit id="16">
+    <source>Punch Out Note</source>
+    <target>Nota de perforacion al salir</target>
+   </trans-unit>
+   <trans-unit id="17">
+    <source>Punch out Time Should Be Higher Than Punch in Time</source>
+    <target>Perfore tiempo debe ser mayor de tiempo de Fichar</target>
+   </trans-unit>
+   <trans-unit id="18">
+    <source>Should Be a Valid Date in %format% Format</source>
+    <target>Debe ser fecha valida en %formato%Formato</target>
+   </trans-unit>
+   <trans-unit id="19">
+    <source>Should Be a Valid Time in %format% Format</source>
+    <target>Debe ser hora valida en %formato%Formato</target>
+   </trans-unit>
+   <trans-unit id="20">
+    <source>Supervisor can add/edit/delete attendance records of subordinates</source>
+    <target>Supervisor puede añadir / editar / borrar los registros de asistencia de sus subordinados</target>
+   </trans-unit>
+   <trans-unit id="21">
+    <source>Timezone</source>
+    <target>Zona horaria</target>
+   </trans-unit>
+   <trans-unit id="22">
+    <source>View Attendance Record</source>
+    <target>Ver Registro de Asistencia</target>
+   </trans-unit>
+   <trans-unit id="23">
+    <source>You are not allowed to view this page</source>
+    <target>Usted no está autorizado a ver esta página</target>
+   </trans-unit>
+  </body>
+ </file>
+</xliff>
+<!-- Contributed By:   -->
+

@@ -1,0 +1,267 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE xliff PUBLIC "-//XLIFF//DTD XLIFF//EN" "http://www.oasis-open.org/committees/xliff/documents/xliff.dtd">
+<xliff version="1.0">
+ <header/>
+ <file source-language="en_US" target-language="fr_FR" datatype="plaintext" original="messages" date="2012-08-23T1:00:32Z" product-name="messages">
+  <body>
+   <trans-unit id="1">
+    <source>A new leave type will be created with same name</source>
+    <target>Un nouveau type de congé sera créé avec le même nom</target>
+   </trans-unit>
+   <trans-unit id="2">
+    <source>Actions</source>
+    <target>Actions</target>
+   </trans-unit>
+   <trans-unit id="3">
+    <source>Add Leave Type</source>
+    <target>Ajouter Type d'absence</target>
+   </trans-unit>
+   <trans-unit id="4">
+    <source>Apply Leave</source>
+    <target>Appliquer congé</target>
+   </trans-unit>
+   <trans-unit id="5">
+    <source>Assign</source>
+    <target>Attribuer</target>
+   </trans-unit>
+   <trans-unit id="6">
+    <source>At Least One Day Should Be a Working Day</source>
+    <target>Au moins une journée devrait être une journée de travail</target>
+   </trans-unit>
+   <trans-unit id="7">
+    <source>Canceled</source>
+    <target>Annulé</target>
+   </trans-unit>
+   <trans-unit id="8">
+    <source>characters</source>
+    <target>caractères</target>
+   </trans-unit>
+   <trans-unit id="9">
+    <source>Confirmation Required</source>
+    <target>Confirmation requise</target>
+   </trans-unit>
+   <trans-unit id="10">
+    <source>Current Leave Period</source>
+    <target>Période d'absences en cours</target>
+   </trans-unit>
+   <trans-unit id="11">
+    <source>Date format should be</source>
+    <target>Doit être au format Date</target>
+   </trans-unit>
+   <trans-unit id="12">
+    <source>Define Leave Type</source>
+    <target>Définir Type de congé</target>
+   </trans-unit>
+   <trans-unit id="13">
+    <source>Duration (Hours)</source>
+    <target>Durée (Heures)</target>
+   </trans-unit>
+   <trans-unit id="14">
+    <source>Edit Leave Type</source>
+    <target>Modifier Type d'absence</target>
+   </trans-unit>
+   <trans-unit id="15">
+    <source>Failed to Assign</source>
+    <target>Echec d'attribution</target>
+   </trans-unit>
+   <trans-unit id="16">
+    <source>Failed to Assign: Work Shift Length Exceeded</source>
+    <target>Échec de l'Affectation: amplitude de travail dépassée</target>
+   </trans-unit>
+   <trans-unit id="17">
+    <source>Failed to Save: Date Already Assigned</source>
+    <target>Impossible d'enregistrer: date déjà affectées</target>
+   </trans-unit>
+   <trans-unit id="18">
+    <source>Failed to Submit</source>
+    <target>Impossible de soumettre</target>
+   </trans-unit>
+   <trans-unit id="19">
+    <source>Failed to Submit: Leave Balance Exceeded</source>
+    <target>Impossible de soumettre: solde de congé dépassé</target>
+   </trans-unit>
+   <trans-unit id="20">
+    <source>Failed to Submit: No Working Days Selected</source>
+    <target>Impossible de soumettre: Pas de jours de travail sélectionnés</target>
+   </trans-unit>
+   <trans-unit id="21">
+    <source>Failed to Submit: Work Shift Length Exceeded</source>
+    <target>Impossible de soumettre: amplitude de travail dépassée</target>
+   </trans-unit>
+   <trans-unit id="22">
+    <source>Following Year</source>
+    <target>Année suivante</target>
+   </trans-unit>
+   <trans-unit id="23">
+    <source>For Leap Years</source>
+    <target>Pour les années bissextiles</target>
+   </trans-unit>
+   <trans-unit id="24">
+    <source>For Non-Leap Years</source>
+    <target>Pour les années non bissextiles</target>
+   </trans-unit>
+   <trans-unit id="25">
+    <source>From Date</source>
+    <target>Du</target>
+   </trans-unit>
+   <trans-unit id="26">
+    <source>From Time</source>
+    <target>A partir de</target>
+   </trans-unit>
+   <trans-unit id="27">
+    <source>From time should be lesser than To time</source>
+    <target>L'heure de début doit être antérieure à l'heure de fin</target>
+   </trans-unit>
+   <trans-unit id="28">
+    <source>Full Day</source>
+    <target>Journée complète</target>
+   </trans-unit>
+   <trans-unit id="29">
+    <source>Full Day/Half Day</source>
+    <target>Journée complète / Demi-journée</target>
+   </trans-unit>
+   <trans-unit id="30">
+    <source>Go to Detailed View</source>
+    <target>Allez à la vue détaillée</target>
+   </trans-unit>
+   <trans-unit id="31">
+    <source>Half Day</source>
+    <target>Demi-journée</target>
+   </trans-unit>
+   <trans-unit id="32">
+    <source>Holiday</source>
+    <target>Vacances</target>
+   </trans-unit>
+   <trans-unit id="33">
+    <source>Leave Balance</source>
+    <target>Solde de congés</target>
+   </trans-unit>
+   <trans-unit id="34">
+    <source>Leave Comment</source>
+    <target>Commentaire</target>
+   </trans-unit>
+   <trans-unit id="35">
+    <source>Leave Entitled</source>
+    <target>Congés acquis</target>
+   </trans-unit>
+   <trans-unit id="36">
+    <source>Leave Period Does Not Exist</source>
+    <target>La période d'absence n'existe pas</target>
+   </trans-unit>
+   <trans-unit id="37">
+    <source>Leave Period Not Defined</source>
+    <target>Période d'absence non définie</target>
+   </trans-unit>
+   <trans-unit id="38">
+    <source>Leave Request</source>
+    <target>Demandes d'absence</target>
+   </trans-unit>
+   <trans-unit id="39">
+    <source>Leave Request (%date_range%) %name%</source>
+    <target>Demande d'absence (%date_rang%) %nom%</target>
+   </trans-unit>
+   <trans-unit id="40">
+    <source>Leave Scheduled</source>
+    <target>Absences prévues</target>
+   </trans-unit>
+   <trans-unit id="41">
+    <source>Leave Taken</source>
+    <target>Congés Pris</target>
+   </trans-unit>
+   <trans-unit id="42">
+    <source>Leave Type</source>
+    <target>Type d'absence</target>
+   </trans-unit>
+   <trans-unit id="43">
+    <source>Leave type will be undeleted</source>
+    <target>Le type d'absence ne sera pas supprimé</target>
+   </trans-unit>
+   <trans-unit id="44">
+    <source>My Leave Details</source>
+    <target>Mes détails d'absence</target>
+   </trans-unit>
+   <trans-unit id="45">
+    <source>My Leave List</source>
+    <target>Ma liste d'absence</target>
+   </trans-unit>
+   <trans-unit id="46">
+    <source>Name of Holiday</source>
+    <target>Nom de vacances</target>
+   </trans-unit>
+   <trans-unit id="47">
+    <source>No Leave Types with Leave Balance</source>
+    <target>Aucun Types de congé avec solde de congés</target>
+   </trans-unit>
+   <trans-unit id="48">
+    <source>No of Hours</source>
+    <target>Pas d'heures</target>
+   </trans-unit>
+   <trans-unit id="49">
+    <source>Non Working Day</source>
+    <target>Journée non travaillée</target>
+   </trans-unit>
+   <trans-unit id="50">
+    <source>Non-working Day</source>
+    <target>Jour non ouvrable</target>
+   </trans-unit>
+   <trans-unit id="51">
+    <source>Number of Days</source>
+    <target>Nombre de jours</target>
+   </trans-unit>
+   <trans-unit id="52">
+    <source>Overlapping Leave Request Found</source>
+    <target>Demande d'absence avec chevauchement trouvée</target>
+   </trans-unit>
+   <trans-unit id="53">
+    <source>Pending Approval</source>
+    <target>En attente d'approbation</target>
+   </trans-unit>
+   <trans-unit id="54">
+    <source>Repeats Annually</source>
+    <target>Répété Annuellement</target>
+   </trans-unit>
+   <trans-unit id="55">
+    <source>Should be less than work shift length</source>
+    <target>Doit être inférieure à la durée d'amplitude de travail</target>
+   </trans-unit>
+   <trans-unit id="56">
+    <source>Show Leave with Status</source>
+    <target>Afficher l'absence avec le statut</target>
+   </trans-unit>
+   <trans-unit id="57">
+    <source>Successfully Undeleted</source>
+    <target>Supprimé avec succès</target>
+   </trans-unit>
+   <trans-unit id="58">
+    <source>Taken</source>
+    <target>Pris</target>
+   </trans-unit>
+   <trans-unit id="59">
+    <source>This is a deleted leave type. Reactivate it?</source>
+    <target>Il s'agit d'un type d'absence supprimé. Le réactiver ?</target>
+   </trans-unit>
+   <trans-unit id="60">
+    <source>To Date</source>
+    <target>Jusqu'au</target>
+   </trans-unit>
+   <trans-unit id="61">
+    <source>To Time</source>
+    <target>Jusqu'à</target>
+   </trans-unit>
+   <trans-unit id="62">
+    <source>Total Hours</source>
+    <target>Total des heures</target>
+   </trans-unit>
+   <trans-unit id="63">
+    <source>Total time is greater than the shift length</source>
+    <target>Le temps total est supérieur au temps de travail</target>
+   </trans-unit>
+   <trans-unit id="64">
+    <source>Will take no action</source>
+    <target>N'aura aucun effet</target>
+   </trans-unit>
+  </body>
+ </file>
+</xliff>
+<!-- Contributed By:   ,   ,   ,   ,  ANDY Mitchell , Abdo Kalil , Alagics Sixela , Alain  Hops , Alde Alde , Bob Mar , Christophe Chassat , Domenech Bruno , erf dfee , Fabien RICHARD , Fabien Valoggia , Faycal Chabane , Follin Guillaume , Kais Derouiche , Lionel Agbohouto , Luigi Ditello , Meriem BENMERADI , Michael French , Nicolas  Mariage , Patrick JUVEL , Thierry Ferrandiz -->
+

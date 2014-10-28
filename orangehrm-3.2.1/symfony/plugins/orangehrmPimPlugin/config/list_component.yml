@@ -1,0 +1,14 @@
+Employee:
+  pluginName: orangehrmPimPlugin
+  hasSelectableRows: true
+  unselectableRowIds: []
+  idValueGetter: getEmpNumber
+  title: ''
+  tableWidth: 100%
+  hasSummary: false
+  summary: []
+  buttonsPosition: before-data
+  formMethod: post
+  formAction: 'pim/deleteEmployees'
+  assets: []
+  jsInitMethods: []

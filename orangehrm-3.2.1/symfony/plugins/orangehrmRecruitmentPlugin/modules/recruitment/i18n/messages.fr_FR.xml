@@ -1,0 +1,315 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE xliff PUBLIC "-//XLIFF//DTD XLIFF//EN" "http://www.oasis-open.org/committees/xliff/documents/xliff.dtd">
+<xliff version="1.0">
+ <header/>
+ <file source-language="en_US" target-language="fr_FR" datatype="plaintext" original="messages" date="2012-08-23T1:02:11Z" product-name="messages">
+  <body>
+   <trans-unit id="1">
+    <source>Active</source>
+    <target>Actif</target>
+   </trans-unit>
+   <trans-unit id="2">
+    <source>Add another</source>
+    <target>Ajouter un autre</target>
+   </trans-unit>
+   <trans-unit id="3">
+    <source>Add Candidate</source>
+    <target>Ajouter candidat</target>
+   </trans-unit>
+   <trans-unit id="4">
+    <source>Add Job Vacancy</source>
+    <target>Ajouter les postes vacants</target>
+   </trans-unit>
+   <trans-unit id="5">
+    <source>Adding Candidate</source>
+    <target>Ajout candidat</target>
+   </trans-unit>
+   <trans-unit id="6">
+    <source>Application Initiated</source>
+    <target>Candidature soumise</target>
+   </trans-unit>
+   <trans-unit id="7">
+    <source>applied for the</source>
+    <target>Soumettre sa candidature pour</target>
+   </trans-unit>
+   <trans-unit id="8">
+    <source>Archived</source>
+    <target>Archivé</target>
+   </trans-unit>
+   <trans-unit id="9">
+    <source>Are you sure you want to remove job vacancy of the candidate</source>
+    <target>Etes-vous sûr de vouloir supprimer les postes vacants du candidat</target>
+   </trans-unit>
+   <trans-unit id="10">
+    <source>as failed</source>
+    <target>comme ayant échoué</target>
+   </trans-unit>
+   <trans-unit id="11">
+    <source>as passed</source>
+    <target>avec succès</target>
+   </trans-unit>
+   <trans-unit id="12">
+    <source>assigned the job vacancy</source>
+    <target>attribué le poste vacant</target>
+   </trans-unit>
+   <trans-unit id="13">
+    <source>by</source>
+    <target>par</target>
+   </trans-unit>
+   <trans-unit id="14">
+    <source>Candidate</source>
+    <target>Candidat</target>
+   </trans-unit>
+   <trans-unit id="15">
+    <source>Candidate Name</source>
+    <target>Nom du candidat</target>
+   </trans-unit>
+   <trans-unit id="16">
+    <source>Candidate's History</source>
+    <target>Expérience du candidat</target>
+   </trans-unit>
+   <trans-unit id="17">
+    <source>candidateName</source>
+    <target>Nom du candidat</target>
+   </trans-unit>
+   <trans-unit id="18">
+    <source>Cannot assign same interviewer twice</source>
+    <target>Impossible d'attribuer deux fois le même recruteur</target>
+   </trans-unit>
+   <trans-unit id="19">
+    <source>Cannot assign same vacancy twice</source>
+    <target>Impossible d'attribuer deux fois le même poste libre</target>
+   </trans-unit>
+   <trans-unit id="20">
+    <source>Click on a candidate to perform actions</source>
+    <target>Cliquez sur un candidat pour effectuer des actions</target>
+   </trans-unit>
+   <trans-unit id="21">
+    <source>Closed</source>
+    <target>Fermé</target>
+   </trans-unit>
+   <trans-unit id="22">
+    <source>Continue</source>
+    <target>Continuer</target>
+   </trans-unit>
+   <trans-unit id="23">
+    <source>Date of Application</source>
+    <target>Date de la demande</target>
+   </trans-unit>
+   <trans-unit id="24">
+    <source>Decline Offer</source>
+    <target>Décliner l'offre</target>
+   </trans-unit>
+   <trans-unit id="25">
+    <source>Details</source>
+    <target>Détails</target>
+   </trans-unit>
+   <trans-unit id="26">
+    <source>Edit Candidate</source>
+    <target>Modifier candidat</target>
+   </trans-unit>
+   <trans-unit id="27">
+    <source>Edit Interview Details</source>
+    <target>Modifier les détails de l'entretien</target>
+   </trans-unit>
+   <trans-unit id="28">
+    <source>Edit Job Vacancy</source>
+    <target>Modifier les postes vacants</target>
+   </trans-unit>
+   <trans-unit id="29">
+    <source>Editing Candidate</source>
+    <target>Modification du candidat</target>
+   </trans-unit>
+   <trans-unit id="30">
+    <source>from the</source>
+    <target>du</target>
+   </trans-unit>
+   <trans-unit id="31">
+    <source>Hire</source>
+    <target>Embaucher</target>
+   </trans-unit>
+   <trans-unit id="32">
+    <source>Hired</source>
+    <target>Embauché</target>
+   </trans-unit>
+   <trans-unit id="33">
+    <source>hired</source>
+    <target>embauché</target>
+   </trans-unit>
+   <trans-unit id="34">
+    <source>Hiring Manager</source>
+    <target>Manager qui recrute</target>
+   </trans-unit>
+   <trans-unit id="35">
+    <source>Interview Failed</source>
+    <target>Entretien négatif</target>
+   </trans-unit>
+   <trans-unit id="36">
+    <source>Interview Passed</source>
+    <target>Entretien positif</target>
+   </trans-unit>
+   <trans-unit id="37">
+    <source>Interview Scheduled</source>
+    <target>Entretien prévu</target>
+   </trans-unit>
+   <trans-unit id="38">
+    <source>Interview Title</source>
+    <target>Titre de l'entretien</target>
+   </trans-unit>
+   <trans-unit id="39">
+    <source>Interviewer Name</source>
+    <target>Nom du recruteur</target>
+   </trans-unit>
+   <trans-unit id="40">
+    <source>Job Offered</source>
+    <target>Poste proposé</target>
+   </trans-unit>
+   <trans-unit id="41">
+    <source>Job Vacancy</source>
+    <target>Poste vacant</target>
+   </trans-unit>
+   <trans-unit id="42">
+    <source>Manual</source>
+    <target>Manuel</target>
+   </trans-unit>
+   <trans-unit id="43">
+    <source>Mark Interview Failed</source>
+    <target>Marquer entretien négatif</target>
+   </trans-unit>
+   <trans-unit id="44">
+    <source>Mark Interview Passed</source>
+    <target>Marquer entretien positif</target>
+   </trans-unit>
+   <trans-unit id="45">
+    <source>marked</source>
+    <target>marqué</target>
+   </trans-unit>
+   <trans-unit id="46">
+    <source>marked the offer as declined</source>
+    <target>Marquer que l'offre a été rejetée</target>
+   </trans-unit>
+   <trans-unit id="47">
+    <source>Method of Application</source>
+    <target>Méthode de candidature</target>
+   </trans-unit>
+   <trans-unit id="48">
+    <source>No Actions</source>
+    <target>Aucune action</target>
+   </trans-unit>
+   <trans-unit id="49">
+    <source>No active job vacancies to display</source>
+    <target>Pas de postes vacants actifs à afficher</target>
+   </trans-unit>
+   <trans-unit id="50">
+    <source>Number of Positions</source>
+    <target>Nombre de postes</target>
+   </trans-unit>
+   <trans-unit id="51">
+    <source>Offer Declined</source>
+    <target>Refus de l'offre</target>
+   </trans-unit>
+   <trans-unit id="52">
+    <source>Offer Job</source>
+    <target>Offre d'emploi</target>
+   </trans-unit>
+   <trans-unit id="53">
+    <source>offered the job</source>
+    <target>Poste proposé</target>
+   </trans-unit>
+   <trans-unit id="54">
+    <source>offred the job</source>
+    <target>Poste proposé</target>
+   </trans-unit>
+   <trans-unit id="55">
+    <source>on</source>
+    <target>sur</target>
+   </trans-unit>
+   <trans-unit id="56">
+    <source>Online</source>
+    <target>En ligne</target>
+   </trans-unit>
+   <trans-unit id="57">
+    <source>Performed Action</source>
+    <target>Action effectuée</target>
+   </trans-unit>
+   <trans-unit id="58">
+    <source>Performed Date</source>
+    <target>Date de réalisation</target>
+   </trans-unit>
+   <trans-unit id="59">
+    <source>Publish in RSS feed(1) and web page(2)</source>
+    <target>Publier dans Flux RSS (1) et la page web (2)</target>
+   </trans-unit>
+   <trans-unit id="60">
+    <source>Remove?</source>
+    <target>Retirez?</target>
+   </trans-unit>
+   <trans-unit id="61">
+    <source>removed</source>
+    <target>retiré</target>
+   </trans-unit>
+   <trans-unit id="62">
+    <source>RSS Feed URL</source>
+    <target>URL de flux RSS</target>
+   </trans-unit>
+   <trans-unit id="63">
+    <source>Schedule Interview</source>
+    <target>Entretien programmé</target>
+   </trans-unit>
+   <trans-unit id="64">
+    <source>scheduled</source>
+    <target>programmé</target>
+   </trans-unit>
+   <trans-unit id="65">
+    <source>Shortlist</source>
+    <target>Shortlist</target>
+   </trans-unit>
+   <trans-unit id="66">
+    <source>Shortlisted</source>
+    <target>Mis dans la shortlist</target>
+   </trans-unit>
+   <trans-unit id="67">
+    <source>Shortlisted for</source>
+    <target>Mis dans la shortlist pour</target>
+   </trans-unit>
+   <trans-unit id="68">
+    <source>Should be less than current date</source>
+    <target>Doit être inférieure à la date du jour</target>
+   </trans-unit>
+   <trans-unit id="69">
+    <source>Successfully Scheduled</source>
+    <target>Programmé avec succès</target>
+   </trans-unit>
+   <trans-unit id="70">
+    <source>This action will remove previous vacancy</source>
+    <target>Cette action va supprimer ancien poste vacant</target>
+   </trans-unit>
+   <trans-unit id="71">
+    <source>Vacancy</source>
+    <target>Vacant</target>
+   </trans-unit>
+   <trans-unit id="72">
+    <source>Vacancy Name</source>
+    <target>Nom du poste vacant</target>
+   </trans-unit>
+   <trans-unit id="73">
+    <source>View Action History</source>
+    <target>Afficher l'historique d'action</target>
+   </trans-unit>
+   <trans-unit id="74">
+    <source>View Interview Details</source>
+    <target>Voir détails de l'entretien</target>
+   </trans-unit>
+   <trans-unit id="75">
+    <source>Web Page URL</source>
+    <target>URL de la page Web</target>
+   </trans-unit>
+   <trans-unit id="76">
+    <source>with</source>
+    <target>avec</target>
+   </trans-unit>
+  </body>
+ </file>
+</xliff>
+<!-- Contributed By:   ,   ,   ,   ,  ANDY Mitchell , Abdo Kalil , Alagics Sixela , Alain  Hops , Alde Alde , Bob Mar , Christophe Chassat , Domenech Bruno , erf dfee , Fabien RICHARD , Fabien Valoggia , Faycal Chabane , Follin Guillaume , Kais Derouiche , Lionel Agbohouto , Luigi Ditello , Meriem BENMERADI , Michael French , Nicolas  Mariage , Patrick JUVEL , Thierry Ferrandiz -->
+

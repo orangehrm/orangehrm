@@ -1,0 +1,346 @@
+JobVacancy:
+  tableName: ohrm_job_vacancy
+  columns:
+    id:
+      type: integer(13)
+      primary: true
+    job_title_code:
+      name: job_title_code as jobTitleCode
+      type: integer(13)
+    hiring_manager_id:
+      name: hiring_manager_id as hiringManagerId
+      type: integer(13)
+    name: string(100)
+    description: text
+    no_of_positions:
+      name: no_of_positions as noOfPositions
+      type: integer(13)
+    status: integer(4)
+    published_in_feed:
+      name: published_in_feed as publishedInFeed
+      type: boolean
+    defined_time:
+      name: defined_time as definedTime
+      type: datetime
+    updated_time:
+      name: updated_time as updatedTime
+      type: datetime
+  relations:
+    JobTitle:
+      local: jobTitleCode
+      foreign: id
+      type: one
+    Employee:
+      local: hiringManagerId
+      foreign: empNumber
+      type: one
+      foreignType: many
+      foreignAlias: managedVacancies
+      
+    JobCandidateVacancy:
+      local: id
+      foreign: vacancyId
+      type: many
+    JobVacancyAttachment:
+      local: id
+      foreign: id
+      type: many
+    CandidateHistory:
+      local: id
+      foreign: vacancyId
+      type: many
+
+JobCandidate:
+  tableName: ohrm_job_candidate
+  columns:
+    id:
+      type: integer(13)
+      primary: true
+    first_name:
+      name: first_name as firstName
+      type: string(30)
+    middle_name:
+      name: middle_name as middleName
+      type: string(30)
+    last_name:
+      name: last_name as lastName
+      type: string(30)
+    email: string(100)
+    contact_number :
+      name: contact_number as contactNumber
+      type: string(30)
+    status: integer(4)
+    comment: string(2147483647)
+    mode_of_application:
+      name: mode_of_application as modeOfApplication
+      type: integer(4)
+    date_of_application:
+      name: date_of_application as dateOfApplication
+      type: date(25)
+    cv_text_version:
+      name: cv_text_version as cvTextVersion
+      type: string(2147483647)
+    keywords: string(255)
+    added_person:
+      name: added_person as addedPerson
+      type: integer(13)
+  relations:
+    JobCandidateVacancy:
+      local: id
+      foreign: candidateId
+      type: many
+    JobCandidateAttachment:
+      local: id
+      foreign: candidateId
+      type: one
+    CandidateHistory:
+      local: id
+      foreign: candidateId
+      type: many
+    Employee:
+      local: addedPerson
+      foreign: empNumber
+      type: one
+    JobInterview:
+      local: id
+      foreign: candidateId
+      type: many
+
+JobCandidateVacancy:
+  tableName: ohrm_job_candidate_vacancy
+  columns:
+    id:
+      type: integer(13)
+      unique: true
+    candidate_id:
+      name: candidate_id as candidateId
+      type: integer(13)
+      primary: true
+    vacancy_id:
+      name: vacancy_id as vacancyId
+      type: integer(13)
+      primary: true
+    status: string(100)
+    applied_date:
+      name: applied_date as appliedDate
+      type: date(25)
+  relations:
+    JobVacancy:
+      local: vacancyId
+      foreign: id
+      type: one
+    JobCandidate:
+      local: candidateId
+      foreign: id
+      type: one
+    JobInterview:
+      local: id
+      foreign: candidateVacancyId
+      type: many
+
+JobCandidateAttachment:
+  tableName: ohrm_job_candidate_attachment
+  columns:
+    id:
+      type: integer(13)
+      primary: true
+    candidte_id:
+      name: candidate_id as candidateId
+      type: integer(13)
+    file_name:
+      name: file_name as fileName
+      type: string(255)
+    file_type:
+      name: file_type as fileType
+      type: string(255)
+    file_size:
+      name: file_size as fileSize
+      type: integer(30)
+    file_content:
+      name: file_content as fileContent
+      type: blob(2147483647)
+    attachment_type:
+      name: attachment_type as attachmentType
+      type: integer(4)
+  relations:
+    JobCandidate:
+      local: candidateId
+      foreign: id
+      type: one
+
+JobVacancyAttachment:
+  tableName: ohrm_job_vacancy_attachment
+  columns:
+    id:
+      type: integer(13)
+      primary: true
+    vacancy_id:
+      name: vacancy_id as vacancyId
+      type: integer(13)
+    file_name:
+      name: file_name as fileName
+      type: string(255)
+    file_type:
+      name: file_type as fileType
+      type: string(255)
+    file_size:
+      name: file_size as fileSize
+      type: integer(30)
+    file_content:
+      name: file_content as fileContent
+      type: blob(2147483647)
+    attachment_type:
+      name: attachment_type as attachmentType
+      type: integer(4)
+    comment:
+  relations:
+    JobVacancy:
+      local: id
+      foreign: attachmentFileId
+      type: one
+
+JobInterview:
+  tableName: ohrm_job_interview
+  columns:
+    id:
+      type: integer(13)
+      primary: true
+      autoincrement: true
+    candidate_vacancy_id:
+      name: candidate_vacancy_id as candidateVacancyId
+      type: integer(13)
+    candidate_id:
+      name: candidate_id as candidateId
+      type: integer(13)
+    interview_name:
+      name: interview_name as interviewName
+      type: string(100)
+    interview_date:
+      name: interview_date as interviewDate
+      type: date(25)
+    interview_time:
+      name: interview_time as interviewTime
+      type: string(30)
+    note:
+      type: string(2147483647)
+  relations:
+    JobCandidateVacancy:
+      local: candidateVacancyId
+      foreign: id
+      type: one
+    JobInterviewInterviewer:
+      local: id
+      foreign: interview_id
+      type: many
+    CandidateHistory:
+      local: id
+      foreign: interviewId
+      type: one
+    JobInterviewAttachment:
+      local: id
+      foreign: interviewId
+      type: many
+    JobCandidate:
+      local: candidateId
+      foreign: id
+      type: one
+
+JobInterviewInterviewer:
+  tableName: ohrm_job_interview_interviewer
+  columns:
+    interview_id:
+      name: interview_id as interviewId
+      type: integer(13)
+      primary: true
+    interviewer_id:
+      name: interviewer_id as interviewerId
+      type: integer(13)
+      primary: true
+  relations:
+    JobInterview:
+      local: interview_id
+      foreign: id
+      type: one
+    Employee:
+      local: interviewerId
+      foreign: empNumber
+      type: one
+
+CandidateHistory:
+  tableName: ohrm_job_candidate_history
+  columns:
+    id:
+      type: integer(13)
+      primary: true
+    candidate_id:
+      name: candidate_id as candidateId
+      type: integer(13)
+    vacancy_id:
+      name: vacancy_id as vacancyId
+      type: integer(13)
+    candidate_vacancy_name:
+      name: candidate_vacancy_name as candidateVacancyName
+      type: string(255)
+    interview_id:
+      name: interview_id as interviewId
+      type: integer(13)
+    action:
+      type: integer(4)
+    performed_by:
+      name: performed_by as performedBy
+      type: integer(13)
+    performed_date:
+      name: performed_date as performedDate
+      type: datetime
+    note:
+      type: string(2147483647)
+    interviewers:
+      type: string(255)
+  relations:
+    JobCandidate:
+      local: candidateId
+      foreign: id
+      type: one
+    JobVacancy:
+      local: vacancyId
+      foreign: id
+      type: one
+    Employee:
+      local: performedBy
+      foreign: empNumber
+      type: one
+    JobInterview:
+      local: interviewId
+      foreign: id
+      type: one
+
+JobInterviewAttachment:
+  tableName: ohrm_job_interview_attachment
+  columns:
+    id:
+      type: integer(13)
+      primary: true
+    interview_id:
+      name: interview_id as interviewId
+      type: integer(13)
+    file_name:
+      name: file_name as fileName
+      type: string(255)
+    file_type:
+      name: file_type as fileType
+      type: string(255)
+    file_size:
+      name: file_size as fileSize
+      type: integer(30)
+    file_content:
+      name: file_content as fileContent
+      type: blob(2147483647)
+    attachment_type:
+      name: attachment_type as attachmentType
+      type: integer(4)
+    comment:
+  relations:
+    JobInterview:
+      local: interviewId
+      foreign: id
+      type: one

@@ -1,0 +1,147 @@
+.mainHeading h2 {
+	margin-left: 10px;
+}
+
+#btnSave {
+	margin-left: 15px;
+}
+
+.hrLine {
+	width: 98%;
+	border-top:1px solid #FAD163;
+	display:block;
+	margin-left: 5px;
+	margin-top: 15px;
+}
+
+div .column {
+	float:left;
+	width:25%;
+}
+
+div .newColumn{
+	float:left;
+	width:45%;
+}
+
+div .nameColumn{
+	float:left;
+	/*	width:20%;*/
+}
+
+.duplexBox {
+	border: 1px solid #888888;
+}
+
+label {
+	margin-top: 8px;
+}
+
+.contactNoLable{
+	padding-left: 1px;
+}
+.contactNo{
+	margin-top: 6px;
+	text-align: left;
+	width: 150px;
+}
+#addCandidate_email{
+	margin-top: 6px;
+}
+
+.description{
+	float:left;
+}
+
+#description{
+	padding-left: 135px;
+}
+
+#txtArea{
+	border: none;
+	text-align: justify;
+}
+
+#extend{
+	margin-top: 6px;
+	padding-left: 55px;
+	cursor: pointer;
+}
+
+.keyWords{
+	width: 292px;
+	margin-top: 12px;
+}
+
+.resume{
+	margin-top: 5px;
+}
+
+.keywrd{
+	margin-top: 14px;
+}
+.comment{
+	margin-top: 5px;
+}
+
+div.below {
+	padding-left: 140px;
+	width: 250px !important;;
+}
+
+div.cntact{
+	padding-left: 120px;
+}
+
+label.error{
+	width:220px !important;
+	padding-left: 1px;
+}
+
+.helpText {
+	font-size: 8pt;
+	color:#888888;
+	padding-left: 15px;
+    text-align: center;
+}
+
+span.attach{
+	padding-left: 140px;
+}
+#notes {
+	width: 292px ;
+}
+#cvHelp {
+	padding-left: 140px;
+}
+div.messageBalloon_success {
+	width: 740px;
+	text-align: left;
+}
+div.messageBalloon_warning {
+	width: 740px;
+	text-align: left;
+}
+#backLink{
+	color: #363636;
+	text-decoration: underline;
+	padding-left: 10px;
+	cursor: pointer;
+}
+#uploaded{
+	float: left;
+	margin-left: 135px;
+}
+
+.resumeDiv{
+	float: left;
+}
+
+.fileLink{
+	margin-top: 5px;
+	margin-left: 75px;
+}
+
+.resumeUp{
+	padding-left: 20px;
+}

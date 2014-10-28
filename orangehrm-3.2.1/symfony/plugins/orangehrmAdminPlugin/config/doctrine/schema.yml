@@ -1,0 +1,503 @@
+Subunit:
+  tableName: ohrm_subunit
+  actAs: [NestedSet]
+  columns:
+    id:
+      type: integer(6)
+      primary: true
+      autoincrement: true
+    name:
+      type: string(100)
+      notnull: true
+    unit_id:
+      name: unit_id as unitId
+      type: string(100)
+    description:
+      type: string(400)
+
+Organization:
+  tableName: ohrm_organization_gen_info
+  columns:
+    id:
+      type: integer(4)
+      primary: true
+      autoincrement: true
+    name: string(100)
+    tax_id:
+      name: tax_id as taxId
+      type: string(30)
+    registration_number:
+      name: registration_number as registraionNumber
+      type: string(30)
+    phone: string(30)
+    fax: string(30)
+    email: string(30)
+    country: string(30)
+    province: string(30)
+    city: string(30)
+    zip_code:
+      name: zip_code as zipCode
+      type: string(30)
+    street1: string(100)
+    street2: string(100)
+    note: string(255)
+    
+Customer:
+  tableName: ohrm_customer
+  columns:
+    customer_id:
+      name: customer_id as customerId
+      type: integer(4)
+      primary: true
+      autoincrement: true
+    is_deleted:
+      type: integer(1)
+      default: '0'
+    name: string(100)
+    description: string(255)
+  relations:
+    Project:
+      local: customer_id
+      foreign: customer_id
+      type: many
+      
+Project:
+  tableName: ohrm_project
+  columns:
+    project_id:
+      name: project_id as projectId
+      type: integer(4)
+      primary: true
+      autoincrement: true
+    customer_id:
+      name : customer_id as customerId
+      type: integer(4)
+    is_deleted:
+      type: integer(1)
+      default: '0'
+    name: string(100)
+    description: string(256)
+  relations:
+    Customer:
+      local: customer_id
+      foreign: customer_id
+      type: one
+    ProjectActivity:
+      local: project_id
+      foreign: project_id
+      type: many
+    ProjectAdmin:
+      local: project_id
+      foreign: project_id
+      type: many
+      
+ProjectAdmin:
+  tableName: ohrm_project_admin
+  columns:
+    project_id:
+      type: integer(4)
+      primary: true
+      name: project_id as projectId
+    emp_number:
+      type: integer(4)
+      primary: true
+      name: emp_number as empNumber
+  relations:
+    Project:
+      local: project_id
+      foreign: project_id
+      type: one
+    Employee:
+      local: emp_number
+      foreign: emp_number
+      type: one
+
+ProjectActivity:
+  tableName: ohrm_project_activity
+  columns:
+    activity_id:
+      type: integer(4)
+      primary: true
+      name: activity_id as activityId
+      autoincrement: true
+    project_id:
+      type: integer(4)
+      notnull: true
+      name: project_id as projectId
+    is_deleted:
+      type: integer(1)
+      default: '0'
+    name: string(110)
+  relations:
+    Project:
+      local: project_id
+      foreign: project_id
+      type: one
+
+JobTitle:
+  tableName: ohrm_job_title
+  columns:
+    id:
+      type: integer(13)
+      primary: true
+      autoincrement: true
+    job_title:
+      name: job_title as jobTitleName
+      type: string(100)
+    job_description:
+      name: job_description as jobDescription
+      type: string(400)
+    note: string(400)
+    is_deleted:
+      name: is_deleted as isDeleted
+      type: integer(1)
+      default: '0'
+  relations:
+    JobSpecificationAttachment:
+      local: id
+      foreign: jobTitleId
+      type: one
+    employees:
+      class: Employee
+      local: id
+      foreign: job_title_code
+      type: many
+    definekpi:
+      class: DefineKpi
+      local: id
+      foreign: job_title_code
+      type: many
+
+JobSpecificationAttachment:
+  tableName: ohrm_job_specification_attachment
+  columns:
+    id:
+      type: integer(13)
+      primary: true
+    job_title_id:
+      name: job_title_id as jobTitleId
+      type: integer(13)
+    file_name:
+      name: file_name as fileName
+      type: string(255)
+    file_type:
+      name: file_type as fileType
+      type: string(255)
+    file_size:
+      name: file_size as fileSize
+      type: integer(30)
+    file_content:
+      name: file_content as fileContent
+      type: blob(2147483647)
+  relations:
+    JobTitle:
+      local: jobTitleId
+      foreign: id
+      type: one
+
+Location:
+  tableName: ohrm_location
+  columns:
+    id:
+      type: integer(13)
+      primary: true
+      autoincrement: true
+    name: string(110)
+    country_code as countryCode: string(3)
+    province:
+      name: province
+      type: string(60)
+    city: string(60)
+    address: string(255)
+    zip_code:
+      name: zip_code as zipCode
+      type: string(35)
+    phone: string(35)
+    fax: string(35)
+    notes: string(255)
+  relations:
+    country:
+      class: Country
+      local: country_code
+      foreign: cou_code
+      type: one
+    employees:
+      class: Employee
+      local: location_id
+      foreign: emp_number
+      refClass: EmpLocations
+      foreignAlias: locations
+
+OperationalCountry:
+  tableName: ohrm_operational_country
+  columns:
+    id:
+      type: integer(4)
+      autoincrement: true
+      primary: true
+    country_code: string(3)
+  relations:
+    Country:
+      class: Country
+      local: country_code
+      foreign: cou_code
+      type: one
+      foreignType: one
+
+EmploymentStatus:
+  tableName: ohrm_employment_status
+  columns:
+    id:
+      type: integer
+      primary: true
+      autoincrement: true
+    name: string(60)
+  relations:
+    employees:
+      class: Employee
+      local: id
+      foreign: emp_status
+      type: many
+
+PayGrade:
+  tableName: ohrm_pay_grade
+  columns:
+    id:
+      type: integer
+      primary: true
+      autoincrement: true
+    name: string(60)    
+  relations:
+    EmployeeSalary:
+      local: id
+      foreign: payGradeId
+      type: many
+    SalaryCurrencyDetail:
+      local: id
+      foreign: sal_grd_code
+      type: many
+
+PayGradeCurrency:
+  tableName: ohrm_pay_grade_currency
+  columns:
+    pay_grade_id:
+      type: int
+      primary: true
+    currency_id:
+      type: string(6)
+      primary: true
+    min_salary:
+      name: min_salary as minSalary
+      type: float(2147483647)
+    max_salary:
+      name: max_salary as maxSalary
+      type: float(2147483647)
+  relations:
+    CurrencyType:
+      local: currency_id
+      foreign: currency_id
+      type: one
+    PayGrade:
+      local: pay_grade_id
+      foreign: id
+      type: one      
+      
+Skill:
+  tableName: ohrm_skill
+  columns:
+    id:
+      type: integer
+      primary: true
+      autoincrement: true
+    name: string(120)
+    description: string(2147483647)
+  relations:
+    EmployeeSkill:
+      local: id
+      foreign: skillId
+      type: many      
+
+Membership:
+  tableName: ohrm_membership
+  columns:
+    id:
+      type: integer
+      primary: true
+      autoincrement: true
+    name:
+      type: string(100)
+  relations:
+    EmployeeMembership:
+      local: id
+      foreign: membershipId
+      type: many
+      
+Language:
+  tableName: ohrm_language
+  columns:
+    id:
+      type: string(13)
+      primary: true
+      autoincrement: true
+    name: string(120)
+  relations:
+    EmployeeLanguage:
+      local: id
+      foreign: lang_id
+      type: many
+
+Nationality:
+  tableName: ohrm_nationality
+  columns:
+    id:
+      type: integer
+      primary: true
+      autoincrement: true
+    name:
+      type: string(100)
+  relations:
+    Employee:
+      local: id
+      foreign: nation_code
+      type: many
+      
+JobCategory:
+  tableName: ohrm_job_category
+  columns:
+    id:
+      type: integer
+      primary: true
+      autoincrement: true
+    name: string(50)
+  relations:
+    Employee:
+      local: id
+      foreign: eeo_cat_code
+      type: many
+
+EmailNotification:
+  tableName: ohrm_email_notification
+  columns:
+    id:
+      type: integer
+      primary: true
+      autoincrement: true
+    name: string(100)
+    is_enable:
+      name: is_enable as isEnable
+      type: integer
+  relations:
+    EmailSubscriber:
+      local: id
+      foreign: notificationId
+      type: many
+
+EmailSubscriber:
+  tableName: ohrm_email_subscriber
+  columns:
+    id:
+      type: integer
+      primary: true
+      autoincrement: true
+    notification_id:
+      name: notification_id as notificationId
+      type: integer
+    name: string(100)
+    email: string(100)
+  relations:
+    EmailNotification:
+      local: notificationId
+      foreign: id
+      type: one
+
+WorkShift:
+  tableName: ohrm_work_shift
+  columns:
+    id:
+      type: integer
+      primary: true
+      autoincrement: true
+    name:
+      type: string(260)
+      notnull: true
+    hours_per_day:
+      type: decimal(4)
+      name: hours_per_day as hoursPerDay
+      notnull: true
+      scale: false
+    start_time:
+      type: time
+      notnull: true
+    end_time:
+      type: time
+      notnull: true;
+  relations:
+    EmployeeWorkShift:
+      local: id
+      foreign: work_shift_id
+      type: many
+            
+License:
+  tableName: ohrm_license
+  columns:
+    id:
+      type: integer
+      primary: true
+      autoincrement: true
+    name: string(100)
+  relations:
+    EmployeeLicense:
+      local: id
+      foreign: license_id
+      type: many
+      
+Education:
+  tableName: ohrm_education
+  columns:
+    id:
+      type: integer
+      primary: true
+      autoincrement: true
+    name: string(100)
+  relations:
+    EmployeeEducation:
+      local: id
+      foreign: educationId
+      type: many      
+
+Module:
+  tableName: ohrm_module
+  columns:
+    id:
+      type: integer
+      primary: true
+      autoincrement: true
+    name: string(120)
+    status: integer
+
+EmailConfiguration:
+  tableName: ohrm_email_configuration
+  columns:
+    id:
+      type: integer
+      primary: true
+      autoincrement: true
+    mail_type as mailType:
+      type: string(50)
+    sent_as as sentAs:
+      type: string(250)
+      notnull: true
+    sendmail_path as sendmailPath:
+      type: string(250)
+    smtp_host as smtpHost:
+      type: string(250)
+    smtp_port as smtpPort:
+      type: integer
+    smtp_username as smtpUsername:
+      type: string(250)
+    smtp_password as smtpPassword:
+      type: string(250)
+    smtp_auth_type as smtpAuthType:
+      type: string(50)
+    smtp_security_type as smtpSecurityType:
+      type: string(50)

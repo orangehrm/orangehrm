@@ -1,0 +1,32 @@
+UserRole:
+  0: {id: 1, name: Admin, display_name: Admin, is_assignable: 1, is_predefined: 1}
+  1: {id: 2, name: ESS, display_name: ESS, is_assignable: 1, is_predefined: 1}
+  2: {id: 3, name: Supervisor, display_name: Supervisor, is_assignable: 0, is_predefined: 1}
+  
+Module:
+  0: {id: 1, name: 'core', status: 1}
+  1: {id: 2, name: 'admin', status: 1}
+  2: {id: 3, name: 'pim', status: 1}
+  3: {id: 4, name: 'leave', status: 1}
+  4: {id: 5, name: 'time', status: 1}
+  5: {id: 6, name: 'attendance', status: 1}
+  6: {id: 7, name: 'recruitment', status: 1}
+  7: {id: 8, name: 'recruitmentApply', status: 1}
+  8: {id: 9, name: 'performance', status: 1}
+  9: {id: 10, name: 'benefits', status: 1}
+
+Screen:
+  0: {id: 1, name: 'employee list', module_id: 3, action_url: 'viewEmployeeList'}
+  1: {id: 2, name: 'projects',      module_id: 2, action_url: 'viewProjects'}
+  2: {id: 3, name: 'system users',  module_id: 2, action_url: 'viewSystemUsers'}
+  3: {id: 4, name: 'candidates',    module_id: 7, action_url: 'viewCandidates'}
+  4: {id: 5, name: 'add employee',  module_id: 3, action_url: 'addEmployee'}
+  5: {id: 6, name: 'delete employee', module_id: 3, action_url: 'delEmployee'}
+    
+ScreenPermission:
+  0: {id: 1, user_role_id: 1, screen_id: 1, can_read: 1, can_create: 1, can_update: 1, can_delete: 1}
+  1: {id: 2, user_role_id: 2, screen_id: 1, can_read: 0, can_create: 0, can_update: 0, can_delete: 0}
+  2: {id: 3, user_role_id: 3, screen_id: 1, can_read: 1, can_create: 0, can_update: 1, can_delete: 0}
+  3: {id: 4, user_role_id: 1, screen_id: 4, can_read: 1, can_create: 1, can_update: 1, can_delete: 0}
+  4: {id: 5, user_role_id: 3, screen_id: 4, can_read: 1, can_create: 0, can_update: 0, can_delete: 1}
+  

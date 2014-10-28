@@ -1,0 +1,535 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE xliff PUBLIC "-//XLIFF//DTD XLIFF//EN" "http://www.oasis-open.org/committees/xliff/documents/xliff.dtd">
+<xliff version="1.0">
+ <header/>
+ <file source-language="en_US" target-language="th_TH" datatype="plaintext" original="messages" date="2012-08-23T2:25:51Z" product-name="messages">
+  <body>
+   <trans-unit id="1">
+    <source>Activities</source>
+    <target>กิจกรรมต่างๆ</target>
+   </trans-unit>
+   <trans-unit id="2">
+    <source>Add Another</source>
+    <target>เพิ่มอีก</target>
+   </trans-unit>
+   <trans-unit id="3">
+    <source>Add Currency</source>
+    <target>เพิ่มสกุลเงิน</target>
+   </trans-unit>
+   <trans-unit id="4">
+    <source>Add Customer</source>
+    <target>เพิ่มลูกค้า</target>
+   </trans-unit>
+   <trans-unit id="5">
+    <source>Add Employment Status</source>
+    <target>เพิ่มสถานะการจ้างงาน</target>
+   </trans-unit>
+   <trans-unit id="6">
+    <source>Add Job Category</source>
+    <target>เพิ่มหมวดหมู่งาน</target>
+   </trans-unit>
+   <trans-unit id="7">
+    <source>Add Job Title</source>
+    <target>เพิ่มตำแหน่งงาน</target>
+   </trans-unit>
+   <trans-unit id="8">
+    <source>Add Location</source>
+    <target>เพิ่มสถานที่</target>
+   </trans-unit>
+   <trans-unit id="9">
+    <source>Add Membership</source>
+    <target>เพิ่มสมาชิก</target>
+   </trans-unit>
+   <trans-unit id="10">
+    <source>Add Nationality</source>
+    <target>เพิ่มสัญชาติ</target>
+   </trans-unit>
+   <trans-unit id="11">
+    <source>Add Pay Grade</source>
+    <target>เพิ่มระดับค่าจ้าง</target>
+   </trans-unit>
+   <trans-unit id="12">
+    <source>Add Project</source>
+    <target>เพิ่มโครงการ</target>
+   </trans-unit>
+   <trans-unit id="13">
+    <source>Add Project Activity</source>
+    <target>เพิ่มกิจกรรมโครงการ</target>
+   </trans-unit>
+   <trans-unit id="14">
+    <source>Add Subscriber</source>
+    <target>เพิ่มสมาชิก</target>
+   </trans-unit>
+   <trans-unit id="15">
+    <source>Add Unit</source>
+    <target>เพิ่มหน่วย</target>
+   </trans-unit>
+   <trans-unit id="16">
+    <source>Add User</source>
+    <target>เพิ่มผู้ใช้</target>
+   </trans-unit>
+   <trans-unit id="17">
+    <source>Add Work Shift</source>
+    <target>เพิ่มกะทำงาน</target>
+   </trans-unit>
+   <trans-unit id="18">
+    <source>All date fields should be in YYYY-MM-DD format</source>
+    <target>ทั้งหมดฟิลด์วันที่ควรจะอยู่ในรูปแบบ YYYY-MM-DD</target>
+   </trans-unit>
+   <trans-unit id="19">
+    <source>Assigned Currencies</source>
+    <target>กำหนดสกุลเงิน</target>
+   </trans-unit>
+   <trans-unit id="20">
+    <source>Assigned Employees</source>
+    <target>กำหนดพนักงาน</target>
+   </trans-unit>
+   <trans-unit id="21">
+    <source>Available Employees</source>
+    <target>พนักงานที่มีอยู่</target>
+   </trans-unit>
+   <trans-unit id="22">
+    <source>Better</source>
+    <target>ดีกว่า</target>
+   </trans-unit>
+   <trans-unit id="23">
+    <source>Click on a notification type to add subscribers</source>
+    <target>คลิกที่ประเภทของการแจ้งเตือนเพื่อเพิ่มสมาชิก</target>
+   </trans-unit>
+   <trans-unit id="24">
+    <source>Column order should not be changed</source>
+    <target>ลำดับคอลัมน์ไม่ควรจะมีการเปลี่ยนแปลง</target>
+   </trans-unit>
+   <trans-unit id="25">
+    <source>Company Structure</source>
+    <target>โครงสร้างบริษัท</target>
+   </trans-unit>
+   <trans-unit id="26">
+    <source>Confirm New Password</source>
+    <target>ยืนยันรหัสผ่านใหม่</target>
+   </trans-unit>
+   <trans-unit id="27">
+    <source>Copy Activity</source>
+    <target>คัดลอกกิจกรรม</target>
+   </trans-unit>
+   <trans-unit id="28">
+    <source>CSV Data Import</source>
+    <target>นำเข้าข้อมูล CSV </target>
+   </trans-unit>
+   <trans-unit id="29">
+    <source>Current Password</source>
+    <target>รหัสผ่านปัจจุบัน</target>
+   </trans-unit>
+   <trans-unit id="30">
+    <source>Current Password Is Wrong</source>
+    <target>รหัสผ่านปัจจุบันผิด</target>
+   </trans-unit>
+   <trans-unit id="31">
+    <source>Customer</source>
+    <target>ลูกค้า</target>
+   </trans-unit>
+   <trans-unit id="32">
+    <source>Customer Name</source>
+    <target>ชื่อลูกค้า</target>
+   </trans-unit>
+   <trans-unit id="33">
+    <source>Date Format</source>
+    <target>รูปแบบวันที่</target>
+   </trans-unit>
+   <trans-unit id="34">
+    <source>Description is not specified</source>
+    <target>คำอธิบายไม่ได้ระบุ</target>
+   </trans-unit>
+   <trans-unit id="35">
+    <source>Done</source>
+    <target>เสร็จสิ้น</target>
+   </trans-unit>
+   <trans-unit id="36">
+    <source>Each import file should be configured for 100 records or less</source>
+    <target>ไฟล์นำเข้าแต่ละคนควรจะกำหนดค่าสำหรับ 100 รายการหรือน้อยกว่า</target>
+   </trans-unit>
+   <trans-unit id="37">
+    <source>Edit Currency</source>
+    <target>แก้ไขสกุลเงิน</target>
+   </trans-unit>
+   <trans-unit id="38">
+    <source>Edit Customer</source>
+    <target>แก้ไขลูกค้า</target>
+   </trans-unit>
+   <trans-unit id="39">
+    <source>Edit Employment Status</source>
+    <target>แก้ไขสถานะการจ้างงาน</target>
+   </trans-unit>
+   <trans-unit id="40">
+    <source>Edit Job Category</source>
+    <target>แก้ไขหมวดหมู่งาน</target>
+   </trans-unit>
+   <trans-unit id="41">
+    <source>Edit Job Title</source>
+    <target>แก้ไขชื่องาน</target>
+   </trans-unit>
+   <trans-unit id="42">
+    <source>Edit Location</source>
+    <target>แก้ไขสถานที่ตั้ง</target>
+   </trans-unit>
+   <trans-unit id="43">
+    <source>Edit Membership</source>
+    <target>แก้ไขข้อมูลสมาชิก</target>
+   </trans-unit>
+   <trans-unit id="44">
+    <source>Edit Nationality</source>
+    <target>แก้ไขสัญชาติ</target>
+   </trans-unit>
+   <trans-unit id="45">
+    <source>Edit Pay Grade</source>
+    <target>แก้ไขระดับค่าจ้าง</target>
+   </trans-unit>
+   <trans-unit id="46">
+    <source>Edit Project</source>
+    <target>แก้ไขโครงการ</target>
+   </trans-unit>
+   <trans-unit id="47">
+    <source>Edit Project Activity</source>
+    <target>แก้ไขกิจกรรมโครงการ</target>
+   </trans-unit>
+   <trans-unit id="48">
+    <source>Edit Subscriber</source>
+    <target>แก้ไขการเป็นสมาชิก</target>
+   </trans-unit>
+   <trans-unit id="49">
+    <source>Edit Unit</source>
+    <target>แก้ไขหน่วย</target>
+   </trans-unit>
+   <trans-unit id="50">
+    <source>Edit User</source>
+    <target>แก้ไขผู้ใช้</target>
+   </trans-unit>
+   <trans-unit id="51">
+    <source>Edit Work Shift</source>
+    <target>แก้ไขกะทำงาน</target>
+   </trans-unit>
+   <trans-unit id="52">
+    <source>Email Notification</source>
+    <target>การแจ้งเตือนอีเมล์</target>
+   </trans-unit>
+   <trans-unit id="53">
+    <source>Enable Admin module</source>
+    <target>เปิดใช้งานโมดูลธุรการ</target>
+   </trans-unit>
+   <trans-unit id="54">
+    <source>Enable Benefits module</source>
+    <target>เปิดใช้งานโมดูลผลประโยชน์</target>
+   </trans-unit>
+   <trans-unit id="55">
+    <source>Enable Help</source>
+    <target>เปิดใช้งานการช่วยเหลือ</target>
+   </trans-unit>
+   <trans-unit id="56">
+    <source>Enable Leave module</source>
+    <target>เปิดใช้งานโมดูลการลา</target>
+   </trans-unit>
+   <trans-unit id="57">
+    <source>Enable Performance module</source>
+    <target>เปิดใช้งานโมดูลผลการปฏิบัติงาน</target>
+   </trans-unit>
+   <trans-unit id="58">
+    <source>Enable PIM module</source>
+    <target>เปิดใช้งานโมดูล PIM </target>
+   </trans-unit>
+   <trans-unit id="59">
+    <source>Enable Recruitment module</source>
+    <target>เปิดใช้งานโมดูลการสรรหา</target>
+   </trans-unit>
+   <trans-unit id="60">
+    <source>Enable Time module</source>
+    <target>เปิดใช้งานโมดูลเวลา</target>
+   </trans-unit>
+   <trans-unit id="61">
+    <source>Failed to Import: File Size Exceeded</source>
+    <target>ไม่สามารถนำเข้าได้ : ขนาดไฟล์เกิน</target>
+   </trans-unit>
+   <trans-unit id="62">
+    <source>Failed to Import: File Type Not Allowed</source>
+    <target>ไม่สามารถนำเข้าได้: ชนิดของไฟล์ไม่ได้รับการอนุญาต</target>
+   </trans-unit>
+   <trans-unit id="63">
+    <source>Failed to Import: No Compatible Records</source>
+    <target>ไม่สามารถนำเข้าได้ : ไม่มีบันทึกที่เข้ากันได้</target>
+   </trans-unit>
+   <trans-unit id="64">
+    <source>Fax</source>
+    <target>แฟกซ์</target>
+   </trans-unit>
+   <trans-unit id="65">
+    <source>First Name and Last Name are compulsory</source>
+    <target>ต้องใส่ทั้งชื่อและนามสกุล</target>
+   </trans-unit>
+   <trans-unit id="66">
+    <source>Following languages are supported</source>
+    <target>รองรับภาษาต่อไปนี้</target>
+   </trans-unit>
+   <trans-unit id="67">
+    <source>Hours Per Day</source>
+    <target>ชั่วโมงต่อวัน</target>
+   </trans-unit>
+   <trans-unit id="68">
+    <source>If gender is specified, value should be either</source>
+    <target>หากระบุเพศ, ค่าที่ตั้งควรเป็นอย่างใดออย่างหนึ่ง</target>
+   </trans-unit>
+   <trans-unit id="69">
+    <source>Job Description</source>
+    <target>รายละเอียด/คำบรรยายลักษณะงาน</target>
+   </trans-unit>
+   <trans-unit id="70">
+    <source>Language and font help</source>
+    <target>ความช่วยเหลือด้านภาษาและตัวอักษร</target>
+   </trans-unit>
+   <trans-unit id="71">
+    <source>Leave Applications</source>
+    <target>การขอลา</target>
+   </trans-unit>
+   <trans-unit id="72">
+    <source>Leave Approvals</source>
+    <target>อนุมัติการลา</target>
+   </trans-unit>
+   <trans-unit id="73">
+    <source>Leave Assignments</source>
+    <target>กำ​​หนดการลา</target>
+   </trans-unit>
+   <trans-unit id="74">
+    <source>Leave Cancellations</source>
+    <target>ยกเลิกการลา</target>
+   </trans-unit>
+   <trans-unit id="75">
+    <source>Leave Rejections</source>
+    <target>ปฏิเสธการลา</target>
+   </trans-unit>
+   <trans-unit id="76">
+    <source>Level Already Exists</source>
+    <target>ระดับที่มีอยู่แล้ว</target>
+   </trans-unit>
+   <trans-unit id="77">
+    <source>Location Name</source>
+    <target>ชื่อสถานที่ตั้ง</target>
+   </trans-unit>
+   <trans-unit id="78">
+    <source>Mail Configuration</source>
+    <target>การกำหนดค่าจดหมาย</target>
+   </trans-unit>
+   <trans-unit id="79">
+    <source>Mail Sent As</source>
+    <target>จดหมายที่ส่งเป็น</target>
+   </trans-unit>
+   <trans-unit id="80">
+    <source>Maximum Salary</source>
+    <target>เงินเดือนสูงสุด</target>
+   </trans-unit>
+   <trans-unit id="81">
+    <source>Medium</source>
+    <target>กลาง</target>
+   </trans-unit>
+   <trans-unit id="82">
+    <source>Minimum Salary</source>
+    <target>เงินเดือนขั้นต่ำ</target>
+   </trans-unit>
+   <trans-unit id="83">
+    <source>Module Configuration</source>
+    <target>การกำหนดค่าโมดูล</target>
+   </trans-unit>
+   <trans-unit id="84">
+    <source>Multiple import files may be required</source>
+    <target>อาจจะต้องใช้ไฟล์นำเข้าหลายรายการ</target>
+   </trans-unit>
+   <trans-unit id="85">
+    <source>New Password</source>
+    <target>รหัสผ่านใหม่</target>
+   </trans-unit>
+   <trans-unit id="86">
+    <source>No activities selected</source>
+    <target>ไม่มีการเลือกกิจกรรม</target>
+   </trans-unit>
+   <trans-unit id="87">
+    <source>No assigned activities</source>
+    <target>ไม่มีกิจกรรมที่ได้รับมอบหมาย</target>
+   </trans-unit>
+   <trans-unit id="88">
+    <source>Not Allowed to Delete Customer(s) Which Have Time Logged Against</source>
+    <target>ไม่อนุญาตให้นำไปลบของลูกค้า (s) ที่มีเวลาเข้าป้องกันและปราบปราม</target>
+   </trans-unit>
+   <trans-unit id="89">
+    <source>Not Allowed to Delete Project Activites Which Have Time Logged Against</source>
+    <target>ไม่อนุญาตให้นำไปลบกิจกรรมโครงการที่มีเวลาเข้าป้องกันและปราบปราม</target>
+   </trans-unit>
+   <trans-unit id="90">
+    <source>Notification Type</source>
+    <target>ประเภทการแจ้งเตือน</target>
+   </trans-unit>
+   <trans-unit id="91">
+    <source>Number of Employees</source>
+    <target>จำนวนพนักงาน</target>
+   </trans-unit>
+   <trans-unit id="92">
+    <source>Number of Records Imported</source>
+    <target>จำนวนบันทึกที่นำเข้า</target>
+   </trans-unit>
+   <trans-unit id="93">
+    <source>OrangeHRM - Supported Languages</source>
+    <target>OrangeHRM - ภาษาที่รองรับ</target>
+   </trans-unit>
+   <trans-unit id="94">
+    <source>Organization Name</source>
+    <target>ชื่อองค์กร</target>
+   </trans-unit>
+   <trans-unit id="95">
+    <source>Path to Sendmail</source>
+    <target>เส้นทางไปส่งเมล์</target>
+   </trans-unit>
+   <trans-unit id="96">
+    <source>Performance Review Submissions</source>
+    <target>การส่งทบทวนผลการปฏิบัติงาน</target>
+   </trans-unit>
+   <trans-unit id="97">
+    <source>Phone</source>
+    <target>โทรศัพท์</target>
+   </trans-unit>
+   <trans-unit id="98">
+    <source>Project</source>
+    <target>โครงการ</target>
+   </trans-unit>
+   <trans-unit id="99">
+    <source>Project Admin</source>
+    <target>ผู้ดูแลโครงการ</target>
+   </trans-unit>
+   <trans-unit id="100">
+    <source>Project Admins</source>
+    <target>ผู้ดูแลโครงการ</target>
+   </trans-unit>
+   <trans-unit id="101">
+    <source>Projects under selected customer will also be deleted</source>
+    <target>โครงการภายใต้ลูกค้าที่เลือกจะถูกลบไปด้วย</target>
+   </trans-unit>
+   <trans-unit id="102">
+    <source>Registration Number</source>
+    <target>เลขทะเบียน</target>
+   </trans-unit>
+   <trans-unit id="103">
+    <source>Sample CSV file</source>
+    <target>ตัวอย่างไฟล์ CSV</target>
+   </trans-unit>
+   <trans-unit id="104">
+    <source>Send Test Email</source>
+    <target>ส่งอีเมล์ทดสอบ</target>
+   </trans-unit>
+   <trans-unit id="105">
+    <source>Sending Method</source>
+    <target>วิธีการส่ง</target>
+   </trans-unit>
+   <trans-unit id="106">
+    <source>Shift Name</source>
+    <target>เปลี่ยนชื่อ</target>
+   </trans-unit>
+   <trans-unit id="107">
+    <source>Should be higher than Minimum Salary</source>
+    <target>ควรจะสูงกว่าอัตราเงินเดือนขั้นต่ำ</target>
+   </trans-unit>
+   <trans-unit id="108">
+    <source>SMTP Password</source>
+    <target>รหัสผ่าน SMTP</target>
+   </trans-unit>
+   <trans-unit id="109">
+    <source>SMTP Port</source>
+    <target>พอร์ต SMTP</target>
+   </trans-unit>
+   <trans-unit id="110">
+    <source>SMTP User</source>
+    <target>ผู้ใช้งาน SMTP</target>
+   </trans-unit>
+   <trans-unit id="111">
+    <source>SSL</source>
+    <target>SSL</target>
+   </trans-unit>
+   <trans-unit id="112">
+    <source>Strong</source>
+    <target>แข็งแรง</target>
+   </trans-unit>
+   <trans-unit id="113">
+    <source>Strongest</source>
+    <target>แข็งแรงที่สุด</target>
+   </trans-unit>
+   <trans-unit id="114">
+    <source>Subscribers</source>
+    <target>สมัครสมาชิก</target>
+   </trans-unit>
+   <trans-unit id="115">
+    <source>Successfully Saved. Test Email Not Sent</source>
+    <target>การบันทึกเรียบร้อยแล้ว ยังไม่ได้ส่งอีเมล์ทดสอบ</target>
+   </trans-unit>
+   <trans-unit id="116">
+    <source>Successfully Saved. Test Email Sent</source>
+    <target>การบันทึกเรียบร้อยแล้ว ส่งอีเมล์ทดสอบแล้ว</target>
+   </trans-unit>
+   <trans-unit id="117">
+    <source>Supported languages</source>
+    <target>ภาษาที่รองรับ</target>
+   </trans-unit>
+   <trans-unit id="118">
+    <source>System Users</source>
+    <target>ผู้ใช้ระบบ</target>
+   </trans-unit>
+   <trans-unit id="119">
+    <source>Tax ID</source>
+    <target>เลขประจำตัวผู้เสียภาษี</target>
+   </trans-unit>
+   <trans-unit id="120">
+    <source>Test Email Address</source>
+    <target>ที่อยู่อีเมล์ทดสอบ</target>
+   </trans-unit>
+   <trans-unit id="121">
+    <source>This unit will be added under</source>
+    <target>หน่วยนี้จะถูกเพิ่มภายใต้</target>
+   </trans-unit>
+   <trans-unit id="122">
+    <source>TLS</source>
+    <target>TLS</target>
+   </trans-unit>
+   <trans-unit id="123">
+    <source>Unit Id</source>
+    <target>หมายเลขหน่วย</target>
+   </trans-unit>
+   <trans-unit id="124">
+    <source>Units under selected unit will also be deleted</source>
+    <target>หน่วยงานภายใต้หน่วยที่เลือกจะถูกลบไปด้วย </target>
+   </trans-unit>
+   <trans-unit id="125">
+    <source>Use browser language if set</source>
+    <target>ใช้ภาษาที่เบราว์เซอร์ถ้าตั้งค่า</target>
+   </trans-unit>
+   <trans-unit id="126">
+    <source>Use SMTP Authentication</source>
+    <target>ใช้การตรวจสอบ SMTP</target>
+   </trans-unit>
+   <trans-unit id="127">
+    <source>User Secure Connection</source>
+    <target>การเชื่อมต่อที่ปลอดภัยของผู้ใช้</target>
+   </trans-unit>
+   <trans-unit id="128">
+    <source>User Type</source>
+    <target>ประเภทผู้ใช้</target>
+   </trans-unit>
+   <trans-unit id="129">
+    <source>Very Weak</source>
+    <target>อ่อนแอมาก</target>
+   </trans-unit>
+   <trans-unit id="130">
+    <source>Weak</source>
+    <target>อ่อนแอ</target>
+   </trans-unit>
+   <trans-unit id="131">
+    <source>Zip Code</source>
+    <target>รหัสไปรษณีย์</target>
+   </trans-unit>
+  </body>
+ </file>
+</xliff>
+<!-- Contributed By: Dam Phanchot , Pornruedee Thatsanamethin , Pun Sorpitiphorn , Suthep Suthep , Tiyada Noon -->
+

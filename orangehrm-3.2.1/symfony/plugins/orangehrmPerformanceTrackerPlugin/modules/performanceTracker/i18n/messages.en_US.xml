@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE xliff PUBLIC "-//XLIFF//DTD XLIFF//EN" "http://www.oasis-open.org/committees/xliff/documents/xliff.dtd">
+<xliff version="1.0">
+ <header/>
+ <file source-language="en_US" target-language="en_US" datatype="plaintext" original="messages" date="2012-03-01T0:09:54Z" product-name="messages">
+  <body>
+   <trans-unit id="1">
+    <source>Add Employee</source>
+    <target>Remaining number of custom fields</target>
+   </trans-unit>
+   <trans-unit id="2">
+    <source>Manage Performance Trackers</source>
+    <target>Manage Performance Trackers</target>
+   </trans-unit>
+   <trans-unit id="3">
+    <source>manage Performance Tracker Log</source>
+    <target>Manage Performance Tracker Log</target>
+   </trans-unit>
+   <trans-unit id="4">
+    <source>Employee Name</source>
+    <target>Employee Names</target>
+   </trans-unit>
+   <trans-unit id="5">
+    <source>Comment</source>
+    <target>Comments</target>
+   </trans-unit>
+   <trans-unit id="6">
+    <source>log</source>
+    <target>Log</target>
+   </trans-unit>
+   <trans-unit id="7">
+    <source>status</source>
+    <target>Status</target>
+   </trans-unit>
+   <trans-unit id="8">
+    <source>available Reviewers</source>
+    <target>Available Reviewers</target>
+   </trans-unit>
+   <trans-unit id="9">
+    <source>added Reviewers</source>
+    <target>Assigned Reviewers</target>
+   </trans-unit>
+   <trans-unit id="10">
+    <source>Peformance Tracker Exists for this employee.</source>
+    <target>Peformance Tracker Exists for this employee!!</target>
+   </trans-unit>
+   <trans-unit id="11">
+    <source>performance Trackers</source>
+    <target>Peformance Trackers</target>
+   </trans-unit>
+   <trans-unit id="12">
+    <source>Performance Tracker Log Comment</source>
+    <target>Performance Tracker Log Comment</target>
+   </trans-unit>
+   <trans-unit id="13">
+    <source>achievement</source>
+    <target>Performance</target>
+   </trans-unit>
+   <trans-unit id="14">
+    <source>invalid name</source>
+    <target>Invalid Employee Name</target>
+   </trans-unit>
+   <trans-unit id="15">
+    <source>Performance Tracker</source>
+    <target>Performance Tracker</target>
+   </trans-unit>
+   <trans-unit id="16">
+    <source>Employee Trackers</source>
+    <target>Employee Trackers</target>
+   </trans-unit>
+   <trans-unit id="17">
+    <source>Achievement</source>
+    <target>Performance</target>
+   </trans-unit>
+   <trans-unit id="18">
+    <source>Log</source>
+    <target>Log</target>
+   </trans-unit>
+   <trans-unit id="19">
+    <source>Reviewer</source>
+    <target>Reviewer</target>
+   </trans-unit>
+   <trans-unit id="20">
+    <source>Added Date</source>
+    <target>Added Date</target>
+   </trans-unit>
+   <trans-unit id="21">
+    <source>Modified Date</source>
+    <target>Modified Date</target>
+   </trans-unit>
+   <trans-unit id="22">
+    <source>Performance Trackers List</source>
+    <target>Performance Trackers List</target>
+   </trans-unit>
+   <trans-unit id="23">
+    <source>Performance Tracker Log List of </source>
+    <target>Performance Tracker Log List of </target>
+   </trans-unit>
+   <trans-unit id="24">
+    <source>Clear</source>
+    <target>Cancel</target>
+   </trans-unit>
+   <trans-unit id="25">
+    <source>My Tracker Logs</source>
+    <target>My Tracker Logs</target>
+   </trans-unit>
+   <trans-unit id="26">
+    <source>Employee cannot be assigned as his own reviewer</source>
+    <target>Employee cannot be assigned as his own reviewer</target>
+   </trans-unit>
+   <trans-unit id="27">
+    <source>My Performance Trackers List</source>
+    <target>My Performance Trackers List</target>
+   </trans-unit>
+   <trans-unit id="28">
+    <source>Tracker Name</source>
+    <target>Tracker Name</target>
+   </trans-unit>
+  </body>
+ </file>
+</xliff>

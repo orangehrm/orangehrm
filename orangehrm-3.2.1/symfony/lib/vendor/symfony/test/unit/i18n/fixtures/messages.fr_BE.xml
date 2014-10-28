@@ -1,0 +1,15 @@
+<?xml version="1.0" ?>
+<xliff version="1.0">
+  <file orginal="global" source-language="en" datatype="plaintext">
+    <body>   
+      <trans-unit id="4">
+        <source>an english sentence</source>
+        <target>une phrase en belge</target>
+      </trans-unit>
+      <trans-unit id="1">
+        <source>another english sentence</source>
+        <target>une autre phrase en belge</target>
+      </trans-unit>
+    </body>
+  </file>
+</xliff>

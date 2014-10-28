@@ -1,0 +1,164 @@
+<?xml version="1.0" encoding="UTF-8"?> 
+<!DOCTYPE xliff PUBLIC "-//XLIFF//DTD XLIFF//EN" "http://www.oasis-open.org/committees/xliff/documents/xliff.dtd"> 
+<xliff version="1.0"> 
+ <header/> 
+ <file source-language="en_US" target-language="ja_JP" datatype="plaintext" original="messages" date="2012-02-22T20:21:46Z" product-name="messages"> 
+  <body> 
+   <trans-unit id="1"> 
+    <source>View Attendance Record</source> 
+    <target>出席記録を見る</target> 
+    <note/> 
+   </trans-unit> 
+   <trans-unit id="2"> 
+    <source>Punch In</source> 
+    <target>パンチイン</target> 
+    <note/> 
+   </trans-unit> 
+   <trans-unit id="3"> 
+    <source>Punch In Note</source> 
+    <target>ノートでパンチ</target> 
+    <note/> 
+   </trans-unit> 
+   <trans-unit id="4"> 
+    <source>Punch Out</source> 
+    <target>打ち抜く</target> 
+    <note/> 
+   </trans-unit> 
+   <trans-unit id="5"> 
+    <source>Punch Out Note</source> 
+    <target>（注）パンチアウト</target> 
+    <note/> 
+   </trans-unit> 
+   <trans-unit id="6"> 
+    <source>Duration</source> 
+    <target>持続</target> 
+    <note/> 
+   </trans-unit> 
+   <trans-unit id="7"> 
+    <source>Hours</source> 
+    <target>時間</target> 
+    <note/> 
+   </trans-unit> 
+   <trans-unit id="8"> 
+    <source>No attendance records to display</source> 
+    <target>いいえ出席は表示するレコードません</target> 
+    <note/> 
+   </trans-unit> 
+   <trans-unit id="9"> 
+    <source>OrangeHRM - Confirmation Required</source> 
+    <target>OrangeHRM - 確認が必要</target> 
+    <note/> 
+   </trans-unit> 
+   <trans-unit id="10"> 
+    <source>Total</source> 
+    <target>合計</target> 
+    <note/> 
+   </trans-unit> 
+   <trans-unit id="11"> 
+    <source>Punch out Time Should Be Higher Than Punch in Time</source> 
+    <target>パンチアウトの時間は、時間的にパンチより大きくなければなりません</target> 
+    <note/> 
+   </trans-unit> 
+   <trans-unit id="12"> 
+    <source>Invalid Date</source> 
+    <target>無効な日付</target> 
+    <note/> 
+   </trans-unit> 
+   <trans-unit id="13"> 
+    <source>Overlapping Records Found</source> 
+    <target>重複レコードが見つかりました</target> 
+    <note/> 
+   </trans-unit> 
+   <trans-unit id="14"> 
+    <source>Comment should be less than 250 characters</source> 
+    <target>コメントは250文字未満でなければなりません</target> 
+    <note/> 
+   </trans-unit> 
+   <trans-unit id="15"> 
+    <source>Punch in/out note</source> 
+    <target>メモイン/アウトパンチ</target> 
+    <note/> 
+   </trans-unit> 
+   <trans-unit id="16"> 
+    <source>Timezone</source> 
+    <target>タイムゾーン</target> 
+    <note/> 
+   </trans-unit> 
+   <trans-unit id="17"> 
+    <source>Note</source> 
+    <target>注意</target> 
+    <note/> 
+   </trans-unit> 
+   <trans-unit id="18"> 
+    <source>Last punch in time</source> 
+    <target>時間の最後のパンチ</target> 
+    <note/> 
+   </trans-unit> 
+   <trans-unit id="19"> 
+    <source>In</source> 
+    <target>で</target> 
+    <note/> 
+   </trans-unit> 
+   <trans-unit id="20"> 
+    <source>Out</source> 
+    <target>アウト</target> 
+    <note/> 
+   </trans-unit> 
+   <trans-unit id="21"> 
+    <source>Attendance Configuration</source> 
+    <target>出席者の構成</target> 
+    <note/> 
+   </trans-unit> 
+   <trans-unit id="22"> 
+    <source>Employee can change current time when punching in/out</source> 
+    <target>イン/アウトパンチ時従業員は、現在の時刻を変更することができます</target> 
+    <note/> 
+   </trans-unit> 
+   <trans-unit id="23"> 
+    <source>Employee can edit/delete own attendance records</source> 
+    <target>従業員は、自分の出席レコードを編集/削除できます。</target> 
+    <note/> 
+   </trans-unit> 
+   <trans-unit id="24"> 
+    <source>Supervisor can add/edit/delete attendance records of subordinates</source> 
+    <target>スーパーバイザーを追加/編集/部下の出席の記録を削除することができます</target> 
+    <note/> 
+   </trans-unit> 
+   <trans-unit id="25"> 
+    <source>My Attendance Records</source> 
+    <target>私の出席記録</target> 
+    <note/> 
+   </trans-unit> 
+   <trans-unit id="26"> 
+    <source>Ok</source> 
+    <target>員名</target> 
+    <note/> 
+   </trans-unit> 
+   <trans-unit id="27"> 
+    <source>Invalid Employee Name</source> 
+    <target>無効な従業員名</target> 
+    <note/> 
+   </trans-unit> 
+   <trans-unit id="28"> 
+    <source>You are not allowed to view this page</source> 
+    <target>このページを表示するには許可されていません</target> 
+    <note/> 
+   </trans-unit> 
+   <trans-unit id="29"> 
+    <source>Add Attendance Records</source> 
+    <target>出席記録を追加します。</target> 
+    <note/> 
+   </trans-unit> 
+   <trans-unit id="30"> 
+    <source>Should Be a Valid Date in %format% Format</source> 
+    <target>%format%の形式で有効な日付でなければなりません</target> 
+    <note/> 
+   </trans-unit> 
+   <trans-unit id="31"> 
+    <source>Should Be a Valid Time in %format% Format</source> 
+    <target>%format%の形式で有効な時間でなければなりません</target> 
+    <note/> 
+   </trans-unit> 
+  </body> 
+ </file> 
+</xliff> 

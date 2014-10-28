@@ -1,0 +1,549 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE xliff PUBLIC "-//XLIFF//DTD XLIFF//EN" "http://www.oasis-open.org/committees/xliff/documents/xliff.dtd">
+<xliff version="1.0">
+ <header/>
+ <file source-language="en_US" target-language="fr_CA" datatype="plaintext" original="messages" date="2012-01-12T12:43:55Z" product-name="messages">
+  <body>
+   <trans-unit id="1">
+    <source>Leave Period</source>
+    <target>CA_Leave Period</target>
+
+   </trans-unit>
+   <trans-unit id="2">
+    <source>For Leap Years</source>
+    <target>CA_For Leap Years</target>
+   </trans-unit>
+   <trans-unit id="3">
+    <source>Start Date</source>
+
+    <target>CA_Start Date</target>
+   </trans-unit>
+   <trans-unit id="4">
+    <source>End Date</source>
+    <target>CA_End Date</target>
+   </trans-unit>
+   <trans-unit id="5">
+
+    <source>For Non-Leap Years</source>
+    <target>CA_For Non-Leap Years</target>
+   </trans-unit>
+   <trans-unit id="6">
+    <source>Current Leave Period</source>
+    <target>CA_Current Leave Period</target>
+   </trans-unit>
+
+   <trans-unit id="7">
+    <source>Following Year</source>
+    <target>CA_Following Year</target>
+   </trans-unit>
+   <trans-unit id="8">
+    <source>Leave Period Saved Successfully</source>
+    <target>CA_Leave Period Saved Successfully</target>
+
+   </trans-unit>
+   <trans-unit id="9">
+    <source>Work Week</source>
+    <target>CA_Work Week</target>
+   </trans-unit>
+   <trans-unit id="10">
+    <source>Full Day</source>
+
+    <target>CA_Full Day</target>
+   </trans-unit>
+   <trans-unit id="11">
+    <source>Half Day</source>
+    <target>CA_Half Day</target>
+   </trans-unit>
+   <trans-unit id="12">
+
+    <source>Non-working Day</source>
+    <target>CA_Non-working Day</target>
+   </trans-unit>
+   <trans-unit id="13">
+    <source>Work Week Successfully Saved</source>
+    <target>CA_Work Week Successfully Saved</target>
+   </trans-unit>
+
+   <trans-unit id="14">
+    <source>Holidays</source>
+    <target>CA_Holidays</target>
+   </trans-unit>
+   <trans-unit id="15">
+    <source>Name of Holiday</source>
+    <target>CA_Name of Holiday</target>
+
+   </trans-unit>
+   <trans-unit id="16">
+    <source>Name of Holiday</source>
+    <target>CA_Name of Holiday</target>
+   </trans-unit>
+   <trans-unit id="17">
+    <source>Repeats Annually</source>
+
+    <target>CA_Repeats Annually</target>
+   </trans-unit>
+   <trans-unit id="18">
+    <source>Holiday</source>
+    <target>CA_Holiday</target>
+   </trans-unit>
+   <trans-unit id="19">
+
+    <source>Holiday Successfully Updated</source>
+    <target>CA_Holiday Successfully Updated</target>
+   </trans-unit>
+   <trans-unit id="20">
+    <source>Holiday Successfully Saved</source>
+    <target>CA_Holiday Successfully Saved</target>
+   </trans-unit>
+
+   <trans-unit id="21">
+    <source>The Date Is Already Assigned to Another Holiday</source>
+    <target>CA_The Date Is Already Assigned to Another Holiday</target>
+   </trans-unit>
+   <trans-unit id="22">
+    <source>Please Select at Least One Holiday to Delete</source>
+    <target>CA_Please Select at Least One Holiday to Delete</target>
+
+   </trans-unit>
+   <trans-unit id="23">
+    <source>No Results Found for This Criteria</source>
+    <target>CA_No Results Found for This Criteria</target>
+   </trans-unit>
+   <trans-unit id="24">
+    <source>Leave Summary</source>
+
+    <target>CA_Leave Summary</target>
+   </trans-unit>
+   <trans-unit id="25">
+    <source>Leave Type</source>
+    <target>CA_Leave Type</target>
+   </trans-unit>
+   <trans-unit id="26">
+
+    <source>Leave Entitlements Successfully Saved</source>
+    <target>CA_Leave Entitlements Successfully Saved</target>
+   </trans-unit>
+   <trans-unit id="27">
+    <source>Leave Entitled</source>
+    <target>CA_Leave Entitled</target>
+   </trans-unit>
+
+   <trans-unit id="28">
+    <source>Leave Scheduled</source>
+    <target>CA_Leave Scheduled</target>
+   </trans-unit>
+   <trans-unit id="29">
+    <source>Leave Taken</source>
+    <target>CA_Leave Taken</target>
+
+   </trans-unit>
+   <trans-unit id="30">
+    <source>Leave Balance</source>
+    <target>CA_Leave Balance</target>
+   </trans-unit>
+   <trans-unit id="31">
+    <source>Enter a Positive Number Less Than 365 with Two Decimal Places</source>
+
+    <target>CA_Enter a Positive Number Less Than 365 with Two Decimal Places</target>
+   </trans-unit>
+   <trans-unit id="32">
+    <source>Leave List</source>
+    <target>CA_Leave List</target>
+   </trans-unit>
+   <trans-unit id="33">
+
+    <source>Show Leave with Status</source>
+    <target>CA_Show Leave with Status</target>
+   </trans-unit>
+   <trans-unit id="34">
+    <source>Rejected</source>
+    <target>CA_Rejected</target>
+   </trans-unit>
+
+   <trans-unit id="35">
+    <source>Canceled</source>
+    <target>CA_Canceled</target>
+   </trans-unit>
+   <trans-unit id="36">
+    <source>Pending Approval</source>
+    <target>CA_Pending Approval</target>
+
+   </trans-unit>
+   <trans-unit id="37">
+    <source>Scheduled</source>
+    <target>CA_Scheduled</target>
+   </trans-unit>
+   <trans-unit id="38">
+    <source>Taken</source>
+
+    <target>CA_Taken</target>
+   </trans-unit>
+   <trans-unit id="39">
+    <source>Number of Days</source>
+    <target>CA_Number of Days</target>
+   </trans-unit>
+   <trans-unit id="40">
+
+    <source>Actions</source>
+    <target>CA_Actions</target>
+   </trans-unit>
+   <trans-unit id="41">
+    <source>Go to Detailed View</source>
+    <target>CA_Go to Detailed View</target>
+   </trans-unit>
+
+   <trans-unit id="42">
+    <source>Approve</source>
+    <target>CA_Approve</target>
+   </trans-unit>
+   <trans-unit id="43">
+    <source>Reject</source>
+    <target>CA_Reject</target>
+
+   </trans-unit>
+   <trans-unit id="44">
+    <source>Cancel</source>
+    <target>CA_Cancel</target>
+   </trans-unit>
+   <trans-unit id="45">
+    <source>deleted</source>
+
+    <target>CA_deleted</target>
+   </trans-unit>
+   <trans-unit id="46">
+    <source>Leave Comment</source>
+    <target>CA_Leave Comment</target>
+   </trans-unit>
+   <trans-unit id="47">
+
+    <source>Comment length should be less than 250 characters</source>
+    <target>CA_Comment length should be less than 250 characters</target>
+   </trans-unit>
+   <trans-unit id="48">
+    <source>Comment Successfully Saved</source>
+    <target>CA_Comment Successfully Saved</target>
+   </trans-unit>
+
+   <trans-unit id="49">
+    <source>Confirmation Required</source>
+    <target>CA_Confirmation Required</target>
+   </trans-unit>
+   <trans-unit id="50">
+    <source>Non Working Day</source>
+    <target>CA_Non Working Day</target>
+
+   </trans-unit>
+   <trans-unit id="51">
+    <source>Leave Request</source>
+    <target>CA_Leave Request</target>
+   </trans-unit>
+   <trans-unit id="52">
+    <source>Duration</source>
+
+    <target>CA_Duration</target>
+   </trans-unit>
+   <trans-unit id="53">
+    <source>Hours</source>
+    <target>CA_Hours</target>
+   </trans-unit>
+   <trans-unit id="54">
+
+    <source>My Leave List</source>
+    <target>CA_My Leave List</target>
+   </trans-unit>
+   <trans-unit id="55">
+    <source>My Leave Details</source>
+    <target>CA_My Leave Details</target>
+   </trans-unit>
+
+   <trans-unit id="56">
+    <source>The following leave requests are on the same day as the current leave request. Please cancel the existing leave requests and submit again or change the leave period if needed.</source>
+    <target>CA_The following leave requests are on the same day as the current leave request. Please cancel the existing leave requests and submit again or change the leave period if needed.</target>
+   </trans-unit>
+   <trans-unit id="57">
+    <source>No of Hours</source>
+    <target>CA_No of Hours</target>
+
+   </trans-unit>
+   <trans-unit id="58">
+    <source>Assign Leave</source>
+    <target>CA_Assign Leave</target>
+   </trans-unit>
+   <trans-unit id="59">
+    <source>From Date</source>
+
+    <target>CA_From Date</target>
+   </trans-unit>
+   <trans-unit id="60">
+    <source>To Date</source>
+    <target>CA_To Date</target>
+   </trans-unit>
+   <trans-unit id="61">
+
+    <source>Total Hours</source>
+    <target>CA_Total Hours</target>
+   </trans-unit>
+   <trans-unit id="62">
+    <source>Assign</source>
+    <target>CA_Assign</target>
+   </trans-unit>
+
+   <trans-unit id="63">
+    <source>Employee Does Not Exist</source>
+    <target>CA_Employee Does Not Exist</target>
+   </trans-unit>
+   <trans-unit id="64">
+    <source>Employee Does Not Exist</source>
+    <target>CA_Employee Does Not Exist</target>
+
+   </trans-unit>
+   <trans-unit id="65">
+    <source>Leave Successfully Assigned</source>
+    <target>CA_Leave Successfully Assigned</target>
+   </trans-unit>
+   <trans-unit id="66">
+    <source>Leave Period Does Not Exist</source>
+
+    <target>CA_Leave Period Does Not Exist</target>
+   </trans-unit>
+   <trans-unit id="67">
+    <source>Make Sure Leave Request Contain Work Days</source>
+    <target>CA_Make Sure Leave Request Contain Work Days</target>
+   </trans-unit>
+   <trans-unit id="68">
+
+    <source>No Eligible Leave Types to Assign Leave, Please contact HR Admin</source>
+    <target>CA_No Eligible Leave Types to Assign Leave, Please contact HR Admin</target>
+   </trans-unit>
+   <trans-unit id="69">
+    <source>Select a Leave Type</source>
+    <target>CA_Select a Leave Type</target>
+   </trans-unit>
+
+   <trans-unit id="70">
+    <source>Comment</source>
+    <target>CA_Comment</target>
+   </trans-unit>
+   <trans-unit id="71">
+    <source>Employee Name is required</source>
+    <target>CA_Employee Name is required</target>
+
+   </trans-unit>
+   <trans-unit id="72">
+    <source>Leave Type is required</source>
+    <target>CA_Leave Type is required</target>
+   </trans-unit>
+   <trans-unit id="73">
+    <source>From Date is required</source>
+
+    <target>CA_From Date is required</target>
+   </trans-unit>
+   <trans-unit id="74">
+    <source>From Date should be filled in YYYY-MM-DD format</source>
+    <target>CA_From Date should be filled in YYYY-MM-DD format</target>
+   </trans-unit>
+   <trans-unit id="75">
+
+    <source>Invalid from date</source>
+    <target>CA_Invalid from date</target>
+   </trans-unit>
+   <trans-unit id="76">
+    <source>From date should be before to date</source>
+    <target>CA_From date should be before to date</target>
+   </trans-unit>
+
+   <trans-unit id="77">
+    <source>From date should be before to date</source>
+    <target>CA_From date should be before to date</target>
+   </trans-unit>
+   <trans-unit id="78">
+    <source>To Date is required</source>
+    <target>CA_To Date is required</target>
+
+   </trans-unit>
+   <trans-unit id="79">
+    <source>To Date should be filled in YYYY-MM-DD format</source>
+    <target>CA_To Date should be filled in YYYY-MM-DD format</target>
+   </trans-unit>
+   <trans-unit id="80">
+    <source>Invalid to date</source>
+
+    <target>CA_Invalid to date</target>
+   </trans-unit>
+   <trans-unit id="81">
+    <source>Comment length should be less than 250 characters</source>
+    <target>CA_Comment length should be less than 250 characters</target>
+   </trans-unit>
+   <trans-unit id="82">
+
+    <source>Total time is a numeric value</source>
+    <target>CA_Total time is a numeric value</target>
+   </trans-unit>
+   <trans-unit id="83">
+    <source>Total time should be greater than 0.01</source>
+    <target>CA_Total time should be greater than 0.01</target>
+   </trans-unit>
+
+   <trans-unit id="84">
+    <source>Total time should be lesser than 24</source>
+    <target>CA_Total time should be lesser than 24</target>
+   </trans-unit>
+   <trans-unit id="85">
+    <source>Invalid total time</source>
+    <target>CA_Invalid total time</target>
+
+   </trans-unit>
+   <trans-unit id="86">
+    <source>Total time is greater than the shift length</source>
+    <target>CA_Total time is greater than the shift length</target>
+   </trans-unit>
+   <trans-unit id="87">
+    <source>From time should be lesser than To time</source>
+
+    <target>CA_From time should be lesser than To time</target>
+   </trans-unit>
+   <trans-unit id="88">
+    <source>Apply Leave</source>
+    <target>CA_Apply Leave</target>
+   </trans-unit>
+   <trans-unit id="89">
+
+    <source>From Time</source>
+    <target>CA_From Time</target>
+   </trans-unit>
+   <trans-unit id="90">
+    <source>To Time</source>
+    <target>CA_To Time</target>
+   </trans-unit>
+
+   <trans-unit id="91">
+    <source>Apply</source>
+    <target>CA_Apply</target>
+   </trans-unit>
+   <trans-unit id="92">
+    <source>This is a deleted leave type. Reactivate it?</source>
+    <target>CA_This is a deleted leave type. Reactivate it?</target>
+
+   </trans-unit>
+   <trans-unit id="93">
+    <source>Leave type will be undeleted</source>
+    <target>CA_Leave type will be undeleted</target>
+   </trans-unit>
+   <trans-unit id="94">
+    <source>A new leave type will be created with same name</source>
+
+    <target>CA_A new leave type will be created with same name</target>
+   </trans-unit>
+   <trans-unit id="95">
+    <source>Please provide a leave type name</source>
+    <target>CA_Please provide a leave type name</target>
+   </trans-unit>
+   <trans-unit id="96">
+
+    <source>This leave type exists</source>
+    <target>CA_This leave type exists</target>
+   </trans-unit>
+   <trans-unit id="97">
+    <source>Leave type name should be less than 30 characters</source>
+    <target>CA_Leave type name should be less than 30 characters</target>
+   </trans-unit>
+
+   <trans-unit id="98">
+    <source>Leave Type Successfully Saved</source>
+    <target>CA_Leave Type Successfully Saved</target>
+   </trans-unit>
+   <trans-unit id="99">
+    <source>Leave Type "%1%" Successfully Updated</source>
+    <target>CA_Leave Type "%1%" Successfully Updated</target>
+
+   </trans-unit>
+   <trans-unit id="100">
+    <source>Leave Type "%1%" Successfully Undeleted</source>
+    <target>CA_Leave Type "%1%" Successfully Undeleted</target>
+   </trans-unit>
+   <trans-unit id="101">
+    <source>Define Leave Type</source>
+
+    <target>CA_Define Leave Type</target>
+   </trans-unit>
+   <trans-unit id="102">
+    <source>Please Select at Least One Leave Type to Delete</source>
+    <target>CA_Please Select at Least One Leave Type to Delete</target>
+   </trans-unit>
+   <trans-unit id="103">
+
+    <source>Leave Type Successfully Deleted</source>
+    <target>CA_Leave Type Successfully Deleted</target>
+   </trans-unit>
+   <trans-unit id="104">
+    <source>Successfully Leave Type Updated</source>
+    <target>CA_Successfully Leave Type Updated</target>
+   </trans-unit>
+
+   <trans-unit id="105">
+    <source>Successfully Leave Type Saved</source>
+    <target>CA_Successfully Leave Type Saved</target>
+   </trans-unit>
+   <trans-unit id="106">
+    <source>Leave Types</source>
+    <target>CA_Leave Types</target>
+
+   </trans-unit>
+   <trans-unit id="107">
+    <source>Select Action</source>
+    <target>CA_Select Action</target>
+   </trans-unit>
+   <trans-unit id="108">
+    <source>No Eligible Leave Types to Apply for Leave</source>
+
+    <target>CA_No Eligible Leave Types to Apply for Leave</target>
+   </trans-unit>
+   <trans-unit id="109">
+    <source>Leave Request Successfully Submitted</source>
+    <target>CA_Leave Request Successfully Submitted</target>
+   </trans-unit>
+   <trans-unit id="110">
+
+    <source>Leave Period is Not Defined Yet. Please Notify the Hr Admin to Define the Leave Period in Order to Access This Module</source>
+    <target>CA_Leave Period is Not Defined Yet. Please Notify the Hr Admin to Define the Leave Period in Order to Access This Module</target>
+   </trans-unit>
+   <trans-unit id="111">
+    <source>Start month is required</source>
+    <target>CA_Start month is required</target>
+   </trans-unit>
+
+   <trans-unit id="112">
+    <source>Start month for non-leap year is required</source>
+    <target>CA_Start month for non-leap year is required</target>
+   </trans-unit>
+   <trans-unit id="113">
+    <source>Do you want to delete the specific holiday(s)</source>
+    <target>CA_Do you want to delete the specific holiday(s)</target>
+
+   </trans-unit>
+   <trans-unit id="114">
+    <source>At Least One Day Should Be a Working Day</source>
+    <target>CA_At Least One Day Should Be a Working Day</target>
+   </trans-unit>
+   <trans-unit id="115">
+    <source>Total Leave Requests for the Day Exceed Workshift Length</source>
+
+    <target>CA_Total Leave Requests for the Day Exceed Workshift Length</target>
+   </trans-unit>
+   <trans-unit id="116">
+    <source>Leave Request Exceeds Leave Balance</source>
+    <target>CA_Leave Request Exceeds Leave Balance</target>
+   </trans-unit>
+   <trans-unit id="117">
+
+    <source>With Terminated Employees</source>
+    <target>CA_With Terminated Employees</target>
+   </trans-unit>
+   <trans-unit id="118">
+    <source>No Leave Types with Leave Balance</source>
+    <target>CA_No Leave Types with Leave Balance</target>
+   </trans-unit>
+
+  </body>
+ </file>
+</xliff>

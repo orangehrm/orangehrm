@@ -1,0 +1,99 @@
+## YAML Template.
+---
+
+Timesheet:
+  tableName: ohrm_timesheet
+  columns:
+    timesheet_id:
+      name: timesheet_id as timesheetId
+      type: integer
+      primary: true
+    employee_id:
+      name: employee_id as employeeId
+      type: integer
+      notnull: true
+    state:
+      type: string(255)
+      notnull: true
+    start_date:
+      name: start_date as startDate
+      type: date
+      notnull: true
+    end_date:
+      name: end_date as endDate
+      type: date
+      notnull: true
+
+TimesheetItem:
+  tableName: ohrm_timesheet_item
+  columns:
+    timesheet_item_id:
+      name: timesheet_item_id as timesheetItemId
+      type: integer
+      primary: true
+      autoincrement: true
+    timesheet_id:
+      name: timesheet_id as timesheetId
+      type: integer
+      notnull: true
+    employee_id:
+      name: employee_id as employeeId
+      type: integer
+    project_id:
+      name: project_id as projectId
+      type: integer
+    activity_id:
+      name: activity_id as activityId
+      type: integer
+    date: date
+    duration: integer
+    comment: string(2000)
+  relations:
+    Timesheet:
+      onDelete: cascade
+      local: timesheetId
+      foreign: timesheetId
+    Project:
+      onDelete: cascade
+      local: projectId
+      foreign: project_id
+    ProjectActivity:
+      onDelete: cascade
+      local: activityId
+      foreign: activity_id
+    Employee:
+      onDelete: cascade
+      local: employeeId
+      foreign: empNumber
+
+TimesheetActionLog:
+  tableName: ohrm_timesheet_action_log
+  columns:
+    timesheet_action_log_id:
+      name: timesheet_action_log_id as timesheetActionLogId
+      type: integer
+      primary: true
+    timesheet_id:
+      name: timesheet_id as timesheetId
+      type: integer
+    performed_by:
+      name: performed_by as performedBy
+      type: string(255)
+    action:
+      type: string(255)
+    comment:
+      type: string(255)
+    date_time:
+      name: date_time as dateTime
+      type: date
+  relations:
+    Timesheet:
+      onDelete: cascade
+      local: timesheet_id
+      foreign: timesheetId
+    Users:
+      class: SystemUser
+      onDelete: cascade
+      local: performed_by
+      foreign: id
+

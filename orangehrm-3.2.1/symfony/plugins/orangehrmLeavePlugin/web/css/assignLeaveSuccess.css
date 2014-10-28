@@ -1,0 +1,30 @@
+a#leaveBalance_details_link {
+    margin-left: 5px;
+}
+
+div.modal-body table {
+    margin-top: 5px;
+    width: 80%;
+}
+
+div#multiperiod_balance table {
+    width: 100%;
+}
+
+div#assignleave_leaveBalance {
+    min-width: 8px;
+    min-height: 8px;
+    float:left;
+    padding-top: 6px;
+}
+
+div#applyleave_leaveBalance {
+    min-width: 8px;
+    min-height: 8px;
+    float:left;
+    padding-top: 6px;    
+}
+
+div#multiperiod_balance {
+    width: 550px;
+}

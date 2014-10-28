@@ -1,0 +1,4 @@
+Education:
+  0: {id: 1, name: 'PhD'}
+  1: {id: 2, name: 'BSc'}
+  2: {id: 3, name: 'Msc'}

@@ -1,0 +1,979 @@
+UniqueId:
+  tableName: hs_hr_unique_id
+  columns:
+    id:
+      type: integer(4)
+      primary: true
+      autoincrement: true
+    last_id:
+      type: integer(4)
+      unsigned: 1
+      notnull: true
+    table_name:
+      name: table_name as dbTable
+      type: string(50)
+      notnull: true
+    field_name:
+      type: string(50)
+      notnull: true
+Config:
+  tableName: hs_hr_config
+  columns:
+    `key`:
+      name: `key` as key
+      type: string(100)
+      primary: true
+    value:
+      type: string(512)
+      default: ''
+      notnull: true      
+
+WorkflowStateMachine:
+  tableName: ohrm_workflow_state_machine
+  columns:
+    id:
+      type: integer
+      primary: true
+    workflow:
+      type: string(255)
+      notnull: true
+    state:
+      type: string(255)
+      notnull: true
+    role:
+      type: string(255)
+      notnull: true
+    action:
+      type: string(255)
+      notnull: true
+    resulting_state:
+      name: resulting_state as resultingState
+      type: string(255)
+      notnull: true
+    roles_to_notify:
+      type: clob
+      notnull: false
+    priority:
+      type: int      
+
+ReportGroup:
+  tableName: ohrm_report_group
+  columns:
+    report_group_id:
+      name: report_group_id as reportGroupId
+      type: integer
+      notnull: true
+      primary: true
+    name:
+      type: string(255)
+      notnull: true
+    core_sql:
+      type: clob
+      notnull: true
+
+Report:
+  tableName: ohrm_report
+  columns:
+    report_id:
+      name: report_id as reportId
+      autoincrement: true
+      type: integer
+      notnull: true
+      primary: true
+    name:
+      type: string(255)
+      notnull: true
+    report_group_id:
+      name: report_group_id as reportGroupId
+      type: integer
+      notnull: true
+    use_filter_field:
+      name: use_filter_field as useFilterField
+      type: boolean
+      notnull: true
+    type:
+      type: string(255)
+      notnull: false
+  relations:
+    ReportGroup:
+      onDelete: cascade
+      local: reportGroupId
+      foreign: reportGroupId
+
+FilterField:
+   tableName: ohrm_filter_field
+   columns:
+     filter_field_id:
+       name: filter_field_id as filterFieldId
+       type: integer
+       notnull: true
+       primary: true
+     report_group_id:
+       name: report_group_id as reportGroupId
+       type: integer
+       notnull: true
+     name:
+       type: string(255)
+       notnull: true
+     where_clause_part:
+       name: where_clause_part as whereClausePart
+       type: clob
+       notnull: true
+     filter_field_widget:
+       name: filter_field_widget as filterFieldWidget
+       type: string(255)
+     condition_no:
+       name: condition_no as conditionNo
+       type: integer
+       notnull: true
+     required:
+       type: string(10)
+       notnull: false
+   relations:
+    ReportGroup:
+      onDelete: cascade
+      local: report_group_id
+      foreign: reportGroupId
+      
+SelectedFilterField:
+  tableName: ohrm_selected_filter_field
+  columns:
+    report_id:
+      name: report_id as reportId
+      type: integer
+      notnull: true
+      primary: true
+    filter_field_id:
+      name: filter_field_id as filterFieldId
+      type: integer
+      notnull: true
+      primary: true
+    filter_field_order:
+      name: filter_field_order as filterFieldOrder
+      type: integer
+      notnull: true
+    value1:
+      type: string(255)
+    value2:
+      type: string(255)
+    where_condition:
+      name: where_condition as whereCondition
+      type: string(255)
+    type:
+       type: string(255)
+       notnull: true
+  relations:
+    Report:
+      onDelete: cascade
+      local: report_id
+      foreign: reportId
+    FilterField:
+      onDelete: cascade
+      local: filter_field_id
+      foreign: filterFieldId
+
+AbstractDisplayField:
+  columns:
+    report_group_id:
+       name: report_group_id as reportGroupId
+       type: integer
+       notnull: true
+    name:
+      type: string(255)
+      notnull: true
+    label:
+      type: string(255)
+      notnull: true
+    field_alias:
+      name: field_alias as fieldAlias
+      type: string(255)
+      notnull: false
+    is_sortable:
+      name: is_sortable as isSortable
+      type: string(10)
+      notnull: true
+    sort_order:
+      name: sort_order as sortOrder
+      type: string(255)
+      notnull: false
+    sort_field:
+      name: sort_field as sortField
+      type: string(255)
+      notnull: false
+    element_type:
+      name: element_type as elementType
+      type: string(255)
+      notnull: true
+    element_property:
+      name: element_property as elementProperty
+      type: string(1000)
+      notnull: true
+    width:
+      type: string(255)
+      notnull: true
+    is_exportable:
+      name: is_exportable as isExportable
+      type: string(10)
+      notnull: false
+    text_alignment_style:
+      name: text_alignment_style as textAlignmentStyle
+      type: string(20)
+      notnull: false
+    is_value_list:
+      name: is_value_list as isValueList
+      type: boolean
+      notnull: true
+    display_field_group_id:
+      type: integer
+      unsigned: true
+      notnull: false
+    default_value:
+      name: default_value as defaultValue
+      type: string(255)
+      notnull: false
+    is_encrypted:
+      name: is_encrypted as isEncrypted
+      type: boolean
+      notnull: true
+    is_meta:
+      type: boolean
+      notnull: true
+      default: false      
+  relations:
+    ReportGroup:
+      onDelete: cascade
+      local: report_group_id
+      foreign: reportGroupId
+    DisplayFieldGroup:
+      onDelete: cascade
+      local: display_field_group_id
+      foreign: id
+
+DisplayField:
+  inheritance:
+    type: concrete
+    extends: AbstractDisplayField
+  tableName: ohrm_display_field
+  columns:
+    display_field_id:
+      name: display_field_id as displayFieldId
+      autoincrement: true
+      type: integer
+      notnull: true
+      primary: true
+    display_field_group_id:
+      name: display_field_group_id
+      type: true
+      notnull: true
+      
+CompositeDisplayField:
+  tableName: ohrm_composite_display_field
+  inheritance:
+    type: concrete
+    extends: AbstractDisplayField
+  columns:
+    composite_display_field_id:
+      name: composite_display_field_id as compositeDisplayFieldId
+      type: integer
+      notnull: true
+      primary: true
+      autoincrement: true
+    default_value:
+      name: default_value as defaultValue
+      type: string(255)
+
+SelectedCompositeDisplayField:
+  tableName: ohrm_selected_composite_display_field
+  columns:
+    id:
+      type: integer
+      notnull: true
+      primary: true
+    composite_display_field_id:
+      name: composite_display_field_id as compositeDisplayFieldId
+      type: integer
+      notnull: true
+      primary: true
+    report_id:
+      name: report_id as reportId
+      type: integer
+      notnull: true
+      primary: true
+  relations:
+    Report:
+      onDelete: cascade
+      local: report_id
+      foreign: reportId
+    CompositeDisplayField:
+      onDelete: cascade
+      local: composite_display_field_id
+      foreign: compositeDisplayFieldId
+
+GroupField:
+  tableName: ohrm_group_field
+  columns:
+    group_field_id:
+      name: group_field_id as groupFieldId
+      type: integer
+      notnull: true
+      primary: true
+    name:
+      type: string(255)
+      notnull: true
+    group_by_clause:
+      name: group_by_clause as groupByClause
+      type: clob
+      notnull: true
+    group_field_widget:
+      name: group_field_widget as groupFieldWidget
+      type: string(255)
+    
+AvailableGroupField:
+  tableName: ohrm_available_group_field
+  columns:
+    report_group_id:
+      name: report_group_id as reportGroupId
+      type: integer
+      notnull: true
+      primary: true
+    group_field_id:
+      name: group_field_id as groupFieldId
+      type: integer
+      notnull: true
+      primary: true
+  relations:
+    ReportGroup:
+      onDelete: cascade
+      local: report_group_id
+      foreign: reportGroupId
+    GroupField:
+      onDelete: cascade
+      local: group_field_id
+      foreign: groupFieldId
+
+SelectedDisplayField:
+  tableName: ohrm_selected_display_field
+  columns:
+    id:
+      type: integer
+      notnull: true
+      primary: true
+      autoincrement: true
+    display_field_id:
+      name: display_field_id as displayFieldId
+      type: integer
+      notnull: true
+      primary: true
+    report_id:
+      name: report_id as reportId
+      type: integer
+      notnull: true
+      primary: true
+  relations:
+    Report:
+      onDelete: cascade
+      local: report_id
+      foreign: reportId
+    DisplayField:
+      onDelete: cascade
+      local: display_field_id
+      foreign: displayFieldId
+
+SummaryDisplayField:
+  tableName: ohrm_summary_display_field
+  columns:
+    summary_display_field_id:
+      name: summary_display_field_id as summaryDisplayFieldId
+      type: integer
+      notnull: true
+      primary: true
+    function:
+      type: string(255)
+      notnull: true
+    label:
+      type: string(255)
+      notnull: true
+    field_alias:
+      name: field_alias as fieldAlias
+      type: string(255)
+      notnull: false
+    is_sortable:
+      name: is_sortable as isSortable
+      type: string(10)
+      notnull: true
+    sort_order:
+      name: sort_order as sortOrder
+      type: string(255)
+      notnull: false
+    sort_field:
+      name: sort_field as sortField
+      type: string(255)
+      notnull: false
+    element_type:
+      name: element_type as elementType
+      type: string(255)
+      notnull: true
+    element_property:
+      name: element_property as elementProperty
+      type: string(1000)
+      notnull: true
+    width:
+      type: string(255)
+      notnull: true
+    is_exportable:
+      name: is_exportable as isExportable
+      type: string(10)
+      notnull: false
+    text_alignment_style:
+      name: text_alignment_style as textAlignmentStyle
+      type: string(20)
+      notnull: false
+    is_value_list:
+      name: is_value_list as isValueList
+      type: boolean
+      notnull: true
+    display_field_group_id:
+      type: integer
+      unsigned: true
+      notnull: false
+    default_value:
+      name: default_value as defaultValue
+      type: string(255)
+      notnull: false
+
+SelectedGroupField:
+  tableName: ohrm_selected_group_field
+  columns:
+    group_field_id:
+      name: group_field_id as groupFieldId
+      type: integer
+      notnull: true
+      primary: true
+    summary_display_field_id:
+      name: summary_display_field_id as summaryDisplayFieldId
+      type: integer
+      notnull: true
+      primary: true
+    report_id:
+      name: report_id as reportId
+      type: integer
+      notnull: true
+      primary: true
+  relations:
+    GroupField:
+      onDelete: cascade
+      local: group_field_id
+      foreign: groupFieldId
+    Report:
+      onDelete: cascade
+      local: report_id
+      foreign: reportId
+    SummaryDisplayField:
+      onDelete: cascade
+      local: summary_display_field_id
+      foreign: summaryDisplayFieldId
+
+DisplayFieldGroup:
+  tableName: ohrm_display_field_group
+  columns:
+    id:
+      type: integer
+      notnull: true
+      unsigned: true
+      primary: true
+    report_group_id:
+      type: integer
+      notnull: true
+    name:
+      type: string(255)
+      notnull: true
+    is_list:
+      type: boolean
+      notnull: true
+      default: false
+  relations:
+    ReportGroup:
+      onDelete: cascade
+      local: report_group_id
+      foreign: reportGroupId
+      
+SelectedDisplayFieldGroup:
+  tableName: ohrm_selected_display_field_group
+  columns:
+    id:
+      type: integer
+      unsigned: true
+      notnull: true
+      primary: true
+    report_id:
+      type: integer
+      notnull: true
+    display_field_group_id:
+      type: int
+      unsigned: true
+      notnull: true
+  relations:
+    Report:
+      onDelete: cascade
+      local: report_id
+      foreign: reportId    
+    DisplayFieldGroup:
+      onDelete: cascade
+      local: display_field_group_id
+      foreign: id
+      
+SystemUser:
+  tableName: ohrm_user
+  columns:
+    id:
+      type: integer
+      primary: true
+      autoincrement: true
+    user_role_id:
+      type: integer
+    emp_number:
+      type: integer
+    user_name:
+      string(40)
+    user_password:
+      string(255)
+    deleted:
+      type: integer(1)
+      default: '0'
+    status:
+      type: integer(1)
+      default: '1'
+    date_entered: timestamp(25)
+    date_modified: timestamp(25)
+    modified_user_id: integer
+    created_by: integer
+  relations:
+    Employee:
+      local: emp_number
+      foreign: emp_number
+      type: one
+    UserRole:
+      local: user_role_id
+      foreign: id
+      type: one
+
+UserRole:
+  tableName: ohrm_user_role
+  columns:
+    id:
+      type: integer(4)
+      primary: true
+      autoincrement: true
+    name:
+      type: string(255)
+      notnull: true      
+    display_name:
+      type: string(255)
+      notnull: true
+    is_assignable:
+      type: int
+      type: boolean
+      notnull: true
+    is_predefined:
+      type: int
+      type: boolean
+      notnull: true
+  relations:
+    DataGroupPermission:
+      class: DataGroupPermission
+      local: id
+      foreign: user_role_id
+      type: many
+      
+UserSelectionRule:
+  tableName: ohrm_user_selection_rule
+  columns:
+    id:
+      type: integer(4)
+      primary: true
+      autoincrement: true
+    name:
+      type: string(255)
+      notnull: true
+    description:
+      type: string(255)
+      notnull: true
+    implementation_class:
+      type: string(255)
+      notnull: true
+    rule_xml_data:
+      type: string
+      notnull: true
+      
+UserRoleUserSelectionRule:
+  tableName: ohrm_role_user_selection_rule
+  columns:
+    user_role_id:
+      type: integer(4)
+      notnull: true
+      primary: true
+    selection_rule_id:
+      type: integer(4)
+      notnull: true
+      primary: true
+    configurable_params:
+      type: string
+      notnull: true       
+Screen:
+  tableName: ohrm_screen
+  columns:
+    id:
+      type: integer
+      primary: true
+      autoincrement: true
+    name: string(100)
+    module_id: integer
+    action_url: string(255)
+  relations:
+    Module:
+      local: module_id
+      foreign: id
+      type: one
+      
+ScreenPermission:
+  tableName: ohrm_user_role_screen
+  columns:
+    id:
+      type: integer
+      primary: true
+      autoincrement: true
+    user_role_id: integer
+    screen_id: integer
+    can_read: 
+      type: boolean
+      default: false
+    can_create:
+      type: boolean
+      default: false
+    can_update:
+      type: boolean
+      default: false
+    can_delete:
+      type: boolean
+      default: false    
+  relations:
+    UserRole:
+      local: user_role_id
+      foreign: id
+      type: one  
+    Screen:
+      local: screen_id
+      foreign: id
+      type: one 
+      
+DataGroup:
+  tableName: ohrm_data_group
+  columns:
+    id:
+      type: integer
+      primary: true
+      autoincrement: true
+    name as name:
+      type: string(255)
+    description as description:
+      type: string(255)
+    can_read as canRead:
+      type: integer(1)
+    can_create as canCreate:
+      type: integer(1)
+    can_update as canUpdate:
+      type: integer(1)
+    can_delete as canDelete:
+      type: integer(1)
+  relations:
+    Screens:
+      class: Screen
+      refClass: DataGroupScreenPermission
+      local: data_group_id
+      foreign: screen_id
+      
+DataGroupScreenPermission:
+  tableName: ohrm_data_group_screen
+  columns:
+    id:
+      type: integer
+      autoincrement: true
+      primary: true
+    data_group_id:
+      type: integer
+    screen_id: 
+      type: integer
+    permission: integer
+  relations:
+    DataGroup:
+      local: data_group_id
+      foreign: id
+      type: one
+    Screen:
+      local: screen_id
+      foreign: id
+      type: one
+
+DataGroupPermission:
+  tableName: ohrm_user_role_data_group
+  columns:
+    id:
+      type: integer
+      primary: true
+      autoincrement: true
+    user_role_id as userRoleId:
+      type: integer
+    data_group_id as dataGroupId:
+      type: integer
+    can_read as canRead:
+      type: integer(1)
+    can_create as canCreate:
+      type: integer(1)
+    can_update as canUpdate:
+      type: integer(1)
+    can_delete as canDelete:
+      type: integer(1)
+    self as self:
+      type: integer(1)
+  relations:
+    DataGroup:
+      local: data_group_id
+      foreign: id
+      type: one
+    UserRole:
+      local: user_role_id
+      foreign: id
+      type: one    
+
+MenuItem:
+  tableName: ohrm_menu_item
+  columns:
+    id:
+      type: integer
+      primary: true
+      autoincrement: true
+    menu_title as menuTitle: string(255)
+    screen_id as screenId: integer
+    parent_id as parentId: integer
+    level: integer
+    order_hint as orderHint: integer
+    url_extras as urlExtras: string(255)
+    status: integer
+  relations:
+    Screen:
+      local: screenId
+      foreign: id
+      type: one  
+Email:
+  tableName: ohrm_email
+  columns:
+    id:
+      type: integer(4)
+      fixed: false
+      unsigned: false
+      primary: true
+      autoincrement: true
+    name:
+      type: string(100)
+      fixed: false
+      unsigned: false
+      primary: false
+      notnull: true
+      autoincrement: false
+  relations:
+    EmailProcessor:
+      local: id
+      foreign: email_id
+      type: many
+    EmailTemplate:
+      local: id
+      foreign: email_id
+      type: many
+      
+EmailTemplate:
+  connection: doctrine
+  tableName: ohrm_email_template
+  columns:
+    id:
+      type: integer(4)
+      fixed: false
+      unsigned: false
+      primary: true
+      autoincrement: true
+    email_id:
+      type: integer(4)
+      fixed: false
+      unsigned: false
+      primary: false
+      notnull: true
+      autoincrement: false
+    locale:
+      type: string(20)
+      fixed: false
+      unsigned: false
+      primary: false
+      notnull: false
+      autoincrement: false
+    performer_role:
+      type: string(50)
+      notnull: false
+      default: null
+    recipient_role:
+      type: string(50)
+      notnull: false
+      default: null
+    subject:
+      type: string(255)
+      fixed: false
+      unsigned: false
+      primary: false
+      notnull: false
+      autoincrement: false
+    body:
+      type: string()
+      fixed: false
+      unsigned: false
+      primary: false
+      notnull: false
+      autoincrement: false
+  relations:
+    Email:
+      local: email_id
+      foreign: id
+      type: one 
+
+EmailProcessor:
+  connection: doctrine
+  tableName: ohrm_email_processor
+  columns:
+    id:
+      type: integer(4)
+      fixed: false
+      unsigned: false
+      primary: true
+      autoincrement: true
+    email_id:
+      type: integer(4)
+      fixed: false
+      unsigned: false
+      primary: false
+      notnull: true
+      autoincrement: false
+    class_name:
+      type: string(100)
+      fixed: false
+      unsigned: false
+      primary: false
+      notnull: false
+      autoincrement: false
+  relations:
+    Email:
+      local: email_id
+      foreign: id
+      type: one    
+
+AdvancedReport:
+  tableName: ohrm_advanced_report
+  columns:
+    id:
+      type: integer
+      notnull: true
+      primary: true
+    name:
+      type: string(100)
+      notnull: true
+    definition:
+      type: clob
+      notnull: true      
+      
+HomePage:
+  tableName: ohrm_home_page
+  columns:
+    id:
+      type: integer
+      primary: true
+      autoincrement: true
+    user_role_id:
+      type: integer
+      notnull: true
+    action:
+      type: string(255)
+      notnull: false
+    enable_class:
+      type: string(100)
+      notnull: false
+    priority:
+      type: integer
+      default: '0'
+      notnull: true
+  relations:
+    UserRole:
+      local: user_role_id
+      foreign: id
+      type: one
+      
+ModuleDefaultPage:
+  tableName: ohrm_module_default_page
+  columns:
+    id:
+      type: integer
+      primary: true
+      autoincrement: true
+    module_id:
+      type: integer
+      notnull: true
+    user_role_id:
+      type: integer
+      notnull: true
+    action:
+      type: string(255)
+      notnull: false
+    enable_class:
+      type: string(100)
+      notnull: false
+    priority:
+      type: integer(4)
+      default: '0'
+      notnull: true
+  relations:
+    UserRole:
+      local: user_role_id
+      foreign: id
+      type: one
+    Module:
+      local: module_id
+      foreign: id
+      type: one
+  
+Login:
+  tableName: ohrm_login
+  columns: 
+    id:
+      type: integer
+      primary: true
+      autoincrement: true
+    user_id:
+      type: integer
+      notnull: true
+      name: user_id as userId      
+    user_name:
+      type: string(255)
+      name: user_name as userName
+    user_role_name:
+      type: string
+      notnull: true
+      name: user_role_name as userRoleName
+    user_role_predefined:
+      name: user_role_predefined as userRolePredefined
+      type: boolean
+      notnull: true
+    login_time:
+      type: timestamp(25)
+      name: login_time AS loginTime
+  relations:
+    SystemUser:
+      local: user_id
+      foreign: id
+      type: one
+    
+      

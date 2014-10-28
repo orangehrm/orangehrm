@@ -1,0 +1,68 @@
+form#frmJobInterview .firstLabel {
+    /*    position: relative;*/
+    padding-left: 12px;
+    margin-top: 6px;
+    width: 150px
+}
+form#frmJobInterview .secondLabel {
+    /*    position: relative;*/
+    padding-left: 0px;
+    margin-top: 6px;
+    width: 250px
+}
+
+form#frmJobInterview label .hhmm {
+    padding-left: 6px;
+}
+
+.addText{
+    text-decoration: underline;
+    cursor: pointer;
+}
+
+.removeText{
+    text-decoration: underline;
+    padding-left: 1px;
+    cursor: pointer;
+}
+
+div .interviewer{
+    padding-left: 162px;
+}form#frmJobInterview .firstLabel {
+    /*    position: relative;*/
+    padding-left: 12px;
+    margin-top: 6px;
+    width: 150px
+}
+form#frmJobInterview .secondLabel {
+    /*    position: relative;*/
+    padding-left: 0px;
+    margin-top: 6px;
+    width: 250px
+}
+
+form#frmJobInterview label .hhmm {
+    padding-left: 6px;
+}
+
+.addText{
+    text-decoration: underline;
+    cursor: pointer;
+}
+
+.removeText{
+    text-decoration: underline;
+    padding-left: 1px;
+    cursor: pointer;
+}
+
+div .interviewer{
+    padding-left: 162px;
+    padding-top: 5px;
+    float: left;
+    clear: both;
+}
+
+form#frmJobInterview ol li span.validation-error {
+    left: 150px;
+}

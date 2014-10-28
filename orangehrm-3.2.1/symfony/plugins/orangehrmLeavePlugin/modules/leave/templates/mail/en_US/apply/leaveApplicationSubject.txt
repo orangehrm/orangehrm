@@ -1,0 +1,1 @@
+Leave Notification - %performerFullName% Applied for %numberOfDays% Day(s) of %leaveType% Leave

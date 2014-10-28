@@ -1,0 +1,12 @@
+punchTimeSuccess:
+  layout: freshorange
+viewAttendanceRecordSuccess:
+  layout: freshorange
+configureSuccess:
+  layout: freshorange
+proxyPunchInPunchOutSuccess:
+  layout: freshorange
+editAttendanceRecordSuccess:
+  layout: freshorange
+viewMyAttendanceRecordSuccess:
+  layout: freshorange

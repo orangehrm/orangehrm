@@ -1,0 +1,13 @@
+execution:
+  class:  sfExecutionFilter
+  param:
+    type: execution
+
+default:
+  class:   defaultFilterClass
+  enabled: false
+
+rendering:
+  class:  sfRenderingFilter
+  param:
+    type: rendering

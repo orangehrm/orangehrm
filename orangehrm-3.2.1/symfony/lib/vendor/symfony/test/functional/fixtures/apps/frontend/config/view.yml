@@ -1,0 +1,24 @@
+default:
+  http_metas:
+    content-type: text/html
+
+  metas:
+    title:        symfony project
+    robots:       index, follow
+    description:  symfony project
+    keywords:     symfony, project
+    language:     en
+
+  stylesheets:
+    - main
+    -
+      ie6:
+        condition: lte IE 6
+    -
+      multiple_media:
+        media: 'print,handheld'
+
+  javascripts:    [ ]
+
+  has_layout:     true
+  layout:         layout

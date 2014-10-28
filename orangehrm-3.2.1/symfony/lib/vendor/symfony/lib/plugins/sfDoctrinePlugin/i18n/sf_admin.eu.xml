@@ -1,0 +1,170 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE xliff PUBLIC "-//XLIFF//DTD XLIFF//EN" "http://www.oasis-open.org/committees/xliff/documents/xliff.dtd" >
+<xliff version="1.0">
+  <file original="global" source-language="en" datatype="plaintext">
+    <header />
+    <body>
+      <!-- Actions -->
+      <trans-unit>
+        <source>New</source>
+        <target>Berria</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Edit</source>
+        <target>Aldatu</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Delete</source>
+        <target>Ezabatu</target>
+      </trans-unit>
+      <trans-unit>
+        <source>List</source>
+        <target>Zerrendatu</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Save</source>
+        <target>Gorde</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Save and add</source>
+        <target>Gorde eta berria</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Cancel</source>
+        <target>Ezeztatu</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Choose an action</source>
+        <target>Ekintza bat aukeratu</target>
+      </trans-unit>
+      <trans-unit>
+        <source>go</source>
+        <target>ok</target>
+      </trans-unit>
+
+      <!-- Filters -->
+      <trans-unit>
+        <source>Reset</source>
+        <target>Garbitu</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Filter</source>
+        <target>Mugatu</target>
+      </trans-unit>
+
+      <!-- List -->
+      <trans-unit>
+        <source>No result</source>
+        <target>Emaitzarik ez</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Actions</source>
+        <target>Ekintzak</target>
+      </trans-unit>
+      <trans-unit>
+        <source>(page %%page%%/%%nb_pages%%)</source>
+        <target>(%%page%%/%%nb_pages%% orria)</target>
+      </trans-unit>
+      <trans-unit>
+        <source>asc</source>
+        <target>gora</target>
+      </trans-unit>
+      <trans-unit>
+        <source>desc</source>
+        <target>behera</target>
+      </trans-unit>
+      <trans-unit>
+        <source>[0] no result|[1] 1 result|(1,+Inf] %1% results</source>
+        <target>[0] emaitzarik ez|[1] emaitza bat|(1,+Inf] %1% emaitzak</target>
+      </trans-unit>
+
+      <!-- Pagination -->
+      <trans-unit>
+        <source>First page</source>
+        <target>Lehen orria</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Previous page</source>
+        <target>Aurreko orria</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Next page</source>
+        <target>Hurrengo orria</target>
+      </trans-unit>
+      <trans-unit>
+        <source>Last page</source>
+        <target>Azken orria</target>
+      </trans-unit>
+
+      <!-- Form -->
+      <trans-unit>
+        <source>The item was created successfully.</source>
+        <target>Elementua egoki sortu da.</target>
+      </trans-unit>
+      <trans-unit>
+        <source>The item was updated successfully.</source>
+        <target>Elementua egoki eguneratu da.</target>
+      </trans-unit>
+      <trans-unit>
+        <source>The item was created successfully. You can add another one below.</source>
+        <target>Elementua egoki sortu da eta orain beste elementu bat sor dezakezu.</target>
+      </trans-unit>
+      <trans-unit>
+        <source>The item was updated successfully. You can add another one below.</source>
+        <target>Elementua egoki eguneratu da eta orain beste elementu bat sor dezakezu.</target>
+      </trans-unit>
+      <trans-unit>
+        <source>The item has not been saved due to some errors.</source>
+        <target>Elementua ez da gorde errakuntzaren bat gertatu delako.</target>
+      </trans-unit>
+      <trans-unit>
+        <source>The item was deleted successfully.</source>
+        <target>Elementua egoki ezabatu da.</target>
+      </trans-unit>
+      <trans-unit>
+        <source>You must at least select one item.</source>
+        <target>Gutxienez, elementu bat aukeratu behar duzu.</target>
+      </trans-unit>
+      <trans-unit>
+        <source>You must select an action to execute on the selected items.</source>
+        <target>Aukeratutako elementuen artean, exekutatu nahi duzun ekintza aukeratu.</target>
+      </trans-unit>
+      <trans-unit>
+        <source>A problem occurs when deleting the selected items as some items do not exist anymore.</source>
+        <target>Aukeratutako elementuak ezabatzerakoan errakuntza bat gertatu da, horietako bat, gutxienez, existitzen ez delako.</target>
+      </trans-unit>
+      <trans-unit>
+        <source>The selected items have been deleted successfully.</source>
+        <target>Aukeratutako elementuak egoki ezabatu dira.</target>
+      </trans-unit>
+      <trans-unit>
+        <source>A problem occurs when deleting the selected items.</source>
+        <target>Errakuntza bat gertatu da, aukeratutako elementuak ezabatzerakoan.</target>
+      </trans-unit>
+      <trans-unit>
+        <source>is empty</source>
+        <target>hutsik</target>
+      </trans-unit>
+      <trans-unit>
+        <source>yes or no</source>
+        <target>bai ala ez</target>
+      </trans-unit>
+      <trans-unit>
+        <source>yes</source>
+        <target>bai</target>
+      </trans-unit>
+      <trans-unit>
+        <source>no</source>
+        <target>ez</target>
+      </trans-unit>
+      <trans-unit>
+        <source><![CDATA[from %from_date% to %to_date%]]></source>
+        <target><![CDATA[%from_date%-tik %to_date%-ra]]></target>
+      </trans-unit>
+      <trans-unit>
+        <source><![CDATA[from %from_date%<br />to %to_date%]]></source>
+        <target><![CDATA[%from_date%-tik<br /> %to_date%-ra]]></target>
+      </trans-unit>
+    </body>
+  </file>
+</xliff>

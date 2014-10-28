@@ -1,0 +1,6 @@
+# default values
+all:
+  items_per_page:  50
+  sort_asc_class: 'ASC'
+  sort_desc_class: 'DESC'
+  sort_default_class: 'null'

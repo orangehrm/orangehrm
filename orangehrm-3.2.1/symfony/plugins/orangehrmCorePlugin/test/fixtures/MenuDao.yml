@@ -1,0 +1,79 @@
+UserRole:
+  0: {id: 1, name: Admin, display_name: Admin, is_assignable: 1, is_predefined: 1}
+  1: {id: 2, name: ESS, display_name: ESS, is_assignable: 1, is_predefined: 1}
+  2: {id: 3, name: Supervisor, display_name: Supervisor, is_assignable: 0, is_predefined: 1}
+  
+Module:
+  0: {id: 1, name: 'core', status: 1}
+  1: {id: 2, name: 'admin', status: 1}
+  2: {id: 3, name: 'pim', status: 1}
+  3: {id: 4, name: 'leave', status: 1}
+  4: {id: 5, name: 'time', status: 1}
+  5: {id: 6, name: 'attendance', status: 1}
+  6: {id: 7, name: 'recruitment', status: 1}
+  7: {id: 8, name: 'recruitmentApply', status: 1}
+  8: {id: 9, name: 'performance', status: 1}
+
+Screen:
+  0: {id: 1, name: 'General Information', module_id: 2, action_url: 'viewOrganizationGeneralInformation'}
+  1: {id: 2, name: 'Locations', module_id: 2, action_url: 'viewLocations'}
+  2: {id: 3, name: 'Memberships', module_id: 2, action_url: 'membership'}
+  3: {id: 4, name: 'Nationalities', module_id: 2, action_url: 'nationality'}
+  4: {id: 5, name: 'Optional Fields', module_id: 3, action_url: 'configurePim'}
+  5: {id: 6, name: 'Employee List', module_id: 3, action_url: 'viewEmployeeList'}
+  6: {id: 7, name: 'Add Employee', module_id: 3, action_url: 'addEmployee'}  
+  7: {id: 8, name: 'Leave Period', module_id: 4, action_url: 'defineLeavePeriod'}
+  8: {id: 9, name: 'Leave Types', module_id: 4, action_url: 'leaveTypeList'}
+  9: {id: 10, name: 'Leave Summary', module_id: 4, action_url: 'viewLeaveSummary'}
+  10: {id: 11, name: 'Leave List', module_id: 4, action_url: 'viewLeaveList'}
+  11: {id: 12, name: 'Assign Leave', module_id: 4, action_url: 'assignLeave'}
+  12: {id: 13, name: 'My Leave', module_id: 4, action_url: 'viewMyLeaveList'}
+  13: {id: 14, name: 'Apply', module_id: 4, action_url: 'applyLeave'}
+  14: {id: 15, name: 'My Info', module_id: 3, action_url: 'viewMyDetails'}  
+  
+ScreenPermission:
+  0: {id: 1, user_role_id: 1, screen_id: 1, can_read: 1, can_create: 1, can_update: 1, can_delete: 1}
+  1: {id: 2, user_role_id: 1, screen_id: 2, can_read: 1, can_create: 1, can_update: 1, can_delete: 1}
+  2: {id: 3, user_role_id: 1, screen_id: 3, can_read: 1, can_create: 1, can_update: 1, can_delete: 1}
+  3: {id: 4, user_role_id: 1, screen_id: 4, can_read: 1, can_create: 1, can_update: 1, can_delete: 1}
+  4: {id: 5, user_role_id: 1, screen_id: 5, can_read: 1, can_create: 1, can_update: 1, can_delete: 1}  
+  5: {id: 6, user_role_id: 1, screen_id: 6, can_read: 1, can_create: 1, can_update: 1, can_delete: 1} 
+  6: {id: 7, user_role_id: 3, screen_id: 6, can_read: 1, can_create: 1, can_update: 1, can_delete: 1}  
+  7: {id: 8, user_role_id: 1, screen_id: 7, can_read: 1, can_create: 1, can_update: 1, can_delete: 1}
+  8: {id: 9, user_role_id: 1, screen_id: 8, can_read: 1, can_create: 1, can_update: 1, can_delete: 1}
+  9: {id: 10, user_role_id: 1, screen_id: 9, can_read: 1, can_create: 1, can_update: 1, can_delete: 1}
+  10: {id: 11, user_role_id: 1, screen_id: 10, can_read: 1, can_create: 1, can_update: 1, can_delete: 1}
+  11: {id: 12, user_role_id: 3, screen_id: 10, can_read: 1, can_create: 1, can_update: 1, can_delete: 1}  
+  12: {id: 13, user_role_id: 1, screen_id: 11, can_read: 1, can_create: 1, can_update: 1, can_delete: 1}
+  13: {id: 14, user_role_id: 3, screen_id: 11, can_read: 1, can_create: 1, can_update: 1, can_delete: 1}
+  14: {id: 15, user_role_id: 1, screen_id: 12, can_read: 1, can_create: 1, can_update: 1, can_delete: 1} 
+  15: {id: 16, user_role_id: 2, screen_id: 13, can_read: 1, can_create: 1, can_update: 1, can_delete: 1}
+  16: {id: 17, user_role_id: 2, screen_id: 14, can_read: 1, can_create: 1, can_update: 1, can_delete: 1}
+  17: {id: 18, user_role_id: 2, screen_id: 15, can_read: 1, can_create: 1, can_update: 1, can_delete: 1}
+  18: {id: 19, user_role_id: 2, screen_id: 10, can_read: 1, can_create: 0, can_update: 0, can_delete: 0}  
+
+MenuItem:
+  0: {id: 1, menuTitle: 'Admin', level: 1, orderHint: 100}
+  1: {id: 2, menuTitle: 'Organization', parentId: 1, level: 2, orderHint: 100}  
+  2: {id: 3, menuTitle: 'General Information', screenId: 1, parentId: 2, level: 3, orderHint: 100}
+  3: {id: 4, menuTitle: 'Locations', screenId: 2, parentId: 2, level: 3, orderHint: 200}  
+  4: {id: 5, menuTitle: 'Memberships', screenId: 3, parentId: 1, level: 2, orderHint: 200}  
+  5: {id: 6, menuTitle: 'Nationalities', screenId: 4, parentId: 1, level: 2, orderHint: 300}   
+  6: {id: 7, menuTitle: 'PIM', level: 1, orderHint: 200}
+  7: {id: 8, menuTitle: 'Configuration', parentId: 7, level: 2, orderHint: 100}  
+  8: {id: 9, menuTitle: 'Optional Fields', screenId: 5, parentId: 8, level: 3, orderHint: 100}  
+  9: {id: 10, menuTitle: 'Employee List', screenId: 6, parentId: 7, level: 2, orderHint: 200, urlExtras: '/reset/1'}  
+  10: {id: 11, menuTitle: 'Add Employee', screenId: 7, parentId: 7, level: 2, orderHint: 300}
+  11: {id: 12, menuTitle: 'Leave', level: 1, orderHint: 300}
+  12: {id: 13, menuTitle: 'Configure', parentId: 12, level: 2, orderHint: 100}
+  13: {id: 14, menuTitle: 'Leave Period', screenId: 8, parentId: 13, level: 3, orderHint: 100}
+  14: {id: 15, menuTitle: 'Leave Types', screenId: 9, parentId: 13, level: 3, orderHint: 200}
+  15: {id: 16, menuTitle: 'Leave Summary', screenId: 10, parentId: 12, level: 2, orderHint: 200}
+  16: {id: 17, menuTitle: 'Leave List', screenId: 11, parentId: 12, level: 2, orderHint: 300, urlExtras: '/reset/1'}
+  17: {id: 18, menuTitle: 'Assign Leave', screenId: 12, parentId: 12, level: 2, orderHint: 400}
+  18: {id: 19, menuTitle: 'My Leave', screenId: 13, parentId: 12, level: 2, orderHint: 500, urlExtras: '/reset/1'}
+  19: {id: 20, menuTitle: 'Apply', screenId: 14, parentId: 12, level: 2, orderHint: 600}
+  20: {id: 21, menuTitle: 'My Info', screenId: 15, level: 1, orderHint: 400}  
+ 
+
+  

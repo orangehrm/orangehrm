@@ -1,0 +1,837 @@
+<?xml version="1.0" encoding="UTF-8"?> 
+<!DOCTYPE xliff PUBLIC "-//XLIFF//DTD XLIFF//EN" "http://www.oasis-open.org/committees/xliff/documents/xliff.dtd"> 
+<xliff version="1.0"> 
+ <header/> 
+ <file source-language="en_US" target-language="ja_JP" datatype="plaintext" original="messages" date="2012-02-22T20:03:11Z" product-name="messages"> 
+  <body> 
+   <trans-unit id="1"> 
+    <source>Activities</source> 
+    <target>活動</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="2"> 
+    <source>Activity Name</source> 
+    <target>アクティビティ名</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="3"> 
+    <source>Add Another</source> 
+    <target>もう一つを追加します。</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="4"> 
+    <source>Add Currency</source> 
+    <target>通貨を追加します。</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="5"> 
+    <source>Add Customer</source> 
+    <target>顧客を追加する</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="6"> 
+    <source>Add Education</source> 
+    <target>教育を追加します。</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="7"> 
+    <source>Add Employment Status</source> 
+    <target>就業を追加します。</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="8"> 
+    <source>Add Job Category</source> 
+    <target>ジョブカテゴリを追加</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="9"> 
+    <source>Add Job Title</source> 
+    <target>ジョブ·タイトルを追加します。</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="10"> 
+    <source>Add Language</source> 
+    <target>言語を追加します。</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="11"> 
+    <source>Add License</source> 
+    <target>ライセンスを追加します。</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="12"> 
+    <source>Add Location</source> 
+    <target>場所を追加します。</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="13"> 
+    <source>Add Membership</source> 
+    <target>メンバーシップを追加します。</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="14"> 
+    <source>Add Nationality</source> 
+    <target>国籍を追加します。</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="15"> 
+    <source>Add Pay Grade</source> 
+    <target>グレードペイ追加</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="16"> 
+    <source>Add Project</source> 
+    <target>プロジェクトの追加</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="17"> 
+    <source>Add Project Activity</source> 
+    <target>プロジェクト活動の追加</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="18"> 
+    <source>Add Skill</source> 
+    <target>スキルを追加します。</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="19"> 
+    <source>Add Subscriber</source> 
+    <target>サブスクライバの追加</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="20"> 
+    <source>Add Unit</source> 
+    <target>ユニットを追加します。</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="21"> 
+    <source>Add User</source> 
+    <target>ユーザーを追加する</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="22"> 
+    <source>Add Work Shift</source> 
+    <target>作業シフトを追加します。</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="23"> 
+    <source>Address</source> 
+    <target>アドレス</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="24"> 
+    <source>Address Street 1</source> 
+    <target>アドレス·ストリート1</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="25"> 
+    <source>Address Street 2</source> 
+    <target>住所ストリート2</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="27"> 
+    <source>Projects under selected customer will also be deleted</source> 
+    <target>選択した顧客中のプロジェクトも削除されます</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="28"> 
+    <source>Units under selected unit will also be deleted</source> 
+    <target>選択したユニットの下の単位も削除されます。</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="29"> 
+    <source>Assigned Currencies</source> 
+    <target>割り当てられた通貨</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="30"> 
+    <source>Assigned Employees</source> 
+    <target>割り当てられた従業員</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="31"> 
+    <source>Available Employees</source> 
+    <target>利用できる従業員</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="32"> 
+    <source>Better</source> 
+    <target>優れた</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="33"> 
+    <source>Change Password</source> 
+    <target>パスワードを変更する</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="34"> 
+    <source>City</source> 
+    <target>シティ</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="35"> 
+    <source>Click on a notification type to add subscribers</source> 
+    <target>サブスクライバを追加する通知タイプをクリックしてください</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="36"> 
+    <source>Column order should not be changed</source> 
+    <target>列の順序を変更する必要はありません</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="37"> 
+    <source>Company Structure</source> 
+    <target>社内体制</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="38"> 
+    <source>Confirm New Password</source> 
+    <target>新しいパスワードの確認</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="39"> 
+    <source>Confirm Password</source> 
+    <target>パスワードの確認</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="40"> 
+    <source>Copy</source> 
+    <target>コピー</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="41"> 
+    <source>Copy Activity</source> 
+    <target>コピーアクティビティ</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="42"> 
+    <source>Copy From</source> 
+    <target>コピー元</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="43"> 
+    <source>CSV Data Import</source> 
+    <target>CSVデータのインポート</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="44"> 
+    <source>Currency</source> 
+    <target>通貨</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="45"> 
+    <source>Current Password</source> 
+    <target>現在のパスワード</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="46"> 
+    <source>Current Password Is Wrong</source> 
+    <target>現在のパスワードが間違っている</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="47"> 
+    <source>Customer</source> 
+    <target>顧客</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="48"> 
+    <source>Customer Name</source> 
+    <target>顧客の名前</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="49"> 
+    <source>Date Format</source> 
+    <target>日付フォーマット</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="50"> 
+    <source>Description is not specified</source> 
+    <target>説明が指定されていません</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="51"> 
+    <source>Done</source> 
+    <target>行われ</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="52"> 
+    <source>Download</source> 
+    <target>ダウンロード</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="53"> 
+    <source>Each import file should be configured for 100 records or less</source> 
+    <target>各インポートファイルは、100レコード以下に構成する必要があり</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="54"> 
+    <source>Edit Currency</source> 
+    <target>通貨を編集する</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="55"> 
+    <source>Edit Customer</source> 
+    <target>お客様を編集</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="56"> 
+    <source>Edit Education</source> 
+    <target>編集教育</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="57"> 
+    <source>Edit Employment Status</source> 
+    <target>雇用状況の編集</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="58"> 
+    <source>Edit Job Category</source> 
+    <target>ジョブカテゴリを編集</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="59"> 
+    <source>Edit Job Title</source> 
+    <target>ジョブ·タイトルを編集</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="60"> 
+    <source>Edit Language</source> 
+    <target>編集言語</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="61"> 
+    <source>Edit License</source> 
+    <target>ライセンスを編集します。</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="62"> 
+    <source>Edit Location</source> 
+    <target>場所を編集します。</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="63"> 
+    <source>Edit Membership</source> 
+    <target>メンバーシップの編集</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="64"> 
+    <source>Edit Nationality</source> 
+    <target>国籍を編集します。</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="65"> 
+    <source>Edit Pay Grade</source> 
+    <target>グレードペイ·編集</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="66"> 
+    <source>Edit Project</source> 
+    <target>プロジェクトを編集します。</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="67"> 
+    <source>Edit Project Activity</source> 
+    <target>プロジェクト活動を編集します。</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="68"> 
+    <source>Edit Skill</source> 
+    <target>スキルを編集します。</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="69"> 
+    <source>Edit Subscriber</source> 
+    <target>サブスクライバの編集</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="70"> 
+    <source>Edit Unit</source> 
+    <target>ユニットを編集</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="71"> 
+    <source>Edit User</source> 
+    <target>ユーザーの編集</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="72"> 
+    <source>Edit Work Shift</source> 
+    <target>作業シフトを編集する</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="73"> 
+    <source>Email</source> 
+    <target>メール</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="74"> 
+    <source>Successfully Saved. Test Email Sent</source> 
+    <target>保存に成功しました。テストメールを送信しました</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="75"> 
+    <source>Successfully Saved. Test Email Not Sent</source> 
+    <target>保存に成功しました。テストメール送信されない</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="76"> 
+    <source>Email Notification</source> 
+    <target>電子メール通知</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="77"> 
+    <source>Employee Name</source> 
+    <target>従業員名</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="78"> 
+    <source>Enable Admin module</source> 
+    <target>管理モジュールを有効にする</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="79"> 
+    <source>Enable Benefits module</source> 
+    <target>利点モジュールを有効にする</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="80"> 
+    <source>Enable Leave module</source> 
+    <target>モジュールを残す可能にする</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="81"> 
+    <source>Enable Performance module</source> 
+    <target>パフォーマンスモジュールを有効にする</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="82"> 
+    <source>Enable PIM module</source> 
+    <target>ピムモジュールを有効にする</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="83"> 
+    <source>Enable Recruitment module</source> 
+    <target>リクルートモジュールを有効にする</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="84"> 
+    <source>Enable Time module</source> 
+    <target>時間モジュールを有効にする</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="92">
+    <source>Enable Help</source>
+    <target>ヘルプを有効にする</target>
+   </trans-unit>     
+   <trans-unit id="85"> 
+    <source>ESS</source> 
+    <target>ESS</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="86"> 
+    <source>Fax</source> 
+    <target>ファックス</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="87"> 
+    <source>First Name and Last Name are compulsory</source> 
+    <target>ファーストネームとラストネームは必ず記入しなければなら</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="88"> 
+    <source>Following languages are supported</source> 
+    <target>次の言語がサポートされています。</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="89"> 
+    <source>Hours Per Day</source> 
+    <target>日あたりの時間</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="90"> 
+    <source>If gender is specified, value should be either</source> 
+    <target>性別が指定されている場合、値は次のいずれかでなければなりません</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="91"> 
+    <source>Job Description</source> 
+    <target>仕事内容</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="92"> 
+    <source>Leave Applications</source> 
+    <target>アプリケーションを残す</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="93"> 
+    <source>Leave Approvals</source> 
+    <target>承認を残す</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="94"> 
+    <source>Leave Assignments</source> 
+    <target>割り当てを残す</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="95"> 
+    <source>Leave Cancellations</source> 
+    <target>キャンセルを残す</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="96"> 
+    <source>Leave Rejections</source> 
+    <target>拒絶を残す</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="97"> 
+    <source>Location Name</source> 
+    <target>場所の名前</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="98"> 
+    <source>Mail Configuration</source> 
+    <target>メールの設定</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="99"> 
+    <source>Mail Sent As</source> 
+    <target>として送られたメール</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="100"> 
+    <source>Maximum Salary</source> 
+    <target>最大給与</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="101"> 
+    <source>Medium</source> 
+    <target>培地</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="102"> 
+    <source>Minimum Salary</source> 
+    <target>最低給与</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="103"> 
+    <source>Module Configuration</source> 
+    <target>モジュール構成</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="104"> 
+    <source>Nationality</source> 
+    <target>国籍</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="105"> 
+    <source>New Password</source> 
+    <target>新しいパスワード</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="106"> 
+    <source>No activities selected</source> 
+    <target>ない活動が選択されていません</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="107"> 
+    <source>No assigned activities</source> 
+    <target>が割り当てられて活動しない</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="108"> 
+    <source>Not Allowed to Delete Customer(s) Which Have Time Logged Against</source> 
+    <target>に対して時間を記録した顧客（s）を削除することはできません</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="109"> 
+    <source>Not Allowed to Delete Project Activites Which Have Time Logged Against</source> 
+    <target>に対して記録時間は、プロジェクトのactivitesを削除することはできません</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="110"> 
+    <source>Note</source> 
+    <target>注意</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="111"> 
+    <source>Notification Type</source> 
+    <target>通知タイプ</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="112"> 
+    <source>Number of Employees</source> 
+    <target>就業者数</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="113"> 
+    <source>Ok</source> 
+    <target>組織</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="114"> 
+    <source>Organization</source> 
+    <target>組織</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="115"> 
+    <source>Organization Name</source> 
+    <target>組織名</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="116"> 
+    <source>Password</source> 
+    <target>パスワード</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="117"> 
+    <source>Passwords do not match</source> 
+    <target>パスワードが一致しません</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="118"> 
+    <source>Path to Sendmail</source> 
+    <target>sendmailのパス</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="119"> 
+    <source>Performance Review Submissions</source> 
+    <target>パフォーマンス·レビューの提出</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="120"> 
+    <source>Phone</source> 
+    <target>電話</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="121"> 
+    <source>Project</source> 
+    <target>プロジェクト</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="122"> 
+    <source>Project Admin</source> 
+    <target>プロジェクト管理</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="123"> 
+    <source>Project Admins</source> 
+    <target>プロジェクト管理者</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="124"> 
+    <source>Project Name</source> 
+    <target>プロジェクト名</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="125"> 
+    <source>Registration Number</source> 
+    <target>登録番号</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="126"> 
+    <source>Remove</source> 
+    <target>削除する</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="127"> 
+    <source>Sample CSV file</source> 
+    <target>サンプルCSVファイル</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="128"> 
+    <source>Send Test Email</source> 
+    <target>テストメールを送信</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="129"> 
+    <source>Sending Method</source> 
+    <target>メソッドを送信</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="130"> 
+    <source>Shift Name</source> 
+    <target>シフト名</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="131"> 
+    <source>SMTP Password</source> 
+    <target>SMTPパスワード</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="132"> 
+    <source>SMTP Port</source> 
+    <target>SMTPポート</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="133"> 
+    <source>SMTP User</source> 
+    <target>SMTPユーザー</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="134"> 
+    <source>SSL</source> 
+    <target>SSL</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="135"> 
+    <source>State/Province</source> 
+    <target>州/地方</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="136"> 
+    <source>Strong</source> 
+    <target>強い</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="137"> 
+    <source>Strongest</source> 
+    <target>最強</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="138"> 
+    <source>Subscriber(s)</source> 
+    <target>加入者（秒）</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="139"> 
+    <source>Subscribers</source> 
+    <target>加入者</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="140"> 
+    <source>OrangeHRM - Supported Languages</source> 
+    <target>OrangeHRM - サポートされる言語</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="141"> 
+    <source>Supported languages</source> 
+    <target>サポートされる言語</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="142"> 
+    <source>System Users</source> 
+    <target>システムのユーザー</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="143"> 
+    <source>Tax ID</source> 
+    <target>税のID</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="144"> 
+    <source>Test Email Address</source> 
+    <target>テスト電子メールアドレス</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="145"> 
+    <source>This unit will be added under</source> 
+    <target>このユニットは、下に追加されます。</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="146"> 
+    <source>TLS</source> 
+    <target>TLS</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="147"> 
+    <source>Unit Id</source> 
+    <target>ユニットID</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="148"> 
+    <source>Upload</source> 
+    <target>アップロード</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="149"> 
+    <source>Use browser language if set</source> 
+    <target>ブラウザの言語を使用して設定されている場合</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="150"> 
+    <source>Use SMTP Authentication</source> 
+    <target>SMTP認証を使用する</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="151"> 
+    <source>User Secure Connection</source> 
+    <target>ユーザーはセキュアな接続</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="152"> 
+    <source>User Type</source> 
+    <target>ユーザータイプ</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="153"> 
+    <source>Username</source> 
+    <target>ユーザ名</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="154"> 
+    <source>Very Weak</source> 
+    <target>非常に弱い</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="155"> 
+    <source>Weak</source> 
+    <target>弱い</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="156"> 
+    <source>Zip Code</source> 
+    <target>郵便番号</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="157"> 
+    <source>Zip/Postal Code</source> 
+    <target>郵便番号/郵便番号</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="158"> 
+    <source>Failed to Import: File Type Not Allowed</source> 
+    <target>インポートに失敗しました：ファイルタイプは許可されていません</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="159"> 
+    <source>Failed to Import: File Size Exceeded</source> 
+    <target>インポートに失敗しました：ファイルサイズ超過</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="160"> 
+    <source>Failed to Import: No Compatible Records</source> 
+    <target>インポートに失敗しました：なし対応記録</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="161"> 
+    <source>Number of Records Imported</source> 
+    <target>インポートされたレコードの数</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="162"> 
+    <source>Should be higher than Minimum Salary</source> 
+    <target>最低給与よりも高くなければなりません</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="163"> 
+    <source>Level Already Exists</source> 
+    <target>レベルがすでに存在する</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="164"> 
+    <source>All date fields should be in YYYY-mm-dd format</source> 
+    <target>すべての日付フィールドは、YYYY-MM-DD形式でなければなりません</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="165"> 
+    <source>Multiple import files may be required</source> 
+    <target>複数のインポートファイルが必要になることがあります</target> 
+    <note>A time zone name</note> 
+   </trans-unit> 
+   <trans-unit id="100">
+    <source>Language and font help</source>
+    <target>言語とフォントのヘルプ</target>
+   </trans-unit>   
+  </body> 
+ </file> 
+</xliff> 

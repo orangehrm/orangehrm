@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE xliff PUBLIC "-//XLIFF//DTD XLIFF//EN" "http://www.oasis-open.org/committees/xliff/documents/xliff.dtd">
+<xliff version="1.0">
+ <header/>
+ <file source-language="en_US" target-language="th_TH" datatype="plaintext" original="messages" date="2012-08-23T2:35:29Z" product-name="messages">
+  <body>
+   <trans-unit id="1">
+    <source>Add Attendance Records</source>
+    <target>บันทึกเวลาการทำงานเพิ่ม</target>
+   </trans-unit>
+   <trans-unit id="2">
+    <source>Attendance Configuration</source>
+    <target>การกำหนดเวลาการทำงาน</target>
+   </trans-unit>
+   <trans-unit id="3">
+    <source>Comment should be less than 250 characters</source>
+    <target>ความคิดเห็นควรจะน้อยกว่า 250 ตัวอักษร</target>
+   </trans-unit>
+   <trans-unit id="4">
+    <source>Employee can change current time when punching in/out</source>
+    <target>พนักงานสามารถปรับเปลี่ยนเวลาปัจจุบันเมื่อตอกบัตรเข้า / ออก</target>
+   </trans-unit>
+   <trans-unit id="5">
+    <source>Employee can edit/delete own attendance records</source>
+    <target>พนักงานสามารถแก้ไข / ลบบันทึกเวลาการทำงานของตัวเองได้</target>
+   </trans-unit>
+   <trans-unit id="6">
+    <source>In</source>
+    <target>เข้า</target>
+   </trans-unit>
+   <trans-unit id="7">
+    <source>Last punch in time</source>
+    <target>ตอกบัตรครั้งสุดท้ายในเวลา</target>
+   </trans-unit>
+   <trans-unit id="8">
+    <source>My Attendance Records</source>
+    <target>บันทึกเวลาการทำงานของฉัน</target>
+   </trans-unit>
+   <trans-unit id="9">
+    <source>No attendance records to display</source>
+    <target>ไม่มีการบันทึกการเข้างาน</target>
+   </trans-unit>
+   <trans-unit id="10">
+    <source>Out</source>
+    <target>ออก</target>
+   </trans-unit>
+   <trans-unit id="11">
+    <source>Overlapping Records Found</source>
+    <target>พบการบันทึกที่ซ้ำซ้อนกัน</target>
+   </trans-unit>
+   <trans-unit id="12">
+    <source>Punch In</source>
+    <target>เข้างาน/ตอกบัตรเข้า</target>
+   </trans-unit>
+   <trans-unit id="13">
+    <source>Punch In Note</source>
+    <target>หมายเหตุการเข้างาน/ตอกบัตรเข้า</target>
+   </trans-unit>
+   <trans-unit id="14">
+    <source>Punch in/out note</source>
+    <target>บันทึกการตอกบัตรเข้า/ตอกบัตรออก</target>
+   </trans-unit>
+   <trans-unit id="15">
+    <source>Punch Out</source>
+    <target>ออกงาน/ตอกบัตรออก</target>
+   </trans-unit>
+   <trans-unit id="16">
+    <source>Punch Out Note</source>
+    <target>หมายเหตุการออกงาน/ตอกบัตรออก</target>
+   </trans-unit>
+   <trans-unit id="17">
+    <source>Punch out Time Should Be Higher Than Punch in Time</source>
+    <target>เวลาของการตอกบัตรออกควรควรจะสูงกว่าเวลาของการตอกบัตรเข้า</target>
+   </trans-unit>
+   <trans-unit id="18">
+    <source>Should Be a Valid Date in %format% Format</source>
+    <target>ควรจะเป็นวันที่ถูกต้อง %format% รูปแบบ</target>
+   </trans-unit>
+   <trans-unit id="19">
+    <source>Should Be a Valid Time in %format% Format</source>
+    <target>ควรจะเป็นเวลาที่ถูกต้อง %format% รูปแบบ</target>
+   </trans-unit>
+   <trans-unit id="20">
+    <source>Supervisor can add/edit/delete attendance records of subordinates</source>
+    <target>หัวหน้างานสามารถเพิ่ม / แก้ไข /  ลบบันทึกเวลาการทำงานของผู้ใต้บังคับบัญชาได้</target>
+   </trans-unit>
+   <trans-unit id="21">
+    <source>Timezone</source>
+    <target>โซน</target>
+   </trans-unit>
+   <trans-unit id="22">
+    <source>View Attendance Record</source>
+    <target>ดูบันทึกการทำงาน</target>
+   </trans-unit>
+   <trans-unit id="23">
+    <source>You are not allowed to view this page</source>
+    <target>คุณไม่ได้รับอนุญาตให้ดูหน้านี้</target>
+   </trans-unit>
+  </body>
+ </file>
+</xliff>
+<!-- Contributed By: Dam Phanchot , Pornruedee Thatsanamethin , Pun Sorpitiphorn , Suthep Suthep , Tiyada Noon -->
+

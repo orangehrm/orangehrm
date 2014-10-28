@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE xliff PUBLIC "-//XLIFF//DTD XLIFF//EN" "http://www.oasis-open.org/committees/xliff/documents/xliff.dtd">
+<xliff version="1.0">
+ <header/>
+ <file source-language="en_US" target-language="zh_CN" datatype="plaintext" original="messages" date="2012-08-22T5:40:02Z" product-name="messages">
+  <body>
+   <trans-unit id="1">
+    <source>Add Attendance Records</source>
+    <target>添加考勤记录</target>
+   </trans-unit>
+   <trans-unit id="2">
+    <source>Attendance Configuration</source>
+    <target>出勤配置</target>
+   </trans-unit>
+   <trans-unit id="3">
+    <source>Comment should be less than 250 characters</source>
+    <target>注释应少于250个字符</target>
+   </trans-unit>
+   <trans-unit id="4">
+    <source>Employee can change current time when punching in/out</source>
+    <target>上下班打卡时，员工可以更改当前时间</target>
+   </trans-unit>
+   <trans-unit id="5">
+    <source>Employee can edit/delete own attendance records</source>
+    <target>员工可以编辑/删除自己的考勤记录</target>
+   </trans-unit>
+   <trans-unit id="6">
+    <source>In</source>
+    <target>上班</target>
+   </trans-unit>
+   <trans-unit id="7">
+    <source>Last punch in time</source>
+    <target>最近一次上班打卡时间</target>
+   </trans-unit>
+   <trans-unit id="8">
+    <source>My Attendance Records</source>
+    <target>我的出勤记录</target>
+   </trans-unit>
+   <trans-unit id="9">
+    <source>No attendance records to display</source>
+    <target>没有可显示的考勤记录</target>
+   </trans-unit>
+   <trans-unit id="10">
+    <source>Out</source>
+    <target>下班</target>
+   </trans-unit>
+   <trans-unit id="11">
+    <source>Overlapping Records Found</source>
+    <target>发现重叠记录</target>
+   </trans-unit>
+   <trans-unit id="12">
+    <source>Punch In</source>
+    <target>上班打卡</target>
+   </trans-unit>
+   <trans-unit id="13">
+    <source>Punch In Note</source>
+    <target>上班打卡记录</target>
+   </trans-unit>
+   <trans-unit id="14">
+    <source>Punch in/out note</source>
+    <target>上下班打卡记录</target>
+   </trans-unit>
+   <trans-unit id="15">
+    <source>Punch Out</source>
+    <target>下班打卡</target>
+   </trans-unit>
+   <trans-unit id="16">
+    <source>Punch Out Note</source>
+    <target>下班打卡记录</target>
+   </trans-unit>
+   <trans-unit id="17">
+    <source>Punch out Time Should Be Higher Than Punch in Time</source>
+    <target>下班打卡时间应该晚于上班打卡时间</target>
+   </trans-unit>
+   <trans-unit id="18">
+    <source>Should Be a Valid Date in %format% Format</source>
+    <target>有效的日期格式为 %format% </target>
+   </trans-unit>
+   <trans-unit id="19">
+    <source>Should Be a Valid Time in %format% Format</source>
+    <target>有效的时间格式为 %format%</target>
+   </trans-unit>
+   <trans-unit id="20">
+    <source>Supervisor can add/edit/delete attendance records of subordinates</source>
+    <target>上司可以添加/编辑/删除下属的考勤记录</target>
+   </trans-unit>
+   <trans-unit id="21">
+    <source>Timezone</source>
+    <target>时区</target>
+   </trans-unit>
+   <trans-unit id="22">
+    <source>View Attendance Record</source>
+    <target>查看考勤记录</target>
+   </trans-unit>
+   <trans-unit id="23">
+    <source>You are not allowed to view this page</source>
+    <target>不允许您查看该页面</target>
+   </trans-unit>
+  </body>
+ </file>
+</xliff>
+<!-- Contributed By:   ,   ,   ,   ,   ,  Fen xiao ,  Li Monolith , Alice Lieu , ds cao , Edwin Li , Huai Zhenchang , Jessie Wang , Jet Chan , Kobe Omnipotent , Letla Jia , Li Yue , Lihui Jiang , Muse Sun , Patrick Dong , Peng Wei , Qi Feng , Qing Sina , sasf safasf , Sunny Zhang , Troy.Dom Troy.Dom , Wenqiang Niu , Yang Ren , Yue Li -->
+

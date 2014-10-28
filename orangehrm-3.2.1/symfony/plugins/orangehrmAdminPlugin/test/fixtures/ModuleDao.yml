@@ -1,0 +1,8 @@
+Module:
+  0: {id: 1, name: 'admin', status: 1}
+  1: {id: 2, name: 'pim', status: 1}
+  2: {id: 3, name: 'leave', status: 1}  
+  3: {id: 4, name: 'time', status: 1}
+  4: {id: 5, name: 'recruitment', status: 1}
+  5: {id: 6, name: 'performance', status: 1}
+  6: {id: 7, name: 'benefits', status: 0}

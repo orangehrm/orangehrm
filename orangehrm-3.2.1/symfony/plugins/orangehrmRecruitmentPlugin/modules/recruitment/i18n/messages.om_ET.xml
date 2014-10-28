@@ -1,0 +1,310 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE xliff PUBLIC "-//XLIFF//DTD XLIFF//EN" "http://www.oasis-open.org/committees/xliff/documents/xliff.dtd">
+<xliff version="1.0">
+ <header/>
+ <file source-language="en_US" target-language="om_ET" datatype="plaintext" original="messages" date="2012-04-17T0:24:06Z" product-name="messages">
+  <body>
+   <trans-unit id="1">
+    <source>Active</source>
+    <target>Ka'aa</target>
+   </trans-unit>
+   <trans-unit id="2">
+    <source>Add another</source>
+    <target>Kan Biroo Dabali</target>
+   </trans-unit>
+   <trans-unit id="3">
+    <source>Add Candidate</source>
+    <target>Dorgomaa Dabali</target>
+   </trans-unit>
+   <trans-unit id="4">
+    <source>Add Job Vacancy</source>
+    <target>Iddoo Hojii Banaa Dabali</target>
+   </trans-unit>
+   <trans-unit id="5">
+    <source>Adding Candidate</source>
+    <target>Dorgomaa Dabaluu</target>
+   </trans-unit>
+   <trans-unit id="6">
+    <source>Application Initiated</source>
+    <target>Iyyatni Kan Onnatame</target>
+   </trans-unit>
+   <trans-unit id="7">
+    <source>applied for the</source>
+    <target>Kan Iyyatameef</target>
+   </trans-unit>
+   <trans-unit id="8">
+    <source>Archived</source>
+    <target>Kuufameera</target>
+   </trans-unit>
+   <trans-unit id="9">
+    <source>Are you sure you want to remove job vacancy of the candidate</source>
+    <target>Iddoo Hojii banaa Dorgomtootaa Balleessuu Barbaaddee?</target>
+   </trans-unit>
+   <trans-unit id="10">
+    <source>as failed</source>
+    <target>Akka Kufetti</target>
+   </trans-unit>
+   <trans-unit id="11">
+    <source>as passed</source>
+    <target>Akka Darbetti</target>
+   </trans-unit>
+   <trans-unit id="12">
+    <source>assigned the job vacancy</source>
+    <target>Iddoo Hojii Banaa Kennaman</target>
+   </trans-unit>
+   <trans-unit id="13">
+    <source>by</source>
+    <target>tiin</target>
+   </trans-unit>
+   <trans-unit id="14">
+    <source>Candidate</source>
+    <target>Dorgomaa</target>
+   </trans-unit>
+   <trans-unit id="15">
+    <source>Candidate Name</source>
+    <target>Maqaa Dorgomaa</target>
+   </trans-unit>
+   <trans-unit id="16">
+    <source>Candidate's History</source>
+    <target>Seenaa Dorgomaa</target>
+   </trans-unit>
+   <trans-unit id="17">
+    <source>candidateName</source>
+    <target>maqaaDorgomaa</target>
+   </trans-unit>
+   <trans-unit id="18">
+    <source>Cannot assign same interviewer twice</source>
+    <target>Qorataa tokko al tokkotti lama ramaduu hin dandeessu</target>
+   </trans-unit>
+   <trans-unit id="19">
+    <source>Cannot assign same vacancy twice</source>
+    <target>Iddoo Hojii Banaa Tokko, al-lama ramaduu hin dandeessu</target>
+   </trans-unit>
+   <trans-unit id="20">
+    <source>Click on a candidate to perform actions</source>
+    <target>Tarkaanfii fudhachuuf, Dorgomaa irratti cuqaasi</target>
+   </trans-unit>
+   <trans-unit id="21">
+    <source>Closed</source>
+    <target>Cufameera</target>
+   </trans-unit>
+   <trans-unit id="22">
+    <source>Continue</source>
+    <target>Itti Fufi</target>
+   </trans-unit>
+   <trans-unit id="23">
+    <source>Date of Application</source>
+    <target>Guyyaa Itti Iyyate</target>
+   </trans-unit>
+   <trans-unit id="24">
+    <source>Decline Offer</source>
+    <target>Affeerraa Dhiisi</target>
+   </trans-unit>
+   <trans-unit id="25">
+    <source>Details</source>
+    <target>Bal'inaan</target>
+   </trans-unit>
+   <trans-unit id="26">
+    <source>Edit Candidate</source>
+    <target>Dorgomtoota Gulaali</target>
+   </trans-unit>
+   <trans-unit id="27">
+    <source>Edit Interview Details</source>
+    <target>Qabiyyee Gaaffif Deebii Gulaali</target>
+   </trans-unit>
+   <trans-unit id="28">
+    <source>Edit Job Vacancy</source>
+    <target>Iddoo Hojii Banaa Gulaali</target>
+   </trans-unit>
+   <trans-unit id="29">
+    <source>Editing Candidate</source>
+    <target>Dorgomaa Gulaali</target>
+   </trans-unit>
+   <trans-unit id="30">
+    <source>from the</source>
+    <target>Irraa</target>
+   </trans-unit>
+   <trans-unit id="31">
+    <source>Hire</source>
+    <target>Qaxari</target>
+   </trans-unit>
+   <trans-unit id="32">
+    <source>Hired</source>
+    <target>Qaxarameere</target>
+   </trans-unit>
+   <trans-unit id="33">
+    <source>hired</source>
+    <target>qaxarameera</target>
+   </trans-unit>
+   <trans-unit id="34">
+    <source>Hiring Manager</source>
+    <target>Hogganaan Qaxaru</target>
+   </trans-unit>
+   <trans-unit id="35">
+    <source>Interview Failed</source>
+    <target>Gaaffiifi Deebii Kufe</target>
+   </trans-unit>
+   <trans-unit id="36">
+    <source>Interview Passed</source>
+    <target>Gaaffiifi Deebii Darbe</target>
+   </trans-unit>
+   <trans-unit id="37">
+    <source>Interview Scheduled</source>
+    <target>Gaaffiifi Deebiin Saganteeffameera</target>
+   </trans-unit>
+   <trans-unit id="38">
+    <source>Interview Title</source>
+    <target>Mata-Duree Gaaffifi Deebii</target>
+   </trans-unit>
+   <trans-unit id="39">
+    <source>Interviewer Name</source>
+    <target>Maqaa Qorataa</target>
+   </trans-unit>
+   <trans-unit id="40">
+    <source>Job Offered</source>
+    <target>Hojiif Affeerameera</target>
+   </trans-unit>
+   <trans-unit id="41">
+    <source>Job Vacancy</source>
+    <target>Iddoo Hojii banaa</target>
+   </trans-unit>
+   <trans-unit id="42">
+    <source>Manual</source>
+    <target>Maanuwaalii</target>
+   </trans-unit>
+   <trans-unit id="43">
+    <source>Mark Interview Failed</source>
+    <target>Akka Gaaffifi Deebi Kufetti Mallattoo agarsiisi</target>
+   </trans-unit>
+   <trans-unit id="44">
+    <source>Mark Interview Passed</source>
+    <target>Akka Gaaffifi Deebi Darbetti Mallattoo agarsiisi</target>
+   </trans-unit>
+   <trans-unit id="45">
+    <source>marked</source>
+    <target>Mallatteeffameera</target>
+   </trans-unit>
+   <trans-unit id="46">
+    <source>marked the offer as declined</source>
+    <target>Akka Affeerraan isaa dhiifametti mallattoo agarsiisi</target>
+   </trans-unit>
+   <trans-unit id="47">
+    <source>Method of Application</source>
+    <target>Akkaata Iyyannoo</target>
+   </trans-unit>
+   <trans-unit id="48">
+    <source>No Actions</source>
+    <target>Tarkaanfiin hin Jiru</target>
+   </trans-unit>
+   <trans-unit id="49">
+    <source>No active job vacancies to display</source>
+    <target>Iddoon hojii banaa hin jiru</target>
+   </trans-unit>
+   <trans-unit id="50">
+    <source>Number of Positions</source>
+    <target>Baay'ina Gita Hojii</target>
+   </trans-unit>
+   <trans-unit id="51">
+    <source>Offer Declined</source>
+    <target>Affeerraan Dhiifameera</target>
+   </trans-unit>
+   <trans-unit id="52">
+    <source>Offer Job</source>
+    <target>Hojii Affeeri</target>
+   </trans-unit>
+   <trans-unit id="53">
+    <source>offered the job</source>
+    <target>Hojiif Affeerameera</target>
+   </trans-unit>
+   <trans-unit id="54">
+    <source>on</source>
+    <target>Irra</target>
+   </trans-unit>
+   <trans-unit id="55">
+    <source>Online</source>
+    <target>Sarararra</target>
+   </trans-unit>
+   <trans-unit id="56">
+    <source>Performed Action</source>
+    <target>Gocha Raawwatame</target>
+   </trans-unit>
+   <trans-unit id="57">
+    <source>Performed Date</source>
+    <target>Guyyaa Raawwatame</target>
+   </trans-unit>
+   <trans-unit id="58">
+    <source>Publish in RSS feed(1) and web page(2)</source>
+    <target>RSS fi Fuula Saphaphuu irratti maxxansi</target>
+   </trans-unit>
+   <trans-unit id="59">
+    <source>Remove?</source>
+    <target>Haquu Barbaaddee?</target>
+   </trans-unit>
+   <trans-unit id="60">
+    <source>removed</source>
+    <target>haqameera</target>
+   </trans-unit>
+   <trans-unit id="61">
+    <source>RSS Feed URL</source>
+    <target>URL Qabiyyee RSS</target>
+   </trans-unit>
+   <trans-unit id="62">
+    <source>Schedule Interview</source>
+    <target>Gaaffiifi Deebii Saganteeffame</target>
+   </trans-unit>
+   <trans-unit id="63">
+    <source>scheduled</source>
+    <target>Saganteeffameera</target>
+   </trans-unit>
+   <trans-unit id="64">
+    <source>Shortlist</source>
+    <target>Calallii</target>
+   </trans-unit>
+   <trans-unit id="65">
+    <source>Shortlisted</source>
+    <target>Calalameera</target>
+   </trans-unit>
+   <trans-unit id="66">
+    <source>Shortlisted for</source>
+    <target>Kan Calalameef</target>
+   </trans-unit>
+   <trans-unit id="67">
+    <source>Should be less than current date</source>
+    <target>Har'aan Dura ta'uu qaba</target>
+   </trans-unit>
+   <trans-unit id="68">
+    <source>Successfully Scheduled</source>
+    <target>Sirriitti Saganteeffameera</target>
+   </trans-unit>
+   <trans-unit id="69">
+    <source>This action will remove previous vacancy</source>
+    <target>Gochi kun iddoo hojii banaa duraan ture haqa</target>
+   </trans-unit>
+   <trans-unit id="70">
+    <source>Vacancy</source>
+    <target>Iddoo Hojii Banaa</target>
+   </trans-unit>
+   <trans-unit id="71">
+    <source>Vacancy Name</source>
+    <target>Maqaa Iddoo Hojii Banaa</target>
+   </trans-unit>
+   <trans-unit id="72">
+    <source>View Action History</source>
+    <target>Ta'iiwwan Seenaa Mul'isi</target>
+   </trans-unit>
+   <trans-unit id="73">
+    <source>View Interview Details</source>
+    <target>Qabiyyee Gaaffiifi Deebii Mul'isi</target>
+   </trans-unit>
+   <trans-unit id="74">
+    <source>Web Page URL</source>
+    <target>URL Fuula Saphaphuu</target>
+   </trans-unit>
+   <trans-unit id="75">
+    <source>with</source>
+    <target>waliin</target>
+   </trans-unit>
+  </body>
+ </file>
+</xliff>
+<!-- Contributed By:   -->
