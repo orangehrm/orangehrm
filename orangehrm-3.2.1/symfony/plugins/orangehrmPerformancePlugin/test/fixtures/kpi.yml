@@ -1,6 +1,0 @@
-Kpi:
-  0: {id: 2, job_title_code: 1, kpi_indicators: 'indicator 1', min_rating: 1, max_rating: 10, default_kpi: 1  }
-  1: {id: 3, job_title_code: 2, kpi_indicators: 'indicator 2', min_rating: 1, max_rating: 10 }
-  2: {id: 4, job_title_code: 3, kpi_indicators: 'indicator 3', min_rating: 1, max_rating: 5 }
-  
- 

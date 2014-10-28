@@ -1,7 +1,0 @@
-indexSuccess:
-  javascripts: [-*]
-  stylesheets: [-*]
-
-all:
-  javascripts: [main, user]
-  stylesheets: [main, user]
