@@ -308,6 +308,10 @@ Section "-Complete"
       nsExec::ExecToLog '"$INSTDIR\mysql\bin\mysql" -u root -D orangehrm_mysql -e "source $INSTDIR\htdocs\orangehrm-${ProductVersion}\dbscript\dbscript-user.sql"'
 
       Delete /REBOOTOK "$INSTDIR\htdocs\orangehrm-${ProductVersion}\dbscript\dbscript-user.sql"
+	  
+	  DetailPrint "Installing Functions"
+	  nsExec::ExecToLog '"$INSTDIR\mysql\bin\mysql" -u root -D orangehrm_mysql -e "source $INSTDIR\htdocs\orangehrm-${ProductVersion}\dbscript\dbscript-functions.sql"'
+	  
       DetailPrint "Registering Product"
       inetc::post "register" "http://127.0.0.1/orangehrm-3.2.1/installer/registrationMessage.php" "$INSTDIR\output.txt" 
 
