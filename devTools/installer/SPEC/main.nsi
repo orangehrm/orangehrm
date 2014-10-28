@@ -97,6 +97,8 @@
   Var /GLOBAL PostStr
   Var /GLOBAL DefaultInstallDir
   Var /GLOBAL VerifiedInallDirectory
+  
+  Var /GLOBAL CompanyName
 
 ;--------------------------------
 ;General
@@ -136,7 +138,9 @@
   !insertmacro MUI_PAGE_WELCOME
   !insertmacro MUI_PAGE_LICENSE "${SourceLocation}\content\license.txt"
   !insertmacro MUI_PAGE_COMPONENTS
+  
   Page custom  AdminUserDetailsEnter AdminUserDetailsEnterValidate
+  
   !insertmacro MUI_PAGE_DIRECTORY
   !insertmacro MUI_PAGE_INSTFILES
   Page custom fnc_Registration_Show Func_save_data
@@ -202,16 +206,19 @@ Function Func_save_data
 	
 	${NSD_GetText} $hCtl_Registration_TextBox3 $0
 	${NSD_GetState} $hCtl_Registration_CheckBox1 $1
+	StrCpy $CompanyName "$0"
 	${If} $1 == 1
-		nsExec::ExecToLog '"$INSTDIR\mysql\bin\mysql" -u root -D orangehrm_mysql -e "UPDATE hs_hr_config SET `value`= 'on' WHERE `key`='beacon.activation_acceptance_status'"'
+		nsExec::ExecToLog '"$INSTDIR\mysql\bin\mysql" -u root -D orangehrm_mysql -e "UPDATE hs_hr_config SET `value`= $\'on$\' WHERE `key`=$\'beacon.activation_acceptance_status$\'"'
 	${Else} 
-		nsExec::ExecToLog '"$INSTDIR\mysql\bin\mysql" -u root -D orangehrm_mysql -e "UPDATE hs_hr_config SET `value`= 'off' WHERE `key`='beacon.activation_acceptance_status'"'
+		nsExec::ExecToLog '"$INSTDIR\mysql\bin\mysql" -u root -D orangehrm_mysql -e "UPDATE hs_hr_config SET `value`= $\'off$\' WHERE `key`=$\'beacon.activation_acceptance_status$\'"'
 	${EndIf}
 	
+	nsExec::ExecToLog '"$INSTDIR\mysql\bin\mysql" -u root -D orangehrm_mysql -e "INSERT INTO `ohrm_organization_gen_info`(`name`) VALUES ( $\' $CompanyName $\')"'
 	
-	nsExec::ExecToLog '"$INSTDIR\mysql\bin\mysql" -u root -D orangehrm_mysql -e "INSERT INTO `ohrm_organization_gen_info`(`name`) VALUES ('$0')"'
     
 FunctionEnd
+
+
 
 ;--------------------------------
 ; Installer Sections
@@ -222,3 +229,4 @@ FunctionEnd
 ; Uninstaller Sections
 
 !include "uninstaller.nsi"
+
