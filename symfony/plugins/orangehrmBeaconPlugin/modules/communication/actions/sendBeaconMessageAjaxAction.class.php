@@ -66,10 +66,11 @@ class sendBeaconMessageAjaxAction extends sfAction {
             }
         } 
         if($this->getUser()->hasAttribute(BeaconCommunicationsService::BEACON_MESSAGES_REQUIRED) && $this->getUser()->getAttribute(BeaconCommunicationsService::BEACON_MESSAGES_REQUIRED)) {
-             $this->getBeaconCommunicationService()->getBeaconMessages();
+            $this->getUser()->setAttribute(BeaconCommunicationsService::BEACON_MESSAGES_REQUIRED, false); 
+            $this->getBeaconCommunicationService()->getBeaconMessages();
         }
         if ($this->getUser()->hasAttribute(BeaconCommunicationsService::BEACON_FLASH_REQUIRED) && $this->getUser()->getAttribute(BeaconCommunicationsService::BEACON_FLASH_REQUIRED)) {
-           
+                $this->getUser()->setAttribute(BeaconCommunicationsService::BEACON_FLASH_REQUIRED, false); 
                 $this->getBeaconCommunicationService()->sendBeaconFlash();            
         }
         $this->getBeaconCommunicationService()->releaseLock();
