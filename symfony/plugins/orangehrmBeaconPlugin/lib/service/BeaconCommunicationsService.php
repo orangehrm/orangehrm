@@ -202,7 +202,7 @@ class BeaconCommunicationsService extends BaseService implements StateAccessible
 
     public function sendRegistrationMessage() {
         echo 'registering \n';
-        $url = "https://opensource-updates.orangehrm.com/app.php/register";
+        $url = "https://enterprise-updates.orangehrm.com/app.php/register";
         $data = http_build_query(array(
             'serverAddr' => array_key_exists('SERVER_ADDR', $_SERVER) ? urlencode($_SERVER['SERVER_ADDR']) : urlencode($_SERVER['LOCAL_ADDR']),
             'host' => urlencode(php_uname("s") . " " . php_uname("r")),
@@ -271,7 +271,7 @@ class BeaconCommunicationsService extends BaseService implements StateAccessible
 
     public function sendBeaconFlash() {
         echo 'flashing \n';
-        $url = "https://opensource-updates.orangehrm.com/app.php/flash";
+        $url = "https://enterprise-updates.orangehrm.com/app.php/flash";
         $data = $this->getBeaconDatapointService()->resolveAllDatapoints();
         $uuid = base64_decode($this->getBeaconConfigurationService()->getBeaconUuid());
 
@@ -329,7 +329,7 @@ class BeaconCommunicationsService extends BaseService implements StateAccessible
 
     public function getBeaconMessages() {
         echo "messages \n";
-        $url = "https://opensource-updates.orangehrm.com/app.php/messages";
+        $url = "https://enterprise-updates.orangehrm.com/app.php/messages";
         $uuid = base64_decode($this->getBeaconConfigurationService()->getBeaconUuid());
 
         $content = array();
