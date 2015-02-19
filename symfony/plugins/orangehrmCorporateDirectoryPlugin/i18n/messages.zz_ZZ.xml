@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE xliff PUBLIC "-//XLIFF//DTD XLIFF//EN" "http://www.oasis-open.org/committees/xliff/documents/xliff.dtd">
+<xliff version="1.0">
+ <header/>
+ <file source-language="en_US" target-language="zz_ZZ" datatype="plaintext" original="messages" date="2012-03-01T0:09:54Z" product-name="messages">
+  <body>
+    <trans-unit id="1">
+    <source>Directory</source>
+    <target>FR_Directory</target>
+   </trans-unit>
+   <trans-unit id="2">
+    <source>Search Listing</source>
+    <target>FR_Search Listing</target>
+   </trans-unit>
+   <trans-unit id="3">
+    <source>Search Results</source>
+    <target>FR_Search Results</target>
+   </trans-unit>
+   <trans-unit id="4">
+    <source>No records to display</source>
+    <target>FR_No records to display</target>
+   </trans-unit>   
+   <trans-unit id="5">
+    <source>Search Directory</source>
+    <target>FR_Search Directory</target>
+   </trans-unit>   
+  </body>
+ </file>
+</xliff>

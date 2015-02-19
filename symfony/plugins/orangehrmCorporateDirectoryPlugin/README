@@ -1,0 +1,12 @@
+Installation
+------------
+1.  Copy the content of the orangehrmCorporateDirectoryPlugin (release archive or 
+    SVN checkout) to symfony/plugins directory
+
+    URL for SVN Open Source checkout : https://orangehrm.svn.sourceforge.net/svnroot/orangehrm/branches/2012-ui
+    URL for Plugin checkout :
+
+2. Run following command to install the plugin
+./symfony orangehrm:Install-plugin --plugin="orangehrmCorporateDirectoryPlugin"
+
+3. Access the plugin functionality by cliking the top level menu "Directory"

@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE xliff PUBLIC "-//XLIFF//DTD XLIFF//EN" "http://www.oasis-open.org/committees/xliff/documents/xliff.dtd">
+<xliff version="1.0">
+ <header/>
+ <file source-language="en_US" target-language="fr_FR" datatype="plaintext" original="messages" date="2012-08-23T0:53:31Z" product-name="messages">
+  <body>
+   <trans-unit id="1">
+    <source>Directory</source>
+    <target>Directory</target>
+   </trans-unit>
+   <trans-unit id="2">
+    <source>Search Listing</source>
+    <target>Search Listing</target>
+   </trans-unit>
+   <trans-unit id="3">
+    <source>Search Results</source>
+    <target>Search Results</target>
+   </trans-unit>
+   <trans-unit id="4">
+    <source>No records to display</source>
+    <target>No records to display</target>
+   </trans-unit>   
+  </body>
+ </file>
+</xliff>
+<!-- Contributed By:   ,   ,   ,   ,  ANDY Mitchell , Abdo Kalil , Alagics Sixela , Alain  Hops , Alde Alde , Bob Mar , Christophe Chassat , Domenech Bruno , erf dfee , Fabien RICHARD , Fabien Valoggia , Faycal Chabane , Follin Guillaume , Kais Derouiche , Lionel Agbohouto , Luigi Ditello , Meriem BENMERADI , Michael French , Nicolas  Mariage , Patrick JUVEL , Thierry Ferrandiz -->
+

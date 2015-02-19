@@ -1,0 +1,63 @@
+input#searchDirectory_emp_name_empName {
+    height: auto;
+}
+
+.pagingbar{
+    float: right;
+}
+
+
+.table.table td {    
+    line-height: 20px;
+    padding: 7px;
+    vertical-align: top;
+}
+
+.box .top {
+    background: #f3f3f3 url(../images/h1-bg.png) left bottom repeat-x;    
+}
+
+.box .top h1 {
+    padding-top: 10px;
+    width: auto;
+    display: inline;
+    font-size:18px;
+    color:#5d5d5d;
+    line-height:20px;
+}
+
+#resultBox {
+    padding-top: 0;
+}
+
+
+
+box .inner {
+    background: #F7F6F6;
+    padding: 15px;
+    border: 1px solid #DEDEDE;
+    border-top: 1px solid #DEDEDE;
+}
+
+
+#divResults {
+    margin-bottom: 10px;
+    overflow: hidden;
+    padding-bottom: 13px;
+    width: 100%;
+
+}
+
+#divNoResults { 
+    overflow: hidden;  
+    width: 100%;
+}
+
+.box ul.top {
+    float: right;
+    padding: 20px 0 0;
+}
+
+#searchResults {
+    border-top: 1px solid #DEDEDE;
+}
