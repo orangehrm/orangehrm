@@ -25,7 +25,7 @@ class beaconAboutAjaxAction extends sfAction{
             $this->form->bind($request->getParameter($this->form->getName()));
              if ($this->form->isValid()) {
                  $result = $this->form->save();
-                 //$this->getUser()->setFlash($result['messageType'], $result['message']);
+                 $this->getUser()->setFlash($result['messageType'], $result['message']);
              }
         }
         

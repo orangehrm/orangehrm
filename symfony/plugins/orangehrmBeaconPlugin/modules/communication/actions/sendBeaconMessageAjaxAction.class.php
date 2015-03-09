@@ -23,6 +23,7 @@ class sendBeaconMessageAjaxAction extends sfAction {
     protected $beaconConfigService;
     protected $beaconDatapointService;
     protected $beaconCommunicationService;
+    
 
     /**
      * 
@@ -47,37 +48,39 @@ class sendBeaconMessageAjaxAction extends sfAction {
         }
         return $this->beaconDatapointService;
     }
-
+    
+    /**
+     * 
+     * @return BeaconConfigurationService
+     */
     protected function getBeaconConfigService() {
         if (is_null($this->beaconConfigService)) {
             $this->beaconConfigService = new BeaconConfigurationService();
         }
         return $this->beaconConfigService;
     }
-
+    
+    
     public function execute($request) {
-
+        
         if ($this->getUser()->hasAttribute(BeaconCommunicationsService::BEACON_ACTIVATION_REQUIRED) && $this->getUser()->getAttribute(BeaconCommunicationsService::BEACON_ACTIVATION_REQUIRED)) {
             $this->getUser()->setAttribute(BeaconCommunicationsService::BEACON_ACTIVATION_REQUIRED, false);
             $result = $this->getBeaconCommunicationService()->sendRegistrationMessage();
-            if (!$result) {
-                 $this->getBeaconCommunicationService()->releaseLock();
-                return sfView::NONE;                               
+            if ($result && $this->getBeaconConfigService()->getBeaconActivationAcceptanceStatus()=='on') {
+                $this->getBeaconCommunicationService()->getBeaconMessages();
+                $this->getBeaconCommunicationService()->sendBeaconFlash();
             }
-        } 
-        if($this->getUser()->hasAttribute(BeaconCommunicationsService::BEACON_MESSAGES_REQUIRED) && $this->getUser()->getAttribute(BeaconCommunicationsService::BEACON_MESSAGES_REQUIRED)) {
-            $this->getUser()->setAttribute(BeaconCommunicationsService::BEACON_MESSAGES_REQUIRED, false); 
+            $this->getBeaconCommunicationService()->releaseLock();
+        } else if ($this->getUser()->hasAttribute(BeaconCommunicationsService::BEACON_FLASH_REQUIRED) && $this->getUser()->getAttribute(BeaconCommunicationsService::BEACON_FLASH_REQUIRED)) {
+            $this->getUser()->setAttribute(BeaconCommunicationsService::BEACON_FLASH_REQUIRED, false);
             $this->getBeaconCommunicationService()->getBeaconMessages();
+            $this->getBeaconCommunicationService()->sendBeaconFlash();
+            $this->getBeaconCommunicationService()->releaseLock();
         }
-        if ($this->getUser()->hasAttribute(BeaconCommunicationsService::BEACON_FLASH_REQUIRED) && $this->getUser()->getAttribute(BeaconCommunicationsService::BEACON_FLASH_REQUIRED)) {
-                $this->getUser()->setAttribute(BeaconCommunicationsService::BEACON_FLASH_REQUIRED, false); 
-                $this->getBeaconCommunicationService()->sendBeaconFlash();            
-        }
-        $this->getBeaconCommunicationService()->releaseLock();
+
         return sfView::NONE;
     }
 
-    /**
-     * @return bool Description
-     */
+    
+
 }

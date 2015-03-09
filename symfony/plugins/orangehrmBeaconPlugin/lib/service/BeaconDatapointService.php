@@ -21,6 +21,12 @@
 class BeaconDatapointService extends BaseService {
 
     protected $beaconDatapointDao;
+    protected $beaconDatapointService;
+    protected $tableNames;
+    
+    public function setBeaconDatapointDao($beaconDatapointDao) {
+        $this->beaconDatapointDao = $beaconDatapointDao;
+    }
 
     protected function getBeaconDatapointDao() {
         if (is_null($this->beaconDatapointDao)) {
@@ -42,6 +48,7 @@ class BeaconDatapointService extends BaseService {
      */
     public function resolveAllDatapoints() {
         $datapoints = $this->getAllDatapoints();
+        
         $results = array();
         foreach ($datapoints as $point) {
             $datapointProcessor = $point->getDataPointType()->getActionClass();
@@ -51,11 +58,10 @@ class BeaconDatapointService extends BaseService {
                 $currentResult = $processor->process($point->getDefinition());
                 
                 if(isset($currentResult)) {
-                    $results[$name] =  $currentResult;
+                    $results[$name] = $currentResult;
                 }
             }
-        }
-        
+        }        
         return $results;
     }
     
@@ -71,5 +77,18 @@ class BeaconDatapointService extends BaseService {
     public function deleteDatapointByName($name) {
         return $this->getBeaconDatapointDao()->deleteDatapointByName($name);
     }    
+    
+    public function checkTableNameExists($tableName) {
+        
+        if(is_null($this->tableNames)) {
+            $this->tableNames = $this->getBeaconDatapointDao()->getTableNames();
+        }
+        
+        return is_numeric(array_search($tableName, $this->tableNames));
+    }
+    
+    public function getTableNames() {
+        return $this->getBeaconDatapointDao()->getTableNames();
+    }
     
 }

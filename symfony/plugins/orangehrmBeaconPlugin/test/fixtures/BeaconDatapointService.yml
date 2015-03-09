@@ -1,0 +1,60 @@
+set1:
+    1: 
+        id: 1 
+        name: 'company_name' 
+        datapointTypeId: 4 
+        definition: | 
+                    <datapoint type = "organization">
+                        <settings>
+                            <name>company_name</name>
+                        </settings>
+                        <parameters>
+                            <column>name</column>
+                        </parameters>
+                    </datapoint> 
+    2: 
+        id: 2 
+        name: no_of_active_employees
+        datapointTypeId: 2 
+        definition: |
+                    <datapoint type = "count">
+                        <settings>
+                            <name>no_of_active_employees</name>
+                        </settings>
+                        <parameters>
+                            <table>hs_hr_employee</table>
+                            <where><column>termination_id</column>
+                                <operation>IS NULL</operation>
+                            </where>
+                        </parameters>
+                    </datapoint>
+    3: 
+        id: 3 
+        name: no_of_distinct_logins
+        datapointTypeId: 2 
+        definition: |
+                    <datapoint type = "count">
+                        <settings>
+                            <name>no_of_distinct_logins</name>
+                        </settings>
+                    <parameters>
+                    <table>ohrm_login</table>
+                        <distinct>user_id</distinct>
+                    </parameters>
+                    </datapoint>
+    4: 
+        id: 4 
+        name: no_of_terminated_employees 
+        datapointTypeId: 2 
+        definition: |
+                    <datapoint type = "count">
+                    <settings>
+                        <name>no_of_terminated_employees</name>
+                    </settings>
+                    <parameters>
+                        <table>hs_hr_employee</table>
+                        <where><column>termination_id</column>
+                        <operation>IS NOT NULL</operation>
+                        </where>
+                    </parameters>
+                    </datapoint>

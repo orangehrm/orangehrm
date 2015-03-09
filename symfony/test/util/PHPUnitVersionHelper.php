@@ -1,4 +1,5 @@
 <?php
+
 /*
  *
  * OrangeHRM is a comprehensive Human Resource Management (HRM) System that captures
@@ -24,25 +25,27 @@
  * 
  */
 class PHPUnitVersionHelper {
-    
+
     public static function includeRequiredFiles() {
 
-      // Check PHPUnit Version.
-      require_once 'PHPUnit/Runner/Version.php';
-      $phpunitVersion = PHPUnit_Runner_Version::id();
+        // Check PHPUnit Version.
+        if (stream_resolve_include_path("PHPUnit/Runner/Version.php")) {
+            require_once 'PHPUnit/Runner/Version.php';
+            $phpunitVersion = PHPUnit_Runner_Version::id();
 
-      if (version_compare($phpunitVersion, '3.5.0') < 0) {
-        echo('Your version of PHPUnit is outdated. Detected version: ' . $phpunitVersion . ". Please update to 3.5 or newer.\n");
-      }
+            if (version_compare($phpunitVersion, '3.5.0') < 0) {
+                echo('Your version of PHPUnit is outdated. Detected version: ' . $phpunitVersion . ". Please update to 3.5 or newer.\n");
+            }
 
-      // PHPUnit >= 3.5 no longer requires Framework.php
-      if (version_compare($phpunitVersion, '3.5.0') >= 0) {
-        require_once 'PHPUnit/Autoload.php';
-      }
-      else {
-        require_once 'PHPUnit/Framework.php';
-      }
+            // PHPUnit >= 3.5 no longer requires Framework.php
+            if (version_compare($phpunitVersion, '3.5.0') >= 0) {
+                require_once 'PHPUnit/Autoload.php';
+            } else {
+                require_once 'PHPUnit/Framework.php';
+            }
+        }
     }
+
 }
 
 ?>

@@ -35,7 +35,7 @@ class OrganizationDataProcessor extends AbstractBaseProcessor {
                     $columnName = trim($datapoint->parameters->column . "");
                     $name = $datapoint->settings->name;
 
-                    $result = $organizationArray[$columnName];
+                    $result =  $organizationArray[$columnName];
                 }
             }
         } catch (Exception $exc) {

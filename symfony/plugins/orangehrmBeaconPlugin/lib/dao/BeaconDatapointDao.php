@@ -18,8 +18,16 @@
  * Please refer http://www.orangehrm.com/Files/OrangeHRM_Commercial_License.pdf for the license which includes terms and conditions on using this software.
  *
  */
+require_once ROOT_PATH."/lib/confs/Conf.php";
+
 class BeaconDatapointDao extends BaseDao {
 
+    /**
+     * returns all the datapoints in the datapoint table
+     * 
+     * @return Doctrine_Collection Datapoint 
+     * @throws DaoException
+     */
     public function getAllDatapoints() {
         try {
 
@@ -34,7 +42,15 @@ class BeaconDatapointDao extends BaseDao {
         }
         // @codeCoverageIgnoreEnd
     }
-
+    
+    /**
+     * return a doctrine collection containing a single record which is the 
+     * datapoint type identified by the name string
+     * 
+     * @param string $name
+     * @return Doctrine_Collection DatapointType
+     * @throws DaoException
+     */
     public function getDatapointTypeByName($name) {
         try {
 
@@ -50,10 +66,32 @@ class BeaconDatapointDao extends BaseDao {
         }
         // @codeCoverageIgnoreEnd
     }
-
+    
+    /**
+     * 
+     * @param string $name
+     * @return Doctrine_Collection DataPoint
+     * @throws DaoException
+     */
     public function getDatapointByName($name) {
         try {
             $query = Doctrine_Query::create()
+                    ->from('DataPoint')
+                    ->where('name = ?', $name);
+
+            return $query->fetchOne();
+            // @codeCoverageIgnoreStart
+        } catch (Exception $e) {
+            throw new DaoException($e->getMessage(), $e->getCode(), $e);
+        }
+        // @codeCoverageIgnoreEnd
+    }
+
+    public function deleteDatapointByName($name) {
+        try {
+
+            $query = Doctrine_Query::create()
+                    ->delete()
                     ->from('DataPoint')
                     ->where('name = ?', $name);
 
@@ -64,16 +102,19 @@ class BeaconDatapointDao extends BaseDao {
         }
         // @codeCoverageIgnoreEnd
     }
-
-    public function deleteDatapointByName($name) {
+    
+    public function getTableNames() {
         try {
-            
-            $query = Doctrine_Query::create()
-                    ->delete()
-                    ->from('DataPoint')
-                    ->where('name = ?', $name);
-            
-            return $query->execute();
+            $tableList = array();
+            $conf = new Conf();
+            $dbName = $conf->dbname;
+            $q = "show tables in " . $dbName;
+            $pdo = Doctrine_Manager::connection()->getDbh();
+            $sth = $pdo->prepare($q);
+            if ($sth->execute()) {
+                $tableList = $sth->fetchAll(PDO::FETCH_COLUMN);
+            }
+            return $tableList;
             // @codeCoverageIgnoreStart
         } catch (Exception $e) {
             throw new DaoException($e->getMessage(), $e->getCode(), $e);

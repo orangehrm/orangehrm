@@ -1,0 +1,100 @@
+DatapointType:
+    1: {id: 1, name: 'config', actionClass: 'configDatapointProcessor'}
+    2: {id: 2, name: 'count', actionClass: 'countDatapointProcessor'}
+    3: {id: 3, name: 'session', actionClass: 'sessionDatapointProcessor'}
+    4: {id: 4, name: 'organization', actionClass: 'OrganizationDataProcessor'}
+
+Datapoint:
+    1: 
+        name: company_name
+        datapointTypeId: 4 
+        definition: |
+                    <datapoint type = "organization">
+                    <settings>
+                    <name>company_name</name>
+                    </settings>
+                    <parameters>
+                    <column>name</column>
+                    </parameters>
+                    </datapoint>
+    2: 
+        name: no_of_active_employees
+        datapointTypeId: 2 
+        definition: |
+                    <datapoint type = "count">
+                    <settings>
+                    <name>no_of_active_employees</name>
+                    </settings>
+                    <parameters>
+                    <table>hs_hr_employee</table>
+                    <where><column>termination_id</column>
+                    <operation>IS NULL</operation>
+                    </where>
+                    </parameters>
+                    </datapoint>
+    3: 
+        name: no_of_distinct_logins
+        datapointTypeId: 2 
+        definition: |
+                    <datapoint type = "count">
+                    <settings>
+                    <name>no_of_distinct_logins</name>
+                    </settings>
+                    <parameters>
+                    <table>ohrm_login</table>
+                    <distinct>user_id</distinct>
+                    </parameters>
+                    </datapoint>
+    4: 
+        name: no_of_terminated_employees 
+        datapointTypeId: 2 
+        definition: |
+                    <datapoint type = "count">
+                    <settings>
+                    <name>no_of_terminated_employees</name>
+                    </settings>
+                    <parameters>
+                    <table>hs_hr_employee</table>
+                    <where><column>termination_id</column>
+                    <operation>IS NOT NULL</operation>
+                    </where>
+                    </parameters>
+                    </datapoint>
+    5:
+        name: no_of_country_employees 
+        datapointTypeId: 2 
+        definition: |
+                    <datapoint type = "count">
+                    <settings>
+                    <name>no_of_country_employees</name>
+                    </settings>
+                    <parameters>
+                    <table>hs_hr_employee</table>
+                    <alias>e</alias>
+                    <join>
+                    <type>left</type>
+                    <table>hs_hr_emp_locations</table>
+                    <alias>el</alias>
+                    <on><left>e.emp_number</left>
+                    <right>el.emp_number</right></on>
+                    </join>
+                    <join>
+                    <type>left</type>
+                    <table>ohrm_location</table>
+                    <alias>l</alias>
+                    <on><left>el.location_id</left>
+                    <right>l.id</right></on>
+                    </join>
+                    <where>                    
+                    <column>e.termination_id</column>
+                    <operation>is null</operation>                    
+                    </where>                    
+                    <where>
+                    <connector>AND</connector>
+                    <column>l.country_code</column>
+                    <operation>=</operation>
+                    <value>LK</value>
+                    </where>
+                    <groupby>l.country_code</groupby>
+                    </parameters>
+                    </datapoint>

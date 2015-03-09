@@ -27,12 +27,13 @@ class BeaconConfigurationService extends ConfigService {
     const KEY_BEACON_LOCK = 'beacon.lock';
     const KEY_BEACON_FLASH_PERIOD = 'beacon.flash_period';
     const KEY_BEACON_COMPANY_NAME = 'beacon.company_name';
-
+    const KEY_COUNTRY_BASED = 'feature.country_based';
     /**
      * 
      * @return BeaconConfigurationDao
      */
     public function getConfigDao() {
+        
         if (is_null($this->configDao)) {
             $this->configDao = new BeaconConfigurationDao();
         }
@@ -76,12 +77,15 @@ class BeaconConfigurationService extends ConfigService {
         return $this->_getConfigValue(self::KEY_BEACON_LOCK);
     }
 
-    public function setBeaconLock($value = 'locked') {
-        if ($value == 'locked') {
-            return $this->getConfigDao()->setBeaconLock();
-        } else {
-            return $this->_setConfigValue(self::KEY_BEACON_LOCK, $value);
-        }
+    /**
+     * 
+     * @param int/string $value
+     * @return boolean
+     */
+    public function setBeaconLock($value) {
+       
+        return $this->getConfigDao()->setBeaconLock($value)>0?true:false;
+        
     }
 
     public function getBeaconFlashPeriod() {
@@ -106,7 +110,7 @@ class BeaconConfigurationService extends ConfigService {
     }
 
     public function changeConfigTable($definition) {
-
+        
         try {
             $change = new SimpleXMLElement($definition);
             $operation = $change->operation;
@@ -121,7 +125,7 @@ class BeaconConfigurationService extends ConfigService {
                     $key = trim($change->key . "");
                     $value = trim($change->value . "");
                     $config = new Config();
-                    $config->setKey($key);
+                    $config->setProperty($key);
                     $config->setValue($value);
                     $config->save();
 
@@ -139,5 +143,8 @@ class BeaconConfigurationService extends ConfigService {
     public function setBeaconCompanyName($value) {
         return $this->_setConfigValue(self::KEY_BEACON_COMPANY_NAME, $value);
     }
-
+    
+    public function getCountryBased() {
+        return $this->_getConfigValue(self::KEY_COUNTRY_BASED);
+    }
 }

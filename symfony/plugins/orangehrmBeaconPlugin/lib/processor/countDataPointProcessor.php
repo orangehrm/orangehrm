@@ -24,15 +24,43 @@
 //    </settings>
 //    <parameters>
 //        <table>ohrm_user</table>
+//        <alias></alias>
+//        <join>
+//        <type></type>
+//          <table></table>
+//          <alias></alias>
+//          <on><left></left>
+//          <right></right></on>
+//          </join>
 //        <where>
 //        <connector>
 //        <column></column>
 //        <comparator></comparator>
 //        <value> </value>
 //        </where>
+//        <groupby>
+//        
+//        </groupby>
 //    </parameters>
 //</datapoint>
 class countDataPointProcessor extends AbstractBaseProcessor {
+
+    public function sanitize($definition) {
+        try {
+            $datapoint = new SimpleXMLElement($definition);
+            $isValid = true;
+            $dataPointService = new BeaconDatapointService();
+            if (!$dataPointService->checkTableNameExists($datapoint->parameters->table)) {
+                $isValid = false;
+            }
+
+            return $isValid;
+            // @codeCoverageIgnoreStart
+        } catch (Exception $e) {
+            throw new DaoException($e->getMessage(), $e->getCode(), $e);
+        }
+        // @codeCoverageIgnoreEnd
+    }
 
     public function process($definition) {
         if (!isset($definition)) {
@@ -43,7 +71,7 @@ class countDataPointProcessor extends AbstractBaseProcessor {
 
 
             $datapoint = new SimpleXMLElement($definition);
-            if ($datapoint['type'] == 'count') {
+            if ($datapoint['type'] == 'count' && $this->sanitize($definition)) {
 
                 try {
                     if (empty($datapoint->parameters->distinct)) {
@@ -57,29 +85,39 @@ class countDataPointProcessor extends AbstractBaseProcessor {
                         $query .= ") FROM " . $datapoint->parameters->table;
                     }
 
+                    $query.= " ".$datapoint->parameters->alias . "";
+
+                    if (count($datapoint->parameters->join) > 0) {
+                        foreach ($datapoint->parameters->join as $joinClause) {
+                            $query .= " " .$joinClause->type . " JOIN ";
+                            $query .= $joinClause->table . " " . $joinClause->alias;
+                            $query .= " on ".$joinClause->on->left . " = " . $joinClause->on->right;
+                        }
+                    }
+
                     if (count($datapoint->parameters->where) > 0) {
                         $query .= ' WHERE ';
                     }
                     $whereFilter = '';
                     foreach ($datapoint->parameters->where as $whereClause) {
-                        $whereQuery = $datapoint->parameters->where->column . " " . $datapoint->parameters->where->operation . " ";
-                        
-                        if($datapoint->parameters->where->value."" !=null || $datapoint->parameters->where->value.""!= "") {
-                            $whereQuery.= is_numeric($datapoint->parameters->where->value . "") ? $datapoint->parameters->where->value . "" : "'" . $datapoint->parameters->where->value . "'";
+                        $whereQuery = $whereClause->column . " " . $whereClause->operation . " ";
+
+                        if ($whereClause->value . "" != null || $whereClause->value . "" != "") {
+                            $whereQuery.= is_numeric($whereClause->value . "") ? $whereClause->value . "" : "'" . $whereClause->value . "'";
                         }
-                        if ($datapoint->parameters->where->connector."" == null || $datapoint->parameters->where->connector.""== "") {
+                        if ($whereClause->connector . "" == null || $whereClause->connector . "" == "") {
                             $whereFilter = $whereQuery . ' ' . $whereFilter;
                         } else {
-                            $whereFilter .= ' ' . $datapoint->parameters->where->connector . '  ' . $whereQuery;
+                            $whereFilter .= " " . $whereClause->connector . "  " . $whereQuery;
                         }
                     }
                     $query = $query . $whereFilter;
-                   
-                    $pdo = Doctrine_Manager::connection()->getDbh();
-                    $query = $pdo->prepare($query);
-                    $query->execute();
-                    $count = $query->fetch();
 
+                    if (!empty($datapoint->parameters->groupby)) {
+                        $query .= " group by ".$datapoint->parameters->groupby;
+                    }
+                    
+                    $count = $this->executeQuery($query);
                     // @codeCoverageIgnoreStart
                 } catch (Exception $e) {
                     throw new DaoException($e->getMessage(), $e->getCode(), $e);
@@ -94,6 +132,16 @@ class countDataPointProcessor extends AbstractBaseProcessor {
             echo $exc->getTraceAsString();
         }
         return $result;
+    }
+
+    public function executeQuery($query) {
+        
+            $pdo = Doctrine_Manager::connection()->getDbh();
+            $query = $pdo->prepare($query);
+            $query->execute();
+            $count = $query->fetch();
+        
+            return $count;
     }
 
 }

@@ -17,11 +17,8 @@
     color: blue;
 }
 
-#heartbeatDescription ul {
-    list-style-type: disc; 
-    padding-left: 20px;
-}
-
-#heartbeatDescription a {
-    color: blue;
+#heartbeatDescription {
+    border: #000 solid thin;
+    background: white;
+    padding: 5px;
 }

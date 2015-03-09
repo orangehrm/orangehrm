@@ -1,0 +1,32 @@
+
+BeaconNotification:
+    1 : 
+        name: 'link_notification' 
+        expiryDate: '2014-10-30 12:04:30' 
+        definition :  |
+                      <notification>
+                      <settings><name>link_notification</name>
+                      <period>604800</period></settings>
+                      <content><header>Welcome To OHRM</header>
+                      <body><![CDATA[<p>Welcome to the most popular open source product in the world.</p><a href="https://twiki.orangehrm.com/bin/view/OrangeHRM/EXECreation">here</a>]]></body></content>
+                      </notification>
+    2: 
+        name: 'orangehrm_welcome' 
+        expiryDate: '2014-10-30 12:04:30' 
+        definition : |
+                      <notification>
+                      <settings><name>orangehrm_welcome</name>
+                      <period>604800</period></settings>
+                      <content><header>Welcome To OHRM</header>
+                      <body><![CDATA[<p>Welcome to the most popular open source product in the world.</p><a href="https://twiki.orangehrm.com/bin/view/OrangeHRM/EXECreation">here</a>]]></body></content>
+                      </notification>
+    3 : 
+        name: 'link_notification' 
+        expiryDate: '2014-10-30 12:04:30' 
+        definition : | 
+                     <notification>
+                     <settings><name>link_notification</name>
+                     <period>604800</period></settings>
+                     <content><header>Welcome To OHRM</header>
+                     <body><![CDATA[<p>Welcome to the most popular open source product in the world.</p><a href="https://twiki.orangehrm.com/bin/view/OrangeHRM/EXECreation">here</a>]]></body></content>
+                     </notification>

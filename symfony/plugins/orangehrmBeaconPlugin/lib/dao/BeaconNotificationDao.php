@@ -20,10 +20,10 @@ class BeaconNotificationDao extends BaseDao {
     public function getNotificationByName($name) {
         try {
             $query = Doctrine_Query::create()
-                    ->from('DataPoint')
+                    ->from('BeaconNotification')
                     ->where('name = ?', $name);
-
-            return $query->execute();
+            
+            return $query->fetchOne();
             // @codeCoverageIgnoreStart
         } catch (Exception $e) {
             throw new DaoException($e->getMessage(), $e->getCode(), $e);
