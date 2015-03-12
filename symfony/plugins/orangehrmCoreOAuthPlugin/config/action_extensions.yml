@@ -1,0 +1,5 @@
+api:
+  wsCall:
+    pre:
+      - { service: OAuthService, method: validateRequest, messages: [] }
+    post: []

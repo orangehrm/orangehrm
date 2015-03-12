@@ -1,0 +1,16 @@
+OAuthClient:
+  tableName: ohrm_oauth_client
+  columns:
+    client_id:
+      name: client_id as clientId
+      type: string(80)
+      notnull: true
+      primary: true
+    client_secret:
+      name: client_secret as clientSecret
+      type: string(80)
+      notnull: true
+    redirect_uri:
+      name: redirect_uri as redirectUri
+      type: string(2000)
+      notnull: true

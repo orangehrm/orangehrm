@@ -1,0 +1,4 @@
+plugin_name: orangehrmCoreOAuthPlugin
+dbscript_path: install/dbscript.sql
+symfony_commands: { 0: php symfony orangehrm:publish-assets,1: php symfony doctrine:build-model,2: php symfony cc}
+ 

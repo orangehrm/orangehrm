@@ -1,0 +1,7 @@
+methods:
+  getJobTitleList:
+    wrapper: AdminWebServiceWrapper
+    group: admin
+  getLocationList:
+    wrapper: AdminWebServiceWrapper
+    group: admin

@@ -1,0 +1,10 @@
+WSConsumer:
+  tableName: ohrm_ws_consumer
+  columns:
+    app_id:
+      type: integer
+      primary: true
+      autoincrement: true
+    app_token: string(10)
+    app_name: string(50)
+    status: int

@@ -18,6 +18,9 @@ class orangehrmCorporateDirectoryPluginAllTests {
         /* Dao Test Cases */
         $suite->addTestFile(dirname(__FILE__) . '/model/dao/EmployeeDirectoryDaoTest.php');
         $suite->addTestFile(dirname(__FILE__) . '/model/service/EmployeeDirectoryServiceTest.php');
+        
+        /* Helper Test */
+        $suite->addTestFile(dirname(__FILE__) . '/model/wrapper/CorporateDirectoryWebServiceHelperTest.php');
 
         return $suite;
     }

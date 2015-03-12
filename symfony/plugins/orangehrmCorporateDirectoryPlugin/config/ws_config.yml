@@ -1,0 +1,4 @@
+methods:
+  getCorporateDirectoryEmployeeDetails:
+    wrapper: CorporateDirectoryWebServiceWrapper
+    group: corporateDirectory

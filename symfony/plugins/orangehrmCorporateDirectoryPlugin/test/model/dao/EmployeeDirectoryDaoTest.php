@@ -38,7 +38,7 @@ class EmployeeDirectoryDaoTest extends PHPUnit_Framework_TestCase {
     public function testGetSearchEmployeeCount() {
         $result = $this->employeeDirectoryDao->getSearchEmployeeCount();
         $this->assertTrue(!empty($result));
-        $this->assertEquals('5', $result);
+        $this->assertEquals('6', $result);
     }
 
     public function testSearchEmployeeList() {
@@ -65,6 +65,21 @@ class EmployeeDirectoryDaoTest extends PHPUnit_Framework_TestCase {
         $this->assertEquals(2, count($result));
         $this->assertEquals(2, $result[0]->getEmpNumber());
         $this->assertEquals(3, $result[1]->getEmpNumber());
+    }
+    
+    
+     public function testSearchEmployeeListByNameReturnsAllEmployeContactDetails() {
+         $parameterHolder = $this->_getParameterHolder();
+         $filters = $parameterHolder->getFilters();
+         $filters['employee_name'] = 'kamal';
+         $parameterHolder->setFilters($filters);
+         
+        $employeeCollection  = $this->employeeDirectoryDao->searchEmployees($parameterHolder);
+        $this->assertEquals($employeeCollection[0]->getFirstName(), 'kamal');
+        $this->assertEquals(1, count($employeeCollection));
+        $this->assertEquals('4444', $employeeCollection[0]->getEmpMobile());
+        $this->assertEquals('3333', $employeeCollection[0]->getEmpHmTelephone());
+        $this->assertEquals('aaa@aaa.com', $employeeCollection[0]->getEmpOthEmail());
     }
     
     private function _getParameterHolder() {

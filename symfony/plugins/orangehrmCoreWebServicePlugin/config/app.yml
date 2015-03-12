@@ -1,0 +1,3 @@
+all:
+  orangehrmCoreWebServicePlugin:
+    version: '1.0'

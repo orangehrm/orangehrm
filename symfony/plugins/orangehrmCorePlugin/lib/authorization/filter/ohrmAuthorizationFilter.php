@@ -69,6 +69,10 @@ class ohrmAuthorizationFilter extends sfFilter {
                 $filterChain->execute();
                 return;            
             }
+        } catch (sfStopException $e) {
+            // sfStopException is a symfony internal exception and
+            //  shouldn't be treated as a normal exception
+            throw $e;
         } catch (Exception $e) {
             $logger->error('Error getting is_secure value for action: ' . $e);            
             $this->forwardToSecureAction();              

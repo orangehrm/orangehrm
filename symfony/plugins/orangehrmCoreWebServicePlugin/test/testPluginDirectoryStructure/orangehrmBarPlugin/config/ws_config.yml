@@ -1,0 +1,7 @@
+methods:
+  methodA:
+    wrapper: ClassA
+    group: test1
+  exampleMethod:
+    wrapper: ExampleServiceWrapper
+    group: test2

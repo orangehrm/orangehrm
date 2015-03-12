@@ -1,0 +1,7 @@
+methods:
+  methodC:
+    wrapper: ClassC
+    group: test1
+  methodD:
+    wrapper: ClassD
+    group: test2

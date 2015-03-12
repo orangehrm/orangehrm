@@ -129,7 +129,7 @@ class EmployeeDirectoryDao extends BaseDao{
                 'cs.name AS subDivision, cs.id AS subDivisionId,' .
                 'j.job_title AS jobTitle, j.id AS jobTitleId, j.is_deleted AS isDeleted, ' .
                 'es.name AS employeeStatus, es.id AS employeeStatusId, '.
-                'e.emp_work_telephone, e.emp_work_email,'.
+                'e.emp_hm_telephone,  e.emp_mobile, e.emp_work_telephone, e.emp_work_email, e.emp_oth_email, '.
 
                 'GROUP_CONCAT(s.emp_firstname, \'## \', s.emp_middle_name, \'## \', s.emp_lastname) AS supervisors,'.
                 'GROUP_CONCAT(DISTINCT loc.id, \'##\',loc.name) AS locationIds';
@@ -343,8 +343,11 @@ class EmployeeDirectoryDao extends BaseDao{
                     $employee->setMiddleName($row['middleName']);
                     $employee->setLastName($row['lastName']);
                     $employee->setTerminationId($row['terminationId']);
+                    $employee->setEmpHmTelephone($row['emp_hm_telephone']);
+                    $employee->setEmpMobile($row['emp_mobile']);
                     $employee->setEmpWorkTelephone($row['emp_work_telephone']);
                     $employee->setEmpWorkEmail($row['emp_work_email']);
+                    $employee->setEmpOthEmail($row['emp_oth_email']);
  
                     $jobTitle = new JobTitle();
                     $jobTitle->setId($row['jobTitleId']);

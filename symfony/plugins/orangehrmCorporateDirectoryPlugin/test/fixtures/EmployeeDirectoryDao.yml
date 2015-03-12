@@ -17,6 +17,7 @@ Employee:
   Employee_3: { emp_number: '3', emp_lastname: Perera, emp_firstname: Ashan, emp_middle_name: Kumara, emp_hm_telephone: null, emp_mobile: null, emp_work_telephone: null, emp_work_email: null, job_title_code: 2}
   Employee_4: { emp_number: '4', emp_lastname: Fernando, emp_firstname: Chuck, emp_middle_name: Neel, emp_hm_telephone: null, emp_mobile: null, emp_work_telephone: null, emp_work_email: null, job_title_code: 3}
   Employee_5: { emp_number: '5', emp_lastname: Jayasekara, emp_firstname: Pasindu, emp_middle_name: Malin, emp_hm_telephone: null, emp_mobile: null, emp_work_telephone: null, emp_work_email: null, job_title_code: 4}
+  Employee_6: { emp_number: '6', emp_lastname: jayasinghe, emp_firstname: kamal, emp_middle_name: Malin, emp_hm_telephone: 3333, emp_mobile: 4444, emp_work_telephone: 5555, emp_work_email: bbb@bbb.com, emp_oth_email: aaa@aaa.com, job_title_code: 4}
   
 Country:
   0: {cou_code: 'LK', name: 'SRI LANKA', cou_name: 'Sri Lanka', iso3: 'LKA', numcode: 144}

@@ -1,0 +1,10 @@
+methods:
+  getEmployeeList:
+    wrapper: EmployeeServiceWrapper
+    group: pim
+  addEmployee:
+    wrapper: EmployeeServiceWrapper
+    group: pim
+  deleteEmployee:
+    wrapper: EmployeeServiceWrapper
+    group: pim
