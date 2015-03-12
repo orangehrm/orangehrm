@@ -53,18 +53,8 @@ class AuthenticationService extends BaseService {
         $user = $this->getSystemUserService()->getCredentials($username, $password);
         return (!(is_null($user) || !$user));
     }
-
-    /**
-     *
-     * @param string $username
-     * @param string $password
-     * @param array $additionalData
-     * @return bool
-     * @throws AuthenticationServiceException
-     */
-    public function setCredentials($username, $password, $additionalData) {
-        $user = $this->getSystemUserService()->getCredentials($username, $password);
-
+    
+    public function setCredentialsForUser($user, $additionalData) {  
         if (is_null($user) || !$user) {
             return false;
         } else {
@@ -86,11 +76,25 @@ class AuthenticationService extends BaseService {
             $this->setRoleBasedUserAttributesToSession($user);
             $this->setSystemBasedUserAttributes($user, $additionalData);
             $this->setSystemBasedUserAttributesToSession($user, $additionalData);
-
-            $this->getCookieManager()->setCookie('Loggedin', 'True', 0, '/');
+            
+            $webRoot = sfContext::getInstance()->getRequest()->getRelativeUrlRoot();
+            $this->getCookieManager()->setCookie('Loggedin', 'True', 0, $webRoot);
             return true;
         }
         return true;
+    }
+
+    /**
+     *
+     * @param string $username
+     * @param string $password
+     * @param array $additionalData
+     * @return bool
+     * @throws AuthenticationServiceException
+     */
+    public function setCredentials($username, $password, $additionalData) {
+        $user = $this->getSystemUserService()->getCredentials($username, $password);
+        return $this->setCredentialsForUser($user, $additionalData);
     }
 
     /**
