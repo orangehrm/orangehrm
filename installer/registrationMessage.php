@@ -14,7 +14,7 @@ $data = http_build_query(array(
     'httphost' => urlencode($_SERVER['HTTP_HOST']),
     'phpVersion' => urlencode(constant('PHP_VERSION')),
     'server' => urlencode($_SERVER['SERVER_SOFTWARE']),
-    'ohrmVersion' => urlencode('Open Source 3.2.2'),
+    'ohrmVersion' => urlencode('Open Source 3.3'),
         ));
 
 

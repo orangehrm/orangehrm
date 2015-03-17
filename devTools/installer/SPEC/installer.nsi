@@ -153,7 +153,7 @@ SectionGroup /e "OrangeHRM Appliance" SecGrpOrangeHRMAppliance
 
     SectionEnd
 
-    Section "OrangeHRM 3.2.2" SecOrangeHRM
+    Section "OrangeHRM 3.3" SecOrangeHRM
 
         SetOutPath "$INSTDIR\htdocs\${OrangeHRMPath}"
         File /a /r "${SourceLocation}\${OrangeHRMPath}\"
@@ -200,9 +200,9 @@ Section "-Register the application"
       WriteRegStr HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\${ProductName}" "UninstallString" "$INSTDIR\uninstall.exe"
 
       WriteRegStr HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\${ProductName}" "InstallLocation" "$INSTDIR"
-      WriteRegStr HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\${ProductName}" "VersionMajor" "3.2.2"
+      WriteRegStr HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\${ProductName}" "VersionMajor" "3.3"
       WriteRegStr HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\${ProductName}" "VersionMinor" "2"
-      WriteRegStr HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\${ProductName}" "DisplayVersion" "3.2.2"
+      WriteRegStr HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\${ProductName}" "DisplayVersion" "3.3"
 
       WriteRegStr HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\${ProductName}" "Publisher" "${Organization}"
       WriteRegStr HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\${ProductName}" "HelpLink" "http://orangehrm.com/home/index.php?option=com_content&task=blogsection&id=13&Itemid=87"
@@ -313,7 +313,7 @@ Section "-Complete"
 	  nsExec::ExecToLog '"$INSTDIR\mysql\bin\mysql" -u root -D orangehrm_mysql -e "source $INSTDIR\htdocs\orangehrm-${ProductVersion}\dbscript\dbscript-functions.sql"'
 	  
       DetailPrint "Registering Product"
-      inetc::post "register" "http://127.0.0.1/orangehrm-3.2.2/installer/registrationMessage.php" "$INSTDIR\output.txt" 
+      inetc::post "register" "http://127.0.0.1/orangehrm-3.3/installer/registrationMessage.php" "$INSTDIR\output.txt" 
 
 SectionEnd
 
@@ -485,7 +485,7 @@ FunctionEnd
   LangString DESC_SecApache ${LANG_ENGLISH} "Apache web server"
   LangString DESC_SecMySQL ${LANG_ENGLISH} "MySQL database server"
   LangString DESC_SecPHP ${LANG_ENGLISH} "PHP Hypertext Preprocessor"
-  LangString DESC_SecOrangeHRM ${LANG_ENGLISH} "OrangeHRM 3.2.2"
+  LangString DESC_SecOrangeHRM ${LANG_ENGLISH} "OrangeHRM 3.3"
   LangString DESC_SecGrpExtraComponents ${LANG_ENGLISH} "Extra components to make OrangeHRM better"
 
   LangString DESC_SecSendmail ${LANG_ENGLISH} "Sendmail mail transfer agent"
