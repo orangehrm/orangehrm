@@ -23,6 +23,7 @@ class AddEmployeeForm extends sfForm {
     private $userService;
     private $widgets = array();
     public $createUserAccount = 0;
+    protected $openIdEnabled  = false;
 
     /**
      * Get EmployeeService
@@ -56,6 +57,10 @@ class AddEmployeeForm extends sfForm {
     public function configure() {
 
         $status = array('Enabled' => __('Enabled'), 'Disabled' => __('Disabled'));
+        
+        if($this->getOption('openIdEnabled') == 'on'){
+            $this->openIdEnabled = true;
+        }
 
         $idGenService = new IDGeneratorService();
         $idGenService->setEntity(new Employee());
@@ -70,7 +75,7 @@ class AddEmployeeForm extends sfForm {
             'photofile' => new sfWidgetFormInputFileEditable(array('edit_mode' => false, 'with_delete' => false, 
                 'file_src' => ''), array("class" => "duplexBox")),
             'chkLogin' => new sfWidgetFormInputCheckbox(array('value_attribute_value' => 1), array()),
-            'user_name' => new sfWidgetFormInputText(array(), array("class" => "formInputText", "maxlength" => 20)),
+            'user_name' => new sfWidgetFormInputText(array(), array("class" => "formInputText", "maxlength" => 40)),
             'user_password' => new sfWidgetFormInputPassword(array(), array("class" => "formInputText passwordRequired", 
                 "maxlength" => 20)),
             're_password' => new sfWidgetFormInputPassword(array(), array("class" => "formInputText passwordRequired", 
@@ -112,7 +117,7 @@ class AddEmployeeForm extends sfForm {
             'middleName' => new sfValidatorString(array('required' => false, 'max_length' => 30, 'trim' => true)),
             'employeeId' => new sfValidatorString(array('required' => false, 'max_length' => 10)),
             'chkLogin' => new sfValidatorString(array('required' => false)),
-            'user_name' => new sfValidatorString(array('required' => false, 'max_length' => 20, 'trim' => true)),
+            'user_name' => new sfValidatorString(array('required' => false, 'max_length' => 40, 'trim' => true)),
             'user_password' => new sfValidatorString(array('required' => false, 'max_length' => 20, 'trim' => true)),
             're_password' => new sfValidatorString(array('required' => false, 'max_length' => 20, 'trim' => true)),
             'status' => new sfValidatorString(array('required' => false))
@@ -216,7 +221,7 @@ class AddEmployeeForm extends sfForm {
         if (trim($posts['user_name']) != "") {
             $userService = $this->getUserService();
 
-            if (trim($posts['user_password']) != "" && $posts['user_password'] == $posts['re_password']) {
+            if ((trim($posts['user_password']) != "" && $posts['user_password'] == $posts['re_password']) || (trim($posts['user_password']) == "" && $this->openIdEnabled)) {
                 $user = new SystemUser();
                 $user->setDateEntered(date('Y-m-d H:i:s'));
                 $user->setCreatedBy(sfContext::getInstance()->getUser()->getAttribute('user')->getUserId());

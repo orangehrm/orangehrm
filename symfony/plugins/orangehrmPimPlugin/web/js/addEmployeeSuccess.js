@@ -1,6 +1,6 @@
 $(document).ready(function() {
     
-    if (ldapInstalled == 'true') {
+    if (ldapInstalled == 'true' || openIdEnabled == 'on') {
         $("#password_required").hide();
         $("#rePassword_required").hide();
     }    
@@ -63,7 +63,7 @@ $(document).ready(function() {
             if(value.length < 5) {
                 return false;
             }
-        } else if ($("#chkLogin").is(':checked') && (ldapInstalled == 'true')) {
+        } else if ($("#chkLogin").is(':checked') && (ldapInstalled == 'true' || openIdEnabled == 'on')) {
             if(value.length < 1) {
                 return false;
             }
@@ -72,7 +72,7 @@ $(document).ready(function() {
     });
 
     $.validator.addMethod("validatePassword", function(value, element) {
-        if($("#chkLogin").is(':checked') && !(ldapInstalled == 'true')) {
+        if($("#chkLogin").is(':checked') && !(ldapInstalled == 'true' || openIdEnabled == 'on')) {
             if(value.length < 4) {
                 return false;
             }

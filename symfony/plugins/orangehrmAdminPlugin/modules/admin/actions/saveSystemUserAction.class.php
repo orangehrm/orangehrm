@@ -20,6 +20,7 @@
 class saveSystemUserAction extends sfAction {
 
     private $systemUserService;
+    private $configService;
 
     public function getSystemUserService() {        
         if (is_null($this->systemUserService)) {
@@ -41,6 +42,17 @@ class saveSystemUserAction extends sfAction {
             $this->form = $form;
         }
     }
+    
+    /**
+     * 
+     * @return SecurityAuthenticationConfigService
+     */
+    public function getConfigService() {
+        if (is_null($this->configService)) {
+            $this->configService = new ConfigService();
+        }
+        return $this->configService;
+    }
 
     /**
      *
@@ -54,7 +66,8 @@ class saveSystemUserAction extends sfAction {
         
         /* For highlighting corresponding menu item */
         $request->setParameter('initialActionName', 'viewSystemUsers');
-
+        $this->openIdEnabled = $openIdConfig = $this->getConfigService()->getOpenIdProviderAdded();
+        
         $this->userId = $request->getParameter('userId');
         $values = array('userId' => $this->userId, 'sessionUser' => $this->getUser()->getAttribute('user'));
         $this->setForm(new SystemUserForm(array(), $values));

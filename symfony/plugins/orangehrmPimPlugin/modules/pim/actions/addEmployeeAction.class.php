@@ -29,10 +29,24 @@ class addEmployeeAction extends basePimAction {
             $this->form = $form;
         }
     }
+    
+     /**
+     * Get ConfigService
+     * @return ConfigService
+     */
+    public function getConfigService() {
+        if (is_null($this->configService)) {
+            $this->configService = new ConfigService();
+        }
+        return $this->configService;
+    }
 
     public function execute($request) {
         $allowedToAddEmployee = $this->getContext()->getUserRoleManager()->isActionAllowed(PluginWorkflowStateMachine::FLOW_EMPLOYEE, 
                 Employee::STATE_NOT_EXIST, PluginWorkflowStateMachine::EMPLOYEE_ACTION_ADD);
+        
+        $this->openIdEnabled = $this->getConfigService()->getOpenIdProviderAdded();
+        
         if ($allowedToAddEmployee) {
 
             $this->showBackButton = true;
@@ -56,7 +70,8 @@ class addEmployeeAction extends basePimAction {
                 }
             }
 
-            $this->setForm(new AddEmployeeForm(array(), $postArray, true));
+            $optionsForForm = array('openIdEnabled' => $this->openIdEnabled);
+            $this->setForm(new AddEmployeeForm(array(), $optionsForForm, true));
 
             if ($this->getUser()->hasFlash('templateMessage')) {
                 unset($_SESSION['addEmployeePost']);

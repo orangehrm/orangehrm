@@ -62,5 +62,6 @@ use_javascript(plugin_web_path('orangehrmAdminPlugin', 'js/password_strength'));
     var isEditMode                  = '<?php echo ($form->edited)?'true':'false'; ?>';
     var ldapInstalled               = '<?php echo ($sf_user->getAttribute('ldap.available'))?'true':'false'; ?>';
     var validator = null;
+    var openIdEnabled = "<?php echo $openIdEnabled; ?>";
 
 </script>

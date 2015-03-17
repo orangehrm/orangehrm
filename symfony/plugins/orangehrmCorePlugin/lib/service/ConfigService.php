@@ -47,6 +47,8 @@ class ConfigService extends BaseService {
     const KEY_ADMIN_DEFAULT_WORKSHIFT_START_TIME = 'admin.default_workshift_start_time';
     const KEY_ADMIN_DEFAULT_WORKSHIFT_END_TIME = 'admin.default_workshift_end_time';
     const KEY_AUTH_LOGINS = 'auth.logins';
+    const KEY_OPENID_PROVIDER_ADDED = 'openId.provider.added';
+    
     /**
      * Get ConfigDao
      * @return ConfigDao
@@ -332,6 +334,21 @@ class ConfigService extends BaseService {
         $this->_getConfigValue(self::KEY_AUTH_LOGINS);
     }
     
+    /**
+     * Get openId provider added value
+     * @return int
+     */
+    public function getOpenIdProviderAdded() {
+        return $this->_getConfigValue(self::KEY_OPENID_PROVIDER_ADDED);
+    }
+
+    /**
+     * Set openId provider added value
+     * @param type $value
+     */
+    public function setOpenIdProviderAdded($value = 'off') {
+        $this->_setConfigValue(self::KEY_OPENID_PROVIDER_ADDED, $value);
+    }
     
 
 }

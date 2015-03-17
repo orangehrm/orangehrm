@@ -19,6 +19,7 @@
 abstract class basePimAction extends sfAction {
     
     private $employeeService;
+    protected $configService;
     
     public function preExecute() {
         $sessionVariableManager = new DatabaseSessionManager();

@@ -22,7 +22,7 @@ $(document).ready(function() {
         $('.secPassReq').show();
     }
     
-    if (ldapInstalled == 'true') {
+    if (ldapInstalled == 'true' || openIdEnabled == 'on') {
         $('.passwordRequired').hide();
     }
     
@@ -108,7 +108,7 @@ function isValidForm(){
         rules: {
             'systemUser[userName]' : {
                 required:true,
-                maxlength: 20,
+                maxlength: 40,
                 minlength: 5,
                 remote: {
                     url: isUniqueUserUrl,
@@ -120,7 +120,7 @@ function isValidForm(){
             'systemUser[password]' : {
                 required:function(element) {
                     if(($('#systemUser_chkChangePassword').val() == 'on' || (isEditMode == 'false')) && 
-                            (ldapInstalled == 'false'))
+                            (ldapInstalled == 'false') && openIdEnabled == 'off')
                         return true;
                     else
                         return false;

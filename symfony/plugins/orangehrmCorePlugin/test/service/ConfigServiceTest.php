@@ -404,5 +404,16 @@ class ConfigServiceTest extends PHPUnit_Framework_TestCase {
         $this->configService->$method($value);        
     }
     
+    public function testSetOpenIdProviderAdded(){
+        $value = 'on';        
+        $this->validateSetMethod('setOpenIdProviderAdded', ConfigService::KEY_OPENID_PROVIDER_ADDED, $value);
+
+    }
+    
+    public function testGetOpenIdProviderAdded(){
+        $value = 'off';
+        $this->validateGetMethod('getOpenIdProviderAdded', ConfigService::KEY_OPENID_PROVIDER_ADDED, $value);
+    }
+    
 }
 
