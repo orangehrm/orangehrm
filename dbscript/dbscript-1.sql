@@ -1966,3 +1966,32 @@ CREATE TABLE ohrm_oauth_access_token (access_token VARCHAR(40) NOT NULL, client_
 CREATE TABLE ohrm_oauth_authorization_code (authorization_code VARCHAR(40) NOT NULL, client_id VARCHAR(80) NOT NULL, user_id VARCHAR(255), redirect_uri VARCHAR(2000) NOT NULL, expires TIMESTAMP NOT NULL, scope VARCHAR(2000), CONSTRAINT auth_code_pk PRIMARY KEY (authorization_code));
 CREATE TABLE ohrm_oauth_refresh_token ( refresh_token VARCHAR(40) NOT NULL, client_id VARCHAR(80) NOT NULL, user_id VARCHAR(255), expires TIMESTAMP NOT NULL, scope VARCHAR(2000), CONSTRAINT refresh_token_pk PRIMARY KEY (refresh_token));
 CREATE TABLE ohrm_oauth_user (username VARCHAR(255) NOT NULL, password VARCHAR(2000), first_name VARCHAR(255), last_name VARCHAR(255), CONSTRAINT username_pk PRIMARY KEY (username));
+
+CREATE TABLE IF NOT EXISTS `ohrm_openid_provider` (
+  `id` int(10) NOT NULL AUTO_INCREMENT,
+  `provider_name` varchar(40) DEFAULT NULL,  
+  `provider_url` varchar(255) DEFAULT NULL,
+  `status` tinyint(1) NOT NULL DEFAULT '1',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+
+CREATE TABLE `ohrm_auth_provider_extra_details` (
+    `id` INT PRIMARY KEY AUTO_INCREMENT, 
+    `provider_id` INT(10) NOT NULL,
+    `provider_type` INT, 
+    `client_id` TEXT, 
+    `client_secret` TEXT, 
+    `developer_key` TEXT, 
+    CONSTRAINT FOREIGN KEY (`provider_id`) REFERENCES `ohrm_openid_provider` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
+) DEFAULT CHARSET=utf8 AUTO_INCREMENT=0;
+
+CREATE TABLE IF NOT EXISTS `ohrm_openid_user_identity` (
+  `user_id` int(10) ,
+  `provider_id` int(10) ,
+  `user_identity` varchar(255) DEFAULT NULL
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 ;
+
+ALTER TABLE `ohrm_openid_user_identity`
+  ADD CONSTRAINT `ohrm_user_identity_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `ohrm_user` (`id`) ON DELETE SET NULL;
+ALTER TABLE `ohrm_openid_user_identity`
+  ADD CONSTRAINT `ohrm_user_identity_ibfk_2` FOREIGN KEY (`provider_id`) REFERENCES `ohrm_openid_provider` (`id`) ON DELETE SET NULL;
