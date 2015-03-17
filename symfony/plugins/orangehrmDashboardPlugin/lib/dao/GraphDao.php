@@ -30,7 +30,7 @@ class GraphDao {
                 SELECT (
                         SELECT f.name
                         FROM ohrm_subunit f 
-                        WHERE dashboard_get_subunit_parent_id(f.id) = 1
+                        WHERE f.level = 1
                             AND f.lft <= c.lft and f.rgt >= c.rgt
                     ) AS sub_unit, 
                     COUNT(emp_number) AS emp_count
