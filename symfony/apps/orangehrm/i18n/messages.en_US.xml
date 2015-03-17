@@ -6912,6 +6912,54 @@
         <source>Should Be a Valid Time in %format% Format</source>
         <target>Should Be a Valid Time in %format% Format</target>
       </trans-unit>
+      <trans-unit id="1728">
+        <source>OpenID Configuration</source>
+        <target>OpenID Configuration</target>
+      </trans-unit>
+      <trans-unit id="1729">
+        <source>Provider List</source>
+        <target>Provider List</target>
+      </trans-unit>
+      <trans-unit id="1730">
+        <source>Provider Name</source>
+        <target>Provider Name</target>
+      </trans-unit>
+      <trans-unit id="1731">
+        <source>Url</source>
+        <target>Url</target>
+      </trans-unit>
+      <trans-unit id="1732">
+        <source>OpenId</source>
+        <target>OpenId</target>
+      </trans-unit>
+      <trans-unit id="1733">
+        <source>Google+</source>
+        <target>Google+</target>
+      </trans-unit>
+      <trans-unit id="1734">
+        <source>Redirect Url</source>
+        <target>Redirect Url</target>
+      </trans-unit>
+      <trans-unit id="1735">
+        <source>Client Id</source>
+        <target>Client Id</target>
+      </trans-unit>
+      <trans-unit id="1736">
+        <source>Client Secret</source>
+        <target>Client Secret</target>
+      </trans-unit>
+      <trans-unit id="1737">
+        <source>Developer Key</source>
+        <target>Developer Key</target>
+      </trans-unit>
+      <trans-unit id="1738">
+        <source>Alternative Login</source>
+        <target>Alternative Login</target>
+      </trans-unit>
+      <trans-unit id="1739">
+        <source>Login</source>
+        <target>Login</target>
+      </trans-unit>
     </body>
   </file>
 </xliff>

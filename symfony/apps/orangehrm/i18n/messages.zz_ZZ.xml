@@ -7412,6 +7412,54 @@
         <source>Should Be a Valid Time in %format% Format</source>
         <target>FR_Should Be a Valid Time in %format% Format</target>
       </trans-unit>
+      <trans-unit id="1853">
+        <source>OpenID Configuration</source>
+        <target>FR_OpenID Configuration</target>
+      </trans-unit>
+      <trans-unit id="1854">
+        <source>Provider List</source>
+        <target>FR_Provider List</target>
+      </trans-unit>
+      <trans-unit id="1855">
+        <source>Provider Name</source>
+        <target>FR_Provider Name</target>
+      </trans-unit>
+      <trans-unit id="1856">
+        <source>Url</source>
+        <target>FR_Url</target>
+      </trans-unit>
+      <trans-unit id="1857">
+        <source>OpenId</source>
+        <target>FR_OpenId</target>
+      </trans-unit>
+      <trans-unit id="1858">
+        <source>Google+</source>
+        <target>FR_Google+</target>
+      </trans-unit>
+      <trans-unit id="1859">
+        <source>Redirect Url</source>
+        <target>FR_Redirect Url</target>
+      </trans-unit>
+      <trans-unit id="1860">
+        <source>Client Id</source>
+        <target>FR_Client Id</target>
+      </trans-unit>
+      <trans-unit id="1861">
+        <source>Client Secret</source>
+        <target>FR_Client Secret</target>
+      </trans-unit>
+      <trans-unit id="1862">
+        <source>Developer Key</source>
+        <target>FR_Developer Key</target>
+      </trans-unit>
+      <trans-unit id="1863">
+        <source>Alternative Login</source>
+        <target>FR_Alternative Login</target>
+      </trans-unit>
+      <trans-unit id="1864">
+        <source>Login</source>
+        <target>FR_Login</target>
+      </trans-unit>
     </body>
   </file>
 </xliff>
