@@ -172,6 +172,12 @@ $imagePath = theme_path("images/login");
 
 </div>
 
+<div style="text-align: center">
+    <?php include_component('core', 'ohrmPluginPannel', array(
+                'location' => 'other-login-mechanisms',
+            )); ?>
+</div>
+
 <?php include_partial('global/footer_copyright_social_links'); ?>
 
 <script type="text/javascript">
