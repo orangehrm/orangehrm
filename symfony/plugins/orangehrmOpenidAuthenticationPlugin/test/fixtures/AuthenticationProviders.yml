@@ -1,0 +1,11 @@
+OpenidProvider:
+  0: {id: 1, provider_name: 'Google', provider_url: 'https://google.com/o/8/', status: 1 }
+  1: {id: 2, provider_name: 'Yahoo !', provider_url: 'http://me.yahoo.com', status: 1 }
+  2: {id: 3, provider_name: 'Old Provider', provider_url: 'https://old.url', status: 0 }
+  3: {id: 4, provider_name: 'Google+', provider_url: 'https://google.com/o/8/', status: 1 }
+  4: {id: 5, provider_name: 'GooglePlus', provider_url: 'https://google.com/o/8/', status: 1 }
+  
+AuthProviderExtraDetails:
+    0: {id: 1, provider_id: 1,provider_type: 2, client_id: 'TEST_CLIENT_ID_1', client_secret: 'TEST_CLIENT_SECRET_1',  developer_key: 'TEST_DEVELOPER_KEY_1'}
+    1: {id: 2, provider_id: 2,provider_type: 1, client_id: '', client_secret: '', developer_key: ''}
+    2: {id: 3, provider_id: 4,provider_type: 2, client_id: 'TEST_CLIENT_ID_3', client_secret: 'TEST_CLIENT_SECRET_3', developer_key: 'TEST_DEVELOPER_KEY_3'}

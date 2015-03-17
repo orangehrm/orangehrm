@@ -1,0 +1,61 @@
+OpenidProvider:
+  tableName: ohrm_openid_provider
+  columns:
+    id:
+      name: id as providerId
+      type: integer
+      primary: true
+      autoincrement: true
+    provider_name:
+      name: provider_name as providerName
+      type: string(40)
+    provider_url:
+      name: provider_url as providerUrl
+      type: string(250)
+    status:
+      type: integer
+ 
+UserIdentitiy:
+  tableName: ohrm_openid_user_identity
+  columns:
+    user_id:
+      type: integer
+      primary: true
+    provider_id:
+      type: integer
+      primary: true
+    user_identity:
+      type: string(2000)
+  relations:
+    OpenidProvider:
+      local: provider_id
+      foreign: id
+      type: one
+    SystemUser:
+      local: user_id
+      foreign: id
+      type: one
+      
+AuthProviderExtraDetails:
+    tableName: ohrm_auth_provider_extra_details
+    columns:
+        id:
+            type: integer(4)
+            primary: true
+            autoincrement: true
+        provider_id:
+            type: integer
+        provider_type:
+            type: integer
+        client_id:
+            type: string(2000)
+        client_secret:
+            type: string(2000)
+        developer_key:
+            type: string(2000)
+    relations:
+        OpenidProvider:
+            local: provider_id
+            foreign: id
+            foreignType: one
+            type: one

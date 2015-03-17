@@ -1,0 +1,23 @@
+OpenIdProvider:
+  pluginName: orangehrmOpenidAuthenticationPlugin
+  hasSelectableRows: true
+  unselectableRowIds: []
+  idValueGetter: getProviderId
+  title: 'Provider List'
+  tableWidth: 100%
+  hasSummary: false
+  summary: []
+  buttons:
+    Add:
+      label: Add
+    Delete:
+      label: Delete
+      type: submit
+      data-toggle: modal
+      data-target: '#deleteConfModal'
+      class: delete
+  buttonsPosition: before-data
+  formMethod: post
+  formAction: 'admin/deleteProviders'
+  assets: []
+  jsInitMethods: []

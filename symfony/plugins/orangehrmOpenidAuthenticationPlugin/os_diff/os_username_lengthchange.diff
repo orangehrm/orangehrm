@@ -1,0 +1,57 @@
+Index: symfony/plugins/orangehrmPimPlugin/lib/form/AddEmployeeForm.php
+===================================================================
+--- symfony/plugins/orangehrmPimPlugin/lib/form/AddEmployeeForm.php	(revision 37455)
++++ symfony/plugins/orangehrmPimPlugin/lib/form/AddEmployeeForm.php	(working copy)
+@@ -74,7 +74,7 @@
+             'photofile' => new sfWidgetFormInputFileEditable(array('edit_mode' => false, 'with_delete' => false, 
+                 'file_src' => ''), array("class" => "duplexBox")),
+             'chkLogin' => new sfWidgetFormInputCheckbox(array('value_attribute_value' => 1), array()),
+-            'user_name' => new sfWidgetFormInputText(array(), array("class" => "formInputText", "maxlength" => 20)),
++            'user_name' => new sfWidgetFormInputText(array(), array("class" => "formInputText", "maxlength" => 40)),
+             'user_password' => new sfWidgetFormInputPassword(array(), array("class" => "formInputText passwordRequired", 
+                 "maxlength" => 20)),
+             're_password' => new sfWidgetFormInputPassword(array(), array("class" => "formInputText passwordRequired", 
+@@ -116,7 +116,7 @@
+             'middleName' => new sfValidatorString(array('required' => false, 'max_length' => 30, 'trim' => true)),
+             'employeeId' => new sfValidatorString(array('required' => false, 'max_length' => 10)),
+             'chkLogin' => new sfValidatorString(array('required' => false)),
+-            'user_name' => new sfValidatorString(array('required' => false, 'max_length' => 20, 'trim' => true)),
++            'user_name' => new sfValidatorString(array('required' => false, 'max_length' => 40, 'trim' => true)),
+             'user_password' => new sfValidatorString(array('required' => false, 'max_length' => 20, 'trim' => true)),
+             're_password' => new sfValidatorString(array('required' => false, 'max_length' => 20, 'trim' => true)),
+             'status' => new sfValidatorString(array('required' => false))
+Index: symfony/plugins/orangehrmAdminPlugin/lib/form/SystemUserForm.php
+===================================================================
+--- symfony/plugins/orangehrmAdminPlugin/lib/form/SystemUserForm.php	(revision 37455)
++++ symfony/plugins/orangehrmAdminPlugin/lib/form/SystemUserForm.php	(working copy)
+@@ -47,7 +47,7 @@
+             'userId' => new sfWidgetFormInputHidden(),
+             'userType' => new sfWidgetFormSelect(array('choices' => $userRoleList), array("class" => "formSelect", "maxlength" => 3)),
+             'employeeName' => new ohrmWidgetEmployeeNameAutoFill(array(), $empNameStyle),
+-            'userName' => new sfWidgetFormInputText(array(), array("class" => "formInputText", "maxlength" => 20)),
++            'userName' => new sfWidgetFormInputText(array(), array("class" => "formInputText", "maxlength" => 40)),
+             'status' => new sfWidgetFormSelect(array('choices' => $statusList), array("class" => "formSelect", "maxlength" => 3)),
+             'chkChangePassword' => new sfWidgetFormInputCheckbox(array(), array('class' => 'chkChangePassword', 'value' => 'on')),
+             'password' => new sfWidgetFormInputPassword(array(), array("class" => "formInputText password", "maxlength" => 20)),
+@@ -59,7 +59,7 @@
+             'userType' => new sfValidatorChoice(array('required' => true, 
+                                                       'choices' => array_keys($userRoleList))),            
+             'employeeName' => new ohrmValidatorEmployeeNameAutoFill(),
+-            'userName' => new sfValidatorString(array('required' => true, 'max_length' => 20)),
++            'userName' => new sfValidatorString(array('required' => true, 'max_length' => 40)),
+             'password' => new sfValidatorString(array('required' => false, 'max_length' => 20)),
+             'confirmPassword' => new sfValidatorString(array('required' => false, 'max_length' => 20)),
+             'status' => new sfValidatorString(array('required' => true, 'max_length' => 1)),
+Index: symfony/plugins/orangehrmAdminPlugin/web/js/systemUserSuccess.js
+===================================================================
+--- symfony/plugins/orangehrmAdminPlugin/web/js/systemUserSuccess.js	(revision 37455)
++++ symfony/plugins/orangehrmAdminPlugin/web/js/systemUserSuccess.js	(working copy)
+@@ -108,7 +108,7 @@
+         rules: {
+             'systemUser[userName]' : {
+                 required:true,
+-                maxlength: 20,
++                maxlength: 40,
+                 minlength: 5,
+                 remote: {
+                     url: isUniqueUserUrl,

@@ -1,0 +1,12 @@
+{
+    "name": "lightopenid/lightopenid",
+    "type": "library",
+    "keywords": ["openid"],
+    "homepage": "https://gitorious.org/lightopenid/lightopenid",
+    "require": {
+        "php": ">=5.2.3"
+    },
+    "autoload": {
+        "classmap": ["./"]
+    }
+}
