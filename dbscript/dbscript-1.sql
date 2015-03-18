@@ -1995,3 +1995,24 @@ ALTER TABLE `ohrm_openid_user_identity`
   ADD CONSTRAINT `ohrm_user_identity_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `ohrm_user` (`id`) ON DELETE SET NULL;
 ALTER TABLE `ohrm_openid_user_identity`
   ADD CONSTRAINT `ohrm_user_identity_ibfk_2` FOREIGN KEY (`provider_id`) REFERENCES `ohrm_openid_provider` (`id`) ON DELETE SET NULL;
+
+CREATE TABLE abstract_display_field  (
+    `id` BIGINT AUTO_INCREMENT, 
+    `report_group_id` BIGINT NOT NULL, 
+    `name` VARCHAR(255) NOT NULL, 
+    `label` VARCHAR(255) NOT NULL, 
+    `field_alias` VARCHAR(255), 
+    `is_sortable` VARCHAR(10) NOT NULL, 
+    `sort_order` VARCHAR(255), 
+    `sort_field` VARCHAR(255), 
+    element_type VARCHAR(255) NOT NULL, 
+    element_property TEXT NOT NULL, 
+    width VARCHAR(255) NOT NULL, 
+    is_exportable VARCHAR(10), 
+    text_alignment_style VARCHAR(20), 
+    is_value_list TINYINT(1) NOT NULL, 
+    display_field_group_id BIGINT UNSIGNED, 
+    default_value VARCHAR(255), 
+    is_encrypted TINYINT(1) NOT NULL, 
+    is_meta TINYINT(1) DEFAULT '0' NOT NULL, 
+PRIMARY KEY(id)) ENGINE = INNODB;
