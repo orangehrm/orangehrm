@@ -108,7 +108,7 @@ class BeaconDatapointDao extends BaseDao {
             $tableList = array();
             $conf = new Conf();
             $dbName = $conf->dbname;
-            $q = "show tables in " . $dbName;
+            $q = "show tables in `" . $dbName."`";
             $pdo = Doctrine_Manager::connection()->getDbh();
             $sth = $pdo->prepare($q);
             if ($sth->execute()) {
