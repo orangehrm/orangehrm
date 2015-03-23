@@ -274,6 +274,7 @@ $(document).ready(function() {
             for (i=0; i < projectCount; i++) {
                 arrayName = projectsArray[i].name.toLowerCase().replace("##", "");
                 arrayName = $("<div/>").text(arrayName).html();
+                arrayName = $("<div/>").html(arrayName).text();
                 if (proName == arrayName) {
                     
                     temp = true;
@@ -320,9 +321,11 @@ $(document).ready(function() {
         var i;
         for (i=0; i < projectCount; i++) {
             arrayName = projectsArray[i].name.toLowerCase().replace("##", "");
-            arrayName = $("<div/>").html(arrayName).text();
+            arrayName = $('<div/>').text(arrayName).html();
+            var escapedArrayNameWithlt = arrayName.replace(/\&lt;/g, '<');
+            var escapedArrayNameWithgt = escapedArrayNameWithlt.replace(/\&gt;/g, '>');
        
-            if (projectName == arrayName) {
+            if (projectName == escapedArrayNameWithgt) {
                 temp = true;
                 break;
             }

@@ -112,10 +112,10 @@ $actionName = sfContext::getInstance()->getActionName();
                                     <tr class="<?php echo $class; ?>">
                                         <?php $class = $class == 'odd' ? 'even' : 'odd'; ?>
                                         <td id="columnName">
-                                            <?php echo str_replace("##", "", html_entity_decode($timesheetItemRow['projectName'])); ?>
+                                            <?php echo str_replace("##", "", ($timesheetItemRow['projectName'])); ?>
                                         </td>
                                         <td id="columnName">
-                                            <?php echo html_entity_decode($timesheetItemRow['activityName']); ?>
+                                            <?php echo ($timesheetItemRow['activityName']); ?>
                                         </td>
                                         <?php
                                         foreach ($timesheetItemRow['timesheetItems'] as $timesheetItemObjects):
