@@ -85,10 +85,9 @@ class localizationAction extends sfAction {
                 $this->getConfigService()->setAdminLocalizationUseBrowserLanguage($setBrowserLanguage);
                 $this->getUser()->setDateFormat($formValues['defaultDateFormat']);
                 $this->getConfigService()->setAdminLocalizationDefaultDateFormat($formValues['defaultDateFormat']);
-
                 $this->getUser()->setFlash('success', __(TopLevelMessages::SAVE_SUCCESS));
-                $this->redirect("admin/localization");
             }
+            $this->redirect("admin/localization");
         }
     }   
 

@@ -25,17 +25,22 @@ class deletePerformanceTrackerAction extends basePerformanceAction {
 
     public function execute($request) {
 
-        $toBeDeletedTrackIds = $request->getParameter('chkSelectRow');
-        //print_r($toBeDeletedTrackIds);
-       
-        if (!empty($toBeDeletedTrackIds)) {
-            foreach ($toBeDeletedTrackIds as $toBeDeletedTrackId) {                
-                $this->getPerformanceTrackerService()->DeletePerformanceTracker($toBeDeletedTrackId);               
-            }            
-            $this->getUser()->setFlash('success', __(TopLevelMessages::DELETE_SUCCESS));
+        $form = new DefaultListForm();
+        $form->bind($request->getParameter($form->getName()));
+
+        if ($form->isValid()) {
+            $toBeDeletedTrackIds = $request->getParameter('chkSelectRow');
+
+            if (!empty($toBeDeletedTrackIds)) {
+                foreach ($toBeDeletedTrackIds as $toBeDeletedTrackId) {
+                    $this->getPerformanceTrackerService()->DeletePerformanceTracker($toBeDeletedTrackId);
+                }
+                $this->getUser()->setFlash('success', __(TopLevelMessages::DELETE_SUCCESS));
+            }
         }
         $this->redirect('performanceTracker/addPerformanceTracker');
     }
+
 }
 
 ?>

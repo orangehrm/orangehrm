@@ -47,6 +47,8 @@ class viewOrganizationGeneralInformationAction extends sfAction {
                 $companyStructureService = new CompanyStructureService();
                 $companyStructureService->setOrganizationName($organizationName);
                 $this->getUser()->setFlash('generalinformation.success', __(TopLevelMessages::SAVE_SUCCESS));
+            }else{
+                $this->redirect('admin/viewOrganizationGeneralInformation');
             }
         }
     }

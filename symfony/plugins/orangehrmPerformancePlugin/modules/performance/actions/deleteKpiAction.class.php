@@ -40,9 +40,10 @@ class deleteKpiAction extends basePeformanceAction {
 
     public function execute($request) {
 
-        $form = $this->getKpiSearchForm();
+        $form = new DefaultListForm();
+        $form->bind($request->getParameter($form->getName()));
 
-        if ($request->isMethod('post')) {
+        if ($form->isValid()) {
             $rowsToBeDeleted = $request->getParameter('chkSelectRow');
 
             if (sizeof($rowsToBeDeleted) > 0) {
@@ -52,11 +53,9 @@ class deleteKpiAction extends basePeformanceAction {
                 $this->getUser()->setFlash('error', __(TopLevelMessages::SELECT_RECORDS));
             }
         }
-
-        $this->form = $form;
         $this->redirect('performance/searchKpi');
     }
-    
+
     protected function _checkAuthentication($request = null) {
         $user = $this->getUser()->getAttribute('user');
         if (!($user->isAdmin())) {
