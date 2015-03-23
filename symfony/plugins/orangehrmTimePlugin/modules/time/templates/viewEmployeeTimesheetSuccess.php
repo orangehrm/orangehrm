@@ -56,7 +56,7 @@
                         <input type="hidden" name="employeeId" value="<?php echo $pendingApprovelTimesheet['employeeId']; ?>" />
                         <input type="hidden" name="startDate" value="<?php echo $pendingApprovelTimesheet['timesheetStartday']; ?>" />
                         <td>
-                            <?php echo $pendingApprovelTimesheet['employeeFirstName'] . " " . $pendingApprovelTimesheet['employeeLastName']; ?>
+                            <?php echo htmlspecialchars($pendingApprovelTimesheet['employeeFirstName']) . " " . htmlspecialchars($pendingApprovelTimesheet['employeeLastName']); ?>
                         </td>
                         <td>
                             <?php echo set_datepicker_date_format($pendingApprovelTimesheet['timesheetStartday']) . " " . __("to") . " " . set_datepicker_date_format($pendingApprovelTimesheet['timesheetEndDate']) ?>
