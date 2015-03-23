@@ -1,4 +1,5 @@
 <?php
+
 /**
  * OrangeHRM Enterprise is a closed sourced comprehensive Human Resource Management (HRM)
  * System that captures all the essential functionalities required for any enterprise.
@@ -20,34 +21,38 @@
  *
  */
 class getActivityListJasonAction extends sfAction {
-	
-	private $projectService;
 
-	public function getProjectService() {
-		if (is_null($this->projectService)) {
-			$this->projectService = new ProjectService();
-			$this->projectService->setProjectDao(new ProjectDao());
-		}
-		return $this->projectService;
-	}
-	
-	public function execute($request) {
+    private $projectService;
 
-		$this->setLayout(false);
-		sfConfig::set('sf_web_debug', false);
-		sfConfig::set('sf_debug', false);
+    public function getProjectService() {
+        if (is_null($this->projectService)) {
+            $this->projectService = new ProjectService();
+            $this->projectService->setProjectDao(new ProjectDao());
+        }
+        return $this->projectService;
+    }
 
-		if ($this->getRequest()->isXmlHttpRequest()) {
-			$this->getResponse()->setHttpHeader('Content-Type', 'application/json; charset=utf-8');
-		}
+    public function execute($request) {
 
-		$projectId = $request->getParameter('projectId');
+        $this->setLayout(false);
+        sfConfig::set('sf_web_debug', false);
+        sfConfig::set('sf_debug', false);
 
-		$activityList = $this->getProjectService()->getActivityListByProjectId($projectId);
+        if ($this->getRequest()->isXmlHttpRequest()) {
+            $this->getResponse()->setHttpHeader('Content-Type', 'application/json; charset=utf-8');
+        }
 
-		return $this->renderText(json_encode($activityList->toArray()));
-	
-	}
+        $projectId = $request->getParameter('projectId');
+
+        $activityList = $this->getProjectService()->getActivityListByProjectId($projectId);
+
+        foreach ($activityList as $activity) {
+            $activity->setName(htmlspecialchars($activity->getName()));
+        }
+
+        return $this->renderText(json_encode($activityList->toArray()));
+    }
+
 }
 
 ?>
