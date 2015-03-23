@@ -41,7 +41,11 @@ $(document).ready(function() {
     //project auto complete
     $(".project").autocomplete(customerProjects, {
         formatItem: function(item) {
-            return item.name.replace("##", "");;
+            var itemName = item.name.replace("##", "");
+            return $('<div/>').text(itemName).html();
+        },
+        formatResult: function(item) {
+            return item.name.replace("##", "");
         },
         matchContains:true
     }).result(function(event, item) {
