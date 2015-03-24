@@ -32,7 +32,7 @@ class deleteJobTitleAction extends baseAdminAction {
     public function execute($request) {
         $jobTitlePermissions = $this->getDataGroupPermissions('job_titles');
         if ($jobTitlePermissions->canDelete()) {
-            
+
             $form = new DefaultListForm();
             $form->bind($request->getParameter($form->getName()));
             if ($form->isValid()) {
@@ -41,11 +41,10 @@ class deleteJobTitleAction extends baseAdminAction {
                 if (!empty($toBeDeletedJobTitleIds)) {
                     $this->getJobTitleService()->deleteJobTitle($toBeDeletedJobTitleIds);
                     $this->getUser()->setFlash('success', __(TopLevelMessages::DELETE_SUCCESS));
-                    $this->redirect('admin/viewJobTitleList');
                 }
             }
+            $this->redirect('admin/viewJobTitleList');
         }
     }
 
 }
-

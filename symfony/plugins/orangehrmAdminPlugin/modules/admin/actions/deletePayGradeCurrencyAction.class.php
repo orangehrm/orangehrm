@@ -55,6 +55,8 @@ class deletePayGradeCurrencyAction extends baseAdminAction {
             }
 
             $this->redirect('admin/payGrade?payGradeId=' . $payGradeId . '#Currencies');
+        }else{
+            $this->redirect($request->getReferer());
         }
     }
 

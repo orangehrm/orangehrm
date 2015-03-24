@@ -89,6 +89,8 @@ class viewSystemUsersAction extends sfAction {
 
                     $searchClues = $this->_setSearchClues($sortField, $sortOrder, $offset, $limit);
                     $this->getUser()->setAttribute('searchClues', $searchClues);
+                }else{
+                    $this->redirect('admin/viewSystemUsers');
                 }
             }
             
