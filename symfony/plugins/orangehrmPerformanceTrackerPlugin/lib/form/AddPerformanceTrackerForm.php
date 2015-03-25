@@ -50,7 +50,6 @@ class AddPerformanceTrackerForm extends sfForm {
         $assignedReviewersList = $this->getReviwersList($trackId);
 
         $this->setWidgets(array(
-           
             'tracker_name' => new sfWidgetFormInput(),
             'employeeName' => new ohrmWidgetEmployeeNameAutoFill(array('loadingMethod' => 'ajax')),
             'availableEmp' => new sfWidgetFormSelectMany(array('choices' => $availableReviewersList)),
@@ -61,14 +60,14 @@ class AddPerformanceTrackerForm extends sfForm {
 
         $this->widgetSchema->setNameFormat('addPerformanceTracker[%s]');
         $this->setValidators(array(
-            'tracker_name' => new sfValidatorString(array('required' => true, 'max_length'=> 200)),
+            'tracker_name' => new sfValidatorString(array('required' => true, 'max_length' => 200)),
             'employeeName' => new ohrmValidatorEmployeeNameAutoFill(array('required' => true)),
             'availableEmp' => new sfValidatorPass(),
             'assignedEmp' => new sfValidatorPass(array('required' => true)),
             'hdnTrckId' => new sfValidatorString(array('required' => false)),
             'hdnMode' => new sfValidatorString(array('required' => false))
         ));
-        
+
         $this->setDefaultValues($trackId);
     }
 
@@ -96,13 +95,13 @@ class AddPerformanceTrackerForm extends sfForm {
         }
         return $reviewersList;
     }
-        
+
     /**
-     *This method is used to set defau 
+     * This method is used to set defau 
      * @param type $performanceTrackId
      */
     public function setDefaultValues($performanceTrackId) {
-        
+
         $this->performanceTrackId = $performanceTrackId;
         $performanceTrack = $this->getPerformanceTrackerService()->getPerformanceTrack($performanceTrackId);
         if ($performanceTrack instanceof PerformanceTrack) {
@@ -114,22 +113,33 @@ class AddPerformanceTrackerForm extends sfForm {
     }
 
     public function save() {
-        $performanceTrack = $this->getPerformanceTracker();         
-        $this->getPerformanceTrackerService()->savePerformanceTrack($performanceTrack);        
+        $employeeName = $this->getValue('employeeName');
+        $empId = $employeeName['empId'];
+        $messageArray = array();
+        if (empty($empId)) {
+            $messageArray['messageType'] = 'warning';
+            $messageArray['messageBody'] = __('Invalid Employee');
+        } else {
+            $performanceTrack = $this->getPerformanceTracker();
+            $this->getPerformanceTrackerService()->savePerformanceTrack($performanceTrack);
+            $messageArray['messageType'] = 'success';
+            $messageArray['messageBody'] = __(TopLevelMessages::SAVE_SUCCESS);
+        }
+        return $messageArray;
     }
 
     //get the values from form and set it to performanceTracker 
     public function getPerformanceTracker() {
         $trackerName = $this->getValue('tracker_name');
-        $trackId = $this->getValue('hdnTrckId');        
+        $trackId = $this->getValue('hdnTrckId');
         $currentDate = date(Performancetrack::DATE_FORMAT);
         $employeeName = $this->getValue('employeeName');
         $empId = $employeeName['empId'];
         $assignedEmp = $this->getValue('assignedEmp');
 
         $performanceTracker = new PerformanceTrack();
-        
-        
+
+
         //modify existing performance tracker
         if (!empty($trackId)) {
             $performanceTracker = $this->getPerformanceTrackerService()->getPerformanceTrack($trackId);
@@ -139,22 +149,22 @@ class AddPerformanceTrackerForm extends sfForm {
         else {
 
             $performanceTracker->setEmpNumber($empId);
-            $performanceTracker->setStatus(PerformanceTrack::STATUS_ACTIVE);            
+            $performanceTracker->setStatus(PerformanceTrack::STATUS_ACTIVE);
             $performanceTracker->setAddedDate($currentDate);
         }
-       $performanceTracker->setTrackerName($trackerName);
+        $performanceTracker->setTrackerName($trackerName);
         //setting reviewers.
-        $newReviewers = $performanceTracker->getPerformanceTrackerReviewer();        
+        $newReviewers = $performanceTracker->getPerformanceTrackerReviewer();
         $newReviewers->clear();
-        
+
         foreach ($assignedEmp as $reviewerId) {
             $reviewer = new PerformanceTrackerReviewer();
             $reviewer->setAddedDate($currentDate);
             $reviewer->setReviewerId($reviewerId);
             $newReviewers->add($reviewer);
-        }  
+        }
         $performanceTracker->setPerformanceTrackerReviewer($newReviewers);
-        
+
         return $performanceTracker;
     }
 
@@ -191,15 +201,15 @@ class AddPerformanceTrackerForm extends sfForm {
     }
 
     public function getEmployeeList($trackId) {
-        $empNameList = array(); 
+        $empNameList = array();
         $existReviewersList = $this->getReviwerIdList($trackId);
-                
+
         $employeeService = new EmployeeService();
         $employeeService->setEmployeeDao(new EmployeeDao());
 
         $properties = array("empNumber", "firstName", "middleName", "lastName");
         $employeeList = $employeeService->getEmployeePropertyList($properties, 'lastName', 'ASC', true);
-        
+
         foreach ($employeeList as $employee) {
             $empNumber = $employee['empNumber'];
             if (!in_array($empNumber, $existReviewersList)) {

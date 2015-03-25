@@ -61,8 +61,8 @@ class addPerformanceTrackerAction extends basePerformanceAction {
             $this->form->bind($request->getParameter('addPerformanceTracker'));
             if ($this->form->isValid()) {
                 
-                $this->form->save();
-                $this->getUser()->setFlash('success', __(TopLevelMessages::SAVE_SUCCESS));
+                $messageArray = $this->form->save();
+                $this->getUser()->setFlash($messageArray['messageType'], $messageArray['messageBody']);
                 $this->redirect('performanceTracker/addPerformanceTracker');
             }
         } 
