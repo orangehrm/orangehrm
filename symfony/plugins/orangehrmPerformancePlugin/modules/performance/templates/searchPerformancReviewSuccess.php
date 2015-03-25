@@ -42,6 +42,7 @@
 
         var resetUrl = '<?php echo url_for('performance/searchPerformancReview' . '?reset=1'); ?>';
         var employees = <?php echo str_replace('&#039;', "'", $form->getEmployeeListAsJson()) ?>;
+        var employeeList = eval(employees);
         var typeHint = '<?php echo __("Type for hints") . "..."; ?>';
 
         $('#btnDelete').attr('disabled', 'disabled');
@@ -71,21 +72,25 @@
             $('#frmList_ohrmListComponent').submit();
         });
 
-
         $("#performanceReview360SearchForm_employeeName").autocomplete(employees, {
             formatItem: function (item) {
-                return item.name;
-            }
-            , matchContains: true
+                return $('<div/>').text(item.name).html();
+            },
+            formatResult: function (item) {
+                return item.name
+            },
+            matchContains: true
         }).result(function (event, item) {
-        }
-        );
+        });
 
         $("#performanceReview360SearchForm_reviwerName").autocomplete(employees, {
             formatItem: function (item) {
-                return item.name;
-            }
-            , matchContains: true
+                return $('<div/>').text(item.name).html();
+            },
+            formatResult: function (item) {
+                return item.name
+            },
+            matchContains: true
         }).result(function (event, item) {
             $('#performanceReview360SearchForm_reviwerNumber').val(item.id);
         }

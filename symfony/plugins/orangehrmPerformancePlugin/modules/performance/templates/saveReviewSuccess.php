@@ -47,7 +47,7 @@
                     } else {
                         ?>
                         <li>
-                            <?php echo $form['employee']->renderLabel($form['employee']->getValue()); ?>
+                            <?php echo $form['employee']->renderLabel(htmlspecialchars($form['employee']->getValue())); ?>
                             <?php echo $form['employee']->render(array("style" => "display:none")); ?>
                             <?php echo $form['employeeId']->render(); ?>
                         </li>
@@ -56,38 +56,41 @@
                 </ol>
 
                 <div id="reviewCreationBody">
-                <h4><?php echo __('Supervisor Reviewers'); ?></h4>
+                    <h4><?php echo __('Supervisor Reviewers'); ?></h4>
                     <ol>  
                         <?php if ($form['reviewId']->getValue() == '') { ?>
-                        <li>
-                            <?php echo $form['supervisorReviewer']->renderLabel(); ?>               
-                            <?php echo $form['supervisorReviewer']->render(array('class' => 'longTextBoxAutoComplete')); ?>
-                        </li>
-                        <?php
-                    } else {
-                        ?>
-                        <li>
-                            <?php $reviewers = $form->getReviewers('supervisors'); ?>
-                            <?php foreach ($reviewers as $reviewer) {
-                            echo $form['supervisorReviewer']->renderLabel($reviewer->getEmployee()->getFullName());}?>
+                            <li>
+                                <?php echo $form['supervisorReviewer']->renderLabel(); ?>               
+                                <?php echo $form['supervisorReviewer']->render(array('class' => 'longTextBoxAutoComplete')); ?>
+                            </li>
+                            <?php
+                        } else {
+                            ?>
+                            <li>
+                                <?php $reviewers = $form->getReviewers('supervisors'); ?>
+                                <?php
+                                foreach ($reviewers as $reviewer) {
+                                    echo $form['supervisorReviewer']->renderLabel(htmlspecialchars($reviewer->getEmployee()->getFullName()));
+                                }
+                                ?>
                             <?php echo $form['supervisorReviewerId']->render(); ?>
-                        </li>
+                            </li>
                         <?php }
-                    ?>
+                        ?>
                     </ol>
 
                     <ol>
                         <li>
                             <?php echo $form['workPeriodStartDate']->renderLabel(null, array('class' => 'lableValue')); ?>
-                            <?php echo $form['workPeriodStartDate']->render(); ?>
+<?php echo $form['workPeriodStartDate']->render(); ?>
                         </li>
                         <li>
                             <?php echo $form['workPeriodEndDate']->renderLabel(null, array('class' => 'lableValue')); ?>
-                            <?php echo $form['workPeriodEndDate']->render(); ?>
+<?php echo $form['workPeriodEndDate']->render(); ?>
                         </li>
                         <li>
                             <?php echo $form['dueDate']->renderLabel(null, array('class' => 'lableValue')); ?>
-                            <?php echo $form['dueDate']->render(); ?>
+<?php echo $form['dueDate']->render(); ?>
                         </li>
                     </ol>
 
@@ -103,7 +106,7 @@
                         <?php } ?>                            
                         <?php if ($form->isActivateEnabled()) { ?>
                             <input type="button" class="applybutton" id="activateBtn" value="<?php echo __('Activate'); ?>" title="<?php echo __('Activate'); ?>"/>      
-                        <?php } ?>
+<?php } ?>
                         <input type="button" class="reset" id="backBtn" value="<?php echo __('Back'); ?>" title="<?php echo __('Back'); ?>"/> 
                     </p>
 
@@ -191,9 +194,12 @@
 
                 $("#" + visibleElementId).autocomplete(employeeList, {
                     formatItem: function (item) {
-                        return item.name;
-                    }
-                    , matchContains: true
+                        return $('<div/>').text(item.name).html();
+                    },
+                    formatResult: function (item) {
+                        return item.name
+                    },
+                    matchContains: true
                 }).result(function (event, item) {
 
                     clearFormAndDisplay();
@@ -246,13 +252,16 @@
         function popluateAutoCompleate(visibleElementId, hiddenElementId, employeeList) {
             $("#" + visibleElementId).autocomplete(employeeList, {
                 formatItem: function (item) {
-                    return item.name;
-                }
-                , matchContains: true
+                    return $('<div/>').text(item.name).html();
+                },
+                formatResult: function (item) {
+                    return item.name
+                },
+                matchContains: true
             }).result(function (event, item) {
                 $('#' + hiddenElementId).val(item.id);
             });
-            
+
         }
 
         $('#add_supervisor_Btn').live("click", function () {
@@ -305,7 +314,7 @@
             rules: {
                 'saveReview360Form[employeeId]': {required: true},
                 'saveReview360Form[employee]': {required: true},
-                'saveReview360Form[supervisorReviewer]': {required: true,isSupervisor: true},
+                'saveReview360Form[supervisorReviewer]': {required: true, isSupervisor: true},
                 'saveReview360Form[supervisorReviewerId]': {required: true},
                 'saveReview360Form[workPeriodStartDate]': {required: true},
                 'saveReview360Form[workPeriodEndDate]': {required: true},
@@ -314,7 +323,7 @@
                     valid_date: function () {
                         return {
                             format: datepickerDateFormat
-                        }                                
+                        }
                     },
                     date_range: function () {
                         return {
@@ -382,19 +391,19 @@
             }
         });
         $.validator.addMethod('isSupervisor',
-        function (value) { 
-            if(reviewId > 0){
-                return true;   
-            } else{
-               var supervisorId = $('#saveReview360Form_supervisorReviewerId').val();
-               for(var i=0; i < supervisorList.length; i++){
-                   if(supervisorList[i].id == supervisorId){
-                       return true;
-                   }
-               }               
-               return false;
-            } 
-        }, '<?php echo __(PerformanceValidationMessages::INVALID_SUPERVIOSR); ?>');
+                function (value) {
+                    if (reviewId > 0) {
+                        return true;
+                    } else {
+                        var supervisorId = $('#saveReview360Form_supervisorReviewerId').val();
+                        for (var i = 0; i < supervisorList.length; i++) {
+                            if (supervisorList[i].id == supervisorId) {
+                                return true;
+                            }
+                        }
+                        return false;
+                    }
+                }, '<?php echo __(PerformanceValidationMessages::INVALID_SUPERVIOSR); ?>');
 
         /**
          * @param employeeData Json Array
