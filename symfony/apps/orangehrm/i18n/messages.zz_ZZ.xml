@@ -7413,8 +7413,8 @@
         <target>FR_Should Be a Valid Time in %format% Format</target>
       </trans-unit>
       <trans-unit id="1853">
-        <source>OpenID Configuration</source>
-        <target>FR_OpenID Configuration</target>
+        <source>Social media authentication</source>
+        <target>FR_Social media authentication</target>
       </trans-unit>
       <trans-unit id="1854">
         <source>Provider List</source>
@@ -7459,6 +7459,10 @@
       <trans-unit id="1864">
         <source>Login</source>
         <target>FR_Login</target>
+      </trans-unit>
+      <trans-unit id="1865">
+        <source>Add Provider</source>
+        <target>FR_Add Provider</target>
       </trans-unit>
     </body>
   </file>
