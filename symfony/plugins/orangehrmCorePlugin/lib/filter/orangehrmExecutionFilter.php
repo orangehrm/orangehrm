@@ -32,6 +32,12 @@ class orangehrmExecutionFilter extends sfExecutionFilter {
      * @return string The view type
      */
     protected function executeAction($actionInstance) {
+        
+        $response = $actionInstance->getResponse();
+
+        // Set X-Frame-Options by default. Can be overridden by actions
+        $response->setHttpHeader("X-Frame-Options", "DENY");
+        
         // execute the action
         $viewName = parent::executeAction($actionInstance);
 

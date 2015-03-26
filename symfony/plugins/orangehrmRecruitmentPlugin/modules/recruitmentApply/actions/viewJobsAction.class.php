@@ -40,16 +40,19 @@ class viewJobsAction extends sfAction {
      * @param type $request 
      */
     public function execute($request) {
-        
-//        $this->setLayout(false);        
+           
         $this->publishedVacancies = $this->getVacancyService()->getPublishedVacancies();
+        $response = $this->getResponse();
         
         $extension = $this->getRequestParameter('extension');   
         
         if ($extension == 'rss') {
-            $response = $this->getResponse();
             $response->setContentType('text/xml');
         }
+        
+        // Allow including in an iframe
+        $response->setHttpHeader("X-Frame-Options", null);
+        
         return sfView::SUCCESS . '.' . $extension;
         
     }
