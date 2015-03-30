@@ -7464,6 +7464,10 @@
         <source>Add Provider</source>
         <target>FR_Add Provider</target>
       </trans-unit>
+      <trans-unit id="1866">
+        <source>Enable Directory module</source>
+        <target>FR_Enable Directory module</target>
+      </trans-unit>
     </body>
   </file>
 </xliff>

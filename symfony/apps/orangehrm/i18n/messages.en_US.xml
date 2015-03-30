@@ -6964,6 +6964,10 @@
         <source>Add Provider</source>
         <target>Add Provider</target>
       </trans-unit>
+      <trans-unit id="1741">
+        <source>Enable Directory module</source>
+        <target>Enable Directory module</target>
+      </trans-unit>
     </body>
   </file>
 </xliff>

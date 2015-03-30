@@ -73,6 +73,11 @@
                         <?php echo $form['performance']->render(); ?>
                     </li>
                     
+                    <li class="checkbox">
+                        <?php echo $form['directory']->renderLabel(__('Enable Directory module')); ?>
+                        <?php echo $form['directory']->render(); ?>
+                    </li>
+                    
                     <li class="required">
                         <em>*</em> <?php echo __(CommonMessages::REQUIRED_FIELD); ?>
                     </li>

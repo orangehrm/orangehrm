@@ -45,7 +45,8 @@ class ModuleForm extends BaseForm {
             'time' => new sfWidgetFormInputCheckbox(array(), array('class' => 'checkbox', 'value' => 'on')),
             'recruitment' => new sfWidgetFormInputCheckbox(array(), array('class' => 'checkbox', 'value' => 'on')),
             'performance' => new sfWidgetFormInputCheckbox(array(), array('class' => 'checkbox', 'value' => 'on')),
-            'help' => new sfWidgetFormInputCheckbox(array(), array('class' => 'checkbox', 'value' => 'on'))
+            'help' => new sfWidgetFormInputCheckbox(array(), array('class' => 'checkbox', 'value' => 'on')),
+            'directory' => new sfWidgetFormInputCheckbox(array(), array('class' => 'checkbox', 'value' => 'on')),
         ));        
         
         $this->setValidators(array(
@@ -55,7 +56,8 @@ class ModuleForm extends BaseForm {
             'time' => new sfValidatorPass(),
             'recruitment' => new sfValidatorPass(),
             'performance' => new sfValidatorPass(),
-            'help' => new sfValidatorPass()
+            'help' => new sfValidatorPass(),
+            'directory' => new sfValidatorPass()
         ));
         
         $this->setDefaults($this->_getDefaultValues());
@@ -67,7 +69,7 @@ class ModuleForm extends BaseForm {
     
     protected function _getDefaultValues() {
         
-        $modules = array('admin', 'pim', 'leave', 'time', 'recruitment', 'performance');
+        $modules = array('admin', 'pim', 'leave', 'time', 'recruitment', 'performance', 'directory');
         
         $moduleService = $this->getModuleService();
         $disabledModules = $moduleService->getDisabledModuleList();
