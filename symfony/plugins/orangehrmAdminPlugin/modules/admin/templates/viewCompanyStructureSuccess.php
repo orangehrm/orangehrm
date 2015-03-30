@@ -11,14 +11,18 @@
     <div class="head">
         <h1><?php echo __("Organization Structure") ?></h1>
     </div>
-    
+
     <div class="inner" >
         <div id="messageDiv"></div>
-        <?php echo $listForm ?>
-        <ol id="divCompanyStructureContainer">            
-            <?php $tree->render(); ?>
-        </ol>
-        <p><input type="button" class="" name="btnEdit" id="btnEdit" value="<?php echo __("Edit"); ?>"/></p>
+        <?php if ($isOrganizationNameSet) { ?>
+            <?php echo $listForm ?>
+            <ol id="divCompanyStructureContainer">            
+                <?php $tree->render(); ?>
+            </ol>
+            <p><input type="button" class="" name="btnEdit" id="btnEdit" value="<?php echo __("Edit"); ?>"/></p>
+        <?php } else { ?>
+            <p><input type="button" class="" name="btnSetOrganizationName" id="btnSetOrganizationName" value="<?php echo __("Add Organization Name"); ?>"/></p>
+        <?php } ?>
     </div>
 </div>
 
@@ -26,7 +30,7 @@
 <div class="modal hide" id="unitDialog">
     <div class="modal-header">
         <a class="close" data-dismiss="modal">×</a>
-        <h3 id="title"><?php echo "OrangeHRM - ".__("Edit Unit"); ?></h3>
+        <h3 id="title"><?php echo "OrangeHRM - " . __("Edit Unit"); ?></h3>
     </div>
     <div class="modal-body">
         <form  id="ohrmFormComponent_Form" action=""  method="post">
@@ -35,15 +39,15 @@
                 <ol>
                     <li>
                         <input type="hidden" name="hdnId" id="hdnId">
-                        <label for="txtUnit_Id"><?php echo __('Unit Id');?></label>
+                        <label for="txtUnit_Id"><?php echo __('Unit Id'); ?></label>
                         <?php echo $form['txtUnit_Id']->render(array("class" => "formInputText")); ?>
                     </li>
                     <li>
-                        <label for="txtName"><?php echo __('Name').' <em>*</em>'; ?></label>
+                        <label for="txtName"><?php echo __('Name') . ' <em>*</em>'; ?></label>
                         <?php echo $form['txtName']->render(array("class" => "formInputText")); ?>
                     </li>
                     <li class="largeTextBox">
-                        <label for="txtDescription"><?php echo __('Description');?></label>
+                        <label for="txtDescription"><?php echo __('Description'); ?></label>
                         <?php echo $form['txtDescription']->render(array("class" => "formInputText")); ?>
                         <input type="hidden" id="hdnParent" name="hdnParent">
                     </li>
@@ -82,8 +86,8 @@
 <script type="text/javascript">
     var lang_edit = "<?php echo __("Edit"); ?>";
     var lang_done = "<?php echo __("Done"); ?>";
-    var lang_addUnit = "<?php echo "OrangeHRM - ".__("Add Unit"); ?>";
-    var lang_editUnit = "<?php echo "OrangeHRM - ".__("Edit Unit"); ?>";
+    var lang_addUnit = "<?php echo "OrangeHRM - " . __("Add Unit"); ?>";
+    var lang_editUnit = "<?php echo "OrangeHRM - " . __("Edit Unit"); ?>";
     var lang_delete_warning = "<?php echo __("Units under selected unit will also be deleted"); ?>";
     var lang_delete_confirmation = "<?php echo __("Delete?"); ?>";
     var lang_addNote = "<?php echo __("This unit will be added under"); ?>";
@@ -95,7 +99,10 @@
     var getSubunitUrl = '<?php echo public_path('index.php/admin/getSubunit'); ?>';
     var saveSubunitUrl = '<?php echo public_path('index.php/admin/saveSubunit'); ?>';
     var viewCompanyStructureHtmlUrl = '<?php echo public_path('index.php/admin/viewCompanyStructureHtml'); ?>/seed/';
-    var closeText = '<?php echo __('Close');?>';
+    var closeText = '<?php echo __('Close'); ?>';
+    var isOrganizationNameSet = '<?php echo $isOrganizationNameSet ?>';
+    var organizationNameNotSetValidationMessage = '<?php echo __('Please Add the Organization name') ?>';
+    var organizationGeneralInformationURL = '<?php echo url_for('admin/viewOrganizationGeneralInformation');?>'
 </script>
 
 <?php $tree->printJavascript(); ?>

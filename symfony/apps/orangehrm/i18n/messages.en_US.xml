@@ -6968,6 +6968,14 @@
         <source>Enable Directory module</source>
         <target>Enable Directory module</target>
       </trans-unit>
+      <trans-unit id="1742">
+        <source>Please Add the Organization name</source>
+        <target>Please Add the Organization name</target>
+      </trans-unit>
+      <trans-unit id="1743">
+        <source>Add Organization Name</source>
+        <target>Add Organization Name</target>
+      </trans-unit>
     </body>
   </file>
 </xliff>

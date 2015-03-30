@@ -7468,6 +7468,14 @@
         <source>Enable Directory module</source>
         <target>FR_Enable Directory module</target>
       </trans-unit>
+      <trans-unit id="1867">
+        <source>Please Add the Organization name</source>
+        <target>FR_Please Add the Organization name</target>
+      </trans-unit>
+      <trans-unit id="1868">
+        <source>Add Organization Name</source>
+        <target>FR_Add Organization Name</target>
+      </trans-unit>
     </body>
   </file>
 </xliff>

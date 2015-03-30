@@ -1,4 +1,8 @@
 $(document).ready(function() {
+    
+    if(!isOrganizationNameSet){
+        _showMessage('warning', organizationNameNotSetValidationMessage);
+    }
 
     setViewMode()
 
@@ -12,6 +16,10 @@ $(document).ready(function() {
             _clearMessage()
             setViewMode()
         }
+    });
+    
+    $('#btnSetOrganizationName').click(function() {
+        window.location.replace(organizationGeneralInformationURL);
     });
 
     $('#dialogYes').click(function(){

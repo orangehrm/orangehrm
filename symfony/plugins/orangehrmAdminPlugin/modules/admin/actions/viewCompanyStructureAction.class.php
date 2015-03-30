@@ -21,6 +21,15 @@
 class viewCompanyStructureAction extends sfAction {
 
     private $companyStructureService;
+    private $organizationService;
+
+    public function getOrganizationService() {
+        if (is_null($this->organizationService)) {
+            $this->organizationService = new OrganizationService(new OrganizationDao());
+        }
+        return $this->organizationService;
+    }
+
 
     /**
      * 
@@ -43,6 +52,12 @@ class viewCompanyStructureAction extends sfAction {
         $usrObj = $this->getUser()->getAttribute('user');
         if (!($usrObj->isAdmin())) {
             $this->redirect('pim/viewPersonalDetails');
+        }
+        
+        $this->isOrganizationNameSet = false;
+        $organization = $this->getOrganizationService()->getOrganizationGeneralInformation();
+        if($organization instanceof Organization && $organization->getName() != null){
+            $this->isOrganizationNameSet = true;
         }
         
         $treeObject = $this->getCompanyStructureService()->getSubunitTreeObject();
