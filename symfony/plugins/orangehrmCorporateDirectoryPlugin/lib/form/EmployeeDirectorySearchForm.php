@@ -80,18 +80,20 @@ class EmployeeDirectorySearchForm extends BaseForm {
         $jsonArray = array();
         $employeeService = new EmployeeService();
         $employeeService->setEmployeeDao(new EmployeeDao());
-        $employeeList = $employeeService->getEmployeeList();
+        $employeeService instanceof EmployeeService;
+        $employeeList = $employeeService->getEmployeePropertyList(array('empNumber', 'firstName', 'lastName', 'middleName', 'termination_id'), 'lastName', 'ASC');
 
+        $terminationLabel = ' (' . __('Past Employee') . ')';
         $jsonArray[] = array('name' => __('All'), 'id' => '');
         foreach ($employeeList as $employee) {
-            $name = $employee->getFirstName() . " " . $employee->getMiddleName();
-            $name = trim(trim($name) . " " . $employee->getLastName());
-            if ($employee->getTerminationId()) {
-                $name = $name . ' (' . __('Past Employee') . ')';
+            $name = $employee['firstName'] . " " . $employee['middleName'];
+            $name = trim(trim($name) . " " . $employee['lastName']);
+            if ($employee['termination_id']) {
+                $name .= $terminationLabel;
             }
-                $jsonArray[] = array('name' => $name, 'id' => $employee->getEmpNumber());
-            }
-        
+            $jsonArray[] = array('name' => $name, 'id' => $employee['empNumber']);
+        }
+
         $jsonString = json_encode($jsonArray);
 
         return $jsonString;

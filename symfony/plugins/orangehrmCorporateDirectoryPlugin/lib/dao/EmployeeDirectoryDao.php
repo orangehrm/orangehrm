@@ -34,8 +34,6 @@ class EmployeeDirectoryDao extends BaseDao{
         'emp_work_email' => 'e.emp_work_email',
             'employee_status' => 'es.estat_name',
             'sub_unit' => 'cs.name',
-            'supervisor_name' => 'concat_ws(\' \', se.emp_firstname,se.emp_middle_name,se.emp_lastname)',
-            'supervisorId' => 's.emp_firstname',
             'termination' => 'e.termination_id',
             'location' => 'l.location_id',
             'employee_id_list' => 'e.emp_number',
@@ -55,7 +53,6 @@ class EmployeeDirectoryDao extends BaseDao{
             'empLocation' => 'loc.name',
             'employeeStatus' => 'es.name',
             'subDivision' => 'cs.name',
-            'supervisor' => array('s.emp_firstname', 's.emp_lastname')
     );
     
     /**
@@ -131,7 +128,6 @@ class EmployeeDirectoryDao extends BaseDao{
                 'es.name AS employeeStatus, es.id AS employeeStatusId, '.
                 'e.emp_hm_telephone,  e.emp_mobile, e.emp_work_telephone, e.emp_work_email, e.emp_oth_email, '.
 
-                'GROUP_CONCAT(s.emp_firstname, \'## \', s.emp_middle_name, \'## \', s.emp_lastname) AS supervisors,'.
                 'GROUP_CONCAT(DISTINCT loc.id, \'##\',loc.name) AS locationIds';
               
 
@@ -139,8 +135,6 @@ class EmployeeDirectoryDao extends BaseDao{
                 '  LEFT JOIN ohrm_subunit cs ON cs.id = e.work_station ' .
                 '  LEFT JOIN ohrm_job_title j on j.id = e.job_title_code ' .
                 '  LEFT JOIN ohrm_employment_status es on e.emp_status = es.id ' .
-                '  LEFT JOIN hs_hr_emp_reportto rt on e.emp_number = rt.erep_sub_emp_number ' .
-                '  LEFT JOIN hs_hr_employee s on s.emp_number = rt.erep_sup_emp_number '.
                 '  LEFT JOIN hs_hr_emp_locations l ON l.emp_number = e.emp_number ' .
                 '  LEFT JOIN ohrm_location loc ON l.location_id = loc.id';
 
@@ -175,26 +169,8 @@ class EmployeeDirectoryDao extends BaseDao{
                     } else if ($searchField == 'employee_status') {
                         $conditions[] = ' es.id = ? ';
                         $bindParams[] = $searchBy;
-                    } else if ($searchField == 'supervisorId') {
-                        
-                        $subordinates = $this->_getSubordinateIds($searchBy);
-                        if (count($subordinates) > 0) {
-                            $conditions[] = ' e.emp_number IN (' . implode(',', $subordinates) . ') ';
-                        } else {                        
-                            $conditions[] = ' s.emp_number = ? ';
-                            $bindParams[] = $searchBy;
-                        }
                     } else if ($searchField == 'employee_id_list') {
                         $conditions[] = ' e.emp_number IN (' . implode(',', $searchBy) . ') ';
-                    } else if ($searchField == 'supervisor_name') {
-                       // $conditions[] = $field . ' LIKE ? ';
-                        $conditions[] =  ' e.emp_number IN ((SELECT srt.erep_sub_emp_number  FROM hs_hr_emp_reportto  srt LEFT JOIN hs_hr_employee se on ( srt.erep_sup_emp_number = se.emp_number )
-                        					WHERE '. $field.' LIKE ? ))';
-                        // Replace multiple spaces in string with wildcards
-                        $value = preg_replace('!\s+!', '%', $searchBy);
-                        $bindParams[] = '%' . $value . '%';
-                       
-                       // $conditions[] = " e.emp_number IN (SELECT erep_sup_emp_number FROM hs_hr_emp_reportto where erep_sub_emp_number = e.emp_number))";
                     } else if ($searchField == 'employee_name') {
                         $conditions[] = $field . ' LIKE ? ';
                         // Replace multiple spaces in string with wildcards
@@ -264,13 +240,6 @@ class EmployeeDirectoryDao extends BaseDao{
         /* Default sort by emp_number, makes resulting order predictable, useful for testing */
         $order['e.emp_lastname'] = 'asc';
 
-        /* Sort subordinates direct first, then indirect, then by supervisor name */
-        $order['rt.erep_reporting_mode'] = 'asc';
-
-        if ($sortField != 'supervisor') {
-            $order['s.emp_firstname'] = 'asc';
-            $order['s.emp_lastname'] = 'asc';
-        }
         $order['e.emp_number'] = 'asc';
 
         /* Build the order by part */
