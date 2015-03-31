@@ -60,7 +60,7 @@ class getLeaveCommentsAjaxAction extends baseCoreLeaveAction {
         
         $response = $this->getResponse();
         $response->setHttpHeader('Expires', '0');
-        $response->setHttpHeader("Cache-Control", "must-revalidate, post-check=0, pre-check=0");
+        $response->setHttpHeader("Cache-Control", "must-revalidate, post-check=0, pre-check=0, max-age=0");
         $response->setHttpHeader("Cache-Control", "private", false);
         
         return $this->renderText(json_encode($returnData));

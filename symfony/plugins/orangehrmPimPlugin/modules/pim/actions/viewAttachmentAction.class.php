@@ -60,7 +60,7 @@ class viewAttachmentAction extends basePimAction {
             //$response->setContentType($contentType);
 
             $response->setHttpHeader('Expires', '0');
-            $response->setHttpHeader("Cache-Control", "must-revalidate, post-check=0, pre-check=0");
+            $response->setHttpHeader("Cache-Control", "must-revalidate, post-check=0, pre-check=0, max-age=0");
             $response->setHttpHeader("Cache-Control", "private", false);
             $response->setHttpHeader("Content-Type", $contentType);
             $response->setHttpHeader("Content-Disposition", 'attachment; filename="' . $fileName . '";');
