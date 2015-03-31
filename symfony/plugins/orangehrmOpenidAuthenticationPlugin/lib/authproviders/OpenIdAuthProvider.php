@@ -56,17 +56,17 @@ class OpenIdAuthProvider extends AbstractAuthProvider {
                         $flag = array('type' => "true", 'message' => 'User has authentication!');
                         return $flag;
                     } else {
-                        $flag = array('type' => "false", 'message' => 'Invalid credentials : you Have No OpenID account in Orangehrm try loging with OrangeHRM credentials');
+                        $flag = array('type' => "false", 'message' => 'User Account Not found');
                         return $flag;
                     }
                 } catch (AuthenticationServiceException $ex) {
                     $this->getOpenIdService()->clearCredentials();
-                    $flag = array('type' => 'error', 'message' => 'Invalid credentials : you Have No OpenID account in Orangehrm try loging with OrangeHRM credentials');
+                    $flag = array('type' => 'error', 'message' => 'User Account Not found');
                     return $flag;
                 }
             } else {
                 $this->getOpenIdService()->clearCredentials();
-                $flag = array('type' => 'error', 'message' => 'Invalid credentials : you Have No OpenID account in Orangehrm try loging with OrangeHRM credentials');
+                $flag = array('type' => 'error', 'message' => 'User Account Not found');
                 return $flag;
             }
         }

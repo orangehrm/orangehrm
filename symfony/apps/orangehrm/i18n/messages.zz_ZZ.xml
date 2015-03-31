@@ -7476,6 +7476,10 @@
         <source>Add Organization Name</source>
         <target>FR_Add Organization Name</target>
       </trans-unit>
+      <trans-unit id="1869">
+        <source>User Account Not found</source>
+        <target>FR_User Account Not found</target>
+      </trans-unit>
     </body>
   </file>
 </xliff>
