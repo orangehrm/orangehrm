@@ -7413,8 +7413,8 @@
         <target>FR_Should Be a Valid Time in %format% Format</target>
       </trans-unit>
       <trans-unit id="1853">
-        <source>Social media authentication</source>
-        <target>FR_Social media authentication</target>
+        <source>Social Media Authentication</source>
+        <target>FR_Social Media Authentication</target>
       </trans-unit>
       <trans-unit id="1854">
         <source>Provider List</source>

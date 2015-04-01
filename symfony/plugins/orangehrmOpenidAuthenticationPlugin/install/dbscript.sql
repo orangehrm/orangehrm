@@ -41,7 +41,7 @@ SET @configuration_id := (SELECT `id` FROM ohrm_menu_item WHERE `menu_title` = '
 SET @max_order := (SELECT MAX(`order_hint`) FROM ohrm_menu_item WHERE parent_id = @configuration_id);
 
 INSERT INTO ohrm_menu_item ( `menu_title`, `screen_id`, `parent_id`, `level`, `order_hint`, `url_extras`, `status`) VALUES 
-('Social media authentication', @opnid_screen_id, @configuration_id, 3, @max_order+100, NULL, 1);
+('Social Media Authentication', @opnid_screen_id, @configuration_id, 3, @max_order+100, NULL, 1);
 
 INSERT INTO ohrm_user_role_screen (user_role_id, screen_id, can_read, can_create, can_update, can_delete) VALUES  
 (1, @opnid_screen_id, 1, 1, 1, 0);
