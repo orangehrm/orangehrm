@@ -33,7 +33,7 @@ $(document).ready(function() {
     });
   
     $('#btnCancel').click(function() {
-        //reload the page.  performanceTracker/addPerformanceTracker
+        //reload the page.  performance/addPerformanceTracker
         window.location = addPerformanceTrackerUrl;
     });
 

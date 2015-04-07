@@ -17,37 +17,32 @@
  * Boston, MA  02110-1301, USA
  */
 ?>
-<?php use_javascript('../orangehrmPerformanceTrackerPlugin/js/viewPerformanceTrackerLogListSuccess'); ?>
+
+<div id="messagebar" class="messageBalloon_<?php echo $messageType; ?>" >
+    <span>
+<?php 
+    if (!empty($messageType)) {
+       echo $message; 
+    }
+?>
+    </span>
+</div>
 
 <div id="mainDiv"> 
     <?php include_component('core', 'ohrmList'); ?>	
 </div> 
 
-<!-- comment dialog -->
-<div class="modal hide" id="commentDialog">
-  <div class="modal-header">
-    <a class="close" data-dismiss="modal">×</a>
-    <h3><?php echo __('Performance Tracker Log Comment'); ?></h3>
-  </div>
-  <div class="modal-body">
-    <p>
-    <form action="updateComment" method="post" id="frmCommentSave">
-        <input type="hidden" id="trackLogId" />
-        <input type="hidden" id="leaveOrRequest" />
-        <textarea name="trackLogComment" id="trackLogComment" cols="40" rows="10" class="commentTextArea"></textarea>
-        <br class="clear" />
-        <div id="commentError"></div>
-
-    </form>        
-    </p>
-  </div>
-  <div class="modal-footer">
-  </div>
+<div id="deleteConfirmation" title="<?php echo __('OrangeHRM - Confirmation Required'); ?>" style="display: none;">
+    <?php echo __(CommonMessages::DELETE_CONFIRMATION); ?>
+    <div class="dialogButtons">
+        <input type="button" id="dialogDeleteBtn" class="savebutton" value="<?php echo __('Ok'); ?>" />
+        <input type="button" id="dialogCancelBtn" class="savebutton" value="<?php echo __('Cancel'); ?>" />
+    </div>
 </div>
-<!-- end of comment dialog-->
+
 <script type="text/javascript">
     //<![CDATA[
-    var defineLeaveTypeUrl = '<?php echo url_for('performanceTracker/addPerformanceTracker'); ?>';    
+    var defineLeaveTypeUrl = '<?php echo url_for('performance/addPerformanceTracker'); ?>';    
     var lang_SelectLeaveTypeToDelete = '<?php echo __(TopLevelMessages::SELECT_RECORDS); ?>';  
     //]]>
 </script>

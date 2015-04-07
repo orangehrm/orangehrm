@@ -1,6 +1,6 @@
 <?php
 
-class orangehrmPerformanceTrackerPluginConfiguration extends sfPluginConfiguration {
+class orangehrmPerformanceTrackerPluginConfiguration1 extends sfPluginConfiguration {
 
     public function initialize() {
         $enabledModules = sfConfig::get('sf_enabled_modules');

@@ -28,7 +28,7 @@ class PerformanceTrackerLogListConfigurationFactory extends ohrmListConfiguratio
             'elementProperty' => array(
                 'labelGetter' => 'getReviewerName', 
                 'placeholderGetters' => array('trackId' => 'getPerformanceTrackId', 'id' => 'getId'),
-                'urlPattern' => 'index.php/performanceTracker/addPerformanceTrackerLog/trackId/{trackId}/logId/{id}'),
+                'urlPattern' => 'index.php/performance/addPerformanceTrackerLog/trackId/{trackId}/logId/{id}'),
         ));
 
         $header2->populateFromArray(array(

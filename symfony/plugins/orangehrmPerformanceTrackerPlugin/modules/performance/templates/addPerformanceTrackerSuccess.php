@@ -9,7 +9,7 @@ use_stylesheets_for_form($form);
     </div>
     
     <div class="inner">
-        <form name="frmaddPerformanceTracker" id="frmaddPerformanceTracker" method="post" action="<?php echo url_for('performanceTracker/addPerformanceTracker'); ?>" >
+        <form name="frmaddPerformanceTracker" id="frmaddPerformanceTracker" method="post" action="<?php echo url_for('performance/addPerformanceTracker'); ?>" >
 
             <?php echo $form['_csrf_token']; ?>
             <?php echo $form->renderHiddenFields(); ?>
@@ -96,7 +96,7 @@ use_stylesheets_for_form($form);
 
 
 <script type="text/javascript">
-        var addPerformanceTrackerUrl = "<?php echo url_for("performanceTracker/addPerformanceTracker"); ?>";
+        var addPerformanceTrackerUrl = "<?php echo url_for("performance/addPerformanceTracker"); ?>";
 	var employees = <?php echo str_replace('&#039;', "'", $form->getEmployeeListAsJson());?>;
 	var employeeList = eval(employees);
 	var lang_NameRequired = '<?php echo __(ValidationMessages::REQUIRED); ?>';

@@ -38,7 +38,7 @@ class deletePerformanceTrackerAction extends basePerformanceAction {
                 $this->getUser()->setFlash('success', __(TopLevelMessages::DELETE_SUCCESS));
             }
         }
-        $this->redirect('performanceTracker/addPerformanceTracker');
+        $this->redirect('performance/addPerformanceTracker');
     }
 
 }

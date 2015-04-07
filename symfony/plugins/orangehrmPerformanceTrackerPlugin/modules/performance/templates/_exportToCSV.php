@@ -1,7 +1,7 @@
 <input type="button" id="btnExportCsv" value="<?php echo __('Export to CSV');?>">
 
 <script type="text/javascript">
-	var exportUrl = '<?php echo url_for("performanceTracker/exportToCSV");?>';
+	var exportUrl = '<?php echo url_for("performance/exportToCSV");?>';
 	$(document).ready(function(){
 		$("#btnExportCsv").click(function(){
 			location.href = exportUrl + '?trackId=' + trackId;

@@ -16,7 +16,7 @@ class PerformanceTrackListConfigurationFactory extends ohrmListConfigurationFact
             'elementProperty' => array(
                 'labelGetter' => array('getter' => 'getTrackerName'),
                 'placeholderGetters' => array('id' => 'getId'),
-                'urlPattern' => 'index.php/performanceTracker/addPerformanceTrackerLog/trackId/{id}'),
+                'urlPattern' => 'index.php/performance/addPerformanceTrackerLog/trackId/{id}'),
         ));
 
         $header2->populateFromArray(array(
@@ -26,7 +26,7 @@ class PerformanceTrackListConfigurationFactory extends ohrmListConfigurationFact
             'elementProperty' => array(
                 'labelGetter' => array('getEmployee', 'getFirstAndLastNames'),
                 'placeholderGetters' => array('id' => 'getId'),
-                'urlPattern' => 'index.php/performanceTracker/addPerformanceTrackerLog/trackId/{id}'),
+                'urlPattern' => 'index.php/performance/addPerformanceTrackerLog/trackId/{id}'),
         ));
 
 

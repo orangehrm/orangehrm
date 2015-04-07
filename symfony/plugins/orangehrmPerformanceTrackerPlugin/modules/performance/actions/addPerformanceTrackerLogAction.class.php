@@ -107,7 +107,7 @@ class addPerformanceTrackerLogAction extends basePerformanceAction {
                     $this->getUser()->setFlash('success', __(TopLevelMessages::SAVE_SUCCESS));
                 }
 
-                $this->redirect('performanceTracker/addPerformanceTrackerLog?trackId=' . $trackId);
+                $this->redirect('performance/addPerformanceTrackerLog?trackId=' . $trackId);
             }
         } else {
 

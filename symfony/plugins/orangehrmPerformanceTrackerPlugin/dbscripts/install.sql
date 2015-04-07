@@ -51,9 +51,7 @@ CREATE TABLE `ohrm_performance_tracker_reviewer` (
 SET @admin_user_role := (SELECT id FROM ohrm_user_role WHERE name = 'Admin');
 SET @ess_user_role := (SELECT id FROM ohrm_user_role WHERE name = 'ESS');
 
-INSERT INTO `ohrm_module`( `name`, `status`) VALUES
-('performanceTracker', 1);
-SET @performance_module_id:= (SELECT LAST_INSERT_ID());
+SET @performance_module_id:= (SELECT `id` FROM `ohrm_module` WHERE `name` = 'performance');
 
 -- Admin Section. Manage Trackers.
 INSERT INTO `ohrm_screen` (`name`, `module_id`, `action_url`) VALUES

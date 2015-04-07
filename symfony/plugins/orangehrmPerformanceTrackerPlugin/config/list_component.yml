@@ -29,7 +29,7 @@ PerformanceTrackAdmin:
       data-toggle: modal 
   buttonsPosition: before-data
   formMethod: post
-  formAction: 'index.php/performanceTracker/deletePerformanceTracker'
+  formAction: 'index.php/performance/deletePerformanceTracker'
   assets: []
   jsInitMethods: []
 PerformanceTrackerLog:
@@ -46,6 +46,6 @@ PerformanceTrackerLog:
       label: Add
   buttonsPosition: before-data
   formMethod: post
-  formAction: 'index.php/performanceTracker/deletePerformanceTrackLogItem'
+  formAction: 'index.php/performance/deletePerformanceTrackLogItem'
   assets: []
   jsInitMethods: []

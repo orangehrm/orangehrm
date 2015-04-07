@@ -66,7 +66,7 @@
 <script type="text/javascript">
 //<![CDATA[
     var trackId = '<?php echo $trackId;?>';
-    var commentUpdateUrl = '<?php echo public_path('index.php/performanceTracker/updateComment'); ?>';
+    var commentUpdateUrl = '<?php echo public_path('index.php/performance/updateComment'); ?>';
     var lang_edit = '<?php echo __('Edit'); ?>';
     var lang_save = '<?php echo __('Save'); ?>';
     var lang_NameRequired = '<?php echo __(ValidationMessages::REQUIRED); ?>';    

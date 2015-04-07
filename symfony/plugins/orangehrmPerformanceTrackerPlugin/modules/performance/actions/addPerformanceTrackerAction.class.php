@@ -63,7 +63,7 @@ class addPerformanceTrackerAction extends basePerformanceAction {
                 
                 $messageArray = $this->form->save();
                 $this->getUser()->setFlash($messageArray['messageType'], $messageArray['messageBody']);
-                $this->redirect('performanceTracker/addPerformanceTracker');
+                $this->redirect('performance/addPerformanceTracker');
             }
         } 
 
