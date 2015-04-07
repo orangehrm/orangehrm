@@ -103,6 +103,16 @@ class SchemaIncrementTask62 extends SchemaIncrementTask {
 
         $sql[] = 'INSERT INTO ohrm_user_role_screen (user_role_id, screen_id, can_read, can_create, can_update, can_delete) VALUES  
                       (1, @opnid_screen_id, 1, 1, 1, 0);';
+        
+        $sql[] = 'SET @performance_module_id:= (SELECT `id` FROM `ohrm_module` WHERE `name` = \'performance\');';
+        
+        $sql[] = 'UPDATE `ohrm_screen` SET `module_id` = @performance_module_id WHERE `name` = \'Manage_Trackers\' AND `action_url` = \'addPerformanceTracker\'';
+        
+        $sql[] = 'UPDATE `ohrm_screen` SET `module_id` = @performance_module_id WHERE `name` = \'Employee_Trackers\' AND `action_url` = \'viewEmployeePerformanceTrackerList\'';
+        
+        $sql[] = 'UPDATE `ohrm_screen` SET `module_id` = @performance_module_id WHERE `name` = \'My_Trackers\' AND `action_url` = \'viewMyPerformanceTrackerList\'';
+        
+        $sql[] = 'UPDATE `ohrm_screen` SET `module_id` = @performance_module_id WHERE `name` = \'Employee_Tracker_Logs\' AND `action_url` = \'addPerformanceTrackerLog\'';
 
         $this->sql = $sql;
     }
