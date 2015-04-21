@@ -7,7 +7,7 @@ class orangehrmConfiguration extends sfApplicationConfiguration
       ini_set('session.use_only_cookies', "1");
       ini_set('session.cookie_httponly', "1");
       
-      ProjectConfiguration::getActive()->loadHelpers(array('I18N', 'OrangeDate', 'Orange', 'Url'));
+      ProjectConfiguration::getActive()->loadHelpers(array('I18N', 'OrangeDate', 'Orange', 'Url', 'VersionCompatibility'));
       sfWidgetFormSchema::setDefaultFormFormatterName('Default');
   }
   
