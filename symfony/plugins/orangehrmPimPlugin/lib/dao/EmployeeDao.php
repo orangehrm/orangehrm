@@ -2005,9 +2005,11 @@ class EmployeeDao extends BaseDao {
                         // Replace multiple spaces in string with wildcards
                         $value = preg_replace('!\s+!', '%', $searchBy);
                         $bindParams[] = '%' . $value . '%';
-                    }elseif( $searchField == 'location' ){
-                        if(!empty($filters['location']) && $filters['location'] != '-1'){
-                            $conditions[] = ' l.location_id IN (' . $searchBy . ') ';
+                    } elseif( $searchField == 'location' ) {
+                        if (!empty($filters['location']) && $filters['location'] != '-1') {
+                            $locations = explode(',', $filters['location']);
+                            $bindParams = array_merge($bindParams, $locations);
+                            $conditions[] = ' l.location_id IN (' . implode(',', array_fill(0, count($locations), '?')) . ') ';
                         }
                     }
                     $filterCount++;

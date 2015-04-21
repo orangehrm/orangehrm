@@ -528,7 +528,7 @@ class CandidateDao extends BaseDao {
             $sortQuery = 'e.emp_lastname ' . $sortOrder . ', ' . 'e.emp_firstname ' . $sortOrder;
         } elseif ($sortField == 'jc.date_of_application') {
             $sortQuery = 'jc.date_of_application ' . $sortOrder . ', ' . 'jc.last_name ASC, jc.first_name ASC';
-        } else {
+        } else if (in_array($sortField, array_column(CandidateHeaderFactory::getSortableFields(), 'sortField'))) {
             $sortQuery = $sortField . " " . $sortOrder;
         }
 
