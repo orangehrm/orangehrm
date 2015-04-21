@@ -33,7 +33,7 @@ class saveJobTitleAction extends baseAdminAction {
         $this->jobTitlePermissions = $this->getDataGroupPermissions('job_titles');
 
         $this->getUser()->setAttribute('addScreen', true);
-        $jobTitleId = $request->getParameter('jobTitleId');
+        $jobTitleId = (int) $request->getParameter('jobTitleId');
         $values = array('jobTitleId' => $jobTitleId, 'jobTitlePermissions' => $this->jobTitlePermissions);
 
         $this->setForm(new JobTitleForm(array(), $values));
