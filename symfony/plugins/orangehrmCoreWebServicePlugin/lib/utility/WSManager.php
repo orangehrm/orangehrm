@@ -7,6 +7,13 @@ class WSManager extends baseWSUtility {
     protected static $configurations = array();
 
     /**
+     *  Reset the configuration for test purposes. This is needed for testing
+     */
+    public static function resetConfiguration() {
+        self::$configurations = array();
+    }
+
+    /**
      *
      * @return WSWrapperFactory
      */
@@ -30,9 +37,20 @@ class WSManager extends baseWSUtility {
      * @param string methodName 
      * @return bool
      */
-    public function isMethodAvailable($methodName) {
+    public function isMethodAvailable($methodName, $requestType = 'GET') {
+        $methods = $this->getConfiguration('methods');
 
-        return array_key_exists($methodName, $this->getConfiguration('methods'));
+        if (isset($methods[$methodName])) {
+            $type = $methods[$methodName]['type'];
+            if (!is_array($type)) {
+                $type = array($type);
+            }
+            if (in_array($requestType, $type)) {
+                return true;
+            }
+        }
+
+        return false;
     }
 
     /**
@@ -62,13 +80,37 @@ class WSManager extends baseWSUtility {
      */
     public function callMethod(WSRequestParameters $paramObj) {
         $methodName = $paramObj->getMethod();
+        $methodParameters = $paramObj->getParameters();
 
-        $methodConfigurations = $this->getConfiguration('methods', $methodName);
+        $methodConfiguration = $this->getConfiguration('methods', $methodName);
 
-        $serviceWrapperClassName = $methodConfigurations['wrapper'];
+        $serviceWrapperClassName = $methodConfiguration['wrapper'];
 
         $serviceWrapperInstance = new $serviceWrapperClassName();
-        return call_user_func_array(array($serviceWrapperInstance, $methodName), $paramObj->getParameters());
+
+        // If web service config mentions parameters, only get them in that order
+        // 
+        if (isset($methodConfiguration['params'])) {
+            $paramNames = $methodConfiguration['params'];
+            $expectedParams = array();
+            $missingParameters = array();
+
+            foreach ($paramNames as $paramName) {
+                if (isset($methodParameters[$paramName])) {
+                    $expectedParams[$paramName] = $methodParameters[$paramName]; 
+                } else {
+                    $missingParameters[] = $paramName;
+                }                
+            }
+
+            if (count($missingParameters) > 0) {
+                throw new WebServiceException("Parameters missing: " . implode(',', $missingParameters), 400);
+            }
+        } else {
+            $expectedParams = $methodParameters;
+        }
+        
+        return call_user_func_array(array($serviceWrapperInstance, $methodName), $expectedParams);
     }
 
     /**
@@ -140,10 +182,13 @@ class WSManager extends baseWSUtility {
         $configuration = $this->getConfigurations();
 
         if (array_key_exists($configurationName, $configuration)) {
-            if (!is_null($configurationKey) && array_key_exists($configurationKey, $configuration[$configurationName])) {
+            if (is_null($configurationKey)) {
+                return $configuration[$configurationName];
+            }
+            if (array_key_exists($configurationKey, $configuration[$configurationName])) {
                 return $configuration[$configurationName][$configurationKey];
             } else {
-                return $configuration[$configurationName];
+                throw new WebServiceException('Invalid configuration key');
             }
         } else {
             throw new WebServiceException('Invalid configurations');

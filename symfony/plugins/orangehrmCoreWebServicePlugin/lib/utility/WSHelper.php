@@ -17,8 +17,7 @@
  *
  * Please refer http://www.orangehrm.com/Files/OrangeHRM_Commercial_License.pdf for the license which includes terms and conditions on using this software.
  *
- */ 
-
+ */
 class WSHelper extends baseWSUtility {
 
     const FORMAT_RAW = 'raw';
@@ -29,35 +28,88 @@ class WSHelper extends baseWSUtility {
      * @param sfWebRequest $request 
      * @return WSRequestParameters
      */
-    public function extractParamerts(sfWebRequest $request) {
+    public function extractParameters(sfWebRequest $request) {
         $webRequestParameters = new WSRequestParameters();
 
+        $logger = Logger::getLogger('core.webservices');
+
         $requestMethod = $request->getMethod();
-        $parameters = array_keys($request->getRequestParameters());
-
-        if (count($parameters) < 4) {
-            throw new WebServiceException('Web service method is not specified', 1001);
+        $contentType = $request->getContentType();
+        $logger->debug("HTTP Method: $requestMethod, Content-Type: $contentType");
+        
+        $requestParameters = $request->getRequestParameters();
+        
+        $logger->debug("Request Parameters: " . print_r($requestParameters, true));
+        if (!isset($requestParameters['ws_method'])) {
+            throw new WebServiceException('Web service method is not specified', 400);
         }
 
-        //$authenticationParamerters = json_decode($request->getHttpHeader('ohrm_ws_auth_parameters'), true);
-        $methodParameters = json_decode($request->getHttpHeader('ohrm_ws_method_parameters'), true);
-        
-//        if (!is_array($authenticationParamerters)) {
-//            throw new WebServiceException('Authentication parameters are sent in a wrong format', 1002);
+        $webServiceMethod = $requestParameters['ws_method'];
+
+        $methodParameters = array();
+
+        // Checking for deprecated method of sending parameters using an http header
+        $header = $request->getHttpHeader('ohrm_ws_method_parameters');
+
+        if (!empty($header)) {
+            $methodParameters = json_decode($header, true);
+            if (!is_array($methodParameters)) {
+                throw new WebServiceException("header ohrm_ws_method_parameters should be json encoded", 400);
+            }
+
+        } else {
+            // get request parameters in URL (eg: /empNumber/11) after removing the default parameters
+            $methodParameters = array_diff_key($requestParameters, array_flip(array('action', 'module', 'ws_method', '_sf_route')));
+
+            // Merge with GET parameters
+            $methodParameters = array_merge($methodParameters, $request->getGetParameters());
+
+            // Check for JSON encoded body
+            if ($contentType === 'application/json') {            
+                $postParams = json_decode(file_get_contents('php://input'), true);                
+                $methodParameters = array_merge($methodParameters, $postParams);
+            } else if ($requestMethod === 'POST') {
+                $methodParameters = array_merge($methodParameters, $request->getPostParameters());
+            }
+
+        }
+       
+//        $arrayName = $this->getArrayNameForFunction($function);
+//        if(!array_key_exists($arrayName, $methodParameters)) {
+//            throw new WebServiceException('Required array name not provided', 404);
 //        }
-        
-        if (!is_array($methodParameters)) {
-            throw new WebServiceException('Method parameters are sent in a wrong format', 1003);
-        }
-        
+
+     
         $webRequestParameters->setRequestMethod($requestMethod);
-        $webRequestParameters->setMethod($parameters[2]);
+        $webRequestParameters->setMethod($webServiceMethod);
         $webRequestParameters->setParameters($methodParameters);
 //        $webRequestParameters->setAppId($authenticationParamerters['app_id']);
 //        $webRequestParameters->setAppToken($authenticationParamerters['app_token']);
 //        $webRequestParameters->setSessionToken($authenticationParamerters['session_token']);
 
         return $webRequestParameters;
+    }
+    
+    protected function getArrayNameForFunction($function)
+    {
+        switch ($function) {
+            case 'updateEmployee':
+                $paramName = 'employee';
+                break;
+            case 'bulkUpdateEmployees':
+                $paramName = 'employees';
+                break;
+            case 'addEmployee':
+                $paramName = 'employee';
+                break;
+            case 'addAppraisal':
+                $paramName = 'appraisal';
+                break;
+            case 'updateUser':
+                $paramName = 'user';
+                break;
+        }
+        return $paramName;
     }
 
     /**

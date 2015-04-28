@@ -7,6 +7,10 @@
  */
 class WSManagerTest extends PHPUnit_Framework_TestCase {
 
+    public static function setupBeforeClass() {
+        WSManager::resetConfiguration();
+    }
+
     /**
      * @var WSManager
      */
@@ -33,9 +37,9 @@ class WSManagerTest extends PHPUnit_Framework_TestCase {
      */
     public function testIsMethodAvailable() {
         $this->manager->setPluginsDirectoryPath(dirname(__FILE__) . '/../../testPluginDirectoryStructure/');
-        $this->assertTrue($this->manager->isMethodAvailable('methodA'));
-        $this->assertTrue($this->manager->isMethodAvailable('methodD'));
-        $this->assertFalse($this->manager->isMethodAvailable('methodX'));
+        $this->assertTrue($this->manager->isMethodAvailable('methodA', 'GET'));
+        $this->assertTrue($this->manager->isMethodAvailable('methodD', 'GET'));
+        $this->assertFalse($this->manager->isMethodAvailable('methodX', 'GET'));
     }
 
     /**
@@ -87,18 +91,22 @@ class WSManagerTest extends PHPUnit_Framework_TestCase {
                 'methodA' => array(
                     'wrapper' => 'ClassA',
                     'group' => 'test1',
+                    'type' => 'GET',
                 ),
                 'exampleMethod' => array(
                     'wrapper' => 'ExampleServiceWrapper',
                     'group' => 'test2',
+                    'type' => 'GET',
                 ),
                 'methodC' => array(
                     'wrapper' => 'ClassC',
                     'group' => 'test1',
+                    'type' => 'GET',
                 ),
                 'methodD' => array(
                     'wrapper' => 'ClassD',
                     'group' => 'test2',
+                    'type' => 'GET',
                 ),
             ),
         );

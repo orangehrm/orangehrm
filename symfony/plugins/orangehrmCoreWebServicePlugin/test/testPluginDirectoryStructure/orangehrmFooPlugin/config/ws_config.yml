@@ -2,6 +2,8 @@ methods:
   methodC:
     wrapper: ClassC
     group: test1
+    type: GET
   methodD:
     wrapper: ClassD
     group: test2
+    type: GET

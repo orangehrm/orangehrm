@@ -1,0 +1,6 @@
+api_wscall:
+    url: /api/wsCall/:ws_method/*
+    param: { module:api, action:wsCall }
+api_index:
+    url: /api/:ws_method/*
+    param: { module:api, action:wsCall }

@@ -32,49 +32,67 @@ class wsCallAction extends sfAction {
     }
 
     public function execute($request) {
+        $logger = $this->getWebServiceLogger();
+
         $wsHelper = new WSHelper();
         $wsManager = new WSManager();
         
         $result = '';
         $status = 'INITIAL';
         $contentType = 'text/plain';
+        $httpStatus = 200;
+        $httpStatusText = null;
 
         try {
-            $paramObj = $wsHelper->extractParamerts($request);
-            $isMethodAvailable = $wsManager->isMethodAvailable($paramObj->getMethod());
+            $paramObj = $wsHelper->extractParameters($request);
+            $isMethodAvailable = $wsManager->isMethodAvailable($paramObj->getMethod(), $paramObj->getRequestMethod());           
 
+            $logger->debug(print_r($paramObj, true));
+            $logger->debug("MethodAvailable:" . $isMethodAvailable);
+            
             if ($isMethodAvailable) {
                 $isAuthenticated = $wsManager->isAuthenticated($paramObj);
                 $isAuthorized = $wsManager->isAuthorized($paramObj);
 
                 if ($isAuthenticated && $isAuthorized) {
-                    try {
+                        
                         $result = $wsManager->callMethod($paramObj);
+                        $logger->debug(print_r($result, true));
                         $result = $wsHelper->formatResult($result, WSHelper::FORMAT_JSON);
+                        $logger->debug(print_r($result, true));
                         $status = 'SUCCESS';
                         $contentType = 'text/json';
-                    } catch (Exception $e) {
-                        $logger = $this->getWebServiceLogger();
-                        $logger->info('Uncaught Exception: ' . $e->getMessage());
-                        $result = 'INTERNAL ERROR';
-                        $status = 'ERROR';
-                    }
                 } else {
                     $result = 'NOT ALLOWED';
                     $status = 'ERROR';
+                    $httpStatus = 401;
                 }
+
             } else {
                 $result = 'INVALID REQUEST';
                 $status = 'ERROR';
+                $httpStatus = 404;
+                $httpStatusText = 'Webservice Method Not Found (' . $paramObj->getMethod() . ')';
             }
         } catch (WebServiceException $e) {
             $result = $e->getCode() . ': ' . $e->getMessage();
             $status = 'ERROR'; 
+            $httpStatus = $e->getCode();
+            $httpStatusText = $e->getMessage();
+            
+        } catch (Exception $e) {
+            $logger = $this->getWebServiceLogger();
+            $logger->info('Uncaught Exception: ' . $e->getMessage());
+            $result = $e->getMessage().' '.$e->getCode();
+            $status = 'ERROR';
         }
 
-        $this->getResponse()->setContent($result);
-        $this->getResponse()->setHttpHeader('Content-type', $contentType);
-        $this->getResponse()->setHttpHeader('ohrm_ws_call_status', $status);
+        $response = $this->getResponse();
+
+        $response->setContent($result);
+        $response->setHttpHeader('Content-type', $contentType);
+        $response->setHttpHeader('ohrm_ws_call_status', $status);
+        $response->setStatusCode($httpStatus, $httpStatusText);
 
         return sfView::NONE;
     }

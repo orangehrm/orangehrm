@@ -4,4 +4,4 @@ CREATE TABLE `ohrm_ws_consumer` (
     `app_name` VARCHAR(50) DEFAULT NULL,
     `status` TINYINT NOT NULL DEFAULT 1,
     PRIMARY KEY(`app_id`)
-);
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;

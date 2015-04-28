@@ -55,36 +55,41 @@ class WSHelperTest extends PHPUnit_Framework_TestCase {
      * @covers WSHelper::extractParameters
      */
     public function testExtractParameters() {
-        $requestMock = $this->getMock('sfWebRequest', array('getMethod', 'getHttpHeader', 'getRequestParameters'), array(new sfEventDispatcher()));
+        $requestMock = $this->getMock('sfWebRequest', array('getMethod', 'getHttpHeader', 'getRequestParameters', 'getContentType'), 
+            array(new sfEventDispatcher()));
         $requestMock->expects($this->once())
                 ->method('getMethod')
                 ->will($this->returnValue('GET'));
-        $requestMock->expects($this->any())
+        $requestMock->expects($this->once())
+                ->method('getContentType')
+                ->will($this->returnValue('text/plain'));
+
+        $requestMock->expects($this->once())
                 ->method('getHttpHeader')
-                ->will($this->onConsecutiveCalls(
-                                json_encode(array('app_id' => 125, 'app_token' => '1234', 'session_token' => '_absdjwsef43ismk43efdker')), json_encode(array('page' => 2, 'limit' => 50))
+                ->with('ohrm_ws_method_parameters')
+                ->will($this->returnValue(json_encode(array('page' => 2, 'limit' => 50))
                         ));
         $requestMock->expects($this->once())
                 ->method('getRequestParameters')
                 ->will($this->returnValue(array(
                             'module' => 'api',
                             'action' => 'wsCall',
-                            'getEmployeeList' => '1',
+                            'ws_method' => 'getEmployeeList',
                             '_sf_route' => null,
                         )));
 
-        $resultWSRequestParamObj = $this->helper->extractParamerts($requestMock);
+        $resultWSRequestParamObj = $this->helper->extractParameters($requestMock);
         $this->assertTrue($resultWSRequestParamObj instanceof WSRequestParameters);
         $this->assertEquals('GET', $resultWSRequestParamObj->getRequestMethod());
         $this->assertEquals('getEmployeeList', $resultWSRequestParamObj->getMethod());
-        $this->assertEquals(array('app_id' => 125, 'app_token' => '1234', 'session_token' => '_absdjwsef43ismk43efdker'), $resultWSRequestParamObj->getParameters());
+        $this->assertEquals(array('page' => 2, 'limit' => 50), $resultWSRequestParamObj->getParameters());
     }
 
     /**
-     * @covers WSHelper::extractParamerts
+     * @covers WSHelper::extractParameters
      * @expectedException WebServiceException
      */
-    public function testExtractParamerts_InvalidAuthParameterHeaders() {
+    public function testextractParameters_InvalidAuthParameterHeaders() {
         $requestMock = $this->getMock('sfWebRequest', array('getMethod', 'getHttpHeader', 'getRequestParameters'), array(new sfEventDispatcher()));
         $requestMock->expects($this->once())
                 ->method('getMethod')
@@ -103,23 +108,23 @@ class WSHelperTest extends PHPUnit_Framework_TestCase {
                             '_sf_route' => null,
                         )));
 
-        $this->helper->extractParamerts($requestMock);
+        $this->helper->extractParameters($requestMock);
     }
 
     /**
-     * @covers WSHelper::extractParamerts
+     * @covers WSHelper::extractParameters
      * @expectedException WebServiceException
      */
-    public function testExtractParamerts_WithEmptyModuleAndMethod() {
+    public function testextractParameters_WithEmptyModuleAndMethod() {
         $requestMock = $this->getMock('sfWebRequest', array('getMethod', 'getHttpHeader', 'getRequestParameters'), array(new sfEventDispatcher()));
         $requestMock->expects($this->once())
                 ->method('getMethod')
                 ->will($this->returnValue('GET'));
         $requestMock->expects($this->any())
                 ->method('getHttpHeader')
-                ->will($this->onConsecutiveCalls(array(
-                            array('app_id' => 1, 'app_token' => '1234', 'session_token' => '_absdjwsef43ismk43efdker')
-                        )));
+                ->will($this->onConsecutiveCalls(
+                        'bad json', json_encode(array('page' => 2, 'limit' => 50))
+                        ));
         $requestMock->expects($this->once())
                 ->method('getRequestParameters')
                 ->will($this->returnValue(array(
@@ -128,7 +133,7 @@ class WSHelperTest extends PHPUnit_Framework_TestCase {
                             '_sf_route' => null,
                         )));
 
-        $this->helper->extractParamerts($requestMock);
+        $this->helper->extractParameters($requestMock);
     }
 
     /**

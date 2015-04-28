@@ -2,6 +2,8 @@ methods:
   methodA:
     wrapper: ClassA
     group: test1
+    type: GET
   exampleMethod:
     wrapper: ExampleServiceWrapper
     group: test2
+    type: GET

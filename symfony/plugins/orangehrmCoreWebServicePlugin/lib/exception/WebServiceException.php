@@ -20,7 +20,10 @@
  */ 
 
 
-class WebServiceException extends Exception {
+class WebServiceException extends OrangeHRMBaseException {
     
-}
-
+    public function setMessage($message){
+        $this->message = $message;
+    }
+    }
+    
