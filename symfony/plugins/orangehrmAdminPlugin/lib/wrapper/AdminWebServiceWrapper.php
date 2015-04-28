@@ -21,6 +21,9 @@ class AdminWebServiceWrapper implements WebServiceWrapper {
         return $this->adminWebServiceHelper;
     }
     
+    public function setServiceInstance(AdminWebServiceHelper $adminWebServiceHelper) {
+            $this->adminWebServiceHelper = $adminWebServiceHelper;
+    }
     /**
      * Get Job title list
      * @param type $options

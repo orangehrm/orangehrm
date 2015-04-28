@@ -67,6 +67,8 @@ class orangehrmAdminPluginAllTests {
         $suite->addTestFile(dirname(__FILE__) . '/model/service/WorkShiftServiceTest.php');
         $suite->addTestFile(dirname(__FILE__) . '/model/service/SystemUserServiceTest.php');
         
+        /* other Test Cases */
+        $suite->addTestFile(dirname(__FILE__) . '/model/wrapper/AdminWebServiceWrapperTest.php');
         return $suite;
     }
 

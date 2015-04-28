@@ -62,7 +62,7 @@ class AdminWebServiceHelper {
         $locationList = array();
         $locations = $this->getLocationService()->getLocationList();
 
-        $accessibleLocations = UserRoleManagerFactory::getUserRoleManager()->getAccessibleEntityIds('Location', BasicUserRoleManager::OPERATION_VIEW);
+        $accessibleLocations = $this->getAccessibleLocations();
 
         foreach ($locations as $location) {
             if ($showAll || in_array($location->id, $accessibleLocations)) {
@@ -79,6 +79,10 @@ class AdminWebServiceHelper {
         }
 
         return $locationList;
+    }
+    
+    public function getAccessibleLocations() {
+        return UserRoleManagerFactory::getUserRoleManager()->getAccessibleEntityIds('Location', BasicUserRoleManager::OPERATION_VIEW);
     }
 
 }

@@ -2,6 +2,8 @@ methods:
   getJobTitleList:
     wrapper: AdminWebServiceWrapper
     group: admin
+    type: [GET]
   getLocationList:
     wrapper: AdminWebServiceWrapper
     group: admin
+    type: [GET]
