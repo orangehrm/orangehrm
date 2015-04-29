@@ -22,6 +22,8 @@ class orangehrmCorporateDirectoryPluginAllTests {
         /* Helper Test */
         $suite->addTestFile(dirname(__FILE__) . '/model/wrapper/CorporateDirectoryWebServiceHelperTest.php');
 
+        /* Wrapper Test */
+        $suite->addTestFile(dirname(__FILE__) . '/model/wrapper/CorporateDirectoryWebServiceWrapperTest.php');
         return $suite;
     }
 

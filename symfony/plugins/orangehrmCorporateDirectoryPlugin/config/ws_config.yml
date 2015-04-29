@@ -2,3 +2,4 @@ methods:
   getCorporateDirectoryEmployeeDetails:
     wrapper: CorporateDirectoryWebServiceWrapper
     group: corporateDirectory
+    type: [GET]

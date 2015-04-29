@@ -14,8 +14,9 @@
 class CorporateDirectoryWebServiceHelper {
 
     protected $employeeDirectoryService;
-    
-    public function setEmployeeDirectoryService(EmployeeDirectoryService $employeeDirectoryService){
+    protected $employeeService;
+
+    public function setEmployeeDirectoryService(EmployeeDirectoryService $employeeDirectoryService) {
         $this->employeeDirectoryService = $employeeDirectoryService;
     }
 
@@ -25,6 +26,18 @@ class CorporateDirectoryWebServiceHelper {
             $this->employeeDirectoryService->setEmployeeDirectoryDao(new EmployeeDirectoryDao());
         }
         return $this->employeeDirectoryService;
+    }
+
+    public function getEmployeeService() {
+        if (is_null($this->employeeService)) {
+            $this->employeeService = new EmployeeService();
+            $this->employeeService->setEmployeeDao(new EmployeeDao());
+        }
+        return $this->employeeService;
+    }
+
+    public function setEmployeeService(EmployeeService $employeeService) {
+        $this->employeeService = $employeeService;
     }
 
     /**
@@ -60,6 +73,15 @@ class CorporateDirectoryWebServiceHelper {
                 'profile_image_url' => url_for('directory/viewDirectoryPhoto?empNumber=' . $employee->getEmpNumber()),
                 'terminated' => $employee->getTerminationId()
             );
+
+            $empPicture = $this->getEmployeeService()->getEmployeePicture($employee->getEmpNumber());
+            if ($empPicture instanceof EmpPicture) {
+                $base64Picture = base64_encode($empPicture->getPicture());
+                $employeeDetails['profile_picture'] = array('image_string' => $base64Picture,
+                    'image_type' => $empPicture->getFileType());
+            } else {
+                $employeeDetails['profile_picture'] = null;
+            }
 
             if ($employee->getLocations()->getFirst() instanceof Location) {
                 $employeeDetails['location_id'] = $employee->getLocations()->getFirst()->getId();
