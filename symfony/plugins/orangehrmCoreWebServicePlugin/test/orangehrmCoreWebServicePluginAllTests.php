@@ -1,6 +1,6 @@
 <?php
 
-class orangehrmWebServicesPluginAllTests {
+class orangehrmCoreWebServicePluginAllTests {
 
     protected function setUp() {
 
@@ -8,7 +8,7 @@ class orangehrmWebServicesPluginAllTests {
 
     public static function suite() {
 
-        $suite = new PHPUnit_Framework_TestSuite('orangehrmWebServicesPluginAllTest');
+        $suite = new PHPUnit_Framework_TestSuite('orangehrmCoreWebServicePluginAllTest');
 
         /* Utility Test Cases */
         $suite->addTestFile(dirname(__FILE__) . '/lib/utility/WSHelperTest.php');
@@ -31,8 +31,8 @@ class orangehrmWebServicesPluginAllTests {
 
 }
 
-if (PHPUnit_MAIN_METHOD == 'orangehrmWebServicesPluginAllTests::main') {
-    orangehrmWebServicesPluginAllTests::main();
+if (PHPUnit_MAIN_METHOD == 'orangehrmCoreWebServicePluginAllTests::main') {
+    orangehrmCoreWebServicePluginAllTests::main();
 }
 
 ?>
