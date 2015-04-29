@@ -15,9 +15,11 @@ require_once ROOT_PATH . "/lib/confs/Conf.php";
 
 class AdminWebServiceWrapperTest extends PHPUnit_Framework_TestCase {
 
-    protected $fixture;
+    protected $jobTitlefixture;
     protected $manager;
-
+    protected $adminWebServiceWrapper;
+    protected $locationFixture;
+    protected $locationTestCases;
     public static function setupBeforeClass() {
         WSManager::resetConfiguration();
     }
@@ -26,10 +28,10 @@ class AdminWebServiceWrapperTest extends PHPUnit_Framework_TestCase {
      * Set up method
      */
     protected function setUp() {
-        $this->employeeServiceWrapper = new AdminWebServiceWrapper();
-        $this->fixture = sfConfig::get('sf_plugins_dir') . '/orangehrmAdminPlugin/test/fixtures/JobTitleDao.yml';
-        $this->fixture2 = sfConfig::get('sf_plugins_dir') . '/orangehrmAdminPlugin/test/fixtures/LocationDao.yml';
-        $this->testCases = sfYaml::load(sfConfig::get('sf_plugins_dir') . '/orangehrmAdminPlugin/test/fixtures/LocationDao.yml');
+        $this->adminWebServiceWrapper = new AdminWebServiceWrapper();
+        $this->jobTitlefixture = sfConfig::get('sf_plugins_dir') . '/orangehrmAdminPlugin/test/fixtures/JobTitleDao.yml';
+        $this->locationFixture = sfConfig::get('sf_plugins_dir') . '/orangehrmAdminPlugin/test/fixtures/LocationDao.yml';
+        $this->locationTestCases = sfYaml::load(sfConfig::get('sf_plugins_dir') . '/orangehrmAdminPlugin/test/fixtures/LocationDao.yml');
         $this->manager = new WSManager();
         $this->helper = new WSHelper();
 
@@ -39,7 +41,7 @@ class AdminWebServiceWrapperTest extends PHPUnit_Framework_TestCase {
     }
 
     public function testCallGetJobTitleListMethod() {
-        TestDataService::populate($this->fixture);
+        TestDataService::populate($this->jobTitlefixture);
         $paramObj = new WSRequestParameters();
         $paramObj->setAppId(1);
         $paramObj->setAppToken('1234567890');
@@ -66,7 +68,7 @@ class AdminWebServiceWrapperTest extends PHPUnit_Framework_TestCase {
     }
 
     public function testCallGetLocationListMethod() {
-        TestDataService::populate($this->fixture2);
+        TestDataService::populate($this->locationFixture);
         $paramObj = new WSRequestParameters();
         $paramObj->setAppId(1);
         $paramObj->setAppToken('1234567890');
@@ -78,11 +80,11 @@ class AdminWebServiceWrapperTest extends PHPUnit_Framework_TestCase {
         $mock->method('getAccessibleLocations')
                 ->will($this->returnValue(array()));
 
-        $this->employeeServiceWrapper->setServiceInstance($mock);
-        $paramObj->setWrapperObject($this->employeeServiceWrapper);
+        $this->adminWebServiceWrapper->setServiceInstance($mock);
+        $paramObj->setWrapperObject($this->adminWebServiceWrapper);
         $result = $this->manager->callMethod($paramObj);
         $this->assertNotNull($result);
-        foreach ($this->testCases['Location'] as $key => $testCase) {
+        foreach ($this->locationTestCases['Location'] as $key => $testCase) {
             $this->assertEquals($result[$key]['id'], $testCase['id']);
             $this->assertEquals($result[$key]['locationName'], $testCase['name']);
             $this->assertEquals($result[$key]['country_code'], $testCase['country_code']);

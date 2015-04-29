@@ -17,6 +17,7 @@ class CorporateDirectoryWebServiceWrapperTest extends PHPUnit_Framework_TestCase
 
     protected $fixture;
     protected $manager;
+    protected $corporateDirectoryWebServiceWrapper;
 
     public static function setupBeforeClass() {
         WSManager::resetConfiguration();
@@ -26,7 +27,7 @@ class CorporateDirectoryWebServiceWrapperTest extends PHPUnit_Framework_TestCase
      * Set up method
      */
     protected function setUp() {
-        $this->employeeServiceWrapper = new CorporateDirectoryWebServiceWrapper();
+        $this->corporateDirectoryWebServiceWrapper = new CorporateDirectoryWebServiceWrapper();
         $this->fixture = sfConfig::get('sf_plugins_dir') . '/orangehrmCorporateDirectoryPlugin/test/fixtures/EmployeeDirectoryWrapperData.yml';
         $this->manager = new WSManager();
         $this->helper = new WSHelper();
