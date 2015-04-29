@@ -28,6 +28,23 @@ class WSRequestParameters {
     protected $appToken;
     protected $sessionToken;
 
+    protected $wrapperObject;
+    /**
+     *
+     * @return string
+     */
+    public function getWrapperObject() {
+        return $this->wrapperObject;
+    }
+
+    /**
+     *
+     * @param string $wrapperObject 
+     */
+    public function setWrapperObject($wrapperObject) {
+        $this->wrapperObject = $wrapperObject;
+    }
+    
     /**
      *
      * @return string

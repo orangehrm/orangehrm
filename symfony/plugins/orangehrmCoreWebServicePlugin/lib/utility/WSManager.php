@@ -86,7 +86,11 @@ class WSManager extends baseWSUtility {
 
         $serviceWrapperClassName = $methodConfiguration['wrapper'];
 
-        $serviceWrapperInstance = new $serviceWrapperClassName();
+        if ($paramObj->getWrapperObject()) {
+            $serviceWrapperInstance = $paramObj->getWrapperObject();
+        } else {
+            $serviceWrapperInstance = new $serviceWrapperClassName();
+        }
 
         // If web service config mentions parameters, only get them in that order
         // 
