@@ -23,6 +23,7 @@
  * @property Doctrine_Collection $LeaveAdjustment
  * @property Doctrine_Collection $LeaveRequestComment
  * @property Doctrine_Collection $LeaveComment
+ * @property Doctrine_Collection $UserIdentitiy
  * @property Doctrine_Collection $PerformanceTrackerLog
  * @property Doctrine_Collection $TimesheetActionLog
  * 
@@ -44,6 +45,7 @@
  * @method Doctrine_Collection getLeaveAdjustment()       Returns the current record's "LeaveAdjustment" collection
  * @method Doctrine_Collection getLeaveRequestComment()   Returns the current record's "LeaveRequestComment" collection
  * @method Doctrine_Collection getLeaveComment()          Returns the current record's "LeaveComment" collection
+ * @method Doctrine_Collection getUserIdentitiy()         Returns the current record's "UserIdentitiy" collection
  * @method Doctrine_Collection getPerformanceTrackerLog() Returns the current record's "PerformanceTrackerLog" collection
  * @method Doctrine_Collection getTimesheetActionLog()    Returns the current record's "TimesheetActionLog" collection
  * @method SystemUser          setId()                    Sets the current record's "id" value
@@ -64,6 +66,7 @@
  * @method SystemUser          setLeaveAdjustment()       Sets the current record's "LeaveAdjustment" collection
  * @method SystemUser          setLeaveRequestComment()   Sets the current record's "LeaveRequestComment" collection
  * @method SystemUser          setLeaveComment()          Sets the current record's "LeaveComment" collection
+ * @method SystemUser          setUserIdentitiy()         Sets the current record's "UserIdentitiy" collection
  * @method SystemUser          setPerformanceTrackerLog() Sets the current record's "PerformanceTrackerLog" collection
  * @method SystemUser          setTimesheetActionLog()    Sets the current record's "TimesheetActionLog" collection
  * 
@@ -152,6 +155,10 @@ abstract class BaseSystemUser extends sfDoctrineRecord
         $this->hasMany('LeaveComment', array(
              'local' => 'id',
              'foreign' => 'created_by_id'));
+
+        $this->hasMany('UserIdentitiy', array(
+             'local' => 'id',
+             'foreign' => 'user_id'));
 
         $this->hasMany('PerformanceTrackerLog', array(
              'local' => 'id',
