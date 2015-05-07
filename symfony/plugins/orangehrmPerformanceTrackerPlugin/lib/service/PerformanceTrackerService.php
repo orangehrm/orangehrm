@@ -231,9 +231,3 @@ class PerformanceTrackerService extends BaseService {
     }
 
 }
-?>
-
-
-
-
-
