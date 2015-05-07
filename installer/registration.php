@@ -79,7 +79,7 @@
         xmlhttp.onreadystatechange = function() {
             if (xmlhttp.readyState == 4) {
                 
-            } else if (xmlhttp.readyState == 2) {
+            } else if (xmlhttp.readyState == 1) {
                 document.frmInstall.submit();
             }
         }
