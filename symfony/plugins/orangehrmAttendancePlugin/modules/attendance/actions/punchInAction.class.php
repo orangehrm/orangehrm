@@ -108,9 +108,14 @@ class punchInAction extends sfAction {
 
                     $punchIndateTime = strtotime($punchInDate . " " . $punchIntime);
 
+                    if($this->isCurrantTimeValid($timeZoneOffset,$punchIndateTime)){ 
                     $attendanceRecord = $this->setAttendanceRecord($attendanceRecord, $nextState, date('Y-m-d H:i', $punchIndateTime - $timeZoneOffset), date('Y-m-d H:i', $punchIndateTime), $timeZoneOffset / 3600, $punchInNote);
 
                     $this->redirect("attendance/punchOut");
+                    }else{
+                       $this->getUser()->setFlash('warning', __(TopLevelMessages::VALIDATION_FAILED));
+                       $this->redirect($request->getReferer()); 
+                    }
 
                 }
             } else {
@@ -157,6 +162,14 @@ class punchInAction extends sfAction {
             $this->forward(sfConfig::get('sf_secure_module'), sfConfig::get('sf_secure_action'));
         }
         
+    }
+    protected function isCurrantTimeValid($timeZoneOffset,$punchIndateTime) {
+
+        $timeStampDiff = $timeZoneOffset - date('Z');
+        $currentDate = date('Y-m-d', time() + $timeStampDiff);
+        $currentTime = date('H:i', time() + $timeStampDiff);
+        $curantTime = strtotime($currentDate . " " . $currentTime);
+        return  (($curantTime -$punchIndateTime) < 60 && ($curantTime -$punchIndateTime) > -60)  ;
     }
 
 }

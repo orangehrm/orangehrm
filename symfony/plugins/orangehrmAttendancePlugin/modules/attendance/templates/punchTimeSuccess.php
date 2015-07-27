@@ -188,7 +188,7 @@ if (((in_array(PluginWorkflowStateMachine::ATTENDANCE_ACTION_EDIT_PUNCH_IN_TIME,
         }
         function getCurrentTime(){
 
-            var d = new Date()
+            var d = new Date();
             var timeZone = -d.getTimezoneOffset()*60;
             var array = new Array();
             var r = $.ajax({

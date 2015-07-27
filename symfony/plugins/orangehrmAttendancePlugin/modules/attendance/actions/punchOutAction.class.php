@@ -99,11 +99,16 @@ class punchOutAction extends sfAction {
                     $nextState = $punchOutAction->getResultingState();
                     $punchOutdateTime = strtotime($punchOutDate . " " . $punchOutTime);
 
+                    if($this->isCurrantTimeValid($timeZoneOffset,$punchOutdateTime)){ 
                     $attendanceRecord = $this->setAttendanceRecord($attendanceRecord, $nextState, date('Y-m-d H:i', $punchOutdateTime - $timeZoneOffset), date('Y-m-d H:i', $punchOutdateTime), $timeZoneOffset / 3600, $punchOutNote);
 
                     $this->getUser()->setFlash('templateMessage', array('success', __(TopLevelMessages::SAVE_SUCCESS)));
                     $this->redirect('attendance/punchIn');
 
+                    }else{
+                        $this->getUser()->setFlash('warning', __(TopLevelMessages::VALIDATION_FAILED));
+                        $this->redirect($request->getReferer());
+                    }
                 }
             } else {
                 $this->form->bind($request->getParameter('attendance'));
@@ -150,5 +155,12 @@ class punchOutAction extends sfAction {
         }
         
     }
+     protected function isCurrantTimeValid($timeZoneOffset,$punchOutdateTime) {
     
+        $timeStampDiff = $timeZoneOffset - date('Z');
+        $currentDate = date('Y-m-d', time() + $timeStampDiff);
+        $currentTime = date('H:i', time() + $timeStampDiff);
+        $curantTime = strtotime($currentDate . " " . $currentTime);
+        return  (($curantTime -$punchOutdateTime) < 60 && ($curantTime -$punchOutdateTime) > -60)  ;
+    }
 }
