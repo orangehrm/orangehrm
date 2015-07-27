@@ -32,7 +32,7 @@
 ; Product Details
 
   !define ProductName "OrangeHRM"
-  !define ProductVersion "3.3.1"
+  !define ProductVersion "3.3.2"
 
   !define Organization "OrangeHRM Inc."
 
