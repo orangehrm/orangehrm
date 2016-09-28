@@ -134,7 +134,7 @@ foreach ($jobVacancyList as $vacancy) {
                             $attachment = $form->attachment;
                             $linkHtml = "<div id=\"fileLink\"><a target=\"_blank\" class=\"fileLink\" href=\"";
                             $linkHtml .= url_for('recruitment/viewCandidateAttachment?attachId=' . $attachment->getId());
-                            $linkHtml .= "\">{$attachment->getFileName()}</a></div>";
+                            $linkHtml .= "\">{$attachmentName}</a></div>";
 
                             echo $form['resumeUpdate']->renderLabel(__('Resume'));
                             echo $linkHtml;

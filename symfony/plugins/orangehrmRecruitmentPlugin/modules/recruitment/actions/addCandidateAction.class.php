@@ -91,8 +91,9 @@ class addCandidateAction extends baseAction {
         }
         $param = array('candidateId' => $this->candidateId, 'allowedVacancyList' => $allowedVacancyList, 'empNumber' => $userObj->getEmployeeNumber(), 'isAdmin' => $userObj->isAdmin(), 'candidatePermissions' => $this->candidatePermissions);
         $this->setForm(new AddCandidateForm(array(), $param, true));
-
-
+        if($this->getForm()->getResume()) {
+            $this->attachmentName = $this->getForm()->getResume()->getFileName();
+        }
         $vacancyProperties = array('name', 'id', 'status');
         $this->jobVacancyList = $this->getVacancyService()->getVacancyPropertyList($vacancyProperties);
 
