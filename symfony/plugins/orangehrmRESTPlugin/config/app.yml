@@ -1,0 +1,3 @@
+all:
+  orangehrmCoreOAuthPlugin:
+    version: '1.0'

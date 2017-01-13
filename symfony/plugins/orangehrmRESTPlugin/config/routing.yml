@@ -1,0 +1,3 @@
+api_wscall:
+    url: /api/v1/get
+    param: { module:baseapi, action:baseGet }

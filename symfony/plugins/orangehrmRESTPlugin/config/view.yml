@@ -1,0 +1,6 @@
+authorizeSuccess:
+  has_layout: false
+registerOAuthClientSuccess:
+  layout: freshorange
+authorizeSuccess:
+  layout: freshorange
