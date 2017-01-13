@@ -17,7 +17,7 @@
  * Boston, MA  02110-1301, USA
  */
 
-class baseGetAction extends baseOAuthAction {
+class getUserAction extends baseOAuthAction {
 
     public function preExecute() {
         parent::preExecute();
@@ -44,4 +44,3 @@ class baseGetAction extends baseOAuthAction {
         return sfView::NONE;
     }
 }
-
