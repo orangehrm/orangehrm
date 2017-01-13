@@ -63,7 +63,7 @@ class OAuthService extends BaseService {
             $storage = new OAuth2_Storage_Pdo($conn, $config);
             $server = new OAuth2_Server($storage);
            // $server->addGrantType(new OAuth2_GrantType_AuthorizationCode($storage));
-            //$server->addGrantType(new OAuth2_GrantType_ClientCredentials($storage));
+            $server->addGrantType(new OAuth2_GrantType_ClientCredentials($storage));
             $server->addGrantType(new OAuth2_GrantType_UserCredentials(new OAuth2_Storage_OhrmUserCredentials()));
             $server->addGrantType(new OAuth2_GrantType_RefreshToken($storage));// or any grant type you like!
             
