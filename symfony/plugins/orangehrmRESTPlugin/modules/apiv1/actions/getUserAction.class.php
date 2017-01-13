@@ -17,19 +17,8 @@
  * Boston, MA  02110-1301, USA
  */
 
-class getUserAction extends baseOAuthAction {
+class getUserAction extends baseGetAction {
 
-    public function preExecute() {
-        parent::preExecute();
-        $server = $this->getOAuthServer();
-        $oauthRequest = $this->getOAuthRequest();
-        $oauthResponse = $this->getOAuthResponse();
-
-        if (!$server->verifyResourceRequest($oauthRequest, $oauthResponse)) {
-            $server->getResponse()->send();
-            exit;
-        }
-    }
 
     public function execute($request) {
 

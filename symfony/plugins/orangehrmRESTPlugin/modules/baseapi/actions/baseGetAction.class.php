@@ -17,7 +17,7 @@
  * Boston, MA  02110-1301, USA
  */
 
-class baseGetAction extends baseOAuthAction {
+abstract class baseGetAction extends baseOAuthAction {
 
     public function preExecute() {
         parent::preExecute();
@@ -29,19 +29,6 @@ class baseGetAction extends baseOAuthAction {
             $server->getResponse()->send();
             exit;
         }
-    }
-
-    public function execute($request) {
-
-        $api_response = array(
-            'users' => array(
-                'john',
-                'matt',
-                'jane'
-            )
-        );
-        echo json_encode($api_response);
-        return sfView::NONE;
     }
 }
 
