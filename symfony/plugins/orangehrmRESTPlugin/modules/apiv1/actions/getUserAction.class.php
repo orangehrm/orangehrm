@@ -19,17 +19,13 @@
 
 class getUserAction extends baseGetAction {
 
-
-    public function execute($request) {
-
-        $api_response = array(
+    protected function getData(){
+        return array(
             'users' => array(
                 'john',
                 'matt',
                 'jane'
             )
         );
-        echo json_encode($api_response);
-        return sfView::NONE;
     }
 }

@@ -18,7 +18,9 @@
  */
 
 abstract class baseGetAction extends baseOAuthAction {
-
+    /**
+     * Check token validation
+     */
     public function preExecute() {
         parent::preExecute();
         $server = $this->getOAuthServer();
@@ -29,6 +31,20 @@ abstract class baseGetAction extends baseOAuthAction {
             $server->getResponse()->send();
             exit;
         }
+    }
+
+    /**
+     * @return array
+     */
+    abstract protected function getData();
+
+    /**
+     * @param sfRequest $request
+     * @return string
+     */
+    public function execute($request) {
+        echo json_encode($this->getData());
+        return sfView::NONE;
     }
 }
 
