@@ -3,7 +3,9 @@
   "description": "OrangeHRM open source",
   "keywords": ["orangehrm"],
   "type": "project",
-  "require": {
-    "bshaffer/oauth2-server-php": "~1.8"
+  "autoload": {
+    "psr-4": {
+      "Orangehrm\\Rest\\":"../plugins/orangehrmRESTPlugin/lib"
+    }
   }
 }

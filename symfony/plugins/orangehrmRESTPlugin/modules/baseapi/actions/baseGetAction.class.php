@@ -16,13 +16,17 @@
  * if not, write to the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
  * Boston, MA  02110-1301, USA
  */
+use Orangehrm\Rest\Request;
+use Orangehrm\Rest\Response;
 
 abstract class baseGetAction extends baseOAuthAction {
+
     /**
      * Check token validation
      */
     public function preExecute() {
         parent::preExecute();
+
         $server = $this->getOAuthServer();
         $oauthRequest = $this->getOAuthRequest();
         $oauthResponse = $this->getOAuthResponse();
@@ -34,16 +38,18 @@ abstract class baseGetAction extends baseOAuthAction {
     }
 
     /**
-     * @return array
+     * @param Request $request
+     * @return Response
      */
-    abstract protected function getData();
+    abstract protected function handleRequest(Request $request);
 
     /**
      * @param sfRequest $request
      * @return string
      */
     public function execute($request) {
-        echo json_encode($this->getData());
+        $httpRequest = new Request($request);
+        echo $this->handleRequest($httpRequest)->format();
         return sfView::NONE;
     }
 }

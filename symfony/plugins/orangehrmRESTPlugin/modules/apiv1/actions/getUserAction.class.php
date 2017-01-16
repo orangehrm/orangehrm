@@ -17,15 +17,19 @@
  * Boston, MA  02110-1301, USA
  */
 
+use Orangehrm\Rest\Request;
+use Orangehrm\Rest\Response;
+
 class getUserAction extends baseGetAction {
 
-    protected function getData(){
-        return array(
+    protected function handleRequest(Request $request){
+        $data = array(
             'users' => array(
                 'john',
                 'matt',
                 'jane'
             )
         );
+        return new Response($data);
     }
 }
