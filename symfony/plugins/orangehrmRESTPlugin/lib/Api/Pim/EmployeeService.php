@@ -1,4 +1,5 @@
 <?php
+
 /**
  * OrangeHRM is a comprehensive Human Resource Management (HRM) System that captures
  * all the essential functionalities required for any enterprise.
@@ -16,20 +17,17 @@
  * if not, write to the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
  * Boston, MA  02110-1301, USA
  */
+namespace Orangehrm\Rest\Api\Pim;
 
-use Orangehrm\Rest\Http\Request;
-use Orangehrm\Rest\Http\Response;
-
-class getUserAction extends baseGetAction {
-
-    protected function handleRequest(Request $request){
-        $data = array(
+class EmployeeService
+{
+    public function getEmployeeList() {
+        return array(
             'users' => array(
                 'john',
                 'matt',
                 'jane'
             )
         );
-        return new Response($data);
     }
 }

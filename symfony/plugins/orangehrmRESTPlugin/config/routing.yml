@@ -2,6 +2,6 @@ api_wscall:
     url: /api/v1/get
     param: { module:baseapi, action:baseGet }
 
-api_get_user:
-    url: /api/v1/user
-    param: { module:apiv1, action:getUser }
+api_get_employee:
+    url: /api/v1/employee
+    param: { module:apiv1, action:getEmploye }
