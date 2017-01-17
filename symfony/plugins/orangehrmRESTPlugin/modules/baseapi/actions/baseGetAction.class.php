@@ -16,8 +16,8 @@
  * if not, write to the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
  * Boston, MA  02110-1301, USA
  */
-use Orangehrm\Rest\Request;
-use Orangehrm\Rest\Response;
+use Orangehrm\Rest\Http\Request;
+use Orangehrm\Rest\Http\Response;
 
 abstract class baseGetAction extends baseOAuthAction {
 

@@ -17,8 +17,8 @@
  * Boston, MA  02110-1301, USA
  */
 
-use Orangehrm\Rest\Request;
-use Orangehrm\Rest\Response;
+use Orangehrm\Rest\Http\Request;
+use Orangehrm\Rest\Http\Response;
 
 class getUserAction extends baseGetAction {
 
