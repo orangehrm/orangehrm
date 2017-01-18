@@ -1,0 +1,11 @@
+{
+  "name": "orangehrm/orangehrm",
+  "description": "OrangeHRM open source",
+  "keywords": ["orangehrm"],
+  "type": "project",
+  "autoload": {
+    "psr-4": {
+      "Orangehrm\\Rest\\":"../plugins/orangehrmRESTPlugin/lib"
+    }
+  }
+}
