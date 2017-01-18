@@ -35,6 +35,6 @@ class Response{
      * @return string
      */
     public function format() {
-        return json_encode($this->data);
+        return json_encode($this->data,true);
     }
 }

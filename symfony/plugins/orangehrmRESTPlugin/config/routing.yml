@@ -4,4 +4,4 @@ api_wscall:
 
 api_get_employee:
     url: /api/v1/employee
-    param: { module:apiv1, action:getEmploye }
+    param: { module:apiv1, action:getEmployee }

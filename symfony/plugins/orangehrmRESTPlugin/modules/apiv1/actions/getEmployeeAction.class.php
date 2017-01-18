@@ -21,7 +21,7 @@ use Orangehrm\Rest\Http\Request;
 use Orangehrm\Rest\Http\Response;
 use Orangehrm\Rest\Api\Pim\EmployeeService;
 
-class getEmployeAction extends baseGetAction {
+class getEmployeeAction extends baseGetAction {
 
     protected function handleRequest(Request $request){
         $apiEmployeeService = new EmployeeService();

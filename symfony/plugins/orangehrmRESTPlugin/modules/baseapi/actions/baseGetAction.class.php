@@ -49,7 +49,11 @@ abstract class baseGetAction extends baseOAuthAction {
      */
     public function execute($request) {
         $httpRequest = new Request($request);
-        echo $this->handleRequest($httpRequest)->format();
+
+        $response = $this->getResponse();
+        $response->setContent($this->handleRequest($httpRequest)->format());
+        $response->setHttpHeader('Content-type', 'application/json');
+
         return sfView::NONE;
     }
 }
