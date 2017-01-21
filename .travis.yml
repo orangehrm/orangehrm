@@ -13,6 +13,10 @@ matrix:
 before_install:
   - uname -a
   - php --version
-  
+  - composer self-update
+
+install:
+  - composer install -d symfony/lib
+
 script:
   - phpunit symfony/test/PluginAllTests.php
