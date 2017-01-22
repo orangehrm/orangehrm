@@ -19,4 +19,4 @@ install:
   - composer install -d symfony/lib
 
 script:
-  - phpunit symfony/test/PluginAllTests.php
+  - symfony/lib/vendor/bin/codecept run -c symfony/test/api/
