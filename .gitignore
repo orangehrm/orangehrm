@@ -6,4 +6,5 @@ symfony/log/
 symfony/web/
 symfony/apps/orangehrm/config/
 symfony/lib/vendor
+symfony/lib/composer.lock
 
