@@ -21,16 +21,69 @@ namespace Orangehrm\Rest\Api\Pim;
 
 use Orangehrm\Rest\Api\Pim\Entity\Employee;
 
+
 class EmployeeService
 {
+    //TODO move to a utility class
+    public static $EQUALS = "==";
+//    pub
+
+    protected $request;
+    protected $pimEmployeeService;
+
+    protected function getPimEmployeeService(){
+        if($this->pimEmployeeService != null){
+            return $this->pimEmployeeService;
+        }else {
+            return new \EmployeeService();
+        }
+    }
+
     public function getEmployeeList() {
-        $employeeT1 = new Employee('John','','Khan');
-        $employeeT2 = new Employee('Simon','','Leo');
+
+        $employeeT1 = new Employee('John','','Khan',35);
+        $employeeT2 = new Employee('Simon','','Leo',24);
         return array(
             $employeeT1->toArray(),
             $employeeT2->toArray(),
         );
     }
 
+    /**
+     * @return mixed
+     */
+    public function getRequest()
+    {
+        return $this->request;
+    }
+
+    /**
+     * @param mixed $request
+     */
+    public function setRequest($request)
+    {
+        $this->request = $request;
+    }
+
+    /**
+     * Employee response , based on the url params
+     *
+     * @param $httpRequest
+     */
+    public function getEmployeeResponse($httpRequest){
+
+        $params = $httpRequest->getEmployeeSearchParams();
+        $parametersList = explode(";",$params['search']);
+        $empNumber = explode("==", $parametersList[0]);
+        $emp = $this->getPimEmployeeService()->getEmployee($empNumber[1]);
+        $apiEmployee = new Employee();
+        $employeeWrapper = new EmployeeWrapper($apiEmployee);
+        $employeeWrapper->setEmployee($emp);
+
+        return array(
+            $employeeWrapper->getApiEmployee()->toArray(),
+        );
+
+    }
 
 }
