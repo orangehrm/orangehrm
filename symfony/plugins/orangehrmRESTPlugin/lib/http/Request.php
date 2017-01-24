@@ -21,8 +21,44 @@ namespace Orangehrm\Rest\Http;
 
 class Request{
 
+    protected $request;
+
     public function __construct($request){
+        $this->request = $request;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getRequest()
+    {
+        return $this->request;
+    }
+
+    /**
+     * @param mixed $request
+     */
+    public function setRequest($request)
+    {
+        $this->request = $request;
+    }
+
+    /**
+     * Getting Employee search parameters
+     *
+     * @return array
+     */
+    public function getEmployeeSearchParams(){
+
+        $empParams = array();
+
+        if($this->request->getParameter('search') != null){
+            $empParams['search'] = $this->request->getParameter('search');
+        }
+        return $empParams;
 
     }
+
+
 
 }
