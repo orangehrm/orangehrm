@@ -20,3 +20,6 @@ install:
 
 script:
   - symfony/lib/vendor/bin/codecept run -c symfony/test/api/
+
+notifications:
+  email: false
