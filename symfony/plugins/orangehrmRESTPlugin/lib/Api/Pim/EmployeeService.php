@@ -21,6 +21,7 @@ namespace Orangehrm\Rest\Api\Pim;
 
 use Orangehrm\Rest\Api\Pim\Entity\Employee;
 use Orangehrm\Rest\Api\Pim\Entity\EmployeeDependant;
+use Orangehrm\Rest\http\SearchQuery;
 
 class EmployeeService
 {
@@ -44,7 +45,7 @@ class EmployeeService
     public function getEmployeeList($request) {
 
         $responseArray = array();
-        $searchQuery = new \SearchQuery();
+        $searchQuery = new SearchQuery();
         $searchParams = $searchQuery->getEmployeeSearchParams($request);
 
         $parameterHolder = new \EmployeeSearchParameterHolder();
@@ -73,8 +74,8 @@ class EmployeeService
     public function getEmployeeDependants($request) {
 
         $responseArray = array();
-        $searchQuery = new \SearchQuery();
-        $searchParams = $searchQuery->getEmployeeDependantsParams($request);
+        $searchQuery = new SearchQuery();
+        $searchParams = $searchQuery->getSearchParams($request);
         $empId = $searchParams['empId'];
 
         $dependants = $this->getEmployeeService()->getEmployeeDependents($empId);
@@ -98,7 +99,7 @@ class EmployeeService
     public function getEmployeeDetails($request) {
 
         $responseArray = array();
-        $searchQuery = new \SearchQuery();
+        $searchQuery = new SearchQuery();
         $searchParams = $searchQuery->getSearchParams($request);
         $empId = $searchParams['empId'];
         $employee = $this->getEmployeeService()->getEmployee($empId);

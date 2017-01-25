@@ -17,6 +17,8 @@
  * if not, write to the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
  * Boston, MA  02110-1301, USA
  */
+namespace Orangehrm\Rest\http;
+
 class SearchQuery
 {
 
@@ -38,6 +40,17 @@ class SearchQuery
     const EMPLOYEE_LAST_NAME ="empLastName";
     const EMPLOYEE_MIDDLE_NAME ="empMiddleName";
     const EMPLOYEE_AGE ="empAge";
+
+
+    /**
+     * Actions
+     */
+
+    const GET_EMPLOYEE_DETAILS = "getEmployeeDetails";
+    const GET_EMPLOYEE_DEPENDANTS = "getEmployeeDependants";
+
+
+
 
     /**
      * Getting Employee search parameters
@@ -72,7 +85,7 @@ class SearchQuery
         if($request->getActionRequest() != null){
             $action = $request->getActionRequest()->getParameter('action');
             if($action == "getEmployeeDependants"){
-                $empSearchParams[\SearchQuery::EMPLOYEE_ID] =  $request->getActionRequest()->getParameter('emp_number');
+                $empSearchParams[SearchQuery::EMPLOYEE_ID] =  $request->getActionRequest()->getParameter('emp_number');
             }
 
         }
@@ -80,19 +93,34 @@ class SearchQuery
 
     }
 
+    /**
+     * Extract Search Parameters
+     *
+     * @param $request
+     * @return array
+     */
     public function getSearchParams($request)
     {
         $searchParams = array();
         $action = $request->getActionRequest()->getParameter('action');
-        if($action == "getEmployeeDetails"){
+
+        if($action == SearchQuery::GET_EMPLOYEE_DETAILS){
 
             if ($request->getActionRequest() != null) {
-                $empSearchParams[\SearchQuery::EMPLOYEE_ID] = $request->getActionRequest()->getParameter('id');
+                $searchParams[SearchQuery::EMPLOYEE_ID] = $request->getActionRequest()->getParameter('id');
+
+            }
+        }
+        else if($action == SearchQuery::GET_EMPLOYEE_DEPENDANTS){
+
+            if ($request->getActionRequest() != null) {
+
+                $searchParams[SearchQuery::EMPLOYEE_ID] =  $request->getActionRequest()->getParameter('id');
 
             }
         }
 
-        return $empSearchParams;
+        return $searchParams;
 
     }
 
