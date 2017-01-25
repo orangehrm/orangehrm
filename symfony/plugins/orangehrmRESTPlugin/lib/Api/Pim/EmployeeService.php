@@ -20,6 +20,7 @@
 namespace Orangehrm\Rest\Api\Pim;
 
 use Orangehrm\Rest\Api\Pim\Entity\Employee;
+use Orangehrm\Rest\Api\Pim\Entity\EmployeeDependant;
 
 class EmployeeService
 {
@@ -35,7 +36,7 @@ class EmployeeService
     }
 
     /**
-     * Search Employee Api call
+     * Search Employee API call
      *
      * @param $request
      * @return array
@@ -57,6 +58,32 @@ class EmployeeService
 
             $emp = new Employee($employee->getFirstName(), $employee->getMiddleName(), $employee->getLastName(), 25);
             $responseArray[] = $emp->toArray();
+        }
+
+        return $responseArray;
+
+    }
+
+    /**
+     * Getting employee dependants API call
+     *
+     * @param $request
+     * @return array
+     */
+    public function getEmployeeDependants($request) {
+
+        $responseArray = array();
+        $searchQuery = new \SearchQuery();
+        $searchParams = $searchQuery->getEmployeeDependantsParams($request);
+        $empId = $searchParams['empId'];
+
+        $dependants = $this->getEmployeeService()->getEmployeeDependents($empId);
+
+
+        foreach ($dependants as $dependant) {
+
+            $empDependant = new EmployeeDependant($dependant->getName(),$dependant->getRelationship(),$dependant->getDateOfBirth());
+            $responseArray[] = $empDependant->toArray();
         }
 
         return $responseArray;

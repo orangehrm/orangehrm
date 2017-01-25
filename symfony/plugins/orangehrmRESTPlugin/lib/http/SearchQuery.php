@@ -60,6 +60,26 @@ class SearchQuery
 
     }
 
+    /**
+     * Getting Employee dependants
+     *
+     * @return array
+     */
+    public function getEmployeeDependantsParams($request){
+
+        $empSearchParams = array();
+
+        if($request->getActionRequest() != null){
+            $action = $request->getActionRequest()->getParameter('action');
+            if($action == "getEmployeeDependants"){
+                $empSearchParams[\SearchQuery::EMPLOYEE_ID] =  $request->getActionRequest()->getParameter('emp_number');
+            }
+
+        }
+        return $empSearchParams;
+
+    }
+
 
 
 }
