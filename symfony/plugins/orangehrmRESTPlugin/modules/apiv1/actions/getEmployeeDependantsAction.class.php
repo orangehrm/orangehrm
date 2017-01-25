@@ -16,47 +16,16 @@
  * if not, write to the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
  * Boston, MA  02110-1301, USA
  */
+
 use Orangehrm\Rest\Http\Request;
 use Orangehrm\Rest\Http\Response;
+use Orangehrm\Rest\Api\Pim\EmployeeService;
 
-abstract class baseGetAction extends baseOAuthAction {
+class getEmployeeDependantsAction extends baseGetAction {
 
-    /**
-     * Check token validation
-     */
-    public function preExecute() {
+    protected function handleRequest(Request $request){
 
-
-        parent::preExecute();
-
-        $server = $this->getOAuthServer();
-        $oauthRequest = $this->getOAuthRequest();
-        $oauthResponse = $this->getOAuthResponse();
-        if (!$server->verifyResourceRequest($oauthRequest, $oauthResponse)) {
-            $server->getResponse()->send();
-            exit;
-        }
-    }
-
-    /**
-     * @param Request $request
-     * @return Response
-     */
-    abstract protected function handleRequest(Request $request);
-
-    /**
-     * @param sfRequest $request
-     * @return string
-     */
-    public function execute($request) {
-
-        $httpRequest = new Request($request);
-
-        $response = $this->getResponse();
-        $response->setContent($this->handleRequest($httpRequest)->format());
-        $response->setHttpHeader('Content-type', 'application/json');
-
-        return sfView::NONE;
+        $apiEmployeeService = new EmployeeService();
+        return new Response($apiEmployeeService->getEmployeeDependants($request));
     }
 }
-

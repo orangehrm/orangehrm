@@ -31,17 +31,22 @@ class Employee implements Serializable {
 
     private $lastName = '';
 
+    private $age = 0;
+
     /**
      * Employee constructor.
      * @param string $firstName
      * @param string $middleName
      * @param string $lastName
+     * @param int $age age of the employee
      */
-    public function __construct($firstName, $middleName, $lastName)
+    public function __construct($firstName, $middleName, $lastName, $age)
     {
+
         $this->setFirstName($firstName)
             ->setMiddleName($middleName)
-            ->setLastName($lastName);
+            ->setLastName($lastName)
+            ->setAge($age);
         return $this;
     }
 
@@ -94,17 +99,35 @@ class Employee implements Serializable {
      * @param mixed $lastName
      * @return $this;
      */
-    private function setLastName($lastName)
+     private function setLastName($lastName)
     {
         $this->lastName = $lastName;
         return $this;
     }
 
+    /**
+     * @return int
+     */
+    public function getAge()
+    {
+        return $this->age;
+    }
+
+    /**
+     * @param int $age
+     */
+    public function setAge($age)
+    {
+        $this->age = $age;
+    }
+
+
     public function toArray() {
         return array(
             'firstName' => $this->getFirstName(),
             'middleName' => $this->getMiddleName(),
-            'lastName' => $this->getLastName()
+            'lastName' => $this->getLastName(),
+            'age'      => $this->getAge()
         );
     }
 }

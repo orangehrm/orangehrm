@@ -2,6 +2,12 @@ api_wscall:
     url: /api/v1/get
     param: { module:baseapi, action:baseGet }
 
+api_employee_dependants:
+  url: /api/v1/employees/:emp_number/dependants
+  class: sfDoctrineRoute
+  options: { model: dependants, type: object }
+  param: { module:apiv1, action:getEmployeeDependants }
+
 api_get_employee:
-    url: /api/v1/employee
+    url: /api/v1/employees
     param: { module:apiv1, action:getEmployee }
