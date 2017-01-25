@@ -80,6 +80,22 @@ class SearchQuery
 
     }
 
+    public function getSearchParams($request)
+    {
+        $searchParams = array();
+        $action = $request->getActionRequest()->getParameter('action');
+        if($action == "getEmployeeDetails"){
+
+            if ($request->getActionRequest() != null) {
+                $empSearchParams[\SearchQuery::EMPLOYEE_ID] = $request->getActionRequest()->getParameter('id');
+
+            }
+        }
+
+        return $empSearchParams;
+
+    }
+
 
 
 }

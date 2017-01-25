@@ -89,6 +89,27 @@ class EmployeeService
         return $responseArray;
 
     }
+    /**
+     * Getting employee dependants API call
+     *
+     * @param $request
+     * @return array
+     */
+    public function getEmployeeDetails($request) {
+
+        $responseArray = array();
+        $searchQuery = new \SearchQuery();
+        $searchParams = $searchQuery->getSearchParams($request);
+        $empId = $searchParams['empId'];
+        $employee = $this->getEmployeeService()->getEmployee($empId);
+        $emp = new Employee($employee->getFirstName(), $employee->getMiddleName(), $employee->getLastName(), 25);
+        $emp->buildEmployee($employee);
+        $responseArray[] = $emp->toArray();
+
+
+        return $responseArray;
+
+    }
 
     /**
      * @return mixed
