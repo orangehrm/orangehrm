@@ -21,32 +21,46 @@ namespace Orangehrm\Rest\Api\Pim;
 
 use Orangehrm\Rest\Api\Pim\Entity\Employee;
 
-
 class EmployeeService
 {
-    //TODO move to a utility class
-    public static $EQUALS = "==";
-//    pub
-
     protected $request;
-    protected $pimEmployeeService;
+    protected $employeeService;
 
-    protected function getPimEmployeeService(){
-        if($this->pimEmployeeService != null){
-            return $this->pimEmployeeService;
+    protected function getEmployeeService(){
+        if($this->employeeService != null){
+            return $this->employeeService;
         }else {
             return new \EmployeeService();
         }
     }
 
-    public function getEmployeeList() {
+    /**
+     * Search Employee Api call
+     *
+     * @param $request
+     * @return array
+     */
+    public function getEmployeeList($request) {
 
-        $employeeT1 = new Employee('John','','Khan',35);
-        $employeeT2 = new Employee('Simon','','Leo',24);
-        return array(
-            $employeeT1->toArray(),
-            $employeeT2->toArray(),
-        );
+        $responseArray = array();
+        $searchQuery = new \SearchQuery();
+        $searchParams = $searchQuery->getEmployeeSearchParams($request);
+
+        $parameterHolder = new \EmployeeSearchParameterHolder();
+        $filters = array('firstName' => $searchParams['empFirstName']);
+        $parameterHolder->setFilters($filters);
+        $parameterHolder->setLimit(NULL);
+        $parameterHolder->setReturnType(\EmployeeSearchParameterHolder::RETURN_TYPE_OBJECT);
+        $employees = $this->getEmployeeService()->searchEmployees($parameterHolder);
+
+        foreach ($employees as $employee) {
+
+            $emp = new Employee($employee->getFirstName(), $employee->getMiddleName(), $employee->getLastName(), 25);
+            $responseArray[] = $emp->toArray();
+        }
+
+        return $responseArray;
+
     }
 
     /**
@@ -63,27 +77,6 @@ class EmployeeService
     public function setRequest($request)
     {
         $this->request = $request;
-    }
-
-    /**
-     * Employee response , based on the url params
-     *
-     * @param $httpRequest
-     */
-    public function getEmployeeResponse($httpRequest){
-
-        $params = $httpRequest->getEmployeeSearchParams();
-        $parametersList = explode(";",$params['search']);
-        $empNumber = explode("==", $parametersList[0]);
-        $emp = $this->getPimEmployeeService()->getEmployee($empNumber[1]);
-        $apiEmployee = new Employee();
-        $employeeWrapper = new EmployeeWrapper($apiEmployee);
-        $employeeWrapper->setEmployee($emp);
-
-        return array(
-            $employeeWrapper->getApiEmployee()->toArray(),
-        );
-
     }
 
 }

@@ -25,12 +25,13 @@ abstract class baseGetAction extends baseOAuthAction {
      * Check token validation
      */
     public function preExecute() {
+
+
         parent::preExecute();
 
         $server = $this->getOAuthServer();
         $oauthRequest = $this->getOAuthRequest();
         $oauthResponse = $this->getOAuthResponse();
-
         if (!$server->verifyResourceRequest($oauthRequest, $oauthResponse)) {
             $server->getResponse()->send();
             exit;
@@ -48,6 +49,7 @@ abstract class baseGetAction extends baseOAuthAction {
      * @return string
      */
     public function execute($request) {
+
         $httpRequest = new Request($request);
 
         $response = $this->getResponse();

@@ -17,30 +17,47 @@
  * if not, write to the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
  * Boston, MA  02110-1301, USA
  */
-namespace Orangehrm\Rest\Http;
-
-class Request{
-
-    protected $actionRequest;
-
-    public function __construct($request){
-        $this->actionRequest = $request;
-    }
+class SearchQuery
+{
 
     /**
-     * @return mixed
+     * OPERATORS
      */
-    public function getActionRequest()
-    {
-        return $this->actionRequest;
-    }
+
+    const EQUAL_OPT ="==";
+    const GREATER_THAN_OPT =">";
+    const LESS_THAN_OPT ="<";
+
 
     /**
-     * @param mixed $actionRequest
+     * Employee Constants
      */
-    public function setActionRequest($actionRequest)
-    {
-        $this->actionRequest = $actionRequest;
+
+    const EMPLOYEE_ID = "empId";
+    const EMPLOYEE_FIRST_NAME ="empFirstName";
+    const EMPLOYEE_LAST_NAME ="empLastName";
+    const EMPLOYEE_MIDDLE_NAME ="empMiddleName";
+    const EMPLOYEE_AGE ="empAge";
+
+    /**
+     * Getting Employee search parameters
+     *
+     * @return array
+     */
+    public function getEmployeeSearchParams($request){
+
+        $empSearchParams = array();
+
+        if($request->getActionRequest() != null){
+
+            $searchString = $request->getActionRequest()->getParameter('search');
+            $parametersList = explode(";",$searchString);
+            $empFirstName = explode("==", $parametersList[0]);
+            $empSearchParams[$this::EMPLOYEE_FIRST_NAME]  = $empFirstName[1];
+
+        }
+        return $empSearchParams;
+
     }
 
 

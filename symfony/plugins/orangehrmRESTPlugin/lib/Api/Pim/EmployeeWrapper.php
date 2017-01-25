@@ -48,8 +48,7 @@ class EmployeeWrapper
         $this->apiEmployee->setFirstName($employee->getFirstName());
         $this->apiEmployee->setMiddleName($employee->getLastName());
         $this->apiEmployee->setLastName($employee->getMiddleName());
-        $this->apiEmployee->setAge(25); // temp
-        //TODO create all the needed wrapper variables
+
      }
 
      //TODO unwrap method

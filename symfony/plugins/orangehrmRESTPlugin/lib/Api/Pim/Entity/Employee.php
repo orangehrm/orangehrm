@@ -40,15 +40,15 @@ class Employee implements Serializable {
      * @param string $lastName
      * @param int $age age of the employee
      */
-//    public function __construct($firstName, $middleName, $lastName, $age)
-//    {
-//
-//        $this->setFirstName($firstName)
-//            ->setMiddleName($middleName)
-//            ->setLastName($lastName)
-//            ->setAge($age);
-//        return $this;
-//    }
+    public function __construct($firstName, $middleName, $lastName, $age)
+    {
+
+        $this->setFirstName($firstName)
+            ->setMiddleName($middleName)
+            ->setLastName($lastName)
+            ->setAge($age);
+        return $this;
+    }
 
 
     /**
@@ -63,7 +63,7 @@ class Employee implements Serializable {
      * @param mixed $firstName
      * @return $this;
      */
-    public function setFirstName($firstName)
+    private function setFirstName($firstName)
     {
         $this->firstName = $firstName;
         return $this;
@@ -81,7 +81,7 @@ class Employee implements Serializable {
      * @param mixed $middleName
      * @return $this;
      */
-    public function setMiddleName($middleName)
+    private function setMiddleName($middleName)
     {
         $this->middleName = $middleName;
         return $this;
@@ -99,7 +99,7 @@ class Employee implements Serializable {
      * @param mixed $lastName
      * @return $this;
      */
-    public function setLastName($lastName)
+     private function setLastName($lastName)
     {
         $this->lastName = $lastName;
         return $this;
