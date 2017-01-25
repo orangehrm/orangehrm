@@ -1,9 +1,14 @@
 /**
- * @api {get} /employee/:search Search Employee
- * @apiName SearchEmployee
+ * @api {get} /employee/:search Employee Search
+* @apiName SearchEmployee
  * @apiGroup Employee
  *
- * @apiParam {search} string query.
+ * @apiParam {String} [search] search query
+ * @apiParamExample {json} Request-Example:
+ *     {
+ *       "name": "John",
+ *       "gender" : 'M'
+ *     }
  *
  * @apiSuccess {String} firstname Firstname of the employee.
  * @apiSuccess {String} lastname  Lastname of the employee.
@@ -14,10 +19,14 @@
  *       {
  *       "firstname": "John",
  *       "lastname": "Doe"
+ *       },
+ *       {
+ *       "firstname": "John",
+ *       "lastname": "Mass"
  *       }
  *     ]
  *
- * @apiError UserNotFound The id of the User was not found.
+ * @apiError EmployeeNotFound.
  *
  * @apiErrorExample Error-Response:
  *     HTTP/1.1 404 Not Found
