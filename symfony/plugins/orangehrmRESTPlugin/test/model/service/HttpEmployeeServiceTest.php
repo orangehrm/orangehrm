@@ -20,8 +20,6 @@ class HttpEmployeeServiceTest extends PHPUnit_Framework_TestCase
      */
     protected function setUp()
     {
-        $this->testCase = sfYaml::load(sfConfig::get('sf_plugins_dir') . '/orangehrmPimPlugin/test/fixtures/employee.yml');
-        $this->fixture = sfConfig::get('sf_plugins_dir') . '/orangehrmPimPlugin/test/fixtures/EmployeeDao.yml';
         $this->employeeService = new EmployeeService();
     }
 
