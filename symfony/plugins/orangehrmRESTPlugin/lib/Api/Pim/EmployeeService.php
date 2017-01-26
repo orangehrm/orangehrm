@@ -23,15 +23,16 @@ use Orangehrm\Rest\Api\Pim\Entity\Employee;
 use Orangehrm\Rest\Api\Pim\Entity\EmployeeDependant;
 use Orangehrm\Rest\http\SearchQuery;
 
-class EmployeeService
-{
+class EmployeeService {
+
     protected $request;
     protected $employeeService;
 
-    protected function getEmployeeService(){
-        if($this->employeeService != null){
+    protected function getEmployeeService() {
+
+        if ($this->employeeService != null) {
             return $this->employeeService;
-        }else {
+        } else {
             return new \EmployeeService();
         }
     }
@@ -51,7 +52,6 @@ class EmployeeService
         $parameterHolder = new \EmployeeSearchParameterHolder();
         $filters = array('firstName' => $searchParams['empFirstName']);
         $parameterHolder->setFilters($filters);
-        $parameterHolder->setLimit(NULL);
         $parameterHolder->setReturnType(\EmployeeSearchParameterHolder::RETURN_TYPE_OBJECT);
         $employees = $this->getEmployeeService()->searchEmployees($parameterHolder);
 
@@ -71,25 +71,25 @@ class EmployeeService
      * @param $request
      * @return array
      */
-    public function getEmployeeDependants($request) {
+    public function getEmployeeDependants($request)
+    {
 
         $responseArray = array();
         $searchQuery = new SearchQuery();
         $searchParams = $searchQuery->getSearchParams($request);
-        $empId = $searchParams['empId'];
+        $empId = $searchParams['id'];
 
         $dependants = $this->getEmployeeService()->getEmployeeDependents($empId);
-
-
         foreach ($dependants as $dependant) {
 
-            $empDependant = new EmployeeDependant($dependant->getName(),$dependant->getRelationship(),$dependant->getDateOfBirth());
+            $empDependant = new EmployeeDependant($dependant->getName(), $dependant->getRelationship(), $dependant->getDateOfBirth());
             $responseArray[] = $empDependant->toArray();
         }
 
         return $responseArray;
 
     }
+
     /**
      * Getting employee dependants API call
      *
@@ -101,7 +101,7 @@ class EmployeeService
         $responseArray = array();
         $searchQuery = new SearchQuery();
         $searchParams = $searchQuery->getSearchParams($request);
-        $empId = $searchParams['empId'];
+        $empId = $searchParams['id'];
         $employee = $this->getEmployeeService()->getEmployee($empId);
         $emp = new Employee($employee->getFirstName(), $employee->getMiddleName(), $employee->getLastName(), 25);
         $emp->buildEmployee($employee);

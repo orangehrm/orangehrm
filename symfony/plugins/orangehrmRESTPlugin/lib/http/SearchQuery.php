@@ -46,10 +46,7 @@ class SearchQuery
      * Actions
      */
 
-    const GET_EMPLOYEE_DETAILS = "getEmployeeDetails";
-    const GET_EMPLOYEE_DEPENDANTS = "getEmployeeDependants";
-
-
+    const SEARCH = 'search';
 
 
     /**
@@ -102,23 +99,12 @@ class SearchQuery
     public function getSearchParams($request)
     {
         $searchParams = array();
-        $action = $request->getActionRequest()->getParameter('action');
-
-        if($action == SearchQuery::GET_EMPLOYEE_DETAILS){
-
-            if ($request->getActionRequest() != null) {
-                $searchParams[SearchQuery::EMPLOYEE_ID] = $request->getActionRequest()->getParameter('id');
-
-            }
-        }
-        else if($action == SearchQuery::GET_EMPLOYEE_DEPENDANTS){
 
             if ($request->getActionRequest() != null) {
 
-                $searchParams[SearchQuery::EMPLOYEE_ID] =  $request->getActionRequest()->getParameter('id');
-
+                $searchParams["id"] = $request->getActionRequest()->getParameter('id');
+                $searchParams["action"] = $request->getActionRequest()->getParameter('action');
             }
-        }
 
         return $searchParams;
 
