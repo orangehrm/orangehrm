@@ -61,4 +61,39 @@ class HttpEmployeeServiceTest extends PHPUnit_Framework_TestCase
 
     }
 
+    public function testGetEmployeeDependants(){
+
+        $requestParams = $this->getMock('\Orangehrm\Rest\Http\RequestParams', ['getQueryParam']);
+        $requestParams->expects($this->once())
+            ->method('getQueryParam')
+            ->with('id')
+            ->will($this->returnValue(1));
+
+        $empNumber = 1;
+        $employeeDependant = new \EmpDependent();
+        $employeeDependant->setName("Shane Lewis");
+        $employeeDependant->setDateOfBirth("2012-09-03");
+        $employeeDependant->setRelationship(1);
+        $employeeDependantsMockList = array();
+        $employeeDependantsMockList [] = $employeeDependant;
+
+        //mock employee dao
+        $mockDao = $this->getMock('EmployeeDao');
+        $mockDao->expects($this->once())
+            ->method('getEmployeeDependents')
+            ->with($empNumber)
+            ->will($this->returnValue($employeeDependantsMockList));
+
+        $pimEmployeeService = new \EmployeeService();
+        $pimEmployeeService->setEmployeeDao($mockDao);
+        $this->employeeService->setEmployeeService($pimEmployeeService);
+        $employeeDependantsList = $this->employeeService->getEmployeeDependants($requestParams);
+
+        // creating the employee dependants  json array
+        $empDependant = new EmployeeDependant($employeeDependant->getName(), $employeeDependant->getRelationship(), $employeeDependant->getDateOfBirth());
+        $jsonEmployeeDependantArray = $empDependant->toArray();
+        $this->assertEquals($jsonEmployeeDependantArray, $employeeDependantsList[0]);
+
+    }
+
 }

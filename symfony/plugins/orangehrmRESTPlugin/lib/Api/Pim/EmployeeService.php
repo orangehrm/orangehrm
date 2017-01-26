@@ -97,23 +97,16 @@ class EmployeeService {
      * @param $request
      * @return array
      */
-    public function getEmployeeDependants($request)
-    {
+    public function getEmployeeDependants($requestParams) {
 
-        $responseArray = array();
-        $searchQuery = $this->getSearchQuery();
-        $searchParams = $searchQuery->getSearchParams($request);
-        $empId = $searchParams['id'];
-
+        $empId = $requestParams->getQueryParam('id');
         $dependants = $this->getEmployeeService()->getEmployeeDependents($empId);
         foreach ($dependants as $dependant) {
 
             $empDependant = new EmployeeDependant($dependant->getName(), $dependant->getRelationship(), $dependant->getDateOfBirth());
             $responseArray[] = $empDependant->toArray();
         }
-
         return $responseArray;
-
     }
 
     /**
