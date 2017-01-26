@@ -27,6 +27,7 @@ class EmployeeService {
 
     protected $request;
     protected $employeeService;
+    protected $searchQuery;
 
     protected function getEmployeeService() {
 
@@ -38,6 +39,28 @@ class EmployeeService {
     }
 
     /**
+     * @return mixed
+     */
+    public function getSearchQuery()
+    {
+        if($this->searchQuery != null) {
+            return $this->searchQuery;
+        }else {
+            return new SearchQuery();
+        }
+
+    }
+
+    /**
+     * @param mixed $searchQuery
+     */
+    public function setSearchQuery($searchQuery)
+    {
+        $this->searchQuery = $searchQuery;
+    }
+
+
+    /**
      * Search Employee API call
      *
      * @param $request
@@ -46,8 +69,7 @@ class EmployeeService {
     public function getEmployeeList($request) {
 
         $responseArray = array();
-        $searchQuery = new SearchQuery();
-        $searchParams = $searchQuery->getEmployeeSearchParams($request);
+        $searchParams = $this->getSearchQuery()->getEmployeeSearchParams($request);
 
         $parameterHolder = new \EmployeeSearchParameterHolder();
         $filters = array('firstName' => $searchParams['empFirstName']);
@@ -75,7 +97,7 @@ class EmployeeService {
     {
 
         $responseArray = array();
-        $searchQuery = new SearchQuery();
+        $searchQuery = $this->getSearchQuery();
         $searchParams = $searchQuery->getSearchParams($request);
         $empId = $searchParams['id'];
 
@@ -99,7 +121,7 @@ class EmployeeService {
     public function getEmployeeDetails($request) {
 
         $responseArray = array();
-        $searchQuery = new SearchQuery();
+        $searchQuery = $this->getSearchQuery();
         $searchParams = $searchQuery->getSearchParams($request);
         $empId = $searchParams['id'];
         $employee = $this->getEmployeeService()->getEmployee($empId);
