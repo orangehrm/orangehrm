@@ -5,6 +5,11 @@
  *
  * @group API
  */
+
+
+use Orangehrm\Rest\Api\Pim\EmployeeService;
+use Orangehrm\Rest\http\SearchQuery;
+
 class HttpEmployeeServiceTest extends PHPUnit_Framework_TestCase
 {
     private $employeeService;
@@ -15,28 +20,29 @@ class HttpEmployeeServiceTest extends PHPUnit_Framework_TestCase
      */
     protected function setUp()
     {
-
         $this->employeeService = new EmployeeService();
     }
 
-    public function testGetEmployeeResponse()
-    {
+    public function testGetEmployeeDetails(){
 
 
-        $httpRequest = new Request();
+        $searchParams = array(
+            'empId' => '1',
+        );
 
-        $empParams = array();
-        $empParams['search'] = "empId==1;age<25";;
+        $request = '';
 
-        $httpRequest = $this->getMock('request');
-        $httpRequest->expects($this->once())
-            ->method('getEmployeeSearchParams')
-            ->will($this->returnValue($empParams));
+        $searchQuery = $this->getMock('SearchQuery', array('getSearchParams'));
+        $searchQuery->expects($this->once())
+            ->method('getSearchParams')
+            ->with($request)
+            ->will($this->returnValue($searchParams));
+        $this->employeeService->setSearchQuery($searchQuery);
+
+        $employee = $this->employeeService->getEmployeeDetails($request);
 
 
-        $returnParams = $this->employeeService->getEmployeeResponse($httpRequest);
 
-        $this->assertEquals("empId==1;age<25", $returnParams['search']);
     }
 
 }
