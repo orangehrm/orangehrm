@@ -60,13 +60,14 @@ class RequestParams {
      * @param $paramName
      */
     public function getQueryParam($paramName) {
-        $this->getRequest()->getActionRequest()->getParameter($paramName);
+
+        return $this->getRequest()->getActionRequest()->getParameter($paramName);
     }
 
     /**
      * @param $paramName
      */
     public function getUrlParam($paramName) {
-        $this->getRequest()->getActionRequest()->getParameter($paramName);
+       return  $this->getRequest()->getActionRequest()->getParameter($paramName);
     }
 }

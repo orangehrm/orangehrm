@@ -22,12 +22,15 @@ namespace Orangehrm\Rest\Api\Pim;
 use Orangehrm\Rest\Api\Pim\Entity\Employee;
 use Orangehrm\Rest\Api\Pim\Entity\EmployeeDependant;
 use Orangehrm\Rest\http\SearchQuery;
+use Orangehrm\Rest\http\RequestParams;
+
 
 class EmployeeService {
 
     protected $request;
     protected $employeeService;
     protected $searchQuery;
+    protected $requestParams;
 
     protected function getEmployeeService() {
 
@@ -50,17 +53,18 @@ class EmployeeService {
         }
 
     }
-
+    public function setEmployeeService($employeeService){
+        $this->employeeService = $employeeService;
+    }
     /**
-     * @param mixed $searchQuery
+     * @return mixed
      */
-    public function setSearchQuery($searchQuery)
+    public function getRequestParams()
     {
-        $this->searchQuery = $searchQuery;
+        return $this->requestParams;
     }
 
-
-    /**
+     /**
      * Search Employee API call
      *
      * @param $request
@@ -118,17 +122,13 @@ class EmployeeService {
      * @param $request
      * @return array
      */
-    public function getEmployeeDetails($request) {
+    public function getEmployeeDetails($requestParams) {
 
-        $responseArray = array();
-        $searchQuery = $this->getSearchQuery();
-        $searchParams = $searchQuery->getSearchParams($request);
-        $empId = $searchParams['id'];
+        $empId = $requestParams->getQueryParam('id');
         $employee = $this->getEmployeeService()->getEmployee($empId);
         $emp = new Employee($employee->getFirstName(), $employee->getMiddleName(), $employee->getLastName(), 25);
         $emp->buildEmployee($employee);
         $responseArray[] = $emp->toArray();
-
 
         return $responseArray;
 
