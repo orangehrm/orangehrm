@@ -33,6 +33,31 @@ class Employee implements Serializable {
 
     private $age = 0;
 
+    private $licenseNo ='';
+
+    private $employeeId = -1;
+
+    private $empBirthDate =  '';
+
+    private $country;
+
+    private $city;
+
+    private $jobTitle;
+
+    private $gender;
+
+    private $mobile;
+
+    private $workEmail;
+
+    private $joinedDate;
+
+    private $employeeStatus;
+
+    private $nationality;
+
+
     /**
      * Employee constructor.
      * @param string $firstName
@@ -121,13 +146,236 @@ class Employee implements Serializable {
         $this->age = $age;
     }
 
+    /**
+     * @return string
+     */
+    public function getLicenseNo()
+    {
+        return $this->licenseNo;
+    }
+
+    /**
+     * @param string $licenseNo
+     */
+    public function setLicenseNo($licenseNo)
+    {
+        $this->licenseNo = $licenseNo;
+    }
+
+    /**
+     * @return int
+     */
+    public function getEmployeeId()
+    {
+        return $this->employeeId;
+    }
+
+    /**
+     * @param int $employeeId
+     */
+    public function setEmployeeId($employeeId)
+    {
+        $this->employeeId = $employeeId;
+    }
+
+    /**
+     * @return string
+     */
+    public function getEmpBirthDate()
+    {
+        return $this->empBirthDate;
+    }
+
+    /**
+     * @param string $empBirthDate
+     */
+    public function setEmpBirthDate($empBirthDate)
+    {
+        $this->empBirthDate = $empBirthDate;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getCountry()
+    {
+        return $this->country;
+    }
+
+    /**
+     * @param mixed $country
+     */
+    public function setCountry($country)
+    {
+        $this->country = $country;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getCity()
+    {
+        return $this->city;
+    }
+
+    /**
+     * @param mixed $city
+     */
+    public function setCity($city)
+    {
+        $this->city = $city;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getJobTitle()
+    {
+        return $this->jobTitle;
+    }
+
+    /**
+     * @param mixed $jobTitle
+     */
+    public function setJobTitle($jobTitle)
+    {
+        $this->jobTitle = $jobTitle;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getGender()
+    {
+        return $this->gender;
+    }
+
+    /**
+     * @param mixed $gender
+     */
+    public function setGender($gender)
+    {
+        $this->gender = $gender;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getMobile()
+    {
+        return $this->mobile;
+    }
+
+    /**
+     * @param mixed $mobile
+     */
+    public function setMobile($mobile)
+    {
+        $this->mobile = $mobile;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getWorkEmail()
+    {
+        return $this->workEmail;
+    }
+
+    /**
+     * @param mixed $workEmail
+     */
+    public function setWorkEmail($workEmail)
+    {
+        $this->workEmail = $workEmail;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getJoinedDate()
+    {
+        return $this->joinedDate;
+    }
+
+    /**
+     * @param mixed $joinedDate
+     */
+    public function setJoinedDate($joinedDate)
+    {
+        $this->joinedDate = $joinedDate;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getEmployeeStatus()
+    {
+        return $this->employeeStatus;
+    }
+
+    /**
+     * @param mixed $employeeStatus
+     */
+    public function setEmployeeStatus($employeeStatus)
+    {
+        $this->employeeStatus = $employeeStatus;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getNationality()
+    {
+        return $this->nationality;
+    }
+
+    /**
+     * @param mixed $nationality
+     */
+    public function setNationality($nationality)
+    {
+        $this->nationality = $nationality;
+    }
+
 
     public function toArray() {
         return array(
             'firstName' => $this->getFirstName(),
             'middleName' => $this->getMiddleName(),
             'lastName' => $this->getLastName(),
-            'age'      => $this->getAge()
+            'age'      => $this->getAge(),
+            'dob'      => $this->getEmpBirthDate(),
+            'nationality' => $this->getNationality(),
+            'country' => $this->getCountry(),
+            'city' => $this->getCity(),
+            'joinedDate' => $this->getJoinedDate(),
+            'employeeStatus' => $this->getEmployeeStatus(),
+            'workEmail' => $this->getWorkEmail(),
+            'mobile' => $this->getMobile(),
+            'licence' => $this->getLicenseNo(),
+
         );
+    }
+
+    /**
+     * Converting Doctraine Employee entity values to Employeee
+     *
+     * @param $employee Doctraine Entity
+     */
+    public function buildEmployee($employee){
+
+
+        $this->setCity($employee->getCity());
+        $this->setCountry($employee->getCountry());
+        $this->setEmpBirthDate($employee->getEmpBirthday());
+        $this->setEmployeeStatus($employee->getEmpStatus());
+        $this->setGender($employee->getEmpGender());
+        $this->setJoinedDate($employee->getJoinedDate());
+        $this->setMobile($employee->getEmpMobile());
+        $this->setNationality($employee->getNationality());
+        $this->setLicenseNo($employee->getLicenseNo());
+        $this->setWorkEmail($employee->getEmpWorkEmail());
+
     }
 }

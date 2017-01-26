@@ -17,6 +17,8 @@
  * if not, write to the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
  * Boston, MA  02110-1301, USA
  */
+namespace Orangehrm\Rest\http;
+
 class SearchQuery
 {
 
@@ -38,6 +40,14 @@ class SearchQuery
     const EMPLOYEE_LAST_NAME ="empLastName";
     const EMPLOYEE_MIDDLE_NAME ="empMiddleName";
     const EMPLOYEE_AGE ="empAge";
+
+
+    /**
+     * Actions
+     */
+
+    const SEARCH = 'search';
+
 
     /**
      * Getting Employee search parameters
@@ -72,11 +82,31 @@ class SearchQuery
         if($request->getActionRequest() != null){
             $action = $request->getActionRequest()->getParameter('action');
             if($action == "getEmployeeDependants"){
-                $empSearchParams[\SearchQuery::EMPLOYEE_ID] =  $request->getActionRequest()->getParameter('emp_number');
+                $empSearchParams[SearchQuery::EMPLOYEE_ID] =  $request->getActionRequest()->getParameter('emp_number');
             }
 
         }
         return $empSearchParams;
+
+    }
+
+    /**
+     * Extract Search Parameters
+     *
+     * @param $request
+     * @return array
+     */
+    public function getSearchParams($request)
+    {
+        $searchParams = array();
+
+            if ($request->getActionRequest() != null) {
+
+                $searchParams["id"] = $request->getActionRequest()->getParameter('id');
+                $searchParams["action"] = $request->getActionRequest()->getParameter('action');
+            }
+
+        return $searchParams;
 
     }
 
