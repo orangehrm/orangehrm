@@ -21,7 +21,6 @@ namespace Orangehrm\Rest\Api\Pim;
 
 use Orangehrm\Rest\Api\Pim\Entity\Employee;
 use Orangehrm\Rest\Api\Pim\Entity\EmployeeDependant;
-use Orangehrm\Rest\http\SearchQuery;
 use Orangehrm\Rest\http\RequestParams;
 
 
@@ -29,7 +28,6 @@ class EmployeeService {
 
     protected $request;
     protected $employeeService;
-    protected $searchQuery;
     protected $requestParams;
 
     protected function getEmployeeService() {
@@ -41,18 +39,6 @@ class EmployeeService {
         }
     }
 
-    /**
-     * @return mixed
-     */
-    public function getSearchQuery()
-    {
-        if($this->searchQuery != null) {
-            return $this->searchQuery;
-        }else {
-            return new SearchQuery();
-        }
-
-    }
     public function setEmployeeService($employeeService){
         $this->employeeService = $employeeService;
     }
@@ -70,13 +56,11 @@ class EmployeeService {
      * @param $request
      * @return array
      */
-    public function getEmployeeList($request) {
+    public function getEmployeeList($requestParams) {
 
-        $responseArray = array();
-        $searchParams = $this->getSearchQuery()->getEmployeeSearchParams($request);
-
+        $firstName = $requestParams->getQueryParam('firstName');
         $parameterHolder = new \EmployeeSearchParameterHolder();
-        $filters = array('firstName' => $searchParams['empFirstName']);
+        $filters = array('firstName' => $firstName);
         $parameterHolder->setFilters($filters);
         $parameterHolder->setReturnType(\EmployeeSearchParameterHolder::RETURN_TYPE_OBJECT);
         $employees = $this->getEmployeeService()->searchEmployees($parameterHolder);

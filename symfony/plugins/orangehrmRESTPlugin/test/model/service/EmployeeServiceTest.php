@@ -10,7 +10,7 @@
 /**
  * Test class of Api/EmployeeService
  *
- * @group API
+ *
  */
 use Orangehrm\Rest\Http\Request;
 use Orangehrm\Rest\Api\Pim\EmployeeService;
@@ -28,11 +28,11 @@ class EmployeeServiceTest extends PHPUnit_Framework_TestCase
         $this->employeeService	= new EmployeeService();
     }
 
+
     public function testGetEmployeeResponse()
     {
 
-
-        $httpRequest = new Request();
+      //  $httpRequest = new Request();
 
         $empParams = array();
         $empParams['search'] = "empId==1;age<25";;

@@ -338,7 +338,10 @@ class Employee implements Serializable {
         $this->nationality = $nationality;
     }
 
-
+    /**
+     * Converting to an array
+     * @return array
+     */
     public function toArray() {
         return array(
             'firstName' => $this->getFirstName(),
@@ -359,7 +362,7 @@ class Employee implements Serializable {
     }
 
     /**
-     * Converting Doctraine Employee entity values to Employeee
+     * Converting Doctraine Employee entity values to Employee
      *
      * @param $employee Doctraine Entity
      */
