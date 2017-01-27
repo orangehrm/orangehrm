@@ -14,11 +14,19 @@
 *     HTTP/1.1 200 OK
 *     [
 *       {
-*       "firstname": "John",
-*       "lastname": "Doe",
-*       "gender": "Mail",
-*       "title": "Mr"
-*       }
+*       "firstName": "John",
+*       "lastName": "Doe",
+*       "middleName": "",
+*       "fullName": "John Doe",
+*       "id": "001",
+*       "status": "active",
+*       "jobtitle": "web developer",
+*       "supervisor": "Mike com",
+*       "supervisorId": "2",
+*       "dob": "1989-09-7",
+*       "unit": "development",
+*       "gender": "M",
+*       },
 *     ]
 *
 * @apiError UserNotFound The id of the employee was not found.
