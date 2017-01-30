@@ -23,26 +23,54 @@ use Orangehrm\Rest\Api\Exception\RecordNotFoundException;
 use Orangehrm\Rest\Api\Pim\Entity\Employee;
 use Orangehrm\Rest\Api\Pim\Entity\EmployeeDependant;
 use Orangehrm\Rest\http\RequestParams;
-
+use Orangehrm\Rest\Http\Request;
+use Orangehrm\Rest\Http\Response;
 
 class EmployeeService {
 
-    protected $request;
-    protected $employeeService;
-    protected $requestParams;
+    /**
+     * @var Request
+     */
+    protected $request = null;
+    protected $employeeService = null;
+    protected $requestParams = null ;
 
     /**
      * Employee constants
      */
-    const NAME       = "name";
-    const ID         = "id";
-    const JOB_TITLE  = "job_title";
-    const STATUS = "status";
-    const UNIT = "unit";
-    const SUPERVISOR = "supervisor";
-    const LIMIT = 'limit';
+    const PARAMETER_NAME       = "name";
+    const PARAMETER_ID         = "id";
+    const PARAMETER_JOB_TITLE  = "jobTitle";
+    const PARAMETER_STATUS     = "status";
+    const PARAMETER_UNIT       = "unit";
+    const PARAMETER_SUPERVISOR = "supervisor";
+    const PARAMETER_LIMIT      = 'limit';
 
+    /**
+     * @var array
+     */
+    protected $searchParams = array(
+        self::PARAMETER_NAME => 'name',
+        self::PARAMETER_ID => 'id',
+        self::PARAMETER_JOB_TITLE => 'jobTitle',
+        self::PARAMETER_STATUS => 'status',
+        self::PARAMETER_UNIT => 'unit',
+        self::PARAMETER_SUPERVISOR => 'supervisor',
+        self::PARAMETER_LIMIT => 'limit'
+    );
 
+    /**
+     * EmployeeService constructor.
+     *
+     * @param Request $request
+     */
+    public function __construct(Request $request) {
+        $this->setRequestParams(new RequestParams($request));
+    }
+
+    /**
+     * @return \EmployeeService|null
+     */
     protected function getEmployeeService() {
 
         if ($this->employeeService != null) {
@@ -55,60 +83,83 @@ class EmployeeService {
     public function setEmployeeService($employeeService){
         $this->employeeService = $employeeService;
     }
+
     /**
-     * @return mixed
+     * @return null
      */
-    public function getRequestParams()
-    {
+    public function getRequestParams() {
         return $this->requestParams;
     }
 
-     /**
-     * Search Employee API call
-     *
-     * @param $request
-     * @return array
+    /**
+     * @param null $requestParams
      */
-    public function getEmployeeList($requestParams) {
+    public function setRequestParams($requestParams) {
+        $this->requestParams = $requestParams;
+    }
 
-        $employees = null;
-        $responseArray = null;
-
-        $parameterHolder = new \EmployeeSearchParameterHolder();
-        $filters = array(
-            'employee_name' => $requestParams($this::NAME),
-            'id' => $requestParams($this::ID),
-            'employee_status' => $requestParams($this::STATUS),
-            'job_title' => $requestParams($this::JOB_TITLE),
-            'sub_unit' => $requestParams($this::UNIT),
-            'supervisor_name' => $requestParams($this::SUPERVISOR)
-        );
-        if( count($filters) == 0 ){
-            $employees = $this->getEmployeeService()->getEmployeeList();
+    /**
+     * @return Response
+     * @throws RecordNotFoundException
+     */
+    public function getEmployeeList() {
+        $employeeList = array ();
+        $parameterHolder = $this->buildSearchParamHolder();
+        if(empty($parameterHolder)) {
+            $employeeList = $this->getEmployeeService()->getEmployeeList();
+        }else{
+            $employeeList = $this->getEmployeeService()->searchEmployees($parameterHolder);
         }
-        else {
-            $parameterHolder->setFilters($filters);
-            $parameterHolder->setReturnType(\EmployeeSearchParameterHolder::RETURN_TYPE_OBJECT);
-            $employees = $this->getEmployeeService()->searchEmployees($parameterHolder);
-        }
-        $parameterHolder->setFilters($filters);
-        $parameterHolder->setReturnType(\EmployeeSearchParameterHolder::RETURN_TYPE_OBJECT);
-        $employees = $this->getEmployeeService()->searchEmployees($parameterHolder);
-        if( $employees != null ) {
-            foreach ($employees as $employee) {
 
-                $emp = new Employee($employee->getFirstName(), $employee->getMiddleName(), $employee->getLastName(), 25);
-                $emp->buildEmployee($employee);
-                $responseArray[] = $emp->toArray();
-            }
-        }
-        else {
-
+        if(empty($employeeList)) {
             throw new RecordNotFoundException("Employee not found");
         }
 
-        return $responseArray;
+        return new Response($this->buildEmployeeData(),array());
 
+    }
+
+    /**
+     * @return \EmployeeSearchParameterHolder|null
+     */
+    private function buildSearchParamHolder( ) {
+
+        $filters = array();
+        if(!empty($this->getRequestParams()->getQueryParam(self::PARAMETER_NAME))){
+            $filters['employee_name'] = $this->getRequestParams()->getQueryParam(self::PARAMETER_NAME);
+        }
+
+        if(!empty($this->getRequestParams()->getQueryParam(self::PARAMETER_ID))){
+            $filters['employee_name'] = $this->getRequestParams()->getQueryParam(self::PARAMETER_NAME);
+        }
+
+        if(!empty($this->getRequestParams()->getQueryParam(self::PARAMETER_JOB_TITLE))){
+            $filters['employee_name'] = $this->getRequestParams()->getQueryParam(self::PARAMETER_JOB_TITLE);
+        }
+        if(empty($filters)){
+            return null;
+        }
+        $parameterHolder = new \EmployeeSearchParameterHolder();
+        $parameterHolder->setFilters($filters);
+        $parameterHolder->setReturnType(\EmployeeSearchParameterHolder::RETURN_TYPE_OBJECT);
+
+        return $parameterHolder;
+    }
+
+    /**
+     * @param $employeeList
+     *
+     * @return array
+     */
+    private function buildEmployeeData( $employeeList ) {
+        $data = array();
+        foreach ($employeeList as $employee) {
+
+            $emp = new Employee($employee->getFirstName(), $employee->getMiddleName(), $employee->getLastName(), 25);
+            $emp->buildEmployee($employee);
+            $data[] = $emp->toArray();
+        }
+        return $data;
     }
 
     /**

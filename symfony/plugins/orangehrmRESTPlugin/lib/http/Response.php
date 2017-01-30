@@ -22,19 +22,22 @@ namespace Orangehrm\Rest\Http;
 class Response{
 
     private $data = null;
+    private $rels = null;
 
     /**
      * Response constructor.
      * @param array $data
      */
-    public function __construct($data = array()){
+    public function __construct($data = array(), $rels = array()){
         $this->data = $data;
+        $this->rels = $rels;
     }
 
     /**
      * @return string
      */
     public function format() {
-        return json_encode($this->data,true);
+        $responseFormat = array('data'=>$this->data, 'rels'=>$this->rels);
+        return json_encode($responseFormat,true);
     }
 }
