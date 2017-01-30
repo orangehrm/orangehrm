@@ -17,15 +17,64 @@
  * Boston, MA  02110-1301, USA
  */
 
-use Orangehrm\Rest\Http\Request;
-use Orangehrm\Rest\Http\Response;
-use Orangehrm\Rest\Api\Pim\EmployeeService;
+namespace Orangehrm\Rest\Api\Pim\Entity;
 
-class getEmployeeDependantsAction extends baseGetAction {
+use Orangehrm\Rest\Api\Entity\Serializable;
 
-    protected function handleRequest(Request $request){
+class Supervisor implements Serializable {
 
-        $apiEmployeeService = new EmployeeService($request);
-        return new Response($apiEmployeeService->getEmployeeResponse());
+    /**
+     * @var
+     */
+    private $name = '';
+
+    private $id = -1;
+
+    /**
+     * @return mixed
+     */
+    public function getName()
+    {
+        return $this->name;
+    }
+
+    /**
+     * @param mixed $name
+     */
+    public function setName($name)
+    {
+        $this->name = $name;
+    }
+
+    /**
+     * @return int
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
+
+    /**
+     * @param int $id
+     */
+    public function setId($id)
+    {
+        $this->id = $id;
+    }
+
+
+    public function __construct($name ,$id)
+    {
+        $this->setName($name);
+        $this->setId($id);
+        return $this;
+    }
+
+    public function toArray()
+    {
+        return array(
+            'name' => $this->getName(),
+            'id'=> $this->getId()
+        );
     }
 }

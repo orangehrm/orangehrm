@@ -20,6 +20,7 @@
 namespace Orangehrm\Rest\Api\Pim;
 
 use Orangehrm\Rest\Api\Exception\RecordNotFoundException;
+use Orangehrm\Rest\Api\Exception\InvalidParamException;
 use Orangehrm\Rest\Api\Pim\Entity\Employee;
 use Orangehrm\Rest\Api\Pim\Entity\EmployeeDependant;
 use Orangehrm\Rest\http\RequestParams;
@@ -115,7 +116,7 @@ class EmployeeService {
             throw new RecordNotFoundException("Employee not found");
         }
 
-        return new Response($this->buildEmployeeData(),array());
+        return new Response($this->buildEmployeeData($employeeList),array());
 
     }
 
@@ -130,7 +131,7 @@ class EmployeeService {
         }
 
         if(!empty($this->getRequestParams()->getQueryParam(self::PARAMETER_ID))){
-            $filters['employee_name'] = $this->getRequestParams()->getQueryParam(self::PARAMETER_NAME);
+            $filters['employee_name'] = $this->getRequestParams()->getQueryParam(self::PARAMETER_ID);
         }
 
         if(!empty($this->getRequestParams()->getQueryParam(self::PARAMETER_JOB_TITLE))){
@@ -151,12 +152,13 @@ class EmployeeService {
      *
      * @return array
      */
-    private function buildEmployeeData( $employeeList ) {
+    private function buildEmployeeData( $employeeList ) { //var_dump($employeeList);die();
         $data = array();
         foreach ($employeeList as $employee) {
+            $emp = new Employee($employee->getFirstName(), $employee->getMiddleName(), $employee->getLastName(), $employee->getEmployeeId());
 
-            $emp = new Employee($employee->getFirstName(), $employee->getMiddleName(), $employee->getLastName(), 25);
             $emp->buildEmployee($employee);
+
             $data[] = $emp->toArray();
         }
         return $data;
@@ -193,24 +195,17 @@ class EmployeeService {
      */
     public function getEmployeeDetails() {
 
-        $empId = $this->getRequestParams()->getQueryParam(self::PARAMETER_ID);
-
-        if (!is_numeric($empId)) {
-            throw new \HttpInvalidParamException("Invalid Parameter");
-
+        $empId = -1;
+        $employeeList [] = array();
+        if (!empty($this->getRequestParams()->getQueryParam(self::PARAMETER_ID))) {
+            $empId = $this->getRequestParams()->getQueryParam(self::PARAMETER_ID);
         }
-        $employee = $this->getEmployeeService()->getEmployee($empId);
-        if($employee != null) {
-
-            $emp = new Employee($employee->getFirstName(), $employee->getMiddleName(), $employee->getLastName(), 25);
-            $emp->buildEmployee($employee);
-        } else {
-
+        $emp = $this->getEmployeeService()->getEmployee($empId);
+        $employeeList [] = $emp;
+        if (empty($employeeList) == 0) {
             throw new RecordNotFoundException("Employee not found");
         }
-
-        return $emp->toArray();
-
+        return $this->buildEmployeeData($employeeList);
     }
 
     /**

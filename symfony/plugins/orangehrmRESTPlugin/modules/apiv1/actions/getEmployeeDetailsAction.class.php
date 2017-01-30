@@ -27,7 +27,6 @@ class getEmployeeDetailsAction extends baseGetAction {
     protected function handleRequest(Request $request){
 
         $apiEmployeeService = new EmployeeService($request);
-
-        return new Response($apiEmployeeService->getEmployeeDetails($requestParams));
+        return new Response($apiEmployeeService->getEmployeeDetails());
     }
 }

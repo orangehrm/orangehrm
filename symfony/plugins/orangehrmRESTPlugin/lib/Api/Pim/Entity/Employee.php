@@ -20,6 +20,7 @@
 namespace Orangehrm\Rest\Api\Pim\Entity;
 
 use Orangehrm\Rest\Api\Entity\Serializable;
+use Orangehrm\Rest\Api\Pim\Entity\Supervisor;
 
 class Employee implements Serializable {
     /**
@@ -65,6 +66,8 @@ class Employee implements Serializable {
 
     private $unit;
 
+    private $supervisors;
+
 
     /**
      * Employee constructor.
@@ -73,13 +76,13 @@ class Employee implements Serializable {
      * @param string $lastName
      * @param int $age age of the employee
      */
-    public function __construct($firstName, $middleName, $lastName, $age)
+    public function __construct($firstName, $middleName, $lastName, $id)
     {
 
         $this->setFirstName($firstName)
             ->setMiddleName($middleName)
             ->setLastName($lastName)
-            ->setAge($age);
+            ->setEmployeeId($id);
         return $this;
     }
 
@@ -410,6 +413,22 @@ class Employee implements Serializable {
         $this->unit = $unit;
     }
 
+    /**
+     * @return mixed
+     */
+    public function getSupervisors()
+    {
+        return $this->supervisors;
+    }
+
+    /**
+     * @param mixed $supervisors
+     */
+    public function setSupervisors($supervisors)
+    {
+        $this->supervisors = $supervisors;
+    }
+
 
     /**
      * Converting to an array
@@ -419,6 +438,7 @@ class Employee implements Serializable {
         return array(
             'firstName' => $this->getFirstName(),
             'middleName' => $this->getMiddleName(),
+            'id'         => $this->getEmployeeId(),
             'lastName' => $this->getLastName(),
             'fullName' => $this->getEmployeeFullName(),
             'status'   => $this->getEmployeeStatus(),
@@ -430,8 +450,8 @@ class Employee implements Serializable {
             'employeeStatus' => $this->getEmployeeStatus(),
             'unit'    =>$this->getUnit(),
             'jobtitle'=> $this->getJobTitle(),
-            'supervisor' => $this->getSupervisor(),
-            'supervisorId'=> $this->getSupervisorId()
+            'supervisor' => $this->getSupervisors()
+
 
         );
     }
@@ -442,7 +462,10 @@ class Employee implements Serializable {
      * @param $employee Doctraine Entity
      */
     public function buildEmployee($employee){
-
+//
+//        $e = new \Employee();
+//        $e->getEmployeeId()
+    //    var_dump($employee->getSupervisors());die();
         $this->setCity($employee->getCity());
         $this->setCountry($employee->getCountry());
         $this->setEmpBirthDate($employee->getEmpBirthday());
@@ -452,5 +475,13 @@ class Employee implements Serializable {
         $this->setEmployeeFullName($employee->getFullName());
         $this->setJobTitle($employee->getJobTitleName());
         $this->setUnit($employee->getSubDivision());
+        $supervisorList [] = array();
+        foreach ($employee->getSupervisors() as $supervisor){
+
+            $supervisorEnt = new Supervisor($supervisor->getFullName(),$supervisor->getEmployeeId());
+            $supervisorList = $supervisorEnt->toArray();
+        }
+        $this->setSupervisors($supervisorList);
+      //  var_dump($this->getSupervisors());die();
     }
 }

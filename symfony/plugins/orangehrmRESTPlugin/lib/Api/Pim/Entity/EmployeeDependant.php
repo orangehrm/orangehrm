@@ -23,7 +23,9 @@ use Orangehrm\Rest\Api\Entity\Serializable;
 
 class EmployeeDependant implements Serializable
 {
-
+    /**
+     * @var
+     */
     private $name = '';
 
     private $relationship = '';

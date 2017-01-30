@@ -20,7 +20,7 @@ namespace Orangehrm\Rest\Api\Exception;
 
 use \Exception;
 
-class InvalidParam extends Exception
+class InvalidParamException extends Exception
 {
 
 }
