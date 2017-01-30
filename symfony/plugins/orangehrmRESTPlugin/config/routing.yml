@@ -13,5 +13,5 @@ api_employee_details:
   param: { module:apiv1, action:getEmployeeDetails }
 
 api_get_employee:
-    url: /api/v1/employees
-    param: { module:apiv1, action:getEmployee }
+  url: /api/v1/employees
+  param: { module:apiv1, action:getEmployee }

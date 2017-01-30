@@ -68,6 +68,7 @@ class RequestParams {
      * @param $paramName
      */
     public function getUrlParam($paramName) {
+
        return  $this->getRequest()->getActionRequest()->getParameter($paramName);
     }
 }

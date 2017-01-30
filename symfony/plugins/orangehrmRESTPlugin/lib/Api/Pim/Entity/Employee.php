@@ -57,6 +57,14 @@ class Employee implements Serializable {
 
     private $nationality;
 
+    private $supervisor;
+
+    private $supervisorId;
+
+    private $employeeFullName;
+
+    private $unit;
+
 
     /**
      * Employee constructor.
@@ -339,6 +347,71 @@ class Employee implements Serializable {
     }
 
     /**
+     * @return mixed
+     */
+    public function getSupervisor()
+    {
+        return $this->supervisor;
+    }
+
+    /**
+     * @param mixed $supervisor
+     */
+    public function setSupervisor($supervisor)
+    {
+        $this->supervisor = $supervisor;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getSupervisorId()
+    {
+        return $this->supervisorId;
+    }
+
+    /**
+     * @param mixed $supervisorId
+     */
+    public function setSupervisorId($supervisorId)
+    {
+        $this->supervisorId = $supervisorId;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getEmployeeFullName()
+    {
+        return $this->employeeFullName;
+    }
+
+    /**
+     * @param mixed $employeeFullName
+     */
+    public function setEmployeeFullName($employeeFullName)
+    {
+        $this->employeeFullName = $employeeFullName;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getUnit()
+    {
+        return $this->unit;
+    }
+
+    /**
+     * @param mixed $unit
+     */
+    public function setUnit($unit)
+    {
+        $this->unit = $unit;
+    }
+
+
+    /**
      * Converting to an array
      * @return array
      */
@@ -347,16 +420,18 @@ class Employee implements Serializable {
             'firstName' => $this->getFirstName(),
             'middleName' => $this->getMiddleName(),
             'lastName' => $this->getLastName(),
+            'fullName' => $this->getEmployeeFullName(),
+            'status'   => $this->getEmployeeStatus(),
             'age'      => $this->getAge(),
             'dob'      => $this->getEmpBirthDate(),
             'nationality' => $this->getNationality(),
             'country' => $this->getCountry(),
             'city' => $this->getCity(),
-            'joinedDate' => $this->getJoinedDate(),
             'employeeStatus' => $this->getEmployeeStatus(),
-            'workEmail' => $this->getWorkEmail(),
-            'mobile' => $this->getMobile(),
-            'licence' => $this->getLicenseNo(),
+            'unit'    =>$this->getUnit(),
+            'jobtitle'=> $this->getJobTitle(),
+            'supervisor' => $this->getSupervisor(),
+            'supervisorId'=> $this->getSupervisorId()
 
         );
     }
@@ -368,17 +443,14 @@ class Employee implements Serializable {
      */
     public function buildEmployee($employee){
 
-
         $this->setCity($employee->getCity());
         $this->setCountry($employee->getCountry());
         $this->setEmpBirthDate($employee->getEmpBirthday());
         $this->setEmployeeStatus($employee->getEmpStatus());
         $this->setGender($employee->getEmpGender());
-        $this->setJoinedDate($employee->getJoinedDate());
-        $this->setMobile($employee->getEmpMobile());
         $this->setNationality($employee->getNationality());
-        $this->setLicenseNo($employee->getLicenseNo());
-        $this->setWorkEmail($employee->getEmpWorkEmail());
-
+        $this->setEmployeeFullName($employee->getFullName());
+        $this->setJobTitle($employee->getJobTitleName());
+        $this->setUnit($employee->getSubDivision());
     }
 }

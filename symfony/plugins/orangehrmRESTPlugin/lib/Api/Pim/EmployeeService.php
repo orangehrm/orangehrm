@@ -19,6 +19,7 @@
  */
 namespace Orangehrm\Rest\Api\Pim;
 
+use Orangehrm\Rest\Api\Exception\RecordNotFoundException;
 use Orangehrm\Rest\Api\Pim\Entity\Employee;
 use Orangehrm\Rest\Api\Pim\Entity\EmployeeDependant;
 use Orangehrm\Rest\http\RequestParams;
@@ -29,6 +30,18 @@ class EmployeeService {
     protected $request;
     protected $employeeService;
     protected $requestParams;
+
+    /**
+     * Employee constants
+     */
+    const NAME       = "name";
+    const ID         = "id";
+    const JOB_TITLE  = "job_title";
+    const STATUS = "status";
+    const UNIT = "unit";
+    const SUPERVISOR = "supervisor";
+    const LIMIT = 'limit';
+
 
     protected function getEmployeeService() {
 
@@ -58,17 +71,40 @@ class EmployeeService {
      */
     public function getEmployeeList($requestParams) {
 
-        $firstName = $requestParams->getQueryParam('firstName');
+        $employees = null;
+        $responseArray = null;
+
         $parameterHolder = new \EmployeeSearchParameterHolder();
-        $filters = array('firstName' => $firstName);
+        $filters = array(
+            'employee_name' => $requestParams($this::NAME),
+            'id' => $requestParams($this::ID),
+            'employee_status' => $requestParams($this::STATUS),
+            'job_title' => $requestParams($this::JOB_TITLE),
+            'sub_unit' => $requestParams($this::UNIT),
+            'supervisor_name' => $requestParams($this::SUPERVISOR)
+        );
+        if( count($filters) == 0 ){
+            $employees = $this->getEmployeeService()->getEmployeeList();
+        }
+        else {
+            $parameterHolder->setFilters($filters);
+            $parameterHolder->setReturnType(\EmployeeSearchParameterHolder::RETURN_TYPE_OBJECT);
+            $employees = $this->getEmployeeService()->searchEmployees($parameterHolder);
+        }
         $parameterHolder->setFilters($filters);
         $parameterHolder->setReturnType(\EmployeeSearchParameterHolder::RETURN_TYPE_OBJECT);
         $employees = $this->getEmployeeService()->searchEmployees($parameterHolder);
+        if( $employees != null ) {
+            foreach ($employees as $employee) {
 
-        foreach ($employees as $employee) {
+                $emp = new Employee($employee->getFirstName(), $employee->getMiddleName(), $employee->getLastName(), 25);
+                $emp->buildEmployee($employee);
+                $responseArray[] = $emp->toArray();
+            }
+        }
+        else {
 
-            $emp = new Employee($employee->getFirstName(), $employee->getMiddleName(), $employee->getLastName(), 25);
-            $responseArray[] = $emp->toArray();
+            throw new RecordNotFoundException("Employee not found");
         }
 
         return $responseArray;
@@ -83,7 +119,13 @@ class EmployeeService {
      */
     public function getEmployeeDependants($requestParams) {
 
-        $empId = $requestParams->getQueryParam('id');
+        $responseArray = null;
+        $empId = $requestParams->getQueryParam($this::ID);
+
+        if (!is_numeric($empId)) {
+            throw new \HttpInvalidParamException("Invalid Parameter");
+
+        }
         $dependants = $this->getEmployeeService()->getEmployeeDependents($empId);
         foreach ($dependants as $dependant) {
 
@@ -101,13 +143,23 @@ class EmployeeService {
      */
     public function getEmployeeDetails($requestParams) {
 
-        $empId = $requestParams->getQueryParam('id');
-        $employee = $this->getEmployeeService()->getEmployee($empId);
-        $emp = new Employee($employee->getFirstName(), $employee->getMiddleName(), $employee->getLastName(), 25);
-        $emp->buildEmployee($employee);
-        $responseArray[] = $emp->toArray();
+        $empId = $requestParams->getQueryParam($this::ID);
 
-        return $responseArray;
+        if (!is_numeric($empId)) {
+            throw new \HttpInvalidParamException("Invalid Parameter");
+
+        }
+        $employee = $this->getEmployeeService()->getEmployee($empId);
+        if($employee != null) {
+
+            $emp = new Employee($employee->getFirstName(), $employee->getMiddleName(), $employee->getLastName(), 25);
+            $emp->buildEmployee($employee);
+        } else {
+
+            throw new RecordNotFoundException("Employee not found");
+        }
+
+        return $emp->toArray();
 
     }
 
