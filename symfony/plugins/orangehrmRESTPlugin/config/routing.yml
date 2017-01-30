@@ -1,17 +1,19 @@
-api_wscall:
-    url: /api/v1/get
-    param: { module:baseapi, action:baseGet }
-
 api_employee_dependants:
-  url: /api/v1/employees/:id/dependants
-  class: sfDoctrineRoute
-  options: { model: dependants, type: object }
+  url: /api/v1/employee/:id/dependants
   param: { module:apiv1, action:getEmployeeDependants }
+  requirements:
+    id: \d+
+    sf_method: [get, post, put, delete]
 
 api_employee_details:
-  url: /api/v1/employees/:id
+  url: /api/v1/employee/:id
   param: { module:apiv1, action:getEmployeeDetails }
+  requirements:
+    id: \d+
+    sf_method: [get, post, put, delete]
 
-api_get_employee:
-  url: /api/v1/employees
+api_search_employee:
+  url: /api/v1/employee/search
   param: { module:apiv1, action:getEmployee }
+  requirements:
+      sf_method: [get]
