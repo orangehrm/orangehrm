@@ -40,4 +40,8 @@ class Response{
         $responseFormat = array('data'=>$this->data, 'rels'=>$this->rels);
         return json_encode($responseFormat,true);
     }
+
+    public static function formatError($error) {
+        return json_encode($error,true);
+    }
 }
