@@ -168,10 +168,10 @@ class EmployeeService {
      * @param $request
      * @return array
      */
-    public function getEmployeeDependants($requestParams) {
+    public function getEmployeeDependants() {
 
         $responseArray = null;
-        $empId = $requestParams->getQueryParam($this::ID);
+        $empId = $this->getRequestParams()->getQueryParam(self::PARAMETER_ID);
 
         if (!is_numeric($empId)) {
             throw new \HttpInvalidParamException("Invalid Parameter");
@@ -187,14 +187,13 @@ class EmployeeService {
     }
 
     /**
-     * Getting employee dependants API call
-     *
-     * @param $request
      * @return array
+     * @throws RecordNotFoundException
+     * @throws \HttpInvalidParamException
      */
-    public function getEmployeeDetails($requestParams) {
+    public function getEmployeeDetails() {
 
-        $empId = $requestParams->getQueryParam($this::ID);
+        $empId = $this->getRequestParams()->getQueryParam(self::PARAMETER_ID);
 
         if (!is_numeric($empId)) {
             throw new \HttpInvalidParamException("Invalid Parameter");
