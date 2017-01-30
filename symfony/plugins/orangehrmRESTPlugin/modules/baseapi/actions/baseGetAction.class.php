@@ -18,6 +18,7 @@
  */
 use Orangehrm\Rest\Http\Request;
 use Orangehrm\Rest\Http\Response;
+use Orangehrm\Rest\Api\Exception\RecordNotFoundException;
 
 abstract class baseGetAction extends baseOAuthAction {
 
