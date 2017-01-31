@@ -194,7 +194,7 @@ class EmployeeService {
     public function getEmployeeDependants() {
 
         $responseArray = null;
-        $empId = $this->getRequestParams()->getQueryParam(self::PARAMETER_ID);
+        $empId = $this->getRequestParams()->getUrlParam(self::PARAMETER_ID);
 
         if (!is_numeric($empId)) {
             throw new InvalidParamException("Invalid Parameter");
@@ -219,8 +219,8 @@ class EmployeeService {
 
         $empId = -1;
         $employeeList [] = array();
-        if (!empty($this->getRequestParams()->getQueryParam(self::PARAMETER_ID))) {
-            $empId = $this->getRequestParams()->getQueryParam(self::PARAMETER_ID);
+        if (!empty($this->getRequestParams()->getUrlParam(self::PARAMETER_ID))) {
+            $empId = $this->getRequestParams()->getUrlParam(self::PARAMETER_ID);
         }
         if (!is_numeric($empId)) {
             throw new InvalidParamException("Invalid Parameter");
@@ -243,8 +243,8 @@ class EmployeeService {
 
         $empId = -1;
         $employeeList [] = array();
-        if (!empty($this->getRequestParams()->getQueryParam(self::PARAMETER_ID))) {
-            $empId = $this->getRequestParams()->getQueryParam(self::PARAMETER_ID);
+        if (!empty($this->getRequestParams()->getUrlParam(self::PARAMETER_ID))) {
+            $empId = $this->getRequestParams()->getUrlParam(self::PARAMETER_ID);
         }
         if (!is_numeric($empId)) {
             throw new InvalidParamException("Invalid Parameter");
