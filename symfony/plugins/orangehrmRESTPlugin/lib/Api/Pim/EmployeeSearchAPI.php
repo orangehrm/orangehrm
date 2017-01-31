@@ -1,5 +1,4 @@
 <?php
-
 /**
  * OrangeHRM is a comprehensive Human Resource Management (HRM) System that captures
  * all the essential functionalities required for any enterprise.
@@ -17,25 +16,16 @@
  * if not, write to the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
  * Boston, MA  02110-1301, USA
  */
+
 namespace Orangehrm\Rest\Api\Pim;
 
+use Orangehrm\Rest\Api\EndPoint;
 use Orangehrm\Rest\Api\Exception\RecordNotFoundException;
 use Orangehrm\Rest\Api\Exception\InvalidParamException;
 use Orangehrm\Rest\Api\Pim\Entity\Employee;
-use Orangehrm\Rest\Api\Pim\Entity\EmployeeDependant;
-use Orangehrm\Rest\Api\Pim\Entity\EmployeeContactDetail;
-use Orangehrm\Rest\http\RequestParams;
-use Orangehrm\Rest\Http\Request;
 use Orangehrm\Rest\Http\Response;
 
-class EmployeeService {
-
-    /**
-     * @var Request
-     */
-    protected $request = null;
-    protected $employeeService = null;
-    protected $requestParams = null ;
+class EmployeeSearchAPI extends EndPoint{
 
     /**
      * Employee constants
@@ -49,26 +39,9 @@ class EmployeeService {
     const PARAMETER_LIMIT      = 'limit';
 
     /**
-     * @var array
+     * @var EmployeeService
      */
-    protected $searchParams = array(
-        self::PARAMETER_NAME => 'name',
-        self::PARAMETER_ID => 'id',
-        self::PARAMETER_JOB_TITLE => 'jobTitle',
-        self::PARAMETER_STATUS => 'status',
-        self::PARAMETER_UNIT => 'unit',
-        self::PARAMETER_SUPERVISOR => 'supervisor',
-        self::PARAMETER_LIMIT => 'limit'
-    );
-
-    /**
-     * EmployeeService constructor.
-     *
-     * @param Request $request
-     */
-    public function __construct(Request $request) {
-        $this->setRequestParams(new RequestParams($request));
-    }
+    protected $employeeService = null;
 
     /**
      * @return \EmployeeService|null
@@ -82,37 +55,11 @@ class EmployeeService {
         }
     }
 
+    /**
+     * @param $employeeService
+     */
     public function setEmployeeService($employeeService){
         $this->employeeService = $employeeService;
-    }
-
-    /**
-     * @return null
-     */
-    public function getRequestParams() {
-        return $this->requestParams;
-    }
-
-    /**
-     * @param null $requestParams
-     */
-    public function setRequestParams($requestParams) {
-        $this->requestParams = $requestParams;
-    }
-    /**
-     * @return mixed
-     */
-    public function getRequest()
-    {
-        return $this->request;
-    }
-
-    /**
-     * @param mixed $request
-     */
-    public function setRequest($request)
-    {
-        $this->request = $request;
     }
 
     /**
@@ -184,83 +131,4 @@ class EmployeeService {
         }
         return $data;
     }
-
-    /**
-     * Getting employee dependants API call
-     *
-     * @param $request
-     * @return array
-     */
-    public function getEmployeeDependants() {
-
-        $responseArray = null;
-        $empId = $this->getRequestParams()->getUrlParam(self::PARAMETER_ID);
-
-        if (!is_numeric($empId)) {
-            throw new InvalidParamException("Invalid Parameter");
-
-        }
-        $dependants = $this->getEmployeeService()->getEmployeeDependents($empId);
-
-        foreach ($dependants as $dependant) {
-
-            $empDependant = new EmployeeDependant($dependant->getName(), $dependant->getRelationship(), $dependant->getDateOfBirth());
-            $responseArray[] = $empDependant->toArray();
-        }
-        return $responseArray;
-    }
-
-    /**
-     * @return array
-     * @throws RecordNotFoundException
-     * @throws \HttpInvalidParamException
-     */
-    public function getEmployeeDetails() {
-
-        $empId = -1;
-        $employeeList [] = array();
-        if (!empty($this->getRequestParams()->getUrlParam(self::PARAMETER_ID))) {
-            $empId = $this->getRequestParams()->getUrlParam(self::PARAMETER_ID);
-        }
-        if (!is_numeric($empId)) {
-            throw new InvalidParamException("Invalid Parameter");
-
-        }
-        $emp = $this->getEmployeeService()->getEmployee($empId);
-        $employeeList [] = $emp;
-        if (empty($employeeList) == 0) {
-            throw new RecordNotFoundException("Employee not found");
-        }
-        return $this->buildEmployeeData($employeeList);
-    }
-    /**
-     * get Employee contact details
-     *
-     * @return Response
-     * @throws RecordNotFoundException
-     */
-    public function getEmployeeContacts() {
-
-        $empId = -1;
-        $employeeList [] = array();
-        if (!empty($this->getRequestParams()->getUrlParam(self::PARAMETER_ID))) {
-            $empId = $this->getRequestParams()->getUrlParam(self::PARAMETER_ID);
-        }
-        if (!is_numeric($empId)) {
-            throw new InvalidParamException("Invalid Parameter");
-
-        }
-        // getting employee
-        $emp = $this->getEmployeeService()->getEmployee($empId);
-
-        if ($emp == null ) {
-            throw new RecordNotFoundException("Contacts not found");
-        }
-
-        $empContact = new EmployeeContactDetail($emp->getFullName(),$emp->getEmployeeId());
-        $empContact->buildContactDetails($emp);
-
-        return new Response($empContact->toArray(),array());
-    }
-
 }

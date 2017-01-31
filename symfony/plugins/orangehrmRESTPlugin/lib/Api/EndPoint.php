@@ -1,4 +1,5 @@
 <?php
+
 /**
  * OrangeHRM is a comprehensive Human Resource Management (HRM) System that captures
  * all the essential functionalities required for any enterprise.
@@ -17,16 +18,56 @@
  * Boston, MA  02110-1301, USA
  */
 
+namespace Orangehrm\Rest\Api;
+
 use Orangehrm\Rest\Http\Request;
-use Orangehrm\Rest\Http\Response;
-use Orangehrm\Rest\Api\Pim\EmployeeDetailAPI;
 use Orangehrm\Rest\http\RequestParams;
 
-class getEmployeeDetailsAction extends baseGetAction {
+class EndPoint {
 
-    protected function handleRequest(Request $request){
+    /**
+     * @var Request
+     */
+    protected $request = null;
 
-        $apiEmployeeDetail = new EmployeeDetailAPI($request);
-        return $apiEmployeeDetail->getEmployeeDetails();
+    /**
+     * @var RequestParams
+     */
+    protected $requestParams = null ;
+
+    /**
+     *
+     * @param Request $request
+     */
+    public function __construct(Request $request) {
+        $this->setRequestParams(new RequestParams($request));
+    }
+
+    /**
+     * @return null
+     */
+    public function getRequestParams() {
+        return $this->requestParams;
+    }
+
+    /**
+     * @param null $requestParams
+     */
+    public function setRequestParams($requestParams) {
+        $this->requestParams = $requestParams;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getRequest() {
+        return $this->request;
+    }
+
+    /**
+     * @param mixed $request
+     */
+    public function setRequest($request) {
+        $this->request = $request;
     }
 }

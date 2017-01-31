@@ -19,13 +19,13 @@
 
 use Orangehrm\Rest\Http\Request;
 use Orangehrm\Rest\Http\Response;
-use Orangehrm\Rest\Api\Pim\EmployeeService;
+use Orangehrm\Rest\Api\Pim\EmployeeDependentAPI;
 
 class getEmployeeDependantsAction extends baseGetAction {
 
     protected function handleRequest(Request $request){
 
-        $apiEmployeeService = new EmployeeService($request);
-        return new Response($apiEmployeeService->getEmployeeDependants());
+        $apiEmployeeDependent = new EmployeeDependentAPI($request);
+        return $apiEmployeeDependent->getEmployeeDependants();
     }
 }

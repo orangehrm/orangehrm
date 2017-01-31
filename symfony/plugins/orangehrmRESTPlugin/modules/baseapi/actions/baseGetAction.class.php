@@ -59,7 +59,7 @@ abstract class baseGetAction extends baseOAuthAction {
             $response->setContent($this->handleRequest($httpRequest)->format());
         } catch (RecordNotFoundException $e){
             $response->setContent(Response::formatError(
-                array('error'=>array('status'=>'404','text'=>'Record not found')))
+                array('error'=>array('status'=>'404','text'=>$e->getMessage())))
             );
             $response->setStatusCode(404);
         } catch (InvalidParamException $e){

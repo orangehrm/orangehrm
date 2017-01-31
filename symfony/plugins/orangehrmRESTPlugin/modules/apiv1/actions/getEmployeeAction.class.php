@@ -18,15 +18,13 @@
  */
 
 use Orangehrm\Rest\Http\Request;
-use Orangehrm\Rest\Http\Response;
-use Orangehrm\Rest\Api\Pim\EmployeeService;
-use Orangehrm\Rest\http\RequestParams;
+use Orangehrm\Rest\Api\Pim\EmployeeSearchAPI;
 
 class getEmployeeAction extends baseGetAction {
 
     protected function handleRequest(Request $request){
 
-        $apiEmployeeService = new EmployeeService($request);
-        return $apiEmployeeService->getEmployeeList();
+        $apiEmployeeSearch = new EmployeeSearchAPI($request);
+        return $apiEmployeeSearch->getEmployeeList();
     }
 }
