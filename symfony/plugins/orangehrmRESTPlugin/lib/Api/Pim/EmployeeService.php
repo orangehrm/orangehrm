@@ -197,7 +197,7 @@ class EmployeeService {
         $empId = $this->getRequestParams()->getQueryParam(self::PARAMETER_ID);
 
         if (!is_numeric($empId)) {
-            throw new \HttpInvalidParamException("Invalid Parameter");
+            throw new InvalidParamException("Invalid Parameter");
 
         }
         $dependants = $this->getEmployeeService()->getEmployeeDependents($empId);
@@ -222,6 +222,10 @@ class EmployeeService {
         if (!empty($this->getRequestParams()->getQueryParam(self::PARAMETER_ID))) {
             $empId = $this->getRequestParams()->getQueryParam(self::PARAMETER_ID);
         }
+        if (!is_numeric($empId)) {
+            throw new InvalidParamException("Invalid Parameter");
+
+        }
         $emp = $this->getEmployeeService()->getEmployee($empId);
         $employeeList [] = $emp;
         if (empty($employeeList) == 0) {
@@ -242,7 +246,17 @@ class EmployeeService {
         if (!empty($this->getRequestParams()->getQueryParam(self::PARAMETER_ID))) {
             $empId = $this->getRequestParams()->getQueryParam(self::PARAMETER_ID);
         }
+        if (!is_numeric($empId)) {
+            throw new InvalidParamException("Invalid Parameter");
+
+        }
+        // getting employee
         $emp = $this->getEmployeeService()->getEmployee($empId);
+
+        if ($emp == null ) {
+            throw new RecordNotFoundException("Contacts not found");
+        }
+
         $empContact = new EmployeeContactDetail($emp->getFullName(),$emp->getEmployeeId());
         $empContact->buildContactDetails($emp);
 
