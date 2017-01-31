@@ -23,6 +23,7 @@ use Orangehrm\Rest\Api\Exception\RecordNotFoundException;
 use Orangehrm\Rest\Api\Exception\InvalidParamException;
 use Orangehrm\Rest\Api\Pim\Entity\Employee;
 use Orangehrm\Rest\Api\Pim\Entity\EmployeeDependant;
+use Orangehrm\Rest\Api\Pim\Entity\EmployeeContactDetail;
 use Orangehrm\Rest\http\RequestParams;
 use Orangehrm\Rest\Http\Request;
 use Orangehrm\Rest\Http\Response;
@@ -98,6 +99,21 @@ class EmployeeService {
     public function setRequestParams($requestParams) {
         $this->requestParams = $requestParams;
     }
+    /**
+     * @return mixed
+     */
+    public function getRequest()
+    {
+        return $this->request;
+    }
+
+    /**
+     * @param mixed $request
+     */
+    public function setRequest($request)
+    {
+        $this->request = $request;
+    }
 
     /**
      * @return Response
@@ -131,11 +147,16 @@ class EmployeeService {
         }
 
         if(!empty($this->getRequestParams()->getQueryParam(self::PARAMETER_ID))){
-            $filters['employee_name'] = $this->getRequestParams()->getQueryParam(self::PARAMETER_ID);
+            $filters['id'] = $this->getRequestParams()->getQueryParam(self::PARAMETER_ID);
         }
-
         if(!empty($this->getRequestParams()->getQueryParam(self::PARAMETER_JOB_TITLE))){
-            $filters['employee_name'] = $this->getRequestParams()->getQueryParam(self::PARAMETER_JOB_TITLE);
+            $filters['job_title'] = $this->getRequestParams()->getQueryParam(self::PARAMETER_JOB_TITLE);
+        }
+        if(!empty($this->getRequestParams()->getQueryParam(self::PARAMETER_STATUS))){
+            $filters['employee_status'] = $this->getRequestParams()->getQueryParam(self::PARAMETER_STATUS);
+        }
+        if(!empty($this->getRequestParams()->getQueryParam(self::PARAMETER_SUPERVISOR))){
+            $filters['supervisor_name'] = $this->getRequestParams()->getQueryParam(self::PARAMETER_SUPERVISOR);
         }
         if(empty($filters)){
             return null;
@@ -152,7 +173,7 @@ class EmployeeService {
      *
      * @return array
      */
-    private function buildEmployeeData( $employeeList ) { //var_dump($employeeList);die();
+    private function buildEmployeeData( $employeeList ) {
         $data = array();
         foreach ($employeeList as $employee) {
             $emp = new Employee($employee->getFirstName(), $employee->getMiddleName(), $employee->getLastName(), $employee->getEmployeeId());
@@ -180,6 +201,7 @@ class EmployeeService {
 
         }
         $dependants = $this->getEmployeeService()->getEmployeeDependents($empId);
+
         foreach ($dependants as $dependant) {
 
             $empDependant = new EmployeeDependant($dependant->getName(), $dependant->getRelationship(), $dependant->getDateOfBirth());
@@ -207,21 +229,24 @@ class EmployeeService {
         }
         return $this->buildEmployeeData($employeeList);
     }
-
     /**
-     * @return mixed
+     * get Employee contact details
+     *
+     * @return Response
+     * @throws RecordNotFoundException
      */
-    public function getRequest()
-    {
-        return $this->request;
-    }
+    public function getEmployeeContacts() {
 
-    /**
-     * @param mixed $request
-     */
-    public function setRequest($request)
-    {
-        $this->request = $request;
+        $empId = -1;
+        $employeeList [] = array();
+        if (!empty($this->getRequestParams()->getQueryParam(self::PARAMETER_ID))) {
+            $empId = $this->getRequestParams()->getQueryParam(self::PARAMETER_ID);
+        }
+        $emp = $this->getEmployeeService()->getEmployee($empId);
+        $empContact = new EmployeeContactDetail($emp->getFullName(),$emp->getEmployeeId());
+        $empContact->buildContactDetails($emp);
+
+        return new Response($empContact->toArray(),array());
     }
 
 }

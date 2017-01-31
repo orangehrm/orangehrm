@@ -28,7 +28,7 @@ class Supervisor implements Serializable {
      */
     private $name = '';
 
-    private $id = -1;
+    private $id = 0;
 
     /**
      * @return mixed

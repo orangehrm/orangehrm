@@ -19,7 +19,7 @@
 use Orangehrm\Rest\Http\Request;
 use Orangehrm\Rest\Http\Response;
 use Orangehrm\Rest\Api\Exception\RecordNotFoundException;
-use Orangehrm\Rest\Api\Exception\InvalidParam;
+use Orangehrm\Rest\Api\Exception\InvalidParamException;
 
 abstract class baseGetAction extends baseOAuthAction {
 
@@ -62,7 +62,7 @@ abstract class baseGetAction extends baseOAuthAction {
                 array('error'=>array('status'=>'404','text'=>'Record not found')))
             );
             $response->setStatusCode(404);
-        } catch (InvalidParam $e){
+        } catch (InvalidParamException $e){
             $response->setContent(Response::formatError(
                 array('error'=>array('status'=>'202','text'=>'Invalid Parameter')))
             );

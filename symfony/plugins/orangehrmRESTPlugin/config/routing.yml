@@ -17,3 +17,10 @@ api_search_employee:
   param: { module:apiv1, action:getEmployee }
   requirements:
       sf_method: [get]
+
+api_employee_contacts:
+  url: /api/v1/employee/:id/contact-detail
+  param: { module:apiv1, action:getEmployeeContacts }
+  requirements:
+    id: \d+
+    sf_method: [get, post, put, delete]

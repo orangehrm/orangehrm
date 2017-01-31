@@ -36,7 +36,7 @@ class Employee implements Serializable {
 
     private $licenseNo ='';
 
-    private $employeeId = -1;
+    private $employeeId = 0;
 
     private $empBirthDate =  '';
 
