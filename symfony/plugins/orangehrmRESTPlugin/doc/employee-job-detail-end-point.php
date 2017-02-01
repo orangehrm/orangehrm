@@ -5,11 +5,11 @@
 *
 * @apiParam {Number}  employee id
 *
-* @apiSuccess {String} title Firstname of the employee.
-* @apiSuccess {String} category  Lastname of the employee.
-* @apiSuccess {String} joinedDate  address of the employee.
-* @apiSuccess {String} startDate email of the employee.
-* @apiSuccess {String} endDate  phone of the employee.
+* @apiSuccess {String} title Job title name.
+* @apiSuccess {String} category  Job category.
+* @apiSuccess {String} joinedDate  Employee joined date.
+* @apiSuccess {String} startDate Employee contract start date.
+* @apiSuccess {String} endDate  Employee contract end date.
 *
 * @apiSuccessExample Success-Response:
 *     HTTP/1.1 200 OK
