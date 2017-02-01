@@ -21,7 +21,7 @@ namespace Orangehrm\Rest\Api\Pim\Entity;
 
 use Orangehrm\Rest\Api\Entity\Serializable;
 
-class EmployeeJobDetails implements Serializable
+class EmployeeJobDetail implements Serializable
 {
     /**
      * @var

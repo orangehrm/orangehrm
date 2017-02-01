@@ -19,14 +19,14 @@
 
 use Orangehrm\Rest\Http\Request;
 use Orangehrm\Rest\Http\Response;
-use Orangehrm\Rest\Api\Pim\EmployeeService;
+use Orangehrm\Rest\Api\Pim\EmployeeContactDetailAPI;
 use Orangehrm\Rest\http\RequestParams;
 
 class getEmployeeContactsAction extends baseGetAction {
 
     protected function handleRequest(Request $request){
 
-        $apiEmployeeService = new EmployeeService($request);
-        return $apiEmployeeService->getEmployeeContacts();
+        $apiEmployeeContactDetail = new EmployeeContactDetailAPI($request);
+        return $apiEmployeeContactDetail->getEmployeeContactDetails();
     }
 }

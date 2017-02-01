@@ -22,10 +22,11 @@ namespace Orangehrm\Rest\Api\Pim;
 use Orangehrm\Rest\Api\EndPoint;
 use Orangehrm\Rest\Api\Exception\RecordNotFoundException;
 use Orangehrm\Rest\Api\Exception\InvalidParamException;
+use Orangehrm\Rest\Api\Pim\Entity\EmployeeContactDetail;
 use Orangehrm\Rest\Api\Pim\Entity\EmployeeJobDetail;
 use Orangehrm\Rest\Http\Response;
 
-class EmployeeJobDetailAPI extends EndPoint {
+class EmployeeContactDetailAPI extends EndPoint {
 
     const PARAMETER_ID         = "id";
 
@@ -51,7 +52,7 @@ class EmployeeJobDetailAPI extends EndPoint {
      * @param $request
      * @return array
      */
-    public function getEmployeeJobDetails() {
+    public function getEmployeeContactDetails() {
 
         $responseArray = null;
         $empId = $this->getRequestParams()->getUrlParam(self::PARAMETER_ID);
@@ -60,14 +61,16 @@ class EmployeeJobDetailAPI extends EndPoint {
             throw new InvalidParamException("Invalid Parameter");
 
         }
+
         $employee = $this->getEmployeeService()->getEmployee($empId);
+
         if (empty($employee)) {
             throw new RecordNotFoundException("Employee Not Found");
 
         }
 
-        $employeeJobDetails = new EmployeeJobDetail();
-
-        return new Response($employeeJobDetails->toArray() ,array());
+        $employeeContactDetails = new EmployeeContactDetail($employee->getFullName(),$employee->getEmployeeId());
+        $employeeContactDetails->buildContactDetails($employee);
+        return new Response($employeeContactDetails->toArray() ,array());
     }
 }
