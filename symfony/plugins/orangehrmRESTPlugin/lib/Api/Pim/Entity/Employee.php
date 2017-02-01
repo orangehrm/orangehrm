@@ -444,9 +444,6 @@ class Employee implements Serializable {
             'status'   => $this->getEmployeeStatus(),
             'age'      => $this->getAge(),
             'dob'      => $this->getEmpBirthDate(),
-            'nationality' => $this->getNationality(),
-            'country' => $this->getCountry(),
-            'city' => $this->getCity(),
             'employeeStatus' => $this->getEmployeeStatus(),
             'unit'    =>$this->getUnit(),
             'jobtitle'=> $this->getJobTitle(),
@@ -462,16 +459,12 @@ class Employee implements Serializable {
      * @param $employee Doctraine Entity
      */
     public function buildEmployee($employee){
-//
-//        $e = new \Employee();
-//        $e->getEmployeeId()
-    //    var_dump($employee->getSupervisors());die();
+
         $this->setCity($employee->getCity());
         $this->setCountry($employee->getCountry());
         $this->setEmpBirthDate($employee->getEmpBirthday());
         $this->setEmployeeStatus($employee->getEmpStatus());
         $this->setGender($employee->getEmpGender());
-        $this->setNationality($employee->getNationality());
         $this->setEmployeeFullName($employee->getFullName());
         $this->setJobTitle($employee->getJobTitleName());
         $this->setUnit($employee->getSubDivision());
@@ -482,6 +475,5 @@ class Employee implements Serializable {
             $supervisorList = $supervisorEnt->toArray();
         }
         $this->setSupervisors($supervisorList);
-      //  var_dump($this->getSupervisors());die();
     }
 }
