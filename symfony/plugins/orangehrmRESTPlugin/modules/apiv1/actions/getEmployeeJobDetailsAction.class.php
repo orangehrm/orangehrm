@@ -1,5 +1,4 @@
 <?php
-
 /**
  * OrangeHRM is a comprehensive Human Resource Management (HRM) System that captures
  * all the essential functionalities required for any enterprise.
@@ -17,21 +16,15 @@
  * if not, write to the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
  * Boston, MA  02110-1301, USA
  */
-use Orangehrm\Rest\Http\Response;
 
-class HttpResponseTest extends PHPUnit_Framework_TestCase{
+use Orangehrm\Rest\Http\Request;
+use Orangehrm\Rest\Api\Pim\EmployeeJobDetailAPI;
 
-    /**
-     * @var Response
-     */
-    private $response = null;
+class getEmployeeJobDetailsAction extends baseGetAction {
 
-    protected function setUp() {
-        $this->response = new Response(array(array('name'=>'Samantha')));
-    }
+    protected function handleRequest(Request $request){
 
-    public function testFormat() {
-        $result = $this->response->format();
-        $this->assertEquals($result, '[{"name":"Samantha"}]');
+        $apiEmployeeSearch = new EmployeeJobDetailAPI($request);
+        return $apiEmployeeSearch->getEmployeeJobDetails();
     }
 }

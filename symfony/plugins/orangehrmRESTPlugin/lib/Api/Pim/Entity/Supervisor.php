@@ -62,7 +62,11 @@ class Supervisor implements Serializable {
         $this->id = $id;
     }
 
-
+    /**
+     * Supervisor constructor.
+     * @param $name
+     * @param $id
+     */
     public function __construct($name ,$id)
     {
         $this->setName($name);

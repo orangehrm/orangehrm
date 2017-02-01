@@ -24,3 +24,11 @@ api_employee_contacts:
   requirements:
     id: \d+
     sf_method: [get, post, put, delete]
+
+api_employee_job_detail:
+  url: /api/v1/employee/:id/job-detail
+  param: { module:apiv1, action:getEmployeeJobDetails }
+  requirements:
+    id: \d+
+    sf_method: [get, post, put, delete]
+

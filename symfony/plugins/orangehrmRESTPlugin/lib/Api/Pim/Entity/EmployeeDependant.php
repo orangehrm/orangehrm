@@ -34,11 +34,10 @@ class EmployeeDependant implements Serializable
 
 
     /**
-     * Employee constructor.
-     * @param string $name
-     * @param string $relationship
-     * @param date $dateOfBirth
-     *
+     * EmployeeDependant constructor.
+     * @param $name
+     * @param $relationship
+     * @param $dob
      */
     public function __construct($name, $relationship, $dob)
     {
