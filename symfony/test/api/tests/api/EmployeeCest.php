@@ -17,7 +17,7 @@
  * if not, write to the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
  * Boston, MA  02110-1301, USA
  */
-class EmployeeCest
+class EmployeeDetailCest
 {
     public function _before(ApiTester $I)
     {
@@ -25,6 +25,15 @@ class EmployeeCest
 
     public function _after(ApiTester $I)
     {
+    }
+
+    public function getEmployeeOneTest(ApiTester $I)
+    {
+        $I->wantTo('Employee Detail test');
+        $I->amBearerAuthenticated($I->getDefaultToken());
+        $I->sendGET('http://orangehrm.os/symfony/web/index.php/api/v1/employee/2');
+        $I->seeResponseCodeIs(200);
+        //$I->seeResponseContains('{"data":{"id":"1","operational_country_id":"1","mon":"0","tue":"0","wed":"0","thu":"0","fri":"0","sat":"4","sun":"8"}}');
     }
 
     // tests
