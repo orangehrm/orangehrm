@@ -442,7 +442,6 @@ class Employee implements Serializable {
             'lastName' => $this->getLastName(),
             'fullName' => $this->getEmployeeFullName(),
             'status'   => $this->getEmployeeStatus(),
-            'age'      => $this->getAge(),
             'dob'      => $this->getEmpBirthDate(),
             'employeeStatus' => $this->getEmployeeStatus(),
             'unit'    =>$this->getUnit(),
@@ -467,7 +466,7 @@ class Employee implements Serializable {
         $this->setGender($employee->getEmpGender());
         $this->setEmployeeFullName($employee->getFullName());
         $this->setJobTitle($employee->getJobTitleName());
-        $this->setUnit($employee->getSubDivision());
+        $this->setUnit($employee->getSubDivision()->getName());
         $supervisorList [] = array();
         foreach ($employee->getSupervisors() as $supervisor){
 

@@ -21,7 +21,7 @@
 /**
  * Test class of Api/EmployeeService
  *
- * @group API
+ * @group
  */
 
 

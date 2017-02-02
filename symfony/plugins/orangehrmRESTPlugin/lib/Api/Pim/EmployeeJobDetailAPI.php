@@ -60,14 +60,16 @@ class EmployeeJobDetailAPI extends EndPoint {
             throw new InvalidParamException("Invalid Parameter");
 
         }
+
         $employee = $this->getEmployeeService()->getEmployee($empId);
+
         if (empty($employee)) {
             throw new RecordNotFoundException("Employee Not Found");
 
         }
 
         $employeeJobDetails = new EmployeeJobDetail();
-
+        $employeeJobDetails->build($employee);
         return new Response($employeeJobDetails->toArray() ,array());
     }
 }

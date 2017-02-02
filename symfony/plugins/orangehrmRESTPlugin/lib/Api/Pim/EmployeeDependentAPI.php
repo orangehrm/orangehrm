@@ -23,7 +23,7 @@ use Orangehrm\Rest\Api\EndPoint;
 use Orangehrm\Rest\Api\Exception\RecordNotFoundException;
 use Orangehrm\Rest\Api\Exception\InvalidParamException;
 use Orangehrm\Rest\Api\Pim\Entity\Employee;
-use Orangehrm\Rest\Api\Pim\Entity\EmployeeDependant;
+use Orangehrm\Rest\Api\Pim\Entity\EmployeeDependent;
 use Orangehrm\Rest\Http\Response;
 
 class EmployeeDependentAPI extends EndPoint {
@@ -65,7 +65,7 @@ class EmployeeDependentAPI extends EndPoint {
 
         foreach ($dependants as $dependant) {
 
-            $empDependant = new EmployeeDependant($dependant->getName(), $dependant->getRelationship(), $dependant->getDateOfBirth());
+            $empDependant = new EmployeeDependent($dependant->getName(), $dependant->getRelationship(), $dependant->getDateOfBirth());
             $responseArray[] = $empDependant->toArray();
         }
         return new Response($responseArray ,array());

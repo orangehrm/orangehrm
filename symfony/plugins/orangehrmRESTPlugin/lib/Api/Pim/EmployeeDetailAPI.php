@@ -78,7 +78,7 @@ class EmployeeDetailAPI extends EndPoint {
     private function buildEmployeeData( $employee ) {
 
         $emp = new Employee($employee->getFirstName(), $employee->getMiddleName(), $employee->getLastName(), $employee->getEmployeeId());
-
+        $emp->buildEmployee($employee);
         return $emp->toArray();
 
     }
