@@ -9,7 +9,7 @@ class Api extends \Codeception\Module
     public function getDefaultToken(){
 
         $this->getModule('REST')->sendPOST(
-            'http://orangehrm.os/symfony/web/index.php/oauth/issueToken',
+            'oauth/issueToken',
             ['client_id' => 'testclient', 'client_secret' => 'testpass', 'grant_type' => 'client_credentials']);
         $response = $this->getModule('REST')->response;
 

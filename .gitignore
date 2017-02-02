@@ -8,3 +8,4 @@ symfony/apps/orangehrm/config/
 symfony/lib/vendor
 symfony/lib/composer.lock
 apidoc
+symfony/test/api/tests/_output/
