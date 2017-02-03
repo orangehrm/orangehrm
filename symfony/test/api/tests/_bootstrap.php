@@ -14,11 +14,11 @@ if (!defined('SF_CONN')) {
     define('SF_CONN', 'doctrine' );
 }
 
-if (!defined('TEST_ENV_CONFIGURED')) {
+//if (!defined('TEST_ENV_CONFIGURED')) {
 
     require_once(dirname(__FILE__).'/../../../config/ProjectConfiguration.class.php');
-    PluginAllTests::$configuration = ProjectConfiguration::getApplicationConfiguration( SF_APP_NAME , SF_ENV, true);
-    sfContext::createInstance(PluginAllTests::$configuration);
+    $config = ProjectConfiguration::getApplicationConfiguration( SF_APP_NAME , SF_ENV, true);
+    sfContext::createInstance($config);
 
     define('TEST_ENV_CONFIGURED', TRUE);
-}
+//}
