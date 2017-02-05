@@ -41,6 +41,8 @@ class EmployeeDao extends BaseDao {
             'termination' => 'e.termination_id',
             'location' => 'l.location_id',
             'employee_id_list' => 'e.emp_number',
+            'gender' => 'e.emp_gender',
+            'dob'   => 'e.emp_birthday',
     );
 
     /**
@@ -1932,7 +1934,7 @@ class EmployeeDao extends BaseDao {
         
         $select = 'SELECT e.emp_number AS empNumber, e.employee_id AS employeeId, ' .
                 'e.emp_firstname AS firstName, e.emp_lastname AS lastName, ' .
-                'e.emp_middle_name AS middleName, e.termination_id AS terminationId, ' .
+                'e.emp_middle_name AS middleName,e.emp_birthday AS employeeBirthday, e.termination_id AS terminationId, ' .
                 'cs.name AS subDivision, cs.id AS subDivisionId,' .
                 'j.job_title AS jobTitle, j.id AS jobTitleId, j.is_deleted AS isDeleted, ' .
                 'es.name AS employeeStatus, es.id AS employeeStatusId, '.
@@ -1980,12 +1982,17 @@ class EmployeeDao extends BaseDao {
                     } else if ($searchField == 'employee_status') {
                         $conditions[] = ' es.id = ? ';
                         $bindParams[] = $searchBy;
+                    } else if ($searchField == 'gender') {
+                        $conditions[] = ' e.emp_gender = ? ';
+                        $bindParams[] = $searchBy;
+                    } else if ($searchField == 'dob') {
+                        $conditions[] = ' e.emp_birthday = ? ';
+                        $bindParams[] = $searchBy;
                     } else if ($searchField == 'supervisorId') {
-                        
                         $subordinates = $this->_getSubordinateIds($searchBy);
                         if (count($subordinates) > 0) {
                             $conditions[] = ' e.emp_number IN (' . implode(',', $subordinates) . ') ';
-                        } else {                        
+                        } else {
                             $conditions[] = ' s.emp_number = ? ';
                             $bindParams[] = $searchBy;
                         }
@@ -2140,6 +2147,7 @@ class EmployeeDao extends BaseDao {
                     $employee->setMiddleName($row['middleName']);
                     $employee->setLastName($row['lastName']);
                     $employee->setTerminationId($row['terminationId']);
+                    $employee->setEmpBirthday($row['employeeBirthday']);
 
                     $jobTitle = new JobTitle();
                     $jobTitle->setId($row['jobTitleId']);
