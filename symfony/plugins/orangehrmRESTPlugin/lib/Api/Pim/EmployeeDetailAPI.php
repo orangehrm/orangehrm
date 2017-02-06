@@ -25,14 +25,23 @@ use Orangehrm\Rest\Api\Exception\InvalidParamException;
 use Orangehrm\Rest\Api\Pim\Entity\Employee;
 use Orangehrm\Rest\Http\Response;
 
-class EmployeeDetailAPI extends EndPoint {
+class EmployeeDetailAPI extends EndPoint
+{
 
-    const PARAMETER_ID         = "id";
+    const PARAMETER_ID = "id";
+
+    /*
+     * relations
+     */
+    const EMPLOYEE_CONTACT_DETAIL = "/employee/:id/contact-detail";
+    const EMPLOYEE_JOB_DETAIL = "/employee/:id/job-detail";
+    const EMPLOYEE_DEPENDENT = "/employee/:id/dependent";
 
     /**
      * @return \EmployeeService|null
      */
-    protected function getEmployeeService() {
+    protected function getEmployeeService()
+    {
 
         if ($this->employeeService != null) {
             return $this->employeeService;
@@ -41,16 +50,20 @@ class EmployeeDetailAPI extends EndPoint {
         }
     }
 
-    public function setEmployeeService($employeeService){
+    public function setEmployeeService($employeeService)
+    {
         $this->employeeService = $employeeService;
     }
 
     /**
+     * Get Employee details from Employee service
+     *
      * @return array
      * @throws RecordNotFoundException
      * @throws \HttpInvalidParamException
      */
-    public function getEmployeeDetails() {
+    public function getEmployeeDetails()
+    {
 
         $empId = -1;
         $employeeList [] = array();
@@ -67,19 +80,25 @@ class EmployeeDetailAPI extends EndPoint {
         if (empty($employee)) {
             throw new RecordNotFoundException("Employee not found");
         }
-        return new Response($this->buildEmployeeData($employee),array());
+        return new Response($this->buildEmployeeData($employee), array('contact-detail'=> self::EMPLOYEE_CONTACT_DETAIL,'job-detail'=> self::EMPLOYEE_JOB_DETAIL, 'dependent'=> self::EMPLOYEE_DEPENDENT));
 
     }
 
     /**
+     * Creating the Employee serializable object
+     *
      * @param $employee
      * @return array
      */
-    private function buildEmployeeData( $employee ) {
+    private function buildEmployeeData($employee)
+    {
 
         $emp = new Employee($employee->getFirstName(), $employee->getMiddleName(), $employee->getLastName(), $employee->getEmployeeId());
         $emp->buildEmployee($employee);
         return $emp->toArray();
 
     }
+
+
+
 }
