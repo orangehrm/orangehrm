@@ -21,7 +21,7 @@ use Orangehrm\Rest\Http\Response;
 use Orangehrm\Rest\Api\Exception\RecordNotFoundException;
 use Orangehrm\Rest\Api\Exception\InvalidParamException;
 
-abstract class baseGetAction extends baseOAuthAction {
+abstract class baseRestAction extends baseOAuthAction {
 
     /**
      * Check token validation

@@ -22,7 +22,7 @@ use Orangehrm\Rest\Http\Response;
 use Orangehrm\Rest\Api\Pim\EmployeeDetailAPI;
 use Orangehrm\Rest\http\RequestParams;
 
-class getEmployeeDetailsAction extends baseGetAction {
+class getEmployeeDetailsAction extends baseRestAction {
 
     protected function handleRequest(Request $request){
 
