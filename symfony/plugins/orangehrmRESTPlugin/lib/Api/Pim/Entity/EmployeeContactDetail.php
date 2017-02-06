@@ -163,6 +163,6 @@ class EmployeeContactDetail implements Serializable
         $this->setTelephone($employee->getEmpMobile());
         $this->setEmail($employee->getEmpWorkEmail());
         $this->setAddress($employee->getStreet1());
-        $this->setCountry($employee->getCountry());
+        $this->setCountry($employee->getEmployeeCountry()->getName());
     }
 }
