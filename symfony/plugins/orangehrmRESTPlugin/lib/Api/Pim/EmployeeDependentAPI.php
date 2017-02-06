@@ -64,8 +64,13 @@ class EmployeeDependentAPI extends EndPoint {
         $dependants = $this->getEmployeeService()->getEmployeeDependents($empId);
 
         foreach ($dependants as $dependant) {
-
-            $empDependant = new EmployeeDependent($dependant->getName(), $dependant->getRelationship(), $dependant->getDateOfBirth());
+            $relationship = '';
+            if ($dependant->getRelationshipType() == 'other') {
+                $relationship = $dependant->getRelationship();
+            } else {
+                $relationship = $dependant->getRelationshipType();
+            }
+            $empDependant = new EmployeeDependent($dependant->getName(), $relationship , $dependant->getDateOfBirth());
             $responseArray[] = $empDependant->toArray();
         }
         return new Response($responseArray ,array());
