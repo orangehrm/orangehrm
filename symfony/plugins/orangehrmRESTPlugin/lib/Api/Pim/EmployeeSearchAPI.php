@@ -19,26 +19,34 @@
 
 namespace Orangehrm\Rest\Api\Pim;
 
+use Codeception\PHPUnit\Constraint\Page;
 use Orangehrm\Rest\Api\EndPoint;
 use Orangehrm\Rest\Api\Exception\RecordNotFoundException;
 use Orangehrm\Rest\Api\Exception\InvalidParamException;
 use Orangehrm\Rest\Api\Pim\Entity\Employee;
 use Orangehrm\Rest\Http\Response;
 
-class EmployeeSearchAPI extends EndPoint{
+class EmployeeSearchAPI extends EndPoint
+{
 
     /**
      * Employee constants
      */
-    const PARAMETER_NAME       = "name";
-    const PARAMETER_ID         = "id";
-    const PARAMETER_JOB_TITLE  = "jobTitle";
-    const PARAMETER_STATUS     = "status";
-    const PARAMETER_UNIT       = "unit";
+    const PARAMETER_NAME = "name";
+    const PARAMETER_ID = "id";
+    const PARAMETER_JOB_TITLE = "jobTitle";
+    const PARAMETER_STATUS = "status";
+    const PARAMETER_UNIT = "unit";
     const PARAMETER_SUPERVISOR = "supervisor";
-    const PARAMETER_LIMIT      = 'limit';
-    const PARAMETER_GENDER     = 'gender';
-    const PARAMETER_DOB        = 'dob';
+    const PARAMETER_LIMIT = 'limit';
+    const PARAMETER_GENDER = 'gender';
+    const PARAMETER_DOB = 'dob';
+    const PARAMETER_OFFSET = 'page';// in employee search it is names as offset
+
+    /**
+     * Relation parameters
+     */
+    const PAGE = '/employee/search?page=';
 
     /**
      * @var EmployeeService
@@ -46,9 +54,103 @@ class EmployeeSearchAPI extends EndPoint{
     protected $employeeService = null;
 
     /**
+     * get employee list
+     *
+     * @return Response
+     * @throws RecordNotFoundException
+     */
+    public function getEmployeeList()
+    {
+        $employeeList = array();
+        $relationsArray = array();
+
+        $parameterHolder = $this->buildSearchParamHolder();
+        if (empty($parameterHolder)) {
+             $employeeList = $this->getEmployeeService()->getEmployeeList();
+        } else {
+
+            $employeeList = $this->getEmployeeService()->searchEmployees($parameterHolder);
+            if (!empty($parameterHolder->getLimit())) {
+                $relationsArray = $this->getRelations($relationsArray, $parameterHolder);
+            }
+
+        }
+
+        if (empty($employeeList)) {
+            throw new RecordNotFoundException("Employee not found");
+        }
+
+        return new Response($this->buildEmployeeData($employeeList), $relationsArray);
+
+    }
+
+    /**
+     * build search parameters
+     *
+     * @return \EmployeeSearchParameterHolder|null
+     */
+    private function buildSearchParamHolder()
+    {
+
+        $filters = array();
+        $parameterHolder = new \EmployeeSearchParameterHolder();
+        $searchLimit = null;
+        $searchOffset = null;
+
+        if (!empty($this->getRequestParams()->getQueryParam(self::PARAMETER_NAME))) {
+            $filters['employee_name'] = $this->getRequestParams()->getQueryParam(self::PARAMETER_NAME);
+        }
+
+        if (!empty($this->getRequestParams()->getQueryParam(self::PARAMETER_ID))) {
+            $filters['id'] = $this->getRequestParams()->getQueryParam(self::PARAMETER_ID);
+        }
+        if (!empty($this->getRequestParams()->getQueryParam(self::PARAMETER_JOB_TITLE))) {
+            $filters['job_title'] = $this->getRequestParams()->getQueryParam(self::PARAMETER_JOB_TITLE);
+        }
+        if (!empty($this->getRequestParams()->getQueryParam(self::PARAMETER_STATUS))) {
+            $filters['employee_status'] = $this->getRequestParams()->getQueryParam(self::PARAMETER_STATUS);
+        }
+        if (!empty($this->getRequestParams()->getQueryParam(self::PARAMETER_SUPERVISOR))) {
+            $filters['supervisor_name'] = $this->getRequestParams()->getQueryParam(self::PARAMETER_SUPERVISOR);
+        }
+        if (!empty($this->getRequestParams()->getQueryParam(self::PARAMETER_DOB))) {
+            $filters['dob'] = date("Y-m-d",
+                strtotime($this->getRequestParams()->getQueryParam(self::PARAMETER_DOB)));  // "1989-09-7"
+        }
+        if (!empty($this->getRequestParams()->getQueryParam(self::PARAMETER_GENDER))) {
+            $genderString = $this->getRequestParams()->getQueryParam(self::PARAMETER_GENDER);
+
+            if ($genderString == 'male') {
+                $filters['gender'] = 1;
+            } else {
+                if ($genderString == 'female') {
+                    $filters['gender'] = 2;
+                }
+            }
+        }
+        if (is_numeric($this->getRequestParams()->getQueryParam(self::PARAMETER_LIMIT))) {
+            $searchLimit = $this->getRequestParams()->getQueryParam(self::PARAMETER_LIMIT);
+        }
+        if (is_numeric($this->getRequestParams()->getQueryParam(self::PARAMETER_OFFSET))) {
+            $searchOffset = $this->getRequestParams()->getQueryParam(self::PARAMETER_OFFSET);
+        }
+        if (empty($filters)) {
+            return null;
+        }
+
+        $parameterHolder->setFilters($filters);
+        $parameterHolder->setLimit($searchLimit);
+        $parameterHolder->setOffset($searchOffset);
+        $parameterHolder->setReturnType(\EmployeeSearchParameterHolder::RETURN_TYPE_OBJECT);
+
+        return $parameterHolder;
+    }
+
+    /**
      * @return \EmployeeService|null
      */
-    protected function getEmployeeService() {
+    protected function getEmployeeService()
+    {
 
         if ($this->employeeService != null) {
             return $this->employeeService;
@@ -60,89 +162,23 @@ class EmployeeSearchAPI extends EndPoint{
     /**
      * @param $employeeService
      */
-    public function setEmployeeService($employeeService){
+    public function setEmployeeService($employeeService)
+    {
         $this->employeeService = $employeeService;
     }
 
     /**
-     * @return Response
-     * @throws RecordNotFoundException
-     */
-    public function getEmployeeList() {
-        $employeeList = array ();
-        $parameterHolder = $this->buildSearchParamHolder();
-        if(empty($parameterHolder)) {
-            $employeeList = $this->getEmployeeService()->getEmployeeList();
-        }else{
-            $employeeList = $this->getEmployeeService()->searchEmployees($parameterHolder);
-        }
-
-        if(empty($employeeList)) {
-            throw new RecordNotFoundException("Employee not found");
-        }
-
-        return new Response($this->buildEmployeeData($employeeList),array());
-
-    }
-
-    /**
-     * @return \EmployeeSearchParameterHolder|null
-     */
-    private function buildSearchParamHolder( ) {
-
-        $filters = array();
-        $parameterHolder = new \EmployeeSearchParameterHolder();
-
-        if(!empty($this->getRequestParams()->getQueryParam(self::PARAMETER_NAME))){
-            $filters['employee_name'] = $this->getRequestParams()->getQueryParam(self::PARAMETER_NAME);
-        }
-
-        if(!empty($this->getRequestParams()->getQueryParam(self::PARAMETER_ID))){
-            $filters['id'] = $this->getRequestParams()->getQueryParam(self::PARAMETER_ID);
-        }
-        if(!empty($this->getRequestParams()->getQueryParam(self::PARAMETER_JOB_TITLE))){
-            $filters['job_title'] = $this->getRequestParams()->getQueryParam(self::PARAMETER_JOB_TITLE);
-        }
-        if(!empty($this->getRequestParams()->getQueryParam(self::PARAMETER_STATUS))){
-            $filters['employee_status'] = $this->getRequestParams()->getQueryParam(self::PARAMETER_STATUS);
-        }
-        if(!empty($this->getRequestParams()->getQueryParam(self::PARAMETER_SUPERVISOR))){
-            $filters['supervisor_name'] = $this->getRequestParams()->getQueryParam(self::PARAMETER_SUPERVISOR);
-        }
-        if (!empty($this->getRequestParams()->getQueryParam(self::PARAMETER_DOB))) {
-            $filters['dob'] = date("Y-m-d", strtotime($this->getRequestParams()->getQueryParam(self::PARAMETER_DOB)));  // "1989-09-7"
-        }
-        if (!empty($this->getRequestParams()->getQueryParam(self::PARAMETER_GENDER))) {
-            $genderString = $this->getRequestParams()->getQueryParam(self::PARAMETER_GENDER);
-
-            if ($genderString == 'male') {
-                $filters['gender'] = 1;
-            } else if ($genderString == 'female') {
-                $filters['gender'] = 2;
-            }
-        }
-        if(!empty($this->getRequestParams()->getQueryParam(self::PARAMETER_LIMIT))){
-            $parameterHolder->setLimit($this->getRequestParams()->getQueryParam(self::PARAMETER_LIMIT));
-        }
-        if(empty($filters)){
-            return null;
-        }
-
-        $parameterHolder->setFilters($filters);
-        $parameterHolder->setReturnType(\EmployeeSearchParameterHolder::RETURN_TYPE_OBJECT);
-
-        return $parameterHolder;
-    }
-
-    /**
-     * @param $employeeList
+     * Build Employee
      *
+     * @param $employeeList
      * @return array
      */
-    private function buildEmployeeData( $employeeList ) {
+    private function buildEmployeeData($employeeList)
+    {
         $data = array();
         foreach ($employeeList as $employee) {
-            $emp = new Employee($employee->getFirstName(), $employee->getMiddleName(), $employee->getLastName(), $employee->getEmployeeId());
+            $emp = new Employee($employee->getFirstName(), $employee->getMiddleName(), $employee->getLastName(),
+                $employee->getEmployeeId());
 
             $emp->buildEmployee($employee);
 
@@ -150,4 +186,34 @@ class EmployeeSearchAPI extends EndPoint{
         }
         return $data;
     }
+
+    private function getRelations($relationsArray, $parameterHolder)
+    {
+        $count = $this->getEmployeeService()->getSearchEmployeeCount($parameterHolder->getFilters());
+        $limit = $parameterHolder->getLimit();
+        $offset = $parameterHolder->getOffset();
+        $pages = ($count / $limit) - 1;
+        $url = $this->getRequestParams()->getRequestUri();
+
+        if (empty($offset) || $offset == 0) {
+            $relationsArray['next'] = self::PAGE . '1';
+            $relationsArray['previous'] = '';
+        } else {
+            if ($offset > 0) {
+
+                if ($offset < $pages) {
+                    $relationsArray['next'] = self::PAGE . ($offset + 1);
+                    $relationsArray['previous'] = self::PAGE . ($offset - 1);
+                } elseif ($offset >= $pages) {
+
+                    $relationsArray['next'] = '';
+                    $relationsArray['previous'] = self::PAGE . ($offset - 1);
+                }
+
+            }
+        }
+
+        return $relationsArray;
+    }
+
 }

@@ -71,4 +71,14 @@ class RequestParams {
 
        return  $this->getRequest()->getActionRequest()->getParameter($paramName);
     }
+
+    /**
+     * get sf request URI
+     *
+     * @param $paramName
+     */
+    public function getRequestUri() {
+
+        return $this->getRequest()->getActionRequest()->getUri();
+    }
 }

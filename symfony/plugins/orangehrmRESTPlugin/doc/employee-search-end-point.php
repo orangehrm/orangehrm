@@ -12,7 +12,7 @@
 * @apiParam {String} [dob] employee birth day
 * @apiParam {String} [gender] employee gender
 * @apiParam {Number} [limit] record limit
-*
+* @apiParam {Number} [page] pagination number
 * @apiSuccess {Object} data Matching Employee list
 * @apiSuccess {Object} rels  API relations.
 *
@@ -52,7 +52,7 @@
 *       ],
 *       "rels": {
 *         "next": "/employee/search?page=3",
-*          "previous": "/employee/search?page=1"
+*         "previous": "/employee/search?page=1"
 *       }
 *     }
 *
