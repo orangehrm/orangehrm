@@ -137,7 +137,7 @@ class EmployeeJobDetail implements Serializable
         $this->setTitle($employee->getJobTitle()->jobTitleName);
         $this->setJoinedDate($employee->getJoinedDate());
         $this->setCategory($employee->getJobCategory()->getName());
-        if(!empty($employee->getContract(0))){
+        if(!empty($employee->getContract())){
             $this->setStartDate($employee->getContract()->getStartDate());
             $this->setEndDate($employee->getContract()->getEndDate());
         }
