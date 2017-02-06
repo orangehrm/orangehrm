@@ -443,11 +443,9 @@ class Employee implements Serializable {
             'fullName' => $this->getEmployeeFullName(),
             'status'   => $this->getEmployeeStatus(),
             'dob'      => $this->getEmpBirthDate(),
-            'employeeStatus' => $this->getEmployeeStatus(),
             'unit'    =>$this->getUnit(),
             'jobtitle'=> $this->getJobTitle(),
             'supervisor' => $this->getSupervisors()
-
 
         );
     }
@@ -462,7 +460,7 @@ class Employee implements Serializable {
         $this->setCity($employee->getCity());
         $this->setCountry($employee->getCountry());
         $this->setEmpBirthDate($employee->getEmpBirthday());
-        $this->setEmployeeStatus($employee->getEmpStatus());
+        $this->setEmployeeStatus($employee->getEmployeeStatus()->getName());
         $this->setGender($employee->getEmpGender());
         $this->setEmployeeFullName($employee->getFullName());
         $this->setJobTitle($employee->getJobTitleName());

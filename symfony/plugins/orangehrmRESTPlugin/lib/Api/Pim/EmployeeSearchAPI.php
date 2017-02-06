@@ -37,6 +37,8 @@ class EmployeeSearchAPI extends EndPoint{
     const PARAMETER_UNIT       = "unit";
     const PARAMETER_SUPERVISOR = "supervisor";
     const PARAMETER_LIMIT      = 'limit';
+    const PARAMETER_GENDER     = 'gender';
+    const PARAMETER_DOB        = 'dob';
 
     /**
      * @var EmployeeService
@@ -89,6 +91,8 @@ class EmployeeSearchAPI extends EndPoint{
     private function buildSearchParamHolder( ) {
 
         $filters = array();
+        $parameterHolder = new \EmployeeSearchParameterHolder();
+
         if(!empty($this->getRequestParams()->getQueryParam(self::PARAMETER_NAME))){
             $filters['employee_name'] = $this->getRequestParams()->getQueryParam(self::PARAMETER_NAME);
         }
@@ -105,10 +109,25 @@ class EmployeeSearchAPI extends EndPoint{
         if(!empty($this->getRequestParams()->getQueryParam(self::PARAMETER_SUPERVISOR))){
             $filters['supervisor_name'] = $this->getRequestParams()->getQueryParam(self::PARAMETER_SUPERVISOR);
         }
+        if (!empty($this->getRequestParams()->getQueryParam(self::PARAMETER_DOB))) {
+            $filters['dob'] = date("Y-m-d", strtotime($this->getRequestParams()->getQueryParam(self::PARAMETER_DOB)));  // "1989-09-7"
+        }
+        if (!empty($this->getRequestParams()->getQueryParam(self::PARAMETER_GENDER))) {
+            $genderString = $this->getRequestParams()->getQueryParam(self::PARAMETER_GENDER);
+
+            if ($genderString == 'male') {
+                $filters['gender'] = 1;
+            } else if ($genderString == 'female') {
+                $filters['gender'] = 2;
+            }
+        }
+        if(!empty($this->getRequestParams()->getQueryParam(self::PARAMETER_LIMIT))){
+            $parameterHolder->setLimit($this->getRequestParams()->getQueryParam(self::PARAMETER_LIMIT));
+        }
         if(empty($filters)){
             return null;
         }
-        $parameterHolder = new \EmployeeSearchParameterHolder();
+
         $parameterHolder->setFilters($filters);
         $parameterHolder->setReturnType(\EmployeeSearchParameterHolder::RETURN_TYPE_OBJECT);
 
