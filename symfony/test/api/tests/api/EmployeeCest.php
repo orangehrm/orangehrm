@@ -34,7 +34,7 @@ class EmployeeDetailCest
         $I->wantTo('Test Invalid employee Id');
         $I->amBearerAuthenticated($I->getDefaultToken());
         $I->sendGET('api/v1/employee/10000');
-        $I->seeResponseCodeIs(404);
+        $I->seeResponseContains('{"error":{"status":"404","text":"Employee not found"}}');
     }
 
     public function getSpecificEmployeeTest(ApiTester $I)
@@ -43,7 +43,7 @@ class EmployeeDetailCest
         $I->amBearerAuthenticated($I->getDefaultToken());
         $I->sendGET('api/v1/employee/1');
         $I->seeResponseCodeIs(200);
-        //$I->seeResponseContains('{"data":{"id":"1","operational_country_id":"1","mon":"0","tue":"0","wed":"0","thu":"0","fri":"0","sat":"4","sun":"8"}}');
+        $I->seeResponseContains('{"data":{"firstName":"Kayla","middleName":"","id":null,"lastName":"Abbey","fullName":"Kayla Abbey","status":null,"dob":null,"unit":"Organization","jobtitle":null,"supervisor":[[]]},"rels":{"contact-detail":"\/employee\/:id\/contact-detail","job-detail":"\/employee\/:id\/job-detail","dependent":"\/employee\/:id\/dependent"}}');
     }
 
 }

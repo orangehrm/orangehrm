@@ -4,5 +4,5 @@ modules:
       - Helper\Api
       - REST:
           depends: PhpBrowser
-          url: http://orangehrm.os/symfony/web/index.php/
+          url: http://localhost/orangehrm.os/symfony/web/api_test.php/
           part: Json

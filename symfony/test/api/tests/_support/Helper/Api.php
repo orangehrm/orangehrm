@@ -10,9 +10,8 @@ class Api extends \Codeception\Module
 
         $this->getModule('REST')->sendPOST(
             'oauth/issueToken',
-            ['client_id' => 'testclient', 'client_secret' => 'testpass', 'grant_type' => 'client_credentials']);
+            ['client_id' => 'wstest', 'client_secret' => 'wstest', 'grant_type' => 'client_credentials']);
         $response = $this->getModule('REST')->response;
-
         return json_decode($response)->access_token;
     }
 }
