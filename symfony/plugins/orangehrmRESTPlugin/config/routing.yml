@@ -7,7 +7,7 @@ api_employee_dependants:
 
 api_employee_details:
   url: /api/v1/employee/:id
-  param: { module:apiv1, action:getEmployeeDetails }
+  param: { module: apiv1, action: EmployeeDetailsApi }
   requirements:
     id: \d+
     sf_method: [get, post, put, delete]

@@ -22,11 +22,23 @@ use Orangehrm\Rest\Http\Response;
 use Orangehrm\Rest\Api\Pim\EmployeeDetailAPI;
 use Orangehrm\Rest\http\RequestParams;
 
-class getEmployeeDetailsAction extends baseRestAction {
+class EmployeeDetailsApiAction extends baseRestAction {
 
     protected function handleRequest(Request $request){
 
-        $apiEmployeeDetail = new EmployeeDetailAPI($request);
-        return $apiEmployeeDetail->getEmployeeDetails();
+
+            switch($request->getMethod()){
+                case 'GET';
+                    $apiEmployeeDetail = new EmployeeDetailAPI($request);
+                    return $apiEmployeeDetail->getEmployeeDetails();
+                    break;
+
+                case 'POST':
+                    return new Response(array('success'=>1),array());
+                    break;
+            }
+
+
+
     }
 }

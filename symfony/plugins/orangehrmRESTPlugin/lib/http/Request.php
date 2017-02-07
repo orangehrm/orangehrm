@@ -43,6 +43,8 @@ class Request{
         $this->actionRequest = $actionRequest;
     }
 
-
+    public function getMethod(){
+        return $this->getActionRequest()->getMethod();
+    }
 
 }
