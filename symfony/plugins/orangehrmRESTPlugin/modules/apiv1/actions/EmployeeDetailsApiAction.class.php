@@ -20,25 +20,18 @@
 use Orangehrm\Rest\Http\Request;
 use Orangehrm\Rest\Http\Response;
 use Orangehrm\Rest\Api\Pim\EmployeeDetailAPI;
-use Orangehrm\Rest\http\RequestParams;
+use Orangehrm\Rest\Api\Exception\NotImplementedException;
 
 class EmployeeDetailsApiAction extends baseRestAction {
 
-    protected function handleRequest(Request $request){
+    protected function handleGetRequest(Request $request){
 
+        $apiEmployeeDetail = new EmployeeDetailAPI($request);
+        return $apiEmployeeDetail->getEmployeeDetails();
 
-            switch($request->getMethod()){
-                case 'GET';
-                    $apiEmployeeDetail = new EmployeeDetailAPI($request);
-                    return $apiEmployeeDetail->getEmployeeDetails();
-                    break;
+    }
 
-                case 'POST':
-                    return new Response(array('success'=>1),array());
-                    break;
-            }
-
-
-
+    protected function handlePostRequest(Request $request){
+        throw new NotImplementedException();
     }
 }

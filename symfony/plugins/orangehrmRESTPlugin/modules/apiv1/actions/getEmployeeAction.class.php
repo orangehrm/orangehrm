@@ -19,12 +19,19 @@
 
 use Orangehrm\Rest\Http\Request;
 use Orangehrm\Rest\Api\Pim\EmployeeSearchAPI;
+use Orangehrm\Rest\Api\Exception\NotImplementedException;
+
 
 class getEmployeeAction extends baseRestAction {
 
-    protected function handleRequest(Request $request){
+    protected function handleGetRequest(Request $request){
 
         $apiEmployeeSearch = new EmployeeSearchAPI($request);
         return $apiEmployeeSearch->getEmployeeList();
     }
+
+    protected function handlePostRequest(Request $request){
+        throw new NotImplementedException();
+    }
 }
+

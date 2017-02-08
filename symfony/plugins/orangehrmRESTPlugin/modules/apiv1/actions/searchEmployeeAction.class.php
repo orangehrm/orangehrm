@@ -20,12 +20,17 @@
 use Orangehrm\Rest\Http\Request;
 use Orangehrm\Rest\Http\Response;
 use Orangehrm\Rest\Api\Pim\EmployeeService;
+use Orangehrm\Rest\Api\Exception\NotImplementedException;
 
 class getEmployeeAction extends baseRestAction {
 
-    protected function handleRequest(Request $request){
+    protected function handleGetRequest(Request $request){
 
         $apiEmployeeService = new EmployeeService($request);
         return new Response($apiEmployeeService->getEmployeeList());
+    }
+
+    protected function handlePostRequest(Request $request){
+        throw new NotImplementedException();
     }
 }

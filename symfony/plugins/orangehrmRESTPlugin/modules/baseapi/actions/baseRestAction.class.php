@@ -20,6 +20,7 @@ use Orangehrm\Rest\Http\Request;
 use Orangehrm\Rest\Http\Response;
 use Orangehrm\Rest\Api\Exception\RecordNotFoundException;
 use Orangehrm\Rest\Api\Exception\InvalidParamException;
+use Orangehrm\Rest\Api\Exception\NotImplementedException;
 
 abstract class baseRestAction extends baseOAuthAction {
 
@@ -44,7 +45,13 @@ abstract class baseRestAction extends baseOAuthAction {
      * @param Request $request
      * @return Response
      */
-    abstract protected function handleRequest(Request $request);
+    abstract protected function handleGetRequest(Request $request);
+
+    /**
+     * @param Request $request
+     * @return Response
+     */
+    abstract protected function handlePostRequest(Request $request);
 
     /**
      * @param sfRequest $request
@@ -56,7 +63,15 @@ abstract class baseRestAction extends baseOAuthAction {
         $response = $this->getResponse();
         $response->setHttpHeader('Content-type', 'application/json');
         try{
-            $response->setContent($this->handleRequest($httpRequest)->format());
+            switch($request->getMethod()){
+                case 'GET';
+                    $response->setContent($this->handleGetRequest($httpRequest)->format());
+
+                case 'POST':
+                    $response->setContent($this->handlePostRequest($httpRequest)->format());
+                    break;
+            }
+
         } catch (RecordNotFoundException $e){
             $response->setContent(Response::formatError(
                 array('error'=>array('status'=>'404','text'=>$e->getMessage())))
@@ -67,6 +82,11 @@ abstract class baseRestAction extends baseOAuthAction {
                 array('error'=>array('status'=>'202','text'=>'Invalid Parameter')))
             );
             $response->setStatusCode(202);
+        } catch (NotImplementedException $e){
+            $response->setContent(Response::formatError(
+                array('error'=>array('status'=>'501','text'=>'Not Implemented')))
+            );
+            $response->setStatusCode(501);
         }
 
         return sfView::NONE;
