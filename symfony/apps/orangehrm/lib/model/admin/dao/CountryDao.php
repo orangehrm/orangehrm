@@ -80,4 +80,20 @@ class CountryDao extends BaseDao {
         }
     }
 
+    /**
+     * Get Country By Country Name
+     * @param $countryName
+     * @return Doctrine_Record
+     * @throws DaoException
+     */
+    public function getCountryByCountryName($countryName){
+        try{
+            $country = Doctrine::getTable('Country')->findOneBy('cou_name',$countryName);
+            return $country;
+        }catch(Exception $exception){
+            throw new DaoException($exception->getMessage(), $exception->getCode(), $exception);
+        }
+    }
+
+
 }
