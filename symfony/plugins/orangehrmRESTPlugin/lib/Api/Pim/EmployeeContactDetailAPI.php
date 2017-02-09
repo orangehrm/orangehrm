@@ -26,14 +26,31 @@ use Orangehrm\Rest\Api\Pim\Entity\EmployeeContactDetail;
 use Orangehrm\Rest\Api\Pim\Entity\EmployeeJobDetail;
 use Orangehrm\Rest\Http\Response;
 
-class EmployeeContactDetailAPI extends EndPoint {
+class EmployeeContactDetailAPI extends EndPoint
+{
 
-    const PARAMETER_ID         = "id";
+    /**
+     * @var EmployeeService
+     */
+    private $employeeService;
+    private $countryService;
+
+    const PARAMETER_ID = "id";
+
+    /*
+     * contact detail post parameters
+     */
+
+    const PARAMETER_ADDRESS = "address";
+    const PARAMETER_PHONE = "phone";
+    const PARAMETER_EMAIL = "email";
+    const PARAMETER_COUNTRY = "country";
 
     /**
      * @return \EmployeeService|null
      */
-    protected function getEmployeeService() {
+    protected function getEmployeeService()
+    {
 
         if ($this->employeeService != null) {
             return $this->employeeService;
@@ -42,7 +59,20 @@ class EmployeeContactDetailAPI extends EndPoint {
         }
     }
 
-    public function setEmployeeService($employeeService){
+    /**
+     * Returns Country Service
+     * @returns \CountryService
+     */
+    public function getCountryService()
+    {
+        if (is_null($this->countryService)) {
+            $this->countryService = new \CountryService();
+        }
+        return $this->countryService;
+    }
+
+    public function setEmployeeService($employeeService)
+    {
         $this->employeeService = $employeeService;
     }
 
@@ -50,9 +80,10 @@ class EmployeeContactDetailAPI extends EndPoint {
      * Getting employee dependants API call
      *
      * @param $request
-     * @return array
+     * @return Response
      */
-    public function getEmployeeContactDetails() {
+    public function getEmployeeContactDetails()
+    {
 
         $responseArray = null;
         $empId = $this->getRequestParams()->getUrlParam(self::PARAMETER_ID);
@@ -69,8 +100,59 @@ class EmployeeContactDetailAPI extends EndPoint {
 
         }
 
-        $employeeContactDetails = new EmployeeContactDetail($employee->getFullName(),$employee->getEmployeeId());
+        $employeeContactDetails = new EmployeeContactDetail($employee->getFullName(), $employee->getEmployeeId());
         $employeeContactDetails->buildContactDetails($employee);
-        return new Response($employeeContactDetails->toArray() ,array());
+        return new Response($employeeContactDetails->toArray(), array());
     }
+
+    /**
+     * save employee contact details
+     *
+     * @return Response
+     */
+    public function saveEmployeeContactDetails()
+    {
+        $relationsArray = array();
+        $returned = null;
+
+        $empId = $this->getRequestParams()->getUrlParam(self::PARAMETER_ID);
+        $employee = $this->getEmployeeService()->getEmployee($empId);
+        $this->buildEmployeeContactDetails($employee);
+        $returnedEmployee = $this->getEmployeeService()->saveEmployee($employee);
+
+        if($returnedEmployee instanceof \Employee) {
+            return new Response(array('success' => 'Contact details successfully saved'), $relationsArray);
+        } else {
+            return new Response(array('Failed' => 'Contact details saving failed'), $relationsArray);
+        }
+
+
+    }
+
+    /**
+     * Build employee contact details
+     *
+     * @param \Employee
+     * @return mixed
+     */
+    private function buildEmployeeContactDetails(\Employee $employee)
+    {
+
+        if (!empty($this->getRequestParams()->getPostParam(self::PARAMETER_ADDRESS))) {
+            $employee->setStreet1($this->getRequestParams()->getPostParam(self::PARAMETER_ADDRESS));
+        }
+        if (!empty($this->getRequestParams()->getPostParam(self::PARAMETER_PHONE))) {
+            $employee->setEmpMobile($this->getRequestParams()->getPostParam(self::PARAMETER_PHONE));
+        }
+        if (!empty($this->getRequestParams()->getPostParam(self::PARAMETER_EMAIL))) {
+            $employee->setEmpWorkEmail($this->getRequestParams()->getPostParam(self::PARAMETER_EMAIL));
+        }
+        if (!empty($this->getRequestParams()->getPostParam(self::PARAMETER_COUNTRY))) {
+            $country = $this->getCountryService()->getCountryByCountryName($this->getRequestParams()->getPostParam(self::PARAMETER_COUNTRY));
+            $employee->setCountry($country->getCouCode());
+        }
+
+        return $employee;
+    }
+
 }

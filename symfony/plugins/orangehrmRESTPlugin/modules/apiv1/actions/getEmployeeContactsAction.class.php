@@ -18,20 +18,22 @@
  */
 
 use Orangehrm\Rest\Http\Request;
-use Orangehrm\Rest\Http\Response;
 use Orangehrm\Rest\Api\Pim\EmployeeContactDetailAPI;
-use Orangehrm\Rest\http\RequestParams;
-use Orangehrm\Rest\Api\Exception\NotImplementedException;
 
-class getEmployeeContactsAction extends baseRestAction {
 
-    protected function handleGetRequest(Request $request){
+class getEmployeeContactsAction extends baseRestAction
+{
+
+    protected function handleGetRequest(Request $request)
+    {
 
         $apiEmployeeContactDetail = new EmployeeContactDetailAPI($request);
         return $apiEmployeeContactDetail->getEmployeeContactDetails();
     }
 
-    protected function handlePostRequest(Request $request){
-        throw new NotImplementedException();
+    protected function handlePostRequest(Request $request)
+    {
+        $apiEmployeeContactDetail = new EmployeeContactDetailAPI($request);
+        return $apiEmployeeContactDetail->saveEmployeeContactDetails();
     }
 }
