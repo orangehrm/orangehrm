@@ -31,10 +31,10 @@ class EmployeeSaveAPI extends EndPoint
     /**
      * Employee constants
      */
-    const PARAMETER__FIRST_NAME = "first_name";
-    const PARAMETER__MIDDLE_NAME = "middle_name";
-    const PARAMETER__LAST_NAME = "last_name";
-    const PARAMETER__EMPLOYEE_ID = "id";
+    const PARAMETER_FIRST_NAME = "first_name";
+    const PARAMETER_MIDDLE_NAME = "middle_name";
+    const PARAMETER_LAST_NAME = "last_name";
+    const PARAMETER_EMPLOYEE_ID = "id";
 
 
     /**
@@ -50,15 +50,15 @@ class EmployeeSaveAPI extends EndPoint
     public function saveEmployee()
     {
         $relationsArray = array();
-        $returnedEmployee = null;
+        $returned = null;
 
         $employee = $this->buildEmployee();
-        $employeeList = $this->getEmployeeService()->saveEmployee($employee);
+        $returnedEmployee = $this->getEmployeeService()->saveEmployee($employee);
 
         if (empty($returnedEmployee) && empty($returnedEmployee->getEmployeeNumber)) {
-            return new Response(array('success' => 'Employee saved Success'), $relationsArray);
+            return new Response(array('success' => 'Employee Successfully Saved'), $relationsArray);
         } else {
-            return new Response(array('Failed' => 'Employee saved Failed'), $relationsArray);
+            return new Response(array('Failed' => 'Employee Saving Failed'), $relationsArray);
         }
 
 
@@ -76,21 +76,21 @@ class EmployeeSaveAPI extends EndPoint
         $employee = new \Employee();
 
 
-        if (!empty($this->getRequestParams()->getQueryParam(self::PARAMETER__FIRST_NAME))) {
-            $employee->setFirstName($this->getRequestParams()->getQueryParam(self::PARAMETER__FIRST_NAME));
+        if (!empty($this->getRequestParams()->getPostParam(self::PARAMETER_FIRST_NAME))) {
+            $employee->setFirstName($this->getRequestParams()->getPostParam(self::PARAMETER_FIRST_NAME));
         } else {
             throw new InvalidParamException();
         }
-        if (!empty($this->getRequestParams()->getQueryParam(self::PARAMETER__MIDDLE_NAME))) {
-            $employee->setMiddleName($this->getRequestParams()->getQueryParam(self::PARAMETER__MIDDLE_NAME));
+        if (!empty($this->getRequestParams()->getPostParam(self::PARAMETER_MIDDLE_NAME))) {
+            $employee->setMiddleName($this->getRequestParams()->getPostParam(self::PARAMETER_MIDDLE_NAME));
         }
-        if (!empty($this->getRequestParams()->getQueryParam(self::PARAMETER__LAST_NAME))) {
-            $employee->setLastName($this->getRequestParams()->getQueryParam(self::PARAMETER__LAST_NAME));
+        if (!empty($this->getRequestParams()->getPostParam(self::PARAMETER_LAST_NAME))) {
+            $employee->setLastName($this->getRequestParams()->getPostParam(self::PARAMETER_LAST_NAME));
         } else {
             throw new InvalidParamException();
         }
-        if (!empty($this->getRequestParams()->getQueryParam(self::PARAMETER__EMPLOYEE_ID))) {
-            $employee->setEmployeeId($this->getRequestParams()->getQueryParam(self::PARAMETER__EMPLOYEE_ID));
+        if (!empty($this->getRequestParams()->getPostParam(self::PARAMETER_EMPLOYEE_ID))) {
+            $employee->setEmployeeId($this->getRequestParams()->getPostParam(self::PARAMETER_EMPLOYEE_ID));
         }
 
         return $employee;

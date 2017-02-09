@@ -81,4 +81,15 @@ class RequestParams {
 
         return $this->getRequest()->getActionRequest()->getUri();
     }
+
+    /**
+     * get post parameters
+     *
+     * @param $paramName
+     */
+    public function getPostParam($paramName)
+    {
+
+        return $this->getRequest()->getActionRequest()->getPostParameter($paramName);
+    }
 }
