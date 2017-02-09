@@ -55,12 +55,11 @@ class EmployeeSaveAPI extends EndPoint
         $employee = $this->buildEmployee();
         $returnedEmployee = $this->getEmployeeService()->saveEmployee($employee);
 
-        if (empty($returnedEmployee) && empty($returnedEmployee->getEmployeeNumber)) {
-            return new Response(array('success' => 'Employee Successfully Saved'), $relationsArray);
+        if ($returnedEmployee instanceof \Employee) {
+            return new Response(array('success' => 'Employee successfully saved'), $relationsArray);
         } else {
-            return new Response(array('Failed' => 'Employee Saving Failed'), $relationsArray);
+            return new Response(array('Failed' => 'Employee saving Failed'), $relationsArray);
         }
-
 
     }
 
@@ -115,15 +114,6 @@ class EmployeeSaveAPI extends EndPoint
     public function setEmployeeService($employeeService)
     {
         $this->employeeService = $employeeService;
-    }
-
-    /**
-     * get relations
-     *
-     */
-    private function getRelations()
-    {
-        //TODO
     }
 
 }
