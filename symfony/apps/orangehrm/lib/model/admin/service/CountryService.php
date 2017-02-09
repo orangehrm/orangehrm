@@ -91,4 +91,14 @@ class CountryService extends BaseService {
         }
     }
 
+    /**
+     * Get Country By Country Name
+     * @param $countryName
+     * @return Doctrine_Record
+     * @throws DaoException
+     */
+    public function getCountryByCountryName($countryName){
+        return $this->getCountryDao()->getCountryByCountryName($countryName);
+    }
+
 }
