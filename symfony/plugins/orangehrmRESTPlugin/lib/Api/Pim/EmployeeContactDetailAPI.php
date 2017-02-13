@@ -25,6 +25,7 @@ use Orangehrm\Rest\Api\Exception\InvalidParamException;
 use Orangehrm\Rest\Api\Pim\Entity\EmployeeContactDetail;
 use Orangehrm\Rest\Api\Pim\Entity\EmployeeJobDetail;
 use Orangehrm\Rest\Http\Response;
+use Orangehrm\Rest\Api\Exception\BadRequestException;
 
 class EmployeeContactDetailAPI extends EndPoint
 {
@@ -120,11 +121,10 @@ class EmployeeContactDetailAPI extends EndPoint
         $this->buildEmployeeContactDetails($employee);
         $returnedEmployee = $this->getEmployeeService()->saveEmployee($employee);
 
-        if($returnedEmployee instanceof \Employee) {
-            return new Response(array('success' => 'Contact details successfully saved'), $relationsArray);
-        } else {
-            return new Response(array('Failed' => 'Contact details saving failed'), $relationsArray);
+        if(!($returnedEmployee instanceof \Employee)) {
+            throw new BadRequestException("Contact details saving failed");
         }
+        return new Response(array('success' => 'Contact details successfully saved'), $relationsArray);
 
 
     }

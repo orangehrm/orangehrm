@@ -24,6 +24,7 @@ use Orangehrm\Rest\Api\EndPoint;
 use Orangehrm\Rest\Api\Exception\RecordNotFoundException;
 use Orangehrm\Rest\Api\Exception\InvalidParamException;
 use Orangehrm\Rest\Http\Response;
+use Orangehrm\Rest\Api\Exception\BadRequestException;
 
 class EmployeeSaveAPI extends EndPoint
 {
@@ -55,11 +56,11 @@ class EmployeeSaveAPI extends EndPoint
         $employee = $this->buildEmployee();
         $returnedEmployee = $this->getEmployeeService()->saveEmployee($employee);
 
-        if ($returnedEmployee instanceof \Employee) {
-            return new Response(array('success' => 'Employee successfully saved'), $relationsArray);
-        } else {
-            return new Response(array('Failed' => 'Employee saving Failed'), $relationsArray);
+        if (!$returnedEmployee instanceof \Employee) {
+            throw new BadRequestException('Employee saving Failed');
+
         }
+        return new Response(array('success' => 'Employee successfully saved'), $relationsArray);
 
     }
 

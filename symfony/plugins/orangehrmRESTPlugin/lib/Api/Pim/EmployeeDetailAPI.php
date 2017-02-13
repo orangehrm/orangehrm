@@ -24,6 +24,7 @@ use Orangehrm\Rest\Api\Exception\RecordNotFoundException;
 use Orangehrm\Rest\Api\Exception\InvalidParamException;
 use Orangehrm\Rest\Api\Pim\Entity\Employee;
 use Orangehrm\Rest\Http\Response;
+use Orangehrm\Rest\Api\Exception\BadRequestException;
 
 class EmployeeDetailAPI extends EndPoint
 {
