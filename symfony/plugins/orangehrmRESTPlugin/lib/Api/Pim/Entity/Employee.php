@@ -68,6 +68,8 @@ class Employee implements Serializable {
 
     private $supervisors;
 
+    private $employeeNumber;
+
 
     /**
      * Employee constructor.
@@ -429,6 +431,22 @@ class Employee implements Serializable {
         $this->supervisors = $supervisors;
     }
 
+    /**
+     * @return mixed
+     */
+    public function getEmployeeNumber()
+    {
+        return $this->employeeNumber;
+    }
+
+    /**
+     * @param mixed $employeeNumber
+     */
+    public function setEmployeeNumber($employeeNumber)
+    {
+        $this->employeeNumber = $employeeNumber;
+    }
+
 
     /**
      * Converting to an array
@@ -439,12 +457,13 @@ class Employee implements Serializable {
             'firstName' => $this->getFirstName(),
             'middleName' => $this->getMiddleName(),
             'id'         => $this->getEmployeeId(),
+            'employeeNumber'=>$this->getEmployeeNumber(),
             'lastName' => $this->getLastName(),
             'fullName' => $this->getEmployeeFullName(),
             'status'   => $this->getEmployeeStatus(),
             'dob'      => $this->getEmpBirthDate(),
             'unit'    =>$this->getUnit(),
-            'jobtitle'=> $this->getJobTitle(),
+            'jobTitle'=> $this->getJobTitle(),
             'supervisor' => $this->getSupervisors()
 
         );
@@ -464,6 +483,7 @@ class Employee implements Serializable {
         $this->setEmployeeFullName($employee->getFullName());
         $this->setJobTitle($employee->getJobTitleName());
         $this->setUnit($employee->getSubDivision()->getName());
+        $this->setEmployeeNumber($employee->getEmpNumber());
         $supervisorList [] = array();
         foreach ($employee->getSupervisors() as $supervisor){
 

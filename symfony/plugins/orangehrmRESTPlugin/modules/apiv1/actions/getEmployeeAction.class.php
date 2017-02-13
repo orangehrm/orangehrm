@@ -32,7 +32,7 @@ class getEmployeeAction extends baseRestAction {
     }
 
     protected function handlePostRequest(Request $request){
-        //throw new NotImplementedException();
+        throw new NotImplementedException();
     }
 }
 

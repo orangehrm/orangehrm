@@ -32,9 +32,9 @@ class EmployeeSaveAPI extends EndPoint
     /**
      * Employee constants
      */
-    const PARAMETER_FIRST_NAME = "first_name";
-    const PARAMETER_MIDDLE_NAME = "middle_name";
-    const PARAMETER_LAST_NAME = "last_name";
+    const PARAMETER_FIRST_NAME = "firstName";
+    const PARAMETER_MIDDLE_NAME = "middleName";
+    const PARAMETER_LAST_NAME = "lastName";
     const PARAMETER_EMPLOYEE_ID = "id";
 
 
@@ -52,8 +52,14 @@ class EmployeeSaveAPI extends EndPoint
     {
         $relationsArray = array();
         $returned = null;
+        $filters = $this->filterParameters();
 
-        $employee = $this->buildEmployee();
+        try {
+            $employee = $this->buildEmployee($filters);
+        } catch (\Exception $e) {
+            throw new InvalidParamException();
+        }
+
         $returnedEmployee = $this->getEmployeeService()->saveEmployee($employee);
 
         if (!$returnedEmployee instanceof \Employee) {
@@ -70,30 +76,91 @@ class EmployeeSaveAPI extends EndPoint
      * @return \Employee
      * @throws InvalidParamException
      */
-    private function buildEmployee()
+    private function buildEmployee($filters)
     {
 
         $employee = new \Employee();
 
 
-        if (!empty($this->getRequestParams()->getPostParam(self::PARAMETER_FIRST_NAME))) {
-            $employee->setFirstName($this->getRequestParams()->getPostParam(self::PARAMETER_FIRST_NAME));
+        if ($this->validateInputs($filters[self::PARAMETER_FIRST_NAME]) ) {
+
+            $employee->setFirstName($filters[self::PARAMETER_FIRST_NAME]);
+
         } else {
             throw new InvalidParamException();
         }
+        if ($this->validateInputs($filters[self::PARAMETER_MIDDLE_NAME])) {
+
+            $employee->setMiddleName($filters[self::PARAMETER_MIDDLE_NAME]);
+
+        }else {
+            throw new InvalidParamException();
+        }
+        if ($this->validateInputs($filters[self::PARAMETER_LAST_NAME])) {
+
+            $employee->setLastName($filters[self::PARAMETER_LAST_NAME]);
+
+        }else {
+            throw new InvalidParamException();
+        }
+        if(strlen($filters[self::PARAMETER_EMPLOYEE_ID]) < 10) {
+            $employee->setEmployeeId($filters[self::PARAMETER_EMPLOYEE_ID]);
+        }  else {
+            throw new InvalidParamException();
+        }
+
+
+        return $employee;
+    }
+
+    /**
+     * Validate inputs
+     *
+     * @param $filter
+     * @return bool
+     */
+    protected function validateInputs($filter)
+    {
+
+        $valid = true;
+
+        if ( !empty($filter) && !(preg_match("/^[a-zA-Z'-]+$/", $filter) === 1) || (strlen($filter) > 30 )) {
+            $valid = false;
+
+        }
+
+        return $valid;
+    }
+
+    /**
+     * Filter post parameters to validate
+     *
+     * @return array
+     */
+    protected function filterParameters()
+    {
+
+        $filters[] = array();
+
+        if (!empty($this->getRequestParams()->getPostParam(self::PARAMETER_FIRST_NAME))) {
+            $filters[self::PARAMETER_FIRST_NAME] = ($this->getRequestParams()->getPostParam(self::PARAMETER_FIRST_NAME));
+        }
+        else {
+            throw new InvalidParamException();
+        }
         if (!empty($this->getRequestParams()->getPostParam(self::PARAMETER_MIDDLE_NAME))) {
-            $employee->setMiddleName($this->getRequestParams()->getPostParam(self::PARAMETER_MIDDLE_NAME));
+            $filters[self::PARAMETER_MIDDLE_NAME] = ($this->getRequestParams()->getPostParam(self::PARAMETER_MIDDLE_NAME));
         }
         if (!empty($this->getRequestParams()->getPostParam(self::PARAMETER_LAST_NAME))) {
-            $employee->setLastName($this->getRequestParams()->getPostParam(self::PARAMETER_LAST_NAME));
+            $filters[self::PARAMETER_LAST_NAME] = ($this->getRequestParams()->getPostParam(self::PARAMETER_LAST_NAME));
         } else {
             throw new InvalidParamException();
         }
         if (!empty($this->getRequestParams()->getPostParam(self::PARAMETER_EMPLOYEE_ID))) {
-            $employee->setEmployeeId($this->getRequestParams()->getPostParam(self::PARAMETER_EMPLOYEE_ID));
+            $filters[self::PARAMETER_EMPLOYEE_ID] = ($this->getRequestParams()->getPostParam(self::PARAMETER_EMPLOYEE_ID));
         }
+        return $filters;
 
-        return $employee;
     }
 
     /**
