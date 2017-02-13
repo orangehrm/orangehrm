@@ -21,6 +21,7 @@ use Orangehrm\Rest\Http\Response;
 use Orangehrm\Rest\Api\Exception\RecordNotFoundException;
 use Orangehrm\Rest\Api\Exception\InvalidParamException;
 use Orangehrm\Rest\Api\Exception\NotImplementedException;
+use Orangehrm\Rest\Api\Exception\BadRequestException;
 
 abstract class baseRestAction extends baseOAuthAction {
 
@@ -88,6 +89,11 @@ abstract class baseRestAction extends baseOAuthAction {
                 array('error'=>array('status'=>'501','text'=>'Not Implemented')))
             );
             $response->setStatusCode(501);
+        } catch(BadRequestException $e) {
+            $response->setContent(Response::formatError(
+                array('error'=>array($e->getMessage())))
+            );
+            $response->setStatusCode(400);
         }
 
         return sfView::NONE;

@@ -17,38 +17,11 @@
  * Boston, MA  02110-1301, USA
  */
 
+namespace Orangehrm\Rest\Api\Exception;
 
-/**
- * Test class of Api/EmployeeService
- *
- * @group API
- */
-use Orangehrm\Rest\Api\Pim\Entity\Supervisor;
+use \Exception;
 
-
-class ApiSupervisorTest extends PHPUnit_Framework_TestCase
+class BadRequestException extends Exception
 {
-
-    /**
-     * Set up method
-     */
-    protected function setUp()
-    {
-
-    }
-
-    public function testToArray(){
-
-        $testSupervisorArray = array(
-
-            'name' => 'Martin Riggs',
-            'id' => 2
-
-        );
-
-        $supervisor = new Supervisor("Martin Riggs",2);
-
-        $this->assertEquals($testSupervisorArray, $supervisor->toArray());
-    }
 
 }

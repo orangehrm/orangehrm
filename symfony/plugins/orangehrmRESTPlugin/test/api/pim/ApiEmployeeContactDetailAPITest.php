@@ -66,7 +66,6 @@ class ApiEmployeeContactDetailAPITest extends PHPUnit_Framework_TestCase
         $employee->setEmpWorkEmail("mdriggs@hrm.com");
         $employee->setEmpMobile(0754343435);
 
-
         $employeeCategory = new JobCategory();
         $employeeCategory->setName("Engineer");
 
