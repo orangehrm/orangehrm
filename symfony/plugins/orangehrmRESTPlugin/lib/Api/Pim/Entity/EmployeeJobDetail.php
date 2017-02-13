@@ -117,14 +117,15 @@ class EmployeeJobDetail implements Serializable
     }
 
 
-    public function toArray() {
+    public function toArray()
+    {
         return array(
             'title' => $this->getTitle(),
-            'category'=> $this->getCategory(),
+            'category' => $this->getCategory(),
             'joinedDate' => $this->getJoinedDate(),
             'startDate' => $this->getStartDate(),
             'endDate' => $this->getEndDate()
-      );
+        );
     }
 
     /**
@@ -132,14 +133,14 @@ class EmployeeJobDetail implements Serializable
      *
      * @param $employee
      */
-    public function build($employee){
+    public function build(\Employee $employee)
+    {
 
         $this->setTitle($employee->getJobTitle()->jobTitleName);
         $this->setJoinedDate($employee->getJoinedDate());
         $this->setCategory($employee->getJobCategory()->getName());
-        if(!empty($employee->getContract())){
-            $this->setStartDate($employee->getContract()->getStartDate());
-            $this->setEndDate($employee->getContract()->getEndDate());
-        }
+        $this->setStartDate($employee->contracts[0]->getStartDate());
+        $this->setEndDate($employee->contracts[0]->getEndDate());
+
     }
 }

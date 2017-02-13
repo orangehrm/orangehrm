@@ -26,14 +26,20 @@ use Orangehrm\Rest\Api\Pim\Entity\Employee;
 use Orangehrm\Rest\Api\Pim\Entity\EmployeeDependent;
 use Orangehrm\Rest\Http\Response;
 
-class EmployeeDependentAPI extends EndPoint {
+class EmployeeDependentAPI extends EndPoint
+{
 
-    const PARAMETER_ID         = "id";
+    const PARAMETER_ID = "id";
+    const PARAMETER_NAME = "name";
+    const PARAMETER_RELATIONSHIP = "relationship";
+    const PARAMETER_DOB = "dob";
+    const PARAMETER_TYPE = "type";
 
     /**
      * @return \EmployeeService|null
      */
-    protected function getEmployeeService() {
+    protected function getEmployeeService()
+    {
 
         if ($this->employeeService != null) {
             return $this->employeeService;
@@ -42,17 +48,19 @@ class EmployeeDependentAPI extends EndPoint {
         }
     }
 
-    public function setEmployeeService($employeeService){
+    public function setEmployeeService($employeeService)
+    {
         $this->employeeService = $employeeService;
     }
 
     /**
-     * Getting employee dependants API call
+     * get employee dependants
      *
-     * @param $request
-     * @return array
+     * @return Response
+     * @throws InvalidParamException
      */
-    public function getEmployeeDependants() {
+    public function getEmployeeDependants()
+    {
 
         $responseArray = null;
         $empId = $this->getRequestParams()->getUrlParam(self::PARAMETER_ID);
@@ -70,9 +78,70 @@ class EmployeeDependentAPI extends EndPoint {
             } else {
                 $relationship = $dependant->getRelationshipType();
             }
-            $empDependant = new EmployeeDependent($dependant->getName(), $relationship , $dependant->getDateOfBirth());
+            $empDependant = new EmployeeDependent($dependant->getName(), $relationship, $dependant->getDateOfBirth());
             $responseArray[] = $empDependant->toArray();
         }
-        return new Response($responseArray ,array());
+        return new Response($responseArray, array());
     }
+
+    /**
+     * Saving employee dependents
+     *
+     * @return Response
+     * @throws \PIMServiceException
+     */
+    public function saveEmployeeDependants()
+    {
+
+        $empId = $this->getRequestParams()->getUrlParam(self::PARAMETER_ID);
+        $q = \Doctrine_Query::create()
+            ->select('MAX(d.seqno)')
+            ->from('EmpDependent d')
+            ->where('d.emp_number = ?', $empId);
+        $result = $q->execute(array(), \Doctrine::HYDRATE_ARRAY);
+
+        if (count($result) != 1) {
+            throw new \PIMServiceException('MAX(seqno) failed.');
+        }
+        $seqNo = is_null($result[0]['MAX']) ? 1 : $result[0]['MAX'] + 1;
+
+        $dependent = new \EmpDependent();
+        $dependent->setEmpNumber($empId);
+        $dependent->setSeqno($seqNo);
+        $this->buildEmployeeDependants($dependent);
+        $dependent->save();
+
+        if ($dependent instanceof \EmpDependent) {
+            return new Response(array('success' => 'successfully saved'), array());
+        } else {
+            return new Response(array('Failed' => 'saving failed'), array());
+        }
+
+    }
+
+    /**
+     * Building employee dependent details
+     *
+     * @param \EmpDependent $employeeDependent
+     *
+     */
+    private function buildEmployeeDependants(\EmpDependent $employeeDependent)
+    {
+
+        if (!empty($this->getRequestParams()->getPostParam(self::PARAMETER_NAME))) {
+            $employeeDependent->name = $this->getRequestParams()->getPostParam(self::PARAMETER_NAME);
+        }
+        if (!empty($this->getRequestParams()->getPostParam(self::PARAMETER_RELATIONSHIP))) {
+            $employeeDependent->relationship = $this->getRequestParams()->getPostParam(self::PARAMETER_RELATIONSHIP);
+        }
+        if (!empty($this->getRequestParams()->getPostParam(self::PARAMETER_TYPE))) {
+            $employeeDependent->relationship_type = $this->getRequestParams()->getPostParam(self::PARAMETER_TYPE);
+        }
+        if (!empty($this->getRequestParams()->getPostParam(self::PARAMETER_DOB))) {
+            $dob = date("Y-m-d", strtotime($this->getRequestParams()->getQueryParam(self::PARAMETER_DOB)));
+            $employeeDependent->date_of_birth = $dob;
+        }
+
+    }
+
 }

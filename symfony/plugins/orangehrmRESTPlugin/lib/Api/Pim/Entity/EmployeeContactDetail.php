@@ -158,11 +158,11 @@ class EmployeeContactDetail implements Serializable
         );
     }
 
-    public function buildContactDetails($employee){
+    public function buildContactDetails(\Employee $employee){
 
         $this->setTelephone($employee->getEmpMobile());
         $this->setEmail($employee->getEmpWorkEmail());
         $this->setAddress($employee->getStreet1());
-        $this->setCountry($employee->getEmployeeCountry()->getName());
+        $this->setCountry($employee->getCountry());
     }
 }

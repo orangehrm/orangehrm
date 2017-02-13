@@ -28,10 +28,11 @@ class getEmployeeAction extends baseRestAction {
 
         $apiEmployeeSearch = new EmployeeSearchAPI($request);
         return $apiEmployeeSearch->getEmployeeList();
+
     }
 
     protected function handlePostRequest(Request $request){
-        throw new NotImplementedException();
+        //throw new NotImplementedException();
     }
 }
 

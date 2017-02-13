@@ -30,7 +30,7 @@ class getEmployeeAction extends baseRestAction {
         return new Response($apiEmployeeService->getEmployeeList());
     }
 
-    protected function handlePostRequest(Request $request){
+    protected function handlePostRequest(Request $request){var_dump("tets");die();
         throw new NotImplementedException();
     }
 }

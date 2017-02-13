@@ -22,15 +22,19 @@ use Orangehrm\Rest\Http\Response;
 use Orangehrm\Rest\Api\Pim\EmployeeDependentAPI;
 use Orangehrm\Rest\Api\Exception\NotImplementedException;
 
-class getEmployeeDependantsAction extends baseRestAction {
+class getEmployeeDependantsAction extends baseRestAction
+{
 
-    protected function handleGetRequest(Request $request){
+    protected function handleGetRequest(Request $request)
+    {
 
         $apiEmployeeDependent = new EmployeeDependentAPI($request);
         return $apiEmployeeDependent->getEmployeeDependants();
     }
 
-    protected function handlePostRequest(Request $request){
-        throw new NotImplementedException();
+    protected function handlePostRequest(Request $request)
+    {
+        $apiEmployeeDependent = new EmployeeDependentAPI($request);
+        return $apiEmployeeDependent->saveEmployeeDependants();
     }
 }
