@@ -23,6 +23,8 @@
  *
  * @group API
  */
+use Orangehrm\Rest\Api\Pim\Entity\Employee;
+use Orangehrm\Rest\Api\Pim\Entity\Supervisor;
 
 class ApiEmployeeTest extends PHPUnit_Framework_TestCase
 {
@@ -33,6 +35,40 @@ class ApiEmployeeTest extends PHPUnit_Framework_TestCase
     protected function setUp()
     {
 
+    }
+
+    public function testToArray(){
+
+
+        $supervisor = new Supervisor("Nina Lewis",1);
+        $supervisorsList = array();
+        $supervisorsList[] = $supervisor;
+
+        $testEmployeeArray = array(
+
+            'firstName' => 'Martin',
+            'middleName' => 'Riggs',
+            'id' =>  1,
+            'lastName' => 'Dan',
+            'fullName' => 'Martin Riggs Dan',
+            'status' => 'active',
+            'dob' => '2016-05-04',
+            'unit' => '',
+            'jobtitle' => 'Engineer',
+            'supervisor' => $supervisorsList
+
+        );
+
+        $employee= new Employee('Martin','Riggs','Dan',1);
+        $employee->setEmployeeFullName('Martin Riggs Dan');
+        $employee->setEmployeeStatus('active');
+        $employee->setEmpBirthDate('2016-05-04');
+        $employee->setUnit('');
+        $employee->setJobTitle('Engineer');
+
+        $employee->setSupervisors($supervisorsList);
+
+        $this->assertEquals($testEmployeeArray, $employee->toArray());
     }
 
 }

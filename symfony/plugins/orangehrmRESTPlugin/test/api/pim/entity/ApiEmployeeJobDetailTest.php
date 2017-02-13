@@ -39,7 +39,7 @@ class ApiEmployeeJobDetailTest extends PHPUnit_Framework_TestCase
     public function testToArray(){
 
 
-        $testContactsArray = array(
+        $testJobDetailsArray = array(
 
             'title' => 'Engineer',
             'category' => 'Engineering',
@@ -56,7 +56,7 @@ class ApiEmployeeJobDetailTest extends PHPUnit_Framework_TestCase
         $employeeJobDetail->setJoinedDate('2017-10-30');
         $employeeJobDetail->setTitle('Engineer');
 
-        $this->assertEquals($testContactsArray, $employeeJobDetail->toArray());
+        $this->assertEquals($testJobDetailsArray, $employeeJobDetail->toArray());
 
     }
 

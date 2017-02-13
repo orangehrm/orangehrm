@@ -39,13 +39,14 @@ class ApiEmployeeDependentAPITest extends PHPUnit_Framework_TestCase
      */
     protected function setUp()
     {
-        $sfEvent   = new sfEventDispatcher();
+        $sfEvent = new sfEventDispatcher();
         $sfRequest = new sfWebRequest($sfEvent);
         $request = new Request($sfRequest);
         $this->employeeDependantAPI = new EmployeeDependentAPI($request);
     }
 
-    public function testGetEmployeeContactDetails(){
+    public function testGetEmployeeContactDetails()
+    {
 
         $requestParams = $this->getMockBuilder('\Orangehrm\Rest\Http\RequestParams')
             ->disableOriginalConstructor()
@@ -83,17 +84,16 @@ class ApiEmployeeDependentAPITest extends PHPUnit_Framework_TestCase
             ->will($this->returnValue($employee));
 
         $this->employeeDependantAPI->setEmployeeService($pimEmployeeService);
-        $employeeReturned = $this->employeeDependantAPI->getEmployeeContactDetails();
+        $returned = $this->employeeDependantAPI->getEmployeeDependants;
 
         // creating the employee json array
-        $employeeDependant = new EmployeeDependent('Shane Lewis' , 'Son' ,'2015-05-14');
-
+        $employeeDependant = new EmployeeDependent('Shane Lewis', 'Son', '2015-05-14');
 
         $jsonEmployeeDependantsArray = $employeeDependant->toArray();
 
-       // $assertResponse = new Response($jsonEmployeeContactDetailArray,array());
+        $assertResponse = new Response($jsonEmployeeDependantsArray, array());
 
-      //  $this->assertEquals($assertResponse, $employeeReturned);
+        $this->assertEquals($assertResponse, $returned);
 
     }
 }

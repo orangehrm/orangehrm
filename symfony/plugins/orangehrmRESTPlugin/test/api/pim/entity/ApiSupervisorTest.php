@@ -39,7 +39,7 @@ class ApiSupervisorTest extends PHPUnit_Framework_TestCase
 
     public function testToArray(){
 
-        $testContactsArray = array(
+        $testSupervisorArray = array(
 
             'name' => 'Martin Riggs',
             'id' => 2
@@ -48,7 +48,7 @@ class ApiSupervisorTest extends PHPUnit_Framework_TestCase
 
         $supervisor = new Supervisor("Martin Riggs",2);
 
-        $this->assertEquals($testContactsArray, $supervisor->toArray());
+        $this->assertEquals($testSupervisorArray, $supervisor->toArray());
     }
 
 }

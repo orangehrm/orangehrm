@@ -38,7 +38,7 @@ class ApiEmployeeDependantTest extends PHPUnit_Framework_TestCase
     public function testToArray(){
 
 
-        $testContactsArray = array(
+        $testDependantsArray = array(
 
             'name' => 'shane Lewis',
             'dob' => '2016-06-34',
@@ -47,7 +47,7 @@ class ApiEmployeeDependantTest extends PHPUnit_Framework_TestCase
 
         $employeeDependant = new EmployeeDependent("shane Lewis",'Son','2016-06-34');
 
-        $this->assertEquals($testContactsArray, $employeeDependant->toArray());
+        $this->assertEquals($testDependantsArray, $employeeDependant->toArray());
 
     }
 }
