@@ -101,4 +101,15 @@ class CountryService extends BaseService {
         return $this->getCountryDao()->getCountryByCountryName($countryName);
     }
 
+    /**
+     * Get country by country code
+     *
+     * @param $countryCode
+     * @return Doctrine_Record
+     */
+    public function getCountryByCountryCode($countryCode){
+        return $this->getCountryDao()->getCountryByCountryCode($countryCode);
+    }
+
+
 }
