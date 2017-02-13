@@ -19,7 +19,7 @@
 
 namespace Orangehrm\Rest\Api\Pim;
 
-use Codeception\PHPUnit\Constraint\Page;
+
 use Orangehrm\Rest\Api\EndPoint;
 use Orangehrm\Rest\Api\Exception\RecordNotFoundException;
 use Orangehrm\Rest\Api\Exception\InvalidParamException;
@@ -70,6 +70,7 @@ class EmployeeSearchAPI extends EndPoint
         } else {
 
             $employeeList = $this->getEmployeeService()->searchEmployees($parameterHolder);
+
             if (!empty($parameterHolder->getLimit())) {
                 $relationsArray = $this->getRelations($relationsArray, $parameterHolder);
             }

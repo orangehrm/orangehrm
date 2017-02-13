@@ -455,10 +455,9 @@ class Employee implements Serializable {
      *
      * @param $employee Doctraine Entity
      */
-    public function buildEmployee($employee){
+    public function buildEmployee(\Employee $employee){
 
         $this->setCity($employee->getCity());
-        $this->setCountry($employee->getCountry());
         $this->setEmpBirthDate($employee->getEmpBirthday());
         $this->setEmployeeStatus($employee->getEmployeeStatus()->getName());
         $this->setGender($employee->getEmpGender());

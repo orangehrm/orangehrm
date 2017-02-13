@@ -28,6 +28,12 @@ use Orangehrm\Rest\Http\Response;
 class EmployeeJobDetailAPI extends EndPoint {
 
     const PARAMETER_ID         = "id";
+    const PARAMETER_TITILE         = "title";
+    const PARAMETER_CATEGORY       = "category";
+    const PARAMETER_JOINED_DATE       = "joinedDate";
+    const PARAMETER_START_DATE       = "startDate";
+    const PARAMETER_END_DATE       = "endDate";
+
 
     /**
      * @return \EmployeeService|null
@@ -46,10 +52,11 @@ class EmployeeJobDetailAPI extends EndPoint {
     }
 
     /**
-     * Getting employee dependants API call
+     * Get employee job details
      *
-     * @param $request
-     * @return array
+     * @return Response
+     * @throws InvalidParamException
+     * @throws RecordNotFoundException
      */
     public function getEmployeeJobDetails() {
 
@@ -71,5 +78,64 @@ class EmployeeJobDetailAPI extends EndPoint {
         $employeeJobDetails = new EmployeeJobDetail();
         $employeeJobDetails->build($employee);
         return new Response($employeeJobDetails->toArray() ,array());
+    }
+
+    /**
+     * Save employee job details
+     *
+     * @return Response
+     */
+    public function saveEmployeeJobDetails()
+    {
+
+        $relationsArray = array();
+        $returned = null;
+
+        $empId = $this->getRequestParams()->getUrlParam(self::PARAMETER_ID);
+        $employee = $this->getEmployeeService()->getEmployee($empId);
+        $this->buildEmployeeJobDetails($employee);
+        $returnedEmployee = $this->getEmployeeService()->saveEmployee($employee);
+
+        if($returnedEmployee instanceof \Employee) {
+            return new Response(array('success' => 'successfully saved'), $relationsArray);
+        } else {
+            return new Response(array('Failed' => 'saving failed'), $relationsArray);
+        }
+
+    }
+
+    /**
+     * Build employee job details
+     *
+     * @param \Employee $employee
+     *
+     */
+    private function buildEmployeeJobDetails(\Employee $employee)
+    {
+        $empContract = new \EmpContract();
+        $empContract->emp_number = $employee->empNumber;
+        $empContract->contract_id = 1;
+
+        if (!empty($this->getRequestParams()->getPostParam(self::PARAMETER_TITILE))) {
+            $employee->job_title_code = $this->getRequestParams()->getPostParam(self::PARAMETER_TITILE);
+        }
+        if (!empty($this->getRequestParams()->getPostParam(self::PARAMETER_CATEGORY))) {
+            $employee->eeo_cat_code = $this->getRequestParams()->getPostParam(self::PARAMETER_CATEGORY);
+        }
+        if (!empty($this->getRequestParams()->getPostParam(self::PARAMETER_JOINED_DATE))) {
+            $joinedDate = date("Y-m-d", strtotime($this->getRequestParams()->getQueryParam(self::PARAMETER_JOINED_DATE)));
+            $employee->setJoinedDate($joinedDate);
+        }
+        if (!empty($this->getRequestParams()->getPostParam(self::PARAMETER_START_DATE))) {
+            $startDate= date("Y-m-d", strtotime($this->getRequestParams()->getQueryParam(self::PARAMETER_START_DATE)));
+            $empContract->start_date = $startDate;
+        }
+        if (!empty($this->getRequestParams()->getPostParam(self::PARAMETER_END_DATE))) {
+            $endDate = date("Y-m-d", strtotime($this->getRequestParams()->getQueryParam(self::PARAMETER_END_DATE)));
+            $empContract->end_date = $endDate;
+
+        }
+
+        $employee->contracts[0] = $empContract;
     }
 }
