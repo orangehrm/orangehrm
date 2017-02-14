@@ -192,16 +192,16 @@ class EmployeeContactDetailAPI extends EndPoint
         $valid = true;
 
         if (!empty( $filters[self::PARAMETER_ADDRESS]) &&!(preg_match( '/\d+ [0-9a-zA-Z ]+/', $filters[self::PARAMETER_ADDRESS]) === 1)) {
-            $valid = false;
+            return false;
         }
         if (!empty( $filters[self::PARAMETER_COUNTRY]) && !(preg_match("/^[a-z ,.'-]+$/i", $filters[self::PARAMETER_COUNTRY]) === 1)) {
-            $valid = false;
+            return false;
         }
         if (!empty( $filters[self::PARAMETER_EMAIL]) && !filter_var($filters[self::PARAMETER_EMAIL], FILTER_VALIDATE_EMAIL)) {
-            $valid = false;
+            return false;
         }
         if (!empty( $filters[self::PARAMETER_PHONE]) && !(preg_match('/^\(?[0-9]{3}\)?|[0-9]{3}[-. ]? [0-9]{3}[-. ]?[0-9]{4}$/', $filters[self::PARAMETER_PHONE]) === 1)) {
-            $valid = false;
+            return false;
         }
 
         return $valid;

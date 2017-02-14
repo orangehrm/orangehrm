@@ -182,18 +182,18 @@ class EmployeeDependentAPI extends EndPoint
 
 
         if (!(preg_match("/^[a-z ,.'-]+$/i", $filters[self::PARAMETER_NAME]) === 1)) {
-            $valid = false;
+           return  false;
 
         }
         if (!date($format, strtotime($filters[self::PARAMETER_DOB])) == date($filters[self::PARAMETER_DOB])) {
-            $valid = false;
+            return  false;
         }
 
         if (!(preg_match("/^[a-zA-Z]*$/", $filters[self::PARAMETER_RELATIONSHIP]) === 1)) {
-            $valid = false;
+            return false;
         }
         if (!$filters[self::PARAMETER_TYPE] === 'other' || !$filters[self::PARAMETER_TYPE] === 'child') {   /// only 'other' and 'child' configured
-            $valid = false;
+            return false;
         }
         return $valid;
     }
