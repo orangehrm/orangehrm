@@ -37,6 +37,10 @@ class Response{
      * @return string
      */
     public function format() {
+        return json_encode($this->data,true);
+    }
+
+    public function formatData() {
         $responseFormat = array('data'=>$this->data, 'rels'=>$this->rels);
         return json_encode($responseFormat,true);
     }

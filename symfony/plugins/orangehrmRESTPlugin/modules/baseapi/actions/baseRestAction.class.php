@@ -82,7 +82,7 @@ abstract class baseRestAction extends baseOAuthAction {
         try{
             switch($request->getMethod()){
                 case 'GET';
-                    $response->setContent($this->handleGetRequest($httpRequest)->format());
+                    $response->setContent($this->handleGetRequest($httpRequest)->formatData());
                     break;
 
                 case 'POST':
