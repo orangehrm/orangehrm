@@ -238,29 +238,29 @@ class EmployeeJobDetailAPI extends EndPoint
         $valid = true;
 
         $format = "Y-m-d";
-       // var_dump($valid);die();
+
 
 
         if (!$this->validateCategory($filters)){
-            $valid = false;  var_dump("111");die();
+            $valid = false;
 
         }
         if (!$this->validateTitle($filters)){
-            $valid = false;  var_dump("222");die();
+            $valid = false;
 
         }
         if (!date($format,
                 strtotime($filters[self::PARAMETER_JOINED_DATE])) == date($filters[self::PARAMETER_JOINED_DATE])
         ) {
-            $valid = false;  var_dump("333");die();
+            $valid = false;
         }
         if (!date($format,
                 strtotime($filters[self::PARAMETER_START_DATE])) == date($filters[self::PARAMETER_START_DATE])
         ) {
-            $valid = false;  var_dump("444");die();
+            $valid = false;
         }
         if (!date($format, strtotime($filters[self::PARAMETER_END_DATE])) == date($filters[self::PARAMETER_END_DATE])) {
-            $valid = false;  var_dump("555");die();
+            $valid = false;
         }
 
         return $valid;
