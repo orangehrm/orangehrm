@@ -55,6 +55,22 @@ abstract class baseRestAction extends baseOAuthAction {
     abstract protected function handlePostRequest(Request $request);
 
     /**
+     * @param Request $request
+     * @throws NotImplementedException
+     */
+    protected function handlePutRequest(Request $request){
+        throw new NotImplementedException('method not implemented');
+    }
+
+    /**
+     * @param Request $request
+     * @throws NotImplementedException
+     */
+    protected function handleDeleteRequest(Request $request){
+        throw new NotImplementedException('method not implemented');
+    }
+
+    /**
      * @param sfRequest $request
      * @return string
      */
@@ -71,6 +87,12 @@ abstract class baseRestAction extends baseOAuthAction {
 
                 case 'POST':
                     $response->setContent($this->handlePostRequest($httpRequest)->format());
+                    break;
+                case 'PUT':
+                    $response->setContent($this->handlePutRequest($httpRequest)->format());
+                    break;
+                case 'DELETE':
+                    $response->setContent($this->handleDeleteRequest($httpRequest)->format());
                     break;
             }
 
