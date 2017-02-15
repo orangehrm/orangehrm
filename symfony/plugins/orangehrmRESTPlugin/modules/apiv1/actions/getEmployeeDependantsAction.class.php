@@ -29,13 +29,13 @@ class getEmployeeDependantsAction extends baseRestAction
     {
 
         $apiEmployeeDependent = new EmployeeDependentAPI($request);
-        return $apiEmployeeDependent->getEmployeeDependants();
+        return $apiEmployeeDependent->getEmployeeDependents();
     }
 
     protected function handlePostRequest(Request $request)
     {
         $apiEmployeeDependent = new EmployeeDependentAPI($request);
-        return $apiEmployeeDependent->saveEmployeeDependants();
+        return $apiEmployeeDependent->saveEmployeeDependents();
     }
 
     /**

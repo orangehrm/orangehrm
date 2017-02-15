@@ -158,7 +158,7 @@ class EmployeeJobDetailAPI extends EndPoint
         $relationsArray = array();
         $returned = null;
         $this->filters = $this->filterParameters();
-        if ($this->validateInputs($filters)) {
+        if ($this->validateInputs($this->filters)) {
 
             $empId = $this->getRequestParams()->getUrlParam(self::PARAMETER_ID);
             $employee = $this->getEmployeeService()->getEmployee($empId);

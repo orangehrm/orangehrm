@@ -5,8 +5,8 @@
 *
 * @apiParam {Number}  employee id
 *
-* @apiSuccess {String} firstname Firstname of the employee.
-* @apiSuccess {String} lastname  Lastname of the employee.
+* @apiSuccess {String} firstname First name of the employee.
+* @apiSuccess {String} lastname  Last name of the employee.
 * @apiSuccess {String} gender  gender of the employee.
 * @apiSuccess {String} title  title of the employee.
 *

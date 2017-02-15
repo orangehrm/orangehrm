@@ -110,7 +110,7 @@ class EmployeeContactDetailAPI extends EndPoint
     /**
      * Save employee contact details
      *
-     * @return array
+     * @return Response
      * @throws BadRequestException
      */
     public function saveEmployeeContactDetails()
@@ -128,7 +128,7 @@ class EmployeeContactDetailAPI extends EndPoint
             if (!($returnedEmployee instanceof \Employee)) {
                 throw new BadRequestException("Contact details saving failed");
             }
-            return array('success' => 'Contact details successfully saved');
+            return new Response(array('success' => 'Successfully saved'));
         } else {
             throw new BadRequestException("Contact details saving failed");
         }

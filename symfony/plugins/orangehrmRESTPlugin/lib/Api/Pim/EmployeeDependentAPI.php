@@ -60,7 +60,7 @@ class EmployeeDependentAPI extends EndPoint
      * @return Response
      * @throws InvalidParamException
      */
-    public function getEmployeeDependants()
+    public function getEmployeeDependents()
     {
 
         $responseArray = null;
@@ -88,22 +88,14 @@ class EmployeeDependentAPI extends EndPoint
     /**
      * Saving Employee dependents
      *
-     * @return array|BadRequestException|InvalidParamException
+     * @return Response|BadRequestException|InvalidParamException
      * @throws \PIMServiceException
      */
-    public function saveEmployeeDependants()
+    public function saveEmployeeDependents()
     {
 
         $empId = $this->getRequestParams()->getUrlParam(self::PARAMETER_ID);
-        $q = \Doctrine_Query::create()
-            ->select('MAX(d.seqno)')
-            ->from('EmpDependent d')
-            ->where('d.emp_number = ?', $empId);
-        $result = $q->execute(array(), \Doctrine::HYDRATE_ARRAY);
-
-        if (count($result) != 1) {
-            throw new \PIMServiceException('MAX(seqno) failed.');
-        }
+        $result = $this->getEmployeeService()->getEmpDependentMaxSeqNumber();
         $seqNo = is_null($result[0]['MAX']) ? 1 : $result[0]['MAX'] + 1;
 
         $filters = $this->filterParameters();
@@ -115,10 +107,14 @@ class EmployeeDependentAPI extends EndPoint
             $dependent->setSeqno($seqNo);
             $this->buildEmployeeDependants($dependent,$filters);
             $dependent->save();
-            return array('success' => 'successfully saved');
+            return new Response(array('success' => 'Successfully saved'));
         } else {
             return new InvalidParamException();
         }
+    }
+
+    public function updateEmployeeDependents(){
+
     }
 
     /**

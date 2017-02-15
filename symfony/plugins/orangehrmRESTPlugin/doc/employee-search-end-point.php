@@ -22,13 +22,14 @@
 *       {
 *         "data":[
     *         {
-    *             "id": "001",
+    *             "id": "1",
+    *             "employeeNumber": "001",
     *             "firstName": "John",
     *             "lastName": "Doe",
     *             "middleName": "",
     *             "fullName": "John Doe",
     *             "status": "active",
-    *             "jobtitle": "web developer",
+    *             "jobTitle": "web developer",
     *             "supervisor": "Mike com",
     *             "supervisorId": "2",
     *             "dob": "1989-09-7",
@@ -37,12 +38,13 @@
     *         },
     *         {
     *             "id": "002",
-    *             "firstname": "John",
-    *             "lastname": "Mass",
+    *             "employeeNumber": "001",
+    *             "firstName": "John",
+    *             "lastName": "Mass",
     *             "middleName": "",
     *             "fullName": "John Mass",
     *             "status": "active",
-    *             "jobtitle": "web developer",
+    *             "jobTitle": "web developer",
     *             "supervisor": "Simon English",
     *             "supervisorId": "2",
     *             "dob": "1989-09-7",

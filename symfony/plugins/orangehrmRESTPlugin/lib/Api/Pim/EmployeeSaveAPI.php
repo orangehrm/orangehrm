@@ -67,7 +67,7 @@ class EmployeeSaveAPI extends EndPoint
         if (!$returnedEmployee instanceof \Employee) {
             throw new BadRequestException('Employee saving Failed');
         } else {
-            return new Response(array('success' => 'Successfully saved'), $relationsArray);
+            return new Response(array('success' => 'Successfully saved'));
         }
     }
 

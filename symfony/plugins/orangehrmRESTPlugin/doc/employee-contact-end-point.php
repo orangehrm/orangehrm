@@ -27,7 +27,6 @@
 *       "rels": {
 *       }
 *     }
-
 *
 * @apiError UserNotFound The id of the employee was not found.
 *

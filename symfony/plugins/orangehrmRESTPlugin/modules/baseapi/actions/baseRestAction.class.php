@@ -81,7 +81,7 @@ abstract class baseRestAction extends baseOAuthAction {
                     $response->setContent($this->handleGetRequest($httpRequest)->formatData());
                     break;
 
-                case 'POST':
+                case 'POST': var_dump( $this->handlePostRequest($httpRequest) );
                     $response->setContent($this->handlePostRequest($httpRequest)->format());
                     break;
                 case 'PUT':
