@@ -94,8 +94,17 @@ class EmployeeDependentAPI extends EndPoint
     public function saveEmployeeDependents()
     {
 
+
         $empId = $this->getRequestParams()->getUrlParam(self::PARAMETER_ID);
-        $result = $this->getEmployeeService()->getEmpDependentMaxSeqNumber();
+        $q = \Doctrine_Query::create()
+            ->select('MAX(d.seqno)')
+            ->from('EmpDependent d')
+            ->where('d.emp_number = ?', $empId);
+        $result = $q->execute(array(), \Doctrine::HYDRATE_ARRAY);
+
+        if (count($result) != 1) {
+            throw new \PIMServiceException('MAX(seqno) failed.');
+        }
         $seqNo = is_null($result[0]['MAX']) ? 1 : $result[0]['MAX'] + 1;
 
         $filters = $this->filterParameters();
@@ -107,10 +116,19 @@ class EmployeeDependentAPI extends EndPoint
             $dependent->setSeqno($seqNo);
             $this->buildEmployeeDependants($dependent,$filters);
             $dependent->save();
-            return new Response(array('success' => 'Successfully saved'));
-        } else {
-            return new InvalidParamException();
+
+
+            if ($dependent instanceof \EmpDependent) {
+                return new Response(array('success' => 'Successfully saved'));
+            } else {
+                throw new BadRequestException("Saving Failed");
+            }
+
+        }else {
+            throw new BadRequestException("Invalid parameter");
         }
+
+
     }
 
     public function updateEmployeeDependents(){
@@ -177,15 +195,15 @@ class EmployeeDependentAPI extends EndPoint
            return  false;
 
         }
-        if (!date($format, strtotime($filters[self::PARAMETER_DOB])) == date($filters[self::PARAMETER_DOB])) {
+        if (!empty( $filters[self::PARAMETER_DOB]) && !date($format, strtotime($filters[self::PARAMETER_DOB])) == date($filters[self::PARAMETER_DOB])) {
             return  false;
         }
 
-        if (!(preg_match("/^[a-zA-Z]*$/", $filters[self::PARAMETER_RELATIONSHIP]) === 1)) {
+        if (empty($filters[self::PARAMETER_RELATIONSHIP]) ||!(preg_match("/^[a-zA-Z]*$/", $filters[self::PARAMETER_RELATIONSHIP]) === 1)) {
             return false;
         }
-        if (!$filters[self::PARAMETER_TYPE] === 'other' || !$filters[self::PARAMETER_TYPE] === 'child') {   /// only 'other' and 'child' configured
-            return false;
+        if (!empty($filters[self::PARAMETER_TYPE]) && !($filters[self::PARAMETER_TYPE] == 'other')) {
+                return false;
         }
         return $valid;
     }

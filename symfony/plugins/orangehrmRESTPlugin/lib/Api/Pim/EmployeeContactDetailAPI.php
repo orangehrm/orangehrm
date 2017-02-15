@@ -126,11 +126,11 @@ class EmployeeContactDetailAPI extends EndPoint
             $returnedEmployee = $this->getEmployeeService()->saveEmployee($employee);
 
             if (!($returnedEmployee instanceof \Employee)) {
-                throw new BadRequestException("Contact details saving failed");
+                throw new BadRequestException("Saving failed");
             }
             return new Response(array('success' => 'Successfully saved'));
         } else {
-            throw new BadRequestException("Contact details saving failed");
+            throw new BadRequestException("Saving failed");
         }
 
 
@@ -147,8 +147,17 @@ class EmployeeContactDetailAPI extends EndPoint
         $employee->setStreet1($filters[self::PARAMETER_ADDRESS]);
         $employee->setEmpMobile($filters[self::PARAMETER_PHONE]);
         $employee->setEmpWorkEmail($filters[self::PARAMETER_EMAIL]);
-        $country = $this->getCountryService()->getCountryByCountryName($filters[self::PARAMETER_COUNTRY]);
-        $employee->setCountry($country->getCouCode());
+        if(!empty($filters[self::PARAMETER_COUNTRY])) {
+
+            $country = $this->getCountryService()->getCountryByCountryName($filters[self::PARAMETER_COUNTRY]);
+            if (!empty($country)){
+                $employee->setCountry($country->getCouCode());
+            }else {
+                throw new InvalidParamException('Invalid Country Name');
+            }
+
+        }
+
 
         return $employee;
     }
@@ -203,10 +212,9 @@ class EmployeeContactDetailAPI extends EndPoint
         if (!empty( $filters[self::PARAMETER_EMAIL]) && !filter_var($filters[self::PARAMETER_EMAIL], FILTER_VALIDATE_EMAIL)) {
             return false;
         }
-        if (!empty( $filters[self::PARAMETER_PHONE]) && !(preg_match('/^\(?[0-9]{3}\)?|[0-9]{3}[-. ]? [0-9]{3}[-. ]?[0-9]{4}$/', $filters[self::PARAMETER_PHONE]) === 1)) {
+        if (!empty( $filters[self::PARAMETER_PHONE]) && !(preg_match('/(?:\(?\+\d{2}\)?\s*)?\d+(?:[ -]*\d+)*$/', $filters[self::PARAMETER_PHONE]) === 1)) {
             return false;
         }
-
         return $valid;
     }
 
