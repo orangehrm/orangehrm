@@ -36,4 +36,22 @@ class getEmployeeJobDetailsAction extends baseRestAction
         $apiEmployeeSearch = new EmployeeJobDetailAPI($request);
         return $apiEmployeeSearch->saveEmployeeJobDetails();
     }
+
+    /**
+     * @param Request $request
+     *
+     */
+    function handlePutRequest(Request $request)
+    {
+        // TODO: Implement handlePutRequest() method.
+    }
+
+    /**
+     * @param Request $request
+     *
+     */
+    function handleDeleteRequest(Request $request)
+    {
+        // TODO: Implement handleDeleteRequest() method.
+    }
 }

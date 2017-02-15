@@ -34,5 +34,23 @@ class getEmployeeAction extends baseRestAction {
     protected function handlePostRequest(Request $request){
         throw new NotImplementedException();
     }
+
+    /**
+     * @param Request $request
+     *
+     */
+    function handlePutRequest(Request $request)
+    {
+        // TODO: Implement handlePutRequest() method.
+    }
+
+    /**
+     * @param Request $request
+     *
+     */
+    function handleDeleteRequest(Request $request)
+    {
+        // TODO: Implement handleDeleteRequest() method.
+    }
 }
 

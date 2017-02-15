@@ -56,19 +56,15 @@ abstract class baseRestAction extends baseOAuthAction {
 
     /**
      * @param Request $request
-     * @throws NotImplementedException
+     *
      */
-    protected function handlePutRequest(Request $request){
-        throw new NotImplementedException('method not implemented');
-    }
+    abstract function handlePutRequest(Request $request);
 
     /**
      * @param Request $request
-     * @throws NotImplementedException
+     *
      */
-    protected function handleDeleteRequest(Request $request){
-        throw new NotImplementedException('method not implemented');
-    }
+    abstract function handleDeleteRequest(Request $request);
 
     /**
      * @param sfRequest $request
