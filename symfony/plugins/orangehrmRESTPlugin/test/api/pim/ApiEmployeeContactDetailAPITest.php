@@ -142,7 +142,7 @@ class ApiEmployeeContactDetailAPITest extends PHPUnit_Framework_TestCase
         $this->employeeContactDetailAPI->setEmployeeService($pimEmployeeService);
 
         $returned = $this->employeeContactDetailAPI->saveEmployeeContactDetails();
-        $testResponse = array('success' => 'Contact details successfully saved');
+        $testResponse = new Response(array('success' => 'Successfully saved'));
 
         $this->assertEquals($returned, $testResponse);
 

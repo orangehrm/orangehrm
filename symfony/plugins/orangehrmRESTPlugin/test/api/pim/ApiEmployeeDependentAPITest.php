@@ -93,7 +93,7 @@ class ApiEmployeeDependentAPITest extends PHPUnit_Framework_TestCase
             ->will($this->returnValue($employeeDependentsList));
 
         $this->employeeDependantAPI->setEmployeeService($pimEmployeeService);
-        $returned = $this->employeeDependantAPI->getEmployeeDependants();
+        $returned = $this->employeeDependantAPI->getEmployeeDependents();
 
         // creating the employee json array
         $employeeDependant = new EmployeeDependent('Shane Lewis', 'Son', '2015-05-14');
@@ -147,7 +147,7 @@ class ApiEmployeeDependentAPITest extends PHPUnit_Framework_TestCase
 
         $this->employeeDependantAPI->setEmployeeService($pimEmployeeService);
 
-        $returned = $this->employeeDependantAPI->saveEmployeeDependants();
+        $returned = $this->employeeDependantAPI->saveEmployeeDependents();
         $testResponse = array('success' => 'successfully saved');
 
         $this->assertEquals($returned, $testResponse);
