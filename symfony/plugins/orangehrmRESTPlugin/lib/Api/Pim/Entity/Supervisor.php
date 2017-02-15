@@ -21,7 +21,8 @@ namespace Orangehrm\Rest\Api\Pim\Entity;
 
 use Orangehrm\Rest\Api\Entity\Serializable;
 
-class Supervisor implements Serializable {
+class Supervisor implements Serializable
+{
 
     /**
      * @var
@@ -67,7 +68,7 @@ class Supervisor implements Serializable {
      * @param $name
      * @param $id
      */
-    public function __construct($name ,$id)
+    public function __construct($name, $id)
     {
         $this->setName($name);
         $this->setId($id);
@@ -78,7 +79,7 @@ class Supervisor implements Serializable {
     {
         return array(
             'name' => $this->getName(),
-            'id'=> $this->getId()
+            'id' => $this->getId()
         );
     }
 }

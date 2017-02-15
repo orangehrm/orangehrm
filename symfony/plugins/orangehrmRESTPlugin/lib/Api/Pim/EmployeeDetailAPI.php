@@ -59,7 +59,7 @@ class EmployeeDetailAPI extends EndPoint
     /**
      * Get Employee details from Employee service
      *
-     * @return array
+     * @return Response
      * @throws RecordNotFoundException
      * @throws \HttpInvalidParamException
      */
@@ -81,7 +81,11 @@ class EmployeeDetailAPI extends EndPoint
         if (empty($employee)) {
             throw new RecordNotFoundException("Employee not found");
         }
-        return new Response($this->buildEmployeeData($employee), array('contact-detail'=> self::EMPLOYEE_CONTACT_DETAIL,'job-detail'=> self::EMPLOYEE_JOB_DETAIL, 'dependent'=> self::EMPLOYEE_DEPENDENT));
+        return new Response($this->buildEmployeeData($employee), array(
+            'contact-detail' => self::EMPLOYEE_CONTACT_DETAIL,
+            'job-detail' => self::EMPLOYEE_JOB_DETAIL,
+            'dependent' => self::EMPLOYEE_DEPENDENT
+        ));
 
     }
 
@@ -91,15 +95,15 @@ class EmployeeDetailAPI extends EndPoint
      * @param $employee
      * @return array
      */
-    private function buildEmployeeData($employee)
+    private function buildEmployeeData(\Employee $employee)
     {
 
-        $emp = new Employee($employee->getFirstName(), $employee->getMiddleName(), $employee->getLastName(), $employee->getEmployeeId());
+        $emp = new Employee($employee->getFirstName(), $employee->getMiddleName(), $employee->getLastName(),
+            $employee->getEmployeeId());
         $emp->buildEmployee($employee);
         return $emp->toArray();
 
     }
-
 
 
 }

@@ -97,11 +97,12 @@ class EmployeeDependent implements Serializable
         $this->dateOfBirth = $dateOfBirth;
     }
 
-    public function toArray() {
+    public function toArray()
+    {
         return array(
             'name' => $this->getName(),
-            'relationship'=> $this->getRelationship(),
+            'relationship' => $this->getRelationship(),
             'dob' => $this->getDateOfBirth()
-      );
+        );
     }
 }

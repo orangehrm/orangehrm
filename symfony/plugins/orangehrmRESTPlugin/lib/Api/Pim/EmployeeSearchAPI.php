@@ -54,7 +54,7 @@ class EmployeeSearchAPI extends EndPoint
     protected $employeeService = null;
 
     /**
-     * get employee list
+     * Get employee list
      *
      * @return Response
      * @throws RecordNotFoundException
@@ -65,8 +65,9 @@ class EmployeeSearchAPI extends EndPoint
         $relationsArray = array();
 
         $parameterHolder = $this->buildSearchParamHolder();
+
         if (empty($parameterHolder)) {
-             $employeeList = $this->getEmployeeService()->getEmployeeList();
+            $employeeList = $this->getEmployeeService()->getEmployeeList();
         } else {
 
             $employeeList = $this->getEmployeeService()->searchEmployees($parameterHolder);
@@ -90,7 +91,7 @@ class EmployeeSearchAPI extends EndPoint
      *
      * @return \EmployeeSearchParameterHolder|null
      */
-    private function buildSearchParamHolder()
+    protected function buildSearchParamHolder()
     {
 
         $filters = array();
@@ -188,6 +189,13 @@ class EmployeeSearchAPI extends EndPoint
         return $data;
     }
 
+    /**
+     * Get Search Relations
+     *
+     * @param $relationsArray
+     * @param $parameterHolder
+     * @return mixed
+     */
     private function getRelations($relationsArray, $parameterHolder)
     {
         $count = $this->getEmployeeService()->getSearchEmployeeCount($parameterHolder->getFilters());

@@ -54,7 +54,8 @@ class ApiEmployeeTest extends PHPUnit_Framework_TestCase
             'status' => 'active',
             'dob' => '2016-05-04',
             'unit' => '',
-            'jobtitle' => 'Engineer',
+            'jobTitle' => 'Engineer',
+            'employeeNumber'=> '001',
             'supervisor' => $supervisorsList
 
         );
@@ -65,6 +66,7 @@ class ApiEmployeeTest extends PHPUnit_Framework_TestCase
         $employee->setEmpBirthDate('2016-05-04');
         $employee->setUnit('');
         $employee->setJobTitle('Engineer');
+        $employee->setEmployeeNumber('001');
 
         $employee->setSupervisors($supervisorsList);
 

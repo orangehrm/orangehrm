@@ -110,7 +110,7 @@ class EmployeeContactDetailAPI extends EndPoint
     /**
      * Save employee contact details
      *
-     * @return Response
+     * @return array
      * @throws BadRequestException
      */
     public function saveEmployeeContactDetails()
@@ -120,7 +120,7 @@ class EmployeeContactDetailAPI extends EndPoint
         $filters = $this->filterParameters();
         if ($this->validateInputs($filters)) {
 
-            $empId = $this->getRequestParams()->getUrlParam(self::PARAMETER_ID);
+            $empId = $filters[self::PARAMETER_ID];
             $employee = $this->getEmployeeService()->getEmployee($empId);
             $this->buildEmployeeContactDetails($employee,$filters);
             $returnedEmployee = $this->getEmployeeService()->saveEmployee($employee);
@@ -128,7 +128,7 @@ class EmployeeContactDetailAPI extends EndPoint
             if (!($returnedEmployee instanceof \Employee)) {
                 throw new BadRequestException("Contact details saving failed");
             }
-            return new Response(array('success' => 'Contact details successfully saved'), $relationsArray);
+            return array('success' => 'Contact details successfully saved');
         } else {
             throw new BadRequestException("Contact details saving failed");
         }
@@ -175,6 +175,9 @@ class EmployeeContactDetailAPI extends EndPoint
         }
         if (!empty($this->getRequestParams()->getPostParam(self::PARAMETER_COUNTRY))) {
             $filters[self::PARAMETER_COUNTRY] = $this->getRequestParams()->getPostParam(self::PARAMETER_COUNTRY);
+        }
+        if (!empty($this->getRequestParams()->getUrlParam(self::PARAMETER_ID))) {
+            $filters[self::PARAMETER_ID] = $this->getRequestParams()->getUrlParam(self::PARAMETER_ID);
         }
 
         return $filters;

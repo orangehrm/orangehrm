@@ -20,6 +20,7 @@
 namespace Orangehrm\Rest\Api\Pim;
 
 use Orangehrm\Rest\Api\EndPoint;
+use Orangehrm\Rest\Api\Exception\BadRequestException;
 use Orangehrm\Rest\Api\Exception\RecordNotFoundException;
 use Orangehrm\Rest\Api\Exception\InvalidParamException;
 use Orangehrm\Rest\Api\Pim\Entity\Employee;
@@ -85,9 +86,9 @@ class EmployeeDependentAPI extends EndPoint
     }
 
     /**
-     * Saving employee dependents
+     * Saving Employee dependents
      *
-     * @return Response
+     * @return array|BadRequestException|InvalidParamException
      * @throws \PIMServiceException
      */
     public function saveEmployeeDependants()
@@ -114,15 +115,10 @@ class EmployeeDependentAPI extends EndPoint
             $dependent->setSeqno($seqNo);
             $this->buildEmployeeDependants($dependent,$filters);
             $dependent->save();
-        }
-
-
-        if ($dependent instanceof \EmpDependent) {
-            return new Response(array('success' => 'successfully saved'), array());
+            return array('success' => 'successfully saved');
         } else {
-            return new Response(array('Failed' => 'saving failed'), array());
+            return new InvalidParamException();
         }
-
     }
 
     /**

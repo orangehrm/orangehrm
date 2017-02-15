@@ -44,9 +44,11 @@ class EmployeeSaveAPI extends EndPoint
     protected $employeeService = null;
 
     /**
-     * Save employee
+     * Saving Employee
      *
      * @return Response
+     * @throws BadRequestException
+     * @throws InvalidParamException
      */
     public function saveEmployee()
     {
@@ -64,10 +66,9 @@ class EmployeeSaveAPI extends EndPoint
 
         if (!$returnedEmployee instanceof \Employee) {
             throw new BadRequestException('Employee saving Failed');
-
+        } else {
+            return new Response(array('success' => 'Successfully saved'), $relationsArray);
         }
-        return new Response(array('success' => 'Employee successfully saved'), $relationsArray);
-
     }
 
     /**
@@ -133,9 +134,10 @@ class EmployeeSaveAPI extends EndPoint
     }
 
     /**
-     * Filter post parameters to validate
+     * Filter parameters
      *
      * @return array
+     * @throws InvalidParamException
      */
     protected function filterParameters()
     {

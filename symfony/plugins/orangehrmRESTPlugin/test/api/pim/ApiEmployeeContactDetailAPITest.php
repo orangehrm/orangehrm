@@ -39,13 +39,15 @@ class ApiEmployeeContactDetailAPITest extends PHPUnit_Framework_TestCase
      */
     protected function setUp()
     {
-        $sfEvent   = new sfEventDispatcher();
+        $sfEvent = new sfEventDispatcher();
         $sfRequest = new sfWebRequest($sfEvent);
         $request = new Request($sfRequest);
         $this->employeeContactDetailAPI = new EmployeeContactDetailAPI($request);
+
     }
 
-    public function testGetEmployeeContactDetails(){
+    public function testGetEmployeeContactDetails()
+    {
 
         $requestParams = $this->getMockBuilder('\Orangehrm\Rest\Http\RequestParams')
             ->disableOriginalConstructor()
@@ -85,15 +87,65 @@ class ApiEmployeeContactDetailAPITest extends PHPUnit_Framework_TestCase
         $employeeReturned = $this->employeeContactDetailAPI->getEmployeeContactDetails();
 
         // creating the employee json array
-        $employeeContactDetails = new EmployeeContactDetail($employee->getFullName(),$employee->getEmployeeId());
+        $employeeContactDetails = new EmployeeContactDetail($employee->getFullName(), $employee->getEmployeeId());
 
         $employeeContactDetails->buildContactDetails($employee);
 
         $jsonEmployeeContactDetailArray = $employeeContactDetails->toArray();
 
-        $assertResponse = new Response($jsonEmployeeContactDetailArray,array());
+        $assertResponse = new Response($jsonEmployeeContactDetailArray, array());
 
         $this->assertEquals($assertResponse, $employeeReturned);
 
     }
+
+    public function testSaveEmployeeContactDetails()
+    {
+
+        $empNumber = 1;
+        $employee = new \Employee();
+        $employee->setLastName('Last Name');
+        $employee->setFirstName('First Name');
+        $employee->setEmpNumber($empNumber);
+        $employee->setEmployeeId($empNumber);
+        $employee->setJoinedDate("2016-04-15");
+        $employee->setEmpWorkEmail("mdriggs@hrm.com");
+        $employee->setEmpMobile(0754343435);
+
+        $filters = array();
+        $filters[EmployeeContactDetailAPI::PARAMETER_PHONE] = '071-45363737';
+        $filters[EmployeeContactDetailAPI::PARAMETER_COUNTRY] = 'India';
+        $filters[EmployeeContactDetailAPI::PARAMETER_ADDRESS] = 'No 45 Karei Nagar Sri vihar';
+        $filters[EmployeeContactDetailAPI::PARAMETER_ID] = '1';
+        $filters[EmployeeContactDetailAPI::PARAMETER_EMAIL] = 'shanidatta@utl.com';
+
+        $sfEvent   = new sfEventDispatcher();
+        $sfRequest = new sfWebRequest($sfEvent);
+        $request = new Request($sfRequest);
+
+        $this->employeeContactDetailAPI = $this->getMock('Orangehrm\Rest\Api\Pim\EmployeeContactDetailApi',array('filterParameters'),array($request));
+        $this->employeeContactDetailAPI->expects($this->once())
+            ->method('filterParameters')
+            ->will($this->returnValue($filters));
+
+        $pimEmployeeService = $this->getMock('EmployeeService');
+        $pimEmployeeService->expects($this->any())
+            ->method('getEmployee')
+            ->with(1)
+            ->will($this->returnValue($employee));
+
+        $pimEmployeeService->expects($this->any())
+            ->method('saveEmployee')
+            ->with($employee)
+            ->will($this->returnValue($employee));
+
+        $this->employeeContactDetailAPI->setEmployeeService($pimEmployeeService);
+
+        $returned = $this->employeeContactDetailAPI->saveEmployeeContactDetails();
+        $testResponse = array('success' => 'Contact details successfully saved');
+
+        $this->assertEquals($returned, $testResponse);
+
+    }
+
 }
