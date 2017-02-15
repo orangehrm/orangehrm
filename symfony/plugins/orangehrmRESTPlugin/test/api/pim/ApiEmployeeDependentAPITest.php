@@ -67,6 +67,15 @@ class ApiEmployeeDependentAPITest extends PHPUnit_Framework_TestCase
         $employee->setEmpWorkEmail("mdriggs@hrm.com");
         $employee->setEmpMobile(0754343435);
 
+        $empDependentTest = new \EmpDependent();
+        $empDependentTest->setDateOfBirth('2015-05-14');
+        $empDependentTest->setEmpNumber(1);
+        $empDependentTest->setName('Shane Lewis');
+        $empDependentTest->setRelationship('Son');
+        $empDependentTest->setRelationshipType('other');
+
+        $employeeDependentsList = new Doctrine_Collection('EmpDependent');
+        $employeeDependentsList[] = $empDependentTest;
 
         $employeeCategory = new JobCategory();
         $employeeCategory->setName("Engineer");
@@ -81,7 +90,7 @@ class ApiEmployeeDependentAPITest extends PHPUnit_Framework_TestCase
         $pimEmployeeService->expects($this->any())
             ->method('getEmployeeDependents')
             ->with($empNumber)
-            ->will($this->returnValue($employee));
+            ->will($this->returnValue($employeeDependentsList));
 
         $this->employeeDependantAPI->setEmployeeService($pimEmployeeService);
         $returned = $this->employeeDependantAPI->getEmployeeDependants();
@@ -91,7 +100,7 @@ class ApiEmployeeDependentAPITest extends PHPUnit_Framework_TestCase
 
         $jsonEmployeeDependantsArray = $employeeDependant->toArray();
 
-        $assertResponse = new Response($jsonEmployeeDependantsArray, array());
+        $assertResponse = new Response(array($jsonEmployeeDependantsArray), array());
 
         $this->assertEquals($assertResponse, $returned);
 
@@ -120,7 +129,7 @@ class ApiEmployeeDependentAPITest extends PHPUnit_Framework_TestCase
         $sfRequest = new sfWebRequest($sfEvent);
         $request = new Request($sfRequest);
 
-        $this->employeeDependantAPI = $this->getMock('Orangehrm\Rest\Api\Pim\EmployeeDependantAPI',array('filterParameters'),array($request));
+        $this->employeeDependantAPI = $this->getMock('Orangehrm\Rest\Api\Pim\EmployeeDependentAPI',array('filterParameters'),array($request));
         $this->employeeDependantAPI->expects($this->once())
             ->method('filterParameters')
             ->will($this->returnValue($filters));
@@ -136,9 +145,9 @@ class ApiEmployeeDependentAPITest extends PHPUnit_Framework_TestCase
             ->with($employee)
             ->will($this->returnValue($employee));
 
-        $this->$pimEmployeeService->setEmployeeService($pimEmployeeService);
+        $this->employeeDependantAPI->setEmployeeService($pimEmployeeService);
 
-        $returned = $this->$pimEmployeeService->saveEmployeeDependants();
+        $returned = $this->employeeDependantAPI->saveEmployeeDependants();
         $testResponse = array('success' => 'successfully saved');
 
         $this->assertEquals($returned, $testResponse);
