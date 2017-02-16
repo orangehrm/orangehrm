@@ -2269,4 +2269,63 @@ class EmployeeDao extends BaseDao {
         return $ids;
     }
 
+    /**
+     * Save employee dependent
+     *
+     * @param EmpDependent $dependent
+     * @return EmpDependent
+     * @throws PIMServiceException
+     */
+    public function saveEmployeeDependent(EmpDependent $dependent) {
+
+        $empNumber = $dependent->getEmpNumber();
+        $seqNo = $dependent->getSeqno();
+
+        $q = Doctrine_Query::create()
+            ->select('MAX(d.seqno)')
+            ->from('EmpDependent d')
+            ->where('d.emp_number = ?', $empNumber);
+        $result = $q->execute(array(), Doctrine::HYDRATE_ARRAY);
+
+        if (count($result) != 1) {
+            throw new PIMServiceException('MAX(seqno) failed.');
+        }
+        $seqNo = is_null($result[0]['MAX']) ? 1 : $result[0]['MAX'] + 1;
+
+        $dependent->seqno = $seqNo;
+        $dependent->save();
+        return $dependent;
+
+    }
+
+    /**
+     * Update employee dependent
+     *
+     * @param EmpDependent $empDependent
+     * @return mixed
+     * @throws PIMServiceException
+     */
+    public function updateEmployeeDependent(EmpDependent $empDependent){
+
+        $empNumber = $empDependent->getEmpNumber();
+        $seqNo = $empDependent->getSeqno();
+
+        $dependent = Doctrine::getTable('EmpDependent')->find(array('emp_number' => $empNumber,
+            'seqno' => $seqNo));
+
+        if (empty($dependent)) {
+            throw new PIMServiceException('Invalid dependent');
+        } else {
+
+            $dependent->name = $empDependent->getName();
+            $dependent->relationship = $empDependent->getRelationship();
+            $dependent->relationship_type = $empDependent->getRelationshipType();
+            $dependent->date_of_birth = $empDependent->getDateOfBirth();
+
+            $dependent->save();
+            return $dependent;
+        }
+
+    }
+
 }
