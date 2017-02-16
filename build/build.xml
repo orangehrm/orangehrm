@@ -33,8 +33,8 @@
   <property name="apidocs.dir" value="${dist.dir}/apidocs"/>
   <property name="xampp.dir" value="../../xampp"/>
 
-  <svnlastrevision workingcopy="${project.dir}" propertyname="svn.revision"/>
-  <property name="base.name" value="${package.name}.${svn.revision}"/>
+  <exec command="git rev-list --tags --max-count=1" dir="${project.dir}" checkreturn="false" outputProperty="git.revision"/>
+  <property name="base.name" value="${package.name}.${git.revision}"/>
 
   <target name="prepare">
     <echo msg="Preparing build..." />
@@ -46,10 +46,15 @@
     <mkdir dir="${test.coverage.dir}/symfony" />
     <mkdir dir="${test.coverage.dir}/lib" />
     <mkdir dir="${apidocs.dir}" />
-    <touch file="release-revision-${svn.revision}.txt" />
+    <touch file="release-revision-${git.revision}.txt" />
   </target>
+
+    <target name="composer">
+        <exec command="composer install" dir="${project.dir}/symfony/lib" checkreturn="false" />
+        <exec command="composer dump-autoload -o" dir="${project.dir}/symfony/lib" checkreturn="false" />
+    </target>
  
-  <target name="build" depends="prepare,symfony.publish.assets,clean">
+  <target name="build" depends="prepare,symfony.publish.assets,clean,composer">
     <echo>Copying files...</echo>
     <copy todir="${package.dir}" includeemptydirs="true">
         <fileset dir="${project.dir}">
