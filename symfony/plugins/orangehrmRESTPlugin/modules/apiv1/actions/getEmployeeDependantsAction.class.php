@@ -38,21 +38,15 @@ class getEmployeeDependantsAction extends baseRestAction
         return $apiEmployeeDependent->saveEmployeeDependents();
     }
 
-    /**
-     * @param Request $request
-     *
-     */
-    function handlePutRequest(Request $request)
+    protected function handlePutRequest(Request $request)
     {
-        // TODO: Implement handlePutRequest() method.
+        $apiEmployeeDependent = new EmployeeDependentAPI($request);
+        return $apiEmployeeDependent->updateEmployeeDependents();
     }
 
-    /**
-     * @param Request $request
-     *
-     */
-    function handleDeleteRequest(Request $request)
+    protected function handleDeleteRequest(Request $request)
     {
-        // TODO: Implement handleDeleteRequest() method.
+        $apiEmployeeDependent = new EmployeeDependentAPI($request);
+        return $apiEmployeeDependent->deleteEmployeeDependents();
     }
 }
