@@ -37,21 +37,4 @@ class getEmployeeContactsAction extends baseRestAction
         return $apiEmployeeContactDetail->saveEmployeeContactDetails();
     }
 
-    /**
-     * @param Request $request
-     *
-     */
-    function handlePutRequest(Request $request)
-    {
-        // TODO: Implement handlePutRequest() method.
-    }
-
-    /**
-     * @param Request $request
-     *
-     */
-    function handleDeleteRequest(Request $request)
-    {
-        // TODO: Implement handleDeleteRequest() method.
-    }
 }

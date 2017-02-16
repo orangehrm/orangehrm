@@ -35,6 +35,7 @@ class EmployeeDependentAPI extends EndPoint
     const PARAMETER_RELATIONSHIP = "relationship";
     const PARAMETER_DOB = "dob";
     const PARAMETER_TYPE = "type";
+    const PARAMETER_SEQ_NUMBER = "sequenceNumber";
 
     /**
      * @return \EmployeeService|null
@@ -86,26 +87,15 @@ class EmployeeDependentAPI extends EndPoint
     }
 
     /**
-     * Saving Employee dependents
+     * Saving Employee details
      *
-     * @return Response|BadRequestException|InvalidParamException
-     * @throws \PIMServiceException
+     * @return Response
+     * @throws BadRequestException
      */
     public function saveEmployeeDependents()
     {
 
-
         $empId = $this->getRequestParams()->getUrlParam(self::PARAMETER_ID);
-        $q = \Doctrine_Query::create()
-            ->select('MAX(d.seqno)')
-            ->from('EmpDependent d')
-            ->where('d.emp_number = ?', $empId);
-        $result = $q->execute(array(), \Doctrine::HYDRATE_ARRAY);
-
-        if (count($result) != 1) {
-            throw new \PIMServiceException('MAX(seqno) failed.');
-        }
-        $seqNo = is_null($result[0]['MAX']) ? 1 : $result[0]['MAX'] + 1;
 
         $filters = $this->filterParameters();
 
@@ -113,25 +103,89 @@ class EmployeeDependentAPI extends EndPoint
 
             $dependent = new \EmpDependent();
             $dependent->setEmpNumber($empId);
-            $dependent->setSeqno($seqNo);
-            $this->buildEmployeeDependants($dependent,$filters);
-            $dependent->save();
 
+            $this->buildEmployeeDependants($dependent, $filters);
+            $result = $this->getEmployeeService()->saveEmployeeDependent($dependent); // saving = true
 
-            if ($dependent instanceof \EmpDependent) {
+            if ($result instanceof \EmpDependent) {
                 return new Response(array('success' => 'Successfully saved'));
             } else {
                 throw new BadRequestException("Saving Failed");
             }
 
-        }else {
+        } else {
             throw new BadRequestException("Invalid parameter");
         }
 
 
     }
 
-    public function updateEmployeeDependents(){
+    /**
+     * Update employee dependents
+     *
+     * @return Response
+     * @throws BadRequestException
+     * @throws InvalidParamException
+     */
+    public function updateEmployeeDependents()
+    {
+        $empId = $this->getRequestParams()->getUrlParam(self::PARAMETER_ID);
+
+        $filters = $this->filterParameters();
+
+        if ($this->validateInputs($filters)) {
+
+            $dependent = new \EmpDependent();
+            $dependent->setEmpNumber($empId);
+            $dependent->setSeqno($filters[self::PARAMETER_SEQ_NUMBER]);
+
+            $this->buildEmployeeDependants($dependent, $filters);
+            try {
+                $result = $this->getEmployeeService()->updateEmployeeDependent($dependent); // saving = true
+
+            } catch (\PIMServiceException $pimEx) {
+                throw new BadRequestException('Updating failed');
+            }
+
+            if ($result instanceof \EmpDependent) {
+                return new Response(array('success' => 'Successfully updated'));
+            } else {
+                throw new BadRequestException("Updating failed");
+            }
+
+        } else {
+            throw new InvalidParamException("Invalid parameter");
+        }
+    }
+
+    /**
+     * Deleting employee dependents
+     *
+     * @return Response
+     * @throws InvalidParamException
+     * @throws RecordNotFoundException
+     */
+    public function deleteEmployeeDependents()
+    {
+        $filters = $this->filterParameters();
+        $empId = $filters[self::PARAMETER_ID];
+        $sequenceNumber = $filters[self::PARAMETER_SEQ_NUMBER];
+
+        if (!empty($sequenceNumber) && is_numeric($sequenceNumber)) {
+
+            $count = $this->getEmployeeService()->deleteEmployeeDependents($empId, array($sequenceNumber));
+
+            if ($count > 0) {
+
+                return new Response(array('success' => 'Successfully deleted'));
+            } else {
+                throw new RecordNotFoundException("Deleting failed");
+            }
+
+        } else {
+            throw new InvalidParamException("Sequence number is wrong");
+        }
+
 
     }
 
@@ -158,7 +212,12 @@ class EmployeeDependentAPI extends EndPoint
         if (!empty($this->getRequestParams()->getPostParam(self::PARAMETER_DOB))) {
             $filters[self::PARAMETER_DOB] = $this->getRequestParams()->getPostParam(self::PARAMETER_DOB);
         }
-
+        if (!empty($this->getRequestParams()->getPostParam(self::PARAMETER_SEQ_NUMBER))) {
+            $filters[self::PARAMETER_SEQ_NUMBER] = $this->getRequestParams()->getPostParam(self::PARAMETER_SEQ_NUMBER);
+        }
+        if (!empty($this->getRequestParams()->getUrlParam(self::PARAMETER_ID))) {
+            $filters[self::PARAMETER_ID] = $this->getRequestParams()->getUrlParam(self::PARAMETER_ID);
+        }
         return $filters;
 
     }
@@ -192,18 +251,22 @@ class EmployeeDependentAPI extends EndPoint
 
 
         if (!(preg_match("/^[a-z ,.'-]+$/i", $filters[self::PARAMETER_NAME]) === 1)) {
-           return  false;
+            return false;
 
         }
-        if (!empty( $filters[self::PARAMETER_DOB]) && !date($format, strtotime($filters[self::PARAMETER_DOB])) == date($filters[self::PARAMETER_DOB])) {
-            return  false;
+        if (!empty($filters[self::PARAMETER_DOB]) && !date($format,
+                strtotime($filters[self::PARAMETER_DOB])) == date($filters[self::PARAMETER_DOB])
+        ) {
+            return false;
         }
 
-        if (empty($filters[self::PARAMETER_RELATIONSHIP]) ||!(preg_match("/^[a-zA-Z]*$/", $filters[self::PARAMETER_RELATIONSHIP]) === 1)) {
+        if (empty($filters[self::PARAMETER_RELATIONSHIP]) || !(preg_match("/^[a-zA-Z]*$/",
+                    $filters[self::PARAMETER_RELATIONSHIP]) === 1)
+        ) {
             return false;
         }
         if (!empty($filters[self::PARAMETER_TYPE]) && !($filters[self::PARAMETER_TYPE] == 'other')) {
-                return false;
+            return false;
         }
         return $valid;
     }
