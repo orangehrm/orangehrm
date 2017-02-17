@@ -148,4 +148,53 @@ class ApiEmployeeContactDetailAPITest extends PHPUnit_Framework_TestCase
 
     }
 
+    public function testUpdateEmployeeContactDetails()
+    {
+
+        $empNumber = 1;
+        $employee = new \Employee();
+        $employee->setLastName('Last Name');
+        $employee->setFirstName('First Name');
+        $employee->setEmpNumber($empNumber);
+        $employee->setEmployeeId($empNumber);
+        $employee->setJoinedDate("2016-04-15");
+        $employee->setEmpWorkEmail("mdriggs@hrm.com");
+        $employee->setEmpMobile(0754343435);
+
+        $filters = array();
+        $filters[EmployeeContactDetailAPI::PARAMETER_PHONE] = '071-45363737';
+        $filters[EmployeeContactDetailAPI::PARAMETER_COUNTRY] = 'India';
+        $filters[EmployeeContactDetailAPI::PARAMETER_ADDRESS] = 'No 45 Karei Nagar Sri vihar';
+        $filters[EmployeeContactDetailAPI::PARAMETER_ID] = '1';
+        $filters[EmployeeContactDetailAPI::PARAMETER_EMAIL] = 'shanidatta@utl.com';
+
+        $sfEvent   = new sfEventDispatcher();
+        $sfRequest = new sfWebRequest($sfEvent);
+        $request = new Request($sfRequest);
+
+        $this->employeeContactDetailAPI = $this->getMock('Orangehrm\Rest\Api\Pim\EmployeeContactDetailApi',array('filterParameters'),array($request));
+        $this->employeeContactDetailAPI->expects($this->once())
+            ->method('filterParameters')
+            ->will($this->returnValue($filters));
+
+        $pimEmployeeService = $this->getMock('EmployeeService');
+        $pimEmployeeService->expects($this->any())
+            ->method('getEmployee')
+            ->with(1)
+            ->will($this->returnValue($employee));
+
+        $pimEmployeeService->expects($this->any())
+            ->method('saveEmployee')
+            ->with($employee)
+            ->will($this->returnValue($employee));
+
+        $this->employeeContactDetailAPI->setEmployeeService($pimEmployeeService);
+
+        $returned = $this->employeeContactDetailAPI->updateEmployeeContactDetails();
+        $testResponse = new Response(array('success' => 'Successfully updated'));
+
+        $this->assertEquals($returned, $testResponse);
+
+    }
+
 }
