@@ -1,4 +1,5 @@
 <?php
+
 /**
  * OrangeHRM is a comprehensive Human Resource Management (HRM) System that captures
  * all the essential functionalities required for any enterprise.
@@ -16,45 +17,57 @@
  * if not, write to the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
  * Boston, MA  02110-1301, USA
  */
-use Orangehrm\Rest\Http\Request;
-use Orangehrm\Rest\Http\Response;
 
-abstract class baseGetAction extends baseOAuthAction {
+namespace Orangehrm\Rest\Api;
+
+use Orangehrm\Rest\Http\Request;
+use Orangehrm\Rest\http\RequestParams;
+
+class EndPoint {
 
     /**
-     * Check token validation
+     * @var Request
      */
-    public function preExecute() {
-        parent::preExecute();
+    protected $request = null;
 
-        $server = $this->getOAuthServer();
-        $oauthRequest = $this->getOAuthRequest();
-        $oauthResponse = $this->getOAuthResponse();
+    /**
+     * @var RequestParams
+     */
+    protected $requestParams = null ;
 
-        if (!$server->verifyResourceRequest($oauthRequest, $oauthResponse)) {
-            $server->getResponse()->send();
-            exit;
-        }
+    /**
+     *
+     * @param Request $request
+     */
+    public function __construct(Request $request) {
+        $this->setRequestParams(new RequestParams($request));
     }
 
     /**
-     * @param Request $request
-     * @return Response
+     * @return null
      */
-    abstract protected function handleRequest(Request $request);
+    public function getRequestParams() {
+        return $this->requestParams;
+    }
 
     /**
-     * @param sfRequest $request
-     * @return string
+     * @param null $requestParams
      */
-    public function execute($request) {
-        $httpRequest = new Request($request);
+    public function setRequestParams($requestParams) {
+        $this->requestParams = $requestParams;
+    }
 
-        $response = $this->getResponse();
-        $response->setContent($this->handleRequest($httpRequest)->format());
-        $response->setHttpHeader('Content-type', 'application/json');
+    /**
+     * @return mixed
+     */
+    public function getRequest() {
+        return $this->request;
+    }
 
-        return sfView::NONE;
+    /**
+     * @param mixed $request
+     */
+    public function setRequest($request) {
+        $this->request = $request;
     }
 }
-

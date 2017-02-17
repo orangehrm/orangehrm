@@ -21,8 +21,30 @@ namespace Orangehrm\Rest\Http;
 
 class Request{
 
-    public function __construct($request){
+    protected $actionRequest;
 
+    public function __construct($request){
+        $this->actionRequest = $request;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getActionRequest()
+    {
+        return $this->actionRequest;
+    }
+
+    /**
+     * @param mixed $actionRequest
+     */
+    public function setActionRequest($actionRequest)
+    {
+        $this->actionRequest = $actionRequest;
+    }
+
+    public function getMethod(){
+        return $this->getActionRequest()->getMethod();
     }
 
 }

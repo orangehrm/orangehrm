@@ -1,7 +1,34 @@
-api_wscall:
-    url: /api/v1/get
-    param: { module:baseapi, action:baseGet }
+api_employee_dependants:
+  url: /api/v1/employee/:id/dependents
+  param: { module:apiv1, action:getEmployeeDependants }
+  requirements:
+    id: \d+
+    sf_method: [get, post, put, delete]
 
-api_get_employee:
-    url: /api/v1/employee
-    param: { module:apiv1, action:getEmployee }
+api_employee_details:
+  url: /api/v1/employee/:id
+  param: { module: apiv1, action: EmployeeDetailsApi }
+  requirements:
+    id: \d+
+    sf_method: [get, post, put, delete]
+
+api_search_employee:
+  url: /api/v1/employee/search
+  param: { module:apiv1, action:getEmployee }
+  requirements:
+      sf_method: [get]
+
+api_employee_contacts:
+  url: /api/v1/employee/:id/contact-detail
+  param: { module:apiv1, action:getEmployeeContacts }
+  requirements:
+    id: \d+
+    sf_method: [get, post, put, delete]
+
+api_employee_job_detail:
+  url: /api/v1/employee/:id/job-detail
+  param: { module:apiv1, action:getEmployeeJobDetails }
+  requirements:
+    id: \d+
+    sf_method: [get, post, put, delete]
+

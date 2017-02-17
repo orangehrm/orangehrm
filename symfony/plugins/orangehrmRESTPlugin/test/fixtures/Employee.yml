@@ -1,0 +1,12 @@
+
+EmploymentStatus:
+  0: { id: 1, name: Full Time }
+
+
+Employee:
+  0: { empNumber: 1, firstName: Sanath, middleName: Teran, lastName: Jayasooriya, employeeId: A001 }
+  1: { empNumber: 2, firstName: Aravinda, lastName: De Silva, employeeId: A002, emp_status: 1}
+  2: { empNumber: 3, firstName: Arjuna, lastName: Ranatunga, employeeId: A003 }
+  3: { empNumber: 4, firstName: Kumar, lastName: Sangakkara, employeeId: W001 }
+  4: { empNumber: 5, firstName: Mahela, lastName: Jayawardhane, employeeId: A004 }
+  

@@ -1504,4 +1504,24 @@ class EmployeeService extends BaseService {
         return $this->getEmployeeDao()->getSearchEmployeeCount($filters);
     }
 
+    /**
+     * Save employee dependent
+     *
+     * @param EmpDependent $employeeDependent
+     * @return EmpDependent
+     */
+    public function saveEmployeeDependent(EmpDependent $employeeDependent){
+        return $this->getEmployeeDao()->saveEmployeeDependent($employeeDependent);
+    }
+
+    /**
+     * Update employee dependent
+     *
+     * @param EmpDependent $employeeDependent
+     * @return mixed
+     */
+    public function updateEmployeeDependent(EmpDependent $employeeDependent){
+        return $this->getEmployeeDao()->updateEmployeeDependent($employeeDependent);
+    }
+
 }

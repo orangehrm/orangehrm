@@ -202,6 +202,11 @@ Employee:
       local: termination_id
       foreign: id
       type: one
+    EmployeeCountry:
+      class: Country
+      local: coun_code
+      foreign: cou_code
+      type: one
 
 EmpPicture:
   tableName: hs_hr_emp_picture

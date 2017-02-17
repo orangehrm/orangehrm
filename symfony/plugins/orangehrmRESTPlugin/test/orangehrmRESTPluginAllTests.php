@@ -27,8 +27,27 @@ class orangehrmRESTPluginAllTests
     public static function suite() {
         $suite = new PHPUnit_Framework_TestSuite('orangehrmRESTPluginAllTest');
 
-        /* Dao Test Cases */
+        /* HTTP test Cases */
+
         $suite->addTestFile(dirname(__FILE__) . '/http/HttpResponseTest.php');
+        $suite->addTestFile(dirname(__FILE__) . '/http/RequestParamsTest.php');
+
+        /* API test cases */
+
+        $suite->addTestFile(dirname(__FILE__) . '/api/pim/ApiEmployeeDetailAPITest.php');
+        $suite->addTestFile(dirname(__FILE__) . '/api/pim/ApiEmployeeJobDetailAPITest.php');
+        $suite->addTestFile(dirname(__FILE__) . '/api/pim/ApiEmployeeContactDetailAPITest.php');
+        $suite->addTestFile(dirname(__FILE__) . '/api/pim/ApiEmployeeSearchAPITest.php');
+       // $suite->addTestFile(dirname(__FILE__) . '/api/pim/ApiEmployeeSaveAPITest.php');
+       // $suite->addTestFile(dirname(__FILE__) . '/api/pim/ApiEmployeeDependentAPITest.php');
+
+        /* Entity test cases*/
+
+        $suite->addTestFile(dirname(__FILE__) . '/api/pim/entity/ApiEmployeeContactDetailTest.php');
+        $suite->addTestFile(dirname(__FILE__) . '/api/pim/entity/ApiEmployeeDependentTest.php');
+        $suite->addTestFile(dirname(__FILE__) . '/api/pim/entity/ApiEmployeeJobDetailTest.php');
+        $suite->addTestFile(dirname(__FILE__) . '/api/pim/entity/ApiEmployeeTest.php');
+        $suite->addTestFile(dirname(__FILE__) . '/api/pim/entity/ApiSupervisorTest.php');
 
         return $suite;
     }

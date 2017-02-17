@@ -1,5 +1,4 @@
 <?php
-
 /**
  * OrangeHRM is a comprehensive Human Resource Management (HRM) System that captures
  * all the essential functionalities required for any enterprise.
@@ -17,20 +16,27 @@
  * if not, write to the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
  * Boston, MA  02110-1301, USA
  */
-namespace Orangehrm\Rest\Api\Pim;
 
-use Orangehrm\Rest\Api\Pim\Entity\Employee;
+use Orangehrm\Rest\Http\Request;
+use Orangehrm\Rest\Api\Pim\EmployeeDetailAPI;
+use Orangehrm\Rest\Api\Pim\EmployeeSaveAPI;
 
-class EmployeeService
+
+class EmployeeDetailsApiAction extends baseRestAction
 {
-    public function getEmployeeList() {
-        $employeeT1 = new Employee('John','','Khan');
-        $employeeT2 = new Employee('Simon','','Leo');
-        return array(
-            $employeeT1->toArray(),
-            $employeeT2->toArray(),
-        );
+
+    protected function handleGetRequest(Request $request)
+    {
+
+        $apiEmployeeDetail = new EmployeeDetailAPI($request);
+        return $apiEmployeeDetail->getEmployeeDetails();
+
     }
 
+    protected function handlePostRequest(Request $request)
+    {
+        $apiEmployeeSave = new EmployeeSaveAPI($request);
+        return $apiEmployeeSave->saveEmployee();
+    }
 
 }
