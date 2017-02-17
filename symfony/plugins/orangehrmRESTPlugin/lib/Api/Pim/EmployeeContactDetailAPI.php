@@ -115,7 +115,6 @@ class EmployeeContactDetailAPI extends EndPoint
      */
     public function saveEmployeeContactDetails()
     {
-        $relationsArray = array();
         $returned = null;
         $filters = $this->filterParameters();
         if ($this->validateInputs($filters)) {
@@ -135,18 +134,54 @@ class EmployeeContactDetailAPI extends EndPoint
 
 
     }
+    /**
+     * Update employee contact details
+     *
+     * @return Response
+     * @throws BadRequestException
+     */
+    public function updateEmployeeContactDetails()
+    {
+        $returned = null;
+        $filters = $this->filterParameters();
+        if ($this->validateInputs($filters)) {
+
+            $empId = $filters[self::PARAMETER_ID];
+            $employee = $this->getEmployeeService()->getEmployee($empId);
+            $this->buildEmployeeContactDetails($employee,$filters);
+            $returnedEmployee = $this->getEmployeeService()->saveEmployee($employee);
+
+            if (!($returnedEmployee instanceof \Employee)) {
+                throw new BadRequestException("Updating failed");
+            }
+            return new Response(array('success' => 'Successfully updated'));
+        } else {
+            throw new BadRequestException("Updating failed");
+        }
+
+
+    }
 
     /**
-     * Build employee contact details
+     * Build Employee contact details
      *
-     * @param \Employee
-     * @return mixed
+     * @param \Employee $employee
+     * @param $filters
+     * @return \Employee
+     * @throws InvalidParamException
      */
     private function buildEmployeeContactDetails(\Employee $employee, $filters)
     {
-        $employee->setStreet1($filters[self::PARAMETER_ADDRESS]);
-        $employee->setEmpMobile($filters[self::PARAMETER_PHONE]);
-        $employee->setEmpWorkEmail($filters[self::PARAMETER_EMAIL]);
+        if(!empty($filters[self::PARAMETER_ADDRESS])){
+            $employee->setStreet1($filters[self::PARAMETER_ADDRESS]);
+        }
+        if(!empty($filters[self::PARAMETER_PHONE])){
+            $employee->setEmpMobile($filters[self::PARAMETER_PHONE]);
+        }
+        if(!empty($filters[self::PARAMETER_EMAIL])){
+            $employee->setEmpWorkEmail($filters[self::PARAMETER_EMAIL]);
+        }
+
         if(!empty($filters[self::PARAMETER_COUNTRY])) {
 
             $country = $this->getCountryService()->getCountryByCountryName($filters[self::PARAMETER_COUNTRY]);

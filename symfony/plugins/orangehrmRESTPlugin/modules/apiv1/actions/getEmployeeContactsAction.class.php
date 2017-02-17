@@ -36,5 +36,10 @@ class getEmployeeContactsAction extends baseRestAction
         $apiEmployeeContactDetail = new EmployeeContactDetailAPI($request);
         return $apiEmployeeContactDetail->saveEmployeeContactDetails();
     }
+    protected function handlePutRequest(Request $request)
+    {
+        $apiEmployeeContactDetail = new EmployeeContactDetailAPI($request);
+        return $apiEmployeeContactDetail->updateEmployeeContactDetails();
+    }
 
 }
