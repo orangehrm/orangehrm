@@ -1505,19 +1505,23 @@ class EmployeeService extends BaseService {
     }
 
     /**
-     * @param $employeeId
+     * Save employee dependent
+     *
+     * @param EmpDependent $employeeDependent
      * @return EmpDependent
      */
-    public function saveEmployeeDependent($employeeId){
-        return $this->getEmployeeDao()->saveEmployeeDependent($employeeId);
+    public function saveEmployeeDependent(EmpDependent $employeeDependent){
+        return $this->getEmployeeDao()->saveEmployeeDependent($employeeDependent);
     }
 
     /**
-     * @param $employeeId
-     * @return EmpDependent|mixed
+     * Update employee dependent
+     *
+     * @param EmpDependent $employeeDependent
+     * @return mixed
      */
-    public function updateEmployeeDependent($employeeId){
-        return $this->getEmployeeDao()->updateEmployeeDependent($employeeId);
+    public function updateEmployeeDependent(EmpDependent $employeeDependent){
+        return $this->getEmployeeDao()->updateEmployeeDependent($employeeDependent);
     }
 
 }
