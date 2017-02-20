@@ -7,7 +7,7 @@ api_employee_dependants:
 
 api_employee_details:
   url: /api/v1/employee/:id
-  param: { module: apiv1, action: EmployeeDetailsApi }
+  param: { module: apiv1, action: getEmployeeDetailsApi }
   requirements:
     id: \d+
     sf_method: [get, post, put, delete]
@@ -32,3 +32,9 @@ api_employee_job_detail:
     id: \d+
     sf_method: [get, post, put, delete]
 
+api_employee_termination:
+  url: /api/v1/employee/:id/action/terminate
+  param: { module:apiv1, action:employeeTerminate }
+  requirements:
+    id: \d+
+    sf_method: [post]
