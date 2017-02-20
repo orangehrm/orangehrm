@@ -2328,4 +2328,22 @@ class EmployeeDao extends BaseDao {
 
     }
 
+    /**
+     * Get employee termination reasons list
+     *
+     * @return Doctrine_Collection
+     * @throws DaoException
+     */
+    public function getTerminationReasonList() {
+
+        try {
+            $q = Doctrine_Query :: create()
+                ->from('TerminationReason')
+                ->orderBy('name ASC');
+            return $q->execute();
+        } catch (Exception $e) {
+            throw new DaoException($e->getMessage());
+        }
+    }
+
 }
