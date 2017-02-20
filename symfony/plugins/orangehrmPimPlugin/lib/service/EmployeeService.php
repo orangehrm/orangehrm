@@ -1524,4 +1524,15 @@ class EmployeeService extends BaseService {
         return $this->getEmployeeDao()->updateEmployeeDependent($employeeDependent);
     }
 
+    /**
+     * Get employee termination reasons list
+     *
+     * @param EmpDependent $employeeDependent
+     * @return mixed
+     */
+    public function getTerminationReasonList(){
+        return $this->getEmployeeDao()->getTerminationReasonList();
+    }
+
+
 }
