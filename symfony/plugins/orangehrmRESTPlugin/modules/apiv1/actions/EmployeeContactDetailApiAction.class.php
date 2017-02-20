@@ -18,35 +18,28 @@
  */
 
 use Orangehrm\Rest\Http\Request;
-use Orangehrm\Rest\Http\Response;
-use Orangehrm\Rest\Api\Pim\EmployeeDependentAPI;
-use Orangehrm\Rest\Api\Exception\NotImplementedException;
+use Orangehrm\Rest\Api\Pim\EmployeeContactDetailAPI;
 
-class getEmployeeDependantsAction extends baseRestAction
+
+class EmployeeContactDetailApiAction extends baseRestAction
 {
 
     protected function handleGetRequest(Request $request)
     {
 
-        $apiEmployeeDependent = new EmployeeDependentAPI($request);
-        return $apiEmployeeDependent->getEmployeeDependents();
+        $apiEmployeeContactDetail = new EmployeeContactDetailAPI($request);
+        return $apiEmployeeContactDetail->getEmployeeContactDetails();
     }
 
     protected function handlePostRequest(Request $request)
     {
-        $apiEmployeeDependent = new EmployeeDependentAPI($request);
-        return $apiEmployeeDependent->saveEmployeeDependents();
+        $apiEmployeeContactDetail = new EmployeeContactDetailAPI($request);
+        return $apiEmployeeContactDetail->saveEmployeeContactDetails();
     }
-
     protected function handlePutRequest(Request $request)
     {
-        $apiEmployeeDependent = new EmployeeDependentAPI($request);
-        return $apiEmployeeDependent->updateEmployeeDependents();
+        $apiEmployeeContactDetail = new EmployeeContactDetailAPI($request);
+        return $apiEmployeeContactDetail->updateEmployeeContactDetails();
     }
 
-    protected function handleDeleteRequest(Request $request)
-    {
-        $apiEmployeeDependent = new EmployeeDependentAPI($request);
-        return $apiEmployeeDependent->deleteEmployeeDependents();
-    }
 }

@@ -18,20 +18,25 @@
  */
 
 use Orangehrm\Rest\Http\Request;
-use Orangehrm\Rest\Http\Response;
-use Orangehrm\Rest\Api\Pim\EmployeeService;
-use Orangehrm\Rest\Api\Exception\NotImplementedException;
+use Orangehrm\Rest\Api\Pim\EmployeeDetailAPI;
+use Orangehrm\Rest\Api\Pim\EmployeeSaveAPI;
 
-class getEmployeeAction extends baseRestAction {
 
-    protected function handleGetRequest(Request $request){
+class EmployeeDetailApiAction extends baseRestAction
+{
 
-        $apiEmployeeService = new EmployeeService($request);
-        return new Response($apiEmployeeService->getEmployeeList());
+    protected function handleGetRequest(Request $request)
+    {
+
+        $apiEmployeeDetail = new EmployeeDetailAPI($request);
+        return $apiEmployeeDetail->getEmployeeDetails();
+
     }
 
-    protected function handlePostRequest(Request $request){
-        throw new NotImplementedException();
+    protected function handlePostRequest(Request $request)
+    {
+        $apiEmployeeSave = new EmployeeSaveAPI($request);
+        return $apiEmployeeSave->saveEmployee();
     }
 
 }

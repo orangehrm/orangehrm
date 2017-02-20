@@ -18,25 +18,23 @@
  */
 
 use Orangehrm\Rest\Http\Request;
-use Orangehrm\Rest\Api\Pim\EmployeeTerminateAPI;
+use Orangehrm\Rest\Api\Pim\EmployeeJobDetailAPI;
 use Orangehrm\Rest\Api\Exception\NotImplementedException;
 
-
-class employeeTerminateAction extends baseRestAction
+class EmployeeJobDetailApiAction extends baseRestAction
 {
 
     protected function handleGetRequest(Request $request)
     {
 
-        throw new NotImplementedException();
-
+        $apiEmployeeSearch = new EmployeeJobDetailAPI($request);
+        return $apiEmployeeSearch->getEmployeeJobDetails();
     }
 
     protected function handlePostRequest(Request $request)
     {
-        $apiEmployeeSearch = new EmployeeTerminateAPI($request);
-        return $apiEmployeeSearch->terminateEmployee();
+        $apiEmployeeSearch = new EmployeeJobDetailAPI($request);
+        return $apiEmployeeSearch->saveEmployeeJobDetails();
     }
 
 }
-
