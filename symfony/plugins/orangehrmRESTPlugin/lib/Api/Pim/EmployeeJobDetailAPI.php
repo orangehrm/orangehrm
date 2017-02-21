@@ -188,7 +188,7 @@ class EmployeeJobDetailAPI extends EndPoint
         $empContract = new \EmpContract();
         $empContract->emp_number = $employee->empNumber;
         $empContract->contract_id = 1;
-
+       // var_dump($filters);die();
 
         if(!empty($filters[self::PARAMETER_TITILE])){
             $employee->job_title_code = $filters[self::PARAMETER_TITILE];
@@ -200,10 +200,10 @@ class EmployeeJobDetailAPI extends EndPoint
             $employee->setJoinedDate($filters[self::PARAMETER_JOINED_DATE]);
         }
         if(!empty($filters[self::PARAMETER_START_DATE])){
-            $employee->start_date = $filters[self::PARAMETER_START_DATE];
+            $empContract->start_date = $filters[self::PARAMETER_START_DATE];
         }
         if(!empty($filters[self::PARAMETER_END_DATE])){
-            $employee->end_date = $filters[self::PARAMETER_END_DATE];
+            $empContract->end_date = $filters[self::PARAMETER_END_DATE];
         }
 
         $employee->contracts[0] = $empContract;
