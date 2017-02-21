@@ -8,7 +8,7 @@
 * @apiParam {String} address  Optional address of the employee.
 * @apiParam {String} email  Optional email of the employee.
 * @apiParam {String} phone  Optional phone of the employee.
-* @apiSuccess {Object} data Optional success response
+* @apiSuccess {Object} data success response
 *
 * @apiSuccessExample Success-Response:
 *     HTTP/1.1 200 OK

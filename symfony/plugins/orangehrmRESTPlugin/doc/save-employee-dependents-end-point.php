@@ -1,5 +1,5 @@
 /**
-* @api {post} /employee/:id/dependent Save Employee Dependents
+* @api {post} /employee/:id/dependent Save Employee Dependent
 * @apiName saveEmployee dependents
 * @apiGroup Employee
 *
