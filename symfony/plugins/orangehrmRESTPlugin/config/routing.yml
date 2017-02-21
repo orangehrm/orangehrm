@@ -1,5 +1,5 @@
 api_employee_dependants:
-  url: /api/v1/employee/:id/dependents
+  url: /api/v1/employee/:id/dependent
   param: { module:apiv1, action:EmployeeDependantApi }
   requirements:
     id: \d+
