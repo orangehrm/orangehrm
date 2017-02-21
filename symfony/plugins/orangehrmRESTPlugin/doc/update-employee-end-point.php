@@ -1,15 +1,15 @@
 /**
-* @api {post} /employee/:id/dependent Save Employee Dependents
-* @apiName saveEmployee dependents
+* @api {put} /employee/:id Update Employee detail
+* @apiName UpdateEmployeeDetails
 * @apiGroup Employee
 *
 * @apiParam {Number}  employee id
 *
-* @apiParam {String} name Mandatory name of the dependent.
-* @apiParam {String} relationship  Mandatory relationship of the dependent.
-* @apiParam {String} dob Optional date of birth of dependent.
-* @apiParam {String} type  Optional relationship type.
-* @apiSuccess {Object} data success response
+* @apiParam  {String} firstName First Name.
+* @apiParam  {String} middleName  Middle Name.
+* @apiParam  {String} lastName  LastName.
+* @apiParam  {String} startDate Employee contract start date.
+* @apiSuccess {String} Object data success response.
 *
 * @apiSuccessExample Success-Response:
 *     HTTP/1.1 200 OK

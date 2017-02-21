@@ -158,11 +158,11 @@ class EmployeeJobDetailAPI extends EndPoint
         $relationsArray = array();
         $returned = null;
         $this->filters = $this->filterParameters();
-        if ($this->validateInputs($this->filters)) {
+        if (count($this->filters) > 1 && $this->validateInputs($this->filters)) {
 
             $empId = $this->getRequestParams()->getUrlParam(self::PARAMETER_ID);
             $employee = $this->getEmployeeService()->getEmployee($empId);
-            $this->buildEmployeeJobDetails($employee, $filters);
+            $this->buildEmployeeJobDetails($employee, $this->filters);
             $returnedEmployee = $this->getEmployeeService()->saveEmployee($employee);
 
             if ($returnedEmployee instanceof \Employee) {
@@ -188,12 +188,23 @@ class EmployeeJobDetailAPI extends EndPoint
         $empContract = new \EmpContract();
         $empContract->emp_number = $employee->empNumber;
         $empContract->contract_id = 1;
-        $employee->job_title_code = $filters[self::PARAMETER_TITILE];
-        $employee->eeo_cat_code = $filters[self::PARAMETER_CATEGORY];
-        $employee->setJoinedDate($filters[self::PARAMETER_JOINED_DATE]);
 
-        $empContract->start_date = $filters[self::PARAMETER_START_DATE];;
-        $empContract->end_date = $filters[self::PARAMETER_END_DATE];
+
+        if(!empty($filters[self::PARAMETER_TITILE])){
+            $employee->job_title_code = $filters[self::PARAMETER_TITILE];
+        }
+        if(!empty($filters[self::PARAMETER_CATEGORY])){
+            $employee->eeo_cat_code = $filters[self::PARAMETER_CATEGORY];
+        }
+        if(!empty($filters[self::PARAMETER_JOINED_DATE])){
+            $employee->setJoinedDate($filters[self::PARAMETER_JOINED_DATE]);
+        }
+        if(!empty($filters[self::PARAMETER_START_DATE])){
+            $employee->start_date = $filters[self::PARAMETER_START_DATE];
+        }
+        if(!empty($filters[self::PARAMETER_END_DATE])){
+            $employee->end_date = $filters[self::PARAMETER_END_DATE];
+        }
 
         $employee->contracts[0] = $empContract;
     }
@@ -241,37 +252,37 @@ class EmployeeJobDetailAPI extends EndPoint
 
 
 
-        if (!$this->validateCategory($filters)){
+        if (!empty($filters[self::PARAMETER_CATEGORY])&& !$this->validateCategory($filters)){
             $valid = false;
 
         }
-        if (!$this->validateTitle($filters)){
+        if (!empty($filters[self::PARAMETER_TITILE])&& !$this->validateTitle($filters)){
             $valid = false;
 
         }
-        if (!date($format,
+        if (!empty($filters[self::PARAMETER_JOINED_DATE]) &&!date($format,
                 strtotime($filters[self::PARAMETER_JOINED_DATE])) == date($filters[self::PARAMETER_JOINED_DATE])
         ) {
             $valid = false;
         }
-        if (!date($format,
+        if (!empty($filters[self::PARAMETER_START_DATE]) &&!date($format,
                 strtotime($filters[self::PARAMETER_START_DATE])) == date($filters[self::PARAMETER_START_DATE])
         ) {
             $valid = false;
         }
-        if (!date($format, strtotime($filters[self::PARAMETER_END_DATE])) == date($filters[self::PARAMETER_END_DATE])) {
+        if (!empty($filters[self::PARAMETER_END_DATE]) &&!date($format, strtotime($filters[self::PARAMETER_END_DATE])) == date($filters[self::PARAMETER_END_DATE])) {
             $valid = false;
         }
 
         return $valid;
     }
 
-    public function validateTitle($filters)
+    public function validateTitle()
     {
         $jobTitleList = $this->getJobTitleService()->getJobTitleList();
         foreach ($jobTitleList as $title) {
 
-            if ($title->getJobTitleName() === $filters[self::PARAMETER_TITILE]) {
+            if ($title->getJobTitleName() === $this->filters[self::PARAMETER_TITILE]) {
                 $this->filters[self::PARAMETER_TITILE] = $title->getId();
                 return true;
             }
@@ -279,14 +290,15 @@ class EmployeeJobDetailAPI extends EndPoint
         return false;
     }
 
-    public function validateCategory($filters)
+    public function validateCategory()
     {
         $jobCategoryList = $this->getCategoryService()->getJobCategoryList();
 
         foreach ($jobCategoryList as $category) {
 
-            if ($category->getName() === $filters[self::PARAMETER_CATEGORY]) {
-                $this->$filters[self::PARAMETER_CATEGORY] = $category->getId();
+            if ($category->getName() === $this->filters[self::PARAMETER_CATEGORY]) {
+
+                $this->filters[self::PARAMETER_CATEGORY] = $category->getId();
                 return true;
             }
         }

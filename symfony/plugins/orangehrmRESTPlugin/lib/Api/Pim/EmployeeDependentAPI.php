@@ -105,7 +105,7 @@ class EmployeeDependentAPI extends EndPoint
             $dependent->setEmpNumber($empId);
 
             $this->buildEmployeeDependants($dependent, $filters);
-            $result = $this->getEmployeeService()->saveEmployeeDependent($dependent); // saving = true
+            $result = $this->getEmployeeService()->saveEmployeeDependent($dependent);
 
             if ($result instanceof \EmpDependent) {
                 return new Response(array('success' => 'Successfully saved'));

@@ -5,8 +5,6 @@
 *
 * @apiParam {Number}  employee id
 *
-* @apiSuccess {String} firstname Firstname of the employee.
-* @apiSuccess {String} lastname  Lastname of the employee.
 * @apiSuccess {String} address  address of the employee.
 * @apiSuccess {String} email  email of the employee.
 * @apiSuccess {String} phone  phone of the employee.

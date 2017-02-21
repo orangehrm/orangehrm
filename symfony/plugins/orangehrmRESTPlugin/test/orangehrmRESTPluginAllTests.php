@@ -37,7 +37,7 @@ class orangehrmRESTPluginAllTests
         $suite->addTestFile(dirname(__FILE__) . '/api/pim/ApiEmployeeDetailAPITest.php');
         $suite->addTestFile(dirname(__FILE__) . '/api/pim/ApiEmployeeJobDetailAPITest.php');
         $suite->addTestFile(dirname(__FILE__) . '/api/pim/ApiEmployeeContactDetailAPITest.php');
-        $suite->addTestFile(dirname(__FILE__) . '/api/pim/ApiEmployeeSearchAPITest.php');
+      //  $suite->addTestFile(dirname(__FILE__) . '/api/pim/ApiEmployeeSearchAPITest.php');
        // $suite->addTestFile(dirname(__FILE__) . '/api/pim/ApiEmployeeSaveAPITest.php');
        // $suite->addTestFile(dirname(__FILE__) . '/api/pim/ApiEmployeeDependentAPITest.php');
 

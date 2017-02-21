@@ -38,5 +38,11 @@ class EmployeeDetailApiAction extends baseRestAction
         $apiEmployeeSave = new EmployeeSaveAPI($request);
         return $apiEmployeeSave->saveEmployee();
     }
+    protected function handlePutRequest(Request $request)
+    {
+        $apiEmployeeDetail = new EmployeeDetailAPI($request);
+        return $apiEmployeeDetail->updateEmployee();
+    }
+
 
 }

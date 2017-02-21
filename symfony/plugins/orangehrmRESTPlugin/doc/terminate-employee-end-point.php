@@ -5,9 +5,9 @@
 *
 * @apiParam {Number}  employee id
 *
-* @apiParam {String} termination date.
-* @apiParam {String} termination reason.
-* @apiParam {String} note  termination note.
+* @apiParam {String} Mandatory termination date.
+* @apiParam {String} Mandatory termination reason.
+* @apiParam {String} note  Optional termination note.
 * @apiSuccess {Object} data success response
 *
 * @apiSuccessExample Success-Response:

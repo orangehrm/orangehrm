@@ -38,6 +38,16 @@ class EmployeeDetailAPI extends EndPoint
     const EMPLOYEE_JOB_DETAIL = "/employee/:id/job-detail";
     const EMPLOYEE_DEPENDENT = "/employee/:id/dependent";
 
+    const PARAMETER_FIRST_NAME = "firstName";
+    const PARAMETER_LAST_NAME = "lastName";
+    const PARAMETER_MIDDLE_NAME = "middleName";
+    const PARAMETER_NUMBER = "number";
+    const PARAMETER_STATUS = "status";
+    const PARAMETER_DOB = "dob";
+    const PARAMETER_UNIT = "unit";
+    const PARAMETER_GENDER = "gender";
+
+
     /**
      * @return \EmployeeService|null
      */
@@ -57,11 +67,11 @@ class EmployeeDetailAPI extends EndPoint
     }
 
     /**
-     * Get Employee details from Employee service
+     * Get employee details
      *
      * @return Response
+     * @throws InvalidParamException
      * @throws RecordNotFoundException
-     * @throws \HttpInvalidParamException
      */
     public function getEmployeeDetails()
     {
@@ -89,6 +99,134 @@ class EmployeeDetailAPI extends EndPoint
 
     }
 
+    public function updateEmployee(){
+
+        $filters = $this->filterParameters();
+        if($this->validateInputs($filters)){
+            $empId = $this->getRequestParams()->getUrlParam(self::PARAMETER_ID);
+
+            $employee = $this->getEmployeeService()->getEmployee($empId);
+
+            if(!empty($employee)){  // var_dump($filters[self::PARAMETER_DOB]);die();
+
+                if(!empty($filters[self::PARAMETER_FIRST_NAME])){
+                    $employee->setFirstName( $filters[self::PARAMETER_FIRST_NAME]);
+                }
+                if(!empty($filters[self::PARAMETER_MIDDLE_NAME])){
+                    $employee->setMiddleName( $filters[self::PARAMETER_MIDDLE_NAME]);
+                }
+                if(!empty($filters[self::PARAMETER_LAST_NAME])){
+                    $employee->setLastName($filters[self::PARAMETER_LAST_NAME]);
+                }
+                if(!empty($filters[self::PARAMETER_NUMBER])){
+                    $employee->setEmployeeId($filters[self::PARAMETER_NUMBER]);
+                }
+                if(!empty($filters[self::PARAMETER_DOB])){
+                   $dob = date('Y-m-d', strtotime($filters[self::PARAMETER_DOB]));
+                    $employee->setEmpBirthday( $filters[self::PARAMETER_DOB] );
+                }
+                if(!empty($filters[self::PARAMETER_GENDER])){
+                    if($filters[self::PARAMETER_GENDER] == 'M'){
+                        $employee->setEmpGender(1);
+                    }else if ($filters[self::PARAMETER_GENDER] == 'F'){
+                        $employee->setEmpGender(2);
+                    }
+
+                }
+
+                $returnedEmp = $this->getEmployeeService()->saveEmployee($employee);
+                if($returnedEmp instanceof \Employee){
+                    return new Response(array('success' => 'successfully updated'));
+                }else {
+                    throw new BadRequestException("updating failed");
+                }
+            }else {
+                throw new BadRequestException("employee not found");
+            }
+
+
+
+        }else {
+            throw new InvalidParamException("updating failed");
+        }
+
+    }
+
+    /**
+     * Get post parameters
+     *
+     * @return array
+     */
+    protected function filterParameters()
+    {
+
+        $filters[] = array();
+
+        if (!empty($this->getRequestParams()->getPostParam(self::PARAMETER_FIRST_NAME))) {
+            $filters[self::PARAMETER_FIRST_NAME] = ($this->getRequestParams()->getPostParam(self::PARAMETER_FIRST_NAME));
+        }
+        if (!empty($this->getRequestParams()->getPostParam(self::PARAMETER_MIDDLE_NAME))) {
+            $filters[self::PARAMETER_MIDDLE_NAME] = ($this->getRequestParams()->getPostParam(self::PARAMETER_MIDDLE_NAME));
+        }
+        if (!empty($this->getRequestParams()->getPostParam(self::PARAMETER_LAST_NAME))) {
+            $filters[self::PARAMETER_LAST_NAME] = ($this->getRequestParams()->getPostParam(self::PARAMETER_LAST_NAME));
+        }
+        if (!empty($this->getRequestParams()->getPostParam(self::PARAMETER_NUMBER))) {
+            $filters[self::PARAMETER_NUMBER] = ($this->getRequestParams()->getPostParam(self::PARAMETER_NUMBER));
+        }
+        if (!empty($this->getRequestParams()->getPostParam(self::PARAMETER_STATUS))) {
+            $filters[self::PARAMETER_STATUS] = ($this->getRequestParams()->getPostParam(self::PARAMETER_STATUS));
+        }
+        if (!empty($this->getRequestParams()->getPostParam(self::PARAMETER_DOB))) {
+            $filters[self::PARAMETER_DOB] = ($this->getRequestParams()->getPostParam(self::PARAMETER_DOB));
+        }
+        if (!empty($this->getRequestParams()->getPostParam(self::PARAMETER_GENDER))) {
+            $filters[self::PARAMETER_GENDER] = ($this->getRequestParams()->getPostParam(self::PARAMETER_GENDER));
+        }
+        if (!empty($this->getRequestParams()->getUrlParam(self::PARAMETER_ID))) {
+            $filters[self::PARAMETER_ID] = ($this->getRequestParams()->getPostParam(self::PARAMETER_ID));
+        }
+        return $filters;
+
+    }
+
+    /**
+     * validate input parameters
+     *
+     * @param $filters
+     * @return bool
+     */
+    protected function validateInputs($filters)
+    {
+        $valid = true;
+
+        $format = "Y-m-d";
+
+        if (!(preg_match("/^[a-zA-Z'-]+$/", $filters[self::PARAMETER_FIRST_NAME]) === 1) || (strlen($filters[self::PARAMETER_FIRST_NAME]) > 30 )) {
+            return  false;
+
+        }
+        if (!empty($filters[self::PARAMETER_MIDDLE_NAME]) &&!(preg_match("/^[a-zA-Z'-]+$/", $filters[self::PARAMETER_MIDDLE_NAME]) === 1) || (strlen($filters[self::PARAMETER_MIDDLE_NAME]) > 30 )) {
+            return  false;
+
+        }
+        if (!(preg_match("/^[a-zA-Z'-]+$/", $filters[self::PARAMETER_LAST_NAME]) === 1) || (strlen($filters[self::PARAMETER_LAST_NAME]) > 30 )) {
+            return false;
+
+        }
+
+        if (!empty($filters[self::PARAMETER_DOB]) && !date($format,
+                strtotime($filters[self::PARAMETER_DOB])) == date($filters[self::PARAMETER_DOB])
+        ) {
+           return false;
+        }
+
+        if (!empty($filters[self::PARAMETER_GENDER]) && !( $filters[self::PARAMETER_GENDER]=='M'  || $filters[self::PARAMETER_GENDER] =='F' )) {
+             return false;
+        }
+
+        return $valid;
+    }
     /**
      * Creating the Employee serializable object
      *

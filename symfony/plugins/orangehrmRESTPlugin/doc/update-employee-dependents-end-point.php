@@ -1,11 +1,14 @@
 /**
-* @api {put} /employee/:id Update Employee Dependents
+* @api {put} /employee/:id/dependent Update Employee Dependents
 * @apiName updateEmployeeDependents
 * @apiGroup Employee
 *
 * @apiParam {Number}  employee id
 *
-* @apiParam {int} sequenceNumber  sequence number of the dependent.
+* @apiParam {String} name Mandatory name of the dependent.
+* @apiParam {String} relationship  Mandatory relationship of the dependent.
+* @apiParam {String} dob Optional date of birth of dependent.
+* @apiParam {String} type  Optional relationship type.
 * @apiSuccess {Object} data success response
 *
 * @apiSuccessExample Success-Response:
