@@ -75,13 +75,22 @@ class EmployeeTerminateAPI extends EndPoint
         $this->filters = $this->filterParameters();
         if ($this->validateInputs($this->filters)) {
 
-            $employeeTerminationRecord = new \EmployeeTerminationRecord();
-            $employeeTerminationRecord->setDate($this->filters[self::PARAMETER_TERMINATION_DATE]);
-            $employeeTerminationRecord->setReasonId($this->filters[self::PARAMETER_REASON]);
-            $employeeTerminationRecord->setEmpNumber($this->filters[self::PARAMETER_ID]);
-            $employeeTerminationRecord->setNote($this->filters[self::PARAMETER_NOTE]);
+           $employee = $this->getEmployeeService()->getEmployee($this->filters[self::PARAMETER_ID]);
+
+            if($employee instanceof \Employee){
+
+                $employeeTerminationRecord = new \EmployeeTerminationRecord();
+                $employeeTerminationRecord->setDate($this->filters[self::PARAMETER_TERMINATION_DATE]);
+                $employeeTerminationRecord->setReasonId($this->filters[self::PARAMETER_REASON]);
+                $employeeTerminationRecord->setEmpNumber($this->filters[self::PARAMETER_ID]);
+                $employeeTerminationRecord->setNote($this->filters[self::PARAMETER_NOTE]);
+            }else {
+                throw new BadRequestException('Employee not existed');
+            }
+
 
             $returnRecord = $this->getEmployeeService()->terminateEmployment($employeeTerminationRecord);
+
             if ($returnRecord instanceof \EmployeeTerminationRecord) {
                 return new Response(array('success' => 'Successfully terminated'));
             } else {
