@@ -1,6 +1,6 @@
 /**
-* @api {get} /employee/:id/supervisor Employee Contact detail
-* @apiName GetEmployeeContactDetails
+* @api {get} /employee/:id/supervisor Employee Supervisor
+* @apiName GetSupervisor
 * @apiGroup Employee
 *
 * @apiParam {Number}  employee id
