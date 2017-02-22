@@ -1,5 +1,5 @@
 /**
-* @api {post} /employee/:id/contact-detail Save Employee Contact detail
+* @api {post} /employee/:id/contact-detail Save Employee Contact Detail
 * @apiName saveEmployeeContactDetails
 * @apiGroup Employee
 *

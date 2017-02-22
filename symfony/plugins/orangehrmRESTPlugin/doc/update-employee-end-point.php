@@ -1,5 +1,5 @@
 /**
-* @api {put} /employee/:id Update Employee detail
+* @api {put} /employee/:id Update Employee Detail
 * @apiName UpdateEmployeeDetails
 * @apiGroup Employee
 *
