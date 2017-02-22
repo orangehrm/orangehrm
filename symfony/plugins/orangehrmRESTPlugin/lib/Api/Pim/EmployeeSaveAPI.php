@@ -125,7 +125,7 @@ class EmployeeSaveAPI extends EndPoint
 
         $valid = true;
 
-        if ( !empty($filter) && !(preg_match("/^[a-zA-Z'-]+$/", $filter) === 1) || (strlen($filter) > 30 )) {
+        if ( !empty($filter) && (strlen($filter) > 30 )) {
             $valid = false;
 
         }
