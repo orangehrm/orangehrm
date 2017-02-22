@@ -32,8 +32,8 @@ class EmployeeContactDetailAPI extends EndPoint
     /**
      * @var EmployeeService
      */
-    private $employeeService;
-    private $countryService;
+    protected $employeeService;
+    protected $countryService;
 
     const PARAMETER_ID = "id";
 
@@ -121,6 +121,7 @@ class EmployeeContactDetailAPI extends EndPoint
 
             $empId = $filters[self::PARAMETER_ID];
             $employee = $this->getEmployeeService()->getEmployee($empId);
+
             $this->buildEmployeeContactDetails($employee,$filters);
             $returnedEmployee = $this->getEmployeeService()->saveEmployee($employee);
 
@@ -170,7 +171,7 @@ class EmployeeContactDetailAPI extends EndPoint
      * @return \Employee
      * @throws InvalidParamException
      */
-    private function buildEmployeeContactDetails(\Employee $employee, $filters)
+    protected function buildEmployeeContactDetails(\Employee $employee, $filters)
     {
         if(!empty($filters[self::PARAMETER_ADDRESS])){
             $employee->setStreet1($filters[self::PARAMETER_ADDRESS]);
@@ -238,7 +239,7 @@ class EmployeeContactDetailAPI extends EndPoint
     {
         $valid = true;
 
-        if (!empty( $filters[self::PARAMETER_ADDRESS]) &&!(preg_match( '/\d+ [0-9a-zA-Z ]+/', $filters[self::PARAMETER_ADDRESS]) === 1)) {
+        if (!empty( $filters[self::PARAMETER_ADDRESS]) && (strlen($filters[self::PARAMETER_ADDRESS]) >70 )) {
            return false;
         }
         if (!empty( $filters[self::PARAMETER_COUNTRY]) && !(preg_match("/^[a-z ,.'-]+$/i", $filters[self::PARAMETER_COUNTRY]) === 1)) {
