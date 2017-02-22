@@ -56,6 +56,12 @@ class EmployeeSaveAPI extends EndPoint
         $returned = null;
         $filters = $this->filterParameters();
 
+        $employee = $this->getEmployeeService()->getEmployeeByEmployeeId($filters[self::PARAMETER_EMPLOYEE_ID]);
+
+        if ($employee instanceof \Employee) {
+            throw new BadRequestException('Failed To Save: Employee Id Exists');
+        }
+
         try {
             $employee = $this->buildEmployee($filters);
         } catch (\Exception $e) {
@@ -104,7 +110,7 @@ class EmployeeSaveAPI extends EndPoint
         }else {
             throw new InvalidParamException();
         }
-        if(strlen($filters[self::PARAMETER_EMPLOYEE_ID]) < 10) {
+        if(strlen($filters[self::PARAMETER_EMPLOYEE_ID]) <=10) {
             $employee->setEmployeeId($filters[self::PARAMETER_EMPLOYEE_ID]);
         }  else {
             throw new InvalidParamException();
