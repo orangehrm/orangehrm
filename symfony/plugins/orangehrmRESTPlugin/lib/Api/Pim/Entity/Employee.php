@@ -76,7 +76,7 @@ class Employee implements Serializable {
      * @param string $firstName
      * @param string $middleName
      * @param string $lastName
-     * @param int $age age of the employee
+     * @param int employee id
      */
     public function __construct($firstName, $middleName, $lastName, $id)
     {
