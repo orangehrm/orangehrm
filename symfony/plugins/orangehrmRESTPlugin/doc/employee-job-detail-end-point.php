@@ -1,5 +1,5 @@
 /**
-* @api {get} /employee/:id/job-detail Employee Job detail
+* @api {get} /employee/:id/job-detail Employee Job Detail
 * @apiName GetEmployeeJobDetails
 * @apiGroup Employee
 *

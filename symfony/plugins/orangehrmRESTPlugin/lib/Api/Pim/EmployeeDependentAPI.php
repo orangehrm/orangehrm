@@ -94,17 +94,11 @@ class EmployeeDependentAPI extends EndPoint
      */
     public function saveEmployeeDependents()
     {
-
-        $empId = $this->getRequestParams()->getUrlParam(self::PARAMETER_ID);
-
         $filters = $this->filterParameters();
 
         if ($this->validateInputs($filters)) {
+            $dependent = $this->buildEmployeeDependents($filters);
 
-            $dependent = new \EmpDependent();
-            $dependent->setEmpNumber($empId);
-
-            $this->buildEmployeeDependants($dependent, $filters);
             $result = $this->getEmployeeService()->saveEmployeeDependent($dependent);
 
             if ($result instanceof \EmpDependent) {
@@ -129,17 +123,12 @@ class EmployeeDependentAPI extends EndPoint
      */
     public function updateEmployeeDependents()
     {
-        $empId = $this->getRequestParams()->getUrlParam(self::PARAMETER_ID);
 
         $filters = $this->filterParameters();
 
         if ($this->validateInputs($filters)) {
 
-            $dependent = new \EmpDependent();
-            $dependent->setEmpNumber($empId);
-            $dependent->setSeqno($filters[self::PARAMETER_SEQ_NUMBER]);
-
-            $this->buildEmployeeDependants($dependent, $filters);
+            $dependent = $this->buildEmployeeDependents($filters);
             try {
                 $result = $this->getEmployeeService()->updateEmployeeDependent($dependent); // saving = true
 
@@ -223,18 +212,23 @@ class EmployeeDependentAPI extends EndPoint
     }
 
     /**
-     * Building employee dependent details
+     * Build employee dependent
      *
-     * @param \EmpDependent $employeeDependent
-     *
+     * @param $filters
+     * @return \EmpDependent
      */
-    protected function buildEmployeeDependants(\EmpDependent $employeeDependent, $filters)
+    protected function buildEmployeeDependents($filters)
     {
+        $employeeDependent = new \EmpDependent();
+        $employeeDependent->setSeqno($filters[self::PARAMETER_SEQ_NUMBER]);
+        $employeeDependent->setEmpNumber($filters[self::PARAMETER_ID]);
         $employeeDependent->name = $filters[self::PARAMETER_NAME];
         $employeeDependent->relationship = $filters[self::PARAMETER_RELATIONSHIP];
         $employeeDependent->relationship_type = $filters[self::PARAMETER_TYPE];
         $dob = date("Y-m-d", strtotime($filters[self::PARAMETER_DOB]));
         $employeeDependent->date_of_birth = $dob;
+
+        return $employeeDependent;
     }
 
     /**
@@ -250,7 +244,7 @@ class EmployeeDependentAPI extends EndPoint
         $format = "Y-m-d";
 
 
-        if (!(preg_match("/^[a-z ,.'-]+$/i", $filters[self::PARAMETER_NAME]) === 1)) {
+        if (empty($filters[self::PARAMETER_NAME]) || (strlen($filters[self::PARAMETER_NAME]) > 50 )) {
             return false;
 
         }

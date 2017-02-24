@@ -67,6 +67,8 @@ class EmployeeTerminateAPI extends EndPoint
     }
 
     /**
+     * Terminate employee
+     *
      * @return Response
      * @throws BadRequestException
      */
@@ -78,12 +80,8 @@ class EmployeeTerminateAPI extends EndPoint
            $employee = $this->getEmployeeService()->getEmployee($this->filters[self::PARAMETER_ID]);
 
             if($employee instanceof \Employee){
+                $employeeTerminationRecord = $this->buildTerminationRecord($this->filters);
 
-                $employeeTerminationRecord = new \EmployeeTerminationRecord();
-                $employeeTerminationRecord->setDate($this->filters[self::PARAMETER_TERMINATION_DATE]);
-                $employeeTerminationRecord->setReasonId($this->filters[self::PARAMETER_REASON]);
-                $employeeTerminationRecord->setEmpNumber($this->filters[self::PARAMETER_ID]);
-                $employeeTerminationRecord->setNote($this->filters[self::PARAMETER_NOTE]);
             }else {
                 throw new BadRequestException('Employee not existed');
             }
@@ -157,6 +155,12 @@ class EmployeeTerminateAPI extends EndPoint
         return $valid;
     }
 
+    /**
+     * Validate termination reason
+     *
+     * @param $filters
+     * @return bool
+     */
     protected function validateReason($filters)
     {
         $reasonList = $this->getEmployeeService()->getTerminationReasonList();
@@ -169,6 +173,17 @@ class EmployeeTerminateAPI extends EndPoint
             }
         }
 
+    }
+
+    protected function buildTerminationRecord($filters){
+
+        $employeeTerminationRecord = new \EmployeeTerminationRecord();
+        $employeeTerminationRecord->setDate($this->filters[self::PARAMETER_TERMINATION_DATE]);
+        $employeeTerminationRecord->setReasonId($this->filters[self::PARAMETER_REASON]);
+        $employeeTerminationRecord->setEmpNumber($this->filters[self::PARAMETER_ID]);
+        $employeeTerminationRecord->setNote($this->filters[self::PARAMETER_NOTE]);
+
+        return $employeeTerminationRecord;
     }
 
 

@@ -151,6 +151,7 @@ class EmployeeJobDetailAPI extends EndPoint
      * Save employee job details
      *
      * @return Response
+     * @throws BadRequestException
      */
     public function saveEmployeeJobDetails()
     {
@@ -160,13 +161,13 @@ class EmployeeJobDetailAPI extends EndPoint
         $this->filters = $this->filterParameters();
         if (count($this->filters) > 1 && $this->validateInputs($this->filters)) {
 
-            $empId = $this->getRequestParams()->getUrlParam(self::PARAMETER_ID);
+            $empId = $this->filters[self::PARAMETER_ID];
             $employee = $this->getEmployeeService()->getEmployee($empId);
             $this->buildEmployeeJobDetails($employee, $this->filters);
             $returnedEmployee = $this->getEmployeeService()->saveEmployee($employee);
 
             if ($returnedEmployee instanceof \Employee) {
-                return new Response(array('success' => 'successfully saved'), $relationsArray);
+                return new Response(array('success' => 'Successfully saved'), $relationsArray);
             } else {
                 throw new BadRequestException("saving failed");
             }
@@ -234,6 +235,10 @@ class EmployeeJobDetailAPI extends EndPoint
         if (!empty($this->getRequestParams()->getPostParam(self::PARAMETER_TITILE))) {
             $filters[self::PARAMETER_TITILE] = ($this->getRequestParams()->getPostParam(self::PARAMETER_TITILE));
         }
+        if (!empty($this->getRequestParams()->getUrlParam(self::PARAMETER_ID))) {
+            $filters[self::PARAMETER_ID] = ($this->getRequestParams()->getPostParam(self::PARAMETER_ID));
+        }
+
         return $filters;
 
     }

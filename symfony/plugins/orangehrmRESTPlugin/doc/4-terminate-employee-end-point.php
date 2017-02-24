@@ -1,5 +1,5 @@
 /**
-* @api {post} employee/:id/action/terminate Terminate employment
+* @api {post} employee/:id/action/terminate Terminate Employment
 * @apiName terminateEmployee
 * @apiGroup Employee
 * @apiVersion 0.1.0

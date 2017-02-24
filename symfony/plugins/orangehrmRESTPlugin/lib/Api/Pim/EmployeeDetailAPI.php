@@ -99,6 +99,13 @@ class EmployeeDetailAPI extends EndPoint
 
     }
 
+    /**
+     * Update employee details
+     *
+     * @return Response
+     * @throws BadRequestException
+     * @throws InvalidParamException
+     */
     public function updateEmployee(){
 
         $filters = $this->filterParameters();
