@@ -37,10 +37,11 @@ class ApiEmployeeTest extends PHPUnit_Framework_TestCase
 
     }
 
-    public function testToArray(){
+    public function testToArray()
+    {
 
 
-        $supervisor = new Supervisor("Nina Lewis",1);
+        $supervisor = new Supervisor("Nina Lewis", 1);
         $supervisorsList = array();
         $supervisorsList[] = $supervisor;
 
@@ -48,19 +49,25 @@ class ApiEmployeeTest extends PHPUnit_Framework_TestCase
 
             'firstName' => 'Martin',
             'middleName' => 'Riggs',
-            'id' =>  1,
+            'id' => 1,
             'lastName' => 'Dan',
             'fullName' => 'Martin Riggs Dan',
             'status' => 'active',
             'dob' => '2016-05-04',
             'unit' => '',
             'jobTitle' => 'Engineer',
-            'employeeNumber'=> '001',
+            'employeeNumber' => '001',
+            'driversLicenseNumber' => null,
+            'licenseExpiryDate' => null,
+            'maritalStatus' => null,
+            'gender' => null,
+            'otherId' => null,
+            'nationality' => null,
             'supervisor' => $supervisorsList
 
         );
 
-        $employee= new Employee('Martin','Riggs','Dan',1);
+        $employee = new Employee('Martin', 'Riggs', 'Dan', 1);
         $employee->setEmployeeFullName('Martin Riggs Dan');
         $employee->setEmployeeStatus('active');
         $employee->setEmpBirthDate('2016-05-04');

@@ -113,11 +113,17 @@ class ApiEmployeeContactDetailAPITest extends PHPUnit_Framework_TestCase
         $employee->setEmpMobile(0754343435);
 
         $filters = array();
-        $filters[EmployeeContactDetailAPI::PARAMETER_PHONE] = '071-45363737';
-        $filters[EmployeeContactDetailAPI::PARAMETER_COUNTRY] = 'India';
-        $filters[EmployeeContactDetailAPI::PARAMETER_ADDRESS] = 'No 45 Karei Nagar Sri vihar';
+        $filters[EmployeeContactDetailAPI::PARAMETER_ADDRESS_STREET_1] = 'No 50 Park road';
+        $filters[EmployeeContactDetailAPI::PARAMETER_ADDRESS_STREET_2] = 'No 34 River view Canada';
+        $filters[EmployeeContactDetailAPI::PARAMETER_CITY] = 'River view';
+        $filters[EmployeeContactDetailAPI::PARAMETER_COUNTRY] = 'Canada';
+        $filters[EmployeeContactDetailAPI::PARAMETER_HOME_TELEPHONE] = '0972432623';
+        $filters[EmployeeContactDetailAPI::PARAMETER_MOBILE] = '097124353';
         $filters[EmployeeContactDetailAPI::PARAMETER_ID] = '1';
-        $filters[EmployeeContactDetailAPI::PARAMETER_EMAIL] = 'shanidatta@utl.com';
+        $filters[EmployeeContactDetailAPI::PARAMETER_OTHER_EMAIL] = 'shanidatta@utl.com';
+        $filters[EmployeeContactDetailAPI::PARAMETER_STATE] = 'Vancour';
+        $filters[EmployeeContactDetailAPI::PARAMETER_WORK_EMAIL] = 'nina@yahoo.com';
+        $filters[EmployeeContactDetailAPI::PARAMETER_ZIP] = '1550';
 
         $sfEvent   = new sfEventDispatcher();
         $sfRequest = new sfWebRequest($sfEvent);
@@ -162,11 +168,17 @@ class ApiEmployeeContactDetailAPITest extends PHPUnit_Framework_TestCase
         $employee->setEmpMobile(0754343435);
 
         $filters = array();
-        $filters[EmployeeContactDetailAPI::PARAMETER_PHONE] = '071-45363737';
-        $filters[EmployeeContactDetailAPI::PARAMETER_COUNTRY] = 'India';
-        $filters[EmployeeContactDetailAPI::PARAMETER_ADDRESS] = 'No 45 Karei Nagar Sri vihar';
+        $filters[EmployeeContactDetailAPI::PARAMETER_ADDRESS_STREET_1] = 'No 50 Park road';
+        $filters[EmployeeContactDetailAPI::PARAMETER_ADDRESS_STREET_2] = 'No 34 River view Canada';
+        $filters[EmployeeContactDetailAPI::PARAMETER_CITY] = 'River view';
+        $filters[EmployeeContactDetailAPI::PARAMETER_COUNTRY] = 'Canada';
+        $filters[EmployeeContactDetailAPI::PARAMETER_HOME_TELEPHONE] = '0972432623';
+        $filters[EmployeeContactDetailAPI::PARAMETER_MOBILE] = '097124353';
         $filters[EmployeeContactDetailAPI::PARAMETER_ID] = '1';
-        $filters[EmployeeContactDetailAPI::PARAMETER_EMAIL] = 'shanidatta@utl.com';
+        $filters[EmployeeContactDetailAPI::PARAMETER_OTHER_EMAIL] = 'shanidatta@utl.com';
+        $filters[EmployeeContactDetailAPI::PARAMETER_STATE] = 'Vancour';
+        $filters[EmployeeContactDetailAPI::PARAMETER_WORK_EMAIL] = 'nina@yahoo.com';
+        $filters[EmployeeContactDetailAPI::PARAMETER_ZIP] = '1550';
 
         $sfEvent   = new sfEventDispatcher();
         $sfRequest = new sfWebRequest($sfEvent);
@@ -196,5 +208,27 @@ class ApiEmployeeContactDetailAPITest extends PHPUnit_Framework_TestCase
         $this->assertEquals($returned, $testResponse);
 
     }
+
+//    private function testValidateInputs(){
+//
+//        $filters = array();
+//        $filters[EmployeeContactDetailAPI::PARAMETER_PHONE] = '071-45363737';
+//        $filters[EmployeeContactDetailAPI::PARAMETER_COUNTRY] = 'India';
+//        $filters[EmployeeContactDetailAPI::PARAMETER_ADDRESS] = 'No 45 Karei Nagar Sri vihar';
+//        $filters[EmployeeContactDetailAPI::PARAMETER_ID] = '1';
+//        $filters[EmployeeContactDetailAPI::PARAMETER_EMAIL] = 'shanidatta@utl.com';
+//
+//        $sfEvent   = new sfEventDispatcher();
+//        $sfRequest = new sfWebRequest($sfEvent);
+//        $request = new Request($sfRequest);
+//
+//         $employeeContactDetailAPI = new EmployeeContactDetailAPI($request);
+//
+//       // $employeeContactDetailAPI = $this->getMock('Orangehrm\Rest\Api\Pim\EmployeeContactDetailApi',null,array($request));
+//        $returned = $employeeContactDetailAPI->validateInputs($filters);
+//        $this->assertEquals($returned, true);
+//
+//    }
+
 
 }

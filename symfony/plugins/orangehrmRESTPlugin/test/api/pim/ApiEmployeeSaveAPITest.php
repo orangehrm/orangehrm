@@ -36,29 +36,31 @@ class ApiEmployeeSaveAPITest extends PHPUnit_Framework_TestCase
     {
         $empNumber = 1;
         $employee = new \Employee();
-        $employee->setLastName('Last Name');
-        $employee->setFirstName('First Name');
-        $employee->setEmpNumber($empNumber);
+        $employee->setLastName('Rodgers');
+        $employee->setFirstName('Hayden');
+//        $employee->setEmpNumber($empNumber);
         $employee->setEmployeeId($empNumber);
-        $employee->setJoinedDate("2016-04-15");
-        $employee->setEmpWorkEmail("mdriggs@hrm.com");
-        $employee->setEmpMobile(0754343435);
+        $employee->setMiddleName('Phil');
+
 
         $filters = array();
-        $filters[EmployeeSaveAPI::PARAMETER_EMPLOYEE_ID] = '001';
+        $filters[EmployeeSaveAPI::PARAMETER_EMPLOYEE_ID] = 1;
         $filters[EmployeeSaveAPI::PARAMETER_FIRST_NAME] = 'Hayden';
         $filters[EmployeeSaveAPI::PARAMETER_LAST_NAME] = 'Rodgers';
         $filters[EmployeeSaveAPI::PARAMETER_MIDDLE_NAME] = 'Phil';
-
-
+//
         $sfEvent   = new sfEventDispatcher();
         $sfRequest = new sfWebRequest($sfEvent);
         $request = new Request($sfRequest);
 
-        $this->employeeSaveApi = $this->getMock('Orangehrm\Rest\Api\Pim\EmployeeSaveAPI',array('filterParameters'),array($request));
-        $this->employeeSaveApi->expects($this->once())
+        $employeeSaveApi = $this->getMock('Orangehrm\Rest\Api\Pim\EmployeeSaveAPI',array('filterParameters','buildEmployee'),array($request));
+        $employeeSaveApi->expects($this->once())
             ->method('filterParameters')
             ->will($this->returnValue($filters));
+        $employeeSaveApi->expects($this->once())
+            ->method('buildEmployee')
+            ->with($filters)
+            ->will($this->returnValue($employee));
 
         $pimEmployeeService = $pimEmployeeService = $this->getMock('EmployeeService');
         $pimEmployeeService->expects($this->any())
@@ -66,9 +68,9 @@ class ApiEmployeeSaveAPITest extends PHPUnit_Framework_TestCase
             ->with($employee)
             ->will($this->returnValue($employee));
 
-        $this->employeeSaveApi->setEmployeeService($pimEmployeeService);
+        $employeeSaveApi->setEmployeeService($pimEmployeeService);
 
-        $returned = $this->employeeSaveApi->saveEmployee();
+        $returned = $employeeSaveApi->saveEmployee();
         $testResponse = new Response( array('success' => 'Successfully saved'));
 
         $this->assertEquals($returned, $testResponse);

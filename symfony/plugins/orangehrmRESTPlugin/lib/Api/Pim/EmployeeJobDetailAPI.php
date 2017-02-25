@@ -30,11 +30,14 @@ class EmployeeJobDetailAPI extends EndPoint
 {
 
     const PARAMETER_ID = "id";
-    const PARAMETER_TITILE = "title";
+    const PARAMETER_TITLE = "title";
     const PARAMETER_CATEGORY = "category";
     const PARAMETER_JOINED_DATE = "joinedDate";
     const PARAMETER_START_DATE = "startDate";
     const PARAMETER_END_DATE = "endDate";
+    const PARAMETER_STATUS = "status";
+    const PARAMETER_SUBUNIT = "subunit";
+    const PARAMETER_LOCATION = "location";
 
     protected $employeeService;
     protected $jobTitleService;
@@ -63,7 +66,6 @@ class EmployeeJobDetailAPI extends EndPoint
      */
     protected function getEmployeeService()
     {
-
         if ($this->employeeService != null) {
             return $this->employeeService;
         } else {
@@ -189,22 +191,30 @@ class EmployeeJobDetailAPI extends EndPoint
         $empContract = new \EmpContract();
         $empContract->emp_number = $employee->empNumber;
         $empContract->contract_id = 1;
-       // var_dump($filters);die();
 
-        if(!empty($filters[self::PARAMETER_TITILE])){
-            $employee->job_title_code = $filters[self::PARAMETER_TITILE];
+        if (!empty($filters[self::PARAMETER_TITLE])) {
+            $employee->job_title_code = $filters[self::PARAMETER_TITLE];
         }
-        if(!empty($filters[self::PARAMETER_CATEGORY])){
+        if (!empty($filters[self::PARAMETER_CATEGORY])) {
             $employee->eeo_cat_code = $filters[self::PARAMETER_CATEGORY];
         }
-        if(!empty($filters[self::PARAMETER_JOINED_DATE])){
+        if (!empty($filters[self::PARAMETER_JOINED_DATE])) {
             $employee->setJoinedDate($filters[self::PARAMETER_JOINED_DATE]);
         }
-        if(!empty($filters[self::PARAMETER_START_DATE])){
+        if (!empty($filters[self::PARAMETER_START_DATE])) {
             $empContract->start_date = $filters[self::PARAMETER_START_DATE];
         }
-        if(!empty($filters[self::PARAMETER_END_DATE])){
+        if (!empty($filters[self::PARAMETER_END_DATE])) {
             $empContract->end_date = $filters[self::PARAMETER_END_DATE];
+        }
+//        if (!empty($filters[self::PARAMETER_LOCATION])) {
+//            $employee-> = $filters[self::PARAMETER_LOCATION];
+//        }
+        if (!empty($filters[self::PARAMETER_STATUS])) {
+            $employee->emp_status = $filters[self::PARAMETER_STATUS];
+        }
+        if (!empty($filters[self::PARAMETER_SUBUNIT])) {
+            $employee->work_station = $filters[self::PARAMETER_SUBUNIT];
         }
 
         $employee->contracts[0] = $empContract;
@@ -220,24 +230,23 @@ class EmployeeJobDetailAPI extends EndPoint
 
         $filters[] = array();
 
-        if (!empty($this->getRequestParams()->getPostParam(self::PARAMETER_CATEGORY))) {
-            $filters[self::PARAMETER_CATEGORY] = ($this->getRequestParams()->getPostParam(self::PARAMETER_CATEGORY));
-        }
-        if (!empty($this->getRequestParams()->getPostParam(self::PARAMETER_JOINED_DATE))) {
-            $filters[self::PARAMETER_JOINED_DATE] = ($this->getRequestParams()->getPostParam(self::PARAMETER_JOINED_DATE));
-        }
-        if (!empty($this->getRequestParams()->getPostParam(self::PARAMETER_START_DATE))) {
-            $filters[self::PARAMETER_START_DATE] = ($this->getRequestParams()->getPostParam(self::PARAMETER_START_DATE));
-        }
-        if (!empty($this->getRequestParams()->getPostParam(self::PARAMETER_END_DATE))) {
-            $filters[self::PARAMETER_END_DATE] = ($this->getRequestParams()->getPostParam(self::PARAMETER_END_DATE));
-        }
-        if (!empty($this->getRequestParams()->getPostParam(self::PARAMETER_TITILE))) {
-            $filters[self::PARAMETER_TITILE] = ($this->getRequestParams()->getPostParam(self::PARAMETER_TITILE));
-        }
-        if (!empty($this->getRequestParams()->getUrlParam(self::PARAMETER_ID))) {
-            $filters[self::PARAMETER_ID] = ($this->getRequestParams()->getPostParam(self::PARAMETER_ID));
-        }
+        $filters[self::PARAMETER_CATEGORY] = ($this->getRequestParams()->getPostParam(self::PARAMETER_CATEGORY));
+
+        $filters[self::PARAMETER_JOINED_DATE] = ($this->getRequestParams()->getPostParam(self::PARAMETER_JOINED_DATE));
+
+        $filters[self::PARAMETER_START_DATE] = ($this->getRequestParams()->getPostParam(self::PARAMETER_START_DATE));
+
+        $filters[self::PARAMETER_END_DATE] = ($this->getRequestParams()->getPostParam(self::PARAMETER_END_DATE));
+
+        $filters[self::PARAMETER_TITLE] = ($this->getRequestParams()->getPostParam(self::PARAMETER_TITLE));
+
+        $filters[self::PARAMETER_ID] = ($this->getRequestParams()->getUrlParam(self::PARAMETER_ID));
+
+        $filters[self::PARAMETER_STATUS] = ($this->getRequestParams()->getPostParam(self::PARAMETER_STATUS));
+
+        $filters[self::PARAMETER_LOCATION] = ($this->getRequestParams()->getPostParam(self::PARAMETER_LOCATION));
+
+        $filters[self::PARAMETER_SUBUNIT] = ($this->getRequestParams()->getPostParam(self::PARAMETER_SUBUNIT));
 
         return $filters;
 
@@ -256,26 +265,36 @@ class EmployeeJobDetailAPI extends EndPoint
         $format = "Y-m-d";
 
 
-
-        if (!empty($filters[self::PARAMETER_CATEGORY])&& !$this->validateCategory($filters)){
+        if (!empty($filters[self::PARAMETER_CATEGORY]) && !$this->validateCategory()) {
             $valid = false;
 
         }
-        if (!empty($filters[self::PARAMETER_TITILE])&& !$this->validateTitle($filters)){
+        if (!empty($filters[self::PARAMETER_TITLE]) && !$this->validateTitle()) {
             $valid = false;
 
         }
-        if (!empty($filters[self::PARAMETER_JOINED_DATE]) &&!date($format,
-                strtotime($filters[self::PARAMETER_JOINED_DATE])) == date($filters[self::PARAMETER_JOINED_DATE])
+        if (!empty($filters[self::PARAMETER_STATUS]) && !$this->validateEmployeeStatus()) {
+            $valid = false;
+
+        }
+        if (!empty($filters[self::PARAMETER_LOCATION]) && !$this->validateEmployeeLocation()) {
+            $valid = false;
+
+        }
+        if (!empty($filters[self::PARAMETER_SUBUNIT]) && !$this->validateSubunit()) {
+            $valid = false;
+
+        }
+        if (!empty($filters[self::PARAMETER_JOINED_DATE]) && !validateDate($filters[self::PARAMETER_JOINED_DATE])
         ) {
             $valid = false;
         }
-        if (!empty($filters[self::PARAMETER_START_DATE]) &&!date($format,
-                strtotime($filters[self::PARAMETER_START_DATE])) == date($filters[self::PARAMETER_START_DATE])
+        if (!empty($filters[self::PARAMETER_START_DATE]) && !validateDate($filters[self::PARAMETER_START_DATE])
         ) {
             $valid = false;
         }
-        if (!empty($filters[self::PARAMETER_END_DATE]) &&!date($format, strtotime($filters[self::PARAMETER_END_DATE])) == date($filters[self::PARAMETER_END_DATE])) {
+        if (!empty($filters[self::PARAMETER_END_DATE]) && !!validateDate($filters[self::PARAMETER_END_DATE])
+        ) {
             $valid = false;
         }
 
@@ -287,8 +306,8 @@ class EmployeeJobDetailAPI extends EndPoint
         $jobTitleList = $this->getJobTitleService()->getJobTitleList();
         foreach ($jobTitleList as $title) {
 
-            if ($title->getJobTitleName() === $this->filters[self::PARAMETER_TITILE]) {
-                $this->filters[self::PARAMETER_TITILE] = $title->getId();
+            if ($title->getJobTitleName() === $this->filters[self::PARAMETER_TITLE]) {
+                $this->filters[self::PARAMETER_TITLE] = $title->getId();
                 return true;
             }
         }
@@ -308,5 +327,59 @@ class EmployeeJobDetailAPI extends EndPoint
             }
         }
         return false;
+    }
+
+    public function validateEmployeeStatus()
+    {
+        $empStatusService = new \EmploymentStatusService();
+
+        $statuses = $empStatusService->getEmploymentStatusList();
+
+        foreach ($statuses as $status) {
+            if ($status->getName() == $this->filters[self::PARAMETER_STATUS]) {
+                $this->filters[self::PARAMETER_STATUS] = $status->getId();
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    public function validateEmployeeLocation()
+    {
+        $locationService = new \LocationService();
+        $locations = $locationService->getLocationList();
+
+        foreach ($locations as $location) {
+            if ($location->getName() == $this->filters[self::PARAMETER_LOCATION]) {
+                $this->filters[self::PARAMETER_LOCATION] = $location->getId();
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    public function validateSubunit()
+    {
+        $companyStructureService = new \CompanyStructureService();
+        $treeObject = $companyStructureService  ->getSubunitTreeObject();
+
+        $tree = $treeObject->fetchTree();
+
+        foreach ($tree as $node) {
+            if ($node->getName() == $this->filters[self::PARAMETER_SUBUNIT]) {
+                $this->filters[self::PARAMETER_SUBUNIT] = $node->getId();
+                return true;
+            }
+        }
+        return false;
+    }
+
+
+    function validateDate($date, $format = 'Y-m-d')
+    {
+        $d = \DateTime::createFromFormat($format, $date);
+        return $d && $d->format($format) == $date;
     }
 }

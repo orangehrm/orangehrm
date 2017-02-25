@@ -70,6 +70,12 @@ class Employee implements Serializable {
 
     private $employeeNumber;
 
+    private $otherId;
+
+    private $maritalStatus;
+
+    private $licenseExpDate;
+
 
     /**
      * Employee constructor.
@@ -447,6 +453,53 @@ class Employee implements Serializable {
         $this->employeeNumber = $employeeNumber;
     }
 
+    /**
+     * @return mixed
+     */
+    public function getOtherId()
+    {
+        return $this->otherId;
+    }
+
+    /**
+     * @param mixed $otherId
+     */
+    public function setOtherId($otherId)
+    {
+        $this->otherId = $otherId;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getMaritalStatus()
+    {
+        return $this->maritalStatus;
+    }
+
+    /**
+     * @param mixed $maritalStatus
+     */
+    public function setMaritalStatus($maritalStatus)
+    {
+        $this->maritalStatus = $maritalStatus;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getLicenseExpDate()
+    {
+        return $this->licenseExpDate;
+    }
+
+    /**
+     * @param mixed $licenseExpDate
+     */
+    public function setLicenseExpDate($licenseExpDate)
+    {
+        $this->licenseExpDate = $licenseExpDate;
+    }
 
     /**
      * Converting to an array
@@ -456,12 +509,18 @@ class Employee implements Serializable {
         return array(
             'firstName' => $this->getFirstName(),
             'middleName' => $this->getMiddleName(),
+            'lastName' => $this->getLastName(),
             'id'         => $this->getEmployeeId(),
             'employeeNumber'=>$this->getEmployeeNumber(),
-            'lastName' => $this->getLastName(),
             'fullName' => $this->getEmployeeFullName(),
             'status'   => $this->getEmployeeStatus(),
             'dob'      => $this->getEmpBirthDate(),
+            'driversLicenseNumber' => $this->getLicenseNo(),
+            'licenseExpiryDate' =>$this->getLicenseExpDate(),
+            'maritalStatus' => $this->getMaritalStatus(),
+            'gender' => $this->getGender(),
+            'otherId' => $this->getOtherId(),
+            'nationality' => $this->getNationality(),
             'unit'    =>$this->getUnit(),
             'jobTitle'=> $this->getJobTitle(),
             'supervisor' => $this->getSupervisors()
@@ -484,6 +543,12 @@ class Employee implements Serializable {
         $this->setJobTitle($employee->getJobTitleName());
         $this->setUnit($employee->getSubDivision()->getName());
         $this->setEmployeeNumber($employee->getEmpNumber());
+        $this->setGender($employee->getEmpGender());
+        $this->setLicenseNo($employee->getLicenseNo());
+        $this->setLicenseExpDate($employee->getEmpDriLiceExpDate());
+        $this->setMaritalStatus($employee->getEmpMaritalStatus());
+        $this->setNationality($employee->getNationality()->getName());
+        $this->setOtherId($employee->getOtherId());
         $supervisorList [] = array();
         foreach ($employee->getSupervisors() as $supervisor){
 

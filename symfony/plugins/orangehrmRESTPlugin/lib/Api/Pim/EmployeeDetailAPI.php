@@ -114,7 +114,7 @@ class EmployeeDetailAPI extends EndPoint
 
             $employee = $this->getEmployeeService()->getEmployee($empId);
 
-            if(!empty($employee)){  // var_dump($filters[self::PARAMETER_DOB]);die();
+            if(!empty($employee)){
 
                 if(!empty($filters[self::PARAMETER_FIRST_NAME])){
                     $employee->setFirstName( $filters[self::PARAMETER_FIRST_NAME]);

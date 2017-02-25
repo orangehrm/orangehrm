@@ -45,7 +45,7 @@ class ApiEmployeeDependentAPITest extends PHPUnit_Framework_TestCase
         $this->employeeDependantAPI = new EmployeeDependentAPI($request);
     }
 
-    public function testGetEmployeeDependants()
+    public function testGetEmployeeDependents()
     {
 
         $requestParams = $this->getMockBuilder('\Orangehrm\Rest\Http\RequestParams')
@@ -106,49 +106,92 @@ class ApiEmployeeDependentAPITest extends PHPUnit_Framework_TestCase
 
     }
 
-    public function testSaveEmployeeDependants(){
+//    public function testSaveEmployeeDependents(){
+//
+//        $empDependentTest = new \EmpDependent();
+//        $empDependentTest->setDateOfBirth('2016-05-14');
+//        $empDependentTest->setEmpNumber('1');
+//        $empDependentTest->setName('Shane Lewis');
+//        $empDependentTest->setRelationship('Son');
+//        $empDependentTest->setRelationshipType('other');
+//
+//        $empDependentTest->setSeqno(1);
+//
+//        $filters = array();
+//        $filters[EmployeeDependentAPI::PARAMETER_DOB] = '2016-05-14';
+//        $filters[EmployeeDependentAPI::PARAMETER_NAME] = 'Shane Lewis';
+//        $filters[EmployeeDependentAPI::PARAMETER_RELATIONSHIP] = 'Son';
+//        $filters[EmployeeDependentAPI::PARAMETER_TYPE] = 'other';
+//        $filters[EmployeeDependentAPI::PARAMETER_ID] = '1';
+//        $filters[EmployeeDependentAPI::PARAMETER_SEQ_NUMBER] = '1';
+//
+//        $sfEvent   = new sfEventDispatcher();
+//        $sfRequest = new sfWebRequest($sfEvent);
+//        $request = new Request($sfRequest);
+//
+//
+//        $employeeDependantAPI = $this->getMock('Orangehrm\Rest\Api\Pim\EmployeeDependentAPI',array('filterParameters','buildEmployeeDependants'),array($request));
+//        $employeeDependantAPI->expects($this->once())
+//            ->method('filterParameters')
+//            ->will($this->returnValue($filters));
+//
+//        $employeeDependantAPI->expects($this->once())
+//            ->method('buildEmployeeDependents')
+//            ->with($filters)
+//            ->will($this->returnValue($empDependentTest));
+//
+//        $pimEmployeeService = $this->getMock('EmployeeService',array('saveEmployeeDependent'));
+//        $pimEmployeeService->expects($this->any())
+//            ->method('saveEmployeeDependent')
+//            ->with($empDependentTest)
+//            ->will($this->returnValue($empDependentTest));
+//
+//        $employeeDependantAPI->setEmployeeService($pimEmployeeService);
+//
+//        $returned = $employeeDependantAPI->saveEmployeeDependents();
+//
+//        $testResponse = new Response(array('success' => 'successfully saved'));
+//
+//        $this->assertEquals($returned, $testResponse);
+//    }
 
-        $empNumber = 1;
-        $employee = new \Employee();
-        $employee->setLastName('Last Name');
-        $employee->setFirstName('First Name');
-        $employee->setEmpNumber($empNumber);
-        $employee->setEmployeeId($empNumber);
-        $employee->setJoinedDate("2016-04-15");
-        $employee->setEmpWorkEmail("mdriggs@hrm.com");
-        $employee->setEmpMobile(0754343435);
+    public function testDeleteEmployeeDependents(){
+
+        $empDependentTest = new \EmpDependent();
+        $empDependentTest->setDateOfBirth('2016-05-14');
+        $empDependentTest->setEmpNumber('1');
+        $empDependentTest->setName('Shane Lewis');
+        $empDependentTest->setRelationship('Son');
+        $empDependentTest->setRelationshipType('other');
+
+        $empDependentTest->setSeqno(1);
 
         $filters = array();
-        $filters[EmployeeDependentAPI::PARAMETER_DOB] = '2016-05-01';
-        $filters[EmployeeDependentAPI::PARAMETER_NAME] = 'Nesham Mendis';
-        $filters[EmployeeDependentAPI::PARAMETER_RELATIONSHIP] = 'son';
-        $filters[EmployeeDependentAPI::PARAMETER_TYPE] = 'other';
+
         $filters[EmployeeDependentAPI::PARAMETER_ID] = '1';
+        $filters[EmployeeDependentAPI::PARAMETER_SEQ_NUMBER] = '1';
 
         $sfEvent   = new sfEventDispatcher();
         $sfRequest = new sfWebRequest($sfEvent);
         $request = new Request($sfRequest);
 
-        $this->employeeDependantAPI = $this->getMock('Orangehrm\Rest\Api\Pim\EmployeeDependentAPI',array('filterParameters'),array($request));
-        $this->employeeDependantAPI->expects($this->once())
+
+        $employeeDependantAPI = $this->getMock('Orangehrm\Rest\Api\Pim\EmployeeDependentAPI',array('filterParameters','buildEmployeeDependants'),array($request));
+        $employeeDependantAPI->expects($this->once())
             ->method('filterParameters')
             ->will($this->returnValue($filters));
 
-        $pimEmployeeService = $this->getMock('EmployeeService');
+        $pimEmployeeService = $this->getMock('EmployeeService',array('deleteEmployeeDependents'));
         $pimEmployeeService->expects($this->any())
-            ->method('getEmployee')
-            ->with(1)
-            ->will($this->returnValue($employee));
+            ->method('deleteEmployeeDependents')
+            ->with(1,array(1))
+            ->will($this->returnValue(1));
 
-        $pimEmployeeService->expects($this->any())
-            ->method('saveEmployee')
-            ->with($employee)
-            ->will($this->returnValue($employee));
+        $employeeDependantAPI->setEmployeeService($pimEmployeeService);
 
-        $this->employeeDependantAPI->setEmployeeService($pimEmployeeService);
+        $returned = $employeeDependantAPI->deleteEmployeeDependents();
 
-        $returned = $this->employeeDependantAPI->saveEmployeeDependents();
-        $testResponse = array('success' => 'successfully saved');
+        $testResponse = new Response(array('success' => 'Successfully deleted'));
 
         $this->assertEquals($returned, $testResponse);
     }

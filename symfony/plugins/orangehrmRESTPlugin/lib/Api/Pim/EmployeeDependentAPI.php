@@ -248,8 +248,7 @@ class EmployeeDependentAPI extends EndPoint
             return false;
 
         }
-        if (!empty($filters[self::PARAMETER_DOB]) && !date($format,
-                strtotime($filters[self::PARAMETER_DOB])) == date($filters[self::PARAMETER_DOB])
+        if (!empty($filters[self::PARAMETER_DOB]) && !$this->validateDate($filters[self::PARAMETER_DOB])
         ) {
             return false;
         }
@@ -265,4 +264,12 @@ class EmployeeDependentAPI extends EndPoint
         return $valid;
     }
 
+    function validateDate($date, $format = 'Y-m-d')
+    {
+        $d = \DateTime::createFromFormat($format, $date);
+        return $d && $d->format($format) == $date;
+    }
+
 }
+
+
