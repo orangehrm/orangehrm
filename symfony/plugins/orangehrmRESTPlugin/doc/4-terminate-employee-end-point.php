@@ -2,6 +2,7 @@
 * @api {post} employee/:id/action/terminate Terminate Employment
 * @apiName terminateEmployee
 * @apiGroup Employee
+* @apiVersion 0.1.0
 *
 * @apiParam {Number}  employee id
 *

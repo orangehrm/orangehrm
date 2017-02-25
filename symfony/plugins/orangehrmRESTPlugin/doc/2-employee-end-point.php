@@ -2,6 +2,7 @@
 * @api {get} /employee/:id Employee Detail
 * @apiName GetEmployeeDetail
 * @apiGroup Employee
+* @apiVersion 0.1.0
 *
 * @apiParam {Number}  employee id
 *
