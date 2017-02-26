@@ -48,6 +48,10 @@ abstract class baseRestAction extends baseOAuthAction {
         }
     }
 
+    protected function init(Request $request){
+
+    }
+
     /**
      * @param Request $request
      * @return Response
@@ -103,9 +107,11 @@ abstract class baseRestAction extends baseOAuthAction {
     public function execute($request) {
 
         $httpRequest = new Request($request);
+        $this->init($httpRequest);
         $response = $this->getResponse();
         $response->setHttpHeader('Content-type', 'application/json');
         try{
+
             if(!empty($this->getValidationRule($request))) {
                 Validator::validate($httpRequest->getAllParameters(),$this->getValidationRule($request));
             }
