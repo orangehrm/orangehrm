@@ -50,6 +50,15 @@ class ValidatorTest extends PHPUnit_Framework_TestCase
             'dob'=>array('Date'=>true)
         );
         $values = array('firstName'=>'Mike J','dob'=>'1979-04-04');
+        Validator::validate($values,$rule);
+    }
+
+    public function testValidationWhenValueIsEmpty() {
+        $rule = array(
+            'firstName'=> array('StringType'=>true,'NoWhitespace'=>true,'Length'=>array(1,10)),
+            'dob'=>array('Date'=>true)
+        );
+        $values = array('dob'=>'1979-04-04');
         $result = Validator::validate($values,$rule);
         $this->assertTrue($result);
     }
