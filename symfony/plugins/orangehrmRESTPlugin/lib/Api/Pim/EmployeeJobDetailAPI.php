@@ -285,15 +285,15 @@ class EmployeeJobDetailAPI extends EndPoint
             $valid = false;
 
         }
-        if (!empty($filters[self::PARAMETER_JOINED_DATE]) && !validateDate($filters[self::PARAMETER_JOINED_DATE])
+        if (!empty($filters[self::PARAMETER_JOINED_DATE]) && !$this->validateDate($filters[self::PARAMETER_JOINED_DATE])
         ) {
             $valid = false;
         }
-        if (!empty($filters[self::PARAMETER_START_DATE]) && !validateDate($filters[self::PARAMETER_START_DATE])
+        if (!empty($filters[self::PARAMETER_START_DATE]) && !$this->validateDate($filters[self::PARAMETER_START_DATE])
         ) {
             $valid = false;
         }
-        if (!empty($filters[self::PARAMETER_END_DATE]) && !!validateDate($filters[self::PARAMETER_END_DATE])
+        if (!empty($filters[self::PARAMETER_END_DATE]) && !$this->validateDate($filters[self::PARAMETER_END_DATE])
         ) {
             $valid = false;
         }
