@@ -225,4 +225,10 @@ class EmployeeSearchAPI extends EndPoint
         return $relationsArray;
     }
 
+    public function getSearchParamValidation() {
+        return array(
+            'name'=> array('StringType'=>true),
+            'dob'=>array('Date'=>true)
+        );
+    }
 }

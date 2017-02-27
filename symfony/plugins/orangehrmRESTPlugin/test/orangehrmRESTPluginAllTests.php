@@ -32,6 +32,7 @@ class orangehrmRESTPluginAllTests
         $suite->addTestFile(dirname(__FILE__) . '/http/HttpResponseTest.php');
         $suite->addTestFile(dirname(__FILE__) . '/http/RequestParamsTest.php');
 
+        $suite->addTestFile(dirname(__FILE__) . '/api/ValidatorTest.php');
         /* API test cases */
 
         $suite->addTestFile(dirname(__FILE__) . '/api/pim/ApiEmployeeDetailAPITest.php');

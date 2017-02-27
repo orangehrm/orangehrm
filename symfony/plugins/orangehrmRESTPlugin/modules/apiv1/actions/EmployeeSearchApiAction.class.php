@@ -24,12 +24,16 @@ use Orangehrm\Rest\Api\Exception\NotImplementedException;
 
 class EmployeeSearchApiAction extends baseRestAction
 {
+    private $apiEmployeeSearch = null;
+
+    protected function init(Request $request) {
+        $this->apiEmployeeSearch = new EmployeeSearchAPI($request);
+        $this->getValidationRule = $this->apiEmployeeSearch->getSearchParamValidation();
+    }
 
     protected function handleGetRequest(Request $request)
     {
-
-        $apiEmployeeSearch = new EmployeeSearchAPI($request);
-        return $apiEmployeeSearch->getEmployeeList();
+        return $this->apiEmployeeSearch->getEmployeeList();
 
     }
 
