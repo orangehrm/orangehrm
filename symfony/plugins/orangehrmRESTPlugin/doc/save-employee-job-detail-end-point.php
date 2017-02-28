@@ -5,11 +5,15 @@
 *
 * @apiParam {Number}  employee id
 *
-* @apiParam  {String} title  Optional Job title name.
-* @apiParam  {String} category  Optional Job category.
-* @apiParam  {String} joinedDate  Optional Employee joined date.
-* @apiParam  {String} startDate Optional Employee contract start date.
-* @apiSuccess {String} Object Optional data success response.
+* @apiParam {String} title Optional Job title name .
+* @apiParam {String} category  Optional Job category.
+* @apiParam {String} status  Optional Employee job status.
+* @apiParam {String} subunit  Optional Subunit of the employee.
+* @apiParam {String} location  Optional Job location of the employee.
+* @apiParam {String} joinedDate  Optional Employee joined date.
+* @apiParam {String} startDate Optional Employee contract start date.
+* @apiParam {String} endDate  Optional Employee contract end date.
+* @apiSuccess {String} Object  data success response.
 *
 * @apiSuccessExample Success-Response:
 *     HTTP/1.1 200 OK

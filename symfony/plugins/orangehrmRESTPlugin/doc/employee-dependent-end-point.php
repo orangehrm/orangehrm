@@ -5,7 +5,10 @@
 *
 * @apiParam {Number}  employee id
 *
-* @apiSuccess {Object} employee dependents.
+* @apiSuccess {Object} name Name of the dependent.
+* @apiSuccess {Object} relationship Relationship of the dependent.
+* @apiSuccess {Object} dob Date of birth of the dependent.
+* @apiSuccess {Object} seqNumber Sequence number of the dependent.
 *
 * @apiSuccessExample Success-Response:
 *     HTTP/1.1 200 OK
