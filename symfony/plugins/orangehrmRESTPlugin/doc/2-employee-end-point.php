@@ -9,8 +9,8 @@
 * @apiSuccess {String} firstName First name of the employee.
 * @apiSuccess {String} middleName  Middle name of the employee.
 * @apiSuccess {String} lastName  Last Name of the employee.
-* @apiSuccess {Int} id  In of the employee.
-* @apiSuccess {String} code  Employee.
+* @apiSuccess {Int} id  Id of the employee.
+* @apiSuccess {String} code  Employee code.
 * @apiSuccess {String} fullName  Full Name of the employee.
 * @apiSuccess {String} status  Status of the employee.
 * @apiSuccess {String} dob  DOB of the employee.

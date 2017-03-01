@@ -6,10 +6,18 @@
 *
 * @apiParam {Number}  employee id
 *
-* @apiParam  {String} firstName First Name.
-* @apiParam  {String} middleName  Middle Name.
-* @apiParam  {String} lastName  LastName.
-* @apiParam  {String} startDate Employee contract start date.
+* @apiParam {String} firstName First name of the employee.
+* @apiParam {String} middleName  Middle name of the employee.
+* @apiParam {String} lastName  Last Name of the employee.
+* @apiParam {String} code  Employee code.
+* @apiParam {String} fullName  Full Name of the employee.
+* @apiParam {String} dob  DOB of the employee.
+* @apiParam {String} driversLicenseNumber  Employee driver's license number.
+* @apiParam {String} licenseExpiryDare  Employee driver's license expiry date
+* @apiParam {String} maritalStatus  Employee marital status.
+* @apiParam {String} gender  Gender of the employee.
+* @apiParam {String} otherId  Employee other id.
+* @apiParam {String} nationality  Nationality of the employee.
 * @apiSuccess {String} Object data success response.
 *
 * @apiSuccessExample Success-Response:
