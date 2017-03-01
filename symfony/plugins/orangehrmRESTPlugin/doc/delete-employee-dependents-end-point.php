@@ -6,7 +6,7 @@
 * @apiParam {Number} id Employee number
 *
 * @apiParam {int} sequenceNumber Mandatory sequence number of the dependent.
-* @apiSuccess {Object} data success response
+* @apiSuccess {Object} data success response.
 *
 * @apiSuccessExample Success-Response:
 *     HTTP/1.1 200 OK

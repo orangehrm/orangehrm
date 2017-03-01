@@ -9,7 +9,7 @@
 * @apiParam {String} TerminationDate Mandatory termination date.
 * @apiParam {String} Reason Mandatory termination reason.
 * @apiParam {String} note  Optional termination note.
-* @apiSuccess {Object} data success response
+* @apiSuccess {Object} data success response.
 *
 * @apiSuccessExample Success-Response:
 *     HTTP/1.1 200 OK

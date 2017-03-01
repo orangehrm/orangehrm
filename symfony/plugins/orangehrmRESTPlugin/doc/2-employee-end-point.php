@@ -6,10 +6,23 @@
 *
 * @apiParam {Number}  employee id
 *
-* @apiSuccess {String} firstname First name of the employee.
-* @apiSuccess {String} lastname  Last name of the employee.
-* @apiSuccess {String} gender  gender of the employee.
-* @apiSuccess {String} title  title of the employee.
+* @apiSuccess {String} firstName First name of the employee.
+* @apiSuccess {String} middleName  Middle name of the employee.
+* @apiSuccess {String} lastName  Last Name of the employee.
+* @apiSuccess {Int} id  In of the employee.
+* @apiSuccess {String} code  Employee.
+* @apiSuccess {String} fullName  Full Name of the employee.
+* @apiSuccess {String} status  Status of the employee.
+* @apiSuccess {String} dob  DOB of the employee.
+* @apiSuccess {String} driversLicenseNumber  Employee driver's license number.
+* @apiSuccess {String} licenseExpiryDare  Employee driver's license expiry date
+* @apiSuccess {String} maritalStatus  Employee marital status.
+* @apiSuccess {String} gender  Gender of the employee.
+* @apiSuccess {String} otherId  Employee other id.
+* @apiSuccess {String} nationality  Nationality of the employee.
+* @apiSuccess {String} jobTitle  Employee job title.
+* @apiSuccess {String} unit Employee sub unit.
+* @apiSuccess {Object} supervisor  Employee supervisor details.
 *
 * @apiSuccessExample Success-Response:
 *     HTTP/1.1 200 OK
@@ -17,18 +30,26 @@
 *       {
 *         "data":
 *         {
-*             "id": "001",
-*             "firstName": "John",
-*             "lastName": "Doe",
-*             "middleName": "",
-*             "fullName": "John Doe",
-*             "status": "active",
-*             "jobtitle": "web developer",
-*             "supervisor": "Mike com",
-*             "supervisorId": "2",
-*             "dob": "1989-09-7",
-*             "unit": "development",
-*             "gender": "M"
+*             "firstName": "Nina",
+*             "middleName": "Jane",
+*              "lastName": "Lewis",
+*              "code": "0014",
+*              "id": "1",
+*              "fullName": "Nina Jane Lewis (Past Employee)",
+*              "status": "Active",
+*              "dob": "2016-05-04",
+*              "driversLicenseNumber": "444555124223",
+*              "licenseExpiryDate": "2017-02-09",
+*              "maritalStatus": "Married",
+*              "gender": "2",
+*              "otherId": "4646522",
+*              "nationality": "Armenian",
+*              "unit": "Marketing Unit",
+*              "jobTitle": "marketing",
+*
+*            "supervisor": [
+*                            []
+*                           ]
 *         },
 *       "rels": {
 *         "contact-detail": "/employee/:id/contact-detail",

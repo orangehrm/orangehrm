@@ -9,7 +9,7 @@
 * @apiParam {String} firstName Mandatory First name of the employee.
 * @apiParam {String} middleName  Optional Middle name of the employee.
 * @apiParam {String} lstName  Mandatory Last name of the employee.
-* @apiParam {String} id  employee number.
+* @apiParam {String} code  Employee code.
 * @apiSuccess {Object} data success response
 *
 * @apiSuccessExample Success-Response:
