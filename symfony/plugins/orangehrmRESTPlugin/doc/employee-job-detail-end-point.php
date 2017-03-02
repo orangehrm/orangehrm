@@ -3,7 +3,7 @@
 * @apiName GetEmployeeJobDetails
 * @apiGroup Employee
 *
-* @apiParam {Number}  employee id
+* @apiParam {Number}  id Employee id
 *
 * @apiSuccess {String} title Job title name.
 * @apiSuccess {String} category  Job category.

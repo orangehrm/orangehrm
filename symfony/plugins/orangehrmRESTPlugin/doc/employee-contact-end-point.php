@@ -7,7 +7,7 @@
 *
 * @apiSuccess {String} fullName  Employee full name.
 * @apiSuccess {String} id  Employee id.
-* @apiSuccess {String} empNumber  Employee number.
+* @apiSuccess {String} code  Employee number.
 * @apiSuccess {String} addressStreet1  Address street 1 of the employee.
 * @apiSuccess {String} addressStreet2  Address street 2 of the employee.
 * @apiSuccess {String} city  City of the employee.

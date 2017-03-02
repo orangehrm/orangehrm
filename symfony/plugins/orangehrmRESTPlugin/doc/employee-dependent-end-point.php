@@ -3,7 +3,7 @@
 * @apiName GetEmployeeDependents
 * @apiGroup Employee
 *
-* @apiParam {Number}  employee id
+* @apiParam {Number}  id Employee id
 *
 * @apiSuccess {Object} name Name of the dependent.
 * @apiSuccess {Object} relationship Relationship of the dependent.

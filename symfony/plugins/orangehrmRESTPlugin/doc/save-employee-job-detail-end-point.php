@@ -3,16 +3,16 @@
 * @apiName SaveEmployeeJobDetails
 * @apiGroup Employee
 *
-* @apiParam {Number}  employee id
+* @apiParam {Number}  id Employee id
 *
-* @apiParam {String} title Optional Job title name .
-* @apiParam {String} category  Optional Job category.
-* @apiParam {String} status  Optional Employee job status.
-* @apiParam {String} subunit  Optional Subunit of the employee.
-* @apiParam {String} location  Optional Job location of the employee.
-* @apiParam {String} joinedDate  Optional Employee joined date.
-* @apiParam {String} startDate Optional Employee contract start date.
-* @apiParam {String} endDate  Optional Employee contract end date.
+* @apiParam {String} title  Job title name .
+* @apiParam {String} category   Job category.
+* @apiParam {String} status   Employee job status.
+* @apiParam {String} subunit   Subunit of the employee.
+* @apiParam {String} location   Job location of the employee.
+* @apiParam {String} joinedDate   Employee joined date.
+* @apiParam {String} startDate  Employee contract start date.
+* @apiParam {String} endDate   Employee contract end date.
 * @apiSuccess {String} Object  data success response.
 *
 * @apiSuccessExample Success-Response:
