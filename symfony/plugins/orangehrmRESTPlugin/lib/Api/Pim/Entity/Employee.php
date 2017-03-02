@@ -560,12 +560,15 @@ class Employee implements Serializable
         $this->setMaritalStatus($employee->getEmpMaritalStatus());
         $this->setNationality($employee->getNationality()->getName());
         $this->setOtherId($employee->getOtherId());
-        $supervisorList [] = array();
+        $supervisorList = null;
+
         foreach ($employee->getSupervisors() as $supervisor) {
 
             $supervisorEnt = new Supervisor($supervisor->getFullName(), $supervisor->getEmployeeId());
-            $supervisorList = $supervisorEnt->toArray();
+            $supervisorList[] = $supervisorEnt->toArray();
         }
+
+
         $this->setSupervisors($supervisorList);
     }
 }
