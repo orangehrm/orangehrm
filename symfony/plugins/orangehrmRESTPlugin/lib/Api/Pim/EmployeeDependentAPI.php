@@ -219,7 +219,7 @@ class EmployeeDependentAPI extends EndPoint
     {
         return array(
             self::PARAMETER_DOB => array('Date' => array('Y-m-d')),
-            self::PARAMETER_RELATIONSHIP => array('StringType' => true, 'NotEmpty' => true),
+            self::PARAMETER_RELATIONSHIP => array('StringType' => true, 'NotEmpty' => true,'Length' => array(1,50)),
             self::PARAMETER_NAME => array('Length' => array(0, 50)),
         );
     }
@@ -228,7 +228,7 @@ class EmployeeDependentAPI extends EndPoint
     {
         return array(
             self::PARAMETER_DOB => array('Date' => array('Y-m-d')),
-            self::PARAMETER_RELATIONSHIP => array('StringType' => true, 'NotEmpty' => true),
+            self::PARAMETER_RELATIONSHIP => array('StringType' => true, 'NotEmpty' => true,'Length' => array(1,50)),
             self::PARAMETER_NAME => array('Length' => array(0, 50), 'NotEmpty' => true),
             self::PARAMETER_SEQ_NUMBER=> array( 'IntType' => true ,'NotEmpty' => true,'Length' => array(1,1000))
         );

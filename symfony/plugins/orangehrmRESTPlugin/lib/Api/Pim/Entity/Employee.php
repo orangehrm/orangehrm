@@ -22,7 +22,8 @@ namespace Orangehrm\Rest\Api\Pim\Entity;
 use Orangehrm\Rest\Api\Entity\Serializable;
 use Orangehrm\Rest\Api\Pim\Entity\Supervisor;
 
-class Employee implements Serializable {
+class Employee implements Serializable
+{
     /**
      * @var
      */
@@ -34,11 +35,11 @@ class Employee implements Serializable {
 
     private $age = 0;
 
-    private $licenseNo ='';
+    private $licenseNo = '';
 
     private $employeeId = 0;
 
-    private $empBirthDate =  '';
+    private $empBirthDate = '';
 
     private $country;
 
@@ -143,7 +144,7 @@ class Employee implements Serializable {
      * @param mixed $lastName
      * @return $this;
      */
-     private function setLastName($lastName)
+    private function setLastName($lastName)
     {
         $this->lastName = $lastName;
         return $this;
@@ -505,24 +506,25 @@ class Employee implements Serializable {
      * Converting to an array
      * @return array
      */
-    public function toArray() {
+    public function toArray()
+    {
         return array(
             'firstName' => $this->getFirstName(),
             'middleName' => $this->getMiddleName(),
             'lastName' => $this->getLastName(),
-            'code'         => $this->getEmployeeId(),
-            'employeeId'=>$this->getEmployeeNumber(),
+            'code' => $this->getEmployeeId(),
+            'employeeId' => $this->getEmployeeNumber(),
             'fullName' => $this->getEmployeeFullName(),
-            'status'   => $this->getEmployeeStatus(),
-            'dob'      => $this->getEmpBirthDate(),
+            'status' => $this->getEmployeeStatus(),
+            'dob' => $this->getEmpBirthDate(),
             'driversLicenseNumber' => $this->getLicenseNo(),
-            'licenseExpiryDate' =>$this->getLicenseExpDate(),
+            'licenseExpiryDate' => $this->getLicenseExpDate(),
             'maritalStatus' => $this->getMaritalStatus(),
             'gender' => $this->getGender(),
             'otherId' => $this->getOtherId(),
             'nationality' => $this->getNationality(),
-            'unit'    =>$this->getUnit(),
-            'jobTitle'=> $this->getJobTitle(),
+            'unit' => $this->getUnit(),
+            'jobTitle' => $this->getJobTitle(),
             'supervisor' => $this->getSupervisors()
 
         );
@@ -533,7 +535,8 @@ class Employee implements Serializable {
      *
      * @param $employee Doctraine Entity
      */
-    public function buildEmployee(\Employee $employee){
+    public function buildEmployee(\Employee $employee)
+    {
 
         $this->setCity($employee->getCity());
         $this->setEmpBirthDate($employee->getEmpBirthday());
@@ -543,16 +546,24 @@ class Employee implements Serializable {
         $this->setJobTitle($employee->getJobTitleName());
         $this->setUnit($employee->getSubDivision()->getName());
         $this->setEmployeeNumber($employee->getEmpNumber());
-        $this->setGender($employee->getEmpGender());
+
+        if ($employee->getEmpGender() == 1) {
+            $this->setGender('Male');
+        } else {
+            if ($employee->getEmpGender() == 2) {
+                $this->setGender('Female');
+            }
+        }
+
         $this->setLicenseNo($employee->getLicenseNo());
         $this->setLicenseExpDate($employee->getEmpDriLiceExpDate());
         $this->setMaritalStatus($employee->getEmpMaritalStatus());
         $this->setNationality($employee->getNationality()->getName());
         $this->setOtherId($employee->getOtherId());
         $supervisorList [] = array();
-        foreach ($employee->getSupervisors() as $supervisor){
+        foreach ($employee->getSupervisors() as $supervisor) {
 
-            $supervisorEnt = new Supervisor($supervisor->getFullName(),$supervisor->getEmployeeId());
+            $supervisorEnt = new Supervisor($supervisor->getFullName(), $supervisor->getEmployeeId());
             $supervisorList = $supervisorEnt->toArray();
         }
         $this->setSupervisors($supervisorList);

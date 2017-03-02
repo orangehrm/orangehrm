@@ -26,11 +26,15 @@ class EmployeeDetailApiAction extends baseRestAction
 {
 
     private $apiEmployeeSave = null;
+    private $apiEmployeeDetail = null;
 
     protected function init(Request $request)
     {
         $this->apiEmployeeSave = new EmployeeSaveAPI($request);
         $this->postValidationRule = $this->apiEmployeeSave->getValidationRules();
+
+        $this->apiEmployeeDetail = new EmployeeDetailAPI($request);
+        $this->putValidationRule = $this->apiEmployeeDetail->getValidationRules();
 
     }
 
@@ -50,8 +54,7 @@ class EmployeeDetailApiAction extends baseRestAction
 
     protected function handlePutRequest(Request $request)
     {
-        $apiEmployeeDetail = new EmployeeDetailAPI($request);
-        return $apiEmployeeDetail->updateEmployee();
+        return $this->apiEmployeeDetail->updateEmployee();
     }
 
 

@@ -195,9 +195,6 @@ class EmployeeDetailAPI extends EndPoint
         if (!empty($this->getRequestParams()->getPostParam(self::PARAMETER_NUMBER))) {
             $filters[self::PARAMETER_NUMBER] = ($this->getRequestParams()->getPostParam(self::PARAMETER_NUMBER));
         }
-        if (!empty($this->getRequestParams()->getPostParam(self::PARAMETER_STATUS))) {
-            $filters[self::PARAMETER_STATUS] = ($this->getRequestParams()->getPostParam(self::PARAMETER_STATUS));
-        }
         if (!empty($this->getRequestParams()->getPostParam(self::PARAMETER_DOB))) {
             $filters[self::PARAMETER_DOB] = ($this->getRequestParams()->getPostParam(self::PARAMETER_DOB));
         }
@@ -226,6 +223,19 @@ class EmployeeDetailAPI extends EndPoint
 
     }
 
+
+    public function getValidationRules()
+    {
+        return array(
+            self::PARAMETER_FIRST_NAME => array('StringType' => true, 'NotEmpty' => true, 'Length' => array(1, 30)),
+            self::PARAMETER_MIDDLE_NAME => array('StringType' => true,  'Length' => array(1, 30)),
+            self::PARAMETER_LAST_NAME => array('StringType' => true, 'NotEmpty' => true, 'Length' => array(1, 30)),
+            self::PARAMETER_DOB => array('Date' => array('Y-m-d')),
+            self::PARAMETER_DRIVERS_LICENSE_EXP_DATE => array('Date' => array('Y-m-d')),
+
+        );
+    }
+
     /**
      * validate input parameters
      *
@@ -236,37 +246,14 @@ class EmployeeDetailAPI extends EndPoint
     {
         $valid = true;
 
-        $format = "Y-m-d";
-
-        if (!(preg_match("/^[a-zA-Z'-]+$/", $filters[self::PARAMETER_FIRST_NAME]) === 1) || (strlen($filters[self::PARAMETER_FIRST_NAME]) > 30 )) {
-            return  false;
-
-        }
-        if (!empty($filters[self::PARAMETER_MIDDLE_NAME]) &&!(preg_match("/^[a-zA-Z'-]+$/", $filters[self::PARAMETER_MIDDLE_NAME]) === 1) || (strlen($filters[self::PARAMETER_MIDDLE_NAME]) > 30 )) {
-            return  false;
-
-        }
-        if (!(preg_match("/^[a-zA-Z'-]+$/", $filters[self::PARAMETER_LAST_NAME]) === 1) || (strlen($filters[self::PARAMETER_LAST_NAME]) > 30 )) {
-            return false;
-
-        }
-
-        if (!empty($filters[self::PARAMETER_DOB]) && !$this->validateDate($filters[self::PARAMETER_DOB])
-        ) {
-           return false;
-        }
-
-        if (!empty($filters[self::PARAMETER_DRIVERS_LICENSE_EXP_DATE]) && !$this->validateDate($filters[self::PARAMETER_DRIVERS_LICENSE_EXP_DATE])
-        ) {
-            return false;
-        }
-
         if (!empty($filters[self::PARAMETER_GENDER]) && !( $filters[self::PARAMETER_GENDER]=='M'  || $filters[self::PARAMETER_GENDER] =='F' )) {
              return false;
         }
 
         return $valid;
     }
+
+
     /**
      * Creating the Employee serializable object
      *
@@ -282,11 +269,4 @@ class EmployeeDetailAPI extends EndPoint
         return $emp->toArray();
 
     }
-
-    function validateDate($date, $format = 'Y-m-d')
-    {
-        $d = \DateTime::createFromFormat($format, $date);
-        return $d && $d->format($format) == $date;
-    }
-
 }

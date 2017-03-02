@@ -116,9 +116,9 @@ class EmployeeSaveAPI extends EndPoint
     public function getValidationRules()
     {
         return array(
-            self::PARAMETER_FIRST_NAME => array('StringType' => true, 'NotEmpty' => true, 'Length' => array(1, 50)),
-            self::PARAMETER_MIDDLE_NAME => array('StringType' => true,  'Length' => array(1, 50)),
-            self::PARAMETER_LAST_NAME => array('StringType' => true, 'NotEmpty' => true, 'Length' => array(1, 50)),
+            self::PARAMETER_FIRST_NAME => array('StringType' => true, 'NotEmpty' => true, 'Length' => array(1, 30)),
+            self::PARAMETER_MIDDLE_NAME => array('StringType' => true,  'Length' => array(1, 30)),
+            self::PARAMETER_LAST_NAME => array('StringType' => true, 'NotEmpty' => true, 'Length' => array(1, 30)),
             self::PARAMETER_EMPLOYEE_ID => array('StringType' => true,'Length' => array(1, 10)),
         );
     }
