@@ -98,7 +98,7 @@ class EmployeeDependentAPI extends EndPoint
         $result = $this->getEmployeeService()->saveEmployeeDependent($dependent);
 
         if ($result instanceof \EmpDependent) {
-            return new Response(array('success' => 'Successfully saved'));
+            return new Response(array('success' => 'Successfully saved', 'sequenceNumber' => $result->getSeqno() ));
         } else {
             throw new BadRequestException("Saving Failed");
         }
@@ -230,10 +230,16 @@ class EmployeeDependentAPI extends EndPoint
             self::PARAMETER_DOB => array('Date' => array('Y-m-d')),
             self::PARAMETER_RELATIONSHIP => array('StringType' => true, 'NotEmpty' => true),
             self::PARAMETER_NAME => array('Length' => array(0, 50), 'NotEmpty' => true),
-
+            self::PARAMETER_SEQ_NUMBER=> array( 'IntType' => true ,'NotEmpty' => true,'Length' => array(1,1000))
         );
     }
 
+    public function getDelValidationRules()
+    {
+        return array(
+          self::PARAMETER_SEQ_NUMBER=> array( 'IntType' => true ,'NotEmpty' => true,'Length' => array(1,1000))
+        );
+    }
 
 }
 

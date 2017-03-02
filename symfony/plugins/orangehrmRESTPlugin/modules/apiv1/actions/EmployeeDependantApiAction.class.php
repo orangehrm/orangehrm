@@ -32,6 +32,7 @@ class EmployeeDependantApiAction extends baseRestAction
         $this->apiEmployeeDependent = new EmployeeDependentAPI($request);
         $this->postValidationRule = $this->apiEmployeeDependent->getPostValidationRules();
         $this->putValidationRule = $this->apiEmployeeDependent->getPutValidationRules();
+        $this->deleteValidationRule = $this->apiEmployeeDependent->getDelValidationRules();
     }
 
     protected function handleGetRequest(Request $request)

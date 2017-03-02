@@ -16,7 +16,8 @@
 *     HTTP/1.1 200 OK
 *
 *      {
-*        "success": "Successfully saved"
+*        "success": "Successfully saved",
+*        "id": "0011"
 *      }
 *
 * @apiError Bad-Response Saving failed.

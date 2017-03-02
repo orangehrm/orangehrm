@@ -14,7 +14,8 @@
 *     HTTP/1.1 200 OK
 *
 *      {
-*        "success": "Successfully saved"
+*        "success": "Successfully saved",
+*        "sequenceNumber": 1
 *      }
 *
 * @apiError Bad-Response Saving failed.
