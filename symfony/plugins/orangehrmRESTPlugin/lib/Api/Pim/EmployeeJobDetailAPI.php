@@ -252,6 +252,16 @@ class EmployeeJobDetailAPI extends EndPoint
 
     }
 
+
+
+    public function getValidationRules() {
+    return array(
+        self::PARAMETER_JOINED_DATE => array('Date'=>array('Y-m-d')),
+        self::PARAMETER_START_DATE => array('Date'=>array('Y-m-d')),
+        self::PARAMETER_END_DATE => array('Date'=>array('Y-m-d')),
+    );
+}
+
     /**
      * validate input parameters
      *
@@ -285,19 +295,6 @@ class EmployeeJobDetailAPI extends EndPoint
             $valid = false;
 
         }
-        if (!empty($filters[self::PARAMETER_JOINED_DATE]) && !$this->validateDate($filters[self::PARAMETER_JOINED_DATE])
-        ) {
-            $valid = false;
-        }
-        if (!empty($filters[self::PARAMETER_START_DATE]) && !$this->validateDate($filters[self::PARAMETER_START_DATE])
-        ) {
-            $valid = false;
-        }
-        if (!empty($filters[self::PARAMETER_END_DATE]) && !$this->validateDate($filters[self::PARAMETER_END_DATE])
-        ) {
-            $valid = false;
-        }
-
         return $valid;
     }
 
@@ -376,10 +373,4 @@ class EmployeeJobDetailAPI extends EndPoint
         return false;
     }
 
-
-    function validateDate($date, $format = 'Y-m-d')
-    {
-        $d = \DateTime::createFromFormat($format, $date);
-        return $d && $d->format($format) == $date;
-    }
 }

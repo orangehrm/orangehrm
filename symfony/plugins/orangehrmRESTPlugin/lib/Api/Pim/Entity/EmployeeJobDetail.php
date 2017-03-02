@@ -213,7 +213,7 @@ class EmployeeJobDetail implements Serializable
         return array(
             'title' => $this->getTitle(),
             'category' => $this->getCategory(),
-            'status'  => $this->getEmploymentStatus(),
+            'status' => $this->getEmploymentStatus(),
             'subunit' => $this->getSubunit(),
             'location' => $this->getLocation(),
             'joinedDate' => $this->getJoinedDate(),
@@ -237,7 +237,10 @@ class EmployeeJobDetail implements Serializable
         $this->setStartDate($employee->contracts[0]->getStartDate());
         $this->setEndDate($employee->contracts[0]->getEndDate());
         $this->setEmploymentStatus($this->_getEmpStatusName($employee->getEmpStatus()));
-        $this->setLocation($employee->getLocations()[0]->getName());
+        if (!empty($employee->getLocations()) ){
+            $this->setLocation($employee->getLocations()[0]->getName());
+
+        }
         $this->setSubunit($employee->getSubDivision()->getName());
 
     }

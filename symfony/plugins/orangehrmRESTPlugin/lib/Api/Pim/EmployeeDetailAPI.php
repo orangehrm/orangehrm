@@ -41,7 +41,7 @@ class EmployeeDetailAPI extends EndPoint
     const PARAMETER_FIRST_NAME = "firstName";
     const PARAMETER_LAST_NAME = "lastName";
     const PARAMETER_MIDDLE_NAME = "middleName";
-    const PARAMETER_NUMBER = "number";
+    const PARAMETER_NUMBER = "code";
     const PARAMETER_DOB = "dob";
     const PARAMETER_GENDER = "gender";
     const PARAMETER_MARITAL_STATUS = 'maritalStatus';

@@ -24,22 +24,30 @@ use Orangehrm\Rest\Api\Exception\NotImplementedException;
 class EmployeeJobDetailApiAction extends baseRestAction
 {
 
+    private $apiEmployeeJobDetail = null;
+
+    protected function init(Request $request)
+    {
+        $this->apiEmployeeJobDetail = new EmployeeJobDetailAPI($request);
+        $this->postValidationRule = $this->apiEmployeeJobDetail->getValidationRules();
+        $this->putValidationRule = $this->apiEmployeeJobDetail->getValidationRules();
+    }
+
     protected function handleGetRequest(Request $request)
     {
-
-        $apiEmployeeSearch = new EmployeeJobDetailAPI($request);
-        return $apiEmployeeSearch->getEmployeeJobDetails();
+        return $this->apiEmployeeJobDetail->getEmployeeJobDetails();
     }
 
     protected function handlePostRequest(Request $request)
     {
-        $apiEmployeeSearch = new EmployeeJobDetailAPI($request);
-        return $apiEmployeeSearch->saveEmployeeJobDetails();
+
+        return $this->apiEmployeeJobDetail->saveEmployeeJobDetails();
     }
+
     protected function handlePutRequest(Request $request)
     {
-        $apiEmployeeSearch = new EmployeeJobDetailAPI($request);
-        return $apiEmployeeSearch->saveEmployeeJobDetails();
+
+        return $this->apiEmployeeJobDetail->saveEmployeeJobDetails();
     }
 
 }

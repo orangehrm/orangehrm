@@ -295,7 +295,7 @@ class EmployeeContactDetail implements Serializable
     {
         return array(
             'id' => $this->getId(),
-            'empNumber' => $this->getEmpNumber(),
+            'code' => $this->getEmpNumber(),
             'fullName' => $this->getFullName(),
             'addressStreet1' => $this->getAddressStreet1(),
             'addressStreet2' => $this->getAddressStreet2(),

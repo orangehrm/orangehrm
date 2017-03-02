@@ -25,28 +25,32 @@ use Orangehrm\Rest\Api\Exception\NotImplementedException;
 class EmployeeDependantApiAction extends baseRestAction
 {
 
+    private $apiEmployeeDependent = null;
+
+    protected function init(Request $request)
+    {
+        $this->apiEmployeeDependent = new EmployeeDependentAPI($request);
+        $this->postValidationRule = $this->apiEmployeeDependent->getPostValidationRules();
+        $this->putValidationRule = $this->apiEmployeeDependent->getPutValidationRules();
+    }
+
     protected function handleGetRequest(Request $request)
     {
-
-        $apiEmployeeDependent = new EmployeeDependentAPI($request);
-        return $apiEmployeeDependent->getEmployeeDependents();
+        return $this->apiEmployeeDependent->getEmployeeDependents();
     }
 
     protected function handlePostRequest(Request $request)
     {
-        $apiEmployeeDependent = new EmployeeDependentAPI($request);
-        return $apiEmployeeDependent->saveEmployeeDependents();
+        return $this->apiEmployeeDependent->saveEmployeeDependents();
     }
 
     protected function handlePutRequest(Request $request)
     {
-        $apiEmployeeDependent = new EmployeeDependentAPI($request);
-        return $apiEmployeeDependent->updateEmployeeDependents();
+        return $this->apiEmployeeDependent->updateEmployeeDependents();
     }
 
     protected function handleDeleteRequest(Request $request)
     {
-        $apiEmployeeDependent = new EmployeeDependentAPI($request);
-        return $apiEmployeeDependent->deleteEmployeeDependents();
+        return $this->apiEmployeeDependent->deleteEmployeeDependents();
     }
 }

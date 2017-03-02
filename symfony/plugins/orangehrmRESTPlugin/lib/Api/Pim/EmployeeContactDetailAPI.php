@@ -125,22 +125,16 @@ class EmployeeContactDetailAPI extends EndPoint
     {
         $returned = null;
         $filters = $this->filterParameters();
-        if ($this->validateInputs($filters)) {
+        $empId = $filters[self::PARAMETER_ID];
+        $employee = $this->getEmployeeService()->getEmployee($empId);
 
-            $empId = $filters[self::PARAMETER_ID];
-            $employee = $this->getEmployeeService()->getEmployee($empId);
+        $this->buildEmployeeContactDetails($employee, $filters);
+        $returnedEmployee = $this->getEmployeeService()->saveEmployee($employee);
 
-            $this->buildEmployeeContactDetails($employee, $filters);
-            $returnedEmployee = $this->getEmployeeService()->saveEmployee($employee);
-
-            if (!($returnedEmployee instanceof \Employee)) {
-                throw new BadRequestException("Saving failed");
-            }
-            return new Response(array('success' => 'Successfully saved'));
-        } else {
+        if (!($returnedEmployee instanceof \Employee)) {
             throw new BadRequestException("Saving failed");
         }
-
+        return new Response(array('success' => 'Successfully saved'));
 
     }
 
@@ -154,21 +148,16 @@ class EmployeeContactDetailAPI extends EndPoint
     {
         $returned = null;
         $filters = $this->filterParameters();
-        if ($this->validateInputs($filters)) {
 
-            $empId = $filters[self::PARAMETER_ID];
-            $employee = $this->getEmployeeService()->getEmployee($empId);
-            $this->buildEmployeeContactDetails($employee, $filters);
-            $returnedEmployee = $this->getEmployeeService()->saveEmployee($employee);
+        $empId = $filters[self::PARAMETER_ID];
+        $employee = $this->getEmployeeService()->getEmployee($empId);
+        $this->buildEmployeeContactDetails($employee, $filters);
+        $returnedEmployee = $this->getEmployeeService()->saveEmployee($employee);
 
-            if (!($returnedEmployee instanceof \Employee)) {
-                throw new BadRequestException("Updating failed");
-            }
-            return new Response(array('success' => 'Successfully updated'));
-        } else {
+        if (!($returnedEmployee instanceof \Employee)) {
             throw new BadRequestException("Updating failed");
         }
-
+        return new Response(array('success' => 'Successfully updated'));
 
     }
 
@@ -271,68 +260,27 @@ class EmployeeContactDetailAPI extends EndPoint
     }
 
     /**
-     * validate input parameters
+     * Respect validation rules
      *
-     * @param $filters
-     * @return bool
+     * @return array
      */
-    protected function validateInputs($filters)
+    public function getValidationRules()
     {
-        $valid = true;
-
-        if (!empty($filters[self::PARAMETER_ADDRESS_STREET_1]) && (strlen($filters[self::PARAMETER_ADDRESS_STREET_1]) > 70)) {
-            return false;
-        }
-        if (!empty($filters[self::PARAMETER_ADDRESS_STREET_2]) && (strlen($filters[self::PARAMETER_ADDRESS_STREET_2]) > 70)) {
-            return false;
-        }
-
-        if (!empty($filters[self::PARAMETER_ZIP]) && (strlen($filters[self::PARAMETER_ZIP]) > 10)) {
-            return false;
-        }
-
-        if (!empty($filters[self::PARAMETER_STATE]) && (strlen($filters[self::PARAMETER_STATE]) > 70)) {
-            return false;
-        }
-        if (!empty($filters[self::PARAMETER_CITY]) && (strlen($filters[self::PARAMETER_CITY]) > 70)) {
-            return false;
-        }
-        if (!empty($filters[self::PARAMETER_COUNTRY]) && !(preg_match("/^[a-z ,.'-]+$/i",
-                    $filters[self::PARAMETER_COUNTRY]) === 1)
-        ) {
-            return false;
-        }
-
-        if (!empty($filters[self::PARAMETER_WORK_EMAIL]) && !filter_var($filters[self::PARAMETER_WORK_EMAIL],
-                FILTER_VALIDATE_EMAIL) || (strlen($filters[self::PARAMETER_WORK_EMAIL]) > 50)
-        ) {
-            return false;
-        }
-        if (!empty($filters[self::PARAMETER_OTHER_EMAIL]) && !filter_var($filters[self::PARAMETER_OTHER_EMAIL],
-                FILTER_VALIDATE_EMAIL) || (strlen($filters[self::PARAMETER_OTHER_EMAIL]) > 50)
-        ) {
-            return false;
-        }
-
-        if (!empty($filters[self::PARAMETER_MOBILE]) && !(preg_match('/(?:\(?\+\d{2}\)?\s*)?\d+(?:[ -]*\d+)*$/',
-                    $filters[self::PARAMETER_MOBILE]) === 1) || (strlen($filters[self::PARAMETER_MOBILE]) > 25)
-        ) {
-            return false;
-        }
-        if (!empty($filters[self::PARAMETER_WORK_TELEPHONE]) && !(preg_match('/(?:\(?\+\d{2}\)?\s*)?\d+(?:[ -]*\d+)*$/',
-                    $filters[self::PARAMETER_WORK_TELEPHONE]) === 1) || (strlen($filters[self::PARAMETER_WORK_TELEPHONE]) > 25)
-        ) {
-            return false;
-        }
-
-        if (!empty($filters[self::PARAMETER_HOME_TELEPHONE]) && !(preg_match('/(?:\(?\+\d{2}\)?\s*)?\d+(?:[ -]*\d+)*$/',
-                    $filters[self::PARAMETER_HOME_TELEPHONE]) === 1) || (strlen($filters[self::PARAMETER_HOME_TELEPHONE]) > 25)
-        ) {
-
-            return false;
-        }
-
-        return $valid;
+        return array(
+            self::PARAMETER_ADDRESS_STREET_1 => array('Length' => array(0, 70)),
+            self::PARAMETER_ADDRESS_STREET_2 => array('Length' => array(0, 70)),
+            self::PARAMETER_ZIP => array('Length' => array(0, 10)),
+            self::PARAMETER_STATE => array('Length' => array(0, 70)),
+            self::PARAMETER_STATE => array('Length' => array(0, 70)),
+            self::PARAMETER_CITY => array('Length' => array(0, 70)),
+            self::PARAMETER_COUNTRY => array('Length' => array(0, 70)), //string
+            self::PARAMETER_WORK_EMAIL => array('Email' => true),
+            self::PARAMETER_OTHER_EMAIL => array('Email' => true),
+            self::PARAMETER_MOBILE => array('Phone' => true),
+            self::PARAMETER_WORK_TELEPHONE => array('Phone' => true),
+            self::PARAMETER_HOME_TELEPHONE => array('Phone' => true)
+        );
     }
+
 
 }

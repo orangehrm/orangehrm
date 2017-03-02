@@ -25,6 +25,15 @@ use Orangehrm\Rest\Api\Pim\EmployeeSaveAPI;
 class EmployeeDetailApiAction extends baseRestAction
 {
 
+    private $apiEmployeeSave = null;
+
+    protected function init(Request $request)
+    {
+        $this->apiEmployeeSave = new EmployeeSaveAPI($request);
+        $this->postValidationRule = $this->apiEmployeeSave->getValidationRules();
+
+    }
+
     protected function handleGetRequest(Request $request)
     {
 
@@ -35,9 +44,10 @@ class EmployeeDetailApiAction extends baseRestAction
 
     protected function handlePostRequest(Request $request)
     {
-        $apiEmployeeSave = new EmployeeSaveAPI($request);
-        return $apiEmployeeSave->saveEmployee();
+
+        return $this->apiEmployeeSave->saveEmployee();
     }
+
     protected function handlePutRequest(Request $request)
     {
         $apiEmployeeDetail = new EmployeeDetailAPI($request);

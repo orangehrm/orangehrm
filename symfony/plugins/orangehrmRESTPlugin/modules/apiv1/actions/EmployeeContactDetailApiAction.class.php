@@ -24,22 +24,31 @@ use Orangehrm\Rest\Api\Pim\EmployeeContactDetailAPI;
 class EmployeeContactDetailApiAction extends baseRestAction
 {
 
+    private $apiEmployeeContactDetail = null;
+
+    protected function init(Request $request)
+    {
+        $this->apiEmployeeContactDetail = new EmployeeContactDetailAPI($request);
+        $this->postValidationRule = $this->apiEmployeeContactDetail->getValidationRules();
+        $this->putValidationRule = $this->apiEmployeeContactDetail->getValidationRules();
+    }
+
     protected function handleGetRequest(Request $request)
     {
 
-        $apiEmployeeContactDetail = new EmployeeContactDetailAPI($request);
-        return $apiEmployeeContactDetail->getEmployeeContactDetails();
+        return $this->apiEmployeeContactDetail->getEmployeeContactDetails();
     }
 
     protected function handlePostRequest(Request $request)
     {
-        $apiEmployeeContactDetail = new EmployeeContactDetailAPI($request);
-        return $apiEmployeeContactDetail->saveEmployeeContactDetails();
+
+        return $this->apiEmployeeContactDetail->saveEmployeeContactDetails();
     }
+
     protected function handlePutRequest(Request $request)
     {
-        $apiEmployeeContactDetail = new EmployeeContactDetailAPI($request);
-        return $apiEmployeeContactDetail->updateEmployeeContactDetails();
+
+        return $this->apiEmployeeContactDetail->updateEmployeeContactDetails();
     }
 
 }
