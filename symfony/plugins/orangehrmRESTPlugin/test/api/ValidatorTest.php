@@ -19,12 +19,17 @@
  */
 use Orangehrm\Rest\Api\Validator;
 
+/**
+ *
+ * @group API
+ */
+
 class ValidatorTest extends PHPUnit_Framework_TestCase
 {
 
     public function testValidateWithOneProperty() {
         $rule = array(
-            'name'=> array('Alnum'=>true,'NoWhitespace'=>true,'Length'=>array(1,10))
+            'name'=> array('Length'=>array(0,10))
         );
         $values = array('name'=>'Mike');
         $result = Validator::validate($values,$rule);

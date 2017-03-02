@@ -51,6 +51,7 @@ class orangehrmRESTPluginAllTests
         $suite->addTestFile(dirname(__FILE__) . '/api/pim/entity/ApiEmployeeTest.php');
         $suite->addTestFile(dirname(__FILE__) . '/api/pim/entity/ApiSupervisorTest.php');
 
+
         return $suite;
     }
 

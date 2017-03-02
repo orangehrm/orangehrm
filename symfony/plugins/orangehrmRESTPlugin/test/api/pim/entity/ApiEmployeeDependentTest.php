@@ -42,10 +42,11 @@ class ApiEmployeeDependantTest extends PHPUnit_Framework_TestCase
 
             'name' => 'shane Lewis',
             'dob' => '2016-06-34',
-            'relationship' => 'Son'
+            'relationship' => 'Son',
+            'sequenceNumber' => 1
         );
 
-        $employeeDependant = new EmployeeDependent("shane Lewis",'Son','2016-06-34');
+        $employeeDependant = new EmployeeDependent("shane Lewis",'Son','2016-06-34',1);
 
         $this->assertEquals($testDependantsArray, $employeeDependant->toArray());
 

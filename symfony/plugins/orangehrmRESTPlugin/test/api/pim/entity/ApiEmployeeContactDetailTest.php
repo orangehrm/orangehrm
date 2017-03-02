@@ -43,7 +43,7 @@ class ApiEmployeeContactDetailTest extends PHPUnit_Framework_TestCase
         $testContactsArray = array(
 
             'id' => 1,
-            'empNumber' => '001',
+            'code' => '001',
             'fullName' => 'Nina Jane Lewis',
             'addressStreet1' => 'River street vancour',
             'addressStreet2' => 'No 45 Park road',

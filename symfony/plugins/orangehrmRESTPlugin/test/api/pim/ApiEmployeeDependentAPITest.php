@@ -72,6 +72,7 @@ class ApiEmployeeDependentAPITest extends PHPUnit_Framework_TestCase
         $empDependentTest->setEmpNumber(1);
         $empDependentTest->setName('Shane Lewis');
         $empDependentTest->setRelationship('Son');
+        $empDependentTest->setSeqno(1);
         $empDependentTest->setRelationshipType('other');
 
         $employeeDependentsList = new Doctrine_Collection('EmpDependent');
@@ -96,7 +97,7 @@ class ApiEmployeeDependentAPITest extends PHPUnit_Framework_TestCase
         $returned = $this->employeeDependantAPI->getEmployeeDependents();
 
         // creating the employee json array
-        $employeeDependant = new EmployeeDependent('Shane Lewis', 'Son', '2015-05-14');
+        $employeeDependant = new EmployeeDependent('Shane Lewis', 'Son', '2015-05-14',1);
 
         $jsonEmployeeDependantsArray = $employeeDependant->toArray();
 
