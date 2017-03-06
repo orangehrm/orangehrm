@@ -3,16 +3,16 @@
 * @apiName SearchEmployee
 * @apiGroup Employee
 *
-* @apiParam {String} [name] employee name.
-* @apiParam {Number} [id] employee Id.
-* @apiParam {String} [status] employee status.
-* @apiParam {String} [supervisor] supervisor name.
-* @apiParam {String} [jobtitle] employee job title.
+* @apiParam {String} [name] Employee name.
+* @apiParam {Number} [id] Employee Id.
+* @apiParam {String} [status] Employee status.
+* @apiParam {String} [supervisor] Supervisor name.
+* @apiParam {String} [jobtitle] Employee job title.
 * @apiParam {String} [unit] Employee Unit.
-* @apiParam {String} [dob] employee birth day.
-* @apiParam {String} [gender] employee gender.
-* @apiParam {Number} [limit] record limit.
-* @apiParam {Number} [page] pagination number.
+* @apiParam {String} [dob] Employee birth day.
+* @apiParam {String} [gender] Employee gender.
+* @apiParam {Number} [limit] Record limit.
+* @apiParam {Number} [page] Pagination number.
 * @apiSuccess {Object} data Matching Employee list.
 * @apiSuccess {Object} rels  API relations.
 *
