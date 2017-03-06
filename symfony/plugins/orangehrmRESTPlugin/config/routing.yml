@@ -1,40 +1,40 @@
 api_employee_dependants:
   url: /api/v1/employee/:id/dependent
-  param: { module:apiv1, action:EmployeeDependantApi }
+  param: { module:apiv1pim, action:EmployeeDependantApi }
   requirements:
     id: \d+
     sf_method: [get, post, put, delete]
 
 api_employee_details:
   url: /api/v1/employee/:id
-  param: { module: apiv1, action: EmployeeDetailApi }
+  param: { module: apiv1pim, action: EmployeeDetailApi }
   requirements:
     id: \d+
     sf_method: [get, post, put, delete]
 
 api_search_employee:
   url: /api/v1/employee/search
-  param: { module:apiv1, action:EmployeeSearchApi }
+  param: { module:apiv1pim, action:EmployeeSearchApi }
   requirements:
       sf_method: [get]
 
 api_employee_contacts:
   url: /api/v1/employee/:id/contact-detail
-  param: { module:apiv1, action:EmployeeContactDetailApi }
+  param: { module:apiv1pim, action:EmployeeContactDetailApi }
   requirements:
     id: \d+
     sf_method: [get, post, put, delete]
 
 api_employee_job_detail:
   url: /api/v1/employee/:id/job-detail
-  param: { module:apiv1, action:EmployeeJobDetailApi }
+  param: { module:apiv1pim, action:EmployeeJobDetailApi }
   requirements:
     id: \d+
     sf_method: [get, post, put, delete]
 
 api_employee_termination:
   url: /api/v1/employee/:id/action/terminate
-  param: { module:apiv1, action:EmployeeTerminateApi }
+  param: { module:apiv1pim, action:EmployeeTerminateApi }
   requirements:
     id: \d+
     sf_method: [post]
