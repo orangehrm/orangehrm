@@ -42,7 +42,9 @@ class ApiSupervisorTest extends PHPUnit_Framework_TestCase
         $testSupervisorArray = array(
 
             'name' => 'Martin Riggs',
-            'id' => 2
+            'id' => 2,
+            'code' => '',
+            'reportingMethod' =>''
 
         );
 
