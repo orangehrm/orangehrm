@@ -1,5 +1,5 @@
 /**
-* @api {post} /employee/:id/supervisor Update Supervisor Details
+* @api {put} /employee/:id/supervisor Update Supervisor Details
 * @apiName updateEmployeeSupervisor
 * @apiGroup Employee
 * @apiVersion 0.1.0

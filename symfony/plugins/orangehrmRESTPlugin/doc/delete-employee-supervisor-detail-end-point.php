@@ -1,5 +1,5 @@
 /**
-* @api {post} /employee/:id/supervisor Delete Supervisor Details
+* @api {del} /employee/:id/supervisor Delete Supervisor Details
 * @apiName deleteEmployeeSupervisor
 * @apiGroup Employee
 * @apiVersion 0.1.0
