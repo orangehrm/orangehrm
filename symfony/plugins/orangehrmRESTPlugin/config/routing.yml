@@ -38,3 +38,10 @@ api_employee_termination:
   requirements:
     id: \d+
     sf_method: [post]
+
+api_employee_supervisor:
+  url: /api/v1/employee/:id/supervisor
+  param: { module:apiv1pim, action:EmployeeSupervisorApi }
+  requirements:
+    id: \d+
+    sf_method: [get, post, put, delete]
