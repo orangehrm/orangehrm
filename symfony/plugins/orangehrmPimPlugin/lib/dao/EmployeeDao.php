@@ -1702,9 +1702,11 @@ class EmployeeDao extends BaseDao {
     }
 
     /**
-     * Delete reportTo object
-     * @param int $supNumber $subNumber $reportingMethod
-     * @return boolean
+     * @param $supNumber
+     * @param $subNumber
+     * @param $reportingMethod
+     * @return bool
+     * @throws DaoException
      */
     public function deleteReportToObject($supNumber, $subNumber, $reportingMethod) {
 
@@ -2305,13 +2307,18 @@ class EmployeeDao extends BaseDao {
      * @return mixed
      * @throws PIMServiceException
      */
-    public function updateEmployeeDependent(EmpDependent $empDependent){
+    public function updateEmployeeDependent(EmpDependent $empDependent)
+    {
 
         $empNumber = $empDependent->getEmpNumber();
         $seqNo = $empDependent->getSeqno();
 
-        $dependent = Doctrine::getTable('EmpDependent')->find(array('emp_number' => $empNumber,
-            'seqno' => $seqNo));
+        $q = Doctrine_Query::create()
+            ->from('EmpDependent')
+            ->where('emp_number = ?', $empNumber)
+            ->andWhere('ed_seqno = ?', $seqNo);
+        $result = $q->execute(array(), Doctrine::HYDRATE_ARRAY);
+        $dependent = $result[0];
 
         if (empty($dependent)) {
             throw new PIMServiceException('Invalid dependent');
@@ -2319,9 +2326,8 @@ class EmployeeDao extends BaseDao {
 
             $dependent->name = $empDependent->getName();
             $dependent->relationship = $empDependent->getRelationship();
-            $dependent->relationship_type = $empDependent->getRelationshipType();
             $dependent->date_of_birth = $empDependent->getDateOfBirth();
-
+            $dependent->setEmpNumber($empNumber);
             $dependent->save();
             return $dependent;
         }
