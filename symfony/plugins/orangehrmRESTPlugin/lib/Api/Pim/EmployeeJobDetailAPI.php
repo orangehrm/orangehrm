@@ -207,9 +207,20 @@ class EmployeeJobDetailAPI extends EndPoint
         if (!empty($filters[self::PARAMETER_END_DATE])) {
             $empContract->end_date = $filters[self::PARAMETER_END_DATE];
         }
-//        if (!empty($filters[self::PARAMETER_LOCATION])) {
-//            $employee-> = $filters[self::PARAMETER_LOCATION];
-//        }
+        if (!empty($filters[self::PARAMETER_LOCATION])) {
+            $foundLocation = false;
+            foreach ($employee->getLocations() as $empLocation) {
+                if ($filters[self::PARAMETER_LOCATION] == $empLocation->id) {
+                    $foundLocation = true;
+                } else {
+                    $employee->unlink('locations', $empLocation->id);
+                }
+            }
+            if (!$foundLocation) {
+                $employee->link('locations', $filters[self::PARAMETER_LOCATION]);
+            }
+
+        }
         if (!empty($filters[self::PARAMETER_STATUS])) {
             $employee->emp_status = $filters[self::PARAMETER_STATUS];
         }
@@ -354,7 +365,7 @@ class EmployeeJobDetailAPI extends EndPoint
             }
         }
 
-        return false;
+        return true;
     }
 
     public function validateSubunit()

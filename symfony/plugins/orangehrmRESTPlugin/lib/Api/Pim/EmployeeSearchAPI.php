@@ -41,7 +41,7 @@ class EmployeeSearchAPI extends EndPoint
     const PARAMETER_LIMIT = 'limit';
     const PARAMETER_GENDER = 'gender';
     const PARAMETER_DOB = 'dob';
-    const PARAMETER_OFFSET = 'page';// in employee search it is names as offset
+    const PARAMETER_OFFSET = 'page';// in employee search it is named as offset
 
     /**
      * Relation parameters
@@ -225,10 +225,12 @@ class EmployeeSearchAPI extends EndPoint
         return $relationsArray;
     }
 
-    public function getSearchParamValidation() {
+    public function getSearchParamValidation()
+    {
         return array(
-            'name'=> array('StringType'=>true),
-            'dob'=>array('Date'=>true)
+            self::PARAMETER_NAME => array('StringType' => true),
+            self::PARAMETER_DOB => array('Date' => array('Y-m-d')),
+
         );
     }
 }

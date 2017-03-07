@@ -128,14 +128,20 @@ class EmployeeContactDetailAPI extends EndPoint
         $empId = $filters[self::PARAMETER_ID];
         $employee = $this->getEmployeeService()->getEmployee($empId);
 
-        $this->buildEmployeeContactDetails($employee, $filters);
-        $returnedEmployee = $this->getEmployeeService()->saveEmployee($employee);
+        if (!empty($employee) && $this->validateEmployeeEmails($filters[self::PARAMETER_WORK_EMAIL],
+                $filters[self::PARAMETER_OTHER_EMAIL])
+        ) {
 
-        if (!($returnedEmployee instanceof \Employee)) {
-            throw new BadRequestException("Saving failed");
+            $this->buildEmployeeContactDetails($employee, $filters);
+            $returnedEmployee = $this->getEmployeeService()->saveEmployee($employee);
+
+            if (!($returnedEmployee instanceof \Employee)) {
+                throw new BadRequestException("Saving failed");
+            }
+            return new Response(array('success' => 'Successfully saved'));
+        } else {
+            throw new BadRequestException("Employee not found");
         }
-        return new Response(array('success' => 'Successfully saved'));
-
     }
 
     /**
@@ -151,13 +157,22 @@ class EmployeeContactDetailAPI extends EndPoint
 
         $empId = $filters[self::PARAMETER_ID];
         $employee = $this->getEmployeeService()->getEmployee($empId);
-        $this->buildEmployeeContactDetails($employee, $filters);
-        $returnedEmployee = $this->getEmployeeService()->saveEmployee($employee);
 
-        if (!($returnedEmployee instanceof \Employee)) {
-            throw new BadRequestException("Updating failed");
+        if (!empty($employee) && $this->validateEmployeeEmails($filters[self::PARAMETER_WORK_EMAIL],
+                $filters[self::PARAMETER_OTHER_EMAIL])
+        ) {
+
+            $this->buildEmployeeContactDetails($employee, $filters);
+            $returnedEmployee = $this->getEmployeeService()->saveEmployee($employee);
+
+            if (!($returnedEmployee instanceof \Employee)) {
+                throw new BadRequestException("Updating failed");
+            }
+            return new Response(array('success' => 'Successfully updated'));
+        } else {
+            throw new BadRequestException("Employee not found");
         }
-        return new Response(array('success' => 'Successfully updated'));
+
 
     }
 
@@ -282,5 +297,27 @@ class EmployeeContactDetailAPI extends EndPoint
         );
     }
 
+    /**
+     * Validate employee work email and other email
+     *
+     * @param $workEmail
+     * @param $otherEmail
+     * @return bool
+     */
+    protected function validateEmployeeEmails($workEmail, $otherEmail)
+    {
+        $emailList = $this->getEmployeeService()->getEmailList();
+
+        foreach ($emailList as $emails) {
+            if ($emails[emp_work_email] === $workEmail) {
+                throw new BadRequestException('Work email exists');
+            }
+            if ($emails[emp_oth_email] === $otherEmail) {
+                throw new BadRequestException('Other email exists');
+            }
+            return true;
+        }
+
+    }
 
 }

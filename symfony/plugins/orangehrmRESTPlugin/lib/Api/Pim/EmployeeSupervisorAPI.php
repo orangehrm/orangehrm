@@ -20,6 +20,8 @@
 namespace Orangehrm\Rest\Api\Pim;
 
 use Orangehrm\Rest\Api\EndPoint;
+use Orangehrm\Rest\Api\Exception\BadRequestException;
+use Orangehrm\Rest\Api\Exception\InvalidParamException;
 use Orangehrm\Rest\Api\Exception\RecordNotFoundException;
 use Orangehrm\Rest\Api\Pim\Entity\Supervisor;
 use Orangehrm\Rest\Http\Response;
@@ -109,6 +111,9 @@ class EmployeeSupervisorAPI extends EndPoint
         $supervisorId = $this->getRequestParams()->getPostParam(self::PARAMETER_SUPERVISOR_ID);
         $reportingMethodName = $this->getRequestParams()->getPostParam(self::PARAMETER_REPORTING_METHOD);
 
+        if(empty($supervisorId) || empty($reportingMethodName)){
+            throw new InvalidParamException('Invalid parameter');
+        }
         $reportingMethod = $this->getReportingMethodConfigurationService()->getReportingMethodByName($reportingMethodName);
 
         $reportingMethodId = null;
@@ -156,11 +161,19 @@ class EmployeeSupervisorAPI extends EndPoint
         $reportingMethodName = $this->getRequestParams()->getPostParam(self::PARAMETER_REPORTING_METHOD);
         $reportingMethod = $this->getReportingMethodConfigurationService()->getReportingMethodByName($reportingMethodName);
 
+        if(empty($supervisorId) || empty($reportingMethodName)){
+            throw new InvalidParamException('Invalid parameter');
+        }
         if(empty($existingReportToObject)|| empty($reportingMethod)) {
             throw new RecordNotFoundException('Supervisor not found');
         } else {
-            $this->getEmployeeService()->removeSupervisor($supervisorId,$employeeId,$reportingMethodName);
-            return new Response(array('success' => 'Successfully deleted'));
+            $status = $this->getEmployeeService()->removeSupervisor($supervisorId,$employeeId,$reportingMethod->getId());
+            if($status) {
+                return new Response(array('success' => 'Successfully deleted'));
+            }else {
+                throw new BadRequestException('Deleting Failed');
+            }
+
         }
     }
 

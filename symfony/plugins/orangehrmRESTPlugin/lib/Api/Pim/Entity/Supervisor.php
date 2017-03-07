@@ -31,6 +31,10 @@ class Supervisor implements Serializable
 
     private $id = 0;
 
+    private $code = '';
+
+    private $reportingMethod = '';
+
     /**
      * @return mixed
      */
@@ -64,14 +68,48 @@ class Supervisor implements Serializable
     }
 
     /**
+     * @return string
+     */
+    public function getCode()
+    {
+        return $this->code;
+    }
+
+    /**
+     * @param string $code
+     */
+    public function setCode($code)
+    {
+        $this->code = $code;
+    }
+
+    /**
+     * @return string
+     */
+    public function getReportingMethod()
+    {
+        return $this->reportingMethod;
+    }
+
+    /**
+     * @param string $reportingMethod
+     */
+    public function setReportingMethod($reportingMethod)
+    {
+        $this->reportingMethod = $reportingMethod;
+    }
+
+    /**
      * Supervisor constructor.
      * @param $name
      * @param $id
      */
-    public function __construct($name, $id)
+    public function __construct($name, $id ,$code = '', $reportingMethod = '')
     {
         $this->setName($name);
         $this->setId($id);
+        $this->setReportingMethod($reportingMethod);
+        $this->setCode($code);
         return $this;
     }
 
@@ -79,7 +117,9 @@ class Supervisor implements Serializable
     {
         return array(
             'name' => $this->getName(),
-            'id' => $this->getId()
+            'id' => $this->getId(),
+            'code' => $this->getCode(),
+            'reportingMethod' => $this->getReportingMethod()
         );
     }
 }

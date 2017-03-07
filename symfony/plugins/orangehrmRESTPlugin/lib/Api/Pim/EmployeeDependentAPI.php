@@ -115,12 +115,14 @@ class EmployeeDependentAPI extends EndPoint
     public function updateEmployeeDependents()
     {
         $filters = $this->filterParameters();
-
+        if(!is_numeric( $filters[self::PARAMETER_SEQ_NUMBER] )) {
+            throw new InvalidParamException("Sequence number is wrong");
+        }
         $dependent = $this->buildEmployeeDependents($filters);
         try {
             $result = $this->getEmployeeService()->updateEmployeeDependent($dependent);
 
-        } catch (\PIMServiceException $pimEx) {
+        } catch (\Exception $pimEx) {
             throw new BadRequestException('Updating failed');
         }
 
@@ -208,6 +210,7 @@ class EmployeeDependentAPI extends EndPoint
         $employeeDependent->setEmpNumber($filters[self::PARAMETER_ID]);
         $employeeDependent->name = $filters[self::PARAMETER_NAME];
         $employeeDependent->relationship = $filters[self::PARAMETER_RELATIONSHIP];
+        $employeeDependent ->relationship_type = 'other';
         $dob = date("Y-m-d", strtotime($filters[self::PARAMETER_DOB]));
         $employeeDependent->date_of_birth = $dob;
 
@@ -230,14 +233,14 @@ class EmployeeDependentAPI extends EndPoint
             self::PARAMETER_DOB => array('Date' => array('Y-m-d')),
             self::PARAMETER_RELATIONSHIP => array('StringType' => true, 'NotEmpty' => true,'Length' => array(1,50)),
             self::PARAMETER_NAME => array('Length' => array(0, 50), 'NotEmpty' => true),
-            self::PARAMETER_SEQ_NUMBER=> array( 'IntType' => true ,'NotEmpty' => true,'Length' => array(1,1000))
+            self::PARAMETER_SEQ_NUMBER=> array('NotEmpty' => true,'Length' => array(1,1000))
         );
     }
 
     public function getDelValidationRules()
     {
         return array(
-          self::PARAMETER_SEQ_NUMBER=> array( 'IntType' => true ,'NotEmpty' => true,'Length' => array(1,1000))
+          self::PARAMETER_SEQ_NUMBER=> array( 'NotEmpty' => true,'Length' => array(1,1000))
         );
     }
 
