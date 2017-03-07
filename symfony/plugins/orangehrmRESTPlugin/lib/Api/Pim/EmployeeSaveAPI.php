@@ -55,8 +55,12 @@ class EmployeeSaveAPI extends EndPoint
         $relationsArray = array();
         $returned = null;
         $filters = $this->filterParameters();
+        $employee = null;
+        if (!empty($filters[self::PARAMETER_EMPLOYEE_ID])) {
 
-        $employee = $this->getEmployeeService()->getEmployeeByEmployeeId($filters[self::PARAMETER_EMPLOYEE_ID]);
+            $employee = $this->getEmployeeService()->getEmployeeByEmployeeId($filters[self::PARAMETER_EMPLOYEE_ID]);
+        }
+
 
         if ($employee instanceof \Employee) {
             throw new BadRequestException('Failed To Save: Employee Id Exists');
@@ -73,7 +77,7 @@ class EmployeeSaveAPI extends EndPoint
         if (!$returnedEmployee instanceof \Employee) {
             throw new BadRequestException('Employee saving Failed');
         } else {
-            return new Response(array('success' => 'Successfully saved' ,'id' => $returnedEmployee->getEmpNumber()));
+            return new Response(array('success' => 'Successfully saved', 'id' => $returnedEmployee->getEmpNumber()));
         }
     }
 
@@ -117,9 +121,9 @@ class EmployeeSaveAPI extends EndPoint
     {
         return array(
             self::PARAMETER_FIRST_NAME => array('StringType' => true, 'NotEmpty' => true, 'Length' => array(1, 30)),
-            self::PARAMETER_MIDDLE_NAME => array('StringType' => true,  'Length' => array(1, 30)),
+            self::PARAMETER_MIDDLE_NAME => array('StringType' => true, 'Length' => array(1, 30)),
             self::PARAMETER_LAST_NAME => array('StringType' => true, 'NotEmpty' => true, 'Length' => array(1, 30)),
-            self::PARAMETER_EMPLOYEE_ID => array('StringType' => true,'Length' => array(1, 10)),
+            self::PARAMETER_EMPLOYEE_ID => array('StringType' => true, 'Length' => array(1, 10)),
         );
     }
 
