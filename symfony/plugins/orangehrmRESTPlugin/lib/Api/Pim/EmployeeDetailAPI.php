@@ -51,7 +51,7 @@ class EmployeeDetailAPI extends EndPoint
     const PARAMETER_DRIVERS_LICENSE_EXP_DATE = 'licenseNumberExpDate';
 
 
-
+    private $employeeService;
 
     /**
      * @return \EmployeeService|null
@@ -69,6 +69,27 @@ class EmployeeDetailAPI extends EndPoint
     public function setEmployeeService($employeeService)
     {
         $this->employeeService = $employeeService;
+    }
+
+    /**
+     * Get NationalityService
+     * @returns NationalityService
+     */
+    public function getNationalityService()
+    {
+        if (is_null($this->nationalityService)) {
+            $this->nationalityService = new \NationalityService();
+        }
+        return $this->nationalityService;
+    }
+
+    /**
+     * Set NationalityService
+     * @param NationalityService $nationalityService
+     */
+    public function setNationalityService(\NationalityService $nationalityService)
+    {
+        $this->nationalityService = $nationalityService;
     }
 
     /**
@@ -111,63 +132,73 @@ class EmployeeDetailAPI extends EndPoint
      * @throws BadRequestException
      * @throws InvalidParamException
      */
-    public function updateEmployee(){
+    public function updateEmployee()
+    {
 
         $filters = $this->filterParameters();
-        if($this->validateInputs($filters)){
+        if ($this->validateInputs($filters)) {
             $empId = $this->getRequestParams()->getUrlParam(self::PARAMETER_ID);
 
             $employee = $this->getEmployeeService()->getEmployee($empId);
 
-            if(!empty($employee)){
+            if (!empty($employee)) {
 
-                if(!empty($filters[self::PARAMETER_FIRST_NAME])){
-                    $employee->setFirstName( $filters[self::PARAMETER_FIRST_NAME]);
+                if (!empty($filters[self::PARAMETER_FIRST_NAME])) {
+                    $employee->setFirstName($filters[self::PARAMETER_FIRST_NAME]);
                 }
-                if(!empty($filters[self::PARAMETER_MIDDLE_NAME])){
-                    $employee->setMiddleName( $filters[self::PARAMETER_MIDDLE_NAME]);
+                if (!empty($filters[self::PARAMETER_MIDDLE_NAME])) {
+                    $employee->setMiddleName($filters[self::PARAMETER_MIDDLE_NAME]);
                 }
-                if(!empty($filters[self::PARAMETER_LAST_NAME])){
+                if (!empty($filters[self::PARAMETER_LAST_NAME])) {
                     $employee->setLastName($filters[self::PARAMETER_LAST_NAME]);
                 }
-                if(!empty($filters[self::PARAMETER_NUMBER])){
+                if (!empty($filters[self::PARAMETER_NUMBER])) {
                     $employee->setEmployeeId($filters[self::PARAMETER_NUMBER]);
                 }
-                if(!empty($filters[self::PARAMETER_DOB])){
-                   $dob = date('Y-m-d', strtotime($filters[self::PARAMETER_DOB]));
-                    $employee->setEmpBirthday( $filters[self::PARAMETER_DOB] );
+                if (!empty($filters[self::PARAMETER_DOB])) {
+                    $dob = date('Y-m-d', strtotime($filters[self::PARAMETER_DOB]));
+                    $employee->setEmpBirthday($filters[self::PARAMETER_DOB]);
                 }
-                if(!empty($filters[self::PARAMETER_GENDER])){
-                    if($filters[self::PARAMETER_GENDER] == 'M'){
+                if (!empty($filters[self::PARAMETER_GENDER])) {
+                    if ($filters[self::PARAMETER_GENDER] == 'M') {
                         $employee->setEmpGender(1);
-                    }else if ($filters[self::PARAMETER_GENDER] == 'F'){
-                        $employee->setEmpGender(2);
+                    } else {
+                        if ($filters[self::PARAMETER_GENDER] == 'F') {
+                            $employee->setEmpGender(2);
+                        }
                     }
 
                 }
-                if(!empty($filters[self::PARAMETER_OTHER_ID])){
+                if (!empty($filters[self::PARAMETER_OTHER_ID])) {
                     $employee->setOtherId($filters[self::PARAMETER_OTHER_ID]);
                 }
-                if(!empty($filters[self::PARAMETER_DRIVERS_LICENSE_NUMBER])){
-                    $employee->setEmpDriLiceExpDate($filters[self::PARAMETER_DRIVERS_LICENSE_EXP_DATE]);
+                if (!empty($filters[self::PARAMETER_DRIVERS_LICENSE_EXP_DATE])) {
+
+                    $employee->emp_dri_lice_exp_date = $filters[self::PARAMETER_DRIVERS_LICENSE_EXP_DATE];
+
                 }
-                if(!empty($filters[self::PARAMETER_DRIVERS_LICENSE_NUMBER])){
+                if (!empty($filters[self::PARAMETER_DRIVERS_LICENSE_NUMBER])) {
                     $employee->setLicenseNo($filters[self::PARAMETER_DRIVERS_LICENSE_NUMBER]);
+                }
+                if (!empty($filters[self::PARAMETER_MARITAL_STATUS])) {
+                    $employee->emp_marital_status = $this->checkMaritalStatus($filters[self::PARAMETER_MARITAL_STATUS]);
+                }
+                if (!empty($filters[self::PARAMETER_NATIONALITY])) {
+                    $employee->nation_code = $this->checkNationality($filters[self::PARAMETER_NATIONALITY]);
                 }
 
                 $returnedEmp = $this->getEmployeeService()->saveEmployee($employee);
-                if($returnedEmp instanceof \Employee){
+                if ($returnedEmp instanceof \Employee) {
                     return new Response(array('success' => 'successfully updated'));
-                }else {
+                } else {
                     throw new BadRequestException("updating failed");
                 }
-            }else {
+            } else {
                 throw new BadRequestException("employee not found");
             }
 
 
-
-        }else {
+        } else {
             throw new InvalidParamException("updating failed");
         }
 
@@ -219,6 +250,9 @@ class EmployeeDetailAPI extends EndPoint
         if (!empty($this->getRequestParams()->getPostParam(self::PARAMETER_DRIVERS_LICENSE_EXP_DATE))) {
             $filters[self::PARAMETER_DRIVERS_LICENSE_EXP_DATE] = ($this->getRequestParams()->getPostParam(self::PARAMETER_DRIVERS_LICENSE_EXP_DATE));
         }
+        if (!empty($this->getRequestParams()->getPostParam(self::PARAMETER_OTHER_ID))) {
+            $filters[self::PARAMETER_OTHER_ID] = ($this->getRequestParams()->getPostParam(self::PARAMETER_OTHER_ID));
+        }
         return $filters;
 
     }
@@ -228,7 +262,7 @@ class EmployeeDetailAPI extends EndPoint
     {
         return array(
             self::PARAMETER_FIRST_NAME => array('StringType' => true, 'NotEmpty' => true, 'Length' => array(1, 30)),
-            self::PARAMETER_MIDDLE_NAME => array('StringType' => true,  'Length' => array(1, 30)),
+            self::PARAMETER_MIDDLE_NAME => array('StringType' => true, 'Length' => array(1, 30)),
             self::PARAMETER_LAST_NAME => array('StringType' => true, 'NotEmpty' => true, 'Length' => array(1, 30)),
             self::PARAMETER_DOB => array('Date' => array('Y-m-d')),
             self::PARAMETER_DRIVERS_LICENSE_EXP_DATE => array('Date' => array('Y-m-d')),
@@ -246,8 +280,8 @@ class EmployeeDetailAPI extends EndPoint
     {
         $valid = true;
 
-        if (!empty($filters[self::PARAMETER_GENDER]) && !( $filters[self::PARAMETER_GENDER]=='M'  || $filters[self::PARAMETER_GENDER] =='F' )) {
-             return false;
+        if (!empty($filters[self::PARAMETER_GENDER]) && !($filters[self::PARAMETER_GENDER] == 'M' || $filters[self::PARAMETER_GENDER] == 'F')) {
+            return false;
         }
 
         return $valid;
@@ -268,5 +302,28 @@ class EmployeeDetailAPI extends EndPoint
         $emp->buildEmployee($employee);
         return $emp->toArray();
 
+    }
+
+    protected function checkMaritalStatus($status)
+    {
+        if ($status == 'Married' || $status == 'Single' || $status == 'Other') {
+            return $status;
+        } else {
+            throw new InvalidParamException('Invalid marital status');
+        }
+
+    }
+
+    protected function checkNationality($nation)
+    {
+
+        $nationalityService = $this->getNationalityService();
+        $nationalities = $nationalityService->getNationalityList();
+
+        foreach ($nationalities as $nationality) {
+            if ($nationality->getName() == $nation) {
+                return $nationality->getId();
+            }
+        }
     }
 }
