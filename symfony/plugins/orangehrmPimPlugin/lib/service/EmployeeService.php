@@ -1376,6 +1376,19 @@ class EmployeeService extends BaseService {
     }
 
     /**
+     * Remove employee supervisor
+     *
+     * @param $supNumber
+     * @param $subNumber
+     * @param $reportingMethod
+     * @return bool
+     */
+    public function removeSupervisor($supNumber,$subNumber,$reportingMethod)
+    {
+        return  $this->getEmployeeDao()->deleteReportToObject($supNumber, $subNumber, $reportingMethod);
+    }
+
+    /**
      * Check if user with given userId is an admin
      * @param string $userId
      * @return bool - True if given user is an admin, false if not
