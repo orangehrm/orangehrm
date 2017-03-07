@@ -10,7 +10,6 @@
 * @apiParam {String} middleName  Middle name of the employee.
 * @apiParam {String} lastName  Last Name of the employee.
 * @apiParam {String} code  Employee code.
-* @apiParam {String} fullName  Full Name of the employee.
 * @apiParam {String} dob  DOB of the employee.
 * @apiParam {String} driversLicenseNumber  Employee driver's license number.
 * @apiParam {String} licenseExpiryDare  Employee driver's license expiry date
