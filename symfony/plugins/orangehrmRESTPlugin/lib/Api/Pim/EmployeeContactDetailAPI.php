@@ -315,9 +315,8 @@ class EmployeeContactDetailAPI extends EndPoint
             if ($emails[emp_oth_email] === $otherEmail) {
                 throw new BadRequestException('Other email exists');
             }
-            return true;
         }
-
+        return true;
     }
 
 }
