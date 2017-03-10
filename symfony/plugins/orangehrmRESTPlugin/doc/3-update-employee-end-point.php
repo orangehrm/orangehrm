@@ -14,7 +14,7 @@
 * @apiParam {String} driversLicenseNumber  Employee driver's license number.
 * @apiParam {String} licenseExpiryDare  Employee driver's license expiry date
 * @apiParam {String} maritalStatus  Employee marital status.
-* @apiParam {String} gender  Gender of the employee (Male/Female).
+* @apiParam {String} gender  Gender of the employee (M-Male/F-Female).
 * @apiParam {String} otherId  Employee other id.
 * @apiParam {String} nationality  Nationality of the employee.
 * @apiSuccess {String} Object Data success response.

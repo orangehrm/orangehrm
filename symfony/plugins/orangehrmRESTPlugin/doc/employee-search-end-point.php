@@ -4,7 +4,7 @@
 * @apiGroup Employee
 *
 * @apiParam {String} [name] Employee name.
-* @apiParam {Number} [id] Employee Id.
+* @apiParam {String} [code] Employee code.
 * @apiParam {String} [status] Employee status.
 * @apiParam {String} [supervisor] Supervisor name.
 * @apiParam {String} [jobtitle] Employee job title.
@@ -23,7 +23,7 @@
 *         "data":[
     *         {
     *             "id": "1",
-    *             "employeeNumber": "001",
+    *             "code": "001",
     *             "firstName": "John",
     *             "lastName": "Doe",
     *             "middleName": "",
@@ -38,7 +38,7 @@
     *         },
     *         {
     *             "id": "002",
-    *             "employeeNumber": "001",
+    *             "code": "001",
     *             "firstName": "John",
     *             "lastName": "Mass",
     *             "middleName": "",

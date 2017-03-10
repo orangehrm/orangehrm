@@ -3,7 +3,7 @@
 * @apiName getEmployeeContactDetails
 * @apiGroup Employee
 *
-* @apiParam {Number}  id Employee number
+* @apiParam {Number}  id Employee id
 *
 * @apiSuccess {String} fullName  Employee full name.
 * @apiSuccess {Number} id  Employee id.
