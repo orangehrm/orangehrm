@@ -4,13 +4,13 @@
 * @apiGroup Employee
 * @apiVersion 0.1.0
 *
-* @apiParam {Number}  employee id
+* @apiParam {Number}  id Employee id
 *
 * @apiSuccess {String} name Supervisor name.
 * @apiSuccess {Number} supervisorId Supervisor id.
 * @apiSuccess {String} code Supervisor code.
 * @apiSuccess {String} reportingMethod Reporting method to the supervisor.
-* @apiSuccess {Object} data success response
+* @apiSuccess {Object} Data success response
 *
 * @apiSuccessExample Success-Response:
 *     HTTP/1.1 200 OK
@@ -38,6 +38,6 @@
 * @apiErrorExample Error-Response:
 *     HTTP/1.1 404 Not Found
 *     {
-*       "error": "Employee Not Found"
+*       "error": "Employee not found"
 *     }
 */

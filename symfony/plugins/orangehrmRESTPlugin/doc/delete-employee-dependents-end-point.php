@@ -3,10 +3,10 @@
 * @apiName deleteEmployeeDependents
 * @apiGroup Employee
 *
-* @apiParam {Number} id Employee number
+* @apiParam {Number} id Employee id
 *
-* @apiParam {int} sequenceNumber Mandatory sequence number of the dependent.
-* @apiSuccess {Object} data success response.
+* @apiParam {Number} sequenceNumber Mandatory sequence number of the dependent.
+* @apiSuccess {Object} Data success response.
 *
 * @apiSuccessExample Success-Response:
 *     HTTP/1.1 200 OK

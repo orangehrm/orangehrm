@@ -9,7 +9,7 @@
 * @apiParam {String} relationship  relationship of the dependent.
 * @apiParam {String} dob DOB of dependent.
 * @apiParam {String} sequenceNumber  Mandatory sequence number.
-* @apiSuccess {Object} data success response
+* @apiSuccess {Object} Data success response
 *
 * @apiSuccessExample Success-Response:
 *     HTTP/1.1 200 OK
@@ -29,6 +29,6 @@
 * @apiErrorExample Error-Response:
 *     HTTP/1.1 401 Invalid Parameter
 *     {
-*       "error": ["invalid Parameter"]
+*       "error": ["Invalid parameter"]
 *     }
 */

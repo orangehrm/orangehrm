@@ -6,8 +6,8 @@
 * @apiParam {Number}  id Employee number
 *
 * @apiSuccess {String} fullName  Employee full name.
-* @apiSuccess {String} id  Employee id.
-* @apiSuccess {String} code  Employee number.
+* @apiSuccess {Number} id  Employee id.
+* @apiSuccess {String} code  Employee code.
 * @apiSuccess {String} addressStreet1  Address street 1 of the employee.
 * @apiSuccess {String} addressStreet2  Address street 2 of the employee.
 * @apiSuccess {String} city  City of the employee.
@@ -50,6 +50,6 @@
 * @apiErrorExample Error-Response:
 *     HTTP/1.1 404 Not Found
 *     {
-*       "error": "EmployeeNotFound"
+*       "error": "Employee not found"
 *     }
 */

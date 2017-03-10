@@ -4,12 +4,12 @@
 * @apiGroup Employee
 * @apiVersion 0.1.0
 *
-* @apiParam {Number}  employee id
+* @apiParam {Number}  id Employee id
 *
 * @apiSuccess {String} firstName First name of the employee.
 * @apiSuccess {String} middleName  Middle name of the employee.
 * @apiSuccess {String} lastName  Last Name of the employee.
-* @apiSuccess {Int} id  Id of the employee.
+* @apiSuccess {Number} id  Id of the employee.
 * @apiSuccess {String} code  Employee code.
 * @apiSuccess {String} fullName  Full Name of the employee.
 * @apiSuccess {String} status  Status of the employee.
@@ -48,7 +48,10 @@
 *              "jobTitle": "marketing",
 *
 *            "supervisor": [
-*                            []
+*                           {
+*                             "name": "Hameesh Von Johnson",
+*                             "id": "3"
+*                            }
 *                           ]
 *         },
 *       "rels": {
@@ -64,6 +67,6 @@
 * @apiErrorExample Error-Response:
 *     HTTP/1.1 404 Not Found
 *     {
-*       "error": "EmployeeNotFound"
+*       "error": "Employee not ound"
 *     }
 */

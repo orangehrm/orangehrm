@@ -8,7 +8,7 @@
 * @apiParam {String} name Mandatory name of the dependent.
 * @apiParam {String} relationship  Mandatory relationship of the dependent.
 * @apiParam {String} dob DOB of dependent.
-* @apiSuccess {Object} data success response
+* @apiSuccess {Object} Data success response
 *
 * @apiSuccessExample Success-Response:
 *     HTTP/1.1 200 OK
@@ -29,6 +29,6 @@
 * @apiErrorExample Error-Response:
 *     HTTP/1.1 202 Invalid Parameter
 *     {
-*       "error": ["invalid Parameter"]
+*       "error": ["Invalid parameter"]
 *     }
 */

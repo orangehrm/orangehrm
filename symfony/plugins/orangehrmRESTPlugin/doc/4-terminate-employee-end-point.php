@@ -4,12 +4,12 @@
 * @apiGroup Employee
 * @apiVersion 0.1.0
 *
-* @apiParam {Number}  employee id
+* @apiParam {Number}  id Employee id
 *
 * @apiParam {String} TerminationDate Mandatory termination date.
 * @apiParam {String} Reason Mandatory termination reason.
 * @apiParam {String} note Termination note.
-* @apiSuccess {Object} data success response.
+* @apiSuccess {Object} Data success response.
 *
 * @apiSuccessExample Success-Response:
 *     HTTP/1.1 200 OK
@@ -29,6 +29,6 @@
 * @apiErrorExample Error-Response:
 *     HTTP/1.1 202 Invalid Parameter
 *     {
-*       "error": ["invalid Parameter"]
+*       "error": ["Invalid parameter"]
 *     }
 */

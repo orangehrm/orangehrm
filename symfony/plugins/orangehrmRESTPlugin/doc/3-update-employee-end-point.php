@@ -4,7 +4,7 @@
 * @apiGroup Employee
 * @apiVersion 0.1.0
 *
-* @apiParam {Number}  employee id
+* @apiParam {Number}  employee Employee id
 *
 * @apiParam {String} firstName First name of the employee.
 * @apiParam {String} middleName  Middle name of the employee.
@@ -17,7 +17,7 @@
 * @apiParam {String} gender  Gender of the employee (Male/Female).
 * @apiParam {String} otherId  Employee other id.
 * @apiParam {String} nationality  Nationality of the employee.
-* @apiSuccess {String} Object data success response.
+* @apiSuccess {String} Object Data success response.
 *
 * @apiSuccessExample Success-Response:
 *     HTTP/1.1 200 OK
@@ -37,6 +37,6 @@
 * @apiErrorExample Error-Response:
 *     HTTP/1.1 202 Invalid Parameter
 *     {
-*       "error": ["invalid Parameter"]
+*       "error": ["Invalid parameter"]
 *     }
 */
