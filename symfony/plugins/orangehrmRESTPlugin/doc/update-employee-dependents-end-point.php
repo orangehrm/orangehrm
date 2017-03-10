@@ -23,7 +23,7 @@
 * @apiErrorExample Error-Response:
 *     HTTP/1.1 401 Bad Request
 *     {
-*       "error": ["updating failed"]
+*       "error": ["Updating failed"]
 *     }
 *
 * @apiErrorExample Error-Response:
