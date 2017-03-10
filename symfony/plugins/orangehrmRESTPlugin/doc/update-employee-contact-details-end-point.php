@@ -22,14 +22,14 @@
 *     HTTP/1.1 200 OK
 *
 *      {
-*        "success": "Successfully updated"
+*        "success": "Successfully Updated"
 *      }
 *
-* @apiError Bad-Response Updating failed.
+* @apiError Bad-Response Updating Failed.
 *
 * @apiErrorExample Error-Response:
 *     HTTP/1.1 400 Bad Request
 *     {
-*       "error": ["Updating failed"]
+*       "error": ["Updating Failed"]
 *     }
 */

@@ -16,15 +16,15 @@
 *     HTTP/1.1 200 OK
 *
 *      {
-*        "success": "Successfully saved",
+*        "success": "Successfully Saved",
 *        "id": "0011"
 *      }
 *
-* @apiError Bad-Response Saving failed.
+* @apiError Bad-Response Saving Failed.
 *
 * @apiErrorExample Error-Response:
 *     HTTP/1.1 40 Bad Request
 *     {
-*       "error": ["Saving failed"]
+*       "error": ["Saving Failed"]
 *     }
 */

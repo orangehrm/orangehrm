@@ -15,15 +15,15 @@
 *     HTTP/1.1 200 OK
 *
 *      {
-*        "success": "Successfully deleted"
+*        "success": "Successfully Deleted"
 *      }
 *
-* @apiError Bad-Response Saving failed.
+* @apiError Bad-Response Saving Failed.
 *
 * @apiErrorExample Error-Response:
 *     HTTP/1.1 401 Bad Request
 *     {
-*       "error": ["Updating failed"]
+*       "error": ["Updating Failed"]
 *     }
 *
 * @apiErrorExample Error-Response:

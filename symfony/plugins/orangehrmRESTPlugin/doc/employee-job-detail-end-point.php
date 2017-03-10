@@ -38,7 +38,7 @@
 * @apiErrorExample Error-Response:
 *     HTTP/1.1 404 Not Found
 *     {
-*       "error": "Employee not found"
+*       "error": "Employee Not Found"
 *     }
 *
 *

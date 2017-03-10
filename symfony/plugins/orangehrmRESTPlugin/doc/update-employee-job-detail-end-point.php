@@ -19,20 +19,20 @@
 *     HTTP/1.1 200 OK
 *
 *      {
-*        "success": "Successfully saved"
+*        "success": "Successfully Saved"
 *      }
 *
-* @apiError Bad-Response Saving failed.
+* @apiError Bad-Response Saving Failed.
 *
 * @apiErrorExample Error-Response:
 *     HTTP/1.1 400 Bad Request
 *     {
-*       "error": ["Saving failed"]
+*       "error": ["Saving Failed"]
 *     }
 *
 * @apiErrorExample Error-Response:
 *     HTTP/1.1 202 Invalid Parameter
 *     {
-*       "error": ["Invalid parameter"]
+*       "error": ["Invalid Parameter"]
 *     }
 */

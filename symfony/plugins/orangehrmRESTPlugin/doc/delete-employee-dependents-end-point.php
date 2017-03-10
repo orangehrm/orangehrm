@@ -12,20 +12,20 @@
 *     HTTP/1.1 200 OK
 *
 *      {
-*        "success": "Successfully deleted"
+*        "success": "Successfully Deleted"
 *      }
 *
-* @apiError Bad-Response Saving failed.
+* @apiError Bad-Response Saving Failed.
 *
 * @apiErrorExample Error-Response:
 *     HTTP/1.1 400 Bad Request
 *     {
-*       "error": ["Deleting failed"]
+*       "error": ["Deleting Failed"]
 *     }
 *
 * @apiErrorExample Error-Response:
 *     HTTP/1.1 404 Not Found
 *     {
-*       "error": ["Deleting failed"]
+*       "error": ["Deleting Failed"]
 *     }
 */
