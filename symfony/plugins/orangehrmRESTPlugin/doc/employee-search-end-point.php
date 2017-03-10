@@ -21,36 +21,56 @@
 *
 *       {
 *         "data":[
-    *         {
-    *             "id": "1",
-    *             "code": "001",
-    *             "firstName": "John",
-    *             "lastName": "Doe",
-    *             "middleName": "",
-    *             "fullName": "John Doe",
-    *             "status": "active",
-    *             "jobTitle": "web developer",
-    *             "supervisor": "Mike com",
-    *             "supervisorId": "2",
-    *             "dob": "1989-09-7",
-    *             "unit": "development",
-    *             "gender": "M"
-    *         },
-    *         {
-    *             "id": "002",
-    *             "code": "001",
-    *             "firstName": "John",
-    *             "lastName": "Mass",
-    *             "middleName": "",
-    *             "fullName": "John Mass",
-    *             "status": "active",
-    *             "jobTitle": "web developer",
-    *             "supervisor": "Simon English",
-    *             "supervisorId": "2",
-    *             "dob": "1989-09-7",
-    *             "unit": "development",
-    *             "gender": "M"
-    *         }
+*         {
+*             "firstName": "Nina",
+*             "middleName": "Jane",
+*              "lastName": "Lewis",
+*              "code": "0014",
+*              "id": "1",
+*              "fullName": "Nina Jane Lewis",
+*              "status": "Active",
+*              "dob": "2016-05-04",
+*              "driversLicenseNumber": "444555124223",
+*              "licenseExpiryDate": "2017-02-09",
+*              "maritalStatus": "Married",
+*              "gender": "2",
+*              "otherId": "45",
+*              "nationality": "Armenian",
+*              "unit": "Marketing Unit",
+*              "jobTitle": "marketing",
+*
+*            "supervisor": [
+*                           {
+*                             "name": "Hameesh Von Johnson",
+*                             "id": "3"
+*                            }
+*                           ]
+*         },
+*         {
+*             "firstName": "Nina",
+*             "middleName": "Shane",
+*              "lastName": "Lewis",
+*              "code": "0014",
+*              "id": "1",
+*              "fullName": "Nina Jane Lewis (Past Employee)",
+*              "status": "Active",
+*              "dob": "2016-05-04",
+*              "driversLicenseNumber": "444555124223",
+*              "licenseExpiryDate": "2017-02-09",
+*              "maritalStatus": "Married",
+*              "gender": "2",
+*              "otherId": "4646522",
+*              "nationality": "Armenian",
+*              "unit": "Marketing Unit",
+*              "jobTitle": "marketing",
+*
+*            "supervisor": [
+*                           {
+*                             "name": "Hameesh Von Johnson",
+*                             "id": "3"
+*                            }
+*                           ]
+*         },
 *       ],
 *       "rels": {
 *         "next": "/employee/search?page=3",
