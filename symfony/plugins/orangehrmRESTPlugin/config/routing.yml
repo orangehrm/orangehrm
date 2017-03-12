@@ -45,3 +45,22 @@ api_employee_supervisor:
   requirements:
     id: \d+
     sf_method: [get, post, put, delete]
+
+api_leave_types:
+  url: /api/v1/leave/type
+  param: { module:apiv1leave, action:LeaveTypeApi }
+  requirements:
+     sf_method: [get]
+
+api_leave_requests_per_employee:
+  url: /api/v1/employee/:id/leave-request
+  param: { module:apiv1leave, action:LeaveRequestApi }
+  requirements:
+     sf_method: [get]
+
+api_search_leave_request:
+  url: /api/v1/leave/search
+  param: { module:apiv1leave, action:SearchLeaveRequestApi }
+  requirements:
+     sf_method: [get]
+
