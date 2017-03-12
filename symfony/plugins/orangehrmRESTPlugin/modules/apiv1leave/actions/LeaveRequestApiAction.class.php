@@ -19,22 +19,21 @@
 
 use Orangehrm\Rest\Http\Request;
 use Orangehrm\Rest\Api\Exception\NotImplementedException;
-use Orangehrm\Rest\Api\Leave\LeaveTypeAPI;
+use Orangehrm\Rest\Api\Leave\LeaveRequestAPI;
 
-class LeaveTypeApiAction extends baseRestAction
+class LeaveRequestApiAction extends baseRestAction
 {
-    private $apiLeaveTypeApi = null;
+    private $leaveRequestApi = null;
 
     protected function init(Request $request)
     {
-        $this->apiLeaveTypeApi= new LeaveTypeAPI($request);
+        $this->leaveRequestApi= new LeaveRequestAPI($request);
 
     }
 
-
     protected function handleGetRequest(Request $request)
     {
-        return $this->apiLeaveTypeApi->getLeaveTypes();
+        return $this->leaveRequestApi->getLeaveRequestPerEmployee();
     }
 
     protected function handlePostRequest(Request $request)
