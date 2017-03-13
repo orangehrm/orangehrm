@@ -151,7 +151,7 @@ class ApiEmployeeJobDetailAPITest extends PHPUnit_Framework_TestCase
         $employeeJobDetailAPI->setEmployeeService($pimEmployeeService);
 
         $returned = $employeeJobDetailAPI->saveEmployeeJobDetails();
-        $testResponse = new Response(array('success' => 'Successfully saved'));
+        $testResponse = new Response(array('success' => 'Successfully Saved'));
 
         $this->assertEquals($returned, $testResponse);
 
@@ -212,7 +212,7 @@ class ApiEmployeeJobDetailAPITest extends PHPUnit_Framework_TestCase
         $employeeJobDetailAPI->setEmployeeService($pimEmployeeService);
 
         $returned = $employeeJobDetailAPI->saveEmployeeJobDetails();
-        $testResponse = new Response(array('success' => 'Successfully saved'));
+        $testResponse = new Response(array('success' => 'Successfully Saved'));
 
         $this->assertEquals($returned, $testResponse);
 

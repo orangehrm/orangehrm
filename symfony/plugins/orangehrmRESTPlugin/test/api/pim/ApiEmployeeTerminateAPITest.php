@@ -97,7 +97,7 @@ class ApiEmployeeTerminateAPITest extends PHPUnit_Framework_TestCase
         $this->employeeTerminateAPi->setEmployeeService($pimEmployeeService);
 
         $returned = $this->employeeTerminateAPi->terminateEmployee();
-        $testResponse = new Response( array('success' => 'Successfully terminated'));
+        $testResponse = new Response( array('success' => 'Successfully Terminated'));
 
         $this->assertEquals($returned, $testResponse);
 

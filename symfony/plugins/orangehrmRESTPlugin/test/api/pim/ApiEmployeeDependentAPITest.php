@@ -192,7 +192,7 @@ class ApiEmployeeDependentAPITest extends PHPUnit_Framework_TestCase
 
         $returned = $employeeDependantAPI->deleteEmployeeDependents();
 
-        $testResponse = new Response(array('success' => 'Successfully deleted'));
+        $testResponse = new Response(array('success' => 'Successfully Deleted'));
 
         $this->assertEquals($returned, $testResponse);
     }

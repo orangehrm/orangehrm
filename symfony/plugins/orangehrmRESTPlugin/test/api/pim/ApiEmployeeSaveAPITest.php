@@ -71,7 +71,7 @@ class ApiEmployeeSaveAPITest extends PHPUnit_Framework_TestCase
         $employeeSaveApi->setEmployeeService($pimEmployeeService);
 
         $returned = $employeeSaveApi->saveEmployee();
-        $testResponse = new Response( array('success' => 'Successfully saved','id' => '001'));
+        $testResponse = new Response( array('success' => 'Successfully Saved','id' => '001'));
 
         $this->assertEquals($returned, $testResponse);
 
