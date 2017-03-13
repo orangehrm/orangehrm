@@ -141,7 +141,7 @@ class LeaveRequestAPI extends EndPoint
                 'dateRange' => new \DateRange($fromDate, $toDate),
                 'statuses' => $this->getStatusesArray($filters),
                 'employeeFilter' => array($employee->getEmpNumber()),
-                'noOfRecordsPerPage' => $this->$filters[self::PARAMETER_LIMIT],
+                'noOfRecordsPerPage' => $filters[self::PARAMETER_LIMIT],
                 'cmbWithTerminated' => $this->validatePassEmployee($filters[self::PARAMETER_PAST_EMPLOYEE]),
                 'subUnit' => $this->subunit,
                 'employeeName' => $employee->getFullName()
@@ -173,12 +173,13 @@ class LeaveRequestAPI extends EndPoint
     public function getLeaveRequestPerEmployee()
     {
         $employee = $this->getEmployeeService()->getEmployee($this->getRequestParams()->getUrlParam(self::PARAMETER_ID));
+        $filters = $this->filterParameters();
 
         if (!empty($employee)) {
 
             $searchParams = new \ParameterObject(array(
                 'employeeFilter' => array($employee->getEmpNumber()),
-                'noOfRecordsPerPage' => $this->$filters[self::PARAMETER_LIMIT],
+                'noOfRecordsPerPage' => $filters[self::PARAMETER_LIMIT],
                 'employeeName' => $employee->getFullName()
             ));
             $result = $result = $this->getLeaveRequestService()->searchLeaveRequests($searchParams, 0, false, false,
