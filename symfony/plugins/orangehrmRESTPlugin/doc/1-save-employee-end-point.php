@@ -17,13 +17,13 @@
 *
 *      {
 *        "success": "Successfully Saved",
-*        "id": "0011"
+*        "id": "11"
 *      }
 *
 * @apiError Bad-Response Saving Failed.
 *
 * @apiErrorExample Error-Response:
-*     HTTP/1.1 40 Bad Request
+*     HTTP/1.1 404 Bad Request
 *     {
 *       "error": ["Saving Failed"]
 *     }
