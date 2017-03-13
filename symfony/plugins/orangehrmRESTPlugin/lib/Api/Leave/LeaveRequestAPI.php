@@ -259,19 +259,19 @@ class LeaveRequestAPI extends EndPoint
 
         $statusIdArray = null;
         if (!empty($filter[self::PARAMETER_TAKEN]) && $filter[self::PARAMETER_TAKEN] == 'true') {
-            $statusIdArray[] = 3;
+            $statusIdArray[] = \PluginLeave::LEAVE_STATUS_LEAVE_TAKEN;
         }
         if (!empty($filter[self::PARAMETER_CANCELLED]) && $filter[self::PARAMETER_CANCELLED] == 'true') {
-            $statusIdArray[] = 0;
+            $statusIdArray[] = \PluginLeave::LEAVE_STATUS_LEAVE_CANCELLED;
         }
         if (!empty($filter[self::PARAMETER_PENDING_APPROVAL]) && $filter[self::PARAMETER_PENDING_APPROVAL] == 'true') {
-            $statusIdArray[] = 1;
+            $statusIdArray[] = \PluginLeave::LEAVE_STATUS_LEAVE_TAKEN;
         }
         if (!empty($filter[self::PARAMETER_REJECTED]) && $filter[self::PARAMETER_REJECTED] == 'true') {
-            $statusIdArray[] = -1;
+            $statusIdArray[] = -\PluginLeave::LEAVE_STATUS_LEAVE_TAKEN;
         }
         if (!empty($filter[self::PARAMETER_SCHEDULED]) && $filter[self::PARAMETER_SCHEDULED] == 'true') {
-            $statusIdArray[] = 2;
+            $statusIdArray[] = \PluginLeave::LEAVE_STATUS_LEAVE_APPROVED;
         }
         return $statusIdArray;
 
