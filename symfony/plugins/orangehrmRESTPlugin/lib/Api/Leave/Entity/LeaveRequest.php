@@ -200,7 +200,7 @@ class LeaveRequest implements Serializable
             'type' => $this->getLeaveType(),
             'id' => $this->getId(),
             'date' => $this->getDate(),
-            '$leaveBalance' => $this->getLeaveBalance(),
+            'leaveBalance' => $this->getLeaveBalance(),
             'numberOfDays' => $this->getNumberOfDays(),
             'status' => $this->getStatus(),
             'comments' => $this->getComments(),

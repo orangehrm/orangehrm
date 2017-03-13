@@ -156,7 +156,7 @@ class LeaveRequestAPI extends EndPoint
                 $response [] = $leaveRequest->toArray();
             }
             if (empty($response)) {
-                throw new RecordNotFoundException('No Records found');
+                throw new RecordNotFoundException('No Records Found');
             }
             return new Response($response, array());
         }
@@ -192,7 +192,7 @@ class LeaveRequestAPI extends EndPoint
                 $response [] = $leaveRequest->toArray();
             }
             if (empty($response)) {
-                throw new RecordNotFoundException('No Records found');
+                throw new RecordNotFoundException('No Records Found');
             }
             return new Response($response, array());
         } else {
