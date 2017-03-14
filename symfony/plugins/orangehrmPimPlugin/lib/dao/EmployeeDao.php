@@ -2317,7 +2317,7 @@ class EmployeeDao extends BaseDao {
             ->from('EmpDependent')
             ->where('emp_number = ?', $empNumber)
             ->andWhere('ed_seqno = ?', $seqNo);
-        $result = $q->execute(array(), Doctrine::HYDRATE_ARRAY);
+        $result = $q->execute(array());
         $dependent = $result[0];
 
         if (empty($dependent)) {
@@ -2327,7 +2327,6 @@ class EmployeeDao extends BaseDao {
             $dependent->name = $empDependent->getName();
             $dependent->relationship = $empDependent->getRelationship();
             $dependent->date_of_birth = $empDependent->getDateOfBirth();
-            $dependent->setEmpNumber($empNumber);
             $dependent->save();
             return $dependent;
         }
