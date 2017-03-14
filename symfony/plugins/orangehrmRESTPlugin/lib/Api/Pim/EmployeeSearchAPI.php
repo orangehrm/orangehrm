@@ -33,7 +33,7 @@ class EmployeeSearchAPI extends EndPoint
      * Employee constants
      */
     const PARAMETER_NAME = "name";
-    const PARAMETER_ID = "id";
+    const PARAMETER_ID = "code";
     const PARAMETER_JOB_TITLE = "jobTitle";
     const PARAMETER_STATUS = "status";
     const PARAMETER_UNIT = "unit";
@@ -79,7 +79,7 @@ class EmployeeSearchAPI extends EndPoint
         }
 
         if (empty($employeeList)) {
-            throw new RecordNotFoundException("Employee not found");
+            throw new RecordNotFoundException("Employee Not Found");
         }
 
         return new Response($this->buildEmployeeData($employeeList), $relationsArray);
