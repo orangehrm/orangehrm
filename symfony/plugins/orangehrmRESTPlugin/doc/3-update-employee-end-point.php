@@ -11,8 +11,8 @@
 * @apiParam {String} lastName  Last Name of the employee.
 * @apiParam {String} code  Employee code.
 * @apiParam {String} dob  DOB of the employee.
-* @apiParam {String} driversLicenseNumber  Employee driver's license number.
-* @apiParam {String} licenseExpiryDare  Employee driver's license expiry date
+* @apiParam {String} licenseNumber  Employee driver's license number.
+* @apiParam {String} licenseNumberExpDate  Employee driver's license expiry date
 * @apiParam {String} maritalStatus  Employee marital status.
 * @apiParam {String} gender  Gender of the employee (M-Male/F-Female).
 * @apiParam {String} otherId  Employee other id.
