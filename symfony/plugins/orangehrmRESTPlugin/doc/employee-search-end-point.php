@@ -11,8 +11,6 @@
 * @apiParam {String} [unit] Employee Unit.
 * @apiParam {String} [dob] Employee birth day.
 * @apiParam {String} [gender] Employee gender.
-* @apiParam {Number} [limit] Record limit.
-* @apiParam {Number} [page] Pagination number.
 * @apiSuccess {Object} data Matching Employee list.
 * @apiSuccess {Object} rels  API relations.
 *
@@ -73,8 +71,7 @@
 *         },
 *       ],
 *       "rels": {
-*         "next": "/employee/search?page=3",
-*         "previous": "/employee/search?page=1"
+*
 *       }
 *     }
 *

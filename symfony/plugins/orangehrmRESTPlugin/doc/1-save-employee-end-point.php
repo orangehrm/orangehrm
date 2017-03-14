@@ -8,7 +8,7 @@
 *
 * @apiParam {String} [firstName] Mandatory First name of the employee.
 * @apiParam {String} [middleName] Middle name of the employee.
-* @apiParam {String} [lstName]  Mandatory Last name of the employee.
+* @apiParam {String} [lastName]  Mandatory Last name of the employee.
 * @apiParam {String} [code]  Employee code.
 * @apiSuccess {Object} Data success response
 *

@@ -15,7 +15,7 @@
 *     HTTP/1.1 200 OK
 *
 *      {
-*        "success": "Successfully terminated"
+*        "success": "Successfully Terminated"
 *      }
 *
 * @apiError Bad-Response Saving Failed.
