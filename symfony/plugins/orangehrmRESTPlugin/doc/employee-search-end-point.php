@@ -7,12 +7,12 @@
 * @apiParam {String} [code] Employee code.
 * @apiParam {String} [status] Employee status.
 * @apiParam {String} [supervisor] Supervisor name.
-* @apiParam {String} [jobtitle] Employee job title.
+* @apiParam {String} [jobTitle] Employee job title.
 * @apiParam {String} [unit] Employee Unit.
 * @apiParam {String} [dob] Employee birth day.
 * @apiParam {String} [gender] Employee gender.
+* @apiParam {String} [include] Include Termination ( TERMINATED_ONLY , WITHOUT_TERMINATED ,TERMINATED_ONLY )
 * @apiSuccess {Object} data Matching Employee list.
-* @apiSuccess {Object} rels  API relations.
 *
 * @apiSuccessExample Success-Response:
 *     HTTP/1.1 200 OK

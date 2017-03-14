@@ -6,10 +6,10 @@
 *
 * @apiParam {Number}  employee Employee id
 *
-* @apiParam {String} [firstName] Mandatory First name of the employee.
-* @apiParam {String} [middleName] Middle name of the employee.
-* @apiParam {String} [lastName]  Mandatory Last name of the employee.
-* @apiParam {String} [code]  Employee code.
+* @apiParam {String} firstName Mandatory First name of the employee.
+* @apiParam {String} middleName Middle name of the employee.
+* @apiParam {String} lastName  Mandatory Last name of the employee.
+* @apiParam {String} code  Employee code.
 * @apiSuccess {Object} Data success response
 *
 * @apiSuccessExample Success-Response:
