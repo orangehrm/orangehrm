@@ -16,7 +16,7 @@
 * @apiParam {String} workTelephone  Work telephone number of the employee.
 * @apiParam {String} workEmail  Work email of the employee.
 * @apiParam {String} otherEmail  Other email of the employee.
-* @apiSuccess {Object} Data success response
+* @apiSuccess {Object} Data Success response
 *
 * @apiSuccessExample Success-Response:
 *     HTTP/1.1 200 OK

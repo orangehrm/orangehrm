@@ -13,7 +13,7 @@
 * @apiParam {String} joinedDate   Employee joined date.
 * @apiParam {String} startDate  Employee contract start date.
 * @apiParam {String} endDate   Employee contract end date.
-* @apiSuccess {String} Object  Data success response.
+* @apiSuccess {String} Object  Data Success response.
 *
 * @apiSuccessExample Success-Response:
 *     HTTP/1.1 200 OK

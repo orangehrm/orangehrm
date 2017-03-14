@@ -10,7 +10,7 @@
 * @apiSuccess {Number} supervisorId Supervisor id.
 * @apiSuccess {String} code Supervisor code.
 * @apiSuccess {String} reportingMethod Reporting method to the supervisor.
-* @apiSuccess {Object} Data success response
+* @apiSuccess {Object} Data Success response
 *
 * @apiSuccessExample Success-Response:
 *     HTTP/1.1 200 OK

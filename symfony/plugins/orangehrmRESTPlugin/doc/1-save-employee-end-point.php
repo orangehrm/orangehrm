@@ -10,7 +10,7 @@
 * @apiParam {String} middleName Middle name of the employee.
 * @apiParam {String} lastName  Mandatory Last name of the employee.
 * @apiParam {String} code  Employee code.
-* @apiSuccess {Object} Data success response
+* @apiSuccess {Object} Data Success response
 *
 * @apiSuccessExample Success-Response:
 *     HTTP/1.1 200 OK

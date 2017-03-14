@@ -6,10 +6,10 @@
 *
 * @apiParam {Number}  id Employee id
 *
-* @apiParam {String} terminationDate Mandatory termination date.
+* @apiParam {String} date Mandatory termination date.
 * @apiParam {String} reason Mandatory termination reason.
 * @apiParam {String} note Termination note.
-* @apiSuccess {Object} Data success response.
+* @apiSuccess {Object} Data Success response.
 *
 * @apiSuccessExample Success-Response:
 *     HTTP/1.1 200 OK

@@ -17,7 +17,7 @@
 * @apiParam {String} gender  Gender of the employee (M-Male/F-Female).
 * @apiParam {String} otherId  Employee other id.
 * @apiParam {String} nationality  Nationality of the employee.
-* @apiSuccess {String} Object Data success response.
+* @apiSuccess {String} Object Data Success response.
 *
 * @apiSuccessExample Success-Response:
 *     HTTP/1.1 200 OK
