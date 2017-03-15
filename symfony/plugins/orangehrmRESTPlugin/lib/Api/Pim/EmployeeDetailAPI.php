@@ -37,6 +37,7 @@ class EmployeeDetailAPI extends EndPoint
     const EMPLOYEE_CONTACT_DETAIL = "/employee/:id/contact-detail";
     const EMPLOYEE_JOB_DETAIL = "/employee/:id/job-detail";
     const EMPLOYEE_DEPENDENT = "/employee/:id/dependent";
+    const EMPLOYEE_SUPERVISOR = "/employee/:id/supervisor";
 
     const PARAMETER_FIRST_NAME = "firstName";
     const PARAMETER_LAST_NAME = "lastName";
@@ -115,12 +116,13 @@ class EmployeeDetailAPI extends EndPoint
 
 
         if (empty($employee)) {
-            throw new RecordNotFoundException("Employee not found");
+            throw new RecordNotFoundException("Employee Not Found");
         }
         return new Response($this->buildEmployeeData($employee), array(
             'contact-detail' => self::EMPLOYEE_CONTACT_DETAIL,
             'job-detail' => self::EMPLOYEE_JOB_DETAIL,
-            'dependent' => self::EMPLOYEE_DEPENDENT
+            'dependent' => self::EMPLOYEE_DEPENDENT,
+            'supervisor' => self::EMPLOYEE_SUPERVISOR
         ));
 
     }
@@ -136,6 +138,15 @@ class EmployeeDetailAPI extends EndPoint
     {
 
         $filters = $this->filterParameters();
+
+        if (!empty($filters[self::PARAMETER_NUMBER])) {
+
+            $employee = $this->getEmployeeService()->getEmployeeByEmployeeId($filters[self::PARAMETER_NUMBER]);
+
+        }
+        if ($employee instanceof \Employee) {
+            throw new BadRequestException('Failed To Save: Employee Code Exists');
+        }
         if ($this->validateInputs($filters)) {
             $empId = $this->getRequestParams()->getUrlParam(self::PARAMETER_ID);
 
@@ -189,17 +200,17 @@ class EmployeeDetailAPI extends EndPoint
 
                 $returnedEmp = $this->getEmployeeService()->saveEmployee($employee);
                 if ($returnedEmp instanceof \Employee) {
-                    return new Response(array('success' => 'successfully updated'));
+                    return new Response(array('success' => 'Successfully Updated'));
                 } else {
-                    throw new BadRequestException("updating failed");
+                    throw new BadRequestException("Updating Failed");
                 }
             } else {
-                throw new BadRequestException("employee not found");
+                throw new BadRequestException("Employee Not Found");
             }
 
 
         } else {
-            throw new InvalidParamException("updating failed");
+            throw new InvalidParamException("Updating Failed");
         }
 
     }
@@ -309,7 +320,7 @@ class EmployeeDetailAPI extends EndPoint
         if ($status == 'Married' || $status == 'Single' || $status == 'Other') {
             return $status;
         } else {
-            throw new InvalidParamException('Invalid marital status');
+            throw new InvalidParamException('Invalid Marital Status');
         }
 
     }
