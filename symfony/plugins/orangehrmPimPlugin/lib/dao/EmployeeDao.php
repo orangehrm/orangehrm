@@ -1940,7 +1940,7 @@ class EmployeeDao extends BaseDao {
                 'cs.name AS subDivision, cs.id AS subDivisionId,' .
                 'j.job_title AS jobTitle, j.id AS jobTitleId, j.is_deleted AS isDeleted, ' .
                 'es.name AS employeeStatus, es.id AS employeeStatusId, '.
-                'GROUP_CONCAT(s.emp_firstname, \'## \', s.emp_middle_name, \'## \', s.emp_lastname) AS supervisors,'.
+                'GROUP_CONCAT(s.emp_firstname, \'## \', s.emp_middle_name, \'## \', s.emp_lastname, \'## \',s.emp_number) AS supervisors,'.
                 'GROUP_CONCAT(DISTINCT loc.id, \'##\',loc.name) AS locationIds';
               
 
@@ -2175,11 +2175,12 @@ class EmployeeDao extends BaseDao {
 
                         $supervisorArray = explode(',', $supervisorList);
                         foreach ($supervisorArray as $supervisor) {
-                            list($first, $middle, $last) = explode('##', $supervisor);
+                            list($first, $middle, $last,$id) = explode('##', $supervisor);
                             $supervisor = new Employee();
                             $supervisor->setFirstName($first);
                             $supervisor->setMiddleName($middle);
                             $supervisor->setLastName($last);
+                            $supervisor->setEmpNumber($id);
                             $employee->supervisors[] = $supervisor;
                         }
                     }
@@ -2321,7 +2322,7 @@ class EmployeeDao extends BaseDao {
         $dependent = $result[0];
 
         if (empty($dependent)) {
-            throw new PIMServiceException('Invalid dependent');
+            throw new PIMServiceException('Invalid Dependent');
         } else {
 
             $dependent->name = $empDependent->getName();
