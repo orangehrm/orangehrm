@@ -4,7 +4,7 @@
 * @apiGroup Employee
 * @apiVersion 0.1.0
 *
-* @apiParam {Number}  id Employee id
+* @apiParam {Number}  id Employee id.
 *
 * @apiParam {String} date Mandatory termination date.
 * @apiParam {String} reason Mandatory termination reason.

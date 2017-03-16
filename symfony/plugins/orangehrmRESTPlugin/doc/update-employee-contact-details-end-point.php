@@ -3,7 +3,7 @@
 * @apiName updateEmployeeContactDetails
 * @apiGroup Employee
 *
-* @apiParam {Number}  id Employee id
+* @apiParam {Number}  id Employee id.
 *
 * @apiParam {String} addressStreet1  Address street 1 of the employee.
 * @apiParam {String} addressStreet2  Address street 2 of the employee.
@@ -16,7 +16,7 @@
 * @apiParam {String} workTelephone  Work telephone number of the employee.
 * @apiParam {String} workEmail  Work email of the employee.
 * @apiParam {String} otherEmail  Other email of the employee.
-* @apiSuccess {Object} Data Success response
+* @apiSuccess {Object} Data Success response.
 *
 * @apiSuccessExample Success-Response:
 *     HTTP/1.1 200 OK

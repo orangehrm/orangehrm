@@ -5,7 +5,7 @@
 * @apiVersion 0.1.0
 *
 *
-* @apiParam {Number}  [id] Employee id
+* @apiParam {Number}  [id] Employee id.
 *
 * @apiSuccess {String} [type] Leave type.
 * @apiSuccess {Number} [id] Leave id.

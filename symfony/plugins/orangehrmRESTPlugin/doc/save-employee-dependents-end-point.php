@@ -3,12 +3,12 @@
 * @apiName saveEmployee dependents
 * @apiGroup Employee
 *
-* @apiParam {Number}  id Employee id
+* @apiParam {Number}  id Employee id.
 *
 * @apiParam {String} name Mandatory name of the dependent.
 * @apiParam {String} relationship  Mandatory relationship of the dependent.
 * @apiParam {String} dob DOB of dependent.
-* @apiSuccess {Object} Data Success response
+* @apiSuccess {Object} Data Success response.
 *
 * @apiSuccessExample Success-Response:
 *     HTTP/1.1 200 OK

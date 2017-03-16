@@ -10,7 +10,6 @@
 * @apiParam {String} [jobTitle] Employee job title.
 * @apiParam {String} [unit] Employee Unit.
 * @apiParam {String} [dob] Employee birth day.
-* @apiParam {String} [gender] Employee gender.
 * @apiParam {String} [include] Include Termination ( TERMINATED_ONLY , WITHOUT_TERMINATED ,TERMINATED_ONLY )
 * @apiSuccess {Object} data Matching Employee list.
 *

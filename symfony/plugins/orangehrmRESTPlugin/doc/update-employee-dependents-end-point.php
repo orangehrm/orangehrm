@@ -3,13 +3,13 @@
 * @apiName updateEmployeeDependents
 * @apiGroup Employee
 *
-* @apiParam {Number}  id Employee id
+* @apiParam {Number}  id Employee id.
 *
 * @apiParam {String} name Name of the dependent.
 * @apiParam {String} relationship  relationship of the dependent.
 * @apiParam {String} dob DOB of dependent.
 * @apiParam {String} sequenceNumber  Mandatory sequence number.
-* @apiSuccess {Object} Data Success response
+* @apiSuccess {Object} Data Success response.
 *
 * @apiSuccessExample Success-Response:
 *     HTTP/1.1 200 OK

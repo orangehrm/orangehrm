@@ -3,7 +3,7 @@
 * @apiName deleteEmployeeDependents
 * @apiGroup Employee
 *
-* @apiParam {Number} id Employee id
+* @apiParam {Number} id Employee id.
 *
 * @apiParam {Number} sequenceNumber Mandatory sequence number of the dependent.
 * @apiSuccess {Object} Data Success response.

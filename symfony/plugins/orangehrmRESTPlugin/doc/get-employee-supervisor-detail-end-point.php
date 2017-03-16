@@ -4,13 +4,13 @@
 * @apiGroup Employee
 * @apiVersion 0.1.0
 *
-* @apiParam {Number}  id Employee id
+* @apiParam {Number}  id Employee id.
 *
 * @apiSuccess {String} name Supervisor name.
 * @apiSuccess {Number} supervisorId Supervisor id.
 * @apiSuccess {String} code Supervisor code.
 * @apiSuccess {String} reportingMethod Reporting method to the supervisor.
-* @apiSuccess {Object} Data Success response
+* @apiSuccess {Object} Data Success response.
 *
 * @apiSuccessExample Success-Response:
 *     HTTP/1.1 200 OK
