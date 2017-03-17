@@ -1,5 +1,5 @@
 /**
-* @api {del} /employee/:id/dependent Delete Employee Dependents
+* @api {del} /employee/:id/dependent 10.Delete Employee Dependents
 * @apiName deleteEmployeeDependents
 * @apiGroup Employee
 *

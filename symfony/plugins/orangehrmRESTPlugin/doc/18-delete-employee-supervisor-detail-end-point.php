@@ -1,6 +1,6 @@
 /**
-* @api {post} /employee/:id/supervisor Save Supervisor Details
-* @apiName saveEmployeeSupervisor
+* @api {del} /employee/:id/supervisor 18.Delete Supervisor Details
+* @apiName deleteEmployeeSupervisor
 * @apiGroup Employee
 * @apiVersion 0.1.0
 *
@@ -17,7 +17,7 @@
 *     HTTP/1.1 200 OK
 *
 *      {
-*        "success": "Successfully Saved"
+*        "success": "Successfully Deleted"
 *      }
 *
 * @apiError Bad-Response Saving Failed.
@@ -25,6 +25,6 @@
 * @apiErrorExample Error-Response:
 *     HTTP/1.1 400 Bad Request
 *     {
-*       "error": ["Saving Failed"]
+*       "error": ["Supervisor Not Found"]
 *     }
 */

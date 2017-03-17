@@ -1,5 +1,5 @@
 /**
-* @api {get} /employee/:id/supervisor Supervisor Details
+* @api {get} /employee/:id/supervisor 16.Supervisor Details
 * @apiName getEmployeeSupervisor
 * @apiGroup Employee
 * @apiVersion 0.1.0
