@@ -33,15 +33,20 @@ class EmployeeSearchAPI extends EndPoint
      * Employee constants
      */
     const PARAMETER_NAME = "name";
-    const PARAMETER_ID = "id";
+    const PARAMETER_ID = "code";
     const PARAMETER_JOB_TITLE = "jobTitle";
     const PARAMETER_STATUS = "status";
     const PARAMETER_UNIT = "unit";
     const PARAMETER_SUPERVISOR = "supervisor";
     const PARAMETER_LIMIT = 'limit';
     const PARAMETER_GENDER = 'gender';
+    const PARAMETER_INCLUDE = 'include';
     const PARAMETER_DOB = 'dob';
-    const PARAMETER_OFFSET = 'page';// in employee search it is names as offset
+    const PARAMETER_OFFSET = 'page';// in employee search it is named as offset
+
+    const WITHOUT_TERMINATED = 1;
+    const WITH_TERMINATED = 2;
+    const ONLY_TERMINATED = 3;
 
     /**
      * Relation parameters
@@ -52,6 +57,28 @@ class EmployeeSearchAPI extends EndPoint
      * @var EmployeeService
      */
     protected $employeeService = null;
+
+    protected $jobTitleService;
+
+    /**
+     * @return mixed
+     */
+    public function getJobTitleService()
+    {
+        if ($this->jobTitleService != null) {
+            return $this->jobTitleService;
+        } else {
+            return new \JobTitleService();
+        }
+    }
+
+    /**
+     * @param mixed $jobTitleService
+     */
+    public function setJobTitleService($jobTitleService)
+    {
+        $this->jobTitleService = $jobTitleService;
+    }
 
     /**
      * Get employee list
@@ -71,16 +98,16 @@ class EmployeeSearchAPI extends EndPoint
         } else {
 
             $employeeList = $this->getEmployeeService()->searchEmployees($parameterHolder);
+            if (empty($employeeList[0])) {
+                throw new RecordNotFoundException("Employee Not Found");
+            }
 
             if (!empty($parameterHolder->getLimit())) {
-                $relationsArray = $this->getRelations($relationsArray, $parameterHolder);
+                //  $relationsArray = $this->getRelations($relationsArray, $parameterHolder);
             }
 
         }
 
-        if (empty($employeeList)) {
-            throw new RecordNotFoundException("Employee not found");
-        }
 
         return new Response($this->buildEmployeeData($employeeList), $relationsArray);
 
@@ -106,14 +133,20 @@ class EmployeeSearchAPI extends EndPoint
         if (!empty($this->getRequestParams()->getQueryParam(self::PARAMETER_ID))) {
             $filters['id'] = $this->getRequestParams()->getQueryParam(self::PARAMETER_ID);
         }
+        if (!empty($this->getRequestParams()->getQueryParam(self::PARAMETER_INCLUDE))) {
+            $filters['termination'] = $this->getIncludeId($this->getRequestParams()->getQueryParam(self::PARAMETER_INCLUDE));
+        }
         if (!empty($this->getRequestParams()->getQueryParam(self::PARAMETER_JOB_TITLE))) {
-            $filters['job_title'] = $this->getRequestParams()->getQueryParam(self::PARAMETER_JOB_TITLE);
+            $filters['job_title'] = $this->getTitleId($this->getRequestParams()->getQueryParam(self::PARAMETER_JOB_TITLE));
         }
         if (!empty($this->getRequestParams()->getQueryParam(self::PARAMETER_STATUS))) {
-            $filters['employee_status'] = $this->getRequestParams()->getQueryParam(self::PARAMETER_STATUS);
+            $filters['employee_status'] = $this->getStatusId($this->getRequestParams()->getQueryParam(self::PARAMETER_STATUS));
         }
         if (!empty($this->getRequestParams()->getQueryParam(self::PARAMETER_SUPERVISOR))) {
             $filters['supervisor_name'] = $this->getRequestParams()->getQueryParam(self::PARAMETER_SUPERVISOR);
+        }
+        if (!empty($this->getRequestParams()->getQueryParam(self::PARAMETER_UNIT))) {
+            $filters['sub_unit'] = $this->getSubUnitId($this->getRequestParams()->getQueryParam(self::PARAMETER_UNIT));
         }
         if (!empty($this->getRequestParams()->getQueryParam(self::PARAMETER_DOB))) {
             $filters['dob'] = date("Y-m-d",
@@ -224,5 +257,72 @@ class EmployeeSearchAPI extends EndPoint
 
         return $relationsArray;
     }
+
+    public function getSearchParamValidation()
+    {
+        return array(
+            self::PARAMETER_NAME => array('StringType' => true),
+            self::PARAMETER_DOB => array('Date' => array('Y-m-d')),
+
+        );
+    }
+
+    protected function getStatusId($status)
+    {
+        $empStatusService = new \EmploymentStatusService();
+
+        $statuses = $empStatusService->getEmploymentStatusList();
+
+        foreach ($statuses as $statusObj) {
+            if ($statusObj->getName() === $status) {
+                return $statusObj->getId();
+            }
+        }
+        throw new InvalidParamException('Invalid Status');
+    }
+
+    protected function getSubUnitId($subUnit)
+    {
+        $companyStructureService = new \CompanyStructureService();
+        $treeObject = $companyStructureService->getSubunitTreeObject();
+
+        $tree = $treeObject->fetchTree();
+
+        foreach ($tree as $node) {
+            if ($node->getName() === $subUnit) {
+                return $node->getId();
+            }
+        }
+        throw new InvalidParamException('Invalid Subunit');
+    }
+
+    protected function getTitleId($titleName)
+    {
+        $jobTitleList = $this->getJobTitleService()->getJobTitleList();
+        foreach ($jobTitleList as $title) {
+
+            if ($title->getJobTitleName() === $titleName) {
+                return $title->getId();
+
+            }
+        }
+        throw new InvalidParamException('Invalid Title');
+    }
+
+    protected function getIncludeId($include)
+    {
+        if ('TERMINATED_ONLY' == $include) {
+            return self::ONLY_TERMINATED;
+        }
+        if ('WITHOUT_TERMINATED' == $include) {
+            return self::WITHOUT_TERMINATED;
+        }
+        if ('WITH_TERMINATED' == $include) {
+            return self::WITH_TERMINATED;
+        } else {
+            throw new InvalidParamException('Invalid Include Value');
+        }
+    }
+
 
 }

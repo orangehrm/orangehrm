@@ -28,6 +28,6 @@ class RequestParamsTest extends PHPUnit_Framework_TestCase
 
    public function testGetQueryParam(){
 
-//       $actionRequest =
+
    }
 }

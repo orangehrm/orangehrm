@@ -32,6 +32,8 @@ class EmployeeDependent implements Serializable
 
     private $dateOfBirth = '';
 
+    private $dependentSeqNumber = '';
+
 
     /**
      * EmployeeDependant constructor.
@@ -39,12 +41,13 @@ class EmployeeDependent implements Serializable
      * @param $relationship
      * @param $dob
      */
-    public function __construct($name, $relationship, $dob)
+    public function __construct($name, $relationship, $dob, $seqNumber)
     {
 
         $this->setName($name);
         $this->setRelationship($relationship);
         $this->setDateOfBirth($dob);
+        $this->setDependentSeqNumber($seqNumber);
 
         return $this;
     }
@@ -97,12 +100,30 @@ class EmployeeDependent implements Serializable
         $this->dateOfBirth = $dateOfBirth;
     }
 
+    /**
+     * @return string
+     */
+    public function getDependentSeqNumber()
+    {
+        return $this->dependentSeqNumber;
+    }
+
+    /**
+     * @param string $dependentSeqNumber
+     */
+    public function setDependentSeqNumber($dependentSeqNumber)
+    {
+        $this->dependentSeqNumber = $dependentSeqNumber;
+    }
+
+
     public function toArray()
     {
         return array(
             'name' => $this->getName(),
             'relationship' => $this->getRelationship(),
-            'dob' => $this->getDateOfBirth()
+            'dob' => $this->getDateOfBirth(),
+            'sequenceNumber'=> $this->getDependentSeqNumber()
         );
     }
 }

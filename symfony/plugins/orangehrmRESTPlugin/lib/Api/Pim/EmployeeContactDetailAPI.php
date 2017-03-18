@@ -32,8 +32,8 @@ class EmployeeContactDetailAPI extends EndPoint
     /**
      * @var EmployeeService
      */
-    private $employeeService;
-    private $countryService;
+    protected $employeeService;
+    protected $countryService;
 
     const PARAMETER_ID = "id";
 
@@ -41,10 +41,18 @@ class EmployeeContactDetailAPI extends EndPoint
      * contact detail post parameters
      */
 
-    const PARAMETER_ADDRESS = "address";
-    const PARAMETER_PHONE = "phone";
-    const PARAMETER_EMAIL = "email";
+    const PARAMETER_ADDRESS_STREET_1 = "addressStreet1";
+    const PARAMETER_ADDRESS_STREET_2 = "addressStreet2";
+    const PARAMETER_MOBILE = "mobile";
+    const PARAMETER_WORK_EMAIL = "workEmail";
     const PARAMETER_COUNTRY = "country";
+    const PARAMETER_CITY = "city";
+    const PARAMETER_STATE = "state";
+    const PARAMETER_ZIP = "zip";
+    const PARAMETER_HOME_TELEPHONE = "homeTelephone";
+    const PARAMETER_WORK_TELEPHONE = "workTelephone";
+    const PARAMETER_OTHER_EMAIL = "otherEmail";
+
 
     /**
      * @return \EmployeeService|null
@@ -117,11 +125,14 @@ class EmployeeContactDetailAPI extends EndPoint
     {
         $returned = null;
         $filters = $this->filterParameters();
-        if ($this->validateInputs($filters)) {
+        $empId = $filters[self::PARAMETER_ID];
+        $employee = $this->getEmployeeService()->getEmployee($empId);
 
-            $empId = $filters[self::PARAMETER_ID];
-            $employee = $this->getEmployeeService()->getEmployee($empId);
-            $this->buildEmployeeContactDetails($employee,$filters);
+        if (!empty($employee) && $this->validateEmployeeEmails($filters[self::PARAMETER_WORK_EMAIL],
+                $filters[self::PARAMETER_OTHER_EMAIL])
+        ) {
+
+            $this->buildEmployeeContactDetails($employee, $filters);
             $returnedEmployee = $this->getEmployeeService()->saveEmployee($employee);
 
             if (!($returnedEmployee instanceof \Employee)) {
@@ -129,11 +140,10 @@ class EmployeeContactDetailAPI extends EndPoint
             }
             return new Response(array('success' => 'Successfully saved'));
         } else {
-            throw new BadRequestException("Saving failed");
+            throw new BadRequestException("Employee not found");
         }
-
-
     }
+
     /**
      * Update employee contact details
      *
@@ -144,11 +154,15 @@ class EmployeeContactDetailAPI extends EndPoint
     {
         $returned = null;
         $filters = $this->filterParameters();
-        if ($this->validateInputs($filters)) {
 
-            $empId = $filters[self::PARAMETER_ID];
-            $employee = $this->getEmployeeService()->getEmployee($empId);
-            $this->buildEmployeeContactDetails($employee,$filters);
+        $empId = $filters[self::PARAMETER_ID];
+        $employee = $this->getEmployeeService()->getEmployee($empId);
+
+        if (!empty($employee) && $this->validateEmployeeEmails($filters[self::PARAMETER_WORK_EMAIL],
+                $filters[self::PARAMETER_OTHER_EMAIL])
+        ) {
+
+            $this->buildEmployeeContactDetails($employee, $filters);
             $returnedEmployee = $this->getEmployeeService()->saveEmployee($employee);
 
             if (!($returnedEmployee instanceof \Employee)) {
@@ -156,7 +170,7 @@ class EmployeeContactDetailAPI extends EndPoint
             }
             return new Response(array('success' => 'Successfully updated'));
         } else {
-            throw new BadRequestException("Updating failed");
+            throw new BadRequestException("Employee not found");
         }
 
 
@@ -170,27 +184,48 @@ class EmployeeContactDetailAPI extends EndPoint
      * @return \Employee
      * @throws InvalidParamException
      */
-    private function buildEmployeeContactDetails(\Employee $employee, $filters)
+    protected function buildEmployeeContactDetails(\Employee $employee, $filters)
     {
-        if(!empty($filters[self::PARAMETER_ADDRESS])){
-            $employee->setStreet1($filters[self::PARAMETER_ADDRESS]);
+        if (!empty($filters[self::PARAMETER_ADDRESS_STREET_1])) {
+            $employee->setStreet1($filters[self::PARAMETER_ADDRESS_STREET_1]);
         }
-        if(!empty($filters[self::PARAMETER_PHONE])){
-            $employee->setEmpMobile($filters[self::PARAMETER_PHONE]);
+        if (!empty($filters[self::PARAMETER_ADDRESS_STREET_2])) {
+            $employee->setStreet2($filters[self::PARAMETER_ADDRESS_STREET_2]);
         }
-        if(!empty($filters[self::PARAMETER_EMAIL])){
-            $employee->setEmpWorkEmail($filters[self::PARAMETER_EMAIL]);
+        if (!empty($filters[self::PARAMETER_MOBILE])) {
+            $employee->setEmpMobile($filters[self::PARAMETER_MOBILE]);
+        }
+        if (!empty($filters[self::PARAMETER_WORK_EMAIL])) {
+            $employee->setEmpWorkEmail($filters[self::PARAMETER_WORK_EMAIL]);
         }
 
-        if(!empty($filters[self::PARAMETER_COUNTRY])) {
+        if (!empty($filters[self::PARAMETER_COUNTRY])) {
 
             $country = $this->getCountryService()->getCountryByCountryName($filters[self::PARAMETER_COUNTRY]);
-            if (!empty($country)){
+            if (!empty($country)) {
                 $employee->setCountry($country->getCouCode());
-            }else {
+            } else {
                 throw new InvalidParamException('Invalid Country Name');
             }
 
+        }
+        if (!empty($filters[self::PARAMETER_CITY])) {
+            $employee->setCity($filters[self::PARAMETER_CITY]);
+        }
+        if (!empty($filters[self::PARAMETER_STATE])) {
+            $employee->setProvince($filters[self::PARAMETER_STATE]);
+        }
+        if (!empty($filters[self::PARAMETER_ZIP])) {
+            $employee->setEmpZipcode($filters[self::PARAMETER_ZIP]);
+        }
+        if (!empty($filters[self::PARAMETER_HOME_TELEPHONE])) {
+            $employee->setEmpHmTelephone($filters[self::PARAMETER_HOME_TELEPHONE]);
+        }
+        if (!empty($filters[self::PARAMETER_WORK_TELEPHONE])) {
+            $employee->setEmpWorkTelephone($filters[self::PARAMETER_WORK_TELEPHONE]);
+        }
+        if (!empty($filters[self::PARAMETER_OTHER_EMAIL])) {
+            $employee->setEmpOthEmail($filters[self::PARAMETER_OTHER_EMAIL]);
         }
 
 
@@ -208,18 +243,29 @@ class EmployeeContactDetailAPI extends EndPoint
 
         $filters[] = array();
 
-        if (!empty($this->getRequestParams()->getPostParam(self::PARAMETER_ADDRESS))) {
-            $filters[self::PARAMETER_ADDRESS] = $this->getRequestParams()->getPostParam(self::PARAMETER_ADDRESS);
-        }
-        if (!empty($this->getRequestParams()->getPostParam(self::PARAMETER_PHONE))) {
-            $filters[self::PARAMETER_PHONE] = $this->getRequestParams()->getPostParam(self::PARAMETER_PHONE);
-        }
-        if (!empty($this->getRequestParams()->getPostParam(self::PARAMETER_EMAIL))) {
-            $filters[self::PARAMETER_EMAIL] = $this->getRequestParams()->getPostParam(self::PARAMETER_EMAIL);
-        }
-        if (!empty($this->getRequestParams()->getPostParam(self::PARAMETER_COUNTRY))) {
-            $filters[self::PARAMETER_COUNTRY] = $this->getRequestParams()->getPostParam(self::PARAMETER_COUNTRY);
-        }
+
+        $filters[self::PARAMETER_ADDRESS_STREET_1] = $this->getRequestParams()->getPostParam(self::PARAMETER_ADDRESS_STREET_1);
+
+        $filters[self::PARAMETER_ADDRESS_STREET_2] = $this->getRequestParams()->getPostParam(self::PARAMETER_ADDRESS_STREET_2);
+
+        $filters[self::PARAMETER_MOBILE] = $this->getRequestParams()->getPostParam(self::PARAMETER_MOBILE);
+
+        $filters[self::PARAMETER_WORK_EMAIL] = $this->getRequestParams()->getPostParam(self::PARAMETER_WORK_EMAIL);
+
+        $filters[self::PARAMETER_COUNTRY] = $this->getRequestParams()->getPostParam(self::PARAMETER_COUNTRY);
+
+        $filters[self::PARAMETER_CITY] = $this->getRequestParams()->getPostParam(self::PARAMETER_CITY);
+
+        $filters[self::PARAMETER_STATE] = $this->getRequestParams()->getPostParam(self::PARAMETER_STATE);
+
+        $filters[self::PARAMETER_ZIP] = $this->getRequestParams()->getPostParam(self::PARAMETER_ZIP);
+
+        $filters[self::PARAMETER_HOME_TELEPHONE] = $this->getRequestParams()->getPostParam(self::PARAMETER_HOME_TELEPHONE);
+
+        $filters[self::PARAMETER_WORK_TELEPHONE] = $this->getRequestParams()->getPostParam(self::PARAMETER_WORK_TELEPHONE);
+
+        $filters[self::PARAMETER_OTHER_EMAIL] = $this->getRequestParams()->getPostParam(self::PARAMETER_OTHER_EMAIL);
+
         if (!empty($this->getRequestParams()->getUrlParam(self::PARAMETER_ID))) {
             $filters[self::PARAMETER_ID] = $this->getRequestParams()->getUrlParam(self::PARAMETER_ID);
         }
@@ -229,28 +275,48 @@ class EmployeeContactDetailAPI extends EndPoint
     }
 
     /**
-     * validate input parameters
+     * Respect validation rules
      *
-     * @param $filters
+     * @return array
+     */
+    public function getValidationRules()
+    {
+        return array(
+            self::PARAMETER_ADDRESS_STREET_1 => array('Length' => array(0, 70)),
+            self::PARAMETER_ADDRESS_STREET_2 => array('Length' => array(0, 70)),
+            self::PARAMETER_ZIP => array('Length' => array(0, 10)),
+            self::PARAMETER_STATE => array('Length' => array(0, 70)),
+            self::PARAMETER_STATE => array('Length' => array(0, 70)),
+            self::PARAMETER_CITY => array('Length' => array(0, 70)),
+            self::PARAMETER_COUNTRY => array('Length' => array(0, 70)), //string
+            self::PARAMETER_WORK_EMAIL => array('Email' => true),
+            self::PARAMETER_OTHER_EMAIL => array('Email' => true),
+            self::PARAMETER_MOBILE => array('Phone' => true),
+            self::PARAMETER_WORK_TELEPHONE => array('Phone' => true),
+            self::PARAMETER_HOME_TELEPHONE => array('Phone' => true)
+        );
+    }
+
+    /**
+     * Validate employee work email and other email
+     *
+     * @param $workEmail
+     * @param $otherEmail
      * @return bool
      */
-    protected function validateInputs($filters)
+    protected function validateEmployeeEmails($workEmail, $otherEmail)
     {
-        $valid = true;
+        $emailList = $this->getEmployeeService()->getEmailList();
 
-        if (!empty( $filters[self::PARAMETER_ADDRESS]) &&!(preg_match( '/\d+ [0-9a-zA-Z ]+/', $filters[self::PARAMETER_ADDRESS]) === 1)) {
-            return false;
+        foreach ($emailList as $emails) {
+            if ($emails[emp_work_email] === $workEmail) {
+                throw new BadRequestException('Work email exists');
+            }
+            if ($emails[emp_oth_email] === $otherEmail) {
+                throw new BadRequestException('Other email exists');
+            }
         }
-        if (!empty( $filters[self::PARAMETER_COUNTRY]) && !(preg_match("/^[a-z ,.'-]+$/i", $filters[self::PARAMETER_COUNTRY]) === 1)) {
-            return false;
-        }
-        if (!empty( $filters[self::PARAMETER_EMAIL]) && !filter_var($filters[self::PARAMETER_EMAIL], FILTER_VALIDATE_EMAIL)) {
-            return false;
-        }
-        if (!empty( $filters[self::PARAMETER_PHONE]) && !(preg_match('/(?:\(?\+\d{2}\)?\s*)?\d+(?:[ -]*\d+)*$/', $filters[self::PARAMETER_PHONE]) === 1)) {
-            return false;
-        }
-        return $valid;
+        return true;
     }
 
 }

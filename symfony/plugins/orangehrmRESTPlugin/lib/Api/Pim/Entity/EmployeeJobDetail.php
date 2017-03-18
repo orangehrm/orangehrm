@@ -36,6 +36,17 @@ class EmployeeJobDetail implements Serializable
 
     private $endDate = '';
 
+    private $jobSpecification = '';
+
+    private $employmentStatus = '';
+
+    private $subunit = '';
+
+    private $location = '';
+
+    private $contractDetails = '';
+
+
     /**
      * @return mixed
      */
@@ -50,6 +61,86 @@ class EmployeeJobDetail implements Serializable
     public function setTitle($title)
     {
         $this->title = $title;
+    }
+
+    /**
+     * @return string
+     */
+    public function getJobSpecification()
+    {
+        return $this->jobSpecification;
+    }
+
+    /**
+     * @param string $jobSpecification
+     */
+    public function setJobSpecification($jobSpecification)
+    {
+        $this->jobSpecification = $jobSpecification;
+    }
+
+    /**
+     * @return string
+     */
+    public function getEmploymentStatus()
+    {
+        return $this->employmentStatus;
+    }
+
+    /**
+     * @param string $employmentStatus
+     */
+    public function setEmploymentStatus($employmentStatus)
+    {
+        $this->employmentStatus = $employmentStatus;
+    }
+
+    /**
+     * @return string
+     */
+    public function getSubunit()
+    {
+        return $this->subunit;
+    }
+
+    /**
+     * @param string $subunit
+     */
+    public function setSubunit($subunit)
+    {
+        $this->subunit = $subunit;
+    }
+
+    /**
+     * @return string
+     */
+    public function getLocation()
+    {
+        return $this->location;
+    }
+
+    /**
+     * @param string $location
+     */
+    public function setLocation($location)
+    {
+        $this->location = $location;
+    }
+
+    /**
+     * @return string
+     */
+    public function getContractDetails()
+    {
+        return $this->contractDetails;
+    }
+
+    /**
+     * @param string $contractDetails
+     */
+    public function setContractDetails($contractDetails)
+    {
+        $this->contractDetails = $contractDetails;
     }
 
     /**
@@ -122,9 +213,13 @@ class EmployeeJobDetail implements Serializable
         return array(
             'title' => $this->getTitle(),
             'category' => $this->getCategory(),
+            'status' => $this->getEmploymentStatus(),
+            'subunit' => $this->getSubunit(),
+            'location' => $this->getLocation(),
             'joinedDate' => $this->getJoinedDate(),
             'startDate' => $this->getStartDate(),
             'endDate' => $this->getEndDate()
+
         );
     }
 
@@ -141,6 +236,34 @@ class EmployeeJobDetail implements Serializable
         $this->setCategory($employee->getJobCategory()->getName());
         $this->setStartDate($employee->contracts[0]->getStartDate());
         $this->setEndDate($employee->contracts[0]->getEndDate());
+        $this->setEmploymentStatus($this->_getEmpStatusName($employee->getEmpStatus()));
+        if (!empty($employee->getLocations()) ){
+            $this->setLocation($employee->getLocations()[0]->getName());
 
+        }
+        $this->setSubunit($employee->getSubDivision()->getName());
+
+    }
+
+    /**
+     * Get employee status name
+     *
+     * @param $statusId
+     * @return string
+     */
+    protected function _getEmpStatusName($statusId)
+    {
+
+        $empStatusService = new \EmploymentStatusService();
+
+        $statuses = $empStatusService->getEmploymentStatusList();
+
+        foreach ($statuses as $status) {
+            if ($status->getId() == $statusId) {
+                return $status->getName();
+            }
+        }
+
+        return '';
     }
 }

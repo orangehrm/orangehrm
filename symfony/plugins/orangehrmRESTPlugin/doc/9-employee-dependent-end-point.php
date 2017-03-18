@@ -1,11 +1,14 @@
 /**
-* @api {get} /employee/:id/dependent Employee Dependents
+* @api {get} /employee/:id/dependent 09.Employee Dependents
 * @apiName GetEmployeeDependents
 * @apiGroup Employee
 *
-* @apiParam {Number}  employee id
+* @apiParam {Number}  id Employee id.
 *
-* @apiSuccess {Object} employee dependents.
+* @apiSuccess {Object} name Name of the dependent.
+* @apiSuccess {Object} relationship Relationship of the dependent.
+* @apiSuccess {Object} dob Date of birth of the dependent.
+* @apiSuccess {Object} seqNumber Sequence number of the dependent.
 *
 * @apiSuccessExample Success-Response:
 *     HTTP/1.1 200 OK
@@ -33,6 +36,6 @@
 * @apiErrorExample Error-Response:
 *     HTTP/1.1 404 Not Found
 *     {
-*       "error": "EmployeeNotFound"
+*       "error": "Employee Not Found"
 *     }
 */

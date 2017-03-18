@@ -1,12 +1,15 @@
 /**
-* @api {get} /employee/:id/job-detail Employee Job detail
+* @api {get} /employee/:id/job-detail 13.Employee Job Detail
 * @apiName GetEmployeeJobDetails
 * @apiGroup Employee
 *
-* @apiParam {Number}  employee id
+* @apiParam {Number}  id Employee id.
 *
 * @apiSuccess {String} title Job title name.
 * @apiSuccess {String} category  Job category.
+* @apiSuccess {String} status  Employee job status.
+* @apiSuccess {String} subunit  Subunit of the employee.
+* @apiSuccess {String} location  Job location of the employee.
 * @apiSuccess {String} joinedDate  Employee joined date.
 * @apiSuccess {String} startDate Employee contract start date.
 * @apiSuccess {String} endDate  Employee contract end date.
@@ -19,7 +22,10 @@
 *         {
 *             "title": "Web Developer",
 *             "category": "Engineering",
+*             "status": "Active",
 *             "joinedDate": "2001-01-12",
+*             "subunit": "Marketing Unit",
+*             "location": Eng Dept,
 *             "startDate": "2001-02-01",
 *             "endDate": "2005-02-01"
 *         },
@@ -32,7 +38,7 @@
 * @apiErrorExample Error-Response:
 *     HTTP/1.1 404 Not Found
 *     {
-*       "error": "EmployeeNotFound"
+*       "error": "Employee Not Found"
 *     }
 *
 *

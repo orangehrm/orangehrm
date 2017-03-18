@@ -18,25 +18,29 @@
  */
 
 use Orangehrm\Rest\Http\Request;
-use Orangehrm\Rest\Api\Pim\EmployeeDetailAPI;
-use Orangehrm\Rest\Api\Pim\EmployeeSaveAPI;
+use Orangehrm\Rest\Api\Exception\NotImplementedException;
+use Orangehrm\Rest\Api\Leave\LeaveTypeAPI;
 
-
-class EmployeeDetailsApiAction extends baseRestAction
+class LeaveTypeApiAction extends baseRestAction
 {
+    private $apiLeaveTypeApi = null;
+
+    protected function init(Request $request)
+    {
+        $this->apiLeaveTypeApi= new LeaveTypeAPI($request);
+
+    }
+
 
     protected function handleGetRequest(Request $request)
     {
-
-        $apiEmployeeDetail = new EmployeeDetailAPI($request);
-        return $apiEmployeeDetail->getEmployeeDetails();
-
+        return $this->apiLeaveTypeApi->getLeaveTypes();
     }
 
     protected function handlePostRequest(Request $request)
     {
-        $apiEmployeeSave = new EmployeeSaveAPI($request);
-        return $apiEmployeeSave->saveEmployee();
+
+        throw new NotImplementedException();
     }
 
 }

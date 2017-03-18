@@ -22,8 +22,14 @@ use Orangehrm\Rest\Api\Exception\RecordNotFoundException;
 use Orangehrm\Rest\Api\Exception\InvalidParamException;
 use Orangehrm\Rest\Api\Exception\NotImplementedException;
 use Orangehrm\Rest\Api\Exception\BadRequestException;
+use Orangehrm\Rest\Api\Validator;
 
 abstract class baseRestAction extends baseOAuthAction {
+
+    protected $getValidationRule = array();
+    protected $postValidationRule = array();
+    protected $putValidationRule = array();
+    protected $deleteValidationRule = array();
 
     /**
      * Check token validation
@@ -40,6 +46,10 @@ abstract class baseRestAction extends baseOAuthAction {
             $server->getResponse()->send();
             exit;
         }
+    }
+
+    protected function init(Request $request){
+
     }
 
     /**
@@ -71,15 +81,40 @@ abstract class baseRestAction extends baseOAuthAction {
     }
 
     /**
+     * @return array
+     */
+    protected function getValidationRule($request) {
+        switch($request->getMethod()){
+            case 'GET';
+                return $this->getValidationRule;
+                break;
+            case 'POST':
+                return $this->postValidationRule;
+                break;
+            case 'PUT':
+                return $this->putValidationRule;
+                break;
+            case 'DELETE':
+                return $this->deleteValidationRule;
+                break;
+        }
+    }
+
+    /**
      * @param sfRequest $request
      * @return string
      */
     public function execute($request) {
 
         $httpRequest = new Request($request);
+        $this->init($httpRequest);
         $response = $this->getResponse();
         $response->setHttpHeader('Content-type', 'application/json');
         try{
+
+            if(!empty($this->getValidationRule($request))) {
+                Validator::validate($httpRequest->getAllParameters(),$this->getValidationRule($request));
+            }
             switch($request->getMethod()){
                 case 'GET';
                     $response->setContent($this->handleGetRequest($httpRequest)->formatData());
@@ -103,7 +138,7 @@ abstract class baseRestAction extends baseOAuthAction {
             $response->setStatusCode(404);
         } catch (InvalidParamException $e){
             $response->setContent(Response::formatError(
-                array('error'=>array('status'=>'202','text'=>'Invalid Parameter')))
+                array('error'=>array('status'=>'202','text'=>$e->getMessage())))
             );
             $response->setStatusCode(202);
         } catch (NotImplementedException $e){

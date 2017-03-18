@@ -45,7 +45,10 @@ class ApiEmployeeJobDetailTest extends PHPUnit_Framework_TestCase
             'category' => 'Engineering',
             'joinedDate' => '2017-10-30',
             'startDate' => '2017-11-30',
-            'endDate' => '2018-11-30'
+            'endDate' => '2018-11-30',
+            'status'  => 'Active',
+            'subunit'=>  'Engineering',
+            'location'=> 'Eng Dept'
         );
 
         $employeeJobDetail = new EmployeeJobDetail();
@@ -55,6 +58,10 @@ class ApiEmployeeJobDetailTest extends PHPUnit_Framework_TestCase
         $employeeJobDetail->setCategory('Engineering');
         $employeeJobDetail->setJoinedDate('2017-10-30');
         $employeeJobDetail->setTitle('Engineer');
+        $employeeJobDetail->setEmploymentStatus('Active');
+        $employeeJobDetail->setSubunit('Engineering');
+        $employeeJobDetail->setLocation('Eng Dept');
+
 
         $this->assertEquals($testJobDetailsArray, $employeeJobDetail->toArray());
 

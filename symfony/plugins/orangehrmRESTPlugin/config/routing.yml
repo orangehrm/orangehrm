@@ -1,34 +1,66 @@
 api_employee_dependants:
-  url: /api/v1/employee/:id/dependents
-  param: { module:apiv1, action:getEmployeeDependants }
+  url: /api/v1/employee/:id/dependent
+  param: { module:apiv1pim, action:EmployeeDependantApi }
   requirements:
     id: \d+
     sf_method: [get, post, put, delete]
 
 api_employee_details:
   url: /api/v1/employee/:id
-  param: { module: apiv1, action: EmployeeDetailsApi }
+  param: { module: apiv1pim, action: EmployeeDetailApi }
   requirements:
     id: \d+
     sf_method: [get, post, put, delete]
 
 api_search_employee:
   url: /api/v1/employee/search
-  param: { module:apiv1, action:getEmployee }
+  param: { module:apiv1pim, action:EmployeeSearchApi }
   requirements:
       sf_method: [get]
 
 api_employee_contacts:
   url: /api/v1/employee/:id/contact-detail
-  param: { module:apiv1, action:getEmployeeContacts }
+  param: { module:apiv1pim, action:EmployeeContactDetailApi }
   requirements:
     id: \d+
     sf_method: [get, post, put, delete]
 
 api_employee_job_detail:
   url: /api/v1/employee/:id/job-detail
-  param: { module:apiv1, action:getEmployeeJobDetails }
+  param: { module:apiv1pim, action:EmployeeJobDetailApi }
   requirements:
     id: \d+
     sf_method: [get, post, put, delete]
+
+api_employee_termination:
+  url: /api/v1/employee/:id/action/terminate
+  param: { module:apiv1pim, action:EmployeeTerminateApi }
+  requirements:
+    id: \d+
+    sf_method: [post]
+
+api_employee_supervisor:
+  url: /api/v1/employee/:id/supervisor
+  param: { module:apiv1pim, action:EmployeeSupervisorApi }
+  requirements:
+    id: \d+
+    sf_method: [get, post, put, delete]
+
+api_leave_types:
+  url: /api/v1/leave/type
+  param: { module:apiv1leave, action:LeaveTypeApi }
+  requirements:
+     sf_method: [get]
+
+api_leave_requests_per_employee:
+  url: /api/v1/employee/:id/leave-request
+  param: { module:apiv1leave, action:LeaveRequestApi }
+  requirements:
+     sf_method: [get]
+
+api_search_leave_request:
+  url: /api/v1/leave/search
+  param: { module:apiv1leave, action:SearchLeaveRequestApi }
+  requirements:
+     sf_method: [get]
 

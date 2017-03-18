@@ -18,28 +18,29 @@
  */
 
 use Orangehrm\Rest\Http\Request;
-use Orangehrm\Rest\Api\Pim\EmployeeContactDetailAPI;
+use Orangehrm\Rest\Api\Exception\NotImplementedException;
+use Orangehrm\Rest\Api\Leave\LeaveRequestAPI;
 
-
-class getEmployeeContactsAction extends baseRestAction
+class SearchLeaveRequestApiAction extends baseRestAction
 {
+    private $leaveRequestApi = null;
+
+    protected function init(Request $request)
+    {
+        $this->leaveRequestApi= new LeaveRequestAPI($request);
+        $this->getValidationRule = $this->leaveRequestApi->getValidationRules();
+
+    }
 
     protected function handleGetRequest(Request $request)
     {
-
-        $apiEmployeeContactDetail = new EmployeeContactDetailAPI($request);
-        return $apiEmployeeContactDetail->getEmployeeContactDetails();
+        return $this->leaveRequestApi->searchRequests();
     }
 
     protected function handlePostRequest(Request $request)
     {
-        $apiEmployeeContactDetail = new EmployeeContactDetailAPI($request);
-        return $apiEmployeeContactDetail->saveEmployeeContactDetails();
-    }
-    protected function handlePutRequest(Request $request)
-    {
-        $apiEmployeeContactDetail = new EmployeeContactDetailAPI($request);
-        return $apiEmployeeContactDetail->updateEmployeeContactDetails();
+
+        throw new NotImplementedException();
     }
 
 }

@@ -3,6 +3,9 @@
   "description": "OrangeHRM open source",
   "keywords": ["orangehrm"],
   "type": "project",
+  "require": {
+    "respect/validation": "1.1.11"
+  },
   "require-dev": {
     "codeception/codeception": "^2.2"
   },

@@ -98,4 +98,125 @@ class ApiEmployeeJobDetailAPITest extends PHPUnit_Framework_TestCase
         $this->assertEquals($assertResponse, $employeeReturned);
 
     }
+
+
+    public function testSaveJobDetails(){
+
+        $empNumber = 1;
+        $employee = new \Employee();
+        $employee->setLastName('Last Name');
+        $employee->setFirstName('First Name');
+        $employee->setEmpNumber($empNumber);
+        $employee->setEmployeeId($empNumber);
+        $employee->setJoinedDate("2016-04-15");
+        $employee->setEmpWorkEmail("mdriggs@hrm.com");
+        $employee->setEmpMobile(0754343435);
+
+        $filters = array();
+        $filters[EmployeeJobDetailAPI::PARAMETER_ID] = '1';
+        $filters[EmployeeJobDetailAPI::PARAMETER_TITLE] = '1';
+        $filters[EmployeeJobDetailAPI::PARAMETER_CATEGORY] = '1';
+        $filters[EmployeeJobDetailAPI::PARAMETER_END_DATE] = '2016-05-04';
+        $filters[EmployeeJobDetailAPI::PARAMETER_START_DATE] = '2016-05-06';
+        $filters[EmployeeJobDetailAPI::PARAMETER_JOINED_DATE] = '2018-05-06';
+
+        $sfEvent   = new sfEventDispatcher();
+        $sfRequest = new sfWebRequest($sfEvent);
+        $request = new Request($sfRequest);
+
+        $employeeJobDetailAPI = $this->getMock('Orangehrm\Rest\Api\Pim\EmployeeJobDetailAPI',array('filterParameters','validateInputs','buildEmployeeJobDetails'),array($request));
+        $employeeJobDetailAPI->expects($this->once())
+            ->method('filterParameters')
+            ->will($this->returnValue($filters));
+        $employeeJobDetailAPI->expects($this->once())
+            ->method('validateInputs')
+            ->with($filters)
+            ->will($this->returnValue(true));
+        $employeeJobDetailAPI->expects($this->any())
+            ->method('buildEmployeeJobDetails')
+            ->with($employee,$filters);
+
+
+        $pimEmployeeService = $this->getMock('EmployeeService');
+        $pimEmployeeService->expects($this->any())
+            ->method('getEmployee')
+            ->with(1)
+            ->will($this->returnValue($employee));
+
+        $pimEmployeeService->expects($this->any())
+            ->method('saveEmployee')
+            ->with($employee)
+            ->will($this->returnValue($employee));
+
+        $employeeJobDetailAPI->setEmployeeService($pimEmployeeService);
+
+        $returned = $employeeJobDetailAPI->saveEmployeeJobDetails();
+        $testResponse = new Response(array('success' => 'Successfully Saved'));
+
+        $this->assertEquals($returned, $testResponse);
+
+    }
+
+    public function testUpdateJobDetails(){
+
+        $empNumber = 1;
+        $employee = new \Employee();
+        $employee->setLastName('Last Name');
+        $employee->setFirstName('First Name');
+        $employee->setEmpNumber($empNumber);
+        $employee->setEmployeeId($empNumber);
+        $employee->setJoinedDate("2016-04-15");
+        $employee->setEmpWorkEmail("mdriggs@hrm.com");
+        $employee->setEmpMobile(0754343435);
+
+
+        $filters = array();
+        $filters[EmployeeJobDetailAPI::PARAMETER_ID] = '1';
+        $filters[EmployeeJobDetailAPI::PARAMETER_TITLE] = '1';
+        $filters[EmployeeJobDetailAPI::PARAMETER_CATEGORY] = '1';
+        $filters[EmployeeJobDetailAPI::PARAMETER_END_DATE] = '2016-05-04';
+        $filters[EmployeeJobDetailAPI::PARAMETER_START_DATE] = '2016-05-06';
+        $filters[EmployeeJobDetailAPI::PARAMETER_JOINED_DATE] = '2018-05-06';
+//        $filters[EmployeeJobDetailAPI::PARAMETER_SUBUNIT] = 'Engineering';
+//        $filters[EmployeeJobDetailAPI::PARAMETER_LOCATION] = 'Eng Dept';
+//        $filters[EmployeeJobDetailAPI::PARAMETER_STATUS] = 'Active';
+
+        $sfEvent   = new sfEventDispatcher();
+        $sfRequest = new sfWebRequest($sfEvent);
+        $request = new Request($sfRequest);
+
+        $employeeJobDetailAPI = $this->getMock('Orangehrm\Rest\Api\Pim\EmployeeJobDetailAPI',array('filterParameters','validateInputs'),array($request));
+        $employeeJobDetailAPI->expects($this->once())
+            ->method('filterParameters')
+            ->will($this->returnValue($filters));
+        $employeeJobDetailAPI->expects($this->once())
+            ->method('validateInputs')
+            ->with($filters)
+            ->will($this->returnValue(true));
+        $employeeJobDetailAPI->expects($this->any())
+            ->method('buildEmployeeJobDetails')
+            ->with($employee,$filters);
+
+
+        $pimEmployeeService = $this->getMock('EmployeeService');
+        $pimEmployeeService->expects($this->any())
+            ->method('getEmployee')
+            ->with(1)
+            ->will($this->returnValue($employee));
+
+        $pimEmployeeService->expects($this->any())
+            ->method('saveEmployee')
+            ->with($employee)
+            ->will($this->returnValue($employee));
+
+        $employeeJobDetailAPI->setEmployeeService($pimEmployeeService);
+
+        $returned = $employeeJobDetailAPI->saveEmployeeJobDetails();
+        $testResponse = new Response(array('success' => 'Successfully Saved'));
+
+        $this->assertEquals($returned, $testResponse);
+
+    }
+
+
 }

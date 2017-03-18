@@ -30,11 +30,27 @@ class EmployeeContactDetail implements Serializable
 
     private $id = '';
 
-    private $telephone = '';
+    private $empNumber = '';
 
-    private $email = '';
+    private $workTelephone = '';
 
-    private $address = '';
+    private $workEmail = '';
+
+    private $addressStreet1 = '';
+
+    private $addressStreet2 = '';
+
+    private $city = '';
+
+    private $state = '';
+
+    private $zip = '';
+
+    private $homeTelephone = '';
+
+    private $mobile = '';
+
+    private $otherEmail = '';
 
     private $country = '';
 
@@ -63,6 +79,134 @@ class EmployeeContactDetail implements Serializable
     }
 
     /**
+     * @return string
+     */
+    public function getAddressStreet2()
+    {
+        return $this->addressStreet2;
+    }
+
+    /**
+     * @param string $addressStreet2
+     */
+    public function setAddressStreet2($addressStreet2)
+    {
+        $this->addressStreet2 = $addressStreet2;
+    }
+
+    /**
+     * @return string
+     */
+    public function getCity()
+    {
+        return $this->city;
+    }
+
+    /**
+     * @param string $city
+     */
+    public function setCity($city)
+    {
+        $this->city = $city;
+    }
+
+    /**
+     * @return string
+     */
+    public function getEmpNumber()
+    {
+        return $this->empNumber;
+    }
+
+    /**
+     * @param string $empNumber
+     */
+    public function setEmpNumber($empNumber)
+    {
+        $this->empNumber = $empNumber;
+    }
+
+    /**
+     * @return string
+     */
+    public function getState()
+    {
+        return $this->state;
+    }
+
+    /**
+     * @param string $state
+     */
+    public function setState($state)
+    {
+        $this->state = $state;
+    }
+
+    /**
+     * @return string
+     */
+    public function getZip()
+    {
+        return $this->zip;
+    }
+
+    /**
+     * @param string $zip
+     */
+    public function setZip($zip)
+    {
+        $this->zip = $zip;
+    }
+
+    /**
+     * @return string
+     */
+    public function getHomeTelephone()
+    {
+        return $this->homeTelephone;
+    }
+
+    /**
+     * @param string $homeTelephone
+     */
+    public function setHomeTelephone($homeTelephone)
+    {
+        $this->homeTelephone = $homeTelephone;
+    }
+
+    /**
+     * @return string
+     */
+    public function getMobile()
+    {
+        return $this->mobile;
+    }
+
+    /**
+     * @param string $mobile
+     */
+    public function setMobile($mobile)
+    {
+        $this->mobile = $mobile;
+    }
+
+    /**
+     * @return string
+     */
+    public function getOtherEmail()
+    {
+        return $this->otherEmail;
+    }
+
+    /**
+     * @param string $otherEmail
+     */
+    public function setOtherEmail($otherEmail)
+    {
+        $this->otherEmail = $otherEmail;
+    }
+
+    /**
      * @param string $id
      */
     public function setId($id)
@@ -73,49 +217,49 @@ class EmployeeContactDetail implements Serializable
     /**
      * @return string
      */
-    public function getTelephone()
+    public function getWorkTelephone()
     {
-        return $this->telephone;
+        return $this->workTelephone;
     }
 
     /**
-     * @param string $telephone
+     * @param string $workTelephone
      */
-    public function setTelephone($telephone)
+    public function setWorkTelephone($workTelephone)
     {
-        $this->telephone = $telephone;
-    }
-
-    /**
-     * @return string
-     */
-    public function getEmail()
-    {
-        return $this->email;
-    }
-
-    /**
-     * @param string $email
-     */
-    public function setEmail($email)
-    {
-        $this->email = $email;
+        $this->workTelephone = $workTelephone;
     }
 
     /**
      * @return string
      */
-    public function getAddress()
+    public function getWorkEmail()
     {
-        return $this->address;
+        return $this->workEmail;
     }
 
     /**
-     * @param string $address
+     * @param string $workEmail
      */
-    public function setAddress($address)
+    public function setWorkEmail($workEmail)
     {
-        $this->address = $address;
+        $this->workEmail = $workEmail;
+    }
+
+    /**
+     * @return string
+     */
+    public function getAddressStreet1()
+    {
+        return $this->addressStreet1;
+    }
+
+    /**
+     * @param string $addressStreet1
+     */
+    public function setAddressStreet1($addressStreet1)
+    {
+        $this->addressStreet1 = $addressStreet1;
     }
 
     /**
@@ -138,31 +282,49 @@ class EmployeeContactDetail implements Serializable
     /**
      * EmployeeContactDetail constructor.
      * @param $name
-     * @param $id
+     * @param $number
      */
-    public function __construct($name , $id)
+    public function __construct($name, $number)
     {
         $this->setFullName($name);
-        $this->setId($id);
+        $this->setEmpNumber($number);
         return $this;
     }
 
-    public function toArray() {
+    public function toArray()
+    {
         return array(
             'id' => $this->getId(),
+            'code' => $this->getEmpNumber(),
             'fullName' => $this->getFullName(),
-            'telephone' => $this->getTelephone(),
-            'email' => $this->getEmail(),
-            'address' => $this->getAddress(),
-            'country' => $this->getCountry()
+            'addressStreet1' => $this->getAddressStreet1(),
+            'addressStreet2' => $this->getAddressStreet2(),
+            'city' => $this->getCity(),
+            'state' => $this->getState(),
+            'zip' => $this->getZip(),
+            'county' => $this->getCountry(),
+            'homeTelephone' => $this->getHomeTelephone(),
+            'workTelephone' => $this->getWorkTelephone(),
+            'mobile' => $this->getMobile(),
+            'workEmail' => $this->getWorkEmail(),
+            'otherEmail' => $this->getOtherEmail()
         );
     }
 
-    public function buildContactDetails(\Employee $employee){
+    public function buildContactDetails(\Employee $employee)
+    {
 
-        $this->setTelephone($employee->getEmpMobile());
-        $this->setEmail($employee->getEmpWorkEmail());
-        $this->setAddress($employee->getStreet1());
+        $this->setWorkTelephone($employee->getEmpWorkTelephone());
+        $this->setWorkEmail($employee->getEmpWorkEmail());
+        $this->setAddressStreet1($employee->getStreet1());
+        $this->setAddressStreet2($employee->getStreet2());
+        $this->setCity($employee->getCity());
+        $this->setState($employee->getProvince());
+        $this->setZip($employee->getEmpZipcode());
         $this->setCountry($employee->getCountry());
+        $this->setHomeTelephone($employee->getEmpHmTelephone());
+        $this->setMobile($employee->getEmpMobile());
+        $this->setOtherEmail($employee->getEmpOthEmail());
+        $this->setId($employee->getEmpNumber());
     }
 }

@@ -18,19 +18,27 @@
  */
 
 use Orangehrm\Rest\Http\Request;
-use Orangehrm\Rest\Http\Response;
-use Orangehrm\Rest\Api\Pim\EmployeeService;
 use Orangehrm\Rest\Api\Exception\NotImplementedException;
+use Orangehrm\Rest\Api\Leave\LeaveRequestAPI;
 
-class getEmployeeAction extends baseRestAction {
+class LeaveRequestApiAction extends baseRestAction
+{
+    private $leaveRequestApi = null;
 
-    protected function handleGetRequest(Request $request){
+    protected function init(Request $request)
+    {
+        $this->leaveRequestApi= new LeaveRequestAPI($request);
 
-        $apiEmployeeService = new EmployeeService($request);
-        return new Response($apiEmployeeService->getEmployeeList());
     }
 
-    protected function handlePostRequest(Request $request){
+    protected function handleGetRequest(Request $request)
+    {
+        return $this->leaveRequestApi->getLeaveRequestPerEmployee();
+    }
+
+    protected function handlePostRequest(Request $request)
+    {
+
         throw new NotImplementedException();
     }
 

@@ -43,18 +43,35 @@ class ApiEmployeeContactDetailTest extends PHPUnit_Framework_TestCase
         $testContactsArray = array(
 
             'id' => 1,
-            'fullName' => 'Martin Riggs',
-            'telephone' => 0753433456,
-            'email' => 'martinriggs@hrm.com',
-            'address' => 'No 45 green park ,river allay',
-            'country' => 'Canada'
+            'code' => '001',
+            'fullName' => 'Nina Jane Lewis',
+            'addressStreet1' => 'River street vancour',
+            'addressStreet2' => 'No 45 Park road',
+            'city' => 'Vancour',
+            'state' => 'Western',
+            'zip' => '4433',
+            'county' => 'Canada',
+            'homeTelephone' => '081612323',
+            'workTelephone' => '0123123123',
+            'mobile' => '345345345',
+            'workEmail' => 'nina@orange.com',
+            'otherEmail' => 'nina@yahoo.com'
         );
 
-        $employeeContactDetail = new EmployeeContactDetail("Martin Riggs", 1);
-        $employeeContactDetail->setAddress("No 45 green park ,river allay");
-        $employeeContactDetail->setCountry("Canada");
-        $employeeContactDetail->setEmail("martinriggs@hrm.com");
-        $employeeContactDetail->setTelephone(0753433456);
+        $employeeContactDetail = new EmployeeContactDetail("Nina Jane Lewis", '001');
+
+        $employeeContactDetail->setWorkTelephone('0123123123');
+        $employeeContactDetail->setWorkEmail('nina@orange.com');
+        $employeeContactDetail->setAddressStreet1('River street vancour');
+        $employeeContactDetail->setAddressStreet2('No 45 Park road');
+        $employeeContactDetail->setCity('Vancour');
+        $employeeContactDetail->setState('Western');
+        $employeeContactDetail->setZip('4433');
+        $employeeContactDetail->setCountry('Canada');
+        $employeeContactDetail->setHomeTelephone('081612323');
+        $employeeContactDetail->setMobile('345345345');
+        $employeeContactDetail->setOtherEmail('nina@yahoo.com');
+        $employeeContactDetail->setId(1);
 
         $this->assertEquals($testContactsArray, $employeeContactDetail->toArray());
 

@@ -82,6 +82,7 @@ class ApiEmployeeDetailAPITest extends PHPUnit_Framework_TestCase
         $assertResponse = new Response($jsonEmployeeArray,array(
             'contact-detail' => '/employee/:id/contact-detail',
             'job-detail' => '/employee/:id/job-detail',
+            'supervisor' => '/employee/:id/supervisor',
             'dependent' => '/employee/:id/dependent'));
 
         $this->assertEquals($assertResponse, $employeeReturned);

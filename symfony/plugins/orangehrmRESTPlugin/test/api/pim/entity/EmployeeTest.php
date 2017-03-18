@@ -21,8 +21,9 @@
 /**
  * Test class of Api/EmployeeService
  *
- * @group
+ * @group API
  */
+use Orangehrm\Rest\Api\Pim\Entity\Employee;
 
 class HttpEmployeeTest extends PHPUnit_Framework_TestCase
 {
@@ -33,6 +34,32 @@ class HttpEmployeeTest extends PHPUnit_Framework_TestCase
     protected function setUp()
     {
 
+    }
+
+    public function testToArray(){
+
+        $employee = new Employee('Nina','Jane','Lewis',1);
+        $employee->setEmployeeId(1);
+        $employee->setEmpBirthDate('1985-05-05');
+        $employee->setEmployeeNumber('001');
+        $employee->setJobTitle('Marketing');
+
+        $array = array(
+            'firstName' =>'Nina',
+            'middleName' => 'Jane',
+            'id'         => 1,
+            'employeeNumber'=>'001',
+            'lastName' => 'Lewis',
+            'fullName' => 'Nina Jane Lewis',
+            'status'   => 'Active',
+            'dob'      => '1985-05-05',
+            'unit'    =>'',
+            'jobTitle'=> 'Marketing',
+            'supervisor' => ''
+
+        );
+
+        $this->assertEquals($array, $employee->toArray());
     }
 
 }

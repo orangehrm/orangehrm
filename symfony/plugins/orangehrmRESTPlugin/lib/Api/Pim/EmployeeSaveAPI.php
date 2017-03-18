@@ -35,7 +35,7 @@ class EmployeeSaveAPI extends EndPoint
     const PARAMETER_FIRST_NAME = "firstName";
     const PARAMETER_MIDDLE_NAME = "middleName";
     const PARAMETER_LAST_NAME = "lastName";
-    const PARAMETER_EMPLOYEE_ID = "id";
+    const PARAMETER_EMPLOYEE_ID = "code";
 
 
     /**
@@ -55,6 +55,16 @@ class EmployeeSaveAPI extends EndPoint
         $relationsArray = array();
         $returned = null;
         $filters = $this->filterParameters();
+        $employee = null;
+        if (!empty($filters[self::PARAMETER_EMPLOYEE_ID])) {
+
+            $employee = $this->getEmployeeService()->getEmployeeByEmployeeId($filters[self::PARAMETER_EMPLOYEE_ID]);
+        }
+
+
+        if ($employee instanceof \Employee) {
+            throw new BadRequestException('Failed To Save: Employee Id Exists');
+        }
 
         try {
             $employee = $this->buildEmployee($filters);
@@ -67,7 +77,7 @@ class EmployeeSaveAPI extends EndPoint
         if (!$returnedEmployee instanceof \Employee) {
             throw new BadRequestException('Employee saving Failed');
         } else {
-            return new Response(array('success' => 'Successfully saved'));
+            return new Response(array('success' => 'Successfully saved', 'id' => $returnedEmployee->getEmpNumber()));
         }
     }
 
@@ -83,54 +93,38 @@ class EmployeeSaveAPI extends EndPoint
         $employee = new \Employee();
 
 
-        if ($this->validateInputs($filters[self::PARAMETER_FIRST_NAME]) ) {
+        if (!empty($filters[self::PARAMETER_FIRST_NAME])) {
 
             $employee->setFirstName($filters[self::PARAMETER_FIRST_NAME]);
 
         } else {
             throw new InvalidParamException();
         }
-        if ($this->validateInputs($filters[self::PARAMETER_MIDDLE_NAME])) {
 
-            $employee->setMiddleName($filters[self::PARAMETER_MIDDLE_NAME]);
+        $employee->setMiddleName($filters[self::PARAMETER_MIDDLE_NAME]);
 
-        }else {
-            throw new InvalidParamException();
-        }
-        if ($this->validateInputs($filters[self::PARAMETER_LAST_NAME])) {
+        if (!empty($filters[self::PARAMETER_LAST_NAME])) {
 
             $employee->setLastName($filters[self::PARAMETER_LAST_NAME]);
 
-        }else {
+        } else {
             throw new InvalidParamException();
         }
-        if(strlen($filters[self::PARAMETER_EMPLOYEE_ID]) < 10) {
-            $employee->setEmployeeId($filters[self::PARAMETER_EMPLOYEE_ID]);
-        }  else {
-            throw new InvalidParamException();
-        }
+
+        $employee->setEmployeeId($filters[self::PARAMETER_EMPLOYEE_ID]);
 
 
         return $employee;
     }
 
-    /**
-     * Validate inputs
-     *
-     * @param $filter
-     * @return bool
-     */
-    protected function validateInputs($filter)
+    public function getValidationRules()
     {
-
-        $valid = true;
-
-        if ( !empty($filter) && !(preg_match("/^[a-zA-Z'-]+$/", $filter) === 1) || (strlen($filter) > 30 )) {
-            $valid = false;
-
-        }
-
-        return $valid;
+        return array(
+            self::PARAMETER_FIRST_NAME => array('StringType' => true, 'NotEmpty' => true, 'Length' => array(1, 30)),
+            self::PARAMETER_MIDDLE_NAME => array('StringType' => true, 'Length' => array(1, 30)),
+            self::PARAMETER_LAST_NAME => array('StringType' => true, 'NotEmpty' => true, 'Length' => array(1, 30)),
+            self::PARAMETER_EMPLOYEE_ID => array('StringType' => true, 'Length' => array(1, 10)),
+        );
     }
 
     /**
@@ -146,9 +140,8 @@ class EmployeeSaveAPI extends EndPoint
 
         if (!empty($this->getRequestParams()->getPostParam(self::PARAMETER_FIRST_NAME))) {
             $filters[self::PARAMETER_FIRST_NAME] = ($this->getRequestParams()->getPostParam(self::PARAMETER_FIRST_NAME));
-        }
-        else {
-            throw new InvalidParamException();
+        } else {
+            throw new InvalidParamException('First name cannot be empty');
         }
         if (!empty($this->getRequestParams()->getPostParam(self::PARAMETER_MIDDLE_NAME))) {
             $filters[self::PARAMETER_MIDDLE_NAME] = ($this->getRequestParams()->getPostParam(self::PARAMETER_MIDDLE_NAME));
@@ -156,7 +149,7 @@ class EmployeeSaveAPI extends EndPoint
         if (!empty($this->getRequestParams()->getPostParam(self::PARAMETER_LAST_NAME))) {
             $filters[self::PARAMETER_LAST_NAME] = ($this->getRequestParams()->getPostParam(self::PARAMETER_LAST_NAME));
         } else {
-            throw new InvalidParamException();
+            throw new InvalidParamException('Last name cannot be empty');
         }
         if (!empty($this->getRequestParams()->getPostParam(self::PARAMETER_EMPLOYEE_ID))) {
             $filters[self::PARAMETER_EMPLOYEE_ID] = ($this->getRequestParams()->getPostParam(self::PARAMETER_EMPLOYEE_ID));

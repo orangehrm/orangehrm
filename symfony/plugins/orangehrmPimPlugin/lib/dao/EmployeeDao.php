@@ -1702,9 +1702,11 @@ class EmployeeDao extends BaseDao {
     }
 
     /**
-     * Delete reportTo object
-     * @param int $supNumber $subNumber $reportingMethod
-     * @return boolean
+     * @param $supNumber
+     * @param $subNumber
+     * @param $reportingMethod
+     * @return bool
+     * @throws DaoException
      */
     public function deleteReportToObject($supNumber, $subNumber, $reportingMethod) {
 
@@ -1938,7 +1940,7 @@ class EmployeeDao extends BaseDao {
                 'cs.name AS subDivision, cs.id AS subDivisionId,' .
                 'j.job_title AS jobTitle, j.id AS jobTitleId, j.is_deleted AS isDeleted, ' .
                 'es.name AS employeeStatus, es.id AS employeeStatusId, '.
-                'GROUP_CONCAT(s.emp_firstname, \'## \', s.emp_middle_name, \'## \', s.emp_lastname) AS supervisors,'.
+                'GROUP_CONCAT(s.emp_firstname, \'## \', s.emp_middle_name, \'## \', s.emp_lastname, \'## \',s.emp_number) AS supervisors,'.
                 'GROUP_CONCAT(DISTINCT loc.id, \'##\',loc.name) AS locationIds';
               
 
@@ -2173,11 +2175,12 @@ class EmployeeDao extends BaseDao {
 
                         $supervisorArray = explode(',', $supervisorList);
                         foreach ($supervisorArray as $supervisor) {
-                            list($first, $middle, $last) = explode('##', $supervisor);
+                            list($first, $middle, $last,$id) = explode('##', $supervisor);
                             $supervisor = new Employee();
                             $supervisor->setFirstName($first);
                             $supervisor->setMiddleName($middle);
                             $supervisor->setLastName($last);
+                            $supervisor->setEmpNumber($id);
                             $employee->supervisors[] = $supervisor;
                         }
                     }
@@ -2305,27 +2308,48 @@ class EmployeeDao extends BaseDao {
      * @return mixed
      * @throws PIMServiceException
      */
-    public function updateEmployeeDependent(EmpDependent $empDependent){
+    public function updateEmployeeDependent(EmpDependent $empDependent)
+    {
 
         $empNumber = $empDependent->getEmpNumber();
         $seqNo = $empDependent->getSeqno();
 
-        $dependent = Doctrine::getTable('EmpDependent')->find(array('emp_number' => $empNumber,
-            'seqno' => $seqNo));
+        $q = Doctrine_Query::create()
+            ->from('EmpDependent')
+            ->where('emp_number = ?', $empNumber)
+            ->andWhere('ed_seqno = ?', $seqNo);
+        $result = $q->execute(array());
+        $dependent = $result[0];
 
         if (empty($dependent)) {
-            throw new PIMServiceException('Invalid dependent');
+            throw new PIMServiceException('Invalid Dependent');
         } else {
 
             $dependent->name = $empDependent->getName();
             $dependent->relationship = $empDependent->getRelationship();
-            $dependent->relationship_type = $empDependent->getRelationshipType();
             $dependent->date_of_birth = $empDependent->getDateOfBirth();
-
             $dependent->save();
             return $dependent;
         }
 
+    }
+
+    /**
+     * Get employee termination reasons list
+     *
+     * @return Doctrine_Collection
+     * @throws DaoException
+     */
+    public function getTerminationReasonList() {
+
+        try {
+            $q = Doctrine_Query :: create()
+                ->from('TerminationReason')
+                ->orderBy('name ASC');
+            return $q->execute();
+        } catch (Exception $e) {
+            throw new DaoException($e->getMessage());
+        }
     }
 
 }

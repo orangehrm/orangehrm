@@ -32,14 +32,16 @@ class orangehrmRESTPluginAllTests
         $suite->addTestFile(dirname(__FILE__) . '/http/HttpResponseTest.php');
         $suite->addTestFile(dirname(__FILE__) . '/http/RequestParamsTest.php');
 
+        $suite->addTestFile(dirname(__FILE__) . '/api/ValidatorTest.php');
         /* API test cases */
 
         $suite->addTestFile(dirname(__FILE__) . '/api/pim/ApiEmployeeDetailAPITest.php');
         $suite->addTestFile(dirname(__FILE__) . '/api/pim/ApiEmployeeJobDetailAPITest.php');
         $suite->addTestFile(dirname(__FILE__) . '/api/pim/ApiEmployeeContactDetailAPITest.php');
         $suite->addTestFile(dirname(__FILE__) . '/api/pim/ApiEmployeeSearchAPITest.php');
-       // $suite->addTestFile(dirname(__FILE__) . '/api/pim/ApiEmployeeSaveAPITest.php');
-       // $suite->addTestFile(dirname(__FILE__) . '/api/pim/ApiEmployeeDependentAPITest.php');
+      //  $suite->addTestFile(dirname(__FILE__) . '/api/pim/ApiEmployeeSaveAPITest.php');
+        $suite->addTestFile(dirname(__FILE__) . '/api/pim/ApiEmployeeDependentAPITest.php');
+        $suite->addTestFile(dirname(__FILE__) . '/api/pim/ApiEmployeeTerminateAPITest.php');
 
         /* Entity test cases*/
 
@@ -48,6 +50,7 @@ class orangehrmRESTPluginAllTests
         $suite->addTestFile(dirname(__FILE__) . '/api/pim/entity/ApiEmployeeJobDetailTest.php');
         $suite->addTestFile(dirname(__FILE__) . '/api/pim/entity/ApiEmployeeTest.php');
         $suite->addTestFile(dirname(__FILE__) . '/api/pim/entity/ApiSupervisorTest.php');
+
 
         return $suite;
     }

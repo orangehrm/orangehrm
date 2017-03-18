@@ -34,7 +34,6 @@ class EmployeeDependentAPI extends EndPoint
     const PARAMETER_NAME = "name";
     const PARAMETER_RELATIONSHIP = "relationship";
     const PARAMETER_DOB = "dob";
-    const PARAMETER_TYPE = "type";
     const PARAMETER_SEQ_NUMBER = "sequenceNumber";
 
     /**
@@ -67,56 +66,42 @@ class EmployeeDependentAPI extends EndPoint
         $responseArray = null;
         $empId = $this->getRequestParams()->getUrlParam(self::PARAMETER_ID);
 
-        if (!is_numeric($empId)) {
-            throw new InvalidParamException("Invalid Parameter");
-
-        }
         $dependants = $this->getEmployeeService()->getEmployeeDependents($empId);
 
-        foreach ($dependants as $dependant) {
-            $relationship = '';
-            if ($dependant->getRelationshipType() == 'other') {
-                $relationship = $dependant->getRelationship();
-            } else {
-                $relationship = $dependant->getRelationshipType();
-            }
-            $empDependant = new EmployeeDependent($dependant->getName(), $relationship, $dependant->getDateOfBirth());
+        foreach ($dependants as $dependent) {
+
+            $empDependant = new EmployeeDependent($dependent->getName(), $dependent->getRelationship(),
+                $dependent->getDateOfBirth(), $dependent->getSeqno());
             $responseArray[] = $empDependant->toArray();
         }
         return new Response($responseArray, array());
     }
 
     /**
-     * Saving Employee details
+     * Save employee dependent
      *
      * @return Response
      * @throws BadRequestException
+     * @throws InvalidParamException
      */
     public function saveEmployeeDependents()
     {
-
-        $empId = $this->getRequestParams()->getUrlParam(self::PARAMETER_ID);
-
         $filters = $this->filterParameters();
-
-        if ($this->validateInputs($filters)) {
-
-            $dependent = new \EmpDependent();
-            $dependent->setEmpNumber($empId);
-
-            $this->buildEmployeeDependants($dependent, $filters);
-            $result = $this->getEmployeeService()->saveEmployeeDependent($dependent); // saving = true
-
-            if ($result instanceof \EmpDependent) {
-                return new Response(array('success' => 'Successfully saved'));
-            } else {
-                throw new BadRequestException("Saving Failed");
-            }
-
-        } else {
-            throw new BadRequestException("Invalid parameter");
+        if (empty($filters[self::PARAMETER_RELATIONSHIP])) {
+            throw new InvalidParamException('Dependent relationship cannot be empty');
         }
+        if (empty($filters[self::PARAMETER_NAME])) {
+            throw new InvalidParamException('Dependent name cannot be empty');
+        }
+        $dependent = $this->buildEmployeeDependents($filters);
 
+        $result = $this->getEmployeeService()->saveEmployeeDependent($dependent);
+
+        if ($result instanceof \EmpDependent) {
+            return new Response(array('success' => 'Successfully saved', 'sequenceNumber' => $result->getSeqno() ));
+        } else {
+            throw new BadRequestException("Saving Failed");
+        }
 
     }
 
@@ -129,33 +114,24 @@ class EmployeeDependentAPI extends EndPoint
      */
     public function updateEmployeeDependents()
     {
-        $empId = $this->getRequestParams()->getUrlParam(self::PARAMETER_ID);
-
         $filters = $this->filterParameters();
-
-        if ($this->validateInputs($filters)) {
-
-            $dependent = new \EmpDependent();
-            $dependent->setEmpNumber($empId);
-            $dependent->setSeqno($filters[self::PARAMETER_SEQ_NUMBER]);
-
-            $this->buildEmployeeDependants($dependent, $filters);
-            try {
-                $result = $this->getEmployeeService()->updateEmployeeDependent($dependent); // saving = true
-
-            } catch (\PIMServiceException $pimEx) {
-                throw new BadRequestException('Updating failed');
-            }
-
-            if ($result instanceof \EmpDependent) {
-                return new Response(array('success' => 'Successfully updated'));
-            } else {
-                throw new BadRequestException("Updating failed");
-            }
-
-        } else {
-            throw new InvalidParamException("Invalid parameter");
+        if(!is_numeric( $filters[self::PARAMETER_SEQ_NUMBER] )) {
+            throw new InvalidParamException("Sequence number is wrong");
         }
+        $dependent = $this->buildEmployeeDependents($filters);
+        try {
+            $result = $this->getEmployeeService()->updateEmployeeDependent($dependent);
+
+        } catch (\Exception $pimEx) {
+            throw new BadRequestException('Updating failed');
+        }
+
+        if ($result instanceof \EmpDependent) {
+            return new Response(array('success' => 'Successfully updated'));
+        } else {
+            throw new BadRequestException("Updating failed");
+        }
+
     }
 
     /**
@@ -203,11 +179,10 @@ class EmployeeDependentAPI extends EndPoint
         if (!empty($this->getRequestParams()->getPostParam(self::PARAMETER_NAME))) {
             $filters[self::PARAMETER_NAME] = $this->getRequestParams()->getPostParam(self::PARAMETER_NAME);
         }
+        $filters[self::PARAMETER_RELATIONSHIP] = $this->getRequestParams()->getPostParam(self::PARAMETER_RELATIONSHIP);
+
         if (!empty($this->getRequestParams()->getPostParam(self::PARAMETER_RELATIONSHIP))) {
             $filters[self::PARAMETER_RELATIONSHIP] = $this->getRequestParams()->getPostParam(self::PARAMETER_RELATIONSHIP);
-        }
-        if (!empty($this->getRequestParams()->getPostParam(self::PARAMETER_TYPE))) {
-            $filters[self::PARAMETER_TYPE] = $this->getRequestParams()->getPostParam(self::PARAMETER_TYPE);
         }
         if (!empty($this->getRequestParams()->getPostParam(self::PARAMETER_DOB))) {
             $filters[self::PARAMETER_DOB] = $this->getRequestParams()->getPostParam(self::PARAMETER_DOB);
@@ -223,52 +198,52 @@ class EmployeeDependentAPI extends EndPoint
     }
 
     /**
-     * Building employee dependent details
-     *
-     * @param \EmpDependent $employeeDependent
-     *
-     */
-    protected function buildEmployeeDependants(\EmpDependent $employeeDependent, $filters)
-    {
-        $employeeDependent->name = $filters[self::PARAMETER_NAME];
-        $employeeDependent->relationship = $filters[self::PARAMETER_RELATIONSHIP];
-        $employeeDependent->relationship_type = $filters[self::PARAMETER_TYPE];
-        $dob = date("Y-m-d", strtotime($filters[self::PARAMETER_DOB]));
-        $employeeDependent->date_of_birth = $dob;
-    }
-
-    /**
-     * validate input parameters
+     * Build employee dependent
      *
      * @param $filters
-     * @return bool
+     * @return \EmpDependent
      */
-    protected function validateInputs($filters)
+    protected function buildEmployeeDependents($filters)
     {
-        $valid = true;
+        $employeeDependent = new \EmpDependent();
+        $employeeDependent->setSeqno($filters[self::PARAMETER_SEQ_NUMBER]);
+        $employeeDependent->setEmpNumber($filters[self::PARAMETER_ID]);
+        $employeeDependent->name = $filters[self::PARAMETER_NAME];
+        $employeeDependent->relationship = $filters[self::PARAMETER_RELATIONSHIP];
+        $employeeDependent ->relationship_type = 'other';
+        $dob = date("Y-m-d", strtotime($filters[self::PARAMETER_DOB]));
+        $employeeDependent->date_of_birth = $dob;
 
-        $format = "Y-m-d";
+        return $employeeDependent;
+    }
 
 
-        if (!(preg_match("/^[a-z ,.'-]+$/i", $filters[self::PARAMETER_NAME]) === 1)) {
-            return false;
+    public function getPostValidationRules()
+    {
+        return array(
+            self::PARAMETER_DOB => array('Date' => array('Y-m-d')),
+            self::PARAMETER_RELATIONSHIP => array('StringType' => true, 'NotEmpty' => true,'Length' => array(1,50)),
+            self::PARAMETER_NAME => array('Length' => array(0, 50)),
+        );
+    }
 
-        }
-        if (!empty($filters[self::PARAMETER_DOB]) && !date($format,
-                strtotime($filters[self::PARAMETER_DOB])) == date($filters[self::PARAMETER_DOB])
-        ) {
-            return false;
-        }
+    public function getPutValidationRules()
+    {
+        return array(
+            self::PARAMETER_DOB => array('Date' => array('Y-m-d')),
+            self::PARAMETER_RELATIONSHIP => array('StringType' => true, 'NotEmpty' => true,'Length' => array(1,50)),
+            self::PARAMETER_NAME => array('Length' => array(0, 50), 'NotEmpty' => true),
+            self::PARAMETER_SEQ_NUMBER=> array('NotEmpty' => true,'Length' => array(1,1000))
+        );
+    }
 
-        if (empty($filters[self::PARAMETER_RELATIONSHIP]) || !(preg_match("/^[a-zA-Z]*$/",
-                    $filters[self::PARAMETER_RELATIONSHIP]) === 1)
-        ) {
-            return false;
-        }
-        if (!empty($filters[self::PARAMETER_TYPE]) && !($filters[self::PARAMETER_TYPE] == 'other')) {
-            return false;
-        }
-        return $valid;
+    public function getDelValidationRules()
+    {
+        return array(
+          self::PARAMETER_SEQ_NUMBER=> array( 'NotEmpty' => true,'Length' => array(1,1000))
+        );
     }
 
 }
+
+

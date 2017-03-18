@@ -22,7 +22,8 @@ namespace Orangehrm\Rest\Api\Pim\Entity;
 use Orangehrm\Rest\Api\Entity\Serializable;
 use Orangehrm\Rest\Api\Pim\Entity\Supervisor;
 
-class Employee implements Serializable {
+class Employee implements Serializable
+{
     /**
      * @var
      */
@@ -34,11 +35,11 @@ class Employee implements Serializable {
 
     private $age = 0;
 
-    private $licenseNo ='';
+    private $licenseNo = '';
 
     private $employeeId = 0;
 
-    private $empBirthDate =  '';
+    private $empBirthDate = '';
 
     private $country;
 
@@ -70,13 +71,19 @@ class Employee implements Serializable {
 
     private $employeeNumber;
 
+    private $otherId;
+
+    private $maritalStatus;
+
+    private $licenseExpDate;
+
 
     /**
      * Employee constructor.
      * @param string $firstName
      * @param string $middleName
      * @param string $lastName
-     * @param int $age age of the employee
+     * @param int employee id
      */
     public function __construct($firstName, $middleName, $lastName, $id)
     {
@@ -137,7 +144,7 @@ class Employee implements Serializable {
      * @param mixed $lastName
      * @return $this;
      */
-     private function setLastName($lastName)
+    private function setLastName($lastName)
     {
         $this->lastName = $lastName;
         return $this;
@@ -447,23 +454,77 @@ class Employee implements Serializable {
         $this->employeeNumber = $employeeNumber;
     }
 
+    /**
+     * @return mixed
+     */
+    public function getOtherId()
+    {
+        return $this->otherId;
+    }
+
+    /**
+     * @param mixed $otherId
+     */
+    public function setOtherId($otherId)
+    {
+        $this->otherId = $otherId;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getMaritalStatus()
+    {
+        return $this->maritalStatus;
+    }
+
+    /**
+     * @param mixed $maritalStatus
+     */
+    public function setMaritalStatus($maritalStatus)
+    {
+        $this->maritalStatus = $maritalStatus;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getLicenseExpDate()
+    {
+        return $this->licenseExpDate;
+    }
+
+    /**
+     * @param mixed $licenseExpDate
+     */
+    public function setLicenseExpDate($licenseExpDate)
+    {
+        $this->licenseExpDate = $licenseExpDate;
+    }
 
     /**
      * Converting to an array
      * @return array
      */
-    public function toArray() {
+    public function toArray()
+    {
         return array(
             'firstName' => $this->getFirstName(),
             'middleName' => $this->getMiddleName(),
-            'id'         => $this->getEmployeeId(),
-            'employeeNumber'=>$this->getEmployeeNumber(),
             'lastName' => $this->getLastName(),
+            'code' => $this->getEmployeeId(),
+            'employeeId' => $this->getEmployeeNumber(),
             'fullName' => $this->getEmployeeFullName(),
-            'status'   => $this->getEmployeeStatus(),
-            'dob'      => $this->getEmpBirthDate(),
-            'unit'    =>$this->getUnit(),
-            'jobTitle'=> $this->getJobTitle(),
+            'status' => $this->getEmployeeStatus(),
+            'dob' => $this->getEmpBirthDate(),
+            'driversLicenseNumber' => $this->getLicenseNo(),
+            'licenseExpiryDate' => $this->getLicenseExpDate(),
+            'maritalStatus' => $this->getMaritalStatus(),
+            'gender' => $this->getGender(),
+            'otherId' => $this->getOtherId(),
+            'nationality' => $this->getNationality(),
+            'unit' => $this->getUnit(),
+            'jobTitle' => $this->getJobTitle(),
             'supervisor' => $this->getSupervisors()
 
         );
@@ -474,7 +535,8 @@ class Employee implements Serializable {
      *
      * @param $employee Doctraine Entity
      */
-    public function buildEmployee(\Employee $employee){
+    public function buildEmployee(\Employee $employee)
+    {
 
         $this->setCity($employee->getCity());
         $this->setEmpBirthDate($employee->getEmpBirthday());
@@ -484,12 +546,29 @@ class Employee implements Serializable {
         $this->setJobTitle($employee->getJobTitleName());
         $this->setUnit($employee->getSubDivision()->getName());
         $this->setEmployeeNumber($employee->getEmpNumber());
-        $supervisorList [] = array();
-        foreach ($employee->getSupervisors() as $supervisor){
 
-            $supervisorEnt = new Supervisor($supervisor->getFullName(),$supervisor->getEmployeeId());
-            $supervisorList = $supervisorEnt->toArray();
+        if ($employee->getEmpGender() == 1) {
+            $this->setGender('Male');
+        } else {
+            if ($employee->getEmpGender() == 2) {
+                $this->setGender('Female');
+            }
         }
+
+        $this->setLicenseNo($employee->getLicenseNo());
+        $this->setLicenseExpDate($employee->getEmpDriLiceExpDate());
+        $this->setMaritalStatus($employee->getEmpMaritalStatus());
+        $this->setNationality($employee->getNationality()->getName());
+        $this->setOtherId($employee->getOtherId());
+        $supervisorList = null;
+
+        foreach ($employee->getSupervisors() as $supervisor) {
+
+            $supervisorEnt = new Supervisor($supervisor->getFullName(), $supervisor->getEmployeeId());
+            $supervisorList[] = $supervisorEnt->toArray();
+        }
+
+
         $this->setSupervisors($supervisorList);
     }
 }

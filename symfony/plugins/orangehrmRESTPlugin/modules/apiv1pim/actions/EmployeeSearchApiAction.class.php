@@ -18,35 +18,29 @@
  */
 
 use Orangehrm\Rest\Http\Request;
-use Orangehrm\Rest\Http\Response;
-use Orangehrm\Rest\Api\Pim\EmployeeDependentAPI;
+use Orangehrm\Rest\Api\Pim\EmployeeSearchAPI;
 use Orangehrm\Rest\Api\Exception\NotImplementedException;
 
-class getEmployeeDependantsAction extends baseRestAction
+
+class EmployeeSearchApiAction extends baseRestAction
 {
+    private $apiEmployeeSearch = null;
+
+    protected function init(Request $request) {
+        $this->apiEmployeeSearch = new EmployeeSearchAPI($request);
+        $this->getValidationRule = $this->apiEmployeeSearch->getSearchParamValidation();
+    }
 
     protected function handleGetRequest(Request $request)
     {
+        return $this->apiEmployeeSearch->getEmployeeList();
 
-        $apiEmployeeDependent = new EmployeeDependentAPI($request);
-        return $apiEmployeeDependent->getEmployeeDependents();
     }
 
     protected function handlePostRequest(Request $request)
     {
-        $apiEmployeeDependent = new EmployeeDependentAPI($request);
-        return $apiEmployeeDependent->saveEmployeeDependents();
+        throw new NotImplementedException();
     }
 
-    protected function handlePutRequest(Request $request)
-    {
-        $apiEmployeeDependent = new EmployeeDependentAPI($request);
-        return $apiEmployeeDependent->updateEmployeeDependents();
-    }
-
-    protected function handleDeleteRequest(Request $request)
-    {
-        $apiEmployeeDependent = new EmployeeDependentAPI($request);
-        return $apiEmployeeDependent->deleteEmployeeDependents();
-    }
 }
+

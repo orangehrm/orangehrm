@@ -47,4 +47,14 @@ class Request{
         return $this->getActionRequest()->getMethod();
     }
 
+    /**
+     * @return array
+     */
+    public function getAllParameters() {
+        return array_merge($this->getActionRequest()->getGetParameters(),
+            $this->getActionRequest()->getPostParameters(),
+            array('id'=>$this->getActionRequest()->getParameter('id'))
+            );
+
+    }
 }
