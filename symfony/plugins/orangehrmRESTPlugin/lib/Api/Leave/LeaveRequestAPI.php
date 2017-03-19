@@ -22,6 +22,7 @@ namespace Orangehrm\Rest\Api\Leave;
 use Orangehrm\Rest\Api\EndPoint;
 use Orangehrm\Rest\Api\Exception\RecordNotFoundException;
 use Orangehrm\Rest\Api\Leave\Entity\LeaveRequest;
+use Orangehrm\Rest\Api\Exception\InvalidParamException;
 
 use Orangehrm\Rest\Http\Response;
 
@@ -126,13 +127,10 @@ class LeaveRequestAPI extends EndPoint
      */
     public function searchRequests()
     {
-
-
         $filters = $this->filterParameters();
         $employee = $this->getEmployeeService()->getEmployee($filters[self::PARAMETER_ID]);
         $this->validateInputs($filters);
 
-        if (!empty($employee)) {
 
             $fromDate = $filters[self::PARAMETER_FROM_DATE];
             $toDate = $filters[self::PARAMETER_TO_DATE];
@@ -142,7 +140,7 @@ class LeaveRequestAPI extends EndPoint
                 'statuses' => $this->getStatusesArray($filters),
                 'employeeFilter' => array($employee->getEmpNumber()),
                 'noOfRecordsPerPage' => $filters[self::PARAMETER_LIMIT],
-                'cmbWithTerminated' => $this->validatePassEmployee($filters[self::PARAMETER_PAST_EMPLOYEE]),
+                'cmbWithTerminated' => $this->validatePastEmployee($filters[self::PARAMETER_PAST_EMPLOYEE]),
                 'subUnit' => $this->subunit,
                 'employeeName' => $employee->getFullName()
             ));
@@ -155,11 +153,12 @@ class LeaveRequestAPI extends EndPoint
                 $leaveRequest->buildLeaveRequest($request);
                 $response [] = $leaveRequest->toArray();
             }
+
             if (empty($response)) {
                 throw new RecordNotFoundException('No Records Found');
             }
             return new Response($response, array());
-        }
+
 
 
     }
@@ -244,6 +243,12 @@ class LeaveRequestAPI extends EndPoint
             $valid = false;
 
         }
+        if (!empty($filters[self::PARAMETER_FROM_DATE]) && !empty($filters[self::PARAMETER_TO_DATE])) {
+            if ((strtotime($filters[self::PARAMETER_FROM_DATE])) > (strtotime($filters[self::PARAMETER_TO_DATE]))) {
+                throw new InvalidParamException('To Date Should Be After From Date');
+            }
+
+        }
 
         return $valid;
     }
@@ -297,7 +302,7 @@ class LeaveRequestAPI extends EndPoint
                 return true;
             }
         }
-        return false;
+        throw new InvalidParamException('Invalid Subunit');
     }
 
     /**
@@ -306,7 +311,7 @@ class LeaveRequestAPI extends EndPoint
      * @param $pastEmp
      * @return bool
      */
-    public function validatePassEmployee($pastEmp)
+    public function validatePastEmployee($pastEmp)
     {
         return $pastEmp === 'true';
     }
