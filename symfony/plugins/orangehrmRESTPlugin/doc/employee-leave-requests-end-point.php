@@ -25,7 +25,21 @@
 *           "$leaveBalance": 9,
 *           "numberOfDays": "1.00",
 *           "status": 2,
-*           "comments": {},
+*           "comments": [
+*                    {
+*                    "commentId": "3",
+*                    "author": "Admin",
+*                    "date": "2017-03-16",
+*                    "time": "14:20:27",
+*                    "comment": "Test"
+*                    },
+*                    {
+*                    "commentId": "1",
+*                    "author": "Admin",
+*                    "date": "2017-03-16",
+*                    "time": "14:18:10",
+*                    "comment": "Test"
+*                    }
 *           "action": null
 *      }
 *
