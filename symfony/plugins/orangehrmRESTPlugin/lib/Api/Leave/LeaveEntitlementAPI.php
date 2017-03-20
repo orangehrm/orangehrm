@@ -92,26 +92,20 @@ class LeaveEntitlementAPI extends EndPoint
      */
     public function getLeaveEntitlements()
     {
-        $this->empNumber = ($this->getRequestParams()->getUrlParam(self::PARAMETER_ID));
-        if (empty($this->empNumber)) {
-            $this->showResultTable = false;
+        $searchParameters = $this->getFilters();
+        $results = $this->getLeaveEntitlementService()->searchLeaveEntitlements($searchParameters);
+        $response = null;
+        if (count($results) == 0) {
+            throw new RecordNotFoundException('No Records Found');
         } else {
-            $searchParameters = $this->getFilters();
-            $results = $this->getLeaveEntitlementService()->searchLeaveEntitlements($searchParameters);
-            $response = null;
-            if (count($results) == 0) {
-                throw new RecordNotFoundException('No Entitlements Found');
-            } else {
-                foreach ($results as $entitlement) {
+            foreach ($results as $entitlement) {
 
-                    $leaveEntitlement = new LeaveEntitlement($entitlement->getId());
-                    $leaveEntitlement->buildEntitlement($entitlement);
-                    $response [] = $leaveEntitlement->toArray();
-
-                }
-                return new Response($response, array());
+                $leaveEntitlement = new LeaveEntitlement($entitlement->getId());
+                $leaveEntitlement->buildEntitlement($entitlement);
+                $response [] = $leaveEntitlement->toArray();
 
             }
+            return new Response($response, array());
 
         }
 
@@ -147,6 +141,11 @@ class LeaveEntitlementAPI extends EndPoint
         $searchParameters = new \LeaveEntitlementSearchParameterHolder();
 
         $id = $this->getRequestParams()->getUrlParam(self::PARAMETER_ID);
+
+        $employee = $this->getEmployeeService()->getEmployee($id);
+        if (!empty($employee)) {
+            throw new RecordNotFoundException('Employee Not Found');
+        }
         $leaveType = $this->getRequestParams()->getUrlParam(self::PARAMETER_LEAVE_TYPE);
         $fromDate = $this->getRequestParams()->getUrlParam(self::PARAMETER_FROM_DATE);
         $toDate = $this->getRequestParams()->getUrlParam(self::PARAMETER_TO_DATE);
