@@ -1,5 +1,5 @@
 /**
-* @api {get} /api/v1/leave/type 3.Search Leave Requests
+* @api {get} /leave/type 3.Search Leave Requests
 * @apiName searchLeaveRequest
 * @apiGroup Leave
 * @apiVersion 0.1.0
@@ -12,10 +12,8 @@
 * @apiParam {String}  [pendingApproval] Leave status pending approval ( 'true' / 'false' ).
 * @apiParam {String}  [scheduled] Leave status scheduled ( 'true' / 'false' ).
 * @apiParam {String}  [taken] Leave status taken ( 'true' / 'false' ).
-* @apiParam {String}  [pastEmployee] Past Employee results ( 'true' /'false').
-* @apiParam {String}  [subunit] Employee Subunit.
-* @apiParam {Number}  [page] Page number.
-* @apiParam {Number}  [limit] Number of records per page.
+* @apiParam {String}  [pastEmployee] Past employee results ( 'true' /'false').
+* @apiParam {String}  [subunit] Employee subunit.
 *
 * @apiSuccess {String} [type] Leave type.
 * @apiSuccess {Number} [id] Leave id.
@@ -35,7 +33,21 @@
 *           "$leaveBalance": 9,
 *           "numberOfDays": "1.00",
 *           "status": 2,
-*           "comments": {},
+*           "comments": [
+*                    {
+*                    "commentId": "3",
+*                    "author": "Admin",
+*                    "date": "2017-03-16",
+*                    "time": "14:20:27",
+*                    "comment": "Test"
+*                    },
+*                    {
+*                    "commentId": "1",
+*                    "author": "Admin",
+*                    "date": "2017-03-16",
+*                    "time": "14:18:10",
+*                    "comment": "Test"
+*                    }
 *           "action": null
 *      }
 *

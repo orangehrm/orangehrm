@@ -1,5 +1,5 @@
 /**
-* @api {post} /api/v1/employee/:id/entitlement 5.Save Employee Leave Entitlement
+* @api {post} /employee/:id/entitlement 5.Save Employee Leave Entitlement
 * @apiName saveEmployeeLeaveEntitlement
 * @apiGroup Leave
 * @apiVersion 0.1.0
