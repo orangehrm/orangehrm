@@ -204,7 +204,6 @@ class LeaveRequest implements Serializable
             'numberOfDays' => $this->getNumberOfDays(),
             'status' => $this->getStatus(),
             'comments' => $this->getComments(),
-            'action' => $this->getAction()
 
         );
     }

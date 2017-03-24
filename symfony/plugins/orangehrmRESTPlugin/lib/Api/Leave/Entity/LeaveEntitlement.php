@@ -140,9 +140,9 @@ class LeaveEntitlement implements Serializable
     }
     public function buildEntitlement(\LeaveEntitlement $entitlement){
 
-        $this->setDays($entitlement->getNoOfDays());
-        $this->setValidFrom($entitlement->getFromDate());
-        $this->setValidTo($entitlement->getToDate());
-        $this->setEntitlementType($entitlement->getEntitlementType());
+        $this->setDays($entitlement->getNoOfDays()+ 0); // adding a zero to remove unwanted zero digits in decimals
+        $this->setValidFrom(substr($entitlement->getFromDate(), 0, -9));
+        $this->setValidTo(substr($entitlement->getToDate(), 0, -9));
+        $this->setEntitlementType($entitlement->getLeaveType()->getName());
     }
 }
