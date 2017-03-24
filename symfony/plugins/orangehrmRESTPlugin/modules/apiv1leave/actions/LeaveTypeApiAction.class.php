@@ -28,6 +28,7 @@ class LeaveTypeApiAction extends baseRestAction
     protected function init(Request $request)
     {
         $this->apiLeaveTypeApi= new LeaveTypeAPI($request);
+        $this->postValidationRule = $this->apiLeaveTypeApi->postValidationRules();
 
     }
 
@@ -40,7 +41,7 @@ class LeaveTypeApiAction extends baseRestAction
     protected function handlePostRequest(Request $request)
     {
 
-        throw new NotImplementedException();
+        return $this->apiLeaveTypeApi->saveLeaveType();
     }
 
 }
