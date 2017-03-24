@@ -151,7 +151,13 @@ abstract class baseRestAction extends baseOAuthAction {
                 array('error'=>array($e->getMessage())))
             );
             $response->setStatusCode(400);
+        } catch(Exception $e) {
+            $response->setContent(Response::formatError(
+                array('error'=>array($e->getMessage())))
+            );
+            $response->setStatusCode(501);
         }
+
 
         return sfView::NONE;
     }
