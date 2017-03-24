@@ -143,7 +143,8 @@ class LeaveEntitlementAPI extends EndPoint
         $id = $this->getRequestParams()->getUrlParam(self::PARAMETER_ID);
 
         $employee = $this->getEmployeeService()->getEmployee($id);
-        if (!empty($employee)) {
+
+        if (empty($employee)) {
             throw new RecordNotFoundException('Employee Not Found');
         }
         $leaveType = $this->getRequestParams()->getUrlParam(self::PARAMETER_LEAVE_TYPE);

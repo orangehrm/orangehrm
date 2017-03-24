@@ -20,6 +20,7 @@
 namespace Orangehrm\Rest\Api\Leave;
 
 use Orangehrm\Rest\Api\EndPoint;
+use Orangehrm\Rest\Api\Exception\BadRequestException;
 use Orangehrm\Rest\Api\Exception\InvalidParamException;
 use Orangehrm\Rest\Api\Exception\RecordNotFoundException;
 use Orangehrm\Rest\Api\Leave\Entity\LeaveType;
@@ -76,16 +77,20 @@ class LeaveTypeAPI extends EndPoint
     }
 
     /**
-     * Save Leave Type
+     * Save leave type
      *
      * @return Response
+     * @throws BadRequestException
      */
     public function saveLeaveType()
     {
-        $leaveType = $this->createLeaveType();
-        $this->getLeaveTypeService()->saveLeaveType($leaveType);
+        $message = $this->getLeaveTypeService()->saveLeaveType($this->createLeaveType());
+         if($message){
+             return new Response(array('success' => 'Successfully Saved'));
+         } else {
+             throw new BadRequestException('Saving Failed');
+         }
 
-        return new Response(array('success' => 'Successfully Saved'));
 
     }
 

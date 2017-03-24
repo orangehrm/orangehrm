@@ -212,7 +212,7 @@ class LeaveRequestAPI extends EndPoint
 
         $filters[] = array();
 
-        $filters[self::PARAMETER_ID] = ($this->getRequestParams()->getUrlParam(self::PARAMETER_ID));
+        $filters[self::PARAMETER_ID] = $this->getRequestParams()->getUrlParam(self::PARAMETER_ID);
         $filters[self::PARAMETER_CANCELLED] = ($this->getRequestParams()->getUrlParam(self::PARAMETER_CANCELLED));
         $filters[self::PARAMETER_FROM_DATE] = ($this->getRequestParams()->getUrlParam(self::PARAMETER_FROM_DATE));
         $filters[self::PARAMETER_TO_DATE] = ($this->getRequestParams()->getUrlParam(self::PARAMETER_TO_DATE));
