@@ -18,17 +18,17 @@
  */
 
 use Orangehrm\Rest\Http\Request;
-use Orangehrm\Rest\Api\Admin\SystemUserAPI;
+use Orangehrm\Rest\Api\Admin\UserAPI;
 use Orangehrm\Rest\Api\Exception\NotImplementedException;
 
 
-class SystemUserApiAction extends baseRestAction
+class UserApiAction extends baseRestAction
 {
     private $systemUserApi = null;
 
     protected function init(Request $request)
     {
-        $this->systemUserApi= new SystemUserAPI($request);
+        $this->systemUserApi= new UserAPI($request);
 
     }
 
