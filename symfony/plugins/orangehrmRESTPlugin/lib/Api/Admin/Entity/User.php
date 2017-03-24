@@ -21,7 +21,7 @@ namespace Orangehrm\Rest\Api\Admin\Entity;
 
 use Orangehrm\Rest\Api\Entity\Serializable;
 
-class SystemUser implements Serializable
+class User implements Serializable
 {
 
     /**
