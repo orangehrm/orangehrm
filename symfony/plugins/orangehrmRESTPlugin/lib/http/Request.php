@@ -57,4 +57,15 @@ class Request{
             );
 
     }
+    /**
+     * Checks if the request method is the given one.
+     *
+     * @param  string $method  The method name
+     *
+     * @return bool true if the current method is the given one, false otherwise
+     */
+    public function isMethod($method)
+    {
+        return strtoupper($method) == $this->getActionRequest()->getMethod();
+    }
 }
