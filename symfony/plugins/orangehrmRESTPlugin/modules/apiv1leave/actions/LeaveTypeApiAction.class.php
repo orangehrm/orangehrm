@@ -32,7 +32,6 @@ class LeaveTypeApiAction extends baseRestAction
 
     }
 
-
     protected function handleGetRequest(Request $request)
     {
         return $this->apiLeaveTypeApi->getLeaveTypes();
