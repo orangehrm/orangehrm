@@ -50,7 +50,7 @@ api_leave_type:
   url: /api/v1/leave/type
   param: { module:apiv1leave, action:LeaveTypeApi }
   requirements:
-     sf_method: [get]
+     sf_method: [get,post]
 
 api_leave_request:
   url: /api/v1/employee/:id/leave-request
@@ -71,3 +71,15 @@ api_leave_entitlement:
   requirements:
      id: \d+
      sf_method: [get,post]
+
+api_leave_period:
+  url: /api/v1/leave/period
+  param: { module:apiv1leave, action:LeavePeriodApi }
+  requirements:
+     sf_method: [get]
+
+api_admin_user:
+  url: api/v1/user
+  param: { module:apiv1admin, action:SystemUserApi }
+  requirements:
+     sf_method: [get]
