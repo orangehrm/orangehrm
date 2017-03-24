@@ -169,12 +169,12 @@ class EmployeeJobDetailAPI extends EndPoint
             $returnedEmployee = $this->getEmployeeService()->saveEmployee($employee);
 
             if ($returnedEmployee instanceof \Employee) {
-                return new Response(array('success' => 'Successfully saved'), $relationsArray);
+                return new Response(array('success' => 'Successfully Saved'), $relationsArray);
             } else {
-                throw new BadRequestException("saving failed");
+                throw new BadRequestException("Saving Failed");
             }
         } else {
-            throw new BadRequestException("saving failed");
+            throw new BadRequestException("Saving Failed");
         }
 
 
@@ -264,14 +264,14 @@ class EmployeeJobDetailAPI extends EndPoint
     }
 
 
-
-    public function getValidationRules() {
-    return array(
-        self::PARAMETER_JOINED_DATE => array('Date'=>array('Y-m-d')),
-        self::PARAMETER_START_DATE => array('Date'=>array('Y-m-d')),
-        self::PARAMETER_END_DATE => array('Date'=>array('Y-m-d')),
-    );
-}
+    public function getValidationRules()
+    {
+        return array(
+            self::PARAMETER_JOINED_DATE => array('Date' => array('Y-m-d')),
+            self::PARAMETER_START_DATE => array('Date' => array('Y-m-d')),
+            self::PARAMETER_END_DATE => array('Date' => array('Y-m-d')),
+        );
+    }
 
     /**
      * validate input parameters
@@ -304,6 +304,12 @@ class EmployeeJobDetailAPI extends EndPoint
         }
         if (!empty($filters[self::PARAMETER_SUBUNIT]) && !$this->validateSubunit()) {
             $valid = false;
+
+        }
+        if (!empty($filters[self::PARAMETER_START_DATE]) && !empty($filters[self::PARAMETER_END_DATE])) {
+            if ((strtotime($filters[self::PARAMETER_START_DATE])) > (strtotime($filters[self::PARAMETER_END_DATE]))) {
+                throw new InvalidParamException('End Date Should Be After Start Date');
+            }
 
         }
         return $valid;

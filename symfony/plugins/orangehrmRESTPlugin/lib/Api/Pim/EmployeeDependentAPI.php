@@ -88,17 +88,17 @@ class EmployeeDependentAPI extends EndPoint
     {
         $filters = $this->filterParameters();
         if (empty($filters[self::PARAMETER_RELATIONSHIP])) {
-            throw new InvalidParamException('Dependent relationship cannot be empty');
+            throw new InvalidParamException('Dependent Relationship Cannot Be Empty');
         }
         if (empty($filters[self::PARAMETER_NAME])) {
-            throw new InvalidParamException('Dependent name cannot be empty');
+            throw new InvalidParamException('Dependent Name Cannot Be Empty');
         }
         $dependent = $this->buildEmployeeDependents($filters);
 
         $result = $this->getEmployeeService()->saveEmployeeDependent($dependent);
 
         if ($result instanceof \EmpDependent) {
-            return new Response(array('success' => 'Successfully saved', 'sequenceNumber' => $result->getSeqno() ));
+            return new Response(array('success' => 'Successfully Saved', 'sequenceNumber' => $result->getSeqno() ));
         } else {
             throw new BadRequestException("Saving Failed");
         }
@@ -116,20 +116,20 @@ class EmployeeDependentAPI extends EndPoint
     {
         $filters = $this->filterParameters();
         if(!is_numeric( $filters[self::PARAMETER_SEQ_NUMBER] )) {
-            throw new InvalidParamException("Sequence number is wrong");
+            throw new InvalidParamException("Sequence Number Is Wrong");
         }
         $dependent = $this->buildEmployeeDependents($filters);
         try {
             $result = $this->getEmployeeService()->updateEmployeeDependent($dependent);
 
         } catch (\Exception $pimEx) {
-            throw new BadRequestException('Updating failed');
+            throw new BadRequestException('Updating Failed');
         }
 
         if ($result instanceof \EmpDependent) {
-            return new Response(array('success' => 'Successfully updated'));
+            return new Response(array('success' => 'Successfully Updated'));
         } else {
-            throw new BadRequestException("Updating failed");
+            throw new BadRequestException("Updating Failed");
         }
 
     }
@@ -153,13 +153,13 @@ class EmployeeDependentAPI extends EndPoint
 
             if ($count > 0) {
 
-                return new Response(array('success' => 'Successfully deleted'));
+                return new Response(array('success' => 'Successfully Deleted'));
             } else {
-                throw new RecordNotFoundException("Deleting failed");
+                throw new RecordNotFoundException("Deleting Failed");
             }
 
         } else {
-            throw new InvalidParamException("Sequence number is wrong");
+            throw new InvalidParamException("Sequence Number Is Wrong");
         }
 
 

@@ -103,7 +103,7 @@ class EmployeeSearchAPI extends EndPoint
             }
 
             if (!empty($parameterHolder->getLimit())) {
-                //  $relationsArray = $this->getRelations($relationsArray, $parameterHolder);
+                  $relationsArray = $this->getRelations($relationsArray, $parameterHolder);
             }
 
         }

@@ -74,16 +74,16 @@ class EmployeeSupervisorAPI extends EndPoint
     }
 
     /**
-     * Get supervisor details
+     * Get employee supervisor details
      *
      * @return Response
-     *
+     * @throws RecordNotFoundException
      */
     public function getEmployeeSupervisors()
     {
         $employeeId = $this->getRequestParams()->getUrlParam(self::PARAMETER_ID);
         $employee = $this->getEmployeeService()->getEmployee($employeeId);
-        if(empty($employee)){
+        if (empty($employee)) {
             throw new RecordNotFoundException('Employee Not Found');
         }
         $supervisors = $this->getEmployeeService()->getImmediateSupervisors($employeeId);
@@ -111,40 +111,49 @@ class EmployeeSupervisorAPI extends EndPoint
         $supervisorId = $this->getRequestParams()->getPostParam(self::PARAMETER_SUPERVISOR_ID);
         $reportingMethodName = $this->getRequestParams()->getPostParam(self::PARAMETER_REPORTING_METHOD);
 
-        if(empty($supervisorId) || empty($reportingMethodName)){
-            throw new InvalidParamException('Invalid parameter');
+        if (empty($supervisorId) || empty($reportingMethodName)) {
+            throw new InvalidParamException('Invalid Parameter');
         }
-        $reportingMethod = $this->getReportingMethodConfigurationService()->getReportingMethodByName($reportingMethodName);
+        $supervisor = $this->getEmployeeService()->getEmployee($supervisorId);
+        if (!empty($supervisor)) {
+            $reportingMethod = $this->getReportingMethodConfigurationService()->getReportingMethodByName($reportingMethodName);
 
-        $reportingMethodId = null;
+            $reportingMethodId = null;
 
-        if (empty($reportingMethod)) {
-            $newReportingMethod = new \ReportingMethod();
-            $newReportingMethod->name = $reportingMethodName;
-            $savedReportingMethod = $this->getReportingMethodConfigurationService()->saveReportingMethod($newReportingMethod);
-            $reportingMethodId = $savedReportingMethod->id;
+            if (empty($reportingMethod)) {
+                $newReportingMethod = new \ReportingMethod();
+                $newReportingMethod->name = $reportingMethodName;
+                $savedReportingMethod = $this->getReportingMethodConfigurationService()->saveReportingMethod($newReportingMethod);
+                $reportingMethodId = $savedReportingMethod->id;
+            } else {
+                $reportingMethodId = $reportingMethod->id;
+            }
+
+            $existingReportToObject = $this->getEmployeeService()->getReportToObject($supervisorId, $employeeId);
+
+
+            if (!empty($existingReportToObject) && $this->getRequestParams()->getRequest()->isMethod('put')) {
+
+                $existingReportToObject->setReportingMethodId($reportingMethodId);
+                $existingReportToObject->save();
+                return new Response(array('success' => 'Successfully Updated'));
+
+            } elseif(empty($existingReportToObject) && $this->getRequestParams()->getRequest()->isMethod('post')){
+
+                $newReportToObject = new \ReportTo();
+                $newReportToObject->setSupervisorId($supervisorId);
+                $newReportToObject->setSubordinateId($employeeId);
+                $newReportToObject->setReportingMethodId($reportingMethodId);
+                $newReportToObject->save();
+                return new Response(array('success' => 'Successfully Saved'));
+
+            } else {
+                throw new BadRequestException('Supervisor Already Added');
+            }
         } else {
-            $reportingMethodId = $reportingMethod->id;
+            throw new RecordNotFoundException('Supervisor Not Found');
         }
 
-        $existingReportToObject = $this->getEmployeeService()->getReportToObject($supervisorId, $employeeId);
-
-        if (!empty($existingReportToObject)) {
-
-            $existingReportToObject->setReportingMethodId($reportingMethodId);
-            $existingReportToObject->save();
-            return new Response(array('success' => 'Successfully saved'));
-
-        } else {
-
-            $newReportToObject = new \ReportTo();
-            $newReportToObject->setSupervisorId($supervisorId);
-            $newReportToObject->setSubordinateId($employeeId);
-            $newReportToObject->setReportingMethodId($reportingMethodId);
-            $newReportToObject->save();
-            return new Response(array('success' => 'Successfully saved'));
-
-        }
     }
 
     /**
@@ -161,16 +170,17 @@ class EmployeeSupervisorAPI extends EndPoint
         $reportingMethodName = $this->getRequestParams()->getPostParam(self::PARAMETER_REPORTING_METHOD);
         $reportingMethod = $this->getReportingMethodConfigurationService()->getReportingMethodByName($reportingMethodName);
 
-        if(empty($supervisorId) || empty($reportingMethodName)){
-            throw new InvalidParamException('Invalid parameter');
+        if (empty($supervisorId) || empty($reportingMethodName)) {
+            throw new InvalidParamException('Invalid Parameter');
         }
-        if(empty($existingReportToObject)|| empty($reportingMethod)) {
-            throw new RecordNotFoundException('Supervisor not found');
+        if (empty($existingReportToObject) || empty($reportingMethod)) {
+            throw new RecordNotFoundException('Supervisor Not Found');
         } else {
-            $status = $this->getEmployeeService()->removeSupervisor($supervisorId,$employeeId,$reportingMethod->getId());
-            if($status) {
-                return new Response(array('success' => 'Successfully deleted'));
-            }else {
+            $status = $this->getEmployeeService()->removeSupervisor($supervisorId, $employeeId,
+                $reportingMethod->getId());
+            if ($status) {
+                return new Response(array('success' => 'Successfully Deleted'));
+            } else {
                 throw new BadRequestException('Deleting Failed');
             }
 

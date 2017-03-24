@@ -564,8 +564,8 @@ class Employee implements Serializable
 
         foreach ($employee->getSupervisors() as $supervisor) {
 
-            $supervisorEnt = new Supervisor($supervisor->getFullName(), $supervisor->getEmployeeId());
-            $supervisorList[] = $supervisorEnt->toArray();
+            $supervisorEnt = new Supervisor($supervisor->getFullName(), $supervisor->getEmpNumber());
+            $supervisorList[] = $supervisorEnt->_toArray();
         }
 
 

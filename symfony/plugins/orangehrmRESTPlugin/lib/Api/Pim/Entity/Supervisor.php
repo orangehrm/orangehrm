@@ -104,7 +104,7 @@ class Supervisor implements Serializable
      * @param $name
      * @param $id
      */
-    public function __construct($name, $id ,$code = '', $reportingMethod = '')
+    public function __construct($name, $id, $code = '', $reportingMethod = '')
     {
         $this->setName($name);
         $this->setId($id);
@@ -120,6 +120,14 @@ class Supervisor implements Serializable
             'id' => $this->getId(),
             'code' => $this->getCode(),
             'reportingMethod' => $this->getReportingMethod()
+        );
+    }
+
+    public function _toArray()
+    {
+        return array(
+            'name' => $this->getName(),
+            'id' => $this->getId()
         );
     }
 }
