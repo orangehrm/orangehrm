@@ -33,22 +33,24 @@ class Validator
     {
         try {
             foreach ($rule as $property => $propertyRules) {
-                if(isset($values[$property])) {
-                    $classNames = array();
-                    foreach ($propertyRules as $ruleType => $params) {
-                        if (!is_array($params)) {
-                            $params = array();
-                        }
-                        $classNames[] = call_user_func_array(
-                            array(new \ReflectionClass('Respect\\Validation\\Rules\\' . $ruleType), 'newInstance'),
-                            $params
-                        );
-
-                    }
-                    $propertyValidatorRule = new Rules\AllOf($classNames);
-                    $propertyValidator = new Rules\Key($property, $propertyValidatorRule);
-                    $propertyValidator->check(array($property=>$values[$property]));
+                if(!isset($values[$property])) {
+                    $values[$property] = null;
                 }
+                $classNames = array();
+                foreach ($propertyRules as $ruleType => $params) {
+                    if (!is_array($params)) {
+                        $params = array();
+                    }
+                    $classNames[] = call_user_func_array(
+                        array(new \ReflectionClass('Respect\\Validation\\Rules\\' . $ruleType), 'newInstance'),
+                        $params
+                    );
+
+                }
+                $propertyValidatorRule = new Rules\AllOf($classNames);
+                $propertyValidator = new Rules\Key($property, $propertyValidatorRule);
+                $propertyValidator->check(array($property=>$values[$property]));
+
 
             }
             return true;
