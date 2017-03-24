@@ -43,7 +43,9 @@ class orangehrmRESTPluginAllTests
         $suite->addTestFile(dirname(__FILE__) . '/api/pim/ApiEmployeeDependentAPITest.php');
         $suite->addTestFile(dirname(__FILE__) . '/api/pim/ApiEmployeeTerminateAPITest.php');
 
-        /* Entity test cases*/
+         $suite->addTestFile(dirname(__FILE__) . '/api/leave/ApiLeaveEntitlementAPITest.php');
+         $suite->addTestFile(dirname(__FILE__) . '/api/leave/ApiLeaveTypeAPITest.php');
+        /* Entity test cases - PIM*/
 
         $suite->addTestFile(dirname(__FILE__) . '/api/pim/entity/ApiEmployeeContactDetailTest.php');
         $suite->addTestFile(dirname(__FILE__) . '/api/pim/entity/ApiEmployeeDependentTest.php');
@@ -51,6 +53,12 @@ class orangehrmRESTPluginAllTests
         $suite->addTestFile(dirname(__FILE__) . '/api/pim/entity/ApiEmployeeTest.php');
         $suite->addTestFile(dirname(__FILE__) . '/api/pim/entity/ApiSupervisorTest.php');
 
+        /* Entity test cases - Leave */
+
+        $suite->addTestFile(dirname(__FILE__) . '/api/leave/entity/ApiLeaveEntitlementTest.php');
+        $suite->addTestFile(dirname(__FILE__) . '/api/leave/entity/ApiLeaveRequestTest.php');
+        $suite->addTestFile(dirname(__FILE__) . '/api/leave/entity/ApiLeaveTypeTest.php');
+        $suite->addTestFile(dirname(__FILE__) . '/api/leave/entity/ApiLeaveRequestCommentTest.php');
 
         return $suite;
     }
