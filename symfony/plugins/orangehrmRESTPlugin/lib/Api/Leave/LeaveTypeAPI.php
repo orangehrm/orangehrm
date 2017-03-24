@@ -20,6 +20,7 @@
 namespace Orangehrm\Rest\Api\Leave;
 
 use Orangehrm\Rest\Api\EndPoint;
+use Orangehrm\Rest\Api\Exception\InvalidParamException;
 use Orangehrm\Rest\Api\Exception\RecordNotFoundException;
 use Orangehrm\Rest\Api\Leave\Entity\LeaveType;
 
@@ -29,6 +30,8 @@ class LeaveTypeAPI extends EndPoint
 {
 
     private $leaveTypeService;
+
+    const PARAMETER_NAME = 'name';
 
     /**
      * @return mixed
@@ -51,20 +54,74 @@ class LeaveTypeAPI extends EndPoint
         $this->leaveTypeService = $leaveTypeService;
     }
 
-
+    /**
+     * Get leave types
+     *
+     * @return Response
+     * @throws RecordNotFoundException
+     */
     public function getLeaveTypes()
     {
         $leaveTypeList = $this->getLeaveTypeService()->getLeaveTypeList();
         $responseArray = null;
         foreach ($leaveTypeList as $type) {
 
-            $leaveType = new LeaveType($type->getId(),$type->getName());
+            $leaveType = new LeaveType($type->getId(), $type->getName());
             $responseArray[] = $leaveType->toArray();
         }
-        if(empty($responseArray)){
+        if (empty($responseArray)) {
             throw new RecordNotFoundException('No Leave Types Available');
         }
         return new Response($responseArray, array());
+    }
+
+    /**
+     * Save Leave Type
+     *
+     * @return Response
+     */
+    public function saveLeaveType()
+    {
+        $leaveType = $this->createLeaveType();
+        $this->getLeaveTypeService()->saveLeaveType($leaveType);
+
+        return new Response(array('success' => 'Successfully Saved'));
+
+    }
+
+    /**
+     * Create leave type for saving
+     *
+     * @return \LeaveType
+     * @throws InvalidParamException
+     */
+    protected function createLeaveType()
+    {
+        $leaveTypeList = $this->getLeaveTypeService()->getLeaveTypeList();
+        $leaveTypeName = null;
+        if (!empty($this->getRequestParams()->getPostParam(self::PARAMETER_NAME))) {
+            $leaveTypeName = $this->getRequestParams()->getPostParam(self::PARAMETER_NAME);
+        } else {
+            throw new InvalidParamException("Name Cannot Be Empty");
+        }
+        foreach ($leaveTypeList as $leaveType) {
+            if ($leaveType->getName() === $leaveTypeName) {
+                throw new InvalidParamException("Leave Type Already Exists");
+            }
+        }
+
+        $type = new \LeaveType();
+        $type->setName($leaveTypeName);
+        return $type;
+
+    }
+
+    public function postValidationRules()
+    {
+        return array(
+            self::PARAMETER_NAME => array('NotEmpty' => true, 'Length' => array(1, 50))
+
+        );
     }
 
 
