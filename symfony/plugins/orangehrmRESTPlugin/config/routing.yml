@@ -80,6 +80,6 @@ api_leave_period:
 
 api_admin_user:
   url: api/v1/user
-  param: { module:apiv1admin, action:SystemUserApi }
+  param: { module:apiv1admin, action:UserApi }
   requirements:
      sf_method: [get]
