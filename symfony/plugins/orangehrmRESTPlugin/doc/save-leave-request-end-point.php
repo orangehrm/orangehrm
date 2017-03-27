@@ -4,10 +4,10 @@
 * @apiGroup Leave
 * @apiVersion 0.1.0
 *
-* @apiParam   {String} empId Employee id.
+* @apiParam   {Number} empId Employee id.
 * @apiParam   {String} type Mandatory leave type name.
-* @apiParam   {String} fromDate Leave start date.
-* @apiParam   {String} toDate Leave end date.
+* @apiParam   {Date} fromDate Leave start date.
+* @apiParam   {Date} toDate Leave end date.
 * @apiParam   {String} comment Leave comment.
 * @apiParam   {String} partialOption Partial day option ('all','start','end' ).
 * @apiParam   {String} singleType Single day leave applying type ('half_day','full_day','specify_time').
