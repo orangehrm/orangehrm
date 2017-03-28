@@ -2,6 +2,7 @@
 * @api {del} /employee/:id/dependent 10.Delete Employee Dependents
 * @apiName deleteEmployeeDependents
 * @apiGroup Employee
+* @apiVersion 0.1.0
 *
 * @apiParam {Number} id Employee id.
 *

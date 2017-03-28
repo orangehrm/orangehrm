@@ -2,6 +2,7 @@
 * @api {get} /employee/search 05.Employee Search
 * @apiName SearchEmployee
 * @apiGroup Employee
+* @apiVersion 0.1.0
 *
 * @apiParam {String} [name] Employee name.
 * @apiParam {String} [code] Employee code.
