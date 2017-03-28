@@ -6,7 +6,7 @@
 *
 *
 * @apiSuccess {String} [type] Leave type.
-* @apiSuccess {Number} [id] Leave id.
+* @apiSuccess {Number} [id] Leave type id.
 *
 * @apiSuccessExample Success-Response:
 *     HTTP/1.1 200 OK

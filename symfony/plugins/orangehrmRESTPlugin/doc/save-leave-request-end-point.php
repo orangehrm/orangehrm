@@ -1,5 +1,5 @@
 /**
-* @api {post} /employee/:id/leave-request 6.Save Leave Request
+* @api {post} /employee/:id/leave-request Save Leave Request
 * @apiName saveLeaveRequest
 * @apiGroup Leave
 * @apiVersion 0.1.0
