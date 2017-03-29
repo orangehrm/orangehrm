@@ -1,5 +1,5 @@
 /**
-* @api {get} /leave/type 3.Search Leave Requests
+* @api {get} /leave/search 3.Search Leave Requests
 * @apiName searchLeaveRequest
 * @apiGroup Leave
 * @apiVersion 0.1.0
