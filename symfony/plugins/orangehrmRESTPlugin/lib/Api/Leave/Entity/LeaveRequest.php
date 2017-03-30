@@ -213,20 +213,22 @@ class LeaveRequest implements Serializable
      *
      * @param \LeaveRequest $leaveRequest
      */
-    public function buildLeaveRequest(\LeaveRequest $leaveRequest){
+    public function buildLeaveRequest(\LeaveRequest $leaveRequest)
+    {
 
         $this->setDate($leaveRequest->getDateApplied());
-        $this->setLeaveBalance($leaveRequest->getLeaveBalance());
+        $this->setLeaveBalance(number_format((float)$leaveRequest->getLeaveBalance(), 2, '.', ''));
         $this->setStatus($leaveRequest->getLeaveStatusId());
         $this->setNumberOfDays($leaveRequest->getNumberOfDays());
         $this->setAction(\Leave::getLeaveStatusForText($leaveRequest->getLeaveStatusId()));
 
         $commentsList = null;
 
-        if(!empty($leaveRequest->getLeaveRequestComment())) {
-            foreach ($leaveRequest->getLeaveRequestComment() as $comment){
+        if (!empty($leaveRequest->getLeaveRequestComment())) {
+            foreach ($leaveRequest->getLeaveRequestComment() as $comment) {
                 $datetime = explode(" ", $comment->getCreated());
-                $leaveComment = new LeaveRequestComment($comment->getId(),$comment->getCreatedByName(),$datetime[0] , $datetime[1]  ,$comment->getComments());
+                $leaveComment = new LeaveRequestComment($comment->getId(), $comment->getCreatedByName(), $datetime[0],
+                    $datetime[1], $comment->getComments());
                 $commentsList[] = $leaveComment->toArray();
             }
         }
