@@ -25,7 +25,7 @@
 *           "type": "Annual",
 *           "id": "2",
 *           "date": "2017-03-31",
-*           "$leaveBalance": 9,
+*           "leaveBalance": 9,
 *           "numberOfDays": "1.00",
 *           "status": Annual,
 *           "comments": [
