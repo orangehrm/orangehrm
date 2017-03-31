@@ -29,8 +29,6 @@ class LeaveRequestApiAction extends baseRestAction
     protected function init(Request $request)
     {
         $this->leaveRequestApi= new LeaveRequestAPI($request);
-        $this->getValidationRule = $this->leaveRequestApi->getValidationRules();
-
         $this->saveLeaveRequestApi = new SaveLeaveRequestAPI($request);
         $this->postValidationRule = $this->saveLeaveRequestApi->getValidationRules();
         $user = sfContext::getInstance()->getUser();
