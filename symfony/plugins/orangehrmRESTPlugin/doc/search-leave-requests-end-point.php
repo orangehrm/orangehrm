@@ -5,8 +5,8 @@
 * @apiVersion 0.1.0
 *
 *
-* @apiParam {Date}  [fromDate] From date.
-* @apiParam {Date}  [toDate] To date.
+* @apiParam {Date}  fromDate From date.
+* @apiParam {Date}   toDate To date.
 * @apiParam {String}  [reject] Leave status rejected ( 'true' / 'false' ).
 * @apiParam {String}  [cancelled] Leave status cancelled ( 'true' / 'false' ).
 * @apiParam {String}  [pendingApproval] Leave status pending approval ( 'true' / 'false' ).
@@ -15,14 +15,14 @@
 * @apiParam {String}  [pastEmployee] Past employee results ( 'true' /'false').
 * @apiParam {String}  [subunit] Employee subunit.
 *
-* @apiSuccess {String} [employeeName] Employee name
-* @apiSuccess {String} [employeeId] Employee id.
-* @apiSuccess {String} [type] Leave type.
-* @apiSuccess {Number} [id] Leave id.
-* @apiSuccess {Date}   [date] Leave date.
-* @apiSuccess {Number} [leaveBalance] Leave balance.
-* @apiSuccess {Number} [numberOfDays] Number of Days.
-* @apiSuccess {String} [comments] Leave comments.
+* @apiSuccess {String} employeeName Employee name
+* @apiSuccess {String} employeeId Employee id.
+* @apiSuccess {String} type Leave type.
+* @apiSuccess {Number} id Leave id.
+* @apiSuccess {Date}   date Leave date.
+* @apiSuccess {Number} leaveBalance Leave balance.
+* @apiSuccess {Number} numberOfDays Number of Days.
+* @apiSuccess {String} comments Leave comments.
 *
 * @apiSuccessExample Success-Response:
 *     HTTP/1.1 200 OK
