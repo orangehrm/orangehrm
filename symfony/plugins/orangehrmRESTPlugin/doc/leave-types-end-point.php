@@ -1,12 +1,12 @@
 /**
-* @api {get} /leave/type Leave Types
+* @api {get} /leave/type Get Leave Types
 * @apiName leaveTypes
 * @apiGroup Leave
 * @apiVersion 0.1.0
 *
 *
-* @apiSuccess {String} [type] Leave type.
-* @apiSuccess {Number} [id] Leave type id.
+* @apiSuccess {String} type Leave type.
+* @apiSuccess {Number} id Leave type id.
 *
 * @apiSuccessExample Success-Response:
 *     HTTP/1.1 200 OK
