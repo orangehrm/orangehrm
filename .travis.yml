@@ -4,6 +4,9 @@ php:
   - '5.5'
   - '5.6'
 sudo: required
+
+services:
+  - mysql
  
 matrix:
     include:
@@ -17,7 +20,7 @@ before_install:
 
 install:
   - composer install -d symfony/lib
-  - cd installer && sudo bash cli_install.sh
+  - cd installer && sudo bash cli_install.sh && cd ../
 
 script:
   - symfony/lib/vendor/bin/codecept run -c symfony/test/api/
