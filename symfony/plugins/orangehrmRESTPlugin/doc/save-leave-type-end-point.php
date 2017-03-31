@@ -15,11 +15,6 @@
 *
 * @apiError No-Records Found.
 *
-* @apiErrorExample Error-Response:
-*     HTTP/1.1 404 Record Not Found
-*     {
-*       "error": ["No Leave Types Available"]
-*     }
 *
 * @apiError Bad-Response Saving Failed.
 *
