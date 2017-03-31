@@ -181,6 +181,10 @@ class LeaveEntitlementAPI extends EndPoint
         $searchParameters->setFromDate($fromDate);
         $searchParameters->setToDate($toDate);
 
+        if (!$this->validateLeavePeriods($searchParameters->getFromDate(), $searchParameters->getToDate())) {
+            throw new InvalidParamException('No Leave Period Found');
+        };
+
         return $searchParameters;
 
     }
