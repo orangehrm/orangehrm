@@ -1,5 +1,5 @@
 /**
-* @api {get} /leave/period 8.Get Leave Period
+* @api {get} /leave/period Get Leave Period
 * @apiName getLeavePeriods
 * @apiGroup Leave
 * @apiVersion 0.1.0

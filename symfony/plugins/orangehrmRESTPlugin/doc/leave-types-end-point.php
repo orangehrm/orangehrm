@@ -1,5 +1,5 @@
 /**
-* @api {get} /leave/type 1.Leave Types
+* @api {get} /leave/type Leave Types
 * @apiName leaveTypes
 * @apiGroup Leave
 * @apiVersion 0.1.0

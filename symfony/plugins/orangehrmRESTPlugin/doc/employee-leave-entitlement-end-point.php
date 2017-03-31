@@ -1,5 +1,5 @@
 /**
-* @api {get} /employee/:id/entitlement 4.Get Employee Leave Entitlement
+* @api {get} /employee/:id/entitlement Get Employee Leave Entitlement
 * @apiName employeeLeaveEntitlement
 * @apiGroup Leave
 * @apiVersion 0.1.0
@@ -22,9 +22,9 @@
 *        "data": [
 *        {
 *        "id": "2",
-*        "type": "1",
-*        "validFrom": "2017-01-01 00:00:00",
-*        "validTo": "2018-02-28 00:00:00",
+*        "type": "Annual",
+*        "validFrom": "2017-01-01 ",
+*        "validTo": "2018-02-28 ",
 *        "days": "10.0"
 *        }
 *        ],

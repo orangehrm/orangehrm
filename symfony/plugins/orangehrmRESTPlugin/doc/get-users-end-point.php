@@ -6,7 +6,7 @@
 *
 * @apiParam   {String} userName  User Name.
 * @apiParam   {Number} employeeId  Employee id.
-* @apiParam   {Number} userType  User type id.
+* @apiParam   {Number} userType  User type.
 * @apiParam   {Number} offset  Page number.
 * @apiParam   {Number} limit  Number of results per page.
 *
@@ -18,19 +18,19 @@
 *			{
 *			    "userName":"hameesh",
 *			    "userRole":"ESS",
-*			    "status":"1",
+*			    "status":"Enabled",
 *			    "employeeName":"Hameesh Von Johnson"
 *			},
 *			{
 *			    "userName":"nina123",
 *			    "userRole":"ESS",
-*			    "status":"1",
+*			    "status":"Enabled",
 *			    "employeeName":"Nina Jane Lewis"
 *			},
 *			{
 *			    "userName":"shawn",
 *			    "userRole":"ESS",
-*			    "status":"1",
+*			    "status":"Enabled",
 *			    "employeeName":"Shawn haffman"
 *			}
 *		    ],

@@ -1,5 +1,5 @@
 /**
-* @api {get} /leave/search 3.Search Leave Requests
+* @api {get} /leave/search Search Leave Requests
 * @apiName searchLeaveRequest
 * @apiGroup Leave
 * @apiVersion 0.1.0
@@ -15,34 +15,35 @@
 * @apiParam {String}  [pastEmployee] Past employee results ( 'true' /'false').
 * @apiParam {String}  [subunit] Employee subunit.
 *
+* @apiSuccess {String} [employeeName] Employee name
+* @apiSuccess {String} [employeeId] Employee id.
 * @apiSuccess {String} [type] Leave type.
 * @apiSuccess {Number} [id] Leave id.
-* @apiSuccess {Date} [date] Requested date.
+* @apiSuccess {Date}   [date] Leave date.
 * @apiSuccess {Number} [leaveBalance] Leave balance.
 * @apiSuccess {Number} [numberOfDays] Number of Days.
 * @apiSuccess {String} [comments] Leave comments.
-* @apiSuccess {Strung} [action] Leave Action.
 *
 * @apiSuccessExample Success-Response:
 *     HTTP/1.1 200 OK
 *
 *      {
+*           "employeeName" : "Shane Warne",
+*           "employeeId"   :'34',
 *           "type": "Annual",
 *           "id": "2",
 *           "date": "2017-03-31",
 *           "$leaveBalance": 9,
 *           "numberOfDays": "1.00",
-*           "status": 2,
+*           "status": Annual,
 *           "comments": [
 *                    {
-*                    "commentId": "3",
 *                    "author": "Admin",
 *                    "date": "2017-03-16",
 *                    "time": "14:20:27",
 *                    "comment": "Test"
 *                    },
 *                    {
-*                    "commentId": "1",
 *                    "author": "Admin",
 *                    "date": "2017-03-16",
 *                    "time": "14:18:10",
