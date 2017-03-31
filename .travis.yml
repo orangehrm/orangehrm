@@ -13,6 +13,8 @@ matrix:
 before_install:
   - uname -a
   - php --version
+  - cat ~travis/.my.cnf
+  - exit 0
   - composer self-update
 
 install:
