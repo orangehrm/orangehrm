@@ -37,8 +37,32 @@ class LeaveEntitlementAPI extends EndPoint
     const PARAMETER_DAYS = 'days';
 
 
-    protected $leaveEntitlementService;
-    protected $employeeService;
+    private $leaveEntitlementService;
+    private $employeeService;
+    private $leavePeriodService;
+
+    /**
+     * @return \LeavePeriodService
+     */
+    public function getLeavePeriodService()
+    {
+
+        if (is_null($this->leavePeriodService)) {
+            $leavePeriodService = new \LeavePeriodService();
+            $leavePeriodService->setLeavePeriodDao(new \LeavePeriodDao());
+            $this->leavePeriodService = $leavePeriodService;
+        }
+
+        return $this->leavePeriodService;
+    }
+
+    /**
+     * @param mixed $leavePeriodService
+     */
+    public function setLeavePeriodService($leavePeriodService)
+    {
+        $this->leavePeriodService = $leavePeriodService;
+    }
 
     /**
      * Get entitlement service
@@ -65,7 +89,7 @@ class LeaveEntitlementAPI extends EndPoint
 
     /**
      * Get EmployeeService
-     * @returns EmployeeService
+     * @returns \EmployeeService
      */
     public function getEmployeeService()
     {
@@ -131,9 +155,10 @@ class LeaveEntitlementAPI extends EndPoint
     }
 
     /**
-     * Get search filter
+     * Getting the search filters ( parameters )
      *
      * @return \LeaveEntitlementSearchParameterHolder
+     * @throws RecordNotFoundException
      */
     protected function getFilters()
     {
@@ -222,8 +247,39 @@ class LeaveEntitlementAPI extends EndPoint
         $leaveEntitlement->setToDate($toDate);
         $leaveEntitlement->setEntitlementType(1);
 
+        if (!$this->validateLeavePeriods($leaveEntitlement->getFromDate(), $leaveEntitlement->getToDate())) {
+            throw new InvalidParamException('No Leave Period Found');
+        };
+
+
         return $leaveEntitlement;
 
+    }
+
+    /**
+     * Validating the leave period
+     * fromDate | toDate
+     *
+     * @param $fromDate
+     * @param $toDate
+     * @return bool
+     * @throws RecordNotFoundException
+     */
+    public function validateLeavePeriods($fromDate, $toDate)
+    {
+        $leavePeriodList = $this->getLeavePeriodService()->getGeneratedLeavePeriodList();
+        if (empty($leavePeriodList)) {
+            throw new RecordNotFoundException('No Leave Periods Found');
+        }
+        foreach ($leavePeriodList as $period) {
+            if ($period[0] === $fromDate && $period[1] === $toDate) {
+                return true;
+            } else {
+                return false;
+            }
+
+        }
+        return false;
     }
 
 }
