@@ -32,6 +32,9 @@ class User implements Serializable
     private $employeeName;
     private $status;
 
+    const ENABLED = 'Enabled';
+    const DISABLED = 'Disabled';
+
     /**
      * @return mixed
      */
@@ -98,7 +101,7 @@ class User implements Serializable
 
     public function buildUser(\SystemUser $user)
     {
-        $this->setStatus($user->getStatus());
+        $this->setStatus($this->getUserStatus($user->getStatus()));
         $this->setEmployeeName($user->getEmployee()->getFullName());
         $this->setUserRole($user->getUserRole());
         $this->setUserName($user->getUserName());
@@ -114,5 +117,13 @@ class User implements Serializable
 
         );
     }
+
+    protected function getUserStatus($id){
+        if(1 == $id){
+            return self::ENABLED;
+        }else {
+            return self::DISABLED;
+        }
+}
 
 }
