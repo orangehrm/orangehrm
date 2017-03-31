@@ -4,6 +4,7 @@
 * @apiGroup Leave
 * @apiVersion 0.1.0
 *
+* @apiParam {Number} id Employee id.
 * @apiParam {String} leaveType Leave type.
 * @apiParam {Date} fromDate From date.
 * @apiParam {Date} toDate To date.
