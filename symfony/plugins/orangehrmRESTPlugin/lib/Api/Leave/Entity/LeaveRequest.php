@@ -27,7 +27,7 @@ class LeaveRequest implements Serializable
     /**
      * @var
      */
-    private $date;
+    private $appliedDate;
     private $employeeName;
     private $leaveType;
     private $leaveBalance;
@@ -36,7 +36,40 @@ class LeaveRequest implements Serializable
     private $comments;
     private $id;
     private $action;
+    private $empId;
+    private $fromDate;
+    private $toDate;
+    private $date;
+    private $duration;
 
+    /**
+     * LeaveType constructor.
+     *
+     * @param $id
+     * @param $type
+     */
+    public function __construct($id, $type)
+    {
+        $this->setId($id);
+        $this->setLeaveType($type);
+        return $this;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getFromDate()
+    {
+        return $this->fromDate;
+    }
+
+    /**
+     * @param mixed $fromDate
+     */
+    public function setFromDate($fromDate)
+    {
+        $this->fromDate = $fromDate;
+    }
     /**
      * @return mixed
      */
@@ -46,11 +79,43 @@ class LeaveRequest implements Serializable
     }
 
     /**
-     * @param mixed $date
+     * @param mixed $fromDate
      */
     public function setDate($date)
     {
         $this->date = $date;
+    }
+    /**
+     * @return mixed
+     */
+    public function getToDate()
+    {
+        return $this->toDate;
+    }
+
+    /**
+     * @param mixed $toDate
+     */
+    public function setToDate($toDate)
+    {
+        $this->toDate = $toDate;
+    }
+
+
+    /**
+     * @return mixed
+     */
+    public function getAppliedDate()
+    {
+        return $this->appliedDate;
+    }
+
+    /**
+     * @param mixed $date
+     */
+    public function setAppliedDate($date)
+    {
+        $this->appliedDate = $date;
     }
 
     /**
@@ -182,28 +247,51 @@ class LeaveRequest implements Serializable
     }
 
     /**
-     * LeaveType constructor.
-     *
-     * @param $id
-     * @param $type
+     * @return mixed
      */
-    public function __construct($id, $type)
+    public function getEmpId()
     {
-        $this->setId($id);
-        $this->setLeaveType($type);
-        return $this;
+        return $this->empId;
     }
+
+    /**
+     * @param mixed $empId
+     */
+    public function setEmpId($empId)
+    {
+        $this->empId = $empId;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getDuration()
+    {
+        return $this->duration;
+    }
+
+    /**
+     * @param mixed $duration
+     */
+    public function setDuration($duration)
+    {
+        $this->duration = $duration;
+    }
+
 
     public function toArray()
     {
         return array(
+            'employeeName' => $this->getEmployeeName(),
+            'employeeId'  => $this->getEmpId(),
             'type' => $this->getLeaveType(),
             'id' => $this->getId(),
-            'date' => $this->getDate(),
+            'date'      => $this->getDate(),
             'leaveBalance' => $this->getLeaveBalance(),
             'numberOfDays' => $this->getNumberOfDays(),
             'status' => $this->getStatus(),
-            'comments' => $this->getComments(),
+            'comments' => $this->getComments()
+
 
         );
     }
@@ -213,25 +301,37 @@ class LeaveRequest implements Serializable
      *
      * @param \LeaveRequest $leaveRequest
      */
-    public function buildLeaveRequest(\LeaveRequest $leaveRequest)
+    public function buildLeaveRequest(\LeaveRequest $leaveRequest ,\Leave $leave)
     {
 
-        $this->setDate($leaveRequest->getDateApplied());
+        $this->setAppliedDate($leaveRequest->getDateApplied());
+        $leaveDates = $leaveRequest->getLeaveDates();
+        $this->setFromDate($leaveDates[0]);
+        $this->setToDate($leaveDates[1]);
         $this->setLeaveBalance(number_format((float)$leaveRequest->getLeaveBalance(), 2, '.', ''));
-        $this->setStatus($leaveRequest->getLeaveStatusId());
+        $this->setStatus($leave->getTextLeaveStatus());
         $this->setNumberOfDays($leaveRequest->getNumberOfDays());
         $this->setAction(\Leave::getLeaveStatusForText($leaveRequest->getLeaveStatusId()));
+        $this->setEmployeeName($leaveRequest->getEmployee()->getFullName());
+        $this->setEmpId($leaveRequest->getEmpNumber());
+        $this->setDate($leave->getDate());
 
-        $commentsList = null;
 
-        if (!empty($leaveRequest->getLeaveRequestComment())) {
-            foreach ($leaveRequest->getLeaveRequestComment() as $comment) {
+        $commentsList = '';
+
+        if (!empty($leave->getLeaveComment())) {
+            foreach ($leave->getLeaveComment() as $comment) {
                 $datetime = explode(" ", $comment->getCreated());
-                $leaveComment = new LeaveRequestComment($comment->getId(), $comment->getCreatedByName(), $datetime[0],
+                $leaveComment = new LeaveRequestComment($comment->getCreatedByName(), $datetime[0],
                     $datetime[1], $comment->getComments());
                 $commentsList[] = $leaveComment->toArray();
             }
         }
         $this->setComments($commentsList);
+    }
+
+    protected function getStatusText($statusId){
+       $statusList =  \Leave::getStatusTextList();
+       return $statusList[$statusId];
     }
 }

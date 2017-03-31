@@ -27,28 +27,10 @@ class LeaveRequestComment implements Serializable
     /**
      * @var
      */
-    private $id;
     private $author;
     private $date;
     private $time;
     private $comment;
-
-    /**
-     * @return mixed
-     */
-    public function getId()
-    {
-        return $this->id;
-    }
-
-    /**
-     * @param mixed $id
-     */
-    public function setId($id)
-    {
-        $this->id = $id;
-    }
-
 
     /**
      * @return mixed
@@ -123,9 +105,8 @@ class LeaveRequestComment implements Serializable
      * @param $time
      * @param $comment
      */
-    public function __construct($id,$author, $date,$time,$comment)
+    public function __construct($author, $date,$time,$comment)
     {
-        $this->setId($id);
         $this->setAuthor($author);
         $this->setDate($date);
         $this->setTime($time);
@@ -136,8 +117,7 @@ class LeaveRequestComment implements Serializable
     public function toArray()
     {
         return array(
-            'commentId' => $this->getId(),
-            'author' => $this->getAuthor(),
+            'user' => $this->getAuthor(),
             'date' => $this->getDate(),
             'time' => $this->getTime(),
             'comment' => $this->getComment()
