@@ -93,7 +93,7 @@ public function isFailBasicConfigurations(){
 	//19 - function
 	$this->IsEnableRewriteMod();
 	//20 - function
-	$this->MySQLEventStatus();
+//	$this->MySQLEventStatus(); // removed my sql status check because it is not needed for OS
 	$this->getMessages()->displayMessage(Messages::SEPERATOR);
 	$this->dbConfigurationCheck();
 	$this->getMessages()->displayMessage(Messages::SEPERATOR);
