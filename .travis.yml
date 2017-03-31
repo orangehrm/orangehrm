@@ -16,6 +16,8 @@ matrix:
 before_install:
   - uname -a
   - php --version
+  - mysqladmin -uroot 
+  - mysqladmin -h 127.0.0.1 -uroot
   - cat ~travis/.my.cnf
   - exit 0
   - composer self-update
