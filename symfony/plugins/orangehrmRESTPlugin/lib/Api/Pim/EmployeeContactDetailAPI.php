@@ -30,7 +30,7 @@ class EmployeeContactDetailAPI extends EndPoint
 {
 
     /**
-     * @var EmployeeService
+     * @var \EmployeeService
      */
     protected $employeeService;
     protected $countryService;

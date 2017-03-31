@@ -123,6 +123,11 @@ class Supervisor implements Serializable
         );
     }
 
+    /**
+     * Name and id only
+     *
+     * @return array
+     */
     public function _toArray()
     {
         return array(
