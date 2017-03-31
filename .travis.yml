@@ -16,6 +16,7 @@ matrix:
 before_install:
   - uname -a
   - php --version
+  - mysql -uroot -e "SET PASSWORD FOR 'root'@'localhost' = PASSWORD('root')"
   - composer self-update
 
 install:
