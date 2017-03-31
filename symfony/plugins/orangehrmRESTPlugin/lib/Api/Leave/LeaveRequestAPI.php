@@ -38,6 +38,8 @@ class LeaveRequestAPI extends EndPoint
      */
     private $leaveRequestService;
 
+    private $leaveEntitlementService;
+
     private $statusList;
 
     private $subunit;
@@ -94,6 +96,29 @@ class LeaveRequestAPI extends EndPoint
     }
 
     /**
+     * Get entitlement service
+     *
+     * @return \LeaveEntitlementService
+     */
+    public function getLeaveEntitlementService()
+    {
+        if (empty($this->leaveEntitlementService)) {
+            $this->leaveEntitlementService = new \LeaveEntitlementService();
+        }
+        return $this->leaveEntitlementService;
+    }
+
+    /**
+     * Set entitlement service
+     *
+     * @param $leaveEntitlementService
+     */
+    public function setLeaveEntitlementService($leaveEntitlementService)
+    {
+        $this->leaveEntitlementService = $leaveEntitlementService;
+    }
+
+    /**
      * @return mixed
      */
     public function getSubunit()
@@ -131,34 +156,46 @@ class LeaveRequestAPI extends EndPoint
         $employee = $this->getEmployeeService()->getEmployee($filters[self::PARAMETER_ID]);
         $this->validateInputs($filters);
 
+        $fromDate = $filters[self::PARAMETER_FROM_DATE];
+        $toDate = $filters[self::PARAMETER_TO_DATE];
 
-            $fromDate = $filters[self::PARAMETER_FROM_DATE];
-            $toDate = $filters[self::PARAMETER_TO_DATE];
+        $parameters = array();
+        $parameters['dateRange'] = new \DateRange($fromDate, $toDate);
+        $parameters['statuses'] = $this->getStatusesArray($filters);
+        if (!empty($employee)) {
+            $parameters['employeeFilter'] = array($employee->getEmpNumber());
+        }
 
-            $searchParams = new \ParameterObject(array(
-                'dateRange' => new \DateRange($fromDate, $toDate),
-                'statuses' => $this->getStatusesArray($filters),
-                'employeeFilter' => array($employee->getEmpNumber()),
-                'noOfRecordsPerPage' => $filters[self::PARAMETER_LIMIT],
-                'cmbWithTerminated' => $this->validatePastEmployee($filters[self::PARAMETER_PAST_EMPLOYEE]),
-                'subUnit' => $this->subunit,
-                'employeeName' => $employee->getFullName()
-            ));
-            $result = $result = $this->getLeaveRequestService()->searchLeaveRequests($searchParams, 0, false, false,
-                true, true);
-            $list = $result['list'];
+        $parameters['noOfRecordsPerPage'] = $filters[self::PARAMETER_LIMIT];
+        $parameters['cmbWithTerminated'] = $this->validatePastEmployee($filters[self::PARAMETER_PAST_EMPLOYEE]);
+        $parameters['subUnit'] = $this->subunit;
 
-            foreach ($list as $request) {
+        $searchParams = new \ParameterObject($parameters);
+
+
+        $result = $result = $this->getLeaveRequestService()->searchLeaveRequests($searchParams, 0, false, false,
+            true, true);
+        $list = $result['list'];
+
+        foreach ($list as $request) {
+
+            foreach ($request->getLeave() as $leave) {
+
                 $leaveRequest = new LeaveRequest($request->getId(), $request->getLeaveTypeName());
-                $leaveRequest->buildLeaveRequest($request);
+                $leaveBalance = $this->getLeaveEntitlementService()->getLeaveBalance($request->getEmpNumber(),
+                    $request->getLeaveTypeId(), $request->getLeaveDates()[0]);
+                $leaveRequest->buildLeaveRequest($request,$leave);
+                $leaveRequest->setLeaveBalance(number_format((float)$leaveBalance->balance, 2, '.', ''));
                 $response [] = $leaveRequest->toArray();
             }
 
-            if (empty($response)) {
-                throw new RecordNotFoundException('No Records Found');
-            }
-            return new Response($response, array());
 
+        }
+
+        if (empty($response)) {
+            throw new RecordNotFoundException('No Records Found');
+        }
+        return new Response($response, array());
 
 
     }
@@ -186,9 +223,18 @@ class LeaveRequestAPI extends EndPoint
             $list = $result['list'];
 
             foreach ($list as $request) {
-                $leaveRequest = new LeaveRequest($request->getId(), $request->getLeaveTypeName());
-                $leaveRequest->buildLeaveRequest($request);
-                $response [] = $leaveRequest->toArray();
+
+                foreach ($request->getLeave() as $leave) {
+
+                    $leaveRequest = new LeaveRequest($request->getId(), $request->getLeaveTypeName());
+                    $leaveBalance = $this->getLeaveEntitlementService()->getLeaveBalance($request->getEmpNumber(),
+                        $request->getLeaveTypeId(), $request->getLeaveDates()[0]);
+                    $leaveRequest->buildLeaveRequest($request,$leave);
+                    $leaveRequest->setLeaveBalance(number_format((float)$leaveBalance->balance, 2, '.', ''));
+                    $response [] = $leaveRequest->toArray();
+                }
+
+
             }
             if (empty($response)) {
                 throw new RecordNotFoundException('No Records Found');
