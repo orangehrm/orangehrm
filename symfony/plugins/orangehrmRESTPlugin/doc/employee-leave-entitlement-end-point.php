@@ -5,11 +5,11 @@
 * @apiVersion 0.1.0
 *
 * @apiParam {String} [leaveType] Leave type.
-* @apiParam {Date} [fromDate] From date.
-* @apiParam {Date} [toDate] To date.
+* @apiParam {Date} fromDate From date.
+* @apiParam {Date} toDate To date.
 *
 * @apiSuccess {Number} id Entitlement id.
-* @apiSuccess {Number} type Number of Days.
+* @apiSuccess {String} type Leave type.
 * @apiSuccess {Date} validFrom Valid from date.
 * @apiSuccess {Date} validTo Valid to date.
 * @apiSuccess {Number} days Entitled days.
