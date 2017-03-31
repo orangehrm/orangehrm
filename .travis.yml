@@ -17,9 +17,6 @@ before_install:
   - uname -a
   - php --version
   - mysqladmin -uroot status
-  - mysqladmin -h 127.0.0.1 -uroot status
-  - cat ~travis/.my.cnf
-  - exit 0
   - composer self-update
 
 install:
