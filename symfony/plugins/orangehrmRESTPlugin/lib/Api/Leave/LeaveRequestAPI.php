@@ -172,7 +172,6 @@ class LeaveRequestAPI extends EndPoint
 
         $searchParams = new \ParameterObject($parameters);
 
-
         $result = $result = $this->getLeaveRequestService()->searchLeaveRequests($searchParams, 0, false, false,
             true, true);
         $list = $result['list'];
@@ -316,10 +315,10 @@ class LeaveRequestAPI extends EndPoint
             $statusIdArray[] = \PluginLeave::LEAVE_STATUS_LEAVE_CANCELLED;
         }
         if (!empty($filter[self::PARAMETER_PENDING_APPROVAL]) && $filter[self::PARAMETER_PENDING_APPROVAL] == 'true') {
-            $statusIdArray[] = \PluginLeave::LEAVE_STATUS_LEAVE_TAKEN;
+            $statusIdArray[] = \PluginLeave::LEAVE_STATUS_LEAVE_PENDING_APPROVAL;
         }
         if (!empty($filter[self::PARAMETER_REJECTED]) && $filter[self::PARAMETER_REJECTED] == 'true') {
-            $statusIdArray[] = -\PluginLeave::LEAVE_STATUS_LEAVE_TAKEN;
+            $statusIdArray[] = -\PluginLeave::LEAVE_STATUS_LEAVE_REJECTED;
         }
         if (!empty($filter[self::PARAMETER_SCHEDULED]) && $filter[self::PARAMETER_SCHEDULED] == 'true') {
             $statusIdArray[] = \PluginLeave::LEAVE_STATUS_LEAVE_APPROVED;
