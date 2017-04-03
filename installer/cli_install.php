@@ -158,7 +158,7 @@ else if (is_file(ROOT_PATH . '/lib/confs/Conf.php')) {
 			$messages->displayMessage("Result - " . $result);
 			$messages->displayMessage("Installation successfully completed...");
 			setValueToLogFile($logfileName, "Installation successfully completed.\n");
-			require_once(ROOT_PATH.'/symfony/web/install.php');
+			require_once(ROOT_PATH.'/install.php');
 			saveBeaconData();
 			deleteFile('config.ini');
 		}
