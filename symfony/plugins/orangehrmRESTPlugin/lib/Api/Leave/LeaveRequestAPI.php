@@ -342,7 +342,7 @@ class LeaveRequestAPI extends EndPoint
         $tree = $treeObject->fetchTree();
 
         foreach ($tree as $node) {
-            if ($node->getName() == $filters[self::PARAMETER_SUBUNIT]) {
+            if ($node->getId() == $filters[self::PARAMETER_SUBUNIT]) {
                 $this->subunit = $node->getId();
                 return true;
             }
