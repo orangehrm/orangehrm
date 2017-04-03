@@ -42,14 +42,13 @@ class ApiLeaveRequestCommentTest extends PHPUnit_Framework_TestCase
 
         $testArray = array(
 
-            'commentId' => '1',
-            'author' => 'Admin',
+            'user' => 'Admin',
             'date' => '2016-05-04',
             'time' => '08:30',
             'comment' => 'Casual Probation'
         );
 
-        $comment = new LeaveRequestComment('1','Admin','2016-05-04','08:30','Casual Probation');
+        $comment = new LeaveRequestComment('Admin','2016-05-04','08:30','Casual Probation');
 
 
 

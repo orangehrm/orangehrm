@@ -42,6 +42,8 @@ class ApiLeaveRequestTest extends PHPUnit_Framework_TestCase
 
         $testArray = array(
 
+            'employeeName' => null,
+            'employeeId' => null,
             'type' => 'Annual',
             'id' => '1',
             'date' => '2016-05-06',
