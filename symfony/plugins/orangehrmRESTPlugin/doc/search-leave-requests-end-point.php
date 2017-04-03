@@ -13,7 +13,7 @@
 * @apiParam {String}  [scheduled] Leave status scheduled ( 'true' / 'false' ).
 * @apiParam {String}  [taken] Leave status taken ( 'true' / 'false' ).
 * @apiParam {String}  [pastEmployee] Past employee results ( 'true' /'false').
-* @apiParam {String}  [subunit] Employee subunit.
+* @apiParam {Number}  [subunit] Employee subunit id.
 *
 * @apiSuccess {String} employeeName Employee name
 * @apiSuccess {String} employeeId Employee id.
