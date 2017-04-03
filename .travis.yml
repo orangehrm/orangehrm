@@ -18,6 +18,8 @@ before_install:
   - php --version
   - mysql -uroot -e "SET PASSWORD FOR 'root'@'localhost' = PASSWORD('root')"
   - composer self-update
+  - sudo chmod 777 -R symfony/cache
+  - sudo chmod 777 -R symfony/log
 
 install:
   - composer install -d symfony/lib
