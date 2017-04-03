@@ -10,6 +10,10 @@
 * @apiParam   {Date} toDate Leave end date.
 * @apiParam   {String} [comment] Leave comment.
 * @apiParam   {String} partialOption Partial day option ( required ) ('all','start','end',start_end ).
+* Note : If partial option is 'all'  start day fields must be filled.
+*        If partial option is 'end'  end day fields must be filed.
+*        If partial option is 'start'  start day fields must be filed.
+*        If partial option is 'start_end'  start and end day fields must be filed.
 * @apiParam   {String} startType Start day leave applying type ('half_day','full_day','specify_time').
 * @apiParam   {String} startAMPM Half day morning or evening ( 'AM','PM') required for  start day 'half_day'.
 * @apiParam   {String} startFromTime Start day from time for specify time(required for start day specifying time ).
@@ -19,10 +23,7 @@
 * @apiParam   {String} endDayFromTime End day from time for specify time(required for end day specifying time ).
 * @apiParam   {String} endDayToTime End day to time for specify time (required for end day specifying time ).
 *
-* Note : If partial option is 'all'  start day fields must be filled.
-*        If partial option is 'end'  end day fields must be filed.
-*        If partial option is 'start'  start day fields must be filed.
-*        If partial option is 'start_end'  start and end day fields must be filed.
+*
 *
 * @apiSuccessExample Success-Response:
 *     HTTP/1.1 200 OK
