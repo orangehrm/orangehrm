@@ -6,10 +6,10 @@
 *
 * @apiParam {String} [name] Employee name.
 * @apiParam {String} [code] Employee code.
-* @apiParam {String} [status] Employee status.
+* @apiParam {Number} [status] Employee status id.
 * @apiParam {String} [supervisor] Supervisor name.
-* @apiParam {String} [jobTitle] Employee job title.
-* @apiParam {String} [unit] Employee Unit.
+* @apiParam {Number} [jobTitle] Employee job title id.
+* @apiParam {Number} [unit] Employee Unit id.
 * @apiParam {String} [dob] Employee birth day.
 * @apiParam {String} [include] Include Termination ( TERMINATED_ONLY , WITHOUT_TERMINATED ,TERMINATED_ONLY )
 * @apiSuccess {Object} data Matching Employee list.
