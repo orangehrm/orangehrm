@@ -52,13 +52,11 @@ class orangehrmRESTPluginAllTests
         $suite->addTestFile(dirname(__FILE__) . '/api/pim/entity/ApiEmployeeJobDetailTest.php');
         $suite->addTestFile(dirname(__FILE__) . '/api/pim/entity/ApiEmployeeTest.php');
         $suite->addTestFile(dirname(__FILE__) . '/api/pim/entity/ApiSupervisorTest.php');
-
-        /* Entity test cases - Leave */
-
         $suite->addTestFile(dirname(__FILE__) . '/api/leave/entity/ApiLeaveEntitlementTest.php');
         $suite->addTestFile(dirname(__FILE__) . '/api/leave/entity/ApiLeaveRequestTest.php');
         $suite->addTestFile(dirname(__FILE__) . '/api/leave/entity/ApiLeaveTypeTest.php');
         $suite->addTestFile(dirname(__FILE__) . '/api/leave/entity/ApiLeaveRequestCommentTest.php');
+        $suite->addTestFile(dirname(__FILE__) . '/api/leave/entity/ApiLeaveTest.php');
 
         return $suite;
     }

@@ -23,10 +23,10 @@
  *
  * @group API
  */
-use Orangehrm\Rest\Api\Leave\Entity\LeaveRequest;
 use Orangehrm\Rest\Api\Leave\Entity\Leave;
 
-class ApiLeaveRequestTest extends PHPUnit_Framework_TestCase
+
+class ApiLeaveTest extends PHPUnit_Framework_TestCase
 {
 
     /**
@@ -37,8 +37,18 @@ class ApiLeaveRequestTest extends PHPUnit_Framework_TestCase
 
     }
 
-    public function testToArray()
-    {
+    public function testToArray(){
+
+
+
+        $testArray = array(
+
+            'date' => '2016-05-02',
+            'status' => 'Pending',
+            'type' => 'Annual',
+            'duration' => '8.0',
+            'comments' => ''
+        );
 
         $leave = new Leave();
         $leave->setDate('2016-05-02');
@@ -47,32 +57,8 @@ class ApiLeaveRequestTest extends PHPUnit_Framework_TestCase
         $leave->setDuration('8.0');
         $leave->setStatus('Pending');
 
-        $testArray = array(
 
-            'employeeName' => null,
-            'employeeId' => null,
-            'leaveBalance' => '8',
-            'numberOfDays' => '3',
-            'id' => 1,
-            'fromDate' => '2016-05-04',
-            'toDate' => '2016-05-06',
-            'days' => $leave->toArray(),
-            'comments' => ''
-        );
-
-        $leaveRequest = new LeaveRequest("1", 'Annual');
-
-        $leaveRequest->setDate('2016-05-06');
-        $leaveRequest->setLeaveBalance('8');
-        $leaveRequest->setNumberOfDays('3');
-        $leaveRequest->setStatus('Cancelled');
-        $leaveRequest->setComments('');
-        $leaveRequest->setFromDate('2016-05-04');
-        $leaveRequest->setToDate('2016-05-06');
-        $leaveRequest->setDays($leave->toArray());
-
-
-        $this->assertEquals($testArray, $leaveRequest->toArray());
+        $this->assertEquals($testArray, $leave->toArray());
 
     }
 
