@@ -155,9 +155,10 @@ class LeaveEntitlementAPI extends EndPoint
     }
 
     /**
-     * Getting the search filters ( parameters )
+     * Get filters for search
      *
      * @return \LeaveEntitlementSearchParameterHolder
+     * @throws InvalidParamException
      * @throws RecordNotFoundException
      */
     protected function getFilters()

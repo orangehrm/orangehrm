@@ -269,7 +269,9 @@ class SaveLeaveRequestAPI extends EndPoint
         return array(
             self::PARAMETER_TO_DATE => array('Date' => array('Y-m-d')),
             self::PARAMETER_FROM_DATE => array('Date' => array('Y-m-d')),
-            self::PARAMETER_LEAVE_TYPE => array('IntVal' => true)
+            self::PARAMETER_LEAVE_TYPE => array('IntVal' => true),
+            self::PARAMETER_COMMENT => array('StringType' => true, 'Length' => array(1, 250))
+
 
         );
     }

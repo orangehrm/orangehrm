@@ -175,18 +175,14 @@ class LeaveRequestAPI extends EndPoint
         $result = $result = $this->getLeaveRequestService()->searchLeaveRequests($searchParams, 0, false, false,
             true, true);
         $list = $result['list'];
-
         foreach ($list as $request) {
 
-            foreach ($request->getLeave() as $leave) {
-
-                $leaveRequest = new LeaveRequest($request->getId(), $request->getLeaveTypeName());
-                $leaveBalance = $this->getLeaveEntitlementService()->getLeaveBalance($request->getEmpNumber(),
-                    $request->getLeaveTypeId(), $request->getLeaveDates()[0]);
-                $leaveRequest->buildLeaveRequest($request,$leave);
-                $leaveRequest->setLeaveBalance(number_format((float)$leaveBalance->balance, 2, '.', ''));
-                $response [] = $leaveRequest->toArray();
-            }
+            $leaveRequest = new LeaveRequest($request->getId(), $request->getLeaveTypeName());
+            $leaveBalance = $this->getLeaveEntitlementService()->getLeaveBalance($request->getEmpNumber(),
+                $request->getLeaveTypeId(), $request->getLeaveDates()[0]);
+            $leaveRequest->buildLeaveRequest($request);
+            $leaveRequest->setLeaveBalance(number_format((float)$leaveBalance->balance, 2, '.', ''));
+            $response [] = $leaveRequest->toArray();
 
 
         }
@@ -221,18 +217,16 @@ class LeaveRequestAPI extends EndPoint
                 true, true);
             $list = $result['list'];
 
+            $leaveRequestList = null;
+
             foreach ($list as $request) {
 
-                foreach ($request->getLeave() as $leave) {
-
-                    $leaveRequest = new LeaveRequest($request->getId(), $request->getLeaveTypeName());
-                    $leaveBalance = $this->getLeaveEntitlementService()->getLeaveBalance($request->getEmpNumber(),
-                        $request->getLeaveTypeId(), $request->getLeaveDates()[0]);
-                    $leaveRequest->buildLeaveRequest($request,$leave);
-                    $leaveRequest->setLeaveBalance(number_format((float)$leaveBalance->balance, 2, '.', ''));
-                    $response [] = $leaveRequest->toArray();
-                }
-
+                $leaveRequest = new LeaveRequest($request->getId(), $request->getLeaveTypeName());
+                $leaveBalance = $this->getLeaveEntitlementService()->getLeaveBalance($request->getEmpNumber(),
+                    $request->getLeaveTypeId(), $request->getLeaveDates()[0]);
+                $leaveRequest->buildLeaveRequest($request);
+                $leaveRequest->setLeaveBalance(number_format((float)$leaveBalance->balance, 2, '.', ''));
+                $response [] = $leaveRequest->toArray();
 
             }
             if (empty($response)) {
