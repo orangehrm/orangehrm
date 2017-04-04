@@ -124,7 +124,7 @@ class EmployeeSaveAPI extends EndPoint
             self::PARAMETER_FIRST_NAME => array('StringType' => true, 'NotEmpty' => true, 'Length' => array(1, 30)),
             self::PARAMETER_MIDDLE_NAME => array('StringType' => true, 'Length' => array(1, 30)),
             self::PARAMETER_LAST_NAME => array('StringType' => true, 'NotEmpty' => true, 'Length' => array(1, 30)),
-            self::PARAMETER_EMPLOYEE_ID => array('StringType' => true, 'Length' => array(1, 10)),
+            self::PARAMETER_EMPLOYEE_ID => array('StringType' => true, 'Length' => array(1, 10))
         );
     }
 

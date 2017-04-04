@@ -50,6 +50,8 @@ class EmployeeDetailAPI extends EndPoint
     const PARAMETER_NATIONALITY = 'nationality';
     const PARAMETER_DRIVERS_LICENSE_NUMBER = 'licenseNumber';
     const PARAMETER_DRIVERS_LICENSE_EXP_DATE = 'licenseNumberExpDate';
+    const PARAMETER_SSN_NUMBER   = 'ssnNumber';
+    const PARAMETER_SIN_NUMBER = 'sinNumber';
 
 
     private $employeeService;
@@ -167,7 +169,6 @@ class EmployeeDetailAPI extends EndPoint
                     $employee->setEmployeeId($filters[self::PARAMETER_NUMBER]);
                 }
                 if (!empty($filters[self::PARAMETER_DOB])) {
-                    $dob = date('Y-m-d', strtotime($filters[self::PARAMETER_DOB]));
                     $employee->setEmpBirthday($filters[self::PARAMETER_DOB]);
                 }
                 if (!empty($filters[self::PARAMETER_GENDER])) {
@@ -197,7 +198,16 @@ class EmployeeDetailAPI extends EndPoint
                 if (!empty($filters[self::PARAMETER_NATIONALITY])) {
                     $employee->nation_code = $this->checkNationality($filters[self::PARAMETER_NATIONALITY]);
                 }
-
+                if( \OrangeConfig::getInstance()->getAppConfValue(\ConfigService::KEY_PIM_SHOW_SSN)){
+                    if (!empty($filters[self::PARAMETER_SSN_NUMBER])) {
+                        $employee->setSsn($filters[self::PARAMETER_SSN_NUMBER]);
+                    }
+                }
+                if( \OrangeConfig::getInstance()->getAppConfValue(\ConfigService::KEY_PIM_SHOW_SIN)){
+                    if (!empty($filters[self::PARAMETER_SIN_NUMBER])) {
+                        $employee->setSin($filters[self::PARAMETER_SIN_NUMBER]);
+                    }
+                }
                 $returnedEmp = $this->getEmployeeService()->saveEmployee($employee);
                 if ($returnedEmp instanceof \Employee) {
                     return new Response(array('success' => 'Successfully Updated'));
@@ -264,6 +274,12 @@ class EmployeeDetailAPI extends EndPoint
         if (!empty($this->getRequestParams()->getPostParam(self::PARAMETER_OTHER_ID))) {
             $filters[self::PARAMETER_OTHER_ID] = ($this->getRequestParams()->getPostParam(self::PARAMETER_OTHER_ID));
         }
+        if (!empty($this->getRequestParams()->getPostParam(self::PARAMETER_SIN_NUMBER))) {
+            $filters[self::PARAMETER_SIN_NUMBER] = ($this->getRequestParams()->getPostParam(self::PARAMETER_SIN_NUMBER));
+        }
+        if (!empty($this->getRequestParams()->getPostParam(self::PARAMETER_SSN_NUMBER))) {
+            $filters[self::PARAMETER_SSN_NUMBER] = ($this->getRequestParams()->getPostParam(self::PARAMETER_SSN_NUMBER));
+        }
         return $filters;
 
     }
@@ -277,7 +293,8 @@ class EmployeeDetailAPI extends EndPoint
             self::PARAMETER_LAST_NAME => array('StringType' => true, 'NotEmpty' => true, 'Length' => array(1, 30)),
             self::PARAMETER_DOB => array('Date' => array('Y-m-d')),
             self::PARAMETER_DRIVERS_LICENSE_EXP_DATE => array('Date' => array('Y-m-d')),
-
+            self::PARAMETER_SSN_NUMBER => array('Length' => array(1, 30)),
+            self::PARAMETER_SIN_NUMBER => array('Length' => array(1, 30))
         );
     }
 
