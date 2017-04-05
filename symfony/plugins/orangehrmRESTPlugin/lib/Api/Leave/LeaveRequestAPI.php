@@ -156,23 +156,9 @@ class LeaveRequestAPI extends EndPoint
         $employee = $this->getEmployeeService()->getEmployee($filters[self::PARAMETER_ID]);
         $this->validateInputs($filters);
 
-        $fromDate = $filters[self::PARAMETER_FROM_DATE];
-        $toDate = $filters[self::PARAMETER_TO_DATE];
+        $searchParams =$this->createParameters($filters);
 
-        $parameters = array();
-        $parameters['dateRange'] = new \DateRange($fromDate, $toDate);
-        $parameters['statuses'] = $this->getStatusesArray($filters);
-        if (!empty($employee)) {
-            $parameters['employeeFilter'] = array($employee->getEmpNumber());
-        }
-
-        $parameters['noOfRecordsPerPage'] = $filters[self::PARAMETER_LIMIT];
-        $parameters['cmbWithTerminated'] = $this->validatePastEmployee($filters[self::PARAMETER_PAST_EMPLOYEE]);
-        $parameters['subUnit'] = $this->subunit;
-
-        $searchParams = new \ParameterObject($parameters);
-
-        $result = $result = $this->getLeaveRequestService()->searchLeaveRequests($searchParams, 0, false, false,
+        $result = $this->getLeaveRequestService()->searchLeaveRequests($searchParams, 0, false, false,
             true, true);
         $list = $result['list'];
         foreach ($list as $request) {
@@ -362,6 +348,26 @@ class LeaveRequestAPI extends EndPoint
             self::PARAMETER_FROM_DATE => array('Date' => array('Y-m-d')),
 
         );
+    }
+
+    protected function createParameters($filters)
+    {
+
+        $parameters = array();
+        $fromDate = $filters[self::PARAMETER_FROM_DATE];
+        $toDate = $filters[self::PARAMETER_TO_DATE];
+        $parameters['dateRange'] = new \DateRange($fromDate, $toDate);
+        $parameters['statuses'] = $this->getStatusesArray($filters);
+        if (!empty($employee)) {
+            $parameters['employeeFilter'] = array($employee->getEmpNumber());
+        }
+
+        $parameters['noOfRecordsPerPage'] = $filters[self::PARAMETER_LIMIT];
+        $parameters['cmbWithTerminated'] = $this->validatePastEmployee($filters[self::PARAMETER_PAST_EMPLOYEE]);
+        $parameters['subUnit'] = $this->subunit;
+
+        return new \ParameterObject($parameters);
+
     }
 
 }

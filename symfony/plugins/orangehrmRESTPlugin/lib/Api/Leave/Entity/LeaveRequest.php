@@ -306,6 +306,7 @@ class LeaveRequest implements Serializable
             'id' => $this->getId(),
             'fromDate' => $this->getFromDate(),
             'toDate' => $this->getToDate(),
+            'type'   => $this->getLeaveType(),
             'leaveBalance' => $this->getLeaveBalance(),
             'numberOfDays' => $this->getNumberOfDays(),
             'comments' => $this->getComments(),
@@ -331,6 +332,7 @@ class LeaveRequest implements Serializable
         $this->setNumberOfDays($leaveRequest->getNumberOfDays());
         $this->setEmployeeName($leaveRequest->getEmployee()->getFullName());
         $this->setEmpId($leaveRequest->getEmpNumber());
+        $this->setLeaveType($leaveRequest->getLeaveTypeName());
 
         $commentsList = '';
 

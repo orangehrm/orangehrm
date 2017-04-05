@@ -28,16 +28,11 @@ class Leave implements Serializable
      * @var
      */
 
-    private $leaveType;
     private $status;
     private $comments;
     private $date;
     private $duration;
-
-
-
-
-
+    private $durationString;
 
     /**
      * @return mixed
@@ -125,6 +120,22 @@ class Leave implements Serializable
         $this->duration = $duration;
     }
 
+    /**
+     * @return mixed
+     */
+    public function getDurationString()
+    {
+        return $this->durationString;
+    }
+
+    /**
+     * @param mixed $durationString
+     */
+    public function setDurationString($durationString)
+    {
+        $this->durationString = $durationString;
+    }
+
 
     public function toArray()
     {
@@ -132,9 +143,10 @@ class Leave implements Serializable
 
             'date' => $this->getDate(),
             'status' => $this->getStatus(),
-            'type' => $this->getLeaveType(),
             'duration' => $this->getDuration(),
+            'durationString' => $this->getDurationString(),
             'comments' => $this->getComments()
+
         );
     }
 
@@ -147,8 +159,8 @@ class Leave implements Serializable
     {
         $this->setStatus($leave->getTextLeaveStatus());
         $this->setDate($leave->getDate());
-        $this->setLeaveType($leave->getLeaveType()->getName());
         $this->setDuration($leave->getLengthHours());
+        $this->setDurationString($leave->getLeaveDurationAsAString());
 
         $commentsList = '';
 
