@@ -153,7 +153,6 @@ class LeaveRequestAPI extends EndPoint
     public function searchRequests()
     {
         $filters = $this->filterParameters();
-        $employee = $this->getEmployeeService()->getEmployee($filters[self::PARAMETER_ID]);
         $this->validateInputs($filters);
 
         $searchParams =$this->createParameters($filters);
@@ -344,8 +343,8 @@ class LeaveRequestAPI extends EndPoint
     public function getValidationRules()
     {
         return array(
-            self::PARAMETER_TO_DATE => array('Date' => array('Y-m-d')),
-            self::PARAMETER_FROM_DATE => array('Date' => array('Y-m-d')),
+            self::PARAMETER_TO_DATE => array('NotEmpty'=> true,'Date' => array('Y-m-d')),
+            self::PARAMETER_FROM_DATE => array( 'NotEmpty'=> true,'Date' => array('Y-m-d')),
 
         );
     }
@@ -355,6 +354,7 @@ class LeaveRequestAPI extends EndPoint
 
         $parameters = array();
         $fromDate = $filters[self::PARAMETER_FROM_DATE];
+        $employee = $this->getEmployeeService()->getEmployee($filters[self::PARAMETER_ID]);
         $toDate = $filters[self::PARAMETER_TO_DATE];
         $parameters['dateRange'] = new \DateRange($fromDate, $toDate);
         $parameters['statuses'] = $this->getStatusesArray($filters);
