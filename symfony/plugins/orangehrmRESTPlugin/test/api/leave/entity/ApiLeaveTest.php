@@ -45,7 +45,7 @@ class ApiLeaveTest extends PHPUnit_Framework_TestCase
 
             'date' => '2016-05-02',
             'status' => 'Pending',
-            'type' => 'Annual',
+            'durationString' => '13:00-18:00',
             'duration' => '8.0',
             'comments' => ''
         );
@@ -56,6 +56,8 @@ class ApiLeaveTest extends PHPUnit_Framework_TestCase
         $leave->setComments('');
         $leave->setDuration('8.0');
         $leave->setStatus('Pending');
+        $leave->setDurationString('13:00-18:00');
+
 
 
         $this->assertEquals($testArray, $leave->toArray());

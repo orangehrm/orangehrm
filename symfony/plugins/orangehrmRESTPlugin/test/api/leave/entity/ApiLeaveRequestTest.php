@@ -53,10 +53,11 @@ class ApiLeaveRequestTest extends PHPUnit_Framework_TestCase
             'employeeId' => null,
             'leaveBalance' => '8',
             'numberOfDays' => '3',
-            'id' => 1,
+            'id' => '1',
             'fromDate' => '2016-05-04',
             'toDate' => '2016-05-06',
             'days' => $leave->toArray(),
+            'type' => 'Annual',
             'comments' => ''
         );
 
