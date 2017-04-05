@@ -7,14 +7,26 @@
 *
 * @apiParam {Number}  [id] Employee id.
 *
-* @apiSuccess {String} [employeeName] Employee name
-* @apiSuccess {String} [employeeId] Employee id.
-* @apiSuccess {String} [type] Leave type.
-* @apiSuccess {Number} [id] Leave id.
-* @apiSuccess {Date}   [date] Leave date.
-* @apiSuccess {Number} [leaveBalance] Leave balance.
-* @apiSuccess {Number} [numberOfDays] Number of Days.
-* @apiSuccess {String} [comments] Leave comments.
+* @apiSuccess {String} employeeName Employee name
+* @apiSuccess {String} employeeId Employee id.
+* @apiSuccess {Date}   fromDate From date.
+* @apiSuccess {Date}   toDate To date.
+* @apiSuccess {String} type Leave type.
+* @apiSuccess {Number} id Leave request id.
+* @apiSuccess {Number} leaveBalance Leave balance.
+* @apiSuccess {Number} numberOfDays Number of Days.
+* @apiSuccess {Object} comments Leave request comments.
+*
+* @apiSuccess {String} user User.
+* @apiSuccess {Date} date Commented date.
+* @apiSuccess {Time} time Commented time.
+* @apiSuccess {String} comment Comment .
+*
+* @apiSuccess {Object} days Leave days.
+* @apiSuccess {String} status Leave status.
+* @apiSuccess {Number} duration Leave duration.
+* @apiSuccess {String} durationString Leave duration as a String for specify time and half days.
+* @apiSuccess {Object} comments Leave comments.
 *
 * @apiSuccessExample Success-Response:
 *     HTTP/1.1 200 OK
@@ -22,26 +34,56 @@
 *      {
 *           "employeeName" : "Shane Warne",
 *           "employeeId"   :'34',
-*           "type": "Annual",
 *           "id": "2",
-*           "date": "2017-03-31",
+*           "fromDate": "2017-03-31",
+*           "toDate": "2017-03-31",
 *           "leaveBalance": 9,
 *           "numberOfDays": "1.00",
-*           "status": Annual,
-*           "comments": [
+*               "comments": [
 *                    {
-*                    "author": "Admin",
+*                    "user": "Admin",
 *                    "date": "2017-03-16",
 *                    "time": "14:20:27",
-*                    "comment": "Test"
+*                    "comment": "Casual leaves are granted"
 *                    },
 *                    {
 *                    "author": "Admin",
 *                    "date": "2017-03-16",
 *                    "time": "14:18:10",
-*                    "comment": "Test"
+*                    "comment": "leaves granted"
 *                    }
-*                }
+*                           ]
+*         "days": [
+*              {
+*                "date": "2017-05-25",
+*                "status": "SCHEDULED",
+*                "type": "Short Leave",
+*                "duration": "8.00",
+*               "comments": [
+*                    {
+*                    "user": "Admin",
+*                    "date": "2017-03-16",
+*                    "time": "14:20:27",
+*                    "comment": "Granted"
+*                    },
+*                    {
+*                    "author": "Admin",
+*                    "date": "2017-03-16",
+*                    "time": "14:18:10",
+*                    "comment": "Check the balance"
+*                    }
+*                           ]
+*            },
+*            {
+*                "date": "2017-05-24",
+*                "status": "SCHEDULED",
+*                "type": "Short Leave",
+*                "duration": "8.00",
+*                "comments": ""
+*            }
+*                ]
+*
+*      }
 *
 * @apiError No-Records Found.
 *
