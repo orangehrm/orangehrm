@@ -33,9 +33,6 @@ class Validator
     {
         try {
             foreach ($rule as $property => $propertyRules) {
-                if(!isset($values[$property]) && $propertyRules['NotEmpty'] == true ) {
-                   throw new InvalidParamException($property.' Field Not Found');
-                }
 
                if(isset($values[$property])) {
                     $classNames = array();
