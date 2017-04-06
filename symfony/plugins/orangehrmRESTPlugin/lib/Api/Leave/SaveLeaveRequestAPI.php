@@ -299,34 +299,32 @@ class SaveLeaveRequestAPI extends EndPoint
         $time['to'] = $to;
         $duration['time'] = $time;
 
-        if (self::HALF_DAY === $type) {
 
-            if (!(($ampm === self::AM) || ($ampm === self::PM))) {
-                throw  new InvalidParamException("Please Add " . $durationName . " " . " AM or PM");
-            }
-        } else {
-            if (self::SPECIFY_TIME === $type) {
+        switch ($type ) {
 
+            case 'half_day':
+                if (!(($ampm === self::AM) || ($ampm === self::PM))) {
+                    throw  new InvalidParamException("Please Add " . $durationName . " " . " AM or PM");
+                }
+                break;
+            case 'specify_time':
                 if (empty($from) && empty($to)) {
                     throw  new InvalidParamException("Please Add " . $durationName . " " . " From - To Values");
 
                 }
-            } else {
-
-                if (self::FULL_DAY != $type) {
-
-                    throw  new InvalidParamException("Invalid Type");
+                if(!$this->isValidTime( $time['from'])){
+                    throw new InvalidParamException('Invalid From Time');
                 }
-            }
+                if(!$this->isValidTime( $time['to'])){
+                    throw new InvalidParamException('Invalid To Time');
+                }
+                break;
+            case 'full_day':
 
-            if(!$this->isValidTime( $time['from'])){
-                throw new InvalidParamException('Invalid From Time');
-            }
-            if(!$this->isValidTime( $time['to'])){
-                throw new InvalidParamException('Invalid To Time');
-            }
+                break;
+            default:
+                throw new InvalidParamException('Invalid Type');
         }
-
 
         return $duration;
 
