@@ -33,7 +33,8 @@ class Validator
     {
         try {
             foreach ($rule as $property => $propertyRules) {
-                if(isset($values[$property])) {
+
+               if(isset($values[$property])) {
                     $classNames = array();
                     foreach ($propertyRules as $ruleType => $params) {
                         if (!is_array($params)) {

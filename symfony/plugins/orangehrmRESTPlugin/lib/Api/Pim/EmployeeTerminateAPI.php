@@ -83,19 +83,19 @@ class EmployeeTerminateAPI extends EndPoint
                 $employeeTerminationRecord = $this->buildTerminationRecord($this->filters);
 
             }else {
-                throw new BadRequestException('Employee not existed');
+                throw new BadRequestException('Employee Not Exists');
             }
 
 
             $returnRecord = $this->getEmployeeService()->terminateEmployment($employeeTerminationRecord);
 
             if ($returnRecord instanceof \EmployeeTerminationRecord) {
-                return new Response(array('success' => 'Successfully terminated'));
+                return new Response(array('success' => 'Successfully Terminated'));
             } else {
-                throw new BadRequestException('Termination failed');
+                throw new BadRequestException('Termination Failed');
             }
         } else {
-            throw new BadRequestException('Termination failed');
+            throw new BadRequestException('Termination Failed');
         }
 
     }

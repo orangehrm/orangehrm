@@ -98,12 +98,13 @@ class EmployeeSearchAPI extends EndPoint
         } else {
 
             $employeeList = $this->getEmployeeService()->searchEmployees($parameterHolder);
+
             if (empty($employeeList[0])) {
                 throw new RecordNotFoundException("Employee Not Found");
             }
 
             if (!empty($parameterHolder->getLimit())) {
-                //  $relationsArray = $this->getRelations($relationsArray, $parameterHolder);
+                  $relationsArray = $this->getRelations($relationsArray, $parameterHolder);
             }
 
         }
@@ -274,7 +275,7 @@ class EmployeeSearchAPI extends EndPoint
         $statuses = $empStatusService->getEmploymentStatusList();
 
         foreach ($statuses as $statusObj) {
-            if ($statusObj->getName() === $status) {
+            if ($statusObj->getId() === $status) {
                 return $statusObj->getId();
             }
         }
@@ -289,19 +290,19 @@ class EmployeeSearchAPI extends EndPoint
         $tree = $treeObject->fetchTree();
 
         foreach ($tree as $node) {
-            if ($node->getName() === $subUnit) {
+            if ($node->getId() === $subUnit) {
                 return $node->getId();
             }
         }
         throw new InvalidParamException('Invalid Subunit');
     }
 
-    protected function getTitleId($titleName)
+    protected function getTitleId($title)
     {
         $jobTitleList = $this->getJobTitleService()->getJobTitleList();
         foreach ($jobTitleList as $title) {
 
-            if ($title->getJobTitleName() === $titleName) {
+            if ($title->getId() === $title) {
                 return $title->getId();
 
             }

@@ -109,8 +109,9 @@ class ApiEmployeeContactDetailAPITest extends PHPUnit_Framework_TestCase
         $employee->setEmpNumber($empNumber);
         $employee->setEmployeeId($empNumber);
         $employee->setJoinedDate("2016-04-15");
-        $employee->setEmpWorkEmail("mdriggs@hrm.com");
+        $employee->setEmpWorkEmail("nina@yahoo.com");
         $employee->setEmpMobile(0754343435);
+        $employee->setEmpOthEmail('');
 
         $filters = array();
         $filters[EmployeeContactDetailAPI::PARAMETER_ADDRESS_STREET_1] = 'No 50 Park road';
@@ -120,7 +121,7 @@ class ApiEmployeeContactDetailAPITest extends PHPUnit_Framework_TestCase
         $filters[EmployeeContactDetailAPI::PARAMETER_HOME_TELEPHONE] = '0972432623';
         $filters[EmployeeContactDetailAPI::PARAMETER_MOBILE] = '097124353';
         $filters[EmployeeContactDetailAPI::PARAMETER_ID] = '1';
-        $filters[EmployeeContactDetailAPI::PARAMETER_OTHER_EMAIL] = 'shanidatta@utl.com';
+        $filters[EmployeeContactDetailAPI::PARAMETER_OTHER_EMAIL] = '';
         $filters[EmployeeContactDetailAPI::PARAMETER_STATE] = 'Vancour';
         $filters[EmployeeContactDetailAPI::PARAMETER_WORK_EMAIL] = 'nina@yahoo.com';
         $filters[EmployeeContactDetailAPI::PARAMETER_ZIP] = '1550';
@@ -129,10 +130,15 @@ class ApiEmployeeContactDetailAPITest extends PHPUnit_Framework_TestCase
         $sfRequest = new sfWebRequest($sfEvent);
         $request = new Request($sfRequest);
 
-        $this->employeeContactDetailAPI = $this->getMock('Orangehrm\Rest\Api\Pim\EmployeeContactDetailApi',array('filterParameters'),array($request));
+        $this->employeeContactDetailAPI = $this->getMock('Orangehrm\Rest\Api\Pim\EmployeeContactDetailApi',array('filterParameters','validateEmployeeEmails'),array($request));
         $this->employeeContactDetailAPI->expects($this->once())
             ->method('filterParameters')
             ->will($this->returnValue($filters));
+
+        $this->employeeContactDetailAPI->expects($this->any())
+            ->method('validateEmployeeEmails')
+            ->with($employee,$employee->getEmpWorkEmail(),$employee->getOtherId())
+            ->will($this->returnValue(true));
 
         $pimEmployeeService = $this->getMock('EmployeeService');
         $pimEmployeeService->expects($this->any())
@@ -164,7 +170,8 @@ class ApiEmployeeContactDetailAPITest extends PHPUnit_Framework_TestCase
         $employee->setEmpNumber($empNumber);
         $employee->setEmployeeId($empNumber);
         $employee->setJoinedDate("2016-04-15");
-        $employee->setEmpWorkEmail("mdriggs@hrm.com");
+        $employee->setEmpWorkEmail("nina@yahoo.com");
+        $employee->setEmpOthEmail('');
         $employee->setEmpMobile(0754343435);
 
         $filters = array();
@@ -175,7 +182,7 @@ class ApiEmployeeContactDetailAPITest extends PHPUnit_Framework_TestCase
         $filters[EmployeeContactDetailAPI::PARAMETER_HOME_TELEPHONE] = '0972432623';
         $filters[EmployeeContactDetailAPI::PARAMETER_MOBILE] = '097124353';
         $filters[EmployeeContactDetailAPI::PARAMETER_ID] = '1';
-        $filters[EmployeeContactDetailAPI::PARAMETER_OTHER_EMAIL] = 'shanidatta@utl.com';
+        $filters[EmployeeContactDetailAPI::PARAMETER_OTHER_EMAIL] = '';
         $filters[EmployeeContactDetailAPI::PARAMETER_STATE] = 'Vancour';
         $filters[EmployeeContactDetailAPI::PARAMETER_WORK_EMAIL] = 'nina@yahoo.com';
         $filters[EmployeeContactDetailAPI::PARAMETER_ZIP] = '1550';
@@ -184,10 +191,15 @@ class ApiEmployeeContactDetailAPITest extends PHPUnit_Framework_TestCase
         $sfRequest = new sfWebRequest($sfEvent);
         $request = new Request($sfRequest);
 
-        $this->employeeContactDetailAPI = $this->getMock('Orangehrm\Rest\Api\Pim\EmployeeContactDetailApi',array('filterParameters'),array($request));
+        $this->employeeContactDetailAPI = $this->getMock('Orangehrm\Rest\Api\Pim\EmployeeContactDetailApi',array('filterParameters','validateEmployeeEmails'),array($request));
         $this->employeeContactDetailAPI->expects($this->once())
             ->method('filterParameters')
             ->will($this->returnValue($filters));
+
+        $this->employeeContactDetailAPI->expects($this->any())
+            ->method('validateEmployeeEmails')
+            ->with($employee,$employee->getEmpWorkEmail(),$employee->getOtherId())
+            ->will($this->returnValue(true));
 
         $pimEmployeeService = $this->getMock('EmployeeService');
         $pimEmployeeService->expects($this->any())

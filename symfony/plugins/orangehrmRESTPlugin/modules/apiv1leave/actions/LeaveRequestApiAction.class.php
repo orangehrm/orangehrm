@@ -18,16 +18,21 @@
  */
 
 use Orangehrm\Rest\Http\Request;
-use Orangehrm\Rest\Api\Exception\NotImplementedException;
 use Orangehrm\Rest\Api\Leave\LeaveRequestAPI;
+use Orangehrm\Rest\Api\Leave\SaveLeaveRequestAPI;
 
 class LeaveRequestApiAction extends baseRestAction
 {
     private $leaveRequestApi = null;
+    private $saveLeaveRequestApi = null;
 
     protected function init(Request $request)
     {
         $this->leaveRequestApi= new LeaveRequestAPI($request);
+        $this->saveLeaveRequestApi = new SaveLeaveRequestAPI($request);
+        $this->postValidationRule = $this->saveLeaveRequestApi->getValidationRules();
+        $user = sfContext::getInstance()->getUser();
+        $user->setAttribute('auth.firstName','API User');
 
     }
 
@@ -39,7 +44,7 @@ class LeaveRequestApiAction extends baseRestAction
     protected function handlePostRequest(Request $request)
     {
 
-        throw new NotImplementedException();
+        return $this->saveLeaveRequestApi->saveLeaveRequest();
     }
 
 }

@@ -51,8 +51,8 @@ class ValidatorTest extends PHPUnit_Framework_TestCase
      */
     public function testValidationWithWhiteSpace() {
         $rule = array(
-            'firstName'=> array('StringType'=>true,'NoWhitespace'=>true,'Length'=>array(1,10)),
-            'dob'=>array('Date'=>true)
+            'firstName'=> array('StringType'=>true,'notEmpty' => true,'NoWhitespace'=>true,'Length'=>array(1,10)),
+            'dob'=>array('Date'=>true,'notEmpty' => true)
         );
         $values = array('firstName'=>'Mike J','dob'=>'1979-04-04');
         Validator::validate($values,$rule);

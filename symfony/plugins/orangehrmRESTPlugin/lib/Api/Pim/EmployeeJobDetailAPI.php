@@ -154,6 +154,7 @@ class EmployeeJobDetailAPI extends EndPoint
      *
      * @return Response
      * @throws BadRequestException
+     * @throws RecordNotFoundException
      */
     public function saveEmployeeJobDetails()
     {
@@ -165,16 +166,19 @@ class EmployeeJobDetailAPI extends EndPoint
 
             $empId = $this->filters[self::PARAMETER_ID];
             $employee = $this->getEmployeeService()->getEmployee($empId);
+            if(empty($employee)){
+                throw  new RecordNotFoundException('Employee Not Found');
+            }
             $this->buildEmployeeJobDetails($employee, $this->filters);
             $returnedEmployee = $this->getEmployeeService()->saveEmployee($employee);
 
             if ($returnedEmployee instanceof \Employee) {
-                return new Response(array('success' => 'Successfully saved'), $relationsArray);
+                return new Response(array('success' => 'Successfully Saved'), $relationsArray);
             } else {
-                throw new BadRequestException("saving failed");
+                throw new BadRequestException("Saving Failed");
             }
         } else {
-            throw new BadRequestException("saving failed");
+            throw new BadRequestException("Saving Failed");
         }
 
 
@@ -264,20 +268,21 @@ class EmployeeJobDetailAPI extends EndPoint
     }
 
 
-
-    public function getValidationRules() {
-    return array(
-        self::PARAMETER_JOINED_DATE => array('Date'=>array('Y-m-d')),
-        self::PARAMETER_START_DATE => array('Date'=>array('Y-m-d')),
-        self::PARAMETER_END_DATE => array('Date'=>array('Y-m-d')),
-    );
-}
+    public function getValidationRules()
+    {
+        return array(
+            self::PARAMETER_JOINED_DATE => array('Date' => array('Y-m-d')),
+            self::PARAMETER_START_DATE => array('Date' => array('Y-m-d')),
+            self::PARAMETER_END_DATE => array('Date' => array('Y-m-d')),
+        );
+    }
 
     /**
      * validate input parameters
      *
      * @param $filters
      * @return bool
+     * @throws InvalidParamException
      */
     protected function validateInputs($filters)
     {
@@ -306,6 +311,12 @@ class EmployeeJobDetailAPI extends EndPoint
             $valid = false;
 
         }
+        if (!empty($filters[self::PARAMETER_START_DATE]) && !empty($filters[self::PARAMETER_END_DATE])) {
+            if ((strtotime($filters[self::PARAMETER_START_DATE])) > (strtotime($filters[self::PARAMETER_END_DATE]))) {
+                throw new InvalidParamException('End Date Should Be After Start Date');
+            }
+
+        }
         return $valid;
     }
 
@@ -314,12 +325,11 @@ class EmployeeJobDetailAPI extends EndPoint
         $jobTitleList = $this->getJobTitleService()->getJobTitleList();
         foreach ($jobTitleList as $title) {
 
-            if ($title->getJobTitleName() === $this->filters[self::PARAMETER_TITLE]) {
-                $this->filters[self::PARAMETER_TITLE] = $title->getId();
+            if ($title->getId() === $this->filters[self::PARAMETER_TITLE]) {
                 return true;
             }
         }
-        return false;
+        throw new InvalidParamException('No Valid Title Found');
     }
 
     public function validateCategory()
@@ -328,13 +338,11 @@ class EmployeeJobDetailAPI extends EndPoint
 
         foreach ($jobCategoryList as $category) {
 
-            if ($category->getName() === $this->filters[self::PARAMETER_CATEGORY]) {
-
-                $this->filters[self::PARAMETER_CATEGORY] = $category->getId();
+            if ($category->getId() === $this->filters[self::PARAMETER_CATEGORY]) {
                 return true;
             }
         }
-        return false;
+        throw new InvalidParamException('No Valid Category Found');
     }
 
     public function validateEmployeeStatus()
@@ -344,13 +352,12 @@ class EmployeeJobDetailAPI extends EndPoint
         $statuses = $empStatusService->getEmploymentStatusList();
 
         foreach ($statuses as $status) {
-            if ($status->getName() == $this->filters[self::PARAMETER_STATUS]) {
-                $this->filters[self::PARAMETER_STATUS] = $status->getId();
+            if ($status->getId() == $this->filters[self::PARAMETER_STATUS]) {
                 return true;
             }
         }
 
-        return false;
+        throw new InvalidParamException('No Valid Status Found');
     }
 
     public function validateEmployeeLocation()
@@ -359,13 +366,12 @@ class EmployeeJobDetailAPI extends EndPoint
         $locations = $locationService->getLocationList();
 
         foreach ($locations as $location) {
-            if ($location->getName() == $this->filters[self::PARAMETER_LOCATION]) {
-                $this->filters[self::PARAMETER_LOCATION] = $location->getId();
+            if ($location->getId() == $this->filters[self::PARAMETER_LOCATION]) {
                 return true;
             }
         }
 
-        return true;
+        throw new InvalidParamException('No Valid Location Found');
     }
 
     public function validateSubunit()
@@ -376,12 +382,11 @@ class EmployeeJobDetailAPI extends EndPoint
         $tree = $treeObject->fetchTree();
 
         foreach ($tree as $node) {
-            if ($node->getName() == $this->filters[self::PARAMETER_SUBUNIT]) {
-                $this->filters[self::PARAMETER_SUBUNIT] = $node->getId();
+            if ($node->getId() == $this->filters[self::PARAMETER_SUBUNIT]) {
                 return true;
             }
         }
-        return false;
+        throw new InvalidParamException('No Valid Subunit Found');
     }
 
 }

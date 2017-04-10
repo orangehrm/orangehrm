@@ -30,7 +30,7 @@ class EmployeeContactDetailAPI extends EndPoint
 {
 
     /**
-     * @var EmployeeService
+     * @var \EmployeeService
      */
     protected $employeeService;
     protected $countryService;
@@ -128,7 +128,7 @@ class EmployeeContactDetailAPI extends EndPoint
         $empId = $filters[self::PARAMETER_ID];
         $employee = $this->getEmployeeService()->getEmployee($empId);
 
-        if (!empty($employee) && $this->validateEmployeeEmails($filters[self::PARAMETER_WORK_EMAIL],
+        if (!empty($employee) && $this->validateEmployeeEmails($employee,$filters[self::PARAMETER_WORK_EMAIL],
                 $filters[self::PARAMETER_OTHER_EMAIL])
         ) {
 
@@ -136,11 +136,11 @@ class EmployeeContactDetailAPI extends EndPoint
             $returnedEmployee = $this->getEmployeeService()->saveEmployee($employee);
 
             if (!($returnedEmployee instanceof \Employee)) {
-                throw new BadRequestException("Saving failed");
+                throw new BadRequestException("Saving Failed");
             }
-            return new Response(array('success' => 'Successfully saved'));
+            return new Response(array('success' => 'Successfully Saved'));
         } else {
-            throw new BadRequestException("Employee not found");
+            throw new BadRequestException("Employee Not Found");
         }
     }
 
@@ -158,7 +158,7 @@ class EmployeeContactDetailAPI extends EndPoint
         $empId = $filters[self::PARAMETER_ID];
         $employee = $this->getEmployeeService()->getEmployee($empId);
 
-        if (!empty($employee) && $this->validateEmployeeEmails($filters[self::PARAMETER_WORK_EMAIL],
+        if (!empty($employee) && $this->validateEmployeeEmails($employee,$filters[self::PARAMETER_WORK_EMAIL],
                 $filters[self::PARAMETER_OTHER_EMAIL])
         ) {
 
@@ -166,11 +166,11 @@ class EmployeeContactDetailAPI extends EndPoint
             $returnedEmployee = $this->getEmployeeService()->saveEmployee($employee);
 
             if (!($returnedEmployee instanceof \Employee)) {
-                throw new BadRequestException("Updating failed");
+                throw new BadRequestException("Updating Failed");
             }
-            return new Response(array('success' => 'Successfully updated'));
+            return new Response(array('success' => 'Successfully Updated'));
         } else {
-            throw new BadRequestException("Employee not found");
+            throw new BadRequestException("Employee Not Found");
         }
 
 
@@ -298,23 +298,34 @@ class EmployeeContactDetailAPI extends EndPoint
     }
 
     /**
-     * Validate employee work email and other email
+     * Validate emails
      *
      * @param $workEmail
      * @param $otherEmail
      * @return bool
+     * @throws BadRequestException
      */
-    protected function validateEmployeeEmails($workEmail, $otherEmail)
+        protected function validateEmployeeEmails(\Employee $employee, $workEmail, $otherEmail)
     {
-        $emailList = $this->getEmployeeService()->getEmailList();
 
+        $emailList = $this->getEmployeeService()->getEmailList();
+        if(!empty($workEmail) && !empty($workEmail) && $workEmail=== $otherEmail){
+            throw new BadRequestException('Work Email And Other Email Cannot Be Same');
+        }
         foreach ($emailList as $emails) {
-            if ($emails[emp_work_email] === $workEmail) {
-                throw new BadRequestException('Work email exists');
+
+            if(!$employee->getEmpWorkEmail() == $workEmail) {
+                if($emails[emp_work_email] === $workEmail || $emails[emp_oth_email] === $workEmail ){
+                    throw new BadRequestException('Work Email Exists');
+                }
             }
-            if ($emails[emp_oth_email] === $otherEmail) {
-                throw new BadRequestException('Other email exists');
+
+            if(!$employee->getEmpOthEmail() == $otherEmail) {
+                if($emails[emp_work_email] === $otherEmail || $emails[emp_oth_email] === $otherEmail ){
+                    throw new BadRequestException('Other Email Exists');
+                }
             }
+
         }
         return true;
     }

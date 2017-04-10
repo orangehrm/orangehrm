@@ -77,6 +77,10 @@ class Employee implements Serializable
 
     private $licenseExpDate;
 
+    private $sinNumber;
+
+    private $ssnNumber;
+
 
     /**
      * Employee constructor.
@@ -130,6 +134,38 @@ class Employee implements Serializable
     {
         $this->middleName = $middleName;
         return $this;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getSinNumber()
+    {
+        return $this->sinNumber;
+    }
+
+    /**
+     * @param mixed $sinNumber
+     */
+    public function setSinNumber($sinNumber)
+    {
+        $this->sinNumber = $sinNumber;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getSsnNumber()
+    {
+        return $this->ssnNumber;
+    }
+
+    /**
+     * @param mixed $ssnNumber
+     */
+    public function setSsnNumber($ssnNumber)
+    {
+        $this->ssnNumber = $ssnNumber;
     }
 
     /**
@@ -508,7 +544,8 @@ class Employee implements Serializable
      */
     public function toArray()
     {
-        return array(
+
+        $employeeData =  array(
             'firstName' => $this->getFirstName(),
             'middleName' => $this->getMiddleName(),
             'lastName' => $this->getLastName(),
@@ -528,6 +565,13 @@ class Employee implements Serializable
             'supervisor' => $this->getSupervisors()
 
         );
+        if( \OrangeConfig::getInstance()->getAppConfValue(\ConfigService::KEY_PIM_SHOW_SIN)){
+             $employeeData['sinNumber'] = $this->getSinNumber();
+        }
+        if( \OrangeConfig::getInstance()->getAppConfValue(\ConfigService::KEY_PIM_SHOW_SSN)){
+            $employeeData['ssnNumber'] = $this->getSsnNumber();
+        }
+        return $employeeData;
     }
 
     /**
@@ -560,12 +604,14 @@ class Employee implements Serializable
         $this->setMaritalStatus($employee->getEmpMaritalStatus());
         $this->setNationality($employee->getNationality()->getName());
         $this->setOtherId($employee->getOtherId());
+        $this->setSinNumber($employee->getSin());
+        $this->setSsnNumber($employee->getSsn());
         $supervisorList = null;
 
         foreach ($employee->getSupervisors() as $supervisor) {
 
-            $supervisorEnt = new Supervisor($supervisor->getFullName(), $supervisor->getEmployeeId());
-            $supervisorList[] = $supervisorEnt->toArray();
+            $supervisorEnt = new Supervisor($supervisor->getFullName(), $supervisor->getEmpNumber());
+            $supervisorList[] = $supervisorEnt->_toArray();
         }
 
 

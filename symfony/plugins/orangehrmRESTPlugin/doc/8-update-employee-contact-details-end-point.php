@@ -2,6 +2,7 @@
 * @api {put} /employee/:id/contact-detail 08.Update Employee Contact Detail
 * @apiName updateEmployeeContactDetails
 * @apiGroup Employee
+* @apiVersion 0.1.0
 *
 * @apiParam {Number}  id Employee id.
 *

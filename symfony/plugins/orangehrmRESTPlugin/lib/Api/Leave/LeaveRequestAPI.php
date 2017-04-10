@@ -22,6 +22,7 @@ namespace Orangehrm\Rest\Api\Leave;
 use Orangehrm\Rest\Api\EndPoint;
 use Orangehrm\Rest\Api\Exception\RecordNotFoundException;
 use Orangehrm\Rest\Api\Leave\Entity\LeaveRequest;
+use Orangehrm\Rest\Api\Exception\InvalidParamException;
 
 use Orangehrm\Rest\Http\Response;
 
@@ -36,6 +37,8 @@ class LeaveRequestAPI extends EndPoint
      * @var \LeaveRequestService
      */
     private $leaveRequestService;
+
+    private $leaveEntitlementService;
 
     private $statusList;
 
@@ -93,6 +96,29 @@ class LeaveRequestAPI extends EndPoint
     }
 
     /**
+     * Get entitlement service
+     *
+     * @return \LeaveEntitlementService
+     */
+    public function getLeaveEntitlementService()
+    {
+        if (empty($this->leaveEntitlementService)) {
+            $this->leaveEntitlementService = new \LeaveEntitlementService();
+        }
+        return $this->leaveEntitlementService;
+    }
+
+    /**
+     * Set entitlement service
+     *
+     * @param $leaveEntitlementService
+     */
+    public function setLeaveEntitlementService($leaveEntitlementService)
+    {
+        $this->leaveEntitlementService = $leaveEntitlementService;
+    }
+
+    /**
      * @return mixed
      */
     public function getSubunit()
@@ -126,40 +152,30 @@ class LeaveRequestAPI extends EndPoint
      */
     public function searchRequests()
     {
-
-
         $filters = $this->filterParameters();
-        $employee = $this->getEmployeeService()->getEmployee($filters[self::PARAMETER_ID]);
         $this->validateInputs($filters);
 
-        if (!empty($employee)) {
+        $searchParams =$this->createParameters($filters);
 
-            $fromDate = $filters[self::PARAMETER_FROM_DATE];
-            $toDate = $filters[self::PARAMETER_TO_DATE];
+        $result = $this->getLeaveRequestService()->searchLeaveRequests($searchParams, 0, false, false,
+            true, true);
+        $list = $result['list'];
+        foreach ($list as $request) {
 
-            $searchParams = new \ParameterObject(array(
-                'dateRange' => new \DateRange($fromDate, $toDate),
-                'statuses' => $this->getStatusesArray($filters),
-                'employeeFilter' => array($employee->getEmpNumber()),
-                'noOfRecordsPerPage' => $filters[self::PARAMETER_LIMIT],
-                'cmbWithTerminated' => $this->validatePassEmployee($filters[self::PARAMETER_PAST_EMPLOYEE]),
-                'subUnit' => $this->subunit,
-                'employeeName' => $employee->getFullName()
-            ));
-            $result = $result = $this->getLeaveRequestService()->searchLeaveRequests($searchParams, 0, false, false,
-                true, true);
-            $list = $result['list'];
+            $leaveRequest = new LeaveRequest($request->getId(), $request->getLeaveTypeName());
+            $leaveBalance = $this->getLeaveEntitlementService()->getLeaveBalance($request->getEmpNumber(),
+                $request->getLeaveTypeId(), $request->getLeaveDates()[0]);
+            $leaveRequest->buildLeaveRequest($request);
+            $leaveRequest->setLeaveBalance(number_format((float)$leaveBalance->balance, 2, '.', ''));
+            $response [] = $leaveRequest->toArray();
 
-            foreach ($list as $request) {
-                $leaveRequest = new LeaveRequest($request->getId(), $request->getLeaveTypeName());
-                $leaveRequest->buildLeaveRequest($request);
-                $response [] = $leaveRequest->toArray();
-            }
-            if (empty($response)) {
-                throw new RecordNotFoundException('No Records Found');
-            }
-            return new Response($response, array());
+
         }
+
+        if (empty($response)) {
+            throw new RecordNotFoundException('No Records Found');
+        }
+        return new Response($response, array());
 
 
     }
@@ -186,10 +202,17 @@ class LeaveRequestAPI extends EndPoint
                 true, true);
             $list = $result['list'];
 
+            $leaveRequestList = null;
+
             foreach ($list as $request) {
+
                 $leaveRequest = new LeaveRequest($request->getId(), $request->getLeaveTypeName());
+                $leaveBalance = $this->getLeaveEntitlementService()->getLeaveBalance($request->getEmpNumber(),
+                    $request->getLeaveTypeId(), $request->getLeaveDates()[0]);
                 $leaveRequest->buildLeaveRequest($request);
+                $leaveRequest->setLeaveBalance(number_format((float)$leaveBalance->balance, 2, '.', ''));
                 $response [] = $leaveRequest->toArray();
+
             }
             if (empty($response)) {
                 throw new RecordNotFoundException('No Records Found');
@@ -213,7 +236,7 @@ class LeaveRequestAPI extends EndPoint
 
         $filters[] = array();
 
-        $filters[self::PARAMETER_ID] = ($this->getRequestParams()->getUrlParam(self::PARAMETER_ID));
+        $filters[self::PARAMETER_ID] = $this->getRequestParams()->getUrlParam(self::PARAMETER_ID);
         $filters[self::PARAMETER_CANCELLED] = ($this->getRequestParams()->getUrlParam(self::PARAMETER_CANCELLED));
         $filters[self::PARAMETER_FROM_DATE] = ($this->getRequestParams()->getUrlParam(self::PARAMETER_FROM_DATE));
         $filters[self::PARAMETER_TO_DATE] = ($this->getRequestParams()->getUrlParam(self::PARAMETER_TO_DATE));
@@ -244,6 +267,12 @@ class LeaveRequestAPI extends EndPoint
             $valid = false;
 
         }
+        if (!empty($filters[self::PARAMETER_FROM_DATE]) && !empty($filters[self::PARAMETER_TO_DATE])) {
+            if ((strtotime($filters[self::PARAMETER_FROM_DATE])) > (strtotime($filters[self::PARAMETER_TO_DATE]))) {
+                throw new InvalidParamException('To Date Should Be After From Date');
+            }
+
+        }
 
         return $valid;
     }
@@ -265,10 +294,10 @@ class LeaveRequestAPI extends EndPoint
             $statusIdArray[] = \PluginLeave::LEAVE_STATUS_LEAVE_CANCELLED;
         }
         if (!empty($filter[self::PARAMETER_PENDING_APPROVAL]) && $filter[self::PARAMETER_PENDING_APPROVAL] == 'true') {
-            $statusIdArray[] = \PluginLeave::LEAVE_STATUS_LEAVE_TAKEN;
+            $statusIdArray[] = \PluginLeave::LEAVE_STATUS_LEAVE_PENDING_APPROVAL;
         }
         if (!empty($filter[self::PARAMETER_REJECTED]) && $filter[self::PARAMETER_REJECTED] == 'true') {
-            $statusIdArray[] = -\PluginLeave::LEAVE_STATUS_LEAVE_TAKEN;
+            $statusIdArray[] = -\PluginLeave::LEAVE_STATUS_LEAVE_REJECTED;
         }
         if (!empty($filter[self::PARAMETER_SCHEDULED]) && $filter[self::PARAMETER_SCHEDULED] == 'true') {
             $statusIdArray[] = \PluginLeave::LEAVE_STATUS_LEAVE_APPROVED;
@@ -292,12 +321,12 @@ class LeaveRequestAPI extends EndPoint
         $tree = $treeObject->fetchTree();
 
         foreach ($tree as $node) {
-            if ($node->getName() == $filters[self::PARAMETER_SUBUNIT]) {
+            if ($node->getId() == $filters[self::PARAMETER_SUBUNIT]) {
                 $this->subunit = $node->getId();
                 return true;
             }
         }
-        return false;
+        throw new InvalidParamException('Invalid Subunit');
     }
 
     /**
@@ -306,7 +335,7 @@ class LeaveRequestAPI extends EndPoint
      * @param $pastEmp
      * @return bool
      */
-    public function validatePassEmployee($pastEmp)
+    public function validatePastEmployee($pastEmp)
     {
         return $pastEmp === 'true';
     }
@@ -314,10 +343,31 @@ class LeaveRequestAPI extends EndPoint
     public function getValidationRules()
     {
         return array(
-            self::PARAMETER_TO_DATE => array('Date' => array('Y-m-d')),
-            self::PARAMETER_FROM_DATE => array('Date' => array('Y-m-d')),
+            self::PARAMETER_TO_DATE => array('NotEmpty'=> true,'Date' => array('Y-m-d')),
+            self::PARAMETER_FROM_DATE => array( 'NotEmpty'=> true,'Date' => array('Y-m-d')),
 
         );
+    }
+
+    protected function createParameters($filters)
+    {
+
+        $parameters = array();
+        $fromDate = $filters[self::PARAMETER_FROM_DATE];
+        $employee = $this->getEmployeeService()->getEmployee($filters[self::PARAMETER_ID]);
+        $toDate = $filters[self::PARAMETER_TO_DATE];
+        $parameters['dateRange'] = new \DateRange($fromDate, $toDate);
+        $parameters['statuses'] = $this->getStatusesArray($filters);
+        if (!empty($employee)) {
+            $parameters['employeeFilter'] = array($employee->getEmpNumber());
+        }
+
+        $parameters['noOfRecordsPerPage'] = $filters[self::PARAMETER_LIMIT];
+        $parameters['cmbWithTerminated'] = $this->validatePastEmployee($filters[self::PARAMETER_PAST_EMPLOYEE]);
+        $parameters['subUnit'] = $this->subunit;
+
+        return new \ParameterObject($parameters);
+
     }
 
 }

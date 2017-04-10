@@ -1,42 +1,82 @@
 /**
-* @api {get} /api/v1/leave/type 3.Search Leave Requests
+* @api {get} /leave/search 7.Search Leave Requests
 * @apiName searchLeaveRequest
 * @apiGroup Leave
 * @apiVersion 0.1.0
 *
 *
-* @apiParam {Date}  [fromDate] From date.
-* @apiParam {Date}  [toDate] To date.
+* @apiParam {Date}  fromDate From date.
+* @apiParam {Date}   toDate To date.
 * @apiParam {String}  [reject] Leave status rejected ( 'true' / 'false' ).
 * @apiParam {String}  [cancelled] Leave status cancelled ( 'true' / 'false' ).
 * @apiParam {String}  [pendingApproval] Leave status pending approval ( 'true' / 'false' ).
 * @apiParam {String}  [scheduled] Leave status scheduled ( 'true' / 'false' ).
 * @apiParam {String}  [taken] Leave status taken ( 'true' / 'false' ).
-* @apiParam {String}  [pastEmployee] Past Employee results ( 'true' /'false').
-* @apiParam {String}  [subunit] Employee Subunit.
-* @apiParam {Number}  [page] Page number.
-* @apiParam {Number}  [limit] Number of records per page.
+* @apiParam {String}  [pastEmployee] Past employee results ( 'true' /'false').
+* @apiParam {Number}  [subunit] Employee subunit id.
 *
-* @apiSuccess {String} [type] Leave type.
-* @apiSuccess {Number} [id] Leave id.
-* @apiSuccess {Date} [date] Requested date.
-* @apiSuccess {Number} [leaveBalance] Leave balance.
-* @apiSuccess {Number} [numberOfDays] Number of Days.
-* @apiSuccess {String} [comments] Leave comments.
-* @apiSuccess {Strung} [action] Leave Action.
+* @apiSuccess {String} employeeName Employee name
+* @apiSuccess {String} employeeId Employee id.
+* @apiSuccess {Date}   fromDate From date.
+* @apiSuccess {Date}   toDate To date.
+* @apiSuccess {String} type Leave type.
+* @apiSuccess {Number} id Leave request id.
+* @apiSuccess {Number} leaveBalance Leave balance.
+* @apiSuccess {Number} numberOfDays Number of Days.
+* @apiSuccess {Object} comments Leave request comments.
+*
+* @apiSuccess {String} user User.
+* @apiSuccess {Date} date Commented date.
+* @apiSuccess {Time} time Commented time.
+* @apiSuccess {String} comment Comment .
+*
+* @apiSuccess {Object} days Leave days.
+* @apiSuccess {String} status Leave status.
+* @apiSuccess {Number} duration Leave duration.
+* @apiSuccess {String} durationString Leave duration as a String for specify time and half days.
+* @apiSuccess {Object} comments Leave comments.
 *
 * @apiSuccessExample Success-Response:
 *     HTTP/1.1 200 OK
 *
 *      {
-*           "type": "Annual",
+*           "employeeName" : "Shane Warne",
+*           "employeeId"   :'34',
 *           "id": "2",
-*           "date": "2017-03-31",
-*           "$leaveBalance": 9,
+*           "fromDate": "2017-03-31",
+*           "toDate": "2017-03-31",
+*           "leaveBalance": 9,
 *           "numberOfDays": "1.00",
-*           "status": 2,
-*           "comments": {},
-*           "action": null
+*               "comments": [
+*                    {
+*                    "user": "Admin",
+*                    "date": "2017-03-16",
+*                    "time": "14:20:27",
+*                    "comment": "Test"
+*                    },
+*                    {
+*                    "author": "Admin",
+*                    "date": "2017-03-16",
+*                    "time": "14:18:10",
+*                    "comment": "Test"
+*                    }
+*         "days": [
+*              {
+*                "date": "2017-05-25",
+*                "status": "SCHEDULED",
+*                "type": "Short Leave",
+*                "duration": "8.00",
+*                "comments": ""
+*            },
+*            {
+*                "date": "2017-05-24",
+*                "status": "SCHEDULED",
+*                "type": "Short Leave",
+*                "duration": "8.00",
+*                "comments": ""
+*            }
+*                ]
+*
 *      }
 *
 * @apiError No-Records Found.

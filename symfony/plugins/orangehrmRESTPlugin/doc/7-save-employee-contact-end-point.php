@@ -2,6 +2,7 @@
 * @api {post} /employee/:id/contact-detail 07.Save Employee Contact Detail
 * @apiName saveEmployeeContactDetails
 * @apiGroup Employee
+* @apiVersion 0.1.0
 *
 * @apiParam {Number}  id Employee number.
 *
