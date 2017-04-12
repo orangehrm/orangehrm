@@ -18,6 +18,22 @@
  */
 class contactDetailsAction extends basePimAction {
 
+    private $employeeEventService;
+
+    /**
+     * Get Employee event Service
+     *
+     * @return EmployeeEventService|mixed
+     */
+    private function getEmployeeEventService() {
+
+        if(is_null($this->employeeEventService)) {
+            $this->employeeEventService = new EmployeeEventService();
+        }
+
+        return $this->employeeEventService;
+    }
+
     /**
      * @param sfForm $form
      * @return
@@ -53,7 +69,8 @@ class contactDetailsAction extends basePimAction {
             if ($this->form->isValid()) {
                 $employee = $this->form->getEmployee();
                 $this->getEmployeeService()->saveEmployee($employee);
-                $this->getUser()->setFlash('contactdetails.success', __(TopLevelMessages::SAVE_SUCCESS));
+                $this->getEmployeeEventService()->saveEvent($empNumber,PluginEmployeeEvent::EVENT_TYPE_CONTACT_DETAIL,PluginEmployeeEvent::EVENT_UPDATE,'Saving Employee Contact Details',$this->getUser()->getAttribute('name'));
+                $this->getUser()->setFlash('contact details.success', __(TopLevelMessages::SAVE_SUCCESS));
             }
             $this->redirect('pim/contactDetails?empNumber='. $empNumber);
         }
