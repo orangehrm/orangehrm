@@ -8,6 +8,9 @@ sudo: required
 services:
   - mysql
  
+services:
+  - mysql
+  
 matrix:
     include:
         - os: linux
@@ -16,17 +19,17 @@ matrix:
 before_install:
   - uname -a
   - php --version
-  - mysql -uroot -e "SET PASSWORD FOR 'root'@'localhost' = PASSWORD('root')"
+  - mysqladmin -uroot status
   - composer self-update
   - sudo chmod 777 -R symfony/cache
   - sudo chmod 777 -R symfony/log
 
 install:
   - composer install -d symfony/lib
-  - cd installer && sudo bash cli_install.sh && cd ../
+  - bash installer/cli_install.sh
 
 script:
   - symfony/lib/vendor/bin/codecept run -c symfony/test/api/
 
 notifications:
-  email: false
+  email: true
