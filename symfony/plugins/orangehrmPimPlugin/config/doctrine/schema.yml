@@ -726,4 +726,27 @@ EmployeeEducation:
     Education:
       local: educationId
       foreign: id
-      type: one      
+      type: one
+
+EmployeeEvent:
+  tableName: ohrm_employee_event
+  columns:
+    event_id:
+      type: integer(4)
+      primary: true
+    employee_id as employeeId:
+      type: integer(4)
+    type as type:
+      type: string(45)
+    event as event:
+      type: string(45)
+    note as note:
+      type: string(150)
+    created_date as createdDate: date(25)
+    created_by as createdBy:
+        type: string(45)
+  relations:
+    Employee:
+      local: employee_id
+      foreign: emp_number
+      type: one
