@@ -29,6 +29,7 @@ class EmployeeReportToForm extends BaseForm {
     private $reportingMethodConfigurationService;
     private $employeeList;
     private $reportingMethodType;
+    private $employeeEventService;
 
     /**
      * Get EmployeeService
@@ -63,6 +64,30 @@ class EmployeeReportToForm extends BaseForm {
     
     public function setReportingMethodConfigurationService($reportingMethodConfigurationService) {
         $this->reportingMethodConfigurationService = $reportingMethodConfigurationService;
+    }
+
+
+    /**
+     * Get Employee event Service
+     *
+     * @return EmployeeEventService|mixed
+     */
+    private function getEmployeeEventService()
+    {
+
+        if (is_null($this->employeeEventService)) {
+            $this->employeeEventService = new EmployeeEventService();
+        }
+
+        return $this->employeeEventService;
+    }
+
+    /**
+     * @param $employeeEventService
+     */
+    public function setEmployeeEventService($employeeEventService)
+    {
+        $this->employeeEventService = $employeeEventService;
     }
 
     public function configure() {
@@ -265,6 +290,9 @@ class EmployeeReportToForm extends BaseForm {
                     $existingReportToObject->save();
                     $updated = TRUE;
                     $message = 'updated';
+                    // add to employee event
+                    $this->getEmployeeEventService()->saveEvent($empNumber,PluginEmployeeEvent::EVENT_TYPE_SUPERVISOR,PluginEmployeeEvent::EVENT_UPDATE,'Updating Employee Supervisor Details',null);
+
                 }
             } else {
                 if ($this->getOption('reportToSupervisorPermission')->canCreate()) {
@@ -275,6 +303,9 @@ class EmployeeReportToForm extends BaseForm {
                     $newReportToObject->save();
                     $updated = TRUE;
                     $message = 'saved';
+                    // add to employee event
+                    $this->getEmployeeEventService()->saveEvent($empNumber,PluginEmployeeEvent::EVENT_TYPE_SUPERVISOR,PluginEmployeeEvent::EVENT_SAVE,'Save Employee Supervisor Details',null);
+
                 }
             }
         }
@@ -288,6 +319,9 @@ class EmployeeReportToForm extends BaseForm {
                     $existingReportToObject->save();
                     $updated = TRUE;
                     $message = 'updated';
+                    // add to employee event
+                    $this->getEmployeeEventService()->saveEvent($empNumber,PluginEmployeeEvent::EVENT_TYPE_SUBORDINATE,PluginEmployeeEvent::EVENT_UPDATE,'Updating Employee Subordinate Details',null);
+
                 }
             } else {
                 if ($this->getOption('reportToSubordinatePermission')->canCreate()) {
@@ -298,6 +332,9 @@ class EmployeeReportToForm extends BaseForm {
                     $newReportToObject->save();
                     $updated = TRUE;
                     $message = 'saved';
+                    // add to employee event
+                    $this->getEmployeeEventService()->saveEvent($empNumber,PluginEmployeeEvent::EVENT_TYPE_SUBORDINATE,PluginEmployeeEvent::EVENT_SAVE,'Save Employee Subordinate Details',null);
+
                 }
             }
         }
