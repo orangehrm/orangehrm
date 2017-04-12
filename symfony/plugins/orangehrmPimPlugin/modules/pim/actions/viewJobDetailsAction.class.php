@@ -23,6 +23,22 @@
  */
 class viewJobDetailsAction extends basePimAction {
 
+    private $employeeEventService;
+
+    /**
+     * Get Employee event Service
+     *
+     * @return EmployeeEventService|mixed
+     */
+    private function getEmployeeEventService() {
+
+        if(is_null($this->employeeEventService)) {
+            $this->employeeEventService = new EmployeeEventService();
+        }
+
+        return $this->employeeEventService;
+    }
+
     public function execute($request) {
         
         $loggedInEmpNum = $this->getUser()->getEmployeeNumber();
@@ -101,6 +117,9 @@ class viewJobDetailsAction extends basePimAction {
                                 array('employee' => $this->form->getEmployee(),'previous_joined_date'=> $joinedDate)));
 
                     }
+
+                    $this->getEmployeeEventService()->saveEvent($empNumber,PluginEmployeeEvent::EVENT_TYPE_JOB_DETAIL,PluginEmployeeEvent::EVENT_UPDATE,'Updating Employee Job Details',$this->getUser()->getAttribute('name'));
+
                 }
 
                 $this->form->updateAttachment();
