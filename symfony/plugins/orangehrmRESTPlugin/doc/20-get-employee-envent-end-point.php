@@ -8,8 +8,8 @@
 * @apiParam {Number} employeeId Employee id.
 * @apiParam {Date} fromDate Event from date.
 * @apiParam {Date} toDate Event to date.
-* @apiParam {String} event Event ( employee | contact | jobDetail | supervisor | subordinate |dependent ).
-* @apiParam {String} type Event type ( UPDATE | SAVE | DELETE ).
+* @apiParam {String} event Event ( UPDATE | SAVE | DELETE ).
+* @apiParam {String} type Event type ( employee | contact | jobDetail | supervisor | subordinate |dependent ).
 *
 *
 * @apiSuccess {String} employeeId Employee id.
