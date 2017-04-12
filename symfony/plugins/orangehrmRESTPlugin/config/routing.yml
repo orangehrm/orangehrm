@@ -46,6 +46,12 @@ api_employee_supervisor:
     id: \d+
     sf_method: [get, post, put, delete]
 
+api_employee_event:
+  url: /api/v1/employee/event
+  param: { module:apiv1pim, action:EmployeeEventApi }
+  requirements:
+      sf_method: [get]
+
 api_leave_type:
   url: /api/v1/leave/type
   param: { module:apiv1leave, action:LeaveTypeApi }
