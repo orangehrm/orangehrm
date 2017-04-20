@@ -19,6 +19,7 @@
 class addEmployeeAction extends basePimAction {
 
     private $userService;
+    private $employeeEventService;
 
     /**
      * @param sfForm $form
@@ -133,6 +134,7 @@ class addEmployeeAction extends basePimAction {
                             $this->dispatcher->notify(new sfEvent($this, EmployeeEvents::EMPLOYEE_ADDED,
                                 array('employee' => $this->form->getEmployee(), 'emp_number'=> $empNumber)));
 
+                            $this->getEmployeeEventService()->saveEvent($empNumber,PluginEmployeeEvent::EVENT_TYPE_EMPLOYEE,PluginEmployeeEvent::EVENT_SAVE,'Saving Employee',$this->getUser()->getAttribute('name'));
                             $this->redirect('pim/viewPersonalDetails?empNumber='. $empNumber);
                         }
 
@@ -157,6 +159,15 @@ class addEmployeeAction extends basePimAction {
         return $this->userService;
     }
 
+    private function getEmployeeEventService() {
+
+        if(is_null($this->employeeEventService)) {
+            $this->employeeEventService = new EmployeeEventService();
+        }
+
+        return $this->employeeEventService;
+    }
+
     protected function _checkWhetherEmployeeIdExists($employeeId) {
 
         if (!empty($employeeId)) {
@@ -171,6 +182,7 @@ class addEmployeeAction extends basePimAction {
         }
 
     }
+
 
 }
 

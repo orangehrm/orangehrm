@@ -15,29 +15,35 @@
  * You should have received a copy of the GNU General Public License along with this program;
  * if not, write to the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
  * Boston, MA  02110-1301, USA
- *
  */
-?>
-<script language="JavaScript">
-function welcomeSubmit() {
-	document.frmInstall.actionResponse.value  = 'WELCOMEOK';
-	document.frmInstall.submit();
+
+use Orangehrm\Rest\Http\Request;
+use Orangehrm\Rest\Api\Pim\EmployeeEventAPI;
+use Orangehrm\Rest\Api\Exception\NotImplementedException;
+
+
+class EmployeeEventApiAction extends baseRestAction
+{
+    private $apiEmployeeEvent = null;
+
+    protected function init(Request $request)
+    {
+        $this->apiEmployeeEvent = new EmployeeEventAPI($request);
+        $this->getValidationRule = $this->apiEmployeeEvent->getValidationRules();
+
+    }
+
+    protected function handleGetRequest(Request $request)
+    {
+
+        return $this->apiEmployeeEvent->getEmployeeEvent();
+
+    }
+
+    protected function handlePostRequest(Request $request)
+    {
+        throw new NotImplementedException();
+    }
+
 }
-</script>
-	<div id="content">
-		<h2>Welcome to the OrangeHRM ver 4.0 Setup Wizard</h2>
-
-
-		<p>This installer creates the OrangeHRM database tables and sets the
-        configuration files that you need to start.</p>
-                <p>
-                    If you already use OrangeHRM, consider <a href="../upgrader/web/index.php/">upgrading</a>.
-                </p>              
-                
-        <p>
-		Click <b>[Next]</b> to Start the Wizard.</p>
-        <input class="button" type="button" value="Back" onclick="back();" disabled="disabled">
-		<input type="button" name="next" value="Next" onclick="welcomeSubmit();" id="next" tabindex="1">
-     </div>
-		<h4 id="welcomeLink"><a href="http://www.orangehrm.com" target="_blank" tabindex="36">OrangeHRM.com</a></h4>
 
