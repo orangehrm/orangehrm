@@ -2324,10 +2324,16 @@ class EmployeeDao extends BaseDao {
         if (empty($dependent)) {
             throw new PIMServiceException('Invalid Dependent');
         } else {
+            if(!empty($empDependent->getName())){
+                $dependent->name = $empDependent->getName();
+            }
+            if(!empty($empDependent->getRelationship())){
+                $dependent->relationship = $empDependent->getRelationship();
+            }
+            if(!empty($empDependent->getDateOfBirth())){
+                $dependent->date_of_birth = $empDependent->getDateOfBirth();
+            }
 
-            $dependent->name = $empDependent->getName();
-            $dependent->relationship = $empDependent->getRelationship();
-            $dependent->date_of_birth = $empDependent->getDateOfBirth();
             $dependent->save();
             return $dependent;
         }
