@@ -2016,3 +2016,14 @@ CREATE TABLE abstract_display_field  (
     is_encrypted TINYINT(1) NOT NULL, 
     is_meta TINYINT(1) DEFAULT '0' NOT NULL, 
 PRIMARY KEY(id)) ENGINE = INNODB;
+
+CREATE TABLE `ohrm_employee_event` (
+  `event_id` int(7) NOT NULL AUTO_INCREMENT,
+  `employee_id` int(7) NOT NULL DEFAULT '0',
+  `type` varchar(45) DEFAULT NULL,
+  `event` varchar(45) DEFAULT NULL,
+  `note` varchar(150) DEFAULT NULL,
+  `created_date` datetime DEFAULT NULL,
+  `created_by` varchar(45) DEFAULT NULL,
+  PRIMARY KEY (`event_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=24 DEFAULT CHARSET=utf8 ;
