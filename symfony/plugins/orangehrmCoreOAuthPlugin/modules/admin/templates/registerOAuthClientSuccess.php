@@ -30,11 +30,11 @@
 
                 </ol>
                 <ol>
-                    <dive style="float: left;width: 425px;margin-top: 9px;font-size: 12px;" >
+                    <div style="float: left;width: 425px;margin-top: 9px;font-size: 12px;" >
                         <p> <b>API Documentation : </b> <a  target="_blank"  href="https://orangehrm.github.io/orangehrm-api-doc/"> API Documentation</a>.</p>
                         <br>
                         <p><b>PHP Sample App :</b><a  target="_blank"  href="https://github.com/orangehrm/api-sample-app-php"> Notification Dashboard</a>.</p>
-                    </dive>
+                    </div>
 
                 </ol>
 
