@@ -24,10 +24,6 @@
                     <li class="required">
                         <em>*</em> <?php echo __(CommonMessages::REQUIRED_FIELD); ?>
                     </li>
-
-
-
-
                 </ol>
                 <ol>
                     <div style="float: left;width: 425px;margin-top: 9px;font-size: 12px;" >
@@ -35,9 +31,7 @@
                         <br>
                         <p><b>PHP Sample App :</b><a  target="_blank"  href="https://github.com/orangehrm/api-sample-app-php"> Notification Dashboard</a>.</p>
                     </div>
-
                 </ol>
-
                 <p>
                     <input type="submit" class="" id="btnSave" value="<?php echo __("Save"); ?>"  />
                 </p>
