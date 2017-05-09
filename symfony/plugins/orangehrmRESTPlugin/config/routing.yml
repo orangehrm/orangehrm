@@ -46,7 +46,7 @@ api_employee_supervisor:
     id: \d+
     sf_method: [get, post, put, delete]
 
- api_employee_work_experiece:
+api_employee_work_experiece:
    url: /api/v1/employee/:id/work-experience
    param: { module:apiv1pim, action:EmployeeWorkExperienceApi }
    requirements:
