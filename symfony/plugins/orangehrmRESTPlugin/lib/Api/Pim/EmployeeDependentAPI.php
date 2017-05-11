@@ -62,7 +62,6 @@ class EmployeeDependentAPI extends EndPoint
      */
     public function getEmployeeDependents()
     {
-
         $responseArray = null;
         $empId = $this->getRequestParams()->getUrlParam(self::PARAMETER_ID);
 
@@ -173,7 +172,6 @@ class EmployeeDependentAPI extends EndPoint
      */
     protected function filterParameters()
     {
-
         $filters[] = array();
 
         if (!empty($this->getRequestParams()->getPostParam(self::PARAMETER_NAME))) {

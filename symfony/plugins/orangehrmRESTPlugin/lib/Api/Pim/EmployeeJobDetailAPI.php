@@ -28,7 +28,6 @@ use Orangehrm\Rest\Http\Response;
 
 class EmployeeJobDetailAPI extends EndPoint
 {
-
     const PARAMETER_ID = "id";
     const PARAMETER_TITLE = "title";
     const PARAMETER_CATEGORY = "category";
@@ -128,20 +127,17 @@ class EmployeeJobDetailAPI extends EndPoint
      */
     public function getEmployeeJobDetails()
     {
-
         $responseArray = null;
         $empId = $this->getRequestParams()->getUrlParam(self::PARAMETER_ID);
 
         if (!is_numeric($empId)) {
             throw new InvalidParamException("Invalid Parameter");
-
         }
 
         $employee = $this->getEmployeeService()->getEmployee($empId);
 
         if (empty($employee)) {
             throw new RecordNotFoundException("Employee Not Found");
-
         }
 
         $employeeJobDetails = new EmployeeJobDetail();
@@ -158,7 +154,6 @@ class EmployeeJobDetailAPI extends EndPoint
      */
     public function saveEmployeeJobDetails()
     {
-
         $relationsArray = array();
         $returned = null;
         $this->filters = $this->filterParameters();
@@ -246,21 +241,13 @@ class EmployeeJobDetailAPI extends EndPoint
         $filters[] = array();
 
         $filters[self::PARAMETER_CATEGORY] = ($this->getRequestParams()->getPostParam(self::PARAMETER_CATEGORY));
-
         $filters[self::PARAMETER_JOINED_DATE] = ($this->getRequestParams()->getPostParam(self::PARAMETER_JOINED_DATE));
-
         $filters[self::PARAMETER_START_DATE] = ($this->getRequestParams()->getPostParam(self::PARAMETER_START_DATE));
-
         $filters[self::PARAMETER_END_DATE] = ($this->getRequestParams()->getPostParam(self::PARAMETER_END_DATE));
-
         $filters[self::PARAMETER_TITLE] = ($this->getRequestParams()->getPostParam(self::PARAMETER_TITLE));
-
         $filters[self::PARAMETER_ID] = ($this->getRequestParams()->getUrlParam(self::PARAMETER_ID));
-
         $filters[self::PARAMETER_STATUS] = ($this->getRequestParams()->getPostParam(self::PARAMETER_STATUS));
-
         $filters[self::PARAMETER_LOCATION] = ($this->getRequestParams()->getPostParam(self::PARAMETER_LOCATION));
-
         $filters[self::PARAMETER_SUBUNIT] = ($this->getRequestParams()->getPostParam(self::PARAMETER_SUBUNIT));
 
         return $filters;
@@ -293,29 +280,23 @@ class EmployeeJobDetailAPI extends EndPoint
 
         if (!empty($filters[self::PARAMETER_CATEGORY]) && !$this->validateCategory()) {
             $valid = false;
-
         }
         if (!empty($filters[self::PARAMETER_TITLE]) && !$this->validateTitle()) {
             $valid = false;
-
         }
         if (!empty($filters[self::PARAMETER_STATUS]) && !$this->validateEmployeeStatus()) {
             $valid = false;
-
         }
         if (!empty($filters[self::PARAMETER_LOCATION]) && !$this->validateEmployeeLocation()) {
             $valid = false;
-
         }
         if (!empty($filters[self::PARAMETER_SUBUNIT]) && !$this->validateSubunit()) {
             $valid = false;
-
         }
         if (!empty($filters[self::PARAMETER_START_DATE]) && !empty($filters[self::PARAMETER_END_DATE])) {
             if ((strtotime($filters[self::PARAMETER_START_DATE])) > (strtotime($filters[self::PARAMETER_END_DATE]))) {
                 throw new InvalidParamException('End Date Should Be After Start Date');
             }
-
         }
         return $valid;
     }

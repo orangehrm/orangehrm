@@ -29,7 +29,6 @@ use Orangehrm\Rest\Http\Response;
 class EmployeeSupervisorAPI extends EndPoint
 {
 
-
     const PARAMETER_ID = "id";
     const PARAMETER_SUPERVISOR_ID = 'supervisorId';
     const PARAMETER_REPORTING_METHOD = 'reportingMethod';
@@ -43,7 +42,6 @@ class EmployeeSupervisorAPI extends EndPoint
      */
     public function getEmployeeService()
     {
-
         if ($this->employeeService != null) {
             return $this->employeeService;
         } else {
@@ -59,7 +57,6 @@ class EmployeeSupervisorAPI extends EndPoint
 
     public function getReportingMethodConfigurationService()
     {
-
         if (is_null($this->reportingMethodConfigurationService)) {
             $this->reportingMethodConfigurationService = new \ReportingMethodConfigurationService();
         }
@@ -92,7 +89,7 @@ class EmployeeSupervisorAPI extends EndPoint
 
             $empSupervisor = $supervisorRM->getSupervisor();
             $supervisor = new Supervisor($empSupervisor->getFullName(), $empSupervisor->getempNumber(),
-                $empSupervisor->getEmployeeId(), $supervisorRM->getReportingMethod()->getName());
+            $empSupervisor->getEmployeeId(), $supervisorRM->getReportingMethod()->getName());
             $responseArray[] = $supervisor->toArray();
         }
 
@@ -101,7 +98,7 @@ class EmployeeSupervisorAPI extends EndPoint
     }
 
     /**
-     * Add supervisor
+     * Save supervisor
      *
      * @return Response
      */
@@ -164,10 +161,11 @@ class EmployeeSupervisorAPI extends EndPoint
      */
     public function deleteEmployeeSupervisor()
     {
-        $employeeId = $this->getRequestParams()->getUrlParam(self::PARAMETER_ID);
-        $supervisorId = $this->getRequestParams()->getPostParam(self::PARAMETER_SUPERVISOR_ID);
+        $filters = $this->getFilters();
+        $employeeId = $filters[self::PARAMETER_ID];
+        $supervisorId = $filters[self::PARAMETER_SUPERVISOR_ID];
+        $reportingMethodName = $filters[self::PARAMETER_REPORTING_METHOD];
         $existingReportToObject = $this->getEmployeeService()->getReportToObject($supervisorId, $employeeId);
-        $reportingMethodName = $this->getRequestParams()->getPostParam(self::PARAMETER_REPORTING_METHOD);
         $reportingMethod = $this->getReportingMethodConfigurationService()->getReportingMethodByName($reportingMethodName);
 
         if (empty($supervisorId) || empty($reportingMethodName)) {
@@ -193,6 +191,18 @@ class EmployeeSupervisorAPI extends EndPoint
             self::PARAMETER_SUPERVISOR_ID => array('NotEmpty' => true, 'Length' => array(1, 10)),
             self::PARAMETER_REPORTING_METHOD => array('StringType' => true, 'NotEmpty' => true),
         );
+
+    }
+
+    public function getFilters(){
+
+        $filters[] = array();
+
+        $filters[self::PARAMETER_ID] = $this->getRequestParams()->getUrlParam(self::PARAMETER_ID);
+        $filters[self::PARAMETER_SUPERVISOR_ID] = $this->getRequestParams()->getPostParam(self::PARAMETER_SUPERVISOR_ID);
+        $filters[self::PARAMETER_REPORTING_METHOD] = $this->getRequestParams()->getPostParam(self::PARAMETER_REPORTING_METHOD);
+
+        return $filters;
 
     }
 

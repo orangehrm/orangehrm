@@ -98,7 +98,6 @@ class EmployeeEventAPI extends EndPoint
      */
     protected function getParameters()
     {
-
         $fromDate = $this->getRequestParams()->getUrlParam(self::PARAMETER_FROM_DATE);
         $toDate = $this->getRequestParams()->getUrlParam(self::PARAMETER_TO_DATE);
         $dateRange = new \DateRange($fromDate, $toDate);

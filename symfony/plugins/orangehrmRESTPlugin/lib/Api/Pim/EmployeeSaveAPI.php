@@ -52,7 +52,6 @@ class EmployeeSaveAPI extends EndPoint
      */
     public function saveEmployee()
     {
-        $relationsArray = array();
         $returned = null;
         $filters = $this->filterParameters();
         $employee = null;
@@ -90,9 +89,7 @@ class EmployeeSaveAPI extends EndPoint
      */
     private function buildEmployee($filters)
     {
-
         $employee = new \Employee();
-
 
         if (!empty($filters[self::PARAMETER_FIRST_NAME])) {
 
@@ -114,7 +111,6 @@ class EmployeeSaveAPI extends EndPoint
 
         $employee->setEmployeeId($filters[self::PARAMETER_EMPLOYEE_ID]);
 
-
         return $employee;
     }
 
@@ -122,7 +118,7 @@ class EmployeeSaveAPI extends EndPoint
     {
         return array(
             self::PARAMETER_FIRST_NAME => array('StringType' => true, 'NotEmpty' => true, 'Length' => array(1, 30)),
-            self::PARAMETER_MIDDLE_NAME => array('StringType' => true, 'Length' => array(1, 30)),
+            self::PARAMETER_MIDDLE_NAME => array('StringType' => true,  'Length' => array(1, 30)),
             self::PARAMETER_LAST_NAME => array('StringType' => true, 'NotEmpty' => true, 'Length' => array(1, 30)),
             self::PARAMETER_EMPLOYEE_ID => array('StringType' => true, 'Length' => array(1, 10))
         );
@@ -136,7 +132,6 @@ class EmployeeSaveAPI extends EndPoint
      */
     protected function filterParameters()
     {
-
         $filters[] = array();
 
         if (!empty($this->getRequestParams()->getPostParam(self::PARAMETER_FIRST_NAME))) {
@@ -164,7 +159,6 @@ class EmployeeSaveAPI extends EndPoint
      */
     protected function getEmployeeService()
     {
-
         if ($this->employeeService != null) {
             return $this->employeeService;
         } else {

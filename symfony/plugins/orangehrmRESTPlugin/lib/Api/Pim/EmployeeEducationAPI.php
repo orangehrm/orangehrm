@@ -22,20 +22,36 @@ namespace Orangehrm\Rest\Api\Pim;
 use Orangehrm\Rest\Api\EndPoint;
 use Orangehrm\Rest\Api\Exception\BadRequestException;
 use Orangehrm\Rest\Api\Exception\RecordNotFoundException;
-use Orangehrm\Rest\Api\Pim\Entity\WorkExperience;
+use Orangehrm\Rest\Api\Pim\Entity\Education;
 use Orangehrm\Rest\Http\Response;
 
-class EmployeeWorkExperienceAPI extends EndPoint
+class EmployeeEducationAPI extends EndPoint
 {
 
     const PARAMETER_ID = "id";
-    const PARAMETER_COMPANY = "company";
-    const PARAMETER_JOB_TITLE= "title";
+    const PARAMETER_LEVEL = "company";
+    const PARAMETER_INSTITUTE = "title";
+    const PARAMETER_GPA = "fromDate";
     const PARAMETER_FROM_DATE = "fromDate";
-    const PARAMETER_TO_DATE = "toDate";
-    const PARAMETER_SEQ_ID = "seqId";
-    const PARAMETER_COMMENT = 'comment';
+    const PARAMETER_TO_DATE = "startDate";
+    const PARAMETER_SEQ_ID = "endDate";
+    const PARAMETER_YEAR = 'comment';
+    const PARAMETER_SPECIALIZATION = 'specialization';
 
+    private $educationService;
+
+    public function getEducationService() {
+
+        if (!($this->educationService instanceof \EducationService)) {
+            $this->educationService = new \EducationService();
+        }
+
+        return $this->educationService;
+    }
+
+    public function setEducationService($educationService) {
+        $this->educationService = $educationService;
+    }
 
     /**
      * @return \EmployeeService|null
@@ -59,39 +75,38 @@ class EmployeeWorkExperienceAPI extends EndPoint
     }
 
     /**
-     * Get Employee work experience
+     * Get employee education
      *
      * @return Response
-     * @throws RecordNotFoundException
      */
-    public function getEmployeeWorkExperience()
+    public function getEmployeeEducation()
     {
         $responseArray = null;
         $empId = $this->getRequestParams()->getUrlParam(self::PARAMETER_ID);
         $this->validateEmployee($empId);
-        $experienceRecords = $this->getEmployeeService()->getEmployeeWorkExperienceRecords($empId);
-        foreach ($experienceRecords as $experience) {
-            $experienceEntity = new WorkExperience();
-            $experienceEntity->build($experience);
-            $responseArray[] = $experienceEntity->toArray();
+        $educationRecords  = $this->getEmployeeService()->getEmployeeEducations($empId);
+        foreach ($educationRecords as $education) {
+            $educationEntity = new Education();
+            $educationEntity->build($education);
+            $responseArray[] = $educationEntity->toArray();
         }
         return new Response($responseArray, array());
     }
 
     /**
-     * Save employee work experience
+     * Save employee education
      *
      * @return Response
      * @throws BadRequestException
      */
-    public function saveEmployeeWorkExperience()
+    public function saveEmployeeEducation()
     {
         $filters = $this->getFilterParameters();
-        $workExperience = $this->buildEmployeeWorkExperience($filters);
-        $result = $this->getEmployeeService()->saveEmployeeWorkExperience($workExperience);
+        $education = $this->buildEmployeeEducation($filters);
+        $result = $this->getEmployeeService()->saveEmployeeEducation($education);
 
-        if ($result instanceof \EmpWorkExperience) {
-            return new Response(array('success' => 'Successfully Saved', 'seqId' => $result->getSeqno() ));
+        if ($result instanceof \EmployeeEducation) {
+            return new Response(array('success' => 'Successfully Saved', 'seqId' => $result->getId() ));
         } else {
             throw new BadRequestException("Saving Failed");
         }
@@ -99,20 +114,20 @@ class EmployeeWorkExperienceAPI extends EndPoint
     }
 
     /**
-     * Update Employee work experience
+     * Update employee education
      *
      * @return Response
      * @throws BadRequestException
      */
-    public function updateEmployeeWorkExperience()
+    public function updateEmployeeEducation()
     {
         $filters = $this->getFilterParameters();
         $this->validateEmployee($filters[self::PARAMETER_ID]);
-        $experienceRecord = $this->getEmployeeService()->getEmployeeWorkExperienceRecords($filters[self::PARAMETER_ID], $filters[self::PARAMETER_SEQ_ID]);
-        $this->validateWorkExperience($experienceRecord);
-        $result = $this->getEmployeeService()->saveEmployeeWorkExperience($this->buildEmployeeWorkExperience($filters,$experienceRecord));
+        $educationRecord = $this->getEmployeeService()->getEmployeeEducations($filters[self::PARAMETER_ID], $filters[self::PARAMETER_SEQ_ID]);
+        $this->validateEducation($educationRecord);
+        $result = $this->getEmployeeService()->saveEmployeeEducation($this->buildEmployeeEducation($filters,$educationRecord));
 
-        if ($result instanceof \EmpWorkExperience) {
+        if ($result instanceof \EmployeeEducation) {
             return new Response(array('success' => 'Successfully Updated', 'seqId' => $result->getSeqno() ));
         } else {
             throw new BadRequestException("Updating Failed");
@@ -120,18 +135,18 @@ class EmployeeWorkExperienceAPI extends EndPoint
     }
 
     /**
-     * Delete employee work experience
+     * Delete employee education
      *
      * @return Response
      * @throws BadRequestException
      */
-    public function deleteEmployeeWorkExperience()
+    public function deleteEmployeeEducation()
     {
         $filters = $this->getFilterParameters();
         $this->validateEmployee($filters[self::PARAMETER_ID]);
-        $experienceRecord = $this->getEmployeeService()->getEmployeeWorkExperienceRecords($filters[self::PARAMETER_ID], $filters[self::PARAMETER_SEQ_ID]);
-        $this->validateWorkExperience($experienceRecord);
-        $result = $this->getEmployeeService()->deleteEmployeeWorkExperienceRecords($filters[self::PARAMETER_ID], array($filters[self::PARAMETER_SEQ_ID]));
+        $educationRecord = $this->getEmployeeService()->getEmployeeEducations($filters[self::PARAMETER_ID], $filters[self::PARAMETER_SEQ_ID]);
+        $this->validateEducation($educationRecord);
+        $result = $this->getEmployeeService()->deleteEmployeeEducationRecords($filters[self::PARAMETER_ID], array($filters[self::PARAMETER_SEQ_ID]));
 
         if($result === 1){
             return new Response(array('success' => 'Successfully Deleted' ));
@@ -151,11 +166,12 @@ class EmployeeWorkExperienceAPI extends EndPoint
     {
         $filters[] = array();
 
-        $filters[self::PARAMETER_COMPANY] = $this->getPostParam(self::PARAMETER_COMPANY,$this->getRequestParams());
-        $filters[self::PARAMETER_FROM_DATE] = $this->getPostParam(self::PARAMETER_FROM_DATE,$this->getRequestParams());
+        $filters[self::PARAMETER_LEVEL] = $this->getPostParam(self::PARAMETER_LEVEL,$this->getRequestParams());
         $filters[self::PARAMETER_TO_DATE] = $this->getPostParam(self::PARAMETER_TO_DATE,$this->getRequestParams());
-        $filters[self::PARAMETER_COMMENT] = $this->getPostParam(self::PARAMETER_COMMENT,$this->getRequestParams());
-        $filters[self::PARAMETER_JOB_TITLE] = $this->getPostParam(self::PARAMETER_JOB_TITLE,$this->getRequestParams());
+        $filters[self::PARAMETER_FROM_DATE] = $this->getPostParam(self::PARAMETER_FROM_DATE,$this->getRequestParams());
+        $filters[self::PARAMETER_INSTITUTE] = $this->getPostParam(self::PARAMETER_INSTITUTE,$this->getRequestParams());
+        $filters[self::PARAMETER_GPA] = $this->getPostParam(self::PARAMETER_GPA,$this->getRequestParams());
+        $filters[self::PARAMETER_SPECIALIZATION] = $this->getPostParam(self::PARAMETER_SPECIALIZATION,$this->getRequestParams());
         $filters[self::PARAMETER_SEQ_ID] = $this->getPostParam(self::PARAMETER_SEQ_ID,$this->getRequestParams());
         $filters[self::PARAMETER_ID] = $this->getRequestParams()->getUrlParam(self::PARAMETER_ID);
 
@@ -179,43 +195,45 @@ class EmployeeWorkExperienceAPI extends EndPoint
     }
 
     /**
-     * Build Employee work experience
+     * Build employee education
      *
      * @param $filters
-     * @return \EmpWorkExperience
+     * @param null $employeeEducation
+     * @return \EmployeeEducation|null
      */
-    protected function buildEmployeeWorkExperience($filters, $employeeWorkExperience = null)
+    protected function buildEmployeeEducation($filters, $employeeEducation = null)
     {
-        if($employeeWorkExperience == null) {
+        if($employeeEducation == null) {
 
-            $employeeWorkExperience = new \EmpWorkExperience();
+            $employeeEducation = new \EmployeeEducation();
+        }
+        if(!empty($filters[self::PARAMETER_SEQ_ID])){
+            $employeeEducation->setEducationId($filters[self::PARAMETER_SEQ_ID]);
         }
 
-        if(!empty($filters[self::PARAMETER_COMPANY])){
-            $employeeWorkExperience->setEmployer($filters[self::PARAMETER_COMPANY]);
+        if(!empty($filters[self::PARAMETER_INSTITUTE])){
+            $employeeEducation->setInstitute($filters[self::PARAMETER_INSTITUTE]);
         }
         if(!empty($filters[self::PARAMETER_FROM_DATE])){
-            $employeeWorkExperience->setFromDate($filters[self::PARAMETER_FROM_DATE]);
+            $employeeEducation->setStartDate($filters[self::PARAMETER_FROM_DATE]);
         }
         if(!empty($filters[self::PARAMETER_TO_DATE])){
-            $employeeWorkExperience->setToDate($filters[self::PARAMETER_TO_DATE]);
+            $employeeEducation->setEndDate($filters[self::PARAMETER_TO_DATE]);
         }
-        if(!empty($filters[self::PARAMETER_JOB_TITLE])){
-            $employeeWorkExperience->setJobtitle($filters[self::PARAMETER_JOB_TITLE]);
+        if(!empty($filters[self::PARAMETER_GPA])){
+            $employeeEducation->setScore($filters[self::PARAMETER_GPA]);
         }
-        if(!empty($filters[self::PARAMETER_COMMENT])){
-            $employeeWorkExperience->setComments($filters[self::PARAMETER_COMMENT]);
+        if(!empty($filters[self::PARAMETER_SPECIALIZATION])){
+            $employeeEducation->setMajor($filters[self::PARAMETER_SPECIALIZATION]);
         }
-        $employeeWorkExperience->setEmpNumber($filters[self::PARAMETER_ID]);
+        if(!empty($filters[self::PARAMETER_YEAR])){
+            $employeeEducation->setYear($filters[self::PARAMETER_YEAR]);
+        }
+        $employeeEducation->setEmpNumber($filters[self::PARAMETER_ID]);
 
 
-        return $employeeWorkExperience;
+        return $employeeEducation;
     }
-
-    /**
-     *  GET|DEL validation rules are handled from the code itself
-     *  so no validation rules written here
-     */
 
     /**
      * Validation rules ( POST )
@@ -227,9 +245,9 @@ class EmployeeWorkExperienceAPI extends EndPoint
         return array(
             self::PARAMETER_FROM_DATE => array('Date' => array('Y-m-d')),
             self::PARAMETER_TO_DATE => array('Date' => array('Y-m-d')),
-            self::PARAMETER_COMPANY => array('StringType' => true, 'NotEmpty' => true,'Length' => array(1,100)),
-            self::PARAMETER_JOB_TITLE => array('StringType' => true, 'NotEmpty' => true,'Length' => array(1,100)),
-            self::PARAMETER_COMMENT => array('Length' => array(0, 200)),
+            self::PARAMETER_GPA => array('StringType' => true, 'NotEmpty' => true,'Length' => array(1,100)),
+            self::PARAMETER_INSTITUTE => array('StringType' => true, 'NotEmpty' => true,'Length' => array(1,100)),
+
         );
     }
 
@@ -244,9 +262,8 @@ class EmployeeWorkExperienceAPI extends EndPoint
         return array(
             self::PARAMETER_FROM_DATE => array('Date' => array('Y-m-d')),
             self::PARAMETER_TO_DATE => array('Date' => array('Y-m-d')),
-            self::PARAMETER_COMPANY => array('StringType' => true, 'NotEmpty' => true,'Length' => array(1,100)),
-            self::PARAMETER_JOB_TITLE => array('StringType' => true, 'NotEmpty' => true,'Length' => array(1,100)),
-            self::PARAMETER_COMMENT => array('Length' => array(0, 200)),
+            self::PARAMETER_GPA => array('StringType' => true, 'NotEmpty' => true,'Length' => array(1,100)),
+            self::PARAMETER_INSTITUTE => array('StringType' => true, 'NotEmpty' => true,'Length' => array(1,100)),
         );
     }
 
@@ -265,15 +282,15 @@ class EmployeeWorkExperienceAPI extends EndPoint
     }
 
     /**
-     * Check for valid work experience objects
+     * Validate employee education
      *
-     * @param $WorkExperience
+     * @param $employeeEducation
      * @throws BadRequestException
      */
-    protected function validateWorkExperience($WorkExperience){
+    protected function validateEducation($employeeEducation){
 
-        if (!$WorkExperience instanceof \EmpWorkExperience) {
-            throw new BadRequestException("Work Experience Record Not Found");
+        if (!$employeeEducation instanceof \EmployeeEducation) {
+            throw new BadRequestException("Employee Education Record Not Found");
         }
     }
 

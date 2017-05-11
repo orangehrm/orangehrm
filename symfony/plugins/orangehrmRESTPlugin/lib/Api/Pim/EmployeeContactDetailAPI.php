@@ -59,7 +59,6 @@ class EmployeeContactDetailAPI extends EndPoint
      */
     protected function getEmployeeService()
     {
-
         if ($this->employeeService != null) {
             return $this->employeeService;
         } else {
@@ -93,7 +92,6 @@ class EmployeeContactDetailAPI extends EndPoint
      */
     public function getEmployeeContactDetails()
     {
-
         $responseArray = null;
         $empId = $this->getRequestParams()->getUrlParam(self::PARAMETER_ID);
 
@@ -173,7 +171,6 @@ class EmployeeContactDetailAPI extends EndPoint
             throw new BadRequestException("Employee Not Found");
         }
 
-
     }
 
     /**
@@ -243,27 +240,16 @@ class EmployeeContactDetailAPI extends EndPoint
 
         $filters[] = array();
 
-
         $filters[self::PARAMETER_ADDRESS_STREET_1] = $this->getRequestParams()->getPostParam(self::PARAMETER_ADDRESS_STREET_1);
-
         $filters[self::PARAMETER_ADDRESS_STREET_2] = $this->getRequestParams()->getPostParam(self::PARAMETER_ADDRESS_STREET_2);
-
         $filters[self::PARAMETER_MOBILE] = $this->getRequestParams()->getPostParam(self::PARAMETER_MOBILE);
-
         $filters[self::PARAMETER_WORK_EMAIL] = $this->getRequestParams()->getPostParam(self::PARAMETER_WORK_EMAIL);
-
         $filters[self::PARAMETER_COUNTRY] = $this->getRequestParams()->getPostParam(self::PARAMETER_COUNTRY);
-
         $filters[self::PARAMETER_CITY] = $this->getRequestParams()->getPostParam(self::PARAMETER_CITY);
-
         $filters[self::PARAMETER_STATE] = $this->getRequestParams()->getPostParam(self::PARAMETER_STATE);
-
         $filters[self::PARAMETER_ZIP] = $this->getRequestParams()->getPostParam(self::PARAMETER_ZIP);
-
         $filters[self::PARAMETER_HOME_TELEPHONE] = $this->getRequestParams()->getPostParam(self::PARAMETER_HOME_TELEPHONE);
-
         $filters[self::PARAMETER_WORK_TELEPHONE] = $this->getRequestParams()->getPostParam(self::PARAMETER_WORK_TELEPHONE);
-
         $filters[self::PARAMETER_OTHER_EMAIL] = $this->getRequestParams()->getPostParam(self::PARAMETER_OTHER_EMAIL);
 
         if (!empty($this->getRequestParams()->getUrlParam(self::PARAMETER_ID))) {
