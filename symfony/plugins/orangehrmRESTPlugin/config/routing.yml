@@ -47,11 +47,18 @@ api_employee_supervisor:
     sf_method: [get, post, put, delete]
 
 api_employee_work_experiece:
-   url: /api/v1/employee/:id/work-experience
-   param: { module:apiv1pim, action:EmployeeWorkExperienceApi }
-   requirements:
-     id: \d+
-     sf_method: [get, post, put, delete]
+  url: /api/v1/employee/:id/work-experience
+  param: { module:apiv1pim, action:EmployeeWorkExperienceApi }
+  requirements:
+    id: \d+
+    sf_method: [get, post, put, delete]
+
+api_employee_education:
+  url: /api/v1/employee/:id/education
+  param: { module:apiv1pim, action:EmployeeEducationApi }
+  requirements:
+    id: \d+
+    sf_method: [get, post, put, delete]
 
 api_employee_event:
   url: /api/v1/employee/event
