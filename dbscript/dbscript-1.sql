@@ -2026,7 +2026,7 @@ CREATE TABLE `ohrm_employee_event` (
   `created_date` datetime DEFAULT NULL,
   `created_by` varchar(45) DEFAULT NULL,
   PRIMARY KEY (`event_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=24 DEFAULT CHARSET=utf8 ;
+) ENGINE=InnoDB ;
 
 INSERT INTO ohrm_screen ( `name`, `module_id`, `action_url`) VALUES ( 'Register OAuth Client', 2, 'registerOAuthClient');
 SET @oauth_client_screen_id := (SELECT LAST_INSERT_ID());
