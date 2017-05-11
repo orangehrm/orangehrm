@@ -40,7 +40,7 @@ class SchemaIncrementTask64 extends SchemaIncrementTask {
                   `created_date` datetime DEFAULT NULL,
                   `created_by` varchar(45) DEFAULT NULL,
                   PRIMARY KEY (`event_id`)
-                ) ENGINE=InnoDB AUTO_INCREMENT=24 DEFAULT CHARSET=latin1;';
+                ) ENGINE=InnoDB;';
 
 
          $sql[] = 'INSERT INTO ohrm_screen ( `name`, `module_id`, `action_url`) VALUES ( \'Register OAuth Client\', 2, \'registerOAuthClient\');';
