@@ -11,7 +11,28 @@
  * @author orangehrm
  */
 class registerOAuthClientAction extends sfAction {
-    
+
+    protected $oAuthService;
+
+    /**
+     * @return mixed
+     */
+    public function getOAuthService()
+    {
+        if($this->oAuthService == null){
+            $this->oAuthService =  new OAuthService();
+        }
+        return $this->oAuthService;
+    }
+
+    /**
+     * @param mixed $oAuthService
+     */
+    public function setOAuthService($oAuthService)
+    {
+        $this->oAuthService = $oAuthService;
+    }
+
     /**
      * return true if the logged in user is authorized to add new oauth clients flase otherwise
      * @return boolean 
@@ -37,15 +58,32 @@ class registerOAuthClientAction extends sfAction {
     
     public function execute($request) {  
         $form = new OAuthClientRegistrationForm();
+        $oauthClients = $this->getOAuthService()->listOAuthClients();
+
+
+        $this->setListComponent($oauthClients);
+
         if($request->isMethod(sfWebRequest::POST)){ 
             $form->bind($request->getPostParameter($form->getName()));
             if($form->isValid()){
+
                 // code to handle form submission
                 $values = $form->getValues();
-                $client = new OAuthClient();
-                $client->setClientId($values['client_id']);
-                $client->setClientSecret($values['client_secret']);
-                $client->setRedirectUri($values['redirect_uri']);
+                $client = $this->getOAuthService()->getOAuthClient($values['client_id']);
+
+                if($client instanceof OAuthClient ){
+
+                    $client->setClientSecret($values['client_secret']);
+                    $client->setRedirectUri($values['redirect_uri']);
+
+                } else {
+
+                    $client = new OAuthClient();
+                    $client->setClientId($values['client_id']);
+                    $client->setClientSecret($values['client_secret']);
+                    $client->setRedirectUri($values['redirect_uri']);
+                }
+
                 try{
                     $client->save();  
                     $this->getUser()->setFlash("success", __("OAuth Client Saved Successfully"), false);
@@ -69,6 +107,42 @@ class registerOAuthClientAction extends sfAction {
 //        $q->from('OAuthClient')->fetchOne();
         return false;
     }
+
+
+    private function setListComponent($clientList) {
+
+        $configurationFactory = new OAuthClientHeaderListConfigurationFactory();
+        $runtimeDefinitions = $this->setRuntimeDefinitions();
+        $configurationFactory->setRuntimeDefinitions($runtimeDefinitions);
+        ohrmListComponent::setConfigurationFactory($configurationFactory);
+        ohrmListComponent::setListData($clientList);
+    }
+
+
+    private function setRuntimeDefinitions(){
+        $runtimeDefinitions = array();
+        $buttons = array();
+
+        $runtimeDefinitions['hasSelectableRows'] = true;
+        $runtimeDefinitions['idValueGetter'] = 'getClientId';
+        $buttons['Delete'] = array('label' => 'Delete',
+            'type' => 'submit',
+            'data-toggle' => 'modal',
+            'data-target' => '#deleteConfModal',
+            'class' => 'delete');
+
+        $runtimeDefinitions['buttons'] = $buttons;
+        $runtimeDefinitions['buttonsPosition'] = 'before-data';
+        $runtimeDefinitions['title'] = 'OAuth Client List';
+
+        $runtimeDefinitions['formMethod']='post';
+        $runtimeDefinitions['formAction'] ='admin/deleteOAuthClient';
+        $runtimeDefinitions['hasSummary']= false;
+        return $runtimeDefinitions;
+    }
+
+
+
 }
 
 ?>

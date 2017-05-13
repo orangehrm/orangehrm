@@ -1,6 +1,21 @@
+<style>
+    .selected {
+        background-color: brown;
+        color: #FFF;
+    }
+</style>
+
 <div class="box">
 
+    <?php
+    use_javascript(plugin_web_path('orangehrmCoreOAuthPlugin', 'js/registerOAuthClientSuccess'));
+    ?>
+
 <?php if (!$authorized) { ?>
+
+    <?php
+    use_javascript(plugin_web_path('orangehrmCoreOAuthPlugin', 'js/registerOAuthClientSuccess'));
+    ?>
 
 <div class="message warning">
     <?php echo __(CommonMessages::CREDENTIALS_REQUIRED) ?> 
@@ -27,18 +42,38 @@
                 </ol>
                 <ol>
                     <li style="float: left;width: 425px;margin-top: 9px;font-size: 12px;" >
-                        <p> <b>API Documentation : </b> <a  target="_blank"  href="https://orangehrm.github.io/orangehrm-api-doc/"> API Documentation</a>.</p>
+                        <p> <b>API Documentation : </b> <a  target="_blank"  href="https://orangehrm.github.io/orangehrm-api-doc/"> [ https://orangehrm.github.io/orangehrm-api-doc ]</a>.</p>
                         <br>
-                        <p><b>PHP Sample App :</b><a  target="_blank"  href="https://github.com/orangehrm/api-sample-app-php"> Notification Dashboard</a>.</p>
+                        <p><b>PHP Sample App :</b><a  target="_blank"  href="https://github.com/orangehrm/api-sample-app-php">[ https://github.com/orangehrm/api-sample-app-php ]</a>.</p>
                     </li>
                 </ol>
                 <p>
                     <input type="submit" class="" id="btnSave" value="<?php echo __("Save"); ?>"  />
+                    <input type="button" id = "resetOauth" onclick="resetFields()" class="btn reset"  value="<?php echo __('Cancel'); ?>" />
                 </p>
             </fieldset>
         </form>
+
     </div>
 
+    <div id="clientList">
+        <!-- List component -->
+        <?php include_component('core', 'ohrmList'); ?>
+    </div>
+    <!-- Confirmation box HTML: Begins -->
+    <div class="modal hide" id="deleteConfModal">
+        <div class="modal-header">
+            <a class="close" data-dismiss="modal">×</a>
+            <h3><?php echo __('OrangeHRM - Confirmation Required'); ?></h3>
+        </div>
+        <div class="modal-body">
+            <p><?php echo __(CommonMessages::DELETE_CONFIRMATION); ?></p>
+        </div>
+        <div class="modal-footer">
+            <input type="button" class="btn" data-dismiss="modal" id="dialogDeleteBtn" value="<?php echo __('Ok'); ?>" />
+            <input type="button" class="btn reset" data-dismiss="modal" value="<?php echo __('Cancel'); ?>" />
+        </div>
+    </div>
 <?php } ?>
     
 </div>

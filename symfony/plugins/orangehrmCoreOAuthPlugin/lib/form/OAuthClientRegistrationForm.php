@@ -24,7 +24,8 @@ class OAuthClientRegistrationForm extends sfForm {
         $widgets = array(
             'client_id' => new sfWidgetFormInputText(),
             'client_secret' => new sfWidgetFormInputText(),
-            'redirect_uri' => new sfWidgetFormInputText()
+            'redirect_uri' => new sfWidgetFormInputText(),
+            'client_update' => new sfWidgetFormInputText()
         );
         return $widgets;
     }
@@ -33,7 +34,8 @@ class OAuthClientRegistrationForm extends sfForm {
         $validators = array(
             'client_id' => new sfValidatorString(array('required' => true)),
             'client_secret' => new sfValidatorString(array('required' => true)),
-            'redirect_uri' => new sfValidatorString(array('required' => false))
+            'redirect_uri' => new sfValidatorString(array('required' => false)),
+            'client_update' => new sfValidatorString(array('required' => false))
         );
         return $validators;
     }
@@ -42,7 +44,9 @@ class OAuthClientRegistrationForm extends sfForm {
         $labels = array(
             'client_id' => __("ID") . " <em>*</em>",
             'client_secret' => __("Secret") . " <em>*</em>",
-            'redirect_uri' => __("Redirect URI")
+            'redirect_uri' => __("Redirect URI"),
+            'client_update' => __(" ")
+
         );
         return $labels;
     }
