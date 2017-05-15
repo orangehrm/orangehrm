@@ -54,7 +54,7 @@ class SchemaIncrementTask64 extends SchemaIncrementTask {
         $sql[] = 'SET @max_order := (SELECT MAX(`order_hint`) FROM ohrm_menu_item WHERE parent_id = @configuration_id);';
 
         $sql[] = 'INSERT INTO ohrm_menu_item ( `menu_title`, `screen_id`, `parent_id`, `level`, `order_hint`, `url_extras`, `status`) VALUES 
-                     (\'Social Media Authentication\', @oauth_client_screen_id, @configuration_id, 3, @max_order+100, NULL, 1);';
+                     (\'Register OAuth Client\', @oauth_client_screen_id, @configuration_id, 3, @max_order+100, NULL, 1);';
 
         $sql[] = 'INSERT INTO ohrm_user_role_screen (user_role_id, screen_id, can_read, can_create, can_update, can_delete) VALUES  
                       (1, @oauth_client_screen_id, 1, 1, 1, 0);';
