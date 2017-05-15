@@ -79,6 +79,20 @@ api_leave_request:
      id: \d+
      sf_method: [get,post]
 
+api_employee_custom_field:
+  url: /api/v1/employee/:id/custom-field
+  param: { module:apiv1pim, action:EmployeeCustomFieldApi }
+  requirements:
+     id: \d+
+     sf_method: [get,post,put,del]
+
+api_custom_field:
+  url: /api/v1/custom-field
+  param: { module:apiv1pim, action:CustomFieldApi }
+  requirements:
+     id: \d+
+     sf_method: [get]
+
 api_search_leave_request:
   url: /api/v1/leave/search
   param: { module:apiv1leave, action:SearchLeaveRequestApi }
