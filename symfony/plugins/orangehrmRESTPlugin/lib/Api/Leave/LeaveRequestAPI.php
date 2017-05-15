@@ -155,7 +155,7 @@ class LeaveRequestAPI extends EndPoint
         $filters = $this->filterParameters();
         $this->validateInputs($filters);
 
-        $searchParams =$this->createParameters($filters);
+        $searchParams = $this->createParameters($filters);
 
         $result = $this->getLeaveRequestService()->searchLeaveRequests($searchParams, 0, false, false,
             true, true);
@@ -169,15 +169,13 @@ class LeaveRequestAPI extends EndPoint
             $leaveRequest->setLeaveBalance(number_format((float)$leaveBalance->balance, 2, '.', ''));
             $response [] = $leaveRequest->toArray();
 
-
         }
 
         if (empty($response)) {
             throw new RecordNotFoundException('No Records Found');
         }
+
         return new Response($response, array());
-
-
     }
 
     /**
@@ -233,7 +231,6 @@ class LeaveRequestAPI extends EndPoint
      */
     protected function filterParameters()
     {
-
         $filters[] = array();
 
         $filters[self::PARAMETER_ID] = $this->getRequestParams()->getUrlParam(self::PARAMETER_ID);
@@ -285,7 +282,6 @@ class LeaveRequestAPI extends EndPoint
      */
     protected function getStatusesArray($filter)
     {
-
         $statusIdArray = null;
         if (!empty($filter[self::PARAMETER_TAKEN]) && $filter[self::PARAMETER_TAKEN] == 'true') {
             $statusIdArray[] = \PluginLeave::LEAVE_STATUS_LEAVE_TAKEN;
@@ -330,7 +326,7 @@ class LeaveRequestAPI extends EndPoint
     }
 
     /**
-     * pass employee filter
+     * Past employee filter
      *
      * @param $pastEmp
      * @return bool
@@ -343,21 +339,21 @@ class LeaveRequestAPI extends EndPoint
     public function getValidationRules()
     {
         return array(
-            self::PARAMETER_TO_DATE => array('NotEmpty'=> true,'Date' => array('Y-m-d')),
-            self::PARAMETER_FROM_DATE => array( 'NotEmpty'=> true,'Date' => array('Y-m-d')),
+            self::PARAMETER_TO_DATE => array('NotEmpty' => true, 'Date' => array('Y-m-d')),
+            self::PARAMETER_FROM_DATE => array('NotEmpty' => true, 'Date' => array('Y-m-d')),
 
         );
     }
 
     protected function createParameters($filters)
     {
-
         $parameters = array();
         $fromDate = $filters[self::PARAMETER_FROM_DATE];
         $employee = $this->getEmployeeService()->getEmployee($filters[self::PARAMETER_ID]);
         $toDate = $filters[self::PARAMETER_TO_DATE];
         $parameters['dateRange'] = new \DateRange($fromDate, $toDate);
         $parameters['statuses'] = $this->getStatusesArray($filters);
+
         if (!empty($employee)) {
             $parameters['employeeFilter'] = array($employee->getEmpNumber());
         }
@@ -367,7 +363,6 @@ class LeaveRequestAPI extends EndPoint
         $parameters['subUnit'] = $this->subunit;
 
         return new \ParameterObject($parameters);
-
     }
 
 }

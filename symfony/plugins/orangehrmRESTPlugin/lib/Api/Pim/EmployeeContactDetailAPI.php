@@ -34,6 +34,7 @@ class EmployeeContactDetailAPI extends EndPoint
      */
     protected $employeeService;
     protected $countryService;
+    private $employeeEventService;
 
     const PARAMETER_ID = "id";
 
@@ -82,6 +83,28 @@ class EmployeeContactDetailAPI extends EndPoint
     {
         $this->employeeService = $employeeService;
     }
+    /**
+     * Get employee event service
+     *
+     * @return \EmployeeEventService
+     */
+    private function getEmployeeEventService() {
+
+        if(is_null($this->employeeEventService)) {
+            $this->employeeEventService = new \EmployeeEventService();
+        }
+
+        return $this->employeeEventService;
+    }
+
+    /**
+     * @param mixed $employeeEventService
+     */
+    public function setEmployeeEventService($employeeEventService)
+    {
+        $this->employeeEventService = $employeeEventService;
+    }
+
 
     /**
      * Get employee contact details
@@ -135,8 +158,12 @@ class EmployeeContactDetailAPI extends EndPoint
 
             if (!($returnedEmployee instanceof \Employee)) {
                 throw new BadRequestException("Saving Failed");
+            } else {
+                $this->getEmployeeEventService()->saveEvent($returnedEmployee->getEmpNumber(),\PluginEmployeeEvent::EVENT_TYPE_CONTACT_DETAIL,\PluginEmployeeEvent::EVENT_UPDATE,'Updating Contact Details','API');
+                return new Response(array('success' => 'Successfully Saved'));
             }
-            return new Response(array('success' => 'Successfully Saved'));
+
+
         } else {
             throw new BadRequestException("Employee Not Found");
         }
@@ -165,8 +192,10 @@ class EmployeeContactDetailAPI extends EndPoint
 
             if (!($returnedEmployee instanceof \Employee)) {
                 throw new BadRequestException("Updating Failed");
+            }else {
+                $this->getEmployeeEventService()->saveEvent($returnedEmployee->getEmpNumber(),\PluginEmployeeEvent::EVENT_TYPE_CONTACT_DETAIL,\PluginEmployeeEvent::EVENT_UPDATE,'Updating Contact Details','API');
+                return new Response(array('success' => 'Successfully Updated'));
             }
-            return new Response(array('success' => 'Successfully Updated'));
         } else {
             throw new BadRequestException("Employee Not Found");
         }

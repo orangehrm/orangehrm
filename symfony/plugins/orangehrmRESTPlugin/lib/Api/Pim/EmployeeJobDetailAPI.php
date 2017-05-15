@@ -42,6 +42,7 @@ class EmployeeJobDetailAPI extends EndPoint
     protected $jobTitleService;
     protected $categoryService;
     protected $filters;
+    private $employeeEventService;
 
     /**
      * @return mixed
@@ -75,6 +76,27 @@ class EmployeeJobDetailAPI extends EndPoint
     public function setEmployeeService($employeeService)
     {
         $this->employeeService = $employeeService;
+    }
+    /**
+     * Get employee event service
+     *
+     * @return \EmployeeEventService
+     */
+    private function getEmployeeEventService() {
+
+        if(is_null($this->employeeEventService)) {
+            $this->employeeEventService = new \EmployeeEventService();
+        }
+
+        return $this->employeeEventService;
+    }
+
+    /**
+     * @param mixed $employeeEventService
+     */
+    public function setEmployeeEventService($employeeEventService)
+    {
+        $this->employeeEventService = $employeeEventService;
     }
 
     /**
@@ -168,6 +190,7 @@ class EmployeeJobDetailAPI extends EndPoint
             $returnedEmployee = $this->getEmployeeService()->saveEmployee($employee);
 
             if ($returnedEmployee instanceof \Employee) {
+                $this->getEmployeeEventService()->saveEvent($returnedEmployee->getEmpNumber(),\PluginEmployeeEvent::EVENT_TYPE_JOB_DETAIL,\PluginEmployeeEvent::EVENT_UPDATE,'Updating Employee Job Details','API');
                 return new Response(array('success' => 'Successfully Saved'), $relationsArray);
             } else {
                 throw new BadRequestException("Saving Failed");

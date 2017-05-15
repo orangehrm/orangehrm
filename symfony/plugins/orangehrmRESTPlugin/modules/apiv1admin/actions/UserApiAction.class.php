@@ -29,7 +29,6 @@ class UserApiAction extends baseRestAction
     protected function init(Request $request)
     {
         $this->systemUserApi= new UserAPI($request);
-
     }
 
     protected function handleGetRequest(Request $request)
@@ -39,7 +38,6 @@ class UserApiAction extends baseRestAction
 
     protected function handlePostRequest(Request $request)
     {
-
         throw new NotImplementedException();
     }
 

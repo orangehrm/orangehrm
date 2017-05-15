@@ -35,9 +35,6 @@ class SaveLeaveRequestAPI extends EndPoint
     private $leaveTypeService;
     private $leaveAssignmentService;
 
-
-    private $subunit;
-
     /**
      * Constants
      */
@@ -76,7 +73,6 @@ class SaveLeaveRequestAPI extends EndPoint
     const AM = 'AM';
     const PM = 'PM';
 
-
     /**
      * @return \EmployeeService
      */
@@ -107,7 +103,6 @@ class SaveLeaveRequestAPI extends EndPoint
         } else {
             return $this->leaveTypeService;
         }
-
     }
 
     /**
@@ -116,22 +111,6 @@ class SaveLeaveRequestAPI extends EndPoint
     public function setLeaveTypeService($leaveTypeService)
     {
         $this->leaveTypeService = $leaveTypeService;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getSubunit()
-    {
-        return $this->subunit;
-    }
-
-    /**
-     * @param mixed $subunit
-     */
-    public function setSubunit($subunit)
-    {
-        $this->subunit = $subunit;
     }
 
     /**
@@ -156,9 +135,14 @@ class SaveLeaveRequestAPI extends EndPoint
         $this->leaveAssignmentService = $service;
     }
 
+    /**
+     * Save leave request
+     *
+     * @return Response
+     * @throws BadRequestException
+     */
     public function saveLeaveRequest()
     {
-
         $filters = $this->filterParameters();
         $leaveParameters = new \LeaveParameterObject($filters);
         if ($this->validateLeaveType($filters['txtLeaveType'])) {
@@ -175,20 +159,19 @@ class SaveLeaveRequestAPI extends EndPoint
         }
     }
 
-
     /**
-     * Filters
-     * partial days :: all ::
-     * @return array
+     * Filter parameters
+     *
+     * @return mixed
+     * @throws InvalidParamException
      */
     protected function filterParameters()
     {
-
         $filters['txtEmpID'] = $this->getRequestParams()->getUrlParam(self::PARAMETER_ID);;
         $filters['txtLeaveType'] = ($this->getRequestParams()->getPostParam(self::PARAMETER_LEAVE_TYPE));
         $filters['txtFromDate'] = ($this->getRequestParams()->getPostParam(self::PARAMETER_FROM_DATE));
         $filters['txtToDate'] = ($this->getRequestParams()->getPostParam(self::PARAMETER_TO_DATE));
-        $filters[self::PARAMETER_DURATION] = ($this->getRequestParams()->getPostParam(self::PARAMETER_DURATION));
+        $filters['duration'] = ($this->getRequestParams()->getPostParam(self::PARAMETER_DURATION));
         $filters['partialDays'] = ($this->getRequestParams()->getPostParam(self::PARAMETER_MULTIDAY_PARTIAL_OPTION));
         $filters['txtComment'] = ($this->getRequestParams()->getPostParam(self::PARAMETER_COMMENT));
         $filters['txtEmpWorkShift'] = '8';
@@ -214,14 +197,11 @@ class SaveLeaveRequestAPI extends EndPoint
                 $singleDayTo);
         } else {
 
-
-
             switch ($filters['partialDays'] ) {
 
                 case 'all':
                     $filters['firstDuration'] = $this->createDuration('First Day', $firstDayType, $firstDayAmpm,
-                        $firstDayFrom,
-                        $firstDayTo);;
+                        $firstDayFrom, $firstDayTo);
                           break;
                 case 'start':
                     $filters['firstDuration'] = $this->createDuration('First Day', $firstDayType, $firstDayAmpm,
@@ -229,15 +209,12 @@ class SaveLeaveRequestAPI extends EndPoint
                         $firstDayTo);;
                           break;
                 case 'end':
-                    $filters['secondDuration'] = $this->createDuration('Second Day', $secondDayType,
-                        $secondDayAmpm,
-                        $secondDayFrom,
-                        $secondDayTo);
+                    $filters['secondDuration'] = $this->createDuration('Second Day', $secondDayType, $secondDayAmpm,
+                        $secondDayFrom, $secondDayTo);
                           break;
                 case 'start_end':
                     $filters['firstDuration'] = $this->createDuration('First Day', $firstDayType, $firstDayAmpm,
-                        $firstDayFrom,
-                        $firstDayTo);
+                        $firstDayFrom, $firstDayTo);
                     $filters['secondDuration'] = $this->createDuration('Second Day', $secondDayType, $secondDayAmpm,
                         $secondDayFrom,
                         $secondDayTo);
@@ -248,18 +225,16 @@ class SaveLeaveRequestAPI extends EndPoint
 
         }
 
-
         return $filters;
     }
 
-
     /**
-     * pass employee filter
-     *
+     * Past employee validation
+     *     *
      * @param $pastEmp
      * @return bool
      */
-    public function validatePassEmployee($pastEmp)
+    public function validatePastEmployee($pastEmp)
     {
         return $pastEmp === 'true';
     }
@@ -271,8 +246,6 @@ class SaveLeaveRequestAPI extends EndPoint
             self::PARAMETER_FROM_DATE => array('Date' => array('Y-m-d')),
             self::PARAMETER_LEAVE_TYPE => array('IntVal' => true),
             self::PARAMETER_COMMENT => array('StringType' => true, 'Length' => array(1, 250))
-
-
         );
     }
 
@@ -285,7 +258,7 @@ class SaveLeaveRequestAPI extends EndPoint
      * @param $ampm
      * @param $from
      * @param $to
-     * @return null
+     * @return null ?
      * @throws InvalidParamException
      */
     protected function createDuration($durationName, $type, $ampm, $from, $to)
@@ -299,17 +272,16 @@ class SaveLeaveRequestAPI extends EndPoint
         $time['to'] = $to;
         $duration['time'] = $time;
 
-
         switch ($type ) {
 
             case 'half_day':
                 if (!(($ampm === self::AM) || ($ampm === self::PM))) {
-                    throw  new InvalidParamException("Please Add " . $durationName . " " . " AM or PM");
+                    throw  new InvalidParamException('Please Add  ' . $durationName .' AM or PM');
                 }
                 break;
             case 'specify_time':
                 if (empty($from) && empty($to)) {
-                    throw  new InvalidParamException("Please Add " . $durationName . " " . " From - To Values");
+                    throw  new InvalidParamException("Please Add " . $durationName . " From - To Values");
 
                 }
                 if(!$this->isValidTime( $time['from'])){
@@ -327,12 +299,10 @@ class SaveLeaveRequestAPI extends EndPoint
         }
 
         return $duration;
-
     }
 
     protected function validateLeaveType($typeId)
     {
-
         $leaveTypeList = $this->getLeaveTypeService()->getLeaveTypeList();
 
         foreach ($leaveTypeList as $leaveType) {

@@ -35,6 +35,7 @@ class EmployeeSupervisorAPI extends EndPoint
 
     private $reportingMethodConfigurationService;
     protected $employeeService;
+    private $employeeEventService;
 
 
     /**
@@ -53,6 +54,28 @@ class EmployeeSupervisorAPI extends EndPoint
     public function setEmployeeService($employeeService)
     {
         $this->employeeService = $employeeService;
+    }
+
+    /**
+     * Get employee event service
+     *
+     * @return \EmployeeEventService
+     */
+    private function getEmployeeEventService() {
+
+        if(is_null($this->employeeEventService)) {
+            $this->employeeEventService = new \EmployeeEventService();
+        }
+
+        return $this->employeeEventService;
+    }
+
+    /**
+     * @param mixed $employeeEventService
+     */
+    public function setEmployeeEventService($employeeEventService)
+    {
+        $this->employeeEventService = $employeeEventService;
     }
 
     public function getReportingMethodConfigurationService()
@@ -133,6 +156,8 @@ class EmployeeSupervisorAPI extends EndPoint
 
                 $existingReportToObject->setReportingMethodId($reportingMethodId);
                 $existingReportToObject->save();
+                $this->getEmployeeEventService()->saveEvent($employeeId,\PluginEmployeeEvent::EVENT_TYPE_SUPERVISOR,\PluginEmployeeEvent::EVENT_SAVE,'Updating Employee Supervisor','API');
+
                 return new Response(array('success' => 'Successfully Updated'));
 
             } elseif(empty($existingReportToObject) && $this->getRequestParams()->getRequest()->isMethod('post')){
@@ -142,6 +167,8 @@ class EmployeeSupervisorAPI extends EndPoint
                 $newReportToObject->setSubordinateId($employeeId);
                 $newReportToObject->setReportingMethodId($reportingMethodId);
                 $newReportToObject->save();
+                $this->getEmployeeEventService()->saveEvent($employeeId,\PluginEmployeeEvent::EVENT_TYPE_SUPERVISOR,\PluginEmployeeEvent::EVENT_SAVE,'Saving Employee Supervisor','API');
+
                 return new Response(array('success' => 'Successfully Saved'));
 
             } else {
@@ -177,6 +204,7 @@ class EmployeeSupervisorAPI extends EndPoint
             $status = $this->getEmployeeService()->removeSupervisor($supervisorId, $employeeId,
                 $reportingMethod->getId());
             if ($status) {
+                $this->getEmployeeEventService()->saveEvent($employeeId,\PluginEmployeeEvent::EVENT_TYPE_SUPERVISOR,\PluginEmployeeEvent::EVENT_DELETE,'Deleting Employee Supervisor','API');
                 return new Response(array('success' => 'Successfully Deleted'));
             } else {
                 throw new BadRequestException('Deleting Failed');

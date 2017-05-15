@@ -42,6 +42,7 @@ class EmployeeSaveAPI extends EndPoint
      * @var EmployeeService
      */
     protected $employeeService = null;
+    private $employeeEventService;
 
     /**
      * Saving Employee
@@ -61,7 +62,6 @@ class EmployeeSaveAPI extends EndPoint
 
         }
 
-
         if ($employee instanceof \Employee) {
             throw new BadRequestException('Failed To Save: Employee Code Exists');
         }
@@ -77,6 +77,8 @@ class EmployeeSaveAPI extends EndPoint
         if (!$returnedEmployee instanceof \Employee) {
             throw new BadRequestException('Employee Saving Failed');
         } else {
+
+            $this->getEmployeeEventService()->saveEvent($returnedEmployee->getEmpNumber(),\PluginEmployeeEvent::EVENT_TYPE_EMPLOYEE,\PluginEmployeeEvent::EVENT_SAVE,'Saving Employee','API');
             return new Response(array('success' => 'Successfully Saved', 'id' => ltrim($returnedEmployee->getEmpNumber(), '0')));
         }
     }
@@ -173,5 +175,28 @@ class EmployeeSaveAPI extends EndPoint
     {
         $this->employeeService = $employeeService;
     }
+
+    /**
+     * Get employee event service
+     *
+     * @return \EmployeeEventService
+     */
+    private function getEmployeeEventService() {
+
+        if(is_null($this->employeeEventService)) {
+            $this->employeeEventService = new \EmployeeEventService();
+        }
+
+        return $this->employeeEventService;
+    }
+
+    /**
+     * @param mixed $employeeEventService
+     */
+    public function setEmployeeEventService($employeeEventService)
+    {
+        $this->employeeEventService = $employeeEventService;
+    }
+
 
 }
