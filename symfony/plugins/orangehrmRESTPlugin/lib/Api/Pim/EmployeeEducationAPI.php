@@ -29,8 +29,8 @@ class EmployeeEducationAPI extends EndPoint
 {
 
     const PARAMETER_ID = "id";
-    const PARAMETER_LEVEL = "company";
-    const PARAMETER_INSTITUTE = "title";
+    const PARAMETER_LEVEL = "level";
+    const PARAMETER_INSTITUTE = "institute";
     const PARAMETER_GPA = "gpa";
     const PARAMETER_FROM_DATE = "startDate";
     const PARAMETER_TO_DATE = "endDate";
@@ -103,6 +103,7 @@ class EmployeeEducationAPI extends EndPoint
     {
         $filters = $this->getFilterParameters();
         $education = $this->buildEmployeeEducation($filters);
+        var_dump($education);die();
         $result = $this->getEmployeeService()->saveEmployeeEducation($education);
 
         if ($result instanceof \EmployeeEducation) {
