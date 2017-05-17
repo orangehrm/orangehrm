@@ -117,3 +117,9 @@ api_admin_user:
   param: { module:apiv1admin, action:UserApi }
   requirements:
      sf_method: [get]
+
+api_user_login:
+  url: api/v1/login
+  param: { module:apiv1admin, action:UserLoginApi }
+  requirements:
+     sf_method: [post]
