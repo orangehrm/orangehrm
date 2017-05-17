@@ -103,7 +103,6 @@ class EmployeeEducationAPI extends EndPoint
     {
         $filters = $this->getFilterParameters();
         $education = $this->buildEmployeeEducation($filters);
-        var_dump($education);die();
         $result = $this->getEmployeeService()->saveEmployeeEducation($education);
 
         if ($result instanceof \EmployeeEducation) {
@@ -209,7 +208,10 @@ class EmployeeEducationAPI extends EndPoint
             $employeeEducation = new \EmployeeEducation();
         }
         if(!empty($filters[self::PARAMETER_SEQ_ID])){
-            $employeeEducation->setEducationId($filters[self::PARAMETER_SEQ_ID]);
+            $employeeEducation->setId($filters[self::PARAMETER_SEQ_ID]);
+        }
+        if(!empty($filters[self::PARAMETER_LEVEL])){
+            $employeeEducation->setEducationId($filters[self::PARAMETER_LEVEL]);
         }
 
         if(!empty($filters[self::PARAMETER_INSTITUTE])){
