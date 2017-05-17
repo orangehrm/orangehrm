@@ -9,8 +9,8 @@
 * @apiParam {Number} level Education level id.
 * @apiParam {Number} seqId Education record id.
 * @apiParam {String} institute Institute of studying.
-* @apiParam {Date} fromDate Start date.
-* @apiParam {Date} toDate End date.
+* @apiParam {Date} startDate Start date.
+* @apiParam {Date} endDateDate End date.
 * @apiParam {String} specialization Specialization.
 * @apiParam {String} year Year of study.
 * @apiParam {String} gpa Gpa/score.
