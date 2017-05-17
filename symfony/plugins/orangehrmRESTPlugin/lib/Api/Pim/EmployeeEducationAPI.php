@@ -123,9 +123,10 @@ class EmployeeEducationAPI extends EndPoint
     {
         $filters = $this->getFilterParameters();
         $this->validateEmployee($filters[self::PARAMETER_ID]);
+
         $educationRecord = $this->getEmployeeService()->getEmployeeEducations($filters[self::PARAMETER_ID], $filters[self::PARAMETER_SEQ_ID]);
-        $this->validateEducation($educationRecord);
-        $result = $this->getEmployeeService()->saveEmployeeEducation($this->buildEmployeeEducation($filters,$educationRecord));
+        $this->validateEducation($educationRecord[0]);
+        $result = $this->getEmployeeService()->saveEmployeeEducation($this->buildEmployeeEducation($filters,$educationRecord[0]));
 
         if ($result instanceof \EmployeeEducation) {
             return new Response(array('success' => 'Successfully Updated', 'seqId' => $result->getSeqno() ));
@@ -144,8 +145,9 @@ class EmployeeEducationAPI extends EndPoint
     {
         $filters = $this->getFilterParameters();
         $this->validateEmployee($filters[self::PARAMETER_ID]);
+
         $educationRecord = $this->getEmployeeService()->getEmployeeEducations($filters[self::PARAMETER_ID], $filters[self::PARAMETER_SEQ_ID]);
-        $this->validateEducation($educationRecord);
+        $this->validateEducation($educationRecord[0]);
         $result = $this->getEmployeeService()->deleteEmployeeEducationRecords($filters[self::PARAMETER_ID], array($filters[self::PARAMETER_SEQ_ID]));
 
         if($result === 1){
@@ -173,7 +175,9 @@ class EmployeeEducationAPI extends EndPoint
         $filters[self::PARAMETER_GPA] = $this->getPostParam(self::PARAMETER_GPA,$this->getRequestParams());
         $filters[self::PARAMETER_SPECIALIZATION] = $this->getPostParam(self::PARAMETER_SPECIALIZATION,$this->getRequestParams());
         $filters[self::PARAMETER_SEQ_ID] = $this->getPostParam(self::PARAMETER_SEQ_ID,$this->getRequestParams());
+        $filters[self::PARAMETER_YEAR] = $this->getPostParam(self::PARAMETER_YEAR,$this->getRequestParams());
         $filters[self::PARAMETER_ID] = $this->getRequestParams()->getUrlParam(self::PARAMETER_ID);
+
 
         return $filters;
 
