@@ -31,12 +31,12 @@ class EmployeeEducationAPI extends EndPoint
     const PARAMETER_ID = "id";
     const PARAMETER_LEVEL = "company";
     const PARAMETER_INSTITUTE = "title";
-    const PARAMETER_GPA = "fromDate";
-    const PARAMETER_FROM_DATE = "fromDate";
-    const PARAMETER_TO_DATE = "startDate";
-    const PARAMETER_SEQ_ID = "endDate";
-    const PARAMETER_YEAR = 'comment';
+    const PARAMETER_GPA = "gpa";
+    const PARAMETER_FROM_DATE = "startDate";
+    const PARAMETER_TO_DATE = "endDate";
+    const PARAMETER_SEQ_ID = "seqId";
     const PARAMETER_SPECIALIZATION = 'specialization';
+    const PARAMETER_YEAR = 'year';
 
     private $educationService;
 
