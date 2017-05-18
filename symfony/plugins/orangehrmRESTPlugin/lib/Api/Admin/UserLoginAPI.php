@@ -73,7 +73,6 @@ class UserLoginAPI extends EndPoint
         $this->loginService = $loginService;
     }
 
-
     /**
      * API login
      *
@@ -83,7 +82,6 @@ class UserLoginAPI extends EndPoint
      */
     public function userLogin()
     {
-
         $filters = $this->getFilterParameters();
         $username = $filters[self::PARAMETER_USERNAME];
         $password = $filters[self::PARAMETER_USERNAME];
@@ -116,7 +114,6 @@ class UserLoginAPI extends EndPoint
      */
     public function postValidationRules()
     {
-
         return array(
             self::PARAMETER_USERNAME => array('StringType' => true,'NotEmpty' => true),
             self::PARAMETER_PASSWORD => array('StringType' => true,'NotEmpty' => true)
