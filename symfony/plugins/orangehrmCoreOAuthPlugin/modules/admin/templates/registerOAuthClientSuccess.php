@@ -1,7 +1,6 @@
 <style>
-    .selected {
-        background-color: brown;
-        color: #FFF;
+    .oauthSelected {
+        color: green;
     }
 </style>
 
