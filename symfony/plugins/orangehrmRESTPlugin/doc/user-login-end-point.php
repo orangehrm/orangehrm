@@ -1,5 +1,5 @@
 /**
-* @api {get} /login 1.User Login
+* @api {get} /login 2.User Login
 * @apiName userLogin
 * @apiGroup Admin
 * @apiVersion 0.1.0
