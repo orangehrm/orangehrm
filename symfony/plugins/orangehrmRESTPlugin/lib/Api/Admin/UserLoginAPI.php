@@ -84,22 +84,21 @@ class UserLoginAPI extends EndPoint
     {
         $filters = $this->getFilterParameters();
         $username = $filters[self::PARAMETER_USERNAME];
-        $password = $filters[self::PARAMETER_USERNAME];
-        $additionalData = array('timeZoneOffset' => '5.5');  // need to handle form client side
+        $password = $filters[self::PARAMETER_PASSWORD];
+        $additionalData = array();
 
         try {
 
-            $success = $this->getAuthenticationService()->setCredentials($username, $password, $additionalData);
+           $success = $this->getAuthenticationService()->setCredentials($username, $password, $additionalData);
 
             if ($success) {
 
-                $this->getLoginService()->addLogin();
                 $successResponse = array('login' => $success, 'user' => $this->getUser());
 
                 return new Response($successResponse);
 
             } else {
-                throw new InvalidParamException('Credentials Are Wrong Please Re Try');
+                throw new InvalidParamException($password);
             }
         } catch (\AuthenticationServiceException $e) {
                 throw new BadRequestException('Login Failed');
