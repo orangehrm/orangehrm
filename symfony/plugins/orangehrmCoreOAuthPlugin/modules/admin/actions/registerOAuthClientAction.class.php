@@ -58,10 +58,6 @@ class registerOAuthClientAction extends sfAction {
     
     public function execute($request) {  
         $form = new OAuthClientRegistrationForm();
-        $oauthClients = $this->getOAuthService()->listOAuthClients();
-
-
-        $this->setListComponent($oauthClients);
 
         if($request->isMethod(sfWebRequest::POST)){ 
             $form->bind($request->getPostParameter($form->getName()));
@@ -75,6 +71,7 @@ class registerOAuthClientAction extends sfAction {
 
                     $client->setClientSecret($values['client_secret']);
                     $client->setRedirectUri($values['redirect_uri']);
+
 
                 } else {
 
@@ -97,6 +94,9 @@ class registerOAuthClientAction extends sfAction {
                 
             }
         }
+        $oauthClients = $this->getOAuthService()->listOAuthClients();
+        $this->setListComponent($oauthClients);
+
         if($this->authorized){
             $this->form = $form;
         }  
@@ -117,7 +117,6 @@ class registerOAuthClientAction extends sfAction {
         ohrmListComponent::setConfigurationFactory($configurationFactory);
         ohrmListComponent::setListData($clientList);
     }
-
 
     private function setRuntimeDefinitions(){
         $runtimeDefinitions = array();
@@ -140,8 +139,6 @@ class registerOAuthClientAction extends sfAction {
         $runtimeDefinitions['hasSummary']= false;
         return $runtimeDefinitions;
     }
-
-
 
 }
 
