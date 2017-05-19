@@ -98,7 +98,7 @@ class UserLoginAPI extends EndPoint
                 return new Response($successResponse);
 
             } else {
-                throw new InvalidParamException($password);
+                throw new InvalidParamException('Credentials Are Wrong Please Try Again');
             }
         } catch (\AuthenticationServiceException $e) {
                 throw new BadRequestException('Login Failed');
@@ -156,7 +156,8 @@ class UserLoginAPI extends EndPoint
      */
     protected function getUser()
     {
-        $user = \UserRoleManagerFactory::getUserRoleManager()->getUser();
+        $userRoleManagerFactory = new \UserRoleManagerFactory();
+        $user = $userRoleManagerFactory->getUserRoleManager()->getUser();
         $apiUser = new User();
         $apiUser->buildUser($user);
         return $apiUser->toArray();
