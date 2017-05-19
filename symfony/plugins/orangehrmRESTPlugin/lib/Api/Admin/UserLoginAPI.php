@@ -33,6 +33,7 @@ class UserLoginAPI extends EndPoint
 
     protected $authenticationService;
     protected $loginService;
+    protected $systemUserService;
 
     /**
      *
@@ -71,6 +72,23 @@ class UserLoginAPI extends EndPoint
     public function setLoginService($loginService)
     {
         $this->loginService = $loginService;
+    }
+
+    /**
+     * @return \SystemUserService
+     */
+    public function getSystemUserService() {
+        if (empty($this->systemUserService)) {
+            $this->systemUserService = new \SystemUserService();
+        }
+        return $this->systemUserService;
+    }
+
+    /**
+     * @param $systemUserService
+     */
+    public function setSystemUserService($systemUserService) {
+        $this->systemUserService = $systemUserService;
     }
 
     /**
@@ -156,10 +174,10 @@ class UserLoginAPI extends EndPoint
      */
     protected function getUser()
     {
-        $userRoleManagerFactory = new \UserRoleManagerFactory();
-        $user = $userRoleManagerFactory->getUserRoleManager()->getUser();
+        $userId = $this->getAuthenticationService()->getLoggedInUserId();
+        $systemUser = $this->getSystemUserService()->getSystemUser($userId);
         $apiUser = new User();
-        $apiUser->buildUser($user);
+        $apiUser->buildUser($systemUser);
         return $apiUser->toArray();
     }
 
