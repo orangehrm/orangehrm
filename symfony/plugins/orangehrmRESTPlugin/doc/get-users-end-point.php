@@ -4,11 +4,15 @@
 * @apiGroup Admin
 * @apiVersion 0.1.0
 *
-* @apiParam   {String} userName  User Name.
-* @apiParam   {Number} employeeId  Employee id.
-* @apiParam   {Number} userType  User type.
-* @apiParam   {Number} offset  Page number.
-* @apiParam   {Number} limit  Number of results per page.
+* @apiParam  {Number} offset  Page number.
+* @apiParam  {Number} limit  Number of results per page.
+* @apiParam  {Number} userType  User type.
+*
+* @apiSuccess  {String} userName  User Name.
+* @apiSuccess  {String} employeeName  Employee name.
+* @apiSuccess  {String} userRole  User role.
+* @apiSuccess  {String} status  User status
+*
 *
 * @apiSuccessExample Success-Response:
 *     HTTP/1.1 200 OK
