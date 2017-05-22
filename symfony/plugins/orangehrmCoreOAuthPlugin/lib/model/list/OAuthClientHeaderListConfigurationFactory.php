@@ -33,7 +33,7 @@ class OAuthClientHeaderListConfigurationFactory extends ohrmListConfigurationFac
         $header3 = new ListHeader();
 
         $header1->populateFromArray(array(
-            'name' => 'Provider Name',
+            'name' => 'ID',
             'elementType' => 'link',
             'width' => '40%',
             'elementProperty' => array(
@@ -41,12 +41,12 @@ class OAuthClientHeaderListConfigurationFactory extends ohrmListConfigurationFac
                 'urlPattern' => 'javascript:'),
         ));
         $header2->populateFromArray(array(
-            'name' => 'Client Secret',
+            'name' => 'Secret',
             'elementType' => 'label',
             'elementProperty' => array( 'getter' => 'getClientSecret' ),
         ));
         $header3->populateFromArray(array(
-            'name' => 'Redirect Url',
+            'name' => 'Redirect URI',
             'elementType' => 'label',
             'elementProperty' => array( 'getter' => 'getRedirectUri' ),
         ));
