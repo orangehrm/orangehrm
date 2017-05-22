@@ -86,7 +86,7 @@ class registerOAuthClientAction extends sfAction {
                     $this->getUser()->setFlash("success", __("OAuth Client Saved Successfully"), false);
                 }  catch (Exception $e){
                     if($e->getCode() == 23000){ // ER_DUP_ENTRY : duplicate client_id. client may already registered 
-                        $this->getUser()->setFlash("warning", __("given Client ID is already in the database"), false);
+                        $this->getUser()->setFlash("warning", __("Given Client ID Is Already In The Database"), false);
                     } else {
                         die($e->getMessage());
                     }
