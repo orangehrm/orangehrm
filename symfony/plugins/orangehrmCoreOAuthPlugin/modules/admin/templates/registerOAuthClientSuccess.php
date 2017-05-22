@@ -41,9 +41,9 @@
                 </ol>
                 <ol>
                     <li style="float: left;width: 425px;margin-top: 9px;font-size: 12px;" >
-                        <p> <b>API Documentation : </b> <a  target="_blank"  href="https://orangehrm.github.io/orangehrm-api-doc/"> [ https://orangehrm.github.io/orangehrm-api-doc ]</a>.</p>
+                        <p> <b><?php echo __('API Documentation'); ?> : </b> <a  target="_blank"  href="https://orangehrm.github.io/orangehrm-api-doc/"> [ https://orangehrm.github.io/orangehrm-api-doc ]</a>.</p>
                         <br>
-                        <p><b>PHP Sample App :</b><a  target="_blank"  href="https://github.com/orangehrm/api-sample-app-php">[ https://github.com/orangehrm/api-sample-app-php ]</a>.</p>
+                        <p><b><?php echo __('PHP Sample App'); ?>  :</b><a  target="_blank"  href="https://github.com/orangehrm/api-sample-app-php">[ https://github.com/orangehrm/api-sample-app-php ]</a>.</p>
                     </li>
                 </ol>
                 <p>
