@@ -7509,12 +7509,16 @@
         <target>FR_Register OAuth Client</target>
       </trans-unit>
       <trans-unit id="1877">
-        <source>Given Client ID Is Already In The Databaset</source>
+        <source>Given Client ID Is Already In The Database</source>
         <target>FR_Given Client ID Is Already In The Database</target>
       </trans-unit>
       <trans-unit id="1878">
         <source>OAuth Client Saved Successfully</source>
         <target>FR_OAuth Client Saved Successfully</target>
+      </trans-unit>
+      <trans-unit id="1879">
+        <source>OAuth Client List</source>
+        <target>FR_OAuth Client List</target>
       </trans-unit>
     </body>
   </file>
