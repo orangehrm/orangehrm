@@ -5,7 +5,7 @@
 * @apiVersion 0.1.0
 *
 * @apiParam {Number} id Employee id.
-* @apiParam {Number} id Field id.
+* @apiParam {Number} fieldId Field id.
 *
 * @apiSuccess {Object} Data Success response.
 *
