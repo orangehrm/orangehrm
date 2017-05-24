@@ -297,7 +297,7 @@ class EmployeeWorkExperienceAPI extends EndPoint
 
         if (!empty($from) && !empty($to)) {
             if ((strtotime($from)) > (strtotime($to))) {
-                throw new InvalidParamException('End Date Should Be After Start Date');
+                throw new InvalidParamException('To Date Should Be After From Date');
             }
         }
     }
