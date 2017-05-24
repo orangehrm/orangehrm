@@ -39,15 +39,22 @@ class orangehrmRESTPluginAllTests
         $suite->addTestFile(dirname(__FILE__) . '/api/pim/ApiEmployeeJobDetailAPITest.php');
         $suite->addTestFile(dirname(__FILE__) . '/api/pim/ApiEmployeeContactDetailAPITest.php');
         $suite->addTestFile(dirname(__FILE__) . '/api/pim/ApiEmployeeSearchAPITest.php');
-      //  $suite->addTestFile(dirname(__FILE__) . '/api/pim/ApiEmployeeSaveAPITest.php');
+       // $suite->addTestFile(dirname(__FILE__) . '/api/pim/ApiSupervisorAPITest.php');
         $suite->addTestFile(dirname(__FILE__) . '/api/pim/ApiEmployeeDependentAPITest.php');
         $suite->addTestFile(dirname(__FILE__) . '/api/pim/ApiEmployeeTerminateAPITest.php');
 
-         $suite->addTestFile(dirname(__FILE__) . '/api/leave/ApiLeaveEntitlementAPITest.php');
-         $suite->addTestFile(dirname(__FILE__) . '/api/leave/ApiLeaveTypeAPITest.php');
+        $suite->addTestFile(dirname(__FILE__) . '/api/leave/ApiLeaveEntitlementAPITest.php');
+        $suite->addTestFile(dirname(__FILE__) . '/api/leave/ApiLeaveTypeAPITest.php');
         $suite->addTestFile(dirname(__FILE__) . '/api/leave/ApiLeavePeriodAPITest.php');
-       // $suite->addTestFile(dirname(__FILE__) . '/api/leave/ApiLeaveRequestAPITest.php');
 
+        $suite->addTestFile(dirname(__FILE__) . '/api/pim/ApiCustomFieldAPITest1.php');
+         $suite->addTestFile(dirname(__FILE__) . '/api/pim/ApiEmployeeCustomFieldAPITest.php');
+        $suite->addTestFile(dirname(__FILE__) . '/api/pim/ApiEmployeeWorkExperienceAPITest.php');
+        $suite->addTestFile(dirname(__FILE__) . '/api/pim/ApiCustomFieldAPITest.php');
+        $suite->addTestFile(dirname(__FILE__) . '/api/pim/ApiEmployeeEducationAPITest.php');
+       // $suite->addTestFile(dirname(__FILE__) . '/api/leave/ApiLeaveRequestAPITest.php');
+        $suite->addTestFile(dirname(__FILE__) . '/api/admin/ApiUsersAPITest.php');
+        $suite->addTestFile(dirname(__FILE__) . '/api/admin/ApiUserLoginAPITest.php');
 
         /* Entity test cases - PIM*/
 
@@ -55,12 +62,16 @@ class orangehrmRESTPluginAllTests
         $suite->addTestFile(dirname(__FILE__) . '/api/pim/entity/ApiEmployeeDependentTest.php');
         $suite->addTestFile(dirname(__FILE__) . '/api/pim/entity/ApiEmployeeJobDetailTest.php');
         $suite->addTestFile(dirname(__FILE__) . '/api/pim/entity/ApiEmployeeTest.php');
+        $suite->addTestFile(dirname(__FILE__) . '/api/pim/entity/ApiCustomFieldTest.php');
+        $suite->addTestFile(dirname(__FILE__) . '/api/pim/entity/ApiEmployeeCustomFieldTest.php');
         $suite->addTestFile(dirname(__FILE__) . '/api/pim/entity/ApiSupervisorTest.php');
         $suite->addTestFile(dirname(__FILE__) . '/api/leave/entity/ApiLeaveEntitlementTest.php');
         $suite->addTestFile(dirname(__FILE__) . '/api/leave/entity/ApiLeaveRequestTest.php');
         $suite->addTestFile(dirname(__FILE__) . '/api/leave/entity/ApiLeaveTypeTest.php');
         $suite->addTestFile(dirname(__FILE__) . '/api/leave/entity/ApiLeaveRequestCommentTest.php');
         $suite->addTestFile(dirname(__FILE__) . '/api/leave/entity/ApiLeaveTest.php');
+        $suite->addTestFile(dirname(__FILE__) . '/api/admin/entity/ApiUserTest.php');
+
 
         return $suite;
     }
