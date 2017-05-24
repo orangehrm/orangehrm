@@ -196,6 +196,7 @@ class Education implements Serializable
         $this->setFrom($education->getStartDate());
         $this->setTo($education->getEndDate());
         $this->setGpa($education->getScore());
+        $this->setInstitute($education->getInstitute());
 
     }
 }

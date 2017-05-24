@@ -153,8 +153,8 @@ class WorkExperience implements Serializable
         $this->setId($experience->getSeqno());
         $this->setCompany($experience->getEmployer());
         $this->setJobTitle($experience->getJobtitle());
-        $this->setFrom($experience->getFromDate());
-        $this->setTo($experience->getToDate());
+        $this->setFrom(substr($experience->getFromDate(), 0, -9));
+        $this->setTo(substr($experience->getToDate(), 0, -9));
         $this->setComment($experience->getComments());
 
     }
