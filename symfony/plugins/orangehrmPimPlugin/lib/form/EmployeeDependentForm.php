@@ -24,6 +24,7 @@ class EmployeeDependentForm extends BaseForm {
     public $fullName;
     private $employeeService;
     private $employee;
+    private $employeeEventService;
     
     /**
      * Get EmployeeService
@@ -43,6 +44,28 @@ class EmployeeDependentForm extends BaseForm {
      */
     public function setEmployeeService(EmployeeService $employeeService) {
         $this->employeeService = $employeeService;
+    }
+    /**
+     * Get Employee event Service
+     *
+     * @return EmployeeEventService|mixed
+     */
+    private function getEmployeeEventService()
+    {
+
+        if (is_null($this->employeeEventService)) {
+            $this->employeeEventService = new EmployeeEventService();
+        }
+
+        return $this->employeeEventService;
+    }
+
+    /**
+     * @param $employeeEventService
+     */
+    public function setEmployeeEventService($employeeEventService)
+    {
+        $this->employeeEventService = $employeeEventService;
     }
     
     public function configure() {
@@ -154,6 +177,7 @@ class EmployeeDependentForm extends BaseForm {
             $dependent = new EmpDependent();
             $dependent->emp_number = $empNumber;
             $dependent->seqno = $seqNo;
+
         }
 
         $dependent->name = $this->getValue('name');
@@ -162,7 +186,24 @@ class EmployeeDependentForm extends BaseForm {
         $dependent->date_of_birth = $this->getValue('dateOfBirth');
 
         $dependent->save();
-        
+        $this->getEmployeeEventService()->saveEvent($empNumber,PluginEmployeeEvent::EVENT_TYPE_DEPENDENT,PluginEmployeeEvent::EVENT_UPDATE,'Employee Dependent Details Changed',$this->getEmployeeEventService()->getUserRole());
+
+
+    }
+
+    /**
+     * Get user role
+     *
+     * @return string
+     */
+    protected function getUserRole()
+    {
+        $user = UserRoleManagerFactory::getUserRoleManager()->getUser();
+        if ($user instanceof SystemUser) {
+            return $user->getUserRole()->getName();
+        } else {
+            return 'System';
+        }
     }
 
 }
