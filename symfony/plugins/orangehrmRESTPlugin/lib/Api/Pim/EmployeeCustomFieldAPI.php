@@ -86,10 +86,11 @@ class EmployeeCustomFieldAPI extends EndPoint
     {
         $customFieldList = $this->getCustomFieldService()->getCustomFieldList(null, 'name', 'ASC');
         $empId = $this->getRequestParams()->getUrlParam(self::PARAMETER_ID);
-        $employee = $this->getEmployeeService()->getEmployee($empId);
+        $employee = $this->getEmployee($empId);
         $response = null;
 
         foreach ($customFieldList as $field) {
+
             $customField = new EmployeeCustomField();
             $customField->build($field, $employee);
             $response[] = $customField->toArray();
@@ -117,16 +118,17 @@ class EmployeeCustomFieldAPI extends EndPoint
         $filters = $this->getFilterParameters();
         $customField = $this->getCustomField($filters[self::PARAMETER_FIELD_ID]);
         $value = $filters[self::PARAMETER_VALUE];
+
         if (empty($value)) {
             throw new InvalidParamException('Field Value Must Not Be Empty');
         }
+
         $employee = $this->getEmployee($filters[self::PARAMETER_ID]);
 
         if ($customField->getType() == 1) {
 
             if ($this->checkFieldValueForDropDown($customField->getExtraData(), $value)) {
-                $this->setEmployeeCustomField($employee, $filters[self::PARAMETER_FIELD_ID],
-                    $value);
+                $this->setEmployeeCustomField($employee, $filters[self::PARAMETER_FIELD_ID],$value);
             } else {
 
                 throw new InvalidParamException('Custom Field Value Is Not Defined');

@@ -31,9 +31,11 @@ class CustomFieldAPI extends EndPoint
 
     /**
      * Get CustomFieldsService
+     *
      * @returns \CustomFieldsService
      */
     public function getCustomFieldService() {
+
         if (is_null($this->customFieldService)) {
             $this->customFieldService = new \CustomFieldConfigurationService();
             $this->customFieldService->setCustomFieldsDao(new \CustomFieldConfigurationDao());
@@ -45,6 +47,7 @@ class CustomFieldAPI extends EndPoint
      * Set Customer field Service
      */
     public function setCustomFieldService(\CustomFieldConfigurationService $customFieldsService) {
+
         $this->customFieldService = $customFieldsService;
     }
 
