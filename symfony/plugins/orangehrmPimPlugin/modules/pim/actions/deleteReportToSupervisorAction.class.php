@@ -24,6 +24,31 @@
  */
 class deleteReportToSupervisorAction extends basePimAction {
 
+    private $employeeEventService;
+
+    /**
+     * Get Employee event Service
+     *
+     * @return EmployeeEventService|mixed
+     */
+    private function getEmployeeEventService()
+    {
+
+        if (is_null($this->employeeEventService)) {
+            $this->employeeEventService = new EmployeeEventService();
+        }
+
+        return $this->employeeEventService;
+    }
+
+    /**
+     * @param $employeeEventService
+     */
+    public function setEmployeeEventService($employeeEventService)
+    {
+        $this->employeeEventService = $employeeEventService;
+    }
+
     /**
      * Delete employee memberships
      *
@@ -51,6 +76,7 @@ class deleteReportToSupervisorAction extends basePimAction {
 
                     $service = new EmployeeService();
                     $count = $service->deleteReportToObject($supToDelete);
+                    $this->getEmployeeEventService()->saveEvent($empNumber,PluginEmployeeEvent::EVENT_TYPE_SUPERVISOR,PluginEmployeeEvent::EVENT_DELETE,'Employee Supervisor Removed',$this->getEmployeeEventService()->getUserRole());
                     $this->getUser()->setFlash('success', __(TopLevelMessages::DELETE_SUCCESS));
                 }
             }
