@@ -22,6 +22,7 @@ namespace Orangehrm\Rest\Api\Pim;
 use Orangehrm\Rest\Api\EndPoint;
 use Orangehrm\Rest\Api\Exception\BadRequestException;
 use Orangehrm\Rest\Api\Exception\RecordNotFoundException;
+use Orangehrm\Rest\Api\Exception\InvalidParamException;
 use Orangehrm\Rest\Api\Pim\Entity\WorkExperience;
 use Orangehrm\Rest\Http\Response;
 
@@ -87,6 +88,8 @@ class EmployeeWorkExperienceAPI extends EndPoint
     public function saveEmployeeWorkExperience()
     {
         $filters = $this->getFilterParameters();
+        $this->validateEmployee($filters[self::PARAMETER_ID]);
+        $this->validateDate($filters[self::PARAMETER_FROM_DATE],$filters[self::PARAMETER_TO_DATE]);
         $workExperience = $this->buildEmployeeWorkExperience($filters);
         $result = $this->getEmployeeService()->saveEmployeeWorkExperience($workExperience);
 
@@ -107,6 +110,7 @@ class EmployeeWorkExperienceAPI extends EndPoint
     public function updateEmployeeWorkExperience()
     {
         $filters = $this->getFilterParameters();
+        $this->validateDate($filters[self::PARAMETER_FROM_DATE],$filters[self::PARAMETER_TO_DATE]);
         $this->validateEmployee($filters[self::PARAMETER_ID]);
         $experienceRecord = $this->getEmployeeService()->getEmployeeWorkExperienceRecords($filters[self::PARAMETER_ID], $filters[self::PARAMETER_SEQ_ID]);
         $this->validateWorkExperience($experienceRecord);
@@ -168,7 +172,7 @@ class EmployeeWorkExperienceAPI extends EndPoint
      *
      * @param $parameterName
      * @param $requestParams
-     * @return null
+     * @return null| array
      */
     protected function getPostParam($parameterName,$requestParams){
 
@@ -179,10 +183,12 @@ class EmployeeWorkExperienceAPI extends EndPoint
     }
 
     /**
-     * Build Employee work experience
-     *
+     * Build work experience
+     * 
      * @param $filters
-     * @return \EmpWorkExperience
+     * @param null $employeeWorkExperience
+     * @return \EmpWorkExperience|null
+     * @throws InvalidParamException
      */
     protected function buildEmployeeWorkExperience($filters, $employeeWorkExperience = null)
     {
@@ -193,6 +199,8 @@ class EmployeeWorkExperienceAPI extends EndPoint
 
         if(!empty($filters[self::PARAMETER_COMPANY])){
             $employeeWorkExperience->setEmployer($filters[self::PARAMETER_COMPANY]);
+        } else {
+            throw new InvalidParamException('Company Cannot Be Empty');
         }
         if(!empty($filters[self::PARAMETER_FROM_DATE])){
             $employeeWorkExperience->setFromDate($filters[self::PARAMETER_FROM_DATE]);
@@ -202,12 +210,13 @@ class EmployeeWorkExperienceAPI extends EndPoint
         }
         if(!empty($filters[self::PARAMETER_JOB_TITLE])){
             $employeeWorkExperience->setJobtitle($filters[self::PARAMETER_JOB_TITLE]);
+        }else {
+            throw new InvalidParamException('Job Title Cannot Be Empty');
         }
         if(!empty($filters[self::PARAMETER_COMMENT])){
             $employeeWorkExperience->setComments($filters[self::PARAMETER_COMMENT]);
         }
         $employeeWorkExperience->setEmpNumber($filters[self::PARAMETER_ID]);
-
 
         return $employeeWorkExperience;
     }
@@ -274,6 +283,22 @@ class EmployeeWorkExperienceAPI extends EndPoint
 
         if (!$WorkExperience instanceof \EmpWorkExperience) {
             throw new BadRequestException("Work Experience Record Not Found");
+        }
+    }
+
+    /**
+     * Validate date
+     *
+     * @param $from
+     * @param $to
+     * @throws InvalidParamException
+     */
+    protected function validateDate($from,$to){
+
+        if (!empty($from) && !empty($to)) {
+            if ((strtotime($from)) > (strtotime($to))) {
+                throw new InvalidParamException('End Date Should Be After Start Date');
+            }
         }
     }
 
