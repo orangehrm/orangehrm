@@ -118,7 +118,7 @@ class viewJobDetailsAction extends basePimAction {
 
                     }
 
-                    $this->getEmployeeEventService()->saveEvent($empNumber,PluginEmployeeEvent::EVENT_TYPE_JOB_DETAIL,PluginEmployeeEvent::EVENT_UPDATE,'Updating Employee Job Details',$this->getUser()->getAttribute('name'));
+                    $this->getEmployeeEventService()->saveEvent($empNumber,PluginEmployeeEvent::EVENT_TYPE_JOB_DETAIL,PluginEmployeeEvent::EVENT_UPDATE,'Updating Employee Job Details',$this->getEmployeeEventService()->getUserRole());
 
                 }
 
