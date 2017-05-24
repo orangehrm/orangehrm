@@ -8,7 +8,7 @@
 *
 * @apiParam  {Number} seqId Work experience record id.
 * @apiParam  {String} company Company name.
-* @apiParam  {String} jobTitle job Title.
+* @apiParam  {String} title job Title.
 * @apiParam  {Date} fromDate Experience from date.
 * @apiParam  {Date} toDate Experience to date.
 * @apiParam  {String} comment Work experience comment.

@@ -8,7 +8,7 @@
 *
 * @apiSuccess {String} company Company name.
 * @apiSuccess {Number} id Work experience id.
-* @apiSuccess {String} jobTitle job Title.
+* @apiSuccess {String} jobTitle Job title.
 * @apiSuccess {Date} fromDate Experience from date.
 * @apiSuccess {Date} toDate Experience to date.
 * @apiSuccess {String} comment Work experience comment.
