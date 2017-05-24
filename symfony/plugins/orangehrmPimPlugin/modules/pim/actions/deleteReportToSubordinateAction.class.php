@@ -24,6 +24,32 @@
  */
 class deleteReportToSubordinateAction extends basePimAction {
 
+
+    private $employeeEventService;
+
+    /**
+     * Get Employee event Service
+     *
+     * @return EmployeeEventService|mixed
+     */
+    private function getEmployeeEventService()
+    {
+
+        if (is_null($this->employeeEventService)) {
+            $this->employeeEventService = new EmployeeEventService();
+        }
+
+        return $this->employeeEventService;
+    }
+
+    /**
+     * @param $employeeEventService
+     */
+    public function setEmployeeEventService($employeeEventService)
+    {
+        $this->employeeEventService = $employeeEventService;
+    }
+
     /**
      * Delete employee memberships
      *
@@ -51,6 +77,7 @@ class deleteReportToSubordinateAction extends basePimAction {
 
                     $service = new EmployeeService();
                     $count = $service->deleteReportToObject($subToDelete);
+                    $this->getEmployeeEventService()->saveEvent($empNumber,PluginEmployeeEvent::EVENT_TYPE_SUBORDINATE,PluginEmployeeEvent::EVENT_DELETE,'Employee Subordinate Removed',$this->getEmployeeEventService()->getUserRole());
                     $this->getUser()->setFlash('success', __(TopLevelMessages::DELETE_SUCCESS));
                 }
             }
