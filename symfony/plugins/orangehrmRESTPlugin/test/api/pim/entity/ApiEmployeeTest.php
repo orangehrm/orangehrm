@@ -49,31 +49,33 @@ class ApiEmployeeTest extends PHPUnit_Framework_TestCase
 
             'firstName' => 'Martin',
             'middleName' => 'Riggs',
-            'employeeId' => 1,
+            'employeeId' => '1',
             'lastName' => 'Dan',
             'fullName' => 'Martin Riggs Dan',
             'status' => 'active',
             'dob' => '2016-05-04',
             'unit' => '',
             'jobTitle' => 'Engineer',
-            'code' => '001',
+            'code' => '1',
             'driversLicenseNumber' => '',
             'licenseExpiryDate' => null,
             'maritalStatus' => null,
             'gender' => null,
             'otherId' => null,
             'nationality' => null,
-            'supervisor' => $supervisorsList
+            'supervisor' => $supervisorsList,
+            'sinNumber'  => null,
+            'ssnNumber'  => null
 
         );
 
-        $employee = new Employee('Martin', 'Riggs', 'Dan', 1);
+        $employee = new Employee('Martin', 'Riggs', 'Dan', '1');
         $employee->setEmployeeFullName('Martin Riggs Dan');
         $employee->setEmployeeStatus('active');
         $employee->setEmpBirthDate('2016-05-04');
         $employee->setUnit('');
         $employee->setJobTitle('Engineer');
-        $employee->setEmployeeNumber('001');
+        $employee->setEmployeeNumber('1');
 
         $employee->setSupervisors($supervisorsList);
 
