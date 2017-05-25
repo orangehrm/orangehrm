@@ -29,13 +29,13 @@ use Orangehrm\Rest\Http\Response;
 class EmployeeSupervisorAPI extends EndPoint
 {
 
-
     const PARAMETER_ID = "id";
     const PARAMETER_SUPERVISOR_ID = 'supervisorId';
     const PARAMETER_REPORTING_METHOD = 'reportingMethod';
 
     private $reportingMethodConfigurationService;
     protected $employeeService;
+    private $employeeEventService;
 
 
     /**
@@ -43,7 +43,6 @@ class EmployeeSupervisorAPI extends EndPoint
      */
     public function getEmployeeService()
     {
-
         if ($this->employeeService != null) {
             return $this->employeeService;
         } else {
@@ -57,9 +56,30 @@ class EmployeeSupervisorAPI extends EndPoint
         $this->employeeService = $employeeService;
     }
 
+    /**
+     * Get employee event service
+     *
+     * @return \EmployeeEventService
+     */
+    private function getEmployeeEventService() {
+
+        if(is_null($this->employeeEventService)) {
+            $this->employeeEventService = new \EmployeeEventService();
+        }
+
+        return $this->employeeEventService;
+    }
+
+    /**
+     * @param mixed $employeeEventService
+     */
+    public function setEmployeeEventService($employeeEventService)
+    {
+        $this->employeeEventService = $employeeEventService;
+    }
+
     public function getReportingMethodConfigurationService()
     {
-
         if (is_null($this->reportingMethodConfigurationService)) {
             $this->reportingMethodConfigurationService = new \ReportingMethodConfigurationService();
         }
@@ -92,7 +112,7 @@ class EmployeeSupervisorAPI extends EndPoint
 
             $empSupervisor = $supervisorRM->getSupervisor();
             $supervisor = new Supervisor($empSupervisor->getFullName(), $empSupervisor->getempNumber(),
-                $empSupervisor->getEmployeeId(), $supervisorRM->getReportingMethod()->getName());
+            $empSupervisor->getEmployeeId(), $supervisorRM->getReportingMethod()->getName());
             $responseArray[] = $supervisor->toArray();
         }
 
@@ -101,7 +121,7 @@ class EmployeeSupervisorAPI extends EndPoint
     }
 
     /**
-     * Add supervisor
+     * Save supervisor
      *
      * @return Response
      */
@@ -136,6 +156,8 @@ class EmployeeSupervisorAPI extends EndPoint
 
                 $existingReportToObject->setReportingMethodId($reportingMethodId);
                 $existingReportToObject->save();
+                $this->getEmployeeEventService()->saveEvent($employeeId,\PluginEmployeeEvent::EVENT_TYPE_SUPERVISOR,\PluginEmployeeEvent::EVENT_SAVE,'Updating Employee Supervisor','API');
+
                 return new Response(array('success' => 'Successfully Updated'));
 
             } elseif(empty($existingReportToObject) && $this->getRequestParams()->getRequest()->isMethod('post')){
@@ -145,6 +167,8 @@ class EmployeeSupervisorAPI extends EndPoint
                 $newReportToObject->setSubordinateId($employeeId);
                 $newReportToObject->setReportingMethodId($reportingMethodId);
                 $newReportToObject->save();
+                $this->getEmployeeEventService()->saveEvent($employeeId,\PluginEmployeeEvent::EVENT_TYPE_SUPERVISOR,\PluginEmployeeEvent::EVENT_SAVE,'Saving Employee Supervisor','API');
+
                 return new Response(array('success' => 'Successfully Saved'));
 
             } else {
@@ -164,10 +188,11 @@ class EmployeeSupervisorAPI extends EndPoint
      */
     public function deleteEmployeeSupervisor()
     {
-        $employeeId = $this->getRequestParams()->getUrlParam(self::PARAMETER_ID);
-        $supervisorId = $this->getRequestParams()->getPostParam(self::PARAMETER_SUPERVISOR_ID);
+        $filters = $this->getFilters();
+        $employeeId = $filters[self::PARAMETER_ID];
+        $supervisorId = $filters[self::PARAMETER_SUPERVISOR_ID];
+        $reportingMethodName = $filters[self::PARAMETER_REPORTING_METHOD];
         $existingReportToObject = $this->getEmployeeService()->getReportToObject($supervisorId, $employeeId);
-        $reportingMethodName = $this->getRequestParams()->getPostParam(self::PARAMETER_REPORTING_METHOD);
         $reportingMethod = $this->getReportingMethodConfigurationService()->getReportingMethodByName($reportingMethodName);
 
         if (empty($supervisorId) || empty($reportingMethodName)) {
@@ -179,6 +204,7 @@ class EmployeeSupervisorAPI extends EndPoint
             $status = $this->getEmployeeService()->removeSupervisor($supervisorId, $employeeId,
                 $reportingMethod->getId());
             if ($status) {
+                $this->getEmployeeEventService()->saveEvent($employeeId,\PluginEmployeeEvent::EVENT_TYPE_SUPERVISOR,\PluginEmployeeEvent::EVENT_DELETE,'Deleting Employee Supervisor','API');
                 return new Response(array('success' => 'Successfully Deleted'));
             } else {
                 throw new BadRequestException('Deleting Failed');
@@ -193,6 +219,18 @@ class EmployeeSupervisorAPI extends EndPoint
             self::PARAMETER_SUPERVISOR_ID => array('NotEmpty' => true, 'Length' => array(1, 10)),
             self::PARAMETER_REPORTING_METHOD => array('StringType' => true, 'NotEmpty' => true),
         );
+
+    }
+
+    public function getFilters(){
+
+        $filters[] = array();
+
+        $filters[self::PARAMETER_ID] = $this->getRequestParams()->getUrlParam(self::PARAMETER_ID);
+        $filters[self::PARAMETER_SUPERVISOR_ID] = $this->getRequestParams()->getPostParam(self::PARAMETER_SUPERVISOR_ID);
+        $filters[self::PARAMETER_REPORTING_METHOD] = $this->getRequestParams()->getPostParam(self::PARAMETER_REPORTING_METHOD);
+
+        return $filters;
 
     }
 

@@ -46,6 +46,20 @@ api_employee_supervisor:
     id: \d+
     sf_method: [get, post, put, delete]
 
+api_employee_work_experiece:
+  url: /api/v1/employee/:id/work-experience
+  param: { module:apiv1pim, action:EmployeeWorkExperienceApi }
+  requirements:
+    id: \d+
+    sf_method: [get, post, put, delete]
+
+api_employee_education:
+  url: /api/v1/employee/:id/education
+  param: { module:apiv1pim, action:EmployeeEducationApi }
+  requirements:
+    id: \d+
+    sf_method: [get, post, put, delete]
+
 api_employee_event:
   url: /api/v1/employee/event
   param: { module:apiv1pim, action:EmployeeEventApi }
@@ -64,6 +78,20 @@ api_leave_request:
   requirements:
      id: \d+
      sf_method: [get,post]
+
+api_employee_custom_field:
+  url: /api/v1/employee/:id/custom-field
+  param: { module:apiv1pim, action:EmployeeCustomFieldApi }
+  requirements:
+     id: \d+
+     sf_method: [get,post,put,del]
+
+api_custom_field:
+  url: /api/v1/custom-field
+  param: { module:apiv1pim, action:CustomFieldApi }
+  requirements:
+     id: \d+
+     sf_method: [get]
 
 api_search_leave_request:
   url: /api/v1/leave/search
@@ -89,3 +117,9 @@ api_admin_user:
   param: { module:apiv1admin, action:UserApi }
   requirements:
      sf_method: [get]
+
+api_user_login:
+  url: api/v1/login
+  param: { module:apiv1admin, action:UserLoginApi }
+  requirements:
+     sf_method: [post]

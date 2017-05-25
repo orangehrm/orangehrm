@@ -291,7 +291,7 @@ class EmployeeReportToForm extends BaseForm {
                     $updated = TRUE;
                     $message = 'updated';
                     // add to employee event
-                    $this->getEmployeeEventService()->saveEvent($empNumber,PluginEmployeeEvent::EVENT_TYPE_SUPERVISOR,PluginEmployeeEvent::EVENT_UPDATE,'Updating Employee Supervisor Details',null);
+                    $this->getEmployeeEventService()->saveEvent($empNumber,PluginEmployeeEvent::EVENT_TYPE_SUPERVISOR,PluginEmployeeEvent::EVENT_UPDATE,'Updating Employee Supervisor Details',$this->getEmployeeEventService()->getUserRole());
 
                 }
             } else {
@@ -304,7 +304,7 @@ class EmployeeReportToForm extends BaseForm {
                     $updated = TRUE;
                     $message = 'saved';
                     // add to employee event
-                    $this->getEmployeeEventService()->saveEvent($empNumber,PluginEmployeeEvent::EVENT_TYPE_SUPERVISOR,PluginEmployeeEvent::EVENT_SAVE,'Save Employee Supervisor Details',null);
+                    $this->getEmployeeEventService()->saveEvent($empNumber,PluginEmployeeEvent::EVENT_TYPE_SUPERVISOR,PluginEmployeeEvent::EVENT_SAVE,'Save Employee Supervisor Details',$this->getEmployeeEventService()->getUserRole());
 
                 }
             }
@@ -320,7 +320,7 @@ class EmployeeReportToForm extends BaseForm {
                     $updated = TRUE;
                     $message = 'updated';
                     // add to employee event
-                    $this->getEmployeeEventService()->saveEvent($empNumber,PluginEmployeeEvent::EVENT_TYPE_SUBORDINATE,PluginEmployeeEvent::EVENT_UPDATE,'Updating Employee Subordinate Details',null);
+                    $this->getEmployeeEventService()->saveEvent($empNumber,PluginEmployeeEvent::EVENT_TYPE_SUBORDINATE,PluginEmployeeEvent::EVENT_UPDATE,'Updating Employee Subordinate Details',$this->getEmployeeEventService()->getUserRole());
 
                 }
             } else {
@@ -333,7 +333,7 @@ class EmployeeReportToForm extends BaseForm {
                     $updated = TRUE;
                     $message = 'saved';
                     // add to employee event
-                    $this->getEmployeeEventService()->saveEvent($empNumber,PluginEmployeeEvent::EVENT_TYPE_SUBORDINATE,PluginEmployeeEvent::EVENT_SAVE,'Save Employee Subordinate Details',null);
+                    $this->getEmployeeEventService()->saveEvent($empNumber,PluginEmployeeEvent::EVENT_TYPE_SUBORDINATE,PluginEmployeeEvent::EVENT_SAVE,'Save Employee Subordinate Details',$this->getEmployeeEventService()->getUserRole());
 
                 }
             }

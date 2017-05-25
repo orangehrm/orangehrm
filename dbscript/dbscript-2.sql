@@ -2808,3 +2808,17 @@ INSERT INTO ohrm_user_role_screen (user_role_id, screen_id, can_read, can_create
 
 INSERT INTO hs_hr_config (`key`, `value`) VALUES  
 ('openId.provider.added', 'on');
+
+
+INSERT INTO ohrm_screen ( `name`, `module_id`, `action_url`) VALUES ( 'Register OAuth Client', 2, 'registerOAuthClient');
+SET @oauth_client_screen_id := (SELECT LAST_INSERT_ID());
+
+SET @admin_menu_id := (SELECT `id` FROM ohrm_menu_item WHERE `menu_title` = 'Admin' AND `level` = 1);
+SET @configuration_id := (SELECT `id` FROM ohrm_menu_item WHERE `menu_title` = 'Configuration' AND `level` = 2 AND parent_id = @admin_menu_id);
+SET @max_order := (SELECT MAX(`order_hint`) FROM ohrm_menu_item WHERE parent_id = @configuration_id);
+
+INSERT INTO ohrm_menu_item ( `menu_title`, `screen_id`, `parent_id`, `level`, `order_hint`, `url_extras`, `status`) VALUES
+('Register OAuth Client', @oauth_client_screen_id, @configuration_id, 3, @max_order+100, NULL, 1);
+
+INSERT INTO ohrm_user_role_screen (user_role_id, screen_id, can_read, can_create, can_update, can_delete) VALUES
+(1, @oauth_client_screen_id, 1, 1, 1, 0);

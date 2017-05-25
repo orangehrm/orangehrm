@@ -34,6 +34,7 @@ class EmployeeContactDetailAPI extends EndPoint
      */
     protected $employeeService;
     protected $countryService;
+    private $employeeEventService;
 
     const PARAMETER_ID = "id";
 
@@ -59,7 +60,6 @@ class EmployeeContactDetailAPI extends EndPoint
      */
     protected function getEmployeeService()
     {
-
         if ($this->employeeService != null) {
             return $this->employeeService;
         } else {
@@ -83,6 +83,28 @@ class EmployeeContactDetailAPI extends EndPoint
     {
         $this->employeeService = $employeeService;
     }
+    /**
+     * Get employee event service
+     *
+     * @return \EmployeeEventService
+     */
+    private function getEmployeeEventService() {
+
+        if(is_null($this->employeeEventService)) {
+            $this->employeeEventService = new \EmployeeEventService();
+        }
+
+        return $this->employeeEventService;
+    }
+
+    /**
+     * @param mixed $employeeEventService
+     */
+    public function setEmployeeEventService($employeeEventService)
+    {
+        $this->employeeEventService = $employeeEventService;
+    }
+
 
     /**
      * Get employee contact details
@@ -93,7 +115,6 @@ class EmployeeContactDetailAPI extends EndPoint
      */
     public function getEmployeeContactDetails()
     {
-
         $responseArray = null;
         $empId = $this->getRequestParams()->getUrlParam(self::PARAMETER_ID);
 
@@ -137,8 +158,12 @@ class EmployeeContactDetailAPI extends EndPoint
 
             if (!($returnedEmployee instanceof \Employee)) {
                 throw new BadRequestException("Saving Failed");
+            } else {
+                $this->getEmployeeEventService()->saveEvent($returnedEmployee->getEmpNumber(),\PluginEmployeeEvent::EVENT_TYPE_CONTACT_DETAIL,\PluginEmployeeEvent::EVENT_UPDATE,'Updating Contact Details','API');
+                return new Response(array('success' => 'Successfully Saved'));
             }
-            return new Response(array('success' => 'Successfully Saved'));
+
+
         } else {
             throw new BadRequestException("Employee Not Found");
         }
@@ -167,12 +192,13 @@ class EmployeeContactDetailAPI extends EndPoint
 
             if (!($returnedEmployee instanceof \Employee)) {
                 throw new BadRequestException("Updating Failed");
+            }else {
+                $this->getEmployeeEventService()->saveEvent($returnedEmployee->getEmpNumber(),\PluginEmployeeEvent::EVENT_TYPE_CONTACT_DETAIL,\PluginEmployeeEvent::EVENT_UPDATE,'Updating Contact Details','API');
+                return new Response(array('success' => 'Successfully Updated'));
             }
-            return new Response(array('success' => 'Successfully Updated'));
         } else {
             throw new BadRequestException("Employee Not Found");
         }
-
 
     }
 
@@ -243,27 +269,16 @@ class EmployeeContactDetailAPI extends EndPoint
 
         $filters[] = array();
 
-
         $filters[self::PARAMETER_ADDRESS_STREET_1] = $this->getRequestParams()->getPostParam(self::PARAMETER_ADDRESS_STREET_1);
-
         $filters[self::PARAMETER_ADDRESS_STREET_2] = $this->getRequestParams()->getPostParam(self::PARAMETER_ADDRESS_STREET_2);
-
         $filters[self::PARAMETER_MOBILE] = $this->getRequestParams()->getPostParam(self::PARAMETER_MOBILE);
-
         $filters[self::PARAMETER_WORK_EMAIL] = $this->getRequestParams()->getPostParam(self::PARAMETER_WORK_EMAIL);
-
         $filters[self::PARAMETER_COUNTRY] = $this->getRequestParams()->getPostParam(self::PARAMETER_COUNTRY);
-
         $filters[self::PARAMETER_CITY] = $this->getRequestParams()->getPostParam(self::PARAMETER_CITY);
-
         $filters[self::PARAMETER_STATE] = $this->getRequestParams()->getPostParam(self::PARAMETER_STATE);
-
         $filters[self::PARAMETER_ZIP] = $this->getRequestParams()->getPostParam(self::PARAMETER_ZIP);
-
         $filters[self::PARAMETER_HOME_TELEPHONE] = $this->getRequestParams()->getPostParam(self::PARAMETER_HOME_TELEPHONE);
-
         $filters[self::PARAMETER_WORK_TELEPHONE] = $this->getRequestParams()->getPostParam(self::PARAMETER_WORK_TELEPHONE);
-
         $filters[self::PARAMETER_OTHER_EMAIL] = $this->getRequestParams()->getPostParam(self::PARAMETER_OTHER_EMAIL);
 
         if (!empty($this->getRequestParams()->getUrlParam(self::PARAMETER_ID))) {

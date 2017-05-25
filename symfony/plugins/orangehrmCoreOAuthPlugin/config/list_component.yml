@@ -1,0 +1,21 @@
+OpenIdProvider:
+  pluginName: orangehrmCoreOAuthPlugin
+  hasSelectableRows: true
+  unselectableRowIds: []
+  idValueGetter:  getClientId
+  title: 'OAuth Clients List'
+  tableWidth: 100%
+  hasSummary: false
+  summary: []
+  buttons:
+    Delete:
+      label: Delete
+      type: submit
+      data-toggle: modal
+      data-target: '#deleteConfModal'
+      class: delete
+  buttonsPosition: before-data
+  formMethod: post
+  formAction: 'admin/deleteOAuthClient'
+  assets: []
+  jsInitMethods: []

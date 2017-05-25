@@ -42,6 +42,7 @@ class EmployeeSaveAPI extends EndPoint
      * @var EmployeeService
      */
     protected $employeeService = null;
+    private $employeeEventService;
 
     /**
      * Saving Employee
@@ -52,7 +53,6 @@ class EmployeeSaveAPI extends EndPoint
      */
     public function saveEmployee()
     {
-        $relationsArray = array();
         $returned = null;
         $filters = $this->filterParameters();
         $employee = null;
@@ -61,7 +61,6 @@ class EmployeeSaveAPI extends EndPoint
             $employee = $this->getEmployeeService()->getEmployeeByEmployeeId($filters[self::PARAMETER_EMPLOYEE_ID]);
 
         }
-
 
         if ($employee instanceof \Employee) {
             throw new BadRequestException('Failed To Save: Employee Code Exists');
@@ -78,6 +77,8 @@ class EmployeeSaveAPI extends EndPoint
         if (!$returnedEmployee instanceof \Employee) {
             throw new BadRequestException('Employee Saving Failed');
         } else {
+
+            $this->getEmployeeEventService()->saveEvent($returnedEmployee->getEmpNumber(),\PluginEmployeeEvent::EVENT_TYPE_EMPLOYEE,\PluginEmployeeEvent::EVENT_SAVE,'Saving Employee','API');
             return new Response(array('success' => 'Successfully Saved', 'id' => ltrim($returnedEmployee->getEmpNumber(), '0')));
         }
     }
@@ -90,9 +91,7 @@ class EmployeeSaveAPI extends EndPoint
      */
     private function buildEmployee($filters)
     {
-
         $employee = new \Employee();
-
 
         if (!empty($filters[self::PARAMETER_FIRST_NAME])) {
 
@@ -114,7 +113,6 @@ class EmployeeSaveAPI extends EndPoint
 
         $employee->setEmployeeId($filters[self::PARAMETER_EMPLOYEE_ID]);
 
-
         return $employee;
     }
 
@@ -122,7 +120,7 @@ class EmployeeSaveAPI extends EndPoint
     {
         return array(
             self::PARAMETER_FIRST_NAME => array('StringType' => true, 'NotEmpty' => true, 'Length' => array(1, 30)),
-            self::PARAMETER_MIDDLE_NAME => array('StringType' => true, 'Length' => array(1, 30)),
+            self::PARAMETER_MIDDLE_NAME => array('StringType' => true,  'Length' => array(1, 30)),
             self::PARAMETER_LAST_NAME => array('StringType' => true, 'NotEmpty' => true, 'Length' => array(1, 30)),
             self::PARAMETER_EMPLOYEE_ID => array('StringType' => true, 'Length' => array(1, 10))
         );
@@ -136,7 +134,6 @@ class EmployeeSaveAPI extends EndPoint
      */
     protected function filterParameters()
     {
-
         $filters[] = array();
 
         if (!empty($this->getRequestParams()->getPostParam(self::PARAMETER_FIRST_NAME))) {
@@ -164,7 +161,6 @@ class EmployeeSaveAPI extends EndPoint
      */
     protected function getEmployeeService()
     {
-
         if ($this->employeeService != null) {
             return $this->employeeService;
         } else {
@@ -179,5 +175,28 @@ class EmployeeSaveAPI extends EndPoint
     {
         $this->employeeService = $employeeService;
     }
+
+    /**
+     * Get employee event service
+     *
+     * @return \EmployeeEventService
+     */
+    private function getEmployeeEventService() {
+
+        if(is_null($this->employeeEventService)) {
+            $this->employeeEventService = new \EmployeeEventService();
+        }
+
+        return $this->employeeEventService;
+    }
+
+    /**
+     * @param mixed $employeeEventService
+     */
+    public function setEmployeeEventService($employeeEventService)
+    {
+        $this->employeeEventService = $employeeEventService;
+    }
+
 
 }

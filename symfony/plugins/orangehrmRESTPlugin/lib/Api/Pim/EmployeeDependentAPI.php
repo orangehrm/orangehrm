@@ -36,6 +36,9 @@ class EmployeeDependentAPI extends EndPoint
     const PARAMETER_DOB = "dob";
     const PARAMETER_SEQ_NUMBER = "sequenceNumber";
 
+    private $employeeEventService;
+    private $employeeService;
+
     /**
      * @return \EmployeeService|null
      */
@@ -54,6 +57,30 @@ class EmployeeDependentAPI extends EndPoint
         $this->employeeService = $employeeService;
     }
 
+
+    /**
+     * Get employee event service
+     *
+     * @return \EmployeeEventService
+     */
+    private function getEmployeeEventService() {
+
+        if(is_null($this->employeeEventService)) {
+            $this->employeeEventService = new \EmployeeEventService();
+        }
+
+        return $this->employeeEventService;
+    }
+
+    /**
+     * @param mixed $employeeEventService
+     */
+    public function setEmployeeEventService($employeeEventService)
+    {
+        $this->employeeEventService = $employeeEventService;
+    }
+
+
     /**
      * get employee dependants
      *
@@ -62,7 +89,6 @@ class EmployeeDependentAPI extends EndPoint
      */
     public function getEmployeeDependents()
     {
-
         $responseArray = null;
         $empId = $this->getRequestParams()->getUrlParam(self::PARAMETER_ID);
 
@@ -98,6 +124,8 @@ class EmployeeDependentAPI extends EndPoint
         $result = $this->getEmployeeService()->saveEmployeeDependent($dependent);
 
         if ($result instanceof \EmpDependent) {
+
+            $this->getEmployeeEventService()->saveEvent($result->getEmpNumber(),\PluginEmployeeEvent::EVENT_TYPE_DEPENDENT,\PluginEmployeeEvent::EVENT_SAVE,'Saving Employee Dependent','API');
             return new Response(array('success' => 'Successfully Saved', 'sequenceNumber' => $result->getSeqno() ));
         } else {
             throw new BadRequestException("Saving Failed");
@@ -127,6 +155,7 @@ class EmployeeDependentAPI extends EndPoint
         }
 
         if ($result instanceof \EmpDependent) {
+            $this->getEmployeeEventService()->saveEvent($result->getEmpNumber(),\PluginEmployeeEvent::EVENT_TYPE_DEPENDENT,\PluginEmployeeEvent::EVENT_UPDATE,'Updating Employee Dependent','API');
             return new Response(array('success' => 'Successfully Updated'));
         } else {
             throw new BadRequestException("Updating Failed");
@@ -152,7 +181,7 @@ class EmployeeDependentAPI extends EndPoint
             $count = $this->getEmployeeService()->deleteEmployeeDependents($empId, array($sequenceNumber));
 
             if ($count > 0) {
-
+                $this->getEmployeeEventService()->saveEvent($empId,\PluginEmployeeEvent::EVENT_TYPE_DEPENDENT,\PluginEmployeeEvent::EVENT_DELETE,'Deleting Employee Dependent','API');
                 return new Response(array('success' => 'Successfully Deleted'));
             } else {
                 throw new RecordNotFoundException("Deleting Failed");
@@ -173,7 +202,6 @@ class EmployeeDependentAPI extends EndPoint
      */
     protected function filterParameters()
     {
-
         $filters[] = array();
 
         if (!empty($this->getRequestParams()->getPostParam(self::PARAMETER_NAME))) {

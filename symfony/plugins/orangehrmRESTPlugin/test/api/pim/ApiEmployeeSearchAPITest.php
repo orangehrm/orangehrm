@@ -33,7 +33,6 @@ class ApiEmployeeSearchAPITest extends PHPUnit_Framework_TestCase
 {
     private $employeeSearchAPI;
 
-
     /**
      * Set up method
      */
@@ -54,7 +53,6 @@ class ApiEmployeeSearchAPITest extends PHPUnit_Framework_TestCase
         $parameterHolder = new \EmployeeSearchParameterHolder();
         $searchLimit = null;
         $searchOffset = null;
-
 
         $filters['employee_name'] = 'Nina';
 

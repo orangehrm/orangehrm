@@ -102,6 +102,11 @@
     <mkdir dir="${package.dir}/symfony/cache"/>
     <mkdir dir="${package.dir}/symfony/log"/>
 
+      <delete includeemptydirs="true" failonerror="false" dir="${package.dir}/upgrader/log"/>
+      <delete includeemptydirs="true" failonerror="false" dir="${package.dir}/upgrader/cache"/>
+      <mkdir dir="${package.dir}/upgrader/cache"/>
+      <mkdir dir="${package.dir}/upgrader/log"/>
+
     <copy todir="${dist.dir}">
 	<fileset dir="${project.dir}">
 	    <include name="orangehrm-quick-start-guide.html"/>

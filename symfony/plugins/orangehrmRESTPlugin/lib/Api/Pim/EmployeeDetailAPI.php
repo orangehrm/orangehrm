@@ -116,7 +116,6 @@ class EmployeeDetailAPI extends EndPoint
         }
         $employee = $this->getEmployeeService()->getEmployee($empId);
 
-
         if (empty($employee)) {
             throw new RecordNotFoundException("Employee Not Found");
         }
@@ -232,7 +231,6 @@ class EmployeeDetailAPI extends EndPoint
      */
     protected function filterParameters()
     {
-
         $filters[] = array();
 
         if (!empty($this->getRequestParams()->getPostParam(self::PARAMETER_FIRST_NAME))) {
@@ -324,7 +322,6 @@ class EmployeeDetailAPI extends EndPoint
      */
     private function buildEmployeeData(\Employee $employee)
     {
-
         $emp = new Employee($employee->getFirstName(), $employee->getMiddleName(), $employee->getLastName(),
             $employee->getEmployeeId());
         $emp->buildEmployee($employee);
@@ -344,7 +341,6 @@ class EmployeeDetailAPI extends EndPoint
 
     protected function checkNationality($nation)
     {
-
         $nationalityService = $this->getNationalityService();
         $nationalities = $nationalityService->getNationalityList();
 

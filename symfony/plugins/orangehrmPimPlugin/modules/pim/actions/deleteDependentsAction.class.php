@@ -24,6 +24,31 @@
  */
 class deleteDependentsAction extends basePimAction {
 
+    private $employeeEventService;
+
+    /**
+     * Get Employee event Service
+     *
+     * @return EmployeeEventService|mixed
+     */
+    private function getEmployeeEventService()
+    {
+
+        if (is_null($this->employeeEventService)) {
+            $this->employeeEventService = new EmployeeEventService();
+        }
+
+        return $this->employeeEventService;
+    }
+
+    /**
+     * @param $employeeEventService
+     */
+    public function setEmployeeEventService($employeeEventService)
+    {
+        $this->employeeEventService = $employeeEventService;
+    }
+
     /**
      * Delete employee dependents
      *
@@ -54,6 +79,7 @@ class deleteDependentsAction extends basePimAction {
                 if ($dependentsToDelete) {
                     $service = new EmployeeService();
                     $count = $service->deleteEmployeeDependents($empNumber, $dependentsToDelete);
+                    $this->getEmployeeEventService()->saveEvent($empNumber,PluginEmployeeEvent::EVENT_TYPE_DEPENDENT,PluginEmployeeEvent::EVENT_DELETE,'Delete Employee Dependent',$this->getEmployeeEventService()->getUserRole());
                     $this->getUser()->setFlash('viewDependents.success', __(TopLevelMessages::DELETE_SUCCESS));
                 }
             }

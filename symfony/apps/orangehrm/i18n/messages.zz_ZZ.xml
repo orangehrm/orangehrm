@@ -7480,6 +7480,46 @@
         <source>User Account Not found</source>
         <target>FR_User Account Not found</target>
       </trans-unit>
+      <trans-unit id="1870">
+        <source>API Documentation</source>
+        <target>FR_API Documentation</target>
+      </trans-unit>
+      <trans-unit id="1871">
+        <source>PHP Sample App</source>
+        <target>FR_PHP Sample App</target>
+      </trans-unit>
+      <trans-unit id="1872">
+        <source>Add OAuth Client</source>
+        <target>FR_Add OAuth Client</target>
+      </trans-unit>
+      <trans-unit id="1873">
+        <source>ID</source>
+        <target>FR_ID</target>
+      </trans-unit>
+      <trans-unit id="1874">
+        <source>Secret</source>
+        <target>FR_Secret</target>
+      </trans-unit>
+      <trans-unit id="1875">
+        <source>Redirect URI</source>
+        <target>FR_Redirect URI</target>
+      </trans-unit>
+      <trans-unit id="1876">
+        <source>Register OAuth Client</source>
+        <target>FR_Register OAuth Client</target>
+      </trans-unit>
+      <trans-unit id="1877">
+        <source>Given Client ID Is Already In The Database</source>
+        <target>FR_Given Client ID Is Already In The Database</target>
+      </trans-unit>
+      <trans-unit id="1878">
+        <source>OAuth Client Saved Successfully</source>
+        <target>FR_OAuth Client Saved Successfully</target>
+      </trans-unit>
+      <trans-unit id="1879">
+        <source>OAuth Client List</source>
+        <target>FR_OAuth Client List</target>
+      </trans-unit>
     </body>
   </file>
 </xliff>

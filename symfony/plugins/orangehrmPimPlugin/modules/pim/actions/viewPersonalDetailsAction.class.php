@@ -22,6 +22,23 @@
  */
 class viewPersonalDetailsAction extends basePimAction {
 
+
+     private $employeeEventService;
+
+    /**
+     * Get Employee event Service
+     *
+     * @return EmployeeEventService|mixed
+     */
+    private function getEmployeeEventService() {
+
+        if(is_null($this->employeeEventService)) {
+            $this->employeeEventService = new EmployeeEventService();
+        }
+
+        return $this->employeeEventService;
+    }
+
     /**
      * @param sfForm $form
      * @return
@@ -72,6 +89,7 @@ class viewPersonalDetailsAction extends basePimAction {
 
                     $employee = $this->form->getEmployee();
                     $this->getEmployeeService()->saveEmployee($employee);
+                    $this->getEmployeeEventService()->saveEvent($empNumber,PluginEmployeeEvent::EVENT_TYPE_EMPLOYEE,PluginEmployeeEvent::EVENT_UPDATE,'Updating Employee Details',$this->getUser()->getAttribute('name'));
                     $this->getUser()->setFlash('personaldetails.success', __(TopLevelMessages::SAVE_SUCCESS));
                     $this->redirect('pim/viewPersonalDetails?empNumber='. $empNumber);
 

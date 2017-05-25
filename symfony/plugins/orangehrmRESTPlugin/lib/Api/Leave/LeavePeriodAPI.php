@@ -33,7 +33,6 @@ class LeavePeriodAPI extends EndPoint
      */
     public function getLeavePeriodService()
     {
-
         if (is_null($this->leavePeriodService)) {
             $leavePeriodService = new \LeavePeriodService();
             $leavePeriodService->setLeavePeriodDao(new \LeavePeriodDao());

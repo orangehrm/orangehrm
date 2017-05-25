@@ -107,7 +107,6 @@ class EmployeeTerminateAPI extends EndPoint
      */
     protected function filterParameters()
     {
-
         $filters[] = array();
 
         if (!empty($this->getRequestParams()->getUrlParam(self::PARAMETER_ID))) {

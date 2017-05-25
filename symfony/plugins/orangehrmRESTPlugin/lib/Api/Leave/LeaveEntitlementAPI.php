@@ -163,11 +163,8 @@ class LeaveEntitlementAPI extends EndPoint
      */
     protected function getFilters()
     {
-
         $searchParameters = new \LeaveEntitlementSearchParameterHolder();
-
         $id = $this->getRequestParams()->getUrlParam(self::PARAMETER_ID);
-
         $employee = $this->getEmployeeService()->getEmployee($id);
 
         if (empty($employee)) {
@@ -208,9 +205,7 @@ class LeaveEntitlementAPI extends EndPoint
      */
     protected function createEntitlement()
     {
-
         $leaveEntitlement = new \LeaveEntitlement();
-
         $leaveEntitlementType = null;
 
         if (!empty($this->getRequestParams()->getPostParam(self::PARAMETER_LEAVE_TYPE))) {
@@ -255,7 +250,6 @@ class LeaveEntitlementAPI extends EndPoint
         if (!$this->validateLeavePeriods($leaveEntitlement->getFromDate(), $leaveEntitlement->getToDate())) {
             throw new InvalidParamException('No Leave Period Found');
         };
-
 
         return $leaveEntitlement;
 

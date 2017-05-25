@@ -195,7 +195,7 @@ CONFCONT;
      */
     public function getEndIncrementNumber() {
         
-        return 63;
+        return 64;
         
     }
     
@@ -244,7 +244,9 @@ CONFCONT;
         $a['3.2']       = 62;
         $a['3.2.1']     = 62;
         $a['3.3']       = 63;
-        $a['3.3.1']     = 63; // No db change between 3.3 -> 3.3.1 
+        $a['3.3.1']     = 63; // No db change between 3.3 -> 3.3.1
+        $a['3.3.2']     = 64; // No db change between 3.3.2 -> 3.3.3
+        $a['3.3.3']     = 64;// 3.3.2 to 4.0
         return $a;
         
     }
@@ -254,7 +256,7 @@ CONFCONT;
      */
     public function getNewVersion() {
         
-        return '3.3.2';
+        return '4.0';
         
     }
     

@@ -121,7 +121,6 @@ class EmployeeSearchAPI extends EndPoint
      */
     protected function buildSearchParamHolder()
     {
-
         $filters = array();
         $parameterHolder = new \EmployeeSearchParameterHolder();
         $searchLimit = null;
