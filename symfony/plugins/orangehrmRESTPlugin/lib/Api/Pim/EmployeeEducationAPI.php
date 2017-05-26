@@ -134,13 +134,12 @@ class EmployeeEducationAPI extends EndPoint
         $filters = $this->getFilterParameters();
         $this->validateEmployee($filters[self::PARAMETER_ID]);
         $this->validateDate($filters[self::PARAMETER_FROM_DATE], $filters[self::PARAMETER_TO_DATE]);
-        $educationRecord = $this->getEmployeeService()->getEmployeeEducations($filters[self::PARAMETER_ID],
-            $filters[self::PARAMETER_SEQ_ID]);
-        $this->validateEmployeeEducation($educationRecord[0]);
-        $this->validateEducation($filters[self::PARAMETER_LEVEL]);
+        $educationRecord = $this->getEmployeeService()->getEducation($filters[self::PARAMETER_SEQ_ID]);
 
+        $this->validateEmployeeEducation($educationRecord);
+        $this->validateEducation($filters[self::PARAMETER_LEVEL]);
         $result = $this->getEmployeeService()->saveEmployeeEducation($this->buildEmployeeEducation($filters,
-            $educationRecord[0]));
+            $educationRecord));
 
         if ($result instanceof \EmployeeEducation) {
             return new Response(array('success' => 'Successfully Updated', 'seqId' => $result->getId()));
@@ -196,7 +195,6 @@ class EmployeeEducationAPI extends EndPoint
         $filters[self::PARAMETER_YEAR] = $this->getPostParam(self::PARAMETER_YEAR, $this->getRequestParams());
         $filters[self::PARAMETER_ID] = $this->getRequestParams()->getUrlParam(self::PARAMETER_ID);
 
-
         return $filters;
 
     }
@@ -230,9 +228,7 @@ class EmployeeEducationAPI extends EndPoint
 
             $employeeEducation = new \EmployeeEducation();
         }
-        if (!empty($filters[self::PARAMETER_SEQ_ID])) {
-            $employeeEducation->setId($filters[self::PARAMETER_SEQ_ID]);
-        }
+
         if (!empty($filters[self::PARAMETER_LEVEL])) {
             $employeeEducation->setEducationId($filters[self::PARAMETER_LEVEL]);
         }

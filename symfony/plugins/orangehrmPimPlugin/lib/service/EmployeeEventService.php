@@ -96,6 +96,19 @@ class EmployeeEventService extends BaseService {
         return $this->getEmployeeEventDao()->getEmployeeEvent($parameters);
     }
 
-    
+    /**
+     * Get user role
+     *
+     * @return string
+     */
+    public function getUserRole()
+    {
+        $user = UserRoleManagerFactory::getUserRoleManager()->getUser();
+        if ($user instanceof SystemUser) {
+            return $user->getUserRole()->getName();
+        } else {
+            return 'System';
+        }
+    }
 
 }
