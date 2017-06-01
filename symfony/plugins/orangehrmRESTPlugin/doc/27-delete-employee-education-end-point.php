@@ -1,5 +1,5 @@
 /**
-* @api {del} /employee/:id/education 28.Delete Employee Education
+* @api {del} /employee/:id/education 27.Delete Employee Education
 * @apiName deleteEmployeeEducation
 * @apiGroup Employee
 * @apiVersion 0.1.0
