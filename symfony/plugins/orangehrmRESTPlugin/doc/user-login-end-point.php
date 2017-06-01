@@ -11,6 +11,7 @@
 * @apiSuccess  {String} login  User login ( true or false ).
 * @apiSuccess  {String} userName  User Name.
 * @apiSuccess  {String} employeeName  Employee name.
+* @apiSuccess  {Number} employeeId  Employee id.
 * @apiSuccess  {String} userRole  User role.
 * @apiSuccess  {String} status  User status.
 *
@@ -24,6 +25,7 @@
 *		    "userRole": "Admin",
 *		    "status": "Enabled",
 *		    "employeeName": ""
+*           "employeeId": ""
 *		  }
 *		}
 *

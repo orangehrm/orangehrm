@@ -77,7 +77,8 @@ class UserLoginAPI extends EndPoint
     /**
      * @return \SystemUserService
      */
-    public function getSystemUserService() {
+    public function getSystemUserService()
+    {
         if (empty($this->systemUserService)) {
             $this->systemUserService = new \SystemUserService();
         }
@@ -87,7 +88,8 @@ class UserLoginAPI extends EndPoint
     /**
      * @param $systemUserService
      */
-    public function setSystemUserService($systemUserService) {
+    public function setSystemUserService($systemUserService)
+    {
         $this->systemUserService = $systemUserService;
     }
 
@@ -107,7 +109,7 @@ class UserLoginAPI extends EndPoint
 
         try {
 
-           $success = $this->getAuthenticationService()->setCredentials($username, $password, $additionalData);
+            $success = $this->getAuthenticationService()->setCredentials($username, $password, $additionalData);
 
             if ($success) {
 
@@ -118,8 +120,9 @@ class UserLoginAPI extends EndPoint
             } else {
                 throw new InvalidParamException('Credentials Are Wrong Please Try Again');
             }
+
         } catch (\AuthenticationServiceException $e) {
-                throw new BadRequestException('Login Failed');
+            throw new BadRequestException('Login Failed');
         }
 
     }
@@ -132,8 +135,8 @@ class UserLoginAPI extends EndPoint
     public function postValidationRules()
     {
         return array(
-            self::PARAMETER_USERNAME => array('StringType' => true,'NotEmpty' => true),
-            self::PARAMETER_PASSWORD => array('StringType' => true,'NotEmpty' => true)
+            self::PARAMETER_USERNAME => array('StringType' => true, 'NotEmpty' => true),
+            self::PARAMETER_PASSWORD => array('StringType' => true, 'NotEmpty' => true)
         );
     }
 
@@ -168,14 +171,14 @@ class UserLoginAPI extends EndPoint
     }
 
     /**
-     * Get logged
+     * Get logged user
      *
      * @return array
      */
     protected function getUser()
     {
-        $userId = $this->getAuthenticationService()->getLoggedInUserId();
-        $systemUser = $this->getSystemUserService()->getSystemUser($userId);
+        $userId = $this->getAuthenticationService()->getLoggedInUserId(); // get logged user id
+        $systemUser = $this->getSystemUserService()->getSystemUser($userId); // get logged user
         $apiUser = new User();
         $apiUser->buildUser($systemUser);
         return $apiUser->toArray();

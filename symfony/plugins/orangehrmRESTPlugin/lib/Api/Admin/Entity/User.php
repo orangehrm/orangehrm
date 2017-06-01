@@ -31,6 +31,7 @@ class User implements Serializable
     private $userRole;
     private $employeeName;
     private $status;
+    private $employeeId;
 
     const ENABLED = 'Enabled';
     const DISABLED = 'Disabled';
@@ -99,12 +100,29 @@ class User implements Serializable
         $this->status = $status;
     }
 
+    /**
+     * @return mixed
+     */
+    public function getEmployeeId()
+    {
+        return $this->employeeId;
+    }
+
+    /**
+     * @param mixed $employeeId
+     */
+    public function setEmployeeId($employeeId)
+    {
+        $this->employeeId = $employeeId;
+    }
+
     public function buildUser(\SystemUser $user)
     {
         $this->setStatus($this->getUserStatus($user->getStatus()));
         $this->setEmployeeName($user->getEmployee()->getFullName());
         $this->setUserRole($user->getUserRole());
         $this->setUserName($user->getUserName());
+        $this->setEmployeeId($user->getEmpNumber());
     }
 
     public function toArray()
@@ -113,7 +131,8 @@ class User implements Serializable
             'userName' => $this->getUserName(),
             'userRole' => $this->getUserRole()->getName(),
             'status' => $this->getStatus(),
-            'employeeName' => $this->getEmployeeName()
+            'employeeName' => $this->getEmployeeName(),
+            'employeeId'   => $this->getEmployeeId()
 
         );
     }

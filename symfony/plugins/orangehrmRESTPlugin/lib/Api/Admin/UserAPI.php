@@ -34,6 +34,11 @@ class UserAPI extends EndPoint
 
     private $systemUserService;
 
+    /**
+     * Get system user service
+     *
+     * @return \SystemUserService
+     */
     public function getSystemUserService()
     {
         if (is_null($this->systemUserService)) {
@@ -50,7 +55,12 @@ class UserAPI extends EndPoint
         $this->systemUserService = $systemUserService;
     }
 
-
+    /**
+     * Get System Users
+     *
+     * @return Response
+     * @throws RecordNotFoundException
+     */
     public function getSystemUsers()
     {
         $parameterObject = $this->getSearchParameters();
@@ -70,9 +80,13 @@ class UserAPI extends EndPoint
 
     }
 
+    /**
+     * Creating search parameters
+     *
+     * @return array
+     */
     private function getSearchParameters()
     {
-
         $searchParameters = array(
 
             'userName' => $this->getRequestParams()->getUrlParam(self::PARAMETER_USER_NAME),
@@ -82,7 +96,6 @@ class UserAPI extends EndPoint
             'limit' => $this->getRequestParams()->getUrlParam(self::PARAMETER_LIMIT),
             'use_ids' => array(1, 2)
         );
-
 
         return $searchParameters;
     }

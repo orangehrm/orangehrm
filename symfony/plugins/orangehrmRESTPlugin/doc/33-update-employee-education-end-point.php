@@ -1,5 +1,5 @@
 /**
-* @api {put} /employee/:id/education 27.Update Employee Education
+* @api {put} /employee/:id/education 33.Update Employee Education
 * @apiName updateEmployeeEducation
 * @apiGroup Employee
 * @apiVersion 0.1.0
