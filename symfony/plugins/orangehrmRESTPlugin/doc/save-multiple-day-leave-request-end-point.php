@@ -4,7 +4,7 @@
 * @apiGroup Leave
 * @apiVersion 0.1.0
 *
-* @apiParam   {Number} empId Employee id.
+* @apiParam   {Number} id Employee id.
 * @apiParam   {String} type Mandatory leave type name.
 * @apiParam   {Date} fromDate Leave start date.
 * @apiParam   {Date} toDate Leave end date.
