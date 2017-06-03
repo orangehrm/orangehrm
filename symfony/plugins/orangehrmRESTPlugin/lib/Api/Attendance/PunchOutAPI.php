@@ -40,6 +40,11 @@ class PunchOutAPI extends PunchTimeAPI
 {
 
 
+    /**
+     * @return Response
+     * @throws InvalidParamException
+     * @throws RecordNotFoundException
+     */
     public function savePunchOut(){
         $empNumber = $this->getRequestParams()->getUrlParam(parent::PARAMETER_ID);
         $timeZone = $this->getRequestParams()->getPostParam(parent::PARAMETER_TIME_ZONE);
@@ -91,6 +96,15 @@ class PunchOutAPI extends PunchTimeAPI
 
     }
 
+    /**
+     * @param $attendanceRecord
+     * @param $state
+     * @param $punchOutUtcTime
+     * @param $punchOutUserTime
+     * @param $punchOutTimezoneOffset
+     * @param $punchOutNote
+     * @return \AttendanceRecord
+     */
     public function setPunchOutRecord($attendanceRecord, $state, $punchOutUtcTime, $punchOutUserTime, $punchOutTimezoneOffset, $punchOutNote) {
 
         $attendanceRecord->setState($state);
@@ -99,5 +113,15 @@ class PunchOutAPI extends PunchTimeAPI
         $attendanceRecord->setPunchOutNote($punchOutNote);
         $attendanceRecord->setPunchOutTimeOffset($punchOutTimezoneOffset);
         return $this->getAttendanceService()->savePunchRecord($attendanceRecord);
+    }
+
+    /**
+     * @return array
+     */
+    public function getValidationRules()
+    {
+        return array(
+            self::PARAMETER_NOTE => array('StringType' => true, 'Length' => array(1, 250))
+        );
     }
 }

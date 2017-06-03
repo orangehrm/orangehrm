@@ -38,13 +38,21 @@ class PunchInApiAction extends baseRestAction
         return $this->punchInApi;
     }
 
+    /**
+     * @param $punchInApi
+     * @return $this
+     */
     public function setPunchInApi($punchInApi){
         $this->punchInApi = $punchInApi;
         return $this;
     }
 
+    /**
+     * @param Request $request
+     */
     protected function init(Request $request){
         $this->punchInApi = new PunchInAPI($request);
+        $this->postValidationRule = $this->punchInApi->getValidationRules();
     }
 
     /**

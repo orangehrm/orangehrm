@@ -50,9 +50,14 @@ class PunchOutApiAction extends baseRestAction
         return $this;
     }
 
+    /**
+     * @param Request $request
+     */
     protected function init(Request $request)
     {
         $this->punchOutApi = new PunchOutAPI($request);
+        $this->postValidationRule = $this->punchOutApi->getValidationRules();
+
     }
 
     /**

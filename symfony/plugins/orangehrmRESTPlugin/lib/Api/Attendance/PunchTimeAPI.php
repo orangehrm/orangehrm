@@ -36,6 +36,9 @@ class PunchTimeAPI extends EndPoint{
     protected $employeeService;
     protected $attendanceService;
 
+    /**
+     * @return \EmployeeService
+     */
     public function getEmployeeService(){
         if(!$this->employeeService){
             $this->employeeService = new \EmployeeService();
@@ -43,11 +46,18 @@ class PunchTimeAPI extends EndPoint{
         return $this->employeeService;
     }
 
+    /**
+     * @param $employeeService
+     * @return $this
+     */
     public function setEmployeeService($employeeService){
         $this->employeeService = $employeeService;
         return $this;
     }
 
+    /**
+     * @return \AttendanceService
+     */
     public function getAttendanceService() {
         if (is_null($this->attendanceService)) {
             $this->attendanceService = new \AttendanceService();
@@ -55,10 +65,18 @@ class PunchTimeAPI extends EndPoint{
         return $this->attendanceService;
     }
 
+    /**
+     * @param \AttendanceService $attendanceService
+     */
     public function setAttendanceService(\AttendanceService $attendanceService) {
         $this->attendanceService = $attendanceService;
     }
 
+
+    /**
+     * @param $empNumber
+     * @return \Employee
+     */
     public function checkValidEmployee($empNumber){
         try {
             return $this->getEmployeeService()->getEmployee($empNumber);
@@ -68,6 +86,11 @@ class PunchTimeAPI extends EndPoint{
 
     }
 
+    /**
+     * @param $remote_tz
+     * @param null $origin_tz
+     * @return int
+     */
     function getTimezoneOffset($remote_tz, $origin_tz = null) {
         if($origin_tz === null) {
             if(!is_string($origin_tz = date_default_timezone_get())) {

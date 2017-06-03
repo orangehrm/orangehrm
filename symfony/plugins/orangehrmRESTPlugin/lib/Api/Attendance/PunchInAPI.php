@@ -33,6 +33,11 @@ class PunchInAPI extends PunchTimeAPI
 {
 
 
+    /**
+     * @return Response
+     * @throws InvalidParamException
+     * @throws RecordNotFoundException
+     */
     public function savePunchIn()
     {
         $empNumber = $this->getRequestParams()->getUrlParam(parent::PARAMETER_ID);
@@ -86,6 +91,15 @@ class PunchInAPI extends PunchTimeAPI
     }
 
 
+    /**
+     * @param $attendanceRecord
+     * @param $state
+     * @param $punchInUtcTime
+     * @param $punchInUserTime
+     * @param $punchInTimezoneOffset
+     * @param $punchInNote
+     * @return \AttendanceRecord
+     */
     public function setPunchInRecord($attendanceRecord, $state, $punchInUtcTime, $punchInUserTime, $punchInTimezoneOffset, $punchInNote) {
 
         $attendanceRecord->setState($state);
@@ -94,5 +108,15 @@ class PunchInAPI extends PunchTimeAPI
         $attendanceRecord->setPunchInNote($punchInNote);
         $attendanceRecord->setPunchInTimeOffset($punchInTimezoneOffset);
         return $this->getAttendanceService()->savePunchRecord($attendanceRecord);
+    }
+
+    /**
+     * @return array
+     */
+    public function getValidationRules()
+    {
+        return array(
+            self::PARAMETER_NOTE => array('StringType' => true, 'Length' => array(1, 250))
+        );
     }
 }
