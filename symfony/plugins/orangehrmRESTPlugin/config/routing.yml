@@ -123,3 +123,17 @@ api_user_login:
   param: { module:apiv1admin, action:UserLoginApi }
   requirements:
      sf_method: [post]
+
+api_attendance_punchin:
+  url: /api/v1/employee/:id/punch-in
+  param: { module:apiv1attendance, action:PunchInApi }
+  requirements:
+    id: \d+
+    sf_method: [get,post]
+
+api_attendance_punchout:
+  url: /api/v1/employee/:id/punch-out
+  param: { module:apiv1attendance, action:PunchOutApi }
+  requirements:
+    id: \d+
+    sf_method: [get,post]

@@ -1,0 +1,4 @@
+default:
+  is_secure: false
+authorize:
+  is_secure: false
