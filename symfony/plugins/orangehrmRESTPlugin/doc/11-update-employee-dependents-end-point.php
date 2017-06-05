@@ -16,7 +16,7 @@
 *     HTTP/1.1 200 OK
 *
 *      {
-*        "success": "Successfully Deleted"
+*        "success": "Successfully Updated"
 *      }
 *
 * @apiError Bad-Response Saving Failed.
