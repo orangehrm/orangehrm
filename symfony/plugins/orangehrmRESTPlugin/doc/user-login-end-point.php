@@ -6,7 +6,7 @@
 *
 *
 * @apiParam   {String} username  User Name.
-* @apiParam   {Number} password  User password.
+* @apiParam   {String} password  User password.
 *
 * @apiSuccess  {String} login  User login ( true or false ).
 * @apiSuccess  {String} userName  User Name.
