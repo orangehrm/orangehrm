@@ -21,10 +21,12 @@
 /* For logging PHP errors */
 include_once('lib/confs/log_settings.php');
 
-$rootPath = realpath(dirname(__FILE__));
-//include_once ('lib/confs/Conf.php');
-define('ROOT_PATH', $rootPath);
-require(ROOT_PATH . '/installer/utils/installUtil.php');
+if (!defined('ROOT_PATH')) {
+    $rootPath = realpath(dirname(__FILE__));
+    define('ROOT_PATH', $rootPath);
+}
+
+require_once(ROOT_PATH . '/installer/utils/installUtil.php');
 global $dbConnection;
 
 //function sockComm($postArr) {

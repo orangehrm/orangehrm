@@ -21,9 +21,9 @@ session_start();
 define('REAL_ROOT_PATH', dirname(__FILE__));
 define('ROOT_PATH',dirname( dirname(__FILE__) ));
 
-require(REAL_ROOT_PATH.'/utils/installUtil.php');
-require(REAL_ROOT_PATH.'/DetailsHandler.php');
-require(REAL_ROOT_PATH.'/BasicConfigurations.php');
+require_once(REAL_ROOT_PATH.'/utils/installUtil.php');
+require_once(REAL_ROOT_PATH.'/DetailsHandler.php');
+require_once(REAL_ROOT_PATH.'/BasicConfigurations.php');
 
 
 function setValueToLogFile($filePath, $content) {		
