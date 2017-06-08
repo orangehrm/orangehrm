@@ -89,17 +89,17 @@ else{
 if(!$acceptAggrement){
 	$messages->displayMessage("Need accept license agreement to continue!");
 }
-else if(posix_getuid() != 0){
-	$messages->displayMessage(Messages::SUPER_USER_NEED);
-}
+//else if(posix_getuid() != 0){
+//	$messages->displayMessage(Messages::SUPER_USER_NEED);
+//}
 else if (is_file(ROOT_PATH . '/lib/confs/Conf.php')) {
         exit ("\nThis system already installed.\n");
 }else{ 
         ($argv[1]<1) ? $detailsHandler->checkDetailsValidation() : setConfiguration($argv,$detailsHandler);
 	if(!($basicConfigurations->isFailBasicConfigurations()))
 	{
-		shell_exec("chmod -R 777 ".ROOT_PATH);
-		shell_exec("exit");
+//		shell_exec("chmod -R 777 ".ROOT_PATH);
+//		shell_exec("exit");
 		include "ApplicationSetupUtility.php";	
 	
 		ApplicationSetupUtility::createDB();
