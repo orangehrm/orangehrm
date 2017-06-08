@@ -28,8 +28,8 @@ install:
   - composer install -d symfony/lib
   - bash installer/cli_install.sh
 
-script:
-  - symfony/lib/vendor/bin/codecept run -c symfony/test/api/
+#script:
+#  - symfony/lib/vendor/bin/codecept run -c symfony/test/api/
 
 notifications:
   email: true
