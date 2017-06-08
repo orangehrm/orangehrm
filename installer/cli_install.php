@@ -98,7 +98,7 @@ else if (is_file(ROOT_PATH . '/lib/confs/Conf.php')) {
         ($argv[1]<1) ? $detailsHandler->checkDetailsValidation() : setConfiguration($argv,$detailsHandler);
 	if(!($basicConfigurations->isFailBasicConfigurations()))
 	{
-		shell_exec("sudo chmod -R 777 ".ROOT_PATH);
+		shell_exec("chmod -R 777 ".ROOT_PATH);
 		shell_exec("exit");
 		include "ApplicationSetupUtility.php";	
 	
@@ -136,7 +136,7 @@ else if (is_file(ROOT_PATH . '/lib/confs/Conf.php')) {
 		clearLogFile($logfileName);
 	    setValueToLogFile($logfileName,date("Y-m-d H:i:s "));
 
-		$result = shell_exec("./cli_common_commands.sh 2>> ". $logfileName); // Composer install and symfony commands
+		$result = shell_exec(__DIR__  . "/cli_common_commands.sh 2>> ". $logfileName); // Composer install and symfony commands
 
 		if(!isset($result) || trim($result)==='' || $error){
 			$messages->displayMessage("Error(s) found. Error log file will display below.");

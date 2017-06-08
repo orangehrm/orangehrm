@@ -1,9 +1,11 @@
 #!/bin/bash
 
+INSTALL_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
+
 count=$#
 help="Please set all the parametrs mentioned below. Short codes need '-' symbol as prefix and name cantain '--' as prefix.\nHere mention example of set server name.\nEx:-h localhost or --HostName localhost \n\nName of the  server set using: -h | --HostName\nIf use port id: -p | --port\nIf socket set it: -s | --socket\nDatabase name: -d | --DatabaseName\nDefault admin user name: -a | --AdminUserName\nOrangehrm database user name (need only, if use new user to orangehrm): -o | --OrangehrmDatabaseUser\nPrivileged database user name: -u | --PrivilegedDatabaseUsere\nCompany name(Optional, But dont set it as empty. Put - for not set): -cn| --CompanyName\n\nIf want to send data to orangehrm set y (Set y/N)-so| --SendUsageDataToOrangeHRM\nIs same user use to orangehrm set y (Set y/N)-sm| --UseTheSameOhrmDatabaseUser\nData encryption need (Set y/n) -e | --Encryption\nDatabase to use(Set y/N) -c | --IsExistingDatabase\nSet database host, planning to use(port is p or socket set s): -sp| --SocketOrPort\n\nAfter you pass parameter you entered details will show in terminal. Star mark (*) appear to didn't included values. Those details can fill next phase after accept license agreement. Passwords also need to fill there."
 if [ $# -eq 0 ]; then
-    php cli_install.php $count
+    php "$INSTALL_DIR/cli_install.php" $count
 elif [ $# -ge 2 ]; then
 
 while [[ $# -gt 1 ]]
@@ -138,7 +140,9 @@ echo Company Name = "${CompanyName}"
 echo Send Usage Data to OrangeHRM = "${SendUsageDataToOrangeHRM}"
 echo IS use port = "${SocketOrPort}"
 
-php cli_install.php $count $dbHostName $dbSocketPort $DatabaseName $adminUserName $dbOhrmDbUserName $PrivilegedDatabaseUser $Encryption $IsExistingDatabase $UseTheSameOhrmDatabaseUser $CompanyName $SendUsageDataToOrangeHRM $SocketOrPort
+
+
+php "$INSTALL_DIR/cli_install.php" $count $dbHostName $dbSocketPort $DatabaseName $adminUserName $dbOhrmDbUserName $PrivilegedDatabaseUser $Encryption $IsExistingDatabase $UseTheSameOhrmDatabaseUser $CompanyName $SendUsageDataToOrangeHRM $SocketOrPort
 
 else
 echo -e $help
