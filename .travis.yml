@@ -24,7 +24,7 @@ before_install:
 install:
   - composer install -d symfony/lib
   - php installer/cli_install.php 0
-
+  - php devTools/general/create-test-db.php root
 #script:
 #  - symfony/lib/vendor/bin/codecept run -c symfony/test/api/
 
