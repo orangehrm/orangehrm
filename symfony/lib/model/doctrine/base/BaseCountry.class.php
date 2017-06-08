@@ -12,6 +12,7 @@
  * @property integer $numcode
  * @property Doctrine_Collection $Location
  * @property OperationalCountry $OperationalCountry
+ * @property Doctrine_Collection $Employee
  * 
  * @method string              getCouCode()            Returns the current record's "cou_code" value
  * @method string              getName()               Returns the current record's "name" value
@@ -20,6 +21,7 @@
  * @method integer             getNumcode()            Returns the current record's "numcode" value
  * @method Doctrine_Collection getLocation()           Returns the current record's "Location" collection
  * @method OperationalCountry  getOperationalCountry() Returns the current record's "OperationalCountry" value
+ * @method Doctrine_Collection getEmployee()           Returns the current record's "Employee" collection
  * @method Country             setCouCode()            Sets the current record's "cou_code" value
  * @method Country             setName()               Sets the current record's "name" value
  * @method Country             setCouName()            Sets the current record's "cou_name" value
@@ -27,6 +29,7 @@
  * @method Country             setNumcode()            Sets the current record's "numcode" value
  * @method Country             setLocation()           Sets the current record's "Location" collection
  * @method Country             setOperationalCountry() Sets the current record's "OperationalCountry" value
+ * @method Country             setEmployee()           Sets the current record's "Employee" collection
  * 
  * @package    orangehrm
  * @subpackage model\base
@@ -77,5 +80,9 @@ abstract class BaseCountry extends sfDoctrineRecord
         $this->hasOne('OperationalCountry', array(
              'local' => 'cou_code',
              'foreign' => 'country_code'));
+
+        $this->hasMany('Employee', array(
+             'local' => 'cou_code',
+             'foreign' => 'coun_code'));
     }
 }
