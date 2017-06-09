@@ -16,6 +16,7 @@ matrix:
 before_install:
   - uname -a
   - php --version
+  - phpunit --version
   - mysqladmin -uroot status
   - composer self-update
   - sudo chmod 777 -R symfony/cache
