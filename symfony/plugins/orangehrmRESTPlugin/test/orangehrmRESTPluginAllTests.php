@@ -50,7 +50,7 @@ class orangehrmRESTPluginAllTests
         $suite->addTestFile(dirname(__FILE__) . '/api/pim/ApiCustomFieldAPITest1.php');
          $suite->addTestFile(dirname(__FILE__) . '/api/pim/ApiEmployeeCustomFieldAPITest.php');
         $suite->addTestFile(dirname(__FILE__) . '/api/pim/ApiEmployeeWorkExperienceAPITest.php');
-        $suite->addTestFile(dirname(__FILE__) . '/api/pim/ApiCustomFieldAPITest.php');
+//        $suite->addTestFile(dirname(__FILE__) . '/api/pim/ApiCustomFieldAPITest.php');
         $suite->addTestFile(dirname(__FILE__) . '/api/pim/ApiEmployeeEducationAPITest.php');
        // $suite->addTestFile(dirname(__FILE__) . '/api/leave/ApiLeaveRequestAPITest.php');
         $suite->addTestFile(dirname(__FILE__) . '/api/admin/ApiUsersAPITest.php');

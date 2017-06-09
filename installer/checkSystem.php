@@ -18,7 +18,7 @@
  *
  */
 
-require(ROOT_PATH . '/installer/utils/installUtil.php');
+require_once(ROOT_PATH . '/installer/utils/installUtil.php');
 
 function checkMemory() {
 
