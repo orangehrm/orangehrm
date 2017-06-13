@@ -61,8 +61,7 @@ class PunchInApiAction extends baseRestAction
      */
     protected function handleGetRequest(Request $request)
     {
-
-        // TODO: Implement handleGetRequest() method.
+       throw new NotImplementedException();
     }
 
     /**
@@ -71,7 +70,6 @@ class PunchInApiAction extends baseRestAction
      */
     protected function handlePostRequest(Request $request)
     {
-
         return $this->getPunchInApi($request)->savePunchIn();
     }
 }
