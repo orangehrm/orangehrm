@@ -67,6 +67,7 @@
  * @property Doctrine_Collection $attachments
  * @property Doctrine_Collection $projectAdmin
  * @property EmployeeTerminationRecord $EmployeeTerminationRecord
+ * @property Country $EmployeeCountry
  * @property Nationality $Nationality
  * @property JobCategory $JobCategory
  * @property Doctrine_Collection $AttendanceRecord
@@ -90,6 +91,7 @@
  * @property Doctrine_Collection $EmployeeLicense
  * @property Doctrine_Collection $EmployeeWorkShift
  * @property Doctrine_Collection $EmployeeEducation
+ * @property Doctrine_Collection $EmployeeEvent
  * @property Doctrine_Collection $managedVacancies
  * @property Doctrine_Collection $JobCandidate
  * @property Doctrine_Collection $JobInterviewInterviewer
@@ -159,6 +161,7 @@
  * @method Doctrine_Collection       getAttachments()                Returns the current record's "attachments" collection
  * @method Doctrine_Collection       getProjectAdmin()               Returns the current record's "projectAdmin" collection
  * @method EmployeeTerminationRecord getEmployeeTerminationRecord()  Returns the current record's "EmployeeTerminationRecord" value
+ * @method Country                   getEmployeeCountry()            Returns the current record's "EmployeeCountry" value
  * @method Nationality               getNationality()                Returns the current record's "Nationality" value
  * @method JobCategory               getJobCategory()                Returns the current record's "JobCategory" value
  * @method Doctrine_Collection       getAttendanceRecord()           Returns the current record's "AttendanceRecord" collection
@@ -182,6 +185,7 @@
  * @method Doctrine_Collection       getEmployeeLicense()            Returns the current record's "EmployeeLicense" collection
  * @method Doctrine_Collection       getEmployeeWorkShift()          Returns the current record's "EmployeeWorkShift" collection
  * @method Doctrine_Collection       getEmployeeEducation()          Returns the current record's "EmployeeEducation" collection
+ * @method Doctrine_Collection       getEmployeeEvent()              Returns the current record's "EmployeeEvent" collection
  * @method Doctrine_Collection       getManagedVacancies()           Returns the current record's "managedVacancies" collection
  * @method Doctrine_Collection       getJobCandidate()               Returns the current record's "JobCandidate" collection
  * @method Doctrine_Collection       getJobInterviewInterviewer()    Returns the current record's "JobInterviewInterviewer" collection
@@ -250,6 +254,7 @@
  * @method Employee                  setAttachments()                Sets the current record's "attachments" collection
  * @method Employee                  setProjectAdmin()               Sets the current record's "projectAdmin" collection
  * @method Employee                  setEmployeeTerminationRecord()  Sets the current record's "EmployeeTerminationRecord" value
+ * @method Employee                  setEmployeeCountry()            Sets the current record's "EmployeeCountry" value
  * @method Employee                  setNationality()                Sets the current record's "Nationality" value
  * @method Employee                  setJobCategory()                Sets the current record's "JobCategory" value
  * @method Employee                  setAttendanceRecord()           Sets the current record's "AttendanceRecord" collection
@@ -273,6 +278,7 @@
  * @method Employee                  setEmployeeLicense()            Sets the current record's "EmployeeLicense" collection
  * @method Employee                  setEmployeeWorkShift()          Sets the current record's "EmployeeWorkShift" collection
  * @method Employee                  setEmployeeEducation()          Sets the current record's "EmployeeEducation" collection
+ * @method Employee                  setEmployeeEvent()              Sets the current record's "EmployeeEvent" collection
  * @method Employee                  setManagedVacancies()           Sets the current record's "managedVacancies" collection
  * @method Employee                  setJobCandidate()               Sets the current record's "JobCandidate" collection
  * @method Employee                  setJobInterviewInterviewer()    Sets the current record's "JobInterviewInterviewer" collection
@@ -563,6 +569,10 @@ abstract class BaseEmployee extends sfDoctrineRecord
              'local' => 'termination_id',
              'foreign' => 'id'));
 
+        $this->hasOne('Country as EmployeeCountry', array(
+             'local' => 'coun_code',
+             'foreign' => 'cou_code'));
+
         $this->hasOne('Nationality', array(
              'local' => 'nation_code',
              'foreign' => 'id'));
@@ -655,6 +665,10 @@ abstract class BaseEmployee extends sfDoctrineRecord
         $this->hasMany('EmployeeEducation', array(
              'local' => 'empNumber',
              'foreign' => 'empNumber'));
+
+        $this->hasMany('EmployeeEvent', array(
+             'local' => 'emp_number',
+             'foreign' => 'employee_id'));
 
         $this->hasMany('JobVacancy as managedVacancies', array(
              'local' => 'empNumber',

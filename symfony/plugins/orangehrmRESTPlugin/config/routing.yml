@@ -137,3 +137,30 @@ api_attendance_punchout:
   requirements:
     id: \d+
     sf_method: [get,post]
+
+api_employee_timesheet:
+  url: /api/v1/employee/:id/timesheet
+  param: { module:apiv1time, action:EmployeeTimesheetApi }
+  requirements:
+     id: \d+
+     sf_method: [get,post]
+
+api_project:
+  url: /api/v1/project
+  param: { module:apiv1time, action:ProjectsApi }
+  requirements:
+     sf_method: [get,post]
+
+api_project:
+  url: /api/v1/customer
+  param: { module:apiv1time, action:CustomerApi }
+  requirements:
+     sf_method: [get,post]
+
+api_activity:
+  url: /api/v1/activity/:id
+  param: { module:apiv1time, action:ActivityApi }
+  requirements:
+     id: \d+
+     sf_method: [get,post]
+

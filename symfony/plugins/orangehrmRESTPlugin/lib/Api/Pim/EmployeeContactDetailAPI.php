@@ -68,6 +68,15 @@ class EmployeeContactDetailAPI extends EndPoint
     }
 
     /**
+     * Set Country Service
+     * @param CountryService $countryService
+     */
+    public function setCountryService($countryService)
+    {
+        $this->countryService = $countryService;
+    }
+
+    /**
      * Returns Country Service
      * @returns \CountryService
      */

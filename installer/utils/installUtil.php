@@ -116,11 +116,12 @@ function checkPHPMemory($hardLimit, $softLimit, &$maxMemory = null) {
 		$result = INSTALLUTIL_MEMORY_UNLIMITED;
 	} else {
 
-		$maxMemoryInt = (int) rtrim($maxMemory, "M");
+		$maxMemoryBytes = returnBytes($maxMemory);
+        $maxMemoryMB = $maxMemoryBytes / (1024*1024);
 
-		if ($maxMemoryInt < $hardLimit) {
+		if ($maxMemoryMB < $hardLimit) {
 			$result = INSTALLUTIL_MEMORY_HARD_LIMIT_FAIL;
-		} else if ($maxMemoryInt < $softLimit) {
+		} else if ($maxMemoryMB < $softLimit) {
 			$result = INSTALLUTIL_MEMORY_SOFT_LIMIT_FAIL;
 		} else {
 			$result = INSTALLUTIL_MEMORY_OK;
@@ -128,6 +129,31 @@ function checkPHPMemory($hardLimit, $softLimit, &$maxMemory = null) {
 	}
 
 	return $result;
+}
+
+/**
+ * Convert PHP ini size string to bytes
+ * eg: 128M 1G 20480K 2048000
+ *
+ * @param string $sizeStr Size as a string
+ * @return int
+ */
+function returnBytes($sizeStr)
+{
+	$suffix = strtoupper(substr($sizeStr, -1));
+	$val = (int)$sizeStr;
+
+    switch ($suffix)
+    {
+        case 'G':
+        	$val *= 1024;
+        case 'M':
+            $val *= 1024;
+        case 'K':
+            $val *= 1024;
+    }
+
+    return $val;
 }
 
 /**

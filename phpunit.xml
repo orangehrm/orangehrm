@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<phpunit
+        colours = "true"
+        convertErrorsToExceptions   = "true"
+        convertNoticesToExceptions  = "false"
+        convertWarningsToExceptions = "false"
+    >
+
+    <testsuites>
+        <testsuite name="All Tests">
+            <file>symfony/test/PluginAllTests.php</file>
+        </testsuite>
+    </testsuites>
+
+</phpunit>
