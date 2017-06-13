@@ -44,7 +44,8 @@ class ApiUserTest extends PHPUnit_Framework_TestCase
             'userName' => 'lakshitha',
             'userRole' => 'ess',
             'status' => 1,
-            'employeeName' => 'Lakshitha Udara'
+            'employeeName' => 'Lakshitha Udara',
+            'employeeId' => 3
 
         );
 
@@ -56,6 +57,7 @@ class ApiUserTest extends PHPUnit_Framework_TestCase
         $user->setStatus(1);
         $user->setUserRole($userRole);
         $user->setUserName('lakshitha');
+        $user->setEmployeeId(3);
 
         $this->assertEquals($testArray, $user->toArray());
     }
