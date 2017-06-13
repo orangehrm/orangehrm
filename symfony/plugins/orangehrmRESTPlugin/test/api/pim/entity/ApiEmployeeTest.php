@@ -69,6 +69,9 @@ class ApiEmployeeTest extends PHPUnit_Framework_TestCase
 
         );
 
+        \OrangeConfig::getInstance()->setAppConfValue(\ConfigService::KEY_PIM_SHOW_SIN, true);
+        \OrangeConfig::getInstance()->setAppConfValue(\ConfigService::KEY_PIM_SHOW_SSN, true);
+
         $employee = new Employee('Martin', 'Riggs', 'Dan', '1');
         $employee->setEmployeeFullName('Martin Riggs Dan');
         $employee->setEmployeeStatus('active');
@@ -79,6 +82,14 @@ class ApiEmployeeTest extends PHPUnit_Framework_TestCase
 
         $employee->setSupervisors($supervisorsList);
 
+        $this->assertEquals($testEmployeeArray, $employee->toArray());
+
+        \OrangeConfig::getInstance()->setAppConfValue(\ConfigService::KEY_PIM_SHOW_SIN, false);
+        unset($testEmployeeArray['sinNumber']);
+        $this->assertEquals($testEmployeeArray, $employee->toArray());
+
+        \OrangeConfig::getInstance()->setAppConfValue(\ConfigService::KEY_PIM_SHOW_SSN, false);
+        unset($testEmployeeArray['ssnNumber']);
         $this->assertEquals($testEmployeeArray, $employee->toArray());
     }
 
