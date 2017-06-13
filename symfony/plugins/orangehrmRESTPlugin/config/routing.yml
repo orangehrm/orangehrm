@@ -164,3 +164,14 @@ api_activity:
      id: \d+
      sf_method: [get,post]
 
+api_employee_photo:
+  url: api/v1/employee/:id/photo
+  param: { module:apiv1pim, action:EmployeePhotoApi }
+  requirements:
+      sf_method: [get]
+
+api_organization:
+  url: api/v1/organization
+  param: { module:apiv1admin, action:OrganizationApi }
+  requirements:
+      sf_method: [get]
