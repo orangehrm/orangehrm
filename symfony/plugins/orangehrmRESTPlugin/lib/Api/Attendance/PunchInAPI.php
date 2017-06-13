@@ -20,18 +20,15 @@
 
 namespace Orangehrm\Rest\Api\Attendance;
 
-use Orangehrm\Rest\Api\Admin\Entity\User;
-use Orangehrm\Rest\Api\EndPoint;
+
 use Orangehrm\Rest\Api\Exception\InvalidParamException;
 use Orangehrm\Rest\Api\Exception\RecordNotFoundException;
 use Orangehrm\Rest\Api\Exception\BadRequestException;
 use Orangehrm\Rest\Http\Response;
-use spec\Prophecy\Argument\Token\ExactValueTokenSpec;
 
 
 class PunchInAPI extends PunchTimeAPI
 {
-
 
     /**
      * @return Response
@@ -60,7 +57,7 @@ class PunchInAPI extends PunchTimeAPI
                         $punchIndateTime = $origin_dt->format('Y-m-d H:i:s');
                         $timeZoneOffset = $this->getTimezoneOffset('UTC', $timeZone);
                     }else{
-                        throw new InvalidParamException('Invalid time zone');
+                        throw new InvalidParamException('Invalid Time Zone');
                     }
                 }else {
                     $punchIndateTime = date('Y-m-d H:i');
@@ -75,18 +72,18 @@ class PunchInAPI extends PunchTimeAPI
                         $timeZoneOffset / 3600,
                         $punchInNote
                     );
-                    return new Response(array('success' => 'Successfully Punch In','id'=>$attendanceRecord->getId()));
+                    return new Response(array('success' => 'Successfully Punched In','id'=>$attendanceRecord->getId()));
 
                 }catch (Exception $e) {
                     new BadRequestException($e->getMessage());
                 }
 
             } else {
-                throw new InvalidParamException('Cannot proceed punch in employee already punch in');
+                throw new InvalidParamException('Cannot Proceed Punch In Employee Already Punched In');
             }
 
         }else{
-            throw new RecordNotFoundException('Employee id '.$empNumber.' not found');
+            throw new RecordNotFoundException('Employee Id '.$empNumber.' Not Found');
         }
     }
 
