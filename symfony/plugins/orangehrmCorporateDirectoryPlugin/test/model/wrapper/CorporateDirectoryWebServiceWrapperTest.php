@@ -49,7 +49,7 @@ class CorporateDirectoryWebServiceWrapperTest extends PHPUnit_Framework_TestCase
                 'mobile' => null,
                 'work_email' => null,
                 'other_email' => null,
-                'profile_image_url' => '/usr/local/bin/phpunit/phpunit/directory/viewDirectoryPhoto/empNumber/2',
+                'profile_image_url' => 'directory/viewDirectoryPhoto/empNumber/2',
                 'terminated' => null,
                 'profile_picture' => array(
                     'image_string' => $base64TestStringForEmp1,
@@ -68,7 +68,7 @@ class CorporateDirectoryWebServiceWrapperTest extends PHPUnit_Framework_TestCase
                 'mobile' => null,
                 'work_email' => null,
                 'other_email' => null,
-                'profile_image_url' => '/usr/local/bin/phpunit/phpunit/directory/viewDirectoryPhoto/empNumber/4',
+                'profile_image_url' => 'directory/viewDirectoryPhoto/empNumber/4',
                 'terminated' => null,
                 'profile_picture' => null,
                 'location_id' => 2,
@@ -85,7 +85,7 @@ class CorporateDirectoryWebServiceWrapperTest extends PHPUnit_Framework_TestCase
                 'mobile' => null,
                 'work_email' => null,
                 'other_email' => null,
-                'profile_image_url' => '/usr/local/bin/phpunit/phpunit/directory/viewDirectoryPhoto/empNumber/1',
+                'profile_image_url' => 'directory/viewDirectoryPhoto/empNumber/1',
                 'terminated' => null,
                 'profile_picture' => null,
                 'location_id' => 1,
@@ -102,7 +102,7 @@ class CorporateDirectoryWebServiceWrapperTest extends PHPUnit_Framework_TestCase
                 'mobile' => null,
                 'work_email' => null,
                 'other_email' => null,
-                'profile_image_url' => '/usr/local/bin/phpunit/phpunit/directory/viewDirectoryPhoto/empNumber/5',
+                'profile_image_url' => 'directory/viewDirectoryPhoto/empNumber/5',
                 'terminated' => null,
                 'profile_picture' => null,
                 'location_id' => null,
@@ -119,7 +119,7 @@ class CorporateDirectoryWebServiceWrapperTest extends PHPUnit_Framework_TestCase
                 'mobile' => '4444',
                 'work_email' => 'bbb@bbb.com',
                 'other_email' => 'aaa@aaa.com',
-                'profile_image_url' => '/usr/local/bin/phpunit/phpunit/directory/viewDirectoryPhoto/empNumber/6',
+                'profile_image_url' => 'directory/viewDirectoryPhoto/empNumber/6',
                 'terminated' => null,
                 'profile_picture' => null,
                 'location_id' => null,
@@ -136,7 +136,7 @@ class CorporateDirectoryWebServiceWrapperTest extends PHPUnit_Framework_TestCase
                 'mobile' => null,
                 'work_email' => null,
                 'other_email' => null,
-                'profile_image_url' => '/usr/local/bin/phpunit/phpunit/directory/viewDirectoryPhoto/empNumber/3',
+                'profile_image_url' => 'directory/viewDirectoryPhoto/empNumber/3',
                 'terminated' => null,
                 'profile_picture' => array(
                     'image_string' => $base64TestStringForEmp2,
@@ -178,7 +178,17 @@ class CorporateDirectoryWebServiceWrapperTest extends PHPUnit_Framework_TestCase
         $this->assertEquals(6, count($result));
         $expectedEmployeeList = $this->getExpectedEmployeeList($base64TestStringForEmp1, $base64TestStringForEmp2);
         foreach ($expectedEmployeeList as $key => $testCase) {
-            $this->assertEquals($result[$key], $expectedEmployeeList[$key]);
+
+            /* Fix profile image url (remove absolute path to phpunit
+             * /usr/local/bin/phpunit/phpunit/directory/viewDirectoryPhoto/empNumber/2
+             * => directory/viewDirectoryPhoto/empNumber/2
+             */
+            if (isset($expectedEmployeeList[$key]['profile_image_url'])) {
+                $result[$key]['profile_image_url'] =
+                    strstr($result[$key]['profile_image_url'], 'directory');
+            }
+
+            $this->assertEquals($expectedEmployeeList[$key], $result[$key]);
         }
     }
 

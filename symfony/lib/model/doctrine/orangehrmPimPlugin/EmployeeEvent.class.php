@@ -12,5 +12,4 @@
  */
 class EmployeeEvent extends PluginEmployeeEvent
 {
-
 }

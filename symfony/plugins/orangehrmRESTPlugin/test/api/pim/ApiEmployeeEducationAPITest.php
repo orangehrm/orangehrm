@@ -31,6 +31,9 @@ use Orangehrm\Rest\Http\Response;
 
 class ApiEmployeeEducationAPITest extends PHPUnit_Framework_TestCase
 {
+    /**
+     * @var EmployeeEducationAPI
+     */
     private $employeeEducationAPI;
 
 
@@ -231,6 +234,10 @@ class ApiEmployeeEducationAPITest extends PHPUnit_Framework_TestCase
         $pimEmployeeService->expects($this->any())
             ->method('saveEmployeeEducation')
             ->with($employeeEducation)
+            ->will($this->returnValue($employeeEducation));
+
+        $pimEmployeeService->expects($this->once())
+            ->method('getEducation')
             ->will($this->returnValue($employeeEducation));
 
         $pimEmployeeService->expects($this->any())

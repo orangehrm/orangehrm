@@ -1,13 +1,10 @@
 language: php
 php:
-  - '5.4'
-  - '5.5'
+#  - '5.4'
+#  - '5.5'
   - '5.6'
 sudo: required
 
-services:
-  - mysql
- 
 services:
   - mysql
   
@@ -19,17 +16,18 @@ matrix:
 before_install:
   - uname -a
   - php --version
+  - phpunit --version
   - mysqladmin -uroot status
   - composer self-update
   - sudo chmod 777 -R symfony/cache
   - sudo chmod 777 -R symfony/log
-
+  - echo "USE mysql;\nUPDATE user SET password=PASSWORD('root') WHERE user='root';\nFLUSH PRIVILEGES;\n" | mysql -u root
 install:
   - composer install -d symfony/lib
-  - bash installer/cli_install.sh
-
-script:
-  - symfony/lib/vendor/bin/codecept run -c symfony/test/api/
+  - php installer/cli_install.php 0
+  - php devTools/general/create-test-db.php root
+#script:
+#  - symfony/lib/vendor/bin/codecept run -c symfony/test/api/
 
 notifications:
   email: true

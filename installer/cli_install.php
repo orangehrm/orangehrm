@@ -21,9 +21,9 @@ session_start();
 define('REAL_ROOT_PATH', dirname(__FILE__));
 define('ROOT_PATH',dirname( dirname(__FILE__) ));
 
-require(REAL_ROOT_PATH.'/utils/installUtil.php');
-require(REAL_ROOT_PATH.'/DetailsHandler.php');
-require(REAL_ROOT_PATH.'/BasicConfigurations.php');
+require_once(REAL_ROOT_PATH.'/utils/installUtil.php');
+require_once(REAL_ROOT_PATH.'/DetailsHandler.php');
+require_once(REAL_ROOT_PATH.'/BasicConfigurations.php');
 
 
 function setValueToLogFile($filePath, $content) {		
@@ -89,17 +89,17 @@ else{
 if(!$acceptAggrement){
 	$messages->displayMessage("Need accept license agreement to continue!");
 }
-else if(posix_getuid() != 0){
-	$messages->displayMessage(Messages::SUPER_USER_NEED);
-}
+//else if(posix_getuid() != 0){
+//	$messages->displayMessage(Messages::SUPER_USER_NEED);
+//}
 else if (is_file(ROOT_PATH . '/lib/confs/Conf.php')) {
         exit ("\nThis system already installed.\n");
 }else{ 
         ($argv[1]<1) ? $detailsHandler->checkDetailsValidation() : setConfiguration($argv,$detailsHandler);
 	if(!($basicConfigurations->isFailBasicConfigurations()))
 	{
-		shell_exec("sudo chmod -R 777 ".ROOT_PATH);
-		shell_exec("exit");
+//		shell_exec("chmod -R 777 ".ROOT_PATH);
+//		shell_exec("exit");
 		include "ApplicationSetupUtility.php";	
 	
 		ApplicationSetupUtility::createDB();
@@ -136,7 +136,7 @@ else if (is_file(ROOT_PATH . '/lib/confs/Conf.php')) {
 		clearLogFile($logfileName);
 	    setValueToLogFile($logfileName,date("Y-m-d H:i:s "));
 
-		$result = shell_exec("./cli_common_commands.sh 2>> ". $logfileName); // Composer install and symfony commands
+		$result = shell_exec(__DIR__  . "/cli_common_commands.sh 2>> ". $logfileName); // Composer install and symfony commands
 
 		if(!isset($result) || trim($result)==='' || $error){
 			$messages->displayMessage("Error(s) found. Error log file will display below.");
