@@ -155,7 +155,7 @@ abstract class baseRestAction extends baseOAuthAction {
             $response->setContent(Response::formatError(
                 array('error'=>array($e->getMessage())))
             );
-            $response->setStatusCode(501);
+            $response->setStatusCode(500);
         }
 
 
