@@ -45,32 +45,33 @@ class PunchOutAPI extends PunchTimeAPI
      * @throws InvalidParamException
      * @throws RecordNotFoundException
      */
-    public function savePunchOut(){
+    public function savePunchOut()
+    {
         $empNumber = $this->getRequestParams()->getUrlParam(parent::PARAMETER_ID);
         $timeZone = $this->getRequestParams()->getPostParam(parent::PARAMETER_TIME_ZONE);
-        if($this->checkValidEmployee($empNumber)){
+        if ($this->checkValidEmployee($empNumber)) {
 
             $actionableStatesList = array(\PluginAttendanceRecord::STATE_PUNCHED_IN);
             $attendanceRecord = $this->getAttendanceService()->getLastPunchRecord($empNumber, $actionableStatesList);
 
             if (is_null($attendanceRecord)) {
-                throw new InvalidParamException('Cannot proceed punch out employee already punch out');
+                throw new InvalidParamException('Cannot Proceed Punch Out Employee Already Punched Out');
 
             } else {
-               $nextState = \PluginAttendanceRecord::STATE_PUNCHED_OUT;
+                $nextState = \PluginAttendanceRecord::STATE_PUNCHED_OUT;
                 $punchOutNote = $this->getRequestParams()->getPostParam(parent::PARAMETER_NOTE);
 
-                if($timeZone){
+                if ($timeZone) {
                     $zoneList = timezone_identifiers_list();
-                    if(in_array($timeZone,$zoneList)) {
+                    if (in_array($timeZone, $zoneList)) {
                         $timeZone_dtz = new \DateTimeZone($timeZone);
                         $origin_dt = new \DateTime("now", $timeZone_dtz);
                         $punchIndateTime = $origin_dt->format('Y-m-d H:i:s');
                         $timeZoneOffset = $this->getTimezoneOffset('UTC', $timeZone);
-                    }else{
-                        throw new InvalidParamException('Invalid time zone');
+                    } else {
+                        throw new InvalidParamException('Invalid Time Zone');
                     }
-                }else {
+                } else {
                     $punchIndateTime = date('Y-m-d H:i');
                     $timeZoneOffset = $this->getTimezoneOffset('UTC');
                 }
@@ -83,15 +84,18 @@ class PunchOutAPI extends PunchTimeAPI
                         $timeZoneOffset / 3600,
                         $punchOutNote
                     );
-                    return new Response(array('success' => 'Successfully Punch Out','id'=>$attendanceRecord->getId()));
+                    return new Response(array(
+                        'success' => 'Successfully Punched Out',
+                        'id' => $attendanceRecord->getId()
+                    ));
 
-                }catch (\Exception $e) {
+                } catch (\Exception $e) {
                     new BadRequestException($e->getMessage());
                 }
             }
 
-        }else{
-            throw new RecordNotFoundException('Employee id '.$empNumber.' not found');
+        } else {
+            throw new RecordNotFoundException('Employee id ' . $empNumber . ' Not Found');
         }
 
     }
@@ -105,7 +109,14 @@ class PunchOutAPI extends PunchTimeAPI
      * @param $punchOutNote
      * @return \AttendanceRecord
      */
-    public function setPunchOutRecord($attendanceRecord, $state, $punchOutUtcTime, $punchOutUserTime, $punchOutTimezoneOffset, $punchOutNote) {
+    public function setPunchOutRecord(
+        $attendanceRecord,
+        $state,
+        $punchOutUtcTime,
+        $punchOutUserTime,
+        $punchOutTimezoneOffset,
+        $punchOutNote
+    ) {
 
         $attendanceRecord->setState($state);
         $attendanceRecord->setPunchOutUtcTime($punchOutUtcTime);
