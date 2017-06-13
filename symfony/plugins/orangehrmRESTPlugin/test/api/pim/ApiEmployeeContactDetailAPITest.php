@@ -31,6 +31,9 @@ use Orangehrm\Rest\Http\Response;
 
 class ApiEmployeeContactDetailAPITest extends PHPUnit_Framework_TestCase
 {
+    /**
+     * @var EmployeeContactDetailAPI
+     */
     private $employeeContactDetailAPI;
 
 
@@ -114,11 +117,13 @@ class ApiEmployeeContactDetailAPITest extends PHPUnit_Framework_TestCase
         $employee->setEmpMobile(0754343435);
         $employee->setEmpOthEmail('');
 
+        $filterCountry = 'Canada';
+
         $filters = array();
         $filters[EmployeeContactDetailAPI::PARAMETER_ADDRESS_STREET_1] = 'No 50 Park road';
         $filters[EmployeeContactDetailAPI::PARAMETER_ADDRESS_STREET_2] = 'No 34 River view Canada';
         $filters[EmployeeContactDetailAPI::PARAMETER_CITY] = 'River view';
-        $filters[EmployeeContactDetailAPI::PARAMETER_COUNTRY] = 'Canada';
+        $filters[EmployeeContactDetailAPI::PARAMETER_COUNTRY] = $filterCountry;
         $filters[EmployeeContactDetailAPI::PARAMETER_HOME_TELEPHONE] = '0972432623';
         $filters[EmployeeContactDetailAPI::PARAMETER_MOBILE] = '097124353';
         $filters[EmployeeContactDetailAPI::PARAMETER_ID] = '1';
@@ -154,6 +159,20 @@ class ApiEmployeeContactDetailAPITest extends PHPUnit_Framework_TestCase
 
         $this->employeeContactDetailAPI->setEmployeeService($pimEmployeeService);
 
+        // getCountryService()->getCountryByCountryName
+        $countryService = $this->getMockBuilder('CountryService')
+            ->setMethods(array('getCountryByCountryName'))
+            ->getMock();
+
+        $countryObject = new Country();
+        $countryObject->setName($filterCountry);
+
+        $countryService->expects($this->once())
+            ->method('getCountryByCountryName')
+            ->with($filterCountry)
+            ->will($this->returnValue($countryObject));
+        $this->employeeContactDetailAPI->setCountryService($countryService);
+
         $returned = $this->employeeContactDetailAPI->saveEmployeeContactDetails();
         $testResponse = new Response(array('success' => 'Successfully Saved'));
 
@@ -175,11 +194,13 @@ class ApiEmployeeContactDetailAPITest extends PHPUnit_Framework_TestCase
         $employee->setEmpOthEmail('');
         $employee->setEmpMobile(0754343435);
 
+        $filterCountry = 'Canada';
+
         $filters = array();
         $filters[EmployeeContactDetailAPI::PARAMETER_ADDRESS_STREET_1] = 'No 50 Park road';
         $filters[EmployeeContactDetailAPI::PARAMETER_ADDRESS_STREET_2] = 'No 34 River view Canada';
         $filters[EmployeeContactDetailAPI::PARAMETER_CITY] = 'River view';
-        $filters[EmployeeContactDetailAPI::PARAMETER_COUNTRY] = 'Canada';
+        $filters[EmployeeContactDetailAPI::PARAMETER_COUNTRY] = $filterCountry;
         $filters[EmployeeContactDetailAPI::PARAMETER_HOME_TELEPHONE] = '0972432623';
         $filters[EmployeeContactDetailAPI::PARAMETER_MOBILE] = '097124353';
         $filters[EmployeeContactDetailAPI::PARAMETER_ID] = '1';
@@ -212,6 +233,19 @@ class ApiEmployeeContactDetailAPITest extends PHPUnit_Framework_TestCase
             ->method('saveEmployee')
             ->with($employee)
             ->will($this->returnValue($employee));
+
+        $countryService = $this->getMockBuilder('CountryService')
+            ->setMethods(array('getCountryByCountryName'))
+            ->getMock();
+
+        $countryObject = new Country();
+        $countryObject->setName($filterCountry);
+
+        $countryService->expects($this->once())
+            ->method('getCountryByCountryName')
+            ->with($filterCountry)
+            ->will($this->returnValue($countryObject));
+        $this->employeeContactDetailAPI->setCountryService($countryService);
 
         $this->employeeContactDetailAPI->setEmployeeService($pimEmployeeService);
 

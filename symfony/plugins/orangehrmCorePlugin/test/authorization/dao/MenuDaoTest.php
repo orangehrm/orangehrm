@@ -23,7 +23,10 @@
  * @group Core
  */
 class MenuDaoTest extends PHPUnit_Framework_TestCase {
-    
+
+    /**
+     * @var MenuDao
+     */
     private $menuDao;
     
     /**

@@ -53,7 +53,7 @@ class MenuDao {
                     ->andWhere('sp.can_read = 1')
                     ->whereIn('ur.name', $roleNames)
                     ->orWhere('mi.screenId IS NULL')
-                    ->orderBy('mi.orderHint ASC');
+                    ->orderBy('mi.orderHint ASC, mi.id ASC');
 
             return $query->execute();
             
