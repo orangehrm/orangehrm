@@ -1,3 +1,9 @@
+# OrangeHRM Open Source Application
+
+[![Docker Automated](https://img.shields.io/docker/automated/orangehrm/orangehrm.svg)](https://hub.docker.com/r/orangehrm/orangehrm/) [![Docker Status](https://img.shields.io/docker/build/orangehrm/orangehrm.svg)](https://hub.docker.com/r/orangehrm/orangehrm/) [![Docker Pulls](https://img.shields.io/docker/pulls/orangehrm/orangehrm.svg)](https://hub.docker.com/r/orangehrm/orangehrm)  [![Travis Test](https://img.shields.io/travis/orangehrm/orangehrm/master.svg)](https://travis-ci.org/orangehrm/orangehrm)
+
+
+
 
 OrangeHRM is a comprehensive Human Resource Management (HRM) System that captures 
 all the essential functionalities required for any enterprise. 
