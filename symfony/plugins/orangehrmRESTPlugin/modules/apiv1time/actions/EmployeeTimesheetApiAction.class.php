@@ -25,19 +25,15 @@ use Orangehrm\Rest\Api\Exception\NotImplementedException;
 class EmployeeTimesheetApiAction extends baseRestAction
 {
 
-    private $apiEmployeeDependent = null;
+    private $apiEmployeeTimeSheet = null;
 
     protected function init(Request $request)
     {
         $this->apiEmployeeTimeSheet = new EmployeeTimeSheetAPI($request);
-        $this->postValidationRule = $this->apiEmployeeTimeSheet->getPostValidationRules();
-        $this->putValidationRule = $this->apiEmployeeTimeSheet->getPutValidationRules();
-        $this->deleteValidationRule = $this->apiEmployeeTimeSheet->getDelValidationRules();
     }
 
     protected function handleGetRequest(Request $request)
     {
-//        return new Response(array("test"), array());
         return $this->apiEmployeeTimeSheet->getEmployeeTimesheets();
     }
 
@@ -45,18 +41,23 @@ class EmployeeTimesheetApiAction extends baseRestAction
     {
         $allParameters = $request->getAllParameters();
         $initialRaws = $allParameters["initialRows"];
-
-//        return new Response($request->getAllParameters(), array());
         return $this->apiEmployeeTimeSheet->saveEmployeeTimeSheets($initialRaws);
     }
 
-    protected function handlePutRequest(Request $request)
+    /**
+     * @return API
+     */
+    public function getApiEmployeeTimeSheet()
     {
-        return $this->apiEmployeeTimeSheet->updateEmployeeDependents();
+        return $this->apiEmployeeTimeSheet;
     }
 
-    protected function handleDeleteRequest(Request $request)
+    /**
+     * @param null $apiEmployeeTimeSheet
+     */
+    public function setApiEmployeeTimeSheet($apiEmployeeTimeSheet)
     {
-        return $this->apiEmployeeTimeSheet->deleteEmployeeDependents();
+        $this->apiEmployeeTimeSheet = $apiEmployeeTimeSheet;
     }
+
 }
