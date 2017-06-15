@@ -134,8 +134,6 @@ class ProjectAPI extends EndPoint
      */
     public function saveProject()
     {
-
-
         $filters = $this->filterParameters();
         $project = new \Project();
         $project->setCustomerId($filters[self::PARAMETER_CUSTOMER_ID]);
@@ -143,103 +141,6 @@ class ProjectAPI extends EndPoint
         $project->setDescription($filters[self::PARAMETER_DESCRIPTION]);
         $project->save();
         return new Response($this->getRequestParams(), array());
-//        $this->getTimesheetService()->createTimesheet($filters[self::PARAMETER_EMPLOYEE_ID], $filters[self::PARAMETER_START_DATE]);
-//        $timesheet = $this->getTimesheetService()->getTimesheetByStartDateAndEmployeeId($filters[self::PARAMETER_START_DATE], $filters[self::PARAMETER_EMPLOYEE_ID]);
-//        $endDate = $timesheet->getEndDate();
-//        $startDate = $this->getStartDate();
-//        $currentWeekDates = $this->getDatesOfTheTimesheetPeriod($startDate, $endDate);
-//
-//        $result = $this->getTimesheetService()->saveTimesheetItems($filters[self::PARAMETER_INITIAL_ROWS], $filters[self::PARAMETER_EMPLOYEE_ID], $timesheet->getTimesheetId(), $currentWeekDates, 0);
-
-//        if ($result instanceof \EmpDependent) {
-//
-//            $this->getEmployeeEventService()->saveEvent($result->getEmpNumber(),\PluginEmployeeEvent::EVENT_TYPE_DEPENDENT,\PluginEmployeeEvent::EVENT_SAVE,'Saving Employee Dependent','API');
-//            return new Response(array('success' => 'Successfully Saved', 'sequenceNumber' => $result->getSeqno() ));
-//        } else {
-//            throw new BadRequestException("Saving Failed");
-//        }
-
-    }
-
-
-    public function getDatesOfTheTimesheetPeriod($startDate, $endDate) {
-
-        $clientTimeZoneOffset = sfContext::getInstance()->getUser()->getUserTimeZoneOffset();
-        date_default_timezone_set($this->getLocalTimezone($clientTimeZoneOffset));
-
-        if ($startDate < $endDate) {
-            $dates_range[] = $startDate;
-
-            $startDate = strtotime($startDate);
-            $endDate = strtotime($endDate);
-
-
-            while (date('Y-m-d', $startDate) != date('Y-m-d', $endDate)) {
-                $startDate = mktime(0, 0, 0, date("m", $startDate), date("d", $startDate) + 1, date("Y", $startDate));
-                $dates_range[] = date('Y-m-d', $startDate);
-            }
-        }
-        return $dates_range;
-    }
-
-    /**
-     * Update employee dependents
-     *
-     * @return Response
-     * @throws BadRequestException
-     * @throws InvalidParamException
-     */
-    public function updateEmployeeDependents()
-    {
-//        $filters = $this->filterParameters();
-//        if(!is_numeric( $filters[self::PARAMETER_SEQ_NUMBER] )) {
-//            throw new InvalidParamException("Sequence Number Is Wrong");
-//        }
-//        $dependent = $this->buildEmployeeDependents($filters);
-//        try {
-//            $result = $this->getEmployeeService()->updateEmployeeDependent($dependent);
-//
-//        } catch (\Exception $pimEx) {
-//            throw new BadRequestException('Updating Failed');
-//        }
-//
-//        if ($result instanceof \EmpDependent) {
-//            $this->getEmployeeEventService()->saveEvent($result->getEmpNumber(),\PluginEmployeeEvent::EVENT_TYPE_DEPENDENT,\PluginEmployeeEvent::EVENT_UPDATE,'Updating Employee Dependent','API');
-//            return new Response(array('success' => 'Successfully Updated'));
-//        } else {
-//            throw new BadRequestException("Updating Failed");
-//        }
-
-    }
-
-    /**
-     * Deleting employee dependents
-     *
-     * @return Response
-     * @throws InvalidParamException
-     * @throws RecordNotFoundException
-     */
-    public function deleteEmployeeDependents()
-    {
-//        $filters = $this->filterParameters();
-//        $empId = $filters[self::PARAMETER_ID];
-//        $sequenceNumber = $filters[self::PARAMETER_SEQ_NUMBER];
-//
-//        if (!empty($sequenceNumber) && is_numeric($sequenceNumber)) {
-//
-//            $count = $this->getEmployeeService()->deleteEmployeeDependents($empId, array($sequenceNumber));
-//
-//            if ($count > 0) {
-//                $this->getEmployeeEventService()->saveEvent($empId,\PluginEmployeeEvent::EVENT_TYPE_DEPENDENT,\PluginEmployeeEvent::EVENT_DELETE,'Deleting Employee Dependent','API');
-//                return new Response(array('success' => 'Successfully Deleted'));
-//            } else {
-//                throw new RecordNotFoundException("Deleting Failed");
-//            }
-//
-//        } else {
-//            throw new InvalidParamException("Sequence Number Is Wrong");
-//        }
-
 
     }
 
@@ -268,26 +169,6 @@ class ProjectAPI extends EndPoint
 
     }
 
-    /**
-     * Build employee dependent
-     *
-     * @param $filters
-     * @return \EmpDependent
-     */
-    protected function buildEmployeeDependents($filters)
-    {
-//        $employeeDependent = new \EmpDependent();
-//        $employeeDependent->setSeqno($filters[self::PARAMETER_SEQ_NUMBER]);
-//        $employeeDependent->setEmpNumber($filters[self::PARAMETER_ID]);
-//        $employeeDependent->name = $filters[self::PARAMETER_NAME];
-//        $employeeDependent->relationship = $filters[self::PARAMETER_RELATIONSHIP];
-//        $employeeDependent ->relationship_type = 'other';
-//        $dob = date("Y-m-d", strtotime($filters[self::PARAMETER_DOB]));
-//        $employeeDependent->date_of_birth = $dob;
-//
-//        return $employeeDependent;
-    }
-
 
     public function getPostValidationRules()
     {
@@ -299,22 +180,6 @@ class ProjectAPI extends EndPoint
 //        );
     }
 
-    public function getPutValidationRules()
-    {
-//        return array(
-//            self::PARAMETER_DOB => array('Date' => array('Y-m-d')),
-//            self::PARAMETER_RELATIONSHIP => array('StringType' => true, 'NotEmpty' => true,'Length' => array(1,50)),
-//            self::PARAMETER_NAME => array('Length' => array(0, 50), 'NotEmpty' => true),
-//            self::PARAMETER_SEQ_NUMBER=> array('NotEmpty' => true,'Length' => array(1,1000))
-//        );
-    }
-
-    public function getDelValidationRules()
-    {
-//        return array(
-//          self::PARAMETER_SEQ_NUMBER=> array( 'NotEmpty' => true,'Length' => array(1,1000))
-//        );
-    }
 
 }
 
