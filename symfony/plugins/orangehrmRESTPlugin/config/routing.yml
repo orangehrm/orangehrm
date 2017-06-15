@@ -151,7 +151,7 @@ api_project:
   requirements:
      sf_method: [get,post]
 
-api_project:
+api_customer:
   url: /api/v1/customer
   param: { module:apiv1time, action:CustomerApi }
   requirements:
