@@ -1,5 +1,5 @@
 /**
-* @api {post} /login 1.Punch In
+* @api {post} /punch-in 1.Punch In
 * @apiName punchIn
 * @apiGroup Attendance
 * @apiVersion 0.1.0

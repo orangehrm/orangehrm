@@ -32,12 +32,11 @@
 * @apiError InvalidParameter Found.
 *
 * @apiErrorExample Error-Response:
-*     HTTP/1.1 404 Invalid Parameter
+*     HTTP/1.1 202 Invalid Parameter
 *     {
 *       "error": ["Credentials Are Wrong Please Try Again"]
 *     }
 *
-* @apiError InvalidParameter Found.
 *
 * @apiErrorExample Error-Response:
 *     HTTP/1.1 501 Bad Request

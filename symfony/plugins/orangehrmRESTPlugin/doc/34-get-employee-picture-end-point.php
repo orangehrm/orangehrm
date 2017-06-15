@@ -1,5 +1,5 @@
 /**
-* @api {get} /custom-field 34.Employee Picture
+* @api {get} /photo 34.Employee Picture
 * @apiName getEmployeePicture
 * @apiGroup Employee
 * @apiVersion 0.1.0
@@ -18,5 +18,12 @@
 *		  ]
 *		 }
 *
+* @apiError Employee Picture Not Found.
+*
+* @apiErrorExample Error-Response:
+*     HTTP/1.1 404 Employee Picture Not Found
+*     {
+*       "error": ["Employee Not Found"]
+*     }
 *
 */
