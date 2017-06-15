@@ -21,10 +21,8 @@ namespace Orangehrm\Rest\Api\Time;
 
 use Orangehrm\Rest\Api\EndPoint;
 use Orangehrm\Rest\Api\Exception\BadRequestException;
-use Orangehrm\Rest\Api\Exception\RecordNotFoundException;
 use Orangehrm\Rest\Api\Exception\InvalidParamException;
-use Orangehrm\Rest\Api\Pim\Entity\Employee;
-use Orangehrm\Rest\Api\Pim\Entity\EmployeeDependent;
+use Orangehrm\Rest\Api\Exception\RecordNotFoundException;
 use Orangehrm\Rest\Http\Response;
 
 class ProjectAPI extends EndPoint
@@ -34,107 +32,48 @@ class ProjectAPI extends EndPoint
     const PARAMETER_NAME = "name";
     const PARAMETER_DESCRIPTION = "description";
 
-    private $employeeEventService;
-    private $employeeService;
-
-    /**
-     * @return \EmployeeService|null
-     */
-    protected function getEmployeeService()
-    {
-
-        if ($this->employeeService != null) {
-            return $this->employeeService;
-        } else {
-            return new \EmployeeService();
-        }
-    }
+    private $projectService;
 
     /**
      *
      * @return ProjectService
      */
-    public function getProjectService() {
+    public function getProjectService()
+    {
         if (is_null($this->projectService)) {
             $this->projectService = new \ProjectService();
         }
         return $this->projectService;
     }
 
-    public function setEmployeeService($employeeService)
-    {
-        $this->employeeService = $employeeService;
-    }
-
     /**
-     * @return TimesheetService
-     */
-    public function getTimesheetService() {
-
-        if (is_null($this->timesheetService)) {
-
-            $this->timesheetService = new \TimesheetService();
-        }
-
-        return $this->timesheetService;
-    }
-
-
-    /**
-     * Get employee event service
-     *
-     * @return \EmployeeEventService
-     */
-    private function getEmployeeEventService() {
-
-        if(is_null($this->employeeEventService)) {
-            $this->employeeEventService = new \EmployeeEventService();
-        }
-
-        return $this->employeeEventService;
-    }
-
-    /**
-     * @param mixed $employeeEventService
-     */
-    public function setEmployeeEventService($employeeEventService)
-    {
-        $this->employeeEventService = $employeeEventService;
-    }
-
-
-    /**
-     * get employee timesheets
+     * Get projects
      *
      * @return Response
-     * @throws InvalidParamException
+     * @throws RecordNotFoundException
      */
     public function getProjects()
     {
-
-
         $projects = $this->getProjectService()->getAllProjects();
 
         foreach ($projects as $project) {
 
-//            $empDependant = new EmployeeDependent($dependent->getName(), $dependent->getRelationship(),
-//                $dependent->getDateOfBirth(), $dependent->getSeqno());
             $responseArray[] = $project->toArray();
         }
-//        $responseArray[] = $empId;
-        return new Response($responseArray, array());
+        if(count($responseArray) > 0){
+            return new Response($responseArray, array());
+        }else {
+            throw new RecordNotFoundException('No Projects Found');
+        }
+
+
     }
 
-    /**
-     * Save employee Timesheet
-     *
-     * @return Response
-     * @throws BadRequestException
-     * @throws InvalidParamException
-     */
+
     public function saveProject()
     {
         $filters = $this->filterParameters();
+
         $project = new \Project();
         $project->setCustomerId($filters[self::PARAMETER_CUSTOMER_ID]);
         $project->setName($filters[self::PARAMETER_NAME]);
@@ -145,10 +84,10 @@ class ProjectAPI extends EndPoint
     }
 
     /**
-     * Filter Post parameters to validate
+     * Filter parameters
      *
      * @return array
-     *
+     * @throws InvalidParamException
      */
     protected function filterParameters()
     {
@@ -156,10 +95,14 @@ class ProjectAPI extends EndPoint
 
         if (!empty($this->getRequestParams()->getPostParam(self::PARAMETER_CUSTOMER_ID))) {
             $filters[self::PARAMETER_CUSTOMER_ID] = $this->getRequestParams()->getPostParam(self::PARAMETER_CUSTOMER_ID);
+        }else {
+            throw new InvalidParamException('Customer Id Needed');
         }
 
         if (!empty($this->getRequestParams()->getPostParam(self::PARAMETER_NAME))) {
             $filters[self::PARAMETER_NAME] = $this->getRequestParams()->getPostParam(self::PARAMETER_NAME);
+        }else {
+            throw new InvalidParamException('Project Name Needed');
         }
         if (!empty($this->getRequestParams()->getPostParam(self::PARAMETER_DESCRIPTION))) {
             $filters[self::PARAMETER_DESCRIPTION] = $this->getRequestParams()->getPostParam(self::PARAMETER_DESCRIPTION);
@@ -172,12 +115,11 @@ class ProjectAPI extends EndPoint
 
     public function getPostValidationRules()
     {
-        return array();
-//        return array(
-//            self::PARAMETER_DOB => array('Date' => array('Y-m-d')),
-//            self::PARAMETER_RELATIONSHIP => array('StringType' => true, 'NotEmpty' => true,'Length' => array(1,50)),
-//            self::PARAMETER_NAME => array('Length' => array(0, 50)),
-//        );
+        return array(
+            self::PARAMETER_CUSTOMER_ID => array('NotEmpty' => true,'Length' => array(0, 5)),
+            self::PARAMETER_NAME => array('StringType' => true, 'NotEmpty' => true,'Length' => array(1,52)),
+            self::PARAMETER_DESCRIPTION => array('Length' => array(0, 256)),
+        );
     }
 
 
