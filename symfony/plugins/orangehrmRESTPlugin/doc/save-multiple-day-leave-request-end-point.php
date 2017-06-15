@@ -5,7 +5,7 @@
 * @apiVersion 0.1.0
 *
 * @apiParam   {Number} id Employee id.
-* @apiParam   {String} type Mandatory leave type name.
+* @apiParam   {Number} type Mandatory leave type name.
 * @apiParam   {Date} fromDate Leave start date.
 * @apiParam   {Date} toDate Leave end date.
 * @apiParam   {String} [comment] Leave comment.
@@ -14,6 +14,7 @@
 *        If partial option is 'end'  end day fields must be filed.
 *        If partial option is 'start'  start day fields must be filed.
 *        If partial option is 'start_end'  start and end day fields must be filed.
+*        If partial option is 'none'  No partial option.
 * @apiParam   {String} startDayType Start day leave applying type ('half_day','full_day','specify_time').
 * @apiParam   {String} startDayAMPM Half day morning or evening ( 'AM','PM') required for  start day 'half_day'.
 * @apiParam   {String} startDayFromTime Start day from time for specify time(required for start day specifying time ).

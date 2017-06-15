@@ -55,7 +55,7 @@
 *                    "comment": "Test"
 *                    },
 *                    {
-*                    "author": "Admin",
+*                    "user": "Admin",
 *                    "date": "2017-03-16",
 *                    "time": "14:18:10",
 *                    "comment": "Test"

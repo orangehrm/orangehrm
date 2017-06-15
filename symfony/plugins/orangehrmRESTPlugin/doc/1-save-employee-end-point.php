@@ -4,7 +4,6 @@
 * @apiGroup Employee
 * @apiVersion 0.1.0
 *
-* @apiParam {Number}  employee Employee id.
 *
 * @apiParam {String} firstName Mandatory First name of the employee.
 * @apiParam {String} middleName Middle name of the employee.
