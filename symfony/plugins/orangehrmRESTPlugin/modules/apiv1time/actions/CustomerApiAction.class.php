@@ -25,36 +25,39 @@ use Orangehrm\Rest\Api\Exception\NotImplementedException;
 class CustomerApiAction extends baseRestAction
 {
 
-    private $apiEmployeeDependent = null;
+    private $customerProjectApi = null;
 
     protected function init(Request $request)
     {
-        $this->apiProject = new CustomerAPI($request);
-        $this->postValidationRule = $this->apiProject->getPostValidationRules();
-        $this->putValidationRule = $this->apiProject->getPutValidationRules();
-        $this->deleteValidationRule = $this->apiProject->getDelValidationRules();
+        $this->customerProjectApi = new CustomerAPI($request);
+        $this->postValidationRule = $this->customerProjectApi->getPostValidationRules();
     }
 
     protected function handleGetRequest(Request $request)
     {
-//        return new Response(array("test"), array());
-        return $this->apiProject->getProjects();
+        return $this->customerProjectApi->getCustomers();
     }
 
     protected function handlePostRequest(Request $request)
     {
-//        var_export($request);die;
-//        return new Response($request->getAllParameters(), array());
-        return $this->apiProject->saveProject();
+        return $this->customerProjectApi->saveCustomer();
     }
 
-    protected function handlePutRequest(Request $request)
+    /**
+     * @return CustomerAPI
+     */
+    public function getCustomerProjectApi()
     {
-        return $this->apiProject->updateEmployeeDependents();
+        return $this->customerProjectApi;
     }
 
-    protected function handleDeleteRequest(Request $request)
+    /**
+     * @param null $customerProjectApi
+     */
+    public function setCustomerProjectApi($customerProjectApi)
     {
-        return $this->apiProject->deleteEmployeeDependents();
+        $this->customerProjectApi = $customerProjectApi;
     }
+
+
 }
