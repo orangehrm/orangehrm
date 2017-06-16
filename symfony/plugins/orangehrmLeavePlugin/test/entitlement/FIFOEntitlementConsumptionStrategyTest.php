@@ -896,7 +896,9 @@ class FIFOEntitlementConsumptionStrategyTest extends PHPUnit_Framework_TestCase 
 
         $entitlements = array();
 
-        $mockService = $this->getMock('LeaveEntitlementService', array('getValidLeaveEntitlements'));
+        $mockService = $this->getMockBuilder('LeaveEntitlementService')
+			->setMethods( array('getValidLeaveEntitlements'))
+			->getMock();
         $mockService->expects($this->exactly(2))
                 ->method('getValidLeaveEntitlements')
                 ->with($empNumber, $leaveType, '2012-09-11', '2012-09-12', 'from_date', 'ASC')
@@ -943,7 +945,9 @@ class FIFOEntitlementConsumptionStrategyTest extends PHPUnit_Framework_TestCase 
 
         $entitlements = array($entitlement1);
 
-        $mockService = $this->getMock('LeaveEntitlementService', array('getValidLeaveEntitlements'));
+        $mockService = $this->getMockBuilder('LeaveEntitlementService')
+			->setMethods( array('getValidLeaveEntitlements'))
+			->getMock();
         $mockService->expects($this->once())
                 ->method('getValidLeaveEntitlements')
                 ->with($empNumber, $leaveType, '2012-09-11', '2012-09-12', 'from_date', 'ASC')
@@ -985,7 +989,9 @@ class FIFOEntitlementConsumptionStrategyTest extends PHPUnit_Framework_TestCase 
 
         $entitlements = array($entitlement1);
 
-        $mockService = $this->getMock('LeaveEntitlementService', array('getValidLeaveEntitlements'));
+        $mockService = $this->getMockBuilder('LeaveEntitlementService')
+			->setMethods( array('getValidLeaveEntitlements'))
+			->getMock();
         $mockService->expects($this->once())
                 ->method('getValidLeaveEntitlements')
                 ->with($empNumber, $leaveType, '2012-09-11', '2012-09-12', 'from_date', 'ASC')
@@ -1032,7 +1038,9 @@ class FIFOEntitlementConsumptionStrategyTest extends PHPUnit_Framework_TestCase 
 
         $entitlements = array($entitlement1);
 
-        $mockService = $this->getMock('LeaveEntitlementService', array('getValidLeaveEntitlements'));
+        $mockService = $this->getMockBuilder('LeaveEntitlementService')
+			->setMethods( array('getValidLeaveEntitlements'))
+			->getMock();
         $mockService->expects($this->once())
                 ->method('getValidLeaveEntitlements')
                 ->with($empNumber, $leaveType, '2012-09-11', '2012-09-12', 'from_date', 'ASC')
@@ -1073,7 +1081,9 @@ class FIFOEntitlementConsumptionStrategyTest extends PHPUnit_Framework_TestCase 
 
         $entitlements = array($entitlement1);
 
-        $mockService = $this->getMock('LeaveEntitlementService', array('getValidLeaveEntitlements'));
+        $mockService = $this->getMockBuilder('LeaveEntitlementService')
+			->setMethods( array('getValidLeaveEntitlements'))
+			->getMock();
         $mockService->expects($this->once())
                 ->method('getValidLeaveEntitlements')
                 ->with($empNumber, $leaveType, '2012-09-11', '2012-09-12', 'from_date', 'ASC')
@@ -1120,7 +1130,9 @@ class FIFOEntitlementConsumptionStrategyTest extends PHPUnit_Framework_TestCase 
 
         $entitlements = array($entitlement1);
 
-        $mockService = $this->getMock('LeaveEntitlementService', array('getValidLeaveEntitlements'));
+        $mockService = $this->getMockBuilder('LeaveEntitlementService')
+			->setMethods( array('getValidLeaveEntitlements'))
+			->getMock();
         $mockService->expects($this->once())
                 ->method('getValidLeaveEntitlements')
                 ->with($empNumber, $leaveType, '2012-09-11', '2012-09-13', 'from_date', 'ASC')
@@ -1163,7 +1175,9 @@ class FIFOEntitlementConsumptionStrategyTest extends PHPUnit_Framework_TestCase 
 
         $entitlements = array($entitlement1);
 
-        $mockService = $this->getMock('LeaveEntitlementService', array('getValidLeaveEntitlements'));
+        $mockService = $this->getMockBuilder('LeaveEntitlementService')
+			->setMethods( array('getValidLeaveEntitlements'))
+			->getMock();
         $mockService->expects($this->once())
                 ->method('getValidLeaveEntitlements')
                 ->with($empNumber, $leaveType, '2012-09-11', '2012-09-13', 'from_date', 'ASC')
@@ -1207,7 +1221,9 @@ class FIFOEntitlementConsumptionStrategyTest extends PHPUnit_Framework_TestCase 
 
         $entitlements = array($entitlement1);
 
-        $mockService = $this->getMock('LeaveEntitlementService', array('getValidLeaveEntitlements'));
+        $mockService = $this->getMockBuilder('LeaveEntitlementService')
+			->setMethods( array('getValidLeaveEntitlements'))
+			->getMock();
         $mockService->expects($this->once())
                 ->method('getValidLeaveEntitlements')
                 ->with($empNumber, $leaveType, '2012-09-11', '2012-09-12', 'from_date', 'ASC')
@@ -1251,7 +1267,9 @@ class FIFOEntitlementConsumptionStrategyTest extends PHPUnit_Framework_TestCase 
 
         $entitlements = array($entitlement1);
 
-        $mockService = $this->getMock('LeaveEntitlementService', array('getValidLeaveEntitlements'));
+        $mockService = $this->getMockBuilder('LeaveEntitlementService')
+			->setMethods( array('getValidLeaveEntitlements'))
+			->getMock();
         $mockService->expects($this->once())
                 ->method('getValidLeaveEntitlements')
                 ->with($empNumber, $leaveType, '2012-09-11', '2012-09-12', 'from_date', 'ASC')
@@ -1266,7 +1284,9 @@ class FIFOEntitlementConsumptionStrategyTest extends PHPUnit_Framework_TestCase 
     
     public function testGetLeaveWithoutEntitlementDateLimitsForLeaveBalance() {
         
-        $mockService = $this->getMock('LeavePeriodService', array('getCurrentLeavePeriodByDate'));
+        $mockService = $this->getMockBuilder('LeavePeriodService')
+			->setMethods( array('getCurrentLeavePeriodByDate'))
+			->getMock();
         $mockService->expects($this->any())
                 ->method('getCurrentLeavePeriodByDate')
                 ->will($this->returnValue(array('2012-01-01', '2012-12-31')));

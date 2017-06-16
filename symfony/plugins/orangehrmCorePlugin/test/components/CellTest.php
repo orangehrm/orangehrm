@@ -75,7 +75,9 @@ class CellTest extends PHPUnit_Framework_TestCase {
         $value = "Test Value";
         $filteredValue = "XYZ Test";
         
-        $mockHeader = $this->getMock('ListHeader', array('filterValue'));
+        $mockHeader = $this->getMockBuilder('ListHeader')
+			->setMethods( array('filterValue'))
+			->getMock();
         $mockHeader->expects($this->once())
                      ->method('filterValue')
                      ->with($value)                

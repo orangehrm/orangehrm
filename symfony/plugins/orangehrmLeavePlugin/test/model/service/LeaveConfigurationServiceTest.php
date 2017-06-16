@@ -37,7 +37,9 @@ class LeaveConfigurationServiceTest extends PHPUnit_Framework_TestCase {
     public function testGetLeaveEntitlementConsumptionStrategy() {
         
         $strategy = "FIFO";
-        $mockDao = $this->getMock('ConfigDao', array('getValue'));
+        $mockDao = $this->getMockBuilder('ConfigDao')
+			->setMethods( array('getValue'))
+			->getMock();
         $mockDao->expects($this->once())
                     ->method('getValue')
                     ->with(LeaveConfigurationService::KEY_LEAVE_ENTITLEMENT_CONSUMPTION_STRATEGY)
@@ -50,7 +52,9 @@ class LeaveConfigurationServiceTest extends PHPUnit_Framework_TestCase {
     
     public function testGetWorkScheduleImplementation() {
         $implementation = "Basic";
-        $mockDao = $this->getMock('ConfigDao', array('getValue'));
+        $mockDao = $this->getMockBuilder('ConfigDao')
+			->setMethods( array('getValue'))
+			->getMock();
         $mockDao->expects($this->once())
                     ->method('getValue')
                     ->with(LeaveConfigurationService::KEY_LEAVE_WORK_SCHEDULE_IMPLEMENTATION)

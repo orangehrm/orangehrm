@@ -83,7 +83,7 @@ class ApiEmployeeTerminateAPITest extends PHPUnit_Framework_TestCase
             ->with($filters)
             ->will($this->returnValue($employeeTerminationRecord));
 
-        $pimEmployeeService = $pimEmployeeService = $this->getMock('EmployeeService');
+        $pimEmployeeService = $pimEmployeeService = $this->getMockBuilder('EmployeeService')->getMock();
         $pimEmployeeService->expects($this->any())
             ->method('getEmployee')
             ->with(1)

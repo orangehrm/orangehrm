@@ -80,7 +80,7 @@ class ApiEmployeeContactDetailAPITest extends PHPUnit_Framework_TestCase
 
         $this->employeeContactDetailAPI->setRequestParams($requestParams);
 
-        $pimEmployeeService = $this->getMock('EmployeeService');
+        $pimEmployeeService = $this->getMockBuilder('EmployeeService')->getMock();
         $pimEmployeeService->expects($this->any())
             ->method('getEmployee')
             ->with($empNumber)
@@ -145,7 +145,7 @@ class ApiEmployeeContactDetailAPITest extends PHPUnit_Framework_TestCase
             ->with($employee,$employee->getEmpWorkEmail(),$employee->getOtherId())
             ->will($this->returnValue(true));
 
-        $pimEmployeeService = $this->getMock('EmployeeService');
+        $pimEmployeeService = $this->getMockBuilder('EmployeeService')->getMock();
         $pimEmployeeService->expects($this->any())
             ->method('getEmployee')
             ->with(1)
@@ -222,7 +222,7 @@ class ApiEmployeeContactDetailAPITest extends PHPUnit_Framework_TestCase
             ->with($employee,$employee->getEmpWorkEmail(),$employee->getOtherId())
             ->will($this->returnValue(true));
 
-        $pimEmployeeService = $this->getMock('EmployeeService');
+        $pimEmployeeService = $this->getMockBuilder('EmployeeService')->getMock();
         $pimEmployeeService->expects($this->any())
             ->method('getEmployee')
             ->with(1)

@@ -77,7 +77,7 @@ class ApiEmployeeSearchAPITest extends PHPUnit_Framework_TestCase
         $employeeList = new Doctrine_Collection('Employee');
         $employeeList[] = $employee;
 
-        $pimEmployeeService = $this->getMock('EmployeeService');
+        $pimEmployeeService = $this->getMockBuilder('EmployeeService')->getMock();
         $pimEmployeeService->expects($this->any())
             ->method('searchEmployees')
             ->with($parameterHolder)

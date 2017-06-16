@@ -84,7 +84,7 @@ class ApiUserLoginAPITest extends PHPUnit_Framework_TestCase
             ->with()
             ->will($this->returnValue(1));
 
-        $loginService = $this->getMock('LoginService');
+        $loginService = $this->getMockBuilder('LoginService')->getMock();
         $loginService->expects($this->any())
             ->method('getSystemUser')
             ->with(1)

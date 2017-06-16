@@ -45,7 +45,7 @@ class RecruitmentAttachmentServiceTest extends PHPUnit_Framework_TestCase {
 
 		$resume = new JobVacancyAttachment();
 
-		$recruitmentAttachmentDao = $this->getMock('RecruitmentAttachmentDao');
+		$recruitmentAttachmentDao = $this->getMockBuilder('RecruitmentAttachmentDao')->getMock();
 		$recruitmentAttachmentDao->expects($this->once())
 			->method('saveVacancyAttachment')
 			->with($resume)
@@ -64,7 +64,7 @@ class RecruitmentAttachmentServiceTest extends PHPUnit_Framework_TestCase {
 
 		$resume = new JobCandidateAttachment();
 
-		$recruitmentAttachmentDao = $this->getMock('RecruitmentAttachmentDao');
+		$recruitmentAttachmentDao = $this->getMockBuilder('RecruitmentAttachmentDao')->getMock();
 		$recruitmentAttachmentDao->expects($this->once())
 			->method('saveCandidateAttachment')
 			->with($resume)
@@ -85,7 +85,7 @@ class RecruitmentAttachmentServiceTest extends PHPUnit_Framework_TestCase {
 		$vacancyList = TestDataService::loadObjectList('JobVacancyAttachment', $this->fixture, 'JobVacancyAttachment');
 		$testVacancyList = array($vacancyList[0], $vacancyList[1]);
 
-		$recruitmentAttachmentDao = $this->getMock('RecruitmentAttachmentDao');
+		$recruitmentAttachmentDao = $this->getMockBuilder('RecruitmentAttachmentDao')->getMock();
 
 		$recruitmentAttachmentDao->expects($this->once())
 			->method('getVacancyAttachment')
@@ -107,7 +107,7 @@ class RecruitmentAttachmentServiceTest extends PHPUnit_Framework_TestCase {
 		$candidateList = TestDataService::loadObjectList('JobCandidateAttachment', $this->fixture, 'JobCandidateAttachment');
 		$testCandidateList = array($candidateList[0], $candidateList[1]);
 
-		$recruitmentAttachmentDao = $this->getMock('RecruitmentAttachmentDao');
+		$recruitmentAttachmentDao = $this->getMockBuilder('RecruitmentAttachmentDao')->getMock();
 
 		$recruitmentAttachmentDao->expects($this->once())
 			->method('getCandidateAttachment')
@@ -131,7 +131,7 @@ class RecruitmentAttachmentServiceTest extends PHPUnit_Framework_TestCase {
 		$id = 1;
 		$screen = "CANDIDATE";
 		$candidateList = TestDataService::loadObjectList('JobCandidateAttachment', $this->fixture, 'JobCandidateAttachment');
-		$recruitmentAttachmentDao = $this->getMock('RecruitmentAttachmentDao');
+		$recruitmentAttachmentDao = $this->getMockBuilder('RecruitmentAttachmentDao')->getMock();
 
 		$recruitmentAttachmentDao->expects($this->once())
 			->method('getCandidateAttachment')
@@ -148,7 +148,7 @@ class RecruitmentAttachmentServiceTest extends PHPUnit_Framework_TestCase {
 		$id = 1;
 		$screen = "VACANCY";
 		$candidateList = TestDataService::loadObjectList('JobVacancyAttachment', $this->fixture, 'JobVacancyAttachment');
-		$recruitmentAttachmentDao = $this->getMock('RecruitmentAttachmentDao');
+		$recruitmentAttachmentDao = $this->getMockBuilder('RecruitmentAttachmentDao')->getMock();
 
 		$recruitmentAttachmentDao->expects($this->once())
 			->method('getVacancyAttachment')
@@ -164,7 +164,7 @@ class RecruitmentAttachmentServiceTest extends PHPUnit_Framework_TestCase {
 		$id = 1;
 		$screen = "INTERVIEW";
 		$candidateList = TestDataService::loadObjectList('JobInterviewAttachment', $this->fixture, 'JobInterviewAttachment');
-		$recruitmentAttachmentDao = $this->getMock('RecruitmentAttachmentDao');
+		$recruitmentAttachmentDao = $this->getMockBuilder('RecruitmentAttachmentDao')->getMock();
 
 		$recruitmentAttachmentDao->expects($this->once())
 			->method('getInterviewAttachment')
@@ -188,7 +188,7 @@ class RecruitmentAttachmentServiceTest extends PHPUnit_Framework_TestCase {
 		$id = 1;
 		$screen = "VACANCY";
 		$candidateList = TestDataService::loadObjectList('JobVacancyAttachment', $this->fixture, 'JobVacancyAttachment');
-		$recruitmentAttachmentDao = $this->getMock('RecruitmentAttachmentDao');
+		$recruitmentAttachmentDao = $this->getMockBuilder('RecruitmentAttachmentDao')->getMock();
 
 		$recruitmentAttachmentDao->expects($this->once())
 			->method('getVacancyAttachments')
@@ -204,7 +204,7 @@ class RecruitmentAttachmentServiceTest extends PHPUnit_Framework_TestCase {
 		$id = 1;
 		$screen = "INTERVIEW";
 		$candidateList = TestDataService::loadObjectList('JobInterviewAttachment', $this->fixture, 'JobInterviewAttachment');
-		$recruitmentAttachmentDao = $this->getMock('RecruitmentAttachmentDao');
+		$recruitmentAttachmentDao = $this->getMockBuilder('RecruitmentAttachmentDao')->getMock();
 
 		$recruitmentAttachmentDao->expects($this->once())
 			->method('getInterviewAttachments')

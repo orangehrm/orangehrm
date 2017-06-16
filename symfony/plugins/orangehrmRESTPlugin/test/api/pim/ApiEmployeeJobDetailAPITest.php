@@ -77,7 +77,7 @@ class ApiEmployeeJobDetailAPITest extends PHPUnit_Framework_TestCase
 
         $this->employeeJobDetailAPI->setRequestParams($requestParams);
 
-        $pimEmployeeService = $this->getMock('EmployeeService');
+        $pimEmployeeService = $this->getMockBuilder('EmployeeService')->getMock();
         $pimEmployeeService->expects($this->any())
             ->method('getEmployee')
             ->with($empNumber)
@@ -137,7 +137,7 @@ class ApiEmployeeJobDetailAPITest extends PHPUnit_Framework_TestCase
             ->with($employee,$filters);
 
 
-        $pimEmployeeService = $this->getMock('EmployeeService');
+        $pimEmployeeService = $this->getMockBuilder('EmployeeService')->getMock();
         $pimEmployeeService->expects($this->any())
             ->method('getEmployee')
             ->with(1)
@@ -198,7 +198,7 @@ class ApiEmployeeJobDetailAPITest extends PHPUnit_Framework_TestCase
             ->with($employee,$filters);
 
 
-        $pimEmployeeService = $this->getMock('EmployeeService');
+        $pimEmployeeService = $this->getMockBuilder('EmployeeService')->getMock();
         $pimEmployeeService->expects($this->any())
             ->method('getEmployee')
             ->with(1)

@@ -39,7 +39,9 @@ class UserRoleManagerServiceTest extends PHPUnit_Framework_TestCase {
      * Test the getConfigDao() and setConfigDao() method
      */
     public function testGetUserRoleManagerClassName() {
-        $configDao = $this->getMock('ConfigDao', array('getValue'));
+        $configDao = $this->getMockBuilder('ConfigDao')
+			->setMethods( array('getValue'))
+			->getMock();
         $configDao->expects($this->once())
                 ->method('getValue')
                 ->with(UserRoleManagerService::KEY_USER_ROLE_MANAGER_CLASS)
@@ -51,13 +53,17 @@ class UserRoleManagerServiceTest extends PHPUnit_Framework_TestCase {
     }
     
     public function testGetUserRoleManagerExistingClass() {
-        $configDao = $this->getMock('ConfigDao', array('getValue'));
+        $configDao = $this->getMockBuilder('ConfigDao')
+			->setMethods( array('getValue'))
+			->getMock();
         $configDao->expects($this->once())
                 ->method('getValue')
                 ->with(UserRoleManagerService::KEY_USER_ROLE_MANAGER_CLASS)
                 ->will($this->returnValue('UnitTestUserRoleManager'));
         
-        $authenticationService = $this->getMock('AuthenticationService', array('getLoggedInUserId'));
+        $authenticationService = $this->getMockBuilder('AuthenticationService')
+			->setMethods( array('getLoggedInUserId'))
+			->getMock();
         $authenticationService->expects($this->once())
                               ->method('getLoggedInUserId')
                               ->will($this->returnValue(211));
@@ -65,7 +71,9 @@ class UserRoleManagerServiceTest extends PHPUnit_Framework_TestCase {
         $systemUser = new SystemUser();
         $systemUser->setId(211);
         
-        $systemUserService = $this->getMock('SystemUserService', array('getSystemUser'));
+        $systemUserService = $this->getMockBuilder('SystemUserService')
+			->setMethods( array('getSystemUser'))
+			->getMock();
         $systemUserService->expects($this->once())
                           ->method('getSystemUser')
                           ->will($this->returnValue($systemUser));
@@ -83,7 +91,9 @@ class UserRoleManagerServiceTest extends PHPUnit_Framework_TestCase {
     }
     
     public function testGetUserRoleManagerInvalidClass() {
-        $configDao = $this->getMock('ConfigDao', array('getValue'));
+        $configDao = $this->getMockBuilder('ConfigDao')
+			->setMethods( array('getValue'))
+			->getMock();
         $configDao->expects($this->once())
                 ->method('getValue')
                 ->with(UserRoleManagerService::KEY_USER_ROLE_MANAGER_CLASS)
@@ -117,20 +127,26 @@ class UserRoleManagerServiceTest extends PHPUnit_Framework_TestCase {
     }
     
     public function testGetUserRoleManagerNoLoggedInUser() {
-        $configDao = $this->getMock('ConfigDao', array('getValue'));
+        $configDao = $this->getMockBuilder('ConfigDao')
+			->setMethods( array('getValue'))
+			->getMock();
         $configDao->expects($this->once())
                 ->method('getValue')
                 ->with(UserRoleManagerService::KEY_USER_ROLE_MANAGER_CLASS)
                 ->will($this->returnValue('UnitTestUserRoleManager'));
         
 
-        $authenticationService = $this->getMock('AuthenticationService', array('getLoggedInUserId'));
+        $authenticationService = $this->getMockBuilder('AuthenticationService')
+			->setMethods( array('getLoggedInUserId'))
+			->getMock();
         $authenticationService->expects($this->once())
                               ->method('getLoggedInUserId')
                               ->will($this->returnValue(NULL));
         
         
-        $systemUserService = $this->getMock('SystemUserService', array('getSystemUser'));
+        $systemUserService = $this->getMockBuilder('SystemUserService')
+			->setMethods( array('getSystemUser'))
+			->getMock();
         $systemUserService->expects($this->once())
                           ->method('getSystemUser')
                           ->with(NULL)

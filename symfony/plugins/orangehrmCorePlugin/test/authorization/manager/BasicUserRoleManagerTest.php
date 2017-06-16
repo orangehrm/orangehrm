@@ -646,7 +646,9 @@ class BasicUserRoleManagerTest extends PHPUnit_Framework_TestCase {
         $this->manager->setSystemUserService($systemUserService);
         $this->manager->setUser($user);       
         
-        $mockScreenPermissionService = $this->getMock('ScreenPermissionService', array('getScreenPermissions'));
+        $mockScreenPermissionService = $this->getMockBuilder('ScreenPermissionService')
+			->setMethods( array('getScreenPermissions'))
+			->getMock();
         $permission = new ResourcePermission(true, false, true, false);
         
         $module = 'admin';
@@ -822,7 +824,9 @@ class BasicUserRoleManagerTest extends PHPUnit_Framework_TestCase {
         
         $employeeIds = array(1, 2, 3);
         
-        $employeeService = $this->getMock('EmployeeService', array('getSubordinateIdListBySupervisorId'));
+        $employeeService = $this->getMockBuilder('EmployeeService')
+			->setMethods( array('getSubordinateIdListBySupervisorId'))
+			->getMock();
         $employeeService->expects($this->once())
                  ->method('getSubordinateIdListBySupervisorId')
                 ->with($user->getEmpNumber())
@@ -865,7 +869,9 @@ class BasicUserRoleManagerTest extends PHPUnit_Framework_TestCase {
         $homePages = array(
             $homePage1, $homePage2, $homePage3, $homePage4, $homePage5
         );
-        $mockDao = $this->getMock('HomePageDao', array('getHomePagesInPriorityOrder'));
+        $mockDao = $this->getMockBuilder('HomePageDao')
+			->setMethods( array('getHomePagesInPriorityOrder'))
+			->getMock();
         $mockDao->expects($this->once())
                  ->method('getHomePagesInPriorityOrder')
                 ->with($userRoleIds)
@@ -906,7 +912,9 @@ class BasicUserRoleManagerTest extends PHPUnit_Framework_TestCase {
         $defaultPages = array(
             $defaultPage1, $defaultPage2, $defaultPage3, $defaultPage4, $defaultPage5
         );
-        $mockDao = $this->getMock('HomePageDao', array('getModuleDefaultPagesInPriorityOrder'));
+        $mockDao = $this->getMockBuilder('HomePageDao')
+			->setMethods( array('getModuleDefaultPagesInPriorityOrder'))
+			->getMock();
         $mockDao->expects($this->once())
                  ->method('getModuleDefaultPagesInPriorityOrder')
                 ->with($module, $userRoleIds)

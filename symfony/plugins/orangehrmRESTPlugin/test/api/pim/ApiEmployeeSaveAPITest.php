@@ -62,7 +62,7 @@ class ApiEmployeeSaveAPITest extends PHPUnit_Framework_TestCase
             ->with($filters)
             ->will($this->returnValue($employee));
 
-        $pimEmployeeService = $pimEmployeeService = $this->getMock('EmployeeService');
+        $pimEmployeeService = $pimEmployeeService = $this->getMockBuilder('EmployeeService')->getMock();
         $pimEmployeeService->expects($this->any())
             ->method('saveEmployee')
             ->with($employee)

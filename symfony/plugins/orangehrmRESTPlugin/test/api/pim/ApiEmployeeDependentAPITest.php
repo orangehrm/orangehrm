@@ -87,7 +87,7 @@ class ApiEmployeeDependentAPITest extends PHPUnit_Framework_TestCase
 
         $this->employeeDependantAPI->setRequestParams($requestParams);
 
-        $pimEmployeeService = $this->getMock('EmployeeService');
+        $pimEmployeeService = $this->getMockBuilder('EmployeeService')->getMock();
         $pimEmployeeService->expects($this->any())
             ->method('getEmployeeDependents')
             ->with($empNumber)

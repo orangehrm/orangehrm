@@ -710,7 +710,9 @@ class EmployeeDaoTest extends PHPUnit_Framework_TestCase {
 
     public function xtestSaveEmployeePicture() {
 
-        $mockPicture = $this->getMock('EmpPicture', array('save'));
+        $mockPicture = $this->getMockBuilder('EmpPicture')
+			->setMethods( array('save'))
+			->getMock();
         $mockPicture->expects($this->once())
                 ->method('save');
         $result = $this->employeeDao->saveEmployeePicture($mockPicture);
@@ -724,7 +726,9 @@ class EmployeeDaoTest extends PHPUnit_Framework_TestCase {
      */
     public function xtestSaveEmployeePictureException() {
 
-        $mockPicture = $this->getMock('EmpPicture', array('save'));
+        $mockPicture = $this->getMockBuilder('EmpPicture')
+			->setMethods( array('save'))
+			->getMock();
         $mockPicture->expects($this->once())
                 ->method('save')
                 ->will($this->throwException(new DaoException()));

@@ -35,7 +35,7 @@ class EmployeeDirectoryServiceTest extends PHPUnit_Framework_TestCase {
     }
     
     public function testGetSetEmployeeDirectoryDao() {
-        $mockDao = $this->getMock('EmployeeDirectoryDao');
+        $mockDao = $this->getMockBuilder('EmployeeDirectoryDao')->getMock();
                 
         $this->employeeDirectoryService->setEmployeeDirectoryDao($mockDao);
         $this->assertEquals($mockDao, $this->employeeDirectoryService->getEmployeeDirectoryDao());        
@@ -56,7 +56,7 @@ class EmployeeDirectoryServiceTest extends PHPUnit_Framework_TestCase {
 //            $employees[] = $employee;
 //        }             
 //        
-//        $mockDao = $this->getMock('EmployeeDao');
+//        $mockDao = $this->getMockBuilder('EmployeeDao')->getMock();
 //        $mockDao->expects($this->once())
 //                 ->method('searchEmployee')
 //                 ->with($field, $value)
@@ -83,7 +83,7 @@ class EmployeeDirectoryServiceTest extends PHPUnit_Framework_TestCase {
                 
         $list   =   array( $employee1,$employee2);
         
-        $mockDao = $this->getMock('EmployeeDirectoryDao');
+        $mockDao = $this->getMockBuilder('EmployeeDirectoryDao')->getMock();
         $mockDao->expects($this->once())
              ->method('searchEmployees')
              ->with($parameterHolder)   
@@ -102,7 +102,7 @@ class EmployeeDirectoryServiceTest extends PHPUnit_Framework_TestCase {
 
         $count = 20;         
         
-        $mockDao = $this->getMock('EmployeeDirectoryDao');
+        $mockDao = $this->getMockBuilder('EmployeeDirectoryDao')->getMock();
         $mockDao->expects($this->once())
                  ->method('getSearchEmployeeCount')
                  ->will($this->returnValue($count));

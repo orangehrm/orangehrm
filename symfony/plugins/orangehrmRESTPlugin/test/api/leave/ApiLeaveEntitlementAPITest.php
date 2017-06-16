@@ -79,7 +79,7 @@ class ApiLeaveEntitlementAPITest extends PHPUnit_Framework_TestCase
 
         $entitlementApi->setRequestParams($requestParams);
 
-        $entitlementService = $this->getMock('LeaveEntitlementService');
+        $entitlementService = $this->getMockBuilder('LeaveEntitlementService')->getMock();
         $entitlementService->expects($this->any())
             ->method('saveLeaveEntitlement')
             ->with($leaveEntitlement)
@@ -136,7 +136,7 @@ class ApiLeaveEntitlementAPITest extends PHPUnit_Framework_TestCase
 
         $entitlementApi->setRequestParams($requestParams);
 
-        $entitlementService = $this->getMock('LeaveEntitlementService');
+        $entitlementService = $this->getMockBuilder('LeaveEntitlementService')->getMock();
         $entitlementService->expects($this->any())
             ->method('searchLeaveEntitlements')
             ->with($searchParameters)

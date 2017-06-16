@@ -43,7 +43,9 @@ class BeaconConfigurationServiceTest extends PHPUnit_Framework_TestCase{
 //        <value>604800</value>
 //    </change>'
     );
-        $configDao = $this->getMock('ConfigDao',  array('setValue'));
+        $configDao = $this->getMockBuilder('ConfigDao')
+			->setMethods(  array('setValue'))
+			->getMock();
         $configDao->expects($this->exactly(1))
                 ->method('setValue')
                 ->with($this->stringContains('beacon.flash_period'),  $this->equalTo('604800'));

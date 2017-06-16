@@ -40,7 +40,7 @@ class NationalityServiceTest extends PHPUnit_Framework_TestCase {
 
         $nationalityList = TestDataService::loadObjectList('Nationality', $this->fixture, 'Nationality');
 
-        $nationalityDao = $this->getMock('NationalityDao');
+        $nationalityDao = $this->getMockBuilder('NationalityDao')->getMock();
         $nationalityDao->expects($this->once())
                 ->method('getNationalityList')
                 ->will($this->returnValue($nationalityList));
@@ -55,7 +55,7 @@ class NationalityServiceTest extends PHPUnit_Framework_TestCase {
 
         $nationalityList = TestDataService::loadObjectList('Nationality', $this->fixture, 'Nationality');
 
-        $nationalityDao = $this->getMock('NationalityDao');
+        $nationalityDao = $this->getMockBuilder('NationalityDao')->getMock();
         $nationalityDao->expects($this->once())
                 ->method('getNationalityById')
                 ->with(1)
@@ -71,7 +71,7 @@ class NationalityServiceTest extends PHPUnit_Framework_TestCase {
 
         $nationalityList = array(1, 2, 3);
 
-        $nationalityDao = $this->getMock('NationalityDao');
+        $nationalityDao = $this->getMockBuilder('NationalityDao')->getMock();
         $nationalityDao->expects($this->once())
                 ->method('deleteNationalities')
                 ->with($nationalityList)
