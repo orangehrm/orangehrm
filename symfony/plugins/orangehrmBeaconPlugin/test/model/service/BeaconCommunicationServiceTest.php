@@ -20,7 +20,7 @@ class BeaconCommunicationServiceTest extends PHPUnit_Framework_TestCase {
     public function setUp() {
         $this->beaconCommunicationService = new BeaconCommunicationsService();
         $this->fixture = sfConfig::get('sf_plugins_dir') . '/orangehrmBeaconPlugin/test/fixtures/BeaconDatapointService.yml';
-        $this->beaconConfigService = $this->getMock('BeaconConfigService', array('setBeaconLock', 'getBeaconLock', 'getBeaconActivationAcceptanceStatus', 'getBeaconActivationStatus', 'getBeaconNextFlashTime', 'changeConfigTable', 'resolveNotificationMessages'));
+        $this->beaconConfigService = $this->getMockBuilder('BeaconConfigService')->setMethods(array('setBeaconLock', 'getBeaconLock', 'getBeaconActivationAcceptanceStatus', 'getBeaconActivationStatus', 'getBeaconNextFlashTime', 'changeConfigTable', 'resolveNotificationMessages'))->getMock();
     }
 
     public function testCheckFlashTimeExpiry() {

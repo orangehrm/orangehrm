@@ -110,7 +110,7 @@ class UserRoleManagerServiceTest extends PHPUnit_Framework_TestCase {
     } 
     
     public function testGetUserRoleManagerNonExistingClass() {
-        $configDao = $this->getMock('ConfigDao', array('getValue'));
+        $configDao = $this->getMockBuilder('ConfigDao')->setMethods(array('getValue'))->getMock();
         $configDao->expects($this->once())
                 ->method('getValue')
                 ->with(UserRoleManagerService::KEY_USER_ROLE_MANAGER_CLASS)

@@ -1038,7 +1038,7 @@ class EmployeeDaoTest extends PHPUnit_Framework_TestCase {
      */
     public function testSaveEmployeeSalaryException() {
         
-        $salary = $this->getMock('EmployeeSalary', array('save'));
+        $salary = $this->getMockBuilder('EmployeeSalary')->setMethods(array('save'))->getMock();
         $salary->expects($this->once())
                 ->method('save')
                 ->will($this->throwException(new Exception()));

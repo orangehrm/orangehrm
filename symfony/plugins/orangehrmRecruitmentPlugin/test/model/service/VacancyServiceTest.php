@@ -239,7 +239,7 @@ class VacancyServiceTest extends PHPUnit_Framework_TestCase {
 
         foreach ($vacancyIdsSet as $vacancyIds) {
         
-            $vacancyDao = $this->getMock('VacancyDao', array('deleteVacancies'));
+            $vacancyDao = $this->getMockBuilder('VacancyDao')->setMethods(array('deleteVacancies'))->getMock();
 
             $vacancyDao->expects($this->once())
                        ->method('deleteVacancies')
@@ -265,7 +265,7 @@ class VacancyServiceTest extends PHPUnit_Framework_TestCase {
 
         foreach ($vacancyIdsSet as $vacancyIds) {
         
-            $vacancyDao = $this->getMock('VacancyDao', array('deleteVacancies'));
+            $vacancyDao = $this->getMockBuilder('VacancyDao')->setMethods(array('deleteVacancies'))->getMock();
 
             $vacancyDao->expects($this->once())
                        ->method('deleteVacancies')
@@ -300,7 +300,7 @@ class VacancyServiceTest extends PHPUnit_Framework_TestCase {
 
 		$srchParams = array('jobTitle' => 'JOB002', 'jobVacancy' => '2', 'hiringManager' => '2', 'status' => '1');
 		
-		$vacancyDao = $this->getMock('VacancyDao', array('searchVacanciesCount'));
+		$vacancyDao = $this->getMockBuilder('VacancyDao')->setMethods(array('searchVacanciesCount'))->getMock();
 
 		$vacancyDao->expects($this->once())
 			->method('searchVacanciesCount')
@@ -323,7 +323,7 @@ class VacancyServiceTest extends PHPUnit_Framework_TestCase {
         $allVacancyList = TestDataService::loadObjectList('JobVacancy', $this->fixture, 'JobVacancy');
 		$returnedVacancy = $allVacancyList[0];
 		
-		$vacancyDao = $this->getMock('VacancyDao', array('getVacancyById'));
+		$vacancyDao = $this->getMockBuilder('VacancyDao')->setMethods(array('getVacancyById'))->getMock();
 
 		$vacancyDao->expects($this->once())
 			->method('getVacancyById')
@@ -348,7 +348,7 @@ class VacancyServiceTest extends PHPUnit_Framework_TestCase {
         $parameters = array('HIRING MANAGER', $allEmployeeList[0]);
 		$returnedVacancy[0] = $allVacancyList[0];
 		
-		$vacancyDao = $this->getMock('VacancyDao', array('getVacancyListForUserRole'));
+		$vacancyDao = $this->getMockBuilder('VacancyDao')->setMethods(array('getVacancyListForUserRole'))->getMock();
 
 		$vacancyDao->expects($this->once())
 			->method('getVacancyListForUserRole')
@@ -373,7 +373,7 @@ class VacancyServiceTest extends PHPUnit_Framework_TestCase {
         $parameters = array('HIRING MANAGER', $allEmployeeList[0]);
 		$returnedVacancy[0] = $allVacancyList[0];
 		
-		$vacancyDao = $this->getMock('VacancyDao', array('getVacancyListForUserRole'));
+		$vacancyDao = $this->getMockBuilder('VacancyDao')->setMethods(array('getVacancyListForUserRole'))->getMock();
 
 		$vacancyDao->expects($this->once())
 			->method('getVacancyListForUserRole')

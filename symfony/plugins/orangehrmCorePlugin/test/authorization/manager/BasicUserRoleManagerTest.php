@@ -636,7 +636,7 @@ class BasicUserRoleManagerTest extends PHPUnit_Framework_TestCase {
         $user->setEmpNumber(NULL);
         $user->setUserRole($userRole);
         
-        $systemUserService = $this->getMock('SystemUserService', array('getSystemUser'));
+        $systemUserService = $this->getMockBuilder('SystemUserService')->setMethods(array('getSystemUser'))->getMock();
         
         $systemUserService->expects($this->once())
                 ->method('getSystemUser')
@@ -814,7 +814,7 @@ class BasicUserRoleManagerTest extends PHPUnit_Framework_TestCase {
         $user->setEmpNumber(9);
         
         
-        $systemUserService = $this->getMock('SystemUserService', array('getSystemUser'));
+        $systemUserService = $this->getMockBuilder('SystemUserService')->setMethods(array('getSystemUser'))->getMock();
         $systemUserService->expects($this->once())
                  ->method('getSystemUser')
                  ->will($this->returnValue($user));

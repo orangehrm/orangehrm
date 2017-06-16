@@ -164,7 +164,7 @@ class HolidayServiceTest extends PHPUnit_Framework_TestCase {
 
         $holidays   = TestDataService::loadObjectList('Holiday', $this->fixture, 'Holiday');
 
-        $holidayDao = $this->getMock('HolidayDao', array('readHolidayByDate'));
+        $holidayDao = $this->getMockBuilder('HolidayDao')->setMethods(array('readHolidayByDate'))->getMock();
         $holidayDao->expects($this->once())
                 ->method('readHolidayByDate')
                 ->with("2010-05-28")
@@ -181,7 +181,7 @@ class HolidayServiceTest extends PHPUnit_Framework_TestCase {
 
         $holidays   = TestDataService::loadObjectList('Holiday', $this->fixture, 'Holiday');
 
-        $holidayDao = $this->getMock('HolidayDao', array('readHolidayByDate'));
+        $holidayDao = $this->getMockBuilder('HolidayDao')->setMethods(array('readHolidayByDate'))->getMock();
         $holidayDao->expects($this->once())
                 ->method('readHolidayByDate')
                 ->with("5555-10-21")
@@ -242,7 +242,7 @@ class HolidayServiceTest extends PHPUnit_Framework_TestCase {
     public function testIsHalfDay() {
 
         $holidays   = TestDataService::loadObjectList('Holiday', $this->fixture, 'Holiday');
-        $holidayDao = $this->getMock('HolidayDao', array('readHolidayByDate'));
+        $holidayDao = $this->getMockBuilder('HolidayDao')->setMethods(array('readHolidayByDate'))->getMock();
         $holidayDao->expects($this->once())
                 ->method('readHolidayByDate')
                 ->with("2010-05-28")
@@ -258,7 +258,7 @@ class HolidayServiceTest extends PHPUnit_Framework_TestCase {
     public function testIsHalfDayReturnsFalse() {
 
         $holidays   = TestDataService::loadObjectList('Holiday', $this->fixture, 'Holiday');
-        $holidayDao = $this->getMock('HolidayDao', array('readHolidayByDate'));
+        $holidayDao = $this->getMockBuilder('HolidayDao')->setMethods(array('readHolidayByDate'))->getMock();
         $holidayDao->expects($this->once())
                 ->method('readHolidayByDate')
                 ->with("5555-10-21")
@@ -275,7 +275,7 @@ class HolidayServiceTest extends PHPUnit_Framework_TestCase {
 
         $holidays   = TestDataService::loadObjectList('Holiday', $this->fixture, 'Holiday');
 
-        $holidayDao = $this->getMock('HolidayDao', array('readHolidayByDate'));
+        $holidayDao = $this->getMockBuilder('HolidayDao')->setMethods(array('readHolidayByDate'))->getMock();
         $holidayDao->expects($this->once())
                 ->method('readHolidayByDate')
                 ->with("2010-05-27")
@@ -292,7 +292,7 @@ class HolidayServiceTest extends PHPUnit_Framework_TestCase {
 
         $holidays   = TestDataService::loadObjectList('Holiday', $this->fixture, 'Holiday');
 
-        $holidayDao = $this->getMock('HolidayDao', array('readHolidayByDate'));
+        $holidayDao = $this->getMockBuilder('HolidayDao')->setMethods(array('readHolidayByDate'))->getMock();
         $holidayDao->expects($this->once())
                 ->method('readHolidayByDate')
                 ->with("2010-05-28")
