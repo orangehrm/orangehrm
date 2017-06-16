@@ -68,7 +68,10 @@ class ApiEmployeeTerminateAPITest extends PHPUnit_Framework_TestCase
         $sfRequest = new sfWebRequest($sfEvent);
         $request = new Request($sfRequest);
 
-        $this->employeeTerminateAPi = $this->getMock('Orangehrm\Rest\Api\Pim\EmployeeTerminateAPI',array('filterParameters','validateInputs','buildTerminationRecord'),array($request));
+        $this->employeeTerminateAPi = $this->getMockBuilder('Orangehrm\Rest\Api\Pim\EmployeeTerminateAPI')
+            ->setMethods(array('filterParameters','validateInputs','buildTerminationRecord'))
+            ->setConstructorArgs(array($request))
+            ->getMock();
         $this->employeeTerminateAPi->expects($this->once())
             ->method('filterParameters')
             ->will($this->returnValue($filters));

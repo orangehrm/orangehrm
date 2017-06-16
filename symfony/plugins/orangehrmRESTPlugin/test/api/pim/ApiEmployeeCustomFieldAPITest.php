@@ -164,8 +164,10 @@ class ApiEmployeeCustomFieldAPITest extends PHPUnit_Framework_TestCase
 
         $assetResArray[] = $customEntField->toArray();
 
-        $this->employeeCustomFieldAPI = $this->getMock('Orangehrm\Rest\Api\Pim\EmployeeCustomFieldAPI',
-            array('getFilterParameters'), array($request));
+        $this->employeeCustomFieldAPI = $this->getMockBuilder('Orangehrm\Rest\Api\Pim\EmployeeCustomFieldAPI')
+            ->setMethods(array('getFilterParameters'))
+            ->setConstructorArgs(array($request))
+            ->getMock();
         $this->employeeCustomFieldAPI->expects($this->once())
             ->method('getFilterParameters')
             ->will($this->returnValue($filters));
@@ -242,8 +244,10 @@ class ApiEmployeeCustomFieldAPITest extends PHPUnit_Framework_TestCase
 
         $assetResArray[] = $customEntField->toArray();
 
-        $this->employeeCustomFieldAPI = $this->getMock('Orangehrm\Rest\Api\Pim\EmployeeCustomFieldAPI',
-            array('getFilterParameters'), array($request));
+        $this->employeeCustomFieldAPI = $this->getMockBuilder('Orangehrm\Rest\Api\Pim\EmployeeCustomFieldAPI')
+            ->setMethods(array('getFilterParameters'))
+            ->setConstructorArgs(array($request))
+            ->getMock();
         $this->employeeCustomFieldAPI->expects($this->once())
             ->method('getFilterParameters')
             ->will($this->returnValue($filters));
@@ -319,8 +323,10 @@ class ApiEmployeeCustomFieldAPITest extends PHPUnit_Framework_TestCase
 
         $assetResArray[] = $customEntField->toArray();
 
-        $this->employeeCustomFieldAPI = $this->getMock('Orangehrm\Rest\Api\Pim\EmployeeCustomFieldAPI',
-            array('getFilterParameters'), array($request));
+        $this->employeeCustomFieldAPI = $this->getMockBuilder('Orangehrm\Rest\Api\Pim\EmployeeCustomFieldAPI')
+            ->setMethods(array('getFilterParameters'))
+            ->setConstructorArgs(array($request))
+            ->getMock();
         $this->employeeCustomFieldAPI->expects($this->once())
             ->method('getFilterParameters')
             ->will($this->returnValue($filters));

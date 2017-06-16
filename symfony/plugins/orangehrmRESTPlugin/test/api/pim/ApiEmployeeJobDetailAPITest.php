@@ -124,7 +124,10 @@ class ApiEmployeeJobDetailAPITest extends PHPUnit_Framework_TestCase
         $sfRequest = new sfWebRequest($sfEvent);
         $request = new Request($sfRequest);
 
-        $employeeJobDetailAPI = $this->getMock('Orangehrm\Rest\Api\Pim\EmployeeJobDetailAPI',array('filterParameters','validateInputs','buildEmployeeJobDetails'),array($request));
+        $employeeJobDetailAPI = $this->getMockBuilder('Orangehrm\Rest\Api\Pim\EmployeeJobDetailAPI')
+            ->setMethods(array('filterParameters','validateInputs','buildEmployeeJobDetails'))
+            ->setConstructorArgs(array($request))
+            ->getMock();
         $employeeJobDetailAPI->expects($this->once())
             ->method('filterParameters')
             ->will($this->returnValue($filters));
@@ -185,7 +188,10 @@ class ApiEmployeeJobDetailAPITest extends PHPUnit_Framework_TestCase
         $sfRequest = new sfWebRequest($sfEvent);
         $request = new Request($sfRequest);
 
-        $employeeJobDetailAPI = $this->getMock('Orangehrm\Rest\Api\Pim\EmployeeJobDetailAPI',array('filterParameters','validateInputs'),array($request));
+        $employeeJobDetailAPI = $this->getMockBuilder('Orangehrm\Rest\Api\Pim\EmployeeJobDetailAPI')
+            ->setMethods(array('filterParameters','validateInputs', 'buildEmployeeJobDetails'))
+            ->setConstructorArgs(array($request))
+            ->getMock();
         $employeeJobDetailAPI->expects($this->once())
             ->method('filterParameters')
             ->will($this->returnValue($filters));

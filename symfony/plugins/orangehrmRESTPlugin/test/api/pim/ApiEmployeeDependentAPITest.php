@@ -177,12 +177,17 @@ class ApiEmployeeDependentAPITest extends PHPUnit_Framework_TestCase
         $request = new Request($sfRequest);
 
 
-        $employeeDependantAPI = $this->getMock('Orangehrm\Rest\Api\Pim\EmployeeDependentAPI',array('filterParameters','buildEmployeeDependants'),array($request));
+        $employeeDependantAPI = $this->getMockBuilder('Orangehrm\Rest\Api\Pim\EmployeeDependentAPI')
+            ->setMethods(array('filterParameters','buildEmployeeDependants'))
+            ->setConstructorArgs(array($request))
+            ->getMock();
         $employeeDependantAPI->expects($this->once())
             ->method('filterParameters')
             ->will($this->returnValue($filters));
 
-        $pimEmployeeService = $this->getMock('EmployeeService',array('deleteEmployeeDependents'));
+        $pimEmployeeService = $this->getMockBuilder('EmployeeService')
+            ->setMethods(array('deleteEmployeeDependents'))
+            ->getMock();
         $pimEmployeeService->expects($this->any())
             ->method('deleteEmployeeDependents')
             ->with(1,array(1))

@@ -148,7 +148,10 @@ class ApiEmployeeWorkExperienceAPITest extends PHPUnit_Framework_TestCase
         $sfRequest = new sfWebRequest($sfEvent);
         $request = new Request($sfRequest);
 
-        $this->employeeWorkExperienceAPI = $this->getMock('Orangehrm\Rest\Api\Pim\EmployeeWorkExperienceAPI',array('getFilterParameters','buildEmployeeWorkExperience'),array($request));
+        $this->employeeWorkExperienceAPI = $this->getMockBuilder('Orangehrm\Rest\Api\Pim\EmployeeWorkExperienceAPI')
+            ->setMethods(array('getFilterParameters','buildEmployeeWorkExperience'))
+            ->setConstructorArgs(array($request))
+            ->getMock();
         $this->employeeWorkExperienceAPI->expects($this->once())
             ->method('getFilterParameters')
             ->will($this->returnValue($filters));
@@ -225,7 +228,10 @@ class ApiEmployeeWorkExperienceAPITest extends PHPUnit_Framework_TestCase
         $sfRequest = new sfWebRequest($sfEvent);
         $request = new Request($sfRequest);
 
-        $this->employeeWorkExperienceAPI = $this->getMock('Orangehrm\Rest\Api\Pim\EmployeeWorkExperienceAPI',array('getFilterParameters','buildEmployeeWorkExperience'),array($request));
+        $this->employeeWorkExperienceAPI = $this->getMockBuilder('Orangehrm\Rest\Api\Pim\EmployeeWorkExperienceAPI')
+            ->setMethods(array('getFilterParameters','buildEmployeeWorkExperience'))
+            ->setConstructorArgs(array($request))
+            ->getMock();
         $this->employeeWorkExperienceAPI->expects($this->once())
             ->method('getFilterParameters')
             ->will($this->returnValue($filters));
@@ -302,7 +308,11 @@ class ApiEmployeeWorkExperienceAPITest extends PHPUnit_Framework_TestCase
         $sfRequest = new sfWebRequest($sfEvent);
         $request = new Request($sfRequest);
 
-        $this->employeeWorkExperienceAPI = $this->getMock('Orangehrm\Rest\Api\Pim\EmployeeWorkExperienceAPI',array('getFilterParameters','buildEmployeeWorkExperience'),array($request));
+        $this->employeeWorkExperienceAPI = $this->getMockBuilder('Orangehrm\Rest\Api\Pim\EmployeeWorkExperienceAPI')
+            ->setMethods(array('getFilterParameters','buildEmployeeWorkExperience'))
+            ->setConstructorArgs(array($request))
+            ->getMock();
+
         $this->employeeWorkExperienceAPI->expects($this->once())
             ->method('getFilterParameters')
             ->will($this->returnValue($filters));

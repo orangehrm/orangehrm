@@ -509,7 +509,9 @@ class CandidateServiceTest extends PHPUnit_Framework_TestCase {
         $expectedArray = array("" => "Select Action", 3 => "Reject", 4 => "Schedule Interview" );
         $allowedActions = array(3, 4);
         
-        $userObj = $this->getMock('User',array ('getAllowedActions'));
+        $userObj = $this->getMockBuilder('User')
+            ->setMethods(array ('getAllowedActions'))
+            ->getMock();
         $userObj->expects($this->once())
                 ->method('getAllowedActions')
                 ->with(PluginWorkflowStateMachine::FLOW_RECRUITMENT, 2)
