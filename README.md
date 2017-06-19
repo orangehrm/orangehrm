@@ -1,6 +1,6 @@
 # OrangeHRM Open Source Application
 
-[![Docker Automated](https://img.shields.io/docker/automated/orangehrm/orangehrm.svg)](https://hub.docker.com/r/orangehrm/orangehrm/) [![Docker Status](https://img.shields.io/docker/build/orangehrm/orangehrm.svg)](https://hub.docker.com/r/orangehrm/orangehrm/) [![Docker Pulls](https://img.shields.io/docker/pulls/orangehrm/orangehrm.svg)](https://hub.docker.com/r/orangehrm/orangehrm)  [![Travis Test](https://img.shields.io/travis/orangehrm/orangehrm/master.svg)](https://travis-ci.org/orangehrm/orangehrm)  [![SourceForge Downloads](https://img.shields.io/sourceforge/dm/orangehrm.svg)](https://sourceforge.net/projects/orangehrm/) [![SourceForge Downloads](https://img.shields.io/sourceforge/dt/orangehrm.svg)](https://sourceforge.net/projects/orangehrm/) 
+[![Docker Automated](https://img.shields.io/docker/automated/orangehrm/orangehrm.svg)](https://hub.docker.com/r/orangehrm/orangehrm/) [![Docker Status](https://img.shields.io/docker/build/orangehrm/orangehrm.svg)](https://hub.docker.com/r/orangehrm/orangehrm/) [![Docker Pulls](https://img.shields.io/docker/pulls/orangehrm/orangehrm.svg)](https://hub.docker.com/r/orangehrm/orangehrm)  [![Travis Test](https://img.shields.io/travis/orangehrm/orangehrm/php7-dev.svg)](https://travis-ci.org/orangehrm/orangehrm)  [![SourceForge Downloads](https://img.shields.io/sourceforge/dm/orangehrm.svg)](https://sourceforge.net/projects/orangehrm/) [![SourceForge Downloads](https://img.shields.io/sourceforge/dt/orangehrm.svg)](https://sourceforge.net/projects/orangehrm/) 
 
 
 
