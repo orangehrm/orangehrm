@@ -21,7 +21,9 @@ class CountDataPointProcessorTest extends PHPUnit_Framework_TestCase {
 
     public function testProcessCountDatapoint() {
 
-        $countDatapointProcessor = $this->getMock('countDataPointProcessor', array('executeQuery', 'sanitize'));
+        $countDatapointProcessor = $this->getMockBuilder('countDataPointProcessor')
+			->setMethods( array('executeQuery', 'sanitize'))
+			->getMock();
 
         $countDatapointProcessor->expects($this->any())
                 ->method('executeQuery')

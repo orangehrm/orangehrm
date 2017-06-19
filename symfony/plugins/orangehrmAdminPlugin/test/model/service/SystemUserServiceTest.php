@@ -49,7 +49,7 @@ class SystemUserServiceTest extends PHPUnit_Framework_TestCase {
             $userRoles->add($userRole);
         }
         
-        $dao = $this->getMock('SystemUserDao');
+        $dao = $this->getMockBuilder('SystemUserDao')->getMock();
         
         $dao->expects($this->once())
              ->method('getNonPredefinedUserRoles')
@@ -71,7 +71,7 @@ class SystemUserServiceTest extends PHPUnit_Framework_TestCase {
         $user->setUserName('admin_user');
         $user->setUserPassword($password);                
         
-        $dao = $this->getMock('SystemUserDao');
+        $dao = $this->getMockBuilder('SystemUserDao')->getMock();
         
         $dao->expects($this->once())
              ->method('saveSystemUser')
@@ -92,7 +92,7 @@ class SystemUserServiceTest extends PHPUnit_Framework_TestCase {
         $user->setUserName('admin_user');
         $user->setUserPassword($password);
 
-        $dao = $this->getMock('SystemUserDao');
+        $dao = $this->getMockBuilder('SystemUserDao')->getMock();
 
         $dao->expects($this->once())
                 ->method('saveSystemUser')
@@ -116,7 +116,9 @@ class SystemUserServiceTest extends PHPUnit_Framework_TestCase {
         $userId = 5;
         $password = 'sadffas';
         
-        $dao = $this->getMock('SystemUserDao', array('getSystemUser'));
+        $dao = $this->getMockBuilder('SystemUserDao')
+			->setMethods( array('getSystemUser'))
+			->getMock();
 
         $dao->expects($this->once())
                 ->method('getSystemUser')
@@ -142,7 +144,9 @@ class SystemUserServiceTest extends PHPUnit_Framework_TestCase {
         $user->setUserPassword($hashedPassword);
 
         
-        $dao = $this->getMock('SystemUserDao', array('getSystemUser'));
+        $dao = $this->getMockBuilder('SystemUserDao')
+			->setMethods( array('getSystemUser'))
+			->getMock();
 
         $dao->expects($this->once())
                 ->method('getSystemUser')
@@ -167,7 +171,9 @@ class SystemUserServiceTest extends PHPUnit_Framework_TestCase {
         $user->setUserPassword($hashedPassword);
 
         
-        $dao = $this->getMock('SystemUserDao', array('getSystemUser'));
+        $dao = $this->getMockBuilder('SystemUserDao')
+			->setMethods( array('getSystemUser'))
+			->getMock();
 
         $dao->expects($this->once())
                 ->method('getSystemUser')
@@ -192,7 +198,9 @@ class SystemUserServiceTest extends PHPUnit_Framework_TestCase {
         $user->setUserPassword($hashedPassword);
 
         
-        $dao = $this->getMock('SystemUserDao', array('getSystemUser'));
+        $dao = $this->getMockBuilder('SystemUserDao')
+			->setMethods( array('getSystemUser'))
+			->getMock();
 
         $dao->expects($this->once())
                 ->method('getSystemUser')
@@ -218,7 +226,9 @@ class SystemUserServiceTest extends PHPUnit_Framework_TestCase {
                 ->with($password)
                 ->will($this->returnValue($hashedPassword));
         
-        $mockDao = $this->getMock('SystemUserDao', array('updatePassword'));
+        $mockDao = $this->getMockBuilder('SystemUserDao')
+			->setMethods( array('updatePassword'))
+			->getMock();
         $mockDao->expects($this->once())
                 ->method('updatePassword')
                 ->with($userId, $hashedPassword)
@@ -236,7 +246,9 @@ class SystemUserServiceTest extends PHPUnit_Framework_TestCase {
         $userName = 'adminUser1';
         $password = 'isd#@!';
         
-        $mockDao = $this->getMock('SystemUserDao', array('isExistingSystemUser'));
+        $mockDao = $this->getMockBuilder('SystemUserDao')
+			->setMethods( array('isExistingSystemUser'))
+			->getMock();
         $mockDao->expects($this->once())
                 ->method('isExistingSystemUser')
                 ->with($userName)
@@ -269,7 +281,9 @@ class SystemUserServiceTest extends PHPUnit_Framework_TestCase {
                 ->with($password, $hashedPassword)
                 ->will($this->returnValue(true));        
         
-        $mockDao = $this->getMock('SystemUserDao', array('isExistingSystemUser'));
+        $mockDao = $this->getMockBuilder('SystemUserDao')
+			->setMethods( array('isExistingSystemUser'))
+			->getMock();
         $mockDao->expects($this->once())
                 ->method('isExistingSystemUser')
                 ->with($userName)
@@ -297,7 +311,9 @@ class SystemUserServiceTest extends PHPUnit_Framework_TestCase {
         $user->setUserPassword($hashedPassword);        
       
         
-        $mockDao = $this->getMock('SystemUserDao', array('isExistingSystemUser', 'saveSystemUser'));
+        $mockDao = $this->getMockBuilder('SystemUserDao')
+			->setMethods( array('isExistingSystemUser', 'saveSystemUser'))
+			->getMock();
         $mockDao->expects($this->once())
                 ->method('isExistingSystemUser')
                 ->with($userName)
@@ -331,7 +347,9 @@ class SystemUserServiceTest extends PHPUnit_Framework_TestCase {
         $user->setUserPassword($hashedPassword);        
       
         
-        $mockDao = $this->getMock('SystemUserDao', array('isExistingSystemUser'));
+        $mockDao = $this->getMockBuilder('SystemUserDao')
+			->setMethods( array('isExistingSystemUser'))
+			->getMock();
         $mockDao->expects($this->once())
                 ->method('isExistingSystemUser')
                 ->with($userName)

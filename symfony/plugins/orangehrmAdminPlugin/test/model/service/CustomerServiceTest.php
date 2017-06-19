@@ -41,7 +41,7 @@ class CustomerServiceTest extends PHPUnit_Framework_TestCase {
 
 		$customerList = TestDataService::loadObjectList('Customer', $this->fixture, 'Customer');
 
-		$customerDao = $this->getMock('CustomerDao');
+		$customerDao = $this->getMockBuilder('CustomerDao')->getMock();
 		$customerDao->expects($this->once())
 			->method('getCustomerList')
 			->with("","","","","")
@@ -55,7 +55,7 @@ class CustomerServiceTest extends PHPUnit_Framework_TestCase {
 	
 	public function testGetCustomerCount() {
 
-		$customerDao = $this->getMock('CustomerDao');
+		$customerDao = $this->getMockBuilder('CustomerDao')->getMock();
 		$customerDao->expects($this->once())
 			->method('getCustomerCount')
 			->with("")
@@ -71,7 +71,7 @@ class CustomerServiceTest extends PHPUnit_Framework_TestCase {
 
 		$customerList = TestDataService::loadObjectList('Customer', $this->fixture, 'Customer');
 
-		$customerDao = $this->getMock('CustomerDao');
+		$customerDao = $this->getMockBuilder('CustomerDao')->getMock();
 		$customerDao->expects($this->once())
 			->method('getCustomerById')
 			->with(1)
@@ -87,7 +87,7 @@ class CustomerServiceTest extends PHPUnit_Framework_TestCase {
 
 		$customerList = TestDataService::loadObjectList('Customer', $this->fixture, 'Customer');
 
-		$customerDao = $this->getMock('CustomerDao');
+		$customerDao = $this->getMockBuilder('CustomerDao')->getMock();
 		$customerDao->expects($this->once())
 			->method('deleteCustomer')
 			->with(1)
@@ -103,7 +103,7 @@ class CustomerServiceTest extends PHPUnit_Framework_TestCase {
 
 		$customerList = TestDataService::loadObjectList('Customer', $this->fixture, 'Customer');
 
-		$customerDao = $this->getMock('CustomerDao');
+		$customerDao = $this->getMockBuilder('CustomerDao')->getMock();
 		$customerDao->expects($this->once())
 			->method('getAllCustomers')
 			->with(false)
@@ -117,7 +117,7 @@ class CustomerServiceTest extends PHPUnit_Framework_TestCase {
 	
 	public function testHasCustomerGotTimesheetItems() {
 
-		$customerDao = $this->getMock('CustomerDao');
+		$customerDao = $this->getMockBuilder('CustomerDao')->getMock();
 		$customerDao->expects($this->once())
 			->method('hasCustomerGotTimesheetItems')
 			->with(1)
@@ -140,7 +140,7 @@ class CustomerServiceTest extends PHPUnit_Framework_TestCase {
         
         $customers = array($customer1, $customer2);
         
-        $customerDao = $this->getMock('CustomerDao');
+        $customerDao = $this->getMockBuilder('CustomerDao')->getMock();
         $customerDao->expects($this->once())
             ->method('getCustomerNameList')
             ->with($allowdCustomers, true)

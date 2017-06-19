@@ -43,7 +43,7 @@ class HttpEmployeeServiceTest extends PHPUnit_Framework_TestCase
 
     public function testGetEmployeeDetails(){
 
-        $requestParams = $this->getMock('\Orangehrm\Rest\Http\RequestParams', ['getQueryParam']);
+        $requestParams = $this->getMockBuilder('\Orangehrm\Rest\Http\RequestParams')->setMethods(['getQueryParam'])->getMock();
         $requestParams->expects($this->once())
             ->method('getQueryParam')
             ->with('id')
@@ -56,7 +56,7 @@ class HttpEmployeeServiceTest extends PHPUnit_Framework_TestCase
         $employee->setEmpNumber($empNumber);
 
         //mock employee dao
-        $mockDao = $this->getMock('EmployeeDao');
+        $mockDao = $this->getMockBuilder('EmployeeDao')->getMock();
         $mockDao->expects($this->once())
             ->method('getEmployee')
             ->with($empNumber)
@@ -79,7 +79,7 @@ class HttpEmployeeServiceTest extends PHPUnit_Framework_TestCase
 
     public function testGetEmployeeDependants(){
 
-        $requestParams = $this->getMock('\Orangehrm\Rest\Http\RequestParams', ['getQueryParam']);
+        $requestParams = $this->getMockBuilder('\Orangehrm\Rest\Http\RequestParams')->setMethods(['getQueryParam'])->getMock();
         $requestParams->expects($this->once())
             ->method('getQueryParam')
             ->with('id')
@@ -94,7 +94,7 @@ class HttpEmployeeServiceTest extends PHPUnit_Framework_TestCase
         $employeeDependantsMockList [] = $employeeDependant;
 
         //mock employee dao
-        $mockDao = $this->getMock('EmployeeDao');
+        $mockDao = $this->getMockBuilder('EmployeeDao')->getMock();
         $mockDao->expects($this->once())
             ->method('getEmployeeDependents')
             ->with($empNumber)

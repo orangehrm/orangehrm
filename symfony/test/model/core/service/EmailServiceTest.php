@@ -33,12 +33,12 @@ class EmailServiceTest extends PHPUnit_Framework_TestCase{
                 'body' => 'orangehrmLeavePlugin/modules/leave/templates/mail/en_US/leaveApplicationBody.txt', 
                 'subject' => 'orangehrmLeavePlugin/modules/leave/templates/mail/en_US/leaveApplicationSubject.txt'));
         
-        $configService = $this->getMock('ConfigService', array('getAdminLocalizationDefaultLanguage'));
+        $configService = $this->getMockBuilder('ConfigService')->setMethods(array('getAdminLocalizationDefaultLanguage'))->getMock();
         $configService->expects($this->once())
                 ->method('getAdminLocalizationDefaultLanguage')
                 ->will($this->returnValue($locale)); 
         
-        $emailDao = $this->getMock('EmailDao', array('getEmailTemplateMatches'));
+        $emailDao = $this->getMockBuilder('EmailDao')->setMethods(array('getEmailTemplateMatches'))->getMock();
         $emailDao->expects($this->at(0))
                 ->method('getEmailTemplateMatches')
                 ->with($email, $locale, $recipientRole, $performerRole)
@@ -72,12 +72,12 @@ class EmailServiceTest extends PHPUnit_Framework_TestCase{
                 'body' => 'orangehrmLeavePlugin/modules/leave/templates/mail/en_US/leaveApplicationBody.txt', 
                 'subject' => 'orangehrmLeavePlugin/modules/leave/templates/mail/en_US/leaveApplicationSubject.txt'));    
         
-        $configService = $this->getMock('ConfigService', array('getAdminLocalizationDefaultLanguage'));
+        $configService = $this->getMockBuilder('ConfigService')->setMethods(array('getAdminLocalizationDefaultLanguage'))->getMock();
         $configService->expects($this->once())
                 ->method('getAdminLocalizationDefaultLanguage')
                 ->will($this->returnValue($locale)); 
         
-        $emailDao = $this->getMock('EmailDao', array('getEmailTemplateMatches'));
+        $emailDao = $this->getMockBuilder('EmailDao')->setMethods(array('getEmailTemplateMatches'))->getMock();
         $emailDao->expects($this->once())
                 ->method('getEmailTemplateMatches')
                 ->with($email, $locale, $recipientRole, $performerRole)

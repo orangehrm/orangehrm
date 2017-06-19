@@ -76,7 +76,7 @@ class AdminWebServiceWrapperTest extends PHPUnit_Framework_TestCase {
         $paramObj->setSessionToken(uniqid('ohrm_ws_session_'));
         $paramObj->setParameters(array(0));
         $paramObj->setRequestMethod('GET');
-        $mock = $this->getMock('AdminWebServiceHelper', array('getAccessibleLocations'));
+        $mock = $this->getMockBuilder('AdminWebServiceHelper')->setMethods(array('getAccessibleLocations'))->getMock();
         $mock->method('getAccessibleLocations')
                 ->will($this->returnValue(array()));
 

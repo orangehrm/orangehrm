@@ -49,7 +49,9 @@ class AccessFlowStateMachineServiceTest extends PHPUnit_Framework_TestCase {
         $fetchedRecord2 = TestDataService::fetchObject('WorkflowStateMachine', 12);
         $recordsArray = array($fetchedRecord1, $fetchedRecord2);
 
-        $acessFlowStateMachineDaoMock = $this->getMock('AccessFlowStateMachineDao', array('getAllowedActions'));
+        $acessFlowStateMachineDaoMock = $this->getMockBuilder('AccessFlowStateMachineDao')
+			->setMethods( array('getAllowedActions'))
+			->getMock();
         $acessFlowStateMachineDaoMock->expects($this->once())
                 ->method('getAllowedActions')
                 ->with($flow, $state, $role)
@@ -66,7 +68,9 @@ class AccessFlowStateMachineServiceTest extends PHPUnit_Framework_TestCase {
         $role = "ADMIN";
         $recordsArray = null;
 
-        $acessFlowStateMachineDaoMock = $this->getMock('AccessFlowStateMachineDao', array('getAllowedActions'));
+        $acessFlowStateMachineDaoMock = $this->getMockBuilder('AccessFlowStateMachineDao')
+			->setMethods( array('getAllowedActions'))
+			->getMock();
         $acessFlowStateMachineDaoMock->expects($this->once())
                 ->method('getAllowedActions')
                 ->with($flow, $state, $role)
@@ -88,7 +92,9 @@ class AccessFlowStateMachineServiceTest extends PHPUnit_Framework_TestCase {
         $expected->add($fetchedRecord1);
         $expected->add($fetchedRecord2);
 
-        $acessFlowStateMachineDaoMock = $this->getMock('AccessFlowStateMachineDao', array('getAllowedWorkflowItems'));
+        $acessFlowStateMachineDaoMock = $this->getMockBuilder('AccessFlowStateMachineDao')
+			->setMethods( array('getAllowedWorkflowItems'))
+			->getMock();
         $acessFlowStateMachineDaoMock->expects($this->once())
                 ->method('getAllowedWorkflowItems')
                 ->with($flow, $state, $role)
@@ -108,7 +114,9 @@ class AccessFlowStateMachineServiceTest extends PHPUnit_Framework_TestCase {
 
         $fetchedRecord1 = TestDataService::fetchObject('WorkflowStateMachine', 1);
 
-        $acessFlowStateMachineDaoMock = $this->getMock('AccessFlowStateMachineDao', array('getNextState'));
+        $acessFlowStateMachineDaoMock = $this->getMockBuilder('AccessFlowStateMachineDao')
+			->setMethods( array('getNextState'))
+			->getMock();
         $acessFlowStateMachineDaoMock->expects($this->once())
                 ->method('getNextState')
                 ->with($flow, $state, $role, $action)
@@ -126,7 +134,9 @@ class AccessFlowStateMachineServiceTest extends PHPUnit_Framework_TestCase {
         $role = "ADMIN";
         $action = "APPROVE";
 
-        $acessFlowStateMachineDaoMock = $this->getMock('AccessFlowStateMachineDao', array('getNextState'));
+        $acessFlowStateMachineDaoMock = $this->getMockBuilder('AccessFlowStateMachineDao')
+			->setMethods( array('getNextState'))
+			->getMock();
         $acessFlowStateMachineDaoMock->expects($this->once())
                 ->method('getNextState')
                 ->with($flow, $state, $role, $action)
@@ -148,7 +158,9 @@ class AccessFlowStateMachineServiceTest extends PHPUnit_Framework_TestCase {
         $fetchedRecord2 = TestDataService::fetchObject('WorkflowStateMachine', 5);
         $tempArray = array($fetchedRecord1, $fetchedRecord2);
 
-        $acessFlowStateMachineDaoMock = $this->getMock('AccessFlowStateMachineDao', array('getActionableStates'));
+        $acessFlowStateMachineDaoMock = $this->getMockBuilder('AccessFlowStateMachineDao')
+			->setMethods( array('getActionableStates'))
+			->getMock();
         $acessFlowStateMachineDaoMock->expects($this->once())
                 ->method('getActionableStates')
                 ->with($workFlow, $userRole, $actions)
@@ -169,7 +181,9 @@ class AccessFlowStateMachineServiceTest extends PHPUnit_Framework_TestCase {
 
         $workflowStateMachineRecord = $workflowStateMachineRecords[0];
 
-        $accessFlowStateMachineDaoMock = $this->getMock('AccessFlowStateMachineDao', array('saveWorkflowStateMachineRecord'));
+        $accessFlowStateMachineDaoMock = $this->getMockBuilder('AccessFlowStateMachineDao')
+			->setMethods( array('saveWorkflowStateMachineRecord'))
+			->getMock();
 
         $accessFlowStateMachineDaoMock->expects($this->once())
                 ->method('saveWorkflowStateMachineRecord')
@@ -189,7 +203,9 @@ class AccessFlowStateMachineServiceTest extends PHPUnit_Framework_TestCase {
         $resultingState = "SUPERVISOR APPROVED";
         $isSuccess = true;
 
-        $acessFlowStateMachineDaoMock = $this->getMock('AccessFlowStateMachineDao', array('deleteWorkflowStateMachineRecord'));
+        $acessFlowStateMachineDaoMock = $this->getMockBuilder('AccessFlowStateMachineDao')
+			->setMethods( array('deleteWorkflowStateMachineRecord'))
+			->getMock();
         $acessFlowStateMachineDaoMock->expects($this->once())
                 ->method('deleteWorkflowStateMachineRecord')
                 ->with($flow, $state, $role, $action, $resultingState)
@@ -207,7 +223,9 @@ class AccessFlowStateMachineServiceTest extends PHPUnit_Framework_TestCase {
         $resultingState = "SUPERVISOR APPROVED";
         $isSuccess = false;
 
-        $acessFlowStateMachineDaoMock = $this->getMock('AccessFlowStateMachineDao', array('deleteWorkflowStateMachineRecord'));
+        $acessFlowStateMachineDaoMock = $this->getMockBuilder('AccessFlowStateMachineDao')
+			->setMethods( array('deleteWorkflowStateMachineRecord'))
+			->getMock();
         $acessFlowStateMachineDaoMock->expects($this->once())
                 ->method('deleteWorkflowStateMachineRecord')
                 ->with($flow, $state, $role, $action, $resultingState)
@@ -224,7 +242,7 @@ class AccessFlowStateMachineServiceTest extends PHPUnit_Framework_TestCase {
 
         $workflowStateMachineRecord = $workflowStateMachineRecords[12];
 
-        $accessFlowStateMachineDaoMock = $this->getMock('AccessFlowStateMachineDao');
+        $accessFlowStateMachineDaoMock = $this->getMockBuilder('AccessFlowStateMachineDao')->getMock();
 
         $accessFlowStateMachineDaoMock->expects($this->once())
                 ->method('getWorkFlowStateMachineRecords')
@@ -237,7 +255,7 @@ class AccessFlowStateMachineServiceTest extends PHPUnit_Framework_TestCase {
     }
     
     public function testIsActionAllowedService() {
-        $accessFlowStateMachineDaoMock = $this->getMock('AccessFlowStateMachineDao');
+        $accessFlowStateMachineDaoMock = $this->getMockBuilder('AccessFlowStateMachineDao')->getMock();
 
         $accessFlowStateMachineDaoMock->expects($this->once())
                 ->method('isActionAllowed')
@@ -256,7 +274,9 @@ class AccessFlowStateMachineServiceTest extends PHPUnit_Framework_TestCase {
         $item = new WorkflowStateMachine();
         $item->fromArray(array('id' => 9, 'workflow' => Time, 'state' => 'APPROVED', 'role' => 'SUPERVISOR',
             'action' => 'VIEW TIMESHEET','resulting_state' => 'APPROVED'));
-        $accessFlowStateMachineDaoMock = $this->getMock('AccessFlowStateMachineDao', array('getWorkflowItemByStateActionAndRole'));
+        $accessFlowStateMachineDaoMock = $this->getMockBuilder('AccessFlowStateMachineDao')
+			->setMethods( array('getWorkflowItemByStateActionAndRole'))
+			->getMock();
 
         $accessFlowStateMachineDaoMock->expects($this->once())
                 ->method('getWorkflowItemByStateActionAndRole')
@@ -273,7 +293,9 @@ class AccessFlowStateMachineServiceTest extends PHPUnit_Framework_TestCase {
         $flow = "Time";
         $role = "ADMIN";
 
-        $mockDao = $this->getMock('AccessFlowStateMachineDao', array('deleteWorkflowRecordsForUserRole'));
+        $mockDao = $this->getMockBuilder('AccessFlowStateMachineDao')
+			->setMethods( array('deleteWorkflowRecordsForUserRole'))
+			->getMock();
         $mockDao->expects($this->once())
                 ->method('deleteWorkflowRecordsForUserRole')
                 ->with($flow, $role)
@@ -289,7 +311,9 @@ class AccessFlowStateMachineServiceTest extends PHPUnit_Framework_TestCase {
         $oldName = "ADMIN";
         $newName = "MANAGER";
 
-        $mockDao = $this->getMock('AccessFlowStateMachineDao', array('handleUserRoleRename'));
+        $mockDao = $this->getMockBuilder('AccessFlowStateMachineDao')
+			->setMethods( array('handleUserRoleRename'))
+			->getMock();
         $mockDao->expects($this->once())
                 ->method('handleUserRoleRename')
                 ->with($oldName, $newName)

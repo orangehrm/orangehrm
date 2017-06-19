@@ -73,13 +73,13 @@ class AuthenticationServiceTest extends PHPUnit_Framework_TestCase {
         $user = new Users();
         $user->setUserName('test_user');
 
-        $mockService = $this->getMock('SystemUserService', array('getCredentials'));
+        $mockService = $this->getMockBuilder('SystemUserService')->setMethods(array('getCredentials'))->getMock();
         $mockService->expects($this->once())
                 ->method('getCredentials')
                 ->with('test_user', 'test_password')
                 ->will($this->returnValue($user));
 
-        $mockCookieManager = $this->getMock('CookieManager', array('setCookie'));
+        $mockCookieManager = $this->getMockBuilder('CookieManager')->setMethods(array('setCookie'))->getMock();
         $mockCookieManager->expects($this->once())
                 ->method('setCookie')
                 ->with('Loggedin', 'True', 0, '/');

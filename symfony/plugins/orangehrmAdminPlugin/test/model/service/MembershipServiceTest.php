@@ -40,7 +40,7 @@ class MembershipServiceTest extends PHPUnit_Framework_TestCase {
 
         $membershipList = TestDataService::loadObjectList('Membership', $this->fixture, 'Membership');
 
-        $membershipDao = $this->getMock('MembershipDao');
+        $membershipDao = $this->getMockBuilder('MembershipDao')->getMock();
         $membershipDao->expects($this->once())
                 ->method('getMembershipList')
                 ->will($this->returnValue($membershipList));
@@ -55,7 +55,7 @@ class MembershipServiceTest extends PHPUnit_Framework_TestCase {
 
         $membershipList = TestDataService::loadObjectList('Membership', $this->fixture, 'Membership');
 
-        $membershipDao = $this->getMock('MembershipDao');
+        $membershipDao = $this->getMockBuilder('MembershipDao')->getMock();
         $membershipDao->expects($this->once())
                 ->method('getMembershipById')
                 ->with(1)
@@ -71,7 +71,7 @@ class MembershipServiceTest extends PHPUnit_Framework_TestCase {
 
         $membershipList = array(1, 2, 3);
 
-        $membershipDao = $this->getMock('MembershipDao');
+        $membershipDao = $this->getMockBuilder('MembershipDao')->getMock();
         $membershipDao->expects($this->once())
                 ->method('deleteMemberships')
                 ->with($membershipList)

@@ -511,7 +511,9 @@ class TimesheetDaoTest extends PHPUnit_Framework_TestCase {
 
     public function testGetTimesheetTimeFormat() {
 
-        $configDao = $this->getMock('ConfigDao', array('getValue'));
+        $configDao = $this->getMockBuilder('ConfigDao')
+			->setMethods( array('getValue'))
+			->getMock();
         $configDao->expects($this->once())
                      ->method('getValue')
                      ->with(ConfigService::KEY_TIMESHEET_TIME_FORMAT)

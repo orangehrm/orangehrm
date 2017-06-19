@@ -63,7 +63,9 @@ class CountryServiceTest extends PHPUnit_Framework_TestCase {
             'sampleParam2' => 'sampleValue2',
         );
         
-        $countryDaoMock = $this->getMock('CountryDao', array('searchCountries'));
+        $countryDaoMock = $this->getMockBuilder('CountryDao')
+			->setMethods( array('searchCountries'))
+			->getMock();
         $countryDaoMock->expects($this->once())
                 ->method('searchCountries')
                 ->will($this->returnValue($countries));
@@ -83,7 +85,9 @@ class CountryServiceTest extends PHPUnit_Framework_TestCase {
             'sampleParam2' => 'sampleValue2',
         );
         
-        $countryDaoMock = $this->getMock('CountryDao', array('searchCountries'));
+        $countryDaoMock = $this->getMockBuilder('CountryDao')
+			->setMethods( array('searchCountries'))
+			->getMock();
         $countryDaoMock->expects($this->once())
                 ->method('searchCountries')
                 ->will($this->throwException(new DaoException));

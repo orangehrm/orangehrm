@@ -37,7 +37,7 @@ class EmployeeServiceTest extends PHPUnit_Framework_TestCase {
     }
     
     public function testGetSetEmployeeDao() {
-        $mockDao = $this->getMock('EmployeeDao');
+        $mockDao = $this->getMockBuilder('EmployeeDao')->getMock();
                 
         $this->employeeService->setEmployeeDao($mockDao);
         $this->assertEquals($mockDao, $this->employeeService->getEmployeeDao());        
@@ -52,7 +52,7 @@ class EmployeeServiceTest extends PHPUnit_Framework_TestCase {
             $employee->setLastName($v['lastName']);
             $employee->setFirstName($v['firstName']);
 
-            $employeeDao = $this->getMock('EmployeeDao');
+            $employeeDao = $this->getMockBuilder('EmployeeDao')->getMock();
             $employeeDao->expects($this->once())
                     ->method('saveEmployee')
                     ->will($this->returnValue($employee));
@@ -73,7 +73,7 @@ class EmployeeServiceTest extends PHPUnit_Framework_TestCase {
         $employee->setFirstName('First Name');
         $employee->setEmpNumber($empNumber);
         
-        $mockDao = $this->getMock('EmployeeDao');
+        $mockDao = $this->getMockBuilder('EmployeeDao')->getMock();
         $mockDao->expects($this->once())
              ->method('getEmployee')
              ->with($empNumber)
@@ -93,7 +93,7 @@ class EmployeeServiceTest extends PHPUnit_Framework_TestCase {
      */
     public function testSaveEmployeePicture() {
         
-        $this->employeeDao = $this->getMock('EmployeeDao');
+        $this->employeeDao = $this->getMockBuilder('EmployeeDao')->getMock();
         $this->employeeDao->expects($this->once())
                 ->method('saveEmployeePicture')
                 ->will($this->returnValue(new EmpPicture()));
@@ -122,7 +122,7 @@ class EmployeeServiceTest extends PHPUnit_Framework_TestCase {
      */
     public function testReadEmployeePicture() {
         foreach ($this->testCase['Employee'] as $k => $v) {
-            $this->employeeDao = $this->getMock('EmployeeDao');
+            $this->employeeDao = $this->getMockBuilder('EmployeeDao')->getMock();
             $this->employeeDao->expects($this->once())
                     ->method('readEmployeePicture')
                     ->will($this->returnValue(new EmpPicture()));
@@ -138,7 +138,7 @@ class EmployeeServiceTest extends PHPUnit_Framework_TestCase {
     public function testGetPicture() {
         $picture = 'askd;sadjf';
         $empNumber = 121;
-        $mockDao = $this->getMock('EmployeeDao');
+        $mockDao = $this->getMockBuilder('EmployeeDao')->getMock();
         $mockDao->expects($this->once())
                  ->method('getEmployeePicture')
                  ->with($empNumber)
@@ -156,7 +156,7 @@ class EmployeeServiceTest extends PHPUnit_Framework_TestCase {
      */
     public function testDeletePhoto() {
         foreach ($this->testCase['Employee'] as $k => $v) {
-            $this->employeeDao = $this->getMock('EmployeeDao');
+            $this->employeeDao = $this->getMockBuilder('EmployeeDao')->getMock();
             $this->employeeDao->expects($this->once())
                     ->method('deleteEmployeePicture')
                     ->will($this->returnValue(1));
@@ -173,7 +173,7 @@ class EmployeeServiceTest extends PHPUnit_Framework_TestCase {
         $empNumber = 111;
         $contactsToDelete = array('1', '2', '4');
         
-        $mockDao = $this->getMock('EmployeeDao');
+        $mockDao = $this->getMockBuilder('EmployeeDao')->getMock();
         $mockDao->expects($this->once())
                  ->method('deleteEmployeeEmergencyContacts')
                  ->with($empNumber, $contactsToDelete)
@@ -193,7 +193,7 @@ class EmployeeServiceTest extends PHPUnit_Framework_TestCase {
         $empNumber = 111;
         $immigrationToDelete = array('1', '2', '4');
         
-        $mockDao = $this->getMock('EmployeeDao');
+        $mockDao = $this->getMockBuilder('EmployeeDao')->getMock();
         $mockDao->expects($this->once())
                  ->method('deleteEmployeeImmigrationRecords')
                  ->with($empNumber, $immigrationToDelete)
@@ -228,7 +228,7 @@ class EmployeeServiceTest extends PHPUnit_Framework_TestCase {
         
         $dependents[1] = $dependent;
         
-        $mockDao = $this->getMock('EmployeeDao');
+        $mockDao = $this->getMockBuilder('EmployeeDao')->getMock();
         $mockDao->expects($this->once())
                  ->method('getEmployeeDependents')
                  ->with($empNumber)
@@ -248,7 +248,7 @@ class EmployeeServiceTest extends PHPUnit_Framework_TestCase {
         $empNumber = 111;
         $entriesToDelete = array('1', '2', '4');
         
-        $mockDao = $this->getMock('EmployeeDao');
+        $mockDao = $this->getMockBuilder('EmployeeDao')->getMock();
         $mockDao->expects($this->once())
                  ->method('deleteEmployeeDependents')
                  ->with($empNumber, $entriesToDelete)
@@ -267,7 +267,7 @@ class EmployeeServiceTest extends PHPUnit_Framework_TestCase {
     public function testIsSupervisor() {
         $empNumber = 111;
         
-        $mockDao = $this->getMock('EmployeeDao');
+        $mockDao = $this->getMockBuilder('EmployeeDao')->getMock();
         $mockDao->expects($this->once())
                  ->method('isSupervisor')
                  ->with($empNumber)
@@ -292,7 +292,7 @@ class EmployeeServiceTest extends PHPUnit_Framework_TestCase {
         $experience->setEmployer('ACME Inc');
         $experience->setJobtitle('Manager');
         
-        $mockDao = $this->getMock('EmployeeDao');
+        $mockDao = $this->getMockBuilder('EmployeeDao')->getMock();
         $mockDao->expects($this->once())
                  ->method('saveEmployeeWorkExperience')
                  ->with($experience)
@@ -320,7 +320,7 @@ class EmployeeServiceTest extends PHPUnit_Framework_TestCase {
         
         $isEss = true;
         
-        $mockDao = $this->getMock('EmployeeDao');
+        $mockDao = $this->getMockBuilder('EmployeeDao')->getMock();
         $mockDao->expects($this->once())
                  ->method('getEmployeeWorkExperienceRecords')
                  ->with($empNumber, $sequence)
@@ -339,7 +339,7 @@ class EmployeeServiceTest extends PHPUnit_Framework_TestCase {
         $empNumber = 111;
         $entriesToDelete = array('1', '2', '4');
         
-        $mockDao = $this->getMock('EmployeeDao');
+        $mockDao = $this->getMockBuilder('EmployeeDao')->getMock();
         $mockDao->expects($this->once())
                  ->method('deleteEmployeeWorkExperienceRecords')
                  ->with($empNumber, $entriesToDelete)
@@ -364,7 +364,7 @@ class EmployeeServiceTest extends PHPUnit_Framework_TestCase {
         $education->setYear('2000');
         $education->setScore('3.2');       
        
-        $mockDao = $this->getMock('EmployeeDao');
+        $mockDao = $this->getMockBuilder('EmployeeDao')->getMock();
         $mockDao->expects($this->once())
                  ->method('saveEmployeeEducation')
                  ->with($education)
@@ -390,7 +390,7 @@ class EmployeeServiceTest extends PHPUnit_Framework_TestCase {
         $education->setYear('2000');
         $education->setScore('3.2');  
         
-        $mockDao = $this->getMock('EmployeeDao');
+        $mockDao = $this->getMockBuilder('EmployeeDao')->getMock();
         $mockDao->expects($this->once())
                  ->method('getEducation')
                  ->with(1)
@@ -409,7 +409,7 @@ class EmployeeServiceTest extends PHPUnit_Framework_TestCase {
         $empNumber = 111;
         $entriesToDelete = array('1', '2', '4');
         
-        $mockDao = $this->getMock('EmployeeDao');
+        $mockDao = $this->getMockBuilder('EmployeeDao')->getMock();
         $mockDao->expects($this->once())
                  ->method('deleteEmployeeEducationRecords')
                  ->with($empNumber, $entriesToDelete)
@@ -432,7 +432,7 @@ class EmployeeServiceTest extends PHPUnit_Framework_TestCase {
         $skill->setSkillId(2);
         $skill->setYearsOfExp(2);
         
-        $mockDao = $this->getMock('EmployeeDao');
+        $mockDao = $this->getMockBuilder('EmployeeDao')->getMock();
         $mockDao->expects($this->once())
                  ->method('saveEmployeeSkill')
                  ->with($skill)
@@ -459,7 +459,7 @@ class EmployeeServiceTest extends PHPUnit_Framework_TestCase {
         
         $isEss = true;
         
-        $mockDao = $this->getMock('EmployeeDao');
+        $mockDao = $this->getMockBuilder('EmployeeDao')->getMock();
         $mockDao->expects($this->once())
                  ->method('getEmployeeSkills')
                  ->with($empNumber, $skillCode)
@@ -478,7 +478,7 @@ class EmployeeServiceTest extends PHPUnit_Framework_TestCase {
         $empNumber = 111;
         $entriesToDelete = array('1', '2', '4');
         
-        $mockDao = $this->getMock('EmployeeDao');
+        $mockDao = $this->getMockBuilder('EmployeeDao')->getMock();
         $mockDao->expects($this->once())
                  ->method('deleteEmployeeSkills')
                  ->with($empNumber, $entriesToDelete)
@@ -502,7 +502,7 @@ class EmployeeServiceTest extends PHPUnit_Framework_TestCase {
         $salary->setId($id);
         $salary->setSalaryName('Travel Expenses');
         
-        $mockDao = $this->getMock('EmployeeDao');
+        $mockDao = $this->getMockBuilder('EmployeeDao')->getMock();
         $mockDao->expects($this->once())
                  ->method('getEmployeeSalaries')
                  ->with($empNumber, $id)
@@ -519,7 +519,7 @@ class EmployeeServiceTest extends PHPUnit_Framework_TestCase {
         $empNumber = 1;
         $entriesToDelete = array(1, 2);
         
-        $mockDao = $this->getMock('EmployeeDao');
+        $mockDao = $this->getMockBuilder('EmployeeDao')->getMock();
         $mockDao->expects($this->once())
                  ->method('deleteEmployeeSalaryComponents')
                  ->with($empNumber, $entriesToDelete)
@@ -545,7 +545,7 @@ class EmployeeServiceTest extends PHPUnit_Framework_TestCase {
         $language->setCompetency(1);
         $language->setComments('no comments'); 
         
-        $mockDao = $this->getMock('EmployeeDao');
+        $mockDao = $this->getMockBuilder('EmployeeDao')->getMock();
         $mockDao->expects($this->once())
                  ->method('saveEmployeeLanguage')
                  ->with($language)
@@ -574,7 +574,7 @@ class EmployeeServiceTest extends PHPUnit_Framework_TestCase {
         $languageCode = 2;
         $langType = 1;
         
-        $mockDao = $this->getMock('EmployeeDao');
+        $mockDao = $this->getMockBuilder('EmployeeDao')->getMock();
         $mockDao->expects($this->once())
                  ->method('getEmployeeLanguages')
                  ->with($empNumber, $languageCode, $langType)
@@ -593,7 +593,7 @@ class EmployeeServiceTest extends PHPUnit_Framework_TestCase {
         $empNumber = 111;
         $entriesToDelete = array(array(1 => 1), array(1 => 2));
         
-        $mockDao = $this->getMock('EmployeeDao');
+        $mockDao = $this->getMockBuilder('EmployeeDao')->getMock();
         $mockDao->expects($this->once())
                  ->method('deleteEmployeeLanguages')
                  ->with($empNumber, $entriesToDelete)
@@ -616,7 +616,7 @@ class EmployeeServiceTest extends PHPUnit_Framework_TestCase {
         $license->setLicenseId(2);
         $license->setLicenseNo('199919');
         
-        $mockDao = $this->getMock('EmployeeDao');
+        $mockDao = $this->getMockBuilder('EmployeeDao')->getMock();
         $mockDao->expects($this->once())
                  ->method('saveEmployeeLicense')
                  ->with($license)
@@ -641,7 +641,7 @@ class EmployeeServiceTest extends PHPUnit_Framework_TestCase {
         $license->setLicenseId($licenseCode);
         $license->setLicenseNo('199919');        
         
-        $mockDao = $this->getMock('EmployeeDao');
+        $mockDao = $this->getMockBuilder('EmployeeDao')->getMock();
         $mockDao->expects($this->once())
                  ->method('getEmployeeLicences')
                  ->with($empNumber, $licenseCode)
@@ -660,7 +660,7 @@ class EmployeeServiceTest extends PHPUnit_Framework_TestCase {
         $empNumber = 111;
         $entriesToDelete = array('1', '2', '4');
         
-        $mockDao = $this->getMock('EmployeeDao');
+        $mockDao = $this->getMockBuilder('EmployeeDao')->getMock();
         $mockDao->expects($this->once())
                  ->method('deleteEmployeeLicenses')
                  ->with($empNumber, $entriesToDelete)
@@ -686,7 +686,7 @@ class EmployeeServiceTest extends PHPUnit_Framework_TestCase {
             $attachments[] = $attachment;
         }             
         
-        $mockDao = $this->getMock('EmployeeDao');
+        $mockDao = $this->getMockBuilder('EmployeeDao')->getMock();
         $mockDao->expects($this->once())
                  ->method('getEmployeeAttachments')
                  ->with($empNumber, $screen)
@@ -697,7 +697,7 @@ class EmployeeServiceTest extends PHPUnit_Framework_TestCase {
         $result = $this->employeeService->getEmployeeAttachments($empNumber, $screen);
         $this->assertEquals($attachments, $result);              
         
-        $mockDao = $this->getMock('EmployeeDao');
+        $mockDao = $this->getMockBuilder('EmployeeDao')->getMock();
         $mockDao->expects($this->once())
                  ->method('getEmployeeAttachments')
                  ->with($empNumber, $screen)
@@ -720,7 +720,7 @@ class EmployeeServiceTest extends PHPUnit_Framework_TestCase {
         $empNumber = 111;
         $entriesToDelete = array('1', '2', '4');
         
-        $mockDao = $this->getMock('EmployeeDao');
+        $mockDao = $this->getMockBuilder('EmployeeDao')->getMock();
         $mockDao->expects($this->once())
                  ->method('deleteEmployeeAttachments')
                  ->with($empNumber, $entriesToDelete)
@@ -731,7 +731,7 @@ class EmployeeServiceTest extends PHPUnit_Framework_TestCase {
         $result = $this->employeeService->deleteEmployeeAttachments($empNumber, $entriesToDelete);
         $this->assertEquals(2, $result);              
         
-        $mockDao = $this->getMock('EmployeeDao');
+        $mockDao = $this->getMockBuilder('EmployeeDao')->getMock();
         $mockDao->expects($this->once())
                  ->method('deleteEmployeeAttachments')
                  ->with($empNumber, $entriesToDelete)
@@ -762,7 +762,7 @@ class EmployeeServiceTest extends PHPUnit_Framework_TestCase {
         $attachment = $attachments[0];
         $attachmentId = $attachment->getAttachId();
         
-        $mockDao = $this->getMock('EmployeeDao');
+        $mockDao = $this->getMockBuilder('EmployeeDao')->getMock();
         $mockDao->expects($this->once())
                  ->method('getEmployeeAttachment')
                  ->with($empNumber, $attachmentId)
@@ -773,7 +773,7 @@ class EmployeeServiceTest extends PHPUnit_Framework_TestCase {
         $result = $this->employeeService->getEmployeeAttachment($empNumber, $attachmentId);
         $this->assertEquals($attachment, $result);              
         
-        $mockDao = $this->getMock('EmployeeDao');
+        $mockDao = $this->getMockBuilder('EmployeeDao')->getMock();
         $mockDao->expects($this->once())
                  ->method('getEmployeeAttachment')
                  ->with($empNumber, $attachmentId)
@@ -803,7 +803,7 @@ class EmployeeServiceTest extends PHPUnit_Framework_TestCase {
             $employees[] = $employee;
         }             
         
-        $mockDao = $this->getMock('EmployeeDao');
+        $mockDao = $this->getMockBuilder('EmployeeDao')->getMock();
         $mockDao->expects($this->once())
                  ->method('getEmployeeList')
                  ->with($sortField, $orderBy)
@@ -830,7 +830,7 @@ class EmployeeServiceTest extends PHPUnit_Framework_TestCase {
             $supervisors[] = $employee;
         }             
         
-        $mockDao = $this->getMock('EmployeeDao');
+        $mockDao = $this->getMockBuilder('EmployeeDao')->getMock();
         $mockDao->expects($this->once())
                  ->method('getSupervisorList')
                  ->will($this->returnValue($supervisors));
@@ -856,7 +856,7 @@ class EmployeeServiceTest extends PHPUnit_Framework_TestCase {
             $employees[] = $employee;
         }             
         
-        $mockDao = $this->getMock('EmployeeDao');
+        $mockDao = $this->getMockBuilder('EmployeeDao')->getMock();
         $mockDao->expects($this->once())
                  ->method('searchEmployee')
                  ->with($field, $value)
@@ -876,7 +876,7 @@ class EmployeeServiceTest extends PHPUnit_Framework_TestCase {
 
         $count = 212;         
         
-        $mockDao = $this->getMock('EmployeeDao');
+        $mockDao = $this->getMockBuilder('EmployeeDao')->getMock();
         $mockDao->expects($this->once())
                  ->method('getEmployeeCount')
                  ->will($this->returnValue($count));
@@ -902,7 +902,7 @@ class EmployeeServiceTest extends PHPUnit_Framework_TestCase {
         
         $jsonStr = json_encode($employees);
 
-        $mockDao = $this->getMock('EmployeeDao');
+        $mockDao = $this->getMockBuilder('EmployeeDao')->getMock();
         $mockDao->expects($this->once())
                 ->method('getEmployeeListAsJson')
                 ->with($workShift)
@@ -926,13 +926,13 @@ class EmployeeServiceTest extends PHPUnit_Framework_TestCase {
             $employees[] = $employee;
         }             
         
-        $mockDao = $this->getMock('EmployeeDao');
+        $mockDao = $this->getMockBuilder('EmployeeDao')->getMock();
         $mockDao->expects($this->once())
                  ->method('getSubordinateList')
                  ->with($supervisorId, true, true)
                  ->will($this->returnValue($employees));
                  
-        $configServiceMock = $this->getMock('ConfigService');
+        $configServiceMock = $this->getMockBuilder('ConfigService')->getMock();
         $configServiceMock->expects($this->once())
              ->method('isSupervisorChainSuported')
              ->will($this->returnValue(true));
@@ -975,7 +975,7 @@ class EmployeeServiceTest extends PHPUnit_Framework_TestCase {
         $this->assertEquals($employees, $result);
         
         // If no employee list passed, will get all employees from dao adn filter        
-        $mockDao = $this->getMock('EmployeeDao');
+        $mockDao = $this->getMockBuilder('EmployeeDao')->getMock();
         $mockDao->expects($this->once())
                  ->method('getEmployeeList')
                  ->will($this->returnValue($employees));
@@ -998,7 +998,7 @@ class EmployeeServiceTest extends PHPUnit_Framework_TestCase {
         $employeesToDelete = array('1', '2', '4');
         $numEmployees = count($employeesToDelete);
         
-        $mockDao = $this->getMock('EmployeeDao');
+        $mockDao = $this->getMockBuilder('EmployeeDao')->getMock();
         $mockDao->expects($this->once())
                  ->method('deleteEmployees')
                  ->with($employeesToDelete)
@@ -1018,7 +1018,7 @@ class EmployeeServiceTest extends PHPUnit_Framework_TestCase {
 
         $employeeId = 'E199';
         
-        $mockDao = $this->getMock('EmployeeDao');
+        $mockDao = $this->getMockBuilder('EmployeeDao')->getMock();
         $mockDao->expects($this->once())
                 ->method('isExistingEmployeeId')
                 ->with($employeeId)
@@ -1040,7 +1040,7 @@ class EmployeeServiceTest extends PHPUnit_Framework_TestCase {
         $middle = 'A';
         $last = 'Kennedy';
         
-        $mockDao = $this->getMock('EmployeeDao');
+        $mockDao = $this->getMockBuilder('EmployeeDao')->getMock();
         $mockDao->expects($this->once())
                 ->method('checkForEmployeeWithSameName')
                 ->with($first, $middle, $last)
@@ -1066,7 +1066,7 @@ class EmployeeServiceTest extends PHPUnit_Framework_TestCase {
 
         $emergencyContactList = array();
 
-        $employeeDao = $this->getMock('EmployeeDao');
+        $employeeDao = $this->getMockBuilder('EmployeeDao')->getMock();
 
         $employeeDao->expects($this->once())
                 ->method('getEmployeeEmergencyContacts')
@@ -1089,7 +1089,7 @@ class EmployeeServiceTest extends PHPUnit_Framework_TestCase {
         $empPassport = new EmployeeImmigrationRecord();
         $empPassport->setEmpNumber(1);        
 
-        $employeeDao = $this->getMock('EmployeeDao');
+        $employeeDao = $this->getMockBuilder('EmployeeDao')->getMock();
 
         $employeeDao->expects($this->once())
                 ->method('saveEmployeeImmigrationRecord')
@@ -1108,7 +1108,7 @@ class EmployeeServiceTest extends PHPUnit_Framework_TestCase {
      */
     public function testGetEmployeePassport() {
 
-        $employeeDao = $this->getMock('EmployeeDao');
+        $employeeDao = $this->getMockBuilder('EmployeeDao')->getMock();
 
         $employeeDao->expects($this->once())
                 ->method('getEmployeeImmigrationRecords')
@@ -1125,7 +1125,7 @@ class EmployeeServiceTest extends PHPUnit_Framework_TestCase {
      */
     public function testGetEmployeeTaxExemptions() {
 
-        $employeeDao = $this->getMock('EmployeeDao');
+        $employeeDao = $this->getMockBuilder('EmployeeDao')->getMock();
 
         $employeeDao->expects($this->once())
                 ->method('getEmployeeTaxExemptions')
@@ -1145,7 +1145,7 @@ class EmployeeServiceTest extends PHPUnit_Framework_TestCase {
         $empUsTaxExemption = new EmpUsTaxExemption();
         $empUsTaxExemption->setEmpNumber(3);
         
-        $employeeDao = $this->getMock('EmployeeDao');
+        $employeeDao = $this->getMockBuilder('EmployeeDao')->getMock();
 
         $employeeDao->expects($this->once())
                 ->method('saveEmployeeTaxExemptions')
@@ -1167,7 +1167,7 @@ class EmployeeServiceTest extends PHPUnit_Framework_TestCase {
 
         $reportToSupervisorList = TestDataService::loadObjectList('ReportTo', $this->fixture, 'ReportTo');
         $reportToSupervisorList1 = array($reportToSupervisorList[0], $reportToSupervisorList[1]);
-        $employeeDao = $this->getMock('EmployeeDao');
+        $employeeDao = $this->getMockBuilder('EmployeeDao')->getMock();
 
         $employeeDao->expects($this->once())
                 ->method('getImmediateSupervisors')
@@ -1189,7 +1189,7 @@ class EmployeeServiceTest extends PHPUnit_Framework_TestCase {
 
         $reportToSubordinateList = TestDataService::loadObjectList('ReportTo', $this->fixture, 'ReportTo');
         $reportToSubordinateListList1 = array($reportToSubordinateList[2], $reportToSubordinateList[3]);
-        $employeeDao = $this->getMock('EmployeeDao');
+        $employeeDao = $this->getMockBuilder('EmployeeDao')->getMock();
 
         $employeeDao->expects($this->once())
                 ->method('getSubordinateListForEmployee')
@@ -1214,7 +1214,7 @@ class EmployeeServiceTest extends PHPUnit_Framework_TestCase {
 
         $reportToObjectList = TestDataService::loadObjectList('ReportTo', $this->fixture, 'ReportTo');
 
-        $employeeDao = $this->getMock('EmployeeDao');
+        $employeeDao = $this->getMockBuilder('EmployeeDao')->getMock();
 
         $employeeDao->expects($this->once())
                 ->method('getReportToObject')
@@ -1238,7 +1238,7 @@ class EmployeeServiceTest extends PHPUnit_Framework_TestCase {
 
         $supOrSubListToDelete = array("4 3 4");
 
-        $employeeDao = $this->getMock('EmployeeDao');
+        $employeeDao = $this->getMockBuilder('EmployeeDao')->getMock();
 
         $employeeDao->expects($this->once())
                 ->method('deleteReportToObject')
@@ -1260,7 +1260,7 @@ class EmployeeServiceTest extends PHPUnit_Framework_TestCase {
 
         $membershipDetailList = TestDataService::loadObjectList('EmployeeMembership', $this->fixture, 'EmployeeMembership');
 
-        $employeeDao = $this->getMock('EmployeeDao');
+        $employeeDao = $this->getMockBuilder('EmployeeDao')->getMock();
 
         $employeeDao->expects($this->once())
                 ->method('getEmployeeMemberships')
@@ -1284,7 +1284,7 @@ class EmployeeServiceTest extends PHPUnit_Framework_TestCase {
 
         $membershipDetailList = TestDataService::loadObjectList('EmployeeMembership', $this->fixture, 'EmployeeMembership');
 
-        $employeeDao = $this->getMock('EmployeeDao');
+        $employeeDao = $this->getMockBuilder('EmployeeDao')->getMock();
 
         $employeeDao->expects($this->once())
                 ->method('getEmployeeMemberships')
@@ -1303,7 +1303,7 @@ class EmployeeServiceTest extends PHPUnit_Framework_TestCase {
         $empNumber = 1;
         $membershipIds = array(1, 2);
 
-        $employeeDao = $this->getMock('EmployeeDao');
+        $employeeDao = $this->getMockBuilder('EmployeeDao')->getMock();
 
         $employeeDao->expects($this->once())
                 ->method('deleteEmployeeMemberships')
@@ -1326,7 +1326,7 @@ class EmployeeServiceTest extends PHPUnit_Framework_TestCase {
 
         $emergencyContactList = TestDataService::loadObjectList('EmpEmergencyContact', $this->fixture, 'EmpEmergencyContact');
 
-        $employeeDao = $this->getMock('EmployeeDao');
+        $employeeDao = $this->getMockBuilder('EmployeeDao')->getMock();
 
         $employeeDao->expects($this->once())
                 ->method('getEmployeeEmergencyContacts')
@@ -1353,7 +1353,7 @@ class EmployeeServiceTest extends PHPUnit_Framework_TestCase {
         $employee->setEmpNumber($empNumber);
         $employee->setJoinedDate($joinedDate);
         
-        $mockDao = $this->getMock('EmployeeDao');
+        $mockDao = $this->getMockBuilder('EmployeeDao')->getMock();
         $mockDao->expects($this->once())
              ->method('getEmployee')
              ->with($empNumber)
@@ -1366,7 +1366,7 @@ class EmployeeServiceTest extends PHPUnit_Framework_TestCase {
         //$this->assertEquals(9, $yearsOfService);
         
         // Test with non-existant employee
-        $mockDao = $this->getMock('EmployeeDao');
+        $mockDao = $this->getMockBuilder('EmployeeDao')->getMock();
         $mockDao->expects($this->once())
              ->method('getEmployee')
              ->with($empNumber)
@@ -1386,7 +1386,7 @@ class EmployeeServiceTest extends PHPUnit_Framework_TestCase {
     public function testGetEmailList() {
         
         $list = array(0 => array( 'empNo' => 1, 'workEmail' => 'kayla@xample.com', 'othEmail' => 'kayla2@xample.com' ));
-        $mockDao = $this->getMock('EmployeeDao');
+        $mockDao = $this->getMockBuilder('EmployeeDao')->getMock();
         $mockDao->expects($this->once())
              ->method('getEmailList')
              ->will($this->returnValue($list));
@@ -1402,7 +1402,7 @@ class EmployeeServiceTest extends PHPUnit_Framework_TestCase {
         $subUnit = 2;
         $includeTerminatedEmployees = true;
 
-        $mockDao = $this->getMock('EmployeeDao');
+        $mockDao = $this->getMockBuilder('EmployeeDao')->getMock();
         $mockDao->expects($this->once())
              ->method('getEmployeesBySubUnit')
              ->with($subUnit, $includeTerminatedEmployees)
@@ -1427,7 +1427,7 @@ class EmployeeServiceTest extends PHPUnit_Framework_TestCase {
                 
         $list   =   array( $employee1,$employee2);
         
-        $mockDao = $this->getMock('EmployeeDao');
+        $mockDao = $this->getMockBuilder('EmployeeDao')->getMock();
         $mockDao->expects($this->once())
              ->method('searchEmployees')
              ->with($parameterHolder)   
@@ -1442,7 +1442,7 @@ class EmployeeServiceTest extends PHPUnit_Framework_TestCase {
     public function testGetEmployeeIdList(){
         $employeeIdList = array(1, 2, 3);
         
-        $mockDao = $this->getMock('EmployeeDao');
+        $mockDao = $this->getMockBuilder('EmployeeDao')->getMock();
         $mockDao->expects($this->once())
              ->method('getEmployeeIdList')
              ->will($this->returnValue($employeeIdList));
@@ -1461,7 +1461,7 @@ class EmployeeServiceTest extends PHPUnit_Framework_TestCase {
             $employeePropertyArray[$employee['empNumber']] = array('empNumber' => $employee['empNumber'], 'firstName' => $employee['firstName'], 
             	'lastName' => $employee['lastName'], 'middleName' => $employee['middleName'], 'employeeId' => $employee['employeeId'] );
         }
-        $mockDao = $this->getMock('EmployeeDao');
+        $mockDao = $this->getMockBuilder('EmployeeDao')->getMock();
         $mockDao->expects($this->once())
              ->method('getEmployeePropertyList')
              ->with($properties, 'empNumber', 'ASC')
@@ -1476,7 +1476,7 @@ class EmployeeServiceTest extends PHPUnit_Framework_TestCase {
     public function testGetSubordinateIdListBySupervisorId(){
         $subordinateIdList = array(1, 2, 3);
         
-        $mockDao = $this->getMock('EmployeeDao');
+        $mockDao = $this->getMockBuilder('EmployeeDao')->getMock();
         $mockDao->expects($this->once())
              ->method('getSubordinateIdListBySupervisorId')
              ->with(1, true)
@@ -1491,7 +1491,7 @@ class EmployeeServiceTest extends PHPUnit_Framework_TestCase {
     public function testGetSupervisorIdListBySubordinateId(){
         $subordinateIdList = array(4, 5);
         
-        $mockDao = $this->getMock('EmployeeDao');
+        $mockDao = $this->getMockBuilder('EmployeeDao')->getMock();
         $mockDao->expects($this->once())
              ->method('getSupervisorIdListBySubordinateId')
              ->with(3, true)
@@ -1514,12 +1514,12 @@ class EmployeeServiceTest extends PHPUnit_Framework_TestCase {
             	'lastName' => $employee['lastName'], 'middleName' => $employee['middleName'], 'employeeId' => $employee['employeeId'] );
         }
         
-        $configServiceMock = $this->getMock('ConfigService');
+        $configServiceMock = $this->getMockBuilder('ConfigService')->getMock();
         $configServiceMock->expects($this->once())
              ->method('isSupervisorChainSuported')
              ->will($this->returnValue(true));
              
-        $mockDao = $this->getMock('EmployeeDao');
+        $mockDao = $this->getMockBuilder('EmployeeDao')->getMock();
         $mockDao->expects($this->once())
              ->method('getSubordinatePropertyListBySupervisorId')
              ->with(3, $properties, true, 'empNumber', 'ASC')

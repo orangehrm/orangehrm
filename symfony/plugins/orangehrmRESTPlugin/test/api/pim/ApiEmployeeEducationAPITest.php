@@ -78,7 +78,7 @@ class ApiEmployeeEducationAPITest extends PHPUnit_Framework_TestCase
 
         $this->employeeEducationAPI->setRequestParams($requestParams);
 
-        $pimEmployeeService = $this->getMock('EmployeeService');
+        $pimEmployeeService = $this->getMockBuilder('EmployeeService')->getMock();
         $pimEmployeeService->expects($this->any())
             ->method('getEmployee')
             ->with($empNumber)
@@ -142,7 +142,7 @@ class ApiEmployeeEducationAPITest extends PHPUnit_Framework_TestCase
 
         $this->employeeEducationAPI->setRequestParams($requestParams);
 
-        $pimEmployeeService = $this->getMock('EmployeeService');
+        $pimEmployeeService = $this->getMockBuilder('EmployeeService')->getMock();
         $pimEmployeeService->expects($this->any())
             ->method('getEmployee')
             ->with($empNumber)
@@ -157,7 +157,7 @@ class ApiEmployeeEducationAPITest extends PHPUnit_Framework_TestCase
         $education = new \Education();
         $education->setId(1);
 
-        $pimEducationServiceService = $this->getMock('EducationService');
+        $pimEducationServiceService = $this->getMockBuilder('EducationService')->getMock();
         $pimEducationServiceService->expects($this->any())
             ->method('getEducationById')
             ->with('1')
@@ -167,7 +167,11 @@ class ApiEmployeeEducationAPITest extends PHPUnit_Framework_TestCase
         $sfRequest = new sfWebRequest($sfEvent);
         $request = new Request($sfRequest);
 
-        $this->employeeEducationAPI = $this->getMock('Orangehrm\Rest\Api\Pim\EmployeeEducationAPI',array('getFilterParameters','buildEmployeeEducation'),array($request));
+        $this->employeeEducationAPI = $this->getMockBuilder('Orangehrm\Rest\Api\Pim\EmployeeEducationAPI')
+                ->setMethods(array('getFilterParameters','buildEmployeeEducation'))
+                ->setConstructorArgs(array($request))
+                ->getMock();
+
         $this->employeeEducationAPI->expects($this->once())
             ->method('getFilterParameters')
             ->will($this->returnValue($filters));
@@ -225,7 +229,7 @@ class ApiEmployeeEducationAPITest extends PHPUnit_Framework_TestCase
 
         $this->employeeEducationAPI->setRequestParams($requestParams);
 
-        $pimEmployeeService = $this->getMock('EmployeeService');
+        $pimEmployeeService = $this->getMockBuilder('EmployeeService')->getMock();
         $pimEmployeeService->expects($this->any())
             ->method('getEmployee')
             ->with($empNumber)
@@ -249,7 +253,7 @@ class ApiEmployeeEducationAPITest extends PHPUnit_Framework_TestCase
         $education = new \Education();
         $education->setId(1);
 
-        $pimEducationServiceService = $this->getMock('EducationService');
+        $pimEducationServiceService = $this->getMockBuilder('EducationService')->getMock();
         $pimEducationServiceService->expects($this->any())
             ->method('getEducationById')
             ->with('1')
@@ -260,7 +264,11 @@ class ApiEmployeeEducationAPITest extends PHPUnit_Framework_TestCase
         $sfRequest = new sfWebRequest($sfEvent);
         $request = new Request($sfRequest);
 
-        $this->employeeEducationAPI = $this->getMock('Orangehrm\Rest\Api\Pim\EmployeeEducationAPI',array('getFilterParameters','buildEmployeeEducation'),array($request));
+        $this->employeeEducationAPI = $this->getMockBuilder('Orangehrm\Rest\Api\Pim\EmployeeEducationAPI')
+            ->setMethods(array('getFilterParameters','buildEmployeeEducation'))
+            ->setConstructorArgs(array($request))
+            ->getMock();
+
         $this->employeeEducationAPI->expects($this->once())
             ->method('getFilterParameters')
             ->will($this->returnValue($filters));
@@ -318,7 +326,7 @@ class ApiEmployeeEducationAPITest extends PHPUnit_Framework_TestCase
 
         $this->employeeEducationAPI->setRequestParams($requestParams);
 
-        $pimEmployeeService = $this->getMock('EmployeeService');
+        $pimEmployeeService = $this->getMockBuilder('EmployeeService')->getMock();
         $pimEmployeeService->expects($this->any())
             ->method('getEmployee')
             ->with($empNumber)
@@ -338,7 +346,7 @@ class ApiEmployeeEducationAPITest extends PHPUnit_Framework_TestCase
         $education = new \Education();
         $education->setId(1);
 
-        $pimEducationServiceService = $this->getMock('EducationService');
+        $pimEducationServiceService = $this->getMockBuilder('EducationService')->getMock();
         $pimEducationServiceService->expects($this->any())
             ->method('getEducationById')
             ->with('1')
@@ -349,7 +357,10 @@ class ApiEmployeeEducationAPITest extends PHPUnit_Framework_TestCase
         $sfRequest = new sfWebRequest($sfEvent);
         $request = new Request($sfRequest);
 
-        $this->employeeEducationAPI = $this->getMock('Orangehrm\Rest\Api\Pim\EmployeeEducationAPI',array('getFilterParameters','buildEmployeeEducation'),array($request));
+        $this->employeeEducationAPI = $this->getMockBuilder('Orangehrm\Rest\Api\Pim\EmployeeEducationAPI')
+            ->setMethods(array('getFilterParameters','buildEmployeeEducation'))
+            ->setConstructorArgs(array($request))
+            ->getMock();
         $this->employeeEducationAPI->expects($this->once())
             ->method('getFilterParameters')
             ->will($this->returnValue($filters));

@@ -39,7 +39,9 @@ class ReportGeneratorServiceTest extends PHPUnit_Framework_TestCase {
         $reportId = 1;
         $report = TestDataService::fetchObject('Report', $reportId);
 
-        $reportableServiceMock = $this->getMock('ReportableService', array('getReport'));
+        $reportableServiceMock = $this->getMockBuilder('ReportableService')
+			->setMethods( array('getReport'))
+			->getMock();
         $reportableServiceMock->expects($this->once())
                 ->method('getReport')
                 ->with($reportId)
@@ -61,7 +63,9 @@ class ReportGeneratorServiceTest extends PHPUnit_Framework_TestCase {
         $selectedFilterFields->add(TestDataService::fetchObject('SelectedFilterField', array(1, 1)));
         $selectedFilterFields->add(TestDataService::fetchObject('SelectedFilterField', array(1, 2)));
 
-        $reportableServiceMock = $this->getMock('ReportableService', array('getReport', 'getSelectedFilterFieldsByType'));
+        $reportableServiceMock = $this->getMockBuilder('ReportableService')
+			->setMethods( array('getReport', 'getSelectedFilterFieldsByType'))
+			->getMock();
 
         $reportableServiceMock->expects($this->once())
                 ->method('getReport')
@@ -91,7 +95,9 @@ class ReportGeneratorServiceTest extends PHPUnit_Framework_TestCase {
         $selecteFilterFields->add(TestDataService::fetchObject('SelectedFilterField', array(1, 1)));
         $selecteFilterFields->add(TestDataService::fetchObject('SelectedFilterField', array(1, 2)));
 
-        $reportableServiceMock = $this->getMock('ReportableService', array('getSelectedFilterFields'));
+        $reportableServiceMock = $this->getMockBuilder('ReportableService')
+			->setMethods( array('getSelectedFilterFields'))
+			->getMock();
         $reportableServiceMock->expects($this->once())
                 ->method('getSelectedFilterFields')
                 ->with($reportId, true)
@@ -112,7 +118,9 @@ class ReportGeneratorServiceTest extends PHPUnit_Framework_TestCase {
         $reportId = 1;
         $report = TestDataService::fetchObject('Report', $reportId);
 
-        $reportableServiceMock = $this->getMock('ReportableService', array('getReport'));
+        $reportableServiceMock = $this->getMockBuilder('ReportableService')
+			->setMethods( array('getReport'))
+			->getMock();
 
         $reportableServiceMock->expects($this->once())
                 ->method('getReport')
@@ -137,7 +145,9 @@ class ReportGeneratorServiceTest extends PHPUnit_Framework_TestCase {
         $selectedFilterFields->add(TestDataService::fetchObject('SelectedFilterField', array(1, 1)));
         $selectedFilterFields->add(TestDataService::fetchObject('SelectedFilterField', array(1, 2)));
 
-        $reportableServiceMock = $this->getMock('ReportableService', array('getReport', 'getSelectedFilterFieldsByType'));
+        $reportableServiceMock = $this->getMockBuilder('ReportableService')
+			->setMethods( array('getReport', 'getSelectedFilterFieldsByType'))
+			->getMock();
 
         $reportableServiceMock->expects($this->once())
                 ->method('getReport')
@@ -196,7 +206,9 @@ class ReportGeneratorServiceTest extends PHPUnit_Framework_TestCase {
         $selectedDisplayFields->add(TestDataService::fetchObject('SelectedDisplayField', array(1, 1, 1)));
         $selectedDisplayFields->add(TestDataService::fetchObject('SelectedDisplayField', array(2, 2, 1)));
 
-        $reportableServiceMock = $this->getMock('ReportableService', array('getSelectedDisplayFields'));
+        $reportableServiceMock = $this->getMockBuilder('ReportableService')
+			->setMethods( array('getSelectedDisplayFields'))
+			->getMock();
 
         $reportableServiceMock->expects($this->once())
                 ->method('getSelectedDisplayFields')
@@ -219,7 +231,9 @@ class ReportGeneratorServiceTest extends PHPUnit_Framework_TestCase {
         $reportGroup = TestDataService::fetchObject('ReportGroup', $reportGroupId);
         $selectedGroupField = TestDataService::fetchObject('SelectedGroupField', array(1, 1, 1));
 
-        $reportableServiceMock = $this->getMock('ReportableService', array('getReport', 'getReportGroup', 'getSelectedGroupField'));
+        $reportableServiceMock = $this->getMockBuilder('ReportableService')
+			->setMethods( array('getReport', 'getReportGroup', 'getSelectedGroupField'))
+			->getMock();
 
         $reportableServiceMock->expects($this->once())
                 ->method('getReport')
@@ -237,7 +251,9 @@ class ReportGeneratorServiceTest extends PHPUnit_Framework_TestCase {
 
         $selectConditionWithoutSummaryFunction = "ohrm_project_activity.name AS activityname";
 
-        $reportGeneratorServiceMock = $this->getMock('ReportGeneratorService', array('getSelectConditionWithoutSummaryFunction'));
+        $reportGeneratorServiceMock = $this->getMockBuilder('ReportGeneratorService')
+			->setMethods( array('getSelectConditionWithoutSummaryFunction'))
+			->getMock();
 
         $reportGeneratorServiceMock->expects($this->once())
                 ->method('getSelectConditionWithoutSummaryFunction')
@@ -258,7 +274,9 @@ class ReportGeneratorServiceTest extends PHPUnit_Framework_TestCase {
         $activityId = 1;
         $activity = TestDataService::fetchObject('ProjectActivity', $activityId);
 
-        $reportableServiceMock = $this->getMock('ReportableService', array('getProjectActivityByActivityId'));
+        $reportableServiceMock = $this->getMockBuilder('ReportableService')
+			->setMethods( array('getProjectActivityByActivityId'))
+			->getMock();
         $reportableServiceMock->expects($this->once())
                 ->method('getProjectActivityByActivityId')
                 ->with($activityId)
@@ -302,7 +320,9 @@ class ReportGeneratorServiceTest extends PHPUnit_Framework_TestCase {
         $reportGroup = TestDataService::fetchObject('ReportGroup', $reportGroupId);
         $selectedGroupField = TestDataService::fetchObject('SelectedGroupField', array(1, 1, 1));
 
-        $reportableServiceMock = $this->getMock('ReportableService', array('getReport', 'getReportGroup', 'getSelectedGroupField'));
+        $reportableServiceMock = $this->getMockBuilder('ReportableService')
+			->setMethods( array('getReport', 'getReportGroup', 'getSelectedGroupField'))
+			->getMock();
 
         $reportableServiceMock->expects($this->once())
                 ->method('getReport')
@@ -320,7 +340,9 @@ class ReportGeneratorServiceTest extends PHPUnit_Framework_TestCase {
 
         $selectConditionWithoutSummaryFunction = "ohrm_project_activity.name AS activityname";
 
-        $reportGeneratorServiceMock = $this->getMock('ReportGeneratorService', array('getSelectConditionWithoutSummaryFunction'));
+        $reportGeneratorServiceMock = $this->getMockBuilder('ReportGeneratorService')
+			->setMethods( array('getSelectConditionWithoutSummaryFunction'))
+			->getMock();
 
         $reportGeneratorServiceMock->expects($this->once())
                 ->method('getSelectConditionWithoutSummaryFunction')

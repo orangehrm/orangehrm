@@ -72,13 +72,13 @@ class ApiEmployeeCustomFieldAPITest extends PHPUnit_Framework_TestCase
 
         $this->employeeCustomFieldAPI->setRequestParams($requestParams);
 
-        $pimEmployeeService = $this->getMock('EmployeeService');
+        $pimEmployeeService = $this->getMockBuilder('EmployeeService')->getMock();
         $pimEmployeeService->expects($this->any())
             ->method('getEmployee')
             ->with($empNumber)
             ->will($this->returnValue($employee));
 
-        $pimCustomFieldService = $this->getMock('CustomFieldConfigurationService');
+        $pimCustomFieldService = $this->getMockBuilder('CustomFieldConfigurationService')->getMock();
         $pimCustomFieldService->expects($this->any())
             ->method('getCustomFieldList')
             ->with(null,'name','ASC')
@@ -131,7 +131,7 @@ class ApiEmployeeCustomFieldAPITest extends PHPUnit_Framework_TestCase
 
         $this->employeeCustomFieldAPI->setRequestParams($requestParams);
 
-        $pimEmployeeService = $this->getMock('EmployeeService');
+        $pimEmployeeService = $this->getMockBuilder('EmployeeService')->getMock();
         $pimEmployeeService->expects($this->any())
             ->method('getEmployee')
             ->with($empNumber)
@@ -141,7 +141,7 @@ class ApiEmployeeCustomFieldAPITest extends PHPUnit_Framework_TestCase
             ->with($employee)
             ->will($this->returnValue($employee));
 
-        $pimCustomFieldService = $this->getMock('CustomFieldConfigurationService');
+        $pimCustomFieldService = $this->getMockBuilder('CustomFieldConfigurationService')->getMock();
         $pimCustomFieldService->expects($this->any())
             ->method('getCustomField')
             ->with(1)
@@ -164,8 +164,10 @@ class ApiEmployeeCustomFieldAPITest extends PHPUnit_Framework_TestCase
 
         $assetResArray[] = $customEntField->toArray();
 
-        $this->employeeCustomFieldAPI = $this->getMock('Orangehrm\Rest\Api\Pim\EmployeeCustomFieldAPI',
-            array('getFilterParameters'), array($request));
+        $this->employeeCustomFieldAPI = $this->getMockBuilder('Orangehrm\Rest\Api\Pim\EmployeeCustomFieldAPI')
+            ->setMethods(array('getFilterParameters'))
+            ->setConstructorArgs(array($request))
+            ->getMock();
         $this->employeeCustomFieldAPI->expects($this->once())
             ->method('getFilterParameters')
             ->will($this->returnValue($filters));
@@ -209,7 +211,7 @@ class ApiEmployeeCustomFieldAPITest extends PHPUnit_Framework_TestCase
 
         $this->employeeCustomFieldAPI->setRequestParams($requestParams);
 
-        $pimEmployeeService = $this->getMock('EmployeeService');
+        $pimEmployeeService = $this->getMockBuilder('EmployeeService')->getMock();
         $pimEmployeeService->expects($this->any())
             ->method('getEmployee')
             ->with($empNumber)
@@ -219,7 +221,7 @@ class ApiEmployeeCustomFieldAPITest extends PHPUnit_Framework_TestCase
             ->with($employee)
             ->will($this->returnValue($employee));
 
-        $pimCustomFieldService = $this->getMock('CustomFieldConfigurationService');
+        $pimCustomFieldService = $this->getMockBuilder('CustomFieldConfigurationService')->getMock();
         $pimCustomFieldService->expects($this->any())
             ->method('getCustomField')
             ->with(1)
@@ -242,8 +244,10 @@ class ApiEmployeeCustomFieldAPITest extends PHPUnit_Framework_TestCase
 
         $assetResArray[] = $customEntField->toArray();
 
-        $this->employeeCustomFieldAPI = $this->getMock('Orangehrm\Rest\Api\Pim\EmployeeCustomFieldAPI',
-            array('getFilterParameters'), array($request));
+        $this->employeeCustomFieldAPI = $this->getMockBuilder('Orangehrm\Rest\Api\Pim\EmployeeCustomFieldAPI')
+            ->setMethods(array('getFilterParameters'))
+            ->setConstructorArgs(array($request))
+            ->getMock();
         $this->employeeCustomFieldAPI->expects($this->once())
             ->method('getFilterParameters')
             ->will($this->returnValue($filters));
@@ -286,7 +290,7 @@ class ApiEmployeeCustomFieldAPITest extends PHPUnit_Framework_TestCase
 
         $this->employeeCustomFieldAPI->setRequestParams($requestParams);
 
-        $pimEmployeeService = $this->getMock('EmployeeService');
+        $pimEmployeeService = $this->getMockBuilder('EmployeeService')->getMock();
         $pimEmployeeService->expects($this->any())
             ->method('getEmployee')
             ->with($empNumber)
@@ -296,7 +300,7 @@ class ApiEmployeeCustomFieldAPITest extends PHPUnit_Framework_TestCase
             ->with($employee)
             ->will($this->returnValue($employee));
 
-        $pimCustomFieldService = $this->getMock('CustomFieldConfigurationService');
+        $pimCustomFieldService = $this->getMockBuilder('CustomFieldConfigurationService')->getMock();
         $pimCustomFieldService->expects($this->any())
             ->method('getCustomField')
             ->with(1)
@@ -319,8 +323,10 @@ class ApiEmployeeCustomFieldAPITest extends PHPUnit_Framework_TestCase
 
         $assetResArray[] = $customEntField->toArray();
 
-        $this->employeeCustomFieldAPI = $this->getMock('Orangehrm\Rest\Api\Pim\EmployeeCustomFieldAPI',
-            array('getFilterParameters'), array($request));
+        $this->employeeCustomFieldAPI = $this->getMockBuilder('Orangehrm\Rest\Api\Pim\EmployeeCustomFieldAPI')
+            ->setMethods(array('getFilterParameters'))
+            ->setConstructorArgs(array($request))
+            ->getMock();
         $this->employeeCustomFieldAPI->expects($this->once())
             ->method('getFilterParameters')
             ->will($this->returnValue($filters));

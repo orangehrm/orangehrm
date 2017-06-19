@@ -40,7 +40,7 @@ class JobCategoryServiceTest extends PHPUnit_Framework_TestCase {
 
 		$jobCatList = TestDataService::loadObjectList('JobCategory', $this->fixture, 'JobCategory');
 
-		$jobCatDao = $this->getMock('JobCategoryDao');
+		$jobCatDao = $this->getMockBuilder('JobCategoryDao')->getMock();
 		$jobCatDao->expects($this->once())
 			->method('getJobCategoryList')
 			->will($this->returnValue($jobCatList));
@@ -55,7 +55,7 @@ class JobCategoryServiceTest extends PHPUnit_Framework_TestCase {
 
 		$jobCatList = TestDataService::loadObjectList('JobCategory', $this->fixture, 'JobCategory');
 
-		$jobCatDao = $this->getMock('JobCategoryDao');
+		$jobCatDao = $this->getMockBuilder('JobCategoryDao')->getMock();
 		$jobCatDao->expects($this->once())
 			->method('getJobCategoryById')
 			->with(1)

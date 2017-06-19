@@ -71,7 +71,7 @@ class ApiLeaveTypeAPITest extends PHPUnit_Framework_TestCase
         $typesCollection = new Doctrine_Collection('LeaveType');
         $typesCollection[] = $leaveType;
 
-        $leaveTypeService = $this->getMock('LeaveTypeService');
+        $leaveTypeService = $this->getMockBuilder('LeaveTypeService')->getMock();
         $leaveTypeService->expects($this->any())
             ->method('getLeaveTypeList')
             ->will($this->returnValue($typesCollection));

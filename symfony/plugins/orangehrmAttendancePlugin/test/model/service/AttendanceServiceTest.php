@@ -42,7 +42,9 @@ class AttendanceServiceTest extends PHPUnit_Framework_Testcase {
         $attendanceRecords = TestDataService::loadObjectList('AttendanceRecord', $this->fixture, 'AttendanceRecord');
         $attendanceRecord = $attendanceRecords[0];
 
-        $attendanceDaoMock = $this->getMock('AttendanceDao', array('savePunchRecord'));
+        $attendanceDaoMock = $this->getMockBuilder('AttendanceDao')
+			->setMethods( array('savePunchRecord'))
+			->getMock();
 
         $attendanceDaoMock->expects($this->once())
                 ->method('savePunchRecord')
@@ -62,7 +64,9 @@ class AttendanceServiceTest extends PHPUnit_Framework_Testcase {
         $actionableStateList = array(AttendanceRecord::STATE_PUNCHED_IN);
 
         $lastPunchRecord = TestDataService::fetchObject('AttendanceRecord', 2);
-        $attendanceDaoMock = $this->getMock('AttendanceDao', array('getLastPunchRecord'));
+        $attendanceDaoMock = $this->getMockBuilder('AttendanceDao')
+			->setMethods( array('getLastPunchRecord'))
+			->getMock();
         $attendanceDaoMock->expects($this->once())
                 ->method('getLastPunchRecord')
                 ->with($employeeId, $actionableStateList)
@@ -85,7 +89,9 @@ class AttendanceServiceTest extends PHPUnit_Framework_Testcase {
         $action = "EDIT";
         $resultingState = "CREATED";
 
-        $attendanceDaoMock = $this->getMock('AttendanceDao', array('getSavedConfiguration'));
+        $attendanceDaoMock = $this->getMockBuilder('AttendanceDao')
+			->setMethods( array('getSavedConfiguration'))
+			->getMock();
         $attendanceDaoMock->expects($this->once())
                 ->method('getSavedConfiguration')
                 ->with($workflow, $state, $role, $action, $resultingState)
@@ -107,7 +113,9 @@ class AttendanceServiceTest extends PHPUnit_Framework_Testcase {
         $isValid = "0";
         $recordId = 121;
 
-        $attendanceDaoMock = $this->getMock('AttendanceDao', array('checkForPunchOutOverLappingRecords'));
+        $attendanceDaoMock = $this->getMockBuilder('AttendanceDao')
+			->setMethods( array('checkForPunchOutOverLappingRecords'))
+			->getMock();
         $attendanceDaoMock->expects($this->once())
                 ->method('checkForPunchOutOverLappingRecords')
                 ->with($punchInTime, $punchOutTime, $employeeId, $recordId)
@@ -127,7 +135,9 @@ class AttendanceServiceTest extends PHPUnit_Framework_Testcase {
         $employeeId = "5";
         $isValid = "0";
 
-        $attendanceDaoMock = $this->getMock('AttendanceDao', array('checkForPunchInOverLappingRecords'));
+        $attendanceDaoMock = $this->getMockBuilder('AttendanceDao')
+			->setMethods( array('checkForPunchInOverLappingRecords'))
+			->getMock();
         $attendanceDaoMock->expects($this->once())
                 ->method('checkForPunchInOverLappingRecords')
                 ->with($punchInTime, $employeeId)
@@ -148,7 +158,9 @@ class AttendanceServiceTest extends PHPUnit_Framework_Testcase {
         $employeeId = 5;
 
 
-        $attendanceDaoMock = $this->getMock('AttendanceDao', array('getAttendanceRecord'));
+        $attendanceDaoMock = $this->getMockBuilder('AttendanceDao')
+			->setMethods( array('getAttendanceRecord'))
+			->getMock();
         $attendanceDaoMock->expects($this->once())
                 ->method('getAttendanceRecord')
                 ->with($employeeId, $date)
@@ -166,7 +178,9 @@ class AttendanceServiceTest extends PHPUnit_Framework_Testcase {
         $attendanceRecordId = 4;
         $isDeleted = true;
 
-        $attendanceDaoMock = $this->getMock('AttendanceDao', array('deleteAttendanceRecords'));
+        $attendanceDaoMock = $this->getMockBuilder('AttendanceDao')
+			->setMethods( array('deleteAttendanceRecords'))
+			->getMock();
         $attendanceDaoMock->expects($this->once())
                 ->method('deleteAttendanceRecords')
                 ->with($attendanceRecordId)
@@ -179,7 +193,9 @@ class AttendanceServiceTest extends PHPUnit_Framework_Testcase {
         $attendanceRecordId = 12344;
         $isDeleted = false;
 
-        $attendanceDaoMock = $this->getMock('AttendanceDao', array('deleteAttendanceRecords'));
+        $attendanceDaoMock = $this->getMockBuilder('AttendanceDao')
+			->setMethods( array('deleteAttendanceRecords'))
+			->getMock();
         $attendanceDaoMock->expects($this->once())
                 ->method('deleteAttendanceRecords')
                 ->with($attendanceRecordId)
@@ -198,7 +214,9 @@ class AttendanceServiceTest extends PHPUnit_Framework_Testcase {
         $attendanceRecordId = 4;
         $attendanceRecord = TestDataService::fetchObject('AttendanceRecord', $attendanceRecordId);
 
-        $attendanceDaoMock = $this->getMock('AttendanceDao', array('getAttendanceRecordById'));
+        $attendanceDaoMock = $this->getMockBuilder('AttendanceDao')
+			->setMethods( array('getAttendanceRecordById'))
+			->getMock();
         $attendanceDaoMock->expects($this->once())
                 ->method('getAttendanceRecordById')
                 ->with($attendanceRecordId)
@@ -274,7 +292,9 @@ class AttendanceServiceTest extends PHPUnit_Framework_Testcase {
      * @group orangehrmAttendancePlugin
      */
     public function testSearchAttendanceRecords() {
-        $attendanceDaoMock = $this->getMock('AttendanceDao', array('searchAttendanceRecords'));
+        $attendanceDaoMock = $this->getMockBuilder('AttendanceDao')
+			->setMethods( array('searchAttendanceRecords'))
+			->getMock();
         $attendanceDaoMock->expects($this->once())
                 ->method('searchAttendanceRecords')
                 ->with($attendanceRecordId)

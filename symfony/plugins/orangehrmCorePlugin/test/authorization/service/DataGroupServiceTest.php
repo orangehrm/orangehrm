@@ -39,7 +39,9 @@ class DataGroupServiceTest extends PHPUnit_Framework_TestCase {
         $dataGroupPermission->fromArray(array('id' => 2, 'user_role_id' => 1, 'data_group_id' => 1,
             'can_read' => 1, 'can_create' => 1, 'can_update' => 1, 'can_delete' => 1, 'self' => 1));
 
-        $dao = $this->getMock('DataGroupDao', array('getDataGroupPermission'));
+        $dao = $this->getMockBuilder('DataGroupDao')
+			->setMethods( array('getDataGroupPermission'))
+			->getMock();
         $dao->expects($this->once())
                     ->method('getDataGroupPermission')
                     ->with('test', 2, true)
@@ -54,7 +56,9 @@ class DataGroupServiceTest extends PHPUnit_Framework_TestCase {
     public function testGetDataGroups() {
         $expected = new Doctrine_Collection('DataGroup');        
 
-        $dao = $this->getMock('DataGroupDao', array('getDataGroups'));
+        $dao = $this->getMockBuilder('DataGroupDao')
+			->setMethods( array('getDataGroups'))
+			->getMock();
         $dao->expects($this->once())
                     ->method('getDataGroups')
                     ->will($this->returnValue($expected));
@@ -68,7 +72,9 @@ class DataGroupServiceTest extends PHPUnit_Framework_TestCase {
         $expected = new DataGroup();
         $expected->fromArray(array('id' => 2, 'can_read' => 1, 'can_create' => 1, 'can_update' => 1, 'can_delete' => 1));
 
-        $dao = $this->getMock('DataGroupDao', array('getDataGroup'));
+        $dao = $this->getMockBuilder('DataGroupDao')
+			->setMethods( array('getDataGroup'))
+			->getMock();
         $dao->expects($this->once())
                     ->method('getDataGroup')
                     ->with('xyz')

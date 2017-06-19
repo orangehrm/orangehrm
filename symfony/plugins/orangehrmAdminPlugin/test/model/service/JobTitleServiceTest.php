@@ -41,7 +41,7 @@ class JobTitleServiceTest extends PHPUnit_Framework_TestCase {
         
         $jobTitleList = TestDataService::loadObjectList('JobTitle', $this->fixture, 'JobTitle');
 
-        $jobTitleDao = $this->getMock('JobTitleDao');
+        $jobTitleDao = $this->getMockBuilder('JobTitleDao')->getMock();
 
         $jobTitleDao->expects($this->once())
                 ->method('getJobTitleList')
@@ -57,7 +57,7 @@ class JobTitleServiceTest extends PHPUnit_Framework_TestCase {
 
         $toBeDeletedJobTitleIds = array(1, 2);
 
-        $jobTitleDao = $this->getMock('JobTitleDao');
+        $jobTitleDao = $this->getMockBuilder('JobTitleDao')->getMock();
 
         $jobTitleDao->expects($this->once())
                 ->method('deleteJobTitle')
@@ -72,7 +72,7 @@ class JobTitleServiceTest extends PHPUnit_Framework_TestCase {
     public function testGetJobTitleById() {
 
         $jobTitleList = TestDataService::loadObjectList('JobTitle', $this->fixture, 'JobTitle');
-        $jobTitleDao = $this->getMock('JobTitleDao');
+        $jobTitleDao = $this->getMockBuilder('JobTitleDao')->getMock();
 
         $jobTitleDao->expects($this->once())
                 ->method('getJobTitleById')

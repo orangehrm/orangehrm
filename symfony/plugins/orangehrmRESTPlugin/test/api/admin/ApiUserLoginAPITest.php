@@ -73,7 +73,9 @@ class ApiUserLoginAPITest extends PHPUnit_Framework_TestCase
 
         $adminUsersList[] = $adminUser;
 
-        $authService = $this->getMock('AuthenticationService',array('setCredentials','getLoggedInUserId'));
+        $authService = $this->getMockBuilder('AuthenticationService')
+            ->setMethods(array('setCredentials','getLoggedInUserId'))
+            ->getMock();
         $authService->expects($this->any())
             ->method('setCredentials')
             ->with($filters['username'],$filters['password'],$additionalData)
@@ -84,28 +86,32 @@ class ApiUserLoginAPITest extends PHPUnit_Framework_TestCase
             ->with()
             ->will($this->returnValue(1));
 
-        $loginService = $this->getMock('LoginService');
-        $loginService->expects($this->any())
+        $systemUserService = $this->getMockBuilder('SystemUserService')
+            ->setMethods(array('getSystemUser'))
+            ->getMock();
+        $systemUserService->expects($this->any())
             ->method('getSystemUser')
             ->with(1)
             ->will($this->returnValue($adminUser));
 
-        $this->usersAPI = $this->getMock('Orangehrm\Rest\Api\Admin\UserLoginAPI',array('getFilterParameters'),array($request));
+        $this->usersAPI = $this->getMockBuilder('Orangehrm\Rest\Api\Admin\UserLoginAPI')
+            ->setMethods(array('getFilterParameters'))
+            ->setConstructorArgs(array($request))
+            ->getMock();
         $this->usersAPI->expects($this->once())
             ->method('getFilterParameters')
             ->will($this->returnValue($filters));
 
         $this->usersAPI->setAuthenticationService($authService);
-        $this->usersAPI->setLoginService($loginService);
+        $this->usersAPI->setSystemUserService($systemUserService);
 
         $response = $this->usersAPI->userLogin();
-        $success = $response->getData()['login'];
 
         $user = new User();
         $user->buildUser($adminUser);
-        $mockResponse = new Response( array('login' => true, 'user' => $user->toArray()));
+        $expectedResponse = new Response( array('login' => true, 'user' => $user->toArray()));
 
-        $this->assertEquals(true, $success);
+        $this->assertEquals($expectedResponse->format(), $response->format());
 
     }
 

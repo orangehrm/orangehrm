@@ -30,7 +30,7 @@ class CustomFieldsServiceTest extends PHPUnit_Framework_TestCase {
          $customFields->setType($v['type']);
          $customFields->setExtraData($v['extra_data']);
 
-         $this->customFieldsDao  =	$this->getMock('CustomFieldsDao');
+         $this->customFieldsDao  =	$this->getMockBuilder('CustomFieldsDao')->getMock();
          $this->customFieldsDao->expects($this->once())
             ->method('saveCustomField')
             ->will($this->returnValue(true));
@@ -48,7 +48,7 @@ class CustomFieldsServiceTest extends PHPUnit_Framework_TestCase {
       $customFieldsDao = new CustomFieldConfigurationDao();
       $list = $customFieldsDao->getCustomFieldList();
 
-      $this->customFieldsDao  =	$this->getMock('CustomFieldsDao');
+      $this->customFieldsDao  =	$this->getMockBuilder('CustomFieldsDao')->getMock();
       $this->customFieldsDao->expects($this->once())
          ->method('getCustomFieldList')
          ->will($this->returnValue($list));
@@ -68,7 +68,7 @@ class CustomFieldsServiceTest extends PHPUnit_Framework_TestCase {
          $customFields->setType($v['type']);
          $customFields->setExtraData($v['extra_data']);
 
-         $this->customFieldsDao  =	$this->getMock('CustomFieldsDao');
+         $this->customFieldsDao  =	$this->getMockBuilder('CustomFieldsDao')->getMock();
          $this->customFieldsDao->expects($this->once())
                ->method('readCustomField')
                ->will($this->returnValue($customFields));
@@ -83,7 +83,7 @@ class CustomFieldsServiceTest extends PHPUnit_Framework_TestCase {
     */
    public function testDeleteCustomField() {
       foreach($this->testCases['CustomFields'] as $k => $v) {
-         $this->customFieldsDao  =	$this->getMock('CustomFieldsDao');
+         $this->customFieldsDao  =	$this->getMockBuilder('CustomFieldsDao')->getMock();
          $this->customFieldsDao->expects($this->once())
                ->method('deleteCustomField')
                ->will($this->returnValue(true));

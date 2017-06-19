@@ -44,7 +44,9 @@ class ScreenPermissionServiceTest extends PHPUnit_Framework_TestCase {
         $action = 'doThis';
         $roles = '';
         
-        $permissionDao = $this->getMock('ScreenPermissionDao', array('getScreenPermissions'));
+        $permissionDao = $this->getMockBuilder('ScreenPermissionDao')
+			->setMethods( array('getScreenPermissions'))
+			->getMock();
         $emptyDoctrineCollection = new Doctrine_Collection('ScreenPermission');
         
         $permissionDao->expects($this->once())
@@ -54,7 +56,9 @@ class ScreenPermissionServiceTest extends PHPUnit_Framework_TestCase {
         
         $this->service->setScreenPermissionDao($permissionDao);
         
-        $screenDao = $this->getMock('ScreenDao', array('getScreen'));
+        $screenDao = $this->getMockBuilder('ScreenDao')
+			->setMethods( array('getScreen'))
+			->getMock();
         $screenDao->expects($this->once())
                 ->method('getScreen')
                 ->with($module, $action)
@@ -74,7 +78,9 @@ class ScreenPermissionServiceTest extends PHPUnit_Framework_TestCase {
         $action = 'doThis';
         $roles = '';
         
-        $mockDao = $this->getMock('ScreenPermissionDao', array('getScreenPermissions'));
+        $mockDao = $this->getMockBuilder('ScreenPermissionDao')
+			->setMethods( array('getScreenPermissions'))
+			->getMock();
         $emptyDoctrineCollection = new Doctrine_Collection('ScreenPermission');
         
         $mockDao->expects($this->once())
@@ -87,7 +93,9 @@ class ScreenPermissionServiceTest extends PHPUnit_Framework_TestCase {
         $screen = new Screen();
         $screen->setName('abc');
         
-        $screenDao = $this->getMock('ScreenDao', array('getScreen'));
+        $screenDao = $this->getMockBuilder('ScreenDao')
+			->setMethods( array('getScreen'))
+			->getMock();
         $screenDao->expects($this->once())
                 ->method('getScreen')
                 ->with($module, $action)
@@ -121,7 +129,9 @@ class ScreenPermissionServiceTest extends PHPUnit_Framework_TestCase {
         $screenPermissions = array($screenPermission1, $screenPermission2);
         $doctrineCollection->setData($screenPermissions);
         
-        $mockDao = $this->getMock('ScreenPermissionDao', array('getScreenPermissions'));        
+        $mockDao = $this->getMockBuilder('ScreenPermissionDao')
+			->setMethods( array('getScreenPermissions'))
+			->getMock();        
         $mockDao->expects($this->once())
                 ->method('getScreenPermissions')
                 ->with($module, $action, $roles)
@@ -154,7 +164,9 @@ class ScreenPermissionServiceTest extends PHPUnit_Framework_TestCase {
         $screenPermissions = array($screenPermission1, $screenPermission2);
         $doctrineCollection->setData($screenPermissions);
         
-        $mockDao = $this->getMock('ScreenPermissionDao', array('getScreenPermissions'));        
+        $mockDao = $this->getMockBuilder('ScreenPermissionDao')
+			->setMethods( array('getScreenPermissions'))
+			->getMock();        
         $mockDao->expects($this->once())
                 ->method('getScreenPermissions')
                 ->with($module, $action, $roles)
@@ -192,7 +204,9 @@ class ScreenPermissionServiceTest extends PHPUnit_Framework_TestCase {
         $screenPermissions = array($screenPermission1, $screenPermission2, $screenPermission3);
         $doctrineCollection->setData($screenPermissions);
         
-        $mockDao = $this->getMock('ScreenPermissionDao', array('getScreenPermissions'));        
+        $mockDao = $this->getMockBuilder('ScreenPermissionDao')
+			->setMethods( array('getScreenPermissions'))
+			->getMock();        
         $mockDao->expects($this->once())
                 ->method('getScreenPermissions')
                 ->with($module, $action, $roles)
@@ -217,7 +231,9 @@ class ScreenPermissionServiceTest extends PHPUnit_Framework_TestCase {
         $expected->setActionUrl($action);
 
     
-        $screenDao = $this->getMock('ScreenDao', array('getScreen'));
+        $screenDao = $this->getMockBuilder('ScreenDao')
+			->setMethods( array('getScreen'))
+			->getMock();
         $screenDao->expects($this->once())
                 ->method('getScreen')
                 ->with($module, $action)

@@ -25,7 +25,9 @@ class BeaconDatapointServiceTest extends PHPUnit_Framework_TestCase {
 
         $datapointList = TestDataService::loadObjectList('DataPoint', $this->fixture, 'set1');
 
-        $beaconDatapointDao = $this->getMock('BeaconDatapointDao', array('getAllDatapoints'));
+        $beaconDatapointDao = $this->getMockBuilder('BeaconDatapointDao')
+			->setMethods( array('getAllDatapoints'))
+			->getMock();
         $beaconDatapointDao->expects($this->once())
                 ->method('getAllDatapoints')
                 ->will($this->returnValue($datapointList));
@@ -43,7 +45,9 @@ class BeaconDatapointServiceTest extends PHPUnit_Framework_TestCase {
         $tableName = 'hs_hr_employee';
         $tableNames = array('hs_hr_employee','ohrm_oauth_refresh_token','ohrm_nationality','ohrm_pay_grade');
         
-         $beaconDatapointDao = $this->getMock('BeaconDatapointDao', array('getTableNames'));
+         $beaconDatapointDao = $this->getMockBuilder('BeaconDatapointDao')
+			->setMethods( array('getTableNames'))
+			->getMock();
         $beaconDatapointDao->expects($this->once())
                 ->method('getTableNames')
                 ->will($this->returnValue($tableNames));
