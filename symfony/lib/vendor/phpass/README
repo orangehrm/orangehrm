@@ -1,8 +1,0 @@
-PHPass (Portable PHP password hashing framework) version 0.3 from http://www.openwall.com/phpass
-retreived on Jan 19, 2013
-
-License: Public Domain
-
-phpass (pronounced "pH pass") is a portable public domain password hashing framework for use in PHP applications. It is meant to work with PHP 3 and above, and it has actually been tested with at least PHP 3.0.18 through 5.4.x so far. (PHP 3 support is likely to be dropped in next revision.)
-
-
