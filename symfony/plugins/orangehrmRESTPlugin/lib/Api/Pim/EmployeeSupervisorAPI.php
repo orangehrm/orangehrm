@@ -117,7 +117,6 @@ class EmployeeSupervisorAPI extends EndPoint
         }
 
         return new Response($responseArray, array());
-
     }
 
     /**
@@ -131,8 +130,13 @@ class EmployeeSupervisorAPI extends EndPoint
         $supervisorId = $this->getRequestParams()->getPostParam(self::PARAMETER_SUPERVISOR_ID);
         $reportingMethodName = $this->getRequestParams()->getPostParam(self::PARAMETER_REPORTING_METHOD);
 
-        if (empty($supervisorId) || empty($reportingMethodName)) {
+        $this->validateEmployee($employeeId);
+
+        if (empty($supervisorId) || empty($reportingMethodName) ) {
             throw new InvalidParamException('Invalid Parameter');
+        }
+        if($supervisorId == $employeeId){
+            throw new InvalidParamException('Cannot Add Same Employee As Supervisor');
         }
         $supervisor = $this->getEmployeeService()->getEmployee($supervisorId);
         if (!empty($supervisor)) {
@@ -232,6 +236,21 @@ class EmployeeSupervisorAPI extends EndPoint
 
         return $filters;
 
+    }
+
+    /**
+     * Validate employee
+     *
+     * @param $id employee ID
+     * @throws RecordNotFoundException
+     */
+    public function validateEmployee($id){
+
+        $employee = $this->getEmployeeService()->getEmployee($id);
+
+        if (empty($employee)) {
+            throw new RecordNotFoundException('Employee Not Found');
+        }
     }
 
 
