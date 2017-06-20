@@ -209,19 +209,21 @@ if (isset($_POST['actionResponse']))
 
             $_SESSION['dbInfo'] = $dbInfo;
 
-            if (@mysql_connect($dbInfo['dbHostName'] . ':' . $dbInfo['dbHostPort'], $dbInfo['dbUserName'], $dbInfo['dbPassword'])) {
-                $mysqlHost = mysql_get_server_info();
+            $conn = @mysqli_connect($dbInfo['dbHostName'] . ':' . $dbInfo['dbHostPort'], $dbInfo['dbUserName'], $dbInfo['dbPassword']);
+
+            if ($conn) {
+                $mysqlHost = mysqli_get_server_info($conn);
 
                 if (intval(substr($mysqlHost, 0, 1)) < 4 || substr($mysqlHost, 0, 3) === '4.0')
                     $error = 'WRONGDBVER';
-                elseif ($_POST['dbCreateMethod'] == 'new' && mysql_select_db($dbInfo['dbName']))
+                elseif ($_POST['dbCreateMethod'] == 'new' && mysqli_select_db($conn, $dbInfo['dbName']))
                     $error = 'DBEXISTS';
                 elseif ($_POST['dbCreateMethod'] == 'new' && !isset($_POST['chkSameUser'])) {
 
-                    mysql_select_db('mysql');
-                    $rset = mysql_query("SELECT USER FROM user WHERE USER = '" . $dbInfo['dbOHRMUserName'] . "'");
+                    mysqli_select_db($conn, 'mysql');
+                    $rset = mysqli_query($conn, "SELECT USER FROM user WHERE USER = '" . $dbInfo['dbOHRMUserName'] . "'");
 
-                    if (mysql_num_rows($rset) > 0)
+                    if (mysqli_num_rows($rset) > 0)
                         $error = 'DBUSEREXISTS';
                     else
                         $_SESSION['DBCONFIG'] = 'OK';
@@ -229,8 +231,8 @@ if (isset($_POST['actionResponse']))
                     $_SESSION['DBCONFIG'] = 'OK';
             } else
                 $error = 'WRONGDBINFO';
-            $errorMsg = mysql_error();
-            $mysqlErrNo = mysql_errno();
+            $errorMsg = mysqli_error($conn);
+            $mysqlErrNo = mysqli_error($conn);
 
             /* For Data Encryption: Begins */
 

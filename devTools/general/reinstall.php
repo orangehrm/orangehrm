@@ -25,30 +25,29 @@ require_once $confPath;
 
 $c = new Conf();
 
-mysql_connect($c->dbhost, $c->dbuser, $c->dbpass);
-
-if (mysql_query("DROP DATABASE `{$c->dbname}`")) {
+$conn = mysqli_connect($c->dbhost, $c->dbuser, $c->dbpass);
+if (mysqli_query($conn, "DROP DATABASE `{$c->dbname}`")) {
     
     echo "Existing '{$c->dbname}' database was deleted.<br>\n";
     
-    if (mysql_query("CREATE DATABASE `{$c->dbname}`")) {
+    if (mysqli_query($conn, "CREATE DATABASE `{$c->dbname}`")) {
         
         echo "Created new '{$c->dbname}' database.<br>\n";
-        mysql_select_db($c->dbname);
-        executeDbQueries($rootPath);
-        createDefaultUser();
+        mysqli_select_db($conn, $c->dbname);
+        executeDbQueries($rootPath, $conn);
+        createDefaultUser($conn);
         
     } else {
         echo "Couldn't create new '{$c->dbname}' database.<br>\n";
     }    
     
 } else {
-    echo "Couldn't delete existing database '{$c->dbname}'. Error details: ". mysql_error() ."<br>\n";
+    echo "Couldn't delete existing database '{$c->dbname}'. Error details: ". mysqli_error($conn) ."<br>\n";
 }
 
 //===========================================================
 
-function executeDbQueries($rootPath) {
+function executeDbQueries($rootPath, $conn) {
     
     $dbscript1      = $rootPath . 'dbscript/dbscript-1.sql';
     $dbscript2      = $rootPath . 'dbscript/dbscript-2.sql';
@@ -58,8 +57,8 @@ function executeDbQueries($rootPath) {
 
     foreach ($queryList as $q) {
         
-        if (!mysql_query($q)) {
-            echo "Error with create query $i: $q. Error details: " . mysql_error() . ".<br>\n";
+        if (!mysqli_query($conn, $q)) {
+            echo "Error with create query $i: $q. Error details: " . mysqli_error($conn) . ".<br>\n";
             die;
         }
         
@@ -67,7 +66,7 @@ function executeDbQueries($rootPath) {
         
     }
     
-    if (!mysql_error()) {
+    if (!mysqli_error($conn)) {
         echo "Data tables were created successfully.<br>\n";
     }
     
@@ -75,8 +74,8 @@ function executeDbQueries($rootPath) {
     
     foreach ($queryList as $q) {
         
-        if (!mysql_query($q)) {
-            echo "Error with insert query $i: $q. Error details: " . mysql_error() . ".<br>\n";
+        if (!mysqli_query($conn, $q)) {
+            echo "Error with insert query $i: $q. Error details: " . mysqli_error($conn) . ".<br>\n";
             die;
         }
         
@@ -84,7 +83,7 @@ function executeDbQueries($rootPath) {
         
     }
     
-    if (!mysql_error()) {
+    if (!mysqli_error($conn)) {
         echo "Default data was inserted successfully.<br>\n";
     }    
     
@@ -109,14 +108,14 @@ function getQueries($path) {
     
 }
 
-function createDefaultUser() {
+function createDefaultUser($conn) {
     
     $q = "INSERT INTO `ohrm_user` ( `user_name`, `user_password`,`user_role_id`) VALUES ('admin','".md5('admin')."','1')";
     
-    if (mysql_query($q)) {
+    if (mysqli_query($conn, $q)) {
         echo "Successfully created default Admin. Username: admin, Password: admin<br>\n";
     } else {
-        echo "Error when creating default admin, query: $q. Error details: " . mysql_error() . ".<br>\n";
+        echo "Error when creating default admin, query: $q. Error details: " . mysqli_error($conn) . ".<br>\n";
         die;
     }    
     

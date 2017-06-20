@@ -22,18 +22,19 @@
 // Cleaning up
 function connectDB() {
 
-	if(!@mysql_connect($_SESSION['dbInfo']['dbHostName'].':'.$_SESSION['dbInfo']['dbHostPort'], 		$_SESSION['dbInfo']['dbUserName'], $_SESSION['dbInfo']['dbPassword'])) {
+	$conn = @mysqli_connect($_SESSION['dbInfo']['dbHostName'].':'.$_SESSION['dbInfo']['dbHostPort'], 		$_SESSION['dbInfo']['dbUserName'], $_SESSION['dbInfo']['dbPassword']);
+	if(!$conn) {
 		$_SESSION['error'] =  'Database Connection Error!';
 		return false;
 	}
-return true;
+return $conn;
 }
 
 function cleanUp() {
 	
 	if ($_SESSION['cMethod'] == 'new' || $_SESSION['dbCreateMethod'] == 'new') {
 
-		if (!connectDB()) {
+		if (!$conn = connectDB()) {
 			return false;
 		}
 	
@@ -47,7 +48,7 @@ function cleanUp() {
 		$overall = true;
 	
 		for ($i=0;  $i < count($query); $i++) {
-			$sucExec[$i] = mysql_query($query[$i]);
+			$sucExec[$i] = mysqli_query($conn, $query[$i]);
 	
 			if (!$sucExec[$i]) {
 				$overall = false;
@@ -55,10 +56,10 @@ function cleanUp() {
 		}
 	
 		if (!$overall) {
-			connectDB();
+			$conn = connectDB();
 			for ($i=0;  $i < count($query); $i++) {
 				if (!$sucExec[$i]) {
-					$sucExec[$i] = mysql_query($query[$i]);
+					$sucExec[$i] = mysqli_query($conn, $query[$i]);
 				}
 	
 				if (!$sucExec[$i]) {
