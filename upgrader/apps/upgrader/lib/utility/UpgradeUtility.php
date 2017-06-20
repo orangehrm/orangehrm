@@ -99,7 +99,7 @@ class Conf {
     var \$dbuser;
     var \$version;
 
-    function Conf() {
+    function __construct() {
 
         \$this->dbhost  = '$dbHost';
         \$this->dbport  = '$dbHostPort';
