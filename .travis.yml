@@ -22,6 +22,7 @@ before_install:
   - echo "USE mysql;\nUPDATE user SET password=PASSWORD('root') WHERE user='root';\nFLUSH PRIVILEGES;\n" | mysql -u root
 install:
   - composer install -d symfony/lib
+  - composer dump-autoload -o -d symfony/lib
   - php installer/cli_install.php 0
   - php devTools/general/create-test-db.php root
 #script:
