@@ -185,5 +185,13 @@ class EmployeeTerminateAPI extends EndPoint
         return $employeeTerminationRecord;
     }
 
+    public function getPostValidationRules()
+    {
+        return array(
+            self::PARAMETER_TERMINATION_DATE => array('Date' => array('Y-m-d')),
+            self::PARAMETER_NOTE => array('StringType' => true, 'NotEmpty' => true,'Length' => array(1,250)),
+
+        );
+    }
 
 }
