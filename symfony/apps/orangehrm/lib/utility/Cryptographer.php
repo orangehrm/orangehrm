@@ -57,7 +57,7 @@ class Cryptographer {
                 $mysqlKey[$a % 16] = chr(ord($mysqlKey[$a % 16]) ^ ord($key[$a]));
             }
 
-            $aes = new Crypt_Rijndael(CRYPT_RIJNDAEL_MODE_ECB);
+            $aes =  new phpseclib\Crypt\Rijndael(CRYPT_RIJNDAEL_MODE_ECB);
 
             $aes->setKeyLength(128);
             $aes->setBlockLength(128);
