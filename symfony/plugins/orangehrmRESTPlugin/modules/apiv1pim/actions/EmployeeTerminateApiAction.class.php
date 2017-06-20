@@ -24,18 +24,22 @@ use Orangehrm\Rest\Api\Exception\NotImplementedException;
 
 class EmployeeTerminateApiAction extends baseRestAction
 {
+    private $apiTerminateEmployee;
+
+    protected function init(Request $request){
+
+        $this->apiTerminateEmployee = new EmployeeTerminateAPI($request);
+        $this->postValidationRule = $this->apiTerminateEmployee->getPostValidationRules();
+    }
 
     protected function handleGetRequest(Request $request)
     {
-
         throw new NotImplementedException();
-
     }
 
     protected function handlePostRequest(Request $request)
     {
-        $apiEmployeeSearch = new EmployeeTerminateAPI($request);
-        return $apiEmployeeSearch->terminateEmployee();
+        return $this->apiTerminateEmployee->terminateEmployee();
     }
 
 }
