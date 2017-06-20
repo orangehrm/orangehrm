@@ -30,10 +30,13 @@ class ProjectConfiguration extends sfProjectConfiguration
 
     $this->dispatcher->connect('context.load_factories', array($this,
             'loadFactoriesListener'));
+
+    $this->dispatcher->connect('doctrine.configure', array($this, 'configureDoctrine'));
   }
   
-  public function configureDoctrine(Doctrine_Manager $manager)
+  public function configureDoctrine(sfEvent $event)
   {
+      $manager = $event->getSubject();
     // Enable callbacks so that softDelete behavior can be used
     $manager->setAttribute(Doctrine_Core::ATTR_USE_DQL_CALLBACKS, true);
   }
