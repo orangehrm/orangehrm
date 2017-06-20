@@ -44,7 +44,6 @@ class EmployeeDependentAPI extends EndPoint
      */
     protected function getEmployeeService()
     {
-
         if ($this->employeeService != null) {
             return $this->employeeService;
         } else {
@@ -91,7 +90,7 @@ class EmployeeDependentAPI extends EndPoint
     {
         $responseArray = null;
         $empId = $this->getRequestParams()->getUrlParam(self::PARAMETER_ID);
-
+        $this->validateEmployee($empId);
         $dependants = $this->getEmployeeService()->getEmployeeDependents($empId);
 
         foreach ($dependants as $dependent) {
@@ -100,7 +99,12 @@ class EmployeeDependentAPI extends EndPoint
                 $dependent->getDateOfBirth(), $dependent->getSeqno());
             $responseArray[] = $empDependant->toArray();
         }
-        return new Response($responseArray, array());
+        if(count($responseArray) >0 ){
+            return new Response($responseArray, array());
+        } else {
+            throw new RecordNotFoundException('No Dependents Found');
+        }
+
     }
 
     /**
@@ -270,6 +274,21 @@ class EmployeeDependentAPI extends EndPoint
         return array(
           self::PARAMETER_SEQ_NUMBER=> array( 'NotEmpty' => true,'Length' => array(1,1000))
         );
+    }
+
+    /**
+     * Validate employee
+     *
+     * @param $id employee ID
+     * @throws RecordNotFoundException
+     */
+    public function validateEmployee($id){
+
+        $employee = $this->getEmployeeService()->getEmployee($id);
+
+        if (empty($employee)) {
+            throw new RecordNotFoundException('Employee Not Found');
+        }
     }
 
 }
