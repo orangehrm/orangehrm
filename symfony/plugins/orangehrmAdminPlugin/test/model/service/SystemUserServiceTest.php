@@ -107,8 +107,8 @@ class SystemUserServiceTest extends PHPUnit_Framework_TestCase {
         
         // verify correct hash
         $hashedPassword = $result->getUserPassword();
-        $hasher = new PasswordHash(12, false);
-        $this->assertTrue($hasher->CheckPassword($password, $hashedPassword));
+        $hasher = new PasswordHash();
+        $this->assertTrue($hasher->verify($password, $hashedPassword));
     }
     
     public function testIsCurrentPasswordUserNotFound() {
@@ -134,8 +134,8 @@ class SystemUserServiceTest extends PHPUnit_Framework_TestCase {
         $userId = 5;
         $password = 'y28#$!!';
         
-        $hasher = new PasswordHash(12, false);
-        $hashedPassword = $hasher->HashPassword($password);
+        $hasher = new PasswordHash();
+        $hashedPassword = $hasher->hash($password);
         
         $user = new SystemUser();
         $user->setId($userId);
@@ -219,10 +219,10 @@ class SystemUserServiceTest extends PHPUnit_Framework_TestCase {
         
         $mockHasher = $this->getMockBuilder('PasswordHash')
                      ->disableOriginalConstructor()
-                     ->setMethods(array('HashPassword'))
+                     ->setMethods(array('hash'))
                      ->getMock();
         $mockHasher->expects($this->once())
-                ->method('HashPassword')
+                ->method('hash')
                 ->with($password)
                 ->will($this->returnValue($hashedPassword));
         
@@ -274,10 +274,10 @@ class SystemUserServiceTest extends PHPUnit_Framework_TestCase {
         
         $mockHasher = $this->getMockBuilder('PasswordHash')
                      ->disableOriginalConstructor()
-                     ->setMethods(array('CheckPassword'))
+                     ->setMethods(array('verify'))
                      ->getMock();
         $mockHasher->expects($this->once())
-                ->method('CheckPassword')
+                ->method('verify')
                 ->with($password, $hashedPassword)
                 ->will($this->returnValue(true));        
         
@@ -329,8 +329,8 @@ class SystemUserServiceTest extends PHPUnit_Framework_TestCase {
         $this->assertTrue($result instanceof SystemUser);
         
         // Check password correctly hashed
-        $hasher = new PasswordHash(12, false);        
-        $this->assertTrue($hasher->CheckPassword($password, $result->getUserPassword()));        
+        $hasher = new PasswordHash();
+        $this->assertTrue($hasher->verify($password, $result->getUserPassword()));
     }
     
     public function testGetCredentialsInvalidPassword() {
@@ -367,10 +367,10 @@ class SystemUserServiceTest extends PHPUnit_Framework_TestCase {
         
         $mockHasher = $this->getMockBuilder('PasswordHash')
                      ->disableOriginalConstructor()
-                     ->setMethods(array('HashPassword'))
+                     ->setMethods(array('hash'))
                      ->getMock();
         $mockHasher->expects($this->once())
-                ->method('HashPassword')
+                ->method('hash')
                 ->with($password)
                 ->will($this->returnValue($hashedPassword));
         

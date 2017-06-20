@@ -19,7 +19,6 @@
  */
 
 require_once ROOT_PATH.'/installer/utils/UniqueIDGenerator.php';
-require_once ROOT_PATH.'/symfony/lib/vendor/phpass/PasswordHash.php';
 require_once ROOT_PATH.'/symfony/lib/vendor/phpseclib/Crypt/Random.php';
 
 class ApplicationSetupUtility {
@@ -250,8 +249,9 @@ public static function createUser() {
 		return;
 	}
 
-        $passwordHasher = new PasswordHash(12, false);
-        $hash = $passwordHasher->HashPassword($_SESSION['defUser']['AdminPassword']);
+    $passwordHasher = new PasswordHash();
+    $hash = $passwordHasher->hash($_SESSION['defUser']['AdminPassword']);
+
 	$query = "INSERT INTO `ohrm_user` ( `user_name`, `user_password`,`user_role_id`) VALUES ('" .$_SESSION['defUser']['AdminUserName']. "','".$hash."','1')";
 
 	if(!mysqli_query(self::$conn, $query)) {
