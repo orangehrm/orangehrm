@@ -123,9 +123,9 @@ function sysCheckPassed() {
                     $versionPattern = '/[0-9]+\.[0-9]+\.[0-9]+/';
 
                     preg_match($versionPattern, $mysqlClient, $matches);
-                    $mysql_client_version = $matches[0];
+                    $mysqlClientVersion = $matches[0];
 
-                    if (version_compare($mysql_client_version, '4.1.0') < 0) {
+                    if (version_compare($mysqlClientVersion, '4.1.0') < 0) {
                         echo "<b><font color='#9E6D6D'>ver 4.1.x or later recommended (reported ver " . $mysqlClient . ')</font></b>';
                     } else
                         echo "<b><font color='green'>OK (ver " . $mysqlClient . ')</font></b>';

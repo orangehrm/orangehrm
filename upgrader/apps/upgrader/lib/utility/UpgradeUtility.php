@@ -22,7 +22,15 @@ class UpgradeUtility {
         mysqli_autocommit($this->dbConnection, FALSE);
         return $this->dbConnection;
     }
-    
+
+    public function getDbError() {
+        if ($this->dbConnection) {
+            return mysqli_error($this->dbConnection);
+        } else {
+            return '';
+        }
+    }
+
     public function setDbConnection($dbConnection) {
         $this->dbConnection = $dbConnection;
     }
