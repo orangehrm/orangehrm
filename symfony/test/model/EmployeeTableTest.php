@@ -283,44 +283,6 @@ class EmployeeTableTest extends PHPUnit_Framework_TestCase {
 
     }
 
-    /**
-     * Test case for delete() function
-     */
-    public function testDelete() {
-
-       $employees = $this->employees;
-
-       $empIds = array();
-       foreach ($employees as $emp) {
-           $empIds[] = $emp['empNumber'];
-       }
-
-       // delete 1 employee
-       $ids = array_slice($empIds, 3, 1);
-       $this->assertEquals(1, $this->_countEmployees($ids));
-
-       $count = Doctrine::getTable('Employee')->delete($ids);
-       $this->assertEquals(1, $count, '1 employee should be deleted');
-
-       // verify deleted employee no longer available.
-       $this->assertEquals(0, $this->_countEmployees($ids));
-
-       // delete 3 employees
-       $ids = array_slice($empIds, 5, 3);
-       $this->assertEquals(3, $this->_countEmployees($ids));
-
-       $count = Doctrine::getTable('Employee')->delete($ids);
-       $this->assertEquals(3, $count, '3 employees should be deleted');
-
-       $this->assertEquals(0, $this->_countEmployees($ids));
-
-       // Try deleting already deleted employee
-       $ids = array_slice($empIds, 3, 1);
-       $count = Doctrine::getTable('Employee')->delete($ids);
-       $this->assertEquals(0, $count, 'return 0 if employee already deleted');
-
-    }
-
 //
 // Tests for private functions of this test class
 //
