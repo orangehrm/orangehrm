@@ -171,7 +171,7 @@ class EncryptionListener extends Doctrine_Record_Listener {
             $mysqlKey[$a%16]=chr(ord($mysqlKey[$a%16]) ^ ord($key[$a]));
         }
 
-        $aes = new phpseclib\Crypt\Rijndael(CRYPT_RIJNDAEL_MODE_ECB);
+        $aes = new phpseclib\Crypt\AES(phpseclib\Crypt\Base::MODE_ECB);
 
         $aes->setKeyLength(128);
         $aes->setBlockLength(128);
@@ -204,7 +204,7 @@ class EncryptionListener extends Doctrine_Record_Listener {
             $mysqlKey[$a%16]=chr(ord($mysqlKey[$a%16]) ^ ord($key[$a]));
         }
 
-        $aes = new phpseclib\Crypt\Rijndael(CRYPT_RIJNDAEL_MODE_ECB);
+        $aes = new phpseclib\Crypt\Rijndael(phpseclib\Crypt\Base::MODE_ECB);
 
         $aes->setKeyLength(128);
         $aes->setBlockLength(128);

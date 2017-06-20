@@ -33,6 +33,7 @@ class AppsOrangeHRMAllTests {
 
         /* Service Test Cases */
         $suite->addTestFile(dirname(__FILE__) . '/model/core/service/EmailServiceTest.php');
+        $suite->addTestFile(dirname(__FILE__) . '/lib/utility/EncryptionListenerTest.php');
 
         return $suite;
     }
