@@ -143,7 +143,7 @@ function sysCheckPassed() {
             <td align="right" class="tdValues"><strong>
             <?php
 			   $dbInfo = $_SESSION['dbInfo'];
-               if(function_exists('mysqli_connect') && ($conn = @mysqli_connect($dbInfo['dbHostName'].':'.$dbInfo['dbHostPort'], $dbInfo['dbUserName'], $dbInfo['dbPassword']))) {
+               if(function_exists('mysqli_connect') && ($conn = @mysqli_connect($dbInfo['dbHostName'], $dbInfo['dbUserName'], $dbInfo['dbPassword'], "", $dbInfo['dbHostPort']))) {
 
 	              $mysqlServer = mysqli_get_server_info($conn);
 
@@ -164,7 +164,7 @@ function sysCheckPassed() {
 
             <td align="right" class="tdValues"><strong>
             <?php
-               if(function_exists('mysqli_connect') && ($conn = @mysqli_connect($dbInfo['dbHostName'].':'.$dbInfo['dbHostPort'], $dbInfo['dbUserName'], $dbInfo['dbPassword']))) {
+               if(function_exists('mysqli_connect') && ($conn = @mysqli_connect($dbInfo['dbHostName'], $dbInfo['dbUserName'], $dbInfo['dbPassword'], "", $dbInfo['dbHostPort']))) {
 
 		            $mysqlServer = mysqli_query($conn, "show engines");
 
@@ -332,7 +332,7 @@ function sysCheckPassed() {
 
             <td align="right" class="tdValues"><strong>
             <?php
-               if(function_exists('mysqli_connect') && ($conn = @mysqli_connect($dbInfo['dbHostName'].':'.$dbInfo['dbHostPort'], $dbInfo['dbUserName'], $dbInfo['dbPassword']))) {
+               if(function_exists('mysqli_connect') && ($conn = @mysqli_connect($dbInfo['dbHostName'], $dbInfo['dbUserName'], $dbInfo['dbPassword'], "", $dbInfo['dbHostPort']))) {
 
 		            $result = mysqli_query($conn, "SHOW VARIABLES LIKE 'EVENT_SCHEDULER'");
                     $row = mysqli_fetch_assoc($result);

@@ -209,30 +209,37 @@ if (isset($_POST['actionResponse']))
 
             $_SESSION['dbInfo'] = $dbInfo;
 
-            $conn = @mysqli_connect($dbInfo['dbHostName'] . ':' . $dbInfo['dbHostPort'], $dbInfo['dbUserName'], $dbInfo['dbPassword']);
+            $conn = mysqli_connect($dbInfo['dbHostName'], $dbInfo['dbUserName'], $dbInfo['dbPassword'], "", $dbInfo['dbHostPort']);
 
             if ($conn) {
                 $mysqlHost = mysqli_get_server_info($conn);
 
-                if (intval(substr($mysqlHost, 0, 1)) < 4 || substr($mysqlHost, 0, 3) === '4.0')
+                if (intval(substr($mysqlHost, 0, 1)) < 4 || substr($mysqlHost, 0, 3) === '4.0') {
                     $error = 'WRONGDBVER';
-                elseif ($_POST['dbCreateMethod'] == 'new' && mysqli_select_db($conn, $dbInfo['dbName']))
+                } elseif ($_POST['dbCreateMethod'] == 'new' && mysqli_select_db($conn, $dbInfo['dbName'])) {
                     $error = 'DBEXISTS';
-                elseif ($_POST['dbCreateMethod'] == 'new' && !isset($_POST['chkSameUser'])) {
+                } elseif ($_POST['dbCreateMethod'] == 'new' && !isset($_POST['chkSameUser'])) {
 
                     mysqli_select_db($conn, 'mysql');
                     $rset = mysqli_query($conn, "SELECT USER FROM user WHERE USER = '" . $dbInfo['dbOHRMUserName'] . "'");
 
-                    if (mysqli_num_rows($rset) > 0)
+                    if (mysqli_num_rows($rset) > 0) {
                         $error = 'DBUSEREXISTS';
-                    else
+                    } else {
                         $_SESSION['DBCONFIG'] = 'OK';
-                } else
+                    }
+                } else {
                     $_SESSION['DBCONFIG'] = 'OK';
-            } else
+                }
+
+                $errorMsg = mysqli_error($conn);
+                $mysqlErrNo = mysqli_error($conn);
+
+            } else {
                 $error = 'WRONGDBINFO';
-            $errorMsg = mysqli_error($conn);
-            $mysqlErrNo = mysqli_error($conn);
+                $errorMsg = mysqli_connect_error();
+                $mysqlErrNo = mysqli_connect_errno();
+            }
 
             /* For Data Encryption: Begins */
 

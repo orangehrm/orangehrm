@@ -22,7 +22,7 @@
 // Cleaning up
 function connectDB() {
 
-	$conn = @mysqli_connect($_SESSION['dbInfo']['dbHostName'].':'.$_SESSION['dbInfo']['dbHostPort'], 		$_SESSION['dbInfo']['dbUserName'], $_SESSION['dbInfo']['dbPassword']);
+	$conn = @mysqli_connect($_SESSION['dbInfo']['dbHostName'], $_SESSION['dbInfo']['dbUserName'], $_SESSION['dbInfo']['dbPassword'], "", $_SESSION['dbInfo']['dbHostPort']);
 	if(!$conn) {
 		$_SESSION['error'] =  'Database Connection Error!';
 		return false;
