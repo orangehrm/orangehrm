@@ -3,7 +3,7 @@
 if (!defined('ROOT_PATH')) {
     define('ROOT_PATH', dirname(__FILE__) . '/../../');
 }
-require_once dirname(__FILE__) . '/../lib/vendor/symfony/lib/autoload/sfCoreAutoload.class.php';
+require_once dirname(__FILE__) . '/../lib/vendor/autoload.php';
 require_once dirname(__FILE__) . '/../lib/vendor/log4php/Logger.php';
 sfCoreAutoload::register();
 
