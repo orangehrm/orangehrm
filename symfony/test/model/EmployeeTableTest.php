@@ -545,7 +545,7 @@ class EmployeeTableTest extends PHPUnit_Framework_TestCase {
 
         if( $parentId !== '0' ){
             $parent = $companyStructure['CompanyStructure_' . $parentId];
-            $parentHierarchy = $this->_getCompanyHierarchy($parent, &$companyStructure);
+            $parentHierarchy = $this->_getCompanyHierarchy($parent, $companyStructure);
             return $parentHierarchy . '->' . $subDivision['title'];
         }
         else{
