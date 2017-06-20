@@ -34,10 +34,6 @@ class AdminWebServiceWrapperTest extends PHPUnit_Framework_TestCase {
         $this->locationTestCases = sfYaml::load(sfConfig::get('sf_plugins_dir') . '/orangehrmAdminPlugin/test/fixtures/LocationDao.yml');
         $this->manager = new WSManager();
         $this->helper = new WSHelper();
-
-        PHPUnit_Framework_Error_Warning::$enabled = FALSE;
-
-        PHPUnit_Framework_Error_Notice::$enabled = FALSE;
     }
 
     public function testCallGetJobTitleListMethod() {
