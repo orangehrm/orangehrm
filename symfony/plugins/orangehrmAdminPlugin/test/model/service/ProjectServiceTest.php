@@ -41,7 +41,7 @@ class ProjectServiceTest extends PHPUnit_Framework_TestCase {
 
 		$projectList = TestDataService::loadObjectList('Project', $this->fixture, 'Project');
 
-		$projectDao = $this->getMock('ProjectDao');
+		$projectDao = $this->getMockBuilder('ProjectDao')->getMock();
 		$projectDao->expects($this->once())
 			->method('getProjectCount')
 			->with(false)
@@ -55,7 +55,7 @@ class ProjectServiceTest extends PHPUnit_Framework_TestCase {
 
 	public function testDeleteProject() {
 
-		$projectDao = $this->getMock('ProjectDao');
+		$projectDao = $this->getMockBuilder('ProjectDao')->getMock();
 		$projectDao->expects($this->once())
 			->method('deleteProject')
 			->with(1)
@@ -69,7 +69,7 @@ class ProjectServiceTest extends PHPUnit_Framework_TestCase {
 
 	public function testDeleteProjectActivities() {
 
-		$projectDao = $this->getMock('ProjectDao');
+		$projectDao = $this->getMockBuilder('ProjectDao')->getMock();
 		$projectDao->expects($this->once())
 			->method('deleteProjectActivities')
 			->with(1)
@@ -85,7 +85,7 @@ class ProjectServiceTest extends PHPUnit_Framework_TestCase {
 
 		$projectList = TestDataService::loadObjectList('Project', $this->fixture, 'Project');
 
-		$projectDao = $this->getMock('ProjectDao');
+		$projectDao = $this->getMockBuilder('ProjectDao')->getMock();
 		$projectDao->expects($this->once())
 			->method('getProjectById')
 			->with(1)
@@ -101,7 +101,7 @@ class ProjectServiceTest extends PHPUnit_Framework_TestCase {
 
 		$projectActivityList = TestDataService::loadObjectList('ProjectActivity', $this->fixture, 'ProjectActivity');
 
-		$projectDao = $this->getMock('ProjectDao');
+		$projectDao = $this->getMockBuilder('ProjectDao')->getMock();
 		$projectDao->expects($this->once())
 			->method('getProjectActivityById')
 			->with(1)
@@ -117,7 +117,7 @@ class ProjectServiceTest extends PHPUnit_Framework_TestCase {
 
 		$projectList = TestDataService::loadObjectList('Project', $this->fixture, 'Project');
 
-		$projectDao = $this->getMock('ProjectDao');
+		$projectDao = $this->getMockBuilder('ProjectDao')->getMock();
 		$projectDao->expects($this->once())
 			->method('getAllProjects')
 			->with(false)
@@ -133,7 +133,7 @@ class ProjectServiceTest extends PHPUnit_Framework_TestCase {
 
 		$projectActivityList = TestDataService::loadObjectList('ProjectActivity', $this->fixture, 'ProjectActivity');
 
-		$projectDao = $this->getMock('ProjectDao');
+		$projectDao = $this->getMockBuilder('ProjectDao')->getMock();
 		$projectDao->expects($this->once())
 			->method('getActivityListByProjectId')
 			->with(1)
@@ -147,7 +147,7 @@ class ProjectServiceTest extends PHPUnit_Framework_TestCase {
 
 	public function testHasActivityGotTimesheetItems() {
 
-		$projectDao = $this->getMock('ProjectDao');
+		$projectDao = $this->getMockBuilder('ProjectDao')->getMock();
 		$projectDao->expects($this->once())
 			->method('hasActivityGotTimesheetItems')
 			->with(1)
@@ -161,7 +161,7 @@ class ProjectServiceTest extends PHPUnit_Framework_TestCase {
 
 	public function testHasProjectGotTimesheetItems() {
 
-		$projectDao = $this->getMock('ProjectDao');
+		$projectDao = $this->getMockBuilder('ProjectDao')->getMock();
 		$projectDao->expects($this->once())
 			->method('hasProjectGotTimesheetItems')
 			->with(1)
@@ -178,7 +178,7 @@ class ProjectServiceTest extends PHPUnit_Framework_TestCase {
 		$projectList = TestDataService::loadObjectList('Project', $this->fixture, 'Project');
 		$projectList = array($projectList[0], $projectList[1]);
 
-		$projectDao = $this->getMock('ProjectDao');
+		$projectDao = $this->getMockBuilder('ProjectDao')->getMock();
 		$projectDao->expects($this->once())
 			->method('getProjectsByCustomerId')
 			->with(1)
@@ -196,7 +196,7 @@ class ProjectServiceTest extends PHPUnit_Framework_TestCase {
 		$empNumber = null;
 		$projectList = TestDataService::loadObjectList('Project', $this->fixture, 'Project');
 
-		$projectDao = $this->getMock('ProjectDao');
+		$projectDao = $this->getMockBuilder('ProjectDao')->getMock();
 		$projectDao->expects($this->once())
 			->method('getProjectListForUserRole')
 			->with($role, $empNumber)
@@ -220,7 +220,7 @@ class ProjectServiceTest extends PHPUnit_Framework_TestCase {
 		$projectList = TestDataService::loadObjectList('Project', $this->fixture, 'Project');
 		$projectList = array($projectList[0], $projectList[1]);
 		
-		$projectDao = $this->getMock('ProjectDao');
+		$projectDao = $this->getMockBuilder('ProjectDao')->getMock();
 		$projectDao->expects($this->once())
 			->method('getActiveProjectList')
 			->will($this->returnValue($projectList));
@@ -238,7 +238,9 @@ class ProjectServiceTest extends PHPUnit_Framework_TestCase {
 		
 		$projectId = array(1);
 		
-		$projectDao = $this->getMock('ProjectDao',array('getProjectAdminByEmpNumber', 'getProjectsByProjectIds'));
+		$projectDao = $this->getMockBuilder('ProjectDao')
+			->setMethods(array('getProjectAdminByEmpNumber', 'getProjectsByProjectIds'))
+			->getMock();
 		$projectDao->expects($this->once())
 			->method('getProjectAdminByEmpNumber')
 			->with(1)
@@ -269,7 +271,7 @@ class ProjectServiceTest extends PHPUnit_Framework_TestCase {
 		);
 		$allowedProjectList = array(1);
 		
-		$projectDao = $this->getMock('ProjectDao');
+		$projectDao = $this->getMockBuilder('ProjectDao')->getMock();
 		$projectDao->expects($this->once())
 			->method('searchProjects')
 			->with($srchClues, $allowedProjectList)
@@ -289,7 +291,7 @@ class ProjectServiceTest extends PHPUnit_Framework_TestCase {
 		);
 		$allowedProjectList = array(1);
 		
-		$projectDao = $this->getMock('ProjectDao');
+		$projectDao = $this->getMockBuilder('ProjectDao')->getMock();
 		$projectDao->expects($this->once())
 			->method('getSearchProjectListCount')
 			->with($srchClues, $allowedProjectList)
@@ -306,7 +308,7 @@ class ProjectServiceTest extends PHPUnit_Framework_TestCase {
             $project = new Project();
             $expected = array($project);
 
-            $projectDao = $this->getMock('ProjectDao');
+            $projectDao = $this->getMockBuilder('ProjectDao')->getMock();
             $projectDao->expects($this->once())
                     ->method('getActiveProjectsOrderedByCustomer')
                     ->will($this->returnValue($expected));
@@ -322,7 +324,7 @@ class ProjectServiceTest extends PHPUnit_Framework_TestCase {
         $projectIdList = array(1, 2);
         $customerIds = array(1, 4);
         
-        $projectDao = $this->getMock('ProjectDao');
+        $projectDao = $this->getMockBuilder('ProjectDao')->getMock();
         $projectDao->expects($this->once())
                 ->method('getCustomerIdListByProjectId')
                 ->with($projectIdList)
@@ -346,7 +348,7 @@ class ProjectServiceTest extends PHPUnit_Framework_TestCase {
         
         $projects = array($project1, $project1);
         
-        $projectDao = $this->getMock('ProjectDao');
+        $projectDao = $this->getMockBuilder('ProjectDao')->getMock();
         $projectDao->expects($this->once())
                 ->method('getProjectNameList')
                 ->with($projectIdList, true)
@@ -362,7 +364,9 @@ class ProjectServiceTest extends PHPUnit_Framework_TestCase {
     public function testGetProjectActivityCount() {
         $count = 34;
         
-        $projectDao = $this->getMock('ProjectDao', array('getProjectActivityCount'));
+        $projectDao = $this->getMockBuilder('ProjectDao')
+			->setMethods( array('getProjectActivityCount'))
+			->getMock();
         $projectDao->expects($this->once())
                 ->method('getProjectActivityCount')
                 ->with()
@@ -377,7 +381,9 @@ class ProjectServiceTest extends PHPUnit_Framework_TestCase {
     public function testGetProjectActivityCountWithDeleted() {
         $count = 44;
         
-        $projectDao = $this->getMock('ProjectDao', array('getProjectActivityCount'));
+        $projectDao = $this->getMockBuilder('ProjectDao')
+			->setMethods( array('getProjectActivityCount'))
+			->getMock();
         $projectDao->expects($this->once())
                 ->method('getProjectActivityCount')
                 ->with(true)

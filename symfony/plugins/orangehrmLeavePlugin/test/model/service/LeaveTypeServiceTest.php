@@ -44,7 +44,9 @@
 
         $leaveTypeList = TestDataService::loadObjectList('LeaveType', $this->fixture, 'set1');
 
-        $leaveTypeDao = $this->getMock('LeaveTypeDao', array('getLeaveTypeList'));
+        $leaveTypeDao = $this->getMockBuilder('LeaveTypeDao')
+			->setMethods( array('getLeaveTypeList'))
+			->getMock();
         $leaveTypeDao->expects($this->once())
                      ->method('getLeaveTypeList')
                      ->will($this->returnValue($leaveTypeList));
@@ -64,7 +66,9 @@
 
         $leaveTypeList = TestDataService::loadObjectList('LeaveType', $this->fixture, 'set1');
 
-        $leaveTypeDao = $this->getMock('LeaveTypeDao', array('getLeaveTypeList'));
+        $leaveTypeDao = $this->getMockBuilder('LeaveTypeDao')
+			->setMethods( array('getLeaveTypeList'))
+			->getMock();
         $leaveTypeDao->expects($this->once())
                      ->method('getLeaveTypeList')
                      ->with($this->equalTo(2))
@@ -87,7 +91,9 @@
         $leaveTypeList = TestDataService::loadObjectList('LeaveType', $this->fixture, 'set1');
         $leaveType = $leaveTypeList[0];
 
-        $leaveTypeDao = $this->getMock('LeaveTypeDao', array('saveLeaveType'));
+        $leaveTypeDao = $this->getMockBuilder('LeaveTypeDao')
+			->setMethods( array('saveLeaveType'))
+			->getMock();
         $leaveTypeDao->expects($this->once())
                      ->method('saveLeaveType')
                      ->with($leaveType)
@@ -106,7 +112,9 @@
         $leaveTypeList = TestDataService::loadObjectList('LeaveType', $this->fixture, 'set1');
         $leaveType = $leaveTypeList[0];
 
-        $leaveTypeDao = $this->getMock('LeaveTypeDao', array('readLeaveType'));
+        $leaveTypeDao = $this->getMockBuilder('LeaveTypeDao')
+			->setMethods( array('readLeaveType'))
+			->getMock();
         $leaveTypeDao->expects($this->once())
                      ->method('readLeaveType')
                      ->with('LTY001')

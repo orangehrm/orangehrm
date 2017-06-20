@@ -43,7 +43,7 @@ class AuthenticationProviderServiceTest extends PHPUnit_Framework_TestCase {
         $authProvider->setDeveloperKey('Test_developer_key');
 
 
-        $mockDao = $this->getMock('AuthProviderExtraDetailsDao');
+        $mockDao = $this->getMockBuilder('AuthProviderExtraDetailsDao')->getMock();
         $mockDao->expects($this->once())
                 ->method('getAuthProviderDetailsByProviderId')
                 ->with(2)
@@ -60,7 +60,7 @@ class AuthenticationProviderServiceTest extends PHPUnit_Framework_TestCase {
         $authProvider->setProviderId(3);
         $authProvider->setProviderType(1);
 
-        $mockDao = $this->getMock('AuthProviderExtraDetailsDao');
+        $mockDao = $this->getMockBuilder('AuthProviderExtraDetailsDao')->getMock();
         $mockDao->expects($this->once())
                 ->method('saveAuthProviderExtraDetails')
                 ->with($authProvider)
@@ -80,7 +80,7 @@ class AuthenticationProviderServiceTest extends PHPUnit_Framework_TestCase {
         $authProvider->setClientSecret('Test_secret_4');
         $authProvider->setDeveloperKey('Test_developer_key');
         
-        $mockDao = $this->getMock('AuthProviderExtraDetailsDao');
+        $mockDao = $this->getMockBuilder('AuthProviderExtraDetailsDao')->getMock();
         $mockDao->expects($this->once())
                 ->method('saveAuthProviderExtraDetails')
                 ->with($authProvider)

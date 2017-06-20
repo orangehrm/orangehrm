@@ -40,7 +40,7 @@ class EmploymentStatusServiceTest extends PHPUnit_Framework_TestCase {
 
 		$empStatusList = TestDataService::loadObjectList('EmploymentStatus', $this->fixture, 'EmploymentStatus');
 
-		$empStatusDao = $this->getMock('EmploymentStatusDao');
+		$empStatusDao = $this->getMockBuilder('EmploymentStatusDao')->getMock();
 		$empStatusDao->expects($this->once())
 			->method('getEmploymentStatusList')
 			->will($this->returnValue($empStatusList));
@@ -55,7 +55,7 @@ class EmploymentStatusServiceTest extends PHPUnit_Framework_TestCase {
 
 		$empStatusList = TestDataService::loadObjectList('EmploymentStatus', $this->fixture, 'EmploymentStatus');
 
-		$empStatusDao = $this->getMock('EmploymentStatusDao');
+		$empStatusDao = $this->getMockBuilder('EmploymentStatusDao')->getMock();
 		$empStatusDao->expects($this->once())
 			->method('getEmploymentStatusById')
 			->with(1)

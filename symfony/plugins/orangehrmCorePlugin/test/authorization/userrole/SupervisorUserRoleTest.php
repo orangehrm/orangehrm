@@ -36,7 +36,7 @@ class SupervisorUserRoleTest extends PHPUnit_Framework_TestCase {
     }
 
     public function testGetSetEmployeeService() {
-        $mockService = $this->getMock('EmployeeService');
+        $mockService = $this->getMockBuilder('EmployeeService')->getMock();
 
         $this->supervisorUserRole->setEmployeeService($mockService);
         $this->assertEquals($mockService, $this->supervisorUserRole->getEmployeeService());
@@ -45,7 +45,7 @@ class SupervisorUserRoleTest extends PHPUnit_Framework_TestCase {
     public function testGetAccessibleEmployeeIds() {
 
         
-        $mockService = $this->getMock('EmployeeService');
+        $mockService = $this->getMockBuilder('EmployeeService')->getMock();
         $mockService->expects($this->once())
                 ->method('getSubordinateIdListBySupervisorId')
                 ->will($this->returnValue(array(1, 3)));
@@ -57,7 +57,7 @@ class SupervisorUserRoleTest extends PHPUnit_Framework_TestCase {
     }
 
     public function testGetAccessibleEmployeePropertyList() {
-        $mockService = $this->getMock('EmployeeService');
+        $mockService = $this->getMockBuilder('EmployeeService')->getMock();
         $properties = array("empNumber", "firstName", "middleName", "lastName", "termination_id");
         $propertyList = new Doctrine_Collection('Employee');
         for ($i = 0; $i < 2; $i++) {
@@ -79,7 +79,7 @@ class SupervisorUserRoleTest extends PHPUnit_Framework_TestCase {
     }
 
     public function testGetAccessibleEmployees() {
-        $mockService = $this->getMock('EmployeeService');
+        $mockService = $this->getMockBuilder('EmployeeService')->getMock();
         $employeeList = new Doctrine_Collection('Employee');
         for ($i = 0; $i < 2; $i++) {
             $employee = new Employee();
@@ -104,7 +104,7 @@ class SupervisorUserRoleTest extends PHPUnit_Framework_TestCase {
     }
 //
 //    public function testGetAccessibleLocationIds() {
-//        $mockService = $this->getMock('LocationService');
+//        $mockService = $this->getMockBuilder('LocationService')->getMock();
 //        $locationList = new Doctrine_Collection('Location');
 //        for ($i = 0; $i < 3; $i++) {
 //            $location = new Location();
@@ -122,7 +122,7 @@ class SupervisorUserRoleTest extends PHPUnit_Framework_TestCase {
 //    }
 //
 //    public function testGetAccessibleOperationalCountryIds() {
-//        $mockService = $this->getMock('OperationalCountryService');
+//        $mockService = $this->getMockBuilder('OperationalCountryService')->getMock();
 //        $opCountryList = new Doctrine_Collection('OperationalCountry');
 //        for ($i = 0; $i < 3; $i++) {
 //            $operationalCountry = new OperationalCountry();
@@ -140,7 +140,7 @@ class SupervisorUserRoleTest extends PHPUnit_Framework_TestCase {
 //    }
 //
 //    public function testGetAccessibleSystemUserIds() {
-//        $mockService = $this->getMock('SystemUserService');
+//        $mockService = $this->getMockBuilder('SystemUserService')->getMock();
 //
 //        $mockService->expects($this->once())
 //                ->method('getSystemUserIdList')
@@ -152,7 +152,7 @@ class SupervisorUserRoleTest extends PHPUnit_Framework_TestCase {
 //    }
 //
 //    public function testGetAccessibleUserRoleIds() {
-//        $mockService = $this->getMock('SystemUserService');
+//        $mockService = $this->getMockBuilder('SystemUserService')->getMock();
 //        $roleList = new Doctrine_Collection('SystemUser');
 //        for ($i = 0; $i < 3; $i++) {
 //            $userRole = new UserRole();

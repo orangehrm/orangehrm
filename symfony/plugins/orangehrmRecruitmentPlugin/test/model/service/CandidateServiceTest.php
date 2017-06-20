@@ -45,7 +45,7 @@ class CandidateServiceTest extends PHPUnit_Framework_TestCase {
 
         $allCandidatesList = TestDataService::loadObjectList('JobCandidate', $this->fixture, 'JobCandidate');
 	$allowedCandidateList = array(1,2,3);
-        $candidateDao = $this->getMock('CandidateDao');
+        $candidateDao = $this->getMockBuilder('CandidateDao')->getMock();
 
         $candidateDao->expects($this->once())
                 ->method('getCandidateList')
@@ -71,7 +71,7 @@ class CandidateServiceTest extends PHPUnit_Framework_TestCase {
             }
         }
         
-        $candidateDao = $this->getMock('CandidateDao');
+        $candidateDao = $this->getMockBuilder('CandidateDao')->getMock();
 
         $candidateDao->expects($this->once())
                 ->method('getCandidateNameList')
@@ -95,7 +95,7 @@ class CandidateServiceTest extends PHPUnit_Framework_TestCase {
 
         $candidatesVacancyList = TestDataService::loadObjectList('JobCandidateVacancy', $this->fixture, 'JobCandidateVacancy');
         $canVacList = array($candidatesVacancyList[2], $candidatesVacancyList[3], $candidatesVacancyList[4]);
-        $candidateDao = $this->getMock('CandidateDao');
+        $candidateDao = $this->getMockBuilder('CandidateDao')->getMock();
 
         $candidateDao->expects($this->once())
                 ->method('searchCandidates')
@@ -116,13 +116,17 @@ class CandidateServiceTest extends PHPUnit_Framework_TestCase {
         $searchParam = new CandidateSearchParameters();
         $searchParam->setJobTitleCode('JOB002');
         
-        $candidateService = $this->getMock('CandidateService', array('buildSearchCountQuery'));        
+        $candidateService = $this->getMockBuilder('CandidateService')
+			->setMethods( array('buildSearchCountQuery'))
+			->getMock();        
         $candidateService->expects($this->once())
                 ->method('buildSearchCountQuery')
                 ->with($searchParam)
                 ->will($this->returnValue('searchCountQuery'));        
 
-        $candidateDao = $this->getMock('CandidateDao', array('getCandidateRecordsCount'));
+        $candidateDao = $this->getMockBuilder('CandidateDao')
+			->setMethods( array('getCandidateRecordsCount'))
+			->getMock();
         $candidateDao->expects($this->once())
                 ->method('getCandidateRecordsCount')
                 ->with('searchCountQuery')
@@ -142,7 +146,7 @@ class CandidateServiceTest extends PHPUnit_Framework_TestCase {
 
         $candidate = new JobCandidate();
 
-        $candidateDao = $this->getMock('CandidateDao');
+        $candidateDao = $this->getMockBuilder('CandidateDao')->getMock();
         $candidateDao->expects($this->once())
                 ->method('saveCandidate')
                 ->with($candidate)
@@ -161,7 +165,7 @@ class CandidateServiceTest extends PHPUnit_Framework_TestCase {
 
         $candidateVacancy = new JobCandidateVacancy();
 
-        $candidateDao = $this->getMock('CandidateDao');
+        $candidateDao = $this->getMockBuilder('CandidateDao')->getMock();
         $candidateDao->expects($this->once())
                 ->method('saveCandidateVacancy')
                 ->with($candidateVacancy)
@@ -180,7 +184,7 @@ class CandidateServiceTest extends PHPUnit_Framework_TestCase {
         $candidateVacancyList = TestDataService::loadObjectList('JobCandidateVacancy', $this->fixture, 'JobCandidateVacancy');
         $requiredObject = $candidateVacancyList[2];
 
-        $candidateDao = $this->getMock('CandidateDao');
+        $candidateDao = $this->getMockBuilder('CandidateDao')->getMock();
         $candidateDao->expects($this->once())
                 ->method('getCandidateVacancyById')
                 ->with(3)
@@ -197,7 +201,7 @@ class CandidateServiceTest extends PHPUnit_Framework_TestCase {
     public function testGetCandidateHistoryById() {
         $candidateHistoryList = TestDataService::loadObjectList('CandidateHistory', $this->fixture, 'CandidateHistory');
 
-        $candidateDao = $this->getMock('CandidateDao');
+        $candidateDao = $this->getMockBuilder('CandidateDao')->getMock();
         $candidateDao->expects($this->once())
                 ->method('getCandidateHistoryById')
                 ->with(1)
@@ -223,7 +227,9 @@ class CandidateServiceTest extends PHPUnit_Framework_TestCase {
         $toBeDeleteCandidateIds = array(1);
         $toBeDeletedRecords = array(1 =>array(1, 3));
         
-        $candidateDao = $this->getMock('CandidateDao', array('getAllVacancyIdsForCandidate', 'deleteCandidates', 'deleteCandidateVacancies'));
+        $candidateDao = $this->getMockBuilder('CandidateDao')
+			->setMethods( array('getAllVacancyIdsForCandidate', 'deleteCandidates', 'deleteCandidateVacancies'))
+			->getMock();
         
         $candidateDao->expects($this->any())
                      ->method('getAllVacancyIdsForCandidate')
@@ -250,7 +256,9 @@ class CandidateServiceTest extends PHPUnit_Framework_TestCase {
         $toBeDeleteCandidateIds = array(1);
         $toBeDeletedRecords = array(1 =>array(1, 3));
         
-        $candidateDao = $this->getMock('CandidateDao', array('getAllVacancyIdsForCandidate', 'deleteCandidates', 'deleteCandidateVacancies'));
+        $candidateDao = $this->getMockBuilder('CandidateDao')
+			->setMethods( array('getAllVacancyIdsForCandidate', 'deleteCandidates', 'deleteCandidateVacancies'))
+			->getMock();
         
         $candidateDao->expects($this->any())
                      ->method('getAllVacancyIdsForCandidate')
@@ -274,7 +282,9 @@ class CandidateServiceTest extends PHPUnit_Framework_TestCase {
         $toBeDeletedRecords = array(2 => array(1, 3));
         $toBeDeleteCandidateVacancies = array(array(2, 1), array(2, 3));
         
-        $candidateDao = $this->getMock('CandidateDao', array('getAllVacancyIdsForCandidate', 'deleteCandidates', 'deleteCandidateVacancies'));
+        $candidateDao = $this->getMockBuilder('CandidateDao')
+			->setMethods( array('getAllVacancyIdsForCandidate', 'deleteCandidates', 'deleteCandidateVacancies'))
+			->getMock();
         
         $candidateDao->expects($this->any())
                      ->method('getAllVacancyIdsForCandidate')
@@ -300,7 +310,7 @@ class CandidateServiceTest extends PHPUnit_Framework_TestCase {
         
         $requiredObject = $candidatesList[1];
 
-        $candidateDao = $this->getMock('CandidateDao');
+        $candidateDao = $this->getMockBuilder('CandidateDao')->getMock();
         $candidateDao->expects($this->once())
                 ->method('getCandidateById')
                 ->with(2)
@@ -319,7 +329,7 @@ class CandidateServiceTest extends PHPUnit_Framework_TestCase {
 
         $candidate = new JobCandidate();
         
-        $candidateDao = $this->getMock('CandidateDao');
+        $candidateDao = $this->getMockBuilder('CandidateDao')->getMock();
         $candidateDao->expects($this->once())
                 ->method('updateCandidate')
                 ->with($candidate)
@@ -338,7 +348,7 @@ class CandidateServiceTest extends PHPUnit_Framework_TestCase {
 
         $candidateHistory = new CandidateHistory();
 
-        $candidateDao = $this->getMock('CandidateDao');
+        $candidateDao = $this->getMockBuilder('CandidateDao')->getMock();
         $candidateDao->expects($this->once())
                 ->method('saveCandidateHistory')
                 ->with($candidateHistory)
@@ -358,7 +368,7 @@ class CandidateServiceTest extends PHPUnit_Framework_TestCase {
         $candidatesHistory = TestDataService::loadObjectList('CandidateHistory', $this->fixture, 'CandidateHistory');
         $expectedresult = $candidatesHistory[0];
 
-        $candidateDao = $this->getMock('CandidateDao');
+        $candidateDao = $this->getMockBuilder('CandidateDao')->getMock();
         $candidateDao->expects($this->once())
                 ->method('getCandidateHistoryForCandidateId')
                 ->with(1,1)
@@ -372,7 +382,7 @@ class CandidateServiceTest extends PHPUnit_Framework_TestCase {
     
     public function testDeleteCandidates() {
 
-        $candidateDao = $this->getMock('CandidateDao');
+        $candidateDao = $this->getMockBuilder('CandidateDao')->getMock();
         $candidateDao->expects($this->once())
                 ->method('deleteCandidates')
                 ->with(array(1,2))
@@ -391,7 +401,7 @@ class CandidateServiceTest extends PHPUnit_Framework_TestCase {
     public function testGetCandidateListForUserRole() {
         
         $exceptedValues = array(1,2);
-        $candidateDao = $this->getMock('CandidateDao');
+        $candidateDao = $this->getMockBuilder('CandidateDao')->getMock();
         $candidateDao->expects($this->once())
                 ->method('getCandidateListForUserRole')
                 ->with(HiringManagerUserRoleDecorator::HIRING_MANAGER, 1)
@@ -406,7 +416,7 @@ class CandidateServiceTest extends PHPUnit_Framework_TestCase {
     public function testGetCanidateHistoryForUserRole() {
         
         $exceptedValues = array(1);
-        $candidateDao = $this->getMock('CandidateDao');
+        $candidateDao = $this->getMockBuilder('CandidateDao')->getMock();
         $candidateDao->expects($this->once())
                 ->method('getCanidateHistoryForUserRole')
                 ->with(HiringManagerUserRoleDecorator::HIRING_MANAGER, 1, 1)
@@ -420,7 +430,7 @@ class CandidateServiceTest extends PHPUnit_Framework_TestCase {
     
     public function testIsHiringManager() {
         
-        $candidateDao = $this->getMock('CandidateDao');
+        $candidateDao = $this->getMockBuilder('CandidateDao')->getMock();
         $candidateDao->expects($this->once())
                 ->method('isHiringManager')
                 ->with(1, 1)
@@ -434,7 +444,7 @@ class CandidateServiceTest extends PHPUnit_Framework_TestCase {
     
     public function testIsInterviewer() {
         
-        $candidateDao = $this->getMock('CandidateDao');
+        $candidateDao = $this->getMockBuilder('CandidateDao')->getMock();
         $candidateDao->expects($this->once())
                 ->method('isInterviewer')
                 ->with(1, 1)
@@ -450,7 +460,7 @@ class CandidateServiceTest extends PHPUnit_Framework_TestCase {
 
         $candidatesVacancy = TestDataService::loadObjectList('JobCandidateVacancy', $this->fixture, 'JobCandidateVacancy');
         $expectedresult = $candidatesVacancy[5];
-        $candidateDao = $this->getMock('CandidateDao');
+        $candidateDao = $this->getMockBuilder('CandidateDao')->getMock();
         $candidateDao->expects($this->once())
                 ->method('getCandidateVacancyByCandidateIdAndVacancyId')
                 ->with(3,1)
@@ -472,13 +482,15 @@ class CandidateServiceTest extends PHPUnit_Framework_TestCase {
         $candidatesVacancy = TestDataService::loadObjectList('JobCandidateVacancy', $this->fixture, 'JobCandidateVacancy');
         $candidateVacancy = $candidatesVacancy[0];
         $userObj = new User();
-        $candidateService = $this->getMock('CandidateService', array ('getNextStateForCandidateVacancy'));
+        $candidateService = $this->getMockBuilder('CandidateService')
+			->setMethods( array ('getNextStateForCandidateVacancy'))
+			->getMock();
         $candidateService->expects($this->any())
                 ->method('getNextStateForCandidateVacancy')
                 ->with('SHORTLISTED', 3, $userObj)
                 ->will($this->returnValue('REJECTED'));
         
-        $candidateDao = $this->getMock('CandidateDao');
+        $candidateDao = $this->getMockBuilder('CandidateDao')->getMock();
         $candidateDao->expects($this->once())
                 ->method('updateCandidateVacancy')
                 ->with($candidateVacancy)
@@ -497,7 +509,9 @@ class CandidateServiceTest extends PHPUnit_Framework_TestCase {
         $expectedArray = array("" => "Select Action", 3 => "Reject", 4 => "Schedule Interview" );
         $allowedActions = array(3, 4);
         
-        $userObj = $this->getMock('User',array ('getAllowedActions'));
+        $userObj = $this->getMockBuilder('User')
+            ->setMethods(array ('getAllowedActions'))
+            ->getMock();
         $userObj->expects($this->once())
                 ->method('getAllowedActions')
                 ->with(PluginWorkflowStateMachine::FLOW_RECRUITMENT, 2)
@@ -508,7 +522,9 @@ class CandidateServiceTest extends PHPUnit_Framework_TestCase {
    
     public function testAddEmployee() {
         
-        $employeeServiceMock = $this->getMock('EmployeeService', array('saveEmployee'));
+        $employeeServiceMock = $this->getMockBuilder('EmployeeService')
+			->setMethods( array('saveEmployee'))
+			->getMock();
         $employeeServiceMock->expects($this->once())
                 ->method('saveEmployee')
                 ->will($this->returnValue(new Employee()));
@@ -524,7 +540,7 @@ class CandidateServiceTest extends PHPUnit_Framework_TestCase {
 
         $candidateHistory = new CandidateHistory();
         
-        $candidateDao = $this->getMock('CandidateDao');
+        $candidateDao = $this->getMockBuilder('CandidateDao')->getMock();
         $candidateDao->expects($this->once())
                 ->method('updateCandidateHistory')
                 ->with($candidateHistory)
@@ -538,7 +554,9 @@ class CandidateServiceTest extends PHPUnit_Framework_TestCase {
     
      public function testGetNextStateForCandidateVacancy() {
         
-        $userObj = $this->getMock('User',array ('getNextState'));
+        $userObj = $this->getMockBuilder('User')
+			->setMethods(array ('getNextState'))
+			->getMock();
         $userObj->expects($this->once())
                 ->method('getNextState')
                 ->with(PluginWorkflowStateMachine::FLOW_RECRUITMENT, 'SHORTLISTED', 3)

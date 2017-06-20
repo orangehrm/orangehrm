@@ -41,7 +41,7 @@ class LeaveMailerTest extends PHPUnit_Framework_TestCase {
         
         $recipientRoles = array('ESS', 'Supervisor', 'ABC');
         
-        $mockService = $this->getMock('EmailService', array('sendEmailNotifications'));
+        $mockService = $this->getMockBuilder('EmailService')->setMethods(array('sendEmailNotifications'))->getMock();
         $mockService->expects($this->once())
                 ->method('sendEmailNotifications')
                 ->with($emailType, $recipientRoles, $eventData, 'ess');

@@ -89,7 +89,7 @@ class ApiSupervisorAPITest extends PHPUnit_Framework_TestCase
 
         $this->employeeSupervisorAPI->setRequestParams($requestParams);
 
-        $pimEmployeeService = $this->getMock('EmployeeService');
+        $pimEmployeeService = $this->getMockBuilder('EmployeeService')->getMock();
         $pimEmployeeService->expects($this->any())
             ->method('getImmediateSupervisors')
             ->with($empNumber)
@@ -133,7 +133,7 @@ class ApiSupervisorAPITest extends PHPUnit_Framework_TestCase
         $supervisorsList = new Doctrine_Collection('ReportTo');
         $supervisorsList[] = $empSupervisorTest;
 
-        $pimEmployeeService = $this->getMock('EmployeeService');
+        $pimEmployeeService = $this->getMockBuilder('EmployeeService')->getMock();
         $pimEmployeeService->expects($this->any())
             ->method('getReportToObject')
             ->with(2,1)
@@ -159,7 +159,7 @@ class ApiSupervisorAPITest extends PHPUnit_Framework_TestCase
             ->will($this->returnValue($filters));
 
 
-        $reportingMethodConfigService = $this->getMock('ReportingMethodConfigurationService');
+        $reportingMethodConfigService = $this->getMockBuilder('ReportingMethodConfigurationService')->getMock();
         $reportingMethodConfigService->expects($this->any())
             ->method('getReportingMethodByName')
             ->with(null)

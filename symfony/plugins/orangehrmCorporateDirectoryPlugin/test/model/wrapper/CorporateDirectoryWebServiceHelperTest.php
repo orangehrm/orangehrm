@@ -42,7 +42,7 @@ class CorporateDirectoryWebServiceHelperTest extends PHPUnit_Framework_TestCase 
             $employee
         );
 
-        $employeeDirectoryServiceMock = $this->getMock('EmployeeDirectoryService');
+        $employeeDirectoryServiceMock = $this->getMockBuilder('EmployeeDirectoryService')->getMock();
         $employeeDirectoryServiceMock->expects($this->once())
                 ->method('searchEmployees')
                 ->will($this->returnValue($employees));
@@ -79,7 +79,7 @@ class CorporateDirectoryWebServiceHelperTest extends PHPUnit_Framework_TestCase 
             $employee
         );
 
-        $employeeDirectoryServiceMock = $this->getMock('EmployeeDirectoryService');
+        $employeeDirectoryServiceMock = $this->getMockBuilder('EmployeeDirectoryService')->getMock();
         $employeeDirectoryServiceMock->expects($this->once())
                 ->method('searchEmployees')
                 ->will($this->returnValue($employees));
@@ -112,7 +112,7 @@ class CorporateDirectoryWebServiceHelperTest extends PHPUnit_Framework_TestCase 
             $employee
         );
 
-        $employeeDirectoryServiceMock = $this->getMock('EmployeeDirectoryService');
+        $employeeDirectoryServiceMock = $this->getMockBuilder('EmployeeDirectoryService')->getMock();
         $employeeDirectoryServiceMock->expects($this->once())
                 ->method('searchEmployees')
                 ->will($this->returnValue($employees));
@@ -120,7 +120,7 @@ class CorporateDirectoryWebServiceHelperTest extends PHPUnit_Framework_TestCase 
                 ->method('getSearchEmployeeCount')
                 ->will($this->returnValue($count));
 
-        $employeeServiceMock = $this->getMock('EmployeeService');
+        $employeeServiceMock = $this->getMockBuilder('EmployeeService')->getMock();
         $employeeServiceMock->expects($this->once())
                 ->method('getEmployeePicture')
                 ->will($this->returnValue($empPicture));
@@ -143,7 +143,7 @@ class CorporateDirectoryWebServiceHelperTest extends PHPUnit_Framework_TestCase 
             $employee
         );
 
-        $employeeDirectoryServiceMock = $this->getMock('EmployeeDirectoryService');
+        $employeeDirectoryServiceMock = $this->getMockBuilder('EmployeeDirectoryService')->getMock();
         $employeeDirectoryServiceMock->expects($this->once())
                 ->method('searchEmployees')
                 ->will($this->returnValue($employees));
@@ -151,7 +151,7 @@ class CorporateDirectoryWebServiceHelperTest extends PHPUnit_Framework_TestCase 
                 ->method('getSearchEmployeeCount')
                 ->will($this->returnValue($count));
 
-        $employeeServiceMock = $this->getMock('EmployeeService');
+        $employeeServiceMock = $this->getMockBuilder('EmployeeService')->getMock();
         $employeeServiceMock->expects($this->once())
                 ->method('getEmployeePicture')
                 ->will($this->returnValue(null));

@@ -77,7 +77,7 @@ class ApiUsersAPITest extends PHPUnit_Framework_TestCase
 
         $adminUsersList[] = $adminUser;
 
-        $systemUserService = $this->getMock('SystemUserService');
+        $systemUserService = $this->getMockBuilder('SystemUserService')->getMock();
         $systemUserService->expects($this->any())
             ->method('searchSystemUsers')
             ->with($filters)

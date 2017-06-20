@@ -19,7 +19,7 @@ class PerforamanceReviewServiceTest extends PHPUnit_Framework_TestCase {
     public function testSaveReview() {
 
         $review = new PerformanceReview();
-        $daoMock = $this->getMock("PerformanceReviewDao", array("saveReview"));
+        $daoMock = $this->getMockBuilder("PerformanceReviewDao")->setMethods(array("saveReview"))->getMock();
         $daoMock->expects($this->any())
                 ->method('saveReview')
                 ->will($this->returnValue($review));
@@ -34,7 +34,7 @@ class PerforamanceReviewServiceTest extends PHPUnit_Framework_TestCase {
     public function testSearchReview() {
 
         $review = new PerformanceReview();
-        $daoMock = $this->getMock("PerformanceReviewDao", array("searchReview"));
+        $daoMock = $this->getMockBuilder("PerformanceReviewDao")->setMethods(array("searchReview"))->getMock();
         $daoMock->expects($this->any())
                 ->method('searchReview')
                 ->will($this->returnValue(array($review)));
@@ -48,7 +48,7 @@ class PerforamanceReviewServiceTest extends PHPUnit_Framework_TestCase {
 
     public function testDeleteReview() {
 
-        $daoMock = $this->getMock("PerformanceReviewDao", array("deleteReview"));
+        $daoMock = $this->getMockBuilder("PerformanceReviewDao")->setMethods(array("deleteReview"))->getMock();
         $daoMock->expects($this->any())
                 ->method('deleteReview')
                 ->will($this->returnValue(true));
@@ -62,7 +62,7 @@ class PerforamanceReviewServiceTest extends PHPUnit_Framework_TestCase {
 
     public function testDeleteReviewers() {
 
-        $daoMock = $this->getMock("PerformanceReviewDao", array("deleteReviewersByReviewId"));
+        $daoMock = $this->getMockBuilder("PerformanceReviewDao")->setMethods(array("deleteReviewersByReviewId"))->getMock();
         $daoMock->expects($this->any())
                 ->method('deleteReviewersByReviewId')
                 ->will($this->returnValue(true));
@@ -75,7 +75,7 @@ class PerforamanceReviewServiceTest extends PHPUnit_Framework_TestCase {
 
     public function testSearchReviewRating() {
         $array = array(0 => 1);
-        $daoMock = $this->getMock("PerformanceReviewDao", array("searchRating"));
+        $daoMock = $this->getMockBuilder("PerformanceReviewDao")->setMethods(array("searchRating"))->getMock();
         $daoMock->expects($this->any())
                 ->method('searchRating')
                 ->will($this->returnValue(array(1)));
@@ -88,7 +88,7 @@ class PerforamanceReviewServiceTest extends PHPUnit_Framework_TestCase {
 
     public function testGetReviewRating() {
         $array = array(0 => 1);
-        $daoMock = $this->getMock("PerformanceReviewDao", array("searchRating"));
+        $daoMock = $this->getMockBuilder("PerformanceReviewDao")->setMethods(array("searchRating"))->getMock();
         $daoMock->expects($this->any())
                 ->method('searchRating')
                 ->will($this->returnValue(array(1)));
@@ -101,7 +101,7 @@ class PerforamanceReviewServiceTest extends PHPUnit_Framework_TestCase {
 
     public function testGetReviwerEmployeeList() {
         $array = array(0 => 1);
-        $daoMock = $this->getMock("PerformanceReviewDao", array("getReviwerEmployeeList"));
+        $daoMock = $this->getMockBuilder("PerformanceReviewDao")->setMethods(array("getReviwerEmployeeList"))->getMock();
         $daoMock->expects($this->any())
                 ->method('getReviwerEmployeeList')
                 ->will($this->returnValue(array(1)));
@@ -116,7 +116,7 @@ class PerforamanceReviewServiceTest extends PHPUnit_Framework_TestCase {
 
     public function testGetCountReviewList() {
         $serachParams['limit'] = null;
-        $daoMock = $this->getMock("PerformanceReviewDao", array("getCountReviewList"));
+        $daoMock = $this->getMockBuilder("PerformanceReviewDao")->setMethods(array("getCountReviewList"))->getMock();
         $daoMock->expects($this->any())
                 ->method('getCountReviewList')
                 ->will($this->returnValue(array(1)));

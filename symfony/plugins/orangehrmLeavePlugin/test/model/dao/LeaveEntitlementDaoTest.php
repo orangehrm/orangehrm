@@ -416,7 +416,9 @@ class LeaveEntitlementDaoTest extends PHPUnit_Framework_TestCase {
         
         $unlinkedDateLimits = array('2001-01-01', '2020-01-01');
         
-        $mockStrategy = $this->getMock('FIFOEntitlementConsumptionStrategy', array('getLeaveWithoutEntitlementDateLimitsForLeaveBalance'));
+        $mockStrategy = $this->getMockBuilder('FIFOEntitlementConsumptionStrategy')
+			->setMethods( array('getLeaveWithoutEntitlementDateLimitsForLeaveBalance'))
+			->getMock();
         $mockStrategy->expects($this->any())
                     ->method('getLeaveWithoutEntitlementDateLimitsForLeaveBalance')
                     //->with($parameterHolder)
@@ -587,7 +589,9 @@ class LeaveEntitlementDaoTest extends PHPUnit_Framework_TestCase {
         
         $unlinkedDateLimits = array('2013-01-01', '2013-12-31');
         
-        $mockStrategy = $this->getMock('FIFOEntitlementConsumptionStrategy', array('getLeaveWithoutEntitlementDateLimitsForLeaveBalance'));
+        $mockStrategy = $this->getMockBuilder('FIFOEntitlementConsumptionStrategy')
+			->setMethods( array('getLeaveWithoutEntitlementDateLimitsForLeaveBalance'))
+			->getMock();
         $mockStrategy->expects($this->once())
                     ->method('getLeaveWithoutEntitlementDateLimitsForLeaveBalance')
                     ->with('2013-01-01', '2013-12-31')
@@ -605,7 +609,9 @@ class LeaveEntitlementDaoTest extends PHPUnit_Framework_TestCase {
     public function testGetLeaveBalanceExcludingUnlinkedLeaveWhenAfterPeriod() {
         $unlinkedDateLimits = array('2013-01-01', '2014-12-31');
         
-        $mockStrategy = $this->getMock('FIFOEntitlementConsumptionStrategy', array('getLeaveWithoutEntitlementDateLimitsForLeaveBalance'));
+        $mockStrategy = $this->getMockBuilder('FIFOEntitlementConsumptionStrategy')
+			->setMethods( array('getLeaveWithoutEntitlementDateLimitsForLeaveBalance'))
+			->getMock();
         $mockStrategy->expects($this->once())
                     ->method('getLeaveWithoutEntitlementDateLimitsForLeaveBalance')
                     ->with('2013-01-01', '2013-12-31')
@@ -623,7 +629,9 @@ class LeaveEntitlementDaoTest extends PHPUnit_Framework_TestCase {
     public function testGetLeaveBalanceExcludingUnlinkedBeforePeriod() {
         $unlinkedDateLimits = array('2012-01-01', '2013-12-31');
         
-        $mockStrategy = $this->getMock('FIFOEntitlementConsumptionStrategy', array('getLeaveWithoutEntitlementDateLimitsForLeaveBalance'));
+        $mockStrategy = $this->getMockBuilder('FIFOEntitlementConsumptionStrategy')
+			->setMethods( array('getLeaveWithoutEntitlementDateLimitsForLeaveBalance'))
+			->getMock();
         $mockStrategy->expects($this->once())
                     ->method('getLeaveWithoutEntitlementDateLimitsForLeaveBalance')
                     ->with('2013-01-01', '2013-12-31')
@@ -640,7 +648,9 @@ class LeaveEntitlementDaoTest extends PHPUnit_Framework_TestCase {
     
     public function testGetLeaveBalanceExcludingUnlinkedLeave() {
         
-        $mockStrategy = $this->getMock('FIFOEntitlementConsumptionStrategy', array('getLeaveWithoutEntitlementDateLimitsForLeaveBalance'));
+        $mockStrategy = $this->getMockBuilder('FIFOEntitlementConsumptionStrategy')
+			->setMethods( array('getLeaveWithoutEntitlementDateLimitsForLeaveBalance'))
+			->getMock();
         $mockStrategy->expects($this->once())
                     ->method('getLeaveWithoutEntitlementDateLimitsForLeaveBalance')
                     ->with('2013-01-01', '2013-12-31')

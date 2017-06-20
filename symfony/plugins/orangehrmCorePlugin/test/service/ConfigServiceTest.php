@@ -24,7 +24,7 @@ class ConfigServiceTest extends PHPUnit_Framework_TestCase {
         $dao = $this->configService->getConfigDao();
         $this->assertTrue($dao instanceof ConfigDao);
         
-        $mockDao = $this->getMock('ConfigDao');
+        $mockDao = $this->getMockBuilder('ConfigDao')->getMock();
         $this->configService->setConfigDao($mockDao);
         $dao = $this->configService->getConfigDao();
         $this->assertEquals($dao, $mockDao);
@@ -37,7 +37,7 @@ class ConfigServiceTest extends PHPUnit_Framework_TestCase {
         
         $value = 'Yes';
         
-        $mockDao = $this->getMock('ConfigDao');
+        $mockDao = $this->getMockBuilder('ConfigDao')->getMock();
         $mockDao->expects($this->once())
                  ->method('setValue')
                  ->with(ConfigService::KEY_LEAVE_PERIOD_DEFINED, $value);
@@ -61,7 +61,7 @@ class ConfigServiceTest extends PHPUnit_Framework_TestCase {
     public function testIsLeavePeriodDefined() {
         $value = true;
         
-        $mockDao = $this->getMock('ConfigDao');
+        $mockDao = $this->getMockBuilder('ConfigDao')->getMock();
         $mockDao->expects($this->once())
                  ->method('getValue')
                  ->with(ConfigService::KEY_LEAVE_PERIOD_DEFINED)
@@ -78,7 +78,7 @@ class ConfigServiceTest extends PHPUnit_Framework_TestCase {
      */
     public function testSetShowPimDeprecatedFields() {
         
-        $mockDao = $this->getMock('ConfigDao');
+        $mockDao = $this->getMockBuilder('ConfigDao')->getMock();
         $mockDao->expects($this->once())
                  ->method('setValue')
                  ->with(ConfigService::KEY_PIM_SHOW_DEPRECATED, 1);
@@ -87,7 +87,7 @@ class ConfigServiceTest extends PHPUnit_Framework_TestCase {
 
         $this->configService->setShowPimDeprecatedFields(true);
         
-        $mockDao = $this->getMock('ConfigDao');
+        $mockDao = $this->getMockBuilder('ConfigDao')->getMock();
         $mockDao->expects($this->once())
                  ->method('setValue')
                  ->with(ConfigService::KEY_PIM_SHOW_DEPRECATED, 0);
@@ -103,7 +103,7 @@ class ConfigServiceTest extends PHPUnit_Framework_TestCase {
      */
     public function testShowPimDeprecatedFields() {
         
-        $mockDao = $this->getMock('ConfigDao');
+        $mockDao = $this->getMockBuilder('ConfigDao')->getMock();
         $mockDao->expects($this->once())
                  ->method('getValue')
                  ->with(ConfigService::KEY_PIM_SHOW_DEPRECATED)
@@ -114,7 +114,7 @@ class ConfigServiceTest extends PHPUnit_Framework_TestCase {
         $returnVal = $this->configService->showPimDeprecatedFields();
         $this->assertTrue($returnVal);
 
-        $mockDao = $this->getMock('ConfigDao');
+        $mockDao = $this->getMockBuilder('ConfigDao')->getMock();
         $mockDao->expects($this->once())
                  ->method('getValue')
                  ->with(ConfigService::KEY_PIM_SHOW_DEPRECATED)
@@ -129,7 +129,7 @@ class ConfigServiceTest extends PHPUnit_Framework_TestCase {
 
     public function testSetShowPimSSN() {
 
-        $mockDao = $this->getMock('ConfigDao');
+        $mockDao = $this->getMockBuilder('ConfigDao')->getMock();
         $mockDao->expects($this->once())
                  ->method('setValue')
                  ->with(ConfigService::KEY_PIM_SHOW_SSN, 1);
@@ -138,7 +138,7 @@ class ConfigServiceTest extends PHPUnit_Framework_TestCase {
 
         $this->configService->setShowPimSSN(true);
         
-        $mockDao = $this->getMock('ConfigDao');
+        $mockDao = $this->getMockBuilder('ConfigDao')->getMock();
         $mockDao->expects($this->once())
                  ->method('setValue')
                  ->with(ConfigService::KEY_PIM_SHOW_SSN, 0);
@@ -150,7 +150,7 @@ class ConfigServiceTest extends PHPUnit_Framework_TestCase {
 
     public function testShowPimSSN() {
 
-        $mockDao = $this->getMock('ConfigDao');
+        $mockDao = $this->getMockBuilder('ConfigDao')->getMock();
         $mockDao->expects($this->once())
                  ->method('getValue')
                  ->with(ConfigService::KEY_PIM_SHOW_SSN)
@@ -161,7 +161,7 @@ class ConfigServiceTest extends PHPUnit_Framework_TestCase {
         $returnVal = $this->configService->showPimSSN();
         $this->assertTrue($returnVal);
 
-        $mockDao = $this->getMock('ConfigDao');
+        $mockDao = $this->getMockBuilder('ConfigDao')->getMock();
         $mockDao->expects($this->once())
                  ->method('getValue')
                  ->with(ConfigService::KEY_PIM_SHOW_SSN)
@@ -175,7 +175,7 @@ class ConfigServiceTest extends PHPUnit_Framework_TestCase {
 
     public function testSetShowPimSIN() {
 
-        $mockDao = $this->getMock('ConfigDao');
+        $mockDao = $this->getMockBuilder('ConfigDao')->getMock();
         $mockDao->expects($this->once())
                  ->method('setValue')
                  ->with(ConfigService::KEY_PIM_SHOW_SIN, 1);
@@ -184,7 +184,7 @@ class ConfigServiceTest extends PHPUnit_Framework_TestCase {
 
         $this->configService->setShowPimSIN(true);
         
-        $mockDao = $this->getMock('ConfigDao');
+        $mockDao = $this->getMockBuilder('ConfigDao')->getMock();
         $mockDao->expects($this->once())
                  ->method('setValue')
                  ->with(ConfigService::KEY_PIM_SHOW_SIN, 0);
@@ -196,7 +196,7 @@ class ConfigServiceTest extends PHPUnit_Framework_TestCase {
 
     public function testShowPimSIN() {
 
-        $mockDao = $this->getMock('ConfigDao');
+        $mockDao = $this->getMockBuilder('ConfigDao')->getMock();
         $mockDao->expects($this->once())
                  ->method('getValue')
                  ->with(ConfigService::KEY_PIM_SHOW_SIN)
@@ -207,7 +207,7 @@ class ConfigServiceTest extends PHPUnit_Framework_TestCase {
         $returnVal = $this->configService->showPimSIN();
         $this->assertTrue($returnVal);
 
-        $mockDao = $this->getMock('ConfigDao');
+        $mockDao = $this->getMockBuilder('ConfigDao')->getMock();
         $mockDao->expects($this->once())
                  ->method('getValue')
                  ->with(ConfigService::KEY_PIM_SHOW_SIN)
@@ -221,7 +221,7 @@ class ConfigServiceTest extends PHPUnit_Framework_TestCase {
 
     public function testSetShowPimTaxExemptions() {
 
-        $mockDao = $this->getMock('ConfigDao');
+        $mockDao = $this->getMockBuilder('ConfigDao')->getMock();
         $mockDao->expects($this->once())
                  ->method('setValue')
                  ->with(ConfigService::KEY_PIM_SHOW_TAX_EXEMPTIONS, 1);
@@ -230,7 +230,7 @@ class ConfigServiceTest extends PHPUnit_Framework_TestCase {
 
         $this->configService->setShowPimTaxExemptions(true);
         
-        $mockDao = $this->getMock('ConfigDao');
+        $mockDao = $this->getMockBuilder('ConfigDao')->getMock();
         $mockDao->expects($this->once())
                  ->method('setValue')
                  ->with(ConfigService::KEY_PIM_SHOW_TAX_EXEMPTIONS, 0);
@@ -240,7 +240,7 @@ class ConfigServiceTest extends PHPUnit_Framework_TestCase {
         $this->configService->setShowPimTaxExemptions(false);      
         
         // Exception
-        $mockDao = $this->getMock('ConfigDao');
+        $mockDao = $this->getMockBuilder('ConfigDao')->getMock();
         $mockDao->expects($this->once())
                  ->method('setValue')
                  ->with(ConfigService::KEY_PIM_SHOW_TAX_EXEMPTIONS, 0)
@@ -259,7 +259,7 @@ class ConfigServiceTest extends PHPUnit_Framework_TestCase {
 
     public function testShowPimTaxExemptions() {
 
-        $mockDao = $this->getMock('ConfigDao');
+        $mockDao = $this->getMockBuilder('ConfigDao')->getMock();
         $mockDao->expects($this->once())
                  ->method('getValue')
                  ->with(ConfigService::KEY_PIM_SHOW_TAX_EXEMPTIONS)
@@ -270,7 +270,7 @@ class ConfigServiceTest extends PHPUnit_Framework_TestCase {
         $returnVal = $this->configService->showPimTaxExemptions();
         $this->assertTrue($returnVal);
 
-        $mockDao = $this->getMock('ConfigDao');
+        $mockDao = $this->getMockBuilder('ConfigDao')->getMock();
         $mockDao->expects($this->once())
                  ->method('getValue')
                  ->with(ConfigService::KEY_PIM_SHOW_TAX_EXEMPTIONS)
@@ -282,7 +282,7 @@ class ConfigServiceTest extends PHPUnit_Framework_TestCase {
         $this->assertFalse($returnVal);         
         
         // Exception
-        $mockDao = $this->getMock('ConfigDao');
+        $mockDao = $this->getMockBuilder('ConfigDao')->getMock();
         $mockDao->expects($this->once())
                  ->method('getValue')
                  ->with(ConfigService::KEY_PIM_SHOW_TAX_EXEMPTIONS)
@@ -302,7 +302,7 @@ class ConfigServiceTest extends PHPUnit_Framework_TestCase {
     
     public function testSetSupervisorChainSuported() {
         
-        $mockDao = $this->getMock('ConfigDao');
+        $mockDao = $this->getMockBuilder('ConfigDao')->getMock();
         $mockDao->expects($this->once())
                  ->method('setValue')
                  ->with(ConfigService::KEY_INCLUDE_SUPERVISOR_CHAIN, 'Yes');
@@ -311,7 +311,7 @@ class ConfigServiceTest extends PHPUnit_Framework_TestCase {
 
         $this->configService->setSupervisorChainSuported(true);
         
-        $mockDao = $this->getMock('ConfigDao');
+        $mockDao = $this->getMockBuilder('ConfigDao')->getMock();
         $mockDao->expects($this->once())
                  ->method('setValue')
                  ->with(ConfigService::KEY_INCLUDE_SUPERVISOR_CHAIN, 'No');
@@ -324,7 +324,7 @@ class ConfigServiceTest extends PHPUnit_Framework_TestCase {
     
     public function testIsSupervisorChainSuported() {
 
-        $mockDao = $this->getMock('ConfigDao');
+        $mockDao = $this->getMockBuilder('ConfigDao')->getMock();
         $mockDao->expects($this->once())
                  ->method('getValue')
                  ->with(ConfigService::KEY_INCLUDE_SUPERVISOR_CHAIN)
@@ -335,7 +335,7 @@ class ConfigServiceTest extends PHPUnit_Framework_TestCase {
         $returnVal = $this->configService->isSupervisorChainSuported();
         $this->assertTrue($returnVal);
 
-        $mockDao = $this->getMock('ConfigDao');
+        $mockDao = $this->getMockBuilder('ConfigDao')->getMock();
         $mockDao->expects($this->once())
                  ->method('getValue')
                  ->with(ConfigService::KEY_INCLUDE_SUPERVISOR_CHAIN)
@@ -371,7 +371,9 @@ class ConfigServiceTest extends PHPUnit_Framework_TestCase {
     
     public function testGetAllValues() {
         $allValues = array('k1' => 'v1', 'k2' => 'v2');
-        $mockDao = $this->getMock('ConfigDao', array('getAllValues'));
+        $mockDao = $this->getMockBuilder('ConfigDao')
+			->setMethods( array('getAllValues'))
+			->getMock();
         $mockDao->expects($this->once())
                  ->method('getAllValues')
                  ->will($this->returnValue($allValues));
@@ -381,7 +383,7 @@ class ConfigServiceTest extends PHPUnit_Framework_TestCase {
     }
     
     protected function validateGetMethod($method, $key, $expected) {        
-        $mockDao = $this->getMock('ConfigDao');
+        $mockDao = $this->getMockBuilder('ConfigDao')->getMock();
         $mockDao->expects($this->once())
                  ->method('getValue')
                  ->with($key)
@@ -394,7 +396,7 @@ class ConfigServiceTest extends PHPUnit_Framework_TestCase {
     }
     
     protected function validateSetMethod($method, $key, $value) {        
-        $mockDao = $this->getMock('ConfigDao');
+        $mockDao = $this->getMockBuilder('ConfigDao')->getMock();
         $mockDao->expects($this->once())
                  ->method('setValue')
                  ->with($key, $value);

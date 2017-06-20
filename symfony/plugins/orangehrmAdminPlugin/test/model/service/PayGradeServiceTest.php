@@ -41,7 +41,7 @@ class PayGradeServiceTest extends PHPUnit_Framework_TestCase {
 
 		$payGradeList = TestDataService::loadObjectList('PayGrade', $this->fixture, 'PayGrade');
 
-		$payGradeDao = $this->getMock('PayGradeDao');
+		$payGradeDao = $this->getMockBuilder('PayGradeDao')->getMock();
 		$payGradeDao->expects($this->once())
 			->method('getPayGradeList')
 			->will($this->returnValue($payGradeList));
@@ -56,7 +56,7 @@ class PayGradeServiceTest extends PHPUnit_Framework_TestCase {
 
 		$payGradeList = TestDataService::loadObjectList('PayGrade', $this->fixture, 'PayGrade');
 
-		$payGradeDao = $this->getMock('PayGradeDao');
+		$payGradeDao = $this->getMockBuilder('PayGradeDao')->getMock();
 		$payGradeDao->expects($this->once())
 			->method('getPayGradeById')
 			->with(1)
@@ -73,7 +73,7 @@ class PayGradeServiceTest extends PHPUnit_Framework_TestCase {
 		$payGradeCurrencyList = TestDataService::loadObjectList('PayGradeCurrency', $this->fixture, 'PayGradeCurrency');
 		$payGradeCurrencyList = array($payGradeCurrencyList[0], $payGradeCurrencyList[1]);
 
-		$payGradeDao = $this->getMock('PayGradeDao');
+		$payGradeDao = $this->getMockBuilder('PayGradeDao')->getMock();
 		$payGradeDao->expects($this->once())
 			->method('getCurrencyListByPayGradeId')
 			->with(1)
@@ -89,7 +89,7 @@ class PayGradeServiceTest extends PHPUnit_Framework_TestCase {
 
 		$payGradeCurrencyList = TestDataService::loadObjectList('PayGradeCurrency', $this->fixture, 'PayGradeCurrency');
 
-		$payGradeDao = $this->getMock('PayGradeDao');
+		$payGradeDao = $this->getMockBuilder('PayGradeDao')->getMock();
 		$payGradeDao->expects($this->once())
 			->method('getCurrencyByCurrencyIdAndPayGradeId')
 			->with('USD', 1)

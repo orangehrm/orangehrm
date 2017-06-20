@@ -59,7 +59,9 @@ class OperationalCountryServiceTest extends PHPUnit_Framework_TestCase {
         $operationalCountryList[] = new OperationalCountry();
         $operationalCountryList[] = new OperationalCountry();
         
-        $operationalCountryDaoMock = $this->getMock('OperationalCountryDao', array('getOperationalCountryList'));
+        $operationalCountryDaoMock = $this->getMockBuilder('OperationalCountryDao')
+			->setMethods( array('getOperationalCountryList'))
+			->getMock();
         $operationalCountryDaoMock->expects($this->once())
                 ->method('getOperationalCountryList')
                 ->will($this->returnValue($operationalCountryList));
@@ -74,7 +76,9 @@ class OperationalCountryServiceTest extends PHPUnit_Framework_TestCase {
      * @expectedException ServiceException
      */
     public function testGetOperationalCountryList_WithException() {
-        $operationalCountryDaoMock = $this->getMock('OperationalCountryDao', array('getOperationalCountryList'));
+        $operationalCountryDaoMock = $this->getMockBuilder('OperationalCountryDao')
+			->setMethods( array('getOperationalCountryList'))
+			->getMock();
         $operationalCountryDaoMock->expects($this->once())
                 ->method('getOperationalCountryList')
                 ->will($this->throwException(new DaoException));
@@ -100,7 +104,9 @@ class OperationalCountryServiceTest extends PHPUnit_Framework_TestCase {
         $operationalCountry->setCountry($sriLanka);
         $operationalCountry->setCountryCode('LK');
         
-        $operationalCountryDaoMock = $this->getMock('OperationalCountryDao', array('getLocationsMappedToOperationalCountry'));
+        $operationalCountryDaoMock = $this->getMockBuilder('OperationalCountryDao')
+			->setMethods( array('getLocationsMappedToOperationalCountry'))
+			->getMock();
         $operationalCountryDaoMock->expects($this->once())
                 ->method('getLocationsMappedToOperationalCountry')
                 ->will($this->returnValue($locationList));
@@ -117,7 +123,9 @@ class OperationalCountryServiceTest extends PHPUnit_Framework_TestCase {
     public function testGetLocationsMappedToOperationalCountry_WithException() {
         $operationalCountry = new OperationalCountry();
         
-        $operationalCountryDaoMock = $this->getMock('OperationalCountryDao', array('getLocationsMappedToOperationalCountry'));
+        $operationalCountryDaoMock = $this->getMockBuilder('OperationalCountryDao')
+			->setMethods( array('getLocationsMappedToOperationalCountry'))
+			->getMock();
         $operationalCountryDaoMock->expects($this->once())
                 ->method('getLocationsMappedToOperationalCountry')
                 ->will($this->throwException(new DaoException));
@@ -140,7 +148,9 @@ class OperationalCountryServiceTest extends PHPUnit_Framework_TestCase {
         $operationalCountryList[] = new OperationalCountry();
         $operationalCountryList[] = new OperationalCountry();
         
-        $operationalCountryDaoMock = $this->getMock('OperationalCountryDao', array('getOperationalCountriesForLocations'));
+        $operationalCountryDaoMock = $this->getMockBuilder('OperationalCountryDao')
+			->setMethods( array('getOperationalCountriesForLocations'))
+			->getMock();
         $operationalCountryDaoMock->expects($this->once())
                 ->method('getOperationalCountriesForLocations')
                 ->with($locationIdList)
@@ -158,7 +168,9 @@ class OperationalCountryServiceTest extends PHPUnit_Framework_TestCase {
     public function testGetOperationalCountriesForLocations_WithException() {
         $operationalCountry = new OperationalCountry();
         
-        $operationalCountryDaoMock = $this->getMock('OperationalCountryDao', array('getOperationalCountriesForLocations'));
+        $operationalCountryDaoMock = $this->getMockBuilder('OperationalCountryDao')
+			->setMethods( array('getOperationalCountriesForLocations'))
+			->getMock();
         $operationalCountryDaoMock->expects($this->once())
                 ->method('getOperationalCountriesForLocations')
                 ->will($this->throwException(new DaoException));

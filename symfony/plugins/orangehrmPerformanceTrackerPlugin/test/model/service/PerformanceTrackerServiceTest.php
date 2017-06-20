@@ -37,7 +37,7 @@ class PerformanceTrackerServiceTest extends PHPUnit_Framework_TestCase {
     }
     
     public function testGetSetPerformanceTrackerDao() {
-        $mockDao = $this->getMock('PerformanceTrackerDao');
+        $mockDao = $this->getMockBuilder('PerformanceTrackerDao')->getMock();
         
         $this->performanceTrackerService->setPerformanceTrackDao($mockDao);
         $this->assertEquals($mockDao, $this->performanceTrackerService->getPerformanceTrackDao());
