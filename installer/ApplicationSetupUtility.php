@@ -24,6 +24,7 @@ require_once ROOT_PATH.'/symfony/plugins/orangehrmCorePlugin/lib/utility/Passwor
 
 class ApplicationSetupUtility {
 
+    private static $conn;
 
 public static function createDB() {
 
