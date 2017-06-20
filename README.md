@@ -28,7 +28,7 @@ The source that you have downloaded(ZIP archive) in which this was enclosed, is 
 directory structure as follows; ( since release of OrangeHRM version 0.1 we have altered 
 the directory structure, for further details please refer to the changelog.txt
 
-
+```
 |
 -dbscript
 |	|
@@ -85,6 +85,7 @@ the directory structure, for further details please refer to the changelog.txt
 	|
 	-- (pictures + style sheets)
 
+```
 
 For further information on how to use the product please refer the Free User Guide 
 available on http://orangehrm.com/
