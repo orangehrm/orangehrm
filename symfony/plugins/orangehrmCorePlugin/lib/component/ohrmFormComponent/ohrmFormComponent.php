@@ -248,7 +248,7 @@ EOT
         if (is_object($object)) {
             $this->object = $object;
         } elseif (is_object($service) && !empty($method)) {
-            $this->object = @call_user_method_array($method, $service, $params);
+            $this->object = @call_user_func_array(array($service, $method), $params);
         } else {
             throw new ohrmFormComponentException();
         }
