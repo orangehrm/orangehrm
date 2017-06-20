@@ -40,7 +40,7 @@ class LeaveEntitlementAPI extends EndPoint
     private $leaveEntitlementService;
     private $employeeService;
     private $leavePeriodService;
-
+    private $leaveTypeService;
     /**
      * @return \LeavePeriodService
      */
@@ -62,6 +62,26 @@ class LeaveEntitlementAPI extends EndPoint
     public function setLeavePeriodService($leavePeriodService)
     {
         $this->leavePeriodService = $leavePeriodService;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getLeaveTypeService()
+    {
+        if ($this->leaveTypeService == null) {
+            return new \LeaveTypeService();
+        } else {
+            return $this->leaveTypeService;
+        }
+    }
+
+    /**
+     * @param mixed $leaveTypeService
+     */
+    public function setLeaveTypeService($leaveTypeService)
+    {
+        $this->leaveTypeService = $leaveTypeService;
     }
 
     /**
@@ -174,6 +194,8 @@ class LeaveEntitlementAPI extends EndPoint
         $fromDate = $this->getRequestParams()->getUrlParam(self::PARAMETER_FROM_DATE);
         $toDate = $this->getRequestParams()->getUrlParam(self::PARAMETER_TO_DATE);
 
+        $this->validateLeaveType(PARAMETER_LEAVE_TYPE);
+
         $searchParameters->setEmpNumber($id);
         $searchParameters->setLeaveTypeId($leaveType);
         $searchParameters->setFromDate($fromDate);
@@ -210,6 +232,7 @@ class LeaveEntitlementAPI extends EndPoint
 
         if (!empty($this->getRequestParams()->getPostParam(self::PARAMETER_LEAVE_TYPE))) {
             $leaveEntitlementType = $this->getRequestParams()->getPostParam(self::PARAMETER_LEAVE_TYPE);
+            $this->validateLeaveType($leaveEntitlementType);
         } else {
             throw new InvalidParamException('Leave Type Cannot be Empty');
         }
@@ -279,6 +302,23 @@ class LeaveEntitlementAPI extends EndPoint
 
         }
         return false;
+    }
+
+    /**
+     * @param $typeId
+     * @return bool
+     * @throws InvalidParamException
+     */
+    protected function validateLeaveType($typeId)
+    {
+        $leaveTypeList = $this->getLeaveTypeService()->getLeaveTypeList();
+
+        foreach ($leaveTypeList as $leaveType) {
+            if ($leaveType->getId() == $typeId) {
+                return true;
+            }
+        }
+        throw new InvalidParamException('No Leave Types Available :'.$typeId);
     }
 
 }

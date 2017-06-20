@@ -293,11 +293,12 @@ class LeaveRequestAPI extends EndPoint
             $statusIdArray[] = \PluginLeave::LEAVE_STATUS_LEAVE_PENDING_APPROVAL;
         }
         if (!empty($filter[self::PARAMETER_REJECTED]) && $filter[self::PARAMETER_REJECTED] == 'true') {
-            $statusIdArray[] = -\PluginLeave::LEAVE_STATUS_LEAVE_REJECTED;
+            $statusIdArray[] = \PluginLeave::LEAVE_STATUS_LEAVE_REJECTED;
         }
         if (!empty($filter[self::PARAMETER_SCHEDULED]) && $filter[self::PARAMETER_SCHEDULED] == 'true') {
             $statusIdArray[] = \PluginLeave::LEAVE_STATUS_LEAVE_APPROVED;
         }
+
         return $statusIdArray;
 
     }
@@ -345,6 +346,12 @@ class LeaveRequestAPI extends EndPoint
         );
     }
 
+    /**
+     * Create parameter object
+     *
+     * @param $filters
+     * @return \ParameterObject
+     */
     protected function createParameters($filters)
     {
         $parameters = array();

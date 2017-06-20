@@ -22,6 +22,7 @@ namespace Orangehrm\Rest\Api\Leave;
 use Orangehrm\Rest\Api\EndPoint;
 use Orangehrm\Rest\Api\Exception\InvalidParamException;
 use Orangehrm\Rest\Api\Exception\BadRequestException;
+use Orangehrm\Rest\Api\Exception\RecordNotFoundException;
 use Orangehrm\Rest\Api\Leave\Service\APILeaveAssignmentService;
 
 use Orangehrm\Rest\Http\Response;
@@ -167,7 +168,8 @@ class SaveLeaveRequestAPI extends EndPoint
      */
     protected function filterParameters()
     {
-        $filters['txtEmpID'] = $this->getRequestParams()->getUrlParam(self::PARAMETER_ID);;
+        $filters['txtEmpID'] = $this->getRequestParams()->getUrlParam(self::PARAMETER_ID);
+        $this->validateEmployee($filters['txtEmpID']);
         $filters['txtLeaveType'] = ($this->getRequestParams()->getPostParam(self::PARAMETER_LEAVE_TYPE));
         $filters['txtFromDate'] = ($this->getRequestParams()->getPostParam(self::PARAMETER_FROM_DATE));
         $filters['txtToDate'] = ($this->getRequestParams()->getPostParam(self::PARAMETER_TO_DATE));
@@ -301,6 +303,11 @@ class SaveLeaveRequestAPI extends EndPoint
         return $duration;
     }
 
+    /**
+     * @param $typeId
+     * @return bool
+     * @throws InvalidParamException
+     */
     protected function validateLeaveType($typeId)
     {
         $leaveTypeList = $this->getLeaveTypeService()->getLeaveTypeList();
@@ -332,6 +339,21 @@ class SaveLeaveRequestAPI extends EndPoint
         }
         else{
            return false;
+        }
+    }
+
+    /**
+     * Validate employee
+     *
+     * @param $id employee ID
+     * @throws RecordNotFoundException
+     */
+    public function validateEmployee($id){
+
+        $employee = $this->getEmployeeService()->getEmployee($id);
+
+        if (empty($employee)) {
+            throw new RecordNotFoundException('Employee Not Found');
         }
     }
 
