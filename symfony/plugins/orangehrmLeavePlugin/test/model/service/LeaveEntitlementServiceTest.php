@@ -41,7 +41,9 @@ class LeaveEntitlementServiceTest extends PHPUnit_Framework_TestCase {
         $leaveEntitlements  = TestDataService::loadObjectList('LeaveEntitlement', $this->fixture, 'LeaveEntitlement');
         $parameterHolder = new LeaveEntitlementSearchParameterHolder();
 
-        $mockDao = $this->getMock('LeaveEntitlementDao', array('searchLeaveEntitlements'));
+        $mockDao = $this->getMockBuilder('LeaveEntitlementDao')
+			->setMethods( array('searchLeaveEntitlements'))
+			->getMock();
         $mockDao->expects($this->once())
                     ->method('searchLeaveEntitlements')
                     ->with($parameterHolder)
@@ -57,7 +59,9 @@ class LeaveEntitlementServiceTest extends PHPUnit_Framework_TestCase {
         $leaveEntitlements  = TestDataService::loadObjectList('LeaveEntitlement', $this->fixture, 'LeaveEntitlement');
         $leaveEntitlement = $leaveEntitlements[0];
 
-        $mockDao = $this->getMock('LeaveEntitlementDao', array('saveLeaveEntitlement'));
+        $mockDao = $this->getMockBuilder('LeaveEntitlementDao')
+			->setMethods( array('saveLeaveEntitlement'))
+			->getMock();
         $mockDao->expects($this->once())
                     ->method('saveLeaveEntitlement')
                     ->with($leaveEntitlement)
@@ -84,7 +88,9 @@ class LeaveEntitlementServiceTest extends PHPUnit_Framework_TestCase {
         $leaveEntitlements = array($leaveEntitlement1, $leaveEntitlement2, $leaveEntitlement3);
         
         
-        $mockDao = $this->getMock('LeaveEntitlementDao', array('deleteLeaveEntitlements', 'searchLeaveEntitlements'));
+        $mockDao = $this->getMockBuilder('LeaveEntitlementDao')
+			->setMethods( array('deleteLeaveEntitlements', 'searchLeaveEntitlements'))
+			->getMock();
         $mockDao->expects($this->once())
                     ->method('deleteLeaveEntitlements')
                     ->with($ids)
@@ -106,7 +112,9 @@ class LeaveEntitlementServiceTest extends PHPUnit_Framework_TestCase {
         $leaveEntitlements = TestDataService::loadObjectList('LeaveEntitlement', $this->fixture, 'LeaveEntitlement');
         $leaveEntitlement = $leaveEntitlements[0];
 
-        $mockDao = $this->getMock('LeaveEntitlementDao', array('getLeaveEntitlement'));
+        $mockDao = $this->getMockBuilder('LeaveEntitlementDao')
+			->setMethods( array('getLeaveEntitlement'))
+			->getMock();
         $mockDao->expects($this->once())
                 ->method('getLeaveEntitlement')
                 ->with($id)
@@ -127,7 +135,9 @@ class LeaveEntitlementServiceTest extends PHPUnit_Framework_TestCase {
         $fromDate = $leaveEntitlement->getFromDate();
         $toDate = $leaveEntitlement->getToDate();
         
-        $mockDao = $this->getMock('LeaveEntitlementDao', array('getMatchingEntitlements'));
+        $mockDao = $this->getMockBuilder('LeaveEntitlementDao')
+			->setMethods( array('getMatchingEntitlements'))
+			->getMock();
         $mockDao->expects($this->once())
                 ->method('getMatchingEntitlements')
                 ->with($empNumber, $leaveTypeId, $fromDate, $toDate)
@@ -150,7 +160,9 @@ class LeaveEntitlementServiceTest extends PHPUnit_Framework_TestCase {
         $leaveEntitlementType->setName('ADD');
         $leaveEntitlementTypeList[] = $leaveEntitlementType;        
         
-        $mockDao = $this->getMock('LeaveEntitlementDao', array('getLeaveEntitlementTypeList'));
+        $mockDao = $this->getMockBuilder('LeaveEntitlementDao')
+			->setMethods( array('getLeaveEntitlementTypeList'))
+			->getMock();
         $mockDao->expects($this->once())
                 ->method('getLeaveEntitlementTypeList')
                 ->with($sortField, $sortOrder)

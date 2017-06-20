@@ -55,8 +55,11 @@ class WSHelperTest extends PHPUnit_Framework_TestCase {
      * @covers WSHelper::extractParameters
      */
     public function testExtractParameters() {
-        $requestMock = $this->getMock('sfWebRequest', array('getMethod', 'getHttpHeader', 'getRequestParameters', 'getContentType'), 
-            array(new sfEventDispatcher()));
+        $requestMock = $this->getMockBuilder('sfWebRequest')
+            ->setMethods(array('getMethod', 'getHttpHeader', 'getRequestParameters', 'getContentType'))
+            ->setConstructorArgs(array(new sfEventDispatcher()))
+            ->getMock();
+
         $requestMock->expects($this->once())
                 ->method('getMethod')
                 ->will($this->returnValue('GET'));
@@ -90,7 +93,10 @@ class WSHelperTest extends PHPUnit_Framework_TestCase {
      * @expectedException WebServiceException
      */
     public function testextractParameters_InvalidAuthParameterHeaders() {
-        $requestMock = $this->getMock('sfWebRequest', array('getMethod', 'getHttpHeader', 'getRequestParameters'), array(new sfEventDispatcher()));
+        $requestMock = $this->getMockBuilder('sfWebRequest')
+			->setMethods( array('getMethod', 'getHttpHeader', 'getRequestParameters'))
+            ->setConstructorArgs(array(new sfEventDispatcher()))
+			->getMock();
         $requestMock->expects($this->once())
                 ->method('getMethod')
                 ->will($this->returnValue('GET'));
@@ -116,7 +122,10 @@ class WSHelperTest extends PHPUnit_Framework_TestCase {
      * @expectedException WebServiceException
      */
     public function testextractParameters_WithEmptyModuleAndMethod() {
-        $requestMock = $this->getMock('sfWebRequest', array('getMethod', 'getHttpHeader', 'getRequestParameters'), array(new sfEventDispatcher()));
+        $requestMock = $this->getMockBuilder('sfWebRequest')
+			->setMethods( array('getMethod', 'getHttpHeader', 'getRequestParameters'))
+            ->setConstructorArgs(array(new sfEventDispatcher()))
+			->getMock();
         $requestMock->expects($this->once())
                 ->method('getMethod')
                 ->will($this->returnValue('GET'));
@@ -146,7 +155,9 @@ class WSHelperTest extends PHPUnit_Framework_TestCase {
 
         $expcetedString = json_encode($result);
 
-        $wsUtilityServiceMock = $this->getMock('WSUtilityService', array('format'));
+        $wsUtilityServiceMock = $this->getMockBuilder('WSUtilityService')
+			->setMethods( array('format'))
+			->getMock();
         $wsUtilityServiceMock->expects($this->once())
                 ->method('format')
                 ->will($this->returnValue(json_encode($result)));

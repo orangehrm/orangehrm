@@ -40,7 +40,7 @@ class WorkShiftServiceTest extends PHPUnit_Framework_TestCase {
 
         $workShiftList = TestDataService::loadObjectList('WorkShift', $this->fixture, 'WorkShift');
 
-        $workShiftDao = $this->getMock('WorkShiftDao');
+        $workShiftDao = $this->getMockBuilder('WorkShiftDao')->getMock();
         $workShiftDao->expects($this->once())
                 ->method('getWorkShiftList')
                 ->will($this->returnValue($workShiftList));
@@ -55,7 +55,7 @@ class WorkShiftServiceTest extends PHPUnit_Framework_TestCase {
 
         $workShiftList = TestDataService::loadObjectList('WorkShift', $this->fixture, 'WorkShift');
 
-        $workShiftDao = $this->getMock('WorkShiftDao');
+        $workShiftDao = $this->getMockBuilder('WorkShiftDao')->getMock();
         $workShiftDao->expects($this->once())
                 ->method('getWorkShiftById')
                 ->with(1)
@@ -71,7 +71,7 @@ class WorkShiftServiceTest extends PHPUnit_Framework_TestCase {
 
         $workShiftList = TestDataService::loadObjectList('EmployeeWorkShift', $this->fixture, 'EmployeeWorkShift');
 
-        $workShiftDao = $this->getMock('WorkShiftDao');
+        $workShiftDao = $this->getMockBuilder('WorkShiftDao')->getMock();
         $workShiftDao->expects($this->once())
                 ->method('getWorkShiftEmployeeListById')
                 ->with(1)
@@ -87,7 +87,7 @@ class WorkShiftServiceTest extends PHPUnit_Framework_TestCase {
 
         $workShiftList = TestDataService::loadObjectList('EmployeeWorkShift', $this->fixture, 'EmployeeWorkShift');
 
-        $workShiftDao = $this->getMock('WorkShiftDao');
+        $workShiftDao = $this->getMockBuilder('WorkShiftDao')->getMock();
         $workShiftDao->expects($this->once())
                 ->method('getWorkShiftEmployeeList')
                 ->will($this->returnValue($workShiftList));
@@ -102,7 +102,7 @@ class WorkShiftServiceTest extends PHPUnit_Framework_TestCase {
 
         $workShiftList = TestDataService::loadObjectList('WorkShift', $this->fixture, 'WorkShift');
 
-        $workShiftDao = $this->getMock('WorkShiftDao');
+        $workShiftDao = $this->getMockBuilder('WorkShiftDao')->getMock();
         $workShiftDao->expects($this->once())
                 ->method('updateWorkShift')
                 ->with($workShiftList[0])
@@ -118,7 +118,9 @@ class WorkShiftServiceTest extends PHPUnit_Framework_TestCase {
         $startTime = '07:23';
         $endTime = '19:00';
 
-        $configService = $this->getMock('ConfigService', array('getDefaultWorkShiftStartTime', 'getDefaultWorkShiftEndTime'));
+        $configService = $this->getMockBuilder('ConfigService')
+			->setMethods( array('getDefaultWorkShiftStartTime', 'getDefaultWorkShiftEndTime'))
+			->getMock();
         $configService->expects($this->once())
                 ->method('getDefaultWorkShiftStartTime')
                 ->will($this->returnValue($startTime));
@@ -136,7 +138,9 @@ class WorkShiftServiceTest extends PHPUnit_Framework_TestCase {
     }
 
     public function testGetWorkShiftDefaultStartAndEndTimeWhenNoDefaultConfigured() {
-        $configService = $this->getMock('ConfigService', array('getDefaultWorkShiftStartTime', 'getDefaultWorkShiftEndTime'));
+        $configService = $this->getMockBuilder('ConfigService')
+			->setMethods( array('getDefaultWorkShiftStartTime', 'getDefaultWorkShiftEndTime'))
+			->getMock();
         $configService->expects($this->once())
                 ->method('getDefaultWorkShiftStartTime')
                 ->will($this->returnValue(null));
@@ -154,7 +158,9 @@ class WorkShiftServiceTest extends PHPUnit_Framework_TestCase {
     }
 
     public function testGetWorkShiftDefaultStartAndEndTimeWithInvalidDefaultStartTime() {
-        $configService = $this->getMock('ConfigService', array('getDefaultWorkShiftStartTime', 'getDefaultWorkShiftEndTime'));
+        $configService = $this->getMockBuilder('ConfigService')
+			->setMethods( array('getDefaultWorkShiftStartTime', 'getDefaultWorkShiftEndTime'))
+			->getMock();
         $configService->expects($this->once())
                 ->method('getDefaultWorkShiftStartTime')
                 ->will($this->returnValue('II:00'));
@@ -172,7 +178,9 @@ class WorkShiftServiceTest extends PHPUnit_Framework_TestCase {
     }
 
     public function testGetWorkShiftDefaultStartAndEndTimeWithInvalidDefaultEndTime() {
-        $configService = $this->getMock('ConfigService', array('getDefaultWorkShiftStartTime', 'getDefaultWorkShiftEndTime'));
+        $configService = $this->getMockBuilder('ConfigService')
+			->setMethods( array('getDefaultWorkShiftStartTime', 'getDefaultWorkShiftEndTime'))
+			->getMock();
         $configService->expects($this->once())
                 ->method('getDefaultWorkShiftStartTime')
                 ->will($this->returnValue('08:00'));
@@ -190,7 +198,9 @@ class WorkShiftServiceTest extends PHPUnit_Framework_TestCase {
     }
 
     public function testGetWorkShiftDefaultStartAndEndTimeWhenDefaultDurationNegative() {
-        $configService = $this->getMock('ConfigService', array('getDefaultWorkShiftStartTime', 'getDefaultWorkShiftEndTime'));
+        $configService = $this->getMockBuilder('ConfigService')
+			->setMethods( array('getDefaultWorkShiftStartTime', 'getDefaultWorkShiftEndTime'))
+			->getMock();
         $configService->expects($this->once())
                 ->method('getDefaultWorkShiftStartTime')
                 ->will($this->returnValue('17:00'));
@@ -211,7 +221,9 @@ class WorkShiftServiceTest extends PHPUnit_Framework_TestCase {
         $startTime = '07:23';
         $endTime = '07:50';
 
-        $configService = $this->getMock('ConfigService', array('getDefaultWorkShiftStartTime', 'getDefaultWorkShiftEndTime'));
+        $configService = $this->getMockBuilder('ConfigService')
+			->setMethods( array('getDefaultWorkShiftStartTime', 'getDefaultWorkShiftEndTime'))
+			->getMock();
         $configService->expects($this->once())
                 ->method('getDefaultWorkShiftStartTime')
                 ->will($this->returnValue($startTime));

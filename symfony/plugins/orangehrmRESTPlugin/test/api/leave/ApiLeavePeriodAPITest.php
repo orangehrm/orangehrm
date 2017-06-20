@@ -61,7 +61,7 @@ class ApiLeavePeriodAPITest extends PHPUnit_Framework_TestCase
         $leavePeriodList = array(array('2017-01-01','2018-01-01'),array('2018-01-01','2019-01-01'));
 
 
-        $leavePeriodService = $this->getMock('LeavePeriodService');
+        $leavePeriodService = $this->getMockBuilder('LeavePeriodService')->getMock();
         $leavePeriodService->expects($this->any())
             ->method('getGeneratedLeavePeriodList')
             ->will($this->returnValue($leavePeriodList));

@@ -20,7 +20,7 @@ class KpiServiceTest extends PHPUnit_Framework_TestCase {
     public function testSaveKpi() {
 
         $kpi360 = new Kpi();
-        $daoMock = $this->getMock("KpiDao", array("saveKpi"));
+        $daoMock = $this->getMockBuilder("KpiDao")->setMethods(array("saveKpi"))->getMock();
         $daoMock->expects($this->any())
                 ->method('saveKpi')
                 ->will($this->returnValue($kpi360));
@@ -35,7 +35,7 @@ class KpiServiceTest extends PHPUnit_Framework_TestCase {
     public function testSearchKpi1() {
 
         $kpi360 = new Kpi();
-        $daoMock = $this->getMock("KpiDao", array("searchKpi"));
+        $daoMock = $this->getMockBuilder("KpiDao")->setMethods(array("searchKpi"))->getMock();
         $daoMock->expects($this->any())
                 ->method('searchKpi')
                 ->will($this->returnValue(array($kpi360)));
@@ -50,7 +50,7 @@ class KpiServiceTest extends PHPUnit_Framework_TestCase {
 
     public function testDeleteKpi() {
 
-        $daoMock = $this->getMock("KpiDao", array("deleteKpi"));
+        $daoMock = $this->getMockBuilder("KpiDao")->setMethods(array("deleteKpi"))->getMock();
         $daoMock->expects($this->any())
                 ->method('deleteKpi')
                 ->with($this->equalTo(array('1', '2')))
@@ -64,7 +64,7 @@ class KpiServiceTest extends PHPUnit_Framework_TestCase {
 
     public function testSearchKpi() {
 
-        $daoMock = $this->getMock("KpiDao", array("searchKpi"));
+        $daoMock = $this->getMockBuilder("KpiDao")->setMethods(array("searchKpi"))->getMock();
         $daoMock->expects($this->any())
                 ->method('searchKpi')
                 ->will($this->returnValue(array(1)));
@@ -76,7 +76,7 @@ class KpiServiceTest extends PHPUnit_Framework_TestCase {
     }
     
     public function testSearchKpiByJobTitle(){
-        $daoMock = $this->getMock("KpiDao", array("searchKpiByJobTitle"));
+        $daoMock = $this->getMockBuilder("KpiDao")->setMethods(array("searchKpiByJobTitle"))->getMock();
         $daoMock->expects($this->any())
                 ->method('searchKpiByJobTitle')
                 ->will($this->returnValue(array(1)));

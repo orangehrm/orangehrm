@@ -116,7 +116,9 @@ class WorkWeekDaoTest extends PHPUnit_Framework_TestCase {
      */
     public function testSaveWorkWeekException() {
 
-        $workWeek = $this->getMock('WorkWeek', array('save'));
+        $workWeek = $this->getMockBuilder('WorkWeek')
+			->setMethods( array('save'))
+			->getMock();
         $workWeek->expects($this->once())
                 ->method('save')
                 ->will($this->throwException(new Exception()));

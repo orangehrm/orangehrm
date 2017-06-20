@@ -44,7 +44,7 @@ class PIMLeftMenuServiceTest extends PHPUnit_Framework_TestCase {
             array(PIMLeftMenuService::PIM_LEFTMENU_SESSION_KEY, array(), array()),
         );
         
-        $mocksfUser = $this->getMock('MockSfUser');
+        $mocksfUser = $this->getMockBuilder('MockSfUser')->getMock();
         $mocksfUser->expects($this->exactly(3))
              ->method('getAttribute')
              ->will($this->returnValueMap($getAttributeMap));
@@ -56,7 +56,7 @@ class PIMLeftMenuServiceTest extends PHPUnit_Framework_TestCase {
              ->with(PIMLeftMenuService::PIM_LEFTMENU_TAXMENU_ENABLED)
              ->will($this->returnValue(true));
         
-        $mockUserRoleManager = $this->getMock('BasicUserRoleManager');
+        $mockUserRoleManager = $this->getMockBuilder('BasicUserRoleManager')->getMock();
         $mockUserRoleManager->expects($this->any())
              ->method('getDataGroupPermissions')
              ->will($this->returnValue($permission));
@@ -85,7 +85,7 @@ class PIMLeftMenuServiceTest extends PHPUnit_Framework_TestCase {
             array(PIMLeftMenuService::PIM_LEFTMENU_SESSION_KEY, array(), array()),
         );
         
-        $mocksfUser = $this->getMock('MockSfUser');
+        $mocksfUser = $this->getMockBuilder('MockSfUser')->getMock();
         $mocksfUser->expects($this->exactly(3))
              ->method('getAttribute')
              ->will($this->returnValueMap($getAttributeMap));
@@ -107,7 +107,7 @@ class PIMLeftMenuServiceTest extends PHPUnit_Framework_TestCase {
             return $permission;
         };
         
-        $mockUserRoleManager = $this->getMock('BasicUserRoleManager');
+        $mockUserRoleManager = $this->getMockBuilder('BasicUserRoleManager')->getMock();
         $mockUserRoleManager->expects($this->any())
              ->method('getDataGroupPermissions')
              ->will($this->returnCallback($dataGroupClosure));
@@ -133,7 +133,7 @@ class PIMLeftMenuServiceTest extends PHPUnit_Framework_TestCase {
         unset($clearedCache[$empNumber]);        
         $this->assertEquals(count($clearedCache) + 1, count($cache));
         
-        $mocksfUser = $this->getMock('MockSfUser');
+        $mocksfUser = $this->getMockBuilder('MockSfUser')->getMock();
         $mocksfUser->expects($this->once())
              ->method('getAttribute')
              ->with(PIMLeftMenuService::PIM_LEFTMENU_SESSION_KEY, array())
@@ -153,7 +153,7 @@ class PIMLeftMenuServiceTest extends PHPUnit_Framework_TestCase {
         $cache = array(34 => $allMenuItems, 55 => $allMenuItems);
 
         
-        $mocksfUser = $this->getMock('MockSfUser');
+        $mocksfUser = $this->getMockBuilder('MockSfUser')->getMock();
         $mocksfUser->expects($this->once())
              ->method('getAttribute')
              ->with(PIMLeftMenuService::PIM_LEFTMENU_SESSION_KEY, array())
@@ -172,7 +172,7 @@ class PIMLeftMenuServiceTest extends PHPUnit_Framework_TestCase {
         $cache = array(34 => $allMenuItems, 55 => $allMenuItems, 101 => $allMenuItems);
 
         
-        $mocksfUser = $this->getMock('MockSfUser');
+        $mocksfUser = $this->getMockBuilder('MockSfUser')->getMock();
         $mocksfUser->expects($this->once())
              ->method('getAttribute')
              ->with(PIMLeftMenuService::PIM_LEFTMENU_SESSION_KEY, array())
@@ -197,7 +197,7 @@ class PIMLeftMenuServiceTest extends PHPUnit_Framework_TestCase {
             array(PIMLeftMenuService::PIM_LEFTMENU_SESSION_KEY, array(), array()),
         );
         
-        $mocksfUser = $this->getMock('MockSfUser');
+        $mocksfUser = $this->getMockBuilder('MockSfUser')->getMock();
         $mocksfUser->expects($this->exactly(3))
              ->method('getAttribute')
              ->will($this->returnValueMap($getAttributeMap));
@@ -209,7 +209,7 @@ class PIMLeftMenuServiceTest extends PHPUnit_Framework_TestCase {
              ->with(PIMLeftMenuService::PIM_LEFTMENU_TAXMENU_ENABLED)
              ->will($this->returnValue(true));
         
-        $mockUserRoleManager = $this->getMock('BasicUserRoleManager');
+        $mockUserRoleManager = $this->getMockBuilder('BasicUserRoleManager')->getMock();
         $mockUserRoleManager->expects($this->any())
              ->method('getDataGroupPermissions')
              ->will($this->returnValue($permission));
@@ -232,7 +232,7 @@ class PIMLeftMenuServiceTest extends PHPUnit_Framework_TestCase {
             array(PIMLeftMenuService::PIM_LEFTMENU_SESSION_KEY, array(), array()),
         );
         
-        $mocksfUser = $this->getMock('MockSfUser');
+        $mocksfUser = $this->getMockBuilder('MockSfUser')->getMock();
         $mocksfUser->expects($this->exactly(3))
              ->method('getAttribute')
              ->will($this->returnValueMap($getAttributeMap));
@@ -244,7 +244,7 @@ class PIMLeftMenuServiceTest extends PHPUnit_Framework_TestCase {
              ->with(PIMLeftMenuService::PIM_LEFTMENU_TAXMENU_ENABLED)
              ->will($this->returnValue(true));
         
-        $mockUserRoleManager = $this->getMock('BasicUserRoleManager');
+        $mockUserRoleManager = $this->getMockBuilder('BasicUserRoleManager')->getMock();
         $mockUserRoleManager->expects($this->any())
              ->method('getDataGroupPermissions')
              ->will($this->returnValue($permission));

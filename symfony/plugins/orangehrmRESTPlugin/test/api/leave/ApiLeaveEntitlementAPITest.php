@@ -71,7 +71,10 @@ class ApiLeaveEntitlementAPITest extends PHPUnit_Framework_TestCase
         $entitlementsCollection = new Doctrine_Collection('LeaveEntitlement');
         $entitlementsCollection[] = $leaveEntitlement;
 
-        $entitlementApi = $this->getMock('Orangehrm\Rest\Api\Leave\LeaveEntitlementAPI',array('createEntitlement'),array($request));
+        $entitlementApi = $this->getMockBuilder('Orangehrm\Rest\Api\Leave\LeaveEntitlementAPI')
+            ->setMethods(array('createEntitlement'))
+            ->setConstructorArgs(array($request))
+            ->getMock();
         $entitlementApi->expects($this->once())
             ->method('createEntitlement')
             ->will($this->returnValue($leaveEntitlement));
@@ -79,7 +82,7 @@ class ApiLeaveEntitlementAPITest extends PHPUnit_Framework_TestCase
 
         $entitlementApi->setRequestParams($requestParams);
 
-        $entitlementService = $this->getMock('LeaveEntitlementService');
+        $entitlementService = $this->getMockBuilder('LeaveEntitlementService')->getMock();
         $entitlementService->expects($this->any())
             ->method('saveLeaveEntitlement')
             ->with($leaveEntitlement)
@@ -129,14 +132,17 @@ class ApiLeaveEntitlementAPITest extends PHPUnit_Framework_TestCase
         $searchParameters->setFromDate('2016-04-20');
         $searchParameters->setToDate('2017-04-20');
 
-        $entitlementApi = $this->getMock('Orangehrm\Rest\Api\Leave\LeaveEntitlementAPI',array('getFilters'),array($request));
+        $entitlementApi = $this->getMockBuilder('Orangehrm\Rest\Api\Leave\LeaveEntitlementAPI')
+            ->setMethods(array('getFilters'))
+            ->setConstructorArgs(array($request))
+            ->getMock();
         $entitlementApi->expects($this->once())
             ->method('getFilters')
             ->will($this->returnValue($searchParameters));
 
         $entitlementApi->setRequestParams($requestParams);
 
-        $entitlementService = $this->getMock('LeaveEntitlementService');
+        $entitlementService = $this->getMockBuilder('LeaveEntitlementService')->getMock();
         $entitlementService->expects($this->any())
             ->method('searchLeaveEntitlements')
             ->with($searchParameters)

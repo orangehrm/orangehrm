@@ -216,7 +216,9 @@ class EmployeeYearsOfServiceTest extends PHPUnit_Framework_TestCase {
     public function testGetEmployeeYearsOfService() {
         $employee = new Employee();
         $employee->setJoinedDate('2007-06-22');
-        $employeeDao    = $this->getMock('EmployeeDao', array('getEmployee'));
+        $employeeDao    = $this->getMockBuilder('EmployeeDao')
+			->setMethods( array('getEmployee'))
+			->getMock();
         $employeeDao->expects($this->once())
                     ->method('getEmployee')
                     ->will($this->returnValue($employee));

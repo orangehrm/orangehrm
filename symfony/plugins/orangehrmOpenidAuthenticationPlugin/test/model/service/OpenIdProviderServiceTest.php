@@ -42,7 +42,9 @@ class OpenIdProviderServiceTest extends PHPUnit_Framework_TestCase {
         $openIdProvider->setProviderUrl('http://new.com/id');
         $openIdProvider->setStatus(1);
         
-        $openIdProviderDaoMock = $this->getMock('OpenIdProviderDao', array('saveOpenIdProvider'));
+        $openIdProviderDaoMock = $this->getMockBuilder('OpenIdProviderDao')
+			->setMethods( array('saveOpenIdProvider'))
+			->getMock();
 
         $openIdProviderDaoMock->expects($this->once())
                 ->method('saveOpenIdProvider')
@@ -82,7 +84,9 @@ class OpenIdProviderServiceTest extends PHPUnit_Framework_TestCase {
         $openIdProviderList[0] =$openIdProvider1;
         $openIdProviderList[1] =$openIdProvider2;
         
-        $openIdProviderDaoMock = $this->getMock('OpenIdProviderDao', array('listOpenIdProviders'));
+        $openIdProviderDaoMock = $this->getMockBuilder('OpenIdProviderDao')
+			->setMethods( array('listOpenIdProviders'))
+			->getMock();
 
         $openIdProviderDaoMock->expects($this->once())
                 ->method('listOpenIdProviders')
@@ -110,7 +114,9 @@ class OpenIdProviderServiceTest extends PHPUnit_Framework_TestCase {
         
          
         
-        $openIdProviderDaoMock = $this->getMock('OpenIdProviderDao', array('removeOpenIdProvider','getOpenIdProvider'));
+        $openIdProviderDaoMock = $this->getMockBuilder('OpenIdProviderDao')
+			->setMethods( array('removeOpenIdProvider','getOpenIdProvider'))
+			->getMock();
 
         $openIdProviderDaoMock->expects($this->once())
                 ->method('removeOpenIdProvider')
@@ -139,7 +145,9 @@ class OpenIdProviderServiceTest extends PHPUnit_Framework_TestCase {
         $openIdProvider->setProviderUrl('https://google.com/o/8/');
         $openIdProvider->setStatus(1);
         
-        $openIdProviderDaoMock = $this->getMock('OpenIdProviderDao', array('getOpenIdProvider'));
+        $openIdProviderDaoMock = $this->getMockBuilder('OpenIdProviderDao')
+			->setMethods( array('getOpenIdProvider'))
+			->getMock();
 
         $openIdProviderDaoMock->expects($this->once())
                 ->method('getOpenIdProvider')

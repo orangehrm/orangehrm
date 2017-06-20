@@ -65,7 +65,7 @@ class ApiCustomFieldAPITest1 extends PHPUnit_Framework_TestCase
 
         $this->employeeCustomFieldAPI->setRequestParams($requestParams);
 
-        $pimCustomFieldService = $this->getMock('CustomFieldConfigurationService');
+        $pimCustomFieldService = $this->getMockBuilder('CustomFieldConfigurationService')->getMock();
         $pimCustomFieldService->expects($this->any())
             ->method('getCustomFieldList')
             ->with(null, 'name', 'ASC')

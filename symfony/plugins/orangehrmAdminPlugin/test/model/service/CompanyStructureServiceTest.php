@@ -41,7 +41,7 @@ class CompanyStructureServiceTest extends PHPUnit_Framework_TestCase {
 
         $subunit = TestDataService::fetchObject('Subunit', 1);
 
-        $compStructureDao = $this->getMock('CompanyStructureDao');
+        $compStructureDao = $this->getMockBuilder('CompanyStructureDao')->getMock();
 
         $compStructureDao->expects($this->once())
                 ->method('getSubunitById')
@@ -58,7 +58,7 @@ class CompanyStructureServiceTest extends PHPUnit_Framework_TestCase {
         $subunit = new Subunit();
         $subunit->setName("subunit name");
 
-        $compStructureDao = $this->getMock('CompanyStructureDao');
+        $compStructureDao = $this->getMockBuilder('CompanyStructureDao')->getMock();
 
         $compStructureDao->expects($this->once())
                 ->method('saveSubunit')
@@ -77,7 +77,7 @@ class CompanyStructureServiceTest extends PHPUnit_Framework_TestCase {
         $parentSubunit = new Subunit();
         $parentSubunit->setName("new subunit");
 
-        $compStructureDao = $this->getMock('CompanyStructureDao');
+        $compStructureDao = $this->getMockBuilder('CompanyStructureDao')->getMock();
 
         $compStructureDao->expects($this->once())
                 ->method('addSubunit')
@@ -96,7 +96,7 @@ class CompanyStructureServiceTest extends PHPUnit_Framework_TestCase {
         $parentSubunit = new Subunit();
         $parentSubunit->setName("new subunit");
 
-        $compStructureDao = $this->getMock('CompanyStructureDao');
+        $compStructureDao = $this->getMockBuilder('CompanyStructureDao')->getMock();
 
         $compStructureDao->expects($this->once())
                 ->method('deleteSubunit')
@@ -113,7 +113,7 @@ class CompanyStructureServiceTest extends PHPUnit_Framework_TestCase {
         $name = "Company Name";
         $returnvalue = 1;
 
-        $compStructureDao = $this->getMock('CompanyStructureDao');
+        $compStructureDao = $this->getMockBuilder('CompanyStructureDao')->getMock();
 
         $compStructureDao->expects($this->once())
                 ->method('setOrganizationName')
@@ -129,7 +129,7 @@ class CompanyStructureServiceTest extends PHPUnit_Framework_TestCase {
 
         $treeObject = Doctrine::getTable('Subunit')->getTree();
 
-        $compStructureDao = $this->getMock('CompanyStructureDao');
+        $compStructureDao = $this->getMockBuilder('CompanyStructureDao')->getMock();
 
         $compStructureDao->expects($this->once())
                 ->method('getSubunitTreeObject')

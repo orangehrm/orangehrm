@@ -65,7 +65,7 @@ class ApiEmployeeDetailAPITest extends PHPUnit_Framework_TestCase
 
         $this->employeeDetailAPI->setRequestParams($requestParams);
 
-        $pimEmployeeService = $this->getMock('EmployeeService');
+        $pimEmployeeService = $this->getMockBuilder('EmployeeService')->getMock();
         $pimEmployeeService->expects($this->any())
             ->method('getEmployee')
             ->with($empNumber)

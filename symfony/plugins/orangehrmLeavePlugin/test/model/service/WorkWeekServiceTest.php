@@ -53,7 +53,9 @@ class WorkWeekServiceTest extends PHPUnit_Framework_TestCase
       $workWeekList   = TestDataService::loadObjectList('WorkWeek', $this->fixture, 'WorkWeek');
       $workWeek       = $workWeekList[0];
 
-      $workWeekDao = $this->getMock('WorkWeekDao', array('saveWorkWeek'));
+      $workWeekDao = $this->getMockBuilder('WorkWeekDao')
+			->setMethods( array('saveWorkWeek'))
+			->getMock();
       $workWeekDao->expects($this->once())
                   ->method('saveWorkWeek')
                   ->with($workWeek)
@@ -71,7 +73,9 @@ class WorkWeekServiceTest extends PHPUnit_Framework_TestCase
 
       $workWeekList   = TestDataService::loadObjectList('WorkWeek', $this->fixture, 'WorkWeek');
       
-      $workWeekDao = $this->getMock('WorkWeekDao', array('getWorkWeekList'));
+      $workWeekDao = $this->getMockBuilder('WorkWeekDao')
+			->setMethods( array('getWorkWeekList'))
+			->getMock();
       $workWeekDao->expects($this->once())
                   ->method('getWorkWeekList')
                   ->will($this->returnValue($workWeekList));
@@ -92,7 +96,9 @@ class WorkWeekServiceTest extends PHPUnit_Framework_TestCase
 
       $workWeekList   = TestDataService::loadObjectList('WorkWeek', $this->fixture, 'WorkWeek');
 
-      $workWeekDao = $this->getMock('WorkWeekDao', array('readWorkWeek'));
+      $workWeekDao = $this->getMockBuilder('WorkWeekDao')
+			->setMethods( array('readWorkWeek'))
+			->getMock();
       $workWeekDao->expects($this->once())
                   ->method('readWorkWeek')
                   ->with(1)
@@ -110,7 +116,9 @@ class WorkWeekServiceTest extends PHPUnit_Framework_TestCase
 
     public function testReadWorkWeekReturnsNullInDao() {
 
-      $workWeekDao = $this->getMock('WorkWeekDao', array('readWorkWeek'));
+      $workWeekDao = $this->getMockBuilder('WorkWeekDao')
+			->setMethods( array('readWorkWeek'))
+			->getMock();
       $workWeekDao->expects($this->once())
                   ->method('readWorkWeek')
                   ->with(8)
@@ -127,7 +135,9 @@ class WorkWeekServiceTest extends PHPUnit_Framework_TestCase
     
     public function testIsWeekend() {
 
-      $workWeekDao = $this->getMock('WorkWeekDao', array('isWeekend'));
+      $workWeekDao = $this->getMockBuilder('WorkWeekDao')
+			->setMethods( array('isWeekend'))
+			->getMock();
       $workWeekDao->expects($this->once())
                   ->method('isWeekend')
                   ->with(1, true)
@@ -142,7 +152,9 @@ class WorkWeekServiceTest extends PHPUnit_Framework_TestCase
     
     public function testDeleteWorkWeek() {
 
-      $workWeekDao = $this->getMock('WorkWeekDao', array('deleteWorkWeek'));
+      $workWeekDao = $this->getMockBuilder('WorkWeekDao')
+			->setMethods( array('deleteWorkWeek'))
+			->getMock();
       $workWeekDao->expects($this->once())
                   ->method('deleteWorkWeek')
                   ->with(array(1,2))
@@ -161,12 +173,17 @@ class WorkWeekServiceTest extends PHPUnit_Framework_TestCase
         $workWeek = new WorkWeek();
         $workWeek->setId(2);
         
-        $recordsMock = $this->getMock('Doctrine_Collection', array('getFirst'), array('WorkWeek'));
+        $recordsMock = $this->getMockBuilder('Doctrine_Collection')
+			->setMethods( array('getFirst'))
+            ->setConstructorArgs(array('WorkWeek'))
+			->getMock();
         $recordsMock->expects($this->exactly(3))
                 ->method('getFirst')
                 ->will($this->onConsecutiveCalls($defaultWorkWeek, $defaultWorkWeek, $workWeek));
         
-        $workWeekDaoMock = $this->getMock('WorkWeekDao', array('searchWorkWeek'));
+        $workWeekDaoMock = $this->getMockBuilder('WorkWeekDao')
+			->setMethods(array('searchWorkWeek'))
+			->getMock();
         $workWeekDaoMock->expects($this->any())
                 ->method('searchWorkWeek')
                 ->will($this->returnValue($recordsMock));

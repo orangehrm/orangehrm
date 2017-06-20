@@ -52,7 +52,9 @@ class JobInterviewServiceTest extends PHPUnit_Framework_TestCase {
 //        
 //        $parameters = array('candidateId' => 4, 'interviewDate' => '2011-08-18', 'fromTime' => '09:00:00', 'toTime' => '11:00:00');
 //
-//        $jobInterviewDao = $this->getMock('JobInterviewDao', array('getInterviewListByCandidateIdAndInterviewDateAndTime'));
+//        $jobInterviewDao = $this->getMockBuilder('JobInterviewDao')
+//			->setMethods( array('getInterviewListByCandidateIdAndInterviewDateAndTime'))
+//			->getMock();
 //
 //            $jobInterviewDao->expects($this->once())
 //                           ->method('getInterviewListByCandidateIdAndInterviewDateAndTime')
@@ -76,7 +78,9 @@ class JobInterviewServiceTest extends PHPUnit_Framework_TestCase {
 //        
 //        $parameters = array('candidateId' => 4, 'interviewDate' => '2011-08-18', 'fromTime' => '09:00:00', 'toTime' => '11:00:00');
 //
-//        $jobInterviewDao = $this->getMock('JobInterviewDao', array('getInterviewListByCandidateIdAndInterviewDateAndTime'));
+//        $jobInterviewDao = $this->getMockBuilder('JobInterviewDao')
+//			->setMethods( array('getInterviewListByCandidateIdAndInterviewDateAndTime'))
+//			->getMock();
 //
 //            $jobInterviewDao->expects($this->once())
 //                           ->method('getInterviewListByCandidateIdAndInterviewDateAndTime')
@@ -96,7 +100,7 @@ class JobInterviewServiceTest extends PHPUnit_Framework_TestCase {
         $interviews = TestDataService::loadObjectList('JobInterview', $this->fixture, 'JobInterview');
         $expectedresult = $interviews[0];
 
-        $jobInterviewDao = $this->getMock('JobInterviewDao');
+        $jobInterviewDao = $this->getMockBuilder('JobInterviewDao')->getMock();
         $jobInterviewDao->expects($this->once())
                 ->method('getInterviewById')
                 ->with(1)
@@ -112,7 +116,7 @@ class JobInterviewServiceTest extends PHPUnit_Framework_TestCase {
 
         $interviewInterViewer = TestDataService::loadObjectList('JobInterviewInterviewer', $this->fixture, 'JobInterviewInterviewer');
         $expectedresult = $interviewInterViewer;
-        $jobInterviewDao = $this->getMock('JobInterviewDao');
+        $jobInterviewDao = $this->getMockBuilder('JobInterviewDao')->getMock();
         $jobInterviewDao->expects($this->once())
                 ->method('getInterviewersByInterviewId')
                 ->with(1)
@@ -128,7 +132,7 @@ class JobInterviewServiceTest extends PHPUnit_Framework_TestCase {
 
         $interviews = TestDataService::loadObjectList('JobInterview', $this->fixture, 'JobInterview');
         $expectedresult = $interviews[1];
-        $jobInterviewDao = $this->getMock('JobInterviewDao');
+        $jobInterviewDao = $this->getMockBuilder('JobInterviewDao')->getMock();
         $jobInterviewDao->expects($this->once())
                 ->method('getInterviewsByCandidateVacancyId')
                 ->with(10)
@@ -144,7 +148,7 @@ class JobInterviewServiceTest extends PHPUnit_Framework_TestCase {
 
         $jobInterview = new JobInterview();
 
-        $jobInterviewDao = $this->getMock('JobInterviewDao');
+        $jobInterviewDao = $this->getMockBuilder('JobInterviewDao')->getMock();
         $jobInterviewDao->expects($this->once())
                 ->method('saveJobInterview')
                 ->with($jobInterview)
@@ -160,7 +164,7 @@ class JobInterviewServiceTest extends PHPUnit_Framework_TestCase {
 
         $jobInterview = new JobInterview();
         
-        $jobInterviewDao = $this->getMock('JobInterviewDao');
+        $jobInterviewDao = $this->getMockBuilder('JobInterviewDao')->getMock();
         $jobInterviewDao->expects($this->once())
                 ->method('updateJobInterview')
                 ->with($jobInterview)
@@ -176,7 +180,7 @@ class JobInterviewServiceTest extends PHPUnit_Framework_TestCase {
 
         $candidateHistory = TestDataService::loadObjectList('CandidateHistory', $this->fixture, 'CandidateHistory');
         $expectedresult = $candidateHistory[2];
-        $jobInterviewDao = $this->getMock('JobInterviewDao');
+        $jobInterviewDao = $this->getMockBuilder('JobInterviewDao')->getMock();
         $jobInterviewDao->expects($this->once())
                 ->method('getInterviewScheduledHistoryByInterviewId')
                 ->with(1)

@@ -225,7 +225,9 @@ class LeavePeriodServiceTest extends PHPUnit_Framework_TestCase {
         $leavePeriods  = TestDataService::loadObjectList('LeavePeriod', $this->fixture, 'LeavePeriod');
         $leavePeriod   = $leavePeriods[0];
 
-        $leavePeriodDao = $this->getMock('LeavePeriodDao', array('saveLeavePeriod'));
+        $leavePeriodDao = $this->getMockBuilder('LeavePeriodDao')
+			->setMethods( array('saveLeavePeriod'))
+			->getMock();
         $leavePeriodDao->expects($this->once())
                      ->method('saveLeavePeriod')
                      ->with($leavePeriod)
@@ -245,7 +247,9 @@ class LeavePeriodServiceTest extends PHPUnit_Framework_TestCase {
         $leavePeriod   = $leavePeriods[0];
         $timestamp     = strtotime('2008-02-01');
 
-        $leavePeriodDao = $this->getMock('LeavePeriodDao', array('filterByTimestamp'));
+        $leavePeriodDao = $this->getMockBuilder('LeavePeriodDao')
+			->setMethods( array('filterByTimestamp'))
+			->getMock();
         $leavePeriodDao->expects($this->once())
                          ->method('filterByTimestamp')
                          ->with($timestamp)
@@ -267,7 +271,9 @@ class LeavePeriodServiceTest extends PHPUnit_Framework_TestCase {
         $leavePeriods  = TestDataService::loadObjectList('LeavePeriod', $this->fixture, 'LeavePeriod');
         $timestamp     = strtotime('+2 day', strtotime('2009-01-31'));
 
-        $leavePeriodDao = $this->getMock('LeavePeriodDao', array('filterByTimestamp'));
+        $leavePeriodDao = $this->getMockBuilder('LeavePeriodDao')
+			->setMethods( array('filterByTimestamp'))
+			->getMock();
         $leavePeriodDao->expects($this->once())
                         ->method('filterByTimestamp')
                         ->will($this->returnValue($leavePeriods[1]));
@@ -288,7 +294,9 @@ class LeavePeriodServiceTest extends PHPUnit_Framework_TestCase {
         $leavePeriods  = TestDataService::loadObjectList('LeavePeriod', $this->fixture, 'LeavePeriod');
         $timestamp     = strtotime('5500-11-12');
 
-        $leavePeriodDao = $this->getMock('LeavePeriodDao', array('filterByTimestamp'));
+        $leavePeriodDao = $this->getMockBuilder('LeavePeriodDao')
+			->setMethods( array('filterByTimestamp'))
+			->getMock();
         $leavePeriodDao->expects($this->once())
                         ->method('filterByTimestamp')
                         ->will($this->returnValue(null));
@@ -308,7 +316,9 @@ class LeavePeriodServiceTest extends PHPUnit_Framework_TestCase {
     public function testAdjustCurrentLeavePeriod() {
 
         $leavePeriods  = TestDataService::loadObjectList('LeavePeriod', $this->fixture, 'LeavePeriod');
-        $leavePeriodDao = $this->getMock('LeavePeriodDao', array('filterByTimestamp', 'saveLeavePeriod', 'readLeavePeriod'));
+        $leavePeriodDao = $this->getMockBuilder('LeavePeriodDao')
+			->setMethods( array('filterByTimestamp', 'saveLeavePeriod', 'readLeavePeriod'))
+			->getMock();
 
         $leavePeriodDao->expects($this->any())
                         ->method('filterByTimestamp')
@@ -334,7 +344,9 @@ class LeavePeriodServiceTest extends PHPUnit_Framework_TestCase {
 
         $leavePeriods  = TestDataService::loadObjectList('LeavePeriod', $this->fixture, 'LeavePeriod');
 
-        $leavePeriodDao = $this->getMock('LeavePeriodDao', array('findLastLeavePeriod', 'filterByTimestamp'));
+        $leavePeriodDao = $this->getMockBuilder('LeavePeriodDao')
+			->setMethods( array('findLastLeavePeriod', 'filterByTimestamp'))
+			->getMock();
         $leavePeriodDao->expects($this->once())
                         ->method('findLastLeavePeriod')
                         ->with('2010-01-30')
@@ -366,7 +378,9 @@ class LeavePeriodServiceTest extends PHPUnit_Framework_TestCase {
 
         $leavePeriods  = TestDataService::loadObjectList('LeavePeriod', $this->fixture, 'LeavePeriod');
 
-        $leavePeriodDao = $this->getMock('LeavePeriodDao', array('findLastLeavePeriod', 'filterByTimestamp', 'saveLeavePeriod'));
+        $leavePeriodDao = $this->getMockBuilder('LeavePeriodDao')
+			->setMethods( array('findLastLeavePeriod', 'filterByTimestamp', 'saveLeavePeriod'))
+			->getMock();
         $leavePeriodDao->expects($this->once())
                         ->method('findLastLeavePeriod')
                         ->with('2010-01-30')
@@ -397,7 +411,9 @@ class LeavePeriodServiceTest extends PHPUnit_Framework_TestCase {
 
     public function testCreateNextLeavePeriodReturnsNull() {
 
-        $leavePeriodDao = $this->getMock('LeavePeriodDao', array('findLastLeavePeriod'));
+        $leavePeriodDao = $this->getMockBuilder('LeavePeriodDao')
+			->setMethods( array('findLastLeavePeriod'))
+			->getMock();
         $leavePeriodDao->expects($this->once())
                         ->method('findLastLeavePeriod')
                         ->with('1000-10-10')
@@ -417,7 +433,9 @@ class LeavePeriodServiceTest extends PHPUnit_Framework_TestCase {
 
         $leavePeriods  = TestDataService::loadObjectList('LeavePeriod', $this->fixture, 'LeavePeriod');
 
-        $leavePeriodDao = $this->getMock('LeavePeriodDao', array('getLeavePeriodList'));
+        $leavePeriodDao = $this->getMockBuilder('LeavePeriodDao')
+			->setMethods( array('getLeavePeriodList'))
+			->getMock();
 
         $leavePeriodDao->expects($this->once())
                         ->method('getLeavePeriodList')
@@ -440,7 +458,9 @@ class LeavePeriodServiceTest extends PHPUnit_Framework_TestCase {
 
         $leavePeriods  = TestDataService::loadObjectList('LeavePeriod', $this->fixture, 'LeavePeriod');
 
-        $leavePeriodDao = $this->getMock('LeavePeriodDao', array('filterByTimestamp'));
+        $leavePeriodDao = $this->getMockBuilder('LeavePeriodDao')
+			->setMethods( array('filterByTimestamp'))
+			->getMock();
 
         $leavePeriodDao->expects($this->any())
                         ->method('filterByTimestamp')
@@ -470,7 +490,9 @@ class LeavePeriodServiceTest extends PHPUnit_Framework_TestCase {
         $leavePeriod->setStartDate("2010-01-01");
         $leavePeriod->setEndDate("2010-12-31");
         $leavePeriod->setLeavePeriodId(1);
-        $leavePeriodDao = $this->getMock('LeavePeriodDao', array('filterByTimestamp'));
+        $leavePeriodDao = $this->getMockBuilder('LeavePeriodDao')
+			->setMethods( array('filterByTimestamp'))
+			->getMock();
         $leavePeriodDao->expects($this->once())
                 ->method('filterByTimestamp')
                 ->will($this->returnValue($leavePeriod));
@@ -490,7 +512,9 @@ class LeavePeriodServiceTest extends PHPUnit_Framework_TestCase {
         $lastLeavePeriod->setEndDate("2010-12-31");
         $lastLeavePeriod->setLeavePeriodId(1);
 
-        $leavePeriodDao = $this->getMock('LeavePeriodDao', array('filterByTimestamp', 'findLastLeavePeriod', 'saveLeavePeriod'));
+        $leavePeriodDao = $this->getMockBuilder('LeavePeriodDao')
+			->setMethods( array('filterByTimestamp', 'findLastLeavePeriod', 'saveLeavePeriod'))
+			->getMock();
         $leavePeriodDao->expects($this->any())
                 ->method('filterByTimestamp')
                 ->will($this->returnValue(null));
@@ -518,7 +542,9 @@ class LeavePeriodServiceTest extends PHPUnit_Framework_TestCase {
         $lastLeavePeriod->setEndDate("2010-12-31");
         $lastLeavePeriod->setLeavePeriodId(1);
 
-        $leavePeriodDao = $this->getMock('LeavePeriodDao', array('readLeavePeriod'));
+        $leavePeriodDao = $this->getMockBuilder('LeavePeriodDao')
+			->setMethods( array('readLeavePeriod'))
+			->getMock();
         $leavePeriodDao->expects($this->once())
                 ->method('readLeavePeriod')
                 ->will($this->returnValue($lastLeavePeriod));

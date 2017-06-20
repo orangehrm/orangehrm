@@ -77,7 +77,7 @@ class ApiEmployeeJobDetailAPITest extends PHPUnit_Framework_TestCase
 
         $this->employeeJobDetailAPI->setRequestParams($requestParams);
 
-        $pimEmployeeService = $this->getMock('EmployeeService');
+        $pimEmployeeService = $this->getMockBuilder('EmployeeService')->getMock();
         $pimEmployeeService->expects($this->any())
             ->method('getEmployee')
             ->with($empNumber)
@@ -124,7 +124,10 @@ class ApiEmployeeJobDetailAPITest extends PHPUnit_Framework_TestCase
         $sfRequest = new sfWebRequest($sfEvent);
         $request = new Request($sfRequest);
 
-        $employeeJobDetailAPI = $this->getMock('Orangehrm\Rest\Api\Pim\EmployeeJobDetailAPI',array('filterParameters','validateInputs','buildEmployeeJobDetails'),array($request));
+        $employeeJobDetailAPI = $this->getMockBuilder('Orangehrm\Rest\Api\Pim\EmployeeJobDetailAPI')
+            ->setMethods(array('filterParameters','validateInputs','buildEmployeeJobDetails'))
+            ->setConstructorArgs(array($request))
+            ->getMock();
         $employeeJobDetailAPI->expects($this->once())
             ->method('filterParameters')
             ->will($this->returnValue($filters));
@@ -137,7 +140,7 @@ class ApiEmployeeJobDetailAPITest extends PHPUnit_Framework_TestCase
             ->with($employee,$filters);
 
 
-        $pimEmployeeService = $this->getMock('EmployeeService');
+        $pimEmployeeService = $this->getMockBuilder('EmployeeService')->getMock();
         $pimEmployeeService->expects($this->any())
             ->method('getEmployee')
             ->with(1)
@@ -185,7 +188,10 @@ class ApiEmployeeJobDetailAPITest extends PHPUnit_Framework_TestCase
         $sfRequest = new sfWebRequest($sfEvent);
         $request = new Request($sfRequest);
 
-        $employeeJobDetailAPI = $this->getMock('Orangehrm\Rest\Api\Pim\EmployeeJobDetailAPI',array('filterParameters','validateInputs'),array($request));
+        $employeeJobDetailAPI = $this->getMockBuilder('Orangehrm\Rest\Api\Pim\EmployeeJobDetailAPI')
+            ->setMethods(array('filterParameters','validateInputs', 'buildEmployeeJobDetails'))
+            ->setConstructorArgs(array($request))
+            ->getMock();
         $employeeJobDetailAPI->expects($this->once())
             ->method('filterParameters')
             ->will($this->returnValue($filters));
@@ -198,7 +204,7 @@ class ApiEmployeeJobDetailAPITest extends PHPUnit_Framework_TestCase
             ->with($employee,$filters);
 
 
-        $pimEmployeeService = $this->getMock('EmployeeService');
+        $pimEmployeeService = $this->getMockBuilder('EmployeeService')->getMock();
         $pimEmployeeService->expects($this->any())
             ->method('getEmployee')
             ->with(1)

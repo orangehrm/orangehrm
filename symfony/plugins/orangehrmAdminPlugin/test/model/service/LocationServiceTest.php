@@ -41,7 +41,7 @@ class LocationServiceTest extends PHPUnit_Framework_TestCase {
 
 		$locationList = TestDataService::loadObjectList('Location', $this->fixture, 'Location');
 
-		$locationDao = $this->getMock('LocationDao');
+		$locationDao = $this->getMockBuilder('LocationDao')->getMock();
 		$locationDao->expects($this->once())
 			->method('getLocationById')
 			->with(1)
@@ -60,7 +60,7 @@ class LocationServiceTest extends PHPUnit_Framework_TestCase {
 		    'name' => 'location 1'
 		);
 		
-		$locationDao = $this->getMock('LocationDao');
+		$locationDao = $this->getMockBuilder('LocationDao')->getMock();
 		$locationDao->expects($this->once())
 			->method('searchLocations')
 			->with($srchClues)
@@ -79,7 +79,7 @@ class LocationServiceTest extends PHPUnit_Framework_TestCase {
 		    'name' => 'location 1'
 		);
 		
-		$locationDao = $this->getMock('LocationDao');
+		$locationDao = $this->getMockBuilder('LocationDao')->getMock();
 		$locationDao->expects($this->once())
 			->method('getSearchLocationListCount')
 			->with($srchClues)
@@ -95,7 +95,7 @@ class LocationServiceTest extends PHPUnit_Framework_TestCase {
 
 		$locationList = TestDataService::loadObjectList('Location', $this->fixture, 'Location');
 
-		$locationDao = $this->getMock('LocationDao');
+		$locationDao = $this->getMockBuilder('LocationDao')->getMock();
 		$locationDao->expects($this->once())
 			->method('getNumberOfEmplyeesForLocation')
 			->with(1)
@@ -111,7 +111,7 @@ class LocationServiceTest extends PHPUnit_Framework_TestCase {
 
 		$locationList = TestDataService::loadObjectList('Location', $this->fixture, 'Location');
 
-		$locationDao = $this->getMock('LocationDao');
+		$locationDao = $this->getMockBuilder('LocationDao')->getMock();
 		$locationDao->expects($this->once())
 			->method('getLocationList')
 			->will($this->returnValue($locationList));
@@ -127,7 +127,7 @@ class LocationServiceTest extends PHPUnit_Framework_TestCase {
 		$empNumbers = array(2, 34, 1, 20);
                 $locationIds = array(2, 3, 1);
 
-		$locationDao = $this->getMock('LocationDao');
+		$locationDao = $this->getMockBuilder('LocationDao')->getMock();
 		$locationDao->expects($this->once())
 			->method('getLocationIdsForEmployees')
                         ->with($empNumbers)

@@ -81,7 +81,7 @@ class ApiEmployeeContactDetailAPITest extends PHPUnit_Framework_TestCase
 
         $this->employeeContactDetailAPI->setRequestParams($requestParams);
 
-        $pimEmployeeService = $this->getMock('EmployeeService');
+        $pimEmployeeService = $this->getMockBuilder('EmployeeService')->getMock();
         $pimEmployeeService->expects($this->any())
             ->method('getEmployee')
             ->with($empNumber)
@@ -136,7 +136,10 @@ class ApiEmployeeContactDetailAPITest extends PHPUnit_Framework_TestCase
         $sfRequest = new sfWebRequest($sfEvent);
         $request = new Request($sfRequest);
 
-        $this->employeeContactDetailAPI = $this->getMock('Orangehrm\Rest\Api\Pim\EmployeeContactDetailApi',array('filterParameters','validateEmployeeEmails'),array($request));
+        $this->employeeContactDetailAPI = $this->getMockBuilder('Orangehrm\Rest\Api\Pim\EmployeeContactDetailApi')
+            ->setMethods(array('filterParameters','validateEmployeeEmails'))
+            ->setConstructorArgs(array($request))
+            ->getMock();
         $this->employeeContactDetailAPI->expects($this->once())
             ->method('filterParameters')
             ->will($this->returnValue($filters));
@@ -146,7 +149,7 @@ class ApiEmployeeContactDetailAPITest extends PHPUnit_Framework_TestCase
             ->with($employee,$employee->getEmpWorkEmail(),$employee->getOtherId())
             ->will($this->returnValue(true));
 
-        $pimEmployeeService = $this->getMock('EmployeeService');
+        $pimEmployeeService = $this->getMockBuilder('EmployeeService')->getMock();
         $pimEmployeeService->expects($this->any())
             ->method('getEmployee')
             ->with(1)
@@ -213,7 +216,10 @@ class ApiEmployeeContactDetailAPITest extends PHPUnit_Framework_TestCase
         $sfRequest = new sfWebRequest($sfEvent);
         $request = new Request($sfRequest);
 
-        $this->employeeContactDetailAPI = $this->getMock('Orangehrm\Rest\Api\Pim\EmployeeContactDetailApi',array('filterParameters','validateEmployeeEmails'),array($request));
+        $this->employeeContactDetailAPI = $this->getMockBuilder('Orangehrm\Rest\Api\Pim\EmployeeContactDetailApi')
+            ->setMethods(array('filterParameters','validateEmployeeEmails'))
+            ->setConstructorArgs(array($request))
+            ->getMock();
         $this->employeeContactDetailAPI->expects($this->once())
             ->method('filterParameters')
             ->will($this->returnValue($filters));
@@ -223,7 +229,7 @@ class ApiEmployeeContactDetailAPITest extends PHPUnit_Framework_TestCase
             ->with($employee,$employee->getEmpWorkEmail(),$employee->getOtherId())
             ->will($this->returnValue(true));
 
-        $pimEmployeeService = $this->getMock('EmployeeService');
+        $pimEmployeeService = $this->getMockBuilder('EmployeeService')->getMock();
         $pimEmployeeService->expects($this->any())
             ->method('getEmployee')
             ->with(1)
@@ -271,7 +277,9 @@ class ApiEmployeeContactDetailAPITest extends PHPUnit_Framework_TestCase
 //
 //         $employeeContactDetailAPI = new EmployeeContactDetailAPI($request);
 //
-//       // $employeeContactDetailAPI = $this->getMock('Orangehrm\Rest\Api\Pim\EmployeeContactDetailApi',null,array($request));
+//       // $employeeContactDetailAPI = $this->getMockBuilder('Orangehrm\Rest\Api\Pim\EmployeeContactDetailApi')
+//              ->setConstructorArgs(array($request))
+//              ->getMock();
 //        $returned = $employeeContactDetailAPI->validateInputs($filters);
 //        $this->assertEquals($returned, true);
 //

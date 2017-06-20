@@ -1,8 +1,6 @@
 # OrangeHRM Open Source Application
 
-[![Docker Automated](https://img.shields.io/docker/automated/orangehrm/orangehrm.svg)](https://hub.docker.com/r/orangehrm/orangehrm/) [![Docker Status](https://img.shields.io/docker/build/orangehrm/orangehrm.svg)](https://hub.docker.com/r/orangehrm/orangehrm/) [![Docker Pulls](https://img.shields.io/docker/pulls/orangehrm/orangehrm.svg)](https://hub.docker.com/r/orangehrm/orangehrm)  [![Travis Test](https://img.shields.io/travis/orangehrm/orangehrm/develop.svg)](https://travis-ci.org/orangehrm/orangehrm)
-
-
+[![Docker Automated](https://img.shields.io/docker/automated/orangehrm/orangehrm.svg)](https://hub.docker.com/r/orangehrm/orangehrm/) [![Docker Status](https://img.shields.io/docker/build/orangehrm/orangehrm.svg)](https://hub.docker.com/r/orangehrm/orangehrm/) [![Docker Pulls](https://img.shields.io/docker/pulls/orangehrm/orangehrm.svg)](https://hub.docker.com/r/orangehrm/orangehrm)  [![Travis Test](https://img.shields.io/travis/orangehrm/orangehrm/master.svg)](https://travis-ci.org/orangehrm/orangehrm)  [![SourceForge Downloads](https://img.shields.io/sourceforge/dm/orangehrm.svg)](https://sourceforge.net/projects/orangehrm/) [![SourceForge Downloads](https://img.shields.io/sourceforge/dt/orangehrm.svg)](https://sourceforge.net/projects/orangehrm/) 
 
 
 OrangeHRM is a comprehensive Human Resource Management (HRM) System that captures 
@@ -28,7 +26,7 @@ The source that you have downloaded(ZIP archive) in which this was enclosed, is 
 directory structure as follows; ( since release of OrangeHRM version 0.1 we have altered 
 the directory structure, for further details please refer to the changelog.txt
 
-
+```
 |
 -dbscript
 |	|
@@ -85,6 +83,7 @@ the directory structure, for further details please refer to the changelog.txt
 	|
 	-- (pictures + style sheets)
 
+```
 
 For further information on how to use the product please refer the Free User Guide 
 available on http://orangehrm.com/

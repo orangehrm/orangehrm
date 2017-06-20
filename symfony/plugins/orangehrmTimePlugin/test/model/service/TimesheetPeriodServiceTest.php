@@ -67,7 +67,9 @@ class TimesheetPeriodServiceTest extends PHPUnit_Framework_Testcase {
                 $xmlString = TestDataService::getRecords("SELECT value from hs_hr_config WHERE `key` = '" . $key . "'");
                 $value = $xmlString[0]['value']; 
         
-		$timesheetPeriodDaoMock = $this->getMock('TimesheetPeriodDao', array('getDefinedTimesheetPeriod'));
+		$timesheetPeriodDaoMock = $this->getMockBuilder('TimesheetPeriodDao')
+			->setMethods( array('getDefinedTimesheetPeriod'))
+			->getMock();
 		$timesheetPeriodDaoMock->expects($this->once())
 			->method('getDefinedTimesheetPeriod')
 			->will($this->returnValue($value));
@@ -88,7 +90,9 @@ class TimesheetPeriodServiceTest extends PHPUnit_Framework_Testcase {
                 $xmlString = TestDataService::getRecords("SELECT value from hs_hr_config WHERE `key` = '" . $key . "'");
                 $boolean = $xmlString[0]['value'];
                 
-		$timesheetPeriodDaoMock = $this->getMock('TimesheetPeriodDao', array('isTimesheetPeriodDefined'));
+		$timesheetPeriodDaoMock = $this->getMockBuilder('TimesheetPeriodDao')
+			->setMethods( array('isTimesheetPeriodDefined'))
+			->getMock();
 		$timesheetPeriodDaoMock->expects($this->once())
 			->method('isTimesheetPeriodDefined')
 			->will($this->returnValue($boolean));
@@ -103,7 +107,9 @@ class TimesheetPeriodServiceTest extends PHPUnit_Framework_Testcase {
 
 		$startDay='1';
 		$xml = '<TimesheetPeriod><PeriodType>Weekly</PeriodType><ClassName>WeeklyTimesheetPeriod</ClassName><StartDate>1</StartDate><Heading>Week</Heading></TimesheetPeriod>';
-		$timesheetPeriodDaoMock = $this->getMock('TimesheetPeriodDao', array('setTimesheetPeriod','setTimesheetPeriodAndStartDate'));
+		$timesheetPeriodDaoMock = $this->getMockBuilder('TimesheetPeriodDao')
+			->setMethods( array('setTimesheetPeriod','setTimesheetPeriodAndStartDate'))
+			->getMock();
 		$timesheetPeriodDaoMock->expects($this->once())
 			->method('setTimesheetPeriod')
 			->will($this->returnValue(true));
@@ -131,7 +137,9 @@ class TimesheetPeriodServiceTest extends PHPUnit_Framework_Testcase {
                 $xmlString = TestDataService::getRecords("SELECT value from hs_hr_config WHERE `key` = '" . $key . "'");
                 $value = $xmlString[0]['value'];                 
                 
-		$timesheetPeriodDaoMock = $this->getMock('TimesheetPeriodDao', array('getDefinedTimesheetPeriod'));
+		$timesheetPeriodDaoMock = $this->getMockBuilder('TimesheetPeriodDao')
+			->setMethods( array('getDefinedTimesheetPeriod'))
+			->getMock();
 		$timesheetPeriodDaoMock->expects($this->once())
 			->method('getDefinedTimesheetPeriod')
 			->will($this->returnValue($value));

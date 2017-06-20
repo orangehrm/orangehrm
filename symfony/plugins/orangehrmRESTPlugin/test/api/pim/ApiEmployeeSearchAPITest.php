@@ -62,7 +62,10 @@ class ApiEmployeeSearchAPITest extends PHPUnit_Framework_TestCase
       //  $request->getActionRequest()->setParameter()
         $parameterHolder->setReturnType(\EmployeeSearchParameterHolder::RETURN_TYPE_OBJECT);
 
-        $this->employeeSearchAPI = $this->getMock('Orangehrm\Rest\Api\Pim\EmployeeSearchAPI',array('buildSearchParamHolder'),array($request));
+        $this->employeeSearchAPI = $this->getMockBuilder('Orangehrm\Rest\Api\Pim\EmployeeSearchAPI')
+            ->setMethods(array('buildSearchParamHolder'))
+            ->setConstructorArgs(array($request))
+            ->getMock();
         $this->employeeSearchAPI->expects($this->once())
             ->method('buildSearchParamHolder')
             ->will($this->returnValue($parameterHolder));
@@ -77,7 +80,7 @@ class ApiEmployeeSearchAPITest extends PHPUnit_Framework_TestCase
         $employeeList = new Doctrine_Collection('Employee');
         $employeeList[] = $employee;
 
-        $pimEmployeeService = $this->getMock('EmployeeService');
+        $pimEmployeeService = $this->getMockBuilder('EmployeeService')->getMock();
         $pimEmployeeService->expects($this->any())
             ->method('searchEmployees')
             ->with($parameterHolder)

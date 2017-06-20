@@ -38,7 +38,9 @@ class WorkScheduleServiceTest extends PHPUnit_Framework_TestCase {
      */
     public function testGetWorkScheduleNotDefined() {
         
-        $mockService = $this->getMock('LeaveConfigurationService', array('getWorkScheduleImplementation'));
+        $mockService = $this->getMockBuilder('LeaveConfigurationService')
+			->setMethods( array('getWorkScheduleImplementation'))
+			->getMock();
         $mockService->expects($this->once())
                     ->method('getWorkScheduleImplementation')
                     ->will($this->returnValue(NULL)); 
@@ -58,7 +60,9 @@ class WorkScheduleServiceTest extends PHPUnit_Framework_TestCase {
      */
     public function testGetWorkScheduleClassNotFound() {
         
-        $mockService = $this->getMock('LeaveConfigurationService', array('getWorkScheduleImplementation'));
+        $mockService = $this->getMockBuilder('LeaveConfigurationService')
+			->setMethods( array('getWorkScheduleImplementation'))
+			->getMock();
         $mockService->expects($this->once())
                     ->method('getWorkScheduleImplementation')
                     ->will($this->returnValue('xYzNotAvailable')); 
@@ -78,7 +82,9 @@ class WorkScheduleServiceTest extends PHPUnit_Framework_TestCase {
      */
     public function testGetWorkScheduleInvalidClass() {
         
-        $mockService = $this->getMock('LeaveConfigurationService', array('getWorkScheduleImplementation'));
+        $mockService = $this->getMockBuilder('LeaveConfigurationService')
+			->setMethods( array('getWorkScheduleImplementation'))
+			->getMock();
         $mockService->expects($this->once())
                     ->method('getWorkScheduleImplementation')
                     ->will($this->returnValue('TestWorkScheduleInvalidClass')); 
@@ -98,7 +104,9 @@ class WorkScheduleServiceTest extends PHPUnit_Framework_TestCase {
      */
     public function testGetWorkScheduleClassExceptionInConstructor() {
         
-        $mockService = $this->getMock('LeaveConfigurationService', array('getWorkScheduleImplementation'));
+        $mockService = $this->getMockBuilder('LeaveConfigurationService')
+			->setMethods( array('getWorkScheduleImplementation'))
+			->getMock();
         $mockService->expects($this->once())
                     ->method('getWorkScheduleImplementation')
                     ->will($this->returnValue('TestWorkScheduleInvalidClassExceptionInConstructor')); 
@@ -115,7 +123,9 @@ class WorkScheduleServiceTest extends PHPUnit_Framework_TestCase {
     
     public function testGetWorkSchedule() {
         
-        $mockService = $this->getMock('LeaveConfigurationService', array('getWorkScheduleImplementation'));
+        $mockService = $this->getMockBuilder('LeaveConfigurationService')
+			->setMethods( array('getWorkScheduleImplementation'))
+			->getMock();
         $mockService->expects($this->once())
                     ->method('getWorkScheduleImplementation')
                     ->will($this->returnValue('TestWorkScheduleValidClass')); 
