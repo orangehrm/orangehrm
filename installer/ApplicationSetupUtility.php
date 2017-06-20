@@ -19,7 +19,8 @@
  */
 
 require_once ROOT_PATH.'/installer/utils/UniqueIDGenerator.php';
-require_once ROOT_PATH.'/symfony/lib/vendor/phpseclib/Crypt/Random.php';
+require_once ROOT_PATH.'/symfony/lib/vendor/phpseclib/phpseclib/phpseclib/Crypt/Random.php';
+require_once ROOT_PATH.'/symfony/plugins/orangehrmCorePlugin/lib/utility/PasswordHash.php';
 
 class ApplicationSetupUtility {
 
@@ -182,13 +183,7 @@ public static function fillData($phase=1, $source='/dbscript/dbscript-') {
     }
 
     public static function createCsrfKey() {
-        $csrfKey = '';
-
-        while (strlen($csrfKey) <= 50) {
-            $csrfKey .= base_convert(crypt_random(), 10, 32);
-        }
-
-        return $csrfKey;
+        return \phpseclib\Crypt\Random::string(55);
     }
 
 public static function createDBUser() {
