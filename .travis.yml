@@ -6,11 +6,6 @@ sudo: required
 
 services:
   - mysql
-  
-matrix:
-    include:
-        - os: linux
-          dist: trusty          
 
 before_install:
   - uname -a
