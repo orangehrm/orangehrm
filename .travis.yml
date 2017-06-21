@@ -3,6 +3,8 @@ php:
   - '5.6'
   - '7.1'
 sudo: required
+dist: trusty
+group: edge
 
 services:
   - mysql
