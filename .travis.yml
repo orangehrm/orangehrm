@@ -12,7 +12,6 @@ services:
 before_install:
   - uname -a
   - php --version
-  - symfony/lib/vendor/bin/phpunit --version
   - mysqladmin -uroot status
   - composer self-update
   - sudo chmod 777 -R symfony/cache
