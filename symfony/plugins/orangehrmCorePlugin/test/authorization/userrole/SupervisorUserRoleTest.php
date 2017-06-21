@@ -63,7 +63,7 @@ class SupervisorUserRoleTest extends PHPUnit_Framework_TestCase {
         for ($i = 0; $i < 2; $i++) {
             $employee = new Employee();
             $employee->setEmployeeId($i + 1);
-            $employee->setFirstName("test name" . $i + 1);
+            $employee->setFirstName("test name" . ($i + 1));
             $propertyList->add($employee);
         }
 
@@ -85,7 +85,7 @@ class SupervisorUserRoleTest extends PHPUnit_Framework_TestCase {
             $employee = new Employee();
             $employee->setEmployeeId($i + 1);
             $employee->setEmpNumber($i + 1);
-            $employee->setFirstName("test name" . $i + 1);
+            $employee->setFirstName("test name" . ($i + 1));
             $employeeList->add($employee);
         }
 

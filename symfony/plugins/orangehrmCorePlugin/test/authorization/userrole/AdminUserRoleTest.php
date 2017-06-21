@@ -85,7 +85,7 @@ class AdminUserRoleTest extends PHPUnit_Framework_TestCase {
         for ($i = 0; $i < 2; $i++) {
             $employee = new Employee();
             $employee->setEmployeeId($i + 1);
-            $employee->setFirstName("test name" . $i + 1);
+            $employee->setFirstName("test name" . ($i + 1));
             $propertyList->add($employee);
         }
 
@@ -106,7 +106,7 @@ class AdminUserRoleTest extends PHPUnit_Framework_TestCase {
             $employee = new Employee();
             $employee->setEmployeeId($i + 1);
             $employee->setEmpNumber($i + 1);
-            $employee->setFirstName("test name" . $i + 1);
+            $employee->setFirstName("test name" . ($i + 1));
             $employeeList->add($employee);
         }
 
@@ -129,7 +129,7 @@ class AdminUserRoleTest extends PHPUnit_Framework_TestCase {
         for ($i = 0; $i < 3; $i++) {
             $location = new Location();
             $location->setId($i + 1);
-            $location->setName("test name" . $i + 1);
+            $location->setName("test name" . ($i + 1));
             $locationList->add($location);
         }
         $mockService->expects($this->once())
@@ -177,7 +177,7 @@ class AdminUserRoleTest extends PHPUnit_Framework_TestCase {
         for ($i = 0; $i < 3; $i++) {
             $userRole = new UserRole();
             $userRole->setId($i + 1);
-            $userRole->setName('test'.$i + 1);
+            $userRole->setName('test'.($i + 1));
             $roleList->add($userRole);
         }
 
