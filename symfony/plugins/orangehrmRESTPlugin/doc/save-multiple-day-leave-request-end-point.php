@@ -9,7 +9,7 @@
 * @apiParam   {Date} fromDate Leave start date.
 * @apiParam   {Date} toDate Leave end date.
 * @apiParam   {String} [comment] Leave comment.
-* @apiParam   {String} partialOption Partial day option ( required ) ('all','start','end',start_end ).
+* @apiParam   {String} partialOption Partial day option ( required ) ('all','start','end','start_end','none' ).
 * Note : If partial option is 'all'  start day fields must be filled.
 *        If partial option is 'end'  end day fields must be filed.
 *        If partial option is 'start'  start day fields must be filed.

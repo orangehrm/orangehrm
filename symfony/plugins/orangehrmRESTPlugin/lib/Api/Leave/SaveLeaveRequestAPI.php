@@ -205,6 +205,9 @@ class SaveLeaveRequestAPI extends EndPoint
                     $filters['firstDuration'] = $this->createDuration('First Day', $firstDayType, $firstDayAmpm,
                         $firstDayFrom, $firstDayTo);
                           break;
+                case 'none':
+                    $filters['partialDays'] = '';
+                    break;
                 case 'start':
                     $filters['firstDuration'] = $this->createDuration('First Day', $firstDayType, $firstDayAmpm,
                         $firstDayFrom,
