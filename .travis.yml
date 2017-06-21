@@ -12,7 +12,7 @@ services:
 before_install:
   - uname -a
   - php --version
-  - phpunit --version
+  - symfony/lib/vendor/bin/phpunit --version
   - mysqladmin -uroot status
   - composer self-update
   - sudo chmod 777 -R symfony/cache
@@ -23,8 +23,8 @@ install:
   - composer dump-autoload -o -d symfony/lib
   - php installer/cli_install.php 0
   - php devTools/general/create-test-db.php root
-#script:
-#  - symfony/lib/vendor/bin/codecept run -c symfony/test/api/
+script:
+  - symfony/lib/vendor/bin/phpunit
 
 notifications:
   email: true
