@@ -243,7 +243,10 @@ class EmployeeDependentAPI extends EndPoint
         $employeeDependent->name = $filters[self::PARAMETER_NAME];
         $employeeDependent->relationship = $filters[self::PARAMETER_RELATIONSHIP];
         $employeeDependent ->relationship_type = 'other';
-        $dob = date("Y-m-d", strtotime($filters[self::PARAMETER_DOB]));
+        if(!empty($filters[self::PARAMETER_DOB])){
+            $dob = date("Y-m-d", strtotime($filters[self::PARAMETER_DOB]));
+         }
+
         $employeeDependent->date_of_birth = $dob;
 
         return $employeeDependent;
