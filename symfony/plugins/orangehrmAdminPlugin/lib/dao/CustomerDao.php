@@ -83,13 +83,31 @@ class CustomerDao extends BaseDao {
     }
 
     /**
+     * Get Customer by name
+     *
+     * @param $customerId
+     * @return mixed
+     * @throws DaoException
+     */
+    public function getCustomerByName($customerName) {
+
+        try {
+            $q = Doctrine_Query :: create()
+                ->from('Customer')
+                ->where('name = ?',$customerName);
+            return $q->count();
+        } catch (Exception $e) {
+            throw new DaoException($e->getMessage());
+        }
+    }
+    /**
      *
      * @param type $customerId 
      */
     public function deleteCustomer($customerId) {
 
         try {
-            $customer = Doctrine :: getTable('Customer')->find($customerId);
+            $customer = Doctrine :: getTable('Customer')->find();
             $customer->setIsDeleted(Customer::DELETED);
             $customer->save();
             $this->_deleteRelativeProjectsForCustomer($customerId);
