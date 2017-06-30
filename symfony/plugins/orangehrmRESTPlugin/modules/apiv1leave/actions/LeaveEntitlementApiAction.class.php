@@ -29,7 +29,7 @@ class LeaveEntitlementApiAction extends baseRestAction
     {
         $this->leaveEntitlementApi= new LeaveEntitlementAPI($request);
         $this->getValidationRule = $this->leaveEntitlementApi->getValidationRules();
-        $this->postValidationRule = $this->leaveEntitlementApi->getValidationRules();
+        $this->postValidationRule = $this->leaveEntitlementApi->postValidationRules();
     }
 
     protected function handleGetRequest(Request $request)
