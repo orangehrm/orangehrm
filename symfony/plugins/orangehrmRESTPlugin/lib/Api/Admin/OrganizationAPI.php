@@ -25,9 +25,29 @@ use Orangehrm\Rest\Http\Response;
 
 class OrganizationAPI extends EndPoint
 {
-
-
     protected $organizationService;
+    protected $employeeService;
+
+    /**
+     * @return mixed
+     */
+    public function getEmployeeService()
+    {
+        if($this->employeeService == null){
+            $this->employeeService = new \EmployeeService();
+        }
+        return $this->employeeService;
+    }
+
+    /**
+     * @param mixed $employeeService
+     */
+    public function setEmployeeService($employeeService)
+    {
+        $this->employeeService = $employeeService;
+    }
+
+
 
     /**
      * @return \OrganizationService|null
@@ -57,6 +77,7 @@ class OrganizationAPI extends EndPoint
     public function getOrganization(){
         $responseArray = null;
         $organization =$this->getOrganizationService()->getOrganizationGeneralInformation()->toArray();
+        $organization['numberOfEmployees'] = $this->getEmployeeService()->getEmployeeCount();
         return new Response($organization, array());
     }
 
