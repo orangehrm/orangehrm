@@ -53,10 +53,8 @@ class APILeaveAssignmentService extends \LeaveAssignmentService
 
         if (is_null($this->assignWorkflowItem)) {
 
-
             $this->assignWorkflowItem = $this->getWorkflowService()
                 ->getWorkflowItemByStateActionAndRole(\WorkflowStateMachine::FLOW_LEAVE, 'INITIAL', 'ASSIGN', 'ADMIN');
-
         }
 
         if (is_null($this->assignWorkflowItem)) {

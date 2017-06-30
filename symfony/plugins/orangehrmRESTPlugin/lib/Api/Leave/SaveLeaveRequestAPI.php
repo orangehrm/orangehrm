@@ -300,7 +300,7 @@ class SaveLeaveRequestAPI extends EndPoint
 
                 break;
             default:
-                throw new InvalidParamException('Invalid Type');
+                throw new InvalidParamException('Invalid Duration Type');
         }
 
         return $duration;

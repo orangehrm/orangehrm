@@ -218,6 +218,16 @@ class LeaveEntitlementAPI extends EndPoint
         );
     }
 
+    public function postValidationRules()
+    {
+        return array(
+            self::PARAMETER_TO_DATE => array('Date' => array('Y-m-d')),
+            self::PARAMETER_FROM_DATE => array('Date' => array('Y-m-d')),
+            self::PARAMETER_DAYS => array('IntVal' => true, 'NotEmpty' => true, 'Length' => array(1, 2)),
+
+        );
+    }
+
     /**
      * Create entitlement
      *
