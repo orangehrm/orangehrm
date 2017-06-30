@@ -18,7 +18,8 @@
 * @apiSuccess  {String} zipCode  Zip code.
 * @apiSuccess  {String} street1  Street 1.
 * @apiSuccess  {String} street2  Street 2.
-* @apiSuccess  {String} note  Notes.
+* @apiSuccess  {String} note  Note.
+* @apiSuccess  {Number} numberOfEmployees Number of employees.
 *
 *
 * @apiSuccessExample Success-Response:
