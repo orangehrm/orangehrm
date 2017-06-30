@@ -49,7 +49,7 @@ class EmployeeSupervisorApiAction extends baseRestAction
     protected function handlePutRequest(Request $request)
     {
 
-        return $this->apiEmployeeSupervisor->saveEmployeeSupervisor();
+        return $this->apiEmployeeSupervisor->updateEmployeeSupervisor();
     }
 
     protected function handleDeleteRequest(Request $request)
