@@ -377,13 +377,13 @@ class HolidayServiceTest extends PHPUnit_Framework_TestCase {
             array('id' => 2, 'recurring' => 1, 'description' => 'Public Holiday', 'date' => '2010-04-01', 'length' => 8),
             array('id' => 3, 'recurring' => 0, 'description' => 'Public Holiday', 'date' => '2010-05-27', 'length' => 4),
             array('id' => 4, 'recurring' => 1, 'description' => 'Public Holiday', 'date' => '2010-06-27', 'length' => 8),
-            array('id' => 7, 'recurring' => 1, 'description' => 'Another Holiday', 'date' => '2010-09-13', 'length' => 8),            
-            array('id' => 5, 'recurring' => 0, 'description' => 'Another Holiday', 'date' => '2010-09-13', 'length' => 8)
-            );   
+            array('id' => 5, 'recurring' => 0, 'description' => 'Another Holiday', 'date' => '2010-09-13', 'length' => 8),
+            array('id' => 7, 'recurring' => 1, 'description' => 'Another Holiday', 'date' => '2010-09-13', 'length' => 8)
+            );
         $expected = TestDataService::loadObjectListFromArray('Holiday', $expectedArray);
 
         $this->compareHolidays($expected, $result);
-    }  
+    }
     
     public function testSearchHolidaysRecurringMultiYear() {
 
@@ -434,8 +434,9 @@ class HolidayServiceTest extends PHPUnit_Framework_TestCase {
             array('id' => 2, 'recurring' => 1, 'description' => 'Public Holiday', 'date' => '2010-04-01', 'length' => 8),
             array('id' => 3, 'recurring' => 0, 'description' => 'Public Holiday', 'date' => '2010-05-27', 'length' => 4),
             array('id' => 4, 'recurring' => 1, 'description' => 'Public Holiday', 'date' => '2010-06-27', 'length' => 8),
-            array('id' => 7, 'recurring' => 1, 'description' => 'Another Holiday', 'date' => '2010-09-13', 'length' => 8),            
             array('id' => 5, 'recurring' => 0, 'description' => 'Another Holiday', 'date' => '2010-09-13', 'length' => 8),
+            array('id' => 7, 'recurring' => 1, 'description' => 'Another Holiday', 'date' => '2010-09-13', 'length' => 8),            
+
             array('id' => 6, 'recurring' => 0, 'description' => 'Another Holiday', 'date' => '2011-01-13', 'length' => 8),
             array('id' => 2, 'recurring' => 1, 'description' => 'Public Holiday', 'date' => '2011-04-01', 'length' => 8),
             array('id' => 4, 'recurring' => 1, 'description' => 'Public Holiday', 'date' => '2011-06-27', 'length' => 8),
@@ -476,9 +477,9 @@ class HolidayServiceTest extends PHPUnit_Framework_TestCase {
         
         $expectedArray = array(
             array('id' => 4, 'recurring' => 1, 'description' => 'Public Holiday', 'date' => '2010-06-27', 'length' => 8),
-            array('id' => 7, 'recurring' => 1, 'description' => 'Another Holiday', 'date' => '2010-09-13', 'length' => 8),            
-            array('id' => 5, 'recurring' => 0, 'description' => 'Another Holiday', 'date' => '2010-09-13', 'length' => 8)          
-            ); 
+            array('id' => 5, 'recurring' => 0, 'description' => 'Another Holiday', 'date' => '2010-09-13', 'length' => 8),
+            array('id' => 7, 'recurring' => 1, 'description' => 'Another Holiday', 'date' => '2010-09-13', 'length' => 8)
+            );
 
         $expected = TestDataService::loadObjectListFromArray('Holiday', $expectedArray);        
         $this->compareHolidays($expected, $result);

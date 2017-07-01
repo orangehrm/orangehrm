@@ -398,7 +398,7 @@ class BeaconCommunicationsService extends BaseService implements StateAccessible
                 'allow_self_signed' => true,
                 'cafile' => '/etc/ssl/certs/cacert.pem',
                 'verify_depth' => 5,
-                'CN_match' => '127.0.0.1',
+                'peer_name' => '127.0.0.1',
                 'disable_compression' => true,
                 'SNI_enabled' => true,
                 'ciphers' => 'ALL!EXPORT!EXPORT40!EXPORT56!aNULL!LOW!RC4'

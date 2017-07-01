@@ -135,10 +135,12 @@ class TestDataService {
         $tableName = $tableObject->getTableName();
         $queryArray = array();
 
-        foreach ($tableData as $item) {
+        if (!empty($tableData)) {
+            foreach ($tableData as $item) {
 
-            $columnString = self::_generateInsetQueryColumnString($item, $tableObject);
-            $queryArray[] = "INSERT INTO `$tableName` $columnString VALUES ('" . implode("', '", $item) . "')";
+                $columnString = self::_generateInsetQueryColumnString($item, $tableObject);
+                $queryArray[] = "INSERT INTO `$tableName` $columnString VALUES ('" . implode("', '", $item) . "')";
+            }
         }
 
         $queryArray[] = "UPDATE `hs_hr_unique_id` SET `last_id` = " . count($tableData) . " WHERE `table_name` = '$tableName'";

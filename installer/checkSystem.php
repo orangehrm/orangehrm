@@ -113,8 +113,8 @@ function sysCheckPassed() {
             <td align="right" class="tdValues"><strong>
             <?php
 
-                if(function_exists('mysql_connect')) {
-                    $mysqlClient = mysql_get_client_info();
+                if(function_exists('mysqli_connect')) {
+                    $mysqlClient = mysqli_get_client_info();
 
                     // Regular expression that will detects any 
                     // <digit+>.<digit+>.<digit+> pattern in any string. 
@@ -123,9 +123,9 @@ function sysCheckPassed() {
                     $versionPattern = '/[0-9]+\.[0-9]+\.[0-9]+/';
 
                     preg_match($versionPattern, $mysqlClient, $matches);
-                    $mysql_client_version = $matches[0];
+                    $mysqlClientVersion = $matches[0];
 
-                    if (version_compare($mysql_client_version, '4.1.0') < 0) {
+                    if (version_compare($mysqlClientVersion, '4.1.0') < 0) {
                         echo "<b><font color='#9E6D6D'>ver 4.1.x or later recommended (reported ver " . $mysqlClient . ')</font></b>';
                     } else
                         echo "<b><font color='green'>OK (ver " . $mysqlClient . ')</font></b>';
@@ -143,9 +143,9 @@ function sysCheckPassed() {
             <td align="right" class="tdValues"><strong>
             <?php
 			   $dbInfo = $_SESSION['dbInfo'];
-               if(function_exists('mysql_connect') && (@mysql_connect($dbInfo['dbHostName'].':'.$dbInfo['dbHostPort'], $dbInfo['dbUserName'], $dbInfo['dbPassword']))) {
+               if(function_exists('mysqli_connect') && ($conn = @mysqli_connect($dbInfo['dbHostName'], $dbInfo['dbUserName'], $dbInfo['dbPassword'], "", $dbInfo['dbHostPort']))) {
 
-	              $mysqlServer = mysql_get_server_info();
+	              $mysqlServer = mysqli_get_server_info($conn);
 
                   if(version_compare($mysqlServer, "5.1.6") >= 0) {
                   	 echo "<b><font color='green'>OK (ver " .$mysqlServer. ')</font></b>';
@@ -164,11 +164,11 @@ function sysCheckPassed() {
 
             <td align="right" class="tdValues"><strong>
             <?php
-               if(function_exists('mysql_connect') && (@mysql_connect($dbInfo['dbHostName'].':'.$dbInfo['dbHostPort'], $dbInfo['dbUserName'], $dbInfo['dbPassword']))) {
+               if(function_exists('mysqli_connect') && ($conn = @mysqli_connect($dbInfo['dbHostName'], $dbInfo['dbUserName'], $dbInfo['dbPassword'], "", $dbInfo['dbHostPort']))) {
 
-		            $mysqlServer = mysql_query("show engines");
+		            $mysqlServer = mysqli_query($conn, "show engines");
 
-		            while ($engines = mysql_fetch_assoc($mysqlServer)) {
+		            while ($engines = mysqli_fetch_assoc($mysqlServer)) {
 		                if ($engines['Engine'] == 'InnoDB') {
 		                    if ($engines['Support'] == 'DISABLED') {
 		                        echo "<b><font color='red'>Disabled!</font></b>";
@@ -332,10 +332,10 @@ function sysCheckPassed() {
 
             <td align="right" class="tdValues"><strong>
             <?php
-               if(function_exists('mysql_connect') && (@mysql_connect($dbInfo['dbHostName'].':'.$dbInfo['dbHostPort'], $dbInfo['dbUserName'], $dbInfo['dbPassword']))) {
+               if(function_exists('mysqli_connect') && ($conn = @mysqli_connect($dbInfo['dbHostName'], $dbInfo['dbUserName'], $dbInfo['dbPassword'], "", $dbInfo['dbHostPort']))) {
 
-		            $result = mysql_query("SHOW VARIABLES LIKE 'EVENT_SCHEDULER'");
-                    $row = mysql_fetch_assoc($result);
+		            $result = mysqli_query($conn, "SHOW VARIABLES LIKE 'EVENT_SCHEDULER'");
+                    $row = mysqli_fetch_assoc($result);
                     $schedulerStatus = $row['Value'];
                     
                     if ($schedulerStatus == 'ON') {

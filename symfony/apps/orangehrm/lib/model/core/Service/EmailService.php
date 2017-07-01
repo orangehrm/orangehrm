@@ -20,7 +20,7 @@
  * @copyright 2006 OrangeHRM Inc., http://www.orangehrm.com
  */
 
-require_once sfConfig::get('sf_root_dir').'/lib/vendor/symfony/lib/vendor/swiftmailer/swift_required.php';
+require_once sfConfig::get('sf_root_dir') . '/lib/vendor/swiftmailer/swiftmailer/lib/swift_required.php';
 
 class EmailService extends BaseService {
 

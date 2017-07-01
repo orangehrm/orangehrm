@@ -114,8 +114,8 @@ function IsPHPVersionCompatible() {
 //02-function
 function IsMySqlClientCompatible() {
 
-                if(function_exists('mysql_connect')) {
-                    $mysqlClient = mysql_get_client_info();
+                if(function_exists('mysqli_get_client_info')) {
+            $mysqlClient = mysqli_get_client_info();
                     $versionPattern = '/[0-9]+\.[0-9]+\.[0-9]+/';
 
                     preg_match($versionPattern, $mysqlClient, $matches);
@@ -133,31 +133,31 @@ function IsMySqlClientCompatible() {
        }
 //03-function
 function IsMySqlServerCompatible() {
-	       $dbInfo = $_SESSION['dbInfo'];
-               if(function_exists('mysql_connect') && (@mysql_connect($dbInfo['dbHostName'].':'.$dbInfo['dbHostPort'], $dbInfo['dbUserName'], 			   $dbInfo['dbPassword']))) 
-		{
-	              $mysqlServer = mysql_get_server_info();
+        $conn = $this->getConnection($_SESSION['dbInfo']);
+        if ($conn) {
+            $mysqlServer = mysqli_get_server_info($conn);
 
-                  if(version_compare($mysqlServer, "5.1.6") >= 0) {
-			  $this->getMessages()->displayMessage(Messages::MYSQL_SERVER_OK_MESSAGE." ($mysqlServer)");
-                  } else {
-			$this->getMessages()->displayMessage(Messages::MYSQL_SERVER_RECOMMEND_MESSAGE." (reported ver " .$mysqlServer.")");
-		 }
-               } else {
-		  $this->getMessages()->displayMessage(Messages::MYSQL_SERVER_FAIL_MESSAGE);
-                  $this->interuptContinue = true;
-               }
-           }
+            if (version_compare($mysqlServer, "5.1.6") >= 0) {
+                $this->getMessages()->displayMessage(Messages::MYSQL_SERVER_OK_MESSAGE . " ($mysqlServer)");
+            } else {
+                $this->getMessages()->displayMessage(Messages::MYSQL_SERVER_RECOMMEND_MESSAGE . " (reported ver " . $mysqlServer . ")");
+            }
+        } else {
+            $this->getMessages()->displayMessage(Messages::MYSQL_SERVER_FAIL_MESSAGE);
+            $this->interuptContinue = true;
+        }
+
+}
 
 //04-function
 function IsInnoDBSupport() {
-               $dbInfo = $_SESSION['dbInfo'];
+               $conn = $this->getConnection($_SESSION['dbInfo']);
 
-               if(function_exists('mysql_connect') && (@mysql_connect($dbInfo['dbHostName'].':'.$dbInfo['dbHostPort'], $dbInfo['dbUserName'], $dbInfo['dbPassword']))) {			   
-		            $mysqlServer = mysql_query("show engines");
+               if ($conn) {
+		            $mysqlServer = mysqli_query($conn, "show engines");
 			   
 
-		            while ($engines = mysql_fetch_assoc($mysqlServer)) {
+		            while ($engines = mysqli_fetch_assoc($mysqlServer)) {
 		                if ($engines['Engine'] == 'InnoDB') {
 		                    if ($engines['Support'] == 'DISABLED') {
 		                        $this->getMessages()->displayMessage("MySQL InnoDB Support - Disabled!");
@@ -359,11 +359,10 @@ function IsEnableRewriteMod(){
 
 //20 - function
 function MySQLEventStatus(){                       
-	       $dbInfo = $_SESSION['dbInfo'];
-               if(function_exists('mysql_connect') && (@mysql_connect($dbInfo['dbHostName'].':'.$dbInfo['dbHostPort'], $dbInfo['dbUserName'], 		       $dbInfo['dbPassword']))) {
-		   
-		    $result = mysql_query("SHOW VARIABLES LIKE 'EVENT_SCHEDULER'");
-                    $row = mysql_fetch_assoc($result);
+        $conn = $this->getConnection($_SESSION['dbInfo']);
+        if ($conn) {   
+            $result = mysqli_query($conn, "SHOW VARIABLES LIKE 'EVENT_SCHEDULER'");
+            $row = mysqli_fetch_assoc($result);
                     $schedulerStatus = $row['Value'];
                     
                     if ($schedulerStatus == 'ON') {
@@ -388,22 +387,23 @@ function dbConfigurationCheck()
 {	
 
 	 $dbInfo = $_SESSION['dbInfo'];
-	 if (@mysql_connect($dbInfo['dbHostName'] . ':'. $dbInfo['dbHostPort'], $dbInfo['dbUserName'], $dbInfo['dbPassword'])) {
-                $mysqlHost = mysql_get_server_info();
+        $conn = $this->getConnection($dbInfo);
+        if ($conn) {
+            $mysqlHost = mysqli_get_server_info($conn);
 
                 if (intval(substr($mysqlHost, 0, 1)) < 4 || substr($mysqlHost, 0, 3) === '4.0'){
                     $_SESSION['dbError'] = 'WRONG DB SERVER'; $this->interuptContinue = true;
 		}
 
-                elseif ($_SESSION['dbCreateMethod'] == 'new' && mysql_select_db($dbInfo['dbName'])){
+                elseif ($_SESSION['dbCreateMethod'] == 'new' && mysqli_select_db($conn, $dbInfo['dbName'])){
                     $_SESSION['dbError'] = "Database (" . $_SESSION['dbInfo']['dbName'] . ") already exists";
 		    $this->interuptContinue = true;
                     }
                 elseif ($_SESSION['dbCreateMethod'] == 'new' && !isset($_SESSION['chkSameUser'])) {
-                    mysql_select_db('mysql');
-                    $rset = mysql_query("SELECT USER FROM user WHERE USER = '" . $dbInfo['dbOHRMUserName'] . "'");
+			mysqli_select_db($conn, 'mysql');
+	                $rset = mysqli_query($conn, "SELECT USER FROM user WHERE USER = '" . $dbInfo['dbOHRMUserName'] . "'");
 
-                    if (mysql_num_rows($rset) > 0){
+                    if (mysqli_num_rows($rset) > 0){
                         $_SESSION['dbError'] = 'OrangehrmDatabase User name already exists'; 
 			$this->interuptContinue = true; 
 		    }                 
@@ -420,6 +420,41 @@ function dbConfigurationCheck()
 		 $this->getMessages()->displayMessage(Messages::DB_CONFIG_SUCCESS);
 	 }
    }
+
+    /**
+     * @param $dbInfo
+     * @return bool|mysqli
+     */
+    private function getConnection($dbInfo)
+    {
+        $conn = false;
+
+        if (function_exists('mysqli_connect')) {
+
+            if ($dbInfo['dbHostPortModifier'] === 'port') {
+                $socket = null;
+                $port = intval($dbInfo['dbHostPort']);
+            } else {
+                $port = null;
+                $socket = $dbInfo['dbHostPort'];
+            }
+
+            $conn = mysqli_connect(
+                $dbInfo['dbHostName'],
+                $dbInfo['dbUserName'],
+                $dbInfo['dbPassword'],
+                null,
+                $port,
+                $socket
+            );
+
+            if (mysqli_connect_error()) {
+//                print_r($dbInfo);
+            }
+        }
+
+        return $conn;
+    }
 }
 ?>
 

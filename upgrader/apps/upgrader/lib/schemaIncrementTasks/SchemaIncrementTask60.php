@@ -6,7 +6,7 @@
  * and open the template in the editor.
  */
 
-require_once sfConfig::get('sf_root_dir') . '/../symfony/lib/vendor/phpseclib/Crypt/Random.php';
+require_once sfConfig::get('sf_root_dir') . '/../symfony/lib/vendor/phpseclib/phpseclib/phpseclib/Crypt/Random.php';
 
 /**
  * Upgrader changes to support bcrypt() based hash and storying csrf key in hs_hr_config
@@ -101,13 +101,7 @@ class SchemaIncrementTask60 extends SchemaIncrementTask {
     }
 
     public function createCsrfKey() {
-        $csrfKey = '';
-
-        while (strlen($csrfKey) <= 50) {
-            $csrfKey .= base_convert(crypt_random(), 10, 32);
-        }
-
-        return $csrfKey;
+        return \phpseclib\Crypt\Random::string(55);
     }
 
 }

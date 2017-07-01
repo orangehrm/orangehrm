@@ -1,6 +1,0 @@
-<?xml version="1.0" encoding="UTF-8" ?>
-<a xmlns="http://pear.php.net/dtd/rest.allreleases" xsi:schemaLocation="http://pear.php.net/dtd/rest.allreleases http://pear.php.net/dtd/rest.allreleases.xsd">
-  <p>sfFooPlugin</p>
-  <c>pear.example.com</c>
-  <r><v>1.0.0</v><s>stable</s></r>
-</a>

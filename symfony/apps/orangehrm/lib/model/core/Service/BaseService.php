@@ -37,7 +37,7 @@ class BaseService {
         if ($query instanceof Doctrine_Query) {
             return $this->_decorateQuery_DQL($query, $extensions, $parameters);
         } elseif (is_string($query)) {
-            return $this->_decorateQuery_SQL($query, $extensions, $parameters);
+            return $this->decorateSqlQuery($query, $extensions, $parameters);
         } else {
             // TODO: Warn
             return $query;
@@ -51,7 +51,7 @@ class BaseService {
      * @param mixed $parameters
      * @return string SQL query
      */
-    private function _decorateQuery_SQL($query, array $extensions, array $parameters) {
+    private function decorateSqlQuery($query, array $extensions, array $parameters) {
 
         if (!empty($extensions['select'])) {
             $select = array();

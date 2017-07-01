@@ -376,22 +376,6 @@ class EmployeeTable extends PluginEmployeeTable {
         }
     }
 
-
-    /**
-     * Delete Employees with given IDs.
-     *
-     * @param array $ids Array of employee ids to delete
-     * @return int Number of employees deleted.
-     */
-    public function delete(array $ids) {
-        $count = Doctrine_Query::create()
-                ->delete()
-                ->from('Employee')
-                ->whereIn('empNumber', $ids)
-                ->execute();
-
-        return $count;
-    }
     
     /**
      * Get list of subordinate employee Ids as an array on integers

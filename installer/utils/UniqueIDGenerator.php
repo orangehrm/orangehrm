@@ -166,7 +166,7 @@ class UniqueIDGenerator {
 	 *
 	 * @param resource $link mysql link identifier
 	 */
-	public function initTable($link = null) {
+	public function initTable($link) {
 
 		$idFields = array(
 		    //new IDField("hs_hr_users", "id", "USR"),
@@ -192,35 +192,35 @@ class UniqueIDGenerator {
 			/* Get existing lastId value */
 			$sql = sprintf(self::SELECT_SQL, $tableName, $fieldName);
 
-			$result = (empty($link)) ? mysql_query($sql) : mysql_query($sql, $link);
+			$result =mysqli_query($link, $sql);
 
 			if (!$result) {
-				$errMsg = (empty($link)) ? mysql_error() : mysql_error($link);
+				$errMsg = mysqli_error($link);
 				throw new IDGeneratorException("Error querying last ID. SQL = $sql. Msg = $errMsg");
 			}
 
-			$numRows = mysql_num_rows($result);
+			$numRows = mysqli_num_rows($result);
 			if ($numRows === 1) {
 				$insert = false;
-				$row = mysql_fetch_array($result, MYSQL_NUM);
+				$row = mysqli_fetch_array($result, MYSQLI_NUM);
 				$lastId = $row[0];
 			} else if ($numRows === 0) {
 				$insert = true;
 			} else {
-				$errMsg = (empty($link)) ? mysql_error() : mysql_error($link);
+				$errMsg = mysqli_error($link);
 				throw new IDGeneratorException("Error in hs_hr_unique_id table. Msg = $errMsg");
 			}
 
 			/* If the field has a prefix, look for existing invalid id's */
 			if (!empty($prefix)) {
 				$sql = sprintf(self::FIND_INVALID_ID_SQL, $tableName, $fieldName, $prefix);
-				$result = (empty($link)) ? mysql_query($sql) : mysql_query($sql, $link);
+				$result = mysqli_query($link, $sql);
 				if (!$result) {
-					$errMsg = (empty($link)) ? mysql_error() : mysql_error($link);
+					$errMsg = mysqli_error($link);
 					throw new IDGeneratorException("Error looking for invalid ID's. SQL = $sql. Msg = $errMsg");
 				}
 
-				$row = mysql_fetch_array($result, MYSQL_NUM);
+				$row = mysqli_fetch_array($result, MYSQLI_NUM);
 				if (empty($row)) {
 					throw new IDGeneratorException("Error fetching num_rows. SQL = $sql");
 				}
@@ -231,13 +231,13 @@ class UniqueIDGenerator {
 
 			/* Get existing maximum ID from the table */
 			$sql = sprintf(self::FIND_EXISTING_MAX_ID_SQL, $fieldName, $tableName);
-			$result = (empty($link)) ? mysql_query($sql) : mysql_query($sql, $link);
+			$result = mysqli_query($link, $sql);
 			if (!$result) {
-				$errMsg = (empty($link)) ? mysql_error() : mysql_error($link);
+				$errMsg = mysqli_error($link);
 				throw new IDGeneratorException("Error looking for existing MAX ID. SQL = $sql. Msg = $errMsg");
 			}
 
-			$row = mysql_fetch_array($result, MYSQL_NUM);
+			$row = mysqli_fetch_array($result, MYSQLI_NUM);
 			if (empty($row)) {
 				throw new IDGeneratorException("Error looking for existing MAX ID. SQL = $sql");
 			}
@@ -264,9 +264,9 @@ class UniqueIDGenerator {
 				$sql = sprintf(self::UPDATE_SQL, $lastId, $tableName, $fieldName);
 			}
 
-			$result = (empty($link)) ? mysql_query($sql) : mysql_query($sql, $link);
+			$result =mysqli_query($link, $sql);
 			if (!$result) {
-				$errMsg = (empty($link)) ? mysql_error() : mysql_error($link);
+				$errMsg = mysqli_error($link);
 				throw new IDGeneratorException("Error updating hs_hr_unique_id table. SQL = $sql. Msg = $errMsg");
 			}
 		}

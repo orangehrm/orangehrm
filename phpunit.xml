@@ -2,8 +2,9 @@
 <phpunit
         colours = "true"
         convertErrorsToExceptions   = "true"
-        convertNoticesToExceptions  = "false"
-        convertWarningsToExceptions = "false"
+        convertNoticesToExceptions  = "true"
+        convertWarningsToExceptions = "true"
+        strict = "true"
     >
 
     <testsuites>

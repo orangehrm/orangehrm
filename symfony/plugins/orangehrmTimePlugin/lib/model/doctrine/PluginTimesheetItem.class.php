@@ -23,7 +23,7 @@ abstract class PluginTimesheetItem extends BaseTimesheetItem
 		}
 	}
 
-	public function addConvertedTime($oldPlayTime, $PlayTimeToAdd) {
+	public static function addConvertedTime($oldPlayTime, $PlayTimeToAdd) {
 
 		$old = explode(":", $oldPlayTime);
 		$play = explode(":", $PlayTimeToAdd);
