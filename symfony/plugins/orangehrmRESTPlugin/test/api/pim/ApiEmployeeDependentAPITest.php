@@ -92,6 +92,10 @@ class ApiEmployeeDependentAPITest extends PHPUnit_Framework_TestCase
             ->method('getEmployeeDependents')
             ->with($empNumber)
             ->will($this->returnValue($employeeDependentsList));
+        $pimEmployeeService->expects($this->any())
+            ->method('getEmployee')
+            ->with($empNumber)
+            ->will($this->returnValue($employee));
 
         $this->employeeDependantAPI->setEmployeeService($pimEmployeeService);
         $returned = $this->employeeDependantAPI->getEmployeeDependents();
