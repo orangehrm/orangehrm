@@ -6,7 +6,7 @@
 *
 * @apiParam  {Number} offset  Page number.
 * @apiParam  {Number} limit  Number of results per page.
-* @apiParam  {Number} userType  User type.
+* @apiParam  {Number} userRole  User role id.
 *
 * @apiSuccess  {String} userName  User Name.
 * @apiSuccess  {String} employeeName  Employee name.
