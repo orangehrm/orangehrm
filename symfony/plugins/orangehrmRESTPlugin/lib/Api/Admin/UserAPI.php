@@ -27,7 +27,7 @@ use Orangehrm\Rest\Http\Response;
 class UserAPI extends EndPoint
 {
     const PARAMETER_USER_NAME = 'userName';
-    const PARAMETER_USER_TYPE = 'userType';
+    const PARAMETER_USER_TYPE = 'userRole';
     const PARAMETER_EMPLOYEE_ID = 'employeeId';
     const PARAMETER_OFFSET = 'offset';
     const PARAMETER_LIMIT = 'limit';
