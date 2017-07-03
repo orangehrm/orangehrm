@@ -76,7 +76,7 @@ class CustomerAPI extends EndPoint
         $filters = $this->filterParameters();
         $customerCount = $this->getCustomerService()->getCustomerByName($filters[self::PARAMETER_NAME]);
 
-        if($customerCount == 1) {
+        if($customerCount == 0) {
             $customer = new \Customer();
             $customer->setName($filters[self::PARAMETER_NAME]);
             $customer->setDescription($filters[self::PARAMETER_DESCRIPTION]);

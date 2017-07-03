@@ -53,7 +53,7 @@ class ActivityAPI extends EndPoint
      */
     public function getActivity()
     {
-        $id = $this->getRequestParams()->getUrlParam(self::PARAMETER_ID);
+        $id =  $this->getRequestParams()->getUrlParam(self::PARAMETER_ID);
         $activities = $this->getProjectService()->getActivityListByProjectId($id);
         foreach ($activities as $activity) {
             $responseArray[] = $activity->toArray();
