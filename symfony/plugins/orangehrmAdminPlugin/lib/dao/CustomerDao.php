@@ -107,7 +107,7 @@ class CustomerDao extends BaseDao {
     public function deleteCustomer($customerId) {
 
         try {
-            $customer = Doctrine :: getTable('Customer')->find();
+            $customer = Doctrine :: getTable('Customer')->find($customerId);
             $customer->setIsDeleted(Customer::DELETED);
             $customer->save();
             $this->_deleteRelativeProjectsForCustomer($customerId);

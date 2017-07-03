@@ -619,5 +619,22 @@ class ProjectDao extends BaseDao {
         return $sortField;
         
     }
+
+    /**
+     * @param $projectName
+     * @return int
+     * @throws DaoException
+     */
+    public function getProjectByName($projectName) {
+
+        try {
+            $q = Doctrine_Query :: create()
+                ->from('Project')
+                ->where('name = ?',$projectName);
+            return $q->count();
+        } catch (Exception $e) {
+            throw new DaoException($e->getMessage());
+        }
+    }
 }
 
