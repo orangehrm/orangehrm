@@ -22,12 +22,31 @@ namespace Orangehrm\Rest\Api\Leave\Service;
 class APILeaveAssignmentService extends \LeaveAssignmentService
 {
 
+    protected $action;
+
+    /**
+     * @return mixed
+     */
+    public function getAction()
+    {
+        return $this->action;
+    }
+
+    /**
+     * @param mixed $action
+     */
+    public function setAction($action)
+    {
+        $this->action = $action;
+    }
+
     /**
      *
      * @param array $leaveAssignmentData
      * @return bool
      */
-    public function assignLeave(\LeaveParameterObject $leaveAssignmentData) {
+    public function assignLeave(\LeaveParameterObject $leaveAssignmentData)
+    {
 
         $employeeId = $leaveAssignmentData->getEmployeeNumber();
 
@@ -51,18 +70,46 @@ class APILeaveAssignmentService extends \LeaveAssignmentService
     protected function getWorkflowItemForAssignAction(\LeaveParameterObject $leaveAssignmentData)
     {
 
-        if (is_null($this->assignWorkflowItem)) {
-
-            $this->assignWorkflowItem = $this->getWorkflowService()
-                ->getWorkflowItemByStateActionAndRole(\WorkflowStateMachine::FLOW_LEAVE, 'INITIAL', 'ASSIGN', 'ADMIN');
-        }
 
         if (is_null($this->assignWorkflowItem)) {
-            $this->getLogger()->error("No workflow item found for ASSIGN leave action!");
+
+            switch ($this->getAction()) {
+                case "SCHEDULED":
+                    $this->assignWorkflowItem = $this->getWorkflowService()
+                        ->getWorkflowItemByStateActionAndRole(\WorkflowStateMachine::FLOW_LEAVE, 'INITIAL', 'ASSIGN',
+                            'ADMIN');
+                    break;
+
+                case "PENDING":
+                    $this->assignWorkflowItem = $this->getWorkflowService()
+                        ->getWorkflowItemByStateActionAndRole(\WorkflowStateMachine::FLOW_LEAVE, 'INITIAL', 'APPLY',
+                            'ESS');
+                    break;
+                case "REJECTED":
+                    $this->assignWorkflowItem = $this->getWorkflowService()
+                        ->getWorkflowItemByStateActionAndRole(\WorkflowStateMachine::FLOW_LEAVE, 'PENDING APPROVAL', 'REJECT',
+                            'ADMIN');
+                    break;
+                case "CANCELLED":
+                    $this->assignWorkflowItem = $this->getWorkflowService()
+                        ->getWorkflowItemByStateActionAndRole(\WorkflowStateMachine::FLOW_LEAVE, 'SCHEDULED', 'CANCEL',
+                            'ADMIN');
+                    break;
+                default:
+                    $this->assignWorkflowItem = $this->getWorkflowService()
+                        ->getWorkflowItemByStateActionAndRole(\WorkflowStateMachine::FLOW_LEAVE, 'INITIAL', 'ASSIGN',
+                            'ADMIN');
+                    break;
+
+            }
+
+            if (is_null($this->assignWorkflowItem)) {
+                $this->getLogger()->error("No workflow item found for ASSIGN leave action!");
+            }
+
+            return $this->assignWorkflowItem;
         }
 
-        return $this->assignWorkflowItem;
+
     }
-
-
 }

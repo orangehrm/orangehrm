@@ -45,6 +45,7 @@ class SaveLeaveRequestAPI extends EndPoint
     const PARAMETER_TO_DATE = "toDate";
     const PARAMETER_DURATION = "duration";
     const PARAMETER_COMMENT = 'comment';
+    const PARAMETER_LEAVE_ACTION = 'action';
     const PARAMETER_MULTIDAY_LEAVE = 'multiDay';
     const PARAMETER_MULTIDAY_PARTIAL_OPTION = 'partialOption';
 
@@ -147,7 +148,7 @@ class SaveLeaveRequestAPI extends EndPoint
         $filters = $this->filterParameters();
         $leaveParameters = new \LeaveParameterObject($filters);
         if ($this->validateLeaveType($filters['txtLeaveType'])) {
-
+            $this->getLeaveAssignmentService()->setAction(($this->getRequestParams()->getPostParam(self::PARAMETER_LEAVE_ACTION)));
             $success = $this->getLeaveAssignmentService()->assignLeave($leaveParameters);
         } else {
             $success = false;
@@ -192,6 +193,7 @@ class SaveLeaveRequestAPI extends EndPoint
         $secondDayAmpm = ($this->getRequestParams()->getPostParam(self::END_DAY_AMPM));
         $secondDayFrom = ($this->getRequestParams()->getPostParam(self::END_DAY_FROM));
         $secondDayTo = ($this->getRequestParams()->getPostParam(self::END_DAY_TO));
+
 
         if ($filters['txtToDate'] === $filters['txtFromDate']) {
 
