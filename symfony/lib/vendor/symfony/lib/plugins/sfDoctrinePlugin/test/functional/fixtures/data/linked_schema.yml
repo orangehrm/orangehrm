@@ -1,7 +1,0 @@
-ModelFromLinkedSchema:
-  options:
-    symfony:
-      form: false
-      filter: false
-  columns:
-    name: string(255)

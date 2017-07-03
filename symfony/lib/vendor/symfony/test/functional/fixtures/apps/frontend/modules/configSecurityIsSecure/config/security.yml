@@ -1,3 +1,0 @@
-all:
-  is_secure:   true
-  credentials: user

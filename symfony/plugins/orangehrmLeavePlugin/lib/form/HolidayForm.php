@@ -89,7 +89,7 @@ class HolidayForm extends sfForm {
     /**
      * Get required days Length List ignore "Weekend"
      */
-    public function getDaysLengthList() {
+    public static function getDaysLengthList() {
         $fullDaysLengthList = WorkWeek::getDaysLengthList();
         unset($fullDaysLengthList[8]);
         return $fullDaysLengthList;
@@ -163,7 +163,7 @@ class HolidayForm extends sfForm {
                 ));
         $widgets['recurring'] = new sfWidgetFormInputCheckbox(array());
         $widgets['length'] = new sfWidgetFormSelect(array(
-                    'choices' => $this->getDaysLengthList(),
+                    'choices' => self::getDaysLengthList(),
                         ), array(
                     'add_empty' => false
                 ));
@@ -196,7 +196,7 @@ class HolidayForm extends sfForm {
                     'required' => 'Date field is required',
                     'bad_format' => __(ValidationMessages::DATE_FORMAT_INVALID, array('%format%' => get_datepicker_date_format(sfContext::getInstance()->getUser()->getDateFormat())))
                 ));
-        $validators['length'] = new sfValidatorChoice(array('choices' => array_keys($this->getDaysLengthList())));
+        $validators['length'] = new sfValidatorChoice(array('choices' => array_keys(self::getDaysLengthList())));
 
         return $validators;
     }

@@ -19,11 +19,12 @@
  */
 
 require_once ROOT_PATH.'/installer/utils/UniqueIDGenerator.php';
-require_once ROOT_PATH.'/symfony/lib/vendor/phpass/PasswordHash.php';
-require_once ROOT_PATH.'/symfony/lib/vendor/phpseclib/Crypt/Random.php';
+require_once ROOT_PATH.'/symfony/lib/vendor/phpseclib/phpseclib/phpseclib/Crypt/Random.php';
+require_once ROOT_PATH.'/symfony/plugins/orangehrmCorePlugin/lib/utility/PasswordHash.php';
 
 class ApplicationSetupUtility {
 
+    private static $conn;
 
 public static function createDB() {
 
@@ -35,34 +36,35 @@ public static function createDB() {
 		$dbUser = $_SESSION['dbInfo']['dbUserName'];
 		$dbPassword = $_SESSION['dbInfo']['dbPassword'];
 
-		if (mysql_connect($dbHost.':'.$dbPort, $dbUser, $dbPassword)) {
+        self::$conn = mysqli_connect($dbHost, $dbUser, $dbPassword, "", $dbPort);
+        if (self::$conn) {
 
-			if (mysql_select_db($dbName)) {
+			if (mysqli_select_db(self::$conn, $dbName)) {
 
-				$result = mysql_query("SHOW TABLES");
+				$result = mysqli_query(self::$conn, "SHOW TABLES");
 
-				if (mysql_num_rows($result) > 0) {
+				if (mysqli_num_rows($result) > 0) {
 					$_SESSION['error'] = 'Given database is not empty.';
 				}
 
 			} else {
-			    $_SESSION['error'] = 'Cannot connect to the database. '.mysql_error();
+			    $_SESSION['error'] = 'Cannot connect to the database. '.mysqli_error(self::$conn);
 			}
 
 		} else {
-		    $_SESSION['error'] = 'Cannot make a database connection using given details. '.mysql_error();
+		    $_SESSION['error'] = 'Cannot make a database connection using given details. '.mysqli_error(self::$conn);
 		}
 
 	} elseif ($_SESSION['dbCreateMethod'] == 'new') { // If the user wants OrangeHRM to create the database for him
 
 		self::connectDB();
 		$dbName = '`'.$_SESSION['dbInfo']['dbName'].'`';
-		mysql_query("CREATE DATABASE " . $dbName);
+		mysqli_query(self::$conn, "CREATE DATABASE " . $dbName);
 
-		if(!@mysql_select_db($_SESSION['dbInfo']['dbName'])) {
-			$mysqlErrNo = mysql_errno();
+		if(!@mysqli_select_db(self::$conn, $_SESSION['dbInfo']['dbName'])) {
+			$mysqlErrNo = mysqli_errno(self::$conn);
 
-			$errorMsg = mysql_error();
+			$errorMsg = mysqli_error(self::$conn);
 			if(!isset($errorMsg) || $errorMsg == '') {
 				$errorMsg = 'Unable to create Database.';
 			}
@@ -73,7 +75,7 @@ public static function createDB() {
 				}
 			}
 
-			$_SESSION['error'] = $errorMsg.' '.mysql_error();
+			$_SESSION['error'] = $errorMsg.' '.mysqli_error(self::$conn);
 
 			return;
 		}
@@ -84,8 +86,8 @@ public static function createDB() {
 
 public static function connectDB() {
 
-	if(!@mysql_connect($_SESSION['dbInfo']['dbHostName'].':'.$_SESSION['dbInfo']['dbHostPort'], 		$_SESSION['dbInfo']['dbUserName'], $_SESSION['dbInfo']['dbPassword'])) {
-		$_SESSION['error'] =  'Database Connection Error!';
+    if(!self::$conn = @mysqli_connect($_SESSION['dbInfo']['dbHostName'], $_SESSION['dbInfo']['dbUserName'], $_SESSION['dbInfo']['dbPassword'], "", $_SESSION['dbInfo']['dbHostPort'])) {
+        $_SESSION['error'] =  'Database Connection Error!';
 		return;
 	}
 
@@ -97,7 +99,7 @@ public static function connectDB() {
 public static function initUniqueIDs() {
 	self::connectDB();
 
-	if(!mysql_select_db($_SESSION['dbInfo']['dbName'])) {
+	if(!mysqli_select_db(self::$conn, $_SESSION['dbInfo']['dbName'])) {
 		$_SESSION['error'] = 'Unable to connect to Database!';
 		error_log (date("r")." Initializing unique id's. Error - Unable to connect to Database\n",3, "installer/log.txt");
 		return false;
@@ -105,7 +107,7 @@ public static function initUniqueIDs() {
 
 	/* Initialize the hs_hr_unique_id table */
 	try {
-		UniqueIDGenerator::getInstance()->initTable();
+		UniqueIDGenerator::getInstance()->initTable(self::$conn);
 	} catch (IDGeneratorException $e) {
 		$errMsg = $e->getMessage() . ". Trace = " . $e->getTraceAsString();
 		$_SESSION['error'] = $errMsg;
@@ -121,8 +123,8 @@ public static function fillData($phase=1, $source='/dbscript/dbscript-') {
 
 	error_log (date("r")." Fill Data Phase $phase - Connected to the DB Server\n",3, "installer/log.txt");
 
-	if(!mysql_select_db($_SESSION['dbInfo']['dbName'])) {
-		$_SESSION['error'] = 'Cannot select the given database! '.mysql_error();
+	if(!mysqli_select_db(self::$conn, $_SESSION['dbInfo']['dbName'])) {
+		$_SESSION['error'] = 'Cannot select the given database! '.mysqli_error(self::$conn);
 		error_log (date("r")." Fill Data Phase $phase - Error - Cannot select the given database\n",3, "installer/log.txt");
 		return;
 	}
@@ -147,8 +149,8 @@ public static function fillData($phase=1, $source='/dbscript/dbscript-') {
 
 	for($c=0;(count($dbScriptStatements)-1)>$c;$c++) {
                 set_time_limit(30);
-		if(!@mysql_query($dbScriptStatements[$c])) {
-			$error = mysql_error() . ". Query: " . $dbScriptStatements[$c];
+		if(!@mysqli_query(self::$conn, $dbScriptStatements[$c])) {
+			$error = mysqli_error(self::$conn) . ". Query: " . $dbScriptStatements[$c];
             $_SESSION['error'] = $error;
 			error_log (date("r")." Fill Data Phase $phase - Error Statement # $c \n",3, "installer/log.txt");
 			error_log (date("r")." ".$dbScriptStatements[$c]."\n",3, "installer/log.txt");
@@ -166,7 +168,7 @@ public static function fillData($phase=1, $source='/dbscript/dbscript-') {
         $phase = isset($_SESSION['INSTALLING'])?isset($_SESSION['INSTALLING']):2;
         self::connectDB();
 
-        if (!@mysql_select_db($_SESSION['dbInfo']['dbName'])) {
+        if (!@mysqli_select_db(self::$conn, $_SESSION['dbInfo']['dbName'])) {
             $_SESSION['error'] = 'Unable to access OrangeHRM Database!';
             return;
         }
@@ -175,20 +177,14 @@ public static function fillData($phase=1, $source='/dbscript/dbscript-') {
         
         $query = "INSERT INTO `hs_hr_config` ( `key`, `value`) VALUES ('csrf_secret', '{$csrfKey}');";
 
-        if (!mysql_query($query)) {
-            $_SESSION['error'] = 'Unable to initialize csrf key';
+        if (!mysqli_query(self::$conn, $query)) {
+            $_SESSION['error'] = 'Unable to initialize csrf key (' . mysqli_error(self::$conn) . ')';
             return;
         }
     }
 
     public static function createCsrfKey() {
-        $csrfKey = '';
-
-        while (strlen($csrfKey) <= 50) {
-            $csrfKey .= base_convert(crypt_random(), 10, 32);
-        }
-
-        return $csrfKey;
+        return \phpseclib\Crypt\Random::string(55);
     }
 
 public static function createDBUser() {
@@ -213,8 +209,8 @@ TO "$dbOHRMUser"@"localhost"
 $querryIdentifiedBy;
 USRSQL;
 
-      	if(!@mysql_query($query)) {
-         	$_SESSION['error'] = mysql_error() or die();
+      	if(!@mysqli_query(self::$conn, $query)) {
+         	$_SESSION['error'] = mysqli_error(self::$conn) or die();
          	return;
       	}
 
@@ -229,8 +225,8 @@ TO "$dbOHRMUser"@"%"
 $querryIdentifiedBy;
 USRSQL;
 
-      	if(!@mysql_query($query)) {
-         	$_SESSION['error'] = mysql_error() or die();
+      	if(!@mysqli_query(self::$conn, $query)) {
+         	$_SESSION['error'] = mysqli_error(self::$conn) or die();
          	return;
       	}
 
@@ -244,16 +240,17 @@ public static function createUser() {
 
 	self::connectDB();
 
-	if(!@mysql_select_db($_SESSION['dbInfo']['dbName'])) {
+	if(!@mysqli_select_db(self::$conn, $_SESSION['dbInfo']['dbName'])) {
 		$_SESSION['error'] = 'Unable to access OrangeHRM Database!';
 		return;
 	}
 
-        $passwordHasher = new PasswordHash(12, false);
-        $hash = $passwordHasher->HashPassword($_SESSION['defUser']['AdminPassword']);
+    $passwordHasher = new PasswordHash();
+    $hash = $passwordHasher->hash($_SESSION['defUser']['AdminPassword']);
+
 	$query = "INSERT INTO `ohrm_user` ( `user_name`, `user_password`,`user_role_id`) VALUES ('" .$_SESSION['defUser']['AdminUserName']. "','".$hash."','1')";
 
-	if(!mysql_query($query)) {
+	if(!mysqli_query(self::$conn, $query)) {
 		$_SESSION['error'] = 'Unable to Create OrangeHRM Admin User Account';
 		return;
 	}
@@ -285,7 +282,7 @@ class Conf {
 	var \$dbuser;
 	var \$version;
 
-	function Conf() {
+	function __construct() {
 
 		\$this->dbhost	= '$dbHost';
 		\$this->dbport 	= '$dbHostPort';
@@ -484,8 +481,8 @@ public static function install() {
                         UPDATE hs_hr_leave SET leave_status = 3 WHERE leave_status = 2 AND leave_date < DATE(NOW());
                       END";
         
-        if (!mysql_query($query)) {
-            error_log (date("r")." MySQL Event Error:".mysql_error()."\n",3, "installer/log.txt");
+        if (!mysqli_query(self::$conn, $query)) {
+            error_log (date("r")." MySQL Event Error:".mysqli_error(self::$conn)."\n",3, "installer/log.txt");
             return false;
         }
         
@@ -518,8 +515,8 @@ public static function install() {
                 END;";
         
         foreach($sql as $query){
-            if (!mysql_query($query)) {
-                error_log (date("r")." MySQL Procedure Error:".mysql_error()."\n",3, "installer/log.txt");
+            if (!mysqli_query(self::$conn, $query)) {
+                error_log (date("r")." MySQL Procedure Error:".mysqli_error(self::$conn)."\n",3, "installer/log.txt");
                 return false;
             }
         }

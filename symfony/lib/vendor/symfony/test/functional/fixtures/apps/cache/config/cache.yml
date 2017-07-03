@@ -1,4 +1,0 @@
-default:
-  enabled:     true
-  with_layout: false
-  lifetime:    86400

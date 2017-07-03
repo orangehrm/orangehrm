@@ -202,7 +202,6 @@ class PerformanceReviewDao extends BaseDao {
                                 case 'reviewId':
                                     $q->andWhere('review_id =?', $parameter);
                                     break;
-                                default:
                                 case 'id':
                                     $q->andWhere('id =?', $parameter);
                                     break;

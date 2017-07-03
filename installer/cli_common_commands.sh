@@ -5,8 +5,8 @@ INSTALL_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 cd $INSTALL_DIR
 cd ../symfony/lib;
 
-composer update;
-composer dump-autoload -o;
+#composer update;
+#composer dump-autoload -o;
 
 cd ..;
 

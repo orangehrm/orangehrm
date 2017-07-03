@@ -42,8 +42,7 @@ class SystemUserService extends BaseService{
     
     public function getPasswordHasher() {
         if (empty($this->passwordHasher)) {
-            // 2^12 iterations and do not use less secure portable mode
-            $this->passwordHasher = new PasswordHash(12, false);
+            $this->passwordHasher = new PasswordHash();
         }        
         return $this->passwordHasher;
     }
@@ -267,10 +266,7 @@ class SystemUserService extends BaseService{
     * @return hashed password
     */
     public function hashPassword($password) {
-
-        $hashser = $this->getPasswordHasher();
-        $hash = $hashser->HashPassword($password);
-        return $hash;
+        return $this->getPasswordHasher()->hash($password);
     }
     
     /**
@@ -280,8 +276,7 @@ class SystemUserService extends BaseService{
      * @return boolean
      */
     public function checkPasswordHash($password, $hash) {
-        $hashser =  $this->getPasswordHasher();
-        return $hashser->CheckPassword($password, $hash);
+        return $this->getPasswordHasher()->verify($password, $hash);
     }
     
     /**

@@ -154,7 +154,13 @@ class HolidayService extends BaseService {
         }
         
         usort($results, function($a, $b) {
-            return strtotime($a->getDate()) - strtotime($b->getDate());
+            $timeStampA = strtotime($a->getDate());
+            $timeStampB = strtotime($b->getDate());
+            if ($timeStampA === $timeStampB) {
+                return $a->getId() - $b->getId();
+            } else {
+                return $timeStampA - $timeStampB;
+            }
         });
         
         return array_values($results);

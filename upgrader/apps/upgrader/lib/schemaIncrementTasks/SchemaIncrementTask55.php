@@ -951,7 +951,7 @@ SELECT l.`id`, now(), 'Author not tracked prior to v3.0', 1, (SELECT u.`emp_numb
                         $new_entitlement_id = $lastIdRow[0];
                         
                     } else {
-                        UpgradeLogger::writeErrorMessage("Could not add: " . $new_entitlement_id . "!\nError: " . mysql_error());
+                        UpgradeLogger::writeErrorMessage("Could not add: " . $new_entitlement_id . "!\nError: " . $this->upgradeUtility->getDbError());
                         throw new Exception("Upgrade Failed");
                     }
                 }
@@ -971,7 +971,7 @@ SELECT l.`id`, now(), 'Author not tracked prior to v3.0', 1, (SELECT u.`emp_numb
                     $added = $this->upgradeUtility->executeSql($insert_leave_leave_entitlement_sql);
 
                     if (!$added) {
-                        UpgradeLogger::writeErrorMessage("Could not add: " . $new_entitlement_id . "!\nError: " . mysql_error());
+                        UpgradeLogger::writeErrorMessage("Could not add: " . $new_entitlement_id . "!\nError: " . $this->upgradeUtility->getDbError());
                         throw new Exception("Upgrade Failed");                        
                     }
                 }
@@ -985,7 +985,7 @@ SELECT l.`id`, now(), 'Author not tracked prior to v3.0', 1, (SELECT u.`emp_numb
         $dropped = $this->upgradeUtility->executeSql($drop_new_entitlement_id_sql);
 
         if (!$dropped) {
-            UpgradeLogger::writeErrorMessage("Could not drop column: " . $drop_new_entitlement_id_sql . "!\nError: " . mysql_error());
+            UpgradeLogger::writeErrorMessage("Could not drop column: " . $drop_new_entitlement_id_sql . "!\nError: " . $this->upgradeUtility->getDbError());
             throw new Exception("Upgrade Failed");   
         }
 
@@ -994,7 +994,7 @@ SELECT l.`id`, now(), 'Author not tracked prior to v3.0', 1, (SELECT u.`emp_numb
         $saved = $this->upgradeUtility->executeSql($set_days_used_sql);
 
         if (!$saved) {
-            UpgradeLogger::writeErrorMessage("Could not save leave entitlement!\nError: " . mysql_error());
+            UpgradeLogger::writeErrorMessage("Could not save leave entitlement!\nError: " . $this->upgradeUtility->getDbError());
             throw new Exception("Upgrade Failed");  
         }
     }

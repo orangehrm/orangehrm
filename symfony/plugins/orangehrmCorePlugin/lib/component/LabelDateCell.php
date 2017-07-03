@@ -30,7 +30,7 @@ class LabelDateCell extends Cell {
         } else {
             if ($spliter) {
                 $formatted = array();
-                $dates = split($spliter, $value);
+                $dates = explode($spliter, $value);
                 foreach ($dates as $date) {
                     $formatted[] = set_datepicker_date_format($date);
                 }
