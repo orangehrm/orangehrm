@@ -5,9 +5,9 @@
 * @apiVersion 0.1.0
 *
 *
-* @apiSuccess  {Number} id  Job titile id.
-* @apiSuccess  {jobTitileCode} Titile code.
-* @apiSuccess  {String} JobTitileName  Title name.
+* @apiSuccess  {Number} id  Job title id.
+* @apiSuccess  {jobTitleCode} Title code.
+* @apiSuccess  {String} JobTitleName  Title name.
 * @apiSuccess  {String} jobDescription  Job description.
 * @apiSuccess  {String} note  Note.
 * @apiSuccess  {String} isDeleted  Is deleted or not.

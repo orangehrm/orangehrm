@@ -10,6 +10,7 @@
 * @apiSuccess  {String} is_deleted  Is deleted or not.
 * @apiSuccess  {String} name  Project name.
 * @apiSuccess  {String} description  Description.
+* @apiSuccess  {String} admins Project admin names.
 *
 *
 * @apiSuccessExample Success-Response:
@@ -23,6 +24,7 @@
 *		      "is_deleted": "0",
 *		      "name": "Trading time sheets",
 *		      "description": ""
+*             "admins": "Ninattttttt Jane Lewis (Past Employee),Hameesh Von Johnson,
 *		    },
 *		    {
 *		      "projectId": "2",

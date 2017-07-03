@@ -5,7 +5,7 @@
 * @apiVersion 0.1.0
 *
 *
-* @apiSuccess  {Number} projectId  Project Id.
+* @apiSuccess  {Number} projectId  Project id.
 * @apiSuccess  {String} name  Activity name.
 *
 *

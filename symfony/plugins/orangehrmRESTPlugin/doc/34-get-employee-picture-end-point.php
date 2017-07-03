@@ -1,9 +1,10 @@
 /**
-* @api {get} /photo 34.Employee Picture
+* @api {get} employee/id/photo 34.Employee Picture
 * @apiName getEmployeePicture
 * @apiGroup Employee
 * @apiVersion 0.1.0
 *
+* @apiParam   {Number} id Employee id.
 * @apiSuccess {String} base64 Base64 encoded employee picture details.
 *
 *

@@ -4,9 +4,10 @@
 * @apiGroup Time
 * @apiVersion 0.1.0
 *
-* @apiSuccess  {Number} customerId  Customer id.
-* @apiSuccess  {String} name  Project name.
-* @apiSuccess  {String} description  Description.
+* @apiParam  {Number} customerId  Customer id.
+* @apiParam  {String} name  Project name.
+* @apiParam  {String} description  Description.
+* @apiParam  {String} adminIds project admin ids ( add up to 5 admin ids with comma separated ex 1,2,45,)
 *
 *
 * @apiSuccessExample Success-Response:

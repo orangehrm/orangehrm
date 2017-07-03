@@ -23,7 +23,7 @@
 * @apiParam   {String} endDayAMPM Half day morning or evening ( 'AM','PM')required for end day 'half_day'.
 * @apiParam   {String} endDayFromTime End day from time for specify time(required for end day specifying time ).
 * @apiParam   {String} endDayToTime End day to time for specify time (required for end day specifying time ).
-*
+* @apiParam   {String} action Leave action type ( "SCHEDULED""PENDING""REJECTED""CANCELLED").
 *
 *
 * @apiSuccessExample Success-Response:

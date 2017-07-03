@@ -4,9 +4,9 @@
 * @apiGroup Time
 * @apiVersion 0.1.0
 *
-*
-* @apiSuccess  {Number} activityId  Activity Id.
-* @apiSuccess  {Number} projectId  Project Id.
+* @apiParam    {Number} activityId  Activity id.
+* @apiSuccess  {Number} activityId  Activity id.
+* @apiSuccess  {Number} projectId  Project id.
 * @apiSuccess  {String} name  Activity name.
 * @apiSuccess  {String} is_deleted  Is deleted( 1 = true /0 = false).
 *
