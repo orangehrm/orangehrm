@@ -32,6 +32,7 @@ class PunchTimeAPI extends EndPoint{
     const PARAMETER_ID = 'id';
     const PARAMETER_TIME_ZONE = 'timezone';
     const PARAMETER_NOTE = 'note';
+    const PARAMETER_DATE_TIME = 'datetime';
 
     protected $employeeService;
     protected $attendanceService;

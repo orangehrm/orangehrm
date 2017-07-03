@@ -26,14 +26,12 @@
 
 namespace Orangehrm\Rest\Api\Attendance;
 
-use Orangehrm\Rest\Api\Admin\Entity\User;
-use Orangehrm\Rest\Api\EndPoint;
+
 use Orangehrm\Rest\Api\Exception\InvalidParamException;
 use Orangehrm\Rest\Api\Exception\RecordNotFoundException;
 use Orangehrm\Rest\Api\Exception\BadRequestException;
-
 use Orangehrm\Rest\Http\Response;
-use spec\Prophecy\Argument\Token\ExactValueTokenSpec;
+
 
 
 class PunchOutAPI extends PunchTimeAPI
@@ -49,6 +47,12 @@ class PunchOutAPI extends PunchTimeAPI
     {
         $empNumber = $this->getRequestParams()->getUrlParam(parent::PARAMETER_ID);
         $timeZone = $this->getRequestParams()->getPostParam(parent::PARAMETER_TIME_ZONE);
+        $dateTime = $this->getRequestParams()->getPostParam(parent::PARAMETER_DATE_TIME);
+        if(empty($dateTime)) {
+            throw new InvalidParamException('Datetime Cannot Be Empty');
+        }
+
+
         if ($this->checkValidEmployee($empNumber)) {
 
             $actionableStatesList = array(\PluginAttendanceRecord::STATE_PUNCHED_IN);
@@ -65,14 +69,14 @@ class PunchOutAPI extends PunchTimeAPI
                     $zoneList = timezone_identifiers_list();
                     if (in_array($timeZone, $zoneList)) {
                         $timeZone_dtz = new \DateTimeZone($timeZone);
-                        $origin_dt = new \DateTime("now", $timeZone_dtz);
-                        $punchIndateTime = $origin_dt->format('Y-m-d H:i:s');
+                        $origin_dt = new \DateTime($dateTime, $timeZone_dtz);
+                        $punchIndateTime = $origin_dt->format('Y-m-d H:i');
                         $timeZoneOffset = $this->getTimezoneOffset('UTC', $timeZone);
                     } else {
                         throw new InvalidParamException('Invalid Time Zone');
                     }
                 } else {
-                    $punchIndateTime = date('Y-m-d H:i');
+                    $punchIndateTime = date($dateTime,'Y-m-d H:i');
                     $timeZoneOffset = $this->getTimezoneOffset('UTC');
                 }
                 try {
@@ -132,7 +136,8 @@ class PunchOutAPI extends PunchTimeAPI
     public function getValidationRules()
     {
         return array(
-            self::PARAMETER_NOTE => array('StringType' => true, 'Length' => array(1, 250))
+            self::PARAMETER_NOTE => array('StringType' => true, 'Length' => array(1, 250)),
+            self::PARAMETER_DATE_TIME => array('Date' => array('Y-m-d H:i'))
         );
     }
 }
