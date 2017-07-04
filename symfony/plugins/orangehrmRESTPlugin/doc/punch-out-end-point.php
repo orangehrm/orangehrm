@@ -7,7 +7,7 @@
 *
 * @apiParam   {Number} id  Employee id.
 * @apiParam   {String} timezone  Time zone ( ex: Europe/London ).
-* @apiParam   {String} note Punch out note
+* @apiParam   {String} note Punch out note.
 *
 *
 * @apiSuccessExample Success-Response:
