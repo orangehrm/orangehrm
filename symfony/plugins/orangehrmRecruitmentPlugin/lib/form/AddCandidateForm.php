@@ -170,7 +170,7 @@ class AddCandidateForm extends BaseForm {
         $this->setValidators($validators);
         
         $this->widgetSchema->setNameFormat('addCandidate[%s]');
-        $this->widgetSchema['appliedDate']->setAttribute();
+        $this->widgetSchema['appliedDate']->setAttribute($name =null,$value = null);
         $this->setDefault('appliedDate', set_datepicker_date_format(date('Y-m-d')));
 
         if ($this->candidateId != null) {
