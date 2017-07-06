@@ -100,7 +100,7 @@ class AdminUserRole extends AbstractUserRole {
      * Returns all projects (active and inactive)
      */
     public function getAccessibleProjects($operation = null, $returnType = null, $requiredPermissions = array()) {
-        $activeProjectList = $this->getProjectService()->getAllProjects();
+        $activeProjectList = $this->getProjectService()->getAllProjects($activeOnly = true);
         return $activeProjectList;
     }
 
