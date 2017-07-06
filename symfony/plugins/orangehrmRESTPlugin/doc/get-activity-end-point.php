@@ -4,7 +4,7 @@
 * @apiGroup Time
 * @apiVersion 0.1.0
 *
-* @apiParam    {Number} activityId  Activity id.
+* @apiParam    {Number} id  Project id.
 * @apiSuccess  {Number} activityId  Activity id.
 * @apiSuccess  {Number} projectId  Project id.
 * @apiSuccess  {String} name  Activity name.
