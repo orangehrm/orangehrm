@@ -184,7 +184,7 @@ public static function fillData($phase=1, $source='/dbscript/dbscript-') {
     }
 
     public static function createCsrfKey() {
-        return \phpseclib\Crypt\Random::string(55);
+        return bin2hex(\phpseclib\Crypt\Random::string(55));
     }
 
 public static function createDBUser() {
