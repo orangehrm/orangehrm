@@ -8,6 +8,7 @@
 * @apiParam   {Number} id  Employee id.
 * @apiParam   {String} timezone  Time zone ( ex: Europe/London ).
 * @apiParam   {String} note Punch in note.
+* @apiParam   {Date}  datetime Date and time
 *
 *
 * @apiSuccessExample Success-Response:
