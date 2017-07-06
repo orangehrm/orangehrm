@@ -146,7 +146,7 @@ class punchOutAction extends sfAction {
         return $this->getAttendanceService()->savePunchRecord($attendanceRecord);
     }
 
-    protected function _checkAuthentication($empNumber) {
+    protected function _checkAuthentication() {
         
         $loggedInEmpNumber = $this->getUser()->getEmployeeNumber();        
 
