@@ -70,7 +70,6 @@ class APILeaveAssignmentService extends \LeaveAssignmentService
     protected function getWorkflowItemForAssignAction(\LeaveParameterObject $leaveAssignmentData)
     {
 
-
         if (is_null($this->assignWorkflowItem)) {
 
             switch ($this->getAction()) {
@@ -109,7 +108,47 @@ class APILeaveAssignmentService extends \LeaveAssignmentService
 
             return $this->assignWorkflowItem;
         }
-
-
+        return $this->assignWorkflowItem;
     }
+
+
+    public function getLeaveRequestStatus(
+        $isWeekend,
+        $isHoliday,
+        $leaveDate,
+        \LeaveParameterObject $leaveAssignmentData
+    ) {
+
+        // TODO: Change here for leave workflow
+
+        $status = null;
+
+        if ($isWeekend) {
+            return \Leave::LEAVE_STATUS_LEAVE_WEEKEND;
+        }
+
+        if ($isHoliday) {
+            return \Leave::LEAVE_STATUS_LEAVE_HOLIDAY;
+        }
+
+        if (is_null($status)) {
+
+            $workFlowItem = $this->getWorkflowItemForAssignAction($leaveAssignmentData);
+
+            if (!is_null($workFlowItem)) {
+
+                $status = \Leave::getLeaveStatusForText($workFlowItem->getResultingState());
+
+            } else {
+                throw new \LeaveAllocationServiceException('Not Allowed to Assign Leave to Selected Employee!');
+            }
+
+            if (($status == \Leave::LEAVE_STATUS_LEAVE_APPROVED) && (strtotime($leaveDate) < strtotime(date('Y-m-d')))) {
+                $status = \Leave::LEAVE_STATUS_LEAVE_TAKEN;
+            }
+        }
+
+        return $status;
+    }
+
 }
