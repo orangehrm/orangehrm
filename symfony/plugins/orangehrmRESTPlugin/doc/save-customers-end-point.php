@@ -1,5 +1,5 @@
 /**
-* @api {post} /customer 1.Save Customers
+* @api {post} /customer 2.Save Customers
 * @apiName saveCustomers
 * @apiGroup Time
 * @apiVersion 0.1.0

@@ -1,5 +1,5 @@
 /**
-* @api {get} /project 1.Get Projects
+* @api {get} /project 3.Get Projects
 * @apiName getProjects
 * @apiGroup Time
 * @apiVersion 0.1.0
