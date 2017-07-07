@@ -19,12 +19,14 @@
 *          {
 *             "name": "Inu Lim",
 *             "relationship": "Daughter",
-*             "dob": "1989-09-02"
+*             "dob": "1989-09-02",
+*             "sequenceNumber": "5"
 *          },
 *          {
 *             "name": "Sam Lim",
 *             "relationship": "Daughter",
 *             "dob": "2009-09-02"
+*             "sequenceNumber": "5"
 *          }
 *         ],
 *       "rels": {
