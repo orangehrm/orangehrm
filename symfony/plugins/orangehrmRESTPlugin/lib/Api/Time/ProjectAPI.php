@@ -91,7 +91,7 @@ class ProjectAPI extends EndPoint
      */
     public function getProjects()
     {
-        $projects = $this->getProjectService()->getAllProjects();
+        $projects = $this->getProjectService()->getAllProjects($activeOnly = true);
 
         foreach ($projects as $project) {
 
