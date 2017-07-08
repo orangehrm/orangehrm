@@ -64,6 +64,11 @@ class KpiAPI extends EndPoint
             }
             $responseArray[]=$tempKpi->toArray();
         }
-        return new Response($responseArray, array());
+        if(count($responseArray) > 0){
+            return new Response($responseArray, array());
+        } else {
+            throw new RecordNotFoundException("No Records Found");
+        }
+
     }
 }
