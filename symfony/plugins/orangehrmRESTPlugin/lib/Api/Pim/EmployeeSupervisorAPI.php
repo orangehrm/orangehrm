@@ -115,8 +115,12 @@ class EmployeeSupervisorAPI extends EndPoint
             $empSupervisor->getEmployeeId(), $supervisorRM->getReportingMethod()->getName());
             $responseArray[] = $supervisor->toArray();
         }
+        if(count($responseArray) > 0){
+            return new Response($responseArray, array());
+        } else {
+            throw new RecordNotFoundException("No Records Found");
+        }
 
-        return new Response($responseArray, array());
     }
 
     /**
