@@ -296,12 +296,12 @@ class EmployeeSearchAPI extends EndPoint
         throw new InvalidParamException('Invalid Subunit');
     }
 
-    protected function getTitleId($title)
+    protected function getTitleId($titleId)
     {
         $jobTitleList = $this->getJobTitleService()->getJobTitleList();
         foreach ($jobTitleList as $title) {
 
-            if ($title->getId() === $title) {
+            if ($title->getId() == $titleId) {
                 return $title->getId();
 
             }

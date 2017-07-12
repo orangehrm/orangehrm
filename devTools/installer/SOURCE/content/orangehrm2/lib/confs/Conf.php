@@ -8,7 +8,7 @@ class Conf {
 	var $dbuser;
 	var $version;
 
-	function Conf() {
+	function __construct() {
 
 		$this->dbhost	= 'localhost';
 		$this->dbport 	= '3306';

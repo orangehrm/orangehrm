@@ -83,6 +83,16 @@ class CustomerService extends BaseService {
     }
 
     /**
+     * Get customer by Name
+     *
+     * @param type $customerName
+     * @return type
+     */
+    public function getCustomerByName($customerName) {
+        return $this->customerDao->getCustomerByName($customerName);
+    }
+
+    /**
      * Delete customer
      * 
      * Set customer 'is_deleted' parameter to 1.

@@ -5,7 +5,7 @@
 * @apiVersion 0.1.0
 *
 * @apiParam {Number} id Employee id.
-* @apiParam {String} leaveType Leave type.
+* @apiParam {Number} leaveType Leave type id.
 * @apiParam {Date} fromDate From date.
 * @apiParam {Date} toDate To date.
 * @apiParam {Number} days Number of days.

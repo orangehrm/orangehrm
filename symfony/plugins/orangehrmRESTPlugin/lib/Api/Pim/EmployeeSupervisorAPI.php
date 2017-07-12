@@ -115,8 +115,11 @@ class EmployeeSupervisorAPI extends EndPoint
             $empSupervisor->getEmployeeId(), $supervisorRM->getReportingMethod()->getName());
             $responseArray[] = $supervisor->toArray();
         }
-
-        return new Response($responseArray, array());
+        if(count($responseArray) > 0){
+            return new Response($responseArray, array());
+        } else {
+            throw new RecordNotFoundException("No Records Found");
+        }
 
     }
 
@@ -131,8 +134,13 @@ class EmployeeSupervisorAPI extends EndPoint
         $supervisorId = $this->getRequestParams()->getPostParam(self::PARAMETER_SUPERVISOR_ID);
         $reportingMethodName = $this->getRequestParams()->getPostParam(self::PARAMETER_REPORTING_METHOD);
 
-        if (empty($supervisorId) || empty($reportingMethodName)) {
+        $this->validateEmployee($employeeId);
+
+        if (empty($supervisorId) || empty($reportingMethodName) ) {
             throw new InvalidParamException('Invalid Parameter');
+        }
+        if($supervisorId == $employeeId){
+            throw new InvalidParamException('Cannot Add Same Employee As Supervisor');
         }
         $supervisor = $this->getEmployeeService()->getEmployee($supervisorId);
         if (!empty($supervisor)) {
@@ -173,6 +181,63 @@ class EmployeeSupervisorAPI extends EndPoint
 
             } else {
                 throw new BadRequestException('Supervisor Already Added');
+            }
+        } else {
+            throw new RecordNotFoundException('Supervisor Not Found');
+        }
+
+    }
+
+    /**
+     * Update employee supervisor
+     *
+     * @return Response
+     * @throws BadRequestException
+     * @throws InvalidParamException
+     * @throws RecordNotFoundException
+     */
+    public function updateEmployeeSupervisor()
+    {
+        $employeeId = $this->getRequestParams()->getUrlParam(self::PARAMETER_ID);
+        $supervisorId = $this->getRequestParams()->getPostParam(self::PARAMETER_SUPERVISOR_ID);
+        $reportingMethodName = $this->getRequestParams()->getPostParam(self::PARAMETER_REPORTING_METHOD);
+
+        $this->validateEmployee($employeeId);
+
+        if (empty($supervisorId) || empty($reportingMethodName) ) {
+            throw new InvalidParamException('Invalid Parameter');
+        }
+        if($supervisorId == $employeeId){
+            throw new InvalidParamException('Cannot Add Same Employee As Supervisor');
+        }
+        $supervisor = $this->getEmployeeService()->getEmployee($supervisorId);
+        if (!empty($supervisor)) {
+            $reportingMethod = $this->getReportingMethodConfigurationService()->getReportingMethodByName($reportingMethodName);
+
+            $reportingMethodId = null;
+
+            if (empty($reportingMethod)) {
+                $newReportingMethod = new \ReportingMethod();
+                $newReportingMethod->name = $reportingMethodName;
+                $savedReportingMethod = $this->getReportingMethodConfigurationService()->saveReportingMethod($newReportingMethod);
+                $reportingMethodId = $savedReportingMethod->id;
+            } else {
+                $reportingMethodId = $reportingMethod->id;
+            }
+
+            $existingReportToObject = $this->getEmployeeService()->getReportToObject($supervisorId, $employeeId);
+
+
+            if (!empty($existingReportToObject) && $this->getRequestParams()->getRequest()->isMethod('put')) {
+
+                $existingReportToObject->setReportingMethodId($reportingMethodId);
+                $existingReportToObject->save();
+                $this->getEmployeeEventService()->saveEvent($employeeId,\PluginEmployeeEvent::EVENT_TYPE_SUPERVISOR,\PluginEmployeeEvent::EVENT_SAVE,'Updating Employee Supervisor','API');
+
+                return new Response(array('success' => 'Successfully Updated'));
+
+            } else {
+                throw new BadRequestException('No Supervisors Added');
             }
         } else {
             throw new RecordNotFoundException('Supervisor Not Found');
@@ -232,6 +297,21 @@ class EmployeeSupervisorAPI extends EndPoint
 
         return $filters;
 
+    }
+
+    /**
+     * Validate employee
+     *
+     * @param $id employee ID
+     * @throws RecordNotFoundException
+     */
+    public function validateEmployee($id){
+
+        $employee = $this->getEmployeeService()->getEmployee($id);
+
+        if (empty($employee)) {
+            throw new RecordNotFoundException('Employee Not Found');
+        }
     }
 
 

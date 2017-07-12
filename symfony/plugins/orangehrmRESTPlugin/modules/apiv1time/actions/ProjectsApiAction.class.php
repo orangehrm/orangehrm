@@ -25,36 +25,39 @@ use Orangehrm\Rest\Api\Exception\NotImplementedException;
 class ProjectsApiAction extends baseRestAction
 {
 
-    private $apiEmployeeDependent = null;
+    private $apiProject = null;
 
     protected function init(Request $request)
     {
         $this->apiProject = new ProjectAPI($request);
         $this->postValidationRule = $this->apiProject->getPostValidationRules();
-        $this->putValidationRule = $this->apiProject->getPutValidationRules();
-        $this->deleteValidationRule = $this->apiProject->getDelValidationRules();
     }
 
     protected function handleGetRequest(Request $request)
     {
-//        return new Response(array("test"), array());
         return $this->apiProject->getProjects();
     }
 
     protected function handlePostRequest(Request $request)
     {
-//        var_export($request);die;
-//        return new Response($request->getAllParameters(), array());
         return $this->apiProject->saveProject();
     }
 
-    protected function handlePutRequest(Request $request)
+    /**
+     * @return null
+     */
+    public function getApiProject()
     {
-        return $this->apiProject->updateEmployeeDependents();
+        return $this->apiProject;
     }
 
-    protected function handleDeleteRequest(Request $request)
+    /**
+     * @param null $apiProject
+     */
+    public function setApiProject($apiProject)
     {
-        return $this->apiProject->deleteEmployeeDependents();
+        $this->apiProject = $apiProject;
     }
+
+
 }

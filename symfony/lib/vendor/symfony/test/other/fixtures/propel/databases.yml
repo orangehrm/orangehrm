@@ -1,5 +1,0 @@
-all:
-  propel:
-    class:      sfPropelDatabase
-    param:
-      dsn:      sqlite:%SF_DATA_DIR%/database.sqlite

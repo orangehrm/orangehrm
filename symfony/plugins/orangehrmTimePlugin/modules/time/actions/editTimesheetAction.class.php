@@ -146,7 +146,7 @@ class editTimesheetAction extends baseTimeAction {
         }
     }
     
-    protected function _checkAuthentication($empNumber, $user) {
+    protected function _checkAuthentication($empNumber) {
 
         $loggedInEmpNumber = $this->getUser()->getEmployeeNumber();
 

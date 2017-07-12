@@ -22,6 +22,7 @@ namespace Orangehrm\Rest\Api\Leave;
 use Orangehrm\Rest\Api\EndPoint;
 use Orangehrm\Rest\Api\Exception\InvalidParamException;
 use Orangehrm\Rest\Api\Exception\BadRequestException;
+use Orangehrm\Rest\Api\Exception\RecordNotFoundException;
 use Orangehrm\Rest\Api\Leave\Service\APILeaveAssignmentService;
 
 use Orangehrm\Rest\Http\Response;
@@ -44,6 +45,7 @@ class SaveLeaveRequestAPI extends EndPoint
     const PARAMETER_TO_DATE = "toDate";
     const PARAMETER_DURATION = "duration";
     const PARAMETER_COMMENT = 'comment';
+    const PARAMETER_LEAVE_ACTION = 'action';
     const PARAMETER_MULTIDAY_LEAVE = 'multiDay';
     const PARAMETER_MULTIDAY_PARTIAL_OPTION = 'partialOption';
 
@@ -146,7 +148,7 @@ class SaveLeaveRequestAPI extends EndPoint
         $filters = $this->filterParameters();
         $leaveParameters = new \LeaveParameterObject($filters);
         if ($this->validateLeaveType($filters['txtLeaveType'])) {
-
+            $this->getLeaveAssignmentService()->setAction(($this->getRequestParams()->getPostParam(self::PARAMETER_LEAVE_ACTION)));
             $success = $this->getLeaveAssignmentService()->assignLeave($leaveParameters);
         } else {
             $success = false;
@@ -167,7 +169,8 @@ class SaveLeaveRequestAPI extends EndPoint
      */
     protected function filterParameters()
     {
-        $filters['txtEmpID'] = $this->getRequestParams()->getUrlParam(self::PARAMETER_ID);;
+        $filters['txtEmpID'] = $this->getRequestParams()->getUrlParam(self::PARAMETER_ID);
+        $this->validateEmployee($filters['txtEmpID']);
         $filters['txtLeaveType'] = ($this->getRequestParams()->getPostParam(self::PARAMETER_LEAVE_TYPE));
         $filters['txtFromDate'] = ($this->getRequestParams()->getPostParam(self::PARAMETER_FROM_DATE));
         $filters['txtToDate'] = ($this->getRequestParams()->getPostParam(self::PARAMETER_TO_DATE));
@@ -191,6 +194,7 @@ class SaveLeaveRequestAPI extends EndPoint
         $secondDayFrom = ($this->getRequestParams()->getPostParam(self::END_DAY_FROM));
         $secondDayTo = ($this->getRequestParams()->getPostParam(self::END_DAY_TO));
 
+
         if ($filters['txtToDate'] === $filters['txtFromDate']) {
 
             $filters['duration'] = $this->createDuration('Single Day', $singleDayType, $singleDayAmpm, $singleDayFrom,
@@ -203,6 +207,9 @@ class SaveLeaveRequestAPI extends EndPoint
                     $filters['firstDuration'] = $this->createDuration('First Day', $firstDayType, $firstDayAmpm,
                         $firstDayFrom, $firstDayTo);
                           break;
+                case 'none':
+                    $filters['partialDays'] = '';
+                    break;
                 case 'start':
                     $filters['firstDuration'] = $this->createDuration('First Day', $firstDayType, $firstDayAmpm,
                         $firstDayFrom,
@@ -295,12 +302,17 @@ class SaveLeaveRequestAPI extends EndPoint
 
                 break;
             default:
-                throw new InvalidParamException('Invalid Type');
+                throw new InvalidParamException('Invalid Duration Type');
         }
 
         return $duration;
     }
 
+    /**
+     * @param $typeId
+     * @return bool
+     * @throws InvalidParamException
+     */
     protected function validateLeaveType($typeId)
     {
         $leaveTypeList = $this->getLeaveTypeService()->getLeaveTypeList();
@@ -332,6 +344,21 @@ class SaveLeaveRequestAPI extends EndPoint
         }
         else{
            return false;
+        }
+    }
+
+    /**
+     * Validate employee
+     *
+     * @param $id employee ID
+     * @throws RecordNotFoundException
+     */
+    public function validateEmployee($id){
+
+        $employee = $this->getEmployeeService()->getEmployee($id);
+
+        if (empty($employee)) {
+            throw new RecordNotFoundException('Employee Not Found');
         }
     }
 

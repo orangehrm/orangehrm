@@ -7,7 +7,7 @@
 *
 * @apiParam {Date}  fromDate From date.
 * @apiParam {Date}   toDate To date.
-* @apiParam {String}  [reject] Leave status rejected ( 'true' / 'false' ).
+* @apiParam {String}  [rejected] Leave status rejected ( 'true' / 'false' ).
 * @apiParam {String}  [cancelled] Leave status cancelled ( 'true' / 'false' ).
 * @apiParam {String}  [pendingApproval] Leave status pending approval ( 'true' / 'false' ).
 * @apiParam {String}  [scheduled] Leave status scheduled ( 'true' / 'false' ).
@@ -55,7 +55,7 @@
 *                    "comment": "Test"
 *                    },
 *                    {
-*                    "author": "Admin",
+*                    "user": "Admin",
 *                    "date": "2017-03-16",
 *                    "time": "14:18:10",
 *                    "comment": "Test"

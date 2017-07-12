@@ -22,12 +22,31 @@ namespace Orangehrm\Rest\Api\Leave\Service;
 class APILeaveAssignmentService extends \LeaveAssignmentService
 {
 
+    protected $action;
+
+    /**
+     * @return mixed
+     */
+    public function getAction()
+    {
+        return $this->action;
+    }
+
+    /**
+     * @param mixed $action
+     */
+    public function setAction($action)
+    {
+        $this->action = $action;
+    }
+
     /**
      *
      * @param array $leaveAssignmentData
      * @return bool
      */
-    public function assignLeave(\LeaveParameterObject $leaveAssignmentData) {
+    public function assignLeave(\LeaveParameterObject $leaveAssignmentData)
+    {
 
         $employeeId = $leaveAssignmentData->getEmployeeNumber();
 
@@ -53,18 +72,83 @@ class APILeaveAssignmentService extends \LeaveAssignmentService
 
         if (is_null($this->assignWorkflowItem)) {
 
+            switch ($this->getAction()) {
+                case "SCHEDULED":
+                    $this->assignWorkflowItem = $this->getWorkflowService()
+                        ->getWorkflowItemByStateActionAndRole(\WorkflowStateMachine::FLOW_LEAVE, 'INITIAL', 'ASSIGN',
+                            'ADMIN');
+                    break;
 
-            $this->assignWorkflowItem = $this->getWorkflowService()
-                ->getWorkflowItemByStateActionAndRole(\WorkflowStateMachine::FLOW_LEAVE, 'INITIAL', 'ASSIGN', 'ADMIN');
+                case "PENDING":
+                    $this->assignWorkflowItem = $this->getWorkflowService()
+                        ->getWorkflowItemByStateActionAndRole(\WorkflowStateMachine::FLOW_LEAVE, 'INITIAL', 'APPLY',
+                            'ESS');
+                    break;
+                case "REJECTED":
+                    $this->assignWorkflowItem = $this->getWorkflowService()
+                        ->getWorkflowItemByStateActionAndRole(\WorkflowStateMachine::FLOW_LEAVE, 'PENDING APPROVAL', 'REJECT',
+                            'ADMIN');
+                    break;
+                case "CANCELLED":
+                    $this->assignWorkflowItem = $this->getWorkflowService()
+                        ->getWorkflowItemByStateActionAndRole(\WorkflowStateMachine::FLOW_LEAVE, 'SCHEDULED', 'CANCEL',
+                            'ADMIN');
+                    break;
+                default:
+                    $this->assignWorkflowItem = $this->getWorkflowService()
+                        ->getWorkflowItemByStateActionAndRole(\WorkflowStateMachine::FLOW_LEAVE, 'INITIAL', 'ASSIGN',
+                            'ADMIN');
+                    break;
 
+            }
+
+            if (is_null($this->assignWorkflowItem)) {
+                $this->getLogger()->error("No workflow item found for ASSIGN leave action!");
+            }
+
+            return $this->assignWorkflowItem;
         }
-
-        if (is_null($this->assignWorkflowItem)) {
-            $this->getLogger()->error("No workflow item found for ASSIGN leave action!");
-        }
-
         return $this->assignWorkflowItem;
     }
 
+
+    public function getLeaveRequestStatus(
+        $isWeekend,
+        $isHoliday,
+        $leaveDate,
+        \LeaveParameterObject $leaveAssignmentData
+    ) {
+
+        // TODO: Change here for leave workflow
+
+        $status = null;
+
+        if ($isWeekend) {
+            return \Leave::LEAVE_STATUS_LEAVE_WEEKEND;
+        }
+
+        if ($isHoliday) {
+            return \Leave::LEAVE_STATUS_LEAVE_HOLIDAY;
+        }
+
+        if (is_null($status)) {
+
+            $workFlowItem = $this->getWorkflowItemForAssignAction($leaveAssignmentData);
+
+            if (!is_null($workFlowItem)) {
+
+                $status = \Leave::getLeaveStatusForText($workFlowItem->getResultingState());
+
+            } else {
+                throw new \LeaveAllocationServiceException('Not Allowed to Assign Leave to Selected Employee!');
+            }
+
+            if (($status == \Leave::LEAVE_STATUS_LEAVE_APPROVED) && (strtotime($leaveDate) < strtotime(date('Y-m-d')))) {
+                $status = \Leave::LEAVE_STATUS_LEAVE_TAKEN;
+            }
+        }
+
+        return $status;
+    }
 
 }

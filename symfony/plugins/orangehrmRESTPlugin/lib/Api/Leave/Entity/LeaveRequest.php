@@ -341,7 +341,7 @@ class LeaveRequest implements Serializable
                 $datetime = explode(" ", $comment->getCreated());
                 $leaveComment = new LeaveRequestComment($comment->getCreatedByName(), $datetime[0],
                     $datetime[1], $comment->getComments());
-                $commentsList[] = $leaveComment->toArray();
+                $commentsList = $leaveComment->toArray();
             }
         }
         $this->setComments($commentsList);

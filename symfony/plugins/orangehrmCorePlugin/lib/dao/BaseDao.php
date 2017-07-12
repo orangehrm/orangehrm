@@ -31,12 +31,6 @@ class BaseDao {
         }
     }
 
-    protected function getUniqueId($object) {
-        $idGenService = new IDGeneratorService();
-        $idGenService->setEntity($object);
-        return $idGenService->getNextID();
-    }
-
     public function beginTransaction() {
         Doctrine_Manager::getInstance()->getCurrentConnection()->beginTransaction();
     }

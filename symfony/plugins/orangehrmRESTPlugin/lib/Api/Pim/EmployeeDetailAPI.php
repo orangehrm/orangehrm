@@ -140,14 +140,6 @@ class EmployeeDetailAPI extends EndPoint
 
         $filters = $this->filterParameters();
 
-        if (!empty($filters[self::PARAMETER_NUMBER])) {
-
-            $employee = $this->getEmployeeService()->getEmployeeByEmployeeId($filters[self::PARAMETER_NUMBER]);
-
-        }
-        if ($employee instanceof \Employee) {
-            throw new BadRequestException('Failed To Save: Employee Code Exists');
-        }
         if ($this->validateInputs($filters)) {
             $empId = $this->getRequestParams()->getUrlParam(self::PARAMETER_ID);
 
@@ -195,7 +187,7 @@ class EmployeeDetailAPI extends EndPoint
                     $employee->emp_marital_status = $this->checkMaritalStatus($filters[self::PARAMETER_MARITAL_STATUS]);
                 }
                 if (!empty($filters[self::PARAMETER_NATIONALITY])) {
-                    $employee->nation_code = $this->checkNationality($filters[self::PARAMETER_NATIONALITY]);
+                    $employee->setNationality( $this->checkNationality($filters[self::PARAMETER_NATIONALITY]));
                 }
                 if( \OrangeConfig::getInstance()->getAppConfValue(\ConfigService::KEY_PIM_SHOW_SSN)){
                     if (!empty($filters[self::PARAMETER_SSN_NUMBER])) {
@@ -345,9 +337,11 @@ class EmployeeDetailAPI extends EndPoint
         $nationalities = $nationalityService->getNationalityList();
 
         foreach ($nationalities as $nationality) {
+
             if ($nationality->getName() == $nation) {
-                return $nationality->getId();
+                return $nationality;
             }
         }
+        throw new InvalidParamException('Nationality Not Found');
     }
 }

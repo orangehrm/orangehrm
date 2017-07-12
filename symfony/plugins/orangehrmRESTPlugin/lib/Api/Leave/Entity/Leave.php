@@ -166,10 +166,10 @@ class Leave implements Serializable
 
         if (!empty($leave->getLeaveComment())) {
             foreach ($leave->getLeaveComment() as $comment) {
+
                 $datetime = explode(" ", $comment->getCreated());
-                $leaveComment = new LeaveRequestComment($comment->getCreatedByName(), $datetime[0],
-                    $datetime[1], $comment->getComments());
-                $commentsList[] = $leaveComment->toArray();
+                $leaveComment = new LeaveRequestComment($comment->getCreatedByName(), $datetime[0], $datetime[1], $comment->getComments());
+                $commentsList = $leaveComment->toArray();
             }
         }
         $this->setComments($commentsList);

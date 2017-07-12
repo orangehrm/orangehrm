@@ -124,6 +124,20 @@ api_user_login:
   requirements:
      sf_method: [post]
 
+api_attendance_punchin:
+  url: /api/v1/employee/:id/punch-in
+  param: { module:apiv1attendance, action:PunchInApi }
+  requirements:
+    id: \d+
+    sf_method: [get,post]
+
+api_attendance_punchout:
+  url: /api/v1/employee/:id/punch-out
+  param: { module:apiv1attendance, action:PunchOutApi }
+  requirements:
+    id: \d+
+    sf_method: [get,post]
+
 api_employee_timesheet:
   url: /api/v1/employee/:id/timesheet
   param: { module:apiv1time, action:EmployeeTimesheetApi }
@@ -137,15 +151,46 @@ api_project:
   requirements:
      sf_method: [get,post]
 
-api_project:
+api_customer:
   url: /api/v1/customer
   param: { module:apiv1time, action:CustomerApi }
   requirements:
      sf_method: [get,post]
 
 api_activity:
-  url: /api/v1/activity/:id
+  url: /api/v1/activity
   param: { module:apiv1time, action:ActivityApi }
   requirements:
      id: \d+
      sf_method: [get,post]
+
+api_employee_photo:
+  url: api/v1/employee/:id/photo
+  param: { module:apiv1pim, action:EmployeePhotoApi }
+  requirements:
+      sf_method: [get]
+
+api_organization:
+  url: api/v1/organization
+  param: { module:apiv1admin, action:OrganizationApi }
+  requirements:
+      sf_method: [get]
+
+api_kpis:
+  url: /api/v1/kpis
+  param: { module:apiv1performance, action:KpiApi }
+  requirements:
+    sf_method: [get]
+
+api_performance_reviews:
+  url: /api/v1/performance_reviews
+  param: { module:apiv1performance, action:PerformanceReviewApi }
+  requirements:
+    sf_method: [get]
+
+api_employee_performance_details:
+  url: /api/v1/employee/:id/performance_reviews
+  param: { module:apiv1performance, action:PerformanceReviewApi }
+  requirements:
+    id: \d+
+    sf_method: [get]

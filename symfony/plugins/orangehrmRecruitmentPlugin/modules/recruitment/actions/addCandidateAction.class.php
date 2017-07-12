@@ -95,7 +95,7 @@ class addCandidateAction extends baseAction {
             $this->attachmentName = $this->getForm()->getResume()->getFileName();
         }
         $vacancyProperties = array('name', 'id', 'status');
-        $this->jobVacancyList = $this->getVacancyService()->getVacancyPropertyList($vacancyProperties);
+        $this->jobVacancyList = $this->getVacancyService()->getVacancyPropertyList($vacancyProperties,$status = null);
 
         $this->candidateStatus = JobCandidate::ACTIVE;
 

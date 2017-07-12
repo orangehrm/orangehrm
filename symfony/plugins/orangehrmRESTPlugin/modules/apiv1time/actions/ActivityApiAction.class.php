@@ -18,43 +18,47 @@
  */
 
 use Orangehrm\Rest\Http\Request;
-use Orangehrm\Rest\Http\Response;
 use Orangehrm\Rest\Api\Time\ActivityAPI;
-use Orangehrm\Rest\Api\Exception\NotImplementedException;
+
 
 class ActivityApiAction extends baseRestAction
 {
 
-    private $apiEmployeeDependent = null;
+    private $apiActivity = null;
 
     protected function init(Request $request)
     {
-        $this->apiProject = new ActivityAPI($request);
-        $this->postValidationRule = $this->apiProject->getPostValidationRules();
-        $this->putValidationRule = $this->apiProject->getPutValidationRules();
-        $this->deleteValidationRule = $this->apiProject->getDelValidationRules();
+        $this->apiActivity = new ActivityAPI($request);
+        $this->postValidationRule = $this->apiActivity->getPostValidationRules();
+
     }
 
     protected function handleGetRequest(Request $request)
     {
-//        return new Response(array("test"), array());
-        return $this->apiProject->getActivity();
+        return $this->apiActivity->getActivity();
     }
 
     protected function handlePostRequest(Request $request)
     {
-//        var_export($request);die;
-//        return new Response($request->getAllParameters(), array());
-        return $this->apiProject->saveProject();
+        return $this->apiActivity->saveActivity();
     }
 
-    protected function handlePutRequest(Request $request)
+
+    /**
+     * @return ActivityAPI
+     */
+    public function getApiActivity()
     {
-        return $this->apiProject->updateEmployeeDependents();
+        return $this->apiActivity;
     }
 
-    protected function handleDeleteRequest(Request $request)
+    /**
+     * @param null $apiActivity
+     */
+    public function setApiActivity($apiActivity)
     {
-        return $this->apiProject->deleteEmployeeDependents();
+        $this->apiActivity = $apiActivity;
     }
+
+
 }

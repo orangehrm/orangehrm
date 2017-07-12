@@ -342,6 +342,17 @@ class ProjectService extends BaseService {
      */
     public function getProjectActivityCount($includeDeleted = false) {
         return $this->getProjectDao()->getProjectActivityCount($includeDeleted);    
-    }        
+    }
+
+    /**
+     * Get Project by Name
+     * To check project with the given name existed
+     *
+     * @param $projectName
+     * @return int
+     */
+    public function getProjectByName($projectName){
+        return $this->getProjectDao()->getProjectByName($projectName);
+    }
 
 }

@@ -3,7 +3,7 @@
 if (!defined('ROOT_PATH')) {
     define('ROOT_PATH', dirname(__FILE__) . '/../../');
 }
-require_once dirname(__FILE__) . '/../lib/vendor/symfony/lib/autoload/sfCoreAutoload.class.php';
+require_once dirname(__FILE__) . '/../lib/vendor/autoload.php';
 require_once dirname(__FILE__) . '/../lib/vendor/log4php/Logger.php';
 sfCoreAutoload::register();
 
@@ -30,10 +30,13 @@ class ProjectConfiguration extends sfProjectConfiguration
 
     $this->dispatcher->connect('context.load_factories', array($this,
             'loadFactoriesListener'));
+
+    $this->dispatcher->connect('doctrine.configure', array($this, 'configureDoctrine'));
   }
   
-  public function configureDoctrine(Doctrine_Manager $manager)
+  public function configureDoctrine(sfEvent $event)
   {
+      $manager = $event->getSubject();
     // Enable callbacks so that softDelete behavior can be used
     $manager->setAttribute(Doctrine_Core::ATTR_USE_DQL_CALLBACKS, true);
   }

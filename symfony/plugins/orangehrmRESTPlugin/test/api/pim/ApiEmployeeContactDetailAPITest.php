@@ -46,7 +46,8 @@ class ApiEmployeeContactDetailAPITest extends PHPUnit_Framework_TestCase
         $sfRequest = new sfWebRequest($sfEvent);
         $request = new Request($sfRequest);
         $this->employeeContactDetailAPI = new EmployeeContactDetailAPI($request);
-
+        $this->fixture = sfConfig::get('sf_plugins_dir') . '/orangehrmRESTPlugin/test/fixtures/contact-detail.yml';
+        TestDataService::populate($this->fixture);
     }
 
     public function testGetEmployeeContactDetails()

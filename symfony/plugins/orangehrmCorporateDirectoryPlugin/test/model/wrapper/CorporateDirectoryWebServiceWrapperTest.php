@@ -31,10 +31,6 @@ class CorporateDirectoryWebServiceWrapperTest extends PHPUnit_Framework_TestCase
         $this->fixture = sfConfig::get('sf_plugins_dir') . '/orangehrmCorporateDirectoryPlugin/test/fixtures/EmployeeDirectoryWrapperData.yml';
         $this->manager = new WSManager();
         $this->helper = new WSHelper();
-
-        PHPUnit_Framework_Error_Warning::$enabled = FALSE;
-
-        PHPUnit_Framework_Error_Notice::$enabled = FALSE;
     }
 
     public function getExpectedEmployeeList($base64TestStringForEmp1, $base64TestStringForEmp2) {

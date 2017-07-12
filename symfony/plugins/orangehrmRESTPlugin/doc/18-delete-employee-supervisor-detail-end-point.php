@@ -6,8 +6,8 @@
 *
 * @apiParam {Number}  id Employee id.
 *
-* @apiParam {Number} supervisorId Supervisor id.
-* @apiParam {String} reportingMethod Reporting method to the supervisor.
+* @apiParam {Number} (Mandatory)supervisorId Supervisor id.
+* @apiParam {String} (Mandatory)reportingMethod Reporting method to the supervisor.
 * @apiSuccess {Object} Data Success response.
 *
 * @apiSuccessExample Success-Response:

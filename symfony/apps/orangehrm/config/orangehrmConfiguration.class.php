@@ -14,8 +14,10 @@ class orangehrmConfiguration extends sfApplicationConfiguration
   /**
    * Configure doctrine connections to use tablename prefix hs_hr_
    */
-    public function configureDoctrine(Doctrine_Manager $manager) {
-       
+    public function configureDoctrine(sfEvent $event) {
+
+        $manager = $event->getSubject();
+
         $manager->setAttribute(Doctrine_Core::ATTR_VALIDATE, Doctrine_Core::VALIDATE_ALL);
         $manager->setAttribute(Doctrine_Core::ATTR_USE_NATIVE_ENUM, true);
         $manager->setAttribute(Doctrine_Core::ATTR_QUERY_CLASS, 'ohrmDoctrineQuery');

@@ -54,7 +54,7 @@ class orangehrmRESTPluginAllTests
         $suite->addTestFile(dirname(__FILE__) . '/api/pim/ApiEmployeeEducationAPITest.php');
        // $suite->addTestFile(dirname(__FILE__) . '/api/leave/ApiLeaveRequestAPITest.php');
         $suite->addTestFile(dirname(__FILE__) . '/api/admin/ApiUsersAPITest.php');
-        $suite->addTestFile(dirname(__FILE__) . '/api/admin/ApiUserLoginAPITest.php');
+        //$suite->addTestFile(dirname(__FILE__) . '/api/admin/ApiUserLoginAPITest.php');
 
         /* Entity test cases - PIM*/
 

@@ -21,10 +21,7 @@ namespace Orangehrm\Rest\Api\Time;
 
 use Orangehrm\Rest\Api\EndPoint;
 use Orangehrm\Rest\Api\Exception\BadRequestException;
-use Orangehrm\Rest\Api\Exception\RecordNotFoundException;
 use Orangehrm\Rest\Api\Exception\InvalidParamException;
-use Orangehrm\Rest\Api\Pim\Entity\Employee;
-use Orangehrm\Rest\Api\Pim\Entity\EmployeeDependent;
 use Orangehrm\Rest\Http\Response;
 
 class EmployeeTimeSheetAPI extends EndPoint
@@ -36,7 +33,6 @@ class EmployeeTimeSheetAPI extends EndPoint
     const PARAMETER_START_DATE = "startDate";
     const PARAMETER_ID = "id";
 
-    private $employeeEventService;
     private $employeeService;
 
     /**
@@ -70,21 +66,6 @@ class EmployeeTimeSheetAPI extends EndPoint
         return $this->timesheetService;
     }
 
-
-    /**
-     * Get employee event service
-     *
-     * @return \EmployeeEventService
-     */
-    private function getEmployeeEventService() {
-
-        if(is_null($this->employeeEventService)) {
-            $this->employeeEventService = new \EmployeeEventService();
-        }
-
-        return $this->employeeEventService;
-    }
-
     /**
      * @param mixed $employeeEventService
      */
@@ -92,7 +73,6 @@ class EmployeeTimeSheetAPI extends EndPoint
     {
         $this->employeeEventService = $employeeEventService;
     }
-
 
     /**
      * get employee timesheets
@@ -109,11 +89,8 @@ class EmployeeTimeSheetAPI extends EndPoint
 
         foreach ($timesheets as $timesheet) {
 
-//            $empDependant = new EmployeeDependent($dependent->getName(), $dependent->getRelationship(),
-//                $dependent->getDateOfBirth(), $dependent->getSeqno());
             $responseArray[] = $timesheet->toArray();
         }
-//        $responseArray[] = $empId;
         return new Response($responseArray, array());
     }
 
@@ -126,36 +103,19 @@ class EmployeeTimeSheetAPI extends EndPoint
      */
     public function saveEmployeeTimeSheets($initialRaws)
     {
-
-
         $filters = $this->filterParameters();
-//        return new Response($filters);
-//        var_dump("dddddd");die;
-//        return new Response($this->getRequestParams(), array());
         $this->getTimesheetService()->createTimesheet($filters[self::PARAMETER_EMPLOYEE_ID], $filters[self::PARAMETER_START_DATE]);
         $timesheet = $this->getTimesheetService()->getTimesheetByStartDateAndEmployeeId($filters[self::PARAMETER_START_DATE], $filters[self::PARAMETER_EMPLOYEE_ID]);
         $endDate = $timesheet->getEndDate();
         $startDate = $timesheet->getStartDate();
         $currentWeekDates = $this->getDatesOfTheTimesheetPeriod($startDate, $endDate);
-//        var_dump($this->getRequestParams());
         $initialRaws = json_decode($initialRaws, true);
         $result = $this->getTimesheetService()->saveTimesheetItems($initialRaws, $filters[self::PARAMETER_EMPLOYEE_ID], $timesheet->getTimesheetId(), $currentWeekDates, 0);
-
-//        if ($result instanceof \EmpDependent) {
-//
-//            $this->getEmployeeEventService()->saveEvent($result->getEmpNumber(),\PluginEmployeeEvent::EVENT_TYPE_DEPENDENT,\PluginEmployeeEvent::EVENT_SAVE,'Saving Employee Dependent','API');
-            return new Response(array('success' => 'Successfully Saved'));
-//        } else {
-//            throw new BadRequestException("Saving Failed");
-//        }
-
+        return new Response(array('success' => 'Successfully Saved'));
     }
 
 
     public function getDatesOfTheTimesheetPeriod($startDate, $endDate) {
-
-//        $clientTimeZoneOffset = sfContext::getInstance()->getUser()->getUserTimeZoneOffset();
-//        date_default_timezone_set($this->getLocalTimezone($clientTimeZoneOffset));
 
         if ($startDate < $endDate) {
             $dates_range[] = $startDate;
@@ -172,66 +132,6 @@ class EmployeeTimeSheetAPI extends EndPoint
         return $dates_range;
     }
 
-    /**
-     * Update employee dependents
-     *
-     * @return Response
-     * @throws BadRequestException
-     * @throws InvalidParamException
-     */
-    public function updateEmployeeDependents()
-    {
-//        $filters = $this->filterParameters();
-//        if(!is_numeric( $filters[self::PARAMETER_SEQ_NUMBER] )) {
-//            throw new InvalidParamException("Sequence Number Is Wrong");
-//        }
-//        $dependent = $this->buildEmployeeDependents($filters);
-//        try {
-//            $result = $this->getEmployeeService()->updateEmployeeDependent($dependent);
-//
-//        } catch (\Exception $pimEx) {
-//            throw new BadRequestException('Updating Failed');
-//        }
-//
-//        if ($result instanceof \EmpDependent) {
-//            $this->getEmployeeEventService()->saveEvent($result->getEmpNumber(),\PluginEmployeeEvent::EVENT_TYPE_DEPENDENT,\PluginEmployeeEvent::EVENT_UPDATE,'Updating Employee Dependent','API');
-//            return new Response(array('success' => 'Successfully Updated'));
-//        } else {
-//            throw new BadRequestException("Updating Failed");
-//        }
-
-    }
-
-    /**
-     * Deleting employee dependents
-     *
-     * @return Response
-     * @throws InvalidParamException
-     * @throws RecordNotFoundException
-     */
-    public function deleteEmployeeDependents()
-    {
-//        $filters = $this->filterParameters();
-//        $empId = $filters[self::PARAMETER_ID];
-//        $sequenceNumber = $filters[self::PARAMETER_SEQ_NUMBER];
-//
-//        if (!empty($sequenceNumber) && is_numeric($sequenceNumber)) {
-//
-//            $count = $this->getEmployeeService()->deleteEmployeeDependents($empId, array($sequenceNumber));
-//
-//            if ($count > 0) {
-//                $this->getEmployeeEventService()->saveEvent($empId,\PluginEmployeeEvent::EVENT_TYPE_DEPENDENT,\PluginEmployeeEvent::EVENT_DELETE,'Deleting Employee Dependent','API');
-//                return new Response(array('success' => 'Successfully Deleted'));
-//            } else {
-//                throw new RecordNotFoundException("Deleting Failed");
-//            }
-//
-//        } else {
-//            throw new InvalidParamException("Sequence Number Is Wrong");
-//        }
-
-
-    }
 
     /**
      * Filter Post parameters to validate
@@ -261,53 +161,6 @@ class EmployeeTimeSheetAPI extends EndPoint
 
     }
 
-    /**
-     * Build employee dependent
-     *
-     * @param $filters
-     * @return \EmpDependent
-     */
-    protected function buildEmployeeDependents($filters)
-    {
-//        $employeeDependent = new \EmpDependent();
-//        $employeeDependent->setSeqno($filters[self::PARAMETER_SEQ_NUMBER]);
-//        $employeeDependent->setEmpNumber($filters[self::PARAMETER_ID]);
-//        $employeeDependent->name = $filters[self::PARAMETER_NAME];
-//        $employeeDependent->relationship = $filters[self::PARAMETER_RELATIONSHIP];
-//        $employeeDependent ->relationship_type = 'other';
-//        $dob = date("Y-m-d", strtotime($filters[self::PARAMETER_DOB]));
-//        $employeeDependent->date_of_birth = $dob;
-//
-//        return $employeeDependent;
-    }
-
-
-    public function getPostValidationRules()
-    {
-        return array();
-//        return array(
-//            self::PARAMETER_DOB => array('Date' => array('Y-m-d')),
-//            self::PARAMETER_RELATIONSHIP => array('StringType' => true, 'NotEmpty' => true,'Length' => array(1,50)),
-//            self::PARAMETER_NAME => array('Length' => array(0, 50)),
-//        );
-    }
-
-    public function getPutValidationRules()
-    {
-//        return array(
-//            self::PARAMETER_DOB => array('Date' => array('Y-m-d')),
-//            self::PARAMETER_RELATIONSHIP => array('StringType' => true, 'NotEmpty' => true,'Length' => array(1,50)),
-//            self::PARAMETER_NAME => array('Length' => array(0, 50), 'NotEmpty' => true),
-//            self::PARAMETER_SEQ_NUMBER=> array('NotEmpty' => true,'Length' => array(1,1000))
-//        );
-    }
-
-    public function getDelValidationRules()
-    {
-//        return array(
-//          self::PARAMETER_SEQ_NUMBER=> array( 'NotEmpty' => true,'Length' => array(1,1000))
-//        );
-    }
 
 }
 

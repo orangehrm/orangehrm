@@ -70,7 +70,7 @@ class ListSorter {
         return $this->sort;
     }
     
-	public function sortLink($fieldName, $displayName = null, $url, $attributes = array(),$extraParam = '') {
+	public function sortLink($fieldName, $displayName, $url, $attributes = array(),$extraParam = '') {
 
 		$class = $this->default_class;
 		$nextOrder = self::ASCENDING;	

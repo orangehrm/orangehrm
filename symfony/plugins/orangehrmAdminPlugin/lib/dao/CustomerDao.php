@@ -83,6 +83,24 @@ class CustomerDao extends BaseDao {
     }
 
     /**
+     * Get Customer by name
+     *
+     * @param $customerId
+     * @return mixed
+     * @throws DaoException
+     */
+    public function getCustomerByName($customerName) {
+
+        try {
+            $q = Doctrine_Query :: create()
+                ->from('Customer')
+                ->where('name = ?',$customerName);
+            return $q->count();
+        } catch (Exception $e) {
+            throw new DaoException($e->getMessage());
+        }
+    }
+    /**
      *
      * @param type $customerId 
      */
