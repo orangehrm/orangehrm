@@ -183,6 +183,7 @@ class EmployeeDetailAPI extends EndPoint
                 if (!empty($filters[self::PARAMETER_DRIVERS_LICENSE_NUMBER])) {
                     $employee->setLicenseNo($filters[self::PARAMETER_DRIVERS_LICENSE_NUMBER]);
                 }
+
                 if (!empty($filters[self::PARAMETER_MARITAL_STATUS])) {
                     $employee->emp_marital_status = $this->checkMaritalStatus($filters[self::PARAMETER_MARITAL_STATUS]);
                 }
@@ -249,10 +250,8 @@ class EmployeeDetailAPI extends EndPoint
         if (!empty($this->getRequestParams()->getPostParam(self::PARAMETER_NATIONALITY))) {
             $filters[self::PARAMETER_NATIONALITY] = ($this->getRequestParams()->getPostParam(self::PARAMETER_NATIONALITY));
         }
+
         if (!empty($this->getRequestParams()->getPostParam(self::PARAMETER_MARITAL_STATUS))) {
-            $filters[self::PARAMETER_GENDER] = ($this->getRequestParams()->getPostParam(self::PARAMETER_GENDER));
-        }
-        if (!empty($this->getRequestParams()->getPostParam(self::PARAMETER_GENDER))) {
             $filters[self::PARAMETER_MARITAL_STATUS] = ($this->getRequestParams()->getPostParam(self::PARAMETER_MARITAL_STATUS));
         }
         if (!empty($this->getRequestParams()->getPostParam(self::PARAMETER_DRIVERS_LICENSE_NUMBER))) {
