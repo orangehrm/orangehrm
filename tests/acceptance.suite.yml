@@ -8,5 +8,5 @@ actor: AcceptanceTester
 modules:
     enabled:
         - PhpBrowser:
-            url: http://127.0.0.1:8000/
+            url: http://127.0.0.1:8888/
         - \Helper\Acceptance
