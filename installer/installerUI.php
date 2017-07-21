@@ -53,9 +53,9 @@ if (isset($_SESSION['reqAccept'])) {
 	$reqAccept = $_SESSION['reqAccept'];
 }
 
-$steps = array('welcome', 'license', 'database configuration', 'system check', 'admin user creation', 'confirmation', 'Installing', 'registration');
+$steps = array('welcome', 'license', 'database configuration', 'system check', 'admin user creation', 'confirmation', 'Installing', 'Final');
 
-$helpLink = array("#welcome", "#license", "#DBCreation", "#systemChk", "#adminUsrCrt", "#confirm", "#installing", "#registration");
+$helpLink = array("#welcome", "#license", "#DBCreation", "#systemChk", "#adminUsrCrt", "#confirm", "#installing", "#finalize");
 
 ?>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
@@ -127,7 +127,7 @@ switch ($currScreen) {
 	case 4 	: 	require(ROOT_PATH . '/installer/defaultUser.php'); break;
 	case 5 	: 	require(ROOT_PATH . '/installer/confirmation.php'); break;
 	case 6 	: 	require(ROOT_PATH . '/installer/progress.php'); break;
-	case 7 	: 	require(ROOT_PATH . '/installer/registration.php'); break;
+	case 7 	: 	require(ROOT_PATH . '/installer/finalize.php'); break;
 }
 ?>
 

@@ -20,6 +20,8 @@
  */
 class BeaconCommunicationsService extends BaseService implements StateAccessibleByExecutionFilters {
 
+    const BEACON_COMMUNICATION_ON = false;
+
     const BEACON_ACTIVATION_REQUIRED = 'beacon.activation';
     const BEACON_FLASH_REQUIRED = 'beacon.flash';
     const BEACON_ACTIVATION_SET = 'beacon.enabled';
@@ -391,30 +393,33 @@ class BeaconCommunicationsService extends BaseService implements StateAccessible
     }
     
     public function sendWebRequest($url, $data, $method = 'POST',$contentType='application/json') {
-        
-        $contextOpts = array(
-            'ssl' => array(
-                'verify_peer' => false,
-                'allow_self_signed' => true,
-                'cafile' => '/etc/ssl/certs/cacert.pem',
-                'verify_depth' => 5,
-                'peer_name' => '127.0.0.1',
-                'disable_compression' => true,
-                'SNI_enabled' => true,
-                'ciphers' => 'ALL!EXPORT!EXPORT40!EXPORT56!aNULL!LOW!RC4'
-            ),
-            'http' => array(
-                'method' => $method,
-                'header' => 'Content-type: '.$contentType,
-                'content' => $data
-            )
-        );
 
-        $sslContext = stream_context_create($contextOpts);
-        $result =   file_get_contents(trim($url), null, $sslContext);
-        $this->headers = $http_response_header;
-        
-        return $result;
+        if (self::BEACON_COMMUNICATION_ON) {
+            $contextOpts = array(
+                'ssl' => array(
+                    'verify_peer' => false,
+                    'allow_self_signed' => true,
+                    'cafile' => '/etc/ssl/certs/cacert.pem',
+                    'verify_depth' => 5,
+                    'peer_name' => '127.0.0.1',
+                    'disable_compression' => true,
+                    'SNI_enabled' => true,
+                    'ciphers' => 'ALL!EXPORT!EXPORT40!EXPORT56!aNULL!LOW!RC4'
+                ),
+                'http' => array(
+                    'method' => $method,
+                    'header' => 'Content-type: ' . $contentType,
+                    'content' => $data
+                )
+            );
+
+            $sslContext = stream_context_create($contextOpts);
+            $result = file_get_contents(trim($url), null, $sslContext);
+            $this->headers = $http_response_header;
+
+            return $result;
+        }
+        return false;
     }
     
     public function checkFlashTimeExpiry($time) {
