@@ -28,7 +28,7 @@
                     </ul>
                 </div>
                 
-                <?php if ($beaconAcceptance != 'on' && $isAdmin) { ?>
+                <?php if ($beaconAcceptance != 'on' && $beaconCommunicationOn && $isAdmin) { ?>
                 
                     <br>
                     <div id = "registration-section">

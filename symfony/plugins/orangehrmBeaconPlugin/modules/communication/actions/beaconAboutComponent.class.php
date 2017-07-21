@@ -31,6 +31,7 @@ class beaconAboutComponent extends sfComponent {
 
         $configurationService = new BeaconConfigurationService();
         $this->beaconAcceptance = $configurationService->getBeaconActivationAcceptanceStatus();
+        $this->beaconCommunicationOn = BeaconCommunicationsService::BEACON_COMMUNICATION_ON;
         if ($companyInfo) {
             $this->companyName = $companyInfo->getName();
         }
