@@ -23,6 +23,9 @@ install:
   - composer dump-autoload -o -d symfony/lib
   - php installer/cli_install.php 0
   - php devTools/general/create-test-db.php root
+  
+before_script:
+  - php -S 127.0.0.1:8000 -t /symfony/web >/dev/null 2>&1 &
 script:
   - symfony/lib/vendor/bin/phpunit
   - php codecept.phar run acceptance
