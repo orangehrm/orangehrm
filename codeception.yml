@@ -8,3 +8,8 @@ actor_suffix: Tester
 extensions:
     enabled:
         - Codeception\Extension\RunFailed
+modules:
+    config:
+        WPWebDriver:
+            url: 'http://127.0.0.1:8888'
+            browser: phantomjs
