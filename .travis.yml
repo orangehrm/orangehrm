@@ -25,6 +25,7 @@ install:
   - php devTools/general/create-test-db.php root
 script:
   - symfony/lib/vendor/bin/phpunit
+  - php codecept.phar run acceptance
 
 notifications:
   email: true
