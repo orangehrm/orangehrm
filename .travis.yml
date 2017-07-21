@@ -33,7 +33,7 @@ before_script:
   - echo "Run selenium server - background process"
   - nohup bash -c "java -jar selenium-server-standalone.jar &" && sleep 1; cat nohup.out
   - echo "Run php in-built server - background process"
-  - nohup bash -c "php -S localhost:8000 2>&1 -t /symfony/web/ &" && sleep 1; cat nohup.out
+  - nohup bash -c "php -S 127.0.0.1:8000 2>&1 -t /symfony/web/ &" && sleep 1; cat nohup.out
   
 script:
   - symfony/lib/vendor/bin/phpunit
