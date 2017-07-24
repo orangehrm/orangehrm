@@ -36,6 +36,10 @@ before_script:
   - phantomjs --webdriver=4444 >/dev/null 2>&1 &
   - sleep 10
   
+after_failure:
+  - cd tests/_output/
+  - ls | xargs cat
+
 notifications:
   email: true
   
