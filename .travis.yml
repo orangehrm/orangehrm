@@ -3,7 +3,6 @@ php:
   - '7.1'
 sudo: required
 dist: trusty
-group: edge
 
 stage: test
 
@@ -26,13 +25,12 @@ before_install:
   - sudo chmod 777 -R symfony/cache
   - sudo chmod 777 -R symfony/log
   - echo "USE mysql;\nUPDATE user SET password=PASSWORD('root') WHERE user='root';\nFLUSH PRIVILEGES;\n" | mysql -u root
-  - docker build -t $REPO:$TAG docker-image
+  - docker build -t $REPO:$TAG .
 install:
   - composer install -d symfony/lib
   - composer dump-autoload -o -d symfony/lib
   - php installer/cli_install.php 0
   - php devTools/general/create-test-db.php root
-  - docker-compose up -d
   
 before_script:
   - echo "Run php in-built server - background process"
