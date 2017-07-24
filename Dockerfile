@@ -21,10 +21,13 @@ ENV APACHE_PID_FILE /var/run/apache2.pid
 # Export port 80
 EXPOSE 80
 
-# Download the source
-RUN wget -c http://downloads.sourceforge.net/project/orangehrm/stable/3.3.2/orangehrm-3.3.2.zip -O ~/orangehrm-3.3.2.zip &&\
-    unzip -o ~/orangehrm-3.3.2.zip -d /var/www/site && \
-    rm ~/orangehrm-3.3.2.zip
+# add source to image
+
+RUN mkdir /var/www/site/orangehrm
+COPY . /var/www/site/orangehrm
+#RUN wget -c http://downloads.sourceforge.net/project/orangehrm/stable/3.3.2/orangehrm-3.3.2.zip -O ~/orangehrm-3.3.2.zip &&\
+ #   unzip -o ~/orangehrm-3.3.2.zip -d /var/www/site && \
+  #  rm ~/orangehrm-3.3.2.zip
 
 # Fix Permission
 RUN cd /var/www/site/orangehrm-3.3.2; bash fix_permissions.sh

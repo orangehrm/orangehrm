@@ -41,7 +41,7 @@ class loginTestCest
      * @example{"empname":"testemp3","user":"testuser3","pword":"12345"}
      * 
      * */
-    public function testAddUserInOHRMApp(AcceptanceTester $I, \Codeception\Example $example)
+    public function testAddUserInOHRMApp( AcceptanceTester $I, \Codeception\Example $example)
     {
 		$I->am('ohrm user');
 		$I->wantTo('check add user functionality');
@@ -57,7 +57,11 @@ class loginTestCest
 		$I->fillField('User Name',$example['user']);
 		$I->fillField('Password',$example['pword']);
 		$I->fillField('Confirm Password',$example['pword']);
+		
 		$I->click('btnSave');
+
+
+		
 		$I->see($example['empname']+' '+$example['empname']);
     }
     
