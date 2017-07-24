@@ -6,8 +6,14 @@ sudo: required
 dist: trusty
 group: edge
 
+env:
+  global:
+  - REPO=thulana/orangehrmos
+  - TAG=develop
+
 services:
   - mysql
+  - docker
 
 before_install:
   - uname -a
@@ -18,13 +24,45 @@ before_install:
   - sudo chmod 777 -R symfony/cache
   - sudo chmod 777 -R symfony/log
   - echo "USE mysql;\nUPDATE user SET password=PASSWORD('root') WHERE user='root';\nFLUSH PRIVILEGES;\n" | mysql -u root
+  - docker build -t $REPO:$TAG .
+  
+before_script:
+  - echo "Run php in-built server - background process"
+  - nohup bash -c "php -S 127.0.0.1:8888 2>&1 -t /symfony/web  >/dev/null 2>&1 &" && sleep 1
+  - phantomjs --webdriver=4444 >/dev/null 2>&1 &
+  - sleep 10
+  
+after_failure:
+  - cd tests/_output/
+  - ls | xargs cat
 install:
   - composer install -d symfony/lib
   - composer dump-autoload -o -d symfony/lib
   - php installer/cli_install.php 0
   - php devTools/general/create-test-db.php root
-script:
-  - symfony/lib/vendor/bin/phpunit
 
 notifications:
   email: true
+  
+jobs:
+  include:
+    - stage: test
+      script:
+        - symfony/lib/vendor/bin/phpunit
+        - php codecept.phar run acceptance
+    - stage: push to dockerhub
+      env:
+      script: skip
+      after_script:
+        - docker login -u="$DOCKER_USERNAME" -p="$DOCKER_PASSWORD"
+        - docker push $REPO:$TAG  
+    - stage: deploy
+      env:
+      before_script:
+        - wget -qO- https://toolbelt.heroku.com/install-ubuntu.sh | sh
+        - heroku plugins:install heroku-container-registry
+        - docker login -e _ -u _ --password=$HEROKU_API_KEY registry.heroku.com
+      script:
+        - heroku container:push web --app $HEROKU_APP_NAME 
+        
+
