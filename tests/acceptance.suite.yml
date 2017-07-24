@@ -9,7 +9,7 @@ modules:
     enabled:
          - \Helper\Acceptance
          - WebDriver:
-             url: http://localhost:8888
+             url: http://127.0.0.1:8888
              browser: phantomjs
              window_size: 960x1080
              capabilities:
