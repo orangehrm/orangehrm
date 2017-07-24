@@ -41,6 +41,8 @@ class loginTestCest
      * @example{"empname":"testemp3","user":"testuser3","pword":"12345"}
      * 
      * */
+     
+     /**
     public function testAddUserInOHRMApp( AcceptanceTester $I, \Codeception\Example $example)
     {
 		$I->am('ohrm user');
@@ -64,6 +66,7 @@ class loginTestCest
 		
 		$I->see($example['empname']+' '+$example['empname']);
     }
+    * */
     
     /**
      * 
@@ -72,6 +75,8 @@ class loginTestCest
      * @example{"empname":"testemp3","user":"testuser3","pword":"12345"}
      * 
      * */
+     
+     /**
     public function testLoginWithNewUsersInOHRMApp(AcceptanceTester $I, \Codeception\Example $example)
     {
 		$I->am('ohrm user');
@@ -83,6 +88,7 @@ class loginTestCest
 		$I->click('Submit');
 		$I->see('Dashboard');
     }
+    * */
     
     
 }
