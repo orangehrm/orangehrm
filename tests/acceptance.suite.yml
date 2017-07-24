@@ -7,10 +7,6 @@
 class_name: AcceptanceTester
 modules:
     enabled:
-         - \Helper\Acceptance
-         - WebDriver:
-             url: http://127.0.0.1:8888
-             browser: phantomjs
-             window_size: 960x1080
-             capabilities:
-                 unexpectedAlertBehaviour: 'accept'  
+        - PhpBrowser:
+            url: http://127.0.0.1:8888/
+        - \Helper\Acceptance
