@@ -5,6 +5,8 @@ sudo: required
 dist: trusty
 group: edge
 
+stage: test
+
 env:
   global:
   - REPO=thulana/orangehrmos
@@ -13,8 +15,6 @@ env:
 services:
   - mysql
   - docker
-
-stage: test
 
 before_install:
   - phpenv config-rm xdebug.ini
