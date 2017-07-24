@@ -56,6 +56,7 @@ jobs:
         - docker push $REPO:$TAG  
     - stage: deploy
       env:
+      install: skip
       before_script:
         - wget -qO- https://toolbelt.heroku.com/install-ubuntu.sh | sh
         - heroku plugins:install heroku-container-registry
