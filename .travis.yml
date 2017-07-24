@@ -23,7 +23,6 @@ before_install:
   - sudo chmod 777 -R symfony/cache
   - sudo chmod 777 -R symfony/log
   - echo "USE mysql;\nUPDATE user SET password=PASSWORD('root') WHERE user='root';\nFLUSH PRIVILEGES;\n" | mysql -u root
-  - docker build -t $REPO:$TAG .
   
 before_script:
   - echo "Run php in-built server - background process"

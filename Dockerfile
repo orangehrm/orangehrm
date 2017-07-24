@@ -23,14 +23,14 @@ EXPOSE 80
 
 # add source to image
 
-RUN mkdir /var/www/site/orangehrm
-COPY . /var/www/site/orangehrm
+RUN mkdir var/www/site/orangehrm
+COPY . var/www/site/orangehrm
 #RUN wget -c http://downloads.sourceforge.net/project/orangehrm/stable/3.3.2/orangehrm-3.3.2.zip -O ~/orangehrm-3.3.2.zip &&\
  #   unzip -o ~/orangehrm-3.3.2.zip -d /var/www/site && \
   #  rm ~/orangehrm-3.3.2.zip
 
 # Fix Permission
-RUN cd /var/www/site/orangehrm-3.3.2; bash fix_permissions.sh
+RUN cd /var/www/site/orangehrm; bash fix_permissions.sh
 
 # Update the default apache site with the config we created.
 ADD docker-build-files/apache-config.conf /etc/apache2/sites-enabled/000-default.conf
@@ -40,3 +40,5 @@ ADD docker-build-files/supervisord.conf /etc/supervisor/conf.d/supervisord.conf
 
 # Start apache/mysql
 CMD /usr/bin/supervisord -c /etc/supervisor/conf.d/supervisord.conf
+
+
