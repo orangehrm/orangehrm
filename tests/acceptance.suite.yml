@@ -4,9 +4,13 @@
 # Perform tests in browser using the WebDriver or PhpBrowser.
 # If you need both WebDriver and PHPBrowser tests - create a separate suite.
 
-actor: AcceptanceTester
+class_name: AcceptanceTester
 modules:
     enabled:
-        - PhpBrowser:
-            url: http://localhost/myapp
-        - \Helper\Acceptance
+         - \Helper\Acceptance
+         - WebDriver:
+             url: http://127.0.0.1:8888
+             browser: phantomjs
+             window_size: 960x1080
+             capabilities:
+                 unexpectedAlertBehaviour: 'accept'  
