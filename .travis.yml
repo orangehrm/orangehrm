@@ -4,8 +4,6 @@ php:
 sudo: required
 dist: trusty
 
-stage: test
-
 env:
   global:
   - REPO=thulana/orangehrmos
@@ -37,15 +35,16 @@ before_script:
   - nohup bash -c "php -S 127.0.0.1:8888 2>&1 -t /symfony/web/ &" && sleep 1; cat nohup.out
   - phantomjs --webdriver=4444 >/dev/null 2>&1 &
   
-script:
-  - symfony/lib/vendor/bin/phpunit
-  - php codecept.phar run acceptance
 
 notifications:
   email: true
   
 jobs:
   include:
+    - stage: test
+      script:
+        - symfony/lib/vendor/bin/phpunit
+        - php codecept.phar run acceptance
     - stage: push to dockerhub
       env:
       script: skip
