@@ -14,6 +14,8 @@ services:
   - mysql
   - docker
 
+stage: test
+
 before_install:
   - phpenv config-rm xdebug.ini
   - uname -a
