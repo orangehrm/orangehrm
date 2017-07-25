@@ -35,6 +35,9 @@ RUN cd /var/www/site/orangehrm; bash fix_permissions.sh
 # Update the default apache site with the config we created.
 ADD docker-build-files/apache-config.conf /etc/apache2/sites-enabled/000-default.conf
 
+# Update the default apache ports with the config we created.
+ADD docker-build-files/ports.conf /etc/apache2/ports.conf
+
 # Copy Supervisor configuration
 ADD docker-build-files/supervisord.conf /etc/supervisor/conf.d/supervisord.conf
 
