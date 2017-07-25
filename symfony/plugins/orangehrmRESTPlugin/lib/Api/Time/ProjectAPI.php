@@ -112,6 +112,11 @@ class ProjectAPI extends EndPoint
 
     }
 
+    /**
+     * Save project
+     *
+     * @return Response
+     */
     public function saveProject()
     {
         $filters = $this->filterParameters();
@@ -125,6 +130,13 @@ class ProjectAPI extends EndPoint
         return new Response(array('success' => 'Successfully Saved'));
     }
 
+    /**
+     * Update project
+     *
+     * @return Response
+     * @throws InvalidParamException
+     * @throws RecordNotFoundException
+     */
     function updateProject()
     {
         $filters = $this->filterParameters();
@@ -133,10 +145,11 @@ class ProjectAPI extends EndPoint
             throw new InvalidParamException("Project Id Needed");
         }
         $project = $this->getProjectService()->getProjectById($projectId);
+        $this->validateParameters($filters);
 
         if ($project instanceof \Project) {
-            $this->buildProjectAndSave($project, $filters);
 
+            $this->buildProjectAndSave($project, $filters);
             $projectAdmins = $filters['admins'];
             $existingProjectAdmins = $project->getProjectAdmin();
             $idList = array();
@@ -160,30 +173,49 @@ class ProjectAPI extends EndPoint
             }
             $projectAdmins = $newList;
             $this->saveProjectAdmins($projectAdmins, $project->getProjectId());
+            return new Response(array('success' => 'Successfully Updated'));
+        } else {
+            throw new RecordNotFoundException("Project Not Found");
         }
 
     }
 
+    /**
+     * Delete Project
+     *
+     * @return Response
+     * @throws InvalidParamException
+     * @throws RecordNotFoundException
+     */
     public function deleteProject()
     {
         $filters = $this->filterDeleteParameters();
         $projectId = $filters[self::PARAMETER_PROJECT_ID];
+        $project = $this->getProjectService()->getProjectById($projectId);
+        if ($project instanceof \Project) {
+            $hasTimeSheets = $this->getProjectService()->hasProjectGotTimesheetItems($projectId);
 
-        $hasTimeSheets = $this->getProjectService()->hasProjectGotTimesheetItems($projectId);
+            if (!$hasTimeSheets) {
+                $this->getProjectService()->deleteProject($projectId);
+                return new Response(array('success' => 'Successfully Deleted'));
 
-        if (!$hasTimeSheets) {
-            $this->getProjectService()->deleteProject($projectId);
-            return new Response(array('success' => 'Successfully Deleted'));
-
+            } else {
+                throw new InvalidParamException("Not Allowed to Delete Project(s) Which Have Time Logged Against Them");
+            }
         } else {
-            throw new InvalidParamException("Not Allowed to Delete Project(s) Which Have Time Logged Against Them");
+            throw new RecordNotFoundException("Project Not Found");
         }
+
     }
 
-
+    /**
+     * Build project and save project
+     *
+     * @param \Project $project
+     * @param $filters
+     */
     protected function buildProjectAndSave(\Project $project, $filters)
     {
-
         if ($project == null) {
             $project = new \Project();
         }
@@ -195,9 +227,10 @@ class ProjectAPI extends EndPoint
     }
 
     /**
-     * Filter parameters
+     * Filter Parameters
      *
      * @return array
+     * @throws BadRequestException
      * @throws InvalidParamException
      */
     protected function filterParameters()
@@ -240,6 +273,12 @@ class ProjectAPI extends EndPoint
         return $filters;
     }
 
+    /**
+     * Filter delete parameters
+     *
+     * @return array
+     * @throws InvalidParamException
+     */
     protected function filterDeleteParameters()
     {
         $filters[] = array();
@@ -256,12 +295,36 @@ class ProjectAPI extends EndPoint
     public function getPostValidationRules()
     {
         return array(
-            self::PARAMETER_CUSTOMER_ID => array('NotEmpty' => true, 'Length' => array(0, 5)),
+            self::PARAMETER_CUSTOMER_ID => array("IntVal" => true, 'NotEmpty' => true, 'Length' => array(0, 5)),
             self::PARAMETER_NAME => array('StringType' => true, 'NotEmpty' => true, 'Length' => array(1, 52)),
             self::PARAMETER_DESCRIPTION => array('Length' => array(0, 256)),
         );
     }
 
+    public function getPutValidationRules()
+    {
+        return array(
+            self::PARAMETER_PROJECT_ID => array("IntVal" => true, 'NotEmpty' => true, 'Length' => array(0, 5)),
+            self::PARAMETER_CUSTOMER_ID => array("IntVal" => true, 'NotEmpty' => true, 'Length' => array(0, 5)),
+            self::PARAMETER_NAME => array('StringType' => true, 'NotEmpty' => true, 'Length' => array(1, 52)),
+            self::PARAMETER_DESCRIPTION => array('Length' => array(0, 256)),
+        );
+    }
+
+    public function getDeleteValidationRules()
+    {
+        return array(
+            self::PARAMETER_PROJECT_ID => array("IntVal" => true, 'NotEmpty' => true, 'Length' => array(0, 5))
+
+        );
+    }
+
+    /**
+     * Validate parameters
+     *
+     * @param $filters
+     * @throws InvalidParamException
+     */
     protected function validateParameters($filters)
     {
         $customer = $this->getCustomerService()->getCustomerById($filters[self::PARAMETER_CUSTOMER_ID]);
@@ -277,6 +340,12 @@ class ProjectAPI extends EndPoint
 
     }
 
+    /**
+     * Validate employee
+     *
+     * @param $empId
+     * @throws RecordNotFoundException
+     */
     protected function validateEmployee($empId)
     {
         $employee = $this->getEmployeeService()->getEmployee($empId);
@@ -285,6 +354,12 @@ class ProjectAPI extends EndPoint
         }
     }
 
+    /**
+     * Save project admins
+     *
+     * @param $projectAdmins
+     * @param $projectId
+     */
     protected function saveProjectAdmins($projectAdmins, $projectId)
     {
 
@@ -298,6 +373,12 @@ class ProjectAPI extends EndPoint
         }
     }
 
+    /**
+     * Checking admins list for duplicates
+     *
+     * @param array $input_array
+     * @return bool
+     */
     function no_dupes(array $input_array)
     {
         return count($input_array) === count(array_flip($input_array));
