@@ -30,7 +30,8 @@ class ActivityApiAction extends baseRestAction
     {
         $this->apiActivity = new ActivityAPI($request);
         $this->postValidationRule = $this->apiActivity->getPostValidationRules();
-
+        $this->putValidationRule = $this->apiActivity->getPutValidationRules();
+        $this->deleteValidationRule = $this->apiActivity->getDeleteValidationRules();
     }
 
     protected function handleGetRequest(Request $request)
@@ -43,6 +44,16 @@ class ActivityApiAction extends baseRestAction
         return $this->apiActivity->saveActivity();
     }
 
+    protected function handlePutRequest(Request $request)
+    {
+        return $this->apiActivity->updateActivity();
+    }
+
+    protected function handleDeleteRequest(Request $request)
+    {
+        return $this->apiActivity->deleteActivity();
+    }
+
 
     /**
      * @return ActivityAPI
@@ -53,7 +64,7 @@ class ActivityApiAction extends baseRestAction
     }
 
     /**
-     * @param null $apiActivity
+     * @param $apiActivity
      */
     public function setApiActivity($apiActivity)
     {
