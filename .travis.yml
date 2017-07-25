@@ -60,6 +60,8 @@ jobs:
       before_script:
         - composer install -d symfony/lib
         - composer dump-autoload -o -d symfony/lib
+        - php installer/cli_install.php 0
+        - php devTools/general/create-test-db.php root
         - wget -qO- https://toolbelt.heroku.com/install-ubuntu.sh | sh
         - heroku plugins:install heroku-container-registry
         - docker login -e _ -u _ --password=$HEROKU_API_KEY registry.heroku.com
