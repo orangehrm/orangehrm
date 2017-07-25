@@ -39,5 +39,6 @@ ADD docker-build-files/apache-config.conf /etc/apache2/sites-enabled/000-default
 ADD docker-build-files/supervisord.conf /etc/supervisor/conf.d/supervisord.conf
 
 # Start apache/mysql
+CMD /usr/bin/supervisord -c /etc/supervisor/conf.d/supervisord.conf
 
 
