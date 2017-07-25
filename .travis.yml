@@ -48,7 +48,7 @@ jobs:
       script:
         - symfony/lib/vendor/bin/phpunit
         - php codecept.phar run acceptance
-    - stage: push to dockerhub
+    - stage: deploy
       env:
       script: docker build -t $REPO:$TAG .
       after_script:
