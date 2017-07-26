@@ -42,7 +42,7 @@ RUN /usr/sbin/mysqld & \
 
 
 # Fix Permission
-Run ls
+Run pwd
 RUN cd /var/www/site/orangehrm; bash fix_permissions.sh
 
 #init project
