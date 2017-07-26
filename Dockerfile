@@ -38,7 +38,7 @@ RUN /usr/sbin/mysqld & \
 
 
 # Fix Permission
-RUN cd orangehrm; bash fix_permissions.sh
+RUN cd var/www/site/orangehrm; bash fix_permissions.sh
 
 #install application
 RUN /usr/sbin/mysqld & \
