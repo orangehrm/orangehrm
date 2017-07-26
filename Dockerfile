@@ -27,8 +27,8 @@ EXPOSE 80
 
 # add source to image
 
-RUN mkdir -p var/www/site/orangehrm
-COPY . var/www/site/orangehrm
+RUN mkdir orangehrm
+COPY . var/www/html/orangehrm
 #RUN wget -c http://downloads.sourceforge.net/project/orangehrm/stable/3.3.2/orangehrm-3.3.2.zip -O ~/orangehrm-3.3.2.zip &&\
  #   unzip -o ~/orangehrm-3.3.2.zip -d /var/www/site && \
   #  rm ~/orangehrm-3.3.2.zip
@@ -43,19 +43,19 @@ RUN /usr/sbin/mysqld & \
 
 # Fix Permission
 Run pwd
-RUN cd /var/www/site/orangehrm; bash fix_permissions.sh
+RUN cd orangehrm; bash fix_permissions.sh
 
 #init project
-RUN cd /var/www/site/orangehrm; composer self-update
-RUN cd /var/www/site/orangehrm; composer install -d symfony/lib
-RUN cd /var/www/site/orangehrm; composer dump-autoload -o -d symfony/lib
+RUN cd orangehrm; composer self-update
+RUN cd orangehrm; composer install -d symfony/lib
+RUN cd orangehrm; composer dump-autoload -o -d symfony/lib
 
 #install application
 RUN /usr/sbin/mysqld & \
 
     sleep 10s &&\
  
-    cd /var/www/site/orangehrm; php installer/cli_install.php 0
+    cd orangehrm; php installer/cli_install.php 0
 
 # Update the default apache site with the config we created.
 ADD docker-build-files/apache-config.conf /etc/apache2/sites-enabled/000-default.conf
