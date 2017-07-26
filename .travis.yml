@@ -50,6 +50,7 @@ jobs:
         - php codecept.phar run acceptance
     - stage: deploy
       env:
+      install: skip
       script: docker build -t $REPO:$TAG .
       after_script:
         - docker login -u="$DOCKER_USERNAME" -p="$DOCKER_PASSWORD"
