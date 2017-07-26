@@ -1,4 +1,4 @@
-FROM ubuntu:16.04
+FROM php:7.1-apache
 MAINTAINER Orangehrm <samanthaj@orangehrm.com>
 
 RUN apt-get update
@@ -7,13 +7,13 @@ RUN apt-get -y upgrade
 
 
 # Install apache, PHP, and supplimentary programs. curl and lynx-cur are for debugging the container.
-RUN DEBIAN_FRONTEND=noninteractive apt-get -y install apache2 mysql-server libapache2-mod-php7.0 php7.0-mysql php7.0-gd php-pear php7.0-curl curl lynx-cur wget unzip supervisor ssh && \
+RUN DEBIAN_FRONTEND=noninteractive apt-get -y install  mysql-server curl lynx-cur wget unzip supervisor ssh && \
 	curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
 
 
 # Enable apache mods.
-RUN a2enmod php7.0
-RUN a2enmod rewrite
+#RUN a2enmod php7.0
+#RUN a2enmod rewrite
 
 # Manually set up the apache environment variables
 ENV APACHE_RUN_USER www-data
