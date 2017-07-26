@@ -29,6 +29,13 @@ COPY . var/www/site/orangehrm
  #   unzip -o ~/orangehrm-3.3.2.zip -d /var/www/site && \
   #  rm ~/orangehrm-3.3.2.zip
 
+#config mysql
+RUN /usr/sbin/mysqld & \
+
+    sleep 10s &&\
+
+    echo "USE mysql;\nUPDATE user SET password=PASSWORD('root') WHERE user='root';\nFLUSH PRIVILEGES;\n" | mysql
+
 # Fix Permission
 RUN cd /var/www/site/orangehrm; bash fix_permissions.sh
 
