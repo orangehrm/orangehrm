@@ -51,6 +51,9 @@ jobs:
     - stage: deploy
       env:
       install: skip
+      before_script:
+        - composer install -d symfony/lib
+        - composer dump-autoload -o -d symfony/lib
       script: docker build -t $REPO:$TAG .
       after_script:
         - docker login -u="$DOCKER_USERNAME" -p="$DOCKER_PASSWORD"
