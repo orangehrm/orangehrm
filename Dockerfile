@@ -3,6 +3,7 @@ MAINTAINER Orangehrm <samanthaj@orangehrm.com>
 
 RUN apt-get update
 RUN apt-get -y upgrade
+RUN apt-get install software-properties-common
 RUN add-apt-repository ppa:ondrej/php
 # Install apache, PHP, and supplimentary programs. curl and lynx-cur are for debugging the container.
 RUN DEBIAN_FRONTEND=noninteractive apt-get -y install apache2 mysql-server libapache2-mod-php7.0 php7.0-mysql php7.0-gd php-pear php-apc php7.0-curl curl lynx-cur wget unzip supervisor ssh && \
