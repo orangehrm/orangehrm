@@ -3,12 +3,11 @@ MAINTAINER Orangehrm <samanthaj@orangehrm.com>
 
 RUN apt-get update
 RUN apt-get -y upgrade
-RUN apt-get -y install software-properties-common
-RUN apt-get install -y language-pack-en-base 
+
 
 
 # Install apache, PHP, and supplimentary programs. curl and lynx-cur are for debugging the container.
-RUN DEBIAN_FRONTEND=noninteractive LC_ALL=en_US.UTF-8 add-apt-repository ppa:ondrej/php && apt-get -y install apache2 mysql-server libapache2-mod-php7.0 php7.0-mysql php7.0-gd php-pear php7.0-curl curl lynx-cur wget unzip supervisor ssh && \
+RUN DEBIAN_FRONTEND=noninteractive apt-get -y install apache2 mysql-server libapache2-mod-php7.0 php7.0-mysql php7.0-gd php-pear php7.0-curl curl lynx-cur wget unzip supervisor ssh && \
 	curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
 
 
