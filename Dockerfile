@@ -12,7 +12,7 @@ RUN DEBIAN_FRONTEND=noninteractive apt-get -y install apache2 mysql-server libap
 
 
 # Enable apache mods.
-RUN a2enmod php5
+RUN a2enmod php7.0
 RUN a2enmod rewrite
 
 # Manually set up the apache environment variables
