@@ -23,7 +23,7 @@ EXPOSE 80
 
 # add source to image
 
-RUN mkdir var/www/site/orangehrm
+RUN mkdir -p var/www/site/orangehrm
 COPY . var/www/site/orangehrm
 #RUN wget -c http://downloads.sourceforge.net/project/orangehrm/stable/3.3.2/orangehrm-3.3.2.zip -O ~/orangehrm-3.3.2.zip &&\
  #   unzip -o ~/orangehrm-3.3.2.zip -d /var/www/site && \
