@@ -4,7 +4,7 @@ MAINTAINER Orangehrm <thulana@orangehrm.us.com>
 
 RUN apt-get update
 
-RUN DEBIAN_FRONTEND=noninteractive apt-get -y install mysql-server curl lynx-cur wget unzip supervisor php-apc
+RUN DEBIAN_FRONTEND=noninteractive apt-get -y install mysql-server curl lynx-cur wget unzip supervisor php-apc libpng-dev
 
 RUN docker-php-ext-install pdo pdo_mysql mysqli gd exif
 
