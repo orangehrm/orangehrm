@@ -1,51 +1,35 @@
-FROM ubuntu:14.04
-MAINTAINER Orangehrm <samanthaj@orangehrm.com>
+FROM php:7.0-apache
+
+MAINTAINER Orangehrm <thulana@orangehrm.us.com>
 
 RUN apt-get update
-RUN apt-get -y upgrade
 
-# Install apache, PHP, and supplimentary programs. curl and lynx-cur are for debugging the container.
-RUN DEBIAN_FRONTEND=noninteractive apt-get -y install apache2 mysql-server libapache2-mod-php5 php5-mysql php5-gd php-pear php-apc php5-curl curl lynx-cur wget unzip supervisor
+RUN DEBIAN_FRONTEND=noninteractive apt-get -y install mysql-server curl lynx-cur wget unzip supervisor
 
-# Enable apache mods.
-RUN a2enmod php5
-RUN a2enmod rewrite
-
-# Manually set up the apache environment variables
-ENV APACHE_RUN_USER www-data
-ENV APACHE_RUN_GROUP www-data
-ENV APACHE_LOG_DIR /var/log/apache2
-ENV APACHE_LOCK_DIR /var/lock/apache2
-ENV APACHE_PID_FILE /var/run/apache2.pid
+RUN docker-php-ext-install pdo pdo_mysql mysqli
 
 # Export port 80
 EXPOSE 80
 
-# add source to image
-
-RUN mkdir -p var/www/site/orangehrm
-COPY . var/www/site/orangehrm
-#RUN wget -c http://downloads.sourceforge.net/project/orangehrm/stable/3.3.2/orangehrm-3.3.2.zip -O ~/orangehrm-3.3.2.zip &&\
- #   unzip -o ~/orangehrm-3.3.2.zip -d /var/www/site && \
-  #  rm ~/orangehrm-3.3.2.zip
+RUN mkdir orangehrm
+COPY . /var/www/html/orangehrm
 
 #config mysql
-RUN /usr/sbin/mysqld & \
+RUN service mysql start & \
 
-    sleep 10s &&\
+    sleep 5s &&\
 
     echo "USE mysql;\nUPDATE user SET password=PASSWORD('root') WHERE user='root';\nFLUSH PRIVILEGES;\n" | mysql
 
-
 # Fix Permission
-RUN cd var/www/site/orangehrm; bash fix_permissions.sh
+RUN cd orangehrm; bash fix_permissions.sh
 
 #install application
-RUN /usr/sbin/mysqld & \
+RUN service mysql restart & \
 
-    sleep 10s &&\
+    sleep 5s &&\
  
-    cd var/www/site/orangehrm; php installer/cli_install.php 0
+    cd orangehrm; php installer/cli_install.php 0
 
 # Update the default apache site with the config we created.
 ADD docker-build-files/apache-config.conf /etc/apache2/sites-enabled/000-default.conf
@@ -58,5 +42,3 @@ ADD docker-build-files/supervisord.conf /etc/supervisor/conf.d/supervisord.conf
 
 # Start apache/mysql
 CMD /usr/bin/supervisord -c /etc/supervisor/conf.d/supervisord.conf
-
-
