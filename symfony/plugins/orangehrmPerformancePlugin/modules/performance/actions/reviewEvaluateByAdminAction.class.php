@@ -55,13 +55,13 @@ class reviewEvaluateByAdminAction extends basePeformanceAction {
 
             if ($form->isValid()) {
                 $form->saveForm($request);
-                $form->loadFormData();
+                $form->loadFormData($id = null);
                 $this->getUser()->setFlash('success', __('Successfully Saved'));
             }
         } else {
             $options['id'] = $this->getRequest()->getParameter('id');
             $form = $this->getReviewEvaluationForm($options);
-            $form->loadFormData();
+            $form->loadFormData($id = null);
         }
         $this->form = $form;
     }
