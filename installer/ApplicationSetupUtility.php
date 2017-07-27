@@ -33,7 +33,7 @@ public static function createDB() {
 		$dbUser = $_SESSION['dbInfo']['dbUserName'];
 		$dbPassword = $_SESSION['dbInfo']['dbPassword'];
 
-        self::$conn = mysqli_connect($dbHost, $dbUser, $dbPassword,,3306,$dbPort);
+        self::$conn = mysqli_connect($dbHost, $dbUser, $dbPassword,null,3306,$dbPort);
 
 	if ($_SESSION['dbCreateMethod'] == 'existing') { // If the user wants to use an existing empty database
 
