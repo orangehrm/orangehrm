@@ -49,8 +49,11 @@ jobs:
         - php codecept.phar run acceptance
     - stage: deploy
       env:
+      before_install: skip
       install: skip
       before_script:
+        - sudo chmod 777 -R symfony/cache
+        - sudo chmod 777 -R symfony/log
         - composer install -d symfony/lib
         - composer dump-autoload -o -d symfony/lib
       script: docker build -t $REPO:$TAG .
@@ -59,8 +62,11 @@ jobs:
         - docker push $REPO:$TAG  
     - stage: deploy
       env:
+      before_install: skip
       install: skip
       before_script:
+        - sudo chmod 777 -R symfony/cache
+        - sudo chmod 777 -R symfony/log
         - composer install -d symfony/lib
         - composer dump-autoload -o -d symfony/lib
         - wget -qO- https://toolbelt.heroku.com/install-ubuntu.sh | sh
