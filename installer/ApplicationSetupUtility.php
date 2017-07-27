@@ -27,16 +27,16 @@ class ApplicationSetupUtility {
     private static $conn;
 
 public static function createDB() {
-
-	if ($_SESSION['dbCreateMethod'] == 'existing') { // If the user wants to use an existing empty database
-
-		$dbName = $_SESSION['dbInfo']['dbName'];
+        $dbName = $_SESSION['dbInfo']['dbName'];
 		$dbHost = $_SESSION['dbInfo']['dbHostName'];
 		$dbPort = $_SESSION['dbInfo']['dbHostPort'];
 		$dbUser = $_SESSION['dbInfo']['dbUserName'];
 		$dbPassword = $_SESSION['dbInfo']['dbPassword'];
 
         self::$conn = mysqli_connect($dbHost, $dbUser, $dbPassword, "", $dbPort);
+	if ($_SESSION['dbCreateMethod'] == 'existing') { // If the user wants to use an existing empty database
+
+		
         if (self::$conn) {
 
 			if (mysqli_select_db(self::$conn, $dbName)) {
