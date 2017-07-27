@@ -2,11 +2,10 @@ FROM php:7.0-apache
 
 MAINTAINER Orangehrm <thulana@orangehrm.us.com>
 
-RUN apt-get install software-properties-common
-RUN add-apt-repository -y ppa:ondrej/mysql-5.6
+RUN add-apt-repository 'deb http://archive.ubuntu.com/ubuntu trusty universe'
 RUN apt-get update
 
-RUN DEBIAN_FRONTEND=noninteractive apt-get -y install mysql-server-5.7 curl lynx-cur wget unzip supervisor php-apc libpng-dev
+RUN DEBIAN_FRONTEND=noninteractive apt-get -y install mysql-server-5.6 curl lynx-cur wget unzip supervisor php-apc libpng-dev
 
 RUN docker-php-ext-install pdo pdo_mysql mysqli gd exif
 
