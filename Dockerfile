@@ -4,9 +4,9 @@ MAINTAINER Orangehrm <thulana@orangehrm.us.com>
 
 RUN apt-get update
 
-RUN DEBIAN_FRONTEND=noninteractive apt-get -y install mysql-server curl lynx-cur wget unzip supervisor
+RUN DEBIAN_FRONTEND=noninteractive apt-get -y install mysql-server curl lynx-cur wget unzip supervisor php-apc
 
-RUN docker-php-ext-install pdo pdo_mysql mysqli
+RUN docker-php-ext-install pdo pdo_mysql mysqli gd exif
 
 # Export port 80
 EXPOSE 80
