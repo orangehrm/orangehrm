@@ -27,7 +27,7 @@ RUN cd orangehrm; bash fix_permissions.sh
 #install application
 RUN service mysql restart & \
 
-    sleep 5s &&\
+    sleep 10s &&\
  
     cd orangehrm; php installer/cli_install.php 0
 
