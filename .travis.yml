@@ -16,7 +16,6 @@ services:
 
 before_install:
   - uname -a
-  - php --version
   - phpunit --version
   - mysqladmin -uroot status
   - composer self-update
@@ -25,10 +24,10 @@ before_install:
   - echo "USE mysql;\nUPDATE user SET password=PASSWORD('root') WHERE user='root';\nFLUSH PRIVILEGES;\n" | mysql -u root
   
 before_script:
+  - phpenv config-rm xdebug.ini
   - echo "Run php in-built server - background process"
   - nohup bash -c "php -S 127.0.0.1:8888 2>&1 -t symfony/web  >/dev/null 2>&1 &"
-  - sleep 5
-  - curl http://127.0.0.1:8888/login
+  - sleep 4
   
 after_failure:
   - cd tests/_output/
