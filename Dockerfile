@@ -27,7 +27,7 @@ RUN cd orangehrm; bash fix_permissions.sh
 #install application
 RUN /usr/sbin/mysqld & \
 
-    sleep 10s &&\
+    sleep 5s &&\
  
     cd orangehrm; php installer/cli_install.php 0
 
