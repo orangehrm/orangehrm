@@ -41,4 +41,4 @@ ADD docker-build-files/ports.conf /etc/apache2/ports.conf
 ADD docker-build-files/supervisord.conf /etc/supervisor/conf.d/supervisord.conf
 
 # Start apache/mysql
-CMD /usr/bin/supervisord -c /etc/supervisor/conf.d/supervisord.conf
+CMD cd / && /usr/bin/supervisord -c /etc/supervisor/conf.d/supervisord.conf
