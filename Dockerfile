@@ -1,35 +1,50 @@
-FROM php:5.5-apache
-
-MAINTAINER Orangehrm <thulana@orangehrm.us.com>
+FROM ubuntu:14.04
+MAINTAINER Orangehrm <samanthaj@orangehrm.com>
 
 RUN apt-get update
 
-RUN DEBIAN_FRONTEND=noninteractive apt-get -y install mysql-server curl lynx-cur wget unzip supervisor php-apc libpng-dev
+# Install apache, PHP, and supplimentary programs. curl and lynx-cur are for debugging the container.
+RUN DEBIAN_FRONTEND=noninteractive apt-get -y install apache2 mysql-server libapache2-mod-php5 php5-mysql php5-gd php-pear php-apc php5-curl curl lynx-cur wget unzip supervisor
 
-RUN docker-php-ext-install pdo pdo_mysql mysqli gd exif
+# Enable apache mods.
+RUN a2enmod php5
+RUN a2enmod rewrite
+
+# Manually set up the apache environment variables
+ENV APACHE_RUN_USER www-data
+ENV APACHE_RUN_GROUP www-data
+ENV APACHE_LOG_DIR /var/log/apache2
+ENV APACHE_LOCK_DIR /var/lock/apache2
+ENV APACHE_PID_FILE /var/run/apache2.pid
 
 # Export port 80
 EXPOSE 80
 
-RUN mkdir orangehrm
-COPY . /var/www/html/orangehrm
+# add source to image
+
+RUN mkdir -p var/www/site/orangehrm
+COPY . var/www/site/orangehrm
+#RUN wget -c http://downloads.sourceforge.net/project/orangehrm/stable/3.3.2/orangehrm-3.3.2.zip -O ~/orangehrm-3.3.2.zip &&\
+ #   unzip -o ~/orangehrm-3.3.2.zip -d /var/www/site && \
+  #  rm ~/orangehrm-3.3.2.zip
 
 #config mysql
-RUN service mysql start & \
+RUN /usr/sbin/mysqld & \
 
-    sleep 5s &&\
+    sleep 10s &&\
 
     echo "USE mysql;\nUPDATE user SET password=PASSWORD('root') WHERE user='root';\nFLUSH PRIVILEGES;\n" | mysql
 
+
 # Fix Permission
-RUN cd orangehrm; bash fix_permissions.sh
+RUN cd var/www/site/orangehrm; bash fix_permissions.sh
 
 #install application
 RUN /usr/sbin/mysqld & \
 
     sleep 10s &&\
  
-    cd orangehrm; php installer/cli_install.php 0
+    cd var/www/site/orangehrm; php installer/cli_install.php 0
 
 # Update the default apache site with the config we created.
 ADD docker-build-files/apache-config.conf /etc/apache2/sites-enabled/000-default.conf
@@ -41,4 +56,6 @@ ADD docker-build-files/ports.conf /etc/apache2/ports.conf
 ADD docker-build-files/supervisord.conf /etc/supervisor/conf.d/supervisord.conf
 
 # Start apache/mysql
-CMD cd / && /usr/bin/supervisord -c /etc/supervisor/conf.d/supervisord.conf
+CMD /usr/bin/supervisord -c /etc/supervisor/conf.d/supervisord.conf
+
+
