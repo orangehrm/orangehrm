@@ -1,4 +1,4 @@
-FROM php:5.6-apache
+FROM php:5.5-apache
 
 MAINTAINER Orangehrm <thulana@orangehrm.us.com>
 
@@ -27,7 +27,7 @@ RUN cd orangehrm; bash fix_permissions.sh
 #install application
 RUN /usr/sbin/mysqld & \
 
-    sleep 5s &&\
+    sleep 10s &&\
  
     cd orangehrm; php installer/cli_install.php 0
 
