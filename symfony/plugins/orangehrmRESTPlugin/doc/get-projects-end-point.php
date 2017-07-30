@@ -7,33 +7,60 @@
 *
 * @apiSuccess  {Number} projectId  Project id.
 * @apiSuccess  {Number} customerId  Customer id.
-* @apiSuccess  {String} is_deleted  Is deleted or not.
-* @apiSuccess  {String} name  Project name.
+* @apiSuccess  {Number} isDeleted  Is deleted status values (0,1).
+* @apiSuccess  {String} projectName  Project name.
+* @apiSuccess  {String} customerName  Customer name.
 * @apiSuccess  {String} description  Description.
-* @apiSuccess  {String} admins Project admin names.
+* @apiSuccess  {Object} admins Project admins.
+* @apiSuccess  {Object} activities Project activities.
+* @apiSuccess  {Number} employeeId Project admin employee id.
+* @apiSuccess  {String} name Project admin name.
+* @apiSuccess  {Number} activities.id Project Activity id.
+* @apiSuccess  {String} activities.name Project activity name.
+* @apiSuccess  {Number} activities.isDeleted Project is deleted status (1,0).
+*
+*
 *
 *
 * @apiSuccessExample Success-Response:
 *     HTTP/1.1 200 OK
 *
 *		{
-*		  "data": [
-*		    {
-*		      "projectId": "1",
-*		      "customerId": "1",
-*		      "is_deleted": "0",
-*		      "name": "Trading time sheets",
-*		      "description": ""
-*             "admins": "Ninattttttt Jane Lewis (Past Employee),Hameesh Von Johnson,
-*		    },
-*		    {
-*		      "projectId": "2",
-*		      "customerId": "1",
-*		      "is_deleted": "0",
-*		      "name": "ed",
-*		      "description": "Test"
-*		    }
-*		  ],
+*		    "data": [
+*			{
+*			    "projectId": "1",
+*			    "projectName": "Manage Sub Units",
+*			    "customerId": "2",
+*			    "customerName": "customer",
+*			    "description": "description",
+*			    "isDeleted": "0",
+*			    "admins": {
+*				"employeeId": "3",
+*				"name": "Hameesh Marshall"
+*			    },
+*			    "activities": [
+*				{
+*				    "id": "1",
+*				    "name": "unit1",
+*				    "isDeleted": "0"
+*				},
+*				{
+*				    "id": "2",
+*				    "name": "planning",
+*				    "isDeleted": "0"
+*				},
+*				{
+*				    "id": "3",
+*				    "name": "Electrical",
+*				    "isDeleted": "0"
+*				},
+*				{
+*				    "id": "4",
+*				    "name": "Testing",
+*				    "isDeleted": "0"
+*				}
+*			    ]
+*			}
 *		  "rels": []
 *		}
 * @apiError RecordNotFound .

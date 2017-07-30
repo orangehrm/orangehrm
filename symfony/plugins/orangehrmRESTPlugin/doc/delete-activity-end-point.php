@@ -1,11 +1,12 @@
 /**
-* @api {post} /activity 6.Save Activity
-* @apiName saveActivity
+* @api {delete} /activity 8.Delete Activity
+* @apiName delete
 * @apiGroup Time
 * @apiVersion 0.1.0
 *
 *
 * @apiParam  {Number} projectId  Project id.
+* @apiParam  {Number} activityId  Activity id.
 * @apiParam  {String} name  Activity name.
 *
 *
@@ -13,7 +14,7 @@
 *     HTTP/1.1 200 OK
 *
 *      {
-*        "success": "Successfully Saved"
+*        "success": "Successfully Updated"
 *      }
 *
 * @apiError Invalid Parameter.
