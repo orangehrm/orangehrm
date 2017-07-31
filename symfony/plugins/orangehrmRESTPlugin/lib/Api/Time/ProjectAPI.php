@@ -101,14 +101,12 @@ class ProjectAPI extends EndPoint
             $projectEntity = new Project();
             $projectEntity->build($project);
             $responseArray[] = $projectEntity->toArray();
-            $responseArray['admins'] = $project->getProjectAdminNames();
         }
         if (count($responseArray) > 0) {
             return new Response($responseArray, array());
         } else {
             throw new RecordNotFoundException('No Projects Found');
         }
-
 
     }
 
@@ -145,7 +143,7 @@ class ProjectAPI extends EndPoint
             throw new InvalidParamException("Project Id Needed");
         }
         $project = $this->getProjectService()->getProjectById($projectId);
-        $this->validateParameters($filters);
+        $this->validateParameters($filters,true,filter[self::PARAMETER_NAME],$project);
 
         if ($project instanceof \Project) {
 
@@ -192,7 +190,7 @@ class ProjectAPI extends EndPoint
         $filters = $this->filterDeleteParameters();
         $projectId = $filters[self::PARAMETER_PROJECT_ID];
         $project = $this->getProjectService()->getProjectById($projectId);
-        if ($project instanceof \Project) {
+        if ($project instanceof \Project && $project->getIsDeleted() == 0) {
             $hasTimeSheets = $this->getProjectService()->hasProjectGotTimesheetItems($projectId);
 
             if (!$hasTimeSheets) {
@@ -214,7 +212,7 @@ class ProjectAPI extends EndPoint
      * @param \Project $project
      * @param $filters
      */
-    protected function buildProjectAndSave(\Project $project, $filters)
+    protected function buildProjectAndSave($project, $filters)
     {
         if ($project == null) {
             $project = new \Project();
@@ -325,15 +323,25 @@ class ProjectAPI extends EndPoint
      * @param $filters
      * @throws InvalidParamException
      */
-    protected function validateParameters($filters)
+    protected function validateParameters($filters,$isUpdate = false,$newName ='',$project = null)
     {
         $customer = $this->getCustomerService()->getCustomerById($filters[self::PARAMETER_CUSTOMER_ID]);
 
         if ($customer instanceof \Customer) {
-            $projectName = $this->getProjectService()->getProjectByName($filters[self::PARAMETER_NAME]);
-            if ($projectName > 0) {
-                throw new InvalidParamException('Project Name Exists');
+            if(!$isUpdate){
+                $projectName = $this->getProjectService()->getProjectByName($filters[self::PARAMETER_NAME]);
+                if ($projectName > 0) {
+                    throw new InvalidParamException('Project Name Exists');
+                }
+            }else {
+                if($project->getName() != $newName){
+                    $projectName = $this->getProjectService()->getProjectByName($filters[self::PARAMETER_NAME]);
+                    if ($projectName > 0) {
+                        throw new InvalidParamException('Project Name Exists');
+                    }
+                }
             }
+
         } else {
             throw new InvalidParamException("Customer Not Found");
         }
