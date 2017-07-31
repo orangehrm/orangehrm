@@ -217,7 +217,7 @@ class TimesheetService {
     public function saveTimesheetItems($inputTimesheetItems, $employeeId, $timesheetId, $keysArray, $initialRows) {
 
         foreach ($inputTimesheetItems as $inputTimesheetItem) {
-            $activityId = $inputTimesheetItem['projectActivityName'];
+            $activityId = $inputTimesheetItem['projectActivityId'];
             if ($activityId != null) {
                 $activity = $this->getTimesheetDao()->getProjectActivityByActivityId($activityId);
                 $projectId = $activity->getProjectId();
@@ -253,7 +253,6 @@ class TimesheetService {
                             $existingTimesheetItem[0]->save();
                         } else {
                             $newTimesheetItem = new TimesheetItem();
-
                             $newTimesheetItem->setProjectId($projectId);
                             $newTimesheetItem->setActivityId($activityId);
                             $newTimesheetItem->setDate($date);
@@ -442,15 +441,11 @@ class TimesheetService {
 
         // this method is for creating past timesheets.This would get conflicted if the user changes the timesheet period and does not loging to the system for couple of weeks
 
-
-
         $previousTimesheetEndDate = mktime(0, 0, 0, date("m", strtotime($currentTimesheetStartDate)), date("d", strtotime($currentTimesheetStartDate)) - 1, date("Y", strtotime($currentTimesheetStartDate)));
         $datesInTheCurrentTimesheetPeriod = $this->getTimesheetPeriodService()->getDefinedTimesheetPeriod(date("Y-m-d", $previousTimesheetEndDate));
 
         $timesheetStartingDate = $datesInTheCurrentTimesheetPeriod[0];
         $endDate = end($datesInTheCurrentTimesheetPeriod);
-
-
 
 
         if ($this->checkForOverlappingTimesheets($timesheetStartingDate, $endDate, $employeeId) == 1) {
@@ -526,7 +521,6 @@ class TimesheetService {
                 $statusValuesArray['state'] = 1;
             } else {
 
-
                 $accessFlowStateMachineService = new AccessFlowStateMachineService();
                 $tempNextState = $accessFlowStateMachineService->getNextState(WorkflowStateMachine::FLOW_TIME_TIMESHEET, Timesheet::STATE_INITIAL, "SYSTEM", WorkflowStateMachine::TIMESHEET_ACTION_CREATE);
                 $timesheet = new Timesheet();
@@ -548,7 +542,6 @@ class TimesheetService {
 
         $datesInTheCurrenTimesheetPeriod = $this->getTimesheetPeriodService()->getDefinedTimesheetPeriod($startDate);
         $timesheetStartingDate = $datesInTheCurrenTimesheetPeriod[0];
-
 
         if ($timesheetStartingDate == $startDate) {
 
@@ -592,6 +585,11 @@ class TimesheetService {
         }
         
         return $this->getTimesheetDao()->searchTimesheetItems($employeeIds, $employeementStatus, $supervisorIds,  $subDivision, $dateFrom, $dateTo );
+    }
+
+    public function getTimesheetItem($timesheetId, $employeeId)
+    {
+        return $this->getTimesheetDao()->getTimesheetItem($timesheetId, $employeeId);
     }
 
 }
