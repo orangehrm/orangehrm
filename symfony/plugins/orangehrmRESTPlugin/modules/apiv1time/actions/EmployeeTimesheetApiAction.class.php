@@ -30,6 +30,8 @@ class EmployeeTimesheetApiAction extends baseRestAction
     protected function init(Request $request)
     {
         $this->apiEmployeeTimeSheet = new EmployeeTimeSheetAPI($request);
+        $this->getValidationRule = $this->apiEmployeeTimeSheet->getValidationRules();
+        $this->postValidationRule = $this->apiEmployeeTimeSheet->postValidationRules();
     }
 
     protected function handleGetRequest(Request $request)
@@ -39,11 +41,13 @@ class EmployeeTimesheetApiAction extends baseRestAction
 
     protected function handlePostRequest(Request $request)
     {
-        $allParameters = $request->getAllParameters();
-        $initialRaws = $allParameters["initialRows"];
-        return $this->apiEmployeeTimeSheet->saveEmployeeTimeSheets($initialRaws);
+        return $this->apiEmployeeTimeSheet->saveEmployeeTimeSheets();
     }
 
+    protected function handlePutRequest(Request $request)
+    {
+        return $this->apiEmployeeTimeSheet->updateEmployeeTimeSheet();
+    }
     /**
      * @return API
      */
