@@ -14,29 +14,11 @@ services:
   - mysql
   - docker
 
-before_install:
-  - uname -a
-  - phpunit --version
-  - mysqladmin -uroot status
-  - composer self-update
-  - sudo chmod 777 -R symfony/cache
-  - sudo chmod 777 -R symfony/log
-  - echo "USE mysql;\nUPDATE user SET password=PASSWORD('root') WHERE user='root';\nFLUSH PRIVILEGES;\n" | mysql -u root
+before_install: ./travis-cofig-files/test/before_install.sh
+before_script: ./travis-cofig-files/test/before_script.sh
   
-before_script:
-  - phpenv config-rm xdebug.ini
-  - echo "Run php in-built server - background process"
-  - nohup bash -c "php -S 127.0.0.1:8888 2>&1 -t symfony/web  >/dev/null 2>&1 &"
-  - sleep 4
-  
-after_failure:
-  - cd tests/_output/
-  - ls | xargs cat
-install:
-  - composer install -d symfony/lib
-  - composer dump-autoload -o -d symfony/lib
-  - php installer/cli_install.php 0
-  - php devTools/general/create-test-db.php root
+after_failure: ./travis-cofig-files/test/after_failure.sh
+install: ./travis-cofig-files/test/install.sh
 
 notifications:
   email: true
@@ -44,35 +26,19 @@ notifications:
 jobs:
   include:
     - stage: test
-      script:
-        - symfony/lib/vendor/bin/phpunit
-        - php codecept.phar run acceptance
+      script: ./travis-cofig-files/test/script.sh
     - stage: deploy
       env:
       before_install: skip
       install: skip
-      before_script:
-        - sudo chmod 777 -R symfony/cache
-        - sudo chmod 777 -R symfony/log
-        - composer install -d symfony/lib
-        - composer dump-autoload -o -d symfony/lib
-      script: docker build -t $REPO:$TAG .
-      after_script:
-        - docker login -u="$DOCKER_USERNAME" -p="$DOCKER_PASSWORD"
-        - docker push $REPO:$TAG  
+      before_script: ./travis-cofig-files/docker/before_script.sh
+      script: ./travis-cofig-files/docker/script.sh
+      after_script: ./travis-cofig-files/docker/after_script.sh 
     - stage: deploy
       env:
       before_install: skip
       install: skip
-      before_script:
-        - sudo chmod 777 -R symfony/cache
-        - sudo chmod 777 -R symfony/log
-        - composer install -d symfony/lib
-        - composer dump-autoload -o -d symfony/lib
-        - wget -qO- https://toolbelt.heroku.com/install-ubuntu.sh | sh
-        - heroku plugins:install heroku-container-registry
-        - docker login -e _ -u _ --password=$HEROKU_API_KEY registry.heroku.com
-      script:
-        - heroku container:push web --app $HEROKU_APP_NAME 
+      before_script: ./travis-cofig-files/heroku/before_script.sh
+      script: ./travis-cofig-files/heroku/script.sh
         
 
