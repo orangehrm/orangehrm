@@ -263,7 +263,7 @@ class ReviewEvaluationForm extends BasePefromanceSearchForm {
      *
      * @param integer $id 
      */
-    public function loadFormData($id) {
+    public function loadFormData($id = null) {
         $this->setDefault('id', $this->getReviewId());
         $this->setDefault('action', 'save');
     }
