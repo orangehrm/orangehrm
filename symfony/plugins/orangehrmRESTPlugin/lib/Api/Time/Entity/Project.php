@@ -21,6 +21,7 @@ namespace Orangehrm\Rest\Api\Time\Entity;
 
 use Orangehrm\Rest\Api\Entity\Serializable;
 use Orangehrm\Rest\Api\Time\Entity\ProjectActivity;
+use Orangehrm\Rest\Api\Time\Entity\ProjectAdmin;
 
 class Project implements Serializable
 {
@@ -180,6 +181,7 @@ class Project implements Serializable
             'customerName' => $this->getCustomerName(),
             'description' => $this->getDescription(),
             'isDeleted' => $this->getIsDeleted(),
+            'admins'    => $this->getProjectAdmins(),
             'activities' => $this->getProjectActivities()
         );
     }
@@ -191,7 +193,6 @@ class Project implements Serializable
      */
     public function build(\Project $project)
     {
-
         $this->setProjectId($project->getProjectId());
         $this->setProjectName($project->getName());
         $this->setCustomerId($project->getCustomerId());
@@ -199,7 +200,9 @@ class Project implements Serializable
         $this->setDescription($project->getDescription());
         $this->setIsDeleted($project->getIsDeleted());
 
-        if ($project->getProjectActivity() > 0) {
+        // set project activities
+
+        if (count($project->getProjectActivity()) > 0) {
 
             $projectActivities = null;
             foreach ($project->getProjectActivity() as $activity) {
@@ -209,6 +212,20 @@ class Project implements Serializable
             }
             $this->setProjectActivities($projectActivities);
         }
+
+        // set project admins
+
+        if(count($project->getProjectAdmin()) > 0){
+
+            $projectAdmins = null;
+            foreach ($project->getProjectAdmin() as $projectAdmin){
+                $projectAdminEntity = new ProjectAdmin();
+                $projectAdminEntity->build($projectAdmin);
+                $projectAdmins = $projectAdminEntity->toArray();
+            }
+            $this->setProjectAdmins($projectAdmins);
+        }
+
 
     }
 }

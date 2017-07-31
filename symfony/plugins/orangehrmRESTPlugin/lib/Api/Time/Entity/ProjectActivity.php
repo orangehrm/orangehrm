@@ -104,6 +104,5 @@ class ProjectActivity implements Serializable
         $this->setActivityId($projectActivity->getActivityId());
         $this->setActivityName($projectActivity->getName());
         $this->setIsDeleted($projectActivity->getIsDeleted());
-
     }
 }
