@@ -14,11 +14,11 @@ services:
   - mysql
   - docker
 
-before_install: ./travis-cofig-files/test/before_install.sh
-before_script: ./travis-cofig-files/test/before_script.sh
+before_install: ./travis-config-files/test/before_install.sh
+before_script: ./travis-config-files/test/before_script.sh
   
-after_failure: ./travis-cofig-files/test/after_failure.sh
-install: ./travis-cofig-files/test/install.sh
+after_failure: ./travis-config-files/test/after_failure.sh
+install: ./travis-config-files/test/install.sh
 
 notifications:
   email: true
@@ -26,19 +26,19 @@ notifications:
 jobs:
   include:
     - stage: test
-      script: ./travis-cofig-files/test/script.sh
+      script: ./travis-config-files/test/script.sh
     - stage: deploy
       env:
       before_install: skip
       install: skip
-      before_script: ./travis-cofig-files/docker/before_script.sh
-      script: ./travis-cofig-files/docker/script.sh
-      after_script: ./travis-cofig-files/docker/after_script.sh 
+      before_script: ./travis-config-files/docker/before_script.sh
+      script: ./travis-config-files/docker/script.sh
+      after_script: ./travis-config-files/docker/after_script.sh 
     - stage: deploy
       env:
       before_install: skip
       install: skip
-      before_script: ./travis-cofig-files/heroku/before_script.sh
-      script: ./travis-cofig-files/heroku/script.sh
+      before_script: ./travis-config-files/heroku/before_script.sh
+      script: ./travis-config-files/heroku/script.sh
         
 
