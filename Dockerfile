@@ -43,6 +43,19 @@ RUN /usr/sbin/mysqld & \
  
     cd var/www/site/orangehrm; php installer/cli_install.php 0
 
+#Seed the database
+RUN /usr/sbin/mysqld & \
+
+    sleep 5s &&\
+
+    cd var/www/site/orangehrm/devTools/load/general; php load-employees.php
+
+RUN /usr/sbin/mysqld & \
+
+    sleep 5s &&\
+
+    cd var/www/site/orangehrm/devTools/load/recruitment; php load-candidates.php
+
 # Update the default apache site with the config we created.
 ADD docker-build-files/apache-config.conf /etc/apache2/sites-enabled/000-default.conf
 
