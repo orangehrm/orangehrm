@@ -9,14 +9,14 @@
 
     <filter>
         <whitelist>
-            <directory suffix=".php"> / </directory>
+            <directory suffix=".php">../</directory>
             <exclude>
-                <directory>apps</directory>
-                <directory>cache</directory>
-                <directory>config</directory>
-                <directory>data</directory>
-                <directory>lib</directory>
-                <directory>log</directory>
+                <directory>../build</directory>
+                <directory>../dbscript</directory>
+                <directory>../devDocs</directory>
+                <directory>../devTools</directory>
+                <directory>../installer</directory>
+                <directory>../lib</directory>
             </exclude>
         </whitelist>
     </filter>
