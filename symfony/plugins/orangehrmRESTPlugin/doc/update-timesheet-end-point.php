@@ -11,14 +11,23 @@
 * @apiParam  {Number} projectId  Project id.
 * @apiParam  {Number} activityId  Activity id.
 * @apiParam  {Number} TimesheetItemId0  First timesheet item value should be timesheet item ID.
-* @apiParam  {Time} 0 Timesheet First timesheet item duration.
+* @apiParam  {Time} 0 First timesheet item duration.
+* @apiParam  {Number} TimesheetItemId1  Second timesheet item value should be timesheet item ID.
+* @apiParam  {Time} 1 Second timesheet item duration.
+* @apiParam  {Number} TimesheetItemId2  Third timesheet item value should be timesheet item ID.
+* @apiParam  {Time} 2 Third timesheet item duration.
+* @apiParam  {Number} TimesheetItemId3  4th timesheet item value should be timesheet item ID.
+* @apiParam  {Time} 3 4th timesheet item duration.
+* @apiParam  {Number} TimesheetItemId4  5th timesheet item value should be timesheet item ID.
+* @apiParam  {Time} 4 5th timesheet item duration.
+* @apiParam  {Number} TimesheetItemId5  6th timesheet item value should be timesheet item ID.
+* @apiParam  {Time} 5 6th timesheet item duration.
+* @apiParam  {Number} TimesheetItemId6  7th timesheet item value should be timesheet item ID.
+* @apiParam  {Time} 6 7th timesheet item duration.
 *
-*NOTE data should be row Json and should be formatted as following given example
+*@apiDescription NOTE data should be row Json and should be formatted as following given example,Sample Data Input Timesheet items TimesheetItemId0-TimesheetItemId6 should be presented and values should be given as [0 -6] in time format ex 8:00 ( duration ),To add a new row project id and activity id needed and timesheet item values should be empty ("")..
 *
-*Sample Data Input Timesheet items TimesheetItemId0-TimesheetItemId6 should be presented and values should be given as
-* [0 -6] in time format ex 8:00 ( duration ).
-*
-* To add a new row project id and activity id needed and timesheet item values should be "" .
+* @apiParamExample:
 *		{
 *		"startDate":"2017-06-26",
 *		"state":"INITIAL",
@@ -41,7 +50,7 @@
 *		      "TimesheetItemId5":"",
 *		      "6":"",
 *		      "TimesheetItemId6":""
-*		   },
+*		   }
 *
 * @apiSuccessExample Success-Response:
 *     HTTP/1.1 200 OK
