@@ -5,6 +5,11 @@ sudo: required
 dist: trusty
 group: edge
 
+branches:
+  only:
+    - master
+    - develop
+
 env:
   global:
   - REPO=thulana/orangehrmos
