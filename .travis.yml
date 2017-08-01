@@ -34,6 +34,7 @@ jobs:
   include:
     - stage: test
       script: ./travis-config-files/test/script.sh
+      after_script: ./travis-config-files/test/after_script.sh
     - stage: deploy
       env:
       before_install: skip
