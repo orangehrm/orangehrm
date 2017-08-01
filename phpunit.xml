@@ -7,6 +7,18 @@
         strict = "true"
     >
 
+    <filter>
+        <whitelist>
+            <directory>../</directory>
+            <exclude>
+                <directory>../build</directory>
+                <directory>../bdscript</directory>
+                <directory>../devDocs</directory>
+                <directory>../devTools</directory>
+            </exclude>
+        </whitelist>
+    </filter>
+
     <testsuites>
         <testsuite name="All Tests">
             <file>symfony/test/PluginAllTests.php</file>
