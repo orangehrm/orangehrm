@@ -15,7 +15,7 @@
 </style>
 <div class="box">
     <div class="head">
-        <h1><?php echo __('Dashboard Demo'); ?></h1>
+        <h1><?php echo __('Dashboard'); ?></h1>
     </div>
     <div class="inner">
         <?php if (count($settings) == 0): ?>
