@@ -115,7 +115,7 @@ class AssignLeaveForm extends sfForm {
                 $durationType = $duration['duration'];
                 if ($durationType == 'specify_time') {
                     
-                    $error = $this->validateTimeRange($duration['time']);
+                    $error = $this->validateTimeRange($duration['time'],$validator = null);
                     if (!is_null($error)) {
                         $errorList['duration'] = $error;
                     }
@@ -131,7 +131,7 @@ class AssignLeaveForm extends sfForm {
                 if ($partialDayOption != '') {
                     // check first duration
                     if ($values['firstDuration']['duration'] == 'specify_time') {
-                        $error = $this->validateTimeRange($values['firstDuration']['time']);
+                        $error = $this->validateTimeRange($values['firstDuration']['time'],$validator =null);
                         if (!is_null($error)) {
                             $errorList['firstDuration'] = $error;
                         }               
@@ -140,7 +140,7 @@ class AssignLeaveForm extends sfForm {
                     if ($partialDayOption == 'start_end') {
                         if ($values['secondDuration']['duration'] == 'specify_time') {
 
-                            $error = $this->validateTimeRange($values['secondDuration']['time']);
+                            $error = $this->validateTimeRange($values['secondDuration']['time'],$validator = null);
                             if (!is_null($error)) {
                                 $errorList['secondDuration'] = $error;
                             }                         
