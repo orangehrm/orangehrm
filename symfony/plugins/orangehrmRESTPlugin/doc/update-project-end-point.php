@@ -1,9 +1,10 @@
 /**
-* @api {post} /project 10.Save Project
-* @apiName saveProject
+* @api {put} /project 11.Update Project
+* @apiName updateProject
 * @apiGroup Time
 * @apiVersion 0.1.0
 *
+* @apiParam  {Number} projectId  Project id.
 * @apiParam  {Number} customerId  Customer id.
 * @apiParam  {String} name  Project name.
 * @apiParam  {String} description  Description.
@@ -14,7 +15,7 @@
 *     HTTP/1.1 200 OK
 *
 *      {
-*        "success": "Successfully Saved"
+*        "success": "Successfully Updated"
 *      }
 *
 * @apiError Invalid Parameter.
@@ -34,3 +35,5 @@
 *     }
 *
 */
+
+

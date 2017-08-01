@@ -31,6 +31,8 @@ class ProjectsApiAction extends baseRestAction
     {
         $this->apiProject = new ProjectAPI($request);
         $this->postValidationRule = $this->apiProject->getPostValidationRules();
+        $this->putValidationRule = $this->apiProject->getPutValidationRules();
+        $this->deleteValidationRule = $this->apiProject->getDeleteValidationRules();
     }
 
     protected function handleGetRequest(Request $request)
@@ -43,8 +45,18 @@ class ProjectsApiAction extends baseRestAction
         return $this->apiProject->saveProject();
     }
 
+    protected function handlePutRequest(Request $request)
+    {
+        return $this->apiProject->updateProject();
+    }
+
+    protected function handleDeleteRequest(Request $request)
+    {
+        return $this->apiProject->deleteProject();
+    }
+
     /**
-     * @return null
+     * @return projectApi
      */
     public function getApiProject()
     {

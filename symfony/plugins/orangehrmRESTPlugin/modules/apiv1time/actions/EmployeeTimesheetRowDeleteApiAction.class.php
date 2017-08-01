@@ -18,56 +18,49 @@
  */
 
 use Orangehrm\Rest\Http\Request;
-use Orangehrm\Rest\Http\Response;
-use Orangehrm\Rest\Api\Time\CustomerAPI;
+use Orangehrm\Rest\Api\Time\EmployeeTimeSheetRowDeleteAPI;
 use Orangehrm\Rest\Api\Exception\NotImplementedException;
 
-class CustomerApiAction extends baseRestAction
+class EmployeeTimesheetRowDeleteApiAction extends baseRestAction
 {
-    private $customerProjectApi = null;
+
+    private $apiEmployeeTimeSheetRowDelete = null;
 
     protected function init(Request $request)
     {
-        $this->customerProjectApi = new CustomerAPI($request);
-        $this->postValidationRule = $this->customerProjectApi->getPostValidationRules();
-        $this->putValidationRule = $this->customerProjectApi->putValidationRules();
-        $this->deleteValidationRule = $this->customerProjectApi->deleteValidationRules();
+        $this->apiEmployeeTimeSheetRowDelete = new EmployeeTimeSheetRowDeleteAPI($request);
+        $this->deleteValidationRule = $this->apiEmployeeTimeSheetRowDelete->deleteValidationRules();
     }
 
     protected function handleGetRequest(Request $request)
     {
-        return $this->customerProjectApi->getCustomers();
+        throw new NotImplementedException();
     }
 
     protected function handlePostRequest(Request $request)
     {
-        return $this->customerProjectApi->saveCustomer();
+        throw new NotImplementedException();
     }
 
-    protected function handlePutRequest(Request $request)
+    protected function handleDeleteRequest(Request $request)
     {
-        return $this->customerProjectApi->updateCustomer();
-    }
-
-    protected function handleDeleteRequest(Request $request){
-        return $this->customerProjectApi->deleteCustomer();
+        return $this->apiEmployeeTimeSheetRowDelete->deleteTimeSheetRows();
     }
 
     /**
-     * @return CustomerAPI
+     * @return API
      */
-    public function getCustomerProjectApi()
+    public function getApiEmployeeTimeSheet()
     {
-        return $this->customerProjectApi;
+        return $this->apiEmployeeTimeSheet;
     }
 
     /**
-     * @param null $customerProjectApi
+     * @param null $apiEmployeeTimeSheet
      */
-    public function setCustomerProjectApi($customerProjectApi)
+    public function setApiEmployeeTimeSheet($apiEmployeeTimeSheet)
     {
-        $this->customerProjectApi = $customerProjectApi;
+        $this->apiEmployeeTimeSheet = $apiEmployeeTimeSheet;
     }
-
 
 }

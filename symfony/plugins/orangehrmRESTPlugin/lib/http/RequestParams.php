@@ -92,4 +92,14 @@ class RequestParams {
 
         return $this->getRequest()->getActionRequest()->getPostParameter($paramName);
     }
+
+    /**
+     * Get JSON content
+     *
+     * @return json object
+     */
+    public function getContent()
+    {
+        return $this->getRequest()->getActionRequest()->getContent();
+    }
 }

@@ -1,9 +1,11 @@
 /**
-* @api {post} /customer 2.Save Customer
-* @apiName saveCustomer
+* @api {put} /customer 3.Update Customer
+* @apiName updateCustomer
 * @apiGroup Time
 * @apiVersion 0.1.0
 *
+*
+* @apiParam  {Number} customerId  Customer Id.
 * @apiParam  {String} name  Customer name.
 * @apiParam  {String} description  Description.
 *
@@ -12,7 +14,7 @@
 *     HTTP/1.1 200 OK
 *
 *      {
-*        "success": "Successfully Saved"
+*        "success": "Successfully Updated"
 *      }
 *
 * @apiError Invalid Parameter.
@@ -21,6 +23,13 @@
 *     HTTP/1.1 202 Customer Already Exists
 *     {
 *       "error": ["Customer Already Exists"]
+*     }
+* @apiError Record Not Found.
+*
+* @apiErrorExample Error-Response:
+*     HTTP/1.1 404 Customer Not Found
+*     {
+*       "error": ["Customer Not Found"]
 *     }
 *
 *
