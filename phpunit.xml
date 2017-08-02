@@ -10,6 +10,8 @@
     <filter>
         <whitelist>
             <directory suffix=".php">symfony</directory>
+            <directory suffix=".php">installer</directory>
+            <directory suffix=".php">upgrader</directory>
             <exclude>
                 <directory>symfony/apps</directory>
                 <directory>symfony/cache</directory>
