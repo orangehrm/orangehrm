@@ -48,7 +48,7 @@ RUN /usr/sbin/mysqld & \
 
     sleep 5s &&\
 
-    cd travis-config-files; ./seeddb.sh
+    cd var/www/site/orangehrm/travis-config-files; ./seeddb.sh
 
 
 # Update the default apache site with the config we created.
