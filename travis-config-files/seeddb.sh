@@ -1,12 +1,11 @@
 #!/bin/bash
-jobno = ${TRAVIS_BUILD_NUMBER}".3"
-echo $jobno
-echo ${TRAVIS_JOB_NUMBER}
-if [ ${TRAVIS_JOB_NUMBER} == $jobno ]
-then
 
-	cd var/www/site/orangehrm/devTools/load/general; php load-employees.php
-	cd var/www/site/orangehrm/devTools/load/recruitment; php load-candidates.php
+echo ${TRAVIS_BUILD_NUMBER}".3"
+echo ${TRAVIS_JOB_NUMBER}
+if [ ${TRAVIS_JOB_NUMBER} == ${TRAVIS_BUILD_NUMBER}".3" ]
+then
+    php var/www/site/orangehrm/devTools/load/genera/load-employees.php
+	php var/www/site/orangehrm/devTools/load/recruitment/load-candidates.php
 fi
 
 
