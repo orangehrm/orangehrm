@@ -8,13 +8,6 @@
     >
 
     <filter>
-        <blacklist>
-            <directory suffix=".php">../build</directory>
-            <directory suffix=".php">../dbscript</directory>
-            <directory suffix=".php">../devDocs</directory>
-            <directory suffix=".php">../devTools</directory>
-            <directory suffix=".php">../lib</directory>
-        </blacklist>
         <whitelist>
             <directory suffix=".php">../symfony</directory>
             <directory suffix=".php">../installer</directory>
