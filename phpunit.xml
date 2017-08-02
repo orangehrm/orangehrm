@@ -10,15 +10,13 @@
     <filter>
         <whitelist>
             <directory suffix=".php">../symfony</directory>
-            <directory suffix=".php">../installer</directory>
-            <directory suffix=".php">../upgrader</directory>
-            <directory suffix=".php">../tests</directory>
             <exclude>
-                <directory suffix=".php">../symfony/cache</directory>
-                <directory suffix=".php">../symfony/config</directory>
-                <directory suffix=".php">../symfony/data</directory>
-                <directory suffix=".php">../symfony/lib</directory>
-                <directory suffix=".php">../symfony/web</directory>
+                <directory>../symfony/apps</directory>
+                <directory>../symfony/cache</directory>
+                <directory>../symfony/config</directory>
+                <directory>../symfony/data</directory>
+                <directory>../symfony/lib</directory>
+                <directory>../symfony/web</directory>
             </exclude>
         </whitelist>
     </filter>
