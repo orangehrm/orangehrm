@@ -1,2 +1,2 @@
 php codecept.phar run acceptance
-symfony/lib/vendor/bin/phpunit --coverage-clover ./tests/logs/clover.xml
+symfony/lib/vendor/bin/phpunit --coverage-clover build/logs/clover.xml

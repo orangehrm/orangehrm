@@ -1,1 +1,1 @@
-php vendor/bin/coveralls
+travis_retry php coveralls.phar

@@ -1,7 +1,6 @@
 uname -a
 phpunit --version
 mysqladmin -uroot status
-composer require satooshi/php-coveralls:dev-master
 composer self-update
 sudo chmod 777 -R symfony/cache
 sudo chmod 777 -R symfony/log
