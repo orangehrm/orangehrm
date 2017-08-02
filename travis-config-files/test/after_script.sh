@@ -1,1 +1,1 @@
-php vendor/bin/coveralls -v
+php vendor/bin/coveralls
