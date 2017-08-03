@@ -4,5 +4,5 @@ sudo chmod 777 -R symfony/log
 composer install -d symfony/lib
 composer dump-autoload -o -d symfony/lib
 echo ${TRAVIS_JOB_NUMBER}
-echo "ENV TRAVIS_JOB_NO ${TRAVIS_JOB_NUMBER}" >> Dockerfile
-echo "ENV TRAVIS_BUILD_NO ${TRAVIS_BUILD_NUMBER}" >> Dockerfile
+#echo "ENV TRAVIS_JOB_NO ${TRAVIS_JOB_NUMBER}" >> Dockerfile
+#echo "ENV TRAVIS_BUILD_NO ${TRAVIS_BUILD_NUMBER}" >> Dockerfile

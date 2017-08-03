@@ -6,5 +6,5 @@ wget -qO- https://toolbelt.heroku.com/install-ubuntu.sh | sh
 heroku plugins:install heroku-container-registry
 docker login -e _ -u _ --password=$HEROKU_API_KEY registry.heroku.com
 echo ${TRAVIS_JOB_NUMBER}
-echo "ENV TRAVIS_JOB_NO ${TRAVIS_JOB_NUMBER}" >> Dockerfile
-echo "ENV TRAVIS_BUILD_NO ${TRAVIS_BUILD_NUMBER}" >> Dockerfile
+#echo "ENV TRAVIS_JOB_NO ${TRAVIS_JOB_NUMBER}" >> Dockerfile
+#echo "ENV TRAVIS_BUILD_NO ${TRAVIS_BUILD_NUMBER}" >> Dockerfile
