@@ -17,6 +17,7 @@ See the GNU General Public License for more details.
 ## Getting started
 ----------
 1. Install OrangeHRM using the web installer
+2. https://github.com/Thulana/orangehrm/wiki/Getting-started
 
 For further information on how to use the product please refer the Free User Guide 
 available on http://orangehrm.com/
@@ -31,4 +32,10 @@ For OrangeHRM Installation issues please refer to the OrangeHRM Installation Gui
 
 https://github.com/Thulana/orangehrm/wiki/How-to-Contribute
 
+## Resources
+
+https://github.com/Thulana/orangehrm/wiki/Resources
+
 ## License 
+
+GNU General Public License
