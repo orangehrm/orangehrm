@@ -1,10 +1,10 @@
 #!/bin/bash
 
-jobno=${TRAVIS_BUILD_NO}.3
+jobno=${TRAVIS_BUILD_NUMBER}.3
 echo $jobno" - job no"
-echo ${TRAVIS_JOB_NO}" - job no2"
+echo ${TRAVIS_JOB_NUMBER}" - job no2"
 echo "script"
-if [[ ${TRAVIS_JOB_NO} == ${TRAVIS_BUILD_NO}.3 ]];
+if [[ ${TRAVIS_JOB_NUMBER} == ${TRAVIS_BUILD_NUMBER}.3 ]];
 then
     echo "if statement"
     php var/www/site/orangehrm/devTools/load/general/load-employees.php
@@ -12,4 +12,3 @@ then
 fi
 
 exit 0;
-	
