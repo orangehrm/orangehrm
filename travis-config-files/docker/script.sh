@@ -1,1 +1,1 @@
-docker build -t $REPO:$TAG .
+docker build --build-arg SEED=false -t $REPO:$TAG .

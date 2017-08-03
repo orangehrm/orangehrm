@@ -19,10 +19,7 @@ ENV APACHE_LOCK_DIR /var/lock/apache2
 ENV APACHE_PID_FILE /var/run/apache2.pid
 
 
-ARG TRAVIS_JOB_NUM=${TRAVIS_JOB_NUMBER}
-ARG TRAVIS_BUILD_NUM=${TRAVIS_BUILD_NUMBER}
-
-RUN echo "job no found: $TRAVIS_JOB_NUM"
+ARG SEED=true
 # Export port 80
 EXPOSE 80
 
