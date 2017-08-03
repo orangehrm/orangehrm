@@ -4,8 +4,8 @@
 if [[ ${SEED} == true ]];
 then
     echo "if statement"
-    php var/www/site/orangehrm/devTools/load/general/load-employees.php
-	php var/www/site/orangehrm/devTools/load/recruitment/load-candidates.php
+    cd var/www/site/orangehrm/devTools/load/general; php load-employees.php
+	cd var/www/site/orangehrm/devTools/load/recruitment; php load-candidates.php
 fi
 
 exit 0;
