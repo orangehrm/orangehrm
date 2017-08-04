@@ -76,10 +76,10 @@ use_javascript(plugin_web_path('orangehrmRecruitmentPlugin', 'js/addJobVacancySu
                         <em>*</em> <?php echo __(CommonMessages::REQUIRED_FIELD); ?>
                     </li>
                     <li class="helpText">
-                        1 : <?php echo __('RSS Feed URL') ?> : <?php echo link_to(null, 'recruitmentApply/jobs.rss', array('absolute' => true, 'target' => '_new')); ?>
+                        1 : <?php echo __('RSS Feed URL') ?> : <?php echo link_to('', 'recruitmentApply/jobs.rss', array('absolute' => true, 'target' => '_new')); ?>
                     </li>
                     <li class="helpText">
-                        2 : <?php echo __('Web Page URL') ?> : <?php echo link_to(null, 'recruitmentApply/jobs.html', array('absolute' => true, 'target' => '_new')); ?>
+                        2 : <?php echo __('Web Page URL') ?> : <?php echo link_to('', 'recruitmentApply/jobs.html', array('absolute' => true, 'target' => '_new')); ?>
                     </li>
                 </ol>
                 <p>

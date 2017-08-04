@@ -449,7 +449,7 @@ function dbConfigurationCheck()
             );
 
             if (mysqli_connect_error()) {
-//                print_r($dbInfo);
+                print_r($dbInfo);
             }
         }
 
