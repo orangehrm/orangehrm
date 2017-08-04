@@ -3,7 +3,11 @@ php:
   - '7.1'
 sudo: required
 dist: trusty
-group: edge
+
+env:
+  global:
+  - REPO=thulana/orangehrmos
+  - TAG=latest
 
 branches:
   only:
@@ -26,6 +30,7 @@ before_script: ./travis-config-files/test/before_script.sh
   
 after_failure: ./travis-config-files/test/after_failure.sh
 install: ./travis-config-files/test/install.sh
+
 
 notifications:
   email: true
@@ -54,4 +59,3 @@ jobs:
         - ./travis-config-files/heroku/before_script.sh
       script: ./travis-config-files/heroku/script.sh
         
-

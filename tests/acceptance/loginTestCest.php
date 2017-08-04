@@ -23,6 +23,7 @@ class loginTestCest
 		$I->click('Submit');
 		$I->see('Dashboard');
     }
+
     public function testInvalidCredentials(AcceptanceTester $I)
     {
 		$I->am('ohrm user');
@@ -89,6 +90,7 @@ class loginTestCest
 		$I->see('Dashboard');
     }
     * */
+
     
     
 }
