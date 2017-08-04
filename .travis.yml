@@ -4,11 +4,6 @@ php:
 sudo: required
 dist: trusty
 
-env:
-  global:
-  - REPO=thulana/orangehrmos
-  - TAG=latest
-
 branches:
   only:
     - master
