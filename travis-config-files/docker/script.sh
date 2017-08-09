@@ -1,10 +1,16 @@
-if [[ ${TRAVIS_BRANCH} == develop ]];
+
+if [[ ${TRAVIS_EVENT_TYPE} == pull_request ]];
 then
-    docker build --build-arg SEED=false -t $REPO:$TAGDEV .
-
+    exit 0;
 else
-    docker build --build-arg SEED=false -t $REPO:$TAGMASTER .
+    if [[ ${TRAVIS_BRANCH} == develop ]];
+    then
+        docker build --build-arg SEED=false -t $REPO:$TAGDEV .
 
+    else
+        docker build --build-arg SEED=false -t $REPO:$TAGMASTER .
+
+    fi
+    exit 0;
 fi
 
-exit 0;
