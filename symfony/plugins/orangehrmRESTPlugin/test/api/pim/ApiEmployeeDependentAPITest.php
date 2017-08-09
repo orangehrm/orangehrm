@@ -162,6 +162,16 @@ class ApiEmployeeDependentAPITest extends PHPUnit_Framework_TestCase
 
     public function testDeleteEmployeeDependents(){
 
+        $empNumber = 1;
+        $employee = new \Employee();
+        $employee->setLastName('Last Name');
+        $employee->setFirstName('First Name');
+        $employee->setEmpNumber($empNumber);
+        $employee->setEmployeeId($empNumber);
+        $employee->setJoinedDate("2016-04-15");
+        $employee->setEmpWorkEmail("mdriggs@hrm.com");
+        $employee->setEmpMobile(0754343435);
+
         $empDependentTest = new \EmpDependent();
         $empDependentTest->setDateOfBirth('2016-05-14');
         $empDependentTest->setEmpNumber('1');
@@ -189,13 +199,18 @@ class ApiEmployeeDependentAPITest extends PHPUnit_Framework_TestCase
             ->method('filterParameters')
             ->will($this->returnValue($filters));
 
+
         $pimEmployeeService = $this->getMockBuilder('EmployeeService')
-            ->setMethods(array('deleteEmployeeDependents'))
+            ->setMethods(array('deleteEmployeeDependents','getEmployee'))
             ->getMock();
         $pimEmployeeService->expects($this->any())
             ->method('deleteEmployeeDependents')
             ->with(1,array(1))
             ->will($this->returnValue(1));
+        $pimEmployeeService->expects($this->any())
+            ->method('getEmployee')
+            ->with(1)
+            ->will($this->returnValue($employee));
 
         $employeeDependantAPI->setEmployeeService($pimEmployeeService);
 
