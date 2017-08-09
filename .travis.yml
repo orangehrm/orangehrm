@@ -10,7 +10,6 @@ branches:
     - develop
 env:
   global:
-  - REPO=thulana/orangehrmos
   - TAGDEV=develop
   - TAGMASTER=master
 
