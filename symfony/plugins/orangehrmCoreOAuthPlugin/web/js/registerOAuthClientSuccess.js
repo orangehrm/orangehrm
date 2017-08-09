@@ -62,6 +62,49 @@ $(document).ready(function() {
     $('#dialogCancelBtn').click(function() {
         $("#deleteConfirmation").dialog("close");
     });
+
+    $('#entitlements_employee_empName').result(function(event, item) {
+        $('#entitlements_employee_empId').val(item.id)
+            .data('item.name', item.name)
+            .valid();
+    });
+
+    $('#oAuthClientRegistrationForm').validate({
+        ignore: [],
+        rules: {
+            'oauth[client_id]' : {
+                required:true,
+                maxlength: 80
+            },
+            'oauth[client_secret]' : {
+                required:true,
+                maxlength: 80
+            },
+            'oauth[redirect_uri]' : {
+                maxlength: 2000
+            }
+
+        },
+        messages: {
+            'oauth[client_id]': {
+                required: "Required",
+                maxlength: "Max Length 80"
+
+            },
+            'oauth[client_secret]': {
+                required: "Required",
+                maxlength: "Max Length 80"
+            },
+            'oauth[redirect_uri]': {
+                maxlength: "Max Length 2000"
+            }
+
+        }
+
+    });
+
+
+
 });
 
 function setUpdateValues(selectedTableRow){
