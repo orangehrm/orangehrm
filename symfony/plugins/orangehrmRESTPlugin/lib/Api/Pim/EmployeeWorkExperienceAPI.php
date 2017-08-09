@@ -71,12 +71,17 @@ class EmployeeWorkExperienceAPI extends EndPoint
         $empId = $this->getRequestParams()->getUrlParam(self::PARAMETER_ID);
         $this->validateEmployee($empId);
         $experienceRecords = $this->getEmployeeService()->getEmployeeWorkExperienceRecords($empId);
-        foreach ($experienceRecords as $experience) {
-            $experienceEntity = new WorkExperience();
-            $experienceEntity->build($experience);
-            $responseArray[] = $experienceEntity->toArray();
+
+        if (count($experienceRecords)>0) {
+            foreach ($experienceRecords as $experience) {
+                $experienceEntity = new WorkExperience();
+                $experienceEntity->build($experience);
+                $responseArray[] = $experienceEntity->toArray();
+            }
+            return new Response($responseArray, array());
+        } else {
+            throw new RecordNotFoundException("No Records Found");
         }
-        return new Response($responseArray, array());
     }
 
     /**
