@@ -117,6 +117,9 @@ class EmployeeDependentAPI extends EndPoint
     public function saveEmployeeDependents()
     {
         $filters = $this->filterParameters();
+        $empId = $filters[self::PARAMETER_ID];
+        $this->validateEmployee($empId);
+
         if (empty($filters[self::PARAMETER_RELATIONSHIP])) {
             throw new InvalidParamException('Dependent Relationship Cannot Be Empty');
         }
@@ -147,6 +150,9 @@ class EmployeeDependentAPI extends EndPoint
     public function updateEmployeeDependents()
     {
         $filters = $this->filterParameters();
+        $empId = $filters[self::PARAMETER_ID];
+        $this->validateEmployee($empId);
+
         if(!is_numeric( $filters[self::PARAMETER_SEQ_NUMBER] )) {
             throw new InvalidParamException("Sequence Number Is Wrong");
         }
@@ -179,6 +185,7 @@ class EmployeeDependentAPI extends EndPoint
         $filters = $this->filterParameters();
         $empId = $filters[self::PARAMETER_ID];
         $sequenceNumber = $filters[self::PARAMETER_SEQ_NUMBER];
+        $this->validateEmployee($empId);
 
         if (!empty($sequenceNumber) && is_numeric($sequenceNumber)) {
 
