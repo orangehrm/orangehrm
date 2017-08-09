@@ -22,6 +22,7 @@ namespace Orangehrm\Rest\Api\Pim;
 use Orangehrm\Rest\Api\EndPoint;
 use Orangehrm\Rest\Api\Exception\BadRequestException;
 use Orangehrm\Rest\Api\Exception\InvalidParamException;
+use Orangehrm\Rest\Api\Exception\RecordNotFoundException;
 use Orangehrm\Rest\Api\Pim\Entity\Education;
 use Orangehrm\Rest\Http\Response;
 
@@ -84,6 +85,7 @@ class EmployeeEducationAPI extends EndPoint
      * Get employee education
      *
      * @return Response
+     * @throws RecordNotFoundException
      */
     public function getEmployeeEducation()
     {
@@ -92,12 +94,17 @@ class EmployeeEducationAPI extends EndPoint
         $this->validateEmployee($empId);
         $educationRecords = $this->getEmployeeService()->getEmployeeEducations($empId);
 
-        foreach ($educationRecords as $education) {
-            $educationEntity = new Education();
-            $educationEntity->build($education);
-            $responseArray[] = $educationEntity->toArray();
+        if(count($educationRecords)>0){
+            foreach ($educationRecords as $education) {
+                $educationEntity = new Education();
+                $educationEntity->build($education);
+                $responseArray[] = $educationEntity->toArray();
+            }
+            return new Response($responseArray, array());
+        } else {
+            throw new RecordNotFoundException("No Records Found");
         }
-        return new Response($responseArray, array());
+
     }
 
     /**
