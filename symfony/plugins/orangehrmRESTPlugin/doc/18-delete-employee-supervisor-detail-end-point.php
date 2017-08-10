@@ -5,9 +5,8 @@
 * @apiVersion 0.1.0
 *
 * @apiParam {Number}  id Employee id.
-*
-* @apiParam {Number} (Mandatory)supervisorId Supervisor id.
-* @apiParam {String} (Mandatory)reportingMethod Reporting method to the supervisor.
+* @apiParam {Number} supervisorId Supervisor id (Mandatory).
+* @apiParam {String} reportingMethod Reporting method to the supervisor (Mandatory).
 * @apiSuccess {Object} Data Success response.
 *
 * @apiSuccessExample Success-Response:
