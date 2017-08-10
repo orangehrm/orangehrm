@@ -1,6 +1,6 @@
 # OrangeHRM Open Source Application
 
-[![Docker Automated](https://img.shields.io/docker/automated/orangehrm/orangehrm.svg)](https://hub.docker.com/r/orangehrm/orangehrm/) [![Docker Status](https://img.shields.io/docker/build/orangehrm/orangehrm.svg)](https://hub.docker.com/r/orangehrm/orangehrm/) [![Docker Pulls](https://img.shields.io/docker/pulls/orangehrm/orangehrm.svg)](https://hub.docker.com/r/orangehrm/orangehrm)  [![Travis Test](https://img.shields.io/travis/orangehrm/orangehrm/master.svg)](https://travis-ci.org/orangehrm/orangehrm)  [![SourceForge Downloads](https://img.shields.io/sourceforge/dm/orangehrm.svg)](https://sourceforge.net/projects/orangehrm/) [![SourceForge Downloads](https://img.shields.io/sourceforge/dt/orangehrm.svg)](https://sourceforge.net/projects/orangehrm/) [![codecov](https://codecov.io/gh/Thulana/orangehrm/branch/master/graph/badge.svg)](https://codecov.io/gh/Thulana/orangehrm)
+[![Docker Automated](https://img.shields.io/docker/automated/orangehrm/orangehrm.svg)](https://hub.docker.com/r/orangehrm/orangehrm/) [![Docker Status](https://img.shields.io/docker/build/orangehrm/orangehrm.svg)](https://hub.docker.com/r/orangehrm/orangehrm/) [![Docker Pulls](https://img.shields.io/docker/pulls/orangehrm/orangehrm.svg)](https://hub.docker.com/r/orangehrm/orangehrm)  [![Travis Test](https://img.shields.io/travis/orangehrm/orangehrm/master.svg)](https://travis-ci.org/orangehrm/orangehrm)  [![SourceForge Downloads](https://img.shields.io/sourceforge/dm/orangehrm.svg)](https://sourceforge.net/projects/orangehrm/) [![SourceForge Downloads](https://img.shields.io/sourceforge/dt/orangehrm.svg)](https://sourceforge.net/projects/orangehrm/) [![codecov](https://codecov.io/gh/orangehrm/orangehrm/branch/master/graph/badge.svg)](https://codecov.io/gh/orangehrm/orangehrm)
 
 OrangeHRM is a comprehensive Human Resource Management (HRM) System that captures 
 all the essential functionalities required for any enterprise. 
@@ -17,7 +17,7 @@ See the GNU General Public License for more details.
 ## Getting started
 ----------
 1. Install OrangeHRM using the web installer
-2. https://github.com/Thulana/orangehrm/wiki/Getting-started
+2. https://github.com/orangehrm/orangehrm/wiki/Getting-started
 
 For further information on how to use the product please refer the Free User Guide 
 available on http://orangehrm.com/
@@ -30,11 +30,11 @@ For OrangeHRM Installation issues please refer to the OrangeHRM Installation Gui
 
 ## Contribute
 
-https://github.com/Thulana/orangehrm/wiki/How-to-Contribute
+https://github.com/orangehrm/orangehrm/wiki/How-to-Contribute
 
 ## Resources
 
-https://github.com/Thulana/orangehrm/wiki/Resources
+https://github.com/orangehrm/orangehrm/wiki/Resources
 
 ## License 
 
