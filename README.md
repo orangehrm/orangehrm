@@ -23,14 +23,23 @@ OrangeHRM is distributed in the hope that it will be useful, but WITHOUT ANY WAR
 
 - For OrangeHRM Installation issues please refer to the OrangeHRM Installation Guide
 
-## Contribute
 
+## Demo
+Live demo is available at : https://orangehrmdev.herokuapp.com
+
+Credentials : 
+    Username: admin
+    Password: admin
+
+## Releases
+Sourceforge : https://sourceforge.net/p/orangehrm
+
+## Contribute
 https://github.com/orangehrm/orangehrm/wiki/How-to-Contribute
 
-## Resources
 
-https://github.com/orangehrm/orangehrm/wiki/Resources
+## Website
+https://www.orangehrm.com/
 
 ## License 
-
 GNU General Public License
