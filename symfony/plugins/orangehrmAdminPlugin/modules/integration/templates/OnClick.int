@@ -1,0 +1,3 @@
+$("#sycToggl" ).click(function() {
+  $('#togglConfirm').modal('toggle');
+});

@@ -1,0 +1,1 @@
+  $("#modal_id").modal("toggle");

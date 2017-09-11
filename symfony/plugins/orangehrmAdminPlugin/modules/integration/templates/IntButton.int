@@ -1,0 +1,1 @@
+<button type="btn_type" id="btn_id" class="btn_class" onclick="btn_onclick">btn_text</button>
