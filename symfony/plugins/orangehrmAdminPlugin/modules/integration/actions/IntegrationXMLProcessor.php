@@ -3,7 +3,6 @@
 
 class IntegrationXMLProcessor
 {
-
     const BUTTON = "button";
     const MODAL = "confirmation";
     const JS_FUNCTION = 'function';
@@ -40,6 +39,11 @@ class IntegrationXMLProcessor
     }
 
 
+    /**
+     * Process button
+     *
+     * @param $component
+     */
     protected function processButton($component)
     {
         $path_to_file = "../plugins/orangehrmAdminPlugin/modules/integration/templates/IntButton.int";
@@ -53,6 +57,11 @@ class IntegrationXMLProcessor
         $this->content['css'] = $component->css;
     }
 
+    /**
+     * Process JS function
+     *
+     * @param $component
+     */
     protected function processFunction($component)
     {
         $path_to_file = "../plugins/orangehrmAdminPlugin/modules/integration/templates/Function.int";
@@ -100,7 +109,6 @@ class IntegrationXMLProcessor
 
     protected function processOnClick($component)
     {
-
         $path_to_file = "../plugins/orangehrmAdminPlugin/modules/integration/templates/OnClick.int";
         $file_contents = file_get_contents($path_to_file);
 //        $file_contents = str_replace("id",$component->id,$file_contents);
@@ -112,6 +120,11 @@ class IntegrationXMLProcessor
 
     }
 
+    /**
+     * Process Modal function
+     *
+     * @param $component
+     */
     protected function processModal($component)
     {
         $path_to_file = "../plugins/orangehrmAdminPlugin/modules/integration/templates/IntModal.int";
@@ -126,6 +139,11 @@ class IntegrationXMLProcessor
 
     }
 
+    /**
+     * Getting backbone file
+     *
+     * @param $type
+     */
     protected function getbackBoneFile($type)
     {
         $path_to_file = "../plugins/orangehrmAdminPlugin/modules/integration/templates/OnClick.int" . $type . "php";
