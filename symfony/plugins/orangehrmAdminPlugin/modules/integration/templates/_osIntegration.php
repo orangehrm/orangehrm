@@ -20,8 +20,8 @@
         $("#loader-1").hide();
         empId = location.href[location.href.length-1];
         dates = $('#startDates').find(":selected").text().split(" ");
-        startDate = dates[0]+" 00:00:00";
-        endDate   = dates[2]+" 00:00:00";
+        startDate1 = dates[0]+" 00:00:00";
+        endDate1   = dates[2]+" 00:00:00";
 
         clientId  =     "<?php echo  htmlspecialchars_decode($page['id']); ?>";
         clientSecret  = "<?php echo  htmlspecialchars_decode($page['secret']); ?>";
@@ -76,8 +76,8 @@
                 data: {
 
                     'employee_Id':employeeId,
-                    'startTime': startDate,
-                    'endTime': endDate,
+                    'startTime': startDate1,
+                    'endTime': endDate1,
                     'timeZone': 'GMT'+formatTimeZone()
                 },
                 contentType: "application/x-www-form-urlencoded",
