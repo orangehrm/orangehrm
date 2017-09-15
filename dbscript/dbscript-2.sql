@@ -2824,4 +2824,8 @@ INSERT INTO ohrm_user_role_screen (user_role_id, screen_id, can_read, can_create
 (1, @oauth_client_screen_id, 1, 1, 1, 0);
 
 INSERT INTO hs_hr_config (`key`, `value`) VALUES
-('open_source_integrations', '');
+('<xml>
+<integrations>
+</integrations>
+</xml>
+');
