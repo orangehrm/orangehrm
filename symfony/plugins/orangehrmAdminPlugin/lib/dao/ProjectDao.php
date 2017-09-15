@@ -85,31 +85,31 @@ class ProjectDao extends BaseDao {
 			throw new DaoException($e->getMessage());
 		}
 	}
-	
+
     /**
      * Return an array of Customer Ids for Lits of Project Ids
-     * 
+     *
      * @version 2.7.1
      * @param Array $projectIdList List of Project Ids
      * @return Array of Customer Ids
      */
     public function getCustomerIdListByProjectId($projectIdList) {
         try {
-            
+
             if (!empty($projectIdList)) {
-                
+
                 $escapeString = implode(',', array_fill(0, count($projectIdList), '?'));
                 $q = "SELECT p.customer_id 
                			FROM ohrm_project AS p
                 		WHERE p.project_id IN ({$escapeString})";
-                
+
                 $pdo = Doctrine_Manager::connection()->getDbh();
-                $query = $pdo->prepare($q); 
+                $query = $pdo->prepare($q);
                 $query->execute($projectIdList);
                 $results = $query->fetchAll(PDO::FETCH_COLUMN, 0);
-                
+
             }
-            
+
             return $results;
 
         // @codeCoverageIgnoreStart
@@ -121,35 +121,35 @@ class ProjectDao extends BaseDao {
 
     /**
      * Return an Array of Project Names
-     * 
+     *
      * @version 2.7.1
      * @param Array $projectIdList List of Project Ids
      * @param Boolean $excludeDeletedProjects Exclude Deleted Projects or not
      * @return Array of Project Names
      */
     public function getProjectNameList($projectIdList, $excludeDeletedProjects = true) {
- 
+
         try {
-            
+
             if (!empty($projectIdList)) {
-                
+
                 $escapeString = implode(',', array_fill(0, count($projectIdList), '?'));
-                
+
                 $q = "SELECT p.project_id AS projectId, p.name
                 			FROM ohrm_project AS p
                 			WHERE p.project_id IN ({$escapeString})";
-            
-                
+
+
                 if ($excludeDeletedProjects) {
                     $q .= ' AND p.is_deleted = ' . Project::ACTIVE_PROJECT;
                 }
 
                 $pdo = Doctrine_Manager::connection()->getDbh();
-                $query = $pdo->prepare($q); 
+                $query = $pdo->prepare($q);
                 $query->execute($projectIdList);
                 $results = $query->fetchAll(PDO::FETCH_ASSOC);
             }
-            
+
         	return $results;
 
         // @codeCoverageIgnoreStart
@@ -221,16 +221,16 @@ class ProjectDao extends BaseDao {
 			throw new AdminServiceException($e->getMessage());
 		}
 	}
-        
+
     /**
      *Get list of active projects, ordered by customer name, project name.
-     * 
+     *
      * @return Doctrine_Collection of Project objects. Empty collection if no
      *         active projects available.
-     * @throws AdminServiceException 
+     * @throws AdminServiceException
      */
     public function getActiveProjectsOrderedByCustomer() {
-        
+
         try {
             $q = Doctrine_Query::create()
                     ->from('Project p')
@@ -240,7 +240,7 @@ class ProjectDao extends BaseDao {
 
             $projectList = $q->execute();
             return $projectList;
-            
+
         } catch (Exception $e) {
             throw new AdminServiceException($e->getMessage());
         }
@@ -301,31 +301,31 @@ class ProjectDao extends BaseDao {
 
     /**
      * Return Count of Projects
-     * 
+     *
      * @version 2.7.1
      * @param Array $searchClues Array of Search Clues
      * @param Array $projectIdList List of allowed project Ids
      * @return Count of Projects
      */
     public function getSearchProjectListCount($searchClues, $projectIdList) {
-        
+
         try {
             $projectIdEscapeString = implode(',', array_fill(0, count($projectIdList), '?'));
-            
+
             $q = "SELECT p.project_id AS projectIds
             		FROM ohrm_project p
             		LEFT JOIN ohrm_customer c ON p.customer_id = c.customer_id
             		LEFT JOIN ohrm_project_admin pa ON p.project_id = pa.project_id
             		LEFT JOIN hs_hr_employee e ON pa.emp_number = e.emp_number";
-            
-            
+
+
             $escapeValueArray = array();
-            
+
             if (!empty($projectIdList)) {
                 $q .= " WHERE p.project_id IN ({$projectIdEscapeString})";
                 $escapeValueArray = array_merge($escapeValueArray, $projectIdList);
             }
-            
+
             if (!empty($searchClues['customer'])) {
                 $q .= " AND c.name = ? ";
                 $escapeValueArray[] = trim($searchClues['customer']);
@@ -334,7 +334,7 @@ class ProjectDao extends BaseDao {
                 $q .= " AND p.name = ? ";
                 $escapeValueArray[] = trim($searchClues['project']);
             }
-            
+
             if (!empty($searchClues['projectAdmin'])) {
                 $projectAdmin = preg_replace('!\s+!', '%', trim($searchClues['projectAdmin']));
                 $projectAdmin = "%" . $projectAdmin . "%";
@@ -343,15 +343,15 @@ class ProjectDao extends BaseDao {
             }
             $escapeValueArray[] = Project::ACTIVE_PROJECT;
             $q .= " AND p.is_deleted = ? GROUP BY p.project_id";
-            
+
             $pdo = Doctrine_Manager::connection()->getDbh();
             $query = $pdo->prepare($q);
             $query->execute($escapeValueArray);
             $results = $query->fetchAll(PDO::FETCH_ASSOC);
             $count = count($results);
-            
+
             return $count;
-            
+
         // @codeCoverageIgnoreStart
         } catch (Exception $e) {
             throw new DaoException($e->getMessage(), $e->getCode(), $e);
@@ -361,7 +361,7 @@ class ProjectDao extends BaseDao {
 
     /**
      * Return List of Projects
-     * 
+     *
      * @version 2.7.1
      * @param Array $searchClues Array of Search Clues
      * @param Array $projectIdList List of allowed project Ids
@@ -369,15 +369,15 @@ class ProjectDao extends BaseDao {
      */
     public function searchProjects($searchClues, $allowedProjectList) {
         try {
-            
+
             $sortField = $this->_getSortField($searchClues['sortField']);
             $sortOrder = ($searchClues['sortOrder'] == "") ? 'ASC' : $searchClues['sortOrder'];
             $offset = ($searchClues['offset'] == "") ? 0 : $searchClues['offset'];
             $limit = ($searchClues['limit'] == "") ? 50 : $searchClues['limit'];
 
-        
+
             $allowedProjectEscapeString = implode(',', array_fill(0, count($allowedProjectList), '?'));
-            
+
             $q = "SELECT p.project_id As projectId, p.name AS projectName, c.customer_id AS customerId, c.name AS customerName, 
             		(SELECT GROUP_CONCAT(emp.emp_firstname,' ',emp.emp_lastname) FROM hs_hr_employee emp LEFT JOIN ohrm_project_admin pq ON (pq.emp_number = emp.emp_number) WHERE pq.project_id = p.project_id) AS projectAdminName
             		
@@ -385,15 +385,15 @@ class ProjectDao extends BaseDao {
             		LEFT JOIN ohrm_customer c ON p.customer_id = c.customer_id
             		LEFT JOIN ohrm_project_admin pa ON p.project_id = pa.project_id
             		LEFT JOIN hs_hr_employee e ON pa.emp_number = e.emp_number";
-            
-            
+
+
             $escapeValueArray = array();
-            
+
             if (!empty($allowedProjectList)) {
                 $q .= " WHERE p.project_id IN ({$allowedProjectEscapeString})";
                 $escapeValueArray = array_merge($escapeValueArray, $allowedProjectList);
             }
-            
+
             if (!empty($searchClues['customer'])) {
                 $q .= " AND c.name = ? ";
                 $escapeValueArray[] = trim($searchClues['customer']);
@@ -402,7 +402,7 @@ class ProjectDao extends BaseDao {
                 $q .= " AND p.name = ? ";
                 $escapeValueArray[] = trim($searchClues['project']);
             }
-            
+
             if (!empty($searchClues['projectAdmin'])) {
                 $projectAdmin = preg_replace('!\s+!', '%', trim($searchClues['projectAdmin']));
                 $projectAdmin = "%" . $projectAdmin . "%";
@@ -412,14 +412,14 @@ class ProjectDao extends BaseDao {
 
             $q .= " AND p.is_deleted = ? GROUP BY p.project_id ORDER BY {$sortField}  {$sortOrder}
             		limit {$offset}, {$limit}";
-            
+
             $escapeValueArray[] = Project::ACTIVE_PROJECT;
 
             $pdo = Doctrine_Manager::connection()->getDbh();
             $query = $pdo->prepare($q);
             $query->execute($escapeValueArray);
             $results = $query->fetchAll(PDO::FETCH_ASSOC);
-            
+
             return $results;
 
         // @codeCoverageIgnoreStart
@@ -429,33 +429,25 @@ class ProjectDao extends BaseDao {
         // @codeCoverageIgnoreEnd
 	}
 
-	private function _buildSearchQuery($srchClues, $allowedProjectList) {
+    /**
+     * Returns corresponding sort field
+     *
+     * @version 2.7.1
+     * @param string $sortFieldName
+     * @return string
+     */
+    private function _getSortField($sortFieldName){
 
-		$q = Doctrine_Query::create()
-			->select('p.projectId, p.name, c.name')
-			->addSelect('(SELECT GROUP_CONCAT(emp.firstName,\' \',emp.lastName) FROM Employee emp LEFT JOIN emp.projectAdmin pq ON (pq.emp_number = emp.emp_number) WHERE pq.projectId = p.projectId) AS projectAdmins')
-			->from('Project p')
-			->leftJoin('p.Customer c')
-			->leftJoin('p.ProjectAdmin pa')
-			->leftJoin('pa.Employee e');
+        $sortField = 'p.name';
+        if($sortFieldName === 'customerName') {
+            $sortField = 'c.name';
+        } else if ($sortFieldName === 'projectName') {
+            $sortField = 'p.name';
+        }
 
-		if (!empty($allowedProjectList)) {
-			$q->whereIn('p.projectId', $allowedProjectList);
-		}
-		if (!empty($srchClues['customer'])) {
-			$q->addWhere('c.name = ?', trim($srchClues['customer']));
-		}
-		if (!empty($srchClues['project'])) {
-			$q->addWhere('p.name = ?', trim($srchClues['project']));
-		}
-		if (!empty($srchClues['projectAdmin'])) {
-			$projectAdmin = preg_replace('!\s+!', '%', trim($srchClues['projectAdmin']));
-			$projectAdmin = "%" . $projectAdmin . "%";
-			$q->addWhere("concat_ws(' ', e.emp_firstname, e.emp_middle_name, e.emp_lastname) LIKE ?", $projectAdmin);
-		}
+        return $sortField;
 
-		return $q;
-	}
+    }
 
 	/**
 	 * Returns ProjectAdmin for a given project
@@ -524,7 +516,7 @@ class ProjectDao extends BaseDao {
 	/**
 	 *
 	 * @param type $customerId
-	 * @return type 
+	 * @return type
 	 */
 	public function getProjectsByCustomerId($customerId) {
 
@@ -538,10 +530,10 @@ class ProjectDao extends BaseDao {
 			throw new DaoException($e->getMessage());
 		}
 	}
-    
+
     /**
      * Return an array of Project Ids
-     * 
+     *
      * @version 2.7.1
      * @param $role User Role
      * @param Integer $empNumber Employee Number
@@ -550,21 +542,21 @@ class ProjectDao extends BaseDao {
     public function getProjectListForUserRole($role, $empNumber) {
 
         try {
-            
+
             $q = "SELECT p.project_id AS project_id FROM ohrm_project p";
             $escapeValueArray = array();
-            
+
             if ($role == ProjectAdminUserRoleDecorator::PROJECT_ADMIN_USER) {
                 $q .= " LEFT JOIN ohrm_project_admin pa 
                 		ON p.project_id = pa.project_id WHERE (pa.emp_number = ?)";
                 $escapeValueArray[] = $empNumber;
             }
-            
+
             $pdo = Doctrine_Manager::connection()->getDbh();
             $query = $pdo->prepare($q);
             $query->execute($escapeValueArray);
             $results = $query->fetchAll(PDO::FETCH_COLUMN, 0);
-            
+
             return $results;
 
         // @codeCoverageIgnoreStart
@@ -574,10 +566,10 @@ class ProjectDao extends BaseDao {
         // @codeCoverageIgnoreEnd
 
     }
-    
+
     /**
      * Get count of project activities in the sytem
-     * 
+     *
      * @param bool $includeDeleted If true, count will include deleted activities
      * @return int number of activities
      * @throws DaoException
@@ -597,44 +589,57 @@ class ProjectDao extends BaseDao {
 
         } catch (Exception $ex) {
             throw new DaoException($ex->getMessage());
-        }        
-    }    
-    
-    /**
-     * Returns corresponding sort field
-     * 
-     * @version 2.7.1
-     * @param string $sortFieldName 
-     * @return string 
-     */
-    private function _getSortField($sortFieldName){
-        
-        $sortField = 'p.name';
-        if($sortFieldName === 'customerName') {
-            $sortField = 'c.name';
-        } else if ($sortFieldName === 'projectName') {
-            $sortField = 'p.name';
         }
-        
-        return $sortField;
-        
     }
 
     /**
+     * Getting project by name and customer id
+     *
      * @param $projectName
+     * @param $customerId
      * @return int
      * @throws DaoException
      */
-    public function getProjectByName($projectName) {
+    public function getProjectByName($projectName,$customerId) {
 
         try {
             $q = Doctrine_Query :: create()
                 ->from('Project')
-                ->where('name = ?',$projectName);
+                ->where('name = ?',$projectName)
+                ->andWhere('customer_id= ?',$customerId)
+                ->andWhere('is_deleted = ?',0);
             return $q->count();
         } catch (Exception $e) {
             throw new DaoException($e->getMessage());
         }
     }
+
+	private function _buildSearchQuery($srchClues, $allowedProjectList) {
+
+		$q = Doctrine_Query::create()
+			->select('p.projectId, p.name, c.name')
+			->addSelect('(SELECT GROUP_CONCAT(emp.firstName,\' \',emp.lastName) FROM Employee emp LEFT JOIN emp.projectAdmin pq ON (pq.emp_number = emp.emp_number) WHERE pq.projectId = p.projectId) AS projectAdmins')
+			->from('Project p')
+			->leftJoin('p.Customer c')
+			->leftJoin('p.ProjectAdmin pa')
+			->leftJoin('pa.Employee e');
+
+		if (!empty($allowedProjectList)) {
+			$q->whereIn('p.projectId', $allowedProjectList);
+		}
+		if (!empty($srchClues['customer'])) {
+			$q->addWhere('c.name = ?', trim($srchClues['customer']));
+		}
+		if (!empty($srchClues['project'])) {
+			$q->addWhere('p.name = ?', trim($srchClues['project']));
+		}
+		if (!empty($srchClues['projectAdmin'])) {
+			$projectAdmin = preg_replace('!\s+!', '%', trim($srchClues['projectAdmin']));
+			$projectAdmin = "%" . $projectAdmin . "%";
+			$q->addWhere("concat_ws(' ', e.emp_firstname, e.emp_middle_name, e.emp_lastname) LIKE ?", $projectAdmin);
+		}
+
+		return $q;
+	}
 }
 

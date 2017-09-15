@@ -1,4 +1,5 @@
 <?php
+
 /**
  * OrangeHRM is a comprehensive Human Resource Management (HRM) System that captures
  * all the essential functionalities required for any enterprise.
@@ -18,43 +19,52 @@
  */
 
 use Orangehrm\Rest\Http\Request;
-use Orangehrm\Rest\Api\Pim\CustomFieldAPI;
+use Orangehrm\Rest\Api\Integration\IntegrationAPI;
 use Orangehrm\Rest\Api\Exception\NotImplementedException;
 
-
-class CustomFieldApiAction extends baseRestAction
+class IntegrationApiAction extends baseRestAction
 {
-    private $apiCustomField = null;
 
-    public function getApiCustomField()
+    private $integrationApi = null;
+
+    /**
+     * @param Request $request
+     */
+    protected function init(Request $request)
     {
-        return $this->apiCustomField;
+        $this->punchInApi = new IntegrationAPI($request);
+
     }
 
     /**
-     * @param null $apiCustomField
+     * @param \Orangehrm\Rest\Http\Request $request
+     * @return \Orangehrm\Rest\Http\Response
      */
-    public function setApiCustomField($apiCustomField)
-    {
-        $this->apiCustomField = $apiCustomField;
-    }
-
-    protected function init(Request $request)
-    {
-        $this->apiCustomField = new CustomFieldAPI($request);
-    }
-
     protected function handleGetRequest(Request $request)
     {
-        return $this->apiCustomField->getCustomFields();
+        throw new NotImplementedException();
     }
 
+    /**
+     * @param \Orangehrm\Rest\Http\Request $request
+     * @return \Orangehrm\Rest\Http\Response
+     */
     protected function handlePostRequest(Request $request)
     {
-        return $this->apiCustomField->saveCustomField();
+        return $this->getIntegrationApi($request)->addIntegration();
     }
 
+    public function getIntegrationApi($request)
+    {
+        if (!$this->integrationApi) {
+            $this->integrationApi = new IntegrationAPI($request);
+        }
+        return $this->punchInApi;
+    }
 
-
+    public function setIntegrationApi($integrationApi)
+    {
+        $this->integrationApi = $integrationApi;
+        return $this;
+    }
 }
-

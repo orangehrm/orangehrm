@@ -90,8 +90,7 @@ api_custom_field:
   url: /api/v1/custom-field
   param: { module:apiv1pim, action:CustomFieldApi }
   requirements:
-     id: \d+
-     sf_method: [get]
+     sf_method: [get,post]
 
 api_search_leave_request:
   url: /api/v1/leave/search
@@ -201,3 +200,10 @@ api_timesheet_rows_delete:
   requirements:
      id: \d+
      sf_method: [delete]
+
+api_integration:
+  url: /api/v1/integration
+  param: { module:apiv1integration, action:IntegrationApi}
+  requirements:
+     sf_method: [post]
+

@@ -20,6 +20,7 @@
 namespace Orangehrm\Rest\Api\Time;
 
 use Orangehrm\Rest\Api\EndPoint;
+use Orangehrm\Rest\Api\Exception\BadRequestException;
 use Orangehrm\Rest\Api\Exception\InvalidParamException;
 use Orangehrm\Rest\Api\Exception\RecordNotFoundException;
 use Orangehrm\Rest\Http\Response;
@@ -34,24 +35,6 @@ class ActivityAPI extends EndPoint
     const PARAMETER_ACTIVITY_ID = "activityId";
 
     private $projectService;
-
-
-    /**
-     *
-     * @return ProjectService
-     */
-    public function getProjectService()
-    {
-        if (is_null($this->projectService)) {
-            $this->projectService = new \ProjectService();
-        }
-        return $this->projectService;
-    }
-
-    public function setProjectService($projectService)
-    {
-        $this->projectService = $projectService;
-    }
 
     /**
      * get getActivity
@@ -77,6 +60,23 @@ class ActivityAPI extends EndPoint
     }
 
     /**
+     *
+     * @return ProjectService
+     */
+    public function getProjectService()
+    {
+        if (is_null($this->projectService)) {
+            $this->projectService = new \ProjectService();
+        }
+        return $this->projectService;
+    }
+
+    public function setProjectService($projectService)
+    {
+        $this->projectService = $projectService;
+    }
+
+    /**
      * Save Activity
      *
      * @return Response
@@ -89,76 +89,16 @@ class ActivityAPI extends EndPoint
 
         if ($project instanceof \Project && $this->checkActivityName($project, $filters[self::PARAMETER_NAME])) {
 
-            $activity = new \ProjectActivity();
-            $activity->setProjectId($filters[self::PARAMETER_PROJECT_ID]);
-            $activity->setName($filters[self::PARAMETER_NAME]);
-            $activity->save();
-
-            return new Response(array('success' => 'Successfully Saved'));
+            $activity = $this->save($filters);
+            if($activity instanceof \ProjectActivity){
+                return new Response(array('success' => 'Successfully Saved','activityId'=>$activity->getActivityId()));
+            }else {
+                throw new BadRequestException('Unable To Save');
+            }
 
         } else {
             throw new InvalidParamException('No Projects Found');
         }
-    }
-
-    /**
-     * Update Project Activity
-     *
-     * @return Response
-     * @throws InvalidParamException
-     */
-    public function updateActivity()
-    {
-        $filters = $this->filterParameters();
-        $project = $this->getProjectService()->getProjectById($filters[self::PARAMETER_PROJECT_ID]);
-        $activityId = $filters[self::PARAMETER_ACTIVITY_ID];
-
-        if ($project instanceof \Project && $this->checkActivityName($project, $filters[self::PARAMETER_NAME])) {
-
-            if (empty($activityId)) {
-                throw new InvalidParamException("Activity Id Cannot Be Empty");
-            }
-            $activity = $this->getProjectActivity($activityId);
-            $activity->setName($filters[self::PARAMETER_NAME]);
-            $activity->save();
-
-            return new Response(array('success' => 'Successfully Updated'));
-
-        } else {
-            throw new InvalidParamException('No Projects Found');
-        }
-    }
-
-    /**
-     * Delete Project Activity
-     *
-     * @return Response
-     * @throws InvalidParamException
-     */
-    public function deleteActivity()
-    {
-        $filters = $this->filterDeleteParameters();
-        $activityId = $filters[self::PARAMETER_ACTIVITY_ID];
-        $projectId = $filters[self::PARAMETER_PROJECT_ID];
-        $project = $this->getProjectService()->getProjectById($projectId);
-
-        if ($project instanceof \Project) {
-            $activity = $this->getProjectService()->getProjectActivityById($activityId);
-            $this->checkActivityForDelete($activity, $project);
-
-            $isActivityHasTimeSheets = $this->getProjectService()->hasActivityGotTimesheetItems($activityId);
-            if (!$isActivityHasTimeSheets) {
-
-                $customer = $this->getProjectService()->deleteProjectActivities($activityId);
-                return new Response(array('success' => 'Successfully Deleted'));
-            } else {
-                throw new InvalidParamException("Activity Cannot Be Deleted");
-            }
-        } else {
-            throw new RecordNotFoundException("Project Not Found");
-        }
-
-
     }
 
     /**
@@ -191,6 +131,144 @@ class ActivityAPI extends EndPoint
 
     }
 
+    /**
+     * Check Activity Name
+     *
+     * @param \Project $project
+     * @param $activityName
+     * @return bool
+     * @throws InvalidParamException
+     */
+    public function checkActivityName(\Project $project, $activityName)
+    {
+        $activityList = $this->getProjectService()->getActivityListByProjectId($project->getProjectId());
+        foreach ($activityList as $activity) {
+            if ($activity->getName() == $activityName) {
+                throw new InvalidParamException('Activity Name Already Exists');
+            }
+
+        }
+        return true;
+    }
+
+    /**
+     * Save
+     *
+     * @param $filters
+     * @return \ProjectActivity
+     */
+    public function save($filters){
+
+        $activity = new \ProjectActivity();
+        $activity->setProjectId($filters[self::PARAMETER_PROJECT_ID]);
+        $activity->setName($filters[self::PARAMETER_NAME]);
+        $activity->save();
+        return $activity;
+    }
+
+    /**
+     * Update project activity
+     *
+     * @return Response
+     * @throws BadRequestException
+     * @throws InvalidParamException
+     */
+    public function updateActivity()
+    {
+        $filters = $this->filterParameters();
+        $project = $this->getProjectService()->getProjectById($filters[self::PARAMETER_PROJECT_ID]);
+        $activityId = $filters[self::PARAMETER_ACTIVITY_ID];
+
+        if ($project instanceof \Project && $this->checkActivityName($project, $filters[self::PARAMETER_NAME])) {
+
+            if (empty($activityId)) {
+                throw new InvalidParamException("Activity Id Cannot Be Empty");
+            }
+            $activity = $this->getProjectActivity($activityId);
+            $activityReturned = $this->update($activity,$filters);
+
+            if($activityReturned instanceof \ProjectActivity) {
+                return new Response(array('success' => 'Successfully Updated'));
+            } else {
+                throw new BadRequestException('Unable To Save');
+            }
+
+        } else {
+            throw new InvalidParamException('No Projects Found');
+        }
+    }
+
+    /**
+     * Get Project Activity
+     *
+     * @param activityId
+     * @return mixed
+     * @throws InvalidParamException
+     */
+    public function getProjectActivity($activityId)
+    {
+        $activity = $this->getProjectService()->getProjectActivityById($activityId);
+        if ($activity instanceof \ProjectActivity) {
+            return $activity;
+        } else {
+            throw new InvalidParamException("Project Activity Not Found");
+        }
+
+    }
+
+    /**
+     * Update
+     *
+     * @param $activity
+     * @param $filters
+     * @return mixed
+     */
+    public function update($activity,$filters){
+
+        $activity->setName($filters[self::PARAMETER_NAME]);
+        $activity->save();
+        return $activity;
+    }
+
+    /**
+     * Delete project activity
+     *
+     * @return Response
+     * @throws InvalidParamException
+     * @throws RecordNotFoundException
+     */
+    public function deleteActivity()
+    {
+        $filters = $this->filterDeleteParameters();
+        $activityId = $filters[self::PARAMETER_ACTIVITY_ID];
+        $projectId = $filters[self::PARAMETER_PROJECT_ID];
+        $project = $this->getProjectService()->getProjectById($projectId);
+
+        if ($project instanceof \Project) {
+            $activity = $this->getProjectService()->getProjectActivityById($activityId);
+            $this->checkActivityForDelete($activity, $project);
+
+            $isActivityHasTimeSheets = $this->getProjectService()->hasActivityGotTimesheetItems($activityId);
+            if (!$isActivityHasTimeSheets) {
+
+                $this->getProjectService()->deleteProjectActivities($activityId);
+                return new Response(array('success' => 'Successfully Deleted'));
+            } else {
+                throw new InvalidParamException("Activity Cannot Be Deleted");
+            }
+        } else {
+            throw new RecordNotFoundException("Project Not Found");
+        }
+
+
+    }
+
+    /**
+     * filter parameters for delete
+     *
+     * @return array
+     * @throws InvalidParamException
+     */
     protected function filterDeleteParameters()
     {
         $filters[] = array();
@@ -206,6 +284,23 @@ class ActivityAPI extends EndPoint
         }
 
         return $filters;
+
+    }
+
+    /**
+     * Check activity before delete
+     *
+     * @param $activity
+     * @param $project
+     * @param $newActivityName
+     * @throws RecordNotFoundException
+     */
+    public function checkActivityForDelete($activity, $project)
+    {
+        if(!$activity instanceof \ProjectActivity || $activity->getIsDeleted() == 1){
+
+            throw  new RecordNotFoundException('Activity Not Found');
+        }
 
     }
 
@@ -232,61 +327,6 @@ class ActivityAPI extends EndPoint
             self::PARAMETER_ACTIVITY_ID => array('IntVal' => true, 'NotEmpty' => true),
             self::PARAMETER_PROJECT_ID => array('IntVal' => true, 'NotEmpty' => true, 'Length' => array(1, 200)),
         );
-    }
-
-    /**
-     * Check Activity Name
-     *
-     * @param \Project $project
-     * @param $activityName
-     * @return bool
-     * @throws InvalidParamException
-     */
-    public function checkActivityName(\Project $project, $activityName)
-    {
-        $activityList = $this->getProjectService()->getActivityListByProjectId($project->getProjectId());
-        foreach ($activityList as $activity) {
-            if ($activity->getName() == $activityName) {
-                throw new InvalidParamException('Activity Name Already Exists');
-            }
-
-        }
-        return true;
-    }
-
-    /**
-     * Get Project Activity
-     *
-     * @param $activityName
-     * @return mixed
-     * @throws InvalidParamException
-     */
-    public function getProjectActivity($activityName)
-    {
-        $activity = $this->getProjectService()->getProjectActivityById($activityName);
-        if ($activity instanceof \ProjectActivity) {
-            return $activity;
-        } else {
-            throw new InvalidParamException("Project Activity Not Found");
-        }
-
-    }
-
-    /**
-     * Check activity before delete
-     *
-     * @param $activity
-     * @param $project
-     * @param $newActivityName
-     * @throws RecordNotFoundException
-     */
-    public function checkActivityForDelete($activity, $project)
-    {
-        if(!$activity instanceof \ProjectActivity || $activity->getIsDeleted() == 1){
-
-            throw  new RecordNotFoundException('Activity Not Found');
-        }
-
     }
 
 }

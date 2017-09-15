@@ -34,39 +34,9 @@ class EmployeeTimeSheetRowDeleteAPI extends EndPoint
     const PARAMETER_PROJECT_ID = "projectId";
     const PARAMETER_ACTIVITY_ID = "activityId";
     const PARAMETER_EMPLOYEE_ID = 'id';
+    const PARAMETER_START_DATE  = 'startDate';
 
     private $employeeService;
-
-    /**
-     * @return \EmployeeService|null
-     */
-    protected function getEmployeeService()
-    {
-
-        if ($this->employeeService != null) {
-            return $this->employeeService;
-        } else {
-            return new \EmployeeService();
-        }
-    }
-
-    public function setEmployeeService($employeeService)
-    {
-        $this->employeeService = $employeeService;
-    }
-
-    /**
-     * @return TimesheetService
-     */
-    public function getTimesheetService()
-    {
-        if (is_null($this->timesheetService)) {
-
-            $this->timesheetService = new \TimesheetService();
-        }
-
-        return $this->timesheetService;
-    }
 
     /**
      * @param mixed $employeeEventService
@@ -77,20 +47,31 @@ class EmployeeTimeSheetRowDeleteAPI extends EndPoint
     }
 
     /**
-     * Timesheet row delete
+     * Delete timeSheet rows
      *
      * @return Response
      * @throws BadRequestException
+     * @throws InvalidParamException
      */
     public function deleteTimeSheetRows()
     {
-
         $filters = $this->filterParameters();
         $timeSheetId = $filters[self::PARAMETER_TIMESHEET_ID];
         $employeeId = $filters[self::PARAMETER_EMPLOYEE_ID];
         $projectId = $filters[self::PARAMETER_PROJECT_ID];
         $activityId = $filters[self::PARAMETER_ACTIVITY_ID];
+        $startDate  = $filters[self::PARAMETER_START_DATE];
         $this->validateEmployee($employeeId);
+
+        if (!empty($startDate)) {
+            $employeeTimeSheet = $this->getTimesheetService()->getTimesheetByStartDateAndEmployeeId($startDate,
+                $employeeId);
+            if ($employeeTimeSheet != null) {
+                $timeSheetId = $employeeTimeSheet->getTimesheetId();
+            }else {
+                throw new InvalidParamException("No Timesheet Available For Given Date");
+            }
+        }
 
         $isDeleted = $this->getTimesheetService()->deleteTimesheetItems($employeeId, $timeSheetId, $projectId,
             $activityId);
@@ -130,19 +111,12 @@ class EmployeeTimeSheetRowDeleteAPI extends EndPoint
         if (!empty($this->getRequestParams()->getUrlParam(self::PARAMETER_EMPLOYEE_ID))) {
             $filters[self::PARAMETER_EMPLOYEE_ID] = $this->getRequestParams()->getUrlParam(self::PARAMETER_EMPLOYEE_ID);
         }
+        if (!empty($this->getRequestParams()->getUrlParam(self::PARAMETER_START_DATE))) {
+            $filters[self::PARAMETER_START_DATE] = $this->getRequestParams()->getUrlParam(self::PARAMETER_START_DATE);
+        }
 
         return $filters;
 
-    }
-
-    public function deleteValidationRules()
-    {
-        return array(
-            self::PARAMETER_PROJECT_ID => array('IntVal' => true, 'NotEmpty' => true),
-            self::PARAMETER_ACTIVITY_ID => array('IntVal' => true, 'NotEmpty' => true),
-            self::PARAMETER_TIMESHEET_ID => array('IntVal' => true, 'NotEmpty' => true)
-
-        );
     }
 
     /**
@@ -157,6 +131,48 @@ class EmployeeTimeSheetRowDeleteAPI extends EndPoint
         if (!$employee instanceof \Employee) {
             throw new BadRequestException("Employee Not Found");
         }
+    }
+
+    /**
+     * @return \EmployeeService|null
+     */
+    protected function getEmployeeService()
+    {
+
+        if ($this->employeeService != null) {
+            return $this->employeeService;
+        } else {
+            return new \EmployeeService();
+        }
+    }
+
+    public function setEmployeeService($employeeService)
+    {
+        $this->employeeService = $employeeService;
+    }
+
+    /**
+     * @return TimesheetService
+     */
+    public function getTimesheetService()
+    {
+        if (is_null($this->timesheetService)) {
+
+            $this->timesheetService = new \TimesheetService();
+        }
+
+        return $this->timesheetService;
+    }
+
+    public function deleteValidationRules()
+    {
+        return array(
+            self::PARAMETER_PROJECT_ID => array('IntVal' => true, 'NotEmpty' => true),
+            self::PARAMETER_ACTIVITY_ID => array('IntVal' => true, 'NotEmpty' => true),
+            self::PARAMETER_TIMESHEET_ID => array('IntVal' => true, 'NotEmpty' => true),
+            self::PARAMETER_START_DATE =>  array( 'Date' => array('Y-m-d')),
+
+        );
     }
 
 }

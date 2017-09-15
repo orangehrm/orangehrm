@@ -42,52 +42,6 @@ class ProjectAPI extends EndPoint
     private $employeeService;
 
     /**
-     *
-     * @return ProjectService
-     */
-    public function getCustomerService()
-    {
-        if (is_null($this->customerService)) {
-            $this->customerService = new \CustomerService();
-        }
-        return $this->customerService;
-    }
-
-    /**
-     *
-     * @return ProjectService
-     */
-    public function getProjectService()
-    {
-        if (is_null($this->projectService)) {
-            $this->projectService = new \ProjectService();
-        }
-        return $this->projectService;
-    }
-
-    /**
-     * Get Employee service
-     *
-     * @return \EmployeeService|null
-     */
-    protected function getEmployeeService()
-    {
-        if ($this->employeeService != null) {
-            return $this->employeeService;
-        } else {
-            return new \EmployeeService();
-        }
-    }
-
-    /**
-     * @param $employeeService
-     */
-    public function setEmployeeService($employeeService)
-    {
-        $this->employeeService = $employeeService;
-    }
-
-    /**
      * Get projects
      *
      * @return Response
@@ -111,6 +65,23 @@ class ProjectAPI extends EndPoint
     }
 
     /**
+     *
+     * @return ProjectService
+     */
+    public function getProjectService()
+    {
+        if (is_null($this->projectService)) {
+            $this->projectService = new \ProjectService();
+        }
+        return $this->projectService;
+    }
+
+    public function setProjectService(\ProjectService $projectService)
+    {
+        $this->projectService = $projectService;
+    }
+
+    /**
      * Save project
      *
      * @return Response
@@ -119,109 +90,13 @@ class ProjectAPI extends EndPoint
     {
         $filters = $this->filterParameters();
         $this->validateParameters($filters);
-        $this->buildProjectAndSave($project = null, $filters);
+        $project = $this->buildProjectAndSave(null, $filters);
 
         if (!empty($filters['admins'])) {
             $this->saveProjectAdmins($filters['admins'], $project->getProjectId());
         }
 
-        return new Response(array('success' => 'Successfully Saved'));
-    }
-
-    /**
-     * Update project
-     *
-     * @return Response
-     * @throws InvalidParamException
-     * @throws RecordNotFoundException
-     */
-    function updateProject()
-    {
-        $filters = $this->filterParameters();
-        $projectId = $filters[self::PARAMETER_PROJECT_ID];
-        if (empty($projectId)) {
-            throw new InvalidParamException("Project Id Needed");
-        }
-        $project = $this->getProjectService()->getProjectById($projectId);
-        $this->validateParameters($filters,true,filter[self::PARAMETER_NAME],$project);
-
-        if ($project instanceof \Project) {
-
-            $this->buildProjectAndSave($project, $filters);
-            $projectAdmins = $filters['admins'];
-            $existingProjectAdmins = $project->getProjectAdmin();
-            $idList = array();
-            if ($existingProjectAdmins[0]->getEmpNumber() != "") {
-                foreach ($existingProjectAdmins as $existingProjectAdmin) {
-                    $id = $existingProjectAdmin->getEmpNumber();
-                    if (!in_array($id, $projectAdmins)) {
-                        $existingProjectAdmin->delete();
-                    } else {
-                        $idList[] = $id;
-                    }
-                }
-            }
-
-            $this->resultArray = array();
-
-            $adminList = array_diff($projectAdmins, $idList);
-            $newList = array();
-            foreach ($adminList as $admin) {
-                $newList[] = $admin;
-            }
-            $projectAdmins = $newList;
-            $this->saveProjectAdmins($projectAdmins, $project->getProjectId());
-            return new Response(array('success' => 'Successfully Updated'));
-        } else {
-            throw new RecordNotFoundException("Project Not Found");
-        }
-
-    }
-
-    /**
-     * Delete Project
-     *
-     * @return Response
-     * @throws InvalidParamException
-     * @throws RecordNotFoundException
-     */
-    public function deleteProject()
-    {
-        $filters = $this->filterDeleteParameters();
-        $projectId = $filters[self::PARAMETER_PROJECT_ID];
-        $project = $this->getProjectService()->getProjectById($projectId);
-        if ($project instanceof \Project && $project->getIsDeleted() == 0) {
-            $hasTimeSheets = $this->getProjectService()->hasProjectGotTimesheetItems($projectId);
-
-            if (!$hasTimeSheets) {
-                $this->getProjectService()->deleteProject($projectId);
-                return new Response(array('success' => 'Successfully Deleted'));
-
-            } else {
-                throw new InvalidParamException("Not Allowed to Delete Project(s) Which Have Time Logged Against Them");
-            }
-        } else {
-            throw new RecordNotFoundException("Project Not Found");
-        }
-
-    }
-
-    /**
-     * Build project and save project
-     *
-     * @param \Project $project
-     * @param $filters
-     */
-    protected function buildProjectAndSave($project, $filters)
-    {
-        if ($project == null) {
-            $project = new \Project();
-        }
-        $project->setCustomerId($filters[self::PARAMETER_CUSTOMER_ID]);
-        $project->setName($filters[self::PARAMETER_NAME]);
-        $project->setDescription($filters[self::PARAMETER_DESCRIPTION]);
-        $project->save();
-
+        return new Response(array('success' => 'Successfully Saved','projectId'=>$project->getProjectId()));
     }
 
     /**
@@ -272,6 +147,217 @@ class ProjectAPI extends EndPoint
     }
 
     /**
+     * Checking admins list for duplicates
+     *
+     * @param array $input_array
+     * @return bool
+     */
+    function no_dupes(array $input_array)
+    {
+        return count($input_array) === count(array_flip($input_array));
+    }
+
+    /**
+     * Validate employee
+     *
+     * @param $empId
+     * @throws RecordNotFoundException
+     */
+    protected function validateEmployee($empId)
+    {
+        $employee = $this->getEmployeeService()->getEmployee($empId);
+        if (!$employee instanceof \Employee) {
+            throw new RecordNotFoundException("Admin Not Found :" . $empId);
+        }
+    }
+
+    /**
+     * Get Employee service
+     *
+     * @return \EmployeeService|null
+     */
+    protected function getEmployeeService()
+    {
+        if ($this->employeeService != null) {
+            return $this->employeeService;
+        } else {
+            return new \EmployeeService();
+        }
+    }
+
+    /**
+     * @param $employeeService
+     */
+    public function setEmployeeService($employeeService)
+    {
+        $this->employeeService = $employeeService;
+    }
+
+    /**
+     * Validate parameters
+     *
+     * @param $filters
+     * @throws InvalidParamException
+     */
+    protected function validateParameters($filters,$isUpdate = false,$project = null)
+    {
+        $customer = $this->getCustomerService()->getCustomerById($filters[self::PARAMETER_CUSTOMER_ID]);
+
+        if ($customer instanceof \Customer) {
+            if(!$isUpdate){
+                $projectName = $this->getProjectService()->getProjectByName($filters[self::PARAMETER_NAME],$filters[self::PARAMETER_CUSTOMER_ID]);
+                if ($projectName > 0) {
+                    throw new InvalidParamException('Project Name Exists');
+                }
+            }else {
+                if($project->getName() != $filters[self::PARAMETER_NAME]){
+                    $projectName = $this->getProjectService()->getProjectByName($filters[self::PARAMETER_NAME],$filters[self::PARAMETER_CUSTOMER_ID]);
+                    if ($projectName > 0) {
+                        throw new InvalidParamException('Project Name Exists');
+                    }
+                }
+            }
+
+        } else {
+            throw new InvalidParamException("Customer Not Found");
+        }
+
+    }
+
+    /**
+     *
+     * @return ProjectService
+     */
+    public function getCustomerService()
+    {
+        if (is_null($this->customerService)) {
+            $this->customerService = new \CustomerService();
+        }
+        return $this->customerService;
+    }
+
+    /**
+     * Build project and save project
+     *
+     * @param \Project $project
+     * @param $filters
+     */
+    protected function buildProjectAndSave($project, $filters)
+    {
+        if ($project == null) {
+            $project = new \Project();
+        }
+        $project->setCustomerId($filters[self::PARAMETER_CUSTOMER_ID]);
+        $project->setName($filters[self::PARAMETER_NAME]);
+        $project->setDescription($filters[self::PARAMETER_DESCRIPTION]);
+        $project->save();
+        return $project;
+
+    }
+
+    /**
+     * Save project admins
+     *
+     * @param $projectAdmins
+     * @param $projectId
+     */
+    protected function saveProjectAdmins($projectAdmins, $projectId)
+    {
+
+        if ($projectAdmins[0] != null) {
+            for ($i = 0; $i < count($projectAdmins); $i++) {
+                $projectAdmin = new \ProjectAdmin();
+                $projectAdmin->setProjectId($projectId);
+                $projectAdmin->setEmpNumber($projectAdmins[$i]);
+                $projectAdmin->save();
+            }
+        }
+    }
+
+    /**
+     * Update project
+     *
+     * @return Response
+     * @throws InvalidParamException
+     * @throws RecordNotFoundException
+     */
+    function updateProject()
+    {
+        $filters = $this->filterParameters();
+        $projectId = $filters[self::PARAMETER_PROJECT_ID];
+        if (empty($projectId)) {
+            throw new InvalidParamException("Project Id Needed");
+        }
+        $project = $this->getProjectService()->getProjectById($projectId);
+        $this->validateParameters($filters,true,$project);
+
+        if ($project instanceof \Project) {
+
+            $savedProject = $this->buildProjectAndSave($project, $filters);
+            $projectAdmins = $filters['admins'];
+            $existingProjectAdmins = $project->getProjectAdmin();
+            $idList = array();
+
+            if(is_array($projectAdmins)){
+
+                if ($existingProjectAdmins[0]->getEmpNumber() != "") {
+                    foreach ($existingProjectAdmins as $existingProjectAdmin) {
+                        $id = $existingProjectAdmin->getEmpNumber();
+                        if (!in_array($id, $projectAdmins)) {
+                            $existingProjectAdmin->delete();
+                        } else {
+                            $idList[] = $id;
+                        }
+                    }
+                }
+
+                $this->resultArray = array();
+
+                $adminList = array_diff($projectAdmins, $idList);
+                $newList = array();
+                foreach ($adminList as $admin) {
+                    $newList[] = $admin;
+                }
+                $projectAdmins = $newList;
+                $this->saveProjectAdmins($projectAdmins, $savedProject->getProjectId());
+            }
+
+            return new Response(array('success' => 'Successfully Updated'));
+        } else {
+            throw new RecordNotFoundException("Project Not Found");
+        }
+
+    }
+
+    /**
+     * Delete Project
+     *
+     * @return Response
+     * @throws InvalidParamException
+     * @throws RecordNotFoundException
+     */
+    public function deleteProject()
+    {
+        $filters = $this->filterDeleteParameters();
+        $projectId = $filters[self::PARAMETER_PROJECT_ID];
+        $project = $this->getProjectService()->getProjectById($projectId);
+        if ($project instanceof \Project && $project->getIsDeleted() == 0) {
+            $hasTimeSheets = $this->getProjectService()->hasProjectGotTimesheetItems($projectId);
+
+            if (!$hasTimeSheets) {
+                $this->getProjectService()->deleteProject($projectId);
+                return new Response(array('success' => 'Successfully Deleted'));
+
+            } else {
+                throw new InvalidParamException("Not Allowed to Delete Project(s) Which Have Time Logged Against Them");
+            }
+        } else {
+            throw new RecordNotFoundException("Project Not Found");
+        }
+
+    }
+
+    /**
      * Filter delete parameters
      *
      * @return array
@@ -315,81 +401,6 @@ class ProjectAPI extends EndPoint
             self::PARAMETER_PROJECT_ID => array("IntVal" => true, 'NotEmpty' => true, 'Length' => array(0, 5))
 
         );
-    }
-
-    /**
-     * Validate parameters
-     *
-     * @param $filters
-     * @throws InvalidParamException
-     */
-    protected function validateParameters($filters,$isUpdate = false,$newName ='',$project = null)
-    {
-        $customer = $this->getCustomerService()->getCustomerById($filters[self::PARAMETER_CUSTOMER_ID]);
-
-        if ($customer instanceof \Customer) {
-            if(!$isUpdate){
-                $projectName = $this->getProjectService()->getProjectByName($filters[self::PARAMETER_NAME]);
-                if ($projectName > 0) {
-                    throw new InvalidParamException('Project Name Exists');
-                }
-            }else {
-                if($project->getName() != $newName){
-                    $projectName = $this->getProjectService()->getProjectByName($filters[self::PARAMETER_NAME]);
-                    if ($projectName > 0) {
-                        throw new InvalidParamException('Project Name Exists');
-                    }
-                }
-            }
-
-        } else {
-            throw new InvalidParamException("Customer Not Found");
-        }
-
-    }
-
-    /**
-     * Validate employee
-     *
-     * @param $empId
-     * @throws RecordNotFoundException
-     */
-    protected function validateEmployee($empId)
-    {
-        $employee = $this->getEmployeeService()->getEmployee($empId);
-        if (!$employee instanceof \Employee) {
-            throw new RecordNotFoundException("Admin Not Found :" . $empId);
-        }
-    }
-
-    /**
-     * Save project admins
-     *
-     * @param $projectAdmins
-     * @param $projectId
-     */
-    protected function saveProjectAdmins($projectAdmins, $projectId)
-    {
-
-        if ($projectAdmins[0] != null) {
-            for ($i = 0; $i < count($projectAdmins); $i++) {
-                $projectAdmin = new \ProjectAdmin();
-                $projectAdmin->setProjectId($projectId);
-                $projectAdmin->setEmpNumber($projectAdmins[$i]);
-                $projectAdmin->save();
-            }
-        }
-    }
-
-    /**
-     * Checking admins list for duplicates
-     *
-     * @param array $input_array
-     * @return bool
-     */
-    function no_dupes(array $input_array)
-    {
-        return count($input_array) === count(array_flip($input_array));
     }
 
 }
