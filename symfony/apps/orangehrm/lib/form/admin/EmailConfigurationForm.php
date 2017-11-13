@@ -22,6 +22,7 @@
  */
 class EmailConfigurationForm extends BaseForm {
 
+    const EIGHT_STARS = "********";
     private $emailConfigurationService;
     private $emailConfiguration;
 
@@ -105,7 +106,7 @@ class EmailConfigurationForm extends BaseForm {
              'txtSmtpPort' => $emailConfiguration->getSmtpPort(),
              'optAuth' => $emailConfiguration->getSmtpAuthType(),
              'txtSmtpUser' => $emailConfiguration->getSmtpUsername(),
-             'txtSmtpPass' => $emailConfiguration->getSmtpPassword(),
+             'txtSmtpPass' => self::EIGHT_STARS,
              'optSecurity' => $emailConfiguration->getSmtpSecurityType(),
              'txtTestEmail' => '',
          ));
@@ -125,7 +126,9 @@ class EmailConfigurationForm extends BaseForm {
         $this->emailConfiguration->setSmtpPort($stmpPort ? $stmpPort : NULL);
         $this->emailConfiguration->setSmtpAuthType($this->getValue('optAuth'));
         $this->emailConfiguration->setSmtpUsername($this->getValue('txtSmtpUser'));
-        $this->emailConfiguration->setSmtpPassword($this->getValue('txtSmtpPass'));
+        if($this->getValue('txtSmtpPass') !=   self::EIGHT_STARS) {
+            $this->emailConfiguration->setSmtpPassword($this->getValue('txtSmtpPass'));
+        }
         $this->emailConfiguration->setSmtpSecurityType($this->getValue('optSecurity'));
         $this->getEmailConfigurationService()->saveEmailConfiguration($this->emailConfiguration);
     }
