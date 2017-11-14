@@ -17,10 +17,13 @@
  * if not, write to the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
  * Boston, MA  02110-1301, USA
  */
+
+
 class saveSystemUserAction extends sfAction {
 
     private $systemUserService;
     private $configService;
+    private $securityAuthenticationConfigService;
 
     public function getSystemUserService() {        
         if (is_null($this->systemUserService)) {
@@ -56,6 +59,17 @@ class saveSystemUserAction extends sfAction {
 
     /**
      *
+     * @return \SecurityAuthenticationConfigService
+     */
+    public function getSecurityAuthenticationConfigService() {
+        if (is_null($this->securityAuthenticationConfigService)) {
+            $this->securityAuthenticationConfigService = new SecurityAuthenticationConfigService();
+        }
+        return $this->securityAuthenticationConfigService;
+    }
+
+    /**
+     *
      * @return sfForm 
      */
     public function getForm() {
@@ -71,6 +85,13 @@ class saveSystemUserAction extends sfAction {
         $this->userId = $request->getParameter('userId');
         $values = array('userId' => $this->userId, 'sessionUser' => $this->getUser()->getAttribute('user'));
         $this->setForm(new SystemUserForm(array(), $values));
+
+        $this->passwordStrengthEnforced = $this->getSecurityAuthenticationConfigService()->isPasswordStengthEnforced();
+        $this->requiredPasswordStrength = $this->getSecurityAuthenticationConfigService()->getRequiredPasswordStength();
+
+        $currentStrengthKey = $this->getSecurityAuthenticationConfigService()->getCurrentPasswordStrength();
+        $strengthArray =$this->getSecurityAuthenticationConfigService()->getPasswordStrengthsWithViewValues();
+        $this->currentPasswordStrength = strtolower($strengthArray[$currentStrengthKey]);
 
         if ($request->getParameter('userId')) {
             $userRoleManager = $this->getContext()->getUserRoleManager();
