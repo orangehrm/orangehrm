@@ -25,14 +25,14 @@ class ChangeUserPasswordForm extends BaseForm {
         $this->setWidgets(array(
             'userId' => new sfWidgetFormInputHidden(),
             'currentPassword' => new sfWidgetFormInputPassword(array(), array("class" => "formInputText", "maxlength" => 20)),
-            'newPassword' => new sfWidgetFormInputPassword(array(), array("class" => "formInputText", "maxlength" => 20)),
+            'newPassword' => new ohrmWidgetFormInputPassword(array(), array("class" => "formInputText password", "autocomplete" => "off")),
             'confirmNewPassword' => new sfWidgetFormInputPassword(array(), array("class" => "formInputText", "maxlength" => 20))
         ));
 
         $this->setValidators(array(
             'userId' => new sfValidatorNumber(array('required' => false)),
             'currentPassword' => new sfValidatorString(array('required' => true, 'max_length' => 20)),
-            'newPassword' => new sfValidatorString(array('required' => true, 'max_length' => 20)),
+            'newPassword' => new ohrmValidatorPassword(array('required' => false, 'max_length' => 64)),
             'confirmNewPassword' => new sfValidatorString(array('required' => true, 'max_length' => 20))
         ));
 
