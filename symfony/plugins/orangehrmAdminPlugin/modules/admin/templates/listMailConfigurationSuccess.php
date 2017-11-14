@@ -100,7 +100,18 @@
         //Disable all fields
         $('#frmSave :input').attr('disabled', true);
         $('#editBtn').removeAttr('disabled');
-        
+
+        $('#emailConfigurationForm_txtSmtpPass').on('click focusin', function() {
+            this.value = '';
+        });
+
+        $('#emailConfigurationForm_txtSmtpPass').on('focusout', function() {
+            if(this.value === ''){
+                this.value = '<?php echo EmailConfigurationForm::EIGHT_STARS?>';
+            }
+        });
+
+
         // Displaying the appropriate send mail method controls when page is ready
         toggleSendMailMethodControls();
         
