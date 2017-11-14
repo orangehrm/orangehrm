@@ -86,13 +86,6 @@ class saveSystemUserAction extends sfAction {
         $values = array('userId' => $this->userId, 'sessionUser' => $this->getUser()->getAttribute('user'));
         $this->setForm(new SystemUserForm(array(), $values));
 
-        $this->passwordStrengthEnforced = $this->getSecurityAuthenticationConfigService()->isPasswordStengthEnforced();
-        $this->requiredPasswordStrength = $this->getSecurityAuthenticationConfigService()->getRequiredPasswordStength();
-
-        $currentStrengthKey = $this->getSecurityAuthenticationConfigService()->getCurrentPasswordStrength();
-        $strengthArray =$this->getSecurityAuthenticationConfigService()->getPasswordStrengthsWithViewValues();
-        $this->currentPasswordStrength = strtolower($strengthArray[$currentStrengthKey]);
-
         if ($request->getParameter('userId')) {
             $userRoleManager = $this->getContext()->getUserRoleManager();
             $accessible = $userRoleManager->isEntityAccessible('SystemUser', $request->getParameter('userId'));

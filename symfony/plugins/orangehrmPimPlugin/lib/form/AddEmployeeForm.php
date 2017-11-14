@@ -76,10 +76,10 @@ class AddEmployeeForm extends sfForm {
                 'file_src' => ''), array("class" => "duplexBox")),
             'chkLogin' => new sfWidgetFormInputCheckbox(array('value_attribute_value' => 1), array()),
             'user_name' => new sfWidgetFormInputText(array(), array("class" => "formInputText", "maxlength" => 40)),
-            'user_password' => new sfWidgetFormInputPassword(array(), array("class" => "formInputText passwordRequired", 
-                "maxlength" => 20)),
+            'user_password' => new ohrmWidgetFormInputPassword(array(), array("class" => "formInputText passwordRequired",
+                "maxlength" => 64)),
             're_password' => new sfWidgetFormInputPassword(array(), array("class" => "formInputText passwordRequired", 
-                "maxlength" => 20)),
+                "maxlength" => 64)),
             'status' => new sfWidgetFormSelect(array('choices' => $status), array("class" => "formInputText")),            
             'empNumber' => new sfWidgetFormInputHidden(),
         );
@@ -118,7 +118,7 @@ class AddEmployeeForm extends sfForm {
             'employeeId' => new sfValidatorString(array('required' => false, 'max_length' => 10)),
             'chkLogin' => new sfValidatorString(array('required' => false)),
             'user_name' => new sfValidatorString(array('required' => false, 'max_length' => 40, 'trim' => true)),
-            'user_password' => new sfValidatorString(array('required' => false, 'max_length' => 20, 'trim' => true)),
+            'user_password' => new ohrmValidatorPassword(array('required' => false, 'max_length' => 64, 'trim' => true)),
             're_password' => new sfValidatorString(array('required' => false, 'max_length' => 20, 'trim' => true)),
             'status' => new sfValidatorString(array('required' => false))
         ));
