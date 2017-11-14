@@ -35,7 +35,7 @@ class beaconAboutComponent extends sfComponent {
         if ($companyInfo) {
             $this->companyName = $companyInfo->getName();
         }
-        $this->version = 'Orangehrm OS 4.0.1';
+        $this->version = 'Orangehrm OS 4.0';
         $totalEmployeeCount = $employeeService->getEmployeeCount(true);
 
         $this->activeEmployeeCount = $employeeService->getEmployeeCount(false);

@@ -241,7 +241,7 @@ class BeaconCommunicationsService extends BaseService implements StateAccessible
             'httphost' => urlencode($_SERVER['HTTP_HOST']),
             'phpVersion' => urlencode(constant('PHP_VERSION')),
             'server' => urlencode($_SERVER['SERVER_SOFTWARE']),
-            'ohrmVersion' => urlencode('Open Source 4.0.1'),
+            'ohrmVersion' => urlencode('Open Source 4.0'),
         ));
         
         
