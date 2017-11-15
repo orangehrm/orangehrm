@@ -6,6 +6,14 @@ class validateCredentialsAction extends sfAction {
     protected $homePageService;
     protected $beaconCommunicationService;
     protected $loginService;
+    private $passwordHelper;
+
+    public function getPasswordHelper(){
+        if (!($this->passwordHelper instanceof PasswordHelper)) {
+            $this->passwordHelper = new PasswordHelper();
+        }
+        return $this->passwordHelper;
+    }
     
     /**
      * 
@@ -42,17 +50,21 @@ class validateCredentialsAction extends sfAction {
 
             try {
 
-                $success = $this->getAuthenticationService()->setCredentials($username, $password, $additionalData);
+                if(!$this->getPasswordHelper()->isPasswordStrongWithEnforcement($password)){
+                    $this->redirect('auth/changeWeakPassword');
+                }else{
+                    $success = $this->getAuthenticationService()->setCredentials($username, $password, $additionalData);
 
-                if ($success) {
-                    
-                    $this->getBeaconCommunicationService()->setBeaconActivation();
-                    $this->getLoginService()->addLogin();
-                    $this->redirect($this->getHomePageService()->getPathAfterLoggingIn($this->getContext()));
-                    
-                } else {
-                    $this->getUser()->setFlash('message', __('Invalid credentials'), true);
-                    $this->forward('auth', 'retryLogin');
+                    if ($success) {
+
+                        $this->getBeaconCommunicationService()->setBeaconActivation();
+                        $this->getLoginService()->addLogin();
+                        $this->redirect($this->getHomePageService()->getPathAfterLoggingIn($this->getContext()));
+
+                    } else {
+                        $this->getUser()->setFlash('message', __('Invalid credentials'), true);
+                        $this->forward('auth', 'retryLogin');
+                    }
                 }
             } catch (AuthenticationServiceException $e) {
 
