@@ -61,6 +61,7 @@ class changeWeakPasswordAction extends sfAction
                 if($success){
                     $this->userId = $this->getUser()->getAttribute('user')->getUserId();
                     $this->getSystemUserService()->updatePassword($this->userId, $newPassword);
+                    unset($_SESSION['username']);
                     $this->getUser()->setFlash('success', __('Password changed successfully'));
                     $this->redirect('auth/login');
                 }else{
