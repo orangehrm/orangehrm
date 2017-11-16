@@ -99,11 +99,6 @@ class PasswordHelper {
 
     public function isPasswordStrongWithEnforcement($password){
 	    if($this->getSecurityAuthenticationConfigService()->isPasswordStengthEnforced()){
-//	        var_dump($this->getPasswordStrength($password));
-//	        var_dump($this->getSecurityAuthenticationConfigService()->getRequiredPasswordStength());
-//
-//	        var_dump($this->getPasswordStrength($password) >= $this->getSecurityAuthenticationConfigService()->getRequiredPasswordStength());
-//	        var_dump($password);die;
             return $this->getPasswordStrength($password) >= $this->getSecurityAuthenticationConfigService()->getRequiredPasswordStength() && strlen($password)>=self::PASSWORD_MIN_LENGTH;
         }
         return true;

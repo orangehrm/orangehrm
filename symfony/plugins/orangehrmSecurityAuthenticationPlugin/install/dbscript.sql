@@ -1,15 +1,4 @@
 INSERT INTO `hs_hr_config` (`key`, `value`) VALUES
 ('authentication.status', 'Enable'),
-('authentication.user_can_reset', 'off'),
-('authentication.enable_captcha', 'on'),
-('authentication.block_access', 'on'),
-('authentication.attempts_for_captcha', '3'),
-('authentication.attempts_for_block', '10'),
-('authentication.blocked_duration', '1:00:00'),
-('authentication.secondary_password_enabled', 'off'),
-('authentication.password_expiration_enabled', 'on'),
-('authentication.num_of_months_for_password_expiration', '3'),
-('authentication.admin_can_reset', 'off'),
-('authentication.notify_employee_after_user_creation', 'off'),
 ('authentication.enforce_password_strength', 'on'),
 ('authentication.default_required_password_strength', 'strong');
