@@ -52,7 +52,7 @@ class changeWeakPasswordAction extends sfAction
         }
 
         if ($request->isMethod(sfRequest::POST)) {
-            $formData = $request->getParameter('securityAuthentication');
+            $formData = $request->getParameter('changeWeakPassword');
             $this->form->bind($formData);
             if ($this->form->isValid()) {
                 $currentPassword = $formData['currentPassword'];

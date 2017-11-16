@@ -27,7 +27,7 @@ class ohrmWidgetFormInputPassword extends sfWidgetFormInputPassword
   {
       $html = parent::render($name, $value, $attributes, $errors);
       $helpText = __('For a strong password, please use a hard to guess combination of text with upper and lower case characters, symbols and numbers');
-      $helpTextObjectAsHtml = "<span>$helpText</span>";
+      $helpTextObjectAsHtml = "<div id='helpText'><span>$helpText</span>";
 
       $id = $this->generateId($name);
       $html .= content_tag('div', tag('span', array('id' => $id . '_help_text', 'class' => 'validation-error')));
