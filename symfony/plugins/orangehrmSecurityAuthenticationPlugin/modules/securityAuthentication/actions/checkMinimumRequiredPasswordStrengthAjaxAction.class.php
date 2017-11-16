@@ -17,25 +17,28 @@
  * if not, write to the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
  * Boston, MA  02110-1301, USA
  */
- 
-
-
 
 /**
  * Return password has required Strength
  */
-class checkMinimumRequiredPasswordStrengthAjaxAction extends sfAction {
+class checkMinimumRequiredPasswordStrengthAjaxAction extends sfAction
+{
 
     private $passwordHelper;
 
-    public function execute($request) {
+    public function execute($request)
+    {
         $password = $request->getParameter('password');
         $valid = $this->getPasswordHelper()->isPasswordStrongWithEnforcement($password);
 
         return $this->renderText(json_encode($valid));
     }
 
-    public function getPasswordHelper(){
+    /**
+     * @return PasswordHelper
+     */
+    public function getPasswordHelper()
+    {
         if (!($this->passwordHelper instanceof PasswordHelper)) {
             $this->passwordHelper = new PasswordHelper();
         }

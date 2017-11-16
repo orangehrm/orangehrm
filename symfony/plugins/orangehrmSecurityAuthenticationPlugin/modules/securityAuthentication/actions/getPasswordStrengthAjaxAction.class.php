@@ -18,26 +18,30 @@
  * Boston, MA  02110-1301, USA
  */
 
-
-
 /**
  * Return Password Strength
  */
-class getPasswordStrengthAjaxAction extends sfAction {
+class getPasswordStrengthAjaxAction extends sfAction
+{
 
     private $passwordHelper;
 
-    public function execute($request) {
+    public function execute($request)
+    {
         $password = $request->getParameter('password');
         $score = $this->getPasswordHelper()->getPasswordStrength($password);
         $validationMsg = $this->getPasswordHelper()->getCustomValidationBasedOnPassword($password);
         $colorClass = $this->getPasswordHelper()->getColorClass($score);
 
-        $returnData = array('score' => $score, 'colorClass'=>$colorClass, 'validationMsg'=>$validationMsg);
+        $returnData = array('score' => $score, 'colorClass' => $colorClass, 'validationMsg' => $validationMsg);
         return $this->renderText(json_encode($returnData));
     }
 
-    public function getPasswordHelper(){
+    /**
+     * @return PasswordHelper
+     */
+    public function getPasswordHelper()
+    {
         if (!($this->passwordHelper instanceof PasswordHelper)) {
             $this->passwordHelper = new PasswordHelper();
         }
