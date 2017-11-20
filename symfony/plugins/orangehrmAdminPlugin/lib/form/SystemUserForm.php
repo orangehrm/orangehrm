@@ -47,8 +47,8 @@ class SystemUserForm extends BaseForm {
             'userName' => new sfWidgetFormInputText(array(), array("class" => "formInputText", "maxlength" => 40)),
             'status' => new sfWidgetFormSelect(array('choices' => $statusList), array("class" => "formSelect", "maxlength" => 3)),
             'chkChangePassword' => new sfWidgetFormInputCheckbox(array(), array('class' => 'chkChangePassword', 'value' => 'on')),
-            'password' => new ohrmWidgetFormInputPassword(array(), array("class" => "formInputText password", "autocomplete" => "off")),
-            'confirmPassword' => new sfWidgetFormInputPassword(array(), array("class" => "formInputText password", "maxlength" => 20))
+            'password' => new ohrmWidgetFormInputPassword(array(), array("class" => "formInputText password", "autocomplete" => "off", "maxlenght" => 64, "minlength" => 8)),
+            'confirmPassword' => new sfWidgetFormInputPassword(array(), array("class" => "formInputText password", "maxlength" => 64, "minlength" => 8))
         ));
 
         $this->setValidators(array(
@@ -58,7 +58,7 @@ class SystemUserForm extends BaseForm {
             'employeeName' => new ohrmValidatorEmployeeNameAutoFill(),
             'userName' => new sfValidatorString(array('required' => true, 'max_length' => 40)),
             'password' => new ohrmValidatorPassword(array('required' => false, 'max_length' => 64)),
-            'confirmPassword' => new sfValidatorString(array('required' => false, 'max_length' => 64)),
+            'confirmPassword' => new sfValidatorPassword(array('required' => false,'min_length' => 8, 'max_length' => 64, 'trim' => true)),
             'status' => new sfValidatorString(array('required' => true, 'max_length' => 1)),
             'chkChangePassword' => new sfValidatorString(array('required' => false))
         ));

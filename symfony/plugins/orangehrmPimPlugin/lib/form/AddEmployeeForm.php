@@ -119,7 +119,7 @@ class AddEmployeeForm extends sfForm {
             'chkLogin' => new sfValidatorString(array('required' => false)),
             'user_name' => new sfValidatorString(array('required' => false, 'max_length' => 40, 'trim' => true)),
             'user_password' => new ohrmValidatorPassword(array('required' => false, 'max_length' => 64, 'trim' => true)),
-            're_password' => new sfValidatorString(array('required' => false, 'max_length' => 20, 'trim' => true)),
+            're_password' => new sfValidatorPassword(array('required' => false,'min_length' => 8, 'max_length' => 64, 'trim' => true)),
             'status' => new sfValidatorString(array('required' => false))
         ));
 

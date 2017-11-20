@@ -32,8 +32,8 @@ class ResetPasswordWithEnforceForm extends sfForm
         $this->setWidgets($this->formWidgets);
 
         $this->formValidators['currentPassword'] = new sfValidatorString(array('required' => false));
-        $this->formValidators['newPassword'] = new ohrmValidatorPassword(array('required' => false));
-        $this->formValidators['passwordConfirmation'] = new sfValidatorString(array('required' => false));
+        $this->formValidators['newPassword'] = new ohrmValidatorPassword(array('required' => false,  'max_length' => 64));
+        $this->formValidators['passwordConfirmation'] = new sfValidatorPassword(array('required' => false,'min_length' => 8, 'max_length' => 64, 'trim' => true));
         $this->widgetSchema->setNameFormat('changeWeakPassword[%s]');
         $this->getWidgetSchema()->setLabels($this->getFormLabels());
         $this->setValidators($this->formValidators);

@@ -64,7 +64,7 @@ $(document).ready(function() {
             'user_name': { validateLoginName: lang_userNameRequired },
             'user_password': {
                 validatePassword: lang_passwordRequired,
-                maxlength: user_Max20Chars,
+                maxlength: user_Max64Chars,
                 minlength: user_UserPasswordLength,
                 remote: lang_passwordStrengthInvalid,
             },

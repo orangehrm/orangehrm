@@ -19,7 +19,7 @@
  *
  */
 
-class ohrmValidatorPassword extends sfValidatorString {
+class ohrmValidatorPassword extends sfValidatorPassword {
 
     private $passwordHelper;
 
