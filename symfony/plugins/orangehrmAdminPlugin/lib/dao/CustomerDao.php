@@ -94,7 +94,8 @@ class CustomerDao extends BaseDao {
         try {
             $q = Doctrine_Query :: create()
                 ->from('Customer')
-                ->where('name = ?',$customerName);
+                ->where('name = ?',$customerName)
+                ->andWhere('is_deleted = ?',0);
             return $q->count();
         } catch (Exception $e) {
             throw new DaoException($e->getMessage());
@@ -289,6 +290,26 @@ class CustomerDao extends BaseDao {
                     ->where('c.customerId = ?', $customerId);
             $count = $q->fetchOne(array(), Doctrine_Core::HYDRATE_SINGLE_SCALAR);
             return ($count > 0);
+        } catch (Exception $e) {
+            throw new DaoException($e->getMessage());
+        }
+    }
+
+    /**
+     * Get Customer by Id ( active )
+     *
+     * @param $customerId
+     * @return mixed
+     * @throws DaoException
+     */
+    public function getActiveCustomerById($id) {
+
+        try {
+            $q = Doctrine_Query :: create()
+                ->from('Customer')
+                ->where('customer_id = ?',$id)
+                ->andWhere('is_deleted = ?',0);
+            return $q->fetchOne();
         } catch (Exception $e) {
             throw new DaoException($e->getMessage());
         }

@@ -23,6 +23,20 @@ class osIntegrationComponent extends sfComponent
 
     protected $configService;
 
+    public function getConfigService()
+    {
+
+        if (!$this->configService instanceof ConfigService) {
+            $this->configService = new ConfigService();
+        }
+        return $this->configService;
+    }
+
+    public function setConfigService($configService)
+    {
+        $this->configService = $configService;
+    }
+
     public function execute($request)
     {
 
@@ -55,7 +69,7 @@ class osIntegrationComponent extends sfComponent
         $processor = new IntegrationXMLProcessor();
 
         if ($xml != null) {
-            foreach ($xml->integration as $integration) {
+            foreach ($xml->integrations[0] as $integration) {
 
                 $content = $integration->content[0]->asXML();
                 foreach ($integration->screen as $screen){
@@ -75,41 +89,24 @@ class osIntegrationComponent extends sfComponent
     }
 
     /**
-     * Get config value
+     * Write content into success file
      *
-     * @return SimpleXMLElement
+     * @param $contentData
      */
-    public function getIntegrationsXML()
+    protected function writeContent($contentData)
     {
-        $configVal = $this->getConfigService()->getIntegrationsConfigValue();
-        if ($configVal != null) {
+        try {
 
-            try {
-                $xml = new SimpleXMLElement($configVal);
-                return $xml;
-            } catch (Exception $e) {
-                $logger = Logger::getLogger("orangehrm.log");
-                $logger->error($e);
-            }
+            $fname = "../plugins/orangehrmAdminPlugin/modules/integration/templates/_osIntegration.php";
+            $fhandle = fopen($fname, "w");
+            fwrite($fhandle, $contentData);
+            fclose($fhandle);
 
-        } else {
-            return null;
+        } catch (Exception $e) {
+            $logger = Logger::getLogger("orangehrm.log");
+            $logger->error($e);
         }
 
-    }
-
-    public function getConfigService()
-    {
-
-        if (!$this->configService instanceof ConfigService) {
-            $this->configService = new ConfigService();
-        }
-        return $this->configService;
-    }
-
-    public function setConfigService($configService)
-    {
-        $this->configService = $configService;
     }
 
     /**
@@ -141,22 +138,25 @@ class osIntegrationComponent extends sfComponent
     }
 
     /**
-     * Write content into success file
+     * Get config value
      *
-     * @param $contentData
+     * @return SimpleXMLElement
      */
-    protected function writeContent($contentData)
+    public function getIntegrationsXML()
     {
-        try {
+        $configVal = $this->getConfigService()->getIntegrationsConfigValue();
+        if ($configVal != null) {
 
-            $fname = "../plugins/orangehrmAdminPlugin/modules/integration/templates/_osIntegration.php";
-            $fhandle = fopen($fname, "w");
-            fwrite($fhandle, $contentData);
-            fclose($fhandle);
+            try {
+                $xml = new SimpleXMLElement($configVal);
+                return $xml;
+            } catch (Exception $e) {
+                $logger = Logger::getLogger("orangehrm.log");
+                $logger->error($e);
+            }
 
-        } catch (Exception $e) {
-            $logger = Logger::getLogger("orangehrm.log");
-            $logger->error($e);
+        } else {
+            return null;
         }
 
     }
