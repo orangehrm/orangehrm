@@ -7520,6 +7520,22 @@
         <source>OAuth Client List</source>
         <target>FR_OAuth Client List</target>
       </trans-unit>
+      <trans-unit id="1880">
+        <source>The password is too weak.</source>
+        <target>FR_The password is too weak.</target>
+      </trans-unit>
+      <trans-unit id="1881">
+        <source>For a strong password, please use a hard to guess combination of text with upper and lower case characters, symbols and numbers</source>
+        <target>FR_For a strong password, please use a hard to guess combination of text with upper and lower case characters, symbols and numbers</target>
+      </trans-unit>
+      <trans-unit id="1882">
+        <source>Your password meets the minimum requirements, but it could be guessable. Try a different password.</source>
+        <target>FR_Your password meets the minimum requirements, but it could be guessable. Try a different password.</target>
+      </trans-unit>
+      <trans-unit id="1883">
+        <source>Your password must contain a lower-case letter, an upper-case letter, a digit and a special character. Try a different password.</source>
+        <target>FR_Your password must contain a lower-case letter, an upper-case letter, a digit and a special character. Try a different password.</target>
+      </trans-unit>
     </body>
   </file>
 </xliff>

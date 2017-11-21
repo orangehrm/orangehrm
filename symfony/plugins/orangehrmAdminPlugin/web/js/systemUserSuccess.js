@@ -1,4 +1,96 @@
 $(document).ready(function() {
+
+    $("#frmSystemUser").validate({
+
+        rules: {
+            'systemUser[userName]' : {
+                required:true,
+                maxlength: 40,
+                minlength: 5,
+                remote: {
+                    url: isUniqueUserUrl,
+                    data: {
+                        user_id: userId
+                    }
+                }
+            },
+            'systemUser[password]' : {
+                required:function(element) {
+                    if(($('#systemUser_chkChangePassword').val() == 'on' || (isEditMode == 'false')) &&
+                        (ldapInstalled == 'false') && openIdEnabled == 'off')
+                        return true;
+                    else
+                        return false;
+                },
+                minlength: 8,
+                maxlength: 64,
+                remote: {
+                    url: requiredStrengthCheckUrl,
+                    data: {
+                        password: function(){return $('#systemUser_password').val();}
+                    }
+                }
+            },
+            'systemUser[confirmPassword]' : {
+                maxlength: 64,
+                equalTo: "#systemUser_password"
+            },
+            'systemUser[secondaryPassword]' : {
+                required:function(element) {
+                    if($('#systemUser_chkChangeSecPassword').attr('checked') == true)
+                        return true;
+                    else
+                        return false;
+                },
+                minlength: 4,
+                maxlength: 20
+            },
+            'systemUser[confirmation]' : {
+                maxlength: 20,
+                equalTo: "#systemUser_secondaryPassword"
+            },
+            'systemUser[employeeName][empName]' : {
+                required:true,
+                maxlength: 200,
+                validEmployeeName: true
+            }
+        },
+        messages: {
+            'systemUser[userName]' : {
+                required: user_UserNameRequired,
+                maxlength: user_Max20Chars,
+                remote: user_name_alrady_taken,
+                minlength: user_UserNameLength
+            },
+            'systemUser[password]' : {
+                required: user_UserPaswordRequired,
+                maxlength: user_Max20Chars,
+                minlength: user_UserPasswordLength,
+                remote: lang_passwordStrengthInvalid,
+            },
+            'systemUser[confirmPassword]' : {
+                required: user_UserConfirmPassword,
+                maxlength: user_Max20Chars,
+                equalTo: user_samePassword
+            },
+            'systemUser[secondaryPassword]' : {
+                required: user_UserPaswordRequired,
+                maxlength: user_Max20Chars,
+                minlength: user_UserPasswordLength
+            },
+            'systemUser[confirmation]' : {
+                required: user_UserConfirmPassword,
+                maxlength: user_Max20Chars,
+                equalTo: user_samePassword
+            },
+            'systemUser[employeeName][empName]' : {
+                required: user_EmployeeNameRequired,
+                validEmployeeName: user_ValidEmployee
+            }
+        }
+
+    });
+
     $("label[for='systemUser_chkChangePassword']").parent('li').addClass('checkChangePassword').hide();
     $("label[for='systemUser_chkChangeSecPassword']").parent('li').addClass('checkChangeSecPassword').hide();
     $('.secPassReq').hide();    
@@ -50,7 +142,7 @@ $(document).ready(function() {
             enableWidgets();
         } else if ($('#btnSave').val() == user_save){
             $('#systemUser_userId').val(userId);
-            if(isValidForm()){          
+            if($("#frmSystemUser").valid()){
                 $('#frmSystemUser').submit();
             }
         }
@@ -63,13 +155,13 @@ $(document).ready(function() {
         disableWidgets();
     }
     
-    $("#systemUser_password").password({
-        score: '.score' 
-    });
-    
-    $("#systemUser_secondaryPassword").password({
-        score: '.scoreSec' 
-    });
+    // $("#systemUser_password").password({
+    //     score: '.score'
+    // });
+    //
+    // $("#systemUser_secondaryPassword").password({
+    //     score: '.scoreSec'
+    // });
         
     $('#btnCancel').click(function() {
         window.location.replace(viewSystemUserUrl+'?userId='+userId);
@@ -102,92 +194,10 @@ $.validator.addMethod("validEmployeeName", function(value, element) {
 });
             
     
-function isValidForm(){
-    validator = $("#frmSystemUser").validate({
-
-        rules: {
-            'systemUser[userName]' : {
-                required:true,
-                maxlength: 40,
-                minlength: 5,
-                remote: {
-                    url: isUniqueUserUrl,
-                    data: {
-                        user_id: userId
-                    }
-                }
-            },
-            'systemUser[password]' : {
-                required:function(element) {
-                    if(($('#systemUser_chkChangePassword').val() == 'on' || (isEditMode == 'false')) && 
-                            (ldapInstalled == 'false') && openIdEnabled == 'off')
-                        return true;
-                    else
-                        return false;
-                },
-                minlength: 4,
-                maxlength: 20
-            },
-            'systemUser[confirmPassword]' : {
-                maxlength: 20,
-                equalTo: "#systemUser_password"
-            },
-            'systemUser[secondaryPassword]' : {
-                required:function(element) {
-                    if($('#systemUser_chkChangeSecPassword').attr('checked') == true)
-                        return true;
-                    else
-                        return false;
-                },
-                minlength: 4,
-                maxlength: 20
-            },
-            'systemUser[confirmation]' : {
-                maxlength: 20,
-                equalTo: "#systemUser_secondaryPassword"
-            },
-            'systemUser[employeeName][empName]' : {
-                required:true,
-                maxlength: 200,
-                validEmployeeName: true
-            }
-        },
-        messages: {
-            'systemUser[userName]' : {
-                required: user_UserNameRequired,
-                maxlength: user_Max20Chars,
-                remote: user_name_alrady_taken,
-                minlength: user_UserNameLength
-            },
-            'systemUser[password]' : {
-                required: user_UserPaswordRequired,
-                maxlength: user_Max20Chars,
-                minlength: user_UserPasswordLength
-            },
-            'systemUser[confirmPassword]' : {
-                required: user_UserConfirmPassword,
-                maxlength: user_Max20Chars,
-                equalTo: user_samePassword
-            },
-            'systemUser[secondaryPassword]' : {
-                required: user_UserPaswordRequired,
-                maxlength: user_Max20Chars,
-                minlength: user_UserPasswordLength
-            },
-            'systemUser[confirmation]' : {
-                required: user_UserConfirmPassword,
-                maxlength: user_Max20Chars,
-                equalTo: user_samePassword
-            },
-            'systemUser[employeeName][empName]' : {
-                required: user_EmployeeNameRequired,
-                validEmployeeName: user_ValidEmployee
-            }
-        }
-
-    });
-    return true;
-}
+// function isValidForm(){
+//     validator = ;
+//     return true;
+// }
 
 function autoFill(selector, filler, data) {
     $("#" + filler).val("");

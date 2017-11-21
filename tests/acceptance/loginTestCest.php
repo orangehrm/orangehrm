@@ -19,7 +19,7 @@ class loginTestCest
 		$I->lookForwardTo('access to orangehrm application');
 		$I->amOnPage('/');
 		$I->fillField('txtUsername','admin');
-		$I->fillField('txtPassword','admin');
+		$I->fillField('txtPassword','Ohrm@1423');
 		$I->click('Submit');
 		$I->see('Dashboard');
     }

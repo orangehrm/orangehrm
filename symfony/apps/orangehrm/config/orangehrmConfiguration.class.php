@@ -21,7 +21,8 @@ class orangehrmConfiguration extends sfApplicationConfiguration
         $manager->setAttribute(Doctrine_Core::ATTR_VALIDATE, Doctrine_Core::VALIDATE_ALL);
         $manager->setAttribute(Doctrine_Core::ATTR_USE_NATIVE_ENUM, true);
         $manager->setAttribute(Doctrine_Core::ATTR_QUERY_CLASS, 'ohrmDoctrineQuery');
-
+        $sessionAttrListener = new SessionAttributeSetterListener();
+        $manager->setListener($sessionAttrListener);
         //
         // If using encryption, enable dql callbacks. Needed by EncryptionListener
         //        

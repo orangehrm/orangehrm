@@ -10,53 +10,30 @@ $(document).ready(function() {
             enableWidgets();
         } else if ($('#btnSave').val() == lang_save){
            
-            if(isValidForm()){          
+            if($("#frmChangePassword").valid()){
                 $('#frmChangePassword').submit();
             }
             
         }
         
     });
-    
-    $("#changeUserPassword_newPassword").password({
-        score: '.score' 
-	});
 
-    $("#changeUserPassword_secondaryPassword").password({
-        score: '.scoreSec' 
-    });
-
-    $('#btnCancel').click(function() {
-        window.history.back();
-    });
-    
-});
-
-function disableWidgets(){
-    $('.formInputText').attr('disabled','disabled');
-    $('.formSelect').attr('disabled','disabled');
-    $('#btnSave').val(lang_edit);  
-}
-
-function enableWidgets(){ 
-    $('.formInputText').removeAttr('disabled');
-    $('.formSelect').removeAttr('disabled');
-    $('#btnSave').val(lang_save);
-}
-
-
-function isValidForm(){
-    
-    var validator = $("#frmChangePassword").validate({
+    $("#frmChangePassword").validate({
 
         rules: {
             'changeUserPassword[currentPassword]' : {
                 required: true
-            },            
+            },
             'changeUserPassword[newPassword]' : {
                 required: true,
-                minlength: 4,
-                maxlength: 20
+                minlength: 8,
+                maxlength: 64,
+                remote: {
+                    url: requiredStrengthCheckUrl,
+                    data: {
+                        password: function(){return $('#changeUserPassword_newPassword').val();}
+                    }
+                }
             },
             'changeUserPassword[confirmNewPassword]' : {
                 required: true,
@@ -79,7 +56,8 @@ function isValidForm(){
             'changeUserPassword[newPassword]' : {
                 required: lang_newPasswordRequired,
                 maxlength: lang_maxLengthExceeds,
-                minlength: lang_UserPasswordLength
+                minlength: lang_UserPasswordLength,
+                remote: lang_passwordStrengthInvalid
             },
             'changeUserPassword[confirmNewPassword]' : {
                 required: lang_confirmNewPasswordRequired,
@@ -97,6 +75,28 @@ function isValidForm(){
         }
     });
     
-    return true;
+    // $("#changeUserPassword_newPassword").password({
+    //     score: '.score'
+    // });
+    //
+    // $("#changeUserPassword_secondaryPassword").password({
+    //     score: '.scoreSec'
+    // });
+
+    $('#btnCancel').click(function() {
+        window.history.back();
+    });
     
+});
+
+function disableWidgets(){
+    $('.formInputText').attr('disabled','disabled');
+    $('.formSelect').attr('disabled','disabled');
+    $('#btnSave').val(lang_edit);  
+}
+
+function enableWidgets(){ 
+    $('.formInputText').removeAttr('disabled');
+    $('.formSelect').removeAttr('disabled');
+    $('#btnSave').val(lang_save);
 }

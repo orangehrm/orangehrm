@@ -1,5 +1,8 @@
 
-<?php echo javascript_include_tag(plugin_web_path('orangehrmPimPlugin', 'js/addEmployeeSuccess')); ?>
+<?php
+use_javascript(plugin_web_path('orangehrmPimPlugin', 'js/addEmployeeSuccess'));
+use_stylesheet(plugin_web_path('orangehrmSecurityAuthenticationPlugin', 'css/passwordStrength.css'));
+?>
 
 <div class="box">
 
@@ -54,5 +57,10 @@
     var ldapInstalled = '<?php echo ($sf_user->getAttribute('ldap.available')) ? 'true' : 'false'; ?>';
     var fieldHelpBottom = <?php echo '"' . __(CommonMessages::FILE_LABEL_IMAGE) . '. ' . __('Recommended dimensions: 200px X 200px') . '"'; ?>;
     var openIdEnabled = "<?php echo $openIdEnabled; ?>";
+    var user_Max64Chars             = '<?php echo __(ValidationMessages::TEXT_LENGTH_EXCEEDS, array('%amount%' => 64)); ?>';
+    var lang_maxLengthExceeds = '<?php echo __("Password length should be less than %max% characters. Try a different password.", array('%max%' => 64)); ?>';
+    var lang_passwordStrengthInvalid = ""
+    var requiredStrengthCheckUrl = '<?php echo url_for('securityAuthentication/checkMinimumRequiredPasswordStrengthAjax') ?>';
+    var user_UserPasswordLength     = '<?php echo __("Should have at least %number% characters", array('%number%' => 8)); ?>';
     //]]>
 </script>
