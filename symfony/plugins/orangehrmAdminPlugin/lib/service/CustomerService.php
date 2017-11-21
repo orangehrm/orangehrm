@@ -38,7 +38,7 @@ class CustomerService extends BaseService {
 
     /**
      *
-     * @param CustomerDao $customerDao 
+     * @param CustomerDao $customerDao
      */
     public function setCustomerDao(CustomerDao $customerDao) {
         $this->customerDao = $customerDao;
@@ -46,15 +46,15 @@ class CustomerService extends BaseService {
 
     /**
      * Get Customer List
-     * 
+     *
      * Get Customer List with pagination.
-     * 
+     *
      * @param type $noOfRecords
      * @param type $offset
      * @param type $sortField
      * @param type $sortOrder
      * @param type $activeOnly
-     * @return type 
+     * @return type
      */
     public function getCustomerList($limit = 50, $offset = 0, $sortField = 'name', $sortOrder = 'ASC', $activeOnly = true) {
         return $this->customerDao->getCustomerList($limit, $offset, $sortField, $sortOrder, $activeOnly);
@@ -64,9 +64,9 @@ class CustomerService extends BaseService {
      * Get Active customer cout.
      *
      * Get the total number of active customers for list component.
-     * 
+     *
      * @param type $activeOnly
-     * @return type 
+     * @return type
      */
     public function getCustomerCount($activeOnly = true) {
         return $this->customerDao->getCustomerCount($activeOnly);
@@ -74,9 +74,9 @@ class CustomerService extends BaseService {
 
     /**
      * Get customer by id
-     * 
+     *
      * @param type $customerId
-     * @return type 
+     * @return type
      */
     public function getCustomerById($customerId) {
         return $this->customerDao->getCustomerById($customerId);
@@ -84,6 +84,16 @@ class CustomerService extends BaseService {
 
     /**
      * Get customer by Name
+     *
+     * @param type $customerId
+     * @return type
+     */
+    public function getActiveCustomerById($customerId) {
+        return $this->customerDao->getActiveCustomerById($customerId);
+    }
+
+    /**
+     * Get customer by id
      *
      * @param type $customerName
      * @return type
@@ -94,11 +104,11 @@ class CustomerService extends BaseService {
 
     /**
      * Delete customer
-     * 
+     *
      * Set customer 'is_deleted' parameter to 1.
-     * 
+     *
      * @param type $customerId
-     * @return type 
+     * @return type
      */
     public function deleteCustomer($customerId) {
         return $this->customerDao->deleteCustomer($customerId);
@@ -106,24 +116,24 @@ class CustomerService extends BaseService {
 
     /**
      * Undelete customer
-     * 
+     *
      * Set customer 'is_deleted' parameter to 0.
-     * 
+     *
      * @param type $customerId
-     * @return type 
+     * @return type
      */
     public function undeleteCustomer($customerId) {
         return $this->customerDao->undeleteCustomer($customerId);
     }
 
     /**
-     * 
+     *
      * Get all customer list
-     * 
+     *
      * Get all active customers
-     * 
+     *
      * @param type $activeOnly
-     * @return type 
+     * @return type
      */
     public function getAllCustomers($activeOnly = true) {
         return $this->customerDao->getAllCustomers($activeOnly);
@@ -131,18 +141,18 @@ class CustomerService extends BaseService {
 
     /**
      * Return an array of Customer Names
-     * 
+     *
      * <pre>
      * Ex: $customerIdList = array(1, 2);
-     * 
+     *
      * For above $customerIdList parameter there will be an array like below as the response.
-     * 
+     *
      * array(
      *          0 => array('customerId' => 1, 'name' => 'Xavier'),
      *          1 => array('customerId' => 2, 'name' => 'ACME')
      * )
      * </pre>
-     * 
+     *
      * @version 2.7.1
      * @param Array $customerIdList List of Customer Ids
      * @param Boolean $excludeDeletedCustomers Exclude deleted Customers or not
@@ -154,9 +164,9 @@ class CustomerService extends BaseService {
 
     /**
      * Check wheather the customer has any timesheet records
-     * 
+     *
      * @param type $customerId
-     * @return type 
+     * @return type
      */
     public function hasCustomerGotTimesheetItems($customerId) {
         return $this->customerDao->hasCustomerGotTimesheetItems($customerId);

@@ -26,7 +26,7 @@ class CustomerDao extends BaseDao {
      * @param type $sortField
      * @param type $sortOrder
      * @param type $activeOnly
-     * @return type 
+     * @return type
      */
     public function getCustomerList($limit = 50, $offset = 0, $sortField = 'name', $sortOrder = 'ASC', $activeOnly = true) {
 
@@ -35,13 +35,13 @@ class CustomerDao extends BaseDao {
 
         try {
             $q = Doctrine_Query :: create()
-                    ->from('Customer');
+                ->from('Customer');
             if ($activeOnly == true) {
                 $q->addWhere('is_deleted = 0');
             }
             $q->orderBy($sortField . ' ' . $sortOrder)
-                    ->offset($offset)
-                    ->limit($limit);
+                ->offset($offset)
+                ->limit($limit);
             return $q->execute();
         } catch (Exception $e) {
             throw new DaoException($e->getMessage());
@@ -51,13 +51,13 @@ class CustomerDao extends BaseDao {
     /**
      *
      * @param type $activeOnly
-     * @return type 
+     * @return type
      */
     public function getCustomerCount($activeOnly = true) {
 
         try {
             $q = Doctrine_Query :: create()
-                    ->from('Customer');
+                ->from('Customer');
             if ($activeOnly == true) {
                 $q->addWhere('is_deleted = ?', 0);
             }
@@ -71,7 +71,7 @@ class CustomerDao extends BaseDao {
     /**
      *
      * @param type $customerId
-     * @return type 
+     * @return type
      */
     public function getCustomerById($customerId) {
 
@@ -94,7 +94,8 @@ class CustomerDao extends BaseDao {
         try {
             $q = Doctrine_Query :: create()
                 ->from('Customer')
-                ->where('name = ?',$customerName);
+                ->where('name = ?',$customerName)
+                ->andWhere('is_deleted = ?',0);
             return $q->count();
         } catch (Exception $e) {
             throw new DaoException($e->getMessage());
@@ -102,7 +103,7 @@ class CustomerDao extends BaseDao {
     }
     /**
      *
-     * @param type $customerId 
+     * @param type $customerId
      */
     public function deleteCustomer($customerId) {
 
@@ -132,9 +133,9 @@ class CustomerDao extends BaseDao {
 
         try {
             $q = Doctrine_Query :: create()
-                    ->from('Project')
-                    ->where('is_deleted = ?', Project::ACTIVE_PROJECT)
-                    ->andWhere('customer_id = ?', $customerId);
+                ->from('Project')
+                ->where('is_deleted = ?', Project::ACTIVE_PROJECT)
+                ->andWhere('customer_id = ?', $customerId);
             $projects = $q->execute();
 
             foreach ($projects as $project) {
@@ -152,9 +153,9 @@ class CustomerDao extends BaseDao {
 
         try {
             $q = Doctrine_Query :: create()
-                    ->from('Project')
-                    ->where('is_deleted = ?', Project::DELETED_PROJECT)
-                    ->andWhere('customer_id = ?', $customerId);
+                ->from('Project')
+                ->where('is_deleted = ?', Project::DELETED_PROJECT)
+                ->andWhere('customer_id = ?', $customerId);
             $projects = $q->execute();
 
             foreach ($projects as $project) {
@@ -171,9 +172,9 @@ class CustomerDao extends BaseDao {
 
         try {
             $q = Doctrine_Query :: create()
-                    ->from('ProjectActivity')
-                    ->where('is_deleted = ?', ProjectActivity::ACTIVE_PROJECT_ACTIVITY)
-                    ->andWhere('project_id = ?', $projectId);
+                ->from('ProjectActivity')
+                ->where('is_deleted = ?', ProjectActivity::ACTIVE_PROJECT_ACTIVITY)
+                ->andWhere('project_id = ?', $projectId);
             $projectActivities = $q->execute();
 
             foreach ($projectActivities as $projectActivity) {
@@ -189,9 +190,9 @@ class CustomerDao extends BaseDao {
 
         try {
             $q = Doctrine_Query :: create()
-                    ->from('ProjectActivity')
-                    ->where('is_deleted = ?', ProjectActivity::DELETED_PROJECT_ACTIVITY)
-                    ->andWhere('project_id = ?', $projectId);
+                ->from('ProjectActivity')
+                ->where('is_deleted = ?', ProjectActivity::DELETED_PROJECT_ACTIVITY)
+                ->andWhere('project_id = ?', $projectId);
             $projectActivities = $q->execute();
 
             foreach ($projectActivities as $projectActivity) {
@@ -207,8 +208,8 @@ class CustomerDao extends BaseDao {
 
         try {
             $q = Doctrine_Query :: create()
-                    ->delete('ProjectAdmin pa')
-                    ->where('pa.project_id = ?', $projectId);
+                ->delete('ProjectAdmin pa')
+                ->where('pa.project_id = ?', $projectId);
             $q->execute();
         } catch (Exception $e) {
             throw new DaoException($e->getMessage());
@@ -218,13 +219,13 @@ class CustomerDao extends BaseDao {
     /**
      *
      * @param type $activeOnly
-     * @return type 
+     * @return type
      */
     public function getAllCustomers($activeOnly = true) {
 
         try {
             $q = Doctrine_Query :: create()
-                    ->from('Customer');
+                ->from('Customer');
             if ($activeOnly == true) {
                 $q->where('is_deleted =?', 0);
             }
@@ -236,7 +237,7 @@ class CustomerDao extends BaseDao {
 
     /**
      * Return an array of Customer Names
-     * 
+     *
      * @version 2.7.1
      * @param Array $customerIdList List of Customer Ids
      * @param Boolean $excludeDeletedCustomers Exclude deleted Customers or not
@@ -276,19 +277,39 @@ class CustomerDao extends BaseDao {
     /**
      *
      * @param type $customerId
-     * @return type 
+     * @return type
      */
     public function hasCustomerGotTimesheetItems($customerId) {
 
         try {
             $q = Doctrine_Query :: create()
-                    ->select("COUNT(*)")
-                    ->from('TimesheetItem ti')
-                    ->leftJoin('ti.Project p')
-                    ->leftJoin('p.Customer c')
-                    ->where('c.customerId = ?', $customerId);
+                ->select("COUNT(*)")
+                ->from('TimesheetItem ti')
+                ->leftJoin('ti.Project p')
+                ->leftJoin('p.Customer c')
+                ->where('c.customerId = ?', $customerId);
             $count = $q->fetchOne(array(), Doctrine_Core::HYDRATE_SINGLE_SCALAR);
             return ($count > 0);
+        } catch (Exception $e) {
+            throw new DaoException($e->getMessage());
+        }
+    }
+
+    /**
+     * Get Customer by Id ( active )
+     *
+     * @param $customerId
+     * @return mixed
+     * @throws DaoException
+     */
+    public function getActiveCustomerById($id) {
+
+        try {
+            $q = Doctrine_Query :: create()
+                ->from('Customer')
+                ->where('customer_id = ?',$id)
+                ->andWhere('is_deleted = ?',0);
+            return $q->fetchOne();
         } catch (Exception $e) {
             throw new DaoException($e->getMessage());
         }

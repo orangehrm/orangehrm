@@ -36,6 +36,24 @@ class ActivityAPI extends EndPoint
 
     private $projectService;
 
+
+    /**
+     *
+     * @return ProjectService
+     */
+    public function getProjectService()
+    {
+        if (is_null($this->projectService)) {
+            $this->projectService = new \ProjectService();
+        }
+        return $this->projectService;
+    }
+
+    public function setProjectService($projectService)
+    {
+        $this->projectService = $projectService;
+    }
+
     /**
      * get getActivity
      *
@@ -57,23 +75,6 @@ class ActivityAPI extends EndPoint
         } else {
             throw new InvalidParamException('No Records Found');
         }
-    }
-
-    /**
-     *
-     * @return ProjectService
-     */
-    public function getProjectService()
-    {
-        if (is_null($this->projectService)) {
-            $this->projectService = new \ProjectService();
-        }
-        return $this->projectService;
-    }
-
-    public function setProjectService($projectService)
-    {
-        $this->projectService = $projectService;
     }
 
     /**
@@ -99,71 +100,6 @@ class ActivityAPI extends EndPoint
         } else {
             throw new InvalidParamException('No Projects Found');
         }
-    }
-
-    /**
-     * Filter parameters
-     *
-     * @return array
-     * @throws InvalidParamException
-     */
-    protected function filterParameters()
-    {
-        $filters[] = array();
-
-        if (!empty($this->getRequestParams()->getPostParam(self::PARAMETER_PROJECT_ID))) {
-            $filters[self::PARAMETER_PROJECT_ID] = $this->getRequestParams()->getPostParam(self::PARAMETER_PROJECT_ID);
-        } else {
-            throw new InvalidParamException('Project Id Is Not Set');
-        }
-
-        if (!empty($this->getRequestParams()->getPostParam(self::PARAMETER_NAME))) {
-            $filters[self::PARAMETER_NAME] = $this->getRequestParams()->getPostParam(self::PARAMETER_NAME);
-        } else {
-            throw new InvalidParamException('Activity Name Is Not Set');
-        }
-
-        if (!empty($this->getRequestParams()->getPostParam(self::PARAMETER_ACTIVITY_ID))) {
-            $filters[self::PARAMETER_ACTIVITY_ID] = $this->getRequestParams()->getPostParam(self::PARAMETER_ACTIVITY_ID);
-        }
-
-        return $filters;
-
-    }
-
-    /**
-     * Check Activity Name
-     *
-     * @param \Project $project
-     * @param $activityName
-     * @return bool
-     * @throws InvalidParamException
-     */
-    public function checkActivityName(\Project $project, $activityName)
-    {
-        $activityList = $this->getProjectService()->getActivityListByProjectId($project->getProjectId());
-        foreach ($activityList as $activity) {
-            if ($activity->getName() == $activityName) {
-                throw new InvalidParamException('Activity Name Already Exists');
-            }
-
-        }
-        return true;
-    }
-
-    /**
-     * Save
-     *
-     * @param $filters
-     * @return \ProjectActivity
-     */
-    public function save($filters){
-
-        $activity = new \ProjectActivity();
-        $activity->setProjectId($filters[self::PARAMETER_PROJECT_ID]);
-        $activity->setName($filters[self::PARAMETER_NAME]);
-        $activity->save();
-        return $activity;
     }
 
     /**
@@ -196,38 +132,6 @@ class ActivityAPI extends EndPoint
         } else {
             throw new InvalidParamException('No Projects Found');
         }
-    }
-
-    /**
-     * Get Project Activity
-     *
-     * @param activityId
-     * @return mixed
-     * @throws InvalidParamException
-     */
-    public function getProjectActivity($activityId)
-    {
-        $activity = $this->getProjectService()->getProjectActivityById($activityId);
-        if ($activity instanceof \ProjectActivity) {
-            return $activity;
-        } else {
-            throw new InvalidParamException("Project Activity Not Found");
-        }
-
-    }
-
-    /**
-     * Update
-     *
-     * @param $activity
-     * @param $filters
-     * @return mixed
-     */
-    public function update($activity,$filters){
-
-        $activity->setName($filters[self::PARAMETER_NAME]);
-        $activity->save();
-        return $activity;
     }
 
     /**
@@ -264,6 +168,36 @@ class ActivityAPI extends EndPoint
     }
 
     /**
+     * Filter parameters
+     *
+     * @return array
+     * @throws InvalidParamException
+     */
+    protected function filterParameters()
+    {
+        $filters[] = array();
+
+        if (!empty($this->getRequestParams()->getPostParam(self::PARAMETER_PROJECT_ID))) {
+            $filters[self::PARAMETER_PROJECT_ID] = $this->getRequestParams()->getPostParam(self::PARAMETER_PROJECT_ID);
+        } else {
+            throw new InvalidParamException('Project Id Is Not Set');
+        }
+
+        if (!empty($this->getRequestParams()->getPostParam(self::PARAMETER_NAME))) {
+            $filters[self::PARAMETER_NAME] = $this->getRequestParams()->getPostParam(self::PARAMETER_NAME);
+        } else {
+            throw new InvalidParamException('Activity Name Is Not Set');
+        }
+
+        if (!empty($this->getRequestParams()->getPostParam(self::PARAMETER_ACTIVITY_ID))) {
+            $filters[self::PARAMETER_ACTIVITY_ID] = $this->getRequestParams()->getPostParam(self::PARAMETER_ACTIVITY_ID);
+        }
+
+        return $filters;
+
+    }
+
+    /**
      * filter parameters for delete
      *
      * @return array
@@ -284,23 +218,6 @@ class ActivityAPI extends EndPoint
         }
 
         return $filters;
-
-    }
-
-    /**
-     * Check activity before delete
-     *
-     * @param $activity
-     * @param $project
-     * @param $newActivityName
-     * @throws RecordNotFoundException
-     */
-    public function checkActivityForDelete($activity, $project)
-    {
-        if(!$activity instanceof \ProjectActivity || $activity->getIsDeleted() == 1){
-
-            throw  new RecordNotFoundException('Activity Not Found');
-        }
 
     }
 
@@ -327,6 +244,90 @@ class ActivityAPI extends EndPoint
             self::PARAMETER_ACTIVITY_ID => array('IntVal' => true, 'NotEmpty' => true),
             self::PARAMETER_PROJECT_ID => array('IntVal' => true, 'NotEmpty' => true, 'Length' => array(1, 200)),
         );
+    }
+
+    /**
+     * Check Activity Name
+     *
+     * @param \Project $project
+     * @param $activityName
+     * @return bool
+     * @throws InvalidParamException
+     */
+    public function checkActivityName(\Project $project, $activityName)
+    {
+        $activityList = $this->getProjectService()->getActivityListByProjectId($project->getProjectId());
+        foreach ($activityList as $activity) {
+            if ($activity->getName() == $activityName) {
+                throw new InvalidParamException('Activity Name Already Exists');
+            }
+
+        }
+        return true;
+    }
+
+    /**
+     * Get Project Activity
+     *
+     * @param activityId
+     * @return mixed
+     * @throws InvalidParamException
+     */
+    public function getProjectActivity($activityId)
+    {
+        $activity = $this->getProjectService()->getProjectActivityById($activityId);
+        if ($activity instanceof \ProjectActivity) {
+            return $activity;
+        } else {
+            throw new InvalidParamException("Project Activity Not Found");
+        }
+
+    }
+
+    /**
+     * Check activity before delete
+     *
+     * @param $activity
+     * @param $project
+     * @param $newActivityName
+     * @throws RecordNotFoundException
+     */
+    public function checkActivityForDelete($activity, $project)
+    {
+        if(!$activity instanceof \ProjectActivity || $activity->getIsDeleted() == 1){
+
+            throw  new RecordNotFoundException('Activity Not Found');
+        }
+
+    }
+
+    /**
+     * Save
+     *
+     * @param $filters
+     * @return \ProjectActivity
+     */
+    public function save($filters){
+
+        $activity = new \ProjectActivity();
+        $activity->setProjectId($filters[self::PARAMETER_PROJECT_ID]);
+        $activity->setName($filters[self::PARAMETER_NAME]);
+        $activity->save();
+        return $activity;
+    }
+
+    /**
+     * Update
+     *
+     * @param $activity
+     * @param $filters
+     * @return mixed
+     */
+    public function update($activity,$filters){
+
+        $activity->setName($filters[self::PARAMETER_NAME]);
+        $activity->save();
+        return $activity;
     }
 
 }

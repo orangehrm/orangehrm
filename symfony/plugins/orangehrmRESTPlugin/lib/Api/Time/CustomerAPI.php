@@ -34,6 +34,28 @@ class CustomerAPI extends EndPoint
     private $customerService;
 
     /**
+     *
+     * @return customerService
+     */
+    public function getCustomerService()
+    {
+        if (is_null($this->customerService)) {
+            $this->customerService = new \CustomerService();
+        }
+        return $this->customerService;
+    }
+
+    /**
+     * Set customer service
+     *
+     * @param $customerService
+     */
+    public function setCustomerService($customerService)
+    {
+        $this->customerService = $customerService;
+    }
+
+    /**
      * Get customers
      *
      * @return Response
@@ -58,34 +80,13 @@ class CustomerAPI extends EndPoint
     }
 
     /**
-     *
-     * @return customerService
-     */
-    public function getCustomerService()
-    {
-        if (is_null($this->customerService)) {
-            $this->customerService = new \CustomerService();
-        }
-        return $this->customerService;
-    }
-
-    /**
-     * Set customer service
-     *
-     * @param $customerService
-     */
-    public function setCustomerService($customerService)
-    {
-        $this->customerService = $customerService;
-    }
-
-    /**
      * Save customer
      *
      * @return Response
      * @throws InvalidParamException
      */
-    public function saveCustomer(){
+    public function saveCustomer()
+    {
 
         $filters = $this->filterParameters();
         $customerCount = $this->getCustomerService()->getCustomerByName($filters[self::PARAMETER_NAME]);
@@ -95,35 +96,10 @@ class CustomerAPI extends EndPoint
             $customer->setName($filters[self::PARAMETER_NAME]);
             $customer->setDescription($filters[self::PARAMETER_DESCRIPTION]);
             $customer->save();
-            return new Response(array('success' => 'Successfully Saved','customerId'=> $customer->getCustomerId() ));
+            return new Response(array('success' => 'Successfully Saved', 'customerId' => $customer->getCustomerId()));
         } else {
             throw new InvalidParamException('Customer Already Exists');
         }
-    }
-
-    /**
-     * Filter parameters
-     *
-     * @return array
-     * @throws InvalidParamException
-     */
-    protected function filterParameters()
-    {
-        $filters[] = array();
-
-        if (!empty($this->getRequestParams()->getPostParam(self::PARAMETER_NAME))) {
-            $filters[self::PARAMETER_NAME] = $this->getRequestParams()->getPostParam(self::PARAMETER_NAME);
-        } else {
-            throw new InvalidParamException('Name Value Is Not Set');
-        }
-        if (!empty($this->getRequestParams()->getPostParam(self::PARAMETER_DESCRIPTION))) {
-            $filters[self::PARAMETER_DESCRIPTION] = $this->getRequestParams()->getPostParam(self::PARAMETER_DESCRIPTION);
-        }
-        if (!empty($this->getRequestParams()->getPostParam(self::PARAMETER_CUSTOMER_ID))) {
-            $filters[self::PARAMETER_CUSTOMER_ID] = $this->getRequestParams()->getPostParam(self::PARAMETER_CUSTOMER_ID);
-        }
-        return $filters;
-
     }
 
     /**
@@ -140,34 +116,28 @@ class CustomerAPI extends EndPoint
         if (empty($customerId)) {
             throw new InvalidParamException("Customer Id Is Empty");
         }
-        $customer = $this->getCustomerService()->getCustomerById($filters[self::PARAMETER_CUSTOMER_ID]);
+        $customer = $this->getCustomerService()->getActiveCustomerById($filters[self::PARAMETER_CUSTOMER_ID]);
 
         if ($customer instanceof \Customer) {
 
-            if ($customer->getName() == $filters[self::PARAMETER_NAME]) {
-                $this->checkCustomerNameForUpdate($filters[self::PARAMETER_NAME]);
+            if ($this->checkCustomerNameForUpdate($filters[self::PARAMETER_NAME])) {
+
+                if ($customer->getName() == $filters[self::PARAMETER_NAME]) {
+
+                    $this->updateCustomerFields($customer,$filters);
+                    return new Response(array('success' => 'Successfully Updated'));
+                } else {
+                    throw new InvalidParamException('Customer Already Exists');
+
+                }
+            } else {
+                $this->updateCustomerFields($customer,$filters);
+                return new Response(array('success' => 'Successfully Updated'));
             }
 
-            $customer->setName($filters[self::PARAMETER_NAME]);
-            $customer->setDescription($filters[self::PARAMETER_DESCRIPTION]);
-            $customer->save();
-            return new Response(array('success' => 'Successfully Updated'));
+
         } else {
             throw new RecordNotFoundException('Customer Not Found');
-        }
-    }
-
-    /**
-     * Check if the customer exists
-     *
-     * @param $name
-     * @throws InvalidParamException
-     */
-    public function checkCustomerNameForUpdate($name){
-
-        $customerCount = $this->getCustomerService()->getCustomerByName($name);
-        if($customerCount != 0 ){
-            throw new InvalidParamException('Customer Already Exists');
         }
     }
 
@@ -207,6 +177,31 @@ class CustomerAPI extends EndPoint
 
     }
 
+    /**
+     * Filter parameters
+     *
+     * @return array
+     * @throws InvalidParamException
+     */
+    protected function filterParameters()
+    {
+        $filters[] = array();
+
+        if (!empty($this->getRequestParams()->getPostParam(self::PARAMETER_NAME))) {
+            $filters[self::PARAMETER_NAME] = $this->getRequestParams()->getPostParam(self::PARAMETER_NAME);
+        } else {
+            throw new InvalidParamException('Name Value Is Not Set');
+        }
+        if (!empty($this->getRequestParams()->getPostParam(self::PARAMETER_DESCRIPTION))) {
+            $filters[self::PARAMETER_DESCRIPTION] = $this->getRequestParams()->getPostParam(self::PARAMETER_DESCRIPTION);
+        }
+        if (!empty($this->getRequestParams()->getPostParam(self::PARAMETER_CUSTOMER_ID))) {
+            $filters[self::PARAMETER_CUSTOMER_ID] = $this->getRequestParams()->getPostParam(self::PARAMETER_CUSTOMER_ID);
+        }
+        return $filters;
+
+    }
+
     protected function filterDeleteParameters()
     {
         $filters[] = array();
@@ -221,8 +216,8 @@ class CustomerAPI extends EndPoint
     public function getPostValidationRules()
     {
         return array(
-            self::PARAMETER_NAME => array('StringType' => true, 'NotEmpty' => true,'Length' => array(1,50)),
-            self::PARAMETER_DESCRIPTION => array('StringType' => true, 'NotEmpty' => true,'Length' => array(1,200)),
+            self::PARAMETER_NAME => array('StringType' => true, 'NotEmpty' => true, 'Length' => array(1, 50)),
+            self::PARAMETER_DESCRIPTION => array('StringType' => true, 'NotEmpty' => true, 'Length' => array(1, 200)),
         );
     }
 
@@ -230,8 +225,8 @@ class CustomerAPI extends EndPoint
     {
         return array(
             self::PARAMETER_CUSTOMER_ID => array('IntVal' => true, 'NotEmpty' => true),
-            self::PARAMETER_NAME => array('StringType' => true, 'NotEmpty' => true,'Length' => array(1,50)),
-            self::PARAMETER_DESCRIPTION => array('StringType' => true, 'NotEmpty' => true,'Length' => array(1,200)),
+            self::PARAMETER_NAME => array('StringType' => true, 'NotEmpty' => true, 'Length' => array(1, 50)),
+            self::PARAMETER_DESCRIPTION => array('StringType' => true, 'NotEmpty' => true, 'Length' => array(1, 200)),
         );
     }
 
@@ -242,6 +237,37 @@ class CustomerAPI extends EndPoint
 
         );
     }
+
+    /**
+     * Check customer name
+     *
+     * @param $name
+     * @return bool
+     */
+    public function checkCustomerNameForUpdate($name)
+    {
+
+        $customerCount = $this->getCustomerService()->getCustomerByName($name);
+        if ($customerCount != 0) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    public function updateCustomerFields(\Customer $customer,$filters){
+
+        if(!empty($filters[self::PARAMETER_NAME])){
+            $customer->setName($filters[self::PARAMETER_NAME]);
+        }
+        if(!empty($filters[self::PARAMETER_DESCRIPTION])){
+            $customer->setDescription($filters[self::PARAMETER_DESCRIPTION]);
+        }
+
+        $customer->save();
+    }
+
+
 
 }
 
