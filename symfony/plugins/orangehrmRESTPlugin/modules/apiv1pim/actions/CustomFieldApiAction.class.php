@@ -26,19 +26,6 @@ class CustomFieldApiAction extends baseRestAction
 {
     private $apiCustomField = null;
 
-    public function getApiCustomField()
-    {
-        return $this->apiCustomField;
-    }
-
-    /**
-     * @param null $apiCustomField
-     */
-    public function setApiCustomField($apiCustomField)
-    {
-        $this->apiCustomField = $apiCustomField;
-    }
-
     protected function init(Request $request)
     {
         $this->apiCustomField = new CustomFieldAPI($request);
@@ -52,6 +39,20 @@ class CustomFieldApiAction extends baseRestAction
     protected function handlePostRequest(Request $request)
     {
         return $this->apiCustomField->saveCustomField();
+    }
+
+
+    public function getApiCustomField()
+    {
+        return $this->apiCustomField;
+    }
+
+    /**
+     * @param null $apiCustomField
+     */
+    public function setApiCustomField($apiCustomField)
+    {
+        $this->apiCustomField = $apiCustomField;
     }
 
 

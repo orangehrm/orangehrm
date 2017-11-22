@@ -85,6 +85,16 @@ class CustomerService extends BaseService {
     /**
      * Get customer by Name
      *
+     * @param type $customerId
+     * @return type
+     */
+    public function getActiveCustomerById($customerId) {
+        return $this->customerDao->getActiveCustomerById($customerId);
+    }
+
+    /**
+     * Get customer by id
+     *
      * @param type $customerName
      * @return type
      */

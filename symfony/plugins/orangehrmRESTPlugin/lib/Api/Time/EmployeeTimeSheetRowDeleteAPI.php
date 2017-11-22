@@ -39,6 +39,37 @@ class EmployeeTimeSheetRowDeleteAPI extends EndPoint
     private $employeeService;
 
     /**
+     * @return \EmployeeService|null
+     */
+    protected function getEmployeeService()
+    {
+
+        if ($this->employeeService != null) {
+            return $this->employeeService;
+        } else {
+            return new \EmployeeService();
+        }
+    }
+
+    public function setEmployeeService($employeeService)
+    {
+        $this->employeeService = $employeeService;
+    }
+
+    /**
+     * @return TimesheetService
+     */
+    public function getTimesheetService()
+    {
+        if (is_null($this->timesheetService)) {
+
+            $this->timesheetService = new \TimesheetService();
+        }
+
+        return $this->timesheetService;
+    }
+
+    /**
      * @param mixed $employeeEventService
      */
     public function setEmployeeEventService($employeeEventService)
@@ -119,6 +150,17 @@ class EmployeeTimeSheetRowDeleteAPI extends EndPoint
 
     }
 
+    public function deleteValidationRules()
+    {
+        return array(
+            self::PARAMETER_PROJECT_ID => array('IntVal' => true, 'NotEmpty' => true),
+            self::PARAMETER_ACTIVITY_ID => array('IntVal' => true, 'NotEmpty' => true),
+            self::PARAMETER_TIMESHEET_ID => array('IntVal' => true, 'NotEmpty' => true),
+            self::PARAMETER_START_DATE =>  array( 'Date' => array('Y-m-d')),
+
+        );
+    }
+
     /**
      * Check the employee is valid
      *
@@ -131,48 +173,6 @@ class EmployeeTimeSheetRowDeleteAPI extends EndPoint
         if (!$employee instanceof \Employee) {
             throw new BadRequestException("Employee Not Found");
         }
-    }
-
-    /**
-     * @return \EmployeeService|null
-     */
-    protected function getEmployeeService()
-    {
-
-        if ($this->employeeService != null) {
-            return $this->employeeService;
-        } else {
-            return new \EmployeeService();
-        }
-    }
-
-    public function setEmployeeService($employeeService)
-    {
-        $this->employeeService = $employeeService;
-    }
-
-    /**
-     * @return TimesheetService
-     */
-    public function getTimesheetService()
-    {
-        if (is_null($this->timesheetService)) {
-
-            $this->timesheetService = new \TimesheetService();
-        }
-
-        return $this->timesheetService;
-    }
-
-    public function deleteValidationRules()
-    {
-        return array(
-            self::PARAMETER_PROJECT_ID => array('IntVal' => true, 'NotEmpty' => true),
-            self::PARAMETER_ACTIVITY_ID => array('IntVal' => true, 'NotEmpty' => true),
-            self::PARAMETER_TIMESHEET_ID => array('IntVal' => true, 'NotEmpty' => true),
-            self::PARAMETER_START_DATE =>  array( 'Date' => array('Y-m-d')),
-
-        );
     }
 
 }

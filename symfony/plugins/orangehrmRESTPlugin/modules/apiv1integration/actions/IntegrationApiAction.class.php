@@ -27,6 +27,23 @@ class IntegrationApiAction extends baseRestAction
 
     private $integrationApi = null;
 
+
+
+    public function getIntegrationApi($request)
+    {
+        if (!$this->integrationApi) {
+            $this->integrationApi = new IntegrationAPI($request);
+        }
+        return $this->punchInApi;
+    }
+
+
+    public function setIntegrationApi($integrationApi)
+    {
+        $this->integrationApi = $integrationApi;
+        return $this;
+    }
+
     /**
      * @param Request $request
      */
@@ -52,19 +69,5 @@ class IntegrationApiAction extends baseRestAction
     protected function handlePostRequest(Request $request)
     {
         return $this->getIntegrationApi($request)->addIntegration();
-    }
-
-    public function getIntegrationApi($request)
-    {
-        if (!$this->integrationApi) {
-            $this->integrationApi = new IntegrationAPI($request);
-        }
-        return $this->punchInApi;
-    }
-
-    public function setIntegrationApi($integrationApi)
-    {
-        $this->integrationApi = $integrationApi;
-        return $this;
     }
 }

@@ -3,11 +3,13 @@
 
 class IntegrationXMLProcessor
 {
+
+    public $content = null;
+
     const BUTTON = "button";
     const MODAL = "confirmation";
     const JS_FUNCTION = 'function';
     const ON_CLICK = 'onclick';
-    public $content = null;
 
     public function processXML($xmlContent)
     {
@@ -39,11 +41,6 @@ class IntegrationXMLProcessor
     }
 
 
-    /**
-     * Process button
-     *
-     * @param $component
-     */
     protected function processButton($component)
     {
         $path_to_file = "../plugins/orangehrmAdminPlugin/modules/integration/templates/IntButton.int";
@@ -57,11 +54,43 @@ class IntegrationXMLProcessor
         $this->content['css'] = $component->css;
     }
 
-    /**
-     * Process JS function
-     *
-     * @param $component
-     */
+    protected function processModal($component)
+    {
+        $path_to_file = "../plugins/orangehrmAdminPlugin/modules/integration/templates/IntModal.int";
+        $file_contents = file_get_contents($path_to_file);
+        $file_contents = str_replace("modal_id", $component->id, $file_contents);
+        $file_contents = str_replace("modal_header", $component->header, $file_contents);
+        $file_contents = str_replace("modal_onclick", $component->function, $file_contents);
+        $file_contents = str_replace("modal_text", $component->text, $file_contents);
+
+        $this->content['html'] = $this->content['html'] . $file_contents;
+        $this->content['css'] = $this->content['css'] . $component->css;
+
+    }
+
+    protected function getbackBoneFile($type)
+    {
+        $path_to_file = "../plugins/orangehrmAdminPlugin/modules/integration/templates/OnClick.int" . $type . "php";
+        $file_contents = file_get_contents($path_to_file);
+        $file_contents = str_replace("\nH", ",H", $file_contents);
+        file_put_contents($path_to_file, $file_contents);
+    }
+
+
+    protected function processOnClick($component)
+    {
+
+        $path_to_file = "../plugins/orangehrmAdminPlugin/modules/integration/templates/OnClick.int";
+        $file_contents = file_get_contents($path_to_file);
+//        $file_contents = str_replace("id",$component->id,$file_contents);
+//        if($component->submit != null){
+//
+//            $file_contents = str_replace("modal_id",$component->submit,$file_contents);
+//        }
+        //TODO handle other actions
+
+    }
+
     protected function processFunction($component)
     {
         $path_to_file = "../plugins/orangehrmAdminPlugin/modules/integration/templates/Function.int";
@@ -97,6 +126,7 @@ class IntegrationXMLProcessor
 
                     $this->content['id'] = $component->body[0]->ajax[0]->clientId;
                     $this->content['url'] = $component->body[0]->ajax[0]->clientUrl;
+                    $this->content['successUrl'] = $component->body[0]->ajax[0]->success;
                     $this->content['secret'] = $component->body[0]->ajax[0]->clientSecret;
                 }else {
                   //TODO
@@ -105,51 +135,6 @@ class IntegrationXMLProcessor
 
         }
 
-    }
-
-    protected function processOnClick($component)
-    {
-        $path_to_file = "../plugins/orangehrmAdminPlugin/modules/integration/templates/OnClick.int";
-        $file_contents = file_get_contents($path_to_file);
-//        $file_contents = str_replace("id",$component->id,$file_contents);
-//        if($component->submit != null){
-//
-//            $file_contents = str_replace("modal_id",$component->submit,$file_contents);
-//        }
-        //TODO handle other actions
-
-    }
-
-    /**
-     * Process Modal function
-     *
-     * @param $component
-     */
-    protected function processModal($component)
-    {
-        $path_to_file = "../plugins/orangehrmAdminPlugin/modules/integration/templates/IntModal.int";
-        $file_contents = file_get_contents($path_to_file);
-        $file_contents = str_replace("modal_id", $component->id, $file_contents);
-        $file_contents = str_replace("modal_header", $component->header, $file_contents);
-        $file_contents = str_replace("modal_onclick", $component->function, $file_contents);
-        $file_contents = str_replace("modal_text", $component->text, $file_contents);
-
-        $this->content['html'] = $this->content['html'] . $file_contents;
-        $this->content['css'] = $this->content['css'] . $component->css;
-
-    }
-
-    /**
-     * Getting backbone file
-     *
-     * @param $type
-     */
-    protected function getbackBoneFile($type)
-    {
-        $path_to_file = "../plugins/orangehrmAdminPlugin/modules/integration/templates/OnClick.int" . $type . "php";
-        $file_contents = file_get_contents($path_to_file);
-        $file_contents = str_replace("\nH", ",H", $file_contents);
-        file_put_contents($path_to_file, $file_contents);
     }
 
 

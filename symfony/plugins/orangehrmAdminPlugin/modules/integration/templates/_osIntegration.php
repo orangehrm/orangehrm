@@ -20,13 +20,13 @@
         $("#loader-1").hide();
         empId = location.href[location.href.length-1];
         dates = $('#startDates').find(":selected").text().split(" ");
-        startDate1 = dates[0]+" 00:00:00";
-        endDate1   = dates[2]+" 00:00:00";
+        startDate_timesheet = dates[0]+" 00:00:00";
+        endDate_timesheet   = dates[2]+" 00:00:00";
 
         clientId  =     "<?php echo  htmlspecialchars_decode($page['id']); ?>";
         clientSecret  = "<?php echo  htmlspecialchars_decode($page['secret']); ?>";
         clientUrl     = "<?php echo  htmlspecialchars_decode($page['url']); ?>";
-
+        successUrl  = "<?php echo  htmlspecialchars_decode($page['successUrl']); ?>";
         var timeSheetStatus = $('#timesheet_status').find('h2').text();
         if(timeSheetStatus == 'Status: Approved'){
 
@@ -41,12 +41,13 @@
 
     function startSyc() {
 
+
         $("#loader-1").show();
 
     $.ajax({
 
         type: "POST",
-        url: clientUrl+"/oauth/v2/token",
+        url: clientUrl,
 
 
         data: {
@@ -55,12 +56,14 @@
             'client_secret': clientSecret
         },
         contentType: "application/x-www-form-urlencoded",
-        dataType: "text",
+
 
         success: function (msg, status, jqXHR) {
 
             try {
-                msg = $.parseJSON(msg);
+
+                msg = $.parseJSON(jqXHR.responseText);
+
             } catch (err) {
                 console.log(err);
                 showErrorMsg();
@@ -68,16 +71,17 @@
 
             $.ajax({
                 type: "POST",
-                url: clientUrl+"/api/synctoggl",
+                url: successUrl,
                 beforeSend: function (xhr) {
+
                     xhr.setRequestHeader("Authorization", "Bearer " + msg.access_token);
                 },
 
                 data: {
 
                     'employee_Id':employeeId,
-                    'startTime': startDate1,
-                    'endTime': endDate1,
+                    'startTime': startDate_timesheet,
+                    'endTime': endDate_timesheet,
                     'timeZone': 'GMT'+formatTimeZone()
                 },
                 contentType: "application/x-www-form-urlencoded",
@@ -115,6 +119,8 @@
             console.log(errorThrown);
             showErrorMsg();
         }
+
+
     });
 
     }

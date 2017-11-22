@@ -37,6 +37,28 @@ class CustomFieldAPI extends EndPoint
     protected $customFieldService;
 
     /**
+     * Get CustomFieldsService
+     *
+     * @returns \CustomFieldsService
+     */
+    public function getCustomFieldService() {
+
+        if (is_null($this->customFieldService)) {
+            $this->customFieldService = new \CustomFieldConfigurationService();
+            $this->customFieldService->setCustomFieldsDao(new \CustomFieldConfigurationDao());
+        }
+        return $this->customFieldService;
+    }
+
+    /**
+     * Set Customer field Service
+     */
+    public function setCustomFieldService(\CustomFieldConfigurationService $customFieldsService) {
+
+        $this->customFieldService = $customFieldsService;
+    }
+
+    /**
      * Get custom fields
      *
      * @return Response
@@ -60,28 +82,6 @@ class CustomFieldAPI extends EndPoint
             throw new RecordNotFoundException('No Custom Fields Found');
         }
 
-    }
-
-    /**
-     * Get CustomFieldsService
-     *
-     * @returns \CustomFieldsService
-     */
-    public function getCustomFieldService() {
-
-        if (is_null($this->customFieldService)) {
-            $this->customFieldService = new \CustomFieldConfigurationService();
-            $this->customFieldService->setCustomFieldsDao(new \CustomFieldConfigurationDao());
-        }
-        return $this->customFieldService;
-    }
-
-    /**
-     * Set Customer field Service
-     */
-    public function setCustomFieldService(\CustomFieldConfigurationService $customFieldsService) {
-
-        $this->customFieldService = $customFieldsService;
     }
 
     public function saveCustomField()

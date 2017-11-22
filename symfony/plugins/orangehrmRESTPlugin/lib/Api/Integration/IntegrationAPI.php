@@ -36,11 +36,21 @@ class IntegrationAPI extends EndPoint
 
     protected $configService;
 
-    /**
-     * Adding a new integration
-     *
-     * @return Response
-     */
+    public function getConfigService()
+    {
+
+        if (!$this->configService instanceof \ConfigService) {
+            $this->configService = new \ConfigService();
+        }
+        return $this->configService;
+    }
+
+    public function setConfigService($configService)
+    {
+        $this->configService = $configService;
+    }
+
+
     public function addIntegration()
     {
         $newComponentXML = $this->getIntegrationContent();
@@ -60,12 +70,32 @@ class IntegrationAPI extends EndPoint
 
     }
 
-    /**
-     * Get os integrations from
-     * config
-     *
-     * @return null|xml content
-     */
+    public function getIntegrationsXML()
+    {
+        //TODO  This need to be change when adding more integrations
+
+        $this->getConfigService()->setIntegrationsConfigValue('<xml>
+                <integrations>
+                </integrations>
+                </xml>');
+        $configVal = $this->getConfigService()->getIntegrationsConfigValue();
+        if ($configVal != null) {
+
+            try {
+                $xml = $configVal;
+                return $xml;
+            } catch (\Exception $e) {
+                $logger = \Logger::getLogger("orangehrm.log");
+                $logger->error($e);
+            }
+
+        } else {
+            return null;
+        }
+
+        return null;
+    }
+
     public function getIntegrationContent()
     {
         $content = $filters[self::PARAMETER_CONTENT_XML] = $this->getRequestParams()->getContent();
@@ -86,72 +116,22 @@ class IntegrationAPI extends EndPoint
         return null;
     }
 
-    /**
-     * Get Integrations XML
-     *
-     * @return null|string
-     */
-    public function getIntegrationsXML()
+
+    function sxml_append(\SimpleXMLElement $to, \SimpleXMLElement $from)
     {
-        $configVal = $this->getConfigService()->getIntegrationsConfigValue();
-        if ($configVal != null) {
+        $toDom = dom_import_simplexml($to);
+        $fromDom = dom_import_simplexml($from);
+        $toDom->appendChild($toDom->ownerDocument->importNode($fromDom, true));
 
-            try {
-                $xml = $configVal;
-                return $xml;
-            } catch (\Exception $e) {
-                $logger = \Logger::getLogger("orangehrm.log");
-                $logger->error($e);
-            }
 
-        } else {
-            return null;
-        }
-
-        return null;
     }
 
-    public function getConfigService()
-    {
-
-        if (!$this->configService instanceof \ConfigService) {
-            $this->configService = new \ConfigService();
-        }
-        return $this->configService;
-    }
-
-    public function setConfigService($configService)
-    {
-        $this->configService = $configService;
-    }
-
-    /**
-     * Add element method
-     *
-     * @param \DOMElement $groups
-     * @param $displayGroupXml
-     */
     protected function addElement(\DOMElement $groups, $displayGroupXml)
     {
 
         $domGroup = dom_import_simplexml(simplexml_load_string($displayGroupXml));
         $domGroup = $groups->ownerDocument->importNode($domGroup, true);
         $groups->appendChild($domGroup);
-
-
-    }
-
-    /**
-     * XML append
-     *
-     * @param \SimpleXMLElement $to
-     * @param \SimpleXMLElement $from
-     */
-    function sxml_append(\SimpleXMLElement $to, \SimpleXMLElement $from)
-    {
-        $toDom = dom_import_simplexml($to);
-        $fromDom = dom_import_simplexml($from);
-        $toDom->appendChild($toDom->ownerDocument->importNode($fromDom, true));
 
 
     }

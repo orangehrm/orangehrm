@@ -39,6 +39,56 @@ class EmployeeTimeSheetAPI extends EndPoint
     const PARAMETER_TIMESHEET_DATA = 'timesheetData';
 
     private $employeeService;
+    private $projectService;
+
+    /**
+     *
+     * @return \ProjectService
+     */
+    public function getProjectService()
+    {
+        if (is_null($this->projectService)) {
+            $this->projectService = new \ProjectService();
+        }
+        return $this->projectService;
+    }
+
+    public function setProjectService(\ProjectService $projectService)
+    {
+        $this->projectService = $projectService;
+    }
+
+    /**
+     * @return \EmployeeService|null
+     */
+   protected function getEmployeeService()
+    {
+
+        if ($this->employeeService != null) {
+            return $this->employeeService;
+        } else {
+            return new \EmployeeService();
+        }
+    }
+
+    public function setEmployeeService($employeeService)
+    {
+        $this->employeeService = $employeeService;
+    }
+
+    /**
+     * @return TimesheetService
+     */
+    public function getTimesheetService()
+    {
+
+        if (is_null($this->timesheetService)) {
+
+            $this->timesheetService = new \TimesheetService();
+        }
+
+        return $this->timesheetService;
+    }
 
     /**
      * @param mixed $employeeEventService
@@ -97,52 +147,6 @@ class EmployeeTimeSheetAPI extends EndPoint
     }
 
     /**
-     * Check the employee is valid
-     *
-     * @param $empId
-     * @throws BadRequestException
-     */
-    protected function validateEmployee($empId)
-    {
-        $employee = $this->getEmployeeService()->getEmployee($empId);
-        if (!$employee instanceof \Employee) {
-            throw new BadRequestException("Employee Not Found");
-        }
-    }
-
-    /**
-     * @return \EmployeeService|null
-     */
-    protected function getEmployeeService()
-    {
-
-        if ($this->employeeService != null) {
-            return $this->employeeService;
-        } else {
-            return new \EmployeeService();
-        }
-    }
-
-    public function setEmployeeService($employeeService)
-    {
-        $this->employeeService = $employeeService;
-    }
-
-    /**
-     * @return TimesheetService
-     */
-    public function getTimesheetService()
-    {
-
-        if (is_null($this->timesheetService)) {
-
-            $this->timesheetService = new \TimesheetService();
-        }
-
-        return $this->timesheetService;
-    }
-
-    /**
      * Save employee Timesheet
      *
      * @return Response
@@ -153,8 +157,15 @@ class EmployeeTimeSheetAPI extends EndPoint
     {
         $filters = $this->filterParameters();
         $this->validateEmployee($filters[self::PARAMETER_ID]);
+        $startDate = $filters[self::PARAMETER_START_DATE];
+        $datetime = new \DateTime('tomorrow');
+        $startDateTime =  new \DateTime($startDate);
+        if($datetime < $startDateTime ) {
+            throw new InvalidParamException("Future Timesheets Not Allowed");
+        }
+
         $statusArray = $this->getTimesheetService()->createTimesheet($filters[self::PARAMETER_ID],
-            $filters[self::PARAMETER_START_DATE]);
+            $startDate);
 
         switch ($statusArray['state']) {
             case $statusArray['state'] == 1:
@@ -167,10 +178,82 @@ class EmployeeTimeSheetAPI extends EndPoint
                 return new Response(array('success' => 'Successfully Created'));
                 break;
             case $statusArray['state'] == 4:
-                throw new InvalidParamException("No Accessible Timesheets");
+                throw new InvalidParamException("No Accessible Timesheets Or Timesheet Already Exists");
                 break;
         }
     }
+
+    /**
+     * Update timesheets
+     *
+     * @return Response
+     * @throws InvalidParamException
+     * @throws RecordNotFoundException
+     */
+    public function updateEmployeeTimeSheet()
+    {
+        $filters = $this->filterParametersForUpdate();
+        $this->validateEmployee($filters[self::PARAMETER_ID]);
+        $this->validateTimeSheet($filters);
+        $timeSheet = $this->getTimesheetService()->getTimesheetByStartDateAndEmployeeId($filters[self::PARAMETER_TIMESHEET_DATA]['startDate'],
+            $filters[self::PARAMETER_ID]);
+        if ($timeSheet instanceof \Timesheet) {
+
+            $initialRows = $filters[self::PARAMETER_TIMESHEET_DATA]['timeSheetItems'];
+            $initialRows = $this->validateTimeSheetData($initialRows, $timeSheet->getTimesheetId());
+
+            $state = $filters[self::PARAMETER_TIMESHEET_DATA]['state'];
+            if ($timeSheet->getState() != $state) {
+                $state = $this->getTimeSheetState($state);
+                $timeSheet->setState($state);
+                $comment = $filters[self::PARAMETER_TIMESHEET_DATA]['state'];
+                $this->getTimesheetService()->saveTimesheet($timeSheet);
+                $this->setTimesheetActionLog($state, $comment, $timeSheet->getTimesheetId(),
+                    $timeSheet->getEmployeeId());
+            }
+
+            $endDate = $timeSheet->getEndDate();
+            $startDate = $timeSheet->getStartDate();
+            $currentWeekDates = $this->getDatesOfTheTimesheetPeriod($startDate, $endDate);
+
+            try {
+                    $this->getTimesheetService()->saveTimesheetItems($initialRows, $filters[self::PARAMETER_ID],
+                    $timeSheet->getTimesheetId(), $currentWeekDates, 0,false);
+
+            } catch (\Exception $e) {
+                throw new InvalidParamException($e->getMessage());
+            }
+            return new Response(array('success' => 'Successfully Updated'));
+        } else {
+            throw new RecordNotFoundException("Timesheet Not Found");
+        }
+
+    }
+
+    /**
+     * Get dates of the TimeSheet period
+     *
+     * @param $startDate
+     * @param $endDate
+     * @return array
+     */
+    public function getDatesOfTheTimesheetPeriod($startDate, $endDate)
+    {
+
+        if ($startDate < $endDate) {
+            $dates_range[] = $startDate;
+
+            $startDate = strtotime($startDate);
+            $endDate = strtotime($endDate);
+
+            while (date('Y-m-d', $startDate) != date('Y-m-d', $endDate)) {
+                $startDate = mktime(0, 0, 0, date("m", $startDate), date("d", $startDate) + 1, date("Y", $startDate));
+                $dates_range[] = date('Y-m-d', $startDate);
+            }
+        }
+        return $dates_range;
+    }
+
 
     /**
      * Filter Post parameters to validate
@@ -203,52 +286,6 @@ class EmployeeTimeSheetAPI extends EndPoint
     }
 
     /**
-     * Update timesheets
-     *
-     * @return Response
-     * @throws InvalidParamException
-     * @throws RecordNotFoundException
-     */
-    public function updateEmployeeTimeSheet()
-    {
-        $filters = $this->filterParametersForUpdate();
-        $this->validateTimeSheet($filters);
-        $timeSheet = $this->getTimesheetService()->getTimesheetByStartDateAndEmployeeId($filters[self::PARAMETER_TIMESHEET_DATA]['startDate'],
-            $filters[self::PARAMETER_ID]);
-        if ($timeSheet instanceof \Timesheet) {
-
-            $initialRows = $filters[self::PARAMETER_TIMESHEET_DATA]['timeSheetItems'];
-            $initialRows = $this->validateTimeSheetData($initialRows, $timeSheet->getTimesheetId());
-
-            $state = $filters[self::PARAMETER_TIMESHEET_DATA]['state'];
-            if ($timeSheet->getState() != $state) {
-                $state = $this->getTimeSheetState($state);
-                $timeSheet->setState($state);
-                $comment = $filters[self::PARAMETER_TIMESHEET_DATA]['state'];
-                $this->getTimesheetService()->saveTimesheet($timeSheet);
-                $this->setTimesheetActionLog($state, $comment, $timeSheet->getTimesheetId(),
-                    $timeSheet->getEmployeeId());
-            }
-
-            $endDate = $timeSheet->getEndDate();
-            $startDate = $timeSheet->getStartDate();
-            $currentWeekDates = $this->getDatesOfTheTimesheetPeriod($startDate, $endDate);
-
-            try {
-                $this->getTimesheetService()->saveTimesheetItems($initialRows, $filters[self::PARAMETER_ID],
-                    $timeSheet->getTimesheetId(), $currentWeekDates, 0,false);
-
-            } catch (\Exception $e) {
-                throw new InvalidParamException($e->getMessage());
-            }
-            return new Response(array('success' => 'Successfully Updated'));
-        } else {
-            throw new RecordNotFoundException("Timesheet Not Found");
-        }
-
-    }
-
-    /**
      * Filter parameters for update
      *
      * @return array
@@ -263,19 +300,6 @@ class EmployeeTimeSheetAPI extends EndPoint
         $filters[self::PARAMETER_TIMESHEET_DATA] = json_decode($this->getRequestParams()->getContent(), true);
 
         return $filters;
-    }
-
-    /**
-     * Validate time sheet  with respect validation
-     *
-     * @param $timeSheetrow
-     */
-    protected function validateTimeSheet($timeSheet)
-    {
-        v::key(self::PARAMETER_TIMESHEET_DATA, v::key('startDate', v::date('Y-m-d')))
-            ->key(self::PARAMETER_TIMESHEET_DATA, v::key('comment', v::optional(v::length(1,250))))
-
-            ->check($timeSheet);
     }
 
     /**
@@ -295,6 +319,7 @@ class EmployeeTimeSheetAPI extends EndPoint
 
             $projectId = $initialRow['projectId'];
             $activityId = $initialRow['projectActivityId'];
+            $this->validateProject($projectId,$activityId);
             $initialRow['projectActivityName'] = 1; // inside timeSheet service activity name is taken as activity id
             $timeSheetrow['row'] = $initialRow;
             $this->validateTimeSheetRow($timeSheetrow);
@@ -307,32 +332,6 @@ class EmployeeTimeSheetAPI extends EndPoint
 
         }
         return $initialRows;
-    }
-
-    /**
-     * Validate time sheet rows with respect validation
-     *
-     * @param $timeSheetrow
-     */
-    protected function validateTimeSheetRow($timeSheetRow)
-    {
-        v::key('row', v::key('projectId', v::intVal()))
-            ->key('row', v::key('projectActivityId', v::intVal()))
-            ->key('row', v::key('TimesheetItemId0', v::optional(v::intVal())))
-            ->key('row', v::key('TimesheetItemId1', v::optional(v::intVal())))
-            ->key('row', v::key('TimesheetItemId2', v::optional(v::intVal())))
-            ->key('row', v::key('TimesheetItemId3', v::optional(v::intVal())))
-            ->key('row', v::key('TimesheetItemId4', v::optional(v::intVal())))
-            ->key('row', v::key('TimesheetItemId5', v::optional(v::intVal())))
-            ->key('row', v::key('TimesheetItemId6', v::optional(v::intVal())))
-            ->key('row', v::key('0', v::optional(v::date('H:i'))))
-            ->key('row', v::key('1', v::optional(v::date('H:i'))))
-            ->key('row', v::key('2', v::optional(v::date('H:i'))))
-            ->key('row', v::key('3', v::optional(v::date('H:i'))))
-            ->key('row', v::key('4', v::optional(v::date('H:i'))))
-            ->key('row', v::key('5', v::optional(v::date('H:i'))))
-            ->key('row', v::key('6', v::optional(v::date('H:i'))))
-            ->check($timeSheetRow);
     }
 
     /**
@@ -362,87 +361,6 @@ class EmployeeTimeSheetAPI extends EndPoint
     }
 
     /**
-     * Check timesheet items ( validating )
-     *
-     * @param $itemId
-     * @param $timeSheetId
-     * @param $projectId
-     * @param $activityId
-     * @return bool
-     * @throws RecordNotFoundException
-     */
-    function checkTimeSheetItem($itemId, $timeSheetId,$projectId,$activityId)
-    {
-        $timeSheetItem = $this->getTimesheetService()->getTimesheetItemById($itemId);
-        if ($timeSheetItem instanceof \TimesheetItem && $timeSheetItem->getTimesheetId() == $timeSheetId && $timeSheetItem->getProjectId() == $projectId && $timeSheetItem->getActivityId() == $activityId) {
-            return true;
-        } else {
-            throw new RecordNotFoundException("Timesheet Item Not Found For :" . $itemId);
-        }
-    }
-
-    /**
-     * Validate timesheet state,
-     * this method check the timesheet state if it's been requested to change
-     *
-     * @param $state
-     * @return mixed
-     * @throws InvalidParamException
-     */
-    protected function getTimeSheetState($state)
-    {
-        if ($state == "NOT SUBMITTED" || $state == "SUBMITTED" || $state == "APPROVED" || $state == "REJECTED") {
-            return $state;
-        } else {
-            throw new InvalidParamException("Invalid Timesheet State");
-        }
-    }
-
-    /**
-     * Set timesheet action logs
-     *
-     * @param $state
-     * @param $comment
-     * @param $timesheetId
-     * @param $employeeId
-     */
-    protected function setTimesheetActionLog($state, $comment, $timesheetId, $employeeId)
-    {
-        $timesheetActionLog = $this->getTimesheetActionLog();
-        $timesheetActionLog->setAction($state);
-        $timesheetActionLog->setComment($comment);
-        $timesheetActionLog->setTimesheetId($timesheetId);
-        $timesheetActionLog->setDateTime(date("Y-m-d"));
-        $timesheetActionLog->setPerformedBy($employeeId);
-
-        $this->getTimesheetService()->saveTimesheetActionLog($timesheetActionLog);
-    }
-
-    /**
-     * Get dates of the TimeSheet period
-     *
-     * @param $startDate
-     * @param $endDate
-     * @return array
-     */
-    public function getDatesOfTheTimesheetPeriod($startDate, $endDate)
-    {
-
-        if ($startDate < $endDate) {
-            $dates_range[] = $startDate;
-
-            $startDate = strtotime($startDate);
-            $endDate = strtotime($endDate);
-
-            while (date('Y-m-d', $startDate) != date('Y-m-d', $endDate)) {
-                $startDate = mktime(0, 0, 0, date("m", $startDate), date("d", $startDate) + 1, date("Y", $startDate));
-                $dates_range[] = date('Y-m-d', $startDate);
-            }
-        }
-        return $dates_range;
-    }
-
-    /**
      * Sum time for a day
      *
      * @param $times
@@ -469,6 +387,7 @@ class EmployeeTimeSheetAPI extends EndPoint
         return 3600 * $parts[0] + 60 * $parts[1] + $parts[2];
     }
 
+
     /**
      * Check time for a day
      *
@@ -489,6 +408,102 @@ class EmployeeTimeSheetAPI extends EndPoint
 
     }
 
+    /**
+     * Check timesheet items ( validating )
+     *
+     * @param $itemId
+     * @param $timeSheetId
+     * @param $projectId
+     * @param $activityId
+     * @return bool
+     * @throws RecordNotFoundException
+     */
+    function checkTimeSheetItem($itemId, $timeSheetId,$projectId,$activityId)
+    {
+        $timeSheetItem = $this->getTimesheetService()->getTimesheetItemById($itemId);
+        if ($timeSheetItem instanceof \TimesheetItem && $timeSheetItem->getTimesheetId() == $timeSheetId && $timeSheetItem->getProjectId() == $projectId && $timeSheetItem->getActivityId() == $activityId) {
+          return true;
+        } else {
+            throw new RecordNotFoundException("Timesheet Item Not Found For :" . $itemId);
+        }
+    }
+
+    /**
+     * Set timesheet action logs
+     *
+     * @param $state
+     * @param $comment
+     * @param $timesheetId
+     * @param $employeeId
+     */
+    protected function setTimesheetActionLog($state, $comment, $timesheetId, $employeeId)
+    {
+        $timesheetActionLog = $this->getTimesheetActionLog();
+        $timesheetActionLog->setAction($state);
+        $timesheetActionLog->setComment($comment);
+        $timesheetActionLog->setTimesheetId($timesheetId);
+        $timesheetActionLog->setDateTime(date("Y-m-d"));
+        $timesheetActionLog->setPerformedBy($employeeId);
+
+        $this->getTimesheetService()->saveTimesheetActionLog($timesheetActionLog);
+    }
+
+    /**
+     * Validate timesheet state,
+     * this method check the timesheet state if it's been requested to change
+     *
+     * @param $state
+     * @return mixed
+     * @throws InvalidParamException
+     */
+    protected function getTimeSheetState($state)
+    {
+        if ($state == "NOT SUBMITTED" || $state == "SUBMITTED" || $state == "APPROVED" || $state == "REJECTED") {
+            return $state;
+        } else {
+            throw new InvalidParamException("Invalid Timesheet State");
+        }
+    }
+
+    /**
+     * Validate time sheet rows with respect validation
+     *
+     * @param $timeSheetrow
+     */
+    protected function validateTimeSheetRow($timeSheetRow)
+    {
+        v::key('row', v::key('projectId', v::intVal()))
+            ->key('row', v::key('projectActivityId', v::intVal()))
+            ->key('row', v::key('TimesheetItemId0', v::optional(v::intVal())))
+            ->key('row', v::key('TimesheetItemId1', v::optional(v::intVal())))
+            ->key('row', v::key('TimesheetItemId2', v::optional(v::intVal())))
+            ->key('row', v::key('TimesheetItemId3', v::optional(v::intVal())))
+            ->key('row', v::key('TimesheetItemId4', v::optional(v::intVal())))
+            ->key('row', v::key('TimesheetItemId5', v::optional(v::intVal())))
+            ->key('row', v::key('TimesheetItemId6', v::optional(v::intVal())))
+            ->key('row', v::key('0', v::optional(v::date('H:i'))))
+            ->key('row', v::key('1', v::optional(v::date('H:i'))))
+            ->key('row', v::key('2', v::optional(v::date('H:i'))))
+            ->key('row', v::key('3', v::optional(v::date('H:i'))))
+            ->key('row', v::key('4', v::optional(v::date('H:i'))))
+            ->key('row', v::key('5', v::optional(v::date('H:i'))))
+            ->key('row', v::key('6', v::optional(v::date('H:i'))))
+            ->check($timeSheetRow);
+    }
+
+    /**
+     * Validate time sheet  with respect validation
+     *
+     * @param $timeSheetrow
+     */
+    protected function validateTimeSheet($timeSheet)
+    {
+             v::key(self::PARAMETER_TIMESHEET_DATA, v::key('startDate', v::date('Y-m-d')))
+            ->key(self::PARAMETER_TIMESHEET_DATA, v::key('comment', v::optional(v::length(1,250))))
+
+            ->check($timeSheet);
+    }
+
     public function getValidationRules()
     {
         return array(
@@ -504,6 +519,59 @@ class EmployeeTimeSheetAPI extends EndPoint
 
         );
     }
+
+    /**
+     * Check the employee is valid
+     *
+     * @param $empId
+     * @throws BadRequestException
+     */
+    protected function validateEmployee($empId)
+    {
+        $employee = $this->getEmployeeService()->getEmployee($empId);
+        if (!$employee instanceof \Employee) {
+            throw new BadRequestException("Employee Not Found");
+        }
+    }
+
+    /**
+     * @param $projectId
+     * @return bool
+     * @throws BadRequestException
+     */
+    protected function validateProject($projectId,$activityId)
+    {
+
+        $project = $this->getProjectService()->getProjectById($projectId,$activityId);
+
+        if ($project instanceof \Project && $project->is_deleted != 1) {
+            $this->validateActivity($projectId,$activityId);
+            return true;
+        } else {
+            throw new BadRequestException("Project Not Found");
+        }
+    }
+
+    protected function validateActivity($projectId,$activityId){
+
+        $activities = $this->getProjectService()->getActivityListByProjectId($projectId);
+
+            if(!empty($activities)){
+
+
+                foreach ($activities as $activity){
+
+                    if($activity->getActivityId() == $activityId && $activity->getIsDeleted()  == 0 ){
+                       return true;
+                    }
+                }
+
+            }else {
+                throw new BadRequestException("Activity Not Found");
+            }
+                throw new BadRequestException("Activity Not Found");
+        }
+
 
 }
 

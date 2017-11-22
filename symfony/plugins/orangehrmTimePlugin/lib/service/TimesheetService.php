@@ -182,11 +182,16 @@ class TimesheetService {
 
         return $this->getTimesheetDao()->getTimesheetActionLogByTimesheetId($timesheetId);
     }
-    
-    public function saveTimesheetItems($inputTimesheetItems, $employeeId, $timesheetId, $keysArray, $initialRows) {
+
+    public function saveTimesheetItems($inputTimesheetItems, $employeeId, $timesheetId, $keysArray, $initialRows,$isFromService =true) {
 
         foreach ($inputTimesheetItems as $inputTimesheetItem) {
-            $activityId = $inputTimesheetItem['projectActivityName'];
+            if($isFromService){
+                $activityId = $inputTimesheetItem['projectActivityName'];
+            } else {
+                $activityId = $inputTimesheetItem['projectActivityId'];
+            }
+
             if ($activityId != null) {
                 $activity = $this->getTimesheetDao()->getProjectActivityByActivityId($activityId);
                 $projectId = $activity->getProjectId();
