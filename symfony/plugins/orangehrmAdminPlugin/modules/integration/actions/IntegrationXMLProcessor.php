@@ -126,6 +126,7 @@ class IntegrationXMLProcessor
 
                     $this->content['id'] = $component->body[0]->ajax[0]->clientId;
                     $this->content['url'] = $component->body[0]->ajax[0]->clientUrl;
+                    $this->content['successUrl'] = $component->body[0]->ajax[0]->success;
                     $this->content['secret'] = $component->body[0]->ajax[0]->clientSecret;
                 }else {
                   //TODO

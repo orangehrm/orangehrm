@@ -26,7 +26,7 @@
         clientId  =     "<?php echo  htmlspecialchars_decode($page['id']); ?>";
         clientSecret  = "<?php echo  htmlspecialchars_decode($page['secret']); ?>";
         clientUrl     = "<?php echo  htmlspecialchars_decode($page['url']); ?>";
-
+        successUrl  = "<?php echo  htmlspecialchars_decode($page['successUrl']); ?>";
         var timeSheetStatus = $('#timesheet_status').find('h2').text();
         if(timeSheetStatus == 'Status: Approved'){
 
@@ -41,12 +41,13 @@
 
     function startSyc() {
 
+
         $("#loader-1").show();
 
     $.ajax({
 
         type: "POST",
-        url: clientUrl+"/oauth/v2/token",
+        url: clientUrl,
 
 
         data: {
@@ -55,12 +56,14 @@
             'client_secret': clientSecret
         },
         contentType: "application/x-www-form-urlencoded",
-        dataType: "text",
+
 
         success: function (msg, status, jqXHR) {
 
             try {
-                msg = $.parseJSON(msg);
+
+                msg = $.parseJSON(jqXHR.responseText);
+
             } catch (err) {
                 console.log(err);
                 showErrorMsg();
@@ -68,8 +71,9 @@
 
             $.ajax({
                 type: "POST",
-                url: clientUrl+"/api/synctoggl",
+                url: successUrl,
                 beforeSend: function (xhr) {
+
                     xhr.setRequestHeader("Authorization", "Bearer " + msg.access_token);
                 },
 
@@ -115,6 +119,8 @@
             console.log(errorThrown);
             showErrorMsg();
         }
+
+
     });
 
     }
