@@ -438,7 +438,7 @@ class EmployeeTimeSheetAPI extends EndPoint
      */
     protected function setTimesheetActionLog($state, $comment, $timesheetId, $employeeId)
     {
-        $timesheetActionLog = $this->getTimesheetActionLog();
+        $timesheetActionLog = new \TimesheetActionLog();
         $timesheetActionLog->setAction($state);
         $timesheetActionLog->setComment($comment);
         $timesheetActionLog->setTimesheetId($timesheetId);
