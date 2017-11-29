@@ -31,8 +31,6 @@ class EmployeeTimeSheetRowDeleteAPI extends EndPoint
 {
 
     const PARAMETER_TIMESHEET_ID = "timesheetId";
-    const PARAMETER_PROJECT_ID = "projectId";
-    const PARAMETER_ACTIVITY_ID = "activityId";
     const PARAMETER_EMPLOYEE_ID = 'id';
     const PARAMETER_START_DATE  = 'startDate';
 
@@ -89,14 +87,11 @@ class EmployeeTimeSheetRowDeleteAPI extends EndPoint
         $filters = $this->filterParameters();
         $timeSheetId = $filters[self::PARAMETER_TIMESHEET_ID];
         $employeeId = $filters[self::PARAMETER_EMPLOYEE_ID];
-        $projectId = $filters[self::PARAMETER_PROJECT_ID];
-        $activityId = $filters[self::PARAMETER_ACTIVITY_ID];
         $startDate  = $filters[self::PARAMETER_START_DATE];
         $this->validateEmployee($employeeId);
 
         if (!empty($startDate)) {
-            $employeeTimeSheet = $this->getTimesheetService()->getTimesheetByStartDateAndEmployeeId($startDate,
-                $employeeId);
+            $employeeTimeSheet = $this->getTimesheetService()->getTimesheetByStartDateAndEmployeeId($startDate, $employeeId);
             if ($employeeTimeSheet != null) {
                 $timeSheetId = $employeeTimeSheet->getTimesheetId();
             }else {
@@ -104,8 +99,7 @@ class EmployeeTimeSheetRowDeleteAPI extends EndPoint
             }
         }
 
-        $isDeleted = $this->getTimesheetService()->deleteTimesheetItems($employeeId, $timeSheetId, $projectId,
-            $activityId);
+        $isDeleted = $this->getTimesheetService()->deleteTimesheetItemsByTimesheetId($employeeId, $timeSheetId);
         if ($isDeleted) {
             return new Response(array('success' => 'Successfully Deleted'));
 
@@ -124,16 +118,6 @@ class EmployeeTimeSheetRowDeleteAPI extends EndPoint
     {
         $filters[] = array();
 
-        if (!empty($this->getRequestParams()->getPostParam(self::PARAMETER_PROJECT_ID))) {
-            $filters[self::PARAMETER_PROJECT_ID] = $this->getRequestParams()->getPostParam(self::PARAMETER_PROJECT_ID);
-        } else {
-            throw new InvalidParamException("Project Id Needed");
-        }
-        if (!empty($this->getRequestParams()->getPostParam(self::PARAMETER_ACTIVITY_ID))) {
-            $filters[self::PARAMETER_ACTIVITY_ID] = $this->getRequestParams()->getPostParam(self::PARAMETER_ACTIVITY_ID);
-        } else {
-            throw new InvalidParamException("Project Activity Id Needed");
-        }
         if (!empty($this->getRequestParams()->getPostParam(self::PARAMETER_TIMESHEET_ID))) {
             $filters[self::PARAMETER_TIMESHEET_ID] = $this->getRequestParams()->getPostParam(self::PARAMETER_TIMESHEET_ID);
         } else {
@@ -153,11 +137,8 @@ class EmployeeTimeSheetRowDeleteAPI extends EndPoint
     public function deleteValidationRules()
     {
         return array(
-            self::PARAMETER_PROJECT_ID => array('IntVal' => true, 'NotEmpty' => true),
-            self::PARAMETER_ACTIVITY_ID => array('IntVal' => true, 'NotEmpty' => true),
             self::PARAMETER_TIMESHEET_ID => array('IntVal' => true, 'NotEmpty' => true),
             self::PARAMETER_START_DATE =>  array( 'Date' => array('Y-m-d')),
-
         );
     }
 
