@@ -17,7 +17,7 @@ $(document).ready(function() {
             'systemUser[password]' : {
                 required:function(element) {
                     if(($('#systemUser_chkChangePassword').val() == 'on' || (isEditMode == 'false')) &&
-                        (ldapInstalled == 'false') && openIdEnabled == 'off')
+                        (ldapInstalled == 'false') && (openIdEnabled == 'off'))
                         return true;
                     else
                         return false;

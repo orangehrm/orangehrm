@@ -48,7 +48,7 @@ use_stylesheet(plugin_web_path('orangehrmSecurityAuthenticationPlugin', 'css/pas
     var lang_firstNameRequired = '<?php echo __(ValidationMessages::REQUIRED); ?>';
     var lang_lastNameRequired = '<?php echo __(ValidationMessages::REQUIRED); ?>';
     var lang_userNameRequired = "<?php echo __("Should have at least %number% characters", array('%number%' => 5)); ?>";
-    var lang_passwordRequired = "<?php echo __("Should have at least %number% characters", array('%number%' => 4)); ?>";
+    var lang_passwordRequired = "<?php echo __("Should have at least %number% characters", array('%number%' => 8)); ?>";
     var lang_unMatchingPassword = "<?php echo __("Passwords do not match"); ?>";
     var lang_statusRequired = "<?php echo __(ValidationMessages::REQUIRED); ?>";
     var lang_locationRequired = "<?php echo __(ValidationMessages::REQUIRED); ?>";
