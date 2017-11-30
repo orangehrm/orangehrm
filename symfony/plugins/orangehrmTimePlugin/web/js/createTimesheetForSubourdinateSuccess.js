@@ -34,10 +34,7 @@ $(document).ready(function(){
                     }
                     if(data[0]==2){
                         startDate=data[1].split(' ');
-                        $('form#createTimesheetForm').attr({
-                            action:linkForViewTimesheet+"?&timesheetStartDateFromDropDown="+startDate[0]+"&employeeId="+employeeId
-                        });
-                        $('form#createTimesheetForm').submit();
+                        window.location.href = linkForViewTimesheet+"?&timesheetStartDateFromDropDown="+startDate[0]+"&employeeId="+employeeId;
                     }
                 })
             }
