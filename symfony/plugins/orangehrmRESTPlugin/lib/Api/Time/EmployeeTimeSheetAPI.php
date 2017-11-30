@@ -193,6 +193,10 @@ class EmployeeTimeSheetAPI extends EndPoint
     public function updateEmployeeTimeSheet()
     {
         $filters = $this->filterParametersForUpdate();
+
+        if(!$filters[self::PARAMETER_TIMESHEET_DATA]){
+            throw new BadRequestException("Invalid JSON data provided");
+        }
         $this->validateEmployee($filters[self::PARAMETER_ID]);
         $this->validateTimeSheet($filters);
         $timeSheet = $this->getTimesheetService()->getTimesheetByStartDateAndEmployeeId($filters[self::PARAMETER_TIMESHEET_DATA]['startDate'],
