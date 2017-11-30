@@ -30,7 +30,7 @@ class ohrmWidgetFormInputPassword extends sfWidgetFormInputPassword
       $helpTextObjectAsHtml = "<span>$helpText</span>";
 
       $id = $this->generateId($name);
-      $html .= content_tag('div', tag('span', array('id' => $id . '_help_text', 'class' => 'validation-error')));
+      $html .= content_tag('div', tag('span', array('id' => $id . '_help_text', 'class' => 'validation-error help_error')));
       $html .= content_tag('div', tag('span', array('id' => $id . '_strength_meter', 'class' => 'passwordStrengthCheck')), array('class' => 'helpText'));
       $html .= content_tag('div', $helpTextObjectAsHtml, array('class' => 'helpText'));
       $passwordStrengthUrl = url_for("securityAuthentication/getPasswordStrengthAjax");

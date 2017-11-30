@@ -103,7 +103,6 @@ $(document).ready(function() {
         $(this).parent('li').addClass('secPasswordDiv');
     });
     
-    $('#systemUser_password').after('<label class="score"/>');
     $('#systemUser_secondaryPassword').after('<label class="scoreSec"/>');
 
     if (isEditMode == 'true') {
