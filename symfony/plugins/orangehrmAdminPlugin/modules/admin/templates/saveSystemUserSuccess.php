@@ -64,7 +64,7 @@ use_stylesheet(plugin_web_path('orangehrmSecurityAuthenticationPlugin', 'css/pas
     var validator = null;
     var openIdEnabled = "<?php echo $openIdEnabled; ?>";
     var lang_maxLengthExceeds = '<?php echo __("Password length should be less than %max% characters. Try a different password.", array('%max%' => 64)); ?>';
-    var lang_passwordStrengthInvalid = ""
+    var lang_passwordStrengthInvalid = '<?php echo __("Your password must contain a lower-case letter, an upper-case letter, a digit and a special character. Try a different password.");?>';
     var requiredStrengthCheckUrl = '<?php echo url_for('securityAuthentication/checkMinimumRequiredPasswordStrengthAjax') ?>';
 
 

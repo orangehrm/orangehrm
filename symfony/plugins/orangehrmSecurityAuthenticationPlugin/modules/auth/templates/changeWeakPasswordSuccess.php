@@ -38,5 +38,5 @@ use_stylesheet(plugin_web_path('orangehrmSecurityAuthenticationPlugin', 'css/pas
     var lang_UserPasswordLength     =   '<?php echo __("Should have at least %number% characters", array('%number%' => 8)); ?>';
     var password_user               =   "<?php echo __("Very Weak").",".__("Weak").",".__("Better").",".__("Medium").",".__("Strong").",".__("Strongest")?>";
     var requiredStrengthCheckUrl = '<?php echo url_for('securityAuthentication/checkMinimumRequiredPasswordStrengthAjax') ?>';
-    var lang_passwordStrengthInvalid = "";
+    var lang_passwordStrengthInvalid = '<?php echo __("Your password must contain a lower-case letter, an upper-case letter, a digit and a special character. Try a different password.");?>';
 </script>
