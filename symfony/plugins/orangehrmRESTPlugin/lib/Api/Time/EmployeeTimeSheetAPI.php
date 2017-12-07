@@ -485,13 +485,13 @@ class EmployeeTimeSheetAPI extends EndPoint
             ->key('row', v::key('TimesheetItemId4', v::optional(v::intVal())))
             ->key('row', v::key('TimesheetItemId5', v::optional(v::intVal())))
             ->key('row', v::key('TimesheetItemId6', v::optional(v::intVal())))
-            ->key('row', v::key('0', v::optional(v::date('H:i'))))
-            ->key('row', v::key('1', v::optional(v::date('H:i'))))
-            ->key('row', v::key('2', v::optional(v::date('H:i'))))
-            ->key('row', v::key('3', v::optional(v::date('H:i'))))
-            ->key('row', v::key('4', v::optional(v::date('H:i'))))
-            ->key('row', v::key('5', v::optional(v::date('H:i'))))
-            ->key('row', v::key('6', v::optional(v::date('H:i'))))
+            ->key('row', v::key('0', v::optional(v::regex('/^([01]?[0-9]|2[0-3]):[0-5][0-9]|24:00/'))))
+            ->key('row', v::key('1', v::optional(v::regex('/^([01]?[0-9]|2[0-3]):[0-5][0-9]|24:00/'))))
+            ->key('row', v::key('2', v::optional(v::regex('/^([01]?[0-9]|2[0-3]):[0-5][0-9]|24:00/'))))
+            ->key('row', v::key('3', v::optional(v::regex('/^([01]?[0-9]|2[0-3]):[0-5][0-9]|24:00/'))))
+            ->key('row', v::key('4', v::optional(v::regex('/^([01]?[0-9]|2[0-3]):[0-5][0-9]|24:00/'))))
+            ->key('row', v::key('5', v::optional(v::regex('/^([01]?[0-9]|2[0-3]):[0-5][0-9]|24:00/'))))
+            ->key('row', v::key('6', v::optional(v::regex('/^([01]?[0-9]|2[0-3]):[0-5][0-9]|24:00/'))))
             ->check($timeSheetRow);
     }
 
