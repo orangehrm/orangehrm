@@ -218,10 +218,17 @@ class AddEmployeeForm extends sfForm {
 
         $posts = $this->getValues();
 
+        $sfUser = sfContext::getInstance()->getUser();
+
+        $password           = $posts['user_password'];
+        $confirmedPassword  = $posts['re_password'];
+        $check1             = (empty($password) && empty($confirmedPassword))?true:false;
+        $check2             = $sfUser->getAttribute('ldap.available');
+
         if (trim($posts['user_name']) != "") {
             $userService = $this->getUserService();
 
-            if ((trim($posts['user_password']) != "" && $posts['user_password'] == $posts['re_password']) || (trim($posts['user_password']) == "" && $this->openIdEnabled)) {
+            if (!$check2 && ((trim($posts['user_password']) != "" && $posts['user_password'] == $posts['re_password']) || (trim($posts['user_password']) == "" && $this->openIdEnabled))) {
                 $user = new SystemUser();
                 $user->setDateEntered(date('Y-m-d H:i:s'));
                 $user->setCreatedBy(sfContext::getInstance()->getUser()->getAttribute('user')->getUserId());
@@ -232,8 +239,10 @@ class AddEmployeeForm extends sfForm {
                 $user->setUserRoleId(2);
                 $userService->saveSystemUser($user, true);
             }
-            
-            $this->_handleLdapEnabledUser($posts, $empNumber);            
+
+            if($check1 && $check2){
+                $this->_handleLdapEnabledUser($posts, $empNumber);
+            }
         }
     }
 
@@ -265,27 +274,18 @@ class AddEmployeeForm extends sfForm {
         return array('width' => $newWidth, 'height' => $newHeight);
     }
 
-    protected function _handleLdapEnabledUser($postedValues, $empNumber) {
-        
-        $sfUser = sfContext::getInstance()->getUser();
-        
-        $password           = $postedValues['user_password'];
-        $confirmedPassword  = $postedValues['re_password'];
-        $check1             = (empty($password) && empty($confirmedPassword))?true:false;
-        $check2             = $sfUser->getAttribute('ldap.available');
-        
-        if ($check1 && $check2) {
+    protected function _handleLdapEnabledUser($postedValues, $empNumber)
+    {
 
-            $user = new SystemUser();
-            $user->setDateEntered(date('Y-m-d H:i:s'));
-            $user->setCreatedBy($sfUser->getAttribute('user')->getUserId());
-            $user->user_name = $postedValues['user_name'];
-            $user->user_password = '';
-            $user->emp_number = $empNumber;
-            $user->setUserRoleId(2);
-            $this->getUserService()->saveSystemUser($user, true);            
-            
-        }
-        
+        $sfUser = sfContext::getInstance()->getUser();
+        $user = new SystemUser();
+        $user->setDateEntered(date('Y-m-d H:i:s'));
+        $user->setCreatedBy($sfUser->getAttribute('user')->getUserId());
+        $user->user_name = $postedValues['user_name'];
+        $user->user_password = '';
+        $user->emp_number = $empNumber;
+        $user->setUserRoleId(2);
+        $this->getUserService()->saveSystemUser($user, true);
+
     }    
 }
