@@ -51,6 +51,7 @@ class osIntegrationComponent extends sfComponent
         $this->action = $this->getContext()->getActionName();
 
         $this->page = $this->checkIntegrations($this->module, $this->action);
+        $this->inputDatePattern = sfContext::getInstance()->getUser()->getDateFormat();
 //        $this->param['id'] = ;
 //        $this->param['secret'] = '1_21yl7nfa51q80k8c4c8ocwow0oowskoswo0wggkwog40gg0s0w';
 //        $this->param['url'] = '1_21yl7nfa51q80k8c4c8ocwow0oowskoswo0wggkwog40gg0s0w';

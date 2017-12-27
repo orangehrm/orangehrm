@@ -48,7 +48,7 @@ use_stylesheet(plugin_web_path('orangehrmSecurityAuthenticationPlugin', 'css/pas
     var lang_firstNameRequired = '<?php echo __(ValidationMessages::REQUIRED); ?>';
     var lang_lastNameRequired = '<?php echo __(ValidationMessages::REQUIRED); ?>';
     var lang_userNameRequired = "<?php echo __("Should have at least %number% characters", array('%number%' => 5)); ?>";
-    var lang_passwordRequired = "<?php echo __("Should have at least %number% characters", array('%number%' => 4)); ?>";
+    var lang_passwordRequired = "<?php echo __("Should have at least %number% characters", array('%number%' => 8)); ?>";
     var lang_unMatchingPassword = "<?php echo __("Passwords do not match"); ?>";
     var lang_statusRequired = "<?php echo __(ValidationMessages::REQUIRED); ?>";
     var lang_locationRequired = "<?php echo __(ValidationMessages::REQUIRED); ?>";
@@ -59,7 +59,7 @@ use_stylesheet(plugin_web_path('orangehrmSecurityAuthenticationPlugin', 'css/pas
     var openIdEnabled = "<?php echo $openIdEnabled; ?>";
     var user_Max64Chars             = '<?php echo __(ValidationMessages::TEXT_LENGTH_EXCEEDS, array('%amount%' => 64)); ?>';
     var lang_maxLengthExceeds = '<?php echo __("Password length should be less than %max% characters. Try a different password.", array('%max%' => 64)); ?>';
-    var lang_passwordStrengthInvalid = ""
+    var lang_passwordStrengthInvalid = '<?php echo __("Your password must contain a lower-case letter, an upper-case letter, a digit and a special character. Try a different password.");?>';
     var requiredStrengthCheckUrl = '<?php echo url_for('securityAuthentication/checkMinimumRequiredPasswordStrengthAjax') ?>';
     var user_UserPasswordLength     = '<?php echo __("Should have at least %number% characters", array('%number%' => 8)); ?>';
     //]]>

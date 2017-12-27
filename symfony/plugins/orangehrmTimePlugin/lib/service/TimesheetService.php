@@ -266,6 +266,18 @@ class TimesheetService {
     }
 
     /**
+     * @param EmployeeID $employeeId
+     * @param TimeSheetId $timesheetId
+     * @return bool
+     */
+    public function deleteTimesheetItemsByTimesheetId($employeeId, $timesheetId) {
+        $timesheetItemDeleted = $this->getTimesheetDao()->deleteTimesheetItemsByTimesheetId($employeeId, $timesheetId);
+
+        return $timesheetItemDeleted > 0 ? true : false;
+
+    }
+
+    /**
      * get pending approvel timesheets
      * @param
      * @return supervispr approved timesheets array

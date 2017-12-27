@@ -150,14 +150,7 @@ $(document).ready(function() {
                         displayMessages('warning', lang_not_numeric);
                         $(element).addClass('validation-error');
                         flag = false;
-                    }else if(temp[0]>23 || temp[1]>59){
-                        displayMessages('warning', lang_not_numeric);
-                        $(element).addClass('validation-error');
-                        flag = false;
-                    }
-                }
-                else  {
-                    if(parseFloat($(element).val()) > 24) {
+                    }else if((temp[0]>24 || temp[1]>59) || (temp[0] == 24 && temp[1] != 0)){
                         displayMessages('warning', lang_not_numeric);
                         $(element).addClass('validation-error');
                         flag = false;

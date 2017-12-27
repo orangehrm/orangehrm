@@ -17,7 +17,7 @@ $(document).ready(function() {
             'systemUser[password]' : {
                 required:function(element) {
                     if(($('#systemUser_chkChangePassword').val() == 'on' || (isEditMode == 'false')) &&
-                        (ldapInstalled == 'false') && openIdEnabled == 'off')
+                        (ldapInstalled == 'false') && (openIdEnabled == 'off'))
                         return true;
                     else
                         return false;
@@ -103,7 +103,6 @@ $(document).ready(function() {
         $(this).parent('li').addClass('secPasswordDiv');
     });
     
-    $('#systemUser_password').after('<label class="score"/>');
     $('#systemUser_secondaryPassword').after('<label class="scoreSec"/>');
 
     if (isEditMode == 'true') {

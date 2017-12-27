@@ -1,7 +1,6 @@
 $(document).ready(function() {
     
     disableWidgets();
-    $('#changeUserPassword_newPassword').after('<label class="score"/>');
     $('#changeUserPassword_secondaryPassword').after('<label class="scoreSec"/>');
     
     $('#btnSave').click(function() {

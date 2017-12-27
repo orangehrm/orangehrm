@@ -216,6 +216,32 @@ class TimesheetDao {
     }
 
     /**
+     * @param EmployeeID $employeeId
+     * @param TimeSheetId $timesheetId
+     * @return bool
+     * @throws DaoException
+     */
+    public function deleteTimesheetItemsByTimesheetId($employeeId, $timesheetId)
+    {
+        try {
+
+            $query = Doctrine_Query::create()
+                ->delete()
+                ->from("TimesheetItem")
+                ->where("timesheetId = ?", $timesheetId)
+                ->andWhere("employeeId = ?", $employeeId);
+
+            return $timesheetItemDeleted = $query->execute();
+
+        // @codeCoverageIgnoreStart
+        } catch (Exception $ex) {
+
+            throw new DaoException($ex->getMessage());
+        }
+        //@codeCoverageIgnoreEnd
+    }
+
+    /**
      * Add or Save TimesheetActionLog
      * @param TimesheetActionLog $timesheetActionLog
      * @return $timesheetActionLog
