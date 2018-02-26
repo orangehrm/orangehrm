@@ -24,6 +24,7 @@ class AddEmployeeForm extends sfForm {
     private $widgets = array();
     public $createUserAccount = 0;
     protected $openIdEnabled  = false;
+    const ESS_USER_ROLE_TYPE = 2;
 
     /**
      * Get EmployeeService
@@ -222,13 +223,13 @@ class AddEmployeeForm extends sfForm {
 
         $password           = $posts['user_password'];
         $confirmedPassword  = $posts['re_password'];
-        $check1             = (empty($password) && empty($confirmedPassword))?true:false;
-        $check2             = $sfUser->getAttribute('ldap.available');
+        $isPasswordEmpty             = (empty($password) && empty($confirmedPassword))?true:false;
+        $hasLdapAvailable             = $sfUser->getAttribute('ldap.available');
 
         if (trim($posts['user_name']) != "") {
             $userService = $this->getUserService();
 
-            if (!$check2 && ((trim($posts['user_password']) != "" && $posts['user_password'] == $posts['re_password']) || (trim($posts['user_password']) == "" && $this->openIdEnabled))) {
+            if (!$hasLdapAvailable && ((trim($posts['user_password']) != "" && $posts['user_password'] == $posts['re_password']) || (trim($posts['user_password']) == "" && $this->openIdEnabled))) {
                 $user = new SystemUser();
                 $user->setDateEntered(date('Y-m-d H:i:s'));
                 $user->setCreatedBy(sfContext::getInstance()->getUser()->getAttribute('user')->getUserId());
@@ -240,7 +241,7 @@ class AddEmployeeForm extends sfForm {
                 $userService->saveSystemUser($user, true);
             }
 
-            if($check1 && $check2){
+            if($isPasswordEmpty && $hasLdapAvailable){
                 $this->_handleLdapEnabledUser($posts, $empNumber);
             }
         }
@@ -284,7 +285,7 @@ class AddEmployeeForm extends sfForm {
         $user->user_name = $postedValues['user_name'];
         $user->user_password = '';
         $user->emp_number = $empNumber;
-        $user->setUserRoleId(2);
+        $user->setUserRoleId(self::ESS_USER_ROLE_TYPE);
         $this->getUserService()->saveSystemUser($user, true);
 
     }    
