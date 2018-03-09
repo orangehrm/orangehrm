@@ -2,6 +2,7 @@
 
 [![Docker Status](https://img.shields.io/docker/build/orangehrm/orangehrm.svg)](https://hub.docker.com/r/orangehrm/orangehrm/) [![Docker Pulls](https://img.shields.io/docker/pulls/orangehrm/orangehrm.svg)](https://hub.docker.com/r/orangehrm/orangehrm)  [![Travis Test](https://img.shields.io/travis/orangehrm/orangehrm/master.svg)](https://travis-ci.org/orangehrm/orangehrm)  [![SourceForge Downloads](https://img.shields.io/sourceforge/dm/orangehrm.svg)](https://sourceforge.net/projects/orangehrm/) [![SourceForge Downloads](https://img.shields.io/sourceforge/dt/orangehrm.svg)](https://sourceforge.net/projects/orangehrm/) [![codecov](https://codecov.io/gh/orangehrm/orangehrm/branch/develop/graph/badge.svg)](https://codecov.io/gh/orangehrm/develop)
 
+# OrangeHRM Open Source Application
 
 OrangeHRM is a comprehensive Human Resource Management (HRM) System that captures all the essential functionalities required for any enterprise. Copyright (C) 2006 OrangeHRM Inc., http://www.orangehrm.com/
 
@@ -22,7 +23,6 @@ OrangeHRM is distributed in the hope that it will be useful, but WITHOUT ANY WAR
 
 - For OrangeHRM Installation issues please refer to the OrangeHRM Installation Guide
 
-<<<<<<< HEAD
 ## Contribute
 
 https://github.com/orangehrm/orangehrm/wiki/How-to-Contribute
@@ -33,7 +33,6 @@ https://github.com/orangehrm/orangehrm/wiki/Resources
 
 ## License 
 
-=======
 
 ## Demo
 Live demo is available at : https://orangehrmdev.herokuapp.com
@@ -53,5 +52,4 @@ https://github.com/orangehrm/orangehrm/wiki/How-to-Contribute
 https://www.orangehrm.com/
 
 ## License 
->>>>>>> master
 GNU General Public License
