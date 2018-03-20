@@ -117,7 +117,7 @@
   <target name="dist" depends="build">
     <echo message="Creating archives ..." />
 
-    <zip destfile="${dist.dir}/${base.name}.zip">
+    <zip destfile="${dist.dir}/${base.name}.zip" ignoreLinks="true">
         <fileset dir="${dist.dir}">
             <include name="${package.name}/**"/>
             <include name="orangehrm-quick-start-guide.html"/>
