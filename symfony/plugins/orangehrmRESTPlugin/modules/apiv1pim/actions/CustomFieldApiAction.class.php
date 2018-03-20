@@ -38,7 +38,7 @@ class CustomFieldApiAction extends baseRestAction
 
     protected function handlePostRequest(Request $request)
     {
-        throw new NotImplementedException();
+        return $this->apiCustomField->saveCustomField();
     }
 
 

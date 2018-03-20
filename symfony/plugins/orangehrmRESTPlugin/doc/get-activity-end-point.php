@@ -6,9 +6,8 @@
 *
 * @apiParam    {Number} id  Project id.
 * @apiSuccess  {Number} activityId  Activity id.
-* @apiSuccess  {Number} projectId  Project id.
 * @apiSuccess  {String} name  Activity name.
-* @apiSuccess  {String} is_deleted  Is deleted( 1 = true /0 = false).
+* @apiSuccess  {String} isDeleted  Is deleted(1,0).
 *
 *
 * @apiSuccessExample Success-Response:
@@ -18,33 +17,24 @@
 *		  "data": [
 *		    {
 *		      "activityId": "2",
-*		      "projectId": "1",
-*		      "is_deleted": "0",
+*		      "isDeleted": "0",
 *		      "name": "test activity"
 *		    },
 *		    {
 *		      "activityId": "3",
-*		      "projectId": "1",
-*		      "is_deleted": "0",
+*		      "isDeleted": "0",
 *		      "name": "test activity2"
 *		    }
 *
 *		  ],
 *		  "rels": []
 *		}
-* @apiError RecordNotFound .
+*
 *
 * @apiErrorExample Error-Response:
-*     HTTP/1.1 404 No Customers Found
+*     HTTP/1.1 404 No Records Found
 *     {
-*       "error": ["No Customers Found"]
-*     }
-* @apiError RecordNotFound .
-*
-* @apiErrorExample Error-Response:
-*     HTTP/1.1 204 No Project Found
-*     {
-*       "error": ["No Projects Found"]
+*       "error": ["No Records Found"]
 *     }
 *
 */

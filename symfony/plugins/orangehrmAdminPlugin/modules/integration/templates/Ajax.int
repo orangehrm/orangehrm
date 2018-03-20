@@ -1,0 +1,43 @@
+    $.ajax({
+                    type: "POST",
+                    url: "client_url_field/api/synctoggl",
+                    beforeSend: function (xhr) {
+                        xhr.setRequestHeader("Authorization", "Bearer " + msg.access_token);
+                    },
+
+                    data: {
+
+                        'employee_Id':employeeId,
+                        'startTime': startDate,
+                        'endTime': endDate,
+                        'timeZone': 'GMT'+formatTimeZone()
+                    },
+                    contentType: "application/x-www-form-urlencoded",
+
+                dates = $('#startDates').find(":selected").text().split(" ");
+                startDate = dates[0]+" 00:00:00";
+                endDate   = dates[2]+" 00:00:00";
+                    success: function (msg, status, jqXHR) {
+
+                        $("#loader-1").hide();
+                        msgCode = msg.statusCode;
+                        if (msgCode != null) {
+                            if (msgCode == 101) {
+                                displayMessages('error',msg.description );
+                            } else if (msgCode == 102) {
+
+                                displayMessages('success', msg.description);
+                                setTimeout(function () {
+                                    location.reload();
+                                }, 2000);
+
+                            }
+                        } else {
+                            showErrorMsg();
+                        }
+
+                    },
+                    error: function () {
+                      showErrorMsg();
+                    }
+                });

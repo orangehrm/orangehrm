@@ -1,6 +1,6 @@
 /**
-* @api {post} /project 4.Save Project
-* @apiName saveProjects
+* @api {post} /project 10.Save Project
+* @apiName saveProject
 * @apiGroup Time
 * @apiVersion 0.1.0
 *

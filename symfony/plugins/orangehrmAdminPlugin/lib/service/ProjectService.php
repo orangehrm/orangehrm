@@ -351,8 +351,8 @@ class ProjectService extends BaseService {
      * @param $projectName
      * @return int
      */
-    public function getProjectByName($projectName){
-        return $this->getProjectDao()->getProjectByName($projectName);
+    public function getProjectByName($projectName,$customerId){
+        return $this->getProjectDao()->getProjectByName($projectName,$customerId);
     }
 
 }

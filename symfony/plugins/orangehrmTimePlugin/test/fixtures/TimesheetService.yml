@@ -42,7 +42,9 @@ TimesheetItem:
   3: {timesheet_item_id: 4, timesheet_id: 3, date: '2011-04-12', duration: 3890, comment: 'Poor', project_id: 1, employee_id: 1, activity_id: 1}
   4: {timesheet_item_id: 5, timesheet_id: 1, date: '2011-04-15', duration: 1000, comment: 'Good', project_id: 1, employee_id: 2, activity_id: 1}
   5: {timesheet_item_id: 6, timesheet_id: 1, date: '2011-04-10', duration: 1000, comment: 'Poor', project_id: 1, employee_id: 2, activity_id: 1}
-  
+  6: {timesheet_item_id: 7, timesheet_id: 10, date: '2011-04-10', duration: 1000, comment: 'Poor', project_id: 1, employee_id: 8, activity_id: 1}
+  7: {timesheet_item_id: 8, timesheet_id: 10, date: '2011-04-10', duration: 1000, comment: 'Poor', project_id: 1, employee_id: 8, activity_id: 1}
+  8: {timesheet_item_id: 9, timesheet_id: 10, date: '2011-04-10', duration: 1000, comment: 'Poor', project_id: 1, employee_id: 8, activity_id: 1}
 
 TimesheetActionLog:
   0: {timesheet_action_log_id: 1, comment: 'ACCEPTED', date_time: '2011-04-18', performed_by: 3, timesheet_id: 1, action: 'ACCEPTED'}

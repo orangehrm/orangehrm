@@ -42,7 +42,18 @@ $(document).ready(function() {
             'firstName': {required: true },
             'lastName': { required: true },
             'user_name': { validateLoginName: true, onkeyup: 'if_invalid'},
-            'user_password': {validatePassword: true, onkeyup: 'if_invalid'},
+            'user_password': {
+                validatePassword: true,
+                minlength: 8,
+                maxlength: 64,
+                remote: {
+                    url: requiredStrengthCheckUrl,
+                    data: {
+                        password: function(){return $('#user_password').val();}
+                    }
+                },
+                onkeyup: 'if_invalid'
+            },
             're_password': {validateReCheckPassword: true, onkeyup: 'if_invalid'},
             'status': {validateStatusRequired: true },
             'location': {required: true }
@@ -51,7 +62,12 @@ $(document).ready(function() {
             'firstName': { required: lang_firstNameRequired },
             'lastName': { required: lang_lastNameRequired },
             'user_name': { validateLoginName: lang_userNameRequired },
-            'user_password': {validatePassword: lang_passwordRequired},
+            'user_password': {
+                validatePassword: lang_passwordRequired,
+                maxlength: user_Max64Chars,
+                minlength: user_UserPasswordLength,
+                remote: lang_passwordStrengthInvalid,
+            },
             're_password': {validateReCheckPassword: lang_unMatchingPassword},
             'status': {validateStatusRequired: lang_statusRequired },
             'location': {required: lang_locationRequired }

@@ -1,11 +1,9 @@
 /**
-* @api {post} /customer 2.Save Customers
-* @apiName saveCustomers
+* @api {post} /customer 2.Save Customer
+* @apiName saveCustomer
 * @apiGroup Time
 * @apiVersion 0.1.0
 *
-*
-* @apiParam  {Number} customerId  Customer Id.
 * @apiParam  {String} name  Customer name.
 * @apiParam  {String} description  Description.
 *
@@ -20,7 +18,7 @@
 * @apiError Invalid Parameter.
 *
 * @apiErrorExample Error-Response:
-*     HTTP/1.1 404 Customer Already Exists
+*     HTTP/1.1 202 Customer Already Exists
 *     {
 *       "error": ["Customer Already Exists"]
 *     }

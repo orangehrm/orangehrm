@@ -26,17 +26,18 @@ require_once "../../../lib/confs/Conf.php";
 
 // Connecting to the database
 $conf = new Conf();
-if (!mysql_connect($conf->dbhost.":".$conf->dbport, $conf->dbuser, $conf->dbpass)) { echo mysql_error(); die; }
-if (!mysql_select_db($conf->dbname)) { echo mysql_error(); exit(0); }
+$dbConnection = mysqli_connect($conf->dbhost, $conf->dbuser, $conf->dbpass, $conf->dbname, $conf->dbport);
+if (!$dbConnection) { echo mysqli_error($dbConnection); die; }
+//if (!mysqli_select_db($conf->dbname)) { echo mysqli_error(); exit(0); }
 
 // Truncating tables
-if (!mysql_query("DELETE from `hs_hr_employee`")) { echo mysql_error(); die; }
-if (!mysql_query("DELETE from `ohrm_emp_termination`")) { echo mysql_error(); die; }
-if (!mysql_query("DELETE from `ohrm_user`")) { echo mysql_error(); die; }
+if (!mysqli_query($dbConnection,"DELETE from `hs_hr_employee`")) { echo mysqli_error($dbConnection); die; }
+if (!mysqli_query($dbConnection,"DELETE from `ohrm_emp_termination`")) { echo mysqli_error($dbConnection); die; }
+if (!mysqli_query($dbConnection,"DELETE from `ohrm_user`")) { echo mysqli_error($dbConnection); die; }
 
 // Default admin
 $q = "INSERT INTO `ohrm_user` ( `user_name`, `user_password`,`user_role_id`) VALUES ('admin', '21232f297a57a5a743894a0e4a801fc3', 1)";
-if (!mysql_query($q)) { echo mysql_error(); die; }
+if (!mysqli_query($dbConnection,$q)) { echo mysqli_error($dbConnection); die; }
 
 // Employee data
 $employees[0][0] = "001"; $employees[0][1] = "Abbey"; $employees[0][2] = "Kayla";
@@ -310,7 +311,7 @@ INSERT INTO hs_hr_employee SET
   emp_oth_email = NULL
 EMPSQLSTR;
 
-    if (!mysql_query($empSql)) { echo mysql_error(); die; }
+    if (!mysqli_query($dbConnection,$empSql)) { echo mysqli_error(); die; }
 
     $userSql = <<< USERSQLSTR
 INSERT INTO ohrm_user SET
@@ -320,16 +321,16 @@ INSERT INTO ohrm_user SET
   user_password = '{$users[$i][2]}'
 USERSQLSTR;
 
-    if (!mysql_query($userSql)) { echo mysql_error(); die; }
+    if (!mysqli_query($dbConnection,$userSql)) { echo mysqli_error($dbConnection); die; }
 }
 // Sets Last ID at `hs_hr_unique_id`
-if (!mysql_query("UPDATE `hs_hr_unique_id` SET `last_id` = '".count($employees)."' WHERE `field_name` = 'emp_number' AND `table_name` = 'hs_hr_employee'")) { echo mysql_error(); exit(0); }
+if (!mysqli_query($dbConnection,"UPDATE `hs_hr_unique_id` SET `last_id` = '".count($employees)."' WHERE `field_name` = 'emp_number' AND `table_name` = 'hs_hr_employee'")) { echo mysqli_error($dbConnection); exit(0); }
 
 //End
 echo "<h2>Successfully Created " . count($employees) . " employees and their user accounts!</h2>";
 
 ?>
-<?php if (!mysql_error()): ?>
+<?php if (!mysqli_error($dbConnection)): ?>
 <pre>
  * Admin username = admin		Admin password = admin
  *

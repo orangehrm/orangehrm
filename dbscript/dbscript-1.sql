@@ -2028,3 +2028,5 @@ CREATE TABLE `ohrm_employee_event` (
   PRIMARY KEY (`event_id`)
 ) ENGINE=InnoDB ;
 
+ALTER TABLE `hs_hr_config`
+CHANGE COLUMN `value` `value` TEXT NOT NULL ;

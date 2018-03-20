@@ -53,12 +53,18 @@ class OAuth2_Storage_Pdo implements OAuth2_Storage_AuthorizationCodeInterface,
     /* OAuth2_Storage_ClientCredentialsInterface */
     public function checkClientCredentials($client_id, $client_secret = null)
     {
+
         $stmt = $this->db->prepare(sprintf('SELECT * from %s where client_id = :client_id', $this->config['client_table']));
         $stmt->execute(compact('client_id'));
-        $result = $stmt->fetch();
+        $result =  $stmt->fetch(PDO::FETCH_ASSOC);
 
         // make this extensible
-        return $result['client_secret'] == $client_secret;
+        if($result['client_secret'] != null){
+            return $result['client_secret'] == $client_secret;
+        } else {
+            return false;
+        }
+
     }
 
     public function getClientDetails($client_id)

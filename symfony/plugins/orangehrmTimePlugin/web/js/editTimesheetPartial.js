@@ -49,6 +49,7 @@ $(document).ready(function() {
                 if($( element).is(':checked')){
                     var array=$(element).parent().attr('id').split("_");
                     if((array!="") && ($(".toDelete").size()==1)){
+                        var csrfToken = $('#defaultList__csrf_token').val();
                         var projectId=array[0];
                         var activityId=array[1];
                         var timesheetId=array[2];
@@ -56,7 +57,7 @@ $(document).ready(function() {
                         var r = $.ajax({
                             type: 'POST',
                             url: linkToDeleteRow,
-                            data: "timesheetId="+timesheetId+"&activityId="+activityId+"&projectId="+projectId+"&employeeId="+employeeId,
+                            data: "timesheetId="+timesheetId+"&activityId="+activityId+"&projectId="+projectId+"&employeeId="+employeeId+"&t="+csrfToken,
                             async: false,
                             success: function(state){
                             }
@@ -72,6 +73,7 @@ $(document).ready(function() {
                         $(element).parent().parent().remove();
                     }
                     else if((array!="") && ($(".toDelete").size()!=1)){
+                        var csrfToken = $('#defaultList__csrf_token').val();
                         var projectId=array[0];
                         var activityId=array[1];
                         var timesheetId=array[2];
@@ -79,7 +81,7 @@ $(document).ready(function() {
                         var r = $.ajax({
                             type: 'POST',
                             url: linkToDeleteRow,
-                            data: "timesheetId="+timesheetId+"&activityId="+activityId+"&projectId="+projectId+"&employeeId="+employeeId,
+                            data: "timesheetId="+timesheetId+"&activityId="+activityId+"&projectId="+projectId+"&employeeId="+employeeId+"&t="+csrfToken,
                             async: false,
                             success: function(state){
                             }

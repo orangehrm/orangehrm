@@ -201,3 +201,31 @@ function displayMessages(messageType, message) {
 //        $('#msgDiv').remove();
 //    });
 }
+
+/**
+ * Getting the formatted timezone
+ * This function is needed for Toggl plugin
+ * added by Lakshitha
+ * @returns {string|*}
+ */
+function formatTimeZone() {
+
+    var currentDate = new Date();
+    var timeDiff = currentDate.getTimezoneOffset().toString();
+    var timeDiffVal = timeDiff.slice(1, 4);
+    mins = timeDiffVal % 60;
+    hrs = (timeDiffVal - mins) / 60;
+
+
+    timeZone = hrs.toString() + "" + (mins < 10 ? "0" : "") + mins.toString();
+    if (timeZone.length == 3) {
+        timeZone = "0" + timeZone;
+    }
+    if (timeDiff.toString().charAt(0) === "-") {
+        timeZone = "+" + timeZone;
+    } else {
+        timeZone = "-" + timeZone;
+    }
+
+    return timeZone;
+}

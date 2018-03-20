@@ -651,7 +651,15 @@ class TimesheetDaoTest extends PHPUnit_Framework_TestCase {
         
         $activities = $this->timesheetDao->getProjectActivityListByPorjectId(null);
         $this->assertEquals(array(), $activities);
-    }    
+    }
+
+    /**
+     * Testing saveTimesheetItem method for deleting timesheet items
+     */
+    public function testDeleteTimesheetItemsByTimesheetId() {
+        $noOfItemsDeleted = $this->timesheetDao->deleteTimesheetItemsByTimesheetId(8,10);
+        $this->assertEquals(3,$noOfItemsDeleted);
+    }
 
 }
 

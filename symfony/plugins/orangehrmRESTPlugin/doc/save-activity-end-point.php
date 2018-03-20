@@ -5,8 +5,8 @@
 * @apiVersion 0.1.0
 *
 *
-* @apiSuccess  {Number} projectId  Project id.
-* @apiSuccess  {String} name  Activity name.
+* @apiParam  {Number} projectId  Project id.
+* @apiParam  {String} name  Activity name.
 *
 *
 * @apiSuccessExample Success-Response:
@@ -16,14 +16,14 @@
 *        "success": "Successfully Saved"
 *      }
 *
-* @apiError RecordNotFound .
+* @apiError Invalid Parameter.
 *
 * @apiErrorExample Error-Response:
-*     HTTP/1.1 404 No Customers Found
+*     HTTP/1.1 202 Activity Name Already Exists
 *     {
-*       "error": ["No Customers Found"]
+*       "error": ["Activity Name Already Exists"]
 *     }
-* @apiError RecordNotFound .
+* @apiError RecordNotFound.
 *
 * @apiErrorExample Error-Response:
 *     HTTP/1.1 204 No Project Found

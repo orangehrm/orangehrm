@@ -625,12 +625,14 @@ class ProjectDao extends BaseDao {
      * @return int
      * @throws DaoException
      */
-    public function getProjectByName($projectName) {
+    public function getProjectByName($projectName,$customerId) {
 
         try {
             $q = Doctrine_Query :: create()
                 ->from('Project')
-                ->where('name = ?',$projectName);
+                ->where('name = ?',$projectName)
+                ->andWhere('customer_id= ?',$customerId)
+                ->andWhere('is_deleted = ?',0);
             return $q->count();
         } catch (Exception $e) {
             throw new DaoException($e->getMessage());

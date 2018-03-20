@@ -131,6 +131,11 @@ class LeavePeriodHistoryServiceTest extends PHPUnit_Framework_TestCase {
         for ($year = $startYear - 1; $year <= $nextYear; $year++) {
             $expected[] = array($year . '-03-01', $this->getLastDayInFebruary($year + 1));
         }
+        $currentDate = date("Y-m-d H:i:s");
+        $leavePeriodStartDateForCurrentYear = date($this->getLastDayInFebruary(date("Y")) . " H:i:s");
+        if (strtotime($currentDate) < strtotime($leavePeriodStartDateForCurrentYear)) {
+            array_pop($expected);
+        }
         
         $result = $this->leavePeriodService->getGeneratedLeavePeriodList(null, true);
         $this->assertEquals($expected, $result);                
@@ -219,7 +224,12 @@ class LeavePeriodHistoryServiceTest extends PHPUnit_Framework_TestCase {
         $this->leavePeriodService->saveLeavePeriodHistory( $leavePeriodHistory );
         
         $expected[] = array($thisYear . '-03-01', $this->getLastDayInFebruary($nextYear));
-        $expected[] = array($nextYear . '-03-01', $this->getLastDayInFebruary($nextNextYear));
+        
+        $currentDate = date("Y-m-d H:i:s");
+        $leavePeriodStartDateForCurrentYear = date($this->getLastDayInFebruary(date("Y")) . " H:i:s");
+        if (strtotime($currentDate) >= strtotime($leavePeriodStartDateForCurrentYear)) {
+            $expected[] = array($nextYear . '-03-01', $this->getLastDayInFebruary($nextNextYear));
+        }
         
         // work around for cached generated leave period list
         $newLeavePeriodService = new LeavePeriodService();
