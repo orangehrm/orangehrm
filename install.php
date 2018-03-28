@@ -29,66 +29,43 @@ if (!defined('ROOT_PATH')) {
 require_once(ROOT_PATH . '/installer/utils/installUtil.php');
 global $dbConnection;
 
-//function sockComm($postArr) {
-//
-//	$host = 'www.orangehrm.com';
-//	$method = 'POST';
-//	$path = '/registration/registerAcceptor.php';
-//	$data = "userName=".$postArr['userName']
-//			."&userEmail=".$postArr['userEmail']
-//                        ."&userTp=".$postArr['userTp']
-//			."&userComments=".$postArr['userComments']
-//			."&firstName=".$postArr['firstName']
-//			."&company=".$postArr['company']
-//			."&updates=".(isset($postArr['chkUpdates']) ? '1' : '0');
-//
-//	$fp = @fsockopen($host, 80);
-//
-//	if(!$fp)
-//	    	return false;
-//
-//	    fputs($fp, "$method $path HTTP/1.1\r\n");
-//	    fputs($fp, "Host: $host\r\n");
-//	    fputs($fp, "Content-type: application/x-www-form-urlencoded\r\n");
-//	    fputs($fp, "Content-length: " . strlen($data) . "\r\n");
-//	    fputs($fp, "User-Agent: ".$_SERVER['HTTP_USER_AGENT']."\r\n");
-//	    fputs($fp, "Connection: close\r\n\r\n");
-//	    fputs($fp, $data);
-//
-//	    $resp = '';
-//	    while (!feof($fp)) {
-//	        $resp .= fgets($fp,128);
-//	    }
-//
-//	    fclose($fp);
-//
-//	    if(strpos($resp, 'SUCCESSFUL') === false)
-//	    	return false;
-//
-//	return true;
-//}
+function sockComm($postArr) {
 
-function saveBeaconData() {
-    include_once ('lib/confs/Conf.php');
-    $conf = new Conf();
-    global $dbConnection;
-//db credentials
-    $dbInfo['host'] = $conf->dbhost;
-    $dbInfo['username'] = $conf->dbuser;
-    $dbInfo['password'] = $conf->dbpass;
-    $dbInfo['database'] = $conf->dbname;
-    $dbInfo['port'] = $conf->dbport;
-    $dbConnection = createDbConnection($dbInfo['host'], $dbInfo['username'], $dbInfo['password'], $dbInfo['database'], $dbInfo['port']);
-    
-    if ($_POST['hearbeatSelect']=='on') {
-        executeSql("UPDATE `hs_hr_config` SET `value` = 'on' WHERE `key` = 'beacon.activation_acceptance_status'");
-    }
-    $companyName = trim(addslashes($_POST['registerCompanyName']));
-   
-    
-    executeSql("INSERT INTO `ohrm_organization_gen_info`(`name`) VALUES ('".$companyName."') ");
-    mysqli_close($dbConnection);
-    return true;
+	$host = 'www.orangehrm.com';
+	$method = 'POST';
+	$path = '/registration/registerAcceptor.php';
+	$data = "userName=".$postArr['userName']
+			."&userEmail=".$postArr['userEmail']
+                        ."&userTp=".$postArr['userTp']
+			."&userComments=".$postArr['userComments']
+			."&firstName=".$postArr['firstName']
+			."&company=".$postArr['company']
+			."&updates=".(isset($postArr['chkUpdates']) ? '1' : '0');
+
+	$fp = @fsockopen($host, 80);
+
+	if(!$fp)
+	    	return false;
+
+	    fputs($fp, "$method $path HTTP/1.1\r\n");
+	    fputs($fp, "Host: $host\r\n");
+	    fputs($fp, "Content-type: application/x-www-form-urlencoded\r\n");
+	    fputs($fp, "Content-length: " . strlen($data) . "\r\n");
+	    fputs($fp, "User-Agent: ".$_SERVER['HTTP_USER_AGENT']."\r\n");
+	    fputs($fp, "Connection: close\r\n\r\n");
+	    fputs($fp, $data);
+
+	    $resp = '';
+	    while (!feof($fp)) {
+	        $resp .= fgets($fp,128);
+	    }
+
+	    fclose($fp);
+
+	    if(strpos($resp, 'SUCCESSFUL') === false)
+	    	return false;
+
+	return true;
 }
 
 function createDbConnection($host, $username, $password, $dbname, $port) {
@@ -279,10 +256,10 @@ if (isset($_POST['actionResponse']))
             break;
 
 
-        case 'REGINFO' : $reqAccept = saveBeaconData();
-//            break;
-//
-//        case 'NOREG' : $reqAccept = TRUE;
+        case 'REGINFO' 	:	$reqAccept = sockComm($_POST);
+							break;
+
+	case 'NOREG' 	:	$reqAccept = sockComm($_POST);
 
         case 'LOGIN' : session_destroy();
             setcookie('PHPSESSID', '', time() - 3600, '/');
