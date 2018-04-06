@@ -164,7 +164,7 @@ document.frmInstall.btnRegister.disabled = true;
         </td>
       </tr>
 </table>
-        <p>Users who seek access to their data, or who seek to correct, amend, or delete the given information should direct their requests to​ Data@orangehrm.com</p>
+        <p style="color:gray; font-size:14px;">Users who seek access to their data, or who seek to correct, amend, or delete the given information should direct their requests to​ Data@orangehrm.com</p>
 </div>
 </div>
 <br style="clear: both"/>
