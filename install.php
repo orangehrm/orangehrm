@@ -29,7 +29,10 @@ if (!defined('ROOT_PATH')) {
 require_once(ROOT_PATH . '/installer/utils/installUtil.php');
 global $dbConnection;
 
-function sockComm($postArr) {
+
+//2. add https part since website is not hosted in https
+//3. add new field to store number of employees
+function sendRegistrationData($postArr) {
 
 	$host = 'www.orangehrm.com';
 	$method = 'POST';
@@ -40,9 +43,9 @@ function sockComm($postArr) {
 			."&userComments=".$postArr['userComments']
 			."&firstName=".$postArr['firstName']
 			."&company=".$postArr['company']
+                        ."&empCount=".$postArr['empCount']
 			."&updates=".(isset($postArr['chkUpdates']) ? '1' : '0');
-
-	$fp = @fsockopen($host, 80);
+        $fp = @fsockopen($host, 80);
 
 	if(!$fp)
 	    	return false;
@@ -256,10 +259,10 @@ if (isset($_POST['actionResponse']))
             break;
 
 
-        case 'REGINFO' 	:	$reqAccept = sockComm($_POST);
+        case 'REGINFO' 	:	$reqAccept = sendRegistrationData($_POST);
 							break;
 
-	case 'NOREG' 	:	$reqAccept = sockComm($_POST);
+	case 'NOREG' 	:	$reqAccept = sendRegistrationData($_POST);
 
         case 'LOGIN' : session_destroy();
             setcookie('PHPSESSID', '', time() - 3600, '/');
