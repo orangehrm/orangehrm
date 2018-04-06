@@ -20,13 +20,7 @@ $(document).ready(function () {
             'changeWeakPassword[newPassword]' : {
                 required: true,
                 minlength: 8,
-                maxlength: 64,
-                remote: {
-                    url: requiredStrengthCheckUrl,
-                    data: {
-                        password: function(){return $('#changeWeakPassword_newPassword').val();}
-                    }
-                }
+                maxlength: 64
             },
             'changeWeakPassword[passwordConfirmation]' : {
                 required: true,
@@ -40,8 +34,7 @@ $(document).ready(function () {
             'changeWeakPassword[newPassword]' : {
                 required: lang_newPasswordRequired,
                 maxlength: lang_maxLengthExceeds,
-                minlength: lang_UserPasswordLength,
-                remote: lang_passwordStrengthInvalid
+                minlength: lang_UserPasswordLength
             },
             'changeWeakPassword[passwordConfirmation]' : {
                 required: lang_confirmNewPasswordRequired,
