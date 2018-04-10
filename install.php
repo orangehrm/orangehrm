@@ -33,11 +33,10 @@ global $dbConnection;
 //2. add https part since website is not hosted in https
 //3. add new field to store number of employees
 function sendRegistrationData($postArr) {
-
-	$host = 'www.orangehrm.com';
-	$method = 'POST';
-	$path = '/registration/registerAcceptor.php';
-	$data = "userName=".$postArr['userName']
+    $ch = curl_init();
+    curl_setopt($ch, CURLOPT_URL,"https://www.orangehrm.com/registration/registerAcceptor.php");
+    curl_setopt($ch, CURLOPT_POST, 1);
+    $data = "userName=".$postArr['userName']
 			."&userEmail=".$postArr['userEmail']
                         ."&userTp=".$postArr['userTp']
 			."&userComments=".$postArr['userComments']
@@ -45,30 +44,16 @@ function sendRegistrationData($postArr) {
 			."&company=".$postArr['company']
                         ."&empCount=".$postArr['empCount']
 			."&updates=".(isset($postArr['chkUpdates']) ? '1' : '0');
-        $fp = @fsockopen($host, 80);
-
-	if(!$fp)
-	    	return false;
-
-	    fputs($fp, "$method $path HTTP/1.1\r\n");
-	    fputs($fp, "Host: $host\r\n");
-	    fputs($fp, "Content-type: application/x-www-form-urlencoded\r\n");
-	    fputs($fp, "Content-length: " . strlen($data) . "\r\n");
-	    fputs($fp, "User-Agent: ".$_SERVER['HTTP_USER_AGENT']."\r\n");
-	    fputs($fp, "Connection: close\r\n\r\n");
-	    fputs($fp, $data);
-
-	    $resp = '';
-	    while (!feof($fp)) {
-	        $resp .= fgets($fp,128);
-	    }
-
-	    fclose($fp);
-
-	    if(strpos($resp, 'SUCCESSFUL') === false)
-	    	return false;
-
-	return true;
+    curl_setopt($ch, CURLOPT_POSTFIELDS,$data);
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+    $response = curl_exec ($ch);
+    curl_close ($ch);  
+    if(strpos($response, 'SUCCESSFUL') === false) {
+        return false;
+    } else {
+        return true;
+    }
+	    	
 }
 
 function createDbConnection($host, $username, $password, $dbname, $port) {

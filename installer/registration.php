@@ -146,7 +146,7 @@ document.frmInstall.btnRegister.disabled = true;
       </tr>
       <tr>
         <td class="tdComponent_n">Comments</td>
-        <td class="tdValues_n"><textarea name="userComments" tabindex="7"><?php echo isset($_POST['userComments'])? $_POST['userComments'] : ''?></textarea></td>
+        <td class="tdValues_n"><textarea cols="31" rows="5" name="userComments" tabindex="7"><?php echo isset($_POST['userComments'])? $_POST['userComments'] : ''?></textarea></td>
       </tr>
       <tr>
         <td class="tdComponent_n">Updates/Newsletter</td>
