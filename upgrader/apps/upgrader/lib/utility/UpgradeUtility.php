@@ -255,7 +255,7 @@ CONFCONT;
         $a['3.3.1']     = 63; // No db change between 3.3 -> 3.3.1
         $a['3.3.2']     = 64; // No db change between 3.3.2 -> 3.3.3
         $a['3.3.3']     = 64;// 3.3.2 to 4.0
-        $a['4.0']       = 65;// 4.0 to 4.0.1
+        $a['4.0']       = 65;// 4.0 to 4.1
         return $a;
         
     }
@@ -265,7 +265,7 @@ CONFCONT;
      */
     public function getNewVersion() {
         
-        return '4.0.1';
+        return '4.1';
         
     }
     
