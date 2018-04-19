@@ -7,10 +7,6 @@
   "repositories": [
     {
       "type": "vcs",
-      "url": "https://github.com/orangehrm/symfony1"
-    },
-    {
-      "type": "vcs",
       "url": "https://github.com/orangehrm/doctrine1"
     },
     {
@@ -22,7 +18,7 @@
     "vendor-dir": "vendor"
   },
   "require": {
-    "lexpress/symfony1": "dev-ohrm",
+    "lexpress/symfony1": "1.5.*",
     "lexpress/doctrine1": "dev-ohrm",
     "oomphinc/composer-installers-extender": "^1.1",
     "iignatov/lightopenid": "dev-master",
