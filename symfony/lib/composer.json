@@ -34,7 +34,7 @@
   },
   "require-dev": {
     "codeception/codeception": "^2.2",
-    "phpunit/phpunit": "^5.7"
+    "phpunit/phpunit": ">=5.7 < 6.0"
   },
   "extra": {
     "installer-types": ["library"],
