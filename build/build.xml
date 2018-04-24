@@ -22,7 +22,7 @@
 -->
 <project name="OrangeHRM" basedir="." default="dist">
 
-  <property name="version" value="4.0"/>
+  <property name="version" value="4.1"/>
   <property name="package.name" value="orangehrm-${version}"/>
   <resolvepath propertyName="project.dir" file=".."/>
   <resolvepath propertyName="dist.dir" file="dist"/>
@@ -117,7 +117,7 @@
   <target name="dist" depends="build">
     <echo message="Creating archives ..." />
 
-    <zip destfile="${dist.dir}/${base.name}.zip">
+    <zip destfile="${dist.dir}/${base.name}.zip" ignoreLinks="true">
         <fileset dir="${dist.dir}">
             <include name="${package.name}/**"/>
             <include name="orangehrm-quick-start-guide.html"/>

@@ -2822,3 +2822,15 @@ INSERT INTO ohrm_menu_item ( `menu_title`, `screen_id`, `parent_id`, `level`, `o
 
 INSERT INTO ohrm_user_role_screen (user_role_id, screen_id, can_read, can_create, can_update, can_delete) VALUES
 (1, @oauth_client_screen_id, 1, 1, 1, 0);
+
+INSERT INTO hs_hr_config (`key`, `value`) VALUES
+('open_source_integrations','<xml>
+<integrations>
+</integrations>
+</xml>
+');
+
+INSERT INTO `hs_hr_config` (`key`, `value`) VALUES
+('authentication.status', 'Enable'),
+('authentication.enforce_password_strength', 'on'),
+('authentication.default_required_password_strength', 'strong');

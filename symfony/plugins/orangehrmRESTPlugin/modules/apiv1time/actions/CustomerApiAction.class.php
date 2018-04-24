@@ -24,13 +24,14 @@ use Orangehrm\Rest\Api\Exception\NotImplementedException;
 
 class CustomerApiAction extends baseRestAction
 {
-
     private $customerProjectApi = null;
 
     protected function init(Request $request)
     {
         $this->customerProjectApi = new CustomerAPI($request);
         $this->postValidationRule = $this->customerProjectApi->getPostValidationRules();
+        $this->putValidationRule = $this->customerProjectApi->putValidationRules();
+        $this->deleteValidationRule = $this->customerProjectApi->deleteValidationRules();
     }
 
     protected function handleGetRequest(Request $request)
@@ -41,6 +42,15 @@ class CustomerApiAction extends baseRestAction
     protected function handlePostRequest(Request $request)
     {
         return $this->customerProjectApi->saveCustomer();
+    }
+
+    protected function handlePutRequest(Request $request)
+    {
+        return $this->customerProjectApi->updateCustomer();
+    }
+
+    protected function handleDeleteRequest(Request $request){
+        return $this->customerProjectApi->deleteCustomer();
     }
 
     /**

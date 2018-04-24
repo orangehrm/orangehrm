@@ -36,7 +36,7 @@ public static function createDB() {
 		$dbUser = $_SESSION['dbInfo']['dbUserName'];
 		$dbPassword = $_SESSION['dbInfo']['dbPassword'];
 
-        self::$conn = mysqli_connect($dbHost, $dbUser, $dbPassword, "", $dbPort);
+         self::$conn = mysqli_connect($dbHost, $dbUser, $dbPassword,null,3306,$dbPort);
         if (self::$conn) {
 
 			if (mysqli_select_db(self::$conn, $dbName)) {
@@ -86,7 +86,7 @@ public static function createDB() {
 
 public static function connectDB() {
 
-    if(!self::$conn = @mysqli_connect($_SESSION['dbInfo']['dbHostName'], $_SESSION['dbInfo']['dbUserName'], $_SESSION['dbInfo']['dbPassword'], "", $_SESSION['dbInfo']['dbHostPort'])) {
+    if(!self::$conn = mysqli_connect($_SESSION['dbInfo']['dbHostName'], $_SESSION['dbInfo']['dbUserName'], $_SESSION['dbInfo']['dbPassword'], "",3306, $_SESSION['dbInfo']['dbHostPort'])) {
         $_SESSION['error'] =  'Database Connection Error!';
 		return;
 	}
@@ -293,7 +293,7 @@ class Conf {
 		}
 		\$this->dbuser    = '$dbOHRMUser';
 		\$this->dbpass	= '$dbOHRMPassword';
-		\$this->version = '4.0';
+		\$this->version = '4.0.1';
 
 		\$this->emailConfiguration = dirname(__FILE__).'/mailConf.php';
 		\$this->errorLog =  realpath(dirname(__FILE__).'/../logs/').'/';

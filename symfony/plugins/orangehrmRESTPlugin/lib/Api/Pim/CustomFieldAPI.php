@@ -21,12 +21,19 @@ namespace Orangehrm\Rest\Api\Pim;
 
 
 use Orangehrm\Rest\Api\EndPoint;
+use Orangehrm\Rest\Api\Exception\BadRequestException;
 use Orangehrm\Rest\Api\Exception\RecordNotFoundException;
 use Orangehrm\Rest\Api\Pim\Entity\CustomField;
 use Orangehrm\Rest\Http\Response;
 
 class CustomFieldAPI extends EndPoint
 {
+
+    const MAX_FIELD_NUM = 10;
+    const PARAMETER_SCREEN = "screen";
+    const PARAMETER_TYPE = "type";
+    const PARAMETER_NAME = "name";
+
     protected $customFieldService;
 
     /**
@@ -75,7 +82,39 @@ class CustomFieldAPI extends EndPoint
             throw new RecordNotFoundException('No Custom Fields Found');
         }
 
+    }
 
+    public function saveCustomField()
+    {
+        $filters = $this->filterParameters();
+
+        $customFieldList = $this->getCustomFieldService()->getCustomFieldList(null, 'name', 'ASC');
+
+        if(count($customFieldList) < 10){
+
+            $customField = new \CustomField();
+            $customField->setName($filters[self::PARAMETER_NAME]);
+            $customField->setScreen($filters[self::PARAMETER_SCREEN]);
+            $customField->setType($filters[self::PARAMETER_TYPE]);
+
+            $response = $this->getCustomFieldService()->saveCustomField($customField);
+
+            return new Response(array('success' => 'Successfully Saved'));
+        } else {
+            throw new BadRequestException('All Customs Fields Are In Use');
+        }
+
+
+    }
+
+    protected function filterParameters()
+    {
+        $filters[] = array();
+        $filters[self::PARAMETER_NAME] = $this->getRequestParams()->getPostParam(self::PARAMETER_NAME);
+        $filters[self::PARAMETER_SCREEN] = $this->getRequestParams()->getPostParam(self::PARAMETER_SCREEN);
+        $filters[self::PARAMETER_TYPE] = $this->getRequestParams()->getPostParam(self::PARAMETER_TYPE);
+
+        return $filters;
     }
 
 }

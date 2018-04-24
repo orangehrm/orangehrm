@@ -21,7 +21,8 @@ include_slot('header', get_partial('global/header'));
                         <li><a href="<?php echo url_for('auth/logout'); ?>"><?php echo __('Logout'); ?></a></li>
                     </ul>
                 </div>
-                  <?php include_component('communication', 'beaconNotification'); ?>
+                <?php include_component('communication', 'beaconNotification'); ?>
+                <?php include_component('integration', 'osIntegration'); ?>
 <!--                <a href="#" id="help" class="panelTrigger"><?php echo __("Help & Training"); ?></a>
                 <div id="help-menu" class="panelContainer">
                     <ul>

@@ -17,10 +17,13 @@
  * if not, write to the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
  * Boston, MA  02110-1301, USA
  */
+
+
 class saveSystemUserAction extends sfAction {
 
     private $systemUserService;
     private $configService;
+    private $securityAuthenticationConfigService;
 
     public function getSystemUserService() {        
         if (is_null($this->systemUserService)) {
@@ -52,6 +55,17 @@ class saveSystemUserAction extends sfAction {
             $this->configService = new ConfigService();
         }
         return $this->configService;
+    }
+
+    /**
+     *
+     * @return \SecurityAuthenticationConfigService
+     */
+    public function getSecurityAuthenticationConfigService() {
+        if (is_null($this->securityAuthenticationConfigService)) {
+            $this->securityAuthenticationConfigService = new SecurityAuthenticationConfigService();
+        }
+        return $this->securityAuthenticationConfigService;
     }
 
     /**

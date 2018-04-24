@@ -227,7 +227,7 @@ $actionName = sfContext::getInstance()->getActionName();
                     </table>
                 </div> <!-- tableWrapper -->
                 <div class="bottom">
-                    <em><h2><?php echo __('Status') . ': ' ?><?php echo __(ucwords(strtolower($timesheet->getState()))); ?></h2></em>
+                    <em id="timesheet_status"><h2><?php echo __('Status') . ': ' ?><?php echo __(ucwords(strtolower($timesheet->getState()))); ?></h2></em>
                     <form id="timesheetFrm" name="timesheetFrm"  method="post">
                             <?php echo $formToImplementCsrfToken['_csrf_token']; ?>
                         <p>

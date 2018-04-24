@@ -538,6 +538,15 @@ class TimesheetServiceTest extends PHPUnit_Framework_Testcase {
         $this->assertEquals($projects[0], $result[0]);
     }
 
+    /**
+     * Testing saveTimesheetItem method for deleting timesheet items
+     */
+    public function testDeleteTimesheetItemsByTimesheetId() {
+        $this->timesheetService->setTimesheetDao(new TimesheetDao());
+        $noOfItemsDeleted = $this->timesheetService->deleteTimesheetItemsByTimesheetId(8,10);
+        $this->assertTrue($noOfItemsDeleted);
+    }
+
 //    public function testCreatePreviousTimesheets(){
 //
 //        $currentTimesheetStartDate="2010-04-08";

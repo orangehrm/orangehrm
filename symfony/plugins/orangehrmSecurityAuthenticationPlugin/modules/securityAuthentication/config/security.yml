@@ -1,0 +1,5 @@
+all:
+  is_secure: false
+
+securityAuthenticationConfigure:
+  is_secure: true

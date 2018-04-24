@@ -24,6 +24,7 @@ class AddEmployeeForm extends sfForm {
     private $widgets = array();
     public $createUserAccount = 0;
     protected $openIdEnabled  = false;
+    const ESS_USER_ROLE_TYPE = 2;
 
     /**
      * Get EmployeeService
@@ -76,10 +77,10 @@ class AddEmployeeForm extends sfForm {
                 'file_src' => ''), array("class" => "duplexBox")),
             'chkLogin' => new sfWidgetFormInputCheckbox(array('value_attribute_value' => 1), array()),
             'user_name' => new sfWidgetFormInputText(array(), array("class" => "formInputText", "maxlength" => 40)),
-            'user_password' => new sfWidgetFormInputPassword(array(), array("class" => "formInputText passwordRequired", 
-                "maxlength" => 20)),
+            'user_password' => new ohrmWidgetFormInputPassword(array(), array("class" => "formInputText passwordRequired",
+                "maxlength" => 64)),
             're_password' => new sfWidgetFormInputPassword(array(), array("class" => "formInputText passwordRequired", 
-                "maxlength" => 20)),
+                "maxlength" => 64)),
             'status' => new sfWidgetFormSelect(array('choices' => $status), array("class" => "formInputText")),            
             'empNumber' => new sfWidgetFormInputHidden(),
         );
@@ -118,8 +119,8 @@ class AddEmployeeForm extends sfForm {
             'employeeId' => new sfValidatorString(array('required' => false, 'max_length' => 10)),
             'chkLogin' => new sfValidatorString(array('required' => false)),
             'user_name' => new sfValidatorString(array('required' => false, 'max_length' => 40, 'trim' => true)),
-            'user_password' => new sfValidatorString(array('required' => false, 'max_length' => 20, 'trim' => true)),
-            're_password' => new sfValidatorString(array('required' => false, 'max_length' => 20, 'trim' => true)),
+            'user_password' => new ohrmValidatorPassword(array('required' => false, 'max_length' => 64, 'trim' => true)),
+            're_password' => new sfValidatorPassword(array('required' => false,'min_length' => 8, 'max_length' => 64, 'trim' => true)),
             'status' => new sfValidatorString(array('required' => false))
         ));
 
@@ -218,10 +219,17 @@ class AddEmployeeForm extends sfForm {
 
         $posts = $this->getValues();
 
+        $sfUser = sfContext::getInstance()->getUser();
+
+        $password           = $posts['user_password'];
+        $confirmedPassword  = $posts['re_password'];
+        $isPasswordEmpty             = (empty($password) && empty($confirmedPassword))?true:false;
+        $hasLdapAvailable             = $sfUser->getAttribute('ldap.available');
+
         if (trim($posts['user_name']) != "") {
             $userService = $this->getUserService();
 
-            if ((trim($posts['user_password']) != "" && $posts['user_password'] == $posts['re_password']) || (trim($posts['user_password']) == "" && $this->openIdEnabled)) {
+            if (!$hasLdapAvailable && ((trim($posts['user_password']) != "" && $posts['user_password'] == $posts['re_password']) || (trim($posts['user_password']) == "" && $this->openIdEnabled))) {
                 $user = new SystemUser();
                 $user->setDateEntered(date('Y-m-d H:i:s'));
                 $user->setCreatedBy(sfContext::getInstance()->getUser()->getAttribute('user')->getUserId());
@@ -232,8 +240,10 @@ class AddEmployeeForm extends sfForm {
                 $user->setUserRoleId(2);
                 $userService->saveSystemUser($user, true);
             }
-            
-            $this->_handleLdapEnabledUser($posts, $empNumber);            
+
+            if($isPasswordEmpty && $hasLdapAvailable){
+                $this->_handleLdapEnabledUser($posts, $empNumber);
+            }
         }
     }
 
@@ -265,27 +275,18 @@ class AddEmployeeForm extends sfForm {
         return array('width' => $newWidth, 'height' => $newHeight);
     }
 
-    protected function _handleLdapEnabledUser($postedValues, $empNumber) {
-        
-        $sfUser = sfContext::getInstance()->getUser();
-        
-        $password           = $postedValues['user_password'];
-        $confirmedPassword  = $postedValues['re_password'];
-        $check1             = (empty($password) && empty($confirmedPassword))?true:false;
-        $check2             = $sfUser->getAttribute('ldap.available');
-        
-        if ($check1 && $check2) {
+    protected function _handleLdapEnabledUser($postedValues, $empNumber)
+    {
 
-            $user = new SystemUser();
-            $user->setDateEntered(date('Y-m-d H:i:s'));
-            $user->setCreatedBy($sfUser->getAttribute('user')->getUserId());
-            $user->user_name = $postedValues['user_name'];
-            $user->user_password = '';
-            $user->emp_number = $empNumber;
-            $user->setUserRoleId(2);
-            $this->getUserService()->saveSystemUser($user, true);            
-            
-        }
-        
+        $sfUser = sfContext::getInstance()->getUser();
+        $user = new SystemUser();
+        $user->setDateEntered(date('Y-m-d H:i:s'));
+        $user->setCreatedBy($sfUser->getAttribute('user')->getUserId());
+        $user->user_name = $postedValues['user_name'];
+        $user->user_password = '';
+        $user->emp_number = $empNumber;
+        $user->setUserRoleId(self::ESS_USER_ROLE_TYPE);
+        $this->getUserService()->saveSystemUser($user, true);
+
     }    
 }

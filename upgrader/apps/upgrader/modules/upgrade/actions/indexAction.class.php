@@ -25,6 +25,9 @@ class indexAction extends sfAction {
                     $this->redirect('upgrade/executeConfChange');
                     break;
                 case 'configureFile':
+                    $this->redirect('upgrade/registration');
+                    break;
+                case 'registration':
                     $this->redirect('upgrade/executeComplete');
                     break;
                     

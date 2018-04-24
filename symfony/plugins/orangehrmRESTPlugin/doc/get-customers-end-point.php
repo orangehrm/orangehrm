@@ -6,7 +6,7 @@
 *
 *
 * @apiSuccess  {Number} customerId  Customer Id.
-* @apiSuccess  {String} is_deleted  Is deleted( 1 = true /0 = false).
+* @apiSuccess  {String} isDeleted  Is deleted( 1,0).
 * @apiSuccess  {String} name  Customer name.
 * @apiSuccess  {String} description  Description.
 *
@@ -18,15 +18,15 @@
 *		  "data": [
 *		    {
 *		      "customerId": "1",
-*		      "is_deleted": "0",
+*		      "isDeleted": "0",
 *		      "name": "Aus Trading",
-*		      "description": ""
+*		      "description": "Description"
 *		    },
 *		    {
 *		      "customerId": "2",
-*		      "is_deleted": "0",
+*		      "isDeleted": "0",
 *		      "name": "Test11",
-*		      "description": "Defsg"
+*		      "description": "Test Description"
 *		    }
 *		  ],
 *		  "rels": []

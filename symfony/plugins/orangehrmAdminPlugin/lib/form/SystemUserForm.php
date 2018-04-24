@@ -47,8 +47,8 @@ class SystemUserForm extends BaseForm {
             'userName' => new sfWidgetFormInputText(array(), array("class" => "formInputText", "maxlength" => 40)),
             'status' => new sfWidgetFormSelect(array('choices' => $statusList), array("class" => "formSelect", "maxlength" => 3)),
             'chkChangePassword' => new sfWidgetFormInputCheckbox(array(), array('class' => 'chkChangePassword', 'value' => 'on')),
-            'password' => new sfWidgetFormInputPassword(array(), array("class" => "formInputText password", "maxlength" => 20)),
-            'confirmPassword' => new sfWidgetFormInputPassword(array(), array("class" => "formInputText password", "maxlength" => 20))
+            'password' => new ohrmWidgetFormInputPassword(array(), array("class" => "formInputText password", "autocomplete" => "off", "maxlenght" => 64, "minlength" => 8)),
+            'confirmPassword' => new sfWidgetFormInputPassword(array(), array("class" => "formInputText password", "maxlength" => 64, "minlength" => 8))
         ));
 
         $this->setValidators(array(
@@ -57,8 +57,8 @@ class SystemUserForm extends BaseForm {
                                                       'choices' => array_keys($userRoleList))),            
             'employeeName' => new ohrmValidatorEmployeeNameAutoFill(),
             'userName' => new sfValidatorString(array('required' => true, 'max_length' => 40)),
-            'password' => new sfValidatorString(array('required' => false, 'max_length' => 20)),
-            'confirmPassword' => new sfValidatorString(array('required' => false, 'max_length' => 20)),
+            'password' => new ohrmValidatorPassword(array('required' => false, 'max_length' => 64)),
+            'confirmPassword' => new sfValidatorPassword(array('required' => false,'min_length' => 8, 'max_length' => 64, 'trim' => true)),
             'status' => new sfValidatorString(array('required' => true, 'max_length' => 1)),
             'chkChangePassword' => new sfValidatorString(array('required' => false))
         ));
@@ -123,13 +123,13 @@ class SystemUserForm extends BaseForm {
         $userId = $this->getValue('userId');
         $password = $this->getValue('password');
         $changePasswordCheck = $this->getValue('chkChangePassword');
-        $changePasword = false;
+        $changePassword = false;
         if (empty($userId)) {
             $user = new SystemUser();
             $user->setDateEntered(date('Y-m-d H:i:s'));
             $user->setCreatedBy($this->getOption('sessionUser')->getUserId());
             $user->setUserPassword($this->getValue('password'));
-            $changePasword = true;
+            $changePassword = true;
         } else {
             $this->edited = true;
             $user = $this->getSystemUserService()->getSystemUser($userId);
@@ -137,7 +137,7 @@ class SystemUserForm extends BaseForm {
             $user->setModifiedUserId($this->getOption('sessionUser')->getUserId());
             if (!empty($changePasswordCheck)) {
                 $user->setUserPassword($this->getValue('password'));
-                $changePasword = true;
+                $changePassword = true;
             }
         }
 
@@ -148,7 +148,7 @@ class SystemUserForm extends BaseForm {
 
         $user->setStatus($this->getValue('status'));
 
-        $savedUser = $this->getSystemUserService()->saveSystemUser($user, $changePasword);
+        $savedUser = $this->getSystemUserService()->saveSystemUser($user, $changePassword);
         
         if ($savedUser instanceof SystemUser) {
             $this->setDefault('userId', $savedUser->getId());
