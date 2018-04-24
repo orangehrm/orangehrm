@@ -29,7 +29,7 @@ Live demo is available at : https://orangehrmdev.herokuapp.com
 
 Credentials : 
     Username: admin
-    Password: admin
+    Password: Beijing2008!@#$
 
 ## Releases
 Sourceforge : https://sourceforge.net/p/orangehrm
