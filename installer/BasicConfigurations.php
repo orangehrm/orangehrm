@@ -78,10 +78,6 @@ public function isFailBasicConfigurations(){
 
 	//12-function
 	$this->IsGgExtensionEnable();
-	//13- function
-	$this->IsPHPExifEnable();
-	//14- function
-	$this->IsPHPAPCEnable();
 
 	//16- function
 	//getAppacheModules();
