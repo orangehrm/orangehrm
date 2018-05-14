@@ -70,28 +70,22 @@ public function isFailBasicConfigurations(){
 	$this->IsMaximumSessionIdle();
 	//10-function
 	$this->IsRegisterGlobalsOff();
-
-
+    
 	//11 Display messages with case statement filter.
 	$this->checkMemory();
-	
 
 	//12-function
 	$this->IsGgExtensionEnable();
-	//13- function
-	$this->IsPHPExifEnable();
-	//14- function
-	$this->IsPHPAPCEnable();
 
-	//16- function
-	//getAppacheModules();
+    if($this->isApacheServer()) {
+        //17- function
+        $this->IsApacheExpiresModule();
+        //18- function
+        $this->IsApacheHeadersModule();
+        //19 - function
+        $this->IsEnableRewriteMod();
+    }
 
-	//17- function
-	$this->IsApacheExpiresModule();
-	//18- function
-	$this->IsApacheHeadersModule();
-	//19 - function
-	$this->IsEnableRewriteMod();
 	//20 - function
 //	$this->MySQLEventStatus(); // removed my sql status check because it is not needed for OS
 	$this->getMessages()->displayMessage(Messages::SEPERATOR);
@@ -322,39 +316,40 @@ function checkMemory() {
 
 //17- function
  function IsApacheExpiresModule(){
-            $apacheModules = $this->getAppacheModules();
- 
-            if (empty($apacheModules)) {
-	       $this->getMessages()->displayMessage(Messages::ApacheExpiresModule_UNABLE_MESSAGE);
-             } else if (in_array('mod_expires', $apacheModules)) {     
-	       $this->getMessages()->displayMessage(Messages::ApacheExpiresModule_OK_MESSAGE);
-             } else  {
-	       $this->getMessages()->displayMessage(Messages::ApacheExpiresModule_DISABLE_MESSAGE);               
-            }
+     $apacheModules = $this->getAppacheModules();
+
+     if (empty($apacheModules)) {
+         $this->getMessages()->displayMessage(Messages::ApacheExpiresModule_UNABLE_MESSAGE);
+     } else if (in_array('mod_expires', $apacheModules)) {
+         $this->getMessages()->displayMessage(Messages::ApacheExpiresModule_OK_MESSAGE);
+     } else  {
+         $this->getMessages()->displayMessage(Messages::ApacheExpiresModule_DISABLE_MESSAGE);
+     }
+
+
 }
 
 //18- function
  function IsApacheHeadersModule(){
-            if (empty($apacheModules)) {
-                  $this->getMessages()->displayMessage(Messages::ApacheHeadersModule_UNABLE_MESSAGE); 
-            } else if (in_array('mod_headers', $apacheModules)) {                
-                  $this->getMessages()->displayMessage(Messages::ApacheHeadersModule_ENABLE_MESSAGE); 
-            } else{ 
-                  $this->getMessages()->displayMessage(Messages::ApacheHeadersModule_DISABLE_MESSAGE);
-            }
+     if (empty($apacheModules)) {
+         $this->getMessages()->displayMessage(Messages::ApacheHeadersModule_UNABLE_MESSAGE);
+     } else if (in_array('mod_headers', $apacheModules)) {
+         $this->getMessages()->displayMessage(Messages::ApacheHeadersModule_ENABLE_MESSAGE);
+     } else{
+         $this->getMessages()->displayMessage(Messages::ApacheHeadersModule_DISABLE_MESSAGE);
+     }
 }
 
 //19 - function
 function IsEnableRewriteMod(){
-            if (empty($apacheModules)) {
-		 $this->getMessages()->displayMessage(Messages::EnableRewriteMod_UNABLE_MESSAGE);              
-             } else if (in_array('mod_rewrite', $apacheModules)) { 
-		    $this->getMessages()->displayMessage(Messages::EnableRewriteMod_OK_MESSAGE); 
-            } else  { 
-                $this->interuptContinue = true;
-		$this->getMessages()->displayMessage(Messages::EnableRewriteMod_DISABLE_MESSAGE);               
-            } 
-
+    if (empty($apacheModules)) {
+        $this->getMessages()->displayMessage(Messages::EnableRewriteMod_UNABLE_MESSAGE);
+    } else if (in_array('mod_rewrite', $apacheModules)) {
+        $this->getMessages()->displayMessage(Messages::EnableRewriteMod_OK_MESSAGE);
+    } else  {
+        $this->interuptContinue = true;
+        $this->getMessages()->displayMessage(Messages::EnableRewriteMod_DISABLE_MESSAGE);
+    }
 }
 
 //20 - function
@@ -376,6 +371,23 @@ function MySQLEventStatus(){
 		    $this->interuptContinue = true;
                }
 
+ }
+
+    /**
+     * Check script execute in apache server
+     * @return bool
+     */
+ private function isApacheServer() {
+    $isApache = false;
+    $sapiName = php_sapi_name();
+    switch ($sapiName) {
+        case 'apache':
+        case 'apache2filter':
+        case 'apache2handler':
+            $isApache = true;
+        break;
+    }
+    return $isApache;
  }
 
 /*
@@ -456,5 +468,5 @@ function dbConfigurationCheck()
         return $conn;
     }
 }
-?>
+
 
