@@ -1,6 +1,6 @@
 FROM ubuntu:14.04
 
-MAINTAINER Orangehrm <thulana@orangehrm.us.com>
+MAINTAINER Orangehrm <samanthaj@orangehrm.com>
 
 RUN apt-get update
 
@@ -29,9 +29,7 @@ COPY . var/www/site/orangehrm
 
 #config mysql
 RUN /usr/sbin/mysqld & \
-
     sleep 5s &&\
-
     echo "USE mysql;\nUPDATE user SET password=PASSWORD('root') WHERE user='root';\nFLUSH PRIVILEGES;\n" | mysql
 
 
@@ -40,16 +38,12 @@ RUN cd var/www/site/orangehrm; bash fix_permissions.sh
 
 #install application
 RUN /usr/sbin/mysqld & \
-
     sleep 5s &&\
- 
     cd var/www/site/orangehrm; php installer/cli_install.php 0
 
 #Seed the database
 RUN /usr/sbin/mysqld & \
-
     sleep 5s &&\
-
     cd var/www/site/orangehrm/travis-config-files; ./seeddb.sh
 
 
