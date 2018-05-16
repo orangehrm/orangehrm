@@ -19,6 +19,7 @@
  */
 
 require_once(ROOT_PATH . '/installer/utils/installUtil.php');
+require_once(ROOT_PATH . '/installer/environmentCheck/SystemValidator.php');
 
 function checkMemory() {
 
@@ -62,6 +63,25 @@ function checkMemory() {
 	return $msg;
 }
 
+function isPhpCompatible() {
+    $systemValidator = new systemValidator();
+    return $systemValidator->isPhpCompatible();
+}
+
+function getPhpErrorMessage() {
+    $systemValidator = new systemValidator();
+    return $systemValidator->getPhpErrorMessage();
+}
+
+function isMysqlCompatible($dbHost, $dbUserName, $dbPort) {
+    $systemValidator = new systemValidator();
+    return $systemValidator->isMySqlCompatible($dbHost, $dbUserName, $dbPort);
+}
+
+function getMysqlErrorMessage($dbHost, $dbUserName, $dbPort) {
+    $systemValidator = new systemValidator();
+    return $systemValidator->getMysqlErrorMessage($dbHost, $dbUserName, $dbPort);
+}
 ?>
 
 <script language="JavaScript">
@@ -97,9 +117,10 @@ function sysCheckPassed() {
             	$error_found = false;
                 $phpVersion = PHP_VERSION;
                
-               if (version_compare(PHP_VERSION, '5.3.0') < 0) {
+               if (!isPhpCompatible()) {
                    $error_found = true;
-                   echo "<b><font color='red'>PHP 5.3.0 or higher is required. Installed version is $phpVersion</font></b>";
+                   $phpErrorMessage = getPhpErrorMessage();
+                   echo "<b><font color='red'>$phpErrorMessage</font></b>";
                } else {
                    echo "<b><font color='green'>OK (ver $phpVersion)</font></b>";
                }               
@@ -147,10 +168,11 @@ function sysCheckPassed() {
 
 	              $mysqlServer = mysqli_get_server_info($conn);
 
-                  if(version_compare($mysqlServer, "5.1.6") >= 0) {
+                   if(isMysqlCompatible($dbInfo['dbHostName'], $dbInfo['dbUserName'], $dbInfo['dbPassword'])) {
                   	 echo "<b><font color='green'>OK (ver " .$mysqlServer. ')</font></b>';
                   } else {
-                  	echo "<b><font color='#9E6D6D'>ver 5.1.6 or later recommended (reported ver " .$mysqlServer. ')</font></b>';
+                       $mysqlErrorMessage = getMysqlErrorMessage($dbInfo['dbHostName'], $dbInfo['dbUserName'], $dbInfo['dbPassword']);
+                  	echo "<b><font color='#9E6D6D'>$mysqlErrorMessage</font></b>";
                   }
                } else {
                   echo "<b><font color='red'>Not Available</font></b>";
