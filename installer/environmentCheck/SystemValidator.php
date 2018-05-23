@@ -1,9 +1,21 @@
 <?php
 /**
- * Created by PhpStorm.
- * User: madhuka
- * Date: 5/10/18
- * Time: 4:53 PM
+ * OrangeHRM is a comprehensive Human Resource Management (HRM) System that captures
+ * all the essential functionalities required for any enterprise.
+ * Copyright (C) 2006 OrangeHRM Inc., http://www.orangehrm.com
+ *
+ * OrangeHRM is free software; you can redistribute it and/or modify it under the terms of
+ * the GNU General Public License as published by the Free Software Foundation; either
+ * version 2 of the License, or (at your option) any later version.
+ *
+ * OrangeHRM is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY;
+ * without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+ * See the GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License along with this program;
+ * if not, write to the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
+ * Boston, MA  02110-1301, USA
+ *
  */
 
 
@@ -12,74 +24,134 @@ class SystemValidator
 {
     private $systemRequirements;
 
-    public function __construct() {
-        $this->systemRequirements = sfYaml::load(file_get_contents( dirname(__FILE__) . '/system_requirements.yml'));
+    public function __construct()
+    {
+        $this->systemRequirements = sfYaml::load(file_get_contents(dirname(__FILE__) . '/system_requirements.yml'));
 
     }
 
-    public function isPhpCompatible() {
+    /**
+     * @return bool
+     */
+    public function isPhpCompatible()
+    {
         $currentVersion = phpversion();
-        return $this->isWithinRange($currentVersion, $this->systemRequirements['phpversion']['range'], $this->systemRequirements['phpversion']['min'], $this->systemRequirements['phpversion']['max']);
+        return $this->isWithinRange($currentVersion, $this->systemRequirements['phpversion']['excludeRange'], $this->systemRequirements['phpversion']['min'], $this->systemRequirements['phpversion']['max']);
     }
 
-    public function isMySqlCompatible($host, $userName, $password) {
+    /**
+     * @param $host
+     * @param $userName
+     * @param $password
+     * @return bool
+     */
+    public function isMySqlCompatible($host, $userName, $password)
+    {
         $currentVersion = $this->getMySqlVersion($host, $userName, $password);
 
         if (strpos($currentVersion, 'MariaDB') !== false) {
-            return $this->isWithinRange($this->getMariaDbVersion($currentVersion), $this->systemRequirements['mariadbversion']['range'], $this->systemRequirements['mariadbversion']['min'], $this->systemRequirements['mariadbversion']['max']);
+            return $this->isWithinRange($this->getMariaDbVersion($currentVersion), $this->systemRequirements['mariadbversion']['excludeRange'], $this->systemRequirements['mariadbversion']['min'], $this->systemRequirements['mariadbversion']['max']);
         }
-        return $this->isWithinRange($currentVersion, $this->systemRequirements['mysqlversion']['range'], $this->systemRequirements['mysqlversion']['min'], $this->systemRequirements['mysqlversion']['max']);
+        return $this->isWithinRange($currentVersion, $this->systemRequirements['mysqlversion']['excludeRange'], $this->systemRequirements['mysqlversion']['min'], $this->systemRequirements['mysqlversion']['max']);
     }
 
-    public function getPhpErrorMessage() {
-        if ($this->systemRequirements['phpversion']['range']) {
-            $message =  "Compatible PHP versions:";
-            foreach ($this->systemRequirements['phpversion']['range'] as $key => $version) {
-                if ($key == 0) {
-                    $message = $message . $version;
-                } else {
-                    $message = $message . ", " . $version;
-                }
+    /**
+     * @return bool
+     */
+    public function isWebServerCompatible()
+    {
+        $webServer = $_SERVER['SERVER_SOFTWARE'];
 
+        foreach ($this->systemRequirements['webserver'] as $validServer) {
+            if (strpos($webServer, $validServer) !== false) {
+                return true;
             }
-            return $message . " Installed version is " . phpversion();
-        } else {
-            return "PHP Version should be higher than " . $this->systemRequirements['phpversion']['min']. " and lower than " . $this->systemRequirements['phpversion']['max'] . " Installed version is " . phpversion();
         }
+        return false;
     }
 
-    public function getMysqlErrorMessage($host, $userName, $password) {
+    /**
+     * @return string
+     */
+    public function getPhpErrorMessage()
+    {
+        return $this->getErrorMessage('PHP', phpversion(), $this->systemRequirements['phpversion']['excludeRange'], $this->systemRequirements['phpversion']['min'], $this->systemRequirements['phpversion']['max']);
+    }
+
+    /**
+     * @param $host
+     * @param $userName
+     * @param $password
+     * @return string
+     */
+    public function getMysqlErrorMessage($host, $userName, $password)
+    {
         $currentVersion = $this->getMySqlVersion($host, $userName, $password);
         if (strpos($currentVersion, 'MariaDB') !== false) {
-            return $this->getDatabaseErrorMessage($currentVersion, $this->systemRequirements['mariadbversion'], 'MariaDB');
+            return $this->getErrorMessage('MariaDB', $currentVersion, $this->systemRequirements['mariadbversion']['excludeRange'], $this->systemRequirements['mariadbversion']['min'], $this->systemRequirements['mariadbversion']['max']);
         } else {
-            return $this->getDatabaseErrorMessage($currentVersion, $this->systemRequirements['mysqlversion'], 'MySql');
+            return $this->getErrorMessage('MySql', $currentVersion, $this->systemRequirements['mysqlversion']['excludeRange'], $this->systemRequirements['mysqlversion']['min'], $this->systemRequirements['mysqlversion']['max']);
         }
     }
 
-    private function isWithinRange($value, $range, $min, $max) {
-        if ($range) {
-            if (in_array($value, $range)) {
-                return true;
-            }
-            return false;
+    /**
+     * @return string
+     */
+    public function getWebServerErrorMessage()
+    {
+        $webServer = $_SERVER['SERVER_SOFTWARE'];
 
-        } else {
-            if (version_compare($value, $min) >= 0 && version_compare($max, $value) >= 0) {
-                return true;
+        $message = "Compatible web servers: ";
+        foreach ($this->systemRequirements['webserver'] as $key => $validServer) {
+            if ($key == 0) {
+                $message = $message . $validServer;
+            } else {
+                $message = $message . ", " . $validServer;
             }
-            return false;
         }
+        $message = $message . ". Installed server is " . $webServer;
+        return $message;
     }
 
-    private function getMariaDbVersion($mariadbVersionString) {
+
+    /**
+     * @param $value
+     * @param $excludeRange
+     * @param $min
+     * @param $max
+     * @return bool
+     */
+    private function isWithinRange($value, $excludeRange, $min, $max)
+    {
+        if (!(version_compare($value, $min) >= 0 && version_compare($max, $value) >= 0)) {
+            return false;
+        }
+        if ($this->isExcluded($value, $excludeRange)) {
+            return false;
+        }
+        return true;
+    }
+
+    /**
+     * @param $mariadbVersionString
+     * @return mixed
+     */
+    private function getMariaDbVersion($mariadbVersionString)
+    {
         $mariaDBVersionArray = explode("-", $mariadbVersionString);
         $mariaDBVersion = $mariaDBVersionArray[0];
 
         return $mariaDBVersion;
     }
 
-    private function getMySqlVersion($host, $userName, $password) {
+    /**
+     * @param $host
+     * @param $userName
+     * @param $password
+     * @return string
+     */
+    private function getMySqlVersion($host, $userName, $password)
+    {
         $mysqli = new mysqli($host, $userName, $password);
 
         if (mysqli_connect_errno()) {
@@ -92,19 +164,23 @@ class SystemValidator
         return $currentVersion;
     }
 
-    private function getDatabaseErrorMessage($currentVersion, $versionData = array(), $dbServer) {
-        if ($versionData['range']) {
-            $message =  "Compatible ". $dbServer ." versions:";
-            foreach ($versionData['range'] as $key => $version) {
-                if ($key == 0) {
-                    $message = $message . $version;
-                } else {
-                    $message = $message . ", " . $version;
-                }
-            }
-            return $message . " Installed version is " . $currentVersion;
-        } else {
-            return $dbServer . " Version should be higher than " . $versionData['min']. " and lower than " . $versionData['max'] . " Installed version is " . $currentVersion;
+    private function isExcluded($value, $excludedRange = array()) {
+        if (in_array($value, $excludedRange)) {
+            return true;
         }
+        return false;
+    }
+
+    private function getErrorMessage($component, $currentVersion, $excludeRange, $min , $max) {
+        $message = '';
+
+        if ($this->isExcluded($currentVersion, $excludeRange)) {
+            $message = $message . $component . " Version " . $currentVersion . " is not supported.";
+        } else {
+            $message = $component . " Version should be higher than " . $min . " and lower than " . $max;
+        }
+        $message = $message . " .Installed version is " . $currentVersion;
+        return $message;
+
     }
 }
