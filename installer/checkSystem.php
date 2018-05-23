@@ -82,6 +82,16 @@ function getMysqlErrorMessage($dbHost, $dbUserName, $dbPort) {
     $systemValidator = new systemValidator();
     return $systemValidator->getMysqlErrorMessage($dbHost, $dbUserName, $dbPort);
 }
+
+function isWebServerCompatible() {
+    $systemValidator = new systemValidator();
+    return $systemValidator->isWebServerCompatible();
+}
+
+function getWebServerErrorMessage() {
+    $systemValidator = new systemValidator();
+    return $systemValidator->getWebServerErrorMessage();
+}
 ?>
 
 <script language="JavaScript">
@@ -181,6 +191,21 @@ function sysCheckPassed() {
             ?>
             </strong></td>
           </tr>
+          <tr>
+              <td class="tdComponent">Web Server</td>
+
+              <td align="right" class="tdValues"><strong>
+                      <?php
+                      if(isWebServerCompatible()) {
+                          $webServer = $_SERVER['SERVER_SOFTWARE'];
+                          echo "<b><font color='green'>OK (ver " .$webServer. ')</font></b>';
+                      } else {
+                          $webServerErrorMessage = getWebServerErrorMessage();
+                          echo "<b><font color='#9E6D6D'>$webServerErrorMessage</font></b>";
+                      }
+                      ?>
+                  </strong></td>
+            </tr>
           <tr>
             <td class="tdComponent">MySQL InnoDB Support</td>
 
