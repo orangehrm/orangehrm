@@ -20,9 +20,13 @@
 
 
 require __DIR__ . "/../../symfony/lib/vendor/autoload.php";
+
 class SystemValidator
 {
-    private $systemRequirements;
+    /**
+     * @var array|null
+     */
+    private $systemRequirements = null;
 
     public function __construct()
     {
@@ -36,7 +40,8 @@ class SystemValidator
     public function isPhpCompatible()
     {
         $currentVersion = phpversion();
-        return $this->isWithinRange($currentVersion, $this->systemRequirements['phpversion']['excludeRange'], $this->systemRequirements['phpversion']['min'], $this->systemRequirements['phpversion']['max']);
+        return $this->isWithinRange($currentVersion, $this->systemRequirements['phpversion']['excludeRange'],
+            $this->systemRequirements['phpversion']['min'], $this->systemRequirements['phpversion']['max']);
     }
 
     /**
@@ -49,10 +54,13 @@ class SystemValidator
     {
         $currentVersion = $this->getMySqlVersion($host, $userName, $password);
 
-        if (strpos($currentVersion, 'MariaDB') !== false) {
-            return $this->isWithinRange($this->getMariaDbVersion($currentVersion), $this->systemRequirements['mariadbversion']['excludeRange'], $this->systemRequirements['mariadbversion']['min'], $this->systemRequirements['mariadbversion']['max']);
+        if ($this->isMariaDB($currentVersion)) {
+            return $this->isWithinRange($this->getMariaDbVersion($currentVersion),
+                $this->systemRequirements['mariadbversion']['excludeRange'],
+                $this->systemRequirements['mariadbversion']['min'], $this->systemRequirements['mariadbversion']['max']);
         }
-        return $this->isWithinRange($currentVersion, $this->systemRequirements['mysqlversion']['excludeRange'], $this->systemRequirements['mysqlversion']['min'], $this->systemRequirements['mysqlversion']['max']);
+        return $this->isWithinRange($currentVersion, $this->systemRequirements['mysqlversion']['excludeRange'],
+            $this->systemRequirements['mysqlversion']['min'], $this->systemRequirements['mysqlversion']['max']);
     }
 
     /**
@@ -75,7 +83,8 @@ class SystemValidator
      */
     public function getPhpErrorMessage()
     {
-        return $this->getErrorMessage('PHP', phpversion(), $this->systemRequirements['phpversion']['excludeRange'], $this->systemRequirements['phpversion']['min'], $this->systemRequirements['phpversion']['max']);
+        return $this->getErrorMessage('PHP', phpversion(), $this->systemRequirements['phpversion']['excludeRange'],
+            $this->systemRequirements['phpversion']['min'], $this->systemRequirements['phpversion']['max']);
     }
 
     /**
@@ -87,10 +96,14 @@ class SystemValidator
     public function getMysqlErrorMessage($host, $userName, $password)
     {
         $currentVersion = $this->getMySqlVersion($host, $userName, $password);
-        if (strpos($currentVersion, 'MariaDB') !== false) {
-            return $this->getErrorMessage('MariaDB', $currentVersion, $this->systemRequirements['mariadbversion']['excludeRange'], $this->systemRequirements['mariadbversion']['min'], $this->systemRequirements['mariadbversion']['max']);
+        if ($this->isMariaDB($currentVersion)) {
+            return $this->getErrorMessage('MariaDB', $currentVersion,
+                $this->systemRequirements['mariadbversion']['excludeRange'],
+                $this->systemRequirements['mariadbversion']['min'], $this->systemRequirements['mariadbversion']['max']);
         } else {
-            return $this->getErrorMessage('MySql', $currentVersion, $this->systemRequirements['mysqlversion']['excludeRange'], $this->systemRequirements['mysqlversion']['min'], $this->systemRequirements['mysqlversion']['max']);
+            return $this->getErrorMessage('MySql', $currentVersion,
+                $this->systemRequirements['mysqlversion']['excludeRange'],
+                $this->systemRequirements['mysqlversion']['min'], $this->systemRequirements['mysqlversion']['max']);
         }
     }
 
@@ -164,14 +177,29 @@ class SystemValidator
         return $currentVersion;
     }
 
-    private function isExcluded($value, $excludedRange = array()) {
+    /**
+     * @param $value
+     * @param array $excludedRange
+     * @return bool
+     */
+    private function isExcluded($value, $excludedRange = array())
+    {
         if (in_array($value, $excludedRange)) {
             return true;
         }
         return false;
     }
 
-    private function getErrorMessage($component, $currentVersion, $excludeRange, $min , $max) {
+    /**
+     * @param $component
+     * @param $currentVersion
+     * @param $excludeRange
+     * @param $min
+     * @param $max
+     * @return string
+     */
+    private function getErrorMessage($component, $currentVersion, $excludeRange, $min, $max)
+    {
         $message = '';
 
         if ($this->isExcluded($currentVersion, $excludeRange)) {
@@ -182,5 +210,17 @@ class SystemValidator
         $message = $message . " .Installed version is " . $currentVersion;
         return $message;
 
+    }
+
+    /**
+     * @param $currentVersion
+     * @return bool
+     */
+    private function isMariaDB($currentVersion)
+    {
+        if (strpos($currentVersion, 'MariaDB') !== false) {
+            return true;
+        }
+        return false;
     }
 }
