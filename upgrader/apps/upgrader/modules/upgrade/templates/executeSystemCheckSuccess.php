@@ -4,41 +4,8 @@
 
 <?php require __DIR__ . "/../../../../../../installer/environmentCheck/SystemValidator.php"; ?>
 <?php
-function isPhpCompatible()
-{
-    $systemValidator = new systemValidator();
-    return $systemValidator->isPhpCompatible();
-}
 
-function getPhpErrorMessage()
-{
-    $systemValidator = new systemValidator();
-    return $systemValidator->getPhpErrorMessage();
-}
-
-function isMysqlCompatible($dbHost, $dbUserName, $dbPort)
-{
-    $systemValidator = new systemValidator();
-    return $systemValidator->isMySqlCompatible($dbHost, $dbUserName, $dbPort);
-}
-
-function getMysqlErrorMessage($dbHost, $dbUserName, $dbPort)
-{
-    $systemValidator = new systemValidator();
-    return $systemValidator->getMysqlErrorMessage($dbHost, $dbUserName, $dbPort);
-}
-
-function isWebServerCompatible()
-{
-    $systemValidator = new systemValidator();
-    return $systemValidator->isWebServerCompatible();
-}
-
-function getWebServerErrorMessage()
-{
-    $systemValidator = new systemValidator();
-    return $systemValidator->getWebServerErrorMessage();
-}
+$systemValidator = new SystemValidator();
 
 ?>
 ?>
@@ -73,9 +40,9 @@ function sysCheckPassed() {
                 $error_found = false;
                 $phpVersion = PHP_VERSION;
                
-               if (!isPhpCompatible()) {
+               if (!$systemValidator->isPhpCompatible()) {
                    $error_found = true;
-                   $phpErrorMessage = getPhpErrorMessage();
+                   $phpErrorMessage = $systemValidator->getPhpErrorMessage();
                    echo "<b><font color='red'>$phpErrorMessage</font></b>";
                } else {
                    echo "<b><font color='green'>OK (ver $phpVersion)</font></b>";
@@ -124,10 +91,10 @@ function sysCheckPassed() {
 
 	              $mysqlServer = mysqli_get_server_info($conn);
 
-                        if (isMysqlCompatible($dbInfo['host'], $dbInfo['username'], $dbInfo['password'])) {
+                        if ($systemValidator->isMySqlCompatible($dbInfo['host'], $dbInfo['username'], $dbInfo['password'])) {
                             echo "<b><font color='green'>OK (ver " . $mysqlServer . ')</font></b>';
                         } else {
-                            $mysqlErrorMessage = getMysqlErrorMessage($dbInfo['host'], $dbInfo['username'], $dbInfo['password']);
+                            $mysqlErrorMessage = $systemValidator->getMysqlErrorMessage($dbInfo['host'], $dbInfo['username'], $dbInfo['password']);
                             echo "<b><font color='#9E6D6D'>$mysqlErrorMessage</font></b>";
                         }
                     } else {
@@ -142,11 +109,11 @@ function sysCheckPassed() {
 
             <td align="right" class="tdValues"><strong>
                     <?php
-                    if (isWebServerCompatible()) {
+                    if ($systemValidator->isWebServerCompatible()) {
                         $webServer = $_SERVER['SERVER_SOFTWARE'];
                         echo "<b><font color='green'>OK (ver " . $webServer . ')</font></b>';
                     } else {
-                        $webServerErrorMessage = getWebServerErrorMessage();
+                        $webServerErrorMessage = $systemValidator->getWebServerErrorMessage();
                         echo "<b><font color='#9E6D6D'>$webServerErrorMessage</font></b>";
                     }
                     ?>
