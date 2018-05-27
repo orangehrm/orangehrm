@@ -1,62 +1,38 @@
-FROM ubuntu:14.04
+FROM php:7.1-apache
 
 MAINTAINER Orangehrm <samanthaj@orangehrm.com>
 
-RUN apt-get update
 
-# Install apache, PHP, and supplimentary programs. curl is for debugging the container.
-RUN DEBIAN_FRONTEND=noninteractive apt-get -y install apache2 mysql-server libapache2-mod-php5 php5-mysql php5-gd php-pear php-apc php5-curl curl supervisor
+ENV DEBIAN_FRONTEND noninteractive
+ENV APACHE_DOCUMENT_ROOT /var/www/html
 
-# Enable apache mods.
-RUN a2enmod php5
-RUN a2enmod rewrite
+# Add source to image
+COPY .  /var/www/html
 
-# Manually set up the apache environment variables
-ENV APACHE_RUN_USER www-data
-ENV APACHE_RUN_GROUP www-data
-ENV APACHE_LOG_DIR /var/log/apache2
-ENV APACHE_LOCK_DIR /var/lock/apache2
-ENV APACHE_PID_FILE /var/run/apache2.pid
+COPY ./docker-build-files/config.ini  /var/www/html/installer/
 
+# Install mysql
+RUN apt-get update \
+  && apt-get install -y mysql-server mysql-client \
+  && docker-php-ext-install pdo pdo_mysql \
+  && apt-get clean \
+  && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
-ARG SEED=true
-# Export port 80
-EXPOSE 80
-
-# add source to image
-RUN mkdir -p var/www/site/orangehrm
-COPY . var/www/site/orangehrm
-
-#config mysql
-RUN /usr/sbin/mysqld & \
-    sleep 5s &&\
-    echo "USE mysql;\nUPDATE user SET password=PASSWORD('root') WHERE user='root';\nFLUSH PRIVILEGES;\n" | mysql
-
+# Install gd
+RUN apt-get update && apt-get install -y \
+        libfreetype6-dev \
+        libjpeg62-turbo-dev \
+        libmcrypt-dev \
+        libpng-dev \
+    && docker-php-ext-install -j$(nproc) iconv mcrypt \
+    && docker-php-ext-configure gd --with-freetype-dir=/usr/include/ --with-jpeg-dir=/usr/include/ \
+    && docker-php-ext-install -j$(nproc) gd
 
 # Fix Permission
-RUN cd var/www/site/orangehrm; bash fix_permissions.sh
+RUN cd /var/www/html; bash fix_permissions.sh
 
-#install application
-RUN /usr/sbin/mysqld & \
-    sleep 5s &&\
-    cd var/www/site/orangehrm; php installer/cli_install.php 0
+#Install application
+RUN cd /var/www/html; php installer/cli_install.php 0
 
-#Seed the database
-RUN /usr/sbin/mysqld & \
-    sleep 5s &&\
-    cd var/www/site/orangehrm/travis-config-files; ./seeddb.sh
-
-
-# Update the default apache site with the config we created.
-ADD docker-build-files/apache-config.conf /etc/apache2/sites-enabled/000-default.conf
-
-# Update the default apache ports with the config we created.
-ADD docker-build-files/ports.conf /etc/apache2/ports.conf
-
-# Copy Supervisor configuration
-ADD docker-build-files/supervisord.conf /etc/supervisor/conf.d/supervisord.conf
-
-# Start apache/mysql
-CMD /usr/bin/supervisord -c /etc/supervisor/conf.d/supervisord.conf
-
-
+# Expose the port
+EXPOSE 80
