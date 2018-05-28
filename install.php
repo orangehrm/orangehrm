@@ -179,9 +179,7 @@ if (isset($_POST['actionResponse']))
             if ($conn) {
                 $mysqlHost = mysqli_get_server_info($conn);
 
-                if (intval(substr($mysqlHost, 0, 1)) < 4 || substr($mysqlHost, 0, 3) === '4.0') {
-                    $error = 'WRONGDBVER';
-                } elseif ($_POST['dbCreateMethod'] == 'new' && mysqli_select_db($conn, $dbInfo['dbName'])) {
+                if ($_POST['dbCreateMethod'] == 'new' && mysqli_select_db($conn, $dbInfo['dbName'])) {
                     $error = 'DBEXISTS';
                 } elseif ($_POST['dbCreateMethod'] == 'new' && !isset($_POST['chkSameUser'])) {
 
