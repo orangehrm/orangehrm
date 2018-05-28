@@ -24,6 +24,7 @@ class saveSystemUserAction extends sfAction {
     private $systemUserService;
     private $configService;
     private $securityAuthenticationConfigService;
+    private $employeeService;
 
     public function getSystemUserService() {        
         if (is_null($this->systemUserService)) {
@@ -34,6 +35,17 @@ class saveSystemUserAction extends sfAction {
     
     public function setSystemUserService($systemUserService) {
         $this->systemUserService = $systemUserService;
+    }
+
+    /**
+     * @return EmployeeService
+     */
+    public function getEmployeeService() {
+        if (is_null($this->employeeService)) {
+            $this->employeeService = new EmployeeService();
+            $this->employeeService->setEmployeeDao(new EmployeeDao());
+        }
+        return $this->employeeService;
     }
 
     /**
@@ -77,7 +89,14 @@ class saveSystemUserAction extends sfAction {
     }
 
     public function execute($request) {
-        
+
+        $employeeCount = $this->getEmployeeService()->getEmployeeCount();
+        $this->employeeCount = $employeeCount;
+
+        if ($this->employeeCount == 0) {
+            $this->getUser()->setFlash('warning.nofade', __('Add Employee in PIM to add user accounts'), false);
+        }
+
         /* For highlighting corresponding menu item */
         $request->setParameter('initialActionName', 'viewSystemUsers');
         $this->openIdEnabled = $openIdConfig = $this->getConfigService()->getOpenIdProviderAdded();
