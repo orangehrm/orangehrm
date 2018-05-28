@@ -20,7 +20,7 @@ RUN echo "mysql-server mysql-server/root_password password ${MYSQL_PWD}" | debco
 # Install mysql
 RUN apt-get update \
   && apt-get install -y mysql-client \
-  && docker-php-ext-install pdo pdo_mysql mysql mysqli\
+  && docker-php-ext-install pdo pdo_mysql mysqli\
   && apt-get clean \
   && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
