@@ -141,6 +141,7 @@ use_stylesheets_for_form($form);
     var lang_invalid = '<?php echo __(ValidationMessages::INVALID); ?>';
     var lang_number = '<?php echo __("Should be a number with upto %count% decimal places", array('%count%' => 2)); ?>';
     var lang_valid_entitlement = '<?php echo __("Used amount exceeds the current amount"); ?>';
+    var lang_max_digits = '<?php echo __("Should not be more than than 10000"); ?>';
     var validEntitlemnetUrl =  '<?php echo url_for('leave/isValidEntitlemnetAjax');?>';
     var lang_Loading = '<?php echo __('Loading');?>';
     var lang_Employees = '<?php echo __('Employees');?>';
