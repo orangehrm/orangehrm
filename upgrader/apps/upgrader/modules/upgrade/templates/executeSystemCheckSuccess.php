@@ -1,6 +1,14 @@
 <?php use_javascript('jquery.js') ?>
 <?php use_javascript('executeSystemCheckSuccess.js') ?>
 <?php use_stylesheet('style.css') ?>
+
+<?php require __DIR__ . "/../../../../../../installer/environmentCheck/SystemValidator.php"; ?>
+<?php
+
+$systemValidator = new SystemValidator();
+
+?>
+?>
 <script language="JavaScript">
 function sysCheckPassed() {
     document.frmInstall.actionResponse.value  = 'SYSCHECKOK';
@@ -32,9 +40,10 @@ function sysCheckPassed() {
                 $error_found = false;
                 $phpVersion = PHP_VERSION;
                
-               if (version_compare(PHP_VERSION, '5.3.0') < 0) {
+               if (!$systemValidator->isPhpCompatible()) {
                    $error_found = true;
-                   echo "<b><font color='red'>PHP 5.3.0 or higher is required. Installed version is $phpVersion</font></b>";
+                   $phpErrorMessage = $systemValidator->getPhpErrorMessage();
+                   echo "<b><font color='red'>$phpErrorMessage</font></b>";
                } else {
                    echo "<b><font color='green'>OK (ver $phpVersion)</font></b>";
                }               
@@ -82,19 +91,35 @@ function sysCheckPassed() {
 
 	              $mysqlServer = mysqli_get_server_info($conn);
 
-                  if(version_compare($mysqlServer, "5.1.6") >= 0) {
-                     echo "<b><font color='green'>OK (ver " .$mysqlServer. ')</font></b>';
-                  } else {
-                    echo "<b><font color='#9E6D6D'>ver 5.1.6 or later recommended (reported ver " .$mysqlServer. ')</font></b>';
-                  }
-               } else {
-                  echo "<b><font color='red'>Not Available</font></b>";
-                  $error_found = true;
-               }
-            ?>
-            </strong></td>
-          </tr>
-          <tr>
+                        if ($systemValidator->isMySqlCompatible($dbInfo['host'], $dbInfo['username'], $dbInfo['password'])) {
+                            echo "<b><font color='green'>OK (ver " . $mysqlServer . ')</font></b>';
+                        } else {
+                            $mysqlErrorMessage = $systemValidator->getMysqlErrorMessage($dbInfo['host'], $dbInfo['username'], $dbInfo['password']);
+                            echo "<b><font color='#9E6D6D'>$mysqlErrorMessage</font></b>";
+                        }
+                    } else {
+                        echo "<b><font color='red'>Not Available</font></b>";
+                        $error_found = true;
+                    }
+                    ?>
+                </strong></td>
+        </tr>
+        <tr>
+            <td class="tdComponent">Web Server</td>
+
+            <td align="right" class="tdValues"><strong>
+                    <?php
+                    if ($systemValidator->isWebServerCompatible()) {
+                        $webServer = $_SERVER['SERVER_SOFTWARE'];
+                        echo "<b><font color='green'>OK (ver " . $webServer . ')</font></b>';
+                    } else {
+                        $webServerErrorMessage = $systemValidator->getWebServerErrorMessage();
+                        echo "<b><font color='#9E6D6D'>$webServerErrorMessage</font></b>";
+                    }
+                    ?>
+                </strong></td>
+        </tr>
+        <tr>
             <td class="tdComponent">MySQL InnoDB Support</td>
 
             <td align="right" class="tdValues"><strong>
@@ -261,7 +286,7 @@ function sysCheckPassed() {
             <td class="tdComponent">Web server allows .htaccess files</td>
             <td align="right" class="tdValues"><strong><b id="htaccess" class="pending">Checking...</b></strong></td>
           </tr>
-          
+
           <tr>
             <td class="tdComponent">MySQL Event Scheduler status</td>
 
@@ -272,7 +297,7 @@ function sysCheckPassed() {
 		            $result = mysqli_query($conn, "SHOW VARIABLES LIKE 'EVENT_SCHEDULER'");
                     $row = mysqli_fetch_assoc($result);
                     $schedulerStatus = $row['Value'];
-                    
+
                     if ($schedulerStatus == 'ON') {
                         echo "<b><font color='green'>Enabled</font></b>";
                     } else {
@@ -285,7 +310,7 @@ function sysCheckPassed() {
                }
             ?>
             </strong></td>
-          </tr>          
+          </tr>
 
           <?php
             $printMoreInfoLink = false;
@@ -332,10 +357,10 @@ function sysCheckPassed() {
     function checkHTAccessFiles() {
         var testImage = new Image();
         testImage.src = "<?php echo sfContext::getInstance()->getRequest()->getRelativeUrlRoot().'/images/dummy.jpg';?>";
-        
+
         testImage.onload = htAcessDisabled;
         testImage.onerror = htAccessEnabled;
-        
+
     }
 
     function htAccessEnabled() {
