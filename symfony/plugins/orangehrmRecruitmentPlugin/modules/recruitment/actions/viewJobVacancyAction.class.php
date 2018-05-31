@@ -78,14 +78,14 @@ class viewJobVacancyAction extends baseRecruitmentAction {
         $srchParams['offset'] = $offset;
 
         if (!empty($sortField) && !empty($sortOrder) || $vacancyId > 0 || $isPaging > 0) {
-            if ($this->getUser()->hasAttribute('searchParameters')) {
-                $srchParams = $this->getUser()->getAttribute('searchParameters');
+            if ($this->getUser()->hasAttribute('vacancySearchParameters')) {
+                $srchParams = $this->getUser()->getAttribute('vacancySearchParameters');
                 $this->form->setDefaultDataToWidgets($srchParams);
             }
             $srchParams['orderField'] = $sortField;
             $srchParams['orderBy'] = $sortOrder;
         } else {
-            $this->getUser()->setAttribute('searchParameters', $srchParams);
+            $this->getUser()->setAttribute('vacancySearchParameters', $srchParams);
         }
 
         list($this->messageType, $this->message) = $this->getUser()->getFlash('vacancyDeletionMessageItems');
@@ -108,7 +108,7 @@ class viewJobVacancyAction extends baseRecruitmentAction {
                     $srchParams = $this->form->getSearchParamsBindwithFormData();
                     $srchParams['noOfRecords'] = $noOfRecords;
                     $srchParams['offset'] = 0;
-                    $this->getUser()->setAttribute('searchParameters', $srchParams);
+                    $this->getUser()->setAttribute('vacancySearchParameters', $srchParams);
                     $vacancyList = $this->getVacancyService()->searchVacancies($srchParams);
                     $this->_setListComponent($vacancyList, $noOfRecords, $srchParams, $pageNumber, $this->vacancyPermissions);
                 }
