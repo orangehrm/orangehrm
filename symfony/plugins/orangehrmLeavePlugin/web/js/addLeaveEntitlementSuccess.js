@@ -251,9 +251,21 @@
             isValid = true;
         }
         return isValid;
-    });        
-    
-    $.validator.addMethod("checkEmployeeNameNotChanged", function(value, element, params) {
+    });
+
+    $.validator.addMethod("checkMaximumDigits", function(value, element, params) {
+
+        var isValid = false;
+
+        if(value > 10000) {
+            isValid = false;
+        } else {
+            isValid = true;
+        }
+        return isValid;
+    });
+
+        $.validator.addMethod("checkEmployeeNameNotChanged", function(value, element, params) {
         
         var isValid = true;
 
@@ -324,6 +336,7 @@
                         required: true,
                         number: true,
                         twoDecimals: true,
+                        checkMaximumDigits: true,
                         remote: {
                             url: validEntitlemnetUrl,
                             data: {
@@ -354,7 +367,8 @@
                         required: lang_required,
                         number: lang_number,
                         remote : lang_valid_entitlement,
-                        twoDecimals: lang_number
+                        twoDecimals: lang_number,
+                        checkMaximumDigits: lang_max_digits
                     }                    
             }
 
