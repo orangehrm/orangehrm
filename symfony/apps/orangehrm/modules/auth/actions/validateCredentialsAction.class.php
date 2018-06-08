@@ -79,7 +79,7 @@ class validateCredentialsAction extends sfAction
             }
         }
 
-        return sfView::NONE;
+        $this->forward('auth', 'login');
     }
 
     /**
