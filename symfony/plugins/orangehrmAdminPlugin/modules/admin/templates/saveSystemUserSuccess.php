@@ -13,27 +13,29 @@ use_stylesheet(plugin_web_path('orangehrmSecurityAuthenticationPlugin', 'css/pas
         
         <?php include_partial('global/flash_messages'); ?>
 
-        <form name="frmSystemUser" id="frmSystemUser" method="post" action="" >
+        <?php if ($employeeCount > 0) : ?>
+            <form name="frmSystemUser" id="frmSystemUser" method="post" action="" >
 
-            <fieldset>
-                
-                <ol>
-                    <?php echo $form->render(); ?>
-                    
-                    <li class="required">
-                        <em>*</em> <?php echo __(CommonMessages::REQUIRED_FIELD); ?>
-                    </li>
-                </ol>
-                
-                <p>
-                    <input type="button" class="addbutton" name="btnSave" id="btnSave" value="<?php echo __("Save"); ?>"/>
-                    <input type="button" class="reset" name="btnCancel" id="btnCancel"value="<?php echo __("Cancel"); ?>"/>
-                </p>
-                
-            </fieldset>
+                <fieldset>
 
-        </form>
-        
+                    <ol>
+                        <?php echo $form->render(); ?>
+
+                        <li class="required">
+                            <em>*</em> <?php echo __(CommonMessages::REQUIRED_FIELD); ?>
+                        </li>
+                    </ol>
+
+                    <p>
+                        <input type="button" class="addbutton" name="btnSave" id="btnSave" value="<?php echo __("Save"); ?>"/>
+                        <input type="button" class="reset" name="btnCancel" id="btnCancel"value="<?php echo __("Cancel"); ?>"/>
+                    </p>
+
+                </fieldset>
+
+            </form>
+        <?php endif ?>
+
     </div>
     
 </div>
@@ -42,7 +44,7 @@ use_stylesheet(plugin_web_path('orangehrmSecurityAuthenticationPlugin', 'css/pas
 	
     var user_UserNameRequired       = '<?php echo __(ValidationMessages::REQUIRED); ?>';
     var user_EmployeeNameRequired   = '<?php echo __(ValidationMessages::REQUIRED); ?>';
-    var user_ValidEmployee          = '<?php echo __(ValidationMessages::INVALID); ?>';
+    var user_ValidEmployee          = '<?php echo __(ValidationMessages::EMPLOYEE_DOES_NOT_EXIST); ?>';
     var user_UserPaswordRequired    = '<?php echo __(ValidationMessages::REQUIRED); ?>';
     var user_UserConfirmPassword    = '<?php echo __(ValidationMessages::REQUIRED); ?>';
     var user_samePassword           = "<?php echo __("Passwords do not match"); ?>";

@@ -103,14 +103,14 @@ class viewCandidatesAction extends baseAction {
         $searchParam->setAdditionalParams($request->getParameter('additionalParams', array()));
         $this->setForm(new viewCandidatesForm(array(), $param, true));
         if (!empty($sortField) && !empty($sortOrder) || $isPaging > 0 || $candidateId > 0) {
-            if ($this->getUser()->hasAttribute('searchParameters')) {
-                $searchParam = $this->getUser()->getAttribute('searchParameters');
+            if ($this->getUser()->hasAttribute('candidateSearchParameters')) {
+                $searchParam = $this->getUser()->getAttribute('candidateSearchParameters');
                 $this->form->setDefaultDataToWidgets($searchParam);
             }
             $searchParam->setSortField($sortField);
             $searchParam->setSortOrder($sortOrder);
         } else {
-            $this->getUser()->setAttribute('searchParameters', $searchParam);
+            $this->getUser()->setAttribute('candidateSearchParameters', $searchParam);
             $offset = 0;
             $pageNumber = 1;
         }
@@ -133,7 +133,7 @@ class viewCandidatesAction extends baseAction {
                 $this->form->bind($request->getParameter($this->form->getName()));
                 if ($this->form->isValid()) {
                     $srchParams = $this->form->getSearchParamsBindwithFormData($searchParam);
-                    $this->getUser()->setAttribute('searchParameters', $srchParams);
+                    $this->getUser()->setAttribute('candidateSearchParameters', $srchParams);
                     $candidates = $this->getCandidateService()->searchCandidates($srchParams);
                     $this->_setListComponent($usrObj, $candidates, $noOfRecords, $searchParam, $pageNumber, $this->candidaatePermissions);
                 }
