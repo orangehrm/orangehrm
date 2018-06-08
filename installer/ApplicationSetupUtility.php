@@ -368,7 +368,10 @@ public static function writeLog() {
 	$Content .= "Host : ".$_SERVER['HTTP_HOST']."\n";
 	$Content .= "PHP Version : ".constant('PHP_VERSION')."\n";
 	$Content .= "Server : ".$_SERVER['SERVER_SOFTWARE']."\n";
-	$Content .= "Admin : ".$_SERVER['SERVER_ADMIN']."\n\n";
+
+	if( array_key_exists('SERVER_ADMIN',$_SERVER)){
+        $Content .= "Admin : ". $_SERVER['SERVER_ADMIN'] . "\n\n";
+    }
 
 	$Content .= "Document Root : ".$_SERVER['DOCUMENT_ROOT']."\n";
 	$Content .= "ROOT_PATH : ".ROOT_PATH."\n\n";
