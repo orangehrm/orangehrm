@@ -7540,6 +7540,10 @@
         <source>Employee does not exist</source>
         <target>FR_Employee does not exist</target>
       </trans-unit>
+      <trans-unit id="1885">
+        <source>Employee does not exist</source>
+        <target>FR_Employee does not exist</target>
+      </trans-unit>
     </body>
   </file>
 </xliff>
