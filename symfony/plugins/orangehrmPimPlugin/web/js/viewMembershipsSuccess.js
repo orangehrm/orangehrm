@@ -79,11 +79,6 @@ $(document).ready(function() {
     $('#btnAddMembershipDetail').click(function() {
         
         $('#membership_membership').show();
-        
-        var memcode = savedMemships.split('^');
-        for (i in memcode) {
-            $("#membership_membership option[value=".concat(memcode[i]).concat("]")).hide();
-        }
 
         $("#membershipHeading").text(addMembershipDetail);
         $(".paddingLeftRequired").show();
