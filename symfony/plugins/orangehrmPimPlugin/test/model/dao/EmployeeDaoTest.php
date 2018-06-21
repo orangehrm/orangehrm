@@ -157,7 +157,10 @@ class EmployeeDaoTest extends PHPUnit_Framework_TestCase {
         $this->assertEquals(0, $memberDetail->count());
    
     }
-    
+
+    /**
+     * Test for getMembershipDetail returns List with two EmployeeMembership objects
+     */
     public function testGetEmployeeMemberships2() {
 
         $empNumber = 1;
@@ -205,7 +208,19 @@ class EmployeeDaoTest extends PHPUnit_Framework_TestCase {
         
         $this->assertEquals(2, $result);
         
-    }    
+    }
+
+    /**
+     *  Test for deleting membership record from Table
+     */
+    public function testDeleteMemberships() {
+
+        $membershipsToDelete = array(1, 2);
+
+        $result = $this->employeeDao->deleteEmployeeMemberships($membershipsToDelete);
+        $this->assertEquals(0, $result);
+
+    }
 
     /**
      * Test for getSupervisorListForEmployee returns ReportTo doctrine collection

@@ -153,18 +153,6 @@ class EmployeeMembershipForm extends BaseForm {
         return $list;
     }
 
-    /**
-     * Returns Membership Type List
-     * @return array
-     */
-    public function getMembershipUniqueIdList() {
-        $list = array("" => "-- " . __('Select') . " --");
-        $membershipList = $this->getMembershipService()->getMembershipList();
-        foreach ($membershipList as $membership) {
-            $list[$membership->getId()] = 5;
-        }
-        return $list;
-    }
 
     /**
      * Returns Currency List
