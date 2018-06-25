@@ -24,9 +24,17 @@ class SchemaIncrementTask66 extends SchemaIncrementTask
     {
         $sql = array();
 
-        $sql[] = 'ALTER TABLE `hs_hr_config` ADD `id` int(6) AUTO_INCREMENT;';
+        $sql[] = 'ALTER TABLE `hs_hr_emp_member_detail` DROP FOREIGN KEY `hs_hr_emp_member_detail_ibfk_1`;';
 
-        $sql[] = 'ALTER TABLE `hs_hr_config` DROP PRIMARY KEY , ADD PRIMARY KEY(`id`);';
+        $sql[] = 'ALTER TABLE `hs_hr_emp_member_detail` DROP FOREIGN KEY `hs_hr_emp_member_detail_ibfk_2`;';
+
+        $sql[] = 'ALTER TABLE `hs_hr_emp_member_detail` DROP PRIMARY KEY;';
+
+        $sql[] = 'ALTER TABLE `hs_hr_emp_member_detail` ADD `id` int(6);';
+
+        $sql[] = 'ALTER TABLE `hs_hr_emp_member_detail` ADD PRIMARY KEY(`id`);';
+
+        $sql[] = 'ALTER TABLE `hs_hr_emp_member_detail` MODIFY COLUMN id INT auto_increment;';
 
         $this->sql = $sql;
     }
