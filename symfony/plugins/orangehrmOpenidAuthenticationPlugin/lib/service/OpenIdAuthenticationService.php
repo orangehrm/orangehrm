@@ -71,6 +71,9 @@ class OpenIdAuthenticationService extends AuthenticationService {
      * @throws AuthenticationServiceException
      */
     public function setOpenIdCredentials($username, $additionalData) {
+        if (is_array($additionalData['useridentity'])) {
+            $additionalData['useridentity'] = json_encode($additionalData['useridentity']);
+        }
         $user = $this->getOpenIdAuthenticationDao()->getOpenIdCredentials($username);
 
         if (is_null($user) || !$user) {

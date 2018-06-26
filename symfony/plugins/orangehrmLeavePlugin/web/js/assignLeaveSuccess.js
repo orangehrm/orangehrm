@@ -468,8 +468,8 @@ function handlePartialDayChange(showMultiDay) {
         $('#assignleave_secondDuration_duration').parent('li').hide();
         startLabel = partialDay === 'all' ? lang_Duration : lang_StartDay;
     } else if (partialDay === 'end') {
-        $('#assignleave_firstDuration_duration').parent('li').show();
-        $('#assignleave_secondDuration_duration').parent('li').hide();
+        $('#assignleave_firstDuration_duration').parent('li').hide();
+        $('#assignleave_secondDuration_duration').parent('li').show();
         endLabel = lang_EndDay;
     } else if (partialDay === 'start_end') {
         $('#assignleave_firstDuration_duration').parent('li').show();

@@ -26,13 +26,23 @@ class AddJobVacancyForm extends BaseForm {
     private $employeeService;
 
     /**
-     * @return EmployeeService
+     * This method will return an instance of Employee Service.
+     * @returns EmployeeService
      */
     public function getEmployeeService() {
         if (!$this->employeeService instanceof EmployeeService) {
             $this->employeeService = new EmployeeService();
         }
         return $this->employeeService;
+    }
+
+
+    /**
+     * This method will create an instance of Employee Service.
+     * @param EmployeeService $employeeService
+     */
+    public function setEmployeeService(EmployeeService $employeeService) {
+        $this->employeeService = $employeeService;
     }
 
     public function getJobTitleService() {

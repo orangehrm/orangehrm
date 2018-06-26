@@ -12,5 +12,6 @@ class ValidationMessages {
     const VALID_NUMBER = "Should be a valid number";
     const LESS_THAN = "Should be less than %number%";
     const GREATER_THAN = "Should be greater than %number%";
+    const EMPLOYEE_DOES_NOT_EXIST = "Employee does not exist";
     
 }
