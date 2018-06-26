@@ -487,7 +487,7 @@ EmployeeMembership:
   tableName: hs_hr_emp_member_detail
   columns:
     id:
-      type: integer(4)
+      type: integer(6)
       primary: true
       autoincrement: true
     emp_number:
