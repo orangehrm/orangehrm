@@ -7540,6 +7540,10 @@
         <source>Should not be more than than 10000</source>
         <target>FR_Should not be more than than 10000</target>
       </trans-unit>
+      <trans-unit id="1885">
+        <source>Employee does not exist</source>
+        <target>FR_Employee does not exist</target>
+      </trans-unit>
     </body>
   </file>
 </xliff>
