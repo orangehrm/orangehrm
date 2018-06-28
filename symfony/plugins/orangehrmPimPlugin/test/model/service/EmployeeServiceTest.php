@@ -1311,7 +1311,7 @@ class EmployeeServiceTest extends PHPUnit_Framework_TestCase {
                 ->will($this->returnValue(2));
 
         $this->employeeService->setEmployeeDao($employeeDao);
-        $result = $this->employeeService->deleteEmployeeMemberships($empNumber, $membershipIds);
+        $result = $this->employeeService->deleteEmployeeMemberships($membershipIds);
         
         $this->assertEquals(2, $result);
         
