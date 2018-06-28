@@ -217,7 +217,7 @@ class EmployeeDaoTest extends PHPUnit_Framework_TestCase {
         $membershipsToDelete = array(1, 2);
 
         $result = $this->employeeDao->deleteEmployeeMemberships($membershipsToDelete);
-        $this->assertEquals(0, $result);
+        $this->assertEquals(2, $result);
 
     }
 
