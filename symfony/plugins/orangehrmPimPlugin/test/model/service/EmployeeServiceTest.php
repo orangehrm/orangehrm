@@ -1300,14 +1300,13 @@ class EmployeeServiceTest extends PHPUnit_Framework_TestCase {
 
     public function testDeleteMembershipDetails() {
 
-        $empNumber = 1;
         $membershipIds = array(1, 2);
 
         $employeeDao = $this->getMockBuilder('EmployeeDao')->getMock();
 
         $employeeDao->expects($this->once())
                 ->method('deleteEmployeeMemberships')
-                ->with($empNumber, $membershipIds)
+                ->with($membershipIds)
                 ->will($this->returnValue(2));
 
         $this->employeeService->setEmployeeDao($employeeDao);
