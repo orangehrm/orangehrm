@@ -153,8 +153,9 @@ function sysCheckPassed() {
                    if($systemValidator->isMySqlCompatible($dbInfo['dbHostName'], $dbInfo['dbUserName'], $dbInfo['dbPassword'])) {
                   	 echo "<b><font color='green'>OK (ver " .$mysqlServer. ')</font></b>';
                   } else {
+                       $error_found = true;
                        $mysqlErrorMessage = $systemValidator->getMysqlErrorMessage($dbInfo['dbHostName'], $dbInfo['dbUserName'], $dbInfo['dbPassword']);
-                  	echo "<b><font color='#9E6D6D'>$mysqlErrorMessage</font></b>";
+                  	echo "<b><font color='red'>$mysqlErrorMessage</font></b>";
                   }
                } else {
                   echo "<b><font color='red'>Not Available</font></b>";
