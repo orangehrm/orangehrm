@@ -27,8 +27,8 @@ Membership:
   2: {id: 3, name: 'membership3'}
 
 EmployeeMembership:
-  0: {empNumber: '1', membershipId: 1, subscriptionFee: '4', subscriptionPaidBy: 'individual', subscriptionCurrency: 'Rs', subscriptionCommenceDate: '2011-05-20', subscriptionRenewalDate: '2011-05-22'}
-  1: {empNumber: '1', membershipId: 2, subscriptionFee: '6', subscriptionPaidBy: 'company', subscriptionCurrency: 'Rb', subscriptionCommenceDate: '2011-05-21', subscriptionRenewalDate: '2011-05-24'}
+  0: {id: '1', empNumber: '1', membershipId: 1, subscriptionFee: '4', subscriptionPaidBy: 'individual', subscriptionCurrency: 'Rs', subscriptionCommenceDate: '2011-05-20', subscriptionRenewalDate: '2011-05-22'}
+  1: {id: '2', empNumber: '1', membershipId: 2, subscriptionFee: '6', subscriptionPaidBy: 'company', subscriptionCurrency: 'Rb', subscriptionCommenceDate: '2011-05-21', subscriptionRenewalDate: '2011-05-24'}
 
 ReportingMethod:
   0: {id: '3', name: 'reportingMethodName1'}

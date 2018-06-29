@@ -1177,8 +1177,8 @@ class EmployeeService extends BaseService {
      * @todo Rename EmployeeMemberDetail Entity as EmployeeMembership [DONE]
      * @todo Make $membershipcode parameter as opational parameter and rename parameter as $membershipId [DONE]
      */
-    public function getEmployeeMemberships($empNumber, $membershipId = null) {
-        return $this->getEmployeeDao()->getEmployeeMemberships($empNumber, $membershipId);
+    public function getEmployeeMemberships($empNumber, $membershipUniqueId = null) {
+        return $this->getEmployeeDao()->getEmployeeMemberships($empNumber, $membershipUniqueId);
     }
 
     /**
@@ -1197,9 +1197,9 @@ class EmployeeService extends BaseService {
      * @todo return number of items deleted [DONE]
      * 
      */
-    public function deleteEmployeeMemberships($empNumber, $membershipIds = null) {
+    public function deleteEmployeeMemberships($membershipIds = null) {
         
-        return $this->getEmployeeDao()->deleteEmployeeMemberships($empNumber, $membershipIds);
+        return $this->getEmployeeDao()->deleteEmployeeMemberships($membershipIds);
 
     }
     

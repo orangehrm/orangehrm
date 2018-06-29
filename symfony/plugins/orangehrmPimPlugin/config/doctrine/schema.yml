@@ -486,14 +486,16 @@ EmpDirectdebit:
 EmployeeMembership:
   tableName: hs_hr_emp_member_detail
   columns:
+    id:
+      type: integer(6)
+      primary: true
+      autoincrement: true
     emp_number:
       name: emp_number as empNumber
       type: integer(4)
-      primary: true
     membship_code:
       name: membship_code as membershipId
       type: integer
-      primary: true
     ememb_subscript_amount:
       name: ememb_subscript_amount as subscriptionFee
       type: decimal(15)
