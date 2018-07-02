@@ -157,12 +157,16 @@ class EmployeeDaoTest extends PHPUnit_Framework_TestCase {
         $this->assertEquals(0, $memberDetail->count());
    
     }
-    
+
+    /**
+     * Test for getMembershipDetail returns List with two EmployeeMembership objects
+     */
     public function testGetEmployeeMemberships2() {
 
         $empNumber = 1;
+        $id = 1;
 
-        $memberships = $this->employeeDao->getEmployeeMemberships($empNumber);
+        $memberships = $this->employeeDao->getEmployeeMemberships($empNumber, $id);
         
         /* Checking the type */
         foreach ($memberships as $membership) {
@@ -170,11 +174,10 @@ class EmployeeDaoTest extends PHPUnit_Framework_TestCase {
         }
         
         /* Checking the count */
-        $this->assertEquals(2, count($memberships));
+        $this->assertEquals(1, count($memberships));
         
         /* Checking the order */
         $this->assertEquals('membership1', $memberships[0]->getMembership()->getName());
-        $this->assertEquals('membership2', $memberships[1]->getMembership()->getName());
         
     }    
 
@@ -190,9 +193,8 @@ class EmployeeDaoTest extends PHPUnit_Framework_TestCase {
     
     public function testDeleteMembershipDetails2() {
 
-        $empNumber = 1;
         $membershipIds = array(1);
-        $result = $this->employeeDao->deleteEmployeeMemberships($empNumber, $membershipIds);
+        $result = $this->employeeDao->deleteEmployeeMemberships($membershipIds);
         
         $this->assertEquals(1, $result);
         
@@ -205,7 +207,19 @@ class EmployeeDaoTest extends PHPUnit_Framework_TestCase {
         
         $this->assertEquals(2, $result);
         
-    }    
+    }
+
+    /**
+     *  Test for deleting membership record from Table
+     */
+    public function testDeleteMemberships() {
+
+        $membershipsToDelete = array(1, 2);
+
+        $result = $this->employeeDao->deleteEmployeeMemberships($membershipsToDelete);
+        $this->assertEquals(2, $result);
+
+    }
 
     /**
      * Test for getSupervisorListForEmployee returns ReportTo doctrine collection

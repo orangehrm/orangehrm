@@ -109,6 +109,7 @@ class EmployeeMembershipForm extends BaseForm {
         
         $widgets = array();
         $widgets['membership'] = new sfWidgetFormSelect(array('choices' => $memberships));
+        $widgets['id'] = new sfWidgetFormInputHidden();
         $widgets['subscriptionPaidBy'] = new sfWidgetFormSelect(array('choices' => $subscriptionPaidBy));
         $widgets['subscriptionAmount'] = new sfWidgetFormInputText();
         $widgets['currency'] = new sfWidgetFormSelect(array('choices' => $currency));
@@ -127,6 +128,7 @@ class EmployeeMembershipForm extends BaseForm {
         
         $validators = array(
             'membership' => new sfValidatorChoice(array('required' => true, 'choices' => array_keys($memberships))),
+            'id' => new sfValidatorString(array('required' => false)),
             'subscriptionPaidBy' => new sfValidatorString(array('required' => false)),
             'subscriptionAmount' => new sfValidatorNumber(array('required' => false)),
             'currency' => new sfValidatorString(array('required' => false)),
@@ -151,6 +153,7 @@ class EmployeeMembershipForm extends BaseForm {
         return $list;
     }
 
+
     /**
      * Returns Currency List
      * @return array
@@ -171,14 +174,15 @@ class EmployeeMembershipForm extends BaseForm {
 
         $empNumber = $this->getValue('empNumber');
         $membership = $this->getValue('membership');
+        $membershipUniqueId = $this->getValue('id');
         $membershipPermission = $this->getOption('membershipPermissions');
         $employeeService = new EmployeeService();
 
-        $membershipDetails = $employeeService->getEmployeeMemberships($empNumber, $membership);
+        $membershipDetails = $employeeService->getEmployeeMemberships($empNumber, $membershipUniqueId);
         
         $allowed = FALSE;
         
-        if ($membershipDetails->count() > 0) {
+        if ($membershipDetails->count() > 0 && !($membershipUniqueId == '')) {
             if($membershipPermission->canUpdate()) {
                 $membershipDetail = $membershipDetails[0];
                 $allowed = TRUE;

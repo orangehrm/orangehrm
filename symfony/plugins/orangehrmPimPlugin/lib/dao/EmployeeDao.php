@@ -1474,7 +1474,7 @@ class EmployeeDao extends BaseDao {
      * @param int $membershipId
      * @return array EmployeeMembership 
      */
-    public function getEmployeeMemberships($empNumber, $membershipId = null) {
+    public function getEmployeeMemberships($empNumber, $membershipId) {
 
         try {
             
@@ -1483,7 +1483,7 @@ class EmployeeDao extends BaseDao {
                                         ->where('em.empNumber = ?', $empNumber);
             
             if (!empty($membershipId)) {
-                $q->andWhere("em.membershipId = ?", $membershipId);
+                $q->andWhere("em.id = ?", $membershipId);
             }
             
             $q->orderBy('m.name ASC');
@@ -1503,15 +1503,14 @@ class EmployeeDao extends BaseDao {
      * @param $membershipIds
      * @return integer
      */
-    public function deleteEmployeeMemberships($empNumber, $membershipIds = null) {
+    public function deleteEmployeeMemberships($membershipIds = null) {
         
         try {
             
-            $q = Doctrine_Query::create()->delete('EmployeeMembership')
-                                         ->where('empNumber = ?', $empNumber);
+            $q = Doctrine_Query::create()->delete('EmployeeMembership');
             
             if (is_array($membershipIds) && count($membershipIds) > 0) {                
-                $q->whereIn('membershipId', $membershipIds);                
+                $q->whereIn('id', $membershipIds);
             }
             
             return $q->execute();
