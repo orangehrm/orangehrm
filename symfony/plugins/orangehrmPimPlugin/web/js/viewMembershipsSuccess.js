@@ -21,12 +21,13 @@ $(document).ready(function() {
     
     // Edit a membership detail in the list
     $('#frmEmpDelMemberships a').live('click', function() {
+        var id = $(this).parent().prev().find('input').val();
+        var memcode = $(this).parent().attr('mem_type_id');
         $('#nameContainer').show();
 
         validator.resetForm();
 
         var row = $(this).closest("tr");
-        var primarykey = row.find('input.checkboxMem:first').val();
         var membership = $(this).text();
         $('#nameContainer').text(membership);
         var subscriptionPaidBy = row.find("td:nth-child(3)").text();
@@ -34,11 +35,11 @@ $(document).ready(function() {
         var currency = row.find("td:nth-child(5)").text();
         var subscriptionCommenceDate = row.find("td:nth-child(6)").text();
         var subscriptionRenewalDate = row.find("td:nth-child(7)").text();
-        var memcode = primarykey.split(" ");
-        $('#membership_membership').val(memcode[1]);
+        $('#membership_membership').val(memcode);
         $('#membership_subscriptionPaidBy').val(subscriptionPaidBy);
         $('#membership_subscriptionAmount').val(subscriptionAmount);
         $('#membership_currency').val(currency);
+        $('#membership_id').val(id);
 
         if ($.trim(subscriptionCommenceDate) == '') {
             subscriptionCommenceDate = displayDateFormat;
@@ -79,11 +80,6 @@ $(document).ready(function() {
     $('#btnAddMembershipDetail').click(function() {
         
         $('#membership_membership').show();
-        
-        var memcode = savedMemships.split('^');
-        for (i in memcode) {
-            $("#membership_membership option[value=".concat(memcode[i]).concat("]")).hide();
-        }
 
         $("#membershipHeading").text(addMembershipDetail);
         $(".paddingLeftRequired").show();
@@ -176,7 +172,7 @@ $(document).ready(function() {
 });
 
 function clearAddForm() {
-
+    $('#membership_id').val('');
     $('#membership_membership').val('');
     $('#membership_subscriptionPaidBy').val('');
     $('#membership_subscriptionAmount').val('');

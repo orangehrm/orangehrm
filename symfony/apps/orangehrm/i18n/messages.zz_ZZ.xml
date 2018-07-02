@@ -7537,10 +7537,14 @@
         <target>FR_Your password must contain a lower-case letter, an upper-case letter, a digit and a special character. Try a different password.</target>
       </trans-unit>
       <trans-unit id="1884">
-        <source>Should not be more than than 10000</source>
-        <target>FR_Should not be more than than 10000</target>
+        <source>Should not be more than 10000</source>
+        <target>FR_Should not be more than 10000</target>
       </trans-unit>
       <trans-unit id="1885">
+        <source>Employee does not exist</source>
+        <target>FR_Employee does not exist</target>
+      </trans-unit>
+      <trans-unit id="1886">
         <source>Employee does not exist</source>
         <target>FR_Employee does not exist</target>
       </trans-unit>

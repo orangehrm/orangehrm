@@ -56,6 +56,7 @@ $allowEdit = true;
                     
                     <?php echo $form['_csrf_token']; ?>
                     <?php echo $form["empNumber"]->render(); ?>
+                    <?php echo $form->renderHiddenFields(); ?>
                     <fieldset>
                         <ol>
                             <li>
@@ -153,7 +154,7 @@ $allowEdit = true;
                                 foreach ($membershipDetails as $memship) :
                                     $cssClass = ($row % 2) ? 'even' : 'odd';
                                     echo '<tr class="' . $cssClass . '">';
-                                    $chkBoxValue = $empNumber . " " . $memship->membershipId;
+                                    $chkBoxValue = $memship->getId();
                                     ?>
                                     <?php if ($membershipPermissions->canDelete()) { ?>
                                     <td class='check'>
@@ -163,7 +164,7 @@ $allowEdit = true;
                                         <input type='hidden' class='checkboxMem' value="<?php echo $chkBoxValue; ?>"/>
                                     <?php } ?>
                                     <?php $newMembership = $memship->getMembership(); ?>
-                                    <td class="memshipCode" valign="top"><?php if ($membershipPermissions->canUpdate()) { ?>
+                                    <td class="memshipCode" valign="top" mem_type_id="<?php echo $newMembership->getId(); ?>"><?php if ($membershipPermissions->canUpdate()) { ?>
                                         <a href="#"><?php echo $newMembership->name; ?></a>
                                         <?php } else {
                                             echo $newMembership;
