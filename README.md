@@ -37,10 +37,6 @@ https://github.com/orangehrm/orangehrm/wiki/Resources
 ## Demo
 Live demo is available at : http://opensource.demo.orangehrmlive.com
 
-Credentials : 
-    Username: admin
-    Password: Admin2018!@#$
-
 ## Releases
 Sourceforge : https://sourceforge.net/p/orangehrm
 

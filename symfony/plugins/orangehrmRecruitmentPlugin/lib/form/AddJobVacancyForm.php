@@ -23,6 +23,27 @@ class AddJobVacancyForm extends BaseForm {
     private $vacancyService;
     private $vacancyId;
     private $jobTitleService;
+    private $employeeService;
+
+    /**
+     * This method will return an instance of Employee Service.
+     * @returns EmployeeService
+     */
+    public function getEmployeeService() {
+        if (!$this->employeeService instanceof EmployeeService) {
+            $this->employeeService = new EmployeeService();
+        }
+        return $this->employeeService;
+    }
+
+
+    /**
+     * This method will create an instance of Employee Service.
+     * @param EmployeeService $employeeService
+     */
+    public function setEmployeeService(EmployeeService $employeeService) {
+        $this->employeeService = $employeeService;
+    }
 
     public function getJobTitleService() {
         if (is_null($this->jobTitleService)) {
@@ -138,7 +159,7 @@ class AddJobVacancyForm extends BaseForm {
         }
         $jobVacancy->jobTitleCode = $this->getValue('jobTitle');
         $jobVacancy->name = $this->getValue('name');
-        $jobVacancy->hiringManagerId = $this->getValue('hiringManagerId');
+        $jobVacancy->setEmployee($this->getEmployeeService()->getEmployee($this->getValue('hiringManagerId')));
         $jobVacancy->noOfPositions = $this->getValue('noOfPositions');
         $jobVacancy->description = $this->getValue('description');
         $jobVacancy->status = JobVacancy::CLOSED;

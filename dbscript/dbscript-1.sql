@@ -166,6 +166,7 @@ create table `ohrm_emp_license` (
 
 
 create table `hs_hr_emp_member_detail` (
+  `id` int(6) AUTO_INCREMENT,
   `emp_number` int(7) not null default 0,
   `membship_code` int(6) not null default 0,
   `ememb_subscript_ownership` varchar(20) default null,
@@ -173,7 +174,7 @@ create table `hs_hr_emp_member_detail` (
   `ememb_subs_currency` varchar(20) default null,
   `ememb_commence_date` date default null,
   `ememb_renewal_date` date default null,
-  primary key  (`emp_number`,`membship_code`)
+  primary key  (`id`)
 ) engine=innodb default charset=utf8;
 
 

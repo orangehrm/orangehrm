@@ -120,7 +120,7 @@ function chk_memory($limit=9, $recommended=16) {
 return $msg;
 }
 
-$ohrmVersion = "4.1";
+$ohrmVersion = "4.1.1";
 
 if (@include_once ROOT_PATH."/lib/confs/Conf.php-distribution") {
 	$conf = new Conf();
@@ -191,7 +191,7 @@ function reload() {
                if(function_exists('mysql_connect')) {
 
                   if(intval(substr($mysqlClient,0,1)) < 4 || substr($mysqlClient,0,3) == '4.0.1') {
-	                  echo "<b><font color='#C4C781'>ver 4.1.x or later recommended (reported ver " .$mysqlClient. ')</font></b>';
+	                  echo "<b><font color='#C4C781'>ver 4.1.1.x or later recommended (reported ver " .$mysqlClient. ')</font></b>';
                   } else echo "<b><font color='green'>OK (ver " .$mysqlClient. ')</font></b>';
                } else {
                   echo "<b><font color='red'>Not Available</font></b>";
