@@ -444,7 +444,7 @@ public static function install() {
 					break;
 
 		case 4	:	error_log (date("r")." Create OrangeHRM user - Starting\n",3, "installer/log.txt");
-					self::createUser();
+//					self::createUser();
 					error_log (date("r")." Create OrangeHRM user - Done\n",3, "installer/log.txt");
 					if (!isset($error) || !isset($_SESSION['error'])) {
 						$_SESSION['INSTALLING'] = 5;

@@ -56,17 +56,177 @@ public function checkDetailsValidation(){
  		$companyName = $configurationDataSet["CompanyName"];
  		$wantSendData = $configurationDataSet["SendUsageDataToOrangeHRM"];
 		$isPort = $configurationDataSet["IsPort"];
-			
-		$this->setConfigurationFromParameter($dbHostName,$dbHostPort,$dbName,$adminUserName,$adminPassword,$dbOHRMUserName,$dbOHRMPassword,$dbUserName ,$dbPassword,$databaseRootPassword, $encryption , $dbCreateMethod , $sameOhrmUser,$companyName,$wantSendData, $isPort);
+
+    	$organizationName = $configurationDataSet["organizationName"];
+    	$adminEmployeeFirstName = $configurationDataSet["adminEmployeeFirstName"];
+    	$adminEmployeeLastName = $configurationDataSet["adminEmployeeLastName"];
+    	$organizationEmailAddress = $configurationDataSet["organizationEmailAddress"];
+
+		$this->setConfigurationFromParameter($dbHostName,$dbHostPort,$dbName,$adminUserName,$adminPassword,$dbOHRMUserName,$dbOHRMPassword,$dbUserName ,$dbPassword,$databaseRootPassword, $encryption , $dbCreateMethod , $sameOhrmUser,$companyName,$wantSendData, $isPort, $organizationName, $adminEmployeeFirstName, $adminEmployeeLastName, $organizationEmailAddress);
 }
 
+    /**
+	 * Get the organization name
+     * @return mixed
+     */
+public function getOrganizationName() {
+    $configurationDataSet = parse_ini_file("config.ini");
+
+    if($_SESSION['defUser']['organizationName']) {
+    	return $_SESSION['defUser']['organizationName'];
+	}
+    return $configurationDataSet["organizationName"];
+}
+
+    /**
+	 * Get the Admin Employee First name
+     * @return mixed
+     */
+public function getAdminEmployeeFirstName() {
+    $configurationDataSet = parse_ini_file("config.ini");
+
+    if($_SESSION['defUser']['adminEmployeeFirstName']) {
+    	return $_SESSION['defUser']['adminEmployeeFirstName'];
+	}
+    return $configurationDataSet["adminEmployeeFirstName"];
+}
+
+    /**
+	 * Get the Admin Employee last name
+     * @return mixed
+     */
+public function getAdminEmployeeLastName() {
+    $configurationDataSet = parse_ini_file("config.ini");
+
+    if ($_SESSION['defUser']['adminEmployeeLastName']) {
+    	return $_SESSION['defUser']['adminEmployeeLastName'];
+	}
+    return $configurationDataSet["adminEmployeeLastName"];
+}
+
+    /**
+	 * Get the organization email address
+     * @return mixed
+     */
+public function getOrganizationEmailAddress() {
+    $configurationDataSet = parse_ini_file("config.ini");
+
+    if ($_SESSION['defUser']['organizationEmailAddress']) {
+    	return $_SESSION['defUser']['organizationEmailAddress'];
+	}
+    return $configurationDataSet["organizationEmailAddress"];
+}
+
+    /**
+	 * Get the Admin employee contact number
+     * @return mixed
+     */
+public function getContactNumber() {
+    $configurationDataSet = parse_ini_file("config.ini");
+
+    if ($_SESSION['defUser']['contactNumber']) {
+    	return $_SESSION['defUser']['contactNumber'];
+	}
+    return $configurationDataSet["contactNumber"];
+}
+
+    /**
+	 * Get the host name
+     * @return mixed
+     */
+public function getHost() {
+    $configurationDataSet = parse_ini_file("config.ini");
+
+    if ($_SESSION['dbInfo']['dbHostName']) {
+    	return $_SESSION['dbInfo']['dbHostName'];
+	}
+    return $configurationDataSet["HostName"];
+}
+
+    /**
+	 * Get the port number
+     * @return mixed
+     */
+public function getPort() {
+    $configurationDataSet = parse_ini_file("config.ini");
+
+    if ($_SESSION['dbInfo']['dbHostPort']) {
+    	return $_SESSION['dbInfo']['dbHostPort'];
+	}
+    return $configurationDataSet["HostPortOrSocket"];
+}
+
+    /**
+	 * Get the Admin user name
+     * @return mixed
+     */
+public function getOrangehrmDatabaseUser() {
+    $configurationDataSet = parse_ini_file("config.ini");
+
+    if ($_SESSION['dbInfo']['dbOHRMUserName']) {
+    	return $_SESSION['dbInfo']['dbOHRMUserName'];
+	}
+    return $configurationDataSet["OrangehrmDatabaseUser"];
+}
+
+    /**
+	 * Get the database password
+     * @return mixed
+     */
+public function getOrangehrmDatabasePassword() {
+    $configurationDataSet = parse_ini_file("config.ini");
+
+    if ($_SESSION['dbInfo']['dbOHRMPassword']) {
+    	return $_SESSION['dbInfo']['dbOHRMPassword'];
+	}
+    return $configurationDataSet["OrangehrmDatabasePassword"];
+}
+
+    /**
+	 * Get the database name
+     * @return mixed
+     */
+public function getDatabaseName() {
+    $configurationDataSet = parse_ini_file("config.ini");
+
+    if ($_SESSION['dbInfo']['dbName']) {
+    	return $_SESSION['dbInfo']['dbName'];
+	}
+    return $configurationDataSet["DatabaseName"];
+}
+
+    /**
+	 * Get the Admin username
+     * @return mixed
+     */
+public function getAdminUserName() {
+    $configurationDataSet = parse_ini_file("config.ini");
+
+    if ($_SESSION['defUser']['AdminUserName']) {
+    	return $_SESSION['defUser']['AdminUserName'];
+	}
+    return $configurationDataSet["AdminUserName"];
+}
+
+    /**
+	 * Get the admin password
+     * @return mixed
+     */
+public function getAdminPassword() {
+    $configurationDataSet = parse_ini_file("config.ini");
+
+    if ($_SESSION['defUser']['AdminPassword']) {
+    	return $_SESSION['defUser']['AdminPassword'];
+	}
+    return $configurationDataSet["AdminPassword"];
+}
 
 /*
  *get details related Database connection and validation parts.
  *details assign from with config.ini file or user inputs.
  *$_SESSION['dbInfo'] validation part will do in BasicConfiguration.php file , BasicConfiguration class->dbConfigurationCheck()
  */
-public function setConfigurationFromParameter($hostName, $hostPortOrSocket, $databaseName,$adminUserName,$adminPassword,$orangehrmDatabaseUser,$orangehrmDatabasePassword,$privilegedDatabaseUser,$privilegedDatabasePassword,$databaseRootPassword ,$encryption,$DatabaseToUse,$sameOhrmUser,$companyName,$wantSendData,$isPort){
+public function setConfigurationFromParameter($hostName, $hostPortOrSocket, $databaseName,$adminUserName,$adminPassword,$orangehrmDatabaseUser,$orangehrmDatabasePassword,$privilegedDatabaseUser,$privilegedDatabasePassword,$databaseRootPassword ,$encryption,$DatabaseToUse,$sameOhrmUser,$companyName,$wantSendData,$isPort,$organizationName,$adminEmployeeFirstName,$adminEmployeeLastName,$organizationEmailAddress){
 		$_SESSION['dbInfo']['dbHostName']= $this->isFillInConfig($hostName, "Host name ");
 		$_SESSION['dbInfo']['dbHostPort']=$this->isFillInConfig($hostPortOrSocket, "Port or Socket id ");
 //port or socket - related to boolean configuration		
@@ -79,10 +239,6 @@ public function setConfigurationFromParameter($hostName, $hostPortOrSocket, $dat
 
 		$_SESSION['cMethod'] = $_SESSION['dbCreateMethod'] = $this->IsExistingDB($DatabaseToUse); //existing/new
 		$sameUser  = $this->IsSameOhrmUser($sameOhrmUser);
-		
-		$_POST['registerCompanyName'] = $this->IsSetCompanyName($companyName);
-		$_POST['hearbeatSelect'] = $this->WantSendUsageDataToOrangeHRM($wantSendData);
-
 
 //Admin and password
 		$_SESSION['defUser']['AdminUserName']= $this->isFillInConfig($adminUserName, "Admin user name ");
@@ -126,6 +282,10 @@ public function setConfigurationFromParameter($hostName, $hostPortOrSocket, $dat
 			else{
 			    $_SESSION['ENCRYPTION'] = 'Failed';
 			}
+        $_SESSION['defUser']['organizationName'] = $this->isFillInConfig($organizationName, "Organization Name ");
+        $_SESSION['defUser']['adminEmployeeFirstName'] = $this->isFillInConfig($adminEmployeeFirstName, "Admin Employee First Name ");
+        $_SESSION['defUser']['adminEmployeeLastName'] = $this->isFillInConfig($adminEmployeeLastName, "Admin Employee Last Name ");
+        $_SESSION['defUser']['organizationEmailAddress'] = $this->isFillInConfig($organizationEmailAddress, "Organization Email Address ");
 }
 
 
@@ -234,24 +394,24 @@ function IsNeedEncryption($encryptNeed,$message=": "){
 	return $sameOhrm == 'y' ? true : ($sameOhrm == 'n' ? false :  $this->IsSameOhrmUser(null));
 }
 
-function IsSetCompanyName($companyName){
-	$companyName = trim($companyName);
-    	if(!isset($companyName) || $companyName ===''){
-	  return  $this->takeUserInput("Company name?  (optional) : ");		 
-        }
-	return $companyName;
-}
-
-function WantSendUsageDataToOrangeHRM($sendData,$message=": "){
-
-    	if(!isset($sendData) || $sendData ===''){
-          $sendData = $this->takeUserInput("Do you want to send usage data to orangehrm? Type y/N".$message);
-	  $sendData = strtolower(trim($sendData));
-	  return ($sendData == 'y') ? 'on' :   ($sendData == 'n'? 'off' : $this->WantSendUsageDataToOrangeHRM(null," (previous insert invalid): "));		 
-        }
-	$sendData = strtolower(trim($sendData));
-	return ($sendData == 'y') ? 'on' : ($sendData == 'n'? 'off' : $this->WantSendUsageDataToOrangeHRM(null));	
-}
+//function IsSetCompanyName($companyName){
+//	$companyName = trim($companyName);
+//    	if(!isset($companyName) || $companyName ===''){
+//	  return  $this->takeUserInput("Company name?  (optional) : ");
+//        }
+//	return $companyName;
+//}
+//
+//function WantSendUsageDataToOrangeHRM($sendData,$message=": "){
+//
+//    	if(!isset($sendData) || $sendData ===''){
+//          $sendData = $this->takeUserInput("Do you want to send usage data to orangehrm? Type y/N".$message);
+//	  $sendData = strtolower(trim($sendData));
+//	  return ($sendData == 'y') ? 'on' :   ($sendData == 'n'? 'off' : $this->WantSendUsageDataToOrangeHRM(null," (previous insert invalid): "));
+//        }
+//	$sendData = strtolower(trim($sendData));
+//	return ($sendData == 'y') ? 'on' : ($sendData == 'n'? 'off' : $this->WantSendUsageDataToOrangeHRM(null));
+//}
 
 
 function takeUserInput($textToGetInput){

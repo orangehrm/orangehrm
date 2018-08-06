@@ -141,7 +141,7 @@ body {
 
 #body {
 	height:95%;
-	width:860px;
+	width:960px;
 }
 
 
@@ -202,6 +202,8 @@ td {
 
 .error {
 	color: #ff0000;
+	border-color: #ff0000;
+	background: #FFFFFE;
 }
 
 .see {
@@ -244,5 +246,13 @@ li {
 
 /* Styling for required mark */
 span.required {
-    color: red;
+	color: red;
+}
+
+em {
+	color: red;
+}
+
+.registrationFormBody {
+	width: 100%;
 }
