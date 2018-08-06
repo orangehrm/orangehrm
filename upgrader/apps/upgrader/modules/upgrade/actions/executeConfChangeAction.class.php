@@ -27,6 +27,12 @@ class executeConfChangeAction extends sfAction {
                 $password = $dbInfo['password'];
                 $port = $dbInfo['port'];
                 $database = $dbInfo['database'];
+
+                $_SESSION['dbHostName'] = $host;
+                $_SESSION['dbUserName'] = $username;
+                $_SESSION['dbPassword'] = $password;
+                $_SESSION['dbName'] = $database;
+                $_SESSION['dbHostPort'] = $port;
                 
                 $upgraderUtility->setApplicationRootPath($this->applicationRootPath);
                 $result[] = $upgraderUtility->writeConfFile($host, $port, $database, $username, $password);
@@ -54,6 +60,21 @@ class executeConfChangeAction extends sfAction {
                     $endVersion = $upgraderUtility->getNewVersion();
                     $date = gmdate("Y-m-d H:i:s", time());
                     $result = $upgraderUtility->insertUpgradeHistory($startVersion, $endVersion, $startIncrement, $endIncrement, $date);
+
+                    $upgradeSystemConfiguration = new UpgradeSystemConfiguration();
+
+                    $_SESSION['defUser']['organizationName'] = $upgradeSystemConfiguration->getOrganizationName();
+                    $_SESSION['defUser']['organizationEmailAddress'] = $upgradeSystemConfiguration->getAdminEmail();
+                    $_SESSION['defUser']['AdminUserName'] = $upgradeSystemConfiguration->getAdminUserName();
+                    $_SESSION['defUser']['adminEmployeeFirstName'] = $upgradeSystemConfiguration->getFirstName();
+                    $_SESSION['defUser']['adminEmployeeLastName'] = $upgradeSystemConfiguration->getLastName();
+                    $_SESSION['defUser']['contactNumber'] = $upgradeSystemConfiguration->getAdminContactNumber();
+                    $_SESSION['defUser']['timezone'] = "Not Captured";
+                    $_SESSION['defUser']['language'] = $upgradeSystemConfiguration->getLanguage();
+                    $_SESSION['defUser']['country'] = $upgradeSystemConfiguration->getCountry();
+
+                    $upgradeSystemRegistration = new UpgradeOrangehrmRegistration();
+                    $upgradeSystemRegistration->sendRegistrationData();
                 }
             }
         }

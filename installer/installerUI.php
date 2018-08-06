@@ -53,18 +53,20 @@ if (isset($_SESSION['reqAccept'])) {
 	$reqAccept = $_SESSION['reqAccept'];
 }
 
-$steps = array('welcome', 'license', 'database configuration', 'system check', 'admin user creation', 'confirmation', 'Installing', 'registration');
+$steps = array('welcome', 'license', 'database configuration', 'system check', 'system configuration', 'confirmation', 'Installing');
 
-$helpLink = array("#welcome", "#license", "#DBCreation", "#systemChk", "#adminUsrCrt", "#confirm", "#installing", "#registration");
+$helpLink = array("#welcome", "#license", "#DBCreation", "#systemChk", "#adminUsrCrt", "#confirm", "#installing");
 
 ?>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
 <head>
-<title>OrangeHRM Web Installation Wizard</title>
-<link href="favicon.ico" rel="icon" type="image/gif"/>
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-<script language="JavaScript">
+    <title>OrangeHRM Web Installation Wizard</title>
+    <link href="favicon.ico" rel="icon" type="image/gif"/>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <script src="../symfony/web/js/jquery/jquery-1.8.0.min.js"></script>
+    <script src="../symfony/web/js/jquery/validate/jquery.validate.js"></script>
+    <script language="JavaScript">
 
 function goToScreen(screenNo) {
 	document.frmInstall.txtScreen.value = screenNo;
