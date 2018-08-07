@@ -25,6 +25,12 @@ require_once(REAL_ROOT_PATH.'/utils/installUtil.php');
 require_once(REAL_ROOT_PATH.'/DetailsHandler.php');
 require_once(REAL_ROOT_PATH.'/BasicConfigurations.php');
 
+include_once('OrangeHrmRegistration.php');
+$ohrmRegistration = new OrangeHrmRegistration();
+
+include_once ('SystemConfiguration.php');
+$systemConfiguration = new SystemConfiguration();
+
 
 function setValueToLogFile($filePath, $content) {		
 	file_put_contents($filePath, $content , FILE_APPEND | LOCK_EX);
@@ -118,6 +124,26 @@ else if (is_file(ROOT_PATH . '/lib/confs/Conf.php')) {
 			if($_SESSION['INSTALLING']==5) $messages->displayMessage("Create OrangeHRM user - No Errors...");
 			if($_SESSION['INSTALLING']==6) $messages->displayMessage("Write Conf - No Errors...");
 			if($_SESSION['INSTALLING']==7) $messages->displayMessage("Install Plugins  - No Errors...");
+
+			$_SESSION['defUser']['organizationName'] = $detailsHandler->getOrganizationName();
+			$_SESSION['defUser']['adminEmployeeFirstName'] = $detailsHandler->getAdminEmployeeFirstName();
+			$_SESSION['defUser']['adminEmployeeLastName'] = $detailsHandler->getAdminEmployeeLastName();
+			$_SESSION['defUser']['organizationEmailAddress'] = $detailsHandler->getOrganizationEmailAddress();
+			$_SESSION['defUser']['contactNumber'] = $detailsHandler->getContactNumber();
+
+			$ohrmRegistration->sendRegistrationData();
+
+				$_SESSION['dbHostName'] = $detailsHandler->getHost();
+                $_SESSION['dbUserName'] = $detailsHandler->getOrangehrmDatabaseUser();
+                $_SESSION['dbPassword'] = $detailsHandler->getOrangehrmDatabasePassword();
+                $_SESSION['dbName'] = $detailsHandler->getDatabaseName();
+                $_SESSION['dbHostPort'] = $detailsHandler->getPort();
+
+                $systemConfiguration->setOrganizationName($detailsHandler->getOrganizationName());
+                $systemConfiguration->setAdminName($detailsHandler->getAdminEmployeeFirstName(), $detailsHandler->getAdminEmployeeLastName());
+                $systemConfiguration->setAdminEmail($detailsHandler->getOrganizationEmailAddress());
+                $systemConfiguration->setAdminContactNumber($detailsHandler->getContactNumber());
+                $systemConfiguration->createAdminUser($detailsHandler->getAdminUserName(), $detailsHandler->getAdminPassword());
 			}
 		}
 
