@@ -116,7 +116,7 @@ $Phases = array('Database Creation', 'Create Database Tables', 'Fill default dat
 		<br/>
 		<script language="JavaScript">
 			function next() {
-				document.frmInstall.actionResponse.value  = 'REGISTER';
+				document.frmInstall.actionResponse.value  = 'LOGIN';
 				document.frmInstall.submit();
 			}
 		</script>
