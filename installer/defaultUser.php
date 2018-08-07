@@ -17,59 +17,251 @@
  * Boston, MA  02110-1301, USA
  *
  */
+
+include_once('systemConfigurationHelper.php');
+$systemConfigurationHelper = new systemConfigurationHelper();
+
 ?>
-<script language="JavaScript">
 
-function submitDefUserInfo() {
-
-	frm = document.frmInstall;
-	if(frm.OHRMAdminUserName.value.length < 5) {
-		alert('OrangeHRM Admin User-name should be at least 5 char. long!');
-		frm.OHRMAdminUserName.focus();
-		return;
-	}
-
-	if(frm.OHRMAdminPassword.value == '') {
-		alert('OrangeHRM Admin Password left Empty!');
-		frm.OHRMAdminPassword.focus();
-		return;
-	}
-
-	if(frm.OHRMAdminPassword.value != frm.OHRMAdminPasswordConfirm.value) {
-		alert('OrangeHRM Admin Password and Confirm OrangeHRM Admin Password don\'t match!');
-		frm.OHRMAdminPassword.focus();
-		return;
-	}
-
-document.frmInstall.actionResponse.value  = 'DEFUSERINFO';
-document.frmInstall.submit();
-}
-</script>
 <link href="style.css" rel="stylesheet" type="text/css" />
 
+<div>
+    <h2>Step 4: System Configuration</h2>
+    <form id="test" class="registrationFormBody" novalidate="false"></form>
 
-<div id="content">
-	<h2>Step 4: Admin User Creation</h2>
+    <p>Please fill in your Organization details and Admin Username and Password for the Administrator login. </p>
 
-        <p>After OrangeHRM is configured you will need an Administrator Account to Login into OrangeHRM. <br />
-        Please fill in the Username and User Password for the Administrator login. </p>
+    <form id="registrationForm" name="registrationForm" novalidate="false" method="post" action="../install.php">
+        <h3>Instance Creation</h3>
+        <input type="hidden" id="actionResponse" name="actionResponse" value=""/>
+        <input type="hidden" id="type" name="type" value="0"/>
+        <label>Organization Name <em>*</em></label>
+        <input type="text" style="margin-left: 55px; margin-bottom: 8px; padding-right: 130px" id="organizationName" name="organizationName"><br>
 
-        <table cellpadding="0" cellspacing="0" border="0" class="table">
-<tr><th colspan="3" align="left">Admin User Creation</th></tr>
-<tr>
-	<td class="tdComponent_n">OrangeHRM Admin Username</td>
-	<td class="tdValues_n"><input type="text" name="OHRMAdminUserName" value="Admin" tabindex="1"/></td>
-</tr>
-<tr>
-	<td class="tdComponent_n">OrangeHRM Admin User Password</td>
-	<td class="tdValues_n"><input type="password" name="OHRMAdminPassword" value="" tabindex="2"/></td>
-</tr>
-<tr>
-	<td class="tdComponent_n">Confirm OrangeHRM Admin User Password</td>
-	<td class="tdValues_n"><input type="password" name="OHRMAdminPasswordConfirm" value="" tabindex="3"/></td>
-</tr>
+        <label>Country <em>*</em></label>
+        <select style="margin-left: 137px; margin-bottom: 8px" id="country" name="country">
+            <?php
+            $countries = $systemConfigurationHelper->getCountryList();
 
-</table><br />
-<input class="button" type="button" value="Back" onclick="back();" tabindex="5"/>
-<input type="button" value="Next" onclick="submitDefUserInfo()" tabindex="4"/>
+            foreach ($countries as $key => $country) {
+                ?>
+                <option value="<?php echo $key?>"><?php echo $country?></option>
+                <?php
+            }
+            ?>
+        </select><br>
+
+        <label>Language</label>
+        <select id="language" name="language" style="margin-left: 132px; margin-bottom: 8px; padding-right: 145px">
+            <?php
+            $languages = $systemConfigurationHelper->getLanguageList();
+
+            foreach ($languages as $key => $language) {
+                ?>
+                <option value="<?php echo $key?>"><?php echo $language?></option>
+                <?php
+            }
+            ?>
+        </select><br>
+
+        <label>Timezone</label>
+        <select id="timezone" name="timezone" style="margin-left: 134px; margin-bottom: 8px; padding-right: 144px">
+            <?php
+            $timezones = $systemConfigurationHelper->getTimeZoneList();
+
+            foreach ($timezones as $timezone) {
+                ?>
+                <option value="<?php echo $timezone?>"><?php echo $timezone?></option>
+                <?php
+            }
+            ?>
+        </select><br>
+
+        <br>
+        <h3>Admin User Creation</h3>
+
+        <label>Employee Name <em>*</em></label>
+        <input type="text" style="margin-left: 155px" id="adminEmployeeFirstName" name="adminEmployeeFirstName" placeholder="First Name"> <input type="text" style="margin-bottom: 8px;" id="adminEmployeeLastName" name="adminEmployeeLastName" placeholder="Last Name"><br>
+
+        <label>Email Address <em>*</em></label>
+        <input type="text" style="margin-left: 170px; margin-bottom: 8px; padding-right: 130px" id="organizationEmailAddress" name="organizationEmailAddress"><br>
+
+        <label>Contact Number</label>
+        <input type="text" id="contactNumber" style="margin-left: 167px; margin-bottom: 8px; padding-right: 130px" name="contactNumber"><br>
+
+        <label>Admin Username <em>*</em></label>
+        <input type="text" style="margin-left: 150px; margin-bottom: 8px; padding-right: 130px" id="OHRMAdminUserName" name="OHRMAdminUserName" value="Admin"><br>
+
+        <label>Admin User Password <em>*</em></label>
+        <input type="password" style="margin-left: 115px; margin-bottom: 8px; padding-right: 130px" id="OHRMAdminPassword" name="OHRMAdminPassword" value=""><br>
+
+        <label>Confirm Admin User Password <em>*</em></label>
+        <input type="password" style="margin-left: 54px; margin-bottom: 8px; padding-right: 130px" id="OHRMAdminPasswordConfirm" name="OHRMAdminPasswordConfirm" value=""><br>
+
+        <p style=font-size:10px;">This will be the user credentials to login OrangeHRM as an administrator.</p>
+
+        <p style="font-size: 12px"><span class="required"> * </span>Required Fields</p>
+
+        <p style="color:gray; font-size:12px;">Users who seek access to their data, or who seek to correct, amend, or delete the given information should direct their requests to​ Data@orangehrm.com</p>
+
+        <input class="button" type="button" value="Back" onclick="back();"/>
+        <input class="button" type="button" value="Next" id="systemConfigReg"/>
+    </form>
+
 </div>
+
+<script language="JavaScript">
+    $(document).ready(function () {
+        console.log("Working fine");
+        $("#registrationForm").validate({
+            rules: {
+                'organizationName': {
+                    required: true,
+                },
+                'adminEmployeeFirstName': {
+                    fistNameLastNameRequired: true,
+                },
+                'adminEmployeeLastName': {
+                    fistNameLastNameRequired: true,
+                },
+                'organizationEmailAddress': {
+                    required: true,
+                    email: true
+                },
+                'contactNumber': {
+                    phone: true
+                },
+                'OHRMAdminUserName': {
+                    required: true,
+                    adminLength: true
+                },
+                'OHRMAdminPassword': {
+                    required: true
+                },
+                'OHRMAdminPasswordConfirm': {
+                    required: true,
+                    passwordMatch: true
+                }
+
+            },
+            messages: {
+                'organizationName': {
+                    required: "Required",
+                },
+                'adminEmployeeFirstName': {
+                    fistNameLastNameRequired: "",
+                },
+                'adminEmployeeLastName': {
+                    fistNameLastNameRequired: "First Name and last name Required",
+                },
+                'organizationEmailAddress': {
+                    required: "Required",
+                    email: "Expected format: admin@example.com"
+                },
+                'contactNumber': {
+                    phone: "Allows numbers and only + - / ( )"
+                },
+                'OHRMAdminUserName': {
+                    required: "Required",
+                    adminLength: "OrangeHRM Admin User-name should be at least 5 char. long!"
+                },
+                'OHRMAdminPassword': {
+                    required: "Required"
+                },
+                'OHRMAdminPasswordConfirm': {
+                    required: "Required",
+                    passwordMatch: "OrangeHRM Admin Password and Confirm OrangeHRM Admin Password do not match!"
+                }
+            }
+        });
+
+        $("#systemConfigReg").click(function(){
+            if ($("#registrationForm").valid()) {
+                $("#actionResponse").val('DEFUSERINFO');
+                $("#registrationForm").submit();
+            }
+
+        });
+
+        $.validator.addMethod("phone", function(value, element) {
+            return (checkPhone(element));
+        });
+
+        $.validator.addMethod("adminLength", function(value, element) {
+            return (validateAdminUserNameLength());
+        });
+
+        $.validator.addMethod("validEmail", function(value, element) {
+            return (validateEmail(element));
+        });
+
+        $.validator.addMethod("passwordMatch", function(value, element) {
+            return (validatePasswordMatch());
+        });
+
+        $.validator.addMethod("fistNameLastNameRequired", function(value, element) {
+            return (validateFirstNameLastName());
+        });
+
+        //check to see whether a valid phone number
+        // Space character, plus sign and dash are allowed in phone numbers
+        function checkPhone(txt)
+        {
+            var flag=true;
+
+            for(i=0;txt.value.length>i;i++){
+
+                code=txt.value.charCodeAt(i);
+
+                if ( ( (code>=48) && (code<=57) ) || (code == 45) || (code == 47) || (code == 40) || (code == 41) || (code == 43) || (code == 32) ) {
+                    flag=true;
+                }
+                else
+                {
+                    flag=false;
+                    break;
+                }
+            }
+            return flag;
+        }
+
+        function validateEmail(email) {
+            var regex = /^([a-zA-Z0-9_.+-])+\@(([a-zA-Z0-9-])+\.)+([a-zA-Z0-9]{2,4})+$/;
+            return regex.test(email);
+        }
+
+        function validatePasswordMatch() {
+            var password = $('#OHRMAdminPassword').val();
+            var confirmPassword = $('#OHRMAdminPasswordConfirm').val();
+
+            if(password) {
+                if (password == confirmPassword){
+                    return true;
+                } else {
+                    return false;
+                }
+            }
+            return true;
+        }
+
+        function validateAdminUserNameLength() {
+            var adminUserName = $('#OHRMAdminUserName').val();
+
+            if(adminUserName.length < 5) {
+                return false;
+            }
+            return true;
+        }
+
+        function validateFirstNameLastName() {
+            var firstName = $('#adminEmployeeFirstName').val();
+            var lastName = $('#adminEmployeeLastName').val();
+
+            if(firstName == '' || lastName == '') {
+                return false;
+            }
+            return true;
+        }
+    });
+
+</script>
