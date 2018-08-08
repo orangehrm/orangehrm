@@ -245,7 +245,6 @@ if (isset($_POST['actionResponse']))
             $password = $_SESSION['defUser']['AdminPassword'];
             session_destroy();
 
-//            setcookie('PHPSESSID', '', time() - 3600, '/');
             header("Location: ./");
             session_start();
             $_SESSION['AdminUserName'] = $userName;
