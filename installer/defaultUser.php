@@ -39,7 +39,8 @@ $systemConfigurationHelper = new systemConfigurationHelper();
         <input type="text" style="margin-left: 55px; margin-bottom: 8px; padding-right: 130px" id="organizationName" name="organizationName"><br>
 
         <label>Country <em>*</em></label>
-        <select style="margin-left: 137px; margin-bottom: 8px" id="country" name="country">
+        <select class="country" id="country" name="country">
+            <option value=""><?php echo "-Select-"?></option>
             <?php
             $countries = $systemConfigurationHelper->getCountryList();
 
@@ -52,7 +53,8 @@ $systemConfigurationHelper = new systemConfigurationHelper();
         </select><br>
 
         <label>Language</label>
-        <select id="language" name="language" style="margin-left: 132px; margin-bottom: 8px; padding-right: 145px">
+        <select class="language" id="language" name="language">
+            <option value=""><?php echo "-Select-"?></option>
             <?php
             $languages = $systemConfigurationHelper->getLanguageList();
 
@@ -65,13 +67,14 @@ $systemConfigurationHelper = new systemConfigurationHelper();
         </select><br>
 
         <label>Timezone</label>
-        <select id="timezone" name="timezone" style="margin-left: 134px; margin-bottom: 8px; padding-right: 144px">
+        <select class="timezone" id="timezone" name="timezone">
+            <option value=""><?php echo "-Select-"?></option>
             <?php
             $timezones = $systemConfigurationHelper->getTimeZoneList();
 
-            foreach ($timezones as $timezone) {
+            foreach ($timezones as $key => $timezone) {
                 ?>
-                <option value="<?php echo $timezone?>"><?php echo $timezone?></option>
+                <option value="<?php echo $key?>"><?php echo $key?></option>
                 <?php
             }
             ?>
@@ -81,28 +84,28 @@ $systemConfigurationHelper = new systemConfigurationHelper();
         <h3>Admin User Creation</h3>
 
         <label>Employee Name <em>*</em></label>
-        <input type="text" style="margin-left: 155px" id="adminEmployeeFirstName" name="adminEmployeeFirstName" placeholder="First Name"> <input type="text" style="margin-bottom: 8px;" id="adminEmployeeLastName" name="adminEmployeeLastName" placeholder="Last Name"><br>
+        <input type="text" class="adminEmployeeFirstName" id="adminEmployeeFirstName" name="adminEmployeeFirstName" placeholder="First Name"> <input type="text" class="adminEmployeeLastName" id="adminEmployeeLastName" name="adminEmployeeLastName" placeholder="Last Name"><br>
 
         <label>Email Address <em>*</em></label>
-        <input type="text" style="margin-left: 170px; margin-bottom: 8px; padding-right: 130px" id="organizationEmailAddress" name="organizationEmailAddress"><br>
+        <input type="text" class="organizationEmailAddress" id="organizationEmailAddress" name="organizationEmailAddress"><br>
 
         <label>Contact Number</label>
-        <input type="text" id="contactNumber" style="margin-left: 167px; margin-bottom: 8px; padding-right: 130px" name="contactNumber"><br>
+        <input type="text" class="contactNumber" id="contactNumber" name="contactNumber"><br>
 
         <label>Admin Username <em>*</em></label>
-        <input type="text" style="margin-left: 150px; margin-bottom: 8px; padding-right: 130px" id="OHRMAdminUserName" name="OHRMAdminUserName" value="Admin"><br>
+        <input type="text" class="OHRMAdminUserName" id="OHRMAdminUserName" name="OHRMAdminUserName" value="Admin"><br>
 
         <label>Admin User Password <em>*</em></label>
-        <input type="password" style="margin-left: 115px; margin-bottom: 8px; padding-right: 130px" id="OHRMAdminPassword" name="OHRMAdminPassword" value=""><br>
+        <input type="password" class="OHRMAdminPassword" id="OHRMAdminPassword" name="OHRMAdminPassword" value=""><br>
 
         <label>Confirm Admin User Password <em>*</em></label>
-        <input type="password" style="margin-left: 54px; margin-bottom: 8px; padding-right: 130px" id="OHRMAdminPasswordConfirm" name="OHRMAdminPasswordConfirm" value=""><br>
+        <input type="password" class="OHRMAdminPasswordConfirm" id="OHRMAdminPasswordConfirm" name="OHRMAdminPasswordConfirm" value=""><br>
 
-        <p style=font-size:10px;">This will be the user credentials to login OrangeHRM as an administrator.</p>
+        <p class="credentialsNotice">This will be the user credentials to login OrangeHRM as an administrator.</p>
 
-        <p style="font-size: 12px"><span class="required"> * </span>Required Fields</p>
+        <p class="requiredFields""><span class="required"> * </span>Required Fields</p>
 
-        <p style="color:gray; font-size:12px;">Users who seek access to their data, or who seek to correct, amend, or delete the given information should direct their requests to​ Data@orangehrm.com</p>
+        <p class="userDirect">Users who seek access to their data, or who seek to correct, amend, or delete the given information should direct their requests to​ Data@orangehrm.com</p>
 
         <input class="button" type="button" value="Back" onclick="back();"/>
         <input class="button" type="button" value="Next" id="systemConfigReg"/>
