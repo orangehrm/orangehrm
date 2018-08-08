@@ -133,11 +133,17 @@ $imagePath = theme_path("images/login");
     left:-254px;
 }
 
+    .loginSuccessMessage {
+        font-size: 15px;
+        font-weight: bold;
+        padding-left: 55px;
+        width: 100%;
+    }
     
 </style>
 
 <div>
-    <input type="text" id="loginSuccessMessage" style="font-size: 15px; font-weight: bold; padding-left: 55px; width: 100%" value="" readonly="readonly"/>
+    <input type="text" class="loginSuccessMessage" id="loginSuccessMessage" value="" readonly="readonly"/>
 </div>
 
 <div id="divLogin">

@@ -103,7 +103,7 @@ $systemConfigurationHelper = new systemConfigurationHelper();
 
         <p class="credentialsNotice">This will be the user credentials to login OrangeHRM as an administrator.</p>
 
-        <p class="requiredFields""><span class="required"> * </span>Required Fields</p>
+        <p class="requiredFields"><span class="required"> * </span>Required Fields</p>
 
         <p class="userDirect">Users who seek access to their data, or who seek to correct, amend, or delete the given information should direct their requests to​ Data@orangehrm.com</p>
 
