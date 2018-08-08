@@ -324,3 +324,9 @@ em {
 	color:gray;
 	font-size:12px;
 }
+
+.organizationName {
+	margin-left: 55px;
+	margin-bottom: 8px;
+	padding-right: 130px;
+}

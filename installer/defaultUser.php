@@ -36,7 +36,7 @@ $systemConfigurationHelper = new systemConfigurationHelper();
         <input type="hidden" id="actionResponse" name="actionResponse" value=""/>
         <input type="hidden" id="type" name="type" value="0"/>
         <label>Organization Name <em>*</em></label>
-        <input type="text" style="margin-left: 55px; margin-bottom: 8px; padding-right: 130px" id="organizationName" name="organizationName"><br>
+        <input type="text" class="organizationName" style="margin-left: 55px; margin-bottom: 8px; padding-right: 130px" id="organizationName" name="organizationName"><br>
 
         <label>Country <em>*</em></label>
         <select class="country" id="country" name="country">
