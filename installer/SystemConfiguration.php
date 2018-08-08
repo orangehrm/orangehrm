@@ -23,8 +23,8 @@ include_once('../symfony/plugins/orangehrmCorePlugin/lib/utility/PasswordHash.ph
 class SystemConfiguration
 {
     /**
-     * create and returns a database connection
-     * @return mysqli|void
+     * Returns a database connection
+     * @return PDO|void
      */
     private function createDbConnection() {
         $host = $_SESSION['dbHostName'];
@@ -32,33 +32,18 @@ class SystemConfiguration
         $password = $_SESSION['dbPassword'];
         $dbname = $_SESSION['dbName'];
         $port = $_SESSION['dbHostPort'];
+
         if (!$port) {
-            $dbConnection = mysqli_connect($host, $username, $password, $dbname);
+            $dbConnection = new PDO('mysql:host=' . $host . ';dbname=' . $dbname . ';charset=utf8mb4', $username, $password);
         } else {
-            $dbConnection = mysqli_connect($host, $username, $password, $dbname, $port);
+            $dbConnection = new PDO('mysql:host=' . $host . ';port=' . $port . ';dbname=' . $dbname . ';charset=utf8mb4', $username, $password);
         }
 
         if (!$dbConnection) {
             return;
         }
-        $dbConnection->set_charset("utf8");
 
         return $dbConnection;
-    }
-
-    /**
-     * Executes a mysql query using the given database connection
-     * @param $dbConnection
-     * @param $query
-     * @return bool|mysqli_result
-     */
-    private function executeSql($dbConnection, $query) {
-
-        $result = mysqli_query($dbConnection, $query);
-
-        mysqli_close($dbConnection);
-
-        return $result;
     }
 
     /**
@@ -66,9 +51,10 @@ class SystemConfiguration
      * @param $orgnaizationName
      */
     public function setOrganizationName($orgnaizationName) {
-        $query = "INSERT INTO `ohrm_organization_gen_info` (`name`) VALUES ('$orgnaizationName')";
+        $query = "INSERT INTO `ohrm_organization_gen_info` (`name`) VALUES (?)";
         $dbConnection = $this->createDbConnection();
-        $this->executeSql($dbConnection, $query);
+        $statement = $dbConnection->prepare($query);
+        $statement->execute(array($orgnaizationName));
     }
 
     /**
@@ -76,9 +62,10 @@ class SystemConfiguration
      * @param $countryCode
      */
     public function setCountry($countryCode){
-        $query = "UPDATE `ohrm_organization_gen_info` SET `country` = '$countryCode' WHERE `ohrm_organization_gen_info`.`id` = 1";
+        $query = "UPDATE `ohrm_organization_gen_info` SET `country` = ? WHERE `ohrm_organization_gen_info`.`id` = 1";
         $dbConnection = $this->createDbConnection();
-        $this->executeSql($dbConnection, $query);
+        $statement = $dbConnection->prepare($query);
+        $statement->execute(array($countryCode));
     }
 
 
@@ -87,9 +74,10 @@ class SystemConfiguration
      * @param $languageCode
      */
     public function setLanguage($languageCode) {
-        $query = "UPDATE `hs_hr_config` SET `value` = '$languageCode' WHERE `hs_hr_config`.`key` = 'admin.localization.default_language'";
+        $query = "UPDATE `hs_hr_config` SET `value` = ? WHERE `hs_hr_config`.`key` = 'admin.localization.default_language'";
         $dbConnection = $this->createDbConnection();
-        $this->executeSql($dbConnection, $query);
+        $statement = $dbConnection->prepare($query);
+        $statement->execute(array($languageCode));
     }
 
 
@@ -99,9 +87,10 @@ class SystemConfiguration
      * @param $lastName
      */
     public function setAdminName($firstName, $lastName) {
-        $query = "INSERT INTO `hs_hr_employee` (`emp_number`, `employee_id`, `emp_lastname`, `emp_firstname`) VALUES ('0001', '0001', '$lastName', '$firstName')";
+        $query = "INSERT INTO `hs_hr_employee` (`emp_number`, `employee_id`, `emp_lastname`, `emp_firstname`) VALUES ('0001', '0001', ?, ?)";
         $dbConnection = $this->createDbConnection();
-        $this->executeSql($dbConnection, $query);
+        $statement = $dbConnection->prepare($query);
+        $statement->execute(array($firstName, $lastName));
     }
 
 
@@ -110,9 +99,10 @@ class SystemConfiguration
      * @param $email
      */
     public function setAdminEmail($email) {
-        $query = "UPDATE `hs_hr_employee` SET `emp_work_email` = '$email' WHERE `hs_hr_employee`.`emp_number` = 1";
+        $query = "UPDATE `hs_hr_employee` SET `emp_work_email` = ? WHERE `hs_hr_employee`.`emp_number` = 1";
         $dbConnection = $this->createDbConnection();
-        $this->executeSql($dbConnection, $query);
+        $statement = $dbConnection->prepare($query);
+        $statement->execute(array($email));
     }
 
 
@@ -121,9 +111,10 @@ class SystemConfiguration
      * @param $contactNumber
      */
     public function setAdminContactNumber($contactNumber) {
-        $query = "UPDATE `hs_hr_employee` SET `emp_work_telephone` = '$contactNumber' WHERE `hs_hr_employee`.`emp_number` = 1";
+        $query = "UPDATE `hs_hr_employee` SET `emp_work_telephone` = ? WHERE `hs_hr_employee`.`emp_number` = 1";
         $dbConnection = $this->createDbConnection();
-        $this->executeSql($dbConnection, $query);
+        $statement = $dbConnection->prepare($query);
+        $statement->execute(array($contactNumber));
     }
 
 
@@ -136,9 +127,10 @@ class SystemConfiguration
         $passwordHasher = new PasswordHash();
         $hash = $passwordHasher->hash($password);
 
-        $query = "INSERT INTO `ohrm_user` (`user_role_id`, `emp_number`, `user_name`, `user_password`) VALUES ('1', '1', '$userName', '$hash')";
+        $query = "INSERT INTO `ohrm_user` (`user_role_id`, `emp_number`, `user_name`, `user_password`) VALUES ('1', '1', ?, ?)";
         $dbConnection = $this->createDbConnection();
-        $this->executeSql($dbConnection, $query);
+        $statement = $dbConnection->prepare($query);
+        $statement->execute(array($userName, $hash));
     }
 
     /**
@@ -150,6 +142,7 @@ class SystemConfiguration
         $instanceIdentifier = $organizationName . '_' . $email . '_' . date('Y-m-d');
         $query = "INSERT INTO `hs_hr_config` (`key`, `value`) VALUES ('instance.identifier', '$instanceIdentifier')";
         $dbConnection = $this->createDbConnection();
-        $this->executeSql($dbConnection, $query);
+        $statement = $dbConnection->prepare($query);
+        $statement->execute(array($organizationName, $email));
     }
 }
