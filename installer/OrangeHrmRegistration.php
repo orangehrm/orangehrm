@@ -20,6 +20,10 @@
 
 class OrangeHrmRegistration
 {
+    /**
+     * Send the registration data captured during the installation
+     * @return bool
+     */
     public function sendRegistrationData() {
         $ch = curl_init();
         curl_setopt($ch, CURLOPT_URL, "https://osreg-test-iris.orangehrm.com/registerAcceptor.php");
