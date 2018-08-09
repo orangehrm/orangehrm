@@ -42,7 +42,11 @@ class EmployeeService extends BaseService {
      */
     private $employeeDao;
     private $configurationService;
+    private $orangeHrmRegistrationService;
 
+    const EMPLOYEE_COUNT_CHANGE = 10;
+    const EMPLOYEE_COUNT_INCREASE = 1;
+    const EMPLOYEE_COUNT_DECREASE = 2;
     /**
      * Get Employee Dao
      * @return EmployeeDao
@@ -50,6 +54,14 @@ class EmployeeService extends BaseService {
      */
     public function getEmployeeDao() {
         return $this->employeeDao;
+    }
+
+    /**
+     * Get orangeHrmRegistrationService
+     * @return OrangeHrmRegisterService
+     */
+    private function getOrangeHrmRegistration() {
+        return $this->orangeHrmRegistrationService;
     }
 
     /**
@@ -91,6 +103,7 @@ class EmployeeService extends BaseService {
      */
     public function __construct() {
         $this->employeeDao = new EmployeeDao();
+        $this->orangeHrmRegistrationService = new OrangeHrmRegisterService();
     }
 
     /**
@@ -115,6 +128,11 @@ class EmployeeService extends BaseService {
      * @todo Change method name to saveEmployee [DONE]
      */
     public function saveEmployee(Employee $employee) {
+        $savedEmployee =$this->getEmployeeDao()->saveEmployee($employee);
+
+        if ($savedEmployee) {
+            $this->checkEmployeeCountChange(self::EMPLOYEE_COUNT_INCREASE);
+        }
         return $this->getEmployeeDao()->saveEmployee($employee);
     }
 
@@ -967,7 +985,9 @@ class EmployeeService extends BaseService {
      * 
      */
     public function deleteEmployees($empNumbers) {
-        return $this->getEmployeeDao()->deleteEmployees($empNumbers);
+        $deletedEmployees = $this->getEmployeeDao()->deleteEmployees($empNumbers);
+        $this->checkEmployeeCountChange(self::EMPLOYEE_COUNT_DECREASE);
+        return $deletedEmployees;
     }
 
     /**
@@ -1448,7 +1468,9 @@ class EmployeeService extends BaseService {
      * @todo throw an exception if not successfull, no return type [DONE: Returns EmployeeTerminationRecord]
      */
     public function terminateEmployment(EmployeeTerminationRecord $employeeTerminationRecord) {
-        return $this->getEmployeeDao()->terminateEmployment($employeeTerminationRecord);
+        $terminatedEmployees = $this->getEmployeeDao()->terminateEmployment($employeeTerminationRecord);
+        $this->checkEmployeeCountChange(self::EMPLOYEE_COUNT_DECREASE);
+        return $terminatedEmployees;
     }
 
     /**
@@ -1461,7 +1483,9 @@ class EmployeeService extends BaseService {
      * @todo Rename to activateTerminatedEmployment [DONE]
      */
     public function activateTerminatedEmployment($empNumber) {
-        return $this->getEmployeeDao()->activateTerminatedEmployment($empNumber);
+        $activatedEmployee = $this->getEmployeeDao()->activateTerminatedEmployment($empNumber);
+        $this->checkEmployeeCountChange(self::EMPLOYEE_COUNT_INCREASE);
+        return $activatedEmployee;
     }
 
     /**
@@ -1547,5 +1571,14 @@ class EmployeeService extends BaseService {
         return $this->getEmployeeDao()->getTerminationReasonList();
     }
 
+    private function checkEmployeeCountChange($type) {
+        $employeeCount = $this->getEmployeeCount();
+
+        if ($employeeCount % self::EMPLOYEE_COUNT_CHANGE == 0) {
+            $_SESSION['defUser']['type'] = $type;
+            $_SESSION['defUser']['employee_count'] = $employeeCount;
+            $this->getOrangeHrmRegistration()->sendRegistrationData();
+        }
+    }
 
 }
