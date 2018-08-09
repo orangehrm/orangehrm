@@ -45,8 +45,8 @@ class EmployeeService extends BaseService {
     private $orangeHrmRegistrationService;
 
     const EMPLOYEE_COUNT_CHANGE = 10;
-    const EMPLOYEE_COUNT_INCREASE = 1;
-    const EMPLOYEE_COUNT_DECREASE = 2;
+    const EMPLOYEE_ACTIVE_COUNT = 1;
+    const EMPLOYEE_INACTIVE_COUNT = 2;
     /**
      * Get Employee Dao
      * @return EmployeeDao
@@ -131,7 +131,7 @@ class EmployeeService extends BaseService {
         $savedEmployee =$this->getEmployeeDao()->saveEmployee($employee);
 
         if ($savedEmployee) {
-            $this->checkEmployeeCountChange(self::EMPLOYEE_COUNT_INCREASE);
+            $this->checkEmployeeCountChange(self::EMPLOYEE_ACTIVE_COUNT);
         }
         return $this->getEmployeeDao()->saveEmployee($employee);
     }
@@ -985,9 +985,7 @@ class EmployeeService extends BaseService {
      * 
      */
     public function deleteEmployees($empNumbers) {
-        $deletedEmployees = $this->getEmployeeDao()->deleteEmployees($empNumbers);
-        $this->checkEmployeeCountChange(self::EMPLOYEE_COUNT_DECREASE);
-        return $deletedEmployees;
+        return $this->getEmployeeDao()->deleteEmployees($empNumbers);
     }
 
     /**
@@ -1469,7 +1467,7 @@ class EmployeeService extends BaseService {
      */
     public function terminateEmployment(EmployeeTerminationRecord $employeeTerminationRecord) {
         $terminatedEmployees = $this->getEmployeeDao()->terminateEmployment($employeeTerminationRecord);
-        $this->checkEmployeeCountChange(self::EMPLOYEE_COUNT_DECREASE);
+        $this->checkEmployeeCountChange(self::EMPLOYEE_INACTIVE_COUNT);
         return $terminatedEmployees;
     }
 
@@ -1484,7 +1482,7 @@ class EmployeeService extends BaseService {
      */
     public function activateTerminatedEmployment($empNumber) {
         $activatedEmployee = $this->getEmployeeDao()->activateTerminatedEmployment($empNumber);
-        $this->checkEmployeeCountChange(self::EMPLOYEE_COUNT_INCREASE);
+        $this->checkEmployeeCountChange(self::EMPLOYEE_ACTIVE_COUNT);
         return $activatedEmployee;
     }
 
@@ -1572,7 +1570,13 @@ class EmployeeService extends BaseService {
     }
 
     private function checkEmployeeCountChange($type) {
-        $employeeCount = $this->getEmployeeCount();
+        if ($type == 1) {
+            $employeeCount = $this->getEmployeeCount();
+        }else {
+            $totalEmployeeCount = $this->getEmployeeCount(true);
+            $activeEmployeeCOunt = $this->getEmployeeCount();
+            $employeeCount = $totalEmployeeCount - $activeEmployeeCOunt;
+        }
 
         if ($employeeCount % self::EMPLOYEE_COUNT_CHANGE == 0) {
             $_SESSION['defUser']['type'] = $type;
