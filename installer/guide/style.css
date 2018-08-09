@@ -335,3 +335,7 @@ ol ol {
 	background: url(../../themes/beyondT/icons/exceptions/24-message-warn.png) no-repeat 4px 5px;
 	background-color: #FFEBB3;
 }
+
+.version{
+	text-decoration: none;
+}

@@ -1,27 +1,13 @@
 <?php
 $rootPath = dirname(__FILE__) . "/../../";
-$confPath = $rootPath . "lib/confs/Conf.php-distribution";
-require_once $confPath;
-
-$conf = new Conf();
-
 
 $files = array(
     'build/build.xml', 
-    'devTools/installer/SPEC/installer.nsi', 
-    'devTools/installer/SPEC/main.nsi', 
-    'installer/ApplicationSetupUtility.php', 
-    'installer/welcome.php', 
-    'installer/guide/index.html', 
-    'lib/confs/Conf.php-distribution', 
-    'orangehrm-quick-start-guide.html', 
-    'symfony/apps/orangehrm/templates/_copyright.php', 
-    'sysinfo.php',
-    'faq.html',
-    'installer/registrationMessage.php',
-    'symfony/plugins/orangehrmBeaconPlugin/modules/communication/actions/sendBeaconMessageAjaxAction.class.php',
-    'symfony/plugins/orangehrmBeaconPlugin/modules/communication/actions/beaconAboutComponent.class.php',
-    'symfony/plugins/orangehrmBeaconPlugin/lib/service/BeaconCommunicationsService.php'
+    'devTools/installer/SPEC/installer.nsi',
+    'devTools/installer/SPEC/main.nsi',
+    'lib/confs/Conf.php-distribution',
+    'installer/guide/index.js',
+    'version.yml',
 );
 
 if ($argc != 3) {

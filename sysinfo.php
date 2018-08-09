@@ -21,6 +21,7 @@
 
 $root = dirname(__FILE__);
 define('ROOT_PATH', $root);
+require_once ROOT_PATH.'/symfony/lib/vendor/autoload.php';
 
 function check_php_version($sys_php_version = '') {
 
@@ -120,14 +121,11 @@ function chk_memory($limit=9, $recommended=16) {
 return $msg;
 }
 
-$ohrmVersion = "4.1.1";
+$versionData = sfYaml::load(ROOT_PATH.'/version.yml');
+$ohrmVersion = $versionData['version'];
 
-if (@include_once ROOT_PATH."/lib/confs/Conf.php-distribution") {
-	$conf = new Conf();
-	$ohrmVersion = $conf->version;
-}
 ?>
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0.11 Transitional//EN">
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
 <head>
 <title>OrangeHRM System Information</title>
@@ -190,8 +188,8 @@ function reload() {
 
                if(function_exists('mysql_connect')) {
 
-                  if(intval(substr($mysqlClient,0,1)) < 4 || substr($mysqlClient,0,3) == '4.0.1') {
-	                  echo "<b><font color='#C4C781'>ver 4.1.1.x or later recommended (reported ver " .$mysqlClient. ')</font></b>';
+                  if(intval(substr($mysqlClient,0,1)) < 4 || substr($mysqlClient,0,3) == '4.0') {
+	                  echo "<b><font color='#C4C781'>ver 4.1.x or later recommended (reported ver " .$mysqlClient. ')</font></b>';
                   } else echo "<b><font color='green'>OK (ver " .$mysqlClient. ')</font></b>';
                } else {
                   echo "<b><font color='red'>Not Available</font></b>";

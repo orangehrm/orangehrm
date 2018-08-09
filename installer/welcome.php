@@ -17,6 +17,11 @@
  * Boston, MA  02110-1301, USA
  *
  */
+
+require_once ROOT_PATH.'/symfony/lib/vendor/autoload.php';
+$versionData = sfYaml::load(ROOT_PATH.'/version.yml');
+$ohrmVersion = $versionData['version'];
+
 ?>
 <script language="JavaScript">
 function welcomeSubmit() {
@@ -25,7 +30,7 @@ function welcomeSubmit() {
 }
 </script>
 	<div id="content">
-		<h2>Welcome to the OrangeHRM ver 4.1.1 Setup Wizard</h2>
+		<h2>Welcome to the OrangeHRM ver <?php echo $ohrmVersion;?> Setup Wizard</h2>
 
 
 		<p>This installer creates the OrangeHRM database tables and sets the

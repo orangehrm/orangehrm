@@ -87,6 +87,8 @@ class UpgradeUtility {
         $dbName = $dbName;
         $dbOHRMUser = $username;
         $dbOHRMPassword = $password;
+        $versionData = sfYaml::load(sfConfig::get('sf_root_dir') . "/../version.yml");
+        $ohrmVersion = $versionData['version'];
 
     $confContent = <<< CONFCONT
 <?php
@@ -110,7 +112,7 @@ class Conf {
         }
         \$this->dbuser    = '$dbOHRMUser';
         \$this->dbpass  = '$dbOHRMPassword';
-        \$this->version = '3.3.1';
+        \$this->version = '$ohrmVersion';
 
         \$this->emailConfiguration = dirname(__FILE__).'/mailConf.php';
         \$this->errorLog =  realpath(dirname(__FILE__).'/../logs/').'/';
@@ -266,7 +268,8 @@ CONFCONT;
      */
     public function getNewVersion() {
         
-        return '4.1.1';
+        $versionData = sfYaml::load(sfConfig::get('sf_root_dir') . "/../version.yml");
+        return $versionData['version'];
         
     }
     
