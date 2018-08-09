@@ -42,9 +42,9 @@ class OrangeHrmRegistration
 
         curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-        $response = curl_exec($ch);
+        $http_status = curl_getinfo($ch, CURLINFO_HTTP_CODE);
         curl_close($ch);
-        if (strpos($response, 'SUCCESSFUL') === false) {
+        if (!($http_status === 200)) {
             return false;
         } else {
 
