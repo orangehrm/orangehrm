@@ -87,7 +87,7 @@ class SystemConfiguration
      * @param $lastName
      */
     public function setAdminName($firstName, $lastName) {
-        $query = "INSERT INTO `hs_hr_employee` (`emp_number`, `employee_id`, `emp_lastname`, `emp_firstname`) VALUES ('0001', '0001', ?, ?)";
+        $query = "INSERT INTO `hs_hr_employee` (`emp_number`, `employee_id`, `emp_lastname`, `emp_firstname`) VALUES ('1', '0001', ?, ?)";
         $dbConnection = $this->createDbConnection();
         $statement = $dbConnection->prepare($query);
         $statement->execute(array($firstName, $lastName));
@@ -140,9 +140,9 @@ class SystemConfiguration
      */
     public function setInstanceIdentifier($organizationName, $email) {
         $instanceIdentifier = $organizationName . '_' . $email . '_' . date('Y-m-d');
-        $query = "INSERT INTO `hs_hr_config` (`key`, `value`) VALUES ('instance.identifier', '$instanceIdentifier')";
+        $query = "INSERT INTO `hs_hr_config` (`key`, `value`) VALUES (?, ?)";
         $dbConnection = $this->createDbConnection();
         $statement = $dbConnection->prepare($query);
-        $statement->execute(array($organizationName, $email));
+        $statement->execute(array("instance.identifier", $instanceIdentifier));
     }
 }

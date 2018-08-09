@@ -1570,7 +1570,7 @@ class EmployeeService extends BaseService {
     }
 
     private function checkEmployeeCountChange($type) {
-        if ($type == 1) {
+        if ($type == self::EMPLOYEE_ACTIVE_COUNT) {
             $employeeCount = $this->getEmployeeCount();
         }else {
             $totalEmployeeCount = $this->getEmployeeCount(true);
