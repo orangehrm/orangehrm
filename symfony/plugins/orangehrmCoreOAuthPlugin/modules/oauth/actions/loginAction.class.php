@@ -31,6 +31,8 @@ class loginAction extends sfAction {
         $this->state = $request->getParameter('state');
 
         $this->form = $loginForm;
+
+        setcookie('PHPSESSID', '', time() - 3600, '/');
     }
     
     public function isSecure() {
