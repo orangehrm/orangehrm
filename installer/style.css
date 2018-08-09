@@ -141,7 +141,7 @@ body {
 
 #body {
 	height:95%;
-	width:860px;
+	width:960px;
 }
 
 
@@ -202,6 +202,8 @@ td {
 
 .error {
 	color: #ff0000;
+	border-color: #ff0000;
+	background: #FFFFFE;
 }
 
 .see {
@@ -244,5 +246,87 @@ li {
 
 /* Styling for required mark */
 span.required {
-    color: red;
+	color: red;
+}
+
+em {
+	color: red;
+}
+
+.registrationFormBody {
+	width: 100%;
+}
+
+.country {
+	margin-left: 137px;
+	margin-bottom: 8px;
+}
+
+.language {
+	margin-left: 132px;
+	margin-bottom: 8px;
+	padding-right: 145px;
+}
+
+.timezone {
+	margin-left: 134px;
+	margin-bottom: 8px;
+	padding-right: 71px;
+}
+
+.adminEmployeeFirstName {
+	margin-left: 155px;
+}
+
+.adminEmployeeLastName {
+	margin-bottom: 8px;
+}
+
+.organizationEmailAddress {
+	margin-left: 170px;
+	margin-bottom: 8px;
+	padding-right: 130px;
+}
+
+.contactNumber {
+	margin-left: 167px;
+	margin-bottom: 8px;
+	padding-right: 130px;
+}
+
+.OHRMAdminUserName {
+	margin-left: 150px;
+	margin-bottom: 8px;
+	padding-right: 130px;
+}
+
+.OHRMAdminPassword {
+	margin-left: 115px;
+	margin-bottom: 8px;
+	padding-right: 130px;
+}
+
+.OHRMAdminPasswordConfirm {
+	margin-left: 54px;
+	margin-bottom: 8px;
+	padding-right: 130px;
+}
+
+.credentialsNotice {
+	font-size:10px;
+}
+
+.requiredFields {
+	font-size: 12px;
+}
+
+.userDirect {
+	color:gray;
+	font-size:12px;
+}
+
+.organizationName {
+	margin-left: 55px;
+	margin-bottom: 8px;
+	padding-right: 130px;
 }

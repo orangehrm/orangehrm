@@ -133,8 +133,18 @@ $imagePath = theme_path("images/login");
     left:-254px;
 }
 
+    .loginSuccessMessage {
+        font-size: 15px;
+        font-weight: bold;
+        padding-left: 55px;
+        width: 100%;
+    }
     
 </style>
+
+<div>
+    <input type="text" class="loginSuccessMessage" id="loginSuccessMessage" value="" readonly="readonly"/>
+</div>
 
 <div id="divLogin">
     <div id="divLogo">
@@ -225,6 +235,12 @@ $imagePath = theme_path("images/login");
     }
     
     $(document).ready(function() {
+        if ($('#installation').val())  {
+            var login = $('#installation').val();
+
+            $("#loginSuccessMessage").attr("value", login);
+        }
+
         /*Set a delay to compatible with chrome browser*/
         setTimeout(checkSavedUsernames,100);
         

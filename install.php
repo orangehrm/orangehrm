@@ -20,6 +20,8 @@
  */
 /* For logging PHP errors */
 include_once('lib/confs/log_settings.php');
+include_once('installer/OrangeHrmRegistration.php');
+$ohrmRegistration = new OrangeHrmRegistration();
 
 if (!defined('ROOT_PATH')) {
     $rootPath = realpath(dirname(__FILE__));
@@ -28,33 +30,6 @@ if (!defined('ROOT_PATH')) {
 
 require_once(ROOT_PATH . '/installer/utils/installUtil.php');
 global $dbConnection;
-
-
-//2. add https part since website is not hosted in https
-//3. add new field to store number of employees
-function sendRegistrationData($postArr) {
-    $ch = curl_init();
-    curl_setopt($ch, CURLOPT_URL,"https://www.orangehrm.com/registration/registerAcceptor.php");
-    curl_setopt($ch, CURLOPT_POST, 1);
-    $data = "userName=".$postArr['userName']
-			."&userEmail=".$postArr['userEmail']
-                        ."&userTp=".$postArr['userTp']
-			."&userComments=".$postArr['userComments']
-			."&firstName=".$postArr['firstName']
-			."&company=".$postArr['company']
-                        ."&empCount=".$postArr['empCount']
-			."&updates=".(isset($postArr['chkUpdates']) ? '1' : '0');
-    curl_setopt($ch, CURLOPT_POSTFIELDS,$data);
-    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-    $response = curl_exec ($ch);
-    curl_close ($ch);  
-    if(strpos($response, 'SUCCESSFUL') === false) {
-        return false;
-    } else {
-        return true;
-    }
-	    	
-}
 
 function createDbConnection($host, $username, $password, $dbname, $port) {
     if (!$port) {
@@ -219,11 +194,26 @@ if (isset($_POST['actionResponse']))
 
             /* For Data Encryption: Ends */
 
+            $_SESSION['dbHostName'] = $dbInfo['dbHostName'];
+            $_SESSION['dbHostPort'] = $dbInfo['dbHostPort'];
+            $_SESSION['dbName'] = $dbInfo['dbName'];
+            $_SESSION['dbUserName'] = $dbInfo['dbUserName'];
+            $_SESSION['dbPassword'] = $dbInfo['dbPassword'];
+
             break;
 
         case 'DEFUSERINFO' :
             $_SESSION['defUser']['AdminUserName'] = trim($_POST['OHRMAdminUserName']);
             $_SESSION['defUser']['AdminPassword'] = trim($_POST['OHRMAdminPassword']);
+
+            $_SESSION['defUser']['organizationName'] = trim($_POST['organizationName']);
+            $_SESSION['defUser']['country'] = trim($_POST['country']);
+            $_SESSION['defUser']['language'] = trim($_POST['language']);
+            $_SESSION['defUser']['timezone'] = trim($_POST['timezone']);
+            $_SESSION['defUser']['adminEmployeeFirstName'] = trim($_POST['adminEmployeeFirstName']);
+            $_SESSION['defUser']['adminEmployeeLastName'] = trim($_POST['adminEmployeeLastName']);
+            $_SESSION['defUser']['organizationEmailAddress'] = trim($_POST['organizationEmailAddress']);
+            $_SESSION['defUser']['contactNumber'] = trim($_POST['contactNumber']);
             $_SESSION['DEFUSER'] = 'OK';
             break;
 
@@ -235,7 +225,10 @@ if (isset($_POST['actionResponse']))
         case 'BACK' : back($_POST['txtScreen']);
             break;
 
-        case 'CONFIRMED' : $_SESSION['INSTALLING'] = 0;
+        case 'CONFIRMED' : {
+            $_SESSION['INSTALLING'] = 0;
+            $ohrmRegistration->sendRegistrationData();
+        }
             break;
 
         case 'REGISTER' : $_SESSION['CONFDONE'] = 'OK';
@@ -247,9 +240,16 @@ if (isset($_POST['actionResponse']))
 
 	case 'NOREG' 	:	$reqAccept = sendRegistrationData($_POST);
 
-        case 'LOGIN' : session_destroy();
-            setcookie('PHPSESSID', '', time() - 3600, '/');
+        case 'LOGIN' :
+            $userName = $_SESSION['defUser']['AdminUserName'];
+            $password = $_SESSION['defUser']['AdminPassword'];
+            session_destroy();
+
             header("Location: ./");
+            session_start();
+            $_SESSION['AdminUserName'] = $userName;
+            $_SESSION['AdminPassword'] = $password;
+            $_SESSION['Installation'] = "You have successfully installed OrangeHRM";
             exit(0);
             break;
     }
