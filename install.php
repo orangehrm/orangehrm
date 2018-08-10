@@ -214,6 +214,7 @@ if (isset($_POST['actionResponse']))
             $_SESSION['defUser']['adminEmployeeLastName'] = trim($_POST['adminEmployeeLastName']);
             $_SESSION['defUser']['organizationEmailAddress'] = trim($_POST['organizationEmailAddress']);
             $_SESSION['defUser']['contactNumber'] = trim($_POST['contactNumber']);
+            $_SESSION['defUser']['randomNumber'] = rand(1,100);
             $_SESSION['DEFUSER'] = 'OK';
             break;
 
