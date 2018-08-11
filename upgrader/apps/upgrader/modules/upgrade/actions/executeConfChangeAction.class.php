@@ -72,6 +72,8 @@ class executeConfChangeAction extends sfAction {
                     $_SESSION['defUser']['timezone'] = "Not Captured";
                     $_SESSION['defUser']['language'] = $upgradeSystemConfiguration->getLanguage();
                     $_SESSION['defUser']['country'] = $upgradeSystemConfiguration->getCountry();
+                    $_SESSION['defUser']['randomNumber'] = rand(1,100);
+                    $upgradeSystemConfiguration->setInstanceIdentifier();
 
                     $upgradeSystemRegistration = new UpgradeOrangehrmRegistration();
                     $upgradeSystemRegistration->sendRegistrationData();

@@ -20,13 +20,38 @@
 
 class OrangeHrmRegistration
 {
+    private $sysConf = null;
+
+    /**
+     * Get instance of sysConf
+     * @return null|sysConf
+     */
+    private function getSysConf() {
+        if (!defined('ROOT_PATH')) {
+            $rootPath = realpath(dirname(__FILE__));
+            define('ROOT_PATH', $rootPath);
+        }
+        require_once(ROOT_PATH . '/lib/confs/sysConf.php');
+        if (is_null($this->sysConf)) {
+            $this->sysConf = new sysConf();
+        }
+        return $this->sysConf;
+    }
+
+    /**
+     * Get the registration URL
+     * @return null|string
+     */
+    private function getRegistrationUrl() {
+        return $this->getSysConf()->getRegistrationUrl();
+    }
     /**
      * Send the registration data captured during the installation
      * @return bool
      */
     public function sendRegistrationData() {
         $ch = curl_init();
-        curl_setopt($ch, CURLOPT_URL, "https://osreg-test-iris.orangehrm.com/registerAcceptor.php");
+        curl_setopt($ch, CURLOPT_URL, $this->getRegistrationUrl());
         curl_setopt($ch, CURLOPT_POST, 1);
 
         $data = "username=" . $_SESSION['defUser']['AdminUserName']
@@ -38,7 +63,7 @@ class OrangeHrmRegistration
             . "&language=" . $_SESSION['defUser']['language']
             . "&country=" . $_SESSION['defUser']['country']
             . "&organization_name=" . $_SESSION['defUser']['organizationName']
-            . "&instance_identifier=" . $_SESSION['defUser']['organizationName'] . '_' . $_SESSION['defUser']['organizationEmailAddress'] . '_' . date('Y-m-d');
+            . "&instance_identifier=" . $this->getInstanceIdentifier();
 
         curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
@@ -51,5 +76,14 @@ class OrangeHrmRegistration
 
             return true;
         }
+    }
+
+    /**
+     * Create a unique instance identifier and return
+     * @return string
+     */
+    private function getInstanceIdentifier() {
+        $unencodedIdentifier = $_SESSION['defUser']['organizationName'] . '_' . $_SESSION['defUser']['organizationEmailAddress'] . '_' . date('Y-m-d') . $_SESSION['defUser']['randomNumber'];
+        return base64_encode($unencodedIdentifier);
     }
 }

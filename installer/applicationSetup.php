@@ -34,4 +34,4 @@ $sys->setAdminName($_SESSION['defUser']['adminEmployeeFirstName'], $_SESSION['de
 $sys->setAdminEmail($_SESSION['defUser']['organizationEmailAddress']);
 $sys->setAdminContactNumber($_SESSION['defUser']['contactNumber']);
 $sys->createAdminUser($_SESSION['defUser']['AdminUserName'], $_SESSION['defUser']['AdminPassword']);
-$sys->setInstanceIdentifier($_SESSION['defUser']['organizationName'], $_SESSION['defUser']['organizationEmailAddress']);
+$sys->setInstanceIdentifier($_SESSION['defUser']['organizationName'], $_SESSION['defUser']['organizationEmailAddress'], $_SESSION['defUser']['randomNumber']);

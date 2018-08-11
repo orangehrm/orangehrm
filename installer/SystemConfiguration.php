@@ -137,12 +137,13 @@ class SystemConfiguration
      * Set the instance identifier value
      * @param $organizationName
      * @param $email
+     * @param $randomNumber
      */
-    public function setInstanceIdentifier($organizationName, $email) {
-        $instanceIdentifier = $organizationName . '_' . $email . '_' . date('Y-m-d');
+    public function setInstanceIdentifier($organizationName, $email, $randomNumber) {
+        $instanceIdentifier = $organizationName . '_' . $email . '_' . date('Y-m-d') . $randomNumber;
         $query = "INSERT INTO `hs_hr_config` (`key`, `value`) VALUES (?, ?)";
         $dbConnection = $this->createDbConnection();
         $statement = $dbConnection->prepare($query);
-        $statement->execute(array("instance.identifier", $instanceIdentifier));
+        $statement->execute(array("instance.identifier", base64_encode($instanceIdentifier)));
     }
 }
