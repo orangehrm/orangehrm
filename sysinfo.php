@@ -21,7 +21,6 @@
 
 $root = dirname(__FILE__);
 define('ROOT_PATH', $root);
-require_once ROOT_PATH.'/symfony/lib/vendor/autoload.php';
 
 function check_php_version($sys_php_version = '') {
 
@@ -121,8 +120,10 @@ function chk_memory($limit=9, $recommended=16) {
 return $msg;
 }
 
-$versionData = sfYaml::load(ROOT_PATH.'/version.yml');
-$ohrmVersion = $versionData['version'];
+if (@include_once ROOT_PATH."/lib/confs/sysConf.php") {
+    $conf = new sysConf();
+    $ohrmVersion = $conf->getVersion();
+}
 
 ?>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">

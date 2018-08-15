@@ -18,9 +18,10 @@
  *
  */
 
-require_once ROOT_PATH.'/symfony/lib/vendor/autoload.php';
-$versionData = sfYaml::load(ROOT_PATH.'/version.yml');
-$ohrmVersion = $versionData['version'];
+if (@include_once ROOT_PATH."/lib/confs/sysConf.php") {
+    $conf = new sysConf();
+    $ohrmVersion = $conf->getVersion();
+}
 
 ?>
 <script language="JavaScript">

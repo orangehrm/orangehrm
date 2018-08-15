@@ -3,14 +3,15 @@
 $cupath = realpath(dirname(__FILE__) . '/../');
 define('ROOT_PATH', $cupath);
 require(ROOT_PATH .'/lib/confs/Conf.php');
-require_once(ROOT_PATH.'/symfony/lib/vendor/autoload.php');
 
 global $dbConnection;
 
 
 $url = "https://opensource-updates.orangehrm.com/app.php/register";
-$versionData = sfYaml::load(ROOT_PATH.'/version.yml');
-$ohrmVersion = $versionData['version'];
+if (@include_once ROOT_PATH."/lib/confs/sysConf.php") {
+    $conf = new sysConf();
+    $ohrmVersion = $conf->getVersion();
+}
 $data = http_build_query(array(
     'serverAddr' => array_key_exists('SERVER_ADDR', $_SERVER) ? urlencode($_SERVER['SERVER_ADDR']) : urlencode($_SERVER['LOCAL_ADDR']),
     'host' => urlencode(php_uname("s") . " " . php_uname("r")),

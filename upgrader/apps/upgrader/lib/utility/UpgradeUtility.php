@@ -87,8 +87,10 @@ class UpgradeUtility {
         $dbName = $dbName;
         $dbOHRMUser = $username;
         $dbOHRMPassword = $password;
-        $versionData = sfYaml::load(sfConfig::get('sf_root_dir') . "/../version.yml");
-        $ohrmVersion = $versionData['version'];
+        if (@include_once sfConfig::get('sf_root_dir')."/../lib/confs/sysConf.php") {
+            $conf = new sysConf();
+            $ohrmVersion = $conf->getVersion();
+        }
 
     $confContent = <<< CONFCONT
 <?php
@@ -267,9 +269,12 @@ CONFCONT;
      * @todo Get the new version which need to upgrade the system
      */
     public function getNewVersion() {
-        
-        $versionData = sfYaml::load(sfConfig::get('sf_root_dir') . "/../version.yml");
-        return $versionData['version'];
+
+        if (@include_once sfConfig::get('sf_root_dir')."/../lib/confs/sysConf.php") {
+            $conf = new sysConf();
+            return $conf->getVersion();
+        }
+        return '';
         
     }
     

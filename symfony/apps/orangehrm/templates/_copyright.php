@@ -1,9 +1,10 @@
 <?php 
 $rootPath = realpath(dirname(__FILE__)."/../../../../");
-require_once $rootPath.'/symfony/lib/vendor/autoload.php';
 
-$versionData = sfYaml::load($rootPath.'/version.yml');
-$version = $versionData['version'];
+if (@include_once $rootPath."/lib/confs/sysConf.php") {
+    $conf = new sysConf();
+    $version = $conf->getVersion();
+}
 $prodName = 'OrangeHRM';
 $copyrightYear = date('Y');
 

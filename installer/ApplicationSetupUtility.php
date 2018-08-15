@@ -21,7 +21,6 @@
 require_once ROOT_PATH.'/installer/utils/UniqueIDGenerator.php';
 require_once ROOT_PATH.'/symfony/lib/vendor/phpseclib/phpseclib/phpseclib/Crypt/Random.php';
 require_once ROOT_PATH.'/symfony/plugins/orangehrmCorePlugin/lib/utility/PasswordHash.php';
-require_once ROOT_PATH.'/symfony/lib/vendor/autoload.php';
 
 class ApplicationSetupUtility {
 
@@ -272,8 +271,10 @@ public static function writeConfFile() {
 		$dbOHRMPassword = $_SESSION['dbInfo']['dbPassword'];
 	}
 
-    $versionData = sfYaml::load(ROOT_PATH.'/version.yml');
-    $ohrmVersion = $versionData['version'];
+    if (@include_once ROOT_PATH."/lib/confs/sysConf.php") {
+        $conf = new sysConf();
+        $ohrmVersion = $conf->getVersion();
+    }
 
     $confContent = <<< CONFCONT
 <?php

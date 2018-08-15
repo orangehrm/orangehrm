@@ -6,8 +6,8 @@ $files = array(
     'devTools/installer/SPEC/installer.nsi',
     'devTools/installer/SPEC/main.nsi',
     'lib/confs/Conf.php-distribution',
-    'installer/guide/index.js',
-    'version.yml',
+    'lib/confs/sysConf.php',
+    'installer/guide/index.js'
 );
 
 if ($argc != 3) {

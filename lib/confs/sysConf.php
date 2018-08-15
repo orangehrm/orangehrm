@@ -35,6 +35,7 @@ class sysConf {
   var $timeInputHint;
   public $javascriptInputHint = "YYYY-MM-DD";
   var $styleSheet;
+  var $version;
 
   /**
    * Following variable decides if admin users can edit the sendmail path through a web browser.
@@ -69,6 +70,7 @@ class sysConf {
     $this->timeFormat = "H:i";
     $this->timeInputHint = "HH:MM";
     $this->styleSheet = "orange";
+    $this->version = "4.1.2";
   }
 
   function getEmployeeIdLength() {
@@ -101,6 +103,10 @@ class sysConf {
 
   public function sendmailPathEditOnlyFromLocalHost() {
     return $this->sendmailPathEditOnlyFromLocalHost;
+  }
+
+  public function getVersion() {
+    return $this->version;
   }
 }
 
