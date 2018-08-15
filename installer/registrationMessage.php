@@ -8,13 +8,17 @@ global $dbConnection;
 
 
 $url = "https://opensource-updates.orangehrm.com/app.php/register";
+if (@include_once ROOT_PATH."/lib/confs/sysConf.php") {
+    $conf = new sysConf();
+    $ohrmVersion = $conf->getVersion();
+}
 $data = http_build_query(array(
     'serverAddr' => array_key_exists('SERVER_ADDR', $_SERVER) ? urlencode($_SERVER['SERVER_ADDR']) : urlencode($_SERVER['LOCAL_ADDR']),
     'host' => urlencode(php_uname("s") . " " . php_uname("r")),
     'httphost' => urlencode($_SERVER['HTTP_HOST']),
     'phpVersion' => urlencode(constant('PHP_VERSION')),
     'server' => urlencode($_SERVER['SERVER_SOFTWARE']),
-    'ohrmVersion' => urlencode('Open Source 4.1.1'),
+    'ohrmVersion' => urlencode('Open Source '.$ohrmVersion),
         ));
 
 

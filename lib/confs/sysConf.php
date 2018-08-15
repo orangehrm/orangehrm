@@ -35,6 +35,7 @@ class sysConf {
   var $timeInputHint;
   public $javascriptInputHint = "YYYY-MM-DD";
   var $styleSheet;
+  var $version;
 
   var $registrationUrl = null;
 
@@ -71,6 +72,7 @@ class sysConf {
     $this->timeFormat = "H:i";
     $this->timeInputHint = "HH:MM";
     $this->styleSheet = "orange";
+    $this->version = "4.1.2";
     $this->registrationUrl = "https://osreg-test-iris.orangehrm.com/registerAcceptor.php";
   }
 
@@ -104,6 +106,10 @@ class sysConf {
 
   public function sendmailPathEditOnlyFromLocalHost() {
     return $this->sendmailPathEditOnlyFromLocalHost;
+  }
+
+  public function getVersion() {
+    return $this->version;
   }
 
   /**

@@ -271,6 +271,11 @@ public static function writeConfFile() {
 		$dbOHRMPassword = $_SESSION['dbInfo']['dbPassword'];
 	}
 
+    if (@include_once ROOT_PATH."/lib/confs/sysConf.php") {
+        $conf = new sysConf();
+        $ohrmVersion = $conf->getVersion();
+    }
+
     $confContent = <<< CONFCONT
 <?php
 class Conf {
@@ -293,7 +298,7 @@ class Conf {
 		}
 		\$this->dbuser    = '$dbOHRMUser';
 		\$this->dbpass	= '$dbOHRMPassword';
-		\$this->version = '4.0.1';
+		\$this->version = '$ohrmVersion';
 
 		\$this->emailConfiguration = dirname(__FILE__).'/mailConf.php';
 		\$this->errorLog =  realpath(dirname(__FILE__).'/../logs/').'/';
