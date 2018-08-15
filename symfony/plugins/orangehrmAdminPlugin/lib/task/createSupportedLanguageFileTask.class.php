@@ -73,7 +73,7 @@ class createSupportedLanguageFileTask extends sfBaseTask
             exit(0);
         }
 
-        $output = $this->combine_xmls($testFile, $actualFile, $sourceLanguage, $targetLanguage);
+        $output = $this->getTranslatedXml($testFile, $actualFile, $sourceLanguage, $targetLanguage);
 
         $doc = new DOMDocument();
         $doc->formatOutput = TRUE;
@@ -91,7 +91,7 @@ class createSupportedLanguageFileTask extends sfBaseTask
      * @param $actual
      * @return SimpleXMLElement
      */
-    private function combine_xmls($test, $actual, $sourceLanguage, $targetLanguage) {
+    private function getTranslatedXml($test, $actual, $sourceLanguage, $targetLanguage) {
         $testXml=simplexml_load_file($test);
         $actualXml=simplexml_load_file($actual);
 
@@ -114,7 +114,7 @@ class createSupportedLanguageFileTask extends sfBaseTask
             )
         );
 
-        $mergedArray = $this->getUniqueArray($testArray, $actualArray);
+        $translatedArray = $this->getTranslatedArray($testArray, $actualArray);
         $date = new DateTime();
 
         $xml = new SimpleXMLElement('<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE xliff PUBLIC "-//XLIFF//DTD XLIFF//EN" "http://www.oasis-open.org/committees/xliff/documents/xliff.dtd"><xliff version="1.0"></xliff>');
@@ -130,7 +130,7 @@ class createSupportedLanguageFileTask extends sfBaseTask
         $body = $file->addChild('body');
 
         $count = 0;
-        foreach ($mergedArray as $item){
+        foreach ($translatedArray as $item){
             $node = $body->addChild('trans-unit');
             $node->addAttribute('id', ++$count);
             $node->addChild('source', htmlspecialchars($item['source']));
@@ -145,13 +145,12 @@ class createSupportedLanguageFileTask extends sfBaseTask
     }
 
     /**
-     * Compares tow arrays $testArray and $actualArray,
-     * if an element of $testArray exists in $actualArray, remove that element
+     * Compares tow arrays $testArray and $actualArray
      * @param $testArray
      * @param $actualArray
      * @return array
      */
-    private function getUniqueArray($testArray, $actualArray) {
+    private function getTranslatedArray($testArray, $actualArray) {
         $translatedArray = array();
         $nonTranslatedArray = array();
         foreach ($testArray as $testArrayKey => $testArrayNode) {
