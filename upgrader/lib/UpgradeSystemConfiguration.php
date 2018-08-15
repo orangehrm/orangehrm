@@ -33,33 +33,16 @@ class UpgradeSystemConfiguration
         $port = $_SESSION['dbHostPort'];
 
         if (!$port) {
-            $dbConnection = mysqli_connect($host, $username, $password, $dbname);
+            $dbConnection = new PDO('mysql:host=' . $host . ';dbname=' . $dbname . ';charset=utf8mb4', $username, $password);
         } else {
-            $dbConnection = mysqli_connect($host, $username, $password, $dbname, $port);
+            $dbConnection = new PDO('mysql:host=' . $host . ';port=' . $port . ';dbname=' . $dbname . ';charset=utf8mb4', $username, $password);
         }
 
         if (!$dbConnection) {
             return;
         }
-        $dbConnection->set_charset("utf8");
 
         return $dbConnection;
-    }
-
-    /**
-     * Executes a mysql query using the given database connection
-     * @param $dbConnection
-     * @param $query
-     * @return bool|mysqli_result
-     */
-    private function executeSql($dbConnection, $query) {
-
-        $result = mysqli_query($dbConnection, $query);
-        $row = mysqli_fetch_array($result);
-
-        mysqli_close($dbConnection);
-
-        return $row;
     }
 
     /**
@@ -69,8 +52,8 @@ class UpgradeSystemConfiguration
     public function getOrganizationName() {
         $query = "SELECT `name` FROM `ohrm_organization_gen_info`";
         $dbConnection = $this->createDbConnection();
-
-        $row = $this->executeSql($dbConnection, $query);
+        $statement = $dbConnection->query($query);
+        $row = $statement->fetch();
         $orgnaizationName = $row['name'];
 
         if ($orgnaizationName) {
@@ -87,7 +70,8 @@ class UpgradeSystemConfiguration
     public function getCountry() {
         $query = "SELECT `country` FROM `ohrm_organization_gen_info`";
         $dbConnection = $this->createDbConnection();
-        $row = $this->executeSql($dbConnection, $query);
+        $statement = $dbConnection->query($query);
+        $row = $statement->fetch();
         $countryCode = $row['country'];
 
         if($countryCode) {
@@ -104,7 +88,8 @@ class UpgradeSystemConfiguration
     public function getLanguage() {
         $query = "SELECT `value` FROM `hs_hr_config` WHERE `key` = 'admin.localization.default_language'";
         $dbConnection = $this->createDbConnection();
-        $row =  $this->executeSql($dbConnection, $query);
+        $statement = $dbConnection->query($query);
+        $row = $statement->fetch();
         $languageCode = $row['value'];
 
         if ($languageCode) {
@@ -123,7 +108,8 @@ class UpgradeSystemConfiguration
         $query = "SELECT `emp_firstname` FROM `hs_hr_employee` WHERE  `emp_number` = '$adminEmpNumber';";
 
         $dbConnection = $this->createDbConnection();
-        $row = $this->executeSql($dbConnection, $query);
+        $statement = $dbConnection->query($query);
+        $row = $statement->fetch();
         $firstName = $row['emp_firstname'];
 
         return $firstName;
@@ -138,7 +124,8 @@ class UpgradeSystemConfiguration
         $query = "SELECT `emp_lastname` FROM `hs_hr_employee` WHERE  `emp_number` = '$adminEmpNumber'";
 
         $dbConnection = $this->createDbConnection();
-        $row = $this->executeSql($dbConnection, $query);
+        $statement = $dbConnection->query($query);
+        $row = $statement->fetch();
         $lastName = $row['emp_lastname'];
 
         return $lastName;
@@ -153,7 +140,8 @@ class UpgradeSystemConfiguration
         $query = "SELECT `emp_work_email` FROM `hs_hr_employee` WHERE `emp_number` = '$adminEmpNumber';";
 
         $dbConnection = $this->createDbConnection();
-        $row = $this->executeSql($dbConnection, $query);
+        $statement = $dbConnection->query($query);
+        $row = $statement->fetch();
         $adminEmail = $row['emp_work_email'];
 
         return $adminEmail;
@@ -167,7 +155,8 @@ class UpgradeSystemConfiguration
         $adminEmpNumber = $this->getAdminEmployeeNumber();
         $query = "SELECT `emp_work_telephone` FROM `hs_hr_employee` WHERE `emp_number` = '$adminEmpNumber'";
         $dbConnection = $this->createDbConnection();
-        $row = $this->executeSql($dbConnection, $query);
+        $statement = $dbConnection->query($query);
+        $row = $statement->fetch();
         $adminContactNumber = $row['emp_work_telephone'];
 
         return $adminContactNumber;
@@ -180,12 +169,14 @@ class UpgradeSystemConfiguration
     public function getAdminUserName() {
         $adminIdQuery = "SELECT `id` FROM `ohrm_user_role` WHERE  `name` = 'Admin' LIMIT 1";
         $dbConnection = $this->createDbConnection();
-        $adminIdRow = $this->executeSql($dbConnection, $adminIdQuery);
+        $statement = $dbConnection->query($adminIdQuery);
+        $adminIdRow = $statement->fetch();
         $adminId = $adminIdRow['id'];
 
         $adminNameQuery = "SELECT `user_name` FROM `ohrm_user` WHERE  `user_role_id` = '$adminId'";
         $dbConnection = $this->createDbConnection();
-        $adminEmpNameRow = $this->executeSql($dbConnection, $adminNameQuery);
+        $statement = $dbConnection->query($adminNameQuery);
+        $adminEmpNameRow = $statement->fetch();
 
         return $adminEmpNameRow['user_name'];
 
@@ -198,14 +189,28 @@ class UpgradeSystemConfiguration
     private function getAdminEmployeeNumber() {
         $adminIdQuery = "SELECT `id` FROM `ohrm_user_role` WHERE  `name` = 'Admin' LIMIT 1";
         $dbConnection = $this->createDbConnection();
-        $adminIdRow = $this->executeSql($dbConnection, $adminIdQuery);
+        $statement = $dbConnection->query($adminIdQuery);
+        $adminIdRow = $statement->fetch();
         $adminId = $adminIdRow['id'];
 
         $adminEmpNumberQuery = "SELECT `emp_number` FROM `ohrm_user` WHERE  `user_role_id` = '$adminId'";
         $dbConnection = $this->createDbConnection();
-        $adminEmpNumberRow = $this->executeSql($dbConnection, $adminEmpNumberQuery);
+        $statement = $dbConnection->query($adminEmpNumberQuery);
+        $adminEmpNumberRow = $statement->fetch();
+
         $adminEmpNumber = $adminEmpNumberRow['emp_number'];
 
         return $adminEmpNumber;
+    }
+
+    /**
+     * Set the instance identifier of upgraded instance
+     */
+    public function setInstanceIdentifier() {
+        $instanceIdentifier = $_SESSION['defUser']['organizationName'] . '_' . $_SESSION['defUser']['organizationEmailAddress'] . '_' . date('Y-m-d') . $_SESSION['defUser']['randomNumber'];
+        $query = "INSERT INTO `hs_hr_config` (`key`, `value`) VALUES (?, ?)";
+        $dbConnection = $this->createDbConnection();
+        $statement = $dbConnection->prepare($query);
+        $statement->execute(array("instance.identifier", base64_encode($instanceIdentifier)));
     }
 }

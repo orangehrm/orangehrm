@@ -38,7 +38,7 @@ class UpgradeOrangehrmRegistration
             . "&language=" . $_SESSION['defUser']['language']
             . "&country=" . $_SESSION['defUser']['country']
             . "&organization_name=" . $_SESSION['defUser']['organizationName']
-            . "&instance_identifier=" . $_SESSION['defUser']['organizationName'] . '_' . $_SESSION['defUser']['organizationEmailAddress'] . '_' . date('Y-m-d');
+            . "&instance_identifier=" . $this->getInstanceIdentifier();
 
         curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
@@ -51,5 +51,14 @@ class UpgradeOrangehrmRegistration
 
             return true;
         }
+    }
+
+    /**
+     * Create a unique instance identifier and return
+     * @return string
+     */
+    private function getInstanceIdentifier() {
+        $unencodedIdentifier = $_SESSION['defUser']['organizationName'] . '_' . $_SESSION['defUser']['organizationEmailAddress'] . '_' . date('Y-m-d') . $_SESSION['defUser']['randomNumber'];
+        return base64_encode($unencodedIdentifier);
     }
 }
