@@ -164,8 +164,8 @@ class createSupportedLanguageFileTask extends sfBaseTask
                         $testArrayNode['note'] = $actualArrayNode['note'];
                     }
                     array_push($translatedArray, $testArrayNode);
+                    break;
                 }
-                break;
             }
             if (!$matched) {
                 $testArrayNode['target'] = "";
