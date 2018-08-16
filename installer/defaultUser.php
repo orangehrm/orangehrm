@@ -115,17 +115,16 @@ $systemConfigurationHelper = new systemConfigurationHelper();
 
 <script language="JavaScript">
     $(document).ready(function () {
-        console.log("Working fine");
         $("#registrationForm").validate({
             rules: {
                 'organizationName': {
                     required: true,
                 },
                 'adminEmployeeFirstName': {
-                    fistNameLastNameRequired: true,
+                    fistNameRequired: true,
                 },
                 'adminEmployeeLastName': {
-                    fistNameLastNameRequired: true,
+                    lastNameRequired: true,
                 },
                 'organizationEmailAddress': {
                     required: true,
@@ -152,10 +151,10 @@ $systemConfigurationHelper = new systemConfigurationHelper();
                     required: "Required",
                 },
                 'adminEmployeeFirstName': {
-                    fistNameLastNameRequired: "",
+                    fistNameRequired: "",
                 },
                 'adminEmployeeLastName': {
-                    fistNameLastNameRequired: "First Name and last name Required",
+                    lastNameRequired: "First Name and last name Required",
                 },
                 'organizationEmailAddress': {
                     required: "Required",
@@ -204,6 +203,14 @@ $systemConfigurationHelper = new systemConfigurationHelper();
 
         $.validator.addMethod("fistNameLastNameRequired", function(value, element) {
             return (validateFirstNameLastName());
+        });
+
+        $.validator.addMethod("fistNameRequired", function(value, element) {
+            return (validateFirstName());
+        });
+
+        $.validator.addMethod("lastNameRequired", function(value, element) {
+            return (validateLastName());
         });
 
         //check to see whether a valid phone number
@@ -261,6 +268,24 @@ $systemConfigurationHelper = new systemConfigurationHelper();
             var lastName = $('#adminEmployeeLastName').val();
 
             if(firstName == '' || lastName == '') {
+                return false;
+            }
+            return true;
+        }
+
+        function validateFirstName() {
+            var firstName = $('#adminEmployeeFirstName').val();
+            if(firstName == '') {
+                nameErrorSet = true;
+                return false;
+            }
+            return true;
+        }
+
+        function validateLastName() {
+            var lastName = $('#adminEmployeeLastName').val();
+            if(lastName == '') {
+                nameErrorSet = true;
                 return false;
             }
             return true;
