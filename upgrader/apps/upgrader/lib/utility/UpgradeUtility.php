@@ -207,7 +207,7 @@ CONFCONT;
      */
     public function getEndIncrementNumber() {
         
-        return 66;
+        return 67;
         
     }
     
@@ -261,6 +261,7 @@ CONFCONT;
         $a['3.3.3']     = 64;// 3.3.2 to 4.0
         $a['4.0']       = 65;// 4.0 to 4.1
         $a['4.1']       = 66;// 4.1 to 4.1.1
+        $a['4.1.1']     = 67;// 4.1.1 to 4.1.2
         return $a;
         
     }
