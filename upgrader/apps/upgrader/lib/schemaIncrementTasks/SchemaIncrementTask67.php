@@ -17,11 +17,9 @@
  * Boston, MA  02110-1301, USA
  */
 
-class SchemaIncrementTask67 extends SchemaIncrementTask
-{
+class SchemaIncrementTask67 extends SchemaIncrementTask {
 
-    public function loadSql()
-    {
+    public function loadSql() {
         $sql = array();
 
         $sql[] = 'SELECT `id` FROM `ohrm_user_role` WHERE `name` = "Admin" INTO @AdminUserRoleId;';
@@ -33,18 +31,15 @@ class SchemaIncrementTask67 extends SchemaIncrementTask
         $this->sql = $sql;
     }
 
-    public function getUserInputWidgets()
-    {
+    public function getUserInputWidgets() {
         // TODO: Implement getUserInputWidgets() method.
     }
 
-    public function setUserInputs()
-    {
+    public function setUserInputs() {
         // TODO: Implement setUserInputs() method.
     }
 
-    public function getNotes()
-    {
+    public function getNotes() {
         // TODO: Implement getNotes() method.
     }
 
