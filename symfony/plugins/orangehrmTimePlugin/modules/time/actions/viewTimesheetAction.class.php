@@ -167,6 +167,10 @@ class viewTimesheetAction extends baseTimeAction {
                             }
                         }
                     }                    
+                } else {
+                    $this->successMessage = array('warning', __(TopLevelMessages::VALIDATION_FAILED));
+                    $response = $this->getResponse();
+                    $response->setStatusCode(HttpResponseCode::HTTP_BAD_REQUEST);
                 }
             }
 
@@ -258,6 +262,8 @@ class viewTimesheetAction extends baseTimeAction {
         $userRoleManager = $this->getContext()->getUserRoleManager();
         
         if (!$userRoleManager->isEntityAccessible('Employee', $empNumber)) {
+            $response = $this->getResponse();
+            $response->setStatusCode(HttpResponseCode::HTTP_BAD_REQUEST);
             $this->forward(sfConfig::get('sf_secure_module'), sfConfig::get('sf_secure_action'));
         }
 

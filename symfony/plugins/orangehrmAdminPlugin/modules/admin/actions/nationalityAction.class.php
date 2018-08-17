@@ -55,6 +55,10 @@ class nationalityAction extends sfAction {
                 $this->form->save();
                 $this->getUser()->setFlash('success', __(TopLevelMessages::SAVE_SUCCESS));
                 $this->redirect('admin/nationality');
+            } else {
+                $this->getUser()->setFlash('warning', __(TopLevelMessages::VALIDATION_FAILED), false);
+                $response = $this->getResponse();
+                $response->setStatusCode(HttpResponseCode::HTTP_BAD_REQUEST);
             }
         }
     }

@@ -39,6 +39,8 @@ class defineWorkWeekAction extends baseCoreLeaveAction {
                     }
                 } else {
                     $this->getUser()->setFlash('failure', __(TopLevelMessages::SAVE_FAILURE), false);
+                    $response = $this->getResponse();
+                    $response->setStatusCode(HttpResponseCode::HTTP_BAD_REQUEST);
                 }
             }
         }

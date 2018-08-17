@@ -41,7 +41,10 @@ class viewLocationsAction extends sfAction {
 
 		$usrObj = $this->getUser()->getAttribute('user');
 		if (!($usrObj->isAdmin())) {
-			$this->redirect('pim/viewPersonalDetails');
+            $response = $this->getResponse();
+            $response->setStatusCode(HttpResponseCode::HTTP_FORBIDDEN);
+            $this->forward(sfConfig::get('sf_secure_module'), sfConfig::get('sf_secure_action'));
+//			$this->redirect('pim/viewPersonalDetails');
 		}
 
 		$isPaging = $request->getParameter('pageNo');
@@ -88,6 +91,9 @@ class viewLocationsAction extends sfAction {
 				$searchedLocationList = $this->getLocationService()->searchLocations($searchClues);
 				$locationListCount = $this->getLocationService()->getSearchLocationListCount($searchClues);
 				$this->_setListComponent($searchedLocationList, $limit, $pageNumber, $locationListCount);
+			} else {
+                $response = $this->getResponse();
+                $response->setStatusCode(HttpResponseCode::HTTP_BAD_REQUEST);
 			}
 		}
 	}
