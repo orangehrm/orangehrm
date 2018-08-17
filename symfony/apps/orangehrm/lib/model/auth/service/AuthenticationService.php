@@ -102,6 +102,7 @@ class AuthenticationService extends BaseService {
      */
     public function clearCredentials() {
         session_destroy();
+        session_start();
         $cookieManager = new CookieManager();
         $cookieManager->destroyCookie('Loggedin', '/');
     }

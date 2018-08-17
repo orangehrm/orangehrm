@@ -234,12 +234,20 @@ $imagePath = theme_path("images/login");
         return true;
     }
     
+    function refreshSession() {
+        setTimeout(function() {
+            location.reload();
+        }, 20 * 60 * 1000);
+    }
+
     $(document).ready(function() {
         if ($('#installation').val())  {
             var login = $('#installation').val();
 
             $("#loginSuccessMessage").attr("value", login);
         }
+
+        refreshSession();
 
         /*Set a delay to compatible with chrome browser*/
         setTimeout(checkSavedUsernames,100);
