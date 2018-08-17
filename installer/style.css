@@ -265,13 +265,13 @@ em {
 .language {
 	margin-left: 132px;
 	margin-bottom: 8px;
-	padding-right: 145px;
+	width: 303px;
 }
 
 .timezone {
 	margin-left: 134px;
 	margin-bottom: 8px;
-	padding-right: 71px;
+	width: 303px;
 }
 
 .adminEmployeeFirstName {
@@ -285,31 +285,31 @@ em {
 .organizationEmailAddress {
 	margin-left: 170px;
 	margin-bottom: 8px;
-	padding-right: 130px;
+	width: 303px;
 }
 
 .contactNumber {
 	margin-left: 167px;
 	margin-bottom: 8px;
-	padding-right: 130px;
+	width: 303px;
 }
 
 .OHRMAdminUserName {
 	margin-left: 150px;
 	margin-bottom: 8px;
-	padding-right: 130px;
+	width: 303px;
 }
 
 .OHRMAdminPassword {
 	margin-left: 115px;
 	margin-bottom: 8px;
-	padding-right: 130px;
+	width: 303px;
 }
 
 .OHRMAdminPasswordConfirm {
 	margin-left: 54px;
 	margin-bottom: 8px;
-	padding-right: 130px;
+	width: 303px;
 }
 
 .credentialsNotice {
@@ -328,5 +328,5 @@ em {
 .organizationName {
 	margin-left: 55px;
 	margin-bottom: 8px;
-	padding-right: 130px;
+	width: 303px;
 }
