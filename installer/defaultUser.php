@@ -173,7 +173,7 @@ $systemConfigurationHelper = new systemConfigurationHelper();
                 },
                 'OHRMAdminPasswordConfirm': {
                     required: "Required",
-                    passwordMatch: "OrangeHRM Admin Password and Confirm OrangeHRM Admin Password do not match!"
+                    passwordMatch: "Admin Password and Confirm Admin Password do not match!"
                 }
             }
         });
