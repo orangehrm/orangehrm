@@ -113,13 +113,16 @@ class viewLeaveListAction extends baseLeaveAction {
                 $values = $this->form->getValues();
                 $this->_setFilters($mode, $values);
             } else {
+                $this->getUser()->setFlash('warning', __(TopLevelMessages::VALIDATION_FAILED), false);
+                $response = $this->getResponse();
+                $response->setStatusCode(HttpResponseCode::HTTP_BAD_REQUEST);
 
-                if ($this->form->hasErrors()) {
-                    echo $this->form->renderGlobalErrors();
-                    foreach ($this->form->getWidgetSchema()->getPositions() as $widgetName) {
-                        echo $widgetName . '--[' . $this->form[$widgetName]->renderError() . "]<br/>";
-                    }
-                }
+//                if ($this->form->hasErrors()) {
+//                    echo $this->form->renderGlobalErrors();
+//                    foreach ($this->form->getWidgetSchema()->getPositions() as $widgetName) {
+//                        echo $widgetName . '--[' . $this->form[$widgetName]->renderError() . "]<br/>";
+//                    }
+//                }
             }
         } else if ($request->hasParameter('reset')) {
             $values = $this->form->getDefaults();
