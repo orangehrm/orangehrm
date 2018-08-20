@@ -15,7 +15,6 @@ use_javascript(plugin_web_path('orangehrmAdminPlugin', 'js/saveProjectSuccess'))
         
         <form name="frmAddProject" id="frmAddProject" method="post" action="<?php echo url_for('admin/saveProject'); ?>" >
 
-            <?php echo $form['_csrf_token']; ?>
             <?php echo $form->renderHiddenFields(); ?>
             
             <fieldset>

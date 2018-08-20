@@ -110,6 +110,11 @@ class viewTimesheetAction extends baseTimeAction {
 
             $this->timesheet = $this->getTimesheetService()->getTimesheetByStartDateAndEmployeeId($startDate, $employeeId);
 
+            if (is_null($this->timesheet)) {
+                $response = $this->getResponse();
+                $response->setStatusCode(HttpResponseCode::HTTP_BAD_REQUEST);
+                $this->forward(sfConfig::get('sf_secure_module'), sfConfig::get('sf_secure_action'));
+            }
             $this->currentState = $this->timesheet->getState();
 
             if (isset($startDate)) {
@@ -127,10 +132,9 @@ class viewTimesheetAction extends baseTimeAction {
             $this->formToImplementCsrfToken = new TimesheetFormToImplementCsrfTokens();
             if ($request->isMethod('post')) {
                 $this->formToImplementCsrfToken->bind($request->getParameter('time'));
+                $action = $request->getParameter('act');
 
                 if ($this->formToImplementCsrfToken->isValid()) {
-
-                    $action = $request->getParameter('act');
 
                     // check if action allowed and get next state
                     $excludeRoles = array();
@@ -168,7 +172,9 @@ class viewTimesheetAction extends baseTimeAction {
                         }
                     }                    
                 } else {
-                    $this->successMessage = array('warning', __(TopLevelMessages::VALIDATION_FAILED));
+                    if ($action) {
+                        $this->successMessage = array('warning', __(TopLevelMessages::VALIDATION_FAILED));
+                    }
                     $response = $this->getResponse();
                     $response->setStatusCode(HttpResponseCode::HTTP_BAD_REQUEST);
                 }
