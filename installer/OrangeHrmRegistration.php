@@ -56,11 +56,11 @@ class OrangeHrmRegistration
 
         $data = "username=" . $_SESSION['defUser']['AdminUserName']
             . "&userEmail=" . $_SESSION['defUser']['organizationEmailAddress']
-            . "&telephone=" . $_SESSION['defUser']['contactNumber']
+            . "&telephone=" . ($_SESSION['defUser']['contactNumber'] ? $_SESSION['defUser']['contactNumber'] : "Not captured")
             . "&admin_first_name=" . $_SESSION['defUser']['adminEmployeeFirstName']
             . "&admin_last_name=" . $_SESSION['defUser']['adminEmployeeLastName']
-            . "&timezone=" . $_SESSION['defUser']['timezone']
-            . "&language=" . $_SESSION['defUser']['language']
+            . "&timezone=" . ($_SESSION['defUser']['timezone'] ? $_SESSION['defUser']['timezone'] : "Not captured")
+            . "&language=" . ($_SESSION['defUser']['language'] ? $_SESSION['defUser']['language'] : "Not captured")
             . "&country=" . $_SESSION['defUser']['country']
             . "&organization_name=" . $_SESSION['defUser']['organizationName']
             . "&instance_identifier=" . $this->getInstanceIdentifier();
