@@ -110,6 +110,8 @@ class saveSystemUserAction extends sfAction {
             $accessible = $userRoleManager->isEntityAccessible('SystemUser', $request->getParameter('userId'));
 
             if (!$accessible) {
+                $response = $this->getResponse();
+                $response->setStatusCode(HttpResponseCode::HTTP_BAD_REQUEST);
                 $this->forward(sfConfig::get('sf_secure_module'), sfConfig::get('sf_secure_action'));
             }
         }
@@ -144,6 +146,10 @@ class saveSystemUserAction extends sfAction {
                     $this->getUser()->setFlash('success', __(TopLevelMessages::SAVE_SUCCESS));
                 }
                 $this->redirect('admin/viewSystemUsers');
+            } else {
+                $response = $this->getResponse();
+                $response->setStatusCode(HttpResponseCode::HTTP_BAD_REQUEST);
+                $this->getUser()->setFlash('warning', __(TopLevelMessages::VALIDATION_FAILED), false);
             }
         }
     }

@@ -51,7 +51,6 @@ class viewOrganizationGeneralInformationAction extends sfAction {
                 $response = $this->getResponse();
                 $response->setStatusCode(HttpResponseCode::HTTP_BAD_REQUEST);
                 $this->getUser()->setFlash('generalinformation.warning', __(TopLevelMessages::VALIDATION_FAILED));
-//                $this->redirect('admin/viewOrganizationGeneralInformation');
             }
         }
     }

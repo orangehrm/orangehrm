@@ -62,6 +62,8 @@ class workShiftAction extends sfAction {
                 $this->redirect('admin/workShift');
             } else {
                 $hideForm = false;
+                $response = $this->getResponse();
+                $response->setStatusCode(HttpResponseCode::HTTP_BAD_REQUEST);
             }
         }
 
