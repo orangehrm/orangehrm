@@ -186,6 +186,10 @@ class DetailsHandler
     {
         $configurationDataSet = $this->getCongigIni();
 
+        if ($_SESSION['dbInfo']['dbUserName']) {
+            return $_SESSION['dbInfo']['dbUserName'];
+        }
+
         if ($_SESSION['dbInfo']['dbOHRMUserName']) {
             return $_SESSION['dbInfo']['dbOHRMUserName'];
         }
@@ -199,6 +203,10 @@ class DetailsHandler
     public function getOrangehrmDatabasePassword()
     {
         $configurationDataSet = $this->getCongigIni();
+
+        if ($_SESSION['dbInfo']['dbPassword']) {
+            return $_SESSION['dbInfo']['dbPassword'];
+        }
 
         if ($_SESSION['dbInfo']['dbOHRMPassword']) {
             return $_SESSION['dbInfo']['dbOHRMPassword'];
