@@ -90,7 +90,7 @@ class SystemConfiguration
         $query = "INSERT INTO `hs_hr_employee` (`emp_number`, `employee_id`, `emp_lastname`, `emp_firstname`) VALUES ('1', '0001', ?, ?)";
         $dbConnection = $this->createDbConnection();
         $statement = $dbConnection->prepare($query);
-        $statement->execute(array($firstName, $lastName));
+        $statement->execute(array($lastName, $firstName));
     }
 
 
