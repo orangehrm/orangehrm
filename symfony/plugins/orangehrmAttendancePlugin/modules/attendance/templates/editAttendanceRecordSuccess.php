@@ -30,7 +30,6 @@
                 </thead>
                 <tbody>
                     <?php $i = 1; ?>
-                    <?php echo $editAttendanceForm['_csrf_token']; ?>
                     <?php echo $editAttendanceForm->renderGlobalErrors(); ?>
                     <?php if ($records == null): ?>
                         <tr><td colspan ="5"></tr>

@@ -70,6 +70,10 @@ class viewLeaveBalanceReportAction extends sfAction {
                                 
                     $runReport = true;
                 }   
+            } else {
+                $response = $this->getResponse();
+                $response->setStatusCode(HttpResponseCode::HTTP_BAD_REQUEST);
+                $this->getUser()->setFlash('warning', __(TopLevelMessages::VALIDATION_FAILED), false);
             }
         } else if ($this->mode == 'my') {
             $reportType = LeaveBalanceReportForm::REPORT_TYPE_EMPLOYEE;

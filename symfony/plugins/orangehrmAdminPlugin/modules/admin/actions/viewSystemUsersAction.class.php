@@ -90,7 +90,9 @@ class viewSystemUsersAction extends sfAction {
                     $searchClues = $this->_setSearchClues($sortField, $sortOrder, $offset, $limit);
                     $this->getUser()->setAttribute('searchClues', $searchClues);
                 }else{
-                    $this->redirect('admin/viewSystemUsers');
+                    $response = $this->getResponse();
+                    $response->setStatusCode(HttpResponseCode::HTTP_BAD_REQUEST);
+                    $this->forward(sfConfig::get('sf_secure_module'), sfConfig::get('sf_secure_action'));
                 }
             }
             
