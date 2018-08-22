@@ -26,6 +26,14 @@ class ApplicationSetupUtility {
 
     private static $conn;
 
+    /**
+     * Get the log file
+     * @return string
+     */
+    private static function getErrorLogPath() {
+        return realpath(dirname(__FILE__)). DIRECTORY_SEPARATOR . 'log.txt';
+    }
+
 public static function createDB() {
 
 	if ($_SESSION['dbCreateMethod'] == 'existing') { // If the user wants to use an existing empty database
@@ -101,7 +109,7 @@ public static function initUniqueIDs() {
 
 	if(!mysqli_select_db(self::$conn, $_SESSION['dbInfo']['dbName'])) {
 		$_SESSION['error'] = 'Unable to connect to Database!';
-		error_log (date("r")." Initializing unique id's. Error - Unable to connect to Database\n",3, "installer/log.txt");
+		error_log (date("r")." Initializing unique id's. Error - Unable to connect to Database\n",3, self::getErrorLogPath());
 		return false;
 	}
 
@@ -121,39 +129,39 @@ public static function fillData($phase=1, $source='/dbscript/dbscript-') {
 	$source .= $phase.'.sql';
 	self::connectDB();
 
-	error_log (date("r")." Fill Data Phase $phase - Connected to the DB Server\n",3, "installer/log.txt");
+	error_log (date("r")." Fill Data Phase $phase - Connected to the DB Server\n",3, self::getErrorLogPath());
 
 	if(!mysqli_select_db(self::$conn, $_SESSION['dbInfo']['dbName'])) {
 		$_SESSION['error'] = 'Cannot select the given database! '.mysqli_error(self::$conn);
-		error_log (date("r")." Fill Data Phase $phase - Error - Cannot select the given database\n",3, "installer/log.txt");
+		error_log (date("r")." Fill Data Phase $phase - Error - Cannot select the given database\n",3, self::getErrorLogPath());
 		return;
 	}
 
-	error_log (date("r")." Fill Data Phase $phase - Selected the DB\n",3, "installer/log.txt");
-	error_log (date("r")." Fill Data Phase $phase - Reading DB Script\n",3, "installer/log.txt");
+	error_log (date("r")." Fill Data Phase $phase - Selected the DB\n",3, self::getErrorLogPath());
+	error_log (date("r")." Fill Data Phase $phase - Reading DB Script\n",3, self::getErrorLogPath());
 
 	$queryFile = ROOT_PATH . $source;
 	$fp    = fopen($queryFile, 'r');
 
-	error_log (date("r")." Fill Data Phase $phase - Opened DB Script\n",3, "installer/log.txt");
+	error_log (date("r")." Fill Data Phase $phase - Opened DB Script\n",3, self::getErrorLogPath());
 
 	$query = fread($fp, filesize($queryFile));
 	fclose($fp);
 
-	error_log (date("r")." Fill Data Phase $phase - Read DB script\n",3, "installer/log.txt");
+	error_log (date("r")." Fill Data Phase $phase - Read DB script\n",3, self::getErrorLogPath());
 
 	// Match ; followed by whitespaces and new line. Does not match ; inside a query.
         $dbScriptStatements   = preg_split('/;\s*$/m', $query);  
     
-	error_log (date("r")." Fill Data Phase $phase - There are ".count($dbScriptStatements)." Statements in the DB script\n",3, "installer/log.txt");
+	error_log (date("r")." Fill Data Phase $phase - There are ".count($dbScriptStatements)." Statements in the DB script\n",3, self::getErrorLogPath());
 
 	for($c=0;(count($dbScriptStatements)-1)>$c;$c++) {
                 set_time_limit(30);
 		if(!@mysqli_query(self::$conn, $dbScriptStatements[$c])) {
 			$error = mysqli_error(self::$conn) . ". Query: " . $dbScriptStatements[$c];
             $_SESSION['error'] = $error;
-			error_log (date("r")." Fill Data Phase $phase - Error Statement # $c \n",3, "installer/log.txt");
-			error_log (date("r")." ".$dbScriptStatements[$c]."\n",3, "installer/log.txt");
+			error_log (date("r")." Fill Data Phase $phase - Error Statement # $c \n",3, self::getErrorLogPath());
+			error_log (date("r")." ".$dbScriptStatements[$c]."\n",3, self::getErrorLogPath());
 			return;
 		}
         }
@@ -173,7 +181,7 @@ public static function fillData($phase=1, $source='/dbscript/dbscript-') {
             return;
         }
 
-        error_log (date("r")." Fill Data Phase $phase - Connected to the DB Server\n",3, "installer/log.txt");
+        error_log (date("r")." Fill Data Phase $phase - Connected to the DB Server\n",3, self::getErrorLogPath());
         
         $query = "INSERT INTO `hs_hr_config` ( `key`, `value`) VALUES ('csrf_secret', '{$csrfKey}');";
 
@@ -393,82 +401,82 @@ public static function install() {
    if (isset($_SESSION['INSTALLING'])) {
 	switch ($_SESSION['INSTALLING']) {
 		case 0	:	self::writeLog();
-					error_log (date("r")." DB Creation - Starting\n",3, "installer/log.txt");
+					error_log (date("r")." DB Creation - Starting\n",3, self::getErrorLogPath());
 					self::createDB();
-					error_log (date("r")." DB Creation - Done\n",3, "installer/log.txt");
+					error_log (date("r")." DB Creation - Done\n",3, self::getErrorLogPath());
 					if (!isset($error) || !isset($_SESSION['error'])) {
 						$_SESSION['INSTALLING'] = 1;
-						error_log (date("r")." DB Creation - No Errors\n",3, "installer/log.txt");
+						error_log (date("r")." DB Creation - No Errors\n",3, self::getErrorLogPath());
 					} else {
-						error_log (date("r")." DB Creation - Errors\n",3, "installer/log.txt");
-						error_log (date("r")." ".(isset($error)? $error: $_SESSION['error'])."\n",3, "installer/log.txt");
+						error_log (date("r")." DB Creation - Errors\n",3, self::getErrorLogPath());
+						error_log (date("r")." ".(isset($error)? $error: $_SESSION['error'])."\n",3, self::getErrorLogPath());
 					}
 
 					break;
 
-		case 1	:	error_log (date("r")." Fill Data Phase 1 - Starting\n",3, "installer/log.txt");
+		case 1	:	error_log (date("r")." Fill Data Phase 1 - Starting\n",3, self::getErrorLogPath());
 					self::fillData();                                        
                                         self::createMysqlProcedures();
-					error_log (date("r")." Fill Data Phase 1 - Done\n",3, "installer/log.txt");
+					error_log (date("r")." Fill Data Phase 1 - Done\n",3, self::getErrorLogPath());
 					if (!isset($error) || !isset($_SESSION['error'])) {
 						$_SESSION['INSTALLING'] = 2;
-						error_log (date("r")." Fill Data Phase 1 - No Errors\n",3, "installer/log.txt");
+						error_log (date("r")." Fill Data Phase 1 - No Errors\n",3, self::getErrorLogPath());
 					} else {
-						error_log (date("r")." Fill Data Phase 1 - Errors\n",3, "installer/log.txt");
-						error_log (date("r")." ".(isset($error)? $error: $_SESSION['error'])."\n",3, "installer/log.txt");
+						error_log (date("r")." Fill Data Phase 1 - Errors\n",3, self::getErrorLogPath());
+						error_log (date("r")." ".(isset($error)? $error: $_SESSION['error'])."\n",3, self::getErrorLogPath());
 					}
 					break;
 
-		case 2	:	error_log (date("r")." Fill Data Phase 2 - Starting\n",3, "installer/log.txt");
+		case 2	:	error_log (date("r")." Fill Data Phase 2 - Starting\n",3, self::getErrorLogPath());
 					self::fillData(2);
                                         self::createMysqlEvents();
                                         self::insertCsrfKey();
-					error_log (date("r")." Fill Data Phase 2 - Done\n",3, "installer/log.txt");
+					error_log (date("r")." Fill Data Phase 2 - Done\n",3, self::getErrorLogPath());
 					if (!isset($error) || !isset($_SESSION['error'])) {
 						$res = self::initUniqueIDs();
 						if ($res) {
 							$_SESSION['INSTALLING'] = 3;
-							error_log (date("r")." Fill Data Phase 2 - No Errors\n",3, "installer/log.txt");
+							error_log (date("r")." Fill Data Phase 2 - No Errors\n",3, self::getErrorLogPath());
 						}
 					} else {
-						error_log (date("r")." Fill Data Phase 2 - Errors\n",3, "installer/log.txt");
-						error_log (date("r")." ".(isset($error)? $error: $_SESSION['error'])."\n",3, "installer/log.txt");
+						error_log (date("r")." Fill Data Phase 2 - Errors\n",3, self::getErrorLogPath());
+						error_log (date("r")." ".(isset($error)? $error: $_SESSION['error'])."\n",3, self::getErrorLogPath());
 					}
 					break;
 
-		case 3	:	error_log (date("r")." Create DB user - Starting\n",3, "installer/log.txt");
+		case 3	:	error_log (date("r")." Create DB user - Starting\n",3, self::getErrorLogPath());
 					self::createDBUser();
-					error_log (date("r")." Create DB user - Done\n",3, "installer/log.txt");
+					error_log (date("r")." Create DB user - Done\n",3, self::getErrorLogPath());
 					if (!isset($error) || !isset($_SESSION['error'])) {
 						$_SESSION['INSTALLING'] = 4;
-						error_log (date("r")." Create DB user - No Errors\n",3, "installer/log.txt");
+						error_log (date("r")." Create DB user - No Errors\n",3, self::getErrorLogPath());
 					} else {
-						error_log (date("r")." Create DB user - Errors\n",3, "installer/log.txt");
-						error_log (date("r")." ".(isset($error)? $error: $_SESSION['error'])."\n",3, "installer/log.txt");
+						error_log (date("r")." Create DB user - Errors\n",3, self::getErrorLogPath());
+						error_log (date("r")." ".(isset($error)? $error: $_SESSION['error'])."\n",3, self::getErrorLogPath());
 					}
 					break;
 
-		case 4	:	error_log (date("r")." Create OrangeHRM user - Starting\n",3, "installer/log.txt");
-					error_log (date("r")." Create OrangeHRM user - Done\n",3, "installer/log.txt");
+		case 4	:	error_log (date("r")." Create OrangeHRM user - Starting\n",3, self::getErrorLogPath());
+					error_log (date("r")." Create OrangeHRM user - Done\n",3, self::getErrorLogPath());
 					if (!isset($error) || !isset($_SESSION['error'])) {
 						$_SESSION['INSTALLING'] = 5;
-						error_log (date("r")." Create OrangeHRM user - No Errors\n",3, "installer/log.txt");
+						error_log (date("r")." Create OrangeHRM user - No Errors\n",3, self::getErrorLogPath());
 					} else {
-						error_log (date("r")." Create OrangeHRM user - Errors\n",3, "installer/log.txt");
-						error_log (date("r")." ".(isset($error)? $error: $_SESSION['error'])."\n",3, "installer/log.txt");
+						error_log (date("r")." Create OrangeHRM user - Errors\n",3, self::getErrorLogPath());
+						error_log (date("r")." ".(isset($error)? $error: $_SESSION['error'])."\n",3, self::getErrorLogPath());
 					}
 					break;
 
-		case 5 :	error_log (date("r")." Write Conf - Starting\n",3, "installer/log.txt");
+		case 5 :	error_log (date("r")." Write Conf - Starting\n",3, self::getErrorLogPath());
 					self::writeConfFile();
 					self::writeSymfonyDbConfigFile();
-					error_log (date("r")." Write Conf - Done\n",3, "installer/log.txt");
+					error_log (date("r")." Write Conf - Done\n",3, self::getErrorLogPath());
 					if (!isset($error) || !isset($_SESSION['error'])) {
 						$_SESSION['INSTALLING'] = 6;
-						error_log (date("r")." Write Conf - No Errors\n",3, "installer/log.txt");
+						error_log (date("r")." Write Conf - No Errors\n",3, self::getErrorLogPath());
 					} else {
-						error_log (date("r")." Write Conf - Errors\n",3, "installer/log.txt");
-						error_log (date("r")." ".(isset($error)? $error: $_SESSION['error'])."\n",3, "installer/log.txt");
+						error_log (date("r")." Write Conf - Errors\n",3, self::getErrorLogPath());
+						error_log (date("r")." ".(isset($error)? $error: $_SESSION['error'])."\n",3, self::getErrorLogPath());
 					}
 					break;
 
@@ -489,7 +497,7 @@ public static function install() {
                       END";
         
         if (!mysqli_query(self::$conn, $query)) {
-            error_log (date("r")." MySQL Event Error:".mysqli_error(self::$conn)."\n",3, "installer/log.txt");
+            error_log (date("r")." MySQL Event Error:".mysqli_error(self::$conn)."\n",3, self::getErrorLogPath());
             return false;
         }
         
@@ -523,7 +531,7 @@ public static function install() {
         
         foreach($sql as $query){
             if (!mysqli_query(self::$conn, $query)) {
-                error_log (date("r")." MySQL Procedure Error:".mysqli_error(self::$conn)."\n",3, "installer/log.txt");
+                error_log (date("r")." MySQL Procedure Error:".mysqli_error(self::$conn)."\n",3, self::getErrorLogPath());
                 return false;
             }
         }
