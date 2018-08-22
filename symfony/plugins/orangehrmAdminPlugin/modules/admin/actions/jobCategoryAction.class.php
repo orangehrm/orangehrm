@@ -61,10 +61,10 @@ class jobCategoryAction extends sfAction {
 				$this->getUser()->setFlash('success', __(TopLevelMessages::SAVE_SUCCESS));
 				$this->redirect('admin/jobCategory');
 			} else {
-                $response = $this->getResponse();
-                $response->setStatusCode(HttpResponseCode::HTTP_BAD_REQUEST);
-                $this->getUser()->setFlash('warning', __(TopLevelMessages::VALIDATION_FAILED));
-            }
+			    $response = $this->getResponse();
+			    $response->setStatusCode(HttpResponseCode::HTTP_BAD_REQUEST);
+			    $this->getUser()->setFlash('warning', __(TopLevelMessages::VALIDATION_FAILED));
+			}
 		}
 	}
 	

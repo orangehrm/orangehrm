@@ -60,8 +60,6 @@ class saveSubunitAction extends sfAction {
             @ob_clean();
             return $this->renderText(json_encode($object));
         } else {
-//            $response = $this->getResponse();
-//            $response->setStatusCode(HttpResponseCode::HTTP_BAD_REQUEST);
             $object = new stdClass();
             $object->messageType = 'warning';
             $object->message = __(TopLevelMessages::VALIDATION_FAILED);

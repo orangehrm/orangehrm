@@ -80,9 +80,9 @@ class copyActivityAction extends sfAction {
 			
 			$this->redirect('admin/saveProject?projectId=' . $projectId . '#ProjectActivities');
 		} else {
-            $response = $this->getResponse();
-            $response->setStatusCode(HttpResponseCode::HTTP_BAD_REQUEST);
-            $this->forward(sfConfig::get('sf_secure_module'), sfConfig::get('sf_secure_action'));
+			$response = $this->getResponse();
+			$response->setStatusCode(HttpResponseCode::HTTP_BAD_REQUEST);
+			$this->forward(sfConfig::get('sf_secure_module'), sfConfig::get('sf_secure_action'));
 		}
 	}
 
