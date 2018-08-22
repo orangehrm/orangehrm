@@ -31,7 +31,7 @@ class ApplicationSetupUtility {
      * @return string
      */
     private static function getErrorLogPath() {
-        return realpath(dirname(__FILE__)).'/log.txt';
+        return realpath(dirname(__FILE__)). DIRECTORY_SEPARATOR . 'log.txt';
     }
 
 public static function createDB() {
