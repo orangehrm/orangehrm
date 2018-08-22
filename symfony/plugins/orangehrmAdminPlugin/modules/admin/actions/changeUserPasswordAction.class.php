@@ -49,6 +49,10 @@ class changeUserPasswordAction extends sfAction {
                     $this->getUser()->setFlash('success', __('Successfully Changed'));
                     $this->redirect('admin/changeUserPassword');
                 }
+            } else {
+                $response = $this->getResponse();
+                $response->setStatusCode(HttpResponseCode::HTTP_BAD_REQUEST);
+                $this->getUser()->setFlash('warning', __(TopLevelMessages::VALIDATION_FAILED), false);
             }
         }
     }

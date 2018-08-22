@@ -12,7 +12,6 @@ use_javascript(plugin_web_path('orangehrmAdminPlugin', 'js/employmentStatusSucce
         
         <form name="frmEmpStatus" id="frmEmpStatus" method="post" action="<?php echo url_for('admin/employmentStatus'); ?>" >
 
-            <?php echo $form['_csrf_token']; ?>
             <?php echo $form->renderHiddenFields(); ?>
             
             <fieldset>
